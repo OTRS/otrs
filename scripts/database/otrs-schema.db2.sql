@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2008-02-11 01:42:59
+--  driver: db2, generated: 2008-04-14 12:23:37
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -88,7 +88,7 @@ CREATE TABLE user_preferences (
     preferences_value VARCHAR (250)
 );
 
-CREATE INDEX index_user_prefe28 ON user_preferences (user_id);
+CREATE INDEX index_user_prefe38 ON user_preferences (user_id);
 
 -- ----------------------------------------------------------
 --  create table groups
@@ -409,13 +409,13 @@ CREATE TABLE ticket (
     UNIQUE (tn)
 );
 
-CREATE INDEX index_ticket_use73 ON ticket (user_id);
+CREATE INDEX index_ticket_use95 ON ticket (user_id);
 
-CREATE INDEX index_ticket_typ45 ON ticket (type_id);
+CREATE INDEX index_ticket_typ68 ON ticket (type_id);
 
-CREATE INDEX index_ticket_que34 ON ticket (ticket_state_id, ticket_lock_id, group_id);
+CREATE INDEX index_ticket_que95 ON ticket (ticket_state_id, ticket_lock_id, group_id);
 
-CREATE INDEX index_ticket_ans85 ON ticket (ticket_answered);
+CREATE INDEX index_ticket_ans27 ON ticket (ticket_answered);
 
 -- ----------------------------------------------------------
 --  create table object_link
@@ -450,9 +450,9 @@ CREATE TABLE ticket_history (
     PRIMARY KEY(id)
 );
 
-CREATE INDEX ticket_history_t51 ON ticket_history (ticket_id);
+CREATE INDEX ticket_history_t26 ON ticket_history (ticket_id);
 
-CREATE INDEX ticket_history_c46 ON ticket_history (create_time);
+CREATE INDEX ticket_history_c56 ON ticket_history (create_time);
 
 -- ----------------------------------------------------------
 --  create table ticket_history_type
@@ -512,9 +512,9 @@ CREATE TABLE article_flag (
     create_by INTEGER NOT NULL
 );
 
-CREATE INDEX article_flag_cre94 ON article_flag (create_by);
+CREATE INDEX article_flag_cre47 ON article_flag (create_by);
 
-CREATE INDEX article_flag_art86 ON article_flag (article_id);
+CREATE INDEX article_flag_art66 ON article_flag (article_id);
 
 -- ----------------------------------------------------------
 --  create table article
@@ -548,9 +548,9 @@ CREATE TABLE article (
     PRIMARY KEY(id)
 );
 
-CREATE INDEX article_ticket_i90 ON article (ticket_id);
+CREATE INDEX article_ticket_i40 ON article (ticket_id);
 
-CREATE INDEX article_message_79 ON article (a_message_id);
+CREATE INDEX article_message_81 ON article (a_message_id);
 
 -- ----------------------------------------------------------
 --  create table article_plain
@@ -558,7 +558,7 @@ CREATE INDEX article_message_79 ON article (a_message_id);
 CREATE TABLE article_plain (
     id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     article_id BIGINT NOT NULL,
-    body BLOB NOT NULL,
+    body BLOB (30M) NOT NULL,
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
     change_time TIMESTAMP NOT NULL,
@@ -566,7 +566,7 @@ CREATE TABLE article_plain (
     PRIMARY KEY(id)
 );
 
-CREATE INDEX article_plain_ar1 ON article_plain (article_id);
+CREATE INDEX article_plain_ar66 ON article_plain (article_id);
 
 -- ----------------------------------------------------------
 --  create table article_attachment
@@ -577,7 +577,7 @@ CREATE TABLE article_attachment (
     filename VARCHAR (250),
     content_size VARCHAR (30),
     content_type VARCHAR (250),
-    content BLOB NOT NULL,
+    content BLOB (30M) NOT NULL,
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
     change_time TIMESTAMP NOT NULL,
@@ -585,7 +585,7 @@ CREATE TABLE article_attachment (
     PRIMARY KEY(id)
 );
 
-CREATE INDEX article_attachme13 ON article_attachment (article_id);
+CREATE INDEX article_attachme52 ON article_attachment (article_id);
 
 -- ----------------------------------------------------------
 --  create table standard_response
@@ -623,7 +623,7 @@ CREATE TABLE standard_attachment (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     name VARCHAR (150) NOT NULL,
     content_type VARCHAR (150) NOT NULL,
-    content BLOB NOT NULL,
+    content BLOB (30M) NOT NULL,
     filename VARCHAR (250) NOT NULL,
     comments VARCHAR (200),
     valid_id SMALLINT NOT NULL,
@@ -716,7 +716,7 @@ CREATE TABLE time_accounting (
     PRIMARY KEY(id)
 );
 
-CREATE INDEX index_time_accou92 ON time_accounting (ticket_id);
+CREATE INDEX index_time_accou75 ON time_accounting (ticket_id);
 
 -- ----------------------------------------------------------
 --  create table ticket_watcher
@@ -730,7 +730,7 @@ CREATE TABLE ticket_watcher (
     change_by INTEGER NOT NULL
 );
 
-CREATE INDEX ticket_watcher_t67 ON ticket_watcher (ticket_id);
+CREATE INDEX ticket_watcher_t12 ON ticket_watcher (ticket_id);
 
 -- ----------------------------------------------------------
 --  create table service
@@ -758,9 +758,9 @@ CREATE TABLE service_customer_user (
     create_by INTEGER NOT NULL
 );
 
-CREATE INDEX service_customer71 ON service_customer_user (customer_user_login);
+CREATE INDEX service_customer17 ON service_customer_user (customer_user_login);
 
-CREATE INDEX service_customer42 ON service_customer_user (service_id);
+CREATE INDEX service_customer59 ON service_customer_user (service_id);
 
 -- ----------------------------------------------------------
 --  create table sla
@@ -791,7 +791,7 @@ CREATE TABLE sessions (
     session_value CLOB (78K) NOT NULL
 );
 
-CREATE INDEX index_session_id36 ON sessions (session_id);
+CREATE INDEX index_session_id20 ON sessions (session_id);
 
 -- ----------------------------------------------------------
 --  create table ticket_index
@@ -806,7 +806,7 @@ CREATE TABLE ticket_index (
     create_time_unix BIGINT NOT NULL
 );
 
-CREATE INDEX index_ticket_ind87 ON ticket_index (ticket_id);
+CREATE INDEX index_ticket_ind60 ON ticket_index (ticket_id);
 
 -- ----------------------------------------------------------
 --  create table ticket_lock_index
@@ -815,7 +815,7 @@ CREATE TABLE ticket_lock_index (
     ticket_id BIGINT NOT NULL
 );
 
-CREATE INDEX index_ticket_loc63 ON ticket_lock_index (ticket_id);
+CREATE INDEX index_ticket_loc33 ON ticket_lock_index (ticket_id);
 
 -- ----------------------------------------------------------
 --  create table customer_user
@@ -848,7 +848,7 @@ CREATE TABLE customer_preferences (
     preferences_value VARCHAR (250)
 );
 
-CREATE INDEX index_customer_p23 ON customer_preferences (user_id);
+CREATE INDEX index_customer_p92 ON customer_preferences (user_id);
 
 -- ----------------------------------------------------------
 --  create table customer_company
@@ -879,9 +879,9 @@ CREATE TABLE ticket_loop_protection (
     sent_date VARCHAR (150) NOT NULL
 );
 
-CREATE INDEX index_ticket_loo65 ON ticket_loop_protection (sent_to);
+CREATE INDEX index_ticket_loo43 ON ticket_loop_protection (sent_to);
 
-CREATE INDEX index_ticket_loo19 ON ticket_loop_protection (sent_date);
+CREATE INDEX index_ticket_loo36 ON ticket_loop_protection (sent_date);
 
 -- ----------------------------------------------------------
 --  create table pop3_account
@@ -950,7 +950,7 @@ CREATE TABLE web_upload_cache (
     filename VARCHAR (250),
     content_size VARCHAR (30),
     content_type VARCHAR (250),
-    content BLOB NOT NULL,
+    content BLOB (30M) NOT NULL,
     create_time_unix BIGINT NOT NULL
 );
 
@@ -981,9 +981,9 @@ CREATE TABLE xml_storage (
     xml_content_value CLOB (7812K)
 );
 
-CREATE INDEX xml_storage_xml_30 ON xml_storage (xml_content_key);
+CREATE INDEX xml_storage_xml_32 ON xml_storage (xml_content_key);
 
-CREATE INDEX xml_storage_key_51 ON xml_storage (xml_key, xml_type);
+CREATE INDEX xml_storage_key_2 ON xml_storage (xml_key, xml_type);
 
 -- ----------------------------------------------------------
 --  create table package_repository
@@ -997,7 +997,7 @@ CREATE TABLE package_repository (
     filename VARCHAR (250),
     content_size VARCHAR (30),
     content_type VARCHAR (250),
-    content BLOB NOT NULL,
+    content BLOB (30M) NOT NULL,
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
     change_time TIMESTAMP NOT NULL,
