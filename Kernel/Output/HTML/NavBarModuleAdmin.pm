@@ -1,12 +1,12 @@
 # --
 # Kernel/Output/HTML/NavBarModuleAdmin.pm
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: NavBarModuleAdmin.pm,v 1.6 2007-10-02 10:42:08 mh Exp $
+# $Id: NavBarModuleAdmin.pm,v 1.7 2008-04-14 10:19:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Output::HTML::NavBarModuleAdmin;
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -52,6 +52,37 @@ sub Run {
         if (   $Hash{NavBarModule}
             && $Hash{NavBarModule}->{Module} eq 'Kernel::Output::HTML::NavBarModuleAdmin' )
         {
+            # check permissions (only show accessable modules)
+            my $Shown = 0;
+            for my $Permission (qw(GroupRo Group)) {
+
+                # array access restriction
+                if ( $Hash{$Permission} && ref $Hash{$Permission} eq 'ARRAY' ) {
+                    for ( @{ $Hash{$Permission} } ) {
+                        my $Key = 'UserIs' . $Permission . '[' . $_ . ']';
+                        if ( $Self->{LayoutObject}->{$Key} && $Self->{LayoutObject}->{$Key} eq 'Yes' ) {
+                            $Shown = 1;
+                        }
+
+                    }
+                }
+
+                # scalar access restriction
+                elsif ( $Hash{$Permission} ) {
+                    my $Key = 'UserIs' . $Permission . '[' . $Hash{$Permission} . ']';
+                    if ( $Self->{LayoutObject}->{$Key} && $Self->{LayoutObject}->{$Key} eq 'Yes' ) {
+                        $Shown = 1;
+                    }
+                }
+
+                # no access restriction
+                elsif ( !$Hash{GroupRo} && !$Hash{Group} ) {
+                    $Shown = 1;
+                }
+
+            }
+            next if !$Shown;
+
             my $Key = sprintf( "%07d", $Hash{NavBarModule}->{Prio} || 0 );
             for ( 1 .. 51 ) {
                 if ( $NavBarModule{$Key} ) {
@@ -77,8 +108,10 @@ sub Run {
         );
     }
 
-    $Output
-        .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminNavigationBar', Data => \%Param );
+    $Output .= $Self->{LayoutObject}->Output(
+        TemplateFile => 'AdminNavigationBar',
+        Data => \%Param,
+    );
 
     return $Output;
 }
