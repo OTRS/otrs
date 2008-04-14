@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.53 2008-04-05 14:07:55 tr Exp $
+# $Id: AgentStats.pm,v 1.54 2008-04-14 07:29:33 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -154,7 +154,7 @@ sub Run {
         # get statID
         my $StatID = $Self->{ParamObject}->GetParam( Param => 'StatID' );
         if ( !$StatID ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => "View: Get no StatID!" );
+            return $Self->{LayoutObject}->ErrorScreen( Message => 'View: Get no StatID!' );
         }
 
         # get message if one available
@@ -606,7 +606,7 @@ sub Run {
 
         my $StatID = $Self->{ParamObject}->GetParam( Param => 'StatID' );
         if ( !$StatID ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => "Delete: Get no StatID!" );
+            return $Self->{LayoutObject}->ErrorScreen( Message => 'Delete: Get no StatID!' );
         }
 
         # delete Stat
@@ -1094,7 +1094,7 @@ sub Run {
         # get param
         if ( !( $Param{StatID} = $Self->{ParamObject}->GetParam( Param => 'StatID' ) ) ) {
             return $Self->{LayoutObject}
-                ->ErrorScreen( Message => "EditSpecification: Need StatID!", );
+                ->ErrorScreen( Message => 'EditSpecification: Need StatID!', );
         }
 
         # get Stat data
@@ -1378,7 +1378,7 @@ sub Run {
             $Flag = 1;
 
             if ( $ObjectAttribute->{Block} eq 'Time' ) {
-                my $TimeType = $Self->{ConfigObject}->Get("Stats::TimeType") || 'Normal';
+                my $TimeType = $Self->{ConfigObject}->Get('Stats::TimeType') || 'Normal';
                 if ( $TimeType eq 'Time' ) {
                     $ObjectAttribute->{Block} = 'Time';
                 }
@@ -1580,7 +1580,7 @@ sub Run {
             # show the attribute block
             $Self->{LayoutObject}->Block( Name => 'Attribute', );
             if ( $ObjectAttribute->{Block} eq 'Time' ) {
-                my $TimeType = $Self->{ConfigObject}->Get("Stats::TimeType") || 'Normal';
+                my $TimeType = $Self->{ConfigObject}->Get('Stats::TimeType') || 'Normal';
                 $ObjectAttribute->{Block} = $TimeType eq 'Normal' ? 'Time' : 'TimeExtended';
 
                 my %TimeData = _Timeoutput( $Self, %{$ObjectAttribute} );
@@ -1705,7 +1705,7 @@ sub Run {
                         }
                         if ( $Element->{Block} eq 'Time' ) {
                             if ( $Self->{ParamObject}
-                                ->GetParam( Param => $Use . $Element->{Element} . "StartYear" ) )
+                                ->GetParam( Param => $Use . $Element->{Element} . 'StartYear' ) )
                             {
                                 my %Time = ();
                                 for my $Limit (qw(Start Stop)) {
@@ -1747,12 +1747,12 @@ sub Run {
                                     }
                                     $Time{"Time$Limit"} = sprintf(
                                         "%04d-%02d-%02d %02d:%02d:%02d",
-                                        $Time{ $Limit . "Year" },
-                                        $Time{ $Limit . "Month" },
-                                        $Time{ $Limit . "Day" },
-                                        $Time{ $Limit . "Hour" },
-                                        $Time{ $Limit . "Minute" },
-                                        $Time{ $Limit . "Second" },
+                                        $Time{ $Limit . 'Year' },
+                                        $Time{ $Limit . 'Month' },
+                                        $Time{ $Limit . 'Day' },
+                                        $Time{ $Limit . 'Hour' },
+                                        $Time{ $Limit . 'Minute' },
+                                        $Time{ $Limit . 'Second' },
                                     );
                                 }
 

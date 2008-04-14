@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all advice functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.42 2008-04-05 13:57:52 tr Exp $
+# $Id: Stats.pm,v 1.43 2008-04-14 07:29:32 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 =head1 SYNOPSIS
 
@@ -137,13 +137,13 @@ sub StatsAdd {
 
     # meta tags
     my %MetaData = ();
-    $MetaData{Created}[0]{Content}   = $TimeStamp;
-    $MetaData{CreatedBy}[0]{Content} = $Self->{UserID};
-    $MetaData{Changed}[0]{Content}   = $TimeStamp;
-    $MetaData{ChangedBy}[0]{Content} = $Self->{UserID};
-    $MetaData{Valid}[0]{Content}     = 1;
+    $MetaData{Created}   [0]{Content} = $TimeStamp;
+    $MetaData{CreatedBy} [0]{Content} = $Self->{UserID};
+    $MetaData{Changed}   [0]{Content} = $TimeStamp;
+    $MetaData{ChangedBy} [0]{Content} = $Self->{UserID};
+    $MetaData{Valid}     [0]{Content} = 1;
     $MetaData{StatNumber}[0]{Content}
-        = $StatID + $Self->{ConfigObject}->Get("Stats::StatsStartNumber");
+        = $StatID + $Self->{ConfigObject}->Get('Stats::StatsStartNumber');
 
     # new
     my @XMLHash;    # it's a array but the wording is hash
@@ -177,7 +177,7 @@ sub StatsGet {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{StatID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "StatsGet: Need StatID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'StatsGet: Need StatID!' );
     }
 
     # get hash from storage
@@ -222,7 +222,7 @@ sub StatsGet {
     # %Allowed is used to inhibit douple selction in the different forms
     my %Allowed     = ();
     my %TimeAllowed = ();
-    my $TimeElement = $Self->{ConfigObject}->Get("Stats::TimeElement") || 'Time';
+    my $TimeElement = $Self->{ConfigObject}->Get('Stats::TimeElement') || 'Time';
 
     return \%Stat if !$Stat{Object};
     return \%Stat if $Param{NoObjectAttributes};
@@ -337,7 +337,7 @@ sub StatsUpdate {
     my %StatXML = ();
 
     if ( !$Param{StatID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "StatsUpdate: Need StatID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'StatsUpdate: Need StatID!' );
     }
 
     my $StatOld = $Self->StatsGet( StatID => $Param{StatID} );
@@ -2786,6 +2786,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.42 $ $Date: 2008-04-05 13:57:52 $
+$Revision: 1.43 $ $Date: 2008-04-14 07:29:32 $
 
 =cut
