@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.114 2008-04-10 16:32:26 martin Exp $
+# $Id: CHANGES,v 1.465.2.115 2008-04-14 12:52:55 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.2.7 (2008/??/??)
+ - (2008/04/14) Fixed bug# 2860 - ColumnAdd doesn't work on a DB2 database if
+    Required is true.
  - (2008/04/10) Added new estonian translation, thanks to Lauri Jesmin!
  - (2008/04/07) Fixed bug# 2814 - BCC emails are visible to all receipiants in
     email header.
@@ -23,9 +25,9 @@
     "http://http.".
  - (2008/04/01) Fixed bug# 2822 - Ticket Number in subject of Bounce Notification
     to customer/sender is not shown.
- - (2008/04/01) Fixed bug# 2453 - syntax errors on customer search; name@host problems
-    the mail address parser does not recognize the email address if it is not
-    fully 2822 compilant.
+ - (2008/04/01) Fixed bug# 2453 - syntax errors on customer search; name@host
+    problems the mail address parser does not recognize the email address if it
+    is not fully 2822 compilant.
 
 2.2.6 (2008/03/31)
  - (2008/03/25) Fixed bug# 2732 - Service name is truncated in dropdown lists
