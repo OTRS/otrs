@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.41 2008-04-02 08:59:22 ot Exp $
+# $Id: AdminPackageManager.dtl,v 1.42 2008-04-14 20:08:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -467,7 +467,7 @@ $Env{"Box0"}$Text{"Package Manager"}$Env{"Box1"}
               </tr>
 <!-- dtl:block:PackageItemDatabase -->
               <tr>
-                <td class="contentkey">$QData{"TagName"}: </td>
+                <td class="contentkey">$QData{"TagName"} ($QData{"Type"}): </td>
                 <td class="contentvalue">$QData{"Tag"}: $QData{"Name"} ($QData{"Version"})<br/>
 <!-- dtl:block:PackageItemDatabaseSub -->
                   <table border="0" cellspacing="0" cellpadding="0">
@@ -503,14 +503,14 @@ $Env{"Box0"}$Text{"Package Manager"}$Env{"Box1"}
 <!-- dtl:block:PackageItemDatabase -->
 <!-- dtl:block:PackageItemCode -->
               <tr>
-                <td class="contentkey">$Text{"$QData{"Tag"}"}: </td>
+                <td class="contentkey">$Text{"$QData{"Tag"}"} ($QData{"Type"}): </td>
                 <td class="contentvalue">$Data{"Content"}</td>
               </tr>
 <!-- dtl:block:PackageItemCode -->
 <!-- dtl:block:PackageItemIntro -->
               <tr>
-                <td class="contentkey">$Text{"$QData{"Tag"}"}: </td>
-                <td class="contentvalue">($QData{"Lang"}) $QData{"Content"}</td>
+                <td class="contentkey">$Text{"$QData{"Tag"}"} ($QData{"Type"}/$QData{"Lang"}): </td>
+                <td class="contentvalue">$QData{"Content"}</td>
               </tr>
 <!-- dtl:block:PackageItemIntro -->
             </table>
