@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # Modified for DB2 UDB Friedmar Moch <friedmar@acm.org>
 # --
-# $Id: db2.pm,v 1.33 2008-04-11 15:56:39 martin Exp $
+# $Id: db2.pm,v 1.34 2008-04-14 10:33:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -569,17 +569,17 @@ sub _TypeTranslation {
 
     # performance option
     elsif ( $Tag->{Type} =~ /^longblob$/i ) {
-        $Tag->{Type} = 'BLOB (20M)';
+        $Tag->{Type} = 'BLOB (30M)';
     }
     elsif ( $Tag->{Type} =~ /^VARCHAR$/i ) {
-        $Tag->{Type} = "VARCHAR ($Tag->{Size})";
+        $Tag->{Type} = 'VARCHAR (' . $Tag->{Size} . ')';
         if ( $Tag->{Size} >= 4000 ) {
             my $Size = int (($Tag->{Size} * 8) / 1024);
-            $Tag->{Type} = "CLOB (".$Size."K)";
+            $Tag->{Type} = 'CLOB (' . $Size . 'K)';
         }
     }
     elsif ( $Tag->{Type} =~ /^DECIMAL$/i ) {
-        $Tag->{Type} = "DECIMAL ($Tag->{Size})";
+        $Tag->{Type} = 'DECIMAL (' . $Tag->{Size} . ')';
     }
     return $Tag;
 }

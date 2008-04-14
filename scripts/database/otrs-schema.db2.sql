@@ -572,7 +572,7 @@ CREATE INDEX article_message_63 ON article (a_message_id);
 CREATE TABLE article_plain (
     id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     article_id BIGINT NOT NULL,
-    body BLOB (20M) NOT NULL,
+    body BLOB (30M) NOT NULL,
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
     change_time TIMESTAMP NOT NULL,
@@ -591,7 +591,7 @@ CREATE TABLE article_attachment (
     filename VARCHAR (250),
     content_size VARCHAR (30),
     content_type VARCHAR (250),
-    content BLOB (20M) NOT NULL,
+    content BLOB (30M) NOT NULL,
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
     change_time TIMESTAMP NOT NULL,
@@ -637,7 +637,7 @@ CREATE TABLE standard_attachment (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     name VARCHAR (150) NOT NULL,
     content_type VARCHAR (150) NOT NULL,
-    content BLOB (20M) NOT NULL,
+    content BLOB (30M) NOT NULL,
     filename VARCHAR (250) NOT NULL,
     comments VARCHAR (200),
     valid_id SMALLINT NOT NULL,
@@ -968,7 +968,7 @@ CREATE TABLE web_upload_cache (
     filename VARCHAR (250),
     content_size VARCHAR (30),
     content_type VARCHAR (250),
-    content BLOB (20M) NOT NULL,
+    content BLOB (30M) NOT NULL,
     create_time_unix BIGINT NOT NULL
 );
 
@@ -1015,7 +1015,7 @@ CREATE TABLE package_repository (
     filename VARCHAR (250),
     content_size VARCHAR (30),
     content_type VARCHAR (250),
-    content BLOB (20M) NOT NULL,
+    content BLOB (30M) NOT NULL,
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
     change_time TIMESTAMP NOT NULL,
