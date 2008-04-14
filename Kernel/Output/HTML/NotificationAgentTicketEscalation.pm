@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NotificationAgentTicketEscalation.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationAgentTicketEscalation.pm,v 1.16 2008-03-21 00:44:20 martin Exp $
+# $Id: NotificationAgentTicketEscalation.pm,v 1.17 2008-04-14 23:17:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -52,7 +52,7 @@ sub Run {
             Type => 'TicketEscalation',
             Key  => "EscalationResult::$Self->{UserID}",
         );
-        if ( $Output ) {
+        if ( defined $Output ) {
             return $Output;
         }
     }
@@ -127,25 +127,25 @@ sub Run {
 
         my $LastElementCount = $#TicketIDs;
         my $TTL = 12;                        # 0.2 * 60
-        if ( $LastElementCount > 2000 ) {
+        if ( $LastElementCount > 500 ) {
             $TTL = 330;                      # 5.5 * 60
         }
-        elsif ( $LastElementCount > 1500 ) {
+        elsif ( $LastElementCount > 250 ) {
             $TTL = 210;                      # 3.5 * 60;
         }
-        elsif ( $LastElementCount > 1000 ) {
+        elsif ( $LastElementCount > 200 ) {
             $TTL = 150;                      # 2.5 * 60;
         }
-        elsif ( $LastElementCount > 500 ) {
+        elsif ( $LastElementCount > 150 ) {
             $TTL = 120;                      # 2.0 * 60;
         }
-        elsif ( $LastElementCount > 200 ) {
+        elsif ( $LastElementCount > 100 ) {
             $TTL = 90;                       # 1.5 * 60;
         }
-        elsif ( $LastElementCount > 100 ) {
+        elsif ( $LastElementCount > 60 ) {
             $TTL = 60;                       # 1.0 * 60;
         }
-        elsif ( $LastElementCount > 50 ) {
+        elsif ( $LastElementCount > 20 ) {
             $TTL = 30;                       # 0.5 * 60;
         }
         $Self->{CacheObject}->Set(
