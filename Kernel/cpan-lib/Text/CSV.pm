@@ -5,14 +5,14 @@ use strict;
 use Carp ();
 
 BEGIN {
-    $Text::CSV::VERSION = '1.02';
+    $Text::CSV::VERSION = '1.03';
     $Text::CSV::DEBUG   = 0;
 }
 
 # if use CSV_XS, requires version 0.32
 my $Module_XS  = 'Text::CSV_XS';
 my $Module_PP  = 'Text::CSV_PP';
-my $XS_Version = '0.32';
+my $XS_Version = '0.41';
 
 my $Is_Dynamic = 0;
 
@@ -25,10 +25,11 @@ my @PublicMethods = qw/
     version types quote_char escape_char sep_char eol always_quote binary allow_whitespace
     keep_meta_info allow_loose_quotes allow_loose_escapes verbatim meta_info is_quoted is_binary eof
     getline print parse combine fields string error_diag error_input status blank_is_undef
+    getline_hr column_names bind_columns
     PV IV NV
 /;
-
-my @UndocumentedXSMethods = qw/Combine Parse/;
+#
+my @UndocumentedXSMethods = qw/Combine Parse SetDiag/;
 
 my @UndocumentedPPMethods = qw//; # Currently empty
 
@@ -132,6 +133,8 @@ sub new { # normal mode
         return eval qq| $Text::CSV::Worker\::new( \$proto ) |;
     }
 
+#    return $Text::CSV::Worker->new(@_);
+
     if (ref $_[0] and $_[0]->{module}) {
         Carp::croak("Can't set 'module' in non dynamic mode.");
     }
@@ -144,7 +147,11 @@ sub new { # normal mode
         return;
     }
 
+
 }
+
+
+sub require_xs_version { $XS_Version; }
 
 
 sub module {
@@ -152,6 +159,8 @@ sub module {
     return   !ref($proto)            ? $Text::CSV::Worker
            :  ref($proto->{_MODULE}) ? ref($proto->{_MODULE}) : $proto->{_MODULE};
 }
+
+*backend = *module;
 
 
 sub is_xs {
@@ -204,6 +213,8 @@ sub _load_xs {
         Carp::croak $@;
     }
 
+    push @Text::CSV::ISA, 'Text::CSV_XS';
+
     unless (defined $opt and $opt & $Install_Only) {
         _set_methods( $Text::CSV::Worker = $Module_XS );
     }
@@ -222,6 +233,8 @@ sub _load_pp {
         Carp::croak $@;
     }
 
+    push @Text::CSV::ISA, 'Text::CSV_PP';
+
     unless (defined $opt and $opt & $Install_Only) {
         _set_methods( $Text::CSV::Worker = $Module_PP );
     }
@@ -232,6 +245,8 @@ sub _load_pp {
 
 sub _set_methods {
     my $class = shift;
+
+    #return;
 
     local $^W;
     no strict qw(refs);
@@ -290,6 +305,8 @@ Text::CSV - comma-separated values manipulator (using XS or PurePerl)
  $colref = $csv->getline ($io);        # Read a line from file $io,
                                        # parse it and return an array
                                        # ref of fields
+ $csv->column_names (@names);          # Set column names for getline_hr ()
+ $ref = $csv->getline_hr ($io);        # getline (), but returns a hashref
  $eof = $csv->eof ();                  # Indicate if last parse or
                                        # getline () hit End Of File
  
@@ -323,7 +340,7 @@ When you use Text::CSV, it calls a backend worker module - L<Text::CSV_XS> or L<
 By default, Text::CSV tries to use Text::CSV_XS which must be complied and installed properly.
 If this call is fail, Text::CSV uses L<Text::CSV_PP>.
 
-The required Text::CSV_XS version is I<0.32> in Text::CSV version 1.00.
+The required Text::CSV_XS version is I<0.41> in Text::CSV version 1.03.
 
 If you set an enviornment variable C<PERL_TEXT_CSV>, The calling action will be changed.
 
@@ -382,19 +399,20 @@ See to L<Text::CSV_XS/SPECIFICATION>.
 These methods are common between XS and puer Perl version.
 Most of the document was shamelessly copied and replaced from Text::CSV_XS.
 
-=over 4
 
-=item version
 
-(Class method) Returns the current worker module version.
+=head2 version ()
+
+(Class method) Returns the current backend module version.
 If you want the module version, you can use the C<VERSION> method,
+
  print Text::CSV->VERSION;      # This module version
  print Text::CSV->version;      # The version of the worker module
-                                # same as Text::CSV->module->version
+                                # same as Text::CSV->backend->version
 
-=item new(\%attr)
+=head2 new (\%attr)
 
-(Class method) Returns a new instance of Text::CSV. The objects
+(Class method) Returns a new instance of Text::CSV_XS. The objects
 attributes are described by the (optional) hash ref C<\%attr>.
 Currently the following attributes are available:
 
@@ -404,9 +422,12 @@ Currently the following attributes are available:
 
 An end-of-line string to add to rows, usually C<undef> (nothing,
 default), C<"\012"> (Line Feed) or C<"\015\012"> (Carriage Return,
-Line Feed).
+Line Feed). Cannot be longer than 7 (ASCII) characters.
 
-See to L<Text::CSV_XS>.
+If both C<$/> and C<eol> equal C<"\015">, parsing lines that end on
+only a Carriage Return without Line Feed, will be C<parse>d correct.
+Line endings, whether in C<$/> or C<eol>, other than C<undef>,
+C<"\n">, C<"\r\n">, or C<"\r"> are not (yet) supported for parsing.
 
 =item sep_char
 
@@ -438,8 +459,6 @@ will now be parsed as
 
 even if the original line was perfectly sane CSV.
 
-See to L<Text::CSV_XS>.
-
 =item blank_is_undef
 
 Under normal circumstances, CSV data makes no distinction between
@@ -458,7 +477,7 @@ make this distinction when reading CSV data, the C<blank_is_undef> option
 will cause unquoted empty fields to be set to undef, causing the above to
 be parsed as
 
-  ("1", "", undef, " ", "2")
+ ("1", "", undef, " ", "2")
 
 =item quote_char
 
@@ -530,7 +549,7 @@ of the I<types> method below.
 By default the generated fields are quoted only, if they need to, for
 example, if they contain the separator. If you set this attribute to
 a TRUE value, then all fields will be quoted. This is typically easier
-to handle in external applications. 
+to handle in external applications.
 
 =item keep_meta_info
 
@@ -543,7 +562,36 @@ described below.  Default is false.
 
 =item verbatim
 
-See to L<Text::CSV_XS>.
+This is a quite controversial attribute to set, but it makes hard
+things possible.
+
+The basic thought behind this is to tell the parser that the normally
+special characters newline (NL) and Carriage Return (CR) will not be
+special when this flag is set, and be dealt with as being ordinary
+binary characters. This will ease working with data with embedded
+newlines.
+
+When C<verbatim> is used with C<getline ()>, getline
+auto-chomp's every line.
+
+Imagine a file format like
+
+  M^^Hans^Janssen^Klas 2\n2A^Ja^11-06-2007#\r\n
+
+where, the line ending is a very specific "#\r\n", and the sep_char
+is a ^ (caret). None of the fields is quoted, but embedded binary
+data is likely to be present. With the specific line ending, that
+shouldn't be too hard to detect.
+
+By default, Text::CSV' parse function however is instructed to only
+know about "\n" and "\r" to be legal line endings, and so has to deal
+with the embedded newline as a real end-of-line, so it can scan the next
+line if binary is true, and the newline is inside a quoted field.
+With this attribute however, we can tell parse () to parse the line
+as if \n is just nothing more than a binary character.
+
+For parse () this means that the parser has no idea about line ending
+anymore, and getline () chomps line endings on reading.
 
 =back
 
@@ -566,7 +614,7 @@ is equivalent to
      allow_whitespace    => 0,
      blank_is_undef      => 0,
      verbatim            => 0,
- });
+     });
 
 For all of the above mentioned flags, there is an accessor method
 available where you can inquire for the current value, or change
@@ -582,14 +630,14 @@ the available CSV object, there is no harm in changing them.
 If the C<new ()> constructor call fails, it returns C<undef>, and makes
 the fail reason available through the C<error_diag ()> method.
 
- $csv = Text::CSV_PP->new ({ ecs_char => 1 }) or
-     die Text::CSV_PP->error_diag ();
+ $csv = Text::CSV->new ({ ecs_char => 1 }) or
+     die Text::CSV->error_diag ();
 
 C<error_diag ()> will return a string like
 
  "Unknown attribute 'ecs_char'"
 
-=item combine
+=head2 combine
 
  $status = $csv->combine (@columns);
 
@@ -600,7 +648,7 @@ retrieve the resultant CSV string.  Upon failure, the value returned by
 C<string ()> is undefined and C<error_input ()> can be called to retrieve an
 invalid argument.
 
-=item print
+=head2 print
 
  $status = $csv->print ($io, $colref);
 
@@ -622,14 +670,14 @@ In particular the I<$csv-E<gt>string ()>, I<$csv-E<gt>status ()>,
 I<$csv->fields ()> and I<$csv-E<gt>error_input ()> methods are meaningless
 after executing this method.
 
-=item string
+=head2 string
 
  $line = $csv->string ();
 
 This object function returns the input to C<parse ()> or the resultant CSV
 string of C<combine ()>, whichever was called more recently.
 
-=item parse
+=head2 parse
 
  $status = $csv->parse ($line);
 
@@ -643,7 +691,7 @@ to retrieve the invalid argument.
 You may use the I<types ()> method for setting column types. See the
 description below.
 
-=item getline
+=head2 getline
 
  $colref = $csv->getline ($io);
 
@@ -652,10 +700,49 @@ combine: It reads a row from the IO object $io using $io->getline ()
 and parses this row into an array ref. This array ref is returned
 by the function or undef for failure.
 
+When fields are bound with C<bind_columns ()>, the return value is a
+reference to an empty list.
+
 The I<$csv-E<gt>string ()>, I<$csv-E<gt>fields ()> and I<$csv-E<gt>status ()>
 methods are meaningless, again.
 
-=item eof
+=head2 getline_hr
+
+The C<getline_hr ()> and C<column_names ()> methods work together to allow
+you to have rows returned as hashrefs. You must call C<column_names ()>
+first to declare your column names. 
+
+ $csv->column_names (qw( code name price description ));
+ $hr = $csv->getline_hr ($io);
+ print "Price for $hr->{name} is $hr->{price} EUR\n";
+
+C<getline_hr ()> will croak if called before C<column_names ()>.
+
+=head2 column_names
+
+Set the keys that will be used in the C<getline_hr ()> calls. If no keys
+(column names) are passed, it'll return the current setting.
+
+C<column_names ()> accepts a list of scalars (the column names) or a
+single array_ref, so you can pass C<getline ()>
+
+  $csv->column_names ($csv->getline ($io));
+
+C<column_names ()> croaks on invalid arguments.
+
+=head2 bind_columns
+
+Takes a list of references to scalars (max 255) to store the fields fetched
+C<getline ()> in. When you don't pass enough references to store the
+fetched fields in, C<getline ()> will fail. If you pass more than there are
+fields to return, the remaining references are left untouched.
+
+  $csv->bind_columns (\$code, \$name, \$price, \$description);
+  while ($csv->getline ()) {
+      print "The price of a $name is \x{20ac} $price\n";
+      }
+
+=head2 eof
 
  $eof = $csv->eof ();
 
@@ -664,7 +751,7 @@ method will return true (1) if the last call hit end of file, otherwise
 it will return false (''). This is useful to see the difference between
 a failure and end of file.
 
-=item types
+=head2 types
 
  $csv->types (\@tref);
 
@@ -678,7 +765,7 @@ string column, then you might do a
                Text::CSV::PV ()]);
 
 Column types are used only for decoding columns, in other words
-by the I<parse()> and I<getline()> methods.
+by the I<parse ()> and I<getline ()> methods.
 
 You can unset column types by doing a
 
@@ -704,14 +791,14 @@ Set field type to string.
 
 =back
 
-=item fields
+=head2 fields
 
  @columns = $csv->fields ();
 
 This object function returns the input to C<combine ()> or the resultant
 decomposed fields of C<parse ()>, whichever was called more recently.
 
-=item meta_info
+=head2 meta_info
 
  @flags = $csv->meta_info ();
 
@@ -737,7 +824,7 @@ The field was binary.
 
 See the C<is_*** ()> methods below.
 
-=item is_quoted
+=head2 is_quoted
 
   my $quoted = $csv->is_quoted ($column_idx);
 
@@ -749,7 +836,7 @@ enclosed in C<quote_char> quotes. This might be important for data
 where C<,20070108,> is to be treated as a numeric value, and where
 C<,"20070108",> is explicitly marked as character string data.
 
-=item is_binary
+=head2 is_binary
 
   my $binary = $csv->is_binary ($column_idx);
 
@@ -759,21 +846,21 @@ last result of C<parse ()>.
 This returns a true value if the data in the indicated column
 contained any byte in the range [\x00-\x08,\x10-\x1F,\x7F-\xFF]
 
-=item status
+=head2 status
 
  $status = $csv->status ();
 
 This object function returns success (or failure) of C<combine ()> or
 C<parse ()>, whichever was called more recently.
 
-=item error_input
+=head2 error_input
 
  $bad_argument = $csv->error_input ();
 
 This object function returns the erroneous argument (if it exists) of
 C<combine ()> or C<parse ()>, whichever was called more recently.
 
-=item error_diag
+=head2 error_diag
 
  $csv->error_diag ();
  $error_code  = 0  + $csv->error_diag ();
@@ -799,19 +886,15 @@ Text::CSV_XS parses csv strings by dividing one character while Text::CSV_PP
 by using the regular expressions. That difference makes the different cause
 of the failure.
 
-=back
 
-Some methods are Text::CSV only.
+=head2 Some methods are Text::CSV only.
 
 =over
 
-=item module
+=item backend
 
-(Class method) Returns the module name called by Text::CSV.
-
-(Object method) Returns the used module name in creating it.
-
-At current, the worker module is decided once when Text::CSV is used in a program.
+Returns the backend module name called by Text::CSV.
+C<module> is an alias.
 
 
 =item is_xs
