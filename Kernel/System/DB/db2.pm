@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # Modified for DB2 UDB Friedmar Moch <friedmar@acm.org>
 # --
-# $Id: db2.pm,v 1.20.2.3 2008-04-14 12:47:25 mh Exp $
+# $Id: db2.pm,v 1.20.2.4 2008-04-15 16:09:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20.2.3 $) [1];
+$VERSION = qw($Revision: 1.20.2.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -334,10 +334,32 @@ sub TableAlter {
             # Type translation
             $Tag = $Self->_TypeTranslation($Tag);
 
+            # renaming column
+            if ( $Tag->{NameOld} ne $Tag->{NameNew} ) {
+                push @SQL, " SET INTEGRITY FOR $Table OFF";
+                push @SQL, $SQLStart . " ADD COLUMN $Tag->{NameNew} $Tag->{Type} GENERATED ALWAYS AS ($Tag->{NameOld})";
+                push @SQL, " SET INTEGRITY FOR $Table IMMEDIATE CHECKED FORCE GENERATED";
+                push @SQL, $SQLStart . " ALTER $Tag->{NameNew} DROP EXPRESSION";
+                push @SQL, $SQLStart . " DROP COLUMN $Tag->{NameOld}";
+                push @SQL, "CALL SYSPROC.ADMIN_CMD ('REORG TABLE $Table')";
+            }
+
+            # default value
+            if ( defined $Tag->{Default} ) {
+                my $SQLEnd = $SQLStart . " ALTER COLUMN $Tag->{NameNew} SET";
+                $SQLEnd .= " DEFAULT $Tag->{Default}";
+                push @SQL, $SQLEnd;
+                push @SQL, "CALL SYSPROC.ADMIN_CMD ('REORG TABLE $Table')";
+            }
+
             # normal data type
-            my $SQLEnd = $SQLStart . " CHANGE $Tag->{NameOld} $Tag->{NameNew} $Tag->{Type}";
+            my $SQLEnd = $SQLStart . " ALTER COLUMN $Tag->{NameNew} SET DATA TYPE $Tag->{Type}";
+            push @SQL, $SQLEnd;
+            push @SQL, "CALL SYSPROC.ADMIN_CMD ('REORG TABLE $Table')";
             if ( $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
-                $SQLEnd .= " NOT NULL";
+                my $SQLEnd = $SQLStart . " ALTER COLUMN $Tag->{NameNew} SET NOT NULL";
+                push @SQL, $SQLEnd;
+                push @SQL, "CALL SYSPROC.ADMIN_CMD ('REORG TABLE $Table')";
                 if ( $Tag->{Type} =~ /int/i ) {
                     $Tag->{Default} ||= 0;
                 }
@@ -345,26 +367,30 @@ sub TableAlter {
                     $Tag->{Default} ||= "''";
                 }
             }
-
-            # default value
-            if ( defined $Tag->{Default} ) {
-                $SQLEnd .= " DEFAULT $Tag->{Default}";
+            else {
+                my $SQLEnd = $SQLStart . " ALTER COLUMN $Tag->{NameNew} DROP NOT NULL";
+                push @SQL, $SQLEnd;
+                push @SQL, "CALL SYSPROC.ADMIN_CMD ('REORG TABLE $Table')";
             }
 
             # auto increment
-            if ( $Tag->{AutoIncrement} && $Tag->{AutoIncrement} =~ /^true$/i ) {
-                $SQLEnd .= " AUTO_INCREMENT";
-            }
+            if ( $Tag->{AutoIncrement} || $Tag->{PrimaryKey} ) {
+                my $SQLEnd = $SQLStart . " ALTER COLUMN $Tag->{NameNew} SET";
+                if ( $Tag->{AutoIncrement} && $Tag->{AutoIncrement} =~ /^true$/i ) {
+                    $SQLEnd .= " AUTO_INCREMENT";
+                }
 
-            # add primary key
-            if ( $Tag->{PrimaryKey} && $Tag->{PrimaryKey} =~ /true/i ) {
-                $SQLEnd .= " PRIMARY KEY($Tag->{Name})";
+                # add primary key
+                if ( $Tag->{PrimaryKey} && $Tag->{PrimaryKey} =~ /true/i ) {
+                    $SQLEnd .= " PRIMARY KEY($Tag->{Name})";
+                }
+                push @SQL, $SQLEnd;
             }
-            push( @SQL, $SQLEnd );
         }
         elsif ( $Tag->{Tag} eq 'ColumnDrop' && $Tag->{TagType} eq 'Start' ) {
             my $SQLEnd = $SQLStart . " DROP $Tag->{Name}";
-            push( @SQL, $SQLEnd );
+            push @SQL, $SQLEnd;
+            push @SQL, "CALL SYSPROC.ADMIN_CMD ('REORG TABLE $Table')";
         }
     }
     return @SQL;
