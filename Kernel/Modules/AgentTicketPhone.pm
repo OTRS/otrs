@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.63 2008-04-01 14:53:50 ak Exp $
+# $Id: AgentTicketPhone.pm,v 1.64 2008-04-17 06:42:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -81,15 +81,15 @@ sub Run {
     # get ticket free text params
     for ( 1 .. 16 ) {
         $GetParam{"TicketFreeKey$_"} = $Self->{ParamObject}->GetParam( Param => "TicketFreeKey$_" );
-        $GetParam{"TicketFreeText$_"}
-            = $Self->{ParamObject}->GetParam( Param => "TicketFreeText$_" );
+        $GetParam{"TicketFreeText$_"} = $Self->{ParamObject}->GetParam( Param => "TicketFreeText$_" );
     }
 
     # get ticket free time params
     for ( 1 .. 6 ) {
         for my $Type (qw(Used Year Month Day Hour Minute)) {
-            $GetParam{ "TicketFreeTime" . $_ . $Type }
-                = $Self->{ParamObject}->GetParam( Param => "TicketFreeTime" . $_ . $Type );
+            $GetParam{ "TicketFreeTime" . $_ . $Type } = $Self->{ParamObject}->GetParam(
+                Param => "TicketFreeTime" . $_ . $Type,
+            );
         }
         $GetParam{ 'TicketFreeTime' . $_ . 'Optional' }
             = $Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) || 0;
@@ -100,10 +100,8 @@ sub Run {
 
     # get article free text params
     for ( 1 .. 3 ) {
-        $GetParam{"ArticleFreeKey$_"}
-            = $Self->{ParamObject}->GetParam( Param => "ArticleFreeKey$_" );
-        $GetParam{"ArticleFreeText$_"}
-            = $Self->{ParamObject}->GetParam( Param => "ArticleFreeText$_" );
+        $GetParam{"ArticleFreeKey$_"} = $Self->{ParamObject}->GetParam( Param => "ArticleFreeKey$_" );
+        $GetParam{"ArticleFreeText$_"} = $Self->{ParamObject}->GetParam( Param => "ArticleFreeText$_" );
     }
 
     if ( !$Self->{Subaction} || $Self->{Subaction} eq 'Created' ) {
@@ -387,7 +385,9 @@ sub Run {
         }
 
         # get all attachments meta data
-        my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta( FormID => $Self->{FormID} );
+        my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
+            FormID => $Self->{FormID},
+        );
 
         # get free text config options
         my %TicketFreeText = ();
@@ -465,8 +465,9 @@ sub Run {
             if ( $Param{CustomerUserListCount} == 1 ) {
                 $GetParam{From} = $Param{CustomerUserListLast};
                 $Error{"ExpandCustomerName"} = 1;
-                my %CustomerUserData = $Self->{CustomerUserObject}
-                    ->CustomerUserDataGet( User => $Param{CustomerUserListLastUser}, );
+                my %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                    User => $Param{CustomerUserListLastUser},
+                );
                 if ( $CustomerUserData{UserCustomerID} ) {
                     $CustomerID = $CustomerUserData{UserCustomerID};
                 }
@@ -494,10 +495,12 @@ sub Run {
 
         # get from and customer id if customer user is given
         elsif ( $ExpandCustomerName == 2 ) {
-            %CustomerUserData
-                = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $CustomerUser, );
-            my %CustomerUserList
-                = $Self->{CustomerUserObject}->CustomerSearch( UserLogin => $CustomerUser, );
+            %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                User => $CustomerUser,
+            );
+            my %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
+                UserLogin => $CustomerUser,
+            );
             for ( keys %CustomerUserList ) {
                 $GetParam{From} = $CustomerUserList{$_};
             }
@@ -507,7 +510,7 @@ sub Run {
             if ( $CustomerUserData{UserLogin} ) {
                 $CustomerUser = $CustomerUserData{UserLogin};
             }
-            $Error{"ExpandCustomerName"} = 1;
+            $Error{ExpandCustomerName} = 1;
         }
 
         # if a new destination queue is selected
@@ -537,30 +540,25 @@ sub Run {
         }
 
         # check email address
-        EMAIL:
         for my $Email ( Mail::Address->parse( $GetParam{From} ) ) {
-            # skip check if the email address is not fully RFC 2822 compilant
-            next EMAIL if !$Email->host();
-            next EMAIL if !$Email->user();
-
             if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
-                $Error{"From invalid"} .= $Self->{CheckItemObject}->CheckError();
+                $Error{'From invalid'} .= $Self->{CheckItemObject}->CheckError();
             }
         }
         if ( !$GetParam{From} && $ExpandCustomerName != 1 && $ExpandCustomerName == 0 ) {
-            $Error{"From invalid"} = 'invalid';
+            $Error{'From invalid'} = 'invalid';
         }
         if ( !$GetParam{Subject} && $ExpandCustomerName == 0 ) {
-            $Error{"Subject invalid"} = 'invalid';
+            $Error{'Subject invalid'} = 'invalid';
         }
         if ( !$NewQueueID && $ExpandCustomerName == 0 ) {
-            $Error{"Destination invalid"} = 'invalid';
+            $Error{'Destination invalid'} = 'invalid';
         }
         if (   $Self->{ConfigObject}->Get('Ticket::Service')
             && $GetParam{SLAID}
             && !$GetParam{ServiceID} )
         {
-            $Error{"Service invalid"} = 'invalid';
+            $Error{'Service invalid'} = 'invalid';
         }
         if (%Error) {
 
@@ -597,7 +595,7 @@ sub Run {
                 CustomerID   => $Self->{LayoutObject}->Ascii2Html( Text => $CustomerID ),
                 CustomerUser => $CustomerUser,
                 CustomerData => \%CustomerData,
-                FromOptions  => $Param{"FromOptions"},
+                FromOptions  => $Param{FromOptions},
                 To           => $Self->_GetTos( QueueID                 => $NewQueueID ),
                 ToSelected   => $Dest,
                 Errors       => \%Error,
@@ -755,29 +753,29 @@ sub Run {
 
         # set ticket free time
         for ( 1 .. 6 ) {
-            if (   defined( $GetParam{ "TicketFreeTime" . $_ . "Year" } )
-                && defined( $GetParam{ "TicketFreeTime" . $_ . "Month" } )
-                && defined( $GetParam{ "TicketFreeTime" . $_ . "Day" } )
-                && defined( $GetParam{ "TicketFreeTime" . $_ . "Hour" } )
-                && defined( $GetParam{ "TicketFreeTime" . $_ . "Minute" } ) )
+            if (   defined( $GetParam{ 'TicketFreeTime' . $_ . 'Year' } )
+                && defined( $GetParam{ 'TicketFreeTime' . $_ . 'Month' } )
+                && defined( $GetParam{ 'TicketFreeTime' . $_ . 'Day' } )
+                && defined( $GetParam{ 'TicketFreeTime' . $_ . 'Hour' } )
+                && defined( $GetParam{ 'TicketFreeTime' . $_ . 'Minute' } ) )
             {
                 my %Time;
-                $Time{ "TicketFreeTime" . $_ . "Year" }    = 0;
-                $Time{ "TicketFreeTime" . $_ . "Month" }   = 0;
-                $Time{ "TicketFreeTime" . $_ . "Day" }     = 0;
-                $Time{ "TicketFreeTime" . $_ . "Hour" }    = 0;
-                $Time{ "TicketFreeTime" . $_ . "Minute" }  = 0;
-                $Time{ "TicketFreeTime" . $_ . "Secunde" } = 0;
+                $Time{ 'TicketFreeTime' . $_ . 'Year' }    = 0;
+                $Time{ 'TicketFreeTime' . $_ . 'Month' }   = 0;
+                $Time{ 'TicketFreeTime' . $_ . 'Day' }     = 0;
+                $Time{ 'TicketFreeTime' . $_ . 'Hour' }    = 0;
+                $Time{ 'TicketFreeTime' . $_ . 'Minute' }  = 0;
+                $Time{ 'TicketFreeTime' . $_ . 'Secunde' } = 0;
 
-                if ( $GetParam{ "TicketFreeTime" . $_ . "Used" } ) {
+                if ( $GetParam{ 'TicketFreeTime' . $_ . 'Used' } ) {
                     %Time = $Self->{LayoutObject}->TransfromDateSelection(
                         %GetParam,
-                        Prefix => "TicketFreeTime" . $_,
+                        Prefix => 'TicketFreeTime' . $_,
                     );
                 }
                 $Self->{TicketObject}->TicketFreeTimeSet(
                     %Time,
-                    Prefix   => "TicketFreeTime",
+                    Prefix   => 'TicketFreeTime',
                     TicketID => $TicketID,
                     Counter  => $_,
                     UserID   => $Self->{UserID},
@@ -896,10 +894,10 @@ sub Run {
             if ( $GetParam{LinkTicketID} && $Self->{Config}->{SplitLinkType} ) {
                 my $LinkObject = Kernel::System::LinkObject->new(%{ $Self });
                 $LinkObject->LinkObject(
-                    LinkType => $Self->{Config}->{SplitLinkType},
-                    LinkID1 => $GetParam{LinkTicketID},
+                    LinkType    => $Self->{Config}->{SplitLinkType},
+                    LinkID1     => $GetParam{LinkTicketID},
                     LinkObject1 => 'Ticket',
-                    LinkID2 => $TicketID,
+                    LinkID2     => $TicketID,
                     LinkObject2 => 'Ticket',
                 );
             }
@@ -1196,27 +1194,26 @@ sub _GetTos {
             Result => 'HASH',
             Cached => 1,
         );
-        for ( keys %Tos ) {
-            if ( $UserGroups{ $Self->{QueueObject}->GetQueueGroupID( QueueID => $_ ) } ) {
-                $NewTos{$_} = $Tos{$_};
-            }
-        }
 
         # build selection string
-        for ( keys %NewTos ) {
-            my %QueueData = $Self->{QueueObject}->QueueGet( ID => $_ );
-            my $Srting = $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionString')
+        for my $QueueID ( keys %Tos ) {
+            my %QueueData = $Self->{QueueObject}->QueueGet( ID => $QueueID, Cache => 1 );
+
+            # permission check, can we create new tickets in queue
+            next if !$UserGroups{ $QueueData{GroupID} };
+
+            my $String = $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionString')
                 || '<Realname> <<Email>> - Queue: <Queue>';
-            $Srting =~ s/<Queue>/$QueueData{Name}/g;
-            $Srting =~ s/<QueueComment>/$QueueData{Comment}/g;
-            if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionType') ne 'Queue' )
-            {
-                my %SystemAddressData
-                    = $Self->{SystemAddress}->SystemAddressGet( ID => $NewTos{$_} );
-                $Srting =~ s/<Realname>/$SystemAddressData{Realname}/g;
-                $Srting =~ s/<Email>/$SystemAddressData{Name}/g;
+            $String =~ s/<Queue>/$QueueData{Name}/g;
+            $String =~ s/<QueueComment>/$QueueData{Comment}/g;
+            if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionType') ne 'Queue' ) {
+                my %SystemAddressData = $Self->{SystemAddress}->SystemAddressGet(
+                    ID => $Tos{ $QueueID },
+                );
+                $String =~ s/<Realname>/$SystemAddressData{Realname}/g;
+                $String =~ s/<Email>/$SystemAddressData{Name}/g;
             }
-            $NewTos{$_} = $Srting;
+            $NewTos{ $QueueID } = $String;
         }
     }
 
@@ -1354,7 +1351,7 @@ sub _MaskPhoneNew {
     # prepare errors!
     if ( $Param{Errors} ) {
         for ( keys %{ $Param{Errors} } ) {
-            $Param{$_} = "* " . $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$_} );
+            $Param{$_} = '* ' . $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$_} );
         }
     }
 
@@ -1434,8 +1431,7 @@ sub _MaskPhoneNew {
             Sort         => 'TreeView',
             Translation  => 0,
             Max          => 200,
-            OnChange =>
-                "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
+            OnChange => "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketService',
@@ -1449,8 +1445,7 @@ sub _MaskPhoneNew {
             Sort         => 'AlphanumericValue',
             Translation  => 0,
             Max          => 200,
-            OnChange =>
-                "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
+            OnChange => "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketSLA',
