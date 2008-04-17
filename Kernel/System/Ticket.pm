@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.275.2.15 2008-03-21 13:49:12 martin Exp $
+# $Id: Ticket.pm,v 1.275.2.16 2008-04-17 06:46:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.275.2.15 $';
+$VERSION = '$Revision: 1.275.2.16 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2240,10 +2240,28 @@ sub TicketFreeTextGet {
         %Data = %{$Self->{ConfigObject}->Get($Param{Type})};
     }
     # check existing
-    if ($Param{FillUp}) {
-        my $Counter = $Param{Type};
+    if ($Param{FillUp} && %Data) {
+        my $TimeStart = $Self->{TimeObject}->SystemTime();
+        my $Counter   = $Param{Type};
         $Counter =~ s/^.+?(\d+?)$/$1/;
-        if (%Data && $Param{Type} =~ /text/i) {
+
+        # check cache
+        my $CacheObject;
+        my $CacheData;
+        if ($Self->{MainObject}->Require('Kernel::System::Cache')) {
+            $CacheObject = Kernel::System::Cache->new( %{ $Self } );
+        }
+        if ( $CacheObject ) {
+            $CacheData = $CacheObject->Get(
+                Key  => 'Ticket::' . $Param{Type},
+            );
+            if ( $CacheData ) {
+                %Data = ( %{ $CacheData }, %Data );
+            }
+        }
+
+        # do database lookup
+        elsif ($Param{Type} =~ /text/i) {
             $Self->{DBObject}->Prepare(SQL => "SELECT distinct(freetext$Counter) FROM ticket");
             while (my @Row = $Self->{DBObject}->FetchrowArray()) {
                 if ($Row[0] && !$Data{$Row[0]}) {
@@ -2251,13 +2269,30 @@ sub TicketFreeTextGet {
                 }
             }
         }
-        elsif (%Data) {
+        else {
             $Self->{DBObject}->Prepare(SQL => "SELECT distinct(freekey$Counter) FROM ticket");
             while (my @Row = $Self->{DBObject}->FetchrowArray()) {
                 if ($Row[0] && !$Data{$Row[0]}) {
                     $Data{$Row[0]} = $Row[0];
                 }
             }
+        }
+
+        # fill cache
+        if ( $CacheObject && !$CacheData && %Data ) {
+            my $TimeEnd = $Self->{TimeObject}->SystemTime();
+            my $TTL     = 4 * 60;
+            if ( $TimeEnd - $TimeStart > 3 ) {
+                $TTL = 40 * 60;
+            }
+            elsif ( $TimeEnd - $TimeStart > 1 ) {
+                $TTL = 30 * 60;
+            }
+            $CacheObject->Set(
+                Key   => 'Ticket::' . $Param{Type},
+                Value => \%Data,
+                TTL   => $TTL,
+            );
         }
     }
     # workflow
@@ -6239,6 +6274,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.275.2.15 $ $Date: 2008-03-21 13:49:12 $
+$Revision: 1.275.2.16 $ $Date: 2008-04-17 06:46:45 $
 
 =cut
