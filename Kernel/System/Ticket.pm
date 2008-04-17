@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.310 2008-04-11 18:10:52 martin Exp $
+# $Id: Ticket.pm,v 1.311 2008-04-17 06:49:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -25,6 +25,7 @@ use Kernel::System::Lock;
 use Kernel::System::Queue;
 use Kernel::System::User;
 use Kernel::System::Group;
+use Kernel::System::Cache;
 use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
 use Kernel::System::Encode;
@@ -37,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.310 $) [1];
+$VERSION = qw($Revision: 1.311 $) [1];
 
 =head1 NAME
 
@@ -443,7 +444,7 @@ sub TicketCreate {
     }
 
     # check ticket title
-    if ( !defined( $Param{Title} ) ) {
+    if ( !defined $Param{Title} ) {
         $Param{Title} = '';
     }
 
@@ -683,7 +684,7 @@ sub TicketSubjectBuild {
 
     # check needed stuff
     for (qw(TicketNumber)) {
-        if ( !defined( $Param{$_} ) ) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
@@ -719,7 +720,7 @@ sub TicketSubjectClean {
 
     # check needed stuff
     for (qw(TicketNumber)) {
-        if ( !defined( $Param{$_} ) ) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
@@ -1010,7 +1011,7 @@ sub TicketUnlockTimeoutUpdate {
 
     # check needed stuff
     for (qw(UnlockTimeout TicketID UserID)) {
-        if ( !defined( $Param{$_} ) ) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
@@ -1065,7 +1066,7 @@ sub TicketEscalationStartUpdate {
 
     # check needed stuff
     for (qw(EscalationStartTime TicketID UserID)) {
-        if ( !defined( $Param{$_} ) ) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
@@ -1109,7 +1110,7 @@ sub TicketEscalationResponseTimeUpdate {
 
     # check needed stuff
     for (qw(EscalationResponseTime TicketID UserID)) {
-        if ( !defined( $Param{$_} ) ) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
@@ -1165,7 +1166,7 @@ sub TicketEscalationSolutionTimeUpdate {
 
     # check needed stuff
     for (qw(EscalationSolutionTime TicketID UserID)) {
-        if ( !defined( $Param{$_} ) ) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
@@ -1735,7 +1736,7 @@ sub TicketServiceSet {
 
     # check needed stuff
     for (qw(TicketID ServiceID UserID)) {
-        if ( !defined( $Param{$_} ) ) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
@@ -1841,7 +1842,7 @@ sub TicketEscalationState {
     if ( $Escalation{FirstResponseTime} ) {
 
         # check if first response is already done
-        if ( !defined( $Ticket{EscalationResponseTime} ) ) {
+        if ( !defined $Ticket{EscalationResponseTime} ) {
             $Ticket{EscalationResponseTime} = 0;
 
             # find first response time
@@ -2001,7 +2002,7 @@ sub TicketEscalationState {
     if ( $Escalation{SolutionTime} ) {
 
         # get first close date, if not already set
-        if ( !defined( $Ticket{EscalationSolutionTime} ) ) {
+        if ( !defined $Ticket{EscalationSolutionTime} ) {
             $Ticket{EscalationSolutionTime} = 0;
 
             # find first close time
@@ -2181,7 +2182,7 @@ sub TicketSLASet {
 
     # check needed stuff
     for (qw(TicketID SLAID UserID)) {
-        if ( !defined( $Param{$_} ) ) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
@@ -2369,10 +2370,23 @@ sub TicketFreeTextGet {
     }
 
     # check existing
-    if ( $Param{FillUp} ) {
-        my $Counter = $Param{Type};
+    if ( $Param{FillUp} && %Data ) {
+        my $TimeStart = $Self->{TimeObject}->SystemTime();
+        my $Counter   = $Param{Type};
         $Counter =~ s/^.+?(\d+?)$/$1/;
-        if ( %Data && $Param{Type} =~ /text/i ) {
+
+        # check cache
+        my $CacheObject = Kernel::System::Cache->new( %{ $Self } );
+        my $CacheData = $CacheObject->Get(
+            Type => 'Ticket',
+            Key  => $Param{Type},
+        );
+        if ( $CacheData ) {
+            %Data = ( %{ $CacheData }, %Data );
+        }
+
+        # do database lookup
+        elsif ( $Param{Type} =~ /text/i ) {
             $Self->{DBObject}->Prepare( SQL => "SELECT distinct(freetext$Counter) FROM ticket" );
             while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
                 if ( $Row[0] && !$Data{ $Row[0] } ) {
@@ -2380,13 +2394,31 @@ sub TicketFreeTextGet {
                 }
             }
         }
-        elsif (%Data) {
+        else {
             $Self->{DBObject}->Prepare( SQL => "SELECT distinct(freekey$Counter) FROM ticket" );
             while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
                 if ( $Row[0] && !$Data{ $Row[0] } ) {
                     $Data{ $Row[0] } = $Row[0];
                 }
             }
+        }
+
+        # fill cache
+        if ( !$CacheData && %Data ) {
+            my $TimeEnd = $Self->{TimeObject}->SystemTime();
+            my $TTL     = 4 * 60;
+            if ( $TimeEnd - $TimeStart > 3 ) {
+                $TTL = 40 * 60;
+            }
+            elsif ( $TimeEnd - $TimeStart > 1 ) {
+                $TTL = 30 * 60;
+            }
+            $CacheObject->Set(
+                Type  => 'Ticket',
+                Key   => $Param{Type},
+                Value => \%Data,
+                TTL   => $TTL,
+            );
         }
     }
 
@@ -2439,14 +2471,14 @@ sub TicketFreeTextSet {
     my $Value = '';
     my $Key   = '';
 
-    if ( defined( $Param{Value} ) ) {
+    if ( defined $Param{Value} ) {
         $Value = $Param{Value};
     }
     else {
         $Value = $Ticket{ 'TicketFreeText' . $Param{Counter} };
     }
 
-    if ( defined( $Param{Key} ) ) {
+    if ( defined $Param{Key} ) {
         $Key = $Param{Key};
     }
     else {
@@ -2516,13 +2548,13 @@ sub TicketFreeTimeSet {
 
     # check needed stuff
     for (qw(TicketID UserID Counter)) {
-        if ( !defined( $Param{$_} ) ) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
     for (qw(Year Month Day Hour Minute)) {
-        if ( !defined( $Param{ $Prefix . $Param{Counter} . $_ } ) ) {
+        if ( !defined $Param{ $Prefix . $Param{Counter} . $_ } ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message => "Need $Prefix" . $Param{Counter} . "$_!",
@@ -2968,7 +3000,7 @@ sub TicketPendingTimeSet {
     # check needed stuff
     if ( !$Param{String} ) {
         for (qw(Year Month Day Hour Minute TicketID UserID)) {
-            if ( !defined( $Param{$_} ) ) {
+            if ( !defined $Param{$_} ) {
                 $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
                 return;
             }
@@ -3881,7 +3913,7 @@ sub TicketSearch {
             my $SQLExtSub = ' AND (';
             my $Counter   = 0;
             for my $Key ( @{ $Param{"TicketFreeKey$_"} } ) {
-                if ( defined($Key) && $Key ne '' ) {
+                if ( defined $Key && $Key ne '' ) {
                     $Key =~ s/\*/%/gi;
 
                     # check search attribute, we do not need to search for *
@@ -3913,7 +3945,7 @@ sub TicketSearch {
             my $SQLExtSub = ' AND (';
             my $Counter   = 0;
             for my $Text ( @{ $Param{"TicketFreeText$_"} } ) {
-                if ( defined($Text) && $Text ne '' ) {
+                if ( defined $Text && $Text ne '' ) {
                     $Text =~ s/\*/%/gi;
 
                     # check search attribute, we do not need to search for *
@@ -4595,7 +4627,7 @@ sub OwnerCheck {
     if ( $Param{OwnerID} ) {
 
         # check cache
-        if ( defined( $Self->{OwnerCheck}->{ $Param{OwnerID} } ) ) {
+        if ( defined $Self->{OwnerCheck}->{ $Param{OwnerID} } ) {
             return $Self->{OwnerCheck}->{ $Param{OwnerID} };
         }
         $SQL = "SELECT user_id FROM ticket "
@@ -5955,7 +5987,7 @@ sub TicketWatchGet {
 
     # check needed stuff
     for (qw(TicketID UserID)) {
-        if ( !defined( $Param{$_} ) ) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
@@ -5995,7 +6027,7 @@ sub TicketWatchSubscribe {
 
     # check needed stuff
     for (qw(TicketID UserID)) {
-        if ( !defined( $Param{$_} ) ) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
@@ -6038,7 +6070,7 @@ sub TicketWatchUnsubscribe {
 
     # check needed stuff
     for (qw(TicketID UserID)) {
-        if ( !defined( $Param{$_} ) ) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
@@ -6218,7 +6250,7 @@ sub TicketAcl {
                             }
                         }
                     }
-                    elsif ( defined( $Checks{$Key}->{$Data} ) ) {
+                    elsif ( defined $Checks{$Key}->{$Data} ) {
                         if ( $_ eq $Checks{$Key}->{$Data} ) {
                             $Match2 = 1;
 
@@ -6499,6 +6531,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.310 $ $Date: 2008-04-11 18:10:52 $
+$Revision: 1.311 $ $Date: 2008-04-17 06:49:04 $
 
 =cut
