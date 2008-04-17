@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.43.2.5 2008-04-01 15:03:20 ak Exp $
+# $Id: AgentTicketEmail.pm,v 1.43.2.6 2008-04-17 06:44:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.43.2.5 $';
+$VERSION = '$Revision: 1.43.2.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -1033,23 +1033,27 @@ sub _GetTos {
             Result => 'HASH',
             Cached => 1,
         );
-        foreach (keys %Tos) {
-            if ($UserGroups{$Self->{QueueObject}->GetQueueGroupID(QueueID => $_)}) {
-                $NewTos{$_} = $Tos{$_};
-            }
-        }
+
         # build selection string
-        foreach (keys %NewTos) {
-            my %QueueData = $Self->{QueueObject}->QueueGet(ID => $_);
-            my $Srting = $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionString') || '<Realname> <<Email>> - Queue: <Queue>';
-            $Srting =~ s/<Queue>/$QueueData{Name}/g;
-            $Srting =~ s/<QueueComment>/$QueueData{Comment}/g;
-            if ($Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionType') ne 'Queue') {
-                my %SystemAddressData = $Self->{SystemAddress}->SystemAddressGet(ID => $NewTos{$_});
-                $Srting =~ s/<Realname>/$SystemAddressData{Realname}/g;
-                $Srting =~ s/<Email>/$SystemAddressData{Name}/g;
+        for my $QueueID ( keys %Tos ) {
+            my %QueueData = $Self->{QueueObject}->QueueGet( ID => $QueueID, Cache => 1 );
+
+            # permission check, can we create new tickets in queue
+            next if !$UserGroups{ $QueueData{GroupID} };
+
+            my $String = $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionString')
+                || '<Realname> <<Email>> - Queue: <Queue>';
+            $String =~ s/<Queue>/$QueueData{Name}/g;
+            $String =~ s/<QueueComment>/$QueueData{Comment}/g;
+            if ( $Self->{ConfigObject}->Get('Ticket::Frontend::NewQueueSelectionType') ne 'Queue' )
+            {
+                my %SystemAddressData = $Self->{SystemAddress}->SystemAddressGet(
+                    ID => $Tos{$QueueID},
+                );
+                $String =~ s/<Realname>/$SystemAddressData{Realname}/g;
+                $String =~ s/<Email>/$SystemAddressData{Name}/g;
             }
-            $NewTos{$_} = $Srting;
+            $NewTos{$QueueID} = $String;
         }
     }
     # adde empty selection

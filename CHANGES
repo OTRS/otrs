@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.115 2008-04-14 12:52:55 mh Exp $
+# $Id: CHANGES,v 1.465.2.116 2008-04-17 06:44:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,10 @@
 # --
 
 2.2.7 (2008/??/??)
+ - (2008/04/14) Improved speed of phone and email ticket if many queues and
+    groups (150+) are used.
+ - (2008/04/14) Improved load speed of ticket search screen (if free text fields
+    are used).
  - (2008/04/14) Fixed bug# 2860 - ColumnAdd doesn't work on a DB2 database if
     Required is true.
  - (2008/04/10) Added new estonian translation, thanks to Lauri Jesmin!
