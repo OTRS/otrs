@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.78 2008-04-09 00:31:19 martin Exp $
+# $Id: User.pm,v 1.79 2008-04-18 19:35:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Encode;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.78 $) [1];
+$VERSION = qw($Revision: 1.79 $) [1];
 
 =head1 NAME
 
@@ -444,30 +444,10 @@ sub UserSearch {
     # build SQL string 2/2
     $SQL .= " FROM $Self->{UserTable} WHERE ";
     if ( $Param{Search} ) {
-        my $Count = 0;
-        my @Parts = split( /\+/, $Param{Search}, 6 );
-        for my $Part (@Parts) {
-
-            #            $Part = $Self->{SearchPrefix}.$Part.$Self->{SearchSuffix};
-            $Part =~ s/\*/%/g;
-            $Part =~ s/%%/%/g;
-            if ($Count) {
-                $SQL .= " AND ";
-            }
-            $Count++;
-            if (@Fields) {
-                my $SQLExt = '';
-                for (@Fields) {
-                    if ($SQLExt) {
-                        $SQLExt .= ' OR ';
-                    }
-                    $SQLExt .= " LOWER($_) LIKE LOWER('" . $Self->{DBObject}->Quote( $Part, 'Like' ) . "') ";
-                }
-                if ($SQLExt) {
-                    $SQL .= "($SQLExt)";
-                }
-            }
-        }
+        $SQL .= $Self->{DBObject}->QueryCondition(
+            Key          => \@Fields,
+            Value        => $Param{Search},
+        ). ' ';
     }
     elsif ( $Param{PostMasterSearch} ) {
         my %UserID = $Self->SearchPreferences(
@@ -949,6 +929,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.78 $ $Date: 2008-04-09 00:31:19 $
+$Revision: 1.79 $ $Date: 2008-04-18 19:35:16 $
 
 =cut
