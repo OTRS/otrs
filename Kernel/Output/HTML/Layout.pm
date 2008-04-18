@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.87 2008-04-18 09:49:45 ub Exp $
+# $Id: Layout.pm,v 1.88 2008-04-18 21:27:11 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.87 $) [1];
+$VERSION = qw($Revision: 1.88 $) [1];
 
 =head1 NAME
 
@@ -591,10 +591,15 @@ sub _Output {
                     MainObject   => $Self->{MainObject},
                     LogObject    => $Self->{LogObject},
                     Debug        => $Self->{Debug},
+                    LayoutObject => $Self,
                 );
 
                 # run module
-                $Object->Run( %{ $Filters{$Filter} }, Data => \$TemplateString );
+                $Object->Run(
+                    %{ $Filters{$Filter} },
+                    Data         => \$TemplateString,
+                    TemplateFile => $Param{TemplateFile},
+                );
             }
             else {
                 $Self->FatalDie();
@@ -1030,10 +1035,15 @@ sub _Output {
                     MainObject   => $Self->{MainObject},
                     LogObject    => $Self->{LogObject},
                     Debug        => $Self->{Debug},
+                    LayoutObject => $Self,
                 );
 
                 # run module
-                $Object->Run( %{ $Filters{$Filter} }, Data => \$Output );
+                $Object->Run(
+                    %{ $Filters{$Filter} },
+                    Data         => \$Output,
+                    TemplateFile => $Param{TemplateFile},
+                );
             }
             else {
                 $Self->FatalDie();
@@ -1466,7 +1476,11 @@ sub Print {
                 );
 
                 # run module
-                $Object->Run( %{ $Filters{$Filter} }, Data => $Param{Output} );
+                $Object->Run(
+                    %{ $Filters{$Filter} },
+                    Data         => $Param{Output},
+                    TemplateFile => $Param{TemplateFile},
+                );
             }
             else {
                 $Self->FatalDie();
@@ -3856,6 +3870,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.87 $ $Date: 2008-04-18 09:49:45 $
+$Revision: 1.88 $ $Date: 2008-04-18 21:27:11 $
 
 =cut
