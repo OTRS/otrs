@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.635 2008-04-18 09:20:49 ub Exp $
+# $Id: CHANGES,v 1.636 2008-04-18 21:29:11 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,7 @@
 # --
 
 CVS HEAD (????/??/??)
+ - (2007/04/18) Let FrontendOutputFilters have access to LayoutObject and TemplateFile.
  - (2007/04/18) Added Title-Attribute (for Tooltips) to BuildSelection.
  - (2007/04/14) Increased db2 BLOB size from 20M to 30M in
     scripts/database/otrs-schema.db2.sql.
