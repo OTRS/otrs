@@ -2,7 +2,7 @@
 # Kernel/System/Cache/File.pm - all cache functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: File.pm,v 1.11 2008-03-18 16:09:56 tr Exp $
+# $Id: File.pm,v 1.12 2008-04-18 19:37:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 umask 002;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -48,8 +48,8 @@ sub new {
 sub Set {
     my ( $Self, %Param ) = @_;
 
-    for (qw(Type Key Value TTL)) {
-        if (!defined($Param{$_})) {
+    for ( qw(Type Key Value TTL) ) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
@@ -106,8 +106,8 @@ sub Get {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Type Key)) {
-        if (!defined($Param{$_})) {
+    for ( qw(Type Key) ) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
@@ -147,8 +147,8 @@ sub Delete {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Type Key)) {
-        if (!defined($Param{$_})) {
+    for ( qw(Type Key) ) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }

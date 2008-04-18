@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.52 2008-03-07 16:53:28 martin Exp $
+# $Id: StaticDB.pm,v 1.53 2008-04-18 19:40:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub TicketAcceleratorUpdate {
     my ( $Self, %Param ) = @_;
@@ -652,21 +652,21 @@ sub GetOverTimeTickets {
         );
 
         # check response time
-        if ( defined( $Ticket{'FirstResponseTimeEscalation'} ) || defined( $Ticket{'FirstResponseTimeNotification'} ) ) {
+        if ( defined $Ticket{FirstResponseTimeEscalation} || defined $Ticket{FirstResponseTimeNotification} ) {
             push( @TicketIDsOverTime, $TicketID );
             $Count++;
             next;
         }
 
         # check update time
-        if ( defined( $Ticket{'UpdateTimeEscalation'} ) || defined( $Ticket{'UpdateTimeNotification'} ) ) {
+        if ( defined $Ticket{UpdateTimeEscalation} || defined $Ticket{UpdateTimeNotification} ) {
             push( @TicketIDsOverTime, $TicketID );
             $Count++;
             next;
         }
 
         # check solution
-        if ( defined( $Ticket{'SolutionTimeEscalation'} ) || defined( $Ticket{'SolutionTimeNotification'} )) {
+        if ( defined $Ticket{SolutionTimeEscalation} || defined $Ticket{SolutionTimeNotification} ) {
             push( @TicketIDsOverTime, $TicketID );
             $Count++;
             next;

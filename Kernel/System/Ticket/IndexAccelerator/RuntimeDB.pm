@@ -3,7 +3,7 @@
 # queue ticket index module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: RuntimeDB.pm,v 1.52 2008-03-18 16:08:23 tr Exp $
+# $Id: RuntimeDB.pm,v 1.53 2008-04-18 19:40:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub TicketAcceleratorUpdate {
     my ( $Self, %Param ) = @_;
@@ -369,7 +369,7 @@ sub GetOverTimeTickets {
         for my $Type (qw(FirstResponseTimeEscalation UpdateTimeEscalation SolutionTimeEscalation
             FirstResponseTimeNotification UpdateTimeNotification SolutionTimeNotification))
         {
-            if ( defined( $Ticket{$Type} ) || defined( $Ticket{$Type} ) ) {
+            if ( defined $Ticket{$Type} || defined $Ticket{$Type} ) {
                 push( @TicketIDsOverTime, $TicketID );
                 $Count++;
                 next;

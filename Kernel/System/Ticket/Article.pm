@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.170 2008-04-11 15:57:29 martin Exp $
+# $Id: Article.pm,v 1.171 2008-04-18 19:38:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.170 $) [1];
+$VERSION = qw($Revision: 1.171 $) [1];
 
 =head1 NAME
 
@@ -108,7 +108,7 @@ sub ArticleCreate {
 
     # strip not wanted stuff
     for (qw(From To Cc Subject MessageID ReplyTo)) {
-        if ( defined( $Param{$_} ) ) {
+        if ( defined $Param{$_} ) {
             $Param{$_} =~ s/\n|\r//g;
         }
         else {
@@ -1631,7 +1631,7 @@ sub ArticleUpdate {
     }
 
     # check needed stuff
-    if ( !defined( $Param{Value} ) ) {
+    if ( !defined $Param{Value} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need Value!" );
         return;
     }
@@ -2052,7 +2052,7 @@ sub SendAgentNotification {
     # ticket data
     my %Ticket = $Self->TicketGet( TicketID => $Param{TicketID} );
     for ( keys %Ticket ) {
-        if ( defined( $Ticket{$_} ) ) {
+        if ( defined $Ticket{$_} ) {
             $Notification{Body}    =~ s/<OTRS_TICKET_$_>/$Ticket{$_}/gi;
             $Notification{Subject} =~ s/<OTRS_TICKET_$_>/$Ticket{$_}/gi;
         }
@@ -2104,7 +2104,7 @@ sub SendAgentNotification {
 
     # replace it with article data
     for ( keys %Article ) {
-        if ( defined( $Article{$_} ) ) {
+        if ( defined $Article{$_} ) {
             $Notification{Subject} =~ s/<OTRS_$_>/$Article{$_}/gi;
             $Notification{Body}    =~ s/<OTRS_$_>/$Article{$_}/gi;
         }
@@ -2297,7 +2297,7 @@ sub SendCustomerNotification {
     # ticket data
     my %Ticket = $Self->TicketGet( TicketID => $Param{TicketID} );
     for ( keys %Ticket ) {
-        if ( defined( $Ticket{$_} ) ) {
+        if ( defined $Ticket{$_} ) {
             $Notification{Body}    =~ s/<OTRS_TICKET_$_>/$Ticket{$_}/gi;
             $Notification{Subject} =~ s/<OTRS_TICKET_$_>/$Ticket{$_}/gi;
         }
@@ -2598,7 +2598,7 @@ sub SendAutoResponse {
     # ticket data
     my %Ticket = $Self->TicketGet( TicketID => $Param{TicketID} );
     for ( keys %Ticket ) {
-        if ( defined( $Ticket{$_} ) ) {
+        if ( defined $Ticket{$_} ) {
             $Param{Body}    =~ s/<OTRS_TICKET_$_>/$Ticket{$_}/gi;
             $Param{Subject} =~ s/<OTRS_TICKET_$_>/$Ticket{$_}/gi;
         }
@@ -2780,7 +2780,7 @@ sub ArticleFlagSet {
     }
 
     my %Flag = $Self->ArticleFlagGet(%Param);
-    if ( !defined( $Flag{Flag} ) || $Flag{Flag} ne $Param{Flag} ) {
+    if ( !defined $Flag{Flag} || $Flag{Flag} ne $Param{Flag} ) {
 
         # do db insert
         $Self->{DBObject}->Do(
