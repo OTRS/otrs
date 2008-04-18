@@ -2,7 +2,7 @@
 # Kernel/System/DB/oracle.pm - oracle database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: oracle.pm,v 1.37 2008-04-11 15:56:39 martin Exp $
+# $Id: oracle.pm,v 1.38 2008-04-18 19:36:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -408,7 +408,7 @@ sub IndexCreate {
     my @Array = @{ $Param{'Data'} };
     for ( 0 .. $#Array ) {
         if ( $_ > 0 ) {
-            $SQL .= ", ";
+            $SQL .= ', ';
         }
         $SQL .= $Array[$_]->{Name};
         if ( $Array[$_]->{Size} ) {
@@ -559,14 +559,14 @@ sub Insert {
     my $Key = '';
     for (@Keys) {
         if ( $Key ne '' ) {
-            $Key .= ", ";
+            $Key .= ', ';
         }
         $Key .= $_;
     }
     my $Value = '';
     for my $Tmp (@Values) {
         if ( $Value ne '' ) {
-            $Value .= ", ";
+            $Value .= ', ';
         }
         if ( $Tmp eq 'current_timestamp' ) {
             if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
@@ -608,13 +608,13 @@ sub _TypeTranslation {
         $Tag->{Type} = 'CLOB';
     }
     elsif ( $Tag->{Type} =~ /^VARCHAR$/i ) {
-        $Tag->{Type} = "VARCHAR2 ($Tag->{Size})";
+        $Tag->{Type} = 'VARCHAR2 (' . $Tag->{Size} . ')';
         if ( $Tag->{Size} > 4000 ) {
-            $Tag->{Type} = "CLOB";
+            $Tag->{Type} = 'CLOB';
         }
     }
     elsif ( $Tag->{Type} =~ /^DECIMAL$/i ) {
-        $Tag->{Type} = "DECIMAL ($Tag->{Size})";
+        $Tag->{Type} = 'DECIMAL (' . $Tag->{Size} . ')';
     }
     return $Tag;
 }

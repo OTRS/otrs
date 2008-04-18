@@ -2,7 +2,7 @@
 # Kernel/System/DB/mysql.pm - mysql database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: mysql.pm,v 1.31 2008-04-11 15:56:39 martin Exp $
+# $Id: mysql.pm,v 1.32 2008-04-18 19:36:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -523,7 +523,7 @@ sub Insert {
                 $Value = '';
             }
             if ( $Tag->{Type} && $Tag->{Type} eq 'Quote' ) {
-                $Value = "'" . ${ $Self->Quote( \$Value ) } . "'";
+                $Value = '\'' . ${ $Self->Quote( \$Value ) } . '\'';
             }
             else {
                 $Value = ${ $Self->Quote( \$Value ) };
@@ -534,14 +534,14 @@ sub Insert {
     my $Key = '';
     for (@Keys) {
         if ( $Key ne '' ) {
-            $Key .= ", ";
+            $Key .= ', ';
         }
         $Key .= $_;
     }
     my $Value = '';
     for my $Tmp (@Values) {
         if ( $Value ne '' ) {
-            $Value .= ", ";
+            $Value .= ', ';
         }
         if ( $Tmp eq 'current_timestamp' ) {
             if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
@@ -571,20 +571,20 @@ sub _TypeTranslation {
     }
     if ( $Tag->{Type} =~ /^VARCHAR$/i ) {
         if ( $Tag->{Size} > 16777215 ) {
-            $Tag->{Type} = "LONGTEXT";
+            $Tag->{Type} = 'LONGTEXT';
         }
         elsif ( $Tag->{Size} > 65535 ) {
-            $Tag->{Type} = "MEDIUMTEXT";
+            $Tag->{Type} = 'MEDIUMTEXT';
         }
         elsif ( $Tag->{Size} > 255 ) {
-            $Tag->{Type} = "TEXT";
+            $Tag->{Type} = 'TEXT';
         }
         else {
-            $Tag->{Type} = "VARCHAR ($Tag->{Size})";
+            $Tag->{Type} = 'VARCHAR (' . $Tag->{Size} . ')';
         }
     }
     if ( $Tag->{Type} =~ /^DECIMAL$/i ) {
-        $Tag->{Type} = "DECIMAL ($Tag->{Size})";
+        $Tag->{Type} = 'DECIMAL (' . $Tag->{Size} . ')';
     }
     return $Tag;
 }

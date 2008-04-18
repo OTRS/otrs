@@ -2,7 +2,7 @@
 # Kernel/System/DB/maxdb.pm - maxdb database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: maxdb.pm,v 1.29 2008-04-11 15:56:39 martin Exp $
+# $Id: maxdb.pm,v 1.30 2008-04-18 19:36:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -527,14 +527,14 @@ sub Insert {
     my $Key = '';
     for (@Keys) {
         if ( $Key ne '' ) {
-            $Key .= ", ";
+            $Key .= ', ';
         }
         $Key .= $_;
     }
     my $Value = '';
     for my $Tmp (@Values) {
         if ( $Value ne '' ) {
-            $Value .= ", ";
+            $Value .= ', ';
         }
         if ( $Tmp eq 'current_timestamp' ) {
             if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
@@ -572,13 +572,13 @@ sub _TypeTranslation {
         $Tag->{Type} = 'LONG';
     }
     elsif ( $Tag->{Type} =~ /^VARCHAR$/i ) {
-        $Tag->{Type} = "VARCHAR ($Tag->{Size})";
+        $Tag->{Type} = 'VARCHAR (' . $Tag->{Size} . ')';
         if ( $Tag->{Size} >= 4000 ) {
-            $Tag->{Type} = "LONG";
+            $Tag->{Type} = 'LONG';
         }
     }
     elsif ( $Tag->{Type} =~ /^DECIMAL$/i ) {
-        $Tag->{Type} = "DECIMAL ($Tag->{Size})";
+        $Tag->{Type} = 'DECIMAL (' . $Tag->{Size} . ')';
     }
     return $Tag;
 }
