@@ -2,7 +2,7 @@
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Request.pm,v 1.21 2008-03-16 23:31:36 martin Exp $
+# $Id: Request.pm,v 1.22 2008-04-18 19:34:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 =head1 NAME
 
@@ -98,6 +98,12 @@ to get the error back
 =cut
 
 sub Error {
+
+    # Workaround, do not check cgi_error() with perlex, CGI module is not
+    # working with perlex.
+    if ( $ENV{'GATEWAY_INTERFACE'} && $ENV{'GATEWAY_INTERFACE'} =~ /^CGI-PerlEx/ ) {
+        return;
+    }
 
     return if !cgi_error();
     return cgi_error() . ' - POST_MAX=' . ( $CGI::POST_MAX / 1024 ) . 'KB';
@@ -330,6 +336,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2008-03-16 23:31:36 $
+$Revision: 1.22 $ $Date: 2008-04-18 19:34:31 $
 
 =cut
