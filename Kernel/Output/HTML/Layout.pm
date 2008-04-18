@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.85 2008-04-12 10:14:10 tr Exp $
+# $Id: Layout.pm,v 1.86 2008-04-18 09:17:53 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.85 $) [1];
+$VERSION = qw($Revision: 1.86 $) [1];
 
 =head1 NAME
 
@@ -2104,6 +2104,7 @@ build a html option element based on given data
         DisabledBranch => 'Branch',  # (optional) disable all elements of this branch (use string or arrayref)
         Max => 100,                  # (optional) default 100 max size of the shown value
         HTMLQuote => 0,              # (optional) default 1 (0|1) disable html quote
+        Title => 'Tooltip Text',     # (optional) string will be shown as Tooltip on mouseover
     );
 
     my $HashRef = {
@@ -2329,7 +2330,7 @@ sub _BuildSelectionAttributeRefCreate {
     my $AttributeRef = {};
 
     # check params with key and value
-    for (qw(Name Size Class OnChange)) {
+    for (qw(Name Size Class OnChange Title)) {
         if ( $Param{$_} ) {
             $AttributeRef->{ lc($_) } = $Param{$_};
         }
@@ -3849,6 +3850,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.85 $ $Date: 2008-04-12 10:14:10 $
+$Revision: 1.86 $ $Date: 2008-04-18 09:17:53 $
 
 =cut
