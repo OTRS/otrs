@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.86 2008-04-18 09:17:53 ub Exp $
+# $Id: Layout.pm,v 1.87 2008-04-18 09:49:45 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.86 $) [1];
+$VERSION = qw($Revision: 1.87 $) [1];
 
 =head1 NAME
 
@@ -2330,9 +2330,15 @@ sub _BuildSelectionAttributeRefCreate {
     my $AttributeRef = {};
 
     # check params with key and value
-    for (qw(Name Size Class OnChange Title)) {
+    for (qw(Name Size Class OnChange)) {
         if ( $Param{$_} ) {
             $AttributeRef->{ lc($_) } = $Param{$_};
+        }
+    }
+    # check params with key and value that need to be HTML-Quoted
+    for (qw(Title)) {
+        if ( $Param{$_} ) {
+            $AttributeRef->{ lc($_) } = $Self->Ascii2Html( Text => $Param{$_} );
         }
     }
 
@@ -3850,6 +3856,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.86 $ $Date: 2008-04-18 09:17:53 $
+$Revision: 1.87 $ $Date: 2008-04-18 09:49:45 $
 
 =cut
