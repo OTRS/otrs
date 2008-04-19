@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.47 2008-04-07 16:56:38 tr Exp $
+# $Id: AdminGenericAgent.pm,v 1.48 2008-04-19 23:11:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -53,8 +53,6 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Output = '';
-
     # get confid data
     $Self->{Profile}    = $Self->{ParamObject}->GetParam( Param => 'Profile' )    || '';
     $Self->{OldProfile} = $Self->{ParamObject}->GetParam( Param => 'OldProfile' ) || '';
@@ -64,14 +62,12 @@ sub Run {
     # run a generic agent job -> "run now"
     # ---------------------------------------------------------- #
     if ( $Self->{Subaction} eq 'RunNow' ) {
-        if ($Self->{GenericAgentObject}->JobRun(
-                Job    => $Self->{Profile},
-                UserID => 1,
-            )
-            )
-        {
-
-            # redirect
+        my $Run = $Self->{GenericAgentObject}->JobRun(
+            Job    => $Self->{Profile},
+            UserID => 1,
+        );
+        # redirect
+        if ( $Run ) {
             return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}", );
         }
         # redirect
@@ -91,8 +87,9 @@ sub Run {
         );
 
         # redirect
-        return $Self->{LayoutObject}
-            ->Redirect( OP => "Action=$Self->{Action}&Subaction=Update&Profile=$Self->{Profile}", );
+        return $Self->{LayoutObject}->Redirect(
+            OP => "Action=$Self->{Action}&Subaction=Update&Profile=$Self->{Profile}",
+        );
     }
 
     # --------------------------------------------------------------- #
@@ -103,7 +100,7 @@ sub Run {
 
         # fill up profile name (e.g. with last-search)
         if ( !$Self->{Profile} ) {
-            $Output = $Self->{LayoutObject}->Header( Title => 'Error' );
+            my $Output = $Self->{LayoutObject}->Header( Title => 'Error' );
             $Output .= $Self->{LayoutObject}->Warning( Message => 'Need Job Name!' );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
@@ -153,8 +150,9 @@ sub Run {
 
             # ticket free keys
             if ( defined( $Self->{ParamObject}->GetParam( Param => "NewTicketFreeKey$ID" ) ) ) {
-                $GetParam{"NewTicketFreeKey$ID"}
-                    = $Self->{ParamObject}->GetParam( Param => "NewTicketFreeKey" . $ID );
+                $GetParam{"NewTicketFreeKey$ID"} = $Self->{ParamObject}->GetParam(
+                    Param => 'NewTicketFreeKey' . $ID,
+                );
 
                 # remove white space on the end
                 if ( $GetParam{"NewTicketFreeKey$ID"} ) {
@@ -169,8 +167,9 @@ sub Run {
                     && $Self->{ConfigObject}->Get("TicketFreeText$ID") )
                 )
             {
-                $GetParam{"NewTicketFreeText$ID"}
-                    = $Self->{ParamObject}->GetParam( Param => "NewTicketFreeText$ID" );
+                $GetParam{"NewTicketFreeText$ID"} = $Self->{ParamObject}->GetParam(
+                    Param => 'NewTicketFreeText' . $ID,
+                );
 
                 # remove white space on the end
                 if ( $GetParam{"NewTicketFreeText$ID"} ) {
@@ -200,20 +199,22 @@ sub Run {
 
             # get search array params for free key (get submitted params)
             if ( $Self->{ParamObject}->GetArray( Param => "TicketFreeKey$ID" ) ) {
-                @{ $GetParam{"TicketFreeKey$ID"} }
-                    = $Self->{ParamObject}->GetArray( Param => "TicketFreeKey$ID" );
+                @{ $GetParam{"TicketFreeKey$ID"} } = $Self->{ParamObject}->GetArray(
+                    Param => 'TicketFreeKey' . $ID,
+                );
             }
 
             # get search array params for free text (get submitted params)
 
             if ( $Self->{ConfigObject}->Get("TicketFreeText$ID") ) {
                 if ( $Self->{ParamObject}->GetArray( Param => "TicketFreeText$ID" ) ) {
-                    @{ $GetParam{"TicketFreeText$ID"} }
-                        = $Self->{ParamObject}->GetArray( Param => "TicketFreeText$ID" );
+                    @{ $GetParam{"TicketFreeText$ID"} } = $Self->{ParamObject}->GetArray(
+                        Param => 'TicketFreeText' . $ID,
+                    );
                 }
             }
             else {
-                my @Array = $Self->{ParamObject}->GetArray( Param => "TicketFreeText$ID" );
+                my @Array = $Self->{ParamObject}->GetArray( Param => 'TicketFreeText' . $ID );
                 if ( $Array[0] ) {
                     @{ $GetParam{"TicketFreeText$ID"} } = @Array;
                 }
@@ -393,8 +394,7 @@ sub Run {
             %GetParam,
         );
         if ( $GetParam{NewDelete} ) {
-            $Param{DeleteMessage}
-                = 'You use the DELETE option! Take care, all deleted Tickets are lost!!!';
+            $Param{DeleteMessage} = 'You use the DELETE option! Take care, all deleted Tickets are lost!!!';
         }
         if (@ViewableIDs) {
             $Param{AffectedIDs} = $#ViewableIDs + 1;
@@ -436,7 +436,7 @@ sub Run {
         }
 
         # html search mask output
-        $Output = $Self->{LayoutObject}->Header( Title => 'Affected Tickets' );
+        my $Output = $Self->{LayoutObject}->Header( Title => 'Affected Tickets' );
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminGenericAgent',
@@ -1001,7 +1001,12 @@ sub Run {
 
         # seperate each searchresult line by using several css
         $Counter++;
-        $JobData{css} = $Counter % 2 ? 'searchpassive' : 'searchactive';
+        if ( $Counter % 2 ) {
+            $JobData{css} = "searchpassive";
+        }
+        else {
+            $JobData{css} = "searchactive";
+        }
 
         $Self->{LayoutObject}->Block(
             Name => 'Row',
@@ -1010,7 +1015,7 @@ sub Run {
     }
 
     # generate search mask
-    $Output = $Self->{LayoutObject}->Header( Title => 'Overview' );
+    my $Output = $Self->{LayoutObject}->Header( Title => 'Overview' );
     $Output .= $Self->{LayoutObject}->NavigationBar();
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AdminGenericAgent',
