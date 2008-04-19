@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.36 2008-04-09 00:31:20 martin Exp $
+# $Id: GenericAgent.pm,v 1.37 2008-04-19 23:10:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 =head1 NAME
 
@@ -293,7 +293,7 @@ sub JobRun {
                 $Self->{TicketObject}->TicketSearch(
                     %Job,
                     StateType => $Type,
-                    Limit     => $Param{Limit} || 2000,
+                    Limit     => $Param{Limit} || 4000,
                     UserID    => $Param{UserID},
                 ),
                 %Tickets
@@ -309,7 +309,7 @@ sub JobRun {
                         %Job,
                         Queues    => [$_],
                         StateType => $Type,
-                        Limit     => $Param{Limit} || 2000,
+                        Limit     => $Param{Limit} || 4000,
                         UserID    => $Param{UserID},
                     ),
                     %Tickets
@@ -322,7 +322,7 @@ sub JobRun {
                     %Job,
                     StateType => $Type,
                     Queues    => [ $Job{Queue} ],
-                    Limit     => $Param{Limit} || 2000,
+                    Limit     => $Param{Limit} || 4000,
                     UserID    => $Param{UserID},
                 ),
                 %Tickets
@@ -363,7 +363,7 @@ sub JobRun {
             }
             %Tickets = $Self->{TicketObject}->TicketSearch(
                 %Job,
-                Limit => $Param{Limit} || 2000,
+                Limit => $Param{Limit} || 4000,
                 UserID => $Param{UserID},
             );
         }
@@ -376,7 +376,7 @@ sub JobRun {
                     $Self->{TicketObject}->TicketSearch(
                         %Job,
                         Queues => [$_],
-                        Limit  => $Param{Limit} || 2000,
+                        Limit  => $Param{Limit} || 4000,
                         UserID => $Param{UserID},
                     ),
                     %Tickets
@@ -387,7 +387,7 @@ sub JobRun {
             %Tickets = $Self->{TicketObject}->TicketSearch(
                 %Job,
                 Queues => [ $Job{Queue} ],
-                Limit  => $Param{Limit} || 2000,
+                Limit  => $Param{Limit} || 4000,
                 UserID => $Param{UserID},
             );
         }
@@ -1179,6 +1179,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.36 $ $Date: 2008-04-09 00:31:20 $
+$Revision: 1.37 $ $Date: 2008-04-19 23:10:26 $
 
 =cut

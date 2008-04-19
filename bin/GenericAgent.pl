@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pl,v 1.46 2008-03-07 16:44:14 martin Exp $
+# $Id: GenericAgent.pl,v 1.47 2008-04-19 23:10:26 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION %Jobs @ISA);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -64,7 +64,7 @@ if ( !$Opts{'d'} ) {
 
 # set limit
 if ( !$Opts{'l'} ) {
-    $Opts{'l'} = 3000;
+    $Opts{'l'} = 4000;
 }
 
 # set generic agent uid
@@ -128,9 +128,9 @@ if ( $Opts{'c'} eq 'db' ) {
         my $False    = 0;
 
         # check last run
-        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay )
-            = $CommonObject{TimeObject}
-            ->SystemTime2Date( SystemTime => $CommonObject{TimeObject}->SystemTime(), );
+        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = $CommonObject{TimeObject} ->SystemTime2Date(
+            SystemTime => $CommonObject{TimeObject}->SystemTime(),
+        );
 
         if ( $Min =~ /(.)./ ) {
             $Min = ($1) . "0";
