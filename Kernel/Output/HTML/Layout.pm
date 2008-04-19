@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.88 2008-04-18 21:27:11 ub Exp $
+# $Id: Layout.pm,v 1.89 2008-04-19 23:26:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.88 $) [1];
+$VERSION = qw($Revision: 1.89 $) [1];
 
 =head1 NAME
 
@@ -145,7 +145,7 @@ sub new {
     $Self->{CGIHandle}   = $ENV{SCRIPT_NAME} || 'No-$ENV{"SCRIPT_NAME"}';
 
     # baselink
-    $Self->{Baselink} = "$Self->{CGIHandle}?";
+    $Self->{Baselink} = $Self->{CGIHandle} . '?';
     $Self->{Time}     = $Self->{LanguageObject}->Time(
         Action => 'GET',
         Format => 'DateFormat',
@@ -202,6 +202,24 @@ sub new {
             }
         }
 
+        # mozilla
+        elsif ( $ENV{HTTP_USER_AGENT} =~ /^mozilla/i ) {
+            $Self->{Browser}     = 'Mozilla';
+            $Self->{BrowserWrap} = 'hard';
+        }
+
+        # opera
+        elsif ( $ENV{HTTP_USER_AGENT} =~ /^opera.*/i ) {
+            $Self->{Browser}     = 'Opera';
+            $Self->{BrowserWrap} = 'hard';
+        }
+
+        # safari
+        elsif ( $ENV{HTTP_USER_AGENT} =~ /safari/i ) {
+            $Self->{Browser}     = 'Safari';
+            $Self->{BrowserWrap} = 'hard';
+        }
+
         # netscape
         elsif ( $ENV{HTTP_USER_AGENT} =~ /netscape/i ) {
             $Self->{Browser}     = 'Netscape';
@@ -211,18 +229,6 @@ sub new {
         # konqueror
         elsif ( $ENV{HTTP_USER_AGENT} =~ /konqueror/i ) {
             $Self->{Browser}     = 'Konqueror';
-            $Self->{BrowserWrap} = 'hard';
-        }
-
-        # mozilla
-        elsif ( $ENV{HTTP_USER_AGENT} =~ /^mozilla/i ) {
-            $Self->{Browser}     = 'Mozilla';
-            $Self->{BrowserWrap} = 'hard';
-        }
-
-        # konqueror
-        elsif ( $ENV{HTTP_USER_AGENT} =~ /^opera.*/i ) {
-            $Self->{Browser}     = 'Opera';
             $Self->{BrowserWrap} = 'hard';
         }
 
@@ -243,7 +249,7 @@ sub new {
             $Self->{Browser} = 'Links';
         }
         else {
-            $Self->{Browser} = "Unknown - $ENV{'HTTP_USER_AGENT'}";
+            $Self->{Browser} = 'Unknown - ' . $ENV{'HTTP_USER_AGENT'};
         }
     }
 
@@ -260,12 +266,11 @@ sub new {
     }
 
     # locate template files
-    $Self->{TemplateDir} = $Self->{ConfigObject}->Get('TemplateDir') . "/HTML/$Theme";
+    $Self->{TemplateDir} = $Self->{ConfigObject}->Get('TemplateDir') . '/HTML/' . $Theme;
     if ( !-e $Self->{TemplateDir} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message =>
-                "No existing template directory found ('$Self->{TemplateDir}')! Check your Home in Kernel/Config.pm",
+            Message => "No existing template directory found ('$Self->{TemplateDir}')! Check your Home in Kernel/Config.pm",
         );
         $Self->FatalDie();
     }
@@ -545,7 +550,7 @@ sub Output {
     else {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Need Template or TemplateFile Param!",
+            Message  => 'Need Template or TemplateFile Param!',
         );
         $Self->FatalError();
     }
@@ -984,9 +989,9 @@ sub _Output {
             (<form.+?action=")(.+?)(">|".+?>)
         }
         {
-            my $Start = "$1";
+            my $Start  = "$1";
             my $Target = $2;
-            my $End = "$3";
+            my $End    = "$3";
             if ($Target =~ /^(http:|https:)/i || !$Self->{SessionID}) {
                 $Start.$Target.$End;
             }
@@ -1101,8 +1106,7 @@ sub Redirect {
     #  o http://support.microsoft.com/default.aspx?scid=kb;en-us;221154
     if ( $ENV{SERVER_SOFTWARE} =~ /^microsoft\-iis/i ) {
         my $Host = $ENV{HTTP_HOST} || $Self->{ConfigObject}->Get('FQDN');
-        $Param{Redirect}
-            = $Self->{ConfigObject}->Get('HttpType') . '://' . $Host . '/' . $Param{Redirect};
+        $Param{Redirect} = $Self->{ConfigObject}->Get('HttpType') . '://' . $Host . '/' . $Param{Redirect};
     }
     my $Output = $Cookies . $Self->Output( TemplateFile => 'Redirect', Data => \%Param );
     if ( !$Self->{SessionIDCookie} ) {
@@ -1420,13 +1424,10 @@ sub Header {
 
     # area and title
     if ( !$Param{Area} ) {
-        $Param{Area}
-            = $Self->{ConfigObject}->Get('Frontend::Module')->{ $Self->{Action} }->{NavBarName}
-            || '';
+        $Param{Area} = $Self->{ConfigObject}->Get('Frontend::Module')->{ $Self->{Action} }->{NavBarName} || '';
     }
     if ( !$Param{Title} ) {
-        $Param{Title} = $Self->{ConfigObject}->Get('Frontend::Module')->{ $Self->{Action} }->{Title}
-            || '';
+        $Param{Title} = $Self->{ConfigObject}->Get('Frontend::Module')->{ $Self->{Action} }->{Title} || '';
     }
     for my $Word (qw(Area Title Value)) {
         if ( $Param{$Word} ) {
@@ -1453,7 +1454,9 @@ sub Footer {
     my $Type = $Param{Type} || '';
 
     # unless explicitly specified, we set the footer width to use the whole space
-    $Param{Width} ||= '100%';
+    if ( ! $Param{Width} ) {
+        $Param{Width} = '100%';
+    }
 
     # create & return output
     return $Self->Output( TemplateFile => "Footer$Type", Data => \%Param );
@@ -1493,6 +1496,7 @@ sub Print {
 sub PrintHeader {
     my ( $Self, %Param ) = @_;
 
+    # unless explicitly specified, we set the header width
     if ( !$Param{Width} ) {
         $Param{Width} = 640;
     }
@@ -1508,17 +1512,14 @@ sub PrintHeader {
 
     # area and title
     if ( !$Param{Area} ) {
-        $Param{Area}
-            = $Self->{ConfigObject}->Get('Frontend::Module')->{ $Self->{Action} }->{NavBarName}
-            || '';
+        $Param{Area} = $Self->{ConfigObject}->Get('Frontend::Module')->{ $Self->{Action} }->{NavBarName} || '';
     }
     if ( !$Param{Title} ) {
-        $Param{Title} = $Self->{ConfigObject}->Get('Frontend::Module')->{ $Self->{Action} }->{Title}
-            || '';
+        $Param{Title} = $Self->{ConfigObject}->Get('Frontend::Module')->{ $Self->{Action} }->{Title} || '';
     }
-    for (qw(Area Title Value)) {
-        if ( $Param{$_} ) {
-            $Param{TitleArea} .= " :: " . $Self->{LanguageObject}->Get( $Param{$_} );
+    for my $Word (qw(Area Title Value)) {
+        if ( $Param{$Word} ) {
+            $Param{TitleArea} .= " :: " . $Self->{LanguageObject}->Get( $Param{$Word} );
         }
     }
 
@@ -1663,12 +1664,11 @@ sub Ascii2Html {
             my $LinkSmall = $LinkHash{$Key};
             $LinkSmall      =~ s/^(.{75}).*$/$1\[\.\.\]/gs;
             $LinkHash{$Key} =~ s/ //g;
-            $Text
-                =~ s/\Q$Key\E/<a href=\"$LinkHash{$Key}\" target=\"_blank\" title=\"$LinkHash{$Key}\">$LinkSmall<\/a>/;
+            $Text =~ s/\Q$Key\E/<a href=\"$LinkHash{$Key}\" target=\"_blank\" title=\"$LinkHash{$Key}\">$LinkSmall<\/a>/;
         }
     }
     if ($HTMLMode) {
-        $Text =~ s{\n}{<br/>\n}g;
+        $Text =~ s/\n/<br\/>\n/g;
         $Text =~ s/  /&nbsp;&nbsp;/g;
     }
     if ( $Type eq 'JSText' ) {
@@ -2708,8 +2708,7 @@ sub CheckCharset {
 
             # if the content charset is us-ascii it is always shown correctly
             if ( $Param{ContentCharset} !~ /us-ascii/i ) {
-                $Output
-                    = '<p><i class="small">'
+                $Output = '<p><i class="small">'
                     . '$Text{"This message was written in a character set other than your own."}'
                     . '$Text{"If it is not displayed correctly,"} '
                     . '<a href="'
@@ -2736,8 +2735,7 @@ sub CheckMimeType {
 
     # check if it is a text/plain email
     if ( $Param{MimeType} && $Param{MimeType} !~ /text\/plain/i ) {
-        $Output
-            = '<p><i class="small">$Text{"This is a"} '
+        $Output = '<p><i class="small">$Text{"This is a"} '
             . $Param{MimeType}
             . ' $Text{"email"}, '
             . '<a href="'
@@ -2752,8 +2750,7 @@ sub CheckMimeType {
 
     # just to be compat
     elsif ( $Param{Body} =~ /^<.DOCTYPE html PUBLIC|^<HTML>/i ) {
-        $Output
-            = '<p><i class="small">$Text{"This is a"} '
+        $Output = '<p><i class="small">$Text{"This is a"} '
             . $Param{MimeType}
             . ' $Text{"email"}, '
             . '<a href="'
@@ -2815,14 +2812,21 @@ sub Attachment {
 
     # reset binmode, don't use utf8
     binmode(STDOUT);
-    if ( $Self->{EncodeObject}->EncodeFrontendUsed() =~ /utf\-8/i ) {
-        Encode::_utf8_on( $Param{Content} );
+
+    # disable utf8 flag, to write binary to output
+    if ( $Self->{EncodeObject}->EncodeFrontendUsed() =~ /utf(8|-8)/i ) {
+        for my $Type ( qw(Content Filename ContentType) ) {
+            if ( defined $Param{ $Type } ) {
+                $Self->{EncodeObject}->EncodeOutput( \$Param{ $Type } );
+            }
+        }
     }
 
     # return attachment
     my $Output = 'Content-Disposition: ';
     if ( $Param{Type} ) {
-        $Output .= $Param{Type} . '; ';
+        $Output .= $Param{Type};
+        $Output .= '; ';
     }
     else {
         $Output .= $Self->{ConfigObject}->Get('AttachmentDownloadType') || 'attachment';
@@ -2835,7 +2839,7 @@ sub Attachment {
             Filename => $Param{Filename},
             Type     => 'Attachment',
         );
-        $Output .= "filename=\"$Param{Filename}\"";
+        $Output .= " filename=\"$Param{Filename}\"";
     }
     $Output .= "\n";
 
@@ -2860,11 +2864,10 @@ sub Attachment {
         $Output .= $Param{Content};
     }
 
-    # encode output string
-    $Self->{EncodeObject}->EncodeOutput( \$Output );
-
     # don't use the active element filter for attachements, perhaps you destroy a xml
-    delete $Self->{ConfigObject}->{'Frontend::Output::FilterContent'}->{ActiveElementFilter};
+    delete $Self->{FilterElementPre}->{ActiveElementFilter};
+    delete $Self->{FilterElementPost}->{ActiveElementFilter};
+    delete $Self->{FilterContent}->{ActiveElementFilter};
 
     return $Output;
 }
@@ -2903,10 +2906,8 @@ sub PageNavBar {
     while ( $i <= ( $Pages - 1 ) ) {
         $i++;
         if ( $i <= ( $WindowStart + $WindowSize ) && $i > $WindowStart ) {
-            $Param{SearchNavBar}
-                .= " <a href=\"$Self->{Baselink}$Param{Action}&$Param{Link}"
-                . "StartWindow=$WindowStart&StartHit="
-                . ( ( ( $i - 1 ) * $Param{PageShown} ) + 1 );
+            $Param{SearchNavBar} .= " <a href=\"$Self->{Baselink}$Param{Action}&$Param{Link}"
+                . "StartWindow=$WindowStart&StartHit=" . ( ( ( $i - 1 ) * $Param{PageShown} ) + 1 );
             $Param{SearchNavBar} .= '">';
             if ( $Page == $i ) {
                 $Param{SearchNavBar} .= '<b>' . ($i) . '</b>';
@@ -2921,15 +2922,11 @@ sub PageNavBar {
         elsif ( $i > ( $WindowStart + $WindowSize ) ) {
             my $StartWindow     = $WindowStart + $WindowSize + 1;
             my $LastStartWindow = int( $Pages / $WindowSize );
-            $Param{SearchNavBar}
-                .= "&nbsp;<a href=\"$Self->{Baselink}$Param{Action}&$Param{Link}"
-                . "StartHit="
-                . $i * $Param{PageShown};
+            $Param{SearchNavBar} .= "&nbsp;<a href=\"$Self->{Baselink}$Param{Action}&$Param{Link}"
+                . "StartHit=" . $i * $Param{PageShown};
             $Param{SearchNavBar} .= '">' . "&gt;&gt;</a>&nbsp;";
-            $Param{SearchNavBar}
-                .= " <a href=\"$Self->{Baselink}$Param{Action}&$Param{Link}"
-                . "StartHit="
-                . ( ( $Param{PageShown} * ( $Pages - 1 ) ) + 1 );
+            $Param{SearchNavBar} .= " <a href=\"$Self->{Baselink}$Param{Action}&$Param{Link}"
+                . "StartHit=" . ( ( $Param{PageShown} * ( $Pages - 1 ) ) + 1 );
             $Param{SearchNavBar} .= '">' . "&gt;|</a> ";
             $i = 99999999;
         }
@@ -2938,10 +2935,8 @@ sub PageNavBar {
             $Param{SearchNavBar} .= " <a href=\"$Self->{Baselink}$Param{Action}&$Param{Link}"
                 . "StartHit=1&StartWindow=1";
             $Param{SearchNavBar} .= '">' . "|&lt;</a>&nbsp;";
-            $Param{SearchNavBar}
-                .= " <a href=\"$Self->{Baselink}$Param{Action}&$Param{Link}"
-                . "StartHit="
-                . ( ( $WindowStart - 1 ) * ( $Param{PageShown} ) + 1 );
+            $Param{SearchNavBar} .= " <a href=\"$Self->{Baselink}$Param{Action}&$Param{Link}"
+                . "StartHit=" . ( ( $WindowStart - 1 ) * ( $Param{PageShown} ) + 1 );
             $Param{SearchNavBar} .= '">' . "&lt;&lt;</a>&nbsp;";
             $i = $WindowStart - 1;
         }
@@ -3009,13 +3004,11 @@ sub NavigationBar {
         for my $Item (@Items) {
             if (   ( $Item->{NavBar} && $Item->{NavBar} eq $Param{Type} )
                 || ( $Item->{Type} && $Item->{Type} eq 'Menu' )
-                || !$Item->{NavBar} )
-            {
+                || !$Item->{NavBar} ) {
 
                 # highligt avtive area link
                 if (   ( $Item->{Type} && $Item->{Type} eq 'Menu' )
-                    && ( $Item->{NavBar} && $Item->{NavBar} eq $Param{Type} ) )
-                {
+                    && ( $Item->{NavBar} && $Item->{NavBar} eq $Param{Type} ) ) {
                     next if !$Self->{ConfigObject}->Get('Frontend::NavBarStyle::ShowSelectedArea');
                     $Item->{ItemAreaCSSSuffix} = 'active';
                 }
@@ -3037,7 +3030,7 @@ sub NavigationBar {
                     # array access restriction
                     if ( $Item->{$Permission} && ref( $Item->{$Permission} ) eq 'ARRAY' ) {
                         for ( @{ $Item->{$Permission} } ) {
-                            my $Key = "UserIs" . $Permission . "[" . $_ . "]";
+                            my $Key = 'UserIs' . $Permission . '[' . $_ . ']';
                             if ( $Self->{$Key} && $Self->{$Key} eq 'Yes' ) {
                                 $Shown = 1;
                             }
@@ -3046,8 +3039,8 @@ sub NavigationBar {
 
                     # scalar access restriction
                     elsif ( $Item->{$Permission} ) {
-                        my $Key = "UserIs" . $Permission . "[" . $Item->{$Permission} . "]";
-                        if ( $Self->{$Key} && $Self->{"$Key"} eq 'Yes' ) {
+                        my $Key = 'UserIs' . $Permission . '[' . $Item->{$Permission} . ']';
+                        if ( $Self->{$Key} && $Self->{$Key} eq 'Yes' ) {
                             $Shown = 1;
                         }
                     }
@@ -3143,7 +3136,7 @@ sub WindowTabStart {
     if ( !$Param{Tab} || ( $Param{Tab} && ref( $Param{Tab} ) ne 'ARRAY' ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Need Tab as ARRAY ref in WindowTabStart()!",
+            Message  => 'Need Tab as ARRAY ref in WindowTabStart()!',
         );
         $Self->FatalError();
     }
@@ -3179,16 +3172,16 @@ sub WindowTabStop {
         Data => \%Param,
     );
 
-    if ( $Param{"Layer0Footer"} ) {
-        for my $Hash ( @{ $Param{"Layer0Footer"} } ) {
+    if ( $Param{Layer0Footer} ) {
+        for my $Hash ( @{ $Param{Layer0Footer} } ) {
             $Self->Block(
                 Name => 'Layer0Footer',
                 Data => { %{$Hash}, },
             );
         }
     }
-    if ( $Param{"Layer1Footer"} ) {
-        for my $Hash ( @{ $Param{"Layer1Footer"} } ) {
+    if ( $Param{Layer1Footer} ) {
+        for my $Hash ( @{ $Param{Layer1Footer} } ) {
             $Self->Block(
                 Name => 'Layer1Footer',
                 Data => { %{$Hash}, },
@@ -3207,13 +3200,12 @@ sub TransfromDateSelection {
 
     # time zone translation
     if ( $Self->{ConfigObject}->Get('TimeZoneUser') && $Self->{UserTimeZone} ) {
-        my $TimeStamp
-            = $Self->{TimeObject}->TimeStamp2SystemTime( String => $Param{ $Prefix . 'Year' } . '-'
+        my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime( String => $Param{ $Prefix . 'Year' } . '-'
                 . $Param{ $Prefix . 'Month' } . '-'
                 . $Param{ $Prefix . 'Day' } . ' '
                 . ( $Param{ $Prefix . 'Hour' }   || 0 ) . ':'
                 . ( $Param{ $Prefix . 'Minute' } || 0 )
-                . ":00", );
+                . ':00', );
         $TimeStamp = $TimeStamp - ( $Self->{UserTimeZone} * 3600 );
         (   $Param{ $Prefix . 'Secunde' },
             $Param{ $Prefix . 'Minute' },
@@ -3236,9 +3228,9 @@ sub BuildDateSelection {
     my $Area           = $Param{Area} || 'Agent';
     my $Optional       = $Param{ $Prefix . 'Optional' } || 0;
     my $Used           = $Param{ $Prefix . 'Used' } || 0;
-    my ( $s, $m, $h, $D, $M, $Y )
-        = $Self->{UserTimeObject}
-        ->SystemTime2Date( SystemTime => $Self->{UserTimeObject}->SystemTime() + $DiffTime, );
+    my ( $s, $m, $h, $D, $M, $Y ) = $Self->{UserTimeObject}->SystemTime2Date(
+        SystemTime => $Self->{UserTimeObject}->SystemTime() + $DiffTime,
+    );
 
     # time zone translation
     if (   $Self->{ConfigObject}->Get('TimeZoneUser')
@@ -3247,8 +3239,8 @@ sub BuildDateSelection {
         && $Param{ $Prefix . 'Month' }
         && $Param{ $Prefix . 'Day' } )
     {
-        my $TimeStamp
-            = $Self->{TimeObject}->TimeStamp2SystemTime( String => $Param{ $Prefix . 'Year' } . '-'
+        my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $Param{ $Prefix . 'Year' } . '-'
                 . $Param{ $Prefix . 'Month' } . '-'
                 . $Param{ $Prefix . 'Day' } . ' '
                 . ( $Param{ $Prefix . 'Hour' }   || 0 ) . ':'
@@ -3285,8 +3277,7 @@ sub BuildDateSelection {
         );
     }
     else {
-        $Param{Year}
-            = "<input type=\"text\" name=\""
+        $Param{Year} = "<input type=\"text\" name=\""
             . $Prefix
             . "Year\" size=\"4\" maxlength=\"4\" "
             . "value=\""
@@ -3308,8 +3299,7 @@ sub BuildDateSelection {
         );
     }
     else {
-        $Param{Month}
-            = "<input type=\"text\" name=\""
+        $Param{Month} = "<input type=\"text\" name=\""
             . $Prefix
             . "Month\" size=\"2\" maxlength=\"2\" "
             . "value=\""
@@ -3331,8 +3321,7 @@ sub BuildDateSelection {
         );
     }
     else {
-        $Param{Day}
-            = "<input type=\"text\" name=\""
+        $Param{Day} = "<input type=\"text\" name=\""
             . $Prefix
             . "Day\" size=\"2\" maxlength=\"2\" "
             . "value=\""
@@ -3357,8 +3346,7 @@ sub BuildDateSelection {
             );
         }
         else {
-            $Param{Hour}
-                = "<input type=\"text\" name=\""
+            $Param{Hour} = "<input type=\"text\" name=\""
                 . $Prefix
                 . "Hour\" size=\"2\" maxlength=\"2\" "
                 . "value=\""
@@ -3384,8 +3372,7 @@ sub BuildDateSelection {
             );
         }
         else {
-            $Param{Minute}
-                = "<input type=\"text\" name=\""
+            $Param{Minute} = "<input type=\"text\" name=\""
                 . $Prefix
                 . "Minute\" size=\"2\" maxlength=\"2\" "
                 . "value=\""
@@ -3406,8 +3393,7 @@ sub BuildDateSelection {
         if ($Used) {
             $Checked = ' checked';
         }
-        $Output
-            .= "<input type=\"checkbox\" name=\""
+        $Output .= "<input type=\"checkbox\" name=\""
             . $Prefix
             . "Used\" value=\"1\""
             . $Checked
@@ -3551,7 +3537,7 @@ sub CustomerLogin {
     my ( $Self, %Param ) = @_;
 
     my $Output = '';
-    $Param{TitleArea} = " :: " . $Self->{LanguageObject}->Get('Login');
+    $Param{TitleArea} = ' :: ' . $Self->{LanguageObject}->Get('Login');
 
     # add cookies if exists
     if ( $Self->{SetCookies} && $Self->{ConfigObject}->Get('SessionUseCookie') ) {
@@ -3614,34 +3600,26 @@ sub CustomerHeader {
     if ( !$Param{Area}
         && $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{ $Self->{Action} } )
     {
-        $Param{Area} = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{ $Self->{Action} }
-            ->{NavBarName} || '';
+        $Param{Area} = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{ $Self->{Action} }->{NavBarName} || '';
     }
     if ( !$Param{Title}
         && $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{ $Self->{Action} } )
     {
-        $Param{Title}
-            = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{ $Self->{Action} }->{Title}
-            || '';
+        $Param{Title} = $Self->{ConfigObject}->Get('CustomerFrontend::Module')->{ $Self->{Action} }->{Title} || '';
     }
     if ( !$Param{Area}
         && $Self->{ConfigObject}->Get('PublicFrontend::Module')->{ $Self->{Action} } )
     {
-        $Param{Area}
-            = $Self->{ConfigObject}->Get('PublicFrontend::Module')->{ $Self->{Action} }
-            ->{NavBarName}
-            || '';
+        $Param{Area} = $Self->{ConfigObject}->Get('PublicFrontend::Module')->{ $Self->{Action} } ->{NavBarName} || '';
     }
     if ( !$Param{Title}
         && $Self->{ConfigObject}->Get('PublicFrontend::Module')->{ $Self->{Action} } )
     {
-        $Param{Title}
-            = $Self->{ConfigObject}->Get('PublicFrontend::Module')->{ $Self->{Action} }->{Title}
-            || '';
+        $Param{Title} = $Self->{ConfigObject}->Get('PublicFrontend::Module')->{ $Self->{Action} }->{Title} || '';
     }
-    for (qw(Area Title Value)) {
-        if ( $Param{$_} ) {
-            $Param{TitleArea} .= " :: " . $Self->{LanguageObject}->Get( $Param{$_} );
+    for my $Word (qw(Area Title Value)) {
+        if ( $Param{$Word} ) {
+            $Param{TitleArea} .= ' :: ' . $Self->{LanguageObject}->Get( $Param{$Word} );
         }
     }
 
@@ -3664,9 +3642,16 @@ sub CustomerFooter {
     my $Type = $Param{Type} || '';
 
     # unless explicitly specified, we set the footer width to the defaults, which are:
-    #     800 pixel for the standard footer
-    #     100% for any others (small)
-    $Param{Width} ||= $Type eq '' ? '800' : '100%';
+    # 800 pixel for the standard footer
+    # 100% for any others (small)
+    if ( !$Param{Width} ) {
+        if ( $Type eq '') {
+            $Param{Width} = '800';
+        }
+        else {
+            $Param{Width} = '100%';
+        }
+    }
 
     # create & return output
     return $Self->Output( TemplateFile => "CustomerFooter$Type", Data => \%Param );
@@ -3870,6 +3855,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.88 $ $Date: 2008-04-18 21:27:11 $
+$Revision: 1.89 $ $Date: 2008-04-19 23:26:24 $
 
 =cut
