@@ -1,12 +1,12 @@
 # --
 # AgentTicketSearch.dtl - provides HTML form for AgentTicketSearch
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.dtl,v 1.20 2007-05-22 12:12:28 mh Exp $
+# $Id: AgentTicketSearch.dtl,v 1.20.2.1 2008-04-20 01:24:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 <!-- dtl:block:Search -->
@@ -139,15 +139,25 @@
           </tr>
 <!-- dtl:block:TicketFreeTime -->
           <tr>
-            <td colspan="2" class="contentbody">$Text{"$QData{"TicketFreeTimeKey"}"}
-              <input type="checkbox" name="TicketFreeTime$QData{"Count"}" value="checked" $QData{"TicketFreeTime"}>
-              $Text{"Between"} $Data{"TicketFreeTimeStart"} $Text{"and"} $Data{"TicketFreeTimeStop"}.
+            <td colspan="2" class="contentbody">
+              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="15%" class="contentkey">
+                    $Text{"$QData{"TicketFreeTimeKey"}"}
+                  </td>
+                  <td width="85%" class="contentvalue">
+                    <input type="checkbox" name="TicketFreeTime$QData{"Count"}" value="checked" $QData{"TicketFreeTime"}/>
+                    $Text{"Between"} $Data{"TicketFreeTimeStart"} $Text{"and"} $Data{"TicketFreeTimeStop"}.
+                  </td>
+                </tr>
+              </table>
             </td>
           </tr>
 <!-- dtl:block:TicketFreeTime -->
 #<!-- dtl:block:TicketFreeTime1 -->
 #          <tr>
-#            <td colspan="2" class="contentbody">$Text{"$Config{"TicketFreeTimeKey1"}"}
+#            <td colspan="2" class="contentbody">
+#              $Text{"$Config{"TicketFreeTimeKey1"}"}
 #              <input type="checkbox" name="TicketFreeTime1" value="checked" $QData{"TicketFreeTime1"}>
 #              $Text{"Between"} $Data{"TicketFreeTime1Start"} $Text{"and"} $Data{"TicketFreeTime1Stop"}
 #            </td>
@@ -155,7 +165,8 @@
 #<!-- dtl:block:TicketFreeTime1 -->
 #<!-- dtl:block:TicketFreeTime2 -->
 #          <tr>
-#            <td colspan="2" class="contentbody">$Text{"$Config{"TicketFreeTimeKey2"}"}
+#            <td colspan="2" class="contentbody">
+#              $Text{"$Config{"TicketFreeTimeKey2"}"}
 #              <input type="checkbox" name="TicketFreeTime2" value="checked" $QData{"TicketFreeTime2"}>
 #              $Text{"Between"} $Data{"TicketFreeTime2Start"} $Text{"and"} $Data{"TicketFreeTime2Stop"}
 #            </td>
