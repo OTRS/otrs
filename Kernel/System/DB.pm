@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.87 2008-04-11 15:58:56 martin Exp $
+# $Id: DB.pm,v 1.88 2008-04-23 12:23:50 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.87 $) [1];
+$VERSION = qw($Revision: 1.88 $) [1];
 
 =head1 NAME
 
@@ -138,8 +138,8 @@ sub new {
     }
 
     # get database type (config option)
-    if ( $Self->{ConfigObject}->Get("Database::Type") ) {
-        $Self->{'DB::Type'} = $Self->{ConfigObject}->Get("Database::Type");
+    if ( $Self->{ConfigObject}->Get('Database::Type') ) {
+        $Self->{'DB::Type'} = $Self->{ConfigObject}->Get('Database::Type');
     }
 
     # get database type (overwrite with params)
@@ -223,8 +223,8 @@ sub Connect {
         );
         return;
     }
-    if ( $Self->{Backend}->{"DB::Connect"} ) {
-        $Self->Do( SQL => $Self->{Backend}->{"DB::Connect"} );
+    if ( $Self->{Backend}->{'DB::Connect'} ) {
+        $Self->Do( SQL => $Self->{Backend}->{'DB::Connect'} );
     }
     return $Self->{dbh};
 }
@@ -282,7 +282,7 @@ sub Quote {
     }
 
     # do quote string
-    if ( !defined($Type) ) {
+    if ( !defined $Type ) {
         return ${ $Self->{Backend}->Quote( \$Text ) };
     }
 
@@ -364,7 +364,7 @@ sub Do {
 
     # check needed stuff
     if ( !$Param{SQL} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need SQL!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need SQL!' );
         return;
     }
 
@@ -379,7 +379,7 @@ sub Do {
                 $Self->{LogObject}->Log(
                     Caller   => 1,
                     Priority => 'Error',
-                    Message  => "No SCALAR param in Bind!",
+                    Message  => 'No SCALAR param in Bind!',
                 );
                 return;
             }
@@ -480,7 +480,7 @@ sub Prepare {
 
     # check needed stuff
     if ( !$Param{SQL} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need SQL!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need SQL!' );
         return;
     }
     if ( defined( $Param{Encode} ) ) {
@@ -537,7 +537,7 @@ sub Prepare {
                 $Self->{LogObject}->Log(
                     Caller   => 1,
                     Priority => 'Error',
-                    Message  => "No SCALAR param in Bind!",
+                    Message  => 'No SCALAR param in Bind!',
                 );
                 return;
             }
@@ -619,7 +619,7 @@ sub FetchrowArray {
     # return
     my @Row = $Self->{Cursor}->fetchrow_array();
 
-    if ( !$Self->{Backend}->{"DB::Encode"} ) {
+    if ( !$Self->{Backend}->{'DB::Encode'} ) {
         return @Row;
     }
 
@@ -838,9 +838,7 @@ sub SQLProcessorPost {
         undef $Self->{Backend}->{Post};
         return @Return;
     }
-    else {
-        return ();
-    }
+    return ();
 }
 
 # GetTableData()
@@ -1133,6 +1131,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.87 $ $Date: 2008-04-11 15:58:56 $
+$Revision: 1.88 $ $Date: 2008-04-23 12:23:50 $
 
 =cut
