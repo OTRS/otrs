@@ -1,13 +1,13 @@
 # --
 # Ticket/Number/DateChecksum.pm - a date ticket number generator
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # Copyright (C) 2002 Stefan Schmidt <jsj@jsj.dyndns.org>
 # --
-# $Id: DateChecksum.pm,v 1.21.2.2 2007-12-19 08:11:11 martin Exp $
+# $Id: DateChecksum.pm,v 1.21.2.3 2008-04-23 20:29:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 # Note:
@@ -29,7 +29,7 @@ package Kernel::System::Ticket::Number::DateChecksum;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21.2.2 $';
+$VERSION = '$Revision: 1.21.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketCreateNumber {
@@ -48,7 +48,9 @@ sub TicketCreateNumber {
     if (-f $CounterLog) {
         open (DATA, "< $CounterLog") || die "Can't open $CounterLog: $!";
         my $Line = <DATA>;
-        ($Count, $LastModify) = split(/;/, $Line);
+        if ( $Line ) {
+            ($Count, $LastModify) = split(/;/, $Line);
+        }
         close (DATA);
         # just debug
         if ($Self->{Debug} > 0) {
@@ -113,7 +115,7 @@ sub TicketCreateNumber {
     # Check ticket number. If exists generate new one!
     if ($Self->TicketCheckNumber(Tn=>$Tn)) {
         $Self->{LoopProtectionCounter}++;
-        if ($Self->{LoopProtectionCounter} >= 12000) {
+        if ($Self->{LoopProtectionCounter} >= 16000) {
             # loop protection
             $Self->{LogObject}->Log(
                 Priority => 'error',

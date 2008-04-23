@@ -1,12 +1,12 @@
 # --
 # Ticket/Number/AutoIncrement.pm - a ticket number auto increment generator
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AutoIncrement.pm,v 1.18.2.2 2008-01-02 11:22:39 martin Exp $
+# $Id: AutoIncrement.pm,v 1.18.2.3 2008-04-23 20:29:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 # Note:
 # available objects are: ConfigObject, LogObject and DBObject
@@ -19,7 +19,7 @@ package Kernel::System::Ticket::Number::AutoIncrement;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.18.2.2 $';
+$VERSION = '$Revision: 1.18.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub TicketCreateNumber {
@@ -36,7 +36,9 @@ sub TicketCreateNumber {
     if (-f $CounterLog) {
         open (DATA, "< $CounterLog") || die "Can't open $CounterLog: $!";
         my $Line = <DATA>;
-        ($Count) = split(/;/, $Line);
+        if ( $Line ) {
+            ($Count) = split(/;/, $Line);
+        }
         close (DATA);
         if ($Self->{Debug} > 0) {
             $Self->{LogObject}->Log(
@@ -76,7 +78,7 @@ sub TicketCreateNumber {
     # Check ticket number. If exists generate new one!
     if ($Self->TicketCheckNumber(Tn=>$Tn)) {
         $Self->{LoopProtectionCounter}++;
-        if ($Self->{LoopProtectionCounter} >= 12000) {
+        if ($Self->{LoopProtectionCounter} >= 16000) {
             # loop protection
             $Self->{LogObject}->Log(
                 Priority => 'error',
