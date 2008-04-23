@@ -3,7 +3,7 @@
 # mkStats.pl - send stats output via email
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: mkStats.pl,v 1.53 2008-02-01 12:49:20 tr Exp $
+# $Id: mkStats.pl,v 1.54 2008-04-23 11:12:22 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -68,8 +68,8 @@ $CommonObject{PDFObject}       = Kernel::System::PDF->new(%CommonObject);
 
 # get options
 my %Opts = ();
-getopt( 'nrsmhoplf', \%Opts );
-if ( $Opts{'h'} ) {
+getopt( 'nrsmoplf', \%Opts );
+if ( $Opts{h} ) {
     print "mkStats.pl <Revision $VERSION> - OTRS cmd stats\n";
     print "Copyright (C) 2001-2006 OTRS AG, http://otrs.org/\n";
     print
@@ -95,10 +95,10 @@ if ( !$Opts{n} ) {
 if ( !$Opts{m} && $Opts{p} ) {
     $Opts{m} .= "Stats with following options:\n\n";
     $Opts{m} .= "StatNumber: $Opts{n}\n";
-    my @P = split( /&/, $Opts{'p'} );
+    my @P = split( /&/, $Opts{p} );
     for (@P) {
         my ( $Key, $Value ) = split( /=/, $_, 2 );
-        $Opts{'m'} .= "$Key: $Value\n";
+        $Opts{m} .= "$Key: $Value\n";
     }
 }
 
@@ -173,10 +173,10 @@ if ( $Stat->{StatType} eq 'static' ) {
     for my $ParamItem ( @{$Params} ) {
         if ( !$ParamItem->{Multiple} ) {
             my $Value = GetParam( Param => $ParamItem->{Name}, );
-            if ( defined($Value) ) {
+            if ( defined $Value ) {
                 $GetParam{ $ParamItem->{Name} } = GetParam( Param => $ParamItem->{Name}, );
             }
-            elsif ( defined( $ParamItem->{SelectedID} ) ) {
+            elsif ( defined $ParamItem->{SelectedID} ) {
                 $GetParam{ $ParamItem->{Name} } = $ParamItem->{SelectedID};
             }
         }
@@ -185,7 +185,7 @@ if ( $Stat->{StatType} eq 'static' ) {
             if (@Value) {
                 $GetParam{ $ParamItem->{Name} } = \@Value;
             }
-            elsif ( defined( $ParamItem->{SelectedID} ) ) {
+            elsif ( defined $ParamItem->{SelectedID} ) {
                 $GetParam{ $ParamItem->{Name} } = [ $ParamItem->{SelectedID} ];
             }
         }
@@ -376,13 +376,13 @@ elsif (
         From       => $Opts{s},
         To         => $Opts{r},
         Subject    => "[Stats - $CountStatArray Records] $Title; Created: $Time",
-        Body       => $CommonObject{LanguageObject}->Get( $Opts{'m'} ),
+        Body       => $CommonObject{LanguageObject}->Get( $Opts{m} ),
         Charset    => $CommonObject{ConfigObject}->{DefaultCharset},
         Attachment => [ {%Attachment}, ],
     )
     )
 {
-    print "NOTICE: Email sent to '$Opts{'r'}'.\n";
+    print "NOTICE: Email sent to '$Opts{r}'.\n";
 }
 exit(0);
 
