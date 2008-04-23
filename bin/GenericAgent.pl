@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pl,v 1.47 2008-04-19 23:10:26 martin Exp $
+# $Id: GenericAgent.pl,v 1.48 2008-04-23 11:28:05 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION %Jobs @ISA);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -45,8 +45,8 @@ use Kernel::System::GenericAgent;
 
 # get options
 my %Opts = ();
-getopt( 'fhcdl', \%Opts );
-if ( $Opts{'h'} ) {
+getopt( 'fcdl', \%Opts );
+if ( $Opts{h} ) {
     print "GenericAgent.pl <Revision $VERSION> - OTRS generic agent\n";
     print "Copyright (c) 2001-2008 OTRS AG, http://otrs.org/\n";
     print
@@ -58,13 +58,13 @@ if ( $Opts{'h'} ) {
 }
 
 # set debug
-if ( !$Opts{'d'} ) {
-    $Opts{'d'} = 0;
+if ( !$Opts{d} ) {
+    $Opts{d} = 0;
 }
 
 # set limit
-if ( !$Opts{'l'} ) {
-    $Opts{'l'} = 4000;
+if ( !$Opts{l} ) {
+    $Opts{l} = 4000;
 }
 
 # set generic agent uid
@@ -72,51 +72,51 @@ my $UserIDOfGenericAgent = 1;
 
 # common objects
 my %CommonObject = ();
-$CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{ConfigObject} = Kernel::Config     ->new();
 $CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-GenericAgent',
     %CommonObject,
 );
-$CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
-$CommonObject{PIDObject}    = Kernel::System::PID->new(%CommonObject);
-$CommonObject{TimeObject}   = Kernel::System::Time->new(%CommonObject);
-$CommonObject{TicketObject} = Kernel::System::Ticket->new( %CommonObject, Debug => $Opts{'d'}, );
-$CommonObject{QueueObject}  = Kernel::System::Queue->new(%CommonObject);
+$CommonObject{MainObject}   = Kernel::System::Main  ->new(%CommonObject);
+$CommonObject{DBObject}     = Kernel::System::DB    ->new(%CommonObject);
+$CommonObject{PIDObject}    = Kernel::System::PID   ->new(%CommonObject);
+$CommonObject{TimeObject}   = Kernel::System::Time  ->new(%CommonObject);
+$CommonObject{TicketObject} = Kernel::System::Ticket->new( %CommonObject, Debug => $Opts{d}, );
+$CommonObject{QueueObject}  = Kernel::System::Queue ->new(%CommonObject);
 $CommonObject{GenericAgentObject} = Kernel::System::GenericAgent->new(
     %CommonObject,
-    Debug        => $Opts{'d'},
+    Debug        => $Opts{d},
     NoticeSTDOUT => 1,
 );
 
 # get generic agent config (job file)
-if ( !$Opts{'c'} ) {
-    $Opts{'c'} = 'Kernel::Config::GenericAgent';
+if ( !$Opts{c} ) {
+    $Opts{c} = 'Kernel::Config::GenericAgent';
 }
-if ( $Opts{'c'} eq 'db' ) {
+if ( $Opts{c} eq 'db' ) {
     %Jobs = ();
 }
 else {
-    if ( !$CommonObject{MainObject}->Require( $Opts{'c'} ) ) {
-        print STDERR "Can't load agent job file '$Opts{'c'}': $!\n";
+    if ( !$CommonObject{MainObject}->Require( $Opts{c} ) ) {
+        print STDERR "Can't load agent job file '$Opts{c}': $!\n";
         exit 1;
     }
     else {
 
         # import %Jobs
-        eval "import $Opts{'c'}";
+        eval "import $Opts{c}";
     }
 }
 
 # process all jobs
-if ( $Opts{'c'} eq 'db' ) {
+if ( $Opts{c} eq 'db' ) {
 
     # create pid lock
-    if ( !$Opts{'f'} && !$CommonObject{PIDObject}->PIDCreate( Name => 'GenericAgent' ) ) {
+    if ( !$Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => 'GenericAgent' ) ) {
         print "Notice: GenericAgent.pl is already running!\n";
         exit 1;
     }
-    elsif ( $Opts{'f'} && !$CommonObject{PIDObject}->PIDCreate( Name => 'GenericAgent' ) ) {
+    elsif ( $Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => 'GenericAgent' ) ) {
         print "Notice: GenericAgent.pl is already running but is starting again!\n";
     }
 
@@ -147,7 +147,7 @@ if ( $Opts{'c'} eq 'db' ) {
                 $False = 1;
             }
         }
-        if ( !defined( $DBJobRaw{ScheduleMinutes} ) ) {
+        if ( !defined $DBJobRaw{ScheduleMinutes} ) {
             @{ $DBJobRaw{ScheduleMinutes} } = qw(00 10 20 30 40 50);
         }
         my $Match = 0;
@@ -160,7 +160,7 @@ if ( $Opts{'c'} eq 'db' ) {
         if ( !$Match ) {
             $False = 1;
         }
-        if ( !defined( $DBJobRaw{ScheduleHours} ) ) {
+        if ( !defined $DBJobRaw{ScheduleHours} ) {
             @{ $DBJobRaw{ScheduleHours} }
                 = qw(00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23);
         }
@@ -193,7 +193,7 @@ if ( $Opts{'c'} eq 'db' ) {
             # log event
             $CommonObject{GenericAgentObject}->JobRun(
                 Job    => $DBJob,
-                Limit  => $Opts{'l'},
+                Limit  => $Opts{l},
                 UserID => $UserIDOfGenericAgent,
             );
         }
@@ -210,7 +210,7 @@ else {
         # log event
         $CommonObject{GenericAgentObject}->JobRun(
             Job    => $Job,
-            Limit  => $Opts{'l'},
+            Limit  => $Opts{l},
             Config => $Jobs{$Job},
             UserID => $UserIDOfGenericAgent,
         );
