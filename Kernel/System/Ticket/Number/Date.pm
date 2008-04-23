@@ -2,7 +2,7 @@
 # Ticket/Number/Date.pm - a date ticket number generator
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Date.pm,v 1.26 2008-03-02 20:57:23 martin Exp $
+# $Id: Date.pm,v 1.27 2008-04-23 20:37:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub TicketCreateNumber {
     my ( $Self, $JumpCounter ) = @_;
@@ -43,7 +43,7 @@ sub TicketCreateNumber {
         my $ContentSCALARRef = $Self->{MainObject}->FileRead(
             Location  => $CounterLog,
         );
-        if ($ContentSCALARRef) {
+        if ( $ContentSCALARRef && ${ $ContentSCALARRef } ) {
             ( $Count ) = split( /;/, ${ $ContentSCALARRef });
             # just debug
             if ( $Self->{Debug} > 0 ) {
@@ -60,10 +60,11 @@ sub TicketCreateNumber {
     $Count = $Count + $JumpCounter;
 
     # write new count
-    if ( $Self->{MainObject}->FileWrite(
+    my $Write = $Self->{MainObject}->FileWrite(
         Location  => $CounterLog,
         Content   => \$Count,
-    )) {
+    );
+    if ( $Write ) {
         if ( $Self->{Debug} > 0 ) {
             $Self->{LogObject}->Log(
                 Priority => 'debug',
@@ -81,7 +82,7 @@ sub TicketCreateNumber {
     # Check ticket number. If exists generate new one!
     if ( $Self->TicketCheckNumber( Tn => $Tn ) ) {
         $Self->{LoopProtectionCounter}++;
-        if ( $Self->{LoopProtectionCounter} >= 12000 ) {
+        if ( $Self->{LoopProtectionCounter} >= 16000 ) {
 
             # loop protection
             $Self->{LogObject}->Log(
@@ -121,16 +122,13 @@ sub GetTNByString {
     if ( $String =~ /\Q$TicketHook$TicketHookDivider\E(\d{4,10}$SystemID\d{1,40})/i ) {
         return $1;
     }
-    else {
 
-        # check default setting
-        if ( $String =~ /\Q$TicketHook\E:\s{0,2}(\d{4,10}$SystemID\d{1,40})/i ) {
-            return $1;
-        }
-        else {
-            return;
-        }
+    # check default setting
+    if ( $String =~ /\Q$TicketHook\E:\s{0,2}(\d{4,10}$SystemID\d{1,40})/i ) {
+        return $1;
     }
+
+    return;
 }
 
 1;

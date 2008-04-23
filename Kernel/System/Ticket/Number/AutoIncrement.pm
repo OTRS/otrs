@@ -2,7 +2,7 @@
 # Ticket/Number/AutoIncrement.pm - a ticket number auto increment generator
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AutoIncrement.pm,v 1.24 2008-03-02 20:57:23 martin Exp $
+# $Id: AutoIncrement.pm,v 1.25 2008-04-23 20:37:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub TicketCreateNumber {
     my ( $Self, $JumpCounter ) = @_;
@@ -41,7 +41,7 @@ sub TicketCreateNumber {
         my $ContentSCALARRef = $Self->{MainObject}->FileRead(
             Location  => $CounterLog,
         );
-        if ($ContentSCALARRef) {
+        if ( $ContentSCALARRef && ${ $ContentSCALARRef } ) {
             ($Count) = split( /;/, ${ $ContentSCALARRef } );
             if ( $Self->{Debug} > 0 ) {
                 $Self->{LogObject}->Log(
@@ -57,10 +57,11 @@ sub TicketCreateNumber {
     $Count = $Count + $JumpCounter;
 
     # write new count
-    if ( $Self->{MainObject}->FileWrite(
+    my $Write = $Self->{MainObject}->FileWrite(
         Location  => $CounterLog,
         Content   => \$Count,
-    )) {
+    );
+    if ( $Write ) {
         if ( $Self->{Debug} > 0 ) {
             $Self->{LogObject}->Log(
                 Priority => 'debug',
@@ -83,7 +84,7 @@ sub TicketCreateNumber {
     # Check ticket number. If exists generate new one!
     if ( $Self->TicketCheckNumber( Tn => $Tn ) ) {
         $Self->{LoopProtectionCounter}++;
-        if ( $Self->{LoopProtectionCounter} >= 12000 ) {
+        if ( $Self->{LoopProtectionCounter} >= 16000 ) {
 
             # loop protection
             $Self->{LogObject}->Log(
@@ -118,8 +119,7 @@ sub GetTNByString {
     }
     my $TicketHook        = $Self->{ConfigObject}->Get('Ticket::Hook');
     my $TicketHookDivider = $Self->{ConfigObject}->Get('Ticket::HookDivider');
-    my $MinSize
-        = $Self->{ConfigObject}->Get('Ticket::NumberGenerator::AutoIncrement::MinCounterSize')
+    my $MinSize = $Self->{ConfigObject}->Get('Ticket::NumberGenerator::AutoIncrement::MinCounterSize')
         || $Self->{ConfigObject}->Get('Ticket::NumberGenerator::MinCounterSize')
         || 5;
     my $MaxSize = $MinSize + 5;
@@ -128,14 +128,12 @@ sub GetTNByString {
     if ( $String =~ /\Q$TicketHook$TicketHookDivider\E($SystemID\d{$MinSize,$MaxSize})/i ) {
         return $1;
     }
-    else {
-        if ( $String =~ /\Q$TicketHook\E:\s{0,2}($SystemID\d{$MinSize,$MaxSize})/i ) {
-            return $1;
-        }
-        else {
-            return;
-        }
+
+    if ( $String =~ /\Q$TicketHook\E:\s{0,2}($SystemID\d{$MinSize,$MaxSize})/i ) {
+        return $1;
     }
+
+    return;
 }
 
 1;

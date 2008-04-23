@@ -1,12 +1,12 @@
 # --
 # Ticket/Number/Random.pm - a ticket number random generator
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Random.pm,v 1.19 2008-01-02 11:22:27 martin Exp $
+# $Id: Random.pm,v 1.20 2008-04-23 20:37:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 # Note:
 # available objects are: ConfigObject, LogObject and DBObject
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub TicketCreateNumber {
     my ($Self) = @_;
@@ -44,7 +44,7 @@ sub TicketCreateNumber {
     # Check ticket number. If exists generate new one!
     if ( $Self->TicketCheckNumber( Tn => $Tn ) ) {
         $Self->{LoopProtectionCounter}++;
-        if ( $Self->{LoopProtectionCounter} >= 12000 ) {
+        if ( $Self->{LoopProtectionCounter} >= 16000 ) {
 
             # loop protection
             $Self->{LogObject}->Log(
@@ -84,16 +84,13 @@ sub GetTNByString {
     if ( $String =~ /\Q$TicketHook$TicketHookDivider\E($SystemID\d{2,20})/i ) {
         return $1;
     }
-    else {
 
-        # check default setting
-        if ( $String =~ /\Q$TicketHook\E:\s{0,2}($SystemID\d{2,20})/i ) {
-            return $1;
-        }
-        else {
-            return;
-        }
+    # check default setting
+    if ( $String =~ /\Q$TicketHook\E:\s{0,2}($SystemID\d{2,20})/i ) {
+        return $1;
     }
+
+    return;
 }
 
 1;
