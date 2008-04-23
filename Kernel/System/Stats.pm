@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all advice functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.43 2008-04-14 07:29:32 tr Exp $
+# $Id: Stats.pm,v 1.44 2008-04-23 11:01:54 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 =head1 SYNOPSIS
 
@@ -202,7 +202,7 @@ sub StatsGet {
         )
         )
     {
-        if ( defined( $StatXML->{$Key}[1]{Content} ) ) {
+        if ( defined $StatXML->{$Key}[1]{Content} ) {
             $Stat{$Key} = $StatXML->{$Key}[1]{Content};
         }
     }
@@ -275,7 +275,7 @@ sub StatsGet {
                 }
                 REF:
                 for my $Ref (@StatAttributes) {
-                    if ( !defined( $Attribute->{LanguageTranslation} ) ) {
+                    if ( !defined $Attribute->{LanguageTranslation} ) {
                         $Attribute->{LanguageTranslation} = 1;
                     }
 
@@ -395,7 +395,7 @@ sub StatsUpdate {
             }
         }
         else {
-            if ( defined( $StatOld->{$Key} ) ) {
+            if ( defined $StatOld->{$Key} ) {
                 $StatXML{$Key}[1]{Content} = $StatOld->{$Key};
             }
         }
@@ -1324,7 +1324,7 @@ sub GenerateDynamicStats {
     # fill up empty array elements, e.g month as value series (February has 28 day and Januar 31)
     for my $Index1 ( 2 .. $#StatArray ) {
         for my $Index2 ( 1 .. $#{ $StatArray[1] } ) {
-            if ( !defined( $StatArray[$Index1][$Index2] ) ) {
+            if ( !defined $StatArray[$Index1][$Index2] ) {
                 $StatArray[$Index1][$Index2] = '';
             }
         }
@@ -1892,7 +1892,7 @@ sub GetStaticFiles {
     my %StaticFiles = ();
     my $Result      = $Self->GetStatsList();
 
-    if ( defined($Result) ) {
+    if ( defined $Result ) {
         for my $StatID ( @{$Result} ) {
             my $Data = $Self->StatsGet( StatID => $StatID );
 
@@ -1908,7 +1908,7 @@ sub GetStaticFiles {
         next if $Filename eq '.';
         next if $Filename eq '..';
         if ( $Filename =~ m{^(.*)\.pm$}x ) {
-            if ( !defined( $StaticFiles{$1} ) ) {
+            if ( !defined $StaticFiles{$1} ) {
                 $Filelist{$1} = $1;
             }
         }
@@ -2310,7 +2310,7 @@ sub Import {
 
     # check if the required elements are available
     for my $Element (qw( Description Format Object ObjectModule Permission StatType SumCol SumRow Title Valid)) {
-        if (!defined($XMLHash[0]{otrs_stats}[1]{$Element}[1]{Content})) {
+        if (!defined $XMLHash[0]{otrs_stats}[1]{$Element}[1]{Content} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message =>
@@ -2786,6 +2786,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.43 $ $Date: 2008-04-14 07:29:32 $
+$Revision: 1.44 $ $Date: 2008-04-23 11:01:54 $
 
 =cut
