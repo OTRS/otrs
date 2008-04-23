@@ -1,12 +1,12 @@
 # --
 # Kernel/Language/bb.pm - provides bavarian language translation
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: bb.pm,v 1.30 2007-12-19 15:40:58 mh Exp $
+# $Id: bb.pm,v 1.31 2008-04-23 10:28:01 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 package Kernel::Language::bb;
 
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -340,15 +340,15 @@ sub Data {
         'Can\'t update password, passwords doesn\'t match! Please try it again!' =>
             'Passwörter sind nicht identisch! Bitte erneut versuchen!',
         'Can\'t update password, invalid characters!' =>
-            'Passwort konnte nicht aktuallisiert werden, Zeichen ungülig.',
+            'Passwort konnte nicht aktualisiert werden, Zeichen ungülig.',
         'Can\'t update password, need min. 8 characters!' =>
-            'Passwort konnte nicht aktuallisiert werden, benötige min. 8 Zeichen.',
+            'Passwort konnte nicht aktualisiert werden, benötige min. 8 Zeichen.',
         'Can\'t update password, need 2 lower and 2 upper characters!' =>
-            'Passwort konnte nicht aktuallisiert werden, benötige min. einen großgeschriebener und einen kleingeschriebener Buchstaben.',
+            'Passwort konnte nicht aktualisiert werden, benötige min. einen großgeschriebener und einen kleingeschriebener Buchstaben.',
         'Can\'t update password, need min. 1 digit!' =>
-            'Passwort konnte nicht aktuallisiert werden, Passwort muss mit eine Zahl enthalten!',
+            'Passwort konnte nicht aktualisiert werden, Passwort muss mit eine Zahl enthalten!',
         'Can\'t update password, need min. 2 characters!' =>
-            'Passwort konnte nicht aktuallisiert werden, Passwort muss zwei Buchstaben enthalten!',
+            'Passwort konnte nicht aktualisiert werden, Passwort muss zwei Buchstaben enthalten!',
 
         # Template: AAAStats
         'Stat'                                 => 'Statistik',

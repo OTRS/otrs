@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.638 2008-04-19 23:10:26 martin Exp $
+# $Id: CHANGES,v 1.639 2008-04-23 10:30:50 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -239,6 +239,8 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.7 (2008/??/??)
+ - (2008/04/23) Fixed bug# 2907 - Typo in the german translation:
+    "aktuallisiert".
  - (2008/04/19) Fixed not removable ticket by acl watcher link in ticket menu
     (added missing config param to Ticket.xml config file).
  - (2008/04/14) Improved speed of phone and email ticket if many queues and
