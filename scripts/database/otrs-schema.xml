@@ -3,11 +3,14 @@
 <!--
 
     XML File for the OTRS database description
-    Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+    Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 
-    $Id: otrs-schema.xml,v 1.74 2008-03-28 11:18:41 martin Exp $
+    $Id: otrs-schema.xml,v 1.75 2008-04-24 11:47:39 tr Exp $
 
     $Log: not supported by cvs2svn $
+    Revision 1.74  2008/03/28 11:18:41  martin
+    Added POP3/POP3S/IMAP/IMAPS support for PostMaster sub system (new bin/PostMasterMailbox.pl is replacing old bin/PostMasterPOP3.pl). Thanks to Igor Stradwo for this patch!
+
     Revision 1.73  2008/02/11 11:45:39  martin
     Added escalation-warning-notify support.
 

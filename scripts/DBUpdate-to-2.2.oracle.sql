@@ -1,8 +1,8 @@
 -- --
 -- Update an existing OTRS database from 2.1 to 2.2
--- Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+-- Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-2.2.oracle.sql,v 1.17 2007-07-26 13:01:25 martin Exp $
+-- $Id: DBUpdate-to-2.2.oracle.sql,v 1.18 2008-04-24 11:47:39 tr Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.2.oracle.sql | sqlplus "user/password"

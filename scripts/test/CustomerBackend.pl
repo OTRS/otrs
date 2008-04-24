@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # scripts/test/CustomerBackend.pl - test script of customer backend
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerBackend.pl,v 1.6 2007-09-29 11:09:40 mh Exp $
+# $Id: CustomerBackend.pl,v 1.7 2008-04-24 11:47:39 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Log;

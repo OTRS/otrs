@@ -1,8 +1,8 @@
 -- --
 -- Update an existing OTRS database from 1.2 to 1.3
--- Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+-- Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-1.3.postgresql.sql,v 1.15 2006-10-03 14:34:47 mh Exp $
+-- $Id: DBUpdate-to-1.3.postgresql.sql,v 1.16 2008-04-24 11:47:39 tr Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-1.1.postgresql.sql | psql otrs
@@ -99,17 +99,47 @@ ALTER TABLE queue ADD COLUMN default_sign_key varchar (100);
 INSERT INTO notifications
   (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
   VALUES
-  ('Customer::QueueUpdate', 'iso-8859-1', 'en', 'New Queue "<OTRS_CUSTOMER_Queue>"!', '*** THIS IS JUST A NOTE ***The queue of your ticket "<OTRS_TICKET_NUMBER>" has been changed by"<OTRS_CUSTOMER_UserFirstname> <OTRS_CUSTOMER_UserLastname>" to "<OTRS_CUSTOMER_Queue>".<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>customer.pl?Action=CustomerZoom&TicketID=<OTRS_TICKET_ID>Your OTRS Notification Master*** THIS IS JUST A NOTE ***', current_timestamp, 1, current_timestamp, 1);
+  ('Customer::QueueUpdate', 'iso-8859-1', 'en', 'New Queue "<OTRS_CUSTOMER_Queue>"!', '*** THIS IS JUST A NOTE ***
+
+The queue of your ticket "<OTRS_TICKET_NUMBER>" has been changed by
+"<OTRS_CUSTOMER_UserFirstname> <OTRS_CUSTOMER_UserLastname>" to "<OTRS_CUSTOMER_Queue>".
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>customer.pl?Action=CustomerZoom&TicketID=<OTRS_TICKET_ID>
+
+Your OTRS Notification Master
+
+*** THIS IS JUST A NOTE ***
+', current_timestamp, 1, current_timestamp, 1);
 
 INSERT INTO notifications
   (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
   VALUES
-  ('Customer::OwnerUpdate', 'iso-8859-1', 'en', 'New Owner "<OTRS_CUSTOMER_UserFirstname>"!', '*** THIS IS JUST A NOTE ***The owner of your ticket "<OTRS_TICKET_NUMBER>" has been changed to"<OTRS_CUSTOMER_UserFirstname> <OTRS_CUSTOMER_UserLastname>.<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>customer.pl?Action=CustomerZoom&TicketID=<OTRS_TICKET_ID>Your OTRS Notification Master*** THIS IS JUST A NOTE ***', current_timestamp, 1, current_timestamp, 1);
+  ('Customer::OwnerUpdate', 'iso-8859-1', 'en', 'New Owner "<OTRS_CUSTOMER_UserFirstname>"!', '*** THIS IS JUST A NOTE ***
+
+The owner of your ticket "<OTRS_TICKET_NUMBER>" has been changed to
+"<OTRS_CUSTOMER_UserFirstname> <OTRS_CUSTOMER_UserLastname>.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>customer.pl?Action=CustomerZoom&TicketID=<OTRS_TICKET_ID>
+
+Your OTRS Notification Master
+
+*** THIS IS JUST A NOTE ***
+', current_timestamp, 1, current_timestamp, 1);
 
 INSERT INTO notifications
   (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
   VALUES
-  ('Customer::StateUpdate', 'iso-8859-1', 'en', 'New State "<OTRS_CUSTOMER_State>"!', '*** THIS IS JUST A NOTE ***The state of your ticket "<OTRS_TICKET_NUMBER>" has been changed by"<OTRS_CUSTOMER_UserFirstname> <OTRS_CUSTOMER_UserLastname>" to "<OTRS_CUSTOMER_State>".<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>customer.pl?Action=CustomerZoom&TicketID=<OTRS_TICKET_ID>Your OTRS Notification Master*** THIS IS JUST A NOTE ***', current_timestamp, 1, current_timestamp, 1);
+  ('Customer::StateUpdate', 'iso-8859-1', 'en', 'New State "<OTRS_CUSTOMER_State>"!', '*** THIS IS JUST A NOTE ***
+
+The state of your ticket "<OTRS_TICKET_NUMBER>" has been changed by
+"<OTRS_CUSTOMER_UserFirstname> <OTRS_CUSTOMER_UserLastname>" to "<OTRS_CUSTOMER_State>".
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>customer.pl?Action=CustomerZoom&TicketID=<OTRS_TICKET_ID>
+
+Your OTRS Notification Master
+
+*** THIS IS JUST A NOTE ***
+', current_timestamp, 1, current_timestamp, 1);
 
 --
 -- customer notifications (de)
@@ -117,15 +147,45 @@ INSERT INTO notifications
 INSERT INTO notifications
   (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
   VALUES
-  ('Customer::QueueUpdate', 'iso-8859-1', 'de', 'Neue Queue "<OTRS_CUSTOMER_Queue>"!', '*** NUR EINE INFO ***Die Queue Ihres Tickets "<OTRS_TICKET_NUMBER>" hat "<OTRS_CUSTOMER_UserFirstname> <OTRS_CUSTOMER_UserLastname>" auf "<OTRS_CUSTOMER_Queue>" geaendert.<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>customer.pl?Action=CustomerZoom&TicketID=<OTRS_TICKET_ID>Dein OTRS Benachrichtigungs-Master*** NUR EINE INFO ***', current_timestamp, 1, current_timestamp, 1);
+  ('Customer::QueueUpdate', 'iso-8859-1', 'de', 'Neue Queue "<OTRS_CUSTOMER_Queue>"!', '*** NUR EINE INFO ***
+
+Die Queue Ihres Tickets "<OTRS_TICKET_NUMBER>" hat
+"<OTRS_CUSTOMER_UserFirstname> <OTRS_CUSTOMER_UserLastname>" auf "<OTRS_CUSTOMER_Queue>" geaendert.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>customer.pl?Action=CustomerZoom&TicketID=<OTRS_TICKET_ID>
+
+Dein OTRS Benachrichtigungs-Master
+
+*** NUR EINE INFO ***
+', current_timestamp, 1, current_timestamp, 1);
 
 INSERT INTO notifications
   (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
   VALUES
-  ('Customer::OwnerUpdate', 'iso-8859-1', 'de', 'Neuer Besitzer "<OTRS_CUSTOMER_UserFirstname>"!', '*** NUR EINE INFO ***Der Besitzer des Tickets "<OTRS_TICKET_NUMBER>" hat sich auf "<OTRS_CUSTOMER_UserFirstname> <OTRS_CUSTOMER_UserLastname> geaendert.<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>customer.pl?Action=CustomerZoom&TicketID=<OTRS_TICKET_ID>Dein OTRS Benachrichtigungs-Master*** NUR EINE INFO ***', current_timestamp, 1, current_timestamp, 1);
+  ('Customer::OwnerUpdate', 'iso-8859-1', 'de', 'Neuer Besitzer "<OTRS_CUSTOMER_UserFirstname>"!', '*** NUR EINE INFO ***
+
+Der Besitzer des Tickets "<OTRS_TICKET_NUMBER>" hat sich auf
+"<OTRS_CUSTOMER_UserFirstname> <OTRS_CUSTOMER_UserLastname> geaendert.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>customer.pl?Action=CustomerZoom&TicketID=<OTRS_TICKET_ID>
+
+Dein OTRS Benachrichtigungs-Master
+
+*** NUR EINE INFO ***
+', current_timestamp, 1, current_timestamp, 1);
 
 INSERT INTO notifications
   (notification_type, notification_charset, notification_language, subject, text, create_time, create_by, change_time, change_by)
   VALUES
-  ('Customer::StateUpdate', 'iso-8859-1', 'de', 'Neuer Status "<OTRS_CUSTOMER_State>"!', '*** NUR EINE INFO ***Der Status des Tickets "<OTRS_TICKET_NUMBER>" hat sich durch "<OTRS_CUSTOMER_UserFirstname> <OTRS_CUSTOMER_UserLastname>" auf "<OTRS_CUSTOMER_State>" veraendert.<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>customer.pl?Action=CustomerZoom&TicketID=<OTRS_TICKET_ID>Dein OTRS Benachrichtigungs-Master*** NUR EINE INFO ***', current_timestamp, 1, current_timestamp, 1);
+  ('Customer::StateUpdate', 'iso-8859-1', 'de', 'Neuer Status "<OTRS_CUSTOMER_State>"!', '*** NUR EINE INFO ***
+
+Der Status des Tickets "<OTRS_TICKET_NUMBER>" hat sich durch
+"<OTRS_CUSTOMER_UserFirstname> <OTRS_CUSTOMER_UserLastname>" auf "<OTRS_CUSTOMER_State>" veraendert.
+
+<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>customer.pl?Action=CustomerZoom&TicketID=<OTRS_TICKET_ID>
+
+Dein OTRS Benachrichtigungs-Master
+
+*** NUR EINE INFO ***
+', current_timestamp, 1, current_timestamp, 1);
 

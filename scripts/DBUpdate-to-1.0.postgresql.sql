@@ -1,8 +1,8 @@
 -- --
 -- Update an existing OTRS database from 0.5 to 1.0
--- Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+-- Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-1.0.postgresql.sql,v 1.5 2006-10-03 14:36:02 mh Exp $
+-- $Id: DBUpdate-to-1.0.postgresql.sql,v 1.6 2008-04-24 11:47:39 tr Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-1.0.postgresql.sql | psql otrs

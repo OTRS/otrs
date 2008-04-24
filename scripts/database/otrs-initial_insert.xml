@@ -3,11 +3,14 @@
 <!--
 
     XML File for the OTRS database description
-    Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+    Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 
-    $Id: otrs-initial_insert.xml,v 1.12 2008-02-11 12:22:23 martin Exp $
+    $Id: otrs-initial_insert.xml,v 1.13 2008-04-24 11:47:39 tr Exp $
 
     $Log: not supported by cvs2svn $
+    Revision 1.12  2008/02/11 12:22:23  martin
+    Added notification templates for ticket escalation warning feature.
+
     Revision 1.11  2007/11/05 13:34:13  mh
     Fixed small typo in the escalation notification.
 
