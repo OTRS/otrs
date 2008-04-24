@@ -1,9 +1,9 @@
 #!/bin/sh
 # --
 # scripts/sync_node.sh - to sync a otrs web server node with rsync
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: sync_node.sh,v 1.3 2006-10-03 14:34:47 mh Exp $
+# $Id: sync_node.sh,v 1.4 2008-04-24 17:32:15 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

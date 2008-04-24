@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # syncuser_csv2otrs.pl - sync csv user list or otrs
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: syncuser_csv2otrs.pl,v 1.7 2007-09-29 11:10:47 mh Exp $
+# $Id: syncuser_csv2otrs.pl,v 1.8 2008-04-24 17:32:15 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -59,20 +59,20 @@ $CommonObject{LogObject}    = Kernel::System::Log->new(
 );
 $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
 $CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
-$CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
+$CommonObject{DBObject}   = Kernel::System::DB  ->new(%CommonObject);
 $CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);
 
 # get options
 my %Opts = ();
 getopt( 's', \%Opts );
 my $End = "\n";
-if ( !$Opts{'s'} ) {
+if ( !$Opts{s} ) {
     die "Need -s <CSV_FILE>\n";
 }
 
 # read csv file
-open( IN, "< $Opts{'s'}" ) || die "Can't read $Opts{'s'}: $!";
-while (<IN>) {
+open my $In, '<', $Opts{s}  || die "Can't read $Opts{s}: $!";
+while (<$In>) {
     my @Line = split( /;/, $_ );
 
     # check if user extsis
@@ -116,4 +116,4 @@ while (<IN>) {
         );
     }
 }
-close(IN);
+close $In;

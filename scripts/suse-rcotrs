@@ -1,13 +1,13 @@
 #!/bin/sh
 # --
 # suse-rcotrs - rc script of otrs for SuSE Linux
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: suse-rcotrs,v 1.27 2006-10-03 14:34:47 mh Exp $
+# $Id: suse-rcotrs,v 1.28 2008-04-24 17:32:15 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 ### BEGIN INIT INFO

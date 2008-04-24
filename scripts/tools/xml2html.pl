@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # xml2html.pl - a "_simple_" xml2html viewer
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: xml2html.pl,v 1.11 2007-10-02 10:50:03 mh Exp $
+# $Id: xml2html.pl,v 1.12 2008-04-24 17:32:15 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -60,11 +60,9 @@ my $File        = shift;
 my $FileContent = '';
 
 if ($File) {
-    open( IN, "< $File" ) || die "Can't open file $File: $!";
-    while (<IN>) {
-        $FileContent .= $_;
-    }
-    close(IN);
+    open my $IN, '<', $File || die "Can't open file $File: $!";
+    $FileContent = do {local $/; <$IN>};
+    close $IN;
 }
 else {
     my @File = <STDIN>;

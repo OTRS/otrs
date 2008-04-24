@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # login.pl - a simple external login page for OTRS
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: login.pl,v 1.5 2007-09-29 11:10:47 mh Exp $
+# $Id: login.pl,v 1.6 2008-04-24 17:32:15 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # scripts/tools/charset-convert.pl - converts a text file from one to an other one charset
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: charset-convert.pl,v 1.4 2007-09-29 11:10:33 mh Exp $
+# $Id: charset-convert.pl,v 1.5 2008-04-24 17:32:15 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 # --
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 use strict;
 use warnings;
@@ -30,23 +30,23 @@ use Encode;
 use Getopt::Std;
 
 my %Opts = ();
-getopt( 'hsdf', \%Opts );
+getopt( 'sdf', \%Opts );
 
 # usage
-if ( $Opts{'h'} ) {
+if ( $Opts{h} ) {
     print "charset-convert.pl <Revision $VERSION> - convert a charset of a file\n";
-    print "Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/\n";
+    print "Copyright (C) 2001-2008 OTRS AG, http://otrs.org/\n";
     print "usage: charset-convert.pl -s <SOURCE_CHARSET> -d <DEST_CHARSET> -f <FILE>\n";
     print "       charset-convert.pl -s <SOURCE_CHARSET> -d <DEST_CHARSET> < file\n";
     exit 1;
 }
 
 # get charsts
-if ( !$Opts{'s'} ) {
+if ( !$Opts{s} ) {
     print STDERR "ERROR: Need -s <SOURCE_CHARSET>\n";
     exit 1;
 }
-if ( !$Opts{'d'} ) {
+if ( !$Opts{d} ) {
     print STDERR "ERROR: Need -d <DEST_CHARSET>\n";
     exit 1;
 }
@@ -55,7 +55,7 @@ if ( !$Opts{'d'} ) {
 my $In  = '';
 my @STD = ();
 
-if ( !$Opts{'f'} ) {
+if ( !$Opts{f} ) {
     @STD = <STDIN>;
     for (@STD) {
         $In .= $_;
@@ -63,22 +63,20 @@ if ( !$Opts{'f'} ) {
 }
 
 # check file
-elsif ( !-f $Opts{'f'} ) {
+elsif ( !-f $Opts{f} ) {
     print STDERR "ERROR: Invalid -f <FILE>: no such file!\n";
     exit 1;
 }
 
 # read file
 else {
-    open( IN, "< $Opts{'f'}" ) || die "Can't open $Opts{'f'}: $!\n";
-    while (<IN>) {
-        $In .= $_;
-    }
-    close(IN);
+    open my $IN, '<', $Opts{f} || die "Can't open $Opts{f}: $!\n";
+    $In = do {local $/; <$IN>};
+    close $IN;
 }
 
 # convert
-Encode::from_to( $In, $Opts{'s'}, $Opts{'d'} );
+Encode::from_to( $In, $Opts{s}, $Opts{d} );
 
 # print
 if (@STD) {
@@ -87,7 +85,7 @@ if (@STD) {
 
 # write
 else {
-    open( OUT, "> $Opts{'f'}" ) || die "Can't write $Opts{'f'}: $!\n";
-    print OUT $In;
-    close(OUT);
+    open my $Out, '>', $Opts{f} || die "Can't write $Opts{f}: $!\n";
+    print $Out $In;
+    close $Out;
 }

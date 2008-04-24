@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # scripts/tools/sync-ldap2db.pl - sync a ldap directory to database
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: sync-ldap2db.pl,v 1.6 2007-10-02 10:50:03 mh Exp $
+# $Id: sync-ldap2db.pl,v 1.7 2008-04-24 17:32:15 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 use Net::LDAP;
 use Kernel::Config;
@@ -46,9 +46,9 @@ $CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-sync-ldap2db',
     %CommonObject,
 );
-$CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
+$CommonObject{MainObject}   = Kernel::System::Main  ->new(%CommonObject);
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
+$CommonObject{DBObject}     = Kernel::System::DB    ->new(%CommonObject);
 
 my $UidLDAP = 'uid';
 my $UidDB   = 'login';
@@ -170,14 +170,11 @@ for (qw(0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z)
 sub _ConvertTo {
     my ($Text) = @_;
 
-    if ( !defined($Text) ) {
-        return;
-    }
-    else {
-        return $CommonObject{EncodeObject}->Convert(
-            Text => $Text,
-            To   => $DBCharset,
-            From => $LDAPCharset,
-        );
-    }
+    return if !defined $Text;
+
+    return $CommonObject{EncodeObject}->Convert(
+        Text => $Text,
+        To   => $DBCharset,
+        From => $LDAPCharset,
+    );
 }
