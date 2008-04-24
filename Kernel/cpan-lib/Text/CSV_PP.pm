@@ -11,7 +11,7 @@ use strict;
 use vars qw($VERSION);
 use Carp ();
 
-$VERSION = '1.11';
+$VERSION = '1.12';
 
 sub PV  { 0 }
 sub IV  { 1 }
@@ -162,13 +162,14 @@ sub error_input {
 ################################################################################
 sub error_diag {
     my $self = shift;
-    my @diag = (0, $last_new_error);
+    my @diag = (0, $last_new_error, 0);
 
     unless ($self and ref $self) {	# Class method or direct call
         $last_new_error and $diag[0] = 1000;
     }
     elsif ( $self->isa (__PACKAGE__) and defined $self->{_ERROR_DIAG} ) {
         @diag = ( 0 + $self->{_ERROR_DIAG}, $ERRORS->{ $self->{_ERROR_DIAG} } );
+        exists $self->{_ERROR_POS} and $diag[2] = 1 + $self->{_ERROR_POS};
     }
 
     my $context = wantarray;
@@ -180,7 +181,8 @@ sub error_diag {
         return;
     }
 
-    return $context ? (0 + $diagobj, "$diagobj") : $diagobj;
+    return $context ? @diag : $diagobj;
+#    return $context ? (0 + $diagobj, "$diagobj") : $diagobj;
 }
 ################################################################################
 # string
@@ -313,6 +315,8 @@ sub parse {
         }
     }
 
+    my $pos = 0;
+
     for my $col ($line =~ /$re_split/g) {
 
         if ($keep_meta_info) {
@@ -320,20 +324,22 @@ sub parse {
             $flag |= IS_BINARY if ($col =~ /[^\x09\x20-\x7E]/);
         }
 
+        $pos += length $col;
+
         if (!$binary and $col =~ /[^\x09\x20-\x7E]/) { # Binary character, binary off
             if ( $col =~ $re_quoted ) {
                 $self->_set_error_diag(
-                      $col =~ /\n/ ? 2021
-                    : $col =~ /\r/ ? 2022
-                    : 2026
+                      $col =~ /\n([^\n]*)/ ? (2021, $pos - 1 - length $1)
+                    : $col =~ /\r([^\r]*)/ ? (2022, $pos - 1 - length $1)
+                    : (2026, $pos -2) # Binary character inside quoted field, binary off
                 );
             }
             else {
                 $self->_set_error_diag(
-                      $col =~ /\Q$quot\E(.*)\Q$quot\E\r$/   ? 2010
-                    : $col =~ /^\r/                         ? 2031
-                    : $col =~ /\r/                          ? 2032
-                    : 2037
+                      $col =~ /\Q$quot\E(.*)\Q$quot\E\r$/   ? (2010, $pos - 2)
+                    : $col =~ /^\r/                         ? (2031, $pos - length $col)
+                    : $col =~ /\r([^\r]*)/                  ? (2032, $pos - 1 - length $1)
+                    : (2037, $pos - length $col) # Binary character in unquoted field, binary off
                 );
             }
             $palatable = 0;
@@ -348,7 +354,7 @@ sub parse {
                 my $str = $1;
                 if ($str !~ $re_in_quot_esp2) {
                     unless ($self->{allow_loose_escapes}) {
-                        $self->_set_error_diag(2025); # Needless ESC in quoted field
+                        $self->_set_error_diag( 2025, $pos - 2 ); # Needless ESC in quoted field
                         $palatable = 0;
                         last;
                     }
@@ -359,7 +365,7 @@ sub parse {
             }
             else {
                 if ($col =~ /(?<!\Q$esc\E)\Q$esc\E/) {
-                    $self->_set_error_diag(4002); # No escaped ESC in quoted field
+                    $self->_set_error_diag( 4002, $pos - 1 ); # No escaped ESC in quoted field
                     $palatable = 0;
                     last;
                 }
@@ -378,9 +384,9 @@ sub parse {
 
             unless ($self->{allow_loose_quotes} and $col =~ /$re_quot_char/) {
                 $self->_set_error_diag(
-                      $col =~ /^\Q$quot\E(.*)\Q$quot\E.$/s  ? 2011
-                    : $col =~ /^$re_quot_char/              ? 2027
-                    : 2034
+                      $col =~ /^\Q$quot\E(.*)\Q$quot\E.$/s  ? (2011, $pos - 2)
+                    : $col =~ /^$re_quot_char/              ? (2027, $pos - 1)
+                    : (2034, $pos - length $col) # Loose unescaped quote
                 );
                 $palatable = 0;
                 last;
@@ -403,13 +409,13 @@ sub parse {
             }
 
             if ($col =~ /\Q$esc\E\r$/) { # for t/15_flags : test 165 'ESC CR' at line 203
-                $self->_set_error_diag(4003);
+                $self->_set_error_diag( 4003, $pos );
                 $palatable = 0;
                 last;
             }
 
             if ($col =~ /.\Q$esc\E$/) { # for t/65_allow : test 53-54 parse('foo\') at line 62, 65
-                $self->_set_error_diag(4004);
+                $self->_set_error_diag( 4004, $pos );
                 $palatable = 0;
                 last;
             }
@@ -665,7 +671,14 @@ sub _check_type {
 # _set_error_diag
 ################################################################################
 sub _set_error_diag {
-    $_[0]->{_ERROR_DIAG} = $_[1];
+    my ( $self, $error, $pos ) = @_;
+
+    $self->{_ERROR_DIAG} = $error;
+
+    if (defined $pos) {
+        $_[0]->{_ERROR_POS} = $pos;
+    }
+
     return;
 }
 ################################################################################
@@ -675,14 +688,19 @@ BEGIN {
                         keep_meta_info allow_loose_quotes allow_loose_escapes verbatim blank_is_undef/) {
         eval qq|
             sub $method {
-                \$_[0]->{$method} = \$_[1] if (defined \$_[1]);
+                \$_[0]->{$method} = \$_[1] if (\@_ > 1);
                 \$_[0]->{$method};
             }
         |;
     }
 }
+#                \$_[0]->{$method} = \$_[1] if (defined \$_[1]);
 
 sub SetDiag {
+    if ( defined $_[1] and $_[1] == 0 ) {
+        $_[0]->{_ERROR_DIAG} = undef;
+    }
+
     $_[0]->_set_error_diag( $_[1] );
     Carp::croak( $_[0]->error_diag . '' );
 }
@@ -857,6 +875,18 @@ an unquoted field, like
 would result in a parse error. Though it is still bad practice to
 allow this format, we cannot help there are some vendors that make
 their applications spit out lines styled like this.
+
+In case there is B<really> bad CSV data, like
+
+ 1,"foo "bar" baz",42
+
+or
+
+ 1,""foo bar baz"",42
+
+there is a way to get that parsed, and leave the quotes inside the quoted
+field as-is. This can be achieved by setting C<allow_loose_quotes> B<AND>
+making sure that the C<escape_char> is I<not> equal to C<quote_char>.
 
 =item escape_char
 
@@ -1221,9 +1251,9 @@ C<combine ()> or C<parse ()>, whichever was called more recently.
 =head2 error_diag
 
  $csv->error_diag ();
- $error_code  = 0  + $csv->error_diag ();
- $error_str   = "" . $csv->error_diag ();
- ($cde, $str) =      $csv->error_diag ();
+ $error_code   = 0  + $csv->error_diag ();
+ $error_str    = "" . $csv->error_diag ();
+ ($cde, $str, $pos) = $csv->error_diag ();
 
 If (and only if) an error occured, this function returns the diagnostics
 of that error.
@@ -1232,7 +1262,12 @@ If called in void context, it will print the internal error code and the
 associated error message to STDERR.
 
 If called in list context, it will return the error code and the error
-message in that order.
+message in that order. If the last error was from parsing, the third
+value returned is the best guess at the location within the line that was
+being parsed. It's value is 1-based.
+
+Note: C<$pos> does not show the error point in many cases.
+It is for conscience's sake.
 
 If called in scalar context, it will return the diagnostics in a single
 scalar, a-la $!. It will contain the error code in numeric context, and
@@ -1240,6 +1275,11 @@ the diagnostics message in string context.
 
 To achieve this behavior with CSV_PP, the returned diagnostics is blessed object.
 
+=head2 SetDiag
+
+ $csv->SetDiag (0);
+
+Use to reset the diagnosticts if you are dealing with errors.
 
 =head1 DIAGNOSTICS
 

@@ -5,14 +5,14 @@ use strict;
 use Carp ();
 
 BEGIN {
-    $Text::CSV::VERSION = '1.03';
+    $Text::CSV::VERSION = '1.04';
     $Text::CSV::DEBUG   = 0;
 }
 
-# if use CSV_XS, requires version 0.32
+# if use CSV_XS, requires version
 my $Module_XS  = 'Text::CSV_XS';
 my $Module_PP  = 'Text::CSV_PP';
-my $XS_Version = '0.41';
+my $XS_Version = '0.43';
 
 my $Is_Dynamic = 0;
 
@@ -325,59 +325,6 @@ The module accepts either strings or files as input and can utilize any
 user-specified characters as delimiters, separators, and escapes so it is
 perhaps better called ASV (anything separated values) rather than just CSV.
 
-
-=head2 HISTORY AND WORKER MODULES
-
-This module, L<Text::CSV> was firstly written by Alan Citterman which could deal with
-B<only ascii characters>. Then, Jochen Wiedmann wrote L<Text::CSV_XS> which has
-the B<binary mode>. This XS version is maintained by H.Merijn Brand and L<Text::CSV_PP>
-written by Makamaka was pure-Perl version of Text::CSV_XS.
-
-Now, Text::CSV was rewritten by Makamaka and become a wrapper to Text::CSV_XS or Text::CSV_PP.
-Text::CSV_PP will be bundled in this distribution.
-
-When you use Text::CSV, it calls a backend worker module - L<Text::CSV_XS> or L<Text::CSV_PP>.
-By default, Text::CSV tries to use Text::CSV_XS which must be complied and installed properly.
-If this call is fail, Text::CSV uses L<Text::CSV_PP>.
-
-The required Text::CSV_XS version is I<0.41> in Text::CSV version 1.03.
-
-If you set an enviornment variable C<PERL_TEXT_CSV>, The calling action will be changed.
-
-=over
-
-=item PERL_TEXT_CSV = 0
-
-=item PERL_TEXT_CSV = 'Text::CSV_PP'
-
-Always use Text::CSV_PP
-
-=item PERL_TEXT_CSV = 1
-
-=item PERL_TEXT_CSV = 'Text::CSV_XS,Text::CSV_PP'
-
-(The default) Use compiled Text::CSV_XS if it is properly compiled & installed,
-otherwise use Text::CSV_PP
-
-=item PERL_TEXT_CSV = 2
-
-=item PERL_TEXT_CSV = 'Text::CSV_XS'
-
-Always use compiled Text::CSV_XS, die if it isn't properly compiled & installed.
-
-=back
-
-These ideas come from L<DBI::PurePerl> mechanism.
-
-example:
-
-  BEGIN { $ENV{PERL_TEXT_CSV} = 0 }
-  use Text::CSV; # always uses Text::CSV_PP
-
-
-In future, it may be able to specify another module.
-
-
 =head2 BINARY MODE
 
 The default behavior is to only accept ascii characters.
@@ -388,18 +335,20 @@ binary mode.
 
 See to L<Text::CSV_XS/Embedded newlines>.
 
-
 =head1 SPECIFICATION
 
 See to L<Text::CSV_XS/SPECIFICATION>.
 
+=head1 VERSION
+
+    1.04
+
+This module is compatible with Text::CSV_XS B<0.43>.
 
 =head1 FUNCTIONS
 
 These methods are common between XS and puer Perl version.
 Most of the document was shamelessly copied and replaced from Text::CSV_XS.
-
-
 
 =head2 version ()
 
@@ -499,6 +448,18 @@ an unquoted field, like
 would result in a parse error. Though it is still bad practice to
 allow this format, we cannot help there are some vendors that make
 their applications spit out lines styled like this.
+
+In case there is B<really> bad CSV data, like
+
+ 1,"foo "bar" baz",42
+
+or
+
+ 1,""foo bar baz"",42
+
+there is a way to get that parsed, and leave the quotes inside the quoted
+field as-is. This can be achieved by setting C<allow_loose_quotes> B<AND>
+making sure that the C<escape_char> is I<not> equal to C<quote_char>.
 
 =item escape_char
 
@@ -863,9 +824,9 @@ C<combine ()> or C<parse ()>, whichever was called more recently.
 =head2 error_diag
 
  $csv->error_diag ();
- $error_code  = 0  + $csv->error_diag ();
- $error_str   = "" . $csv->error_diag ();
- ($cde, $str) =      $csv->error_diag ();
+ $error_code   = 0  + $csv->error_diag ();
+ $error_str    = "" . $csv->error_diag ();
+ ($cde, $str, $pos) = $csv->error_diag ();
 
 If (and only if) an error occured, this function returns the diagnostics
 of that error.
@@ -874,7 +835,13 @@ If called in void context, it will print the internal error code and the
 associated error message to STDERR.
 
 If called in list context, it will return the error code and the error
-message in that order.
+message in that order. If the last error was from parsing, the third
+value returned is the best guess at the location within the line that was
+being parsed. It's value is 1-based.
+
+Note: C<$pos> returned by the backend Text::CSV_PP does not show
+the error point in many cases (see to the below line).
+It is for conscience's sake in using Text::CSV_PP.
 
 If called in scalar context, it will return the diagnostics in a single
 scalar, a-la $!. It will contain the error code in numeric context, and
@@ -886,6 +853,11 @@ Text::CSV_XS parses csv strings by dividing one character while Text::CSV_PP
 by using the regular expressions. That difference makes the different cause
 of the failure.
 
+=head2 SetDiag
+
+ $csv->SetDiag (0);
+
+Use to reset the diagnosticts if you are dealing with errors.
 
 =head2 Some methods are Text::CSV only.
 
@@ -920,6 +892,58 @@ This function changes depending on the used module (XS or PurePerl).
 
 See to L<Text::CSV_XS/DIAGNOSTICS> and L<Text::CSV_PP/DIAGNOSTICS>.
 
+
+
+=head2 HISTORY AND WORKER MODULES
+
+This module, L<Text::CSV> was firstly written by Alan Citterman which could deal with
+B<only ascii characters>. Then, Jochen Wiedmann wrote L<Text::CSV_XS> which has
+the B<binary mode>. This XS version is maintained by H.Merijn Brand and L<Text::CSV_PP>
+written by Makamaka was pure-Perl version of Text::CSV_XS.
+
+Now, Text::CSV was rewritten by Makamaka and become a wrapper to Text::CSV_XS or Text::CSV_PP.
+Text::CSV_PP will be bundled in this distribution.
+
+When you use Text::CSV, it calls a backend worker module - L<Text::CSV_XS> or L<Text::CSV_PP>.
+By default, Text::CSV tries to use Text::CSV_XS which must be complied and installed properly.
+If this call is fail, Text::CSV uses L<Text::CSV_PP>.
+
+The required Text::CSV_XS version is I<0.41> in Text::CSV version 1.03.
+
+If you set an enviornment variable C<PERL_TEXT_CSV>, The calling action will be changed.
+
+=over
+
+=item PERL_TEXT_CSV = 0
+
+=item PERL_TEXT_CSV = 'Text::CSV_PP'
+
+Always use Text::CSV_PP
+
+=item PERL_TEXT_CSV = 1
+
+=item PERL_TEXT_CSV = 'Text::CSV_XS,Text::CSV_PP'
+
+(The default) Use compiled Text::CSV_XS if it is properly compiled & installed,
+otherwise use Text::CSV_PP
+
+=item PERL_TEXT_CSV = 2
+
+=item PERL_TEXT_CSV = 'Text::CSV_XS'
+
+Always use compiled Text::CSV_XS, die if it isn't properly compiled & installed.
+
+=back
+
+These ideas come from L<DBI::PurePerl> mechanism.
+
+example:
+
+  BEGIN { $ENV{PERL_TEXT_CSV} = 0 }
+  use Text::CSV; # always uses Text::CSV_PP
+
+
+In future, it may be able to specify another module.
 
 =head1 TODO
 
