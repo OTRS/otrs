@@ -2,7 +2,7 @@
 # Kernel/System/DB/oracle.pm - oracle database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: oracle.pm,v 1.38 2008-04-18 19:36:25 martin Exp $
+# $Id: oracle.pm,v 1.39 2008-04-24 22:04:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -132,16 +132,14 @@ sub TableCreate {
                 $SQLStart .= $Self->{'DB::Comment'} . "----------------------------------------------------------\n";
             }
         }
-        if ( ( $Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate' )
-            && $Tag->{TagType} eq 'Start' )
-        {
-            $SQLStart .= "CREATE TABLE $Tag->{Name} (\n";
-            $TableName = $Tag->{Name};
-        }
-        if ( ( $Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate' )
-            && $Tag->{TagType} eq 'End' )
-        {
-            $SQLEnd .= "\n)";
+        if ( $Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate' ) {
+            if ( $Tag->{TagType} eq 'Start' ) {
+                $SQLStart .= "CREATE TABLE $Tag->{Name} (\n";
+                $TableName = $Tag->{Name};
+            }
+            elsif ( $Tag->{TagType} eq 'End' ) {
+                $SQLEnd .= "\n)";
+            }
         }
         elsif ( $Tag->{Tag} eq 'Column' && $Tag->{TagType} eq 'Start' ) {
             push @Column, $Tag;
@@ -176,7 +174,7 @@ sub TableCreate {
         # normal data type
         $SQL .= "    $Tag->{Name} $Tag->{Type}";
         if ( $Tag->{Required} =~ /^true$/i ) {
-            $SQL .= " NOT NULL";
+            $SQL .= ' NOT NULL';
         }
 
         # add primary key
@@ -187,9 +185,10 @@ sub TableCreate {
         }
         if ( $Tag->{PrimaryKey} && $Tag->{PrimaryKey} =~ /true/i ) {
             push( @Return2,
-                      "ALTER TABLE $TableName ADD CONSTRAINT $Constraint"
-                    . "_PK PRIMARY KEY ($Tag->{Name})"
+                      "ALTER TABLE $TableName ADD CONSTRAINT PK_$Constraint"
+                    . " PRIMARY KEY ($Tag->{Name})"
             );
+            push @{ $Index{'PK_INX_'. $TableName . '_' . $Tag->{Name}} }, { Name => $Tag->{Name} };
         }
 
         # auto increment
@@ -216,21 +215,24 @@ sub TableCreate {
     }
 
     # add uniq
-    my $UniqCunter = 0;
+    my $UniqCounter = 0;
     for my $Name ( keys %Uniq ) {
-        $UniqCunter++;
+        $UniqCounter++;
         if ($SQL) {
             $SQL .= ",\n";
         }
-        $SQL .= "    CONSTRAINT $TableName" . "_U_$UniqCunter UNIQUE (";
+        $SQL .= "    CONSTRAINT $TableName" . "_U_$UniqCounter UNIQUE (";
         my @Array = @{ $Uniq{$Name} };
+        my $Name  = '';
         for ( 0 .. $#Array ) {
             if ( $_ > 0 ) {
-                $SQL .= ", ";
+                $SQL .= ', ';
             }
             $SQL .= $Array[$_]->{Name};
+            $Name .= '_' . $Array[$_]->{Name};
         }
-        $SQL .= ")";
+        $SQL .= ')';
+        push @{ $Index{'U_INX_' . $TableName . $Name} }, @Array;
     }
     push @Return, $SQLStart . $SQL . $SQLEnd, @Return2;
 
@@ -246,14 +248,6 @@ sub TableCreate {
         );
     }
 
-    # add uniq
-    #    for my $Name (keys %Uniq) {
-    #        push (@Return, $Self->UniqueCreate(
-    #            TableName => $TableName,
-    #            Name => $Name,
-    #            Data => $Uniq{$Name},
-    #        ));
-    #    }
     # add foreign keys
     for my $ForeignKey ( keys %Foreign ) {
         my @Array = @{ $Foreign{$ForeignKey} };
@@ -293,9 +287,11 @@ sub TableDrop {
 sub TableAlter {
     my ( $Self, @Param ) = @_;
 
-    my $SQLStart = '';
-    my @SQL      = ();
-    my $Table    = '';
+    my $SQLStart  = '';
+    my @SQL       = ();
+    my @Index     = ();
+    my $IndexName = ();
+    my $Table     = '';
     for my $Tag (@Param) {
         if ( $Tag->{Tag} eq 'TableAlter' && $Tag->{TagType} eq 'Start' ) {
             $Table = $Tag->{Name} || $Tag->{NameNew};
@@ -318,12 +314,12 @@ sub TableAlter {
             # normal data type
             my $SQLEnd = $SQLStart . " ADD $Tag->{Name} $Tag->{Type}";
             if ( !$Tag->{Default} && $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
-                $SQLEnd .= " NOT NULL";
+                $SQLEnd .= ' NOT NULL';
             }
 
             # auto increment
             if ( $Tag->{AutoIncrement} && $Tag->{AutoIncrement} =~ /^true$/i ) {
-                $SQLEnd .= " AUTO_INCREMENT";
+                $SQLEnd .= ' AUTO_INCREMENT';
             }
 
             # add primary key
@@ -364,15 +360,15 @@ sub TableAlter {
             }
             my $SQLEnd = $SQLStart . " MODIFY $Tag->{Name} $Tag->{Type}";
             if ( $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
-                $SQLEnd .= " NOT NULL";
+                $SQLEnd .= ' NOT NULL';
             }
             else {
-                $SQLEnd .= " NULL";
+                $SQLEnd .= ' NULL';
             }
 
             # auto increment
             if ( $Tag->{AutoIncrement} && $Tag->{AutoIncrement} =~ /^true$/i ) {
-                $SQLEnd .= " AUTO_INCREMENT";
+                $SQLEnd .= ' AUTO_INCREMENT';
             }
 
             # add primary key
@@ -384,6 +380,24 @@ sub TableAlter {
         elsif ( $Tag->{Tag} eq 'ColumnDrop' && $Tag->{TagType} eq 'Start' ) {
             my $SQLEnd = $SQLStart . " DROP COLUMN $Tag->{Name}";
             push @SQL, $SQLEnd;
+        }
+        elsif ( $Tag->{Tag} =~ /^((Index|Unique)(Create|Drop))/ ) {
+            my $Method = $Tag->{Tag};
+            if ( $Tag->{Name} ) {
+                $IndexName = $Tag->{Name};
+            }
+            if ( $Tag->{TagType} eq 'End' ) {
+                push @SQL,   $Self->$Method(
+                    TableName => $Table,
+                    Name      => $IndexName,
+                    Data      => \@Index,
+                );
+                $IndexName = '';
+                @Index     = ();
+            }
+        }
+        elsif ( $Tag->{Tag} =~ /^(IndexColumn|UniqueColumn)/ && $Tag->{TagType} eq 'Start' ) {
+            push @Index, $Tag;
         }
     }
     return @SQL;
@@ -416,7 +430,7 @@ sub IndexCreate {
             #           $SQL .= "($Array[$_]->{Size})";
         }
     }
-    $SQL .= ")";
+    $SQL .= ')';
 
     # return SQL
     return ($SQL);
@@ -433,7 +447,7 @@ sub IndexDrop {
             return;
         }
     }
-    my $SQL = "DROP INDEX $Param{Name}";
+    my $SQL = 'DROP INDEX ' . $Param{Name};
     return ($SQL);
 }
 
@@ -447,7 +461,7 @@ sub ForeignKeyCreate {
             return;
         }
     }
-    my $ForeignKey = "fk_$Param{LocalTableName}_$Param{Local}_$Param{Foreign}";
+    my $ForeignKey = "FK_$Param{LocalTableName}_$Param{Local}_$Param{Foreign}";
     if ( length($ForeignKey) > 30 ) {
         $ForeignKey = substr( $ForeignKey, 0, 28 );
         $ForeignKey .= int( rand(99) );
@@ -485,14 +499,16 @@ sub UniqueCreate {
         }
     }
     my $SQL   = "ALTER TABLE $Param{TableName} ADD CONSTRAINT $Param{Name} UNIQUE (";
-    my @Array = @{ $Param{'Data'} };
+    my @Array = @{ $Param{Data} };
+    my $Name  = '';
     for ( 0 .. $#Array ) {
         if ( $_ > 0 ) {
-            $SQL .= ", ";
+            $SQL .= ', ';
         }
         $SQL .= $Array[$_]->{Name};
+        $Name .= '_' . $Array[$_]->{Name};
     }
-    $SQL .= ")";
+    $SQL .= ')';
 
     # return SQL
     return ($SQL);

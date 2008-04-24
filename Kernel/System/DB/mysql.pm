@@ -2,7 +2,7 @@
 # Kernel/System/DB/mysql.pm - mysql database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: mysql.pm,v 1.32 2008-04-18 19:36:25 martin Exp $
+# $Id: mysql.pm,v 1.33 2008-04-24 22:04:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -138,16 +138,14 @@ sub TableCreate {
                 $SQLStart .= $Self->{'DB::Comment'} . "----------------------------------------------------------\n";
             }
         }
-        if ( ( $Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate' )
-            && $Tag->{TagType} eq 'Start' )
-        {
-            $SQLStart .= "CREATE TABLE $Tag->{Name} (\n";
-            $TableName = $Tag->{Name};
-        }
-        if ( ( $Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate' )
-            && $Tag->{TagType} eq 'End' )
-        {
-            $SQLEnd .= ")";
+        if ( $Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate' ) {
+            if ( $Tag->{TagType} eq 'Start' ) {
+                $SQLStart .= "CREATE TABLE $Tag->{Name} (\n";
+                $TableName = $Tag->{Name};
+            }
+            elsif ( $Tag->{TagType} eq 'End' ) {
+                $SQLEnd .= ')';
+            }
         }
         elsif ( $Tag->{Tag} eq 'Column' && $Tag->{TagType} eq 'Start' ) {
             push @Column, $Tag;
@@ -304,9 +302,11 @@ sub TableDrop {
 sub TableAlter {
     my ( $Self, @Param ) = @_;
 
-    my $SQLStart = '';
-    my @SQL      = ();
-    my $Table    = '';
+    my $SQLStart  = '';
+    my @SQL       = ();
+    my @Index     = ();
+    my $IndexName = ();
+    my $Table     = '';
     for my $Tag (@Param) {
         if ( $Tag->{Tag} eq 'TableAlter' && $Tag->{TagType} eq 'Start' ) {
             $Table = $Tag->{Name} || $Tag->{NameNew};
@@ -368,6 +368,24 @@ sub TableAlter {
             my $SQLEnd = $SQLStart . " DROP $Tag->{Name}";
             push @SQL, $SQLEnd;
         }
+        elsif ( $Tag->{Tag} =~ /^((Index|Unique)(Create|Drop))/ ) {
+            my $Method = $Tag->{Tag};
+            if ( $Tag->{Name} ) {
+                $IndexName = $Tag->{Name};
+            }
+            if ( $Tag->{TagType} eq 'End' ) {
+                push @SQL,   $Self->$Method(
+                    TableName => $Table,
+                    Name      => $IndexName,
+                    Data      => \@Index,
+                );
+                $IndexName = '';
+                @Index     = ();
+            }
+        }
+        elsif ( $Tag->{Tag} =~ /^(IndexColumn|UniqueColumn)/ && $Tag->{TagType} eq 'Start' ) {
+            push @Index, $Tag;
+        }
     }
     return @SQL;
 }
@@ -383,18 +401,17 @@ sub IndexCreate {
         }
     }
     my $SQL   = "CREATE INDEX $Param{Name} ON $Param{TableName} (";
-    my @Array = @{ $Param{'Data'} };
+    my @Array = @{ $Param{Data} };
     for ( 0 .. $#Array ) {
         if ( $_ > 0 ) {
-            $SQL .= ", ";
+            $SQL .= ', ';
         }
         $SQL .= $Array[$_]->{Name};
         if ( $Array[$_]->{Size} ) {
-
-            #           $SQL .= "($Array[$_]->{Size})";
+            $SQL .= "($Array[$_]->{Size})";
         }
     }
-    $SQL .= ")";
+    $SQL .= ')';
 
     # return SQL
     return ($SQL);
@@ -411,7 +428,7 @@ sub IndexDrop {
             return;
         }
     }
-    my $SQL = "DROP INDEX $Param{Name}";
+    my $SQL = 'DROP INDEX ' . $Param{Name} . ' ON ' . $Param{TableName};
     return ($SQL);
 }
 
@@ -444,9 +461,8 @@ sub ForeignKeyDrop {
         }
     }
 
-    #    my $SQL = "ALTER TABLE $Param{TableName} DROP CONSTRAINT $Param{Name}";
-    #    return ($SQL);
-    return;
+    my $SQL = 'ALTER TABLE ' . $Param{TableName} . ' DROP FOREIGN KEY ' . $Param{Name};
+    return ($SQL);
 }
 
 sub UniqueCreate {
@@ -460,14 +476,14 @@ sub UniqueCreate {
         }
     }
     my $SQL   = "ALTER TABLE $Param{TableName} ADD CONSTRAINT $Param{Name} UNIQUE (";
-    my @Array = @{ $Param{'Data'} };
+    my @Array = @{ $Param{Data} };
     for ( 0 .. $#Array ) {
         if ( $_ > 0 ) {
-            $SQL .= ", ";
+            $SQL .= ', ';
         }
         $SQL .= $Array[$_]->{Name};
     }
-    $SQL .= ")";
+    $SQL .= ')';
 
     # return SQL
     return ($SQL);
@@ -484,7 +500,7 @@ sub UniqueDrop {
             return;
         }
     }
-    my $SQL = "ALTER TABLE $Param{TableName} DROP CONSTRAINT $Param{Name}";
+    my $SQL = 'ALTER TABLE ' . $Param{TableName} . ' DROP INDEX ' . $Param{Name};
     return ($SQL);
 }
 

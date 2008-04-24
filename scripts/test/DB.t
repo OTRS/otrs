@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.33 2008-04-11 22:51:47 martin Exp $
+# $Id: DB.t,v 1.34 2008-04-24 22:04:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -344,6 +344,14 @@ $XML = '
     <ColumnAdd Name="test2" Type="varchar" Size="20" Required="true"/>
     <ColumnChange NameOld="test2" NameNew="test3" Type="varchar" Size="30" Required="false"/>
     <ColumnChange NameOld="test3" NameNew="test3" Type="varchar" Size="30" Required="true"/>
+    <IndexCreate Name="index_test3">
+        <IndexColumn Name="test3"/>
+    </IndexCreate>
+    <UniqueCreate Name="uniq_test3">
+        <UniqueColumn Name="test3"/>
+    </UniqueCreate>
+    <IndexDrop Name="index_test3"/>
+    <UniqueDrop Name="uniq_test3"/>
     <ColumnDrop Name="test3"/>
 </TableAlter>
 ';

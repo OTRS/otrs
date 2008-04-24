@@ -2,7 +2,7 @@
 # Kernel/System/DB/maxdb.pm - maxdb database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: maxdb.pm,v 1.30 2008-04-18 19:36:25 martin Exp $
+# $Id: maxdb.pm,v 1.31 2008-04-24 22:04:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -404,7 +404,7 @@ sub IndexDrop {
             return;
         }
     }
-    my $SQL = "DROP INDEX $Param{Name}";
+    my $SQL = 'DROP INDEX ' . $Param{Name} . ' ON ' . $Param{TableName};
     return ($SQL);
 }
 
@@ -437,9 +437,8 @@ sub ForeignKeyDrop {
         }
     }
 
-    #    my $SQL = "ALTER TABLE $Param{TableName} DROP CONSTRAINT $Param{Name}";
-    #    return ($SQL);
-    return;
+    my $SQL = 'ALTER TABLE ' . $Param{TableName} . ' DROP FOREIGN KEY ' . $Param{Name};
+    return ($SQL);
 }
 
 sub UniqueCreate {

@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.88 2008-04-23 12:23:50 tr Exp $
+# $Id: DB.pm,v 1.89 2008-04-24 22:04:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.88 $) [1];
+$VERSION = qw($Revision: 1.89 $) [1];
 
 =head1 NAME
 
@@ -737,48 +737,55 @@ sub SQLProcessor {
         my @Table = ();
         for my $Tag ( @{ $Param{Database} } ) {
 
-            if ( ( $Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate' )
-                && $Tag->{TagType} eq 'Start' )
-            {
+            # create table
+            if ( $Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate' ) {
                 push @Table, $Tag;
+                if ( $Tag->{TagType} eq 'End' ) {
+                    push @SQL, $Self->{Backend}->TableCreate(@Table);
+                    @Table = ();
+                }
             }
-            elsif ( ( $Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate' )
-                && $Tag->{TagType} eq 'End' )
-            {
-                push @Table, $Tag;
-                push @SQL,   $Self->{Backend}->TableCreate(@Table);
-                @Table = ();
-            }
-            elsif ( $Tag->{Tag} eq 'Column' && $Tag->{TagType} eq 'Start' ) {
 
-                # type check
-                $Self->_TypeCheck($Tag);
+            # unique
+            elsif ( $Tag->{Tag} eq 'Unique' || $Tag->{Tag} eq 'UniqueCreate' || $Tag->{Tag} eq 'UniqueDrop' ) {
                 push @Table, $Tag;
             }
-            elsif ( $Tag->{Tag} eq 'Unique' && $Tag->{TagType} eq 'Start' ) {
+#            elsif ( $Tag->{Tag} eq 'UniqueColumn' && $Tag->{TagType} eq 'Start' ) {
+            elsif ( $Tag->{Tag} eq 'UniqueColumn' ) {
                 push @Table, $Tag;
             }
-            elsif ( $Tag->{Tag} eq 'UniqueColumn' && $Tag->{TagType} eq 'Start' ) {
+
+            # index
+            elsif ( $Tag->{Tag} eq 'Index' || $Tag->{Tag} eq 'IndexCreate' || $Tag->{Tag} eq 'IndexDrop' ) {
                 push @Table, $Tag;
             }
-            elsif ( $Tag->{Tag} eq 'Index' && $Tag->{TagType} eq 'Start' ) {
+#            elsif ( $Tag->{Tag} eq 'IndexColumn' && $Tag->{TagType} eq 'Start' ) {
+            elsif ( $Tag->{Tag} eq 'IndexColumn' ) {
                 push @Table, $Tag;
             }
-            elsif ( $Tag->{Tag} eq 'IndexColumn' && $Tag->{TagType} eq 'Start' ) {
-                push @Table, $Tag;
-            }
+
+            # foreign keys
             elsif ( $Tag->{Tag} eq 'ForeignKey' && $Tag->{TagType} eq 'Start' ) {
                 push @Table, $Tag;
             }
             elsif ( $Tag->{Tag} eq 'Reference' && $Tag->{TagType} eq 'Start' ) {
                 push @Table, $Tag;
             }
-            elsif ( $Tag->{Tag} eq 'TableDrop' && $Tag->{TagType} eq 'Start' ) {
+
+            # alter table
+            elsif ( $Tag->{Tag} eq 'TableAlter' ) {
                 push @Table, $Tag;
-                push @SQL,   $Self->{Backend}->TableDrop(@Table);
-                @Table = ();
+                if ( $Tag->{TagType} eq 'End' ) {
+                    push @SQL, $Self->{Backend}->TableAlter(@Table);
+                    @Table = ();
+                }
             }
-            elsif ( $Tag->{Tag} eq 'TableAlter' && $Tag->{TagType} eq 'Start' ) {
+
+            # column
+            elsif ( $Tag->{Tag} eq 'Column' && $Tag->{TagType} eq 'Start' ) {
+
+                # type check
+                $Self->_TypeCheck($Tag);
                 push @Table, $Tag;
             }
             elsif ( $Tag->{Tag} eq 'ColumnAdd' && $Tag->{TagType} eq 'Start' ) {
@@ -799,21 +806,25 @@ sub SQLProcessor {
                 $Self->_TypeCheck($Tag);
                 push @Table, $Tag;
             }
-            elsif ( $Tag->{Tag} eq 'TableAlter' && $Tag->{TagType} eq 'End' ) {
+
+            # drop table
+            elsif ( $Tag->{Tag} eq 'TableDrop' && $Tag->{TagType} eq 'Start' ) {
                 push @Table, $Tag;
-                push @SQL,   $Self->{Backend}->TableAlter(@Table);
+                push @SQL,   $Self->{Backend}->TableDrop(@Table);
                 @Table = ();
             }
-            elsif ( $Tag->{Tag} eq 'Insert' && $Tag->{TagType} eq 'Start' ) {
+
+            # insert
+            elsif ( $Tag->{Tag} eq 'Insert' ) {
                 push @Table, $Tag;
+                if ( $Tag->{TagType} eq 'End' ) {
+                    push @Table, $Tag;
+                    push @SQL,   $Self->{Backend}->Insert(@Table);
+                    @Table = ();
+                }
             }
             elsif ( $Tag->{Tag} eq 'Data' && $Tag->{TagType} eq 'Start' ) {
                 push @Table, $Tag;
-            }
-            elsif ( $Tag->{Tag} eq 'Insert' && $Tag->{TagType} eq 'End' ) {
-                push @Table, $Tag;
-                push @SQL,   $Self->{Backend}->Insert(@Table);
-                @Table = ();
             }
         }
     }
@@ -832,7 +843,6 @@ e. g. foreign keys
 sub SQLProcessorPost {
     my ( $Self, %Param ) = @_;
 
-    my @SQL = ();
     if ( $Self->{Backend}->{Post} ) {
         my @Return = @{ $Self->{Backend}->{Post} };
         undef $Self->{Backend}->{Post};
@@ -1131,6 +1141,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.88 $ $Date: 2008-04-23 12:23:50 $
+$Revision: 1.89 $ $Date: 2008-04-24 22:04:12 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/DB/postgresql.pm - postgresql database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: postgresql.pm,v 1.31 2008-04-18 19:36:25 martin Exp $
+# $Id: postgresql.pm,v 1.32 2008-04-24 22:04:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -227,14 +227,6 @@ sub TableCreate {
         );
     }
 
-    # add uniq
-    #    for my $Name (keys %Uniq) {
-    #        push (@Return, $Self->UniqueCreate(
-    #            TableName => $TableName,
-    #            Name => $Name,
-    #            Data => $Uniq{$Name},
-    #        ));
-    #    }
     # add foreign keys
     for my $ForeignKey ( keys %Foreign ) {
         my @Array = @{ $Foreign{$ForeignKey} };
@@ -274,9 +266,11 @@ sub TableDrop {
 sub TableAlter {
     my ( $Self, @Param ) = @_;
 
-    my $SQLStart = '';
-    my @SQL      = ();
-    my $Table    = '';
+    my $SQLStart  = '';
+    my @SQL       = ();
+    my @Index     = ();
+    my $IndexName = ();
+    my $Table     = '';
     for my $Tag (@Param) {
         if ( $Tag->{Tag} eq 'TableAlter' && $Tag->{TagType} eq 'Start' ) {
             $Table = $Tag->{Name} || $Tag->{NameNew};
@@ -299,7 +293,7 @@ sub TableAlter {
             # normal data type
             my $SQLEnd = $SQLStart . " ADD $Tag->{Name} $Tag->{Type}";
             if ( !$Tag->{Default} && $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
-                $SQLEnd .= " NOT NULL";
+                $SQLEnd .= ' NOT NULL';
             }
             push @SQL, $SQLEnd;
 
@@ -341,6 +335,24 @@ sub TableAlter {
             my $SQLEnd = $SQLStart . " DROP $Tag->{Name}";
             push @SQL, $SQLEnd;
         }
+        elsif ( $Tag->{Tag} =~ /^((Index|Unique)(Create|Drop))/ ) {
+            my $Method = $Tag->{Tag};
+            if ( $Tag->{Name} ) {
+                $IndexName = $Tag->{Name};
+            }
+            if ( $Tag->{TagType} eq 'End' ) {
+                push @SQL,   $Self->$Method(
+                    TableName => $Table,
+                    Name      => $IndexName,
+                    Data      => \@Index,
+                );
+                $IndexName = '';
+                @Index     = ();
+            }
+        }
+        elsif ( $Tag->{Tag} =~ /^(IndexColumn|UniqueColumn)/ && $Tag->{TagType} eq 'Start' ) {
+            push @Index, $Tag;
+        }
     }
     return @SQL;
 }
@@ -356,10 +368,10 @@ sub IndexCreate {
         }
     }
     my $SQL   = "CREATE INDEX $Param{Name} ON $Param{TableName} (";
-    my @Array = @{ $Param{'Data'} };
+    my @Array = @{ $Param{Data} };
     for ( 0 .. $#Array ) {
         if ( $_ > 0 ) {
-            $SQL .= ", ";
+            $SQL .= ', ';
         }
         $SQL .= $Array[$_]->{Name};
         if ( $Array[$_]->{Size} ) {
@@ -367,7 +379,7 @@ sub IndexCreate {
             #           $SQL .= "($Array[$_]->{Size})";
         }
     }
-    $SQL .= ")";
+    $SQL .= ')';
 
     # return SQL
     return ($SQL);
@@ -384,7 +396,7 @@ sub IndexDrop {
             return;
         }
     }
-    my $SQL = "DROP INDEX $Param{Name}";
+    my $SQL = 'DROP INDEX ' . $Param{Name};
     return ($SQL);
 }
 
@@ -417,9 +429,8 @@ sub ForeignKeyDrop {
         }
     }
 
-    #    my $SQL = "ALTER TABLE $Param{TableName} DROP CONSTRAINT $Param{Name}";
-    #    return ($SQL);
-    return;
+    my $SQL = 'ALTER TABLE ' . $Param{TableName} . ' DROP FOREIGN KEY ' . $Param{Name};
+    return ($SQL);
 }
 
 sub UniqueCreate {
@@ -433,14 +444,14 @@ sub UniqueCreate {
         }
     }
     my $SQL   = "ALTER TABLE $Param{TableName} ADD CONSTRAINT $Param{Name} UNIQUE (";
-    my @Array = @{ $Param{'Data'} };
+    my @Array = @{ $Param{Data} };
     for ( 0 .. $#Array ) {
         if ( $_ > 0 ) {
-            $SQL .= ", ";
+            $SQL .= ', ';
         }
         $SQL .= $Array[$_]->{Name};
     }
-    $SQL .= ")";
+    $SQL .= ')';
 
     # return SQL
     return ($SQL);
