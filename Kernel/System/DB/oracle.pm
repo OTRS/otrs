@@ -2,7 +2,7 @@
 # Kernel/System/DB/oracle.pm - oracle database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: oracle.pm,v 1.39 2008-04-24 22:04:12 martin Exp $
+# $Id: oracle.pm,v 1.40 2008-04-24 22:57:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -188,7 +188,6 @@ sub TableCreate {
                       "ALTER TABLE $TableName ADD CONSTRAINT PK_$Constraint"
                     . " PRIMARY KEY ($Tag->{Name})"
             );
-            push @{ $Index{'PK_INX_'. $TableName . '_' . $Tag->{Name}} }, { Name => $Tag->{Name} };
         }
 
         # auto increment
