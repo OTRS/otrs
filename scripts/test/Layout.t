@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.15 2008-04-04 08:42:50 tr Exp $
+# $Id: Layout.t,v 1.16 2008-04-24 21:37:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,6 +37,7 @@ $Self->{ParamObject} = Kernel::System::Web::Request->new(
 $Self->{GroupObject} = Kernel::System::Group->new(
     ConfigObject   => $Self->{ConfigObject},
     LogObject      => $Self->{LogObject},
+    MainObject     => $Self->{MainObject},
     DBObject       => $Self->{DBObject},
 );
 
@@ -439,6 +440,40 @@ for my $Test ( @Tests ) {
         Text           => $Test->{String},
         LinkFeature    => 1,
         HTMLResultMode => 1,
+    );
+    $Self->Is(
+        $HTML || '',
+        $Test->{Result},
+        $Test->{Name},
+    );
+}
+
+# html quoting 3
+@Tests = (
+    {
+        Name   => 'Ascii2Html() - Max check #1',
+        String => 'some Text',
+        Result => 'some [..]',
+        Max    => 5,
+    },
+    {
+        Name   => 'Ascii2Html() - Max check #2',
+        String => 'some Text',
+        Result => 'some Tex[..]',
+        Max    => 8,
+    },
+    {
+        Name   => 'Ascii2Html() - Max check #2',
+        String => 'some Text',
+        Result => 'some Text',
+        Max    => 9,
+    },
+);
+
+for my $Test ( @Tests ) {
+    my $HTML = $Self->{LayoutObject}->Ascii2Html(
+        Text => $Test->{String},
+        Max  => $Test->{Max},
     );
     $Self->Is(
         $HTML || '',
