@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.pm,v 1.70 2008-04-02 04:52:27 tr Exp $
+# $Id: PostMaster.pm,v 1.71 2008-04-24 21:48:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 =head1 NAME
 
@@ -53,29 +53,29 @@ create an object
     use Kernel::System::Postmaster;
 
     my $ConfigObject = Kernel::Config->new();
-    my $TimeObject = Kernel::System::Time->new(
+    my $TimeObject   = Kernel::System::Time->new(
         ConfigObject => $ConfigObject,
     );
     my $LogObject = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
     my $MainObject = Kernel::System::Main->new(
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
         ConfigObject => $ConfigObject,
     );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
-        MainObject => $MainObject,
-        LogObject => $LogObject,
+        MainObject   => $MainObject,
+        LogObject    => $LogObject,
     );
     my $PostMasterObject = Kernel::System::PostMasterObject->new(
-        DBObject => DBObject,
-        TimeObject => TimeObject,
+        DBObject     => DBObject,
+        TimeObject   => TimeObject,
         ConfigObject => $ConfigObject,
-        MainObject => $MainObject,
-        LogObject => $LogObject,
-        Email => \@ArrayOfEmailContent,
-        Trusted => 1, # 1|0 ignore X-OTRS header if false
+        MainObject   => $MainObject,
+        LogObject    => $LogObject,
+        Email        => \@ArrayOfEmailContent,
+        Trusted      => 1, # 1|0 ignore X-OTRS header if false
     );
 
 =cut
@@ -171,35 +171,33 @@ sub Run {
     my ( $Tn, $TicketID ) = $Self->CheckFollowUp( %{$GetParam} );
 
     # run all PreFilterModules (modify email params)
-    if ( ref( $Self->{ConfigObject}->Get('PostMaster::PreFilterModule') ) eq 'HASH' ) {
+    if ( ref $Self->{ConfigObject}->Get('PostMaster::PreFilterModule') eq 'HASH' ) {
         my %Jobs = %{ $Self->{ConfigObject}->Get('PostMaster::PreFilterModule') };
         for my $Job ( sort keys %Jobs ) {
-            if ( $Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
-                my $FilterObject = $Jobs{$Job}->{Module}->new(
-                    ConfigObject => $Self->{ConfigObject},
-                    MainObject   => $Self->{MainObject},
-                    LogObject    => $Self->{LogObject},
-                    DBObject     => $Self->{DBObject},
-                    ParseObject  => $Self->{ParseObject},
-                    TicketObject => $Self->{TicketObject},
-                    TimeObject   => $Self->{TimeObject},
-                    Debug        => $Self->{Debug},
-                );
+            return if ! $Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
 
-                # modify params
-                if (!$FilterObject->Run(
-                        GetParam  => $GetParam,
-                        JobConfig => $Jobs{$Job},
-                        TicketID  => $TicketID,
-                    )
-                    )
-                {
-                    $Self->{LogObject}->Log(
-                        Priority => 'error',
-                        Message =>
-                            "Execute Run() of PreFilterModule $Jobs{$Job}->{Module} not successfully!",
-                    );
-                }
+            my $FilterObject = $Jobs{$Job}->{Module}->new(
+                ConfigObject => $Self->{ConfigObject},
+                MainObject   => $Self->{MainObject},
+                LogObject    => $Self->{LogObject},
+                DBObject     => $Self->{DBObject},
+                ParseObject  => $Self->{ParseObject},
+                TicketObject => $Self->{TicketObject},
+                TimeObject   => $Self->{TimeObject},
+                Debug        => $Self->{Debug},
+            );
+
+            # modify params
+            my $Run = $FilterObject->Run(
+                GetParam  => $GetParam,
+                JobConfig => $Jobs{$Job},
+                TicketID  => $TicketID,
+            );
+            if ( !$Run ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message => "Execute Run() of PreFilterModule $Jobs{$Job}->{Module} not successfully!",
+                );
             }
         }
     }
@@ -208,8 +206,7 @@ sub Run {
     if ( $GetParam->{'X-OTRS-Ignore'} && $GetParam->{'X-OTRS-Ignore'} =~ /yes/i ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message =>
-                "Ignored Email (From: $GetParam->{'From'}, Message-ID: $GetParam->{'Message-ID'}) "
+            Message => "Ignored Email (From: $GetParam->{'From'}, Message-ID: $GetParam->{'Message-ID'}) "
                 . "because the X-OTRS-Ignore is set (X-OTRS-Ignore: $GetParam->{'X-OTRS-Ignore'})."
         );
         return (5);
@@ -271,9 +268,7 @@ sub Run {
             if ( !$TicketID ) {
                 return;
             }
-            else {
-                @Return = ( 3, $TicketID );
-            }
+            @Return = ( 3, $TicketID );
         }
 
         # reject follow up
@@ -284,41 +279,35 @@ sub Run {
             );
 
             # send reject mail && and add article to ticket
-            if (!$Self->{Reject}->Run(
-                    TicketID         => $TicketID,
-                    InmailUserID     => $Self->{PostmasterUserID},
-                    GetParam         => $GetParam,
-                    Lock             => $Lock,
-                    Tn               => $Tn,
-                    Comment          => 'Follow up rejected.',
-                    AutoResponseType => 'auto reject',
-                )
-                )
-            {
+            my $Run = $Self->{Reject}->Run(
+                TicketID         => $TicketID,
+                InmailUserID     => $Self->{PostmasterUserID},
+                GetParam         => $GetParam,
+                Lock             => $Lock,
+                Tn               => $Tn,
+                Comment          => 'Follow up rejected.',
+                AutoResponseType => 'auto reject',
+            );
+            if ( !$Run ) {
                 return;
             }
-            else {
-                @Return = ( 4, $TicketID );
-            }
+            @Return = ( 4, $TicketID );
         }
 
         # create normal follow up
         else {
-            if (!$Self->{FollowUp}->Run(
-                    TicketID         => $TicketID,
-                    InmailUserID     => $Self->{PostmasterUserID},
-                    GetParam         => $GetParam,
-                    Lock             => $Lock,
-                    Tn               => $Tn,
-                    AutoResponseType => 'auto follow up',
-                )
-                )
-            {
+            my $Run = $Self->{FollowUp}->Run(
+                TicketID         => $TicketID,
+                InmailUserID     => $Self->{PostmasterUserID},
+                GetParam         => $GetParam,
+                Lock             => $Lock,
+                Tn               => $Tn,
+                AutoResponseType => 'auto follow up',
+            );
+            if ( !$Run ) {
                 return;
             }
-            else {
-                @Return = ( 2, $TicketID );
-            }
+            @Return = ( 2, $TicketID );
         }
     }
 
@@ -349,41 +338,37 @@ sub Run {
         if ( !$TicketID ) {
             return;
         }
-        else {
-            @Return = ( 1, $TicketID );
-        }
+        @Return = ( 1, $TicketID );
     }
 
     # run all PostFilterModules (modify email params)
-    if ( ref( $Self->{ConfigObject}->Get('PostMaster::PostFilterModule') ) eq 'HASH' ) {
+    if ( ref $Self->{ConfigObject}->Get('PostMaster::PostFilterModule') eq 'HASH' ) {
         my %Jobs = %{ $Self->{ConfigObject}->Get('PostMaster::PostFilterModule') };
         for my $Job ( sort keys %Jobs ) {
-            if ( $Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
-                my $FilterObject = $Jobs{$Job}->{Module}->new(
-                    ConfigObject => $Self->{ConfigObject},
-                    MainObject   => $Self->{MainObject},
-                    LogObject    => $Self->{LogObject},
-                    DBObject     => $Self->{DBObject},
-                    ParseObject  => $Self->{ParseObject},
-                    TicketObject => $Self->{TicketObject},
-                    TimeObject   => $Self->{TimeObject},
-                    Debug        => $Self->{Debug},
-                );
+            return if ! $Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
 
-                # modify params
-                if (!$FilterObject->Run(
-                        TicketID  => $TicketID,
-                        GetParam  => $GetParam,
-                        JobConfig => $Jobs{$Job},
-                    )
-                    )
-                {
-                    $Self->{LogObject}->Log(
-                        Priority => 'error',
-                        Message =>
-                            "Execute Run() of PostFilterModule $Jobs{$Job}->{Module} not successfully!",
-                    );
-                }
+            my $FilterObject = $Jobs{$Job}->{Module}->new(
+                ConfigObject => $Self->{ConfigObject},
+                MainObject   => $Self->{MainObject},
+                LogObject    => $Self->{LogObject},
+                DBObject     => $Self->{DBObject},
+                ParseObject  => $Self->{ParseObject},
+                TicketObject => $Self->{TicketObject},
+                TimeObject   => $Self->{TimeObject},
+                Debug        => $Self->{Debug},
+            );
+
+            # modify params
+            my $Run = $FilterObject->Run(
+                TicketID  => $TicketID,
+                GetParam  => $GetParam,
+                JobConfig => $Jobs{$Job},
+            );
+            if ( !$Run ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "Execute Run() of PostFilterModule $Jobs{$Job}->{Module} not successfully!",
+                );
             }
         }
     }
@@ -404,30 +389,32 @@ sub CheckFollowUp {
     my ( $Self, %Param ) = @_;
 
     my $Subject = $Param{Subject} || '';
-    if ( my $Tn = $Self->{TicketObject}->GetTNByString($Subject) ) {
+    my $Tn = $Self->{TicketObject}->GetTNByString($Subject);
+
+    if ( $Tn ) {
         my $TicketID = $Self->{TicketObject}->TicketCheckNumber( Tn => $Tn );
-        if ($TicketID) {
-            my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
-            if ( $Self->{Debug} > 1 ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'debug',
-                    Message =>
-                        "CheckFollowUp: ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
-                );
-            }
-            return ( $Ticket{TicketNumber}, $TicketID );
+        return if ! $TicketID;
+
+        my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
+        if ( $Self->{Debug} > 1 ) {
+            $Self->{LogObject}->Log(
+                Priority => 'debug',
+                Message  => "CheckFollowUp: ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
+            );
         }
+        return ( $Ticket{TicketNumber}, $TicketID );
     }
 
     # There is no valid ticket number in the subject.
     # Try to find ticket number in References and In-Reply-To header.
     if ( $Self->{ConfigObject}->Get('PostmasterFollowUpSearchInReferences') ) {
         my @References = $Self->{ParseObject}->GetReferences();
-        for (@References) {
+        for my $Reference (@References) {
 
             # get ticket id of message id
-            my $TicketID
-                = $Self->{TicketObject}->ArticleGetTicketIDOfMessageID( MessageID => "<$_>", );
+            my $TicketID = $Self->{TicketObject}->ArticleGetTicketIDOfMessageID(
+                MessageID => "<$Reference>",
+            );
             if ($TicketID) {
                 my $Tn = $Self->{TicketObject}->TicketNumberLookup( TicketID => $TicketID, );
                 if ( $TicketID && $Tn ) {
@@ -439,17 +426,15 @@ sub CheckFollowUp {
 
     # do body ticket number lookup
     if ( $Self->{ConfigObject}->Get('PostmasterFollowUpSearchInBody') ) {
-        if ( my $Tn
-            = $Self->{TicketObject}->GetTNByString( $Self->{ParseObject}->GetMessageBody() ) )
-        {
+        my $Tn = $Self->{TicketObject}->GetTNByString( $Self->{ParseObject}->GetMessageBody() );
+        if ( $Tn ) {
             my $TicketID = $Self->{TicketObject}->TicketCheckNumber( Tn => $Tn );
-            if ($TicketID) {
+            if ( $TicketID ) {
                 my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
                 if ( $Self->{Debug} > 1 ) {
                     $Self->{LogObject}->Log(
                         Priority => 'debug',
-                        Message =>
-                            "CheckFollowUp (in body): ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
+                        Message  => "CheckFollowUp (in body): ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
                     );
                 }
                 return ( $Ticket{TicketNumber}, $TicketID );
@@ -460,15 +445,15 @@ sub CheckFollowUp {
     # do attachment ticket number lookup
     if ( $Self->{ConfigObject}->Get('PostmasterFollowUpSearchInAttachment') ) {
         for my $Attachment ( $Self->{ParseObject}->GetAttachments() ) {
-            if ( my $Tn = $Self->{TicketObject}->GetTNByString( $Attachment->{Content} ) ) {
+            my $Tn = $Self->{TicketObject}->GetTNByString( $Attachment->{Content} );
+            if ( $Tn ) {
                 my $TicketID = $Self->{TicketObject}->TicketCheckNumber( Tn => $Tn );
                 if ($TicketID) {
                     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
                     if ( $Self->{Debug} > 1 ) {
                         $Self->{LogObject}->Log(
                             Priority => 'debug',
-                            Message =>
-                                "CheckFollowUp (in attachment): ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
+                            Message  => "CheckFollowUp (in attachment): ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
                         );
                     }
                     return ( $Ticket{TicketNumber}, $TicketID );
@@ -479,17 +464,15 @@ sub CheckFollowUp {
 
     # do plain/raw ticket number lookup
     if ( $Self->{ConfigObject}->Get('PostmasterFollowUpSearchInRaw') ) {
-        if ( my $Tn
-            = $Self->{TicketObject}->GetTNByString( $Self->{ParseObject}->GetPlainEmail() ) )
-        {
+        my $Tn = $Self->{TicketObject}->GetTNByString( $Self->{ParseObject}->GetPlainEmail() );
+        if ( $Tn ) {
             my $TicketID = $Self->{TicketObject}->TicketCheckNumber( Tn => $Tn );
-            if ($TicketID) {
+            if ( $TicketID ) {
                 my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
                 if ( $Self->{Debug} > 1 ) {
                     $Self->{LogObject}->Log(
                         Priority => 'debug',
-                        Message =>
-                            "CheckFollowUp (in plain/raw): ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
+                        Message  => "CheckFollowUp (in plain/raw): ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
                     );
                 }
                 return ( $Ticket{TicketNumber}, $TicketID );
@@ -513,10 +496,10 @@ sub GetEmailParams {
     my %GetParam;
 
     # parse section
-    my $WantParamTmp = $Self->{'PostmasterX-Header'} || die "Got no \@WantParam ref";
+    my $WantParamTmp = $Self->{'PostmasterX-Header'} || die 'Got no @WantParam ref';
     my @WantParam = @$WantParamTmp;
-    for (@WantParam) {
-        if ( !$Self->{Trusted} && $_ =~ /^x-otrs/i ) {
+    for my $Param (@WantParam) {
+        if ( !$Self->{Trusted} && $Param =~ /^x-otrs/i ) {
 
             # scan not x-otrs header if it's not trusted
         }
@@ -524,10 +507,10 @@ sub GetEmailParams {
             if ( $Self->{Debug} > 2 ) {
                 $Self->{LogObject}->Log(
                     Priority => 'debug',
-                    Message  => "$_: " . $Self->{ParseObject}->GetParam( WHAT => $_ ),
+                    Message  => "$Param: " . $Self->{ParseObject}->GetParam( WHAT => $Param ),
                 );
             }
-            $GetParam{$_} = $Self->{ParseObject}->GetParam( WHAT => $_ );
+            $GetParam{$Param} = $Self->{ParseObject}->GetParam( WHAT => $Param );
         }
     }
 
@@ -549,9 +532,13 @@ sub GetEmailParams {
     if ( !$GetParam{'X-Sender'} ) {
 
         # get sender email
-        my @EmailAddresses = $Self->{ParseObject}->SplitAddressLine( Line => $GetParam{From}, );
-        for (@EmailAddresses) {
-            $GetParam{'X-Sender'} = $Self->{ParseObject}->GetEmailAddress( Email => $_, );
+        my @EmailAddresses = $Self->{ParseObject}->SplitAddressLine(
+            Line => $GetParam{From},
+        );
+        for my $Email (@EmailAddresses) {
+            $GetParam{'X-Sender'} = $Self->{ParseObject}->GetEmailAddress(
+                Email => $Email,
+            );
         }
     }
 
@@ -612,6 +599,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.70 $ $Date: 2008-04-02 04:52:27 $
+$Revision: 1.71 $ $Date: 2008-04-24 21:48:51 $
 
 =cut

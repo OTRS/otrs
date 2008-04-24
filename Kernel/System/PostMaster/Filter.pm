@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter.pm - all functions to add/delete/list pm db filters
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Filter.pm,v 1.13 2008-04-02 04:52:27 tr Exp $
+# $Id: Filter.pm,v 1.14 2008-04-24 21:48:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 =head1 NAME
 
@@ -41,17 +41,17 @@ create an object
     use Kernel::System::Postmaster::Filter;
 
     my $ConfigObject = Kernel::Config->new();
-    my $LogObject = Kernel::System::Log->new(
+    my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
     );
     my $PMFilterObject = Kernel::System::Postmaster::Filter->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
-        DBObject => $DBObject,
+        LogObject    => $LogObject,
+        DBObject     => $DBObject,
     );
 
 =cut
@@ -75,16 +75,15 @@ sub new {
 
 get all filter
 
-    my %FilterList = $PSFilterObject->FilterList();
+    my %FilterList = $PMFilterObject->FilterList();
 
 =cut
 
 sub FilterList {
     my ( $Self, %Param ) = @_;
 
+    $Self->{DBObject}->Prepare( SQL => 'SELECT f_name FROM postmaster_filter' );
     my %Data = ();
-    my $SQL  = "SELECT f_name FROM postmaster_filter ";
-    $Self->{DBObject}->Prepare( SQL => $SQL );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[0];
     }
@@ -113,25 +112,20 @@ sub FilterAdd {
 
     # check needed stuff
     for (qw(Name Match Set)) {
-        if ( !$Param{$_} ) {
+        if ( ! defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
-    # db quote
-    for (qw(Name)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-    }
-    for my $Type ( 'Match', 'Set' ) {
+    for my $Type ( qw(Match Set) ) {
         my %Data = %{ $Param{$Type} };
-        for ( keys %Data ) {
-            $Data{$_} = $Self->{DBObject}->Quote( $Data{$_} ) || '';
-            my $SQL = "INSERT INTO postmaster_filter (f_name, f_type, f_key, f_value) "
-                . " VALUES ('$Param{Name}', '$Type', '$_', '$Data{$_}')";
-            if ( !$Self->{DBObject}->Do( SQL => $SQL ) ) {
-                return;
-            }
+        for my $Key ( keys %Data ) {
+            return if !$Self->{DBObject}->Do(
+                SQL => 'INSERT INTO postmaster_filter (f_name, f_type, f_key, f_value)'
+                    . ' VALUES (?, ?, ?, ?)',
+                Bind => [ \$Param{Name}, \$Type, \$Key, \$Data{$Key} ],
+            );
         }
     }
     return 1;
@@ -152,20 +146,16 @@ sub FilterDelete {
 
     # check needed stuff
     for (qw(Name)) {
-        if ( !$Param{$_} ) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
-    $Param{Name} = $Self->{DBObject}->Quote( $Param{Name} ) || '';
-    if ( $Self->{DBObject}
-        ->Do( SQL => "DELETE FROM postmaster_filter WHERE f_name = '$Param{Name}'" ) )
-    {
-        return 1;
-    }
-    else {
-        return;
-    }
+
+    return $Self->{DBObject}->Do(
+        SQL  => 'DELETE FROM postmaster_filter WHERE f_name = ?',
+        Bind => [ \$Param{Name} ],
+    );
 }
 
 =item FilterGet()
@@ -183,20 +173,17 @@ sub FilterGet {
 
     # check needed stuff
     for (qw(Name)) {
-        if ( !$Param{$_} ) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
-    # db quote
-    for ( keys %Param ) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} ) || '';
-    }
+    return if ! $Self->{DBObject}->Prepare(
+        SQL  => 'SELECT f_type, f_key, f_value, f_name FROM postmaster_filter WHERE f_name = ?',
+        Bind => [ \$Param{Name}],
+    );
     my %Data = ();
-    my $SQL
-        = "SELECT f_type, f_key, f_value, f_name FROM postmaster_filter WHERE f_name = '$Param{Name}'";
-    $Self->{DBObject}->Prepare( SQL => $SQL );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ $Row[0] }->{ $Row[1] } = $Row[2];
         $Data{Name} = $Row[3];
@@ -220,6 +207,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2008-04-02 04:52:27 $
+$Revision: 1.14 $ $Date: 2008-04-24 21:48:51 $
 
 =cut
