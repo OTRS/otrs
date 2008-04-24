@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.89 2008-04-19 23:26:24 martin Exp $
+# $Id: Layout.pm,v 1.90 2008-04-24 10:16:51 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.89 $) [1];
+$VERSION = qw($Revision: 1.90 $) [1];
 
 =head1 NAME
 
@@ -1216,12 +1216,13 @@ sub FatalDie {
 
     # get backend error messages
     for (qw(Message Traceback)) {
-        $Param{ 'Backend' . $_ } = $Self->{LogObject}->GetLogEntry(
+        my $Backend = 'Backend' . $_;
+        $Param{ $Backend } = $Self->{LogObject}->GetLogEntry(
             Type => 'Error',
             What => $_
         ) || '';
-        $Param{ 'Backend' . $_ } = $Self->Ascii2Html(
-            Text           => $Param{ 'Backend' . $_ },
+        $Param{ $Backend } = $Self->Ascii2Html(
+            Text           => $Param{ $Backend },
             HTMLResultMode => 1,
         );
     }
@@ -1229,15 +1230,14 @@ sub FatalDie {
         $Param{Message} = $Param{BackendMessage};
     }
     die $Param{Message};
-    exit;
 }
 
 sub ErrorScreen {
     my ( $Self, %Param ) = @_;
 
     my $Output = $Self->Header( Title => 'Error' );
-    $Output .= $Self->Error(%Param);
-    $Output .= $Self->Footer();
+    $Output   .= $Self->Error( %Param );
+    $Output   .= $Self->Footer();
     return $Output;
 }
 
@@ -1246,27 +1246,29 @@ sub Error {
 
     # get backend error messages
     for (qw(Message Traceback)) {
-        $Param{ 'Backend' . $_ } = $Self->{LogObject}->GetLogEntry(
+        my $Backend = 'Backend' . $_;
+        $Param{ $Backend } = $Self->{LogObject}->GetLogEntry(
             Type => 'Error',
             What => $_
         ) || '';
-        $Param{ 'Backend' . $_ } = $Self->Ascii2Html(
-            Text           => $Param{ 'Backend' . $_ },
+        $Param{ $Backend } = $Self->Ascii2Html(
+            Text           => $Param{ $Backend },
             HTMLResultMode => 1,
         );
     }
-    if ( !$Param{'BackendMessage'} && !$Param{'BackendTraceback'} ) {
+    if ( !$Param{BackendMessage} && !$Param{BackendTraceback} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => $Param{Message} || '?',
         );
         for (qw(Message Traceback)) {
-            $Param{ 'Backend' . $_ } = $Self->{LogObject}->GetLogEntry(
+            my $Backend = 'Backend' . $_;
+            $Param{ $Backend } = $Self->{LogObject}->GetLogEntry(
                 Type => 'Error',
                 What => $_
             ) || '';
-            $Param{ 'Backend' . $_ } = $Self->Ascii2Html(
-                Text           => $Param{ 'Backend' . $_ },
+            $Param{ $Backend } = $Self->Ascii2Html(
+                Text           => $Param{ $Backend },
                 HTMLResultMode => 1,
             );
         }
@@ -1840,14 +1842,14 @@ sub OptionStrgHashRef {
         if (!$Param{Ajax}->{Depend}) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "Need Depend Param Ajax option!",
+                Message  => 'Need Depend Param Ajax option!',
             );
             $Self->FatalError();
         }
         if (!$Param{Ajax}->{Update}) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "Need Update Param Ajax option()!",
+                Message  => 'Need Update Param Ajax option()!',
             );
             $Self->FatalError();
         }
@@ -1861,7 +1863,7 @@ sub OptionStrgHashRef {
     if ( !$Param{Data} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Got no Data Param ref in OptionStrgHashRef()!",
+            Message  => 'Got no Data Param ref in OptionStrgHashRef()!',
         );
         $Self->FatalError();
     }
@@ -3435,6 +3437,7 @@ sub BuildDateSelection {
             );
         }
     }
+
     return $Output;
 }
 
@@ -3855,6 +3858,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.89 $ $Date: 2008-04-19 23:26:24 $
+$Revision: 1.90 $ $Date: 2008-04-24 10:16:51 $
 
 =cut
