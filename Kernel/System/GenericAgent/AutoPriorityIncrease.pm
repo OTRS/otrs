@@ -1,12 +1,12 @@
 # --
 # Kernel/System/GenericAgent/AutoPriorityIncrease.pm - generic agent auto priority increase
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AutoPriorityIncrease.pm,v 1.6 2007-10-02 10:36:47 mh Exp $
+# $Id: AutoPriorityIncrease.pm,v 1.7 2008-04-25 05:25:08 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::GenericAgent::AutoPriorityIncrease;
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -42,16 +42,15 @@ sub Run {
     my $LatestAutoIncrease = 0;
 
     # check needed param
-    if ( !$Param{New}->{"TimeInterval"} ) {
+    if ( !$Param{New}->{'TimeInterval'} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Need TimeInterval param for GenericAgent module!",
+            Message  => 'Need TimeInterval param for GenericAgent module!',
         );
         return;
     }
-    else {
-        $Param{New}->{"TimeInterval"} = $Param{New}->{"TimeInterval"} * 60;
-    }
+
+    $Param{New}->{TimeInterval} = $Param{New}->{TimeInterval} * 60;
 
     # get ticket data
     my %Ticket = $Self->{TicketObject}->TicketGet(%Param);
@@ -69,7 +68,7 @@ sub Run {
     $LatestAutoIncrease
         = $Self->{TimeObject}->TimeStamp2SystemTime( String => $LatestAutoIncrease, );
     if ( ( $Self->{TimeObject}->SystemTime() - $LatestAutoIncrease )
-        > $Param{New}->{"TimeInterval"} )
+        > $Param{New}->{TimeInterval} )
     {
         $Update = 1;
     }
@@ -87,47 +86,42 @@ sub Run {
         }
         return 1;
     }
-    else {
 
-        # increase priority
-        my $Priority
-            = $Self->{PriorityObject}->PriorityLookup( PriorityID => ( $Ticket{PriorityID} + 1 ) );
+    # increase priority
+    my $Priority
+        = $Self->{PriorityObject}->PriorityLookup( PriorityID => ( $Ticket{PriorityID} + 1 ) );
 
-        # do nothing if already highest priority
-        if ( !$Priority ) {
-            $Self->{LogObject}->Log(
-                Priority => 'notice',
-                Message =>
-                    "Ticket=$Ticket{TicketNumber}/TicketID=$Ticket{TicketID} already set to higest priority! Can't increase priority!",
-            );
-            return 1;
-        }
-
-        # increase priority
-        else {
-            $Self->{LogObject}->Log(
-                Priority => 'notice',
-                Message =>
-                    "Increase priority of (Ticket=$Ticket{TicketNumber}/TicketID=$Ticket{TicketID}) to $Priority!",
-            );
-
-            $Self->{TicketObject}->PrioritySet(
-                TicketID   => $Param{TicketID},
-                PriorityID => ( $Ticket{PriorityID} + 1 ),
-                UserID     => 1,
-            );
-
-            $Self->{TicketObject}->HistoryAdd(
-                Name => "AutoPriorityIncrease (Priority=$Priority/PriorityID="
-                    . ( $Ticket{PriorityID} + 1 ) . ")",
-                HistoryType  => 'Misc',
-                TicketID     => $Param{TicketID},
-                UserID       => 1,
-                CreateUserID => 1,
-            );
-            return 1;
-        }
+    # do nothing if already highest priority
+    if ( !$Priority ) {
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message =>
+                "Ticket=$Ticket{TicketNumber}/TicketID=$Ticket{TicketID} already set to higest priority! Can't increase priority!",
+        );
+        return 1;
     }
+
+    # increase priority
+    $Self->{LogObject}->Log(
+        Priority => 'notice',
+        Message =>
+            "Increase priority of (Ticket=$Ticket{TicketNumber}/TicketID=$Ticket{TicketID}) to $Priority!",
+    );
+
+    $Self->{TicketObject}->PrioritySet(
+        TicketID   => $Param{TicketID},
+        PriorityID => ( $Ticket{PriorityID} + 1 ),
+        UserID     => 1,
+    );
+
+    $Self->{TicketObject}->HistoryAdd(
+        Name => "AutoPriorityIncrease (Priority=$Priority/PriorityID="
+            . ( $Ticket{PriorityID} + 1 ) . ")",
+        HistoryType  => 'Misc',
+        TicketID     => $Param{TicketID},
+        UserID       => 1,
+        CreateUserID => 1,
+    );
     return 1;
 }
 
