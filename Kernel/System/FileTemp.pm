@@ -1,12 +1,12 @@
 # --
 # Kernel/System/FileTemp.pm - tmp files
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: FileTemp.pm,v 1.11 2008-01-08 08:42:19 mh Exp $
+# $Id: FileTemp.pm,v 1.12 2008-04-25 09:04:24 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::FileTemp;
@@ -18,7 +18,7 @@ use File::Temp qw( tempfile tempdir );
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -87,8 +87,8 @@ sub TempFile {
     );
 
     # remember created tmp files and handles
-    push( @{ $Self->{FileList} }, $Filename );
-    push( @{ $Self->{FileHandleList} }, $FH );
+    push @{ $Self->{FileList} }, $Filename;
+    push @{ $Self->{FileHandleList} }, $FH;
 
     return ( $FH, $Filename );
 }
@@ -121,12 +121,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2008-01-08 08:42:19 $
+$Revision: 1.12 $ $Date: 2008-04-25 09:04:24 $
 
 =cut

@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Crypt.pm - the main crypt module
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Crypt.pm,v 1.11 2007-10-02 10:37:19 mh Exp $
+# $Id: Crypt.pm,v 1.12 2008-04-25 09:04:24 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Crypt;
@@ -18,7 +18,7 @@ use Kernel::System::FileTemp;
 use Kernel::System::Encode;
 
 use vars qw($VERSION @ISA);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -52,19 +52,19 @@ create new object
     );
     my $MainObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
     );
     my $DBObject = Kernel::System::DB->new(
-        MainObject => $MainObject,
+        MainObject   => $MainObject,
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
     );
     my $CryptObject = Kernel::System::Crypt->new(
-        DBObject => $DBObject,
-        MainObject => $MainObject,
+        DBObject     => $DBObject,
+        MainObject   => $MainObject,
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
-        CryptType => 'PGP',   # PGP or SMIME
+        LogObject    => $LogObject,
+        CryptType    => 'PGP',   # PGP or SMIME
     );
 
 =cut
@@ -90,7 +90,7 @@ sub new {
 
     # create file template object
     $Self->{FileTempObject} = Kernel::System::FileTemp->new(%Param);
-    $Self->{EncodeObject}   = Kernel::System::Encode->new(%Param);
+    $Self->{EncodeObject}   = Kernel::System::Encode   ->new(%Param);
 
     # load generator crypt module
     $Self->{GenericModule} = "Kernel::System::Crypt::$Param{CryptType}";
@@ -122,12 +122,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2007-10-02 10:37:19 $
+$Revision: 1.12 $ $Date: 2008-04-25 09:04:24 $
 
 =cut

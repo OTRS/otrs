@@ -1,13 +1,13 @@
 # --
 # Kernel/System/Ticket/CustomerPermission/GroupCheck.pm -
 # the sub module of the global ticket handle
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: GroupCheck.pm,v 1.11 2007-10-05 14:11:23 mh Exp $
+# $Id: GroupCheck.pm,v 1.12 2008-04-25 09:04:24 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Ticket::CustomerPermission::GroupCheck;
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -63,9 +63,7 @@ sub Run {
 
     # search the group id
     for (@GroupIDs) {
-        if ( $_ eq $GroupID ) {
-            return 1;
-        }
+        return 1 if $_ eq $GroupID;
     }
 
     return;
