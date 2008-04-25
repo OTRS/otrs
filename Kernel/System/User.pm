@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.79 2008-04-18 19:35:16 martin Exp $
+# $Id: User.pm,v 1.80 2008-04-25 10:57:45 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Encode;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.79 $) [1];
+$VERSION = qw($Revision: 1.80 $) [1];
 
 =head1 NAME
 
@@ -53,6 +53,7 @@ create an object
     );
     my $MainObject = Kernel::System::Main->new(
         ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
     );
     my $TimeObject = Kernel::System::Time->new(
         MainObject   => $MainObject,
@@ -929,6 +930,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.79 $ $Date: 2008-04-18 19:35:16 $
+$Revision: 1.80 $ $Date: 2008-04-25 10:57:45 $
 
 =cut
