@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession.pm - provides session check and session data
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AuthSession.pm,v 1.35 2008-04-09 00:31:20 martin Exp $
+# $Id: AuthSession.pm,v 1.36 2008-04-25 10:29:34 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 =head1 NAME
 
@@ -232,12 +232,12 @@ sub GetExpiredSessionIDs {
 
         # delete invalid session time
         if ( $ValidTime <= 0 ) {
-            push( @ExpiredSession, $SessionID );
+            push @ExpiredSession, $SessionID;
         }
 
         # delete invalid idle session time
         elsif ( $ValidIdleTime <= 0 ) {
-            push( @ExpiredIdle, $SessionID );
+            push @ExpiredIdle, $SessionID;
         }
     }
     return ( \@ExpiredSession, \@ExpiredIdle );
@@ -284,6 +284,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.35 $ $Date: 2008-04-09 00:31:20 $
+$Revision: 1.36 $ $Date: 2008-04-25 10:29:34 $
 
 =cut
