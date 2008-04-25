@@ -1,12 +1,12 @@
 # --
 # Kernel/System/PostMaster/Filter/AgentInterface.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentInterface.pm,v 1.10 2007-10-02 10:34:46 mh Exp $
+# $Id: AgentInterface.pm,v 1.11 2008-04-25 13:15:18 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::PostMaster::Filter::AgentInterface;
@@ -20,7 +20,7 @@ use Kernel::System::User;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 # bulk, list
 sub new {
@@ -37,9 +37,9 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
-    $Self->{EmailObject}        = Kernel::System::Email->new(%Param);
-    $Self->{QueueObject}        = Kernel::System::Queue->new(%Param);
-    $Self->{UserObject}         = Kernel::System::User->new(%Param);
+    $Self->{EmailObject}        = Kernel::System::Email       ->new(%Param);
+    $Self->{QueueObject}        = Kernel::System::Queue       ->new(%Param);
+    $Self->{UserObject}         = Kernel::System::User        ->new(%Param);
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
 
     return $Self;

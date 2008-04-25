@@ -1,12 +1,12 @@
 # --
 # Kernel/System/PostMaster/Filter/NewTicketReject.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: NewTicketReject.pm,v 1.8 2007-10-02 10:34:46 mh Exp $
+# $Id: NewTicketReject.pm,v 1.9 2008-04-25 13:15:19 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::PostMaster::Filter::NewTicketReject;
@@ -18,7 +18,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Email;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,7 +35,7 @@ sub new {
     }
 
     $Self->{TicketObject} = Kernel::System::Ticket->new(%Param);
-    $Self->{EmailObject}  = Kernel::System::Email->new(%Param);
+    $Self->{EmailObject}  = Kernel::System::Email ->new(%Param);
 
     return $Self;
 }
@@ -83,43 +83,40 @@ sub Run {
     if ( $Matched && !$MatchedNot ) {
 
         # check if new ticket
-        my $Tn = $Self->{TicketObject}->GetTNByString( $Param{GetParam}->{'Subject'} );
-        if ( $Tn && $Self->{TicketObject}->TicketCheckNumber( Tn => $Tn ) ) {
-            return 1;
-        }
-        else {
+        my $Tn = $Self->{TicketObject}->GetTNByString( $Param{GetParam}->{Subject} );
+        return 1 if $Tn && $Self->{TicketObject}->TicketCheckNumber( Tn => $Tn );
 
-            # set attributes if ticket is created
-            for ( keys %Set ) {
-                $Param{GetParam}->{$_} = $Set{$_};
-                $Self->{LogObject}->Log(
-                    Priority => 'notice',
-                    Message =>
-                        "Set param '$_' to '$Set{$_}' (Message-ID: $Param{GetParam}->{'Message-ID'}) ",
-                );
-            }
-
-            # send bounce mail
-            $Self->{EmailObject}->Send(
-                To      => $Param{GetParam}->{'From'},
-                Subject => $Self->{ConfigObject}
-                    ->Get('PostMaster::PreFilterModule::NewTicketReject::Subject'),
-                Body => $Self->{ConfigObject}
-                    ->Get('PostMaster::PreFilterModule::NewTicketReject::Body'),
-                Charset    => $Self->{ConfigObject}->Get('DefaultCharset'),
-                Loop       => 1,
-                Attachment => [
-                    {   Filename    => "email.txt",
-                        Content     => $Param{GetParam}->{'Body'},
-                        ContentType => "application/octet-stream",
-                    }
-                ],
-            );
+        # set attributes if ticket is created
+        for ( keys %Set ) {
+            $Param{GetParam}->{$_} = $Set{$_};
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message  => "Send reject mail to '$Param{GetParam}->{From}'!",
+                Message =>
+                    "Set param '$_' to '$Set{$_}' (Message-ID: $Param{GetParam}->{'Message-ID'}) ",
             );
         }
+
+        # send bounce mail
+        $Self->{EmailObject}->Send(
+            To      => $Param{GetParam}->{'From'},
+            Subject => $Self->{ConfigObject}
+                ->Get('PostMaster::PreFilterModule::NewTicketReject::Subject'),
+            Body => $Self->{ConfigObject}
+                ->Get('PostMaster::PreFilterModule::NewTicketReject::Body'),
+            Charset    => $Self->{ConfigObject}->Get('DefaultCharset'),
+            Loop       => 1,
+            Attachment => [
+                {   Filename    => "email.txt",
+                    Content     => $Param{GetParam}->{Body},
+                    ContentType => "application/octet-stream",
+                }
+            ],
+        );
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message  => "Send reject mail to '$Param{GetParam}->{From}'!",
+        );
+
     }
     return 1;
 }

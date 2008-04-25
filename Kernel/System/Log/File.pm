@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Log/File.pm - file log backend
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: File.pm,v 1.15 2007-10-02 10:38:08 mh Exp $
+# $Id: File.pm,v 1.16 2008-04-25 13:15:18 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Log::File;
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 umask "002";
 
@@ -41,7 +41,7 @@ sub new {
     # Fixed bug# 2265 - For IIS we need to create a own error log file.
     # Bind stderr to log file, because iis do print stderr to web page.
     if ( $ENV{SERVER_SOFTWARE} && $ENV{SERVER_SOFTWARE} =~ /^microsoft\-iis/i ) {
-        if ( !open( STDERR, ">>", $Self->{LogFile} . ".error" ) ) {
+        if ( !open STDERR, '>>', $Self->{LogFile} . ".error" ) {
             print STDERR "ERROR: Can't write $Self->{LogFile}.error: $!";
         }
     }
@@ -55,7 +55,7 @@ sub Log {
     my $FH;
 
     # open logfile
-    if ( open( $FH, ">>", $Self->{LogFile} ) ) {
+    if ( open $FH, '>>', $Self->{LogFile} ) {
         print $FH "[" . localtime() . "]";
         if ( $Param{Priority} =~ /debug/i ) {
             print $FH "[Debug][$Param{Module}][$Param{Line}] $Param{Message}\n";
@@ -83,17 +83,15 @@ sub Log {
         }
 
         # close file handle
-        close($FH);
+        close $FH;
         return 1;
     }
-    else {
 
-        # print error screen
-        print STDERR "\n";
-        print STDERR " >> Can't write $Self->{LogFile}: $! <<\n";
-        print STDERR "\n";
-        return;
-    }
+    # print error screen
+    print STDERR "\n";
+    print STDERR " >> Can't write $Self->{LogFile}: $! <<\n";
+    print STDERR "\n";
+    return;
 }
 
 1;

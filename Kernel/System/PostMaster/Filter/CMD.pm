@@ -1,12 +1,12 @@
 # --
 # Kernel/System/PostMaster/Filter/CMD.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CMD.pm,v 1.6 2007-10-02 10:34:46 mh Exp $
+# $Id: CMD.pm,v 1.7 2008-04-25 13:15:18 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::PostMaster::Filter::CMD;
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -51,21 +51,21 @@ sub Run {
     if ( !$Config{CMD} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Need CMD config option in PostMaster::PreFilterModule job!",
+            Message  => 'Need CMD config option in PostMaster::PreFilterModule job!',
         );
         return;
     }
 
     # execute prog
     my $TmpFile = $Self->{ConfigObject}->Get('TempDir') . "/PostMaster.Filter.CMD.$$";
-    if ( open( PROG, "|$Config{CMD} > $TmpFile" ) ) {
-        print PROG $Self->{ParseObject}->GetPlainEmail();
-        close(PROG);
+    if ( open my $Prog, "|$Config{CMD} > $TmpFile"  ) {
+        print $Prog $Self->{ParseObject}->GetPlainEmail();
+        close $Prog;
     }
     if ( -s $TmpFile ) {
-        open( IN, "< $TmpFile" );
-        my $Ret = <IN>;
-        close(IN);
+        open my $In, '<', $TmpFile;
+        my $Ret = <$In>;
+        close $In;
 
         # set new params
         for ( keys %Set ) {
