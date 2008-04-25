@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.33 2008-03-18 16:10:41 tr Exp $
+# $Id: DB.pm,v 1.34 2008-04-25 10:33:32 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -61,18 +61,18 @@ sub CheckSessionID {
 
     # check session id
     if ( !$Param{SessionID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Got no SessionID!!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no SessionID!!' );
         return;
     }
 
     # set default message
-    $Self->{CheckSessionIDMessage} = "SessionID is invalid!!!";
+    $Self->{CheckSessionIDMessage} = 'SessionID is invalid!!!';
 
     # session id check
     my %Data = $Self->GetSessionIDData( SessionID => $Param{SessionID} );
 
     if ( !$Data{UserID} || !$Data{UserLogin} ) {
-        $Self->{CheckSessionIDMessage} = "SessionID invalid! Need user data!";
+        $Self->{CheckSessionIDMessage} = 'SessionID invalid! Need user data!';
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message  => "SessionID: '$Param{SessionID}' is invalid!!!",
@@ -148,7 +148,7 @@ sub GetSessionIDData {
 
     # check session id
     if ( !$Param{SessionID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Got no SessionID!!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no SessionID!!' );
         return;
     }
 
@@ -212,7 +212,7 @@ sub CreateSessionID {
     # data 2 strg
     my $DataToStore = '';
     for ( keys %Param ) {
-        if ( defined( $Param{$_} ) ) {
+        if ( defined $Param{$_} ) {
             $Self->{EncodeObject}->EncodeOutput( \$Param{$_} );
             $DataToStore .= "$_:" . encode_base64( $Param{$_}, '' ) . ":;";
         }
@@ -236,7 +236,7 @@ sub RemoveSessionID {
 
     # check session id
     if ( !$Param{SessionID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Got no SessionID!!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no SessionID!!' );
         return;
     }
 
@@ -305,7 +305,7 @@ sub UpdateSessionID {
 
     # reset cache
     if ( $Self->{"Cache::$Param{SessionID}"} ) {
-        delete( $Self->{"Cache::$Param{SessionID}"} );
+        delete $Self->{"Cache::$Param{SessionID}"};
     }
     return 1;
 }
@@ -320,7 +320,7 @@ sub GetAllSessionIDs {
         SQL => "SELECT $Self->{SQLSessionTableID} FROM $Self->{SQLSessionTable}",
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        push( @SessionIDs, $Row[0] );
+        push @SessionIDs, $Row[0];
     }
     return @SessionIDs;
 }
