@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.38 2008-04-11 15:45:46 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.39 2008-04-28 23:05:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -91,43 +91,32 @@
 <!-- dtl:block:TreeItem -->
             </table>
           </td>
-<!-- dtl:block:TreeItemExpand -->
-          <td valign="top">
-            <div title="$Text{"Expand View"}">
-            <a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}&ZoomExpand=1" onmouseover="window.status='$JSText{"Expand"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}expand.png"></a>
-            </div>
-          </td>
-<!-- dtl:block:TreeItemExpand -->
-<!-- dtl:block:TreeItemCollapse -->
-          <td valign="top">
-            <div title="$Text{"Collapse View"}">
-            <a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}&ZoomExpand=0" onmouseover="window.status='$JSText{"Collapse View"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}collapse.png"></a>
-            </div>
-          </td>
-<!-- dtl:block:TreeItemCollapse -->
         </tr>
       </table>
 <!-- dtl:block:Tree -->
       <hr size="2">
       <a name="$Data{"ArticleID"}"></a>
-      <table border="0" width="100%" cellspacing="0" cellpadding="1">
+      <table border="0" width="100%" cellspacing="0" cellpadding="0">
+        <tr>
+          <td valign="top">
+            <table border="0" width="100%" cellspacing="0" cellpadding="1">
 # From:, To:, Cc:
 <!-- dtl:block:Row -->
-        <tr>
-          <td class="contentkey" width="15%">$Text{"$Data{"Key"}"}:</td>
-          <td class="contentvalue" width="85%"> <div title="$QData{"Value"}">$QData{"Value","200"}</div></td>
-        </tr>
+              <tr>
+                <td class="contentkey" width="15%">$Text{"$Data{"Key"}"}:</td>
+                <td class="contentvalue" width="85%"> <div title="$QData{"Value"}">$QData{"Value","200"}</div></td>
+              </tr>
 <!-- dtl:block:Row -->
-        <tr>
-          <td class="contentkey">$Text{"Created"}:</td>
-          <td class="contentvalue"> <div title="$TimeLong{"$Data{"Created"}"}">$TimeLong{"$Data{"Created"}"}</div></td>
-        </tr>
+              <tr>
+                <td class="contentkey">$Text{"Created"}:</td>
+                <td class="contentvalue"> <div title="$TimeLong{"$Data{"Created"}"}">$TimeLong{"$Data{"Created"}"}</div></td>
+              </tr>
 # show the ArticleFreeKey1-3 and ArticleFreeText1-3
 <!-- dtl:block:ArticleFreeText -->
-        <tr>
-          <td class="contentkey" width="15%">$QData{"Key"}:</td>
-          <td class="contentvalue" width="85%"> <div title="$QData{"Value"}">$QData{"Value","160"}</div></td>
-        </tr>
+              <tr>
+                <td class="contentkey" width="15%">$QData{"Key"}:</td>
+                <td class="contentvalue" width="85%"> <div title="$QData{"Value"}">$QData{"Value","160"}</div></td>
+              </tr>
 <!-- dtl:block:ArticleFreeText -->
 # show ArticleFreeKey1-3 and ArticleFreeText1-3 (in other way like the block, so you could add link or somethin else)
 #       <dtl if ($Data{"ArticleFreeKey1"} ne "") { $Data{"ArticleFreeString1"} = "<tr><td class="contentkey">$QData{"ArticleFreeKey1"}:</td><td class="contentvalue"> $QData{"FreeText1"}</td></tr>"; }>
@@ -139,44 +128,59 @@
 
 # show article options like signed, crypted, ...
 <!-- dtl:block:ArticleOption -->
-        <dtl if ($Data{"Successful"} eq "0") { $Data{"StartFont"} = "<font color="red">"; }>
-        <dtl if ($Data{"Successful"} eq "0") { $Data{"StopFont"} = "</font>"; }>
-        <dtl if ($Data{"Successful"} eq "1") { $Data{"StartFont"} = "<font color="green">"; }>
-        <dtl if ($Data{"Successful"} eq "1") { $Data{"StopFont"} = "</font>"; }>
-        <tr>
-          <td class="contentkey" width="15%">$Text{"$Data{"Key"}"}:</td>
-          <td class="contentvalue" width="85%"> <div title="$QData{"Value"}">$Data{"StartFont"}$QData{"Value","160"}$Data{"StopFont"}</div></td>
-        </tr>
+              <dtl if ($Data{"Successful"} eq "0") { $Data{"StartFont"} = "<font color="red">"; }>
+              <dtl if ($Data{"Successful"} eq "0") { $Data{"StopFont"} = "</font>"; }>
+              <dtl if ($Data{"Successful"} eq "1") { $Data{"StartFont"} = "<font color="green">"; }>
+              <dtl if ($Data{"Successful"} eq "1") { $Data{"StopFont"} = "</font>"; }>
+              <tr>
+                <td class="contentkey" width="15%">$Text{"$Data{"Key"}"}:</td>
+                <td class="contentvalue" width="85%"> <div title="$QData{"Value"}">$Data{"StartFont"}$QData{"Value","160"}$Data{"StopFont"}</div></td>
+              </tr>
 <!-- dtl:block:ArticleOption -->
 # show attachments
 <!-- dtl:block:ArticleAttachment -->
-        <tr>
-          <td class="contentkey" width="15%">$Text{"$Data{"Key"}"}:</td>
-          <td class="contentvalue" width="85%">
-            <table border="0" cellspacing="0" cellpadding="1">
-<!-- dtl:block:ArticleAttachmentRow -->
               <tr>
-                <td>$QData{"Filename"}</td>
-                <td>
-<!-- dtl:block:ArticleAttachmentRowLink -->
-                  <a href="$Data{"Link"}" $Data{"Target"} onmouseover="window.status='$JSText{"$QData{"Action"}"}: $QData{"Filename"}';return true;" onmouseout="window.status='';"><img src="$Env{"Images"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}"></a>
-<!-- dtl:block:ArticleAttachmentRowLink -->
-<!-- dtl:block:ArticleAttachmentRowNoLink -->
-                  <img src="$Env{"Images"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}">
-<!-- dtl:block:ArticleAttachmentRowNoLink -->
-                </td>
-                <td align="right">$QData{"Filesize"}</td>
-              </tr>
+                <td class="contentkey" width="15%">$Text{"$Data{"Key"}"}:</td>
+                <td class="contentvalue" width="85%">
+                  <table border="0" cellspacing="0" cellpadding="1">
 <!-- dtl:block:ArticleAttachmentRow -->
+                    <tr>
+                      <td>$QData{"Filename"}</td>
+                      <td>
+<!-- dtl:block:ArticleAttachmentRowLink -->
+                        <a href="$Data{"Link"}" $Data{"Target"} onmouseover="window.status='$JSText{"$QData{"Action"}"}: $QData{"Filename"}';return true;" onmouseout="window.status='';"><img src="$Env{"Images"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}"></a>
+<!-- dtl:block:ArticleAttachmentRowLink -->
+<!-- dtl:block:ArticleAttachmentRowNoLink -->
+                        <img src="$Env{"Images"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}">
+<!-- dtl:block:ArticleAttachmentRowNoLink -->
+                      </td>
+                      <td align="right">$QData{"Filesize"}</td>
+                    </tr>
+<!-- dtl:block:ArticleAttachmentRow -->
+                  </table>
+                </td>
+              </tr>
+<!-- dtl:block:ArticleAttachment -->
             </table>
+$Data{"BodyNote"}
+            <div class="message">
+$Data{"Body"}
+            </div>
+          </td>
+          <td valign="top">
+<!-- dtl:block:Expand -->
+            <div title="$Text{"Expand View"}">
+            <a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}&ZoomExpand=1" onmouseover="window.status='$JSText{"Expand"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}expand.png"></a>
+            </div>
+<!-- dtl:block:Expand -->
+<!-- dtl:block:Collapse -->
+            <div title="$Text{"Collapse View"}">
+            <a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}&ZoomExpand=0" onmouseover="window.status='$JSText{"Collapse View"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}collapse.png"></a>
+            </div>
+<!-- dtl:block:Collapse -->
           </td>
         </tr>
-<!-- dtl:block:ArticleAttachment -->
       </table>
-$Data{"BodyNote"}
-      <div class="message">
-$Data{"Body"}
-      </div>
     </td>
     <td width="25%" valign="top" class="PriorityID-$Data{"PriorityID"}">
 # show ticket status (state, lock, ...)

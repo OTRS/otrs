@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.48 2008-04-11 15:45:46 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.49 2008-04-28 23:05:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -709,31 +709,31 @@ sub MaskAgentZoom {
                     }
                 }
             }
+        }
 
-            # check if expand/cpllapse view is usable (only for less then 300 articles)
-            if ( $#ArticleBox < $ArticleMaxLimit ) {
-                if ( $Count == 1 && $Self->{ZoomExpand} ) {
-                    $Self->{LayoutObject}->Block(
-                        Name => 'TreeItemCollapse',
-                        Data => {
-                            %Article,
-                            ArticleID      => $ArticleID,
-                            ZoomExpand     => $Self->{ZoomExpand},
-                            ZoomExpandSort => $Self->{ZoomExpandSort},
-                        },
-                    );
-                }
-                else {
-                    $Self->{LayoutObject}->Block(
-                        Name => 'TreeItemExpand',
-                        Data => {
-                            %Article,
-                            ArticleID      => $ArticleID,
-                            ZoomExpand     => $Self->{ZoomExpand},
-                            ZoomExpandSort => $Self->{ZoomExpandSort},
-                        },
-                    );
-                }
+        # check if expand/cpllapse view is usable (only for less then 300 articles)
+        if ( $Count == 1 && $#ArticleBox < $ArticleMaxLimit ) {
+            if ( $Self->{ZoomExpand} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'Collapse',
+                    Data => {
+                        %Article,
+                        ArticleID      => $ArticleID,
+                        ZoomExpand     => $Self->{ZoomExpand},
+                        ZoomExpandSort => $Self->{ZoomExpandSort},
+                    },
+                );
+            }
+            else {
+                $Self->{LayoutObject}->Block(
+                    Name => 'Expand',
+                    Data => {
+                        %Article,
+                        ArticleID      => $ArticleID,
+                        ZoomExpand     => $Self->{ZoomExpand},
+                        ZoomExpandSort => $Self->{ZoomExpandSort},
+                    },
+                );
             }
         }
 
