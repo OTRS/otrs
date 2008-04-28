@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.639 2008-04-23 10:30:50 mh Exp $
+# $Id: CHANGES,v 1.640 2008-04-28 22:48:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,9 @@
 # --
 
 CVS HEAD (????/??/??)
+ - (2007/04/29) Updated cpan module CGI to version 3.37.
+ - (2007/04/25) Added create and drop of index and unique in xml TableAlter tag
+    (for more info see developer manual).
  - (2007/04/20) Changed GenericAgent default limit of matching ticket for each
     run of a job from 2000 to 4000.
  - (2007/04/18) Let FrontendOutputFilters have access to LayoutObject and TemplateFile.
