@@ -1,8 +1,8 @@
 # --
 # HTML::Safe.pm - remove activ html stuff from html strings
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Safe.pm,v 1.5 2008-04-02 04:52:27 tr Exp $
+# $Id: Safe.pm,v 1.6 2008-04-29 12:52:28 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -62,7 +62,7 @@ sub new {
 
     $Self->{Debug} = $Param{Debug} || 0;
 
-    foreach (qw(NoApplet NoObject NoEmbed NoExtSrcLoad NoIntSrcLoad NoJavaScript)) {
+    for (qw(NoApplet NoObject NoEmbed NoExtSrcLoad NoIntSrcLoad NoJavaScript)) {
         $Self->{$_} = defined($Param{$_}) ? $Param{$_} : 1;
     }
 
@@ -87,12 +87,11 @@ To filter html strings.
 sub Filter {
     my $Self = shift;
     my %Param = @_;
+    
     # check needed stuff
-    foreach (qw(Data)) {
-        if (!$Param{$_}) {
-            print STDERR "Need $_!";
-            return;
-        }
+    if (!$Param{Data}) {
+        print STDERR 'Need Data!';
+        return;
     }
 
     # remove script tags
@@ -109,7 +108,7 @@ sub Filter {
                 "### removed script tags ###";
             }
             else {
-                "";
+                '';
             }
         }segxim;
     }
@@ -128,7 +127,7 @@ sub Filter {
                 "### removed applet tags ###";
             }
             else {
-                "";
+                '';
             }
         }segxim;
     }
@@ -147,7 +146,7 @@ sub Filter {
                 "### removed object tags ###";
             }
             else {
-                "";
+                '';
             }
         }segxim;
     }
@@ -166,7 +165,7 @@ sub Filter {
                 "### removed javascript style tag ###";
             }
             else {
-                "";
+                '';
             }
         }segxim;
     }
@@ -184,7 +183,7 @@ sub Filter {
             }
             {
                 print STDERR "Found <on action> tags ($1)!\n" if ($Self->{Debug});
-                "";
+                '';
             }segxim;
 
             # remove entities sub tags
@@ -193,7 +192,7 @@ sub Filter {
             }
             {
                 print STDERR "Found js entities tags($1)!\n" if ($Self->{Debug});
-                "";
+                '';
             }segxim;
 
             # remove javascript in a href links or src links
@@ -235,7 +234,7 @@ sub Filter {
                     "### removed embed tag ($1) ###";
                 }
                 else {
-                    "";
+                    '';
                 }
             }segxim;
         }
@@ -254,7 +253,7 @@ sub Filter {
                         "### can't load '$3' ###";
                     }
                     else {
-                       "";
+                       '';
                     }
                 }
                 else {
@@ -278,6 +277,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2008-04-02 04:52:27 $
+$Revision: 1.6 $ $Date: 2008-04-29 12:52:28 $
 
 =cut
