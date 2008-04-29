@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.46 2008-03-28 11:42:24 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.47 2008-04-29 22:50:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -433,9 +433,11 @@ sub ShowTicket {
     );
 
     # check if just a only html email
-    if ( my $MimeTypeText
-        = $Self->{LayoutObject}->CheckMimeType( %Article, Action => 'AgentTicketZoom' ) )
-    {
+    my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType(
+        %Article,
+        Action => 'AgentTicketZoom',
+    );
+    if ( $MimeTypeText ) {
         $Article{BodyNote} = $MimeTypeText;
         $Article{Body}     = '';
     }
@@ -443,22 +445,22 @@ sub ShowTicket {
 
         # html quoting
         $Article{Body} = $Self->{LayoutObject}->Ascii2Html(
-            NewLine        => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
-            Text           => $Article{Body},
-            VMax           => $Self->{ConfigObject}->Get('DefaultPreViewLines') || 25,
-            LinkFeature    => 1,
-            HTMLResultMode => 1,
+            NewLine         => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
+            Text            => $Article{Body},
+            VMax            => $Self->{ConfigObject}->Get('DefaultPreViewLines') || 25,
+            LinkFeature     => 1,
+            HTMLResultMode  => 1,
+            StripEmptyLines => 1,
         );
 
         # do charset check
-        if (my $CharsetText = $Self->{LayoutObject}->CheckCharset(
+        my $CharsetText = $Self->{LayoutObject}->CheckCharset(
                 Action         => 'AgentTicketZoom',
                 ContentCharset => $Article{ContentCharset},
                 TicketID       => $Article{TicketID},
                 ArticleID      => $Article{ArticleID}
-            )
-            )
-        {
+        );
+        if ( $CharsetText ) {
             $Article{BodyNote} = $CharsetText;
         }
     }
