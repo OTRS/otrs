@@ -2,7 +2,7 @@
 # PostMaster.t - PostMaster tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.t,v 1.7 2008-02-22 21:32:30 martin Exp $
+# $Id: PostMaster.t,v 1.8 2008-04-29 22:01:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -67,7 +67,7 @@ for my $NumberModule (qw(AutoIncrement DateChecksum Date Random)) {
         # get rand sender address
         my $UserRand1 = 'example-user'.int(rand(1000000)).'@example.com';
 
-        for my $File (qw(1 2 3 6 11)) {
+        for my $File (qw(1 2 3 5 6 11)) {
 
             # new ticket check
             my @Content = ();
@@ -140,6 +140,63 @@ for my $NumberModule (qw(AutoIncrement DateChecksum Date Random)) {
                 );
 
             }
+
+            if ($File == 5) {
+                # check body
+                my %Article = $Self->{TicketObject}->ArticleGet(
+                    ArticleID => $ArticleIDs[0],
+                );
+                my @Tests = (
+                    {
+                        Key    => 'TicketFreeKey1',
+                        Result => 'Test',
+                    },
+                    {
+                        Key    => 'TicketFreeText1',
+                        Result => 'ABC',
+                    },
+                    {
+                        Key    => 'TicketFreeKey2',
+                        Result => 'Test2',
+                    },
+                    {
+                        Key    => 'TicketFreeText2',
+                        Result => 'ABC2',
+                    },
+                    {
+                        Key    => 'TicketFreeTime1',
+                        Result => '2008-01-12 13:14:00',
+                    },
+                    {
+                        Key    => 'TicketFreeTime2',
+                        Result => '2008-01-12 13:15:00',
+                    },
+                    {
+                        Key    => 'TicketFreeTime3',
+                        Result => '2008-01-12 13:16:00',
+                    },
+                    {
+                        Key    => 'TicketFreeTime4',
+                        Result => '2008-01-12 13:17:00',
+                    },
+                    {
+                        Key    => 'TicketFreeTime5',
+                        Result => '2008-01-12 13:18:00',
+                    },
+                    {
+                        Key    => 'TicketFreeTime6',
+                        Result => '2008-01-12 13:19:00',
+                    },
+                );
+                for my $Test ( @Tests ) {
+                    $Self->Is(
+                        $Article{ $Test->{Key} } || '',
+                        $Test->{Result} || '-',
+                        "#$NumberModule $StorageModule $File $Test->{Key} check",
+                    );
+                }
+            }
+
             if ($File == 6) {
 
                 # check body

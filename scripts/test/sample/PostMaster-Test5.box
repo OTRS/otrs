@@ -16,7 +16,17 @@ Subject: 2nd try: Again some stuff =?iso-8859-1?B?aPxi?=
 Message-ID: <20070412132542.GB29977@tuxbrett.hq.otrs.org>
 MIME-Version: 1.0
 Content-Type: multipart/mixed; boundary="J/dobhs11T7y2rNN"
-X-CVS: $Id: PostMaster-Test5.box,v 1.1 2007-04-12 16:34:06 martin Exp $
+X-CVS: $Id: PostMaster-Test5.box,v 1.2 2008-04-29 22:02:13 martin Exp $
+X-OTRS-TicketKey1: Test
+X-OTRS-TicketValue1: ABC
+X-OTRS-TicketKey2: Test2
+X-OTRS-TicketValue2: ABC2
+X-OTRS-TicketTime1: 2008-01-12 13:14:15
+X-OTRS-TicketTime2: 2008-01-12 13:15:16
+X-OTRS-TicketTime3: 2008-01-12 13:16:17
+X-OTRS-TicketTime4: 2008-01-12 13:17:18
+X-OTRS-TicketTime5: 2008-01-12 13:18:19
+X-OTRS-TicketTime6: 2008-01-12 13:19:20
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 User-Agent: mutt-ng/devel-r804 (Debian)
