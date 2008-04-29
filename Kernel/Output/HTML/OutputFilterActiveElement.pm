@@ -1,12 +1,12 @@
 # --
 # Kernel/Output/HTML/OutputFilterActiveElement.pm
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: OutputFilterActiveElement.pm,v 1.5 2007-10-02 10:43:31 mh Exp $
+# $Id: OutputFilterActiveElement.pm,v 1.6 2008-04-29 12:11:52 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Output::HTML::OutputFilterActiveElement;
@@ -17,7 +17,7 @@ use warnings;
 use HTML::Safe;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
