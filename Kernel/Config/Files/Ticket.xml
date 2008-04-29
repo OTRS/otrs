@@ -152,7 +152,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.171 2008-04-19 12:46:49 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.172 2008-04-29 22:47:04 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1618,6 +1618,41 @@ TimeWorkingHours
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
             <String Regex=""></String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::SearchIndexModule" Required="1" Valid="1">
+        <Description Lang="en">Select your TicketSearchIndexModule to increase your full text search of article (From, To, Cc, Subject and Body search). Runtime will do fulltext searches on live data on runtime (fine till about 50.000 tickets). StaticDB will strip all articles and will build and index (all uniq words of an article) after article creation (this will increase fulltext searches about 50%). To create inital index use "bin/otrs.RebuildFulltextIndex.pl".</Description>
+        <Description Lang="de">Wählen Sie das TicketSearchIndex-Modul um die Volltextsuch-Geschwindigkeit der Artikel (Von, An, Cc, Betreff und Body Suche) zu verbessern. Runtime sicht in dem allen aktuellen Datensätzen zur Laufzeit (bis ca. 50.000 Tickets). StaticDB entfernt unnötige oder doppelte Wörter und baut einen Index direkt nach der Artikel Erstellung (dies verbessert Volltextsuchen um bis zu ca. 50%). Um einen initialen Index zu erstellen kann "bin/otrs.RebuildFulltextIndex.pl" benutzt werden.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::FulltextSearch</SubGroup>
+        <Setting>
+            <Option Location="Kernel/System/Ticket/ArticleSearchIndex/*.pm" SelectedID="Kernel::System::Ticket::ArticleSearchIndex::RuntimeDB">
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::SearchIndex::Attribute" Required="1" Valid="1">
+        <Description Lang="en">Attributes to configure fulltext index (note: after changeing one, "bin/otrs.RebuildFulltextIndex.pl" need to be executed to generate new index).</Description>
+        <Description Lang="de">Attribute um den Volltext-Index zu konfigurieren (Notiz: Nach einer Änderung muss "bin/otrs.RebuildFulltextIndex.pl" aufgerufen werden um den Index neu zu generieren).</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::FulltextSearch</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="WordCountMax">1000</Item>
+                <Item Key="WordLengthMin">3</Item>
+                <Item Key="WordLengthMax">20</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::EventModulePost###98-ArticleSearchIndex" Required="0" Valid="1">
+        <Description Lang="en">Ticket event module to to build article index on the fly (directly after article creation).</Description>
+        <Description Lang="de">Ticket Event Modul für automatisches erstellen des Artikel-Index nach eine Artikel-Erstellung.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::FulltextSearch</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::Ticket::Event::ArticleSearchIndex</Item>
+                <Item Key="Event">(ArticleCreate|ArticleUpdate)</Item>
+            </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="HighlightAge1" Required="1" Valid="1">
@@ -6715,6 +6750,18 @@ $QData{"Signature"}
             </Option>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CustomerTicketSearch###ExtendedSearchCondition" Required="1" Valid="1">
+        <Description Lang="en">Extended search condition in ticket search. With this feature you can search w. g. with this kind of conditions like "(key1&amp;&amp;key2)" or "(key1||key2)".</Description>
+        <Description Lang="de">Erweiterte Such-Ausdruecke. Es ist dann z. B. möglich Abfragen wie z. B. "(key1&amp;&amp;key2)" oder "(key1||key2)" zu benuten.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Customer::Ticket::ViewSearch</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerTicketSearch###TicketFreeText" Required="0" Valid="1">
         <Description Lang="en">Shown ticket free text options.</Description>
         <Description Lang="de">Gezeigte Ticket-Frei-Text-Felder.</Description>
@@ -8114,6 +8161,12 @@ $QData{"Signature"}
                 <Item>X-OTRS-TicketValue14</Item>
                 <Item>X-OTRS-TicketValue15</Item>
                 <Item>X-OTRS-TicketValue16</Item>
+                <Item>X-OTRS-TicketTime1</Item>
+                <Item>X-OTRS-TicketTime2</Item>
+                <Item>X-OTRS-TicketTime3</Item>
+                <Item>X-OTRS-TicketTime4</Item>
+                <Item>X-OTRS-TicketTime5</Item>
+                <Item>X-OTRS-TicketTime6</Item>
                 <Item>X-OTRS-FollowUp-Priority</Item>
                 <Item>X-OTRS-FollowUp-Queue</Item>
                 <Item>X-OTRS-FollowUp-Lock</Item>
@@ -8162,6 +8215,12 @@ $QData{"Signature"}
                 <Item>X-OTRS-FollowUp-TicketValue14</Item>
                 <Item>X-OTRS-FollowUp-TicketValue15</Item>
                 <Item>X-OTRS-FollowUp-TicketValue16</Item>
+                <Item>X-OTRS-FollowUp-TicketTime1</Item>
+                <Item>X-OTRS-FollowUp-TicketTime2</Item>
+                <Item>X-OTRS-FollowUp-TicketTime3</Item>
+                <Item>X-OTRS-FollowUp-TicketTime4</Item>
+                <Item>X-OTRS-FollowUp-TicketTime5</Item>
+                <Item>X-OTRS-FollowUp-TicketTime6</Item>
             </Array>
         </Setting>
     </ConfigItem>
