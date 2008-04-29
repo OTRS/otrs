@@ -2,7 +2,7 @@
 # Kernel/System/Encode.pm - character encodings
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Encode.pm,v 1.26 2008-04-02 04:52:27 tr Exp $
+# $Id: Encode.pm,v 1.27 2008-04-29 22:03:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 =head1 NAME
 
@@ -147,13 +147,13 @@ Convert one charset to an other charset.
     my $utf8 = $EncodeObject->Convert(
         Text => $iso_8859_1_string,
         From => 'iso-8859-1',
-        To => 'utf-8',
+        To   => 'utf-8',
     );
 
     my $iso_8859_1 = $EncodeObject->Convert(
         Text => $utf-8_string,
         From => 'utf-8',
-        To => 'iso-8859-1',
+        To   => 'iso-8859-1',
     );
 
 There is also a Force => 1 option if you need to force the
@@ -192,8 +192,7 @@ sub Convert {
     }
 
     if ( !eval { Encode::from_to( $Param{Text}, $Param{From}, $Param{To} ) } ) {
-        print STDERR
-            "Charset encode '$Param{From}' -=> '$Param{To}' ($Param{Text}) not supported!\n";
+        print STDERR "Charset encode '$Param{From}' -=> '$Param{To}' ($Param{Text}) not supported!\n";
         return $Param{Text};
     }
 
@@ -344,6 +343,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.26 $ $Date: 2008-04-02 04:52:27 $
+$Revision: 1.27 $ $Date: 2008-04-29 22:03:44 $
 
 =cut
