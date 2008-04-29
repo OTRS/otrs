@@ -3,7 +3,7 @@
 # opm.pl - otrs package manager cmd version
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: opm.pl,v 1.24 2008-04-08 14:16:29 tr Exp $
+# $Id: opm.pl,v 1.25 2008-04-29 22:14:32 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 # common objects
 my %CommonObject = ();
@@ -576,8 +576,7 @@ sub BuildPackageIndex {
                     print STDERR "ERROR: Can't open $OrigFile: $!\n";
                     exit 1;
                 }
-                my %Structure
-                    = $CommonObject{PackageObject}->PackageParse( String => ${$ContentRef} );
+                my %Structure = $CommonObject{PackageObject}->PackageParse( String => ${$ContentRef} );
                 my $XML = $CommonObject{PackageObject}->PackageBuild( %Structure, Type => 'Index' );
                 print "<Package>\n";
                 print $XML;

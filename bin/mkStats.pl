@@ -3,7 +3,7 @@
 # mkStats.pl - send stats output via email
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: mkStats.pl,v 1.55 2008-04-23 11:28:43 tr Exp $
+# $Id: mkStats.pl,v 1.56 2008-04-29 22:14:53 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -72,8 +72,7 @@ getopt( 'nrsmoplf', \%Opts );
 if ( $Opts{h} ) {
     print "mkStats.pl <Revision $VERSION> - OTRS cmd stats\n";
     print "Copyright (C) 2001-2008 OTRS AG, http://otrs.org/\n";
-    print
-        "usage: mkStats.pl -n <StatNumber> [-p <PARAM_STRING>] [-o <DIRECTORY>] [-r <RECIPIENT> -s <SENDER>] [-m <MESSAGE>] [-l <LANGUAGE>] [-f CSV|Print]\n";
+    print "usage: mkStats.pl -n <StatNumber> [-p <PARAM_STRING>] [-o <DIRECTORY>] [-r <RECIPIENT> -s <SENDER>] [-m <MESSAGE>] [-l <LANGUAGE>] [-f CSV|Print]\n";
     print "       <PARAM_STRING> e. g. 'Year=1977&Month=10' (only for static files)\n";
     print "       <DIRECTORY> /output/dir/\n";
     exit 1;
@@ -155,9 +154,9 @@ if ( !$StatID ) {
     exit 1;
 }
 
-my ( $s, $m, $h, $D, $M, $Y )
-    = $CommonObject{TimeObject}
-    ->SystemTime2Date( SystemTime => $CommonObject{TimeObject}->SystemTime(), );
+my ( $s, $m, $h, $D, $M, $Y ) = $CommonObject{TimeObject}->SystemTime2Date(
+    SystemTime => $CommonObject{TimeObject}->SystemTime(),
+);
 
 my %GetParam = ();
 my $Stat = $CommonObject{StatsObject}->StatsGet( StatID => $StatID );
@@ -256,12 +255,10 @@ if ( $Format eq 'Print' && $CommonObject{PDFObject} ) {
     $PageParam{MarginRight}     = 40;
     $PageParam{MarginBottom}    = 40;
     $PageParam{MarginLeft}      = 40;
-    $PageParam{HeaderRight}
-        = $CommonObject{ConfigObject}->Get('Stats::StatsHook') . $Stat->{StatNumber};
+    $PageParam{HeaderRight} = $CommonObject{ConfigObject}->Get('Stats::StatsHook') . $Stat->{StatNumber};
     $PageParam{FooterLeft}   = 'mkStats.pl';
     $PageParam{HeadlineLeft} = $Title;
-    $PageParam{HeadlineRight}
-        = $PrintedBy . ' '
+    $PageParam{HeadlineRight} = $PrintedBy . ' '
         . $User{UserFirstname} . ' '
         . $User{UserLastname} . ' ('
         . $User{UserEmail} . ') '
@@ -324,8 +321,9 @@ if ( $Format eq 'Print' && $CommonObject{PDFObject} ) {
     my $PDFString = $CommonObject{PDFObject}->DocumentOutput();
 
     # save the pdf with the title and timestamp as filename
-    my $Filename = $CommonObject{StatsObject}
-        ->StringAndTimestamp2Filename( String => $Stat->{Title} . " Created", );
+    my $Filename = $CommonObject{StatsObject}->StringAndTimestamp2Filename(
+        String => $Stat->{Title} . " Created",
+    );
     %Attachment = (
         Filename    => $Filename . ".pdf",
         ContentType => "application/pdf",
@@ -344,8 +342,9 @@ else {
     );
 
     # save the csv with the title and timestamp as filename
-    my $Filename = $CommonObject{StatsObject}
-        ->StringAndTimestamp2Filename( String => $Stat->{Title} . " Created", );
+    my $Filename = $CommonObject{StatsObject}->StringAndTimestamp2Filename(
+        String => $Stat->{Title} . " Created",
+    );
 
     %Attachment = (
         Filename    => $Filename . ".csv",
