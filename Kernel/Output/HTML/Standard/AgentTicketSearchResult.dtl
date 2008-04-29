@@ -2,7 +2,7 @@
 # AgentTicketSearchResult.dtl - provides HTML form for AgentTicketUtilities
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearchResult.dtl,v 1.9 2008-04-29 11:48:26 tr Exp $
+# $Id: AgentTicketSearchResult.dtl,v 1.10 2008-04-29 22:00:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -28,13 +28,13 @@
 <!-- dtl:block:Record -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
-    <td align="left" width="50%" class="mainhead">
+    <td align="left" width="60%" class="mainhead">
       $Env{"Box0"}$Config{"Ticket::Hook"}: $Data{"TicketNumber"}$Env{"Box1"}
 <!-- dtl:block:Title-->
       $QData{"Title","60"}
 <!-- dtl:block:Title-->
     </td>
-    <td align="right" width="50%" class="mainhead">
+    <td align="right" width="40%" class="mainhead">
       $Env{"Box0"}$Text{"Age"}: $Data{"Age"}$Env{"Box1"}
     </td>
   </tr>

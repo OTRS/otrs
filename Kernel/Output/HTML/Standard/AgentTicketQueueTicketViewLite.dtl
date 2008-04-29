@@ -2,7 +2,7 @@
 # AgentTicketQueueTicketViewLite.dtl - provides HTML TicketView for AgentTicketQueue
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketQueueTicketViewLite.dtl,v 1.16 2008-04-02 08:59:22 ot Exp $
+# $Id: AgentTicketQueueTicketViewLite.dtl,v 1.17 2008-04-29 22:00:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,13 +19,13 @@
       </form>
     </td>
 <!-- dtl:block:Bulk -->
-    <td align="left" width="50%" class="mainhead">
+    <td align="left" width="60%" class="mainhead">
       $Env{"Box0"}$Config{"Ticket::Hook"}: $Data{"TicketNumber"}$Env{"Box1"}
 <!-- dtl:block:Title-->
       $QData{"Title","60"}
 <!-- dtl:block:Title-->
     </td>
-    <td align="right" width="49%" class="mainhead">
+    <td align="right" width="39%" class="mainhead">
       $Env{"Box0"}$Text{"Age"}: $Data{"Age"}$Env{"Box1"}
     </td>
   </tr>
@@ -236,7 +236,6 @@
 #    <td valign="top" class="PriorityID-$Data{"PriorityID"}">
 #      <form action="$Env{"CGIHandle"}" method="get">
 #        <input type="hidden" name="Action" value="AgentTicketMove"/>
-#        <input type="hidden" name="Subaction" value="InRage"/>
 #        <input type="hidden" name="QueueID" value="$Data{"QueueID"}"/>
 #        <input type="hidden" name="TicketID" value="$Data{"TicketID"}"/>
 #        $Data{"MoveQueuesStrg"}
