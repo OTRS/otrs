@@ -2,7 +2,7 @@
 # Kernel/System/Email/SMTP.pm - the global email send module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SMTP.pm,v 1.19 2008-02-20 22:12:22 martin Exp $
+# $Id: SMTP.pm,v 1.20 2008-04-29 11:20:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Net::SMTP;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -62,7 +62,7 @@ sub Send {
         }
     }
     if ( !$Param{From} ) {
-        $Param{From} = "";
+        $Param{From} = '';
     }
 
     # send mail
@@ -75,7 +75,7 @@ sub Send {
     );
 
     # return if no connect was possible
-    if (!$SMTP) {
+    if ( !$SMTP ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't connect to $Self->{MailHost}: $!!",
@@ -86,9 +86,10 @@ sub Send {
     # use smtp auth if configured
     if ( $Self->{User} && $Self->{Password} ) {
         if ( !$SMTP->auth( $Self->{User}, $Self->{Password} ) ) {
+            my $Error = $SMTP->code() . $SMTP->message();
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "SMTP authentication failed! Enable debug for more info!",
+                Message  => "SMTP authentication failed: $Error! Enable Net::SMTP debug for more info!",
             );
             $SMTP->quit();
             return;
@@ -97,9 +98,10 @@ sub Send {
 
     # set from, return it from was not accepted
     if ( !$SMTP->mail( $Param{From} ) ) {
+        my $Error = $SMTP->code() . $SMTP->message();
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Can't use from: $Param{From}! Enable debug for more info!",
+            Message  => "Can't use from '$Param{From}': $Error! Enable Net::SMTP debug for more info!",
         );
         $SMTP->quit;
         return;
@@ -108,11 +110,12 @@ sub Send {
     # get recipients
     my $ToString = '';
     for my $To ( @{ $Param{ToArray} } ) {
-        $ToString .= "$To,";
-        if ( !$SMTP->to($_) ) {
+        $ToString .= $To . ',';
+        if ( !$SMTP->to( $To ) ) {
+            my $Error = $SMTP->code() . $SMTP->message();
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "Can't send to: $_! Enable debug for more info!",
+                Message  => "Can't send to '$To': $Error! Enable Net::SMTP debug for more info!",
             );
             $SMTP->quit;
             return;
@@ -127,11 +130,10 @@ sub Send {
 
     # send data
     if ( !$SMTP->data( ${ $Param{Header} }, "\n", ${ $Param{Body} } ) ) {
+        my $Error = $SMTP->code() . $SMTP->message();
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Can't send message. Server code "
-                        . $Self->{SMTPObject}->code() . ", '" . $Self->{SMTPObject}->message()
-                        . "' Enable debug for more info!"
+            Message  => "Can't send message: $Error! Enable Net::SMTP debug for more info!"
         );
         $SMTP->quit;
         return;
@@ -140,7 +142,10 @@ sub Send {
 
     # debug
     if ( $Self->{Debug} > 2 ) {
-        $Self->{LogObject}->Log( Message => "Sent email to '$ToString' from '$Param{From}'." );
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message  => "Sent email to '$ToString' from '$Param{From}'.",
+        );
     }
     return 1;
 }
