@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.31 2008-04-11 22:30:29 martin Exp $
+# $Id: CustomerTicketSearch.pm,v 1.32 2008-04-29 22:53:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -72,8 +72,8 @@ sub Run {
 
     # check request
     if ( $Self->{ParamObject}->GetParam( Param => 'SearchTemplate' ) && $Self->{Profile} ) {
-        return $Self->{LayoutObject}->Redirect( OP =>
-                "Action=CustomerTicketSearchSubaction=Search&TakeLastSearch=1&SaveProfile=1&Profile=$Self->{Profile}",
+        return $Self->{LayoutObject}->Redirect(
+            OP => "Action=CustomerTicketSearchSubaction=Search&TakeLastSearch=1&SaveProfile=1&Profile=$Self->{Profile}",
         );
     }
 
@@ -346,11 +346,13 @@ sub Run {
         # perform ticket search
         my $Counter     = 0;
         my @ViewableIDs = $Self->{TicketObject}->TicketSearch(
-            Result         => 'ARRAY',
-            SortBy         => $Self->{SortBy},
-            OrderBy        => $Self->{Order},
-            Limit          => $Self->{SearchLimit},
-            CustomerUserID => $Self->{UserID},
+            Result          => 'ARRAY',
+            SortBy          => $Self->{SortBy},
+            OrderBy         => $Self->{Order},
+            Limit           => $Self->{SearchLimit},
+            CustomerUserID  => $Self->{UserID},
+            ConditionInline => $Self->{Config}->{ExtendedSearchCondition},
+            FullTextIndex   => 1,
             %GetParam,
         );
         for (@ViewableIDs) {
@@ -411,9 +413,7 @@ sub Run {
                         $Data{$_} =~ s/"/""/g if ( $Data{$_} );
                     }
                     $Param{StatusTable} .= $Self->MaskCSVResult( %Data, %UserInfo,
-                        AccountedTime =>
-                            $Self->{TicketObject}->TicketAccountedTimeGet( TicketID => $_ ), )
-                        . "\n";
+                        AccountedTime => $Self->{TicketObject}->TicketAccountedTimeGet( TicketID => $_ ), ) . "\n";
                 }
                 else {
 
@@ -453,8 +453,7 @@ sub Run {
             PageShown => $Self->{SearchPageShown},
             AllHits   => $Counter,
             Action    => "Action=CustomerTicketSearch&Subaction=Search",
-            Link =>
-                "Profile=$Self->{Profile}&SortBy=$Self->{SortBy}&Order=$Self->{Order}&TakeLastSearch=1&",
+            Link => "Profile=$Self->{Profile}&SortBy=$Self->{SortBy}&Order=$Self->{Order}&TakeLastSearch=1&",
         );
 
         # build shown ticket
@@ -479,11 +478,11 @@ sub Run {
 
             # return csv to download
             my $CSVFile = 'search';
-            my ( $Sec, $Min, $Hour, $Day, $Month, $Year )
-                = $Self->{TimeObject}
-                ->SystemTime2Date( SystemTime => $Self->{TimeObject}->SystemTime(), );
+            my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
+                SystemTime => $Self->{TimeObject}->SystemTime(),
+            );
             return $Self->{LayoutObject}->Attachment(
-                Filename    => $CSVFile . "_" . "$Year-$Month-$Day" . "_" . "$Hour-$Min.csv",
+                Filename    => $CSVFile . '_' . "$Year-$Month-$Day" . '_' . "$Hour-$Min.csv",
                 ContentType => "text/csv",
                 Content     => $Param{StatusTable},
             );
