@@ -1,12 +1,12 @@
 # --
 # AAAStats.dtl - $Text variable file
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AAAStats.dtl,v 1.6 2007-06-26 18:49:20 martin Exp $
+# $Id: AAAStats.dtl,v 1.7 2008-04-29 11:48:26 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 # Common

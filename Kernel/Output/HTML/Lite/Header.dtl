@@ -1,12 +1,12 @@
 # --
 # Header.dtl - provides global HTML header
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.28 2008-01-09 09:06:57 mh Exp $
+# $Id: Header.dtl,v 1.29 2008-04-29 11:46:42 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 #
 Content-Type: text/html; charset=$Env{"UserCharset"};
