@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Web/UploadCache.pm - a fs upload cache
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: UploadCache.pm,v 1.10 2007-10-02 10:35:04 mh Exp $
+# $Id: UploadCache.pm,v 1.11 2008-04-29 11:35:29 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Web::UploadCache;
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
@@ -47,22 +47,24 @@ create param object
         ConfigObject => $ConfigObject,
     );
     my $MainObject = Kernel::System::Main->new(
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
         ConfigObject => $ConfigObject,
     );
     my $EncodeObject = Kernel::System::Encode->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
     );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
+        MainObject   => $MainObject,
     );
     my $UploadCache= Kernel::System::Web::UploadCache->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
-        DBObject => $DBObject,
+        LogObject    => $LogObject,
+        DBObject     => $DBObject,
         EncodeObject => $EncodeObject,
+        MainObject   => $MainObject,
     );
 
 =cut
@@ -85,12 +87,9 @@ sub new {
 
     if ( $Self->{MainObject}->Require( $Self->{GenericModule} ) ) {
         $Self->{Backend} = $Self->{GenericModule}->new(%Param);
+        return $Self;
     }
-    else {
-        return;
-    }
-
-    return $Self;
+    return;
 }
 
 =item FormIDCreate()
@@ -214,12 +213,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2007-10-02 10:35:04 $
+$Revision: 1.11 $ $Date: 2008-04-29 11:35:29 $
 
 =cut

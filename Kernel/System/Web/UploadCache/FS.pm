@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Web/UploadCache/FS.pm - a fs upload cache
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.10 2007-10-02 10:35:04 mh Exp $
+# $Id: FS.pm,v 1.11 2008-04-29 11:35:29 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Web::UploadCache::FS;
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -50,12 +50,11 @@ sub FormIDCreate {
 sub FormIDRemove {
     my ( $Self, %Param ) = @_;
 
-    for (qw(FormID)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
+    if ( !$Param{FormID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need FormID!' );
+        return;
     }
+
     my @List    = glob("$Self->{TempDir}/$Param{FormID}.*");
     my $Counter = 0;
     my @Data    = ();
@@ -127,12 +126,11 @@ sub FormIDRemoveFile {
 sub FormIDGetAllFilesData {
     my ( $Self, %Param ) = @_;
 
-    for (qw(FormID)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
+    if ( !$Param{FormID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need FormID!' );
+        return;
     }
+
     my @List    = glob("$Self->{TempDir}/$Param{FormID}.*");
     my $Counter = 0;
     my @Data    = ();
@@ -152,8 +150,8 @@ sub FormIDGetAllFilesData {
 
                 # remove meta data in files
                 $FileSize = $FileSize - 30 if ( $FileSize > 30 );
-                if ( $FileSize > ( 1024 * 1024 ) ) {
-                    $FileSize = sprintf "%.1f MBytes", ( $FileSize / ( 1024 * 1024 ) );
+                if ( $FileSize > 1048576 ) {               # 1024 * 1024
+                    $FileSize = sprintf "%.1f MBytes", ( $FileSize / 1048576 ); # 1024 * 1024
                 }
                 elsif ( $FileSize > 1024 ) {
                     $FileSize = sprintf "%.1f KBytes", ( ( $FileSize / 1024 ) );
@@ -166,16 +164,13 @@ sub FormIDGetAllFilesData {
                 Location => $File,
                 Mode     => 'binmode',    # optional - binmode|utf8
             );
-            if ( !$Content ) {
-                next;
-            }
+            next if !$Content;
+
             my $ContentType = $Self->{MainObject}->FileRead(
                 Location => "$File.ContentType",
                 Mode     => 'binmode',             # optional - binmode|utf8
             );
-            if ( !$ContentType ) {
-                next;
-            }
+            next if !$ContentType;
 
             # strip filename
             $File =~ s/^.*\/$Param{FormID}\.(.+?)$/$1/;
@@ -197,12 +192,11 @@ sub FormIDGetAllFilesData {
 sub FormIDGetAllFilesMeta {
     my ( $Self, %Param ) = @_;
 
-    for (qw(FormID)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
+    if ( !$Param{FormID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need FormID!' );
+        return;
     }
+
     my @List    = glob("$Self->{TempDir}/$Param{FormID}.*");
     my $Counter = 0;
     my @Data    = ();
@@ -222,8 +216,8 @@ sub FormIDGetAllFilesMeta {
 
                 # remove meta data in files
                 $FileSize = $FileSize - 30 if ( $FileSize > 30 );
-                if ( $FileSize > ( 1024 * 1024 ) ) {
-                    $FileSize = sprintf "%.1f MBytes", ( $FileSize / ( 1024 * 1024 ) );
+                if ( $FileSize > 1048576 ) { # 1024 * 1024
+                    $FileSize = sprintf "%.1f MBytes", ( $FileSize / 1048576 ); # 1024 * 1024
                 }
                 elsif ( $FileSize > 1024 ) {
                     $FileSize = sprintf "%.1f KBytes", ( ( $FileSize / 1024 ) );
@@ -250,7 +244,7 @@ sub FormIDGetAllFilesMeta {
 sub FormIDCleanUp {
     my ( $Self, %Param ) = @_;
 
-    my $CurrentTile   = time() - ( 60 * 60 * 24 * 1 );
+    my $CurrentTile   = time() - 86400; # 60 * 60 * 24 * 1
     my @List          = glob("$Self->{TempDir}/*");
     my %RemoveFormIDs = ();
     for my $File (@List) {
