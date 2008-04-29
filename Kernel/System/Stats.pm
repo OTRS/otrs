@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all advice functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.44 2008-04-23 11:01:54 tr Exp $
+# $Id: Stats.pm,v 1.45 2008-04-29 22:05:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 =head1 SYNOPSIS
 
@@ -132,8 +132,9 @@ sub StatsAdd {
         $StatID = $SortKeys[-1] + 1;
     }
 
-    my $TimeStamp = $Self->{TimeObject}
-        ->SystemTime2TimeStamp( SystemTime => $Self->{TimeObject}->SystemTime(), );
+    my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
+        SystemTime => $Self->{TimeObject}->SystemTime(),
+    );
 
     # meta tags
     my %MetaData = ();
@@ -155,8 +156,10 @@ sub StatsAdd {
         )
         )
     {
-        $Self->{LogObject}
-            ->Log( Priority => 'error', Message => "StatsAdd: Can not add a new Stat!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'StatsAdd: Can not add a new Stat!',
+        );
         return 0;
     }
     return $StatID;
@@ -2628,42 +2631,30 @@ sub StringAndTimestamp2Filename {
     if ( !$Param{String} ) {
         return $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "StringAndTimestamp2Filename: Need String!"
+            Message  => 'StringAndTimestamp2Filename: Need String!'
         );
     }
 
-    my ( $s, $m, $h, $D, $M, $Y )
-        = $Self->{TimeObject}->SystemTime2Date( SystemTime => $Self->{TimeObject}->SystemTime(), );
+    my ( $s, $m, $h, $D, $M, $Y ) = $Self->{TimeObject}->SystemTime2Date(
+        SystemTime => $Self->{TimeObject}->SystemTime(),
+    );
     $M = sprintf( "%02d", $M );
     $D = sprintf( "%02d", $D );
     $h = sprintf( "%02d", $h );
     $m = sprintf( "%02d", $m );
 
-    # replace invalid token like < > ? " : | \ or *
-    $Param{String} =~ s{[\s <>\?":\\\*\|\/]} {-}xg;
-    $Param{String} =~ s{ä} {ae}xg;
-    $Param{String} =~ s{ö} {oe}xg;
-    $Param{String} =~ s{ü} {ue}xg;
-    $Param{String} =~ s{Ä} {Ae}xg;
-    $Param{String} =~ s{Ö} {Oe}xg;
-    $Param{String} =~ s{Ü} {Ue}xg;
-    $Param{String} =~ s{ß} {ss}xg;
-    $Param{String} =~ s{-+} {-}xg;
+    $Param{String} = $Self->{MainObject}->FilenameCleanUp(
+        Filename => $Param{String},
+        Type     => 'Attachment',
+    );
 
-    # Cut the String if to long
-    if ( length( $Param{String} ) > 100 ) {
-        $Param{String} = substr( $Param{String}, 0, 100 );
-    }
-
-    my $Filename = $Param{String} . "_" . "$Y-$M-$D" . "_" . "$h-$m";
+    my $Filename = $Param{String} . '_' . "$Y-$M-$D" . '_' . "$h-$m";
 
     return $Filename;
 }
 
 sub _MonthArray {
-    my @MonthArray
-        = ( '', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
-        );
+    my @MonthArray = ( '', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',);
     return \@MonthArray;
 }
 
@@ -2786,6 +2777,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.44 $ $Date: 2008-04-23 11:01:54 $
+$Revision: 1.45 $ $Date: 2008-04-29 22:05:08 $
 
 =cut
