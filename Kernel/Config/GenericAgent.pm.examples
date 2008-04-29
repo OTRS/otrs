@@ -1,12 +1,12 @@
 # --
 # Kernel/Config/GenericAgent.pm - config file of generic agent
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm.examples,v 1.20 2007-09-29 10:34:53 mh Exp $
+# $Id: GenericAgent.pm.examples,v 1.21 2008-04-29 13:17:30 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Config::GenericAgent;
@@ -20,7 +20,7 @@ require Exporter;
 @EXPORT = qw(%Jobs);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.20 $)[1];
+$VERSION = qw($Revision: 1.21 $)[1];
 
 # -----------------------------------------------------------------------
 # config options
