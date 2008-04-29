@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.59 2008-04-14 19:40:26 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.60 2008-04-29 21:58:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -277,6 +277,9 @@ sub Run {
                         );
                     }
                     elsif ( $Key =~ /^(Intro)/ ) {
+                        if ( $Hash->{Format} && $Hash->{Format} =~ /plain/i ) {
+                            $Hash->{Content} = '<pre class="contentbody">' . $Hash->{Content} . '</pre>';
+                        }
                         $Self->{LayoutObject}->Block(
                             Name => "PackageItemIntro",
                             Data => { %{$Hash}, Tag => $Key, },
@@ -485,6 +488,9 @@ sub Run {
                         );
                     }
                     elsif ( $Key =~ /^(Intro)/ ) {
+                        if ( $Hash->{Format} && $Hash->{Format} =~ /plain/i ) {
+                            $Hash->{Content} = '<pre class="contentbody">' . $Hash->{Content} . '</pre>';
+                        }
                         $Self->{LayoutObject}->Block(
                             Name => "PackageItemIntro",
                             Data => { %{$Hash}, Tag => $Key, },
@@ -1449,6 +1455,9 @@ sub _MessageGet {
                 next if $Tag->{Type} !~ /^$Param{Type}/i;
             }
             $Use = 1;
+            if ( $Tag->{Format} && $Tag->{Format} =~ /plain/i ) {
+                $Tag->{Content} = '<pre class="contentbody">' . $Tag->{Content} . '</pre>';
+            }
             if ( !$Description && $Tag->{Lang} eq 'en' ) {
                 $Description = $Tag->{Content};
                 $Title       = $Tag->{Title};
