@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: NewTicket.pm,v 1.66 2008-04-24 21:48:51 martin Exp $
+# $Id: NewTicket.pm,v 1.67 2008-04-29 18:39:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -30,7 +30,7 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # get all objects
-    for (qw(DBObject ConfigObject TicketObject LogObject ParseObject QueueObject)) {
+    for (qw(DBObject ConfigObject TicketObject LogObject ParseObject TimeObject QueueObject)) {
         $Self->{$_} = $Param{$_} || die 'Got no $_';
     }
 
@@ -175,37 +175,61 @@ sub Run {
 
     # set pending time
     if ( $GetParam{'X-OTRS-State-PendingTime'} ) {
-        if ($Self->{TicketObject}->TicketPendingTimeSet(
-                String   => $GetParam{'X-OTRS-State-PendingTime'},
-                TicketID => $TicketID,
-                UserID   => $Param{InmailUserID},
-            )
-            )
-        {
+        my $Set = $Self->{TicketObject}->TicketPendingTimeSet(
+            String   => $GetParam{'X-OTRS-State-PendingTime'},
+            TicketID => $TicketID,
+            UserID   => $Param{InmailUserID},
+        );
 
-            # debug
+        # debug
+        if ( $Set && $Self->{Debug} > 0 ) {
+            print "State-PendingTime: $GetParam{'X-OTRS-State-PendingTime'}\n";
+        }
+    }
+
+    # set ticket free text
+    my @Values = ( 'X-OTRS-TicketKey', 'X-OTRS-TicketValue' );
+    for my $Count ( 1..16 ) {
+        if ( $GetParam{ $Values[0] . $Count } ) {
+            $Self->{TicketObject}->TicketFreeTextSet(
+                TicketID => $TicketID,
+                Key      => $GetParam{ $Values[0] . $Count },
+                Value    => $GetParam{ $Values[1] . $Count },
+                Counter  => $Count,
+                UserID   => $Param{InmailUserID},
+            );
             if ( $Self->{Debug} > 0 ) {
-                print "State-PendingTime: $GetParam{'X-OTRS-State-PendingTime'}\n";
+                print "TicketKey$Count: " . $GetParam{ $Values[0] . $Count } . "\n";
+                print "TicketValue$Count: " . $GetParam{ $Values[1] . $Count } . "\n";
             }
         }
     }
 
-    # set free ticket text
-    my @Values = ( 'X-OTRS-TicketKey', 'X-OTRS-TicketValue' );
-    my $CounterTmp = 0;
-    while ( $CounterTmp <= 16 ) {
-        $CounterTmp++;
-        if ( $GetParam{"$Values[0]$CounterTmp"} ) {
-            $Self->{TicketObject}->TicketFreeTextSet(
-                TicketID => $TicketID,
-                Key      => $GetParam{"$Values[0]$CounterTmp"},
-                Value    => $GetParam{"$Values[1]$CounterTmp"},
-                Counter  => $CounterTmp,
-                UserID   => $Param{InmailUserID},
+    # set ticket free time
+    for my $Count ( 1..6 ) {
+        my $Key = 'X-OTRS-TicketTime' . $Count;
+        if ( $GetParam{ $Key } ) {
+            my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+                String => $GetParam{ $Key },
             );
-            if ( $Self->{Debug} > 0 ) {
-                print "TicketKey$CounterTmp: " . $GetParam{"$Values[0]$CounterTmp"} . "\n";
-                print "TicketValue$CounterTmp: " . $GetParam{"$Values[1]$CounterTmp"} . "\n";
+            my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
+                SystemTime => $SystemTime,
+            );
+            if ( $Year && $Month && $Day && $Hour && $Min ) {
+                $Self->{TicketObject}->TicketFreeTimeSet(
+                    'TicketFreeTime' . $Count . 'Year'   => $Year,
+                    'TicketFreeTime' . $Count . 'Month'  => $Month,
+                    'TicketFreeTime' . $Count . 'Day'    => $Day,
+                    'TicketFreeTime' . $Count . 'Hour'   => $Hour,
+                    'TicketFreeTime' . $Count . 'Minute' => $Min,
+                    Prefix   => 'TicketFreeTime',
+                    TicketID => $TicketID,
+                    Counter  => $Count,
+                    UserID   => $Param{InmailUserID},
+                );
+                if ( $Self->{Debug} > 0 ) {
+                    print "TicketTime$Count: " . $GetParam{ $Key } . "\n";
+                }
             }
         }
     }
@@ -260,21 +284,19 @@ sub Run {
 
     # set free article text
     @Values = ( 'X-OTRS-ArticleKey', 'X-OTRS-ArticleValue' );
-    $CounterTmp = 0;
-    while ( $CounterTmp <= 3 ) {
-        $CounterTmp++;
-        if ( $GetParam{"$Values[0]$CounterTmp"} ) {
+    for my $Count ( 1..3 ) {
+        if ( $GetParam{ $Values[0] . $Count } ) {
             $Self->{TicketObject}->ArticleFreeTextSet(
                 TicketID  => $TicketID,
                 ArticleID => $ArticleID,
-                Key       => $GetParam{"$Values[0]$CounterTmp"},
-                Value     => $GetParam{"$Values[1]$CounterTmp"},
-                Counter   => $CounterTmp,
+                Key       => $GetParam{ $Values[0] . $Count },
+                Value     => $GetParam{ $Values[1] . $Count },
+                Counter   => $Count,
                 UserID    => $Param{InmailUserID},
             );
             if ( $Self->{Debug} > 0 ) {
-                print "ArticleKey$CounterTmp: " . $GetParam{"$Values[0]$CounterTmp"} . "\n";
-                print "ArticleValue$CounterTmp: " . $GetParam{"$Values[1]$CounterTmp"} . "\n";
+                print "ArticleKey$Count: " . $GetParam{ $Values[0] . $Count } . "\n";
+                print "ArticleValue$Count: " . $GetParam{ $Values[1] . $Count } . "\n";
             }
         }
     }

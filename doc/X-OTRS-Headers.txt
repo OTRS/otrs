@@ -2,7 +2,7 @@
 # X-OTRS-Headers.txt - X-headers for use in mail
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: X-OTRS-Headers.txt,v 1.15 2008-04-24 11:47:57 tr Exp $
+# $Id: X-OTRS-Headers.txt,v 1.16 2008-04-29 18:39:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -82,6 +82,12 @@ X-OTRS-TicketValue(1|2|...|16): [additional info value]
 -------------------------------------------------------
 Save additional info "value" to the incoming ticket.
 For FollowUps use X-OTRS-FollowUp-TicketValue.
+
+X-OTRS-TicketTime(1|2|3|4|5|6): [additional info time]
+-------------------------------------------------------
+Save additional "TicketFreeTime" to the incoming ticket.
+Format need to be: yyyy-mm-dd hh:mm:ss.
+For FollowUps use X-OTRS-FollowUp-TicketTime.
 
 X-OTRS-Loop: True
 -----------------
