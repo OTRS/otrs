@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.91 2008-04-24 21:37:28 martin Exp $
+# $Id: Layout.pm,v 1.92 2008-04-29 16:15:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.91 $) [1];
+$VERSION = qw($Revision: 1.92 $) [1];
 
 =head1 NAME
 
@@ -2812,18 +2812,6 @@ sub Attachment {
         }
     }
 
-    # reset binmode, don't use utf8
-    binmode(STDOUT);
-
-    # disable utf8 flag, to write binary to output
-    if ( $Self->{EncodeObject}->EncodeFrontendUsed() =~ /utf(8|-8)/i ) {
-        for my $Type ( qw(Content Filename ContentType) ) {
-            if ( defined $Param{ $Type } ) {
-                $Self->{EncodeObject}->EncodeOutput( \$Param{ $Type } );
-            }
-        }
-    }
-
     # return attachment
     my $Output = 'Content-Disposition: ';
     if ( $Param{Type} ) {
@@ -2837,10 +2825,6 @@ sub Attachment {
 
     # clean filename to get no problems with some browsers
     if ( $Param{Filename} ) {
-        $Param{Filename} = $Self->{MainObject}->FilenameCleanUp(
-            Filename => $Param{Filename},
-            Type     => 'Attachment',
-        );
         $Output .= " filename=\"$Param{Filename}\"";
     }
     $Output .= "\n";
@@ -2861,6 +2845,10 @@ sub Attachment {
     $Output .= "Content-Length: $Param{Size}\n";
     $Output .= "Content-Type: $Param{ContentType}\n\n";
 
+    # disable utf8 flag, to write binary to output
+    $Self->{EncodeObject}->EncodeOutput( \$Output );
+    $Self->{EncodeObject}->EncodeOutput( \$Param{Content} );
+
     # fix for firefox HEAD problem
     if ( !$ENV{REQUEST_METHOD} || $ENV{REQUEST_METHOD} ne 'HEAD' ) {
         $Output .= $Param{Content};
@@ -2870,6 +2858,9 @@ sub Attachment {
     delete $Self->{FilterElementPre}->{ActiveElementFilter};
     delete $Self->{FilterElementPost}->{ActiveElementFilter};
     delete $Self->{FilterContent}->{ActiveElementFilter};
+
+    # reset binmode, don't use utf8
+    binmode(STDOUT);
 
     return $Output;
 }
@@ -3858,6 +3849,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.91 $ $Date: 2008-04-24 21:37:28 $
+$Revision: 1.92 $ $Date: 2008-04-29 16:15:10 $
 
 =cut
