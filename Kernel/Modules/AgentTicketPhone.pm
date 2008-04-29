@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.64 2008-04-17 06:42:33 martin Exp $
+# $Id: AgentTicketPhone.pm,v 1.65 2008-04-29 15:12:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -141,6 +141,40 @@ sub Run {
                 Subject      => $Article{Subject} || '',
             );
 
+            # fill free text fields
+            for my $Count ( 1..16 ) {
+                if ( defined $Article{ 'TicketFreeKey' . $Count } ) {
+                    $GetParam{ 'TicketFreeKey' . $Count } = $Article{ 'TicketFreeKey' . $Count };
+                }
+                if ( defined $Article{ 'TicketFreeText' . $Count } ) {
+                    $GetParam{ 'TicketFreeText' . $Count } = $Article{ 'TicketFreeText' . $Count };
+                }
+            }
+
+            # fill free time fields
+            for my $Count ( 1..6 ) {
+                if ( defined $Article{ 'TicketFreeTime' . $Count } ) {
+                    $GetParam{ 'TicketFreeTime' . $Count . 'Used' } = 1;
+                    my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+                        String => $Article{ 'TicketFreeTime' . $Count },
+                    );
+                    my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
+                        SystemTime => $SystemTime,
+                    );
+                    $GetParam{ 'TicketFreeTime'  . $Count . 'Year' }   = $Year;
+                    $GetParam{ 'TicketFreeTime'  . $Count . 'Month' }  = $Month;
+                    $GetParam{ 'TicketFreeTime'  . $Count . 'Day' }    = $Day;
+                    $GetParam{ 'TicketFreeTime'  . $Count . 'Hour' }   = $Hour;
+                    $GetParam{ 'TicketFreeTime'  . $Count . 'Minute' } = $Min;
+
+                    # do agent time zone translation
+                    %GetParam = $Self->{LayoutObject}->TransfromDateSelection(
+                        %GetParam,
+                        Prefix => 'TicketFreeTime' . $Count,
+                    );
+                }
+            }
+
             # get attachments
             my %ArticleIndex = $Self->{TicketObject}->ArticleAttachmentIndex(
                 ArticleID => $GetParam{ArticleID},
@@ -164,7 +198,7 @@ sub Run {
                     $Article{Body} =~ s/\<.+?\>//gs;
                 }
                 elsif ( $Article{'ContentType'} !~ /text\/plain/i ) {
-                    $Article{Body} = "-> no quotable message <-";
+                    $Article{Body} = '-> no quotable message <-';
                 }
             }
 
