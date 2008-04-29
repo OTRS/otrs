@@ -14,16 +14,179 @@
         </ForeignKey>
     </TableCreate>
 
+    <TableAlter Name="user_preferences">
+        <IndexCreate Name="user_preferences_user_id">
+            <IndexColumn Name="user_id"/>
+        </IndexCreate>
+    </TableAlter>
+
+    <TableAlter Name="group_user">
+        <IndexCreate Name="group_user_user_id">
+            <IndexColumn Name="user_id"/>
+        </IndexCreate>
+        <IndexCreate Name="group_user_group_id">
+            <IndexColumn Name="group_id"/>
+        </IndexCreate>
+    </TableAlter>
+
+    <TableAlter Name="group_role">
+        <IndexCreate Name="group_role_role_id">
+            <IndexColumn Name="role_id"/>
+        </IndexCreate>
+        <IndexCreate Name="group_role_group_id">
+            <IndexColumn Name="group_id"/>
+        </IndexCreate>
+    </TableAlter>
+
+    <TableAlter Name="group_customer_user">
+        <IndexCreate Name="group_customer_user_id">
+            <IndexColumn Name="user_id"/>
+        </IndexCreate>
+        <IndexCreate Name="group_customer_user_group_id">
+            <IndexColumn Name="group_id"/>
+        </IndexCreate>
+    </TableAlter>
+
+    <TableAlter Name="personal_queues">
+        <IndexCreate Name="personal_queues_user_id">
+            <IndexColumn Name="user_id"/>
+        </IndexCreate>
+        <IndexCreate Name="personal_queues_queue_id">
+            <IndexColumn Name="queue_id"/>
+        </IndexCreate>
+    </TableAlter>
+
     <TableAlter Name="queue">
         <ColumnAdd Name="first_response_notify" Required="false" Type="SMALLINT"/>
         <ColumnAdd Name="update_notify" Required="false" Type="SMALLINT"/>
         <ColumnAdd Name="solution_notify" Required="false" Type="SMALLINT"/>
+        <IndexCreate Name="queue_group_id">
+            <IndexColumn Name="group_id"/>
+        </IndexCreate>
+    </TableAlter>
+
+    <TableAlter Name="ticket">
+        <IndexCreate Name="ticket_title">
+            <IndexColumn Name="title"/>
+        </IndexCreate>
+        <IndexCreate Name="ticket_customer_user_id">
+            <IndexColumn Name="customer_user_id"/>
+        </IndexCreate>
+        <IndexCreate Name="ticket_customer_id">
+            <IndexColumn Name="customer_id"/>
+        </IndexCreate>
+        <IndexCreate Name="ticket_queue_id">
+            <IndexColumn Name="queue_id"/>
+        </IndexCreate>
+        <IndexCreate Name="ticket_responsible_user_id">
+            <IndexColumn Name="responsible_user_id"/>
+        </IndexCreate>
+    </TableAlter>
+
+    <TableAlter Name="object_link">
+        <IndexCreate Name="index_object_link_a_id">
+            <IndexColumn Name="object_link_a_id"/>
+        </IndexCreate>
+        <IndexCreate Name="index_object_link_b_id">
+            <IndexColumn Name="object_link_b_id"/>
+        </IndexCreate>
+        <IndexCreate Name="index_object_link_a_object">
+            <IndexColumn Name="object_link_a_object"/>
+        </IndexCreate>
+        <IndexCreate Name="index_object_link_b_object">
+            <IndexColumn Name="object_link_b_object"/>
+        </IndexCreate>
+        <IndexCreate Name="index_object_link_type">
+            <IndexColumn Name="object_link_type"/>
+        </IndexCreate>
+    </TableAlter>
+
+    <TableAlter Name="ticket_history">
+        <IndexCreate Name="ticket_history_history_type_id">
+            <IndexColumn Name="history_type_id"/>
+        </IndexCreate>
+        <IndexCreate Name="ticket_history_queue_id">
+            <IndexColumn Name="queue_id"/>
+        </IndexCreate>
+        <IndexCreate Name="ticket_history_type_id">
+            <IndexColumn Name="type_id"/>
+        </IndexCreate>
+        <IndexCreate Name="ticket_history_owner_id">
+            <IndexColumn Name="owner_id"/>
+        </IndexCreate>
+        <IndexCreate Name="ticket_history_priority_id">
+            <IndexColumn Name="priority_id"/>
+        </IndexCreate>
+        <IndexCreate Name="ticket_history_state_id">
+            <IndexColumn Name="state_id"/>
+        </IndexCreate>
+        <IndexCreate Name="ticket_history_priority_id">
+            <IndexColumn Name="priority_id"/>
+        </IndexCreate>
+        <IndexCreate Name="ticket_history_state_id">
+            <IndexColumn Name="state_id"/>
+        </IndexCreate>
     </TableAlter>
 
     <TableAlter Name="sla">
         <ColumnAdd Name="first_response_notify" Required="false" Type="SMALLINT"/>
         <ColumnAdd Name="update_notify" Required="false" Type="SMALLINT"/>
         <ColumnAdd Name="solution_notify" Required="false" Type="SMALLINT"/>
+    </TableAlter>
+
+    <TableAlter Name="article">
+        <IndexCreate Name="article_article_type_id">
+            <IndexColumn Name="article_type_id"/>
+        </IndexCreate>
+        <IndexCreate Name="article_sender_type_id">
+            <IndexColumn Name="article_sender_type_id"/>
+        </IndexCreate>
+    </TableAlter>
+
+    <TableAlter Name="ticket_watcher">
+        <IndexCreate Name="ticket_watcher_user_id">
+            <IndexColumn Name="user_id"/>
+        </IndexCreate>
+        <ForeignKeyCreate ForeignTable="ticket">
+            <Reference Local="ticket_id" Foreign="id"/>
+        </ForeignKeyCreate>
+        <ForeignKeyCreate ForeignTable="system_user">
+            <Reference Local="user_id" Foreign="id"/>
+            <Reference Local="create_by" Foreign="id"/>
+            <Reference Local="change_by" Foreign="id"/>
+        </ForeignKeyCreate>
+    </TableAlter>
+
+    <TableAlter Name="ticket_index">
+        <IndexCreate Name="ticket_index_group_id">
+            <IndexColumn Name="group_id"/>
+        </IndexCreate>
+        <ForeignKeyCreate ForeignTable="ticket">
+            <Reference Local="ticket_id" Foreign="id"/>
+        </ForeignKeyCreate>
+        <ForeignKeyCreate ForeignTable="queue">
+            <Reference Local="queue_id" Foreign="id"/>
+        </ForeignKeyCreate>
+        <ForeignKeyCreate ForeignTable="groups">
+            <Reference Local="group_id" Foreign="id"/>
+        </ForeignKeyCreate>
+    </TableAlter>
+
+    <TableAlter Name="postmaster_filter">
+        <IndexCreate Name="postmaster_filter_f_name">
+            <IndexColumn Name="f_name"/>
+        </IndexCreate>
+    </TableAlter>
+
+    <TableAlter Name="generic_agent_jobs">
+        <IndexCreate Name="generic_agent_job_name">
+            <IndexColumn Name="job_name"/>
+        </IndexCreate>
+    </TableAlter>
+
+
+    <TableAlter NameNew="mail_account" NameOld="pop3_account">
+        <ColumnAdd Name="account_type" Required="false" Size="20" Type="VARCHAR"/>
     </TableAlter>
 
     <TableAlter Name="article">
