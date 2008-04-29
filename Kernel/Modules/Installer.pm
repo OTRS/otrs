@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.55 2008-01-31 06:22:12 tr Exp $
+# $Id: Installer.pm,v 1.56 2008-04-29 21:56:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use warnings;
 use DBI;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -76,38 +76,38 @@ sub Run {
 
     # check dist
     my %Dist = ();
-    $Dist{Vendor}    = "Unix/Linux";
-    $Dist{Webserver} = "restart your webserver";
-    if ( -f "/etc/SuSE-release" ) {
-        $Dist{Vendor} = "SuSE";
+    $Dist{Vendor}    = 'Unix/Linux';
+    $Dist{Webserver} = 'restart your webserver';
+    if ( -f '/etc/SuSE-release' ) {
+        $Dist{Vendor} = 'SuSE';
         if ( exists $ENV{MOD_PERL} ) {
-            eval "require mod_perl";
+            eval 'require mod_perl';
             if ( defined $mod_perl::VERSION ) {
                 if ( $mod_perl::VERSION >= 1.99 ) {
-                    $Dist{Webserver} = "rcapache2 restart";
+                    $Dist{Webserver} = 'rcapache2 restart';
                 }
                 else {
-                    $Dist{Webserver} = "rcapache restart";
+                    $Dist{Webserver} = 'rcapache restart';
                 }
             }
         }
         else {
-            $Dist{Webserver} = "";
+            $Dist{Webserver} = '';
         }
     }
-    elsif ( -f "/etc/redhat-release" ) {
-        $Dist{Vendor}    = "Redhat";
-        $Dist{Webserver} = "service httpd restart";
+    elsif ( -f '/etc/redhat-release' ) {
+        $Dist{Vendor}    = 'Redhat';
+        $Dist{Webserver} = 'service httpd restart';
     }
     else {
         if ( exists $ENV{MOD_PERL} ) {
-            eval "require mod_perl";
+            eval 'require mod_perl';
             if ( defined $mod_perl::VERSION ) {
                 if ( $mod_perl::VERSION >= 1.99 ) {
-                    $Dist{Webserver} = "Apache2 + mod_perl2";
+                    $Dist{Webserver} = 'Apache2 + mod_perl2';
                 }
                 else {
-                    $Dist{Webserver} = "Apache + mod_perl";
+                    $Dist{Webserver} = 'Apache + mod_perl';
                 }
             }
         }
@@ -215,9 +215,9 @@ sub Run {
         }
 
         # connect to database
-        my $DBH
-            = DBI->connect( "DBI:mysql:database=;host=$DB{DatabaseHost};", $DB{User}, $DB{Password},
-            );
+        my $DBH = DBI->connect(
+            "DBI:mysql:database=;host=$DB{DatabaseHost};", $DB{User}, $DB{Password},
+        );
         if ( !$DBH ) {
             return $Self->{LayoutObject}->ErrorScreen(
                 Message => "Can't connect to database, read comment!",
@@ -420,9 +420,9 @@ sub Run {
             # Reload the grant tables of your mysql-daemon
             $Self->{LayoutObject}->Block(
                 Name => 'DatabaseResultItem',
-                Data => { Item => "Reloading grant tables", },
+                Data => { Item => 'Reloading grant tables', },
             );
-            if ( !$DBH->do("FLUSH PRIVILEGES") ) {
+            if ( !$DBH->do('FLUSH PRIVILEGES') ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'DatabaseResultItemFalse',
                     Data => {},
