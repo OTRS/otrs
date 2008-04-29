@@ -1,12 +1,12 @@
 # --
 # INSTALL description of OTRS
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: INSTALL,v 1.44 2007-08-09 21:44:30 martin Exp $
+# $Id: INSTALL,v 1.45 2008-04-29 11:40:58 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 Software requirements?
