@@ -1,8 +1,8 @@
 #!/bin/sh
 # otrs.cleanup - to cleanup not proccesed emails
-# Copyright (C) 2001-2006 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.cleanup,v 1.5 2008-02-01 12:49:20 tr Exp $
+# $Id: otrs.cleanup,v 1.6 2008-04-30 07:39:42 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,21 +20,27 @@
 # --
 
 #OTRS_ROOT=/usr/local/otrs
-OTRS_ROOT = $HOME OTRS_SPOOLDIR = $OTRS_ROOT / var / spool OTRS_POSTMASTER
-    = $OTRS_ROOT / bin / PostMaster . pl
+OTRS_ROOT=$HOME
+OTRS_SPOOLDIR=$OTRS_ROOT/var/spool
+OTRS_POSTMASTER=$OTRS_ROOT/bin/PostMaster.pl
 
-    if !test -e $OTRS_ROOT / RELEASE;
-then echo "$HOME is not OTRS root!" exit 1;
+if ! test -e $OTRS_ROOT/RELEASE; then
+    echo "$HOME is not OTRS root!"
+    exit 1;
 fi
 
-    # check otrs spool dir
-    echo " Checking otrs spool dir... " for i in $OTRS_SPOOLDIR/ *; do
-
+# check otrs spool dir
+echo " Checking otrs spool dir... "
+for i in $OTRS_SPOOLDIR/* ; do
     # process old emails
-    if echo $i | grep -v '*' >> /dev/ null;
-then echo -n "   Starting otrs PostMaster... ($i) "
-    if cat $i | $OTRS_POSTMASTER >> /dev/ null 2 > &1;
-then rm $i && echo "(remove email) done.";
-else echo "failed.";
-fi fi done echo " done."
+    if echo $i | grep -v '*' >> /dev/null; then
+        echo -n "   Starting otrs PostMaster... ($i) "
+        if cat $i | $OTRS_POSTMASTER >> /dev/null 2>&1; then
+            rm $i && echo "(remove email) done.";
+        else
+            echo "failed.";
+        fi
+    fi
+done
+echo " done."
 
