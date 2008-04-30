@@ -2,7 +2,7 @@
 # scripts/test/Performance.t - a performance testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Performance.t,v 1.3 2008-04-10 17:39:48 tr Exp $
+# $Id: Performance.t,v 1.4 2008-04-30 07:32:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Time::HiRes qw(gettimeofday tv_interval);
 #----------------------------------#
 # use - load classes
 #----------------------------------#
-my $StartUse = [gettimeofday];
+my $StartUse = [gettimeofday()];
 
 use Kernel::System::AuthSession;
 use Kernel::System::Web::Request;
@@ -76,7 +76,7 @@ $Self->{UserObject} = Kernel::System::User->new(
 # find the user with the most privileges
 #-----------------------------------------#
 
-my $StartMostImportantUser = [gettimeofday];
+my $StartMostImportantUser = [gettimeofday()];
 my %UserList = $Self->{UserObject}->UserList(
     Type  => 'Short',
     Valid => 1,
@@ -142,7 +142,7 @@ $Self->{AgentTicketQueueObject} = Kernel::Modules::AgentTicketQueue->new( %{$Sel
 #----------------------------------#
 # GetOverTimeTickets
 #----------------------------------#
-my $StartGetOverTimeTickets = [gettimeofday];
+my $StartGetOverTimeTickets = [gettimeofday()];
 my @EscalationTickets = $Self->{TicketObject}->GetOverTimeTickets( UserID => 1 );
 
 # this check is only to display how long it had take
@@ -155,7 +155,7 @@ $Self->True(
 #----------------------------------#
 # NavigationBar
 #----------------------------------#
-my $StartNavigationBar = [gettimeofday];
+my $StartNavigationBar = [gettimeofday()];
 my $Output = $Self->{LayoutObject}->NavigationBar();
 $DiffTime = tv_interval($StartNavigationBar);
 $Self->True(
@@ -172,7 +172,7 @@ my @TicketIDs = $Self->{TicketObject}->TicketSearch(
     StateType => 'Open',
     UserID    => 1,
 );
-my $StartShowTicket = [gettimeofday];
+my $StartShowTicket = [gettimeofday()];
 
 for my $TicketID (@TicketIDs) {
     $Self->{AgentTicketQueueObject}->ShowTicket(TicketID => $TicketID);
@@ -198,7 +198,7 @@ $Self->True(
 
 # code artefact to get the needed outputtime for the $TicketObject->ShownTicket function
 # use Time::HiRes qw(gettimeofday tv_interval);
-#my $StartUse = [gettimeofday];
+#my $StartUse = [gettimeofday()];
 #        my $Output = $Self->{LayoutObject}->Output(
 #            TemplateFile => 'AgentTicketQueueTicketView',
 #            Data         => { %Param, %Article, %AclAction },
