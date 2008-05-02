@@ -2,7 +2,7 @@
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.dtl,v 1.24 2008-04-02 08:59:22 ot Exp $
+# $Id: AgentTicketForward.dtl,v 1.25 2008-05-02 13:21:40 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -197,7 +197,7 @@ function FAQSubmit() {
                   <td class="contentkey">$Text{"Text"}:</td>
                   <td class="contentvalue">
                     <pre>
-<textarea name="Body" rows="25" cols="$Config{"Ticket::Frontend::TextAreaEmail"}">
+<textarea name="Body" rows="25" cols="$Config{"Ticket::Frontend::TextAreaEmail"}" wrap="$Env{"BrowserWrap"}">
 $QData{"Body"}
 </textarea>
                     </pre>

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.640 2008-04-28 22:48:19 martin Exp $
+# $Id: CHANGES,v 1.641 2008-05-02 13:21:40 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,31 +10,32 @@
 # --
 
 CVS HEAD (????/??/??)
- - (2007/04/29) Updated cpan module CGI to version 3.37.
- - (2007/04/25) Added create and drop of index and unique in xml TableAlter tag
+ - (2008/05/02) Deleted textarea wrap in perl code and set browser wrap in dtl files.
+ - (2008/04/29) Updated cpan module CGI to version 3.37.
+ - (2008/04/25) Added create and drop of index and unique in xml TableAlter tag
     (for more info see developer manual).
- - (2007/04/20) Changed GenericAgent default limit of matching ticket for each
+ - (2008/04/20) Changed GenericAgent default limit of matching ticket for each
     run of a job from 2000 to 4000.
- - (2007/04/18) Let FrontendOutputFilters have access to LayoutObject and TemplateFile.
- - (2007/04/18) Added Title-Attribute (for Tooltips) to BuildSelection.
- - (2007/04/14) Increased db2 BLOB size from 20M to 30M in
+ - (2008/04/18) Let FrontendOutputFilters have access to LayoutObject and TemplateFile.
+ - (2008/04/18) Added Title-Attribute (for Tooltips) to BuildSelection.
+ - (2008/04/14) Increased db2 BLOB size from 20M to 30M in
     scripts/database/otrs-schema.db2.sql.
- - (2007/04/14) Improved admin interface, show only links with own permissions.
+ - (2008/04/14) Improved admin interface, show only links with own permissions.
     So it's possible/easy to create sub admins for part administration
     (Fixed bug# 2535 - User is able to access admin menu).
- - (2007/04/14) Improved .opm packages to definde pre and post Code* and
+ - (2008/04/14) Improved .opm packages to definde pre and post Code* and
     Database* tags to define time point of execution. For more info how to use
     it see developer manual.
- - (2007/04/14) Renamed .opm package tags for intro messages
+ - (2008/04/14) Renamed .opm package tags for intro messages
     Intro(Install|Upgrade|Unintall)(Pre|Post) from <IntroInstallPost> to new
     format like <IntroInstall Type="post">. For more info see developer manual.
     Note: Old tags still usable, will be converted by OTRS automatically.
- - (2007/04/10) Added global Search-Condition-Feature (AND/OR/()/!/+) to ticket
+ - (2008/04/10) Added global Search-Condition-Feature (AND/OR/()/!/+) to ticket
     search backend, customer search backend and faq.
- - (2007/04/10) Added support to ticket print to select only one article to print.
- - (2007/04/10) Added bug# 2159 - ticket close time as attributes (like ticket
+ - (2008/04/10) Added support to ticket print to select only one article to print.
+ - (2008/04/10) Added bug# 2159 - ticket close time as attributes (like ticket
     create time) in agent ticket search.
- - (2007/04/10) Updated cpan module CGI to version 3.35.
+ - (2008/04/10) Updated cpan module CGI to version 3.35.
  - (2008/04/02) Moved from default password 'crypt' method to 'md5'. All new
     changed passwords are stored with md5-password method. Old stored passwords
     still usable.

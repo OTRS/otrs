@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.38 2008-04-07 11:03:34 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.39 2008-05-02 13:21:40 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -256,11 +256,6 @@ sub Run {
             Subject      => $GetParam{Subject} || '',
         );
 
-        # rewrap body if exists
-        if ( $GetParam{Body} ) {
-            my $NewLine = $Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaEmail') || 75;
-            $GetParam{Body} =~ s/(^>.+|.{4,$NewLine})(?:\s|\z)/$1\n/gm;
-        }
         my %ArticleParam = ();
 
         # run compose modules
@@ -596,8 +591,6 @@ sub Run {
         # prepare body, subject, ReplyTo ...
         # rewrap body if exists
         if ( $Data{Body} ) {
-            my $NewLine = $Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaEmail') || 75;
-            $Data{Body} =~ s/(^>.+|.{4,$NewLine})(?:\s|\z)/$1\n/gm;
             $Data{Body} =~ s/\t/ /g;
             my $Quote = $Self->{ConfigObject}->Get('Ticket::Frontend::Quote');
             if ($Quote) {

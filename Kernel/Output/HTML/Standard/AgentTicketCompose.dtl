@@ -2,7 +2,7 @@
 # AgentTicketCompose.dtl - provides HTML form for AgentTicketCompose
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.dtl,v 1.26 2008-04-02 08:59:22 ot Exp $
+# $Id: AgentTicketCompose.dtl,v 1.27 2008-05-02 13:21:40 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -216,7 +216,7 @@ function FAQSubmit() {
                 <tr>
                   <td class="contentkey">$Text{"Text"}:</td>
                   <td class="contentvalue">
-<textarea name="Body" rows="25" cols="$Config{"Ticket::Frontend::TextAreaEmail"}">
+<textarea name="Body" rows="25" cols="$Config{"Ticket::Frontend::TextAreaEmail"}" wrap="$Env{"BrowserWrap"}">
 $Data{"ResponseFormat"}
 </textarea>
                   </td>
