@@ -152,7 +152,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.173 2008-05-02 13:21:40 rk Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.174 2008-05-05 16:51:33 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -355,7 +355,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="TicketFreeText2" Required="0" Valid="0">
-        <Description Lang="en">Define the FreeTextField 2 for tickets. It's a new ticket poperty.</Description>
+        <Description Lang="en">Define the FreeTextField 2 for tickets. It's a new ticket property.</Description>
         <Description Lang="de">Definition des FreiTextFeldes 2 für Tickets. Hierüber können zusätzliche Ticketattribute definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketFreeText</SubGroup>
@@ -1440,7 +1440,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ArticleFreeText2" Required="0" Valid="0">
-        <Description Lang="en">Define the FreeTextField 2 for articles. It's a new article poperty.</Description>
+        <Description Lang="en">Define the FreeTextField 2 for articles. It's a new article property.</Description>
         <Description Lang="de">Definition des FreiTextFeldes 2 für Artikel. Hierüber kann einen zusätzliches Artikel-Attribut definiert werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::ArticleFreeText</SubGroup>
@@ -1566,7 +1566,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ArticleDir" Required="1" Valid="1">
-        <Description Lang="en">If you have selected "FS" for TicketStorageModule, you have to specifiy the directory where to store the data.</Description>
+        <Description Lang="en">If you have selected "FS" for TicketStorageModule, you have to specify the directory where to store the data.</Description>
         <Description Lang="de">Wurde "FS" als ArticleStorageModule ausgewählt, muss das Verzeichnis angegeben werden, in dem die Daten abgelegt werden sollen.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -1972,7 +1972,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::QueueSortBy::Default" Required="1" Valid="1">
-        <Description Lang="en">Default sort criteria for all queues displaied in the QueueView after sort by priority is done</Description>
+        <Description Lang="en">Default sort criteria for all queues displayed in the QueueView after sort by priority is done</Description>
         <Description Lang="de">Standard Sortierkriterium für alle Queues innerha lb der Queue-Ansicht nachdem nach der Priorität sortiert wurde.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
@@ -2046,7 +2046,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AccountTime" Required="1" Valid="1">
-        <Description Lang="en">Aktivate time accounting.</Description>
+        <Description Lang="en">Activate time accounting.</Description>
         <Description Lang="de">Aktivieren der Zeiterfassung.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
@@ -2604,7 +2604,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketFreeText###StateDefault" Required="0" Valid="0">
-        <Description Lang="en">Default next state after an email ticket.</Description>
+        <Description Lang="en">Default next state.</Description>
         <Description Lang="de">Standardmäßig ausgewählter nächster Status.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewFreeText</SubGroup>
@@ -3218,7 +3218,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###StateDefault" Required="1" Valid="1">
-        <Description Lang="en">Default next state after an email ticket.</Description>
+        <Description Lang="en">Default next state.</Description>
         <Description Lang="de">Standardmäßig ausgewählter nächster Status nach einem Email-Ticket.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
@@ -3416,7 +3416,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketClose###StateDefault" Required="0" Valid="1">
-        <Description Lang="en">Default next state after an email ticket.</Description>
+        <Description Lang="en">Default next state.</Description>
         <Description Lang="de">Standardmäßig ausgewählter nächster Status.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewClose</SubGroup>
@@ -3703,7 +3703,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketNote###StateDefault" Required="0" Valid="0">
-        <Description Lang="en">Default next state after an email ticket.</Description>
+        <Description Lang="en">Default next state.</Description>
         <Description Lang="de">Standardmäßig ausgewählter nächster Status.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewNote</SubGroup>
@@ -3989,7 +3989,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketOwner###StateDefault" Required="0" Valid="1">
-        <Description Lang="en">Default next state after an email ticket.</Description>
+        <Description Lang="en">Default next state.</Description>
         <Description Lang="de">Standardmäßig ausgewählter nächster Status.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewOwner</SubGroup>
@@ -4274,7 +4274,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPending###StateDefault" Required="0" Valid="1">
-        <Description Lang="en">Default next state after an email ticket.</Description>
+        <Description Lang="en">Default next state.</Description>
         <Description Lang="de">Standardmäßig ausgewählter nächster Status.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPending</SubGroup>
@@ -4560,7 +4560,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPriority###StateDefault" Required="0" Valid="1">
-        <Description Lang="en">Default next state after an email ticket.</Description>
+        <Description Lang="en">Default next state.</Description>
         <Description Lang="de">Standardmäßig ausgewählter nächster Status.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPriority</SubGroup>
@@ -4846,7 +4846,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketResponsible###StateDefault" Required="0" Valid="1">
-        <Description Lang="en">Default next state after an email ticket.</Description>
+        <Description Lang="en">Default next state.</Description>
         <Description Lang="de">Standardmäßig ausgewählter nächster Status.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewResponsible</SubGroup>
@@ -5277,7 +5277,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketForward###ArticleTypes" Required="0" Valid="1">
-        <Description Lang="en">Possible atrticle types.</Description>
+        <Description Lang="en">Possible article types.</Description>
         <Description Lang="de">Mögliche Artikel-Typen.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewForward</SubGroup>
@@ -5387,7 +5387,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketCustomerFollowUp###StateDefault" Required="0" Valid="0">
-        <Description Lang="en">Default next state after an email ticket.</Description>
+        <Description Lang="en">Default next state.</Description>
         <Description Lang="de">Standardmäßig ausgewählter nächster Status.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewCustomerFollowUp</SubGroup>
@@ -5475,7 +5475,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::PendingReminderStateType" Required="1" Valid="1">
-        <Description Lang="en">State type für reminder for pending tickets.</Description>
+        <Description Lang="en">State type of reminder for pending tickets.</Description>
         <Description Lang="de">Status für die Erinnerung an wartende Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -5645,7 +5645,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ArticlePreViewModule###1-SMIME" Required="1" Valid="1">
-        <Description Lang="en">Agent interface article notification module to check smime.</Description>
+        <Description Lang="en">Agent interface article notification module to check S/MIME.</Description>
         <Description Lang="de">Modul für die Vorschau von mit S/MIME verschlüsselten Nachrichten.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ArticleViewModulePre</SubGroup>
@@ -5656,7 +5656,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ArticleComposeModule###1-SignEmail" Required="1" Valid="1">
-        <Description Lang="en">Module to compose signed messages (PG or S/MIME).</Description>
+        <Description Lang="en">Module to compose signed messages (PGP or S/MIME).</Description>
         <Description Lang="de">Modul zum Erstellen signierter Nachrichten (PGP oder S/MIME).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ArticleComposeModule</SubGroup>
@@ -5667,7 +5667,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ArticleComposeModule###2-CryptEmail" Required="1" Valid="1">
-        <Description Lang="en">Module to crypt composed messages (PGP or s/MIME).</Description>
+        <Description Lang="en">Module to crypt composed messages (PGP or S/MIME).</Description>
         <Description Lang="de">Modul zum Verschlüsseln von neu erstellten Nachrichten (PGP oder S/MIME).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ArticleComposeModule</SubGroup>
@@ -6100,7 +6100,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Permission###2-GroupCheck" Required="0" Valid="1">
-        <Description Lang="en">Module to check, if a user is in a special group. Access is granted, if the user is in the specifyid group and has ro and rw permissions.</Description>
+        <Description Lang="en">Module to check, if a user is in a special group. Access is granted, if the user is in the specified group and has ro and rw permissions.</Description>
         <Description Lang="de">Modul zur Überprüfung, ob ein Benutzer in einer bestimmten Gruppe ist. Hat der Benutzer ro- und rw-Zugriffsrechte, wird der Zugriff erlaubt.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -6113,7 +6113,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Permission###1-ResponsibleCheck" Required="0" Valid="1">
-        <Description Lang="en">Module to check the responible.</Description>
+        <Description Lang="en">Module to check the responsible.</Description>
         <Description Lang="de">Modul zum Überprüfen des Verantwortlichen.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -6152,7 +6152,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerTicket::Permission###3-GroupCheck" Required="0" Valid="1">
-        <Description Lang="en">Module to check the grouppermissions for the access to customer tickets.</Description>
+        <Description Lang="en">Module to check the group permissions for the access to customer tickets.</Description>
         <Description Lang="de">Modul zur Überprüfung der Zugriffsrechte für Benutzergruppen auf Customer-Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
@@ -6473,7 +6473,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerTicketMessage###HistoryComment" Required="1" Valid="1">
-        <Description Lang="en">Comment for new history entrys in the customer panel.</Description>
+        <Description Lang="en">Comment for new history entries in the customer panel.</Description>
         <Description Lang="de">Kommentar für Einträge in der History innerhalb des Customer-Panels.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::Ticket::ViewNew</SubGroup>
@@ -6635,7 +6635,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerTicketZoom###State" Required="1" Valid="1">
-        <Description Lang="en">Next commpose state for customer tickets.</Description>
+        <Description Lang="en">Next compose state for customer tickets.</Description>
         <Description Lang="de">Nächster Status für vom Customer erstellte Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::Ticket::ViewZoom</SubGroup>
@@ -7198,7 +7198,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::Module###AgentTicketPending" Required="0" Valid="1">
-        <Description Lang="en">Frontend module registration for the AgentTicketPending ote object in the agent interface.</Description>
+        <Description Lang="en">Frontend module registration for the AgentTicketPending object in the agent interface.</Description>
         <Description Lang="de">Frontendmodul-Registration des AgentTicketPending-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
@@ -7875,7 +7875,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Acl::Module###1-Ticket::Acl::Module" Required="0" Valid="0">
-        <Description Lang="en">This ACL module allows you to not close parent tickets till all childs are closed ("State" shows which states should not be usable).</Description>
+        <Description Lang="en">This ACL module allows you to not close parent tickets till all children's are closed ("State" shows which states should not be usable).</Description>
         <Description Lang="de">Dieses ACL Modul ermöglicht es, Eltern-Tickets so lange nicht zu schließen, wie noch Kinder-Tickets offen sind ("State" definiert welcher Status nicht mehr möglich sein soll).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::TicketACL</SubGroup>
@@ -8007,7 +8007,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostmasterUserID" Required="1" Valid="1">
-        <Description Lang="en">Specify the postmaster DB userID.</Description>
+        <Description Lang="en">Specify the postmaster DB UserID.</Description>
         <Description Lang="de">Geben Sie die UserID in der Datenbank für Postmaster an.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
