@@ -47,6 +47,15 @@
         </IndexCreate>
     </TableAlter>
 
+    <TableAlter Name="role_user">
+        <IndexCreate Name="role_user_user_id">
+            <IndexColumn Name="user_id"/>
+        </IndexCreate>
+        <IndexCreate Name="role_user_role_id">
+            <IndexColumn Name="role_id"/>
+        </IndexCreate>
+    </TableAlter>
+
     <TableAlter Name="personal_queues">
         <IndexCreate Name="personal_queues_user_id">
             <IndexColumn Name="user_id"/>
@@ -78,8 +87,17 @@
         <IndexCreate Name="ticket_queue_id">
             <IndexColumn Name="queue_id"/>
         </IndexCreate>
+        <IndexCreate Name="ticket_ticket_lock_id">
+            <IndexColumn Name="lock_id"/>
+        </IndexCreate>
         <IndexCreate Name="ticket_responsible_user_id">
             <IndexColumn Name="responsible_user_id"/>
+        </IndexCreate>
+        <IndexCreate Name="ticket_ticket_state_id">
+            <IndexColumn Name="ticket_state_id"/>
+        </IndexCreate>
+        <IndexCreate Name="ticket_ticket_priority_id">
+            <IndexColumn Name="ticket_priority_id"/>
         </IndexCreate>
     </TableAlter>
 
@@ -123,9 +141,6 @@
         <IndexCreate Name="ticket_history_priority_id">
             <IndexColumn Name="priority_id"/>
         </IndexCreate>
-        <IndexCreate Name="ticket_history_state_id">
-            <IndexColumn Name="state_id"/>
-        </IndexCreate>
     </TableAlter>
 
     <TableAlter Name="sla">
@@ -158,6 +173,9 @@
     </TableAlter>
 
     <TableAlter Name="ticket_index">
+        <IndexCreate Name="ticket_index_queue_id">
+            <IndexColumn Name="queue_id"/>
+        </IndexCreate>
         <IndexCreate Name="ticket_index_group_id">
             <IndexColumn Name="group_id"/>
         </IndexCreate>
