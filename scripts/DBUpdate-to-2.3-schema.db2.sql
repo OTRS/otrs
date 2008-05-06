@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2008-05-07 00:26:11
+--  driver: db2, generated: 2008-05-07 00:52:59
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table queue_preferences
@@ -59,7 +59,7 @@ CREATE INDEX ticket_custome8e ON ticket (customer_id);
 
 CREATE INDEX ticket_queue_id ON ticket (queue_id);
 
-CREATE INDEX ticket_ticket_20 ON ticket (lock_id);
+CREATE INDEX ticket_ticket_20 ON ticket (ticket_lock_id);
 
 CREATE INDEX ticket_responsbe ON ticket (responsible_user_id);
 
@@ -88,8 +88,6 @@ CREATE INDEX ticket_historyf6 ON ticket_history (owner_id);
 CREATE INDEX ticket_history68 ON ticket_history (priority_id);
 
 CREATE INDEX ticket_history68 ON ticket_history (state_id);
-
-CREATE INDEX ticket_history68 ON ticket_history (priority_id);
 
 -- ----------------------------------------------------------
 --  alter table sla

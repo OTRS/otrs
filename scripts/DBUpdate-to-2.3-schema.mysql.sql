@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2008-05-07 00:26:11
+#  driver: mysql, generated: 2008-05-07 00:52:59
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table queue_preferences
@@ -38,7 +38,7 @@ CREATE INDEX ticket_title ON ticket (title);
 CREATE INDEX ticket_customer_user_id ON ticket (customer_user_id);
 CREATE INDEX ticket_customer_id ON ticket (customer_id);
 CREATE INDEX ticket_queue_id ON ticket (queue_id);
-CREATE INDEX ticket_ticket_lock_id ON ticket (lock_id);
+CREATE INDEX ticket_ticket_lock_id ON ticket (ticket_lock_id);
 CREATE INDEX ticket_responsible_user_id ON ticket (responsible_user_id);
 CREATE INDEX ticket_ticket_state_id ON ticket (ticket_state_id);
 CREATE INDEX ticket_ticket_priority_id ON ticket (ticket_priority_id);
@@ -53,7 +53,6 @@ CREATE INDEX ticket_history_type_id ON ticket_history (type_id);
 CREATE INDEX ticket_history_owner_id ON ticket_history (owner_id);
 CREATE INDEX ticket_history_priority_id ON ticket_history (priority_id);
 CREATE INDEX ticket_history_state_id ON ticket_history (state_id);
-CREATE INDEX ticket_history_priority_id ON ticket_history (priority_id);
 # ----------------------------------------------------------
 #  alter table sla
 # ----------------------------------------------------------

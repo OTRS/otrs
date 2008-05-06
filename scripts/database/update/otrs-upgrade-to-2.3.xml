@@ -6,7 +6,7 @@
         <Column Name="queue_id" Required="true" Type="INTEGER"/>
         <Column Name="preferences_key" Required="true" Size="150" Type="VARCHAR"/>
         <Column Name="preferences_value" Required="false" Size="250" Type="VARCHAR"/>
-        <Index Name="index_queue_preferences_user_id">
+        <Index Name="queue_preferences_queue_id">
             <IndexColumn Name="queue_id"/>
         </Index>
         <ForeignKey ForeignTable="queue">
@@ -88,7 +88,7 @@
             <IndexColumn Name="queue_id"/>
         </IndexCreate>
         <IndexCreate Name="ticket_ticket_lock_id">
-            <IndexColumn Name="lock_id"/>
+            <IndexColumn Name="ticket_lock_id"/>
         </IndexCreate>
         <IndexCreate Name="ticket_responsible_user_id">
             <IndexColumn Name="responsible_user_id"/>
@@ -137,9 +137,6 @@
         </IndexCreate>
         <IndexCreate Name="ticket_history_state_id">
             <IndexColumn Name="state_id"/>
-        </IndexCreate>
-        <IndexCreate Name="ticket_history_priority_id">
-            <IndexColumn Name="priority_id"/>
         </IndexCreate>
     </TableAlter>
 
