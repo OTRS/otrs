@@ -1,14 +1,14 @@
 # --
 # Kernel/Language/it.pm - provides it language translation
-# Copyright (C) 2003 Remo Catelotti <Remo.Catelotti at bull.it>
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 #               2003 Gabriele Santilli <gsantilli at omnibus.net>
 #               2005 Giordano Bianchi <giordano.bianchi at gmail.com>
 # --
-# $Id: it.pm,v 1.54 2007-12-19 15:40:58 mh Exp $
+# $Id: it.pm,v 1.55 2008-05-06 23:23:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Language::it;
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -584,6 +584,8 @@ sub Data {
         'History::WebRequestCustomer'   => 'Richiesta del cliente via web.',
         'History::TicketLinkAdd'        => 'Aggiunto link alla richiesta "%s".',
         'History::TicketLinkDelete'     => 'Eliminato link alla richiesta "%s".',
+        'History::Subscribe'            => 'Added subscription for user "%s".',
+        'History::Unsubscribe'          => 'Removed subscription for user "%s".',
 
         # Template: AAAWeekDay
         'Sun' => 'Dom',

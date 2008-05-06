@@ -1,12 +1,12 @@
 # --
 # Kernel/Language/pt.pm - provides pt language translation
-# Copyright (C) 2004-2007 CAT - Filipe Henriques <filipehenriques at ip.pt>
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: pt.pm,v 1.53 2007-12-19 15:40:58 mh Exp $
+# $Id: pt.pm,v 1.54 2008-05-06 23:23:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Language::pt;
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -604,6 +604,8 @@ sub Data {
         'History::WebRequestCustomer'   => 'Customer request via web.',
         'History::TicketLinkAdd'        => 'Adicionado novo link ao ticket "%s".',
         'History::TicketLinkDelete'     => 'Apagado link de ticket "%s".',
+        'History::Subscribe'            => 'Added subscription for user "%s".',
+        'History::Unsubscribe'          => 'Removed subscription for user "%s".',
 
         # Template: AAAWeekDay
         'Sun' => 'Domingo',

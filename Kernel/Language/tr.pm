@@ -2,7 +2,7 @@
 # Kernel/Language/tr.pm - provides de language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: tr.pm,v 1.1 2008-03-13 21:19:16 martin Exp $
+# $Id: tr.pm,v 1.2 2008-05-06 23:23:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::tr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
+$VERSION = '$Revision: 1.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -551,6 +551,8 @@ sub Data {
         'History::WebRequestCustomer' => 'Web üzerinden Müþteri Ýsteði.',
         'History::TicketLinkAdd' => '"%s" biletine köprü eklendi.',
         'History::TicketLinkDelete' => '"%s" biletine köprü silinde.',
+        'History::Subscribe'            => 'Added subscription for user "%s".',
+        'History::Unsubscribe'          => 'Removed subscription for user "%s".',
 
         # Template: AAAWeekDay
         'Sun' => 'Paz',

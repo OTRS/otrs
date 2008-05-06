@@ -1,16 +1,16 @@
 # --
 # Kernel/Language/cz.pm - provides cz language translation
-# Copyright (C) 2003 Lukas Vicanek alias networ <lulka at centrum dot cz>
-# Copyright (C) 2004 BENETA.cz, s.r.o. <info at beneta dot cz>
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # Translators: Marta Macalkova
 #              Vadim Buzek
 #              Petr Ocasek
 # --
-# $Id: cz.pm,v 1.51 2007-12-19 15:40:58 mh Exp $
+# $Id: cz.pm,v 1.52 2008-05-06 23:23:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Language::cz;
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -571,6 +571,8 @@ sub Data {
         'History::WebRequestCustomer'   => 'Customer request via web.',
         'History::TicketLinkAdd'        => 'Added link to ticket "%s".',
         'History::TicketLinkDelete'     => 'Deleted link to ticket "%s".',
+        'History::Subscribe'            => 'Added subscription for user "%s".',
+        'History::Unsubscribe'          => 'Removed subscription for user "%s".',
 
         # Template: AAAWeekDay
         'Sun' => 'Ne',

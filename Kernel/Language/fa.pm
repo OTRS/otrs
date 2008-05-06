@@ -1,12 +1,12 @@
 # --
 # Kernel/Language/fa.pm - provides fa language translation
-# Copyright (C) 2006 Amir Shams Parsa <amir at parsa.name>
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: fa.pm,v 1.31 2007-12-19 15:40:58 mh Exp $
+# $Id: fa.pm,v 1.32 2008-05-06 23:23:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Language::fa;
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -597,6 +597,8 @@ sub Data {
         'History::WebRequestCustomer' => 'سابقه::درخواست از طریق وب مشترک',
         'History::TicketLinkAdd'      => 'سابقه::لینک تیکت افزودن',
         'History::TicketLinkDelete'   => 'سابقه::لینک تیکت حذف',
+        'History::Subscribe'            => 'Added subscription for user "%s".',
+        'History::Unsubscribe'          => 'Removed subscription for user "%s".',
 
         # Template: AAAWeekDay
         'Sun' => 'یک شنبه',

@@ -1,15 +1,15 @@
 # --
 # Kernel/Language/nb_NO.pm - Norwegian language translation (bokmål)
-# Copyright (C) 2004 Arne Georg Gleditsch <argggh at linpro.no>
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 #               2005 Stefansen Espen <espen.stefansen at imr.no>
 #               2006 Knut Haugen <knuthaug at linpro.no>
 #               2007 Fredrik Andersen <fredrik.andersen at husbanken.no>
 # --
-# $Id: nb_NO.pm,v 1.50 2007-12-19 15:40:58 mh Exp $
+# $Id: nb_NO.pm,v 1.51 2008-05-06 23:23:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Language::nb_NO;
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.50 $;
+$VERSION = q$Revision: 1.51 $;
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -608,6 +608,8 @@ sub Data {
         'History::WebRequestCustomer'   => 'Kundeforespørsel via web.',
         'History::TicketLinkAdd'        => 'La til link til sak "%s".',
         'History::TicketLinkDelete'     => 'Slettet link til sak "%s".',
+        'History::Subscribe'            => 'Added subscription for user "%s".',
+        'History::Unsubscribe'          => 'Removed subscription for user "%s".',
 
         # Template: AAAWeekDay
         'Sun' => 'søn',

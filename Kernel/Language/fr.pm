@@ -1,17 +1,17 @@
 # --
 # Kernel/Language/fr.pm - provides fr language translation
-# Copyright (C) 2002 Bernard Choppy <choppy at imaginet.fr>
-# Copyright (C) 2002 Nicolas Goralski <ngoralski at oceanet-technology.com>
-# Copyright (C) 2004 Igor Genibel <igor.genibel at eds-opensource.com>
-# Copyright (C) 2004-2007 Yann Richard <ze at nbox.org>
-# Copyright (C) 2007 Remi Seguy <remi.seguy at laposte.net>
-# Copyright (C) 2007 Massimiliano Franco <max-lists at ycom.ch>
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: fr.pm,v 1.82 2007-12-19 15:40:58 mh Exp $
+# $Id: fr.pm,v 1.83 2008-05-06 23:23:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Language::fr;
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.82 $) [1];
+$VERSION = qw($Revision: 1.83 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -616,6 +616,8 @@ sub Data {
         'History::WebRequestCustomer'   => 'Requête du client via le web.',
         'History::TicketLinkAdd'        => 'Added link to ticket "%s".',
         'History::TicketLinkDelete'     => 'Deleted link to ticket "%s".',
+        'History::Subscribe'            => 'Added subscription for user "%s".',
+        'History::Unsubscribe'          => 'Removed subscription for user "%s".',
 
         # Template: AAAWeekDay
         'Sun' => 'Dim',

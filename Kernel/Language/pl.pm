@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # Translated by Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.54 2008-04-29 13:21:32 tr Exp $
+# $Id: pl.pm,v 1.55 2008-05-06 23:23:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -570,6 +570,8 @@ sub Data {
         'History::WebRequestCustomer'   => 'Customer request via web.',
         'History::TicketLinkAdd'        => 'Added link to ticket "%s".',
         'History::TicketLinkDelete'     => 'Deleted link to ticket "%s".',
+        'History::Subscribe'            => 'Added subscription for user "%s".',
+        'History::Unsubscribe'          => 'Removed subscription for user "%s".',
 
         # Template: AAAWeekDay
         'Sun' => 'Ndz',

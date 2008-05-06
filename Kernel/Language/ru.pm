@@ -1,13 +1,13 @@
 # --
 # Kernel/Language/ru.pm - provides ru language translation
-# Copyright (C) 2003 Serg V Kravchenko <skraft at rgs.ru>
-# Copyright (C) 2007 Andrey Feldman <afeldman at alt-lan.ru>
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: ru.pm,v 1.53 2007-12-19 15:40:58 mh Exp $
+# $Id: ru.pm,v 1.54 2008-05-06 23:23:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Language::ru;
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -603,6 +603,8 @@ sub Data {
         'History::WebRequestCustomer'   => 'Web-запрос пользователя.',
         'History::TicketLinkAdd'        => 'Добавлен линк к заявке "%s".',
         'History::TicketLinkDelete'     => 'Линк у заявки "%s" удален.',
+        'History::Subscribe'            => 'Added subscription for user "%s".',
+        'History::Unsubscribe'          => 'Removed subscription for user "%s".',
 
         # Template: AAAWeekDay
         'Sun' => 'Воскресенье',

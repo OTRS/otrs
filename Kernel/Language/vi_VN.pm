@@ -2,7 +2,7 @@
 # Kernel/Language/vi_VN.pm - provides vi_VN language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: vi_VN.pm,v 1.3 2008-03-10 15:41:29 martin Exp $
+# $Id: vi_VN.pm,v 1.4 2008-05-06 23:23:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -604,6 +604,8 @@ sub Data {
         'History::WebRequestCustomer'   => 'L¸ch sØ::Khách hàng yêu c¥u web',
         'History::TicketLinkAdd'        => 'L¸ch sØ::Thêm liên kªt thë',
         'History::TicketLinkDelete'     => 'L¸ch sØ::Xóa liên kªt thë',
+        'History::Subscribe'            => 'Added subscription for user "%s".',
+        'History::Unsubscribe'          => 'Removed subscription for user "%s".',
 
         # Template: AAAWeekDay
         'Sun' => 'Chü nh§t',

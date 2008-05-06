@@ -1,12 +1,12 @@
 # --
 # Kernel/Language/sv.pm - Swedish language translation
-# Copyright (C) 2004 Mats Eric Olausson <mats@synergy.se>
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: sv.pm,v 1.43 2007-12-19 15:40:58 mh Exp $
+# $Id: sv.pm,v 1.44 2008-05-06 23:23:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Language::sv;
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.43 $;
+$VERSION = q$Revision: 1.44 $;
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -567,6 +567,8 @@ sub Data {
         'History::WebRequestCustomer'   => 'Customer request via web.',
         'History::TicketLinkAdd'        => 'Added link to ticket "%s".',
         'History::TicketLinkDelete'     => 'Deleted link to ticket "%s".',
+        'History::Subscribe'            => 'Added subscription for user "%s".',
+        'History::Unsubscribe'          => 'Removed subscription for user "%s".',
 
         # Template: AAAWeekDay
         'Sun' => 'sön',

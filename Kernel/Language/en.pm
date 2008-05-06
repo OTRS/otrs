@@ -2,7 +2,7 @@
 # Kernel/Language/en.pm - provides en languag translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: en.pm,v 1.23 2008-04-29 13:21:32 tr Exp $
+# $Id: en.pm,v 1.24 2008-05-06 23:23:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -71,6 +71,8 @@ sub Data {
         'History::TypeUpdate'           => 'Updated Type to %s (ID=%s).',
         'History::ServiceUpdate'        => 'Updated Service to %s (ID=%s).',
         'History::SLAUpdate'            => 'Updated SLA to %s (ID=%s).',
+        'History::Subscribe'            => 'Added subscription for user "%s".',
+        'History::Unsubscribe'          => 'Removed subscription for user "%s".',
     };
 
     # $$STOP$$

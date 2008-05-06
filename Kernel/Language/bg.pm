@@ -1,13 +1,13 @@
 # --
 # Kernel/Language/bg.pm - provides bg language translation
-# Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
-# Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: bg.pm,v 1.66 2007-12-19 15:40:58 mh Exp $
+# $Id: bg.pm,v 1.67 2008-05-06 23:23:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Language::bg;
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -604,6 +604,8 @@ sub Data {
         'History::WebRequestCustomer'   => 'Клиентска заявка по web.',
         'History::TicketLinkAdd'        => 'Добавена връзка към билет "%s".',
         'History::TicketLinkDelete'     => 'Изтрита връзка към билет "%s".',
+        'History::Subscribe'            => 'Added subscription for user "%s".',
+        'History::Unsubscribe'          => 'Removed subscription for user "%s".',
 
         # Template: AAAWeekDay
         'Sun' => 'Нед',

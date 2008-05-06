@@ -1,13 +1,13 @@
 # --
 # Kernel/Language/es.pm - provides es language translation
-# Copyright (C) 2003-2006 Jorge Becerra <jorge at hab.desoft.cu>
-# Copyright (C) 2007 Carlos Oyarzabal <carlos.oyarzabal at grupocash.com.mx>
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: es.pm,v 1.65 2007-12-19 15:40:58 mh Exp $
+# $Id: es.pm,v 1.66 2008-05-06 23:23:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Language::es;
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.65 $) [1];
+$VERSION = qw($Revision: 1.66 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -605,6 +605,8 @@ sub Data {
         'History::WebRequestCustomer'   => 'Solicitud de cliente via web.',
         'History::TicketLinkAdd'        => 'Adicionado enlace al ticket "%s".',
         'History::TicketLinkDelete'     => 'Eliminado enlace al ticket "%s".',
+        'History::Subscribe'            => 'Added subscription for user "%s".',
+        'History::Unsubscribe'          => 'Removed subscription for user "%s".',
 
         # Template: AAAWeekDay
         'Sun' => 'Dom',

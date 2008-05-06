@@ -1,8 +1,8 @@
 # --
 # Kernel/Language/hu.pm - provides de language translation
-# Copyright (C) 2004 RLAN Internet <MAGIC at rlan.hu>
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: hu.pm,v 1.45 2007-12-19 15:40:58 mh Exp $
+# $Id: hu.pm,v 1.46 2008-05-06 23:23:10 martin Exp $
 # Translation: Gabor Gancs /gg@magicnet.hu/ & Krisztian Gancs /krisz@gancs.hu/
 # Verify: Flora Szabo /szaboflora@magicnet.hu/
 # Hungary Sopron Europe
@@ -12,7 +12,7 @@
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Language::hu;
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -611,6 +611,8 @@ sub Data {
         'History::WebRequestCustomer'       => 'Történet::ÜgyfélWebKérés',
         'History::TicketLinkAdd'            => 'Történet::JegyCsatolásHozzáadás',
         'History::TicketLinkDelete'         => 'Történet::JegyCsatolásTörlés',
+        'History::Subscribe'            => 'Added subscription for user "%s".',
+        'History::Unsubscribe'          => 'Removed subscription for user "%s".',
 
         # Template: AAAWeekDay
         'Sun' => 'Vas',

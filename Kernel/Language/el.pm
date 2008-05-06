@@ -1,13 +1,13 @@
 # --
 # Kernel/Language/el.pm - provides el language translation
-# Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 #                    George Thomas <gthomas aegean.gr>
 # --
-# $Id: el.pm,v 1.27 2007-12-19 15:40:58 mh Exp $
+# $Id: el.pm,v 1.28 2008-05-06 23:23:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Language::el;
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -607,6 +607,8 @@ sub Data {
         'History::WebRequestCustomer'   => 'Αίτημα πελάτη μέσω web.',
         'History::TicketLinkAdd'        => 'Προσθήκη συνδέσμου στο δελτίο "%s".',
         'History::TicketLinkDelete'     => 'Διαγραφή συνδέσμού απο το δελτίο "%s".',
+        'History::Subscribe'            => 'Added subscription for user "%s".',
+        'History::Unsubscribe'          => 'Removed subscription for user "%s".',
 
         # Template: AAAWeekDay
         'Sun' => 'Κυρ',

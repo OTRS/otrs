@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.157 2008-04-23 10:28:01 mh Exp $
+# $Id: de.pm,v 1.158 2008-05-06 23:23:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.157 $) [1];
+$VERSION = qw($Revision: 1.158 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -592,19 +592,20 @@ sub Data {
         'History::AddNote'                  => 'Notiz hinzugefügt (%s)',
         'History::Lock'                     => 'Ticket gesperrt.',
         'History::Unlock'                   => 'Ticketsperre aufgehoben.',
-        'History::TimeAccounting' => '%s Zeiteinheit(en) gezählt. Insgesamt %s Zeiteinheit(en).',
-        'History::Remove'         => '%s',
-        'History::CustomerUpdate' => 'Aktualisiert: %s',
-        'History::PriorityUpdate' => 'Priorität aktualisiert von "%s" (%s) nach "%s" (%s).',
-        'History::OwnerUpdate'    => 'Neuer Besitzer ist "%s" (ID=%s).',
-        'History::LoopProtection' => 'Loop-Protection! Keine Auto-Antwort versandt an "%s".',
-        'History::Misc'           => '%s',
-        'History::SetPendingTime' => 'Aktualisiert: %s',
-        'History::StateUpdate'    => 'Alt: "%s" Neu: "%s"',
+        'History::TimeAccounting'       => '%s Zeiteinheit(en) gezählt. Insgesamt %s Zeiteinheit(en).',
+        'History::Remove'               => '%s',
+        'History::CustomerUpdate'       => 'Aktualisiert: %s',
+        'History::PriorityUpdate'       => 'Priorität aktualisiert von "%s" (%s) nach "%s" (%s).',
+        'History::OwnerUpdate'          => 'Neuer Besitzer ist "%s" (ID=%s).',
+        'History::LoopProtection'       => 'Loop-Protection! Keine Auto-Antwort versandt an "%s".',
+        'History::Misc'                 => '%s',
+        'History::SetPendingTime'       => 'Aktualisiert: %s',
+        'History::StateUpdate'          => 'Alt: "%s" Neu: "%s"',
         'History::TicketFreeTextUpdate' => 'Aktualisiert: %s=%s;%s=%s;',
         'History::WebRequestCustomer'   => 'Kunde stellte Anfrage über Web.',
         'History::TicketLinkAdd'        => 'Verknüpfung zu "%s" hergestellt.',
-        'History::TicketLinkDelete'     => 'Verknüpfung zu "%s" gelöscht.',
+        'History::Subscribe'            => 'Abo für Benutzer "%s" eingetragen.',
+        'History::Unsubscribe'          => 'Abo für Benutzer "%s" ausgetragen.',
 
         # Template: AAAWeekDay
         'Sun' => 'Son',
