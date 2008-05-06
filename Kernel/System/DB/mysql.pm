@@ -2,7 +2,7 @@
 # Kernel/System/DB/mysql.pm - mysql database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: mysql.pm,v 1.33 2008-04-24 22:04:12 martin Exp $
+# $Id: mysql.pm,v 1.34 2008-05-06 23:18:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -178,7 +178,7 @@ sub TableCreate {
         # normal data type
         $SQL .= "    $Tag->{Name} $Tag->{Type}";
         if ( $Tag->{Required} =~ /^true$/i ) {
-            $SQL .= " NOT NULL";
+            $SQL .= ' NOT NULL';
         }
 
         # add default
@@ -193,7 +193,7 @@ sub TableCreate {
 
         # auto increment
         if ( $Tag->{AutoIncrement} && $Tag->{AutoIncrement} =~ /^true$/i ) {
-            $SQL .= " AUTO_INCREMENT";
+            $SQL .= ' AUTO_INCREMENT';
         }
 
         # add primary key
@@ -211,23 +211,23 @@ sub TableCreate {
     }
 
     # add uniq
-    for my $Name ( keys %Uniq ) {
+    for my $Name ( sort keys %Uniq ) {
         if ($SQL) {
             $SQL .= ",\n";
         }
-        $SQL .= "    UNIQUE (";
+        $SQL .= '    UNIQUE INDEX (';
         my @Array = @{ $Uniq{$Name} };
         for ( 0 .. $#Array ) {
             if ( $_ > 0 ) {
-                $SQL .= ", ";
+                $SQL .= ', ';
             }
             $SQL .= $Array[$_]->{Name};
         }
-        $SQL .= ")";
+        $SQL .= ')';
     }
 
     # add index
-    for my $Name ( keys %Index ) {
+    for my $Name ( sort keys %Index ) {
         if ($SQL) {
             $SQL .= ",\n";
         }
@@ -235,20 +235,20 @@ sub TableCreate {
         my @Array = @{ $Index{$Name} };
         for ( 0 .. $#Array ) {
             if ( $_ > 0 ) {
-                $SQL .= ", ";
+                $SQL .= ', ';
             }
             $SQL .= $Array[$_]->{Name};
             if ( $Array[$_]->{Size} ) {
                 $SQL .= "($Array[$_]->{Size})";
             }
         }
-        $SQL .= ")";
+        $SQL .= ')';
     }
     $SQL .= "\n";
     push @Return, $SQLStart . $SQL . $SQLEnd;
 
     # add indexs
-    #    for my $Name (keys %Index) {
+    #    for my $Name (sort keys %Index) {
     #        push (@Return, $Self->IndexCreate(
     #            TableName => $TableName,
     #            Name => $Name,
@@ -256,7 +256,7 @@ sub TableCreate {
     #        ));
     #    }
     # add uniq
-    #    for my $Name (keys %Uniq) {
+    #    for my $Name (sort keys %Uniq) {
     #        push (@Return, $Self->UniqueCreate(
     #            TableName => $TableName,
     #            Name => $Name,
@@ -264,7 +264,7 @@ sub TableCreate {
     #        ));
     #    }
     # add foreign keys
-    for my $ForeignKey ( keys %Foreign ) {
+    for my $ForeignKey ( sort keys %Foreign ) {
         my @Array = @{ $Foreign{$ForeignKey} };
         for ( 0 .. $#Array ) {
             push(
@@ -293,7 +293,7 @@ sub TableDrop {
                 $SQL .= $Self->{'DB::Comment'} . "----------------------------------------------------------\n";
             }
         }
-        $SQL .= "DROP TABLE IF EXISTS $Tag->{Name}";
+        $SQL .= 'DROP TABLE IF EXISTS ' . $Tag->{Name};
         return ($SQL);
     }
     return ();
@@ -302,11 +302,14 @@ sub TableDrop {
 sub TableAlter {
     my ( $Self, @Param ) = @_;
 
-    my $SQLStart  = '';
-    my @SQL       = ();
-    my @Index     = ();
-    my $IndexName = ();
-    my $Table     = '';
+    my $SQLStart      = '';
+    my @SQL           = ();
+    my @Index         = ();
+    my $IndexName     = ();
+    my $ForeignTable  = '';
+    my $ReferenceName = '';
+    my @Reference     = ();
+    my $Table         = '';
     for my $Tag (@Param) {
         if ( $Tag->{Tag} eq 'TableAlter' && $Tag->{TagType} eq 'Start' ) {
             $Table = $Tag->{Name} || $Tag->{NameNew};
@@ -329,7 +332,7 @@ sub TableAlter {
             # normal data type
             my $SQLEnd = $SQLStart . " ADD $Tag->{Name} $Tag->{Type}";
             if ( !$Tag->{Default} && $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
-                $SQLEnd .= " NOT NULL";
+                $SQLEnd .= ' NOT NULL';
             }
             push @SQL, $SQLEnd;
             if ( $Tag->{Default} ) {
@@ -352,7 +355,7 @@ sub TableAlter {
             # normal data type
             my $SQLEnd = $SQLStart . " CHANGE $Tag->{NameOld} $Tag->{NameNew} $Tag->{Type}";
             if ( $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
-                $SQLEnd .= " NOT NULL";
+                $SQLEnd .= ' NOT NULL';
             }
             if ( defined $Tag->{Default} ) {
                 if ( $Tag->{Type} =~ /int/i ) {
@@ -386,6 +389,27 @@ sub TableAlter {
         elsif ( $Tag->{Tag} =~ /^(IndexColumn|UniqueColumn)/ && $Tag->{TagType} eq 'Start' ) {
             push @Index, $Tag;
         }
+        elsif ( $Tag->{Tag} =~ /^((ForeignKey)(Create|Drop))/ ) {
+            my $Method = $Tag->{Tag};
+            if ( $Tag->{ForeignTable} ) {
+                $ForeignTable = $Tag->{ForeignTable};
+            }
+            if ( $Tag->{TagType} eq 'End' ) {
+                for my $Reference (@Reference) {
+                    push @SQL,   $Self->$Method(
+                        LocalTableName   => $Table,
+                        Local            => $Reference->{Local},
+                        ForeignTableName => $ForeignTable,
+                        Foreign          => $Reference->{Foreign},
+                    );
+                }
+                $ReferenceName = '';
+                @Reference     = ();
+            }
+        }
+        elsif ( $Tag->{Tag} =~ /^(Reference)/ && $Tag->{TagType} eq 'Start' ) {
+            push @Reference, $Tag;
+        }
     }
     return @SQL;
 }
@@ -400,7 +424,8 @@ sub IndexCreate {
             return;
         }
     }
-    my $SQL   = "CREATE INDEX $Param{Name} ON $Param{TableName} (";
+
+    my $SQL = "CREATE INDEX $Param{Name} ON $Param{TableName} (";
     my @Array = @{ $Param{Data} };
     for ( 0 .. $#Array ) {
         if ( $_ > 0 ) {
@@ -475,7 +500,7 @@ sub UniqueCreate {
             return;
         }
     }
-    my $SQL   = "ALTER TABLE $Param{TableName} ADD CONSTRAINT $Param{Name} UNIQUE (";
+    my $SQL   = "ALTER TABLE $Param{TableName} ADD CONSTRAINT $Param{Name} UNIQUE INDEX (";
     my @Array = @{ $Param{Data} };
     for ( 0 .. $#Array ) {
         if ( $_ > 0 ) {
