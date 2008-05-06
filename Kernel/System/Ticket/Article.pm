@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.171 2008-04-18 19:38:34 martin Exp $
+# $Id: Article.pm,v 1.172 2008-05-06 23:21:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.171 $) [1];
+$VERSION = qw($Revision: 1.172 $) [1];
 
 =head1 NAME
 
@@ -1645,10 +1645,6 @@ sub ArticleUpdate {
         Cc      => 'a_cc',
     );
 
-    # db quote for key an value
-    $Param{Value} = $Self->{DBObject}->Quote( $Param{Value} );
-    $Param{Key}   = $Self->{DBObject}->Quote( $Param{Key} );
-
     # db update
     return if ! $Self->{DBObject}->Do(
         SQL => "UPDATE article SET $Map{$Param{Key}} = ?, "
@@ -2908,8 +2904,8 @@ sub ArticleAccountedTimeDelete {
 delete all article, attachments and plain message of a ticket
 
     $TicketObject->ArticleDelete(
-        TicketID => 123,
-        UserID   => 123,
+        ArticleID => 123,
+        UserID    => 123,
     );
 
 =item ArticleDeletePlain()
