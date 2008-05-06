@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2008-05-07 00:50:41
+--  driver: db2, generated: 2008-05-07 00:56:21
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1025,7 +1025,9 @@ CREATE TABLE search_profile (
     profile_value VARCHAR (200)
 );
 
-CREATE INDEX search_profilea0 ON search_profile (login, profile_name);
+CREATE INDEX search_profile66 ON search_profile (login);
+
+CREATE INDEX search_profile9c ON search_profile (profile_name);
 
 -- ----------------------------------------------------------
 --  create table process_id

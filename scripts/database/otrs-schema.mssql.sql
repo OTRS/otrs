@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2008-05-07 00:50:42
+--  driver: mssql, generated: 2008-05-07 00:56:22
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -849,8 +849,8 @@ CREATE TABLE customer_company (
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
-    UNIQUE (customer_id),
-    UNIQUE (name)
+    UNIQUE (name),
+    UNIQUE (customer_id)
 );
 -- ----------------------------------------------------------
 --  create table ticket_loop_protection
@@ -909,7 +909,8 @@ CREATE TABLE search_profile (
     profile_key VARCHAR (200) NOT NULL,
     profile_value VARCHAR (200)
 );
-CREATE INDEX search_profile_login_name ON search_profile (login, profile_name);
+CREATE INDEX search_profile_login ON search_profile (login);
+CREATE INDEX search_profile_profile_name ON search_profile (profile_name);
 -- ----------------------------------------------------------
 --  create table process_id
 -- ----------------------------------------------------------

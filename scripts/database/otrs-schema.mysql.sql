@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2008-05-07 00:50:42
+#  driver: mysql, generated: 2008-05-07 00:56:22
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -908,7 +908,8 @@ CREATE TABLE search_profile (
     profile_type VARCHAR (30) NOT NULL,
     profile_key VARCHAR (200) NOT NULL,
     profile_value VARCHAR (200),
-    INDEX search_profile_login_name (login, profile_name)
+    INDEX search_profile_login (login),
+    INDEX search_profile_profile_name (profile_name)
 );
 # ----------------------------------------------------------
 #  create table process_id

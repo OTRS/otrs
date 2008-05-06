@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2008-05-07 00:50:42
+--  driver: oracle, generated: 2008-05-07 00:56:23
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -1366,8 +1366,8 @@ CREATE TABLE customer_company (
     create_by NUMBER NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL,
-    CONSTRAINT customer_company_U_1 UNIQUE (customer_id),
-    CONSTRAINT customer_company_U_2 UNIQUE (name)
+    CONSTRAINT customer_company_U_1 UNIQUE (name),
+    CONSTRAINT customer_company_U_2 UNIQUE (customer_id)
 );
 -- ----------------------------------------------------------
 --  create table ticket_loop_protection
@@ -1441,7 +1441,8 @@ CREATE TABLE search_profile (
     profile_key VARCHAR2 (200) NOT NULL,
     profile_value VARCHAR2 (200)
 );
-CREATE INDEX search_profile_login_name ON search_profile (login, profile_name);
+CREATE INDEX search_profile_login ON search_profile (login);
+CREATE INDEX search_profile_profile_name ON search_profile (profile_name);
 -- ----------------------------------------------------------
 --  create table process_id
 -- ----------------------------------------------------------

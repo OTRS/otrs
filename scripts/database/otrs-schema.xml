@@ -5,7 +5,7 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 
-    $Id: otrs-schema.xml,v 1.79 2008-05-06 22:52:51 martin Exp $
+    $Id: otrs-schema.xml,v 1.80 2008-05-06 22:57:04 martin Exp $
 
 -->
 
@@ -1401,8 +1401,10 @@
     <Column Name="profile_type" Required="true" Size="30" Type="VARCHAR"/>
     <Column Name="profile_key" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="profile_value" Required="false" Size="200" Type="VARCHAR"/>
-    <Index Name="search_profile_login_name">
+    <Index Name="search_profile_login">
         <IndexColumn Name="login"/>
+    </Index>
+    <Index Name="search_profile_profile_name">
         <IndexColumn Name="profile_name"/>
     </Index>
 </Table>
