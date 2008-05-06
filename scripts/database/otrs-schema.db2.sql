@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2008-05-07 00:43:00
+--  driver: db2, generated: 2008-05-07 00:50:41
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -518,7 +518,7 @@ CREATE INDEX ticket_history36 ON ticket_history (history_type_id);
 
 CREATE INDEX ticket_historyf6 ON ticket_history (owner_id);
 
-CREATE INDEX ticket_history68 ON ticket_history (priority_id, priority_id);
+CREATE INDEX ticket_history68 ON ticket_history (priority_id);
 
 CREATE INDEX ticket_history32 ON ticket_history (queue_id);
 

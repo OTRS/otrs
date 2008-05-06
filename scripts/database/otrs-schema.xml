@@ -5,7 +5,7 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 
-    $Id: otrs-schema.xml,v 1.78 2008-05-06 22:46:49 martin Exp $
+    $Id: otrs-schema.xml,v 1.79 2008-05-06 22:52:51 martin Exp $
 
 -->
 
@@ -723,9 +723,6 @@
     </Index>
     <Index Name="ticket_history_state_id">
         <IndexColumn Name="state_id"/>
-    </Index>
-    <Index Name="ticket_history_priority_id">
-        <IndexColumn Name="priority_id"/>
     </Index>
     <Index Name="ticket_history_create_time">
         <IndexColumn Name="create_time"/>

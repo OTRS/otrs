@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2008-05-07 00:43:01
+#  driver: mysql, generated: 2008-05-07 00:50:42
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -459,7 +459,7 @@ CREATE TABLE ticket_history (
     INDEX ticket_history_create_time (create_time),
     INDEX ticket_history_history_type_id (history_type_id),
     INDEX ticket_history_owner_id (owner_id),
-    INDEX ticket_history_priority_id (priority_id, priority_id),
+    INDEX ticket_history_priority_id (priority_id),
     INDEX ticket_history_queue_id (queue_id),
     INDEX ticket_history_state_id (state_id),
     INDEX ticket_history_ticket_id (ticket_id),
@@ -849,8 +849,8 @@ CREATE TABLE customer_company (
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
-    UNIQUE INDEX (name),
-    UNIQUE INDEX (customer_id)
+    UNIQUE INDEX (customer_id),
+    UNIQUE INDEX (name)
 );
 # ----------------------------------------------------------
 #  create table ticket_loop_protection

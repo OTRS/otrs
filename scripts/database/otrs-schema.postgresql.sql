@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2008-05-07 00:43:01
+--  driver: postgresql, generated: 2008-05-07 00:50:43
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -460,7 +460,7 @@ CREATE TABLE ticket_history (
 CREATE INDEX ticket_history_create_time ON ticket_history (create_time);
 CREATE INDEX ticket_history_history_type_id ON ticket_history (history_type_id);
 CREATE INDEX ticket_history_owner_id ON ticket_history (owner_id);
-CREATE INDEX ticket_history_priority_id ON ticket_history (priority_id, priority_id);
+CREATE INDEX ticket_history_priority_id ON ticket_history (priority_id);
 CREATE INDEX ticket_history_queue_id ON ticket_history (queue_id);
 CREATE INDEX ticket_history_state_id ON ticket_history (state_id);
 CREATE INDEX ticket_history_ticket_id ON ticket_history (ticket_id);
