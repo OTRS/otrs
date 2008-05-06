@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2008-05-07 00:18:08
+#  driver: mysql, generated: 2008-05-07 00:43:01
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -125,8 +125,8 @@ CREATE TABLE group_role (
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
-    INDEX group_role_role_id (role_id),
-    INDEX group_role_group_id (group_id)
+    INDEX group_role_group_id (group_id),
+    INDEX group_role_role_id (role_id)
 );
 # ----------------------------------------------------------
 #  create table group_customer_user
@@ -408,18 +408,18 @@ CREATE TABLE ticket (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
     UNIQUE INDEX (tn),
-    INDEX ticket_ticket_state_id (ticket_state_id),
-    INDEX ticket_ticket_priority_id (ticket_priority_id),
-    INDEX ticket_user_id (user_id),
-    INDEX ticket_customer_id (customer_id),
     INDEX ticket_answered (ticket_answered),
-    INDEX ticket_type_id (type_id),
+    INDEX ticket_customer_id (customer_id),
+    INDEX ticket_customer_user_id (customer_user_id),
+    INDEX ticket_queue_id (queue_id),
     INDEX ticket_queue_view (ticket_state_id, ticket_lock_id, group_id),
     INDEX ticket_responsible_user_id (responsible_user_id),
-    INDEX ticket_customer_user_id (customer_user_id),
-    INDEX ticket_ticket_lock_id (lock_id),
+    INDEX ticket_ticket_lock_id (ticket_lock_id),
+    INDEX ticket_ticket_priority_id (ticket_priority_id),
+    INDEX ticket_ticket_state_id (ticket_state_id),
     INDEX ticket_title (title),
-    INDEX ticket_queue_id (queue_id)
+    INDEX ticket_type_id (type_id),
+    INDEX ticket_user_id (user_id)
 );
 # ----------------------------------------------------------
 #  create table object_link
@@ -430,11 +430,11 @@ CREATE TABLE object_link (
     object_link_a_object VARCHAR (200) NOT NULL,
     object_link_b_object VARCHAR (200) NOT NULL,
     object_link_type VARCHAR (200) NOT NULL,
-    INDEX object_link_b_object (object_link_b_object),
-    INDEX object_link_b_id (object_link_b_id),
-    INDEX object_link_type (object_link_type),
+    INDEX object_link_a_id (object_link_a_id),
     INDEX object_link_a_object (object_link_a_object),
-    INDEX object_link_a_id (object_link_a_id)
+    INDEX object_link_b_id (object_link_b_id),
+    INDEX object_link_b_object (object_link_b_object),
+    INDEX object_link_type (object_link_type)
 );
 # ----------------------------------------------------------
 #  create table ticket_history
@@ -456,13 +456,13 @@ CREATE TABLE ticket_history (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
+    INDEX ticket_history_create_time (create_time),
     INDEX ticket_history_history_type_id (history_type_id),
     INDEX ticket_history_owner_id (owner_id),
-    INDEX ticket_history_ticket_id (ticket_id),
     INDEX ticket_history_priority_id (priority_id, priority_id),
-    INDEX ticket_history_create_time (create_time),
     INDEX ticket_history_queue_id (queue_id),
     INDEX ticket_history_state_id (state_id),
+    INDEX ticket_history_ticket_id (ticket_id),
     INDEX ticket_history_type_id (type_id)
 );
 # ----------------------------------------------------------
@@ -518,8 +518,8 @@ CREATE TABLE article_flag (
     article_flag VARCHAR (50) NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
-    INDEX article_flag_create_by (create_by),
-    INDEX article_flag_article_id (article_id)
+    INDEX article_flag_article_id (article_id),
+    INDEX article_flag_create_by (create_by)
 );
 # ----------------------------------------------------------
 #  create table article
@@ -552,8 +552,8 @@ CREATE TABLE article (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
     INDEX article_article_sender_type_id (article_sender_type_id),
-    INDEX article_message_id (a_message_id(255)),
     INDEX article_article_type_id (article_type_id),
+    INDEX article_message_id (a_message_id(255)),
     INDEX article_ticket_id (ticket_id)
 );
 # ----------------------------------------------------------
@@ -792,8 +792,8 @@ CREATE TABLE ticket_index (
     s_state VARCHAR (70) NOT NULL,
     create_time_unix BIGINT NOT NULL,
     INDEX ticket_index_group_id (group_id),
-    INDEX ticket_index_ticket_id (ticket_id),
-    INDEX ticket_index_queue_id (queue_id)
+    INDEX ticket_index_queue_id (queue_id),
+    INDEX ticket_index_ticket_id (ticket_id)
 );
 # ----------------------------------------------------------
 #  create table ticket_lock_index
@@ -849,8 +849,8 @@ CREATE TABLE customer_company (
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
-    UNIQUE INDEX (customer_id),
-    UNIQUE INDEX (name)
+    UNIQUE INDEX (name),
+    UNIQUE INDEX (customer_id)
 );
 # ----------------------------------------------------------
 #  create table ticket_loop_protection
@@ -858,8 +858,8 @@ CREATE TABLE customer_company (
 CREATE TABLE ticket_loop_protection (
     sent_to VARCHAR (250) NOT NULL,
     sent_date VARCHAR (150) NOT NULL,
-    INDEX ticket_loop_protection_sent_to (sent_to),
-    INDEX ticket_loop_protection_sent_date (sent_date)
+    INDEX ticket_loop_protection_sent_date (sent_date),
+    INDEX ticket_loop_protection_sent_to (sent_to)
 );
 # ----------------------------------------------------------
 #  create table mail_account
@@ -954,8 +954,8 @@ CREATE TABLE xml_storage (
     xml_key VARCHAR (250) NOT NULL,
     xml_content_key VARCHAR (250) NOT NULL,
     xml_content_value MEDIUMTEXT,
-    INDEX xml_storage_xml_content_key (xml_content_key(100)),
-    INDEX xml_storage_key_type (xml_key(10), xml_type(10))
+    INDEX xml_storage_key_type (xml_key(10), xml_type(10)),
+    INDEX xml_storage_xml_content_key (xml_content_key(100))
 );
 # ----------------------------------------------------------
 #  create table package_repository

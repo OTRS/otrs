@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2008-05-07 00:18:08
+--  driver: oracle, generated: 2008-05-07 00:43:01
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -668,7 +668,7 @@ CREATE INDEX ticket_customer_user_id ON ticket (customer_user_id);
 CREATE INDEX ticket_queue_id ON ticket (queue_id);
 CREATE INDEX ticket_queue_view ON ticket (ticket_state_id, ticket_lock_id, group_id);
 CREATE INDEX ticket_responsible_user_id ON ticket (responsible_user_id);
-CREATE INDEX ticket_ticket_lock_id ON ticket (lock_id);
+CREATE INDEX ticket_ticket_lock_id ON ticket (ticket_lock_id);
 CREATE INDEX ticket_ticket_priority_id ON ticket (ticket_priority_id);
 CREATE INDEX ticket_ticket_state_id ON ticket (ticket_state_id);
 CREATE INDEX ticket_title ON ticket (title);
@@ -1366,8 +1366,8 @@ CREATE TABLE customer_company (
     create_by NUMBER NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL,
-    CONSTRAINT customer_company_U_1 UNIQUE (customer_id),
-    CONSTRAINT customer_company_U_2 UNIQUE (name)
+    CONSTRAINT customer_company_U_1 UNIQUE (name),
+    CONSTRAINT customer_company_U_2 UNIQUE (customer_id)
 );
 -- ----------------------------------------------------------
 --  create table ticket_loop_protection

@@ -5,7 +5,7 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 
-    $Id: otrs-schema.xml,v 1.77 2008-05-06 22:10:16 martin Exp $
+    $Id: otrs-schema.xml,v 1.78 2008-05-06 22:46:49 martin Exp $
 
 -->
 
@@ -605,7 +605,7 @@
         <IndexColumn Name="queue_id"/>
     </Index>
     <Index Name="ticket_ticket_lock_id">
-        <IndexColumn Name="lock_id"/>
+        <IndexColumn Name="ticket_lock_id"/>
     </Index>
     <Index Name="ticket_queue_view">
         <IndexColumn Name="ticket_state_id"/>
