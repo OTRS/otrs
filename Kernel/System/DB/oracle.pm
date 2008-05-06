@@ -2,7 +2,7 @@
 # Kernel/System/DB/oracle.pm - oracle database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: oracle.pm,v 1.41 2008-05-06 22:38:58 martin Exp $
+# $Id: oracle.pm,v 1.42 2008-05-06 23:19:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -218,7 +218,7 @@ sub TableCreate {
 
     # add uniq
     my $UniqCounter = 0;
-    for my $Name ( keys %Uniq ) {
+    for my $Name ( sort keys %Uniq ) {
         $UniqCounter++;
         if ($SQL) {
             $SQL .= ",\n";

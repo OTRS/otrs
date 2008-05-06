@@ -2,7 +2,7 @@
 # Kernel/System/DB/postgresql.pm - postgresql database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: postgresql.pm,v 1.33 2008-05-06 22:34:14 martin Exp $
+# $Id: postgresql.pm,v 1.34 2008-05-06 23:19:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -198,7 +198,7 @@ sub TableCreate {
     }
 
     # add uniq
-    for my $Name ( keys %Uniq ) {
+    for my $Name ( sort keys %Uniq ) {
         if ($SQL) {
             $SQL .= ",\n";
         }
@@ -216,7 +216,7 @@ sub TableCreate {
     push @Return, $SQLStart . $SQL . $SQLEnd;
 
     # add indexs
-    for my $Name ( keys %Index ) {
+    for my $Name ( sort keys %Index ) {
         push(
             @Return,
             $Self->IndexCreate(
@@ -228,7 +228,7 @@ sub TableCreate {
     }
 
     # add foreign keys
-    for my $ForeignKey ( keys %Foreign ) {
+    for my $ForeignKey ( sort keys %Foreign ) {
         my @Array = @{ $Foreign{$ForeignKey} };
         for ( 0 .. $#Array ) {
             push(
