@@ -2,7 +2,7 @@
 # Kernel/System/DB/mssql.pm - mssql database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: mssql.pm,v 1.32 2008-04-24 22:04:12 martin Exp $
+# $Id: mssql.pm,v 1.33 2008-05-06 22:34:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -289,11 +289,14 @@ sub TableDrop {
 sub TableAlter {
     my ( $Self, @Param ) = @_;
 
-    my $SQLStart  = '';
-    my @SQL       = ();
-    my @Index     = ();
-    my $IndexName = ();
-    my $Table     = '';
+    my $SQLStart      = '';
+    my @SQL           = ();
+    my @Index         = ();
+    my $IndexName     = ();
+    my $ForeignTable  = '';
+    my $ReferenceName = '';
+    my @Reference     = ();
+    my $Table         = '';
     for my $Tag (@Param) {
         if ( $Tag->{Tag} eq 'TableAlter' && $Tag->{TagType} eq 'Start' ) {
             $Table = $Tag->{Name} || $Tag->{NameNew};
@@ -385,6 +388,27 @@ sub TableAlter {
         }
         elsif ( $Tag->{Tag} =~ /^(IndexColumn|UniqueColumn)/ && $Tag->{TagType} eq 'Start' ) {
             push @Index, $Tag;
+        }
+        elsif ( $Tag->{Tag} =~ /^((ForeignKey)(Create|Drop))/ ) {
+            my $Method = $Tag->{Tag};
+            if ( $Tag->{ForeignTable} ) {
+                $ForeignTable = $Tag->{ForeignTable};
+            }
+            if ( $Tag->{TagType} eq 'End' ) {
+                for my $Reference (@Reference) {
+                    push @SQL,   $Self->$Method(
+                        LocalTableName   => $Table,
+                        Local            => $Reference->{Local},
+                        ForeignTableName => $ForeignTable,
+                        Foreign          => $Reference->{Foreign},
+                    );
+                }
+                $ReferenceName = '';
+                @Reference     = ();
+            }
+        }
+        elsif ( $Tag->{Tag} =~ /^(Reference)/ && $Tag->{TagType} eq 'Start' ) {
+            push @Reference, $Tag;
         }
     }
     return @SQL;

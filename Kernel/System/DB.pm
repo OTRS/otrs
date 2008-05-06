@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.89 2008-04-24 22:04:12 martin Exp $
+# $Id: DB.pm,v 1.90 2008-05-06 22:35:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.89 $) [1];
+$VERSION = qw($Revision: 1.90 $) [1];
 
 =head1 NAME
 
@@ -765,7 +765,7 @@ sub SQLProcessor {
             }
 
             # foreign keys
-            elsif ( $Tag->{Tag} eq 'ForeignKey' && $Tag->{TagType} eq 'Start' ) {
+            elsif ( $Tag->{Tag} eq 'ForeignKey' || $Tag->{Tag} eq 'ForeignKeyCreate' || $Tag->{Tag} eq 'ForeignKeyDrop' ) {
                 push @Table, $Tag;
             }
             elsif ( $Tag->{Tag} eq 'Reference' && $Tag->{TagType} eq 'Start' ) {
@@ -1141,6 +1141,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.89 $ $Date: 2008-04-24 22:04:12 $
+$Revision: 1.90 $ $Date: 2008-05-06 22:35:00 $
 
 =cut
