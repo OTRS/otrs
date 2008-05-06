@@ -2,7 +2,7 @@
 # Kernel/System/DB/oracle.pm - oracle database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: oracle.pm,v 1.40 2008-04-24 22:57:24 martin Exp $
+# $Id: oracle.pm,v 1.41 2008-05-06 22:38:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -179,9 +179,12 @@ sub TableCreate {
 
         # add primary key
         my $Constraint = $TableName;
-        if ( length($Constraint) > 26 ) {
-            $Constraint = substr( $Constraint, 0, 24 );
-            $Constraint .= int( rand(99) );
+        if ( length $Constraint > 30 ) {
+            my $MD5 = $Self->{MainObject}->MD5sum(
+                String => $Constraint,
+            );
+            $Constraint = substr $Constraint, 0, 28;
+            $Constraint .= substr $MD5, 0, 2;
         }
         if ( $Tag->{PrimaryKey} && $Tag->{PrimaryKey} =~ /true/i ) {
             push( @Return2,
@@ -231,24 +234,11 @@ sub TableCreate {
             $Name .= '_' . $Array[$_]->{Name};
         }
         $SQL .= ')';
-        push @{ $Index{'U_INX_' . $TableName . $Name} }, @Array;
     }
     push @Return, $SQLStart . $SQL . $SQLEnd, @Return2;
 
-    # add indexs
-    for my $Name ( keys %Index ) {
-        push(
-            @Return,
-            $Self->IndexCreate(
-                TableName => $TableName,
-                Name      => $Name,
-                Data      => $Index{$Name},
-            )
-        );
-    }
-
     # add foreign keys
-    for my $ForeignKey ( keys %Foreign ) {
+    for my $ForeignKey ( sort keys %Foreign ) {
         my @Array = @{ $Foreign{$ForeignKey} };
         for ( 0 .. $#Array ) {
             push(
@@ -260,8 +250,27 @@ sub TableCreate {
                     Foreign          => $Array[$_]->{Foreign},
                 )
             );
+
+            # generate forced index for every FK to do row locking (not table locking)
+            my $IndexName = $TableName . '_' . $Array[$_]->{Local};
+            if ( !$Index{$IndexName} ) {
+                $Index{'FK_' . $IndexName } = [ { Name => $Array[$_]->{Local} } ];
+            }
         }
     }
+
+    # add indexs
+    for my $Name ( sort keys %Index ) {
+        push(
+            @Return,
+            $Self->IndexCreate(
+                TableName => $TableName,
+                Name      => $Name,
+                Data      => $Index{$Name},
+            )
+        );
+    }
+
     return @Return;
 }
 
@@ -286,11 +295,14 @@ sub TableDrop {
 sub TableAlter {
     my ( $Self, @Param ) = @_;
 
-    my $SQLStart  = '';
-    my @SQL       = ();
-    my @Index     = ();
-    my $IndexName = ();
-    my $Table     = '';
+    my $SQLStart      = '';
+    my @SQL           = ();
+    my @Index         = ();
+    my $IndexName     = ();
+    my $ForeignTable  = '';
+    my $ReferenceName = '';
+    my @Reference     = ();
+    my $Table         = '';
     for my $Tag (@Param) {
         if ( $Tag->{Tag} eq 'TableAlter' && $Tag->{TagType} eq 'Start' ) {
             $Table = $Tag->{Name} || $Tag->{NameNew};
@@ -398,6 +410,27 @@ sub TableAlter {
         elsif ( $Tag->{Tag} =~ /^(IndexColumn|UniqueColumn)/ && $Tag->{TagType} eq 'Start' ) {
             push @Index, $Tag;
         }
+        elsif ( $Tag->{Tag} =~ /^((ForeignKey)(Create|Drop))/ ) {
+            my $Method = $Tag->{Tag};
+            if ( $Tag->{ForeignTable} ) {
+                $ForeignTable = $Tag->{ForeignTable};
+            }
+            if ( $Tag->{TagType} eq 'End' ) {
+                for my $Reference (@Reference) {
+                    push @SQL,   $Self->$Method(
+                        LocalTableName   => $Table,
+                        Local            => $Reference->{Local},
+                        ForeignTableName => $ForeignTable,
+                        Foreign          => $Reference->{Foreign},
+                    );
+                }
+                $ReferenceName = '';
+                @Reference     = ();
+            }
+        }
+        elsif ( $Tag->{Tag} =~ /^(Reference)/ && $Tag->{TagType} eq 'Start' ) {
+            push @Reference, $Tag;
+        }
     }
     return @SQL;
 }
@@ -413,12 +446,15 @@ sub IndexCreate {
         }
     }
     my $Index = $Param{Name};
-    if ( length($Index) > 30 ) {
-        $Index = substr( $Index, 0, 28 );
-        $Index .= int( rand(99) );
+    if ( length $Index > 30 ) {
+        my $MD5 = $Self->{MainObject}->MD5sum(
+            String => $Index,
+        );
+        $Index = substr $Index, 0, 28;
+        $Index .= substr $MD5, 0, 2;
     }
     my $SQL   = "CREATE INDEX $Index ON $Param{TableName} (";
-    my @Array = @{ $Param{'Data'} };
+    my @Array = @{ $Param{Data} };
     for ( 0 .. $#Array ) {
         if ( $_ > 0 ) {
             $SQL .= ', ';
@@ -446,7 +482,17 @@ sub IndexDrop {
             return;
         }
     }
-    my $SQL = 'DROP INDEX ' . $Param{Name};
+
+    my $Index = $Param{Name};
+    if ( length $Index > 30 ) {
+        my $MD5 = $Self->{MainObject}->MD5sum(
+            String => $Index,
+        );
+        $Index = substr $Index, 0, 28;
+        $Index .= substr $MD5, 0, 2;
+    }
+
+    my $SQL = 'DROP INDEX ' . $Index;
     return ($SQL);
 }
 
@@ -462,8 +508,11 @@ sub ForeignKeyCreate {
     }
     my $ForeignKey = "FK_$Param{LocalTableName}_$Param{Local}_$Param{Foreign}";
     if ( length($ForeignKey) > 30 ) {
-        $ForeignKey = substr( $ForeignKey, 0, 28 );
-        $ForeignKey .= int( rand(99) );
+        my $MD5 = $Self->{MainObject}->MD5sum(
+            String => $ForeignKey,
+        );
+        $ForeignKey = substr $ForeignKey, 0, 28;
+        $ForeignKey .= substr $MD5, 0, 2;
     }
     my $SQL = "ALTER TABLE $Param{LocalTableName} ADD CONSTRAINT $ForeignKey FOREIGN KEY (";
     $SQL .= "$Param{Local}) REFERENCES ";
@@ -477,13 +526,21 @@ sub ForeignKeyDrop {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(TableName Name)) {
+    for (qw(LocalTableName Local ForeignTableName Foreign)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
-    my $SQL = "ALTER TABLE $Param{TableName} DISABLE CONSTRAINT $Param{Name}";
+    my $ForeignKey = "FK_$Param{LocalTableName}_$Param{Local}_$Param{Foreign}";
+    if ( length($ForeignKey) > 30 ) {
+        my $MD5 = $Self->{MainObject}->MD5sum(
+            String => $ForeignKey,
+        );
+        $ForeignKey = substr $ForeignKey, 0, 28;
+        $ForeignKey .= substr $MD5, 0, 2;
+    }
+    my $SQL = "ALTER TABLE $Param{TableName} DROP CONSTRAINT $ForeignKey";
     return ($SQL);
 }
 
