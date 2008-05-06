@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.36 2008-04-11 16:10:48 martin Exp $
+# $Id: Ticket.t,v 1.37 2008-05-06 22:31:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -105,15 +105,15 @@ $Self->{ConfigObject}->Set(
 );
 
 my $TicketID = $Self->{TicketObject}->TicketCreate(
-    Title => 'Some Ticket Title',
-    Queue => 'Raw',
-    Lock => 'unlock',
-    Priority => '3 normal',
-    State => 'closed successful',
-    CustomerNo => '123465',
+    Title        => 'Some Ticket Title',
+    Queue        => 'Raw',
+    Lock         => 'unlock',
+    Priority     => '3 normal',
+    State        => 'closed successful',
+    CustomerNo   => '123465',
     CustomerUser => 'customer@example.com',
-    OwnerID => 1,
-    UserID => 1,
+    OwnerID      => 1,
+    UserID       => 1,
 );
 $Self->True(
     $TicketID,
@@ -2761,6 +2761,36 @@ $Self->True(
     'ArticleGet()',
 );
 
+# ticket watch tests
+my $Subscribe = $Self->{TicketObject}->TicketWatchSubscribe(
+    TicketID    => $TicketID,
+    WatchUserID => 1,
+    UserID      => 1,
+);
+$Self->True(
+    $Subscribe || 0,
+    'TicketWatchSubscribe()',
+);
+my $Unsubscribe = $Self->{TicketObject}->TicketWatchUnsubscribe(
+    TicketID    => $TicketID,
+    WatchUserID => 1,
+    UserID      => 1,
+);
+$Self->True(
+    $Unsubscribe || 0,
+    'TicketWatchUnsubscribe()',
+);
+# add new subscription (will be deleted by TicketDelete(), also check foreign keys)
+$Subscribe = $Self->{TicketObject}->TicketWatchSubscribe(
+    TicketID    => $TicketID,
+    WatchUserID => 1,
+    UserID      => 1,
+);
+$Self->True(
+    $Subscribe || 0,
+    'TicketWatchSubscribe()',
+);
+
 # Check the TicketFreeField functions
 my %TicketFreeText = ();
 for (1..16) {
@@ -3009,7 +3039,7 @@ for my $Backend (qw(DB FS)) {
     for my $File (qw(Ticket-Article-Test1.xls Ticket-Article-Test1.txt Ticket-Article-Test1.doc
         Ticket-Article-Test1.png Ticket-Article-Test1.pdf Ticket-Article-Test-utf8-1.txt Ticket-Article-Test-utf8-1.bin)) {
         my $Content = '';
-        open(IN, "< ".$Self->{ConfigObject}->Get('Home')."/scripts/test/sample/$File") || die $!;
+        open(IN, '<', $Self->{ConfigObject}->Get('Home')."/scripts/test/sample/$File") || die $!;
         binmode(IN);
         while (<IN>) {
             $Content .= $_;
@@ -3067,12 +3097,12 @@ for my $Backend (qw(DB FS)) {
 
 my %TicketIDs = $Self->{TicketObject}->TicketSearch(
       # result (required)
-      Result => 'HASH',
+      Result       => 'HASH',
       # result limit
-      Limit => 100,
+      Limit        => 100,
       TicketNumber => $Ticket{TicketNumber},
-      UserID => 1,
-      Permission => 'rw',
+      UserID       => 1,
+      Permission   => 'rw',
 );
 $Self->True(
     $TicketIDs{$TicketID},
@@ -3081,12 +3111,12 @@ $Self->True(
 
 %TicketIDs = $Self->{TicketObject}->TicketSearch(
       # result (required)
-      Result => 'HASH',
+      Result       => 'HASH',
       # result limit
-      Limit => 100,
+      Limit        => 100,
       TicketNumber => [$Ticket{TicketNumber}, '1234'],
-      UserID => 1,
-      Permission => 'rw',
+      UserID       => 1,
+      Permission   => 'rw',
 );
 $Self->True(
     $TicketIDs{$TicketID},
@@ -3095,11 +3125,11 @@ $Self->True(
 
 %TicketIDs = $Self->{TicketObject}->TicketSearch(
       # result (required)
-      Result => 'HASH',
+      Result     => 'HASH',
       # result limit
-      Limit => 100,
-      Title => $Ticket{Title},
-      UserID => 1,
+      Limit      => 100,
+      Title      => $Ticket{Title},
+      UserID     => 1,
       Permission => 'rw',
 );
 $Self->True(
@@ -3109,11 +3139,11 @@ $Self->True(
 
 %TicketIDs = $Self->{TicketObject}->TicketSearch(
       # result (required)
-      Result => 'HASH',
+      Result     => 'HASH',
       # result limit
-      Limit => 100,
-      Title => [$Ticket{Title}, 'SomeTitleABC'],
-      UserID => 1,
+      Limit      => 100,
+      Title      => [$Ticket{Title}, 'SomeTitleABC'],
+      UserID     => 1,
       Permission => 'rw',
 );
 $Self->True(
@@ -3123,11 +3153,11 @@ $Self->True(
 
 %TicketIDs = $Self->{TicketObject}->TicketSearch(
       # result (required)
-      Result => 'HASH',
+      Result     => 'HASH',
       # result limit
-      Limit => 100,
+      Limit      => 100,
       CustomerID => $Ticket{CustomerID},
-      UserID => 1,
+      UserID     => 1,
       Permission => 'rw',
 );
 $Self->True(
@@ -3137,11 +3167,11 @@ $Self->True(
 
 %TicketIDs = $Self->{TicketObject}->TicketSearch(
       # result (required)
-      Result => 'HASH',
+      Result     => 'HASH',
       # result limit
-      Limit => 100,
+      Limit      => 100,
       CustomerID => [$Ticket{CustomerID}, 'LULU'],
-      UserID => 1,
+      UserID     => 1,
       Permission => 'rw',
 );
 $Self->True(
@@ -3151,12 +3181,12 @@ $Self->True(
 
 %TicketIDs = $Self->{TicketObject}->TicketSearch(
       # result (required)
-      Result => 'HASH',
+      Result            => 'HASH',
       # result limit
-      Limit => 100,
+      Limit             => 100,
       CustomerUserLogin => $Ticket{CustomerUser},
-      UserID => 1,
-      Permission => 'rw',
+      UserID            => 1,
+      Permission        => 'rw',
 );
 $Self->True(
     $TicketIDs{$TicketID},
@@ -3165,12 +3195,12 @@ $Self->True(
 
 %TicketIDs = $Self->{TicketObject}->TicketSearch(
       # result (required)
-      Result => 'HASH',
+      Result            => 'HASH',
       # result limit
-      Limit => 100,
+      Limit             => 100,
       CustomerUserLogin => [$Ticket{CustomerUserID}, '1234'],
-      UserID => 1,
-      Permission => 'rw',
+      UserID            => 1,
+      Permission        => 'rw',
 );
 $Self->True(
     $TicketIDs{$TicketID},
@@ -3179,15 +3209,15 @@ $Self->True(
 
 %TicketIDs = $Self->{TicketObject}->TicketSearch(
       # result (required)
-      Result => 'HASH',
+      Result            => 'HASH',
       # result limit
-      Limit => 100,
-      TicketNumber => $Ticket{TicketNumber},
-      Title => $Ticket{Title},
-      CustomerID => $Ticket{CustomerID},
+      Limit             => 100,
+      TicketNumber      => $Ticket{TicketNumber},
+      Title             => $Ticket{Title},
+      CustomerID        => $Ticket{CustomerID},
       CustomerUserLogin => $Ticket{CustomerUserID},
-      UserID => 1,
-      Permission => 'rw',
+      UserID            => 1,
+      Permission        => 'rw',
 );
 $Self->True(
     $TicketIDs{$TicketID},
@@ -3196,15 +3226,15 @@ $Self->True(
 
 %TicketIDs = $Self->{TicketObject}->TicketSearch(
       # result (required)
-      Result => 'HASH',
+      Result            => 'HASH',
       # result limit
-      Limit => 100,
-      TicketNumber => [$Ticket{TicketNumber}, 'ABC'],
-      Title => [$Ticket{Title}, '123'],
-      CustomerID => [$Ticket{CustomerID}, '1213421'],
+      Limit             => 100,
+      TicketNumber      => [$Ticket{TicketNumber}, 'ABC'],
+      Title             => [$Ticket{Title}, '123'],
+      CustomerID        => [$Ticket{CustomerID}, '1213421'],
       CustomerUserLogin => [$Ticket{CustomerUserID}, 'iadasd'],
-      UserID => 1,
-      Permission => 'rw',
+      UserID            => 1,
+      Permission        => 'rw',
 );
 $Self->True(
     $TicketIDs{$TicketID},
@@ -3213,13 +3243,13 @@ $Self->True(
 
 %TicketIDs = $Self->{TicketObject}->TicketSearch(
       # result (required)
-      Result => 'HASH',
+      Result       => 'HASH',
       # result limit
-      Limit => 100,
+      Limit        => 100,
       TicketNumber => [$Ticket{TicketNumber}, 'ABC'],
-      StateType => 'Closed',
-      UserID => 1,
-      Permission => 'rw',
+      StateType    => 'Closed',
+      UserID       => 1,
+      Permission   => 'rw',
 );
 $Self->True(
     $TicketIDs{$TicketID},
@@ -3228,13 +3258,13 @@ $Self->True(
 
 %TicketIDs = $Self->{TicketObject}->TicketSearch(
       # result (required)
-      Result => 'HASH',
+      Result       => 'HASH',
       # result limit
-      Limit => 100,
+      Limit        => 100,
       TicketNumber => [$Ticket{TicketNumber}, 'ABC'],
-      StateType => 'Open',
-      UserID => 1,
-      Permission => 'rw',
+      StateType    => 'Open',
+      UserID       => 1,
+      Permission   => 'rw',
 );
 $Self->False(
     $TicketIDs{$TicketID},
@@ -3243,12 +3273,12 @@ $Self->False(
 
 %TicketIDs = $Self->{TicketObject}->TicketSearch(
       # result (required)
-      Result => 'HASH',
+      Result     => 'HASH',
       # result limit
-      Limit => 100,
-      Body => '*write perl modules*',
-      StateType => 'Closed',
-      UserID => 1,
+      Limit      => 100,
+      Body       => '*write perl modules*',
+      StateType  => 'Closed',
+      UserID     => 1,
       Permission => 'rw',
 );
 $Self->True(
@@ -3260,10 +3290,10 @@ $Self->True(
       # result (required)
       Result => 'HASH',
       # result limit
-      Limit => 100,
-      Body => '*write perl modules*',
-      StateType => 'Open',
-      UserID => 1,
+      Limit      => 100,
+      Body       => '*write perl modules*',
+      StateType  => 'Open',
+      UserID     => 1,
       Permission => 'rw',
 );
 $Self->True(
@@ -3272,10 +3302,10 @@ $Self->True(
 );
 
 my $TicketMove = $Self->{TicketObject}->MoveTicket(
-    Queue => 'Junk',
+    Queue    => 'Junk',
     TicketID => $TicketID,
     SendNoNotification => 1,
-    UserID => 1,
+    UserID   => 1,
 );
 $Self->True(
     $TicketMove,
@@ -3283,9 +3313,9 @@ $Self->True(
 );
 
 my $TicketState = $Self->{TicketObject}->StateSet(
-    State => 'open',
+    State    => 'open',
     TicketID => $TicketID,
-    UserID => 1,
+    UserID   => 1,
 );
 $Self->True(
     $TicketState,
@@ -3294,13 +3324,13 @@ $Self->True(
 
 %TicketIDs = $Self->{TicketObject}->TicketSearch(
     # result (required)
-    Result => 'HASH',
+    Result       => 'HASH',
     # result limit
-    Limit => 100,
+    Limit        => 100,
     TicketNumber => [$Ticket{TicketNumber}, 'ABC'],
-    StateType => 'Open',
-    UserID => 1,
-    Permission => 'rw',
+    StateType    => 'Open',
+    UserID       => 1,
+    Permission   => 'rw',
 );
 $Self->True(
     $TicketIDs{$TicketID},
@@ -3309,13 +3339,13 @@ $Self->True(
 
 %TicketIDs = $Self->{TicketObject}->TicketSearch(
     # result (required)
-    Result => 'HASH',
+    Result       => 'HASH',
     # result limit
-    Limit => 100,
+    Limit        => 100,
     TicketNumber => [$Ticket{TicketNumber}, 'ABC'],
-    StateType => 'Closed',
-    UserID => 1,
-    Permission => 'rw',
+    StateType    => 'Closed',
+    UserID       => 1,
+    Permission   => 'rw',
 );
 $Self->False(
     $TicketIDs{$TicketID},
@@ -3338,13 +3368,13 @@ for my $Condition (
     ) {
     %TicketIDs = $Self->{TicketObject}->TicketSearch(
         # result (required)
-        Result => 'HASH',
+        Result          => 'HASH',
         # result limit
-        Limit => 1000,
-        From => $Condition,
+        Limit           => 1000,
+        From            => $Condition,
         ConditionInline => 1,
-        UserID => 1,
-        Permission => 'rw',
+        UserID          => 1,
+        Permission      => 'rw',
     );
     $Self->True(
         $TicketIDs{$TicketID} || 0,
@@ -3365,13 +3395,13 @@ for my $Condition (
     ) {
     %TicketIDs = $Self->{TicketObject}->TicketSearch(
         # result (required)
-        Result => 'HASH',
+        Result          => 'HASH',
         # result limit
-        Limit => 1000,
-        From => $Condition,
+        Limit           => 1000,
+        From            => $Condition,
         ConditionInline => 1,
-        UserID => 1,
-        Permission => 'rw',
+        UserID          => 1,
+        Permission      => 'rw',
     );
     $Self->True(
         (!$TicketIDs{$TicketID}) || 0,
@@ -3400,10 +3430,10 @@ $Self->True(
 );
 
 my $TicketLock = $Self->{TicketObject}->LockSet(
-    Lock => 'lock',
+    Lock     => 'lock',
     TicketID => $TicketID,
     SendNoNotification => 1,
-    UserID => 1,
+    UserID   => 1,
 );
 $Self->True(
     $TicketLock,
@@ -3413,12 +3443,12 @@ $Self->True(
 # Test CreatedUserIDs
 %TicketIDs = $Self->{TicketObject}->TicketSearch(
       # result (required)
-      Result => 'HASH',
+      Result         => 'HASH',
       # result limit
-      Limit => 100,
+      Limit          => 100,
       CreatedUserIDs => [1, 455, 32],
-      UserID => 1,
-      Permission => 'rw',
+      UserID         => 1,
+      Permission     => 'rw',
 );
 $Self->True(
     $TicketIDs{$TicketID},
@@ -3428,12 +3458,12 @@ $Self->True(
 # Test CreatedPriorities
 %TicketIDs = $Self->{TicketObject}->TicketSearch(
       # result (required)
-      Result => 'HASH',
+      Result            => 'HASH',
       # result limit
-      Limit => 100,
+      Limit             => 100,
       CreatedPriorities => ['2 low', '3 normal'],
-      UserID => 1,
-      Permission => 'rw',
+      UserID            => 1,
+      Permission        => 'rw',
 );
 $Self->True(
     $TicketIDs{$TicketID},
@@ -3443,12 +3473,12 @@ $Self->True(
 # Test CreatedPriorityIDs
 %TicketIDs = $Self->{TicketObject}->TicketSearch(
       # result (required)
-      Result => 'HASH',
+      Result             => 'HASH',
       # result limit
-      Limit => 100,
+      Limit              => 100,
       CreatedPriorityIDs => [2, 3],
-      UserID => 1,
-      Permission => 'rw',
+      UserID             => 1,
+      Permission         => 'rw',
 );
 $Self->True(
     $TicketIDs{$TicketID},
@@ -3458,12 +3488,12 @@ $Self->True(
 # Test CreatedStates
 %TicketIDs = $Self->{TicketObject}->TicketSearch(
       # result (required)
-      Result => 'HASH',
+      Result        => 'HASH',
       # result limit
-      Limit => 100,
+      Limit         => 100,
       CreatedStates => ['closed successful'],
-      UserID => 1,
-      Permission => 'rw',
+      UserID        => 1,
+      Permission    => 'rw',
 );
 $Self->True(
     $TicketIDs{$TicketID},
@@ -3473,12 +3503,12 @@ $Self->True(
 # Test CreatedStateIDs
 %TicketIDs = $Self->{TicketObject}->TicketSearch(
       # result (required)
-      Result => 'HASH',
+      Result          => 'HASH',
       # result limit
-      Limit => 100,
+      Limit           => 100,
       CreatedStateIDs => [2],
-      UserID => 1,
-      Permission => 'rw',
+      UserID          => 1,
+      Permission      => 'rw',
 );
 $Self->True(
     $TicketIDs{$TicketID},
@@ -3488,12 +3518,12 @@ $Self->True(
 # Test CreatedQueues
 %TicketIDs = $Self->{TicketObject}->TicketSearch(
       # result (required)
-      Result => 'HASH',
+      Result        => 'HASH',
       # result limit
-      Limit => 100,
+      Limit         => 100,
       CreatedQueues => ['Raw'],
-      UserID => 1,
-      Permission => 'rw',
+      UserID        => 1,
+      Permission    => 'rw',
 );
 $Self->True(
     $TicketIDs{$TicketID},
@@ -3503,12 +3533,12 @@ $Self->True(
 # Test CreatedQueueIDs
 %TicketIDs = $Self->{TicketObject}->TicketSearch(
       # result (required)
-      Result => 'HASH',
+      Result          => 'HASH',
       # result limit
-      Limit => 100,
+      Limit           => 100,
       CreatedQueueIDs => [2,3],
-      UserID => 1,
-      Permission => 'rw',
+      UserID          => 1,
+      Permission      => 'rw',
 );
 $Self->True(
     $TicketIDs{$TicketID},
@@ -3518,11 +3548,11 @@ $Self->True(
 # Test TicketCreateTimeNewerMinutes
 %TicketIDs = $Self->{TicketObject}->TicketSearch(
       # result (required)
-      Result => 'HASH',
+      Result     => 'HASH',
       # result limit
-      Limit => 100,
+      Limit      => 100,
       TicketCreateTimeNewerMinutes => 60,
-      UserID => 1,
+      UserID     => 1,
       Permission => 'rw',
 );
 $Self->True(
