@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.641 2008-05-02 13:21:40 rk Exp $
+# $Id: CHANGES,v 1.642 2008-05-06 18:34:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,8 +11,18 @@
 
 CVS HEAD (????/??/??)
  - (2008/05/02) Deleted textarea wrap in perl code and set browser wrap in dtl files.
- - (2008/04/29) Updated cpan module CGI to version 3.37.
- - (2008/04/25) Added create and drop of index and unique in xml TableAlter tag
+ - (2007/04/29) Added X-OTRS-TicketTime and X-OTRS-FollowUp-TicketTime email
+    header support as additional attributes like already existing X-OTRS-Header
+    (for more info see doc/X-OTRS-Headers.txt).
+ - (2007/04/29) Added Format attribute (default html, optional plain) for "Intro*"
+    tags in .sopm files. Format="html" will work as default and it's possible to
+    put every html into the intro message. Format="plain" will add automatically
+    <pre></pre> to intro messages, so new lines and spaces are shown 1:1 in intro
+    messages (for more info see developer manual).
+ - (2007/04/29) TicketFreeTime, TicketFreeFields and Article Attachments now are
+    taken over on ticket split.
+ - (2007/04/29) Updated cpan module CGI to version 3.37.
+ - (2007/04/25) Added create and drop of index and unique in xml TableAlter tag
     (for more info see developer manual).
  - (2008/04/20) Changed GenericAgent default limit of matching ticket for each
     run of a job from 2000 to 4000.
@@ -32,9 +42,9 @@ CVS HEAD (????/??/??)
     Note: Old tags still usable, will be converted by OTRS automatically.
  - (2008/04/10) Added global Search-Condition-Feature (AND/OR/()/!/+) to ticket
     search backend, customer search backend and faq.
- - (2008/04/10) Added support to ticket print to select only one article to print.
- - (2008/04/10) Added bug# 2159 - ticket close time as attributes (like ticket
-    create time) in agent ticket search.
+ - (2008/04/10) Added support to ticket print to print selected article only.
+ - (2008/04/10) Fixed bug# 2159 - added ticket close time search option (works
+    like ticket create time search option) to agent ticket search screen.
  - (2008/04/10) Updated cpan module CGI to version 3.35.
  - (2008/04/02) Moved from default password 'crypt' method to 'md5'. All new
     changed passwords are stored with md5-password method. Old stored passwords
@@ -50,7 +60,7 @@ CVS HEAD (????/??/??)
     file.
  - (2008/04/01) Added new SysLog backend config for log sock. Defaulte use is
     'unix'. On Solaris you may need to use 'stream'.
- - (2008/03/31) Added ticket free time as required field support (like
+ - (2008/03/31) Added ticket free time as required field support (works like
     for already existing ticket free text fields).
  - (2008/03/31) Added missing ticket type as required check if ticket type
     feature is enabled.
