@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleSearchIndex/RuntimeDB.pm - article search index backend runtime
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: RuntimeDB.pm,v 1.1 2008-05-06 23:14:51 martin Exp $
+# $Id: RuntimeDB.pm,v 1.2 2008-05-06 23:32:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub ArticleIndexBuild {
     my ( $Self, %Param ) = @_;
@@ -41,12 +41,6 @@ sub ArticleIndexDelete {
             return;
         }
     }
-
-    # delete articles
-    return if ! $Self->{DBObject}->Do(
-        SQL  => 'DELETE FROM article_search WHERE id = ?',
-        Bind => [ \$Param{ArticleID} ],
-    );
 
     return 1;
 }
