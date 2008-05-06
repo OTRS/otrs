@@ -1,12 +1,12 @@
 # --
 # Kernel/Language/zh_CN.pm - provides za_CN language translation
-# Copyright (C) 2005 zuowei <j2ee@hirain-sh.com>
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: zh_CN.pm,v 1.35 2007-12-19 15:40:58 mh Exp $
+# $Id: zh_CN.pm,v 1.36 2008-05-06 23:39:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Language::zh_CN;
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -568,6 +568,8 @@ sub Data {
         'History::WebRequestCustomer'   => 'Customer made a web request.',
         'History::TicketLinkAdd'        => 'Link to "%s" established.',
         'History::TicketLinkDelete'     => 'Link to "%s" removed.',
+        'History::Subscribe'            => 'Added subscription for user "%s".',
+        'History::Unsubscribe'          => 'Removed subscription for user "%s".',
 
         # Template: AAAWeekDay
         'Sun' => 'ÐÇÆÚÈÕ',
