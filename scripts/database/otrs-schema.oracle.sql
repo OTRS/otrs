@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2008-03-28 12:16:38
+--  driver: oracle, generated: 2008-05-07 00:18:08
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -14,7 +14,7 @@ CREATE TABLE valid (
     change_by NUMBER NOT NULL,
     CONSTRAINT valid_U_1 UNIQUE (name)
 );
-ALTER TABLE valid ADD CONSTRAINT valid_PK PRIMARY KEY (id);
+ALTER TABLE valid ADD CONSTRAINT PK_valid PRIMARY KEY (id);
 DROP SEQUENCE valid_seq;
 CREATE SEQUENCE valid_seq;
 CREATE OR REPLACE TRIGGER valid_s_t
@@ -27,6 +27,8 @@ begin
 end;
 /
 --;
+CREATE INDEX FK_valid_change_by ON valid (change_by);
+CREATE INDEX FK_valid_create_by ON valid (create_by);
 -- ----------------------------------------------------------
 --  create table ticket_priority
 -- ----------------------------------------------------------
@@ -40,7 +42,7 @@ CREATE TABLE ticket_priority (
     change_by NUMBER NOT NULL,
     CONSTRAINT ticket_priority_U_1 UNIQUE (name)
 );
-ALTER TABLE ticket_priority ADD CONSTRAINT ticket_priority_PK PRIMARY KEY (id);
+ALTER TABLE ticket_priority ADD CONSTRAINT PK_ticket_priority PRIMARY KEY (id);
 DROP SEQUENCE ticket_priority_seq;
 CREATE SEQUENCE ticket_priority_seq;
 CREATE OR REPLACE TRIGGER ticket_priority_s_t
@@ -53,6 +55,8 @@ begin
 end;
 /
 --;
+CREATE INDEX FK_ticket_priority_change_by ON ticket_priority (change_by);
+CREATE INDEX FK_ticket_priority_create_by ON ticket_priority (create_by);
 -- ----------------------------------------------------------
 --  create table ticket_type
 -- ----------------------------------------------------------
@@ -66,7 +70,7 @@ CREATE TABLE ticket_type (
     change_by NUMBER NOT NULL,
     CONSTRAINT ticket_type_U_1 UNIQUE (name)
 );
-ALTER TABLE ticket_type ADD CONSTRAINT ticket_type_PK PRIMARY KEY (id);
+ALTER TABLE ticket_type ADD CONSTRAINT PK_ticket_type PRIMARY KEY (id);
 DROP SEQUENCE ticket_type_seq;
 CREATE SEQUENCE ticket_type_seq;
 CREATE OR REPLACE TRIGGER ticket_type_s_t
@@ -79,6 +83,9 @@ begin
 end;
 /
 --;
+CREATE INDEX FK_ticket_type_change_by ON ticket_type (change_by);
+CREATE INDEX FK_ticket_type_create_by ON ticket_type (create_by);
+CREATE INDEX FK_ticket_type_valid_id ON ticket_type (valid_id);
 -- ----------------------------------------------------------
 --  create table ticket_lock_type
 -- ----------------------------------------------------------
@@ -92,7 +99,7 @@ CREATE TABLE ticket_lock_type (
     change_by NUMBER NOT NULL,
     CONSTRAINT ticket_lock_type_U_1 UNIQUE (name)
 );
-ALTER TABLE ticket_lock_type ADD CONSTRAINT ticket_lock_type_PK PRIMARY KEY (id);
+ALTER TABLE ticket_lock_type ADD CONSTRAINT PK_ticket_lock_type PRIMARY KEY (id);
 DROP SEQUENCE ticket_lock_type_seq;
 CREATE SEQUENCE ticket_lock_type_seq;
 CREATE OR REPLACE TRIGGER ticket_lock_type_s_t
@@ -105,6 +112,9 @@ begin
 end;
 /
 --;
+CREATE INDEX FK_ticket_lock_type_change_by ON ticket_lock_type (change_by);
+CREATE INDEX FK_ticket_lock_type_create_by ON ticket_lock_type (create_by);
+CREATE INDEX FK_ticket_lock_type_valid_id ON ticket_lock_type (valid_id);
 -- ----------------------------------------------------------
 --  create table system_user
 -- ----------------------------------------------------------
@@ -122,7 +132,7 @@ CREATE TABLE system_user (
     change_by NUMBER NOT NULL,
     CONSTRAINT system_user_U_1 UNIQUE (login)
 );
-ALTER TABLE system_user ADD CONSTRAINT system_user_PK PRIMARY KEY (id);
+ALTER TABLE system_user ADD CONSTRAINT PK_system_user PRIMARY KEY (id);
 DROP SEQUENCE system_user_seq;
 CREATE SEQUENCE system_user_seq;
 CREATE OR REPLACE TRIGGER system_user_s_t
@@ -135,6 +145,9 @@ begin
 end;
 /
 --;
+CREATE INDEX FK_system_user_change_by ON system_user (change_by);
+CREATE INDEX FK_system_user_create_by ON system_user (create_by);
+CREATE INDEX FK_system_user_valid_id ON system_user (valid_id);
 -- ----------------------------------------------------------
 --  create table user_preferences
 -- ----------------------------------------------------------
@@ -143,7 +156,7 @@ CREATE TABLE user_preferences (
     preferences_key VARCHAR2 (150) NOT NULL,
     preferences_value VARCHAR2 (250)
 );
-CREATE INDEX index_user_preferences_user_id ON user_preferences (user_id);
+CREATE INDEX user_preferences_user_id ON user_preferences (user_id);
 -- ----------------------------------------------------------
 --  create table groups
 -- ----------------------------------------------------------
@@ -158,7 +171,7 @@ CREATE TABLE groups (
     change_by NUMBER NOT NULL,
     CONSTRAINT groups_U_1 UNIQUE (name)
 );
-ALTER TABLE groups ADD CONSTRAINT groups_PK PRIMARY KEY (id);
+ALTER TABLE groups ADD CONSTRAINT PK_groups PRIMARY KEY (id);
 DROP SEQUENCE groups_seq;
 CREATE SEQUENCE groups_seq;
 CREATE OR REPLACE TRIGGER groups_s_t
@@ -171,6 +184,9 @@ begin
 end;
 /
 --;
+CREATE INDEX FK_groups_change_by ON groups (change_by);
+CREATE INDEX FK_groups_create_by ON groups (create_by);
+CREATE INDEX FK_groups_valid_id ON groups (valid_id);
 -- ----------------------------------------------------------
 --  create table group_user
 -- ----------------------------------------------------------
@@ -184,6 +200,10 @@ CREATE TABLE group_user (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
+CREATE INDEX FK_group_user_change_by ON group_user (change_by);
+CREATE INDEX FK_group_user_create_by ON group_user (create_by);
+CREATE INDEX group_user_group_id ON group_user (group_id);
+CREATE INDEX group_user_user_id ON group_user (user_id);
 -- ----------------------------------------------------------
 --  create table group_role
 -- ----------------------------------------------------------
@@ -197,6 +217,10 @@ CREATE TABLE group_role (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
+CREATE INDEX FK_group_role_change_by ON group_role (change_by);
+CREATE INDEX FK_group_role_create_by ON group_role (create_by);
+CREATE INDEX group_role_group_id ON group_role (group_id);
+CREATE INDEX group_role_role_id ON group_role (role_id);
 -- ----------------------------------------------------------
 --  create table group_customer_user
 -- ----------------------------------------------------------
@@ -210,6 +234,10 @@ CREATE TABLE group_customer_user (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
+CREATE INDEX FK_group_customer_user_chang0a ON group_customer_user (change_by);
+CREATE INDEX FK_group_customer_user_creata2 ON group_customer_user (create_by);
+CREATE INDEX group_customer_user_group_id ON group_customer_user (group_id);
+CREATE INDEX group_customer_user_id ON group_customer_user (user_id);
 -- ----------------------------------------------------------
 --  create table roles
 -- ----------------------------------------------------------
@@ -224,7 +252,7 @@ CREATE TABLE roles (
     change_by NUMBER NOT NULL,
     CONSTRAINT roles_U_1 UNIQUE (name)
 );
-ALTER TABLE roles ADD CONSTRAINT roles_PK PRIMARY KEY (id);
+ALTER TABLE roles ADD CONSTRAINT PK_roles PRIMARY KEY (id);
 DROP SEQUENCE roles_seq;
 CREATE SEQUENCE roles_seq;
 CREATE OR REPLACE TRIGGER roles_s_t
@@ -237,6 +265,9 @@ begin
 end;
 /
 --;
+CREATE INDEX FK_roles_change_by ON roles (change_by);
+CREATE INDEX FK_roles_create_by ON roles (create_by);
+CREATE INDEX FK_roles_valid_id ON roles (valid_id);
 -- ----------------------------------------------------------
 --  create table role_user
 -- ----------------------------------------------------------
@@ -248,6 +279,10 @@ CREATE TABLE role_user (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
+CREATE INDEX FK_role_user_change_by ON role_user (change_by);
+CREATE INDEX FK_role_user_create_by ON role_user (create_by);
+CREATE INDEX role_user_role_id ON role_user (role_id);
+CREATE INDEX role_user_user_id ON role_user (user_id);
 -- ----------------------------------------------------------
 --  create table personal_queues
 -- ----------------------------------------------------------
@@ -255,6 +290,8 @@ CREATE TABLE personal_queues (
     user_id NUMBER NOT NULL,
     queue_id NUMBER NOT NULL
 );
+CREATE INDEX personal_queues_queue_id ON personal_queues (queue_id);
+CREATE INDEX personal_queues_user_id ON personal_queues (user_id);
 -- ----------------------------------------------------------
 --  create table theme
 -- ----------------------------------------------------------
@@ -268,7 +305,7 @@ CREATE TABLE theme (
     change_by NUMBER NOT NULL,
     CONSTRAINT theme_U_1 UNIQUE (theme)
 );
-ALTER TABLE theme ADD CONSTRAINT theme_PK PRIMARY KEY (id);
+ALTER TABLE theme ADD CONSTRAINT PK_theme PRIMARY KEY (id);
 DROP SEQUENCE theme_seq;
 CREATE SEQUENCE theme_seq;
 CREATE OR REPLACE TRIGGER theme_s_t
@@ -281,6 +318,9 @@ begin
 end;
 /
 --;
+CREATE INDEX FK_theme_change_by ON theme (change_by);
+CREATE INDEX FK_theme_create_by ON theme (create_by);
+CREATE INDEX FK_theme_valid_id ON theme (valid_id);
 -- ----------------------------------------------------------
 --  create table ticket_state
 -- ----------------------------------------------------------
@@ -296,7 +336,7 @@ CREATE TABLE ticket_state (
     change_by NUMBER NOT NULL,
     CONSTRAINT ticket_state_U_1 UNIQUE (name)
 );
-ALTER TABLE ticket_state ADD CONSTRAINT ticket_state_PK PRIMARY KEY (id);
+ALTER TABLE ticket_state ADD CONSTRAINT PK_ticket_state PRIMARY KEY (id);
 DROP SEQUENCE ticket_state_seq;
 CREATE SEQUENCE ticket_state_seq;
 CREATE OR REPLACE TRIGGER ticket_state_s_t
@@ -309,6 +349,10 @@ begin
 end;
 /
 --;
+CREATE INDEX FK_ticket_state_change_by ON ticket_state (change_by);
+CREATE INDEX FK_ticket_state_create_by ON ticket_state (create_by);
+CREATE INDEX FK_ticket_state_type_id ON ticket_state (type_id);
+CREATE INDEX FK_ticket_state_valid_id ON ticket_state (valid_id);
 -- ----------------------------------------------------------
 --  create table ticket_state_type
 -- ----------------------------------------------------------
@@ -322,7 +366,7 @@ CREATE TABLE ticket_state_type (
     change_by NUMBER NOT NULL,
     CONSTRAINT ticket_state_type_U_1 UNIQUE (name)
 );
-ALTER TABLE ticket_state_type ADD CONSTRAINT ticket_state_type_PK PRIMARY KEY (id);
+ALTER TABLE ticket_state_type ADD CONSTRAINT PK_ticket_state_type PRIMARY KEY (id);
 DROP SEQUENCE ticket_state_type_seq;
 CREATE SEQUENCE ticket_state_type_seq;
 CREATE OR REPLACE TRIGGER ticket_state_type_s_t
@@ -335,6 +379,8 @@ begin
 end;
 /
 --;
+CREATE INDEX FK_ticket_state_type_change_by ON ticket_state_type (change_by);
+CREATE INDEX FK_ticket_state_type_create_by ON ticket_state_type (create_by);
 -- ----------------------------------------------------------
 --  create table salutation
 -- ----------------------------------------------------------
@@ -350,7 +396,7 @@ CREATE TABLE salutation (
     change_by NUMBER NOT NULL,
     CONSTRAINT salutation_U_1 UNIQUE (name)
 );
-ALTER TABLE salutation ADD CONSTRAINT salutation_PK PRIMARY KEY (id);
+ALTER TABLE salutation ADD CONSTRAINT PK_salutation PRIMARY KEY (id);
 DROP SEQUENCE salutation_seq;
 CREATE SEQUENCE salutation_seq;
 CREATE OR REPLACE TRIGGER salutation_s_t
@@ -363,6 +409,9 @@ begin
 end;
 /
 --;
+CREATE INDEX FK_salutation_change_by ON salutation (change_by);
+CREATE INDEX FK_salutation_create_by ON salutation (create_by);
+CREATE INDEX FK_salutation_valid_id ON salutation (valid_id);
 -- ----------------------------------------------------------
 --  create table signature
 -- ----------------------------------------------------------
@@ -378,7 +427,7 @@ CREATE TABLE signature (
     change_by NUMBER NOT NULL,
     CONSTRAINT signature_U_1 UNIQUE (name)
 );
-ALTER TABLE signature ADD CONSTRAINT signature_PK PRIMARY KEY (id);
+ALTER TABLE signature ADD CONSTRAINT PK_signature PRIMARY KEY (id);
 DROP SEQUENCE signature_seq;
 CREATE SEQUENCE signature_seq;
 CREATE OR REPLACE TRIGGER signature_s_t
@@ -391,6 +440,9 @@ begin
 end;
 /
 --;
+CREATE INDEX FK_signature_change_by ON signature (change_by);
+CREATE INDEX FK_signature_create_by ON signature (create_by);
+CREATE INDEX FK_signature_valid_id ON signature (valid_id);
 -- ----------------------------------------------------------
 --  create table system_address
 -- ----------------------------------------------------------
@@ -408,7 +460,7 @@ CREATE TABLE system_address (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
-ALTER TABLE system_address ADD CONSTRAINT system_address_PK PRIMARY KEY (id);
+ALTER TABLE system_address ADD CONSTRAINT PK_system_address PRIMARY KEY (id);
 DROP SEQUENCE system_address_seq;
 CREATE SEQUENCE system_address_seq;
 CREATE OR REPLACE TRIGGER system_address_s_t
@@ -421,6 +473,9 @@ begin
 end;
 /
 --;
+CREATE INDEX FK_system_address_change_by ON system_address (change_by);
+CREATE INDEX FK_system_address_create_by ON system_address (create_by);
+CREATE INDEX FK_system_address_valid_id ON system_address (valid_id);
 -- ----------------------------------------------------------
 --  create table follow_up_possible
 -- ----------------------------------------------------------
@@ -435,7 +490,7 @@ CREATE TABLE follow_up_possible (
     change_by NUMBER NOT NULL,
     CONSTRAINT follow_up_possible_U_1 UNIQUE (name)
 );
-ALTER TABLE follow_up_possible ADD CONSTRAINT follow_up_possible_PK PRIMARY KEY (id);
+ALTER TABLE follow_up_possible ADD CONSTRAINT PK_follow_up_possible PRIMARY KEY (id);
 DROP SEQUENCE follow_up_possible_seq;
 CREATE SEQUENCE follow_up_possible_seq;
 CREATE OR REPLACE TRIGGER follow_up_possible_s_t
@@ -448,6 +503,9 @@ begin
 end;
 /
 --;
+CREATE INDEX FK_follow_up_possible_change86 ON follow_up_possible (change_by);
+CREATE INDEX FK_follow_up_possible_create7c ON follow_up_possible (create_by);
+CREATE INDEX FK_follow_up_possible_valid_id ON follow_up_possible (valid_id);
 -- ----------------------------------------------------------
 --  create table queue
 -- ----------------------------------------------------------
@@ -481,7 +539,7 @@ CREATE TABLE queue (
     change_by NUMBER NOT NULL,
     CONSTRAINT queue_U_1 UNIQUE (name)
 );
-ALTER TABLE queue ADD CONSTRAINT queue_PK PRIMARY KEY (id);
+ALTER TABLE queue ADD CONSTRAINT PK_queue PRIMARY KEY (id);
 DROP SEQUENCE queue_seq;
 CREATE SEQUENCE queue_seq;
 CREATE OR REPLACE TRIGGER queue_s_t
@@ -494,6 +552,14 @@ begin
 end;
 /
 --;
+CREATE INDEX FK_queue_change_by ON queue (change_by);
+CREATE INDEX FK_queue_create_by ON queue (create_by);
+CREATE INDEX FK_queue_follow_up_id ON queue (follow_up_id);
+CREATE INDEX FK_queue_salutation_id ON queue (salutation_id);
+CREATE INDEX FK_queue_signature_id ON queue (signature_id);
+CREATE INDEX FK_queue_system_address_id ON queue (system_address_id);
+CREATE INDEX FK_queue_valid_id ON queue (valid_id);
+CREATE INDEX queue_group_id ON queue (group_id);
 -- ----------------------------------------------------------
 --  create table queue_preferences
 -- ----------------------------------------------------------
@@ -502,7 +568,7 @@ CREATE TABLE queue_preferences (
     preferences_key VARCHAR2 (150) NOT NULL,
     preferences_value VARCHAR2 (250)
 );
-CREATE INDEX index_queue_preferences_user30 ON queue_preferences (queue_id);
+CREATE INDEX queue_preferences_queue_id ON queue_preferences (queue_id);
 -- ----------------------------------------------------------
 --  create table ticket
 -- ----------------------------------------------------------
@@ -578,7 +644,7 @@ CREATE TABLE ticket (
     change_by NUMBER NOT NULL,
     CONSTRAINT ticket_U_1 UNIQUE (tn)
 );
-ALTER TABLE ticket ADD CONSTRAINT ticket_PK PRIMARY KEY (id);
+ALTER TABLE ticket ADD CONSTRAINT PK_ticket PRIMARY KEY (id);
 DROP SEQUENCE ticket_seq;
 CREATE SEQUENCE ticket_seq;
 CREATE OR REPLACE TRIGGER ticket_s_t
@@ -591,10 +657,23 @@ begin
 end;
 /
 --;
-CREATE INDEX index_ticket_user ON ticket (user_id);
-CREATE INDEX index_ticket_type ON ticket (type_id);
-CREATE INDEX index_ticket_queue_view ON ticket (ticket_state_id, ticket_lock_id, group_id);
-CREATE INDEX index_ticket_answered ON ticket (ticket_answered);
+CREATE INDEX FK_ticket_change_by ON ticket (change_by);
+CREATE INDEX FK_ticket_create_by ON ticket (create_by);
+CREATE INDEX FK_ticket_service_id ON ticket (service_id);
+CREATE INDEX FK_ticket_sla_id ON ticket (sla_id);
+CREATE INDEX FK_ticket_valid_id ON ticket (valid_id);
+CREATE INDEX ticket_answered ON ticket (ticket_answered);
+CREATE INDEX ticket_customer_id ON ticket (customer_id);
+CREATE INDEX ticket_customer_user_id ON ticket (customer_user_id);
+CREATE INDEX ticket_queue_id ON ticket (queue_id);
+CREATE INDEX ticket_queue_view ON ticket (ticket_state_id, ticket_lock_id, group_id);
+CREATE INDEX ticket_responsible_user_id ON ticket (responsible_user_id);
+CREATE INDEX ticket_ticket_lock_id ON ticket (lock_id);
+CREATE INDEX ticket_ticket_priority_id ON ticket (ticket_priority_id);
+CREATE INDEX ticket_ticket_state_id ON ticket (ticket_state_id);
+CREATE INDEX ticket_title ON ticket (title);
+CREATE INDEX ticket_type_id ON ticket (type_id);
+CREATE INDEX ticket_user_id ON ticket (user_id);
 -- ----------------------------------------------------------
 --  create table object_link
 -- ----------------------------------------------------------
@@ -605,6 +684,11 @@ CREATE TABLE object_link (
     object_link_b_object VARCHAR2 (200) NOT NULL,
     object_link_type VARCHAR2 (200) NOT NULL
 );
+CREATE INDEX object_link_a_id ON object_link (object_link_a_id);
+CREATE INDEX object_link_a_object ON object_link (object_link_a_object);
+CREATE INDEX object_link_b_id ON object_link (object_link_b_id);
+CREATE INDEX object_link_b_object ON object_link (object_link_b_object);
+CREATE INDEX object_link_type ON object_link (object_link_type);
 -- ----------------------------------------------------------
 --  create table ticket_history
 -- ----------------------------------------------------------
@@ -625,7 +709,7 @@ CREATE TABLE ticket_history (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
-ALTER TABLE ticket_history ADD CONSTRAINT ticket_history_PK PRIMARY KEY (id);
+ALTER TABLE ticket_history ADD CONSTRAINT PK_ticket_history PRIMARY KEY (id);
 DROP SEQUENCE ticket_history_seq;
 CREATE SEQUENCE ticket_history_seq;
 CREATE OR REPLACE TRIGGER ticket_history_s_t
@@ -638,8 +722,18 @@ begin
 end;
 /
 --;
-CREATE INDEX ticket_history_ticket_id ON ticket_history (ticket_id);
+CREATE INDEX FK_ticket_history_article_id ON ticket_history (article_id);
+CREATE INDEX FK_ticket_history_change_by ON ticket_history (change_by);
+CREATE INDEX FK_ticket_history_create_by ON ticket_history (create_by);
+CREATE INDEX FK_ticket_history_valid_id ON ticket_history (valid_id);
 CREATE INDEX ticket_history_create_time ON ticket_history (create_time);
+CREATE INDEX ticket_history_history_type_id ON ticket_history (history_type_id);
+CREATE INDEX ticket_history_owner_id ON ticket_history (owner_id);
+CREATE INDEX ticket_history_priority_id ON ticket_history (priority_id, priority_id);
+CREATE INDEX ticket_history_queue_id ON ticket_history (queue_id);
+CREATE INDEX ticket_history_state_id ON ticket_history (state_id);
+CREATE INDEX ticket_history_ticket_id ON ticket_history (ticket_id);
+CREATE INDEX ticket_history_type_id ON ticket_history (type_id);
 -- ----------------------------------------------------------
 --  create table ticket_history_type
 -- ----------------------------------------------------------
@@ -654,7 +748,7 @@ CREATE TABLE ticket_history_type (
     change_by NUMBER NOT NULL,
     CONSTRAINT ticket_history_type_U_1 UNIQUE (name)
 );
-ALTER TABLE ticket_history_type ADD CONSTRAINT ticket_history_type_PK PRIMARY KEY (id);
+ALTER TABLE ticket_history_type ADD CONSTRAINT PK_ticket_history_type PRIMARY KEY (id);
 DROP SEQUENCE ticket_history_type_seq;
 CREATE SEQUENCE ticket_history_type_seq;
 CREATE OR REPLACE TRIGGER ticket_history_type_s_t
@@ -667,6 +761,9 @@ begin
 end;
 /
 --;
+CREATE INDEX FK_ticket_history_type_chang1e ON ticket_history_type (change_by);
+CREATE INDEX FK_ticket_history_type_creat37 ON ticket_history_type (create_by);
+CREATE INDEX FK_ticket_history_type_validad ON ticket_history_type (valid_id);
 -- ----------------------------------------------------------
 --  create table article_type
 -- ----------------------------------------------------------
@@ -681,7 +778,7 @@ CREATE TABLE article_type (
     change_by NUMBER NOT NULL,
     CONSTRAINT article_type_U_1 UNIQUE (name)
 );
-ALTER TABLE article_type ADD CONSTRAINT article_type_PK PRIMARY KEY (id);
+ALTER TABLE article_type ADD CONSTRAINT PK_article_type PRIMARY KEY (id);
 DROP SEQUENCE article_type_seq;
 CREATE SEQUENCE article_type_seq;
 CREATE OR REPLACE TRIGGER article_type_s_t
@@ -694,6 +791,9 @@ begin
 end;
 /
 --;
+CREATE INDEX FK_article_type_change_by ON article_type (change_by);
+CREATE INDEX FK_article_type_create_by ON article_type (create_by);
+CREATE INDEX FK_article_type_valid_id ON article_type (valid_id);
 -- ----------------------------------------------------------
 --  create table article_sender_type
 -- ----------------------------------------------------------
@@ -708,7 +808,7 @@ CREATE TABLE article_sender_type (
     change_by NUMBER NOT NULL,
     CONSTRAINT article_sender_type_U_1 UNIQUE (name)
 );
-ALTER TABLE article_sender_type ADD CONSTRAINT article_sender_type_PK PRIMARY KEY (id);
+ALTER TABLE article_sender_type ADD CONSTRAINT PK_article_sender_type PRIMARY KEY (id);
 DROP SEQUENCE article_sender_type_seq;
 CREATE SEQUENCE article_sender_type_seq;
 CREATE OR REPLACE TRIGGER article_sender_type_s_t
@@ -721,6 +821,9 @@ begin
 end;
 /
 --;
+CREATE INDEX FK_article_sender_type_chang74 ON article_sender_type (change_by);
+CREATE INDEX FK_article_sender_type_creat59 ON article_sender_type (create_by);
+CREATE INDEX FK_article_sender_type_validf6 ON article_sender_type (valid_id);
 -- ----------------------------------------------------------
 --  create table article_flag
 -- ----------------------------------------------------------
@@ -730,8 +833,8 @@ CREATE TABLE article_flag (
     create_time DATE NOT NULL,
     create_by NUMBER NOT NULL
 );
-CREATE INDEX article_flag_create_by ON article_flag (create_by);
 CREATE INDEX article_flag_article_id ON article_flag (article_id);
+CREATE INDEX article_flag_create_by ON article_flag (create_by);
 -- ----------------------------------------------------------
 --  create table article
 -- ----------------------------------------------------------
@@ -762,7 +865,7 @@ CREATE TABLE article (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
-ALTER TABLE article ADD CONSTRAINT article_PK PRIMARY KEY (id);
+ALTER TABLE article ADD CONSTRAINT PK_article PRIMARY KEY (id);
 DROP SEQUENCE article_seq;
 CREATE SEQUENCE article_seq;
 CREATE OR REPLACE TRIGGER article_s_t
@@ -775,8 +878,13 @@ begin
 end;
 /
 --;
-CREATE INDEX article_ticket_id ON article (ticket_id);
+CREATE INDEX FK_article_change_by ON article (change_by);
+CREATE INDEX FK_article_create_by ON article (create_by);
+CREATE INDEX FK_article_valid_id ON article (valid_id);
+CREATE INDEX article_article_sender_type_id ON article (article_sender_type_id);
+CREATE INDEX article_article_type_id ON article (article_type_id);
 CREATE INDEX article_message_id ON article (a_message_id);
+CREATE INDEX article_ticket_id ON article (ticket_id);
 -- ----------------------------------------------------------
 --  create table article_plain
 -- ----------------------------------------------------------
@@ -789,7 +897,7 @@ CREATE TABLE article_plain (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
-ALTER TABLE article_plain ADD CONSTRAINT article_plain_PK PRIMARY KEY (id);
+ALTER TABLE article_plain ADD CONSTRAINT PK_article_plain PRIMARY KEY (id);
 DROP SEQUENCE article_plain_seq;
 CREATE SEQUENCE article_plain_seq;
 CREATE OR REPLACE TRIGGER article_plain_s_t
@@ -802,6 +910,8 @@ begin
 end;
 /
 --;
+CREATE INDEX FK_article_plain_change_by ON article_plain (change_by);
+CREATE INDEX FK_article_plain_create_by ON article_plain (create_by);
 CREATE INDEX article_plain_article_id ON article_plain (article_id);
 -- ----------------------------------------------------------
 --  create table article_attachment
@@ -818,7 +928,7 @@ CREATE TABLE article_attachment (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
-ALTER TABLE article_attachment ADD CONSTRAINT article_attachment_PK PRIMARY KEY (id);
+ALTER TABLE article_attachment ADD CONSTRAINT PK_article_attachment PRIMARY KEY (id);
 DROP SEQUENCE article_attachment_seq;
 CREATE SEQUENCE article_attachment_seq;
 CREATE OR REPLACE TRIGGER article_attachment_s_t
@@ -831,6 +941,8 @@ begin
 end;
 /
 --;
+CREATE INDEX FK_article_attachment_change1e ON article_attachment (change_by);
+CREATE INDEX FK_article_attachment_create00 ON article_attachment (create_by);
 CREATE INDEX article_attachment_article_id ON article_attachment (article_id);
 -- ----------------------------------------------------------
 --  create table standard_response
@@ -847,7 +959,7 @@ CREATE TABLE standard_response (
     change_by NUMBER NOT NULL,
     CONSTRAINT standard_response_U_1 UNIQUE (name)
 );
-ALTER TABLE standard_response ADD CONSTRAINT standard_response_PK PRIMARY KEY (id);
+ALTER TABLE standard_response ADD CONSTRAINT PK_standard_response PRIMARY KEY (id);
 DROP SEQUENCE standard_response_seq;
 CREATE SEQUENCE standard_response_seq;
 CREATE OR REPLACE TRIGGER standard_response_s_t
@@ -860,6 +972,9 @@ begin
 end;
 /
 --;
+CREATE INDEX FK_standard_response_change_by ON standard_response (change_by);
+CREATE INDEX FK_standard_response_create_by ON standard_response (create_by);
+CREATE INDEX FK_standard_response_valid_id ON standard_response (valid_id);
 -- ----------------------------------------------------------
 --  create table queue_standard_response
 -- ----------------------------------------------------------
@@ -871,6 +986,10 @@ CREATE TABLE queue_standard_response (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
+CREATE INDEX FK_queue_standard_response_c20 ON queue_standard_response (change_by);
+CREATE INDEX FK_queue_standard_response_c20 ON queue_standard_response (create_by);
+CREATE INDEX FK_queue_standard_response_q9b ON queue_standard_response (queue_id);
+CREATE INDEX FK_queue_standard_response_s1a ON queue_standard_response (standard_response_id);
 -- ----------------------------------------------------------
 --  create table standard_attachment
 -- ----------------------------------------------------------
@@ -888,7 +1007,7 @@ CREATE TABLE standard_attachment (
     change_by NUMBER NOT NULL,
     CONSTRAINT standard_attachment_U_1 UNIQUE (name)
 );
-ALTER TABLE standard_attachment ADD CONSTRAINT standard_attachment_PK PRIMARY KEY (id);
+ALTER TABLE standard_attachment ADD CONSTRAINT PK_standard_attachment PRIMARY KEY (id);
 DROP SEQUENCE standard_attachment_seq;
 CREATE SEQUENCE standard_attachment_seq;
 CREATE OR REPLACE TRIGGER standard_attachment_s_t
@@ -901,6 +1020,9 @@ begin
 end;
 /
 --;
+CREATE INDEX FK_standard_attachment_chang17 ON standard_attachment (change_by);
+CREATE INDEX FK_standard_attachment_creat86 ON standard_attachment (create_by);
+CREATE INDEX FK_standard_attachment_validf7 ON standard_attachment (valid_id);
 -- ----------------------------------------------------------
 --  create table standard_response_attachment
 -- ----------------------------------------------------------
@@ -913,19 +1035,23 @@ CREATE TABLE standard_response_attachment (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
-ALTER TABLE standard_response_attachment ADD CONSTRAINT standard_response_attach36_PK PRIMARY KEY (id);
-DROP SEQUENCE standard_response_attach36_seq;
-CREATE SEQUENCE standard_response_attach36_seq;
-CREATE OR REPLACE TRIGGER standard_response_attach36_s_t
+ALTER TABLE standard_response_attachment ADD CONSTRAINT PK_standard_response_attachment PRIMARY KEY (id);
+DROP SEQUENCE standard_response_attachment_seq;
+CREATE SEQUENCE standard_response_attachment_seq;
+CREATE OR REPLACE TRIGGER standard_response_attachment_s_t
 before insert on standard_response_attachment
 for each row
 begin
-    select standard_response_attach36_seq.nextval
+    select standard_response_attachment_seq.nextval
     into :new.id
     from dual;
 end;
 /
 --;
+CREATE INDEX FK_standard_response_attachme4 ON standard_response_attachment (change_by);
+CREATE INDEX FK_standard_response_attachmf0 ON standard_response_attachment (create_by);
+CREATE INDEX FK_standard_response_attachmc4 ON standard_response_attachment (standard_attachment_id);
+CREATE INDEX FK_standard_response_attachme7 ON standard_response_attachment (standard_response_id);
 -- ----------------------------------------------------------
 --  create table auto_response_type
 -- ----------------------------------------------------------
@@ -940,7 +1066,7 @@ CREATE TABLE auto_response_type (
     change_by NUMBER NOT NULL,
     CONSTRAINT auto_response_type_U_1 UNIQUE (name)
 );
-ALTER TABLE auto_response_type ADD CONSTRAINT auto_response_type_PK PRIMARY KEY (id);
+ALTER TABLE auto_response_type ADD CONSTRAINT PK_auto_response_type PRIMARY KEY (id);
 DROP SEQUENCE auto_response_type_seq;
 CREATE SEQUENCE auto_response_type_seq;
 CREATE OR REPLACE TRIGGER auto_response_type_s_t
@@ -953,6 +1079,9 @@ begin
 end;
 /
 --;
+CREATE INDEX FK_auto_response_type_changee0 ON auto_response_type (change_by);
+CREATE INDEX FK_auto_response_type_created7 ON auto_response_type (create_by);
+CREATE INDEX FK_auto_response_type_valid_id ON auto_response_type (valid_id);
 -- ----------------------------------------------------------
 --  create table auto_response
 -- ----------------------------------------------------------
@@ -973,7 +1102,7 @@ CREATE TABLE auto_response (
     change_by NUMBER NOT NULL,
     CONSTRAINT auto_response_U_1 UNIQUE (name)
 );
-ALTER TABLE auto_response ADD CONSTRAINT auto_response_PK PRIMARY KEY (id);
+ALTER TABLE auto_response ADD CONSTRAINT PK_auto_response PRIMARY KEY (id);
 DROP SEQUENCE auto_response_seq;
 CREATE SEQUENCE auto_response_seq;
 CREATE OR REPLACE TRIGGER auto_response_s_t
@@ -986,6 +1115,11 @@ begin
 end;
 /
 --;
+CREATE INDEX FK_auto_response_change_by ON auto_response (change_by);
+CREATE INDEX FK_auto_response_create_by ON auto_response (create_by);
+CREATE INDEX FK_auto_response_system_addr22 ON auto_response (system_address_id);
+CREATE INDEX FK_auto_response_type_id ON auto_response (type_id);
+CREATE INDEX FK_auto_response_valid_id ON auto_response (valid_id);
 -- ----------------------------------------------------------
 --  create table queue_auto_response
 -- ----------------------------------------------------------
@@ -998,7 +1132,7 @@ CREATE TABLE queue_auto_response (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
-ALTER TABLE queue_auto_response ADD CONSTRAINT queue_auto_response_PK PRIMARY KEY (id);
+ALTER TABLE queue_auto_response ADD CONSTRAINT PK_queue_auto_response PRIMARY KEY (id);
 DROP SEQUENCE queue_auto_response_seq;
 CREATE SEQUENCE queue_auto_response_seq;
 CREATE OR REPLACE TRIGGER queue_auto_response_s_t
@@ -1011,6 +1145,10 @@ begin
 end;
 /
 --;
+CREATE INDEX FK_queue_auto_response_auto_3a ON queue_auto_response (auto_response_id);
+CREATE INDEX FK_queue_auto_response_changce ON queue_auto_response (change_by);
+CREATE INDEX FK_queue_auto_response_creat74 ON queue_auto_response (create_by);
+CREATE INDEX FK_queue_auto_response_queue75 ON queue_auto_response (queue_id);
 -- ----------------------------------------------------------
 --  create table time_accounting
 -- ----------------------------------------------------------
@@ -1024,7 +1162,7 @@ CREATE TABLE time_accounting (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
-ALTER TABLE time_accounting ADD CONSTRAINT time_accounting_PK PRIMARY KEY (id);
+ALTER TABLE time_accounting ADD CONSTRAINT PK_time_accounting PRIMARY KEY (id);
 DROP SEQUENCE time_accounting_seq;
 CREATE SEQUENCE time_accounting_seq;
 CREATE OR REPLACE TRIGGER time_accounting_s_t
@@ -1037,7 +1175,10 @@ begin
 end;
 /
 --;
-CREATE INDEX index_time_accounting_ticket17 ON time_accounting (ticket_id);
+CREATE INDEX FK_time_accounting_article_id ON time_accounting (article_id);
+CREATE INDEX FK_time_accounting_change_by ON time_accounting (change_by);
+CREATE INDEX FK_time_accounting_create_by ON time_accounting (create_by);
+CREATE INDEX time_accounting_ticket_id ON time_accounting (ticket_id);
 -- ----------------------------------------------------------
 --  create table ticket_watcher
 -- ----------------------------------------------------------
@@ -1049,7 +1190,10 @@ CREATE TABLE ticket_watcher (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
+CREATE INDEX FK_ticket_watcher_change_by ON ticket_watcher (change_by);
+CREATE INDEX FK_ticket_watcher_create_by ON ticket_watcher (create_by);
 CREATE INDEX ticket_watcher_ticket_id ON ticket_watcher (ticket_id);
+CREATE INDEX ticket_watcher_user_id ON ticket_watcher (user_id);
 -- ----------------------------------------------------------
 --  create table service
 -- ----------------------------------------------------------
@@ -1064,7 +1208,7 @@ CREATE TABLE service (
     change_by NUMBER NOT NULL,
     CONSTRAINT service_U_1 UNIQUE (name)
 );
-ALTER TABLE service ADD CONSTRAINT service_PK PRIMARY KEY (id);
+ALTER TABLE service ADD CONSTRAINT PK_service PRIMARY KEY (id);
 DROP SEQUENCE service_seq;
 CREATE SEQUENCE service_seq;
 CREATE OR REPLACE TRIGGER service_s_t
@@ -1077,6 +1221,8 @@ begin
 end;
 /
 --;
+CREATE INDEX FK_service_change_by ON service (change_by);
+CREATE INDEX FK_service_create_by ON service (create_by);
 -- ----------------------------------------------------------
 --  create table service_customer_user
 -- ----------------------------------------------------------
@@ -1086,8 +1232,9 @@ CREATE TABLE service_customer_user (
     create_time DATE NOT NULL,
     create_by NUMBER NOT NULL
 );
-CREATE INDEX service_customer_user_custom11 ON service_customer_user (customer_user_login);
-CREATE INDEX service_customer_user_servic39 ON service_customer_user (service_id);
+CREATE INDEX FK_service_customer_user_creba ON service_customer_user (create_by);
+CREATE INDEX service_customer_user_custom75 ON service_customer_user (customer_user_login);
+CREATE INDEX service_customer_user_servic9b ON service_customer_user (service_id);
 -- ----------------------------------------------------------
 --  create table sla
 -- ----------------------------------------------------------
@@ -1110,7 +1257,7 @@ CREATE TABLE sla (
     change_by NUMBER NOT NULL,
     CONSTRAINT sla_U_1 UNIQUE (name)
 );
-ALTER TABLE sla ADD CONSTRAINT sla_PK PRIMARY KEY (id);
+ALTER TABLE sla ADD CONSTRAINT PK_sla PRIMARY KEY (id);
 DROP SEQUENCE sla_seq;
 CREATE SEQUENCE sla_seq;
 CREATE OR REPLACE TRIGGER sla_s_t
@@ -1123,6 +1270,9 @@ begin
 end;
 /
 --;
+CREATE INDEX FK_sla_change_by ON sla (change_by);
+CREATE INDEX FK_sla_create_by ON sla (create_by);
+CREATE INDEX FK_sla_service_id ON sla (service_id);
 -- ----------------------------------------------------------
 --  create table sessions
 -- ----------------------------------------------------------
@@ -1130,7 +1280,8 @@ CREATE TABLE sessions (
     session_id VARCHAR2 (150) NOT NULL,
     session_value CLOB NOT NULL
 );
-CREATE INDEX index_session_id ON sessions (session_id);
+ALTER TABLE sessions ADD CONSTRAINT PK_sessions PRIMARY KEY (session_id);
+CREATE INDEX sessions_session_id ON sessions (session_id);
 -- ----------------------------------------------------------
 --  create table ticket_index
 -- ----------------------------------------------------------
@@ -1143,14 +1294,16 @@ CREATE TABLE ticket_index (
     s_state VARCHAR2 (70) NOT NULL,
     create_time_unix NUMBER (20, 0) NOT NULL
 );
-CREATE INDEX index_ticket_index_ticket_id ON ticket_index (ticket_id);
+CREATE INDEX ticket_index_group_id ON ticket_index (group_id);
+CREATE INDEX ticket_index_queue_id ON ticket_index (queue_id);
+CREATE INDEX ticket_index_ticket_id ON ticket_index (ticket_id);
 -- ----------------------------------------------------------
 --  create table ticket_lock_index
 -- ----------------------------------------------------------
 CREATE TABLE ticket_lock_index (
     ticket_id NUMBER (20, 0) NOT NULL
 );
-CREATE INDEX index_ticket_lock_ticket_id ON ticket_lock_index (ticket_id);
+CREATE INDEX ticket_lock_index_ticket_id ON ticket_lock_index (ticket_id);
 -- ----------------------------------------------------------
 --  create table customer_user
 -- ----------------------------------------------------------
@@ -1171,7 +1324,7 @@ CREATE TABLE customer_user (
     change_by NUMBER NOT NULL,
     CONSTRAINT customer_user_U_1 UNIQUE (login)
 );
-ALTER TABLE customer_user ADD CONSTRAINT customer_user_PK PRIMARY KEY (id);
+ALTER TABLE customer_user ADD CONSTRAINT PK_customer_user PRIMARY KEY (id);
 DROP SEQUENCE customer_user_seq;
 CREATE SEQUENCE customer_user_seq;
 CREATE OR REPLACE TRIGGER customer_user_s_t
@@ -1184,6 +1337,9 @@ begin
 end;
 /
 --;
+CREATE INDEX FK_customer_user_change_by ON customer_user (change_by);
+CREATE INDEX FK_customer_user_create_by ON customer_user (create_by);
+CREATE INDEX FK_customer_user_valid_id ON customer_user (valid_id);
 -- ----------------------------------------------------------
 --  create table customer_preferences
 -- ----------------------------------------------------------
@@ -1192,7 +1348,7 @@ CREATE TABLE customer_preferences (
     preferences_key VARCHAR2 (150) NOT NULL,
     preferences_value VARCHAR2 (250)
 );
-CREATE INDEX index_customer_preferences_u16 ON customer_preferences (user_id);
+CREATE INDEX customer_preferences_user_id ON customer_preferences (user_id);
 -- ----------------------------------------------------------
 --  create table customer_company
 -- ----------------------------------------------------------
@@ -1220,8 +1376,8 @@ CREATE TABLE ticket_loop_protection (
     sent_to VARCHAR2 (250) NOT NULL,
     sent_date VARCHAR2 (150) NOT NULL
 );
-CREATE INDEX index_ticket_loop_protection1 ON ticket_loop_protection (sent_to);
-CREATE INDEX index_ticket_loop_protection40 ON ticket_loop_protection (sent_date);
+CREATE INDEX ticket_loop_protection_sent_3b ON ticket_loop_protection (sent_date);
+CREATE INDEX ticket_loop_protection_sent_to ON ticket_loop_protection (sent_to);
 -- ----------------------------------------------------------
 --  create table mail_account
 -- ----------------------------------------------------------
@@ -1240,7 +1396,7 @@ CREATE TABLE mail_account (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
-ALTER TABLE mail_account ADD CONSTRAINT mail_account_PK PRIMARY KEY (id);
+ALTER TABLE mail_account ADD CONSTRAINT PK_mail_account PRIMARY KEY (id);
 DROP SEQUENCE mail_account_seq;
 CREATE SEQUENCE mail_account_seq;
 CREATE OR REPLACE TRIGGER mail_account_s_t
@@ -1253,6 +1409,9 @@ begin
 end;
 /
 --;
+CREATE INDEX FK_mail_account_change_by ON mail_account (change_by);
+CREATE INDEX FK_mail_account_create_by ON mail_account (create_by);
+CREATE INDEX FK_mail_account_valid_id ON mail_account (valid_id);
 -- ----------------------------------------------------------
 --  create table postmaster_filter
 -- ----------------------------------------------------------
@@ -1262,6 +1421,7 @@ CREATE TABLE postmaster_filter (
     f_key VARCHAR2 (200) NOT NULL,
     f_value VARCHAR2 (200) NOT NULL
 );
+CREATE INDEX postmaster_filter_f_name ON postmaster_filter (f_name);
 -- ----------------------------------------------------------
 --  create table generic_agent_jobs
 -- ----------------------------------------------------------
@@ -1270,6 +1430,7 @@ CREATE TABLE generic_agent_jobs (
     job_key VARCHAR2 (200) NOT NULL,
     job_value VARCHAR2 (200)
 );
+CREATE INDEX generic_agent_job_name ON generic_agent_jobs (job_name);
 -- ----------------------------------------------------------
 --  create table search_profile
 -- ----------------------------------------------------------
@@ -1280,6 +1441,7 @@ CREATE TABLE search_profile (
     profile_key VARCHAR2 (200) NOT NULL,
     profile_value VARCHAR2 (200)
 );
+CREATE INDEX search_profile_login_name ON search_profile (login, profile_name);
 -- ----------------------------------------------------------
 --  create table process_id
 -- ----------------------------------------------------------
@@ -1315,7 +1477,7 @@ CREATE TABLE notifications (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
-ALTER TABLE notifications ADD CONSTRAINT notifications_PK PRIMARY KEY (id);
+ALTER TABLE notifications ADD CONSTRAINT PK_notifications PRIMARY KEY (id);
 DROP SEQUENCE notifications_seq;
 CREATE SEQUENCE notifications_seq;
 CREATE OR REPLACE TRIGGER notifications_s_t
@@ -1328,6 +1490,8 @@ begin
 end;
 /
 --;
+CREATE INDEX FK_notifications_change_by ON notifications (change_by);
+CREATE INDEX FK_notifications_create_by ON notifications (create_by);
 -- ----------------------------------------------------------
 --  create table xml_storage
 -- ----------------------------------------------------------
@@ -1337,8 +1501,8 @@ CREATE TABLE xml_storage (
     xml_content_key VARCHAR2 (250) NOT NULL,
     xml_content_value CLOB
 );
-CREATE INDEX xml_storage_xml_content_key ON xml_storage (xml_content_key);
 CREATE INDEX xml_storage_key_type ON xml_storage (xml_key, xml_type);
+CREATE INDEX xml_storage_xml_content_key ON xml_storage (xml_content_key);
 -- ----------------------------------------------------------
 --  create table package_repository
 -- ----------------------------------------------------------
@@ -1357,7 +1521,7 @@ CREATE TABLE package_repository (
     change_time DATE NOT NULL,
     change_by NUMBER NOT NULL
 );
-ALTER TABLE package_repository ADD CONSTRAINT package_repository_PK PRIMARY KEY (id);
+ALTER TABLE package_repository ADD CONSTRAINT PK_package_repository PRIMARY KEY (id);
 DROP SEQUENCE package_repository_seq;
 CREATE SEQUENCE package_repository_seq;
 CREATE OR REPLACE TRIGGER package_repository_s_t
@@ -1370,3 +1534,5 @@ begin
 end;
 /
 --;
+CREATE INDEX FK_package_repository_changed0 ON package_repository (change_by);
+CREATE INDEX FK_package_repository_create97 ON package_repository (create_by);

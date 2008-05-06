@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2008-04-30 01:39:48
+--  driver: oracle, generated: 2008-05-07 00:26:11
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -10,7 +10,7 @@ CREATE TABLE queue_preferences (
     preferences_key VARCHAR2 (150) NOT NULL,
     preferences_value VARCHAR2 (250)
 );
-CREATE INDEX index_queue_preferences_user23 ON queue_preferences (queue_id);
+CREATE INDEX queue_preferences_queue_id ON queue_preferences (queue_id);
 CREATE INDEX user_preferences_user_id ON user_preferences (user_id);
 CREATE INDEX group_user_user_id ON group_user (user_id);
 CREATE INDEX group_user_group_id ON group_user (group_id);
@@ -18,6 +18,8 @@ CREATE INDEX group_role_role_id ON group_role (role_id);
 CREATE INDEX group_role_group_id ON group_role (group_id);
 CREATE INDEX group_customer_user_id ON group_customer_user (user_id);
 CREATE INDEX group_customer_user_group_id ON group_customer_user (group_id);
+CREATE INDEX role_user_user_id ON role_user (user_id);
+CREATE INDEX role_user_role_id ON role_user (role_id);
 CREATE INDEX personal_queues_user_id ON personal_queues (user_id);
 CREATE INDEX personal_queues_queue_id ON personal_queues (queue_id);
 -- ----------------------------------------------------------
@@ -37,7 +39,10 @@ CREATE INDEX ticket_title ON ticket (title);
 CREATE INDEX ticket_customer_user_id ON ticket (customer_user_id);
 CREATE INDEX ticket_customer_id ON ticket (customer_id);
 CREATE INDEX ticket_queue_id ON ticket (queue_id);
+CREATE INDEX ticket_ticket_lock_id ON ticket (lock_id);
 CREATE INDEX ticket_responsible_user_id ON ticket (responsible_user_id);
+CREATE INDEX ticket_ticket_state_id ON ticket (ticket_state_id);
+CREATE INDEX ticket_ticket_priority_id ON ticket (ticket_priority_id);
 CREATE INDEX index_object_link_a_id ON object_link (object_link_a_id);
 CREATE INDEX index_object_link_b_id ON object_link (object_link_b_id);
 CREATE INDEX index_object_link_a_object ON object_link (object_link_a_object);
@@ -50,7 +55,6 @@ CREATE INDEX ticket_history_owner_id ON ticket_history (owner_id);
 CREATE INDEX ticket_history_priority_id ON ticket_history (priority_id);
 CREATE INDEX ticket_history_state_id ON ticket_history (state_id);
 CREATE INDEX ticket_history_priority_id ON ticket_history (priority_id);
-CREATE INDEX ticket_history_state_id ON ticket_history (state_id);
 -- ----------------------------------------------------------
 --  alter table sla
 -- ----------------------------------------------------------
@@ -70,6 +74,7 @@ ALTER TABLE ticket_watcher ADD CONSTRAINT FK_ticket_watcher_ticket_id_id FOREIGN
 ALTER TABLE ticket_watcher ADD CONSTRAINT FK_ticket_watcher_user_id_id FOREIGN KEY (user_id) REFERENCES system_user(id);
 ALTER TABLE ticket_watcher ADD CONSTRAINT FK_ticket_watcher_create_by_id FOREIGN KEY (create_by) REFERENCES system_user(id);
 ALTER TABLE ticket_watcher ADD CONSTRAINT FK_ticket_watcher_change_by_id FOREIGN KEY (change_by) REFERENCES system_user(id);
+CREATE INDEX ticket_index_queue_id ON ticket_index (queue_id);
 CREATE INDEX ticket_index_group_id ON ticket_index (group_id);
 ALTER TABLE ticket_index ADD CONSTRAINT FK_ticket_index_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket(id);
 ALTER TABLE ticket_index ADD CONSTRAINT FK_ticket_index_queue_id_id FOREIGN KEY (queue_id) REFERENCES queue(id);
