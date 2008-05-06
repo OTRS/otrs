@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageFS.pm,v 1.47 2008-04-08 16:27:08 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.48 2008-05-06 22:33:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -67,52 +67,47 @@ sub ArticleDelete {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(TicketID UserID)) {
+    for (qw(ArticleID UserID)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
-    # delete attachments and plain emails
-    my @Articles = $Self->ArticleIndex( TicketID => $Param{TicketID} );
-    for (@Articles) {
+    # delete index
+    $Self->ArticleIndexDelete(
+        ArticleID => $Param{ArticleID},
+        UserID    => $Param{UserID},
+    );
 
-        # delete time accounting
-        $Self->ArticleAccountedTimeDelete(
-            ArticleID => $_,
-            UserID    => $Param{UserID},
-        );
+    # delete time accounting
+    $Self->ArticleAccountedTimeDelete(
+        ArticleID => $Param{ArticleID},
+        UserID    => $Param{UserID},
+    );
 
-        # delete attachments
-        $Self->ArticleDeleteAttachment(
-            ArticleID => $_,
-            UserID    => $Param{UserID},
-        );
+    # delete attachments
+    $Self->ArticleDeleteAttachment(
+        ArticleID => $Param{ArticleID},
+        UserID    => $Param{UserID},
+    );
 
-        # delete plain message
-        $Self->ArticleDeletePlain(
-            ArticleID => $_,
-            UserID    => $Param{UserID},
-        );
+    # delete plain message
+    $Self->ArticleDeletePlain(
+        ArticleID => $Param{ArticleID},
+        UserID    => $Param{UserID},
+    );
 
-        # delete storage directory
-        $Self->_ArticleDeleteDirectory(
-            ArticleID => $_,
-            UserID    => $Param{UserID},
-        );
-    }
+    # delete storage directory
+    $Self->_ArticleDeleteDirectory(
+        ArticleID => $Param{ArticleID},
+        UserID    => $Param{UserID},
+    );
 
     # delete articles
     return if ! $Self->{DBObject}->Do(
-        SQL  => 'DELETE FROM article WHERE ticket_id = ?',
-        Bind => [ \$Param{TicketID} ],
-    );
-
-    # delete history
-    return if ! $Self->HistoryDelete(
-        TicketID => $Param{TicketID},
-        UserID => $Param{UserID},
+        SQL  => 'DELETE FROM article WHERE id = ?',
+        Bind => [ \$Param{ArticleID} ],
     );
 
     return 1;
