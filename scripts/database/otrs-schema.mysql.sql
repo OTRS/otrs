@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2008-05-07 00:56:22
+#  driver: mysql, generated: 2008-05-07 10:39:52
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -12,7 +12,7 @@ CREATE TABLE valid (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX (name)
+    UNIQUE INDEX valid_name (name)
 );
 # ----------------------------------------------------------
 #  create table ticket_priority
@@ -26,7 +26,7 @@ CREATE TABLE ticket_priority (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX (name)
+    UNIQUE INDEX ticket_priority_name (name)
 );
 # ----------------------------------------------------------
 #  create table ticket_type
@@ -40,7 +40,7 @@ CREATE TABLE ticket_type (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX (name)
+    UNIQUE INDEX ticket_type_name (name)
 );
 # ----------------------------------------------------------
 #  create table ticket_lock_type
@@ -54,7 +54,7 @@ CREATE TABLE ticket_lock_type (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX (name)
+    UNIQUE INDEX ticket_lock_type_name (name)
 );
 # ----------------------------------------------------------
 #  create table system_user
@@ -72,7 +72,7 @@ CREATE TABLE system_user (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX (login)
+    UNIQUE INDEX system_user_login (login)
 );
 # ----------------------------------------------------------
 #  create table user_preferences
@@ -96,7 +96,7 @@ CREATE TABLE groups (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX (name)
+    UNIQUE INDEX groups_name (name)
 );
 # ----------------------------------------------------------
 #  create table group_user
@@ -141,7 +141,7 @@ CREATE TABLE group_customer_user (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     INDEX group_customer_user_group_id (group_id),
-    INDEX group_customer_user_id (user_id)
+    INDEX group_customer_user_user_id (user_id)
 );
 # ----------------------------------------------------------
 #  create table roles
@@ -156,7 +156,7 @@ CREATE TABLE roles (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX (name)
+    UNIQUE INDEX roles_name (name)
 );
 # ----------------------------------------------------------
 #  create table role_user
@@ -192,7 +192,7 @@ CREATE TABLE theme (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX (theme)
+    UNIQUE INDEX theme_theme (theme)
 );
 # ----------------------------------------------------------
 #  create table ticket_state
@@ -208,7 +208,7 @@ CREATE TABLE ticket_state (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX (name)
+    UNIQUE INDEX ticket_state_name (name)
 );
 # ----------------------------------------------------------
 #  create table ticket_state_type
@@ -222,7 +222,7 @@ CREATE TABLE ticket_state_type (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX (name)
+    UNIQUE INDEX ticket_state_type_name (name)
 );
 # ----------------------------------------------------------
 #  create table salutation
@@ -238,7 +238,7 @@ CREATE TABLE salutation (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX (name)
+    UNIQUE INDEX salutation_name (name)
 );
 # ----------------------------------------------------------
 #  create table signature
@@ -254,7 +254,7 @@ CREATE TABLE signature (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX (name)
+    UNIQUE INDEX signature_name (name)
 );
 # ----------------------------------------------------------
 #  create table system_address
@@ -287,7 +287,7 @@ CREATE TABLE follow_up_possible (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX (name)
+    UNIQUE INDEX follow_up_possible_name (name)
 );
 # ----------------------------------------------------------
 #  create table queue
@@ -321,7 +321,7 @@ CREATE TABLE queue (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX (name),
+    UNIQUE INDEX queue_name (name),
     INDEX queue_group_id (group_id)
 );
 # ----------------------------------------------------------
@@ -407,7 +407,7 @@ CREATE TABLE ticket (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX (tn),
+    UNIQUE INDEX ticket_tn (tn),
     INDEX ticket_answered (ticket_answered),
     INDEX ticket_customer_id (customer_id),
     INDEX ticket_customer_user_id (customer_user_id),
@@ -478,7 +478,7 @@ CREATE TABLE ticket_history_type (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX (name)
+    UNIQUE INDEX ticket_history_type_name (name)
 );
 # ----------------------------------------------------------
 #  create table article_type
@@ -493,7 +493,7 @@ CREATE TABLE article_type (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX (name)
+    UNIQUE INDEX article_type_name (name)
 );
 # ----------------------------------------------------------
 #  create table article_sender_type
@@ -508,7 +508,7 @@ CREATE TABLE article_sender_type (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX (name)
+    UNIQUE INDEX article_sender_type_name (name)
 );
 # ----------------------------------------------------------
 #  create table article_flag
@@ -601,7 +601,7 @@ CREATE TABLE standard_response (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX (name)
+    UNIQUE INDEX standard_response_name (name)
 );
 # ----------------------------------------------------------
 #  create table queue_standard_response
@@ -630,7 +630,7 @@ CREATE TABLE standard_attachment (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX (name)
+    UNIQUE INDEX standard_attachment_name (name)
 );
 # ----------------------------------------------------------
 #  create table standard_response_attachment
@@ -658,7 +658,7 @@ CREATE TABLE auto_response_type (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX (name)
+    UNIQUE INDEX auto_response_type_name (name)
 );
 # ----------------------------------------------------------
 #  create table auto_response
@@ -679,7 +679,7 @@ CREATE TABLE auto_response (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX (name)
+    UNIQUE INDEX auto_response_name (name)
 );
 # ----------------------------------------------------------
 #  create table queue_auto_response
@@ -735,7 +735,7 @@ CREATE TABLE service (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX (name)
+    UNIQUE INDEX service_name (name)
 );
 # ----------------------------------------------------------
 #  create table service_customer_user
@@ -769,7 +769,7 @@ CREATE TABLE sla (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX (name)
+    UNIQUE INDEX sla_name (name)
 );
 # ----------------------------------------------------------
 #  create table sessions
@@ -777,8 +777,7 @@ CREATE TABLE sla (
 CREATE TABLE sessions (
     session_id VARCHAR (150) NOT NULL,
     session_value TEXT NOT NULL,
-    PRIMARY KEY(session_id),
-    INDEX sessions_session_id (session_id)
+    PRIMARY KEY(session_id)
 );
 # ----------------------------------------------------------
 #  create table ticket_index
@@ -821,7 +820,7 @@ CREATE TABLE customer_user (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX (login)
+    UNIQUE INDEX customer_user_login (login)
 );
 # ----------------------------------------------------------
 #  create table customer_preferences
@@ -849,8 +848,8 @@ CREATE TABLE customer_company (
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
-    UNIQUE INDEX (customer_id),
-    UNIQUE INDEX (name)
+    PRIMARY KEY(customer_id),
+    UNIQUE INDEX customer_company_name (name)
 );
 # ----------------------------------------------------------
 #  create table ticket_loop_protection

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2008-05-07 09:34:58
+--  driver: oracle, generated: 2008-05-07 10:39:53
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -12,7 +12,7 @@ CREATE TABLE valid (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT valid_U_1 UNIQUE (name)
+    CONSTRAINT valid_name UNIQUE (name)
 );
 ALTER TABLE valid ADD CONSTRAINT PK_valid PRIMARY KEY (id);
 DROP SEQUENCE SE_valid;
@@ -40,7 +40,7 @@ CREATE TABLE ticket_priority (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT ticket_priority_U_1 UNIQUE (name)
+    CONSTRAINT ticket_priority_name UNIQUE (name)
 );
 ALTER TABLE ticket_priority ADD CONSTRAINT PK_ticket_priority PRIMARY KEY (id);
 DROP SEQUENCE SE_ticket_priority;
@@ -68,7 +68,7 @@ CREATE TABLE ticket_type (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT ticket_type_U_1 UNIQUE (name)
+    CONSTRAINT ticket_type_name UNIQUE (name)
 );
 ALTER TABLE ticket_type ADD CONSTRAINT PK_ticket_type PRIMARY KEY (id);
 DROP SEQUENCE SE_ticket_type;
@@ -97,7 +97,7 @@ CREATE TABLE ticket_lock_type (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT ticket_lock_type_U_1 UNIQUE (name)
+    CONSTRAINT ticket_lock_type_name UNIQUE (name)
 );
 ALTER TABLE ticket_lock_type ADD CONSTRAINT PK_ticket_lock_type PRIMARY KEY (id);
 DROP SEQUENCE SE_ticket_lock_type;
@@ -130,7 +130,7 @@ CREATE TABLE system_user (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT system_user_U_1 UNIQUE (login)
+    CONSTRAINT system_user_login UNIQUE (login)
 );
 ALTER TABLE system_user ADD CONSTRAINT PK_system_user PRIMARY KEY (id);
 DROP SEQUENCE SE_system_user;
@@ -169,7 +169,7 @@ CREATE TABLE groups (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT groups_U_1 UNIQUE (name)
+    CONSTRAINT groups_name UNIQUE (name)
 );
 ALTER TABLE groups ADD CONSTRAINT PK_groups PRIMARY KEY (id);
 DROP SEQUENCE SE_groups;
@@ -237,7 +237,7 @@ CREATE TABLE group_customer_user (
 CREATE INDEX FK_group_customer_user_chang04 ON group_customer_user (change_by);
 CREATE INDEX FK_group_customer_user_creata6 ON group_customer_user (create_by);
 CREATE INDEX group_customer_user_group_id ON group_customer_user (group_id);
-CREATE INDEX group_customer_user_id ON group_customer_user (user_id);
+CREATE INDEX group_customer_user_user_id ON group_customer_user (user_id);
 -- ----------------------------------------------------------
 --  create table roles
 -- ----------------------------------------------------------
@@ -250,7 +250,7 @@ CREATE TABLE roles (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT roles_U_1 UNIQUE (name)
+    CONSTRAINT roles_name UNIQUE (name)
 );
 ALTER TABLE roles ADD CONSTRAINT PK_roles PRIMARY KEY (id);
 DROP SEQUENCE SE_roles;
@@ -303,7 +303,7 @@ CREATE TABLE theme (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT theme_U_1 UNIQUE (theme)
+    CONSTRAINT theme_theme UNIQUE (theme)
 );
 ALTER TABLE theme ADD CONSTRAINT PK_theme PRIMARY KEY (id);
 DROP SEQUENCE SE_theme;
@@ -334,7 +334,7 @@ CREATE TABLE ticket_state (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT ticket_state_U_1 UNIQUE (name)
+    CONSTRAINT ticket_state_name UNIQUE (name)
 );
 ALTER TABLE ticket_state ADD CONSTRAINT PK_ticket_state PRIMARY KEY (id);
 DROP SEQUENCE SE_ticket_state;
@@ -364,7 +364,7 @@ CREATE TABLE ticket_state_type (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT ticket_state_type_U_1 UNIQUE (name)
+    CONSTRAINT ticket_state_type_name UNIQUE (name)
 );
 ALTER TABLE ticket_state_type ADD CONSTRAINT PK_ticket_state_type PRIMARY KEY (id);
 DROP SEQUENCE SE_ticket_state_type;
@@ -394,7 +394,7 @@ CREATE TABLE salutation (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT salutation_U_1 UNIQUE (name)
+    CONSTRAINT salutation_name UNIQUE (name)
 );
 ALTER TABLE salutation ADD CONSTRAINT PK_salutation PRIMARY KEY (id);
 DROP SEQUENCE SE_salutation;
@@ -425,7 +425,7 @@ CREATE TABLE signature (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT signature_U_1 UNIQUE (name)
+    CONSTRAINT signature_name UNIQUE (name)
 );
 ALTER TABLE signature ADD CONSTRAINT PK_signature PRIMARY KEY (id);
 DROP SEQUENCE SE_signature;
@@ -488,7 +488,7 @@ CREATE TABLE follow_up_possible (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT follow_up_possible_U_1 UNIQUE (name)
+    CONSTRAINT follow_up_possible_name UNIQUE (name)
 );
 ALTER TABLE follow_up_possible ADD CONSTRAINT PK_follow_up_possible PRIMARY KEY (id);
 DROP SEQUENCE SE_follow_up_possible;
@@ -537,7 +537,7 @@ CREATE TABLE queue (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT queue_U_1 UNIQUE (name)
+    CONSTRAINT queue_name UNIQUE (name)
 );
 ALTER TABLE queue ADD CONSTRAINT PK_queue PRIMARY KEY (id);
 DROP SEQUENCE SE_queue;
@@ -642,7 +642,7 @@ CREATE TABLE ticket (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT ticket_U_1 UNIQUE (tn)
+    CONSTRAINT ticket_tn UNIQUE (tn)
 );
 ALTER TABLE ticket ADD CONSTRAINT PK_ticket PRIMARY KEY (id);
 DROP SEQUENCE SE_ticket;
@@ -746,7 +746,7 @@ CREATE TABLE ticket_history_type (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT ticket_history_type_U_1 UNIQUE (name)
+    CONSTRAINT ticket_history_type_name UNIQUE (name)
 );
 ALTER TABLE ticket_history_type ADD CONSTRAINT PK_ticket_history_type PRIMARY KEY (id);
 DROP SEQUENCE SE_ticket_history_type;
@@ -776,7 +776,7 @@ CREATE TABLE article_type (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT article_type_U_1 UNIQUE (name)
+    CONSTRAINT article_type_name UNIQUE (name)
 );
 ALTER TABLE article_type ADD CONSTRAINT PK_article_type PRIMARY KEY (id);
 DROP SEQUENCE SE_article_type;
@@ -806,7 +806,7 @@ CREATE TABLE article_sender_type (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT article_sender_type_U_1 UNIQUE (name)
+    CONSTRAINT article_sender_type_name UNIQUE (name)
 );
 ALTER TABLE article_sender_type ADD CONSTRAINT PK_article_sender_type PRIMARY KEY (id);
 DROP SEQUENCE SE_article_sender_type;
@@ -957,7 +957,7 @@ CREATE TABLE standard_response (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT standard_response_U_1 UNIQUE (name)
+    CONSTRAINT standard_response_name UNIQUE (name)
 );
 ALTER TABLE standard_response ADD CONSTRAINT PK_standard_response PRIMARY KEY (id);
 DROP SEQUENCE SE_standard_response;
@@ -1005,7 +1005,7 @@ CREATE TABLE standard_attachment (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT standard_attachment_U_1 UNIQUE (name)
+    CONSTRAINT standard_attachment_name UNIQUE (name)
 );
 ALTER TABLE standard_attachment ADD CONSTRAINT PK_standard_attachment PRIMARY KEY (id);
 DROP SEQUENCE SE_standard_attachment;
@@ -1064,7 +1064,7 @@ CREATE TABLE auto_response_type (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT auto_response_type_U_1 UNIQUE (name)
+    CONSTRAINT auto_response_type_name UNIQUE (name)
 );
 ALTER TABLE auto_response_type ADD CONSTRAINT PK_auto_response_type PRIMARY KEY (id);
 DROP SEQUENCE SE_auto_response_type;
@@ -1100,7 +1100,7 @@ CREATE TABLE auto_response (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT auto_response_U_1 UNIQUE (name)
+    CONSTRAINT auto_response_name UNIQUE (name)
 );
 ALTER TABLE auto_response ADD CONSTRAINT PK_auto_response PRIMARY KEY (id);
 DROP SEQUENCE SE_auto_response;
@@ -1206,7 +1206,7 @@ CREATE TABLE service (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT service_U_1 UNIQUE (name)
+    CONSTRAINT service_name UNIQUE (name)
 );
 ALTER TABLE service ADD CONSTRAINT PK_service PRIMARY KEY (id);
 DROP SEQUENCE SE_service;
@@ -1255,7 +1255,7 @@ CREATE TABLE sla (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT sla_U_1 UNIQUE (name)
+    CONSTRAINT sla_name UNIQUE (name)
 );
 ALTER TABLE sla ADD CONSTRAINT PK_sla PRIMARY KEY (id);
 DROP SEQUENCE SE_sla;
@@ -1321,7 +1321,7 @@ CREATE TABLE customer_user (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT customer_user_U_1 UNIQUE (login)
+    CONSTRAINT customer_user_login UNIQUE (login)
 );
 ALTER TABLE customer_user ADD CONSTRAINT PK_customer_user PRIMARY KEY (id);
 DROP SEQUENCE SE_customer_user;
@@ -1365,9 +1365,9 @@ CREATE TABLE customer_company (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT customer_company_U_1 UNIQUE (customer_id),
-    CONSTRAINT customer_company_U_2 UNIQUE (name)
+    CONSTRAINT customer_company_name UNIQUE (name)
 );
+ALTER TABLE customer_company ADD CONSTRAINT PK_customer_company PRIMARY KEY (customer_id);
 -- ----------------------------------------------------------
 --  create table ticket_loop_protection
 -- ----------------------------------------------------------
