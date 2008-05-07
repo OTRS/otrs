@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.90 2008-05-06 22:35:00 martin Exp $
+# $Id: DB.pm,v 1.91 2008-05-07 07:23:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.90 $) [1];
+$VERSION = qw($Revision: 1.91 $) [1];
 
 =head1 NAME
 
@@ -739,6 +739,9 @@ sub SQLProcessor {
 
             # create table
             if ( $Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate' ) {
+                if ( $Tag->{TagType} eq 'Start' ) {
+                    $Self->_NameCheck($Tag);
+                }
                 push @Table, $Tag;
                 if ( $Tag->{TagType} eq 'End' ) {
                     push @SQL, $Self->{Backend}->TableCreate(@Table);
@@ -1113,6 +1116,18 @@ sub _TypeCheck {
     return 1;
 }
 
+sub _NameCheck {
+    my ( $Self, $Tag ) = @_;
+
+    if (   $Tag->{Name} && length $Tag->{Name} > 30 ) {
+        $Self->{LogObject}->Log(
+            Priority => 'Error',
+            Message  => "Table names should not have more the 30 chars ($Tag->{Name})!",
+        );
+    }
+    return 1;
+}
+
 sub DESTROY {
     my ($Self) = @_;
 
@@ -1141,6 +1156,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.90 $ $Date: 2008-05-06 22:35:00 $
+$Revision: 1.91 $ $Date: 2008-05-07 07:23:50 $
 
 =cut
