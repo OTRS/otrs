@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.118 2008-04-23 10:30:32 mh Exp $
+# $Id: CHANGES,v 1.465.2.119 2008-05-07 10:06:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.2.7 (2008/??/??)
+ - (2008/05/07) Fixed bug# 2882 - The foreign key syntax in
+    otrs-schema-post.mysql.sql is incorrect.
  - (2008/04/23) Fixed bug# 2907 - Typo in the german translation:
     "aktuallisiert".
  - (2008/04/19) Fixed not removable ticket by acl watcher link in ticket menu

@@ -1,12 +1,12 @@
 # --
 # Kernel/System/DB/mysql.pm - mysql database backend
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: mysql.pm,v 1.21 2007-07-26 13:14:07 martin Exp $
+# $Id: mysql.pm,v 1.21.2.1 2008-05-07 10:05:38 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::DB::mysql;
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.21 $';
+$VERSION = '$Revision: 1.21.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -397,7 +397,7 @@ sub ForeignKeyCreate {
     }
     my $SQL = "ALTER TABLE $Param{LocalTableName} ADD FOREIGN KEY (";
     $SQL .= "$Param{Local}) REFERENCES ";
-    $SQL .= "`$Param{ForeignTableName}($Param{Foreign})`";
+    $SQL .= "$Param{ForeignTableName} ($Param{Foreign})";
     # return SQL
     return ($SQL);
 }
