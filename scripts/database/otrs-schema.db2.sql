@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2008-05-07 10:39:52
+--  driver: db2, generated: 2008-05-07 11:40:04
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -12,7 +12,7 @@ CREATE TABLE valid (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE valid_name (name)
+    CONSTRAINT valid_name UNIQUE (name)
 );
 
 -- ----------------------------------------------------------
@@ -27,7 +27,7 @@ CREATE TABLE ticket_priority (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE ticket_priority_name (name)
+    CONSTRAINT ticket_priority_name UNIQUE (name)
 );
 
 -- ----------------------------------------------------------
@@ -42,7 +42,7 @@ CREATE TABLE ticket_type (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE ticket_type_name (name)
+    CONSTRAINT ticket_type_name UNIQUE (name)
 );
 
 -- ----------------------------------------------------------
@@ -57,7 +57,7 @@ CREATE TABLE ticket_lock_type (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE ticket_lock_type_name (name)
+    CONSTRAINT ticket_lock_type_name UNIQUE (name)
 );
 
 -- ----------------------------------------------------------
@@ -76,7 +76,7 @@ CREATE TABLE system_user (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE system_user_login (login)
+    CONSTRAINT system_user_login UNIQUE (login)
 );
 
 -- ----------------------------------------------------------
@@ -103,7 +103,7 @@ CREATE TABLE groups (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE groups_name (name)
+    CONSTRAINT groups_name UNIQUE (name)
 );
 
 -- ----------------------------------------------------------
@@ -173,7 +173,7 @@ CREATE TABLE roles (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE roles_name (name)
+    CONSTRAINT roles_name UNIQUE (name)
 );
 
 -- ----------------------------------------------------------
@@ -216,7 +216,7 @@ CREATE TABLE theme (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE theme_theme (theme)
+    CONSTRAINT theme_theme UNIQUE (theme)
 );
 
 -- ----------------------------------------------------------
@@ -233,7 +233,7 @@ CREATE TABLE ticket_state (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE ticket_state_name (name)
+    CONSTRAINT ticket_state_name UNIQUE (name)
 );
 
 -- ----------------------------------------------------------
@@ -248,7 +248,7 @@ CREATE TABLE ticket_state_type (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE ticket_state_type_name (name)
+    CONSTRAINT ticket_state_type_name UNIQUE (name)
 );
 
 -- ----------------------------------------------------------
@@ -265,7 +265,7 @@ CREATE TABLE salutation (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE salutation_name (name)
+    CONSTRAINT salutation_name UNIQUE (name)
 );
 
 -- ----------------------------------------------------------
@@ -282,7 +282,7 @@ CREATE TABLE signature (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE signature_name (name)
+    CONSTRAINT signature_name UNIQUE (name)
 );
 
 -- ----------------------------------------------------------
@@ -317,7 +317,7 @@ CREATE TABLE follow_up_possible (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE follow_up_possible_name (name)
+    CONSTRAINT follow_up_possible_name UNIQUE (name)
 );
 
 -- ----------------------------------------------------------
@@ -352,7 +352,7 @@ CREATE TABLE queue (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE queue_name (name)
+    CONSTRAINT queue_name UNIQUE (name)
 );
 
 CREATE INDEX queue_group_id ON queue (group_id);
@@ -442,7 +442,7 @@ CREATE TABLE ticket (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE ticket_tn (tn)
+    CONSTRAINT ticket_tn UNIQUE (tn)
 );
 
 CREATE INDEX ticket_answered ON ticket (ticket_answered);
@@ -541,7 +541,7 @@ CREATE TABLE ticket_history_type (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE ticket_history_type_name (name)
+    CONSTRAINT ticket_history_type_name UNIQUE (name)
 );
 
 -- ----------------------------------------------------------
@@ -557,7 +557,7 @@ CREATE TABLE article_type (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE article_type_name (name)
+    CONSTRAINT article_type_name UNIQUE (name)
 );
 
 -- ----------------------------------------------------------
@@ -573,7 +573,7 @@ CREATE TABLE article_sender_type (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE article_sender_type_name (name)
+    CONSTRAINT article_sender_type_name UNIQUE (name)
 );
 
 -- ----------------------------------------------------------
@@ -679,7 +679,7 @@ CREATE TABLE standard_response (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE standard_response_name (name)
+    CONSTRAINT standard_response_name UNIQUE (name)
 );
 
 -- ----------------------------------------------------------
@@ -710,7 +710,7 @@ CREATE TABLE standard_attachment (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE standard_attachment_name (name)
+    CONSTRAINT standard_attachment_name UNIQUE (name)
 );
 
 -- ----------------------------------------------------------
@@ -740,7 +740,7 @@ CREATE TABLE auto_response_type (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE auto_response_type_name (name)
+    CONSTRAINT auto_response_type_name UNIQUE (name)
 );
 
 -- ----------------------------------------------------------
@@ -762,7 +762,7 @@ CREATE TABLE auto_response (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE auto_response_name (name)
+    CONSTRAINT auto_response_name UNIQUE (name)
 );
 
 -- ----------------------------------------------------------
@@ -825,7 +825,7 @@ CREATE TABLE service (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE service_name (name)
+    CONSTRAINT service_name UNIQUE (name)
 );
 
 -- ----------------------------------------------------------
@@ -863,7 +863,7 @@ CREATE TABLE sla (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE sla_name (name)
+    CONSTRAINT sla_name UNIQUE (name)
 );
 
 -- ----------------------------------------------------------
@@ -922,7 +922,7 @@ CREATE TABLE customer_user (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE customer_user_login (login)
+    CONSTRAINT customer_user_login UNIQUE (login)
 );
 
 -- ----------------------------------------------------------
@@ -954,7 +954,7 @@ CREATE TABLE customer_company (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(customer_id),
-    UNIQUE customer_company_name (name)
+    CONSTRAINT customer_company_name UNIQUE (name)
 );
 
 -- ----------------------------------------------------------
