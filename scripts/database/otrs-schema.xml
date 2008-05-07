@@ -5,7 +5,7 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 
-    $Id: otrs-schema.xml,v 1.80 2008-05-06 22:57:04 martin Exp $
+    $Id: otrs-schema.xml,v 1.81 2008-05-07 07:52:53 martin Exp $
 
 -->
 
@@ -1231,9 +1231,6 @@
 <Table Name="sessions">
     <Column Name="session_id" Required="true" Size="150" PrimaryKey="true" Type="VARCHAR"/>
     <Column Name="session_value" Required="true" Size="10000" Type="VARCHAR"/>
-    <Index Name="sessions_session_id">
-        <IndexColumn Name="session_id"/>
-    </Index>
 </Table>
 
 <!-- ticket_index -->
