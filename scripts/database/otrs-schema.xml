@@ -5,7 +5,7 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 
-    $Id: otrs-schema.xml,v 1.82 2008-05-07 08:12:52 mh Exp $
+    $Id: otrs-schema.xml,v 1.83 2008-05-07 08:37:07 martin Exp $
 
 -->
 
@@ -1313,7 +1313,7 @@
 
 <!-- customer company -->
 <Table Name="customer_company">
-    <Column Name="customer_id" Required="true" Size="100" Type="VARCHAR"/>
+    <Column Name="customer_id" Required="true" PrimaryKey="true" Size="100" Type="VARCHAR"/>
     <Column Name="name" Required="true" Size="100" Type="VARCHAR"/>
     <Column Name="street" Required="false" Size="200" Type="VARCHAR"/>
     <Column Name="zip" Required="false" Size="200" Type="VARCHAR"/>
@@ -1328,9 +1328,6 @@
     <Column Name="change_by" Required="true" Type="INTEGER"/>
     <Unique Name="customer_company_name">
         <UniqueColumn Name="name"/>
-    </Unique>
-    <Unique Name="customer_company_customer_id">
-        <UniqueColumn Name="customer_id"/>
     </Unique>
 </Table>
 
