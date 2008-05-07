@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.643 2008-05-07 10:07:06 mh Exp $
+# $Id: CHANGES,v 1.644 2008-05-07 10:16:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,21 @@
 # --
 
 CVS HEAD (????/??/??)
+ - (2008/05/07) Improved use of existing unique-names in xml definition of
+    scripts/database/otrs-schema.xml (not longer auto generated).
+ - (2008/05/07) Improved oracle database backend, generation of long
+    index/koreign key names, moved from NUMBER to NUMBER(12,0).
+ - (2008/05/07) Added some new database indexes to increase the database
+    speed (for more info see scripts/DBUpdate*.sql).
+ - (2008/05/07) Added article index support to increase speed of full text
+    search up to 50% (need to be configured via SysConfig and
+    bin/otrs.RebuildFulltextIndex.pl need to be executed after backend change).
+ - (2008/05/07) Added ticket event support for TicketWatch*() in
+    Kernel::System::Ticket. Fixed not removed ticket watch infos after deleting
+    a ticket.
+ - (2008/05/07) Improved speed of ticket search screen on large installation,
+    added cache for database lookup to get all unique ticket free text fields
+    (tooks up to 10 sek, on lage installations).
  - (2008/05/02) Deleted textarea wrap in perl code and set browser wrap in dtl files.
  - (2007/04/29) Added X-OTRS-TicketTime and X-OTRS-FollowUp-TicketTime email
     header support as additional attributes like already existing X-OTRS-Header
