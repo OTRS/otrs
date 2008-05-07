@@ -2,7 +2,7 @@
 # Kernel/System/DB/mysql.pm - mysql database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: mysql.pm,v 1.34 2008-05-06 23:18:43 martin Exp $
+# $Id: mysql.pm,v 1.35 2008-05-07 08:45:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -215,7 +215,7 @@ sub TableCreate {
         if ($SQL) {
             $SQL .= ",\n";
         }
-        $SQL .= '    UNIQUE INDEX (';
+        $SQL .= "    UNIQUE INDEX $Name (";
         my @Array = @{ $Uniq{$Name} };
         for ( 0 .. $#Array ) {
             if ( $_ > 0 ) {

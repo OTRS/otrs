@@ -2,7 +2,7 @@
 # Kernel/System/DB/maxdb.pm - maxdb database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: maxdb.pm,v 1.32 2008-05-06 23:19:40 martin Exp $
+# $Id: maxdb.pm,v 1.33 2008-05-07 08:45:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -207,7 +207,7 @@ sub TableCreate {
         if ($SQL) {
             $SQL .= ",\n";
         }
-        $SQL .= "    UNIQUE (";
+        $SQL .= "    UNIQUE $Name (";
         my @Array = @{ $Uniq{$Name} };
         for ( 0 .. $#Array ) {
             if ( $_ > 0 ) {
@@ -215,7 +215,7 @@ sub TableCreate {
             }
             $SQL .= $Array[$_]->{Name};
         }
-        $SQL .= ")";
+        $SQL .= ')';
     }
     $SQL .= "\n";
     push @Return, $SQLStart . $SQL . $SQLEnd;

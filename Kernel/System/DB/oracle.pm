@@ -2,7 +2,7 @@
 # Kernel/System/DB/oracle.pm - oracle database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: oracle.pm,v 1.42 2008-05-06 23:19:40 martin Exp $
+# $Id: oracle.pm,v 1.43 2008-05-07 08:45:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -178,37 +178,46 @@ sub TableCreate {
         }
 
         # add primary key
-        my $Constraint = $TableName;
+        my $Constraint = 'PK_' . $TableName;
         if ( length $Constraint > 30 ) {
             my $MD5 = $Self->{MainObject}->MD5sum(
                 String => $Constraint,
             );
             $Constraint = substr $Constraint, 0, 28;
-            $Constraint .= substr $MD5, 0, 2;
+            $Constraint .= substr $MD5, 0, 1;
+            $Constraint .= substr $MD5, 31, 1;
         }
         if ( $Tag->{PrimaryKey} && $Tag->{PrimaryKey} =~ /true/i ) {
             push( @Return2,
-                      "ALTER TABLE $TableName ADD CONSTRAINT PK_$Constraint"
+                      "ALTER TABLE $TableName ADD CONSTRAINT $Constraint"
                     . " PRIMARY KEY ($Tag->{Name})"
             );
         }
 
         # auto increment
         if ( $Tag->{AutoIncrement} && $Tag->{AutoIncrement} =~ /^true$/i ) {
+            my $Sequence = 'SE_' . $TableName;
+            if ( length $Sequence > 28 ) {
+                my $MD5 = $Self->{MainObject}->MD5sum(
+                    String => $Sequence,
+                );
+                $Sequence = substr $Sequence, 0, 26;
+                $Sequence .= substr $MD5, 0, 1;
+                $Sequence .= substr $MD5, 31, 1;
+            }
             my $Shell = '';
             if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
                 $Shell = "/\n--";
             }
-            push( @Return2, "DROP SEQUENCE $Constraint" . "_seq" );
-            push( @Return2, "CREATE SEQUENCE $Constraint" . "_seq" );
+            push( @Return2, "DROP SEQUENCE $Sequence" );
+            push( @Return2, "CREATE SEQUENCE $Sequence" );
             push( @Return2,
-                      "CREATE OR REPLACE TRIGGER $Constraint"
-                    . "_s_t\n"
+                      "CREATE OR REPLACE TRIGGER $Sequence"
+                    . "_t\n"
                     . "before insert on $TableName\n"
                     . "for each row\n"
                     . "begin\n"
-                    . "    select $Constraint"
-                    . "_seq.nextval\n"
+                    . "    select $Sequence.nextval\n"
                     . "    into :new.$Tag->{Name}\n"
                     . "    from dual;\nend;\n"
                     . "$Shell",
@@ -217,13 +226,20 @@ sub TableCreate {
     }
 
     # add uniq
-    my $UniqCounter = 0;
     for my $Name ( sort keys %Uniq ) {
-        $UniqCounter++;
+        my $Unique = $Name;
+        if ( length $Unique > 30 ) {
+            my $MD5 = $Self->{MainObject}->MD5sum(
+                String => $Unique,
+            );
+            $Unique = substr $Unique, 0, 28;
+            $Unique .= substr $MD5, 0, 1;
+            $Unique .= substr $MD5, 31, 1;
+        }
         if ($SQL) {
             $SQL .= ",\n";
         }
-        $SQL .= "    CONSTRAINT $TableName" . "_U_$UniqCounter UNIQUE (";
+        $SQL .= "    CONSTRAINT $Unique UNIQUE (";
         my @Array = @{ $Uniq{$Name} };
         my $Name  = '';
         for ( 0 .. $#Array ) {
@@ -451,7 +467,8 @@ sub IndexCreate {
             String => $Index,
         );
         $Index = substr $Index, 0, 28;
-        $Index .= substr $MD5, 0, 2;
+        $Index .= substr $MD5, 0, 1;
+        $Index .= substr $MD5, 31, 1;
     }
     my $SQL   = "CREATE INDEX $Index ON $Param{TableName} (";
     my @Array = @{ $Param{Data} };
@@ -489,7 +506,8 @@ sub IndexDrop {
             String => $Index,
         );
         $Index = substr $Index, 0, 28;
-        $Index .= substr $MD5, 0, 2;
+        $Index .= substr $MD5, 0, 1;
+        $Index .= substr $MD5, 31, 1;
     }
 
     my $SQL = 'DROP INDEX ' . $Index;
@@ -512,7 +530,8 @@ sub ForeignKeyCreate {
             String => $ForeignKey,
         );
         $ForeignKey = substr $ForeignKey, 0, 28;
-        $ForeignKey .= substr $MD5, 0, 2;
+        $ForeignKey .= substr $MD5, 0, 1;
+        $ForeignKey .= substr $MD5, 31, 1;
     }
     my $SQL = "ALTER TABLE $Param{LocalTableName} ADD CONSTRAINT $ForeignKey FOREIGN KEY (";
     $SQL .= "$Param{Local}) REFERENCES ";
@@ -538,7 +557,8 @@ sub ForeignKeyDrop {
             String => $ForeignKey,
         );
         $ForeignKey = substr $ForeignKey, 0, 28;
-        $ForeignKey .= substr $MD5, 0, 2;
+        $ForeignKey .= substr $MD5, 0, 1;
+        $ForeignKey .= substr $MD5, 31, 1;
     }
     my $SQL = "ALTER TABLE $Param{TableName} DROP CONSTRAINT $ForeignKey";
     return ($SQL);
@@ -554,7 +574,18 @@ sub UniqueCreate {
             return;
         }
     }
-    my $SQL   = "ALTER TABLE $Param{TableName} ADD CONSTRAINT $Param{Name} UNIQUE (";
+
+    my $Unique = $Param{Name};
+    if ( length $Unique > 30 ) {
+        my $MD5 = $Self->{MainObject}->MD5sum(
+            String => $Unique,
+        );
+        $Unique = substr $Unique, 0, 28;
+        $Unique .= substr $MD5, 0, 1;
+        $Unique .= substr $MD5, 31, 1;
+    }
+
+    my $SQL   = "ALTER TABLE $Param{TableName} ADD CONSTRAINT $Unique UNIQUE (";
     my @Array = @{ $Param{Data} };
     my $Name  = '';
     for ( 0 .. $#Array ) {
@@ -581,7 +612,18 @@ sub UniqueDrop {
             return;
         }
     }
-    my $SQL = "ALTER TABLE $Param{TableName} DROP CONSTRAINT $Param{Name}";
+
+    my $Unique = $Param{Name};
+    if ( length $Unique > 30 ) {
+        my $MD5 = $Self->{MainObject}->MD5sum(
+            String => $Unique,
+        );
+        $Unique = substr $Unique, 0, 28;
+        $Unique .= substr $MD5, 0, 1;
+        $Unique .= substr $MD5, 31, 1;
+    }
+
+    my $SQL = "ALTER TABLE $Param{TableName} DROP CONSTRAINT $Unique";
     return ($SQL);
 }
 
@@ -667,11 +709,11 @@ sub _TypeTranslation {
     if ( $Tag->{Type} =~ /^DATE$/i ) {
         $Tag->{Type} = 'DATE';
     }
-    elsif ( $Tag->{Type} =~ /^integer$/i ) {
-        $Tag->{Type} = 'NUMBER';
-    }
     elsif ( $Tag->{Type} =~ /^smallint$/i ) {
         $Tag->{Type} = 'NUMBER (5, 0)';
+    }
+    elsif ( $Tag->{Type} =~ /^integer$/i ) {
+        $Tag->{Type} = 'NUMBER (12, 0)';
     }
     elsif ( $Tag->{Type} =~ /^bigint$/i ) {
         $Tag->{Type} = 'NUMBER (20, 0)';

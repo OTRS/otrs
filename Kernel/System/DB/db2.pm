@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # Modified for DB2 UDB Friedmar Moch <friedmar@acm.org>
 # --
-# $Id: db2.pm,v 1.40 2008-05-06 23:19:40 martin Exp $
+# $Id: db2.pm,v 1.41 2008-05-07 08:45:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -210,7 +210,7 @@ sub TableCreate {
         if ($SQL) {
             $SQL .= ",\n";
         }
-        $SQL .= '    UNIQUE (';
+        $SQL .= "    UNIQUE $Name (";
         my @Array = @{ $Uniq{$Name} };
         for ( 0 .. $#Array ) {
             if ( $_ > 0 ) {
@@ -453,7 +453,8 @@ sub IndexCreate {
             String => $Index,
         );
         $Index = substr $Index, 0, 14;
-        $Index .= substr $MD5, 0, 2;
+        $Index .= substr $MD5, 0, 1;
+        $Index .= substr $MD5, 31, 1;
     }
     my $SQL   = "CREATE INDEX $Index ON $Param{TableName} (";
     my @Array = @{ $Param{Data} };
@@ -490,7 +491,8 @@ sub IndexDrop {
             String => $Index,
         );
         $Index = substr $Index, 0, 14;
-        $Index .= substr $MD5, 0, 2;
+        $Index .= substr $MD5, 0, 1;
+        $Index .= substr $MD5, 31, 1;
     }
     my $SQL = 'DROP INDEX ' . $Index;
     return ($SQL);
