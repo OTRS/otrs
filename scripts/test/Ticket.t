@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.37 2008-05-06 22:31:26 martin Exp $
+# $Id: Ticket.t,v 1.38 2008-05-07 11:29:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -3793,6 +3793,65 @@ $Self->Is(
     4132.56,
     'ArticleAccountedTimeGet()',
 );
+
+# article flag tests
+my @Tests = (
+    {
+        Name   => 'seen flag',
+        Flag   => 'seen',
+        UserID => 1,
+    },
+    {
+        Name   => 'not seend flag',
+        Flag   => 'not seen',
+        UserID => 1,
+    },
+);
+
+for my $Test ( @Tests ) {
+    my %Flag = $Self->{TicketObject}->ArticleFlagGet(
+        ArticleID => $ArticleID,
+        UserID    => 1,
+    );
+    $Self->False(
+        $Flag{ $Test->{Flag} } || 0,
+        'ArticleFlagGet()',
+    );
+    my $Set = $Self->{TicketObject}->ArticleFlagSet(
+        ArticleID => $ArticleID,
+        Flag      => $Test->{Flag},
+        UserID    => 1,
+    );
+    $Self->True(
+        $Set || 0,
+        'ArticleFlagSet()',
+    );
+    %Flag = $Self->{TicketObject}->ArticleFlagGet(
+        ArticleID => $ArticleID,
+        UserID    => 1,
+    );
+    $Self->True(
+        $Flag{ $Test->{Flag} } || 0,
+        'ArticleFlagGet()',
+    );
+    my $Delete = $Self->{TicketObject}->ArticleFlagDelete(
+        ArticleID => $ArticleID,
+        Flag      => $Test->{Flag},
+        UserID    => 1,
+    );
+    $Self->True(
+        $Delete || 0,
+        'ArticleFlagDelete()',
+    );
+    %Flag = $Self->{TicketObject}->ArticleFlagGet(
+        ArticleID => $ArticleID,
+        UserID    => 1,
+    );
+    $Self->False(
+        $Flag{ $Test->{Flag} } || 0,
+        'ArticleFlagGet()',
+    );
+}
 
 my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
     SystemTime  => $Self->{TimeObject}->SystemTime(),

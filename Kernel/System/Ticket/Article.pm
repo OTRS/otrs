@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.172 2008-05-06 23:21:22 martin Exp $
+# $Id: Article.pm,v 1.173 2008-05-07 11:29:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.172 $) [1];
+$VERSION = qw($Revision: 1.173 $) [1];
 
 =head1 NAME
 
@@ -2776,27 +2776,76 @@ sub ArticleFlagSet {
     }
 
     my %Flag = $Self->ArticleFlagGet(%Param);
-    if ( !defined $Flag{Flag} || $Flag{Flag} ne $Param{Flag} ) {
 
-        # do db insert
-        $Self->{DBObject}->Do(
-            SQL  => 'DELETE FROM article_flag WHERE article_id = ? AND create_by = ?',
-            Bind => [ \$Param{ArticleID}, \$Param{UserID} ],
-        );
-        $Self->{DBObject}->Do(
-            SQL => 'INSERT INTO article_flag '
-                . ' (article_id, article_flag, create_time, create_by) '
-                . ' VALUES (?, ?, current_timestamp, ?)',
-            Bind => [ \$Param{ArticleID}, \$Param{Flag}, \$Param{UserID} ],
-        );
-
-        # ticket event
-        $Self->TicketEventHandlerPost(
-            Event    => 'ArticleFlagSet',
-            TicketID => $Param{TicketID},
-            UserID   => $Param{UserID},
-        );
+    # check if set is needed
+    if ( defined $Flag{ $Param{Flag} } ) {
+        return 1;
     }
+
+    # set falg
+    $Self->{DBObject}->Do(
+        SQL => 'INSERT INTO article_flag '
+            . ' (article_id, article_flag, create_time, create_by) '
+            . ' VALUES (?, ?, current_timestamp, ?)',
+        Bind => [ \$Param{ArticleID}, \$Param{Flag}, \$Param{UserID} ],
+    );
+
+    # ticket event
+    my %Article = $Self->ArticleGet(
+        ArticleID => $Param{ArticleID},
+        UserID   => $Param{UserID},
+    );
+    $Self->TicketEventHandlerPost(
+        Event     => 'ArticleFlagSet',
+        TicketID  => $Article{TicketID},
+        ArticleID => $Param{ArticleID},
+        UserID    => $Param{UserID},
+    );
+
+    return 1;
+}
+
+=item ArticleFlagDelete()
+
+delete article flags
+
+    $TicketObject->ArticleFlagDelete(
+        ArticleID => 123,
+        Flag      => 'seen',
+        UserID    => 123,
+    );
+
+=cut
+
+sub ArticleFlagDelete {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(ArticleID Flag UserID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # do db insert
+    $Self->{DBObject}->Do(
+        SQL  => 'DELETE FROM article_flag WHERE article_id = ? AND '
+            . 'create_by = ? AND article_flag = ?',
+        Bind => [ \$Param{ArticleID}, \$Param{UserID}, \$Param{Flag} ],
+    );
+
+    # ticket event
+    my %Article = $Self->ArticleGet(
+        ArticleID => $Param{ArticleID},
+        UserID   => $Param{UserID},
+    );
+    $Self->TicketEventHandlerPost(
+        Event     => 'ArticleFlagDelete',
+        TicketID  => $Article{TicketID},
+        ArticleID => $Param{ArticleID},
+        UserID    => $Param{UserID},
+    );
     return 1;
 }
 
