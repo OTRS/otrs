@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # Modified for DB2 UDB Friedmar Moch <friedmar@acm.org>
 # --
-# $Id: db2.pm,v 1.42 2008-05-07 09:41:38 martin Exp $
+# $Id: db2.pm,v 1.43 2008-05-07 10:14:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -448,11 +448,11 @@ sub IndexCreate {
         }
     }
     my $Index = $Param{Name};
-    if ( length $Index >= 16 ) {
+    if ( length $Index > 32 ) {
         my $MD5 = $Self->{MainObject}->MD5sum(
             String => $Index,
         );
-        $Index = substr $Index, 0, 14;
+        $Index = substr $Index, 0, 30;
         $Index .= substr $MD5, 0, 1;
         $Index .= substr $MD5, 31, 1;
     }
@@ -486,11 +486,11 @@ sub IndexDrop {
         }
     }
     my $Index = $Param{Name};
-    if ( length $Index >= 16 ) {
+    if ( length $Index > 32 ) {
         my $MD5 = $Self->{MainObject}->MD5sum(
             String => $Index,
         );
-        $Index = substr $Index, 0, 14;
+        $Index = substr $Index, 0, 30;
         $Index .= substr $MD5, 0, 1;
         $Index .= substr $MD5, 31, 1;
     }
@@ -508,7 +508,9 @@ sub ForeignKeyCreate {
             return;
         }
     }
-    my $SQL = "ALTER TABLE $Param{LocalTableName} ADD FOREIGN KEY (";
+
+    my $ForeignKey = "FK_$Param{LocalTableName}_$Param{Local}_$Param{Foreign}";
+    my $SQL = "ALTER TABLE $Param{LocalTableName} ADD CONSTRAINT $ForeignKey FOREIGN KEY (";
     $SQL .= "$Param{Local}) REFERENCES ";
     $SQL .= "$Param{ForeignTableName}($Param{Foreign})";
 
@@ -526,8 +528,8 @@ sub ForeignKeyDrop {
             return;
         }
     }
-
-    my $SQL = 'ALTER TABLE ' . $Param{TableName} . ' DROP FOREIGN KEY ' . $Param{Name};
+    my $ForeignKey = "FK_$Param{LocalTableName}_$Param{Local}_$Param{Foreign}";
+    my $SQL = 'ALTER TABLE ' . $Param{TableName} . ' DROP CONSTRAINT ' . $Param{Name};
     return ($SQL);
 }
 
