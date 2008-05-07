@@ -2,7 +2,7 @@
 # Kernel/System/DB/mysql.pm - mysql database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: mysql.pm,v 1.35 2008-05-07 08:45:23 martin Exp $
+# $Id: mysql.pm,v 1.36 2008-05-07 10:01:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -469,7 +469,7 @@ sub ForeignKeyCreate {
     }
     my $SQL = "ALTER TABLE $Param{LocalTableName} ADD FOREIGN KEY (";
     $SQL .= "$Param{Local}) REFERENCES ";
-    $SQL .= "`$Param{ForeignTableName}($Param{Foreign})`";
+    $SQL .= "$Param{ForeignTableName} ($Param{Foreign})";
 
     # return SQL
     return ($SQL);
