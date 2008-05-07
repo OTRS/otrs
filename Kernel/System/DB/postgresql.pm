@@ -2,7 +2,7 @@
 # Kernel/System/DB/postgresql.pm - postgresql database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: postgresql.pm,v 1.35 2008-05-07 08:45:23 martin Exp $
+# $Id: postgresql.pm,v 1.36 2008-05-07 09:03:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -202,7 +202,7 @@ sub TableCreate {
         if ($SQL) {
             $SQL .= ",\n";
         }
-        $SQL .= "    UNIQUE $Name (";
+        $SQL .= "    CONSTRAINT $Name UNIQUE (";
         my @Array = @{ $Uniq{$Name} };
         for ( 0 .. $#Array ) {
             if ( $_ > 0 ) {
