@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.68 2008-03-03 14:35:16 mh Exp $
+# $Id: AdminSysConfig.pm,v 1.69 2008-05-08 09:36:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,13 +17,13 @@ use warnings;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check all needed objects
@@ -55,8 +55,9 @@ sub Run {
     # download
     if ( $Self->{Subaction} eq 'Download' ) {
         my ( $s, $m, $h, $D, $M, $Y, $wd, $yd, $dst )
-            = $Self->{TimeObject}
-            ->SystemTime2Date( SystemTime => $Self->{TimeObject}->SystemTime(), );
+            = $Self->{TimeObject}->SystemTime2Date(
+            SystemTime => $Self->{TimeObject}->SystemTime(),
+            );
         $M = sprintf( "%02d", $M );
         $D = sprintf( "%02d", $D );
         $h = sprintf( "%02d", $h );
@@ -95,8 +96,10 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Update' ) {
         my $SubGroup = $Self->{ParamObject}->GetParam( Param => 'SysConfigSubGroup' );
         my $Group    = $Self->{ParamObject}->GetParam( Param => 'SysConfigGroup' );
-        my @List     = $Self->{SysConfigObject}
-            ->ConfigSubGroupConfigItemList( Group => $Group, SubGroup => $SubGroup );
+        my @List = $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(
+            Group    => $Group,
+            SubGroup => $SubGroup
+        );
 
         # list all Items
         for (@List) {
@@ -113,9 +116,12 @@ sub Run {
 
             # Get ElementAktiv (checkbox)
             my $Aktiv = 0;
-            if (( $ItemHash{Required} && $ItemHash{Required} == 1 )
-                || (   $Self->{ParamObject}->GetParam( Param => $_ . 'ItemAktiv' )
-                    && $Self->{ParamObject}->GetParam( Param => $_ . 'ItemAktiv' ) == 1 )
+            if (
+                ( $ItemHash{Required} && $ItemHash{Required} == 1 )
+                || (
+                    $Self->{ParamObject}->GetParam( Param => $_ . 'ItemAktiv' )
+                    && $Self->{ParamObject}->GetParam( Param => $_ . 'ItemAktiv' ) == 1
+                )
                 )
             {
                 $Aktiv = 1;
@@ -128,8 +134,13 @@ sub Run {
                 my $Content = $Self->{ParamObject}->GetParam( Param => $_ );
 
                 # write ConfigItem
-                if ( !$Self->{SysConfigObject}
-                    ->ConfigItemUpdate( Key => $_, Value => $Content, Valid => $Aktiv ) )
+                if (
+                    !$Self->{SysConfigObject}->ConfigItemUpdate(
+                        Key   => $_,
+                        Value => $Content,
+                        Valid => $Aktiv
+                    )
+                    )
                 {
                     $Self->{LayoutObject}->FatalError( Message => "Can't write ConfigItem!" );
                 }
@@ -142,8 +153,13 @@ sub Run {
                 my $Content = $Self->{ParamObject}->GetParam( Param => $_ );
 
                 # write ConfigItem
-                if ( !$Self->{SysConfigObject}
-                    ->ConfigItemUpdate( Key => $_, Value => $Content, Valid => $Aktiv ) )
+                if (
+                    !$Self->{SysConfigObject}->ConfigItemUpdate(
+                        Key   => $_,
+                        Value => $Content,
+                        Valid => $Aktiv
+                    )
+                    )
                 {
                     $Self->{LayoutObject}->FatalError( Message => "Can't write ConfigItem!" );
                 }
@@ -154,8 +170,13 @@ sub Run {
                 my $Content = $Self->{ParamObject}->GetParam( Param => $_ );
 
                 # write ConfigItem
-                if ( !$Self->{SysConfigObject}
-                    ->ConfigItemUpdate( Key => $_, Value => $Content, Valid => $Aktiv ) )
+                if (
+                    !$Self->{SysConfigObject}->ConfigItemUpdate(
+                        Key   => $_,
+                        Value => $Content,
+                        Valid => $Aktiv
+                    )
+                    )
                 {
                     $Self->{LayoutObject}->FatalError( Message => "Can't write ConfigItem!" );
                 }
@@ -171,16 +192,19 @@ sub Run {
 
                     # SubHash
                     if ( $Values[$Index] eq '##SubHash##' ) {
-                        my @SubHashKeys = $Self->{ParamObject}
-                            ->GetArray( Param => $_ . '##SubHash##' . $Keys[$Index] . 'Key[]' );
-                        my @SubHashValues = $Self->{ParamObject}
-                            ->GetArray( Param => $_ . '##SubHash##' . $Keys[$Index] . 'Content[]' );
+                        my @SubHashKeys = $Self->{ParamObject}->GetArray(
+                            Param => $_ . '##SubHash##' . $Keys[$Index] . 'Key[]'
+                        );
+                        my @SubHashValues = $Self->{ParamObject}->GetArray(
+                            Param => $_ . '##SubHash##' . $Keys[$Index] . 'Content[]'
+                        );
                         my %SubHash;
                         for my $Index2 ( 0 .. $#SubHashKeys ) {
 
                             # Delete SubHash Element?
-                            if (!$Self->{ParamObject}->GetParam(
-                                        Param => $ItemHash{Name}
+                            if (
+                                !$Self->{ParamObject}->GetParam(
+                                    Param => $ItemHash{Name}
                                         . '##SubHash##'
                                         . $Keys[$Index]
                                         . '#DeleteSubHashElement'
@@ -196,7 +220,8 @@ sub Run {
                         }
 
                         # New SubHashElement
-                        if ($Self->{ParamObject}->GetParam(
+                        if (
+                            $Self->{ParamObject}->GetParam(
                                 Param => $ItemHash{Name} . '#' . $Keys[$Index] . '#NewSubElement'
                             )
                             )
@@ -210,10 +235,12 @@ sub Run {
                     # SubArray
                     elsif ( $Values[$Index] eq '##SubArray##' ) {
                         my @SubArray = $Self->{ParamObject}->GetArray(
-                            Param => $_ . '##SubArray##' . $Keys[$Index] . 'Content[]' );
+                            Param => $_ . '##SubArray##' . $Keys[$Index] . 'Content[]'
+                        );
 
                         # New SubArrayElement
-                        if ($Self->{ParamObject}->GetParam(
+                        if (
+                            $Self->{ParamObject}->GetParam(
                                 Param => $ItemHash{Name} . '#' . $Keys[$Index] . '#NewSubElement'
                             )
                             )
@@ -224,8 +251,9 @@ sub Run {
 
                         #Delete SubArray Element?
                         for my $Index2 ( 0 .. $#SubArray ) {
-                            if ($Self->{ParamObject}->GetParam(
-                                        Param => $ItemHash{Name}
+                            if (
+                                $Self->{ParamObject}->GetParam(
+                                    Param => $ItemHash{Name}
                                         . '##SubArray##'
                                         . $Keys[$Index]
                                         . '#DeleteSubArrayElement'
@@ -255,15 +283,22 @@ sub Run {
                 }
 
                 # New HashElement
-                if ($Self->{ParamObject}->GetParam( Param => $ItemHash{Name} . '#NewHashElement' ) )
+                if (
+                    $Self->{ParamObject}->GetParam( Param => $ItemHash{Name} . '#NewHashElement' )
+                    )
                 {
                     $Anker = $ItemHash{Name};
                     $Content{''} = '';
                 }
 
                 # write ConfigItem
-                if ( !$Self->{SysConfigObject}
-                    ->ConfigItemUpdate( Key => $_, Value => \%Content, Valid => $Aktiv ) )
+                if (
+                    !$Self->{SysConfigObject}->ConfigItemUpdate(
+                        Key   => $_,
+                        Value => \%Content,
+                        Valid => $Aktiv
+                    )
+                    )
                 {
                     $Self->{LayoutObject}->FatalError( Message => "Can't write ConfigItem!" );
                 }
@@ -274,7 +309,8 @@ sub Run {
                 my @Content = $Self->{ParamObject}->GetArray( Param => $_ . 'Content[]' );
 
                 # New ArrayElement
-                if ( $Self->{ParamObject}->GetParam( Param => $ItemHash{Name} . '#NewArrayElement' )
+                if (
+                    $Self->{ParamObject}->GetParam( Param => $ItemHash{Name} . '#NewArrayElement' )
                     )
                 {
                     push( @Content, '' );
@@ -283,7 +319,8 @@ sub Run {
 
                 #Delete Array Element
                 for my $Index ( 0 .. $#Content ) {
-                    if ($Self->{ParamObject}->GetParam(
+                    if (
+                        $Self->{ParamObject}->GetParam(
                             Param => $ItemHash{Name} . '#DeleteArrayElement' . ( $Index + 1 )
                         )
                         )
@@ -294,8 +331,13 @@ sub Run {
                 }
 
                 # write ConfigItem
-                if ( !$Self->{SysConfigObject}
-                    ->ConfigItemUpdate( Key => $_, Value => \@Content, Valid => $Aktiv ) )
+                if (
+                    !$Self->{SysConfigObject}->ConfigItemUpdate(
+                        Key   => $_,
+                        Value => \@Content,
+                        Valid => $Aktiv
+                    )
+                    )
                 {
                     $Self->{LayoutObject}->FatalError( Message => "Can't write ConfigItem!" );
                 }
@@ -312,12 +354,16 @@ sub Run {
                         = $Self->{ParamObject}->GetParam( Param => $ElementKey . '#' . $_ );
                 }
                 for my $Type (qw(Group GroupRo)) {
-                    my @Group = $Self->{ParamObject}
-                        ->GetArray( Param => $ElementKey . '#' . $Type . '[]' );
+                    my @Group = $Self->{ParamObject}->GetArray(
+                        Param => $ElementKey . '#' . $Type . '[]'
+                    );
 
                     # New Group(Ro)Element
-                    if ( $Self->{ParamObject}
-                        ->GetParam( Param => $ItemHash{Name} . '#New' . $Type . 'Element' ) )
+                    if (
+                        $Self->{ParamObject}->GetParam(
+                            Param => $ItemHash{Name} . '#New' . $Type . 'Element'
+                        )
+                        )
                     {
                         push( @Group, '' );
                         $Anker = $ItemHash{Name};
@@ -325,8 +371,9 @@ sub Run {
 
                     # Delete Group Element
                     for my $Index ( 0 .. $#Group ) {
-                        if ($Self->{ParamObject}->GetParam(
-                                    Param => $ItemHash{Name}
+                        if (
+                            $Self->{ParamObject}->GetParam(
+                                Param => $ItemHash{Name}
                                     . '#Delete'
                                     . $Type
                                     . 'Element'
@@ -346,14 +393,18 @@ sub Run {
                 # NavBar get Params
                 my %NavBarParams;
                 for (qw(Description Name Image Link Type Prio Block NavBar AccessKey)) {
-                    my @Param = $Self->{ParamObject}
-                        ->GetArray( Param => $ElementKey . '#NavBar#' . $_ . '[]' );
+                    my @Param = $Self->{ParamObject}->GetArray(
+                        Param => $ElementKey . '#NavBar#' . $_ . '[]'
+                    );
                     $NavBarParams{$_} = \@Param;
                 }
 
                 # Add NavBar Element
-                if ( $Self->{ParamObject}
-                    ->GetParam( Param => $ItemHash{Name} . '#NavBar#AddElement' ) )
+                if (
+                    $Self->{ParamObject}->GetParam(
+                        Param => $ItemHash{Name} . '#NavBar#AddElement'
+                    )
+                    )
                 {
                     push( @{ $NavBarParams{Description} }, '' );
                     $Anker = $ItemHash{Name};
@@ -363,15 +414,18 @@ sub Run {
                 for my $Index ( 0 .. $#{ $NavBarParams{Description} } ) {
                     for my $Type (qw(Group GroupRo)) {
                         my @Group
-                            = $Self->{ParamObject}->GetArray( Param => $ElementKey
+                            = $Self->{ParamObject}->GetArray(
+                            Param => $ElementKey
                                 . '#NavBar'
                                 . ( $Index + 1 ) . '#'
                                 . $Type
-                                . '[]' );
+                                . '[]'
+                            );
 
                         # New Group(Ro)Element
-                        if ($Self->{ParamObject}->GetParam(
-                                    Param => $ItemHash{Name}
+                        if (
+                            $Self->{ParamObject}->GetParam(
+                                Param => $ItemHash{Name}
                                     . '#NavBar'
                                     . ( $Index + 1 ) . '#New'
                                     . $Type
@@ -385,8 +439,9 @@ sub Run {
 
                         # Delete Group Element
                         for my $Index2 ( 0 .. $#Group ) {
-                            if ($Self->{ParamObject}->GetParam(
-                                        Param => $ItemHash{Name}
+                            if (
+                                $Self->{ParamObject}->GetParam(
+                                    Param => $ItemHash{Name}
                                         . '#NavBar'
                                         . ( $Index + 1 )
                                         . '#Delete'
@@ -413,8 +468,9 @@ sub Run {
 
                 # Delete NavBar Element
                 for my $Index ( 0 .. $#{ $NavBarParams{Description} } ) {
-                    if ($Self->{ParamObject}->GetParam(
-                                Param => $ItemHash{Name}
+                    if (
+                        $Self->{ParamObject}->GetParam(
+                            Param => $ItemHash{Name}
                                 . '#NavBar#'
                                 . ( $Index + 1 )
                                 . '#DeleteElement'
@@ -427,22 +483,28 @@ sub Run {
                 }
 
                 # NavBarModule
-                if ( $Self->{ParamObject}
-                    ->GetArray( Param => $ElementKey . '#NavBarModule#Module[]' ) )
+                if (
+                    $Self->{ParamObject}->GetArray(
+                        Param => $ElementKey . '#NavBarModule#Module[]'
+                    )
+                    )
                 {
 
                     # get Params
                     my %NavBarModuleParams;
                     for (qw(Module Name Block Prio)) {
-                        my @Param = $Self->{ParamObject}
-                            ->GetArray( Param => $ElementKey . '#NavBarModule#' . $_ . '[]' );
+                        my @Param = $Self->{ParamObject}->GetArray(
+                            Param => $ElementKey . '#NavBarModule#' . $_ . '[]'
+                        );
                         $NavBarModuleParams{$_} = \@Param;
                     }
 
                     # Create Hash
                     for (qw(Group GroupRo Module Name Block Prio)) {
-                        if ( defined( $NavBarModuleParams{$_}[0] )
-                            && $NavBarModuleParams{$_}[0] ne '' )
+                        if (
+                            defined( $NavBarModuleParams{$_}[0] )
+                            && $NavBarModuleParams{$_}[0] ne ''
+                            )
                         {
                             $Content{NavBarModule}{$_} = $NavBarModuleParams{$_}[0];
                         }
@@ -450,8 +512,13 @@ sub Run {
                 }
 
                 # write ConfigItem
-                if ( !$Self->{SysConfigObject}
-                    ->ConfigItemUpdate( Key => $_, Value => \%Content, Valid => $Aktiv ) )
+                if (
+                    !$Self->{SysConfigObject}->ConfigItemUpdate(
+                        Key   => $_,
+                        Value => \%Content,
+                        Valid => $Aktiv
+                    )
+                    )
                 {
                     $Self->{LayoutObject}->FatalError( Message => "Can't write ConfigItem!" );
                 }
@@ -467,8 +534,9 @@ sub Run {
                 for my $Index ( 0 .. $#Year ) {
 
                     # Delete TimeVacationDaysOneTime Element?
-                    if (!$Self->{ParamObject}->GetParam(
-                                Param => $ItemHash{Name}
+                    if (
+                        !$Self->{ParamObject}->GetParam(
+                            Param => $ItemHash{Name}
                                 . '#DeleteTimeVacationDaysOneTimeElement'
                                 . ( $Index + 1 )
                         )
@@ -483,19 +551,28 @@ sub Run {
                 }
 
                 # New TimeVacationDaysOneTimeElement
-                if ( $Self->{ParamObject}
-                    ->GetParam( Param => $ItemHash{Name} . '#NewTimeVacationDaysOneTimeElement' ) )
+                if (
+                    $Self->{ParamObject}->GetParam(
+                        Param => $ItemHash{Name} . '#NewTimeVacationDaysOneTimeElement'
+                    )
+                    )
                 {
                     my ( $s, $m, $h, $D, $M, $Y, $wd, $yd, $dst )
-                        = $Self->{TimeObject}
-                        ->SystemTime2Date( SystemTime => $Self->{TimeObject}->SystemTime(), );
+                        = $Self->{TimeObject}->SystemTime2Date(
+                        SystemTime => $Self->{TimeObject}->SystemTime(),
+                        );
                     $Content{$Y}->{''}->{''} = '-new-';
                     $Anker = $ItemHash{Name};
                 }
 
                 # write ConfigItem
-                if ( !$Self->{SysConfigObject}
-                    ->ConfigItemUpdate( Key => $_, Value => \%Content, Valid => $Aktiv ) )
+                if (
+                    !$Self->{SysConfigObject}->ConfigItemUpdate(
+                        Key   => $_,
+                        Value => \%Content,
+                        Valid => $Aktiv
+                    )
+                    )
                 {
                     $Self->{LayoutObject}->FatalError( Message => "Can't write ConfigItem!" );
                 }
@@ -510,8 +587,9 @@ sub Run {
                 for my $Index ( 0 .. $#Month ) {
 
                     # Delete TimeVacationDays Element?
-                    if (!$Self->{ParamObject}->GetParam(
-                                Param => $ItemHash{Name}
+                    if (
+                        !$Self->{ParamObject}->GetParam(
+                            Param => $ItemHash{Name}
                                 . '#DeleteTimeVacationDaysElement'
                                 . ( $Index + 1 )
                         )
@@ -525,20 +603,29 @@ sub Run {
                 }
 
                 # New TimeVacationDaysElement
-                if ( $Self->{ParamObject}
-                    ->GetParam( Param => $ItemHash{Name} . '#NewTimeVacationDaysElement' ) )
+                if (
+                    $Self->{ParamObject}->GetParam(
+                        Param => $ItemHash{Name} . '#NewTimeVacationDaysElement'
+                    )
+                    )
                 {
                     my ( $s, $m, $h, $D, $M, $Y, $wd, $yd, $dst )
-                        = $Self->{TimeObject}
-                        ->SystemTime2Date( SystemTime => $Self->{TimeObject}->SystemTime(), );
+                        = $Self->{TimeObject}->SystemTime2Date(
+                        SystemTime => $Self->{TimeObject}->SystemTime(),
+                        );
 
                     $Content{$M}->{''} = '-new-';
                     $Anker = $ItemHash{Name};
                 }
 
                 # write ConfigItem
-                if ( !$Self->{SysConfigObject}
-                    ->ConfigItemUpdate( Key => $_, Value => \%Content, Valid => $Aktiv ) )
+                if (
+                    !$Self->{SysConfigObject}->ConfigItemUpdate(
+                        Key   => $_,
+                        Value => \%Content,
+                        Valid => $Aktiv
+                    )
+                    )
                 {
                     $Self->{LayoutObject}->FatalError( Message => "Can't write ConfigItem!" );
                 }
@@ -554,8 +641,13 @@ sub Run {
                 }
 
                 # write ConfigItem
-                if ( !$Self->{SysConfigObject}
-                    ->ConfigItemUpdate( Key => $_, Value => \%Content, Valid => $Aktiv ) )
+                if (
+                    !$Self->{SysConfigObject}->ConfigItemUpdate(
+                        Key   => $_,
+                        Value => \%Content,
+                        Valid => $Aktiv
+                    )
+                    )
                 {
                     $Self->{LayoutObject}->FatalError( Message => "Can't write ConfigItem!" );
                 }
@@ -566,7 +658,8 @@ sub Run {
         $Self->{SysConfigObject}->CreateConfig();
 
         # redirect
-        return $Self->{LayoutObject}->Redirect( OP =>
+        return $Self->{LayoutObject}->Redirect(
+            OP =>
                 "Action=$Self->{Action}&Subaction=Edit&SysConfigSubGroup=$SubGroup&SysConfigGroup=$Group&#$Anker",
         );
     }
@@ -575,8 +668,10 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Edit' ) {
         my $SubGroup = $Self->{ParamObject}->GetParam( Param => 'SysConfigSubGroup' );
         my $Group    = $Self->{ParamObject}->GetParam( Param => 'SysConfigGroup' );
-        my @List     = $Self->{SysConfigObject}
-            ->ConfigSubGroupConfigItemList( Group => $Group, SubGroup => $SubGroup );
+        my @List = $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(
+            Group    => $Group,
+            SubGroup => $SubGroup
+        );
 
         #Language
         my $UserLang = $Self->{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage');
@@ -652,8 +747,10 @@ sub Run {
                     '$Env{"Baselink"}Action=AdminSysConfig&Subaction=Edit&SysConfigGroup=Framework&SysConfigSubGroup=Core',
             );
         }
-        $Output .= $Self->{LayoutObject}
-            ->Output( TemplateFile => 'AdminSysConfigEdit', Data => \%Data );
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminSysConfigEdit',
+            Data         => \%Data
+        );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
@@ -687,7 +784,8 @@ sub Run {
     }
 
     # SessionScreen
-    if (!$Self->{SessionObject}->UpdateSessionID(
+    if (
+        !$Self->{SessionObject}->UpdateSessionID(
             SessionID => $Self->{SessionID},
             Key       => 'LastScreenOverview',
             Value     => "Action=$Self->{Action}&Subaction=SelectGroup&SysConfigGroup=$Group",
@@ -729,7 +827,7 @@ sub Run {
     }
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AdminSysConfig',
-        Data         => { %Data, ConfigCounter => $Self->{SysConfigObject}->{ConfigCounter}, }
+        Data => { %Data, ConfigCounter => $Self->{SysConfigObject}->{ConfigCounter}, }
     );
     $Output .= $Self->{LayoutObject}->Footer();
     return $Output;
@@ -746,25 +844,31 @@ sub ListConfigItem {
     if ( defined( $ItemHash{Setting}[1]{String} ) ) {
 
         # file check
-        if (   $ItemHash{Setting}[1]{String}[1]{Check}
+        if (
+            $ItemHash{Setting}[1]{String}[1]{Check}
             && $ItemHash{Setting}[1]{String}[1]{Check} eq 'File'
-            && !-f $ItemHash{Setting}[1]{String}[1]{Content} )
+            && !-f $ItemHash{Setting}[1]{String}[1]{Content}
+            )
         {
             $Valid = 'file not found';
         }
 
         # file check
-        if (   $ItemHash{Setting}[1]{String}[1]{Check}
+        if (
+            $ItemHash{Setting}[1]{String}[1]{Check}
             && $ItemHash{Setting}[1]{String}[1]{Check} eq 'Directory'
-            && !-d $ItemHash{Setting}[1]{String}[1]{Content} )
+            && !-d $ItemHash{Setting}[1]{String}[1]{Content}
+            )
         {
             $Valid = 'directory not found';
         }
 
         # Regex check
-        if (   $ItemHash{Setting}[1]{String}[1]{Regex}
+        if (
+            $ItemHash{Setting}[1]{String}[1]{Regex}
             && $ItemHash{Setting}[1]{String}[1]{Content}
-            !~ /$ItemHash{Setting}[1]{String}[1]{Regex}/ )
+            !~ /$ItemHash{Setting}[1]{String}[1]{Regex}/
+            )
         {
             $Valid = 'invalid';
         }
@@ -801,8 +905,10 @@ sub ListConfigItem {
         for my $Index ( 1 .. $#{ $ItemHash{Setting}[1]{Option}[1]{Item} } ) {
             $Hash{ $ItemHash{Setting}[1]{Option}[1]{Item}[$Index]{Key} }
                 = $ItemHash{Setting}[1]{Option}[1]{Item}[$Index]{Content};
-            if ( $ItemHash{Setting}[1]{Option}[1]{Item}[$Index]{Key} eq
-                $ItemHash{Setting}[1]{Option}[1]{Default} )
+            if (
+                $ItemHash{Setting}[1]{Option}[1]{Item}[$Index]{Key} eq
+                $ItemHash{Setting}[1]{Option}[1]{Default}
+                )
             {
                 $Default = $ItemHash{Setting}[1]{Option}[1]{Item}[$Index]{Content};
             }
@@ -850,7 +956,8 @@ sub ListConfigItem {
 
                 # SubHashElements
                 for my $Index2 (
-                    1 .. $#{ $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Hash}[1]{Item} } )
+                    1 .. $#{ $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Hash}[1]{Item} }
+                    )
                 {
                     $Self->{LayoutObject}->Block(
                         Name => 'ConfigElementSubHashContent',
@@ -885,7 +992,8 @@ sub ListConfigItem {
 
                 # SubArrayElements
                 for my $Index2 (
-                    1 .. $#{ $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Array}[1]{Item} } )
+                    1 .. $#{ $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Array}[1]{Item} }
+                    )
                 {
                     $Self->{LayoutObject}->Block(
                         Name => 'ConfigElementSubArrayContent',
@@ -908,10 +1016,13 @@ sub ListConfigItem {
                 # Pulldownmenue
                 my %Hash;
                 for my $Index2 (
-                    1 .. $#{ $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Option}[1]{Item} } )
+                    1 .. $#{ $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Option}[1]{Item} }
+                    )
                 {
-                    $Hash{ $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Option}[1]{Item}[$Index2]
-                            {Key} }
+                    $Hash{
+                        $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Option}[1]{Item}[$Index2]
+                            {Key}
+                        }
                         = $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Option}[1]{Item}[$Index2]
                         {Content};
                 }
@@ -1007,7 +1118,8 @@ sub ListConfigItem {
             for my $Key (qw(Description Name Image Link Type Prio Block NavBar AccessKey)) {
                 $Data{ 'Key' . $Key }     = $Key;
                 $Data{ 'Content' . $Key } = '';
-                if (defined(
+                if (
+                    defined(
                         $ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}[1]{$Key}[1]{Content}
                     )
                     )
@@ -1026,7 +1138,8 @@ sub ListConfigItem {
 
             # Array Element Group
             for my $ArrayElement qw(Group GroupRo) {
-                for my $Index2 ( 1 ..
+                for my $Index2 (
+                    1 ..
                     $#{ $ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBar}[$Index]{$ArrayElement} }
                     )
                 {
@@ -1052,7 +1165,8 @@ sub ListConfigItem {
                 for my $Key qw (Module Name Block Prio) {
                     $Data{ 'Key' . $Key }     = $Key;
                     $Data{ 'Content' . $Key } = '';
-                    if (defined(
+                    if (
+                        defined(
                             $ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBarModule}[1]{$Key}[1]
                                 {Content}
                         )
@@ -1075,7 +1189,8 @@ sub ListConfigItem {
             for my $Key qw (Module Name Block Prio) {
                 $Data{ 'Key' . $Key }     = $Key;
                 $Data{ 'Content' . $Key } = '';
-                if (defined(
+                if (
+                    defined(
                         $ItemHash{Setting}[1]{FrontendModuleReg}[1]{NavBarModule}{$Key}[1]{Content}
                     )
                     )
@@ -1101,8 +1216,11 @@ sub ListConfigItem {
         );
 
         # New TimeVacationDaysOneTimeElement
-        if ( $Self->{ParamObject}
-            ->GetParam( Param => $ItemHash{Name} . '#NewTimeVacationDaysOneTimeElement' ) )
+        if (
+            $Self->{ParamObject}->GetParam(
+                Param => $ItemHash{Name} . '#NewTimeVacationDaysOneTimeElement'
+            )
+            )
         {
             push(
                 @{ $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item} },
@@ -1113,21 +1231,27 @@ sub ListConfigItem {
         # TimeVacationDaysOneTimeElements
         for my $Index ( 1 .. $#{ $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item} } ) {
             my %Valid = ();
-            if (   $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Year}
+            if (
+                $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Year}
                 && $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Year}
-                !~ /^\d\d\d\d$/ )
+                !~ /^\d\d\d\d$/
+                )
             {
                 $Valid{ValidYear} = 'invalid';
             }
-            if (   $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Month}
+            if (
+                $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Month}
                 && $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Month}
-                !~ /^(1[0-2]|[1-9])$/ )
+                !~ /^(1[0-2]|[1-9])$/
+                )
             {
                 $Valid{ValidMonth} = 'invalid';
             }
-            if (   $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Day}
+            if (
+                $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Day}
                 && $ItemHash{Setting}[1]{TimeVacationDaysOneTime}[1]{Item}[$Index]{Day}
-                !~ /^([1-3][0-9]|[1-9])$/ )
+                !~ /^([1-3][0-9]|[1-9])$/
+                )
             {
                 $Valid{ValidDay} = 'invalid';
             }
@@ -1155,8 +1279,11 @@ sub ListConfigItem {
         );
 
         # New TimeVacationDaysElement
-        if ( $Self->{ParamObject}
-            ->GetParam( Param => $ItemHash{Name} . '#NewTimeVacationDaysElement' ) )
+        if (
+            $Self->{ParamObject}->GetParam(
+                Param => $ItemHash{Name} . '#NewTimeVacationDaysElement'
+            )
+            )
         {
             push(
                 @{ $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item} },
@@ -1167,15 +1294,19 @@ sub ListConfigItem {
         # TimeVacationDaysElements
         for my $Index ( 1 .. $#{ $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item} } ) {
             my %Valid = ();
-            if (   $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Month}
+            if (
+                $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Month}
                 && $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Month}
-                !~ /^(1[0-2]|[1-9])$/ )
+                !~ /^(1[0-2]|[1-9])$/
+                )
             {
                 $Valid{ValidMonth} = 'invalid';
             }
-            if (   $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Day}
+            if (
+                $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Day}
                 && $ItemHash{Setting}[1]{TimeVacationDays}[1]{Item}[$Index]{Day}
-                !~ /^([1-3][0-9]|[1-9])$/ )
+                !~ /^([1-3][0-9]|[1-9])$/
+                )
             {
                 $Valid{ValidDay} = 'invalid';
             }
@@ -1220,10 +1351,14 @@ sub ListConfigItem {
             # Aktiv Hours
             if ( defined( $ItemHash{Setting}[1]{TimeWorkingHours}[1]{Day}[$Index]{Hour} ) ) {
                 for my $Index2 (
-                    1 .. $#{ $ItemHash{Setting}[1]{TimeWorkingHours}[1]{Day}[$Index]{Hour} } )
+                    1 .. $#{ $ItemHash{Setting}[1]{TimeWorkingHours}[1]{Day}[$Index]{Hour} }
+                    )
                 {
-                    $ArrayHours[ $ItemHash{Setting}[1]{TimeWorkingHours}[1]{Day}[$Index]{Hour}
-                        [$Index2]{Content} ] = 'checked';
+                    $ArrayHours[
+                        $ItemHash{Setting}[1]{TimeWorkingHours}[1]{Day}[$Index]{Hour}
+                        [$Index2]{Content}
+                        ]
+                        = 'checked';
                 }
             }
             for my $Z ( 0 .. 23 ) {

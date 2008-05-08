@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NavBarModuleAdmin.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: NavBarModuleAdmin.pm,v 1.7 2008-04-14 10:19:14 martin Exp $
+# $Id: NavBarModuleAdmin.pm,v 1.8 2008-05-08 09:36:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -49,9 +49,12 @@ sub Run {
     my $FrontendModuleConfig = $Self->{ConfigObject}->Get('Frontend::Module');
     for my $Module ( sort keys %{$FrontendModuleConfig} ) {
         my %Hash = %{ $FrontendModuleConfig->{$Module} };
-        if (   $Hash{NavBarModule}
-            && $Hash{NavBarModule}->{Module} eq 'Kernel::Output::HTML::NavBarModuleAdmin' )
+        if (
+            $Hash{NavBarModule}
+            && $Hash{NavBarModule}->{Module} eq 'Kernel::Output::HTML::NavBarModuleAdmin'
+            )
         {
+
             # check permissions (only show accessable modules)
             my $Shown = 0;
             for my $Permission (qw(GroupRo Group)) {
@@ -60,7 +63,11 @@ sub Run {
                 if ( $Hash{$Permission} && ref $Hash{$Permission} eq 'ARRAY' ) {
                     for ( @{ $Hash{$Permission} } ) {
                         my $Key = 'UserIs' . $Permission . '[' . $_ . ']';
-                        if ( $Self->{LayoutObject}->{$Key} && $Self->{LayoutObject}->{$Key} eq 'Yes' ) {
+                        if (
+                            $Self->{LayoutObject}->{$Key}
+                            && $Self->{LayoutObject}->{$Key} eq 'Yes'
+                            )
+                        {
                             $Shown = 1;
                         }
 
@@ -110,7 +117,7 @@ sub Run {
 
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AdminNavigationBar',
-        Data => \%Param,
+        Data         => \%Param,
     );
 
     return $Output;

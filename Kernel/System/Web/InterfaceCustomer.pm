@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.28 2008-04-04 07:01:47 tr Exp $
+# $Id: InterfaceCustomer.pm,v 1.29 2008-05-08 09:36:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -75,9 +75,9 @@ sub new {
         LogPrefix => $Self->{ConfigObject}->Get('CGILogPrefix'),
         %{$Self},
     );
-    $Self->{MainObject}   = Kernel::System::Main  ->new( %{$Self} );
+    $Self->{MainObject}   = Kernel::System::Main->new( %{$Self} );
     $Self->{EncodeObject} = Kernel::System::Encode->new( %{$Self} );
-    $Self->{TimeObject}   = Kernel::System::Time  ->new( %{$Self} );
+    $Self->{TimeObject}   = Kernel::System::Time->new( %{$Self} );
     $Self->{ParamObject}
         = Kernel::System::Web::Request->new( %{$Self}, WebRequest => $Param{WebRequest} || 0, );
 
@@ -150,9 +150,9 @@ sub Run {
     }
 
     # create common framework objects 3/3
-    $Self->{UserObject}    = Kernel::System::CustomerUser ->new( %{$Self} );
+    $Self->{UserObject}    = Kernel::System::CustomerUser->new( %{$Self} );
     $Self->{GroupObject}   = Kernel::System::CustomerGroup->new( %{$Self} );
-    $Self->{SessionObject} = Kernel::System::AuthSession  ->new( %{$Self} );
+    $Self->{SessionObject} = Kernel::System::AuthSession->new( %{$Self} );
 
     # application and add on application common objects
     my %CommonObject = %{ $Self->{ConfigObject}->Get('CustomerFrontend::CommonObject') };
@@ -200,9 +200,10 @@ sub Run {
                 if ( $Self->{ConfigObject}->Get('CustomerPanelLoginURL') ) {
 
                     # redirect to alternate login
-                    print $Self->{LayoutObject}
-                        ->Redirect( ExtURL => $Self->{ConfigObject}->Get('CustomerPanelLoginURL')
-                            . '?Reason=SystemError', );
+                    print $Self->{LayoutObject}->Redirect(
+                        ExtURL => $Self->{ConfigObject}->Get('CustomerPanelLoginURL')
+                            . '?Reason=SystemError',
+                    );
                 }
                 else {
 
@@ -235,9 +236,11 @@ sub Run {
             );
 
             # set time zone offset if TimeZoneFeature is active
-            if (   $Self->{ConfigObject}->Get('TimeZoneUser')
+            if (
+                $Self->{ConfigObject}->Get('TimeZoneUser')
                 && $Self->{ConfigObject}->Get('TimeZoneUserBrowserAutoOffset')
-                && $Self->{LayoutObject}->{BrowserJavaScriptSupport} )
+                && $Self->{LayoutObject}->{BrowserJavaScriptSupport}
+                )
             {
                 my $TimeOffset = $Self->{ParamObject}->GetParam( Param => 'TimeOffset' ) || '';
                 if ( $TimeOffset > 0 ) {
@@ -293,9 +296,10 @@ sub Run {
 
                 # redirect to alternate login
                 $Param{RequestedURL} = $Self->{LayoutObject}->LinkEncode( $Param{RequestedURL} );
-                print $Self->{LayoutObject}
-                    ->Redirect( ExtURL => $Self->{ConfigObject}->Get('CustomerPanelLoginURL')
-                        . "?Reason=LoginFailed&RequestedURL=$Param{RequestedURL}", );
+                print $Self->{LayoutObject}->Redirect(
+                    ExtURL => $Self->{ConfigObject}->Get('CustomerPanelLoginURL')
+                        . "?Reason=LoginFailed&RequestedURL=$Param{RequestedURL}",
+                );
             }
             else {
 
@@ -342,9 +346,10 @@ sub Run {
                 if ( $Self->{ConfigObject}->Get('CustomerPanelLogoutURL') ) {
 
                     # redirect to alternate login
-                    print $Self->{LayoutObject}
-                        ->Redirect( ExtURL => $Self->{ConfigObject}->Get('CustomerPanelLogoutURL')
-                            . "?Reason=Logout", );
+                    print $Self->{LayoutObject}->Redirect(
+                        ExtURL => $Self->{ConfigObject}->Get('CustomerPanelLogoutURL')
+                            . "?Reason=Logout",
+                    );
                 }
                 else {
 
@@ -367,9 +372,10 @@ sub Run {
 
                 # redirect to alternate login
                 $Param{RequestedURL} = $Self->{LayoutObject}->LinkEncode( $Param{RequestedURL} );
-                print $Self->{LayoutObject}
-                    ->Redirect( ExtURL => $Self->{ConfigObject}->Get('CustomerPanelLoginURL')
-                        . "?Reason=InvalidSessionID&RequestedURL=$Param{RequestedURL}", );
+                print $Self->{LayoutObject}->Redirect(
+                    ExtURL => $Self->{ConfigObject}->Get('CustomerPanelLoginURL')
+                        . "?Reason=InvalidSessionID&RequestedURL=$Param{RequestedURL}",
+                );
             }
             else {
 
@@ -400,13 +406,13 @@ sub Run {
         }
 
         # get params
-        my $User  = $Self->{ParamObject}->GetParam( Param => 'User'  ) || '';
+        my $User  = $Self->{ParamObject}->GetParam( Param => 'User' )  || '';
         my $Token = $Self->{ParamObject}->GetParam( Param => 'Token' ) || '';
 
         # get user login by token
         if ( !$User && $Token ) {
             my %UserList = $Self->{UserObject}->SearchPreferences(
-                Key => 'UserToken',
+                Key   => 'UserToken',
                 Value => $Token,
             );
             for my $UserID ( keys %UserList ) {
@@ -414,7 +420,7 @@ sub Run {
                     User  => $UserID,
                     Valid => 1,
                 );
-                if ( %UserData ) {
+                if (%UserData) {
                     $User = $UserData{UserLogin};
                     last;
                 }
@@ -445,7 +451,7 @@ sub Run {
                 );
 
                 # send token notify email with link
-                my $Body    = $Self->{ConfigObject}->Get('CustomerPanelBodyLostPasswordToken')
+                my $Body = $Self->{ConfigObject}->Get('CustomerPanelBodyLostPasswordToken')
                     || 'ERROR: CustomerPanelBodyLostPasswordToken is missing!';
                 my $Subject = $Self->{ConfigObject}->Get('CustomerPanelSubjectLostPasswordToken')
                     || 'ERROR: CustomerPanelSubjectLostPasswordToken is missing!';
@@ -459,7 +465,7 @@ sub Run {
                     Type    => 'text/plain',
                     Body    => $Body
                 );
-                if ( $Sent ) {
+                if ($Sent) {
                     $Self->{LayoutObject}->Print(
                         Output => \$Self->{LayoutObject}->CustomerLogin(
                             Title   => 'Login',
@@ -500,7 +506,7 @@ sub Run {
                 $Self->{UserObject}->SetPassword( UserLogin => $User, PW => $UserData{NewPW} );
 
                 # send notify email
-                my $Body    = $Self->{ConfigObject}->Get('CustomerPanelBodyLostPassword')
+                my $Body = $Self->{ConfigObject}->Get('CustomerPanelBodyLostPassword')
                     || "New Password is: <OTRS_NEWPW>";
                 my $Subject = $Self->{ConfigObject}->Get('CustomerPanelSubjectLostPassword')
                     || 'New Password!';
@@ -514,7 +520,7 @@ sub Run {
                     Type    => 'text/plain',
                     Body    => $Body
                 );
-                if ( $Sent ) {
+                if ($Sent) {
                     $Self->{LayoutObject}->Print(
                         Output => \$Self->{LayoutObject}->CustomerLogin(
                             Title   => 'Login',
@@ -524,7 +530,8 @@ sub Run {
                     );
                 }
                 else {
-                    $Self->{LayoutObject}->CustomerFatalError( Comment => 'Please contact your admin' );
+                    $Self->{LayoutObject}
+                        ->CustomerFatalError( Comment => 'Please contact your admin' );
                 }
             }
         }
@@ -577,11 +584,13 @@ sub Run {
             $Self->{LayoutObject}->Print( Output => \$Output );
         }
         else {
-            if ($Self->{UserObject}->CustomerUserAdd(
+            if (
+                $Self->{UserObject}->CustomerUserAdd(
                     %GetParams,
                     Comment => 'Added via Customer Panel ('
-                        . $Self->{TimeObject}
-                        ->SystemTime2TimeStamp( SystemTime => $Self->{TimeObject}->SystemTime() )
+                        . $Self->{TimeObject}->SystemTime2TimeStamp(
+                        SystemTime => $Self->{TimeObject}->SystemTime()
+                        )
                         . ")",
                     ValidID => 1,
                     UserID  => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
@@ -609,10 +618,13 @@ sub Run {
                 );
                 if ( !$Sent ) {
 
-                    my $Output = $Self->{LayoutObject}
-                        ->CustomerHeader( Area => 'Core', Title => 'Error' );
-                    $Output .= $Self->{LayoutObject}
-                        ->CustomerWarning( Comment => 'Can\'t send account info!' );
+                    my $Output = $Self->{LayoutObject}->CustomerHeader(
+                        Area  => 'Core',
+                        Title => 'Error'
+                    );
+                    $Output .= $Self->{LayoutObject}->CustomerWarning(
+                        Comment => 'Can\'t send account info!'
+                    );
                     $Output .= $Self->{LayoutObject}->CustomerFooter();
                     $Self->{LayoutObject}->Print( Output => \$Output );
                     exit 0;
@@ -624,10 +636,11 @@ sub Run {
                     # redirect to alternate login
                     $Param{RequestedURL}
                         = $Self->{LayoutObject}->LinkEncode( $Param{RequestedURL} );
-                    print $Self->{LayoutObject}
-                        ->Redirect( ExtURL => $Self->{ConfigObject}->Get('CustomerPanelLoginURL')
+                    print $Self->{LayoutObject}->Redirect(
+                        ExtURL => $Self->{ConfigObject}->Get('CustomerPanelLoginURL')
                             . "?RequestedURL=$Param{RequestedURL}&User=$GetParams{UserLogin}&"
-                            . "&Email=$GetParams{UserEmail}&Reason=NewAccountCreated", );
+                            . "&Email=$GetParams{UserEmail}&Reason=NewAccountCreated",
+                    );
                 }
                 else {
 
@@ -645,8 +658,9 @@ sub Run {
             else {
                 my $Output
                     = $Self->{LayoutObject}->CustomerHeader( Area => 'Core', Title => 'Error' );
-                $Output .= $Self->{LayoutObject}
-                    ->CustomerWarning( Comment => 'Please press Back and try again.' );
+                $Output .= $Self->{LayoutObject}->CustomerWarning(
+                    Comment => 'Please press Back and try again.'
+                );
                 $Output .= $Self->{LayoutObject}->CustomerFooter();
                 $Self->{LayoutObject}->Print( Output => \$Output );
             }
@@ -662,16 +676,18 @@ sub Run {
 
             # automatic login
             $Param{RequestedURL} = $Self->{LayoutObject}->LinkEncode( $Param{RequestedURL} );
-            print $Self->{LayoutObject}
-                ->Redirect( OP => "Action=Login&RequestedURL=$Param{RequestedURL}", );
+            print $Self->{LayoutObject}->Redirect(
+                OP => "Action=Login&RequestedURL=$Param{RequestedURL}",
+            );
         }
         elsif ( $Self->{ConfigObject}->Get('CustomerPanelLoginURL') ) {
 
             # redirect to alternate login
             $Param{RequestedURL} = $Self->{LayoutObject}->LinkEncode( $Param{RequestedURL} );
-            print $Self->{LayoutObject}
-                ->Redirect( ExtURL => $Self->{ConfigObject}->Get('CustomerPanelLoginURL')
-                    . "?RequestedURL=$Param{RequestedURL}", );
+            print $Self->{LayoutObject}->Redirect(
+                ExtURL => $Self->{ConfigObject}->Get('CustomerPanelLoginURL')
+                    . "?RequestedURL=$Param{RequestedURL}",
+            );
         }
         else {
 
@@ -706,9 +722,10 @@ sub Run {
 
                 # redirect to alternate login
                 $Param{RequestedURL} = $Self->{LayoutObject}->LinkEncode( $Param{RequestedURL} );
-                print $Self->{LayoutObject}
-                    ->Redirect( ExtURL => $Self->{ConfigObject}->Get('CustomerPanelLoginURL')
-                        . "?Reason=InvalidSessionID&RequestedURL=$Param{RequestedURL}", );
+                print $Self->{LayoutObject}->Redirect(
+                    ExtURL => $Self->{ConfigObject}->Get('CustomerPanelLoginURL')
+                        . "?Reason=InvalidSessionID&RequestedURL=$Param{RequestedURL}",
+                );
             }
             else {
 
@@ -736,9 +753,10 @@ sub Run {
                 if ( $Self->{ConfigObject}->Get('CustomerPanelLoginURL') ) {
 
                     # redirect to alternate login
-                    print $Self->{LayoutObject}
-                        ->Redirect( ExtURL => $Self->{ConfigObject}->Get('CustomerPanelLoginURL')
-                            . "?Reason=SystemError", );
+                    print $Self->{LayoutObject}->Redirect(
+                        ExtURL => $Self->{ConfigObject}->Get('CustomerPanelLoginURL')
+                            . "?Reason=SystemError",
+                    );
                 }
                 else {
 
@@ -903,6 +921,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.28 $ $Date: 2008-04-04 07:01:47 $
+$Revision: 1.29 $ $Date: 2008-05-08 09:36:21 $
 
 =cut

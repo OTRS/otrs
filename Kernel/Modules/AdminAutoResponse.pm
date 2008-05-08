@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAutoResponse.pm - provides AdminAutoResponse HTML
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAutoResponse.pm,v 1.22 2008-01-31 06:22:11 tr Exp $
+# $Id: AdminAutoResponse.pm,v 1.23 2008-05-08 09:36:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -47,7 +47,7 @@ sub Run {
     $Param{NextScreen} = 'AdminAutoResponse';
 
     my @Params = (
-        'ID',     'Name',      'Comment', 'ValidID', 'Response', 'Subject',
+        'ID', 'Name', 'Comment', 'ValidID', 'Response', 'Subject',
         'TypeID', 'AddressID', 'Charset',
     );
     my %GetParam;
@@ -71,7 +71,8 @@ sub Run {
 
     # update action
     elsif ( $Param{Subaction} eq 'ChangeAction' ) {
-        if ($Self->{AutoResponseObject}->AutoResponseUpdate( %GetParam, UserID => $Self->{UserID}, )
+        if (
+            $Self->{AutoResponseObject}->AutoResponseUpdate( %GetParam, UserID => $Self->{UserID}, )
             )
         {
             return $Self->{LayoutObject}->Redirect( OP => "Action=$Param{NextScreen}" );
@@ -119,7 +120,7 @@ sub _Mask {
                 Valid => 0,
                 Clamp => 1,
                 Table => 'auto_response',
-            )
+                )
         },
         Name       => 'ID',
         Size       => 15,
@@ -133,7 +134,7 @@ sub _Mask {
                 Valid => 1,
                 Clamp => 1,
                 Table => 'auto_response_type',
-            )
+                )
         },
         Name       => 'TypeID',
         SelectedID => $Param{TypeID},
@@ -146,7 +147,7 @@ sub _Mask {
                 Valid => 1,
                 Clamp => 1,
                 Table => 'system_address',
-            )
+                )
         },
         Name       => 'AddressID',
         SelectedID => $Param{AddressID},
@@ -156,8 +157,10 @@ sub _Mask {
         $Param{Note}
             = '(<i>$Text{"This message was written in a character set other than your own."}</i>)';
     }
-    return $Self->{LayoutObject}
-        ->Output( TemplateFile => 'AdminAutoResponseForm', Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AdminAutoResponseForm',
+        Data         => \%Param
+    );
 }
 
 1;

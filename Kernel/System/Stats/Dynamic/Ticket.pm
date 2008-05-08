@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/Ticket.pm - all advice functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.17 2008-02-23 10:16:33 mh Exp $
+# $Id: Ticket.pm,v 1.18 2008-05-08 09:36:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -484,8 +484,10 @@ sub ExportWrapper {
                         }
                     }
                 }
-                elsif ($Element->{Element} eq 'StateIDs'
-                    || $Element->{Element} eq 'CreatedStateIDs' )
+                elsif (
+                    $Element->{Element} eq 'StateIDs'
+                    || $Element->{Element} eq 'CreatedStateIDs'
+                    )
                 {
                     my %StateList = $Self->{StateObject}->StateList( UserID => 1 );
                     for my $ID ( @{ $Element->{SelectedValues} } ) {
@@ -494,8 +496,10 @@ sub ExportWrapper {
                         }
                     }
                 }
-                elsif ($Element->{Element} eq 'PriorityIDs'
-                    || $Element->{Element} eq 'CreatedPriorityIDs' )
+                elsif (
+                    $Element->{Element} eq 'PriorityIDs'
+                    || $Element->{Element} eq 'CreatedPriorityIDs'
+                    )
                 {
                     my %PriorityList = $Self->{PriorityObject}->PriorityList( UserID => 1 );
                     for my $ID ( @{ $Element->{SelectedValues} } ) {
@@ -504,9 +508,11 @@ sub ExportWrapper {
                         }
                     }
                 }
-                elsif ($Element->{Element} eq 'OwnerIDs'
+                elsif (
+                    $Element->{Element}    eq 'OwnerIDs'
                     || $Element->{Element} eq 'CreatedUserIDs'
-                    || $Element->{Element} eq 'ResponsibleIDs' )
+                    || $Element->{Element} eq 'ResponsibleIDs'
+                    )
                 {
                     for my $ID ( @{ $Element->{SelectedValues} } ) {
                         if ($ID) {
@@ -549,8 +555,10 @@ sub ImportWrapper {
                         }
                     }
                 }
-                elsif ($Element->{Element} eq 'StateIDs'
-                    || $Element->{Element} eq 'CreatedStateIDs' )
+                elsif (
+                    $Element->{Element} eq 'StateIDs'
+                    || $Element->{Element} eq 'CreatedStateIDs'
+                    )
                 {
                     for my $ID ( @{ $Element->{SelectedValues} } ) {
                         if ($ID) {
@@ -571,8 +579,10 @@ sub ImportWrapper {
                         }
                     }
                 }
-                elsif ($Element->{Element} eq 'PriorityIDs'
-                    || $Element->{Element} eq 'CreatedPriorityIDs' )
+                elsif (
+                    $Element->{Element} eq 'PriorityIDs'
+                    || $Element->{Element} eq 'CreatedPriorityIDs'
+                    )
                 {
                     my %PriorityList = $Self->{PriorityObject}->PriorityList( UserID => 1 );
                     my %PriorityIDs = ();
@@ -594,15 +604,18 @@ sub ImportWrapper {
                         }
                     }
                 }
-                elsif ($Element->{Element} eq 'OwnerIDs'
+                elsif (
+                    $Element->{Element}    eq 'OwnerIDs'
                     || $Element->{Element} eq 'CreatedUserIDs'
-                    || $Element->{Element} eq 'ResponsibleIDs' )
+                    || $Element->{Element} eq 'ResponsibleIDs'
+                    )
                 {
                     for my $ID ( @{ $Element->{SelectedValues} } ) {
                         if ($ID) {
                             if ( $Self->{UserObject}->UserLookup( UserLogin => $ID->{Content} ) ) {
-                                $ID->{Content} = $Self->{UserObject}
-                                    ->UserLookup( UserLogin => $ID->{Content} );
+                                $ID->{Content} = $Self->{UserObject}->UserLookup(
+                                    UserLogin => $ID->{Content}
+                                );
                             }
                             else {
                                 $Self->{LogObject}->Log(

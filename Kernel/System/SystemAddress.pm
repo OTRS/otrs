@@ -2,7 +2,7 @@
 # Kernel/System/SystemAddress.pm - lib for system addresses
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SystemAddress.pm,v 1.18 2008-04-09 00:42:09 martin Exp $
+# $Id: SystemAddress.pm,v 1.19 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -49,7 +49,9 @@ create an object
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
+        MainObject   => $MainObject,
     );
+
     my $SystemAddressObject = Kernel::System::SystemAddress->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
@@ -62,7 +64,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check all needed objects
@@ -101,7 +103,7 @@ sub SystemAddressAdd {
     }
 
     # sql
-    return if ! $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => 'INSERT INTO system_address (value0, value1, valid_id, comments, queue_id, '
             . ' create_time, create_by, change_time, change_by)'
             . ' VALUES (?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
@@ -111,7 +113,7 @@ sub SystemAddressAdd {
         ],
     );
     $Self->{DBObject}->Prepare(
-        SQL  => 'SELECT id FROM system_address WHERE value0 = ? AND value1 = ?',
+        SQL => 'SELECT id FROM system_address WHERE value0 = ? AND value1 = ?',
         Bind => [ \$Param{Name}, \$Param{Realname}, ],
     );
     my $ID;
@@ -141,8 +143,8 @@ sub SystemAddressGet {
     }
 
     # sql
-    return if ! $Self->{DBObject}->Prepare(
-        SQL  => 'SELECT value0, value1, comments, valid_id, queue_id, change_time, create_time '
+    return if !$Self->{DBObject}->Prepare(
+        SQL => 'SELECT value0, value1, comments, valid_id, queue_id, change_time, create_time '
             . ' FROM system_address WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
@@ -252,7 +254,7 @@ sub SystemAddressIsLocalAddress {
         . " FROM system_address WHERE "
         . " valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
 
-    return if ! $Self->{DBObject}->Prepare( SQL => $SQL );
+    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
     my $Hit = 0;
     $Param{Address} =~ s/ //g;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -279,6 +281,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2008-04-09 00:42:09 $
+$Revision: 1.19 $ $Date: 2008-05-08 09:36:19 $
 
 =cut

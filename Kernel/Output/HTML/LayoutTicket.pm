@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.21 2008-04-02 08:59:22 ot Exp $
+# $Id: LayoutTicket.pm,v 1.22 2008-05-08 09:36:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -168,26 +168,26 @@ sub AgentQueueListOption {
     }
 
     # set OnChange if AJAX is used
-    if ($Param{Ajax}) {
-        if (!$Param{Ajax}->{Depend}) {
+    if ( $Param{Ajax} ) {
+        if ( !$Param{Ajax}->{Depend} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "Need Depend Param Ajax option!",
+                Message  => "Need Depend Param Ajax option!",
             );
             $Self->FatalError();
         }
-        if (!$Param{Ajax}->{Update}) {
+        if ( !$Param{Ajax}->{Update} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "Need Update Param Ajax option()!",
+                Message  => "Need Update Param Ajax option()!",
             );
             $Self->FatalError();
         }
-        $Param{OnChange} = "AJAXUpdate('".$Param{Ajax}->{Subaction}."',"
-            ." '$Param{Name}',"
-            ." ['"
-            .join("', '", @{$Param{Ajax}->{Depend}})."'], ['"
-            .join("', '", @{$Param{Ajax}->{Update}})."']);";
+        $Param{OnChange} = "AJAXUpdate('" . $Param{Ajax}->{Subaction} . "',"
+            . " '$Param{Name}',"
+            . " ['"
+            . join( "', '", @{ $Param{Ajax}->{Depend} } ) . "'], ['"
+            . join( "', '", @{ $Param{Ajax}->{Update} } ) . "']);";
     }
 
     if ( $Param{OnChange} ) {
@@ -241,9 +241,11 @@ sub AgentQueueListOption {
 
             # build select string
             if ( $UsedData{$UpQueue} ) {
-                if (   $SelectedID eq $_
+                if (
+                    $SelectedID  eq $_
                     || $Selected eq $Param{Data}->{$_}
-                    || $Param{SelectedIDRefArrayOK}->{$_} )
+                    || $Param{SelectedIDRefArrayOK}->{$_}
+                    )
                 {
                     $Param{MoveQueuesStrg}
                         .= '<option selected value="'
@@ -302,9 +304,9 @@ sub AgentFreeText {
             }
             elsif ( $Counter > 1 ) {
                 $Data{"TicketFreeKeyField$_"} = $Self->OptionStrgHashRef(
-                    Data       => { %NullOption, %{ $Config{"TicketFreeKey$_"} }, },
-                    Name       => "TicketFreeKey$_",
-                    SelectedID => $Ticket{"TicketFreeKey$_"},
+                    Data => { %NullOption, %{ $Config{"TicketFreeKey$_"} }, },
+                    Name => "TicketFreeKey$_",
+                    SelectedID          => $Ticket{"TicketFreeKey$_"},
                     SelectedIDRefArray  => $Ticket{"TicketFreeKey$_"},
                     LanguageTranslation => 0,
                     HTMLQuote           => 1,
@@ -348,9 +350,9 @@ sub AgentFreeText {
         # value
         if ( ref( $Config{"TicketFreeText$_"} ) eq 'HASH' ) {
             $Data{"TicketFreeTextField$_"} = $Self->OptionStrgHashRef(
-                Data       => { %NullOption, %{ $Config{"TicketFreeText$_"} }, },
-                Name       => "TicketFreeText$_",
-                SelectedID => $Ticket{"TicketFreeText$_"},
+                Data => { %NullOption, %{ $Config{"TicketFreeText$_"} }, },
+                Name => "TicketFreeText$_",
+                SelectedID          => $Ticket{"TicketFreeText$_"},
                 SelectedIDRefArray  => $Ticket{"TicketFreeText$_"},
                 LanguageTranslation => 0,
                 HTMLQuote           => 1,
@@ -458,9 +460,9 @@ sub TicketArticleFreeText {
             }
             elsif ( $Counter > 1 ) {
                 $Data{"ArticleFreeKeyField$_"} = $Self->OptionStrgHashRef(
-                    Data       => { %NullOption, %{ $Config{"ArticleFreeKey$_"} }, },
-                    Name       => "ArticleFreeKey$_",
-                    SelectedID => $Article{"ArticleFreeKey$_"},
+                    Data => { %NullOption, %{ $Config{"ArticleFreeKey$_"} }, },
+                    Name => "ArticleFreeKey$_",
+                    SelectedID          => $Article{"ArticleFreeKey$_"},
                     SelectedIDRefArray  => $Article{"ArticleFreeKey$_"},
                     LanguageTranslation => 0,
                     HTMLQuote           => 1,
@@ -504,9 +506,9 @@ sub TicketArticleFreeText {
         # value
         if ( ref( $Config{"ArticleFreeText$_"} ) eq 'HASH' ) {
             $Data{"ArticleFreeTextField$_"} = $Self->OptionStrgHashRef(
-                Data       => { %NullOption, %{ $Config{"ArticleFreeText$_"} }, },
-                Name       => "ArticleFreeText$_",
-                SelectedID => $Article{"ArticleFreeText$_"},
+                Data => { %NullOption, %{ $Config{"ArticleFreeText$_"} }, },
+                Name => "ArticleFreeText$_",
+                SelectedID          => $Article{"ArticleFreeText$_"},
                 SelectedIDRefArray  => $Article{"ArticleFreeText$_"},
                 LanguageTranslation => 0,
                 HTMLQuote           => 1,

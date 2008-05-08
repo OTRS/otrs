@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.39 2008-05-02 13:21:40 rk Exp $
+# $Id: AgentTicketCompose.pm,v 1.40 2008-05-08 09:36:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,13 +23,13 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     $Self->{Debug} = $Param{Debug} || 0;
@@ -47,7 +47,7 @@ sub new {
     $Self->{StdAttachmentObject} = Kernel::System::StdAttachment->new(%Param);
     $Self->{StateObject}         = Kernel::System::State->new(%Param);
     $Self->{UploadCachObject}    = Kernel::System::Web::UploadCache->new(%Param);
-    $Self->{SystemAddress}      = Kernel::System::SystemAddress->new(%Param);
+    $Self->{SystemAddress}       = Kernel::System::SystemAddress->new(%Param);
 
     # get response format
     $Self->{ResponseFormat} = $Self->{ConfigObject}->Get('Ticket::Frontend::ResponseFormat')
@@ -87,7 +87,8 @@ sub Run {
     }
 
     # check permissions
-    if (!$Self->{TicketObject}->Permission(
+    if (
+        !$Self->{TicketObject}->Permission(
             Type     => $Self->{Config}->{Permission},
             TicketID => $Self->{TicketID},
             UserID   => $Self->{UserID}
@@ -111,7 +112,8 @@ sub Run {
                 Lock     => 'lock',
                 UserID   => $Self->{UserID}
             );
-            if ($Self->{TicketObject}->OwnerSet(
+            if (
+                $Self->{TicketObject}->OwnerSet(
                     TicketID  => $Self->{TicketID},
                     UserID    => $Self->{UserID},
                     NewUserID => $Self->{UserID},
@@ -157,7 +159,8 @@ sub Run {
 
     # get params
     my %GetParam = ();
-    for ( qw(
+    for (
+        qw(
         From To Cc Bcc Subject Body InReplyTo ResponseID ReplyArticleID StateID
         ArticleID TimeUnits Year Month Day Hour Minute AttachmentUpload
         AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
@@ -165,20 +168,24 @@ sub Run {
         AttachmentDelete9 AttachmentDelete10 AttachmentDelete11 AttachmentDelete12
         AttachmentDelete13 AttachmentDelete14 AttachmentDelete15 AttachmentDelete16
         FormID
-        )) {
+        )
+        )
+    {
         $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
     }
 
     # get ticket free text params
     for ( 1 .. 16 ) {
         $GetParam{"TicketFreeKey$_"} = $Self->{ParamObject}->GetParam( Param => "TicketFreeKey$_" );
-        $GetParam{"TicketFreeText$_"} = $Self->{ParamObject}->GetParam( Param => "TicketFreeText$_" );
+        $GetParam{"TicketFreeText$_"}
+            = $Self->{ParamObject}->GetParam( Param => "TicketFreeText$_" );
     }
 
     # get ticket free time params
     for ( 1 .. 6 ) {
         for my $Type (qw(Used Year Month Day Hour Minute)) {
-            $GetParam{ "TicketFreeTime" . $_ . $Type } = $Self->{ParamObject}->GetParam( Param => "TicketFreeTime" . $_ . $Type );
+            $GetParam{ "TicketFreeTime" . $_ . $Type }
+                = $Self->{ParamObject}->GetParam( Param => "TicketFreeTime" . $_ . $Type );
         }
         if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) ) {
             $GetParam{ 'TicketFreeTime' . $_ . 'Used' } = 1;
@@ -187,8 +194,10 @@ sub Run {
 
     # get article free text params
     for ( 1 .. 3 ) {
-        $GetParam{"ArticleFreeKey$_"} = $Self->{ParamObject}->GetParam( Param => "ArticleFreeKey$_" );
-        $GetParam{"ArticleFreeText$_"} = $Self->{ParamObject}->GetParam( Param => "ArticleFreeText$_" );
+        $GetParam{"ArticleFreeKey$_"}
+            = $Self->{ParamObject}->GetParam( Param => "ArticleFreeKey$_" );
+        $GetParam{"ArticleFreeText$_"}
+            = $Self->{ParamObject}->GetParam( Param => "ArticleFreeText$_" );
     }
 
     # send email
@@ -236,7 +245,8 @@ sub Run {
         }
 
         # get all attachments meta data
-        my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta( FormID => $Self->{FormID} );
+        my @Attachments
+            = $Self->{UploadCachObject}->FormIDGetAllFilesMeta( FormID => $Self->{FormID} );
 
         # check some values
         for (qw(From To Cc Bcc)) {
@@ -253,7 +263,7 @@ sub Run {
         my $Tn = $Self->{TicketObject}->TicketNumberLookup( TicketID => $Self->{TicketID} );
         $GetParam{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
             TicketNumber => $Tn,
-            Subject      => $GetParam{Subject} || '',
+            Subject => $GetParam{Subject} || '',
         );
 
         my %ArticleParam = ();
@@ -379,7 +389,7 @@ sub Run {
         my $Recipients = '';
         for my $Line (qw(To Cc Bcc)) {
             if ( $GetParam{$Line} ) {
-                if ( $Recipients ) {
+                if ($Recipients) {
                     $Recipients .= ',';
                 }
                 $Recipients .= $GetParam{$Line};
@@ -406,7 +416,7 @@ sub Run {
             Attachment     => \@AttachmentData,
             %ArticleParam,
         );
-        if ( $ArticleID ) {
+        if ($ArticleID) {
 
             # time accounting
             if ( $GetParam{TimeUnits} ) {
@@ -433,11 +443,13 @@ sub Run {
 
             # set ticket free time
             for ( 1 .. 6 ) {
-                if (   defined( $GetParam{ "TicketFreeTime" . $_ . "Year" } )
+                if (
+                    defined( $GetParam{ "TicketFreeTime" . $_ . "Year" } )
                     && defined( $GetParam{ "TicketFreeTime" . $_ . "Month" } )
                     && defined( $GetParam{ "TicketFreeTime" . $_ . "Day" } )
                     && defined( $GetParam{ "TicketFreeTime" . $_ . "Hour" } )
-                    && defined( $GetParam{ "TicketFreeTime" . $_ . "Minute" } ) )
+                    && defined( $GetParam{ "TicketFreeTime" . $_ . "Minute" } )
+                    )
                 {
                     my %Time;
                     $Time{ "TicketFreeTime" . $_ . "Year" }    = 0;
@@ -509,7 +521,8 @@ sub Run {
 
             # log use response id and reply article id (useful for response diagnostics)
             $Self->{TicketObject}->HistoryAdd(
-                Name         => "ResponseTemplate ($GetParam{ResponseID}/$GetParam{ReplyArticleID}/$ArticleID)",
+                Name =>
+                    "ResponseTemplate ($GetParam{ResponseID}/$GetParam{ReplyArticleID}/$ArticleID)",
                 HistoryType  => 'Misc',
                 TicketID     => $Self->{TicketID},
                 CreateUserID => $Self->{UserID},
@@ -523,8 +536,10 @@ sub Run {
                 return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenOverview} );
             }
             else {
-                return $Self->{LayoutObject}->Redirect( OP =>
-                        "Action=AgentTicketZoom&TicketID=$Self->{TicketID}&ArticleID=$ArticleID" );
+                return $Self->{LayoutObject}->Redirect(
+                    OP =>
+                        "Action=AgentTicketZoom&TicketID=$Self->{TicketID}&ArticleID=$ArticleID"
+                );
             }
         }
         else {
@@ -552,7 +567,8 @@ sub Run {
         }
 
         # get all attachments meta data
-        my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta( FormID => $Self->{FormID} );
+        my @Attachments
+            = $Self->{UploadCachObject}->FormIDGetAllFilesMeta( FormID => $Self->{FormID} );
 
         # get last customer article or selecte article ...
         my %Data = ();
@@ -560,7 +576,8 @@ sub Run {
             %Data = $Self->{TicketObject}->ArticleGet( ArticleID => $GetParam{ArticleID} );
         }
         else {
-            %Data = $Self->{TicketObject}->ArticleLastCustomerArticle( TicketID => $Self->{TicketID} );
+            %Data = $Self->{TicketObject}
+                ->ArticleLastCustomerArticle( TicketID => $Self->{TicketID} );
         }
 
         # check article type and replace To with From (in case)
@@ -575,7 +592,8 @@ sub Run {
         # get customer data
         my %Customer = ();
         if ( $Ticket{CustomerUserID} ) {
-            %Customer = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $Ticket{CustomerUserID} );
+            %Customer = $Self->{CustomerUserObject}
+                ->CustomerUserDataGet( User => $Ticket{CustomerUserID} );
         }
 
         # check if original content isn't text/plain or text/html, don't use it
@@ -613,12 +631,15 @@ sub Run {
         }
         $Data{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
             TicketNumber => $Ticket{TicketNumber},
-            Subject      => $Data{Subject} || '',
+            Subject => $Data{Subject} || '',
         );
 
         # add not local To addresses to Cc
         for my $Email ( Mail::Address->parse( $Data{To} ) ) {
-            if ( !$Self->{SystemAddress}->SystemAddressIsLocalAddress(Address => $Email->address() ) ) {
+            if (
+                !$Self->{SystemAddress}->SystemAddressIsLocalAddress( Address => $Email->address() )
+                )
+            {
                 if ( $Data{Cc} ) {
                     $Data{Cc} .= ', ';
                 }
@@ -669,11 +690,12 @@ sub Run {
 
         # find duplicate addresses
         my %Recipient = ();
-        for my $Type ( qw(To Cc Bcc) ) {
+        for my $Type (qw(To Cc Bcc)) {
             if ( $Data{$Type} ) {
                 my $NewLine = '';
                 for my $Email ( Mail::Address->parse( $Data{$Type} ) ) {
                     my $Address = $Email->address();
+
                     # only use email addresses with @ inside
                     if ( $Address && $Address =~ /@/ && !$Recipient{$Address} ) {
                         $Recipient{$Address} = 1;
@@ -681,7 +703,7 @@ sub Run {
                             Address => $Address,
                         );
                         if ( !$IsLocal ) {
-                            if ( $NewLine ) {
+                            if ($NewLine) {
                                 $NewLine .= ', ';
                             }
                             $NewLine .= $Email->format();
@@ -708,8 +730,9 @@ sub Run {
             if ( $Data{$_} =~ /<OTRS_CUSTOMER_REALNAME>/ ) {
                 my $From = '';
                 if ( $Ticket{CustomerUserID} ) {
-                    $From = $Self->{CustomerUserObject}
-                        ->CustomerName( UserLogin => $Ticket{CustomerUserID} );
+                    $From = $Self->{CustomerUserObject}->CustomerName(
+                        UserLogin => $Ticket{CustomerUserID}
+                    );
                 }
                 if ( !$From ) {
                     $From = $Data{OrigFrom} || '';
@@ -836,15 +859,19 @@ sub Run {
                 = $GetParam{ 'TicketFreeTime' . $_ . 'Used' };
 
             if ( $Ticket{ "TicketFreeTime" . $_ } ) {
-                (   $TicketFreeTime{ "TicketFreeTime" . $_ . 'Secunde' },
+                (
+                    $TicketFreeTime{ "TicketFreeTime" . $_ . 'Secunde' },
                     $TicketFreeTime{ "TicketFreeTime" . $_ . 'Minute' },
                     $TicketFreeTime{ "TicketFreeTime" . $_ . 'Hour' },
                     $TicketFreeTime{ "TicketFreeTime" . $_ . 'Day' },
                     $TicketFreeTime{ "TicketFreeTime" . $_ . 'Month' },
                     $TicketFreeTime{ "TicketFreeTime" . $_ . 'Year' }
                     )
-                    = $Self->{TimeObject}->SystemTime2Date( SystemTime => $Self->{TimeObject}
-                        ->TimeStamp2SystemTime( String => $Ticket{ "TicketFreeTime" . $_ }, ), );
+                    = $Self->{TimeObject}->SystemTime2Date(
+                    SystemTime => $Self->{TimeObject}->TimeStamp2SystemTime(
+                        String => $Ticket{ "TicketFreeTime" . $_ },
+                    ),
+                    );
                 $TicketFreeTime{ "TicketFreeTime" . $_ . 'Used' } = 1;
             }
         }
@@ -928,7 +955,7 @@ sub _Mask {
     # pending data string
     $Param{PendingDateString} = $Self->{LayoutObject}->BuildDateSelection(
         %Param,
-        Format   => 'DateInputFormatLong',
+        Format => 'DateInputFormatLong',
         DiffTime => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
     );
 
@@ -1043,8 +1070,10 @@ sub _Mask {
     }
 
     # show spell check
-    if (   $Self->{ConfigObject}->Get('SpellChecker')
-        && $Self->{LayoutObject}->{BrowserJavaScriptSupport} )
+    if (
+        $Self->{ConfigObject}->Get('SpellChecker')
+        && $Self->{LayoutObject}->{BrowserJavaScriptSupport}
+        )
     {
         $Self->{LayoutObject}->Block(
             Name => 'SpellCheck',
@@ -1089,7 +1118,7 @@ sub _Mask {
                 Data => {
                     TicketFreeTimeCheck => 'TicketFreeTime' . $Key . 'Used',
                     TicketFreeTimeField => 'TicketFreeTime' . $Key,
-                    TicketFreeTimeKey   => $Self->{ConfigObject}->Get('TicketFreeTimeKey' . $Key),
+                    TicketFreeTimeKey   => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Key ),
                 },
             );
         }

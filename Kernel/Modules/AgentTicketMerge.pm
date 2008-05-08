@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.pm,v 1.18 2008-02-18 16:35:36 martin Exp $
+# $Id: AgentTicketMerge.pm,v 1.19 2008-05-08 09:36:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,13 +17,13 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check needed objects
@@ -57,7 +57,8 @@ sub Run {
     }
 
     # check permissions
-    if (!$Self->{TicketObject}->Permission(
+    if (
+        !$Self->{TicketObject}->Permission(
             Type     => 'rw',
             TicketID => $Self->{TicketID},
             UserID   => $Self->{UserID}
@@ -73,7 +74,8 @@ sub Run {
     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
 
     # check permissions
-    if (!$Self->{TicketObject}->Permission(
+    if (
+        !$Self->{TicketObject}->Permission(
             Type     => $Self->{Config}->{Permission},
             TicketID => $Self->{TicketID},
             UserID   => $Self->{UserID}
@@ -93,7 +95,8 @@ sub Run {
                 Lock     => 'lock',
                 UserID   => $Self->{UserID}
             );
-            if ($Self->{TicketObject}->OwnerSet(
+            if (
+                $Self->{TicketObject}->OwnerSet(
                     TicketID  => $Self->{TicketID},
                     UserID    => $Self->{UserID},
                     NewUserID => $Self->{UserID},
@@ -144,7 +147,8 @@ sub Run {
             = $Self->{TicketObject}->TicketIDLookup( TicketNumber => $MainTicketNumber );
 
         # check permissions
-        if (!$Self->{TicketObject}->Permission(
+        if (
+            !$Self->{TicketObject}->Permission(
                 Type     => 'rw',
                 TicketID => $MainTicketID,
                 UserID   => $Self->{UserID}
@@ -157,7 +161,8 @@ sub Run {
         }
 
         # check errors
-        if ($Self->{TicketID} == $MainTicketID
+        if (
+            $Self->{TicketID} == $MainTicketID
             || !$Self->{TicketObject}->TicketMerge(
                 MainTicketID  => $MainTicketID,
                 MergeTicketID => $Self->{TicketID},
@@ -251,7 +256,7 @@ sub Run {
         # prepare subject ...
         $Article{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
             TicketNumber => $Ticket{TicketNumber},
-            Subject      => $Article{Subject} || '',
+            Subject => $Article{Subject} || '',
         );
 
         # prepare from ...

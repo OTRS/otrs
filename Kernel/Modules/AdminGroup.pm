@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGroup.pm - to add/update/delete groups
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGroup.pm,v 1.27 2008-01-31 06:22:11 tr Exp $
+# $Id: AdminGroup.pm,v 1.28 2008-05-08 09:36:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,13 +17,13 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check all needed objects
@@ -44,7 +44,10 @@ sub Run {
     # change
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
-        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) ||  $Self->{ParamObject}->GetParam( Param => 'GroupID' ) || '';
+        my $ID
+            = $Self->{ParamObject}->GetParam( Param => 'ID' )
+            || $Self->{ParamObject}->GetParam( Param => 'GroupID' )
+            || '';
         my %Data = $Self->{GroupObject}->GroupGet( ID => $ID );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
@@ -137,15 +140,19 @@ sub Run {
         {
 
             # redirect
-            if ( !$Self->{ConfigObject}->Get('Frontend::Module')->{AdminUserGroup}
-                && $Self->{ConfigObject}->Get('Frontend::Module')->{AdminRoleGroup} )
+            if (
+                !$Self->{ConfigObject}->Get('Frontend::Module')->{AdminUserGroup}
+                && $Self->{ConfigObject}->Get('Frontend::Module')->{AdminRoleGroup}
+                )
             {
-                return $Self->{LayoutObject}
-                    ->Redirect( OP => "Action=AdminRoleGroup&Subaction=Group&ID=$GroupID", );
+                return $Self->{LayoutObject}->Redirect(
+                    OP => "Action=AdminRoleGroup&Subaction=Group&ID=$GroupID",
+                );
             }
             if ( $Self->{ConfigObject}->Get('Frontend::Module')->{AdminUserGroup} ) {
-                return $Self->{LayoutObject}
-                    ->Redirect( OP => "Action=AdminUserGroup&Subaction=Group&ID=$GroupID", );
+                return $Self->{LayoutObject}->Redirect(
+                    OP => "Action=AdminUserGroup&Subaction=Group&ID=$GroupID",
+                );
             }
             else {
                 return $Self->{LayoutObject}->Redirect( OP => "Action=AdminGroup", );

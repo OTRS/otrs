@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.90 2008-04-24 21:50:28 martin Exp $
+# $Id: Queue.pm,v 1.91 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.90 $) [1];
+$VERSION = qw($Revision: 1.91 $) [1];
 
 =head1 NAME
 
@@ -246,7 +246,7 @@ sub GetStdResponse {
 
     # sql
     $Self->{DBObject}->Prepare(
-        SQL => 'SELECT text FROM standard_response WHERE id = ?',
+        SQL  => 'SELECT text FROM standard_response WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -260,7 +260,8 @@ sub SetQueueStdResponse {
     my ( $Self, %Param ) = @_;
 
     unless ( $Param{ResponseID} && $Param{QueueID} && $Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ResponseID, QueueID and UserID!" );
+        $Self->{LogObject}
+            ->Log( Priority => 'error', Message => "Need ResponseID, QueueID and UserID!" );
         return;
     }
 
@@ -307,6 +308,7 @@ sub GetStdResponses {
         . " sr.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )"
         . " ORDER BY sr.name";
     $Self->{DBObject}->Prepare( SQL => $SQL );
+
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $StdResponses{ $Row[0] } = $Row[1];
     }
@@ -488,7 +490,7 @@ sub QueueLookup {
     }
 
     # check if data exists
-    if ( ! $Self->{$CacheKey} ) {
+    if ( !$Self->{$CacheKey} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Found no $Key for $Value!",
@@ -664,9 +666,12 @@ sub QueueAdd {
         ValidID
     );
 
-    for ( qw(UnlockTimeout FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify
+    for (
+        qw(UnlockTimeout FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify
         FollowUpLock SystemAddressID SalutationID SignatureID
-        FollowUpID FollowUpLock MoveNotify StateNotify LockNotify OwnerNotify DefaultSignKey Calendar) ) {
+        FollowUpID FollowUpLock MoveNotify StateNotify LockNotify OwnerNotify DefaultSignKey Calendar)
+        )
+    {
 
         # these are coming from Config.pm
         # I added default values in the Load Routine
@@ -674,8 +679,11 @@ sub QueueAdd {
     }
 
     # check needed stuff
-    for ( qw(Name GroupID SystemAddressID SalutationID SignatureID MoveNotify StateNotify
-        LockNotify OwnerNotify ValidID UserID) ) {
+    for (
+        qw(Name GroupID SystemAddressID SalutationID SignatureID MoveNotify StateNotify
+        LockNotify OwnerNotify ValidID UserID)
+        )
+    {
         if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
@@ -701,7 +709,7 @@ sub QueueAdd {
         return;
     }
 
-    return if ! $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => 'INSERT INTO queue (name, group_id, unlock_timeout, system_address_id, '
             . ' calendar_name, default_sign_key, salutation_id, signature_id, '
             . ' first_response_time, first_response_notify, update_time, '
@@ -715,9 +723,9 @@ sub QueueAdd {
             \$Param{Name}, \$Param{GroupID}, \$Param{UnlockTimeout}, \$Param{SystemAddressID},
             \$Param{Calendar}, \$Param{DefaultSignKey}, \$Param{SalutationID}, \$Param{SignatureID},
             \$Param{FirstResponseTime}, \$Param{FirstResponseNotify}, \$Param{UpdateTime},
-            \$Param{UpdateNotify}, \$Param{SolutionTime}, \$Param{SolutionNotify},
-            \$Param{FollowUpID}, \$Param{FollowUpLock}, \$Param{StateNotify},
-            \$Param{MoveNotify}, \$Param{LockNotify}, \$Param{OwnerNotify},
+            \$Param{UpdateNotify},      \$Param{SolutionTime},        \$Param{SolutionNotify},
+            \$Param{FollowUpID},        \$Param{FollowUpLock},        \$Param{StateNotify},
+            \$Param{MoveNotify},        \$Param{LockNotify},          \$Param{OwnerNotify},
             \$Param{ValidID}, \$Param{Comment}, \$Param{UserID}, \$Param{UserID},
         ],
     );
@@ -817,6 +825,7 @@ sub QueueGet {
         . ' FROM queue q, system_address sa'
         . ' WHERE q.system_address_id = sa.id AND ';
     my $Suffix = '';
+
     if ( $Param{ID} ) {
         $SQL .= 'q.id = ?';
         push @Bind, \$Param{ID};
@@ -870,7 +879,7 @@ sub QueueGet {
     my %Preferences = $Self->QueuePreferencesGet( QueueID => $Data{QueueID} );
 
     # merge hash
-    if ( %Preferences ) {
+    if (%Preferences) {
         %Data = ( %Data, %Preferences );
     }
 
@@ -931,9 +940,12 @@ sub QueueUpdate {
     }
 
     # check !!!
-    for ( qw(UnlockTimeout FollowUpLock MoveNotify StateNotify LockNotify OwnerNotify
+    for (
+        qw(UnlockTimeout FollowUpLock MoveNotify StateNotify LockNotify OwnerNotify
         FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify
-        FollowUpID FollowUpLock DefaultSignKey Calendar) ) {
+        FollowUpID FollowUpLock DefaultSignKey Calendar)
+        )
+    {
         $Param{$_} = 0 if ( !$Param{$_} );
     }
 
@@ -967,7 +979,7 @@ sub QueueUpdate {
     }
 
     # sql
-    return if ! $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => 'UPDATE queue SET name = ?, comments = ?, group_id = ?, '
             . ' unlock_timeout = ?, first_response_time = ?, first_response_notify = ?, '
             . ' update_time = ?, update_notify = ?, solution_time = ?, '
@@ -980,12 +992,12 @@ sub QueueUpdate {
         Bind => [
             \$Param{Name}, \$Param{Comment}, \$Param{GroupID}, \$Param{UnlockTimeout},
             \$Param{FirstResponseTime}, \$Param{FirstResponseNotify}, \$Param{UpdateTime},
-            \$Param{UpdateNotify}, \$Param{SolutionTime}, \$Param{SolutionNotify},
-            \$Param{FollowUpID}, \$Param{FollowUpLock}, \$Param{SystemAddressID},
-            \$Param{Calendar}, \$Param{DefaultSignKey}, \$Param{SalutationID},
-            \$Param{SignatureID}, \$Param{MoveNotify}, \$Param{StateNotify},
-            \$Param{LockNotify}, \$Param{OwnerNotify}, \$Param{ValidID},
-            \$Param{UserID}, \$Param{QueueID},
+            \$Param{UpdateNotify},      \$Param{SolutionTime},        \$Param{SolutionNotify},
+            \$Param{FollowUpID},        \$Param{FollowUpLock},        \$Param{SystemAddressID},
+            \$Param{Calendar},          \$Param{DefaultSignKey},      \$Param{SalutationID},
+            \$Param{SignatureID},       \$Param{MoveNotify},          \$Param{StateNotify},
+            \$Param{LockNotify},        \$Param{OwnerNotify},         \$Param{ValidID},
+            \$Param{UserID},            \$Param{QueueID},
         ],
     );
 
@@ -1022,7 +1034,8 @@ set queue preferences
 =cut
 
 sub QueuePreferencesSet {
-    my $Self = shift;
+    my ($Self) = @_;
+
     return $Self->{PreferencesObject}->QueuePreferencesSet(@_);
 }
 
@@ -1038,7 +1051,8 @@ get queue preferences
 =cut
 
 sub QueuePreferencesGet {
-    my $Self = shift;
+    my ($Self) = @_;
+
     return $Self->{PreferencesObject}->QueuePreferencesGet(@_);
 }
 
@@ -1058,6 +1072,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.90 $ $Date: 2008-04-24 21:50:28 $
+$Revision: 1.91 $ $Date: 2008-05-08 09:36:19 $
 
 =cut

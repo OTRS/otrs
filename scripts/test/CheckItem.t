@@ -2,7 +2,7 @@
 # CheckItem.t - check item tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CheckItem.t,v 1.5 2008-02-01 19:58:08 martin Exp $
+# $Id: CheckItem.t,v 1.6 2008-05-08 09:35:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,14 +12,15 @@
 use Kernel::System::CheckItem;
 
 # disable dns lookups
-$Self->{ConfigObject}->Set( Key => 'CheckMXRecord', Value => 0 );
+$Self->{ConfigObject}->Set( Key => 'CheckMXRecord',       Value => 0 );
 $Self->{ConfigObject}->Set( Key => 'CheckEmailAddresses', Value => 1 );
 
 # create new object
-$Self->{CheckItemObject} = Kernel::System::CheckItem->new(%{$Self});
+$Self->{CheckItemObject} = Kernel::System::CheckItem->new( %{$Self} );
 
 # email address checks
 my @EmailTests = (
+
     # Invalid
     {
         Email => 'somebody',
@@ -49,6 +50,7 @@ my @EmailTests = (
         Email => 'some@body@somehost.com',
         Valid => 0,
     },
+
     # Valid
     {
         Email => 'somebody@somehost.com',
@@ -80,7 +82,7 @@ my @EmailTests = (
     },
 );
 
-for my $Test ( @EmailTests ) {
+for my $Test (@EmailTests) {
 
     # check address
     my $Valid = $Self->{CheckItemObject}->CheckEmail(
@@ -122,7 +124,7 @@ my @StringCleanTests = (
     {
         String => "\n\r\t Test\n\r\t test\n\r\t Test\n\r\t ",
         Params => {
-            TrimLeft => 1,
+            TrimLeft  => 1,
             TrimRight => 0,
         },
         Result => "Test\n\r\t test\n\r\t Test\n\r\t ",
@@ -130,7 +132,7 @@ my @StringCleanTests = (
     {
         String => "\n\r\t Test\n\r\t test\n\r\t Test\n\r\t ",
         Params => {
-            TrimLeft => 0,
+            TrimLeft  => 0,
             TrimRight => 1,
         },
         Result => "\n\r\t Test\n\r\t test\n\r\t Test",
@@ -138,7 +140,7 @@ my @StringCleanTests = (
     {
         String => "\n\r\t Test\n\r\t test\n\r\t Test\n\r\t ",
         Params => {
-            TrimLeft => 0,
+            TrimLeft  => 0,
             TrimRight => 0,
         },
         Result => "\n\r\t Test\n\r\t test\n\r\t Test\n\r\t ",
@@ -146,94 +148,94 @@ my @StringCleanTests = (
     {
         String => "\n\r\t Test\n\r\t test\n\r\t Test\n\r\t ",
         Params => {
-            TrimLeft => 1,
-            TrimRight => 1,
+            TrimLeft          => 1,
+            TrimRight         => 1,
             RemoveAllNewlines => 1,
-            RemoveAllTabs => 0,
-            RemoveAllSpaces => 0,
+            RemoveAllTabs     => 0,
+            RemoveAllSpaces   => 0,
         },
         Result => "Test\t test\t Test",
     },
     {
         String => "\n\r\t Test\n\r\t test\n\r\t Test\n\r\t ",
         Params => {
-            TrimLeft => 1,
-            TrimRight => 1,
+            TrimLeft          => 1,
+            TrimRight         => 1,
             RemoveAllNewlines => 0,
-            RemoveAllTabs => 1,
-            RemoveAllSpaces => 0,
+            RemoveAllTabs     => 1,
+            RemoveAllSpaces   => 0,
         },
         Result => "Test\n\r test\n\r Test",
     },
     {
         String => "\n\r\t Test\n\r\t test\n\r\t Test\n\r\t ",
         Params => {
-            TrimLeft => 1,
-            TrimRight => 1,
+            TrimLeft          => 1,
+            TrimRight         => 1,
             RemoveAllNewlines => 0,
-            RemoveAllTabs => 0,
-            RemoveAllSpaces => 1,
+            RemoveAllTabs     => 0,
+            RemoveAllSpaces   => 1,
         },
         Result => "Test\n\r\ttest\n\r\tTest",
     },
     {
         String => "\n\r\t Test\n\r\t test\n\r\t Test\n\r\t ",
         Params => {
-            TrimLeft => 0,
-            TrimRight => 0,
+            TrimLeft          => 0,
+            TrimRight         => 0,
             RemoveAllNewlines => 0,
-            RemoveAllTabs => 0,
-            RemoveAllSpaces => 0,
+            RemoveAllTabs     => 0,
+            RemoveAllSpaces   => 0,
         },
         Result => "\n\r\t Test\n\r\t test\n\r\t Test\n\r\t ",
     },
     {
         String => "\n\r\t Test\n\r\t test\n\r\t Test\n\r\t ",
         Params => {
-            TrimLeft => 0,
-            TrimRight => 0,
+            TrimLeft          => 0,
+            TrimRight         => 0,
             RemoveAllNewlines => 1,
-            RemoveAllTabs => 0,
-            RemoveAllSpaces => 0,
+            RemoveAllTabs     => 0,
+            RemoveAllSpaces   => 0,
         },
         Result => "\t Test\t test\t Test\t ",
     },
     {
         String => "\n\r\t Test\n\r\t test\n\r\t Test\n\r\t ",
         Params => {
-            TrimLeft => 0,
-            TrimRight => 0,
+            TrimLeft          => 0,
+            TrimRight         => 0,
             RemoveAllNewlines => 0,
-            RemoveAllTabs => 1,
-            RemoveAllSpaces => 0,
+            RemoveAllTabs     => 1,
+            RemoveAllSpaces   => 0,
         },
         Result => "\n\r Test\n\r test\n\r Test\n\r ",
     },
     {
         String => "\n\r\t Test\n\r\t test\n\r\t Test\n\r\t ",
         Params => {
-            TrimLeft => 0,
-            TrimRight => 0,
+            TrimLeft          => 0,
+            TrimRight         => 0,
             RemoveAllNewlines => 0,
-            RemoveAllTabs => 0,
-            RemoveAllSpaces => 1,
+            RemoveAllTabs     => 0,
+            RemoveAllSpaces   => 1,
         },
         Result => "\n\r\tTest\n\r\ttest\n\r\tTest\n\r\t",
     },
     {
         String => "\n\r\t Test\n\r\t test\n\r\t Test\n\r\t ",
         Params => {
-            TrimLeft => 0,
-            TrimRight => 0,
+            TrimLeft          => 0,
+            TrimRight         => 0,
             RemoveAllNewlines => 1,
-            RemoveAllTabs => 1,
-            RemoveAllSpaces => 1,
+            RemoveAllTabs     => 1,
+            RemoveAllSpaces   => 1,
         },
         Result => "TesttestTest",
     },
 );
 
-for my $Test ( @StringCleanTests ) {
+for my $Test (@StringCleanTests) {
 
     # copy string to leave the original untouched
     my $String = $Test->{String};
@@ -241,7 +243,7 @@ for my $Test ( @StringCleanTests ) {
     # start sting preparation
     $Self->{CheckItemObject}->StringClean(
         StringRef => \$String,
-        %{$Test->{Params}},
+        %{ $Test->{Params} },
     );
 
     # check result

@@ -2,7 +2,7 @@
 # Kernel/System/Salutation.pm - All salutation related function should be here eventually
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Salutation.pm,v 1.5 2008-04-09 00:42:09 martin Exp $
+# $Id: Salutation.pm,v 1.6 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -53,7 +53,9 @@ create an object
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
+        MainObject   => $MainObject,
     );
+
     my $SalutationObject = Kernel::System::Salutation->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
@@ -104,7 +106,7 @@ sub SalutationAdd {
         }
     }
 
-    return if ! $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => 'INSERT INTO salutation (name, text, comments, valid_id, '
             . ' create_time, create_by, change_time, change_by) VALUES '
             . ' (?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
@@ -116,7 +118,7 @@ sub SalutationAdd {
 
     # get new salutation id
     $Self->{DBObject}->Prepare(
-        SQL => 'SELECT id FROM salutation WHERE name = ?',
+        SQL  => 'SELECT id FROM salutation WHERE name = ?',
         Bind => [ \$Param{Name} ],
     );
     my $ID;
@@ -146,8 +148,8 @@ sub SalutationGet {
     }
 
     # sql
-    return if ! $Self->{DBObject}->Prepare(
-        SQL  => 'SELECT id, name, text, comments, valid_id, change_time, create_time '
+    return if !$Self->{DBObject}->Prepare(
+        SQL => 'SELECT id, name, text, comments, valid_id, change_time, create_time '
             . 'FROM salutation WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
@@ -261,6 +263,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2008-04-09 00:42:09 $
+$Revision: 1.6 $ $Date: 2008-05-08 09:36:19 $
 
 =cut

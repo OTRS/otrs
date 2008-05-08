@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.74 2008-04-11 15:52:40 martin Exp $
+# $Id: XML.pm,v 1.75 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Encode;
 use Kernel::System::Cache;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.74 $) [1];
+$VERSION = qw($Revision: 1.75 $) [1];
 
 =head1 NAME
 
@@ -70,7 +70,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check all needed objects
@@ -118,7 +118,7 @@ sub XMLHashAdd {
     if ( !$Param{Key} && !$Param{KeyAutoIncrement} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => 'Need Key or KeyAutoIncrement param!',
+            Message  => 'Need Key or KeyAutoIncrement param!',
         );
         return;
     }
@@ -133,11 +133,12 @@ sub XMLHashAdd {
         $Self->XMLHashDelete(%Param);
 
         # create rand number
-        my $Rand = int( rand(1000000) );
+        my $Rand   = int( rand(1000000) );
         my $TmpKey = "TMP-$Rand-$Param{Type}";
         for my $Key ( sort keys %ValueHASH ) {
             $Self->{DBObject}->Do(
-                SQL  => 'INSERT INTO xml_storage (xml_type, xml_key, xml_content_key, xml_content_value) VALUES (?, ?, ?, ?)',
+                SQL =>
+                    'INSERT INTO xml_storage (xml_type, xml_key, xml_content_key, xml_content_value) VALUES (?, ?, ?, ?)',
                 Bind => [ \$TmpKey, \$Param{Key}, \$Key, \$ValueHASH{$Key}, ],
             );
         }
@@ -329,7 +330,7 @@ sub XMLHashDelete {
     # remove cache
     $Self->{CacheObject}->Delete(
         Type => 'XML',
-        Key => "$Param{Type}-$Param{Key}",
+        Key  => "$Param{Type}-$Param{Key}",
     );
 
     return $Self->{DBObject}->Do(
@@ -365,16 +366,16 @@ sub XMLHashMove {
     # remove cache
     $Self->{CacheObject}->Delete(
         Type => 'XML',
-        Key => "$Param{OldType}-$Param{OldKey}",
+        Key  => "$Param{OldType}-$Param{OldKey}",
     );
     $Self->{CacheObject}->Delete(
         Type => 'XML',
-        Key => "$Param{NewType}-$Param{NewKey}",
+        Key  => "$Param{NewType}-$Param{NewKey}",
     );
 
     # delete existing xml hash
     $Self->{DBObject}->Do(
-        SQL  => 'DELETE FROM xml_storage WHERE xml_type = ? AND xml_key = ?',
+        SQL => 'DELETE FROM xml_storage WHERE xml_type = ? AND xml_key = ?',
         Bind => [ \$Param{NewType}, \$Param{NewKey} ],
     );
 
@@ -440,10 +441,10 @@ sub XMLHashSearch {
             my $SQL     = '';
             for my $Key ( sort keys %{$And} ) {
                 my $Value = $Self->{DBObject}->Quote( $And->{$Key} );
-                $Key = $Self->{DBObject}->Quote($Key, 'Like');
+                $Key = $Self->{DBObject}->Quote( $Key, 'Like' );
                 if ( $Value && ref($Value) eq 'ARRAY' ) {
                     for my $Element ( @{$Value} ) {
-                        $Element = $Self->{DBObject}->Quote($Element, 'Like');
+                        $Element = $Self->{DBObject}->Quote( $Element, 'Like' );
                         if ($SQL) {
                             $SQL .= ' OR ';
                         }
@@ -452,7 +453,7 @@ sub XMLHashSearch {
                     }
                 }
                 else {
-                    $Value = $Self->{DBObject}->Quote($Value, 'Like');
+                    $Value = $Self->{DBObject}->Quote( $Value, 'Like' );
                     if ($SQL) {
                         $SQL .= ' OR ';
                     }
@@ -460,7 +461,8 @@ sub XMLHashSearch {
                 }
             }
             $Self->{DBObject}->Prepare(
-                SQL  => "SELECT DISTINCT(xml_key) FROM xml_storage WHERE $SQL AND xml_type = ? GROUP BY xml_key",
+                SQL =>
+                    "SELECT DISTINCT(xml_key) FROM xml_storage WHERE $SQL AND xml_type = ? GROUP BY xml_key",
                 Bind => [ \$Param{Type} ],
             );
             while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
@@ -503,7 +505,7 @@ sub XMLHashList {
         Bind => [ \$Param{Type} ],
     );
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-        push @Keys, $Data[0] ;
+        push @Keys, $Data[0];
     }
 
     return @Keys;
@@ -1265,14 +1267,18 @@ sub XMLParse {
     my $UseFallback = 1;
 
     if ( eval 'require XML::Parser' ) {
-        my $Parser = XML::Parser->new( Handlers => { Start => \&_HS, End => \&_ES, Char => \&_CS } );
+        my $Parser
+            = XML::Parser->new( Handlers => { Start => \&_HS, End => \&_ES, Char => \&_CS } );
 
         if ( eval { $Parser->parse( $Param{String} ) } ) {
             $UseFallback = 0;
         }
         else {
             $Self->{LogObject}->Log( Priority => 'error', Message => "C-Parser: $@!" );
-            $Self->{LogObject}->Log( Priority => 'error', Message => 'XML::Parser produced errors. I use XML::Parser::Lite as fallback!' );
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'XML::Parser produced errors. I use XML::Parser::Lite as fallback!'
+            );
         }
     }
 
@@ -1383,7 +1389,8 @@ sub _ES {
     undef $S->{C};
     push(
         @{ $S->{XMLARRAY} },
-        {   TagType  => 'End',
+        {
+            TagType  => 'End',
             TagLevel => $S->{XMLLevel},
             TagCount => $S->{XMLTagCount},
             Tag      => $Element
@@ -1409,6 +1416,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.74 $ $Date: 2008-04-11 15:52:40 $
+$Revision: 1.75 $ $Date: 2008-05-08 09:36:19 $
 
 =cut

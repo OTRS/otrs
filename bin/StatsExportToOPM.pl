@@ -3,7 +3,7 @@
 # StatsExportToOPM.pl - export all stats of a system and create a package for the package manager
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: StatsExportToOPM.pl,v 1.9 2008-03-07 16:44:14 martin Exp $
+# $Id: StatsExportToOPM.pl,v 1.10 2008-05-08 09:36:57 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION $Debug);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 # common objects
 my %CommonObject = ();
@@ -179,8 +179,9 @@ for my $StatID ( @{$StatsListRef} ) {
 
 my %OPMS = ();
 my ( $s, $m, $h, $D, $M, $Y )
-    = $CommonObject{TimeObject}
-    ->SystemTime2Date( SystemTime => $CommonObject{TimeObject}->SystemTime(), );
+    = $CommonObject{TimeObject}->SystemTime2Date(
+    SystemTime => $CommonObject{TimeObject}->SystemTime(),
+    );
 
 $OPMS{Version}{Content}   = $PackageVersion;
 $OPMS{Name}{Content}      = $PackageName;

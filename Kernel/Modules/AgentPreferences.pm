@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentPreferences.pm,v 1.35 2008-01-31 06:22:12 tr Exp $
+# $Id: AgentPreferences.pm,v 1.36 2008-05-08 09:36:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check all needed objects
@@ -81,8 +81,9 @@ sub Run {
             }
 
             # mk rediect
-            return $Self->{LayoutObject}
-                ->Redirect( OP => "Action=AgentPreferences&Priority=$Priority&Message=$Message", );
+            return $Self->{LayoutObject}->Redirect(
+                OP => "Action=AgentPreferences&Priority=$Priority&Message=$Message",
+            );
         }
         else {
             return $Self->{LayoutObject}->FatalError();
@@ -190,11 +191,14 @@ sub AgentPreferencesForm {
                         },
                     );
                     for my $ParamItem (@Params) {
-                        if (   ref( $ParamItem->{Data} ) eq 'HASH'
-                            || ref( $Preference{Data} ) eq 'HASH' )
+                        if (
+                            ref( $ParamItem->{Data} )   eq 'HASH'
+                            || ref( $Preference{Data} ) eq 'HASH'
+                            )
                         {
-                            $ParamItem->{'Option'} = $Self->{LayoutObject}
-                                ->OptionStrgHashRef( %Preference, %{$ParamItem}, );
+                            $ParamItem->{'Option'} = $Self->{LayoutObject}->OptionStrgHashRef(
+                                %Preference, %{$ParamItem},
+                            );
                         }
                         $Self->{LayoutObject}->Block(
                             Name => 'Block',

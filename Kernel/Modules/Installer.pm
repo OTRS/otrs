@@ -2,7 +2,7 @@
 # Kernel/Modules/Installer.pm - provides the DB installer
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.56 2008-04-29 21:56:51 martin Exp $
+# $Id: Installer.pm,v 1.57 2008-05-08 09:36:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,13 +20,13 @@ use warnings;
 use DBI;
 
 use vars qw($VERSION %INC);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check needed objects
@@ -146,7 +146,7 @@ sub Run {
             Data => {
                 Item => 'License',
                 Step => '1/4',
-            }
+                }
         );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'Installer',
@@ -176,7 +176,7 @@ sub Run {
                 Data => {
                     Item => 'Create Database',
                     Step => '2/4',
-                }
+                    }
             );
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'Installer',
@@ -386,7 +386,8 @@ sub Run {
                 Name => 'DatabaseResultItem',
                 Data => { Item => "Creating database user '$DB{DatabaseUser}\@$DB{NewHost}'", },
             );
-            if (!$DBH->do(
+            if (
+                !$DBH->do(
                     "GRANT ALL PRIVILEGES ON $DB{Database}.* TO $DB{DatabaseUser}\@$DB{NewHost} IDENTIFIED BY '$DB{DatabasePw}' WITH GRANT OPTION;"
                 )
                 )
@@ -450,7 +451,8 @@ sub Run {
             }
 
             # ReConfigure Config.pm
-            if ($Self->ReConfigure(
+            if (
+                $Self->ReConfigure(
                     DatabaseHost => $DB{DatabaseHost},
                     Database     => $DB{Database},
                     DatabaseUser => $DB{DatabaseUser},
@@ -540,7 +542,7 @@ sub Run {
                 Data         => {
                     Item => 'Drop Database',
                     Step => '4/4',
-                }
+                    }
             );
         }
         else {
@@ -588,7 +590,7 @@ sub Run {
                 Item => 'System Settings',
                 Step => '3/4',
                 %Param,
-            }
+                }
         );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'Installer',

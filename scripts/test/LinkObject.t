@@ -2,7 +2,7 @@
 # LinkObject.t - link object module testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.t,v 1.1 2008-03-21 00:40:11 martin Exp $
+# $Id: LinkObject.t,v 1.2 2008-05-08 09:35:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,27 +22,27 @@ $Self->{LinkObject} = Kernel::System::LinkObject->new(
 $Self->{LinkObject}->LoadBackend( Module => 'Ticket' );
 
 my $TicketID1 = $Self->{TicketObject}->TicketCreate(
-    Title => 'Some Ticket Title',
-    Queue => 'Raw',
-    Lock => 'unlock',
-    Priority => '3 normal',
-    State => 'closed successful',
-    CustomerNo => '123465',
+    Title        => 'Some Ticket Title',
+    Queue        => 'Raw',
+    Lock         => 'unlock',
+    Priority     => '3 normal',
+    State        => 'closed successful',
+    CustomerNo   => '123465',
     CustomerUser => 'customer@example.com',
-    OwnerID => 1,
-    UserID => 1,
+    OwnerID      => 1,
+    UserID       => 1,
 );
 
 my $TicketID2 = $Self->{TicketObject}->TicketCreate(
-    Title => 'Some Ticket Title2',
-    Queue => 'Raw',
-    Lock => 'unlock',
-    Priority => '3 normal',
-    State => 'closed successful',
-    CustomerNo => '123465',
+    Title        => 'Some Ticket Title2',
+    Queue        => 'Raw',
+    Lock         => 'unlock',
+    Priority     => '3 normal',
+    State        => 'closed successful',
+    CustomerNo   => '123465',
     CustomerUser => 'customer@example.com',
-    OwnerID => 1,
-    UserID => 1,
+    OwnerID      => 1,
+    UserID       => 1,
 );
 
 # link
@@ -66,15 +66,15 @@ my %Links = $Self->{LinkObject}->AllLinkedObjects(
     UserID   => 1,
 );
 $Self->True(
-    !(%{$Links{Parent}->{Ticket}}) || 0,
+    !( %{ $Links{Parent}->{Ticket} } ) || 0,
     'AllLinkedObjects() - Parent - TicketID1',
 );
 $Self->True(
-    (%{$Links{Child}->{Ticket}}) || 0,
+    ( %{ $Links{Child}->{Ticket} } ) || 0,
     'AllLinkedObjects() - Child - TicketID1',
 );
 $Self->True(
-    !(%{$Links{Normal}->{Ticket}}) || 0,
+    !( %{ $Links{Normal}->{Ticket} } ) || 0,
     'AllLinkedObjects() - Normal - TicketID1',
 );
 
@@ -84,15 +84,15 @@ $Self->True(
     UserID   => 1,
 );
 $Self->True(
-    (%{$Links{Parent}->{Ticket}}) || 0,
+    ( %{ $Links{Parent}->{Ticket} } ) || 0,
     'AllLinkedObjects() - TicketID2',
 );
 $Self->True(
-    !(%{$Links{Child}->{Ticket}}) || 0,
+    !( %{ $Links{Child}->{Ticket} } ) || 0,
     'AllLinkedObjects() - Child - TicketID1',
 );
 $Self->True(
-    !(%{$Links{Normal}->{Ticket}}) || 0,
+    !( %{ $Links{Normal}->{Ticket} } ) || 0,
     'AllLinkedObjects() - Normal - TicketID1',
 );
 
@@ -116,15 +116,15 @@ $Self->True(
     UserID   => 1,
 );
 $Self->True(
-    !(%{$Links{Parent}->{Ticket}}) || 0,
+    !( %{ $Links{Parent}->{Ticket} } ) || 0,
     'AllLinkedObjects() - Parent - TicketID1',
 );
 $Self->True(
-    !(%{$Links{Child}->{Ticket}}) || 0,
+    !( %{ $Links{Child}->{Ticket} } ) || 0,
     'AllLinkedObjects() - Child - TicketID1',
 );
 $Self->True(
-    !(%{$Links{Normal}->{Ticket}}) || 0,
+    !( %{ $Links{Normal}->{Ticket} } ) || 0,
     'AllLinkedObjects() - Normal - TicketID1',
 );
 
@@ -134,15 +134,15 @@ $Self->True(
     UserID   => 1,
 );
 $Self->True(
-    !(%{$Links{Parent}->{Ticket}}) || 0,
+    !( %{ $Links{Parent}->{Ticket} } ) || 0,
     'AllLinkedObjects() - TicketID2',
 );
 $Self->True(
-    !(%{$Links{Child}->{Ticket}}) || 0,
+    !( %{ $Links{Child}->{Ticket} } ) || 0,
     'AllLinkedObjects() - Child - TicketID1',
 );
 $Self->True(
-    !(%{$Links{Normal}->{Ticket}}) || 0,
+    !( %{ $Links{Normal}->{Ticket} } ) || 0,
     'AllLinkedObjects() - Normal - TicketID1',
 );
 
@@ -167,15 +167,15 @@ $Self->True(
     UserID   => 1,
 );
 $Self->True(
-    !(%{$Links{Parent}->{Ticket}}) || 0,
+    !( %{ $Links{Parent}->{Ticket} } ) || 0,
     'AllLinkedObjects() - Parent - TicketID1',
 );
 $Self->True(
-    !(%{$Links{Child}->{Ticket}}) || 0,
+    !( %{ $Links{Child}->{Ticket} } ) || 0,
     'AllLinkedObjects() - Child - TicketID1',
 );
 $Self->True(
-    (%{$Links{Normal}->{Ticket}}) || 0,
+    ( %{ $Links{Normal}->{Ticket} } ) || 0,
     'AllLinkedObjects() - Normal - TicketID1',
 );
 
@@ -185,25 +185,25 @@ $Self->True(
     UserID   => 1,
 );
 $Self->True(
-    !(%{$Links{Parent}->{Ticket}}) || 0,
+    !( %{ $Links{Parent}->{Ticket} } ) || 0,
     'AllLinkedObjects() - TicketID2',
 );
 $Self->True(
-    !(%{$Links{Child}->{Ticket}}) || 0,
+    !( %{ $Links{Child}->{Ticket} } ) || 0,
     'AllLinkedObjects() - Child - TicketID1',
 );
 $Self->True(
-    (%{$Links{Normal}->{Ticket}}) || 0,
+    ( %{ $Links{Normal}->{Ticket} } ) || 0,
     'AllLinkedObjects() - Normal - TicketID1',
 );
 
 $Self->{TicketObject}->TicketDelete(
     TicketID => $TicketID1,
-    UserID => 1,
+    UserID   => 1,
 );
 $Self->{TicketObject}->TicketDelete(
     TicketID => $TicketID2,
-    UserID => 1,
+    UserID   => 1,
 );
 
 %Links = $Self->{LinkObject}->AllLinkedObjects(
@@ -212,15 +212,15 @@ $Self->{TicketObject}->TicketDelete(
     UserID   => 1,
 );
 $Self->True(
-    !(%{$Links{Parent}->{Ticket}}) || 0,
+    !( %{ $Links{Parent}->{Ticket} } ) || 0,
     'AllLinkedObjects() - Parent - TicketID1',
 );
 $Self->True(
-    !(%{$Links{Child}->{Ticket}}) || 0,
+    !( %{ $Links{Child}->{Ticket} } ) || 0,
     'AllLinkedObjects() - Child - TicketID1',
 );
 $Self->True(
-    !(%{$Links{Normal}->{Ticket}}) || 0,
+    !( %{ $Links{Normal}->{Ticket} } ) || 0,
     'AllLinkedObjects() - Normal - TicketID1',
 );
 
@@ -230,15 +230,15 @@ $Self->True(
     UserID   => 1,
 );
 $Self->True(
-    !(%{$Links{Parent}->{Ticket}}) || 0,
+    !( %{ $Links{Parent}->{Ticket} } ) || 0,
     'AllLinkedObjects() - TicketID2',
 );
 $Self->True(
-    !(%{$Links{Child}->{Ticket}}) || 0,
+    !( %{ $Links{Child}->{Ticket} } ) || 0,
     'AllLinkedObjects() - Child - TicketID1',
 );
 $Self->True(
-    !(%{$Links{Normal}->{Ticket}}) || 0,
+    !( %{ $Links{Normal}->{Ticket} } ) || 0,
     'AllLinkedObjects() - Normal - TicketID1',
 );
 

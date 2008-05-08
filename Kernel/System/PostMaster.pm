@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.pm,v 1.71 2008-04-24 21:48:51 martin Exp $
+# $Id: PostMaster.pm,v 1.72 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 =head1 NAME
 
@@ -84,7 +84,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check needed objects
@@ -174,7 +174,7 @@ sub Run {
     if ( ref $Self->{ConfigObject}->Get('PostMaster::PreFilterModule') eq 'HASH' ) {
         my %Jobs = %{ $Self->{ConfigObject}->Get('PostMaster::PreFilterModule') };
         for my $Job ( sort keys %Jobs ) {
-            return if ! $Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
+            return if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
 
             my $FilterObject = $Jobs{$Job}->{Module}->new(
                 ConfigObject => $Self->{ConfigObject},
@@ -196,7 +196,8 @@ sub Run {
             if ( !$Run ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message => "Execute Run() of PreFilterModule $Jobs{$Job}->{Module} not successfully!",
+                    Message =>
+                        "Execute Run() of PreFilterModule $Jobs{$Job}->{Module} not successfully!",
                 );
             }
         }
@@ -206,7 +207,8 @@ sub Run {
     if ( $GetParam->{'X-OTRS-Ignore'} && $GetParam->{'X-OTRS-Ignore'} =~ /yes/i ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message => "Ignored Email (From: $GetParam->{'From'}, Message-ID: $GetParam->{'Message-ID'}) "
+            Message =>
+                "Ignored Email (From: $GetParam->{'From'}, Message-ID: $GetParam->{'Message-ID'}) "
                 . "because the X-OTRS-Ignore is set (X-OTRS-Ignore: $GetParam->{'X-OTRS-Ignore'})."
         );
         return (5);
@@ -345,7 +347,7 @@ sub Run {
     if ( ref $Self->{ConfigObject}->Get('PostMaster::PostFilterModule') eq 'HASH' ) {
         my %Jobs = %{ $Self->{ConfigObject}->Get('PostMaster::PostFilterModule') };
         for my $Job ( sort keys %Jobs ) {
-            return if ! $Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
+            return if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
 
             my $FilterObject = $Jobs{$Job}->{Module}->new(
                 ConfigObject => $Self->{ConfigObject},
@@ -367,7 +369,8 @@ sub Run {
             if ( !$Run ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  => "Execute Run() of PostFilterModule $Jobs{$Job}->{Module} not successfully!",
+                    Message =>
+                        "Execute Run() of PostFilterModule $Jobs{$Job}->{Module} not successfully!",
                 );
             }
         }
@@ -391,9 +394,9 @@ sub CheckFollowUp {
     my $Subject = $Param{Subject} || '';
     my $Tn = $Self->{TicketObject}->GetTNByString($Subject);
 
-    if ( $Tn ) {
+    if ($Tn) {
         my $TicketID = $Self->{TicketObject}->TicketCheckNumber( Tn => $Tn );
-        return if ! $TicketID;
+        return if !$TicketID;
 
         my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
         if ( $Self->{Debug} > 1 ) {
@@ -427,14 +430,15 @@ sub CheckFollowUp {
     # do body ticket number lookup
     if ( $Self->{ConfigObject}->Get('PostmasterFollowUpSearchInBody') ) {
         my $Tn = $Self->{TicketObject}->GetTNByString( $Self->{ParseObject}->GetMessageBody() );
-        if ( $Tn ) {
+        if ($Tn) {
             my $TicketID = $Self->{TicketObject}->TicketCheckNumber( Tn => $Tn );
-            if ( $TicketID ) {
+            if ($TicketID) {
                 my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
                 if ( $Self->{Debug} > 1 ) {
                     $Self->{LogObject}->Log(
                         Priority => 'debug',
-                        Message  => "CheckFollowUp (in body): ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
+                        Message =>
+                            "CheckFollowUp (in body): ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
                     );
                 }
                 return ( $Ticket{TicketNumber}, $TicketID );
@@ -446,14 +450,15 @@ sub CheckFollowUp {
     if ( $Self->{ConfigObject}->Get('PostmasterFollowUpSearchInAttachment') ) {
         for my $Attachment ( $Self->{ParseObject}->GetAttachments() ) {
             my $Tn = $Self->{TicketObject}->GetTNByString( $Attachment->{Content} );
-            if ( $Tn ) {
+            if ($Tn) {
                 my $TicketID = $Self->{TicketObject}->TicketCheckNumber( Tn => $Tn );
                 if ($TicketID) {
                     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
                     if ( $Self->{Debug} > 1 ) {
                         $Self->{LogObject}->Log(
                             Priority => 'debug',
-                            Message  => "CheckFollowUp (in attachment): ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
+                            Message =>
+                                "CheckFollowUp (in attachment): ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
                         );
                     }
                     return ( $Ticket{TicketNumber}, $TicketID );
@@ -465,14 +470,15 @@ sub CheckFollowUp {
     # do plain/raw ticket number lookup
     if ( $Self->{ConfigObject}->Get('PostmasterFollowUpSearchInRaw') ) {
         my $Tn = $Self->{TicketObject}->GetTNByString( $Self->{ParseObject}->GetPlainEmail() );
-        if ( $Tn ) {
+        if ($Tn) {
             my $TicketID = $Self->{TicketObject}->TicketCheckNumber( Tn => $Tn );
-            if ( $TicketID ) {
+            if ($TicketID) {
                 my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
                 if ( $Self->{Debug} > 1 ) {
                     $Self->{LogObject}->Log(
                         Priority => 'debug',
-                        Message  => "CheckFollowUp (in plain/raw): ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
+                        Message =>
+                            "CheckFollowUp (in plain/raw): ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
                     );
                 }
                 return ( $Ticket{TicketNumber}, $TicketID );
@@ -507,7 +513,7 @@ sub GetEmailParams {
             if ( $Self->{Debug} > 2 ) {
                 $Self->{LogObject}->Log(
                     Priority => 'debug',
-                    Message  => "$Param: " . $Self->{ParseObject}->GetParam( WHAT => $Param ),
+                    Message => "$Param: " . $Self->{ParseObject}->GetParam( WHAT => $Param ),
                 );
             }
             $GetParam{$Param} = $Self->{ParseObject}->GetParam( WHAT => $Param );
@@ -521,11 +527,13 @@ sub GetEmailParams {
     if ( $GetParam{'Reply-To'} ) {
         $GetParam{'ReplyTo'} = $GetParam{'Reply-To'};
     }
-    if (   $GetParam{'Mailing-List'}
+    if (
+        $GetParam{'Mailing-List'}
         || $GetParam{'Precedence'}
         || $GetParam{'X-Loop'}
         || $GetParam{'X-No-Loop'}
-        || $GetParam{'X-OTRS-Loop'} )
+        || $GetParam{'X-OTRS-Loop'}
+        )
     {
         $GetParam{'X-OTRS-Loop'} = 'yes';
     }
@@ -599,6 +607,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.71 $ $Date: 2008-04-24 21:48:51 $
+$Revision: 1.72 $ $Date: 2008-05-08 09:36:19 $
 
 =cut

@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # Copyright (C) 2002 Stefan Schmidt <jsj@jsj.dyndns.org>
 # --
-# $Id: DateChecksum.pm,v 1.31 2008-04-23 20:37:04 martin Exp $
+# $Id: DateChecksum.pm,v 1.32 2008-05-08 09:36:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,7 +30,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub TicketCreateNumber {
     my ( $Self, $JumpCounter ) = @_;
@@ -52,10 +52,11 @@ sub TicketCreateNumber {
     my $LastModify = '';
     if ( -f $CounterLog ) {
         my $ContentSCALARRef = $Self->{MainObject}->FileRead(
-            Location  => $CounterLog,
+            Location => $CounterLog,
         );
-        if ( $ContentSCALARRef && ${ $ContentSCALARRef } ) {
-            ( $Count, $LastModify ) = split( /;/, ${ $ContentSCALARRef });
+        if ( $ContentSCALARRef && ${$ContentSCALARRef} ) {
+            ( $Count, $LastModify ) = split( /;/, ${$ContentSCALARRef} );
+
             # just debug
             if ( $Self->{Debug} > 0 ) {
                 $Self->{LogObject}->Log(
@@ -78,10 +79,10 @@ sub TicketCreateNumber {
 
     # write new count
     my $Write = $Self->{MainObject}->FileWrite(
-        Location  => $CounterLog,
-        Content   => \$Content,
+        Location => $CounterLog,
+        Content  => \$Content,
     );
-    if ( $Write ) {
+    if ($Write) {
         if ( $Self->{Debug} > 0 ) {
             $Self->{LogObject}->Log(
                 Priority => 'debug',

@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pl,v 1.48 2008-04-23 11:28:05 tr Exp $
+# $Id: GenericAgent.pl,v 1.49 2008-05-08 09:36:57 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION %Jobs @ISA);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -72,17 +72,17 @@ my $UserIDOfGenericAgent = 1;
 
 # common objects
 my %CommonObject = ();
-$CommonObject{ConfigObject} = Kernel::Config     ->new();
+$CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-GenericAgent',
     %CommonObject,
 );
-$CommonObject{MainObject}   = Kernel::System::Main  ->new(%CommonObject);
-$CommonObject{DBObject}     = Kernel::System::DB    ->new(%CommonObject);
-$CommonObject{PIDObject}    = Kernel::System::PID   ->new(%CommonObject);
-$CommonObject{TimeObject}   = Kernel::System::Time  ->new(%CommonObject);
+$CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
+$CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
+$CommonObject{PIDObject}    = Kernel::System::PID->new(%CommonObject);
+$CommonObject{TimeObject}   = Kernel::System::Time->new(%CommonObject);
 $CommonObject{TicketObject} = Kernel::System::Ticket->new( %CommonObject, Debug => $Opts{d}, );
-$CommonObject{QueueObject}  = Kernel::System::Queue ->new(%CommonObject);
+$CommonObject{QueueObject}  = Kernel::System::Queue->new(%CommonObject);
 $CommonObject{GenericAgentObject} = Kernel::System::GenericAgent->new(
     %CommonObject,
     Debug        => $Opts{d},
@@ -128,9 +128,10 @@ if ( $Opts{c} eq 'db' ) {
         my $False    = 0;
 
         # check last run
-        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = $CommonObject{TimeObject} ->SystemTime2Date(
+        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay )
+            = $CommonObject{TimeObject}->SystemTime2Date(
             SystemTime => $CommonObject{TimeObject}->SystemTime(),
-        );
+            );
 
         if ( $Min =~ /(.)./ ) {
             $Min = ($1) . "0";
@@ -182,8 +183,10 @@ if ( $Opts{c} eq 'db' ) {
 
         # check if job already was running
         my $CurrentTime = $CommonObject{TimeObject}->SystemTime();
-        if (   $DBJobRaw{ScheduleLastRunUnixTime}
-            && $CurrentTime < $DBJobRaw{ScheduleLastRunUnixTime} + ( 10 * 60 ) )
+        if (
+            $DBJobRaw{ScheduleLastRunUnixTime}
+            && $CurrentTime < $DBJobRaw{ScheduleLastRunUnixTime} + ( 10 * 60 )
+            )
         {
             print "Job '$DBJob' already finished!\n";
             $False = 1;

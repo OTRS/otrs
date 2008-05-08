@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter/AgentInterface.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentInterface.pm,v 1.11 2008-04-25 13:15:18 tr Exp $
+# $Id: AgentInterface.pm,v 1.12 2008-05-08 09:36:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::User;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 # bulk, list
 sub new {
@@ -37,9 +37,9 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
-    $Self->{EmailObject}        = Kernel::System::Email       ->new(%Param);
-    $Self->{QueueObject}        = Kernel::System::Queue       ->new(%Param);
-    $Self->{UserObject}         = Kernel::System::User        ->new(%Param);
+    $Self->{EmailObject}        = Kernel::System::Email->new(%Param);
+    $Self->{QueueObject}        = Kernel::System::Queue->new(%Param);
+    $Self->{UserObject}         = Kernel::System::User->new(%Param);
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
 
     return $Self;
@@ -210,8 +210,13 @@ sub Run {
     }
 
     # check queue permission
-    if ( !$Self->{TicketObject}
-        ->Permission( Type => 'rw', TicketID => $Param{TicketID}, UserID => $UserID ) )
+    if (
+        !$Self->{TicketObject}->Permission(
+            Type     => 'rw',
+            TicketID => $Param{TicketID},
+            UserID   => $UserID
+        )
+        )
     {
 
         # send reject
@@ -242,7 +247,7 @@ sub Run {
             . $Self->{ConfigObject}->Get('NotificationSenderEmail') . '>';
         my $Subject = $Self->{TicketObject}->TicketSubjectBuild(
             TicketNumber => $Ticket{TicketNumber},
-            Subject      => $Article{Subject} || '',
+            Subject => $Article{Subject} || '',
         );
         my $Body
             = "\n----------------->raw message send by OTRS<-------------------\n<OTRS_CMD>send,lock,unlock</OTRS_CMD>\n";
@@ -256,7 +261,7 @@ sub Run {
         # send notify
         $Self->{EmailObject}->Send(
             From => $Article{From} || $From,
-            To         => $Param{GetParam}->{From},
+            To => $Param{GetParam}->{From},
             Subject    => $Subject,
             'Reply-To' => $Self->{ConfigObject}->Get('NotificationSenderEmail'),
             Type       => 'text/plain',
@@ -403,8 +408,9 @@ sub Run {
         # get customer data
         my %Customer = ();
         if ( $Ticket{CustomerUserID} ) {
-            %Customer = $Self->{CustomerUserObject}
-                ->CustomerUserDataGet( User => $Ticket{CustomerUserID}, );
+            %Customer = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                User => $Ticket{CustomerUserID},
+            );
         }
 
         # get to email (just "some@example.com")
@@ -430,7 +436,7 @@ sub Run {
         # prepare subject
         my $Subject = $Self->{TicketObject}->TicketSubjectBuild(
             TicketNumber => $Ticket{TicketNumber},
-            Subject      => $Param{GetParam}->{'Subject'} || '',
+            Subject => $Param{GetParam}->{'Subject'} || '',
         );
 
         # get queue sender

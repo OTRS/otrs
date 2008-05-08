@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent/NotifyAgentGroupOfCustomQueue.pm - generic agent notifications
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: NotifyAgentGroupOfCustomQueue.pm,v 1.15 2008-02-11 12:23:29 martin Exp $
+# $Id: NotifyAgentGroupOfCustomQueue.pm,v 1.16 2008-05-08 09:36:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Email;
 use Kernel::System::Queue;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -68,8 +68,10 @@ sub Run {
     # check if it's a escalation ot escalation notification
     # check escalation times
     my $EscalationType = '';
-    for my $Type (qw(FirstResponseTimeEscalation UpdateTimeEscalation SolutionTimeEscalation
-        FirstResponseTimeNotification UpdateTimeNotification SolutionTimeNotification))
+    for my $Type (
+        qw(FirstResponseTimeEscalation UpdateTimeEscalation SolutionTimeEscalation
+        FirstResponseTimeNotification UpdateTimeNotification SolutionTimeNotification)
+        )
     {
         if ( defined( $Ticket{$Type} ) ) {
             if ( $Type =~ /TimeEscalation$/ ) {
@@ -87,13 +89,15 @@ sub Run {
     if ( !$EscalationType ) {
         $Self->{LogObject}->Log(
             Priority => 'debug',
-            Message => "Can't send escalation for Ticket $Ticket{TicketNumber}/$Ticket{TicketID} because ticket is not escalated!",
+            Message =>
+                "Can't send escalation for Ticket $Ticket{TicketNumber}/$Ticket{TicketID} because ticket is not escalated!",
         );
         return;
     }
 
     # get agentss who are sucscribed the ticket queue to the custom queues
-    my @UserIDs = $Self->{TicketObject}->GetSubscribedUserIDsByQueueID( QueueID => $Ticket{QueueID}, );
+    my @UserIDs
+        = $Self->{TicketObject}->GetSubscribedUserIDsByQueueID( QueueID => $Ticket{QueueID}, );
 
     # send each agent the escalation notification
     for my $UserID (@UserIDs) {
@@ -110,9 +114,11 @@ sub Run {
             );
             my $Sent = 0;
             for my $Line (@Lines) {
-                if (   $Line->{Name} =~ /\%\%$EscalationType\%\%/
+                if (
+                    $Line->{Name}          =~ /\%\%$EscalationType\%\%/
                     && $Line->{Name}       =~ /\Q\%\%$User{UserEmail}\E$/i
-                    && $Line->{CreateTime} =~ /$Year-$Month-$Day/ )
+                    && $Line->{CreateTime} =~ /$Year-$Month-$Day/
+                    )
                 {
                     $Sent = 1;
                 }

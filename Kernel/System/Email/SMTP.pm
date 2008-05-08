@@ -2,7 +2,7 @@
 # Kernel/System/Email/SMTP.pm - the global email send module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SMTP.pm,v 1.20 2008-04-29 11:20:30 martin Exp $
+# $Id: SMTP.pm,v 1.21 2008-05-08 09:36:20 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,13 +16,13 @@ use warnings;
 use Net::SMTP;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check all needed objects
@@ -89,7 +89,8 @@ sub Send {
             my $Error = $SMTP->code() . $SMTP->message();
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "SMTP authentication failed: $Error! Enable Net::SMTP debug for more info!",
+                Message =>
+                    "SMTP authentication failed: $Error! Enable Net::SMTP debug for more info!",
             );
             $SMTP->quit();
             return;
@@ -101,7 +102,8 @@ sub Send {
         my $Error = $SMTP->code() . $SMTP->message();
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Can't use from '$Param{From}': $Error! Enable Net::SMTP debug for more info!",
+            Message =>
+                "Can't use from '$Param{From}': $Error! Enable Net::SMTP debug for more info!",
         );
         $SMTP->quit;
         return;
@@ -111,7 +113,7 @@ sub Send {
     my $ToString = '';
     for my $To ( @{ $Param{ToArray} } ) {
         $ToString .= $To . ',';
-        if ( !$SMTP->to( $To ) ) {
+        if ( !$SMTP->to($To) ) {
             my $Error = $SMTP->code() . $SMTP->message();
             $Self->{LogObject}->Log(
                 Priority => 'error',

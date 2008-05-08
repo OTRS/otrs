@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueueAutoResponse.pm - to add/update/delete QueueAutoResponses
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueueAutoResponse.pm,v 1.24 2008-01-31 06:22:12 tr Exp $
+# $Id: AdminQueueAutoResponse.pm,v 1.25 2008-05-08 09:36:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check all needed objects
@@ -63,7 +63,7 @@ sub Run {
                 Queue => $QueueData{ $Param{ID} },
                 %QueueData,
                 %Param,
-            }
+                }
         );
         for ( keys %TypeResponsesData ) {
             my %Data = $Self->{DBObject}->GetTableData(
@@ -90,7 +90,7 @@ sub Run {
                     Type   => $TypeResponsesData{$_},
                     TypeID => $_,
                     %Param,
-                }
+                    }
             );
         }
         $Output .= $Self->{LayoutObject}->Output(
@@ -102,8 +102,9 @@ sub Run {
 
     # queues to queue_auto_responses
     elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
-        $Self->{DBObject}
-            ->Do( SQL => "DELETE FROM queue_auto_response WHERE queue_id = $Param{ID}", );
+        $Self->{DBObject}->Do(
+            SQL => "DELETE FROM queue_auto_response WHERE queue_id = $Param{ID}",
+        );
         my @NewIDs = $Self->{ParamObject}->GetArray( Param => 'IDs' );
         for my $NewID (@NewIDs) {
             if ($NewID) {
@@ -147,6 +148,7 @@ sub Run {
                 . " ar.id = qar.auto_response_id " . " AND "
                 . " qar.queue_id = $_ ";
             $Self->{DBObject}->Prepare( SQL => $SQL );
+
             while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
                 my %AutoResponseData;
                 $AutoResponseData{Name} = $Row[0];
@@ -161,7 +163,7 @@ sub Run {
                     QueueID => $_,
                     %QueueData,
                     %Param,
-                }
+                    }
             );
             for my $ResponseData (@Data) {
                 $Self->{LayoutObject}->Block(

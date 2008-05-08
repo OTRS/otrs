@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.60 2008-04-29 21:58:07 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.61 2008-05-08 09:36:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,13 +18,13 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check needed objects
@@ -216,7 +216,7 @@ sub Run {
                     );
                 }
                 elsif ( $Key =~ /^Database(Install|Reinstall|Upgrade|Uninstall)$/ ) {
-                    for my $Type ( qw(pre post) ) {
+                    for my $Type (qw(pre post)) {
                         for my $Hash ( @{ $Structure{$Key}->{$Type} } ) {
                             if ( $Hash->{TagType} eq 'Start' ) {
                                 if ( $Hash->{Tag} =~ /^Table/ ) {
@@ -236,7 +236,8 @@ sub Run {
                             }
                             if ( $Hash->{Tag} =~ /^Table/ && $Hash->{TagType} eq 'End' ) {
                                 push( @DatabaseBuffer, $Hash );
-                                my @SQL = $Self->{DBObject}->SQLProcessor( Database => \@DatabaseBuffer );
+                                my @SQL = $Self->{DBObject}
+                                    ->SQLProcessor( Database => \@DatabaseBuffer );
                                 my @SQLPost = $Self->{DBObject}->SQLProcessorPost();
                                 push( @SQL, @SQLPost );
                                 for my $SQL (@SQL) {
@@ -273,12 +274,13 @@ sub Run {
                         );
                         $Self->{LayoutObject}->Block(
                             Name => "PackageItemCode",
-                            Data => { Tag => $Key, %{ $Hash } },
+                            Data => { Tag => $Key, %{$Hash} },
                         );
                     }
                     elsif ( $Key =~ /^(Intro)/ ) {
                         if ( $Hash->{Format} && $Hash->{Format} =~ /plain/i ) {
-                            $Hash->{Content} = '<pre class="contentbody">' . $Hash->{Content} . '</pre>';
+                            $Hash->{Content}
+                                = '<pre class="contentbody">' . $Hash->{Content} . '</pre>';
                         }
                         $Self->{LayoutObject}->Block(
                             Name => "PackageItemIntro",
@@ -363,7 +365,8 @@ sub Run {
         if ( !$Deployed ) {
             $Output .= $Self->{LayoutObject}->Notify(
                 Priority => 'Error',
-                Data     => "$Name $Version" . ' - $Text{"Package not correctly deployed! You should reinstall the Package again!"}',
+                Data     => "$Name $Version"
+                    . ' - $Text{"Package not correctly deployed! You should reinstall the Package again!"}',
                 Link => '$Env{"Baselink"}Action=$Env{"Action"}&Subaction=View&Name='
                     . $Name
                     . '&Version='
@@ -403,6 +406,7 @@ sub Run {
             Name => 'PackageDownloadRemote',
             Data => { %Param, %Frontend, File => $File, },
         );
+
         # check if file is requested
         if ($Location) {
             if ( ref( $Structure{Filelist} ) eq 'ARRAY' ) {
@@ -427,7 +431,7 @@ sub Run {
                     );
                 }
                 elsif ( $Key =~ /^Database(Install|Reinstall|Upgrade|Uninstall)$/ ) {
-                    for my $Type ( qw(pre post) ) {
+                    for my $Type (qw(pre post)) {
                         for my $Hash ( @{ $Structure{$Key}->{$Type} } ) {
                             if ( $Hash->{TagType} eq 'Start' ) {
                                 if ( $Hash->{Tag} =~ /^Table/ ) {
@@ -447,7 +451,8 @@ sub Run {
                             }
                             if ( $Hash->{Tag} =~ /^Table/ && $Hash->{TagType} eq 'End' ) {
                                 push( @DatabaseBuffer, $Hash );
-                                my @SQL = $Self->{DBObject}->SQLProcessor( Database => \@DatabaseBuffer );
+                                my @SQL = $Self->{DBObject}
+                                    ->SQLProcessor( Database => \@DatabaseBuffer );
                                 my @SQLPost = $Self->{DBObject}->SQLProcessorPost();
                                 push( @SQL, @SQLPost );
                                 for my $SQL (@SQL) {
@@ -484,12 +489,13 @@ sub Run {
                         );
                         $Self->{LayoutObject}->Block(
                             Name => "PackageItemCode",
-                            Data => { Tag => $Key, %{ $Hash } },
+                            Data => { Tag => $Key, %{$Hash} },
                         );
                     }
                     elsif ( $Key =~ /^(Intro)/ ) {
                         if ( $Hash->{Format} && $Hash->{Format} =~ /plain/i ) {
-                            $Hash->{Content} = '<pre class="contentbody">' . $Hash->{Content} . '</pre>';
+                            $Hash->{Content}
+                                = '<pre class="contentbody">' . $Hash->{Content} . '</pre>';
                         }
                         $Self->{LayoutObject}->Block(
                             Name => "PackageItemIntro",
@@ -977,7 +983,7 @@ sub Run {
             my %Structure = $Self->{PackageObject}->PackageParse( String => $Package, );
 
             # intro screen
-            if ( ! $Self->{PackageObject}->PackageReinstall( String => $Package ) ) {
+            if ( !$Self->{PackageObject}->PackageReinstall( String => $Package ) ) {
                 return $Self->{LayoutObject}->ErrorScreen();
             }
             my %Data;
@@ -1107,7 +1113,7 @@ sub Run {
             my %Structure = $Self->{PackageObject}->PackageParse( String => $Package, );
 
             # unsinstall the package
-            if ( ! $Self->{PackageObject}->PackageUninstall( String => $Package ) ) {
+            if ( !$Self->{PackageObject}->PackageUninstall( String => $Package ) ) {
                 return $Self->{LayoutObject}->ErrorScreen();
             }
 
@@ -1291,9 +1297,9 @@ sub Run {
             %RepositoryRoot = $Self->{PackageObject}->PackageOnlineRepositories();
         }
         $Frontend{'SourceList'} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data       => { %List, %RepositoryRoot, },
-            Name       => 'Source',
-            Max        => 40,
+            Data => { %List, %RepositoryRoot, },
+            Name => 'Source',
+            Max  => 40,
             SelectedID => $Source,
         );
         $Self->{LayoutObject}->Block(
@@ -1302,7 +1308,7 @@ sub Run {
         );
         if ($Source) {
             my @List = $Self->{PackageObject}->PackageOnlineList(
-                URL  => $Source,
+                URL => $Source,
                 Lang => $Self->{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage'),
             );
             if ( !@List ) {
@@ -1380,7 +1386,8 @@ sub Run {
                         URL     => $Package->{URL}->{Content},
                     },
                 );
-                if (!$Self->{PackageObject}->DeployCheck(
+                if (
+                    !$Self->{PackageObject}->DeployCheck(
                         Name    => $Package->{Name}->{Content},
                         Version => $Package->{Version}->{Content}
                     )
@@ -1427,7 +1434,8 @@ sub Run {
         for ( sort keys %NeedReinstall ) {
             $Output .= $Self->{LayoutObject}->Notify(
                 Priority => 'Error',
-                Data     => "$_ $NeedReinstall{$_}" . ' - $Text{"Package not correctly deployed! You should reinstall the Package again!"}',
+                Data     => "$_ $NeedReinstall{$_}"
+                    . ' - $Text{"Package not correctly deployed! You should reinstall the Package again!"}',
                 Link => '$Env{"Baselink"}Action=$Env{"Action"}&Subaction=View&Name='
                     . $_
                     . '&Version='
@@ -1462,9 +1470,12 @@ sub _MessageGet {
                 $Description = $Tag->{Content};
                 $Title       = $Tag->{Title};
             }
-            if (( $Self->{UserLanguage} && $Tag->{Lang} eq $Self->{UserLanguage} )
-                || ( !$Self->{UserLanguage}
-                    && $Tag->{Lang} eq $Self->{ConfigObject}->Get('DefaultLanguage') )
+            if (
+                ( $Self->{UserLanguage} && $Tag->{Lang} eq $Self->{UserLanguage} )
+                || (
+                    !$Self->{UserLanguage}
+                    && $Tag->{Lang} eq $Self->{ConfigObject}->Get('DefaultLanguage')
+                )
                 )
             {
                 $Description = $Tag->{Content};

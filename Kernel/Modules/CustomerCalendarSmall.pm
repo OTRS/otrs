@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerCalendarSmall.pm - small calendar lookup
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerCalendarSmall.pm,v 1.10 2008-02-12 09:08:07 ot Exp $
+# $Id: CustomerCalendarSmall.pm,v 1.11 2008-05-08 09:36:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,13 +17,13 @@ use warnings;
 use Date::Pcalc qw(Today Days_in_Month Day_of_Week);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check all needed objects
@@ -119,13 +119,17 @@ sub Run {
 
                 #styles
                 my $Style = '';
-                if ( defined( $TimeVacationDaysOneTime->{$Year}->{$Month}->{$CalDay} )
-                    && $TimeVacationDaysOneTime->{$Year}->{$Month}->{$CalDay} eq 'Today' )
+                if (
+                    defined( $TimeVacationDaysOneTime->{$Year}->{$Month}->{$CalDay} )
+                    && $TimeVacationDaysOneTime->{$Year}->{$Month}->{$CalDay} eq 'Today'
+                    )
                 {
                     $Style = 'bgcolor="orange"';
                 }
-                elsif (defined( $TimeVacationDays->{$Month}->{$CalDay} )
-                    || defined( $TimeVacationDaysOneTime->{$Year}->{$Month}->{$CalDay} ) )
+                elsif (
+                    defined( $TimeVacationDays->{$Month}->{$CalDay} )
+                    || defined( $TimeVacationDaysOneTime->{$Year}->{$Month}->{$CalDay} )
+                    )
                 {
                     $Style = 'bgcolor="#ffcf00"';
                 }
@@ -151,7 +155,7 @@ sub Run {
     $Output .= $Self->{LayoutObject}->CustomerHeader( Type => 'Small' );
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentCalendarSmall',
-        Data         => { %Param, Prefix => $Prefix, }
+        Data => { %Param, Prefix => $Prefix, }
     );
     $Output .= $Self->{LayoutObject}->CustomerFooter( Type => 'Small', Width => '225' );
     return $Output;

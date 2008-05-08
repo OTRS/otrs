@@ -2,7 +2,7 @@
 # SMIME.t - SMIME tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.t,v 1.3 2008-03-31 11:53:03 ot Exp $
+# $Id: SMIME.t,v 1.4 2008-05-08 09:35:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,8 @@ use vars qw($Self);
 my $HomeDir = $Self->{ConfigObject}->Get('Home');
 
 # set config
-$Self->{ConfigObject}->Set(Key => 'SMIME', Value => 1);
+$Self->{ConfigObject}->Set( Key => 'SMIME', Value => 1 );
+
 #$Self->{ConfigObject}->Set(
 #    Key => 'SMIME::CertPath', Value => "$HomeDir/var/ssl/certs"
 #);
@@ -28,10 +29,11 @@ $Self->{ConfigObject}->Set(Key => 'SMIME', Value => 1);
 #);
 
 # check if openssl is located there
-if (! -e $Self->{ConfigObject}->Get('SMIME::Bin')) {
+if ( !-e $Self->{ConfigObject}->Get('SMIME::Bin') ) {
+
     # maybe it's a mac with macport
-    if (-e '/opt/local/bin/openssl') {
-        $Self->{ConfigObject}->Set(Key => 'SMIME::Bin', Value => '/opt/local/bin/openssl');
+    if ( -e '/opt/local/bin/openssl' ) {
+        $Self->{ConfigObject}->Set( Key => 'SMIME::Bin', Value => '/opt/local/bin/openssl' );
     }
 }
 
@@ -41,7 +43,7 @@ $Self->{CryptObject} = Kernel::System::Crypt->new(
     CryptType => 'SMIME',
 );
 
-if (!$Self->{CryptObject}) {
+if ( !$Self->{CryptObject} ) {
     print STDERR "NOTICE: No SMIME support!\n";
     return;
 }
@@ -53,33 +55,39 @@ my %Search = (
 
 my %Check = (
     1 => {
-        Modulus => 'B5D12B210C8EF3E6B404162157022CEFF46AF6519571F985C116A3CF096B5BD9DBE306CA6683221F08858C8BA1422F934916FE29EF89DA1F1DD55AA47443F796CB882843E16CB4F722F8038768B6FDCE8F4ADEC5E81DB46F9B300A765737B698FC0B7D1E57410BCF810E4B3B4F74FD5C805378879E8C23CD5CB6A0A160AE42E9',
+        Modulus =>
+            'B5D12B210C8EF3E6B404162157022CEFF46AF6519571F985C116A3CF096B5BD9DBE306CA6683221F08858C8BA1422F934916FE29EF89DA1F1DD55AA47443F796CB882843E16CB4F722F8038768B6FDCE8F4ADEC5E81DB46F9B300A765737B698FC0B7D1E57410BCF810E4B3B4F74FD5C805378879E8C23CD5CB6A0A160AE42E9',
         EndDate => 'Mar 29 11:20:56 2012 GMT',
-        Subject => '  C= DE ST= Bayern L= Straubing O= OTRS AG CN= unittest emailAddress= unittest@example.org',
-        Hash => '980a83c7',
-        Private => 'No',
-        Serial => 'serial=D51FC7523893BCFD',
+        Subject =>
+            '  C= DE ST= Bayern L= Straubing O= OTRS AG CN= unittest emailAddress= unittest@example.org',
+        Hash         => '980a83c7',
+        Private      => 'No',
+        Serial       => 'serial=D51FC7523893BCFD',
         ShortEndDate => '2012-03-29',
-        Type => 'cert',
-        Fingerprint => 'E1:FB:F1:3E:6B:83:9F:C3:29:8A:3E:C3:19:51:33:1C:73:7F:2C:0B',
-        Issuer => 'issuer=  /C= DE/ST= Bayern/L= Straubing/O= OTRS AG/CN= unittest/emailAddress= unittest@example.org',
-        Email => 'unittest@example.org',
-        StartDate => 'Feb 19 11:20:56 2008 GMT',
+        Type         => 'cert',
+        Fingerprint  => 'E1:FB:F1:3E:6B:83:9F:C3:29:8A:3E:C3:19:51:33:1C:73:7F:2C:0B',
+        Issuer =>
+            'issuer=  /C= DE/ST= Bayern/L= Straubing/O= OTRS AG/CN= unittest/emailAddress= unittest@example.org',
+        Email          => 'unittest@example.org',
+        StartDate      => 'Feb 19 11:20:56 2008 GMT',
         ShortStartDate => '2008-02-19',
     },
     2 => {
-        Modulus => 'C37422BAB1D6CDE930ED44E79C4D3BD3BECBD4E391FB80C3FC74B639A926D670FDDF6A75EBC304E42FD83311C64356C3DF4E468484CF0A71CAACA333BB99B1ACF418B72020A4D44FA28DF97F0DC2E8D64A0926673FBAC1F29A669E6F3776601CC27937A3212228856CAB9396923B60998198FFD2BB10E8667C02C66F11BA5787',
+        Modulus =>
+            'C37422BAB1D6CDE930ED44E79C4D3BD3BECBD4E391FB80C3FC74B639A926D670FDDF6A75EBC304E42FD83311C64356C3DF4E468484CF0A71CAACA333BB99B1ACF418B72020A4D44FA28DF97F0DC2E8D64A0926673FBAC1F29A669E6F3776601CC27937A3212228856CAB9396923B60998198FFD2BB10E8667C02C66F11BA5787',
         EndDate => 'Mar 29 11:32:20 2012 GMT',
-        Subject => '  C= DE ST= Bayern L= Straubing O= OTRS AG CN= unittest2 emailAddress= unittest2@example.org',
-        Hash => '999bcb2f',
-        Private => 'No',
-        Serial => 'serial=9BCC39BD2A958C37',
+        Subject =>
+            '  C= DE ST= Bayern L= Straubing O= OTRS AG CN= unittest2 emailAddress= unittest2@example.org',
+        Hash         => '999bcb2f',
+        Private      => 'No',
+        Serial       => 'serial=9BCC39BD2A958C37',
         ShortEndDate => '2012-03-29',
-        Fingerprint => '3F:EE:1A:D2:E1:29:06:03:BF:AB:18:8C:F4:BA:E0:9C:FD:47:5D:0A',
-        Type => 'cert',
-        Issuer => 'issuer=  /C= DE/ST= Bayern/L= Straubing/O= OTRS AG/CN= unittest2/emailAddress= unittest2@example.org',
-        Email => 'unittest2@example.org',
-        StartDate => 'Feb 19 11:32:20 2008 GMT',
+        Fingerprint  => '3F:EE:1A:D2:E1:29:06:03:BF:AB:18:8C:F4:BA:E0:9C:FD:47:5D:0A',
+        Type         => 'cert',
+        Issuer =>
+            'issuer=  /C= DE/ST= Bayern/L= Straubing/O= OTRS AG/CN= unittest2/emailAddress= unittest2@example.org',
+        Email          => 'unittest2@example.org',
+        StartDate      => 'Feb 19 11:32:20 2008 GMT',
         ShortStartDate => '2008-02-19',
     },
     'cert-1' => '-----BEGIN CERTIFICATE-----
@@ -129,7 +137,7 @@ nLcdi8Cg4aLtoofolDSgyMbwYPBIuO8W3+WXvEXgZdWGiOlfs/25GVflLPh7haPC
 
 my $TestText = 'hello1234567890öäüß';
 
-for my $Count (1..2) {
+for my $Count ( 1 .. 2 ) {
     my @Certs = $Self->{CryptObject}->Search(
         Search => $Search{$Count},
     );
@@ -140,8 +148,8 @@ for my $Count (1..2) {
 
     # add certificate ...
     my $CertString = $Self->{MainObject}->FileRead(
-        Directory => $Self->{ConfigObject}->Get('Home')."/scripts/test/sample/",
-        Filename => "SMIMECertificate-$Count.asc",
+        Directory => $Self->{ConfigObject}->Get('Home') . "/scripts/test/sample/",
+        Filename  => "SMIMECertificate-$Count.asc",
     );
     my $Message = $Self->{CryptObject}->CertificateAdd(
         Certificate => ${$CertString},
@@ -161,7 +169,7 @@ for my $Count (1..2) {
         "#$Count CertificateSearch()",
     );
 
-    for my $ID (keys %{$Check{$Count}}) {
+    for my $ID ( keys %{ $Check{$Count} } ) {
         $Self->Is(
             $Certs[0]->{$ID} || '',
             $Check{$Count}->{$ID},
@@ -171,12 +179,12 @@ for my $Count (1..2) {
 
     # and private key
     my $KeyString = $Self->{MainObject}->FileRead(
-        Directory => $Self->{ConfigObject}->Get('Home')."/scripts/test/sample/",
-        Filename => "SMIMEPrivateKey-$Count.asc",
+        Directory => $Self->{ConfigObject}->Get('Home') . "/scripts/test/sample/",
+        Filename  => "SMIMEPrivateKey-$Count.asc",
     );
     my $Secret = $Self->{MainObject}->FileRead(
-        Directory => $Self->{ConfigObject}->Get('Home')."/scripts/test/sample/",
-        Filename => "SMIMEPrivateKeyPass-$Count.asc",
+        Directory => $Self->{ConfigObject}->Get('Home') . "/scripts/test/sample/",
+        Filename  => "SMIMEPrivateKeyPass-$Count.asc",
     );
     $Message = $Self->{CryptObject}->PrivateAdd(
         Private => ${$KeyString},
@@ -215,7 +223,7 @@ for my $Count (1..2) {
     # crypt
     my $Crypted = $Self->{CryptObject}->Crypt(
         Message => $TestText,
-        Hash => $Certs[0]->{Hash},
+        Hash    => $Certs[0]->{Hash},
     );
     $Self->True(
         $Crypted || '',
@@ -231,7 +239,7 @@ for my $Count (1..2) {
     # decrypt
     my %Decrypt = $Self->{CryptObject}->Decrypt(
         Message => $Crypted,
-        Hash => $Certs[0]->{Hash},
+        Hash    => $Certs[0]->{Hash},
     );
     $Self->True(
         $Decrypt{Successful} || '',
@@ -246,12 +254,13 @@ for my $Count (1..2) {
     # sign
     my $Sign = $Self->{CryptObject}->Sign(
         Message => $TestText,
-        Hash => $Keys[0]->{Hash},
+        Hash    => $Keys[0]->{Hash},
     );
     $Self->True(
         $Sign || '',
         "#$Count Sign()",
     );
+
     # verify
     my %Verify = $Self->{CryptObject}->Verify(
         Message => $Sign,
@@ -264,6 +273,7 @@ for my $Count (1..2) {
         $Verify{SignerCertificate} eq $Check{"cert-$Count"},
         "#$Count Verify()",
     );
+
     # verify failure on manipulated text
     my $ManipulatedSign = $Sign;
     $ManipulatedSign =~ s{Q}{W}g;
@@ -275,22 +285,23 @@ for my $Count (1..2) {
         "#$Count Verify() - on manipulated text",
     );
 
-    # file checks
-# TODO: signing binary files doesn't seem to work at all, maybe because they need to be converted
-#       to base64 first?
-#    for my $File (qw(xls txt doc png pdf)) {
+   # file checks
+   # TODO: signing binary files doesn't seem to work at all, maybe because they need to be converted
+   #       to base64 first?
+   #    for my $File (qw(xls txt doc png pdf)) {
     for my $File (qw(txt)) {
         my $Content = $Self->{MainObject}->FileRead(
-            Directory => $Self->{ConfigObject}->Get('Home')."/scripts/test/sample/",
-            Filename => "PGP-Test1.$File",
-            Mode => 'binmode',
+            Directory => $Self->{ConfigObject}->Get('Home') . "/scripts/test/sample/",
+            Filename  => "PGP-Test1.$File",
+            Mode      => 'binmode',
         );
         my $Reference = ${$Content};
         $Reference =~ s{\n}{\r\n}gsm;
+
         # crypt
         my $Crypted = $Self->{CryptObject}->Crypt(
             Message => $Reference,
-            Hash => $Certs[0]->{Hash},
+            Hash    => $Certs[0]->{Hash},
         );
         $Self->True(
             $Crypted || '',
@@ -301,10 +312,11 @@ for my $Count (1..2) {
                 && $Crypted =~ m{Content-Transfer-Encoding: base64},
             "#$Count Crypt() - Data seems ok (crypted)",
         );
+
         # decrypt
         my %Decrypt = $Self->{CryptObject}->Decrypt(
             Message => $Crypted,
-            Hash => $Certs[0]->{Hash},
+            Hash    => $Certs[0]->{Hash},
         );
         $Self->True(
             $Decrypt{Successful} || '',
@@ -314,15 +326,17 @@ for my $Count (1..2) {
             $Decrypt{Data} eq $Reference,
             "#$Count Decrypt() - Data .$File",
         );
+
         # sign
         my $Signed = $Self->{CryptObject}->Sign(
             Message => $Reference,
-            Hash => $Keys[0]->{Hash},
+            Hash    => $Keys[0]->{Hash},
         );
         $Self->True(
             $Signed || '',
             "#$Count Sign() .$File",
         );
+
         # verify
         my %Verify = $Self->{CryptObject}->Verify(
             Message => $Signed,
@@ -339,7 +353,7 @@ for my $Count (1..2) {
 }
 
 # delete keys
-for my $Count (1..2) {
+for my $Count ( 1 .. 2 ) {
     my @Keys = $Self->{CryptObject}->Search(
         Search => $Search{$Count},
     );
@@ -348,7 +362,7 @@ for my $Count (1..2) {
         "#$Count Search()",
     );
     my $PrivateRemoved = $Self->{CryptObject}->PrivateRemove(
-        Hash =>  $Keys[0]->{Hash},
+        Hash => $Keys[0]->{Hash},
     );
     $Self->True(
         $PrivateRemoved || '',
@@ -356,7 +370,7 @@ for my $Count (1..2) {
     );
 
     my $CertificateRemoved = $Self->{CryptObject}->CertificateRemove(
-        Hash =>  $Keys[0]->{Hash},
+        Hash => $Keys[0]->{Hash},
     );
     $Self->True(
         $CertificateRemoved || '',
@@ -373,6 +387,6 @@ for my $Count (1..2) {
 }
 
 # reset config
-$Self->{ConfigObject}->Set(Key => 'SMIME', Value => 0);
+$Self->{ConfigObject}->Set( Key => 'SMIME', Value => 0 );
 
 1;

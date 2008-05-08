@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponseAttachment.pm - queue <-> responses
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponseAttachment.pm,v 1.19 2008-01-31 06:22:12 tr Exp $
+# $Id: AdminResponseAttachment.pm,v 1.20 2008-05-08 09:36:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,13 +18,13 @@ use Kernel::System::StdAttachment;
 use Kernel::System::StdResponse;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check all needed objects
@@ -113,7 +113,8 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'ChangeAttachment' ) {
         my @NewIDs = $Self->{ParamObject}->GetArray( Param => 'IDs' );
         $Self->{DBObject}->Do(
-            SQL => "DELETE FROM standard_response_attachment WHERE standard_attachment_id = $ID", );
+            SQL => "DELETE FROM standard_response_attachment WHERE standard_attachment_id = $ID",
+        );
         for my $NewID (@NewIDs) {
 
             # db quote
@@ -181,8 +182,10 @@ sub _Mask {
             .= "<a href=\"$BaseLink" . "Subaction=Attachment&ID=$_\">$GroupDataTmp{$_}</a><br>";
     }
 
-    return $Self->{LayoutObject}
-        ->Output( TemplateFile => 'AdminResponseAttachmentForm', Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AdminResponseAttachmentForm',
+        Data         => \%Param
+    );
 }
 
 sub _MaskChange {
@@ -226,8 +229,10 @@ sub _MaskChange {
     }
     $Param{OptionStrg0} .= "</SELECT>\n";
 
-    return $Self->{LayoutObject}
-        ->Output( TemplateFile => 'AdminResponseAttachmentChangeForm', Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AdminResponseAttachmentChangeForm',
+        Data         => \%Param
+    );
 }
 
 1;

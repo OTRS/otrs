@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.34 2008-04-25 10:33:32 tr Exp $
+# $Id: DB.pm,v 1.35 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -81,8 +81,11 @@ sub CheckSessionID {
     }
 
     # remote ip check
-    if (   $Data{UserRemoteAddr} ne $RemoteAddr
-        && $Self->{ConfigObject}->Get('SessionCheckRemoteIP') ) {
+    if (
+        $Data{UserRemoteAddr} ne $RemoteAddr
+        && $Self->{ConfigObject}->Get('SessionCheckRemoteIP')
+        )
+    {
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message  => "RemoteIP of '$Param{SessionID}' ($Data{UserRemoteAddr}) is "
@@ -103,7 +106,9 @@ sub CheckSessionID {
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message  => "SessionID ($Param{SessionID}) idle timeout ("
-                . int( ( $Self->{TimeObject}->SystemTime() - $Data{UserLastRequest} ) / ( 60 * 60 ) )
+                . int(
+                ( $Self->{TimeObject}->SystemTime() - $Data{UserLastRequest} ) / ( 60 * 60 )
+                )
                 . "h)! Don't grant access!!!",
         );
 
@@ -121,7 +126,9 @@ sub CheckSessionID {
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message  => "SessionID ($Param{SessionID}) too old ("
-                . int( ( $Self->{TimeObject}->SystemTime() - $Data{UserSessionStart} ) / ( 60 * 60 ))
+                . int(
+                ( $Self->{TimeObject}->SystemTime() - $Data{UserSessionStart} ) / ( 60 * 60 )
+                )
                 . "h)! Don't grant access!!!",
         );
 
@@ -206,7 +213,11 @@ sub CreateSessionID {
 
     # create SessionID
     my $md5 = Digest::MD5->new();
-    $md5->add( ( $Self->{TimeObject}->SystemTime() . int( rand(999999999) ) . $Self->{SystemID} ) . $RemoteAddr . $RemoteUserAgent );
+    $md5->add(
+        ( $Self->{TimeObject}->SystemTime() . int( rand(999999999) ) . $Self->{SystemID} )
+        . $RemoteAddr
+            . $RemoteUserAgent
+    );
     my $SessionID = $Self->{SystemID} . $md5->hexdigest;
 
     # data 2 strg
@@ -217,12 +228,13 @@ sub CreateSessionID {
             $DataToStore .= "$_:" . encode_base64( $Param{$_}, '' ) . ":;";
         }
     }
-    $DataToStore .= "UserSessionStart:" . encode_base64( $Self->{TimeObject}->SystemTime(), '' ) . ":;";
-    $DataToStore .= "UserRemoteAddr:" . encode_base64( $RemoteAddr,           '' ) . ":;";
+    $DataToStore
+        .= "UserSessionStart:" . encode_base64( $Self->{TimeObject}->SystemTime(), '' ) . ":;";
+    $DataToStore .= "UserRemoteAddr:" . encode_base64( $RemoteAddr, '' ) . ":;";
     $DataToStore .= "UserRemoteUserAgent:" . encode_base64( $RemoteUserAgent, '' ) . ":;";
 
     # store SessionID + data
-    return if ! $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => "INSERT INTO $Self->{SQLSessionTable} "
             . " ($Self->{SQLSessionTableID}, $Self->{SQLSessionTableValue}) VALUES (?, ?)",
         Bind => [ \$SessionID, \$DataToStore ],
@@ -241,7 +253,7 @@ sub RemoveSessionID {
     }
 
     # delete db recode
-    return if ! $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL  => "DELETE FROM $Self->{SQLSessionTable} WHERE $Self->{SQLSessionTableID} = ?",
         Bind => [ \$Param{SessionID} ],
     );
@@ -273,8 +285,11 @@ sub UpdateSessionID {
     my %SessionData = $Self->GetSessionIDData( SessionID => $Param{SessionID} );
 
     # check needed update! (no changes)
-    if (   ( ( exists $SessionData{$Key} ) && $SessionData{$Key} eq $Value )
-        || ( !exists $SessionData{$Key} && $Value eq '' ) ) {
+    if (
+        ( ( exists $SessionData{$Key} ) && $SessionData{$Key} eq $Value )
+        || ( !exists $SessionData{$Key} && $Value eq '' )
+        )
+    {
         return 1;
     }
 
@@ -297,7 +312,7 @@ sub UpdateSessionID {
     }
 
     # update db enrty
-    return if ! $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => "UPDATE $Self->{SQLSessionTable} SET "
             . " $Self->{SQLSessionTableValue} = ? WHERE $Self->{SQLSessionTableID} = ?",
         Bind => [ \$NewDataToStore, \$Param{SessionID} ],

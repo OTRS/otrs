@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponse.pm - provides admin std response module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponse.pm,v 1.25 2008-01-31 06:22:12 tr Exp $
+# $Id: AdminResponse.pm,v 1.26 2008-05-08 09:36:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,13 +19,13 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check all needed objects
@@ -99,8 +99,10 @@ sub Run {
 
     # add new response
     elsif ( $Param{Subaction} eq 'AddAction' ) {
-        if ( my $Id
-            = $Self->{StdResponseObject}->StdResponseAdd( %GetParam, UserID => $Self->{UserID} ) )
+        if (
+            my $Id
+            = $Self->{StdResponseObject}->StdResponseAdd( %GetParam, UserID => $Self->{UserID} )
+            )
         {
 
             # add attachments to response
@@ -112,8 +114,9 @@ sub Run {
             );
 
             # show next page
-            return $Self->{LayoutObject}
-                ->Redirect( OP => "Action=AdminQueueResponses&Subaction=Response&ID=$Id", );
+            return $Self->{LayoutObject}->Redirect(
+                OP => "Action=AdminQueueResponses&Subaction=Response&ID=$Id",
+            );
         }
         else {
             return $Self->{LayoutObject}->ErrorScreen();
@@ -164,7 +167,7 @@ sub _Mask {
                 Valid => 0,
                 Clamp => 1,
                 Table => 'standard_response',
-            )
+                )
         },
         Name       => 'ID',
         Size       => 15,

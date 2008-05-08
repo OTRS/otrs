@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/FS.pm - provides session filesystem backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.28 2008-02-27 17:35:26 martin Exp $
+# $Id: FS.pm,v 1.29 2008-05-08 09:36:20 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -71,8 +71,10 @@ sub CheckSessionID {
     }
 
     # remote ip check
-    if (   $Data{UserRemoteAddr} ne $RemoteAddr
-        && $Self->{ConfigObject}->Get('SessionCheckRemoteIP') )
+    if (
+        $Data{UserRemoteAddr} ne $RemoteAddr
+        && $Self->{ConfigObject}->Get('SessionCheckRemoteIP')
+        )
     {
         $Self->{LogObject}->Log(
             Priority => 'notice',
@@ -95,7 +97,8 @@ sub CheckSessionID {
             Priority => 'notice',
             Message  => "SessionID ($Param{SessionID}) idle timeout ("
                 . int(
-                ( $Self->{TimeObject}->SystemTime() - $Data{UserLastRequest} ) / ( 60 * 60 ) )
+                ( $Self->{TimeObject}->SystemTime() - $Data{UserLastRequest} ) / ( 60 * 60 )
+                )
                 . "h)! Don't grant access!!!",
         );
 
@@ -199,7 +202,11 @@ sub CreateSessionID {
 
     # create SessionID
     my $md5 = Digest::MD5->new();
-    $md5->add( ( $Self->{TimeObject}->SystemTime() . int( rand(999999999) ) . $Self->{SystemID} ) . $RemoteAddr . $RemoteUserAgent );
+    $md5->add(
+        ( $Self->{TimeObject}->SystemTime() . int( rand(999999999) ) . $Self->{SystemID} )
+        . $RemoteAddr
+            . $RemoteUserAgent
+    );
     my $SessionID = $Self->{SystemID} . $md5->hexdigest;
 
     # data 2 strg
@@ -210,8 +217,9 @@ sub CreateSessionID {
             $DataToStore .= "$_:" . encode_base64( $Param{$_}, '' ) . "\n";
         }
     }
-    $DataToStore .= "UserSessionStart:" . encode_base64( $Self->{TimeObject}->SystemTime(), '' ) . "\n";
-    $DataToStore .= "UserRemoteAddr:" . encode_base64( $RemoteAddr,           '' ) . "\n";
+    $DataToStore
+        .= "UserSessionStart:" . encode_base64( $Self->{TimeObject}->SystemTime(), '' ) . "\n";
+    $DataToStore .= "UserRemoteAddr:" . encode_base64( $RemoteAddr, '' ) . "\n";
     $DataToStore .= "UserRemoteUserAgent:" . encode_base64( $RemoteUserAgent, '' ) . "\n";
 
     # store SessionID + data
@@ -233,7 +241,8 @@ sub RemoveSessionID {
     }
 
     # delete fs file
-    if ($Self->{MainObject}->FileDelete(
+    if (
+        $Self->{MainObject}->FileDelete(
             Directory => $Self->{SessionSpool},
             Filename  => $Param{SessionID},
         )

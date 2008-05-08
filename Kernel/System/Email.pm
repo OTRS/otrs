@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.39 2008-04-09 00:31:20 martin Exp $
+# $Id: Email.pm,v 1.40 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Encode;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 =head1 NAME
 
@@ -77,7 +77,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # debug level
@@ -239,8 +239,10 @@ sub Send {
     # do some encode
     for (qw(From To Cc Subject)) {
         if ( $Header{$_} && $Param{Charset} ) {
-            $Header{$_} = encode_mimewords( Encode::encode( $Param{Charset}, $Header{$_} ),
-                Charset => $Param{Charset} )
+            $Header{$_} = encode_mimewords(
+                Encode::encode( $Param{Charset}, $Header{$_} ),
+                Charset => $Param{Charset}
+                )
                 || '';
         }
     }
@@ -287,8 +289,10 @@ sub Send {
     # add organisation header
     if ( $Self->{Organization} ) {
         $Header{'Organization'}
-            = encode_mimewords( Encode::encode( $Param{Charset}, $Self->{Organization} ),
-            Charset => $Param{Charset} )
+            = encode_mimewords(
+            Encode::encode( $Param{Charset}, $Self->{Organization} ),
+            Charset => $Param{Charset}
+            )
             || '';
     }
 
@@ -333,7 +337,8 @@ sub Send {
             # make_multipart -=> one attachment for sign
             $Entity->make_multipart(
                 "signed; micalg=pgp-sha1; protocol=\"application/pgp-signature\";",
-                Force => 1, );
+                Force => 1,
+            );
 
             # get string to sign
             my $T = $Entity->parts(0)->as_string();
@@ -398,10 +403,12 @@ sub Send {
 
     # crypt detached!
     #my $NotCryptedBody = $Entity->body_as_string();
-    if (   $Param{Crypt}
+    if (
+        $Param{Crypt}
         && $Param{Crypt}->{Type}
         && $Param{Crypt}->{Type}    eq 'PGP'
-        && $Param{Crypt}->{SubType} eq 'Detached' )
+        && $Param{Crypt}->{SubType} eq 'Detached'
+        )
     {
         my $CryptObject = Kernel::System::Crypt->new(
             LogObject    => $Self->{LogObject},
@@ -415,7 +422,9 @@ sub Send {
         }
 
         # make_multipart -=> one attachment for encryption
-        $Entity->make_multipart( "encrypted; protocol=\"application/pgp-encrypted\";", Force => 1,
+        $Entity->make_multipart(
+            "encrypted; protocol=\"application/pgp-encrypted\";",
+            Force => 1,
         );
 
         # crypt it
@@ -545,7 +554,7 @@ sub Send {
         Header  => \$Param{Header},
         Body    => \$Param{Body},
     );
-    if ( ! $Sent ) {
+    if ( !$Sent ) {
         return;
     }
     return ( \$Param{Header}, \$Param{Body} );
@@ -617,7 +626,7 @@ sub Bounce {
         Body    => \$BodyAsString,
     );
 
-    if ( ! $Sent ) {
+    if ( !$Sent ) {
         return;
     }
     return 1;
@@ -644,6 +653,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.39 $ $Date: 2008-04-09 00:31:20 $
+$Revision: 1.40 $ $Date: 2008-05-08 09:36:19 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Language.pm,v 1.55 2008-04-03 05:39:48 tr Exp $
+# $Id: Language.pm,v 1.56 2008-05-08 09:36:56 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 =head1 NAME
 
@@ -67,7 +67,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check needed objects
@@ -415,8 +415,9 @@ sub Time {
         my @DAYS = qw/Sun Mon Tue Wed Thu Fri Sat/;
         my @MONS = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
         ( $s, $m, $h, $D, $M, $Y, $wd, $yd, $dst )
-            = $Self->{TimeObject}
-            ->SystemTime2Date( SystemTime => $Self->{TimeObject}->SystemTime(), );
+            = $Self->{TimeObject}->SystemTime2Date(
+            SystemTime => $Self->{TimeObject}->SystemTime(),
+            );
     }
     elsif ( $Param{Action} =~ /^RETURN$/i ) {
         $m = $Param{Minute} || 0;
@@ -503,6 +504,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.55 $ $Date: 2008-04-03 05:39:48 $
+$Revision: 1.56 $ $Date: 2008-05-08 09:36:56 $
 
 =cut

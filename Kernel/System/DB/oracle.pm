@@ -2,7 +2,7 @@
 # Kernel/System/DB/oracle.pm - oracle database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: oracle.pm,v 1.43 2008-05-07 08:45:23 martin Exp $
+# $Id: oracle.pm,v 1.44 2008-05-08 09:36:20 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     return $Self;
@@ -123,13 +123,17 @@ sub TableCreate {
     my @Return2      = ();
     for my $Tag (@Param) {
 
-        if ( ( $Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate' )
-            && $Tag->{TagType} eq 'Start' )
+        if (
+            ( $Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate' )
+            && $Tag->{TagType} eq 'Start'
+            )
         {
             if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
-                $SQLStart .= $Self->{'DB::Comment'} . "----------------------------------------------------------\n";
+                $SQLStart .= $Self->{'DB::Comment'}
+                    . "----------------------------------------------------------\n";
                 $SQLStart .= $Self->{'DB::Comment'} . " create table $Tag->{Name}\n";
-                $SQLStart .= $Self->{'DB::Comment'} . "----------------------------------------------------------\n";
+                $SQLStart .= $Self->{'DB::Comment'}
+                    . "----------------------------------------------------------\n";
             }
         }
         if ( $Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate' ) {
@@ -184,12 +188,13 @@ sub TableCreate {
                 String => $Constraint,
             );
             $Constraint = substr $Constraint, 0, 28;
-            $Constraint .= substr $MD5, 0, 1;
+            $Constraint .= substr $MD5, 0,  1;
             $Constraint .= substr $MD5, 31, 1;
         }
         if ( $Tag->{PrimaryKey} && $Tag->{PrimaryKey} =~ /true/i ) {
-            push( @Return2,
-                      "ALTER TABLE $TableName ADD CONSTRAINT $Constraint"
+            push(
+                @Return2,
+                "ALTER TABLE $TableName ADD CONSTRAINT $Constraint"
                     . " PRIMARY KEY ($Tag->{Name})"
             );
         }
@@ -202,7 +207,7 @@ sub TableCreate {
                     String => $Sequence,
                 );
                 $Sequence = substr $Sequence, 0, 26;
-                $Sequence .= substr $MD5, 0, 1;
+                $Sequence .= substr $MD5, 0,  1;
                 $Sequence .= substr $MD5, 31, 1;
             }
             my $Shell = '';
@@ -211,8 +216,9 @@ sub TableCreate {
             }
             push( @Return2, "DROP SEQUENCE $Sequence" );
             push( @Return2, "CREATE SEQUENCE $Sequence" );
-            push( @Return2,
-                      "CREATE OR REPLACE TRIGGER $Sequence"
+            push(
+                @Return2,
+                "CREATE OR REPLACE TRIGGER $Sequence"
                     . "_t\n"
                     . "before insert on $TableName\n"
                     . "for each row\n"
@@ -233,7 +239,7 @@ sub TableCreate {
                 String => $Unique,
             );
             $Unique = substr $Unique, 0, 28;
-            $Unique .= substr $MD5, 0, 1;
+            $Unique .= substr $MD5, 0,  1;
             $Unique .= substr $MD5, 31, 1;
         }
         if ($SQL) {
@@ -246,7 +252,7 @@ sub TableCreate {
             if ( $_ > 0 ) {
                 $SQL .= ', ';
             }
-            $SQL .= $Array[$_]->{Name};
+            $SQL  .= $Array[$_]->{Name};
             $Name .= '_' . $Array[$_]->{Name};
         }
         $SQL .= ')';
@@ -264,13 +270,13 @@ sub TableCreate {
                     Local            => $Array[$_]->{Local},
                     ForeignTableName => $ForeignKey,
                     Foreign          => $Array[$_]->{Foreign},
-                )
+                    )
             );
 
             # generate forced index for every FK to do row locking (not table locking)
             my $IndexName = $TableName . '_' . $Array[$_]->{Local};
             if ( !$Index{$IndexName} ) {
-                $Index{'FK_' . $IndexName } = [ { Name => $Array[$_]->{Local} } ];
+                $Index{ 'FK_' . $IndexName } = [ { Name => $Array[$_]->{Local} } ];
             }
         }
     }
@@ -283,7 +289,7 @@ sub TableCreate {
                 TableName => $TableName,
                 Name      => $Name,
                 Data      => $Index{$Name},
-            )
+                )
         );
     }
 
@@ -297,9 +303,11 @@ sub TableDrop {
     for my $Tag (@Param) {
         if ( $Tag->{Tag} eq 'Table' && $Tag->{TagType} eq 'Start' ) {
             if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
-                $SQL .= $Self->{'DB::Comment'} . "----------------------------------------------------------\n";
+                $SQL .= $Self->{'DB::Comment'}
+                    . "----------------------------------------------------------\n";
                 $SQL .= $Self->{'DB::Comment'} . " drop table $Tag->{Name}\n";
-                $SQL .= $Self->{'DB::Comment'} . "----------------------------------------------------------\n";
+                $SQL .= $Self->{'DB::Comment'}
+                    . "----------------------------------------------------------\n";
             }
         }
         $SQL .= "DROP TABLE $Tag->{Name} CASCADE CONSTRAINTS";
@@ -320,13 +328,17 @@ sub TableAlter {
     my @Reference     = ();
     my $Table         = '';
     for my $Tag (@Param) {
+
         if ( $Tag->{Tag} eq 'TableAlter' && $Tag->{TagType} eq 'Start' ) {
             $Table = $Tag->{Name} || $Tag->{NameNew};
             if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
-                $SQLStart .= $Self->{'DB::Comment'} . "----------------------------------------------------------\n";
+                $SQLStart .= $Self->{'DB::Comment'}
+                    . "----------------------------------------------------------\n";
                 $SQLStart .= $Self->{'DB::Comment'} . " alter table $Table\n";
-                $SQLStart .= $Self->{'DB::Comment'} . "----------------------------------------------------------\n";
+                $SQLStart .= $Self->{'DB::Comment'}
+                    . "----------------------------------------------------------\n";
             }
+
             # rename table
             if ( $Tag->{NameOld} && $Tag->{NameNew} ) {
                 push @SQL, $SQLStart . "ALTER TABLE $Tag->{NameOld} RENAME TO $Tag->{NameNew}";
@@ -358,10 +370,12 @@ sub TableAlter {
             # default values
             if ( $Tag->{Default} ) {
                 if ( $Tag->{Type} =~ /int/i ) {
-                    push @SQL, "UPDATE $Table SET $Tag->{Name} = $Tag->{Default} WHERE $Tag->{Name} IS NULL";
+                    push @SQL,
+                        "UPDATE $Table SET $Tag->{Name} = $Tag->{Default} WHERE $Tag->{Name} IS NULL";
                 }
                 else {
-                    push @SQL, "UPDATE $Table SET $Tag->{Name} = '$Tag->{Default}' WHERE $Tag->{Name} IS NULL";
+                    push @SQL,
+                        "UPDATE $Table SET $Tag->{Name} = '$Tag->{Default}' WHERE $Tag->{Name} IS NULL";
                 }
                 if ( $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
                     push @SQL, "ALTER TABLE $Table MODIFY $Tag->{Name} $Tag->{Type} NOT NULL";
@@ -414,7 +428,7 @@ sub TableAlter {
                 $IndexName = $Tag->{Name};
             }
             if ( $Tag->{TagType} eq 'End' ) {
-                push @SQL,   $Self->$Method(
+                push @SQL, $Self->$Method(
                     TableName => $Table,
                     Name      => $IndexName,
                     Data      => \@Index,
@@ -433,7 +447,7 @@ sub TableAlter {
             }
             if ( $Tag->{TagType} eq 'End' ) {
                 for my $Reference (@Reference) {
-                    push @SQL,   $Self->$Method(
+                    push @SQL, $Self->$Method(
                         LocalTableName   => $Table,
                         Local            => $Reference->{Local},
                         ForeignTableName => $ForeignTable,
@@ -467,7 +481,7 @@ sub IndexCreate {
             String => $Index,
         );
         $Index = substr $Index, 0, 28;
-        $Index .= substr $MD5, 0, 1;
+        $Index .= substr $MD5, 0,  1;
         $Index .= substr $MD5, 31, 1;
     }
     my $SQL   = "CREATE INDEX $Index ON $Param{TableName} (";
@@ -506,7 +520,7 @@ sub IndexDrop {
             String => $Index,
         );
         $Index = substr $Index, 0, 28;
-        $Index .= substr $MD5, 0, 1;
+        $Index .= substr $MD5, 0,  1;
         $Index .= substr $MD5, 31, 1;
     }
 
@@ -530,7 +544,7 @@ sub ForeignKeyCreate {
             String => $ForeignKey,
         );
         $ForeignKey = substr $ForeignKey, 0, 28;
-        $ForeignKey .= substr $MD5, 0, 1;
+        $ForeignKey .= substr $MD5, 0,  1;
         $ForeignKey .= substr $MD5, 31, 1;
     }
     my $SQL = "ALTER TABLE $Param{LocalTableName} ADD CONSTRAINT $ForeignKey FOREIGN KEY (";
@@ -557,7 +571,7 @@ sub ForeignKeyDrop {
             String => $ForeignKey,
         );
         $ForeignKey = substr $ForeignKey, 0, 28;
-        $ForeignKey .= substr $MD5, 0, 1;
+        $ForeignKey .= substr $MD5, 0,  1;
         $ForeignKey .= substr $MD5, 31, 1;
     }
     my $SQL = "ALTER TABLE $Param{TableName} DROP CONSTRAINT $ForeignKey";
@@ -581,7 +595,7 @@ sub UniqueCreate {
             String => $Unique,
         );
         $Unique = substr $Unique, 0, 28;
-        $Unique .= substr $MD5, 0, 1;
+        $Unique .= substr $MD5, 0,  1;
         $Unique .= substr $MD5, 31, 1;
     }
 
@@ -592,7 +606,7 @@ sub UniqueCreate {
         if ( $_ > 0 ) {
             $SQL .= ', ';
         }
-        $SQL .= $Array[$_]->{Name};
+        $SQL  .= $Array[$_]->{Name};
         $Name .= '_' . $Array[$_]->{Name};
     }
     $SQL .= ')';
@@ -619,7 +633,7 @@ sub UniqueDrop {
             String => $Unique,
         );
         $Unique = substr $Unique, 0, 28;
-        $Unique .= substr $MD5, 0, 1;
+        $Unique .= substr $MD5, 0,  1;
         $Unique .= substr $MD5, 31, 1;
     }
 
@@ -636,9 +650,11 @@ sub Insert {
     for my $Tag (@Param) {
         if ( $Tag->{Tag} eq 'Insert' && $Tag->{TagType} eq 'Start' ) {
             if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
-                $SQL .= $Self->{'DB::Comment'} . "----------------------------------------------------------\n";
+                $SQL .= $Self->{'DB::Comment'}
+                    . "----------------------------------------------------------\n";
                 $SQL .= $Self->{'DB::Comment'} . " insert into table $Tag->{Table}\n";
-                $SQL .= $Self->{'DB::Comment'} . "----------------------------------------------------------\n";
+                $SQL .= $Self->{'DB::Comment'}
+                    . "----------------------------------------------------------\n";
             }
             $SQL .= "INSERT INTO $Tag->{Table} ";
         }
@@ -650,7 +666,7 @@ sub Insert {
                 $Value = $Tag->{Value};
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message => 'The content for inserts is not longer appreciated '
+                    Message  => 'The content for inserts is not longer appreciated '
                         . 'attribut Value, use Content from now on! Reason: You can\'t '
                         . 'use new lines in attributes.',
                 );

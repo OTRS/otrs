@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.52 2008-03-08 11:25:11 martin Exp $
+# $Id: AdminCustomerUser.pm,v 1.53 2008-05-08 09:36:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,13 +19,13 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check all needed objects
@@ -171,7 +171,8 @@ sub Run {
         }
 
         # update user
-        if ( $Self->{CustomerUserObject}->CustomerUserUpdate( %GetParam, UserID => $Self->{UserID} )
+        if (
+            $Self->{CustomerUserObject}->CustomerUserUpdate( %GetParam, UserID => $Self->{UserID} )
             )
         {
 
@@ -183,8 +184,9 @@ sub Run {
                 }
 
                 # get user data
-                my %UserData = $Self->{CustomerUserObject}
-                    ->CustomerUserDataGet( User => $GetParam{UserLogin} );
+                my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                    User => $GetParam{UserLogin}
+                );
                 my $Module = $Preferences{$Group}->{Module};
                 if ( $Self->{MainObject}->Require($Module) ) {
                     my $Object = $Module->new(
@@ -275,9 +277,14 @@ sub Run {
         }
 
         # add user
-        if ( my $User
-            = $Self->{CustomerUserObject}
-            ->CustomerUserAdd( %GetParam, UserID => $Self->{UserID}, Source => $Source ) )
+        if (
+            my $User
+            = $Self->{CustomerUserObject}->CustomerUserAdd(
+                %GetParam,
+                UserID => $Self->{UserID},
+                Source => $Source
+            )
+            )
         {
 
             # update preferences
@@ -288,8 +295,9 @@ sub Run {
                 }
 
                 # get user data
-                my %UserData = $Self->{CustomerUserObject}
-                    ->CustomerUserDataGet( User => $GetParam{UserLogin} );
+                my %UserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                    User => $GetParam{UserLogin}
+                );
                 my $Module = $Preferences{$Group}->{Module};
                 if ( $Self->{MainObject}->Require($Module) ) {
                     my $Object = $Module->new(
@@ -344,15 +352,21 @@ sub Run {
                 }
                 if ($URL) {
                     $Output
-                        .= $Self->{LayoutObject}
-                        ->Notify( Data => $Self->{LayoutObject}->{LanguageObject}
-                            ->Get( 'Added User "%s"", "' . $User ) . " ( $URL )!", );
+                        .= $Self->{LayoutObject}->Notify(
+                        Data => $Self->{LayoutObject}->{LanguageObject}->Get(
+                            'Added User "%s"", "' . $User
+                            )
+                            . " ( $URL )!",
+                        );
                 }
                 else {
                     $Output
-                        .= $Self->{LayoutObject}
-                        ->Notify( Data => $Self->{LayoutObject}->{LanguageObject}
-                            ->Get( 'Added User "%s"", "' . $User ) . "!", );
+                        .= $Self->{LayoutObject}->Notify(
+                        Data => $Self->{LayoutObject}->{LanguageObject}->Get(
+                            'Added User "%s"", "' . $User
+                            )
+                            . "!",
+                        );
                 }
                 $Output .= $Self->{LayoutObject}->Output(
                     TemplateFile => 'AdminCustomerUserForm',
@@ -506,8 +520,10 @@ sub _Edit {
             }
 
             # check if login auto creation
-            if (   $Self->{ConfigObject}->Get( $Param{Source} )->{AutoLoginCreation}
-                && $Entry->[0] =~ /^UserLogin$/ )
+            if (
+                $Self->{ConfigObject}->Get( $Param{Source} )->{AutoLoginCreation}
+                && $Entry->[0] =~ /^UserLogin$/
+                )
             {
                 $Block = 'InputHidden';
             }
@@ -542,8 +558,10 @@ sub _Edit {
                     SelectedID => defined( $Param{ $Entry->[0] } ) ? $Param{ $Entry->[0] } : 1,
                 );
             }
-            elsif ($Entry->[0] =~ /^UserCustomerID/i
-                && $Self->{ConfigObject}->Get( $Param{Source} )->{CustomerCompanySupport} )
+            elsif (
+                $Entry->[0] =~ /^UserCustomerID/i
+                && $Self->{ConfigObject}->Get( $Param{Source} )->{CustomerCompanySupport}
+                )
             {
                 my %Company = ();
                 my %CompanyList
@@ -651,11 +669,14 @@ sub _Edit {
                                 Name => 'Item',
                                 Data => {%Param},
                             );
-                            if (   ref( $ParamItem->{Data} ) eq 'HASH'
-                                || ref( $Preference{Data} ) eq 'HASH' )
+                            if (
+                                ref( $ParamItem->{Data} )   eq 'HASH'
+                                || ref( $Preference{Data} ) eq 'HASH'
+                                )
                             {
-                                $ParamItem->{'Option'} = $Self->{LayoutObject}
-                                    ->OptionStrgHashRef( %Preference, %{$ParamItem}, );
+                                $ParamItem->{'Option'} = $Self->{LayoutObject}->OptionStrgHashRef(
+                                    %Preference, %{$ParamItem},
+                                );
                             }
                             $Self->{LayoutObject}->Block(
                                 Name => $ParamItem->{Block} || $Preference{Block} || 'Option',
@@ -677,8 +698,10 @@ sub _Edit {
         }
 
     }
-    return $Self->{LayoutObject}
-        ->Output( TemplateFile => 'AdminCustomerUserForm', Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AdminCustomerUserForm',
+        Data         => \%Param
+    );
 }
 
 1;

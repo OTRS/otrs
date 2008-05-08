@@ -2,7 +2,7 @@
 # Kernel/System/Encode.pm - character encodings
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Encode.pm,v 1.27 2008-04-29 22:03:44 martin Exp $
+# $Id: Encode.pm,v 1.28 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 =head1 NAME
 
@@ -71,8 +71,10 @@ sub new {
     }
 
     # get internal charset
-    if (   $Self->{CharsetEncodeSupported}
-        && $Self->{ConfigObject}->Get('DefaultCharset') =~ /^utf(-8|8)$/i )
+    if (
+        $Self->{CharsetEncodeSupported}
+        && $Self->{ConfigObject}->Get('DefaultCharset') =~ /^utf(-8|8)$/i
+        )
     {
         $Self->{UTF8Support} = 1;
     }
@@ -192,7 +194,8 @@ sub Convert {
     }
 
     if ( !eval { Encode::from_to( $Param{Text}, $Param{From}, $Param{To} ) } ) {
-        print STDERR "Charset encode '$Param{From}' -=> '$Param{To}' ($Param{Text}) not supported!\n";
+        print STDERR
+            "Charset encode '$Param{From}' -=> '$Param{To}' ($Param{Text}) not supported!\n";
         return $Param{Text};
     }
 
@@ -264,7 +267,7 @@ sub Encode {
     if ( ref $What eq 'ARRAY' ) {
         ROW:
         for my $Row ( @{$What} ) {
-            next ROW if ! defined $Row;
+            next ROW if !defined $Row;
 
             Encode::_utf8_on($Row);
         }
@@ -343,6 +346,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2008-04-29 22:03:44 $
+$Revision: 1.28 $ $Date: 2008-05-08 09:36:19 $
 
 =cut

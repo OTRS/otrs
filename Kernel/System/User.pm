@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.80 2008-04-25 10:57:45 tr Exp $
+# $Id: User.pm,v 1.81 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Encode;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.80 $) [1];
+$VERSION = qw($Revision: 1.81 $) [1];
 
 =head1 NAME
 
@@ -155,13 +155,13 @@ sub GetUserData {
     if ( $Param{User} ) {
         my $User = lc $Param{User};
         $SQL .= " LOWER($Self->{UserTableUser}) = ?";
-        push ( @Bind, \$User );
+        push( @Bind, \$User );
     }
     else {
         $SQL .= " $Self->{UserTableUserID} = ?";
-        push ( @Bind, \$Param{UserID} );
+        push( @Bind, \$Param{UserID} );
     }
-    return if ! $Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
+    return if !$Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
     my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{UserID}         = $Row[0];
@@ -255,8 +255,10 @@ sub UserAdd {
     }
 
     # check email address
-    if ( $Param{UserEmail}
-        && !$Self->{CheckItemObject}->CheckEmail( Address => $Param{UserEmail} ) )
+    if (
+        $Param{UserEmail}
+        && !$Self->{CheckItemObject}->CheckEmail( Address => $Param{UserEmail} )
+        )
     {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -272,7 +274,7 @@ sub UserAdd {
     }
 
     # sql
-    return if ! $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => "INSERT INTO $Self->{UserTable} "
             . "(salutation, first_name, last_name, "
             . " $Self->{UserTableUser}, $Self->{UserTableUserPW}, "
@@ -281,15 +283,15 @@ sub UserAdd {
             . " (?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)",
         Bind => [
             \$Param{UserSalutation}, \$Param{UserFirstname}, \$Param{UserLastname},
-            \$Param{UserLogin}, \$Param{UserPw}, \$Param{ValidID},
-            \$Param{ChangeUserID}, \$Param{ChangeUserID},
+            \$Param{UserLogin},      \$Param{UserPw},        \$Param{ValidID},
+            \$Param{ChangeUserID},   \$Param{ChangeUserID},
         ],
     );
 
     # get new user id
     my $UserLogin = lc $Param{UserLogin};
-    return if ! $Self->{DBObject}->Prepare(
-        SQL  => "SELECT $Self->{UserTableUserID} FROM $Self->{UserTable} "
+    return if !$Self->{DBObject}->Prepare(
+        SQL => "SELECT $Self->{UserTableUserID} FROM $Self->{UserTable} "
             . " WHERE LOWER($Self->{UserTableUser}) = ?",
         Bind => [ \$UserLogin ],
     );
@@ -302,7 +304,7 @@ sub UserAdd {
     if ( !$UserID ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message => "Unable to create User: '$Param{UserLogin}' ($Param{ChangeUserID})!",
+            Message  => "Unable to create User: '$Param{UserLogin}' ($Param{ChangeUserID})!",
         );
         return;
     }
@@ -310,7 +312,8 @@ sub UserAdd {
     # log notice
     $Self->{LogObject}->Log(
         Priority => 'notice',
-        Message => "User: '$Param{UserLogin}' ID: '$UserID' created successfully ($Param{ChangeUserID})!",
+        Message =>
+            "User: '$Param{UserLogin}' ID: '$UserID' created successfully ($Param{ChangeUserID})!",
     );
 
     # set password
@@ -350,8 +353,10 @@ sub UserUpdate {
     }
 
     # check email address
-    if ( $Param{UserEmail}
-        && !$Self->{CheckItemObject}->CheckEmail( Address => $Param{UserEmail} ) )
+    if (
+        $Param{UserEmail}
+        && !$Self->{CheckItemObject}->CheckEmail( Address => $Param{UserEmail} )
+        )
     {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -365,7 +370,7 @@ sub UserUpdate {
     my %UserData = $Self->GetUserData( UserID => $Param{UserID} );
 
     # update db
-    return if ! $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => "UPDATE $Self->{UserTable} SET salutation = ?, first_name = ?, last_name = ?, "
             . " $Self->{UserTableUser} = ?, valid_id = ?, "
             . " change_time = current_timestamp, change_by = ? "
@@ -428,7 +433,7 @@ sub UserSearch {
     if ( !$Param{Search} && !$Param{UserLogin} && !$Param{PostMasterSearch} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Need Search, UserLogin or PostMasterSearch!",
+            Message  => "Need Search, UserLogin or PostMasterSearch!",
         );
         return;
     }
@@ -446,9 +451,9 @@ sub UserSearch {
     $SQL .= " FROM $Self->{UserTable} WHERE ";
     if ( $Param{Search} ) {
         $SQL .= $Self->{DBObject}->QueryCondition(
-            Key          => \@Fields,
-            Value        => $Param{Search},
-        ). ' ';
+            Key   => \@Fields,
+            Value => $Param{Search},
+        ) . ' ';
     }
     elsif ( $Param{PostMasterSearch} ) {
         my %UserID = $Self->SearchPreferences(
@@ -474,11 +479,11 @@ sub UserSearch {
 
     # add valid option
     if ($Valid) {
-        $SQL .= "AND valid_id IN (".join(', ', $Self->{ValidObject}->ValidIDsGet() ).")";
+        $SQL .= "AND valid_id IN (" . join( ', ', $Self->{ValidObject}->ValidIDsGet() ) . ")";
     }
 
     # get data
-    return if ! $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL => $SQL,
         Limit => $Self->{UserSearchListLimit} || $Param{Limit},
     );
@@ -546,7 +551,8 @@ sub SetPassword {
         else {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message => 'The crypt() of your mod_perl(2) is not working correctly! Update mod_perl!',
+                Message =>
+                    'The crypt() of your mod_perl(2) is not working correctly! Update mod_perl!',
             );
             my $TempUser = quotemeta( $Param{UserLogin} );
             my $TempPw   = quotemeta($Pw);
@@ -578,7 +584,7 @@ sub SetPassword {
 
     # update db
     my $UserLogin = lc $Param{UserLogin};
-    return if ! $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => "UPDATE $Self->{UserTable} SET $Self->{UserTableUserPW} = ? "
             . " WHERE LOWER($Self->{UserTableUser}) = ?",
         Bind => [ \$CryptedPw, \$UserLogin ],
@@ -623,7 +629,7 @@ sub UserLookup {
 
         # build sql query
         my $UserLogin = lc $Param{UserLogin};
-        return if ! $Self->{DBObject}->Prepare(
+        return if !$Self->{DBObject}->Prepare(
             SQL => "SELECT $Self->{UserTableUserID} FROM $Self->{UserTable} "
                 . " WHERE LOWER($Self->{UserTableUser}) = ?",
             Bind => [ \$UserLogin ],
@@ -654,7 +660,7 @@ sub UserLookup {
         }
 
         # build sql query
-        return if ! $Self->{DBObject}->Prepare(
+        return if !$Self->{DBObject}->Prepare(
             SQL => "SELECT $Self->{UserTableUser} FROM $Self->{UserTable} "
                 . " WHERE $Self->{UserTableUserID} = ?",
             Bind => [ \$Param{UserID} ],
@@ -792,7 +798,8 @@ set user preferences
 =cut
 
 sub SetPreferences {
-    my $Self = shift;
+    my ($Self) = @_;
+
     return $Self->{PreferencesObject}->SetPreferences(@_);
 }
 
@@ -807,7 +814,8 @@ get user preferences
 =cut
 
 sub GetPreferences {
-    my $Self = shift;
+    my ($Self) = @_;
+
     return $Self->{PreferencesObject}->GetPreferences(@_);
 }
 
@@ -823,7 +831,8 @@ search in user preferences
 =cut
 
 sub SearchPreferences {
-    my $Self = shift;
+    my ($Self) = @_;
+
     return $Self->{PreferencesObject}->SearchPreferences(@_);
 }
 
@@ -895,12 +904,12 @@ sub TokenCheck {
     );
 
     # check requested vs. stored token
-    if ( $Preferences{UserToken} && $Preferences{UserToken} eq $Param{Token}) {
+    if ( $Preferences{UserToken} && $Preferences{UserToken} eq $Param{Token} ) {
 
         # reset password token
         $Self->SetPreferences(
-            Key => 'UserToken',
-            Value => '',
+            Key    => 'UserToken',
+            Value  => '',
             UserID => $Param{UserID},
         );
 
@@ -930,6 +939,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.80 $ $Date: 2008-04-25 10:57:45 $
+$Revision: 1.81 $ $Date: 2008-05-08 09:36:19 $
 
 =cut

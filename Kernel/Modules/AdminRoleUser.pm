@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminRoleUser.pm - to add/update/delete role <-> users
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRoleUser.pm,v 1.13 2008-01-31 06:22:12 tr Exp $
+# $Id: AdminRoleUser.pm,v 1.14 2008-05-08 09:36:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check all needed objects
@@ -122,8 +122,9 @@ sub Run {
                 UserID => $Self->{UserID},
             );
         }
-        return $Self->{LayoutObject}
-            ->Redirect( OP => "Action=AdminRoleUser&Subaction=Role&ID=$ID" );
+        return $Self->{LayoutObject}->Redirect(
+            OP => "Action=AdminRoleUser&Subaction=Role&ID=$ID"
+        );
     }
 
     # roles to users
@@ -148,8 +149,9 @@ sub Run {
                 UserID => $Self->{UserID},
             );
         }
-        return $Self->{LayoutObject}
-            ->Redirect( OP => "Action=AdminRoleUser&Subaction=User&ID=$ID" );
+        return $Self->{LayoutObject}->Redirect(
+            OP => "Action=AdminRoleUser&Subaction=User&ID=$ID"
+        );
     }
 
     # else ! print form
@@ -208,7 +210,7 @@ sub MaskAdminUserGroupChangeForm {
 
     return $Self->{LayoutObject}->Output(
         TemplateFile => 'AdminRoleUserChangeForm',
-        Data         => { %Param, NeType => $NeType },
+        Data => { %Param, NeType => $NeType },
     );
 }
 

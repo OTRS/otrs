@@ -2,7 +2,7 @@
 # Kernel/System/MailAccount/POP3S.pm - lib for pop3 accounts
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: POP3S.pm,v 1.1 2008-03-28 11:54:44 martin Exp $
+# $Id: POP3S.pm,v 1.2 2008-05-08 09:36:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,13 +17,13 @@ use Net::POP3::SSLWrapper;
 use Kernel::System::PostMaster;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check all needed objects
@@ -56,7 +56,7 @@ sub Fetch {
 
     my $Debug = $Param{Debug} || 0;
     my $Limit = $Param{Limit} || 5000;
-    my $CMD   = $Param{CMD} || 0;
+    my $CMD   = $Param{CMD}   || 0;
 
     # MaxEmailSize
     my $MaxEmailSize = $Self->{ConfigObject}->Get('PostMasterMaxEmailSize') || 1024 * 6;
@@ -70,7 +70,8 @@ sub Fetch {
     my $AuthType     = 'POP3S';
 
     # connect to host
-    my $PopObject = Net::POP3->new( $Param{Host}, Port => 995, Timeout => $Timeout, Debug => $Debug );
+    my $PopObject
+        = Net::POP3->new( $Param{Host}, Port => 995, Timeout => $Timeout, Debug => $Debug );
     if ( !$PopObject ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -97,12 +98,12 @@ sub Fetch {
             # check if reconnect is needed
             if ( ( $FetchCounter + 1 ) > $MaxPopEmailSession ) {
                 $Reconnect = 1;
-                if ( $CMD ) {
+                if ($CMD) {
                     print "$AuthType: Reconnect Session after $MaxPopEmailSession messages...\n";
                 }
                 last;
             }
-            if ( $CMD ) {
+            if ($CMD) {
                 print "$AuthType: Message $Messageno/$NOM ($Param{Login}/$Param{Host})\n";
             }
 
@@ -111,30 +112,34 @@ sub Fetch {
             if ( $MessageSize > $MaxEmailSize ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  => "$AuthType: Can't fetch email $NOM from $Param{Login}/$Param{Host}. Email to "
+                    Message =>
+                        "$AuthType: Can't fetch email $NOM from $Param{Login}/$Param{Host}. Email to "
                         . "big ($MessageSize KB - max $MaxEmailSize KB)!",
                 );
             }
             else {
+
                 # safety protection
                 $FetchCounter++;
                 if ( $FetchCounter > 10 && $FetchCounter < 25 ) {
-                    if ( $CMD ) {
-                        print "$AuthType: Safety protection waiting 2 second till processing next mail...\n";
+                    if ($CMD) {
+                        print
+                            "$AuthType: Safety protection waiting 2 second till processing next mail...\n";
                     }
                     sleep 2;
                 }
                 elsif ( $FetchCounter > 25 ) {
-                    if ( $CMD ) {
-                        print "$AuthType: Safety protection waiting 3 seconds till processing next mail...\n";
+                    if ($CMD) {
+                        print
+                            "$AuthType: Safety protection waiting 3 seconds till processing next mail...\n";
                     }
                     sleep 3;
                 }
 
                 # get message (header and body)
-                my $Lines = $PopObject->get($Messageno);
+                my $Lines            = $PopObject->get($Messageno);
                 my $PostMasterObject = Kernel::System::PostMaster->new(
-                    %{ $Self },
+                    %{$Self},
                     Email   => $Lines,
                     Trusted => $Param{Trusted} || 0,
                     Debug   => $Debug,
@@ -157,13 +162,13 @@ sub Fetch {
                 }
 
             }
-            if ( $CMD ) {
+            if ($CMD) {
                 print "\n";
             }
         }
     }
     else {
-        if ( $CMD ) {
+        if ($CMD) {
             print "$AuthType: No messages ($Param{Login}/$Param{Host})\n";
         }
     }
@@ -172,11 +177,11 @@ sub Fetch {
     if ( $Debug > 0 || $FetchCounter ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message  => "$AuthType: Fetched $FetchCounter email(s) from $Param{Login}/$Param{Host}.",
+            Message => "$AuthType: Fetched $FetchCounter email(s) from $Param{Login}/$Param{Host}.",
         );
     }
     $PopObject->quit();
-    if ( $CMD ) {
+    if ($CMD) {
         print "$AuthType: Connection to $Param{Host} closed.\n\n";
     }
 

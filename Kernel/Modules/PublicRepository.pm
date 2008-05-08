@@ -2,7 +2,7 @@
 # Kernel/Modules/PublicRepository.pm - provides a local repository
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PublicRepository.pm,v 1.9 2008-03-03 13:50:10 mh Exp $
+# $Id: PublicRepository.pm,v 1.10 2008-05-08 09:36:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,13 +17,13 @@ use warnings;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check needed objects
@@ -45,8 +45,9 @@ sub Run {
     $File =~ s/^\///g;
     my $AccessControlRexExp = $Self->{ConfigObject}->Get('Package::RepositoryAccessRegExp');
     if ( !$AccessControlRexExp ) {
-        return $Self->{LayoutObject}
-            ->ErrorScreen( Message => 'Need config Package::RepositoryAccessRegExp', );
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => 'Need config Package::RepositoryAccessRegExp',
+        );
     }
     else {
         if ( $ENV{REMOTE_ADDR} !~ /^$AccessControlRexExp$/ ) {
@@ -69,7 +70,7 @@ sub Run {
         }
         $Index .= "</otrs_package_list>\n";
         return $Self->{LayoutObject}->Attachment(
-            Type        => 'inline',    # inline|attachment
+            Type        => 'inline',     # inline|attachment
             Filename    => 'otrs.xml',
             ContentType => 'text/xml',
             Content     => $Index,
@@ -89,7 +90,7 @@ sub Run {
             Version => $Version,
         );
         return $Self->{LayoutObject}->Attachment(
-            Type        => 'inline',          # inline|attachment
+            Type        => 'inline',           # inline|attachment
             Filename    => "$Name-$Version",
             ContentType => 'text/xml',
             Content     => $Package,

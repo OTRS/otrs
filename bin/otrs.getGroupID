@@ -2,10 +2,10 @@
 # --
 # otrs.getGroupID - return numeric group id
 # Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
-# $Id: otrs.getGroupID,v 1.10 2007-10-16 11:30:42 ot Exp $
+# $Id: otrs.getGroupID,v 1.11 2008-05-08 09:36:57 mh Exp $
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 use strict;

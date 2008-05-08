@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAttachment.pm - provides admin std response module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAttachment.pm,v 1.18 2008-01-31 06:22:11 tr Exp $
+# $Id: AdminAttachment.pm,v 1.19 2008-05-08 09:36:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -73,8 +73,11 @@ sub Run {
             Source => 'string',
         );
 
-        if ( $Self->{StdAttachmentObject}
-            ->StdAttachmentUpdate( %GetParam, %UploadStuff, UserID => $Self->{UserID} ) )
+        if (
+            $Self->{StdAttachmentObject}->StdAttachmentUpdate(
+                %GetParam, %UploadStuff, UserID => $Self->{UserID}
+            )
+            )
         {
             return $Self->{LayoutObject}->Redirect( OP => "Action=$Param{NextScreen}" );
         }
@@ -96,12 +99,16 @@ sub Run {
             Source => 'string',
         );
 
-        if ( my $Id
-            = $Self->{StdAttachmentObject}
-            ->StdAttachmentAdd( %GetParam, %UploadStuff, UserID => $Self->{UserID} ) )
+        if (
+            my $Id
+            = $Self->{StdAttachmentObject}->StdAttachmentAdd(
+                %GetParam, %UploadStuff, UserID => $Self->{UserID}
+            )
+            )
         {
-            return $Self->{LayoutObject}
-                ->Redirect( OP => "Action=AdminResponseAttachment&Subaction=Attachment&ID=$Id", );
+            return $Self->{LayoutObject}->Redirect(
+                OP => "Action=AdminResponseAttachment&Subaction=Attachment&ID=$Id",
+            );
         }
         else {
             return $Self->{LayoutObject}->ErrorScreen();

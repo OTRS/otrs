@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter.pm - all functions to add/delete/list pm db filters
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Filter.pm,v 1.14 2008-04-24 21:48:51 martin Exp $
+# $Id: Filter.pm,v 1.15 2008-05-08 09:36:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -47,7 +47,9 @@ create an object
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
+        MainObject   => $MainObject,
     );
+
     my $PMFilterObject = Kernel::System::Postmaster::Filter->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
@@ -112,13 +114,13 @@ sub FilterAdd {
 
     # check needed stuff
     for (qw(Name Match Set)) {
-        if ( ! defined $Param{$_} ) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
-    for my $Type ( qw(Match Set) ) {
+    for my $Type (qw(Match Set)) {
         my %Data = %{ $Param{$Type} };
         for my $Key ( keys %Data ) {
             return if !$Self->{DBObject}->Do(
@@ -179,9 +181,9 @@ sub FilterGet {
         }
     }
 
-    return if ! $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL  => 'SELECT f_type, f_key, f_value, f_name FROM postmaster_filter WHERE f_name = ?',
-        Bind => [ \$Param{Name}],
+        Bind => [ \$Param{Name} ],
     );
     my %Data = ();
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -207,6 +209,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2008-04-24 21:48:51 $
+$Revision: 1.15 $ $Date: 2008-05-08 09:36:21 $
 
 =cut

@@ -2,7 +2,7 @@
 # Ticket/Number/Date.pm - a date ticket number generator
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Date.pm,v 1.27 2008-04-23 20:37:04 martin Exp $
+# $Id: Date.pm,v 1.28 2008-05-08 09:36:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub TicketCreateNumber {
     my ( $Self, $JumpCounter ) = @_;
@@ -41,10 +41,11 @@ sub TicketCreateNumber {
     my $Count = 0;
     if ( -f $CounterLog ) {
         my $ContentSCALARRef = $Self->{MainObject}->FileRead(
-            Location  => $CounterLog,
+            Location => $CounterLog,
         );
-        if ( $ContentSCALARRef && ${ $ContentSCALARRef } ) {
-            ( $Count ) = split( /;/, ${ $ContentSCALARRef });
+        if ( $ContentSCALARRef && ${$ContentSCALARRef} ) {
+            ($Count) = split( /;/, ${$ContentSCALARRef} );
+
             # just debug
             if ( $Self->{Debug} > 0 ) {
                 $Self->{LogObject}->Log(
@@ -61,10 +62,10 @@ sub TicketCreateNumber {
 
     # write new count
     my $Write = $Self->{MainObject}->FileWrite(
-        Location  => $CounterLog,
-        Content   => \$Count,
+        Location => $CounterLog,
+        Content  => \$Count,
     );
-    if ( $Write ) {
+    if ($Write) {
         if ( $Self->{Debug} > 0 ) {
             $Self->{LogObject}->Log(
                 Priority => 'debug',

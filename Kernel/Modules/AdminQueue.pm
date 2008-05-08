@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.pm,v 1.40 2008-03-11 14:51:22 tr Exp $
+# $Id: AdminQueue.pm,v 1.41 2008-05-08 09:36:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,13 +18,13 @@ use Kernel::System::Crypt;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check all needed objects
@@ -45,15 +45,17 @@ sub Run {
     $Param{NextScreen} = 'AdminQueue';
     my $QueueID = $Self->{ParamObject}->GetParam( Param => 'QueueID' ) || '';
 
-    my @Params = (qw(
-        QueueID           ParentQueueID       Name            GroupID
-        UnlockTimeout     FollowUpLock        SystemAddressID Calendar
-        DefaultSignKey    SalutationID        SignatureID     FollowUpID
-        FirstResponseTime FirstResponseNotify UpdateTime      UpdateNotify
-        SolutionTime      SolutionNotify
-        MoveNotify        StateNotify         LockNotify      OwnerNotify
-        Comment           ValidID
-    ));
+    my @Params = (
+        qw(
+            QueueID           ParentQueueID       Name            GroupID
+            UnlockTimeout     FollowUpLock        SystemAddressID Calendar
+            DefaultSignKey    SalutationID        SignatureID     FollowUpID
+            FirstResponseTime FirstResponseNotify UpdateTime      UpdateNotify
+            SolutionTime      SolutionNotify
+            MoveNotify        StateNotify         LockNotify      OwnerNotify
+            Comment           ValidID
+            )
+    );
 
     # get possible sign keys
     my %KeyList = ();
@@ -118,29 +120,32 @@ sub Run {
         if ( $Self->{QueueObject}->QueueUpdate( %GetParam, UserID => $Self->{UserID} ) ) {
 
             # update preferences
-            my %QueueData = $Self->{QueueObject}->QueueGet(ID => $GetParam{QueueID});
+            my %QueueData = $Self->{QueueObject}->QueueGet( ID => $GetParam{QueueID} );
             my %Preferences = ();
             if ( $Self->{ConfigObject}->Get('QueuePreferences') ) {
-                %Preferences = %{$Self->{ConfigObject}->Get('QueuePreferences')};
+                %Preferences = %{ $Self->{ConfigObject}->Get('QueuePreferences') };
             }
-            for my $Item (sort keys %Preferences) {
-                my $Module = $Preferences{$Item}->{Module} || 'Kernel::Output::HTML::QueuePreferencesGeneric';
+            for my $Item ( sort keys %Preferences ) {
+                my $Module = $Preferences{$Item}->{Module}
+                    || 'Kernel::Output::HTML::QueuePreferencesGeneric';
+
                 # load module
-                if ($Self->{MainObject}->Require($Module)) {
+                if ( $Self->{MainObject}->Require($Module) ) {
                     my $Object = $Module->new(
                         %{$Self},
                         ConfigItem => $Preferences{$Item},
-                        Debug => $Self->{Debug},
+                        Debug      => $Self->{Debug},
                     );
-                    my @Params = $Object->Param(QueueData => \%QueueData);
+                    my @Params = $Object->Param( QueueData => \%QueueData );
                     if (@Params) {
                         my %GetParam = ();
                         for my $ParamItem (@Params) {
-                            my @Array = $Self->{ParamObject}->GetArray(Param => $ParamItem->{Name});
-                            $GetParam{$ParamItem->{Name}} = \@Array;
+                            my @Array
+                                = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
+                            $GetParam{ $ParamItem->{Name} } = \@Array;
                         }
-                        if (!$Object->Run(GetParam => \%GetParam, QueueData => \%QueueData)) {
-                            $Note .= $Self->{LayoutObject}->Notify(Info => $Object->Error());
+                        if ( !$Object->Run( GetParam => \%GetParam, QueueData => \%QueueData ) ) {
+                            $Note .= $Self->{LayoutObject}->Notify( Info => $Object->Error() );
                         }
                     }
                 }
@@ -186,29 +191,32 @@ sub Run {
         if ( my $Id = $Self->{QueueObject}->QueueAdd( %GetParam, UserID => $Self->{UserID} ) ) {
 
             # update preferences
-            my %QueueData = $Self->{QueueObject}->QueueGet(ID => $Id);
+            my %QueueData = $Self->{QueueObject}->QueueGet( ID => $Id );
             my %Preferences = ();
             if ( $Self->{ConfigObject}->Get('QueuePreferences') ) {
-                %Preferences = %{$Self->{ConfigObject}->Get('QueuePreferences')};
+                %Preferences = %{ $Self->{ConfigObject}->Get('QueuePreferences') };
             }
-            for my $Item (keys %Preferences) {
-                my $Module = $Preferences{$Item}->{Module} || 'Kernel::Output::HTML::QueuePreferencesGeneric';
+            for my $Item ( keys %Preferences ) {
+                my $Module = $Preferences{$Item}->{Module}
+                    || 'Kernel::Output::HTML::QueuePreferencesGeneric';
+
                 # load module
-                if ($Self->{MainObject}->Require($Module)) {
+                if ( $Self->{MainObject}->Require($Module) ) {
                     my $Object = $Module->new(
                         %{$Self},
                         ConfigItem => $Preferences{$Item},
-                        Debug => $Self->{Debug},
+                        Debug      => $Self->{Debug},
                     );
-                    my @Params = $Object->Param(QueueData => \%QueueData);
+                    my @Params = $Object->Param( QueueData => \%QueueData );
                     if (@Params) {
                         my %GetParam = ();
                         for my $ParamItem (@Params) {
-                            my @Array = $Self->{ParamObject}->GetArray(Param => $ParamItem->{Name});
-                            $GetParam{$ParamItem->{Name}} = \@Array;
+                            my @Array
+                                = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
+                            $GetParam{ $ParamItem->{Name} } = \@Array;
                         }
-                        if (!$Object->Run(GetParam => \%GetParam, QueueData => \%QueueData)) {
-                            $Note .= $Self->{LayoutObject}->Notify(Info => $Object->Error());
+                        if ( !$Object->Run( GetParam => \%GetParam, QueueData => \%QueueData ) ) {
+                            $Note .= $Self->{LayoutObject}->Notify( Info => $Object->Error() );
                         }
                     }
                 }
@@ -252,7 +260,7 @@ sub _Mask {
                 What  => 'id, name',
                 Table => 'groups',
                 Valid => 1,
-            )
+                )
         },
         LanguageTranslation => 0,
         Name                => 'GroupID',
@@ -289,8 +297,8 @@ sub _Mask {
         }
     }
     $Param{'QueueOption'} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data           => { %CleanHash, '' => '-', },
-        Name           => 'ParentQueueID',
+        Data => { %CleanHash, '' => '-', },
+        Name => 'ParentQueueID',
         Selected       => $ParentQueue,
         MaxLevel       => 4,
         OnChangeSubmit => 0,
@@ -301,7 +309,7 @@ sub _Mask {
                 What  => 'id, name',
                 Table => 'queue',
                 Valid => 0,
-            )
+                )
         },
         Name           => 'QueueID',
         Size           => 15,
@@ -345,7 +353,7 @@ sub _Mask {
                 Valid => 1,
                 Clamp => 1,
                 Table => 'signature',
-            )
+                )
         },
         Name       => 'SignatureID',
         SelectedID => $Param{SignatureID},
@@ -364,7 +372,7 @@ sub _Mask {
                 Valid => 1,
                 Clamp => 1,
                 Table => 'system_address',
-            )
+                )
         },
         Name       => 'SystemAddressID',
         SelectedID => $Param{SystemAddressID},
@@ -391,7 +399,7 @@ sub _Mask {
                 Valid => 1,
                 Clamp => 1,
                 Table => 'salutation',
-            )
+                )
         },
         Name       => 'SalutationID',
         SelectedID => $Param{SalutationID},
@@ -403,7 +411,7 @@ sub _Mask {
                 What  => 'id, name',
                 Valid => 1,
                 Table => 'follow_up_possible',
-            )
+                )
         },
         Name       => 'FollowUpID',
         SelectedID => $Param{FollowUpID}
@@ -448,34 +456,40 @@ sub _Mask {
     # show each preferences setting
     my %Preferences = ();
     if ( $Self->{ConfigObject}->Get('QueuePreferences') ) {
-        %Preferences = %{$Self->{ConfigObject}->Get('QueuePreferences')};
+        %Preferences = %{ $Self->{ConfigObject}->Get('QueuePreferences') };
     }
-    for my $Item (sort keys %Preferences) {
-        my $Module = $Preferences{$Item}->{Module} || 'Kernel::Output::HTML::QueuePreferencesGeneric';
+    for my $Item ( sort keys %Preferences ) {
+        my $Module = $Preferences{$Item}->{Module}
+            || 'Kernel::Output::HTML::QueuePreferencesGeneric';
+
         # load module
-        if ($Self->{MainObject}->Require($Module)) {
+        if ( $Self->{MainObject}->Require($Module) ) {
             my $Object = $Module->new(
                 %{$Self},
                 ConfigItem => $Preferences{$Item},
-                Debug => $Self->{Debug},
+                Debug      => $Self->{Debug},
             );
-            my @Params = $Object->Param(QueueData => \%Param);
+            my @Params = $Object->Param( QueueData => \%Param );
             if (@Params) {
                 for my $ParamItem (@Params) {
                     $Self->{LayoutObject}->Block(
                         Name => 'Item',
                         Data => { %Param, },
                     );
-                    if (ref($ParamItem->{Data}) eq 'HASH' || ref($Preferences{$Item}->{Data}) eq 'HASH') {
+                    if (
+                        ref( $ParamItem->{Data} ) eq 'HASH'
+                        || ref( $Preferences{$Item}->{Data} ) eq 'HASH'
+                        )
+                    {
                         $ParamItem->{'Option'} = $Self->{LayoutObject}->OptionStrgHashRef(
-                            %{$Preferences{$Item}},
+                            %{ $Preferences{$Item} },
                             %{$ParamItem},
                         );
                     }
                     $Self->{LayoutObject}->Block(
                         Name => $ParamItem->{Block} || $Preferences{$Item}->{Block} || 'Option',
                         Data => {
-                            %{$Preferences{$Item}},
+                            %{ $Preferences{$Item} },
                             %{$ParamItem},
                         },
                     );

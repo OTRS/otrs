@@ -3,7 +3,7 @@
 # UnitTest.pl - the global test handle
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.pl,v 1.14 2008-03-07 16:44:14 martin Exp $
+# $Id: UnitTest.pl,v 1.15 2008-05-08 09:36:57 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -47,7 +47,8 @@ getopt( 'hqtdnop', \%Opts );
 if ( $Opts{'h'} ) {
     print "UnitTest.pl <Revision $VERSION> - OTRS test handle\n";
     print "Copyright (c) 2001-2008 OTRS AG, http://otrs.org/\n";
-    print "usage: UnitTest.pl [-n Name e.g. Ticket or Queue, or both Ticket:Queue] [-o ASCII|HTML|XML] [-p PRODUCT]\n";
+    print
+        "usage: UnitTest.pl [-n Name e.g. Ticket or Queue, or both Ticket:Queue] [-o ASCII|HTML|XML] [-p PRODUCT]\n";
     exit 1;
 }
 
@@ -63,7 +64,7 @@ $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{TimeObject}   = Kernel::System::Time->new( %CommonObject, );
 
 # create needed objects
-$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
+$CommonObject{DBObject}       = Kernel::System::DB->new(%CommonObject);
 $CommonObject{UnitTestObject} = Kernel::System::UnitTest->new(
     %CommonObject,
     Output => $Opts{o} || '',

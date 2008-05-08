@@ -2,7 +2,7 @@
 # Kernel/System/UnitTest.pm - the global test wrapper
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.15 2008-03-07 16:57:37 martin Exp $
+# $Id: UnitTest.pm,v 1.16 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 =head1 NAME
 
@@ -122,17 +122,18 @@ sub Run {
     my $Home          = $Self->{ConfigObject}->Get('Home');
     my @Files         = glob("$Home/scripts/test/*.t");
     my $StartTime     = $Self->{TimeObject}->SystemTime();
-    my $Product       = $Param{Product} || $Self->{ConfigObject}->Get('Product')." ".$Self->{ConfigObject}->Get('Version');
-    my @Names         = split(/:/, $Param{Name} || '');
+    my $Product       = $Param{Product}
+        || $Self->{ConfigObject}->Get('Product') . " " . $Self->{ConfigObject}->Get('Version');
+    my @Names = split( /:/, $Param{Name} || '' );
 
     $Self->{TestCountOk}    = 0;
     $Self->{TestCountNotOk} = 0;
     for my $File (@Files) {
 
         # check if only some tests are requested
-        if ( @Names ) {
+        if (@Names) {
             my $Use = 0;
-            for my $Name ( @Names ) {
+            for my $Name (@Names) {
                 if ( $Name && $File =~ /\/\Q$Name\E\.t$/ ) {
                     $Use = 1;
                 }
@@ -163,9 +164,9 @@ sub Run {
         SystemTime => $Self->{TimeObject}->SystemTime(),
     );
     $ResultSummary{Product} = $Product;
-    $ResultSummary{Host} = $Self->{ConfigObject}->Get('FQDN');
-    $ResultSummary{Perl} = sprintf "%vd", $^V;
-    $ResultSummary{OS}   = $^O;
+    $ResultSummary{Host}    = $Self->{ConfigObject}->Get('FQDN');
+    $ResultSummary{Perl}    = sprintf "%vd", $^V;
+    $ResultSummary{OS}      = $^O;
     if ( -e '/etc/SuSE-release' ) {
         my $ConfigFile = $Self->{MainObject}->FileRead(
             Location => '/etc/SuSE-release',
@@ -243,7 +244,8 @@ sub Run {
             $Content =~ s/>/&gt;/g;
             $Content =~ s/"/&quot;/g;
             $Content =~ s/'/&quot;/g;
-            $XML .= "  <Test Result=\"$Self->{XML}->{Test}->{$Key}->{$TestCount}->{Result}\" Count=\"$TestCount\">$Content</Test>\n";
+            $XML
+                .= "  <Test Result=\"$Self->{XML}->{Test}->{$Key}->{$TestCount}->{Result}\" Count=\"$TestCount\">$Content</Test>\n";
         }
         $XML .= "</Unit>\n";
     }
@@ -429,7 +431,8 @@ sub _Print {
     if ($Test) {
         $Self->{TestCountOk}++;
         if ( $Self->{Output} eq 'HTML' ) {
-            $Self->{Content} .= "<tr><td width='70' bgcolor='green'>ok $Self->{TestCount}</td><td>$Name</td></tr>\n";
+            $Self->{Content}
+                .= "<tr><td width='70' bgcolor='green'>ok $Self->{TestCount}</td><td>$Name</td></tr>\n";
         }
         elsif ( $Self->{Output} eq 'ASCII' ) {
             print " ok $Self->{TestCount} - $Name\n";
@@ -441,7 +444,8 @@ sub _Print {
     elsif ( $Self->{Output} eq 'ASCII' ) {
         $Self->{TestCountNotOk}++;
         if ( $Self->{Output} eq 'HTML' ) {
-            $Self->{Content} .= "<tr><td width='70' bgcolor='red'>not ok $Self->{TestCount}</td><td>$Name</td></tr>\n";
+            $Self->{Content}
+                .= "<tr><td width='70' bgcolor='red'>not ok $Self->{TestCount}</td><td>$Name</td></tr>\n";
         }
         else {
             print " not ok $Self->{TestCount} - $Name\n";
@@ -478,6 +482,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2008-03-07 16:57:37 $
+$Revision: 1.16 $ $Date: 2008-05-08 09:36:19 $
 
 =cut

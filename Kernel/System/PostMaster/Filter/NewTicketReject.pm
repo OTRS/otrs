@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter/NewTicketReject.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: NewTicketReject.pm,v 1.9 2008-04-25 13:15:19 tr Exp $
+# $Id: NewTicketReject.pm,v 1.10 2008-05-08 09:36:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Email;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,7 +35,7 @@ sub new {
     }
 
     $Self->{TicketObject} = Kernel::System::Ticket->new(%Param);
-    $Self->{EmailObject}  = Kernel::System::Email ->new(%Param);
+    $Self->{EmailObject}  = Kernel::System::Email->new(%Param);
 
     return $Self;
 }
@@ -99,14 +99,17 @@ sub Run {
         # send bounce mail
         $Self->{EmailObject}->Send(
             To      => $Param{GetParam}->{'From'},
-            Subject => $Self->{ConfigObject}
-                ->Get('PostMaster::PreFilterModule::NewTicketReject::Subject'),
-            Body => $Self->{ConfigObject}
-                ->Get('PostMaster::PreFilterModule::NewTicketReject::Body'),
+            Subject => $Self->{ConfigObject}->Get(
+                'PostMaster::PreFilterModule::NewTicketReject::Subject'
+            ),
+            Body => $Self->{ConfigObject}->Get(
+                'PostMaster::PreFilterModule::NewTicketReject::Body'
+            ),
             Charset    => $Self->{ConfigObject}->Get('DefaultCharset'),
             Loop       => 1,
             Attachment => [
-                {   Filename    => "email.txt",
+                {
+                    Filename    => "email.txt",
                     Content     => $Param{GetParam}->{Body},
                     ContentType => "application/octet-stream",
                 }

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUserService.pm - to add/update/delete customerusers <-> services
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.pm,v 1.6 2008-01-31 06:22:11 tr Exp $
+# $Id: AdminCustomerUserService.pm,v 1.7 2008-05-08 09:36:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,13 +19,13 @@ use Kernel::System::Service;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check all needed objects
@@ -229,7 +229,7 @@ sub Run {
         $Self->{LayoutObject}->Block(
             Name => 'AllocateService',
             Data => {
-                Service           => $Service{Name},
+                Service => $Service{Name},
                 CustomerUserCount => @CustomerUserKeyList || 0,
                 %Param,
             },
@@ -331,7 +331,8 @@ sub Run {
         }
 
         # redirect to overview
-        return $Self->{LayoutObject}->Redirect( OP =>
+        return $Self->{LayoutObject}->Redirect(
+            OP =>
                 "Action=$Self->{Action}&CustomerUserSearch=$Param{CustomerUserSearch}&ServiceSearch=$Param{ServiceSearch}"
         );
     }
@@ -374,7 +375,8 @@ sub Run {
         }
 
         # redirect to overview
-        return $Self->{LayoutObject}->Redirect( OP =>
+        return $Self->{LayoutObject}->Redirect(
+            OP =>
                 "Action=$Self->{Action}&CustomerUserSearch=$Param{CustomerUserSearch}&ServiceSearch=$Param{ServiceSearch}"
         );
     }

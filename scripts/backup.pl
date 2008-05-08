@@ -3,7 +3,7 @@
 # scripts/backup.pl - the backup script
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: backup.pl,v 1.12 2008-04-01 19:41:41 martin Exp $
+# $Id: backup.pl,v 1.13 2008-05-08 09:35:57 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -51,7 +51,8 @@ getopt( 'hcrtd', \%Opts );
 if ( $Opts{'h'} ) {
     print "backup.pl <Revision $VERSION> - backup script\n";
     print "Copyright (c) 2001-2008 OTRS AG, http//otrs.org/\n";
-    print "usage: backup.pl -d /data_backup_dir/ [-c gzip|bzip2] [-r 30] [-t fullbackup|nofullbackup]\n";
+    print
+        "usage: backup.pl -d /data_backup_dir/ [-c gzip|bzip2] [-r 30] [-t fullbackup|nofullbackup]\n";
     exit 1;
 }
 
@@ -193,7 +194,12 @@ if ( !mkdir($Directory) ) {
 
 # backup Kernel/Config.pm
 print "Backup $Directory/Config.tar.gz ... ";
-if (!system( "tar -czf $Directory/Config.tar.gz Kernel/Config.pm Kernel/Config/Files/ZZZA*.pm Kernel/Config/GenericAgen*.pm")) {
+if (
+    !system(
+        "tar -czf $Directory/Config.tar.gz Kernel/Config.pm Kernel/Config/Files/ZZZA*.pm Kernel/Config/GenericAgen*.pm"
+    )
+    )
+{
     print "done\n";
 }
 else {
@@ -239,7 +245,12 @@ if ( $DB =~ /mysql/i ) {
     if ($DatabasePw) {
         $DatabasePw = "-p$DatabasePw";
     }
-    if (!system( "$DBDump -u $DatabaseUser $DatabasePw -h $DatabaseHost $Database > $Directory/DatabaseBackup.sql")) {
+    if (
+        !system(
+            "$DBDump -u $DatabaseUser $DatabasePw -h $DatabaseHost $Database > $Directory/DatabaseBackup.sql"
+        )
+        )
+    {
         print "done\n";
     }
     else {
@@ -248,7 +259,12 @@ if ( $DB =~ /mysql/i ) {
 }
 else {
     print "Dump $DB rdbms ... ";
-    if (!system( "$DBDump -f $Directory/DatabaseBackup.sql -h $DatabaseHost -U $DatabaseUser $Database")) {
+    if (
+        !system(
+            "$DBDump -f $Directory/DatabaseBackup.sql -h $DatabaseHost -U $DatabaseUser $Database"
+        )
+        )
+    {
         print "done\n";
     }
     else {

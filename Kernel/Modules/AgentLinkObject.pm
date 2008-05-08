@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.22 2008-04-11 15:50:59 martin Exp $
+# $Id: AgentLinkObject.pm,v 1.23 2008-05-08 09:36:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,13 +17,13 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check needed objects
@@ -79,7 +79,7 @@ sub Run {
 
     # start application page
     my $Output .= $Self->{LayoutObject}->Header();
-    $Output    .= $Self->{LayoutObject}->NavigationBar();
+    $Output .= $Self->{LayoutObject}->NavigationBar();
 
     # check needed stuff
     for (qw(SourceID SourceObject)) {
@@ -154,8 +154,8 @@ sub Run {
 
     # show link objects
     $Param{'LinkToObject'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data       => { $Self->{LinkObject}->LinkObjects( SourceObject => $Self->{SourceObject} ) },
-        Name       => 'DestinationObject',
+        Data => { $Self->{LinkObject}->LinkObjects( SourceObject => $Self->{SourceObject} ) },
+        Name => 'DestinationObject',
         SelectedID => $Self->{DestinationObject},
     );
     $Self->{LayoutObject}->Block(
@@ -168,7 +168,10 @@ sub Run {
 
         # get backend module params
         my %GetParams = ();
-        for my $Param ( $Self->{LinkObject}->LinkSearchParams( Object => $Self->{DestinationObject} ) ) {
+        for my $Param (
+            $Self->{LinkObject}->LinkSearchParams( Object => $Self->{DestinationObject} )
+            )
+        {
             if ( defined( $Self->{ParamObject}->GetParam( Param => $Param->{Name} ) ) ) {
                 $GetParams{ $Param->{Name} }
                     = $Self->{ParamObject}->GetParam( Param => $Param->{Name} );
@@ -197,7 +200,10 @@ sub Run {
         );
 
         # get search item
-        for my $Data ( $Self->{LinkObject}->LinkSearchParams( Object => $Self->{DestinationObject} ) ) {
+        for my $Data (
+            $Self->{LinkObject}->LinkSearchParams( Object => $Self->{DestinationObject} )
+            )
+        {
             if ( defined( $Data->{Select} ) ) {
                 $Data->{Option} = $Self->{LayoutObject}->OptionStrgHashRef(
                     SelectedID => $GetParams{ $Data->{Name} },
@@ -239,8 +245,10 @@ sub Run {
         # show no own ticket
         my @DataResult = ();
         for my $Data (@DataResultRaw) {
-            if (   $Self->{SourceObject} eq $Self->{DestinationObject}
-                && $Self->{SourceID} eq $Data->{ID} )
+            if (
+                $Self->{SourceObject} eq $Self->{DestinationObject}
+                && $Self->{SourceID}  eq $Data->{ID}
+                )
             {
 
                 # no action
@@ -286,8 +294,10 @@ sub Run {
             );
             for my $Data (@DataResult) {
                 $Counter++;
-                if (   $Counter >= $Self->{StartHit}
-                    && $Counter < ( $SearchPageShown + $Self->{StartHit} ) )
+                if (
+                    $Counter >= $Self->{StartHit}
+                    && $Counter < ( $SearchPageShown + $Self->{StartHit} )
+                    )
                 {
                     if ( $LinkedParent{ $Data->{ID} } ) {
                         $Param{LinkedParent} = 1;

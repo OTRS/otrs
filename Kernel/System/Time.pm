@@ -2,7 +2,7 @@
 # Kernel/System/Time.pm - time functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Time.pm,v 1.41 2008-04-11 15:53:42 martin Exp $
+# $Id: Time.pm,v 1.42 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 =head1 NAME
 
@@ -59,7 +59,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check needed objects
@@ -74,7 +74,7 @@ sub new {
         || $Param{UserTimeZone}
         || $Self->{ConfigObject}->Get('TimeZone')
         || 0;
-    $Self->{TimeSecDiff} = $Self->{TimeZone} * 3600; # 60 * 60
+    $Self->{TimeSecDiff} = $Self->{TimeZone} * 3600;    # 60 * 60
 
     return $Self;
 }
@@ -121,7 +121,7 @@ sub SystemTime2TimeStamp {
         return;
     }
 
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->SystemTime2Date( %Param );
+    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->SystemTime2Date(%Param);
     if ( $Param{Type} && $Param{Type} eq 'Short' ) {
         my ( $CSec, $CMin, $CHour, $CDay, $CMonth, $CYear ) = $Self->SystemTime2Date(
             SystemTime => $Self->SystemTime(),
@@ -228,7 +228,11 @@ sub TimeStamp2SystemTime {
     }
 
     # match mail time format
-    elsif ( $Param{String} =~ /((...),\s+|)(\d\d|\d)\s(...)\s(\d\d\d\d)\s(\d\d|\d):(\d\d|\d):(\d\d|\d)\s((\+|\-)(\d\d)(\d\d)|...)/ ) {
+    elsif (
+        $Param{String}
+        =~ /((...),\s+|)(\d\d|\d)\s(...)\s(\d\d\d\d)\s(\d\d|\d):(\d\d|\d):(\d\d|\d)\s((\+|\-)(\d\d)(\d\d)|...)/
+        )
+    {
         my $DiffTime = 0;
         if ( $10 eq '+' ) {
 
@@ -299,13 +303,17 @@ sub Date2SystemTime {
         }
     }
     my $SytemTime = eval {
-        timelocal( $Param{Second}, $Param{Minute}, $Param{Hour}, $Param{Day}, ( $Param{Month} - 1 ), $Param{Year} );
+        timelocal(
+            $Param{Second}, $Param{Minute}, $Param{Hour}, $Param{Day}, ( $Param{Month} - 1 ),
+            $Param{Year}
+        );
     };
 
     if ( !$SytemTime ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Invalid Date '$Param{Year}-$Param{Month}-$Param{Day} $Param{Hour}:$Param{Minute}:$Param{Second}'!",
+            Message =>
+                "Invalid Date '$Param{Year}-$Param{Month}-$Param{Day} $Param{Hour}:$Param{Minute}:$Param{Second}'!",
         );
         return;
     }
@@ -405,11 +413,15 @@ sub WorkingTime {
     my $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get('TimeVacationDaysOneTime');
     if ( $Param{Calendar} ) {
         if ( $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $Param{Calendar} . "Name" ) ) {
-            $TimeWorkingHours = $Self->{ConfigObject}->Get( "TimeWorkingHours::Calendar" . $Param{Calendar} );
-            $TimeVacationDays = $Self->{ConfigObject}->Get( "TimeVacationDays::Calendar" . $Param{Calendar} );
-            $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get( "TimeVacationDaysOneTime::Calendar" . $Param{Calendar} );
+            $TimeWorkingHours
+                = $Self->{ConfigObject}->Get( "TimeWorkingHours::Calendar" . $Param{Calendar} );
+            $TimeVacationDays
+                = $Self->{ConfigObject}->Get( "TimeVacationDays::Calendar" . $Param{Calendar} );
+            $TimeVacationDaysOneTime = $Self->{ConfigObject}
+                ->Get( "TimeVacationDaysOneTime::Calendar" . $Param{Calendar} );
             my $Zone = $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $Param{Calendar} );
             if ($Zone) {
+
                 if ( $Zone > 0 ) {
                     $Zone = '+' . ( $Zone * 60 * 60 );
                 }
@@ -448,8 +460,10 @@ sub WorkingTime {
         );
 
         # count noting because of vacation
-        if (   $TimeVacationDays->{$Month}->{$Day}
-            || $TimeVacationDaysOneTime->{$Year}->{$Month}->{$Day} )
+        if (
+            $TimeVacationDays->{$Month}->{$Day}
+            || $TimeVacationDaysOneTime->{$Year}->{$Month}->{$Day}
+            )
         {
 
             # do noting
@@ -531,15 +545,18 @@ sub DestinationTime {
     my $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get('TimeVacationDaysOneTime');
     if ( $Param{Calendar} ) {
         if ( $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $Param{Calendar} . "Name" ) ) {
-            $TimeWorkingHours = $Self->{ConfigObject}->Get( "TimeWorkingHours::Calendar" . $Param{Calendar} );
-            $TimeVacationDays = $Self->{ConfigObject}->Get( "TimeVacationDays::Calendar" . $Param{Calendar} );
-            $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get( "TimeVacationDaysOneTime::Calendar" . $Param{Calendar} );
+            $TimeWorkingHours
+                = $Self->{ConfigObject}->Get( "TimeWorkingHours::Calendar" . $Param{Calendar} );
+            $TimeVacationDays
+                = $Self->{ConfigObject}->Get( "TimeVacationDays::Calendar" . $Param{Calendar} );
+            $TimeVacationDaysOneTime = $Self->{ConfigObject}
+                ->Get( "TimeVacationDaysOneTime::Calendar" . $Param{Calendar} );
             $Zone = $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $Param{Calendar} );
             if ( $Zone > 0 ) {
-                $Zone = '+' . ( $Zone * 3600 ); # 60 * 60
+                $Zone = '+' . ( $Zone * 3600 );    # 60 * 60
             }
             else {
-                $Zone = ( $Zone * 3600 ); # 60 * 60
+                $Zone = ( $Zone * 3600 );          # 60 * 60
                 $Zone =~ s/\+/-/;
             }
             $Param{StartTime} = $Param{StartTime} + $Zone;
@@ -575,8 +592,10 @@ sub DestinationTime {
         );
 
         # count noting becouse of vacation
-        if (   $TimeVacationDays->{$Month}->{$Day}
-            || $TimeVacationDaysOneTime->{$Year}->{$Month}->{$Day} )
+        if (
+            $TimeVacationDays->{$Month}->{$Day}
+            || $TimeVacationDaysOneTime->{$Year}->{$Month}->{$Day}
+            )
         {
 
             # do noting
@@ -664,29 +683,32 @@ sub DestinationTime {
         # Protect local time zone problems on your machine
         # (e. g. sommertime -> wintertime) and not getting
         # over to the next day.
-        if ($NewCTime == $CTime) {
+        if ( $NewCTime == $CTime ) {
             $CTime = $CTime + ( 60 * 60 * 24 );
 
             # reduce destination time diff between today and tomrrow
-            my ( $NextSec, $NextMin, $NextHour, $NextDay, $NextMonth, $NextYear ) = localtime $CTime;
+            my ( $NextSec, $NextMin, $NextHour, $NextDay, $NextMonth, $NextYear )
+                = localtime $CTime;
             $NextYear  = $NextYear + 1900;
             $NextMonth = $NextMonth + 1;
 
-            my $Diff = ( $Self->Date2SystemTime(
-                Year   => $NextYear,
-                Month  => $NextMonth,
-                Day    => $NextDay,
-                Hour   => 0,
-                Minute => 0,
-                Second => 0,
-            ) - $Self->Date2SystemTime(
-                Year   => $Year,
-                Month  => $Month,
-                Day    => $Day,
-                Hour   => 0,
-                Minute => 0,
-                Second => 0,
-            ) ) - ( 60 * 60 * 24 );
+            my $Diff = (
+                $Self->Date2SystemTime(
+                    Year   => $NextYear,
+                    Month  => $NextMonth,
+                    Day    => $NextDay,
+                    Hour   => 0,
+                    Minute => 0,
+                    Second => 0,
+                    ) - $Self->Date2SystemTime(
+                    Year   => $Year,
+                    Month  => $Month,
+                    Day    => $Day,
+                    Hour   => 0,
+                    Minute => 0,
+                    Second => 0,
+                    )
+            ) - ( 60 * 60 * 24 );
             $DestinationTime = $DestinationTime - $Diff;
         }
 
@@ -737,14 +759,20 @@ sub VacationCheck {
     if ( defined $TimeVacationDays->{ $Param{Month} }->{ $Param{Day} } ) {
         return $TimeVacationDays->{ $Param{Month} }->{ $Param{Day} };
     }
-    elsif ( defined $TimeVacationDaysOneTime->{ $Param{Year} }->{ $Param{Month} }->{ $Param{Day} } ) {
+    elsif ( defined $TimeVacationDaysOneTime->{ $Param{Year} }->{ $Param{Month} }->{ $Param{Day} } )
+    {
         return $TimeVacationDaysOneTime->{ $Param{Year} }->{ $Param{Month} }->{ $Param{Day} };
     }
     elsif ( defined $TimeVacationDays->{ int( $Param{Month} ) }->{ int( $Param{Day} ) } ) {
         return $TimeVacationDays->{ int( $Param{Month} ) }->{ int( $Param{Day} ) };
     }
-    elsif ( defined $TimeVacationDaysOneTime->{ $Param{Year} }->{ int( $Param{Month} ) }->{ int( $Param{Day} ) } ) {
-        return $TimeVacationDaysOneTime->{ $Param{Year} }->{ int( $Param{Month} ) }->{ int( $Param{Day} ) };
+    elsif (
+        defined $TimeVacationDaysOneTime->{ $Param{Year} }->{ int( $Param{Month} ) }
+        ->{ int( $Param{Day} ) }
+        )
+    {
+        return $TimeVacationDaysOneTime->{ $Param{Year} }->{ int( $Param{Month} ) }
+            ->{ int( $Param{Day} ) };
     }
     return;
 }
@@ -765,6 +793,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.41 $ $Date: 2008-04-11 15:53:42 $
+$Revision: 1.42 $ $Date: 2008-05-08 09:36:19 $
 
 =cut

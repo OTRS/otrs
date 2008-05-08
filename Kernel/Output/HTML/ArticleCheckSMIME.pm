@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleCheckSMIME.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleCheckSMIME.pm,v 1.16 2008-03-18 17:31:21 tr Exp $
+# $Id: ArticleCheckSMIME.pm,v 1.17 2008-05-08 09:36:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -66,7 +66,8 @@ sub Check {
             # return with error
             push(
                 @Return,
-                {   Key   => 'Signed',
+                {
+                    Key   => 'Signed',
                     Value => '"S/MIME SIGNED MESSAGE" header found, but invalid!',
                 }
             );
@@ -92,9 +93,11 @@ sub Check {
         $Head->combine('Content-Type');
         my $ContentType = $Head->get('Content-Type');
 
-        if (   $ContentType
+        if (
+            $ContentType
             && $ContentType =~ /application\/(x-pkcs7|pkcs7)-mime/i
-            && $ContentType !~ /signed/i )
+            && $ContentType !~ /signed/i
+            )
         {
 
             # check sender (don't decrypt sent emails)
@@ -102,7 +105,8 @@ sub Check {
 
                 # return info
                 return (
-                    {   Key        => 'Crypted',
+                    {
+                        Key        => 'Crypted',
                         Value      => 'Sent message crypted to recipient!',
                         Successful => 1,
                     }
@@ -123,7 +127,8 @@ sub Check {
                 $ContentType = $Head->get('Content-Type');
                 push(
                     @Return,
-                    {   Key   => 'Crypted',
+                    {
+                        Key   => 'Crypted',
                         Value => $Decrypt{Message},
                         %Decrypt,
                     }
@@ -132,16 +137,19 @@ sub Check {
             else {
                 push(
                     @Return,
-                    {   Key   => 'Crypted',
+                    {
+                        Key   => 'Crypted',
                         Value => $Decrypt{Message},
                         %Decrypt,
                     }
                 );
             }
         }
-        if (   $ContentType
+        if (
+            $ContentType
             && $ContentType =~ /application\/(x-pkcs7|pkcs7)/i
-            && $ContentType =~ /signed/i )
+            && $ContentType =~ /signed/i
+            )
         {
 
             # check sign and get clear content
@@ -192,7 +200,8 @@ sub Check {
         # return result
         push(
             @Return,
-            {   Key   => 'Signed',
+            {
+                Key   => 'Signed',
                 Value => $SignCheck{Message},
                 %SignCheck,
             }

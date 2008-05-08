@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutAJAX.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutAJAX.pm,v 1.5 2008-05-08 08:13:13 martin Exp $
+# $Id: LayoutAJAX.pm,v 1.6 2008-05-08 09:36:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =item BuildJSON()
 
@@ -41,80 +41,88 @@ build a JSON output js witch can be used for e. g. data for pull downs
 =cut
 
 sub BuildJSON {
-    my $Self = shift;
-    my $Array = shift;
-    my $JSON = '{';
+    my ( $Self, $Array ) = @_;
+
+    my $JSON  = '{';
     my $Count = 0;
-    for my $Data (@{$Array}) {
+    for my $Data ( @{$Array} ) {
         my %Param = %{$Data};
+
         # check needed stuff
         for (qw(Name Data)) {
-            if (!$Param{$_}) {
-                $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+            if ( !$Param{$_} ) {
+                $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
                 return;
             }
         }
-        if ( ref($Param{Data}) eq '' ) {
+        if ( ref( $Param{Data} ) eq '' ) {
             $JSON .= "'$Param{Name}':[";
             $JSON .= "'$Param{Data}'";
             $JSON .= "]";
         }
         else {
+
             # create OptionRef
             my $OptionRef = $Self->_BuildSelectionOptionRefCreate(
                 %Param,
                 HTMLQuote => 0,
             );
+
             # create AttributeRef
             my $AttributeRef = $Self->_BuildSelectionAttributeRefCreate(%Param);
+
             # create DataRef
             my $DataRef = $Self->_BuildSelectionDataRefCreate(
-                Data => $Param{Data},
+                Data         => $Param{Data},
                 AttributeRef => $AttributeRef,
-                OptionRef => $OptionRef,
+                OptionRef    => $OptionRef,
             );
             if ($Count) {
                 $JSON .= ",";
             }
+
             # generate output
-            $JSON .= ${$Self->_BuildJSONOutput(
-                AttributeRef => $AttributeRef,
-                DataRef => $DataRef,
-            )};
+            $JSON .= ${
+                $Self->_BuildJSONOutput(
+                    AttributeRef => $AttributeRef,
+                    DataRef      => $DataRef,
+                    )
+                };
         }
         $Count++;
     }
-    return $JSON.'}';
+    return $JSON . '}';
 }
 
 sub _BuildJSONOutput {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my $String;
 
     # start generation, if AttributeRef and DataRef was found
-    if ($Param{AttributeRef} && $Param{DataRef}) {
+    if ( $Param{AttributeRef} && $Param{DataRef} ) {
         $String = "'$Param{AttributeRef}->{name}':[";
         my $Count = 0;
-        for my $Row (@{$Param{DataRef}}) {
+        for my $Row ( @{ $Param{DataRef} } ) {
             if ($Count) {
                 $String .= ",";
             }
             my $Key = '';
-            if (defined($Row->{Key})) {
+            if ( defined( $Row->{Key} ) ) {
                 $Key = $Row->{Key};
             }
             my $Value = '';
-            if (defined($Row->{Value})) {
+            if ( defined( $Row->{Value} ) ) {
                 $Value = $Row->{Value};
             }
             my $SelectedDisabled = 'false';
-            if ($Row->{Selected}) {
+            if ( $Row->{Selected} ) {
                 $SelectedDisabled = 'true';
             }
-            elsif ($Row->{Disabled}) {
+            elsif ( $Row->{Disabled} ) {
                 $SelectedDisabled = 'false';
             }
+
             # quote
             my %Quote = (
                 "\n" => '\n',
@@ -126,7 +134,7 @@ sub _BuildJSONOutput {
                 "\\" => '\\\\',
                 "\'" => '\\\'',
             );
-            $Key =~ s/([\\"\n\r\t\f\b])/$Quote{$1}/eg;
+            $Key   =~ s/([\\"\n\r\t\f\b])/$Quote{$1}/eg;
             $Value =~ s/([\\"\n\r\t\f\b])/$Quote{$1}/eg;
             $String .= "['$Key','$Value',$SelectedDisabled,$SelectedDisabled]";
             $Count++;
@@ -152,6 +160,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2008-05-08 08:13:13 $
+$Revision: 1.6 $ $Date: 2008-05-08 09:36:57 $
 
 =cut

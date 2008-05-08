@@ -2,7 +2,7 @@
 # Kernel/System/MailAccount.pm - lib for mail accounts
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: MailAccount.pm,v 1.4 2008-04-09 00:31:20 martin Exp $
+# $Id: MailAccount.pm,v 1.5 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -47,7 +47,9 @@ create an object
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
+        MainObject   => $MainObject,
     );
+
     my $MailAccount = Kernel::System::MailAccount->new(
         LogObject    => $LogObject,
         ConfigObject => $ConfigObject,
@@ -60,7 +62,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check all needed objects
@@ -116,19 +118,20 @@ sub MailAccountAdd {
     }
 
     # sql
-    return if ! $Self->{DBObject}->Do(
-        SQL => 'INSERT INTO mail_account (login, pw, host, account_type, valid_id, comments, queue_id, '
+    return if !$Self->{DBObject}->Do(
+        SQL =>
+            'INSERT INTO mail_account (login, pw, host, account_type, valid_id, comments, queue_id, '
             . ' trusted, create_time, create_by, change_time, change_by)'
             . ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{Login}, \$Param{Password}, \$Param{Host}, \$Param{Type},
-            \$Param{ValidID}, \$Param{Comment}, \$Param{QueueID}, \$Param{Trusted},
-            \$Param{UserID}, \$Param{UserID},
+            \$Param{Login},   \$Param{Password}, \$Param{Host},    \$Param{Type},
+            \$Param{ValidID}, \$Param{Comment},  \$Param{QueueID}, \$Param{Trusted},
+            \$Param{UserID},  \$Param{UserID},
         ],
     );
 
-    return if ! $Self->{DBObject}->Prepare(
-        SQL  => 'SELECT id FROM mail_account WHERE login = ? AND host = ? AND account_type = ?',
+    return if !$Self->{DBObject}->Prepare(
+        SQL => 'SELECT id FROM mail_account WHERE login = ? AND host = ? AND account_type = ?',
         Bind => [ \$Param{Login}, \$Param{Host}, \$Param{Type} ],
     );
     my $ID;
@@ -165,7 +168,7 @@ sub MailAccountGet {
     }
 
     # sql
-    return if ! $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT login, pw, host, account_type, queue_id, trusted, comments, valid_id'
             . ' FROM mail_account WHERE id = ?',
         Bind => [ \$Param{ID} ],
@@ -177,7 +180,7 @@ sub MailAccountGet {
             Login    => $Data[0],
             Password => $Data[1],
             Host     => $Data[2],
-            Type     => $Data[3] || 'POP3', # compat for old setups
+            Type     => $Data[3] || 'POP3',    # compat for old setups
             QueueID  => $Data[4],
             Trusted  => $Data[5],
             Comment  => $Data[6],
@@ -238,8 +241,8 @@ sub MailAccountUpdate {
             . ' comments = ?, trusted = ?, valid_id = ?, change_time = current_timestamp, '
             . ' change_by = ?, queue_id = ? WHERE id = ?',
         Bind => [
-            \$Param{Login}, \$Param{Password}, \$Param{Host}, \$Param{Type},
-            \$Param{Comment}, \$Param{Trusted}, \$Param{ValidID}, \$Param{UserID},
+            \$Param{Login},   \$Param{Password}, \$Param{Host},    \$Param{Type},
+            \$Param{Comment}, \$Param{Trusted},  \$Param{ValidID}, \$Param{UserID},
             \$Param{QueueID}, \$Param{ID},
         ],
     );
@@ -305,10 +308,10 @@ returns a list usable backends
 sub MailAccountBackendList {
     my ( $Self, %Param ) = @_;
 
-    my %Backends = ();
-    my $Directory = $Self->{ConfigObject}->Get('Home').'/Kernel/System/MailAccount/*.pm';
-    my @List = glob $Directory;
-    foreach my $File (@List) {
+    my %Backends  = ();
+    my $Directory = $Self->{ConfigObject}->Get('Home') . '/Kernel/System/MailAccount/*.pm';
+    my @List      = glob $Directory;
+    for my $File (@List) {
 
         # remove .pm
         $File =~ s/^.*\/(.+?)\.pm$/$1/;
@@ -316,7 +319,7 @@ sub MailAccountBackendList {
 
         # try to load module $GenericModule
         if ( eval "require $GenericModule" ) {
-            if ( eval { $GenericModule->new( %{ $Self } ) } ) {
+            if ( eval { $GenericModule->new( %{$Self} ) } ) {
                 $Backends{$File} = $File;
             }
         }
@@ -352,17 +355,18 @@ sub MailAccountFetch {
             return;
         }
     }
+
     # load backend
     my $GenericModule = "Kernel::System::MailAccount::$Param{Type}";
 
     # try to load module $GenericModule
-    if ( ! $Self->{MainObject}->Require($GenericModule) ) {
+    if ( !$Self->{MainObject}->Require($GenericModule) ) {
         return;
     }
 
     # fetch mails
-    my $Backend = $GenericModule->new( %{ $Self } );
-    return $Backend->Fetch( %Param );
+    my $Backend = $GenericModule->new( %{$Self} );
+    return $Backend->Fetch(%Param);
 }
 
 1;
@@ -381,6 +385,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2008-04-09 00:31:20 $
+$Revision: 1.5 $ $Date: 2008-05-08 09:36:19 $
 
 =cut

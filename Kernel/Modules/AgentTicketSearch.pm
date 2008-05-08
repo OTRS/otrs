@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.53 2008-04-29 22:51:14 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.54 2008-05-08 09:36:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,13 +23,13 @@ use Kernel::System::State;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check needed objects
@@ -98,7 +98,7 @@ sub Run {
     if ( $Self->{Subaction} eq 'OpenSearchDescription' ) {
         my $Output = $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentTicketSearchOpenSearchDescription',
-            Data         => { %Param },
+            Data         => {%Param},
         );
         return $Self->{LayoutObject}->Attachment(
             Filename    => 'OpenSearchDescription.xml',
@@ -110,7 +110,8 @@ sub Run {
 
     # check request
     if ( $Self->{ParamObject}->GetParam( Param => 'SearchTemplate' ) && $Self->{Profile} ) {
-        return $Self->{LayoutObject}->Redirect( OP =>
+        return $Self->{LayoutObject}->Redirect(
+            OP =>
                 "Action=AgentTicketSearch&Subaction=Search&TakeLastSearch=1&SaveProfile=1&Profile=$Self->{Profile}"
         );
     }
@@ -261,7 +262,8 @@ sub Run {
         }
 
         # store last queue screen
-        my $URL = "Action=AgentTicketSearch&Subaction=Search&Profile=$Self->{Profile}&SortBy=$Self->{SortBy}"
+        my $URL
+            = "Action=AgentTicketSearch&Subaction=Search&Profile=$Self->{Profile}&SortBy=$Self->{SortBy}"
             . "&Order=$Self->{Order}&TakeLastSearch=1&StartHit=$Self->{StartHit}";
         $Self->{SessionObject}->UpdateSessionID(
             SessionID => $Self->{SessionID},
@@ -315,9 +317,11 @@ sub Run {
                 $GetParam{"TicketCreateTimeStop$_"}
                     = sprintf( "%02d", $GetParam{"TicketCreateTimeStop$_"} );
             }
-            if (   $GetParam{TicketCreateTimeStartDay}
+            if (
+                $GetParam{TicketCreateTimeStartDay}
                 && $GetParam{TicketCreateTimeStartMonth}
-                && $GetParam{TicketCreateTimeStartYear} )
+                && $GetParam{TicketCreateTimeStartYear}
+                )
             {
                 $GetParam{TicketCreateTimeNewerDate}
                     = $GetParam{TicketCreateTimeStartYear} . '-'
@@ -325,9 +329,11 @@ sub Run {
                     . $GetParam{TicketCreateTimeStartDay}
                     . ' 00:00:01';
             }
-            if (   $GetParam{TicketCreateTimeStopDay}
+            if (
+                $GetParam{TicketCreateTimeStopDay}
                 && $GetParam{TicketCreateTimeStopMonth}
-                && $GetParam{TicketCreateTimeStopYear} )
+                && $GetParam{TicketCreateTimeStopYear}
+                )
             {
                 $GetParam{TicketCreateTimeOlderDate}
                     = $GetParam{TicketCreateTimeStopYear} . '-'
@@ -337,9 +343,11 @@ sub Run {
             }
         }
         elsif ( $GetParam{TimeSearchType} eq 'TimePoint' ) {
-            if (   $GetParam{TicketCreateTimePoint}
+            if (
+                $GetParam{TicketCreateTimePoint}
                 && $GetParam{TicketCreateTimePointStart}
-                && $GetParam{TicketCreateTimePointFormat} )
+                && $GetParam{TicketCreateTimePointFormat}
+                )
             {
                 my $Time = 0;
                 if ( $GetParam{TicketCreateTimePointFormat} eq 'minute' ) {
@@ -376,14 +384,18 @@ sub Run {
         }
         elsif ( $GetParam{CloseTimeSearchType} eq 'TimeSlot' ) {
             for (qw(Month Day)) {
-                $GetParam{"TicketCloseTimeStart$_"} = sprintf( "%02d", $GetParam{"TicketCloseTimeStart$_"} );
+                $GetParam{"TicketCloseTimeStart$_"}
+                    = sprintf( "%02d", $GetParam{"TicketCloseTimeStart$_"} );
             }
             for (qw(Month Day)) {
-                $GetParam{"TicketCloseTimeStop$_"} = sprintf( "%02d", $GetParam{"TicketCloseTimeStop$_"} );
+                $GetParam{"TicketCloseTimeStop$_"}
+                    = sprintf( "%02d", $GetParam{"TicketCloseTimeStop$_"} );
             }
-            if (   $GetParam{TicketCloseTimeStartDay}
+            if (
+                $GetParam{TicketCloseTimeStartDay}
                 && $GetParam{TicketCloseTimeStartMonth}
-                && $GetParam{TicketCloseTimeStartYear} )
+                && $GetParam{TicketCloseTimeStartYear}
+                )
             {
                 $GetParam{TicketCloseTimeNewerDate}
                     = $GetParam{TicketCloseTimeStartYear} . '-'
@@ -391,9 +403,11 @@ sub Run {
                     . $GetParam{TicketCloseTimeStartDay}
                     . ' 00:00:01';
             }
-            if (   $GetParam{TicketCloseTimeStopDay}
+            if (
+                $GetParam{TicketCloseTimeStopDay}
                 && $GetParam{TicketCloseTimeStopMonth}
-                && $GetParam{TicketCloseTimeStopYear} )
+                && $GetParam{TicketCloseTimeStopYear}
+                )
             {
                 $GetParam{TicketCloseTimeOlderDate}
                     = $GetParam{TicketCloseTimeStopYear} . '-'
@@ -403,9 +417,11 @@ sub Run {
             }
         }
         elsif ( $GetParam{CloseTimeSearchType} eq 'TimePoint' ) {
-            if (   $GetParam{TicketCloseTimePoint}
+            if (
+                $GetParam{TicketCloseTimePoint}
                 && $GetParam{TicketCloseTimePointStart}
-                && $GetParam{TicketCloseTimePointFormat} )
+                && $GetParam{TicketCloseTimePointFormat}
+                )
             {
                 my $Time = 0;
                 if ( $GetParam{TicketCloseTimePointFormat} eq 'minute' ) {
@@ -447,9 +463,11 @@ sub Run {
             }
             else {
                 $GetParam{ 'TicketFreeTime' . $_ } = 'checked';
-                if (   $GetParam{ 'TicketFreeTime' . $_ . 'StartDay' }
+                if (
+                    $GetParam{ 'TicketFreeTime' . $_ . 'StartDay' }
                     && $GetParam{ 'TicketFreeTime' . $_ . 'StartMonth' }
-                    && $GetParam{ 'TicketFreeTime' . $_ . 'StartYear' } )
+                    && $GetParam{ 'TicketFreeTime' . $_ . 'StartYear' }
+                    )
                 {
                     $GetParam{ 'TicketFreeTime' . $_ . 'NewerDate' }
                         = $GetParam{ 'TicketFreeTime' . $_ . 'StartYear' } . '-'
@@ -457,9 +475,11 @@ sub Run {
                         . $GetParam{ 'TicketFreeTime' . $_ . 'StartDay' }
                         . ' 00:00:01';
                 }
-                if (   $GetParam{ 'TicketFreeTime' . $_ . 'StopDay' }
+                if (
+                    $GetParam{ 'TicketFreeTime' . $_ . 'StopDay' }
                     && $GetParam{ 'TicketFreeTime' . $_ . 'StopMonth' }
-                    && $GetParam{ 'TicketFreeTime' . $_ . 'StopYear' } )
+                    && $GetParam{ 'TicketFreeTime' . $_ . 'StopYear' }
+                    )
                 {
                     $GetParam{ 'TicketFreeTime' . $_ . 'OlderDate' }
                         = $GetParam{ 'TicketFreeTime' . $_ . 'StopYear' } . '-'
@@ -497,8 +517,10 @@ sub Run {
             $Counter++;
 
             # build search result
-            if (   $Counter >= $Self->{StartHit}
-                && $Counter < ( $Self->{SearchPageShown} + $Self->{StartHit} ) )
+            if (
+                $Counter >= $Self->{StartHit}
+                && $Counter < ( $Self->{SearchPageShown} + $Self->{StartHit} )
+                )
             {
 
                 # get first article data
@@ -521,18 +543,21 @@ sub Run {
                 # customer info
                 my %CustomerData = ();
                 if ( $Data{CustomerUserID} ) {
-                    %CustomerData = $Self->{CustomerUserObject}
-                        ->CustomerUserDataGet( User => $Data{CustomerUserID}, );
+                    %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                        User => $Data{CustomerUserID},
+                    );
                 }
                 elsif ( $Data{CustomerID} ) {
-                    %CustomerData = $Self->{CustomerUserObject}
-                        ->CustomerUserDataGet( CustomerID => $Data{CustomerID}, );
+                    %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                        CustomerID => $Data{CustomerID},
+                    );
                 }
 
                 # customer info (customer name)
                 if ( $CustomerData{UserLogin} ) {
-                    $Data{CustomerName} = $Self->{CustomerUserObject}
-                        ->CustomerName( UserLogin => $CustomerData{UserLogin}, );
+                    $Data{CustomerName} = $Self->{CustomerUserObject}->CustomerName(
+                        UserLogin => $CustomerData{UserLogin},
+                    );
                 }
 
                 # user info
@@ -552,9 +577,12 @@ sub Run {
                 if ( $GetParam{ResultForm} eq 'Preview' ) {
 
                     # check if just a only html email
-                    if ( my $MimeTypeText
-                        = $Self->{LayoutObject}
-                        ->CheckMimeType( %Data, Action => 'AgentTicketZoom', ) )
+                    if (
+                        my $MimeTypeText
+                        = $Self->{LayoutObject}->CheckMimeType(
+                            %Data, Action => 'AgentTicketZoom',
+                        )
+                        )
                     {
                         $Data{TextNote} = $MimeTypeText;
                         $Data{Body}     = '';
@@ -571,7 +599,8 @@ sub Run {
                         );
 
                         # do charset check
-                        if (my $CharsetText = $Self->{LayoutObject}->CheckCharset(
+                        if (
+                            my $CharsetText = $Self->{LayoutObject}->CheckCharset(
                                 Action         => 'AgentTicketZoom',
                                 ContentCharset => $Data{ContentCharset},
                                 TicketID       => $Data{TicketID},
@@ -586,8 +615,9 @@ sub Run {
                     # customer info string
                     $UserInfo{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
                         Data => \%CustomerData,
-                        Max  => $Self->{ConfigObject}
-                            ->Get('Ticket::Frontend::CustomerInfoQueueMaxSize'),
+                        Max  => $Self->{ConfigObject}->Get(
+                            'Ticket::Frontend::CustomerInfoQueueMaxSize'
+                        ),
                     );
 
                     # do some html highlighting
@@ -608,7 +638,8 @@ sub Run {
                     }
                     for (qw(From To Subject)) {
                         if ( !$GetParam{$_} ) {
-                            $Data{$_} = $Self->{LayoutObject}->Ascii2Html( Text => $Data{$_}, Max => 80 );
+                            $Data{$_}
+                                = $Self->{LayoutObject}->Ascii2Html( Text => $Data{$_}, Max => 80 );
                         }
                     }
 
@@ -690,7 +721,7 @@ sub Run {
                     # condense down the subject
                     my $Subject = $Self->{TicketObject}->TicketSubjectClean(
                         TicketNumber => $Data{TicketNumber},
-                        Subject      => $Data{Subject} || '',
+                        Subject => $Data{Subject} || '',
                     );
 
                     # seperate each searchresult line by using several css
@@ -718,10 +749,10 @@ sub Run {
         $Self->{LayoutObject}->Block(
             Name => 'MetaLink',
             Data => {
-                Rel => 'search',
-                Type => 'application/opensearchdescription+xml',
+                Rel   => 'search',
+                Type  => 'application/opensearchdescription+xml',
                 Title => '$Quote{"$Config{"ProductName"}"} ($Quote{"$Config{"Ticket::Hook"}"})',
-                Href => '$Env{"Baselink"}Action=AgentTicketSearch&Subaction=OpenSearchDescription',
+                Href  => '$Env{"Baselink"}Action=AgentTicketSearch&Subaction=OpenSearchDescription',
             },
         );
         my $Output = $Self->{LayoutObject}->Header();
@@ -734,14 +765,15 @@ sub Run {
             PageShown => $Self->{SearchPageShown},
             AllHits   => $Counter,
             Action    => "Action=AgentTicketSearch&Subaction=Search",
-            Link      => "Profile=$Self->{Profile}&SortBy=$Self->{SortBy}&Order=$Self->{Order}&TakeLastSearch=1&",
+            Link =>
+                "Profile=$Self->{Profile}&SortBy=$Self->{SortBy}&Order=$Self->{Order}&TakeLastSearch=1&",
         );
 
         # build shown ticket
         if ( $GetParam{ResultForm} eq 'Preview' ) {
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AgentTicketSearchResult',
-                Data         => { %Param, %PageNav, Profile => $Self->{Profile}, },
+                Data => { %Param, %PageNav, Profile => $Self->{Profile}, },
             );
         }
         elsif ( $GetParam{ResultForm} eq 'Print' ) {
@@ -771,19 +803,26 @@ sub Run {
                 my $CellData;
                 $CellData->[0]->[0]->{Content} = $Self->{ConfigObject}->Get('Ticket::Hook');
                 $CellData->[0]->[0]->{Font}    = 'ProportionalBold';
-                $CellData->[0]->[1]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Created');
+                $CellData->[0]->[1]->{Content}
+                    = $Self->{LayoutObject}->{LanguageObject}->Get('Created');
                 $CellData->[0]->[1]->{Font} = 'ProportionalBold';
-                $CellData->[0]->[2]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('From');
+                $CellData->[0]->[2]->{Content}
+                    = $Self->{LayoutObject}->{LanguageObject}->Get('From');
                 $CellData->[0]->[2]->{Font} = 'ProportionalBold';
-                $CellData->[0]->[3]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Subject');
+                $CellData->[0]->[3]->{Content}
+                    = $Self->{LayoutObject}->{LanguageObject}->Get('Subject');
                 $CellData->[0]->[3]->{Font} = 'ProportionalBold';
-                $CellData->[0]->[4]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('State');
+                $CellData->[0]->[4]->{Content}
+                    = $Self->{LayoutObject}->{LanguageObject}->Get('State');
                 $CellData->[0]->[4]->{Font} = 'ProportionalBold';
-                $CellData->[0]->[5]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Queue');
+                $CellData->[0]->[5]->{Content}
+                    = $Self->{LayoutObject}->{LanguageObject}->Get('Queue');
                 $CellData->[0]->[5]->{Font} = 'ProportionalBold';
-                $CellData->[0]->[6]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('Owner');
+                $CellData->[0]->[6]->{Content}
+                    = $Self->{LayoutObject}->{LanguageObject}->Get('Owner');
                 $CellData->[0]->[6]->{Font} = 'ProportionalBold';
-                $CellData->[0]->[7]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('CustomerID');
+                $CellData->[0]->[7]->{Content}
+                    = $Self->{LayoutObject}->{LanguageObject}->Get('CustomerID');
                 $CellData->[0]->[7]->{Font} = 'ProportionalBold';
 
                 # create the content array
@@ -799,7 +838,8 @@ sub Run {
 
                 # output 'No Result', if no content was given
                 if ( !$CellData->[0]->[0] ) {
-                    $CellData->[0]->[0]->{Content} = $Self->{LayoutObject}->{LanguageObject}->Get('No Result!');
+                    $CellData->[0]->[0]->{Content}
+                        = $Self->{LayoutObject}->{LanguageObject}->Get('No Result!');
                 }
 
                 # page params
@@ -812,7 +852,7 @@ sub Run {
                 $PageParam{HeaderRight}     = $Title;
                 $PageParam{FooterLeft}      = $Url;
                 $PageParam{HeadlineLeft}    = $Title;
-                $PageParam{HeadlineRight} = $PrintedBy . ' '
+                $PageParam{HeadlineRight}   = $PrintedBy . ' '
                     . $Self->{UserFirstname} . ' '
                     . $Self->{UserLastname} . ' ('
                     . $Self->{UserEmail} . ') '
@@ -855,8 +895,9 @@ sub Run {
                 # return the pdf document
                 my $Filename = 'ticket_search';
                 my ( $s, $m, $h, $D, $M, $Y )
-                    = $Self->{TimeObject}
-                    ->SystemTime2Date( SystemTime => $Self->{TimeObject}->SystemTime(), );
+                    = $Self->{TimeObject}->SystemTime2Date(
+                    SystemTime => $Self->{TimeObject}->SystemTime(),
+                    );
                 $M = sprintf( "%02d", $M );
                 $D = sprintf( "%02d", $D );
                 $h = sprintf( "%02d", $h );
@@ -904,14 +945,14 @@ sub Run {
             $m = sprintf( "%02d", $m );
             return $Self->{LayoutObject}->Attachment(
                 Filename    => $CSVFile . "_" . "$Y-$M-$D" . "_" . "$h-$m.csv",
-                ContentType => "text/csv; charset=".$Self->{LayoutObject}->{UserCharset},
+                ContentType => "text/csv; charset=" . $Self->{LayoutObject}->{UserCharset},
                 Content     => $CSV,
             );
         }
         else {
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AgentTicketSearchResultShort',
-                Data         => { %Param, %PageNav, Profile => $Self->{Profile}, },
+                Data => { %Param, %PageNav, Profile => $Self->{Profile}, },
             );
         }
 
@@ -940,10 +981,10 @@ sub Run {
         $Self->{LayoutObject}->Block(
             Name => 'MetaLink',
             Data => {
-                Rel => 'search',
-                Type => 'application/opensearchdescription+xml',
+                Rel   => 'search',
+                Type  => 'application/opensearchdescription+xml',
                 Title => '$Quote{"$Config{"ProductName"}"} ($Quote{"$Config{"Ticket::Hook"}"})',
-                Href => '$Env{"Baselink"}Action=AgentTicketSearch&Subaction=OpenSearchDescription',
+                Href  => '$Env{"Baselink"}Action=AgentTicketSearch&Subaction=OpenSearchDescription',
             },
         );
         my $Output = $Self->{LayoutObject}->Header();
@@ -990,7 +1031,7 @@ sub MaskForm {
             UserID => $Self->{UserID},
             Type   => 'ro',
         );
-        for my $UserID (keys %ShownUsers) {
+        for my $UserID ( keys %ShownUsers ) {
             if ( !$Involved{$UserID} ) {
                 delete $ShownUsers{$UserID};
             }
@@ -1017,7 +1058,7 @@ sub MaskForm {
             Print   => 'Print',
             CSV     => 'CSV',
         },
-        Name       => 'ResultForm',
+        Name => 'ResultForm',
         SelectedID => $Param{ResultForm} || 'Normal',
     );
     $Param{'ProfilesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
@@ -1146,7 +1187,7 @@ sub MaskForm {
             'Last'   => 'last',
             'Before' => 'before',
         },
-        Name       => 'TicketCreateTimePointStart',
+        Name => 'TicketCreateTimePointStart',
         SelectedID => $Param{TicketCreateTimePointStart} || 'Last',
     );
     $Param{'TicketCreateTimePointFormat'} = $Self->{LayoutObject}->OptionStrgHashRef(
@@ -1258,7 +1299,7 @@ sub MaskForm {
             'Last'   => 'last',
             'Before' => 'before',
         },
-        Name       => 'TicketCloseTimePointStart',
+        Name => 'TicketCloseTimePointStart',
         SelectedID => $Param{TicketCloseTimePointStart} || 'Last',
     );
     $Param{'TicketCloseTimePointFormat'} = $Self->{LayoutObject}->OptionStrgHashRef(
@@ -1310,7 +1351,7 @@ sub MaskForm {
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::Title') ) {
         $Self->{LayoutObject}->Block(
             Name => 'TicketTitle',
-            Data => { %Param },
+            Data => {%Param},
         );
     }
 
@@ -1368,8 +1409,10 @@ sub MaskForm {
             Data => {%Param},
         );
     }
-    if (   $Self->{ConfigObject}->Get('Ticket::Watcher')
-        || $Self->{ConfigObject}->Get('Ticket::Responsible') )
+    if (
+        $Self->{ConfigObject}->Get('Ticket::Watcher')
+        || $Self->{ConfigObject}->Get('Ticket::Responsible')
+        )
     {
         $Self->{LayoutObject}->Block( Name => 'TicketResponsibleWatcher', );
         if ( $Self->{ConfigObject}->Get('Ticket::Watcher') ) {

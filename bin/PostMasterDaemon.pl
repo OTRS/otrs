@@ -3,7 +3,7 @@
 # bin/PostMasterDaemon.pl - the daemon for the PostMasterClient.pl client
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMasterDaemon.pl,v 1.15 2008-02-01 12:49:20 tr Exp $
+# $Id: PostMasterDaemon.pl,v 1.16 2008-05-08 09:36:57 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -133,7 +133,7 @@ sub StopChild {
 }
 
 sub PipeEmail {
-    my @Email = @_;
+    my (@Email) = @_;
 
     # create common objects
     my %CommonObject = ();

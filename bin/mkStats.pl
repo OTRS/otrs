@@ -3,7 +3,7 @@
 # mkStats.pl - send stats output via email
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: mkStats.pl,v 1.56 2008-04-29 22:14:53 martin Exp $
+# $Id: mkStats.pl,v 1.57 2008-05-08 09:36:57 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -72,7 +72,8 @@ getopt( 'nrsmoplf', \%Opts );
 if ( $Opts{h} ) {
     print "mkStats.pl <Revision $VERSION> - OTRS cmd stats\n";
     print "Copyright (C) 2001-2008 OTRS AG, http://otrs.org/\n";
-    print "usage: mkStats.pl -n <StatNumber> [-p <PARAM_STRING>] [-o <DIRECTORY>] [-r <RECIPIENT> -s <SENDER>] [-m <MESSAGE>] [-l <LANGUAGE>] [-f CSV|Print]\n";
+    print
+        "usage: mkStats.pl -n <StatNumber> [-p <PARAM_STRING>] [-o <DIRECTORY>] [-r <RECIPIENT> -s <SENDER>] [-m <MESSAGE>] [-l <LANGUAGE>] [-f CSV|Print]\n";
     print "       <PARAM_STRING> e. g. 'Year=1977&Month=10' (only for static files)\n";
     print "       <DIRECTORY> /output/dir/\n";
     exit 1;
@@ -199,7 +200,7 @@ my @StatArray = @{
     $CommonObject{StatsObject}->StatsRun(
         StatID   => $StatID,
         GetParam => \%GetParam,
-    )
+        )
     };
 
 # generate output
@@ -255,9 +256,10 @@ if ( $Format eq 'Print' && $CommonObject{PDFObject} ) {
     $PageParam{MarginRight}     = 40;
     $PageParam{MarginBottom}    = 40;
     $PageParam{MarginLeft}      = 40;
-    $PageParam{HeaderRight} = $CommonObject{ConfigObject}->Get('Stats::StatsHook') . $Stat->{StatNumber};
-    $PageParam{FooterLeft}   = 'mkStats.pl';
-    $PageParam{HeadlineLeft} = $Title;
+    $PageParam{HeaderRight}
+        = $CommonObject{ConfigObject}->Get('Stats::StatsHook') . $Stat->{StatNumber};
+    $PageParam{FooterLeft}    = 'mkStats.pl';
+    $PageParam{HeadlineLeft}  = $Title;
     $PageParam{HeadlineRight} = $PrintedBy . ' '
         . $User{UserFirstname} . ' '
         . $User{UserLastname} . ' ('
@@ -306,8 +308,9 @@ if ( $Format eq 'Print' && $CommonObject{PDFObject} ) {
             $Loop = 0;
         }
         else {
-            $CommonObject{PDFObject}
-                ->PageNew( %PageParam, FooterRight => $Page . ' ' . ( $Counter + 1 ), );
+            $CommonObject{PDFObject}->PageNew(
+                %PageParam, FooterRight => $Page . ' ' . ( $Counter + 1 ),
+            );
         }
         $Counter++;
 
@@ -386,7 +389,8 @@ elsif (
 exit(0);
 
 sub GetParam {
-    my %Param = @_;
+    my (%Param) = @_;
+
     if ( !$Param{Param} ) {
         print STDERR "ERROR: Need Param Arg in GetParam()\n";
     }
@@ -401,7 +405,8 @@ sub GetParam {
 }
 
 sub GetArray {
-    my %Param = @_;
+    my (%Param) = @_;
+
     if ( !$Param{Param} ) {
         print STDERR "ERROR: Need Param Arg in GetArray()\n";
     }

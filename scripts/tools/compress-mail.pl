@@ -3,7 +3,7 @@
 # scripts/tools/compress-mail.pl - compress email, zip attachments
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: compress-mail.pl,v 1.10 2008-04-24 17:32:15 tr Exp $
+# $Id: compress-mail.pl,v 1.11 2008-05-08 09:35:57 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 # config
 my @Compress
@@ -95,8 +95,10 @@ if ( !$NoTouch ) {
                     use bytes;
                     my $FileSize = length( $Attachment->{Content} );
                     no bytes;
-                    if (   $FileSize > $CompressAttachmentMinSize
-                        && $FileSize < $CompressAttachmentMaxSize )
+                    if (
+                        $FileSize > $CompressAttachmentMinSize
+                        && $FileSize < $CompressAttachmentMaxSize
+                        )
                     {
                         $Compress = 1;
                         $Touch    = 1;

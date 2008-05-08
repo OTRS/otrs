@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminEmail.pm - to send a email to all agents
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminEmail.pm,v 1.28 2008-01-31 06:22:11 tr Exp $
+# $Id: AdminEmail.pm,v 1.29 2008-05-08 09:36:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,13 +17,13 @@ use warnings;
 use Kernel::System::Email;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check needed objects
@@ -108,7 +108,8 @@ sub Run {
         $Param{Body} =~ s/\r/\n/g;
 
         # send mail
-        if ($Self->{SendmailObject}->Send(
+        if (
+            $Self->{SendmailObject}->Send(
                 From    => $Param{From},
                 Bcc     => $Param{Bcc},
                 Subject => $Param{Subject},
@@ -139,15 +140,15 @@ sub Run {
     # ------------------------------------------------------------ #
     else {
         $Param{'UserOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data     => { $Self->{UserObject}->UserList( Valid => 1 ) },
-            Name     => 'UserIDs',
-            Size     => 8,
+            Data => { $Self->{UserObject}->UserList( Valid => 1 ) },
+            Name => 'UserIDs',
+            Size => 8,
             Multiple => 1,
         );
         $Param{'GroupOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data     => { $Self->{GroupObject}->GroupList( Valid => 1 ) },
-            Size     => 6,
-            Name     => 'GroupIDs',
+            Data => { $Self->{GroupObject}->GroupList( Valid => 1 ) },
+            Size => 6,
+            Name => 'GroupIDs',
             Multiple => 1,
         );
         $Self->{LayoutObject}->Block(

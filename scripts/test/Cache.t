@@ -2,7 +2,7 @@
 # Cache.t - Cache tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Cache.t,v 1.4 2008-03-10 19:41:57 martin Exp $
+# $Id: Cache.t,v 1.5 2008-05-08 09:35:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,13 +12,13 @@
 use utf8;
 use Kernel::System::Cache;
 
-$Self->{CacheObject} = Kernel::System::Cache->new(%{$Self});
+$Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
 
 my $CacheSet = $Self->{CacheObject}->Set(
     Type  => 'CacheTest',
     Key   => 'Test',
     Value => '1234',
-    TTL   => 24*60*60,
+    TTL   => 24 * 60 * 60,
 );
 
 $Self->True(
@@ -39,7 +39,7 @@ $Self->Is(
 
 # test charset specific situations
 my $Charset = $Self->{ConfigObject}->Get('DefaultCharset');
-if ($Charset eq 'utf-8') {
+if ( $Charset eq 'utf-8' ) {
     $CacheSet = $Self->{CacheObject}->Set(
         Type  => 'CacheTest',
         Key   => 'Test',
@@ -59,7 +59,7 @@ if ($Charset eq 'utf-8') {
                 },
             ],
         },
-        TTL => 24*60*60,
+        TTL => 24 * 60 * 60,
     );
 
     $Self->True(
@@ -68,8 +68,8 @@ if ($Charset eq 'utf-8') {
     );
 
     $CacheGet = $Self->{CacheObject}->Get(
-        Type  => 'CacheTest',
-        Key   => 'Test',
+        Type => 'CacheTest',
+        Key  => 'Test',
     );
 
     $Self->Is(
@@ -78,7 +78,7 @@ if ($Charset eq 'utf-8') {
         '#2 CacheGet() - {Key2}',
     );
     $Self->True(
-        Encode::is_utf8($CacheGet->{Key2}) || '',
+        Encode::is_utf8( $CacheGet->{Key2} ) || '',
         '#2 CacheGet() - {Key2} Encode::is_utf8',
     );
     $Self->Is(
@@ -87,7 +87,7 @@ if ($Charset eq 'utf-8') {
         '#2 CacheGet() - {Key4}->[0]',
     );
     $Self->True(
-        Encode::is_utf8($CacheGet->{Key4}->[0]) || '',
+        Encode::is_utf8( $CacheGet->{Key4}->[0] ) || '',
         '#2 CacheGet() - {Key4}->[0] Encode::is_utf8',
     );
     $Self->Is(
@@ -101,7 +101,7 @@ if ($Charset eq 'utf-8') {
         '#2 CacheGet() - {Key4}->[3]->{KeyB}',
     );
     $Self->True(
-        Encode::is_utf8($CacheGet->{Key4}->[3]->{KeyB}) || '',
+        Encode::is_utf8( $CacheGet->{Key4}->[3]->{KeyB} ) || '',
         '#2 CacheGet() - {Key4}->[3]->{KeyB} Encode::is_utf8',
     );
 
@@ -171,7 +171,7 @@ if ($Charset eq 'utf-8') {
         '#4 CacheGet() - sleep6 - TTL of 5 expired',
     );
 }
-elsif ($Charset eq 'iso-8859-1' || $Charset eq 'iso-8859-15') {
+elsif ( $Charset eq 'iso-8859-1' || $Charset eq 'iso-8859-15' ) {
     no utf8;
     $CacheSet = $Self->{CacheObject}->Set(
         Type  => 'CacheTest',
@@ -192,7 +192,7 @@ elsif ($Charset eq 'iso-8859-1' || $Charset eq 'iso-8859-15') {
                 },
             ],
         },
-        TTL => 24*60*60,
+        TTL => 24 * 60 * 60,
     );
 
     $Self->True(
@@ -211,7 +211,7 @@ elsif ($Charset eq 'iso-8859-1' || $Charset eq 'iso-8859-15') {
         '#2 CacheGet() - {Key2}',
     );
     $Self->True(
-        !Encode::is_utf8($CacheGet->{Key2}) || '',
+        !Encode::is_utf8( $CacheGet->{Key2} ) || '',
         '#2 CacheGet() - {Key2} Encode::is_utf8',
     );
     $Self->Is(
@@ -220,7 +220,7 @@ elsif ($Charset eq 'iso-8859-1' || $Charset eq 'iso-8859-15') {
         '#2 CacheGet() - {Key4}->[0]',
     );
     $Self->True(
-        !Encode::is_utf8($CacheGet->{Key4}->[0]) || '',
+        !Encode::is_utf8( $CacheGet->{Key4}->[0] ) || '',
         '#2 CacheGet() - {Key4}->[0] Encode::is_utf8',
     );
     $Self->Is(
@@ -234,7 +234,7 @@ elsif ($Charset eq 'iso-8859-1' || $Charset eq 'iso-8859-15') {
         '#2 CacheGet() - {Key4}->[3]->{KeyB}',
     );
     $Self->True(
-        !Encode::is_utf8($CacheGet->{Key4}->[3]->{KeyB}) || '',
+        !Encode::is_utf8( $CacheGet->{Key4}->[3]->{KeyB} ) || '',
         '#2 CacheGet() - {Key4}->[3]->{KeyB} Encode::is_utf8',
     );
 
@@ -309,7 +309,7 @@ $CacheSet = $Self->{CacheObject}->Set(
     Type  => 'CacheTest',
     Key   => 'Test',
     Value => '123456',
-    TTL   => 60*60,
+    TTL   => 60 * 60,
 );
 
 $Self->True(
@@ -345,16 +345,16 @@ $CacheSet = $Self->{CacheObject}->Set(
     TTL   => 60,
 );
 $Self->True(
-    ! $CacheSet || '',
+    !$CacheSet || '',
     '#6 Set() - A-z type check',
 );
 $CacheDelete = $Self->{CacheObject}->Delete(
-    Type  => 'Value2ÄÜÖäüöß',
+    Type => 'Value2ÄÜÖäüöß',
     Key  => 'Test',
 );
 
 $Self->True(
-    ! $CacheDelete || 0,
+    !$CacheDelete || 0,
     '#6 CacheDelete() - A-z type check',
 );
 

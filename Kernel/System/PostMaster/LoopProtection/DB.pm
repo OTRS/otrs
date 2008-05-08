@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/LoopProtection/DB.pm - backend module of LoopProtection
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.11 2008-04-24 21:48:51 martin Exp $
+# $Id: DB.pm,v 1.12 2008-05-08 09:36:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -81,7 +81,8 @@ sub Check {
     if ( $Count >= $Self->{PostmasterMaxEmails} ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message => "LoopProtection!!! Send no more emails to '$To'! Max. count of $Self->{PostmasterMaxEmails} has been reached!",
+            Message =>
+                "LoopProtection!!! Send no more emails to '$To'! Max. count of $Self->{PostmasterMaxEmails} has been reached!",
         );
         return;
     }

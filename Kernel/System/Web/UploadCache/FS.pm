@@ -2,7 +2,7 @@
 # Kernel/System/Web/UploadCache/FS.pm - a fs upload cache
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.11 2008-04-29 11:35:29 tr Exp $
+# $Id: FS.pm,v 1.12 2008-05-08 09:36:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -75,7 +75,8 @@ sub FormIDAddFile {
     }
 
     # files must readable for creater
-    if (!$Self->{MainObject}->FileWrite(
+    if (
+        !$Self->{MainObject}->FileWrite(
             Directory  => $Self->{TempDir},
             Filename   => "$Param{FormID}.$Param{Filename}",
             Content    => \$Param{Content},
@@ -86,7 +87,8 @@ sub FormIDAddFile {
     {
         return;
     }
-    if (!$Self->{MainObject}->FileWrite(
+    if (
+        !$Self->{MainObject}->FileWrite(
             Directory  => $Self->{TempDir},
             Filename   => "$Param{FormID}.$Param{Filename}.ContentType",
             Content    => \$Param{ContentType},
@@ -150,8 +152,8 @@ sub FormIDGetAllFilesData {
 
                 # remove meta data in files
                 $FileSize = $FileSize - 30 if ( $FileSize > 30 );
-                if ( $FileSize > 1048576 ) {               # 1024 * 1024
-                    $FileSize = sprintf "%.1f MBytes", ( $FileSize / 1048576 ); # 1024 * 1024
+                if ( $FileSize > 1048576 ) {    # 1024 * 1024
+                    $FileSize = sprintf "%.1f MBytes", ( $FileSize / 1048576 );    # 1024 * 1024
                 }
                 elsif ( $FileSize > 1024 ) {
                     $FileSize = sprintf "%.1f KBytes", ( ( $FileSize / 1024 ) );
@@ -176,7 +178,8 @@ sub FormIDGetAllFilesData {
             $File =~ s/^.*\/$Param{FormID}\.(.+?)$/$1/;
             push(
                 @Data,
-                {   Content     => ${$Content},
+                {
+                    Content     => ${$Content},
                     ContentType => ${$ContentType},
                     Filename    => $File,
                     Filesize    => $FileSize,
@@ -216,8 +219,8 @@ sub FormIDGetAllFilesMeta {
 
                 # remove meta data in files
                 $FileSize = $FileSize - 30 if ( $FileSize > 30 );
-                if ( $FileSize > 1048576 ) { # 1024 * 1024
-                    $FileSize = sprintf "%.1f MBytes", ( $FileSize / 1048576 ); # 1024 * 1024
+                if ( $FileSize > 1048576 ) {    # 1024 * 1024
+                    $FileSize = sprintf "%.1f MBytes", ( $FileSize / 1048576 );    # 1024 * 1024
                 }
                 elsif ( $FileSize > 1024 ) {
                     $FileSize = sprintf "%.1f KBytes", ( ( $FileSize / 1024 ) );
@@ -231,7 +234,8 @@ sub FormIDGetAllFilesMeta {
             $File =~ s/^.*\/$Param{FormID}\.(.+?)$/$1/;
             push(
                 @Data,
-                {   Filename => $File,
+                {
+                    Filename => $File,
                     Filesize => $FileSize,
                     FileID   => $Counter,
                 }
@@ -244,7 +248,7 @@ sub FormIDGetAllFilesMeta {
 sub FormIDCleanUp {
     my ( $Self, %Param ) = @_;
 
-    my $CurrentTile   = time() - 86400; # 60 * 60 * 24 * 1
+    my $CurrentTile   = time() - 86400;               # 60 * 60 * 24 * 1
     my @List          = glob("$Self->{TempDir}/*");
     my %RemoveFormIDs = ();
     for my $File (@List) {

@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.63 2008-04-09 00:31:20 martin Exp $
+# $Id: EmailParser.pm,v 1.64 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 =head1 NAME
 
@@ -270,6 +270,7 @@ sub GetCharset {
     }
 
     if ( defined( $Self->{Charset} ) ) {
+
         # debug
         if ( $Self->{Debug} > 0 ) {
             $Self->{LogObject}->Log(
@@ -289,13 +290,14 @@ sub GetCharset {
         # check content type (only do charset decode if no Content-Type or ContentType
         # with text/* exists) if it's not a text content type (e. g. pdf, png, ...),
         # return no charset
-        if ( $Data{ContentType} && $Data{ContentType} !~ /text/i) {
+        if ( $Data{ContentType} && $Data{ContentType} !~ /text/i ) {
 
             # debug
             if ( $Self->{Debug} > 0 ) {
                 $Self->{LogObject}->Log(
                     Priority => 'debug',
-                    Message  => "Got no charset from email body because of ContentType ($Data{ContentType})!",
+                    Message =>
+                        "Got no charset from email body because of ContentType ($Data{ContentType})!",
                 );
             }
 
@@ -368,7 +370,9 @@ sub GetReturnContentType {
         if ( $Self->{Debug} > 0 ) {
             $Self->{LogObject}->Log(
                 Priority => 'debug',
-                Message  => "Changed ContentType from '" . $Self->GetContentType() . "' to '$ContentType'.",
+                Message  => "Changed ContentType from '"
+                    . $Self->GetContentType()
+                    . "' to '$ContentType'.",
             );
         }
         return $ContentType;
@@ -446,6 +450,7 @@ sub GetMessageBody {
         }
 
         if ( $Self->GetCharset() ) {
+
             # charset decode
             $Self->{MessageBody} = $Self->{EncodeObject}->Decode(
                 Text => $BodyStrg,
@@ -453,7 +458,7 @@ sub GetMessageBody {
             );
         }
         else {
-             $Self->{MessageBody} = $BodyStrg;
+            $Self->{MessageBody} = $BodyStrg;
         }
 
         # check if it's juat a html email (store it as attachment and add text/plain)
@@ -485,7 +490,7 @@ sub GetMessageBody {
             }
 
             # check if charset is given, set iso-8859-1 if content is text
-            if ( !$Self->{Charset} && $Self->{ContentType} =~ /\btext\b/) {
+            if ( !$Self->{Charset} && $Self->{ContentType} =~ /\btext\b/ ) {
                 $Self->{Charset} = 'iso-8859-1';
             }
 
@@ -621,7 +626,8 @@ sub PartsAttachments {
         else {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message => "Was not able to parse corrupt MIME email! Skipped attachment ($PartCounter)",
+                Message =>
+                    "Was not able to parse corrupt MIME email! Skipped attachment ($PartCounter)",
             );
             return;
         }
@@ -726,13 +732,21 @@ sub GetContentTypeParams {
         $Param{Charset} =~ s/(.+?);.*/$1/g;
     }
     if ( !$Param{Charset} ) {
-        if ( $Param{ContentType} =~ /\?(iso-\d{3,4}-(\d{1,2}|[A-z]{1,2})|utf(-8|8)|windows-\d{3,5}|koi8-.+?|cp(-|)\d{2,4}|big5(|.+?)|shift(_|-)jis|euc-.+?|tcvn|visii|vps|gb.+?)\?/i ) {
+        if (
+            $Param{ContentType}
+            =~ /\?(iso-\d{3,4}-(\d{1,2}|[A-z]{1,2})|utf(-8|8)|windows-\d{3,5}|koi8-.+?|cp(-|)\d{2,4}|big5(|.+?)|shift(_|-)jis|euc-.+?|tcvn|visii|vps|gb.+?)\?/i
+            )
+        {
             $Param{Charset} = $1;
         }
         elsif ( $Param{ContentType} =~ /name\*0\*=(utf-8|utf8)/i ) {
             $Param{Charset} = $1;
         }
-        elsif ( $Param{ContentType} =~ /filename\*=(iso-\d{3,4}-(\d{1,2}|[A-z]{1,2})|utf(-8|8)|windows-\d{3,5}|koi8-.+?|cp(-|)\d{2,4}|big5(|.+?)|shift(_|-)jis|euc-.+?|tcvn|visii|vps|gb.+?)''/i ) {
+        elsif (
+            $Param{ContentType}
+            =~ /filename\*=(iso-\d{3,4}-(\d{1,2}|[A-z]{1,2})|utf(-8|8)|windows-\d{3,5}|koi8-.+?|cp(-|)\d{2,4}|big5(|.+?)|shift(_|-)jis|euc-.+?|tcvn|visii|vps|gb.+?)''/i
+            )
+        {
             $Param{Charset} = $1;
         }
     }
@@ -748,9 +762,11 @@ sub CheckMessageBody {
     my ( $Self, %Param ) = @_;
 
     # if already checked, just return
-    if (   $Self->{MessageChecked}
+    if (
+        $Self->{MessageChecked}
         || !$Self->{ConfigObject}->Get('PostmasterAutoHTML2Text')
-        || $Self->{NoHTMLChecks} )
+        || $Self->{NoHTMLChecks}
+        )
     {
         return;
     }
@@ -763,7 +779,8 @@ sub CheckMessageBody {
         if ( !$Self->{MimeEmail} ) {
             push(
                 @{ $Self->{Attachments} },
-                {   Charset     => $Self->GetCharset(),
+                {
+                    Charset     => $Self->GetCharset(),
                     ContentType => $Self->GetReturnContentType(),
                     Content     => $Self->{MessageBody},
                     Filename    => 'orig-html-email.html',
@@ -941,8 +958,10 @@ sub CheckMessageBody {
             'times' => chr(215),    # times is a keyword in perl
             divide  => chr(247),
 
-            (   $] > 5.007
-                ? ( OElig    => chr(338),
+            (
+                $] > 5.007
+                ? (
+                    OElig    => chr(338),
                     oelig    => chr(339),
                     Scaron   => chr(352),
                     scaron   => chr(353),
@@ -1096,7 +1115,7 @@ sub CheckMessageBody {
                     diams    => chr(9830),
                     )
                 : ()
-            )
+                )
         );
 
         # encode html entities like "&#8211;"
@@ -1160,7 +1179,8 @@ sub CheckMessageBody {
         if ( $Self->{Debug} > 0 ) {
             $Self->{LogObject}->Log(
                 Priority => 'debug',
-                Message => "It's an html only email, added ascii dump, attached html email as attachment.",
+                Message =>
+                    "It's an html only email, added ascii dump, attached html email as attachment.",
             );
         }
     }
@@ -1181,6 +1201,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.63 $ $Date: 2008-04-09 00:31:20 $
+$Revision: 1.64 $ $Date: 2008-05-08 09:36:19 $
 
 =cut

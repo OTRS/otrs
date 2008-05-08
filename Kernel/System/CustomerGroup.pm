@@ -2,7 +2,7 @@
 # Kernel/System/CustomerGroup.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerGroup.pm,v 1.16 2008-04-02 04:52:27 tr Exp $
+# $Id: CustomerGroup.pm,v 1.17 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Group;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 =head1 NAME
 
@@ -129,18 +129,20 @@ sub GroupMemberAdd {
         if ( $Self->{Debug} ) {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message  => "Add UID:$Param{UID} to GID:$Param{GID}, $Type:$Param{Permission}->{$Type}!",
+                Message =>
+                    "Add UID:$Param{UID} to GID:$Param{GID}, $Type:$Param{Permission}->{$Type}!",
             );
         }
 
         # insert new permission
         $Self->{DBObject}->Do(
-            SQL  => "INSERT INTO group_customer_user "
+            SQL => "INSERT INTO group_customer_user "
                 . " (user_id, group_id, permission_key, permission_value, "
                 . " create_time, create_by, change_time, change_by) "
                 . " VALUES (?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)",
             Bind => [
-                \$Param{UID}, \$Param{GID}, \$Type, \$Param{Permission}->{$Type}, \$Param{UserID}, \$Param{UserID},
+                \$Param{UID}, \$Param{GID}, \$Type, \$Param{Permission}->{$Type}, \$Param{UserID},
+                \$Param{UserID},
             ],
         );
     }
@@ -205,6 +207,7 @@ sub GroupMemberList {
         . " gu.permission_value = 1 AND "
         . " gu.permission_key IN ('" . $Self->{DBObject}->Quote( $Param{Type} ) . "', 'rw') "
         . " AND ";
+
     if ( $Param{UserID} ) {
         $SQL .= " gu.user_id = '" . $Self->{DBObject}->Quote( $Param{UserID} ) . "'";
     }
@@ -272,6 +275,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2008-04-02 04:52:27 $
+$Revision: 1.17 $ $Date: 2008-05-08 09:36:19 $
 
 =cut

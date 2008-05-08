@@ -2,7 +2,7 @@
 # Kernel/System/StdResponse.pm - lib for std responses
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: StdResponse.pm,v 1.20 2008-01-31 06:20:20 tr Exp $
+# $Id: StdResponse.pm,v 1.21 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check all needed objects
@@ -59,10 +59,13 @@ sub StdResponseAdd {
         . " VALUES "
         . " ('$Param{Name}', $Param{ValidID}, '$Param{Comment}', '$Param{Response}', "
         . " current_timestamp, $Param{UserID}, current_timestamp,  $Param{UserID})";
+
     if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
         my $Id = 0;
-        $Self->{DBObject}->Prepare( SQL => "SELECT id FROM standard_response WHERE "
-                . "name = '$Param{Name}' AND text like '$Param{Response}'", );
+        $Self->{DBObject}->Prepare(
+            SQL => "SELECT id FROM standard_response WHERE "
+                . "name = '$Param{Name}' AND text like '$Param{Response}'",
+        );
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             $Id = $Row[0];
         }
@@ -127,7 +130,7 @@ sub StdResponseDelete {
     }
 
     # sql
-    if ($Self->{DBObject}->Do( SQL => "DELETE FROM standard_response WHERE ID = $Param{ID}" ) ) {
+    if ( $Self->{DBObject}->Do( SQL => "DELETE FROM standard_response WHERE ID = $Param{ID}" ) ) {
         return 1;
     }
     else {
@@ -165,6 +168,7 @@ sub StdResponseUpdate {
         . " change_by = $Param{UserID} "
         . " WHERE "
         . " id = $Param{ID}";
+
     if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
         return 1;
     }
@@ -178,8 +182,10 @@ sub StdResponseLookup {
 
     # check needed stuff
     if ( !$Param{StdResponse} && !$Param{StdResponseID} ) {
-        $Self->{LogObject}
-            ->Log( Priority => 'error', Message => "Got no StdResponse or StdResponseID!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Got no StdResponse or StdResponseID!"
+        );
         return;
     }
 

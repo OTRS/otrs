@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketMenuTicketWatcher.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketMenuTicketWatcher.pm,v 1.6 2008-04-29 12:11:51 tr Exp $
+# $Id: TicketMenuTicketWatcher.pm,v 1.7 2008-05-08 09:36:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -46,8 +46,10 @@ sub Run {
         return $Param{Counter};
     }
 
-    if ( !defined( $Param{ACL}->{ $Param{Config}->{Action} } )
-        || $Param{ACL}->{ $Param{Config}->{Action} } )
+    if (
+        !defined( $Param{ACL}->{ $Param{Config}->{Action} } )
+        || $Param{ACL}->{ $Param{Config}->{Action} }
+        )
     {
         my @Groups = ();
         if ( $Self->{ConfigObject}->Get('Ticket::WatcherGroup') ) {
@@ -61,8 +63,10 @@ sub Run {
         }
         else {
             for my $Group (@Groups) {
-                if (   $Self->{LayoutObject}->{"UserIsGroup[$Group]"}
-                    && $Self->{LayoutObject}->{"UserIsGroup[$Group]"} eq 'Yes' )
+                if (
+                    $Self->{LayoutObject}->{"UserIsGroup[$Group]"}
+                    && $Self->{LayoutObject}->{"UserIsGroup[$Group]"} eq 'Yes'
+                    )
                 {
                     $Access = 1;
                 }

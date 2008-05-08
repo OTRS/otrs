@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.19 2008-01-31 06:22:12 tr Exp $
+# $Id: AgentTicketMove.pm,v 1.20 2008-05-08 09:36:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,13 +18,13 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check needed objects
@@ -37,7 +37,7 @@ sub new {
     $Self->{UploadCachObject} = Kernel::System::Web::UploadCache->new(%Param);
 
     # get params
-    $Self->{TicketUnlock}     = $Self->{ParamObject}->GetParam( Param => 'TicketUnlock' );
+    $Self->{TicketUnlock} = $Self->{ParamObject}->GetParam( Param => 'TicketUnlock' );
 
     # get form id
     $Self->{FormID} = $Self->{ParamObject}->GetParam( Param => 'FormID' );
@@ -63,7 +63,8 @@ sub Run {
     }
 
     # check permissions
-    if (!$Self->{TicketObject}->Permission(
+    if (
+        !$Self->{TicketObject}->Permission(
             Type     => 'move',
             TicketID => $Self->{TicketID},
             UserID   => $Self->{UserID}
@@ -152,7 +153,7 @@ sub Run {
     }
 
     # move queue
-    if ( %Error) {
+    if (%Error) {
         my $Output = $Self->{LayoutObject}->Header();
 
         # get lock state && write (lock) permissions
@@ -166,7 +167,8 @@ sub Run {
             );
 
             # set lock
-            if ($Self->{TicketObject}->LockSet(
+            if (
+                $Self->{TicketObject}->LockSet(
                     TicketID => $Self->{TicketID},
                     Lock     => 'lock',
                     UserID   => $Self->{UserID}
@@ -183,7 +185,8 @@ sub Run {
             }
         }
         else {
-            my ( $OwnerID, $OwnerLogin ) = $Self->{TicketObject}->OwnerCheck( TicketID => $Self->{TicketID} );
+            my ( $OwnerID, $OwnerLogin )
+                = $Self->{TicketObject}->OwnerCheck( TicketID => $Self->{TicketID} );
             if ( $OwnerID != $Self->{UserID} ) {
                 $Output .= $Self->{LayoutObject}->Warning(
                     Message => "Sorry, the current owner is $OwnerLogin!",
@@ -242,7 +245,8 @@ sub Run {
         }
 
         # get all attachments meta data
-        my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta( FormID => $Self->{FormID} );
+        my @Attachments
+            = $Self->{UploadCachObject}->FormIDGetAllFilesMeta( FormID => $Self->{FormID} );
 
         # print change form
         $Output .= $Self->AgentMove(
@@ -274,7 +278,8 @@ sub Run {
     {
 
         # set state
-        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::MoveSetState') && $GetParam{NewStateID} ) {
+        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::MoveSetState') && $GetParam{NewStateID} )
+        {
             $Self->{TicketObject}->StateSet(
                 TicketID => $Self->{TicketID},
                 StateID  => $GetParam{NewStateID},
@@ -343,6 +348,7 @@ sub Run {
                 HistoryComment => '%%Move',
                 NoAgentNotify  => 1,
             );
+
             # get pre loaded attachment
             my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
                 FormID => $Self->{FormID},
@@ -425,7 +431,7 @@ sub AgentMove {
         $UserHash{''} = '-';
     }
     my $OldUserSelectedID = $Param{OldUserID};
-    if ( ! $OldUserSelectedID && $Param{OldUser}->[0]->{UserID} ) {
+    if ( !$OldUserSelectedID && $Param{OldUser}->[0]->{UserID} ) {
         $OldUserSelectedID = $Param{OldUser}->[0]->{UserID} . '1';
     }
 
@@ -446,10 +452,13 @@ sub AgentMove {
 
     # build owner string
     $Param{'OwnerStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => $Self->_GetUsers( QueueID => $Param{DestQueueID}, AllUsers => $Param{ExpandQueueUsers} ),
-        Name => 'NewUserID',
+        Data => $Self->_GetUsers(
+            QueueID  => $Param{DestQueueID},
+            AllUsers => $Param{ExpandQueueUsers}
+        ),
+        Name       => 'NewUserID',
         SelectedID => $Param{NewUserID},
-        OnClick => "change_selected(0)",
+        OnClick    => "change_selected(0)",
     );
     if ( $LatestQueueID && $MoveQueues{$LatestQueueID} ) {
         $Param{LatestQueue} = '$Text{"Latest Queue!"} "' . $MoveQueues{$LatestQueueID} . '"';
@@ -463,7 +472,7 @@ sub AgentMove {
         );
     }
     $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data           => { %MoveQueues, '' => '-' },
+        Data => { %MoveQueues, '' => '-' },
         Multiple       => 0,
         Size           => 0,
         Name           => 'DestQueueID',
@@ -486,8 +495,10 @@ sub AgentMove {
     }
 
     # show spell check
-    if (   $Self->{ConfigObject}->Get('SpellChecker')
-        && $Self->{LayoutObject}->{BrowserJavaScriptSupport} )
+    if (
+        $Self->{ConfigObject}->Get('SpellChecker')
+        && $Self->{LayoutObject}->{BrowserJavaScriptSupport}
+        )
     {
         $Self->{LayoutObject}->Block(
             Name => 'SpellCheck',

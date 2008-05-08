@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesPassword.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesPassword.pm,v 1.16 2008-02-12 22:02:14 martin Exp $
+# $Id: PreferencesPassword.pm,v 1.17 2008-05-08 09:36:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,17 +15,18 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # get needed objects
-    for (qw(ConfigObject LogObject DBObject LayoutObject UserID ParamObject ConfigItem MainObject)) {
+    for (qw(ConfigObject LogObject DBObject LayoutObject UserID ParamObject ConfigItem MainObject))
+    {
         die "Got no $_!" if !$Self->{$_};
     }
 
@@ -49,12 +50,14 @@ sub Param {
     }
     push(
         @Params,
-        {   %Param,
+        {
+            %Param,
             Key   => 'New password',
             Name  => 'NewPw',
             Block => 'Password'
         },
-        {   %Param,
+        {
+            %Param,
             Key   => 'New password again',
             Name  => 'NewPw1',
             Block => 'Password'
@@ -98,14 +101,18 @@ sub Run {
         $Self->{Error} = 'Can\'t update password, invalid characters!';
         return;
     }
-    if (   $Self->{ConfigItem}->{PasswordMinSize}
-        && $Pw !~ /^.{$Self->{ConfigItem}->{PasswordMinSize}}/ )
+    if (
+        $Self->{ConfigItem}->{PasswordMinSize}
+        && $Pw !~ /^.{$Self->{ConfigItem}->{PasswordMinSize}}/
+        )
     {
         $Self->{Error} = 'Can\'t update password, need min. 8 characters!';
         return;
     }
-    if ( $Self->{ConfigItem}->{PasswordMin2Lower2UpperCharacters}
-        && ( $Pw !~ /[A-Z]/ || $Pw !~ /[a-z]/ ) )
+    if (
+        $Self->{ConfigItem}->{PasswordMin2Lower2UpperCharacters}
+        && ( $Pw !~ /[A-Z]/ || $Pw !~ /[a-z]/ )
+        )
     {
         $Self->{Error} = 'Can\'t update password, need 2 lower and 2 upper characters!';
         return;
@@ -124,9 +131,11 @@ sub Run {
         String => $Pw,
     );
 
-    if (   $Self->{ConfigItem}->{PasswordHistory}
+    if (
+        $Self->{ConfigItem}->{PasswordHistory}
         && $Param{UserData}->{UserLastPw}
-        && ( $MD5Pw eq $Param{UserData}->{UserLastPw} ) )
+        && ( $MD5Pw eq $Param{UserData}->{UserLastPw} )
+        )
     {
         $Self->{Error} = "Password is already used! Please use an other password!";
         return;

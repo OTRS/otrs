@@ -2,7 +2,7 @@
 # Kernel/System/CSV.pm - all csv functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CSV.pm,v 1.17 2008-04-02 04:52:27 tr Exp $
+# $Id: CSV.pm,v 1.18 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Text::CSV;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =head1 NAME
 
@@ -82,8 +82,8 @@ Returns a csv formatted string based on a array with head data.
 sub Array2CSV {
     my ( $Self, %Param ) = @_;
 
-    my @Head   = ();
-    my @Data   = ( ['##No Data##'] );
+    my @Head = ();
+    my @Data = ( ['##No Data##'] );
 
     # check required params
     for (qw(Data)) {
@@ -117,22 +117,23 @@ sub Array2CSV {
     );
 
     my $Output = '';
+
     # if we have head param fill in header
     if (@Head) {
-        my $status = $CSV->combine( @Head );
-        $Output   .= $CSV->string() . "\n";
+        my $status = $CSV->combine(@Head);
+        $Output .= $CSV->string() . "\n";
     }
 
     # fill in data
     for my $Row (@Data) {
         my $Status = $CSV->combine( @{$Row} );
-        if ( $Status ) {
+        if ($Status) {
             $Output .= $CSV->string() . "\n";
         }
         else {
             $Self->{LogObject}->Log(
                 Priority => "error",
-                Message => "Failed to build line: " . $CSV->error_input(),
+                Message  => "Failed to build line: " . $CSV->error_input(),
             );
         }
     }
@@ -169,8 +170,9 @@ sub CSV2Array {
     # create new csv backend object
     my $CSV = Text::CSV->new(
         {
-#            quote_char          => $Param{Quote},
-#            escape_char         => $Param{Quote},
+
+            #            quote_char          => $Param{Quote},
+            #            escape_char         => $Param{Quote},
             sep_char            => $Param{Separator},
             eol                 => '',
             always_quote        => 0,
@@ -188,7 +190,7 @@ sub CSV2Array {
 
     # if you change the split options, remember that each value can include \n
     my @Lines = split( /$Param{Quote}\n/, $Param{String} );
-    for my $Line ( @Lines ) {
+    for my $Line (@Lines) {
         if ( $CSV->parse( $Line . $Param{Quote} ) ) {
             my @Fields = $CSV->fields();
             push( @Array, \@Fields );
@@ -196,7 +198,7 @@ sub CSV2Array {
         else {
             $Self->{LogObject}->Log(
                 Priority => "error",
-                Message => "Failed to parse line: " . $CSV->error_input(),
+                Message  => "Failed to parse line: " . $CSV->error_input(),
             );
         }
     }
@@ -218,6 +220,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2008-04-02 04:52:27 $
+$Revision: 1.18 $ $Date: 2008-05-08 09:36:19 $
 
 =cut

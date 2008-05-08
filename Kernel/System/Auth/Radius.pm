@@ -3,7 +3,7 @@
 # based on Martin Edenhofer's Kernel::System::Auth::DB
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Radius.pm,v 1.9 2008-02-20 22:05:35 martin Exp $
+# $Id: Radius.pm,v 1.10 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use warnings;
 use Authen::Radius;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,7 +41,8 @@ sub new {
     # get user table
     $Self->{RadiusHost} = $Self->{ConfigObject}->Get( 'AuthModule::Radius::Host' . $Param{Count} )
         || die "Need AuthModule::Radius::Host$Param{Count} in Kernel/Config.pm";
-    $Self->{RadiusSecret} = $Self->{ConfigObject}->Get( 'AuthModule::Radius::Password' . $Param{Count} )
+    $Self->{RadiusSecret}
+        = $Self->{ConfigObject}->Get( 'AuthModule::Radius::Password' . $Param{Count} )
         || die "Need AuthModule::Radius::Password$Param{Count} in Kernel/Config.pm";
 
     return $Self;

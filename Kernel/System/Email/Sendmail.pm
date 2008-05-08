@@ -2,7 +2,7 @@
 # Kernel/System/Email/Sendmail.pm - the global email send module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Sendmail.pm,v 1.26 2008-02-22 20:15:15 martin Exp $
+# $Id: Sendmail.pm,v 1.27 2008-05-08 09:36:20 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # debug
@@ -58,11 +58,11 @@ sub Send {
     # get recipients
     my $ToString = '';
     for my $To ( @{ $Param{ToArray} } ) {
-        if ( $ToString ) {
+        if ($ToString) {
             $ToString .= ", ";
         }
         $ToString .= $To;
-        $Arg      .= ' '.quotemeta($To);
+        $Arg .= ' ' . quotemeta($To);
     }
 
     # invoke sendmail in order to send off mail, catching errors in a temporary file

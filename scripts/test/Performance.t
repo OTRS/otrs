@@ -2,7 +2,7 @@
 # scripts/test/Performance.t - a performance testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Performance.t,v 1.4 2008-04-30 07:32:59 mh Exp $
+# $Id: Performance.t,v 1.5 2008-05-08 09:35:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Time::HiRes qw(gettimeofday tv_interval);
 #----------------------------------#
 # use - load classes
 #----------------------------------#
-my $StartUse = [gettimeofday()];
+my $StartUse = [ gettimeofday() ];
 
 use Kernel::System::AuthSession;
 use Kernel::System::Web::Request;
@@ -33,7 +33,7 @@ use Kernel::Modules::AgentTicketQueue;
 my $DiffTime = tv_interval($StartUse);
 $Self->True(
     1,
-    "$DiffTime seconds - for all 'use' calls." ,
+    "$DiffTime seconds - for all 'use' calls.",
 );
 
 #-----------------------------------#
@@ -42,11 +42,11 @@ $Self->True(
 #my $StartNew = [gettimeofday];
 
 $Self->{SessionObject} = Kernel::System::AuthSession->new(
-    ConfigObject   => $Self->{ConfigObject},
-    LogObject      => $Self->{LogObject},
-    DBObject       => $Self->{DBObject},
-    MainObject     => $Self->{MainObject},
-    TimeObject     => $Self->{TimeObject},
+    ConfigObject => $Self->{ConfigObject},
+    LogObject    => $Self->{LogObject},
+    DBObject     => $Self->{DBObject},
+    MainObject   => $Self->{MainObject},
+    TimeObject   => $Self->{TimeObject},
 );
 
 $Self->{ParamObject} = Kernel::System::Web::Request->new(
@@ -54,50 +54,50 @@ $Self->{ParamObject} = Kernel::System::Web::Request->new(
     WebRequest => $Param{WebRequest} || 0,
 );
 $Self->{QueueObject} = Kernel::System::Queue->new(
-    ConfigObject   => $Self->{ConfigObject},
-    LogObject      => $Self->{LogObject},
-    DBObject       => $Self->{DBObject},
-    MainObject     => $Self->{MainObject},
+    ConfigObject => $Self->{ConfigObject},
+    LogObject    => $Self->{LogObject},
+    DBObject     => $Self->{DBObject},
+    MainObject   => $Self->{MainObject},
 );
 $Self->{GroupObject} = Kernel::System::Group->new(
-    ConfigObject   => $Self->{ConfigObject},
-    LogObject      => $Self->{LogObject},
-    DBObject       => $Self->{DBObject},
+    ConfigObject => $Self->{ConfigObject},
+    LogObject    => $Self->{LogObject},
+    DBObject     => $Self->{DBObject},
 );
 $Self->{UserObject} = Kernel::System::User->new(
-    ConfigObject   => $Self->{ConfigObject},
-    LogObject      => $Self->{LogObject},
-    TimeObject     => $Self->{TimeObject},
-    MainObject     => $Self->{MainObject},
-    DBObject       => $Self->{DBObject},
+    ConfigObject => $Self->{ConfigObject},
+    LogObject    => $Self->{LogObject},
+    TimeObject   => $Self->{TimeObject},
+    MainObject   => $Self->{MainObject},
+    DBObject     => $Self->{DBObject},
 );
 
 #-----------------------------------------#
 # find the user with the most privileges
 #-----------------------------------------#
 
-my $StartMostImportantUser = [gettimeofday()];
-my %UserList = $Self->{UserObject}->UserList(
+my $StartMostImportantUser = [ gettimeofday() ];
+my %UserList               = $Self->{UserObject}->UserList(
     Type  => 'Short',
     Valid => 1,
 );
 
 my $GroupsCount = 0;
-for my $UserID (keys %UserList) {
+for my $UserID ( keys %UserList ) {
     my %Groups = $Self->{GroupObject}->GroupMemberList(
         UserID => $UserID,
         Type   => 'rw',
         Result => 'HASH',
     );
-    if ($GroupsCount < scalar keys  %Groups ) {
-        $GroupsCount = scalar keys  %Groups;
+    if ( $GroupsCount < scalar keys %Groups ) {
+        $GroupsCount = scalar keys %Groups;
         $Self->{UserID} = $UserID;
     }
 }
 $DiffTime = tv_interval($StartMostImportantUser);
 $Self->True(
     1,
-    "$DiffTime seconds - find the user with the most privileges ($UserList{$Self->{UserID}}). To get an useful user for the following tests." ,
+    "$DiffTime seconds - find the user with the most privileges ($UserList{$Self->{UserID}}). To get an useful user for the following tests.",
 );
 
 #-----------------------------------#
@@ -105,32 +105,32 @@ $Self->True(
 #-----------------------------------#
 
 $Self->{TicketObject} = Kernel::System::Ticket->new(
-    ConfigObject   => $Self->{ConfigObject},
-    LogObject      => $Self->{LogObject},
-    TimeObject     => $Self->{TimeObject},
-    MainObject     => $Self->{MainObject},
-    DBObject       => $Self->{DBObject},
+    ConfigObject => $Self->{ConfigObject},
+    LogObject    => $Self->{LogObject},
+    TimeObject   => $Self->{TimeObject},
+    MainObject   => $Self->{MainObject},
+    DBObject     => $Self->{DBObject},
 );
 
 $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new(
-    ConfigObject   => $Self->{ConfigObject},
-    LogObject      => $Self->{LogObject},
-    TimeObject     => $Self->{TimeObject},
-    MainObject     => $Self->{MainObject},
-    EncodeObject   => $Self->{EncodeObject},
-    SessionObject  => $Self->{SessionObject},
-    DBObject       => $Self->{DBObject},
-    ParamObject    => $Self->{ParamObject},
-    TicketObject   => $Self->{TicketObject},
-    GroupObject    => $Self->{GroupObject},
-    QueueObject    => $Self->{QueueObject},
-    UserObject     => $Self->{UserObject},
-    Action         => 'AgentTicketQueue',
-    UserID         => 2,
-    Lang => 'de',
+    ConfigObject  => $Self->{ConfigObject},
+    LogObject     => $Self->{LogObject},
+    TimeObject    => $Self->{TimeObject},
+    MainObject    => $Self->{MainObject},
+    EncodeObject  => $Self->{EncodeObject},
+    SessionObject => $Self->{SessionObject},
+    DBObject      => $Self->{DBObject},
+    ParamObject   => $Self->{ParamObject},
+    TicketObject  => $Self->{TicketObject},
+    GroupObject   => $Self->{GroupObject},
+    QueueObject   => $Self->{QueueObject},
+    UserObject    => $Self->{UserObject},
+    Action        => 'AgentTicketQueue',
+    UserID        => 2,
+    Lang          => 'de',
 );
 
-$Self->{QueueObject} = Kernel::System::Queue->new( %{$Self} );
+$Self->{QueueObject}            = Kernel::System::Queue->new( %{$Self} );
 $Self->{AgentTicketQueueObject} = Kernel::Modules::AgentTicketQueue->new( %{$Self} );
 
 #$DiffTime = tv_interval($StartNew);
@@ -142,25 +142,25 @@ $Self->{AgentTicketQueueObject} = Kernel::Modules::AgentTicketQueue->new( %{$Sel
 #----------------------------------#
 # GetOverTimeTickets
 #----------------------------------#
-my $StartGetOverTimeTickets = [gettimeofday()];
+my $StartGetOverTimeTickets = [ gettimeofday() ];
 my @EscalationTickets = $Self->{TicketObject}->GetOverTimeTickets( UserID => 1 );
 
 # this check is only to display how long it had take
 $DiffTime = tv_interval($StartGetOverTimeTickets);
 $Self->True(
     1,
-    "$DiffTime seconds - to handle GetOverTimeTickets." ,
+    "$DiffTime seconds - to handle GetOverTimeTickets.",
 );
 
 #----------------------------------#
 # NavigationBar
 #----------------------------------#
-my $StartNavigationBar = [gettimeofday()];
-my $Output = $Self->{LayoutObject}->NavigationBar();
+my $StartNavigationBar = [ gettimeofday() ];
+my $Output             = $Self->{LayoutObject}->NavigationBar();
 $DiffTime = tv_interval($StartNavigationBar);
 $Self->True(
     1,
-    "$DiffTime seconds - to handle NavigationBar." ,
+    "$DiffTime seconds - to handle NavigationBar.",
 );
 
 #-----------------------------------------------------#
@@ -172,17 +172,17 @@ my @TicketIDs = $Self->{TicketObject}->TicketSearch(
     StateType => 'Open',
     UserID    => 1,
 );
-my $StartShowTicket = [gettimeofday()];
+my $StartShowTicket = [ gettimeofday() ];
 
 for my $TicketID (@TicketIDs) {
-    $Self->{AgentTicketQueueObject}->ShowTicket(TicketID => $TicketID);
+    $Self->{AgentTicketQueueObject}->ShowTicket( TicketID => $TicketID );
 }
 
 $DiffTime = tv_interval($StartShowTicket);
 
 $Self->True(
     1,
-    "$DiffTime seconds - to handle ShowTicket." ,
+    "$DiffTime seconds - to handle ShowTicket.",
 );
 
 #----------------------------------#
@@ -191,7 +191,7 @@ $Self->True(
 $DiffTime = tv_interval($StartUse);
 $Self->True(
     1,
-    "$DiffTime seconds - to handle all functions." ,
+    "$DiffTime seconds - to handle all functions.",
 );
 
 # Stopped workink at Layout.pm to simplify the Output and ASCI2HTML function

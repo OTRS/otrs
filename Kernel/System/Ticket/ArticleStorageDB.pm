@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageDB.pm,v 1.54 2008-05-08 08:14:47 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.55 2008-05-08 09:36:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -72,7 +72,7 @@ sub ArticleDelete {
     );
 
     # delete article flags
-    return if ! $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL  => 'DELETE FROM article_flag WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ],
     );
@@ -84,7 +84,7 @@ sub ArticleDelete {
     );
 
     # delete articles
-    return if ! $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL  => 'DELETE FROM article WHERE id = ?',
         Bind => [ \$Param{ArticleID} ],
     );
@@ -130,7 +130,7 @@ sub ArticleDeletePlain {
     }
 
     # delete attachments
-    return if ! $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL  => 'DELETE FROM article_plain WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ],
     );
@@ -162,7 +162,7 @@ sub ArticleDeleteAttachment {
     }
 
     # delete attachments
-    return if ! $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL  => 'DELETE FROM article_attachment WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ],
     );
@@ -210,7 +210,7 @@ sub ArticleWritePlain {
 
     # write article to db 1:1
     return $Self->{DBObject}->Do(
-        SQL  => 'INSERT INTO article_plain '
+        SQL => 'INSERT INTO article_plain '
             . ' (article_id, body, create_time, create_by, change_time, change_by) '
             . ' VALUES (?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [ \$Param{ArticleID}, \$Param{Email}, \$Param{UserID}, \$Param{UserID} ],
@@ -332,7 +332,7 @@ sub ArticlePlain {
             Mode      => 'binmode',
         );
         if ($Data) {
-            return ${ $Data };
+            return ${$Data};
         }
         else {
             return;
@@ -398,7 +398,7 @@ sub ArticleAttachmentIndex {
     if ( !%Index ) {
         my @List = glob("$Self->{ArticleDataDir}/$Param{ContentPath}/$Param{ArticleID}/*");
         for my $Filename (@List) {
-            my $FileSize = -s $Filename;
+            my $FileSize    = -s $Filename;
             my $FileSizeRaw = $FileSize;
 
             # convert the file name in utf-8 if utf-8 is used
@@ -430,7 +430,7 @@ sub ArticleAttachmentIndex {
                     Location => "$Filename.content_type",
                 );
                 if ($Content) {
-                    $ContentType = ${ $Content };
+                    $ContentType = ${$Content};
                 }
                 else {
                     return;
@@ -513,7 +513,7 @@ sub ArticleAttachment {
                             Location => "$Filename.content_type",
                         );
                         if ($Content) {
-                            $Data{ContentType} = ${ $Content };
+                            $Data{ContentType} = ${$Content};
                         }
                         else {
                             return;
@@ -525,7 +525,7 @@ sub ArticleAttachment {
                             Mode     => 'binmode',
                         );
                         if ($Content) {
-                            $Data{Content} = ${ $Content };
+                            $Data{Content} = ${$Content};
                         }
                         else {
                             return;
@@ -541,7 +541,7 @@ sub ArticleAttachment {
                         );
                         if ($Content) {
                             $Data{ContentType} = $Content->[0];
-                            for my $Line (@{$Content}) {
+                            for my $Line ( @{$Content} ) {
                                 if ($Counter) {
                                     $Data{Content} .= $Line;
                                 }
@@ -552,8 +552,10 @@ sub ArticleAttachment {
                             return;
                         }
                     }
-                    if (   $Data{ContentType} =~ /plain\/text/i
-                        && $Data{ContentType} =~ /(utf\-8|utf8)/i )
+                    if (
+                        $Data{ContentType} =~ /plain\/text/i
+                        && $Data{ContentType} =~ /(utf\-8|utf8)/i
+                        )
                     {
                         $Self->{EncodeObject}->Encode( \$Data{Content} );
                     }
@@ -590,7 +592,8 @@ sub ArticleAttachment {
         else {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "No article attachment (article id $Param{ArticleID}, file id $Param{FileID}) in database!",
+                Message =>
+                    "No article attachment (article id $Param{ArticleID}, file id $Param{FileID}) in database!",
             );
             return;
         }

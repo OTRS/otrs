@@ -2,7 +2,7 @@
 # Kernel/System/DB/mysql.pm - mysql database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: mysql.pm,v 1.36 2008-05-07 10:01:25 mh Exp $
+# $Id: mysql.pm,v 1.37 2008-05-08 09:36:20 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     return $Self;
@@ -54,8 +54,11 @@ sub LoadPreferences {
     #$Self->{'DB::ShellConnect'} = '';
 
     # init sql setting on db connect
-    if ( $Self->{ConfigObject}->Get('DefaultCharset') =~ /(utf(\-8|8))/i
-        && !$Self->{ConfigObject}->Get('Database::ShellOutput') )
+    if (
+        $Self->{ConfigObject}->Get('DefaultCharset')
+        =~ /(utf(\-8|8))/i
+        && !$Self->{ConfigObject}->Get('Database::ShellOutput')
+        )
     {
         $Self->{'DB::Connect'} = 'SET NAMES utf8';
     }
@@ -129,13 +132,17 @@ sub TableCreate {
     my @Return       = ();
     for my $Tag (@Param) {
 
-        if ( ( $Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate' )
-            && $Tag->{TagType} eq 'Start' )
+        if (
+            ( $Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate' )
+            && $Tag->{TagType} eq 'Start'
+            )
         {
             if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
-                $SQLStart .= $Self->{'DB::Comment'} . "----------------------------------------------------------\n";
+                $SQLStart .= $Self->{'DB::Comment'}
+                    . "----------------------------------------------------------\n";
                 $SQLStart .= $Self->{'DB::Comment'} . " create table $Tag->{Name}\n";
-                $SQLStart .= $Self->{'DB::Comment'} . "----------------------------------------------------------\n";
+                $SQLStart .= $Self->{'DB::Comment'}
+                    . "----------------------------------------------------------\n";
             }
         }
         if ( $Tag->{Tag} eq 'Table' || $Tag->{Tag} eq 'TableCreate' ) {
@@ -274,7 +281,7 @@ sub TableCreate {
                     Local            => $Array[$_]->{Local},
                     ForeignTableName => $ForeignKey,
                     Foreign          => $Array[$_]->{Foreign},
-                )
+                    )
             );
         }
     }
@@ -288,9 +295,11 @@ sub TableDrop {
     for my $Tag (@Param) {
         if ( $Tag->{Tag} eq 'Table' && $Tag->{TagType} eq 'Start' ) {
             if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
-                $SQL .= $Self->{'DB::Comment'} . "----------------------------------------------------------\n";
+                $SQL .= $Self->{'DB::Comment'}
+                    . "----------------------------------------------------------\n";
                 $SQL .= $Self->{'DB::Comment'} . " drop table $Tag->{Name}\n";
-                $SQL .= $Self->{'DB::Comment'} . "----------------------------------------------------------\n";
+                $SQL .= $Self->{'DB::Comment'}
+                    . "----------------------------------------------------------\n";
             }
         }
         $SQL .= 'DROP TABLE IF EXISTS ' . $Tag->{Name};
@@ -311,13 +320,17 @@ sub TableAlter {
     my @Reference     = ();
     my $Table         = '';
     for my $Tag (@Param) {
+
         if ( $Tag->{Tag} eq 'TableAlter' && $Tag->{TagType} eq 'Start' ) {
             $Table = $Tag->{Name} || $Tag->{NameNew};
             if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
-                $SQLStart .= $Self->{'DB::Comment'} . "----------------------------------------------------------\n";
+                $SQLStart .= $Self->{'DB::Comment'}
+                    . "----------------------------------------------------------\n";
                 $SQLStart .= $Self->{'DB::Comment'} . " alter table $Table\n";
-                $SQLStart .= $Self->{'DB::Comment'} . "----------------------------------------------------------\n";
+                $SQLStart .= $Self->{'DB::Comment'}
+                    . "----------------------------------------------------------\n";
             }
+
             # rename table
             if ( $Tag->{NameOld} && $Tag->{NameNew} ) {
                 push @SQL, $SQLStart . "ALTER TABLE $Tag->{NameOld} RENAME $Tag->{NameNew}";
@@ -337,13 +350,16 @@ sub TableAlter {
             push @SQL, $SQLEnd;
             if ( $Tag->{Default} ) {
                 if ( $Tag->{Type} =~ /int/i ) {
-                    push @SQL, "UPDATE $Table SET $Tag->{Name} = $Tag->{Default} WHERE $Tag->{Name} IS NULL";
+                    push @SQL,
+                        "UPDATE $Table SET $Tag->{Name} = $Tag->{Default} WHERE $Tag->{Name} IS NULL";
                 }
                 else {
-                    push @SQL, "UPDATE $Table SET $Tag->{Name} = '$Tag->{Default}' WHERE $Tag->{Name} IS NULL";
+                    push @SQL,
+                        "UPDATE $Table SET $Tag->{Name} = '$Tag->{Default}' WHERE $Tag->{Name} IS NULL";
                 }
                 if ( $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
-                    push @SQL, "ALTER TABLE $Table CHANGE $Tag->{Name} $Tag->{Name} $Tag->{Type} NOT NULL";
+                    push @SQL,
+                        "ALTER TABLE $Table CHANGE $Tag->{Name} $Tag->{Name} $Tag->{Type} NOT NULL";
                 }
             }
         }
@@ -377,7 +393,7 @@ sub TableAlter {
                 $IndexName = $Tag->{Name};
             }
             if ( $Tag->{TagType} eq 'End' ) {
-                push @SQL,   $Self->$Method(
+                push @SQL, $Self->$Method(
                     TableName => $Table,
                     Name      => $IndexName,
                     Data      => \@Index,
@@ -396,7 +412,7 @@ sub TableAlter {
             }
             if ( $Tag->{TagType} eq 'End' ) {
                 for my $Reference (@Reference) {
-                    push @SQL,   $Self->$Method(
+                    push @SQL, $Self->$Method(
                         LocalTableName   => $Table,
                         Local            => $Reference->{Local},
                         ForeignTableName => $ForeignTable,
@@ -425,7 +441,7 @@ sub IndexCreate {
         }
     }
 
-    my $SQL = "CREATE INDEX $Param{Name} ON $Param{TableName} (";
+    my $SQL   = "CREATE INDEX $Param{Name} ON $Param{TableName} (";
     my @Array = @{ $Param{Data} };
     for ( 0 .. $#Array ) {
         if ( $_ > 0 ) {
@@ -538,9 +554,11 @@ sub Insert {
     for my $Tag (@Param) {
         if ( $Tag->{Tag} eq 'Insert' && $Tag->{TagType} eq 'Start' ) {
             if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
-                $SQL .= $Self->{'DB::Comment'} . "----------------------------------------------------------\n";
+                $SQL .= $Self->{'DB::Comment'}
+                    . "----------------------------------------------------------\n";
                 $SQL .= $Self->{'DB::Comment'} . " insert into table $Tag->{Table}\n";
-                $SQL .= $Self->{'DB::Comment'} . "----------------------------------------------------------\n";
+                $SQL .= $Self->{'DB::Comment'}
+                    . "----------------------------------------------------------\n";
             }
             $SQL .= "INSERT INTO $Tag->{Table} ";
         }
@@ -552,7 +570,7 @@ sub Insert {
                 $Value = $Tag->{Value};
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message => 'The content for inserts is not longer appreciated '
+                    Message  => 'The content for inserts is not longer appreciated '
                         . 'attribut Value, use Content from now on! Reason: You can\'t '
                         . 'use new lines in attributes.',
                 );

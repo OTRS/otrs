@@ -3,7 +3,7 @@
 # bin/PostMasterMailbox.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMasterMailbox.pl,v 1.1 2008-03-28 11:32:36 martin Exp $
+# $Id: PostMasterMailbox.pl,v 1.2 2008-05-08 09:36:57 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -48,7 +48,8 @@ getopt( 'upshdft', \%Opts );
 if ( $Opts{'h'} ) {
     print "PostMasterMailbox.pl <Revision $VERSION> - Fetch mail accounts for OTRS\n";
     print "Copyright (c) 2001-2008 OTRS AG, http://otrs.org/\n";
-    print "usage: PostMasterMailbox.pl -t <TYPE> (POP3|POP3S|IMAP|IMAPS) -s <SERVER> -u <USER> -p <PASSWORD> [-d 1-2] [-f force]\n";
+    print
+        "usage: PostMasterMailbox.pl -t <TYPE> (POP3|POP3S|IMAP|IMAPS) -s <SERVER> -u <USER> -p <PASSWORD> [-d 1-2] [-f force]\n";
     exit 1;
 }
 if ( !$Opts{'d'} ) {
@@ -70,7 +71,8 @@ $CommonObject{MailAccount} = Kernel::System::MailAccount->new(%CommonObject);
 
 # create pid lock
 if ( !$Opts{'f'} && !$CommonObject{PIDObject}->PIDCreate( Name => 'PostMasterMailbox' ) ) {
-    print "Notice: PostMasterMailbox.pl is already running (use '-f 1' if you want to start it forced)!\n";
+    print
+        "Notice: PostMasterMailbox.pl is already running (use '-f 1' if you want to start it forced)!\n";
     exit 1;
 }
 elsif ( $Opts{'f'} && !$CommonObject{PIDObject}->PIDCreate( Name => 'PostMasterMailbox' ) ) {
@@ -114,16 +116,16 @@ if ( $Opts{'s'} || $Opts{'u'} || $Opts{'p'} || $Opts{'t'} ) {
         exit 1;
     }
     $CommonObject{MailAccount}->MailAccountFetch(
-        Login    => $Opts{'u'},
-        Password => $Opts{'p'},
-        Host     => $Opts{'s'},
-        Type     => $Opts{'t'},
-        Trusted  => 0,
+        Login         => $Opts{'u'},
+        Password      => $Opts{'p'},
+        Host          => $Opts{'s'},
+        Type          => $Opts{'t'},
+        Trusted       => 0,
         DispatchingBy => '',
-        QueueID  => 0,
-        Debug    => $Opts{'d'},
-        CMD      => 1,
-        UserID   => 1,
+        QueueID       => 0,
+        Debug         => $Opts{'d'},
+        CMD           => 1,
+        UserID        => 1,
     );
 }
 else {

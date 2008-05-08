@@ -3,7 +3,7 @@
 # otrs.CreateNewTranslationFile - create new translation file
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CreateNewTranslationFile,v 1.23 2008-03-07 16:44:14 martin Exp $
+# $Id: otrs.CreateNewTranslationFile,v 1.24 2008-05-08 09:36:57 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION %Opts);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -61,7 +61,8 @@ if ( !$Opts{'l'} ) {
     exit 1;
 }
 else {
-    $Opts{LanguageFile} = $CommonObject{ConfigObject}->Get('Home') . "/Kernel/Language/$Opts{'l'}.pm";
+    $Opts{LanguageFile}
+        = $CommonObject{ConfigObject}->Get('Home') . "/Kernel/Language/$Opts{'l'}.pm";
     if ( !-f $Opts{LanguageFile} ) {
         print "ERROR: Not translation file: $Opts{LanguageFile}!\n";
         exit 1;
@@ -220,6 +221,7 @@ while (<IN>) {
             . "    \$Self->{DateFormatShort} = '$CommonObject{LanguageObject}->{DateFormatShort}';\n"
             . "    \$Self->{DateInputFormat} = '$CommonObject{LanguageObject}->{DateInputFormat}';\n"
             . "    \$Self->{DateInputFormatLong} = '$CommonObject{LanguageObject}->{DateInputFormatLong}';\n\n";
+
         if ( $CommonObject{LanguageObject}->{TextDirection} ) {
             $NewOut .= "    # TextDirection rtl or ltr\n";
             $NewOut

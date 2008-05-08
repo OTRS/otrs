@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.23 2008-04-02 09:58:38 ak Exp $
+# $Id: CustomerTicketZoom.pm,v 1.24 2008-05-08 09:36:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,13 +18,13 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check needed objects
@@ -73,7 +73,8 @@ sub Run {
     }
 
     # check permissions
-    if (!$Self->{TicketObject}->CustomerPermission(
+    if (
+        !$Self->{TicketObject}->CustomerPermission(
             Type     => 'ro',
             TicketID => $Self->{TicketID},
             UserID   => $Self->{UserID}
@@ -98,15 +99,17 @@ sub Run {
     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
 
     # get params
-    for ( qw(
+    for (
+        qw(
         Subject Body StateID PriorityID
         AttachmentUpload
         AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
         AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
         AttachmentDelete9 AttachmentDelete10
-        ) )
+        )
+        )
     {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
+        $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
     }
 
     # check follow up
@@ -116,7 +119,8 @@ sub Run {
 
         # rewrap body if exists
         if ( $GetParam{Body} ) {
-            $GetParam{Body} =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote')})(?:\s|\z)/$1\n/gm;
+            $GetParam{Body}
+                =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote')})(?:\s|\z)/$1\n/gm;
         }
 
         # get follow up option (possible or not)
@@ -182,7 +186,8 @@ sub Run {
                 );
             }
             my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>";
-            if (my $ArticleID = $Self->{TicketObject}->ArticleCreate(
+            if (
+                my $ArticleID = $Self->{TicketObject}->ArticleCreate(
                     TicketID    => $Self->{TicketID},
                     ArticleType => $Self->{Config}->{ArticleType},
                     SenderType  => $Self->{Config}->{SenderType},
@@ -267,16 +272,16 @@ sub Run {
         }
     }
 
-    $Ticket{TmpCounter} = 0;
+    $Ticket{TmpCounter}      = 0;
     $Ticket{TicketTimeUnits} = $Self->{TicketObject}->TicketAccountedTimeGet(
         TicketID => $Ticket{TicketID},
     );
 
     # get all atricle of this ticket
-    my @CustomerArticleTypes = $Self->{TicketObject}->ArticleTypeList(Type => 'Customer');
+    my @CustomerArticleTypes = $Self->{TicketObject}->ArticleTypeList( Type => 'Customer' );
     my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
-        TicketID => $Self->{TicketID},
-        ArticleType => \@CustomerArticleTypes,
+        TicketID                   => $Self->{TicketID},
+        ArticleType                => \@CustomerArticleTypes,
         StripPlainBodyAsAttachment => 1,
     );
 
@@ -336,7 +341,7 @@ sub _Mask {
         my %Article = %$ArticleTmp;
 
         # if it is a customer article
-        if ( $Article{SenderType} eq 'customer' && $Article{ArticleType} !~ /int/) {
+        if ( $Article{SenderType} eq 'customer' && $Article{ArticleType} !~ /int/ ) {
             $LastCustomerArticleID = $Article{'ArticleID'};
             $LastCustomerArticle   = $CounterArray;
         }
@@ -378,7 +383,7 @@ sub _Mask {
         $CounterTree++;
         my $TmpSubject = $Self->{TicketObject}->TicketSubjectClean(
             TicketNumber => $Article{TicketNumber},
-            Subject      => $Article{Subject} || '',
+            Subject => $Article{Subject} || '',
         );
         if ( $LastSenderType ne $Article{SenderType} ) {
             $Counter .= "&nbsp;";
@@ -408,9 +413,12 @@ sub _Mask {
         );
 
         # add attachment icon
-        if (   $Article{Atms}
+        if (
+            $Article{Atms}
             && %{ $Article{Atms} }
-            && $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplay') ) {
+            && $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplay')
+            )
+        {
             my $Title = '';
 
             # download type
@@ -421,9 +429,13 @@ sub _Mask {
             if ( $Type =~ /inline/i ) {
                 $Target = 'target="attachment" ';
             }
-            for my $Count ( 1 .. ( $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplayCount') + 1 ) ) {
+            for my $Count (
+                1 .. ( $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplayCount') + 1 )
+                )
+            {
                 if ( $Article{Atms}->{$Count} ) {
-                    if ( $Count > $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplayCount') ) {
+                    if ( $Count > $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplayCount') )
+                    {
                         $Self->{LayoutObject}->Block(
                             Name => 'TreeItemAttachmentMore',
                             Data => {
@@ -493,7 +505,8 @@ sub _Mask {
                 Data => {
                     %File,
                     Action => 'Download',
-                    Link => "\$Env{\"Baselink\"}Action=CustomerTicketAttachment&ArticleID=$Article{ArticleID}&FileID=$FileID",
+                    Link =>
+                        "\$Env{\"Baselink\"}Action=CustomerTicketAttachment&ArticleID=$Article{ArticleID}&FileID=$FileID",
                     Image  => 'disk-s.png',
                     Target => $Target,
                 },
@@ -531,7 +544,8 @@ sub _Mask {
         );
 
         # do charset check
-        if (my $CharsetText = $Self->{LayoutObject}->CheckCharset(
+        if (
+            my $CharsetText = $Self->{LayoutObject}->CheckCharset(
                 ContentCharset => $Article{ContentCharset},
                 TicketID       => $Param{TicketID},
                 ArticleID      => $Article{ArticleID}
@@ -564,13 +578,16 @@ sub _Mask {
         ID    => $Article{StateID},
         Cache => 1,
     );
-    if ($Self->{TicketObject}->CustomerPermission(
+    if (
+        $Self->{TicketObject}->CustomerPermission(
             Type     => 'update',
             TicketID => $Self->{TicketID},
             UserID   => $Self->{UserID}
         )
-        && ( ( $FollowUpPossible !~ /(new ticket|reject)/i && $State{TypeName} =~ /^close/i )
-            || $State{TypeName} !~ /^close/i )
+        && (
+            ( $FollowUpPossible !~ /(new ticket|reject)/i && $State{TypeName} =~ /^close/i )
+            || $State{TypeName} !~ /^close/i
+        )
         )
     {
         $Self->{LayoutObject}->Block(
@@ -663,38 +680,38 @@ sub _Mask {
     }
 
     # ticket free text
-    for my $Count (1..16) {
-        if ( $Article{'TicketFreeText'.$Count} ) {
+    for my $Count ( 1 .. 16 ) {
+        if ( $Article{ 'TicketFreeText' . $Count } ) {
             $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeText'.$Count,
+                Name => 'TicketFreeText' . $Count,
                 Data => { %Param, %Article },
             );
             $Self->{LayoutObject}->Block(
                 Name => 'TicketFreeText',
                 Data => {
                     %Param, %Article,
-                    TicketFreeKey => $Article{'TicketFreeKey'.$Count},
-                    TicketFreeText => $Article{'TicketFreeText'.$Count},
-                    Count => $Count,
+                    TicketFreeKey  => $Article{ 'TicketFreeKey' . $Count },
+                    TicketFreeText => $Article{ 'TicketFreeText' . $Count },
+                    Count          => $Count,
                 },
             );
         }
     }
 
     # ticket free time
-    for my $Count (1..6) {
-        if ( $Article{'TicketFreeTime'.$Count} ) {
+    for my $Count ( 1 .. 6 ) {
+        if ( $Article{ 'TicketFreeTime' . $Count } ) {
             $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeTime'.$Count,
+                Name => 'TicketFreeTime' . $Count,
                 Data => { %Param, %Article },
             );
             $Self->{LayoutObject}->Block(
                 Name => 'TicketFreeTime',
                 Data => {
                     %Param, %Article,
-                    TicketFreeTimeKey  => $Self->{ConfigObject}->Get('TicketFreeTimeKey'.$Count),
-                    TicketFreeTime => $Article{'TicketFreeTime'.$Count},
-                    Count => $Count,
+                    TicketFreeTimeKey => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count ),
+                    TicketFreeTime    => $Article{ 'TicketFreeTime' . $Count },
+                    Count             => $Count,
                 },
             );
         }
@@ -703,7 +720,7 @@ sub _Mask {
     # select the output template
     return $Self->{LayoutObject}->Output(
         TemplateFile => 'CustomerTicketZoom',
-        Data         => { %Article, %Param, },
+        Data => { %Article, %Param, },
     );
 }
 

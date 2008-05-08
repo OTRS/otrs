@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - print layout for agent interface
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.pm,v 1.50 2008-04-11 15:45:46 martin Exp $
+# $Id: AgentTicketPrint.pm,v 1.51 2008-05-08 09:36:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,17 +19,20 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check needed objects
-    for ( qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject UserObject MainObject)) {
+    for (
+        qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject UserObject MainObject)
+        )
+    {
         if ( !$Self->{$_} ) {
             $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
         }
@@ -49,7 +52,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $Output;
-    my $QueueID   = $Self->{TicketObject}->TicketQueueID( TicketID => $Self->{TicketID} );
+    my $QueueID = $Self->{TicketObject}->TicketQueueID( TicketID => $Self->{TicketID} );
     my $ArticleID = $Self->{ParamObject}->GetParam( Param => 'ArticleID' );
 
     # check needed stuff
@@ -77,21 +80,21 @@ sub Run {
     );
 
     # get content
-    my %Ticket     = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
+    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
     my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
         TicketID                   => $Self->{TicketID},
         StripPlainBodyAsAttachment => 1,
     );
 
     # check if only one article need printed
-    if ( $ArticleID ) {
+    if ($ArticleID) {
         my @NewArticleBox;
-        for my $Article ( @ArticleBox ) {
+        for my $Article (@ArticleBox) {
             if ( $Article->{ArticleID} == $ArticleID ) {
-                @NewArticleBox = ( $Article );
+                @NewArticleBox = ($Article);
             }
         }
-        if ( @NewArticleBox ) {
+        if (@NewArticleBox) {
             @ArticleBox = @NewArticleBox;
         }
     }
@@ -187,7 +190,8 @@ sub Run {
         );
 
         # create first pdf page
-        $Self->{PDFObject}->PageNew( %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount}, );
+        $Self->{PDFObject}
+            ->PageNew( %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount}, );
         $Page{PageCount}++;
 
         # output ticket infos
@@ -311,22 +315,28 @@ sub _PDFOutputTicketInfos {
 
     # create left table
     my $TableLeft = [
-        {   Key   => $Self->{LayoutObject}->{LanguageObject}->Get('State') . ':',
+        {
+            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('State') . ':',
             Value => $Self->{LayoutObject}->{LanguageObject}->Get( $Ticket{State} ),
         },
-        {   Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Priority') . ':',
+        {
+            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Priority') . ':',
             Value => $Self->{LayoutObject}->{LanguageObject}->Get( $Ticket{Priority} ),
         },
-        {   Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Queue') . ':',
+        {
+            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Queue') . ':',
             Value => $Ticket{Queue},
         },
-        {   Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Lock') . ':',
+        {
+            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Lock') . ':',
             Value => $Self->{LayoutObject}->{LanguageObject}->Get( $Ticket{Lock} ),
         },
-        {   Key   => $Self->{LayoutObject}->{LanguageObject}->Get('CustomerID') . ':',
+        {
+            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('CustomerID') . ':',
             Value => $Ticket{CustomerID},
         },
-        {   Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Owner') . ':',
+        {
+            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Owner') . ':',
             Value => $Ticket{Owner} . ' ('
                 . $UserInfo{UserFirstname} . ' '
                 . $UserInfo{UserLastname} . ')',
@@ -361,12 +371,12 @@ sub _PDFOutputTicketInfos {
     # add service and sla row, if feature is enabled
     if ( $Self->{ConfigObject}->Get('Ticket::Service') ) {
         my $RowService = {
-            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Service') . ':',
+            Key => $Self->{LayoutObject}->{LanguageObject}->Get('Service') . ':',
             Value => $Ticket{Service} || '-',
         };
         push( @{$TableLeft}, $RowService );
         my $RowSLA = {
-            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('SLA') . ':',
+            Key => $Self->{LayoutObject}->{LanguageObject}->Get('SLA') . ':',
             Value => $Ticket{SLA} || '-',
         };
         push( @{$TableLeft}, $RowSLA );
@@ -374,19 +384,23 @@ sub _PDFOutputTicketInfos {
 
     # create right table
     my $TableRight = [
-        {   Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Age') . ':',
+        {
+            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Age') . ':',
             Value => $Self->{LayoutObject}->{LanguageObject}->Get( $Ticket{Age} ),
         },
-        {   Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Created') . ':',
+        {
+            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Created') . ':',
             Value => $Self->{LayoutObject}->Output(
                 Template => '$TimeLong{"$Data{"Created"}"}',
                 Data     => \%Ticket,
             ),
         },
-        {   Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Accounted time') . ':',
+        {
+            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Accounted time') . ':',
             Value => $Ticket{TicketTimeUnits},
         },
-        {   Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Pending till') . ':',
+        {
+            Key   => $Self->{LayoutObject}->{LanguageObject}->Get('Pending till') . ':',
             Value => $Ticket{PendingUntil},
         },
     ];
@@ -471,7 +485,8 @@ sub _PDFOutputTicketInfos {
             last;
         }
         else {
-            $Self->{PDFObject}->PageNew( %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount}, );
+            $Self->{PDFObject}
+                ->PageNew( %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount}, );
             $Page{PageCount}++;
         }
     }
@@ -583,8 +598,9 @@ sub _PDFOutputLinkedObjects {
                 last;
             }
             else {
-                $Self->{PDFObject}
-                    ->PageNew( %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount}, );
+                $Self->{PDFObject}->PageNew(
+                    %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount},
+                );
                 $Page{PageCount}++;
             }
         }
@@ -668,7 +684,8 @@ sub _PDFOutputTicketFreeText {
                 last;
             }
             else {
-                $Self->{PDFObject}->PageNew( %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount}, );
+                $Self->{PDFObject}
+                    ->PageNew( %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount}, );
                 $Page{PageCount}++;
             }
         }
@@ -703,7 +720,7 @@ sub _PDFOutputTicketFreeTime {
             $TableParam{CellData}[$Row][0]{Font}    = 'ProportionalBold';
             $TableParam{CellData}[$Row][1]{Content} = $Self->{LayoutObject}->Output(
                 Template => '$TimeLong{"$Data{"TicketFreeTime"}"}',
-                Data     => { TicketFreeTime => $TicketFreeTime, },
+                Data => { TicketFreeTime => $TicketFreeTime, },
             );
 
             $Row++;
@@ -758,8 +775,9 @@ sub _PDFOutputTicketFreeTime {
                 last;
             }
             else {
-                $Self->{PDFObject}
-                    ->PageNew( %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount}, );
+                $Self->{PDFObject}->PageNew(
+                    %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount},
+                );
                 $Page{PageCount}++;
             }
         }
@@ -849,7 +867,8 @@ sub _PDFOutputCustomerInfos {
                 last;
             }
             else {
-                $Self->{PDFObject}->PageNew( %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount}, );
+                $Self->{PDFObject}
+                    ->PageNew( %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount}, );
                 $Page{PageCount}++;
             }
         }
@@ -980,8 +999,9 @@ sub _PDFOutputArticles {
                 last;
             }
             else {
-                $Self->{PDFObject}
-                    ->PageNew( %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount}, );
+                $Self->{PDFObject}->PageNew(
+                    %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount},
+                );
                 $Page{PageCount}++;
             }
         }
@@ -1009,7 +1029,8 @@ sub _PDFOutputArticles {
                 last;
             }
             else {
-                $Self->{PDFObject}->PageNew( %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount}, );
+                $Self->{PDFObject}
+                    ->PageNew( %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount}, );
                 $Page{PageCount}++;
             }
         }
@@ -1058,7 +1079,7 @@ sub _HTMLMask {
     if ( defined( $Param{FirstResponseTime} ) ) {
         $Self->{LayoutObject}->Block(
             Name => 'FirstResponseTime',
-            Data => { %Param },
+            Data => {%Param},
         );
     }
 
@@ -1066,7 +1087,7 @@ sub _HTMLMask {
     if ( defined( $Param{UpdateTime} ) ) {
         $Self->{LayoutObject}->Block(
             Name => 'UpdateTime',
-            Data => { %Param },
+            Data => {%Param},
         );
     }
 
@@ -1074,43 +1095,43 @@ sub _HTMLMask {
     if ( defined( $Param{SolutionTime} ) ) {
         $Self->{LayoutObject}->Block(
             Name => 'SolutionTime',
-            Data => { %Param },
+            Data => {%Param},
         );
     }
 
     # ticket free text
-    for my $Count (1..16) {
-        if ( $Param{'TicketFreeText'.$Count} ) {
+    for my $Count ( 1 .. 16 ) {
+        if ( $Param{ 'TicketFreeText' . $Count } ) {
             $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeText'.$Count,
-                Data => { %Param },
+                Name => 'TicketFreeText' . $Count,
+                Data => {%Param},
             );
             $Self->{LayoutObject}->Block(
                 Name => 'TicketFreeText',
                 Data => {
                     %Param,
-                    TicketFreeKey => $Param{'TicketFreeKey'.$Count},
-                    TicketFreeText => $Param{'TicketFreeText'.$Count},
-                    Count => $Count,
+                    TicketFreeKey  => $Param{ 'TicketFreeKey' . $Count },
+                    TicketFreeText => $Param{ 'TicketFreeText' . $Count },
+                    Count          => $Count,
                 },
             );
         }
     }
 
     # ticket free time
-    for my $Count (1..6) {
-        if ( $Param{'TicketFreeTime'.$Count} ) {
+    for my $Count ( 1 .. 6 ) {
+        if ( $Param{ 'TicketFreeTime' . $Count } ) {
             $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeTime'.$Count,
-                Data => { %Param },
+                Name => 'TicketFreeTime' . $Count,
+                Data => {%Param},
             );
             $Self->{LayoutObject}->Block(
                 Name => 'TicketFreeTime',
                 Data => {
                     %Param,
-                    TicketFreeTimeKey  => $Self->{ConfigObject}->Get('TicketFreeTimeKey'.$Count),
-                    TicketFreeTime => $Param{'TicketFreeTime'.$Count},
-                    Count => $Count,
+                    TicketFreeTimeKey => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count ),
+                    TicketFreeTime    => $Param{ 'TicketFreeTime' . $Count },
+                    Count             => $Count,
                 },
             );
         }
@@ -1142,7 +1163,8 @@ sub _HTMLMask {
         }
 
         # check if just a only html email
-        if ( my $MimeTypeText
+        if (
+            my $MimeTypeText
             = $Self->{LayoutObject}->CheckMimeType( %Param, %Article, Action => 'AgentTicketZoom' )
             )
         {
@@ -1159,7 +1181,8 @@ sub _HTMLMask {
             );
 
             # do charset check
-            if (my $CharsetText = $Self->{LayoutObject}->CheckCharset(
+            if (
+                my $CharsetText = $Self->{LayoutObject}->CheckCharset(
                     Action         => 'AgentTicketZoom',
                     ContentCharset => $Article{ContentCharset},
                     TicketID       => $Param{TicketID},

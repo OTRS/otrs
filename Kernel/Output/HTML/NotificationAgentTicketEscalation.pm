@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NotificationAgentTicketEscalation.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationAgentTicketEscalation.pm,v 1.17 2008-04-14 23:17:17 martin Exp $
+# $Id: NotificationAgentTicketEscalation.pm,v 1.18 2008-05-08 09:36:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -47,7 +47,7 @@ sub Run {
 
     # check result cache
     my $CacheTime = $Param{Config}->{CacheTime} || 180;
-    if ( $CacheTime ) {
+    if ($CacheTime) {
         my $Output = $Self->{CacheObject}->Get(
             Type => 'TicketEscalation',
             Key  => "EscalationResult::$Self->{UserID}",
@@ -59,7 +59,7 @@ sub Run {
 
     # get all open rw ticket
     my @TicketIDs = ();
-    my $Cache = $Self->{CacheObject}->Get(
+    my $Cache     = $Self->{CacheObject}->Get(
         Type => 'TicketEscalation',
         Key  => "EscalationIndex::$Self->{UserID}",
     );
@@ -72,7 +72,8 @@ sub Run {
             Type   => 'Viewable',
             Result => 'ID',
         );
-        my $SQL = "SELECT st.id, st.tn, st.escalation_start_time, st.escalation_response_time, st.escalation_solution_time, "
+        my $SQL
+            = "SELECT st.id, st.tn, st.escalation_start_time, st.escalation_response_time, st.escalation_solution_time, "
             . "st.ticket_state_id, st.service_id, st.sla_id, st.create_time, st.queue_id, st.ticket_lock_id "
             . " FROM "
             . " ticket st, queue q "
@@ -111,7 +112,7 @@ sub Run {
 
         # get state and lock infos
         my %LockList = $Self->{LockObject}->LockList(
-                UserID => $Self->{UserID},
+            UserID => $Self->{UserID},
         );
         for my $TicketData (@TicketIDs) {
 
@@ -122,31 +123,31 @@ sub Run {
             );
             $TicketData->{StateType} = $StateData{TypeName};
             $TicketData->{State}     = $StateData{Name};
-            $TicketData->{Lock}      = $LockList{$TicketData->{LockID}}
+            $TicketData->{Lock}      = $LockList{ $TicketData->{LockID} }
         }
 
         my $LastElementCount = $#TicketIDs;
-        my $TTL = 12;                        # 0.2 * 60
+        my $TTL              = 12;            # 0.2 * 60
         if ( $LastElementCount > 500 ) {
-            $TTL = 330;                      # 5.5 * 60
+            $TTL = 330;                       # 5.5 * 60
         }
         elsif ( $LastElementCount > 250 ) {
-            $TTL = 210;                      # 3.5 * 60;
+            $TTL = 210;                       # 3.5 * 60;
         }
         elsif ( $LastElementCount > 200 ) {
-            $TTL = 150;                      # 2.5 * 60;
+            $TTL = 150;                       # 2.5 * 60;
         }
         elsif ( $LastElementCount > 150 ) {
-            $TTL = 120;                      # 2.0 * 60;
+            $TTL = 120;                       # 2.0 * 60;
         }
         elsif ( $LastElementCount > 100 ) {
-            $TTL = 90;                       # 1.5 * 60;
+            $TTL = 90;                        # 1.5 * 60;
         }
         elsif ( $LastElementCount > 60 ) {
-            $TTL = 60;                       # 1.0 * 60;
+            $TTL = 60;                        # 1.0 * 60;
         }
         elsif ( $LastElementCount > 20 ) {
-            $TTL = 30;                       # 0.5 * 60;
+            $TTL = 30;                        # 0.5 * 60;
         }
         $Self->{CacheObject}->Set(
             Type  => 'TicketEscalation',
@@ -168,16 +169,16 @@ sub Run {
         my $TicketID = $Ticket{TicketID};
 
         # just use the oldest 30 ticktes
-        if ( $Count >= $ShownMax) {
+        if ( $Count >= $ShownMax ) {
             $Count = 100;
             last;
         }
         my %Escalation = $Self->{TicketObject}->TicketEscalationState(
-                TicketID => $TicketID,
-                Ticket   => $TicketData,
-                UserID   => $Self->{UserID},
+            TicketID => $TicketID,
+            Ticket   => $TicketData,
+            UserID   => $Self->{UserID},
         );
-        for my $Key (keys %Escalation) {
+        for my $Key ( keys %Escalation ) {
             $Ticket{$Key} = $Escalation{$Key};
         }
 
@@ -186,8 +187,9 @@ sub Run {
             )
         {
             if ( $Ticket{$_} ) {
-                $Ticket{$_} = $Self->{LayoutObject}->{LanguageObject}
-                    ->FormatTimeString( $Ticket{$_}, undef, 'NoSeconds' );
+                $Ticket{$_} = $Self->{LayoutObject}->{LanguageObject}->FormatTimeString(
+                    $Ticket{$_}, undef, 'NoSeconds'
+                );
             }
         }
 
@@ -284,10 +286,10 @@ sub Run {
     my $Output = $ResponseTime . $UpdateTime . $SolutionTime . $Comment;
 
     # cache result
-    if ( $CacheTime ) {
+    if ($CacheTime) {
         $Self->{CacheObject}->Set(
-            Type => 'TicketEscalation',
-            Key  => "EscalationResult::$Self->{UserID}",
+            Type  => 'TicketEscalation',
+            Key   => "EscalationResult::$Self->{UserID}",
             Value => $Output,
             TTL   => $CacheTime,
         );

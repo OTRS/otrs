@@ -2,7 +2,7 @@
 # Main.t - Main tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.t,v 1.7 2008-02-12 20:52:09 martin Exp $
+# $Id: Main.t,v 1.8 2008-05-08 09:35:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,71 +14,73 @@ use utf8;
 # FilenameCleanUp - tests
 my @Tests = (
     {
-        Name => 'FilenameCleanUp() - Local',
+        Name         => 'FilenameCleanUp() - Local',
         FilenameOrig => 'me_t o/alal.xml',
         FilenameNew  => 'me_t o_alal.xml',
-        Type => 'Local',
+        Type         => 'Local',
     },
     {
-        Name => 'FilenameCleanUp() - Local',
+        Name         => 'FilenameCleanUp() - Local',
         FilenameOrig => 'me_to/al?al"l.xml',
         FilenameNew  => 'me_to_al_al_l.xml',
-        Type => 'Local',
+        Type         => 'Local',
     },
     {
-        Name => 'FilenameCleanUp() - Local',
+        Name         => 'FilenameCleanUp() - Local',
         FilenameOrig => 'me_to/a\/\\lal.xml',
         FilenameNew  => 'me_to_a___lal.xml',
-        Type => 'Local',
+        Type         => 'Local',
     },
     {
-        Name => 'FilenameCleanUp() - Local',
+        Name         => 'FilenameCleanUp() - Local',
         FilenameOrig => 'me_to/al[al].xml',
         FilenameNew  => 'me_to_al_al_.xml',
-        Type => 'Local',
+        Type         => 'Local',
     },
     {
-        Name => 'FilenameCleanUp() - Local',
+        Name         => 'FilenameCleanUp() - Local',
         FilenameOrig => 'me_to/alal.xml',
         FilenameNew  => 'me_to_alal.xml',
-        Type => 'Local',
+        Type         => 'Local',
     },
     {
-        Name => 'FilenameCleanUp() - Attachment',
+        Name         => 'FilenameCleanUp() - Attachment',
         FilenameOrig => 'me_to/a+la l.xml',
         FilenameNew  => 'me_to_a+la_l.xml',
-        Type => 'Attachment',
+        Type         => 'Attachment',
     },
     {
-        Name => 'FilenameCleanUp() - Local',
+        Name         => 'FilenameCleanUp() - Local',
         FilenameOrig => 'me_to/a+lal Grüße 0.xml',
         FilenameNew  => 'me_to_a+lal Grüße 0.xml',
-        Type => 'Local',
+        Type         => 'Local',
     },
     {
         Name => 'FilenameCleanUp() - Attachment',
-        FilenameOrig => 'me_to/a+lal123456789012345678901234567890Liebe Grüße aus Straubing123456789012345678901234567890123456789012345678901234567890.xml',
-        FilenameNew  => 'me_to_a+lal123456789012345678901234567890Liebe_Gruesse_aus_Straubing123456789012345678901234567.xml',
+        FilenameOrig =>
+            'me_to/a+lal123456789012345678901234567890Liebe Grüße aus Straubing123456789012345678901234567890123456789012345678901234567890.xml',
+        FilenameNew =>
+            'me_to_a+lal123456789012345678901234567890Liebe_Gruesse_aus_Straubing123456789012345678901234567.xml',
         Type => 'Attachment',
     },
     {
-        Name => 'FilenameCleanUp() - md5',
+        Name         => 'FilenameCleanUp() - md5',
         FilenameOrig => 'some file.xml',
         FilenameNew  => '6b9e62f9a8c56a0c06c66cc716e30c45',
-        Type => 'md5',
+        Type         => 'md5',
     },
     {
-        Name => 'FilenameCleanUp() - md5',
+        Name         => 'FilenameCleanUp() - md5',
         FilenameOrig => 'me_to/a+lal Grüße 0öäüßカスタマ.xml',
         FilenameNew  => 'c235a9eabe8494b5f90ffd1330af3407',
-        Type => 'md5',
+        Type         => 'md5',
     },
 );
 
-for my $Test ( @Tests ) {
+for my $Test (@Tests) {
     my $Filename = $Self->{MainObject}->FilenameCleanUp(
         Filename => $Test->{FilenameOrig},
-        Type => $Test->{Type},
+        Type     => $Test->{Type},
     );
     $Self->Is(
         $Filename || '',
@@ -90,7 +92,7 @@ for my $Test ( @Tests ) {
 # md5sum tests
 my $String = 'abc1234567890';
 my $MD5Sum = $Self->{MainObject}->MD5sum(
-   String => \$String,
+    String => \$String,
 );
 $Self->Is(
     $MD5Sum || '',
@@ -100,7 +102,7 @@ $Self->Is(
 
 # test charset specific situations
 my $Charset = $Self->{ConfigObject}->Get('DefaultCharset');
-if ($Charset eq 'utf-8') {
+if ( $Charset eq 'utf-8' ) {
     $String = 'abc1234567890äöüß-カスタマ';
     $MD5Sum = $Self->{MainObject}->MD5sum(
         String => \$String,
@@ -112,7 +114,7 @@ if ($Charset eq 'utf-8') {
         "MD5sum() - String - abc1234567890äöüß-カスタマ",
     );
 }
-elsif ($Charset eq 'iso-8859-1' || $Charset eq 'iso-8859-15') {
+elsif ( $Charset eq 'iso-8859-1' || $Charset eq 'iso-8859-15' ) {
     no utf8;
     $String = 'bc1234567890������';
     $MD5Sum = $Self->{MainObject}->MD5sum(
@@ -136,7 +138,8 @@ my %MD5SumOf = (
 
 for my $Extention (qw(doc pdf png txt xls)) {
     my $MD5Sum = $Self->{MainObject}->MD5sum(
-        Filename => $Self->{ConfigObject}->Get('Home')."/scripts/test/sample/Main-Test1.$Extention",
+        Filename => $Self->{ConfigObject}->Get('Home')
+            . "/scripts/test/sample/Main-Test1.$Extention",
     );
     $Self->Is(
         $MD5Sum || '',
@@ -148,11 +151,12 @@ for my $Extention (qw(doc pdf png txt xls)) {
 # write & read some files via Directory/Filename
 for my $Extention (qw(doc pdf png txt xls)) {
     my $MD5Sum = $Self->{MainObject}->MD5sum(
-        Filename => $Self->{ConfigObject}->Get('Home')."/scripts/test/sample/Main-Test1.$Extention",
+        Filename => $Self->{ConfigObject}->Get('Home')
+            . "/scripts/test/sample/Main-Test1.$Extention",
     );
     my $Content = $Self->{MainObject}->FileRead(
-        Directory => $Self->{ConfigObject}->Get('Home').'/scripts/test/sample/',
-        Filename => "Main-Test1.$Extention",
+        Directory => $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/',
+        Filename  => "Main-Test1.$Extention",
     );
     $Self->True(
         ${$Content} || '',
@@ -160,24 +164,24 @@ for my $Extention (qw(doc pdf png txt xls)) {
     );
     my $FileLocation = $Self->{MainObject}->FileWrite(
         Directory => $Self->{ConfigObject}->Get('TempDir'),
-        Filename => "me_öüto/al<>?Main-Test1.$Extention",
-        Content => $Content,
+        Filename  => "me_öüto/al<>?Main-Test1.$Extention",
+        Content   => $Content,
     );
     $Self->True(
         $FileLocation || '',
         "FileWrite() - $FileLocation",
     );
     my $MD5Sum2 = $Self->{MainObject}->MD5sum(
-        Filename => $Self->{ConfigObject}->Get('TempDir').'/'.$FileLocation,
+        Filename => $Self->{ConfigObject}->Get('TempDir') . '/' . $FileLocation,
     );
     $Self->Is(
         $MD5Sum2 || '',
-        $MD5Sum || '',
+        $MD5Sum  || '',
         "MD5sum()>FileWrite()>MD5sum() - $FileLocation",
     );
     my $Success = $Self->{MainObject}->FileDelete(
         Directory => $Self->{ConfigObject}->Get('TempDir'),
-        Filename => $FileLocation,
+        Filename  => $FileLocation,
     );
     $Self->True(
         $Success || '',
@@ -188,18 +192,21 @@ for my $Extention (qw(doc pdf png txt xls)) {
 # write & read some files via Location
 for my $Extention (qw(doc pdf png txt xls)) {
     my $MD5Sum = $Self->{MainObject}->MD5sum(
-        Filename => $Self->{ConfigObject}->Get('Home')."/scripts/test/sample/Main-Test1.$Extention",
+        Filename => $Self->{ConfigObject}->Get('Home')
+            . "/scripts/test/sample/Main-Test1.$Extention",
     );
     my $Content = $Self->{MainObject}->FileRead(
-        Location => $Self->{ConfigObject}->Get('Home').'/scripts/test/sample/'."Main-Test1.$Extention",
+        Location => $Self->{ConfigObject}->Get('Home')
+            . '/scripts/test/sample/'
+            . "Main-Test1.$Extention",
     );
     $Self->True(
         ${$Content} || '',
         "FileRead() - Main-Test1.$Extention",
     );
     my $FileLocation = $Self->{MainObject}->FileWrite(
-        Location => $Self->{ConfigObject}->Get('TempDir')."Main-Test1.$Extention",
-        Content => $Content,
+        Location => $Self->{ConfigObject}->Get('TempDir') . "Main-Test1.$Extention",
+        Content  => $Content,
     );
     $Self->True(
         $FileLocation || '',
@@ -210,7 +217,7 @@ for my $Extention (qw(doc pdf png txt xls)) {
     );
     $Self->Is(
         $MD5Sum2 || '',
-        $MD5Sum || '',
+        $MD5Sum  || '',
         "MD5sum()>FileWrite()>MD5sum() - $FileLocation",
     );
     my $Success = $Self->{MainObject}->FileDelete(
@@ -223,12 +230,12 @@ for my $Extention (qw(doc pdf png txt xls)) {
 }
 
 # write / read ARRAYREF test
-my $Content = "some\ntest\nöäüßカスタマ";
+my $Content      = "some\ntest\nöäüßカスタマ";
 my $FileLocation = $Self->{MainObject}->FileWrite(
     Directory => $Self->{ConfigObject}->Get('TempDir'),
-    Filename => "some-test.txt",
-    Mode => 'utf8',
-    Content => \$Content,
+    Filename  => "some-test.txt",
+    Mode      => 'utf8',
+    Content   => \$Content,
 );
 $Self->True(
     $FileLocation || '',
@@ -237,9 +244,9 @@ $Self->True(
 
 my $ContentARRAYRef = $Self->{MainObject}->FileRead(
     Directory => $Self->{ConfigObject}->Get('TempDir'),
-    Filename => $FileLocation,
-    Mode => 'utf8',
-    Result => 'ARRAY', # optional - SCALAR|ARRAY
+    Filename  => $FileLocation,
+    Mode      => 'utf8',
+    Result    => 'ARRAY',                                 # optional - SCALAR|ARRAY
 );
 $Self->True(
     $ContentARRAYRef || '',
@@ -247,12 +254,12 @@ $Self->True(
 );
 $Self->Is(
     $ContentARRAYRef->[0] || '',
-   "some\n",
+    "some\n",
     "FileRead() [0] - $FileLocation",
 );
 $Self->Is(
     $ContentARRAYRef->[1] || '',
-   "test\n",
+    "test\n",
     "FileRead() [1] - $FileLocation",
 );
 $Self->Is(
@@ -263,7 +270,7 @@ $Self->Is(
 
 my $Success = $Self->{MainObject}->FileDelete(
     Directory => $Self->{ConfigObject}->Get('TempDir'),
-    Filename => $FileLocation,
+    Filename  => $FileLocation,
 );
 $Self->True(
     $Success || '',

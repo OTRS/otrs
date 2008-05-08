@@ -2,7 +2,7 @@
 # Kernel/System/Notification.pm - lib for notifications
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Notification.pm,v 1.16 2008-01-31 06:20:20 tr Exp $
+# $Id: Notification.pm,v 1.17 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 =head1 NAME
 
@@ -49,7 +49,8 @@ create a notification object
 
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
+        MainObject   => $MainObject,
     );
 
 =cut
@@ -58,7 +59,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check all needed objects
@@ -258,9 +259,10 @@ sub NotificationUpdate {
     }
 
     # sql
-    $Self->{DBObject}
-        ->Do( SQL => "DELETE FROM notifications WHERE notification_type = '$Param{Type}' "
-            . "AND notification_language = '$Param{Language}'" );
+    $Self->{DBObject}->Do(
+        SQL => "DELETE FROM notifications WHERE notification_type = '$Param{Type}' "
+            . "AND notification_language = '$Param{Language}'"
+    );
 
     # sql
     my $SQL
@@ -270,6 +272,7 @@ sub NotificationUpdate {
         . " VALUES "
         . " ('$Param{Type}', '$Param{Charset}', '$Param{Language}', '$Param{Subject}', '$Param{Body}', "
         . " current_timestamp, $Param{UserID}, current_timestamp,  $Param{UserID})";
+
     if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
         return 1;
     }
@@ -294,6 +297,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2008-01-31 06:20:20 $
+$Revision: 1.17 $ $Date: 2008-05-08 09:36:19 $
 
 =cut

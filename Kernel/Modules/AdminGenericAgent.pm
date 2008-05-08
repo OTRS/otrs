@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.48 2008-04-19 23:11:07 martin Exp $
+# $Id: AdminGenericAgent.pm,v 1.49 2008-05-08 09:36:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,13 +23,13 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check needed objects
@@ -66,10 +66,12 @@ sub Run {
             Job    => $Self->{Profile},
             UserID => 1,
         );
+
         # redirect
-        if ( $Run ) {
+        if ($Run) {
             return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}", );
         }
+
         # redirect
         return $Self->{LayoutObject}->ErrorScreen();
     }
@@ -162,9 +164,12 @@ sub Run {
             }
 
             # ticket free text
-            if ($Self->{ParamObject}->GetParam( Param => "NewTicketFreeText$ID" )
-                || ( defined( $Self->{ParamObject}->GetParam( Param => "NewTicketFreeText$ID" ) )
-                    && $Self->{ConfigObject}->Get("TicketFreeText$ID") )
+            if (
+                $Self->{ParamObject}->GetParam( Param => "NewTicketFreeText$ID" )
+                || (
+                    defined( $Self->{ParamObject}->GetParam( Param => "NewTicketFreeText$ID" ) )
+                    && $Self->{ConfigObject}->Get("TicketFreeText$ID")
+                )
                 )
             {
                 $GetParam{"NewTicketFreeText$ID"} = $Self->{ParamObject}->GetParam(
@@ -251,9 +256,11 @@ sub Run {
                     $GetParam{"TicketCreateTimeStop$_"} = '0' . $GetParam{"TicketCreateTimeStop$_"};
                 }
             }
-            if (   $GetParam{TicketCreateTimeStartDay}
+            if (
+                $GetParam{TicketCreateTimeStartDay}
                 && $GetParam{TicketCreateTimeStartMonth}
-                && $GetParam{TicketCreateTimeStartYear} )
+                && $GetParam{TicketCreateTimeStartYear}
+                )
             {
                 $GetParam{TicketCreateTimeNewerDate}
                     = $GetParam{TicketCreateTimeStartYear} . '-'
@@ -261,9 +268,11 @@ sub Run {
                     . $GetParam{TicketCreateTimeStartDay}
                     . ' 00:00:01';
             }
-            if (   $GetParam{TicketCreateTimeStopDay}
+            if (
+                $GetParam{TicketCreateTimeStopDay}
                 && $GetParam{TicketCreateTimeStopMonth}
-                && $GetParam{TicketCreateTimeStopYear} )
+                && $GetParam{TicketCreateTimeStopYear}
+                )
             {
                 $GetParam{TicketCreateTimeOlderDate}
                     = $GetParam{TicketCreateTimeStopYear} . '-'
@@ -273,9 +282,11 @@ sub Run {
             }
         }
         elsif ( $GetParam{TimeSearchType} eq 'TimePoint' ) {
-            if (   $GetParam{TicketCreateTimePoint}
+            if (
+                $GetParam{TicketCreateTimePoint}
                 && $GetParam{TicketCreateTimePointStart}
-                && $GetParam{TicketCreateTimePointFormat} )
+                && $GetParam{TicketCreateTimePointFormat}
+                )
             {
                 my $Time = 0;
                 if ( $GetParam{TicketCreateTimePointFormat} eq 'minute' ) {
@@ -323,9 +334,11 @@ sub Run {
                         = '0' . $GetParam{"TicketPendingTimeStop$_"};
                 }
             }
-            if (   $GetParam{TicketPendingTimeStartDay}
+            if (
+                $GetParam{TicketPendingTimeStartDay}
                 && $GetParam{TicketPendingTimeStartMonth}
-                && $GetParam{TicketPendingTimeStartYear} )
+                && $GetParam{TicketPendingTimeStartYear}
+                )
             {
                 $GetParam{TicketPendingTimeNewerDate}
                     = $GetParam{TicketPendingTimeStartYear} . '-'
@@ -333,9 +346,11 @@ sub Run {
                     . $GetParam{TicketPendingTimeStartDay}
                     . ' 00:00:01';
             }
-            if (   $GetParam{TicketPendingTimeStopDay}
+            if (
+                $GetParam{TicketPendingTimeStopDay}
                 && $GetParam{TicketPendingTimeStopMonth}
-                && $GetParam{TicketPendingTimeStopYear} )
+                && $GetParam{TicketPendingTimeStopYear}
+                )
             {
                 $GetParam{TicketPendingTimeOlderDate}
                     = $GetParam{TicketPendingTimeStopYear} . '-'
@@ -345,9 +360,11 @@ sub Run {
             }
         }
         elsif ( $GetParam{TimePendingSearchType} eq 'TimePoint' ) {
-            if (   $GetParam{TicketPendingTimePoint}
+            if (
+                $GetParam{TicketPendingTimePoint}
                 && $GetParam{TicketPendingTimePointStart}
-                && $GetParam{TicketPendingTimePointFormat} )
+                && $GetParam{TicketPendingTimePointFormat}
+                )
             {
                 my $Time = 0;
                 if ( $GetParam{TicketPendingTimePointFormat} eq 'minute' ) {
@@ -394,7 +411,8 @@ sub Run {
             %GetParam,
         );
         if ( $GetParam{NewDelete} ) {
-            $Param{DeleteMessage} = 'You use the DELETE option! Take care, all deleted Tickets are lost!!!';
+            $Param{DeleteMessage}
+                = 'You use the DELETE option! Take care, all deleted Tickets are lost!!!';
         }
         if (@ViewableIDs) {
             $Param{AffectedIDs} = $#ViewableIDs + 1;
@@ -620,7 +638,7 @@ sub Run {
                 'Last'   => 'last',
                 'Before' => 'before',
             },
-            Name       => 'TicketCreateTimePointStart',
+            Name => 'TicketCreateTimePointStart',
             SelectedID => $Param{TicketCreateTimePointStart} || 'Last',
         );
         $Param{TicketCreateTimePointFormat} = $Self->{LayoutObject}->OptionStrgHashRef(
@@ -658,7 +676,7 @@ sub Run {
                 'Last'   => 'last',
                 'Before' => 'before',
             },
-            Name       => 'TicketPendingTimePointStart',
+            Name => 'TicketPendingTimePointStart',
             SelectedID => $Param{TicketPendingTimePointStart} || 'Last',
         );
         $Param{TicketPendingTimePointFormat} = $Self->{LayoutObject}->OptionStrgHashRef(
@@ -734,11 +752,11 @@ sub Run {
         if ( $Self->{ConfigObject}->Get('Ticket::Frontend::Title') ) {
             $Self->{LayoutObject}->Block(
                 Name => 'TicketTitle',
-                Data => { %Param },
+                Data => {%Param},
             );
             $Self->{LayoutObject}->Block(
                 Name => 'NewTicketTitle',
-                Data => { %Param },
+                Data => {%Param},
             );
         }
 
@@ -816,9 +834,9 @@ sub Run {
                 Max         => 200,
             );
             $Param{NewSLAsStrg} = $Self->{LayoutObject}->BuildSelection(
-                Data       => \%SLA,
-                Name       => 'NewSLAID',
-                SelectedID => $Param{NewSLAID},
+                Data        => \%SLA,
+                Name        => 'NewSLAID',
+                SelectedID  => $Param{NewSLAID},
                 Sort        => 'AlphanumericValue',
                 Size        => 5,
                 Multiple    => 1,

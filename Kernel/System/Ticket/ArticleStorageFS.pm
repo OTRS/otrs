@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageFS.pm,v 1.49 2008-05-08 08:14:47 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.50 2008-05-08 09:36:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -99,7 +99,7 @@ sub ArticleDelete {
     );
 
     # delete article flags
-    return if ! $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL  => 'DELETE FROM article_flag WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ],
     );
@@ -111,7 +111,7 @@ sub ArticleDelete {
     );
 
     # delete articles
-    return if ! $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL  => 'DELETE FROM article WHERE id = ?',
         Bind => [ \$Param{ArticleID} ],
     );
@@ -157,7 +157,7 @@ sub ArticleDeletePlain {
     }
 
     # delete attachments
-    return if ! $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL  => 'DELETE FROM article_plain WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ],
     );
@@ -189,7 +189,7 @@ sub ArticleDeleteAttachment {
     }
 
     # delete attachments
-    return if ! $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL  => 'DELETE FROM article_attachment WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ],
     );
@@ -241,12 +241,15 @@ sub ArticleWritePlain {
     File::Path::mkpath( [$Path], 0, 0775 );
 
     # write article to fs
-    if ($Self->{MainObject}->FileWrite(
-        Location   => "$Path/plain.txt",
-        Mode       => 'binmode',
-        Content    => \$Param{Email},
-        Permission => '664',
-    )) {
+    if (
+        $Self->{MainObject}->FileWrite(
+            Location   => "$Path/plain.txt",
+            Mode       => 'binmode',
+            Content    => \$Param{Email},
+            Permission => '664',
+        )
+        )
+    {
         return 1;
     }
     else {
@@ -301,31 +304,37 @@ sub ArticleWriteAttachment {
         if ( !File::Path::mkpath( [ $Param{Path} ], 0, 0775 ) ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "Can't create $Param{Path}: $!",
+                Message  => "Can't create $Param{Path}: $!",
             );
             return;
         }
     }
 
     # write attachment content type to fs
-    if (!$Self->{MainObject}->FileWrite(
-        Directory  => $Param{Path},
-        Filename   => "$Param{Filename}.content_type",
-        Mode       => 'binmode',
-        Content    => \$Param{ContentType},
-        Permission => '664',
-    )) {
+    if (
+        !$Self->{MainObject}->FileWrite(
+            Directory  => $Param{Path},
+            Filename   => "$Param{Filename}.content_type",
+            Mode       => 'binmode',
+            Content    => \$Param{ContentType},
+            Permission => '664',
+        )
+        )
+    {
         return;
     }
 
     # write attachment content to fs
-    if (!$Self->{MainObject}->FileWrite(
-        Directory  => $Param{Path},
-        Filename   => $Param{Filename},
-        Mode       => 'binmode',
-        Content    => \$Param{Content},
-        Permission => '664',
-    )) {
+    if (
+        !$Self->{MainObject}->FileWrite(
+            Directory  => $Param{Path},
+            Filename   => $Param{Filename},
+            Mode       => 'binmode',
+            Content    => \$Param{Content},
+            Permission => '664',
+        )
+        )
+    {
         return;
     }
 
@@ -350,7 +359,7 @@ sub ArticlePlain {
 
     # open plain article
     my $Data = '';
-    if ( ! -f "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt" ) {
+    if ( !-f "$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt" ) {
 
         # can't open article, try database
         $Self->{DBObject}->Prepare(
@@ -366,7 +375,8 @@ sub ArticlePlain {
         else {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "Can't open $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt: $!",
+                Message =>
+                    "Can't open $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt: $!",
             );
             return;
         }
@@ -380,7 +390,7 @@ sub ArticlePlain {
             Mode      => 'binmode',
         );
         if ($Data) {
-            return ${ $Data };
+            return ${$Data};
         }
         else {
             return;
@@ -409,7 +419,7 @@ sub ArticleAttachmentIndex {
     # try fs
     my @List = glob("$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/*");
     for my $Filename (@List) {
-        my $FileSize = -s $Filename;
+        my $FileSize    = -s $Filename;
         my $FileSizeRaw = $FileSize;
 
         # convert the file name in utf-8 if utf-8 is used
@@ -442,7 +452,7 @@ sub ArticleAttachmentIndex {
                     Location => "$Filename.content_type",
                 );
                 if ($Content) {
-                    $ContentType = ${ $Content };
+                    $ContentType = ${$Content};
                 }
                 else {
                     return;
@@ -552,12 +562,13 @@ sub ArticleAttachment {
                         From => 'utf-8',
                     );
                     if ( -e "$Filename.content_type" ) {
+
                         # read content type
                         my $Content = $Self->{MainObject}->FileRead(
                             Location => "$Filename.content_type",
                         );
                         if ($Content) {
-                            $Data{ContentType} = ${ $Content };
+                            $Data{ContentType} = ${$Content};
                         }
                         else {
                             return;
@@ -569,7 +580,7 @@ sub ArticleAttachment {
                             Mode     => 'binmode',
                         );
                         if ($Content) {
-                            $Data{Content} = ${ $Content };
+                            $Data{Content} = ${$Content};
                         }
                         else {
                             return;
@@ -586,7 +597,7 @@ sub ArticleAttachment {
                         if ($Content) {
                             $Data{ContentType} = $Content->[0];
                             my $Counter = 0;
-                            for my $Line (@{$Content}) {
+                            for my $Line ( @{$Content} ) {
                                 if ($Counter) {
                                     $Data{Content} .= $Line;
                                 }
@@ -597,8 +608,10 @@ sub ArticleAttachment {
                             return;
                         }
                     }
-                    if (   $Data{ContentType} =~ /plain\/text/i
-                        && $Data{ContentType} =~ /(utf\-8|utf8)/i )
+                    if (
+                        $Data{ContentType} =~ /plain\/text/i
+                        && $Data{ContentType} =~ /(utf\-8|utf8)/i
+                        )
                     {
                         $Self->{EncodeObject}->Encode( \$Data{Content} );
                     }
@@ -635,7 +648,8 @@ sub ArticleAttachment {
         else {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "$!: $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/$Data{Filename}!",
+                Message =>
+                    "$!: $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/$Data{Filename}!",
             );
             return;
         }

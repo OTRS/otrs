@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.173 2008-05-07 11:29:55 martin Exp $
+# $Id: Article.pm,v 1.174 2008-05-08 09:36:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.173 $) [1];
+$VERSION = qw($Revision: 1.174 $) [1];
 
 =head1 NAME
 
@@ -94,13 +94,15 @@ sub ArticleCreate {
     if ( !$Param{Body} ) {
         $Param{Body} = 'No body';
     }
+
     # if body isn't text, attach body as attachment (mostly done by OE) :-/
     elsif ( $Param{ContentType} && $Param{ContentType} !~ /\btext\b/i ) {
         $Param{AttachContentType} = $Param{ContentType};
         $Param{AttachBody}        = $Param{Body};
         $Param{ContentType}       = 'text/plain';
-        $Param{Body} = "- no text message => see attachment -";
+        $Param{Body}              = "- no text message => see attachment -";
     }
+
     # fix some bad stuff from some browsers (Opera)!
     else {
         $Param{Body} =~ s/(\n\r|\r\r\n|\r\n)/\n/g;
@@ -118,7 +120,7 @@ sub ArticleCreate {
 
     # do db insert
     return if !$Self->{DBObject}->Do(
-        SQL  => 'INSERT INTO article '
+        SQL => 'INSERT INTO article '
             . ' (ticket_id, article_type_id, article_sender_type_id, a_from, a_reply_to, a_to, '
             . ' a_cc, a_subject, a_message_id, a_body, a_content_type, content_path, '
             . ' valid_id, incoming_time,  create_time, create_by, change_time, change_by) '
@@ -126,12 +128,12 @@ sub ArticleCreate {
             . ' (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
             \$Param{TicketID}, \$Param{ArticleTypeID}, \$Param{SenderTypeID},
-            \$Param{From}, \$Param{ReplyTo}, \$Param{To},   \$Param{Cc},
-            \$Param{Subject}, \$Param{MessageID}, \$Param{Body},
+            \$Param{From},     \$Param{ReplyTo},       \$Param{To}, \$Param{Cc},
+            \$Param{Subject},  \$Param{MessageID},     \$Param{Body},
             \$Param{ContentType}, \$Self->{ArticleContentPath},
             \$ValidID, \$IncomingTime,
             \$Param{UserID}, \$Param{UserID},
-        ]
+            ]
     );
 
     # get article id
@@ -223,8 +225,10 @@ sub ArticleCreate {
     }
 
     # check if latest article is sent to customer
-    elsif ($Param{SenderType} eq 'agent'
-        && $Param{ArticleType} =~ /email-ext|phone|fax|sms|note-ext/ )
+    elsif (
+        $Param{SenderType} eq 'agent'
+        && $Param{ArticleType} =~ /email-ext|phone|fax|sms|note-ext/
+        )
     {
         $Self->TicketEscalationResponseTimeUpdate(
             EscalationResponseTime => $Self->{TimeObject}->SystemTime(),
@@ -244,13 +248,15 @@ sub ArticleCreate {
     }
 
     # send auto response
-    my %Ticket = $Self->TicketGet( TicketID         => $Param{TicketID} );
-    my %State  = $Self->{StateObject}->StateGet( ID => $Ticket{StateID} );
+    my %Ticket = $Self->TicketGet( TicketID => $Param{TicketID} );
+    my %State = $Self->{StateObject}->StateGet( ID => $Ticket{StateID} );
 
     # send if notification should be sent (not for closed tickets)!?
-    if (   $Param{AutoResponseType}
+    if (
+        $Param{AutoResponseType}
         && $Param{AutoResponseType} eq 'auto reply'
-        && ( $State{TypeName} eq 'closed' || $State{TypeName} eq 'removed' ) )
+        && ( $State{TypeName} eq 'closed' || $State{TypeName} eq 'removed' )
+        )
     {
 
         # add history row
@@ -296,8 +302,10 @@ sub ArticleCreate {
             else {
 
                 # write log
-                if (   $Param{UserID} ne $Self->{ConfigObject}->Get('PostmasterUserID')
-                    || $Self->{LoopProtectionObject}->SendEmail( To => $OrigHeader{From} ) )
+                if (
+                    $Param{UserID} ne $Self->{ConfigObject}->Get('PostmasterUserID')
+                    || $Self->{LoopProtectionObject}->SendEmail( To => $OrigHeader{From} )
+                    )
                 {
 
                     # get history type
@@ -359,7 +367,11 @@ sub ArticleCreate {
     # send agent notification!?
     my $To          = '';
     my %AlreadySent = ();
-    if ( $Param{HistoryType} =~ /^(EmailAgent|EmailCustomer|PhoneCallCustomer|WebRequestCustomer|SystemRequest)$/i ) {
+    if (
+        $Param{HistoryType}
+        =~ /^(EmailAgent|EmailCustomer|PhoneCallCustomer|WebRequestCustomer|SystemRequest)$/i
+        )
+    {
         for ( $Self->GetSubscribedUserIDsByQueueID( QueueID => $Ticket{QueueID} ) ) {
             if ( $AlreadySent{$_} ) {
                 next;
@@ -491,11 +503,13 @@ sub ArticleCreate {
                         Cached => 1,
                         Valid  => 1,
                     );
-                    if (   $UserData{UserSendFollowUpNotification}
+                    if (
+                        $UserData{UserSendFollowUpNotification}
                         && $UserData{UserSendFollowUpNotification} == 2
                         && $Ticket{OwnerID} ne 1
                         && $Ticket{OwnerID} ne $Param{UserID}
-                        && $Ticket{OwnerID} ne $UserData{UserID} )
+                        && $Ticket{OwnerID} ne $UserData{UserID}
+                        )
                     {
 
                         # remember already sent info
@@ -517,7 +531,8 @@ sub ArticleCreate {
     }
 
     # send forced notifications
-    if ( $Param{ForceNotificationToUserID} && ref( $Param{ForceNotificationToUserID} ) eq 'ARRAY' ) {
+    if ( $Param{ForceNotificationToUserID} && ref( $Param{ForceNotificationToUserID} ) eq 'ARRAY' )
+    {
         for my $UserID ( @{ $Param{ForceNotificationToUserID} } ) {
             if ( $AlreadySent{$UserID} ) {
                 next;
@@ -564,7 +579,7 @@ sub ArticleCreate {
             }
             if ($NewTo) {
                 $Self->{DBObject}->Do(
-                    SQL  => 'UPDATE article SET a_to = ? WHERE id = ?',
+                    SQL => 'UPDATE article SET a_to = ? WHERE id = ?',
                     Bind => [ \$NewTo, \$ArticleID ],
                 );
             }
@@ -588,8 +603,8 @@ sub _ArticleGetId {
     }
 
     # sql query
-    my @Bind = ( \$Param{TicketID});
-    my $SQL = 'SELECT id FROM article WHERE ticket_id = ? AND ';
+    my @Bind = ( \$Param{TicketID} );
+    my $SQL  = 'SELECT id FROM article WHERE ticket_id = ? AND ';
     if ( $Param{MessageID} ) {
         $SQL .= 'a_message_id = ? AND ';
         push @Bind, \$Param{MessageID};
@@ -662,7 +677,7 @@ sub ArticleGetTicketIDOfMessageID {
     # more the one found! that should not be, a message_id should be uniq!
     $Self->{LogObject}->Log(
         Priority => 'notice',
-        Message => "The MessageID '$Param{MessageID}' is in your database "
+        Message  => "The MessageID '$Param{MessageID}' is in your database "
             . "more the one time! That should not be, a message_id should be uniq!",
     );
     return;
@@ -802,8 +817,8 @@ sub ArticleTypeLookup {
     if ( !$Param{ArticleType} && !$Param{ArticleTypeID} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => 'Need ArticleType or ArticleTypeID!',
-         );
+            Message  => 'Need ArticleType or ArticleTypeID!',
+        );
         return;
     }
 
@@ -972,7 +987,8 @@ sub ArticleFreeTextGet {
     }
 
     # workflow
-    if ($Self->TicketAcl(
+    if (
+        $Self->TicketAcl(
             %Param,
             ReturnType    => 'Ticket',
             ReturnSubType => $Param{Type},
@@ -1027,7 +1043,7 @@ sub ArticleFreeTextSet {
     }
 
     # db update
-    return if ! $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => "UPDATE article SET a_freekey$Param{Counter} = ?, "
             . " a_freetext$Param{Counter} = ?, "
             . " change_time = current_timestamp, change_by = ? "
@@ -1071,7 +1087,7 @@ sub ArticleLastCustomerArticle {
 
     @Index = $Self->ArticleIndex( TicketID => $Param{TicketID} );
 
-    if (!@Index) {
+    if ( !@Index ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "No article found for TicketID $Param{TicketID}!",
@@ -1225,15 +1241,21 @@ sub ArticleContentIndex {
             # plain attachment mime type vs. html attachment mime type check
             # remove plain body, rename html attachment
             my $AttachmentPlain = 0;
-            my $AttachmentHTML = 0;
+            my $AttachmentHTML  = 0;
             for my $Count ( keys %AtmIndex ) {
                 my %File = %{ $AtmIndex{$Count} };
-                if ( $File{Filename} eq 'file-1'
-                    && $File{ContentType} =~ /text\/plain/i ) {
+                if (
+                    $File{Filename} eq 'file-1'
+                    && $File{ContentType} =~ /text\/plain/i
+                    )
+                {
                     $AttachmentPlain = $Count;
                 }
-                if ( $File{Filename} eq 'file-2'
-                    && $File{ContentType} =~ /text\/html/i ) {
+                if (
+                    $File{Filename} eq 'file-2'
+                    && $File{ContentType} =~ /text\/html/i
+                    )
+                {
                     $AttachmentHTML = $Count;
                 }
             }
@@ -1246,33 +1268,39 @@ sub ArticleContentIndex {
             # and remove attachment if it's email body
             if ( !$AttachmentHTML ) {
                 my $AttachmentCount = 0;
-                my %AttachmentFile = ();
+                my %AttachmentFile  = ();
                 for my $Count ( keys %AtmIndex ) {
                     my %File = %{ $AtmIndex{$Count} };
 
                     # remember, file-1 got defined by parsing if no filename was given
-                    if ( $File{Filename} eq 'file-1'
-                        && $File{ContentType} =~ /text\/plain/i ) {
+                    if (
+                        $File{Filename} eq 'file-1'
+                        && $File{ContentType} =~ /text\/plain/i
+                        )
+                    {
                         $AttachmentCount = $Count;
-                        %AttachmentFile = %File;
+                        %AttachmentFile  = %File;
                         last;
                     }
                 }
 
                 # plain attachment detected
-                if ( %AttachmentFile ) {
+                if (%AttachmentFile) {
 
                     # check body size vs. attachment size to be sure
                     my $BodySize = 0;
                     {
                         use bytes;
-                        $BodySize = length($Article->{Body});
+                        $BodySize = length( $Article->{Body} );
                         no bytes;
                     }
 
                     # check size by tolerance of 1.1 factor (because of charset difs)
-                    if ( $BodySize/1.1 < $AttachmentFile{FilesizeRaw}
-                        && $BodySize*1.1 > $AttachmentFile{FilesizeRaw} ) {
+                    if (
+                        $BodySize / 1.1 < $AttachmentFile{FilesizeRaw}
+                        && $BodySize * 1.1 > $AttachmentFile{FilesizeRaw}
+                        )
+                    {
                         delete $AtmIndex{$AttachmentCount};
                     }
                 }
@@ -1359,6 +1387,7 @@ sub ArticleGet {
         . ' st.freetime1 , st.freetime2, st.freetime3, st.freetime4, st.freetime5, st.freetime6, '
         . ' st.type_id, st.service_id, st.sla_id, st.escalation_response_time, st.escalation_solution_time '
         . ' FROM article sa, ticket st WHERE ';
+
     if ( $Param{ArticleID} ) {
         $SQL .= "sa.id = ?";
         push @Bind, \$Param{ArticleID};
@@ -1399,7 +1428,7 @@ sub ArticleGet {
         $Data{Body}                     = $Row[7];
         $Data{Age}                      = $Self->{TimeObject}->SystemTime() - $Row[8];
         $Ticket{CreateTimeUnix}         = $Row[8];
-        $Ticket{Created} = $Self->{TimeObject}->SystemTime2TimeStamp( SystemTime => $Row[8] );
+        $Ticket{Created}    = $Self->{TimeObject}->SystemTime2TimeStamp( SystemTime => $Row[8] );
         $Data{PriorityID}   = $Row[18];
         $Ticket{PriorityID} = $Row[18];
         $Data{StateID}      = $Row[9];
@@ -1411,6 +1440,7 @@ sub ArticleGet {
         $Data{CreatedBy}    = $Row[13];
         $Data{TicketNumber} = $Row[14];
         $Data{SenderTypeID} = $Row[15];
+
         if ( $Row[12] && $Data{ContentType} =~ /charset=/i ) {
             $Data{ContentCharset} = $Data{ContentType};
             $Data{ContentCharset} =~ s/.+?charset=("|'|)(\w+)/$2/gi;
@@ -1497,13 +1527,14 @@ sub ArticleGet {
 
         # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
         # and 0000-00-00 00:00:00 time stamps)
-        for my $Time ( 1..6 ) {
+        for my $Time ( 1 .. 6 ) {
             if ( $Data{ 'TicketFreeTime' . $Time } ) {
                 if ( $Data{ 'TicketFreeTime' . $Time } eq '0000-00-00 00:00:00' ) {
                     $Data{ 'TicketFreeTime' . $Time } = '';
                     next;
                 }
-                $Data{ 'TicketFreeTime' . $Time } =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
+                $Data{ 'TicketFreeTime' . $Time }
+                    =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
             }
         }
 
@@ -1520,7 +1551,8 @@ sub ArticleGet {
     $Ticket{Responsible} = $Self->{UserObject}->UserLookup( UserID => $Ticket{ResponsibleID} );
 
     # get priority
-    $Ticket{Priority} = $Self->{PriorityObject}->PriorityLookup( PriorityID => $Ticket{PriorityID} );
+    $Ticket{Priority}
+        = $Self->{PriorityObject}->PriorityLookup( PriorityID => $Ticket{PriorityID} );
 
     # get lock
     $Ticket{Lock} = $Self->{LockObject}->LockLookup( LockID => $Ticket{LockID} );
@@ -1646,7 +1678,7 @@ sub ArticleUpdate {
     );
 
     # db update
-    return if ! $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => "UPDATE article SET $Map{$Param{Key}} = ?, "
             . " change_time = current_timestamp, change_by = ? WHERE id = ?",
         Bind => [ \$Param{Value}, \$Param{UserID}, \$Param{ArticleID} ],
@@ -1733,14 +1765,14 @@ sub ArticleSend {
     if ( !$Param{ArticleType} && !$Param{ArticleTypeID} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => 'Need ArticleType or ArticleTypeID!',
+            Message  => 'Need ArticleType or ArticleTypeID!',
         );
         return;
     }
     if ( !$Param{SenderType} && !$Param{SenderTypeID} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => 'Need SenderType or SenderTypeID!',
+            Message  => 'Need SenderType or SenderTypeID!',
         );
         return;
     }
@@ -1751,7 +1783,8 @@ sub ArticleSend {
 
     # create article
     my $MessageID = "<$Time.$Random.$Param{TicketID}.$Param{UserID}\@$Self->{FQDN}>";
-    if ($Param{ArticleID} = $Self->ArticleCreate(
+    if (
+        $Param{ArticleID} = $Self->ArticleCreate(
             %Param,
             ContentType => "$Param{Type}, charset=$Param{Charset}",
             MessageID   => $MessageID,
@@ -1814,7 +1847,8 @@ sub ArticleSend {
     if ( $HeadRef && $BodyRef ) {
 
         # write article to fs
-        if (!$Self->ArticleWritePlain(
+        if (
+            !$Self->ArticleWritePlain(
                 ArticleID => $Param{ArticleID},
                 Email     => ${$HeadRef} . "\n" . ${$BodyRef},
                 UserID    => $Param{UserID}
@@ -1827,7 +1861,7 @@ sub ArticleSend {
         # log
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message => "Sent email to '$ToOrig' from '$Param{From}'. "
+            Message  => "Sent email to '$ToOrig' from '$Param{From}'. "
                 . "HistoryType => $HistoryType, Subject => $Param{Subject};",
         );
 
@@ -1933,7 +1967,11 @@ sub SendAgentNotification {
     }
 
     # compat Type
-    if ( $Param{Type} =~ /(EmailAgent|EmailCustomer|PhoneCallCustomer|WebRequestCustomer|SystemRequest)/ ) {
+    if (
+        $Param{Type}
+        =~ /(EmailAgent|EmailCustomer|PhoneCallCustomer|WebRequestCustomer|SystemRequest)/
+        )
+    {
         $Param{Type} = 'NewTicket';
     }
 
@@ -2067,7 +2105,7 @@ sub SendAgentNotification {
     # prepare subject (insert old subject)
     $GetParam{Subject} = $Self->TicketSubjectClean(
         TicketNumber => $Article{TicketNumber},
-        Subject      => $GetParam{Subject} || '',
+        Subject => $GetParam{Subject} || '',
     );
     if ( $Notification{Subject} =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/ ) {
         my $SubjectChar = $1;
@@ -2220,8 +2258,10 @@ sub SendCustomerNotification {
     }
 
     # check if customer notifications should be send
-    if ( $Self->{ConfigObject}->Get('CustomerNotifyJustToRealCustomer')
-        && !$Article{CustomerUserID} )
+    if (
+        $Self->{ConfigObject}->Get('CustomerNotifyJustToRealCustomer')
+        && !$Article{CustomerUserID}
+        )
     {
         $Self->{LogObject}->Log(
             Priority => 'notice',
@@ -2238,7 +2278,7 @@ sub SendCustomerNotification {
         if ( !$CustomerUser{UserEmail} ) {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message => "Send no customer notification because of missing "
+                Message  => "Send no customer notification because of missing "
                     . "customer email (CustomerUserID=$CustomerUser{CustomerUserID})!",
             );
             return;
@@ -2382,7 +2422,7 @@ sub SendCustomerNotification {
     # prepare subject (insert old subject)
     $Article{Subject} = $Self->TicketSubjectClean(
         TicketNumber => $Article{TicketNumber},
-        Subject      => $Article{Subject} || '',
+        Subject => $Article{Subject} || '',
     );
     if ( $Notification{Subject} =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/ ) {
         my $SubjectChar = $1;
@@ -2391,7 +2431,7 @@ sub SendCustomerNotification {
     }
     $Notification{Subject} = $Self->TicketSubjectBuild(
         TicketNumber => $Article{TicketNumber},
-        Subject      => $Notification{Subject} || '',
+        Subject => $Notification{Subject} || '',
     );
 
     # prepare body (insert old email)
@@ -2674,7 +2714,7 @@ sub SendAutoResponse {
     if ( $Subject =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/ ) {
         my $SubjectChar = $1;
         $GetParam{Subject} =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
-        $Subject           =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$GetParam{Subject}/g;
+        $Subject =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$GetParam{Subject}/g;
     }
     $Subject = $Self->TicketSubjectBuild(
         TicketNumber => $Article{TicketNumber},
@@ -2793,7 +2833,7 @@ sub ArticleFlagSet {
     # ticket event
     my %Article = $Self->ArticleGet(
         ArticleID => $Param{ArticleID},
-        UserID   => $Param{UserID},
+        UserID    => $Param{UserID},
     );
     $Self->TicketEventHandlerPost(
         Event     => 'ArticleFlagSet',
@@ -2830,7 +2870,7 @@ sub ArticleFlagDelete {
 
     # do db insert
     $Self->{DBObject}->Do(
-        SQL  => 'DELETE FROM article_flag WHERE article_id = ? AND '
+        SQL => 'DELETE FROM article_flag WHERE article_id = ? AND '
             . 'create_by = ? AND article_flag = ?',
         Bind => [ \$Param{ArticleID}, \$Param{UserID}, \$Param{Flag} ],
     );
@@ -2838,7 +2878,7 @@ sub ArticleFlagDelete {
     # ticket event
     my %Article = $Self->ArticleGet(
         ArticleID => $Param{ArticleID},
-        UserID   => $Param{UserID},
+        UserID    => $Param{UserID},
     );
     $Self->TicketEventHandlerPost(
         Event     => 'ArticleFlagDelete',

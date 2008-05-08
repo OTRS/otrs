@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser.pm - some customer user functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUser.pm,v 1.40 2008-04-09 00:31:19 martin Exp $
+# $Id: CustomerUser.pm,v 1.41 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Kernel::System::CustomerCompany;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 =head1 NAME
 
@@ -48,7 +48,9 @@ create an object
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
+        MainObject   => $MainObject,
     );
+
     my $CustomerUserObject = Kernel::System::CustomerUser->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
@@ -249,11 +251,14 @@ sub CustomerUserDataGet {
                 my %Company = ();
 
                 # check if customer company support is enabled
-                if (   $Self->{ConfigObject}->Get("CustomerCompany")
-                    && $Self->{ConfigObject}->Get("CustomerUser$_")->{CustomerCompanySupport} )
+                if (
+                    $Self->{ConfigObject}->Get("CustomerCompany")
+                    && $Self->{ConfigObject}->Get("CustomerUser$_")->{CustomerCompanySupport}
+                    )
                 {
-                    %Company = $Self->{CustomerCompanyObject}
-                        ->CustomerCompanyGet( CustomerID => $Customer{UserCustomerID}, );
+                    %Company = $Self->{CustomerCompanyObject}->CustomerCompanyGet(
+                        CustomerID => $Customer{UserCustomerID},
+                    );
                 }
                 return (
                     %Company,
@@ -287,8 +292,7 @@ to add new customer users
 =cut
 
 sub CustomerUserAdd {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check data source
     if ( !$Param{Source} ) {
@@ -301,7 +305,7 @@ sub CustomerUserAdd {
         if (%User) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "User already exists '$Param{UserLogin}'!",
+                Message  => "User already exists '$Param{UserLogin}'!",
             );
             return;
         }
@@ -389,7 +393,8 @@ generate a random password
 =cut
 
 sub GenerateRandomPassword {
-    my $Self  = shift;
+    my ($Self) = @_;
+
     return $Self->{CustomerUser}->GenerateRandomPassword(@_);
 }
 
@@ -406,7 +411,8 @@ set customer user preferences
 =cut
 
 sub SetPreferences {
-    my $Self = shift;
+    my ($Self) = @_;
+
     return $Self->{PreferencesObject}->SetPreferences(@_);
 }
 
@@ -421,7 +427,8 @@ get customer user preferences
 =cut
 
 sub GetPreferences {
-    my $Self = shift;
+    my ($Self) = @_;
+
     return $Self->{PreferencesObject}->GetPreferences(@_);
 }
 
@@ -437,7 +444,8 @@ search in user preferences
 =cut
 
 sub SearchPreferences {
-    my $Self = shift;
+    my ($Self) = @_;
+
     return $Self->{PreferencesObject}->SearchPreferences(@_);
 }
 
@@ -474,8 +482,8 @@ sub TokenGenerate {
 
     # save token in preferences
     $Self->SetPreferences(
-        Key => 'UserToken',
-        Value => $Token,
+        Key    => 'UserToken',
+        Value  => $Token,
         UserID => $Param{UserID},
     );
 
@@ -509,7 +517,7 @@ sub TokenCheck {
     );
 
     # check requested vs. stored token
-    if ( $Preferences{UserToken} && $Preferences{UserToken} eq $Param{Token}) {
+    if ( $Preferences{UserToken} && $Preferences{UserToken} eq $Param{Token} ) {
 
         # reset password token
         $Self->SetPreferences(
@@ -544,6 +552,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.40 $ $Date: 2008-04-09 00:31:19 $
+$Revision: 1.41 $ $Date: 2008-05-08 09:36:19 $
 
 =cut

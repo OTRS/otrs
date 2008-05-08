@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketHistory.pm - ticket history
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketHistory.pm,v 1.10 2008-01-31 06:22:12 tr Exp $
+# $Id: AgentTicketHistory.pm,v 1.11 2008-05-08 09:36:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check needed objects
@@ -49,7 +49,8 @@ sub Run {
     }
 
     # check permissions
-    if (!$Self->{TicketObject}->Permission(
+    if (
+        !$Self->{TicketObject}->Permission(
             Type     => 'ro',
             TicketID => $Self->{TicketID},
             UserID   => $Self->{UserID}
@@ -94,8 +95,9 @@ sub Run {
             if ( !$Data{Name} ) {
                 $Data{Name} = '" ';
             }
-            $Data{Name} = $Self->{LayoutObject}->{LanguageObject}
-                ->Get( 'History::' . $Data{HistoryType} . '", ' . $Data{Name} );
+            $Data{Name} = $Self->{LayoutObject}->{LanguageObject}->Get(
+                'History::' . $Data{HistoryType} . '", ' . $Data{Name}
+            );
 
             # remove not needed place holder
             $Data{Name} =~ s/\%s//g;

@@ -2,7 +2,7 @@
 # Kernel/System/Queue/PreferencesDB.pm - some user functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesDB.pm,v 1.3 2008-03-05 23:10:08 martin Exp $
+# $Id: PreferencesDB.pm,v 1.4 2008-05-08 09:36:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,16 +15,14 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.3 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
-    my $Type = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
 
     # check needed objects
     for (qw(DBObject ConfigObject LogObject)) {
@@ -32,9 +30,9 @@ sub new {
     }
 
     # preferences table data
-    $Self->{PreferencesTable} = 'queue_preferences';
-    $Self->{PreferencesTableKey} = 'preferences_key';
-    $Self->{PreferencesTableValue} = 'preferences_value';
+    $Self->{PreferencesTable}        = 'queue_preferences';
+    $Self->{PreferencesTableKey}     = 'preferences_key';
+    $Self->{PreferencesTableValue}   = 'preferences_value';
     $Self->{PreferencesTableQueueID} = 'queue_id';
 
     return $Self;
@@ -45,8 +43,8 @@ sub QueuePreferencesSet {
 
     # check needed stuff
     for (qw(QueueID Key Value)) {
-        if (!defined($Param{$_})) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        if ( !defined( $Param{$_} ) ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -72,8 +70,8 @@ sub QueuePreferencesGet {
 
     # check needed stuff
     for (qw(QueueID)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
@@ -84,14 +82,14 @@ sub QueuePreferencesGet {
     }
 
     # get preferences
-    return if ! $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL => "SELECT $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue} "
             . " FROM $Self->{PreferencesTable} WHERE $Self->{PreferencesTableQueueID} = ?",
         Bind => [ \$Param{QueueID} ],
     );
     my %Data;
-    while (my @Row = $Self->{DBObject}->FetchrowArray()) {
-        $Data{$Row[0]} = $Row[1];
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $Data{ $Row[0] } = $Row[1];
     }
 
     # return data

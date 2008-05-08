@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Config.pm,v 1.76 2008-04-09 00:31:20 martin Exp $
+# $Id: Config.pm,v 1.77 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 =head1 NAME
 
@@ -88,8 +88,8 @@ sub new {
     $Self->{Home} = $Self->{ConfigObject}->Get('Home');
 
     # set utf8 if used
-    if ($Self->{ConfigObject}->Get('DefaultCharset') =~ /^utf(-8|8)$/i) {
-        $Self->{utf8} = 1;
+    if ( $Self->{ConfigObject}->Get('DefaultCharset') =~ /^utf(-8|8)$/i ) {
+        $Self->{utf8}     = 1;
         $Self->{FileMode} = ':utf8';
     }
     else {
@@ -135,7 +135,7 @@ sub _Init {
             my $ConfigFile = '';
             my $In;
             if ( open( $In, '<', $File ) ) {
-                $ConfigFile = do {local $/; <$In>};
+                $ConfigFile = do { local $/; <$In> };
                 close $In;
             }
             else {
@@ -157,8 +157,8 @@ sub _Init {
                 if ( -e $FileCache ) {
                     my $ConfigFileCache = '';
                     my $In;
-                    if ( open( $In , "<$Self->{FileMode}", $FileCache ) ) {
-                        $ConfigFileCache = do {local $/; <$In>};
+                    if ( open( $In, "<$Self->{FileMode}", $FileCache ) ) {
+                        $ConfigFileCache = do { local $/; <$In> };
                         close $In;
                         my $XMLHashRef;
                         if ( eval $ConfigFileCache ) {
@@ -194,7 +194,7 @@ sub _Init {
                             print $Out "use utf8;\n";
                         }
                         print $Out $Dump . "\n1;";
-                        close( $Out );
+                        close($Out);
                     }
                     else {
                         $Self->{LogObject}->Log(
@@ -209,11 +209,15 @@ sub _Init {
 
         # load framework, application, config, changes
         for my $Init (qw(Framework Application Config Changes)) {
-            for my $Set (sort keys %Data) {
-                if ($Data{$Set}->[1]->{otrs_config}->[1]->{init} eq $Init) {
+            for my $Set ( sort keys %Data ) {
+                if ( $Data{$Set}->[1]->{otrs_config}->[1]->{init} eq $Init ) {
+
                     # just use valid entries
-                    if ($Data{$Set}->[1]->{otrs_config}->[1]->{ConfigItem}) {
-                        push (@{$Self->{XMLConfig}}, @{$Data{$Set}->[1]->{otrs_config}->[1]->{ConfigItem}});
+                    if ( $Data{$Set}->[1]->{otrs_config}->[1]->{ConfigItem} ) {
+                        push(
+                            @{ $Self->{XMLConfig} },
+                            @{ $Data{$Set}->[1]->{otrs_config}->[1]->{ConfigItem} }
+                        );
                     }
                     delete $Data{$Set};
                 }
@@ -222,8 +226,10 @@ sub _Init {
 
         # load misc
         for my $Set ( sort keys %Data ) {
-            push( @{ $Self->{XMLConfig} },
-                @{ $Data{$Set}->[1]->{otrs_config}->[1]->{ConfigItem} } );
+            push(
+                @{ $Self->{XMLConfig} },
+                @{ $Data{$Set}->[1]->{otrs_config}->[1]->{ConfigItem} }
+            );
             delete $Data{$Set};
         }
     }
@@ -297,7 +303,7 @@ sub WriteDefault {
         print $Out $File;
         print $Out "}\n";
         print $Out "1;\n";
-        close( $Out );
+        close($Out);
         return 1;
     }
 }
@@ -347,7 +353,7 @@ sub Download {
         while (<$In>) {
             $File .= $_;
         }
-        close( $In );
+        close($In);
         if ( $Param{Type} ) {
             my $Length = length($File);
             if ( $Length > 25 ) {
@@ -396,7 +402,7 @@ sub Upload {
     }
 
     print $Out $Param{Content};
-    close( $Out );
+    close($Out);
     return 1;
 }
 
@@ -449,10 +455,12 @@ sub CreateConfig {
 
                     # do nothing
                 }
-                elsif (( defined($A1) && !defined($A2) )
+                elsif (
+                    ( defined($A1) && !defined($A2) )
                     || ( !defined($A1) && defined($A2) )
                     || $Self->DataDiff( Data1 => $A1, Data2 => $A2 )
-                    || ( $Config{Valid} && !$ConfigDefault{Valid} ) )
+                    || ( $Config{Valid} && !$ConfigDefault{Valid} )
+                    )
                 {
                     $File .= "\$Self->{'$Name'} = $C";
                 }
@@ -463,8 +471,10 @@ sub CreateConfig {
             }
             elsif (
                 !$Config{Valid}
-                && ( $ConfigDefault{Valid}
-                    || eval( '$Self->{ConfigDefaultObject}->{\'' . $Name . '\'}' ) )
+                && (
+                    $ConfigDefault{Valid}
+                    || eval( '$Self->{ConfigDefaultObject}->{\'' . $Name . '\'}' )
+                )
                 )
             {
                 $File .= "delete \$Self->{'$Name'};\n";
@@ -493,7 +503,7 @@ sub CreateConfig {
     print $Out $File;
     print $Out "}\n";
     print $Out "1;\n";
-    close( $Out );
+    close($Out);
     return 1;
 }
 
@@ -543,7 +553,7 @@ sub ConfigItemUpdate {
         );
         return;
     }
-    close( $Out );
+    close($Out);
 
     # diff
     my %ConfigDefault = $Self->ConfigItemGet(
@@ -579,18 +589,19 @@ sub ConfigItemUpdate {
         );
         return;
     }
+
     # update content
     my @FileOld = <$In>;
     my @FileNew = ();
-    my $Insert = 0;
+    my $Insert  = 0;
     for my $Line ( reverse @FileOld ) {
-        push ( @FileNew, $Line );
+        push( @FileNew, $Line );
         if ( !$Insert && ( $Line =~ /^}/ || $Line =~ /^\$Self->\{'1'\} = 1;/ ) ) {
-            push ( @FileNew, $Option );
+            push( @FileNew, $Option );
             $Insert = 1;
         }
     }
-    close ( $In );
+    close($In);
 
     # write it to file
     if ( !open( $Out, ">$Self->{FileMode}", "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
@@ -604,7 +615,7 @@ sub ConfigItemUpdate {
     for my $Line ( reverse @FileNew ) {
         print $Out $Line;
     }
-    close( $Out );
+    close($Out);
     return 1;
 }
 
@@ -712,7 +723,8 @@ sub ConfigItemGet {
                         }
                         push(
                             @{ $ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item} },
-                            {   Key     => $Key,
+                            {
+                                Key     => $Key,
                                 Content => '',
                                 Array   => \@Array,
                             },
@@ -729,7 +741,8 @@ sub ConfigItemGet {
                         }
                         push(
                             @{ $ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item} },
-                            {   Key     => $Key,
+                            {
+                                Key     => $Key,
                                 Content => '',
                                 Hash    => \@Array,
                             },
@@ -738,15 +751,18 @@ sub ConfigItemGet {
                     else {
                         my $Option = 0;
                         for my $Index ( 1 .. $#Array ) {
-                            if (   defined( $Array[$Index]{Key} )
+                            if (
+                                defined( $Array[$Index]{Key} )
                                 && $Array[$Index]{Key} eq $Key
-                                && defined( $Array[$Index]{Option} ) )
+                                && defined( $Array[$Index]{Option} )
+                                )
                             {
                                 $Option = 1;
                                 $Array[$Index]{Option}[1]{SelectedID} = $Hash{$Key};
                                 push(
                                     @{ $ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item} },
-                                    {   Key     => $Key,
+                                    {
+                                        Key     => $Key,
                                         Content => '',
                                         Option  => $Array[$Index]{Option},
                                     },
@@ -756,7 +772,8 @@ sub ConfigItemGet {
                         if ( $Option == 0 ) {
                             push(
                                 @{ $ConfigItem->{Setting}->[1]->{Hash}->[1]->{Item} },
-                                {   Key     => $Key,
+                                {
+                                    Key     => $Key,
                                     Content => $Hash{$Key},
                                 },
                             );
@@ -789,7 +806,8 @@ sub ConfigItemGet {
                         my @Array = (undef);
                         for my $Content ( @{ $Hash{$Key} } ) {
                             push(
-                                @{  $ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}
+                                @{
+                                    $ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}
                                     },
                                 { Content => $Content, }
                             );
@@ -814,7 +832,8 @@ sub ConfigItemGet {
                                     }
                                 }
                                 push(
-                                    @{  $ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]
+                                    @{
+                                        $ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]
                                             ->{$Key}
                                         },
                                     \%NavBar
@@ -863,7 +882,8 @@ sub ConfigItemGet {
                     }
                     push(
                         @{ $ConfigItem->{Setting}->[1]->{TimeWorkingHours}->[1]->{Day} },
-                        {   Name => $Day,
+                        {
+                            Name => $Day,
                             Hour => \@Array,
                         },
                     );
@@ -882,9 +902,11 @@ sub ConfigItemGet {
                         for my $Day ( sort { $a <=> $b } keys %Days ) {
 
                             push(
-                                @{  $ConfigItem->{Setting}->[1]->{TimeVacationDays}->[1]->{Item}
+                                @{
+                                    $ConfigItem->{Setting}->[1]->{TimeVacationDays}->[1]->{Item}
                                     },
-                                {   Month   => $Month,
+                                {
+                                    Month   => $Month,
                                     Day     => $Day,
                                     Content => $Hash{$Month}->{$Day},
                                 },
@@ -905,10 +927,12 @@ sub ConfigItemGet {
                         for my $Month ( sort { $a <=> $b } keys %Months ) {
                             for my $Day ( sort { $a <=> $b } keys %{ $Hash{$Year}->{$Month} } ) {
                                 push(
-                                    @{  $ConfigItem->{Setting}->[1]->{TimeVacationDaysOneTime}->[1]
+                                    @{
+                                        $ConfigItem->{Setting}->[1]->{TimeVacationDaysOneTime}->[1]
                                             ->{Item}
                                         },
-                                    {   Year    => $Year,
+                                    {
+                                        Year    => $Year,
                                         Month   => $Month,
                                         Day     => $Day,
                                         Content => $Hash{$Year}->{$Month}->{$Day},
@@ -936,15 +960,19 @@ sub ConfigItemGet {
             elsif ( !defined($A1) && !defined($A2) ) {
                 $ConfigItem->{Diff} = 0;
             }
-            elsif (( defined($A1) && !defined($A2) )
+            elsif (
+                ( defined($A1) && !defined($A2) )
                 || ( !defined($A1) && defined($A2) )
-                || $Self->DataDiff( Data1 => $A1, Data2 => $A2 ) )
+                || $Self->DataDiff( Data1 => $A1, Data2 => $A2 )
+                )
             {
                 $ConfigItem->{Diff} = 1;
             }
         }
-        if (   $ConfigItem->{Setting}->[1]->{Option}
-            && $ConfigItem->{Setting}->[1]->{Option}->[1]->{Location} )
+        if (
+            $ConfigItem->{Setting}->[1]->{Option}
+            && $ConfigItem->{Setting}->[1]->{Option}->[1]->{Location}
+            )
         {
             my $Home = $Self->{Home};
             my @List = glob( $Home . "/$ConfigItem->{Setting}->[1]->{Option}->[1]->{Location}" );
@@ -966,7 +994,8 @@ sub ConfigItemGet {
                 }
                 push(
                     @{ $ConfigItem->{Setting}->[1]->{Option}->[1]->{Item} },
-                    {   Key     => $Key,
+                    {
+                        Key     => $Key,
                         Content => $Value,
                     },
                 );
@@ -1108,18 +1137,23 @@ sub ConfigSubGroupConfigItemList {
             my $Name = $ConfigItem->{Name};
             if ( $ConfigItem->{Group} && ref( $ConfigItem->{Group} ) eq 'ARRAY' ) {
                 for my $Group ( @{ $ConfigItem->{Group} } ) {
-                    if (   $Group
+                    if (
+                        $Group
                         && $ConfigItem->{SubGroup}
-                        && ref( $ConfigItem->{SubGroup} ) eq 'ARRAY' )
+                        && ref( $ConfigItem->{SubGroup} ) eq 'ARRAY'
+                        )
                     {
                         for my $SubGroup ( @{ $ConfigItem->{SubGroup} } ) {
-                            if (   !$Used{ $ConfigItem->{Name} }
+                            if (
+                                !$Used{ $ConfigItem->{Name} }
                                 && $SubGroup->{Content}
-                                && $Group->{Content} )
+                                && $Group->{Content}
+                                )
                             {
                                 $Used{ $ConfigItem->{Name} } = 1;
                                 push(
-                                    @{  $Data{ $Group->{Content} . '::' . $SubGroup->{Content} }
+                                    @{
+                                        $Data{ $Group->{Content} . '::' . $SubGroup->{Content} }
                                         },
                                     $ConfigItem->{Name}
                                 );
@@ -1180,7 +1214,8 @@ sub ConfigItemSearch {
                                 if ( $_ && $_ =~ /\Q$Param{Search}\E/i ) {
                                     push(
                                         @List,
-                                        {   SubGroup      => $SubGroup,
+                                        {
+                                            SubGroup      => $SubGroup,
                                             SubGroupCount => $SubGroups{$SubGroup},
                                             Group         => $Group,
                                         },
@@ -1196,7 +1231,8 @@ sub ConfigItemSearch {
                                 if ( $Config->{$Key} && $Config->{$Key} =~ /\Q$Param{Search}\E/i ) {
                                     push(
                                         @List,
-                                        {   SubGroup      => $SubGroup,
+                                        {
+                                            SubGroup      => $SubGroup,
                                             SubGroupCount => $SubGroups{$SubGroup},
                                             Group         => $Group,
                                         },
@@ -1210,7 +1246,8 @@ sub ConfigItemSearch {
                         if ( $Config =~ /\Q$Param{Search}\E/i ) {
                             push(
                                 @List,
-                                {   SubGroup      => $SubGroup,
+                                {
+                                    SubGroup      => $SubGroup,
                                     SubGroupCount => $SubGroups{$SubGroup},
                                     Group         => $Group,
                                 },
@@ -1223,7 +1260,8 @@ sub ConfigItemSearch {
                     if ( !$Used{ $Group . '::' . $SubGroup } ) {
                         push(
                             @List,
-                            {   SubGroup      => $SubGroup,
+                            {
+                                SubGroup      => $SubGroup,
                                 SubGroupCount => $SubGroups{$SubGroup},
                                 Group         => $Group,
                             },
@@ -1239,7 +1277,8 @@ sub ConfigItemSearch {
                             if ( $Description =~ /\Q$Param{Search}\E/i ) {
                                 push(
                                     @List,
-                                    {   SubGroup      => $SubGroup,
+                                    {
+                                        SubGroup      => $SubGroup,
                                         SubGroupCount => $SubGroups{$SubGroup},
                                         Group         => $Group,
                                     },
@@ -1490,8 +1529,10 @@ sub _XML2Perl {
                     }
                     )
                 {
-                    $SubHash{ $Param{Data}->{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Hash}
-                            ->[1]->{Item}->[$Index]->{Key} }
+                    $SubHash{
+                        $Param{Data}->{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Hash}
+                            ->[1]->{Item}->[$Index]->{Key}
+                        }
                         = $Param{Data}->{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Hash}->[1]
                         ->{Item}->[$Index]->{Content};
                 }
@@ -1506,9 +1547,11 @@ sub _XML2Perl {
                     }
                     )
                 {
-                    push( @SubArray,
+                    push(
+                        @SubArray,
                         $Param{Data}->{Setting}->[1]->{Hash}->[1]->{Item}->[$Item]->{Array}->[1]
-                            ->{Item}->[$Index]->{Content} );
+                            ->{Item}->[$Index]->{Content}
+                    );
                 }
                 $Hash{ $Array[$Item]->{Key} } = \@SubArray;
             }
@@ -1543,20 +1586,26 @@ sub _XML2Perl {
             if ( $Key eq 'Group' || $Key eq 'GroupRo' ) {
                 my @Array = ();
                 for my $Index (
-                    1 .. $#{ $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key} } )
+                    1 .. $#{ $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key} }
+                    )
                 {
-                    push( @Array,
+                    push(
+                        @Array,
                         $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}->[$Index]
-                            ->{Content} );
+                            ->{Content}
+                    );
                 }
                 $Hash{$Key} = \@Array;
             }
             elsif ( $Key eq 'NavBar' || $Key eq 'NavBarModule' ) {
-                if (ref( $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key} ) eq
-                    'ARRAY' )
+                if (
+                    ref( $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key} ) eq
+                    'ARRAY'
+                    )
                 {
                     for my $Index (
-                        1 .. $#{ $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key} } )
+                        1 .. $#{ $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key} }
+                        )
                     {
                         my $Content = $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}
                             ->[$Index];
@@ -1692,6 +1741,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.76 $ $Date: 2008-04-09 00:31:20 $
+$Revision: 1.77 $ $Date: 2008-05-08 09:36:19 $
 
 =cut

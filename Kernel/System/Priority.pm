@@ -2,7 +2,7 @@
 # Kernel/System/Priority.pm - all ticket priority function
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Priority.pm,v 1.14 2008-04-11 15:50:08 martin Exp $
+# $Id: Priority.pm,v 1.15 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -49,7 +49,9 @@ create an object
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
+        MainObject   => $MainObject,
     );
+
     my $PriorityObject = Kernel::System::Priority->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
@@ -93,12 +95,12 @@ sub PriorityList {
     }
 
     # sql
-    my $SQL  = 'SELECT id, name FROM ticket_priority ';
+    my $SQL = 'SELECT id, name FROM ticket_priority ';
     if ( $Param{Valid} ) {
         $SQL .= "WHERE valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
     }
 
-    return if ! $Self->{DBObject}->Prepare( SQL => $SQL );
+    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
     my %Data = ();
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[1];
@@ -129,8 +131,8 @@ sub PriorityGet {
     }
 
     # sql
-    return if ! $Self->{DBObject}->Prepare(
-        SQL  => "SELECT id, name, valid_id, create_time, create_by, change_time, change_by "
+    return if !$Self->{DBObject}->Prepare(
+        SQL => "SELECT id, name, valid_id, create_time, create_by, change_time, change_by "
             . "FROM ticket_priority WHERE id = ?",
         Bind => [ \$Param{PriorityID} ],
     );
@@ -176,7 +178,7 @@ sub PriorityAdd {
             . '(?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
             \$Param{Name}, \$Param{ValidID}, \$Param{UserID}, \$Param{UserID},
-        ]
+            ]
     );
 }
 
@@ -268,7 +270,7 @@ sub PriorityLookup {
         $SQL = 'SELECT name FROM ticket_priority WHERE id = ?';
         push @Bind, \$Param{PriorityID};
     }
-    $Self->{DBObject}->Prepare( SQL  => $SQL, Bind => \@Bind );
+    $Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Self->{$CacheKey} = $Row[0];
     }
@@ -301,6 +303,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2008-04-11 15:50:08 $
+$Revision: 1.15 $ $Date: 2008-05-08 09:36:19 $
 
 =cut

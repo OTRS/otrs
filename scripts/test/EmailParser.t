@@ -2,7 +2,7 @@
 # EmailParser.t - email parser tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.t,v 1.13 2008-04-07 10:27:38 martin Exp $
+# $Id: EmailParser.t,v 1.14 2008-05-08 09:35:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,11 +16,11 @@ my $Home = $Self->{ConfigObject}->Get('Home');
 
 # test #1
 my @Array = ();
-open(IN, "< $Home/scripts/test/sample/PostMaster-Test1.box");
+open( IN, "< $Home/scripts/test/sample/PostMaster-Test1.box" );
 while (<IN>) {
-    push(@Array, $_);
+    push( @Array, $_ );
 }
-close (IN);
+close(IN);
 
 $Self->{EmailParserObject} = Kernel::System::EmailParser->new(
     %{$Self},
@@ -28,13 +28,13 @@ $Self->{EmailParserObject} = Kernel::System::EmailParser->new(
 );
 
 $Self->Is(
-    $Self->{EmailParserObject}->GetParam(WHAT => 'To'),
+    $Self->{EmailParserObject}->GetParam( WHAT => 'To' ),
     'darthvader@otrs.org',
     "#1 GetParam(WHAT => 'To')",
 );
 
 $Self->Is(
-    $Self->{EmailParserObject}->GetParam(WHAT => 'From'),
+    $Self->{EmailParserObject}->GetParam( WHAT => 'From' ),
     'Skywalker Attachment <skywalker@otrs.org>',
     "#1 GetParam(WHAT => 'From')",
 );
@@ -62,36 +62,37 @@ $Self->Is(
     "#2 SplitAddressLine()",
 );
 $Self->Is(
-    $Self->{EmailParserObject}->GetEmailAddress(Email => 'Juergen Weber <juergen.qeber@air.com>'),
+    $Self->{EmailParserObject}->GetEmailAddress( Email => 'Juergen Weber <juergen.qeber@air.com>' ),
     'juergen.qeber@air.com',
     "#1 GetEmailAddress()",
 );
 
 $Self->Is(
-    $Self->{EmailParserObject}->GetEmailAddress(Email => 'Juergen Weber <juergen+qeber@air.com>'),
+    $Self->{EmailParserObject}->GetEmailAddress( Email => 'Juergen Weber <juergen+qeber@air.com>' ),
     'juergen+qeber@air.com',
     "#1 GetEmailAddress()",
 );
 
 $Self->Is(
-    $Self->{EmailParserObject}->GetEmailAddress(Email => 'Juergen Weber <juergen+qeber@air.com> (Comment)'),
+    $Self->{EmailParserObject}
+        ->GetEmailAddress( Email => 'Juergen Weber <juergen+qeber@air.com> (Comment)' ),
     'juergen+qeber@air.com',
     "#1 GetEmailAddress()",
 );
 
 $Self->Is(
-    $Self->{EmailParserObject}->GetEmailAddress(Email => 'juergen+qeber@air.com (Comment)'),
+    $Self->{EmailParserObject}->GetEmailAddress( Email => 'juergen+qeber@air.com (Comment)' ),
     'juergen+qeber@air.com',
     "#1 GetEmailAddress()",
 );
 
 # test #3
 @Array = ();
-open(IN, "< $Home/scripts/test/sample/PostMaster-Test3.box");
+open( IN, "< $Home/scripts/test/sample/PostMaster-Test3.box" );
 while (<IN>) {
-    push(@Array, $_);
+    push( @Array, $_ );
 }
-close (IN);
+close(IN);
 
 $Self->{EmailParserObject} = Kernel::System::EmailParser->new(
     %{$Self},
@@ -109,7 +110,7 @@ $Self->Is(
     '4e78ae6bffb120669f50bca56965f552',
     "#3 md5 check",
 );
-if ($Self->{ConfigObject}->Get('DefaultCharset') =~ /utf/i) {
+if ( $Self->{ConfigObject}->Get('DefaultCharset') =~ /utf/i ) {
     $Self->Is(
         $Attachments[1]->{Filename},
         'utf-8-file-äöüß-カスタマ.txt',
@@ -119,11 +120,11 @@ if ($Self->{ConfigObject}->Get('DefaultCharset') =~ /utf/i) {
 
 # test #4
 @Array = ();
-open(IN, "< $Home/scripts/test/sample/PostMaster-Test4.box");
+open( IN, "< $Home/scripts/test/sample/PostMaster-Test4.box" );
 while (<IN>) {
-    push(@Array, $_);
+    push( @Array, $_ );
 }
-close (IN);
+close(IN);
 
 $Self->{EmailParserObject} = Kernel::System::EmailParser->new(
     %{$Self},
@@ -134,19 +135,19 @@ $Self->Is(
     'iso-8859-15',
     "#4 GetCharset()",
 );
-if ($Self->{ConfigObject}->Get('DefaultCharset') =~ /utf/i) {
+if ( $Self->{ConfigObject}->Get('DefaultCharset') =~ /utf/i ) {
     $Self->Is(
-        $Self->{EmailParserObject}->GetParam(WHAT => 'From'),
+        $Self->{EmailParserObject}->GetParam( WHAT => 'From' ),
         'Hans BÄKOSchönland <me@bogen.net>',
         "#4 From()",
     );
     $Self->Is(
-        $Self->{EmailParserObject}->GetParam(WHAT => 'To'),
+        $Self->{EmailParserObject}->GetParam( WHAT => 'To' ),
         'Namedyński (hans@example.com)',
         "#4 To()",
     );
     $Self->Is(
-        $Self->{EmailParserObject}->GetParam(WHAT => 'Subject'),
+        $Self->{EmailParserObject}->GetParam( WHAT => 'Subject' ),
         'utf8: 使って / ISO-8859-1: Priorität"  / cp-1251: Сергей Углицких',
         "#4 Subject()",
     );
@@ -154,14 +155,14 @@ if ($Self->{ConfigObject}->Get('DefaultCharset') =~ /utf/i) {
 
 # match values
 my %Match = (
-    "Test1:".chr(8211) => 0,
-    "Test2:&" => 0,
-    "Test3:".chr(8715) => 0,
-    "Test4:&" => 0,
-    "Test5:".chr(hex("3d")) => 0,
+    "Test1:" . chr(8211)              => 0,
+    "Test2:&"                         => 0,
+    "Test3:" . chr(8715)              => 0,
+    "Test4:&"                         => 0,
+    "Test5:" . chr( hex("3d") )       => 0,
     "Compare Cable, DSL or Satellite" => 0,
 );
-for my $Key (sort keys %Match) {
+for my $Key ( sort keys %Match ) {
     if ( $Self->{EmailParserObject}->GetMessageBody() =~ /$Key/ ) {
         $Match{$Key} = 1;
     }
@@ -173,13 +174,13 @@ for my $Key (sort keys %Match) {
 
 # match values not
 my %MatchNot = (
-    "style" => 0,
+    "style"      => 0,
     "background" => 0,
-    "br" => 0,
-    "div" => 0,
-    "html" => 0,
+    "br"         => 0,
+    "div"        => 0,
+    "html"       => 0,
 );
-for my $Key (sort keys %MatchNot) {
+for my $Key ( sort keys %MatchNot ) {
     if ( $Self->{EmailParserObject}->GetMessageBody() !~ /$Key/ ) {
         $MatchNot{$Key} = 1;
     }
@@ -191,11 +192,11 @@ for my $Key (sort keys %MatchNot) {
 
 # test #5
 @Array = ();
-open(IN, "< $Home/scripts/test/sample/PostMaster-Test5.box");
+open( IN, "< $Home/scripts/test/sample/PostMaster-Test5.box" );
 while (<IN>) {
-    push(@Array, $_);
+    push( @Array, $_ );
 }
-close (IN);
+close(IN);
 
 $Self->{EmailParserObject} = Kernel::System::EmailParser->new(
     %{$Self},
@@ -243,11 +244,11 @@ $Self->Is(
 
 # test #6
 @Array = ();
-open(IN, "< $Home/scripts/test/sample/PostMaster-Test6.box");
+open( IN, "< $Home/scripts/test/sample/PostMaster-Test6.box" );
 while (<IN>) {
-    push(@Array, $_);
+    push( @Array, $_ );
 }
-close (IN);
+close(IN);
 
 $Self->{EmailParserObject} = Kernel::System::EmailParser->new(
     %{$Self},
@@ -265,7 +266,7 @@ $Self->Is(
     '5ee767f3b68f24a9213e0bef82dc53e5',
     "#6 md5 check",
 );
-if ($Self->{ConfigObject}->Get('DefaultCharset') =~ /utf/i) {
+if ( $Self->{ConfigObject}->Get('DefaultCharset') =~ /utf/i ) {
     $Self->Is(
         $Attachments[1]->{Filename},
         'test-attachment-äöüß.pdf',
@@ -278,7 +279,7 @@ $Self->Is(
     'bb29962e132ba159539f1e88b41663b1',
     "#6 md5 check",
 );
-if ($Self->{ConfigObject}->Get('DefaultCharset') =~ /utf/i) {
+if ( $Self->{ConfigObject}->Get('DefaultCharset') =~ /utf/i ) {
     $Self->Is(
         $Attachments[2]->{Filename},
         'test-attachment-äöüß-utf-8.txt',
@@ -291,7 +292,7 @@ $Self->Is(
     '0596f2939525c6bd50fc2b649e40fbb6',
     "#6 md5 check",
 );
-if ($Self->{ConfigObject}->Get('DefaultCharset') =~ /utf/i) {
+if ( $Self->{ConfigObject}->Get('DefaultCharset') =~ /utf/i ) {
     $Self->Is(
         $Attachments[3]->{Filename},
         'test-attachment-äöüß-iso-8859-1.txt',
@@ -301,11 +302,11 @@ if ($Self->{ConfigObject}->Get('DefaultCharset') =~ /utf/i) {
 
 # test #7
 @Array = ();
-open(IN, "< $Home/scripts/test/sample/PostMaster-Test7.box");
+open( IN, "< $Home/scripts/test/sample/PostMaster-Test7.box" );
 while (<IN>) {
-    push(@Array, $_);
+    push( @Array, $_ );
 }
-close (IN);
+close(IN);
 
 $Self->{EmailParserObject} = Kernel::System::EmailParser->new(
     %{$Self},
@@ -353,11 +354,11 @@ $Self->Is(
 
 # test #8
 @Array = ();
-open(IN, "< $Home/scripts/test/sample/PostMaster-Test8.box");
+open( IN, "< $Home/scripts/test/sample/PostMaster-Test8.box" );
 while (<IN>) {
-    push(@Array, $_);
+    push( @Array, $_ );
 }
-close (IN);
+close(IN);
 
 $Self->{EmailParserObject} = Kernel::System::EmailParser->new(
     %{$Self},
@@ -386,11 +387,11 @@ $Self->True(
 
 # test #9
 @Array = ();
-open(IN, "< $Home/scripts/test/sample/PostMaster-Test9.box");
+open( IN, "< $Home/scripts/test/sample/PostMaster-Test9.box" );
 while (<IN>) {
-    push(@Array, $_);
+    push( @Array, $_ );
 }
-close (IN);
+close(IN);
 
 $Self->{EmailParserObject} = Kernel::System::EmailParser->new(
     %{$Self},
@@ -423,11 +424,11 @@ $Self->True(
 
 # test #10
 @Array = ();
-open(IN, "< $Home/scripts/test/sample/PostMaster-Test10.box");
+open( IN, "< $Home/scripts/test/sample/PostMaster-Test10.box" );
 while (<IN>) {
-    push(@Array, $_);
+    push( @Array, $_ );
 }
-close (IN);
+close(IN);
 
 $Self->{EmailParserObject} = Kernel::System::EmailParser->new(
     %{$Self},
@@ -439,7 +440,7 @@ $Self->Is(
     "#10 GetCharset() - iso-8859-1 charset should be found",
 );
 
-$MD5 = $Self->{MainObject}->MD5sum( String => $Self->{EmailParserObject}->GetMessageBody()  ) || '';
+$MD5 = $Self->{MainObject}->MD5sum( String => $Self->{EmailParserObject}->GetMessageBody() ) || '';
 $Self->Is(
     $MD5,
     '7ddc731e5a3e76cd27d4b1e0628468b1',
@@ -476,11 +477,11 @@ $Self->True(
 
 # test #11
 @Array = ();
-open(IN, "< $Home/scripts/test/sample/PostMaster-Test11.box");
+open( IN, "< $Home/scripts/test/sample/PostMaster-Test11.box" );
 while (<IN>) {
-    push(@Array, $_);
+    push( @Array, $_ );
 }
-close (IN);
+close(IN);
 
 $Self->{EmailParserObject} = Kernel::System::EmailParser->new(
     %{$Self},
@@ -492,7 +493,7 @@ $Self->Is(
     "#11 GetCharset() - iso-8859-1 charset should be found",
 );
 
-$MD5 = $Self->{MainObject}->MD5sum( String => $Self->{EmailParserObject}->GetMessageBody()  ) || '';
+$MD5 = $Self->{MainObject}->MD5sum( String => $Self->{EmailParserObject}->GetMessageBody() ) || '';
 $Self->Is(
     $MD5,
     '52f20c90a1f0d8cf3bd415e278992001',
@@ -507,11 +508,11 @@ $Self->True(
 
 # test #12
 @Array = ();
-open(IN, "< $Home/scripts/test/sample/PostMaster-Test12.box");
+open( IN, "< $Home/scripts/test/sample/PostMaster-Test12.box" );
 while (<IN>) {
-    push(@Array, $_);
+    push( @Array, $_ );
 }
-close (IN);
+close(IN);
 
 $Self->{EmailParserObject} = Kernel::System::EmailParser->new(
     %{$Self},
@@ -523,17 +524,17 @@ $Self->Is(
     "#12 GetCharset() - iso-8859-1 charset should be found",
 );
 $Self->Is(
-    $Self->{EmailParserObject}->GetParam(WHAT => 'To'),
+    $Self->{EmailParserObject}->GetParam( WHAT => 'To' ),
     '金田　美羽 <support@example.com>',
     "#12 GetParam(WHAT => 'To')",
 );
 $Self->Is(
-    $Self->{EmailParserObject}->GetParam(WHAT => 'Cc'),
+    $Self->{EmailParserObject}->GetParam( WHAT => 'Cc' ),
     '張雅惠 <support2@example.com>, "문화연대" <support3@example.com>',
     "#12 GetParam(WHAT => 'Cc')",
 );
 
-$MD5 = $Self->{MainObject}->MD5sum( String => $Self->{EmailParserObject}->GetMessageBody()  ) || '';
+$MD5 = $Self->{MainObject}->MD5sum( String => $Self->{EmailParserObject}->GetMessageBody() ) || '';
 $Self->Is(
     $MD5,
     '603c11a38065909cc13bf53c650506c1',
@@ -612,11 +613,11 @@ $Self->True(
 
 # test #13
 @Array = ();
-open(IN, "< $Home/scripts/test/sample/PostMaster-Test13.box");
+open( IN, "< $Home/scripts/test/sample/PostMaster-Test13.box" );
 while (<IN>) {
-    push(@Array, $_);
+    push( @Array, $_ );
 }
-close (IN);
+close(IN);
 
 $Self->{EmailParserObject} = Kernel::System::EmailParser->new(
     %{$Self},
@@ -628,11 +629,11 @@ $Self->Is(
     "#13 GetCharset() - no charset should be found",
 );
 $Self->Is(
-    $Self->{EmailParserObject}->GetParam(WHAT => 'To'),
+    $Self->{EmailParserObject}->GetParam( WHAT => 'To' ),
     '<support@example.com>',
     "#13 GetParam(WHAT => 'To')",
 );
-$MD5 = $Self->{MainObject}->MD5sum( String => $Self->{EmailParserObject}->GetMessageBody()  ) || '';
+$MD5 = $Self->{MainObject}->MD5sum( String => $Self->{EmailParserObject}->GetMessageBody() ) || '';
 $Self->Is(
     $MD5,
     '474f97c23688e88edfb70139d5658e01',

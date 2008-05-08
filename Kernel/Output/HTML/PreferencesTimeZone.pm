@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesTimeZone.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesTimeZone.pm,v 1.8 2008-01-31 06:21:30 tr Exp $
+# $Id: PreferencesTimeZone.pm,v 1.9 2008-05-08 09:36:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # get needed objects
@@ -36,16 +36,21 @@ sub Param {
     my ( $Self, %Param ) = @_;
 
     my @Params = ();
-    if ($Self->{ConfigObject}->Get('TimeZoneUser')
-        && (( !$Self->{ConfigObject}->Get('TimeZoneUserBrowserAutoOffset') )
-            || ( $Self->{ConfigObject}->Get('TimeZoneUserBrowserAutoOffset')
-                && !$Self->{LayoutObject}->{BrowserJavaScriptSupport} )
+    if (
+        $Self->{ConfigObject}->Get('TimeZoneUser')
+        && (
+            ( !$Self->{ConfigObject}->Get('TimeZoneUserBrowserAutoOffset') )
+            || (
+                $Self->{ConfigObject}->Get('TimeZoneUserBrowserAutoOffset')
+                && !$Self->{LayoutObject}->{BrowserJavaScriptSupport}
+            )
         )
         )
     {
         push(
             @Params,
-            {   %Param,
+            {
+                %Param,
                 Name => $Self->{ConfigItem}->{PrefKey},
                 Data => {
                     '0'   => '+ 0',

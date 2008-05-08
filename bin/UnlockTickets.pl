@@ -3,7 +3,7 @@
 # UnlockTickets.pl - to unlock tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: UnlockTickets.pl,v 1.29 2008-03-07 16:59:05 martin Exp $
+# $Id: UnlockTickets.pl,v 1.30 2008-05-08 09:36:57 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 use Date::Pcalc qw(Delta_Days Add_Delta_Days Day_of_Week Day_of_Week_Abbreviation);
 use Kernel::Config;
@@ -75,19 +75,21 @@ print "Copyright (c) 2001-2008 OTRS AG, http//otrs.org/\n";
 if ( $Command eq '--all' ) {
     print " Unlock all tickets:\n";
     my @Tickets = ();
-    my $SQL = "SELECT st.tn, st.ticket_answered, st.id, st.user_id FROM "
+    my $SQL     = "SELECT st.tn, st.ticket_answered, st.id, st.user_id FROM "
         . " ticket st, queue sq "
         . " WHERE "
         . " st.queue_id = sq.id AND "
         . " st.ticket_lock_id NOT IN ( ${\(join ', ', @ViewableLockIDs)} ) ";
     $CommonObject{DBObject}->Prepare( SQL => $SQL );
+
     while ( my @RowTmp = $CommonObject{DBObject}->FetchrowArray() ) {
         push( @Tickets, \@RowTmp );
     }
     for (@Tickets) {
         my @Row = @{$_};
         print " Unlocking ticket id $Row[0] ...";
-        if ($CommonObject{TicketObject}->LockSet(
+        if (
+            $CommonObject{TicketObject}->LockSet(
                 TicketID => $Row[2],
                 Lock     => 'unlock',
                 UserID   => 1,
@@ -107,7 +109,7 @@ if ( $Command eq '--all' ) {
 elsif ( $Command eq '--timeout' ) {
     print " Unlock old tickets:\n";
     my @Tickets = ();
-    my $SQL = "SELECT st.tn, st.ticket_answered, st.id, st.timeout, "
+    my $SQL     = "SELECT st.tn, st.ticket_answered, st.id, st.timeout, "
         . " sq.unlock_timeout  "
         . " FROM "
         . " ticket st, queue sq "
@@ -118,6 +120,7 @@ elsif ( $Command eq '--timeout' ) {
         . " st.ticket_state_id IN ( ${\(join ', ', @UnlockStateIDs)} ) AND "
         . " st.ticket_lock_id NOT IN ( ${\(join ', ', @ViewableLockIDs)} ) ";
     $CommonObject{DBObject}->Prepare( SQL => $SQL );
+
     while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {
         my $CountedTime = $CommonObject{TimeObject}->WorkingTime(
             StartTime => $Row[3],
@@ -130,7 +133,8 @@ elsif ( $Command eq '--timeout' ) {
     for (@Tickets) {
         my @Row = @{$_};
         print " Unlocking ticket id $Row[0] ...";
-        if ($CommonObject{TicketObject}->LockSet(
+        if (
+            $CommonObject{TicketObject}->LockSet(
                 TicketID => $Row[2],
                 Lock     => 'unlock',
                 UserID   => 1,

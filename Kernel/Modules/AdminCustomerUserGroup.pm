@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUserGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.pm,v 1.15 2008-02-23 00:20:31 martin Exp $
+# $Id: AdminCustomerUserGroup.pm,v 1.16 2008-05-08 09:36:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,13 +18,13 @@ use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check all needed objects
@@ -233,9 +233,13 @@ sub MaskAdminUserGroupChangeForm {
     $NeType = 'User' if ( $Type eq 'Group' );
 
     $Param{OptionStrg0} .= "<B>\$Text{\"$Type\"}:</B> <A HREF=\"$BaseLink"
-        . "Action=Admin$Type&Subaction=Change&ID=".$Self->{LayoutObject}->LinkEncode($Param{ID})."\">"
+        . "Action=Admin$Type&Subaction=Change&ID="
+        . $Self->{LayoutObject}->LinkEncode( $Param{ID} ) . "\">"
         . "$Param{Name}</A> (id=$Param{ID})<BR>";
-    $Param{OptionStrg0} .= '<INPUT TYPE="hidden" NAME="ID" VALUE="' . $Self->{LayoutObject}->Ascii2Html( Text => $Param{ID} ) . '"><BR>';
+    $Param{OptionStrg0}
+        .= '<INPUT TYPE="hidden" NAME="ID" VALUE="'
+        . $Self->{LayoutObject}->Ascii2Html( Text => $Param{ID} )
+        . '"><BR>';
 
     $Param{OptionStrg0} .= "<br>\n";
     $Param{OptionStrg0} .= "<table>\n";
@@ -283,10 +287,20 @@ sub MaskAdminUserGroupForm {
     my %GroupDataTmp = %$GroupData;
     my $BaseLink     = $Self->{LayoutObject}->{Baselink} . "Action=AdminCustomerUserGroup&";
     for ( sort { uc( $UserDataTmp{$a} ) cmp uc( $UserDataTmp{$b} ) } keys %UserDataTmp ) {
-        $Param{UserStrg} .= "<A HREF=\"$BaseLink" . "Subaction=User&ID=".$Self->{LayoutObject}->LinkEncode($_)."\">".$Self->{LayoutObject}->Ascii2Html( Text => $UserDataTmp{$_} ) ."</A><BR>";
+        $Param{UserStrg}
+            .= "<A HREF=\"$BaseLink"
+            . "Subaction=User&ID="
+            . $Self->{LayoutObject}->LinkEncode($_) . "\">"
+            . $Self->{LayoutObject}->Ascii2Html( Text => $UserDataTmp{$_} )
+            . "</A><BR>";
     }
     for ( sort { uc( $GroupDataTmp{$a} ) cmp uc( $GroupDataTmp{$b} ) } keys %GroupDataTmp ) {
-        $Param{GroupStrg} .= "<A HREF=\"$BaseLink" . "Subaction=Group&ID=".$Self->{LayoutObject}->LinkEncode($_)."\">".$Self->{LayoutObject}->Ascii2Html( Text => $GroupDataTmp{$_}) ."</A><BR>";
+        $Param{GroupStrg}
+            .= "<A HREF=\"$BaseLink"
+            . "Subaction=Group&ID="
+            . $Self->{LayoutObject}->LinkEncode($_) . "\">"
+            . $Self->{LayoutObject}->Ascii2Html( Text => $GroupDataTmp{$_} )
+            . "</A><BR>";
     }
 
     # return output

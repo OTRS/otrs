@@ -3,7 +3,7 @@
 # scripts/tools/convert_db_to_utf8.pl - convert a database into utf-8 strings
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: convert_db_to_utf8.pl,v 1.4 2008-04-24 17:32:15 tr Exp $
+# $Id: convert_db_to_utf8.pl,v 1.5 2008-05-08 09:35:57 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 use Encode;
 use Kernel::Config;
@@ -95,8 +95,9 @@ while ( my @Row = $CommonObject{DBObject1}->FetchrowArray() ) {
                 = "UPDATE article SET "
                 . " a_content_type = ?, a_from = ?, a_to = ?, a_cc = ?, a_subject = ?, a_body = ? "
                 . " WHERE id = $Row[0]";
-            if ($CommonObject{DBObject2}->Do(
-                    SQL  => $SQL,
+            if (
+                $CommonObject{DBObject2}->Do(
+                    SQL => $SQL,
                     Bind => [ \$Row[1], \$Row[2], \$Row[3], \$Row[4], \$Row[5], \$Row[6] ]
                 )
                 )

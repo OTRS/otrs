@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject/Ticket.pm - to link ticket objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.18 2008-04-29 22:05:53 martin Exp $
+# $Id: Ticket.pm,v 1.19 2008-05-08 09:36:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Ticket;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -46,13 +46,13 @@ sub FillDataMap {
 
     my %Ticket = $Self->{TicketObject}->TicketGet(
         TicketID => $Param{ID},
-        UserID => $Self->{UserID},
+        UserID   => $Self->{UserID},
     );
 
     return if !%Ticket;
 
     my $Css = '';
-    if ( $Ticket{StateType} eq 'merged') {
+    if ( $Ticket{StateType} eq 'merged' ) {
         $Css = ' style="text-decoration: line-through"';
     }
     return (
@@ -162,8 +162,8 @@ sub LinkSearchParams {
     my ( $Self, %Param ) = @_;
 
     return (
-        { Name => 'TicketNumber',   Text => 'Ticket#'  },
-        { Name => 'Title',          Text => 'Title'    },
+        { Name => 'TicketNumber',   Text => 'Ticket#' },
+        { Name => 'Title',          Text => 'Title' },
         { Name => 'TicketFulltext', Text => 'Fulltext' },
     );
 }
@@ -190,7 +190,7 @@ sub LinkSearch {
         );
     }
     my @TicketIDs = $Self->{TicketObject}->TicketSearch(
-        Result          => 'ARRAY',
+        Result => 'ARRAY',
         %Param,
         %Search,
         ConditionInline => 1,
@@ -203,7 +203,8 @@ sub LinkSearch {
         );
         push(
             @ResultWithData,
-            {   %Ticket,
+            {
+                %Ticket,
                 ID     => $_,
                 Number => $Ticket{TicketNumber},
             },

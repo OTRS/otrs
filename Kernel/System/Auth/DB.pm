@@ -2,7 +2,7 @@
 # Kernel/System/Auth/DB.pm - provides the db authentification
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.22 2008-02-18 16:49:50 martin Exp $
+# $Id: DB.pm,v 1.23 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Valid;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -37,13 +37,15 @@ sub new {
     $Self->{Debug} = 0;
 
     # get user table
-    $Self->{UserTable}       = $Self->{ConfigObject}->Get( 'DatabaseUserTable' . $Param{Count} )
+    $Self->{UserTable} = $Self->{ConfigObject}->Get( 'DatabaseUserTable' . $Param{Count} )
         || 'system_user';
-    $Self->{UserTableUserID} = $Self->{ConfigObject}->Get( 'DatabaseUserTableUserID' . $Param{Count} )
+    $Self->{UserTableUserID}
+        = $Self->{ConfigObject}->Get( 'DatabaseUserTableUserID' . $Param{Count} )
         || 'id';
-    $Self->{UserTableUserPW} = $Self->{ConfigObject}->Get( 'DatabaseUserTableUserPW' . $Param{Count} )
+    $Self->{UserTableUserPW}
+        = $Self->{ConfigObject}->Get( 'DatabaseUserTableUserPW' . $Param{Count} )
         || 'pw';
-    $Self->{UserTableUser}   = $Self->{ConfigObject}->Get( 'DatabaseUserTableUser' . $Param{Count} )
+    $Self->{UserTableUser} = $Self->{ConfigObject}->Get( 'DatabaseUserTableUser' . $Param{Count} )
         || 'login';
 
     return $Self;
@@ -97,8 +99,10 @@ sub Auth {
     # crypt given pw
     my $CryptedPw = '';
     my $Salt      = $GetPw;
-    if (   $Self->{ConfigObject}->Get('AuthModule::DB::CryptType')
-        && $Self->{ConfigObject}->Get('AuthModule::DB::CryptType') eq 'plain' )
+    if (
+        $Self->{ConfigObject}->Get('AuthModule::DB::CryptType')
+        && $Self->{ConfigObject}->Get('AuthModule::DB::CryptType') eq 'plain'
+        )
     {
         $CryptedPw = $Pw;
     }
@@ -155,7 +159,8 @@ sub Auth {
     if ( $Self->{Debug} > 0 ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message => "User: '$User' tried to authenticate with Pw: '$Pw' ($UserID/$CryptedPw/$GetPw/$Salt/$RemoteAddr)",
+            Message =>
+                "User: '$User' tried to authenticate with Pw: '$Pw' ($UserID/$CryptedPw/$GetPw/$Salt/$RemoteAddr)",
         );
     }
 

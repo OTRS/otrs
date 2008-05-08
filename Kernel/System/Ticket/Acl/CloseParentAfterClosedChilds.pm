@@ -3,7 +3,7 @@
 # - allow no parent close till all clients are closed -
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CloseParentAfterClosedChilds.pm,v 1.3 2008-03-21 00:46:43 martin Exp $
+# $Id: CloseParentAfterClosedChilds.pm,v 1.4 2008-05-08 09:36:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,17 +16,20 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
 
     # get needed objects
-    foreach (qw(ConfigObject DBObject TicketObject LogObject UserObject CustomerUserObject MainObject TimeObject)) {
+    for (
+        qw(ConfigObject DBObject TicketObject LogObject UserObject CustomerUserObject MainObject TimeObject)
+        )
+    {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -37,12 +40,13 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    foreach (qw(Config Acl)) {
-        if (!$Param{$_}) {
-            $Self->{LogObject}->Log(Priority => 'error', Message => "Need $_!");
+    for (qw(Config Acl)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+
     # check if child tickets are not closed
     if ( $Param{TicketID} && $Param{UserID} ) {
         my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
@@ -54,15 +58,16 @@ sub Run {
             LinkObject2 => 'Ticket',
         );
         my $OpenSubTickets = 0;
-        foreach my $TicketID ( sort keys %Link ) {
+        for my $TicketID ( sort keys %Link ) {
             my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
             if ( $Ticket{StateType} !~ /^(close|merge|remove)/ ) {
                 $OpenSubTickets = 1;
                 last;
             }
         }
+
         # generate acl
-        if ( $OpenSubTickets ) {
+        if ($OpenSubTickets) {
             $Param{Acl}->{CloseParentAfterClosedChilds} = {
 
                 # match properties
@@ -70,8 +75,8 @@ sub Run {
 
                     # current ticket match properties
                     Ticket => {
-                        TicketID => [$Param{TicketID}],
-                    }
+                        TicketID => [ $Param{TicketID} ],
+                        }
                 },
 
                 # return possible options (black list)

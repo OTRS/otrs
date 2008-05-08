@@ -2,7 +2,7 @@
 # Kernel/System/Log.pm - log wapper
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Log.pm,v 1.47 2008-04-09 00:31:20 martin Exp $
+# $Id: Log.pm,v 1.48 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 =head1 NAME
 
@@ -131,7 +131,9 @@ sub Log {
 
     # if error, write it to STDERR
     if ( $Priority =~ /^error/i ) {
-        my $Error = sprintf "ERROR: $Self->{LogPrefix} Perl: %vd OS: $^O Time: " . localtime() . "\n\n", $^V;
+        my $Error
+            = sprintf "ERROR: $Self->{LogPrefix} Perl: %vd OS: $^O Time: " . localtime() . "\n\n",
+            $^V;
         $Error .= " Message: $Message\n\n";
         $Error .= " Traceback ($$): \n";
         for ( my $i = 0; $i < 12; $i++ ) {
@@ -147,8 +149,8 @@ sub Log {
             if ($Line1) {
                 my $VersionString
                     = defined $Package1->VERSION
-                        ? 'v' . $Package1->VERSION
-                        : 'unknown version';
+                    ? 'v' . $Package1->VERSION
+                    : 'unknown version';
                 $Error .= "   Module: $Subroutine2 ($VersionString) Line: $Line1\n";
             }
 
@@ -263,8 +265,8 @@ sub Dumper {
     require Data::Dumper;
 
     # returns the context of the current subroutine and sub-subroutine!
-    my ( $Package1, $Filename1, $Line1, $Subroutine1 ) = caller( 0 );
-    my ( $Package2, $Filename2, $Line2, $Subroutine2 ) = caller( 1 );
+    my ( $Package1, $Filename1, $Line1, $Subroutine1 ) = caller(0);
+    my ( $Package2, $Filename2, $Line2, $Subroutine2 ) = caller(1);
     if ( !$Subroutine2 ) {
         $Subroutine2 = $0;
     }
@@ -272,7 +274,7 @@ sub Dumper {
     # log backend
     $Self->{Backend}->Log(
         Priority  => 'debug',
-        Message   => substr( Data::Dumper::Dumper( @Data ), 0, 600600600 ),
+        Message   => substr( Data::Dumper::Dumper(@Data), 0, 600600600 ),
         LogPrefix => $Self->{LogPrefix},
         Module    => $Subroutine2,
         Line      => $Line1,
@@ -295,6 +297,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.47 $ $Date: 2008-04-09 00:31:20 $
+$Revision: 1.48 $ $Date: 2008-05-08 09:36:19 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.31 2008-03-31 22:18:37 martin Exp $
+# $Id: CustomerTicketMessage.pm,v 1.32 2008-05-08 09:36:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,13 +20,13 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check needed objects
@@ -124,7 +124,7 @@ sub Run {
 
         # print form ...
         my $Output .= $Self->{LayoutObject}->CustomerHeader();
-        $Output    .= $Self->{LayoutObject}->CustomerNavigationBar();
+        $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
         $Output .= $Self->_MaskNew( %TicketFreeTextHTML, %FreeTime, );
         $Output .= $Self->{LayoutObject}->CustomerFooter();
         return $Output;
@@ -175,8 +175,10 @@ sub Run {
             );
 
             # check required FreeTextField (if configured)
-            if (   $Self->{Config}{'TicketFreeText'}{$_} == 2
-                && $TicketFree{"TicketFreeText$_"} eq '' )
+            if (
+                $Self->{Config}{'TicketFreeText'}{$_} == 2
+                && $TicketFree{"TicketFreeText$_"} eq ''
+                )
             {
                 $Error{"TicketFreeTextField$_ invalid"} = '* invalid';
             }
@@ -312,11 +314,13 @@ sub Run {
 
         # set ticket free time
         for ( 1 .. 6 ) {
-            if (   defined( $TicketFreeTime{ "TicketFreeTime" . $_ . "Year" } )
+            if (
+                defined( $TicketFreeTime{ "TicketFreeTime" . $_ . "Year" } )
                 && defined( $TicketFreeTime{ "TicketFreeTime" . $_ . "Month" } )
                 && defined( $TicketFreeTime{ "TicketFreeTime" . $_ . "Day" } )
                 && defined( $TicketFreeTime{ "TicketFreeTime" . $_ . "Hour" } )
-                && defined( $TicketFreeTime{ "TicketFreeTime" . $_ . "Minute" } ) )
+                && defined( $TicketFreeTime{ "TicketFreeTime" . $_ . "Minute" } )
+                )
             {
                 my %Time;
                 $Time{ "TicketFreeTime" . $_ . "Year" }    = 0;
@@ -328,8 +332,8 @@ sub Run {
 
                 if ( $TicketFreeTime{ "TicketFreeTime" . $_ . "Used" } ) {
                     %Time
-                        = $Self->{LayoutObject}
-                        ->TransfromDateSelection( %TicketFreeTime, Prefix => "TicketFreeTime" . $_,
+                        = $Self->{LayoutObject}->TransfromDateSelection(
+                        %TicketFreeTime, Prefix => "TicketFreeTime" . $_,
                         );
                 }
                 $Self->{TicketObject}->TicketFreeTimeSet(
@@ -344,7 +348,8 @@ sub Run {
 
         # create article
         my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>";
-        if (my $ArticleID = $Self->{TicketObject}->ArticleCreate(
+        if (
+            my $ArticleID = $Self->{TicketObject}->ArticleCreate(
                 TicketID         => $TicketID,
                 ArticleType      => $Self->{Config}->{ArticleType},
                 SenderType       => $Self->{Config}->{SenderType},
@@ -396,8 +401,9 @@ sub Run {
             $Self->{UploadCachObject}->FormIDRemove( FormID => $Self->{FormID} );
 
             # redirect
-            return $Self->{LayoutObject}
-                ->Redirect( OP => "Action=$NextScreen&TicketID=$TicketID", );
+            return $Self->{LayoutObject}->Redirect(
+                OP => "Action=$NextScreen&TicketID=$TicketID",
+            );
         }
         else {
             my $Output = $Self->{LayoutObject}->CustomerHeader( Title => 'Error' );
@@ -636,7 +642,7 @@ sub _MaskNew {
                 Data => {
                     TicketFreeTimeCheck => 'TicketFreeTime' . $Key . 'Used',
                     TicketFreeTimeField => 'TicketFreeTime' . $Key,
-                    TicketFreeTimeKey   => $Self->{ConfigObject}->Get('TicketFreeTimeKey' . $Key),
+                    TicketFreeTimeKey   => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Key ),
                 },
             );
         }

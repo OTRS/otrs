@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesPGP.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesPGP.pm,v 1.11 2008-01-31 06:21:30 tr Exp $
+# $Id: PreferencesPGP.pm,v 1.12 2008-05-08 09:36:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,13 +17,13 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # get needed objects
@@ -44,7 +44,8 @@ sub Param {
     }
     push(
         @Params,
-        {   %Param,
+        {
+            %Param,
             Name     => $Self->{ConfigItem}->{PrefKey},
             Block    => 'Upload',
             Filename => $Param{UserData}->{"PGPFilename"},

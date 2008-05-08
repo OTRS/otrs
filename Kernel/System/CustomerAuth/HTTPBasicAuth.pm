@@ -3,7 +3,7 @@
 # authentification
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: HTTPBasicAuth.pm,v 1.10 2008-03-25 15:42:09 martin Exp $
+# $Id: HTTPBasicAuth.pm,v 1.11 2008-05-08 09:36:20 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,7 +26,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -68,7 +68,7 @@ sub Auth {
     my ( $Self, %Param ) = @_;
 
     # get params
-    my $User = $ENV{REMOTE_USER} || $ENV{HTTP_REMOTE_USER};
+    my $User       = $ENV{REMOTE_USER} || $ENV{HTTP_REMOTE_USER};
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'Got no REMOTE_ADDR env!';
     if ($User) {
         my $Replace = $Self->{ConfigObject}->Get(
@@ -92,7 +92,8 @@ sub Auth {
     else {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message  => "User: No \$ENV{REMOTE_USER} or \$ENV{HTTP_REMOTE_USER} !(REMOTE_ADDR: $RemoteAddr).",
+            Message =>
+                "User: No \$ENV{REMOTE_USER} or \$ENV{HTTP_REMOTE_USER} !(REMOTE_ADDR: $RemoteAddr).",
         );
         return;
     }

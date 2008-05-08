@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/QueuePreferencesGeneric.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: QueuePreferencesGeneric.pm,v 1.1 2008-02-11 11:33:49 martin Exp $
+# $Id: QueuePreferencesGeneric.pm,v 1.2 2008-05-08 09:36:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,43 +12,48 @@
 package Kernel::Output::HTML::QueuePreferencesGeneric;
 
 use strict;
+use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
-    my $Type = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
 
     # get env
-    foreach (keys %Param) {
+    for ( keys %Param ) {
         $Self->{$_} = $Param{$_};
     }
 
     # get needed objects
-    foreach (qw(ConfigObject LogObject DBObject LayoutObject UserID ParamObject ConfigItem QueueObject)) {
-        die "Got no $_!" if (!$Self->{$_});
+    for (qw(ConfigObject LogObject DBObject LayoutObject UserID ParamObject ConfigItem QueueObject))
+    {
+        die "Got no $_!" if ( !$Self->{$_} );
     }
 
     return $Self;
 }
 
 sub Param {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     my @Params = ();
-    my $GetParam = $Self->{ParamObject}->GetParam(Param => $Self->{ConfigItem}->{PrefKey});
-    if (!defined($GetParam)) {
-        $GetParam = defined($Param{QueueData}->{$Self->{ConfigItem}->{PrefKey}}) ? $Param{QueueData}->{$Self->{ConfigItem}->{PrefKey}} : $Self->{ConfigItem}->{DataSelected};
+    my $GetParam = $Self->{ParamObject}->GetParam( Param => $Self->{ConfigItem}->{PrefKey} );
+    if ( !defined($GetParam) ) {
+        $GetParam
+            = defined( $Param{QueueData}->{ $Self->{ConfigItem}->{PrefKey} } )
+            ? $Param{QueueData}->{ $Self->{ConfigItem}->{PrefKey} }
+            : $Self->{ConfigItem}->{DataSelected};
     }
-    push (@Params, {
+    push(
+        @Params,
+        {
             %Param,
-            Name => $Self->{ConfigItem}->{PrefKey},
+            Name       => $Self->{ConfigItem}->{PrefKey},
             SelectedID => $GetParam,
         },
     );
@@ -56,17 +61,17 @@ sub Param {
 }
 
 sub Run {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
-    foreach my $Key (keys %{$Param{GetParam}}) {
-        my @Array = @{$Param{GetParam}->{$Key}};
-        foreach (@Array) {
+    for my $Key ( keys %{ $Param{GetParam} } ) {
+        my @Array = @{ $Param{GetParam}->{$Key} };
+        for (@Array) {
+
             # pref update db
             $Self->{QueueObject}->QueuePreferencesSet(
                 QueueID => $Param{QueueData}->{QueueID},
-                Key => $Key,
-                Value => $_,
+                Key     => $Key,
+                Value   => $_,
             );
         }
     }
@@ -75,14 +80,14 @@ sub Run {
 }
 
 sub Error {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     return $Self->{Error} || '';
 }
 
 sub Message {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
+
     return $Self->{Message} || '';
 }
 

@@ -2,7 +2,7 @@
 # Kernel/System/PDF.pm - PDF lib
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PDF.pm,v 1.31 2008-04-29 11:35:29 tr Exp $
+# $Id: PDF.pm,v 1.32 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 =head1 NAME
 
@@ -55,8 +55,10 @@ sub new {
         );
         return;
     }
-    elsif ( $PDF::API2::Version::VERSION =~ m{^(\d)\.(\d\d).*}mx
-        && ( $1 > 0 || ( $1 eq 0 && $2 >= 57 ) ) )
+    elsif (
+        $PDF::API2::Version::VERSION =~ m{^(\d)\.(\d\d).*}mx
+        && ( $1 > 0 || ( $1 eq 0 && $2 >= 57 ) )
+        )
     {
         return $Self;
     }
@@ -127,8 +129,9 @@ sub DocumentNew {
 
             # today
             my ( $NowSec, $NowMin, $NowHour, $NowDay, $NowMonth, $NowYear )
-                = $Self->{TimeObject}
-                ->SystemTime2Date( SystemTime => $Self->{TimeObject}->SystemTime(), );
+                = $Self->{TimeObject}->SystemTime2Date(
+                SystemTime => $Self->{TimeObject}->SystemTime(),
+                );
 
             # set document infos
             $Self->{PDF}->info(
@@ -158,8 +161,9 @@ sub DocumentNew {
 
             # set fonts
             for my $FontType ( keys %FontFiles ) {
-                $Self->{Font}->{$FontType} = $Self->{PDF}
-                    ->ttfont( $FontFiles{$FontType}, -encode => $Self->{Document}->{Encode}, );
+                $Self->{Font}->{$FontType} = $Self->{PDF}->ttfont(
+                    $FontFiles{$FontType}, -encode => $Self->{Document}->{Encode},
+                );
             }
             return 1;
         }
@@ -334,11 +338,14 @@ sub PageNew {
     # get logofile
     my $LogoFile = $Self->{Document}->{LogoFile}
         || $Self->{ConfigObject}->Get('Home') . '/var/logo-otrs.png';
-    if (   defined( $Param{LogoFile} )
+    if (
+        defined( $Param{LogoFile} )
         && -e $Param{LogoFile}
-        && (   $Param{LogoFile} =~ /^.*\.gif$/i
+        && (
+            $Param{LogoFile}    =~ /^.*\.gif$/i
             || $Param{LogoFile} =~ /^.*\.jpg$/i
-            || $Param{LogoFile} =~ /^.*\.png$/i )
+            || $Param{LogoFile} =~ /^.*\.png$/i
+        )
         )
     {
         $LogoFile = $Param{LogoFile};
@@ -679,9 +686,11 @@ sub Table {
     $Param{ColumnData} = $Param{ColumnData} || [];
     $Param{RowData}    = $Param{RowData}    || [];
 
-    if (   ref( $Param{CellData} ) eq 'ARRAY'
+    if (
+        ref( $Param{CellData} )      eq 'ARRAY'
         && ref( $Param{ColumnData} ) eq 'ARRAY'
-        && ref( $Param{RowData} )    eq 'ARRAY' )
+        && ref( $Param{RowData} )    eq 'ARRAY'
+        )
     {
         if ( !defined( $Param{OutputCount} ) ) {
 
@@ -718,11 +727,15 @@ sub Table {
 
             # check given Width
             my $DefaultWidth = $Dim{Left} + $Dim{Width} - $Position{X};
-            if (!defined( $Param{Width} )
-                || (  $Param{Width}
+            if (
+                !defined( $Param{Width} )
+                || (
+                    $Param{Width}
                     - $Param{PaddingLeft}
                     - $Param{PaddingRight}
-                    - ( 2 * $Param{Border} ) ) < 0
+                    - ( 2 * $Param{Border} )
+                )
+                < 0
                 || $Param{Width} > $DefaultWidth
                 )
             {
@@ -741,11 +754,15 @@ sub Table {
 
         # check given Height
         my $DefaultHeight = $Position{Y} - $Dim{Bottom};
-        if (!defined( $Param{Height} )
-            || (  $Param{Height}
+        if (
+            !defined( $Param{Height} )
+            || (
+                $Param{Height}
                 - $Param{PaddingTop}
                 - $Param{PaddingBottom}
-                - ( 2 * $Param{Border} ) ) < 0
+                - ( 2 * $Param{Border} )
+            )
+            < 0
             || $Param{Height} > $DefaultHeight
             )
         {
@@ -790,7 +807,9 @@ sub Table {
 
                         # save old position
                         my %PositionOld = %Position;
-                        if ($Param{RowData}->[$Row]->{OutputHeight} <= $Position{Y} - $Dim{Bottom} )
+                        if (
+                            $Param{RowData}->[$Row]->{OutputHeight} <= $Position{Y} - $Dim{Bottom}
+                            )
                         {
                             for ( $Block{ReturnColumnStart} .. $Block{ReturnColumnStop} ) {
                                 my $Column = $_;
@@ -853,8 +872,10 @@ sub Table {
                                 for ( $Block{ReturnColumnStart} .. $Block{ReturnColumnStop} ) {
                                     my $Column = $_;
                                     my $Type   = 'ReturnLeftOver';
-                                    if ( $Param{CellData}->[$Row]->[$Column]->{Type} eq
-                                        'ReturnLeftOverHard' )
+                                    if (
+                                        $Param{CellData}->[$Row]->[$Column]->{Type} eq
+                                        'ReturnLeftOverHard'
+                                        )
                                     {
                                         $Type = 'ReturnLeftOverHard';
                                     }
@@ -895,8 +916,10 @@ sub Table {
                                     $Param{CellData}->[$Row]->[$Column]->{TmpOff} = 1;
 
                                     # recalculate height
-                                    if (   $Block{ReturnBlock} eq $LastBlock
-                                        && $Column eq $Block{ReturnColumnStop} )
+                                    if (
+                                        $Block{ReturnBlock} eq $LastBlock
+                                        && $Column eq $Block{ReturnColumnStop}
+                                        )
                                     {
 
                                         # if Height was given
@@ -904,8 +927,10 @@ sub Table {
                                             $Param{RowData}->[$Row]->{Height} -= $NewTextHeight;
 
                                             # if rest too small, deactivate all cells of this row
-                                            if ( $Param{RowData}->[$Row]->{Height}
-                                                < $Param{RowData}->[$Row]->{MinFontSize} )
+                                            if (
+                                                $Param{RowData}->[$Row]->{Height}
+                                                < $Param{RowData}->[$Row]->{MinFontSize}
+                                                )
                                             {
                                                 for my $CellOff ( @{ $Param{CellData}->[$Row] } ) {
                                                     $CellOff->{Content} = ' ';
@@ -1063,17 +1088,21 @@ sub Text {
     }
 
     # check Width
-    if (   !defined( $Param{Width} )
+    if (
+        !defined( $Param{Width} )
         || $Param{Width} < 0
-        || ( $Position{X} + $Param{Width} ) >= ( $Dim{Left} + $Dim{Width} ) )
+        || ( $Position{X} + $Param{Width} ) >= ( $Dim{Left} + $Dim{Width} )
+        )
     {
         $Param{Width} = $Dim{Left} + $Dim{Width} - $Position{X};
     }
 
     # check Height
-    if (   !defined( $Param{Height} )
+    if (
+        !defined( $Param{Height} )
         || $Param{Height} < 0
-        || ( $Position{Y} - $Param{Height} ) < $Dim{Bottom} )
+        || ( $Position{Y} - $Param{Height} ) < $Dim{Bottom}
+        )
     {
         $Param{Height} = $Position{Y} - $Dim{Bottom};
     }
@@ -1259,8 +1288,10 @@ sub Image {
     else {
 
         # output the image
-        $Image->image( $ImageFile, $Position{X}, $Position{Y} - $Param{Height},
-            $Param{Width}, $Param{Height}, );
+        $Image->image(
+            $ImageFile, $Position{X}, $Position{Y} - $Param{Height},
+            $Param{Width}, $Param{Height},
+        );
 
         # set new position
         $Self->_CurPositionSet( Y => $Position{Y} - $Param{Height}, );
@@ -1350,7 +1381,8 @@ sub HLine {
 
     # check values
     my $Output = 0;
-    if ($Self->DimGet() eq 'printable'
+    if (
+        $Self->DimGet() eq 'printable'
         && $Self->_CurPrintableDimCheck(
             X => $Position{X},
             Y => $Position{Y}
@@ -1451,8 +1483,11 @@ sub PositionSet {
         }
         else {
             if ( defined( $Param{Move} ) && $Param{Move} eq 'relativ' ) {
-                if (   ( $Position{X} + $Param{X} ) >= $Dim{Left}
-                    && ( $Position{X} + $Param{X} ) < ( $Dim{Left} + $Dim{Width} ) )
+                if (
+                    ( $Position{X} + $Param{X} )
+                    >= $Dim{Left}
+                    && ( $Position{X} + $Param{X} ) < ( $Dim{Left} + $Dim{Width} )
+                    )
                 {
                     $Data{X} = $Position{X} + $Param{X};
                 }
@@ -1489,8 +1524,11 @@ sub PositionSet {
         }
         else {
             if ( defined( $Param{Move} ) && $Param{Move} eq 'relativ' ) {
-                if (   ( $Position{Y} + $Param{Y} ) <= ( $Dim{Bottom} + $Dim{Height} )
-                    && ( $Position{Y} + $Param{Y} ) > $Dim{Bottom} )
+                if (
+                    ( $Position{Y} + $Param{Y} )
+                    <= ( $Dim{Bottom} + $Dim{Height} )
+                    && ( $Position{Y} + $Param{Y} ) > $Dim{Bottom}
+                    )
                 {
                     $Data{Y} = $Position{Y} + $Param{Y};
                 }
@@ -1722,9 +1760,11 @@ sub _TableCalculate {
             return;
         }
     }
-    if (   ref( $Param{CellData} ) ne 'ARRAY'
+    if (
+        ref( $Param{CellData} )      ne 'ARRAY'
         || ref( $Param{ColumnData} ) ne 'ARRAY'
-        || ref( $Param{RowData} )    ne 'ARRAY' )
+        || ref( $Param{RowData} )    ne 'ARRAY'
+        )
     {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -1787,15 +1827,19 @@ sub _TableCalculate {
             if ( $RowCounter & 1 ) {
 
                 # set FontColor, if row is odd
-                if ( !defined( $Cell->{FontColor} )
-                    && defined( $Param{FontColorOdd} ) )
+                if (
+                    !defined( $Cell->{FontColor} )
+                    && defined( $Param{FontColorOdd} )
+                    )
                 {
                     $Cell->{FontColor} = $Param{FontColorOdd};
                 }
 
                 # set BackgroundColor, if row is odd
-                if ( !defined( $Cell->{BackgroundColor} )
-                    && defined( $Param{BackgroundColorOdd} ) )
+                if (
+                    !defined( $Cell->{BackgroundColor} )
+                    && defined( $Param{BackgroundColorOdd} )
+                    )
                 {
                     $Cell->{BackgroundColor} = $Param{BackgroundColorOdd};
                 }
@@ -1805,15 +1849,19 @@ sub _TableCalculate {
             else {
 
                 # set FontColor, if row is even
-                if ( !defined( $Cell->{FontColor} )
-                    && defined( $Param{FontColorEven} ) )
+                if (
+                    !defined( $Cell->{FontColor} )
+                    && defined( $Param{FontColorEven} )
+                    )
                 {
                     $Cell->{FontColor} = $Param{FontColorEven};
                 }
 
                 # set BackgroundColor, if row is even
-                if ( !defined( $Cell->{BackgroundColor} )
-                    && defined( $Param{BackgroundColorEven} ) )
+                if (
+                    !defined( $Cell->{BackgroundColor} )
+                    && defined( $Param{BackgroundColorEven} )
+                    )
                 {
                     $Cell->{BackgroundColor} = $Param{BackgroundColorEven};
                 }
@@ -1835,8 +1883,10 @@ sub _TableCalculate {
             }
 
             # set content blank, if not definied
-            if ( !defined( $Cell->{Content} )
-                || $Cell->{Content} eq '' )
+            if (
+                !defined( $Cell->{Content} )
+                || $Cell->{Content} eq ''
+                )
             {
                 $Cell->{Content} = ' ';
             }
@@ -1946,8 +1996,10 @@ sub _TableCalculate {
             $ColumnBlocks->[$Block]->{Width} = $ColumnWidth;
         }
         else {
-            if ( ( $ColumnBlocks->[$Block]->{Width} + $ColumnWidth - $Param{Border} )
-                > $Param{Width} )
+            if (
+                ( $ColumnBlocks->[$Block]->{Width} + $ColumnWidth - $Param{Border} )
+                > $Param{Width}
+                )
             {
                 $ColumnBlocks->[$Block]->{ColumnStop} = $Counter - 1;
                 $Block++;
@@ -2098,10 +2150,12 @@ sub _TableBlockNextCalculate {
         for ( my $ColumnCounter = 0; $ColumnCounter < scalar(@$Row); $ColumnCounter++ ) {
 
             # calculate RowStart and ColumnStart
-            if (   $Row->[$ColumnCounter]->{Off} ne 1
+            if (
+                $Row->[$ColumnCounter]->{Off} ne 1
                 && $Row->[$ColumnCounter]->{TmpOff} ne 1
                 && $RowStart    eq 'NULL'
-                && $ColumnStart eq 'NULL' )
+                && $ColumnStart eq 'NULL'
+                )
             {
                 $RowStart    = $RowCounter;
                 $ColumnStart = $ColumnCounter;
@@ -2118,8 +2172,10 @@ sub _TableBlockNextCalculate {
         my $Block         = $Param{ColumnData}->[$ColumnStart]->{Block};
         my $ColumnCounter = 0;
         for my $Column ( @{ $Param{ColumnData} } ) {
-            if (   $ColumnCounter > $ColumnStop
-                && $Column->{Block} eq $Block )
+            if (
+                $ColumnCounter > $ColumnStop
+                && $Column->{Block} eq $Block
+                )
             {
                 $ColumnStop = $ColumnCounter;
             }
@@ -2162,9 +2218,11 @@ sub _TableRowCalculate {
             return;
         }
     }
-    if (   ref( $Param{CellData} ) ne 'ARRAY'
+    if (
+        ref( $Param{CellData} )      ne 'ARRAY'
         || ref( $Param{ColumnData} ) ne 'ARRAY'
-        || ref( $Param{RowData} )    ne 'ARRAY' )
+        || ref( $Param{RowData} )    ne 'ARRAY'
+        )
     {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -2316,8 +2374,10 @@ sub _TableCellOutput {
     if ( $Param{Border} > 0 ) {
         my $BorderRight = $Self->{Page}->gfx;
         $BorderRight->fillcolor( $Param{BorderColor} );
-        $BorderRight->rect( ( $Position{X} + $Param{Width} - $Param{Border} ),
-            $Position{Y}, $Param{Border}, -( $Param{Height} ) );
+        $BorderRight->rect(
+            ( $Position{X} + $Param{Width} - $Param{Border} ),
+            $Position{Y}, $Param{Border}, -( $Param{Height} )
+        );
         $BorderRight->fill;
     }
 
@@ -2325,8 +2385,10 @@ sub _TableCellOutput {
     if ( $Param{Border} > 0 ) {
         my $BorderBottom = $Self->{Page}->gfx;
         $BorderBottom->fillcolor( $Param{BorderColor} );
-        $BorderBottom->rect( $Position{X}, ( $Position{Y} - $Param{Height} + $Param{Border} ),
-            $Param{Width}, -( $Param{Border} ) );
+        $BorderBottom->rect(
+            $Position{X}, ( $Position{Y} - $Param{Height} + $Param{Border} ),
+            $Param{Width}, -( $Param{Border} )
+        );
         $BorderBottom->fill;
     }
 
@@ -2395,8 +2457,10 @@ sub _TableCellOnCount {
         }
     }
     if ( ref( $Param{CellData} ) ne 'ARRAY' ) {
-        $Self->{LogObject}
-            ->Log( Priority => 'error', Message => "Need array references of CellData!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need array references of CellData!"
+        );
         return;
     }
     if ( !$Self->{PDF} ) {
@@ -2697,7 +2761,8 @@ sub _StringWidth {
         return;
     }
 
-    if (!defined(
+    if (
+        !defined(
             $Self->{Cache}->{StringWidth}->{ $Param{Font} }->{ $Param{FontSize} }->{ $Param{Text} }
         )
         )
@@ -3048,36 +3113,44 @@ sub _CurPrintableDimSet {
         my $NewValue;
 
         # set CurPrintableTop
-        if (   defined( $Param{Top} )
+        if (
+            defined( $Param{Top} )
             && $Param{Top} > 0
-            && $Param{Top} < $Self->{Current}->{PageHeight} / 2 )
+            && $Param{Top} < $Self->{Current}->{PageHeight} / 2
+            )
         {
             $Self->{Current}->{PrintableTop} = $Param{Top};
             $NewValue = 1;
         }
 
         # set CurPrintableRight
-        if (   defined( $Param{Right} )
+        if (
+            defined( $Param{Right} )
             && $Param{Right} > 0
-            && $Param{Right} < $Self->{Current}->{PageWidth} / 2 )
+            && $Param{Right} < $Self->{Current}->{PageWidth} / 2
+            )
         {
             $Self->{Current}->{PrintableRight} = $Param{Right};
             $NewValue = 1;
         }
 
         # set CurPrintableBottom
-        if (   defined( $Param{Bottom} )
+        if (
+            defined( $Param{Bottom} )
             && $Param{Bottom} > 0
-            && $Param{Bottom} < $Self->{Current}->{PageHeight} / 2 )
+            && $Param{Bottom} < $Self->{Current}->{PageHeight} / 2
+            )
         {
             $Self->{Current}->{PrintableBottom} = $Param{Bottom};
             $NewValue = 1;
         }
 
         # set CurPrintableLeft
-        if (   defined( $Param{Left} )
+        if (
+            defined( $Param{Left} )
             && $Param{Left} > 0
-            && $Param{Left} < $Self->{Current}->{PageWidth} / 2 )
+            && $Param{Left} < $Self->{Current}->{PageWidth} / 2
+            )
         {
             $Self->{Current}->{PrintableLeft} = $Param{Left};
             $NewValue = 1;
@@ -3195,16 +3268,20 @@ sub _CurPrintableDimCheck {
     my %Printable = $Self->_CurPrintableDimGet();
 
     if ( defined( $Param{X} ) ) {
-        if (   $Param{X} >= $Printable{Left}
-            && $Param{X} <= ( $Printable{Left} + $Printable{Width} ) )
+        if (
+            $Param{X} >= $Printable{Left}
+            && $Param{X} <= ( $Printable{Left} + $Printable{Width} )
+            )
         {
             $Return = 1;
         }
     }
 
     if ( defined( $Param{Y} ) ) {
-        if (   $Param{Y} >= $Printable{Bottom}
-            && $Param{Y} <= ( $Printable{Bottom} + $Printable{Height} ) )
+        if (
+            $Param{Y} >= $Printable{Bottom}
+            && $Param{Y} <= ( $Printable{Bottom} + $Printable{Height} )
+            )
         {
             $Return = 1;
         }
@@ -3249,36 +3326,44 @@ sub _CurContentDimSet {
         my $NewValue;
 
         # set CurContentTop
-        if (   defined( $Param{Top} )
+        if (
+            defined( $Param{Top} )
             && $Param{Top} >= $Self->{Current}->{PrintableTop}
-            && $Param{Top} < $Self->{Current}->{PageHeight} / 2 )
+            && $Param{Top} < $Self->{Current}->{PageHeight} / 2
+            )
         {
             $Self->{Current}->{ContentTop} = $Param{Top};
             $NewValue = 1;
         }
 
         # set CurContentRight
-        if (   defined( $Param{Right} )
+        if (
+            defined( $Param{Right} )
             && $Param{Right} >= $Self->{Current}->{PrintableRight}
-            && $Param{Right} < $Self->{Current}->{PageWidth} / 2 )
+            && $Param{Right} < $Self->{Current}->{PageWidth} / 2
+            )
         {
             $Self->{Current}->{ContentRight} = $Param{Right};
             $NewValue = 1;
         }
 
         # set CurContentBottom
-        if (   defined( $Param{Bottom} )
+        if (
+            defined( $Param{Bottom} )
             && $Param{Bottom} >= $Self->{Current}->{PrintableBottom}
-            && $Param{Bottom} < $Self->{Current}->{PageHeight} / 2 )
+            && $Param{Bottom} < $Self->{Current}->{PageHeight} / 2
+            )
         {
             $Self->{Current}->{ContentBottom} = $Param{Bottom};
             $NewValue = 1;
         }
 
         # set CurContentLeft
-        if (   defined( $Param{Left} )
+        if (
+            defined( $Param{Left} )
             && $Param{Left} >= $Self->{Current}->{PrintableLeft}
-            && $Param{Left} < $Self->{Current}->{PageWidth} / 2 )
+            && $Param{Left} < $Self->{Current}->{PageWidth} / 2
+            )
         {
             $Self->{Current}->{ContentLeft} = $Param{Left};
             $NewValue = 1;
@@ -3435,29 +3520,37 @@ sub _CurPositionSet {
 
     if ( $Self->{Current}->{PageWidth} && $Self->{Current}->{PageHeight} ) {
         if ( $Self->DimGet() eq 'printable' ) {
-            if (   defined( $Param{X} )
+            if (
+                defined( $Param{X} )
                 && $Param{X} >= $Self->{Current}->{PrintableLeft}
-                && $Param{X} <= $Self->{Current}->{PageWidth} - $Self->{Current}->{PrintableRight} )
+                && $Param{X} <= $Self->{Current}->{PageWidth} - $Self->{Current}->{PrintableRight}
+                )
             {
                 $Self->{Current}->{PositionX} = $Param{X};
             }
-            if (   defined( $Param{Y} )
+            if (
+                defined( $Param{Y} )
                 && $Param{Y} <= $Self->{Current}->{PageHeight} - $Self->{Current}->{PrintableTop}
-                && $Param{Y} >= $Self->{Current}->{PrintableBottom} )
+                && $Param{Y} >= $Self->{Current}->{PrintableBottom}
+                )
             {
                 $Self->{Current}->{PositionY} = $Param{Y};
             }
         }
         else {
-            if (   defined( $Param{X} )
+            if (
+                defined( $Param{X} )
                 && $Param{X} >= $Self->{Current}->{ContentLeft}
-                && $Param{X} <= $Self->{Current}->{PageWidth} - $Self->{Current}->{ContentRight} )
+                && $Param{X} <= $Self->{Current}->{PageWidth} - $Self->{Current}->{ContentRight}
+                )
             {
                 $Self->{Current}->{PositionX} = $Param{X};
             }
-            if (   defined( $Param{Y} )
+            if (
+                defined( $Param{Y} )
                 && $Param{Y} <= $Self->{Current}->{PageHeight} - $Self->{Current}->{ContentTop}
-                && $Param{Y} >= $Self->{Current}->{ContentBottom} )
+                && $Param{Y} >= $Self->{Current}->{ContentBottom}
+                )
             {
                 $Self->{Current}->{PositionY} = $Param{Y};
             }
@@ -3521,6 +3614,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.31 $ $Date: 2008-04-29 11:35:29 $
+$Revision: 1.32 $ $Date: 2008-05-08 09:36:19 $
 
 =cut

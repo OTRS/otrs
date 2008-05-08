@@ -2,7 +2,7 @@
 # Salutation.t - Salutation tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Salutation.t,v 1.3 2008-04-24 11:47:39 tr Exp $
+# $Id: Salutation.t,v 1.4 2008-05-08 09:35:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,22 +11,22 @@
 
 use Kernel::System::Salutation;
 
-$Self->{SalutationObject} = Kernel::System::Salutation->new(%{$Self});
+$Self->{SalutationObject} = Kernel::System::Salutation->new( %{$Self} );
 
 # add salutation
-my $SalutationNameRand0 = 'example-salutation'.int(rand(1000000));
-my $Salutation = "Dear <OTRS_CUSTOMER_Realname>,
+my $SalutationNameRand0 = 'example-salutation' . int( rand(1000000) );
+my $Salutation          = "Dear <OTRS_CUSTOMER_Realname>,
 
 Thank you for your request. Your email address in our database
 is \"<OTRS_CUSTOMER_DATA_UserEmail>\".
 ";
 
 my $SalutationID = $Self->{SalutationObject}->SalutationAdd(
-    Name => $SalutationNameRand0,
-    Text => $Salutation,
+    Name    => $SalutationNameRand0,
+    Text    => $Salutation,
     Comment => 'some comment',
     ValidID => 1,
-    UserID => 1,
+    UserID  => 1,
 );
 
 $Self->True(
@@ -34,7 +34,7 @@ $Self->True(
     'SalutationAdd()',
 );
 
-my %Salutation = $Self->{SalutationObject}->SalutationGet(ID => $SalutationID);
+my %Salutation = $Self->{SalutationObject}->SalutationGet( ID => $SalutationID );
 
 $Self->Is(
     $Salutation{Name} || '',
@@ -60,8 +60,8 @@ my %SalutationList = $Self->{SalutationObject}->SalutationList(
     Valid => 0,
 );
 my $Hit = 0;
-for (sort keys %SalutationList) {
-    if ($_ eq $SalutationID) {
+for ( sort keys %SalutationList ) {
+    if ( $_ eq $SalutationID ) {
         $Hit = 1;
     }
 }
@@ -71,12 +71,12 @@ $Self->True(
 );
 
 my $SalutationUpdate = $Self->{SalutationObject}->SalutationUpdate(
-    ID => $SalutationID,
-    Name => $SalutationNameRand0.'1',
-    Text => $Salutation.'1',
+    ID      => $SalutationID,
+    Name    => $SalutationNameRand0 . '1',
+    Text    => $Salutation . '1',
     Comment => 'some comment 1',
     ValidID => 2,
-    UserID => 1,
+    UserID  => 1,
 );
 
 $Self->True(
@@ -84,15 +84,15 @@ $Self->True(
     'SalutationUpdate()',
 );
 
-%Salutation = $Self->{SalutationObject}->SalutationGet(ID => $SalutationID);
+%Salutation = $Self->{SalutationObject}->SalutationGet( ID => $SalutationID );
 
 $Self->Is(
     $Salutation{Name} || '',
-    $SalutationNameRand0.'1',
+    $SalutationNameRand0 . '1',
     'SalutationGet() - Name',
 );
 $Self->True(
-    $Salutation{Text} eq $Salutation.'1',
+    $Salutation{Text} eq $Salutation . '1',
     'SalutationGet() - Salutation',
 );
 $Self->Is(

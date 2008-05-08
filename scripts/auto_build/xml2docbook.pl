@@ -3,7 +3,7 @@
 # xml2docbook.pl - config xml to docbook
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: xml2docbook.pl,v 1.17 2008-04-24 11:47:39 tr Exp $
+# $Id: xml2docbook.pl,v 1.18 2008-05-08 09:35:57 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ use warnings;
 use Getopt::Std;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Log;
@@ -81,8 +81,10 @@ for my $Group (@Groups) {
     print "<sect1 id=\"$Group\"><title>$Group</title> \n";
     for my $SubGroup ( sort keys %SubList ) {
         print "<sect2 id=\"$Group:$SubGroup\"><title>$SubGroup</title> \n";
-        my @List = $CommonObject{SysConfigObject}
-            ->ConfigSubGroupConfigItemList( Group => $Group, SubGroup => $SubGroup );
+        my @List = $CommonObject{SysConfigObject}->ConfigSubGroupConfigItemList(
+            Group    => $Group,
+            SubGroup => $SubGroup
+        );
         for my $Name (@List) {
             my %Item = $CommonObject{SysConfigObject}->ConfigItemGet( Name => $Name );
             my $Link = $Name;

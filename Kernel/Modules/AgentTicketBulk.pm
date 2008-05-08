@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.13 2008-01-31 06:22:12 tr Exp $
+# $Id: AgentTicketBulk.pm,v 1.14 2008-05-08 09:36:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,13 +17,13 @@ use warnings;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check all needed objects
@@ -65,7 +65,8 @@ sub Run {
         my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
 
         # check permissions
-        if (!$Self->{TicketObject}->Permission(
+        if (
+            !$Self->{TicketObject}->Permission(
                 Type     => 'rw',
                 TicketID => $TicketID,
                 UserID   => $Self->{UserID}
@@ -74,8 +75,9 @@ sub Run {
         {
 
             # error screen, don't show ticket
-            $Output .= $Self->{LayoutObject}
-                ->Notify( Info => 'No access to %s!", "$Quote{"' . $Ticket{TicketNumber} . '"}', );
+            $Output .= $Self->{LayoutObject}->Notify(
+                Info => 'No access to %s!", "$Quote{"' . $Ticket{TicketNumber} . '"}',
+            );
         }
         else {
             $Param{TicketIDHidden} .= "<input type='hidden' name='TicketIDs' value='$TicketID'>\n";
@@ -90,10 +92,11 @@ sub Run {
                 if ( !$AccessOk ) {
                     $LockIt = 0;
                     $Output
-                        .= $Self->{LayoutObject}
-                        ->Notify( Info => 'Ticket %s is locked for an other agent!", "$Quote{"'
+                        .= $Self->{LayoutObject}->Notify(
+                        Info => 'Ticket %s is locked for an other agent!", "$Quote{"'
                             . $Ticket{TicketNumber}
-                            . '"}', );
+                            . '"}',
+                        );
                 }
             }
             if ($LockIt) {
@@ -111,8 +114,9 @@ sub Run {
                     UserID    => $Self->{UserID},
                     NewUserID => $Self->{UserID},
                 );
-                $Output .= $Self->{LayoutObject}
-                    ->Notify( Data => $Ticket{TicketNumber} . ': $Text{"Ticket locked!"}', );
+                $Output .= $Self->{LayoutObject}->Notify(
+                    Data => $Ticket{TicketNumber} . ': $Text{"Ticket locked!"}',
+                );
 
                 # do some actions on tickets
                 if ( $Self->{Subaction} eq 'Do' ) {
@@ -166,8 +170,9 @@ sub Run {
                             UserID   => $Self->{UserID},
                         );
                         my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
-                        my %StateData = $Self->{TicketObject}->{StateObject}
-                            ->StateGet( ID => $Ticket{StateID}, );
+                        my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+                            ID => $Ticket{StateID},
+                        );
 
                         # should I set an unlock?
                         if ( $Ticket{StateType} =~ /^close/i ) {
@@ -245,7 +250,7 @@ sub _Mask {
         Type   => 'move_into',
     );
     $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data     => { %MoveQueues, '' => '-' },
+        Data => { %MoveQueues, '' => '-' },
         Multiple => 0,
         Size     => 0,
         Name     => 'QueueID',
@@ -260,8 +265,10 @@ sub _Mask {
     );
 
     # show spell check
-    if (   $Self->{ConfigObject}->Get('SpellChecker')
-        && $Self->{LayoutObject}->{BrowserJavaScriptSupport} )
+    if (
+        $Self->{ConfigObject}->Get('SpellChecker')
+        && $Self->{LayoutObject}->{BrowserJavaScriptSupport}
+        )
     {
         $Self->{LayoutObject}->Block(
             Name => 'SpellCheck',

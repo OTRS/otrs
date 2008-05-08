@@ -2,7 +2,7 @@
 # Kernel/System/Type.pm - All type related function should be here eventually
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Type.pm,v 1.7 2008-04-11 15:51:53 martin Exp $
+# $Id: Type.pm,v 1.8 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -53,7 +53,9 @@ create an object
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
+        MainObject   => $MainObject,
     );
+
     my $TypeObject = Kernel::System::Type->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
@@ -102,12 +104,12 @@ sub TypeAdd {
         }
     }
 
-    return if ! $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => 'INSERT INTO ticket_type (name, valid_id, '
             . ' create_time, create_by, change_time, change_by)'
             . ' VALUES (?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [ \$Param{Name}, \$Param{ValidID}, \$Param{UserID}, \$Param{UserID} ],
-   );
+    );
 
     # get new type id
     $Self->{DBObject}->Prepare(
@@ -141,8 +143,8 @@ sub TypeGet {
     }
 
     # sql
-    return if ! $Self->{DBObject}->Prepare(
-        SQL => 'SELECT id, name, valid_id, change_time, create_time FROM ticket_type WHERE id = ?',
+    return if !$Self->{DBObject}->Prepare(
+        SQL  => 'SELECT id, name, valid_id, change_time, create_time FROM ticket_type WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
     my %Data = ();
@@ -272,7 +274,7 @@ sub TypeLookup {
     }
 
     # get data
-    my $SQL    = '';
+    my $SQL = '';
     my @Bind;
     my $Suffix = '';
     if ( $Param{Type} ) {
@@ -317,6 +319,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2008-04-11 15:51:53 $
+$Revision: 1.8 $ $Date: 2008-05-08 09:36:19 $
 
 =cut

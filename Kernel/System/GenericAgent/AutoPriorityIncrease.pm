@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent/AutoPriorityIncrease.pm - generic agent auto priority increase
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AutoPriorityIncrease.pm,v 1.7 2008-04-25 05:25:08 tr Exp $
+# $Id: AutoPriorityIncrease.pm,v 1.8 2008-05-08 09:36:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -67,8 +67,10 @@ sub Run {
     }
     $LatestAutoIncrease
         = $Self->{TimeObject}->TimeStamp2SystemTime( String => $LatestAutoIncrease, );
-    if ( ( $Self->{TimeObject}->SystemTime() - $LatestAutoIncrease )
-        > $Param{New}->{TimeInterval} )
+    if (
+        ( $Self->{TimeObject}->SystemTime() - $LatestAutoIncrease )
+        > $Param{New}->{TimeInterval}
+        )
     {
         $Update = 1;
     }

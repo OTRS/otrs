@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NotificationAgentTicketSeen.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationAgentTicketSeen.pm,v 1.7 2008-03-18 16:17:10 tr Exp $
+# $Id: NotificationAgentTicketSeen.pm,v 1.8 2008-05-08 09:36:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,8 +35,10 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    if (   $Self->{LayoutObject}->{Action} ne 'AgentTicketZoom'
-        || $Self->{ConfigObject}->Get('Ticket::NewMessageMode') ne 'ArticleSeen' )
+    if (
+        $Self->{LayoutObject}->{Action} ne 'AgentTicketZoom'
+        || $Self->{ConfigObject}->Get('Ticket::NewMessageMode') ne 'ArticleSeen'
+        )
     {
         return '';
     }

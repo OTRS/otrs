@@ -2,7 +2,7 @@
 # Kernel/System/CustomerCompany.pm - All customer company related function should be here eventually
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerCompany.pm,v 1.10 2008-04-02 04:52:27 tr Exp $
+# $Id: CustomerCompany.pm,v 1.11 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
@@ -52,8 +52,10 @@ create an object
     );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
+        MainObject   => $MainObject,
     );
+
     my $CustomerCompanyObject = Kernel::System::CustomerCompany->new(
         ConfigObject => $ConfigObject,
         LogObject => $LogObject,
@@ -79,19 +81,25 @@ sub new {
     # config options
     $Self->{CustomerCompanyTable} = $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{Table}
         || die "Need CustomerCompany->Params->Table in Kernel/Config.pm!";
-    $Self->{CustomerCompanyKey} = $Self->{ConfigObject}->Get('CustomerCompany')->{CustomerCompanyKey}
+    $Self->{CustomerCompanyKey}
+        = $Self->{ConfigObject}->Get('CustomerCompany')->{CustomerCompanyKey}
         || $Self->{ConfigObject}->Get('CustomerCompany')->{Key}
         || die "Need CustomerCompany->CustomerCompanyKey in Kernel/Config.pm!";
     $Self->{CustomerCompanyMap} = $Self->{ConfigObject}->Get('CustomerCompany')->{Map}
         || die "Need CustomerCompany->Map in Kernel/Config.pm!";
-    $Self->{CustomerCompanyValid} = $Self->{ConfigObject}->Get('CustomerCompany')->{'CustomerCompanyValid'};
-    $Self->{SearchListLimit} =  $Self->{ConfigObject}->Get('CustomerCompany')->{'CustomerCompanySearchListLimit'};
-    $Self->{SearchPrefix} = $Self->{ConfigObject}->Get('CustomerCompany')->{'CustomerCompanySearchPrefix'};
-    if (!defined($Self->{SearchPrefix})) {
+    $Self->{CustomerCompanyValid}
+        = $Self->{ConfigObject}->Get('CustomerCompany')->{'CustomerCompanyValid'};
+    $Self->{SearchListLimit}
+        = $Self->{ConfigObject}->Get('CustomerCompany')->{'CustomerCompanySearchListLimit'};
+    $Self->{SearchPrefix}
+        = $Self->{ConfigObject}->Get('CustomerCompany')->{'CustomerCompanySearchPrefix'};
+
+    if ( !defined( $Self->{SearchPrefix} ) ) {
         $Self->{SearchPrefix} = '';
     }
-    $Self->{SearchSuffix} = $Self->{ConfigObject}->Get('CustomerCompany')->{'CustomerCompanySearchSuffix'};
-    if (!defined($Self->{SearchSuffix})) {
+    $Self->{SearchSuffix}
+        = $Self->{ConfigObject}->Get('CustomerCompany')->{'CustomerCompanySearchSuffix'};
+    if ( !defined( $Self->{SearchSuffix} ) ) {
         $Self->{SearchSuffix} = '*';
     }
 
@@ -326,52 +334,60 @@ sub CustomerCompanyList {
 
     # add valid option if required
     my $SQL = '';
-    if ( $Valid ) {
-        $SQL .= "$Self->{CustomerCompanyValid} IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
+    if ($Valid) {
+        $SQL
+            .= "$Self->{CustomerCompanyValid} IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
     }
 
     # where
-    if ($Param{Search}) {
+    if ( $Param{Search} ) {
         my $Count = 0;
-        my @Parts = split(/\+/, $Param{Search}, 6);
-        foreach my $Part (@Parts) {
-            $Part = $Self->{SearchPrefix}.$Part.$Self->{SearchSuffix};
+        my @Parts = split( /\+/, $Param{Search}, 6 );
+        for my $Part (@Parts) {
+            $Part = $Self->{SearchPrefix} . $Part . $Self->{SearchSuffix};
             $Part =~ s/\*/%/g;
             $Part =~ s/%%/%/g;
-            if ($Count || $SQL) {
+            if ( $Count || $SQL ) {
                 $SQL .= " AND ";
             }
-            $Count ++;
-            if ($Self->{ConfigObject}->Get('CustomerCompany')->{CustomerCompanySearchFields}) {
+            $Count++;
+            if ( $Self->{ConfigObject}->Get('CustomerCompany')->{CustomerCompanySearchFields} ) {
                 my $SQLExt = '';
-                foreach (@{$Self->{ConfigObject}->Get('CustomerCompany')->{CustomerCompanySearchFields}}) {
+                for (
+                    @{
+                        $Self->{ConfigObject}->Get('CustomerCompany')->{CustomerCompanySearchFields}
+                    }
+                    )
+                {
                     if ($SQLExt) {
                         $SQLExt .= ' OR ';
                     }
-                    $SQLExt .= " LOWER($_) LIKE LOWER('".$Self->{DBObject}->Quote($Part)."') ";
+                    $SQLExt .= " LOWER($_) LIKE LOWER('" . $Self->{DBObject}->Quote($Part) . "') ";
                 }
                 if ($SQLExt) {
                     $SQL .= "($SQLExt)";
                 }
             }
             else {
-                $SQL .= " LOWER($Self->{CustomerKey}) LIKE LOWER('".$Self->{DBObject}->Quote($Part)."') ";
+                $SQL .= " LOWER($Self->{CustomerKey}) LIKE LOWER('"
+                    . $Self->{DBObject}->Quote($Part) . "') ";
             }
         }
     }
 
     # sql
     my %List = ();
-    $SQL = "SELECT $Self->{CustomerCompanyKey}, $What FROM $Self->{CustomerCompanyTable} WHERE $SQL";
+    $SQL
+        = "SELECT $Self->{CustomerCompanyKey}, $What FROM $Self->{CustomerCompanyTable} WHERE $SQL";
     $Self->{DBObject}->Prepare( SQL => $SQL, Limit => 50000 );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         my $Value = '';
-        for my $Position ( 1..10 ) {
-            if ( $Value ) {
+        for my $Position ( 1 .. 10 ) {
+            if ($Value) {
                 $Value .= ' ';
             }
-            if ( defined $Row[ $Position ] ) {
-                $Value .= $Row[ $Position ];
+            if ( defined $Row[$Position] ) {
+                $Value .= $Row[$Position];
             }
         }
         $List{ $Row[0] } = $Value;
@@ -407,6 +423,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2008-04-02 04:52:27 $
+$Revision: 1.11 $ $Date: 2008-05-08 09:36:19 $
 
 =cut

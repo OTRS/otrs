@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.29 2008-05-02 13:21:40 rk Exp $
+# $Id: AgentTicketForward.pm,v 1.30 2008-05-08 09:36:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,13 +22,13 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     $Self->{Debug} = $Param{Debug} || 0;
@@ -107,7 +107,8 @@ sub Form {
     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
 
     # check permissions
-    if (!$Self->{TicketObject}->Permission(
+    if (
+        !$Self->{TicketObject}->Permission(
             Type     => $Self->{Config}->{Permission},
             TicketID => $Self->{TicketID},
             UserID   => $Self->{UserID}
@@ -131,7 +132,8 @@ sub Form {
             );
 
             # set lock
-            if ($Self->{TicketObject}->LockSet(
+            if (
+                $Self->{TicketObject}->LockSet(
                     TicketID => $Self->{TicketID},
                     Lock     => 'lock',
                     UserID   => $Self->{UserID}
@@ -213,8 +215,9 @@ sub Form {
         if ( $Data{$_} =~ /<OTRS_CUSTOMER_REALNAME>/ ) {
             my $From = '';
             if ( $Ticket{CustomerUserID} ) {
-                $From = $Self->{CustomerUserObject}
-                    ->CustomerName( UserLogin => $Ticket{CustomerUserID} );
+                $From = $Self->{CustomerUserObject}->CustomerName(
+                    UserLogin => $Ticket{CustomerUserID}
+                );
             }
             if ( !$From ) {
                 $From = $Data{OrigFrom} || '';
@@ -332,7 +335,7 @@ sub Form {
     $Data{Body}    = $Data{Signature} . $Data{Body};
     $Data{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
         TicketNumber => $Ticket{TicketNumber},
-        Subject      => $Data{Subject} || '',
+        Subject => $Data{Subject} || '',
     );
     my %Address = $Self->{QueueObject}->GetSystemAddress(%Ticket);
     $Data{From}     = "$Address{RealName} <$Address{Email}>";
@@ -409,15 +412,19 @@ sub Form {
             = $GetParam{ 'TicketFreeTime' . $_ . 'Used' };
 
         if ( $Ticket{ "TicketFreeTime" . $_ } ) {
-            (   $TicketFreeTime{ "TicketFreeTime" . $_ . 'Secunde' },
+            (
+                $TicketFreeTime{ "TicketFreeTime" . $_ . 'Secunde' },
                 $TicketFreeTime{ "TicketFreeTime" . $_ . 'Minute' },
                 $TicketFreeTime{ "TicketFreeTime" . $_ . 'Hour' },
                 $TicketFreeTime{ "TicketFreeTime" . $_ . 'Day' },
                 $TicketFreeTime{ "TicketFreeTime" . $_ . 'Month' },
                 $TicketFreeTime{ "TicketFreeTime" . $_ . 'Year' }
                 )
-                = $Self->{TimeObject}->SystemTime2Date( SystemTime => $Self->{TimeObject}
-                    ->TimeStamp2SystemTime( String => $Ticket{ "TicketFreeTime" . $_ }, ), );
+                = $Self->{TimeObject}->SystemTime2Date(
+                SystemTime => $Self->{TimeObject}->TimeStamp2SystemTime(
+                    String => $Ticket{ "TicketFreeTime" . $_ },
+                ),
+                );
             $TicketFreeTime{ "TicketFreeTime" . $_ . 'Used' } = 1;
         }
     }
@@ -504,7 +511,7 @@ sub SendEmail {
     my $Tn = $Self->{TicketObject}->TicketNumberLookup( TicketID => $Self->{TicketID} );
     $GetParam{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
         TicketNumber => $Tn,
-        Subject      => $GetParam{Subject} || '',
+        Subject => $GetParam{Subject} || '',
     );
 
     # prepare free text
@@ -561,8 +568,11 @@ sub SendEmail {
                 if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
                     $Error{"$_ invalid"} .= $Self->{CheckItemObject}->CheckError();
                 }
-                if ( $Self->{SystemAddress}
-                    ->SystemAddressIsLocalAddress( Address => $Email->address() ) )
+                if (
+                    $Self->{SystemAddress}->SystemAddressIsLocalAddress(
+                        Address => $Email->address()
+                    )
+                    )
                 {
                     $Error{"$_ invalid"}
                         .= "Can't forward ticket to "
@@ -608,7 +618,7 @@ sub SendEmail {
     # check if there is an error
     if (%Error) {
         my $QueueID = $Self->{TicketObject}->TicketQueueID( TicketID => $Self->{TicketID} );
-        my $Output  = $Self->{LayoutObject}->Header( Value           => $Tn );
+        my $Output = $Self->{LayoutObject}->Header( Value => $Tn );
         $Output .= $Self->_Mask(
             TicketNumber => $Tn,
             TicketID     => $Self->{TicketID},
@@ -643,7 +653,8 @@ sub SendEmail {
     }
 
     # send email
-    if (my $ArticleID = $Self->{TicketObject}->ArticleSend(
+    if (
+        my $ArticleID = $Self->{TicketObject}->ArticleSend(
             ArticleTypeID  => $Self->{GetParam}->{ArticleTypeID},
             SenderType     => 'agent',
             TicketID       => $Self->{TicketID},
@@ -692,11 +703,13 @@ sub SendEmail {
 
         # set ticket free time
         for ( 1 .. 6 ) {
-            if (   defined( $GetParam{ "TicketFreeTime" . $_ . "Year" } )
+            if (
+                defined( $GetParam{ "TicketFreeTime" . $_ . "Year" } )
                 && defined( $GetParam{ "TicketFreeTime" . $_ . "Month" } )
                 && defined( $GetParam{ "TicketFreeTime" . $_ . "Day" } )
                 && defined( $GetParam{ "TicketFreeTime" . $_ . "Hour" } )
-                && defined( $GetParam{ "TicketFreeTime" . $_ . "Minute" } ) )
+                && defined( $GetParam{ "TicketFreeTime" . $_ . "Minute" } )
+                )
             {
                 my %Time;
                 $Time{ "TicketFreeTime" . $_ . "Year" }    = 0;
@@ -707,8 +720,9 @@ sub SendEmail {
                 $Time{ "TicketFreeTime" . $_ . "Secunde" } = 0;
 
                 if ( $GetParam{ "TicketFreeTime" . $_ . "Used" } ) {
-                    %Time = $Self->{LayoutObject}
-                        ->TransfromDateSelection( %GetParam, Prefix => "TicketFreeTime" . $_, );
+                    %Time = $Self->{LayoutObject}->TransfromDateSelection(
+                        %GetParam, Prefix => "TicketFreeTime" . $_,
+                    );
                 }
                 $Self->{TicketObject}->TicketFreeTimeSet(
                     %Time,
@@ -759,7 +773,8 @@ sub SendEmail {
         }
         else {
             return $Self->{LayoutObject}->Redirect(
-                OP => "Action=AgentTicketZoom&TicketID=$Self->{TicketID}&ArticleID=$ArticleID" );
+                OP => "Action=AgentTicketZoom&TicketID=$Self->{TicketID}&ArticleID=$ArticleID"
+            );
         }
     }
     else {
@@ -828,7 +843,7 @@ sub _Mask {
     # pending data string
     $Param{PendingDateString} = $Self->{LayoutObject}->BuildDateSelection(
         %Param,
-        Format   => 'DateInputFormatLong',
+        Format => 'DateInputFormatLong',
         DiffTime => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
     );
 
@@ -879,8 +894,10 @@ sub _Mask {
     }
 
     # show spell check
-    if (   $Self->{ConfigObject}->Get('SpellChecker')
-        && $Self->{LayoutObject}->{BrowserJavaScriptSupport} )
+    if (
+        $Self->{ConfigObject}->Get('SpellChecker')
+        && $Self->{LayoutObject}->{BrowserJavaScriptSupport}
+        )
     {
         $Self->{LayoutObject}->Block(
             Name => 'SpellCheck',
@@ -925,7 +942,7 @@ sub _Mask {
                 Data => {
                     TicketFreeTimeCheck => 'TicketFreeTime' . $Key . 'Used',
                     TicketFreeTimeField => 'TicketFreeTime' . $Key,
-                    TicketFreeTimeKey   => $Self->{ConfigObject}->Get('TicketFreeTimeKey' . $Key),
+                    TicketFreeTimeKey   => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Key ),
                 },
             );
         }

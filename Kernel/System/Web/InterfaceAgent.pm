@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceAgent.pm,v 1.30 2008-04-04 07:01:47 tr Exp $
+# $Id: InterfaceAgent.pm,v 1.31 2008-05-08 09:36:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -199,7 +199,8 @@ sub Run {
 
                     # redirect to alternate login
                     print $Self->{LayoutObject}->Redirect(
-                        ExtURL => $Self->{ConfigObject}->Get('LoginURL') . "?Reason=SystemError", );
+                        ExtURL => $Self->{ConfigObject}->Get('LoginURL') . "?Reason=SystemError",
+                    );
                 }
                 else {
 
@@ -252,9 +253,11 @@ sub Run {
             );
 
             # set time zone offset if TimeZoneFeature is active
-            if (   $Self->{ConfigObject}->Get('TimeZoneUser')
+            if (
+                $Self->{ConfigObject}->Get('TimeZoneUser')
                 && $Self->{ConfigObject}->Get('TimeZoneUserBrowserAutoOffset')
-                && $Self->{LayoutObject}->{BrowserJavaScriptSupport} )
+                && $Self->{LayoutObject}->{BrowserJavaScriptSupport}
+                )
             {
                 my $TimeOffset = $Self->{ParamObject}->GetParam( Param => 'TimeOffset' ) || '';
                 if ( $TimeOffset > 0 ) {
@@ -310,9 +313,10 @@ sub Run {
 
                 # redirect to alternate login
                 $Param{RequestedURL} = $Self->{LayoutObject}->LinkEncode( $Param{RequestedURL} );
-                print $Self->{LayoutObject}
-                    ->Redirect( ExtURL => $Self->{ConfigObject}->Get('LoginURL')
-                        . "?Reason=LoginFailed&RequestedURL=$Param{RequestedURL}", );
+                print $Self->{LayoutObject}->Redirect(
+                    ExtURL => $Self->{ConfigObject}->Get('LoginURL')
+                        . "?Reason=LoginFailed&RequestedURL=$Param{RequestedURL}",
+                );
             }
             else {
 
@@ -360,7 +364,8 @@ sub Run {
 
                     # redirect to alternate login
                     print $Self->{LayoutObject}->Redirect(
-                        ExtURL => $Self->{ConfigObject}->Get('LogoutURL') . "?Reason=Logout", );
+                        ExtURL => $Self->{ConfigObject}->Get('LogoutURL') . "?Reason=Logout",
+                    );
                 }
                 else {
 
@@ -386,9 +391,10 @@ sub Run {
 
                 # redirect to alternate login
                 $Param{RequestedURL} = $Self->{LayoutObject}->LinkEncode( $Param{RequestedURL} );
-                print $Self->{LayoutObject}
-                    ->Redirect( ExtURL => $Self->{ConfigObject}->Get('LoginURL')
-                        . "?Reason=InvalidSessionID&RequestedURL=$Param{RequestedURL}", );
+                print $Self->{LayoutObject}->Redirect(
+                    ExtURL => $Self->{ConfigObject}->Get('LoginURL')
+                        . "?Reason=InvalidSessionID&RequestedURL=$Param{RequestedURL}",
+                );
             }
             else {
 
@@ -421,21 +427,21 @@ sub Run {
         }
 
         # get params
-        my $User = $Self->{ParamObject}->GetParam( Param => 'User' ) || '';
+        my $User  = $Self->{ParamObject}->GetParam( Param => 'User' )  || '';
         my $Token = $Self->{ParamObject}->GetParam( Param => 'Token' ) || '';
 
         # get user login by token
         if ( !$User && $Token ) {
             my %UserList = $Self->{UserObject}->SearchPreferences(
-                Key => 'UserToken',
+                Key   => 'UserToken',
                 Value => $Token,
             );
             for my $UserID ( keys %UserList ) {
                 my %UserData = $Self->{UserObject}->GetUserData(
                     UserID => $UserID,
-                    Valid => 1,
+                    Valid  => 1,
                 );
-                if ( %UserData ) {
+                if (%UserData) {
                     $User = $UserData{UserLogin};
                     last;
                 }
@@ -470,7 +476,7 @@ sub Run {
                 );
 
                 # send token notify email with link
-                my $Body    = $Self->{ConfigObject}->Get('NotificationBodyLostPasswordToken')
+                my $Body = $Self->{ConfigObject}->Get('NotificationBodyLostPasswordToken')
                     || 'ERROR: NotificationBodyLostPasswordToken is missing!';
                 my $Subject = $Self->{ConfigObject}->Get('NotificationSubjectLostPasswordToken')
                     || 'ERROR: NotificationSubjectLostPasswordToken is missing!';
@@ -484,7 +490,7 @@ sub Run {
                     Type    => 'text/plain',
                     Body    => $Body
                 );
-                if ( $Sent ) {
+                if ($Sent) {
                     $Self->{LayoutObject}->Print(
                         Output => \$Self->{LayoutObject}->Login(
                             Title   => 'Login',
@@ -506,7 +512,7 @@ sub Run {
 
                 # check if token is valid
                 my $TokenValid = $Self->{UserObject}->TokenCheck(
-                    Token => $Token,
+                    Token  => $Token,
                     UserID => $UserData{UserID},
                 );
                 if ( !$TokenValid ) {
@@ -527,7 +533,7 @@ sub Run {
                 $Self->{UserObject}->SetPassword( UserLogin => $User, PW => $UserData{NewPW} );
 
                 # send notify email
-                my $Body    = $Self->{ConfigObject}->Get('NotificationBodyLostPassword')
+                my $Body = $Self->{ConfigObject}->Get('NotificationBodyLostPassword')
                     || "New Password is: <OTRS_NEWPW>";
                 my $Subject = $Self->{ConfigObject}->Get('NotificationSubjectLostPassword')
                     || 'New Password!';
@@ -542,7 +548,7 @@ sub Run {
                     Body    => $Body
                 );
 
-                if ( $Sent ) {
+                if ($Sent) {
                     $Self->{LayoutObject}->Print(
                         Output => \$Self->{LayoutObject}->Login(
                             Title   => 'Login',
@@ -569,15 +575,18 @@ sub Run {
 
             # automatic login
             $Param{RequestedURL} = $Self->{LayoutObject}->LinkEncode( $Param{RequestedURL} );
-            print $Self->{LayoutObject}
-                ->Redirect( OP => "Action=Login&RequestedURL=$Param{RequestedURL}", );
+            print $Self->{LayoutObject}->Redirect(
+                OP => "Action=Login&RequestedURL=$Param{RequestedURL}",
+            );
         }
         elsif ( $Self->{ConfigObject}->Get('LoginURL') ) {
 
             # redirect to alternate login
             $Param{RequestedURL} = $Self->{LayoutObject}->LinkEncode( $Param{RequestedURL} );
-            print $Self->{LayoutObject}->Redirect( ExtURL => $Self->{ConfigObject}->Get('LoginURL')
-                    . "?RequestedURL=$Param{RequestedURL}", );
+            print $Self->{LayoutObject}->Redirect(
+                ExtURL => $Self->{ConfigObject}->Get('LoginURL')
+                    . "?RequestedURL=$Param{RequestedURL}",
+            );
         }
         else {
 
@@ -615,16 +624,18 @@ sub Run {
 
                 # automatic re-login
                 $Param{RequestedURL} = $Self->{LayoutObject}->LinkEncode( $Param{RequestedURL} );
-                print $Self->{LayoutObject}
-                    ->Redirect( OP => "?Action=Login&RequestedURL=$Param{RequestedURL}", );
+                print $Self->{LayoutObject}->Redirect(
+                    OP => "?Action=Login&RequestedURL=$Param{RequestedURL}",
+                );
             }
             elsif ( $Self->{ConfigObject}->Get('LoginURL') ) {
 
                 # redirect to alternate login
                 $Param{RequestedURL} = $Self->{LayoutObject}->LinkEncode( $Param{RequestedURL} );
-                print $Self->{LayoutObject}
-                    ->Redirect( ExtURL => $Self->{ConfigObject}->Get('LoginURL')
-                        . "?Reason=InvalidSessionID&RequestedURL=$Param{RequestedURL}", );
+                print $Self->{LayoutObject}->Redirect(
+                    ExtURL => $Self->{ConfigObject}->Get('LoginURL')
+                        . "?Reason=InvalidSessionID&RequestedURL=$Param{RequestedURL}",
+                );
             }
             else {
 
@@ -652,7 +663,8 @@ sub Run {
 
                     # redirect to alternate login
                     print $Self->{LayoutObject}->Redirect(
-                        ExtURL => $Self->{ConfigObject}->Get('LoginURL') . "?Reason=SystemError", );
+                        ExtURL => $Self->{ConfigObject}->Get('LoginURL') . "?Reason=SystemError",
+                    );
                 }
                 else {
 
@@ -691,18 +703,22 @@ sub Run {
                     my $Key      = "UserIs$Permission";
                     if ( ref($Group) eq 'ARRAY' ) {
                         for ( @{$Group} ) {
-                            if (   $_
+                            if (
+                                $_
                                 && $UserData{ $Key . "[$_]" }
-                                && $UserData{ $Key . "[$_]" } eq 'Yes' )
+                                && $UserData{ $Key . "[$_]" } eq 'Yes'
+                                )
                             {
                                 $AccessOk = 1;
                             }
                         }
                     }
                     else {
-                        if (   $Group
+                        if (
+                            $Group
                             && $UserData{ $Key . "[$Group]" }
-                            && $UserData{ $Key . "[$Group]" } eq 'Yes' )
+                            && $UserData{ $Key . "[$Group]" } eq 'Yes'
+                            )
                         {
                             $AccessOk = 1;
                         }
@@ -717,14 +733,17 @@ sub Run {
                 }
             }
             if ( !$Param{AccessRo} && !$Param{AccessRw} || !$Param{AccessRo} && $Param{AccessRw} ) {
-                print $Self->{LayoutObject}
-                    ->NoPermission( Message => 'No Permission to use this frontend module!' );
+                print $Self->{LayoutObject}->NoPermission(
+                    Message => 'No Permission to use this frontend module!'
+                );
                 exit 0;
             }
 
             # create new LayoutObject with new '%Param' and '%UserData'
-            $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new( %{$Self}, %Param, %UserData,
-                ModuleReg => $ModuleReg, );
+            $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new(
+                %{$Self}, %Param, %UserData,
+                ModuleReg => $ModuleReg,
+            );
 
             # updated last request time
             $Self->{SessionObject}->UpdateSessionID(
@@ -757,7 +776,9 @@ sub Run {
 
                         # use module
                         my $PreModuleObject
-                            = $PreModule->new( %{$Self}, %Param, %UserData, ModuleReg => $ModuleReg,
+                            = $PreModule->new(
+                            %{$Self}, %Param, %UserData,
+                            ModuleReg => $ModuleReg,
                             );
                         my $Output = $PreModuleObject->PreRun();
                         if ($Output) {
@@ -861,6 +882,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.30 $ $Date: 2008-04-04 07:01:47 $
+$Revision: 1.31 $ $Date: 2008-05-08 09:36:21 $
 
 =cut

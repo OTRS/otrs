@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/Preferences/DB.pm - some customer user functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.16 2008-03-05 14:53:36 martin Exp $
+# $Id: DB.pm,v 1.17 2008-05-08 09:36:20 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -32,11 +32,14 @@ sub new {
     # preferences table data
     $Self->{PreferencesTable} = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{Table}
         || 'customer_preferences';
-    $Self->{PreferencesTableKey} = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{TableKey}
+    $Self->{PreferencesTableKey}
+        = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{TableKey}
         || 'preferences_key';
-    $Self->{PreferencesTableValue} = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{TableValue}
+    $Self->{PreferencesTableValue}
+        = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{TableValue}
         || 'preferences_value';
-    $Self->{PreferencesTableUserID} = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{TableUserID}
+    $Self->{PreferencesTableUserID}
+        = $Self->{ConfigObject}->Get('CustomerPreferences')->{Params}->{TableUserID}
         || 'user_id';
 
     return $Self;
@@ -57,7 +60,7 @@ sub SetPreferences {
     );
 
     # insert new data
-    return if  !$Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => "INSERT INTO $Self->{PreferencesTable} ($Self->{PreferencesTableUserID}, "
             . " $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue}) "
             . " VALUES (?, ?, ?)",

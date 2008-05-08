@@ -3,7 +3,7 @@
 # PendingJobs.pl - check pending tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PendingJobs.pl,v 1.32 2008-03-07 16:44:14 martin Exp $
+# $Id: PendingJobs.pl,v 1.33 2008-05-08 09:36:57 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 use Date::Pcalc qw(Day_of_Week Day_of_Week_Abbreviation);
 use Kernel::Config;
@@ -68,7 +68,7 @@ my @PendingAutoStateIDs = $CommonObject{StateObject}->StateGetStatesByType(
 );
 if (@PendingAutoStateIDs) {
     my @TicketIDs = ();
-    my $SQL = "SELECT st.id FROM "
+    my $SQL       = "SELECT st.id FROM "
         . " ticket st "
         . " WHERE "
         . " st.ticket_state_id IN ( ${\(join ', ', @PendingAutoStateIDs)} ) ";
@@ -83,8 +83,13 @@ if (@PendingAutoStateIDs) {
             if ( $States{ $Ticket{State} } ) {
                 print
                     " Update ticket state for ticket $Ticket{TicketNumber} ($_) to '$States{$Ticket{State}}'...";
-                if ( $CommonObject{TicketObject}
-                    ->StateSet( TicketID => $_, State => $States{ $Ticket{State} }, UserID => 1, ) )
+                if (
+                    $CommonObject{TicketObject}->StateSet(
+                        TicketID => $_,
+                        State    => $States{ $Ticket{State} },
+                        UserID   => 1,
+                    )
+                    )
                 {
                     if ( $States{ $Ticket{State} } =~ /^close/i ) {
                         $CommonObject{TicketObject}->LockSet(
@@ -119,7 +124,7 @@ my @PendingReminderStateIDs = $CommonObject{StateObject}->StateGetStatesByType(
 # check if pendig time has reached and send notification
 if (@PendingReminderStateIDs) {
     my @TicketIDs = ();
-    my $SQL = "SELECT st.tn, st.id, st.user_id FROM "
+    my $SQL       = "SELECT st.tn, st.id, st.user_id FROM "
         . " ticket st, ticket_state tsd "
         . " WHERE "
         . " st.ticket_state_id = tsd.id " . " AND "
@@ -150,16 +155,19 @@ if (@PendingReminderStateIDs) {
             my @UserID = ();
 
             # send reminder to ticket onwer if ticket is locked
-            if (   $CommonObject{ConfigObject}->Get('Ticket::PendingNotificationOnlyToOwner')
-                || $Ticket{Lock} eq 'lock' )
+            if (
+                $CommonObject{ConfigObject}->Get('Ticket::PendingNotificationOnlyToOwner')
+                || $Ticket{Lock} eq 'lock'
+                )
             {
                 @UserID = ( $Ticket{OwnerID} );
             }
 
             # send reminder to queue subscriber if ticket is unlocked
             else {
-                @UserID = $CommonObject{TicketObject}
-                    ->GetSubscribedUserIDsByQueueID( QueueID => $Ticket{QueueID}, );
+                @UserID = $CommonObject{TicketObject}->GetSubscribedUserIDsByQueueID(
+                    QueueID => $Ticket{QueueID},
+                );
             }
 
             # send reminder notification
@@ -171,17 +179,20 @@ if (@PendingReminderStateIDs) {
 
                 # check if today a reminder is already sent
                 my ( $Sec, $Min, $Hour, $Day, $Month, $Year )
-                    = $CommonObject{TimeObject}
-                    ->SystemTime2Date( SystemTime => $CommonObject{TimeObject}->SystemTime(), );
+                    = $CommonObject{TimeObject}->SystemTime2Date(
+                    SystemTime => $CommonObject{TimeObject}->SystemTime(),
+                    );
                 my @Lines = $CommonObject{TicketObject}->HistoryGet(
                     TicketID => $Ticket{TicketID},
                     UserID   => 1,
                 );
                 my $Sent = 0;
                 for my $Line (@Lines) {
-                    if (   $Line->{Name} =~ /PendingReminder/
+                    if (
+                        $Line->{Name}          =~ /PendingReminder/
                         && $Line->{Name}       =~ /\Q$Preferences{UserEmail}\E/i
-                        && $Line->{CreateTime} =~ /$Year-$Month-$Day/ )
+                        && $Line->{CreateTime} =~ /$Year-$Month-$Day/
+                        )
                     {
                         $Sent = 1;
                     }
@@ -194,8 +205,9 @@ if (@PendingReminderStateIDs) {
                     Type                  => 'PendingReminder',
                     To                    => $Preferences{UserEmail},
                     CustomerMessageParams => {},
-                    TicketNumber          => $CommonObject{TicketObject}
-                        ->TicketNumberLookup( TicketID => $Ticket{TicketID} ),
+                    TicketNumber          => $CommonObject{TicketObject}->TicketNumberLookup(
+                        TicketID => $Ticket{TicketID}
+                    ),
                     TicketID => $Ticket{TicketID},
                     UserID   => 1,
                 );

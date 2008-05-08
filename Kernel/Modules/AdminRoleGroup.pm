@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminRoleGroup.pm - to add/update/delete role <-> groups
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRoleGroup.pm,v 1.11 2008-01-31 06:22:12 tr Exp $
+# $Id: AdminRoleGroup.pm,v 1.12 2008-05-08 09:36:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check all needed objects
@@ -41,7 +41,7 @@ sub Run {
     # user <-> group 1:n
     if ( $Self->{Subaction} eq 'Role' ) {
         my $Output .= $Self->{LayoutObject}->Header();
-        $Output    .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
 
         # get user data
         my %Role = $Self->{GroupObject}->RoleGet( ID => $ID );

@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketStatusView.pm,v 1.11 2008-03-28 11:35:13 martin Exp $
+# $Id: AgentTicketStatusView.pm,v 1.12 2008-05-08 09:36:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,13 +19,13 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check all needed objects
@@ -89,10 +89,10 @@ sub Run {
     $Self->{LayoutObject}->Block(
         Name => 'MetaLink',
         Data => {
-            Rel => 'search',
-            Type => 'application/opensearchdescription+xml',
+            Rel   => 'search',
+            Type  => 'application/opensearchdescription+xml',
             Title => '$Quote{"$Config{"ProductName"}"} ($Quote{"$Config{"Ticket::Hook"}"})',
-            Href => '$Env{"Baselink"}Action=AgentTicketSearch&Subaction=OpenSearchDescription',
+            Href  => '$Env{"Baselink"}Action=AgentTicketSearch&Subaction=OpenSearchDescription',
         },
     );
     my $Output = $Self->{LayoutObject}->Header( Refresh => $Refresh, );
@@ -126,8 +126,10 @@ sub Run {
     my $Counter = 0;
     for my $TicketID (@TicketIDs) {
         $Counter++;
-        if (   $Counter >= $Self->{StartHit}
-            && $Counter < ( $Self->{PageShown} + $Self->{StartHit} ) )
+        if (
+            $Counter >= $Self->{StartHit}
+            && $Counter < ( $Self->{PageShown} + $Self->{StartHit} )
+            )
         {
 
             # get last customer article
@@ -138,11 +140,12 @@ sub Run {
             # prepare subject
             $Article{Subject} = $Self->{TicketObject}->TicketSubjectClean(
                 TicketNumber => $Article{TicketNumber},
-                Subject      => $Article{Subject} || '',
+                Subject => $Article{Subject} || '',
             );
 
             # create human age
-            $Article{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' );
+            $Article{Age}
+                = $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' );
 
             # customer info (customer name)
             my %CustomerData = ();
@@ -190,7 +193,7 @@ sub Run {
     # use template
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentTicketStatusView',
-        Data         => { %Param, %PageNav, Type => $Self->{ViewType}, },
+        Data => { %Param, %PageNav, Type => $Self->{ViewType}, },
     );
 
     # get page footer

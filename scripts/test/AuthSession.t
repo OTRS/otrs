@@ -2,7 +2,7 @@
 # AuthSession.t - auth session tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AuthSession.t,v 1.7 2008-04-24 11:47:39 tr Exp $
+# $Id: AuthSession.t,v 1.8 2008-05-08 09:35:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,36 +15,37 @@ use Kernel::System::AuthSession;
 for my $Module (qw(DB FS IPC)) {
 
     # don't use IPC on win
-    if ($Module eq 'IPC' && $^O =~ /win/i) {
+    if ( $Module eq 'IPC' && $^O =~ /win/i ) {
         next;
     }
 
-    $Self->{ConfigObject}->Set(Key => 'SessionModule', Value => "Kernel::System::AuthSession::$Module");
+    $Self->{ConfigObject}
+        ->Set( Key => 'SessionModule', Value => "Kernel::System::AuthSession::$Module" );
 
-    $Self->{SessionObject} = Kernel::System::AuthSession->new(%{$Self});
+    $Self->{SessionObject} = Kernel::System::AuthSession->new( %{$Self} );
 
     my $LongString = '';
-    for my $Count (1..2) {
-        for (1..4) {
-            $LongString .= $LongString." $_ abcdefghijklmnopqrstuvwxyz1234567890äöüß\n";
+    for my $Count ( 1 .. 2 ) {
+        for ( 1 .. 4 ) {
+            $LongString .= $LongString . " $_ abcdefghijklmnopqrstuvwxyz1234567890äöüß\n";
         }
         my $Length = length($LongString);
-        my $Size = $Length;
-        if ($Size > (1024*1024)) {
-             $Size = sprintf "%.1f MBytes", ($Size/(1024*1024));
+        my $Size   = $Length;
+        if ( $Size > ( 1024 * 1024 ) ) {
+            $Size = sprintf "%.1f MBytes", ( $Size / ( 1024 * 1024 ) );
         }
-        elsif ($Size > 1024) {
-             $Size = sprintf "%.1f KBytes", (($Size/1024));
+        elsif ( $Size > 1024 ) {
+            $Size = sprintf "%.1f KBytes", ( ( $Size / 1024 ) );
         }
         else {
-             $Size = $Size.' Bytes';
+            $Size = $Size . ' Bytes';
         }
 
         my $SessionID = $Self->{SessionObject}->CreateSessionID(
-            UserLogin => 'root',
-            UserEmail => 'root@example.com',
-            'LongStringNew'.$Count => $LongString,
-            UserTest => 'SomeÄÖÜß.',
+            UserLogin                => 'root',
+            UserEmail                => 'root@example.com',
+            'LongStringNew' . $Count => $LongString,
+            UserTest                 => 'SomeÄÖÜß.',
         );
 
         # tests
@@ -53,7 +54,7 @@ for my $Module (qw(DB FS IPC)) {
             "#$Module - CreateSessionID()",
         );
 
-        my %Data = $Self->{SessionObject}->GetSessionIDData(SessionID => $SessionID);
+        my %Data = $Self->{SessionObject}->GetSessionIDData( SessionID => $SessionID );
 
         $Self->Is(
             $Data{UserLogin} || 0,
@@ -63,8 +64,8 @@ for my $Module (qw(DB FS IPC)) {
 
         my $Update = $Self->{SessionObject}->UpdateSessionID(
             SessionID => $SessionID,
-            Key => 'LastScreenView',
-            Value => 'SomeInfo1234',
+            Key       => 'LastScreenView',
+            Value     => 'SomeInfo1234',
         );
 
         $Self->True(
@@ -74,8 +75,8 @@ for my $Module (qw(DB FS IPC)) {
 
         $Update = $Self->{SessionObject}->UpdateSessionID(
             SessionID => $SessionID,
-            Key => 'LongString',
-            Value => "Some string with dyn. content: $Count",
+            Key       => 'LongString',
+            Value     => "Some string with dyn. content: $Count",
         );
 
         $Self->True(
@@ -85,8 +86,8 @@ for my $Module (qw(DB FS IPC)) {
 
         $Update = $Self->{SessionObject}->UpdateSessionID(
             SessionID => $SessionID,
-            Key => 'LongString'.$Count,
-            Value => $LongString,
+            Key       => 'LongString' . $Count,
+            Value     => $LongString,
         );
 
         $Self->True(
@@ -94,7 +95,7 @@ for my $Module (qw(DB FS IPC)) {
             "#$Module - UpdateSessionID() - Long ($Size)",
         );
 
-        %Data = $Self->{SessionObject}->GetSessionIDData(SessionID => $SessionID);
+        %Data = $Self->{SessionObject}->GetSessionIDData( SessionID => $SessionID );
 
         $Self->True(
             $Data{"UserTest"} eq 'SomeÄÖÜß.',
@@ -102,12 +103,12 @@ for my $Module (qw(DB FS IPC)) {
         );
 
         $Self->True(
-            $Data{"LongString".$Count} eq $LongString,
+            $Data{ "LongString" . $Count } eq $LongString,
             "#$Module - GetSessionIDData() - Long ($Size)",
         );
 
         $Self->True(
-            $Data{"LongStringNew".$Count} eq $LongString,
+            $Data{ "LongStringNew" . $Count } eq $LongString,
             "#$Module - GetSessionIDData() - Long ($Size)",
         );
 
@@ -119,8 +120,8 @@ for my $Module (qw(DB FS IPC)) {
 
         $Update = $Self->{SessionObject}->UpdateSessionID(
             SessionID => $SessionID,
-            Key => 'UserTest',
-            Value => 'カスタ äüöß.',
+            Key       => 'UserTest',
+            Value     => 'カスタ äüöß.',
         );
 
         $Self->True(
@@ -128,7 +129,7 @@ for my $Module (qw(DB FS IPC)) {
             "#$Module - UpdateSessionID() - utf8",
         );
 
-        %Data = $Self->{SessionObject}->GetSessionIDData(SessionID => $SessionID);
+        %Data = $Self->{SessionObject}->GetSessionIDData( SessionID => $SessionID );
 
         $Self->Is(
             $Data{"UserTest"} || '',
@@ -136,7 +137,7 @@ for my $Module (qw(DB FS IPC)) {
             "#$Module - GetSessionIDData() - utf8",
         );
 
-        my $Remove = $Self->{SessionObject}->RemoveSessionID(SessionID => $SessionID);
+        my $Remove = $Self->{SessionObject}->RemoveSessionID( SessionID => $SessionID );
 
         $Self->True(
             $Remove,

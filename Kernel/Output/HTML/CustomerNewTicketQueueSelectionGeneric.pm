@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/CustomerNewTicketQueueSelectionGeneric.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerNewTicketQueueSelectionGeneric.pm,v 1.6 2008-02-23 00:42:16 martin Exp $
+# $Id: CustomerNewTicketQueueSelectionGeneric.pm,v 1.7 2008-05-08 09:36:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -25,7 +25,9 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for ( qw(ConfigObject LogObject DBObject LayoutObject UserID TicketObject ParamObject QueueObject SystemAddress))
+    for (
+        qw(ConfigObject LogObject DBObject LayoutObject UserID TicketObject ParamObject QueueObject SystemAddress)
+        )
     {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
@@ -49,19 +51,20 @@ sub Run {
                     $NewTos{ $Self->{QueueObject}->QueueLookup( Queue => $Queue ) } = $Value;
                 }
                 else {
-                    $NewTos{ $Queue } = $Value;
+                    $NewTos{$Queue} = $Value;
                 }
             }
         }
+
         # check create permissions
         my %Queues = $Self->{TicketObject}->MoveList(
             CustomerUserID => $Param{Env}->{UserID},
-            Type => 'create',
-            Action => $Param{Env}->{Action},
+            Type           => 'create',
+            Action         => $Param{Env}->{Action},
         );
         for my $QueueID ( keys %NewTos ) {
-            if ( !$Queues{ $QueueID } ) {
-                delete $NewTos{ $QueueID };
+            if ( !$Queues{$QueueID} ) {
+                delete $NewTos{$QueueID};
             }
         }
     }

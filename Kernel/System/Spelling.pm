@@ -2,7 +2,7 @@
 # Kernel/System/Spelling.pm - the global spelling module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Spelling.pm,v 1.22 2008-04-09 00:31:19 martin Exp $
+# $Id: Spelling.pm,v 1.23 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 =head1 NAME
 
@@ -148,11 +148,12 @@ sub Check {
     }
 
     # check if spell checker exists in file system
-    if (! -e $Self->{ConfigObject}->Get('SpellCheckerBin')) {
+    if ( !-e $Self->{ConfigObject}->Get('SpellCheckerBin') ) {
         $Self->{Error} = 1;
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Can't find spellchecker (".$Self->{ConfigObject}->Get('SpellCheckerBin')."): $!",
+            Message  => "Can't find spellchecker ("
+                . $Self->{ConfigObject}->Get('SpellCheckerBin') . "): $!",
         );
         return;
     }
@@ -272,6 +273,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2008-04-09 00:31:19 $
+$Revision: 1.23 $ $Date: 2008-05-08 09:36:19 $
 
 =cut

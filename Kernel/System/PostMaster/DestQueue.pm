@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/DestQueue.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DestQueue.pm,v 1.22 2008-04-24 21:48:51 martin Exp $
+# $Id: DestQueue.pm,v 1.23 2008-05-08 09:36:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -71,7 +71,8 @@ sub GetQueueID {
                 if ( $Self->{Debug} > 1 ) {
                     $Self->{LogObject}->Log(
                         Priority => 'debug',
-                        Message  => "Match email: $_ (QueueID=$SystemAddresses{$_}/MessageID:$GetParam{'Message-ID'})!",
+                        Message =>
+                            "Match email: $_ (QueueID=$SystemAddresses{$_}/MessageID:$GetParam{'Message-ID'})!",
                     );
                 }
                 $QueueID = $SystemAddresses{$_};
@@ -80,7 +81,8 @@ sub GetQueueID {
                 if ( $Self->{Debug} > 1 ) {
                     $Self->{LogObject}->Log(
                         Priority => 'debug',
-                        Message  => "Does not match email: $_ (QueueID=$SystemAddresses{$_}/MessageID:$GetParam{'Message-ID'})!",
+                        Message =>
+                            "Does not match email: $_ (QueueID=$SystemAddresses{$_}/MessageID:$GetParam{'Message-ID'})!",
                     );
                 }
             }

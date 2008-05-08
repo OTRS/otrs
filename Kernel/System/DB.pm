@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.91 2008-05-07 07:23:50 martin Exp $
+# $Id: DB.pm,v 1.92 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.91 $) [1];
+$VERSION = qw($Revision: 1.92 $) [1];
 
 =head1 NAME
 
@@ -177,7 +177,10 @@ sub new {
 
     # check/get extra database config options
     # (overwrite with params)
-    for (qw(Type Limit DirectBlob Attribute QuoteSingle QuoteBack Connect Encode NoLowerInLargeText LcaseLikeInLargeText)) {
+    for (
+        qw(Type Limit DirectBlob Attribute QuoteSingle QuoteBack Connect Encode NoLowerInLargeText LcaseLikeInLargeText)
+        )
+    {
         if ( defined( $Param{$_} ) ) {
             $Self->{Backend}->{"DB::$_"} = $Param{$_};
         }
@@ -204,7 +207,8 @@ sub Connect {
         $Self->{LogObject}->Log(
             Caller   => 1,
             Priority => 'debug',
-            Message => "DB.pm->Connect: DSN: $Self->{DSN}, User: $Self->{USER}, Pw: $Self->{PW}, DB Type: $Self->{'DB::Type'};",
+            Message =>
+                "DB.pm->Connect: DSN: $Self->{DSN}, User: $Self->{USER}, Pw: $Self->{PW}, DB Type: $Self->{'DB::Type'};",
         );
     }
 
@@ -215,7 +219,7 @@ sub Connect {
         $Self->{PW},
         $Self->{Backend}->{'DB::Attribute'},
     );
-    if ( ! $Self->{dbh} ) {
+    if ( !$Self->{dbh} ) {
         $Self->{LogObject}->Log(
             Caller   => 1,
             Priority => 'Error',
@@ -415,8 +419,8 @@ sub Do {
         $Self->{LogObject}->Log(
             Caller   => 1,
             Priority => 'error',
-            Message => "Your SQL is longer the 4k, this probably not work on many "
-                ."databases (use Bind instead)!",
+            Message  => "Your SQL is longer the 4k, this probably not work on many "
+                . "databases (use Bind instead)!",
         );
     }
     no bytes;
@@ -627,7 +631,7 @@ sub FetchrowArray {
     my $Counter = 0;
     ELEMENT:
     for my $Element (@Row) {
-        if (!$Element) {
+        if ( !$Element ) {
             next ELEMENT;
         }
 
@@ -750,25 +754,42 @@ sub SQLProcessor {
             }
 
             # unique
-            elsif ( $Tag->{Tag} eq 'Unique' || $Tag->{Tag} eq 'UniqueCreate' || $Tag->{Tag} eq 'UniqueDrop' ) {
+            elsif (
+                $Tag->{Tag}    eq 'Unique'
+                || $Tag->{Tag} eq 'UniqueCreate'
+                || $Tag->{Tag} eq 'UniqueDrop'
+                )
+            {
                 push @Table, $Tag;
             }
-#            elsif ( $Tag->{Tag} eq 'UniqueColumn' && $Tag->{TagType} eq 'Start' ) {
+
+            #            elsif ( $Tag->{Tag} eq 'UniqueColumn' && $Tag->{TagType} eq 'Start' ) {
             elsif ( $Tag->{Tag} eq 'UniqueColumn' ) {
                 push @Table, $Tag;
             }
 
             # index
-            elsif ( $Tag->{Tag} eq 'Index' || $Tag->{Tag} eq 'IndexCreate' || $Tag->{Tag} eq 'IndexDrop' ) {
+            elsif (
+                $Tag->{Tag}    eq 'Index'
+                || $Tag->{Tag} eq 'IndexCreate'
+                || $Tag->{Tag} eq 'IndexDrop'
+                )
+            {
                 push @Table, $Tag;
             }
-#            elsif ( $Tag->{Tag} eq 'IndexColumn' && $Tag->{TagType} eq 'Start' ) {
+
+            #            elsif ( $Tag->{Tag} eq 'IndexColumn' && $Tag->{TagType} eq 'Start' ) {
             elsif ( $Tag->{Tag} eq 'IndexColumn' ) {
                 push @Table, $Tag;
             }
 
             # foreign keys
-            elsif ( $Tag->{Tag} eq 'ForeignKey' || $Tag->{Tag} eq 'ForeignKeyCreate' || $Tag->{Tag} eq 'ForeignKeyDrop' ) {
+            elsif (
+                $Tag->{Tag}    eq 'ForeignKey'
+                || $Tag->{Tag} eq 'ForeignKeyCreate'
+                || $Tag->{Tag} eq 'ForeignKeyDrop'
+                )
+            {
                 push @Table, $Tag;
             }
             elsif ( $Tag->{Tag} eq 'Reference' && $Tag->{TagType} eq 'Start' ) {
@@ -994,13 +1015,13 @@ sub QueryCondition {
     for my $Position ( 0 .. $#Array ) {
 
         # find word
-        if ( $Array[ $Position ] !~ /(\(|\)|\!|\||&)/ ) {
-            $Word .= $Array[ $Position ];
+        if ( $Array[$Position] !~ /(\(|\)|\!|\||&)/ ) {
+            $Word .= $Array[$Position];
             next;
         }
 
         # if word exists, do something with it
-        if ( $Word ) {
+        if ($Word) {
 
             # database quote
             $Word = $SearchPrefix . $Word . $SearchSuffix;
@@ -1010,11 +1031,11 @@ sub QueryCondition {
             $Word = $Self->Quote( $Word, 'Like' );
 
             # if it's a NOT LIKE condition
-            if ( $Array[ $Position ] eq '!'  || $Not ) {
+            if ( $Array[$Position] eq '!' || $Not ) {
                 $Not = 0;
                 my $SQLA;
-                for my $Key ( @Keys ) {
-                    if ( $SQLA ) {
+                for my $Key (@Keys) {
+                    if ($SQLA) {
                         $SQLA .= ' AND ';
                     }
 
@@ -1035,8 +1056,8 @@ sub QueryCondition {
             # if it's a LIKE condition
             else {
                 my $SQLA;
-                for my $Key ( @Keys ) {
-                    if ( $SQLA ) {
+                for my $Key (@Keys) {
+                    if ($SQLA) {
                         $SQLA .= ' OR ';
                     }
 
@@ -1062,19 +1083,19 @@ sub QueryCondition {
         if ( $Array[ $Position + 1 ] ) {
 
             # if it's an AND condition
-            if ( $Array[ $Position ] eq '&' && $Array[ $Position + 1 ] eq '&' ) {
+            if ( $Array[$Position] eq '&' && $Array[ $Position + 1 ] eq '&' ) {
                 $SQL .= ' AND ';
             }
 
             # if it's an OR condition
-            elsif ( $Array[ $Position ] eq '|' && $Array[ $Position + 1 ] eq '|' ) {
+            elsif ( $Array[$Position] eq '|' && $Array[ $Position + 1 ] eq '|' ) {
                 $SQL .= ' OR ';
             }
         }
 
         # add ( or ) for query
-        if ( $Array[ $Position ] =~ /(\(|\))/ ) {
-            $SQL .= $Array[ $Position ];
+        if ( $Array[$Position] =~ /(\(|\))/ ) {
+            $SQL .= $Array[$Position];
 
             # remember for syntax check
             if ( $1 eq '(' ) {
@@ -1086,7 +1107,7 @@ sub QueryCondition {
         }
 
         # remember if it's a NOT condition
-        elsif ( $Array[ $Position ] eq '!' ) {
+        elsif ( $Array[$Position] eq '!' ) {
             $Not = 1;
         }
     }
@@ -1105,8 +1126,10 @@ sub QueryCondition {
 sub _TypeCheck {
     my ( $Self, $Tag ) = @_;
 
-    if (   $Tag->{Type}
-        && $Tag->{Type} !~ /^(DATE|SMALLINT|BIGINT|INTEGER|DECIMAL|VARCHAR|LONGBLOB)$/i )
+    if (
+        $Tag->{Type}
+        && $Tag->{Type} !~ /^(DATE|SMALLINT|BIGINT|INTEGER|DECIMAL|VARCHAR|LONGBLOB)$/i
+        )
     {
         $Self->{LogObject}->Log(
             Priority => 'Error',
@@ -1119,7 +1142,7 @@ sub _TypeCheck {
 sub _NameCheck {
     my ( $Self, $Tag ) = @_;
 
-    if (   $Tag->{Name} && length $Tag->{Name} > 30 ) {
+    if ( $Tag->{Name} && length $Tag->{Name} > 30 ) {
         $Self->{LogObject}->Log(
             Priority => 'Error',
             Message  => "Table names should not have more the 30 chars ($Tag->{Name})!",
@@ -1132,7 +1155,7 @@ sub DESTROY {
     my ($Self) = @_;
 
     # cleanup open statement handle if there is any and then disconnect from DB
-    if ($Self->{Cursor}) {
+    if ( $Self->{Cursor} ) {
         $Self->{Cursor}->finish();
     }
     $Self->Disconnect();
@@ -1156,6 +1179,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.91 $ $Date: 2008-05-07 07:23:50 $
+$Revision: 1.92 $ $Date: 2008-05-08 09:36:19 $
 
 =cut

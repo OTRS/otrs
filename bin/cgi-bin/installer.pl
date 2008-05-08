@@ -3,7 +3,7 @@
 # bin/cgi-bin/installer.pl - the web Installer
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: installer.pl,v 1.27 2008-02-01 12:49:21 tr Exp $
+# $Id: installer.pl,v 1.28 2008-05-08 09:36:57 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ use lib "$Bin/../..";
 use lib "$Bin/../../Kernel/cpan-lib";
 
 use vars qw($VERSION $Debug);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 # check @INC for mod_perl (add lib path for "require module"!)
 push( @INC, "$Bin/../..", "$Bin/../../Kernel/cpan-lib" );
@@ -112,7 +112,7 @@ if ($Debug) {
 
 # generic funktion
 sub GenericModules {
-    my %Data = @_;
+    my (%Data) = @_;
 
     # debug info
     if ($Debug) {

@@ -2,7 +2,7 @@
 # Kernel/System/CheckItem.pm - the global spelling module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CheckItem.pm,v 1.28 2008-04-11 15:50:30 martin Exp $
+# $Id: CheckItem.pm,v 1.29 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 =head1 NAME
 
@@ -116,10 +116,14 @@ sub CheckEmail {
     my $Error = '';
 
     # email address syntax check
-    if ( $Param{Address} !~ /^(()|([a-zA-Z0-9_]+([a-zA-Z0-9_+\.&%-]*[a-zA-Z0-9_'\.-]+)?@([a-zA-Z0-9]+([a-zA-Z0-9\.-]*[a-zA-Z0-9]+)?\.+[a-zA-Z]{2,8}|\[\d+\.\d+\.\d+\.\d+])))$/
-        ) {
+    if (
+        $Param{Address}
+        !~ /^(()|([a-zA-Z0-9_]+([a-zA-Z0-9_+\.&%-]*[a-zA-Z0-9_'\.-]+)?@([a-zA-Z0-9]+([a-zA-Z0-9\.-]*[a-zA-Z0-9]+)?\.+[a-zA-Z]{2,8}|\[\d+\.\d+\.\d+\.\d+])))$/
+        )
+    {
         $Error = "Invalid syntax";
     }
+
     # email address syntax check
     # period (".") may not be used to end the local part,
     # nor may two or more consecutive periods appear
@@ -128,8 +132,10 @@ sub CheckEmail {
     }
 
     # mx check
-    elsif ($Self->{ConfigObject}->Get('CheckMXRecord')
-        && $Self->{MainObject}->Require('Net::DNS') )
+    elsif (
+        $Self->{ConfigObject}->Get('CheckMXRecord')
+        && $Self->{MainObject}->Require('Net::DNS')
+        )
     {
 
         # get host
@@ -270,6 +276,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.28 $ $Date: 2008-04-11 15:50:30 $
+$Revision: 1.29 $ $Date: 2008-05-08 09:36:19 $
 
 =cut

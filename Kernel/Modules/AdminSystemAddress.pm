@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSystemAddress.pm - to add/update/delete system addresses
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSystemAddress.pm,v 1.24 2008-01-31 06:22:12 tr Exp $
+# $Id: AdminSystemAddress.pm,v 1.25 2008-05-08 09:36:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,13 +18,13 @@ use Kernel::System::SystemAddress;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check all needed objects
@@ -73,8 +73,11 @@ sub Run {
         }
 
         # update group
-        if ( $Self->{SystemAddressObject}
-            ->SystemAddressUpdate( %GetParam, UserID => $Self->{UserID} ) )
+        if (
+            $Self->{SystemAddressObject}->SystemAddressUpdate(
+                %GetParam, UserID => $Self->{UserID}
+            )
+            )
         {
             $Self->_Overview();
             my $Output = $Self->{LayoutObject}->Header();
@@ -137,7 +140,8 @@ sub Run {
         }
 
         # add user
-        if ( my $AddressID
+        if (
+            my $AddressID
             = $Self->{SystemAddressObject}->SystemAddressAdd( %GetParam, UserID => $Self->{UserID} )
             )
         {
@@ -204,7 +208,7 @@ sub _Edit {
                 What  => 'id, name',
                 Table => 'queue',
                 Valid => 1,
-            )
+                )
         },
         Name           => 'QueueID',
         SelectedID     => $Param{QueueID},

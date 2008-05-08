@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NotificationAgentOnline.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationAgentOnline.pm,v 1.6 2008-01-31 02:05:20 martin Exp $
+# $Id: NotificationAgentOnline.pm,v 1.7 2008-05-08 09:36:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::AuthSession;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -40,15 +40,17 @@ sub Run {
     # get session info
     my %Online      = ();
     my @Sessions    = $Self->{SessionObject}->GetAllSessionIDs();
-    my $IdleMinutes = $Param{Config}->{IdleMinutes} || 60*2;
+    my $IdleMinutes = $Param{Config}->{IdleMinutes} || 60 * 2;
     for (@Sessions) {
         my %Data = $Self->{SessionObject}->GetSessionIDData( SessionID => $_, );
-        if (   $Self->{UserID} ne $Data{UserID}
+        if (
+            $Self->{UserID} ne $Data{UserID}
             && $Data{UserType} eq 'User'
             && $Data{UserLastRequest}
-            && $Data{UserLastRequest}+($IdleMinutes*60) > $Self->{TimeObject}->SystemTime()
+            && $Data{UserLastRequest} + ( $IdleMinutes * 60 ) > $Self->{TimeObject}->SystemTime()
             && $Data{UserFirstname}
-            && $Data{UserLastname} )
+            && $Data{UserLastname}
+            )
         {
             $Online{ $Data{UserID} } = "$Data{UserFirstname} $Data{UserLastname}";
             if ( $Param{Config}->{ShowEmail} ) {

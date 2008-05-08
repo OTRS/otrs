@@ -2,7 +2,7 @@
 # Kernel/System/StdAttachment.pm - lib for std attachemnt
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: StdAttachment.pm,v 1.22 2008-04-11 15:49:12 martin Exp $
+# $Id: StdAttachment.pm,v 1.23 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 =head1 NAME
 
@@ -64,7 +64,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check all needed objects
@@ -110,19 +110,19 @@ sub StdAttachmentAdd {
     }
 
     # sql
-    return if ! $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => 'INSERT INTO standard_attachment '
             . ' (name, content_type, content, filename, valid_id, comments, '
             . ' create_time, create_by, change_time, change_by) VALUES '
             . ' (?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{Name}, \$Param{ContentType}, \$Param{Content}, \$Param{Filename},
-            \$Param{ValidID}, \$Param{Comment}, \$Param{UserID}, \$Param{UserID},
+            \$Param{Name},    \$Param{ContentType}, \$Param{Content}, \$Param{Filename},
+            \$Param{ValidID}, \$Param{Comment},     \$Param{UserID},  \$Param{UserID},
         ],
     );
 
     $Self->{DBObject}->Prepare(
-        SQL  => 'SELECT id FROM standard_attachment WHERE name = ? AND content_type = ?',
+        SQL => 'SELECT id FROM standard_attachment WHERE name = ? AND content_type = ?',
         Bind => [ \$Param{Name}, \$Param{ContentType}, ],
     );
     my $ID;
@@ -152,7 +152,7 @@ sub StdAttachmentGet {
     }
 
     # sql
-    return if ! $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT name, content_type, content, filename, valid_id, comments '
             . ' FROM standard_attachment WHERE id = ?',
         Bind   => [ \$Param{ID} ],
@@ -216,10 +216,10 @@ sub StdAttachmentUpdate {
     my %Data = $Self->StdAttachmentGet(
         ID => $Param{ID},
     );
-    $Self->{'StdAttachmentLookupID::' . $Data{ID}}      = 0;
-    $Self->{'StdAttachmentLookupName::' . $Data{Name}}  = 0;
-    $Self->{'StdAttachmentLookupID::' . $Param{ID}}     = 0;
-    $Self->{'StdAttachmentLookupName::' . $Param{Name}} = 0;
+    $Self->{ 'StdAttachmentLookupID::' . $Data{ID} }      = 0;
+    $Self->{ 'StdAttachmentLookupName::' . $Data{Name} }  = 0;
+    $Self->{ 'StdAttachmentLookupID::' . $Param{ID} }     = 0;
+    $Self->{ 'StdAttachmentLookupName::' . $Param{Name} } = 0;
 
     # sql
     return $Self->{DBObject}->Do(
@@ -227,8 +227,8 @@ sub StdAttachmentUpdate {
             . ' comments = ?, filename = ?, valid_id = ?, change_time = current_timestamp, '
             . ' change_by = ? WHERE id = ?',
         Bind => [
-            \$Param{Name}, \$Param{Content}, \$Param{ContentType}, \$Param{Comment},
-            \$Param{Filename}, \$Param{ValidID}, \$Param{UserID}, \$Param{ID},
+            \$Param{Name},     \$Param{Content}, \$Param{ContentType}, \$Param{Comment},
+            \$Param{Filename}, \$Param{ValidID}, \$Param{UserID},      \$Param{ID},
         ],
     );
 }
@@ -258,8 +258,8 @@ sub StdAttachmentDelete {
     my %Data = $Self->StdAttachmentGet(
         ID => $Param{ID},
     );
-    $Self->{'StdAttachmentLookupID::' . $Param{ID}}    = 0;
-    $Self->{'StdAttachmentLookupName::' . $Data{Name}} = 0;
+    $Self->{ 'StdAttachmentLookupID::' . $Param{ID} }    = 0;
+    $Self->{ 'StdAttachmentLookupName::' . $Data{Name} } = 0;
 
     # sql
     return $Self->{DBObject}->Do(
@@ -433,7 +433,7 @@ sub SetStdAttachmentsOfResponseID {
     }
 
     # add attachments to response
-    return if ! $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL  => 'DELETE FROM standard_response_attachment WHERE standard_response_id = ?',
         Bind => [ \$Param{ID} ],
     );
@@ -466,6 +466,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2008-04-11 15:49:12 $
+$Revision: 1.23 $ $Date: 2008-05-08 09:36:19 $
 
 =cut

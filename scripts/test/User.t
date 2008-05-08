@@ -2,7 +2,7 @@
 # User.t - User tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: User.t,v 1.3 2008-04-24 11:47:39 tr Exp $
+# $Id: User.t,v 1.4 2008-05-08 09:35:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,23 +11,23 @@
 
 use Kernel::System::User;
 
-$Self->{UserObject} = Kernel::System::User->new(%{$Self});
+$Self->{UserObject} = Kernel::System::User->new( %{$Self} );
 
 # add users
-my $UserRand1 = 'example-user'.int(rand(1000000));
+my $UserRand1 = 'example-user' . int( rand(1000000) );
 
 $Self->{ConfigObject}->Set(
-    Key => 'CheckEmailInvalidAddress',
+    Key   => 'CheckEmailInvalidAddress',
     Value => 0,
 );
 
 my $UserID1 = $Self->{UserObject}->UserAdd(
     UserFirstname => 'Firstname Test1',
-    UserLastname => 'Lastname Test1',
-    UserLogin => $UserRand1,
-    UserEmail => $UserRand1 . '@example.com',
-    ValidID => 1,
-    ChangeUserID => 1,
+    UserLastname  => 'Lastname Test1',
+    UserLogin     => $UserRand1,
+    UserEmail     => $UserRand1 . '@example.com',
+    ValidID       => 1,
+    ChangeUserID  => 1,
 );
 
 $Self->True(
@@ -61,13 +61,13 @@ $Self->Is(
 );
 
 my $Update = $Self->{UserObject}->UserUpdate(
-    UserID => $UserID1,
+    UserID        => $UserID1,
     UserFirstname => 'Firstname Test2',
-    UserLastname => 'Lastname Test2',
-    UserLogin => $UserRand1."2",
-    UserEmail => $UserRand1 . '@example2.com',
-    ValidID => 2,
-    ChangeUserID => 1,
+    UserLastname  => 'Lastname Test2',
+    UserLogin     => $UserRand1 . "2",
+    UserEmail     => $UserRand1 . '@example2.com',
+    ValidID       => 2,
+    ChangeUserID  => 1,
 );
 
 $Self->True(
@@ -91,7 +91,7 @@ $Self->Is(
 );
 $Self->Is(
     $UserData{UserLogin} || '',
-    $UserRand1."2",
+    $UserRand1 . "2",
     'GetUserData() - UserLogin',
 );
 $Self->Is(
@@ -109,8 +109,8 @@ $Self->True(
     "TokenGenerate() - $Token",
 );
 
-my $TokenValid =  $Self->{UserObject}->TokenCheck(
-    Token => $Token,
+my $TokenValid = $Self->{UserObject}->TokenCheck(
+    Token  => $Token,
     UserID => 1,
 );
 
@@ -119,8 +119,8 @@ $Self->True(
     "TokenCheck() - $Token",
 );
 
-$TokenValid =  $Self->{UserObject}->TokenCheck(
-    Token => $Token,
+$TokenValid = $Self->{UserObject}->TokenCheck(
+    Token  => $Token,
     UserID => 1,
 );
 
@@ -129,14 +129,14 @@ $Self->True(
     "TokenCheck() - $Token",
 );
 
-$TokenValid =  $Self->{UserObject}->TokenCheck(
-    Token => $Token.'123',
+$TokenValid = $Self->{UserObject}->TokenCheck(
+    Token  => $Token . '123',
     UserID => 1,
 );
 
 $Self->True(
     !$TokenValid || 0,
-    "TokenCheck() - $Token"."123",
+    "TokenCheck() - $Token" . "123",
 );
 
 1;

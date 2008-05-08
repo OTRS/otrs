@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.24 2008-04-09 00:31:19 martin Exp $
+# $Id: Main.pm,v 1.25 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Data::Dumper;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 =head1 NAME
 
@@ -128,7 +128,7 @@ sub Require {
     }
 
     # return true if module is loaded
-    if (!$Result) {
+    if ( !$Result ) {
 
         # if there is no file, show not found error
         $Self->{LogObject}->Log(
@@ -163,7 +163,7 @@ to die
 =cut
 
 sub Die {
-    my ( $Self, $Message) = @_;
+    my ( $Self, $Message ) = @_;
 
     $Message = $Message || 'Died!';
 
@@ -286,7 +286,7 @@ sub FileRead {
         # filename clean up
         $Param{Filename} = $Self->FilenameCleanUp(
             Filename => $Param{Filename},
-            Type     => $Param{Type} || 'Local',    # Local|Attachment|MD5
+            Type => $Param{Type} || 'Local',    # Local|Attachment|MD5
         );
         $Param{Location} = "$Param{Directory}/$Param{Filename}";
     }
@@ -298,7 +298,7 @@ sub FileRead {
     else {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => 'Need Filename and Directory or Location!',
+            Message  => 'Need Filename and Directory or Location!',
         );
 
     }
@@ -355,7 +355,7 @@ sub FileRead {
     }
 
     # read file as string
-    my $String = do {local $/; <$FH>};
+    my $String = do { local $/; <$FH> };
     close $FH;
 
     return \$String;
@@ -396,7 +396,7 @@ sub FileWrite {
         # filename clean up
         $Param{Filename} = $Self->FilenameCleanUp(
             Filename => $Param{Filename},
-            Type     => $Param{Type} || 'Local', # Local|Attachment|MD5
+            Type => $Param{Type} || 'Local',    # Local|Attachment|MD5
         );
         $Param{Location} = "$Param{Directory}/$Param{Filename}";
     }
@@ -408,7 +408,7 @@ sub FileWrite {
     else {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => 'Need Filename and Directory or Location!',
+            Message  => 'Need Filename and Directory or Location!',
         );
     }
 
@@ -480,7 +480,7 @@ sub FileDelete {
         # filename clean up
         $Param{Filename} = $Self->FilenameCleanUp(
             Filename => $Param{Filename},
-            Type     => $Param{Type} || 'Local',    # Local|Attachment|MD5
+            Type => $Param{Type} || 'Local',    # Local|Attachment|MD5
         );
         $Param{Location} = "$Param{Directory}/$Param{Filename}";
     }
@@ -492,7 +492,7 @@ sub FileDelete {
     else {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => 'Need Filename and Directory or Location!',
+            Message  => 'Need Filename and Directory or Location!',
         );
     }
 
@@ -576,7 +576,7 @@ sub MD5sum {
     }
 
     # md5sum string
-    if ( ! ref( $Param{String} ) ) {
+    if ( !ref( $Param{String} ) ) {
         $Self->{EncodeObject}->EncodeOutput( \$Param{String} );
         return md5_hex( $Param{String} );
     }
@@ -628,7 +628,7 @@ sub Dump {
     }
 
     # check type
-    if ( $Type && $Type !~ /^(ascii|binary)$/) {
+    if ( $Type && $Type !~ /^(ascii|binary)$/ ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Invalid Type '$Type'!" );
         return;
     }
@@ -644,9 +644,12 @@ sub Dump {
     # strings as latin1/8bit instead of utf8. Use Storable module used for
     # workaround.
     # -> http://rt.cpan.org/Ticket/Display.html?id=28607
-    if (  $Self->{ConfigObject}->Get('DefaultCharset') =~ /utf(8|\-8)/i
+    if (
+        $Self->{ConfigObject}->Get('DefaultCharset')
+        =~ /utf(8|\-8)/i
         && $Self->Require('Storable')
-        && $Type eq 'binary' )
+        && $Type eq 'binary'
+        )
     {
 
         # Clone the data because we need to disable the utf8 flag in all
@@ -742,6 +745,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2008-04-09 00:31:19 $
+$Revision: 1.25 $ $Date: 2008-05-08 09:36:19 $
 
 =cut

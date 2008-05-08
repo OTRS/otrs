@@ -2,7 +2,7 @@
 # SysConfig.t - SysConfig tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SysConfig.t,v 1.3 2008-03-17 23:05:22 martin Exp $
+# $Id: SysConfig.t,v 1.4 2008-05-08 09:35:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,7 +11,7 @@
 
 use Kernel::System::Config;
 
-$Self->{SystemConfigObject} = Kernel::System::Config->new(%{$Self});
+$Self->{SystemConfigObject} = Kernel::System::Config->new( %{$Self} );
 
 my %Config = $Self->{SystemConfigObject}->ConfigItemGet(
     Name    => 'FQDN',
@@ -68,8 +68,8 @@ $Self->Is(
     'DataDiff() ARRAY',
 );
 
-my %Ah = ('Test' => 123);
-my %Bh = ('Test' => 123);
+my %Ah = ( 'Test' => 123 );
+my %Bh = ( 'Test' => 123 );
 $Self->Is(
     $Self->{SystemConfigObject}->DataDiff(
         Data1 => \%Ah,
@@ -79,8 +79,8 @@ $Self->Is(
     'DataDiff() HASH',
 );
 
-%Ah = ('Test' => 123);
-%Bh = ('Test' => 123, '' => '');
+%Ah = ( 'Test' => 123 );
+%Bh = ( 'Test' => 123, '' => '' );
 $Self->Is(
     $Self->{SystemConfigObject}->DataDiff(
         Data1 => \%Ah,
@@ -90,8 +90,8 @@ $Self->Is(
     'DataDiff() HASH',
 );
 
-%Ah = ('Test' => 123, A => [1,3,4]);
-%Bh = ('Test' => 123, A => [1,3,4]);
+%Ah = ( 'Test' => 123, A => [ 1, 3, 4 ] );
+%Bh = ( 'Test' => 123, A => [ 1, 3, 4 ] );
 $Self->Is(
     $Self->{SystemConfigObject}->DataDiff(
         Data1 => \%Ah,
@@ -101,8 +101,8 @@ $Self->Is(
     'DataDiff() HASH',
 );
 
-%Ah = ('Test' => 123, A => [1,3,4]);
-%Bh = ('Test' => 123, A => [1,4,4]);
+%Ah = ( 'Test' => 123, A => [ 1, 3, 4 ] );
+%Bh = ( 'Test' => 123, A => [ 1, 4, 4 ] );
 $Self->Is(
     $Self->{SystemConfigObject}->DataDiff(
         Data1 => \%Ah,
@@ -112,8 +112,8 @@ $Self->Is(
     'DataDiff() HASH',
 );
 
-%Ah = ('Test' => 123, A => [1,3,4], B => { a => 1},);
-%Bh = ('Test' => 123, A => [1,3,4], B => { a => 1},);
+%Ah = ( 'Test' => 123, A => [ 1, 3, 4 ], B => { a => 1 }, );
+%Bh = ( 'Test' => 123, A => [ 1, 3, 4 ], B => { a => 1 }, );
 $Self->Is(
     $Self->{SystemConfigObject}->DataDiff(
         Data1 => \%Ah,
@@ -123,8 +123,8 @@ $Self->Is(
     'DataDiff() HASH',
 );
 
-%Ah = ('Test' => 123, A => [1,3,4], B => { a => 1}, );
-%Bh = ('Test' => 123, A => [1,3,4], B => { a => 1, '' => undef, },);
+%Ah = ( 'Test' => 123, A => [ 1, 3, 4 ], B => { a => 1 }, );
+%Bh = ( 'Test' => 123, A => [ 1, 3, 4 ], B => { a => 1, '' => undef, }, );
 $Self->Is(
     $Self->{SystemConfigObject}->DataDiff(
         Data1 => \%Ah,
@@ -134,8 +134,8 @@ $Self->Is(
     'DataDiff() HASH',
 );
 
-@Ar = ('Test', {a => 1});
-@Br = ('Test', {a => 1});
+@Ar = ( 'Test', { a => 1 } );
+@Br = ( 'Test', { a => 1 } );
 $Self->Is(
     $Self->{SystemConfigObject}->DataDiff(
         Data1 => \@Ar,
@@ -145,8 +145,8 @@ $Self->Is(
     'DataDiff() ARRAY',
 );
 
-@Ar = ('Test', {a => 2});
-@Br = ('Test', {a => 1});
+@Ar = ( 'Test', { a => 2 } );
+@Br = ( 'Test', { a => 1 } );
 $Self->Is(
     $Self->{SystemConfigObject}->DataDiff(
         Data1 => \@Ar,
@@ -156,8 +156,8 @@ $Self->Is(
     'DataDiff() ARRAY',
 );
 
-@Ar = ('Test', {a => 1}, [1,3]);
-@Br = ('Test', {a => 1}, [1,3]);
+@Ar = ( 'Test', { a => 1 }, [ 1, 3 ] );
+@Br = ( 'Test', { a => 1 }, [ 1, 3 ] );
 $Self->Is(
     $Self->{SystemConfigObject}->DataDiff(
         Data1 => \@Ar,
@@ -167,8 +167,8 @@ $Self->Is(
     'DataDiff() ARRAY',
 );
 
-@Ar = ('Test', {a => 1}, [1,3]);
-@Br = ('Test', {a => 1}, [undef,3]);
+@Ar = ( 'Test', { a => 1 }, [ 1,     3 ] );
+@Br = ( 'Test', { a => 1 }, [ undef, 3 ] );
 $Self->Is(
     $Self->{SystemConfigObject}->DataDiff(
         Data1 => \@Ar,

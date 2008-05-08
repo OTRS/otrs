@@ -2,7 +2,7 @@
 # Package.t - Package tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.t,v 1.11 2008-04-24 17:32:15 tr Exp $
+# $Id: Package.t,v 1.12 2008-05-08 09:35:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,7 +11,7 @@
 
 use Kernel::System::Package;
 
-$Self->{PackageObject} = Kernel::System::Package->new(%{$Self});
+$Self->{PackageObject} = Kernel::System::Package->new( %{$Self} );
 
 my $String = '<?xml version="1.0" encoding="utf-8" ?>
 <otrs_package version="1.0">
@@ -72,7 +72,7 @@ $Self->True(
 );
 
 my $PackageGet = $Self->{PackageObject}->RepositoryGet(
-    Name => 'Test',
+    Name    => 'Test',
     Version => '0.0.1',
 );
 
@@ -82,7 +82,7 @@ $Self->True(
 );
 
 my $PackageRemove = $Self->{PackageObject}->RepositoryRemove(
-    Name => 'Test',
+    Name    => 'Test',
     Version => '0.0.1',
 );
 
@@ -101,7 +101,7 @@ $Self->True(
 );
 
 my $DeployCheck = $Self->{PackageObject}->DeployCheck(
-    Name => 'Test',
+    Name    => 'Test',
     Version => '0.0.1',
 );
 
@@ -142,7 +142,7 @@ $Self->True(
 );
 
 my $DeployCheck2 = $Self->{PackageObject}->DeployCheck(
-    Name => 'Test',
+    Name    => 'Test',
     Version => '0.0.1',
 );
 
@@ -520,7 +520,7 @@ $Self->{DBObject}->Prepare(
     SQL => 'SELECT name_b FROM test_package',
 );
 my $Result;
-while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
     $Result = $Row[0];
 }
 
@@ -594,7 +594,7 @@ $Self->{DBObject}->Prepare(
     SQL => 'SELECT name_b FROM test_package',
 );
 $Result = '';
-while (my @Row = $Self->{DBObject}->FetchrowArray()) {
+while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
     $Result = $Row[0];
 }
 

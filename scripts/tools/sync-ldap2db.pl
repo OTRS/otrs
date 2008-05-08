@@ -3,7 +3,7 @@
 # scripts/tools/sync-ldap2db.pl - sync a ldap directory to database
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: sync-ldap2db.pl,v 1.7 2008-04-24 17:32:15 tr Exp $
+# $Id: sync-ldap2db.pl,v 1.8 2008-05-08 09:35:57 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 use Net::LDAP;
 use Kernel::Config;
@@ -46,9 +46,9 @@ $CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-sync-ldap2db',
     %CommonObject,
 );
-$CommonObject{MainObject}   = Kernel::System::Main  ->new(%CommonObject);
+$CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{DBObject}     = Kernel::System::DB    ->new(%CommonObject);
+$CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
 
 my $UidLDAP = 'uid';
 my $UidDB   = 'login';
@@ -129,8 +129,9 @@ for (qw(0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z)
                 $Type = 'UPDATE';
             }
             for ( keys %Map ) {
-                my $Value = $CommonObject{DBObject}
-                    ->Quote( _ConvertTo( $entry->get_value( $Map{$_} ) ) || '' );
+                my $Value = $CommonObject{DBObject}->Quote(
+                    _ConvertTo( $entry->get_value( $Map{$_} ) ) || ''
+                );
                 if ( $Type eq 'UPDATE' ) {
                     if ($SQLPre) {
                         $SQLPre .= ", ";

@@ -2,7 +2,7 @@
 # Queue.t - Queue tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.t,v 1.5 2008-02-11 12:18:16 martin Exp $
+# $Id: Queue.t,v 1.6 2008-05-08 09:35:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,28 +11,28 @@
 
 use Kernel::System::Queue;
 
-$Self->{QueueObject} = Kernel::System::Queue->new(%{$Self});
+$Self->{QueueObject} = Kernel::System::Queue->new( %{$Self} );
 
-my $QueueRand = 'Some::Queue'.int(rand(1000000));
-my $QueueID = $Self->{QueueObject}->QueueAdd(
-    Name => $QueueRand,
-    ValidID => 1,
-    GroupID => 1,
-    FirstResponseTime => 30,
+my $QueueRand = 'Some::Queue' . int( rand(1000000) );
+my $QueueID   = $Self->{QueueObject}->QueueAdd(
+    Name                => $QueueRand,
+    ValidID             => 1,
+    GroupID             => 1,
+    FirstResponseTime   => 30,
     FirstResponseNotify => 70,
-    UpdateTime => 240,
-    UpdateNotify => 80,
-    SolutionTime => 2440,
-    SolutionNotify => 90,
-    SystemAddressID => 1,
-    SalutationID => 1,
-    SignatureID => 1,
-    UserID => 1,
-    MoveNotify => 0,
-    StateNotify => 0,
-    LockNotify => 0,
-    OwnerNotify => 0,
-    Comment => 'Some Comment',
+    UpdateTime          => 240,
+    UpdateNotify        => 80,
+    SolutionTime        => 2440,
+    SolutionNotify      => 90,
+    SystemAddressID     => 1,
+    SalutationID        => 1,
+    SignatureID         => 1,
+    UserID              => 1,
+    MoveNotify          => 0,
+    StateNotify         => 0,
+    LockNotify          => 0,
+    OwnerNotify         => 0,
+    Comment             => 'Some Comment',
 );
 
 $Self->True(
@@ -88,27 +88,27 @@ $Self->True(
 );
 
 my $QueueUpdate = $Self->{QueueObject}->QueueUpdate(
-    QueueID => $QueueID,
-    Name => $QueueRand."1",
-    ValidID => 2,
-    GroupID => 1,
-    Calendar => 1,
-    FirstResponseTime => 60,
+    QueueID             => $QueueID,
+    Name                => $QueueRand . "1",
+    ValidID             => 2,
+    GroupID             => 1,
+    Calendar            => 1,
+    FirstResponseTime   => 60,
     FirstResponseNotify => 60,
-    UpdateTime => 480,
-    UpdateNotify => 70,
-    SolutionTime => 4880,
-    SolutionNotify => 80,
-    SystemAddressID => 1,
-    SalutationID => 1,
-    SignatureID => 1,
-    FollowUpID => 1,
-    UserID => 1,
-    MoveNotify => 0,
-    StateNotify => 0,
-    LockNotify => 0,
-    OwnerNotify => 0,
-    Comment => 'Some Comment1',
+    UpdateTime          => 480,
+    UpdateNotify        => 70,
+    SolutionTime        => 4880,
+    SolutionNotify      => 80,
+    SystemAddressID     => 1,
+    SalutationID        => 1,
+    SignatureID         => 1,
+    FollowUpID          => 1,
+    UserID              => 1,
+    MoveNotify          => 0,
+    StateNotify         => 0,
+    LockNotify          => 0,
+    OwnerNotify         => 0,
+    Comment             => 'Some Comment1',
 );
 
 $Self->True(
@@ -121,7 +121,7 @@ $Self->True(
 );
 
 $Self->True(
-    $QueueGet{Name} eq $QueueRand."1",
+    $QueueGet{Name} eq $QueueRand . "1",
     'QueueGet() - Name',
 );
 $Self->True(
@@ -164,14 +164,14 @@ $Self->True(
     'QueueGet() - SolutionNotify',
 );
 
-my $Queue = $Self->{QueueObject}->QueueLookup(QueueID => $QueueID);
+my $Queue = $Self->{QueueObject}->QueueLookup( QueueID => $QueueID );
 
 $Self->True(
-    $Queue eq $QueueRand."1",
+    $Queue eq $QueueRand . "1",
     'QueueLookup() by ID',
 );
 
-my $QueueIDLookup = $Self->{QueueObject}->QueueLookup(Queue => $Queue);
+my $QueueIDLookup = $Self->{QueueObject}->QueueLookup( Queue => $Queue );
 
 $Self->True(
     $QueueID eq $QueueIDLookup,

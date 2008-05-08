@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleSearchIndex/StaticDB.pm - article search index backend static
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.1 2008-05-06 23:14:51 martin Exp $
+# $Id: StaticDB.pm,v 1.2 2008-05-08 09:36:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub ArticleIndexBuild {
     my ( $Self, %Param ) = @_;
@@ -47,13 +47,13 @@ sub ArticleIndexBuild {
         Bind => [ \$Article{ArticleID}, ],
     );
     $Self->{DBObject}->Do(
-        SQL  => 'INSERT INTO article_search (id, ticket_id, article_type_id, '
+        SQL => 'INSERT INTO article_search (id, ticket_id, article_type_id, '
             . 'article_sender_type_id, a_from, a_to, a_cc, a_subject, a_message_id, '
             . 'a_body, incoming_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
         Bind => [
-            \$Article{ArticleID}, \$Article{TicketID}, \$Article{ArticleTypeID},
-            \$Article{SenderTypeID}, \$Article{From}, \$Article{To},
-            \$Article{Cc}, \$Article{Subject}, \$Article{MessageID}, \$Article{Body},
+            \$Article{ArticleID},    \$Article{TicketID}, \$Article{ArticleTypeID},
+            \$Article{SenderTypeID}, \$Article{From},     \$Article{To},
+            \$Article{Cc},           \$Article{Subject},  \$Article{MessageID}, \$Article{Body},
             \$Article{IncomingTime},
         ],
     );
@@ -73,7 +73,7 @@ sub ArticleIndexDelete {
     }
 
     # delete articles
-    return if ! $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL  => 'DELETE FROM article_search WHERE id = ?',
         Bind => [ \$Param{ArticleID} ],
     );
@@ -124,8 +124,8 @@ sub _ArticleIndexQuerySQLExt {
         Subject => 'at.a_subject',
         Body    => 'at.a_body',
     );
-    my $SQLExt         = '';
-    my $FullTextSQL    = '';
+    my $SQLExt      = '';
+    my $FullTextSQL = '';
     for my $Key ( keys %FieldSQLMapFullText ) {
         if ( $Param{Data}->{$Key} ) {
             $Param{Data}->{$Key} =~ s/\*/%/gi;
@@ -138,7 +138,11 @@ sub _ArticleIndexQuerySQLExt {
             }
 
             # check if search condition extention is used
-            if ( $Param{Data}->{ConditionInline} && $Param{Data}->{$Key} =~ /(&&|\|\||\!|\+|AND|OR)/ ) {
+            if (
+                $Param{Data}->{ConditionInline}
+                && $Param{Data}->{$Key} =~ /(&&|\|\||\!|\+|AND|OR)/
+                )
+            {
                 $FullTextSQL .= $Self->{DBObject}->QueryCondition(
                     Key          => $FieldSQLMapFullText{$Key},
                     Value        => $Param{Data}->{$Key},
@@ -191,9 +195,9 @@ sub _ArticleIndexString {
     # find ranking of words
     my %List;
     my $IndexString = '';
-    my $Count = 0;
-    for my $Word ( @{ $ListOfWords } ) {
-        $Count ++;
+    my $Count       = 0;
+    for my $Word ( @{$ListOfWords} ) {
+        $Count++;
 
         # only index the first 1000 words
         last if $Count > $WordCountMax;
@@ -203,7 +207,7 @@ sub _ArticleIndexString {
         }
         else {
             $List{$Word} = 1;
-            if ( $IndexString ) {
+            if ($IndexString) {
                 $IndexString .= ' ';
             }
             $IndexString .= $Word
@@ -226,40 +230,40 @@ sub _ArticleIndexStringToWord {
     my $Config = $Self->{ConfigObject}->Get('Ticket::SearchIndex::Attribute');
 
     my %StopWord = (
-        'der' => 1,
-        'die' => 1,
-        'und' => 1,
-        'in' => 1,
-        'vom' => 1,
-        'zu' => 1,
-        'im' => 1,
+        'der'  => 1,
+        'die'  => 1,
+        'und'  => 1,
+        'in'   => 1,
+        'vom'  => 1,
+        'zu'   => 1,
+        'im'   => 1,
         'sich' => 1,
-        'den' => 1,
+        'den'  => 1,
         'eine' => 1,
-        'auf' => 1,
-        'als' => 1,
+        'auf'  => 1,
+        'als'  => 1,
 
-        'the' => 1,
-        'of' => 1,
-        'and' => 1,
-        'in' => 1,
-        'to' => 1,
-        'a' => 1,
-        'is' => 1,
-        'for' => 1,
+        'the'  => 1,
+        'of'   => 1,
+        'and'  => 1,
+        'in'   => 1,
+        'to'   => 1,
+        'a'    => 1,
+        'is'   => 1,
+        'for'  => 1,
         'that' => 1,
         'with' => 1,
     );
 
     # get words
-    my $LengthMin   = $Config->{WordLengthMin} || 3;
-    my $LengthMax   = $Config->{WordLengthMax} || 20;
+    my $LengthMin = $Config->{WordLengthMin} || 3;
+    my $LengthMax = $Config->{WordLengthMax} || 20;
     my @ListOfWords = split /\s+/, ${ $Param{String} };
     my @ListOfWordsNew = ();
     for my $Word (@ListOfWords) {
 
         # remove some not needed chars
-#        $Word =~ s/[\d+\.,\-\&\-\_\<\>\?":\\\*\|\/;\[\]\(\)\+\$\^=]//g;
+        #        $Word =~ s/[\d+\.,\-\&\-\_\<\>\?":\\\*\|\/;\[\]\(\)\+\$\^=]//g;
         $Word =~ s/[,\&\<\>\?"\!\*\|;\[\]\(\)\+\$\^=]//g;
         $Word =~ s/^('|:|\.)//g;
         $Word =~ s/(:|\.|')$//g;

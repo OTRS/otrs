@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminNotification.pm - provides admin notification translations
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotification.pm,v 1.11 2008-01-31 06:22:12 tr Exp $
+# $Id: AdminNotification.pm,v 1.12 2008-05-08 09:36:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,13 +17,13 @@ use warnings;
 use Kernel::System::Notification;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check all needed objects
@@ -67,7 +67,8 @@ sub Run {
 
     # update action
     elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
-        if ( $Self->{NotificationObject}->NotificationUpdate( %GetParam, UserID => $Self->{UserID} )
+        if (
+            $Self->{NotificationObject}->NotificationUpdate( %GetParam, UserID => $Self->{UserID} )
             )
         {
             return $Self->{LayoutObject}->Redirect( OP => "Action=AdminNotification" );
@@ -79,9 +80,12 @@ sub Run {
 
     # add new response
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
-        if ( my $Id
-            = $Self->{StdNotificationObject}
-            ->StdNotificationAdd( %GetParam, UserID => $Self->{UserID} ) )
+        if (
+            my $Id
+            = $Self->{StdNotificationObject}->StdNotificationAdd(
+                %GetParam, UserID => $Self->{UserID}
+            )
+            )
         {
 
             # add attachments to response
@@ -122,8 +126,10 @@ sub _MaskNotificationForm {
         HTMLQuote  => 1,
     );
 
-    return $Self->{LayoutObject}
-        ->Output( TemplateFile => 'AdminNotificationForm', Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AdminNotificationForm',
+        Data         => \%Param
+    );
 }
 
 1;

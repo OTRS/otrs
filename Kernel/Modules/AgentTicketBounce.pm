@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.pm,v 1.15 2008-05-02 13:21:40 rk Exp $
+# $Id: AgentTicketBounce.pm,v 1.16 2008-05-08 09:36:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,13 +20,13 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check needed objects
@@ -63,7 +63,8 @@ sub Run {
     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
 
     # check permissions
-    if (!$Self->{TicketObject}->Permission(
+    if (
+        !$Self->{TicketObject}->Permission(
             Type     => $Self->{Config}->{Permission},
             TicketID => $Self->{TicketID},
             UserID   => $Self->{UserID}
@@ -83,7 +84,8 @@ sub Run {
                 Lock     => 'lock',
                 UserID   => $Self->{UserID}
             );
-            if ($Self->{TicketObject}->OwnerSet(
+            if (
+                $Self->{TicketObject}->OwnerSet(
                     TicketID  => $Self->{TicketID},
                     UserID    => $Self->{UserID},
                     NewUserID => $Self->{UserID},
@@ -141,7 +143,7 @@ sub Run {
         # prepare subject ...
         $Article{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
             TicketNumber => $Article{TicketNumber},
-            Subject      => $Article{Subject} || '',
+            Subject => $Article{Subject} || '',
         );
 
         # prepare to (ReplyTo!) ...
@@ -320,7 +322,8 @@ sub Run {
 
                 # error page
                 return $Self->{LayoutObject}->ErrorScreen(
-                    Message => "Can't forward ticket to $Address! It's a local address! You need to move it!",
+                    Message =>
+                        "Can't forward ticket to $Address! It's a local address! You need to move it!",
                     Comment => 'Please contact the admin.',
                 );
             }

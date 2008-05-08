@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.16 2008-03-31 11:49:22 ot Exp $
+# $Id: SMIME.pm,v 1.17 2008-05-08 09:36:20 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 =head1 NAME
 
@@ -421,9 +421,9 @@ sub CertificateSearch {
     my @Result = ();
     my @Hash   = $Self->CertificateList();
     for (@Hash) {
-        my $Certificate = $Self->CertificateGet( Hash               => $_ );
-        my %Attributes  = $Self->CertificateAttributes( Certificate => $Certificate );
-        my $Hit         = 0;
+        my $Certificate = $Self->CertificateGet( Hash => $_ );
+        my %Attributes = $Self->CertificateAttributes( Certificate => $Certificate );
+        my $Hit = 0;
         if ($Search) {
             for ( keys %Attributes ) {
                 if ( eval { $Attributes{$_} =~ /$Search/i } ) {
@@ -606,9 +606,9 @@ sub PrivateSearch {
     my @Result = ();
     my @Hash   = $Self->CertificateList();
     for (@Hash) {
-        my $Certificate = $Self->CertificateGet( Hash               => $_ );
-        my %Attributes  = $Self->CertificateAttributes( Certificate => $Certificate );
-        my $Hit         = 0;
+        my $Certificate = $Self->CertificateGet( Hash => $_ );
+        my %Attributes = $Self->CertificateAttributes( Certificate => $Certificate );
+        my $Hit = 0;
         if ($Search) {
             for ( keys %Attributes ) {
                 if ( $Attributes{$_} =~ /$Search/i ) {
@@ -672,7 +672,8 @@ sub PrivateAdd {
         return;
     }
     my %CertificateAttributes = $Self->CertificateAttributes(
-        Certificate => $Self->CertificateGet( Hash => $Certificates[0]->{Hash} ), );
+        Certificate => $Self->CertificateGet( Hash => $Certificates[0]->{Hash} ),
+    );
     if ( $CertificateAttributes{Hash} ) {
         my $File = "$Self->{PrivatePath}/$CertificateAttributes{Hash}";
         if ( open( OUT, "> $File.0" ) ) {
@@ -814,7 +815,7 @@ sub PrivateAttributes {
     for my $Key ( keys %Option ) {
         my $Pass = '';
         if ( $Param{Secret} ) {
-            $Pass = " -passin pass:" . quotemeta($Param{Secret});
+            $Pass = " -passin pass:" . quotemeta( $Param{Secret} );
         }
         open( VERIFY, "$Self->{Bin} rsa -in $Filename -noout $Option{$Key} $Pass |" );
         my $Line = '';
@@ -835,7 +836,7 @@ sub PrivateAttributes {
 sub _FetchAttributesFromCert {
     my ( $Self, $Filename, $AttributesRef ) = @_;
 
-    my %Option     = (
+    my %Option = (
         Hash        => '-hash',
         Issuer      => '-issuer',
         Fingerprint => '-fingerprint -sha1',
@@ -943,6 +944,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2008-03-31 11:49:22 $
+$Revision: 1.17 $ $Date: 2008-05-08 09:36:20 $
 
 =cut

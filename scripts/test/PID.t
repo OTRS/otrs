@@ -2,7 +2,7 @@
 # PID.t - PID tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PID.t,v 1.3 2008-04-24 11:47:39 tr Exp $
+# $Id: PID.t,v 1.4 2008-05-08 09:35:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,7 +11,7 @@
 
 use Kernel::System::PID;
 
-$Self->{PIDObject} = Kernel::System::PID->new(%{$Self});
+$Self->{PIDObject} = Kernel::System::PID->new( %{$Self} );
 
 my $PIDCreate = $Self->{PIDObject}->PIDCreate(
     Name => 'Test',
@@ -27,7 +27,7 @@ my $PIDCreate2 = $Self->{PIDObject}->PIDCreate(
 );
 
 $Self->True(
-    (!$PIDCreate2),
+    ( !$PIDCreate2 ),
     'PIDCreate2()',
 );
 

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleCheckPGP.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleCheckPGP.pm,v 1.19 2008-03-18 17:31:21 tr Exp $
+# $Id: ArticleCheckPGP.pm,v 1.20 2008-05-08 09:36:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -62,7 +62,8 @@ sub Check {
 
             # return info
             return (
-                {   Key   => 'Crypted',
+                {
+                    Key   => 'Crypted',
                     Value => 'Sent message crypted to recipient!',
                 }
             );
@@ -74,20 +75,21 @@ sub Check {
             $Self->{Result} = \%Decrypt;
             $Param{Article}->{Body} = $Decrypt{Data};
 
-                # updated article body
-                $Self->{TicketObject}->ArticleUpdate(
-                    TicketID  => $Param{Article}->{TicketID},
-                    ArticleID => $Self->{ArticleID},
-                    Key       => 'Body',
-                    Value     => $Decrypt{Data},
-                    UserID    => $Self->{UserID},
-                );
+            # updated article body
+            $Self->{TicketObject}->ArticleUpdate(
+                TicketID  => $Param{Article}->{TicketID},
+                ArticleID => $Self->{ArticleID},
+                Key       => 'Body',
+                Value     => $Decrypt{Data},
+                UserID    => $Self->{UserID},
+            );
         }
         else {
 
             # return with error
             return (
-                {   Key   => 'Crypted',
+                {
+                    Key   => 'Crypted',
                     Value => $Decrypt{Message},
                     %Decrypt,
                 }
@@ -107,7 +109,8 @@ sub Check {
 
             # return with error
             return (
-                {   Key   => 'Signed',
+                {
+                    Key   => 'Signed',
                     Value => '"PGP SIGNED MESSAGE" header found, but invalid!',
                 }
             );
@@ -139,9 +142,11 @@ sub Check {
         my $ContentType = $Head->get('Content-Type');
 
         # check if we need to decrypt it
-        if (   $ContentType
+        if (
+            $ContentType
             && $ContentType =~ /multipart\/encrypted/i
-            && $ContentType =~ /application\/pgp/i )
+            && $ContentType =~ /application\/pgp/i
+            )
         {
 
             # check sender (don't decrypt sent emails)
@@ -149,7 +154,8 @@ sub Check {
 
                 # return info
                 return (
-                    {   Key        => 'Crypted',
+                    {
+                        Key        => 'Crypted',
                         Value      => 'Sent message crypted to recipient!',
                         Successful => 1,
                     }
@@ -202,7 +208,8 @@ sub Check {
 
                 push(
                     @Return,
-                    {   Key   => 'Crypted',
+                    {
+                        Key   => 'Crypted',
                         Value => $Decrypt{Message},
                         %Decrypt,
                     },
@@ -211,16 +218,19 @@ sub Check {
             else {
                 push(
                     @Return,
-                    {   Key   => 'Crypted',
+                    {
+                        Key   => 'Crypted',
                         Value => $Decrypt{Message},
                         %Decrypt,
                     },
                 );
             }
         }
-        if (   $ContentType
+        if (
+            $ContentType
             && $ContentType =~ /multipart\/signed/i
-            && $ContentType =~ /application\/pgp/i )
+            && $ContentType =~ /application\/pgp/i
+            )
         {
             my $SignedText    = $Entity->parts(0)->as_string();
             my $SignatureText = $Entity->parts(1)->body_as_string();
@@ -240,7 +250,8 @@ sub Check {
         # return result
         push(
             @Return,
-            {   Key   => 'Signed',
+            {
+                Key   => 'Signed',
                 Value => $SignCheck{Message},
                 %SignCheck,
             },

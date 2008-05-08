@@ -3,7 +3,7 @@
 # syncuser_csv2otrs.pl - sync csv user list or otrs
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: syncuser_csv2otrs.pl,v 1.8 2008-04-24 17:32:15 tr Exp $
+# $Id: syncuser_csv2otrs.pl,v 1.9 2008-05-08 09:35:57 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -59,7 +59,7 @@ $CommonObject{LogObject}    = Kernel::System::Log->new(
 );
 $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
 $CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
-$CommonObject{DBObject}   = Kernel::System::DB  ->new(%CommonObject);
+$CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
 $CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);
 
 # get options
@@ -71,7 +71,7 @@ if ( !$Opts{s} ) {
 }
 
 # read csv file
-open my $In, '<', $Opts{s}  || die "Can't read $Opts{s}: $!";
+open my $In, '<', $Opts{s} || die "Can't read $Opts{s}: $!";
 while (<$In>) {
     my @Line = split( /;/, $_ );
 

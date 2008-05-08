@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.37 2008-04-19 23:10:26 martin Exp $
+# $Id: GenericAgent.pm,v 1.38 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 =head1 NAME
 
@@ -54,7 +54,9 @@ create an object
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
+        MainObject   => $MainObject,
     );
+
     my $QueueObject = Kernel::System::Queue->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
@@ -243,7 +245,7 @@ sub JobRun {
         my %DBJobRaw = $Self->JobGet( Name => $Param{Job} );
 
         # updated last run time
-        $Self->_JobUpdateRunTime( Name => $Param{Job}, UserID => $Param{UserID});
+        $Self->_JobUpdateRunTime( Name => $Param{Job}, UserID => $Param{UserID} );
 
         # rework
         for my $Key ( keys %DBJobRaw ) {
@@ -352,7 +354,8 @@ sub JobRun {
             if ( !$Count ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message => "Attanchen: Can't run GenericAgent Job '$Param{Job}' because no search attributes are used!.",
+                    Message =>
+                        "Attanchen: Can't run GenericAgent Job '$Param{Job}' because no search attributes are used!.",
                 );
                 return;
             }
@@ -511,12 +514,14 @@ sub _JobRunTicket {
     if ( $Param{Config}->{New}->{CustomerID} || $Param{Config}->{New}->{CustomerUserLogin} ) {
         if ( $Param{Config}->{New}->{CustomerID} ) {
             if ( $Self->{NoticeSTDOUT} ) {
-                print "  - set customer id of Ticket $Ticket to '$Param{Config}->{New}->{CustomerID}'\n";
+                print
+                    "  - set customer id of Ticket $Ticket to '$Param{Config}->{New}->{CustomerID}'\n";
             }
         }
         if ( $Param{Config}->{New}->{CustomerUserLogin} ) {
             if ( $Self->{NoticeSTDOUT} ) {
-                print "  - set customer user id of Ticket $Ticket to '$Param{Config}->{New}->{CustomerUserLogin}'\n";
+                print
+                    "  - set customer user id of Ticket $Ticket to '$Param{Config}->{New}->{CustomerUserLogin}'\n";
             }
         }
         $Self->{TicketObject}->SetCustomerData(
@@ -538,6 +543,7 @@ sub _JobRunTicket {
             UserID   => $Param{UserID},
         );
     }
+
     # set new type
     if ( $Param{Config}->{New}->{Type} ) {
         if ( $Self->{NoticeSTDOUT} ) {
@@ -590,7 +596,7 @@ sub _JobRunTicket {
         $Self->{TicketObject}->TicketSLASet(
             TicketID => $Param{TicketID},
             UserID   => $Param{UserID},
-            SLA => $Param{Config}->{New}->{SLA},
+            SLA      => $Param{Config}->{New}->{SLA},
         );
     }
     if ( $Param{Config}->{New}->{SLAID} ) {
@@ -598,9 +604,9 @@ sub _JobRunTicket {
             print "  - set sla id of Ticket $Ticket to '$Param{Config}->{New}->{SLAID}'\n";
         }
         $Self->{TicketObject}->TicketSLASet(
-            TicketID   => $Param{TicketID},
-            UserID     => $Param{UserID},
-            SLAID => $Param{Config}->{New}->{SLAID},
+            TicketID => $Param{TicketID},
+            UserID   => $Param{UserID},
+            SLAID    => $Param{Config}->{New}->{SLAID},
         );
     }
 
@@ -617,7 +623,8 @@ sub _JobRunTicket {
     }
     if ( $Param{Config}->{New}->{PriorityID} ) {
         if ( $Self->{NoticeSTDOUT} ) {
-            print "  - set priority id of Ticket $Ticket to '$Param{Config}->{New}->{PriorityID}'\n";
+            print
+                "  - set priority id of Ticket $Ticket to '$Param{Config}->{New}->{PriorityID}'\n";
         }
         $Self->{TicketObject}->PrioritySet(
             TicketID   => $Param{TicketID},
@@ -676,8 +683,10 @@ sub _JobRunTicket {
 
     # set ticket free text options
     for ( 1 .. 16 ) {
-        if (   defined( $Param{Config}->{New}->{"TicketFreeKey$_"} )
-            || defined( $Param{Config}->{New}->{"TicketFreeText$_"} ) )
+        if (
+            defined( $Param{Config}->{New}->{"TicketFreeKey$_"} )
+            || defined( $Param{Config}->{New}->{"TicketFreeText$_"} )
+            )
         {
             my %Data = ();
             $Data{TicketID} = $Param{TicketID};
@@ -689,8 +698,10 @@ sub _JobRunTicket {
             }
 
             # insert the freefieldkey, if only one key is possible
-            if ( !$Data{Key}
-                && ref( $Self->{ConfigObject}->Get( 'TicketFreeKey' . $_ ) ) eq 'HASH' )
+            if (
+                !$Data{Key}
+                && ref( $Self->{ConfigObject}->Get( 'TicketFreeKey' . $_ ) ) eq 'HASH'
+                )
             {
                 my %TicketFreeKey = %{ $Self->{ConfigObject}->Get( 'TicketFreeKey' . $_ ) };
                 my @FreeKey       = keys %TicketFreeKey;
@@ -811,7 +822,7 @@ sub JobGet {
         }
     }
     $Self->{DBObject}->Prepare(
-        SQL => 'SELECT job_key, job_value FROM generic_agent_jobs WHERE job_name = ?',
+        SQL  => 'SELECT job_key, job_value FROM generic_agent_jobs WHERE job_name = ?',
         Bind => [ \$Param{Name} ],
     );
     my %Data = ();
@@ -858,9 +869,11 @@ sub JobGet {
                 $Data{"TicketCreateTimeStop$_"} = '0' . $Data{"TicketCreateTimeStop$_"};
             }
         }
-        if (   $Data{TicketCreateTimeStartDay}
+        if (
+            $Data{TicketCreateTimeStartDay}
             && $Data{TicketCreateTimeStartMonth}
-            && $Data{TicketCreateTimeStartYear} )
+            && $Data{TicketCreateTimeStartYear}
+            )
         {
             $Data{TicketCreateTimeNewerDate}
                 = $Data{TicketCreateTimeStartYear} . '-'
@@ -868,9 +881,11 @@ sub JobGet {
                 . $Data{TicketCreateTimeStartDay}
                 . ' 00:00:01';
         }
-        if (   $Data{TicketCreateTimeStopDay}
+        if (
+            $Data{TicketCreateTimeStopDay}
             && $Data{TicketCreateTimeStopMonth}
-            && $Data{TicketCreateTimeStopYear} )
+            && $Data{TicketCreateTimeStopYear}
+            )
         {
             $Data{TicketCreateTimeOlderDate}
                 = $Data{TicketCreateTimeStopYear} . '-'
@@ -887,9 +902,11 @@ sub JobGet {
         {
             delete( $Data{$_} );
         }
-        if (   $Data{TicketCreateTimePoint}
+        if (
+            $Data{TicketCreateTimePoint}
             && $Data{TicketCreateTimePointStart}
-            && $Data{TicketCreateTimePointFormat} )
+            && $Data{TicketCreateTimePointFormat}
+            )
         {
             my $Time = 0;
             if ( $Data{TicketCreateTimePointFormat} eq 'minute' ) {
@@ -946,9 +963,11 @@ sub JobGet {
                 $Data{"TicketPendingTimeStop$_"} = '0' . $Data{"TicketPendingTimeStop$_"};
             }
         }
-        if (   $Data{TicketPendingTimeStartDay}
+        if (
+            $Data{TicketPendingTimeStartDay}
             && $Data{TicketPendingTimeStartMonth}
-            && $Data{TicketPendingTimeStartYear} )
+            && $Data{TicketPendingTimeStartYear}
+            )
         {
             $Data{TicketPendingTimeNewerDate}
                 = $Data{TicketPendingTimeStartYear} . '-'
@@ -956,9 +975,11 @@ sub JobGet {
                 . $Data{TicketPendingTimeStartDay}
                 . ' 00:00:01';
         }
-        if (   $Data{TicketPendingTimeStopDay}
+        if (
+            $Data{TicketPendingTimeStopDay}
             && $Data{TicketPendingTimeStopMonth}
-            && $Data{TicketPendingTimeStopYear} )
+            && $Data{TicketPendingTimeStopYear}
+            )
         {
             $Data{TicketPendingTimeOlderDate}
                 = $Data{TicketPendingTimeStopYear} . '-'
@@ -975,9 +996,11 @@ sub JobGet {
         {
             delete( $Data{$_} );
         }
-        if (   $Data{TicketPendingTimePoint}
+        if (
+            $Data{TicketPendingTimePoint}
             && $Data{TicketPendingTimePointStart}
-            && $Data{TicketPendingTimePointFormat} )
+            && $Data{TicketPendingTimePointFormat}
+            )
         {
             my $Time = 0;
             if ( $Data{TicketPendingTimePointFormat} eq 'minute' ) {
@@ -1071,7 +1094,7 @@ sub JobAdd {
             if ( defined( $Param{Data}->{$Key} ) ) {
                 $Self->{DBObject}->Do(
                     SQL => 'INSERT INTO generic_agent_jobs '
-                        .'(job_name, job_key, job_value) VALUES (?, ?, ?)',
+                        . '(job_name, job_key, job_value) VALUES (?, ?, ?)',
                     Bind => [ \$Param{Name}, \$Key, \$Param{Data}->{$Key} ],
                 );
             }
@@ -1119,6 +1142,7 @@ sub _JobUpdateRunTime {
     my ( $Self, %Param ) = @_;
 
     my @Data = ();
+
     # check needed stuff
     for (qw(Name UserID)) {
         if ( !$Param{$_} ) {
@@ -1133,7 +1157,7 @@ sub _JobUpdateRunTime {
         Bind => [ \$Param{Name} ],
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        if ($Row[0] =~ /^(ScheduleLastRun|ScheduleLastRunUnixTime)/) {
+        if ( $Row[0] =~ /^(ScheduleLastRun|ScheduleLastRunUnixTime)/ ) {
             push( @Data, { Key => $Row[0], Value => $Row[1] } );
         }
     }
@@ -1145,9 +1169,9 @@ sub _JobUpdateRunTime {
         ),
         ScheduleLastRunUnixTime => $Self->{TimeObject}->SystemTime(),
     );
-    for my $Key (keys %Insert) {
+    for my $Key ( keys %Insert ) {
         $Self->{DBObject}->Do(
-            SQL  => 'INSERT INTO generic_agent_jobs (job_name,job_key, job_value) VALUES (?, ?, ?)',
+            SQL => 'INSERT INTO generic_agent_jobs (job_name,job_key, job_value) VALUES (?, ?, ?)',
             Bind => [ \$Param{Name}, \$Key, \$Insert{$Key} ],
         );
     }
@@ -1179,6 +1203,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2008-04-19 23:10:26 $
+$Revision: 1.38 $ $Date: 2008-05-08 09:36:19 $
 
 =cut

@@ -3,7 +3,7 @@
 # opm.pl - otrs package manager cmd version
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: opm.pl,v 1.25 2008-04-29 22:14:32 martin Exp $
+# $Id: opm.pl,v 1.26 2008-05-08 09:36:57 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 # common objects
 my %CommonObject = ();
@@ -111,8 +111,8 @@ if ( $Opts{a} !~ /^(list|file)/ && $Opts{p} ) {
     if ( -e $Opts{'p'} ) {
         my $ContentRef = $CommonObject{MainObject}->FileRead(
             Location => $Opts{p},
-            Mode     => 'utf8',       # optional - binmode|utf8
-            Result   => 'SCALAR',     # optional - SCALAR|ARRAY
+            Mode     => 'utf8',      # optional - binmode|utf8
+            Result   => 'SCALAR',    # optional - SCALAR|ARRAY
         );
         if ($ContentRef) {
             $FileString = ${$ContentRef};
@@ -216,8 +216,8 @@ if ( $Opts{a} eq 'exportfile' ) {
     if ( -e $Opts{p} ) {
         my $ContentRef = $CommonObject{MainObject}->FileRead(
             Location => $Opts{p},
-            Mode     => 'utf8',       # optional - binmode|utf8
-            Result   => 'SCALAR',     # optional - SCALAR|ARRAY
+            Mode     => 'utf8',      # optional - binmode|utf8
+            Result   => 'SCALAR',    # optional - SCALAR|ARRAY
         );
         if ($ContentRef) {
             if ( ${$ContentRef} ) {
@@ -260,7 +260,7 @@ if ( $Opts{a} eq 'build' ) {
     }
 
     # build from given package directory, if any (otherwise default to OTRS home)
-    if ($Opts{d}) {
+    if ( $Opts{d} ) {
         if ( !-d $Opts{d} ) {
             print STDERR "ERROR: $Opts{d} doesn't exist!\n";
             exit 1;
@@ -547,7 +547,8 @@ else {
 }
 
 sub BuildPackageIndex {
-    my $In   = shift;
+    my ($In) = @_;
+
     my @List = glob("$In/*");
     for my $File (@List) {
         $File =~ s/\/\//\//g;
@@ -576,7 +577,8 @@ sub BuildPackageIndex {
                     print STDERR "ERROR: Can't open $OrigFile: $!\n";
                     exit 1;
                 }
-                my %Structure = $CommonObject{PackageObject}->PackageParse( String => ${$ContentRef} );
+                my %Structure
+                    = $CommonObject{PackageObject}->PackageParse( String => ${$ContentRef} );
                 my $XML = $CommonObject{PackageObject}->PackageBuild( %Structure, Type => 'Index' );
                 print "<Package>\n";
                 print $XML;
@@ -589,7 +591,8 @@ sub BuildPackageIndex {
 }
 
 sub _MessageGet {
-    my %Param       = @_;
+    my (%Param) = @_;
+
     my $Title       = '';
     my $Description = '';
     if ( $Param{Info} ) {

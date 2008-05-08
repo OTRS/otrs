@@ -2,7 +2,7 @@
 # Kernel/System/Cache/File.pm - all cache functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: File.pm,v 1.12 2008-04-18 19:37:06 martin Exp $
+# $Id: File.pm,v 1.13 2008-05-08 09:36:20 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 umask 002;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -37,7 +37,7 @@ sub new {
         if ( !mkdir( $Self->{CacheDirectory}, 0775 ) ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "Can't create directory '$Self->{CacheDirectory}': $!",
+                Message  => "Can't create directory '$Self->{CacheDirectory}': $!",
             );
         }
     }
@@ -48,7 +48,7 @@ sub new {
 sub Set {
     my ( $Self, %Param ) = @_;
 
-    for ( qw(Type Key Value TTL) ) {
+    for (qw(Type Key Value TTL)) {
         if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
@@ -66,7 +66,7 @@ sub Set {
     $Dump .= $Self->{MainObject}->Dump( $Param{Value} ) . "\n1;";
 
     my $Mode;
-    if ($Self->{ConfigObject}->Get('DefaultCharset') =~ /^utf(-8|8)$/i) {
+    if ( $Self->{ConfigObject}->Get('DefaultCharset') =~ /^utf(-8|8)$/i ) {
         $Mode = 'utf8';
     }
 
@@ -74,7 +74,7 @@ sub Set {
     if ( $Param{Type} !~ /^[A-z]+$/ ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Can only 7 bit chars use as cache type!",
+            Message  => "Can only 7 bit chars use as cache type!",
         );
         return;
     }
@@ -83,7 +83,7 @@ sub Set {
         if ( !mkdir( $CacheDirectory, 0775 ) ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "Can't create directory '$CacheDirectory': $!",
+                Message  => "Can't create directory '$CacheDirectory': $!",
             );
             return;
         }
@@ -106,7 +106,7 @@ sub Get {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for ( qw(Type Key) ) {
+    for (qw(Type Key)) {
         if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
@@ -114,12 +114,12 @@ sub Get {
     }
 
     my $Mode;
-    if ($Self->{ConfigObject}->Get('DefaultCharset') =~ /^utf(-8|8)$/i) {
+    if ( $Self->{ConfigObject}->Get('DefaultCharset') =~ /^utf(-8|8)$/i ) {
         $Mode = 'utf8';
     }
 
     my $CacheDirectory = $Self->{CacheDirectory} . '/' . $Param{Type};
-    my $Content = $Self->{MainObject}->FileRead(
+    my $Content        = $Self->{MainObject}->FileRead(
         Directory       => $CacheDirectory,
         Filename        => $Param{Key},
         Type            => 'MD5',
@@ -147,7 +147,7 @@ sub Delete {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for ( qw(Type Key) ) {
+    for (qw(Type Key)) {
         if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;

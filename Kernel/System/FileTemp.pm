@@ -2,7 +2,7 @@
 # Kernel/System/FileTemp.pm - tmp files
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: FileTemp.pm,v 1.12 2008-04-25 09:04:24 tr Exp $
+# $Id: FileTemp.pm,v 1.13 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use File::Temp qw( tempfile tempdir );
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -62,8 +62,8 @@ sub new {
     }
 
     # set global variables
-    $Self->{TempDir} = $Self->{ConfigObject}->Get('TempDir');
-    $Self->{FileList} = [];
+    $Self->{TempDir}        = $Self->{ConfigObject}->Get('TempDir');
+    $Self->{FileList}       = [];
     $Self->{FileHandleList} = [];
 
     return $Self;
@@ -78,7 +78,7 @@ returns a file handle and the file name
 =cut
 
 sub TempFile {
-    my ( $Self ) = @_;
+    my ($Self) = @_;
 
     my ( $FH, $Filename ) = tempfile(
         DIR    => $Self->{TempDir},
@@ -87,7 +87,7 @@ sub TempFile {
     );
 
     # remember created tmp files and handles
-    push @{ $Self->{FileList} }, $Filename;
+    push @{ $Self->{FileList} },       $Filename;
     push @{ $Self->{FileHandleList} }, $FH;
 
     return ( $FH, $Filename );
@@ -127,6 +127,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2008-04-25 09:04:24 $
+$Revision: 1.13 $ $Date: 2008-05-08 09:36:19 $
 
 =cut

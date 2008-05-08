@@ -2,7 +2,7 @@
 # State.t - State tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: State.t,v 1.3 2008-04-24 11:47:39 tr Exp $
+# $Id: State.t,v 1.4 2008-05-08 09:35:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,18 +11,18 @@
 
 use Kernel::System::State;
 
-$Self->{StateObject} = Kernel::System::State->new(%{$Self});
+$Self->{StateObject} = Kernel::System::State->new( %{$Self} );
 
 # add state
-my $StateNameRand0 = 'example-state'.int(rand(1000000));
-my $StateNameRand1 = 'example-state'.int(rand(1000000));
+my $StateNameRand0 = 'example-state' . int( rand(1000000) );
+my $StateNameRand1 = 'example-state' . int( rand(1000000) );
 
 my $StateID = $Self->{StateObject}->StateAdd(
-    Name => $StateNameRand0,
+    Name    => $StateNameRand0,
     Comment => 'some comment',
     ValidID => 1,
-    TypeID => 1,
-    UserID => 1,
+    TypeID  => 1,
+    UserID  => 1,
 );
 
 $Self->True(
@@ -30,7 +30,7 @@ $Self->True(
     'StateAdd()',
 );
 
-my %State = $Self->{StateObject}->StateGet(ID => $StateID);
+my %State = $Self->{StateObject}->StateGet( ID => $StateID );
 
 $Self->True(
     $State{Name} eq $StateNameRand0,
@@ -49,8 +49,8 @@ my %StateList = $Self->{StateObject}->StateList(
     UserID => 1,
 );
 my $Hit = 0;
-for (sort keys %StateList) {
-    if ($_ eq $StateID) {
+for ( sort keys %StateList ) {
+    if ( $_ eq $StateID ) {
         $Hit = 1;
     }
 }
@@ -60,12 +60,12 @@ $Self->True(
 );
 
 my $StateUpdate = $Self->{StateObject}->StateUpdate(
-    ID => $StateID,
-    Name => $StateNameRand1,
+    ID      => $StateID,
+    Name    => $StateNameRand1,
     Comment => 'some comment 1',
     ValidID => 2,
-    TypeID => 1,
-    UserID => 1,
+    TypeID  => 1,
+    UserID  => 1,
 );
 
 $Self->True(
@@ -73,7 +73,7 @@ $Self->True(
     'StateUpdate()',
 );
 
-%State = $Self->{StateObject}->StateGet(ID => $StateID);
+%State = $Self->{StateObject}->StateGet( ID => $StateID );
 
 $Self->True(
     $State{Name} eq $StateNameRand1,
@@ -91,13 +91,13 @@ $Self->True(
 my %StateTypeList = $Self->{StateObject}->StateTypeList(
     UserID => 1,
 );
-my $New = 0;
+my $New  = 0;
 my $Open = 0;
-for (sort keys %StateTypeList) {
-    if ($StateTypeList{$_} eq 'new') {
+for ( sort keys %StateTypeList ) {
+    if ( $StateTypeList{$_} eq 'new' ) {
         $New = 1;
     }
-    elsif ($StateTypeList{$_} eq 'open') {
+    elsif ( $StateTypeList{$_} eq 'open' ) {
         $Open = 1;
     }
 }

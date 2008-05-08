@@ -2,7 +2,7 @@
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Request.pm,v 1.22 2008-04-18 19:34:31 martin Exp $
+# $Id: Request.pm,v 1.23 2008-05-08 09:36:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 =head1 NAME
 
@@ -70,7 +70,7 @@ sub new {
     for my $Object (qw(ConfigObject LogObject EncodeObject MainObject)) {
         $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
-    $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%{$Self});
+    $Self->{CheckItemObject} = Kernel::System::CheckItem->new( %{$Self} );
 
     # Simple Common Gateway Interface Class
     use CGI qw(:cgi);
@@ -98,6 +98,7 @@ to get the error back
 =cut
 
 sub Error {
+    my ( $Self, %Param ) = @_;
 
     # Workaround, do not check cgi_error() with perlex, CGI module is not
     # working with perlex.
@@ -125,12 +126,14 @@ sub GetParam {
     my $Value = $Self->{Query}->param( $Param{Param} );
     $Self->{EncodeObject}->Encode( \$Value );
 
-    if ($Param{TrimLeft}
+    if (
+        $Param{TrimLeft}
         || $Param{TrimRight}
         || $Param{RemoveAllNewlines}
         || $Param{RemoveAllTabs}
         || $Param{RemoveAllSpaces}
-    ) {
+        )
+    {
         $Self->{CheckItemObject}->StringClean(
             StringRef => \$Value,
             %Param,
@@ -154,12 +157,14 @@ sub GetArray {
     my @Values = $Self->{Query}->param( $Param{Param} );
     $Self->{EncodeObject}->Encode( \@Values );
 
-    if ($Param{TrimLeft}
+    if (
+        $Param{TrimLeft}
         || $Param{TrimRight}
         || $Param{RemoveAllNewlines}
         || $Param{RemoveAllTabs}
         || $Param{RemoveAllSpaces}
-    ) {
+        )
+    {
         for my $Value (@Values) {
             $Self->{CheckItemObject}->StringClean(
                 StringRef => \$Value,
@@ -229,8 +234,8 @@ sub GetUploadAll {
 
     # get real file name
     my $UploadFilenameOrig = $Self->GetParam( Param => $Param{Param} ) || 'unkown';
-    my $NewFileName = "$UploadFilenameOrig"; # use "" to get filename of anony. object
-    $Self->{EncodeObject}->Encode( \$NewFileName);
+    my $NewFileName = "$UploadFilenameOrig";    # use "" to get filename of anony. object
+    $Self->{EncodeObject}->Encode( \$NewFileName );
 
     # replace all devices like c: or d: and dirs for IE!
     $NewFileName =~ s/.:\\(.*)/$1/g;
@@ -336,6 +341,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2008-04-18 19:34:31 $
+$Revision: 1.23 $ $Date: 2008-05-08 09:36:21 $
 
 =cut

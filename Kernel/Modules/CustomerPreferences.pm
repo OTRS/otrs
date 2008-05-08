@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerPreferences.pm,v 1.18 2008-01-31 06:22:12 tr Exp $
+# $Id: CustomerPreferences.pm,v 1.19 2008-05-08 09:36:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check all needed objects
@@ -92,9 +92,9 @@ sub Run {
             }
 
             # mk rediect
-            return $Self->{LayoutObject}
-                ->Redirect( OP => "Action=CustomerPreferences&Priority=$Priority&Message=$Message",
-                );
+            return $Self->{LayoutObject}->Redirect(
+                OP => "Action=CustomerPreferences&Priority=$Priority&Message=$Message",
+            );
         }
         else {
             return $Self->{LayoutObject}->FatalError();
@@ -200,11 +200,14 @@ sub CustomerPreferencesForm {
                         },
                     );
                     for my $ParamItem (@Params) {
-                        if (   ref( $ParamItem->{Data} ) eq 'HASH'
-                            || ref( $Preference{Data} ) eq 'HASH' )
+                        if (
+                            ref( $ParamItem->{Data} )   eq 'HASH'
+                            || ref( $Preference{Data} ) eq 'HASH'
+                            )
                         {
-                            $ParamItem->{'Option'} = $Self->{LayoutObject}
-                                ->OptionStrgHashRef( %Preference, %{$ParamItem}, );
+                            $ParamItem->{'Option'} = $Self->{LayoutObject}->OptionStrgHashRef(
+                                %Preference, %{$ParamItem},
+                            );
                         }
                         $Self->{LayoutObject}->Block(
                             Name => $ParamItem->{Block} || 'Option',
@@ -220,8 +223,10 @@ sub CustomerPreferencesForm {
     }
 
     # create & return output
-    return $Self->{LayoutObject}
-        ->Output( TemplateFile => 'CustomerPreferencesForm', Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'CustomerPreferencesForm',
+        Data         => \%Param
+    );
 }
 
 1;

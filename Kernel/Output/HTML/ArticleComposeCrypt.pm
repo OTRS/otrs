@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleComposeCrypt.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleComposeCrypt.pm,v 1.11 2008-04-29 12:11:52 tr Exp $
+# $Id: ArticleComposeCrypt.pm,v 1.12 2008-05-08 09:36:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Mail::Address;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -29,7 +29,8 @@ sub new {
 
     # get needed objects
     for (
-        qw(ConfigObject LogObject DBObject LayoutObject UserID TicketObject ParamObject MainObject))
+        qw(ConfigObject LogObject DBObject LayoutObject UserID TicketObject ParamObject MainObject)
+        )
     {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }

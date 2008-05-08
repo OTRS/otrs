@@ -2,7 +2,7 @@
 # Signature.t - Signature tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Signature.t,v 1.3 2008-04-24 17:32:15 tr Exp $
+# $Id: Signature.t,v 1.4 2008-05-08 09:35:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,11 +11,11 @@
 
 use Kernel::System::Signature;
 
-$Self->{SignatureObject} = Kernel::System::Signature->new(%{$Self});
+$Self->{SignatureObject} = Kernel::System::Signature->new( %{$Self} );
 
 # add signature
-my $SignatureNameRand0 = 'example-signature'.int(rand(1000000));
-my $Signature = "Your OTRS-Team
+my $SignatureNameRand0 = 'example-signature' . int( rand(1000000) );
+my $Signature          = "Your OTRS-Team
 
 <OTRS_CURRENT_UserFirstname> <OTRS_CURRENT_UserLastname>
 
@@ -26,11 +26,11 @@ Email: hot\@florida.com - Web: http://hot.florida.com/
 --";
 
 my $SignatureID = $Self->{SignatureObject}->SignatureAdd(
-    Name => $SignatureNameRand0,
-    Text => $Signature,
+    Name    => $SignatureNameRand0,
+    Text    => $Signature,
     Comment => 'some comment',
     ValidID => 1,
-    UserID => 1,
+    UserID  => 1,
 );
 
 $Self->True(
@@ -38,7 +38,7 @@ $Self->True(
     'SignatureAdd()',
 );
 
-my %Signature = $Self->{SignatureObject}->SignatureGet(ID => $SignatureID);
+my %Signature = $Self->{SignatureObject}->SignatureGet( ID => $SignatureID );
 
 $Self->Is(
     $Signature{Name} || '',
@@ -64,8 +64,8 @@ my %SignatureList = $Self->{SignatureObject}->SignatureList(
     Valid => 0,
 );
 my $Hit = 0;
-for (sort keys %SignatureList) {
-    if ($_ eq $SignatureID) {
+for ( sort keys %SignatureList ) {
+    if ( $_ eq $SignatureID ) {
         $Hit = 1;
     }
 }
@@ -75,12 +75,12 @@ $Self->True(
 );
 
 my $SignatureUpdate = $Self->{SignatureObject}->SignatureUpdate(
-    ID => $SignatureID,
-    Name => $SignatureNameRand0.'1',
-    Text => $Signature.'1',
+    ID      => $SignatureID,
+    Name    => $SignatureNameRand0 . '1',
+    Text    => $Signature . '1',
     Comment => 'some comment 1',
     ValidID => 2,
-    UserID => 1,
+    UserID  => 1,
 );
 
 $Self->True(
@@ -88,15 +88,15 @@ $Self->True(
     'SignatureUpdate()',
 );
 
-%Signature = $Self->{SignatureObject}->SignatureGet(ID => $SignatureID);
+%Signature = $Self->{SignatureObject}->SignatureGet( ID => $SignatureID );
 
 $Self->Is(
     $Signature{Name} || '',
-    $SignatureNameRand0.'1',
+    $SignatureNameRand0 . '1',
     'SignatureGet() - Name',
 );
 $Self->True(
-    $Signature{Text} eq $Signature.'1',
+    $Signature{Text} eq $Signature . '1',
     'SignatureGet() - Signature',
 );
 $Self->Is(

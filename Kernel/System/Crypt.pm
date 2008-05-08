@@ -2,7 +2,7 @@
 # Kernel/System/Crypt.pm - the main crypt module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Crypt.pm,v 1.12 2008-04-25 09:04:24 tr Exp $
+# $Id: Crypt.pm,v 1.13 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::FileTemp;
 use Kernel::System::Encode;
 
 use vars qw($VERSION @ISA);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -90,7 +90,7 @@ sub new {
 
     # create file template object
     $Self->{FileTempObject} = Kernel::System::FileTemp->new(%Param);
-    $Self->{EncodeObject}   = Kernel::System::Encode   ->new(%Param);
+    $Self->{EncodeObject}   = Kernel::System::Encode->new(%Param);
 
     # load generator crypt module
     $Self->{GenericModule} = "Kernel::System::Crypt::$Param{CryptType}";
@@ -128,6 +128,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2008-04-25 09:04:24 $
+$Revision: 1.13 $ $Date: 2008-05-08 09:36:19 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminMailAccount.pm - to add/update/delete MailAccount acounts
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminMailAccount.pm,v 1.2 2008-04-07 11:31:48 martin Exp $
+# $Id: AdminMailAccount.pm,v 1.3 2008-05-08 09:36:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,13 +18,13 @@ use Kernel::System::MailAccount;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check all needed objects
@@ -95,7 +95,7 @@ sub Run {
             ValidID       => 1,
             UserID        => $Self->{UserID},
         );
-        if ( $ID ) {
+        if ($ID) {
             return $Self->{LayoutObject}->Redirect(
                 OP => 'Action=$Env{"Action"}&Subaction=Update&ID=' . $ID,
             );
@@ -134,9 +134,9 @@ sub Run {
     # overview
     # ------------------------------------------------------------ #
     else {
-        my $Ok = $Self->{ParamObject}->GetParam( Param => 'Ok' );
+        my $Ok      = $Self->{ParamObject}->GetParam( Param => 'Ok' );
         my %Backend = $Self->{MailAccount}->MailAccountBackendList();
-        my %List = $Self->{MailAccount}->MailAccountList( Valid => 0 );
+        my %List    = $Self->{MailAccount}->MailAccountList( Valid => 0 );
         $Param{'TypeOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data       => { $Self->{MailAccount}->MailAccountBackendList() },
             Name       => 'Type',
@@ -164,7 +164,7 @@ sub Run {
 
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        if ( $Ok ) {
+        if ($Ok) {
             $Output .= $Self->{LayoutObject}->Notify( Info => 'Finished' );
         }
         $Output .= $Self->{LayoutObject}->Output(

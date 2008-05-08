@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: NewTicket.pm,v 1.67 2008-04-29 18:39:34 martin Exp $
+# $Id: NewTicket.pm,v 1.68 2008-05-08 09:36:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -79,8 +79,9 @@ sub Run {
     if ( !$GetParam{'X-OTRS-CustomerNo'} && $GetParam{'X-OTRS-CustomerUser'} ) {
 
         # get customer user data form X-OTRS-CustomerUser
-        my %CustomerData = $Self->{CustomerUserObject}
-            ->CustomerUserDataGet( User => $GetParam{'X-OTRS-CustomerUser'}, );
+        my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            User => $GetParam{'X-OTRS-CustomerUser'},
+        );
         if (%CustomerData) {
             $GetParam{'X-OTRS-CustomerNo'} = $CustomerData{UserCustomerID};
         }
@@ -189,7 +190,7 @@ sub Run {
 
     # set ticket free text
     my @Values = ( 'X-OTRS-TicketKey', 'X-OTRS-TicketValue' );
-    for my $Count ( 1..16 ) {
+    for my $Count ( 1 .. 16 ) {
         if ( $GetParam{ $Values[0] . $Count } ) {
             $Self->{TicketObject}->TicketFreeTextSet(
                 TicketID => $TicketID,
@@ -206,13 +207,13 @@ sub Run {
     }
 
     # set ticket free time
-    for my $Count ( 1..6 ) {
+    for my $Count ( 1 .. 6 ) {
         my $Key = 'X-OTRS-TicketTime' . $Count;
-        if ( $GetParam{ $Key } ) {
+        if ( $GetParam{$Key} ) {
             my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
-                String => $GetParam{ $Key },
+                String => $GetParam{$Key},
             );
-            my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
+            my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
                 SystemTime => $SystemTime,
             );
             if ( $Year && $Month && $Day && $Hour && $Min ) {
@@ -222,13 +223,13 @@ sub Run {
                     'TicketFreeTime' . $Count . 'Day'    => $Day,
                     'TicketFreeTime' . $Count . 'Hour'   => $Hour,
                     'TicketFreeTime' . $Count . 'Minute' => $Min,
-                    Prefix   => 'TicketFreeTime',
-                    TicketID => $TicketID,
-                    Counter  => $Count,
-                    UserID   => $Param{InmailUserID},
+                    Prefix                               => 'TicketFreeTime',
+                    TicketID                             => $TicketID,
+                    Counter                              => $Count,
+                    UserID                               => $Param{InmailUserID},
                 );
                 if ( $Self->{Debug} > 0 ) {
-                    print "TicketTime$Count: " . $GetParam{ $Key } . "\n";
+                    print "TicketTime$Count: " . $GetParam{$Key} . "\n";
                 }
             }
         }
@@ -284,7 +285,7 @@ sub Run {
 
     # set free article text
     @Values = ( 'X-OTRS-ArticleKey', 'X-OTRS-ArticleValue' );
-    for my $Count ( 1..3 ) {
+    for my $Count ( 1 .. 3 ) {
         if ( $GetParam{ $Values[0] . $Count } ) {
             $Self->{TicketObject}->ArticleFreeTextSet(
                 TicketID  => $TicketID,

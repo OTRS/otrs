@@ -3,7 +3,7 @@
 # otrs.RebuildFulltextIndex.pl - the global search indexer handle
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.RebuildFulltextIndex.pl,v 1.1 2008-05-06 23:17:38 martin Exp $
+# $Id: otrs.RebuildFulltextIndex.pl,v 1.2 2008-05-08 09:36:57 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -63,13 +63,15 @@ $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{TimeObject}   = Kernel::System::Time->new( %CommonObject, );
 
 # create needed objects
-$CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
-$CommonObject{TicketObject} = Kernel::System::Ticket->new( %CommonObject );
+$CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
+$CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
 
 # get all tickets
 my @TicketIDs = $CommonObject{TicketObject}->TicketSearch(
+
     # result (required)
-    Result     => 'ARRAY',
+    Result => 'ARRAY',
+
     # result limit
     Limit      => 100_000_000,
     UserID     => 1,
@@ -77,7 +79,7 @@ my @TicketIDs = $CommonObject{TicketObject}->TicketSearch(
 );
 
 my $Count = 0;
-for my $TicketID ( @TicketIDs ) {
+for my $TicketID (@TicketIDs) {
 
     $Count++;
 
@@ -87,13 +89,13 @@ for my $TicketID ( @TicketIDs ) {
         UserID   => 1,
     );
 
-    for my $ArticleID ( @ArticleIndex ) {
+    for my $ArticleID (@ArticleIndex) {
         $CommonObject{TicketObject}->ArticleIndexBuild(
             ArticleID => $ArticleID,
             UserID    => 1,
         );
-        if ( ( $Count / 2000 ) == int ( $Count / 2000 ) ) {
-            my $Percent = int ($Count / ( $#TicketIDs / 100 ));
+        if ( ( $Count / 2000 ) == int( $Count / 2000 ) ) {
+            my $Percent = int( $Count / ( $#TicketIDs / 100 ) );
             print "NOTICE: $Count of $#TicketIDs processed ($Percent% done).\n";
         }
     }

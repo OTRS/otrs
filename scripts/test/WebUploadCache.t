@@ -2,7 +2,7 @@
 # WebUploadCache.t - test of the web upload cache mechanism
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: WebUploadCache.t,v 1.8 2008-01-31 06:20:20 tr Exp $
+# $Id: WebUploadCache.t,v 1.9 2008-05-08 09:35:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,11 +17,11 @@ use utf8;
 for my $Module (qw(DB FS)) {
 
     $Self->{ConfigObject}->Set(
-        Key => 'WebUploadCacheModule',
+        Key   => 'WebUploadCacheModule',
         Value => "Kernel::System::Web::UploadCache::$Module",
     );
 
-    $Self->{UploadCacheObject} = Kernel::System::Web::UploadCache->new(%{$Self});
+    $Self->{UploadCacheObject} = Kernel::System::Web::UploadCache->new( %{$Self} );
 
     my $FormID = $Self->{UploadCacheObject}->FormIDCreate();
 
@@ -33,45 +33,50 @@ for my $Module (qw(DB FS)) {
     # file checks
     for my $File (qw(xls txt doc png pdf)) {
         my $Content = '';
-        open(IN, "< ".$Self->{ConfigObject}->Get('Home')."/scripts/test/sample/WebUploadCache-Test1.$File") || die $!;
+        open( IN,
+            "< "
+                . $Self->{ConfigObject}->Get('Home')
+                . "/scripts/test/sample/WebUploadCache-Test1.$File"
+            )
+            || die $!;
         binmode(IN);
         while (<IN>) {
             $Content .= $_;
         }
         close(IN);
-        $Self->{EncodeObject}->EncodeOutput(\$Content);
+        $Self->{EncodeObject}->EncodeOutput( \$Content );
         my $MD5 = md5_hex($Content);
         my $Add = $Self->{UploadCacheObject}->FormIDAddFile(
-            FormID => $FormID,
-            Filename => 'UploadCache Test1äöüß.'.$File,
-            Content => $Content,
+            FormID      => $FormID,
+            Filename    => 'UploadCache Test1äöüß.' . $File,
+            Content     => $Content,
             ContentType => 'text/html',
         );
 
         $Self->True(
             $Add || '',
-            "#$Module - FormIDAddFile() - .".$File,
+            "#$Module - FormIDAddFile() - ." . $File,
         );
 
         my @Data = $Self->{UploadCacheObject}->FormIDGetAllFilesData(
             FormID => $FormID,
         );
         if (@Data) {
-            my %File = %{$Data[$#Data]};
+            my %File = %{ $Data[$#Data] };
             $Self->Is(
                 $File{Filename},
                 "UploadCache Test1äöüß.$File",
-                "#$Module - FormIDGetAllFilesData() - Filename .".$File,
+                "#$Module - FormIDGetAllFilesData() - Filename ." . $File,
             );
             $Self->True(
                 $File{Content} eq $Content,
-                "#$Module - FormIDGetAllFilesData() - Content .".$File,
+                "#$Module - FormIDGetAllFilesData() - Content ." . $File,
             );
-            $Self->{EncodeObject}->EncodeOutput(\$File{Content});
-            my $MD5New = md5_hex($File{Content});
+            $Self->{EncodeObject}->EncodeOutput( \$File{Content} );
+            my $MD5New = md5_hex( $File{Content} );
             $Self->Is(
                 $MD5New || '',
-                $MD5 || '',
+                $MD5    || '',
                 "#$Module - md5 check",
             );
         }
@@ -81,11 +86,11 @@ for my $Module (qw(DB FS)) {
         );
         $Self->True(
             $Delete || '',
-            "#$Module - FormIDRemoveFile() - .".$File,
+            "#$Module - FormIDRemoveFile() - ." . $File,
         );
     }
 
-    my $Remove = $Self->{UploadCacheObject}->FormIDRemove(FormID => $FormID);
+    my $Remove = $Self->{UploadCacheObject}->FormIDRemove( FormID => $FormID );
 
     $Self->True(
         $Remove,

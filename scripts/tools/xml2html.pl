@@ -3,7 +3,7 @@
 # xml2html.pl - a "_simple_" xml2html viewer
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: xml2html.pl,v 1.12 2008-04-24 17:32:15 tr Exp $
+# $Id: xml2html.pl,v 1.13 2008-05-08 09:35:57 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -61,7 +61,7 @@ my $FileContent = '';
 
 if ($File) {
     open my $IN, '<', $File || die "Can't open file $File: $!";
-    $FileContent = do {local $/; <$IN>};
+    $FileContent = do { local $/; <$IN> };
     close $IN;
 }
 else {
@@ -85,6 +85,7 @@ for my $Tag (@XMLARRAY) {
         $HTML .= "<b>$Tag->{Tag}:</b>";
         $HTML .= " <font size=\"-2\">";
         my $AttrList = '';
+
         for ( sort keys %{$Tag} ) {
             if ( $_ =~ /^(Tag|TagType|Content)$/ ) {
                 next;

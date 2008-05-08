@@ -3,7 +3,7 @@
 # scripts/restore.pl - the restore script
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: restore.pl,v 1.6 2008-04-01 19:41:41 martin Exp $
+# $Id: restore.pl,v 1.7 2008-05-08 09:35:57 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 use Getopt::Std;
 
@@ -64,7 +64,7 @@ elsif ( !-d $Opts{'d'} ) {
 
 # restore config
 print "Restore $Opts{'b'}/Config.tar.gz ...\n";
-chdir($Opts{'d'});
+chdir( $Opts{'d'} );
 if ( -e "$Opts{'b'}/Config.tar.gz" ) {
     system("tar -xzf $Opts{'b'}/Config.tar.gz");
 }
@@ -129,20 +129,23 @@ if ( $CommonObject{DBObject} ) {
             $Check++;
         }
         if ($Check) {
-            print STDERR "ERROR: Already existing tables in this database. A empty database is required for restore!\n";
+            print STDERR
+                "ERROR: Already existing tables in this database. A empty database is required for restore!\n";
             exit(1);
         }
     }
     else {
         $CommonObject{DBObject}->Prepare(
-            SQL => "SELECT table_name FROM information_schema.tables WHERE table_catalog = 'otrs' AND table_schema = 'public'",
+            SQL =>
+                "SELECT table_name FROM information_schema.tables WHERE table_catalog = 'otrs' AND table_schema = 'public'",
         );
         my $Check = 0;
         while ( my @RowTmp = $CommonObject{DBObject}->FetchrowArray() ) {
             $Check++;
         }
         if ($Check) {
-            print STDERR "ERROR: Already existing tables in this database. A empty database is required for restore!\n";
+            print STDERR
+                "ERROR: Already existing tables in this database. A empty database is required for restore!\n";
             exit(1);
         }
     }
@@ -180,7 +183,9 @@ if ( $DB =~ /mysql/i ) {
         print "decompresses SQL-file ...\n";
         system("gunzip $Opts{'b'}/DatabaseBackup.sql.gz");
         print "cat SQL-file into $DB database\n";
-        system( "mysql -f -u$DatabaseUser $DatabasePw -h$DatabaseHost $Database < $Opts{'b'}/DatabaseBackup.sql");
+        system(
+            "mysql -f -u$DatabaseUser $DatabasePw -h$DatabaseHost $Database < $Opts{'b'}/DatabaseBackup.sql"
+        );
         print "compress SQL-file...\n";
         system("gzip $Opts{'b'}/DatabaseBackup.sql");
     }
@@ -188,7 +193,9 @@ if ( $DB =~ /mysql/i ) {
         print "decompresses SQL-file ...\n";
         system("bunzip $Opts{'b'}/DatabaseBackup.sql.bz2");
         print "cat SQL-file into $DB database\n";
-        system( "mysql -f -u$DatabaseUser $DatabasePw -h$DatabaseHost $Database < $Opts{'b'}/DatabaseBackup.sql");
+        system(
+            "mysql -f -u$DatabaseUser $DatabasePw -h$DatabaseHost $Database < $Opts{'b'}/DatabaseBackup.sql"
+        );
         print "compress SQL-file...\n";
         system("bzip $Opts{'b'}/DatabaseBackup.sql");
     }
@@ -198,7 +205,9 @@ else {
         print "decompresses SQL-file ...\n";
         system("gunzip $Opts{'b'}/DatabaseBackup.sql.gz");
         print "cat SQL-file into $DB database\n";
-        system( "cat $Opts{'b'}/DatabaseBackup.sql | psql -u$DatabaseUser -h$DatabaseHost $Database");
+        system(
+            "cat $Opts{'b'}/DatabaseBackup.sql | psql -u$DatabaseUser -h$DatabaseHost $Database"
+        );
         print "compress SQL-file...\n";
         system("gzip $Opts{'b'}/DatabaseBackup.sql");
     }
@@ -206,7 +215,9 @@ else {
         print "decompresses SQL-file ...\n";
         system("bunzip $Opts{'b'}/DatabaseBackup.sql.bz2");
         print "cat SQL-file into $DB database\n";
-        system( "cat $Opts{'b'}/DatabaseBackup.sql | psql -u$DatabaseUser -h$DatabaseHost $Database");
+        system(
+            "cat $Opts{'b'}/DatabaseBackup.sql | psql -u$DatabaseUser -h$DatabaseHost $Database"
+        );
         print "compress SQL-file...\n";
         system("bzip $Opts{'b'}/DatabaseBackup.sql");
     }

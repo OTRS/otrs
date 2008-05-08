@@ -2,7 +2,7 @@
 # Kernel/System/User/Preferences/DB.pm - some user functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.16 2008-03-05 23:10:43 martin Exp $
+# $Id: DB.pm,v 1.17 2008-05-08 09:36:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -54,7 +54,7 @@ sub SetPreferences {
     }
 
     # delete old data
-    return if ! $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => "DELETE FROM $Self->{PreferencesTable} WHERE "
             . " $Self->{PreferencesTableUserID} = ? AND $Self->{PreferencesTableKey} = ?",
         Bind => [ \$Param{UserID}, \$Param{Key} ],
@@ -81,8 +81,8 @@ sub GetPreferences {
     }
 
     # get preferences
-    return if ! $Self->{DBObject}->Prepare(
-        SQL  => "SELECT $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue} "
+    return if !$Self->{DBObject}->Prepare(
+        SQL => "SELECT $Self->{PreferencesTableKey}, $Self->{PreferencesTableValue} "
             . " FROM $Self->{PreferencesTable} WHERE $Self->{PreferencesTableUserID} = ?",
         Bind => [ \$Param{UserID} ],
     );

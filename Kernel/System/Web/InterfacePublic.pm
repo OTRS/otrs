@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfacePublic.pm - the public interface file
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfacePublic.pm,v 1.18 2008-04-04 07:15:31 tr Exp $
+# $Id: InterfacePublic.pm,v 1.19 2008-05-08 09:36:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 # all framework needed  modules
 use Kernel::Config;
@@ -72,9 +72,9 @@ sub new {
         LogPrefix => $Self->{ConfigObject}->Get('CGILogPrefix'),
         %{$Self},
     );
-    $Self->{MainObject}   = Kernel::System::Main  ->new( %{$Self} );
+    $Self->{MainObject}   = Kernel::System::Main->new( %{$Self} );
     $Self->{EncodeObject} = Kernel::System::Encode->new( %{$Self} );
-    $Self->{TimeObject}   = Kernel::System::Time  ->new( %{$Self} );
+    $Self->{TimeObject}   = Kernel::System::Time->new( %{$Self} );
     $Self->{ParamObject}
         = Kernel::System::Web::Request->new( %{$Self}, WebRequest => $Param{WebRequest} || 0, );
 
@@ -229,7 +229,7 @@ sub Run {
                     . '::Public::'
                     . ( time() - $Self->{PerformanceLogStart} )
                     . "::-::$QueryString\n";
-                close $Out ;
+                close $Out;
                 $Self->{LogObject}->Log(
                     Priority => 'notice',
                     Message  => 'Response::Public: '
@@ -283,6 +283,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2008-04-04 07:15:31 $
+$Revision: 1.19 $ $Date: 2008-05-08 09:36:21 $
 
 =cut

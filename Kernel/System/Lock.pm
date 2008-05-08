@@ -2,7 +2,7 @@
 # Kernel/System/Lock.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Lock.pm,v 1.20 2008-04-11 16:20:16 martin Exp $
+# $Id: Lock.pm,v 1.21 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 =head1 NAME
 
@@ -53,7 +53,9 @@ create an object
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
+        MainObject   => $MainObject,
     );
+
     my $LockObject = Kernel::System::Lock->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
@@ -111,7 +113,7 @@ sub LockViewableLock {
     }
 
     # sql
-    return if ! $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL => "SELECT id, name FROM ticket_lock_type WHERE "
             . " name IN ( ${\(join ', ', @{$Self->{ViewableLocks}})} ) AND "
             . " valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )",
@@ -183,7 +185,7 @@ sub LockLookup {
     if ( !$Self->{$CacheKey} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "No Lock/LockID for $Param{$Key} found!",
+            Message  => "No Lock/LockID for $Param{$Key} found!",
         );
         return;
     }
@@ -215,7 +217,7 @@ sub LockList {
     }
 
     # sql
-    return if ! $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT id, name FROM ticket_lock_type',
     );
     my %Data = ();
@@ -244,6 +246,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2008-04-11 16:20:16 $
+$Revision: 1.21 $ $Date: 2008-05-08 09:36:19 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketMenuResponsible.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketMenuResponsible.pm,v 1.7 2008-04-29 12:11:51 tr Exp $
+# $Id: TicketMenuResponsible.pm,v 1.8 2008-05-08 09:36:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -50,7 +50,8 @@ sub Run {
     if ( $Self->{ConfigObject}->Get("Ticket::Frontend::$Param{Config}->{Action}") ) {
         my $Config = $Self->{ConfigObject}->Get("Ticket::Frontend::$Param{Config}->{Action}");
         if ( $Config->{Permission} ) {
-            if (!$Self->{TicketObject}->Permission(
+            if (
+                !$Self->{TicketObject}->Permission(
                     Type     => $Config->{Permission},
                     TicketID => $Param{TicketID},
                     UserID   => $Self->{UserID},
@@ -71,8 +72,10 @@ sub Run {
             }
         }
     }
-    if ( !defined( $Param{ACL}->{ $Param{Config}->{Action} } )
-        || $Param{ACL}->{ $Param{Config}->{Action} } )
+    if (
+        !defined( $Param{ACL}->{ $Param{Config}->{Action} } )
+        || $Param{ACL}->{ $Param{Config}->{Action} }
+        )
     {
         $Self->{LayoutObject}->Block(
             Name => 'Menu',

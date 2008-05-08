@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.38 2008-03-10 19:40:55 martin Exp $
+# $Id: LDAP.pm,v 1.39 2008-05-08 09:36:20 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -259,8 +259,10 @@ sub CustomerSearch {
 
     # check needed stuff
     if ( !$Param{Search} && !$Param{UserLogin} && !$Param{PostMasterSearch} ) {
-        $Self->{LogObject}
-            ->Log( Priority => 'error', Message => "Need Search, UserLogin or PostMasterSearch!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need Search, UserLogin or PostMasterSearch!"
+        );
         return;
     }
 
@@ -293,7 +295,7 @@ sub CustomerSearch {
     elsif ( $Param{PostMasterSearch} ) {
         if ( $Self->{CustomerUserMap}->{CustomerUserPostMasterSearchFields} ) {
             $Filter = '(|';
-            for my $Field( @{ $Self->{CustomerUserMap}->{CustomerUserPostMasterSearchFields} } ) {
+            for my $Field ( @{ $Self->{CustomerUserMap}->{CustomerUserPostMasterSearchFields} } ) {
                 $Filter .= "($Field=$Param{PostMasterSearch})";
             }
             $Filter .= ')';

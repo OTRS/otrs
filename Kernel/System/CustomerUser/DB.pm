@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.65 2008-04-11 16:05:36 martin Exp $
+# $Id: DB.pm,v 1.66 2008-05-08 09:36:20 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Encode;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.65 $) [1];
+$VERSION = qw($Revision: 1.66 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -42,7 +42,7 @@ sub new {
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
 
     # create encode object
-    $Self->{EncodeObject}    = Kernel::System::Encode->new(%Param);
+    $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
 
     # create cache object
     if ( $Self->{CustomerUserMap}->{'CacheTTL'} ) {
@@ -61,8 +61,10 @@ sub new {
     $Self->{CustomerID} = $Self->{CustomerUserMap}->{CustomerID}
         || die "Need CustomerUser->CustomerID in Kernel/Config.pm!";
     $Self->{ReadOnly} = $Self->{CustomerUserMap}->{ReadOnly};
-    $Self->{ExcludePrimaryCustomerID} = $Self->{CustomerUserMap}->{CustomerUserExcludePrimaryCustomerID} || 0;
+    $Self->{ExcludePrimaryCustomerID}
+        = $Self->{CustomerUserMap}->{CustomerUserExcludePrimaryCustomerID} || 0;
     $Self->{SearchPrefix} = $Self->{CustomerUserMap}->{'CustomerUserSearchPrefix'};
+
     if ( !defined( $Self->{SearchPrefix} ) ) {
         $Self->{SearchPrefix} = '';
     }
@@ -133,13 +135,15 @@ sub CustomerName {
 
     # check CustomerKey type
     if ( $Self->{CustomerKeyInteger} ) {
-        if ($Param{UserLogin} !~ /^(\+|\-|)\d{1,16}$/ ) {
+        if ( $Param{UserLogin} !~ /^(\+|\-|)\d{1,16}$/ ) {
             return;
         }
-        $SQL .= "$Self->{CustomerKey} = " . $Self->{DBObject}->Quote( $Param{UserLogin}, 'Integer' );
+        $SQL
+            .= "$Self->{CustomerKey} = " . $Self->{DBObject}->Quote( $Param{UserLogin}, 'Integer' );
     }
     else {
-        $SQL .= "LOWER($Self->{CustomerKey}) = LOWER('" . $Self->{DBObject}->Quote( $Param{UserLogin} ) . "')";
+        $SQL .= "LOWER($Self->{CustomerKey}) = LOWER('"
+            . $Self->{DBObject}->Quote( $Param{UserLogin} ) . "')";
     }
 
     # check cache
@@ -190,7 +194,7 @@ sub CustomerSearch {
     if ( !$Param{Search} && !$Param{UserLogin} && !$Param{PostMasterSearch} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Need Search, UserLogin or PostMasterSearch!",
+            Message  => "Need Search, UserLogin or PostMasterSearch!",
         );
         return;
     }
@@ -212,7 +216,8 @@ sub CustomerSearch {
         if ( !$Self->{CustomerUserMap}->{CustomerUserSearchFields} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "Need CustomerUserSearchFields in CustomerUser config, unable to search for '$Param{Search}'!",
+                Message =>
+                    "Need CustomerUserSearchFields in CustomerUser config, unable to search for '$Param{Search}'!",
             );
             return;
         }
@@ -221,7 +226,7 @@ sub CustomerSearch {
             Value        => $Param{Search},
             SearchPrefix => $Self->{SearchPrefix},
             SearchSuffix => $Self->{SearchSuffix},
-        ). ' ';
+        ) . ' ';
     }
     elsif ( $Param{PostMasterSearch} ) {
         if ( $Self->{CustomerUserMap}->{CustomerUserPostMasterSearchFields} ) {
@@ -230,7 +235,8 @@ sub CustomerSearch {
                 if ($SQLExt) {
                     $SQLExt .= ' OR ';
                 }
-                $SQLExt .= " LOWER($Field) LIKE LOWER('" . $Self->{DBObject}->Quote( $Param{PostMasterSearch}, 'Like' ) . "') ";
+                $SQLExt .= " LOWER($Field) LIKE LOWER('"
+                    . $Self->{DBObject}->Quote( $Param{PostMasterSearch}, 'Like' ) . "') ";
             }
             $SQL .= $SQLExt;
         }
@@ -239,14 +245,16 @@ sub CustomerSearch {
 
         # check CustomerKey type
         if ( $Self->{CustomerKeyInteger} ) {
-            if ($Param{UserLogin} !~ /^(\+|\-|)\d{1,16}$/ ) {
+            if ( $Param{UserLogin} !~ /^(\+|\-|)\d{1,16}$/ ) {
                 return;
             }
-            $SQL .= "$Self->{CustomerKey} = " . $Self->{DBObject}->Quote( $Param{UserLogin}, 'Integer' );
+            $SQL .= "$Self->{CustomerKey} = "
+                . $Self->{DBObject}->Quote( $Param{UserLogin}, 'Integer' );
         }
         else {
             $Param{UserLogin} =~ s/\*/%/g;
-            $SQL .= "LOWER($Self->{CustomerKey}) LIKE LOWER('" . $Self->{DBObject}->Quote( $Param{UserLogin}, 'Like' ) . "')";
+            $SQL .= "LOWER($Self->{CustomerKey}) LIKE LOWER('"
+                . $Self->{DBObject}->Quote( $Param{UserLogin}, 'Like' ) . "')";
         }
     }
 
@@ -254,7 +262,7 @@ sub CustomerSearch {
     if ( $Self->{CustomerUserMap}->{CustomerValid} && $Valid ) {
         $SQL .= " AND "
             . $Self->{CustomerUserMap}->{CustomerValid}
-            . " IN (".join(', ', $Self->{ValidObject}->ValidIDsGet() ).") ";
+            . " IN (" . join( ', ', $Self->{ValidObject}->ValidIDsGet() ) . ") ";
     }
 
     # check cache
@@ -263,7 +271,7 @@ sub CustomerSearch {
             Type => $Self->{CacheType},
             Key  => "CustomerSearch::$SQL",
         );
-        if ( $Users ) {
+        if ($Users) {
             return %{$Users};
         }
     }
@@ -304,7 +312,7 @@ sub CustomerUserList {
             Type => $Self->{CacheType},
             Key  => "CustomerUserList::$Valid",
         );
-        if ( $Users ) {
+        if ($Users) {
             return %{$Users};
         }
     }
@@ -427,13 +435,14 @@ sub CustomerUserDataGet {
 
         # check CustomerKey type
         if ( $Self->{CustomerKeyInteger} ) {
-            if ($Param{User} !~ /^(\+|\-|)\d{1,16}$/ ) {
+            if ( $Param{User} !~ /^(\+|\-|)\d{1,16}$/ ) {
                 return;
             }
             $SQL .= "$Self->{CustomerKey} = " . $Self->{DBObject}->Quote( $Param{User}, 'Integer' );
         }
         else {
-            $SQL .= "LOWER($Self->{CustomerKey}) = LOWER('" . $Self->{DBObject}->Quote( $Param{User} ) . "')";
+            $SQL .= "LOWER($Self->{CustomerKey}) = LOWER('"
+                . $Self->{DBObject}->Quote( $Param{User} ) . "')";
         }
     }
     elsif ( $Param{CustomerID} ) {
@@ -448,7 +457,8 @@ sub CustomerUserDataGet {
                 return %{$Data};
             }
         }
-        $SQL .= "LOWER($Self->{CustomerID}) = LOWER('" . $Self->{DBObject}->Quote( $Param{CustomerID} ) . "')";
+        $SQL .= "LOWER($Self->{CustomerID}) = LOWER('"
+            . $Self->{DBObject}->Quote( $Param{CustomerID} ) . "')";
     }
 
     # get initial data
@@ -566,18 +576,20 @@ sub CustomerUserAdd {
             Valid            => 1,
             PostMasterSearch => $Param{UserEmail},
         );
-        if ( %Result ) {
+        if (%Result) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "Email already exists!",
+                Message  => "Email already exists!",
             );
             return;
         }
     }
 
     # check email address mx
-    if ( $Param{UserEmail}
-        && !$Self->{CheckItemObject}->CheckEmail( Address => $Param{UserEmail} ) )
+    if (
+        $Param{UserEmail}
+        && !$Self->{CheckItemObject}->CheckEmail( Address => $Param{UserEmail} )
+        )
     {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -592,7 +604,8 @@ sub CustomerUserAdd {
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
         if ( $Entry->[5] =~ /^int$/i ) {
             if ( $Param{ $Entry->[0] } ) {
-                $Value{ $Entry->[0] } = $Self->{DBObject}->Quote( $Param{ $Entry->[0] }, 'Integer' );
+                $Value{ $Entry->[0] }
+                    = $Self->{DBObject}->Quote( $Param{ $Entry->[0] }, 'Integer' );
             }
             else {
                 $Value{ $Entry->[0] } = 0;
@@ -600,7 +613,8 @@ sub CustomerUserAdd {
         }
         else {
             if ( $Param{ $Entry->[0] } ) {
-                $Value{ $Entry->[0] } = "'" . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } ) . "'";
+                $Value{ $Entry->[0] }
+                    = "'" . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } ) . "'";
             }
             else {
                 $Value{ $Entry->[0] } = "''";
@@ -623,7 +637,7 @@ sub CustomerUserAdd {
         }
     }
     $SQL .= "current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})";
-    return if ! $Self->{DBObject}->Do( SQL => $SQL );
+    return if !$Self->{DBObject}->Do( SQL => $SQL );
 
     # log notice
     $Self->{LogObject}->Log(
@@ -665,8 +679,10 @@ sub CustomerUserUpdate {
     }
 
     # check email address
-    if ( $Param{UserEmail}
-        && !$Self->{CheckItemObject}->CheckEmail( Address => $Param{UserEmail} ) )
+    if (
+        $Param{UserEmail}
+        && !$Self->{CheckItemObject}->CheckEmail( Address => $Param{UserEmail} )
+        )
     {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -684,7 +700,8 @@ sub CustomerUserUpdate {
     for my $Entry ( @{ $Self->{CustomerUserMap}->{Map} } ) {
         if ( $Entry->[5] =~ /^int$/i ) {
             if ( $Param{ $Entry->[0] } ) {
-                $Value{ $Entry->[0] } = $Self->{DBObject}->Quote( $Param{ $Entry->[0] }, 'Integer' );
+                $Value{ $Entry->[0] }
+                    = $Self->{DBObject}->Quote( $Param{ $Entry->[0] }, 'Integer' );
             }
             else {
                 $Value{ $Entry->[0] } = 0;
@@ -692,7 +709,8 @@ sub CustomerUserUpdate {
         }
         else {
             if ( $Param{ $Entry->[0] } ) {
-                $Value{ $Entry->[0] } = "'" . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } ) . "'";
+                $Value{ $Entry->[0] }
+                    = "'" . $Self->{DBObject}->Quote( $Param{ $Entry->[0] } ) . "'";
             }
             else {
                 $Value{ $Entry->[0] } = "''";
@@ -713,16 +731,17 @@ sub CustomerUserUpdate {
 
     # check CustomerKey type
     if ( $Self->{CustomerKeyInteger} ) {
-        if ($Param{ID} !~ /^(\+|\-|)\d{1,16}$/ ) {
+        if ( $Param{ID} !~ /^(\+|\-|)\d{1,16}$/ ) {
             return;
         }
         $SQL .= "$Self->{CustomerKey} = " . $Self->{DBObject}->Quote( $Param{ID}, 'Integer' );
     }
     else {
-        $SQL .= "LOWER($Self->{CustomerKey}) = LOWER('" . $Self->{DBObject}->Quote( $Param{ID} ) . "')";
+        $SQL .= "LOWER($Self->{CustomerKey}) = LOWER('"
+            . $Self->{DBObject}->Quote( $Param{ID} ) . "')";
     }
 
-    return if ! $Self->{DBObject}->Do( SQL => $SQL );
+    return if !$Self->{DBObject}->Do( SQL => $SQL );
 
     # log notice
     $Self->{LogObject}->Log(
@@ -787,7 +806,8 @@ sub SetPassword {
         else {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message => 'The crypt() of your mod_perl(2) is not working correctly! Update mod_perl!',
+                Message =>
+                    'The crypt() of your mod_perl(2) is not working correctly! Update mod_perl!',
             );
             my $TempUser = quotemeta( $Param{UserLogin} );
             my $TempPw   = quotemeta($Pw);
@@ -829,16 +849,18 @@ sub SetPassword {
 
         # check CustomerKey type
         if ( $Self->{CustomerKeyInteger} ) {
-            if ($Param{UserLogin} !~ /^(\+|\-|)\d{1,16}$/ ) {
+            if ( $Param{UserLogin} !~ /^(\+|\-|)\d{1,16}$/ ) {
                 return;
             }
-            $SQL .= "$Param{LoginCol} = " . $Self->{DBObject}->Quote( $Param{UserLogin}, 'Integer' );
+            $SQL
+                .= "$Param{LoginCol} = " . $Self->{DBObject}->Quote( $Param{UserLogin}, 'Integer' );
         }
         else {
-            $SQL .= "LOWER($Param{LoginCol}) = LOWER('" . $Self->{DBObject}->Quote( $Param{UserLogin} ) . "')";
+            $SQL .= "LOWER($Param{LoginCol}) = LOWER('"
+                . $Self->{DBObject}->Quote( $Param{UserLogin} ) . "')";
 
         }
-        return if ! $Self->{DBObject}->Do( SQL => $SQL );
+        return if !$Self->{DBObject}->Do( SQL => $SQL );
 
         # log notice
         $Self->{LogObject}->Log(
@@ -868,7 +890,8 @@ sub GenerateRandomPassword {
 
     # The list of characters that can appear in a randomly generated password.
     # Note that users can put any character into a password they choose themselves.
-    my @PwChars = ( 0 .. 9, 'A' .. 'Z', 'a' .. 'z', '-', '_', '!', '@', '#', '$', '%', '^', '&', '*' );
+    my @PwChars
+        = ( 0 .. 9, 'A' .. 'Z', 'a' .. 'z', '-', '_', '!', '@', '#', '$', '%', '^', '&', '*' );
 
     # The number of characters in the list.
     my $PwCharsLen = scalar(@PwChars);

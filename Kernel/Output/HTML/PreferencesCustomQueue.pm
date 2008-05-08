@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesCustomQueue.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesCustomQueue.pm,v 1.11 2008-01-31 06:21:30 tr Exp $
+# $Id: PreferencesCustomQueue.pm,v 1.12 2008-05-08 09:36:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # get needed objects
@@ -47,7 +47,7 @@ sub Param {
     if ( $Param{UserData}->{UserID} ) {
         %QueueData = $Self->{QueueObject}->GetAllQueues(
             UserID => $Param{UserData}->{UserID},
-            Type   => $Self->{ConfigItem}->{Permission} || 'ro',
+            Type => $Self->{ConfigItem}->{Permission} || 'ro',
         );
     }
     if ( $Self->{ParamObject}->GetArray( Param => 'QueueID' ) ) {
@@ -59,7 +59,8 @@ sub Param {
     }
     push(
         @Params,
-        {   %Param,
+        {
+            %Param,
             Option => $Self->{LayoutObject}->AgentQueueListOption(
                 Data                => \%QueueData,
                 Size                => 10,
@@ -79,8 +80,9 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # delete old custom queues
-    $Self->{DBObject}
-        ->Do( SQL => "DELETE FROM personal_queues WHERE user_id = $Param{UserData}->{UserID}", );
+    $Self->{DBObject}->Do(
+        SQL => "DELETE FROM personal_queues WHERE user_id = $Param{UserData}->{UserID}",
+    );
 
     # get ro groups of agent
     my %GroupMember = $Self->{GroupObject}->GroupMemberList(
@@ -102,8 +104,10 @@ sub Run {
 
                 # db quote
                 $ID = $Self->{DBObject}->Quote($ID);
-                $Self->{DBObject}->Do( SQL => "INSERT INTO personal_queues (queue_id, user_id) "
-                        . " VALUES ($ID, $Param{UserData}->{UserID})", );
+                $Self->{DBObject}->Do(
+                    SQL => "INSERT INTO personal_queues (queue_id, user_id) "
+                        . " VALUES ($ID, $Param{UserData}->{UserID})",
+                );
             }
         }
     }

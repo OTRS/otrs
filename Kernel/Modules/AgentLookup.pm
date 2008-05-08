@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLookup.pm - a generic lookup module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLookup.pm,v 1.16 2008-01-31 06:22:12 tr Exp $
+# $Id: AgentLookup.pm,v 1.17 2008-05-08 09:36:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check all needed objects
@@ -54,21 +54,25 @@ sub Run {
     if ( !$Self->{Map}->{ $Param{Source} } ) {
 
         # error page
-        return $Self->{LayoutObject}
-            ->ErrorScreen( Message => "Need '$Param{Source}' as DataLookup config option!", );
+        return $Self->{LayoutObject}->ErrorScreen(
+            Message => "Need '$Param{Source}' as DataLookup config option!",
+        );
     }
 
     # config options
     $Self->{Limit} = $Self->{Map}->{ $Param{Source} }->{ResultLimit} || 250;
     $Self->{Table} = $Self->{Map}->{ $Param{Source} }->{Params}->{Table}
         || $Self->{LayoutObject}->FatalError(
-        Message => "Need DataLookup->$Param{Source}->Params->Table in Kernel/Config.pm!" );
+        Message => "Need DataLookup->$Param{Source}->Params->Table in Kernel/Config.pm!"
+        );
     $Self->{KeyList} = $Self->{Map}->{ $Param{Source} }->{KeyList}
-        || $Self->{LayoutObject}
-        ->FatalError( Message => "Need DataLookup->$Param{Source}->KeyList in Kernel/Config.pm!" );
+        || $Self->{LayoutObject}->FatalError(
+        Message => "Need DataLookup->$Param{Source}->KeyList in Kernel/Config.pm!"
+        );
     $Self->{ValueList} = $Self->{Map}->{ $Param{Source} }->{ValueList}
         || $Self->{LayoutObject}->FatalError(
-        Message => "Need DataLookup->$Param{Source}->ValueList in Kernel/Config.pm!" );
+        Message => "Need DataLookup->$Param{Source}->ValueList in Kernel/Config.pm!"
+        );
     $Self->{SearchPrefix} = $Self->{Map}->{ $Param{Source} }->{SearchPrefix};
     if ( !defined( $Self->{SearchPrefix} ) ) {
         $Self->{SearchPrefix} = '';

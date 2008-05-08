@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent/NotifyAgentGroupWithWritePermission.pm - generic agent notifications
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: NotifyAgentGroupWithWritePermission.pm,v 1.5 2008-02-11 13:02:59 martin Exp $
+# $Id: NotifyAgentGroupWithWritePermission.pm,v 1.6 2008-05-08 09:36:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Email;
 use Kernel::System::Queue;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -70,8 +70,10 @@ sub Run {
     # check if it's a escalation ot escalation notification
     # check escalation times
     my $EscalationType = '';
-    for my $Type (qw(FirstResponseTimeEscalation UpdateTimeEscalation SolutionTimeEscalation
-        FirstResponseTimeNotification UpdateTimeNotification SolutionTimeNotification))
+    for my $Type (
+        qw(FirstResponseTimeEscalation UpdateTimeEscalation SolutionTimeEscalation
+        FirstResponseTimeNotification UpdateTimeNotification SolutionTimeNotification)
+        )
     {
         if ( defined( $Ticket{$Type} ) ) {
             if ( $Type =~ /TimeEscalation$/ ) {
@@ -89,7 +91,8 @@ sub Run {
     if ( !$EscalationType ) {
         $Self->{LogObject}->Log(
             Priority => 'debug',
-            Message => "Can't send escalation for Ticket $Ticket{TicketNumber}/$Ticket{TicketID} because ticket is not escalated!",
+            Message =>
+                "Can't send escalation for Ticket $Ticket{TicketNumber}/$Ticket{TicketID} because ticket is not escalated!",
         );
         return;
     }
@@ -120,9 +123,11 @@ sub Run {
             );
             my $Sent = 0;
             for my $Line (@Lines) {
-                if (   $Line->{Name} =~ /\%\%$EscalationType\%\%/
+                if (
+                    $Line->{Name}          =~ /\%\%$EscalationType\%\%/
                     && $Line->{Name}       =~ /\Q\%\%$User{UserEmail}\E$/i
-                    && $Line->{CreateTime} =~ /$Year-$Month-$Day/ )
+                    && $Line->{CreateTime} =~ /$Year-$Month-$Day/
+                    )
                 {
                     $Sent = 1;
                 }

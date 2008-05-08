@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleSearchIndex/RuntimeDB.pm - article search index backend runtime
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: RuntimeDB.pm,v 1.2 2008-05-06 23:32:16 martin Exp $
+# $Id: RuntimeDB.pm,v 1.3 2008-05-08 09:36:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub ArticleIndexBuild {
     my ( $Self, %Param ) = @_;
@@ -88,8 +88,8 @@ sub _ArticleIndexQuerySQLExt {
         Subject => 'at.a_subject',
         Body    => 'at.a_body',
     );
-    my $SQLExt         = '';
-    my $FullTextSQL    = '';
+    my $SQLExt      = '';
+    my $FullTextSQL = '';
     for my $Key ( keys %FieldSQLMapFullText ) {
         if ( $Param{Data}->{$Key} ) {
             $Param{Data}->{$Key} =~ s/\*/%/gi;
@@ -102,7 +102,11 @@ sub _ArticleIndexQuerySQLExt {
             }
 
             # check if search condition extention is used
-            if ( $Param{Data}->{ConditionInline} && $Param{Data}->{$Key} =~ /(&&|\|\||\!|\+|AND|OR)/ ) {
+            if (
+                $Param{Data}->{ConditionInline}
+                && $Param{Data}->{$Key} =~ /(&&|\|\||\!|\+|AND|OR)/
+                )
+            {
                 $FullTextSQL .= $Self->{DBObject}->QueryCondition(
                     Key          => $FieldSQLMapFullText{$Key},
                     Value        => $Param{Data}->{$Key},

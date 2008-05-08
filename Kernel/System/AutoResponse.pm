@@ -2,7 +2,7 @@
 # Kernel/System/AutoResponse.pm - lib for auto responses
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AutoResponse.pm,v 1.17 2008-01-31 06:20:20 tr Exp $
+# $Id: AutoResponse.pm,v 1.18 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,13 +17,13 @@ use warnings;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check all needed objects
@@ -66,6 +66,7 @@ sub AutoResponseAdd {
         . " ('$Param{Name}', $Param{ValidID}, '$Param{Comment}', '$Param{Response}', "
         . " '$Param{Subject}', $Param{TypeID}, $Param{AddressID}, '$Param{Charset}', "
         . " current_timestamp, $Param{UserID}, current_timestamp,  $Param{UserID})";
+
     if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
         return 1;
     }
@@ -96,6 +97,7 @@ sub AutoResponseGet {
         . " auto_response "
         . " WHERE "
         . " id = $Param{ID}";
+
     if ( !$Self->{DBObject}->Prepare( SQL => $SQL ) ) {
         return;
     }
@@ -152,6 +154,7 @@ sub AutoResponseUpdate {
         . " change_by = $Param{UserID} "
         . " WHERE "
         . " id = $Param{ID}";
+
     if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
         return 1;
     }
@@ -192,6 +195,7 @@ sub AutoResponseGetByTypeQueueID {
         . " qar.auto_response_id = ar.id " . " AND "
         . " art.name = '$Param{Type}'";
     $Self->{DBObject}->Prepare( SQL => $SQL );
+
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{Text}    = $Row[0];
         $Data{Subject} = $Row[1];

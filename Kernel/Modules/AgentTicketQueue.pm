@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.47 2008-04-29 22:50:14 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.48 2008-05-08 09:36:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,13 +19,13 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # set debug
@@ -45,8 +45,9 @@ sub new {
 
     # get config data
     $Self->{ViewableSenderTypes} = $Self->{ConfigObject}->Get('Ticket::ViewableSenderTypes')
-        || $Self->{LayoutObject}
-        ->FatalError( Message => 'No Config entry "Ticket::ViewableSenderTypes"!' );
+        || $Self->{LayoutObject}->FatalError(
+        Message => 'No Config entry "Ticket::ViewableSenderTypes"!'
+        );
     $Self->{CustomQueue} = $Self->{ConfigObject}->Get('Ticket::CustomQueue') || '???';
 
     # default viewable tickets a page
@@ -107,10 +108,10 @@ sub Run {
     $Self->{LayoutObject}->Block(
         Name => 'MetaLink',
         Data => {
-            Rel => 'search',
-            Type => 'application/opensearchdescription+xml',
+            Rel   => 'search',
+            Type  => 'application/opensearchdescription+xml',
             Title => '$Quote{"$Config{"ProductName"}"} ($Quote{"$Config{"Ticket::Hook"}"})',
-            Href => '$Env{"Baselink"}Action=AgentTicketSearch&Subaction=OpenSearchDescription',
+            Href  => '$Env{"Baselink"}Action=AgentTicketSearch&Subaction=OpenSearchDescription',
         },
     );
     my $Output = $Self->{LayoutObject}->Header( Refresh => $Refresh, );
@@ -124,9 +125,12 @@ sub Run {
 
     # check old tickets, show it and return if needed
     my $NoEscalationGroup = $Self->{ConfigObject}->Get('Ticket::Frontend::NoEscalationGroup') || '';
-    if ($Self->{UserID} eq '1'
-        || (   $Self->{"UserIsGroup[$NoEscalationGroup]"}
-            && $Self->{"UserIsGroup[$NoEscalationGroup]"} eq 'Yes' )
+    if (
+        $Self->{UserID} eq '1'
+        || (
+            $Self->{"UserIsGroup[$NoEscalationGroup]"}
+            && $Self->{"UserIsGroup[$NoEscalationGroup]"} eq 'Yes'
+        )
         )
     {
 
@@ -249,7 +253,8 @@ sub Run {
         if ( $#ViewableQueueIDs == 0 ) {
             my $QueueID = $ViewableQueueIDs[0];
             if ( $Self->{ConfigObject}->Get('Ticket::Frontend::QueueSort') ) {
-                if (defined(
+                if (
+                    defined(
                         $Self->{ConfigObject}->Get('Ticket::Frontend::QueueSort')->{$QueueID}
                     )
                     )
@@ -295,6 +300,7 @@ sub Run {
         $Self->{DBObject}->Prepare( SQL => $SQL, Limit => $Self->{Limit} );
         my $Counter = 0;
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+
             if ( $Counter >= ( $Self->{Start} - 1 ) ) {
                 push( @ViewableTickets, $Row[0] );
             }
@@ -376,12 +382,14 @@ sub ShowTicket {
     my %CustomerData = ();
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoQueue') ) {
         if ( $Article{CustomerUserID} ) {
-            %CustomerData = $Self->{CustomerUserObject}
-                ->CustomerUserDataGet( User => $Article{CustomerUserID}, );
+            %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                User => $Article{CustomerUserID},
+            );
         }
         elsif ( $Article{CustomerID} ) {
-            %CustomerData = $Self->{CustomerUserObject}
-                ->CustomerUserDataGet( CustomerID => $Article{CustomerID}, );
+            %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                CustomerID => $Article{CustomerID},
+            );
         }
     }
 
@@ -437,7 +445,7 @@ sub ShowTicket {
         %Article,
         Action => 'AgentTicketZoom',
     );
-    if ( $MimeTypeText ) {
+    if ($MimeTypeText) {
         $Article{BodyNote} = $MimeTypeText;
         $Article{Body}     = '';
     }
@@ -455,12 +463,12 @@ sub ShowTicket {
 
         # do charset check
         my $CharsetText = $Self->{LayoutObject}->CheckCharset(
-                Action         => 'AgentTicketZoom',
-                ContentCharset => $Article{ContentCharset},
-                TicketID       => $Article{TicketID},
-                ArticleID      => $Article{ArticleID}
+            Action         => 'AgentTicketZoom',
+            ContentCharset => $Article{ContentCharset},
+            TicketID       => $Article{TicketID},
+            ArticleID      => $Article{ArticleID}
         );
-        if ( $CharsetText ) {
+        if ($CharsetText) {
             $Article{BodyNote} = $CharsetText;
         }
     }
@@ -500,49 +508,50 @@ sub ShowTicket {
     }
 
     # ticket free text
-    for my $Count (1..16) {
-        if ( $Article{'TicketFreeText'.$Count} ) {
+    for my $Count ( 1 .. 16 ) {
+        if ( $Article{ 'TicketFreeText' . $Count } ) {
             $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeText'.$Count,
+                Name => 'TicketFreeText' . $Count,
                 Data => { %Param, %Article, %AclAction },
             );
             $Self->{LayoutObject}->Block(
                 Name => 'TicketFreeText',
                 Data => {
                     %Param, %Article, %AclAction,
-                    TicketFreeKey => $Article{'TicketFreeKey'.$Count},
-                    TicketFreeText => $Article{'TicketFreeText'.$Count},
-                    Count => $Count,
+                    TicketFreeKey  => $Article{ 'TicketFreeKey' . $Count },
+                    TicketFreeText => $Article{ 'TicketFreeText' . $Count },
+                    Count          => $Count,
                 },
             );
-            if ( !$Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Link' )) {
+            if ( !$Self->{ConfigObject}->Get( 'TicketFreeText' . $Count . '::Link' ) ) {
                 $Self->{LayoutObject}->Block(
-                    Name => 'TicketFreeTextPlain'.$Count,
+                    Name => 'TicketFreeTextPlain' . $Count,
                     Data => { %Param, %Article, %AclAction },
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'TicketFreeTextPlain',
                     Data => {
                         %Param, %Article, %AclAction,
-                        TicketFreeKey => $Article{'TicketFreeKey'.$Count},
-                        TicketFreeText => $Article{'TicketFreeText'.$Count},
-                        Count => $Count,
+                        TicketFreeKey  => $Article{ 'TicketFreeKey' . $Count },
+                        TicketFreeText => $Article{ 'TicketFreeText' . $Count },
+                        Count          => $Count,
                     },
                 );
             }
             else {
                 $Self->{LayoutObject}->Block(
-                    Name => 'TicketFreeTextLink'.$Count,
+                    Name => 'TicketFreeTextLink' . $Count,
                     Data => { %Param, %Article, %AclAction },
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'TicketFreeTextLink',
                     Data => {
                         %Param, %Article, %AclAction,
-                        TicketFreeTextLink => $Self->{ConfigObject}->Get('TicketFreeText'.$Count.'::Link'),
-                        TicketFreeKey => $Article{'TicketFreeKey'.$Count},
-                        TicketFreeText => $Article{'TicketFreeText'.$Count},
-                        Count => $Count,
+                        TicketFreeTextLink =>
+                            $Self->{ConfigObject}->Get( 'TicketFreeText' . $Count . '::Link' ),
+                        TicketFreeKey  => $Article{ 'TicketFreeKey' . $Count },
+                        TicketFreeText => $Article{ 'TicketFreeText' . $Count },
+                        Count          => $Count,
                     },
                 );
             }
@@ -550,28 +559,30 @@ sub ShowTicket {
     }
 
     # ticket free time
-    for my $Count (1..6) {
-        if ( $Article{'TicketFreeTime'.$Count} ) {
+    for my $Count ( 1 .. 6 ) {
+        if ( $Article{ 'TicketFreeTime' . $Count } ) {
             $Self->{LayoutObject}->Block(
-                Name => 'TicketFreeTime'.$Count,
+                Name => 'TicketFreeTime' . $Count,
                 Data => { %Param, %Article, %AclAction },
             );
             $Self->{LayoutObject}->Block(
                 Name => 'TicketFreeTime',
                 Data => {
                     %Param, %Article, %AclAction,
-                    TicketFreeTimeKey  => $Self->{ConfigObject}->Get('TicketFreeTimeKey'.$Count),
-                    TicketFreeTime => $Article{'TicketFreeTime'.$Count},
-                    Count => $Count,
+                    TicketFreeTimeKey => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count ),
+                    TicketFreeTime    => $Article{ 'TicketFreeTime' . $Count },
+                    Count             => $Count,
                 },
             );
         }
     }
 
     # create output
-    if (   $Self->{ConfigObject}->Get('Ticket::AgentCanBeCustomer')
+    if (
+        $Self->{ConfigObject}->Get('Ticket::AgentCanBeCustomer')
         && $Article{CustomerUserID}
-        && $Article{CustomerUserID} =~ /^$Self->{UserLogin}$/i )
+        && $Article{CustomerUserID} =~ /^$Self->{UserLogin}$/i
+        )
     {
         $Self->{LayoutObject}->Block(
             Name => 'AgentIsCustomer',
@@ -583,8 +594,10 @@ sub ShowTicket {
             Name => 'AgentAnswer',
             Data => { %Param, %Article, %AclAction },
         );
-        if ( $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketCompose}
-            && ( !defined( $AclAction{AgentTicketCompose} ) || $AclAction{AgentTicketCompose} ) )
+        if (
+            $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketCompose}
+            && ( !defined( $AclAction{AgentTicketCompose} ) || $AclAction{AgentTicketCompose} )
+            )
         {
             my $Access = 1;
             my $Config = $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketCompose");
@@ -598,7 +611,7 @@ sub ShowTicket {
                 if ( !$Ok ) {
                     $Access = 0;
                 }
-                if ( $Access ) {
+                if ($Access) {
                     $Self->{LayoutObject}->Block(
                         Name => 'AgentAnswerCompose',
                         Data => { %Param, %Article, %AclAction },
@@ -606,9 +619,12 @@ sub ShowTicket {
                 }
             }
         }
-        if ($Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketPhoneOutbound}
-            && ( !defined( $AclAction{AgentTicketPhoneOutbound} )
-                || $AclAction{AgentTicketPhoneOutbound} )
+        if (
+            $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketPhoneOutbound}
+            && (
+                !defined( $AclAction{AgentTicketPhoneOutbound} )
+                || $AclAction{AgentTicketPhoneOutbound}
+            )
             )
         {
             my $Access = 1;
@@ -624,7 +640,7 @@ sub ShowTicket {
                     $Access = 0;
                 }
             }
-            if ( $Access ) {
+            if ($Access) {
                 $Self->{LayoutObject}->Block(
                     Name => 'AgentAnswerPhoneOutbound',
                     Data => { %Param, %Article, %AclAction },
@@ -634,8 +650,10 @@ sub ShowTicket {
     }
 
     # ticket bulk block
-    if ( $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketBulk}
-        && ( $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature') ) )
+    if (
+        $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketBulk}
+        && ( $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature') )
+        )
     {
         $Self->{LayoutObject}->Block(
             Name => "Bulk",
@@ -759,8 +777,10 @@ sub ShowTicket {
             SelectedID => $Article{QueueID},
         );
     }
-    if ( $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketMove}
-        && ( !defined( $AclAction{AgentTicketMove} ) || $AclAction{AgentTicketMove} ) )
+    if (
+        $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketMove}
+        && ( !defined( $AclAction{AgentTicketMove} ) || $AclAction{AgentTicketMove} )
+        )
     {
         my $Access = $Self->{TicketObject}->Permission(
             Type     => 'move',
@@ -768,7 +788,7 @@ sub ShowTicket {
             UserID   => $Self->{UserID},
             LogNo    => 1,
         );
-        if ( $Access ) {
+        if ($Access) {
             $Self->{LayoutObject}->Block(
                 Name => 'Move',
                 Data => { %Param, %AclAction },
@@ -783,13 +803,13 @@ sub ShowTicket {
     if ( $TicketView ne 'AgentTicketQueueTicketViewLite' ) {
         return $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentTicketQueueTicketView',
-            Data         => { %Param, %Article, %AclAction },
+            Data => { %Param, %Article, %AclAction },
         );
     }
     else {
         return $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentTicketQueueTicketViewLite',
-            Data         => { %Param, %Article, %AclAction },
+            Data => { %Param, %Article, %AclAction },
         );
     }
 }
@@ -919,22 +939,28 @@ sub _MaskQueueView {
             if ( $#QueueName == 0 && $#MetaQueue >= 0 && $Queue{Queue} =~ /^\Q$MetaQueue[0]\E$/ ) {
                 $QueueStrg .= '<b>';
             }
-            if (   $#QueueName == 1
+            if (
+                $#QueueName == 1
                 && $#MetaQueue >= 1
-                && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]\E$/ )
+                && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]\E$/
+                )
             {
                 $QueueStrg .= '<b>';
             }
-            if (   $#QueueName == 2
+            if (
+                $#QueueName == 2
                 && $#MetaQueue >= 2
-                && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]\E$/ )
+                && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]\E$/
+                )
             {
                 $QueueStrg .= '<b>';
             }
-            if (   $#QueueName == 3
+            if (
+                $#QueueName == 3
                 && $#MetaQueue >= 3
                 && $Queue{Queue}
-                =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]::$MetaQueue[3]\E$/ )
+                =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]::$MetaQueue[3]\E$/
+                )
             {
                 $QueueStrg .= '<b>';
             }
@@ -1015,22 +1041,28 @@ sub _MaskQueueView {
             if ( $#QueueName == 0 && $#MetaQueue >= 0 && $Queue{Queue} =~ /^\Q$MetaQueue[0]\E$/ ) {
                 $QueueStrg .= '</b>';
             }
-            if (   $#QueueName == 1
+            if (
+                $#QueueName == 1
                 && $#MetaQueue >= 1
-                && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]\E$/ )
+                && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]\E$/
+                )
             {
                 $QueueStrg .= '</b>';
             }
-            if (   $#QueueName == 2
+            if (
+                $#QueueName == 2
                 && $#MetaQueue >= 2
-                && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]\E$/ )
+                && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]\E$/
+                )
             {
                 $QueueStrg .= '</b>';
             }
-            if (   $#QueueName == 3
+            if (
+                $#QueueName == 3
                 && $#MetaQueue >= 3
                 && $Queue{Queue}
-                =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]::$MetaQueue[3]\E$/ )
+                =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]::$MetaQueue[3]\E$/
+                )
             {
                 $QueueStrg .= '</b>';
             }
@@ -1048,28 +1080,34 @@ sub _MaskQueueView {
             }
             $Param{QueueStrg1} .= $QueueStrg;
         }
-        elsif ($#QueueName == 2
+        elsif (
+            $#QueueName == 2
             && $Level >= 3
-            && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::\E/ )
+            && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::\E/
+            )
         {
             if ( $Param{QueueStrg2} ) {
                 $QueueStrg = ' - ' . $QueueStrg;
             }
             $Param{QueueStrg2} .= $QueueStrg;
         }
-        elsif ($#QueueName == 3
+        elsif (
+            $#QueueName == 3
             && $Level >= 4
-            && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]::\E/ )
+            && $Queue{Queue} =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]::\E/
+            )
         {
             if ( $Param{QueueStrg3} ) {
                 $QueueStrg = ' - ' . $QueueStrg;
             }
             $Param{QueueStrg3} .= $QueueStrg;
         }
-        elsif ($#QueueName == 4
+        elsif (
+            $#QueueName == 4
             && $Level >= 5
             && $Queue{Queue}
-            =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]::$MetaQueue[3]::\E/ )
+            =~ /^\Q$MetaQueue[0]::$MetaQueue[1]::$MetaQueue[2]::$MetaQueue[3]::\E/
+            )
         {
             if ( $Param{QueueStrg4} ) {
                 $QueueStrg = ' - ' . $QueueStrg;

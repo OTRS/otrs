@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMailbox.pm - to view all locked tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMailbox.pm,v 1.23 2008-03-28 11:38:56 martin Exp $
+# $Id: AgentTicketMailbox.pm,v 1.24 2008-05-08 09:36:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,13 +17,13 @@ use warnings;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check all needed objects
@@ -77,10 +77,10 @@ sub Run {
     $Self->{LayoutObject}->Block(
         Name => 'MetaLink',
         Data => {
-            Rel => 'search',
-            Type => 'application/opensearchdescription+xml',
+            Rel   => 'search',
+            Type  => 'application/opensearchdescription+xml',
             Title => '$Quote{"$Config{"ProductName"}"} ($Quote{"$Config{"Ticket::Hook"}"})',
-            Href => '$Env{"Baselink"}Action=AgentTicketSearch&Subaction=OpenSearchDescription',
+            Href  => '$Env{"Baselink"}Action=AgentTicketSearch&Subaction=OpenSearchDescription',
         },
     );
     $Output .= $Self->{LayoutObject}->Header( Refresh => $Refresh, );
@@ -109,7 +109,7 @@ sub Run {
             $Self->{StateObject}->StateGetStatesByType(
                 Type   => 'PendingAuto',
                 Result => 'ARRAY',
-            )
+                )
         );
         @ViewableTickets = $Self->{TicketObject}->TicketSearch(
             Result     => 'ARRAY',
@@ -219,8 +219,10 @@ sub Run {
     }
     for my $TicketID (@ViewableTickets) {
         $Counter++;
-        if (   $Counter >= $Self->{StartHit}
-            && $Counter < ( $Self->{PageShown} + $Self->{StartHit} ) )
+        if (
+            $Counter >= $Self->{StartHit}
+            && $Counter < ( $Self->{PageShown} + $Self->{StartHit} )
+            )
         {
             my %Article = ();
             my @ArticleBody = $Self->{TicketObject}->ArticleGet( TicketID => $TicketID );
@@ -271,7 +273,7 @@ sub Run {
             OrderBy  => $OrderBy,
             ViewType => $Self->{Subaction},
             %PageNav,
-        }
+            }
     );
 
     # create & return output

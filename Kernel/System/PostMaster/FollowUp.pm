@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: FollowUp.pm,v 1.58 2008-04-29 18:39:34 martin Exp $
+# $Id: FollowUp.pm,v 1.59 2008-05-08 09:36:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,13 +17,13 @@ use warnings;
 use Kernel::System::User;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     $Self->{Debug} = $Param{Debug} || 0;
@@ -98,8 +98,10 @@ sub Run {
 
     # set state
     my $State = $Self->{ConfigObject}->Get('PostmasterFollowUpState') || 'open';
-    if (   $Ticket{StateType} =~ /^close/
-        && $Self->{ConfigObject}->Get('PostmasterFollowUpStateClosed') )
+    if (
+        $Ticket{StateType} =~ /^close/
+        && $Self->{ConfigObject}->Get('PostmasterFollowUpStateClosed')
+        )
     {
         $State = $Self->{ConfigObject}->Get('PostmasterFollowUpStateClosed');
     }
@@ -120,7 +122,8 @@ sub Run {
 
     # set pending time
     if ( $GetParam{'X-OTRS-FollowUp-State-PendingTime'} ) {
-        if ($Self->{TicketObject}->TicketPendingTimeSet(
+        if (
+            $Self->{TicketObject}->TicketPendingTimeSet(
                 String   => $GetParam{'X-OTRS-FollowUp-State-PendingTime'},
                 TicketID => $Param{TicketID},
                 UserID   => $Param{InmailUserID},
@@ -209,7 +212,7 @@ sub Run {
 
     # set free ticket text
     my @Values = ( 'X-OTRS-FollowUp-TicketKey', 'X-OTRS-FollowUp-TicketValue' );
-    for my $Count ( 1..16 ) {
+    for my $Count ( 1 .. 16 ) {
         if ( $GetParam{ $Values[0] . $Count } ) {
             $Self->{TicketObject}->TicketFreeTextSet(
                 TicketID => $Param{TicketID},
@@ -219,20 +222,20 @@ sub Run {
                 UserID   => $Param{InmailUserID},
             );
             if ( $Self->{Debug} > 0 ) {
-                print "TicketKey$Count: " . $GetParam{ $Values[0]. $Count } . "\n";
-                print "TicketValue$Count: " . $GetParam{ $Values[1]. $Count } . "\n";
+                print "TicketKey$Count: " . $GetParam{ $Values[0] . $Count } . "\n";
+                print "TicketValue$Count: " . $GetParam{ $Values[1] . $Count } . "\n";
             }
         }
     }
 
     # set ticket free time
-    for my $Count ( 1..6 ) {
+    for my $Count ( 1 .. 6 ) {
         my $Key = 'X-OTRS-FollowUp-TicketTime' . $Count;
-        if ( $GetParam{ $Key } ) {
+        if ( $GetParam{$Key} ) {
             my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
-                String => $GetParam{ $Key },
+                String => $GetParam{$Key},
             );
-            my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
+            my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
                 SystemTime => $SystemTime,
             );
             if ( $Year && $Month && $Day && $Hour && $Min ) {
@@ -242,13 +245,13 @@ sub Run {
                     'TicketFreeTime' . $Count . 'Day'    => $Day,
                     'TicketFreeTime' . $Count . 'Hour'   => $Hour,
                     'TicketFreeTime' . $Count . 'Minute' => $Min,
-                    Prefix   => 'TicketFreeTime',
-                    TicketID => $Param{TicketID},
-                    Counter  => $Count,
-                    UserID   => $Param{InmailUserID},
+                    Prefix                               => 'TicketFreeTime',
+                    TicketID                             => $Param{TicketID},
+                    Counter                              => $Count,
+                    UserID                               => $Param{InmailUserID},
                 );
                 if ( $Self->{Debug} > 0 ) {
-                    print "TicketTime$Count: " . $GetParam{ $Key } . "\n";
+                    print "TicketTime$Count: " . $GetParam{$Key} . "\n";
                 }
             }
         }
@@ -311,7 +314,7 @@ sub Run {
 
     # set free article text
     @Values = ( 'X-OTRS-FollowUp-ArticleKey', 'X-OTRS-FollowUp-ArticleValue' );
-    for my $Count ( 1..3 ) {
+    for my $Count ( 1 .. 3 ) {
         if ( $GetParam{ $Values[0] . $Count } ) {
             $Self->{TicketObject}->ArticleFreeTextSet(
                 TicketID  => $Param{TicketID},

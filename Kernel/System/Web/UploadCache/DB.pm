@@ -2,7 +2,7 @@
 # Kernel/System/Web/UploadCache/DB.pm - a db upload cache
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.13 2008-03-05 01:54:55 martin Exp $
+# $Id: DB.pm,v 1.14 2008-05-08 09:36:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -84,7 +84,7 @@ sub FormIDAddFile {
     # write attachment to db
     my $Time = time();
     return $Self->{DBObject}->Do(
-        SQL =>  "INSERT INTO web_upload_cache "
+        SQL => "INSERT INTO web_upload_cache "
             . " (form_id, filename, content_type, content_size, content, create_time_unix)"
             . " VALUES  (?, ?, ?, ?, ?, ?)",
         Bind => [
@@ -108,7 +108,7 @@ sub FormIDRemoveFile {
     $Param{Filename} = $Index[$ID]->{Filename};
 
     return $Self->{DBObject}->Do(
-        SQL  => "DELETE FROM web_upload_cache WHERE form_id = ? AND filename = ?",
+        SQL => "DELETE FROM web_upload_cache WHERE form_id = ? AND filename = ?",
         Bind => [ \$Param{FormID}, \$Param{Filename} ],
     );
 }
@@ -127,7 +127,7 @@ sub FormIDGetAllFilesData {
     $Self->{DBObject}->Prepare(
         SQL => "SELECT filename, content_type, content_size, content FROM web_upload_cache "
             . " WHERE form_id = ? ORDER BY create_time_unix",
-        Bind   => [ \$Param{FormID} ],
+        Bind => [ \$Param{FormID} ],
         Encode => [ 1, 1, 1, 0 ],
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -154,7 +154,8 @@ sub FormIDGetAllFilesData {
         # add the info
         push(
             @Data,
-            {   Content     => $Row[3],
+            {
+                Content     => $Row[3],
                 ContentType => $Row[1],
                 Filename    => $Row[0],
                 Filesize    => $Row[2],
@@ -177,7 +178,7 @@ sub FormIDGetAllFilesMeta {
         }
     }
     $Self->{DBObject}->Prepare(
-        SQL  => "SELECT filename, content_type, content_size FROM web_upload_cache "
+        SQL => "SELECT filename, content_type, content_size FROM web_upload_cache "
             . " WHERE form_id = ? ORDER BY create_time_unix",
         Bind => [ \$Param{FormID} ],
     );
@@ -200,7 +201,8 @@ sub FormIDGetAllFilesMeta {
         # add the info
         push(
             @Data,
-            {   ContentType => $Row[1],
+            {
+                ContentType => $Row[1],
                 Filename    => $Row[0],
                 Filesize    => $Row[2],
                 FileID      => $Counter,

@@ -2,7 +2,7 @@
 # MailAccount.t - MailAccount tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: MailAccount.t,v 1.1 2008-03-28 11:32:36 martin Exp $
+# $Id: MailAccount.t,v 1.2 2008-05-08 09:35:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,7 +11,7 @@
 
 use Kernel::System::MailAccount;
 
-$Self->{MailAccountObject} = Kernel::System::MailAccount->new(%{$Self});
+$Self->{MailAccountObject} = Kernel::System::MailAccount->new( %{$Self} );
 
 my $MailAccountAdd = $Self->{MailAccountObject}->MailAccountAdd(
     Login         => 'mail',
@@ -20,7 +20,7 @@ my $MailAccountAdd = $Self->{MailAccountObject}->MailAccountAdd(
     Type          => 'POP3',
     ValidID       => 1,
     Trusted       => 0,
-    DispatchingBy => 'Queue', # Queue|From
+    DispatchingBy => 'Queue',              # Queue|From
     QueueID       => 1,
     UserID        => 1,
 );
@@ -59,7 +59,7 @@ my $MailAccountUpdate = $Self->{MailAccountObject}->MailAccountUpdate(
     Type          => 'IMAP',
     ValidID       => 1,
     Trusted       => 0,
-    DispatchingBy => 'Queue', # Queue|From
+    DispatchingBy => 'Queue',              # Queue|From
     QueueID       => 1,
     UserID        => 1,
 );
@@ -91,7 +91,7 @@ $Self->True(
 );
 
 my %List = $Self->{MailAccountObject}->MailAccountList(
-    Valid => 0, # just valid/all accounts
+    Valid => 0,    # just valid/all accounts
 );
 
 $Self->True(

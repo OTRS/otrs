@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PGP.pm,v 1.25 2008-04-01 10:41:20 ot Exp $
+# $Id: PGP.pm,v 1.26 2008-05-08 09:36:20 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 =head1 NAME
 
@@ -38,11 +38,13 @@ sub _Init {
     $Self->{GPGBin}  = $Self->{ConfigObject}->Get('PGP::Bin')     || '/usr/bin/gpg';
     $Self->{Options} = $Self->{ConfigObject}->Get('PGP::Options') || '--batch --no-tty --yes';
 
-    if ($^O =~ m{Win}i) {
+    if ( $^O =~ m{Win}i ) {
+
         # take care to deal properly with paths containing whitespace
         $Self->{GPGBin} = qq{"$Self->{GPGBin}" $Self->{Options}};
     }
     else {
+
         # make sure that we are getting POSIX (i.e. english) messages from gpg
         $Self->{GPGBin} = "LC_MESSAGES=POSIX $Self->{GPGBin} $Self->{Options}";
     }
@@ -94,7 +96,7 @@ sub Crypt {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $ParamName ( qw( Message Key ) ) {
+    for my $ParamName (qw( Message Key )) {
         if ( !$Param{$ParamName} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $ParamName!" );
             return;
@@ -103,8 +105,8 @@ sub Crypt {
 
     # since the following write would auto-convert utf8-characters into iso-characters, we
     # avoid that by explicitly encoding utf8-strings:
-    if (utf8::is_utf8($Param{Message})) {
-        utf8::encode($Param{Message});
+    if ( utf8::is_utf8( $Param{Message} ) ) {
+        utf8::encode( $Param{Message} );
     }
 
     my ( $FH, $Filename ) = $Self->{FileTempObject}->TempFile();
@@ -112,10 +114,11 @@ sub Crypt {
     close $FH;
 
     my ( $FHCrypt, $FilenameCrypt ) = $Self->{FileTempObject}->TempFile();
-	close $FHCrypt;
+    close $FHCrypt;
     my $GPGOptions
         = "--always-trust --yes --encrypt --armor -o $FilenameCrypt -r $Param{Key} $Filename";
     my $LogMessage = qx{$Self->{GPGBin} $GPGOptions 2>&1};
+
     # error
     if ($LogMessage) {
         $Self->{LogObject}->Log(
@@ -197,7 +200,7 @@ sub _DecryptPart {
     }
 
     my ( $FHDecrypt, $FileDecrypt ) = $Self->{FileTempObject}->TempFile();
-	close $FHDecrypt;
+    close $FHDecrypt;
     my ( $FHPhrase, $FilePhrase ) = $Self->{FileTempObject}->TempFile();
     print $FHPhrase $Param{Password};
     close $FHPhrase;
@@ -245,21 +248,21 @@ sub Sign {
         }
     }
     my %PasswordHash = %{ $Self->{ConfigObject}->Get('PGP::Key::Password') };
-    my $Pw           = $PasswordHash{ $Param{Key} } || '';
+    my $Pw = $PasswordHash{ $Param{Key} } || '';
     my $SigType
         = $Param{Type} && $Param{Type} eq 'Detached'
-            ? '--detach-sign --armor'
-            : '--clearsign';
+        ? '--detach-sign --armor'
+        : '--clearsign';
 
     # create tmp files
-    my ( $FH,     $Filename ) = $Self->{FileTempObject}->TempFile();
-	close $FH;
+    my ( $FH, $Filename ) = $Self->{FileTempObject}->TempFile();
+    close $FH;
     my ( $FHSign, $FileSign ) = $Self->{FileTempObject}->TempFile();
-	close $FHSign;
+    close $FHSign;
     $Self->{MainObject}->FileWrite(
-        Location   => $Filename,
-        Content    => \$Param{Message},
-        Mode       => $Param{Charset} && $Param{Charset} =~ /utf(8|\-8)/i ? 'utf8' : 'binmode',
+        Location => $Filename,
+        Content  => \$Param{Message},
+        Mode     => $Param{Charset} && $Param{Charset} =~ /utf(8|\-8)/i ? 'utf8' : 'binmode',
     );
 
     my ( $FHPhrase, $FilePhrase ) = $Self->{FileTempObject}->TempFile();
@@ -281,7 +284,7 @@ sub Sign {
     # get signed content
     my $SignedDataRef = $Self->{MainObject}->FileRead(
         Location => $FileSign,
-        Mode     => $Param{Charset} && $Param{Charset} =~ /utf(8|\-8)/i ? 'utf8' : 'binmode',
+        Mode => $Param{Charset} && $Param{Charset} =~ /utf(8|\-8)/i ? 'utf8' : 'binmode',
     );
     return $$SignedDataRef;
 }
@@ -341,14 +344,14 @@ sub Verify {
     my $Message = qx{$Self->{GPGBin} $GPGOptions $File 2>&1};
     if ( $Message =~ m{(Good signature from ".+?")}i ) {
         my $GPGMessage = $1;
-        my $KeyID = '';
+        my $KeyID      = '';
         if ( $Message =~ m{\s+ID\s+([0-9A-F]{8})}i ) {
             $KeyID = $1;
         }
         else {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "Unable to fetch key-ID from gpg output!"
+                Message  => "Unable to fetch key-ID from gpg output!"
             );
         }
         my $KeyUserID = '';
@@ -358,7 +361,7 @@ sub Verify {
         else {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "Unable to fetch key-user-ID from gpg output!"
+                Message  => "Unable to fetch key-user-ID from gpg output!"
             );
         }
         %Return = (
@@ -413,8 +416,8 @@ returns an array with search result (private keys)
 sub PrivateKeySearch {
     my ( $Self, %Param ) = @_;
 
-    my $Search = $Param{Search} || '';
-    my $GPGOptions = "--list-secret-keys --with-fingerprint --with-colons $Search";
+    my $Search         = $Param{Search} || '';
+    my $GPGOptions     = "--list-secret-keys --with-fingerprint --with-colons $Search";
     my @GPGOutputLines = qx{$Self->{GPGBin} $GPGOptions 2>&1};
 
     return $Self->_ParseGPGKeyList( GPGOutputLines => \@GPGOutputLines );
@@ -433,8 +436,8 @@ returns an array with search result (public keys)
 sub PublicKeySearch {
     my ( $Self, %Param ) = @_;
 
-    my $Search =$Param{Search} || '' ;
-    my $GPGOptions = "--list-keys --with-fingerprint --with-colons $Search";
+    my $Search         = $Param{Search} || '';
+    my $GPGOptions     = "--list-keys --with-fingerprint --with-colons $Search";
     my @GPGOutputLines = qx{$Self->{GPGBin} $GPGOptions 2>&1};
 
     return $Self->_ParseGPGKeyList( GPGOutputLines => \@GPGOutputLines );
@@ -453,7 +456,7 @@ sub _ParseGPGKeyList {
     my $InKey;
     my @Result;
     LINE:
-    foreach my $Line (@{$Param{GPGOutputLines}}) {
+    for my $Line ( @{ $Param{GPGOutputLines} } ) {
 
         # The option '--with-colons' causes gpg to output a machine-parsable format where the
         # individual fields are separated by a colon (':') - for a detailed description,
@@ -463,17 +466,18 @@ sub _ParseGPGKeyList {
 
         # 'sec' or 'pub' indicate the start of a info block for a specific key
         if ( $Type eq 'sec' || $Type eq 'pub' ) {
+
             # push last key and restart with empty key info
             if (%Key) {
                 push( @Result, {%Key} );
                 %Key = ();
             }
-            $InKey = 1;
-            $Key{Type}             = $Type;
-            $Key{Bit}              = $Fields[2];
-            $Key{Key}              = substr( $Fields[4], -8, 8);# only use last 8 chars of key-ID
-                                                                # in order to be compatible with
-                                                                # previous parser
+            $InKey     = 1;
+            $Key{Type} = $Type;
+            $Key{Bit}  = $Fields[2];
+            $Key{Key} = substr( $Fields[4], -8, 8 );    # only use last 8 chars of key-ID
+                                                        # in order to be compatible with
+                                                        # previous parser
             $Key{Created}          = $Fields[5];
             $Key{Expires}          = $Fields[6];
             $Key{Identifier}       = $Fields[9];
@@ -489,24 +493,27 @@ sub _ParseGPGKeyList {
         }
         elsif ( $Type eq 'ssb' ) {
             $Key{Bit}     = $Fields[2];
-            $Key{Key}     = substr( $Fields[4], -8, 8);     # only use last 8 chars of key-ID
+            $Key{Key}     = substr( $Fields[4], -8, 8 );    # only use last 8 chars of key-ID
                                                             # in order to be compatible with
                                                             # previous parser
             $Key{Created} = $Fields[5];
         }
         elsif ( $Type eq 'sub' ) {
-            $Key{KeyPrivate} = substr( $Fields[4], -8, 8);  # only use last 8 chars of key-ID
-                                                            # in order to be compatible with
-                                                            # previous parser
+            $Key{KeyPrivate} = substr( $Fields[4], -8, 8 );    # only use last 8 chars of key-ID
+                                                               # in order to be compatible with
+                                                               # previous parser
         }
         elsif ( $Type eq 'fpr' ) {
             $Key{FingerprintShort} = $Fields[9];
 
             # add fingerprint in standard format, too
-            if ($Fields[9] =~ m{
+            if (
+                $Fields[9] =~ m{
                 (\w\w\w\w)(\w\w\w\w)(\w\w\w\w)(\w\w\w\w)(\w\w\w\w)
                 (\w\w\w\w)(\w\w\w\w)(\w\w\w\w)(\w\w\w\w)(\w\w\w\w)
-            }x) {
+            }x
+                )
+            {
                 $Key{Fingerprint} = "$1 $2 $3 $4 $5  $6 $7 $8 $9 $10";
             }
         }
@@ -529,7 +536,7 @@ returns public key in ascii
 sub PublicKeyGet {
     my ( $Self, %Param ) = @_;
 
-    my $Key       = quotemeta( $Param{Key} || '' );
+    my $Key = quotemeta( $Param{Key} || '' );
     my $KeyString = qx{$Self->{GPGBin} --export --armor $Key 2>&1};
 
     if ( $KeyString =~ /nothing exported/i ) {
@@ -557,7 +564,7 @@ returns secret key in ascii
 sub SecretKeyGet {
     my ( $Self, %Param ) = @_;
 
-    my $Key       = quotemeta( $Param{Key} || '' );
+    my $Key = quotemeta( $Param{Key} || '' );
     my $KeyString = qx{$Self->{GPGBin} --export-secret-keys --armor $Key 2>&1};
 
     if ( $KeyString =~ /nothing exported/i ) {
@@ -594,7 +601,7 @@ sub PublicKeyDelete {
         return;
     }
 
-    my $Key        = quotemeta( $Param{Key} || '' );
+    my $Key = quotemeta( $Param{Key} || '' );
     my $LogMessage = qx{$Self->{GPGBin} --delete-key $Key 2>&1};
 
     if ($LogMessage) {
@@ -748,6 +755,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2008-04-01 10:41:20 $
+$Revision: 1.26 $ $Date: 2008-05-08 09:36:20 $
 
 =cut

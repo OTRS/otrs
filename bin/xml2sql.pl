@@ -3,7 +3,7 @@
 # bin/xml2sql.pl - a xml 2 sql processor
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: xml2sql.pl,v 1.15 2008-03-07 16:44:14 martin Exp $
+# $Id: xml2sql.pl,v 1.16 2008-05-08 09:36:57 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ use Kernel::System::Main;
 use Kernel::System::XML;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 my %Opts = ();
 getopt( 'htosi', \%Opts );
@@ -106,8 +106,9 @@ for my $DatabaseType (@DatabaseType) {
 
     # remember header
     my ( $Sec, $Min, $Hour, $Day, $Month, $Year )
-        = $CommonObject{TimeObject}
-        ->SystemTime2Date( SystemTime => $CommonObject{TimeObject}->SystemTime(), );
+        = $CommonObject{TimeObject}->SystemTime2Date(
+        SystemTime => $CommonObject{TimeObject}->SystemTime(),
+        );
     my $Head = $CommonObject{DBObject}->{Backend}->{"DB::Comment"}
         . "----------------------------------------------------------\n";
     $Head .= $CommonObject{DBObject}->{Backend}->{"DB::Comment"}

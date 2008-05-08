@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCustomer.pm - to set the ticket customer and show the customer history
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.pm,v 1.16 2008-03-06 09:50:56 martin Exp $
+# $Id: AgentTicketCustomer.pm,v 1.17 2008-05-08 09:36:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,13 +17,13 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check needed Objects
@@ -60,7 +60,8 @@ sub Run {
     }
 
     # check permissions
-    if (!$Self->{TicketObject}->Permission(
+    if (
+        !$Self->{TicketObject}->Permission(
             Type     => $Self->{Config}->{Permission},
             TicketID => $Self->{TicketID},
             UserID   => $Self->{UserID}
@@ -77,7 +78,8 @@ sub Run {
 
     # check permissions
     if ( $Self->{TicketID} ) {
-        if (!$Self->{TicketObject}->Permission(
+        if (
+            !$Self->{TicketObject}->Permission(
                 Type     => 'customer',
                 TicketID => $Self->{TicketID},
                 UserID   => $Self->{UserID}
@@ -120,8 +122,9 @@ sub Run {
             }
             if ( $Param{CustomerUserListCount} == 1 ) {
                 $Param{CustomerUserID} = $Param{CustomerUserListLastUser};
-                my %CustomerUserData = $Self->{CustomerUserObject}
-                    ->CustomerUserDataGet( User => $Param{CustomerUserListLastUser}, );
+                my %CustomerUserData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                    User => $Param{CustomerUserListLastUser},
+                );
                 if ( $CustomerUserData{UserCustomerID} ) {
                     $Param{CustomerID} = $CustomerUserData{UserCustomerID};
                 }
@@ -155,7 +158,8 @@ sub Run {
         }
 
         # update customer user data
-        if ($Self->{TicketObject}->SetCustomerData(
+        if (
+            $Self->{TicketObject}->SetCustomerData(
                 TicketID => $Self->{TicketID},
                 No       => $Param{CustomerID},
                 User     => $Param{CustomerUserID},
@@ -165,8 +169,9 @@ sub Run {
         {
 
             # redirect
-            return $Self->{LayoutObject}
-                ->Redirect( OP => "Action=AgentTicketZoom&TicketID=$Self->{TicketID}" );
+            return $Self->{LayoutObject}->Redirect(
+                OP => "Action=AgentTicketZoom&TicketID=$Self->{TicketID}"
+            );
         }
         else {
 
@@ -199,8 +204,10 @@ sub Form {
         my %TicketData = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
         if ( $TicketData{CustomerUserID} || $Param{CustomerUserID} ) {
             %CustomerUserData
-                = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $Param{CustomerUserID}
-                    || $TicketData{CustomerUserID}, );
+                = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                User => $Param{CustomerUserID}
+                    || $TicketData{CustomerUserID},
+                );
         }
         $TicketCustomerID = $TicketData{CustomerID};
         $Param{Table} = $Self->{LayoutObject}->AgentCustomerViewTable( Data => \%CustomerUserData );
@@ -235,13 +242,14 @@ sub Form {
         if ( $CustomerUserData{UserCustomerID} ) {
             push( @CustomerIDs, $CustomerUserData{UserCustomerID} );
         }
-        if ( @CustomerIDs ) {
+        if (@CustomerIDs) {
             @TicketIDs = $Self->{TicketObject}->TicketSearch(
                 Result     => 'ARRAY',
                 CustomerID => \@CustomerIDs,
                 UserID     => $Self->{UserID},
                 Permission => 'ro',
-                Limit => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerShownTickets') || '40',
+                Limit      => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerShownTickets')
+                    || '40',
             );
         }
     }
@@ -325,7 +333,7 @@ sub Form {
             Data         => {
                 %AclAction, %Article,
                 Age => $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' ),
-            }
+                }
         );
 
     }

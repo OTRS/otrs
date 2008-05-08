@@ -2,7 +2,7 @@
 # Kernel/System/State.pm - All state related function should be here eventually
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: State.pm,v 1.28 2008-04-11 15:49:50 martin Exp $
+# $Id: State.pm,v 1.29 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 =head1 NAME
 
@@ -53,7 +53,9 @@ create an object
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
+        MainObject   => $MainObject,
     );
+
     my $StateObject = Kernel::System::State->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
@@ -110,7 +112,7 @@ sub StateAdd {
     }
 
     # store data
-    return if ! $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => 'INSERT INTO ticket_state (name, valid_id, type_id, comments, '
             . ' create_time, create_by, change_time, change_by)'
             . ' VALUES (?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
@@ -121,11 +123,11 @@ sub StateAdd {
     );
 
     # get new state id
-    return if ! $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL  => 'SELECT id FROM ticket_state WHERE name = ?',
         Bind => [ \$Param{Name} ],
     );
-    my $ID  = '';
+    my $ID = '';
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $ID = $Row[0];
     }
@@ -182,7 +184,7 @@ sub StateGet {
         $SQL .= ' ts.id = ?';
         push @Bind, \$Param{ID};
     }
-    return if ! $Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
+    return if !$Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
     my %Data = ();
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         %Data = (
@@ -317,10 +319,11 @@ sub StateGetStatesByType {
         . " tst.id = ts.type_id AND "
         . " tst.name IN ('${\(join '\', \'', @StateType)}' ) AND "
         . " ts.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
-    return if ! $Self->{DBObject}->Prepare( SQL => $SQL );
+    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
+
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-        push @Name, $Data[1] ;
-        push @ID,   $Data[0] ;
+        push @Name, $Data[1];
+        push @ID,   $Data[0];
         $Data{ $Data[0] } = $Data[1];
     }
     if ( $Param{Result} eq 'Name' ) {
@@ -372,7 +375,7 @@ sub StateList {
     if ($Valid) {
         $SQL .= " WHERE valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
     }
-    return if ! $Self->{DBObject}->Prepare( SQL => $SQL );
+    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
     my %Data = ();
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ $Row[0] } = $Row[1];
@@ -401,7 +404,7 @@ sub StateTypeList {
 
     # sql
     my %Data = ();
-    return if ! $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT id, name FROM ticket_state_type',
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -426,6 +429,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.28 $ $Date: 2008-04-11 15:49:50 $
+$Revision: 1.29 $ $Date: 2008-05-08 09:36:19 $
 
 =cut

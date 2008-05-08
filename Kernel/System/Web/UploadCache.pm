@@ -2,7 +2,7 @@
 # Kernel/System/Web/UploadCache.pm - a fs upload cache
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: UploadCache.pm,v 1.11 2008-04-29 11:35:29 tr Exp $
+# $Id: UploadCache.pm,v 1.12 2008-05-08 09:36:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -101,7 +101,8 @@ create a new form id
 =cut
 
 sub FormIDCreate {
-    my $Self = shift;
+    my ($Self) = @_;
+
     return $Self->{Backend}->FormIDCreate(@_);
 }
 
@@ -114,7 +115,8 @@ remove all data with form id
 =cut
 
 sub FormIDRemove {
-    my $Self = shift;
+    my ($Self) = @_;
+
     return $Self->{Backend}->FormIDRemove(@_);
 }
 
@@ -132,7 +134,8 @@ add a file to the form id
 =cut
 
 sub FormIDAddFile {
-    my $Self = shift;
+    my ($Self) = @_;
+
     return $Self->{Backend}->FormIDAddFile(@_);
 }
 
@@ -148,7 +151,8 @@ removes a file to the form id
 =cut
 
 sub FormIDRemoveFile {
-    my $Self = shift;
+    my ($Self) = @_;
+
     return $Self->{Backend}->FormIDRemoveFile(@_);
 }
 
@@ -165,7 +169,8 @@ returns a array with hash ref of all form id files
 =cut
 
 sub FormIDGetAllFilesData {
-    my $Self = shift;
+    my ($Self) = @_;
+
     return @{ $Self->{Backend}->FormIDGetAllFilesData(@_) };
 }
 
@@ -184,7 +189,8 @@ Note: No Content will be returned, just meta data.
 =cut
 
 sub FormIDGetAllFilesMeta {
-    my $Self = shift;
+    my ($Self) = @_;
+
     return @{ $Self->{Backend}->FormIDGetAllFilesMeta(@_) };
 }
 
@@ -199,7 +205,8 @@ Each file older then 1 day will be removed.
 =cut
 
 sub FormIDCleanUp {
-    my $Self = shift;
+    my ($Self) = @_;
+
     return $Self->{Backend}->FormIDCleanUp(@_);
 }
 
@@ -219,6 +226,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2008-04-29 11:35:29 $
+$Revision: 1.12 $ $Date: 2008-05-08 09:36:21 $
 
 =cut

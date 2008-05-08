@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.pm,v 1.47 2008-04-18 19:42:09 martin Exp $
+# $Id: AdminUser.pm,v 1.48 2008-05-08 09:36:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,13 +17,13 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check all needed objects
@@ -45,8 +45,10 @@ sub Run {
     # ------------------------------------------------------------ #
     #  switch to user
     # ------------------------------------------------------------ #
-    if (   $Self->{Subaction} eq 'Switch'
-        && $Self->{ConfigObject}->Get('SwitchToUser') )
+    if (
+        $Self->{Subaction} eq 'Switch'
+        && $Self->{ConfigObject}->Get('SwitchToUser')
+        )
     {
         my $UserID = $Self->{ParamObject}->GetParam( Param => 'UserID' ) || '';
         my %UserData = $Self->{UserObject}->GetUserData( UserID => $UserID );
@@ -110,7 +112,10 @@ sub Run {
     # change
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Change' ) {
-        my $UserID = $Self->{ParamObject}->GetParam( Param => 'UserID' ) || $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
+        my $UserID
+            = $Self->{ParamObject}->GetParam( Param => 'UserID' )
+            || $Self->{ParamObject}->GetParam( Param => 'ID' )
+            || '';
         my %UserData = $Self->{UserObject}->GetUserData( UserID => $UserID, );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
@@ -238,15 +243,18 @@ sub Run {
         my $Note = '';
         my %GetParam;
         for (
-            qw(UserSalutation UserLogin UserFirstname UserLastname UserEmail UserPw ValidID Search))
+            qw(UserSalutation UserLogin UserFirstname UserLastname UserEmail UserPw ValidID Search)
+            )
         {
             $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
         }
         $GetParam{Preferences} = $Self->{ParamObject}->GetParam( Param => 'Preferences' ) || '';
 
         # add user
-        if ( my $UserID
-            = $Self->{UserObject}->UserAdd( %GetParam, ChangeUserID => $Self->{UserID} ) )
+        if (
+            my $UserID
+            = $Self->{UserObject}->UserAdd( %GetParam, ChangeUserID => $Self->{UserID} )
+            )
         {
 
             # update preferences
@@ -284,15 +292,19 @@ sub Run {
             }
 
             # redirect
-            if ( !$Self->{ConfigObject}->Get('Frontend::Module')->{AdminUserGroup}
-                && $Self->{ConfigObject}->Get('Frontend::Module')->{AdminRoleUser} )
+            if (
+                !$Self->{ConfigObject}->Get('Frontend::Module')->{AdminUserGroup}
+                && $Self->{ConfigObject}->Get('Frontend::Module')->{AdminRoleUser}
+                )
             {
-                return $Self->{LayoutObject}
-                    ->Redirect( OP => "Action=AdminRoleUser&Subaction=User&ID=$UserID", );
+                return $Self->{LayoutObject}->Redirect(
+                    OP => "Action=AdminRoleUser&Subaction=User&ID=$UserID",
+                );
             }
             if ( $Self->{ConfigObject}->Get('Frontend::Module')->{AdminUserGroup} ) {
-                return $Self->{LayoutObject}
-                    ->Redirect( OP => "Action=AdminUserGroup&Subaction=User&ID=$UserID", );
+                return $Self->{LayoutObject}->Redirect(
+                    OP => "Action=AdminUserGroup&Subaction=User&ID=$UserID",
+                );
             }
             else {
                 return $Self->{LayoutObject}->Redirect( OP => "Action=AdminUser", );
@@ -400,11 +412,14 @@ sub _Edit {
                             Name => 'Item',
                             Data => { %Param, },
                         );
-                        if (   ref( $ParamItem->{Data} ) eq 'HASH'
-                            || ref( $Preference{Data} ) eq 'HASH' )
+                        if (
+                            ref( $ParamItem->{Data} )   eq 'HASH'
+                            || ref( $Preference{Data} ) eq 'HASH'
+                            )
                         {
-                            $ParamItem->{'Option'} = $Self->{LayoutObject}
-                                ->OptionStrgHashRef( %Preference, %{$ParamItem}, );
+                            $ParamItem->{'Option'} = $Self->{LayoutObject}->OptionStrgHashRef(
+                                %Preference, %{$ParamItem},
+                            );
                         }
                         $Self->{LayoutObject}->Block(
                             Name => $ParamItem->{Block} || $Preference{Block} || 'Option',

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhoneOutbound.pm - to handle phone calls
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.pm,v 1.17 2008-03-31 22:18:37 martin Exp $
+# $Id: AgentTicketPhoneOutbound.pm,v 1.18 2008-05-08 09:36:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,13 +22,13 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check needed objects
@@ -71,7 +71,8 @@ sub Run {
     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
 
     # check permissions
-    if (!$Self->{TicketObject}->Permission(
+    if (
+        !$Self->{TicketObject}->Permission(
             Type     => $Self->{Config}->{Permission},
             TicketID => $Self->{TicketID},
             UserID   => $Self->{UserID}
@@ -91,7 +92,8 @@ sub Run {
                 Lock     => 'lock',
                 UserID   => $Self->{UserID},
             );
-            if ($Self->{TicketObject}->OwnerSet(
+            if (
+                $Self->{TicketObject}->OwnerSet(
                     TicketID  => $Self->{TicketID},
                     UserID    => $Self->{UserID},
                     NewUserID => $Self->{UserID},
@@ -179,27 +181,31 @@ sub Run {
     if ( !$Self->{Subaction} ) {
 
         # check it it's a agent-customer ticket
-        if (   $Self->{ConfigObject}->Get('Ticket::AgentCanBeCustomer')
+        if (
+            $Self->{ConfigObject}->Get('Ticket::AgentCanBeCustomer')
             && $Ticket{CustomerUserID}
-            && $Ticket{CustomerUserID} eq $Self->{UserLogin} )
+            && $Ticket{CustomerUserID} eq $Self->{UserLogin}
+            )
         {
 
             # redirect for agent follow up screen
-            return $Self->{LayoutObject}
-                ->Redirect( OP => "Action=AgentTicketCustomerFollowUp&TicketID=$Self->{TicketID}",
-                );
+            return $Self->{LayoutObject}->Redirect(
+                OP => "Action=AgentTicketCustomerFollowUp&TicketID=$Self->{TicketID}",
+            );
         }
 
         # get ticket info
         my %CustomerData = ();
         if ( $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoCompose') ) {
             if ( $Ticket{CustomerUserID} ) {
-                %CustomerData = $Self->{CustomerUserObject}
-                    ->CustomerUserDataGet( User => $Ticket{CustomerUserID}, );
+                %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                    User => $Ticket{CustomerUserID},
+                );
             }
             elsif ( $Ticket{CustomerID} ) {
-                %CustomerData = $Self->{CustomerUserObject}
-                    ->CustomerUserDataGet( CustomerID => $Ticket{CustomerID}, );
+                %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                    CustomerID => $Ticket{CustomerID},
+                );
             }
         }
 
@@ -233,15 +239,19 @@ sub Run {
                 = $GetParam{ 'TicketFreeTime' . $_ . 'Used' };
 
             if ( $Ticket{ "TicketFreeTime" . $_ } ) {
-                (   $TicketFreeTime{ "TicketFreeTime" . $_ . 'Secunde' },
+                (
+                    $TicketFreeTime{ "TicketFreeTime" . $_ . 'Secunde' },
                     $TicketFreeTime{ "TicketFreeTime" . $_ . 'Minute' },
                     $TicketFreeTime{ "TicketFreeTime" . $_ . 'Hour' },
                     $TicketFreeTime{ "TicketFreeTime" . $_ . 'Day' },
                     $TicketFreeTime{ "TicketFreeTime" . $_ . 'Month' },
                     $TicketFreeTime{ "TicketFreeTime" . $_ . 'Year' }
                     )
-                    = $Self->{TimeObject}->SystemTime2Date( SystemTime => $Self->{TimeObject}
-                        ->TimeStamp2SystemTime( String => $Ticket{ "TicketFreeTime" . $_ }, ), );
+                    = $Self->{TimeObject}->SystemTime2Date(
+                    SystemTime => $Self->{TimeObject}->TimeStamp2SystemTime(
+                        String => $Ticket{ "TicketFreeTime" . $_ },
+                    ),
+                    );
                 $TicketFreeTime{ "TicketFreeTime" . $_ . 'Used' } = 1;
             }
         }
@@ -300,9 +310,11 @@ sub Run {
 
         # check required FreeTextField (if configured)
         for ( 1 .. 16 ) {
-            if (   $Self->{Config}{'TicketFreeText'}{$_} == 2
+            if (
+                $Self->{Config}{'TicketFreeText'}{$_} == 2
                 && $GetParam{"TicketFreeText$_"} eq ''
-                && !$GetParam{AttachmentUpload} )
+                && !$GetParam{AttachmentUpload}
+                )
             {
                 $Error{"TicketFreeTextField$_ invalid"} = 'invalid';
             }
@@ -347,8 +359,10 @@ sub Run {
             if ( !$Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 ) ) {
                 $Error{"Date invalid"} = 'invalid';
             }
-            if ( $Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 )
-                < $Self->{TimeObject}->SystemTime() )
+            if (
+                $Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 )
+                < $Self->{TimeObject}->SystemTime()
+                )
             {
                 $Error{"Date invalid"} = 'invalid';
             }
@@ -404,7 +418,8 @@ sub Run {
             my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
 
             # check permissions if it's a existing ticket
-            if (!$Self->{TicketObject}->Permission(
+            if (
+                !$Self->{TicketObject}->Permission(
                     Type     => 'phone',
                     TicketID => $Self->{TicketID},
                     UserID   => $Self->{UserID}
@@ -421,12 +436,14 @@ sub Run {
             my %CustomerData = ();
             if ( $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoCompose') ) {
                 if ( $Ticket{CustomerUserID} ) {
-                    %CustomerData = $Self->{CustomerUserObject}
-                        ->CustomerUserDataGet( User => $Ticket{CustomerUserID}, );
+                    %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                        User => $Ticket{CustomerUserID},
+                    );
                 }
                 elsif ( $Ticket{CustomerID} ) {
-                    %CustomerData = $Self->{CustomerUserObject}
-                        ->CustomerUserDataGet( CustomerID => $Ticket{CustomerID}, );
+                    %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                        CustomerID => $Ticket{CustomerID},
+                    );
                 }
             }
 
@@ -449,7 +466,8 @@ sub Run {
             return $Output;
         }
         else {
-            if (my $ArticleID = $Self->{TicketObject}->ArticleCreate(
+            if (
+                my $ArticleID = $Self->{TicketObject}->ArticleCreate(
                     TicketID    => $Self->{TicketID},
                     ArticleType => $Self->{Config}->{ArticleType},
                     SenderType  => $Self->{Config}->{SenderType},
@@ -475,8 +493,9 @@ sub Run {
                 }
 
                 # get pre loaded attachment
-                my @AttachmentData = $Self->{UploadCachObject}
-                    ->FormIDGetAllFilesData( FormID => $Self->{FormID}, );
+                my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
+                    FormID => $Self->{FormID},
+                );
                 for my $Ref (@AttachmentData) {
                     $Self->{TicketObject}->ArticleWriteAttachment(
                         %{$Ref},
@@ -513,11 +532,13 @@ sub Run {
 
                 # set ticket free time
                 for ( 1 .. 6 ) {
-                    if (   defined( $GetParam{ "TicketFreeTime" . $_ . "Year" } )
+                    if (
+                        defined( $GetParam{ "TicketFreeTime" . $_ . "Year" } )
                         && defined( $GetParam{ "TicketFreeTime" . $_ . "Month" } )
                         && defined( $GetParam{ "TicketFreeTime" . $_ . "Day" } )
                         && defined( $GetParam{ "TicketFreeTime" . $_ . "Hour" } )
-                        && defined( $GetParam{ "TicketFreeTime" . $_ . "Minute" } ) )
+                        && defined( $GetParam{ "TicketFreeTime" . $_ . "Minute" } )
+                        )
                     {
                         my %Time;
                         $Time{ "TicketFreeTime" . $_ . "Year" }    = 0;
@@ -528,8 +549,10 @@ sub Run {
                         $Time{ "TicketFreeTime" . $_ . "Secunde" } = 0;
 
                         if ( $GetParam{ "TicketFreeTime" . $_ . "Used" } ) {
-                            %Time = $Self->{LayoutObject}->TransfromDateSelection( %GetParam,
-                                Prefix => "TicketFreeTime" . $_, );
+                            %Time = $Self->{LayoutObject}->TransfromDateSelection(
+                                %GetParam,
+                                Prefix => "TicketFreeTime" . $_,
+                            );
                         }
                         $Self->{TicketObject}->TicketFreeTimeSet(
                             %Time,
@@ -766,7 +789,7 @@ sub _MaskPhone {
     # pending data string
     $Param{PendingDateString} = $Self->{LayoutObject}->BuildDateSelection(
         %Param,
-        Format   => 'DateInputFormatLong',
+        Format => 'DateInputFormatLong',
         DiffTime => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
     );
 
@@ -847,8 +870,10 @@ sub _MaskPhone {
     }
 
     # show spell check
-    if (   $Self->{ConfigObject}->Get('SpellChecker')
-        && $Self->{LayoutObject}->{BrowserJavaScriptSupport} )
+    if (
+        $Self->{ConfigObject}->Get('SpellChecker')
+        && $Self->{LayoutObject}->{BrowserJavaScriptSupport}
+        )
     {
         $Self->{LayoutObject}->Block(
             Name => 'SpellCheck',
@@ -885,7 +910,7 @@ sub _MaskPhone {
                 Data => {
                     TicketFreeTimeCheck => 'TicketFreeTime' . $Key . 'Used',
                     TicketFreeTimeField => 'TicketFreeTime' . $Key,
-                    TicketFreeTimeKey   => $Self->{ConfigObject}->Get('TicketFreeTimeKey' . $Key),
+                    TicketFreeTimeKey   => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Key ),
                 },
             );
         }

@@ -2,7 +2,7 @@
 # Kernel/System/SearchProfile.pm - module to manage search profiles
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SearchProfile.pm,v 1.10 2008-04-09 00:31:19 martin Exp $
+# $Id: SearchProfile.pm,v 1.11 2008-05-08 09:36:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
@@ -47,7 +47,9 @@ create an object
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
+        MainObject   => $MainObject,
     );
+
     my $SearchProfileObject = Kernel::System::SearchProfile->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
@@ -113,11 +115,12 @@ sub SearchProfileAdd {
 
     for my $Value (@Data) {
         my $Login = "$Param{Base}::$Param{UserLogin}";
-        return if ! $Self->{DBObject}->Do(
-            SQL => "INSERT INTO search_profile (login, profile_name,  profile_type, profile_key, profile_value)"
+        return if !$Self->{DBObject}->Do(
+            SQL =>
+                "INSERT INTO search_profile (login, profile_name,  profile_type, profile_key, profile_value)"
                 . " VALUES (?, ?, ?, ?, ?) ",
             Bind => [
-                \$Login , \$Param{Name}, \$Param{Type}, \$Param{Key}, \$Value,
+                \$Login, \$Param{Name}, \$Param{Type}, \$Param{Key}, \$Value,
             ],
         );
     }
@@ -148,8 +151,8 @@ sub SearchProfileGet {
     }
 
     # sql
-    my $Login = $Self->{DBObject}->Quote( "$Param{Base}::$Param{UserLogin}" );
-    return if ! $Self->{DBObject}->Prepare(
+    my $Login = $Self->{DBObject}->Quote("$Param{Base}::$Param{UserLogin}");
+    return if !$Self->{DBObject}->Prepare(
         SQL => "SELECT profile_type, profile_key, profile_value FROM "
             . "search_profile WHERE profile_name = ? AND LOWER(login) = LOWER('$Login')",
         Bind => [ \$Param{Name} ],
@@ -191,10 +194,10 @@ sub SearchProfileDelete {
     }
 
     # sql
-    my $Login = $Self->{DBObject}->Quote( "$Param{Base}::$Param{UserLogin}" );
+    my $Login = $Self->{DBObject}->Quote("$Param{Base}::$Param{UserLogin}");
     return $Self->{DBObject}->Do(
         SQL => "DELETE FROM search_profile WHERE "
-        . " profile_name = ? AND LOWER(login) = LOWER('$Login')",
+            . " profile_name = ? AND LOWER(login) = LOWER('$Login')",
         Bind => [ \$Param{Name} ],
     );
 }
@@ -222,8 +225,8 @@ sub SearchProfileList {
     }
 
     # sql
-    my $Login = $Self->{DBObject}->Quote( "$Param{Base}::$Param{UserLogin}" );
-    return if ! $Self->{DBObject}->Prepare(
+    my $Login = $Self->{DBObject}->Quote("$Param{Base}::$Param{UserLogin}");
+    return if !$Self->{DBObject}->Prepare(
         SQL => "SELECT profile_name FROM search_profile WHERE LOWER(login) = LOWER('$Login')",
     );
     my %Result = ();
@@ -249,6 +252,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2008-04-09 00:31:19 $
+$Revision: 1.11 $ $Date: 2008-05-08 09:36:19 $
 
 =cut
