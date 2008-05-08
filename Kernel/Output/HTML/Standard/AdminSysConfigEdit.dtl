@@ -2,7 +2,7 @@
 # AdminSysConfigEdit.dtl - provides HTML form for SysConfig
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfigEdit.dtl,v 1.36 2008-04-02 08:59:22 ot Exp $
+# $Id: AdminSysConfigEdit.dtl,v 1.37 2008-05-08 21:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@
   </tr>
   <tr>
     <td colspan="2" class="menu">
-      <a href="$Env{"Baselink"}$Env{"LastScreenOverview"}">$Text{"Back"}</a>
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=SelectGroup&SysConfigGroup=$LQData{"Group"}">$Text{"Back"}</a>
     </td>
   </tr>
   <tr>
