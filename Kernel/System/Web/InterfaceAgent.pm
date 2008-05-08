@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceAgent.pm,v 1.31 2008-05-08 09:36:21 mh Exp $
+# $Id: InterfaceAgent.pm,v 1.32 2008-05-08 10:26:32 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -78,8 +78,10 @@ sub new {
     $Self->{MainObject}   = Kernel::System::Main->new( %{$Self} );
     $Self->{EncodeObject} = Kernel::System::Encode->new( %{$Self} );
     $Self->{TimeObject}   = Kernel::System::Time->new( %{$Self} );
-    $Self->{ParamObject}
-        = Kernel::System::Web::Request->new( %{$Self}, WebRequest => $Param{WebRequest} || 0, );
+    $Self->{ParamObject}  = Kernel::System::Web::Request->new(
+        %{$Self},
+        WebRequest => $Param{WebRequest} || 0,
+    );
 
     # debug info
     if ( $Self->{Debug} ) {
@@ -654,8 +656,9 @@ sub Run {
         else {
 
             # get session data
-            my %UserData
-                = $Self->{SessionObject}->GetSessionIDData( SessionID => $Param{SessionID}, );
+            my %UserData = $Self->{SessionObject}->GetSessionIDData(
+                SessionID => $Param{SessionID},
+            );
 
             # check needed data
             if ( !$UserData{UserID} || !$UserData{UserLogin} || $UserData{UserType} ne 'User' ) {
@@ -741,7 +744,9 @@ sub Run {
 
             # create new LayoutObject with new '%Param' and '%UserData'
             $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new(
-                %{$Self}, %Param, %UserData,
+                %{$Self},
+                %Param,
+                %UserData,
                 ModuleReg => $ModuleReg,
             );
 
@@ -775,12 +780,14 @@ sub Run {
                         }
 
                         # use module
-                        my $PreModuleObject
-                            = $PreModule->new(
-                            %{$Self}, %Param, %UserData,
+                        my $PreModuleObject = $PreModule->new(
+                            %{$Self},
+                            %Param,
+                            %UserData,
                             ModuleReg => $ModuleReg,
-                            );
+                        );
                         my $Output = $PreModuleObject->PreRun();
+
                         if ($Output) {
                             $Self->{LayoutObject}->Print( Output => \$Output );
                             exit 0;
@@ -798,8 +805,12 @@ sub Run {
             }
 
             # prove of concept! - create $GenericObject
-            my $GenericObject = ( 'Kernel::Modules::' . $Param{Action} )
-                ->new( %{$Self}, %Param, %UserData, ModuleReg => $ModuleReg, );
+            my $GenericObject = ( 'Kernel::Modules::' . $Param{Action} )->new(
+                %{$Self},
+                %Param,
+                %UserData,
+                ModuleReg => $ModuleReg,
+            );
 
             # debug info
             if ( $Self->{Debug} ) {
@@ -823,7 +834,8 @@ sub Run {
                         . '::Agent::'
                         . ( time() - $Self->{PerformanceLogStart} )
                         . "::$UserData{UserLogin}::$QueryString\n";
-                    close($Out);
+                    close $Out;
+
                     $Self->{LogObject}->Log(
                         Priority => 'notice',
                         Message  => "Response::Agent: "
@@ -846,7 +858,11 @@ sub Run {
 
         # create new LayoutObject with '%Param'
         my %Data = $Self->{SessionObject}->GetSessionIDData( SessionID => $Param{SessionID}, );
-        $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new( %{$Self}, %Param, %Data, );
+        $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new(
+            %{$Self},
+            %Param,
+            %Data,
+        );
 
         # print error
         $Self->{LayoutObject}->FatalError( Comment => 'Please contact your admin' );
@@ -863,6 +879,7 @@ sub Run {
     # db disconnect && undef %Param
     $Self->{DBObject}->Disconnect();
     undef %Param;
+
     return 1;
 }
 
@@ -882,6 +899,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.31 $ $Date: 2008-05-08 09:36:21 $
+$Revision: 1.32 $ $Date: 2008-05-08 10:26:32 $
 
 =cut
