@@ -2,7 +2,7 @@
 # TODO - todo list OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: TODO,v 1.114 2008-04-29 11:40:58 tr Exp $
+# $Id: TODO,v 1.115 2008-05-08 22:57:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,8 +19,6 @@
 - add info that a ticket is already closed!
 - allow users to add or change stored replies for their queue without giving them full admin rights
 - rework responses and relations in resposes (sort order)
-- A better way to reset password, hash confirmation...
-   http://bugs.otrs.org/show_bug.cgi?id=443
 - change SysConfig XML-files form iso8859-1 to utf8 - Warning, be careful of
   conflicts between the modules
 - add possebility (maybe a Configoption) that for external notes not the
@@ -32,11 +30,6 @@
   Solution 1: insert the settings from the Webinstaller in ZZZAAuto
   Solution 2: Checkfunction in SysConfig, witch check if the current
               value is also configured in the Config.pm
-- Change the logout message of OTRS from 'Logout successful. Thank you for using OTRS!' to
-  'Logout successful. Thank you for using <Productname>!' in Kernel/System/Web/AgentInterface.pm.
-  (Don't forget the translation file)
-- wording problem of these config settings Ticket::Frontend::QueueSort Ticket::Frontend::QueueSortByDefault Ticket::Frontend::QueueOrder::Default
-  + a better description
 - localisation emails for "New OTRS Password!" and "New Account"
 - insert a function which marks all config settings in the SysConfig which still defined in the Config.pm
 - stats functionality: - add a function, to handle stats with the package manager
@@ -61,11 +54,9 @@
 - log with log level
 
 misc (not scheduled yet - nobody is working on it yet)
-- delete personal queues if queue is set to invalid
 - Module Layer for signature, salutation in composing answers
 - store ticket before sending
 - AdminQueueList with all config options on one screen
-- Ticket print option for customer interface
 - interfaceing with bugzilla (martin)
 - interfaceing with Nagios (http://www.nagios.org/)
 - interfaceing with ISPMan (http://www.ispman.org/)
@@ -78,10 +69,8 @@ misc (not scheduled yet - nobody is working on it yet)
 - the function $XMLObject->{XMLHashSearch} has no search limit
 
 ideas (just ideas - nobody is working on it)
-- agent/customer timezone selection in preferences
 - copy std response botton
 - add 'Mark as Read' feature for QueueView like other 'web based email system'
-- imap service (queue view as imap service)
 - add icon in QueueView to show if there is a note on it or it's a new ticket
 - module feature on set state, owner, lock and queue
 - QueueView: Additional drop-down to set ticket owner
@@ -136,7 +125,4 @@ ideas (just ideas - nobody is working on it)
 - Agent ticket search escalate from - to  absorb
 - Package Manager: - If a module will be uninstalled check if other modules depends on it and give an error
                    - If there are dependencies try to load the needed package automatically
-- show only valid queues, users, responses, e.g. via the regarding modules
-  in the admin interfaces and display also the invalid or invalid_temporarily
-  items if wanted (special config item or a buttom that selects all items).
 
