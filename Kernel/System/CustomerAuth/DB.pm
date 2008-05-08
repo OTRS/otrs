@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth/DB.pm - provides the db authentification
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.23 2008-05-08 09:36:20 mh Exp $
+# $Id: DB.pm,v 1.24 2008-05-08 13:43:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -230,7 +230,7 @@ sub Auth {
 }
 
 sub DESTROY {
-    my ($Self) = @_;
+    my $Self = shift;
 
     # disconnect if it's not a parent DBObject
     if ( $Self->{NotParentDBObject} ) {

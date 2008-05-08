@@ -2,7 +2,7 @@
 # Kernel/System/CustomerCompany.pm - All customer company related function should be here eventually
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerCompany.pm,v 1.11 2008-05-08 09:36:19 mh Exp $
+# $Id: CustomerCompany.pm,v 1.12 2008-05-08 13:43:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -396,7 +396,7 @@ sub CustomerCompanyList {
 }
 
 sub DESTROY {
-    my ($Self) = @_;
+    my $Self = shift;
 
     # disconnect if it's not a parent DBObject
     if ( $Self->{NotParentDBObject} ) {
@@ -423,6 +423,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2008-05-08 09:36:19 $
+$Revision: 1.12 $ $Date: 2008-05-08 13:43:11 $
 
 =cut

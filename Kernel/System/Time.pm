@@ -2,7 +2,7 @@
 # Kernel/System/Time.pm - time functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Time.pm,v 1.43 2008-05-08 09:58:20 mh Exp $
+# $Id: Time.pm,v 1.44 2008-05-08 13:43:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 =head1 NAME
 
@@ -90,7 +90,7 @@ for Mac OS, and 00:00:00 UTC, January 1, 1970 for most other systems).
 =cut
 
 sub SystemTime {
-    my ($Self) = @_;
+    my $Self = shift;
 
     return time() + $Self->{TimeSecDiff};
 }
@@ -795,6 +795,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.43 $ $Date: 2008-05-08 09:58:20 $
+$Revision: 1.44 $ $Date: 2008-05-08 13:43:11 $
 
 =cut

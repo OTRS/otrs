@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.64 2008-05-08 09:36:19 mh Exp $
+# $Id: EmailParser.pm,v 1.65 2008-05-08 13:43:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 =head1 NAME
 
@@ -120,7 +120,7 @@ To get a email as a string back (plain email).
 =cut
 
 sub GetPlainEmail {
-    my ($Self) = @_;
+    my $Self = shift;
 
     return $Self->{Email}->as_string();
 }
@@ -1201,6 +1201,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.64 $ $Date: 2008-05-08 09:36:19 $
+$Revision: 1.65 $ $Date: 2008-05-08 13:43:11 $
 
 =cut

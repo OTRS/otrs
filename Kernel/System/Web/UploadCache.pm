@@ -2,7 +2,7 @@
 # Kernel/System/Web/UploadCache.pm - a fs upload cache
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: UploadCache.pm,v 1.12 2008-05-08 09:36:21 mh Exp $
+# $Id: UploadCache.pm,v 1.13 2008-05-08 13:43:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -101,7 +101,7 @@ create a new form id
 =cut
 
 sub FormIDCreate {
-    my ($Self) = @_;
+    my $Self = shift;
 
     return $Self->{Backend}->FormIDCreate(@_);
 }
@@ -226,6 +226,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2008-05-08 09:36:21 $
+$Revision: 1.13 $ $Date: 2008-05-08 13:43:11 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.66 2008-05-08 09:36:20 mh Exp $
+# $Id: DB.pm,v 1.67 2008-05-08 13:43:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Encode;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -907,7 +907,7 @@ sub GenerateRandomPassword {
 }
 
 sub DESTROY {
-    my ($Self) = @_;
+    my $Self = shift;
 
     # disconnect if it's not a parent DBObject
     if ( $Self->{NotParentDBObject} ) {

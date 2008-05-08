@@ -2,7 +2,7 @@
 # Kernel/System/Encode.pm - character encodings
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Encode.pm,v 1.28 2008-05-08 09:36:19 mh Exp $
+# $Id: Encode.pm,v 1.29 2008-05-08 13:43:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 =head1 NAME
 
@@ -102,7 +102,7 @@ Returns true or false if charset encoding is possible (depends on Perl version =
 =cut
 
 sub EncodeSupported {
-    my ($Self) = @_;
+    my $Self = shift;
 
     return $Self->{CharsetEncodeSupported};
 }
@@ -346,6 +346,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.28 $ $Date: 2008-05-08 09:36:19 $
+$Revision: 1.29 $ $Date: 2008-05-08 13:43:11 $
 
 =cut
