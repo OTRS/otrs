@@ -2,7 +2,7 @@
 # CustomerTicketMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.14 2008-04-02 08:59:22 ot Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.15 2008-05-08 22:52:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ function submit_compose() {
     }
 <!-- dtl:block:TicketFreeTextCheckJs -->
 <!-- dtl:block:TicketFreeTimeCheckJs -->
-    else if (document.compose.$Data{"TicketFreeTimeCheck"}.checked == false) {
+    else if (document.compose.$Data{"TicketFreeTimeCheck"} && document.compose.$Data{"TicketFreeTimeCheck"}.checked == false) {
         alert('$JSText{"A required field is:"} $QData{"TicketFreeTimeKey"}!');
         document.compose.$Data{"TicketFreeTimeCheck"}.focus();
         return false;
