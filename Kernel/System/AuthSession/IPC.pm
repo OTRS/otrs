@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/IPC.pm - provides session IPC/Mem backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: IPC.pm,v 1.33 2008-05-08 13:43:11 mh Exp $
+# $Id: IPC.pm,v 1.34 2008-05-08 14:44:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -109,7 +109,7 @@ sub _WriteSHM {
 }
 
 sub _ReadSHM {
-    my ($Self) = @_;
+    my $Self = shift;
 
     # read session data from mem
     my $String = '';
@@ -136,7 +136,7 @@ sub _SetSHMDataSize {
 }
 
 sub _GetSHMDataSize {
-    my ($Self) = @_;
+    my $Self = shift;
 
     # read meta data from mem
     my $MetaString = '';
@@ -474,7 +474,7 @@ sub GetAllSessionIDs {
 }
 
 sub CleanUp {
-    my ($Self) = @_;
+    my $Self = shift;
 
     # remove ipc meta data mem
     if ( !shmctl( $Self->{KeyMeta}, IPC_RMID, 0 ) ) {

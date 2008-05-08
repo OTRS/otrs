@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.93 2008-05-08 13:43:11 mh Exp $
+# $Id: DB.pm,v 1.94 2008-05-08 14:44:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.93 $) [1];
+$VERSION = qw($Revision: 1.94 $) [1];
 
 =head1 NAME
 
@@ -240,7 +240,7 @@ to disconnect to a database
 =cut
 
 sub Disconnect {
-    my ($Self) = @_;
+    my $Self = shift;
 
     # debug
     if ( $Self->{Debug} > 2 ) {
@@ -338,7 +338,7 @@ to get database errors back
 =cut
 
 sub Error {
-    my ($Self) = @_;
+    my $Self = shift;
 
     return $DBI::errstr;
 }
@@ -597,7 +597,7 @@ to get a select return
 =cut
 
 sub FetchrowArray {
-    my ($Self) = @_;
+    my $Self = shift;
 
     # work with cursors if database don't support limit
     if ( !$Self->{Backend}->{'DB::Limit'} && $Self->{Limit} ) {
@@ -655,7 +655,7 @@ sub FetchrowArray {
 # *** _should_ not used because of database incompat., it will not work on any database ***
 #
 sub FetchrowHashref {
-    my ($Self) = @_;
+    my $Self = shift;
 
     # work with cursors if database don't support limit
     if ( !$Self->{Backend}->{'DB::Limit'} && $Self->{Limit} ) {
@@ -1152,7 +1152,7 @@ sub _NameCheck {
 }
 
 sub DESTROY {
-    my ($Self) = @_;
+    my $Self = shift;
 
     # cleanup open statement handle if there is any and then disconnect from DB
     if ( $Self->{Cursor} ) {
@@ -1179,6 +1179,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.93 $ $Date: 2008-05-08 13:43:11 $
+$Revision: 1.94 $ $Date: 2008-05-08 14:44:19 $
 
 =cut

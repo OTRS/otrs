@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser.pm - some customer user functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUser.pm,v 1.43 2008-05-08 14:13:54 mh Exp $
+# $Id: CustomerUser.pm,v 1.44 2008-05-08 14:44:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Kernel::System::CustomerCompany;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 =head1 NAME
 
@@ -411,7 +411,7 @@ set customer user preferences
 =cut
 
 sub SetPreferences {
-    my ($Self) = @_;
+    my $Self = shift;
 
     return $Self->{PreferencesObject}->SetPreferences(@_);
 }
@@ -427,7 +427,7 @@ get customer user preferences
 =cut
 
 sub GetPreferences {
-    my ($Self) = @_;
+    my $Self = shift;
 
     return $Self->{PreferencesObject}->GetPreferences(@_);
 }
@@ -444,7 +444,7 @@ search in user preferences
 =cut
 
 sub SearchPreferences {
-    my ($Self) = @_;
+    my $Self = shift;
 
     return $Self->{PreferencesObject}->SearchPreferences(@_);
 }
@@ -552,6 +552,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.43 $ $Date: 2008-05-08 14:13:54 $
+$Revision: 1.44 $ $Date: 2008-05-08 14:44:19 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.93 2008-05-08 13:43:11 mh Exp $
+# $Id: Queue.pm,v 1.94 2008-05-08 14:44:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.93 $) [1];
+$VERSION = qw($Revision: 1.94 $) [1];
 
 =head1 NAME
 
@@ -1053,7 +1053,7 @@ get queue preferences
 =cut
 
 sub QueuePreferencesGet {
-    my ($Self) = @_;
+    my $Self = shift;
 
     return $Self->{PreferencesObject}->QueuePreferencesGet(@_);
 }
@@ -1074,6 +1074,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.93 $ $Date: 2008-05-08 13:43:11 $
+$Revision: 1.94 $ $Date: 2008-05-08 14:44:19 $
 
 =cut
