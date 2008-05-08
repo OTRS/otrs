@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.644 2008-05-07 10:16:10 martin Exp $
+# $Id: CHANGES,v 1.645 2008-05-08 19:46:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -268,6 +268,10 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.7 (2008/??/??)
+ - (2008/05/08) Fixed bug# 2683 - $QData{"OrigFrom"} in Reply leads to wrong
+    quote in email answer if sender is agent (To of origin email is used).
+ - (2008/05/08) Fixed bug# 2604 - Response Format - Date of Original Mail is
+    missing.
  - (2008/05/07) Fixed bug# 2882 - The foreign key syntax in
     otrs-schema-post.mysql.sql is incorrect.
  - (2008/04/23) Fixed bug# 2907 - Typo in the german translation:

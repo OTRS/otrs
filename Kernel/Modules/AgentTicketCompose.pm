@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.41 2008-05-08 09:58:00 mh Exp $
+# $Id: AgentTicketCompose.pm,v 1.42 2008-05-08 19:46:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -245,8 +245,9 @@ sub Run {
         }
 
         # get all attachments meta data
-        my @Attachments
-            = $Self->{UploadCachObject}->FormIDGetAllFilesMeta( FormID => $Self->{FormID} );
+        my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
+            FormID => $Self->{FormID},
+        );
 
         # check some values
         for (qw(From To Cc Bcc)) {
@@ -269,7 +270,7 @@ sub Run {
         my %ArticleParam = ();
 
         # run compose modules
-        if ( ref( $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') ) eq 'HASH' )
+        if ( ref $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') eq 'HASH' )
         {
             my %Jobs = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') };
             for my $Job ( sort keys %Jobs ) {
@@ -585,10 +586,25 @@ sub Run {
         if ( $Data{SenderType} !~ /customer/ ) {
             my $To   = $Data{To};
             my $From = $Data{From};
-            $Data{From}    = $To;
-            $Data{To}      = $Data{From};
-            $Data{ReplyTo} = '';
+
+            # set OrigFrom for correct email quoteing (xxxx wrote)
+            $Data{OrigFrom} = $Data{From};
+
+            # replace From/To, To/From because sender is agent
+            $Data{From}     = $To;
+            $Data{To}       = $Data{From};
+            $Data{ReplyTo}  = '';
         }
+        else {
+
+            # set OrigFrom for correct email quoteing (xxxx wrote)
+            $Data{OrigFrom} = $Data{From};
+        }
+
+        # build OrigFromName (to only use the realname)
+        $Data{OrigFromName} = $Data{OrigFrom};
+        $Data{OrigFromName} =~ s/<.*>|\(.*\)|\"|;|,//g;
+        $Data{OrigFromName} =~ s/( $)|(  $)//g;
 
         # get customer data
         my %Customer = ();
@@ -633,15 +649,15 @@ sub Run {
         }
         $Data{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
             TicketNumber => $Ticket{TicketNumber},
-            Subject => $Data{Subject} || '',
+            Subject      => $Data{Subject} || '',
         );
 
         # add not local To addresses to Cc
         for my $Email ( Mail::Address->parse( $Data{To} ) ) {
-            if (
-                !$Self->{SystemAddress}->SystemAddressIsLocalAddress( Address => $Email->address() )
-                )
-            {
+            my $IsLocal = $Self->{SystemAddress}->SystemAddressIsLocalAddress(
+                Address => $Email->address(),
+            );
+            if (!$IsLocal) {
                 if ( $Data{Cc} ) {
                     $Data{Cc} .= ', ';
                 }
@@ -688,7 +704,6 @@ sub Run {
                 }
             }
         }
-        $Data{OrigFrom} = $Data{From};
 
         # find duplicate addresses
         my %Recipient = ();
@@ -737,7 +752,7 @@ sub Run {
                     );
                 }
                 if ( !$From ) {
-                    $From = $Data{OrigFrom} || '';
+                    $From = $Data{To} || '';
                     $From =~ s/<.*>|\(.*\)|\"|;|,//g;
                     $From =~ s/( $)|(  $)//g;
                 }
@@ -977,7 +992,7 @@ sub _Mask {
     );
 
     # run compose modules
-    if ( ref( $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') ) eq 'HASH' ) {
+    if ( ref $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') eq 'HASH' ) {
         my %Jobs = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') };
         for my $Job ( sort keys %Jobs ) {
 
