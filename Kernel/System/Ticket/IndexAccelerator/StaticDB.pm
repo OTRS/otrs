@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.54 2008-05-08 09:36:21 mh Exp $
+# $Id: StaticDB.pm,v 1.55 2008-05-08 22:53:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 sub TicketAcceleratorUpdate {
     my ( $Self, %Param ) = @_;
@@ -253,7 +253,7 @@ sub TicketAcceleratorIndex {
 
     # get user groups
     my $Type = 'rw';
-    if ( $Self->{ConfigObject}->Get('Ticket::QueueViewAllPossibleTickets') ) {
+    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AgentTicketQueue')->{ViewAllPossibleTickets} ) {
         $Type = 'ro';
     }
     my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
