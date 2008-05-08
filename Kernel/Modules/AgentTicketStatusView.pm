@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketStatusView.pm,v 1.12 2008-05-08 09:36:37 mh Exp $
+# $Id: AgentTicketStatusView.pm,v 1.13 2008-05-08 22:05:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,24 +35,25 @@ sub new {
         }
     }
 
+    $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
+
     # needed objects
     $Self->{StateObject}        = Kernel::System::State->new(%Param);
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
 
     # get params
     $Self->{SortBy} = $Self->{ParamObject}->GetParam( Param => 'SortBy' )
-        || $Self->{ConfigObject}->Get('Ticket::Frontend::StatusSortBy::Default')
+        || $Self->{Config}->{'SortBy::Default'}
         || 'Age';
     $Self->{Order} = $Self->{ParamObject}->GetParam( Param => 'Order' )
-        || $Self->{ConfigObject}->Get('Ticket::Frontend::StatusOrder::Default')
+        || $Self->{Config}->{'Order::Default'}
         || 'Up';
 
     # viewable tickets a page
     $Self->{Limit} = $Self->{ParamObject}->GetParam( Param => 'Limit' ) || 6000;
 
     $Self->{StartHit} = $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1;
-    $Self->{PageShown}
-        = $Self->{ConfigObject}->Get('Ticket::Frontend::StatusView::ViewableTicketsPage') || 50;
+    $Self->{PageShown} = $Self->{Config}->{ViewableTicketsPage} || 50;
     $Self->{ViewType} = $Self->{ParamObject}->GetParam( Param => 'Type' ) || 'Open';
     if ( $Self->{ViewType} =~ /^close/i ) {
         $Self->{ViewType} = 'Closed';

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMailbox.pm - to view all locked tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMailbox.pm,v 1.24 2008-05-08 09:36:36 mh Exp $
+# $Id: AgentTicketMailbox.pm,v 1.25 2008-05-08 22:05:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -33,8 +33,10 @@ sub new {
         }
     }
 
+    $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
+
     $Self->{StateObject}     = Kernel::System::State->new(%Param);
-    $Self->{HighlightColor2} = $Self->{ConfigObject}->Get('HighlightColor2');
+
     $Self->{StartHit}        = $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1;
     $Self->{PageShown}       = $Self->{UserQueueViewShowTickets}
         || $Self->{ConfigObject}->Get('PreferencesGroups')->{QueueViewShownTickets}->{DataSelected}
@@ -49,10 +51,10 @@ sub Run {
     my $Output;
     my $QueueID = $Self->{QueueID};
     my $SortBy = $Self->{ParamObject}->GetParam( Param => 'SortBy' )
-        || $Self->{ConfigObject}->Get('Ticket::Frontend::MailboxSortBy::Default')
+        || $Self->{Config}->{'SortBy::Default'}
         || 'Age';
     my $OrderBy = $Self->{ParamObject}->GetParam( Param => 'OrderBy' )
-        || $Self->{ConfigObject}->Get('Ticket::Frontend::MailboxOrder::Default')
+        || $Self->{Config}->{'Order::Default'}
         || 'Up';
 
     # store last screen
@@ -310,7 +312,7 @@ sub MaskMailboxTicket {
     # create PendingUntil string if UntilTime is < -1
     if ( $Param{UntilTime} ) {
         if ( $Param{UntilTime} < -1 ) {
-            $Param{PendingUntil} = "<font color='$Self->{HighlightColor2}'>";
+            $Param{PendingUntil} = "<font color='red'>";
         }
         $Param{PendingUntil} .= $Self->{LayoutObject}->CustomerAge(
             Age   => $Param{UntilTime},
@@ -369,15 +371,17 @@ sub MaskMailboxTicket {
     }
 
     # run ticket pre menu modules
-    if ( ref( $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') ) eq 'HASH' ) {
+    if ( ref $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') eq 'HASH' ) {
         my %Menus   = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') };
         my $Counter = 0;
         for my $Menu ( sort keys %Menus ) {
 
             # load module
             if ( $Self->{MainObject}->Require( $Menus{$Menu}->{Module} ) ) {
-                my $Object
-                    = $Menus{$Menu}->{Module}->new( %{$Self}, TicketID => $Self->{TicketID}, );
+                my $Object = $Menus{$Menu}->{Module}->new(
+                    %{$Self},
+                    TicketID => $Self->{TicketID},
+                );
 
                 # run module
                 $Counter = $Object->Run(

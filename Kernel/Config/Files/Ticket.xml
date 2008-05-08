@@ -152,7 +152,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.175 2008-05-08 19:49:30 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.176 2008-05-08 22:02:48 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -203,18 +203,6 @@ TimeWorkingHours
         <Description Lang="de">Wenn es möglich sein soll, jeden Agenten des Systems zum Besitzer eines Tickets machen zu können muss dies aktiviert werden (kann für ASP nützlich sein). Normal werden nur die Agenten angezeigt, welche rw-Rechte in der Queue des Tickets haben.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
-        <Setting>
-            <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::QueueViewAllPossibleTickets" Required="1" Valid="1">
-        <Description Lang="en">Show all ro and rw queues in the QueueView (not only rw queues)?</Description>
-        <Description Lang="de">Zeigen aller Queues in der Queue-Ansicht für die Schreib- und Leserechte vorhanden sind? Standardmäßig werden nur die Queues angezeigt, für die Schreibrechte vergeben wurden.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
@@ -1655,42 +1643,6 @@ TimeWorkingHours
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="HighlightAge1" Required="1" Valid="1">
-        <Description Lang="en">Set the age (first level) for highlighting of queues containing untouched tickets older than x minutes.</Description>
-        <Description Lang="de">Zeit ab dem eine Queue mit nicht bearbeiteten Inhalten in erster Stufe gehighlighted wird (Angabe in Minuten).</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
-        <Setting>
-            <String Regex="^[0-9]{1,5}$">1440</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="HighlightColor1" Required="1" Valid="1">
-        <Description Lang="en">Set the color for highlighting queues containing untouched tickets (first level).</Description>
-        <Description Lang="de">Farbe mit der eine Queue mit nicht bearbeiteten Inhalten in erster Stufe gehighlighted wird.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
-        <Setting>
-            <String Regex="">orange</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="HighlightAge2" Required="1" Valid="1">
-        <Description Lang="en">Set the age (second level) highlighting of queues containing untouched tickets older than x minutes.</Description>
-        <Description Lang="de">Zeit ab dem eine Queue mit nicht bearbeiteten Inhalten in zweiter Stufe gehighlighted wird (Angabe in Minuten).</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
-        <Setting>
-            <String Regex="^[0-9]{1,5}$">2880</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="HighlightColor2" Required="1" Valid="1">
-        <Description Lang="en">Set the color for highlighting queues containing untouched tickets (second level).</Description>
-        <Description Lang="de">Farbe mit der eine Queue mit nicht bearbeiteten Inhalten in zweiter Stufe gehighlighted wird.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
-        <Setting>
-            <String Regex="">red</String>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PendingDiffTime" Required="1" Valid="1">
         <Description Lang="en">Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).</Description>
         <Description Lang="de">Zeit die für pending-Status zur aktuellen Zeit addiert wird (Angabe in Sekunden; 86400 Sekunden = 1 Tag).</Description>
@@ -1941,16 +1893,7 @@ TimeWorkingHours
             <String Regex="^[0-9]{1,3}$">18</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::NoEscalationGroup" Required="1" Valid="1">
-        <Description Lang="en">Don't show escalated tickets to agents, who have write permissions for their specified group.</Description>
-        <Description Lang="de">Zeige keinem Agenten mit Schreibrechten aus der angegebenen Gruppe eskalierte Tickets.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
-        <Setting>
-            <String Regex="">some_group</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::QueueMaxShown" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketQueue###MaxShown" Required="1" Valid="1">
         <Description Lang="en">Max shown tickets in QueueView.</Description>
         <Description Lang="de">Maximale Anzahl der in der QueueAnsicht angezeigten Tickets.</Description>
         <Group>Ticket</Group>
@@ -1959,7 +1902,67 @@ TimeWorkingHours
             <String Regex="^[0-9]{1,4}$">1200</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::QueueSort" Required="0" Valid="0">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketQueue###StripEmptyLines" Required="1" Valid="1">
+        <Description Lang="en">Strip empty lines on ticket preview of queue view.</Description>
+        <Description Lang="de">Entfernen von leeren Zeilen in der Ticket Vorschau der QueueView.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketQueue###ViewAllPossibleTickets" Required="1" Valid="1">
+        <Description Lang="en">Show all ro and rw queues in the QueueView (not only rw queues)?</Description>
+        <Description Lang="de">Zeigen aller Queues in der Queue-Ansicht für die Schreib- und Leserechte vorhanden sind? Standardmäßig werden nur die Queues angezeigt, für die Schreibrechte vergeben wurden.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketQueue###HighlightAge1" Required="1" Valid="1">
+        <Description Lang="en">Set the age (first level) for highlighting of queues containing untouched tickets older than x minutes.</Description>
+        <Description Lang="de">Zeit ab dem eine Queue mit nicht bearbeiteten Inhalten in erster Stufe gehighlighted wird (Angabe in Minuten).</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
+        <Setting>
+            <String Regex="^[0-9]{1,5}$">1440</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketQueue###HighlightColor1" Required="1" Valid="1">
+        <Description Lang="en">Set the color for highlighting queues containing untouched tickets (first level).</Description>
+        <Description Lang="de">Farbe mit der eine Queue mit nicht bearbeiteten Inhalten in erster Stufe gehighlighted wird.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
+        <Setting>
+            <String Regex="">orange</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketQueue###HighlightAge2" Required="1" Valid="1">
+        <Description Lang="en">Set the age (second level) highlighting of queues containing untouched tickets older than x minutes.</Description>
+        <Description Lang="de">Zeit ab dem eine Queue mit nicht bearbeiteten Inhalten in zweiter Stufe gehighlighted wird (Angabe in Minuten).</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
+        <Setting>
+            <String Regex="^[0-9]{1,5}$">2880</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketQueue###HighlightColor2" Required="1" Valid="1">
+        <Description Lang="en">Set the color for highlighting queues containing untouched tickets (second level).</Description>
+        <Description Lang="de">Farbe mit der eine Queue mit nicht bearbeiteten Inhalten in zweiter Stufe gehighlighted wird.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
+        <Setting>
+            <String Regex="">red</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketQueue###QueueSort" Required="0" Valid="0">
         <Description Lang="en">Sort the tickets when a single queue is selected in the QueueView in ascending or descending order (after the tickets are sorted by priority). Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the queuID for the key and 0 or 1 for value.</Description>
         <Description Lang="de">Sortierreihenfolge für die Tickets innerhalb der Queue-Ansicht einer einzelnen Queue, nachdem die Sortierung nach Priorität durchgeführt wurde. Mögliche Werte: 0 = Aufsteigend (alte Tickets zuerst), 1 = absteigend. Als Schlüssel muss die Queue-ID angegeben werden, für Inhalt entweder 0 oder 1.</Description>
         <Group>Ticket</Group>
@@ -1971,7 +1974,7 @@ TimeWorkingHours
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::QueueSortBy::Default" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketQueue###SortBy::Default" Required="1" Valid="1">
         <Description Lang="en">Default sort criteria for all queues displayed in the QueueView after sort by priority is done</Description>
         <Description Lang="de">Standard Sortierkriterium für alle Queues innerha lb der Queue-Ansicht nachdem nach der Priorität sortiert wurde.</Description>
         <Group>Ticket</Group>
@@ -2024,7 +2027,7 @@ TimeWorkingHours
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::QueueOrder::Default" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketQueue###Order::Default" Required="1" Valid="1">
         <Description Lang="en">Sort order for all queues in the QueueView after priority sort.</Description>
         <Description Lang="de">Sortierreihenfolge für alle über die Queue-Ansicht angezeigten Tickets, nachdem nach der Priorität sortiert wurde.</Description>
         <Group>Ticket</Group>
@@ -2162,7 +2165,7 @@ TimeWorkingHours
             </Array>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::StatusView::ViewableTicketsPage" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketStatusView###ViewableTicketsPage" Required="1" Valid="1">
         <Description Lang="en">Shows all open tickets no matter wether locked or not by an agent.</Description>
         <Description Lang="de">Zeigt alle offenen Tickets an unabhängig ob Tickets von anderen Agenten gesperrt sind oder nicht.</Description>
         <Group>Ticket</Group>
@@ -2171,7 +2174,7 @@ TimeWorkingHours
             <String Regex="">50</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::StatusSortBy::Default" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketStatusView###SortBy::Default" Required="1" Valid="1">
         <Description Lang="en">Queue sort by default.</Description>
         <Description Lang="de">Standard Sortierung der Queue.</Description>
         <Group>Ticket</Group>
@@ -2224,7 +2227,7 @@ TimeWorkingHours
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::StatusOrder::Default" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketStatusView###Order::Default" Required="1" Valid="1">
         <Description Lang="en">Queue order default (after priority sort). ASC: oldest on top. DESC: latest on top.</Description>
         <Description Lang="de">Standard Reihenfolge der Queue (nach der Prioritaet). ASC: die ältesten Tickets zuerst. DESC: die neuesten zuerst.</Description>
         <Group>Ticket</Group>
@@ -2443,7 +2446,7 @@ TimeWorkingHours
             </Array>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::MailboxSortBy::Default" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketMailbox###SortBy::Default" Required="1" Valid="1">
         <Description Lang="en">Mailbox sort by default.</Description>
         <Description Lang="de">Standard Sortierung der Mailbox.</Description>
         <Group>Ticket</Group>
@@ -2496,7 +2499,7 @@ TimeWorkingHours
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::MailboxOrder::Default" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketMailbox###Order::Default" Required="1" Valid="1">
         <Description Lang="en">Mailbox order default.</Description>
         <Description Lang="de">Standard Reihenfolge der Mailbox.</Description>
         <Group>Ticket</Group>

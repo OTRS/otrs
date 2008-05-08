@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.48 2008-05-08 09:36:37 mh Exp $
+# $Id: AgentTicketQueue.pm,v 1.49 2008-05-08 22:05:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -37,6 +37,8 @@ sub new {
             $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
         }
     }
+
+    $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
 
     # some new objects
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
@@ -63,7 +65,7 @@ sub new {
     $Self->{Limit} = $Self->{ViewableTickets} + $Self->{Start} - 1;
 
     # sure is sure!
-    $Self->{MaxLimit} = $Self->{ConfigObject}->Get('Ticket::Frontend::QueueMaxShown') || 1200;
+    $Self->{MaxLimit} = $Self->{Config}->{MaxShown} || 1200;
     if ( $Self->{Limit} > $Self->{MaxLimit} ) {
         $Self->{Limit} = $Self->{MaxLimit};
     }
@@ -76,9 +78,6 @@ sub new {
     $Self->{ViewableStateIDs} = \@ViewableStateIDs;
     my @ViewableLockIDs = $Self->{LockObject}->LockViewableLock( Type => 'ID' );
     $Self->{ViewableLockIDs} = \@ViewableLockIDs;
-
-    $Self->{HighlightColor1} = $Self->{ConfigObject}->Get('HighlightColor1');
-    $Self->{HighlightColor2} = $Self->{ConfigObject}->Get('HighlightColor2');
 
     return $Self;
 }
@@ -123,52 +122,6 @@ sub Run {
     $Self->{LayoutObject}->Print( Output => \$Output );
     $Output = '';
 
-    # check old tickets, show it and return if needed
-    my $NoEscalationGroup = $Self->{ConfigObject}->Get('Ticket::Frontend::NoEscalationGroup') || '';
-    if (
-        $Self->{UserID} eq '1'
-        || (
-            $Self->{"UserIsGroup[$NoEscalationGroup]"}
-            && $Self->{"UserIsGroup[$NoEscalationGroup]"} eq 'Yes'
-        )
-        )
-    {
-
-        # do not show escalated tickets
-    }
-    else {
-
-#        if (my @ViewableTickets = $Self->{TicketObject}->GetOverTimeTickets(UserID=> $Self->{UserID})) {
-#            # show over time ticket's
-#            $Self->{LayoutObject}->Block(
-#                Name => 'EscalationNav',
-#                Data => {
-#                    Message => 'Please answer this ticket(s) to get back to the normal queue view!',
-#                },
-#            );
-#            $Self->{LayoutObject}->Print(
-#                Output => \$Self->{LayoutObject}->Output(
-#                    TemplateFile => 'AgentTicketQueue',
-#                    Data => {
-#                        %Param,
-#                    },
-#                ),
-#            );
-#            my $Counter = 0;
-#            for (@ViewableTickets) {
-#                $Counter++;
-#                $Self->{LayoutObject}->Print(
-#                    Output => \$Self->ShowTicket(
-#                        TicketID => $_,
-#                        Counter => $Counter,
-#                    ),
-#                );
-#            }
-#            # get page footer
-#            return $Self->{LayoutObject}->Footer();
-#        }
-    }
-
     # build queue view ...
     my @ViewableQueueIDs = ();
     if ( $Self->{QueueID} == 0 ) {
@@ -187,7 +140,7 @@ sub Run {
 
     # get user groups
     my $Type = 'rw';
-    if ( $Self->{ConfigObject}->Get('Ticket::QueueViewAllPossibleTickets') ) {
+    if ( $Self->{Config}->{ViewAllPossibleTickets} ) {
         $Type = 'ro';
     }
     my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
@@ -199,7 +152,7 @@ sub Run {
 
     # get data (viewable tickets...)
     my @ViewableTickets = ();
-    my $SortBy      = $Self->{ConfigObject}->Get('Ticket::Frontend::QueueSortBy::Default') || 'Age';
+    my $SortBy      = $Self->{Config}->{'SortBy::Default'} || 'Age';
     my %SortOptions = (
         Owner            => 'st.user_id',
         CustomerID       => 'st.customer_id',
@@ -245,21 +198,16 @@ sub Run {
         TicketFreeText16 => 'st.freetext16',
     );
 
-    my $Order = $Self->{ConfigObject}->Get('Ticket::Frontend::QueueOrder::Default') || 'Up';
+    my $Order = $Self->{Config}->{'Order::Default'} || 'Up';
     if ( @ViewableQueueIDs && @GroupIDs ) {
 
         # if we have only one queue, check if there
         # is a setting in Config.pm for sorting
         if ( $#ViewableQueueIDs == 0 ) {
             my $QueueID = $ViewableQueueIDs[0];
-            if ( $Self->{ConfigObject}->Get('Ticket::Frontend::QueueSort') ) {
-                if (
-                    defined(
-                        $Self->{ConfigObject}->Get('Ticket::Frontend::QueueSort')->{$QueueID}
-                    )
-                    )
-                {
-                    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::QueueSort')->{$QueueID} ) {
+            if ( $Self->{Config}->{QueueSort} ) {
+                if ( defined $Self->{Config}->{QueueSort}->{$QueueID} ) {
+                    if ( $Self->{Config}->{QueueSort}->{$QueueID} ) {
                         $Order = 'Down';
                     }
                     else {
@@ -344,7 +292,7 @@ sub ShowTicket {
     my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle( TicketID => $TicketID );
 
     # run article modules
-    if ( ref( $Self->{ConfigObject}->Get('Ticket::Frontend::ArticlePreViewModule') ) eq 'HASH' ) {
+    if ( ref $Self->{ConfigObject}->Get('Ticket::Frontend::ArticlePreViewModule') eq 'HASH' ) {
         my %Jobs = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::ArticlePreViewModule') };
         for my $Job ( sort keys %Jobs ) {
 
@@ -458,7 +406,7 @@ sub ShowTicket {
             VMax            => $Self->{ConfigObject}->Get('DefaultPreViewLines') || 25,
             LinkFeature     => 1,
             HTMLResultMode  => 1,
-            StripEmptyLines => 1,
+            StripEmptyLines => $Self->{Config}->{StripEmptyLines},
         );
 
         # do charset check
@@ -485,7 +433,7 @@ sub ShowTicket {
     my %AclAction = $Self->{TicketObject}->TicketAclActionData();
 
     # run ticket pre menu modules
-    if ( ref( $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') ) eq 'HASH' ) {
+    if ( ref $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') eq 'HASH' ) {
         my %Menus   = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') };
         my $Counter = 0;
         for my $Menu ( sort keys %Menus ) {
@@ -869,12 +817,11 @@ sub _MaskQueueView {
     my %UsedQueue       = ();
     my @ListedQueues    = ();
     my $Level           = 0;
-    $Self->{HighlightAge1}   = $Self->{ConfigObject}->Get('HighlightAge1');
-    $Self->{HighlightAge2}   = $Self->{ConfigObject}->Get('HighlightAge2');
-    $Self->{HighlightColor1} = $Self->{ConfigObject}->Get('HighlightColor1');
-    $Self->{HighlightColor2} = $Self->{ConfigObject}->Get('HighlightColor2');
-    my $CustomQueue = $Self->{ConfigObject}->Get('Ticket::CustomQueue');
-    $CustomQueue = $Self->{LayoutObject}->{LanguageObject}->Get($CustomQueue);
+    my $CustomQueue     = $Self->{LayoutObject}->{LanguageObject}->Get($Self->{CustomQueue});
+    $Self->{HighlightAge1}   = $Self->{Config}->{HighlightAge1};
+    $Self->{HighlightAge2}   = $Self->{Config}->{HighlightAge2};
+    $Self->{HighlightColor1} = $Self->{Config}->{HighlightColor1};
+    $Self->{HighlightColor2} = $Self->{Config}->{HighlightColor2};
 
     $Param{SelectedQueue} = $AllQueues{$QueueID} || $CustomQueue;
     my @MetaQueue = split( /::/, $Param{SelectedQueue} );

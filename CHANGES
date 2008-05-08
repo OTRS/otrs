@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.645 2008-05-08 19:46:58 martin Exp $
+# $Id: CHANGES,v 1.646 2008-05-08 22:02:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 CVS HEAD (????/??/??)
+ - (2008/05/07) Renamed/cleanup of all config setting names for QueueView,
+    StatusView and LockedTickets.
  - (2008/05/07) Improved use of existing unique-names in xml definition of
     scripts/database/otrs-schema.xml (not longer auto generated).
  - (2008/05/07) Improved oracle database backend, generation of long
