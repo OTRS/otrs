@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.30.2.4 2008-04-07 11:04:06 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.30.2.5 2008-05-08 19:47:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30.2.4 $';
+$VERSION = '$Revision: 1.30.2.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -540,10 +540,25 @@ sub Run {
         if ($Data{SenderType} !~ /customer/) {
             my $To = $Data{To};
             my $From = $Data{From};
+
+            # set OrigFrom for correct email quoteing (xxxx wrote)
+            $Data{OrigFrom} = $Data{From};
+
+            # replace From/To, To/From because sender is agent
             $Data{From} = $To;
             $Data{To} = $Data{From};
             $Data{ReplyTo} = '';
         }
+        else {
+
+            # set OrigFrom for correct email quoteing (xxxx wrote)
+            $Data{OrigFrom} = $Data{From};
+        }
+
+        # build OrigFromName (to only use the realname)
+        $Data{OrigFromName} = $Data{OrigFrom};
+        $Data{OrigFromName} =~ s/<.*>|\(.*\)|\"|;|,//g;
+        $Data{OrigFromName} =~ s/( $)|(  $)//g;
 
         # get customer data
         my %Customer = ();
@@ -641,7 +656,6 @@ sub Run {
                 }
             }
         }
-        $Data{OrigFrom} = $Data{From};
 
         # find duplicate addresses
         my %Recipient = ();
@@ -685,7 +699,7 @@ sub Run {
                     $From = $Self->{CustomerUserObject}->CustomerName(UserLogin => $Ticket{CustomerUserID});
                 }
                 if (!$From) {
-                    $From = $Data{OrigFrom} || '';
+                    $From = $Data{To} || '';
                     $From =~ s/<.*>|\(.*\)|\"|;|,//g;
                     $From =~ s/( $)|(  $)//g;
                 }
