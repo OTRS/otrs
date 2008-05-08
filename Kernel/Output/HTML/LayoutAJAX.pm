@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutAJAX.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutAJAX.pm,v 1.4 2008-04-29 12:11:52 tr Exp $
+# $Id: LayoutAJAX.pm,v 1.5 2008-05-08 08:13:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =item BuildJSON()
 
@@ -54,26 +54,34 @@ sub BuildJSON {
                 return;
             }
         }
-        # create OptionRef
-        my $OptionRef = $Self->_BuildSelectionOptionRefCreate(
-            %Param,
-        );
-        # create AttributeRef
-        my $AttributeRef = $Self->_BuildSelectionAttributeRefCreate(%Param);
-        # create DataRef
-        my $DataRef = $Self->_BuildSelectionDataRefCreate(
-            Data => $Param{Data},
-            AttributeRef => $AttributeRef,
-            OptionRef => $OptionRef,
-        );
-        if ($Count) {
-            $JSON .= ",";
+        if ( ref($Param{Data}) eq '' ) {
+            $JSON .= "'$Param{Name}':[";
+            $JSON .= "'$Param{Data}'";
+            $JSON .= "]";
         }
-        # generate output
-        $JSON .= ${$Self->_BuildJSONOutput(
-            AttributeRef => $AttributeRef,
-            DataRef => $DataRef,
-        )};
+        else {
+            # create OptionRef
+            my $OptionRef = $Self->_BuildSelectionOptionRefCreate(
+                %Param,
+                HTMLQuote => 0,
+            );
+            # create AttributeRef
+            my $AttributeRef = $Self->_BuildSelectionAttributeRefCreate(%Param);
+            # create DataRef
+            my $DataRef = $Self->_BuildSelectionDataRefCreate(
+                Data => $Param{Data},
+                AttributeRef => $AttributeRef,
+                OptionRef => $OptionRef,
+            );
+            if ($Count) {
+                $JSON .= ",";
+            }
+            # generate output
+            $JSON .= ${$Self->_BuildJSONOutput(
+                AttributeRef => $AttributeRef,
+                DataRef => $DataRef,
+            )};
+        }
         $Count++;
     }
     return $JSON.'}';
@@ -144,6 +152,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2008-04-29 12:11:52 $
+$Revision: 1.5 $ $Date: 2008-05-08 08:13:13 $
 
 =cut
