@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageDB.pm,v 1.53 2008-05-06 22:33:10 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.54 2008-05-08 08:14:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -69,6 +69,12 @@ sub ArticleDelete {
     $Self->ArticleDeletePlain(
         ArticleID => $Param{ArticleID},
         UserID    => $Param{UserID},
+    );
+
+    # delete article flags
+    return if ! $Self->{DBObject}->Do(
+        SQL  => 'DELETE FROM article_flag WHERE article_id = ?',
+        Bind => [ \$Param{ArticleID} ],
     );
 
     # delete storage directory
