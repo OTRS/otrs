@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - print layout for agent interface
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.pm,v 1.51 2008-05-08 09:36:37 mh Exp $
+# $Id: AgentTicketPrint.pm,v 1.52 2008-05-08 09:58:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -190,8 +190,9 @@ sub Run {
         );
 
         # create first pdf page
-        $Self->{PDFObject}
-            ->PageNew( %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount}, );
+        $Self->{PDFObject}->PageNew(
+            %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount},
+        );
         $Page{PageCount}++;
 
         # output ticket infos
@@ -485,8 +486,9 @@ sub _PDFOutputTicketInfos {
             last;
         }
         else {
-            $Self->{PDFObject}
-                ->PageNew( %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount}, );
+            $Self->{PDFObject}->PageNew(
+                %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount},
+            );
             $Page{PageCount}++;
         }
     }
@@ -684,8 +686,9 @@ sub _PDFOutputTicketFreeText {
                 last;
             }
             else {
-                $Self->{PDFObject}
-                    ->PageNew( %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount}, );
+                $Self->{PDFObject}->PageNew(
+                    %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount},
+                );
                 $Page{PageCount}++;
             }
         }
@@ -867,8 +870,9 @@ sub _PDFOutputCustomerInfos {
                 last;
             }
             else {
-                $Self->{PDFObject}
-                    ->PageNew( %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount}, );
+                $Self->{PDFObject}->PageNew(
+                    %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount},
+                );
                 $Page{PageCount}++;
             }
         }
@@ -1029,8 +1033,9 @@ sub _PDFOutputArticles {
                 last;
             }
             else {
-                $Self->{PDFObject}
-                    ->PageNew( %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount}, );
+                $Self->{PDFObject}->PageNew(
+                    %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount},
+                );
                 $Page{PageCount}++;
             }
         }

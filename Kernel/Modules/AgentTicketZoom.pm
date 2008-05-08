@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.50 2008-05-08 09:36:37 mh Exp $
+# $Id: AgentTicketZoom.pm,v 1.51 2008-05-08 09:58:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -575,8 +575,9 @@ sub MaskAgentZoom {
                             Name => 'TicketFreeTextLink',
                             Data => {
                                 %Param, %AclAction,
-                                TicketFreeTextLink => $Self->{ConfigObject}
-                                    ->Get( 'TicketFreeText' . $Count . '::Link' ),
+                                TicketFreeTextLink => $Self->{ConfigObject}->Get(
+                                    'TicketFreeText' . $Count . '::Link'
+                                ),
                                 TicketFreeKey  => $Param{ 'TicketFreeKey' . $Count },
                                 TicketFreeText => $Param{ 'TicketFreeText' . $Count },
                                 Count          => $Count,
@@ -764,8 +765,9 @@ sub MaskAgentZoom {
 
         # show accounted article time
         if ( $Self->{ConfigObject}->Get('Ticket::ZoomTimeDisplay') ) {
-            my $ArticleTime = $Self->{TicketObject}
-                ->ArticleAccountedTimeGet( ArticleID => $Article{ArticleID} );
+            my $ArticleTime = $Self->{TicketObject}->ArticleAccountedTimeGet(
+                ArticleID => $Article{ArticleID}
+            );
             $Self->{LayoutObject}->Block(
                 Name => "Row",
                 Data => {
@@ -970,8 +972,9 @@ sub MaskAgentZoom {
                     }
                     if ( $Config->{RequiredLock} ) {
                         if (
-                            $Self->{TicketObject}
-                            ->LockIsTicketLocked( TicketID => $Param{TicketID} )
+                            $Self->{TicketObject}->LockIsTicketLocked(
+                                TicketID => $Param{TicketID}
+                            )
                             )
                         {
                             my $AccessOk = $Self->{TicketObject}->OwnerCheck(
@@ -1016,8 +1019,9 @@ sub MaskAgentZoom {
                     }
                     if ( $Config->{RequiredLock} ) {
                         if (
-                            $Self->{TicketObject}
-                            ->LockIsTicketLocked( TicketID => $Param{TicketID} )
+                            $Self->{TicketObject}->LockIsTicketLocked(
+                                TicketID => $Param{TicketID}
+                            )
                             )
                         {
                             my $AccessOk = $Self->{TicketObject}->OwnerCheck(

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.40 2008-05-08 09:36:36 mh Exp $
+# $Id: AgentTicketCompose.pm,v 1.41 2008-05-08 09:58:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -576,8 +576,9 @@ sub Run {
             %Data = $Self->{TicketObject}->ArticleGet( ArticleID => $GetParam{ArticleID} );
         }
         else {
-            %Data = $Self->{TicketObject}
-                ->ArticleLastCustomerArticle( TicketID => $Self->{TicketID} );
+            %Data = $Self->{TicketObject}->ArticleLastCustomerArticle(
+                TicketID => $Self->{TicketID}
+            );
         }
 
         # check article type and replace To with From (in case)
@@ -592,8 +593,9 @@ sub Run {
         # get customer data
         my %Customer = ();
         if ( $Ticket{CustomerUserID} ) {
-            %Customer = $Self->{CustomerUserObject}
-                ->CustomerUserDataGet( User => $Ticket{CustomerUserID} );
+            %Customer = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                User => $Ticket{CustomerUserID}
+            );
         }
 
         # check if original content isn't text/plain or text/html, don't use it

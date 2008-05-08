@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.61 2008-05-08 09:36:36 mh Exp $
+# $Id: AdminPackageManager.pm,v 1.62 2008-05-08 09:58:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -236,8 +236,9 @@ sub Run {
                             }
                             if ( $Hash->{Tag} =~ /^Table/ && $Hash->{TagType} eq 'End' ) {
                                 push( @DatabaseBuffer, $Hash );
-                                my @SQL = $Self->{DBObject}
-                                    ->SQLProcessor( Database => \@DatabaseBuffer );
+                                my @SQL = $Self->{DBObject}->SQLProcessor(
+                                    Database => \@DatabaseBuffer
+                                );
                                 my @SQLPost = $Self->{DBObject}->SQLProcessorPost();
                                 push( @SQL, @SQLPost );
                                 for my $SQL (@SQL) {
@@ -451,8 +452,9 @@ sub Run {
                             }
                             if ( $Hash->{Tag} =~ /^Table/ && $Hash->{TagType} eq 'End' ) {
                                 push( @DatabaseBuffer, $Hash );
-                                my @SQL = $Self->{DBObject}
-                                    ->SQLProcessor( Database => \@DatabaseBuffer );
+                                my @SQL = $Self->{DBObject}->SQLProcessor(
+                                    Database => \@DatabaseBuffer
+                                );
                                 my @SQLPost = $Self->{DBObject}->SQLProcessorPost();
                                 push( @SQL, @SQLPost );
                                 for my $SQL (@SQL) {

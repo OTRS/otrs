@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.77 2008-05-08 09:36:19 mh Exp $
+# $Id: Package.pm,v 1.78 2008-05-08 09:58:20 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.77 $) [1];
+$VERSION = qw($Revision: 1.78 $) [1];
 
 =head1 NAME
 
@@ -1216,8 +1216,9 @@ sub PackageBuild {
     return $XML if $Param{Type};
 
     $XML .= "    <BuildDate>"
-        . $Self->{TimeObject}
-        ->SystemTime2TimeStamp( SystemTime => $Self->{TimeObject}->SystemTime(), )
+        . $Self->{TimeObject}->SystemTime2TimeStamp(
+        SystemTime => $Self->{TimeObject}->SystemTime(),
+        )
         . "</BuildDate>\n";
     $XML .= "    <BuildHost>" . $Self->{ConfigObject}->Get('FQDN') . "</BuildHost>\n";
     if ( $Param{Filelist} ) {
@@ -1505,8 +1506,10 @@ sub _Database {
     }
 
     if ( ref $Param{Database} ne 'ARRAY' ) {
-        $Self->{LogObject}
-            ->Log( Priority => 'error', Message => 'Need array ref in Database param!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need array ref in Database param!'
+        );
         return;
     }
     my @SQL = $Self->{DBObject}->SQLProcessor( Database => $Param{Database} );
@@ -1608,8 +1611,10 @@ sub _CheckFramework {
 
     # check format
     if ( ref $Param{Framework} ne 'ARRAY' ) {
-        $Self->{LogObject}
-            ->Log( Priority => 'error', Message => 'Need array ref in Framework param!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need array ref in Framework param!'
+        );
         return;
     }
 
@@ -2100,6 +2105,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.77 $ $Date: 2008-05-08 09:36:19 $
+$Revision: 1.78 $ $Date: 2008-05-08 09:58:20 $
 
 =cut

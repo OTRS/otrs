@@ -2,7 +2,7 @@
 # EmailParser.t - email parser tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.t,v 1.14 2008-05-08 09:35:57 mh Exp $
+# $Id: EmailParser.t,v 1.15 2008-05-08 09:58:38 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -74,8 +74,9 @@ $Self->Is(
 );
 
 $Self->Is(
-    $Self->{EmailParserObject}
-        ->GetEmailAddress( Email => 'Juergen Weber <juergen+qeber@air.com> (Comment)' ),
+    $Self->{EmailParserObject}->GetEmailAddress(
+        Email => 'Juergen Weber <juergen+qeber@air.com> (Comment)'
+    ),
     'juergen+qeber@air.com',
     "#1 GetEmailAddress()",
 );

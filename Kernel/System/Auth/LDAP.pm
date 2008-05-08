@@ -2,7 +2,7 @@
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.45 2008-05-08 09:36:19 mh Exp $
+# $Id: LDAP.pm,v 1.46 2008-05-08 09:58:20 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -445,8 +445,9 @@ sub Auth {
                             my %Groups = $Self->{GroupObject}->GroupList();
                             for (
                                 @{
-                                    $Self->{ConfigObject}
-                                        ->Get( 'UserSyncLDAPGroups' . $Self->{Count} )
+                                    $Self->{ConfigObject}->Get(
+                                        'UserSyncLDAPGroups' . $Self->{Count}
+                                        )
                                 }
                                 )
                             {
@@ -585,8 +586,9 @@ sub Auth {
 
                     # sync groups permissions
                     my %SGroups = %{
-                        $Self->{ConfigObject}
-                            ->Get( 'UserSyncLDAPGroupsDefination' . $Self->{Count} )->{$GroupDN}
+                        $Self->{ConfigObject}->Get(
+                            'UserSyncLDAPGroupsDefination' . $Self->{Count}
+                            )->{$GroupDN}
                         };
                     for my $SGroup ( sort keys %SGroups ) {
                         my %Permissions = %{ $SGroups{$SGroup} };
@@ -713,8 +715,9 @@ sub Auth {
 
                     # sync groups permissions
                     my %SRoles = %{
-                        $Self->{ConfigObject}
-                            ->Get( 'UserSyncLDAPRolesDefination' . $Self->{Count} )->{$GroupDN}
+                        $Self->{ConfigObject}->Get(
+                            'UserSyncLDAPRolesDefination' . $Self->{Count}
+                            )->{$GroupDN}
                         };
                     for my $SRole ( sort keys %SRoles ) {
 
@@ -808,8 +811,9 @@ sub Auth {
                 );
             }
             my %SyncConfig = %{
-                $Self->{ConfigObject}
-                    ->Get( 'UserSyncLDAPAttibuteGroupsDefination' . $Self->{Count} )
+                $Self->{ConfigObject}->Get(
+                    'UserSyncLDAPAttibuteGroupsDefination' . $Self->{Count}
+                    )
                 };
             for my $Attribute ( keys %SyncConfig ) {
                 my %AttributeValues = %{ $SyncConfig{$Attribute} };
@@ -916,8 +920,9 @@ sub Auth {
                 );
             }
             my %SyncConfig = %{
-                $Self->{ConfigObject}
-                    ->Get( 'UserSyncLDAPAttibuteRolesDefination' . $Self->{Count} )
+                $Self->{ConfigObject}->Get(
+                    'UserSyncLDAPAttibuteRolesDefination' . $Self->{Count}
+                    )
                 };
             for my $Attribute ( keys %SyncConfig ) {
                 my %AttributeValues = %{ $SyncConfig{$Attribute} };

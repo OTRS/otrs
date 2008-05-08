@@ -2,7 +2,7 @@
 # AuthSession.t - auth session tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AuthSession.t,v 1.8 2008-05-08 09:35:57 mh Exp $
+# $Id: AuthSession.t,v 1.9 2008-05-08 09:58:38 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,8 +19,10 @@ for my $Module (qw(DB FS IPC)) {
         next;
     }
 
-    $Self->{ConfigObject}
-        ->Set( Key => 'SessionModule', Value => "Kernel::System::AuthSession::$Module" );
+    $Self->{ConfigObject}->Set(
+        Key   => 'SessionModule',
+        Value => "Kernel::System::AuthSession::$Module"
+    );
 
     $Self->{SessionObject} = Kernel::System::AuthSession->new( %{$Self} );
 
