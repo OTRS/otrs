@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.646 2008-05-08 22:02:48 martin Exp $
+# $Id: CHANGES,v 1.647 2008-05-09 12:45:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -270,6 +270,7 @@ CVS HEAD (????/??/??)
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.7 (2008/??/??)
+ - (2008/05/09) Added new catalonian language translation. Thanks to Antonio Linde!
  - (2008/05/08) Fixed bug# 2683 - $QData{"OrigFrom"} in Reply leads to wrong
     quote in email answer if sender is agent (To of origin email is used).
  - (2008/05/08) Fixed bug# 2604 - Response Format - Date of Original Mail is
