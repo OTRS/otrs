@@ -107,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.149.2.6 2008-04-10 16:32:26 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.149.2.7 2008-05-09 12:46:09 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -206,8 +206,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultLanguage" Required="1" Valid="1">
-        <Description Lang="en">The default frontend language. Possible values are ar_SA, bg, cz, da, de, en, el, es, et, fi, fr, hu, it, nb_NO, nl, pl, pt, pt_BR ru, th, sk_SK, sv, vi_VN and zh_CN.</Description>
-        <Description Lang="de">Standard Frontend Sprache. Mögliche Werte sind ar_SA, bg, cz, da, de, en, el, es, et, fi, fr, hu, it, nb_NO, nl, pl, pt, pt_BR ru, th, sk_SK, sv, vi_VN und zh_CN.</Description>
+        <Description Lang="en">The default frontend language. Possible values are ar_SA, bg, ct, cz, da, de, en, el, es, et, fi, fr, hu, it, nb_NO, nl, pl, pt, pt_BR ru, th, sk_SK, sv, vi_VN and zh_CN.</Description>
+        <Description Lang="de">Standard Frontend Sprache. Mögliche Werte sind ar_SA, bg, ct, cz, da, de, en, el, es, et, fi, fr, hu, it, nb_NO, nl, pl, pt, pt_BR ru, th, sk_SK, sv, vi_VN und zh_CN.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -223,6 +223,7 @@ TimeWorkingHours
             <Hash>
                 <Item Key="ar_SA">Arabic (Saudi Arabia)</Item>
                 <Item Key="bg">Bulgarian (&amp;#x0411;&amp;#x044a;&amp;#x043b;&amp;#x0433;&amp;#x0430;&amp;#x0440;&amp;#x0441;&amp;#x043a;&amp;#x0438;)</Item>
+                <Item Key="ct">Catal&amp;agrave;</Item>
                 <Item Key="cz">Czech (&amp;#x010c;esky)</Item>
                 <Item Key="da">Dansk</Item>
                 <Item Key="de">Deutsch</Item>
