@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2008-05-07 09:34:58
+--  driver: oracle, generated: 2008-05-09 15:26:20
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 ALTER TABLE valid ADD CONSTRAINT FK_valid_create_by_id FOREIGN KEY (create_by) REFERENCES system_user(id);
@@ -151,9 +151,10 @@ ALTER TABLE service ADD CONSTRAINT FK_service_create_by_id FOREIGN KEY (create_b
 ALTER TABLE service ADD CONSTRAINT FK_service_change_by_id FOREIGN KEY (change_by) REFERENCES system_user(id);
 ALTER TABLE service_customer_user ADD CONSTRAINT FK_service_customer_user_ser07 FOREIGN KEY (service_id) REFERENCES service(id);
 ALTER TABLE service_customer_user ADD CONSTRAINT FK_service_customer_user_cred0 FOREIGN KEY (create_by) REFERENCES system_user(id);
-ALTER TABLE sla ADD CONSTRAINT FK_sla_service_id_id FOREIGN KEY (service_id) REFERENCES service(id);
 ALTER TABLE sla ADD CONSTRAINT FK_sla_create_by_id FOREIGN KEY (create_by) REFERENCES system_user(id);
 ALTER TABLE sla ADD CONSTRAINT FK_sla_change_by_id FOREIGN KEY (change_by) REFERENCES system_user(id);
+ALTER TABLE service_sla ADD CONSTRAINT FK_service_sla_service_id_id FOREIGN KEY (service_id) REFERENCES service(id);
+ALTER TABLE service_sla ADD CONSTRAINT FK_service_sla_sla_id_id FOREIGN KEY (sla_id) REFERENCES sla(id);
 ALTER TABLE ticket_index ADD CONSTRAINT FK_ticket_index_group_id_id FOREIGN KEY (group_id) REFERENCES groups(id);
 ALTER TABLE ticket_index ADD CONSTRAINT FK_ticket_index_queue_id_id FOREIGN KEY (queue_id) REFERENCES queue(id);
 ALTER TABLE ticket_index ADD CONSTRAINT FK_ticket_index_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket(id);

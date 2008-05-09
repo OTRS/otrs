@@ -5,7 +5,7 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 
-    $Id: otrs-schema.xml,v 1.83 2008-05-07 08:37:07 martin Exp $
+    $Id: otrs-schema.xml,v 1.84 2008-05-09 13:24:35 mh Exp $
 
 -->
 
@@ -1177,7 +1177,7 @@
     </ForeignKey>
 </Table>
 
-<!-- ervice_customer_user- relation customeruser<->service -->
+<!-- service_customer_user - relation customeruser<->service -->
 <Table Name="service_customer_user">
     <Column Name="customer_user_login" Required="true" Size="100" Type="VARCHAR"/>
     <Column Name="service_id" Required="true" Type="INTEGER"/>
@@ -1197,10 +1197,9 @@
     </ForeignKey>
 </Table>
 
-<!-- service - sla -->
+<!-- sla -->
 <Table Name="sla">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
-    <Column Name="service_id" Required="true" Type="INTEGER"/>
     <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="calendar_name" Required="false" Size="100" Type="VARCHAR"/>
     <Column Name="first_response_time" Required="true" Type="INTEGER"/>
@@ -1218,12 +1217,25 @@
     <Unique Name="sla_name">
         <UniqueColumn Name="name"/>
     </Unique>
-    <ForeignKey ForeignTable="service">
-        <Reference Local="service_id" Foreign="id"/>
-    </ForeignKey>
     <ForeignKey ForeignTable="system_user">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
+    </ForeignKey>
+</Table>
+
+<!-- service_sla - relation service<->sla -->
+<Table Name="service_sla">
+    <Column Name="service_id" Required="true" Type="INTEGER"/>
+    <Column Name="sla_id" Required="true" Type="INTEGER"/>
+    <Unique Name="service_sla">
+        <UniqueColumn Name="service_id"/>
+        <UniqueColumn Name="sla_id"/>
+    </Unique>
+    <ForeignKey ForeignTable="service">
+        <Reference Local="service_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="sla">
+        <Reference Local="sla_id" Foreign="id"/>
     </ForeignKey>
 </Table>
 

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2008-05-07 10:39:52
+--  driver: mssql, generated: 2008-05-09 15:26:19
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -753,7 +753,6 @@ CREATE INDEX service_customer_user_service_id ON service_customer_user (service_
 -- ----------------------------------------------------------
 CREATE TABLE sla (
     id INTEGER NOT NULL IDENTITY(1,1) ,
-    service_id INTEGER NOT NULL,
     name VARCHAR (200) NOT NULL,
     calendar_name VARCHAR (100),
     first_response_time INTEGER NOT NULL,
@@ -770,6 +769,14 @@ CREATE TABLE sla (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
     UNIQUE sla_name (name)
+);
+-- ----------------------------------------------------------
+--  create table service_sla
+-- ----------------------------------------------------------
+CREATE TABLE service_sla (
+    service_id INTEGER NOT NULL,
+    sla_id INTEGER NOT NULL,
+    UNIQUE service_sla (service_id, sla_id)
 );
 -- ----------------------------------------------------------
 --  create table sessions

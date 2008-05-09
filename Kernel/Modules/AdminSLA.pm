@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSLA.pm - admin frontend to manage slas
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSLA.pm,v 1.14 2008-05-08 13:43:11 mh Exp $
+# $Id: AdminSLA.pm,v 1.15 2008-05-09 13:19:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,13 +19,13 @@ use Kernel::System::SLA;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
+    my $Self = { %Param };
     bless( $Self, $Type );
 
     # check all needed objects
@@ -48,18 +48,21 @@ sub Run {
     # sla edit
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'SLAEdit' ) {
-        my %SLAData;
 
         # get params
+        my %SLAData;
         $SLAData{SLAID} = $Self->{ParamObject}->GetParam( Param => 'SLAID' );
+
         if ( $SLAData{SLAID} ) {
+
+            # get sla data
             %SLAData = $Self->{SLAObject}->SLAGet(
                 SLAID  => $SLAData{SLAID},
                 UserID => $Self->{UserID},
             );
         }
         else {
-            $SLAData{ServiceID} = $Self->{ParamObject}->GetParam( Param => "ServiceID" );
+            $SLAData{ServiceID} = $Self->{ParamObject}->GetParam( Param => 'ServiceID' );
         }
 
         # get service list
@@ -75,9 +78,10 @@ sub Run {
         }
         $Param{ServiceOptionStrg} = $Self->{LayoutObject}->BuildSelection(
             Data         => \%ServiceList,
-            Name         => 'ServiceID',
-            SelectedID   => $SLAData{ServiceID} || '',
-            PossibleNone => 1,
+            Name         => 'ServiceIDs',
+            SelectedID   => $SLAData{ServiceIDs} || [],
+            Multiple     => 1,
+            Size         => 5,
             TreeView     => $TreeView,
             Sort         => 'TreeView',
             Translation  => 0,
@@ -139,11 +143,16 @@ sub Run {
         # output sla edit
         $Self->{LayoutObject}->Block(
             Name => 'Overview',
-            Data => { %Param, },
+            Data => {
+                %Param,
+            },
         );
         $Self->{LayoutObject}->Block(
             Name => 'SLAEdit',
-            Data => { %Param, %SLAData, },
+            Data => {
+                %Param,
+                %SLAData,
+            },
         );
 
         # output overview
@@ -154,6 +163,7 @@ sub Run {
             Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
+
         return $Output;
     }
 
@@ -161,31 +171,37 @@ sub Run {
     # sla save
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'SLASave' ) {
-        my %SLAData;
 
         # get params
-        for (
-            qw(SLAID ServiceID Name Calendar FirstResponseTime FirstResponseNotify SolutionTime SolutionNotify UpdateTime UpdateNotify ValidID Comment)
-            )
-        {
-            $SLAData{$_} = $Self->{ParamObject}->GetParam( Param => "$_" ) || '';
+        my %SLAData;
+        for my $Param ( qw(SLAID Name Calendar FirstResponseTime FirstResponseNotify SolutionTime SolutionNotify UpdateTime UpdateNotify ValidID Comment) ) {
+            $SLAData{$Param} = $Self->{ParamObject}->GetParam( Param => $Param ) || '';
         }
+
+        # get service ids
+        my @ServiceIDs = $Self->{ParamObject}->GetArray( Param => 'ServiceIDs' );
+        $SLAData{ServiceIDs} = \@ServiceIDs;
 
         # save to database
+        my $Success;
         if ( !$SLAData{SLAID} ) {
-            my $Success = $Self->{SLAObject}->SLAAdd( %SLAData, UserID => $Self->{UserID}, );
-            if ( !$Success ) {
-                return $Self->{LayoutObject}->ErrorScreen();
-            }
+
+            # add a new sla
+            $Success = $Self->{SLAObject}->SLAAdd(
+                %SLAData,
+                UserID => $Self->{UserID},
+            );
         }
         else {
-            my $Success = $Self->{SLAObject}->SLAUpdate( %SLAData, UserID => $Self->{UserID}, );
-            if ( !$Success ) {
-                return $Self->{LayoutObject}->ErrorScreen();
-            }
+
+            # update the sla
+            $Success = $Self->{SLAObject}->SLAUpdate(
+                %SLAData,
+                UserID => $Self->{UserID},
+            );
         }
 
-        # redirect to overview
+        return $Self->{LayoutObject}->ErrorScreen() if !$Success;
         return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
     }
 
@@ -203,10 +219,25 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Notify(
                 Priority => 'Error',
                 Data     => '$Text{"You need to activate %s first to use it!", "Service"}',
-                Link =>
-                    '$Env{"Baselink"}Action=AdminSysConfig&Subaction=Edit&SysConfigGroup=Ticket&SysConfigSubGroup=Core::Ticket#Ticket::Service"',
+                Link => '$Env{"Baselink"}Action=AdminSysConfig&Subaction=Edit&SysConfigGroup=Ticket&SysConfigSubGroup=Core::Ticket#Ticket::Service"',
             );
         }
+
+        # output overview
+        $Self->{LayoutObject}->Block(
+            Name => 'Overview',
+            Data => {
+                %Param,
+            },
+        );
+
+        # output overview result
+        $Self->{LayoutObject}->Block(
+            Name => 'OverviewList',
+            Data => {
+                %Param,
+            },
+        );
 
         # get service list
         my %ServiceList = $Self->{ServiceObject}->ServiceList(
@@ -214,74 +245,58 @@ sub Run {
             UserID => $Self->{UserID},
         );
 
-        # generate ServiceOptionStrg
-        my $TreeView = 0;
-        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
-            $TreeView = 1;
-        }
-        my $ServiceOptionStrg = $Self->{LayoutObject}->BuildSelection(
-            Data         => \%ServiceList,
-            Name         => 'ServiceID',
-            PossibleNone => 1,
-            TreeView     => $TreeView,
-            Sort         => 'TreeView',
-            Translation  => 0,
-            Max          => 200,
-        );
-
-        # output overview
-        $Self->{LayoutObject}->Block(
-            Name => 'Overview',
-            Data => { %Param, ServiceOptionStrg => $ServiceOptionStrg, },
-        );
-
-        # output overview result
-        $Self->{LayoutObject}->Block(
-            Name => 'OverviewList',
-            Data => { %Param, },
-        );
-
         # get valid list
         my %ValidList = $Self->{ValidObject}->ValidList();
 
-        # add suffix for correct sorting
-        for ( keys %ServiceList ) {
-            $ServiceList{$_} .= '::';
-        }
-        my $CssClass;
-        for my $ServiceID ( sort { $ServiceList{$a} cmp $ServiceList{$b} } keys %ServiceList ) {
-            my $ServiceName = $ServiceList{$ServiceID};
-            $/ = '::';
-            chomp($ServiceName);
+        # get sla list
+        my %SLAList = $Self->{SLAObject}->SLAList(
+            Valid  => 0,
+            UserID => $Self->{UserID},
+        );
 
-            # get sla list
-            my %SLAList = $Self->{SLAObject}->SLAList(
-                ServiceID => $ServiceID,
-                Valid     => 0,
-                UserID    => $Self->{UserID},
+        my $CssClass = '';
+        SLAID:
+        for my $SLAID ( sort { lc $SLAList{$a} cmp lc $SLAList{$b} } keys %SLAList ) {
+
+            # set output object
+            $CssClass = $CssClass eq 'searchactive' ? 'searchpassive' : 'searchactive';
+
+            # get the sla data
+            my %SLAData = $Self->{SLAObject}->SLAGet(
+                SLAID  => $SLAID,
+                UserID => $Self->{UserID},
             );
-            for my $SLAID ( sort { $SLAList{$a} cmp $SLAList{$b} } keys %SLAList ) {
 
-                # set output class
-                if ( $CssClass && $CssClass eq 'searchactive' ) {
-                    $CssClass = 'searchpassive';
-                }
-                else {
-                    $CssClass = 'searchactive';
-                }
+            # build the service list
+            my @ServiceList;
+            for my $ServiceID ( sort { lc $ServiceList{$a} cmp lc $ServiceList{$b} } @{ $SLAData{ServiceIDs} } ) {
+                push @ServiceList, $ServiceList{$ServiceID} || '-';
+            }
 
-                # get service data
-                my %SLAData = $Self->{SLAObject}->SLAGet(
-                    SLAID  => $SLAID,
-                    UserID => $Self->{UserID},
-                );
+            # output overview list row
+            $Self->{LayoutObject}->Block(
+                Name => 'OverviewListRow',
+                Data => {
+                    %SLAData,
+                    Service  => $ServiceList[0] || '-',
+                    CssClass => $CssClass,
+                    Valid    => $ValidList{ $SLAData{ValidID} },
+                },
+            );
+
+            next SLAID if scalar @ServiceList <= 1;
+
+            # remove the first service id
+            shift @ServiceList;
+
+            for my $ServiceName ( @ServiceList ) {
+
+                # output overview list row
                 $Self->{LayoutObject}->Block(
                     Name => 'OverviewListRow',
                     Data => {
-                        %SLAData,
                         Service  => $ServiceName,
                         CssClass => $CssClass,
-                        Valid    => $ValidList{ $SLAData{ValidID} },
                     },
                 );
             }

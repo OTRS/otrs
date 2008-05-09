@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2008-05-07 12:13:26
+--  driver: db2, generated: 2008-05-09 15:26:19
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -847,7 +847,6 @@ CREATE INDEX service_customer_user_service_id ON service_customer_user (service_
 -- ----------------------------------------------------------
 CREATE TABLE sla (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    service_id INTEGER NOT NULL,
     name VARCHAR (200) NOT NULL,
     calendar_name VARCHAR (100),
     first_response_time INTEGER NOT NULL,
@@ -864,6 +863,15 @@ CREATE TABLE sla (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
     CONSTRAINT sla_name UNIQUE (name)
+);
+
+-- ----------------------------------------------------------
+--  create table service_sla
+-- ----------------------------------------------------------
+CREATE TABLE service_sla (
+    service_id INTEGER NOT NULL,
+    sla_id INTEGER NOT NULL,
+    CONSTRAINT service_sla UNIQUE (service_id, sla_id)
 );
 
 -- ----------------------------------------------------------

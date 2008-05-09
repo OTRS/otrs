@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2008-05-07 00:43:00
+--  driver: mssql, generated: 2008-05-09 15:26:19
 -- ----------------------------------------------------------
 ALTER TABLE valid ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
 ALTER TABLE valid ADD FOREIGN KEY (change_by) REFERENCES system_user(id);
@@ -150,9 +150,10 @@ ALTER TABLE service ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
 ALTER TABLE service ADD FOREIGN KEY (change_by) REFERENCES system_user(id);
 ALTER TABLE service_customer_user ADD FOREIGN KEY (service_id) REFERENCES service(id);
 ALTER TABLE service_customer_user ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
-ALTER TABLE sla ADD FOREIGN KEY (service_id) REFERENCES service(id);
 ALTER TABLE sla ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
 ALTER TABLE sla ADD FOREIGN KEY (change_by) REFERENCES system_user(id);
+ALTER TABLE service_sla ADD FOREIGN KEY (service_id) REFERENCES service(id);
+ALTER TABLE service_sla ADD FOREIGN KEY (sla_id) REFERENCES sla(id);
 ALTER TABLE ticket_index ADD FOREIGN KEY (group_id) REFERENCES groups(id);
 ALTER TABLE ticket_index ADD FOREIGN KEY (queue_id) REFERENCES queue(id);
 ALTER TABLE ticket_index ADD FOREIGN KEY (ticket_id) REFERENCES ticket(id);

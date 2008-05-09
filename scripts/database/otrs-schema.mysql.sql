@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2008-05-07 10:39:52
+#  driver: mysql, generated: 2008-05-09 15:26:20
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -753,7 +753,6 @@ CREATE TABLE service_customer_user (
 # ----------------------------------------------------------
 CREATE TABLE sla (
     id INTEGER NOT NULL AUTO_INCREMENT,
-    service_id INTEGER NOT NULL,
     name VARCHAR (200) NOT NULL,
     calendar_name VARCHAR (100),
     first_response_time INTEGER NOT NULL,
@@ -770,6 +769,14 @@ CREATE TABLE sla (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
     UNIQUE INDEX sla_name (name)
+);
+# ----------------------------------------------------------
+#  create table service_sla
+# ----------------------------------------------------------
+CREATE TABLE service_sla (
+    service_id INTEGER NOT NULL,
+    sla_id INTEGER NOT NULL,
+    UNIQUE INDEX service_sla (service_id, sla_id)
 );
 # ----------------------------------------------------------
 #  create table sessions

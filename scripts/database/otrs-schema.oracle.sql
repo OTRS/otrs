@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2008-05-07 10:39:53
+--  driver: oracle, generated: 2008-05-09 15:26:20
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -1240,7 +1240,6 @@ CREATE INDEX service_customer_user_servic99 ON service_customer_user (service_id
 -- ----------------------------------------------------------
 CREATE TABLE sla (
     id NUMBER (12, 0) NOT NULL,
-    service_id NUMBER (12, 0) NOT NULL,
     name VARCHAR2 (200) NOT NULL,
     calendar_name VARCHAR2 (100),
     first_response_time NUMBER (12, 0) NOT NULL,
@@ -1272,7 +1271,16 @@ end;
 --;
 CREATE INDEX FK_sla_change_by ON sla (change_by);
 CREATE INDEX FK_sla_create_by ON sla (create_by);
-CREATE INDEX FK_sla_service_id ON sla (service_id);
+-- ----------------------------------------------------------
+--  create table service_sla
+-- ----------------------------------------------------------
+CREATE TABLE service_sla (
+    service_id NUMBER (12, 0) NOT NULL,
+    sla_id NUMBER (12, 0) NOT NULL,
+    CONSTRAINT service_sla UNIQUE (service_id, sla_id)
+);
+CREATE INDEX FK_service_sla_service_id ON service_sla (service_id);
+CREATE INDEX FK_service_sla_sla_id ON service_sla (sla_id);
 -- ----------------------------------------------------------
 --  create table sessions
 -- ----------------------------------------------------------

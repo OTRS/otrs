@@ -2,7 +2,7 @@
 # SLA.t - SLA tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SLA.t,v 1.6 2008-03-19 12:28:24 mh Exp $
+# $Id: SLA.t,v 1.7 2008-05-09 13:19:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,6 +15,7 @@ use utf8;
 
 use vars qw($Self);
 
+use Data::Dumper;
 use Kernel::System::Service;
 use Kernel::System::SLA;
 use Kernel::System::User;
@@ -62,18 +63,23 @@ my @UserIDs;
 
 # create needed random service names
 my @SLAName;
-
-for my $Counter ( 1 .. 5 ) {
-
+for my $Counter ( 1 .. 10 ) {
     push @SLAName, 'UnitTest' . int rand 1_000_000;
 }
 
-# create on test service
-my $ServiceID = $Self->{ServiceObject}->ServiceAdd(
-    Name    => 'UnitTest-SLA' . int rand 1_000_000,
-    ValidID => 1,
-    UserID  => 1,
-);
+# create some test services
+my @ServiceIDs;
+for my $Counter ( 1 .. 3 ) {
+
+    # add a service
+    my $ServiceID = $Self->{ServiceObject}->ServiceAdd(
+        Name    => 'UnitTest-SLA' . int rand 1_000_000,
+        ValidID => 1,
+        UserID  => 1,
+    );
+
+    push @ServiceIDs, $ServiceID;
+}
 
 # get original sla list for later checks
 my %SLAListOriginal = $Self->{SLAObject}->SLAList(
@@ -90,7 +96,6 @@ my $ItemData = [
     # this sla is NOT complete and must not be added
     {
         Add => {
-            Name    => $SLAName[0],
             ValidID => 1,
             UserID  => 1,
         },
@@ -99,40 +104,58 @@ my $ItemData = [
     # this sla is NOT complete and must not be added
     {
         Add => {
-            ServiceID => $ServiceID,
-            ValidID   => 1,
-            UserID    => 1,
+            Name   => $SLAName[0],
+            UserID => 1,
         },
     },
 
     # this sla is NOT complete and must not be added
     {
         Add => {
-            ServiceID => $ServiceID,
-            Name      => $SLAName[0],
-            UserID    => 1,
+            Name    => $SLAName[0],
+            ValidID => 1,
         },
     },
 
-    # this sla is NOT complete and must not be added
+    # service ids must be an array reference (check return false)
     {
         Add => {
-            ServiceID => $ServiceID,
-            Name      => $SLAName[0],
-            ValidID   => 1,
+            ServiceIDs => \do {'Dummy'},
+            Name       => $SLAName[0],
+            ValidID    => 1,
+            UserID     => 1,
+        },
+    },
+
+    # service ids must be an array reference (check return false)
+    {
+        Add => {
+            ServiceIDs => '',
+            Name       => $SLAName[0],
+            ValidID    => 1,
+            UserID     => 1,
+        },
+    },
+
+    # service ids must be an array reference (check return false)
+    {
+        Add => {
+            ServiceIDs => {},
+            Name       => $SLAName[0],
+            ValidID    => 1,
+            UserID     => 1,
         },
     },
 
     # this sla must be inserted sucessfully
     {
         Add => {
-            ServiceID => $ServiceID,
-            Name      => $SLAName[0],
-            ValidID   => 1,
-            UserID    => 1,
+            Name    => $SLAName[0],
+            ValidID => 1,
+            UserID  => 1,
         },
         AddGet => {
-            ServiceID           => $ServiceID,
+            ServiceIDs          => [ ],
             Name                => $SLAName[0],
             Calendar            => '',
             FirstResponseTime   => 0,
@@ -160,7 +183,6 @@ my $ItemData = [
     # the sla one add-test before must be NOT updated (sla is NOT complete)
     {
         Update => {
-            ServiceID => $ServiceID,
             ValidID   => 1,
             UserID    => 1,
         },
@@ -169,7 +191,6 @@ my $ItemData = [
     # the sla one add-test before must be NOT updated (sla is NOT complete)
     {
         Update => {
-            ServiceID => $ServiceID,
             Name      => $SLAName[0] . 'UPDATE1',
             UserID    => 1,
         },
@@ -178,17 +199,96 @@ my $ItemData = [
     # the sla one add-test before must be NOT updated (sla is NOT complete)
     {
         Update => {
-            ServiceID => $ServiceID,
             Name      => $SLAName[0] . 'UPDATE1',
             ValidID   => 1,
+        },
+    },
+
+    # the sla one add-test before must be NOT updated (service ids must be an array reference)
+    {
+        Update => {
+            ServiceIDs => \do {'Dummy'},
+            Name       => $SLAName[0] . 'UPDATE1',
+            ValidID    => 1,
+            UserID     => 1,
+        },
+    },
+
+    # the sla one add-test before must be NOT updated (service ids must be an array reference)
+    {
+        Update => {
+            ServiceIDs => '',
+            Name       => $SLAName[0] . 'UPDATE1',
+            ValidID    => 1,
+            UserID     => 1,
+        },
+    },
+
+    # the sla one add-test before must be NOT updated (service ids must be an array reference)
+    {
+        Update => {
+            ServiceIDs => {},
+            Name       => $SLAName[0] . 'UPDATE1',
+            ValidID    => 1,
+            UserID     => 1,
+        },
+    },
+
+    # this sla must be inserted sucessfully (check the returned service id array)
+    {
+        Add => {
+            ServiceIDs => [ $ServiceIDs[0] ],
+            Name       => $SLAName[1],
+            ValidID    => 1,
+            UserID     => 1,
+        },
+        AddGet => {
+            ServiceIDs          => [ $ServiceIDs[0] ],
+            Name                => $SLAName[1],
+            Calendar            => '',
+            FirstResponseTime   => 0,
+            FirstResponseNotify => 0,
+            UpdateTime          => 0,
+            UpdateNotify        => 0,
+            SolutionTime        => 0,
+            SolutionNotify      => 0,
+            ValidID             => 1,
+            Comment             => '',
+            CreateBy            => 1,
+            ChangeBy            => 1,
+        },
+    },
+
+    # this sla must be inserted sucessfully (check the sorting of the returned service id array)
+    {
+        Add => {
+            ServiceIDs => [ $ServiceIDs[1], $ServiceIDs[0] ],
+            Name       => $SLAName[2],
+            ValidID    => 1,
+            UserID     => 1,
+        },
+        AddGet => {
+            ServiceIDs          => [ $ServiceIDs[0], $ServiceIDs[1] ],
+            Name                => $SLAName[2],
+            Calendar            => '',
+            FirstResponseTime   => 0,
+            FirstResponseNotify => 0,
+            UpdateTime          => 0,
+            UpdateNotify        => 0,
+            SolutionTime        => 0,
+            SolutionNotify      => 0,
+            ValidID             => 1,
+            Comment             => '',
+            CreateBy            => 1,
+            ChangeBy            => 1,
         },
     },
 
     # this sla must be inserted sucessfully
     {
         Add => {
-            ServiceID           => $ServiceID,
-            Name                => $SLAName[1],
+            ServiceIDs          => [ $ServiceIDs[1], $ServiceIDs[2], $ServiceIDs[0] ],
+            Name                => $SLAName[3],
             Calendar            => '1',
             FirstResponseTime   => 10,
             FirstResponseNotify => 20,
@@ -201,8 +301,8 @@ my $ItemData = [
             UserID              => 1,
         },
         AddGet => {
-            ServiceID           => $ServiceID,
-            Name                => $SLAName[1],
+            ServiceIDs          => [ $ServiceIDs[0], $ServiceIDs[1], $ServiceIDs[2] ],
+            Name                => $SLAName[3],
             Calendar            => '1',
             FirstResponseTime   => 10,
             FirstResponseNotify => 20,
@@ -220,7 +320,6 @@ my $ItemData = [
     # the sla one add-test before must be NOT updated (sla update arguments NOT complete)
     {
         Update => {
-            Name    => $SLAName[1] . 'UPDATE1',
             ValidID => 1,
             UserID  => 1,
         },
@@ -229,35 +328,24 @@ my $ItemData = [
     # the sla one add-test before must be NOT updated (sla update arguments NOT complete)
     {
         Update => {
-            ServiceID => $ServiceID,
-            ValidID   => 1,
-            UserID    => 1,
+            Name    => $SLAName[3] . 'UPDATE1',
+            UserID  => 1,
         },
     },
 
     # the sla one add-test before must be NOT updated (sla update arguments NOT complete)
     {
         Update => {
-            ServiceID => $ServiceID,
-            Name      => $SLAName[1] . 'UPDATE1',
-            UserID    => 1,
-        },
-    },
-
-    # the sla one add-test before must be NOT updated (sla update arguments NOT complete)
-    {
-        Update => {
-            ServiceID => $ServiceID,
-            Name      => $SLAName[1] . 'UPDATE1',
-            ValidID   => 1,
+            Name    => $SLAName[3] . 'UPDATE1',
+            ValidID => 1,
         },
     },
 
     # the sla one add-test before must be updated (sla update arguments are complete)
     {
         Update => {
-            ServiceID           => $ServiceID,
-            Name                => $SLAName[1] . 'UPDATE2',
+            ServiceIDs          => [ ],
+            Name                => $SLAName[3] . 'UPDATE2',
             Calendar            => '1',
             FirstResponseTime   => 20,
             FirstResponseNotify => 30,
@@ -270,8 +358,8 @@ my $ItemData = [
             UserID              => $UserIDs[0],
         },
         UpdateGet => {
-            ServiceID           => $ServiceID,
-            Name                => $SLAName[1] . 'UPDATE2',
+            ServiceIDs          => [ ],
+            Name                => $SLAName[3] . 'UPDATE2',
             Calendar            => '1',
             FirstResponseTime   => 20,
             FirstResponseNotify => 30,
@@ -289,8 +377,8 @@ my $ItemData = [
     # the sla one add-test before must be updated (sla update arguments are complete)
     {
         Update => {
-            ServiceID           => $ServiceID,
-            Name                => $SLAName[1] . 'UPDATE3',
+            ServiceIDs          => [ $ServiceIDs[2] ],
+            Name                => $SLAName[3] . 'UPDATE3',
             Calendar            => '2',
             FirstResponseTime   => 30,
             FirstResponseNotify => 40,
@@ -303,8 +391,8 @@ my $ItemData = [
             UserID              => $UserIDs[1],
         },
         UpdateGet => {
-            ServiceID           => $ServiceID,
-            Name                => $SLAName[1] . 'UPDATE3',
+            ServiceIDs          => [ $ServiceIDs[2] ],
+            Name                => $SLAName[3] . 'UPDATE3',
             Calendar            => '2',
             FirstResponseTime   => 30,
             FirstResponseNotify => 40,
@@ -322,15 +410,15 @@ my $ItemData = [
     # this sla must be inserted sucessfully (check string cleaner function)
     {
         Add => {
-            ServiceID => $ServiceID,
-            Name      => " \t \n \r " . $SLAName[2] . " \t \n \r ",
-            ValidID   => 1,
-            Comment   => " \t \n \r Test Comment \t \n \r ",
-            UserID    => 1,
+            ServiceIDs => [ $ServiceIDs[0] ],
+            Name       => " \t \n \r " . $SLAName[4] . " \t \n \r ",
+            ValidID    => 1,
+            Comment    => " \t \n \r Test Comment \t \n \r ",
+            UserID     => 1,
         },
         AddGet => {
-            ServiceID           => $ServiceID,
-            Name                => $SLAName[2],
+            ServiceIDs          => [ $ServiceIDs[0] ],
+            Name                => $SLAName[4],
             Calendar            => '',
             FirstResponseTime   => 0,
             FirstResponseNotify => 0,
@@ -348,15 +436,15 @@ my $ItemData = [
     # the sla one add-test before must be updated sucessfully (check string cleaner function)
     {
         Update => {
-            ServiceID => $ServiceID,
-            Name      => " \t \n \r " . $SLAName[2] . " UPDATE1 \t \n \r ",
-            ValidID   => 2,
-            Comment   => " \t \n \r Test Comment UPDATE1 \t \n \r ",
-            UserID    => $UserIDs[1],
+            ServiceIDs => [ $ServiceIDs[1] ],
+            Name       => " \t \n \r " . $SLAName[4] . " UPDATE1 \t \n \r ",
+            ValidID    => 2,
+            Comment    => " \t \n \r Test Comment UPDATE1 \t \n \r ",
+            UserID     => $UserIDs[1],
         },
         UpdateGet => {
-            ServiceID           => $ServiceID,
-            Name                => $SLAName[2] . ' UPDATE1',
+            ServiceIDs          => [ $ServiceIDs[1] ],
+            Name                => $SLAName[4] . ' UPDATE1',
             Calendar            => '',
             FirstResponseTime   => 0,
             FirstResponseNotify => 0,
@@ -374,15 +462,14 @@ my $ItemData = [
     # this sla must be inserted sucessfully (unicode checks)
     {
         Add => {
-            ServiceID => $ServiceID,
-            Name      => $SLAName[3] . ' ϒ ϡ Ʃ Ϟ ',
-            ValidID   => 1,
-            Comment   => ' Ѡ Ѥ TestComment5 Ϡ Ω ',
-            UserID    => 1,
+            Name       => $SLAName[5] . ' ϒ ϡ Ʃ Ϟ ',
+            ValidID    => 1,
+            Comment    => ' Ѡ Ѥ TestComment5 Ϡ Ω ',
+            UserID     => 1,
         },
         AddGet => {
-            ServiceID           => $ServiceID,
-            Name                => $SLAName[3] . ' ϒ ϡ Ʃ Ϟ',
+            ServiceIDs          => [ ],
+            Name                => $SLAName[5] . ' ϒ ϡ Ʃ Ϟ',
             Calendar            => '',
             FirstResponseTime   => 0,
             FirstResponseNotify => 0,
@@ -400,15 +487,14 @@ my $ItemData = [
     # the sla one add-test before must be updated sucessfully (unicode checks)
     {
         Update => {
-            ServiceID => $ServiceID,
-            Name      => $SLAName[3] . ' ϒ ϡ Ʃ Ϟ UPDATE1',
-            ValidID   => 2,
-            Comment   => ' Ѡ Ѥ TestComment5 Ϡ Ω UPDATE1',
-            UserID    => $UserIDs[0],
+            Name       => $SLAName[5] . ' ϒ ϡ Ʃ Ϟ UPDATE1',
+            ValidID    => 2,
+            Comment    => ' Ѡ Ѥ TestComment5 Ϡ Ω UPDATE1',
+            UserID     => $UserIDs[0],
         },
         UpdateGet => {
-            ServiceID           => $ServiceID,
-            Name                => $SLAName[3] . ' ϒ ϡ Ʃ Ϟ UPDATE1',
+            ServiceIDs          => [ ],
+            Name                => $SLAName[5] . ' ϒ ϡ Ʃ Ϟ UPDATE1',
             Calendar            => '',
             FirstResponseTime   => 0,
             FirstResponseNotify => 0,
@@ -426,15 +512,15 @@ my $ItemData = [
     # this sla must be inserted sucessfully (special character checks)
     {
         Add => {
-            ServiceID => $ServiceID,
-            Name      => ' [test]%*\\ ' . $SLAName[4] . ' [test]%*\\ ',
-            ValidID   => 1,
-            Comment   => ' [test]%*\\ Test Comment [test]%*\\ ',
-            UserID    => 1,
+            ServiceIDs => [ ],
+            Name       => ' [test]%*\\ ' . $SLAName[6] . ' [test]%*\\ ',
+            ValidID    => 1,
+            Comment    => ' [test]%*\\ Test Comment [test]%*\\ ',
+            UserID     => 1,
         },
         AddGet => {
-            ServiceID           => $ServiceID,
-            Name                => '[test]%*\\ ' . $SLAName[4] . ' [test]%*\\',
+            ServiceIDs          => [ ],
+            Name                => '[test]%*\\ ' . $SLAName[6] . ' [test]%*\\',
             Calendar            => '',
             FirstResponseTime   => 0,
             FirstResponseNotify => 0,
@@ -452,15 +538,15 @@ my $ItemData = [
     # the sla one add-test before must be updated sucessfully (special character checks)
     {
         Update => {
-            ServiceID => $ServiceID,
-            Name      => ' [test]%*\\ ' . $SLAName[4] . ' UPDATE1 [test]%*\\ ',
-            ValidID   => 2,
-            Comment   => ' [test]%*\\ Test Comment UPDATE1 [test]%*\\ ',
-            UserID    => $UserIDs[1],
+            ServiceIDs => [ ],
+            Name       => ' [test]%*\\ ' . $SLAName[6] . ' UPDATE1 [test]%*\\ ',
+            ValidID    => 2,
+            Comment    => ' [test]%*\\ Test Comment UPDATE1 [test]%*\\ ',
+            UserID     => $UserIDs[1],
         },
         UpdateGet => {
-            ServiceID           => $ServiceID,
-            Name                => '[test]%*\\ ' . $SLAName[4] . ' UPDATE1 [test]%*\\',
+            ServiceIDs          => [ ],
+            Name                => '[test]%*\\ ' . $SLAName[6] . ' UPDATE1 [test]%*\\',
             Calendar            => '',
             FirstResponseTime   => 0,
             FirstResponseNotify => 0,
@@ -548,8 +634,24 @@ for my $Item ( @{$ItemData} ) {
             Cache  => 1,
         );
 
+        # turn off all pretty print
+        $Data::Dumper::Indent = 0;
+
         # check sla data after creation of the sla
         for my $SLAAttribute ( keys %{ $Item->{AddGet} } ) {
+
+            # dump the given attribute
+            if ( ref $SLAGet{$SLAAttribute} ) {
+                $SLAGet{$SLAAttribute} = Data::Dumper::Dumper( $SLAGet{$SLAAttribute} );
+            }
+
+            # dump the reference string
+            if ( ref $Item->{AddGet}->{$SLAAttribute} ) {
+                $Item->{AddGet}->{$SLAAttribute} = Data::Dumper::Dumper(
+                    $Item->{AddGet}->{$SLAAttribute},
+                );
+            }
+
             $Self->Is(
                 $SLAGet{$SLAAttribute} || '',
                 $Item->{AddGet}->{$SLAAttribute} || '',
@@ -592,11 +694,23 @@ for my $Item ( @{$ItemData} ) {
         my %SLAGet2 = $Self->{SLAObject}->SLAGet(
             SLAID  => $LastAddedSLAID,
             UserID => $Item->{Update}->{UserID},
-            Cache  => 1,
         );
 
         # check sla data after update
         for my $SLAAttribute ( keys %{ $Item->{UpdateGet} } ) {
+
+            # dump the given attribute
+            if ( ref $SLAGet2{$SLAAttribute} ) {
+                $SLAGet2{$SLAAttribute} = Data::Dumper::Dumper( $SLAGet2{$SLAAttribute} );
+            }
+
+            # dump the reference string
+            if ( ref $Item->{UpdateGet}->{$SLAAttribute} ) {
+                $Item->{UpdateGet}->{$SLAAttribute} = Data::Dumper::Dumper(
+                    $Item->{UpdateGet}->{$SLAAttribute},
+                );
+            }
+
             $Self->Is(
                 $SLAGet2{$SLAAttribute} || '',
                 $Item->{UpdateGet}->{$SLAAttribute} || '',
