@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2008-05-07 00:52:59
+#  driver: mysql, generated: 2008-05-09 15:39:53
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table queue_preferences
@@ -65,18 +65,26 @@ ALTER TABLE sla ADD update_notify SMALLINT;
 #  alter table sla
 # ----------------------------------------------------------
 ALTER TABLE sla ADD solution_notify SMALLINT;
+# ----------------------------------------------------------
+#  create table service_sla
+# ----------------------------------------------------------
+CREATE TABLE service_sla (
+    service_id INTEGER NOT NULL,
+    sla_id INTEGER NOT NULL,
+    UNIQUE INDEX service_sla (service_id, sla_id)
+);
 CREATE INDEX article_article_type_id ON article (article_type_id);
 CREATE INDEX article_sender_type_id ON article (article_sender_type_id);
 CREATE INDEX ticket_watcher_user_id ON ticket_watcher (user_id);
-ALTER TABLE ticket_watcher ADD FOREIGN KEY (ticket_id) REFERENCES `ticket(id)`;
-ALTER TABLE ticket_watcher ADD FOREIGN KEY (user_id) REFERENCES `system_user(id)`;
-ALTER TABLE ticket_watcher ADD FOREIGN KEY (create_by) REFERENCES `system_user(id)`;
-ALTER TABLE ticket_watcher ADD FOREIGN KEY (change_by) REFERENCES `system_user(id)`;
+ALTER TABLE ticket_watcher ADD FOREIGN KEY (ticket_id) REFERENCES ticket (id);
+ALTER TABLE ticket_watcher ADD FOREIGN KEY (user_id) REFERENCES system_user (id);
+ALTER TABLE ticket_watcher ADD FOREIGN KEY (create_by) REFERENCES system_user (id);
+ALTER TABLE ticket_watcher ADD FOREIGN KEY (change_by) REFERENCES system_user (id);
 CREATE INDEX ticket_index_queue_id ON ticket_index (queue_id);
 CREATE INDEX ticket_index_group_id ON ticket_index (group_id);
-ALTER TABLE ticket_index ADD FOREIGN KEY (ticket_id) REFERENCES `ticket(id)`;
-ALTER TABLE ticket_index ADD FOREIGN KEY (queue_id) REFERENCES `queue(id)`;
-ALTER TABLE ticket_index ADD FOREIGN KEY (group_id) REFERENCES `groups(id)`;
+ALTER TABLE ticket_index ADD FOREIGN KEY (ticket_id) REFERENCES ticket (id);
+ALTER TABLE ticket_index ADD FOREIGN KEY (queue_id) REFERENCES queue (id);
+ALTER TABLE ticket_index ADD FOREIGN KEY (group_id) REFERENCES groups (id);
 CREATE INDEX postmaster_filter_f_name ON postmaster_filter (f_name);
 CREATE INDEX generic_agent_job_name ON generic_agent_jobs (job_name);
 # ----------------------------------------------------------

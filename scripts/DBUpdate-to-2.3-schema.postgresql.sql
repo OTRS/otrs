@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2008-05-07 00:52:59
+--  driver: postgresql, generated: 2008-05-09 15:39:54
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table queue_preferences
@@ -65,6 +65,14 @@ ALTER TABLE sla ADD update_notify INTEGER;
 --  alter table sla
 -- ----------------------------------------------------------
 ALTER TABLE sla ADD solution_notify INTEGER;
+-- ----------------------------------------------------------
+--  create table service_sla
+-- ----------------------------------------------------------
+CREATE TABLE service_sla (
+    service_id INTEGER NOT NULL,
+    sla_id INTEGER NOT NULL,
+    CONSTRAINT service_sla UNIQUE (service_id, sla_id)
+);
 CREATE INDEX article_article_type_id ON article (article_type_id);
 CREATE INDEX article_sender_type_id ON article (article_sender_type_id);
 CREATE INDEX ticket_watcher_user_id ON ticket_watcher (user_id);

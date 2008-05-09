@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2008-05-07 00:52:59
+--  driver: mssql, generated: 2008-05-09 15:39:53
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table queue_preferences
@@ -65,6 +65,14 @@ ALTER TABLE sla ADD update_notify SMALLINT;
 --  alter table sla
 -- ----------------------------------------------------------
 ALTER TABLE sla ADD solution_notify SMALLINT;
+-- ----------------------------------------------------------
+--  create table service_sla
+-- ----------------------------------------------------------
+CREATE TABLE service_sla (
+    service_id INTEGER NOT NULL,
+    sla_id INTEGER NOT NULL,
+    UNIQUE service_sla (service_id, sla_id)
+);
 CREATE INDEX article_article_type_id ON article (article_type_id);
 CREATE INDEX article_sender_type_id ON article (article_sender_type_id);
 CREATE INDEX ticket_watcher_user_id ON ticket_watcher (user_id);

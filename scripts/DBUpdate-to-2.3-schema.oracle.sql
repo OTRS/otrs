@@ -1,12 +1,12 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2008-05-07 00:52:59
+--  driver: oracle, generated: 2008-05-09 15:39:53
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
 --  create table queue_preferences
 -- ----------------------------------------------------------
 CREATE TABLE queue_preferences (
-    queue_id NUMBER NOT NULL,
+    queue_id NUMBER (12, 0) NOT NULL,
     preferences_key VARCHAR2 (150) NOT NULL,
     preferences_value VARCHAR2 (250)
 );
@@ -66,6 +66,16 @@ ALTER TABLE sla ADD update_notify NUMBER (5, 0);
 --  alter table sla
 -- ----------------------------------------------------------
 ALTER TABLE sla ADD solution_notify NUMBER (5, 0);
+-- ----------------------------------------------------------
+--  create table service_sla
+-- ----------------------------------------------------------
+CREATE TABLE service_sla (
+    service_id NUMBER (12, 0) NOT NULL,
+    sla_id NUMBER (12, 0) NOT NULL,
+    CONSTRAINT service_sla UNIQUE (service_id, sla_id)
+);
+CREATE INDEX FK_service_sla_service_id ON service_sla (service_id);
+CREATE INDEX FK_service_sla_sla_id ON service_sla (sla_id);
 CREATE INDEX article_article_type_id ON article (article_type_id);
 CREATE INDEX article_sender_type_id ON article (article_sender_type_id);
 CREATE INDEX ticket_watcher_user_id ON ticket_watcher (user_id);

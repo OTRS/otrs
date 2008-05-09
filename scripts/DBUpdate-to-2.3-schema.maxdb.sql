@@ -1,5 +1,5 @@
 // ----------------------------------------------------------
-//  driver: maxdb, generated: 2008-05-07 00:52:59
+//  driver: maxdb, generated: 2008-05-09 15:39:53
 // ----------------------------------------------------------
 // ----------------------------------------------------------
 //  create table queue_preferences
@@ -11,7 +11,7 @@ CREATE TABLE queue_preferences
     preferences_value VARCHAR (250)
 )
 //
-CREATE INDEX queue_preferences_qu39 ON queue_preferences (queue_id)
+CREATE INDEX queue_preferences_qu47 ON queue_preferences (queue_id)
 //
 // ----------------------------------------------------------
 //  alter table queue
@@ -42,6 +42,16 @@ ALTER TABLE sla ADD update_notify SMALLINT
 //  alter table sla
 // ----------------------------------------------------------
 ALTER TABLE sla ADD solution_notify SMALLINT
+//
+// ----------------------------------------------------------
+//  create table service_sla
+// ----------------------------------------------------------
+CREATE TABLE service_sla
+(
+    service_id INTEGER NOT NULL,
+    sla_id INTEGER NOT NULL,
+    UNIQUE service_sla (service_id, sla_id)
+)
 //
 // ----------------------------------------------------------
 //  alter table mail_account
