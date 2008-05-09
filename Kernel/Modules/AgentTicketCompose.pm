@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.42 2008-05-08 19:46:58 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.43 2008-05-09 08:47:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -591,9 +591,9 @@ sub Run {
             $Data{OrigFrom} = $Data{From};
 
             # replace From/To, To/From because sender is agent
-            $Data{From}     = $To;
-            $Data{To}       = $Data{From};
-            $Data{ReplyTo}  = '';
+            $Data{From}    = $To;
+            $Data{To}      = $Data{From};
+            $Data{ReplyTo} = '';
         }
         else {
 
@@ -649,7 +649,7 @@ sub Run {
         }
         $Data{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
             TicketNumber => $Ticket{TicketNumber},
-            Subject      => $Data{Subject} || '',
+            Subject => $Data{Subject} || '',
         );
 
         # add not local To addresses to Cc
@@ -657,7 +657,7 @@ sub Run {
             my $IsLocal = $Self->{SystemAddress}->SystemAddressIsLocalAddress(
                 Address => $Email->address(),
             );
-            if (!$IsLocal) {
+            if ( !$IsLocal ) {
                 if ( $Data{Cc} ) {
                     $Data{Cc} .= ', ';
                 }

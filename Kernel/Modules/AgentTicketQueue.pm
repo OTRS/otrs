@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.49 2008-05-08 22:05:25 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.50 2008-05-09 08:47:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -152,8 +152,8 @@ sub Run {
 
     # get data (viewable tickets...)
     my @ViewableTickets = ();
-    my $SortBy      = $Self->{Config}->{'SortBy::Default'} || 'Age';
-    my %SortOptions = (
+    my $SortBy          = $Self->{Config}->{'SortBy::Default'} || 'Age';
+    my %SortOptions     = (
         Owner            => 'st.user_id',
         CustomerID       => 'st.customer_id',
         State            => 'st.ticket_state_id',
@@ -817,7 +817,7 @@ sub _MaskQueueView {
     my %UsedQueue       = ();
     my @ListedQueues    = ();
     my $Level           = 0;
-    my $CustomQueue     = $Self->{LayoutObject}->{LanguageObject}->Get($Self->{CustomQueue});
+    my $CustomQueue     = $Self->{LayoutObject}->{LanguageObject}->Get( $Self->{CustomQueue} );
     $Self->{HighlightAge1}   = $Self->{Config}->{HighlightAge1};
     $Self->{HighlightAge2}   = $Self->{Config}->{HighlightAge2};
     $Self->{HighlightColor1} = $Self->{Config}->{HighlightColor1};

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMailbox.pm - to view all locked tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMailbox.pm,v 1.25 2008-05-08 22:05:25 martin Exp $
+# $Id: AgentTicketMailbox.pm,v 1.26 2008-05-09 08:47:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,10 +35,10 @@ sub new {
 
     $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
 
-    $Self->{StateObject}     = Kernel::System::State->new(%Param);
+    $Self->{StateObject} = Kernel::System::State->new(%Param);
 
-    $Self->{StartHit}        = $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1;
-    $Self->{PageShown}       = $Self->{UserQueueViewShowTickets}
+    $Self->{StartHit} = $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1;
+    $Self->{PageShown} = $Self->{UserQueueViewShowTickets}
         || $Self->{ConfigObject}->Get('PreferencesGroups')->{QueueViewShownTickets}->{DataSelected}
         || 10;
 
