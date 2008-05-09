@@ -3,7 +3,7 @@
 # queue ticket index module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: RuntimeDB.pm,v 1.56 2008-05-09 08:47:36 mh Exp $
+# $Id: RuntimeDB.pm,v 1.57 2008-05-09 09:23:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 sub TicketAcceleratorUpdate {
     my ( $Self, %Param ) = @_;
@@ -329,7 +329,7 @@ sub GetOverTimeTickets {
         # check if user is in min. one group! if not, return here
         return if !@GroupIDs;
     }
-    $SQL .= " ORDER BY st.escalation_start_time ASC";
+    $SQL .= ' ORDER BY st.escalation_start_time ASC';
     $Self->{DBObject}->Prepare( SQL => $SQL, Limit => 5000 );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         my $TicketData = {
