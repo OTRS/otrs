@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<database Name="otrs">
+
+    <TableAlter Name="sla">
+        <ColumnDrop Name="service_id"/>
+    </TableAlter>
+
+</database>
