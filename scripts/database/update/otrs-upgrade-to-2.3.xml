@@ -39,7 +39,7 @@
     </TableAlter>
 
     <TableAlter Name="group_customer_user">
-        <IndexCreate Name="group_customer_user_id">
+        <IndexCreate Name="group_customer_user_user_id">
             <IndexColumn Name="user_id"/>
         </IndexCreate>
         <IndexCreate Name="group_customer_user_group_id">
@@ -165,7 +165,7 @@
         <IndexCreate Name="article_article_type_id">
             <IndexColumn Name="article_type_id"/>
         </IndexCreate>
-        <IndexCreate Name="article_sender_type_id">
+        <IndexCreate Name="article_article_sender_type_id">
             <IndexColumn Name="article_sender_type_id"/>
         </IndexCreate>
     </TableAlter>
@@ -209,11 +209,10 @@
     </TableAlter>
 
     <TableAlter Name="generic_agent_jobs">
-        <IndexCreate Name="generic_agent_job_name">
+        <IndexCreate Name="generic_agent_jobs_job_name">
             <IndexColumn Name="job_name"/>
         </IndexCreate>
     </TableAlter>
-
 
     <TableAlter NameNew="mail_account" NameOld="pop3_account">
         <ColumnAdd Name="account_type" Required="false" Size="20" Type="VARCHAR"/>
@@ -226,7 +225,6 @@
     <TableAlter Name="xml_storage">
         <ColumnChange NameOld="xml_content_value" NameNew="xml_content_value" Required="false" Size="1000000" Type="VARCHAR"/>
     </TableAlter>
-
 
     <Insert Table="notifications">
         <Data Key="notification_type" Type="Quote">Agent::EscalationNotifyBefore</Data>
