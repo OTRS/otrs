@@ -2,7 +2,7 @@
 # Kernel/System/SLA.pm - all sla function
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SLA.pm,v 1.23 2008-05-10 09:24:38 mh Exp $
+# $Id: SLA.pm,v 1.24 2008-05-10 10:28:18 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 =head1 NAME
 
@@ -192,7 +192,7 @@ sub SLAGet {
         if $Self->{Cache}->{SLAGet}->{ $Param{SLAID} };
 
     # quote
-    for my $Argument ( qw(SLAID UserID) ) {
+    for my $Argument (qw(SLAID UserID)) {
         $Param{$Argument} = $Self->{DBObject}->Quote( $Param{$Argument}, 'Integer' );
     }
 
@@ -278,7 +278,7 @@ sub SLALookup {
     if ( !$Param{SLAID} && !$Param{Name} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => 'Need SLAID or Name!',
+            Message  => 'Need SLAID or Name!',
         );
         return;
     }
@@ -366,7 +366,7 @@ sub SLAAdd {
         if ( !$Param{$Argument} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "Need $Argument!",
+                Message  => "Need $Argument!",
             );
             return;
         }
@@ -376,7 +376,7 @@ sub SLAAdd {
     if ( defined $Param{ServiceIDs} && ref $Param{ServiceIDs} ne 'ARRAY' ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => 'ServiceIDs must be an array reference!',
+            Message  => 'ServiceIDs must be an array reference!',
         );
         return;
     }
@@ -396,7 +396,10 @@ sub SLAAdd {
     for my $Argument (qw(Name Calendar Comment)) {
         $Param{$Argument} = $Self->{DBObject}->Quote( $Param{$Argument} );
     }
-    for my $Argument ( qw(FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify ValidID UserID) ) {
+    for my $Argument (
+        qw(FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify ValidID UserID)
+        )
+    {
         $Param{$Argument} = $Self->{DBObject}->Quote( $Param{$Argument}, 'Integer' );
     }
 
@@ -458,10 +461,10 @@ sub SLAAdd {
     }
 
     # check sla id
-    if (!$SLAID) {
+    if ( !$SLAID ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => 'New SLA not found in database!',
+            Message  => 'New SLA not found in database!',
         );
         return;
     }
@@ -475,7 +478,7 @@ sub SLAAdd {
     for my $ServiceID ( @{ $Param{ServiceIDs} } ) {
 
         # quote
-        $ServiceID = $Self->{DBObject}->Quote( $ServiceID );
+        $ServiceID = $Self->{DBObject}->Quote($ServiceID);
 
         # add one allocation
         $Self->{DBObject}->Do(
@@ -516,7 +519,7 @@ sub SLAUpdate {
         if ( !$Param{$Argument} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message => "Need $Argument!",
+                Message  => "Need $Argument!",
             );
             return;
         }
@@ -526,7 +529,7 @@ sub SLAUpdate {
     if ( defined $Param{ServiceIDs} && ref $Param{ServiceIDs} ne 'ARRAY' ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => 'ServiceIDs must be an array reference!',
+            Message  => 'ServiceIDs must be an array reference!',
         );
         return;
     }
@@ -546,7 +549,10 @@ sub SLAUpdate {
     for my $Argument (qw(Name Calendar Comment)) {
         $Param{$Argument} = $Self->{DBObject}->Quote( $Param{$Argument} );
     }
-    for my $Argument ( qw(SLAID FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify ValidID UserID) ) {
+    for my $Argument (
+        qw(SLAID FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify ValidID UserID)
+        )
+    {
         $Param{$Argument} = $Self->{DBObject}->Quote( $Param{$Argument}, 'Integer' );
     }
 
@@ -577,7 +583,7 @@ sub SLAUpdate {
     if ( !$Update ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Can't update new SLA! SLA with same name already exists.",
+            Message  => "Can't update new SLA! SLA with same name already exists.",
         );
         return;
     }
@@ -615,7 +621,7 @@ sub SLAUpdate {
     for my $ServiceID ( @{ $Param{ServiceIDs} } ) {
 
         # quote
-        $ServiceID = $Self->{DBObject}->Quote( $ServiceID );
+        $ServiceID = $Self->{DBObject}->Quote($ServiceID);
 
         # add one allocation
         $Self->{DBObject}->Do(
@@ -643,6 +649,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2008-05-10 09:24:38 $
+$Revision: 1.24 $ $Date: 2008-05-10 10:28:18 $
 
 =cut

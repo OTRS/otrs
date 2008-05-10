@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSLA.pm - admin frontend to manage slas
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSLA.pm,v 1.15 2008-05-09 13:19:08 mh Exp $
+# $Id: AdminSLA.pm,v 1.16 2008-05-10 10:28:18 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,13 +19,13 @@ use Kernel::System::SLA;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = { %Param };
+    my $Self = {%Param};
     bless( $Self, $Type );
 
     # check all needed objects
@@ -77,15 +77,15 @@ sub Run {
             $TreeView = 1;
         }
         $Param{ServiceOptionStrg} = $Self->{LayoutObject}->BuildSelection(
-            Data         => \%ServiceList,
-            Name         => 'ServiceIDs',
-            SelectedID   => $SLAData{ServiceIDs} || [],
-            Multiple     => 1,
-            Size         => 5,
-            TreeView     => $TreeView,
-            Sort         => 'TreeView',
-            Translation  => 0,
-            Max          => 200,
+            Data        => \%ServiceList,
+            Name        => 'ServiceIDs',
+            SelectedID  => $SLAData{ServiceIDs} || [],
+            Multiple    => 1,
+            Size        => 5,
+            TreeView    => $TreeView,
+            Sort        => 'TreeView',
+            Translation => 0,
+            Max         => 200,
         );
 
         # generate CalendarOptionStrg
@@ -174,7 +174,10 @@ sub Run {
 
         # get params
         my %SLAData;
-        for my $Param ( qw(SLAID Name Calendar FirstResponseTime FirstResponseNotify SolutionTime SolutionNotify UpdateTime UpdateNotify ValidID Comment) ) {
+        for my $Param (
+            qw(SLAID Name Calendar FirstResponseTime FirstResponseNotify SolutionTime SolutionNotify UpdateTime UpdateNotify ValidID Comment)
+            )
+        {
             $SLAData{$Param} = $Self->{ParamObject}->GetParam( Param => $Param ) || '';
         }
 
@@ -219,7 +222,8 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Notify(
                 Priority => 'Error',
                 Data     => '$Text{"You need to activate %s first to use it!", "Service"}',
-                Link => '$Env{"Baselink"}Action=AdminSysConfig&Subaction=Edit&SysConfigGroup=Ticket&SysConfigSubGroup=Core::Ticket#Ticket::Service"',
+                Link =>
+                    '$Env{"Baselink"}Action=AdminSysConfig&Subaction=Edit&SysConfigGroup=Ticket&SysConfigSubGroup=Core::Ticket#Ticket::Service"',
             );
         }
 
@@ -269,7 +273,11 @@ sub Run {
 
             # build the service list
             my @ServiceList;
-            for my $ServiceID ( sort { lc $ServiceList{$a} cmp lc $ServiceList{$b} } @{ $SLAData{ServiceIDs} } ) {
+            for my $ServiceID (
+                sort { lc $ServiceList{$a} cmp lc $ServiceList{$b} }
+                @{ $SLAData{ServiceIDs} }
+                )
+            {
                 push @ServiceList, $ServiceList{$ServiceID} || '-';
             }
 
@@ -278,7 +286,7 @@ sub Run {
                 Name => 'OverviewListRow',
                 Data => {
                     %SLAData,
-                    Service  => $ServiceList[0] || '-',
+                    Service => $ServiceList[0] || '-',
                     CssClass => $CssClass,
                     Valid    => $ValidList{ $SLAData{ValidID} },
                 },
@@ -289,7 +297,7 @@ sub Run {
             # remove the first service id
             shift @ServiceList;
 
-            for my $ServiceName ( @ServiceList ) {
+            for my $ServiceName (@ServiceList) {
 
                 # output overview list row
                 $Self->{LayoutObject}->Block(
