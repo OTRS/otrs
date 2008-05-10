@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2008-05-10 11:15:59
+#  driver: mysql, generated: 2008-05-10 12:53:08
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -903,7 +903,7 @@ CREATE TABLE generic_agent_jobs (
     job_name VARCHAR (200) NOT NULL,
     job_key VARCHAR (200) NOT NULL,
     job_value VARCHAR (200),
-    INDEX generic_agent_job_name (job_name)
+    INDEX generic_agent_jobs_job_name (job_name)
 );
 # ----------------------------------------------------------
 #  create table search_profile

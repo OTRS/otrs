@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2008-05-10 11:15:58
+--  driver: db2, generated: 2008-05-10 12:53:06
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1018,7 +1018,7 @@ CREATE TABLE generic_agent_jobs (
     job_value VARCHAR (200)
 );
 
-CREATE INDEX generic_agent_job_name ON generic_agent_jobs (job_name);
+CREATE INDEX generic_agent_jobs_job_name ON generic_agent_jobs (job_name);
 
 -- ----------------------------------------------------------
 --  create table search_profile

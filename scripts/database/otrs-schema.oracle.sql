@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2008-05-10 11:15:59
+--  driver: oracle, generated: 2008-05-10 12:53:08
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -1437,7 +1437,7 @@ CREATE TABLE generic_agent_jobs (
     job_key VARCHAR2 (200) NOT NULL,
     job_value VARCHAR2 (200)
 );
-CREATE INDEX generic_agent_job_name ON generic_agent_jobs (job_name);
+CREATE INDEX generic_agent_jobs_job_name ON generic_agent_jobs (job_name);
 -- ----------------------------------------------------------
 --  create table search_profile
 -- ----------------------------------------------------------

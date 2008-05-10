@@ -5,7 +5,7 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 
-    $Id: otrs-schema.xml,v 1.85 2008-05-10 09:14:11 mh Exp $
+    $Id: otrs-schema.xml,v 1.86 2008-05-10 10:51:48 mh Exp $
 
 -->
 
@@ -1395,7 +1395,7 @@
     <Column Name="job_name" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="job_key" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="job_value" Required="false" Size="200" Type="VARCHAR"/>
-    <Index Name="generic_agent_job_name">
+    <Index Name="generic_agent_jobs_job_name">
         <IndexColumn Name="job_name"/>
     </Index>
 </Table>
