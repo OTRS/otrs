@@ -1,5 +1,5 @@
 // ----------------------------------------------------------
-//  driver: maxdb, generated: 2008-05-09 15:39:53
+//  driver: maxdb, generated: 2008-05-10 11:43:13
 // ----------------------------------------------------------
 // ----------------------------------------------------------
 //  create table queue_preferences
@@ -11,7 +11,7 @@ CREATE TABLE queue_preferences
     preferences_value VARCHAR (250)
 )
 //
-CREATE INDEX queue_preferences_qu47 ON queue_preferences (queue_id)
+CREATE INDEX queue_preferences_qu4 ON queue_preferences (queue_id)
 //
 // ----------------------------------------------------------
 //  alter table queue
@@ -50,7 +50,7 @@ CREATE TABLE service_sla
 (
     service_id INTEGER NOT NULL,
     sla_id INTEGER NOT NULL,
-    UNIQUE service_sla (service_id, sla_id)
+    UNIQUE service_sla_service_sla (service_id, sla_id)
 )
 //
 // ----------------------------------------------------------

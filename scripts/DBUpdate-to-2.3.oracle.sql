@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2008-05-09 15:39:53
+--  driver: oracle, generated: 2008-05-10 11:43:13
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -72,7 +72,7 @@ ALTER TABLE sla ADD solution_notify NUMBER (5, 0);
 CREATE TABLE service_sla (
     service_id NUMBER (12, 0) NOT NULL,
     sla_id NUMBER (12, 0) NOT NULL,
-    CONSTRAINT service_sla UNIQUE (service_id, sla_id)
+    CONSTRAINT service_sla_service_sla UNIQUE (service_id, sla_id)
 );
 CREATE INDEX FK_service_sla_service_id ON service_sla (service_id);
 CREATE INDEX FK_service_sla_sla_id ON service_sla (sla_id);

@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2008-05-09 15:39:53
+#  driver: mysql, generated: 2008-05-10 11:43:13
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table queue_preferences
@@ -71,7 +71,7 @@ ALTER TABLE sla ADD solution_notify SMALLINT;
 CREATE TABLE service_sla (
     service_id INTEGER NOT NULL,
     sla_id INTEGER NOT NULL,
-    UNIQUE INDEX service_sla (service_id, sla_id)
+    UNIQUE INDEX service_sla_service_sla (service_id, sla_id)
 );
 CREATE INDEX article_article_type_id ON article (article_type_id);
 CREATE INDEX article_sender_type_id ON article (article_sender_type_id);
