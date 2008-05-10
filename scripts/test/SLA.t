@@ -2,7 +2,7 @@
 # SLA.t - SLA tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SLA.t,v 1.7 2008-05-09 13:19:08 mh Exp $
+# $Id: SLA.t,v 1.8 2008-05-10 09:37:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -281,6 +281,15 @@ my $ItemData = [
             Comment             => '',
             CreateBy            => 1,
             ChangeBy            => 1,
+        },
+    },
+
+    # the same name already exists (check return false)
+    {
+        Update => {
+            Name    => $SLAName[1],
+            ValidID => 1,
+            UserID  => 1,
         },
     },
 
