@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2008-05-10 11:43:13
+#  driver: mysql, generated: 2008-05-10 12:58:59
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table queue_preferences
@@ -15,7 +15,7 @@ CREATE INDEX group_user_user_id ON group_user (user_id);
 CREATE INDEX group_user_group_id ON group_user (group_id);
 CREATE INDEX group_role_role_id ON group_role (role_id);
 CREATE INDEX group_role_group_id ON group_role (group_id);
-CREATE INDEX group_customer_user_id ON group_customer_user (user_id);
+CREATE INDEX group_customer_user_user_id ON group_customer_user (user_id);
 CREATE INDEX group_customer_user_group_id ON group_customer_user (group_id);
 CREATE INDEX role_user_user_id ON role_user (user_id);
 CREATE INDEX role_user_role_id ON role_user (role_id);
@@ -74,7 +74,7 @@ CREATE TABLE service_sla (
     UNIQUE INDEX service_sla_service_sla (service_id, sla_id)
 );
 CREATE INDEX article_article_type_id ON article (article_type_id);
-CREATE INDEX article_sender_type_id ON article (article_sender_type_id);
+CREATE INDEX article_article_sender_type_id ON article (article_sender_type_id);
 CREATE INDEX ticket_watcher_user_id ON ticket_watcher (user_id);
 ALTER TABLE ticket_watcher ADD FOREIGN KEY (ticket_id) REFERENCES ticket (id);
 ALTER TABLE ticket_watcher ADD FOREIGN KEY (user_id) REFERENCES system_user (id);
@@ -86,7 +86,7 @@ ALTER TABLE ticket_index ADD FOREIGN KEY (ticket_id) REFERENCES ticket (id);
 ALTER TABLE ticket_index ADD FOREIGN KEY (queue_id) REFERENCES queue (id);
 ALTER TABLE ticket_index ADD FOREIGN KEY (group_id) REFERENCES groups (id);
 CREATE INDEX postmaster_filter_f_name ON postmaster_filter (f_name);
-CREATE INDEX generic_agent_job_name ON generic_agent_jobs (job_name);
+CREATE INDEX generic_agent_jobs_job_name ON generic_agent_jobs (job_name);
 # ----------------------------------------------------------
 #  alter table mail_account
 # ----------------------------------------------------------

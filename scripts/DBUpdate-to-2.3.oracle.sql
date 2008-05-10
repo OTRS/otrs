@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2008-05-10 11:43:13
+--  driver: oracle, generated: 2008-05-10 12:58:59
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -16,7 +16,7 @@ CREATE INDEX group_user_user_id ON group_user (user_id);
 CREATE INDEX group_user_group_id ON group_user (group_id);
 CREATE INDEX group_role_role_id ON group_role (role_id);
 CREATE INDEX group_role_group_id ON group_role (group_id);
-CREATE INDEX group_customer_user_id ON group_customer_user (user_id);
+CREATE INDEX group_customer_user_user_id ON group_customer_user (user_id);
 CREATE INDEX group_customer_user_group_id ON group_customer_user (group_id);
 CREATE INDEX role_user_user_id ON role_user (user_id);
 CREATE INDEX role_user_role_id ON role_user (role_id);
@@ -77,7 +77,7 @@ CREATE TABLE service_sla (
 CREATE INDEX FK_service_sla_service_id ON service_sla (service_id);
 CREATE INDEX FK_service_sla_sla_id ON service_sla (sla_id);
 CREATE INDEX article_article_type_id ON article (article_type_id);
-CREATE INDEX article_sender_type_id ON article (article_sender_type_id);
+CREATE INDEX article_article_sender_type_id ON article (article_sender_type_id);
 CREATE INDEX ticket_watcher_user_id ON ticket_watcher (user_id);
 ALTER TABLE ticket_watcher ADD CONSTRAINT FK_ticket_watcher_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket(id);
 ALTER TABLE ticket_watcher ADD CONSTRAINT FK_ticket_watcher_user_id_id FOREIGN KEY (user_id) REFERENCES system_user(id);
@@ -89,7 +89,7 @@ ALTER TABLE ticket_index ADD CONSTRAINT FK_ticket_index_ticket_id_id FOREIGN KEY
 ALTER TABLE ticket_index ADD CONSTRAINT FK_ticket_index_queue_id_id FOREIGN KEY (queue_id) REFERENCES queue(id);
 ALTER TABLE ticket_index ADD CONSTRAINT FK_ticket_index_group_id_id FOREIGN KEY (group_id) REFERENCES groups(id);
 CREATE INDEX postmaster_filter_f_name ON postmaster_filter (f_name);
-CREATE INDEX generic_agent_job_name ON generic_agent_jobs (job_name);
+CREATE INDEX generic_agent_jobs_job_name ON generic_agent_jobs (job_name);
 -- ----------------------------------------------------------
 --  alter table mail_account
 -- ----------------------------------------------------------
