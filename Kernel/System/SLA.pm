@@ -2,7 +2,7 @@
 # Kernel/System/SLA.pm - all sla function
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SLA.pm,v 1.22 2008-05-10 09:15:15 mh Exp $
+# $Id: SLA.pm,v 1.23 2008-05-10 09:24:38 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 =head1 NAME
 
@@ -237,7 +237,7 @@ sub SLAGet {
     # get all service ids
     $Self->{DBObject}->Prepare(
         SQL => "SELECT service_id FROM service_sla "
-            . "WHERE sla_id = $SLAData{SLAID} ORDER BY sla_id ASC",
+            . "WHERE sla_id = $SLAData{SLAID} ORDER BY service_id ASC",
     );
 
     # fetch the result
@@ -643,6 +643,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2008-05-10 09:15:15 $
+$Revision: 1.23 $ $Date: 2008-05-10 09:24:38 $
 
 =cut
