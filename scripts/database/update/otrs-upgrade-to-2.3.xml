@@ -146,6 +146,21 @@
         <ColumnAdd Name="solution_notify" Required="false" Type="SMALLINT"/>
     </TableAlter>
 
+    <TableCreate Name="service_sla">
+        <Column Name="service_id" Required="true" Type="INTEGER"/>
+        <Column Name="sla_id" Required="true" Type="INTEGER"/>
+        <Unique Name="service_sla_service_sla">
+            <UniqueColumn Name="service_id"/>
+            <UniqueColumn Name="sla_id"/>
+        </Unique>
+        <ForeignKey ForeignTable="service">
+            <Reference Local="service_id" Foreign="id"/>
+        </ForeignKey>
+        <ForeignKey ForeignTable="sla">
+            <Reference Local="sla_id" Foreign="id"/>
+        </ForeignKey>
+    </TableCreate>
+
     <TableAlter Name="article">
         <IndexCreate Name="article_article_type_id">
             <IndexColumn Name="article_type_id"/>
