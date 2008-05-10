@@ -6,4 +6,6 @@
         <ColumnDrop Name="service_id"/>
     </TableAlter>
 
+    <TableDrop Name="object_link"/>
+
 </database>

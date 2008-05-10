@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2008-05-10 12:58:59
+--  driver: mssql, generated: 2008-05-10 14:21:00
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table queue_preferences
@@ -10,6 +10,63 @@ CREATE TABLE queue_preferences (
     preferences_value VARCHAR (250)
 );
 CREATE INDEX queue_preferences_queue_id ON queue_preferences (queue_id);
+-- ----------------------------------------------------------
+--  create table service_sla
+-- ----------------------------------------------------------
+CREATE TABLE service_sla (
+    service_id INTEGER NOT NULL,
+    sla_id INTEGER NOT NULL,
+    UNIQUE service_sla_service_sla (service_id, sla_id)
+);
+-- ----------------------------------------------------------
+--  create table link_object_type
+-- ----------------------------------------------------------
+CREATE TABLE link_object_type (
+    id SMALLINT NOT NULL IDENTITY(1,1) ,
+    name VARCHAR (50) NOT NULL,
+    valid_id SMALLINT NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE link_object_type_name (name)
+);
+-- ----------------------------------------------------------
+--  create table link_object_state
+-- ----------------------------------------------------------
+CREATE TABLE link_object_state (
+    id SMALLINT NOT NULL IDENTITY(1,1) ,
+    name VARCHAR (50) NOT NULL,
+    valid_id SMALLINT NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE link_object_state_name (name)
+);
+-- ----------------------------------------------------------
+--  create table link_object_object
+-- ----------------------------------------------------------
+CREATE TABLE link_object_object (
+    id SMALLINT NOT NULL IDENTITY(1,1) ,
+    name VARCHAR (100) NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE link_object_object_name (name)
+);
+-- ----------------------------------------------------------
+--  create table link_object
+-- ----------------------------------------------------------
+CREATE TABLE link_object (
+    source_object_id SMALLINT NOT NULL,
+    source_key VARCHAR (50) NOT NULL,
+    target_object_id SMALLINT NOT NULL,
+    target_key VARCHAR (50) NOT NULL,
+    type_id SMALLINT NOT NULL,
+    state_id SMALLINT NOT NULL,
+    UNIQUE link_object_relation (source_object_id, source_key, target_object_id, target_key, type_id)
+);
 CREATE INDEX user_preferences_user_id ON user_preferences (user_id);
 CREATE INDEX group_user_user_id ON group_user (user_id);
 CREATE INDEX group_user_group_id ON group_user (group_id);
@@ -65,14 +122,6 @@ ALTER TABLE sla ADD update_notify SMALLINT;
 --  alter table sla
 -- ----------------------------------------------------------
 ALTER TABLE sla ADD solution_notify SMALLINT;
--- ----------------------------------------------------------
---  create table service_sla
--- ----------------------------------------------------------
-CREATE TABLE service_sla (
-    service_id INTEGER NOT NULL,
-    sla_id INTEGER NOT NULL,
-    UNIQUE service_sla_service_sla (service_id, sla_id)
-);
 CREATE INDEX article_article_type_id ON article (article_type_id);
 CREATE INDEX article_article_sender_type_id ON article (article_sender_type_id);
 CREATE INDEX ticket_watcher_user_id ON ticket_watcher (user_id);

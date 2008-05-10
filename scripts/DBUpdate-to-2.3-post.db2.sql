@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2008-05-09 15:49:11
+--  driver: db2, generated: 2008-05-10 14:25:31
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table sla
@@ -7,4 +7,6 @@
 ALTER TABLE sla DROP service_id;
 
 CALL SYSPROC.ADMIN_CMD ('REORG TABLE sla');
+
+DROP TABLE object_link;
 

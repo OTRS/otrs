@@ -1,8 +1,9 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2008-05-09 15:49:11
+--  driver: oracle, generated: 2008-05-10 14:25:31
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
 --  alter table sla
 -- ----------------------------------------------------------
 ALTER TABLE sla DROP COLUMN service_id;
+DROP TABLE object_link CASCADE CONSTRAINTS;

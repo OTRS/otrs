@@ -1,5 +1,5 @@
 // ----------------------------------------------------------
-//  driver: maxdb, generated: 2008-05-09 15:26:19
+//  driver: maxdb, generated: 2008-05-10 14:29:13
 // ----------------------------------------------------------
 ALTER TABLE valid ADD FOREIGN KEY (create_by) REFERENCES system_user(id)
 //
@@ -156,6 +156,26 @@ ALTER TABLE ticket ADD FOREIGN KEY (ticket_state_id) REFERENCES ticket_state(id)
 ALTER TABLE ticket ADD FOREIGN KEY (type_id) REFERENCES ticket_type(id)
 //
 ALTER TABLE ticket ADD FOREIGN KEY (valid_id) REFERENCES valid(id)
+//
+ALTER TABLE link_object_type ADD FOREIGN KEY (create_by) REFERENCES system_user(id)
+//
+ALTER TABLE link_object_type ADD FOREIGN KEY (change_by) REFERENCES system_user(id)
+//
+ALTER TABLE link_object_type ADD FOREIGN KEY (valid_id) REFERENCES valid(id)
+//
+ALTER TABLE link_object_state ADD FOREIGN KEY (create_by) REFERENCES system_user(id)
+//
+ALTER TABLE link_object_state ADD FOREIGN KEY (change_by) REFERENCES system_user(id)
+//
+ALTER TABLE link_object_state ADD FOREIGN KEY (valid_id) REFERENCES valid(id)
+//
+ALTER TABLE link_object ADD FOREIGN KEY (source_object_id) REFERENCES link_object_object(id)
+//
+ALTER TABLE link_object ADD FOREIGN KEY (target_object_id) REFERENCES link_object_object(id)
+//
+ALTER TABLE link_object ADD FOREIGN KEY (state_id) REFERENCES link_object_state(id)
+//
+ALTER TABLE link_object ADD FOREIGN KEY (type_id) REFERENCES link_object_type(id)
 //
 ALTER TABLE ticket_history ADD FOREIGN KEY (article_id) REFERENCES article(id)
 //

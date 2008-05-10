@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2008-05-09 15:26:19
+--  driver: db2, generated: 2008-05-10 14:29:13
 -- ----------------------------------------------------------
 ALTER TABLE valid ADD CONSTRAINT FK_valid_create_by_id FOREIGN KEY (create_by) REFERENCES system_user(id);
 
@@ -156,6 +156,26 @@ ALTER TABLE ticket ADD CONSTRAINT FK_ticket_ticket_state_id_id FOREIGN KEY (tick
 ALTER TABLE ticket ADD CONSTRAINT FK_ticket_type_id_id FOREIGN KEY (type_id) REFERENCES ticket_type(id);
 
 ALTER TABLE ticket ADD CONSTRAINT FK_ticket_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid(id);
+
+ALTER TABLE link_object_type ADD CONSTRAINT FK_link_object_type_create_by_id FOREIGN KEY (create_by) REFERENCES system_user(id);
+
+ALTER TABLE link_object_type ADD CONSTRAINT FK_link_object_type_change_by_id FOREIGN KEY (change_by) REFERENCES system_user(id);
+
+ALTER TABLE link_object_type ADD CONSTRAINT FK_link_object_type_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid(id);
+
+ALTER TABLE link_object_state ADD CONSTRAINT FK_link_object_state_create_by_id FOREIGN KEY (create_by) REFERENCES system_user(id);
+
+ALTER TABLE link_object_state ADD CONSTRAINT FK_link_object_state_change_by_id FOREIGN KEY (change_by) REFERENCES system_user(id);
+
+ALTER TABLE link_object_state ADD CONSTRAINT FK_link_object_state_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid(id);
+
+ALTER TABLE link_object ADD CONSTRAINT FK_link_object_source_object_id_id FOREIGN KEY (source_object_id) REFERENCES link_object_object(id);
+
+ALTER TABLE link_object ADD CONSTRAINT FK_link_object_target_object_id_id FOREIGN KEY (target_object_id) REFERENCES link_object_object(id);
+
+ALTER TABLE link_object ADD CONSTRAINT FK_link_object_state_id_id FOREIGN KEY (state_id) REFERENCES link_object_state(id);
+
+ALTER TABLE link_object ADD CONSTRAINT FK_link_object_type_id_id FOREIGN KEY (type_id) REFERENCES link_object_type(id);
 
 ALTER TABLE ticket_history ADD CONSTRAINT FK_ticket_history_article_id_id FOREIGN KEY (article_id) REFERENCES article(id);
 

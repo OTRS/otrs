@@ -14,6 +14,95 @@
         </ForeignKey>
     </TableCreate>
 
+    <TableCreate Name="service_sla">
+        <Column Name="service_id" Required="true" Type="INTEGER"/>
+        <Column Name="sla_id" Required="true" Type="INTEGER"/>
+        <Unique Name="service_sla_service_sla">
+            <UniqueColumn Name="service_id"/>
+            <UniqueColumn Name="sla_id"/>
+        </Unique>
+        <ForeignKey ForeignTable="service">
+            <Reference Local="service_id" Foreign="id"/>
+        </ForeignKey>
+        <ForeignKey ForeignTable="sla">
+            <Reference Local="sla_id" Foreign="id"/>
+        </ForeignKey>
+    </TableCreate>
+
+    <TableCreate Name="link_object_type">
+        <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
+        <Column Name="name" Required="true" Size="50" Type="VARCHAR"/>
+        <Column Name="valid_id" Required="true" Type="SMALLINT"/>
+        <Column Name="create_time" Required="true" Type="DATE"/>
+        <Column Name="create_by" Required="true" Type="INTEGER"/>
+        <Column Name="change_time" Required="true" Type="DATE"/>
+        <Column Name="change_by" Required="true" Type="INTEGER"/>
+        <Unique Name="link_object_type_name">
+            <UniqueColumn Name="name"/>
+        </Unique>
+        <ForeignKey ForeignTable="valid">
+            <Reference Local="valid_id" Foreign="id"/>
+        </ForeignKey>
+        <ForeignKey ForeignTable="system_user">
+            <Reference Local="create_by" Foreign="id"/>
+            <Reference Local="change_by" Foreign="id"/>
+        </ForeignKey>
+    </TableCreate>
+
+    <TableCreate Name="link_object_state">
+        <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
+        <Column Name="name" Required="true" Size="50" Type="VARCHAR"/>
+        <Column Name="valid_id" Required="true" Type="SMALLINT"/>
+        <Column Name="create_time" Required="true" Type="DATE"/>
+        <Column Name="create_by" Required="true" Type="INTEGER"/>
+        <Column Name="change_time" Required="true" Type="DATE"/>
+        <Column Name="change_by" Required="true" Type="INTEGER"/>
+        <Unique Name="link_object_state_name">
+            <UniqueColumn Name="name"/>
+        </Unique>
+        <ForeignKey ForeignTable="valid">
+            <Reference Local="valid_id" Foreign="id"/>
+        </ForeignKey>
+        <ForeignKey ForeignTable="system_user">
+            <Reference Local="create_by" Foreign="id"/>
+            <Reference Local="change_by" Foreign="id"/>
+        </ForeignKey>
+    </TableCreate>
+
+    <TableCreate Name="link_object_object">
+        <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
+        <Column Name="name" Required="true" Size="100" Type="VARCHAR"/>
+        <Unique Name="link_object_object_name">
+            <UniqueColumn Name="name"/>
+        </Unique>
+    </TableCreate>
+
+    <TableCreate Name="link_object">
+        <Column Name="source_object_id" Required="true" Type="SMALLINT"/>
+        <Column Name="source_key" Required="true" Size="50" Type="VARCHAR"/>
+        <Column Name="target_object_id" Required="true" Type="SMALLINT"/>
+        <Column Name="target_key" Required="true" Size="50" Type="VARCHAR"/>
+        <Column Name="type_id" Required="true" Type="SMALLINT"/>
+        <Column Name="state_id" Required="true" Type="SMALLINT"/>
+        <Unique Name="link_object_relation">
+            <UniqueColumn Name="source_object_id"/>
+            <UniqueColumn Name="source_key"/>
+            <UniqueColumn Name="target_object_id"/>
+            <UniqueColumn Name="target_key"/>
+            <UniqueColumn Name="type_id"/>
+        </Unique>
+        <ForeignKey ForeignTable="link_object_object">
+            <Reference Local="source_object_id" Foreign="id"/>
+            <Reference Local="target_object_id" Foreign="id"/>
+        </ForeignKey>
+        <ForeignKey ForeignTable="link_object_type">
+            <Reference Local="type_id" Foreign="id"/>
+        </ForeignKey>
+        <ForeignKey ForeignTable="link_object_state">
+            <Reference Local="state_id" Foreign="id"/>
+        </ForeignKey>
+    </TableCreate>
+
     <TableAlter Name="user_preferences">
         <IndexCreate Name="user_preferences_user_id">
             <IndexColumn Name="user_id"/>
@@ -145,21 +234,6 @@
         <ColumnAdd Name="update_notify" Required="false" Type="SMALLINT"/>
         <ColumnAdd Name="solution_notify" Required="false" Type="SMALLINT"/>
     </TableAlter>
-
-    <TableCreate Name="service_sla">
-        <Column Name="service_id" Required="true" Type="INTEGER"/>
-        <Column Name="sla_id" Required="true" Type="INTEGER"/>
-        <Unique Name="service_sla_service_sla">
-            <UniqueColumn Name="service_id"/>
-            <UniqueColumn Name="sla_id"/>
-        </Unique>
-        <ForeignKey ForeignTable="service">
-            <Reference Local="service_id" Foreign="id"/>
-        </ForeignKey>
-        <ForeignKey ForeignTable="sla">
-            <Reference Local="sla_id" Foreign="id"/>
-        </ForeignKey>
-    </TableCreate>
 
     <TableAlter Name="article">
         <IndexCreate Name="article_article_type_id">

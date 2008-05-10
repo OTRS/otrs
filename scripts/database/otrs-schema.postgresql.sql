@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2008-05-10 12:53:09
+--  driver: postgresql, generated: 2008-05-10 14:29:15
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -422,20 +422,54 @@ CREATE INDEX ticket_title ON ticket (title);
 CREATE INDEX ticket_type_id ON ticket (type_id);
 CREATE INDEX ticket_user_id ON ticket (user_id);
 -- ----------------------------------------------------------
---  create table object_link
+--  create table link_object_type
 -- ----------------------------------------------------------
-CREATE TABLE object_link (
-    object_link_a_id VARCHAR (80) NOT NULL,
-    object_link_b_id VARCHAR (80) NOT NULL,
-    object_link_a_object VARCHAR (200) NOT NULL,
-    object_link_b_object VARCHAR (200) NOT NULL,
-    object_link_type VARCHAR (200) NOT NULL
+CREATE TABLE link_object_type (
+    id serial,
+    name VARCHAR (50) NOT NULL,
+    valid_id INTEGER NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT link_object_type_name UNIQUE (name)
 );
-CREATE INDEX object_link_a_id ON object_link (object_link_a_id);
-CREATE INDEX object_link_a_object ON object_link (object_link_a_object);
-CREATE INDEX object_link_b_id ON object_link (object_link_b_id);
-CREATE INDEX object_link_b_object ON object_link (object_link_b_object);
-CREATE INDEX object_link_type ON object_link (object_link_type);
+-- ----------------------------------------------------------
+--  create table link_object_state
+-- ----------------------------------------------------------
+CREATE TABLE link_object_state (
+    id serial,
+    name VARCHAR (50) NOT NULL,
+    valid_id INTEGER NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time timestamp(0) NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT link_object_state_name UNIQUE (name)
+);
+-- ----------------------------------------------------------
+--  create table link_object_object
+-- ----------------------------------------------------------
+CREATE TABLE link_object_object (
+    id serial,
+    name VARCHAR (100) NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT link_object_object_name UNIQUE (name)
+);
+-- ----------------------------------------------------------
+--  create table link_object
+-- ----------------------------------------------------------
+CREATE TABLE link_object (
+    source_object_id INTEGER NOT NULL,
+    source_key VARCHAR (50) NOT NULL,
+    target_object_id INTEGER NOT NULL,
+    target_key VARCHAR (50) NOT NULL,
+    type_id INTEGER NOT NULL,
+    state_id INTEGER NOT NULL,
+    CONSTRAINT link_object_relation UNIQUE (source_object_id, source_key, target_object_id, target_key, type_id)
+);
 -- ----------------------------------------------------------
 --  create table ticket_history
 -- ----------------------------------------------------------

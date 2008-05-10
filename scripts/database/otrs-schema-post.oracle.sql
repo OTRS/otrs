@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2008-05-09 15:26:20
+--  driver: oracle, generated: 2008-05-10 14:29:15
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 ALTER TABLE valid ADD CONSTRAINT FK_valid_create_by_id FOREIGN KEY (create_by) REFERENCES system_user(id);
@@ -80,6 +80,16 @@ ALTER TABLE ticket ADD CONSTRAINT FK_ticket_ticket_priority_id88 FOREIGN KEY (ti
 ALTER TABLE ticket ADD CONSTRAINT FK_ticket_ticket_state_id_id FOREIGN KEY (ticket_state_id) REFERENCES ticket_state(id);
 ALTER TABLE ticket ADD CONSTRAINT FK_ticket_type_id_id FOREIGN KEY (type_id) REFERENCES ticket_type(id);
 ALTER TABLE ticket ADD CONSTRAINT FK_ticket_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid(id);
+ALTER TABLE link_object_type ADD CONSTRAINT FK_link_object_type_create_b4c FOREIGN KEY (create_by) REFERENCES system_user(id);
+ALTER TABLE link_object_type ADD CONSTRAINT FK_link_object_type_change_bce FOREIGN KEY (change_by) REFERENCES system_user(id);
+ALTER TABLE link_object_type ADD CONSTRAINT FK_link_object_type_valid_id18 FOREIGN KEY (valid_id) REFERENCES valid(id);
+ALTER TABLE link_object_state ADD CONSTRAINT FK_link_object_state_create_0a FOREIGN KEY (create_by) REFERENCES system_user(id);
+ALTER TABLE link_object_state ADD CONSTRAINT FK_link_object_state_change_84 FOREIGN KEY (change_by) REFERENCES system_user(id);
+ALTER TABLE link_object_state ADD CONSTRAINT FK_link_object_state_valid_i3d FOREIGN KEY (valid_id) REFERENCES valid(id);
+ALTER TABLE link_object ADD CONSTRAINT FK_link_object_source_object0b FOREIGN KEY (source_object_id) REFERENCES link_object_object(id);
+ALTER TABLE link_object ADD CONSTRAINT FK_link_object_target_object72 FOREIGN KEY (target_object_id) REFERENCES link_object_object(id);
+ALTER TABLE link_object ADD CONSTRAINT FK_link_object_state_id_id FOREIGN KEY (state_id) REFERENCES link_object_state(id);
+ALTER TABLE link_object ADD CONSTRAINT FK_link_object_type_id_id FOREIGN KEY (type_id) REFERENCES link_object_type(id);
 ALTER TABLE ticket_history ADD CONSTRAINT FK_ticket_history_article_id34 FOREIGN KEY (article_id) REFERENCES article(id);
 ALTER TABLE ticket_history ADD CONSTRAINT FK_ticket_history_queue_id_id FOREIGN KEY (queue_id) REFERENCES queue(id);
 ALTER TABLE ticket_history ADD CONSTRAINT FK_ticket_history_owner_id_id FOREIGN KEY (owner_id) REFERENCES system_user(id);
