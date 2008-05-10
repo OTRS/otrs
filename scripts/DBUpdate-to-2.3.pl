@@ -3,7 +3,7 @@
 # DBUpdate-to-2.3.pl - update script to migrate OTRS 2.2.x to 2.3.x
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-2.3.pl,v 1.1 2008-05-10 10:29:19 mh Exp $
+# $Id: DBUpdate-to-2.3.pl,v 1.2 2008-05-10 10:31:22 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -76,7 +76,7 @@ print STDOUT "Start migration of the system...\n\n";
         SQL => "SELECT id, service_id FROM sla ORDER BY id ASC",
     );
 
-    if (!$Success) {
+    if ( !$Success ) {
         print STDOUT "impossible or not required!\n";
     }
     else {
