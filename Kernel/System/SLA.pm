@@ -2,7 +2,7 @@
 # Kernel/System/SLA.pm - all sla function
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SLA.pm,v 1.21 2008-05-09 13:19:08 mh Exp $
+# $Id: SLA.pm,v 1.22 2008-05-10 09:15:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 =head1 NAME
 
@@ -237,7 +237,7 @@ sub SLAGet {
     # get all service ids
     $Self->{DBObject}->Prepare(
         SQL => "SELECT service_id FROM service_sla "
-            . "WHERE sla_id = $SLAData{SLAID} ORDER BY sla_id",
+            . "WHERE sla_id = $SLAData{SLAID} ORDER BY sla_id ASC",
     );
 
     # fetch the result
@@ -409,6 +409,28 @@ sub SLAAdd {
         );
     }
 
+    # find exiting sla's with the same name
+    $Self->{DBObject}->Prepare(
+        SQL   => "SELECT id FROM sla WHERE name = '$Param{Name}'",
+        Limit => 1,
+    );
+
+    # fetch the result
+    my $NoAdd;
+    while ( $Self->{DBObject}->FetchrowArray() ) {
+        $NoAdd = 1;
+    }
+
+    # abort insert of new sla, if name already exists
+    if ($NoAdd) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message =>
+                "Can't add new SLA! SLA with same name already exists.",
+        );
+        return;
+    }
+
     # add sla to database
     my $Success = $Self->{DBObject}->Do(
         SQL => "INSERT INTO sla "
@@ -509,11 +531,6 @@ sub SLAUpdate {
         return;
     }
 
-    # reset cache
-    delete $Self->{Cache}->{SLAGet}->{ $Param{SLAID} };
-    delete $Self->{Cache}->{SLALookup}->{Name}->{ $Param{Name} };
-    delete $Self->{Cache}->{SLALookup}->{ID}->{ $Param{SLAID} };
-
     # set default values
     $Param{ServiceIDs}          ||= [];
     $Param{Calendar}            ||= '';
@@ -541,6 +558,34 @@ sub SLAUpdate {
             RemoveAllTabs     => 1,
         );
     }
+
+    # find exiting sla's with the same name
+    $Self->{DBObject}->Prepare(
+        SQL   => "SELECT id FROM sla WHERE name = '$Param{Name}'",
+        Limit => 1,
+    );
+
+    # fetch the result
+    my $Update = 1;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        if ( $Param{SLAID} ne $Row[0] ) {
+            $Update = 0;
+        }
+    }
+
+    # abort insert of new sla, if name already exists
+    if ( !$Update ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message => "Can't update new SLA! SLA with same name already exists.",
+        );
+        return;
+    }
+
+    # reset cache
+    delete $Self->{Cache}->{SLAGet}->{ $Param{SLAID} };
+    delete $Self->{Cache}->{SLALookup}->{Name}->{ $Param{Name} };
+    delete $Self->{Cache}->{SLALookup}->{ID}->{ $Param{SLAID} };
 
     # update service
     my $Success = $Self->{DBObject}->Do(
@@ -598,6 +643,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2008-05-09 13:19:08 $
+$Revision: 1.22 $ $Date: 2008-05-10 09:15:15 $
 
 =cut
