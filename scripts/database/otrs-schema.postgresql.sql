@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2008-05-09 15:26:21
+--  driver: postgresql, generated: 2008-05-10 11:16:00
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -776,7 +776,7 @@ CREATE TABLE sla (
 CREATE TABLE service_sla (
     service_id INTEGER NOT NULL,
     sla_id INTEGER NOT NULL,
-    CONSTRAINT service_sla UNIQUE (service_id, sla_id)
+    CONSTRAINT service_sla_service_sla UNIQUE (service_id, sla_id)
 );
 -- ----------------------------------------------------------
 --  create table sessions

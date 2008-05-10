@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2008-05-09 15:26:20
+--  driver: oracle, generated: 2008-05-10 11:15:59
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -1277,7 +1277,7 @@ CREATE INDEX FK_sla_create_by ON sla (create_by);
 CREATE TABLE service_sla (
     service_id NUMBER (12, 0) NOT NULL,
     sla_id NUMBER (12, 0) NOT NULL,
-    CONSTRAINT service_sla UNIQUE (service_id, sla_id)
+    CONSTRAINT service_sla_service_sla UNIQUE (service_id, sla_id)
 );
 CREATE INDEX FK_service_sla_service_id ON service_sla (service_id);
 CREATE INDEX FK_service_sla_sla_id ON service_sla (sla_id);

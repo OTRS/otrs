@@ -5,7 +5,7 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 
-    $Id: otrs-schema.xml,v 1.84 2008-05-09 13:24:35 mh Exp $
+    $Id: otrs-schema.xml,v 1.85 2008-05-10 09:14:11 mh Exp $
 
 -->
 
@@ -1227,7 +1227,7 @@
 <Table Name="service_sla">
     <Column Name="service_id" Required="true" Type="INTEGER"/>
     <Column Name="sla_id" Required="true" Type="INTEGER"/>
-    <Unique Name="service_sla">
+    <Unique Name="service_sla_service_sla">
         <UniqueColumn Name="service_id"/>
         <UniqueColumn Name="sla_id"/>
     </Unique>
