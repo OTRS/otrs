@@ -2,7 +2,7 @@
 # Kernel/System/UnitTest.pm - the global test wrapper
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.17 2008-05-08 13:43:11 mh Exp $
+# $Id: UnitTest.pm,v 1.18 2008-05-11 13:43:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =head1 NAME
 
@@ -42,11 +42,11 @@ create test object
     use Kernel::System::Test;
 
     my $ConfigObject = Kernel::Config->new();
-    my $LogObject = Kernel::System::Log->new(
+    my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
     my $MainObject = Kernel::System::Main->new(
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
         ConfigObject => $ConfigObject,
     );
     my $TimeObject = Kernel::System::Time->new(
@@ -54,16 +54,16 @@ create test object
     );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
-        MainObject => $MainObject,
-        TimeObject => $TimeObject,
+        LogObject    => $LogObject,
+        MainObject   => $MainObject,
+        TimeObject   => $TimeObject,
     );
     my $UnitTestObject = Kernel::System::UnitTest->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
-        MainObject => $MainObject,
-        DBObject => $DBObject,
-        TimeObject => $TimeObject,
+        LogObject    => $LogObject,
+        MainObject   => $MainObject,
+        DBObject     => $DBObject,
+        TimeObject   => $TimeObject,
     );
 
 =cut
@@ -272,12 +272,21 @@ A true test.
 sub True {
     my ( $Self, $True, $Name ) = @_;
 
+    if ( !$Name ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Name! E. g. True(\$A, \'Test Name\')!'
+        );
+        $Self->_Print( 0, 'ERROR: Need Name! E. g. True(\$A, \'Test Name\')' );
+        return;
+    }
+
     if ($True) {
-        $Self->_Print( $True, $Name );
+        $Self->_Print( 1, $Name );
         return 1;
     }
     else {
-        $Self->_Print( $True, $Name );
+        $Self->_Print( 0, $Name );
         return;
     }
 }
@@ -294,6 +303,15 @@ A false test.
 
 sub False {
     my ( $Self, $False, $Name ) = @_;
+
+    if ( !$Name ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Name! E. g. False(\$A, \'Test Name\')!'
+        );
+        $Self->_Print( 0, 'ERROR: Need Name! E. g. False(\$A, \'Test Name\')' );
+        return;
+    }
 
     if ( !$False ) {
         $Self->_Print( 1, $Name );
@@ -316,7 +334,28 @@ A Is $A (is) eq $B (should be) test.
 sub Is {
     my ( $Self, $Test, $ShouldBe, $Name ) = @_;
 
-    if ( $Test eq $ShouldBe ) {
+    if ( !$Name ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Name! E. g. Is(\$A, \$B, \'Test Name\')!'
+        );
+        $Self->_Print( 0, 'ERROR: Need Name! E. g. Is(\$A, \$B, \'Test Name\')' );
+        return;
+    }
+
+    if ( !defined $Test && !defined $ShouldBe ) {
+        $Self->_Print( 1, "$Name (is 'undef')" );
+        return 1;
+    }
+    elsif ( !defined $Test && $ShouldBe ) {
+        $Self->_Print( 0, "$Name (is 'undef' should be '$ShouldBe')" );
+        return 1;
+    }
+    elsif ( $Test && !defined $ShouldBe ) {
+        $Self->_Print( 0, "$Name (is '$Test' should be 'undef')" );
+        return 1;
+    }
+    elsif ( $Test eq $ShouldBe ) {
         $Self->_Print( 1, "$Name (is '$ShouldBe')" );
         return 1;
     }
@@ -337,6 +376,27 @@ A Is $A (is) nq $B (should not be) test.
 sub IsNot {
     my ( $Self, $Test, $ShouldBe, $Name ) = @_;
 
+    if ( !$Name ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Name! E. g. IsNot(\$A, \$B, \'Test Name\')!'
+        );
+        $Self->_Print( 0, 'ERROR: Need Name! E. g. IsNot(\$A, \$B, \'Test Name\')' );
+        return;
+    }
+
+    if ( !defined $Test && !defined $ShouldBe ) {
+        $Self->_Print( 0, "$Name (is 'undef')" );
+        return 1;
+    }
+    elsif ( !defined $Test && $ShouldBe ) {
+        $Self->_Print( 1, "$Name (is 'undef')" );
+        return 1;
+    }
+    elsif ( $Test && !defined $ShouldBe ) {
+        $Self->_Print( 1, "$Name (is '$Test')" );
+        return 1;
+    }
     if ( $Test ne $ShouldBe ) {
         $Self->_Print( 1, "$Name (is '$Test')" );
         return 1;
@@ -482,6 +542,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2008-05-08 13:43:11 $
+$Revision: 1.18 $ $Date: 2008-05-11 13:43:23 $
 
 =cut
