@@ -2,7 +2,7 @@
 # Service.t - Service tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Service.t,v 1.6 2008-03-19 12:28:24 mh Exp $
+# $Id: Service.t,v 1.7 2008-05-11 11:45:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -62,8 +62,7 @@ my @UserIDs;
 my @ServiceName;
 
 for my $Counter ( 1 .. 11 ) {
-
-    push @ServiceName, 'UnitTest' . int rand 1_000_000;
+    push @ServiceName, 'UnitTest*' . int rand 1_000_000;
 }
 
 # get original service list for later checks
@@ -469,14 +468,14 @@ my $ItemData = [
     {
         Update => {
             ParentID => 'LASTLASTADDID',
-            Name     => $ServiceName[7] . ' UPDATE2',
+            Name     => $ServiceName[7] . ' UPDATE(2)',
             ValidID  => 1,
             UserID   => 1,
         },
         UpdateGet => {
             ParentID => 'LASTLASTADDID',
-            Name => $ServiceName[5] . '::' . $ServiceName[6] . '::' . $ServiceName[7] . ' UPDATE2',
-            NameShort => $ServiceName[7] . ' UPDATE2',
+            Name => $ServiceName[5] . '::' . $ServiceName[6] . '::' . $ServiceName[7] . ' UPDATE(2)',
+            NameShort => $ServiceName[7] . ' UPDATE(2)',
             ValidID   => 1,
             CreateBy  => 1,
             ChangeBy  => 1,
