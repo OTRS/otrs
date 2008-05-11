@@ -2,7 +2,7 @@
 # Kernel/System/Service.pm - all service function
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.24 2008-04-02 04:52:27 tr Exp $
+# $Id: Service.pm,v 1.25 2008-05-11 11:48:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 =head1 NAME
 
@@ -44,7 +44,7 @@ create an object
     use Kernel::System::Service;
 
     my $ConfigObject = Kernel::Config->new();
-    my $LogObject = Kernel::System::Log->new(
+    my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
     my $DBObject = Kernel::System::DB->new(
@@ -55,8 +55,8 @@ create an object
 
     my $ServiceObject = Kernel::System::Service->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
-        DBObject => $DBObject,
+        LogObject    => $LogObject,
+        DBObject     => $DBObject,
     );
 
 =cut
@@ -83,7 +83,7 @@ sub new {
 return a hash list of services
 
     my %ServiceList = $ServiceObject->ServiceList(
-        Valid => 0,   # (optional) default 1 (0|1)
+        Valid  => 0,   # (optional) default 1 (0|1)
         UserID => 1,
     );
 
@@ -102,9 +102,6 @@ sub ServiceList {
     if ( !defined $Param{Valid} ) {
         $Param{Valid} = 1;
     }
-
-    # quote
-    $Param{UserID} = $Self->{DBObject}->Quote( $Param{UserID}, 'Integer' );
 
     # ask database
     $Self->{DBObject}->Prepare(
@@ -182,7 +179,7 @@ Return
 
     my %ServiceData = $ServiceObject->ServiceGet(
         ServiceID => 123,
-        UserID => 1,
+        UserID    => 1,
     );
 
 =cut
@@ -198,17 +195,12 @@ sub ServiceGet {
         }
     }
 
-    # quote
-    for (qw(ServiceID UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # get service from db
     my %ServiceData = ();
     $Self->{DBObject}->Prepare(
-        SQL =>
-            "SELECT id, name, valid_id, comments, create_time, create_by, change_time, change_by "
-            . "FROM service WHERE id = $Param{ServiceID}",
+        SQL => 'SELECT id, name, valid_id, comments, create_time, create_by, change_time, change_by '
+            . 'FROM service WHERE id = ?',
+        Bind => [ \$Param{ServiceID} ],
         Limit => 1,
     );
 
@@ -266,57 +258,49 @@ sub ServiceLookup {
 
     # check needed stuff
     if ( !$Param{ServiceID} && !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ServiceID or Name!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ServiceID or Name!' );
         return;
     }
 
     if ( $Param{ServiceID} ) {
 
         # check cache
-        if ( $Self->{"Cache::ServiceLookup::ID::$Param{ServiceID}"} ) {
-            return $Self->{"Cache::ServiceLookup::ID::$Param{ServiceID}"};
+        my $CacheKey = 'Cache::ServiceLookup::ID::' . $Param{ServiceID};
+        if ( $Self->{$CacheKey} ) {
+            return $Self->{$CacheKey};
         }
-        my $ServiceName;
-
-        # quote
-        $Param{ServiceID} = $Self->{DBObject}->Quote( $Param{ServiceID}, 'Integer' );
 
         # lookup
         $Self->{DBObject}->Prepare(
-            SQL   => "SELECT name FROM service WHERE id = $Param{ServiceID}",
+            SQL   => 'SELECT name FROM service WHERE id = ?',
+            Bind  => [ \$Param{ServiceID} ],
             Limit => 1,
         );
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-            $ServiceName = $Row[0];
+            $Self->{$CacheKey} = $Row[0];
         }
 
-        # cache
-        $Self->{"Cache::ServiceLookup::ID::$Param{ServiceID}"} = $ServiceName;
-        return $ServiceName;
+        return $Self->{$CacheKey};
     }
     else {
 
         # check cache
-        if ( $Self->{"Cache::ServiceLookup::Name::$Param{Name}"} ) {
-            return $Self->{"Cache::ServiceLookup::Name::$Param{Name}"};
+        my $CacheKey = 'Cache::ServiceLookup::Name::' . $Param{Name};
+        if ( $Self->{$CacheKey} ) {
+            return $Self->{$CacheKey};
         }
-        my $ServiceID;
-
-        # quote
-        $Param{Name} = $Self->{DBObject}->Quote( $Param{Name} );
 
         # lookup
         $Self->{DBObject}->Prepare(
-            SQL   => "SELECT id FROM service WHERE name = '$Param{Name}'",
+            SQL   => 'SELECT id FROM service WHERE name = ?',
+            Bind  => [ \$Param{Name} ],
             Limit => 1,
         );
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-            $ServiceID = $Row[0];
+            $Self->{$CacheKey} = $Row[0];
         }
 
-        # cache
-        $Self->{"Cache::ServiceLookup::Name::$Param{Name}"} = $ServiceID;
-        return $ServiceID;
+        return $Self->{$CacheKey};
     }
 }
 
@@ -325,11 +309,11 @@ sub ServiceLookup {
 add a service
 
     my $ServiceID = $ServiceObject->ServiceAdd(
-        Name => 'Service Name',
+        Name     => 'Service Name',
         ParentID => 1,           # (optional)
-        ValidID => 1,
-        Comment => 'Comment',    # (optional)
-        UserID => 1,
+        ValidID  => 1,
+        Comment  => 'Comment',    # (optional)
+        UserID   => 1,
     );
 
 =cut
@@ -345,14 +329,6 @@ sub ServiceAdd {
         }
     }
     $Param{Comment} = $Param{Comment} || '';
-
-    # quote
-    for (qw(Name Comment)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-    }
-    for (qw(ValidID UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
 
     # cleanup given params
     for my $Argument (qw(Name Comment)) {
@@ -379,58 +355,51 @@ sub ServiceAdd {
     if ( $Param{ParentID} ) {
         my $ParentName = $Self->ServiceLookup( ServiceID => $Param{ParentID}, );
         if ($ParentName) {
-            $Param{FullName} = $Self->{DBObject}->Quote($ParentName) . '::' . $Param{Name};
+            $Param{FullName} = $ParentName . '::' . $Param{Name};
         }
-
-        # quote
-        $Param{ParentID} = $Self->{DBObject}->Quote( $Param{ParentID}, 'Integer' );
     }
 
     # find existing service
-    my $Exists;
     $Self->{DBObject}->Prepare(
-        SQL   => "SELECT id FROM service WHERE name = '$Param{FullName}'",
+        SQL   => 'SELECT id FROM service WHERE name = ?',
+        Bind  => [ \$Param{FullName} ],
         Limit => 1,
     );
+    my $Exists;
     while ( $Self->{DBObject}->FetchrowArray() ) {
         $Exists = 1;
     }
 
     # add service to database
-    my $Return;
-    if ( !$Exists ) {
-        if (
-            $Self->{DBObject}->Do(
-                SQL => "INSERT INTO service "
-                    . "(name, valid_id, comments, create_time, create_by, change_time, change_by) VALUES "
-                    . "('$Param{FullName}', $Param{ValidID}, '$Param{Comment}', "
-                    . "current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})",
-            )
-            )
-        {
-
-            # get service id
-            $Self->{DBObject}->Prepare(
-                SQL   => "SELECT id FROM service WHERE name = '$Param{FullName}'",
-                Limit => 1,
-            );
-            my $ServiceID;
-            while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-                $ServiceID = $Row[0];
-            }
-            return $ServiceID;
-        }
-        else {
-            return;
-        }
-    }
-    else {
+    if ( $Exists ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Can't add service! Service with same name and parent already exists."
+            Message  => 'Can\'t add service! Service with same name and parent already exists.'
         );
         return;
     }
+
+    return if !$Self->{DBObject}->Do(
+        SQL => 'INSERT INTO service '
+            . '(name, valid_id, comments, create_time, create_by, change_time, change_by) '
+            . 'VALUES (?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+        Bind => [
+            \$Param{FullName}, \$Param{ValidID}, \$Param{Comment},
+            \$Param{UserID}, \$Param{UserID},
+        ],
+    );
+
+    # get service id
+    $Self->{DBObject}->Prepare(
+        SQL   => 'SELECT id FROM service WHERE name = ?',
+        Bind  => [ \$Param{FullName} ],
+        Limit => 1,
+    );
+    my $ServiceID;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $ServiceID = $Row[0];
+    }
+    return $ServiceID;
 }
 
 =item ServiceUpdate()
@@ -439,11 +408,11 @@ update a existing service
 
     my $True = $ServiceObject->ServiceUpdate(
         ServiceID => 123,
-        ParentID => 1,           # (optional)
-        Name => 'Service Name',
-        ValidID => 1,
-        Comment => 'Comment',    # (optional)
-        UserID => 1,
+        ParentID  => 1,           # (optional)
+        Name      => 'Service Name',
+        ValidID   => 1,
+        Comment   => 'Comment',    # (optional)
+        UserID    => 1,
     );
 
 =cut
@@ -461,14 +430,6 @@ sub ServiceUpdate {
 
     # set comment
     $Param{Comment} = $Param{Comment} || '';
-
-    # quote
-    for (qw(Name Comment)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-    }
-    for (qw(ServiceID ValidID UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
 
     # cleanup given params
     for my $Argument (qw(Name Comment)) {
@@ -492,8 +453,8 @@ sub ServiceUpdate {
     my $OldServiceName = $Self->ServiceLookup( ServiceID => $Param{ServiceID}, );
 
     # reset cache
-    $Self->{"Cache::ServiceLookup::ID::$Param{ServiceID}"} = 0;
-    $Self->{"Cache::ServiceLookup::Name::$OldServiceName"} = 0;
+    $Self->{ 'Cache::ServiceLookup::ID::' . $Param{ServiceID} } = 0;
+    $Self->{ 'Cache::ServiceLookup::Name::' . $OldServiceName } = 0;
 
     # create full name
     $Param{FullName} = $Param{Name};
@@ -502,28 +463,26 @@ sub ServiceUpdate {
     if ( $Param{ParentID} ) {
         my $ParentName = $Self->ServiceLookup( ServiceID => $Param{ParentID}, );
         if ($ParentName) {
-            $Param{FullName} = $Self->{DBObject}->Quote($ParentName) . '::' . $Param{Name};
+            $Param{FullName} = $ParentName . '::' . $Param{Name};
         }
 
         # check, if selected parent was a child of this service
-        if ( $Param{FullName} =~ /^($OldServiceName)::/ ) {
+        if ( $Param{FullName} =~ /^(\Q$OldServiceName\E)::/ ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "Can't update service! Invalid parent was selected."
+                Message  => 'Can\'t update service! Invalid parent was selected.'
             );
             return;
         }
-
-        # quote
-        $Param{ParentID} = $Self->{DBObject}->Quote( $Param{ParentID}, 'Integer' );
     }
 
     # find exists service
-    my $Exists;
     $Self->{DBObject}->Prepare(
-        SQL   => "SELECT id FROM service WHERE name = '$Param{FullName}'",
+        SQL   => 'SELECT id FROM service WHERE name = ?',
+        Bind  => [ \$Param{FullName} ],
         Limit => 1,
     );
+    my $Exists;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         if ( $Param{ServiceID} ne $Row[0] ) {
             $Exists = 1;
@@ -531,46 +490,48 @@ sub ServiceUpdate {
     }
 
     # update service
-    my $Return;
-    if ( !$Exists ) {
-
-        # update service
-        $Self->{DBObject}->Do(
-            SQL => "UPDATE service SET name = '$Param{FullName}', valid_id = $Param{ValidID}, "
-                . "comments = '$Param{Comment}', change_time = current_timestamp, change_by = $Param{UserID} "
-                . "WHERE id = $Param{ServiceID}",
-        );
-
-        # find all childs
-        $Self->{DBObject}->Prepare(
-            SQL => "SELECT id, name FROM service WHERE name LIKE '"
-                . $Self->{DBObject}->Quote( $OldServiceName, 'Like' )
-                . "::%'",
-        );
-        my @Childs;
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-            my %Child;
-            $Child{ServiceID} = $Row[0];
-            $Child{Name}      = $Row[1];
-            push( @Childs, \%Child );
-        }
-
-        # update childs
-        for my $Child (@Childs) {
-            $Child->{Name} =~ s/^($OldServiceName)::/$Param{FullName}::/;
-            $Self->{DBObject}->Do(
-                SQL => "UPDATE service SET name = '$Child->{Name}' WHERE id = $Child->{ServiceID}",
-            );
-        }
-        $Return = 1;
-    }
-    else {
+    if ( $Exists ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Can't update service! Service with same name and parent already exists."
+            Message  => 'Can\'t update service! Service with same name and parent already exists.'
+        );
+        return;
+
+    }
+
+    # update service
+    return if ! $Self->{DBObject}->Do(
+        SQL => 'UPDATE service SET name = ?, valid_id = ?, comments = ?, '
+            . ' change_time = current_timestamp, change_by = ? WHERE id = ?',
+        Bind => [
+            \$Param{FullName}, \$Param{ValidID}, \$Param{Comment},
+            \$Param{UserID}, \$Param{ServiceID},
+        ],
+    );
+
+    # find all childs
+    $Self->{DBObject}->Prepare(
+        SQL => "SELECT id, name FROM service WHERE name LIKE '"
+            . $Self->{DBObject}->Quote( $OldServiceName, 'Like' )
+            . "::%'",
+    );
+    my @Childs;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        my %Child;
+        $Child{ServiceID} = $Row[0];
+        $Child{Name}      = $Row[1];
+        push( @Childs, \%Child );
+    }
+
+    # update childs
+    for my $Child (@Childs) {
+        $Child->{Name} =~ s/^(\Q$OldServiceName\E)::/$Param{FullName}::/;
+        $Self->{DBObject}->Do(
+            SQL  => 'UPDATE service SET name = ? WHERE id = ?',
+            Bind => [ \$Child->{Name}, \$Child->{ServiceID} ],
         );
     }
-    return $Return;
+    return 1;
 }
 
 =item ServiceSearch()
@@ -578,8 +539,8 @@ sub ServiceUpdate {
 return service ids as an array
 
     my @ServiceList = $ServiceObject->ServiceSearch(
-        Name => 'Service Name',  # (optional)
-        Limit => 122,            # (optional) default 1000
+        Name   => 'Service Name', # (optional)
+        Limit  => 122,            # (optional) default 1000
         UserID => 1,
     );
 
@@ -597,6 +558,7 @@ sub ServiceSearch {
     }
     $Param{Limit} = $Param{Limit} || 1000;
 
+    # FIXME: valid_id = 1
     my $SQL = 'SELECT id FROM service WHERE valid_id = 1 ';
 
     if ( $Param{Name} ) {
@@ -640,15 +602,15 @@ returns a list of customeruser/service members
 
     $ServiceObject->CustomerUserServiceMemberList(
         CustomerUserLogin => 'Test',
-        Result => 'HASH',
-        DefaultServices => 0,
+        Result            => 'HASH',
+        DefaultServices   => 0,
     );
 
     Example (get customer user of service):
 
     $ServiceObject->CustomerUserServiceMemberList(
         ServiceID => $ID,
-        Result => 'HASH',
+        Result    => 'HASH',
     );
 
 =cut
@@ -666,7 +628,7 @@ sub CustomerUserServiceMemberList {
     if ( !$Param{ServiceID} && !$Param{CustomerUserLogin} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Need ServiceID or CustomerUserLogin!"
+            Message  => 'Need ServiceID or CustomerUserLogin!'
         );
         return;
     }
@@ -712,13 +674,12 @@ sub CustomerUserServiceMemberList {
     my %Data = ();
     my @Name = ();
     my @ID   = ();
-    my $SQL
-        = "SELECT scu.service_id, scu.customer_user_login, s.name "
-        . " FROM "
-        . " service_customer_user scu, service s"
-        . " WHERE "
-        . " s.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) " . " AND "
-        . " s.id = scu.service_id " . " AND ";
+    my $SQL = 'SELECT scu.service_id, scu.customer_user_login, s.name '
+        . ' FROM '
+        . ' service_customer_user scu, service s'
+        . ' WHERE '
+        . " s.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} ) AND "
+        . ' s.id = scu.service_id AND ';
 
     if ( $Param{ServiceID} ) {
         $SQL .= " scu.service_id = $Param{ServiceID}";
@@ -791,9 +752,9 @@ to add a member to a service
 
     $ServiceObject->CustomerUserServiceMemberAdd(
         CustomerUserLogin => 'Test1',
-        ServiceID => 6,
-        Active => 1,
-        UserID => 123,
+        ServiceID         => 6,
+        Active            => 1,
+        UserID            => 123,
     );
 
 =cut
@@ -811,35 +772,25 @@ sub CustomerUserServiceMemberAdd {
         }
     }
 
-    # db quote
-    for (qw(CustomerUserLogin)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-    }
-    for (qw(ServiceID UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # delete existing relation
-    my $SQL
-        = "DELETE FROM service_customer_user "
-        . " WHERE "
-        . " customer_user_login = '$Param{CustomerUserLogin}' " . " AND "
-        . " service_id = $Param{ServiceID}";
-    $Self->{DBObject}->Do( SQL => $SQL );
-    if ( $Param{Active} ) {
+    return if !$Self->{DBObject}->Do(
+        SQL => 'DELETE FROM service_customer_user WHERE '
+            . 'customer_user_login = ? AND service_id = ?',
+        Bind => [
+            \$Param{CustomerUserLogin}, \$Param{ServiceID},
+        ]
+    );
 
-        # insert new permission
-        $SQL
-            = "INSERT INTO service_customer_user "
-            . " (customer_user_login, service_id, create_time, create_by) "
-            . " VALUES "
-            . " ('$Param{CustomerUserLogin}', $Param{ServiceID}, "
-            . " current_timestamp, $Param{UserID})";
-        return $Self->{DBObject}->Do( SQL => $SQL );
-    }
-    else {
-        return;
-    }
+    # return if relation is not active
+    return if !$Param{Active};
+
+   # insert new relation
+    return $Self->{DBObject}->Do(
+        SQL => 'INSERT INTO service_customer_user '
+            . '(customer_user_login, service_id, create_time, create_by) '
+            . 'VALUES (?, ?, current_timestamp, ?)',
+        Bind => [ \$Param{CustomerUserLogin}, \$Param{ServiceID}, \$Param{UserID} ]
+    );
 }
 
 1;
@@ -858,6 +809,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2008-04-02 04:52:27 $
+$Revision: 1.25 $ $Date: 2008-05-11 11:48:02 $
 
 =cut
