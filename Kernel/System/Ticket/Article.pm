@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.174 2008-05-08 09:36:21 mh Exp $
+# $Id: Article.pm,v 1.175 2008-05-11 11:48:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.174 $) [1];
+$VERSION = qw($Revision: 1.175 $) [1];
 
 =head1 NAME
 
@@ -531,7 +531,7 @@ sub ArticleCreate {
     }
 
     # send forced notifications
-    if ( $Param{ForceNotificationToUserID} && ref( $Param{ForceNotificationToUserID} ) eq 'ARRAY' )
+    if ( $Param{ForceNotificationToUserID} && ref $Param{ForceNotificationToUserID} eq 'ARRAY' )
     {
         for my $UserID ( @{ $Param{ForceNotificationToUserID} } ) {
             if ( $AlreadySent{$UserID} ) {
@@ -960,7 +960,7 @@ sub ArticleFreeTextGet {
 
     # get config
     my %Data = ();
-    if ( ref( $Self->{ConfigObject}->Get( $Param{Type} ) ) eq 'HASH' ) {
+    if ( ref $Self->{ConfigObject}->Get( $Param{Type} ) eq 'HASH' ) {
         %Data = %{ $Self->{ConfigObject}->Get( $Param{Type} ) };
     }
 
@@ -1347,7 +1347,7 @@ sub ArticleGet {
 
     # article type lookup
     my $ArticleTypeSQL = '';
-    if ( $Param{ArticleType} && ( ref( $Param{ArticleType} ) eq 'ARRAY' ) ) {
+    if ( $Param{ArticleType} && ref $Param{ArticleType} eq 'ARRAY' ) {
         for ( @{ $Param{ArticleType} } ) {
             if ( $Self->ArticleTypeLookup( ArticleType => $_ ) ) {
                 if ($ArticleTypeSQL) {
