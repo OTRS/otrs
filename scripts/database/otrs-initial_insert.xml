@@ -5,11 +5,12 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 
-    $Id: otrs-initial_insert.xml,v 1.14 2008-04-25 12:58:47 tr Exp $
+    $Id: otrs-initial_insert.xml,v 1.15 2008-05-13 09:15:29 mh Exp $
 
 -->
 
 <database Name="otrs">
+
 <!-- framework -->
     <Insert Table="valid">
         <Data Key="name" Type="Quote">valid</Data>
@@ -114,6 +115,41 @@
     </Insert>
     <Insert Table="theme">
         <Data Key="theme" Type="Quote">Lite</Data>
+        <Data Key="valid_id">1</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+
+<!-- link -->
+    <Insert Table="link_object_type">
+        <Data Key="name" Type="Quote">normal</Data>
+        <Data Key="valid_id">1</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+    <Insert Table="link_object_type">
+        <Data Key="name" Type="Quote">parent-child</Data>
+        <Data Key="valid_id">1</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+
+    <Insert Table="link_object_state">
+        <Data Key="name" Type="Quote">valid</Data>
+        <Data Key="valid_id">1</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+    <Insert Table="link_object_state">
+        <Data Key="name" Type="Quote">temporary</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>

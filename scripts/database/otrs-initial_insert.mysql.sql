@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2008-02-11 13:20:18
+#  driver: mysql, generated: 2008-05-13 11:16:30
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  insert into table valid
@@ -73,6 +73,30 @@ INSERT INTO theme (theme, valid_id, create_by, create_time, change_by, change_ti
 INSERT INTO theme (theme, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('Lite', 1, 1, current_timestamp, 1, current_timestamp);
+# ----------------------------------------------------------
+#  insert into table link_object_type
+# ----------------------------------------------------------
+INSERT INTO link_object_type (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('normal', 1, 1, current_timestamp, 1, current_timestamp);
+# ----------------------------------------------------------
+#  insert into table link_object_type
+# ----------------------------------------------------------
+INSERT INTO link_object_type (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('parent-child', 1, 1, current_timestamp, 1, current_timestamp);
+# ----------------------------------------------------------
+#  insert into table link_object_state
+# ----------------------------------------------------------
+INSERT INTO link_object_state (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('valid', 1, 1, current_timestamp, 1, current_timestamp);
+# ----------------------------------------------------------
+#  insert into table link_object_state
+# ----------------------------------------------------------
+INSERT INTO link_object_state (name, valid_id, create_by, create_time, change_by, change_time)
+    VALUES
+    ('temporary', 1, 1, current_timestamp, 1, current_timestamp);
 # ----------------------------------------------------------
 #  insert into table ticket_state_type
 # ----------------------------------------------------------
