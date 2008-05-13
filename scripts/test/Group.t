@@ -2,7 +2,7 @@
 # Group.t - Group tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.t,v 1.11 2008-05-08 09:35:57 mh Exp $
+# $Id: Group.t,v 1.12 2008-05-13 09:46:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -155,7 +155,7 @@ $Self->True(
 );
 
 # lookup non-existing group by ID
-my $UnknownGroupName = $Self->{GroupObject}->GroupLookup( GroupID => '9876543210' );
+my $UnknownGroupName = $Self->{GroupObject}->GroupLookup( GroupID => '987654321' );
 $Self->True(
     !defined $UnknownGroupName,
     "GroupLookup(GroupID => 9876543210)",
