@@ -2,7 +2,7 @@
 # Kernel/System/State.pm - All state related function should be here eventually
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: State.pm,v 1.29 2008-05-08 09:36:19 mh Exp $
+# $Id: State.pm,v 1.30 2008-05-15 10:42:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 =head1 NAME
 
@@ -131,6 +131,11 @@ sub StateAdd {
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $ID = $Row[0];
     }
+
+    # reset cache
+    delete $Self->{ 'StateGet::' . $Param{Name} };
+    delete $Self->{ 'StateGet::' . $ID };
+
     return $ID;
 }
 
@@ -140,12 +145,10 @@ get states attributes
 
     my %State = $StateObject->StateGet(
         Name  => 'New State',
-        Cache => 1, # optional
     );
 
     my %State = $StateObject->StateGet(
         ID    => 123,
-        Cache => 1, # optional
     );
 
 =cut
@@ -167,7 +170,7 @@ sub StateGet {
     else {
         $CacheKey = 'StateGet::' . $Param{ID};
     }
-    if ( $Param{Cache} && $Self->{$CacheKey} ) {
+    if ( $Self->{$CacheKey} ) {
         return %{ $Self->{$CacheKey} };
     }
 
@@ -242,7 +245,7 @@ sub StateUpdate {
     }
 
     # sql
-    return $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => 'UPDATE ticket_state SET name = ?, comments = ?, type_id = ?, '
             . ' valid_id = ?, change_time = current_timestamp, change_by = ? '
             . ' WHERE id = ?',
@@ -251,6 +254,12 @@ sub StateUpdate {
             \$Param{UserID}, \$Param{ID},
         ],
     );
+
+    # reset cache
+    delete $Self->{ 'StateGet::' . $Param{Name} };
+    delete $Self->{ 'StateGet::' . $Param{ID} };
+
+    return 1;
 }
 
 =item StateGetStatesByType()
@@ -429,6 +438,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.29 $ $Date: 2008-05-08 09:36:19 $
+$Revision: 1.30 $ $Date: 2008-05-15 10:42:15 $
 
 =cut

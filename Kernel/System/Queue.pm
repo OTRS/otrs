@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.94 2008-05-08 14:44:19 mh Exp $
+# $Id: Queue.pm,v 1.95 2008-05-15 10:41:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.94 $) [1];
+$VERSION = qw($Revision: 1.95 $) [1];
 
 =head1 NAME
 
@@ -149,7 +149,7 @@ sub GetSystemAddress {
     my $QueueID = $Param{QueueID} || $Self->{QueueID};
     $Self->{DBObject}->Prepare(
         SQL => 'SELECT sa.value0, sa.value1 FROM system_address sa, queue sq '
-            . ' WHERE sq.id = ? AND sa.id = sq.system_address_id',
+            . 'WHERE sq.id = ? AND sa.id = sq.system_address_id',
         Bind => [ \$QueueID ],
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -183,12 +183,12 @@ sub GetSalutation {
     }
 
     # sql
-    my $String = '';
     $Self->{DBObject}->Prepare(
         SQL => 'SELECT text FROM salutation sa, queue sq '
             . ' WHERE sq.id = ? AND sq.salutation_id = sa.id',
         Bind => [ \$Param{QueueID} ],
     );
+    my $String = '';
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $String = $Row[0];
     }
@@ -213,12 +213,12 @@ sub GetSignature {
     }
 
     # sql
-    my $String = '';
     $Self->{DBObject}->Prepare(
         SQL => 'SELECT text FROM signature si, queue sq '
             . ' WHERE sq.id = ? AND sq.signature_id = si.id',
         Bind => [ \$Param{QueueID} ],
     );
+    my $String = '';
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $String = $Row[0];
     }
@@ -236,8 +236,6 @@ get std response of a queue
 sub GetStdResponse {
     my ( $Self, %Param ) = @_;
 
-    my $String = '';
-
     # check needed stuff
     if ( !$Param{ID} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID!' );
@@ -249,6 +247,7 @@ sub GetStdResponse {
         SQL  => 'SELECT text FROM standard_response WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
+    my $String = '';
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $String = $Row[0];
     }
@@ -259,7 +258,7 @@ sub GetStdResponse {
 sub SetQueueStdResponse {
     my ( $Self, %Param ) = @_;
 
-    unless ( $Param{ResponseID} && $Param{QueueID} && $Param{UserID} ) {
+    if ( !$Param{ResponseID} || !$Param{QueueID} || !$Param{UserID} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Need ResponseID, QueueID and UserID!"
@@ -287,8 +286,6 @@ get std responses of a queue
 sub GetStdResponses {
     my ( $Self, %Param ) = @_;
 
-    my %StdResponses;
-
     # check needed stuff
     if ( !$Param{QueueID} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need QueueID!' );
@@ -310,7 +307,7 @@ sub GetStdResponses {
         . " sr.valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )"
         . " ORDER BY sr.name";
     $Self->{DBObject}->Prepare( SQL => $SQL );
-
+    my %StdResponses;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $StdResponses{ $Row[0] } = $Row[1];
     }
@@ -426,11 +423,11 @@ sub GetAllCustomQueues {
     }
 
     # fetch all queues
-    my @QueueIDs;
     $Self->{DBObject}->Prepare(
         SQL  => 'SELECT queue_id FROM personal_queues WHERE user_id = ?',
         Bind => [ \$Param{UserID} ],
     );
+    my @QueueIDs;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         push @QueueIDs, $Row[0];
     }
@@ -461,12 +458,12 @@ sub QueueLookup {
     my $Key;
     my $Value;
     if ( $Param{QueueID} ) {
-        $CacheKey = 'QL::Queue::' . $Param{QueueID};
+        $CacheKey = 'QL::Name::' . $Param{QueueID};
         $Key      = 'QueueID';
         $Value    = $Param{QueueID};
     }
     else {
-        $CacheKey = 'QL::QueueID::' . $Param{Queue};
+        $CacheKey = 'QL::ID::' . $Param{Queue};
         $Key      = 'Queue';
         $Value    = $Param{Queue};
     }
@@ -677,7 +674,9 @@ sub QueueAdd {
 
         # these are coming from Config.pm
         # I added default values in the Load Routine
-        $Param{$_} = $Self->{QueueDefaults}{$_} || 0 unless ( $Param{$_} );
+        if ( !$Param{$_} ) {
+            $Param{$_} = $Self->{QueueDefaults}->{$_} || 0;
+        }
     }
 
     # check needed stuff
@@ -733,14 +732,20 @@ sub QueueAdd {
     );
 
     # get new queue id
-    my $QueueID = '';
     $Self->{DBObject}->Prepare(
         SQL  => 'SELECT id FROM queue WHERE name = ?',
         Bind => [ \$Param{Name} ],
     );
+    my $QueueID = '';
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $QueueID = $Row[0];
     }
+
+    # reset cache
+    delete $Self->{ 'QG::ID::' . $QueueID };
+    delete $Self->{ 'QG::Name::' . $Param{Name} };
+    delete $Self->{ 'QL::ID::' . $Param{Name} };
+    delete $Self->{ 'QL::Name::' . $QueueID };
 
     # add default responses (if needed), add response by name
     if ( $Self->{ConfigObject}->Get('StdResponse2QueueByCreating') ) {
@@ -778,12 +783,10 @@ get queue attributes
 
     my %Queue = $QueueObject->QueueGet(
         ID    => 123,
-        Cache => 1, # optional
     );
 
     my %Queue = $QueueObject->QueueGet(
         Name  => 'Some::Queue',
-        Cache => 1, # optional
     );
 
 =cut
@@ -807,26 +810,25 @@ sub QueueGet {
         $Value    = $Param{ID};
     }
     else {
-        $CacheKey = 'QL::Name::' . $Param{Name};
+        $CacheKey = 'QG::Name::' . $Param{Name};
         $Key      = 'Name';
         $Value    = $Param{Name};
     }
-    if ( $Param{Cache} && $Self->{$CacheKey} ) {
+    if ( $Self->{$CacheKey} ) {
         return %{ $Self->{$CacheKey} };
     }
 
     # sql
     my @Bind;
     my $SQL = 'SELECT q.name, q.group_id, q.unlock_timeout, '
-        . ' q.system_address_id, q.salutation_id, q.signature_id, q.comments, q.valid_id, '
-        . ' q.first_response_time, q.first_response_notify, '
-        . ' q.update_time, q.update_notify, q.solution_time, q.solution_notify, '
-        . ' q.follow_up_id, q.follow_up_lock, sa.value0, sa.value1, q.id, '
-        . ' q.move_notify, q.state_notify, q.lock_notify, q.owner_notify, q.default_sign_key, '
-        . ' q.calendar_name '
-        . ' FROM queue q, system_address sa'
-        . ' WHERE q.system_address_id = sa.id AND ';
-    my $Suffix = '';
+        . 'q.system_address_id, q.salutation_id, q.signature_id, q.comments, q.valid_id, '
+        . 'q.first_response_time, q.first_response_notify, '
+        . 'q.update_time, q.update_notify, q.solution_time, q.solution_notify, '
+        . 'q.follow_up_id, q.follow_up_lock, sa.value0, sa.value1, q.id, '
+        . 'q.move_notify, q.state_notify, q.lock_notify, q.owner_notify, q.default_sign_key, '
+        . 'q.calendar_name '
+        . 'FROM queue q, system_address sa '
+        . 'WHERE q.system_address_id = sa.id AND ';
 
     if ( $Param{ID} ) {
         $SQL .= 'q.id = ?';
@@ -836,8 +838,8 @@ sub QueueGet {
         $SQL .= 'q.name = ?';
         push @Bind, \$Param{Name};
     }
-    my %Data = ();
     $Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
+    my %Data = ();
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         %Data = (
             QueueID             => $Data[18],
@@ -948,7 +950,9 @@ sub QueueUpdate {
         FollowUpID FollowUpLock DefaultSignKey Calendar)
         )
     {
-        $Param{$_} = 0 if ( !$Param{$_} );
+        if ( !$Param{$_} ) {
+            $Param{$_} = 0;
+        }
     }
 
     # cleanup queue name
@@ -1003,6 +1007,12 @@ sub QueueUpdate {
         ],
     );
 
+    # reset cache
+    delete $Self->{ 'QG::ID::' . $Param{QueueID} };
+    delete $Self->{ 'QG::Name::' . $Param{Name} };
+    delete $Self->{ 'QL::ID::' . $Param{Name} };
+    delete $Self->{ 'QL::Name::' . $Param{QueueID} };
+
     # updated all sub queue names
     my @ParentQueue = split( /::/, $OldQueue{Name} );
     for my $QueueID ( keys %AllQueue ) {
@@ -1016,6 +1026,12 @@ sub QueueUpdate {
                         . ' change_by = ? WHERE id = ?',
                     Bind => [ \$NewQueueName, \$Param{UserID}, \$QueueID ],
                 );
+
+                # reset cache
+                delete $Self->{ 'QG::ID::' . $QueueID };
+                delete $Self->{ 'QG::Name::' . $NewQueueName };
+                delete $Self->{ 'QL::ID::' . $NewQueueName };
+                delete $Self->{ 'QL::Name::' . $QueueID };
             }
         }
     }
@@ -1074,6 +1090,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.94 $ $Date: 2008-05-08 14:44:19 $
+$Revision: 1.95 $ $Date: 2008-05-15 10:41:54 $
 
 =cut
