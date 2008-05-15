@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.66 2008-05-08 09:36:36 mh Exp $
+# $Id: AgentTicketPhone.pm,v 1.67 2008-05-15 09:04:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -780,9 +780,9 @@ sub Run {
             QueueID      => $NewQueueID,
             Subject      => $GetParam{Subject},
             Lock         => 'unlock',
-            TypeID       => $GetParam{TypeID} || '',
-            ServiceID    => $GetParam{ServiceID} || '',
-            SLAID        => $GetParam{SLAID} || '',
+            TypeID       => $GetParam{TypeID},
+            ServiceID    => $GetParam{ServiceID},
+            SLAID        => $GetParam{SLAID},
             StateID      => $GetParam{NextStateID},
             PriorityID   => $GetParam{PriorityID},
             OwnerID      => $Self->{UserID},
@@ -1261,7 +1261,7 @@ sub _GetTos {
 
         # build selection string
         for my $QueueID ( keys %Tos ) {
-            my %QueueData = $Self->{QueueObject}->QueueGet( ID => $QueueID, Cache => 1 );
+            my %QueueData = $Self->{QueueObject}->QueueGet( ID => $QueueID );
 
             # permission check, can we create new tickets in queue
             next if !$UserGroups{ $QueueData{GroupID} };
@@ -1398,8 +1398,55 @@ sub _MaskPhoneNew {
             Name        => 'Dest',
             SelectedID  => $Param{ToSelected},
             Translation => 0,
-            OnChange =>
-                "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
+            OnChange => "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
+            Ajax => {
+                Update => [
+                    'NewUserID',
+                    'NewResponsibleID',
+                    'NextStateID',
+                    'PriorityID',
+                    'TicketFreeText1',
+                    'TicketFreeText2',
+                    'TicketFreeText3',
+                    'TicketFreeText4',
+                    'TicketFreeText5',
+                    'TicketFreeText6',
+                    'TicketFreeText7',
+                    'TicketFreeText8',
+                    'TicketFreeText9',
+                    'TicketFreeText10',
+                    'TicketFreeText11',
+                    'TicketFreeText12',
+                    'TicketFreeText13',
+                    'TicketFreeText14',
+                    'TicketFreeText15',
+                    'TicketFreeText16',
+                ],
+                Depend => [
+                    'Dest',
+                    'NextStateID',
+                    'PriorityID',
+                    'OwnerAll',
+                    'ResponsibleAll',
+                    'TicketFreeText1',
+                    'TicketFreeText2',
+                    'TicketFreeText3',
+                    'TicketFreeText4',
+                    'TicketFreeText5',
+                    'TicketFreeText6',
+                    'TicketFreeText7',
+                    'TicketFreeText8',
+                    'TicketFreeText9',
+                    'TicketFreeText10',
+                    'TicketFreeText11',
+                    'TicketFreeText12',
+                    'TicketFreeText13',
+                    'TicketFreeText14',
+                    'TicketFreeText15',
+                    'TicketFreeText16',
+                ],
+                Subaction => 'AJAXUpdate',
+            }
         );
     }
 

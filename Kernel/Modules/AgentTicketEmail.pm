@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.59 2008-05-08 09:58:00 mh Exp $
+# $Id: AgentTicketEmail.pm,v 1.60 2008-05-15 09:04:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -755,9 +755,9 @@ sub Run {
             QueueID      => $NewQueueID,
             Subject      => $GetParam{Subject},
             Lock         => 'unlock',
-            TypeID       => $GetParam{TypeID} || '',
-            ServiceID    => $GetParam{ServiceID} || '',
-            SLAID        => $GetParam{SLAID} || '',
+            TypeID       => $GetParam{TypeID},
+            ServiceID    => $GetParam{ServiceID},
+            SLAID        => $GetParam{SLAID},
             StateID      => $NextStateID,
             PriorityID   => $GetParam{PriorityID},
             OwnerID      => $Self->{UserID},
@@ -1232,7 +1232,7 @@ sub _GetTos {
 
         # build selection string
         for my $QueueID ( keys %Tos ) {
-            my %QueueData = $Self->{QueueObject}->QueueGet( ID => $QueueID, Cache => 1 );
+            my %QueueData = $Self->{QueueObject}->QueueGet( ID => $QueueID );
 
             # permission check, can we create new tickets in queue
             next if !$UserGroups{ $QueueData{GroupID} };
@@ -1349,6 +1349,7 @@ sub _MaskEmailNew {
                 "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
             Ajax => {
                 Update => [
+                    'Signature',
                     'NewUserID',
                     'NewResponsibleID',
                     'NextStateID',
@@ -1394,7 +1395,7 @@ sub _MaskEmailNew {
                     'TicketFreeText16',
                 ],
                 Subaction => 'AJAXUpdate',
-                }
+            },
         );
     }
     else {
@@ -1404,6 +1405,55 @@ sub _MaskEmailNew {
             SelectedID => $Param{FromSelected},
             OnChange =>
                 "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
+            Ajax => {
+                Update => [
+                    'Signature',
+                    'NewUserID',
+                    'NewResponsibleID',
+                    'NextStateID',
+                    'PriorityID',
+                    'TicketFreeText1',
+                    'TicketFreeText2',
+                    'TicketFreeText3',
+                    'TicketFreeText4',
+                    'TicketFreeText5',
+                    'TicketFreeText6',
+                    'TicketFreeText7',
+                    'TicketFreeText8',
+                    'TicketFreeText9',
+                    'TicketFreeText10',
+                    'TicketFreeText11',
+                    'TicketFreeText12',
+                    'TicketFreeText13',
+                    'TicketFreeText14',
+                    'TicketFreeText15',
+                    'TicketFreeText16',
+                ],
+                Depend => [
+                    'Dest',
+                    'NextStateID',
+                    'PriorityID',
+                    'OwnerAll',
+                    'ResponsibleAll',
+                    'TicketFreeText1',
+                    'TicketFreeText2',
+                    'TicketFreeText3',
+                    'TicketFreeText4',
+                    'TicketFreeText5',
+                    'TicketFreeText6',
+                    'TicketFreeText7',
+                    'TicketFreeText8',
+                    'TicketFreeText9',
+                    'TicketFreeText10',
+                    'TicketFreeText11',
+                    'TicketFreeText12',
+                    'TicketFreeText13',
+                    'TicketFreeText14',
+                    'TicketFreeText15',
+                    'TicketFreeText16',
+                ],
+                Subaction => 'AJAXUpdate',
+            },
         );
     }
 
