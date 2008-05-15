@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2008-05-15 20:29:11
+--  driver: mssql, generated: 2008-05-15 23:35:15
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -12,7 +12,7 @@ CREATE TABLE valid (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE valid_name (name)
+    CONSTRAINT valid_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
 --  create table ticket_priority
@@ -26,7 +26,7 @@ CREATE TABLE ticket_priority (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE ticket_priority_name (name)
+    CONSTRAINT ticket_priority_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
 --  create table ticket_type
@@ -40,7 +40,7 @@ CREATE TABLE ticket_type (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE ticket_type_name (name)
+    CONSTRAINT ticket_type_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
 --  create table ticket_lock_type
@@ -54,7 +54,7 @@ CREATE TABLE ticket_lock_type (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE ticket_lock_type_name (name)
+    CONSTRAINT ticket_lock_type_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
 --  create table users
@@ -72,7 +72,7 @@ CREATE TABLE users (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE users_login (login)
+    CONSTRAINT users_login UNIQUE (login)
 );
 -- ----------------------------------------------------------
 --  create table user_preferences
@@ -96,7 +96,7 @@ CREATE TABLE groups (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE groups_name (name)
+    CONSTRAINT groups_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
 --  create table group_user
@@ -156,7 +156,7 @@ CREATE TABLE roles (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE roles_name (name)
+    CONSTRAINT roles_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
 --  create table role_user
@@ -192,7 +192,7 @@ CREATE TABLE theme (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE theme_theme (theme)
+    CONSTRAINT theme_theme UNIQUE (theme)
 );
 -- ----------------------------------------------------------
 --  create table ticket_state
@@ -208,7 +208,7 @@ CREATE TABLE ticket_state (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE ticket_state_name (name)
+    CONSTRAINT ticket_state_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
 --  create table ticket_state_type
@@ -222,7 +222,7 @@ CREATE TABLE ticket_state_type (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE ticket_state_type_name (name)
+    CONSTRAINT ticket_state_type_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
 --  create table salutation
@@ -238,7 +238,7 @@ CREATE TABLE salutation (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE salutation_name (name)
+    CONSTRAINT salutation_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
 --  create table signature
@@ -254,7 +254,7 @@ CREATE TABLE signature (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE signature_name (name)
+    CONSTRAINT signature_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
 --  create table system_address
@@ -287,7 +287,7 @@ CREATE TABLE follow_up_possible (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE follow_up_possible_name (name)
+    CONSTRAINT follow_up_possible_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
 --  create table queue
@@ -321,7 +321,7 @@ CREATE TABLE queue (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE queue_name (name)
+    CONSTRAINT queue_name UNIQUE (name)
 );
 CREATE INDEX queue_group_id ON queue (group_id);
 -- ----------------------------------------------------------
@@ -407,7 +407,7 @@ CREATE TABLE ticket (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE ticket_tn (tn)
+    CONSTRAINT ticket_tn UNIQUE (tn)
 );
 CREATE INDEX ticket_answered ON ticket (ticket_answered);
 CREATE INDEX ticket_customer_id ON ticket (customer_id);
@@ -433,7 +433,7 @@ CREATE TABLE link_type (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE link_type_name (name)
+    CONSTRAINT link_type_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
 --  create table link_state
@@ -447,7 +447,7 @@ CREATE TABLE link_state (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE link_state_name (name)
+    CONSTRAINT link_state_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
 --  create table link_object
@@ -456,7 +456,7 @@ CREATE TABLE link_object (
     id SMALLINT NOT NULL IDENTITY(1,1) ,
     name VARCHAR (100) NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE link_object_name (name)
+    CONSTRAINT link_object_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
 --  create table link_relation
@@ -470,7 +470,7 @@ CREATE TABLE link_relation (
     state_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
-    UNIQUE link_relation_view (source_object_id, source_key, target_object_id, target_key, type_id)
+    CONSTRAINT link_relation_view UNIQUE (source_object_id, source_key, target_object_id, target_key, type_id)
 );
 -- ----------------------------------------------------------
 --  create table ticket_history
@@ -514,7 +514,7 @@ CREATE TABLE ticket_history_type (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE ticket_history_type_name (name)
+    CONSTRAINT ticket_history_type_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
 --  create table article_type
@@ -529,7 +529,7 @@ CREATE TABLE article_type (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE article_type_name (name)
+    CONSTRAINT article_type_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
 --  create table article_sender_type
@@ -544,7 +544,7 @@ CREATE TABLE article_sender_type (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE article_sender_type_name (name)
+    CONSTRAINT article_sender_type_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
 --  create table article_flag
@@ -637,7 +637,7 @@ CREATE TABLE standard_response (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE standard_response_name (name)
+    CONSTRAINT standard_response_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
 --  create table queue_standard_response
@@ -666,7 +666,7 @@ CREATE TABLE standard_attachment (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE standard_attachment_name (name)
+    CONSTRAINT standard_attachment_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
 --  create table standard_response_attachment
@@ -694,7 +694,7 @@ CREATE TABLE auto_response_type (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE auto_response_type_name (name)
+    CONSTRAINT auto_response_type_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
 --  create table auto_response
@@ -715,7 +715,7 @@ CREATE TABLE auto_response (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE auto_response_name (name)
+    CONSTRAINT auto_response_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
 --  create table queue_auto_response
@@ -771,7 +771,7 @@ CREATE TABLE service (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE service_name (name)
+    CONSTRAINT service_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
 --  create table service_customer_user
@@ -804,7 +804,7 @@ CREATE TABLE sla (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE sla_name (name)
+    CONSTRAINT sla_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
 --  create table service_sla
@@ -812,7 +812,7 @@ CREATE TABLE sla (
 CREATE TABLE service_sla (
     service_id INTEGER NOT NULL,
     sla_id INTEGER NOT NULL,
-    UNIQUE service_sla_service_sla (service_id, sla_id)
+    CONSTRAINT service_sla_service_sla UNIQUE (service_id, sla_id)
 );
 -- ----------------------------------------------------------
 --  create table sessions
@@ -863,7 +863,7 @@ CREATE TABLE customer_user (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE customer_user_login (login)
+    CONSTRAINT customer_user_login UNIQUE (login)
 );
 -- ----------------------------------------------------------
 --  create table customer_preferences
@@ -892,7 +892,7 @@ CREATE TABLE customer_company (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(customer_id),
-    UNIQUE customer_company_name (name)
+    CONSTRAINT customer_company_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
 --  create table ticket_loop_protection
