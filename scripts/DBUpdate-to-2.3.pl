@@ -3,7 +3,7 @@
 # DBUpdate-to-2.3.pl - update script to migrate OTRS 2.2.x to 2.3.x
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-2.3.pl,v 1.2 2008-05-10 10:31:22 mh Exp $
+# $Id: DBUpdate-to-2.3.pl,v 1.3 2008-05-15 09:17:08 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,10 +30,11 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
+use Kernel::System::LinkObject;
 use Kernel::System::Log;
 use Kernel::System::Time;
 use Kernel::System::Encode;
@@ -44,7 +45,7 @@ use Kernel::System::Main;
 my %Opts;
 getopt( 'h', \%Opts );
 if ( $Opts{'h'} ) {
-    print STDOUT "DBUpdate-to-2.3.pl <Revision $VERSION> - Database migrate script\n";
+    print STDOUT "DBUpdate-to-2.3.pl <Revision $VERSION> - Database migration script\n";
     print STDOUT "Copyright (c) 2001-2008 OTRS AG, http://otrs.org/\n";
     exit 1;
 }
@@ -60,14 +61,27 @@ $CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{TimeObject}   = Kernel::System::Time->new(%CommonObject);
 $CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
+$CommonObject{LinkObject}   = Kernel::System::LinkObject->new(%CommonObject);
 
 print STDOUT "Start migration of the system...\n\n";
 
-# ------------------------------------------------------------ #
-# migrate the service sla relations
-# ------------------------------------------------------------ #
+# start migration process
+MigrateServiceSLARelation();
+MigrateLinkObject();
 
-{
+print STDOUT "\nMigration of the system completed!\n";
+
+exit 0;
+
+=item MigrateServiceSLARelation()
+
+this function migrates the service sla relations
+
+    MigrateServiceSLARelation();
+
+=cut
+
+sub MigrateServiceSLARelation {
 
     print STDOUT "Migrate the service sla relations... ";
 
@@ -78,38 +92,122 @@ print STDOUT "Start migration of the system...\n\n";
 
     if ( !$Success ) {
         print STDOUT "impossible or not required!\n";
+        return;
     }
-    else {
 
-        # fetch the result
-        my @ServiceSLARelation;
-        while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {
+    # fetch the result
+    my @ServiceSLARelation;
+    while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {
 
-            my %Relation;
-            $Relation{SLAID}     = $Row[0];
-            $Relation{ServiceID} = $Row[1];
+        my %Relation;
+        $Relation{SLAID}     = $Row[0];
+        $Relation{ServiceID} = $Row[1];
 
-            push @ServiceSLARelation, \%Relation;
-        }
-
-        # add the new relations
-        RELATION:
-        for my $Relation (@ServiceSLARelation) {
-
-            next RELATION if !$Relation->{SLAID};
-            next RELATION if !$Relation->{ServiceID};
-
-            # add one relation
-            $CommonObject{DBObject}->Do(
-                SQL => "INSERT INTO service_sla "
-                    . "(service_id, sla_id) VALUES ($Relation->{ServiceID}, $Relation->{SLAID})",
-            );
-        }
-
-        print STDOUT " done\n";
+        push @ServiceSLARelation, \%Relation;
     }
+
+    # add the new relations
+    RELATION:
+    for my $Relation (@ServiceSLARelation) {
+
+        next RELATION if !$Relation->{SLAID};
+        next RELATION if !$Relation->{ServiceID};
+
+        # add one relation
+        $CommonObject{DBObject}->Do(
+            SQL => "INSERT INTO service_sla "
+                . "(service_id, sla_id) VALUES ($Relation->{ServiceID}, $Relation->{SLAID})",
+        );
+    }
+
+    print STDOUT " done\n";
+
+    return 1;
 }
 
-print STDOUT "\nMigration of the system completed!\n";
+=item MigrateLinkObject()
 
-exit 0;
+this function migrates the links between the objects
+
+    MigrateLinkObject();
+
+=cut
+
+sub MigrateLinkObject {
+
+    print STDOUT "Migrate the link object... ";
+
+    # get all existing links
+    my $Success = $CommonObject{DBObject}->Prepare(
+        SQL => 'SELECT object_link_a_id, object_link_b_id, '
+            . 'object_link_a_object, object_link_b_object, object_link_type FROM object_link',
+    );
+
+    if ( !$Success ) {
+        print STDOUT "impossible or not required!\n";
+        return;
+    }
+
+    # fetch the result
+    my @Links;
+    while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {
+
+        my %Link;
+        $Link{AID}     = $Row[0];
+        $Link{BID}     = $Row[1];
+        $Link{AObject} = $Row[2];
+        $Link{BObject} = $Row[3];
+        $Link{Type}    = $Row[4];
+    }
+
+    return if !scalar @Links;
+
+    # lookup the object state id
+    my $StateID = LinkStateLookup(
+        Name => 'Valid',
+    );
+
+    # add the new links
+    RELATION:
+    for my $Link (@Links) {
+
+        my $SourceObject = $Link->{AObject};
+        my $SourceKey    = $Link->{AID};
+        my $TargetObject = $Link->{BObject};
+        my $TargetKey    = $Link->{BID};
+        my $Type         = 'Normal';
+
+        if ( $Link->{Type} eq 'Parent' ) {
+            $Type = 'ParentChild';
+        }
+        elsif ( $Link->{Type} eq 'Child' ) {
+            $SourceObject = $Link->{BObject};
+            $SourceKey    = $Link->{BID};
+            $TargetObject = $Link->{AObject};
+            $TargetKey    = $Link->{AID};
+            $Type         = 'ParentChild';
+        }
+
+        # lookup the object type id
+        my $TypeID = LinkTypeLookup(
+            Name => $Type,
+        );
+
+        # add the link
+        $CommonObject{LinkObject}->LinkAdd(
+            SourceObject => $SourceObject,
+            SourceKey    => $SourceKey,
+            TargetObject => $TargetObject,
+            TargetKey    => $TargetKey,
+            TypeID       => $TypeID,
+            StateID      => $StateID,
+            UserID       => 1,
+        );
+    }
+
+    print STDOUT " done\n";
+
+    return 1;
+}
+
+1;
