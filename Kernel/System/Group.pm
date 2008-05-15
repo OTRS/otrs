@@ -2,7 +2,7 @@
 # Kernel/System/Group.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.pm,v 1.56 2008-05-08 09:36:19 mh Exp $
+# $Id: Group.pm,v 1.57 2008-05-15 20:43:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 =head1 NAME
 
@@ -44,22 +44,22 @@ create an object
     use Kernel::System::Group;
 
     my $ConfigObject = Kernel::Config->new();
-    my $LogObject = Kernel::System::Log->new(
+    my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
     my $MainObject = Kernel::System::Main->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
     );
     my $DBObject = Kernel::System::DB->new(
-        MainObject => $MainObject,
+        MainObject   => $MainObject,
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
     );
     my $GroupObject = Kernel::System::Group->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
-        DBObject => $DBObject,
+        LogObject    => $LogObject,
+        DBObject     => $DBObject,
     );
 
 =cut
@@ -95,7 +95,7 @@ sub GroupLookup {
 
     # check needed stuff
     if ( !$Param{Group} && !$Param{GroupID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Got no Group or GroupID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no Group or GroupID!' );
         return;
     }
 
@@ -114,13 +114,13 @@ sub GroupLookup {
     if ( $Param{Group} ) {
         $Param{What} = $Param{Group};
         $Suffix      = 'GroupID';
-        $SQL         = "SELECT id FROM groups WHERE name = ?";
+        $SQL         = 'SELECT id FROM groups WHERE name = ?';
         push @Bind, \$Param{Group};
     }
     else {
         $Param{What} = $Param{GroupID};
         $Suffix      = 'Group';
-        $SQL         = "SELECT name FROM groups WHERE id = ?";
+        $SQL         = 'SELECT name FROM groups WHERE id = ?';
         push @Bind, \$Param{GroupID};
     }
     return if !$Self->{DBObject}->Prepare(
@@ -161,7 +161,7 @@ sub RoleLookup {
 
     # check needed stuff
     if ( !$Param{Role} && !$Param{RoleID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Got no Role or RoleID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no Role or RoleID!' );
         return;
     }
 
@@ -180,13 +180,13 @@ sub RoleLookup {
     if ( $Param{Role} ) {
         $Param{What} = $Param{Role};
         $Suffix      = 'RoleID';
-        $SQL         = "SELECT id FROM roles WHERE name = ?";
+        $SQL         = 'SELECT id FROM roles WHERE name = ?';
         push @Bind, \$Param{Role};
     }
     else {
         $Param{What} = $Param{RoleID};
         $Suffix      = 'Role';
-        $SQL         = "SELECT name FROM roles WHERE id = ?";
+        $SQL         = 'SELECT name FROM roles WHERE id = ?';
         push @Bind, \$Param{RoleID};
     }
     return if !$Self->{DBObject}->Prepare(
@@ -222,12 +222,12 @@ to add a member to a group
         GID => 12,
         UID => 6,
         Permission => {
-            ro => 1,
+            ro        => 1,
             move_into => 1,
-            create => 1,
-            owner => 1,
-            priority => 0,
-            rw => 0,
+            create    => 1,
+            owner     => 1,
+            priority  => 0,
+            rw        => 0,
         },
         UserID => 123,
     );
@@ -251,8 +251,8 @@ sub GroupMemberAdd {
     my %Value = ();
     if ( !$Self->{"GroupMemberAdd::GID::$Param{GID}"} ) {
         return if !$Self->{DBObject}->Prepare(
-            SQL => "SELECT group_id, user_id, permission_key, permission_value FROM "
-                . " group_user WHERE group_id = ?",
+            SQL => 'SELECT group_id, user_id, permission_key, permission_value FROM '
+                . 'group_user WHERE group_id = ?',
             Bind => [ \$Param{GID} ],
         );
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -282,8 +282,8 @@ sub GroupMemberAdd {
 #            print STDERR "Updated needed! UID:$Param{UID} to GID:$Param{GID}, $Type:$Param{Permission}->{$Type}!\n";
 # delete existing permission
             $Self->{DBObject}->Do(
-                SQL => "DELETE FROM group_user WHERE "
-                    . " group_id = ? AND user_id = ? AND permission_key = ?",
+                SQL => 'DELETE FROM group_user WHERE '
+                    . ' group_id = ? AND user_id = ? AND permission_key = ?',
                 Bind => [ \$Param{GID}, \$Param{UID}, \$Type ],
             );
 
@@ -298,11 +298,11 @@ sub GroupMemberAdd {
 
             # insert new permission
             $Self->{DBObject}->Do(
-                SQL => "INSERT INTO group_user "
-                    . " (user_id, group_id, permission_key, permission_value, "
-                    . " create_time, create_by, change_time, change_by) "
-                    . " VALUES "
-                    . " (?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)",
+                SQL => 'INSERT INTO group_user '
+                    . '(user_id, group_id, permission_key, permission_value, '
+                    . 'create_time, create_by, change_time, change_by) '
+                    . 'VALUES '
+                    . '(?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
                 Bind => [
                     \$Param{UID}, \$Param{GID}, \$Type, \$Param{Permission}->{$Type},
                     \$Param{UserID}, \$Param{UserID},
@@ -318,9 +318,9 @@ sub GroupMemberAdd {
 to add a group
 
     my $ID = $GroupObject->GroupAdd(
-        Name => 'example-group',
+        Name    => 'example-group',
         ValidID => 1,
-        UserID => 123,
+        UserID  => 123,
     );
 
 =cut
@@ -338,9 +338,9 @@ sub GroupAdd {
 
     # insert new group
     return if !$Self->{DBObject}->Do(
-        SQL => "INSERT INTO groups (name, comments, valid_id, "
-            . " create_time, create_by, change_time, change_by)"
-            . " VALUES (?, ?, ?, current_timestamp, ?, current_timestamp, ?)",
+        SQL => 'INSERT INTO groups (name, comments, valid_id, '
+            . ' create_time, create_by, change_time, change_by)'
+            . ' VALUES (?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
             \$Param{Name}, \$Param{Comment}, \$Param{ValidID}, \$Param{UserID}, \$Param{UserID},
         ],
@@ -348,7 +348,7 @@ sub GroupAdd {
 
     # get new group id
     return if !$Self->{DBObject}->Prepare(
-        SQL  => "SELECT id FROM groups WHERE name = ?",
+        SQL  => 'SELECT id FROM groups WHERE name = ?',
         Bind => [ \$Param{Name} ],
     );
     my $GroupID;
@@ -383,8 +383,8 @@ sub GroupGet {
 
     # sql
     return if !$Self->{DBObject}->Prepare(
-        SQL => "SELECT name, valid_id, comments, change_time, create_time "
-            . " FROM groups WHERE id = ?",
+        SQL => 'SELECT name, valid_id, comments, change_time, create_time '
+            . 'FROM groups WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
     my %GroupData = ();
@@ -406,10 +406,10 @@ sub GroupGet {
 update of a group
 
     $GroupObject->GroupUpdate(
-        ID => 123,
-        Name => 'example-group',
+        ID      => 123,
+        Name    => 'example-group',
         ValidID => 1,
-        UserID => 123,
+        UserID  => 123,
     );
 
 =cut
@@ -427,8 +427,8 @@ sub GroupUpdate {
 
     # sql
     return $Self->{DBObject}->Do(
-        SQL => "UPDATE groups SET name = ?, comments = ?, valid_id = ?, "
-            . "change_time = current_timestamp, change_by = ? WHERE id = ?",
+        SQL => 'UPDATE groups SET name = ?, comments = ?, valid_id = ?, '
+            . 'change_time = current_timestamp, change_by = ? WHERE id = ?',
         Bind => [
             \$Param{Name}, \$Param{Comment}, \$Param{ValidID}, \$Param{UserID}, \$Param{ID}
         ],
@@ -473,7 +473,7 @@ based on GroupGroupMemberList() and GroupRoleMemberList().
 
     my %Groups = $GroupObject->GroupMemberList(
         UserID => $ID,
-        Type => 'move_into',
+        Type   => 'move_into',
         Result => 'HASH',
     );
 
@@ -481,8 +481,8 @@ based on GroupGroupMemberList() and GroupRoleMemberList().
 
     my %Users = $GroupObject->GroupMemberList(
         GroupID => $ID,
-        Type => 'move_into',
-        Result => 'HASH',
+        Type    => 'move_into',
+        Result  => 'HASH',
     );
 
     Attention: The user ids (keys) in the hash returned from this function
@@ -503,7 +503,7 @@ sub GroupMemberList {
         }
     }
     if ( !$Param{UserID} && !$Param{GroupID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserID or GroupID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID or GroupID!' );
         return;
     }
 
@@ -614,7 +614,7 @@ returns a list of users/groups with ro/move_into/create/owner/priority/rw permis
 
     %Users = $GroupObject->GroupMemberInvolvedList(
         UserID => $ID,
-        Type => 'move_into',
+        Type   => 'move_into',
     );
 
 =cut
@@ -744,7 +744,7 @@ returns a list of users/groups with ro/move_into/create/owner/priority/rw permis
 
     $GroupObject->GroupGroupMemberList(
         UserID => $ID,
-        Type => 'move_into',
+        Type   => 'move_into',
         Result => 'HASH',
     );
 
@@ -752,8 +752,8 @@ returns a list of users/groups with ro/move_into/create/owner/priority/rw permis
 
     $GroupObject->GroupGroupMemberList(
         GroupID => $ID,
-        Type => 'move_into',
-        Result => 'HASH',
+        Type    => 'move_into',
+        Result  => 'HASH',
     );
 
 =cut
@@ -774,7 +774,7 @@ sub GroupGroupMemberList {
     if ( !$Param{UserID} && !$Param{GroupID} && !$Param{UserIDs} && !$Param{GroupIDs} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Need UserID or GroupID or UserIDs or GroupIDs!"
+            Message  => 'Need UserID or GroupID or UserIDs or GroupIDs!'
         );
         return;
     }
@@ -817,9 +817,7 @@ sub GroupGroupMemberList {
     my @Name = ();
     my @ID   = ();
     my $SQL  = "SELECT g.id, g.name, gu.permission_key, gu.permission_value, "
-        . " gu.user_id "
-        . " FROM "
-        . " groups g, group_user gu"
+        . " gu.user_id FROM groups g, group_user gu"
         . " WHERE "
         . " g.valid_id IN (" . join( ', ', $Self->{ValidObject}->ValidIDsGet() ) . ") AND "
         . " g.id = gu.group_id AND "
@@ -827,22 +825,22 @@ sub GroupGroupMemberList {
         . " gu.permission_key IN ('$Param{Type}', 'rw') AND ";
 
     if ( $Param{UserID} ) {
-        $SQL .= " gu.user_id = " . $Self->{DBObject}->Quote( $Param{UserID}, 'Integer' );
+        $SQL .= 'gu.user_id = ' . $Self->{DBObject}->Quote( $Param{UserID}, 'Integer' );
     }
     elsif ( $Param{GroupID} ) {
-        $SQL .= " gu.group_id = " . $Self->{DBObject}->Quote( $Param{GroupID}, 'Integer' );
+        $SQL .= 'gu.group_id = ' . $Self->{DBObject}->Quote( $Param{GroupID}, 'Integer' );
     }
     elsif ( $Param{UserIDs} ) {
         for my $UserID (@UserIDs) {
             $UserID = $Self->{DBObject}->Quote( $UserID, 'Integer' );
         }
-        $SQL .= " ru.user_id IN (" . join( ',', @UserIDs ) . ")";
+        $SQL .= ' ru.user_id IN (' . join( ',', @UserIDs ) . ')';
     }
     elsif ( $Param{GroupIDs} ) {
         for my $GroupID (@GroupIDs) {
             $GroupID = $Self->{DBObject}->Quote( $GroupID, 'Integer' );
         }
-        $SQL .= " gu.group_id IN (" . join( ',', @GroupIDs ) . ")";
+        $SQL .= ' gu.group_id IN (' . join( ',', @GroupIDs ) . ')';
     }
 
     $Self->{DBObject}->Prepare( SQL => $SQL );
@@ -913,7 +911,7 @@ returns a list of role/groups with ro/move_into/create/owner/priority/rw permiss
 
     $GroupObject->GroupRoleMemberList(
         RoleID => $ID,
-        Type => 'move_into',
+        Type   => 'move_into',
         Result => 'HASH',
     );
 
@@ -921,7 +919,7 @@ returns a list of role/groups with ro/move_into/create/owner/priority/rw permiss
 
     $GroupObject->GroupRoleMemberList(
         GroupID => $ID,
-        Type => 'move_into',
+        Type   => 'move_into',
         Result => 'HASH',
     );
 
@@ -943,7 +941,7 @@ sub GroupRoleMemberList {
     if ( !$Param{RoleID} && !$Param{GroupID} && !$Param{RoleIDs} && !$Param{GroupIDs} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Need RoleID or GroupID or RoleIDs or GroupIDs!"
+            Message  => 'Need RoleID or GroupID or RoleIDs or GroupIDs!'
         );
         return;
     }
@@ -986,9 +984,7 @@ sub GroupRoleMemberList {
     my @Name = ();
     my @ID   = ();
     my $SQL  = "SELECT g.id, g.name, gu.permission_key, gu.permission_value, "
-        . " gu.role_id "
-        . " FROM "
-        . " groups g, group_role gu"
+        . " gu.role_id FROM groups g, group_role gu"
         . " WHERE "
         . " g.valid_id IN (" . join( ', ', $Self->{ValidObject}->ValidIDsGet() ) . ") AND "
         . " g.id = gu.group_id AND "
@@ -996,22 +992,22 @@ sub GroupRoleMemberList {
         . " gu.permission_key IN ('$Param{Type}', 'rw') AND ";
 
     if ( $Param{RoleID} ) {
-        $SQL .= " gu.role_id = " . $Self->{DBObject}->Quote( $Param{RoleID}, 'Integer' );
+        $SQL .= ' gu.role_id = ' . $Self->{DBObject}->Quote( $Param{RoleID}, 'Integer' );
     }
     elsif ( $Param{GroupID} ) {
-        $SQL .= " gu.group_id = " . $Self->{DBObject}->Quote( $Param{GroupID}, 'Integer' );
+        $SQL .= ' gu.group_id = ' . $Self->{DBObject}->Quote( $Param{GroupID}, 'Integer' );
     }
     elsif ( $Param{RoleIDs} ) {
         for my $RoleID (@RoleIDs) {
             $RoleID = $Self->{DBObject}->Quote( $RoleID, 'Integer' );
         }
-        $SQL .= " gu.role_id IN (" . join( ',', @RoleIDs ) . ")";
+        $SQL .= ' gu.role_id IN (' . join( ',', @RoleIDs ) . ')';
     }
     elsif ( $Param{GroupIDs} ) {
         for my $GroupID (@GroupIDs) {
             $GroupID = $Self->{DBObject}->Quote( $GroupID, 'Integer' );
         }
-        $SQL .= " gu.group_id IN (" . join( ',', @GroupIDs ) . ")";
+        $SQL .= ' gu.group_id IN (' . join( ',', @GroupIDs ) . ')';
     }
 
     $Self->{DBObject}->Prepare( SQL => $SQL );
@@ -1073,12 +1069,12 @@ to add a role to a group
         GID => 12,
         RID => 6,
         Permission => {
-            ro => 1,
+            ro        => 1,
             move_into => 1,
-            create => 1,
-            owner => 1,
-            priority => 0,
-            rw => 0,
+            create    => 1,
+            owner     => 1,
+            priority  => 0,
+            rw        => 0,
         },
         UserID => 123,
     );
@@ -1100,8 +1096,8 @@ sub GroupRoleMemberAdd {
     my %Value = ();
     if ( !$Self->{"GroupRoleMemberAdd::GID::$Param{GID}"} ) {
         $Self->{DBObject}->Prepare(
-            SQL => "SELECT group_id, role_id, permission_key, permission_value FROM "
-                . " group_role WHERE group_id = ?",
+            SQL => 'SELECT group_id, role_id, permission_key, permission_value FROM '
+                . ' group_role WHERE group_id = ?',
             Bind => [ \$Param{GID} ],
         );
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -1130,8 +1126,8 @@ sub GroupRoleMemberAdd {
 #            print STDERR "Updated neede! UID:$Param{UID} to GID:$Param{GID}, $Type:$Param{Permission}->{$Type}!\n";
 # delete existing permission
             $Self->{DBObject}->Do(
-                SQL => "DELETE FROM group_role WHERE "
-                    . " group_id = ? AND role_id = ? AND permission_key = ?",
+                SQL => 'DELETE FROM group_role WHERE '
+                    . 'group_id = ? AND role_id = ? AND permission_key = ?',
                 Bind => [ \$Param{GID}, \$Param{RID}, \$Type ],
             );
 
@@ -1146,10 +1142,10 @@ sub GroupRoleMemberAdd {
 
             # insert new permission
             $Self->{DBObject}->Do(
-                SQL => "INSERT INTO group_role "
-                    . " (role_id, group_id, permission_key, permission_value, "
-                    . " create_time, create_by, change_time, change_by) "
-                    . " VALUES (?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)",
+                SQL => 'INSERT INTO group_role '
+                    . '(role_id, group_id, permission_key, permission_value, '
+                    . 'create_time, create_by, change_time, change_by) '
+                    . 'VALUES (?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
                 Bind => [
                     \$Param{RID}, \$Param{GID}, \$Type, \$Param{Permission}->{$Type},
                     \$Param{UserID}, \$Param{UserID},
@@ -1205,7 +1201,7 @@ sub GroupUserRoleMemberList {
     if ( !$Param{RoleID} && !$Param{UserID} && !$Param{RoleIDs} && !$Param{UserIDs} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Need RoleID or UserID or RoleIDs or UserIDs!",
+            Message  => 'Need RoleID or UserID or RoleIDs or UserIDs!',
         );
         return;
     }
@@ -1250,9 +1246,7 @@ sub GroupUserRoleMemberList {
     my @Name = ();
     my @ID   = ();
     my $SQL  = "SELECT ru.role_id, ru.user_id, r.name "
-        . " FROM "
-        . " role_user ru, roles r"
-        . " WHERE "
+        . " FROM role_user ru, roles r WHERE "
         . " r.valid_id IN (" . join( ', ', $Self->{ValidObject}->ValidIDsGet() ) . ") AND "
         . " r.id = ru.role_id AND ";
 
@@ -1266,13 +1260,13 @@ sub GroupUserRoleMemberList {
         for my $RoleID (@RoleIDs) {
             $RoleID = $Self->{DBObject}->Quote( $RoleID, 'Integer' );
         }
-        $SQL .= " ru.role_id IN (" . join( ',', @RoleIDs ) . ")";
+        $SQL .= ' ru.role_id IN (' . join( ',', @RoleIDs ) . ')';
     }
     elsif ( $Param{UserIDs} ) {
         for my $UserID (@UserIDs) {
             $UserID = $Self->{DBObject}->Quote( $UserID, 'Integer' );
         }
-        $SQL .= " ru.user_id IN (" . join( ',', @UserIDs ) . ")";
+        $SQL .= ' ru.user_id IN (' . join( ',', @UserIDs ) . ')';
     }
 
     $Self->{DBObject}->Prepare( SQL => $SQL );
@@ -1289,10 +1283,10 @@ sub GroupUserRoleMemberList {
         }
 
         # remember permissions
-        if ( !defined( $Data{$Key} ) ) {
+        if ( !defined $Data{$Key} ) {
             $Data{$Key} = $Value;
-            push( @Name, $Value );
-            push( @ID,   $Key );
+            push @Name, $Value;
+            push @ID,   $Key;
         }
     }
 
@@ -1330,8 +1324,8 @@ sub GroupUserRoleMemberList {
 to add a member to a role
 
     $GroupObject->GroupUserRoleMemberAdd(
-        UID => 12,
-        RID => 6,
+        UID    => 12,
+        RID    => 6,
         Active => 1,
         UserID => 123,
     );
@@ -1351,7 +1345,7 @@ sub GroupUserRoleMemberAdd {
 
     # delete existing relation
     return if !$Self->{DBObject}->Do(
-        SQL => "DELETE FROM role_user WHERE user_id = ? AND role_id = ?",
+        SQL  => 'DELETE FROM role_user WHERE user_id = ? AND role_id = ?',
         Bind => [ \$Param{UID}, \$Param{RID} ],
     );
     if ( !$Param{Active} ) {
@@ -1368,9 +1362,9 @@ sub GroupUserRoleMemberAdd {
 
     # insert new permission
     return $Self->{DBObject}->Do(
-        SQL => "INSERT INTO role_user "
-            . " (role_id, user_id, create_time, create_by, change_time, change_by) "
-            . " VALUES (?, ?, current_timestamp, ?, current_timestamp, ?)",
+        SQL => 'INSERT INTO role_user '
+            . '(role_id, user_id, create_time, create_by, change_time, change_by) '
+            . 'VALUES (?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [ \$Param{RID}, \$Param{UID}, \$Param{UserID}, \$Param{UserID} ],
     );
 }
@@ -1380,9 +1374,9 @@ sub GroupUserRoleMemberAdd {
 to add a new role
 
     my $ID = $GroupObject->RoleAdd(
-        Name => 'example-group',
+        Name    => 'example-group',
         ValidID => 1,
-        UserID => 123,
+        UserID  => 123,
     );
 
 =cut
@@ -1400,9 +1394,9 @@ sub RoleAdd {
 
     # insert
     return if !$Self->{DBObject}->Do(
-        SQL => "INSERT INTO roles (name, comments, valid_id, "
-            . " create_time, create_by, change_time, change_by)"
-            . " VALUES (?, ?, ?, current_timestamp, ?, current_timestamp, ?)",
+        SQL => 'INSERT INTO roles (name, comments, valid_id, '
+            . 'create_time, create_by, change_time, change_by) '
+            . 'VALUES (?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
             \$Param{Name}, \$Param{Comment}, \$Param{ValidID}, \$Param{UserID}, \$Param{UserID}
         ],
@@ -1411,7 +1405,7 @@ sub RoleAdd {
     # get new group id
     my $RoleID;
     return if !$Self->{DBObject}->Prepare(
-        SQL  => "SELECT id FROM roles WHERE name = ?",
+        SQL  => 'SELECT id FROM roles WHERE name = ?',
         Bind => [ \$Param{Name}, ],
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -1439,14 +1433,14 @@ sub RoleGet {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID!' );
         return;
     }
 
     # sql
     return if !$Self->{DBObject}->Prepare(
-        SQL => "SELECT name, valid_id, comments, change_time, create_time "
-            . " FROM roles WHERE id = ?",
+        SQL => 'SELECT name, valid_id, comments, change_time, create_time '
+            . 'FROM roles WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
     my %Role = ();
@@ -1468,10 +1462,10 @@ sub RoleGet {
 update of a role
 
     $GroupObject->RoleUpdate(
-        ID => 123,
-        Name => 'example-group',
+        ID      => 123,
+        Name    => 'example-group',
         ValidID => 1,
-        UserID => 123,
+        UserID  => 123,
     );
 
 =cut
@@ -1489,8 +1483,8 @@ sub RoleUpdate {
 
     # sql
     return $Self->{DBObject}->Do(
-        SQL => "UPDATE roles SET name = ?, comments = ?, valid_id = ?, "
-            . " change_time = current_timestamp, change_by = ? WHERE id = ?",
+        SQL => 'UPDATE roles SET name = ?, comments = ?, valid_id = ?, '
+            . 'change_time = current_timestamp, change_by = ? WHERE id = ?',
         Bind => [
             \$Param{Name}, \$Param{Comment}, \$Param{ValidID}, \$Param{UserID}, \$Param{ID}
         ],
@@ -1533,6 +1527,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.56 $ $Date: 2008-05-08 09:36:19 $
+$Revision: 1.57 $ $Date: 2008-05-15 20:43:06 $
 
 =cut
