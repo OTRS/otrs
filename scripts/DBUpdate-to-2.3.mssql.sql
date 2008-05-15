@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2008-05-15 22:07:10
+--  driver: mssql, generated: 2008-05-15 23:06:11
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table users
@@ -23,7 +23,7 @@ CREATE INDEX queue_preferences_queue_id ON queue_preferences (queue_id);
 CREATE TABLE service_sla (
     service_id INTEGER NOT NULL,
     sla_id INTEGER NOT NULL,
-    UNIQUE service_sla_service_sla (service_id, sla_id)
+    CONSTRAINT service_sla_service_sla UNIQUE (service_id, sla_id)
 );
 -- ----------------------------------------------------------
 --  create table link_type
@@ -37,7 +37,7 @@ CREATE TABLE link_type (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE link_type_name (name)
+    CONSTRAINT link_type_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
 --  create table link_state
@@ -51,7 +51,7 @@ CREATE TABLE link_state (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE link_state_name (name)
+    CONSTRAINT link_state_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
 --  create table link_object
@@ -60,7 +60,7 @@ CREATE TABLE link_object (
     id SMALLINT NOT NULL IDENTITY(1,1) ,
     name VARCHAR (100) NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE link_object_name (name)
+    CONSTRAINT link_object_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
 --  create table link_relation
@@ -74,7 +74,7 @@ CREATE TABLE link_relation (
     state_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
-    UNIQUE link_relation_view (source_object_id, source_key, target_object_id, target_key, type_id)
+    CONSTRAINT link_relation_view UNIQUE (source_object_id, source_key, target_object_id, target_key, type_id)
 );
 CREATE INDEX user_preferences_user_id ON user_preferences (user_id);
 CREATE INDEX group_user_user_id ON group_user (user_id);
