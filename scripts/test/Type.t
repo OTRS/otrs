@@ -2,7 +2,7 @@
 # Type.t - Type tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Type.t,v 1.4 2008-05-08 09:35:57 mh Exp $
+# $Id: Type.t,v 1.5 2008-05-15 07:26:56 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use Kernel::System::Type;
 $Self->{TypeObject} = Kernel::System::Type->new( %{$Self} );
 
 # add type
-my $TypeNameRand0 = 'example-type' . int( rand(1000000) );
+my $TypeNameRand0 = 'unittest' . int rand 1000000;
 
 my $TypeID = $Self->{TypeObject}->TypeAdd(
     Name    => $TypeNameRand0,
@@ -27,7 +27,9 @@ $Self->True(
     'TypeAdd()',
 );
 
-my %Type = $Self->{TypeObject}->TypeGet( ID => $TypeID );
+my %Type = $Self->{TypeObject}->TypeGet(
+    ID => $TypeID,
+);
 
 $Self->Is(
     $Type{Name} || '',
@@ -66,7 +68,9 @@ $Self->True(
     'TypeUpdate()',
 );
 
-%Type = $Self->{TypeObject}->TypeGet( ID => $TypeID );
+%Type = $Self->{TypeObject}->TypeGet(
+    ID => $TypeID,
+);
 
 $Self->Is(
     $Type{Name} || '',
@@ -80,14 +84,20 @@ $Self->Is(
     'TypeGet() - ValidID',
 );
 
-my $TypeLookup = $Self->{TypeObject}->TypeLookup( TypeID => $TypeID );
+my $TypeLookup = $Self->{TypeObject}->TypeLookup(
+    TypeID => $TypeID,
+);
+
 $Self->Is(
     $TypeLookup || '',
     $TypeNameRand0 . '1',
     'TypeLookup() - TypeID',
 );
 
-my $TypeIDLookup = $Self->{TypeObject}->TypeLookup( Type => $TypeLookup );
+my $TypeIDLookup = $Self->{TypeObject}->TypeLookup(
+    Type => $TypeLookup,
+);
+
 $Self->Is(
     $TypeIDLookup || '',
     $TypeID,

@@ -2,7 +2,7 @@
 # Kernel/System/Type.pm - All type related function should be here eventually
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Type.pm,v 1.8 2008-05-08 09:36:19 mh Exp $
+# $Id: Type.pm,v 1.9 2008-05-15 07:27:26 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -55,7 +55,6 @@ create an object
         LogObject    => $LogObject,
         MainObject   => $MainObject,
     );
-
     my $TypeObject = Kernel::System::Type->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
@@ -76,7 +75,7 @@ sub new {
     for (qw(DBObject ConfigObject LogObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
-    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
+    $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
 
     return $Self;
 }
@@ -113,13 +112,17 @@ sub TypeAdd {
 
     # get new type id
     $Self->{DBObject}->Prepare(
-        SQL  => 'SELECT id FROM ticket_type WHERE name = ?',
-        Bind => [ \$Param{Name} ],
+        SQL   => 'SELECT id FROM ticket_type WHERE name = ?',
+        Bind  => [ \$Param{Name} ],
+        Limit => 1,
     );
+
+    # fetch the result
     my $ID;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $ID = $Row[0];
     }
+
     return $ID;
 }
 
@@ -142,32 +145,38 @@ sub TypeGet {
         return;
     }
 
-    # sql
+    # check if result is already cached
+    return %{ $Self->{Cache}->{TypeGet}->{ $Param{ID} } }
+        if $Self->{Cache}->{TypeGet}->{ $Param{ID} };
+
+    # ask the database
     return if !$Self->{DBObject}->Prepare(
         SQL  => 'SELECT id, name, valid_id, change_time, create_time FROM ticket_type WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
-    my %Data = ();
+
+    # fetch the result
+    my %Data;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-        %Data = (
-            ID         => $Data[0],
-            Name       => $Data[1],
-            ValidID    => $Data[2],
-            ChangeTime => $Data[3],
-            CreateTime => $Data[4],
-        );
+        $Data{ID}         = $Data[0];
+        $Data{Name}       = $Data[1];
+        $Data{ValidID}    = $Data[2];
+        $Data{ChangeTime} = $Data[3];
+        $Data{CreateTime} = $Data[4];
     }
 
     # no data found
     if ( !%Data ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "TypeID '$Param{ID}' not found!"
+            Message  => "TypeID '$Param{ID}' not found!",
         );
         return;
     }
 
-    # return data
+    # cache the result
+    $Self->{Cache}->{TypeGet}->{ $Param{ID} } = \%Data;
+
     return %Data;
 }
 
@@ -195,6 +204,9 @@ sub TypeUpdate {
         }
     }
 
+    # reset cache
+    delete $Self->{Cache}->{TypeGet}->{ $Param{ID} };
+
     # sql
     return $Self->{DBObject}->Do(
         SQL => 'UPDATE ticket_type SET name = ?, valid_id = ?, '
@@ -211,6 +223,8 @@ get type list
 
     my %List = $TypeObject->TypeList();
 
+    or
+
     my %List = $TypeObject->TypeList(
         Valid => 0,
     );
@@ -220,10 +234,9 @@ get type list
 sub TypeList {
     my ( $Self, %Param ) = @_;
 
-    my $Valid = 1;
-
     # check needed stuff
-    if ( !$Param{Valid} && defined( $Param{Valid} ) ) {
+    my $Valid = 1;
+    if ( !$Param{Valid} && defined $Param{Valid} ) {
         $Valid = 0;
     }
 
@@ -269,12 +282,12 @@ sub TypeLookup {
         $Key      = 'Type';
         $Value    = $Param{Type};
     }
-    if ( $Self->{$CacheKey} ) {
-        return $Self->{$CacheKey};
-    }
+
+    return $Self->{$CacheKey}
+        if $Self->{$CacheKey};
 
     # get data
-    my $SQL = '';
+    my $SQL;
     my @Bind;
     my $Suffix = '';
     if ( $Param{Type} ) {
@@ -285,7 +298,15 @@ sub TypeLookup {
         $SQL = 'SELECT name FROM ticket_type WHERE id = ?';
         push @Bind, \$Param{TypeID};
     }
-    $Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
+
+    # ask the database
+    $Self->{DBObject}->Prepare(
+        SQL   => $SQL,
+        Bind  => \@Bind,
+        Limit => 1,
+    );
+
+    # fetch the result
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Self->{$CacheKey} = $Row[0];
     }
@@ -299,7 +320,6 @@ sub TypeLookup {
         return;
     }
 
-    # return result
     return $Self->{$CacheKey};
 }
 
@@ -319,6 +339,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2008-05-08 09:36:19 $
+$Revision: 1.9 $ $Date: 2008-05-15 07:27:26 $
 
 =cut
