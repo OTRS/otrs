@@ -1,8 +1,8 @@
 # --
 # Kernel/Language/fa.pm - provides fa language translation
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2006 Amir Shams Parsa <amir at parsa.name>
 # --
-# $Id: fa.pm,v 1.32 2008-05-06 23:23:10 martin Exp $
+# $Id: fa.pm,v 1.33 2008-05-15 12:49:31 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;

@@ -1,13 +1,13 @@
 # --
 # Kernel/Language/fr.pm - provides fr language translation
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2002 Bernard Choppy <choppy at imaginet.fr>
+# Copyright (C) 2002 Nicolas Goralski <ngoralski at oceanet-technology.com>
+# Copyright (C) 2004 Igor Genibel <igor.genibel at eds-opensource.com>
+# Copyright (C) 2004-2007 Yann Richard <ze at nbox.org>
+# Copyright (C) 2007 Remi Seguy <remi.seguy at laposte.net>
+# Copyright (C) 2007 Massimiliano Franco <max-lists at ycom.ch>
 # --
-# $Id: fr.pm,v 1.83 2008-05-06 23:23:10 martin Exp $
+# $Id: fr.pm,v 1.84 2008-05-15 12:49:32 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.83 $) [1];
+$VERSION = qw($Revision: 1.84 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;

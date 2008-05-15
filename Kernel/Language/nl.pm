@@ -1,12 +1,12 @@
 # --
 # Kernel/Language/nl.pm - provides nl language translation
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2002-2003 Fred van Dijk <fvandijk at marklin.nl>
+# Copyright (C) 2003 A-NeT Internet Services bv Hans Bakker <h.bakker at a-net.nl>
+# Copyright (C) 2004 Martijn Lohmeijer <martijn.lohmeijer 'at' sogeti.nl>
+# Copyright (C) 2005-2007 Jurgen Rutgers <jurgen 'at' besite.nl>
 #                         Richard Hinkamp <richard 'at' besite.nl>
 # --
-# $Id: nl.pm,v 1.69 2008-05-06 23:23:10 martin Exp $
+# $Id: nl.pm,v 1.70 2008-05-15 12:49:32 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -29,7 +29,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.70 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;

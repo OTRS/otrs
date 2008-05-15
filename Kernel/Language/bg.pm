@@ -1,9 +1,9 @@
 # --
 # Kernel/Language/bg.pm - provides bg language translation
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
+# Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.67 2008-05-06 23:23:10 martin Exp $
+# $Id: bg.pm,v 1.68 2008-05-15 12:49:31 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;

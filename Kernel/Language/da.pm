@@ -1,11 +1,10 @@
 # --
 # Kernel/Language/da.pm - provides da (Danish) language translation
-# Last Update: 2006/10/12
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2006 Thorsten Rossner <thorsten.rossner[at]stepstone.de>
 # Original created by Thorsten Rossner
 # Maintained by Mads N. Vestergaard <mnv[at]timmy.dk>
 # --
-# $Id: da.pm,v 1.30 2008-05-06 23:23:10 martin Exp $
+# $Id: da.pm,v 1.31 2008-05-15 12:49:31 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;

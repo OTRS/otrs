@@ -1,9 +1,9 @@
 # --
 # Kernel/Language/es.pm - provides es language translation
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2003-2006 Jorge Becerra <jorge at hab.desoft.cu>
+# Copyright (C) 2007 Carlos Oyarzabal <carlos.oyarzabal at grupocash.com.mx>
 # --
-# $Id: es.pm,v 1.66 2008-05-06 23:23:10 martin Exp $
+# $Id: es.pm,v 1.67 2008-05-15 12:49:31 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;

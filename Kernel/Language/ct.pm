@@ -1,8 +1,8 @@
 # --
 # Kernel/Language/ct.pm - provides ct language translation
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2008 Sistemes OTIC (ibsalut) - Antonio Linde
 # --
-# $Id: ct.pm,v 1.1 2008-05-09 12:45:14 martin Exp $
+# $Id: ct.pm,v 1.2 2008-05-15 12:49:31 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;

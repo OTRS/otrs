@@ -1,8 +1,8 @@
 # --
 # Kernel/Language/sv.pm - Swedish language translation
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2004 Mats Eric Olausson <mats@synergy.se>
 # --
-# $Id: sv.pm,v 1.44 2008-05-06 23:23:10 martin Exp $
+# $Id: sv.pm,v 1.45 2008-05-15 12:49:32 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.44 $;
+$VERSION = q$Revision: 1.45 $;
 
 sub Data {
     my ( $Self, %Param ) = @_;

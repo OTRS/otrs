@@ -1,12 +1,12 @@
 # --
 # Kernel/Language/cz.pm - provides cz language translation
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2003 Lukas Vicanek alias networ <lulka at centrum dot cz>
+# Copyright (C) 2004 BENETA.cz, s.r.o. <info at beneta dot cz>
 # Translators: Marta Macalkova
 #              Vadim Buzek
 #              Petr Ocasek
 # --
-# $Id: cz.pm,v 1.52 2008-05-06 23:23:10 martin Exp $
+# $Id: cz.pm,v 1.53 2008-05-15 12:49:31 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;

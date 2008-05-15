@@ -1,9 +1,9 @@
 # --
 # Kernel/Language/el.pm - provides el language translation
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
 #                    George Thomas <gthomas aegean.gr>
 # --
-# $Id: el.pm,v 1.28 2008-05-06 23:23:10 martin Exp $
+# $Id: el.pm,v 1.29 2008-05-15 12:49:31 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;

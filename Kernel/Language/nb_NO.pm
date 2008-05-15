@@ -1,11 +1,11 @@
 # --
 # Kernel/Language/nb_NO.pm - Norwegian language translation (bokmål)
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2004 Arne Georg Gleditsch <argggh at linpro.no>
 #               2005 Stefansen Espen <espen.stefansen at imr.no>
 #               2006 Knut Haugen <knuthaug at linpro.no>
 #               2007 Fredrik Andersen <fredrik.andersen at husbanken.no>
 # --
-# $Id: nb_NO.pm,v 1.51 2008-05-06 23:23:10 martin Exp $
+# $Id: nb_NO.pm,v 1.52 2008-05-15 12:49:32 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.51 $;
+$VERSION = q$Revision: 1.52 $;
 
 sub Data {
     my ( $Self, %Param ) = @_;
