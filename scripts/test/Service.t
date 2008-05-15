@@ -2,7 +2,7 @@
 # Service.t - Service tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Service.t,v 1.8 2008-05-15 07:29:42 mh Exp $
+# $Id: Service.t,v 1.9 2008-05-15 22:05:47 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -491,7 +491,10 @@ my $ItemData = [
         },
         UpdateGet => {
             ParentID => 'LASTLASTADDID',
-            Name => $ServiceName[5] . '::' . $ServiceName[6] . '::' . $ServiceName[7] . ' UPDATE(2)',
+            Name     => $ServiceName[5] . '::'
+                . $ServiceName[6] . '::'
+                . $ServiceName[7]
+                . ' UPDATE(2)',
             NameShort => $ServiceName[7] . ' UPDATE(2)',
             ValidID   => 1,
             CreateBy  => 1,

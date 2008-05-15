@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.95 2008-05-15 10:41:54 martin Exp $
+# $Id: Queue.pm,v 1.96 2008-05-15 22:05:46 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.95 $) [1];
+$VERSION = qw($Revision: 1.96 $) [1];
 
 =head1 NAME
 
@@ -308,6 +308,7 @@ sub GetStdResponses {
         . " ORDER BY sr.name";
     $Self->{DBObject}->Prepare( SQL => $SQL );
     my %StdResponses;
+
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $StdResponses{ $Row[0] } = $Row[1];
     }
@@ -1090,6 +1091,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.95 $ $Date: 2008-05-15 10:41:54 $
+$Revision: 1.96 $ $Date: 2008-05-15 22:05:46 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.23 2008-05-15 20:36:59 ot Exp $
+# $Id: SMIME.pm,v 1.24 2008-05-15 22:05:46 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 =head1 NAME
 
@@ -159,7 +159,7 @@ sub Crypt {
 
     my $Options
         = "smime -encrypt -binary -des3 -in $PlainFile -out $CryptedFile $CertFile";
-    my $LogMessage = $Self->_CleanOutput( qx{$Self->{Cmd} $Options 2>&1} );
+    my $LogMessage = $Self->_CleanOutput(qx{$Self->{Cmd} $Options 2>&1});
     if ($LogMessage) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Can't crypt: $LogMessage!" );
         return;
@@ -210,7 +210,7 @@ sub Decrypt {
 
     my $Options
         = "smime -decrypt -in $CryptedFile -out $PlainFile -recip $CertFile -inkey $PrivateKeyFile"
-            . " -passin file:$SecretFile";
+        . " -passin file:$SecretFile";
     my $LogMessage = qx{$Self->{Cmd} $Options 2>&1};
     unlink $SecretFile;
     if ($LogMessage) {
@@ -270,8 +270,8 @@ sub Sign {
 
     my $Options
         = "smime -sign -in $PlainFile -out $SignFile -signer $CertFile -inkey $PrivateKeyFile"
-            . " -text -binary -passin file:$SecretFile";
-    my $LogMessage = $Self->_CleanOutput( qx{$Self->{Cmd} $Options 2>&1} );
+        . " -text -binary -passin file:$SecretFile";
+    my $LogMessage = $Self->_CleanOutput(qx{$Self->{Cmd} $Options 2>&1});
     unlink $SecretFile;
     if ($LogMessage) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Can't sign: $LogMessage!" );
@@ -312,7 +312,7 @@ sub Verify {
     close $FH;
     my ( $FHOutput, $VerifiedFile ) = $Self->{FileTempObject}->TempFile();
     close $FHOutput;
-    my ( $FHSigner, $SignerFile )   = $Self->{FileTempObject}->TempFile();
+    my ( $FHSigner, $SignerFile ) = $Self->{FileTempObject}->TempFile();
     close $FHSigner;
     my $SigFile = '';
     if ( $Param{Sign} ) {
@@ -322,7 +322,7 @@ sub Verify {
     }
     my $Options
         = "smime -verify -in $SignedFile -out $VerifiedFile -signer $SignerFile "
-            . " -CApath $Self->{CertPath} $SigFile $SignedFile";
+        . " -CApath $Self->{CertPath} $SigFile $SignedFile";
     my @LogLines = qx{$Self->{Cmd} $Options 2>&1};
     for my $LogLine (@LogLines) {
         $MessageLong .= $LogLine;
@@ -643,7 +643,7 @@ sub PrivateAdd {
     );
     if ( $CertificateAttributes{Hash} ) {
         my $File = "$Self->{PrivatePath}/$CertificateAttributes{Hash}";
-        if (open( my $PrivKeyFH, "> $File.0" ) ) {
+        if ( open( my $PrivKeyFH, "> $File.0" ) ) {
             print $PrivKeyFH $Param{Private};
             close $PrivKeyFH;
             open( my $PassFH, "> $File.P" );
@@ -783,13 +783,13 @@ sub PrivateAttributes {
     my ( $FHSecret, $SecretFile ) = $Self->{FileTempObject}->TempFile();
     print $FHSecret $Param{Secret};
     close $FHSecret;
-    my $Options = "rsa -in $Filename -noout -modulus -passin file:$SecretFile";
+    my $Options    = "rsa -in $Filename -noout -modulus -passin file:$SecretFile";
     my $LogMessage = qx{$Self->{Cmd} $Options 2>&1};
     unlink $SecretFile;
     $LogMessage =~ tr{\r\n}{}d;
     $LogMessage =~ s/Modulus=//;
     $Attributes{Modulus} = $LogMessage;
-    $Attributes{Type} = 'P';
+    $Attributes{Type}    = 'P';
     return %Attributes;
 }
 
@@ -809,7 +809,7 @@ sub _FetchAttributesFromCert {
     );
     for my $Key ( keys %Option ) {
         my $Options = "x509 -in $Filename -noout $Option{$Key}";
-        my $Output = qx{$Self->{Cmd} $Options 2>&1};
+        my $Output  = qx{$Self->{Cmd} $Options 2>&1};
         $Output =~ tr{\r\n}{}d;
         if ( $Key eq 'Issuer' ) {
             $Output =~ s/=/= /g;
@@ -911,6 +911,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2008-05-15 20:36:59 $
+$Revision: 1.24 $ $Date: 2008-05-15 22:05:46 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.25 2008-05-15 20:48:49 martin Exp $
+# $Id: CustomerTicketZoom.pm,v 1.26 2008-05-15 22:05:46 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -133,7 +133,7 @@ sub Run {
 
         # get ticket state details
         my %State = $Self->{StateObject}->StateGet(
-            ID    => $Ticket{StateID},
+            ID => $Ticket{StateID},
         );
         if ( $FollowUpPossible =~ /(new ticket|reject)/i && $State{TypeName} =~ /^close/i ) {
             my $Output = $Self->{LayoutObject}->CustomerHeader( Title => 'Error' );
@@ -574,7 +574,7 @@ sub _Mask {
     # check follow up permissions
     my $FollowUpPossible = $Self->{QueueObject}->GetFollowUpOption( QueueID => $Article{QueueID}, );
     my %State = $Self->{StateObject}->StateGet(
-        ID    => $Article{StateID},
+        ID => $Article{StateID},
     );
     if (
         $Self->{TicketObject}->CustomerPermission(

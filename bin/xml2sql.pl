@@ -3,7 +3,7 @@
 # bin/xml2sql.pl - a xml 2 sql processor
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: xml2sql.pl,v 1.17 2008-05-15 18:39:31 martin Exp $
+# $Id: xml2sql.pl,v 1.18 2008-05-15 22:05:47 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ use Kernel::System::Main;
 use Kernel::System::XML;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 my %Opts = ();
 getopt( 'htons', \%Opts );
@@ -165,13 +165,9 @@ for my $DatabaseType (@DatabaseType) {
 }
 
 sub Dump {
-    my $Filename = shift;
-    my $SQL      = shift;
-    my $Head     = shift;
-    my $Commit   = shift;
-    my $StdOut   = shift;
+    my ( $Filename, $SQL, $Head, $Commit, $StdOut ) = @_;
 
-    if ( $StdOut ) {
+    if ($StdOut) {
         open( OUT, '>', $Filename ) || die "Can't write: $!";
         print "writing: $Filename\n";
         print OUT $Head;

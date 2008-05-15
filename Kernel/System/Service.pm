@@ -2,7 +2,7 @@
 # Kernel/System/Service.pm - all service function
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.26 2008-05-15 10:44:34 martin Exp $
+# $Id: Service.pm,v 1.27 2008-05-15 22:05:46 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 =head1 NAME
 
@@ -198,9 +198,10 @@ sub ServiceGet {
     # get service from db
     my %ServiceData = ();
     $Self->{DBObject}->Prepare(
-        SQL => 'SELECT id, name, valid_id, comments, create_time, create_by, change_time, change_by '
+        SQL =>
+            'SELECT id, name, valid_id, comments, create_time, create_by, change_time, change_by '
             . 'FROM service WHERE id = ?',
-        Bind => [ \$Param{ServiceID} ],
+        Bind  => [ \$Param{ServiceID} ],
         Limit => 1,
     );
 
@@ -373,7 +374,7 @@ sub ServiceAdd {
     }
 
     # add service to database
-    if ( $Exists ) {
+    if ($Exists) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => 'Can\'t add service! Service with same name and parent already exists.'
@@ -497,7 +498,7 @@ sub ServiceUpdate {
     }
 
     # update service
-    if ( $Exists ) {
+    if ($Exists) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => 'Can\'t update service! Service with same name and parent already exists.'
@@ -507,7 +508,7 @@ sub ServiceUpdate {
     }
 
     # update service
-    return if ! $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => 'UPDATE service SET name = ?, valid_id = ?, comments = ?, '
             . ' change_time = current_timestamp, change_by = ? WHERE id = ?',
         Bind => [
@@ -534,7 +535,7 @@ sub ServiceUpdate {
     for my $Child (@Childs) {
         $Child->{Name} =~ s/^(\Q$OldServiceName\E)::/$Param{FullName}::/;
         $Self->{DBObject}->Do(
-            SQL  => 'UPDATE service SET name = ? WHERE id = ?',
+            SQL => 'UPDATE service SET name = ? WHERE id = ?',
             Bind => [ \$Child->{Name}, \$Child->{ServiceID} ],
         );
     }
@@ -681,7 +682,7 @@ sub CustomerUserServiceMemberList {
     my %Data = ();
     my @Name = ();
     my @ID   = ();
-    my $SQL = 'SELECT scu.service_id, scu.customer_user_login, s.name '
+    my $SQL  = 'SELECT scu.service_id, scu.customer_user_login, s.name '
         . ' FROM '
         . ' service_customer_user scu, service s'
         . ' WHERE '
@@ -785,13 +786,13 @@ sub CustomerUserServiceMemberAdd {
             . 'customer_user_login = ? AND service_id = ?',
         Bind => [
             \$Param{CustomerUserLogin}, \$Param{ServiceID},
-        ]
+            ]
     );
 
     # return if relation is not active
     return if !$Param{Active};
 
-   # insert new relation
+    # insert new relation
     return $Self->{DBObject}->Do(
         SQL => 'INSERT INTO service_customer_user '
             . '(customer_user_login, service_id, create_time, create_by) '
@@ -816,6 +817,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.26 $ $Date: 2008-05-15 10:44:34 $
+$Revision: 1.27 $ $Date: 2008-05-15 22:05:46 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NotificationAgentTicketEscalation.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationAgentTicketEscalation.pm,v 1.19 2008-05-15 20:50:17 martin Exp $
+# $Id: NotificationAgentTicketEscalation.pm,v 1.20 2008-05-15 22:05:46 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -118,7 +118,7 @@ sub Run {
 
             # get state info
             my %StateData = $Self->{StateObject}->StateGet(
-                ID    => $TicketData->{StateID},
+                ID => $TicketData->{StateID},
             );
             $TicketData->{StateType} = $StateData{TypeName};
             $TicketData->{State}     = $StateData{Name};

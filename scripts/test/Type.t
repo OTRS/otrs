@@ -2,7 +2,7 @@
 # Type.t - Type tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Type.t,v 1.5 2008-05-15 07:26:56 mh Exp $
+# $Id: Type.t,v 1.6 2008-05-15 22:05:47 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you

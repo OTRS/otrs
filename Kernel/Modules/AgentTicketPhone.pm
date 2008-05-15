@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.67 2008-05-15 09:04:44 martin Exp $
+# $Id: AgentTicketPhone.pm,v 1.68 2008-05-15 22:05:46 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1398,7 +1398,8 @@ sub _MaskPhoneNew {
             Name        => 'Dest',
             SelectedID  => $Param{ToSelected},
             Translation => 0,
-            OnChange => "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
+            OnChange =>
+                "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
             Ajax => {
                 Update => [
                     'NewUserID',
@@ -1446,7 +1447,7 @@ sub _MaskPhoneNew {
                     'TicketFreeText16',
                 ],
                 Subaction => 'AJAXUpdate',
-            }
+                }
         );
     }
 

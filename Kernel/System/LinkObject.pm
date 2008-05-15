@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.28 2008-05-15 18:31:47 mh Exp $
+# $Id: LinkObject.pm,v 1.29 2008-05-15 22:05:46 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 =head1 NAME
 
@@ -688,7 +688,7 @@ sub LinkAdd {
     OBJECT:
     for my $Object (qw(SourceObject TargetObject)) {
 
-        $Param{$Object . 'ID'} = $Self->LinkObjectLookup(
+        $Param{ $Object . 'ID' } = $Self->LinkObjectLookup(
             Name => $Param{$Object},
         );
     }
@@ -700,7 +700,7 @@ sub LinkAdd {
         Bind => [
             \$Param{SourceObjectID}, \$Param{SourceKey},
             \$Param{TargetObjectID}, \$Param{TargetKey},
-            \$Param{TypeID}, \$Param{StateID}, \$Param{UserID},
+            \$Param{TypeID},         \$Param{StateID}, \$Param{UserID},
         ],
     );
 
@@ -778,8 +778,8 @@ sub LinkStateLookup {
 
     # ask the database
     $Self->{DBObject}->Prepare(
-        SQL => 'SELECT id FROM link_state WHERE name = ?',
-        Bind => [ \$Param{Name} ],
+        SQL   => 'SELECT id FROM link_state WHERE name = ?',
+        Bind  => [ \$Param{Name} ],
         Limit => 1,
     );
 
@@ -924,6 +924,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.28 $ $Date: 2008-05-15 18:31:47 $
+$Revision: 1.29 $ $Date: 2008-05-15 22:05:46 $
 
 =cut
