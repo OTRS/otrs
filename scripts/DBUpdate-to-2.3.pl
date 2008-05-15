@@ -3,7 +3,7 @@
 # DBUpdate-to-2.3.pl - update script to migrate OTRS 2.2.x to 2.3.x
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-2.3.pl,v 1.4 2008-05-15 20:13:59 mh Exp $
+# $Id: DBUpdate-to-2.3.pl,v 1.5 2008-05-15 20:32:43 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -161,12 +161,14 @@ sub MigrateLinkObject {
         $Link{AObject} = $Row[2];
         $Link{BObject} = $Row[3];
         $Link{Type}    = $Row[4];
+
+        push @Links, \%Link;
     }
 
     return if !scalar @Links;
 
     # lookup the object state id
-    my $StateID = LinkStateLookup(
+    my $StateID = $CommonObject{LinkObject}->LinkStateLookup(
         Name => 'Valid',
     );
 
@@ -180,19 +182,12 @@ sub MigrateLinkObject {
         my $TargetKey    = $Link->{BID};
         my $Type         = 'Normal';
 
-        if ( $Link->{Type} eq 'Parent' ) {
+        if ( $Link->{Type} eq 'Parent' || $Link->{Type} eq 'Child' ) {
             $Type = 'ParentChild';
-        }
-        elsif ( $Link->{Type} eq 'Child' ) {
-            $SourceObject = $Link->{BObject};
-            $SourceKey    = $Link->{BID};
-            $TargetObject = $Link->{AObject};
-            $TargetKey    = $Link->{AID};
-            $Type         = 'ParentChild';
         }
 
         # lookup the object type id
-        my $TypeID = LinkTypeLookup(
+        my $TypeID = $CommonObject{LinkObject}->LinkTypeLookup(
             Name => $Type,
         );
 
