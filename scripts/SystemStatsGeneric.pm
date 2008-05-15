@@ -2,7 +2,7 @@
 # Kernel/Modules/SystemStatsGeneric.pm - generic pure SQL stats module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SystemStatsGeneric.pm,v 1.14 2008-05-08 09:35:57 mh Exp $
+# $Id: SystemStatsGeneric.pm,v 1.15 2008-05-15 20:18:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -27,7 +27,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -55,7 +55,7 @@ sub Run {
         = 'Some text about the content! $Data{"Records"} database records - ($Text{"Stand"}: $Env{"Time"})';
     my $CSVFile  = 'csv-file';
     my $SQLLimit = 5000;
-    my $SQL      = qq|SELECT * FROM system_user|;
+    my $SQL      = qq|SELECT * FROM users|;
     my $Group    = 'stats';
 
     # ------------------------------------------------------------------------------ #
