@@ -2,7 +2,7 @@
 # Queue.t - Queue tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.t,v 1.6 2008-05-08 09:35:57 mh Exp $
+# $Id: Queue.t,v 1.7 2008-05-15 09:38:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -87,6 +87,20 @@ $Self->True(
     'QueueGet() - SolutionNotify',
 );
 
+my $Queue = $Self->{QueueObject}->QueueLookup( QueueID => $QueueID );
+
+$Self->True(
+    $Queue eq $QueueRand,
+    'QueueLookup() by ID',
+);
+
+my $QueueIDLookup = $Self->{QueueObject}->QueueLookup( Queue => $Queue );
+
+$Self->True(
+    $QueueID eq $QueueIDLookup,
+    'QueueLookup() by Name',
+);
+
 my $QueueUpdate = $Self->{QueueObject}->QueueUpdate(
     QueueID             => $QueueID,
     Name                => $QueueRand . "1",
@@ -164,14 +178,14 @@ $Self->True(
     'QueueGet() - SolutionNotify',
 );
 
-my $Queue = $Self->{QueueObject}->QueueLookup( QueueID => $QueueID );
+$Queue = $Self->{QueueObject}->QueueLookup( QueueID => $QueueID );
 
 $Self->True(
     $Queue eq $QueueRand . "1",
     'QueueLookup() by ID',
 );
 
-my $QueueIDLookup = $Self->{QueueObject}->QueueLookup( Queue => $Queue );
+$QueueIDLookup = $Self->{QueueObject}->QueueLookup( Queue => $Queue );
 
 $Self->True(
     $QueueID eq $QueueIDLookup,
