@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2008-05-15 20:42:04
+--  driver: mssql, generated: 2008-05-15 21:12:09
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table queue_preferences
@@ -157,6 +157,13 @@ ALTER TABLE article ALTER COLUMN a_body TEXT NOT NULL;
 --  alter table xml_storage
 -- ----------------------------------------------------------
 ALTER TABLE xml_storage ALTER COLUMN xml_content_value TEXT;
+-- ----------------------------------------------------------
+--  alter table users
+-- ----------------------------------------------------------
+GO
+EXEC sp_rename 'system_user', 'users'
+GO
+;
 -- ----------------------------------------------------------
 --  insert into table notifications
 -- ----------------------------------------------------------

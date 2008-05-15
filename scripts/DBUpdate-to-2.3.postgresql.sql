@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2008-05-15 20:42:04
+--  driver: postgresql, generated: 2008-05-15 21:12:09
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table queue_preferences
@@ -162,6 +162,10 @@ ALTER TABLE xml_storage ALTER xml_content_value TYPE VARCHAR;
 --  alter table xml_storage
 -- ----------------------------------------------------------
 ALTER TABLE xml_storage ALTER xml_content_value DROP NOT NULL;
+-- ----------------------------------------------------------
+--  alter table users
+-- ----------------------------------------------------------
+ALTER TABLE system_user RENAME TO users;
 -- ----------------------------------------------------------
 --  insert into table notifications
 -- ----------------------------------------------------------

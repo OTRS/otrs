@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2008-05-15 20:42:04
+#  driver: mysql, generated: 2008-05-15 21:12:09
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table queue_preferences
@@ -154,6 +154,10 @@ ALTER TABLE article CHANGE a_body a_body MEDIUMTEXT NOT NULL;
 #  alter table xml_storage
 # ----------------------------------------------------------
 ALTER TABLE xml_storage CHANGE xml_content_value xml_content_value MEDIUMTEXT;
+# ----------------------------------------------------------
+#  alter table users
+# ----------------------------------------------------------
+ALTER TABLE system_user RENAME users;
 # ----------------------------------------------------------
 #  insert into table notifications
 # ----------------------------------------------------------

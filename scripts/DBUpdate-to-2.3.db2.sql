@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2008-05-15 20:42:03
+--  driver: db2, generated: 2008-05-15 21:12:08
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table queue_preferences
@@ -233,6 +233,11 @@ CALL SYSPROC.ADMIN_CMD ('REORG TABLE xml_storage');
 ALTER TABLE xml_storage ALTER COLUMN xml_content_value DROP NOT NULL;
 
 CALL SYSPROC.ADMIN_CMD ('REORG TABLE xml_storage');
+
+-- ----------------------------------------------------------
+--  alter table users
+-- ----------------------------------------------------------
+RENAME TABLE system_user TO users;
 
 -- ----------------------------------------------------------
 --  insert into table notifications

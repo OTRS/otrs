@@ -1,5 +1,5 @@
 // ----------------------------------------------------------
-//  driver: maxdb, generated: 2008-05-15 20:42:03
+//  driver: maxdb, generated: 2008-05-15 21:12:09
 // ----------------------------------------------------------
 // ----------------------------------------------------------
 //  create table queue_preferences
@@ -11,7 +11,7 @@ CREATE TABLE queue_preferences
     preferences_value VARCHAR (250)
 )
 //
-CREATE INDEX queue_preferences_qu12 ON queue_preferences (queue_id)
+CREATE INDEX queue_preferences_qu91 ON queue_preferences (queue_id)
 //
 // ----------------------------------------------------------
 //  create table service_sla
@@ -131,6 +131,11 @@ ALTER TABLE article CHANGE a_body a_body LONG NOT NULL
 //  alter table xml_storage
 // ----------------------------------------------------------
 ALTER TABLE xml_storage CHANGE xml_content_value xml_content_value LONG
+//
+// ----------------------------------------------------------
+//  alter table users
+// ----------------------------------------------------------
+ALTER TABLE system_user TO users
 //
 // ----------------------------------------------------------
 //  insert into table notifications
