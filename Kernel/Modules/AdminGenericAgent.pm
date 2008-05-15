@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.49 2008-05-08 09:36:36 mh Exp $
+# $Id: AdminGenericAgent.pm,v 1.50 2008-05-15 21:47:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -118,6 +118,12 @@ sub Run {
             TicketCreateTimeStartYear
             TicketCreateTimeStop TicketCreateTimeStopDay TicketCreateTimeStopMonth
             TicketCreateTimeStopYear
+            CloseTimeSearchType TicketCloseTimePointFormat TicketCloseTimePoint
+            TicketCloseTimePointStart
+            TicketCloseTimeStart TicketCloseTimeStartDay TicketCloseTimeStartMonth
+            TicketCloseTimeStartYear
+            TicketCloseTimeStop TicketCloseTimeStopDay TicketCloseTimeStopMonth
+            TicketCloseTimeStopYear
             TimePendingSearchType TicketPendingTimePointFormat TicketPendingTimePoint
             TicketPendingTimePointStart
             TicketPendingTimeStart TicketPendingTimeStartDay TicketPendingTimeStartMonth
@@ -239,7 +245,7 @@ sub Run {
             UserID => $Self->{UserID},
         );
 
-        # get time settings
+        # get create time settings
         if ( !$GetParam{TimeSearchType} || $GetParam{TimeSearchType} eq 'None' ) {
 
             # do noting on time stuff
@@ -312,6 +318,83 @@ sub Run {
                 }
                 else {
                     $GetParam{TicketCreateTimeNewerMinutes} = $Time;
+                }
+            }
+        }
+
+        # get create time settings
+        if ( !$GetParam{CloseTimeSearchType} || $GetParam{CloseTimeSearchType} eq 'None' ) {
+
+            # do noting on time stuff
+        }
+        elsif ( $GetParam{CloseTimeSearchType} eq 'TimeSlot' ) {
+            for (qw(Month Day)) {
+                if ( $GetParam{"TicketCloseTimeStart$_"} <= 9 ) {
+                    $GetParam{"TicketCloseTimeStart$_"}
+                        = '0' . $GetParam{"TicketCloseTimeStart$_"};
+                }
+            }
+            for (qw(Month Day)) {
+                if ( $GetParam{"TicketCloseTimeStop$_"} <= 9 ) {
+                    $GetParam{"TicketCloseTimeStop$_"} = '0' . $GetParam{"TicketCloseTimeStop$_"};
+                }
+            }
+            if (
+                $GetParam{TicketCloseTimeStartDay}
+                && $GetParam{TicketCloseTimeStartMonth}
+                && $GetParam{TicketCloseTimeStartYear}
+                )
+            {
+                $GetParam{TicketCloseTimeNewerDate}
+                    = $GetParam{TicketCloseTimeStartYear} . '-'
+                    . $GetParam{TicketCloseTimeStartMonth} . '-'
+                    . $GetParam{TicketCloseTimeStartDay}
+                    . ' 00:00:01';
+            }
+            if (
+                $GetParam{TicketCloseTimeStopDay}
+                && $GetParam{TicketCloseTimeStopMonth}
+                && $GetParam{TicketCloseTimeStopYear}
+                )
+            {
+                $GetParam{TicketCloseTimeOlderDate}
+                    = $GetParam{TicketCloseTimeStopYear} . '-'
+                    . $GetParam{TicketCloseTimeStopMonth} . '-'
+                    . $GetParam{TicketCloseTimeStopDay}
+                    . ' 23:59:59';
+            }
+        }
+        elsif ( $GetParam{CloseTimeSearchType} eq 'TimePoint' ) {
+            if (
+                $GetParam{TicketCloseTimePoint}
+                && $GetParam{TicketCloseTimePointStart}
+                && $GetParam{TicketCloseTimePointFormat}
+                )
+            {
+                my $Time = 0;
+                if ( $GetParam{TicketCloseTimePointFormat} eq 'minute' ) {
+                    $Time = $GetParam{TicketCloseTimePoint};
+                }
+                elsif ( $GetParam{TicketCloseTimePointFormat} eq 'hour' ) {
+                    $Time = $GetParam{TicketCloseTimePoint} * 60;
+                }
+                elsif ( $GetParam{TicketCloseTimePointFormat} eq 'day' ) {
+                    $Time = $GetParam{TicketCloseTimePoint} * 60 * 24;
+                }
+                elsif ( $GetParam{TicketCloseTimePointFormat} eq 'week' ) {
+                    $Time = $GetParam{TicketCloseTimePoint} * 60 * 24 * 7;
+                }
+                elsif ( $GetParam{TicketCloseTimePointFormat} eq 'month' ) {
+                    $Time = $GetParam{TicketCloseTimePoint} * 60 * 24 * 30;
+                }
+                elsif ( $GetParam{TicketCloseTimePointFormat} eq 'year' ) {
+                    $Time = $GetParam{TicketCloseTimePoint} * 60 * 24 * 365;
+                }
+                if ( $GetParam{TicketCloseTimePointStart} eq 'Before' ) {
+                    $GetParam{TicketCloseTimeOlderMinutes} = $Time;
+                }
+                else {
+                    $GetParam{TicketCloseTimeNewerMinutes} = $Time;
                 }
             }
         }
@@ -611,6 +694,17 @@ sub Run {
             $Param{'TimeSearchType::TimeSlot'} = 'checked';
         }
 
+        # get close time option
+        if ( !$Param{CloseTimeSearchType} ) {
+            $Param{'CloseTimeSearchType::None'} = 'checked';
+        }
+        elsif ( $Param{CloseTimeSearchType} eq 'TimePoint' ) {
+            $Param{'CloseTimeSearchType::TimePoint'} = 'checked';
+        }
+        elsif ( $Param{CloseTimeSearchType} eq 'TimeSlot' ) {
+            $Param{'CloseTimeSearchType::TimeSlot'} = 'checked';
+        }
+
         # get pending time option
         if ( !$Param{TimePendingSearchType} ) {
             $Param{'TimePendingSearchType::None'} = 'checked';
@@ -662,6 +756,44 @@ sub Run {
         $Param{TicketCreateTimeStop} = $Self->{LayoutObject}->BuildDateSelection(
             %Param,
             Prefix => 'TicketCreateTimeStop',
+            Format => 'DateInputFormat',
+        );
+
+        # close time
+        $Param{TicketCloseTimePoint} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data       => \%Counter,
+            Name       => 'TicketCloseTimePoint',
+            SelectedID => $Param{TicketCloseTimePoint},
+        );
+        $Param{TicketCloseTimePointStart} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => {
+                'Last'   => 'last',
+                'Before' => 'before',
+            },
+            Name => 'TicketCloseTimePointStart',
+            SelectedID => $Param{TicketCloseTimePointStart} || 'Last',
+        );
+        $Param{TicketCloseTimePointFormat} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => {
+                minute => 'minute(s)',
+                hour   => 'hour(s)',
+                day    => 'day(s)',
+                week   => 'week(s)',
+                month  => 'month(s)',
+                year   => 'year(s)',
+            },
+            Name       => 'TicketCloseTimePointFormat',
+            SelectedID => $Param{TicketCloseTimePointFormat},
+        );
+        $Param{TicketCloseTimeStart} = $Self->{LayoutObject}->BuildDateSelection(
+            %Param,
+            Prefix   => 'TicketCloseTimeStart',
+            Format   => 'DateInputFormat',
+            DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
+        );
+        $Param{TicketCloseTimeStop} = $Self->{LayoutObject}->BuildDateSelection(
+            %Param,
+            Prefix => 'TicketCloseTimeStop',
             Format => 'DateInputFormat',
         );
 

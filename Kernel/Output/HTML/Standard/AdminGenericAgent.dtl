@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.35 2008-04-02 08:59:22 ot Exp $
+# $Id: AdminGenericAgent.dtl,v 1.36 2008-05-15 21:47:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -291,6 +291,27 @@
             <td colspan="2" class="contentbody">
               <input type="radio" name="TimeSearchType" value="TimeSlot" $Data{"TimeSearchType::TimeSlot"}/>
               $Text{"Ticket created between"} $Data{"TicketCreateTimeStart"} $Text{"and"} $Data{"TicketCreateTimeStop"}.
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contenthead">$Text{"Close Times"}</td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contentbody">
+              <input type="radio" name="CloseTimeSearchType" value="" $Data{"CloseTimeSearchType::None"}/>
+              $Text{"No close time settings."}
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contentbody">
+              <input type="radio" name="CloseTimeSearchType" value="TimePoint" $Data{"CloseTimeSearchType::TimePoint"}/>
+              $Text{"Ticket closed"} $Data{"TicketCloseTimePointStart"} $Data{"TicketCloseTimePoint"} $Data{"TicketCloseTimePointFormat"}.
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contentbody">
+              <input type="radio" name="CloseTimeSearchType" value="TimeSlot" $Data{"CloseTimeSearchType::TimeSlot"}/>
+              $Text{"Ticket closed between"} $Data{"TicketCloseTimeStart"} $Text{"and"} $Data{"TicketCloseTimeStop"}.
             </td>
           </tr>
           <tr>

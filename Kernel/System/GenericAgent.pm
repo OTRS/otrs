@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.38 2008-05-08 09:36:19 mh Exp $
+# $Id: GenericAgent.pm,v 1.39 2008-05-15 21:47:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 =head1 NAME
 
@@ -118,6 +118,18 @@ sub new {
         TicketCreateTimeStopDay      => 'SCALAR',
         TicketCreateTimeStopMonth    => 'SCALAR',
         TicketCreateTimeStopYear     => 'SCALAR',
+        CloseTimeSearchType          => 'SCALAR',
+        TicketCloseTimePointFormat   => 'SCALAR',
+        TicketCloseTimePoint         => 'SCALAR',
+        TicketCloseTimePointStart    => 'SCALAR',
+        TicketCloseTimeStart         => 'SCALAR',
+        TicketCloseTimeStartDay      => 'SCALAR',
+        TicketCloseTimeStartMonth    => 'SCALAR',
+        TicketCloseTimeStartYear     => 'SCALAR',
+        TicketCloseTimeStop          => 'SCALAR',
+        TicketCloseTimeStopDay       => 'SCALAR',
+        TicketCloseTimeStopMonth     => 'SCALAR',
+        TicketCloseTimeStopYear      => 'SCALAR',
         TimePendingSearchType        => 'SCALAR',
         TicketPendingTimePointFormat => 'SCALAR',
         TicketPendingTimePoint       => 'SCALAR',
@@ -301,7 +313,7 @@ sub JobRun {
                 %Tickets
             );
         }
-        elsif ( ref( $Job{Queue} ) eq 'ARRAY' ) {
+        elsif ( ref $Job{Queue} eq 'ARRAY' ) {
             for ( @{ $Job{Queue} } ) {
                 if ( $Self->{NoticeSTDOUT} ) {
                     print " For Queue: $_\n";
@@ -370,7 +382,7 @@ sub JobRun {
                 UserID => $Param{UserID},
             );
         }
-        elsif ( ref( $Job{Queue} ) eq 'ARRAY' ) {
+        elsif ( ref $Job{Queue} eq 'ARRAY' ) {
             for ( @{ $Job{Queue} } ) {
                 if ( $Self->{NoticeSTDOUT} ) {
                     print " For Queue: $_\n";
@@ -684,8 +696,8 @@ sub _JobRunTicket {
     # set ticket free text options
     for ( 1 .. 16 ) {
         if (
-            defined( $Param{Config}->{New}->{"TicketFreeKey$_"} )
-            || defined( $Param{Config}->{New}->{"TicketFreeText$_"} )
+            defined $Param{Config}->{New}->{"TicketFreeKey$_"}
+            || defined $Param{Config}->{New}->{"TicketFreeText$_"}
             )
         {
             my %Data = ();
@@ -693,14 +705,14 @@ sub _JobRunTicket {
             $Data{UserID}   = $Param{UserID};
             $Data{Counter}  = $_;
 
-            if ( defined( $Param{Config}->{New}->{"TicketFreeKey$_"} ) ) {
+            if ( defined $Param{Config}->{New}->{"TicketFreeKey$_"} ) {
                 $Data{Key} = $Param{Config}->{New}->{"TicketFreeKey$_"};
             }
 
             # insert the freefieldkey, if only one key is possible
             if (
                 !$Data{Key}
-                && ref( $Self->{ConfigObject}->Get( 'TicketFreeKey' . $_ ) ) eq 'HASH'
+                && ref $Self->{ConfigObject}->Get( 'TicketFreeKey' . $_ ) eq 'HASH'
                 )
             {
                 my %TicketFreeKey = %{ $Self->{ConfigObject}->Get( 'TicketFreeKey' . $_ ) };
@@ -711,15 +723,15 @@ sub _JobRunTicket {
                 }
             }
 
-            if ( defined( $Param{Config}->{New}->{"TicketFreeText$_"} ) ) {
+            if ( defined $Param{Config}->{New}->{"TicketFreeText$_"} ) {
                 $Data{Value} = $Param{Config}->{New}->{"TicketFreeText$_"};
             }
 
             if ( $Self->{NoticeSTDOUT} ) {
-                if ( defined( $Data{Key} ) ) {
+                if ( defined $Data{Key} ) {
                     print "  - set ticket free text of Ticket $Ticket to Key: '$Data{Key}'\n";
                 }
-                if ( defined( $Data{Value} ) ) {
+                if ( defined $Data{Value} ) {
                     print "  - set ticket free text of Ticket $Ticket to Text: '$Data{Value}'\n";
                 }
             }
@@ -828,7 +840,7 @@ sub JobGet {
     my %Data = ();
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         if ( $Self->{Map}->{ $Row[0] } && $Self->{Map}->{ $Row[0] } eq 'ARRAY' ) {
-            push( @{ $Data{ $Row[0] } }, $Row[1] );
+            push @{ $Data{ $Row[0] } }, $Row[1];
         }
         else {
             $Data{ $Row[0] } = $Row[1];
@@ -936,6 +948,100 @@ sub JobGet {
         }
     }
 
+    # get close time settings
+    if ( !$Data{'CloseTimeSearchType'} || $Data{'CloseTimeSearchType'} eq 'None' ) {
+
+        # do noting on time stuff
+        for (
+            qw(TicketCloseTimeStartMonth TicketCloseTimeStopMonth TicketCloseTimeStopDay
+            TicketCloseTimeStartDay TicketCloseTimeStopYear TicketCloseTimePoint
+            TicketCloseTimeStartYear TicketCloseTimePointFormat TicketCloseTimePointStart)
+            )
+        {
+            delete( $Data{$_} );
+        }
+    }
+    elsif ( $Data{'CloseTimeSearchType'} && $Data{'CloseTimeSearchType'} eq 'TimeSlot' ) {
+        for (qw(TicketCloseTimePoint TicketCloseTimePointFormat TicketCloseTimePointStart)) {
+            delete( $Data{$_} );
+        }
+        for (qw(Month Day)) {
+            if ( $Data{"TicketCloseTimeStart$_"} <= 9 ) {
+                $Data{"TicketCloseTimeStart$_"} = '0' . $Data{"TicketCloseTimeStart$_"};
+            }
+        }
+        for (qw(Month Day)) {
+            if ( $Data{"TicketCloseTimeStop$_"} <= 9 ) {
+                $Data{"TicketCloseTimeStop$_"} = '0' . $Data{"TicketCloseTimeStop$_"};
+            }
+        }
+        if (
+            $Data{TicketCloseTimeStartDay}
+            && $Data{TicketCloseTimeStartMonth}
+            && $Data{TicketCloseTimeStartYear}
+            )
+        {
+            $Data{TicketCloseTimeNewerDate}
+                = $Data{TicketCloseTimeStartYear} . '-'
+                . $Data{TicketCloseTimeStartMonth} . '-'
+                . $Data{TicketCloseTimeStartDay}
+                . ' 00:00:01';
+        }
+        if (
+            $Data{TicketCloseTimeStopDay}
+            && $Data{TicketCloseTimeStopMonth}
+            && $Data{TicketCloseTimeStopYear}
+            )
+        {
+            $Data{TicketCloseTimeOlderDate}
+                = $Data{TicketCloseTimeStopYear} . '-'
+                . $Data{TicketCloseTimeStopMonth} . '-'
+                . $Data{TicketCloseTimeStopDay}
+                . ' 23:59:59';
+        }
+    }
+    elsif ( $Data{'CloseTimeSearchType'} && $Data{'CloseTimeSearchType'} eq 'TimePoint' ) {
+        for (
+            qw(TicketCloseTimeStartMonth TicketCloseTimeStopMonth TicketCloseTimeStopDay
+            TicketCloseTimeStartDay TicketCloseTimeStopYear TicketCloseTimeStartYear)
+            )
+        {
+            delete( $Data{$_} );
+        }
+        if (
+            $Data{TicketCloseTimePoint}
+            && $Data{TicketCloseTimePointStart}
+            && $Data{TicketCloseTimePointFormat}
+            )
+        {
+            my $Time = 0;
+            if ( $Data{TicketCloseTimePointFormat} eq 'minute' ) {
+                $Time = $Data{TicketCloseTimePoint};
+            }
+            elsif ( $Data{TicketCloseTimePointFormat} eq 'hour' ) {
+                $Time = $Data{TicketCloseTimePoint} * 60;
+            }
+            elsif ( $Data{TicketCloseTimePointFormat} eq 'day' ) {
+                $Time = $Data{TicketCloseTimePoint} * 60 * 24;
+            }
+            elsif ( $Data{TicketCloseTimePointFormat} eq 'week' ) {
+                $Time = $Data{TicketCloseTimePoint} * 60 * 24 * 7;
+            }
+            elsif ( $Data{TicketCloseTimePointFormat} eq 'month' ) {
+                $Time = $Data{TicketCloseTimePoint} * 60 * 24 * 30;
+            }
+            elsif ( $Data{TicketCloseTimePointFormat} eq 'year' ) {
+                $Time = $Data{TicketCloseTimePoint} * 60 * 24 * 356;
+            }
+            if ( $Data{TicketCloseTimePointStart} eq 'Before' ) {
+                $Data{TicketCloseTimeOlderMinutes} = $Time;
+            }
+            else {
+                $Data{TicketCloseTimeNewerMinutes} = $Time;
+            }
+        }
+    }
+
     # get pending time settings
     if ( !$Data{'TimePendingSearchType'} || $Data{'TimePendingSearchType'} eq 'None' ) {
 
@@ -1031,7 +1137,7 @@ sub JobGet {
     }
 
     # check valid
-    if ( %Data && !defined( $Data{Valid} ) ) {
+    if ( %Data && !defined $Data{Valid} ) {
         $Data{Valid} = 1;
     }
     if (%Data) {
@@ -1079,9 +1185,9 @@ sub JobAdd {
 
     # insert data into db
     for my $Key ( keys %{ $Param{Data} } ) {
-        if ( ref( $Param{Data}->{$Key} ) eq 'ARRAY' ) {
+        if ( ref $Param{Data}->{$Key} eq 'ARRAY' ) {
             for my $Item ( @{ $Param{Data}->{$Key} } ) {
-                if ( defined($Item) ) {
+                if ( defined $Item ) {
                     $Self->{DBObject}->Do(
                         SQL => 'INSERT INTO generic_agent_jobs '
                             . '(job_name, job_key, job_value) VALUES (?, ?, ?)',
@@ -1091,7 +1197,7 @@ sub JobAdd {
             }
         }
         else {
-            if ( defined( $Param{Data}->{$Key} ) ) {
+            if ( defined $Param{Data}->{$Key} ) {
                 $Self->{DBObject}->Do(
                     SQL => 'INSERT INTO generic_agent_jobs '
                         . '(job_name, job_key, job_value) VALUES (?, ?, ?)',
@@ -1158,7 +1264,7 @@ sub _JobUpdateRunTime {
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         if ( $Row[0] =~ /^(ScheduleLastRun|ScheduleLastRunUnixTime)/ ) {
-            push( @Data, { Key => $Row[0], Value => $Row[1] } );
+            push @Data, { Key => $Row[0], Value => $Row[1] };
         }
     }
 
@@ -1203,6 +1309,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.38 $ $Date: 2008-05-08 09:36:19 $
+$Revision: 1.39 $ $Date: 2008-05-15 21:47:52 $
 
 =cut
