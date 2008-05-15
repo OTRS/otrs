@@ -2,7 +2,7 @@
 # Kernel/System/Service.pm - all service function
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.25 2008-05-11 11:48:02 martin Exp $
+# $Id: Service.pm,v 1.26 2008-05-15 10:44:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 =head1 NAME
 
@@ -266,7 +266,7 @@ sub ServiceLookup {
 
         # check cache
         my $CacheKey = 'Cache::ServiceLookup::ID::' . $Param{ServiceID};
-        if ( $Self->{$CacheKey} ) {
+        if ( defined $Self->{$CacheKey} ) {
             return $Self->{$CacheKey};
         }
 
@@ -286,7 +286,7 @@ sub ServiceLookup {
 
         # check cache
         my $CacheKey = 'Cache::ServiceLookup::Name::' . $Param{Name};
-        if ( $Self->{$CacheKey} ) {
+        if ( defined $Self->{$CacheKey} ) {
             return $Self->{$CacheKey};
         }
 
@@ -328,6 +328,8 @@ sub ServiceAdd {
             return;
         }
     }
+
+    # set comment
     $Param{Comment} = $Param{Comment} || '';
 
     # cleanup given params
@@ -399,6 +401,11 @@ sub ServiceAdd {
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $ServiceID = $Row[0];
     }
+
+    # reset cache
+    delete $Self->{ 'Cache::ServiceLookup::ID::' . $ServiceID };
+    delete $Self->{ 'Cache::ServiceLookup::Name::' . $Param{FullName} };
+
     return $ServiceID;
 }
 
@@ -453,8 +460,8 @@ sub ServiceUpdate {
     my $OldServiceName = $Self->ServiceLookup( ServiceID => $Param{ServiceID}, );
 
     # reset cache
-    $Self->{ 'Cache::ServiceLookup::ID::' . $Param{ServiceID} } = 0;
-    $Self->{ 'Cache::ServiceLookup::Name::' . $OldServiceName } = 0;
+    delete $Self->{ 'Cache::ServiceLookup::ID::' . $Param{ServiceID} };
+    delete $Self->{ 'Cache::ServiceLookup::Name::' . $OldServiceName };
 
     # create full name
     $Param{FullName} = $Param{Name};
@@ -809,6 +816,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2008-05-11 11:48:02 $
+$Revision: 1.26 $ $Date: 2008-05-15 10:44:34 $
 
 =cut

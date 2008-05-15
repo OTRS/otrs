@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.313 2008-05-08 09:36:19 mh Exp $
+# $Id: Ticket.pm,v 1.314 2008-05-15 10:43:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.313 $) [1];
+$VERSION = qw($Revision: 1.314 $) [1];
 
 =head1 NAME
 
@@ -456,6 +456,13 @@ sub TicketCreate {
         $Param{Title} = '';
     }
 
+    # check database undef/NULL (set value to undef/NULL to prevent database errors)
+    for (qw(ServiceID SLAID)) {
+        if ( !$Param{$_} ) {
+            $Param{$_} = undef;
+        }
+    }
+
     # create db record
     return if !$Self->{DBObject}->Do(
         SQL =>
@@ -542,7 +549,7 @@ sub TicketDelete {
     }
 
     # clear ticket cache
-    $Self->{ 'Cache::GetTicket' . $Param{TicketID} } = 0;
+    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
     # delete ticket links
     my $LinkObject = Kernel::System::LinkObject->new(
@@ -943,7 +950,7 @@ sub TicketGet {
     }
 
     # get state info
-    my %StateData = $Self->{StateObject}->StateGet( ID => $Ticket{StateID}, Cache => 1 );
+    my %StateData = $Self->{StateObject}->StateGet( ID => $Ticket{StateID} );
     $Ticket{StateType} = $StateData{TypeName};
     $Ticket{State}     = $StateData{Name};
     if ( !$Ticket{RealTillTimeNotUsed} || $StateData{TypeName} !~ /^pending/i ) {
@@ -1006,7 +1013,7 @@ sub TicketTitleUpdate {
     );
 
     # clear ticket cache
-    $Self->{ 'Cache::GetTicket' . $Param{TicketID} } = 0;
+    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
     # ticket event
     $Self->TicketEventHandlerPost(
@@ -1053,7 +1060,7 @@ sub TicketUnlockTimeoutUpdate {
     );
 
     # reset ticket cache
-    $Self->{ 'Cache::GetTicket' . $Param{TicketID} } = 0;
+    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
     # add history
     $Self->HistoryAdd(
@@ -1391,7 +1398,7 @@ sub MoveTicket {
     my $Queue = $Self->{QueueObject}->QueueLookup( QueueID => $Param{QueueID} );
 
     # clear ticket cache
-    $Self->{ 'Cache::GetTicket' . $Param{TicketID} } = 0;
+    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
     # update ticket view index
     $Self->TicketAcceleratorUpdate( TicketID => $Param{TicketID} );
@@ -1516,7 +1523,7 @@ sub MoveQueueList {
     # queue lookup
     my @QueueName = ();
     for my $QueueID (@QueueID) {
-        my $Queue = $Self->{QueueObject}->QueueLookup( QueueID => $QueueID, Cache => 1 );
+        my $Queue = $Self->{QueueObject}->QueueLookup( QueueID => $QueueID );
         push @QueueName, $Queue;
     }
     if ( $Param{Type} && $Param{Type} eq 'Name' ) {
@@ -1638,7 +1645,7 @@ sub TicketTypeSet {
     );
 
     # clear ticket cache
-    $Self->{ 'Cache::GetTicket' . $Param{TicketID} } = 0;
+    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
     # get new ticket data
     my %TicketNew = $Self->TicketGet(%Param);
@@ -1794,7 +1801,7 @@ sub TicketServiceSet {
     );
 
     # clear ticket cache
-    $Self->{ 'Cache::GetTicket' . $Param{TicketID} } = 0;
+    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
     # get new ticket data
     my %TicketNew = $Self->TicketGet(%Param);
@@ -2259,7 +2266,7 @@ sub TicketSLASet {
     );
 
     # clear ticket cache
-    $Self->{ 'Cache::GetTicket' . $Param{TicketID} } = 0;
+    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
     # get new ticket data
     my %TicketNew = $Self->TicketGet(%Param);
@@ -2351,7 +2358,7 @@ sub SetCustomerData {
     );
 
     # clear ticket cache
-    $Self->{ 'Cache::GetTicket' . $Param{TicketID} } = 0;
+    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
     # ticket event
     $Self->TicketEventHandlerPost(
@@ -2565,7 +2572,7 @@ sub TicketFreeTextSet {
     );
 
     # clear ticket cache
-    $Self->{ 'Cache::GetTicket' . $Param{TicketID} } = 0;
+    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
     # ticket event
     $Self->TicketEventHandlerPost(
@@ -2661,7 +2668,7 @@ sub TicketFreeTimeSet {
     );
 
     # clear ticket cache
-    $Self->{ 'Cache::GetTicket' . $Param{TicketID} } = 0;
+    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
     # ticket event
     $Self->TicketEventHandlerPost(
@@ -2994,7 +3001,7 @@ sub GetSubscribedUserIDsByQueueID {
     }
 
     # get group of queue
-    my %Queue = $Self->{QueueObject}->QueueGet( ID => $Param{QueueID}, Cache => 1 );
+    my %Queue = $Self->{QueueObject}->QueueGet( ID => $Param{QueueID} );
 
     # fetch all queues
     my @UserIDs = ();
@@ -3103,7 +3110,7 @@ sub TicketPendingTimeSet {
     );
 
     # clear ticket cache
-    $Self->{ 'Cache::GetTicket' . $Param{TicketID} } = 0;
+    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
     # ticket event
     $Self->TicketEventHandlerPost(
@@ -3250,6 +3257,10 @@ To find tickets in your system.
         TicketPendingTimeNewerDate => '2006-01-09 00:00:01',
         # tickets with pending time before then .... (optional)
         TicketPendingTimeOlderDate => '2006-01-19 23:59:59',
+
+        TicketEscalationFirstResponse => ,
+        TicketEscalationUpdateTime    => ,
+        TicketEscalationSolutionTime  => ,
 
         # OrderBy and SortBy (optional)
         OrderBy => 'Down',      # Down|Up
@@ -3431,7 +3442,7 @@ sub TicketSearch {
     # current state lookup
     if ( $Param{States} && ref $Param{States} eq 'ARRAY' ) {
         for ( @{ $Param{States} } ) {
-            my %State = $Self->{StateObject}->StateGet( Name => $_, Cache => 1 );
+            my %State = $Self->{StateObject}->StateGet( Name => $_ );
             if ( $State{ID} ) {
                 push( @{ $Param{StateIDs} }, $State{ID} );
             }
@@ -3458,7 +3469,7 @@ sub TicketSearch {
     # created states lookup
     if ( $Param{CreatedStates} && ref $Param{CreatedStates} eq 'ARRAY' ) {
         for ( @{ $Param{CreatedStates} } ) {
-            my %State = $Self->{StateObject}->StateGet( Name => $_, Cache => 1 );
+            my %State = $Self->{StateObject}->StateGet( Name => $_ );
             if ( $State{ID} ) {
                 push( @{ $Param{CreatedStateIDs} }, $State{ID} );
             }
@@ -4409,7 +4420,7 @@ sub LockSet {
     );
 
     # clear ticket cache
-    $Self->{ 'Cache::GetTicket' . $Param{TicketID} } = 0;
+    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
     # update ticket view index
     $Self->TicketAcceleratorUpdate( TicketID => $Param{TicketID} );
@@ -4525,12 +4536,12 @@ sub StateSet {
 
     # state id lookup
     if ( !$Param{StateID} ) {
-        %State = $Self->{StateObject}->StateGet( Name => $Param{State}, Cache => 1 );
+        %State = $Self->{StateObject}->StateGet( Name => $Param{State} );
     }
 
     # state lookup
     if ( !$Param{State} ) {
-        %State = $Self->{StateObject}->StateGet( ID => $Param{StateID}, Cache => 1 );
+        %State = $Self->{StateObject}->StateGet( ID => $Param{StateID} );
     }
     if ( !%State ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need StateID or State!' );
@@ -4563,7 +4574,7 @@ sub StateSet {
     );
 
     # clear ticket cache
-    $Self->{ 'Cache::GetTicket' . $Param{TicketID} } = 0;
+    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
     # update ticket view index
     $Self->TicketAcceleratorUpdate( TicketID => $Param{TicketID} );
@@ -4857,7 +4868,7 @@ sub OwnerSet {
     );
 
     # clear ticket cache
-    $Self->{ 'Cache::GetTicket' . $Param{TicketID} } = 0;
+    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
     # send agent notify
     if ( !$Param{SendNoNotification} ) {
@@ -5051,7 +5062,7 @@ sub ResponsibleSet {
     );
 
     # clear ticket cache
-    $Self->{ 'Cache::GetTicket' . $Param{TicketID} } = 0;
+    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
     # send agent notify
     if ( !$Param{SendNoNotification} ) {
@@ -5286,7 +5297,7 @@ sub PrioritySet {
     );
 
     # clear ticket cache
-    $Self->{ 'Cache::GetTicket' . $Param{TicketID} } = 0;
+    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
     # ticket event
     $Self->TicketEventHandlerPost(
@@ -6008,7 +6019,7 @@ sub TicketAccountTime {
     );
 
     # clear ticket cache
-    $Self->{ 'Cache::GetTicket' . $Param{TicketID} } = 0;
+    delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
     # ticket event
     $Self->TicketEventHandlerPost(
@@ -6370,11 +6381,11 @@ sub TicketAcl {
 
     # use queue data (if given)
     if ( $Param{QueueID} ) {
-        my %Queue = $Self->{QueueObject}->QueueGet( ID => $Param{QueueID}, Cache => 1 );
+        my %Queue = $Self->{QueueObject}->QueueGet( ID => $Param{QueueID} );
         $Checks{Queue} = \%Queue;
     }
     elsif ( $Param{Queue} ) {
-        my %Queue = $Self->{QueueObject}->QueueGet( Name => $Param{Queue}, Cache => 1 );
+        my %Queue = $Self->{QueueObject}->QueueGet( Name => $Param{Queue} );
         $Checks{Queue} = \%Queue;
     }
 
@@ -6631,7 +6642,7 @@ TicketPendingTimeUpdate, TicketLockUpdate, TicketStateUpdate, TicketOwnerUpdate,
 TicketResponsibleUpdate, TicketPriorityUpdate, HistoryAdd, HistoryDelete,
 TicketAccountTime, TicketMerge, ArticleCreate, ArticleFreeTextUpdate,
 ArticleUpdate, ArticleSend, ArticleBounce, ArticleAgentNotification,
-ArticleCustomerNotification, ArticleAutoResponse, ArticleFlagSet;
+ArticleCustomerNotification, ArticleAutoResponse, ArticleFlagSet, ArticleFlagDelete;
 
 =cut
 
@@ -6727,6 +6738,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.313 $ $Date: 2008-05-08 09:36:19 $
+$Revision: 1.314 $ $Date: 2008-05-15 10:43:57 $
 
 =cut

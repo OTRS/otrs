@@ -3,7 +3,7 @@
 # queue ticket index module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: RuntimeDB.pm,v 1.57 2008-05-09 09:23:46 martin Exp $
+# $Id: RuntimeDB.pm,v 1.58 2008-05-15 10:45:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 sub TicketAcceleratorUpdate {
     my ( $Self, %Param ) = @_;
@@ -352,7 +352,7 @@ sub GetOverTimeTickets {
     for my $TicketData (@TicketIDs) {
 
         # get state info
-        my %StateData = $Self->{StateObject}->StateGet( ID => $TicketData->{StateID}, Cache => 1 );
+        my %StateData = $Self->{StateObject}->StateGet( ID => $TicketData->{StateID} );
         $TicketData->{StateType} = $StateData{TypeName};
         $TicketData->{State}     = $StateData{Name};
         $TicketData->{Lock} = $Self->{LockObject}->LockLookup( LockID => $TicketData->{LockID} );

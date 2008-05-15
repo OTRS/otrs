@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.175 2008-05-11 11:48:46 martin Exp $
+# $Id: Article.pm,v 1.176 2008-05-15 10:44:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.175 $) [1];
+$VERSION = qw($Revision: 1.176 $) [1];
 
 =head1 NAME
 
@@ -1568,10 +1568,10 @@ sub ArticleGet {
     }
 
     # get queue name and other stuff
-    my %Queue = $Self->{QueueObject}->QueueGet( ID => $Ticket{QueueID}, Cache => 1 );
+    my %Queue = $Self->{QueueObject}->QueueGet( ID => $Ticket{QueueID} );
 
     # get state info
-    my %StateData = $Self->{StateObject}->StateGet( ID => $Ticket{StateID}, Cache => 1 );
+    my %StateData = $Self->{StateObject}->StateGet( ID => $Ticket{StateID} );
     $Ticket{StateType} = $StateData{TypeName};
     $Ticket{State}     = $StateData{Name};
 
