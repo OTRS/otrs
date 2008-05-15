@@ -1,8 +1,8 @@
 # --
 # Kernel/Language/ar_SA.pm - provides ar_SA language translation
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
 # --
-# $Id: ar_SA.pm,v 1.11 2008-05-06 23:23:10 martin Exp $
+# $Id: ar_SA.pm,v 1.12 2008-05-15 12:34:41 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
