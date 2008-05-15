@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2008-05-10 14:29:15
+--  driver: oracle, generated: 2008-05-15 10:57:16
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 ALTER TABLE valid ADD CONSTRAINT FK_valid_create_by_id FOREIGN KEY (create_by) REFERENCES system_user(id);
@@ -90,6 +90,7 @@ ALTER TABLE link_object ADD CONSTRAINT FK_link_object_source_object0b FOREIGN KE
 ALTER TABLE link_object ADD CONSTRAINT FK_link_object_target_object72 FOREIGN KEY (target_object_id) REFERENCES link_object_object(id);
 ALTER TABLE link_object ADD CONSTRAINT FK_link_object_state_id_id FOREIGN KEY (state_id) REFERENCES link_object_state(id);
 ALTER TABLE link_object ADD CONSTRAINT FK_link_object_type_id_id FOREIGN KEY (type_id) REFERENCES link_object_type(id);
+ALTER TABLE link_object ADD CONSTRAINT FK_link_object_create_by_id FOREIGN KEY (create_by) REFERENCES system_user(id);
 ALTER TABLE ticket_history ADD CONSTRAINT FK_ticket_history_article_id34 FOREIGN KEY (article_id) REFERENCES article(id);
 ALTER TABLE ticket_history ADD CONSTRAINT FK_ticket_history_queue_id_id FOREIGN KEY (queue_id) REFERENCES queue(id);
 ALTER TABLE ticket_history ADD CONSTRAINT FK_ticket_history_owner_id_id FOREIGN KEY (owner_id) REFERENCES system_user(id);

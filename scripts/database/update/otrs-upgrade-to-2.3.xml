@@ -84,6 +84,8 @@
         <Column Name="target_key" Required="true" Size="50" Type="VARCHAR"/>
         <Column Name="type_id" Required="true" Type="SMALLINT"/>
         <Column Name="state_id" Required="true" Type="SMALLINT"/>
+        <Column Name="create_time" Required="true" Type="DATE"/>
+        <Column Name="create_by" Required="true" Type="INTEGER"/>
         <Unique Name="link_object_relation">
             <UniqueColumn Name="source_object_id"/>
             <UniqueColumn Name="source_key"/>
@@ -100,6 +102,9 @@
         </ForeignKey>
         <ForeignKey ForeignTable="link_object_state">
             <Reference Local="state_id" Foreign="id"/>
+        </ForeignKey>
+        <ForeignKey ForeignTable="system_user">
+            <Reference Local="create_by" Foreign="id"/>
         </ForeignKey>
     </TableCreate>
 
@@ -361,7 +366,7 @@ Ihr OTRS Benachrichtigungs-Master</Data>
     </Insert>
 
     <Insert Table="link_object_type">
-        <Data Key="name" Type="Quote">normal</Data>
+        <Data Key="name" Type="Quote">Normal</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
@@ -369,7 +374,7 @@ Ihr OTRS Benachrichtigungs-Master</Data>
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="link_object_type">
-        <Data Key="name" Type="Quote">parent-child</Data>
+        <Data Key="name" Type="Quote">ParentChild</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
@@ -378,7 +383,7 @@ Ihr OTRS Benachrichtigungs-Master</Data>
     </Insert>
 
     <Insert Table="link_object_state">
-        <Data Key="name" Type="Quote">valid</Data>
+        <Data Key="name" Type="Quote">Valid</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
@@ -386,7 +391,7 @@ Ihr OTRS Benachrichtigungs-Master</Data>
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="link_object_state">
-        <Data Key="name" Type="Quote">temporary</Data>
+        <Data Key="name" Type="Quote">Temporary</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>

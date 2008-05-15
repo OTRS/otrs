@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2008-05-10 14:29:15
+--  driver: postgresql, generated: 2008-05-15 10:57:16
 -- ----------------------------------------------------------
 ALTER TABLE valid ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
 ALTER TABLE valid ADD FOREIGN KEY (change_by) REFERENCES system_user(id);
@@ -89,6 +89,7 @@ ALTER TABLE link_object ADD FOREIGN KEY (source_object_id) REFERENCES link_objec
 ALTER TABLE link_object ADD FOREIGN KEY (target_object_id) REFERENCES link_object_object(id);
 ALTER TABLE link_object ADD FOREIGN KEY (state_id) REFERENCES link_object_state(id);
 ALTER TABLE link_object ADD FOREIGN KEY (type_id) REFERENCES link_object_type(id);
+ALTER TABLE link_object ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
 ALTER TABLE ticket_history ADD FOREIGN KEY (article_id) REFERENCES article(id);
 ALTER TABLE ticket_history ADD FOREIGN KEY (queue_id) REFERENCES queue(id);
 ALTER TABLE ticket_history ADD FOREIGN KEY (owner_id) REFERENCES system_user(id);

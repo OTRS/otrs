@@ -5,7 +5,7 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 
-    $Id: otrs-schema.xml,v 1.87 2008-05-10 12:20:30 mh Exp $
+    $Id: otrs-schema.xml,v 1.88 2008-05-15 08:55:57 mh Exp $
 
 -->
 
@@ -704,7 +704,7 @@
     </ForeignKey>
 </Table>
 
-<!-- link_object_state - all link object states -->
+<!-- link_object_object - all link objects -->
 <Table Name="link_object_object">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
     <Column Name="name" Required="true" Size="100" Type="VARCHAR"/>
@@ -721,6 +721,8 @@
     <Column Name="target_key" Required="true" Size="50" Type="VARCHAR"/>
     <Column Name="type_id" Required="true" Type="SMALLINT"/>
     <Column Name="state_id" Required="true" Type="SMALLINT"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Unique Name="link_object_relation">
         <UniqueColumn Name="source_object_id"/>
         <UniqueColumn Name="source_key"/>
@@ -737,6 +739,9 @@
     </ForeignKey>
     <ForeignKey ForeignTable="link_object_state">
         <Reference Local="state_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="system_user">
+        <Reference Local="create_by" Foreign="id"/>
     </ForeignKey>
 </Table>
 

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2008-05-10 14:29:15
+--  driver: oracle, generated: 2008-05-15 10:57:16
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -763,8 +763,11 @@ CREATE TABLE link_object (
     target_key VARCHAR2 (50) NOT NULL,
     type_id NUMBER (5, 0) NOT NULL,
     state_id NUMBER (5, 0) NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL,
     CONSTRAINT link_object_relation UNIQUE (source_object_id, source_key, target_object_id, target_key, type_id)
 );
+CREATE INDEX FK_link_object_create_by ON link_object (create_by);
 CREATE INDEX FK_link_object_source_object93 ON link_object (source_object_id);
 CREATE INDEX FK_link_object_state_id ON link_object (state_id);
 CREATE INDEX FK_link_object_target_objectff ON link_object (target_object_id);

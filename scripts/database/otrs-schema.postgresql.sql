@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2008-05-10 14:29:15
+--  driver: postgresql, generated: 2008-05-15 10:57:16
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -468,6 +468,8 @@ CREATE TABLE link_object (
     target_key VARCHAR (50) NOT NULL,
     type_id INTEGER NOT NULL,
     state_id INTEGER NOT NULL,
+    create_time timestamp(0) NOT NULL,
+    create_by INTEGER NOT NULL,
     CONSTRAINT link_object_relation UNIQUE (source_object_id, source_key, target_object_id, target_key, type_id)
 );
 -- ----------------------------------------------------------

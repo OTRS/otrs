@@ -1,5 +1,5 @@
 // ----------------------------------------------------------
-//  driver: maxdb, generated: 2008-05-10 14:29:13
+//  driver: maxdb, generated: 2008-05-15 10:57:14
 // ----------------------------------------------------------
 ALTER TABLE valid ADD FOREIGN KEY (create_by) REFERENCES system_user(id)
 //
@@ -176,6 +176,8 @@ ALTER TABLE link_object ADD FOREIGN KEY (target_object_id) REFERENCES link_objec
 ALTER TABLE link_object ADD FOREIGN KEY (state_id) REFERENCES link_object_state(id)
 //
 ALTER TABLE link_object ADD FOREIGN KEY (type_id) REFERENCES link_object_type(id)
+//
+ALTER TABLE link_object ADD FOREIGN KEY (create_by) REFERENCES system_user(id)
 //
 ALTER TABLE ticket_history ADD FOREIGN KEY (article_id) REFERENCES article(id)
 //

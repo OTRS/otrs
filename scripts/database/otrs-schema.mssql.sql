@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2008-05-10 14:29:14
+--  driver: mssql, generated: 2008-05-15 10:57:15
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -468,6 +468,8 @@ CREATE TABLE link_object (
     target_key VARCHAR (50) NOT NULL,
     type_id SMALLINT NOT NULL,
     state_id SMALLINT NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
     UNIQUE link_object_relation (source_object_id, source_key, target_object_id, target_key, type_id)
 );
 -- ----------------------------------------------------------

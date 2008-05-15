@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2008-05-10 14:29:13
+--  driver: db2, generated: 2008-05-15 10:57:14
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -519,6 +519,8 @@ CREATE TABLE link_object (
     target_key VARCHAR (50) NOT NULL,
     type_id SMALLINT NOT NULL,
     state_id SMALLINT NOT NULL,
+    create_time TIMESTAMP NOT NULL,
+    create_by INTEGER NOT NULL,
     CONSTRAINT link_object_relation UNIQUE (source_object_id, source_key, target_object_id, target_key, type_id)
 );
 

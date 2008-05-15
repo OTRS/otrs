@@ -1,5 +1,5 @@
 // ----------------------------------------------------------
-//  driver: maxdb, generated: 2008-05-13 11:16:29
+//  driver: maxdb, generated: 2008-05-15 10:59:31
 // ----------------------------------------------------------
 // ----------------------------------------------------------
 //  insert into table valid
@@ -90,28 +90,28 @@ INSERT INTO theme (theme, valid_id, create_by, create_time, change_by, change_ti
 // ----------------------------------------------------------
 INSERT INTO link_object_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('normal', 1, 1, timestamp, 1, timestamp)
+    ('Normal', 1, 1, timestamp, 1, timestamp)
 //
 // ----------------------------------------------------------
 //  insert into table link_object_type
 // ----------------------------------------------------------
 INSERT INTO link_object_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('parent-child', 1, 1, timestamp, 1, timestamp)
+    ('ParentChild', 1, 1, timestamp, 1, timestamp)
 //
 // ----------------------------------------------------------
 //  insert into table link_object_state
 // ----------------------------------------------------------
 INSERT INTO link_object_state (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('valid', 1, 1, timestamp, 1, timestamp)
+    ('Valid', 1, 1, timestamp, 1, timestamp)
 //
 // ----------------------------------------------------------
 //  insert into table link_object_state
 // ----------------------------------------------------------
 INSERT INTO link_object_state (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('temporary', 1, 1, timestamp, 1, timestamp)
+    ('Temporary', 1, 1, timestamp, 1, timestamp)
 //
 // ----------------------------------------------------------
 //  insert into table ticket_state_type
