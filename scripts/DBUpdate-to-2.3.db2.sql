@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2008-05-13 11:18:48
+--  driver: db2, generated: 2008-05-15 11:02:25
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table queue_preferences
@@ -71,6 +71,8 @@ CREATE TABLE link_object (
     target_key VARCHAR (50) NOT NULL,
     type_id SMALLINT NOT NULL,
     state_id SMALLINT NOT NULL,
+    create_time TIMESTAMP NOT NULL,
+    create_by INTEGER NOT NULL,
     CONSTRAINT link_object_relation UNIQUE (source_object_id, source_key, target_object_id, target_key, type_id)
 );
 
@@ -251,26 +253,26 @@ INSERT INTO notifications (notification_type, notification_charset, notification
 -- ----------------------------------------------------------
 INSERT INTO link_object_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('normal', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Normal', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table link_object_type
 -- ----------------------------------------------------------
 INSERT INTO link_object_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('parent-child', 1, 1, current_timestamp, 1, current_timestamp);
+    ('ParentChild', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table link_object_state
 -- ----------------------------------------------------------
 INSERT INTO link_object_state (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('valid', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Valid', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table link_object_state
 -- ----------------------------------------------------------
 INSERT INTO link_object_state (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('temporary', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Temporary', 1, 1, current_timestamp, 1, current_timestamp);
 

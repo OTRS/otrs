@@ -1,5 +1,5 @@
 // ----------------------------------------------------------
-//  driver: maxdb, generated: 2008-05-13 11:18:49
+//  driver: maxdb, generated: 2008-05-15 11:02:25
 // ----------------------------------------------------------
 // ----------------------------------------------------------
 //  create table queue_preferences
@@ -11,7 +11,7 @@ CREATE TABLE queue_preferences
     preferences_value VARCHAR (250)
 )
 //
-CREATE INDEX queue_preferences_qu51 ON queue_preferences (queue_id)
+CREATE INDEX queue_preferences_qu52 ON queue_preferences (queue_id)
 //
 // ----------------------------------------------------------
 //  create table service_sla
@@ -77,6 +77,8 @@ CREATE TABLE link_object
     target_key VARCHAR (50) NOT NULL,
     type_id SMALLINT NOT NULL,
     state_id SMALLINT NOT NULL,
+    create_time timestamp NOT NULL,
+    create_by INTEGER NOT NULL,
     UNIQUE link_object_relation (source_object_id, source_key, target_object_id, target_key, type_id)
 )
 //
@@ -149,26 +151,26 @@ INSERT INTO notifications (notification_type, notification_charset, notification
 // ----------------------------------------------------------
 INSERT INTO link_object_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('normal', 1, 1, timestamp, 1, timestamp)
+    ('Normal', 1, 1, timestamp, 1, timestamp)
 //
 // ----------------------------------------------------------
 //  insert into table link_object_type
 // ----------------------------------------------------------
 INSERT INTO link_object_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('parent-child', 1, 1, timestamp, 1, timestamp)
+    ('ParentChild', 1, 1, timestamp, 1, timestamp)
 //
 // ----------------------------------------------------------
 //  insert into table link_object_state
 // ----------------------------------------------------------
 INSERT INTO link_object_state (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('valid', 1, 1, timestamp, 1, timestamp)
+    ('Valid', 1, 1, timestamp, 1, timestamp)
 //
 // ----------------------------------------------------------
 //  insert into table link_object_state
 // ----------------------------------------------------------
 INSERT INTO link_object_state (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('temporary', 1, 1, timestamp, 1, timestamp)
+    ('Temporary', 1, 1, timestamp, 1, timestamp)
 //

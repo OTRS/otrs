@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2008-05-13 11:18:49
+--  driver: oracle, generated: 2008-05-15 11:02:25
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -110,8 +110,11 @@ CREATE TABLE link_object (
     target_key VARCHAR2 (50) NOT NULL,
     type_id NUMBER (5, 0) NOT NULL,
     state_id NUMBER (5, 0) NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL,
     CONSTRAINT link_object_relation UNIQUE (source_object_id, source_key, target_object_id, target_key, type_id)
 );
+CREATE INDEX FK_link_object_create_by ON link_object (create_by);
 CREATE INDEX FK_link_object_source_object93 ON link_object (source_object_id);
 CREATE INDEX FK_link_object_state_id ON link_object (state_id);
 CREATE INDEX FK_link_object_target_objectff ON link_object (target_object_id);
@@ -218,22 +221,22 @@ INSERT INTO notifications (notification_type, notification_charset, notification
 -- ----------------------------------------------------------
 INSERT INTO link_object_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('normal', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Normal', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table link_object_type
 -- ----------------------------------------------------------
 INSERT INTO link_object_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('parent-child', 1, 1, current_timestamp, 1, current_timestamp);
+    ('ParentChild', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table link_object_state
 -- ----------------------------------------------------------
 INSERT INTO link_object_state (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('valid', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Valid', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table link_object_state
 -- ----------------------------------------------------------
 INSERT INTO link_object_state (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('temporary', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Temporary', 1, 1, current_timestamp, 1, current_timestamp);
