@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.18 2008-05-15 12:48:50 ot Exp $
+# $Id: SMIME.pm,v 1.19 2008-05-15 13:21:53 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -41,7 +41,7 @@ sub _Init {
     if ( $^O =~ m{Win}i ) {
 
         # take care to deal properly with paths containing whitespace
-        $Self->{Cmd} = $Self->{Bin} = qq{"$Self->{Bin}"};
+        $Self->{Cmd} = qq{"$Self->{Bin}"};
     }
     else {
 
@@ -774,7 +774,7 @@ sub PrivateAttributes {
     close $FH;
     my $Options = "rsa -in $Filename -noout -modulus -passin pass:" . quotemeta( $Param{Secret} );
     my $LogMessage = qx{$Self->{Cmd} $Options 2>&1};
-    $LogMessage =~ tr{\n}{}d;
+    $LogMessage =~ tr{\r\n}{}d;
     $LogMessage =~ s/Modulus=//;
     $Attributes{Modulus} = $LogMessage;
     $Attributes{Type} = 'P';
@@ -798,7 +798,7 @@ sub _FetchAttributesFromCert {
     for my $Key ( keys %Option ) {
         my $Options = "x509 -in $Filename -noout $Option{$Key}";
         my $Output = qx{$Self->{Cmd} $Options 2>&1};
-        $Output =~ tr{\n}{}d;
+        $Output =~ tr{\r\n}{}d;
         if ( $Key eq 'Issuer' ) {
             $Output =~ s/=/= /g;
         }
@@ -888,6 +888,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2008-05-15 12:48:50 $
+$Revision: 1.19 $ $Date: 2008-05-15 13:21:53 $
 
 =cut
