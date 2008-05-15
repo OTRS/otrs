@@ -305,6 +305,8 @@
         <ColumnChange NameOld="xml_content_value" NameNew="xml_content_value" Required="false" Size="1000000" Type="VARCHAR"/>
     </TableAlter>
 
+    <TableAlter NameOld="system_user" NameNew="users"></TableAlter>
+
     <Insert Table="notifications">
         <Data Key="notification_type" Type="Quote">Agent::EscalationNotifyBefore</Data>
         <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
