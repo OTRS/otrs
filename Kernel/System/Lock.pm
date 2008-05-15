@@ -2,7 +2,7 @@
 # Kernel/System/Lock.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Lock.pm,v 1.21 2008-05-08 09:36:19 mh Exp $
+# $Id: Lock.pm,v 1.22 2008-05-15 10:42:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 =head1 NAME
 
@@ -122,8 +122,8 @@ sub LockViewableLock {
     my @Name = ();
     my @ID   = ();
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-        push( @Name, $Data[1] );
-        push( @ID,   $Data[0] );
+        push @Name, $Data[1];
+        push @ID,   $Data[0];
     }
     if ( $Param{Type} eq 'Name' ) {
         return @Name;
@@ -166,7 +166,7 @@ sub LockLookup {
     }
 
     # db query
-    my $SQL = '';
+    my $SQL;
     my @Bind;
     if ( $Param{Lock} ) {
         $SQL = 'SELECT id FROM ticket_lock_type WHERE name = ?';
@@ -246,6 +246,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2008-05-08 09:36:19 $
+$Revision: 1.22 $ $Date: 2008-05-15 10:42:50 $
 
 =cut
