@@ -1,6 +1,11 @@
 // ----------------------------------------------------------
-//  driver: maxdb, generated: 2008-05-15 21:12:09
+//  driver: maxdb, generated: 2008-05-15 22:07:10
 // ----------------------------------------------------------
+// ----------------------------------------------------------
+//  alter table users
+// ----------------------------------------------------------
+ALTER TABLE system_user TO users
+//
 // ----------------------------------------------------------
 //  create table queue_preferences
 // ----------------------------------------------------------
@@ -11,7 +16,7 @@ CREATE TABLE queue_preferences
     preferences_value VARCHAR (250)
 )
 //
-CREATE INDEX queue_preferences_qu91 ON queue_preferences (queue_id)
+CREATE INDEX queue_preferences_qu92 ON queue_preferences (queue_id)
 //
 // ----------------------------------------------------------
 //  create table service_sla
@@ -133,11 +138,6 @@ ALTER TABLE article CHANGE a_body a_body LONG NOT NULL
 ALTER TABLE xml_storage CHANGE xml_content_value xml_content_value LONG
 //
 // ----------------------------------------------------------
-//  alter table users
-// ----------------------------------------------------------
-ALTER TABLE system_user TO users
-//
-// ----------------------------------------------------------
 //  insert into table notifications
 // ----------------------------------------------------------
 INSERT INTO notifications (notification_type, notification_charset, notification_language, subject, text, create_by, create_time, change_by, change_time)
@@ -185,15 +185,15 @@ ALTER TABLE service_sla ADD FOREIGN KEY (service_id) REFERENCES service(id)
 //
 ALTER TABLE service_sla ADD FOREIGN KEY (sla_id) REFERENCES sla(id)
 //
-ALTER TABLE link_type ADD FOREIGN KEY (create_by) REFERENCES system_user(id)
+ALTER TABLE link_type ADD FOREIGN KEY (create_by) REFERENCES users(id)
 //
-ALTER TABLE link_type ADD FOREIGN KEY (change_by) REFERENCES system_user(id)
+ALTER TABLE link_type ADD FOREIGN KEY (change_by) REFERENCES users(id)
 //
 ALTER TABLE link_type ADD FOREIGN KEY (valid_id) REFERENCES valid(id)
 //
-ALTER TABLE link_state ADD FOREIGN KEY (create_by) REFERENCES system_user(id)
+ALTER TABLE link_state ADD FOREIGN KEY (create_by) REFERENCES users(id)
 //
-ALTER TABLE link_state ADD FOREIGN KEY (change_by) REFERENCES system_user(id)
+ALTER TABLE link_state ADD FOREIGN KEY (change_by) REFERENCES users(id)
 //
 ALTER TABLE link_state ADD FOREIGN KEY (valid_id) REFERENCES valid(id)
 //
@@ -205,5 +205,5 @@ ALTER TABLE link_relation ADD FOREIGN KEY (state_id) REFERENCES link_state(id)
 //
 ALTER TABLE link_relation ADD FOREIGN KEY (type_id) REFERENCES link_type(id)
 //
-ALTER TABLE link_relation ADD FOREIGN KEY (create_by) REFERENCES system_user(id)
+ALTER TABLE link_relation ADD FOREIGN KEY (create_by) REFERENCES users(id)
 //

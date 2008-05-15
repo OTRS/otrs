@@ -2,6 +2,8 @@
 
 <database Name="otrs">
 
+    <TableAlter NameOld="system_user" NameNew="users"/>
+
     <TableCreate Name="queue_preferences">
         <Column Name="queue_id" Required="true" Type="INTEGER"/>
         <Column Name="preferences_key" Required="true" Size="150" Type="VARCHAR"/>
@@ -43,7 +45,7 @@
         <ForeignKey ForeignTable="valid">
             <Reference Local="valid_id" Foreign="id"/>
         </ForeignKey>
-        <ForeignKey ForeignTable="system_user">
+        <ForeignKey ForeignTable="users">
             <Reference Local="create_by" Foreign="id"/>
             <Reference Local="change_by" Foreign="id"/>
         </ForeignKey>
@@ -63,7 +65,7 @@
         <ForeignKey ForeignTable="valid">
             <Reference Local="valid_id" Foreign="id"/>
         </ForeignKey>
-        <ForeignKey ForeignTable="system_user">
+        <ForeignKey ForeignTable="users">
             <Reference Local="create_by" Foreign="id"/>
             <Reference Local="change_by" Foreign="id"/>
         </ForeignKey>
@@ -103,7 +105,7 @@
         <ForeignKey ForeignTable="link_state">
             <Reference Local="state_id" Foreign="id"/>
         </ForeignKey>
-        <ForeignKey ForeignTable="system_user">
+        <ForeignKey ForeignTable="users">
             <Reference Local="create_by" Foreign="id"/>
         </ForeignKey>
     </TableCreate>
@@ -256,7 +258,7 @@
         <ForeignKeyCreate ForeignTable="ticket">
             <Reference Local="ticket_id" Foreign="id"/>
         </ForeignKeyCreate>
-        <ForeignKeyCreate ForeignTable="system_user">
+        <ForeignKeyCreate ForeignTable="users">
             <Reference Local="user_id" Foreign="id"/>
             <Reference Local="create_by" Foreign="id"/>
             <Reference Local="change_by" Foreign="id"/>
@@ -304,8 +306,6 @@
     <TableAlter Name="xml_storage">
         <ColumnChange NameOld="xml_content_value" NameNew="xml_content_value" Required="false" Size="1000000" Type="VARCHAR"/>
     </TableAlter>
-
-    <TableAlter NameOld="system_user" NameNew="users"></TableAlter>
 
     <Insert Table="notifications">
         <Data Key="notification_type" Type="Quote">Agent::EscalationNotifyBefore</Data>

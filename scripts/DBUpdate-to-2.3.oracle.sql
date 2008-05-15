@@ -1,7 +1,11 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2008-05-15 21:12:09
+--  driver: oracle, generated: 2008-05-15 22:07:11
 -- ----------------------------------------------------------
 SET DEFINE OFF;
+-- ----------------------------------------------------------
+--  alter table users
+-- ----------------------------------------------------------
+ALTER TABLE system_user RENAME TO users;
 -- ----------------------------------------------------------
 --  create table queue_preferences
 -- ----------------------------------------------------------
@@ -178,9 +182,9 @@ CREATE INDEX article_article_type_id ON article (article_type_id);
 CREATE INDEX article_article_sender_type_id ON article (article_sender_type_id);
 CREATE INDEX ticket_watcher_user_id ON ticket_watcher (user_id);
 ALTER TABLE ticket_watcher ADD CONSTRAINT FK_ticket_watcher_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket(id);
-ALTER TABLE ticket_watcher ADD CONSTRAINT FK_ticket_watcher_user_id_id FOREIGN KEY (user_id) REFERENCES system_user(id);
-ALTER TABLE ticket_watcher ADD CONSTRAINT FK_ticket_watcher_create_by_id FOREIGN KEY (create_by) REFERENCES system_user(id);
-ALTER TABLE ticket_watcher ADD CONSTRAINT FK_ticket_watcher_change_by_id FOREIGN KEY (change_by) REFERENCES system_user(id);
+ALTER TABLE ticket_watcher ADD CONSTRAINT FK_ticket_watcher_user_id_id FOREIGN KEY (user_id) REFERENCES users(id);
+ALTER TABLE ticket_watcher ADD CONSTRAINT FK_ticket_watcher_create_by_id FOREIGN KEY (create_by) REFERENCES users(id);
+ALTER TABLE ticket_watcher ADD CONSTRAINT FK_ticket_watcher_change_by_id FOREIGN KEY (change_by) REFERENCES users(id);
 CREATE INDEX ticket_index_queue_id ON ticket_index (queue_id);
 CREATE INDEX ticket_index_group_id ON ticket_index (group_id);
 ALTER TABLE ticket_index ADD CONSTRAINT FK_ticket_index_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket(id);
@@ -204,10 +208,6 @@ ALTER TABLE article MODIFY a_body CLOB NOT NULL;
 --  alter table xml_storage
 -- ----------------------------------------------------------
 ALTER TABLE xml_storage MODIFY xml_content_value CLOB NULL;
--- ----------------------------------------------------------
---  alter table users
--- ----------------------------------------------------------
-ALTER TABLE system_user RENAME TO users;
 -- ----------------------------------------------------------
 --  insert into table notifications
 -- ----------------------------------------------------------
@@ -248,14 +248,14 @@ SET DEFINE OFF;
 ALTER TABLE queue_preferences ADD CONSTRAINT FK_queue_preferences_queue_id9 FOREIGN KEY (queue_id) REFERENCES queue(id);
 ALTER TABLE service_sla ADD CONSTRAINT FK_service_sla_service_id_id FOREIGN KEY (service_id) REFERENCES service(id);
 ALTER TABLE service_sla ADD CONSTRAINT FK_service_sla_sla_id_id FOREIGN KEY (sla_id) REFERENCES sla(id);
-ALTER TABLE link_type ADD CONSTRAINT FK_link_type_create_by_id FOREIGN KEY (create_by) REFERENCES system_user(id);
-ALTER TABLE link_type ADD CONSTRAINT FK_link_type_change_by_id FOREIGN KEY (change_by) REFERENCES system_user(id);
+ALTER TABLE link_type ADD CONSTRAINT FK_link_type_create_by_id FOREIGN KEY (create_by) REFERENCES users(id);
+ALTER TABLE link_type ADD CONSTRAINT FK_link_type_change_by_id FOREIGN KEY (change_by) REFERENCES users(id);
 ALTER TABLE link_type ADD CONSTRAINT FK_link_type_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid(id);
-ALTER TABLE link_state ADD CONSTRAINT FK_link_state_create_by_id FOREIGN KEY (create_by) REFERENCES system_user(id);
-ALTER TABLE link_state ADD CONSTRAINT FK_link_state_change_by_id FOREIGN KEY (change_by) REFERENCES system_user(id);
+ALTER TABLE link_state ADD CONSTRAINT FK_link_state_create_by_id FOREIGN KEY (create_by) REFERENCES users(id);
+ALTER TABLE link_state ADD CONSTRAINT FK_link_state_change_by_id FOREIGN KEY (change_by) REFERENCES users(id);
 ALTER TABLE link_state ADD CONSTRAINT FK_link_state_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid(id);
 ALTER TABLE link_relation ADD CONSTRAINT FK_link_relation_source_obje16 FOREIGN KEY (source_object_id) REFERENCES link_object(id);
 ALTER TABLE link_relation ADD CONSTRAINT FK_link_relation_target_obje18 FOREIGN KEY (target_object_id) REFERENCES link_object(id);
 ALTER TABLE link_relation ADD CONSTRAINT FK_link_relation_state_id_id FOREIGN KEY (state_id) REFERENCES link_state(id);
 ALTER TABLE link_relation ADD CONSTRAINT FK_link_relation_type_id_id FOREIGN KEY (type_id) REFERENCES link_type(id);
-ALTER TABLE link_relation ADD CONSTRAINT FK_link_relation_create_by_id FOREIGN KEY (create_by) REFERENCES system_user(id);
+ALTER TABLE link_relation ADD CONSTRAINT FK_link_relation_create_by_id FOREIGN KEY (create_by) REFERENCES users(id);

@@ -1,6 +1,13 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2008-05-15 21:12:09
+--  driver: mssql, generated: 2008-05-15 22:07:10
 -- ----------------------------------------------------------
+-- ----------------------------------------------------------
+--  alter table users
+-- ----------------------------------------------------------
+GO
+EXEC sp_rename 'system_user', 'users'
+GO
+;
 -- ----------------------------------------------------------
 --  create table queue_preferences
 -- ----------------------------------------------------------
@@ -128,9 +135,9 @@ CREATE INDEX article_article_type_id ON article (article_type_id);
 CREATE INDEX article_article_sender_type_id ON article (article_sender_type_id);
 CREATE INDEX ticket_watcher_user_id ON ticket_watcher (user_id);
 ALTER TABLE ticket_watcher ADD FOREIGN KEY (ticket_id) REFERENCES ticket(id);
-ALTER TABLE ticket_watcher ADD FOREIGN KEY (user_id) REFERENCES system_user(id);
-ALTER TABLE ticket_watcher ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
-ALTER TABLE ticket_watcher ADD FOREIGN KEY (change_by) REFERENCES system_user(id);
+ALTER TABLE ticket_watcher ADD FOREIGN KEY (user_id) REFERENCES users(id);
+ALTER TABLE ticket_watcher ADD FOREIGN KEY (create_by) REFERENCES users(id);
+ALTER TABLE ticket_watcher ADD FOREIGN KEY (change_by) REFERENCES users(id);
 CREATE INDEX ticket_index_queue_id ON ticket_index (queue_id);
 CREATE INDEX ticket_index_group_id ON ticket_index (group_id);
 ALTER TABLE ticket_index ADD FOREIGN KEY (ticket_id) REFERENCES ticket(id);
@@ -157,13 +164,6 @@ ALTER TABLE article ALTER COLUMN a_body TEXT NOT NULL;
 --  alter table xml_storage
 -- ----------------------------------------------------------
 ALTER TABLE xml_storage ALTER COLUMN xml_content_value TEXT;
--- ----------------------------------------------------------
---  alter table users
--- ----------------------------------------------------------
-GO
-EXEC sp_rename 'system_user', 'users'
-GO
-;
 -- ----------------------------------------------------------
 --  insert into table notifications
 -- ----------------------------------------------------------
@@ -203,14 +203,14 @@ INSERT INTO link_state (name, valid_id, create_by, create_time, change_by, chang
 ALTER TABLE queue_preferences ADD FOREIGN KEY (queue_id) REFERENCES queue(id);
 ALTER TABLE service_sla ADD FOREIGN KEY (service_id) REFERENCES service(id);
 ALTER TABLE service_sla ADD FOREIGN KEY (sla_id) REFERENCES sla(id);
-ALTER TABLE link_type ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
-ALTER TABLE link_type ADD FOREIGN KEY (change_by) REFERENCES system_user(id);
+ALTER TABLE link_type ADD FOREIGN KEY (create_by) REFERENCES users(id);
+ALTER TABLE link_type ADD FOREIGN KEY (change_by) REFERENCES users(id);
 ALTER TABLE link_type ADD FOREIGN KEY (valid_id) REFERENCES valid(id);
-ALTER TABLE link_state ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
-ALTER TABLE link_state ADD FOREIGN KEY (change_by) REFERENCES system_user(id);
+ALTER TABLE link_state ADD FOREIGN KEY (create_by) REFERENCES users(id);
+ALTER TABLE link_state ADD FOREIGN KEY (change_by) REFERENCES users(id);
 ALTER TABLE link_state ADD FOREIGN KEY (valid_id) REFERENCES valid(id);
 ALTER TABLE link_relation ADD FOREIGN KEY (source_object_id) REFERENCES link_object(id);
 ALTER TABLE link_relation ADD FOREIGN KEY (target_object_id) REFERENCES link_object(id);
 ALTER TABLE link_relation ADD FOREIGN KEY (state_id) REFERENCES link_state(id);
 ALTER TABLE link_relation ADD FOREIGN KEY (type_id) REFERENCES link_type(id);
-ALTER TABLE link_relation ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
+ALTER TABLE link_relation ADD FOREIGN KEY (create_by) REFERENCES users(id);
