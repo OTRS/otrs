@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.25 2008-05-08 09:36:19 mh Exp $
+# $Id: LinkObject.pm,v 1.26 2008-05-15 11:47:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,8 +14,11 @@ package Kernel::System::LinkObject;
 use strict;
 use warnings;
 
+use Kernel::System::CheckItem;
+use Kernel::System::Valid;
+
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 =head1 NAME
 
@@ -81,6 +84,8 @@ sub new {
     for (qw(DBObject ConfigObject LogObject MainObject TimeObject UserID)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+    $Self->{CheckItemObject} = Kernel::System::CheckItem->new( %{$Self} );
+    $Self->{ValidObject}     = Kernel::System::Valid->new( %{$Self} );
 
     # load backends
     my %Objects = %{ $Self->{ConfigObject}->Get('LinkObject') };
@@ -182,14 +187,42 @@ sub LinkObject {
         }
     }
 
-    return if !$Self->{DBObject}->Do(
-        SQL => 'INSERT INTO object_link'
-            . ' (object_link_a_id, object_link_b_id, object_link_a_object, object_link_b_object, object_link_type)'
-            . ' VALUES (?, ?, ?, ?, ?)',
-        Bind => [
-            \$Param{LinkID1}, \$Param{LinkID2}, \$Param{LinkObject1}, \$Param{LinkObject2},
-            \$Param{LinkType}
-        ],
+    my $SourceObject = $Param{LinkObject1};
+    my $SourceKey    = $Param{LinkID1};
+    my $TargetObject = $Param{LinkObject2};
+    my $TargetKey    = $Param{LinkID2};
+    my $Type         = 'Normal';
+
+    if ( $Param{LinkType} eq 'Parent' ) {
+        $Type = 'ParentChild';
+    }
+    elsif ( $Param{LinkType} eq 'Child' ) {
+        $SourceObject = $Param{LinkObject2};
+        $SourceKey    = $Param{LinkID2};
+        $TargetObject = $Param{LinkObject1};
+        $TargetKey    = $Param{LinkID1};
+        $Type         = 'ParentChild';
+    }
+
+    # lookup the object type id
+    my $TypeID = $Self->LinkTypeLookup(
+        Name => $Type,
+    );
+
+    # lookup the object state id
+    my $StateID = $Self->LinkStateLookup(
+        Name => 'Valid',
+    );
+
+    # add the link
+    return if !$Self->LinkAdd(
+        SourceObject => $SourceObject,
+        SourceKey    => $SourceKey,
+        TargetObject => $TargetObject,
+        TargetKey    => $TargetKey,
+        TypeID       => $TypeID,
+        StateID      => $StateID,
+        UserID       => 1,
     );
 
     return if !$Self->{Backend}->{ $Param{LinkObject1} }->BackendLinkObject(%Param);
@@ -222,26 +255,45 @@ sub UnlinkObject {
         }
     }
 
-    my $SQLExt = '';
+    my $TypeID;
     if ( $Param{LinkType} eq 'Parent' || $Param{LinkType} eq 'Child' ) {
-        $SQLExt = "object_link_type IN ('Parent', 'Child')";
+
+        # lookup the object type id
+        $TypeID = $Self->LinkTypeLookup(
+            Name => 'ParentChild',
+        );
     }
     else {
-        $Param{LinkType} = $Self->{DBObject}->Quote( $Param{LinkType} );
-        $SQLExt = "object_link_type = '$Param{LinkType}'";
+
+        # lookup the object type id
+        $TypeID = $Self->LinkTypeLookup(
+            Name => 'Normal',
+        );
     }
 
+    my $SQLExt = "type_id = $TypeID";
+
+    # lookup the object 1 id
+    my $Object1ID = $Self->LinkObjectLookup(
+        Name => $Param{LinkObject1},
+    );
+
+    # lookup the object 2 id
+    my $Object2ID = $Self->LinkObjectLookup(
+        Name => $Param{LinkObject2},
+    );
+
     return if !$Self->{DBObject}->Do(
-        SQL => "DELETE FROM object_link WHERE"
-            . " (object_link_a_id = ? AND object_link_b_id = ? AND"
-            . " object_link_a_object = ? AND object_link_b_object = ? AND"
+        SQL => "DELETE FROM link_object WHERE"
+            . " (source_key = ? AND target_key = ? AND"
+            . " source_object_id = ? AND target_object_id = ? AND"
             . " $SQLExt ) OR"
-            . " (object_link_a_id = ? AND object_link_b_id = ? AND"
-            . " object_link_a_object = ? AND object_link_b_object = ? AND"
+            . " (source_key = ? AND target_key = ? AND"
+            . " source_object_id = ? AND target_object_id = ? AND"
             . " $SQLExt)",
         Bind => [
-            \$Param{LinkID1}, \$Param{LinkID2}, \$Param{LinkObject1}, \$Param{LinkObject2},
-            \$Param{LinkID2}, \$Param{LinkID1}, \$Param{LinkObject2}, \$Param{LinkObject1},
+            \$Param{LinkID1}, \$Param{LinkID2}, \$Object1ID, \$Object2ID,
+            \$Param{LinkID2}, \$Param{LinkID1}, \$Object2ID, \$Object1ID,
         ],
     );
 
@@ -272,12 +324,17 @@ sub RemoveLinkObject {
         }
     }
 
+    # lookup the object id
+    my $ObjectID = $Self->LinkObjectLookup(
+        Name => $Param{Object},
+    );
+
     return $Self->{DBObject}->Do(
-        SQL => 'DELETE FROM object_link WHERE'
-            . ' (object_link_a_id = ? AND object_link_a_object = ?) OR'
-            . ' (object_link_b_id = ? AND object_link_b_object = ?)',
+        SQL => 'DELETE FROM link_object WHERE'
+            . ' (source_key = ? AND source_object_id = ?) OR'
+            . ' (target_key = ? AND target_object_id = ?)',
         Bind => [
-            \$Param{ID}, \$Param{Object}, \$Param{ID}, \$Param{Object},
+            \$Param{ID}, \$ObjectID, \$Param{ID}, \$ObjectID,
         ],
     );
 }
@@ -315,102 +372,140 @@ get a hash of all linked object ids
 sub LinkedObjects {
     my ( $Self, %Param ) = @_;
 
-    my %Linked    = ();
-    my @LinkedIDs = ();
-    my $SQLA      = '';
-    my $SQLB      = '';
-
-    if ( !$Param{LinkType} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need LinkType!' );
-        return;
+    for (qw(LinkType LinkObject1 LinkObject2)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
     }
 
-    # get parents
-    if (
-        $Param{LinkType} eq 'Parent'
-        && ( !$Param{LinkID2} || !$Param{LinkObject2} || !$Param{LinkObject1} )
-        )
-    {
+    if ( $Param{LinkType} eq 'Parent' && !$Param{LinkID2} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Need LinkID2, LinkObject2 and LinkObject1 for $Param{LinkType}!",
         );
         return;
     }
-
-    # get childs
-    elsif (
-        $Param{LinkType} eq 'Child'
-        && ( !$Param{LinkID1} || !$Param{LinkObject1} || !$Param{LinkObject2} )
-        )
-    {
+    elsif ( $Param{LinkType} eq 'Child' && !$Param{LinkID1} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Need LinkID1, LinkObject1 and LinkObject2 for $Param{LinkType}!",
         );
         return;
+    }
+    elsif ( $Param{LinkType} eq 'Normal' && !$Param{LinkID1} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Need LinkID1, LinkObject1 and LinkObject2 for $Param{LinkType}!",
+        );
+        return;
+    }
+
+    # lookup the object 1 id
+    my $Object1ID = $Self->LinkObjectLookup(
+        Name => $Param{LinkObject1},
+    );
+
+    # lookup the object 2 id
+    my $Object2ID = $Self->LinkObjectLookup(
+        Name => $Param{LinkObject2},
+    );
+
+    # lookup the object state id
+    my $StateID = $Self->LinkStateLookup(
+        Name => 'Valid',
+    );
+
+    # get parents
+    my $SQLA;
+    my $SQLB;
+    my @BindA;
+    my @BindB;
+    my @LinkedIDs;
+    if ( $Param{LinkType} eq 'Parent' ) {
+
+        # lookup the object type id
+        my $TypeID = $Self->LinkTypeLookup(
+            Name => 'ParentChild',
+        );
+
+        $SQLA = 'SELECT source_key, source_object_id FROM link_object WHERE '
+            . 'target_key = ? AND '
+            . 'target_object_id = ? AND '
+            . 'source_object_id = ? AND '
+            . 'type_id = ? AND '
+            . 'state_id = ?';
+
+        @BindA = ( \$Param{LinkID2}, \$Object2ID, \$Object1ID, \$TypeID, \$StateID );
+    }
+
+    # get childs
+    elsif ( $Param{LinkType} eq 'Child' ) {
+
+        # lookup the object type id
+        my $TypeID = $Self->LinkTypeLookup(
+            Name => 'ParentChild',
+        );
+
+        $SQLA = 'SELECT target_key, target_object_id FROM link_object WHERE '
+            . 'source_key = ? AND '
+            . 'source_object_id = ? AND '
+            . 'target_object_id = ? AND '
+            . 'type_id = ? AND '
+            . 'state_id = ?';
+
+        @BindA = ( \$Param{LinkID1}, \$Object1ID, \$Object2ID, \$TypeID, \$StateID );
     }
 
     # get sisters
-    elsif (
-        $Param{LinkType} eq 'Normal'
-        && ( !$Param{LinkID1} || !$Param{LinkObject1} || !$Param{LinkObject2} )
-        )
-    {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Need LinkID1, LinkObject1 and LinkObject2 for $Param{LinkType}!",
-        );
-        return;
-    }
-
-    my @BindA = ();
-    my @BindB = ();
-    if ( $Param{LinkType} eq 'Parent' ) {
-        $SQLA = 'SELECT object_link_a_id, object_link_a_object FROM object_link WHERE '
-            . ' object_link_b_id = ? AND object_link_b_object = ? AND '
-            . ' object_link_a_object = ? AND object_link_type = ?';
-        push @BindA, \$Param{LinkID2}, \$Param{LinkObject2}, \$Param{LinkObject1},
-            \$Param{LinkType};
-        $SQLB = 'SELECT object_link_a_id, object_link_a_object FROM object_link WHERE'
-            . ' object_link_b_id = ? AND object_link_b_object = ? AND '
-            . ' object_link_a_object = ? AND object_link_type = \'Child\'';
-        push @BindB, \$Param{LinkID2}, \$Param{LinkObject2}, \$Param{LinkObject1};
-    }
-    elsif ( $Param{LinkType} eq 'Child' ) {
-        $SQLA = 'SELECT object_link_b_id, object_link_b_object FROM object_link WHERE '
-            . ' object_link_a_id = ? AND object_link_a_object = ? AND '
-            . ' object_link_b_object = ? AND object_link_type = \'Parent\'';
-        push @BindA, \$Param{LinkID1}, \$Param{LinkObject1}, \$Param{LinkObject2};
-        $SQLB = 'SELECT object_link_b_id, object_link_b_object FROM object_link WHERE '
-            . ' object_link_a_id = ? AND object_link_a_object = ? AND '
-            . ' object_link_b_object = ? AND object_link_type = ?';
-        push @BindB, \$Param{LinkID1}, \$Param{LinkObject1}, \$Param{LinkObject2},
-            \$Param{LinkType};
-    }
     elsif ( $Param{LinkType} eq 'Normal' ) {
-        $SQLA = 'SELECT object_link_a_id, object_link_a_object FROM object_link WHERE '
-            . ' object_link_b_id = ? AND object_link_b_object = ? AND '
-            . ' object_link_a_object = ? AND object_link_type = ?';
-        push @BindA, \$Param{LinkID1}, \$Param{LinkObject1}, \$Param{LinkObject2},
-            \$Param{LinkType};
-        $SQLB = 'SELECT object_link_b_id, object_link_b_object FROM object_link WHERE '
-            . ' object_link_a_id = ? AND object_link_a_object = ? AND '
-            . ' object_link_b_object = ? AND object_link_type = ?';
-        push @BindB, \$Param{LinkID1}, \$Param{LinkObject1}, \$Param{LinkObject2},
-            \$Param{LinkType};
+
+        # lookup the object type id
+        my $TypeID = $Self->LinkTypeLookup(
+            Name => 'Normal',
+        );
+
+        $SQLA = 'SELECT source_key, source_object_id FROM link_object WHERE '
+            . 'target_key = ? AND '
+            . 'target_object_id = ? AND '
+            . 'source_object_id = ? AND '
+            . 'type_id = ? AND '
+            . 'state_id = ?';
+
+        @BindA = ( \$Param{LinkID1}, \$Object1ID, \$Object2ID, \$TypeID, \$StateID );
+
+        $SQLB = 'SELECT target_key, target_object_id FROM link_object WHERE '
+            . 'source_key = ? AND '
+            . 'source_object_id = ? AND '
+            . 'target_object_id = ? AND '
+            . 'type_id = ? AND '
+            . 'state_id = ?';
+
+        @BindB = ( \$Param{LinkID1}, \$Object1ID, \$Object2ID, \$TypeID, \$StateID );
     }
 
     $Self->{DBObject}->Prepare( SQL => $SQLA, Bind => \@BindA );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         push @LinkedIDs, [ $Row[0], $Row[1], ];
     }
-    $Self->{DBObject}->Prepare( SQL => $SQLB, Bind => \@BindB );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        push @LinkedIDs, [ $Row[0], $Row[1], ];
+
+    if ($SQLB) {
+        $Self->{DBObject}->Prepare( SQL => $SQLB, Bind => \@BindB );
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+            push @LinkedIDs, [ $Row[0], $Row[1], ];
+        }
+    }
+
+    for my $Link (@LinkedIDs) {
+
+        # lookup the object 2 id
+        $Link->[1] = $Self->LinkObjectLookup(
+            ObjectID => $Link->[1],
+        );
     }
 
     # fill up data
+    my %Linked    = ();
     for my $Link (@LinkedIDs) {
         next if !$Self->{Backend}->{ $Link->[1] };
 
@@ -444,6 +539,7 @@ sub LinkedObjects {
         }
         $Linked{ $Link->[0] } = \%Hash;
     }
+
     return %Linked;
 }
 
@@ -508,6 +604,7 @@ sub AllLinkedObjects {
     # get objects
     my %Objects = %{ $Self->{ConfigObject}->Get('LinkObject') };
     for my $Object ( keys %Objects ) {
+
         my %CLinked = $Self->LinkedObjects(
             LinkType    => 'Child',
             LinkObject1 => $Param{Object},
@@ -530,6 +627,7 @@ sub AllLinkedObjects {
         );
         $Links{Normal}->{$Object} = \%NLinked;
     }
+
     return %Links;
 }
 
@@ -548,6 +646,284 @@ sub LinkItemData {
     return $Self->{Backend}->{ $Param{Object} }->LinkItemData(%Param);
 }
 
+=item LinkAdd()
+
+add a link
+
+    $True = $LinkObject->LinkAdd(
+        SourceObject => 'Ticket',
+        SourceKey    => '321',
+        TargetObject => 'FAQ',
+        TargetKey    => '5',
+        TypeID       => 2,
+        StateID      => 1,
+        UserID       => 1,
+    );
+
+=cut
+
+sub LinkAdd {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Argument (qw(SourceObject SourceKey TargetObject TargetKey TypeID StateID UserID)) {
+        if ( !$Param{$Argument} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!",
+            );
+            return;
+        }
+    }
+
+    # cleanup given params
+    for my $Argument (qw(SourceObject SourceKey TargetObject TargetKey)) {
+        $Self->{CheckItemObject}->StringClean(
+            StringRef         => \$Param{$Argument},
+            RemoveAllNewlines => 1,
+            RemoveAllTabs     => 1,
+            RemoveAllSpaces   => 1,
+        );
+    }
+
+    # lookup the object id
+    OBJECT:
+    for my $Object (qw(SourceObject TargetObject)) {
+
+        # check if object is already cached
+        if ( $Self->{Cache}->{LinkAdd}->{ObjectLookup}->{$Object} ) {
+            $Param{$Object . 'ID'} = $Self->{Cache}->{LinkAdd}->{ObjectLookup}->{$Object};
+            next OBJECT;
+        }
+
+        $Self->{DBObject}->Prepare(
+            SQL => 'SELECT id FROM link_object_object WHERE name = ?',
+            Bind => [ \$Param{$Object} ],
+            Limit => 1,
+        );
+
+        # fetch the result
+        my $ObjectID;
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+            $ObjectID = $Row[0];
+        }
+
+        if ( !$ObjectID ) {
+
+            # insert the new object
+            $Self->{DBObject}->Do(
+                SQL => 'INSERT INTO link_object_object (name) VALUES (?)',
+                Bind => [ \$Param{$Object} ],
+            );
+
+            $Self->{DBObject}->Prepare(
+                SQL => 'SELECT id FROM link_object_object WHERE name = ?',
+                Bind => [ \$Param{$Object} ],
+                Limit => 1,
+            );
+
+            # fetch the result
+            while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+                $ObjectID = $Row[0];
+            }
+        }
+
+        # cache the result
+        $Self->{Cache}->{LinkAdd}->{ObjectLookup}->{$Object} = $ObjectID;
+
+        $Param{$Object . 'ID'} = $ObjectID;
+    }
+
+    return if !$Self->{DBObject}->Do(
+        SQL => 'INSERT INTO link_object '
+            . '(source_object_id, source_key, target_object_id, target_key, type_id, state_id, create_time, create_by) '
+            . 'VALUES (?, ?, ?, ?, ?, ?, current_timestamp, ?)',
+        Bind => [
+            \$Param{SourceObjectID}, \$Param{SourceKey},
+            \$Param{TargetObjectID}, \$Param{TargetKey},
+            \$Param{TypeID}, \$Param{StateID}, \$Param{UserID},
+        ],
+    );
+
+    return 1;
+}
+
+=item LinkTypeLookup()
+
+lookup a link type
+
+    $TypeID = $LinkObject->LinkTypeLookup(
+        Name => 'Normal',
+    );
+
+=cut
+
+sub LinkTypeLookup {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{Name} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Name!',
+        );
+        return;
+    }
+
+    # ask the database
+    $Self->{DBObject}->Prepare(
+        SQL   => 'SELECT id FROM link_object_type WHERE name = ?',
+        Bind  => [ \$Param{Name} ],
+        Limit => 1,
+    );
+
+    # fetch the result
+    my $TypeID;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $TypeID = $Row[0];
+    }
+
+    # check the type id
+    if ( !$TypeID ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Link type '$Param{Name}' not found in the database!",
+        );
+        return;
+    }
+
+    return $TypeID;
+}
+
+=item LinkStateLookup()
+
+lookup a link state
+
+    $StateID = $LinkObject->LinkStateLookup(
+        Name => 'Normal',
+    );
+
+=cut
+
+sub LinkStateLookup {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{Name} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need Name!',
+        );
+        return;
+    }
+
+    # ask the database
+    $Self->{DBObject}->Prepare(
+        SQL => 'SELECT id FROM link_object_state WHERE name = ?',
+        Bind => [ \$Param{Name} ],
+        Limit => 1,
+    );
+
+    # fetch the result
+    my $StateID;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $StateID = $Row[0];
+    }
+
+    # check the state id
+    if ( !$StateID ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Link state '$Param{Name}' not found in the database!",
+        );
+        return;
+    }
+
+    return $StateID;
+}
+
+=item LinkObjectLookup()
+
+lookup a link object
+
+    $ObjectID = $LinkObject->LinkObjectLookup(
+        Name => 'Ticket',
+    );
+
+    or
+
+    $Name = $LinkObject->LinkObjectLookup(
+        ObjectID => 12,
+    );
+
+=cut
+
+sub LinkObjectLookup {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{ObjectID} && !$Param{Name} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ObjectID or Name!',
+        );
+        return;
+    }
+
+    if ( $Param{ObjectID} ) {
+
+        # ask the database
+        $Self->{DBObject}->Prepare(
+            SQL   => 'SELECT name FROM link_object_object WHERE id = ?',
+            Bind  => [ \$Param{ObjectID} ],
+            Limit => 1,
+        );
+
+        # fetch the result
+        my $Name;
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+            $Name = $Row[0];
+        }
+
+        # check the name
+        if ( !$Name ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Link object id '$Param{ObjectID}' not found in the database!",
+            );
+            return;
+        }
+
+        return $Name;
+    }
+    else {
+
+        # ask the database
+        $Self->{DBObject}->Prepare(
+            SQL   => 'SELECT id FROM link_object_object WHERE name = ?',
+            Bind  => [ \$Param{Name} ],
+            Limit => 1,
+        );
+
+        # fetch the result
+        my $ObjectID;
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+            $ObjectID = $Row[0];
+        }
+
+        # check the object id
+        if ( !$ObjectID ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Link object '$Param{Name}' not found in the database!",
+            );
+            return;
+        }
+
+        return $ObjectID;
+    }
+}
+
 1;
 
 =back
@@ -564,6 +940,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2008-05-08 09:36:19 $
+$Revision: 1.26 $ $Date: 2008-05-15 11:47:58 $
 
 =cut
