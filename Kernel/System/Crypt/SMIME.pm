@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.17 2008-05-08 09:36:20 mh Exp $
+# $Id: SMIME.pm,v 1.18 2008-05-15 12:48:50 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =head1 NAME
 
@@ -38,11 +38,15 @@ sub _Init {
     $Self->{CertPath}    = $Self->{ConfigObject}->Get('SMIME::CertPath');
     $Self->{PrivatePath} = $Self->{ConfigObject}->Get('SMIME::PrivatePath');
 
-    if ( $Self->{CertPath} ) {
-        $Self->{CertPathArg} = " -CApath $Self->{CertPath}";
+    if ( $^O =~ m{Win}i ) {
+
+        # take care to deal properly with paths containing whitespace
+        $Self->{Cmd} = $Self->{Bin} = qq{"$Self->{Bin}"};
     }
     else {
-        $Self->{CertPathArg} = '';
+
+        # make sure that we are getting POSIX (i.e. english) messages from gpg
+        $Self->{Cmd} = "LC_MESSAGES=POSIX $Self->{Bin}";
     }
 
     # ensure that there is a random state file that we can write to (otherwise openssl will bail
@@ -135,9 +139,6 @@ crypt a message
 sub Crypt {
     my ( $Self, %Param ) = @_;
 
-    my $LogMessage = '';
-    my $UsedKey    = '';
-
     # check needed stuff
     for (qw(Message Hash)) {
         if ( !$Param{$_} ) {
@@ -145,32 +146,27 @@ sub Crypt {
             return;
         }
     }
-    my $Certificate = $Self->CertificateGet(%Param);
-    my ( $FH,            $Filename )            = $Self->{FileTempObject}->TempFile();
-    my ( $FHCertificate, $FilenameCertificate ) = $Self->{FileTempObject}->TempFile();
-    print $FHCertificate $Certificate;
-    my ( $FHCrypted, $FilenameCrypted ) = $Self->{FileTempObject}->TempFile();
-    print $FH $Param{Message};
 
-    open( SIGN,
-        "$Self->{Bin} smime -binary -encrypt -in $Filename -out $FilenameCrypted -des3"
-            . " $FilenameCertificate 2>&1 |"
-    );
-    while (<SIGN>) {
-        $LogMessage .= $_;
-    }
-    close(SIGN);
+    my $Certificate = $Self->CertificateGet(%Param);
+    my ( $FHCertificate, $CertFile ) = $Self->{FileTempObject}->TempFile();
+    print $FHCertificate $Certificate;
+    close $FHCertificate;
+    my ( $FH, $PlainFile ) = $Self->{FileTempObject}->TempFile();
+    print $FH $Param{Message};
+    close $FH;
+    my ( $FHCrypted, $CryptedFile ) = $Self->{FileTempObject}->TempFile();
+    close $FHCrypted;
+
+    my $Options
+        = "smime -encrypt -binary -des3 -in $PlainFile -out $CryptedFile $CertFile";
+    my $LogMessage = qx{$Self->{Cmd} $Options 2>&1};
     if ($LogMessage) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Can't crypt: $LogMessage!" );
         return;
     }
-    my $Crypted;
-    open( TMP, "< $FilenameCrypted" );
-    while (<TMP>) {
-        $Crypted .= $_;
-    }
-    close(TMP);
-    return $Crypted;
+
+    my $CryptedRef = $Self->{MainObject}->FileRead( Location => $CryptedFile );
+    return $$CryptedRef;
 }
 
 =item Decrypt()
@@ -187,9 +183,6 @@ decrypt a message and returns a hash (Successful, Message, Data)
 sub Decrypt {
     my ( $Self, %Param ) = @_;
 
-    my $LogMessage = '';
-    my $UsedKey    = '';
-
     # check needed stuff
     for (qw(Message Hash)) {
         if ( !$Param{$_} ) {
@@ -199,24 +192,23 @@ sub Decrypt {
     }
     my ( $Private, $Secret ) = $Self->PrivateGet(%Param);
     my $Certificate = $Self->CertificateGet(%Param);
-    my ( $FHPrivate, $FilenamePrivate ) = $Self->{FileTempObject}->TempFile();
-    print $FHPrivate $Private;
-    my ( $FHCertificate, $FilenameCertificate ) = $Self->{FileTempObject}->TempFile();
-    print $FHCertificate $Certificate;
-    my ( $FH,          $Filename )          = $Self->{FileTempObject}->TempFile();
-    my ( $FHDecrypted, $FilenameDecrypted ) = $Self->{FileTempObject}->TempFile();
-    print $FH $Param{Message};
 
-    open( IN,
-        "$Self->{Bin} smime -decrypt -passin pass:"
-            . quotemeta($Secret)
-            . " -in $Filename -out $FilenameDecrypted -recip $FilenameCertificate"
-            . " -inkey $FilenamePrivate 2>&1 |"
-    );
-    while (<IN>) {
-        $LogMessage .= $_;
-    }
-    close(IN);
+    my ( $FHPrivate, $PrivateKeyFile ) = $Self->{FileTempObject}->TempFile();
+    print $FHPrivate $Private;
+    close $FHPrivate;
+    my ( $FHCertificate, $CertFile ) = $Self->{FileTempObject}->TempFile();
+    print $FHCertificate $Certificate;
+    close $FHCertificate;
+    my ( $FH, $CryptedFile ) = $Self->{FileTempObject}->TempFile();
+    print $FH $Param{Message};
+    close $FH;
+    my ( $FHDecrypted, $PlainFile ) = $Self->{FileTempObject}->TempFile();
+    close $FHDecrypted;
+
+    my $Options
+        = "smime -decrypt -in $CryptedFile -out $PlainFile -recip $CertFile -inkey $PrivateKeyFile"
+            . ' -passin pass:' . quotemeta($Secret);
+    my $LogMessage = qx{$Self->{Cmd} $Options 2>&1};
     if ($LogMessage) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Can't decrypt: $LogMessage!" );
         return (
@@ -224,16 +216,12 @@ sub Decrypt {
             Message    => $LogMessage,
         );
     }
-    my $Decrypted;
-    open( TMP, '<:bytes', $FilenameDecrypted );
-    while (<TMP>) {
-        $Decrypted .= $_;
-    }
-    close(TMP);
+
+    my $DecryptedRef = $Self->{MainObject}->FileRead( Location => $PlainFile );
     return (
         Successful => 1,
         Message    => "OpenSSL: OK",
-        Data       => $Decrypted,
+        Data       => $$DecryptedRef,
     );
 }
 
@@ -251,9 +239,6 @@ sign a message
 sub Sign {
     my ( $Self, %Param ) = @_;
 
-    my $LogMessage = '';
-    my $UsedKey    = '';
-
     # check needed stuff
     for (qw(Message Hash)) {
         if ( !$Param{$_} ) {
@@ -263,35 +248,30 @@ sub Sign {
     }
     my ( $Private, $Secret ) = $Self->PrivateGet(%Param);
     my $Certificate = $Self->CertificateGet(%Param);
-    my ( $FH, $Filename ) = $Self->{FileTempObject}->TempFile();
-    print $FH $Param{Message};
-    my ( $FHSign,    $FilenameSign )    = $Self->{FileTempObject}->TempFile();
-    my ( $FHPrivate, $FilenamePrivate ) = $Self->{FileTempObject}->TempFile();
-    print $FHPrivate $Private;
-    my ( $FHCertificate, $FilenameCertificate ) = $Self->{FileTempObject}->TempFile();
-    print $FHCertificate $Certificate;
-    open( SIGN,
-        "$Self->{Bin} smime -sign -passin pass:"
-            . quotemeta($Secret)
-            . " -in $Filename -out $FilenameSign -text -signer $FilenameCertificate"
-            . " -inkey $FilenamePrivate -binary 2>&1 |"
-    );
 
-    while (<SIGN>) {
-        $LogMessage .= $_;
-    }
-    close(SIGN);
+    my ( $FH, $PlainFile ) = $Self->{FileTempObject}->TempFile();
+    print $FH $Param{Message};
+    close $FH;
+    my ( $FHPrivate, $PrivateKeyFile ) = $Self->{FileTempObject}->TempFile();
+    print $FHPrivate $Private;
+    close $FHPrivate;
+    my ( $FHCertificate, $CertFile ) = $Self->{FileTempObject}->TempFile();
+    print $FHCertificate $Certificate;
+    close $FHCertificate;
+    my ( $FHSign, $SignFile ) = $Self->{FileTempObject}->TempFile();
+    close $FHSign;
+
+    my $Options
+        = "smime -sign -in $PlainFile -out $SignFile -signer $CertFile -inkey $PrivateKeyFile"
+            . ' -text -binary -passin pass:' . quotemeta($Secret);
+    my $LogMessage = qx{$Self->{Cmd} $Options 2>&1};
     if ($LogMessage) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Can't sign: $LogMessage!" );
         return;
     }
-    my $Signed;
-    open( TMP, "< $FilenameSign" );
-    while (<TMP>) {
-        $Signed .= $_;
-    }
-    close(TMP);
-    return $Signed;
+
+    my $SignedRef = $Self->{MainObject}->FileRead( Location => $SignFile );
+    return $$SignedRef;
 
 }
 
@@ -319,48 +299,37 @@ sub Verify {
         return;
     }
 
-    my ( $FH,       $Filename )       = $Self->{FileTempObject}->TempFile();
-    my ( $FHSign,   $FilenameSign )   = $Self->{FileTempObject}->TempFile();
-    my ( $FHOutput, $FilenameOutput ) = $Self->{FileTempObject}->TempFile();
+    my ( $FH, $SignedFile ) = $Self->{FileTempObject}->TempFile();
     print $FH $Param{Message};
-    my $File = $Filename;
+    close $FH;
+    my ( $FHOutput, $VerifiedFile ) = $Self->{FileTempObject}->TempFile();
+    close $FHOutput;
+    my ( $FHSigner, $SignerFile )   = $Self->{FileTempObject}->TempFile();
+    close $FHSigner;
+    my $SigFile = '';
     if ( $Param{Sign} ) {
-        print $FHSign $Param{Sign};
-        $File = "$FilenameSign $File";
+        ( my $FHSig, $SigFile ) = $Self->{FileTempObject}->TempFile();
+        print $FHSig $Param{Sign};
+        close $FHSig;
     }
-    open( VERIFY,
-        "$Self->{Bin} smime -verify -in $Filename -signer $FilenameSign -out $FilenameOutput"
-            . " $Self->{CertPathArg} 2>&1 |"
-    );
-    while (<VERIFY>) {
-        $MessageLong .= $_;
-        if ( $_ =~ /^\d.*:(.+?):.+?:.+?:$/ || $_ =~ /^\d.*:(.+?)$/ ) {
+    my $Options
+        = "smime -verify -in $SignedFile -out $VerifiedFile -signer $SignerFile "
+            . " -CApath $Self->{CertPath} $SigFile $SignedFile";
+    my @LogLines = qx{$Self->{Cmd} $Options 2>&1};
+    for my $LogLine (@LogLines) {
+        $MessageLong .= $LogLine;
+        if ( $LogLine =~ /^\d.*:(.+?):.+?:.+?:$/ || $LogLine =~ /^\d.*:(.+?)$/ ) {
             $Message .= ";$1";
         }
         else {
-            $Message .= $_;
+            $Message .= $LogLine;
         }
     }
-    close(VERIFY);
 
     # TODO: maybe use _FetchAttributesFromCert() to determine the cert-hash and return that instead?
     # determine hash of signer certificate
-    my $SignerCertificate = '';
-    if ( open( IN, "< $FilenameSign" ) ) {
-        while (<IN>) {
-            $SignerCertificate .= $_;
-        }
-        close(IN);
-    }
-
-    # read clear content
-    my $SignerContent = '';
-    if ( open( IN, "< $FilenameOutput" ) ) {
-        while (<IN>) {
-            $SignerContent .= $_;
-        }
-        close(IN);
-    }
+    my $SignerCertRef    = $Self->{MainObject}->FileRead( Location => $SignerFile );
+    my $SignedContentRef = $Self->{MainObject}->FileRead( Location => $VerifiedFile );
 
     # return message
     if ( $Message =~ /Verification successful/i ) {
@@ -371,8 +340,8 @@ sub Verify {
             #            Message => $1,
             Message           => "OpenSSL: " . $Message,
             MessageLong       => "OpenSSL: " . $MessageLong,
-            SignerCertificate => $SignerCertificate,
-            Content           => $SignerContent,
+            SignerCertificate => $$SignerCertRef,
+            Content           => $$SignedContentRef,
         );
     }
     else {
@@ -497,18 +466,8 @@ sub CertificateGet {
         return;
     }
     my $File = "$Self->{CertPath}/$Param{Hash}.0";
-    if ( open( IN, "< $File" ) ) {
-        my $Certificate = '';
-        while (<IN>) {
-            $Certificate .= $_;
-        }
-        close(IN);
-        return $Certificate;
-    }
-    else {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Can't open $File: $!!" );
-        return;
-    }
+    my $CertificateRef = $Self->{MainObject}->FileRead( Location => $File );
+    return $$CertificateRef;
 }
 
 =item CertificateRemove()
@@ -676,12 +635,12 @@ sub PrivateAdd {
     );
     if ( $CertificateAttributes{Hash} ) {
         my $File = "$Self->{PrivatePath}/$CertificateAttributes{Hash}";
-        if ( open( OUT, "> $File.0" ) ) {
-            print OUT $Param{Private};
-            close(OUT);
-            open( OUT, "> $File.P" );
-            print OUT $Param{Secret};
-            close(OUT);
+        if (open( my $PrivKeyFH, "> $File.0" ) ) {
+            print $PrivKeyFH $Param{Private};
+            close $PrivKeyFH;
+            open( my $PassFH, "> $File.P" );
+            print $PassFH $Param{Secret};
+            close $PassFH;
             return "Private Key uploaded!";
         }
         else {
@@ -763,8 +722,8 @@ sub PrivateRemove {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Need Hash!" );
         return;
     }
-    unlink "$Self->{PrivatePath}/$Param{Hash}.0" || return $!;
-    unlink "$Self->{PrivatePath}/$Param{Hash}.P" || return $!;
+    unlink "$Self->{PrivatePath}/$Param{Hash}.0" || return 0;
+    unlink "$Self->{PrivatePath}/$Param{Hash}.P" || return 0;
     return 1;
 }
 
@@ -812,23 +771,12 @@ sub PrivateAttributes {
     }
     my ( $FH, $Filename ) = $Self->{FileTempObject}->TempFile();
     print $FH $Param{Private};
-    for my $Key ( keys %Option ) {
-        my $Pass = '';
-        if ( $Param{Secret} ) {
-            $Pass = " -passin pass:" . quotemeta( $Param{Secret} );
-        }
-        open( VERIFY, "$Self->{Bin} rsa -in $Filename -noout $Option{$Key} $Pass |" );
-        my $Line = '';
-        while (<VERIFY>) {
-            chomp($_);
-            $Line .= $_;
-        }
-        close(VERIFY);
-        if ( $Key eq 'Modulus' ) {
-            $Line =~ s/Modulus=//;
-        }
-        $Attributes{$Key} = $Line;
-    }
+    close $FH;
+    my $Options = "rsa -in $Filename -noout -modulus -passin pass:" . quotemeta( $Param{Secret} );
+    my $LogMessage = qx{$Self->{Cmd} $Options 2>&1};
+    $LogMessage =~ tr{\n}{}d;
+    $LogMessage =~ s/Modulus=//;
+    $Attributes{Modulus} = $LogMessage;
     $Attributes{Type} = 'P';
     return %Attributes;
 }
@@ -848,82 +796,78 @@ sub _FetchAttributesFromCert {
         Modulus     => '-modulus',
     );
     for my $Key ( keys %Option ) {
-        open( VERIFY, "$Self->{Bin} x509 -in $Filename -noout $Option{$Key} |" );
-        my $Line = '';
-        while (<VERIFY>) {
-            chomp($_);
-            $Line .= $_;
-        }
-        close(VERIFY);
+        my $Options = "x509 -in $Filename -noout $Option{$Key}";
+        my $Output = qx{$Self->{Cmd} $Options 2>&1};
+        $Output =~ tr{\n}{}d;
         if ( $Key eq 'Issuer' ) {
-            $Line =~ s/=/= /g;
+            $Output =~ s/=/= /g;
         }
         elsif ( $Key eq 'Fingerprint' ) {
-            $Line =~ s/SHA1 Fingerprint=//;
+            $Output =~ s/SHA1 Fingerprint=//;
         }
         elsif ( $Key eq 'StartDate' ) {
-            $Line =~ s/notBefore=//;
+            $Output =~ s/notBefore=//;
         }
         elsif ( $Key eq 'EndDate' ) {
-            $Line =~ s/notAfter=//;
+            $Output =~ s/notAfter=//;
         }
         elsif ( $Key eq 'Subject' ) {
-            $Line =~ s/subject=//;
-            $Line =~ s/\// /g;
-            $Line =~ s/=/= /g;
+            $Output =~ s/subject=//;
+            $Output =~ s/\// /g;
+            $Output =~ s/=/= /g;
         }
         elsif ( $Key eq 'Modulus' ) {
-            $Line =~ s/Modulus=//;
+            $Output =~ s/Modulus=//;
         }
         if ( $Key =~ /(StartDate|EndDate)/ ) {
             my $Type = $1;
-            if ( $Line =~ /(.+?)\s(.+?)\s(\d\d:\d\d:\d\d)\s(\d\d\d\d)/ ) {
+            if ( $Output =~ /(.+?)\s(.+?)\s(\d\d:\d\d:\d\d)\s(\d\d\d\d)/ ) {
                 my $Day = $2;
                 if ( $Day < 10 ) {
                     $Day = "0" . int($Day);
                 }
                 my $Month = '';
                 my $Year  = $4;
-                if ( $Line =~ /jan/i ) {
+                if ( $Output =~ /jan/i ) {
                     $Month = '01';
                 }
-                elsif ( $Line =~ /feb/i ) {
+                elsif ( $Output =~ /feb/i ) {
                     $Month = '02';
                 }
-                elsif ( $Line =~ /mar/i ) {
+                elsif ( $Output =~ /mar/i ) {
                     $Month = '03';
                 }
-                elsif ( $Line =~ /apr/i ) {
+                elsif ( $Output =~ /apr/i ) {
                     $Month = '04';
                 }
-                elsif ( $Line =~ /mai/i ) {
+                elsif ( $Output =~ /mai/i ) {
                     $Month = '05';
                 }
-                elsif ( $Line =~ /jun/i ) {
+                elsif ( $Output =~ /jun/i ) {
                     $Month = '06';
                 }
-                elsif ( $Line =~ /jul/i ) {
+                elsif ( $Output =~ /jul/i ) {
                     $Month = '07';
                 }
-                elsif ( $Line =~ /aug/i ) {
+                elsif ( $Output =~ /aug/i ) {
                     $Month = '08';
                 }
-                elsif ( $Line =~ /sep/i ) {
+                elsif ( $Output =~ /sep/i ) {
                     $Month = '09';
                 }
-                elsif ( $Line =~ /oct/i ) {
+                elsif ( $Output =~ /oct/i ) {
                     $Month = '10';
                 }
-                elsif ( $Line =~ /nov/i ) {
+                elsif ( $Output =~ /nov/i ) {
                     $Month = '11';
                 }
-                elsif ( $Line =~ /dec/i ) {
+                elsif ( $Output =~ /dec/i ) {
                     $Month = '12';
                 }
                 $AttributesRef->{"Short$Type"} = "$Year-$Month-$Day";
             }
         }
-        $AttributesRef->{$Key} = $Line;
+        $AttributesRef->{$Key} = $Output;
     }
     return 1;
 }
@@ -944,6 +888,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2008-05-08 09:36:20 $
+$Revision: 1.18 $ $Date: 2008-05-15 12:48:50 $
 
 =cut
