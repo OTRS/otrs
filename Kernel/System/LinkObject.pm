@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.27 2008-05-15 14:29:14 mh Exp $
+# $Id: LinkObject.pm,v 1.28 2008-05-15 18:31:47 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 =head1 NAME
 
@@ -278,7 +278,7 @@ sub UnlinkObject {
     );
 
     return if !$Self->{DBObject}->Do(
-        SQL => "DELETE FROM link_object WHERE"
+        SQL => "DELETE FROM link_relation WHERE"
             . " (source_key = ? AND target_key = ? AND"
             . " source_object_id = ? AND target_object_id = ? AND"
             . " $SQLExt ) OR"
@@ -324,7 +324,7 @@ sub RemoveLinkObject {
     );
 
     return $Self->{DBObject}->Do(
-        SQL => 'DELETE FROM link_object WHERE'
+        SQL => 'DELETE FROM link_relation WHERE'
             . ' (source_key = ? AND source_object_id = ?) OR'
             . ' (target_key = ? AND target_object_id = ?)',
         Bind => [
@@ -423,7 +423,7 @@ sub LinkedObjects {
             Name => 'ParentChild',
         );
 
-        $SQLA = 'SELECT source_key, source_object_id FROM link_object WHERE '
+        $SQLA = 'SELECT source_key, source_object_id FROM link_relation WHERE '
             . 'target_key = ? AND '
             . 'target_object_id = ? AND '
             . 'source_object_id = ? AND '
@@ -441,7 +441,7 @@ sub LinkedObjects {
             Name => 'ParentChild',
         );
 
-        $SQLA = 'SELECT target_key, target_object_id FROM link_object WHERE '
+        $SQLA = 'SELECT target_key, target_object_id FROM link_relation WHERE '
             . 'source_key = ? AND '
             . 'source_object_id = ? AND '
             . 'target_object_id = ? AND '
@@ -459,7 +459,7 @@ sub LinkedObjects {
             Name => 'Normal',
         );
 
-        $SQLA = 'SELECT source_key, source_object_id FROM link_object WHERE '
+        $SQLA = 'SELECT source_key, source_object_id FROM link_relation WHERE '
             . 'target_key = ? AND '
             . 'target_object_id = ? AND '
             . 'source_object_id = ? AND '
@@ -468,7 +468,7 @@ sub LinkedObjects {
 
         @BindA = ( \$Param{LinkID1}, \$Object1ID, \$Object2ID, \$TypeID, \$StateID );
 
-        $SQLB = 'SELECT target_key, target_object_id FROM link_object WHERE '
+        $SQLB = 'SELECT target_key, target_object_id FROM link_relation WHERE '
             . 'source_key = ? AND '
             . 'source_object_id = ? AND '
             . 'target_object_id = ? AND '
@@ -499,7 +499,7 @@ sub LinkedObjects {
     }
 
     # fill up data
-    my %Linked    = ();
+    my %Linked;
     for my $Link (@LinkedIDs) {
         next if !$Self->{Backend}->{ $Link->[1] };
 
@@ -531,6 +531,7 @@ sub LinkedObjects {
                 );
             }
         }
+
         $Linked{ $Link->[0] } = \%Hash;
     }
 
@@ -587,7 +588,6 @@ get a hash of all linked object ids
 sub AllLinkedObjects {
     my ( $Self, %Param ) = @_;
 
-    my %Links = ();
     for (qw(Object ObjectID)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
@@ -597,6 +597,8 @@ sub AllLinkedObjects {
 
     # get objects
     my %Objects = %{ $Self->{ConfigObject}->Get('LinkObject') };
+
+    my %Links;
     for my $Object ( keys %Objects ) {
 
         my %CLinked = $Self->LinkedObjects(
@@ -606,6 +608,7 @@ sub AllLinkedObjects {
             LinkObject2 => $Object,
         );
         $Links{Child}->{$Object} = \%CLinked;
+
         my %PLinked = $Self->LinkedObjects(
             LinkType    => 'Parent',
             LinkObject2 => $Param{Object},
@@ -613,6 +616,7 @@ sub AllLinkedObjects {
             LinkObject1 => $Object,
         );
         $Links{Parent}->{$Object} = \%PLinked;
+
         my %NLinked = $Self->LinkedObjects(
             LinkType    => 'Normal',
             LinkObject1 => $Param{Object},
@@ -690,7 +694,7 @@ sub LinkAdd {
     }
 
     return if !$Self->{DBObject}->Do(
-        SQL => 'INSERT INTO link_object '
+        SQL => 'INSERT INTO link_relation '
             . '(source_object_id, source_key, target_object_id, target_key, type_id, state_id, create_time, create_by) '
             . 'VALUES (?, ?, ?, ?, ?, ?, current_timestamp, ?)',
         Bind => [
@@ -727,7 +731,7 @@ sub LinkTypeLookup {
 
     # ask the database
     $Self->{DBObject}->Prepare(
-        SQL   => 'SELECT id FROM link_object_type WHERE name = ?',
+        SQL   => 'SELECT id FROM link_type WHERE name = ?',
         Bind  => [ \$Param{Name} ],
         Limit => 1,
     );
@@ -774,7 +778,7 @@ sub LinkStateLookup {
 
     # ask the database
     $Self->{DBObject}->Prepare(
-        SQL => 'SELECT id FROM link_object_state WHERE name = ?',
+        SQL => 'SELECT id FROM link_state WHERE name = ?',
         Bind => [ \$Param{Name} ],
         Limit => 1,
     );
@@ -833,7 +837,7 @@ sub LinkObjectLookup {
 
         # ask the database
         $Self->{DBObject}->Prepare(
-            SQL   => 'SELECT name FROM link_object_object WHERE id = ?',
+            SQL   => 'SELECT name FROM link_object WHERE id = ?',
             Bind  => [ \$Param{ObjectID} ],
             Limit => 1,
         );
@@ -866,7 +870,7 @@ sub LinkObjectLookup {
 
         # ask the database
         $Self->{DBObject}->Prepare(
-            SQL   => 'SELECT id FROM link_object_object WHERE name = ?',
+            SQL   => 'SELECT id FROM link_object WHERE name = ?',
             Bind  => [ \$Param{Name} ],
             Limit => 1,
         );
@@ -881,12 +885,12 @@ sub LinkObjectLookup {
 
             # insert the new object
             $Self->{DBObject}->Do(
-                SQL  => 'INSERT INTO link_object_object (name) VALUES (?)',
+                SQL  => 'INSERT INTO link_object (name) VALUES (?)',
                 Bind => [ \$Param{Name} ],
             );
 
             $Self->{DBObject}->Prepare(
-                SQL   => 'SELECT id FROM link_object_object WHERE name = ?',
+                SQL   => 'SELECT id FROM link_object WHERE name = ?',
                 Bind  => [ \$Param{Name} ],
                 Limit => 1,
             );
@@ -920,6 +924,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2008-05-15 14:29:14 $
+$Revision: 1.28 $ $Date: 2008-05-15 18:31:47 $
 
 =cut

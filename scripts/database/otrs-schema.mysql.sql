@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2008-05-15 19:31:35
+#  driver: mysql, generated: 2008-05-15 20:29:12
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -422,9 +422,9 @@ CREATE TABLE ticket (
     INDEX ticket_user_id (user_id)
 );
 # ----------------------------------------------------------
-#  create table link_object_type
+#  create table link_type
 # ----------------------------------------------------------
-CREATE TABLE link_object_type (
+CREATE TABLE link_type (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (50) NOT NULL,
     valid_id SMALLINT NOT NULL,
@@ -433,12 +433,12 @@ CREATE TABLE link_object_type (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX link_object_type_name (name)
+    UNIQUE INDEX link_type_name (name)
 );
 # ----------------------------------------------------------
-#  create table link_object_state
+#  create table link_state
 # ----------------------------------------------------------
-CREATE TABLE link_object_state (
+CREATE TABLE link_state (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (50) NOT NULL,
     valid_id SMALLINT NOT NULL,
@@ -447,21 +447,21 @@ CREATE TABLE link_object_state (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX link_object_state_name (name)
-);
-# ----------------------------------------------------------
-#  create table link_object_object
-# ----------------------------------------------------------
-CREATE TABLE link_object_object (
-    id SMALLINT NOT NULL AUTO_INCREMENT,
-    name VARCHAR (100) NOT NULL,
-    PRIMARY KEY(id),
-    UNIQUE INDEX link_object_object_name (name)
+    UNIQUE INDEX link_state_name (name)
 );
 # ----------------------------------------------------------
 #  create table link_object
 # ----------------------------------------------------------
 CREATE TABLE link_object (
+    id SMALLINT NOT NULL AUTO_INCREMENT,
+    name VARCHAR (100) NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE INDEX link_object_name (name)
+);
+# ----------------------------------------------------------
+#  create table link_relation
+# ----------------------------------------------------------
+CREATE TABLE link_relation (
     source_object_id SMALLINT NOT NULL,
     source_key VARCHAR (50) NOT NULL,
     target_object_id SMALLINT NOT NULL,
@@ -470,7 +470,7 @@ CREATE TABLE link_object (
     state_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
-    UNIQUE INDEX link_object_relation (source_object_id, source_key, target_object_id, target_key, type_id)
+    UNIQUE INDEX link_relation_view (source_object_id, source_key, target_object_id, target_key, type_id)
 );
 # ----------------------------------------------------------
 #  create table ticket_history

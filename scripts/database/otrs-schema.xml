@@ -5,7 +5,7 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 
-    $Id: otrs-schema.xml,v 1.89 2008-05-15 17:35:21 martin Exp $
+    $Id: otrs-schema.xml,v 1.90 2008-05-15 18:31:19 mh Exp $
 
 -->
 
@@ -662,8 +662,8 @@
     </ForeignKey>
 </Table>
 
-<!-- link_object_type - all link object types -->
-<Table Name="link_object_type">
+<!-- link_type - all link object types -->
+<Table Name="link_type">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
     <Column Name="name" Required="true" Size="50" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
@@ -671,7 +671,7 @@
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
     <Column Name="change_by" Required="true" Type="INTEGER"/>
-    <Unique Name="link_object_type_name">
+    <Unique Name="link_type_name">
         <UniqueColumn Name="name"/>
     </Unique>
     <ForeignKey ForeignTable="valid">
@@ -683,8 +683,8 @@
     </ForeignKey>
 </Table>
 
-<!-- link_object_state - all link object states -->
-<Table Name="link_object_state">
+<!-- link_state - all link object states -->
+<Table Name="link_state">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
     <Column Name="name" Required="true" Size="50" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
@@ -692,7 +692,7 @@
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
     <Column Name="change_by" Required="true" Type="INTEGER"/>
-    <Unique Name="link_object_state_name">
+    <Unique Name="link_state_name">
         <UniqueColumn Name="name"/>
     </Unique>
     <ForeignKey ForeignTable="valid">
@@ -704,17 +704,17 @@
     </ForeignKey>
 </Table>
 
-<!-- link_object_object - all link objects -->
-<Table Name="link_object_object">
+<!-- link_object - all link objects -->
+<Table Name="link_object">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
     <Column Name="name" Required="true" Size="100" Type="VARCHAR"/>
-    <Unique Name="link_object_object_name">
+    <Unique Name="link_object_name">
         <UniqueColumn Name="name"/>
     </Unique>
 </Table>
 
-<!-- link_object - all links between objects -->
-<Table Name="link_object">
+<!-- link_relation - all links between objects -->
+<Table Name="link_relation">
     <Column Name="source_object_id" Required="true" Type="SMALLINT"/>
     <Column Name="source_key" Required="true" Size="50" Type="VARCHAR"/>
     <Column Name="target_object_id" Required="true" Type="SMALLINT"/>
@@ -723,21 +723,21 @@
     <Column Name="state_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
-    <Unique Name="link_object_relation">
+    <Unique Name="link_relation_view">
         <UniqueColumn Name="source_object_id"/>
         <UniqueColumn Name="source_key"/>
         <UniqueColumn Name="target_object_id"/>
         <UniqueColumn Name="target_key"/>
         <UniqueColumn Name="type_id"/>
     </Unique>
-    <ForeignKey ForeignTable="link_object_object">
+    <ForeignKey ForeignTable="link_object">
         <Reference Local="source_object_id" Foreign="id"/>
         <Reference Local="target_object_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="link_object_type">
+    <ForeignKey ForeignTable="link_type">
         <Reference Local="type_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="link_object_state">
+    <ForeignKey ForeignTable="link_state">
         <Reference Local="state_id" Foreign="id"/>
     </ForeignKey>
     <ForeignKey ForeignTable="users">

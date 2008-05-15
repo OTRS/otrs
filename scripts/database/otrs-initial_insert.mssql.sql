@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2008-05-15 19:38:32
+--  driver: mssql, generated: 2008-05-15 20:30:01
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  insert into table valid
@@ -74,27 +74,27 @@ INSERT INTO theme (theme, valid_id, create_by, create_time, change_by, change_ti
     VALUES
     ('Lite', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
---  insert into table link_object_type
+--  insert into table link_type
 -- ----------------------------------------------------------
-INSERT INTO link_object_type (name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO link_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('Normal', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
---  insert into table link_object_type
+--  insert into table link_type
 -- ----------------------------------------------------------
-INSERT INTO link_object_type (name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO link_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('ParentChild', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
---  insert into table link_object_state
+--  insert into table link_state
 -- ----------------------------------------------------------
-INSERT INTO link_object_state (name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO link_state (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('Valid', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
---  insert into table link_object_state
+--  insert into table link_state
 -- ----------------------------------------------------------
-INSERT INTO link_object_state (name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO link_state (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('Temporary', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------

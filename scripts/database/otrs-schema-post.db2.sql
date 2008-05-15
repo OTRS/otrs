@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2008-05-15 19:31:34
+--  driver: db2, generated: 2008-05-15 20:29:10
 -- ----------------------------------------------------------
 ALTER TABLE valid ADD CONSTRAINT FK_valid_create_by_id FOREIGN KEY (create_by) REFERENCES users(id);
 
@@ -157,27 +157,27 @@ ALTER TABLE ticket ADD CONSTRAINT FK_ticket_responsible_user_id_id FOREIGN KEY (
 
 ALTER TABLE ticket ADD CONSTRAINT FK_ticket_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid(id);
 
-ALTER TABLE link_object_type ADD CONSTRAINT FK_link_object_type_create_by_id FOREIGN KEY (create_by) REFERENCES users(id);
+ALTER TABLE link_type ADD CONSTRAINT FK_link_type_create_by_id FOREIGN KEY (create_by) REFERENCES users(id);
 
-ALTER TABLE link_object_type ADD CONSTRAINT FK_link_object_type_change_by_id FOREIGN KEY (change_by) REFERENCES users(id);
+ALTER TABLE link_type ADD CONSTRAINT FK_link_type_change_by_id FOREIGN KEY (change_by) REFERENCES users(id);
 
-ALTER TABLE link_object_type ADD CONSTRAINT FK_link_object_type_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid(id);
+ALTER TABLE link_type ADD CONSTRAINT FK_link_type_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid(id);
 
-ALTER TABLE link_object_state ADD CONSTRAINT FK_link_object_state_create_by_id FOREIGN KEY (create_by) REFERENCES users(id);
+ALTER TABLE link_state ADD CONSTRAINT FK_link_state_create_by_id FOREIGN KEY (create_by) REFERENCES users(id);
 
-ALTER TABLE link_object_state ADD CONSTRAINT FK_link_object_state_change_by_id FOREIGN KEY (change_by) REFERENCES users(id);
+ALTER TABLE link_state ADD CONSTRAINT FK_link_state_change_by_id FOREIGN KEY (change_by) REFERENCES users(id);
 
-ALTER TABLE link_object_state ADD CONSTRAINT FK_link_object_state_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid(id);
+ALTER TABLE link_state ADD CONSTRAINT FK_link_state_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid(id);
 
-ALTER TABLE link_object ADD CONSTRAINT FK_link_object_source_object_id_id FOREIGN KEY (source_object_id) REFERENCES link_object_object(id);
+ALTER TABLE link_relation ADD CONSTRAINT FK_link_relation_source_object_id_id FOREIGN KEY (source_object_id) REFERENCES link_object(id);
 
-ALTER TABLE link_object ADD CONSTRAINT FK_link_object_target_object_id_id FOREIGN KEY (target_object_id) REFERENCES link_object_object(id);
+ALTER TABLE link_relation ADD CONSTRAINT FK_link_relation_target_object_id_id FOREIGN KEY (target_object_id) REFERENCES link_object(id);
 
-ALTER TABLE link_object ADD CONSTRAINT FK_link_object_state_id_id FOREIGN KEY (state_id) REFERENCES link_object_state(id);
+ALTER TABLE link_relation ADD CONSTRAINT FK_link_relation_state_id_id FOREIGN KEY (state_id) REFERENCES link_state(id);
 
-ALTER TABLE link_object ADD CONSTRAINT FK_link_object_type_id_id FOREIGN KEY (type_id) REFERENCES link_object_type(id);
+ALTER TABLE link_relation ADD CONSTRAINT FK_link_relation_type_id_id FOREIGN KEY (type_id) REFERENCES link_type(id);
 
-ALTER TABLE link_object ADD CONSTRAINT FK_link_object_create_by_id FOREIGN KEY (create_by) REFERENCES users(id);
+ALTER TABLE link_relation ADD CONSTRAINT FK_link_relation_create_by_id FOREIGN KEY (create_by) REFERENCES users(id);
 
 ALTER TABLE ticket_history ADD CONSTRAINT FK_ticket_history_article_id_id FOREIGN KEY (article_id) REFERENCES article(id);
 

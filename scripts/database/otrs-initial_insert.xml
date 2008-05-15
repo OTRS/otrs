@@ -5,7 +5,7 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 
-    $Id: otrs-initial_insert.xml,v 1.17 2008-05-15 17:39:12 martin Exp $
+    $Id: otrs-initial_insert.xml,v 1.18 2008-05-15 18:31:00 mh Exp $
 
 -->
 
@@ -123,7 +123,7 @@
     </Insert>
 
 <!-- link -->
-    <Insert Table="link_object_type">
+    <Insert Table="link_type">
         <Data Key="name" Type="Quote">Normal</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -131,7 +131,7 @@
         <Data Key="change_by">1</Data>
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
-    <Insert Table="link_object_type">
+    <Insert Table="link_type">
         <Data Key="name" Type="Quote">ParentChild</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -140,7 +140,7 @@
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
 
-    <Insert Table="link_object_state">
+    <Insert Table="link_state">
         <Data Key="name" Type="Quote">Valid</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -148,7 +148,7 @@
         <Data Key="change_by">1</Data>
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
-    <Insert Table="link_object_state">
+    <Insert Table="link_state">
         <Data Key="name" Type="Quote">Temporary</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>

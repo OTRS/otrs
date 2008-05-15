@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2008-05-15 19:31:35
+--  driver: oracle, generated: 2008-05-15 20:29:12
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -675,9 +675,9 @@ CREATE INDEX ticket_title ON ticket (title);
 CREATE INDEX ticket_type_id ON ticket (type_id);
 CREATE INDEX ticket_user_id ON ticket (user_id);
 -- ----------------------------------------------------------
---  create table link_object_type
+--  create table link_type
 -- ----------------------------------------------------------
-CREATE TABLE link_object_type (
+CREATE TABLE link_type (
     id NUMBER (5, 0) NOT NULL,
     name VARCHAR2 (50) NOT NULL,
     valid_id NUMBER (5, 0) NOT NULL,
@@ -685,28 +685,28 @@ CREATE TABLE link_object_type (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT link_object_type_name UNIQUE (name)
+    CONSTRAINT link_type_name UNIQUE (name)
 );
-ALTER TABLE link_object_type ADD CONSTRAINT PK_link_object_type PRIMARY KEY (id);
-DROP SEQUENCE SE_link_object_type;
-CREATE SEQUENCE SE_link_object_type;
-CREATE OR REPLACE TRIGGER SE_link_object_type_t
-before insert on link_object_type
+ALTER TABLE link_type ADD CONSTRAINT PK_link_type PRIMARY KEY (id);
+DROP SEQUENCE SE_link_type;
+CREATE SEQUENCE SE_link_type;
+CREATE OR REPLACE TRIGGER SE_link_type_t
+before insert on link_type
 for each row
 begin
-    select SE_link_object_type.nextval
+    select SE_link_type.nextval
     into :new.id
     from dual;
 end;
 /
 --;
-CREATE INDEX FK_link_object_type_change_by ON link_object_type (change_by);
-CREATE INDEX FK_link_object_type_create_by ON link_object_type (create_by);
-CREATE INDEX FK_link_object_type_valid_id ON link_object_type (valid_id);
+CREATE INDEX FK_link_type_change_by ON link_type (change_by);
+CREATE INDEX FK_link_type_create_by ON link_type (create_by);
+CREATE INDEX FK_link_type_valid_id ON link_type (valid_id);
 -- ----------------------------------------------------------
---  create table link_object_state
+--  create table link_state
 -- ----------------------------------------------------------
-CREATE TABLE link_object_state (
+CREATE TABLE link_state (
     id NUMBER (5, 0) NOT NULL,
     name VARCHAR2 (50) NOT NULL,
     valid_id NUMBER (5, 0) NOT NULL,
@@ -714,49 +714,49 @@ CREATE TABLE link_object_state (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT link_object_state_name UNIQUE (name)
+    CONSTRAINT link_state_name UNIQUE (name)
 );
-ALTER TABLE link_object_state ADD CONSTRAINT PK_link_object_state PRIMARY KEY (id);
-DROP SEQUENCE SE_link_object_state;
-CREATE SEQUENCE SE_link_object_state;
-CREATE OR REPLACE TRIGGER SE_link_object_state_t
-before insert on link_object_state
+ALTER TABLE link_state ADD CONSTRAINT PK_link_state PRIMARY KEY (id);
+DROP SEQUENCE SE_link_state;
+CREATE SEQUENCE SE_link_state;
+CREATE OR REPLACE TRIGGER SE_link_state_t
+before insert on link_state
 for each row
 begin
-    select SE_link_object_state.nextval
+    select SE_link_state.nextval
     into :new.id
     from dual;
 end;
 /
 --;
-CREATE INDEX FK_link_object_state_change_by ON link_object_state (change_by);
-CREATE INDEX FK_link_object_state_create_by ON link_object_state (create_by);
-CREATE INDEX FK_link_object_state_valid_id ON link_object_state (valid_id);
--- ----------------------------------------------------------
---  create table link_object_object
--- ----------------------------------------------------------
-CREATE TABLE link_object_object (
-    id NUMBER (5, 0) NOT NULL,
-    name VARCHAR2 (100) NOT NULL,
-    CONSTRAINT link_object_object_name UNIQUE (name)
-);
-ALTER TABLE link_object_object ADD CONSTRAINT PK_link_object_object PRIMARY KEY (id);
-DROP SEQUENCE SE_link_object_object;
-CREATE SEQUENCE SE_link_object_object;
-CREATE OR REPLACE TRIGGER SE_link_object_object_t
-before insert on link_object_object
-for each row
-begin
-    select SE_link_object_object.nextval
-    into :new.id
-    from dual;
-end;
-/
---;
+CREATE INDEX FK_link_state_change_by ON link_state (change_by);
+CREATE INDEX FK_link_state_create_by ON link_state (create_by);
+CREATE INDEX FK_link_state_valid_id ON link_state (valid_id);
 -- ----------------------------------------------------------
 --  create table link_object
 -- ----------------------------------------------------------
 CREATE TABLE link_object (
+    id NUMBER (5, 0) NOT NULL,
+    name VARCHAR2 (100) NOT NULL,
+    CONSTRAINT link_object_name UNIQUE (name)
+);
+ALTER TABLE link_object ADD CONSTRAINT PK_link_object PRIMARY KEY (id);
+DROP SEQUENCE SE_link_object;
+CREATE SEQUENCE SE_link_object;
+CREATE OR REPLACE TRIGGER SE_link_object_t
+before insert on link_object
+for each row
+begin
+    select SE_link_object.nextval
+    into :new.id
+    from dual;
+end;
+/
+--;
+-- ----------------------------------------------------------
+--  create table link_relation
+-- ----------------------------------------------------------
+CREATE TABLE link_relation (
     source_object_id NUMBER (5, 0) NOT NULL,
     source_key VARCHAR2 (50) NOT NULL,
     target_object_id NUMBER (5, 0) NOT NULL,
@@ -765,13 +765,13 @@ CREATE TABLE link_object (
     state_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT link_object_relation UNIQUE (source_object_id, source_key, target_object_id, target_key, type_id)
+    CONSTRAINT link_relation_view UNIQUE (source_object_id, source_key, target_object_id, target_key, type_id)
 );
-CREATE INDEX FK_link_object_create_by ON link_object (create_by);
-CREATE INDEX FK_link_object_source_object93 ON link_object (source_object_id);
-CREATE INDEX FK_link_object_state_id ON link_object (state_id);
-CREATE INDEX FK_link_object_target_objectff ON link_object (target_object_id);
-CREATE INDEX FK_link_object_type_id ON link_object (type_id);
+CREATE INDEX FK_link_relation_create_by ON link_relation (create_by);
+CREATE INDEX FK_link_relation_source_obje3c ON link_relation (source_object_id);
+CREATE INDEX FK_link_relation_state_id ON link_relation (state_id);
+CREATE INDEX FK_link_relation_target_obje99 ON link_relation (target_object_id);
+CREATE INDEX FK_link_relation_type_id ON link_relation (type_id);
 -- ----------------------------------------------------------
 --  create table ticket_history
 -- ----------------------------------------------------------

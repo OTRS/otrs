@@ -1,5 +1,5 @@
 // ----------------------------------------------------------
-//  driver: maxdb, generated: 2008-05-15 19:31:35
+//  driver: maxdb, generated: 2008-05-15 20:29:11
 // ----------------------------------------------------------
 ALTER TABLE valid ADD FOREIGN KEY (create_by) REFERENCES users(id)
 //
@@ -157,27 +157,27 @@ ALTER TABLE ticket ADD FOREIGN KEY (responsible_user_id) REFERENCES users(id)
 //
 ALTER TABLE ticket ADD FOREIGN KEY (valid_id) REFERENCES valid(id)
 //
-ALTER TABLE link_object_type ADD FOREIGN KEY (create_by) REFERENCES users(id)
+ALTER TABLE link_type ADD FOREIGN KEY (create_by) REFERENCES users(id)
 //
-ALTER TABLE link_object_type ADD FOREIGN KEY (change_by) REFERENCES users(id)
+ALTER TABLE link_type ADD FOREIGN KEY (change_by) REFERENCES users(id)
 //
-ALTER TABLE link_object_type ADD FOREIGN KEY (valid_id) REFERENCES valid(id)
+ALTER TABLE link_type ADD FOREIGN KEY (valid_id) REFERENCES valid(id)
 //
-ALTER TABLE link_object_state ADD FOREIGN KEY (create_by) REFERENCES users(id)
+ALTER TABLE link_state ADD FOREIGN KEY (create_by) REFERENCES users(id)
 //
-ALTER TABLE link_object_state ADD FOREIGN KEY (change_by) REFERENCES users(id)
+ALTER TABLE link_state ADD FOREIGN KEY (change_by) REFERENCES users(id)
 //
-ALTER TABLE link_object_state ADD FOREIGN KEY (valid_id) REFERENCES valid(id)
+ALTER TABLE link_state ADD FOREIGN KEY (valid_id) REFERENCES valid(id)
 //
-ALTER TABLE link_object ADD FOREIGN KEY (source_object_id) REFERENCES link_object_object(id)
+ALTER TABLE link_relation ADD FOREIGN KEY (source_object_id) REFERENCES link_object(id)
 //
-ALTER TABLE link_object ADD FOREIGN KEY (target_object_id) REFERENCES link_object_object(id)
+ALTER TABLE link_relation ADD FOREIGN KEY (target_object_id) REFERENCES link_object(id)
 //
-ALTER TABLE link_object ADD FOREIGN KEY (state_id) REFERENCES link_object_state(id)
+ALTER TABLE link_relation ADD FOREIGN KEY (state_id) REFERENCES link_state(id)
 //
-ALTER TABLE link_object ADD FOREIGN KEY (type_id) REFERENCES link_object_type(id)
+ALTER TABLE link_relation ADD FOREIGN KEY (type_id) REFERENCES link_type(id)
 //
-ALTER TABLE link_object ADD FOREIGN KEY (create_by) REFERENCES users(id)
+ALTER TABLE link_relation ADD FOREIGN KEY (create_by) REFERENCES users(id)
 //
 ALTER TABLE ticket_history ADD FOREIGN KEY (article_id) REFERENCES article(id)
 //
