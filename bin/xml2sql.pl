@@ -3,7 +3,7 @@
 # bin/xml2sql.pl - a xml 2 sql processor
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: xml2sql.pl,v 1.16 2008-05-08 09:36:57 mh Exp $
+# $Id: xml2sql.pl,v 1.17 2008-05-15 18:39:31 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -39,26 +39,29 @@ use Kernel::System::Main;
 use Kernel::System::XML;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 my %Opts = ();
-getopt( 'htosi', \%Opts );
+getopt( 'htons', \%Opts );
 if ( $Opts{'h'} ) {
     print "xml2sql.pl <Revision $VERSION> - xml2sql\n";
     print "Copyright (c) 2001-2008 OTRS AG, http://otrs.org/\n";
-    print
-        "usage: xml2sql.pl -t <DATABASE_TYPE> (or 'all') [-o <OUTPUTDIR> -s <SCHEMA> -i <INITIAL_INSERT>]\n";
+    print "usage: xml2sql.pl -t <DATABASE_TYPE> (or 'all') ";
+    print "[-o <OUTPUTDIR> -n <NAME> -s <SPLIT_FILES>]\n";
     exit 1;
 }
 
 # name
-if ( ( !$Opts{s} && !$Opts{i} ) && $Opts{o} ) {
-    die "ERROR: Need -s <SCHEMA> or -i <INITIAL_INSERT>";
+if ( !$Opts{n} && $Opts{o} ) {
+    die "ERROR: Need -n <NAME>";
 }
 
 # output dir
 if ( $Opts{o} && !-e $Opts{o} ) {
     die "ERROR: <OUTPUTDIR> $Opts{o} doesn' exist!";
+}
+if ( !$Opts{o} ) {
+    $Opts{o} = '';
 }
 
 # database type
@@ -68,14 +71,14 @@ if ( !$Opts{t} ) {
 my @DatabaseType = ();
 if ( $Opts{t} eq 'all' ) {
     my $ConfigObject = Kernel::Config->new();
-    my @List         = glob( $ConfigObject->Get('Home') . "/Kernel/System/DB/*.pm" );
+    my @List         = glob( $ConfigObject->Get('Home') . '/Kernel/System/DB/*.pm' );
     for my $File (@List) {
         $File =~ s/^.*\/(.+?).pm$/$1/;
-        push( @DatabaseType, $File );
+        push @DatabaseType, $File;
     }
 }
 else {
-    push( @DatabaseType, $Opts{t} );
+    push @DatabaseType, $Opts{t};
 }
 
 # read xml file
@@ -105,90 +108,83 @@ for my $DatabaseType (@DatabaseType) {
     my @XMLARRAY = $CommonObject{XMLObject}->XMLParse( String => $FileString );
 
     # remember header
-    my ( $Sec, $Min, $Hour, $Day, $Month, $Year )
-        = $CommonObject{TimeObject}->SystemTime2Date(
+    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $CommonObject{TimeObject}->SystemTime2Date(
         SystemTime => $CommonObject{TimeObject}->SystemTime(),
-        );
-    my $Head = $CommonObject{DBObject}->{Backend}->{"DB::Comment"}
+    );
+
+    my $Head = $CommonObject{DBObject}->{Backend}->{'DB::Comment'}
         . "----------------------------------------------------------\n";
-    $Head .= $CommonObject{DBObject}->{Backend}->{"DB::Comment"}
+    $Head .= $CommonObject{DBObject}->{Backend}->{'DB::Comment'}
         . " driver: $DatabaseType, generated: $Year-$Month-$Day $Hour:$Min:$Sec\n";
-    $Head .= $CommonObject{DBObject}->{Backend}->{"DB::Comment"}
+    $Head .= $CommonObject{DBObject}->{Backend}->{'DB::Comment'}
         . "----------------------------------------------------------\n";
 
-    if ( $Opts{i} ) {
-
-        # get database sql from parsed xml
-        my @SQL = ();
-        if ( $CommonObject{DBObject}->{Backend}->{"DB::ShellConnect"} ) {
-            push( @SQL, $CommonObject{DBObject}->{Backend}->{"DB::ShellConnect"} );
-        }
-        push( @SQL, $CommonObject{DBObject}->SQLProcessor( Database => \@XMLARRAY ) );
-
-        # write create script
-        if ( $Opts{o} ) {
-            open( OUT, "> $Opts{o}/$Opts{i}-initial_insert.$DatabaseType.sql" )
-                || die "Can't write: $!";
-            print "writing: $Opts{o}/$Opts{i}-initial_insert.$DatabaseType.sql\n";
-        }
-        else {
-            *OUT = *STDOUT;
-        }
-        print OUT $Head;
-        for (@SQL) {
-            print OUT "$_" . $CommonObject{DBObject}->{Backend}->{"DB::ShellCommit"} . "\n";
-        }
-        if ( $Opts{o} ) {
-            close(OUT);
-        }
+    # get sql from parsed xml
+    my @SQL;
+    if ( $CommonObject{DBObject}->{Backend}->{'DB::ShellConnect'} ) {
+        push @SQL, $CommonObject{DBObject}->{Backend}->{'DB::ShellConnect'};
     }
-    else {
+    push @SQL, $CommonObject{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 
-        # get database sql from parsed xml
-        my @SQL = ();
-        if ( $CommonObject{DBObject}->{Backend}->{"DB::ShellConnect"} ) {
-            push( @SQL, $CommonObject{DBObject}->{Backend}->{"DB::ShellConnect"} );
-        }
-        push( @SQL, $CommonObject{DBObject}->SQLProcessor( Database => \@XMLARRAY ) );
+    # get port sql from parsed xml
+    my @SQLPost;
+    if ( $CommonObject{DBObject}->{Backend}->{'DB::ShellConnect'} ) {
+        push @SQLPost, $CommonObject{DBObject}->{Backend}->{'DB::ShellConnect'};
+    }
+    push @SQLPost, $CommonObject{DBObject}->SQLProcessorPost();
+
+    if ( $Opts{s} ) {
 
         # write create script
-        if ( $Opts{o} ) {
-            open( OUT, "> $Opts{o}/$Opts{s}-schema.$DatabaseType.sql" ) || die "Can't write: $!";
-            print "writing: $Opts{o}/$Opts{s}-schema.$DatabaseType.sql\n";
-        }
-        else {
-            *OUT = *STDOUT;
-        }
-        print OUT $Head;
-        for (@SQL) {
-            print OUT "$_" . $CommonObject{DBObject}->{Backend}->{"DB::ShellCommit"} . "\n";
-        }
-        if ( $Opts{o} ) {
-            close(OUT);
-        }
-
-        # get database sql from parsed xml
-        my @SQLPost = ();
-        if ( $CommonObject{DBObject}->{Backend}->{"DB::ShellConnect"} ) {
-            push( @SQLPost, $CommonObject{DBObject}->{Backend}->{"DB::ShellConnect"} );
-        }
-        push( @SQLPost, $CommonObject{DBObject}->SQLProcessorPost() );
+        Dump(
+            $Opts{o} . '/' . $Opts{n} . '.' . $DatabaseType . '.sql',
+            \@SQL,
+            $Head,
+            $CommonObject{DBObject}->{Backend}->{'DB::ShellCommit'},
+            $Opts{o},
+        );
 
         # write post script
-        if ( $Opts{o} ) {
-            open( OUT, "> $Opts{o}/$Opts{s}-schema-post.$DatabaseType.sql" )
-                || die "Can't write: $!";
-            print "writing: $Opts{o}/$Opts{s}-schema-post.$DatabaseType.sql\n";
-        }
-        else {
-            *OUT = *STDOUT;
-        }
+        Dump(
+            $Opts{o} . '/' . $Opts{n} . '-post.' . $DatabaseType . '.sql',
+            \@SQLPost,
+            $Head,
+            $CommonObject{DBObject}->{Backend}->{'DB::ShellCommit'},
+            $Opts{o},
+        );
+    }
+    else {
+        Dump(
+            $Opts{o} . '/' . $Opts{n} . '.' . $DatabaseType . '.sql',
+            [ @SQL, @SQLPost ],
+            $Head,
+            $CommonObject{DBObject}->{Backend}->{'DB::ShellCommit'},
+            $Opts{o},
+        );
+    }
+}
+
+sub Dump {
+    my $Filename = shift;
+    my $SQL      = shift;
+    my $Head     = shift;
+    my $Commit   = shift;
+    my $StdOut   = shift;
+
+    if ( $StdOut ) {
+        open( OUT, '>', $Filename ) || die "Can't write: $!";
+        print "writing: $Filename\n";
         print OUT $Head;
-        for (@SQLPost) {
-            print OUT "$_" . $CommonObject{DBObject}->{Backend}->{"DB::ShellCommit"} . "\n";
+        for my $Item ( @{$SQL} ) {
+            print OUT $Item . $Commit . "\n";
         }
-        if ( $Opts{o} ) {
-            close(OUT);
+        close(OUT);
+    }
+    else {
+        print $Head;
+        for my $Item ( @{$SQL} ) {
+            print $Item . $Commit . "\n";
         }
     }
+    return 1;
 }
