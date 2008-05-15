@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2008-05-15 19:28:07
+--  driver: postgresql, generated: 2008-05-15 20:42:04
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table queue_preferences
@@ -19,9 +19,9 @@ CREATE TABLE service_sla (
     CONSTRAINT service_sla_service_sla UNIQUE (service_id, sla_id)
 );
 -- ----------------------------------------------------------
---  create table link_object_type
+--  create table link_type
 -- ----------------------------------------------------------
-CREATE TABLE link_object_type (
+CREATE TABLE link_type (
     id serial,
     name VARCHAR (50) NOT NULL,
     valid_id INTEGER NOT NULL,
@@ -30,12 +30,12 @@ CREATE TABLE link_object_type (
     change_time timestamp(0) NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    CONSTRAINT link_object_type_name UNIQUE (name)
+    CONSTRAINT link_type_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
---  create table link_object_state
+--  create table link_state
 -- ----------------------------------------------------------
-CREATE TABLE link_object_state (
+CREATE TABLE link_state (
     id serial,
     name VARCHAR (50) NOT NULL,
     valid_id INTEGER NOT NULL,
@@ -44,21 +44,21 @@ CREATE TABLE link_object_state (
     change_time timestamp(0) NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    CONSTRAINT link_object_state_name UNIQUE (name)
-);
--- ----------------------------------------------------------
---  create table link_object_object
--- ----------------------------------------------------------
-CREATE TABLE link_object_object (
-    id serial,
-    name VARCHAR (100) NOT NULL,
-    PRIMARY KEY(id),
-    CONSTRAINT link_object_object_name UNIQUE (name)
+    CONSTRAINT link_state_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
 --  create table link_object
 -- ----------------------------------------------------------
 CREATE TABLE link_object (
+    id serial,
+    name VARCHAR (100) NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT link_object_name UNIQUE (name)
+);
+-- ----------------------------------------------------------
+--  create table link_relation
+-- ----------------------------------------------------------
+CREATE TABLE link_relation (
     source_object_id INTEGER NOT NULL,
     source_key VARCHAR (50) NOT NULL,
     target_object_id INTEGER NOT NULL,
@@ -67,7 +67,7 @@ CREATE TABLE link_object (
     state_id INTEGER NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by INTEGER NOT NULL,
-    CONSTRAINT link_object_relation UNIQUE (source_object_id, source_key, target_object_id, target_key, type_id)
+    CONSTRAINT link_relation_view UNIQUE (source_object_id, source_key, target_object_id, target_key, type_id)
 );
 CREATE INDEX user_preferences_user_id ON user_preferences (user_id);
 CREATE INDEX group_user_user_id ON group_user (user_id);
@@ -163,10 +163,6 @@ ALTER TABLE xml_storage ALTER xml_content_value TYPE VARCHAR;
 -- ----------------------------------------------------------
 ALTER TABLE xml_storage ALTER xml_content_value DROP NOT NULL;
 -- ----------------------------------------------------------
---  alter table users
--- ----------------------------------------------------------
-ALTER TABLE system_user RENAME TO users;
--- ----------------------------------------------------------
 --  insert into table notifications
 -- ----------------------------------------------------------
 INSERT INTO notifications (notification_type, notification_charset, notification_language, subject, text, create_by, create_time, change_by, change_time)
@@ -179,40 +175,40 @@ INSERT INTO notifications (notification_type, notification_charset, notification
     VALUES
     ('Agent::EscalationNotifyBefore', 'iso-8859-1', 'de', 'Ticket Eskalations-Warnung! (<OTRS_CUSTOMER_SUBJECT[24]>)', 'Hallo <OTRS_UserFirstname> <OTRS_UserLastname>,das Ticket "<OTRS_TICKET_TicketNumber>" wird bald eskalieren!Eskalation um: <OTRS_TICKET_EscalationDestinationDate>Eskalation in: <OTRS_TICKET_EscalationDestinationIn><OTRS_CUSTOMER_FROM>schrieb:<snip><OTRS_CUSTOMER_EMAIL[30]><snip>Bitte um Bearbeitung:<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_TicketID>Ihr OTRS Benachrichtigungs-Master', 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
---  insert into table link_object_type
+--  insert into table link_type
 -- ----------------------------------------------------------
-INSERT INTO link_object_type (name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO link_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('Normal', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
---  insert into table link_object_type
+--  insert into table link_type
 -- ----------------------------------------------------------
-INSERT INTO link_object_type (name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO link_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('ParentChild', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
---  insert into table link_object_state
+--  insert into table link_state
 -- ----------------------------------------------------------
-INSERT INTO link_object_state (name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO link_state (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('Valid', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
---  insert into table link_object_state
+--  insert into table link_state
 -- ----------------------------------------------------------
-INSERT INTO link_object_state (name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO link_state (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('Temporary', 1, 1, current_timestamp, 1, current_timestamp);
 ALTER TABLE queue_preferences ADD FOREIGN KEY (queue_id) REFERENCES queue(id);
 ALTER TABLE service_sla ADD FOREIGN KEY (service_id) REFERENCES service(id);
 ALTER TABLE service_sla ADD FOREIGN KEY (sla_id) REFERENCES sla(id);
-ALTER TABLE link_object_type ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
-ALTER TABLE link_object_type ADD FOREIGN KEY (change_by) REFERENCES system_user(id);
-ALTER TABLE link_object_type ADD FOREIGN KEY (valid_id) REFERENCES valid(id);
-ALTER TABLE link_object_state ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
-ALTER TABLE link_object_state ADD FOREIGN KEY (change_by) REFERENCES system_user(id);
-ALTER TABLE link_object_state ADD FOREIGN KEY (valid_id) REFERENCES valid(id);
-ALTER TABLE link_object ADD FOREIGN KEY (source_object_id) REFERENCES link_object_object(id);
-ALTER TABLE link_object ADD FOREIGN KEY (target_object_id) REFERENCES link_object_object(id);
-ALTER TABLE link_object ADD FOREIGN KEY (state_id) REFERENCES link_object_state(id);
-ALTER TABLE link_object ADD FOREIGN KEY (type_id) REFERENCES link_object_type(id);
-ALTER TABLE link_object ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
+ALTER TABLE link_type ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
+ALTER TABLE link_type ADD FOREIGN KEY (change_by) REFERENCES system_user(id);
+ALTER TABLE link_type ADD FOREIGN KEY (valid_id) REFERENCES valid(id);
+ALTER TABLE link_state ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
+ALTER TABLE link_state ADD FOREIGN KEY (change_by) REFERENCES system_user(id);
+ALTER TABLE link_state ADD FOREIGN KEY (valid_id) REFERENCES valid(id);
+ALTER TABLE link_relation ADD FOREIGN KEY (source_object_id) REFERENCES link_object(id);
+ALTER TABLE link_relation ADD FOREIGN KEY (target_object_id) REFERENCES link_object(id);
+ALTER TABLE link_relation ADD FOREIGN KEY (state_id) REFERENCES link_state(id);
+ALTER TABLE link_relation ADD FOREIGN KEY (type_id) REFERENCES link_type(id);
+ALTER TABLE link_relation ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
