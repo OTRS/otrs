@@ -2,7 +2,7 @@
 # AgentTicketEmail.dtl - provides HTML form for agent email
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.dtl,v 1.34 2008-05-08 22:52:35 martin Exp $
+# $Id: AgentTicketEmail.dtl,v 1.35 2008-05-15 09:41:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -281,7 +281,7 @@ function clear_field() {
             <tr>
               <td class="contentkey">$Text{"Signature"}:</td>
               <td class="contentvalue">
-                <textarea name="Signature" rows="4" cols="72" wrap="$Env{"BrowserWrap"}" readonly>$Data{"Signature"}</textarea>
+                <textarea name="Signature" rows="5" cols="82" wrap="$Env{"BrowserWrap"}" readonly>$Data{"Signature"}</textarea>
               </td>
             </tr>
             <tr>
