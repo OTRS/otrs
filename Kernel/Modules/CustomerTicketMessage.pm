@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.32 2008-05-08 09:36:37 mh Exp $
+# $Id: CustomerTicketMessage.pm,v 1.33 2008-05-15 09:43:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -203,8 +203,7 @@ sub Run {
         }
 
         # free time
-        my %FreeTime
-            = $Self->{LayoutObject}->CustomerFreeDate( %Param, Ticket => \%TicketFreeTime, );
+        my %FreeTime = $Self->{LayoutObject}->CustomerFreeDate( %Param, Ticket => \%TicketFreeTime, );
 
         # rewrap body if exists
         if ( $GetParam{Body} ) {
@@ -227,7 +226,7 @@ sub Run {
         if ( $GetParam{AttachmentUpload} ) {
             $Error{AttachmentUpload} = 1;
             my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-                Param  => "file_upload",
+                Param  => 'file_upload',
                 Source => 'string',
             );
             $Self->{UploadCachObject}->FormIDAddFile(
@@ -237,26 +236,27 @@ sub Run {
         }
 
         # get all attachments meta data
-        my @Attachments
-            = $Self->{UploadCachObject}->FormIDGetAllFilesMeta( FormID => $Self->{FormID}, );
+        my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
+            FormID => $Self->{FormID},
+        );
 
         # check queue
         if ( !$NewQueueID ) {
-            $Error{"Queue invalid"} = '* invalid';
+            $Error{'Queue invalid'} = '* invalid';
         }
 
         # check subject
         if ( !$GetParam{Subject} ) {
-            $Error{"Subject invalid"} = '* invalid';
+            $Error{'Subject invalid'} = '* invalid';
         }
 
         # check body
         if ( !$GetParam{Body} ) {
-            $Error{"Body invalid"} = '* invalid';
+            $Error{'Body invalid'} = '* invalid';
         }
         if ( $GetParam{Expand} ) {
             %Error = ();
-            $Error{"Expand"} = 1;
+            $Error{'Expand'} = 1;
         }
         if (%Error) {
 
@@ -285,12 +285,12 @@ sub Run {
         # create new ticket, do db insert
         my $TicketID = $Self->{TicketObject}->TicketCreate(
             QueueID      => $NewQueueID,
-            TypeID       => $GetParam{TypeID} || '',
-            ServiceID    => $GetParam{ServiceID} || '',
-            SLAID        => $GetParam{SLAID} || '',
+            TypeID       => $GetParam{TypeID},
+            ServiceID    => $GetParam{ServiceID},
+            SLAID        => $GetParam{SLAID},
             Title        => $GetParam{Subject},
-            PriorityID   => $GetParam{PriorityID} || '',
-            Priority     => $GetParam{Priority} || '',
+            PriorityID   => $GetParam{PriorityID},
+            Priority     => $GetParam{Priority},
             Lock         => 'unlock',
             State        => $Self->{Config}->{StateDefault},
             CustomerID   => $Self->{UserCustomerID},
