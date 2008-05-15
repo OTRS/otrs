@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.26 2008-05-15 11:47:58 mh Exp $
+# $Id: LinkObject.pm,v 1.27 2008-05-15 14:29:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 =head1 NAME
 
@@ -154,6 +154,7 @@ sub LinkObjects {
             }
         }
     }
+
     return %ObjectList;
 }
 
@@ -193,15 +194,8 @@ sub LinkObject {
     my $TargetKey    = $Param{LinkID2};
     my $Type         = 'Normal';
 
-    if ( $Param{LinkType} eq 'Parent' ) {
+    if ( $Param{LinkType} eq 'Parent' || $Param{LinkType} eq 'Child' ) {
         $Type = 'ParentChild';
-    }
-    elsif ( $Param{LinkType} eq 'Child' ) {
-        $SourceObject = $Param{LinkObject2};
-        $SourceKey    = $Param{LinkID2};
-        $TargetObject = $Param{LinkObject1};
-        $TargetKey    = $Param{LinkID1};
-        $Type         = 'ParentChild';
     }
 
     # lookup the object type id
@@ -690,48 +684,9 @@ sub LinkAdd {
     OBJECT:
     for my $Object (qw(SourceObject TargetObject)) {
 
-        # check if object is already cached
-        if ( $Self->{Cache}->{LinkAdd}->{ObjectLookup}->{$Object} ) {
-            $Param{$Object . 'ID'} = $Self->{Cache}->{LinkAdd}->{ObjectLookup}->{$Object};
-            next OBJECT;
-        }
-
-        $Self->{DBObject}->Prepare(
-            SQL => 'SELECT id FROM link_object_object WHERE name = ?',
-            Bind => [ \$Param{$Object} ],
-            Limit => 1,
+        $Param{$Object . 'ID'} = $Self->LinkObjectLookup(
+            Name => $Param{$Object},
         );
-
-        # fetch the result
-        my $ObjectID;
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-            $ObjectID = $Row[0];
-        }
-
-        if ( !$ObjectID ) {
-
-            # insert the new object
-            $Self->{DBObject}->Do(
-                SQL => 'INSERT INTO link_object_object (name) VALUES (?)',
-                Bind => [ \$Param{$Object} ],
-            );
-
-            $Self->{DBObject}->Prepare(
-                SQL => 'SELECT id FROM link_object_object WHERE name = ?',
-                Bind => [ \$Param{$Object} ],
-                Limit => 1,
-            );
-
-            # fetch the result
-            while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-                $ObjectID = $Row[0];
-            }
-        }
-
-        # cache the result
-        $Self->{Cache}->{LinkAdd}->{ObjectLookup}->{$Object} = $ObjectID;
-
-        $Param{$Object . 'ID'} = $ObjectID;
     }
 
     return if !$Self->{DBObject}->Do(
@@ -872,6 +827,10 @@ sub LinkObjectLookup {
 
     if ( $Param{ObjectID} ) {
 
+        # check cache
+        return $Self->{Cache}->{LinkObjectLookup}->{ObjectID}->{ $Param{ObjectID} }
+            if $Self->{Cache}->{LinkObjectLookup}->{ObjectID}->{ $Param{ObjectID} };
+
         # ask the database
         $Self->{DBObject}->Prepare(
             SQL   => 'SELECT name FROM link_object_object WHERE id = ?',
@@ -894,9 +853,16 @@ sub LinkObjectLookup {
             return;
         }
 
+        # cache result
+        $Self->{Cache}->{LinkObjectLookup}->{ObjectID}->{ $Param{ObjectID} } = $Name;
+
         return $Name;
     }
     else {
+
+        # check cache
+        return $Self->{Cache}->{LinkObjectLookup}->{Name}->{ $Param{Name} }
+            if $Self->{Cache}->{LinkObjectLookup}->{Name}->{ $Param{Name} };
 
         # ask the database
         $Self->{DBObject}->Prepare(
@@ -911,14 +877,28 @@ sub LinkObjectLookup {
             $ObjectID = $Row[0];
         }
 
-        # check the object id
         if ( !$ObjectID ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Link object '$Param{Name}' not found in the database!",
+
+            # insert the new object
+            $Self->{DBObject}->Do(
+                SQL  => 'INSERT INTO link_object_object (name) VALUES (?)',
+                Bind => [ \$Param{Name} ],
             );
-            return;
+
+            $Self->{DBObject}->Prepare(
+                SQL   => 'SELECT id FROM link_object_object WHERE name = ?',
+                Bind  => [ \$Param{Name} ],
+                Limit => 1,
+            );
+
+            # fetch the result
+            while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+                $ObjectID = $Row[0];
+            }
         }
+
+        # cache result
+        $Self->{Cache}->{LinkObjectLookup}->{Name}->{ $Param{Name} } = $ObjectID;
 
         return $ObjectID;
     }
@@ -940,6 +920,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.26 $ $Date: 2008-05-15 11:47:58 $
+$Revision: 1.27 $ $Date: 2008-05-15 14:29:14 $
 
 =cut
