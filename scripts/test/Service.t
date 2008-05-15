@@ -2,7 +2,7 @@
 # Service.t - Service tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Service.t,v 1.7 2008-05-11 11:45:22 martin Exp $
+# $Id: Service.t,v 1.8 2008-05-15 07:29:42 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -60,9 +60,8 @@ my @UserIDs;
 
 # create needed random service names
 my @ServiceName;
-
 for my $Counter ( 1 .. 11 ) {
-    push @ServiceName, 'UnitTest*' . int rand 1_000_000;
+    push @ServiceName, 'UnitTest' . int rand 1_000_000;
 }
 
 # get original service list for later checks
@@ -263,7 +262,25 @@ my $ItemData = [
     # this service has an invalid name and must be NOT inserted
     {
         Add => {
+            Name    => '::Test' . $ServiceName[2],
+            ValidID => 1,
+            UserID  => 1,
+        },
+    },
+
+    # this service has an invalid name and must be NOT inserted
+    {
+        Add => {
             Name    => $ServiceName[2] . '::Test::Test',
+            ValidID => 1,
+            UserID  => 1,
+        },
+    },
+
+    # this service has an invalid name and must be NOT inserted
+    {
+        Add => {
+            Name    => $ServiceName[2] . 'Test::',
             ValidID => 1,
             UserID  => 1,
         },
