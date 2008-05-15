@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutAJAX.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutAJAX.pm,v 1.6 2008-05-08 09:36:57 mh Exp $
+# $Id: LayoutAJAX.pm,v 1.7 2008-05-15 10:45:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =item BuildJSON()
 
@@ -56,7 +56,19 @@ sub BuildJSON {
             }
         }
         if ( ref( $Param{Data} ) eq '' ) {
-            $JSON .= "'$Param{Name}':[";
+            # quote
+            my %Quote = (
+                "\n" => '\n',
+                "\r" => '\r',
+                "\t" => '\t',
+                "\f" => '\f',
+                "\b" => '\b',
+                "\"" => '\"',
+                "\\" => '\\\\',
+                "\'" => '\\\'',
+            );
+            $Param{Data}=~ s/([\\"\n\r\t\f\b])/$Quote{$1}/eg;
+            $JSON .= "'$Param{Name}': [";
             $JSON .= "'$Param{Data}'";
             $JSON .= "]";
         }
@@ -160,6 +172,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2008-05-08 09:36:57 $
+$Revision: 1.7 $ $Date: 2008-05-15 10:45:47 $
 
 =cut
