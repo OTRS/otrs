@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2008-05-15 10:57:16
+--  driver: postgresql, generated: 2008-05-15 19:31:36
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -57,9 +57,9 @@ CREATE TABLE ticket_lock_type (
     CONSTRAINT ticket_lock_type_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
---  create table system_user
+--  create table users
 -- ----------------------------------------------------------
-CREATE TABLE system_user (
+CREATE TABLE users (
     id serial,
     login VARCHAR (100) NOT NULL,
     pw VARCHAR (50) NOT NULL,
@@ -72,7 +72,7 @@ CREATE TABLE system_user (
     change_time timestamp(0) NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    CONSTRAINT system_user_login UNIQUE (login)
+    CONSTRAINT users_login UNIQUE (login)
 );
 -- ----------------------------------------------------------
 --  create table user_preferences

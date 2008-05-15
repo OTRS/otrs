@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2008-05-15 10:57:16
+--  driver: oracle, generated: 2008-05-15 19:31:35
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -116,9 +116,9 @@ CREATE INDEX FK_ticket_lock_type_change_by ON ticket_lock_type (change_by);
 CREATE INDEX FK_ticket_lock_type_create_by ON ticket_lock_type (create_by);
 CREATE INDEX FK_ticket_lock_type_valid_id ON ticket_lock_type (valid_id);
 -- ----------------------------------------------------------
---  create table system_user
+--  create table users
 -- ----------------------------------------------------------
-CREATE TABLE system_user (
+CREATE TABLE users (
     id NUMBER (12, 0) NOT NULL,
     login VARCHAR2 (100) NOT NULL,
     pw VARCHAR2 (50) NOT NULL,
@@ -130,24 +130,24 @@ CREATE TABLE system_user (
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,
     change_by NUMBER (12, 0) NOT NULL,
-    CONSTRAINT system_user_login UNIQUE (login)
+    CONSTRAINT users_login UNIQUE (login)
 );
-ALTER TABLE system_user ADD CONSTRAINT PK_system_user PRIMARY KEY (id);
-DROP SEQUENCE SE_system_user;
-CREATE SEQUENCE SE_system_user;
-CREATE OR REPLACE TRIGGER SE_system_user_t
-before insert on system_user
+ALTER TABLE users ADD CONSTRAINT PK_users PRIMARY KEY (id);
+DROP SEQUENCE SE_users;
+CREATE SEQUENCE SE_users;
+CREATE OR REPLACE TRIGGER SE_users_t
+before insert on users
 for each row
 begin
-    select SE_system_user.nextval
+    select SE_users.nextval
     into :new.id
     from dual;
 end;
 /
 --;
-CREATE INDEX FK_system_user_change_by ON system_user (change_by);
-CREATE INDEX FK_system_user_create_by ON system_user (create_by);
-CREATE INDEX FK_system_user_valid_id ON system_user (valid_id);
+CREATE INDEX FK_users_change_by ON users (change_by);
+CREATE INDEX FK_users_create_by ON users (create_by);
+CREATE INDEX FK_users_valid_id ON users (valid_id);
 -- ----------------------------------------------------------
 --  create table user_preferences
 -- ----------------------------------------------------------

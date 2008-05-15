@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2008-05-15 10:59:32
+--  driver: oracle, generated: 2008-05-15 19:38:33
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -21,9 +21,9 @@ INSERT INTO valid (name, create_by, create_time, change_by, change_time)
     VALUES
     ('invalid-temporarily', 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
---  insert into table system_user
+--  insert into table users
 -- ----------------------------------------------------------
-INSERT INTO system_user (first_name, last_name, login, pw, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO users (first_name, last_name, login, pw, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('Admin', 'OTRS', 'root@localhost', 'roK20XGbWEsSM', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
@@ -199,7 +199,7 @@ INSERT INTO ticket_state (name, comments, type_id, valid_id, create_by, create_t
 -- ----------------------------------------------------------
 INSERT INTO salutation (name, text, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('system standard salutation (en)', 'Dear <OTRS_CUSTOMER_REALNAME>,Thank you for your request.', 'Standard Salutation.', 1, 1, current_timestamp, 1, current_timestamp);
+    ('system standard salutation (en)', 'Dear <OTRS_CUSTOMER_REALNAME>,Thank you for your request.', 'Standard Salutation.', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table signature
 -- ----------------------------------------------------------
@@ -890,3 +890,4 @@ INSERT INTO notifications (notification_type, notification_charset, notification
 INSERT INTO notifications (notification_type, notification_charset, notification_language, subject, text, create_by, create_time, change_by, change_time)
     VALUES
     ('Customer::StateUpdate', 'iso-8859-1', 'de', 'Neuer Status "<OTRS_TICKET_State>"!', '*** NUR EINE INFO ***Der Status des Tickets "<OTRS_TICKET_TicketNumber>" hat sich durch"<OTRS_CURRENT_UserFirstname> <OTRS_CURRENT_UserLastname>" auf "<OTRS_TICKET_State>" geaendert.<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>customer.pl?Action=CustomerZoom&TicketID=<OTRS_TICKET_TicketID>Ihr OTRS Benachrichtigungs-Master*** NUR EINE INFO ***', 1, current_timestamp, 1, current_timestamp);
+SET DEFINE OFF;

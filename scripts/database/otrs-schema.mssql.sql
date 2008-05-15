@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2008-05-15 10:57:15
+--  driver: mssql, generated: 2008-05-15 19:31:35
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -57,9 +57,9 @@ CREATE TABLE ticket_lock_type (
     UNIQUE ticket_lock_type_name (name)
 );
 -- ----------------------------------------------------------
---  create table system_user
+--  create table users
 -- ----------------------------------------------------------
-CREATE TABLE system_user (
+CREATE TABLE users (
     id INTEGER NOT NULL IDENTITY(1,1) ,
     login VARCHAR (100) NOT NULL,
     pw VARCHAR (50) NOT NULL,
@@ -72,7 +72,7 @@ CREATE TABLE system_user (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE system_user_login (login)
+    UNIQUE users_login (login)
 );
 -- ----------------------------------------------------------
 --  create table user_preferences

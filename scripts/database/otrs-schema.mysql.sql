@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2008-05-15 10:57:15
+#  driver: mysql, generated: 2008-05-15 19:31:35
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -57,9 +57,9 @@ CREATE TABLE ticket_lock_type (
     UNIQUE INDEX ticket_lock_type_name (name)
 );
 # ----------------------------------------------------------
-#  create table system_user
+#  create table users
 # ----------------------------------------------------------
-CREATE TABLE system_user (
+CREATE TABLE users (
     id INTEGER NOT NULL AUTO_INCREMENT,
     login VARCHAR (100) NOT NULL,
     pw VARCHAR (50) NOT NULL,
@@ -72,7 +72,7 @@ CREATE TABLE system_user (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    UNIQUE INDEX system_user_login (login)
+    UNIQUE INDEX users_login (login)
 );
 # ----------------------------------------------------------
 #  create table user_preferences

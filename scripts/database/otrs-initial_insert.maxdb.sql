@@ -1,5 +1,5 @@
 // ----------------------------------------------------------
-//  driver: maxdb, generated: 2008-05-15 10:59:31
+//  driver: maxdb, generated: 2008-05-15 19:38:32
 // ----------------------------------------------------------
 // ----------------------------------------------------------
 //  insert into table valid
@@ -23,9 +23,9 @@ INSERT INTO valid (name, create_by, create_time, change_by, change_time)
     ('invalid-temporarily', 1, timestamp, 1, timestamp)
 //
 // ----------------------------------------------------------
-//  insert into table system_user
+//  insert into table users
 // ----------------------------------------------------------
-INSERT INTO system_user (first_name, last_name, login, pw, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO users (first_name, last_name, login, pw, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('Admin', 'OTRS', 'root@localhost', 'roK20XGbWEsSM', 1, 1, timestamp, 1, timestamp)
 //
@@ -230,7 +230,7 @@ INSERT INTO ticket_state (name, comments, type_id, valid_id, create_by, create_t
 // ----------------------------------------------------------
 INSERT INTO salutation (name, text, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('system standard salutation (en)', 'Dear <OTRS_CUSTOMER_REALNAME>,Thank you for your request.', 'Standard Salutation.', 1, 1, timestamp, 1, timestamp)
+    ('system standard salutation (en)', 'Dear <OTRS_CUSTOMER_REALNAME>,Thank you for your request.', 'Standard Salutation.', 1, 1, timestamp, 1, timestamp)
 //
 // ----------------------------------------------------------
 //  insert into table signature

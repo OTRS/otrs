@@ -5,7 +5,7 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 
-    $Id: otrs-schema.xml,v 1.88 2008-05-15 08:55:57 mh Exp $
+    $Id: otrs-schema.xml,v 1.89 2008-05-15 17:35:21 martin Exp $
 
 -->
 
@@ -22,7 +22,7 @@
     <Unique Name="valid_name">
         <UniqueColumn Name="name"/>
     </Unique>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -40,7 +40,7 @@
     <Unique Name="ticket_priority_name">
         <UniqueColumn Name="name"/>
     </Unique>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -61,7 +61,7 @@
     <ForeignKey ForeignTable="valid">
         <Reference Local="valid_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -82,14 +82,14 @@
     <ForeignKey ForeignTable="valid">
         <Reference Local="valid_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
 </Table>
 
 <!-- user - all user -->
-<Table Name="system_user">
+<Table Name="users">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
     <Column Name="login" Required="true" Size="100" Type="VARCHAR"/>
     <Column Name="pw" Required="true" Size="50" Type="VARCHAR"/>
@@ -101,13 +101,13 @@
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
     <Column Name="change_by" Required="true" Type="INTEGER"/>
-    <Unique Name="system_user_login">
+    <Unique Name="users_login">
         <UniqueColumn Name="login"/>
     </Unique>
     <ForeignKey ForeignTable="valid">
         <Reference Local="valid_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -121,7 +121,7 @@
     <Index Name="user_preferences_user_id">
         <IndexColumn Name="user_id"/>
     </Index>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="user_id" Foreign="id"/>
     </ForeignKey>
 </Table>
@@ -142,7 +142,7 @@
     <ForeignKey ForeignTable="valid">
         <Reference Local="valid_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -164,7 +164,7 @@
     <Index Name="group_user_group_id">
         <IndexColumn Name="group_id"/>
     </Index>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
         <Reference Local="user_id" Foreign="id"/>
@@ -190,7 +190,7 @@
     <Index Name="group_role_group_id">
         <IndexColumn Name="group_id"/>
     </Index>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -218,7 +218,7 @@
     <Index Name="group_customer_user_group_id">
         <IndexColumn Name="group_id"/>
     </Index>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -243,7 +243,7 @@
     <ForeignKey ForeignTable="valid">
         <Reference Local="valid_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -263,7 +263,7 @@
     <Index Name="role_user_role_id">
         <IndexColumn Name="role_id"/>
     </Index>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
         <Reference Local="user_id" Foreign="id"/>
@@ -280,7 +280,7 @@
     <Index Name="personal_queues_queue_id">
         <IndexColumn Name="queue_id"/>
     </Index>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="user_id" Foreign="id"/>
     </ForeignKey>
     <ForeignKey ForeignTable="queue">
@@ -303,7 +303,7 @@
     <ForeignKey ForeignTable="valid">
         <Reference Local="valid_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -329,7 +329,7 @@
     <ForeignKey ForeignTable="ticket_state_type">
         <Reference Local="type_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -347,7 +347,7 @@
     <Unique Name="ticket_state_type_name">
         <UniqueColumn Name="name"/>
     </Unique>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -370,7 +370,7 @@
     <ForeignKey ForeignTable="valid">
         <Reference Local="valid_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -393,7 +393,7 @@
     <ForeignKey ForeignTable="valid">
         <Reference Local="valid_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -418,7 +418,7 @@
     <ForeignKey ForeignTable="valid">
         <Reference Local="valid_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -440,7 +440,7 @@
     <ForeignKey ForeignTable="valid">
         <Reference Local="valid_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -499,7 +499,7 @@
     <ForeignKey ForeignTable="follow_up_possible">
         <Reference Local="follow_up_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -654,7 +654,7 @@
     <ForeignKey ForeignTable="ticket_lock_type">
         <Reference Local="ticket_lock_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
         <Reference Local="user_id" Foreign="id"/>
@@ -677,7 +677,7 @@
     <ForeignKey ForeignTable="valid">
         <Reference Local="valid_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -698,7 +698,7 @@
     <ForeignKey ForeignTable="valid">
         <Reference Local="valid_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -740,7 +740,7 @@
     <ForeignKey ForeignTable="link_object_state">
         <Reference Local="state_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
     </ForeignKey>
 </Table>
@@ -810,7 +810,7 @@
     <ForeignKey ForeignTable="ticket_history_type">
         <Reference Local="history_type_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="owner_id" Foreign="id"/>
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
@@ -833,7 +833,7 @@
     <ForeignKey ForeignTable="valid">
         <Reference Local="valid_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -855,7 +855,7 @@
     <ForeignKey ForeignTable="valid">
         <Reference Local="valid_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -877,7 +877,7 @@
     <ForeignKey ForeignTable="valid">
         <Reference Local="valid_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -895,7 +895,7 @@
     <Index Name="article_flag_article_id">
         <IndexColumn Name="article_id"/>
     </Index>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
     </ForeignKey>
 </Table>
@@ -951,7 +951,7 @@
     <ForeignKey ForeignTable="article_sender_type">
         <Reference Local="article_sender_type_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -972,7 +972,7 @@
     <ForeignKey ForeignTable="article">
         <Reference Local="article_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -996,7 +996,7 @@
     <ForeignKey ForeignTable="article">
         <Reference Local="article_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -1019,7 +1019,7 @@
     <ForeignKey ForeignTable="valid">
         <Reference Local="valid_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -1039,7 +1039,7 @@
     <ForeignKey ForeignTable="queue">
         <Reference Local="queue_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -1064,7 +1064,7 @@
     <ForeignKey ForeignTable="valid">
         <Reference Local="valid_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -1085,7 +1085,7 @@
     <ForeignKey ForeignTable="standard_attachment">
         <Reference Local="standard_attachment_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -1107,7 +1107,7 @@
     <ForeignKey ForeignTable="valid">
         <Reference Local="valid_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -1141,7 +1141,7 @@
     <ForeignKey ForeignTable="system_address">
         <Reference Local="system_address_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -1162,7 +1162,7 @@
     <ForeignKey ForeignTable="auto_response">
         <Reference Local="auto_response_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -1187,7 +1187,7 @@
     <ForeignKey ForeignTable="article">
         <Reference Local="article_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -1210,7 +1210,7 @@
     <ForeignKey ForeignTable="ticket">
         <Reference Local="ticket_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="user_id" Foreign="id"/>
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
@@ -1230,7 +1230,7 @@
     <Unique Name="service_name">
         <UniqueColumn Name="name"/>
     </Unique>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -1251,7 +1251,7 @@
     <ForeignKey ForeignTable="service">
         <Reference Local="service_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
     </ForeignKey>
 </Table>
@@ -1276,7 +1276,7 @@
     <Unique Name="sla_name">
         <UniqueColumn Name="name"/>
     </Unique>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -1366,7 +1366,7 @@
     <ForeignKey ForeignTable="valid">
         <Reference Local="valid_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -1432,7 +1432,7 @@
     <ForeignKey ForeignTable="valid">
         <Reference Local="valid_id" Foreign="id"/>
     </ForeignKey>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -1504,7 +1504,7 @@
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
     <Column Name="change_by" Required="true" Type="INTEGER"/>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
@@ -1540,7 +1540,7 @@
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>
     <Column Name="change_by" Required="true" Type="INTEGER"/>
-    <ForeignKey ForeignTable="system_user">
+    <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2008-05-15 11:02:25
+--  driver: postgresql, generated: 2008-05-15 19:28:07
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table queue_preferences
@@ -163,6 +163,10 @@ ALTER TABLE xml_storage ALTER xml_content_value TYPE VARCHAR;
 -- ----------------------------------------------------------
 ALTER TABLE xml_storage ALTER xml_content_value DROP NOT NULL;
 -- ----------------------------------------------------------
+--  alter table users
+-- ----------------------------------------------------------
+ALTER TABLE system_user RENAME TO users;
+-- ----------------------------------------------------------
 --  insert into table notifications
 -- ----------------------------------------------------------
 INSERT INTO notifications (notification_type, notification_charset, notification_language, subject, text, create_by, create_time, change_by, change_time)
@@ -198,3 +202,17 @@ INSERT INTO link_object_state (name, valid_id, create_by, create_time, change_by
 INSERT INTO link_object_state (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('Temporary', 1, 1, current_timestamp, 1, current_timestamp);
+ALTER TABLE queue_preferences ADD FOREIGN KEY (queue_id) REFERENCES queue(id);
+ALTER TABLE service_sla ADD FOREIGN KEY (service_id) REFERENCES service(id);
+ALTER TABLE service_sla ADD FOREIGN KEY (sla_id) REFERENCES sla(id);
+ALTER TABLE link_object_type ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
+ALTER TABLE link_object_type ADD FOREIGN KEY (change_by) REFERENCES system_user(id);
+ALTER TABLE link_object_type ADD FOREIGN KEY (valid_id) REFERENCES valid(id);
+ALTER TABLE link_object_state ADD FOREIGN KEY (create_by) REFERENCES system_user(id);
+ALTER TABLE link_object_state ADD FOREIGN KEY (change_by) REFERENCES system_user(id);
+ALTER TABLE link_object_state ADD FOREIGN KEY (valid_id) REFERENCES valid(id);
+ALTER TABLE link_object ADD FOREIGN KEY (source_object_id) REFERENCES link_object_object(id);
+ALTER TABLE link_object ADD FOREIGN KEY (target_object_id) REFERENCES link_object_object(id);
+ALTER TABLE link_object ADD FOREIGN KEY (state_id) REFERENCES link_object_state(id);
+ALTER TABLE link_object ADD FOREIGN KEY (type_id) REFERENCES link_object_type(id);
+ALTER TABLE link_object ADD FOREIGN KEY (create_by) REFERENCES system_user(id);

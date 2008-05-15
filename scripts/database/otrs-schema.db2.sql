@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2008-05-15 10:57:14
+--  driver: db2, generated: 2008-05-15 19:31:34
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -61,9 +61,9 @@ CREATE TABLE ticket_lock_type (
 );
 
 -- ----------------------------------------------------------
---  create table system_user
+--  create table users
 -- ----------------------------------------------------------
-CREATE TABLE system_user (
+CREATE TABLE users (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     login VARCHAR (100) NOT NULL,
     pw VARCHAR (50) NOT NULL,
@@ -76,7 +76,7 @@ CREATE TABLE system_user (
     change_time TIMESTAMP NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
-    CONSTRAINT system_user_login UNIQUE (login)
+    CONSTRAINT users_login UNIQUE (login)
 );
 
 -- ----------------------------------------------------------

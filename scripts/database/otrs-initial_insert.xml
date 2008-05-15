@@ -5,7 +5,7 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 
-    $Id: otrs-initial_insert.xml,v 1.16 2008-05-15 08:55:57 mh Exp $
+    $Id: otrs-initial_insert.xml,v 1.17 2008-05-15 17:39:12 martin Exp $
 
 -->
 
@@ -34,7 +34,7 @@
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
 
-    <Insert Table="system_user">
+    <Insert Table="users">
         <Data Key="first_name" Type="Quote">Admin</Data>
         <Data Key="last_name" Type="Quote">OTRS</Data>
         <Data Key="login" Type="Quote">root@localhost</Data>
@@ -311,6 +311,7 @@
         <Data Key="text" Type="Quote">Dear &lt;OTRS_CUSTOMER_REALNAME&gt;,
 
 Thank you for your request.
+
 </Data>
         <Data Key="comments" Type="Quote">Standard Salutation.</Data>
         <Data Key="valid_id">1</Data>
