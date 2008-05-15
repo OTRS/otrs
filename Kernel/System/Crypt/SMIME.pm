@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.22 2008-05-15 13:49:17 ot Exp $
+# $Id: SMIME.pm,v 1.23 2008-05-15 20:36:59 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 =head1 NAME
 
@@ -49,8 +49,8 @@ sub _Init {
         $Self->{Cmd} = "LC_MESSAGES=POSIX $Self->{Bin}";
     }
 
-    # ensure that there is a random state file that we can write to (otherwise openssl will bail
-    $ENV{RANDFILE} ||= $Self->{ConfigObject}->Get('TempDir') . '/.rnd';
+    # ensure that there is a random state file that we can write to (otherwise openssl will bail)
+    $ENV{RANDFILE} = $Self->{ConfigObject}->Get('TempDir') . '/.rnd';
 
     return $Self;
 }
@@ -911,6 +911,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2008-05-15 13:49:17 $
+$Revision: 1.23 $ $Date: 2008-05-15 20:36:59 $
 
 =cut

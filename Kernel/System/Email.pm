@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.40 2008-05-08 09:36:19 mh Exp $
+# $Id: Email.pm,v 1.41 2008-05-15 20:36:59 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Encode;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 =head1 NAME
 
@@ -371,10 +371,11 @@ sub Send {
         elsif ( $Param{Sign}->{Type} eq 'SMIME' ) {
 
             # make multi part
-            $Entity->make_multipart( "mixed;", Force => 1, );
+            my $EntityCopy = $Entity->dup();
+            $EntityCopy->make_multipart( "mixed;", Force => 1, );
 
             # get header to remember
-            my $head = $Entity->head;
+            my $head = $EntityCopy->head;
             $head->delete('MIME-Version');
             $head->delete('Content-Type');
             $head->delete('Content-Disposition');
@@ -382,7 +383,7 @@ sub Send {
             my $Header = $head->as_string();
 
             # get string to sign
-            my $T = $Entity->parts(0)->as_string();
+            my $T = $EntityCopy->parts(0)->as_string();
 
             # according to RFC3156 all line endings MUST be CR/LF
             $T =~ s/\x0A/\x0D\x0A/g;
@@ -392,12 +393,14 @@ sub Send {
                 Hash    => $Param{Sign}->{Key},
                 Type    => 'Detached',
             );
-            use MIME::Parser;
-            my $Parser = new MIME::Parser;
-            $Parser->output_to_core("ALL");
+            if ( $Sign ) {
+                use MIME::Parser;
+                my $Parser = new MIME::Parser;
+                $Parser->output_to_core("ALL");
 
-            #        $Parser->output_dir($Self->{ConfigObject}->Get('TempDir'));
-            $Entity = $Parser->parse_data( $Header . $Sign );
+                #        $Parser->output_dir($Self->{ConfigObject}->Get('TempDir'));
+                $Entity = $Parser->parse_data( $Header . $Sign );
+            }
         }
     }
 
@@ -653,6 +656,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.40 $ $Date: 2008-05-08 09:36:19 $
+$Revision: 1.41 $ $Date: 2008-05-15 20:36:59 $
 
 =cut

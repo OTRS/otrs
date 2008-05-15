@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.650 2008-05-15 17:49:29 ot Exp $
+# $Id: CHANGES,v 1.651 2008-05-15 20:32:37 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,10 @@
 # --
 
 CVS HEAD (????/??/??)
+ - (2008/05/15) If signing via SMIME fails, we now fall back to the original
+     unsigned mailtext instead of sending an empty mail.
+ - (2008/05/15) Fixed bug#2844 - Improved robustness of RANDFILE setting for
+     openssl (SMIME).
  - (2008/05/15) Refactored SMIME to work on Windows, too.
  - (2008/05/09) Added service <-> sla multi relation support.
  - (2008/05/09) Fixed bug# 2448 - Not necessary unique check of SLA name.
