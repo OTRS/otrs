@@ -2,7 +2,7 @@
 # SMIME.t - SMIME tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.t,v 1.5 2008-05-15 14:11:20 ot Exp $
+# $Id: SMIME.t,v 1.6 2008-05-15 14:11:52 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -137,8 +137,8 @@ nLcdi8Cg4aLtoofolDSgyMbwYPBIuO8W3+WXvEXgZdWGiOlfs/25GVflLPh7haPC
 
 # remove \r that will have been inserted on Windows automatically
 if ( $^O =~ m{Win}i ) {
-    $Check{'cert-1'} =~ tr{\t}{}d;
-    $Check{'cert-2'} =~ tr{\t}{}d;
+    $Check{'cert-1'} =~ tr{\r}{}d;
+    $Check{'cert-2'} =~ tr{\r}{}d;
 }
 
 my $TestText = 'hello1234567890цдья';
