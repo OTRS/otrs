@@ -1,12 +1,12 @@
 # --
 # Kernel/Modules/AdminCustomerUser.pm - to add/update/delete customer user and preferences
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUser.pm,v 1.48 2007-04-16 11:28:50 martin Exp $
+# $Id: AdminCustomerUser.pm,v 1.48.2.1 2008-05-15 09:36:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Modules::AdminCustomerUser;
@@ -17,7 +17,7 @@ use Kernel::System::CustomerCompany;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.48 $ ';
+$VERSION = '$Revision: 1.48.2.1 $ ';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -505,7 +505,7 @@ sub _Edit {
                     SelectedID => defined ($Param{$Entry->[0]}) ? $Param{$Entry->[0]} : 1,
                 );
             }
-            elsif ($Entry->[0] =~ /^UserCustomerID/i &&
+            elsif ($Entry->[0] =~ /^UserCustomerID$/i &&
                 $Self->{ConfigObject}->Get($Param{Source})->{CustomerCompanySupport}) {
                 my %Company = ();
                 my %CompanyList = ($Self->{CustomerCompanyObject}->CustomerCompanyList(), '' => '-');
@@ -519,6 +519,7 @@ sub _Edit {
                 $Param{Option} = $Self->{LayoutObject}->OptionStrgHashRef(
                     Data => \%CompanyList,
                     Name => $Entry->[0],
+                    Max  => 80,
                     SelectedID => $Param{$Entry->[0]},
                 );
             }
