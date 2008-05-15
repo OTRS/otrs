@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.19 2008-05-15 13:21:53 ot Exp $
+# $Id: SMIME.pm,v 1.20 2008-05-15 13:35:21 ot Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 =head1 NAME
 
@@ -204,11 +204,15 @@ sub Decrypt {
     close $FH;
     my ( $FHDecrypted, $PlainFile ) = $Self->{FileTempObject}->TempFile();
     close $FHDecrypted;
+    my ( $FHSecret, $SecretFile ) = $Self->{FileTempObject}->TempFile();
+    print $FHSecret $Secret;
+    close $FHSecret;
 
     my $Options
         = "smime -decrypt -in $CryptedFile -out $PlainFile -recip $CertFile -inkey $PrivateKeyFile"
-            . ' -passin pass:' . quotemeta($Secret);
+            . " -passin file:$SecretFile";
     my $LogMessage = qx{$Self->{Cmd} $Options 2>&1};
+    unlink $SecretFile;
     if ($LogMessage) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Can't decrypt: $LogMessage!" );
         return (
@@ -260,11 +264,15 @@ sub Sign {
     close $FHCertificate;
     my ( $FHSign, $SignFile ) = $Self->{FileTempObject}->TempFile();
     close $FHSign;
+    my ( $FHSecret, $SecretFile ) = $Self->{FileTempObject}->TempFile();
+    print $FHSecret $Secret;
+    close $FHSecret;
 
     my $Options
         = "smime -sign -in $PlainFile -out $SignFile -signer $CertFile -inkey $PrivateKeyFile"
-            . ' -text -binary -passin pass:' . quotemeta($Secret);
+            . " -text -binary -passin file:$SecretFile";
     my $LogMessage = qx{$Self->{Cmd} $Options 2>&1};
+    unlink $SecretFile;
     if ($LogMessage) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "Can't sign: $LogMessage!" );
         return;
@@ -772,8 +780,12 @@ sub PrivateAttributes {
     my ( $FH, $Filename ) = $Self->{FileTempObject}->TempFile();
     print $FH $Param{Private};
     close $FH;
-    my $Options = "rsa -in $Filename -noout -modulus -passin pass:" . quotemeta( $Param{Secret} );
+    my ( $FHSecret, $SecretFile ) = $Self->{FileTempObject}->TempFile();
+    print $FHSecret $Param{Secret};
+    close $FHSecret;
+    my $Options = "rsa -in $Filename -noout -modulus -passin file:$SecretFile";
     my $LogMessage = qx{$Self->{Cmd} $Options 2>&1};
+    unlink $SecretFile;
     $LogMessage =~ tr{\r\n}{}d;
     $LogMessage =~ s/Modulus=//;
     $Attributes{Modulus} = $LogMessage;
@@ -888,6 +900,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2008-05-15 13:21:53 $
+$Revision: 1.20 $ $Date: 2008-05-15 13:35:21 $
 
 =cut
