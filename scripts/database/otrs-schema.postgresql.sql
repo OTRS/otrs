@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2008-05-16 10:03:18
+--  driver: postgresql, generated: 2008-05-16 13:10:21
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -360,7 +360,7 @@ CREATE TABLE ticket (
     timeout INTEGER,
     until_time INTEGER,
     escalation_time INTEGER NOT NULL,
-    escalation_start_time INTEGER NOT NULL,
+    escalation_update_time INTEGER NOT NULL,
     escalation_response_time INTEGER NOT NULL,
     escalation_solution_time INTEGER NOT NULL,
     freekey1 VARCHAR (80),
@@ -415,8 +415,8 @@ CREATE INDEX ticket_customer_id ON ticket (customer_id);
 CREATE INDEX ticket_customer_user_id ON ticket (customer_user_id);
 CREATE INDEX ticket_escalation_response_time ON ticket (escalation_response_time);
 CREATE INDEX ticket_escalation_solution_time ON ticket (escalation_solution_time);
-CREATE INDEX ticket_escalation_start_time ON ticket (escalation_start_time);
 CREATE INDEX ticket_escalation_time ON ticket (escalation_time);
+CREATE INDEX ticket_escalation_update_time ON ticket (escalation_update_time);
 CREATE INDEX ticket_queue_id ON ticket (queue_id);
 CREATE INDEX ticket_queue_view ON ticket (ticket_state_id, ticket_lock_id, group_id);
 CREATE INDEX ticket_responsible_user_id ON ticket (responsible_user_id);
