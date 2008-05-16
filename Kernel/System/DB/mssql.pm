@@ -2,7 +2,7 @@
 # Kernel/System/DB/mssql.pm - mssql database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: mssql.pm,v 1.37 2008-05-15 21:05:27 martin Exp $
+# $Id: mssql.pm,v 1.38 2008-05-16 08:22:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -340,13 +340,13 @@ sub TableAlter {
 
             # normal data type
             my $SQLEnd = $SQLStart . " ADD $Tag->{Name} $Tag->{Type}";
-            if ( !$Tag->{Default} && $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
+            if ( !defined $Tag->{Default} && $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
                 $SQLEnd .= " NOT NULL";
             }
             push @SQL, $SQLEnd;
 
             # default values
-            if ( $Tag->{Default} ) {
+            if ( defined $Tag->{Default} ) {
                 my $Start = '';
                 if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
                     $Start = "GO\n";

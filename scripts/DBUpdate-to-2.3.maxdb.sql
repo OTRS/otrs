@@ -1,5 +1,5 @@
 // ----------------------------------------------------------
-//  driver: maxdb, generated: 2008-05-16 10:02:39
+//  driver: maxdb, generated: 2008-05-16 10:21:50
 // ----------------------------------------------------------
 // ----------------------------------------------------------
 //  alter table users
@@ -16,7 +16,7 @@ CREATE TABLE queue_preferences
     preferences_value VARCHAR (250)
 )
 //
-CREATE INDEX queue_preferences_qu86 ON queue_preferences (queue_id)
+CREATE INDEX queue_preferences_qu53 ON queue_preferences (queue_id)
 //
 // ----------------------------------------------------------
 //  create table service_sla
@@ -110,7 +110,11 @@ ALTER TABLE ticket CHANGE escalation_start_time escalation_update_time INTEGER N
 // ----------------------------------------------------------
 //  alter table ticket
 // ----------------------------------------------------------
-ALTER TABLE ticket ADD escalation_time INTEGER NOT NULL
+ALTER TABLE ticket ADD escalation_time INTEGER
+//
+UPDATE ticket SET escalation_time = 0 WHERE escalation_time IS NULL
+//
+ALTER TABLE ticket CHANGE escalation_time escalation_time INTEGER NOT NULL
 //
 // ----------------------------------------------------------
 //  alter table sla

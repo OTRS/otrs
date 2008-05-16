@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2008-05-16 10:02:39
+--  driver: postgresql, generated: 2008-05-16 10:21:51
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table users
@@ -112,7 +112,9 @@ ALTER TABLE ticket ALTER escalation_update_time SET NOT NULL;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
-ALTER TABLE ticket ADD escalation_time INTEGER NOT NULL;
+ALTER TABLE ticket ADD escalation_time INTEGER;
+UPDATE ticket SET escalation_time = 0 WHERE escalation_time IS NULL;
+ALTER TABLE ticket ALTER escalation_time SET NOT NULL;
 CREATE INDEX ticket_escalation_time ON ticket (escalation_time);
 CREATE INDEX ticket_escalation_start_time ON ticket (escalation_start_time);
 CREATE INDEX ticket_escalation_response_time ON ticket (escalation_response_time);

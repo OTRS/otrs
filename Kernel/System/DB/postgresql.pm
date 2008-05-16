@@ -2,7 +2,7 @@
 # Kernel/System/DB/postgresql.pm - postgresql database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: postgresql.pm,v 1.37 2008-05-08 09:36:20 mh Exp $
+# $Id: postgresql.pm,v 1.38 2008-05-16 08:22:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -309,13 +309,13 @@ sub TableAlter {
 
             # normal data type
             my $SQLEnd = $SQLStart . " ADD $Tag->{Name} $Tag->{Type}";
-            if ( !$Tag->{Default} && $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
+            if ( !defined $Tag->{Default} && $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
                 $SQLEnd .= ' NOT NULL';
             }
             push @SQL, $SQLEnd;
 
             # default values
-            if ( $Tag->{Default} ) {
+            if ( defined $Tag->{Default} ) {
                 if ( $Tag->{Type} =~ /int/i ) {
                     push @SQL,
                         "UPDATE $Table SET $Tag->{Name} = $Tag->{Default} WHERE $Tag->{Name} IS NULL";
