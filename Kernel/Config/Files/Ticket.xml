@@ -152,7 +152,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.177 2008-05-15 09:31:45 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.178 2008-05-16 09:49:46 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1599,6 +1599,18 @@ TimeWorkingHours
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::EventModulePost###99-EscalationIndex" Required="0" Valid="1">
+        <Description Lang="en">Ticket event module updates the ticket escalation index.</Description>
+        <Description Lang="de">Ticket Event Modul aktuallisiert den Ticket Eskalations-Index.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::Ticket::Event::TicketEscalationIndex</Item>
+                <Item Key="Event">(TicketSLAUpdate|TicketQueueUpdate|TicketStateUpdate|TicketCreate|ArticleCreate)</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::CustomModule" Required="0" Valid="0">
         <Description Lang="en">A module with custom functions to redefine Kernel::System::Ticket functions (e.g. Kernel::System::Ticket::Custom).</Description>
         <Description Lang="de">Ein Modul mit angepassten Funktionen das Kernel::System::Ticket überschreibt (z. B. Kernel::System::Ticket::Custom).</Description>
@@ -1986,6 +1998,7 @@ TimeWorkingHours
                 <Item Key="Subject">Subject</Item>
                 <Item Key="Queue">Queue</Item>
                 <Item Key="Priority">Priority</Item>
+                <Item Key="TicketEscalation">TicketEscalation</Item>
                 <Item Key="TicketFreeTime1">TicketFreeTime1</Item>
                 <Item Key="TicketFreeTime2">TicketFreeTime2</Item>
                 <Item Key="TicketFreeTime3">TicketFreeTime3</Item>
@@ -2186,6 +2199,7 @@ TimeWorkingHours
                 <Item Key="Subject">Subject</Item>
                 <Item Key="Queue">Queue</Item>
                 <Item Key="Priority">Priority</Item>
+                <Item Key="TicketEscalation">TicketEscalation</Item>
                 <Item Key="TicketFreeTime1">TicketFreeTime1</Item>
                 <Item Key="TicketFreeTime2">TicketFreeTime2</Item>
                 <Item Key="TicketFreeTime3">TicketFreeTime3</Item>
@@ -2232,6 +2246,81 @@ TimeWorkingHours
         <Description Lang="de">Standard Reihenfolge der Queue (nach der Prioritaet). ASC: die ältesten Tickets zuerst. DESC: die neuesten zuerst.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewStatus</SubGroup>
+        <Setting>
+            <Option SelectedID="Down">
+                <Item Key="Down">Down</Item>
+                <Item Key="Up">Up</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketEscalationView###ViewableTicketsPage" Required="1" Valid="1">
+        <Description Lang="en">Shows all open tickets no matter wether locked or not by an agent.</Description>
+        <Description Lang="de">Zeigt alle offenen Tickets an unabhängig ob Tickets von anderen Agenten gesperrt sind oder nicht.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewEscalation</SubGroup>
+        <Setting>
+            <String Regex="">50</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketEscalationView###SortBy::Default" Required="1" Valid="1">
+        <Description Lang="en">Queue sort by default.</Description>
+        <Description Lang="de">Standard Sortierung der Queue.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewEscalation</SubGroup>
+        <Setting>
+            <Option SelectedID="Age">
+                <Item Key="Age">Age</Item>
+                <Item Key="Ticket">Ticket</Item>
+                <Item Key="Subject">Subject</Item>
+                <Item Key="Queue">Queue</Item>
+                <Item Key="Priority">Priority</Item>
+                <Item Key="TicketEscalation">TicketEscalation</Item>
+                <Item Key="TicketFreeTime1">TicketFreeTime1</Item>
+                <Item Key="TicketFreeTime2">TicketFreeTime2</Item>
+                <Item Key="TicketFreeTime3">TicketFreeTime3</Item>
+                <Item Key="TicketFreeTime4">TicketFreeTime4</Item>
+                <Item Key="TicketFreeTime5">TicketFreeTime5</Item>
+                <Item Key="TicketFreeTime6">TicketFreeTime6</Item>
+                <Item Key="TicketFreeKey1">TicketFreeKey1</Item>
+                <Item Key="TicketFreeKey2">TicketFreeKey2</Item>
+                <Item Key="TicketFreeKey3">TicketFreeKey3</Item>
+                <Item Key="TicketFreeKey4">TicketFreeKey4</Item>
+                <Item Key="TicketFreeKey5">TicketFreeKey5</Item>
+                <Item Key="TicketFreeKey6">TicketFreeKey6</Item>
+                <Item Key="TicketFreeKey7">TicketFreeKey7</Item>
+                <Item Key="TicketFreeKey8">TicketFreeKey8</Item>
+                <Item Key="TicketFreeKey9">TicketFreeKey9</Item>
+                <Item Key="TicketFreeKey10">TicketFreeKey10</Item>
+                <Item Key="TicketFreeKey11">TicketFreeKey11</Item>
+                <Item Key="TicketFreeKey12">TicketFreeKey12</Item>
+                <Item Key="TicketFreeKey13">TicketFreeKey13</Item>
+                <Item Key="TicketFreeKey14">TicketFreeKey14</Item>
+                <Item Key="TicketFreeKey15">TicketFreeKey15</Item>
+                <Item Key="TicketFreeKey16">TicketFreeKey16</Item>
+                <Item Key="TicketFreeText1">TicketFreeText1</Item>
+                <Item Key="TicketFreeText2">TicketFreeText2</Item>
+                <Item Key="TicketFreeText3">TicketFreeText3</Item>
+                <Item Key="TicketFreeText4">TicketFreeText4</Item>
+                <Item Key="TicketFreeText5">TicketFreeText5</Item>
+                <Item Key="TicketFreeText6">TicketFreeText6</Item>
+                <Item Key="TicketFreeText7">TicketFreeText7</Item>
+                <Item Key="TicketFreeText8">TicketFreeText8</Item>
+                <Item Key="TicketFreeText9">TicketFreeText9</Item>
+                <Item Key="TicketFreeText10">TicketFreeText10</Item>
+                <Item Key="TicketFreeText11">TicketFreeText11</Item>
+                <Item Key="TicketFreeText12">TicketFreeText12</Item>
+                <Item Key="TicketFreeText13">TicketFreeText13</Item>
+                <Item Key="TicketFreeText14">TicketFreeText14</Item>
+                <Item Key="TicketFreeText15">TicketFreeText15</Item>
+                <Item Key="TicketFreeText16">TicketFreeText16</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketEscalationView###Order::Default" Required="1" Valid="1">
+        <Description Lang="en">Queue order default (after priority sort). ASC: oldest on top. DESC: latest on top.</Description>
+        <Description Lang="de">Standard Reihenfolge der Queue (nach der Prioritaet). ASC: die ältesten Tickets zuerst. DESC: die neuesten zuerst.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewEscalation</SubGroup>
         <Setting>
             <Option SelectedID="Down">
                 <Item Key="Down">Down</Item>
@@ -2332,6 +2421,7 @@ TimeWorkingHours
                 <Item Key="Subject">Subject</Item>
                 <Item Key="Queue">Queue</Item>
                 <Item Key="Priority">Priority</Item>
+                <Item Key="TicketEscalation">TicketEscalation</Item>
                 <Item Key="TicketFreeTime1">TicketFreeTime1</Item>
                 <Item Key="TicketFreeTime2">TicketFreeTime2</Item>
                 <Item Key="TicketFreeTime3">TicketFreeTime3</Item>
@@ -2458,6 +2548,7 @@ TimeWorkingHours
                 <Item Key="Subject">Subject</Item>
                 <Item Key="Queue">Queue</Item>
                 <Item Key="Priority">Priority</Item>
+                <Item Key="TicketEscalation">TicketEscalation</Item>
                 <Item Key="TicketFreeTime1">TicketFreeTime1</Item>
                 <Item Key="TicketFreeTime2">TicketFreeTime2</Item>
                 <Item Key="TicketFreeTime3">TicketFreeTime3</Item>
@@ -5602,14 +5693,15 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::NotifyModule###5-Ticket::TicketEscalation" Required="0" Valid="1">
-        <Description Lang="en">Module to show notifications and escalations (ShownMax: max. shown escalations, CacheTime: Cache of calculated escalations in seconds).</Description>
-        <Description Lang="de">Modul, welches auf Benachrichtigungen und Eskalationen aufmerksam macht (ShownMax: maximal gezeigte Eskalationen, CacheTime: Cache der Berechnung in Sekunden).</Description>
+        <Description Lang="en">Module to show notifications and escalations (ShownMax: max. shown escalations, EscalationInMinutes: Show ticket which will escalation in, CacheTime: Cache of calculated escalations in seconds).</Description>
+        <Description Lang="de">Modul, welches auf Benachrichtigungen und Eskalationen aufmerksam macht (ShownMax: maximal gezeigte Eskalationen, EscalationInMinutes: Zeigt Tickets welche in dieser Zeit eskallieren werden, CacheTime: Cache der Berechnung in Sekunden).</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::NotificationAgentTicketEscalation</Item>
                 <Item Key="ShownMax">30</Item>
+                <Item Key="EscalationInMinutes">120</Item>
                 <Item Key="CacheTime">280</Item>
             </Hash>
         </Setting>
@@ -6700,6 +6792,7 @@ $QData{"Signature"}
                 <Item Key="Subject">Subject</Item>
                 <Item Key="Queue">Queue</Item>
                 <Item Key="Priority">Priority</Item>
+                <Item Key="TicketEscalation">TicketEscalation</Item>
                 <Item Key="TicketFreeTime1">TicketFreeTime1</Item>
                 <Item Key="TicketFreeTime2">TicketFreeTime2</Item>
                 <Item Key="TicketFreeTime3">TicketFreeTime3</Item>
@@ -7118,6 +7211,30 @@ $QData{"Signature"}
                     <Block></Block>
                     <AccessKey>v</AccessKey>
                     <Prio>110</Prio>
+                </NavBar>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AgentTicketEscalationView" Required="0" Valid="0">
+        <Description Lang="en">Frontend module registration for the AgentTicketEscalationView object in the agent interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentTicketEscalationView-Objekts im Agent-Interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>Overview of all escalated tickets</Description>
+                <Title>Escalation View</Title>
+                <NavBarName>Ticket</NavBarName>
+                <NavBar>
+                    <Description>Overview Escalated Tickets</Description>
+                    <Name>EscalationView</Name>
+                    <Image>overview.png</Image>
+                    <Link>Action=AgentTicketEscalationView</Link>
+                    <NavBar>Ticket</NavBar>
+                    <Type></Type>
+                    <Block></Block>
+                    <AccessKey>e</AccessKey>
+                    <Prio>120</Prio>
                 </NavBar>
             </FrontendModuleReg>
         </Setting>

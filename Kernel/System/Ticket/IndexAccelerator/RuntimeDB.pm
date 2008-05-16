@@ -3,7 +3,7 @@
 # queue ticket index module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: RuntimeDB.pm,v 1.58 2008-05-15 10:45:18 martin Exp $
+# $Id: RuntimeDB.pm,v 1.59 2008-05-16 09:49:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 sub TicketAcceleratorUpdate {
     my ( $Self, %Param ) = @_;
@@ -301,98 +301,16 @@ sub GetLockedCount {
 sub GetOverTimeTickets {
     my ( $Self, %Param ) = @_;
 
-    # get all open rw ticket
-    my @TicketIDs         = ();
-    my @TicketIDsOverTime = ();
-    my @ViewableStateIDs  = $Self->{StateObject}->StateGetStatesByType(
-        Type   => 'Viewable',
-        Result => 'ID',
+    # get all overtime tickets
+    my @TicketIDs = $Self->{TicketObject}->TicketSearch(
+        Result               => 'ARRAY',
+        Limit                => 100,
+        TicketEscalatationIn => 'now',
+        UserID               => $Param{UserID},
     );
-    my $SQL
-        = "SELECT st.id, st.tn, st.escalation_start_time, st.escalation_response_time, st.escalation_solution_time, "
-        . "st.ticket_state_id, st.service_id, st.sla_id, st.create_time, st.queue_id, st.ticket_lock_id "
-        . " FROM "
-        . " ticket st, queue q "
-        . " WHERE "
-        . " st.queue_id = q.id AND "
-        . " st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} ) ";
-
-    if ( $Self->{UserID} && $Self->{UserID} ne 1 ) {
-        my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
-            UserID => $Self->{UserID},
-            Type   => 'rw',
-            Result => 'ID',
-            Cached => 1,
-        );
-        $SQL .= " AND q.group_id IN ( ${\(join ', ', @GroupIDs)} )";
-
-        # check if user is in min. one group! if not, return here
-        return if !@GroupIDs;
-    }
-    $SQL .= ' ORDER BY st.escalation_start_time ASC';
-    $Self->{DBObject}->Prepare( SQL => $SQL, Limit => 5000 );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        my $TicketData = {
-            TicketID               => $Row[0],
-            TicketNumber           => $Row[1],
-            EscalationStartTime    => $Row[2],
-            EscalationResponseTime => $Row[3],
-            EscalationSolutionTime => $Row[4],
-            StateID                => $Row[5],
-            ServiceID              => $Row[6],
-            SLAID                  => $Row[7],
-            Created                => $Row[8],
-            QueueID                => $Row[9],
-            LockID                 => $Row[10],
-        };
-        push( @TicketIDs, $TicketData );
-    }
-
-    # get state infos
-    for my $TicketData (@TicketIDs) {
-
-        # get state info
-        my %StateData = $Self->{StateObject}->StateGet( ID => $TicketData->{StateID} );
-        $TicketData->{StateType} = $StateData{TypeName};
-        $TicketData->{State}     = $StateData{Name};
-        $TicketData->{Lock} = $Self->{LockObject}->LockLookup( LockID => $TicketData->{LockID} );
-    }
-
-    # get escalations
-    my $Count = 0;
-    for my $TicketData (@TicketIDs) {
-        my %Ticket   = %{$TicketData};
-        my $TicketID = $Ticket{TicketID};
-
-        # just use the oldest 500 ticktes
-        if ( $Count > 500 ) {
-            last;
-        }
-        %Ticket = (
-            %Ticket,
-            $Self->TicketEscalationState(
-                TicketID => $TicketID,
-                Ticket   => $TicketData,
-                UserID   => $Self->{UserID} || 1,
-                )
-        );
-
-        # check escalation times
-        for my $Type (
-            qw(FirstResponseTimeEscalation UpdateTimeEscalation SolutionTimeEscalation
-            FirstResponseTimeNotification UpdateTimeNotification SolutionTimeNotification)
-            )
-        {
-            if ( defined $Ticket{$Type} || defined $Ticket{$Type} ) {
-                push( @TicketIDsOverTime, $TicketID );
-                $Count++;
-                next;
-            }
-        }
-    }
 
     # return overtime tickets
-    return @TicketIDsOverTime;
+    return @TicketIDs;
 }
 
 1;

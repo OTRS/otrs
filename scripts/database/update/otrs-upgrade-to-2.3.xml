@@ -171,6 +171,20 @@
     </TableAlter>
 
     <TableAlter Name="ticket">
+        <ColumnChange NameOld="escalation_start_time" NameNew="escalation_update_time" Required="true" Type="INTEGER"/>
+        <ColumnAdd Name="escalation_time" Required="true" Type="INTEGER" Default="0"/>
+        <IndexCreate Name="ticket_escalation_time">
+            <IndexColumn Name="escalation_time"/>
+        </IndexCreate>
+        <IndexCreate Name="ticket_escalation_start_time">
+            <IndexColumn Name="escalation_start_time"/>
+        </IndexCreate>
+        <IndexCreate Name="ticket_escalation_response_time">
+            <IndexColumn Name="escalation_response_time"/>
+        </IndexCreate>
+        <IndexCreate Name="ticket_escalation_solution_time">
+            <IndexColumn Name="escalation_solution_time"/>
+        </IndexCreate>
         <IndexCreate Name="ticket_title">
             <IndexColumn Name="title"/>
         </IndexCreate>

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.176 2008-05-15 10:44:11 martin Exp $
+# $Id: Article.pm,v 1.177 2008-05-16 09:49:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.176 $) [1];
+$VERSION = qw($Revision: 1.177 $) [1];
 
 =head1 NAME
 
@@ -211,11 +211,6 @@ sub ArticleCreate {
             }
         }
         if ( $LastSender eq 'agent' ) {
-            $Self->TicketEscalationStartUpdate(
-                EscalationStartTime => $Self->{TimeObject}->SystemTime(),
-                TicketID            => $Param{TicketID},
-                UserID              => $Param{UserID},
-            );
             $Self->TicketUnlockTimeoutUpdate(
                 UnlockTimeout => $Self->{TimeObject}->SystemTime(),
                 TicketID      => $Param{TicketID},
@@ -230,16 +225,6 @@ sub ArticleCreate {
         && $Param{ArticleType} =~ /email-ext|phone|fax|sms|note-ext/
         )
     {
-        $Self->TicketEscalationResponseTimeUpdate(
-            EscalationResponseTime => $Self->{TimeObject}->SystemTime(),
-            TicketID               => $Param{TicketID},
-            UserID                 => $Param{UserID},
-        );
-        $Self->TicketEscalationStartUpdate(
-            EscalationStartTime => $Self->{TimeObject}->SystemTime(),
-            TicketID            => $Param{TicketID},
-            UserID              => $Param{UserID},
-        );
         $Self->TicketUnlockTimeoutUpdate(
             UnlockTimeout => $Self->{TimeObject}->SystemTime(),
             TicketID      => $Param{TicketID},
@@ -1383,26 +1368,27 @@ sub ArticleGet {
         . ' st.freekey11, st.freetext11, st.freekey12, st.freetext12, '
         . ' st.freekey13, st.freetext13, st.freekey14, st.freetext14, '
         . ' st.freekey15, st.freetext15, st.freekey16, st.freetext16, '
-        . ' st.ticket_lock_id, st.title, st.escalation_start_time, '
+        . ' st.ticket_lock_id, st.title, st.escalation_update_time, '
         . ' st.freetime1 , st.freetime2, st.freetime3, st.freetime4, st.freetime5, st.freetime6, '
-        . ' st.type_id, st.service_id, st.sla_id, st.escalation_response_time, st.escalation_solution_time '
+        . ' st.type_id, st.service_id, st.sla_id, st.escalation_response_time, '
+        . ' st.escalation_solution_time, st.escalation_time '
         . ' FROM article sa, ticket st WHERE ';
 
     if ( $Param{ArticleID} ) {
-        $SQL .= "sa.id = ?";
+        $SQL .= 'sa.id = ?';
         push @Bind, \$Param{ArticleID};
     }
     else {
-        $SQL .= "sa.ticket_id = ?";
+        $SQL .= 'sa.ticket_id = ?';
         push @Bind, \$Param{TicketID};
     }
-    $SQL .= " AND sa.ticket_id = st.id ";
+    $SQL .= ' AND sa.ticket_id = st.id ';
 
     # add article types
     if ($ArticleTypeSQL) {
         $SQL .= $ArticleTypeSQL;
     }
-    $SQL .= " ORDER BY sa.create_time, sa.id ASC";
+    $SQL .= ' ORDER BY sa.create_time, sa.id ASC';
 
     $Self->{DBObject}->Prepare( SQL => $SQL, Bind => \@Bind );
     my %Ticket = ();
@@ -1413,8 +1399,10 @@ sub ArticleGet {
         $Ticket{TicketID}               = $Data{TicketID};
         $Data{Title}                    = $Row[65];
         $Ticket{Title}                  = $Data{Title};
-        $Data{EscalationStartTime}      = $Row[66];
-        $Ticket{EscalationStartTime}    = $Data{EscalationStartTime};
+        $Data{EscalationTime}           = $Row[78];
+        $Ticket{EscalationTime}         = $Data{EscalationTime};
+        $Data{EscalationUpdateTime}     = $Row[66];
+        $Ticket{EscalationUpdateTime}   = $Data{EscalationUpdateTime};
         $Data{EscalationResponseTime}   = $Row[76];
         $Ticket{EscalationResponseTime} = $Data{EscalationResponseTime};
         $Data{EscalationSolutionTime}   = $Row[77];
@@ -1551,8 +1539,9 @@ sub ArticleGet {
     $Ticket{Responsible} = $Self->{UserObject}->UserLookup( UserID => $Ticket{ResponsibleID} );
 
     # get priority
-    $Ticket{Priority}
-        = $Self->{PriorityObject}->PriorityLookup( PriorityID => $Ticket{PriorityID} );
+    $Ticket{Priority} = $Self->{PriorityObject}->PriorityLookup(
+        PriorityID => $Ticket{PriorityID},
+    );
 
     # get lock
     $Ticket{Lock} = $Self->{LockObject}->LockLookup( LockID => $Ticket{LockID} );
@@ -1576,11 +1565,47 @@ sub ArticleGet {
     $Ticket{State}     = $StateData{Name};
 
     # get esclation attributes
-    my %Escalation = $Self->TicketEscalationState(
-        Ticket => \%Ticket,
-        UserID => $Param{UserID} || 1,
-    );
-    %Ticket = ( %Escalation, %Ticket );
+    my %Escalation = ();
+    if ( $Self->{ConfigObject}->Get('Ticket::Service') && $Ticket{SLAID} ) {
+        %Escalation = $Self->{SLAObject}->SLAGet(
+            SLAID  => $Ticket{SLAID},
+            UserID => $Param{UserID},
+            Cache  => 1,
+        );
+    }
+    else {
+        %Escalation = $Self->{QueueObject}->QueueGet(
+            ID     => $Ticket{QueueID},
+            UserID => $Param{UserID},
+            Cache  => 1,
+        );
+    }
+    for my $Type (qw(FirstResponseTime UpdateTime SolutionTime)) {
+
+        # build escalation index if escalation setting exists but no escalation is calculated
+        if ( $Escalation{ $Type } && !$Ticket{ 'Escalation' . $Type } ) {
+            $Self->TicketEscalationIndexBuild(
+                TicketID => $Param{TicketID},
+                UserID   => 1,
+            );
+        }
+
+        # get escalation times (DestinationTime, DestinationDate, WorkingTime, RealTime)
+        if ( $Escalation{ $Type } && $Ticket{ 'Escalation' . $Type } ) {
+            my %Data = $Self->TicketEscalationDateCalculation(
+                DestinationTime => $Ticket{ 'Escalation' . $Type },
+                Escalation      => \%Escalation,
+            );
+            if (%Data) {
+                $Ticket{ $Type . 'Notification' }        = $Data{Notification} || 0;
+                $Ticket{ $Type . 'Escalation' }          = $Data{Escalation} || 0;
+                $Ticket{ $Type . 'TimeDestinationTime' } = $Data{DestinationTime};
+                $Ticket{ $Type . 'TimeDestinationDate' } = $Data{DestinationDate};
+                $Ticket{ $Type . 'TimeWorkingTime' }     = $Data{WorkingTime};
+                $Ticket{ $Type . 'Time' }                = $Data{RealTime};
+            }
+        }
+    }
 
     # article stuff
     for my $Part (@Content) {
@@ -1664,7 +1689,7 @@ sub ArticleUpdate {
 
     # check needed stuff
     if ( !defined $Param{Value} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Value!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Value!' );
         return;
     }
 
@@ -1680,7 +1705,7 @@ sub ArticleUpdate {
     # db update
     return if !$Self->{DBObject}->Do(
         SQL => "UPDATE article SET $Map{$Param{Key}} = ?, "
-            . " change_time = current_timestamp, change_by = ? WHERE id = ?",
+            . "change_time = current_timestamp, change_by = ? WHERE id = ?",
         Bind => [ \$Param{Value}, \$Param{UserID}, \$Param{ArticleID} ],
     );
 
