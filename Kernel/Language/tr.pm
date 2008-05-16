@@ -2,7 +2,7 @@
 # Kernel/Language/tr.pm - provides de language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: tr.pm,v 1.2 2008-05-06 23:23:11 martin Exp $
+# $Id: tr.pm,v 1.3 2008-05-16 12:16:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::tr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.2 $';
+$VERSION = '$Revision: 1.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -21,16 +21,15 @@ sub Data {
     my %Param = @_;
 
     # $$START$$
-    # Last translation file sync: Tue May 29 15:05:19 2007
+    # Last translation file sync: Fri May 16 14:09:04 2008
 
     # possible charsets
-    $Self->{Charset} = [ 'iso-8859-9', ];
-
+    $Self->{Charset} = ['iso-8859-9', ];
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
-    $Self->{DateFormat} = '%D.%M.%Y %T';
-    $Self->{DateFormatLong} = '%T - %D.%M.%Y';
-    $Self->{DateFormatShort} = '%D.%M.%Y';
-    $Self->{DateInputFormat} = '%D.%M.%Y';
+    $Self->{DateFormat}          = '%D.%M.%Y %T';
+    $Self->{DateFormatLong}      = '%T - %D.%M.%Y';
+    $Self->{DateFormatShort}     = '%D.%M.%Y';
+    $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
 
     $Self->{Translation} = {
@@ -104,6 +103,7 @@ sub Data {
         'please do not edit!' => 'Lütfen deðiþtirmeyiniz!',
         'AddLink' => 'Bað Ekle',
         'Link' => 'Bað',
+        'Unlink' => '',
         'Linked' => 'Baðlandý',
         'Link (Normal)' => 'Bað (Normal)',
         'Link (Parent)' => 'Bað (Ebeveyn)',
@@ -245,6 +245,7 @@ sub Data {
         'Mobile' => 'Cep',
         'Zip' => 'PK',
         'City' => 'Þehir',
+        'Street' => '',
         'Country' => 'Ülke',
         'installed' => 'yüklenmiþ',
         'uninstalled' => 'kaldýrýlmýþ',
@@ -253,6 +254,16 @@ sub Data {
         'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' => 'Bu Çevrimiçi Depoda Ýstenen Çatý için Paket bulunamadý, ama baþka Çatýlar için var!',
         'No Packages or no new Packages in selected Online Repository!' => 'Seçili Çevrimiçi Depoda hiç Paket yok veya hiç yeni Paket yok!',
         'printed at' => 'yazdýrýldý',
+        'Dear Mr. %s,' => '',
+        'Dear Mrs. %s,' => '',
+        'Dear %s,' => '',
+        'Hello %s,' => '',
+        'This account exists.' => '',
+        'New account created. Sent Login-Account to %s.' => '',
+        'Please press Back and try again.' => '',
+        'Sent password token to: %s' => '',
+        'Sent new password to: %s' => '',
+        'Invalid Token!' => '',
 
         # Template: AAAMonth
         'Jan' => 'Oca',
@@ -292,7 +303,6 @@ sub Data {
         'Admin' => 'Yönetici',
         'Customer Users' => 'Müþteri Kullanýcýlar',
         'Customer Users <-> Groups' => 'Müþteri Kullanýcýlar <-> Gruplar',
-        'Customer Users <-> Services' => 'Müþteri Kullanýcýlar <-> Servisler',
         'Users <-> Groups' => 'Kullanýcýlar <-> Gruplar',
         'Roles' => 'Roller',
         'Roles <-> Users' => 'Roller <-> Kullanýcýlar',
@@ -350,24 +360,23 @@ sub Data {
         'The selected time period is larger than the allowed time period!' => 'Seçilen zaman dönemi izin verilen zaman döneminden daha büyük!',
         'Common Specification' => 'Genel Belirtim',
         'Xaxis' => 'X ekseni',
-        'Value Series'           => 'Deðer Serileri',
-        'Restrictions'           => 'Kýsýtlamalar',
-        'graph-lines'            => 'grafik-çizgiler',
-        'graph-bars'             => 'grafik-çubuklar',
-        'graph-hbars'            => 'grafik-yatay çubuklar',
-        'graph-points'           => 'grafik-noktalar',
-        'graph-lines-points'     => 'grafik-çizgiler-noktalar',
-        'graph-area'             => 'grafik-alan',
-        'graph-pie'              => 'grafik-pasta',
-        'extended'               => 'geniþletilmiþ',
-        'Agent/Owner'            => 'Aracý/Sahip',
+        'Value Series' => 'Deðer Serileri',
+        'Restrictions' => 'Kýsýtlamalar',
+        'graph-lines' => 'grafik-çizgiler',
+        'graph-bars' => 'grafik-çubuklar',
+        'graph-hbars' => 'grafik-yatay çubuklar',
+        'graph-points' => 'grafik-noktalar',
+        'graph-lines-points' => 'grafik-çizgiler-noktalar',
+        'graph-area' => 'grafik-alan',
+        'graph-pie' => 'grafik-pasta',
+        'extended' => 'geniþletilmiþ',
+        'Agent/Owner' => 'Aracý/Sahip',
         'Created by Agent/Owner' => 'Aracý/Sahip Tarafýndan Oluþturulmuþ',
-        'Created Priority'       => 'Oluþturulma Önceliði',
-        'Created State'          => 'Oluþturulma Durumu',
-        'Create Time'            => 'Oluþturulma Zamaný',
-        'CustomerUserLogin'      => 'Müþteri Kullanýcý Oturumu',
-        'Close Time'             => 'Kapanma Zamaný',
-        'CSV'                    => 'CSV',
+        'Created Priority' => 'Oluþturulma Önceliði',
+        'Created State' => 'Oluþturulma Durumu',
+        'Create Time' => 'Oluþturulma Zamaný',
+        'CustomerUserLogin' => 'Müþteri Kullanýcý Oturumu',
+        'Close Time' => 'Kapanma Zamaný',
 
         # Template: AAATicket
         'Lock' => 'Kilitle',
@@ -385,6 +394,7 @@ sub Data {
         'Move' => 'Taþý',
         'Queue' => 'Kuyruða koy',
         'Priority' => 'Öncelik',
+        'Priority Update' => '',
         'State' => 'Durum',
         'Compose' => 'Yeni Oluþtur',
         'Pending' => 'Bekliyor',
@@ -453,6 +463,7 @@ sub Data {
         'Phone-Ticket' => 'Telefon-Bilet',
         'Search Tickets' => 'Biletleri Ara',
         'Edit Customer Users' => 'Müþteri Kullanýcýlarý Belirle',
+        'Edit Customer Company' => '',
         'Bulk-Action' => 'Toplu Ýþlem',
         'Bulk Actions on Tickets' => 'Biletler Üzerinde Toplu Ýþlem',
         'Send Email and create a new Ticket' => 'E-Postayý gönder ve yeni Bilet oluþtur',
@@ -551,8 +562,8 @@ sub Data {
         'History::WebRequestCustomer' => 'Web üzerinden Müþteri Ýsteði.',
         'History::TicketLinkAdd' => '"%s" biletine köprü eklendi.',
         'History::TicketLinkDelete' => '"%s" biletine köprü silinde.',
-        'History::Subscribe'            => 'Added subscription for user "%s".',
-        'History::Unsubscribe'          => 'Removed subscription for user "%s".',
+        'History::Subscribe' => 'Added subscription for user "%s".',
+        'History::Unsubscribe' => 'Removed subscription for user "%s".',
 
         # Template: AAAWeekDay
         'Sun' => 'Paz',
@@ -585,6 +596,7 @@ sub Data {
 
         # Template: AdminCustomerCompanyForm
         'Customer Company Management' => 'Müþteri Þirket Yönetimi',
+        'Search for' => 'Ara',
         'Add Customer Company' => 'Müþteri Sirket Ekle',
         'Add a new Customer Company.' => 'Yeni bir Müþteri Þirket ekle.',
         'List' => 'Liste',
@@ -593,7 +605,6 @@ sub Data {
 
         # Template: AdminCustomerUserForm
         'Customer User Management' => 'Müþteri Kullanýcý Yönetimi',
-        'Search for' => 'Ara',
         'Add Customer User' => 'Müþteri Kullanýcý Ekle',
         'Source' => 'Kaynak',
         'Create' => 'Oluþtur',
@@ -612,14 +623,15 @@ sub Data {
 
         # Template: AdminCustomerUserGroupForm
 
-        # Template: AdminCustomerUserServiceChangeForm
+        # Template: AdminCustomerUserService
         'Customer Users <-> Services Management' => 'Kullanýcý Müþteriler <-> Servis Yönetimi',
-        'Select the customeruser:service relations.' => 'Müþterikullanýcý:servis iliþkilerini belirle.',
-        'Allocate services to CustomerUser' => 'Servisleri MüþteriKullanýcýya ata',
-        'Allocate CustomerUser to service' => 'MüþteriKullanýcýyý servise ata',
-
-        # Template: AdminCustomerUserServiceForm
+        'CustomerUser' => 'MüþteriKullanýcý',
+        'Service' => 'Servis',
         'Edit default services.' => 'Varsayýlan servisleri belirle.',
+        'Search Result' => 'Arama Sonuç',
+        'Allocate services to CustomerUser' => 'Servisleri MüþteriKullanýcýya ata',
+        'Active' => 'Etkin',
+        'Allocate CustomerUser to service' => 'MüþteriKullanýcýyý servise ata',
 
         # Template: AdminEmail
         'Message sent to' => 'Mesaj gönderildi',
@@ -642,6 +654,7 @@ sub Data {
         '(e. g. 234321)' => '(örneðin 234321)',
         'Customer User Login' => 'Müþteri Kullanýcý Oturum Açma',
         '(e. g. U5150)' => '(örneðin U5150)',
+        'SLA' => 'SLA',
         'Agent' => 'Aracý',
         'Ticket Lock' => 'Bilet Kilidi',
         'TicketFreeFields' => 'BiletSerbestAlanlarý',
@@ -649,10 +662,16 @@ sub Data {
         'No create time settings.' => 'Oluþturma zamaný ayarý yok.',
         'Ticket created' => 'Bilet oluþturuldu',
         'Ticket created between' => 'Bilet ikisi arasýnda oluþturuldu:',
+        'Close Times' => '',
+        'No close time settings.' => '',
+        'Ticket closed' => '',
+        'Ticket closed between' => '',
         'Pending Times' => 'Bekleme Zamanlarý',
         'No pending time settings.' => 'Bekleme zamaný ayarý yok.',
         'Ticket pending time reached' => 'Bilet bekleme zamanýna ulaþýldý',
         'Ticket pending time reached between' => 'Bilet bekleme zamanýna ikisi arasýnda ulaþýldý:',
+        'New Service' => '',
+        'New SLA' => '',
         'New Priority' => 'Yeni Öncelik',
         'New Queue' => 'Yeni Kuyruk',
         'New State' => 'Yeni Durum',
@@ -660,7 +679,9 @@ sub Data {
         'New Owner' => 'Yeni Sahip',
         'New Customer' => 'Yeni Müþteri',
         'New Ticket Lock' => 'Yeni Bilet Kilidi',
-        'CustomerUser' => 'MüþteriKullanýcý',
+        'New Type' => '',
+        'New Title' => '',
+        'New Type' => '',
         'New TicketFreeFields' => 'Yeni BiletSerbestAlanlarý',
         'Add Note' => 'Not Ekle',
         'CMD' => 'Komut',
@@ -679,6 +700,7 @@ sub Data {
         'No means, send agent and customer notifications on changes.' => 'Hayýr, deðiþikliklerde aracýlara ve müþterilere bildirim gönder demektir.',
         'Save' => 'Kaydet',
         '%s Tickets affected! Do you really want to use this job?' => '%s Bilet etkilendi! Gerçekten bu iþi kullanmak istiyor musunuz?',
+        '"}' => '',
 
         # Template: AdminGroupForm
         'Group Management' => 'Grup Yönetimi',
@@ -691,6 +713,14 @@ sub Data {
         # Template: AdminLog
         'System Log' => 'Sistem Günlüðü',
         'Time' => 'Zaman',
+
+        # Template: AdminMailAccount
+        'Mail Account Management' => '',
+        'Host' => 'Sunucu',
+        'Trusted' => 'Güvenilir',
+        'Dispatching' => 'Gönderiliyor',
+        'All incoming emails with one account will be dispatched in the selected queue!' => 'Tek hesaplý tüm gelen elektronik postalar seçili kuyruða gönderilecek!',
+        'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => 'Eðer hesap güvenilir ise, varýþ zamanýnda (öncelik, ... için) varolan X-OTRS baþlýðý kullanýlacak! PostMaster süzgeci her halükârda kullanýlýr.',
 
         # Template: AdminNavigationBar
         'Users' => 'Kullanýcýlar',
@@ -746,6 +776,10 @@ sub Data {
         'Min Response' => 'En Az Yanýt',
         'Max Response' => 'En Çok Yanýt',
         'Average Response' => 'Ortalama Yanýt',
+        'Period' => '',
+        'Min' => '',
+        'Max' => '',
+        'Average' => '',
 
         # Template: AdminPGPForm
         'PGP Management' => 'PGP Yönetimi',
@@ -756,14 +790,6 @@ sub Data {
         'Fingerprint' => 'Parmak izi',
         'Expires' => 'Geçerliliðini yitirme zamaný',
         'In this way you can directly edit the keyring configured in SysConfig.' => 'Bu þekilde Sistem Yapýlandýrmasýnda yapýlandýrýlmýþ olan anahtar halkasýný (keyring) direkt olarak düzenleyebilirsiniz.',
-
-        # Template: AdminPOP3
-        'POP3 Account Management' => 'POP3 Hesap Yönetimi',
-        'Host' => 'Sunucu',
-        'Trusted' => 'Güvenilir',
-        'Dispatching' => 'Gönderiliyor',
-        'All incoming emails with one account will be dispatched in the selected queue!' => 'Tek hesaplý tüm gelen elektronik postalar seçili kuyruða gönderilecek!',
-        'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => 'Eðer hesap güvenilir ise, varýþ zamanýnda (öncelik, ... için) varolan X-OTRS baþlýðý kullanýlacak! PostMaster süzgeci her halükârda kullanýlýr.',
 
         # Template: AdminPostMasterFilter
         'PostMaster Filter Management' => 'PostMaster Süzgeç Yönetimi',
@@ -784,9 +810,13 @@ sub Data {
         'Sub-Queue of' => 'Þunun Alt Kuyruðu:',
         'Unlock timeout' => 'Kilidi kaldýrmak için zaman aþýmý',
         '0 = no unlock' => '0 = kilit kaldýrma yok',
+        'Only business hours are counted.' => '',
         'Escalation - First Response Time' => 'Yükseltme - ilk Yanýt Zamaný',
         '0 = no escalation' => '0 = yükseltme yok',
+        'Only business hours are counted.' => '',
+        'Notify by' => '',
         'Escalation - Update Time' => 'Yükseltme - Güncelleme Zamaný',
+        'Notify by' => '',
         'Escalation - Solution Time' => 'Yükseltme - Çözümleme Zamaný',
         'Follow up Option' => 'Takip eden Seçeneði',
         'Ticket lock after a follow up' => 'Takip eden bir mesajdan sonra bileti kilitle',
@@ -846,7 +876,6 @@ sub Data {
 
         # Template: AdminRoleUserChangeForm
         'Roles <-> Users Management' => 'Roller <-> Kullanýcýlar Yönetimi',
-        'Active' => 'Etkin',
         'Select the role:user relations.' => 'Rol:kullanýcý iliþkilerini seçin.',
 
         # Template: AdminRoleUserForm
@@ -857,7 +886,7 @@ sub Data {
         'Add a new Salutation.' => 'Yeni bir Selamlama ekle.',
 
         # Template: AdminSelectBoxForm
-        'Select Box' => 'Seçim Kutusu',
+        'SQL Box' => '',
         'Limit' => 'Sýnýr',
         'Go' => 'Devam',
         'Select Box Result' => 'Seçin Kutusu Sonucu',
@@ -866,7 +895,6 @@ sub Data {
         'Service Management' => 'Servis Yönetimi',
         'Add Service' => 'Servis Ekle',
         'Add a new Service.' => 'Yeni bir Servis ekle.',
-        'Service' => 'Servis',
         'Sub-Service of' => 'Þunun Alt Servisi:',
 
         # Template: AdminSession
@@ -887,10 +915,6 @@ sub Data {
         'SLA Management' => 'SLA Yönetimi',
         'Add SLA' => 'SLA ekle',
         'Add a new SLA.' => 'Yeni bir SLA ekle.',
-        'SLA' => 'SLA',
-        'First Response Time' => 'Ýlk Yanýt Zamaný',
-        'Update Time' => 'Güncelleme Zamaný',
-        'Solution Time' => 'Çözüm Zamaný',
 
         # Template: AdminSMIMEForm
         'S/MIME Management' => 'S/MIME Yönetimi',
@@ -1125,6 +1149,17 @@ sub Data {
         'Refresh' => 'Tazele',
         'Clear To' => 'Kime alanýný temizle',
 
+        # Template: AgentTicketEscalationView
+        'Ticket Escalation View' => '',
+        'Escalation' => '',
+        'Today' => '',
+        'Tomorrow' => '',
+        'Next Week' => '',
+        'up' => 'yukarý',
+        'down' => 'aþaðý',
+        'Escalation' => '',
+        'Locked' => 'Kilitli',
+
         # Template: AgentTicketForward
         'Article type' => 'Metin tipi',
 
@@ -1145,8 +1180,6 @@ sub Data {
         'Reminder' => 'Hatýrlatýcý',
         'Sort by' => 'Þuna göre sýrala:',
         'Order' => 'Sýralama',
-        'up' => 'yukarý',
-        'down' => 'aþaðý',
 
         # Template: AgentTicketMerge
         'Ticket Merge' => 'Bilet Birleþtir',
@@ -1176,7 +1209,9 @@ sub Data {
         # Template: AgentTicketPrint
         'Ticket-Info' => 'Bilet Bilgisi',
         'Accounted time' => 'Hesaplanan zaman',
-        'Escalation in' => 'Yükselme',
+        'First Response Time' => 'Ýlk Yanýt Zamaný',
+        'Update Time' => 'Güncelleme Zamaný',
+        'Solution Time' => 'Çözüm Zamaný',
         'Linked-Object' => 'Baðlý Nesne',
         'Parent-Object' => 'Ebeveyn Nesne',
         'Child-Object' => 'Alt Nesne',
@@ -1211,26 +1246,35 @@ sub Data {
         'Search-Template' => 'Arama Þablonu',
         'TicketFreeText' => 'BiletSerbestMetni',
         'Created in Queue' => 'Oluþturuldu Kuyruk',
+        'Close Times' => '',
+        'No close time settings.' => '',
+        'Ticket closed' => '',
+        'Ticket closed between' => '',
         'Result Form' => 'Sonuç Formu',
         'Save Search-Profile as Template?' => 'Arama Profili Þablon olarak kaydedilsin mi?',
         'Yes, save it with name' => 'Evet, þu adla kaydet',
 
+        # Template: AgentTicketSearchOpenSearchDescription
+
         # Template: AgentTicketSearchResult
-        'Search Result' => 'Arama Sonuç',
         'Change search options' => 'Arama seçeneklerini deðiþtir',
 
+        # Template: AgentTicketSearchResultPrint
+        '"}' => '',
+
         # Template: AgentTicketSearchResultShort
-        'U' => 'U',
-        'D' => 'D',
 
         # Template: AgentTicketStatusView
         'Ticket Status View' => 'Bilet Durumu Görünümü',
         'Open Tickets' => 'Açýk Biletler',
-        'Locked' => 'Kilitli',
 
         # Template: AgentTicketZoom
+        'Expand View' => '',
+        'Collapse View' => '',
 
         # Template: AgentWindowTab
+
+        # Template: AJAX
 
         # Template: Copyright
 
@@ -1284,7 +1328,6 @@ sub Data {
         # Template: CustomerTicketZoom
 
         # Template: CustomerWarning
-        'This account exists' => 'Bu hesap zaten var',
 
         # Template: Error
         'Click here to report a bug!' => 'Hata raporlamak için buraya týklayýn!',
@@ -1300,15 +1343,18 @@ sub Data {
 
         # Template: Installer
         'Web-Installer' => 'Webden Yükleme',
+        'Welcome to %s' => '%s sistemine hoþgeldiniz',
         'Accept license' => 'Lisansý kabul et',
         'Don\'t accept license' => 'Lisansý kabul etme',
         'Admin-User' => 'Yönetici Kullanýcý',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' => '',
         'Admin-Password' => 'Yönetici Parolasý',
-        'your MySQL DB should have a root password! Default is empty!' => 'MySQL veritabanýnýzýn root kullanýcýsýnýn bir parolasý olmalýdýr. Öntanýmlý olarak boþtur!',
         'Database-User' => 'Veritabaný kullanýcýsý',
         'default \'hot\'' => 'varsayýlan \'host\'',
         'DB connect host' => 'Veritabanýna baðlanan sunucu',
         'Database' => 'Veritabaný',
+        'Default Charset' => 'Öntanýmlý karakter kümesi',
+        'utf8' => '',
         'false' => 'false',
         'SystemID' => 'Sistem Kimliði',
         '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(Sistemin kimliði. Her bilet numarasý ve her http oturum kimliði bu numarayla baþlar)',
@@ -1323,7 +1369,6 @@ sub Data {
         'Logfile' => 'Günlük dosyasý',
         '(Logfile just needed for File-LogModule!)' => '(Günlük dosyasý sadece günlük bileþeni Dosya olduðunda gereklidir!)',
         'Webfrontend' => 'Web Önyüzü',
-        'Default Charset' => 'Öntanýmlý karakter kümesi',
         'Use utf-8 it your database supports it!' => 'Eðer veritabanýnýz destekliyorsa utf-8 kullanýn!',
         'Default Language' => 'Öntanýmlý dil',
         '(Used default language)' => '(Kullanýlan öntanýmlý dil)',
@@ -1333,11 +1378,9 @@ sub Data {
         'Restart your webserver' => 'Web sunucunuzu yeniden baþlatýn.',
         'After doing so your OTRS is up and running.' => 'Bunu yaptýktan sonra OTRS çalýþýyor olacak.',
         'Start page' => 'Baþlangýç sayfasý',
-        'Have a lot of fun!' => 'Ýyi eðlenceler!',
         'Your OTRS Team' => 'OTRS Takýmýnýz',
 
         # Template: Login
-        'Welcome to %s' => '%s sistemine hoþgeldiniz',
 
         # Template: Motd
 
@@ -1366,19 +1409,22 @@ sub Data {
         'File-Name' => 'Dosya adý',
         'Ticket Number Generator' => 'Bilet Numarasý Üreteci',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Bilet tanýmlayýcýsý. \'Bilet#\', \'Arama#\' oder \'Biletim#\' gibi olabilir)',
-        'Create new Phone Ticket' => 'Yeni Telefon Bileti oluþtur',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Bu þekilde Kernel/Config.pm dosyasýnda yapýlandýrýlmýþ olan anahtar halkasýný (keyring) deðiþtirebilirsiniz',
+        'Create new Phone Ticket' => 'Yeni Telefon Bileti oluþtur',
+        'U' => 'U',
         'A message should have a To: recipient!' => 'Bir mesajýn alýcýsý olmalýdýr!',
         'Site' => 'Site',
         'Customer history search (e. g. "ID342425").' => 'Müþteri tarihçe aramasý (örn. "ID342425").',
-        'for agent firstname' => 'aracý adý için',
+        'your MySQL DB should have a root password! Default is empty!' => 'MySQL veritabanýnýzýn root kullanýcýsýnýn bir parolasý olmalýdýr. Öntanýmlý olarak boþtur!',
         'Close!' => 'Kapat!',
+        'for agent firstname' => 'aracý adý için',
         'Reporter' => 'Bildiren',
-        'Process-Path' => 'Ýþlem Yolu',
         'The message being composed has been closed.  Exiting.' => 'Oluþturulan mesaj kapatýldý. Çýkýlýyor.',
+        'Process-Path' => 'Ýþlem Yolu',
         'to get the realname of the sender (if given)' => 'göndericinin gerçek adýný (eðer verilmiþse) almak için',
         'FAQ Search Result' => 'SSS Arama Sonucu',
         'Notification (Customer)' => 'Bildirim (müþteri)',
+        'CSV' => 'CSV',
         'Select Source (for add)' => 'Kaynaðý Seçin (eklemek için)',
         'Node-Name' => 'Düðüm Adý',
         'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'Bilet verisinin seçenekleri (örn. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)',
@@ -1422,6 +1468,7 @@ sub Data {
         'Last update' => 'Son güncelleme',
         'not rated' => 'puan verilmedi',
         'to get the first 20 character of the subject' => 'konunun ilk 20 karakterini almak için',
+        'Select the customeruser:service relations.' => 'Müþterikullanýcý:servis iliþkilerini belirle.',
         'DB Admin Password' => 'Veritabaný Yöneticisi Parolasý',
         'Drop Database' => 'Veritabanýný Sil',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Mevcut müþteri kullanýcý verileri (örn. <OTRS_CUSTOMER_DATA_UserFirstname>) seçenekleri',
@@ -1455,12 +1502,15 @@ sub Data {
         'Imported' => 'Ýçeri aktarýldý',
         'unread' => 'okunmadý',
         'Split' => 'Ayýr',
-        'All messages' => 'Tüm mesajlar',
+        'D' => 'D',
         'System Status' => 'Sistem Durumu',
+        'All messages' => 'Tüm mesajlar',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Bilet verisi seçenekleri (örn. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'A article should have a title!' => 'Metnin bir baþlýðý olmalýdýr!',
-        'Event' => 'Olay',
+        'Customer Users <-> Services' => 'Müþteri Kullanýcýlar <-> Servisler',
+        'This account exists' => 'Bu hesap zaten var',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Yapýlandýrma seçenekleri (örn. &lt;OTRS_CONFIG_HttpType&gt;)',
+        'Event' => 'Olay',
         'Imported by' => 'Ýçeri aktaran',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Bilet sahibi seçenekleri (örn. <OTRS_OWNER_UserFirstname>)',
         'read' => 'okunmuþ',
@@ -1471,18 +1521,22 @@ sub Data {
         'Solution' => 'Çözüm',
         'QueueView' => 'Kuyruk Görünümü',
         'My Queue' => 'Kuyruðun',
+        'Select Box' => 'Seçim Kutusu',
         'Instance' => 'Kopya',
         'Day' => 'Gün',
         'Service-Name' => 'Servis Adý',
         'Welcome to OTRS' => 'OTRS\'ye hoþgeldiniz',
         'tmp_lock' => 'geçici kilit',
         'modified' => 'deðiþtirilmiþ',
+        'Escalation in' => 'Yükselme',
         'Delete old database' => 'Eski veritabanýný sil',
         'sort downward' => 'aþaðýya doðru sýrala',
         'You need to use a ticket number!' => 'Bilet numarasý kullanmalýsýnýz!',
         'Watcher' => 'Ýzleyici',
+        'Have a lot of fun!' => 'Ýyi eðlenceler!',
         'send' => 'gönder',
         'Note Text' => 'Not Metni',
+        'POP3 Account Management' => 'POP3 Hesap Yönetimi',
         'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'Muþteri kullanýcý verisi seçenekleri (örn. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;).',
         'System State Management' => 'Sistem Durumu Yönetimi',
         'PhoneView' => 'Telefon Görünüþü',
