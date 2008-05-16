@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEscalationView.pm - status for all open tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEscalationView.pm,v 1.2 2008-05-16 12:02:27 martin Exp $
+# $Id: AgentTicketEscalationView.pm,v 1.3 2008-05-16 14:38:01 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -169,12 +169,12 @@ sub Run {
 
     # build search navigation bar
     my %PageNav = $Self->{LayoutObject}->PageNavBar(
-        Limit      => $Self->{Limit},
-        StartHit   => $Self->{StartHit},
-        PageShown  => $Self->{PageShown},
-        AllHits    => $Counter,
-        Action     => "Action=AgentTicketEscalationView&",
-        Link       => "SortBy=$Self->{SortBy}&Order=$Self->{Order}&Escalation=$Self->{Escalation}&",
+        Limit     => $Self->{Limit},
+        StartHit  => $Self->{StartHit},
+        PageShown => $Self->{PageShown},
+        AllHits   => $Counter,
+        Action    => "Action=AgentTicketEscalationView&",
+        Link      => "SortBy=$Self->{SortBy}&Order=$Self->{Order}&Escalation=$Self->{Escalation}&",
     );
 
     # use template

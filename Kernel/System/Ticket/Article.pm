@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.177 2008-05-16 09:49:45 martin Exp $
+# $Id: Article.pm,v 1.178 2008-05-16 14:38:02 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.177 $) [1];
+$VERSION = qw($Revision: 1.178 $) [1];
 
 =head1 NAME
 
@@ -1583,7 +1583,7 @@ sub ArticleGet {
     for my $Type (qw(FirstResponseTime UpdateTime SolutionTime)) {
 
         # build escalation index if escalation setting exists but no escalation is calculated
-        if ( $Escalation{ $Type } && !$Ticket{ 'Escalation' . $Type } ) {
+        if ( $Escalation{$Type} && !$Ticket{ 'Escalation' . $Type } ) {
             $Self->TicketEscalationIndexBuild(
                 TicketID => $Param{TicketID},
                 UserID   => 1,
@@ -1591,14 +1591,14 @@ sub ArticleGet {
         }
 
         # get escalation times (DestinationTime, DestinationDate, WorkingTime, RealTime)
-        if ( $Escalation{ $Type } && $Ticket{ 'Escalation' . $Type } ) {
+        if ( $Escalation{$Type} && $Ticket{ 'Escalation' . $Type } ) {
             my %Data = $Self->TicketEscalationDateCalculation(
                 DestinationTime => $Ticket{ 'Escalation' . $Type },
                 Escalation      => \%Escalation,
             );
             if (%Data) {
-                $Ticket{ $Type . 'Notification' }        = $Data{Notification} || 0;
-                $Ticket{ $Type . 'Escalation' }          = $Data{Escalation} || 0;
+                $Ticket{ $Type . 'Notification' } = $Data{Notification} || 0;
+                $Ticket{ $Type . 'Escalation' }   = $Data{Escalation}   || 0;
                 $Ticket{ $Type . 'TimeDestinationTime' } = $Data{DestinationTime};
                 $Ticket{ $Type . 'TimeDestinationDate' } = $Data{DestinationDate};
                 $Ticket{ $Type . 'TimeWorkingTime' }     = $Data{WorkingTime};

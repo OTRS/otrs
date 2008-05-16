@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/TicketEscalationIndex.pm - update article search index
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketEscalationIndex.pm,v 1.1 2008-05-16 09:49:46 martin Exp $
+# $Id: TicketEscalationIndex.pm,v 1.2 2008-05-16 14:38:02 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -25,7 +25,7 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for ( qw(ConfigObject TicketObject LogObject UserObject CustomerUserObject TimeObject)) {
+    for (qw(ConfigObject TicketObject LogObject UserObject CustomerUserObject TimeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 

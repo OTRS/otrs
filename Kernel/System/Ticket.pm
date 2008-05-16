@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.315 2008-05-16 09:49:45 martin Exp $
+# $Id: Ticket.pm,v 1.316 2008-05-16 14:38:01 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.315 $) [1];
+$VERSION = qw($Revision: 1.316 $) [1];
 
 =head1 NAME
 
@@ -499,9 +499,9 @@ sub TicketCreate {
     if ( $Param{CustomerNo} || $Param{CustomerID} || $Param{CustomerUser} ) {
         $Self->SetCustomerData(
             TicketID => $TicketID,
-            No       => $Param{CustomerNo} || $Param{CustomerID} || '',
-            User     => $Param{CustomerUser} || '',
-            UserID   => $Param{UserID},
+            No => $Param{CustomerNo} || $Param{CustomerID} || '',
+            User => $Param{CustomerUser} || '',
+            UserID => $Param{UserID},
         );
     }
 
@@ -976,7 +976,7 @@ sub TicketGet {
     for my $Type (qw(FirstResponseTime UpdateTime SolutionTime)) {
 
         # build escalation index if escalation setting exists but no escalation is calculated
-        if ( $Escalation{ $Type } && !$Ticket{ 'Escalation' . $Type } ) {
+        if ( $Escalation{$Type} && !$Ticket{ 'Escalation' . $Type } ) {
             $Self->TicketEscalationIndexBuild(
                 TicketID => $Param{TicketID},
                 UserID   => 1,
@@ -984,14 +984,14 @@ sub TicketGet {
         }
 
         # get escalation times (DestinationTime, DestinationDate, WorkingTime, RealTime)
-        if ( $Escalation{ $Type } && $Ticket{ 'Escalation' . $Type } ) {
+        if ( $Escalation{$Type} && $Ticket{ 'Escalation' . $Type } ) {
             my %Data = $Self->TicketEscalationDateCalculation(
                 DestinationTime => $Ticket{ 'Escalation' . $Type },
                 Escalation      => \%Escalation,
             );
             if (%Data) {
-                $Ticket{ $Type . 'Notification' }        = $Data{Notification} || 0;
-                $Ticket{ $Type . 'Escalation' }          = $Data{Escalation} || 0;
+                $Ticket{ $Type . 'Notification' } = $Data{Notification} || 0;
+                $Ticket{ $Type . 'Escalation' }   = $Data{Escalation}   || 0;
                 $Ticket{ $Type . 'TimeDestinationTime' } = $Data{DestinationTime};
                 $Ticket{ $Type . 'TimeDestinationDate' } = $Data{DestinationDate};
                 $Ticket{ $Type . 'TimeWorkingTime' }     = $Data{WorkingTime};
@@ -999,24 +999,25 @@ sub TicketGet {
             }
         }
     }
-#            # set escalation attributes
-#            if (
-#                !$Data{EscalationDestinationTime}
-#                || $Data{EscalationDestinationTime} > $DestinationTime
-#                )
-#            {
-#                $Data{EscalationDestinationTime} = $DestinationTime;
-#                $Data{EscalationDestinationDate} = $DestinationDate;
-#
-#                # escalation time in readable way
-#                $Data{EscalationDestinationIn} = '';
-#                if ( $WorkingTime >= 3600 ) {
-#                    $Data{EscalationDestinationIn} .= int( ( $WorkingTime / 3600 ) ) . 'h ';
-#                }
-#                if ( $WorkingTime <= 3600 || int( ( $WorkingTime / 60 ) % 60 ) ) {
-#                    $Data{EscalationDestinationIn} .= int( ( $WorkingTime / 60 ) % 60 ) . 'm';
-#                }
-#            }
+
+    #            # set escalation attributes
+    #            if (
+    #                !$Data{EscalationDestinationTime}
+    #                || $Data{EscalationDestinationTime} > $DestinationTime
+    #                )
+    #            {
+    #                $Data{EscalationDestinationTime} = $DestinationTime;
+    #                $Data{EscalationDestinationDate} = $DestinationDate;
+    #
+    #                # escalation time in readable way
+    #                $Data{EscalationDestinationIn} = '';
+    #                if ( $WorkingTime >= 3600 ) {
+    #                    $Data{EscalationDestinationIn} .= int( ( $WorkingTime / 3600 ) ) . 'h ';
+    #                }
+    #                if ( $WorkingTime <= 3600 || int( ( $WorkingTime / 60 ) % 60 ) ) {
+    #                    $Data{EscalationDestinationIn} .= int( ( $WorkingTime / 60 ) % 60 ) . 'm';
+    #                }
+    #            }
 
     # cache user result
     $Self->{ 'Cache::GetTicket' . $Param{TicketID} } = \%Ticket;
@@ -1284,7 +1285,7 @@ sub MoveTicket {
     }
 
     return if !$Self->{DBObject}->Do(
-        SQL  => 'UPDATE ticket SET queue_id = ? WHERE id = ?',
+        SQL => 'UPDATE ticket SET queue_id = ? WHERE id = ?',
         Bind => [ \$Param{QueueID}, \$Param{TicketID} ],
     );
 
@@ -1809,6 +1810,7 @@ sub TicketEscalationIndexBuild {
 
     # update first response (if not responded till now)
     if ( !$Escalation{FirstResponseTime} ) {
+
         # update first response time to 0
     }
     else {
@@ -1830,6 +1832,7 @@ sub TicketEscalationIndexBuild {
             $FirstResponseDone = 1;
         }
         if ($FirstResponseDone) {
+
             # update first response time to 0
         }
 
@@ -1844,14 +1847,17 @@ sub TicketEscalationIndexBuild {
         my $DestinationTime = $Self->{TimeObject}->TimeStamp2SystemTime(
             String => $DestinationTimeStamp,
         );
+
         # update first response time to $DestinationTime
     }
 
     # update update
     if ( !$Escalation{UpdateTime} ) {
+
         # update time to 0
     }
     else {
+
         # check if latest article comes from customer
         my @LastSender;
         $Self->{DBObject}->Prepare(
@@ -1876,15 +1882,18 @@ sub TicketEscalationIndexBuild {
             my $DestinationTime = $Self->{TimeObject}->TimeStamp2SystemTime(
                 String => $DestinationTimeStamp,
             );
+
             # update update time to $DestinationTime
         }
     }
 
     # update solution
     if ( !$Escalation{SolutionTime} ) {
+
         # update solution time to 0
     }
     else {
+
         # find solution time / first close time
         my @StateIDs = $Self->{StateObject}->StateGetStatesByType(
             StateType => ['closed'],
@@ -1902,6 +1911,7 @@ sub TicketEscalationIndexBuild {
             $SolutionDone = 1;
         }
         if ($SolutionDone) {
+
             # update solution time to 0
         }
         my $DestinationTimeStamp = $Self->{TimeObject}->DestinationTime(
@@ -1914,6 +1924,7 @@ sub TicketEscalationIndexBuild {
         my $DestinationTime = $Self->{TimeObject}->TimeStamp2SystemTime(
             String => $DestinationTimeStamp,
         );
+
         # update solution time to $DestinationTime
 
     }
@@ -4374,11 +4385,12 @@ sub StateSet {
 
     # reset escalation time if ticket will be reopend
     if ( $State{TypeName} ne 'closed' && $Ticket{StateType} eq 'closed' ) {
-#        $Self->TicketEscalationStartUpdate(
-#            EscalationStartTime => $Self->{TimeObject}->SystemTime(),
-#            TicketID            => $Param{TicketID},
-#            UserID              => $Param{UserID},
-#        );
+
+        #        $Self->TicketEscalationStartUpdate(
+        #            EscalationStartTime => $Self->{TimeObject}->SystemTime(),
+        #            TicketID            => $Param{TicketID},
+        #            UserID              => $Param{UserID},
+        #        );
     }
 
     # send customer notification email
@@ -6498,6 +6510,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.315 $ $Date: 2008-05-16 09:49:45 $
+$Revision: 1.316 $ $Date: 2008-05-16 14:38:01 $
 
 =cut
