@@ -2,14 +2,14 @@
 # UPGRADING - upgrading OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.24 2008-04-29 11:40:58 tr Exp $
+# $Id: UPGRADING,v 1.25 2008-05-16 07:38:58 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
-These instructions are for people upgrading OTRS from "2.1" to "2.2".
+These instructions are for people upgrading OTRS from "2.2" to "2.3".
 
 *) Stop all your services (e. g. rcotrs stop-force)
 
@@ -17,7 +17,7 @@ These instructions are for people upgrading OTRS from "2.1" to "2.2".
    (Remember: 5% of all config settings are renamed in OTRS 2.1, so may some of the
    Kernel/Config.pm settings will not be compatible)
 
-*) Make sure that you have backed up everything ,-)
+*) Make sure that you have backed up everything ;-)
 
 *) If possible try this install on a separate machine, althoug
    I had always only production machines to upgrade
@@ -29,14 +29,24 @@ These instructions are for people upgrading OTRS from "2.1" to "2.2".
     a) the OTRS themes between 2.1 and 2.2 are _not_ compatible
        (don't use the old themes)!
 
-*) Update the database changes with:
+*) Update the database changes with (part 1):
     MySQL:
-      cat $OTRS_HOME/scripts/DBUpdate-to-2.2.mysql.sql | mysql -p -f -u root otrs
+      cat $OTRS_HOME/scripts/DBUpdate-to-2.3.mysql.sql | mysql -p -f -u root otrs
     PostgreSQL:
-      cat $OTRS_HOME/scripts/DBUpdate-to-2.2.postgresql.sql | psql otrs
+      cat $OTRS_HOME/scripts/DBUpdate-to-2.3.postgresql.sql | psql otrs
 
    (Don't worry about the error messages, you can update all previous version
    with this script and in the most cases your database has already the most changes!)
+
+*) Run the migration script:
+   You must execute the migration script to migrate some data from the old database
+   structure to the new one. Please run $OTRS_HOME/scripts/DBUpdate-to-2.3.pl!
+
+*) Update the database changes with (part 2):
+    MySQL:
+      cat $OTRS_HOME/scripts/DBUpdate-to-2.3-post.mysql.sql | mysql -p -f -u root otrs
+    PostgreSQL:
+      cat $OTRS_HOME/scripts/DBUpdate-to-2.3-post.postgresql.sql | psql otrs
 
 *) If _no_ RPM is used, execute $OTRS_HOME/bin/SetPermissions.sh!
 
