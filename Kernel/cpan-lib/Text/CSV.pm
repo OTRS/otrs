@@ -5,7 +5,7 @@ use strict;
 use Carp ();
 
 BEGIN {
-    $Text::CSV::VERSION = '1.04';
+    $Text::CSV::VERSION = '1.05';
     $Text::CSV::DEBUG   = 0;
 }
 
@@ -60,69 +60,11 @@ unless ($Text::CSV::Worker) {
 }
 
 
-my $compile_dynamic_mode = sub {
-    my ($class, $worker) = @_;
-
-    local $^W;
-    no strict qw(refs);
-
-    for my $method (@PublicMethods) {
-        eval qq|
-            *{"$class\::$method"} = sub {
-                my \$self = shift;
-                \$self->{_MODULE} -> $method(\@_);
-            };
-        |;
-    }
-
-    *Text::CSV::new = \&_new_dynamic;
-};
-
 
 sub import {
     my ($class, $option) = @_;
-    if ($option and $option eq '-dynamic') {
-        $compile_dynamic_mode->($class => $Text::CSV::Worker);
-        $Is_Dynamic = 1;
-        $Text::CSV::DEBUG and  Carp::carp("Dynamic worker module mode."), "\n";
-    }
 }
 
-
-sub _new_dynamic {
-    my $proto  = shift;
-    my $class  = ref($proto) || $proto or return;
-    my $module = $Text::CSV::Worker;
-
-    if (ref $_[0] and $_[0]->{module}) {
-        $module = delete $_[0]->{module}; # Caution! deleted from original hashref too.
-
-        my $installed = $module . '.pm';
-        $installed =~ s{::}{/};
-
-        unless ($INC{ $installed }) { # Not yet installed
-            if ($module eq $Module_XS) {
-                _load_xs($Install_Only);
-            }
-            elsif ($module eq $Module_PP) {
-                _load_pp($Install_Only);
-            }
-            else {
-            }
-        }
-
-    }
-
-    if ( my $obj = $module->new(@_) ) {
-        my $self = bless {}, $class;
-        $self->{_MODULE} = $obj;
-        return $self;
-    }
-    else {
-        return;
-    }
-
-}
 
 
 sub new { # normal mode
@@ -133,15 +75,14 @@ sub new { # normal mode
         return eval qq| $Text::CSV::Worker\::new( \$proto ) |;
     }
 
-#    return $Text::CSV::Worker->new(@_);
-
-    if (ref $_[0] and $_[0]->{module}) {
-        Carp::croak("Can't set 'module' in non dynamic mode.");
-    }
+    #if (ref $_[0] and $_[0]->{module}) {
+    #    Carp::croak("Can't set 'module' in non dynamic mode.");
+    #}
 
     if ( my $obj = $Text::CSV::Worker->new(@_) ) {
         $obj->{_MODULE} = $Text::CSV::Worker;
         bless $obj, $class;
+        return $obj;
     }
     else {
         return;
@@ -180,7 +121,9 @@ sub AUTOLOAD {
     my $self = $_[0];
     my $attr = $Text::CSV::AUTOLOAD;
     $attr =~ s/.*:://;
-    return unless $attr =~ /^_/;
+
+    return if $attr =~ /^[A-Z]+$/;
+    Carp::croak( "Can't locate method $attr" ) unless $attr =~ /^_/;
 
     my $pkg = $Text::CSV::Worker;
 
@@ -325,6 +268,12 @@ The module accepts either strings or files as input and can utilize any
 user-specified characters as delimiters, separators, and escapes so it is
 perhaps better called ASV (anything separated values) rather than just CSV.
 
+=head1 VERSION
+
+    1.05
+
+This module is compatible with Text::CSV_XS B<0.43> or later.
+
 =head2 BINARY MODE
 
 The default behavior is to only accept ascii characters.
@@ -338,12 +287,6 @@ See to L<Text::CSV_XS/Embedded newlines>.
 =head1 SPECIFICATION
 
 See to L<Text::CSV_XS/SPECIFICATION>.
-
-=head1 VERSION
-
-    1.04
-
-This module is compatible with Text::CSV_XS B<0.43>.
 
 =head1 FUNCTIONS
 

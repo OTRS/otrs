@@ -11,7 +11,7 @@ use strict;
 use vars qw($VERSION);
 use Carp ();
 
-$VERSION = '1.12';
+$VERSION = '1.13';
 
 sub PV  { 0 }
 sub IV  { 1 }
@@ -94,6 +94,10 @@ my %def_attr = (
 
 
 BEGIN {
+    if ( $] < 5.006 ) {
+        $INC{'bytes.pm'} = 1; # dummy
+    }
+
     eval q| require Scalar::Util |;
     if ( $@ ) {
         eval q| require B |;
@@ -187,19 +191,22 @@ sub error_diag {
 ################################################################################
 # string
 ################################################################################
-sub string {
+*string = \&_string;
+sub _string {
     $_[0]->{_STRING};
 }
 ################################################################################
 # fields
 ################################################################################
-sub fields {
+*fields = \&_fields;
+sub _fields {
     ref($_[0]->{_FIELDS}) ?  @{$_[0]->{_FIELDS}} : undef;
 }
 ################################################################################
 # combine
 ################################################################################
-sub combine {
+*combine = \&_combine;
+sub _combine {
     my ($self, @part) = @_;
 
     # at least one argument was given for "combining"...
@@ -245,6 +252,7 @@ sub combine {
         }
 
         if($binary){
+            use bytes;
             $must_be_quoted++ if ( $column =~ s/\0/${esc}0/g || $column =~ /[\x00-\x1f\x7f-\xa0]/ );
         }
 
@@ -263,7 +271,9 @@ sub combine {
 ################################################################################
 my %allow_eol = ("\r" => 1, "\r\n" => 1, "\n" => 1, "" => 1);
 
-sub parse {
+*parse = \&_parse;
+
+sub _parse {
     my ($self, $line) = @_;
 
     @{$self}{qw/_STRING _FIELDS _STATUS _ERROR_INPUT/} = ($line, undef, 0, $line);
@@ -486,9 +496,9 @@ sub print {
         Carp::croak("Expected fields to be an array ref");
     }
 
-    $self->combine(@$cols) or return '';
+    $self->_combine(@$cols) or return '';
 
-    $io->print( $self->string );
+    $io->print( $self->_string );
 }
 ################################################################################
 # getline
@@ -512,10 +522,10 @@ sub getline {
         $line =~ s/\Q$eol\E$//;
     }
 
-    $self->parse($line) or return;
+    $self->_parse($line) or return;
 
     if ( $self->{_BOUND_COLUMNS} ) {
-        my @vals  = $self->fields();
+        my @vals  = $self->_fields();
         my ( $max, $count ) = ( scalar @vals, 0 );
 
         if ( @{ $self->{_BOUND_COLUMNS} } < $max ) {
@@ -535,7 +545,7 @@ sub getline {
         return [];
     }
     else {
-        [ $self->fields() ];
+        [ $self->_fields() ];
     }
 
 }
@@ -694,7 +704,7 @@ BEGIN {
         |;
     }
 }
-#                \$_[0]->{$method} = \$_[1] if (defined \$_[1]);
+
 
 sub SetDiag {
     if ( defined $_[1] and $_[1] == 0 ) {
