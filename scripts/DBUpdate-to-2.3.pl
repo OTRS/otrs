@@ -3,7 +3,7 @@
 # DBUpdate-to-2.3.pl - update script to migrate OTRS 2.2.x to 2.3.x
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-2.3.pl,v 1.5 2008-05-15 20:32:43 mh Exp $
+# $Id: DBUpdate-to-2.3.pl,v 1.6 2008-05-16 07:11:06 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -54,7 +54,7 @@ if ( $Opts{'h'} ) {
 my %CommonObject;
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-Test',
+    LogPrefix => 'OTRS-DBUpdate-to-2.3',
     %CommonObject,
 );
 $CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
@@ -71,10 +71,47 @@ print STDOUT "Start migration of the system...\n\n";
 # start migration process
 MigrateServiceSLARelation();
 MigrateLinkObject();
+MigrateEscalation();
 
 print STDOUT "\nMigration of the system completed!\n";
 
 exit 0;
+
+=item MigrateEscalation()
+
+this function migrates the escalation calculation
+
+    MigrateEscalation();
+
+=cut
+
+sub MigrateEscalation {
+
+    print STDOUT "NOTICE: Migrate the escalation calculation... ";
+
+    # get all tickets
+    my @TicketIDs = $CommonObject{TicketObject}->TicketSearch(
+
+        # result (required)
+        Result => 'ARRAY',
+
+        # result limit
+        Limit      => 100_000_000,
+        UserID     => 1,
+        Permission => 'ro',
+    );
+
+    for my $TicketID (@TicketIDs) {
+        $CommonObject{TicketObject}->TicketEscalationIndexBuild(
+            TicketID => $TicketID,
+            UserID   => 1,
+        );
+    }
+
+    print STDOUT " done\n";
+
+    return 1;
+}
 
 =item MigrateServiceSLARelation()
 
@@ -86,7 +123,7 @@ this function migrates the service sla relations
 
 sub MigrateServiceSLARelation {
 
-    print STDOUT "Migrate the service sla relations... ";
+    print STDOUT "NOTICE: Migrate the service sla relations... ";
 
     # get all existing relations
     my $Success = $CommonObject{DBObject}->Prepare(
@@ -138,7 +175,7 @@ this function migrates the links between the objects
 
 sub MigrateLinkObject {
 
-    print STDOUT "Migrate the link object... ";
+    print STDOUT "NOTICE: Migrate the link object... ";
 
     # get all existing links
     my $Success = $CommonObject{DBObject}->Prepare(
