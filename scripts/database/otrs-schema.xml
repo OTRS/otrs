@@ -5,7 +5,7 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 
-    $Id: otrs-schema.xml,v 1.91 2008-05-16 08:05:47 martin Exp $
+    $Id: otrs-schema.xml,v 1.92 2008-05-16 12:03:23 martin Exp $
 
 -->
 
@@ -543,7 +543,7 @@
     <Column Name="timeout" Required="false" Type="INTEGER"/>
     <Column Name="until_time" Required="false" Type="INTEGER"/>
     <Column Name="escalation_time" Required="true" Type="INTEGER"/>
-    <Column Name="escalation_start_time" Required="true" Type="INTEGER"/>
+    <Column Name="escalation_update_time" Required="true" Type="INTEGER"/>
     <Column Name="escalation_response_time" Required="true" Type="INTEGER"/>
     <Column Name="escalation_solution_time" Required="true" Type="INTEGER"/>
     <Column Name="freekey1" Required="false" Size="80" Type="VARCHAR"/>
@@ -634,8 +634,8 @@
     <Index Name="ticket_escalation_time">
         <IndexColumn Name="escalation_time"/>
     </Index>
-    <Index Name="ticket_escalation_start_time">
-        <IndexColumn Name="escalation_start_time"/>
+    <Index Name="ticket_escalation_update_time">
+        <IndexColumn Name="escalation_update_time"/>
     </Index>
     <Index Name="ticket_escalation_response_time">
         <IndexColumn Name="escalation_response_time"/>

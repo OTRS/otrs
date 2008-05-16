@@ -176,8 +176,8 @@
         <IndexCreate Name="ticket_escalation_time">
             <IndexColumn Name="escalation_time"/>
         </IndexCreate>
-        <IndexCreate Name="ticket_escalation_start_time">
-            <IndexColumn Name="escalation_start_time"/>
+        <IndexCreate Name="ticket_escalation_update_time">
+            <IndexColumn Name="escalation_update_time"/>
         </IndexCreate>
         <IndexCreate Name="ticket_escalation_response_time">
             <IndexColumn Name="escalation_response_time"/>
