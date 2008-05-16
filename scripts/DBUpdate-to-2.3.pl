@@ -3,7 +3,7 @@
 # DBUpdate-to-2.3.pl - update script to migrate OTRS 2.2.x to 2.3.x
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-2.3.pl,v 1.6 2008-05-16 07:11:06 martin Exp $
+# $Id: DBUpdate-to-2.3.pl,v 1.7 2008-05-16 07:19:37 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,16 +30,17 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
-use Kernel::System::LinkObject;
 use Kernel::System::Log;
 use Kernel::System::Time;
 use Kernel::System::Encode;
 use Kernel::System::DB;
 use Kernel::System::Main;
+use Kernel::System::Ticket;
+use Kernel::System::LinkObject;
 
 # get options
 my %Opts;
@@ -61,6 +62,7 @@ $CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
 $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{TimeObject}   = Kernel::System::Time->new(%CommonObject);
 $CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
+$CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
 $CommonObject{LinkObject}   = Kernel::System::LinkObject->new(
     %CommonObject,
     UserID => 1,
