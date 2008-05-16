@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NotificationAgentTicketEscalation.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationAgentTicketEscalation.pm,v 1.21 2008-05-16 09:49:46 martin Exp $
+# $Id: NotificationAgentTicketEscalation.pm,v 1.22 2008-05-16 11:25:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -64,7 +64,7 @@ sub Run {
         Result                      => 'ARRAY',
         Limit                       => $ShownMax,
         TicketEscalatationInMinutes => $EscalationInMinutes,
-        UserID                      => $Param{UserID},
+        UserID                      => $Self->{UserID},
     );
 
     # get escalations
