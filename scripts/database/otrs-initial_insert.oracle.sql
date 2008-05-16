@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2008-05-15 20:30:03
+--  driver: oracle, generated: 2008-05-16 13:22:17
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -719,9 +719,9 @@ INSERT INTO article_sender_type (name, valid_id, create_by, create_time, change_
 -- ----------------------------------------------------------
 --  insert into table ticket
 -- ----------------------------------------------------------
-INSERT INTO ticket (tn, queue_id, ticket_lock_id, ticket_answered, user_id, responsible_user_id, group_id, ticket_priority_id, ticket_state_id, create_time_unix, escalation_response_time, escalation_start_time, escalation_solution_time, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket (tn, queue_id, ticket_lock_id, ticket_answered, user_id, responsible_user_id, group_id, ticket_priority_id, ticket_state_id, create_time_unix, escalation_response_time, escalation_update_time, escalation_solution_time, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('1010001', 2, 1, 0, 1, 1, 1, 3, 1, 1173345999, 0, 1173345999, 0, 1, 1, current_timestamp, 1, current_timestamp);
+    ('1010001', 2, 1, 0, 1, 1, 1, 3, 1, 1173345999, 0, 0, 0, 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table article
 -- ----------------------------------------------------------
@@ -890,3 +890,4 @@ INSERT INTO notifications (notification_type, notification_charset, notification
 INSERT INTO notifications (notification_type, notification_charset, notification_language, subject, text, create_by, create_time, change_by, change_time)
     VALUES
     ('Customer::StateUpdate', 'iso-8859-1', 'de', 'Neuer Status "<OTRS_TICKET_State>"!', '*** NUR EINE INFO ***Der Status des Tickets "<OTRS_TICKET_TicketNumber>" hat sich durch"<OTRS_CURRENT_UserFirstname> <OTRS_CURRENT_UserLastname>" auf "<OTRS_TICKET_State>" geaendert.<OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>customer.pl?Action=CustomerZoom&TicketID=<OTRS_TICKET_TicketID>Ihr OTRS Benachrichtigungs-Master*** NUR EINE INFO ***', 1, current_timestamp, 1, current_timestamp);
+SET DEFINE OFF;

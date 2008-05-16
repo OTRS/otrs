@@ -5,7 +5,7 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 
-    $Id: otrs-initial_insert.xml,v 1.18 2008-05-15 18:31:00 mh Exp $
+    $Id: otrs-initial_insert.xml,v 1.19 2008-05-16 11:23:06 martin Exp $
 
 -->
 
@@ -1173,7 +1173,7 @@ Your OTRS Team
         <Data Key="ticket_state_id">1</Data>
         <Data Key="create_time_unix">1173345999</Data>
         <Data Key="escalation_response_time">0</Data>
-        <Data Key="escalation_start_time">1173345999</Data>
+        <Data Key="escalation_update_time">0</Data>
         <Data Key="escalation_solution_time">0</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
