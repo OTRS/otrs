@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2008-05-15 20:29:12
+--  driver: oracle, generated: 2008-05-16 10:03:18
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -595,6 +595,7 @@ CREATE TABLE ticket (
     customer_user_id VARCHAR2 (250),
     timeout NUMBER (12, 0),
     until_time NUMBER (12, 0),
+    escalation_time NUMBER (12, 0) NOT NULL,
     escalation_start_time NUMBER (12, 0) NOT NULL,
     escalation_response_time NUMBER (12, 0) NOT NULL,
     escalation_solution_time NUMBER (12, 0) NOT NULL,
@@ -665,6 +666,10 @@ CREATE INDEX FK_ticket_valid_id ON ticket (valid_id);
 CREATE INDEX ticket_answered ON ticket (ticket_answered);
 CREATE INDEX ticket_customer_id ON ticket (customer_id);
 CREATE INDEX ticket_customer_user_id ON ticket (customer_user_id);
+CREATE INDEX ticket_escalation_response_t29 ON ticket (escalation_response_time);
+CREATE INDEX ticket_escalation_solution_td9 ON ticket (escalation_solution_time);
+CREATE INDEX ticket_escalation_start_time ON ticket (escalation_start_time);
+CREATE INDEX ticket_escalation_time ON ticket (escalation_time);
 CREATE INDEX ticket_queue_id ON ticket (queue_id);
 CREATE INDEX ticket_queue_view ON ticket (ticket_state_id, ticket_lock_id, group_id);
 CREATE INDEX ticket_responsible_user_id ON ticket (responsible_user_id);

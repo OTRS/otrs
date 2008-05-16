@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2008-05-15 22:07:11
+--  driver: postgresql, generated: 2008-05-16 10:02:39
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table users
@@ -97,6 +97,26 @@ ALTER TABLE queue ADD update_notify INTEGER;
 -- ----------------------------------------------------------
 ALTER TABLE queue ADD solution_notify INTEGER;
 CREATE INDEX queue_group_id ON queue (group_id);
+-- ----------------------------------------------------------
+--  alter table ticket
+-- ----------------------------------------------------------
+ALTER TABLE ticket RENAME escalation_start_time TO escalation_update_time;
+-- ----------------------------------------------------------
+--  alter table ticket
+-- ----------------------------------------------------------
+ALTER TABLE ticket ALTER escalation_update_time TYPE INTEGER;
+-- ----------------------------------------------------------
+--  alter table ticket
+-- ----------------------------------------------------------
+ALTER TABLE ticket ALTER escalation_update_time SET NOT NULL;
+-- ----------------------------------------------------------
+--  alter table ticket
+-- ----------------------------------------------------------
+ALTER TABLE ticket ADD escalation_time INTEGER NOT NULL;
+CREATE INDEX ticket_escalation_time ON ticket (escalation_time);
+CREATE INDEX ticket_escalation_start_time ON ticket (escalation_start_time);
+CREATE INDEX ticket_escalation_response_time ON ticket (escalation_response_time);
+CREATE INDEX ticket_escalation_solution_time ON ticket (escalation_solution_time);
 CREATE INDEX ticket_title ON ticket (title);
 CREATE INDEX ticket_customer_user_id ON ticket (customer_user_id);
 CREATE INDEX ticket_customer_id ON ticket (customer_id);

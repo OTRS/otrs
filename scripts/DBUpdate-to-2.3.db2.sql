@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2008-05-15 22:07:10
+--  driver: db2, generated: 2008-05-16 10:02:39
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table users
@@ -119,6 +119,54 @@ ALTER TABLE queue ADD update_notify SMALLINT;
 ALTER TABLE queue ADD solution_notify SMALLINT;
 
 CREATE INDEX queue_group_id ON queue (group_id);
+
+ SET INTEGRITY FOR ticket OFF;
+
+-- ----------------------------------------------------------
+--  alter table ticket
+-- ----------------------------------------------------------
+ALTER TABLE ticket ADD COLUMN escalation_update_time INTEGER GENERATED ALWAYS AS (escalation_start_time);
+
+ SET INTEGRITY FOR ticket IMMEDIATE CHECKED FORCE GENERATED;
+
+-- ----------------------------------------------------------
+--  alter table ticket
+-- ----------------------------------------------------------
+ALTER TABLE ticket ALTER escalation_update_time DROP EXPRESSION;
+
+-- ----------------------------------------------------------
+--  alter table ticket
+-- ----------------------------------------------------------
+ALTER TABLE ticket DROP COLUMN escalation_start_time;
+
+CALL SYSPROC.ADMIN_CMD ('REORG TABLE ticket');
+
+-- ----------------------------------------------------------
+--  alter table ticket
+-- ----------------------------------------------------------
+ALTER TABLE ticket ALTER COLUMN escalation_update_time SET DATA TYPE INTEGER;
+
+CALL SYSPROC.ADMIN_CMD ('REORG TABLE ticket');
+
+-- ----------------------------------------------------------
+--  alter table ticket
+-- ----------------------------------------------------------
+ALTER TABLE ticket ALTER COLUMN escalation_update_time SET NOT NULL;
+
+CALL SYSPROC.ADMIN_CMD ('REORG TABLE ticket');
+
+-- ----------------------------------------------------------
+--  alter table ticket
+-- ----------------------------------------------------------
+ALTER TABLE ticket ADD escalation_time INTEGER NOT NULL DEFAULT 0;
+
+CREATE INDEX ticket_escalation_time ON ticket (escalation_time);
+
+CREATE INDEX ticket_escalation_start_time ON ticket (escalation_start_time);
+
+CREATE INDEX ticket_escalation_response_time ON ticket (escalation_response_time);
+
+CREATE INDEX ticket_escalation_solution_time ON ticket (escalation_solution_time);
 
 CREATE INDEX ticket_title ON ticket (title);
 
