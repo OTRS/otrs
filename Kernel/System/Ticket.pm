@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.316 2008-05-16 14:38:01 mh Exp $
+# $Id: Ticket.pm,v 1.317 2008-05-19 06:50:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.316 $) [1];
+$VERSION = qw($Revision: 1.317 $) [1];
 
 =head1 NAME
 
@@ -809,23 +809,23 @@ sub TicketGet {
     }
 
     # db query
-    my $SQL = 'SELECT st.id, st.queue_id, sq.name, st.ticket_state_id, st.ticket_lock_id, '
-        . ' sp.id, sp.name, st.create_time_unix, st.create_time, sq.group_id, st.tn, '
-        . ' st.customer_id, st.customer_user_id, st.user_id, st.responsible_user_id, st.until_time, '
+    my $SQL = 'SELECT st.id, st.queue_id, sq.name, st.ticket_state_id, st.ticket_lock_id,'
+        . ' sp.id, sp.name, st.create_time_unix, st.create_time, sq.group_id, st.tn,'
+        . ' st.customer_id, st.customer_user_id, st.user_id, st.responsible_user_id, st.until_time,'
         . ' st.freekey1, st.freetext1, st.freekey2, st.freetext2,'
         . ' st.freekey3, st.freetext3, st.freekey4, st.freetext4,'
         . ' st.freekey5, st.freetext5, st.freekey6, st.freetext6,'
-        . ' st.freekey7, st.freetext7, st.freekey8, st.freetext8, '
-        . ' st.freekey9, st.freetext9, st.freekey10, st.freetext10, '
+        . ' st.freekey7, st.freetext7, st.freekey8, st.freetext8,'
+        . ' st.freekey9, st.freetext9, st.freekey10, st.freetext10,'
         . ' st.freekey11, st.freetext11, st.freekey12, st.freetext12,'
-        . ' st.freekey13, st.freetext13, st.freekey14, st.freetext14, '
-        . ' st.freekey15, st.freetext15, st.freekey16, st.freetext16, '
-        . ' st.freetime1, st.freetime2, st.freetime3, st.freetime4, '
-        . ' st.freetime5, st.freetime6, '
-        . ' st.change_time, st.title, st.escalation_update_time, st.timeout, '
-        . ' st.type_id, st.service_id, st.sla_id, st.escalation_response_time, '
-        . ' st.escalation_solution_time, st.escalation_time '
-        . ' FROM ticket st, ticket_priority sp, queue sq '
+        . ' st.freekey13, st.freetext13, st.freekey14, st.freetext14,'
+        . ' st.freekey15, st.freetext15, st.freekey16, st.freetext16,'
+        . ' st.freetime1, st.freetime2, st.freetime3, st.freetime4,'
+        . ' st.freetime5, st.freetime6,'
+        . ' st.change_time, st.title, st.escalation_update_time, st.timeout,'
+        . ' st.type_id, st.service_id, st.sla_id, st.escalation_response_time,'
+        . ' st.escalation_solution_time, st.escalation_time'
+        . ' FROM ticket st, ticket_priority sp, queue sq'
         . ' WHERE sp.id = st.ticket_priority_id AND sq.id = st.queue_id AND st.id = ?';
     $Self->{DBObject}->Prepare( SQL => $SQL, Bind => [ \$Param{TicketID} ] );
 
@@ -958,66 +958,12 @@ sub TicketGet {
     }
 
     # get escalation attributes
-    my %Escalation = ();
-    if ( $Self->{ConfigObject}->Get('Ticket::Service') && $Ticket{SLAID} ) {
-        %Escalation = $Self->{SLAObject}->SLAGet(
-            SLAID  => $Ticket{SLAID},
-            UserID => $Param{UserID},
-            Cache  => 1,
-        );
+    my %Escalation = $Self->TicketEscalationDateCalculation(
+        Ticket => \%Ticket,
+    );
+    for my $Key ( keys %Escalation ) {
+        $Ticket{$Key} = $Escalation{$Key};
     }
-    else {
-        %Escalation = $Self->{QueueObject}->QueueGet(
-            ID     => $Ticket{QueueID},
-            UserID => $Param{UserID},
-            Cache  => 1,
-        );
-    }
-    for my $Type (qw(FirstResponseTime UpdateTime SolutionTime)) {
-
-        # build escalation index if escalation setting exists but no escalation is calculated
-        if ( $Escalation{$Type} && !$Ticket{ 'Escalation' . $Type } ) {
-            $Self->TicketEscalationIndexBuild(
-                TicketID => $Param{TicketID},
-                UserID   => 1,
-            );
-        }
-
-        # get escalation times (DestinationTime, DestinationDate, WorkingTime, RealTime)
-        if ( $Escalation{$Type} && $Ticket{ 'Escalation' . $Type } ) {
-            my %Data = $Self->TicketEscalationDateCalculation(
-                DestinationTime => $Ticket{ 'Escalation' . $Type },
-                Escalation      => \%Escalation,
-            );
-            if (%Data) {
-                $Ticket{ $Type . 'Notification' } = $Data{Notification} || 0;
-                $Ticket{ $Type . 'Escalation' }   = $Data{Escalation}   || 0;
-                $Ticket{ $Type . 'TimeDestinationTime' } = $Data{DestinationTime};
-                $Ticket{ $Type . 'TimeDestinationDate' } = $Data{DestinationDate};
-                $Ticket{ $Type . 'TimeWorkingTime' }     = $Data{WorkingTime};
-                $Ticket{ $Type . 'Time' }                = $Data{RealTime};
-            }
-        }
-    }
-
-    #            # set escalation attributes
-    #            if (
-    #                !$Data{EscalationDestinationTime}
-    #                || $Data{EscalationDestinationTime} > $DestinationTime
-    #                )
-    #            {
-    #                $Data{EscalationDestinationTime} = $DestinationTime;
-    #                $Data{EscalationDestinationDate} = $DestinationDate;
-    #
-    #                # escalation time in readable way
-    #                $Data{EscalationDestinationIn} = '';
-    #                if ( $WorkingTime >= 3600 ) {
-    #                    $Data{EscalationDestinationIn} .= int( ( $WorkingTime / 3600 ) ) . 'h ';
-    #                }
-    #                if ( $WorkingTime <= 3600 || int( ( $WorkingTime / 60 ) % 60 ) ) {
-    #                    $Data{EscalationDestinationIn} .= int( ( $WorkingTime / 60 ) % 60 ) . 'm';
-    #                }
-    #            }
 
     # cache user result
     $Self->{ 'Cache::GetTicket' . $Param{TicketID} } = \%Ticket;
@@ -1727,52 +1673,105 @@ sub TicketEscalationDateCalculation {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(DestinationTime Escalation)) {
+    for (qw(Ticket)) {
         if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
-    my $Time        = $Param{DestinationTime} - $Self->{TimeObject}->SystemTime();
-    my $WorkingTime = 0;
-    my %Escalation  = %{ $Param{Escalation} };
-    my %Data;
-    if ( $Time > 0 ) {
-        $WorkingTime = $Self->{TimeObject}->WorkingTime(
-            StartTime => $Self->{TimeObject}->SystemTime(),
-            StopTime  => $Param{DestinationTime},
-            Calendar  => $Escalation{Calendar},
-        );
+    my %Ticket = %{ $Param{Ticket} };
 
-        # set notification if notfy % is reached
-        if ( $Escalation{FirstResponseNotify} ) {
-            my $Reached = 100 - ( $WorkingTime / ( $Escalation{FirstResponseTime} * 60 / 100 ) );
-            if ( $Reached >= $Escalation{FirstResponseNotify} ) {
-                $Data{Notification} = 1;
+    my %Escalation = ();
+    if ( $Self->{ConfigObject}->Get('Ticket::Service') && $Ticket{SLAID} ) {
+        %Escalation = $Self->{SLAObject}->SLAGet(
+            SLAID  => $Ticket{SLAID},
+            UserID => $Param{UserID},
+            Cache  => 1,
+        );
+    }
+    else {
+        %Escalation = $Self->{QueueObject}->QueueGet(
+            ID     => $Ticket{QueueID},
+            UserID => $Param{UserID},
+            Cache  => 1,
+        );
+    }
+
+    # return if we do not have any escalation attributes
+    return if !%Escalation;
+
+    my $Time = $Self->{TimeObject}->SystemTime();
+    my %Data;
+    my %Map  = (
+        EscalationResponseTime => 'FirstResponse',
+        EscalationUpdateTime   => 'Update',
+        EscalationSolutionTime => 'Solution',
+    );
+
+    for my $Key (keys %Map) {
+        if ($Ticket{$Key}) {
+            my $WorkingTime = 0;
+            my $TimeDiff    = $Ticket{$Key} - $Time;
+
+            # ticket is not escalated till now
+            if ($TimeDiff > 0) {
+                $WorkingTime = $Self->{TimeObject}->WorkingTime(
+                    StartTime => $Time,
+                    StopTime  => $Ticket{$Key},
+                    Calendar  => $Escalation{Calendar},
+                );
+
+                # set notification if notfy % is reached
+                if ( $Escalation{ $Map{$Key} . 'Notify'} ) {
+                    my $Reached = 100 - ( $WorkingTime / ( $Escalation{ $Map{$Key} . 'Time' } * 60 / 100 ) );
+                    if ( $Reached >= $Escalation{ $Map{$Key} . 'Notify'} ) {
+                        $Data{ $Map{$Key} . 'TimeNotification' } = 1;
+                    }
+                }
+            }
+
+            # ticket is overtime
+            else {
+                $WorkingTime = $Self->{TimeObject}->WorkingTime(
+                    StartTime => $Ticket{$Key},
+                    StopTime  => $Time,
+                    Calendar  => $Escalation{Calendar},
+                );
+                $WorkingTime = "-$WorkingTime";
+
+                # set escalation
+                $Data{ $Map{$Key} . 'TimeEscalation' } = 1;
+            }
+            my $DestinationDate = $Self->{TimeObject}->SystemTime2TimeStamp(
+                SystemTime => $Ticket{$Key},
+            );
+            $Data{ $Map{$Key} . 'TimeDestinationTime' } = $Ticket{$Key};
+            $Data{ $Map{$Key} . 'TimeDestinationDate' } = $DestinationDate;
+            $Data{ $Map{$Key} . 'TimeWorkingTime' }     = $WorkingTime;
+            $Data{ $Map{$Key} . 'Time' }                = $TimeDiff;
+
+            # set escalation attributes
+            if (
+                !$Data{EscalationDestinationTime}
+                || $Data{EscalationDestinationTime} > $Ticket{$Key}
+                )
+            {
+                $Data{EscalationDestinationTime} = $Ticket{$Key};
+                $Data{EscalationDestinationDate} = $DestinationDate;
+
+                # escalation time in readable way
+                $Data{EscalationDestinationIn} = '';
+                if ( $WorkingTime >= 3600 ) {
+                    $Data{EscalationDestinationIn} .= int( $WorkingTime / 3600 ) . 'h ';
+                }
+                if ( $WorkingTime <= 3600 || int( ( $WorkingTime / 60 ) % 60 ) ) {
+                    $Data{EscalationDestinationIn} .= int( ( $WorkingTime / 60 ) % 60 ) . 'm';
+                }
             }
         }
     }
-    else {
-        $WorkingTime = $Self->{TimeObject}->WorkingTime(
-            StartTime => $Param{DestinationTime},
-            StopTime  => $Time,
-            Calendar  => $Escalation{Calendar},
-        );
-        $WorkingTime = "-$WorkingTime";
 
-        # set escalation
-        $Data{Escalation} = 1;
-    }
-
-    # set first response escalation attributes
-    my $DestinationDate = $Self->{TimeObject}->SystemTime2TimeStamp(
-        SystemTime => $Param{DestinationTime},
-    );
-    $Data{DestinationTime} = $Param{DestinationTime};
-    $Data{DestinationDate} = $DestinationDate;
-    $Data{WorkingTime}     = $WorkingTime;
-    $Data{RealTime}        = $Time;
     return %Data;
 }
 
@@ -1788,6 +1787,26 @@ sub TicketEscalationIndexBuild {
     if ( $Ticket{StateType} =~ /^close/i ) {
 
         # update escalation times with 0
+        my %EscalationTimes = (
+            EscalationTime         => 'escalation_time',
+            EscalationResponseTime => 'escalation_response_time',
+            EscalationUpdateTime   => 'escalation_update_time',
+            EscalationSolutionTime => 'escalation_solution_time',
+        );
+        my $Time = 0;
+        for my $Key ( keys %EscalationTimes ) {
+
+            # check if table update is needed
+            if ( !$Ticket{$Key} ) {
+                next;
+            }
+
+            # update ticket table
+            $Self->{DBObject}->Do(
+                SQL  => "UPDATE ticket SET $EscalationTimes{$Key} = ? WHERE id = ?",
+                Bind => [ \$Time, \$Ticket{TicketID}, ]
+            );
+        }
         return 1;
     }
 
@@ -1809,20 +1828,25 @@ sub TicketEscalationIndexBuild {
     }
 
     # update first response (if not responded till now)
+    my $FirstResponseTime = 0;
     if ( !$Escalation{FirstResponseTime} ) {
-
-        # update first response time to 0
+        $Self->{DBObject}->Do(
+            SQL  => 'UPDATE ticket SET escalation_response_time = ? WHERE id = ?',
+            Bind => [ \$FirstResponseTime, \$Ticket{TicketID}, ]
+        );
     }
     else {
+
+        # check if first response is already done
         $Self->{DBObject}->Prepare(
-            SQL => 'SELECT a.create_time,a.id FROM '
-                . ' article a, article_sender_type ast, article_type at '
-                . ' WHERE '
-                . ' a.article_sender_type_id = ast.id AND '
-                . ' a.article_type_id = at.id AND '
-                . ' a.ticket_id = ? AND '
-                . ' ast.name = \'agent\' AND '
-                . ' (at.name LIKE \'email-ext%\' OR at.name = \'phone\' OR at.name = \'fax\') '
+            SQL => 'SELECT a.create_time,a.id FROM'
+                . ' article a, article_sender_type ast, article_type at'
+                . ' WHERE'
+                . ' a.article_sender_type_id = ast.id AND'
+                . ' a.article_type_id = at.id AND'
+                . ' a.ticket_id = ? AND'
+                . ' ast.name = \'agent\' AND'
+                . ' (at.name LIKE \'email-ext%\' OR at.name = \'phone\' OR at.name = \'fax\')'
                 . ' ORDER BY a.create_time',
             Bind  => [ \$Ticket{TicketID} ],
             Limit => 1,
@@ -1831,30 +1855,40 @@ sub TicketEscalationIndexBuild {
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             $FirstResponseDone = 1;
         }
-        if ($FirstResponseDone) {
 
-            # update first response time to 0
+        # update first response time to 0
+        if ($FirstResponseDone) {
+            $Self->{DBObject}->Do(
+                SQL  => 'UPDATE ticket SET escalation_response_time = ? WHERE id = ?',
+                Bind => [ \$FirstResponseTime, \$Ticket{TicketID}, ]
+            );
         }
 
         # update first response time to expected escaltion destination time
-        my $DestinationTimeStamp = $Self->{TimeObject}->DestinationTime(
-            StartTime => $Self->{TimeObject}->TimeStamp2SystemTime(
-                String => $Ticket{Created}
-            ),
-            Time     => $Escalation{FirstResponseTime} * 60,
-            Calendar => $Escalation{Calendar},
-        );
-        my $DestinationTime = $Self->{TimeObject}->TimeStamp2SystemTime(
-            String => $DestinationTimeStamp,
-        );
+        else {
+            my $DestinationTime = $Self->{TimeObject}->DestinationTime(
+                StartTime => $Self->{TimeObject}->TimeStamp2SystemTime(
+                    String => $Ticket{Created}
+                ),
+                Time     => $Escalation{FirstResponseTime} * 60,
+                Calendar => $Escalation{Calendar},
+            );
 
-        # update first response time to $DestinationTime
+            # update first response time to $DestinationTime
+            $Self->{DBObject}->Do(
+                SQL  => 'UPDATE ticket SET escalation_response_time = ? WHERE id = ?',
+                Bind => [ \$DestinationTime, \$Ticket{TicketID}, ]
+            );
+        }
     }
 
     # update update
+    my $UpdateTime = 0;
     if ( !$Escalation{UpdateTime} ) {
-
-        # update time to 0
+        $Self->{DBObject}->Do(
+            SQL  => 'UPDATE ticket SET escalation_solution_time = ? WHERE id = ?',
+            Bind => [ \$UpdateTime, \$Ticket{TicketID}, ]
+        );
     }
     else {
 
@@ -1872,25 +1906,29 @@ sub TicketEscalationIndexBuild {
             }
         }
         if (@LastSender) {
-            my $DestinationTimeStamp = $Self->{TimeObject}->DestinationTime(
+            my $DestinationTime = $Self->{TimeObject}->DestinationTime(
                 StartTime => $Self->{TimeObject}->TimeStamp2SystemTime(
                     String => $LastSender[1],
                 ),
                 Time     => $Escalation{UpdateTime} * 60,
                 Calendar => $Escalation{Calendar},
             );
-            my $DestinationTime = $Self->{TimeObject}->TimeStamp2SystemTime(
-                String => $DestinationTimeStamp,
-            );
 
             # update update time to $DestinationTime
+            $Self->{DBObject}->Do(
+                SQL  => 'UPDATE ticket SET escalation_update_time = ? WHERE id = ?',
+                Bind => [ \$DestinationTime, \$Ticket{TicketID}, ]
+            );
         }
     }
 
     # update solution
+    my $SolutionTime = 0;
     if ( !$Escalation{SolutionTime} ) {
-
-        # update solution time to 0
+        $Self->{DBObject}->Do(
+            SQL  => 'UPDATE ticket SET escalation_solution_time = ? WHERE id = ?',
+            Bind => [ \$SolutionTime, \$Ticket{TicketID}, ]
+        );
     }
     else {
 
@@ -1910,23 +1948,29 @@ sub TicketEscalationIndexBuild {
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             $SolutionDone = 1;
         }
+
+        # update solution time to 0
         if ($SolutionDone) {
-
-            # update solution time to 0
+            $Self->{DBObject}->Do(
+                SQL  => 'UPDATE ticket SET escalation_solution_time = ? WHERE id = ?',
+                Bind => [ \$SolutionTime, \$Ticket{TicketID}, ]
+            );
         }
-        my $DestinationTimeStamp = $Self->{TimeObject}->DestinationTime(
-            StartTime => $Self->{TimeObject}->TimeStamp2SystemTime(
-                String => $Ticket{Created}
-            ),
-            Time     => $Escalation{SolutionTime} * 60,
-            Calendar => $Escalation{Calendar},
-        );
-        my $DestinationTime = $Self->{TimeObject}->TimeStamp2SystemTime(
-            String => $DestinationTimeStamp,
-        );
+        else {
+            my $DestinationTime = $Self->{TimeObject}->DestinationTime(
+                StartTime => $Self->{TimeObject}->TimeStamp2SystemTime(
+                    String => $Ticket{Created}
+                ),
+                Time     => $Escalation{SolutionTime} * 60,
+                Calendar => $Escalation{Calendar},
+            );
 
-        # update solution time to $DestinationTime
-
+            # update solution time to $DestinationTime
+            $Self->{DBObject}->Do(
+                SQL  => 'UPDATE ticket SET escalation_solution_time = ? WHERE id = ?',
+                Bind => [ \$DestinationTime, \$Ticket{TicketID}, ]
+            );
+        }
     }
 
     return 1;
@@ -6510,6 +6554,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.316 $ $Date: 2008-05-16 14:38:01 $
+$Revision: 1.317 $ $Date: 2008-05-19 06:50:07 $
 
 =cut
