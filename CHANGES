@@ -2,15 +2,22 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.652 2008-05-16 08:21:56 mh Exp $
+# $Id: CHANGES,v 1.653 2008-05-19 06:41:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
-CVS HEAD (????/??/??)
+2.3.0 beta1 (2008/05/19)
  - (2008/05/16) Updated cpan module Text::CSV to the version 1.05.
+ - (2008/05/15) Added ticket search close time support to agent ticket search
+    and generic agent.
+ - (2008/05/15) Reimplmeented "bin/xml2sql.pl", works now with new cmd params.
+    Now "-t $DatabaseType", "-n $Name", "-s $SplitInPrePostFiles" and
+    "-o $OutputDir".
+ - (2008/05/15) Renamed mssql reserved database table word "system_user" to
+    "users". Use scripts/DBUpdate-to-2.3.*.sql for database upgrade.
  - (2008/05/15) If signing via SMIME fails, we now fall back to the original
      unsigned mailtext instead of sending an empty mail.
  - (2008/05/15) Fixed bug#2844 - Improved robustness of RANDFILE setting for
