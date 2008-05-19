@@ -3,7 +3,7 @@
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: auto_build.sh,v 1.49 2008-04-24 11:47:39 tr Exp $
+# $Id: auto_build.sh,v 1.50 2008-05-19 06:56:50 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.49 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.50 $>"
 echo "Copyright (C) 2001-2008 OTRS AG, http://otrs.org/"
 
 PATH_TO_CVS_SRC=$1
@@ -130,8 +130,8 @@ cp -a $PATH_TO_CVS_SRC/* $PACKAGE_BUILD_DIR/$ARCHIVE_DIR/ || exit 1;
 # --
 RELEASEFILE=$PACKAGE_BUILD_DIR/$ARCHIVE_DIR/RELEASE
 echo "PRODUCT = $PRODUCT" > $RELEASEFILE
-echo "VERSION = $VERSION" >> $RELEASEFILE
-#echo "VERSION = $VERSION $RELEASE" >> $RELEASEFILE
+#echo "VERSION = $VERSION" >> $RELEASEFILE
+echo "VERSION = $VERSION $RELEASE" >> $RELEASEFILE
 echo "BUILDDATE = `date`" >> $RELEASEFILE
 echo "BUILDHOST = `hostname -f`" >> $RELEASEFILE
 
