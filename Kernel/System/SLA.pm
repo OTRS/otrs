@@ -2,7 +2,7 @@
 # Kernel/System/SLA.pm - all sla function
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SLA.pm,v 1.24 2008-05-10 10:28:18 mh Exp $
+# $Id: SLA.pm,v 1.25 2008-05-19 06:52:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 =head1 NAME
 
@@ -44,7 +44,7 @@ create an object
     use Kernel::System::Service;
 
     my $ConfigObject = Kernel::Config->new();
-    my $LogObject = Kernel::System::Log->new(
+    my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
     my $DBObject = Kernel::System::DB->new(
@@ -55,8 +55,8 @@ create an object
 
     my $SLAObject = Kernel::System::SLA->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
-        DBObject => $DBObject,
+        LogObject    => $LogObject,
+        DBObject     => $DBObject,
     );
 
 =cut
@@ -103,9 +103,6 @@ sub SLAList {
     if ( !defined $Param{Valid} ) {
         $Param{Valid} = 1;
     }
-
-    # quote
-    $Param{UserID} = $Self->{DBObject}->Quote( $Param{UserID}, 'Integer' );
 
     # add ServiceID
     my %SQLTable;
@@ -188,20 +185,20 @@ sub SLAGet {
     }
 
     # check if result is already cached
-    return %{ $Self->{Cache}->{SLAGet}->{ $Param{SLAID} } }
-        if $Self->{Cache}->{SLAGet}->{ $Param{SLAID} };
-
-    # quote
-    for my $Argument (qw(SLAID UserID)) {
-        $Param{$Argument} = $Self->{DBObject}->Quote( $Param{$Argument}, 'Integer' );
+    my $CacheKey = 'Cache::SLAGet::' . $Param{SLAID};
+    if ( $Self->{$CacheKey} ) {
+        return %{ $Self->{$CacheKey} };
     }
 
     # get sla from db
     $Self->{DBObject}->Prepare(
-        SQL => "SELECT id, name, calendar_name, first_response_time, first_response_notify, "
-            . "update_time, update_notify, solution_time, solution_notify, "
-            . "valid_id, comments, create_time, create_by, change_time, change_by "
-            . "FROM sla WHERE id = $Param{SLAID}",
+        SQL => 'SELECT id, name, calendar_name, first_response_time, first_response_notify, '
+            . 'update_time, update_notify, solution_time, solution_notify, '
+            . 'valid_id, comments, create_time, create_by, change_time, change_by '
+            . 'FROM sla WHERE id = ?',
+        Bind  => [
+            \$Param{SLAID},
+        ],
         Limit => 1,
     );
 
@@ -236,8 +233,8 @@ sub SLAGet {
 
     # get all service ids
     $Self->{DBObject}->Prepare(
-        SQL => "SELECT service_id FROM service_sla "
-            . "WHERE sla_id = $SLAData{SLAID} ORDER BY service_id ASC",
+        SQL => 'SELECT service_id FROM service_sla WHERE sla_id = ? ORDER BY service_id ASC',
+        Bind => [ \$SLAData{SLAID} ],
     );
 
     # fetch the result
@@ -250,7 +247,7 @@ sub SLAGet {
     $SLAData{ServiceIDs} = \@ServiceIDs;
 
     # cache the result
-    $Self->{Cache}->{SLAGet}->{ $Param{SLAID} } = \%SLAData;
+    $Self->{$CacheKey} = \%SLAData;
 
     return %SLAData;
 }
@@ -285,16 +282,16 @@ sub SLALookup {
 
     if ( $Param{SLAID} ) {
 
-        # check if result is already cached
-        return $Self->{Cache}->{SLALookup}->{ID}->{ $Param{SLAID} }
-            if $Self->{Cache}->{SLALookup}->{ID}->{ $Param{SLAID} };
+        # check cache
+        my $CacheKey = 'Cache::SLALookup::ID::' . $Param{SLAID};
+        if ( defined $Self->{$CacheKey} ) {
+            return $Self->{$CacheKey};
+        }
 
-        # quote
-        $Param{SLAID} = $Self->{DBObject}->Quote( $Param{SLAID}, 'Integer' );
-
-        # ask the database
+        # lookup
         $Self->{DBObject}->Prepare(
-            SQL   => "SELECT name FROM sla WHERE id = $Param{SLAID}",
+            SQL   => 'SELECT name FROM sla WHERE id = ?',
+            Bind  => [ \$Param{SLAID}, ],
             Limit => 1,
         );
 
@@ -304,23 +301,23 @@ sub SLALookup {
             $Name = $Row[0];
         }
 
-        # cache the result
-        $Self->{Cache}->{SLALookup}->{ID}->{ $Param{SLAID} } = $Name;
+        # cache
+        $Self->{$CacheKey} = $Name;
 
         return $Name;
     }
     else {
 
-        # check if result is already cached
-        return $Self->{Cache}->{SLALookup}->{Name}->{ $Param{Name} }
-            if $Self->{Cache}->{SLALookup}->{Name}->{ $Param{Name} };
-
-        # quote
-        $Param{Name} = $Self->{DBObject}->Quote( $Param{Name} );
+        # check cache
+        my $CacheKey = 'Cache::SLALookup::Name::' . $Param{Name};
+        if ( defined $Self->{$CacheKey} ) {
+            return $Self->{$CacheKey};
+        }
 
         # lookup
         $Self->{DBObject}->Prepare(
-            SQL   => "SELECT id FROM sla WHERE name = '$Param{Name}'",
+            SQL   => 'SELECT id FROM sla WHERE name = ?',
+            Bind  => [ \$Param{Name} ],
             Limit => 1,
         );
 
@@ -330,8 +327,8 @@ sub SLALookup {
             $SLAID = $Row[0];
         }
 
-        # cache the result
-        $Self->{Cache}->{SLALookup}->{Name}->{ $Param{Name} } = $SLAID;
+        # cache
+        $Self->{$CacheKey} = $SLAID;
 
         return $SLAID;
     }
@@ -376,7 +373,7 @@ sub SLAAdd {
     if ( defined $Param{ServiceIDs} && ref $Param{ServiceIDs} ne 'ARRAY' ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => 'ServiceIDs must be an array reference!',
+            Message  => 'ServiceIDs need to be an array reference!',
         );
         return;
     }
@@ -392,17 +389,6 @@ sub SLAAdd {
     $Param{SolutionTime}        ||= 0;
     $Param{SolutionNotify}      ||= 0;
 
-    # quote
-    for my $Argument (qw(Name Calendar Comment)) {
-        $Param{$Argument} = $Self->{DBObject}->Quote( $Param{$Argument} );
-    }
-    for my $Argument (
-        qw(FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify ValidID UserID)
-        )
-    {
-        $Param{$Argument} = $Self->{DBObject}->Quote( $Param{$Argument}, 'Integer' );
-    }
-
     # cleanup given params
     for my $Argument (qw(Name Comment)) {
         $Self->{CheckItemObject}->StringClean(
@@ -414,7 +400,8 @@ sub SLAAdd {
 
     # find exiting sla's with the same name
     $Self->{DBObject}->Prepare(
-        SQL   => "SELECT id FROM sla WHERE name = '$Param{Name}'",
+        SQL   => 'SELECT id FROM sla WHERE name = ?',
+        Bind  => [ \$Param{Name} ],
         Limit => 1,
     );
 
@@ -428,29 +415,30 @@ sub SLAAdd {
     if ($NoAdd) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message =>
-                "Can't add new SLA! SLA with same name already exists.",
+            Message  => "Can't add new SLA! '$Param{Name}' already exists.",
         );
         return;
     }
 
     # add sla to database
-    my $Success = $Self->{DBObject}->Do(
-        SQL => "INSERT INTO sla "
-            . "(name, calendar_name, first_response_time, first_response_notify, "
-            . "update_time, update_notify, solution_time, solution_notify, "
-            . "valid_id, comments, create_time, create_by, change_time, change_by) VALUES "
-            . "('$Param{Name}', '$Param{Calendar}', $Param{FirstResponseTime}, "
-            . "$Param{FirstResponseNotify}, $Param{UpdateTime}, $Param{UpdateNotify}, "
-            . "$Param{SolutionTime}, $Param{SolutionNotify}, $Param{ValidID}, '$Param{Comment}', "
-            . "current_timestamp, $Param{UserID}, current_timestamp, $Param{UserID})",
+    return if !$Self->{DBObject}->Do(
+        SQL => 'INSERT INTO sla '
+            . '(name, calendar_name, first_response_time, first_response_notify, '
+            . 'update_time, update_notify, solution_time, solution_notify, '
+            . 'valid_id, comments, create_time, create_by, change_time, change_by) VALUES '
+            . '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+        Bind => [
+            \$Param{Name}, \$Param{Calendar}, \$Param{FirstResponseTime},
+            \$Param{FirstResponseNotify}, \$Param{UpdateTime}, \$Param{UpdateNotify},
+            \$Param{SolutionTime}, \$Param{SolutionNotify}, \$Param{ValidID}, \$Param{Comment},
+            \$Param{UserID}, \$Param{UserID},
+        ],
     );
 
-    return if !$Success;
-
     # get sla id
-    $Self->{DBObject}->Prepare(
-        SQL   => "SELECT id FROM sla WHERE name = '$Param{Name}'",
+    return if !$Self->{DBObject}->Prepare(
+        SQL   => 'SELECT id FROM sla WHERE name = ?',
+        Bind  => [ \$Param{Name} ],
         Limit => 1,
     );
 
@@ -464,25 +452,24 @@ sub SLAAdd {
     if ( !$SLAID ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => 'New SLA not found in database!',
+            Message  => "Can't find SLAID for '$Param{Name}'!",
         );
         return;
     }
 
     # remove all existing allocations
     $Self->{DBObject}->Do(
-        SQL => "DELETE FROM service_sla WHERE sla_id = $SLAID",
+        SQL  => 'DELETE FROM service_sla WHERE sla_id = ?',
+        Bind => [ \$SLAID ],
     );
 
     # add the new allocations
     for my $ServiceID ( @{ $Param{ServiceIDs} } ) {
 
-        # quote
-        $ServiceID = $Self->{DBObject}->Quote($ServiceID);
-
         # add one allocation
         $Self->{DBObject}->Do(
-            SQL => "INSERT INTO service_sla (service_id, sla_id) VALUES ($ServiceID, $SLAID)",
+            SQL  => 'INSERT INTO service_sla (service_id, sla_id) VALUES (?, ?)',
+            Bind => [ \$ServiceID, \$SLAID ],
         );
     }
 
@@ -529,7 +516,7 @@ sub SLAUpdate {
     if ( defined $Param{ServiceIDs} && ref $Param{ServiceIDs} ne 'ARRAY' ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => 'ServiceIDs must be an array reference!',
+            Message  => 'ServiceIDs need to be an array reference!',
         );
         return;
     }
@@ -545,17 +532,6 @@ sub SLAUpdate {
     $Param{SolutionTime}        ||= 0;
     $Param{SolutionNotify}      ||= 0;
 
-    # quote
-    for my $Argument (qw(Name Calendar Comment)) {
-        $Param{$Argument} = $Self->{DBObject}->Quote( $Param{$Argument} );
-    }
-    for my $Argument (
-        qw(SLAID FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify ValidID UserID)
-        )
-    {
-        $Param{$Argument} = $Self->{DBObject}->Quote( $Param{$Argument}, 'Integer' );
-    }
-
     # cleanup given params
     for my $Argument (qw(Name Comment)) {
         $Self->{CheckItemObject}->StringClean(
@@ -566,15 +542,16 @@ sub SLAUpdate {
     }
 
     # find exiting sla's with the same name
-    $Self->{DBObject}->Prepare(
-        SQL   => "SELECT id FROM sla WHERE name = '$Param{Name}'",
+    return if !$Self->{DBObject}->Prepare(
+        SQL   => 'SELECT id FROM sla WHERE name = ?',
+        Bind  => [ \$Param{Name} ],
         Limit => 1,
     );
 
     # fetch the result
     my $Update = 1;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        if ( $Param{SLAID} ne $Row[0] ) {
+        if ( $Row[0] ) {
             $Update = 0;
         }
     }
@@ -583,50 +560,44 @@ sub SLAUpdate {
     if ( !$Update ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Can't update new SLA! SLA with same name already exists.",
+            Message  => "Can't update new SLA! '$Param{Name}' already exists.",
         );
         return;
     }
 
     # reset cache
-    delete $Self->{Cache}->{SLAGet}->{ $Param{SLAID} };
-    delete $Self->{Cache}->{SLALookup}->{Name}->{ $Param{Name} };
-    delete $Self->{Cache}->{SLALookup}->{ID}->{ $Param{SLAID} };
+    delete $Self->{ 'Cache::SLAGet::' . $Param{SLAID} };
+    delete $Self->{ 'Cache::SLALookup::Name::' . $Param{Name} };
+    delete $Self->{ 'Cache::SLALookup::ID::' . $Param{SLAID} };
 
     # update service
-    my $Success = $Self->{DBObject}->Do(
-        SQL => "UPDATE sla SET name = '$Param{Name}', "
-            . "calendar_name = '$Param{Calendar}', "
-            . "first_response_time = $Param{FirstResponseTime}, "
-            . "first_response_notify = $Param{FirstResponseNotify}, "
-            . "update_time = $Param{UpdateTime}, "
-            . "update_notify = $Param{UpdateNotify}, "
-            . "solution_time = $Param{SolutionTime}, "
-            . "solution_notify = $Param{SolutionNotify}, "
-            . "valid_id = $Param{ValidID}, "
-            . "comments = '$Param{Comment}', "
-            . "change_time = current_timestamp, "
-            . "change_by = $Param{UserID} "
-            . "WHERE id = $Param{SLAID}",
+    return if !$Self->{DBObject}->Do(
+        SQL => 'UPDATE sla SET name = ?, calendar_name = ?, '
+            . 'first_response_time = ?, first_response_notify = ?, '
+            . 'update_time = ?, update_notify = ?, solution_time = ?, solution_notify = ?, '
+            . 'valid_id = ?, comments = ?, change_time = current_timestamp, change_by = ? '
+            . 'WHERE id = ?',
+        Bind => [
+            \$Param{Name}, \$Param{Calendar}, \$Param{FirstResponseTime},
+            \$Param{FirstResponseNotify}, \$Param{UpdateTime}, \$Param{UpdateNotify},
+            \$Param{SolutionTime}, \$Param{SolutionNotify}, \$Param{ValidID}, \$Param{Comment},
+            \$Param{UserID}, \$Param{SLAID},
+        ],
     );
 
-    return if !$Success;
-
     # remove all existing allocations
-    $Self->{DBObject}->Do(
-        SQL => "DELETE FROM service_sla WHERE sla_id = $Param{SLAID}",
+    return if !$Self->{DBObject}->Do(
+        SQL  => 'DELETE FROM service_sla WHERE sla_id = ?',
+        Bind => [ \$Param{SLAID}, ]
     );
 
     # add the new allocations
     for my $ServiceID ( @{ $Param{ServiceIDs} } ) {
 
-        # quote
-        $ServiceID = $Self->{DBObject}->Quote($ServiceID);
-
         # add one allocation
-        $Self->{DBObject}->Do(
-            SQL => "INSERT INTO service_sla "
-                . "(service_id, sla_id) VALUES ($ServiceID, $Param{SLAID})",
+        return if !$Self->{DBObject}->Do(
+            SQL  => 'INSERT INTO service_sla (service_id, sla_id) VALUES (?, ?)',
+            Bind => [ \$ServiceID, \$Param{SLAID} ],
         );
     }
 
@@ -649,6 +620,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2008-05-10 10:28:18 $
+$Revision: 1.25 $ $Date: 2008-05-19 06:52:25 $
 
 =cut
