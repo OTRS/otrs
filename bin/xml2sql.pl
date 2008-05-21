@@ -3,7 +3,7 @@
 # bin/xml2sql.pl - a xml 2 sql processor
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: xml2sql.pl,v 1.18 2008-05-15 22:05:47 mh Exp $
+# $Id: xml2sql.pl,v 1.19 2008-05-21 08:26:10 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ use warnings;
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-use lib dirname($RealBin) . "/Kernel/cpan-lib";
+use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use Getopt::Std;
 
@@ -39,10 +39,10 @@ use Kernel::System::Main;
 use Kernel::System::XML;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 my %Opts = ();
-getopt( 'htons', \%Opts );
+getopt( 'hton', \%Opts );
 if ( $Opts{'h'} ) {
     print "xml2sql.pl <Revision $VERSION> - xml2sql\n";
     print "Copyright (c) 2001-2008 OTRS AG, http://otrs.org/\n";
@@ -53,7 +53,7 @@ if ( $Opts{'h'} ) {
 
 # name
 if ( !$Opts{n} && $Opts{o} ) {
-    die "ERROR: Need -n <NAME>";
+    die 'ERROR: Need -n <NAME>';
 }
 
 # output dir
@@ -66,9 +66,9 @@ if ( !$Opts{o} ) {
 
 # database type
 if ( !$Opts{t} ) {
-    die "ERROR: Need -t <DATABASE_TYPE>";
+    die 'ERROR: Need -t <DATABASE_TYPE>';
 }
-my @DatabaseType = ();
+my @DatabaseType;
 if ( $Opts{t} eq 'all' ) {
     my $ConfigObject = Kernel::Config->new();
     my @List         = glob( $ConfigObject->Get('Home') . '/Kernel/System/DB/*.pm' );
@@ -84,8 +84,8 @@ else {
 # read xml file
 my @File       = <STDIN>;
 my $FileString = '';
-for (@File) {
-    $FileString .= $_;
+for my $Line (@File) {
+    $FileString .= $Line;
 }
 
 for my $DatabaseType (@DatabaseType) {
@@ -93,8 +93,14 @@ for my $DatabaseType (@DatabaseType) {
     # create common objects
     my %CommonObject = ();
     $CommonObject{ConfigObject} = Kernel::Config->new();
-    $CommonObject{ConfigObject}->Set( Key => 'Database::Type',        Value => $DatabaseType );
-    $CommonObject{ConfigObject}->Set( Key => 'Database::ShellOutput', Value => 1 );
+    $CommonObject{ConfigObject}->Set(
+        Key   => 'Database::Type',
+        Value => $DatabaseType,
+    );
+    $CommonObject{ConfigObject}->Set(
+        Key   => 'Database::ShellOutput',
+        Value => 1,
+    );
     $CommonObject{LogObject} = Kernel::System::Log->new(
         LogPrefix => 'OTRS-xml2sql',
         %CommonObject,
@@ -168,13 +174,13 @@ sub Dump {
     my ( $Filename, $SQL, $Head, $Commit, $StdOut ) = @_;
 
     if ($StdOut) {
-        open( OUT, '>', $Filename ) || die "Can't write: $!";
+        open my $OutHandle, '>', $Filename or die "Can't write: $!";
         print "writing: $Filename\n";
-        print OUT $Head;
+        print $OutHandle $Head;
         for my $Item ( @{$SQL} ) {
-            print OUT $Item . $Commit . "\n";
+            print $OutHandle $Item . $Commit . "\n";
         }
-        close(OUT);
+        close $OutHandle;
     }
     else {
         print $Head;
@@ -182,5 +188,6 @@ sub Dump {
             print $Item . $Commit . "\n";
         }
     }
+
     return 1;
 }

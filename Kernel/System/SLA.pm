@@ -2,7 +2,7 @@
 # Kernel/System/SLA.pm - all sla function
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SLA.pm,v 1.25 2008-05-19 06:52:25 martin Exp $
+# $Id: SLA.pm,v 1.26 2008-05-21 08:26:09 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 =head1 NAME
 
@@ -196,7 +196,7 @@ sub SLAGet {
             . 'update_time, update_notify, solution_time, solution_notify, '
             . 'valid_id, comments, create_time, create_by, change_time, change_by '
             . 'FROM sla WHERE id = ?',
-        Bind  => [
+        Bind => [
             \$Param{SLAID},
         ],
         Limit => 1,
@@ -233,7 +233,7 @@ sub SLAGet {
 
     # get all service ids
     $Self->{DBObject}->Prepare(
-        SQL => 'SELECT service_id FROM service_sla WHERE sla_id = ? ORDER BY service_id ASC',
+        SQL  => 'SELECT service_id FROM service_sla WHERE sla_id = ? ORDER BY service_id ASC',
         Bind => [ \$SLAData{SLAID} ],
     );
 
@@ -428,7 +428,7 @@ sub SLAAdd {
             . 'valid_id, comments, create_time, create_by, change_time, change_by) VALUES '
             . '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{Name}, \$Param{Calendar}, \$Param{FirstResponseTime},
+            \$Param{Name},                \$Param{Calendar},   \$Param{FirstResponseTime},
             \$Param{FirstResponseNotify}, \$Param{UpdateTime}, \$Param{UpdateNotify},
             \$Param{SolutionTime}, \$Param{SolutionNotify}, \$Param{ValidID}, \$Param{Comment},
             \$Param{UserID}, \$Param{UserID},
@@ -468,7 +468,7 @@ sub SLAAdd {
 
         # add one allocation
         $Self->{DBObject}->Do(
-            SQL  => 'INSERT INTO service_sla (service_id, sla_id) VALUES (?, ?)',
+            SQL => 'INSERT INTO service_sla (service_id, sla_id) VALUES (?, ?)',
             Bind => [ \$ServiceID, \$SLAID ],
         );
     }
@@ -578,7 +578,7 @@ sub SLAUpdate {
             . 'valid_id = ?, comments = ?, change_time = current_timestamp, change_by = ? '
             . 'WHERE id = ?',
         Bind => [
-            \$Param{Name}, \$Param{Calendar}, \$Param{FirstResponseTime},
+            \$Param{Name},                \$Param{Calendar},   \$Param{FirstResponseTime},
             \$Param{FirstResponseNotify}, \$Param{UpdateTime}, \$Param{UpdateNotify},
             \$Param{SolutionTime}, \$Param{SolutionNotify}, \$Param{ValidID}, \$Param{Comment},
             \$Param{UserID}, \$Param{SLAID},
@@ -596,7 +596,7 @@ sub SLAUpdate {
 
         # add one allocation
         return if !$Self->{DBObject}->Do(
-            SQL  => 'INSERT INTO service_sla (service_id, sla_id) VALUES (?, ?)',
+            SQL => 'INSERT INTO service_sla (service_id, sla_id) VALUES (?, ?)',
             Bind => [ \$ServiceID, \$Param{SLAID} ],
         );
     }
@@ -620,6 +620,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2008-05-19 06:52:25 $
+$Revision: 1.26 $ $Date: 2008-05-21 08:26:09 $
 
 =cut

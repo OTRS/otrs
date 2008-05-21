@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.317 2008-05-19 06:50:07 martin Exp $
+# $Id: Ticket.pm,v 1.318 2008-05-21 08:26:09 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.317 $) [1];
+$VERSION = qw($Revision: 1.318 $) [1];
 
 =head1 NAME
 
@@ -1703,19 +1703,19 @@ sub TicketEscalationDateCalculation {
 
     my $Time = $Self->{TimeObject}->SystemTime();
     my %Data;
-    my %Map  = (
+    my %Map = (
         EscalationResponseTime => 'FirstResponse',
         EscalationUpdateTime   => 'Update',
         EscalationSolutionTime => 'Solution',
     );
 
-    for my $Key (keys %Map) {
-        if ($Ticket{$Key}) {
+    for my $Key ( keys %Map ) {
+        if ( $Ticket{$Key} ) {
             my $WorkingTime = 0;
             my $TimeDiff    = $Ticket{$Key} - $Time;
 
             # ticket is not escalated till now
-            if ($TimeDiff > 0) {
+            if ( $TimeDiff > 0 ) {
                 $WorkingTime = $Self->{TimeObject}->WorkingTime(
                     StartTime => $Time,
                     StopTime  => $Ticket{$Key},
@@ -1723,9 +1723,10 @@ sub TicketEscalationDateCalculation {
                 );
 
                 # set notification if notfy % is reached
-                if ( $Escalation{ $Map{$Key} . 'Notify'} ) {
-                    my $Reached = 100 - ( $WorkingTime / ( $Escalation{ $Map{$Key} . 'Time' } * 60 / 100 ) );
-                    if ( $Reached >= $Escalation{ $Map{$Key} . 'Notify'} ) {
+                if ( $Escalation{ $Map{$Key} . 'Notify' } ) {
+                    my $Reached = 100
+                        - ( $WorkingTime / ( $Escalation{ $Map{$Key} . 'Time' } * 60 / 100 ) );
+                    if ( $Reached >= $Escalation{ $Map{$Key} . 'Notify' } ) {
                         $Data{ $Map{$Key} . 'TimeNotification' } = 1;
                     }
                 }
@@ -1803,7 +1804,7 @@ sub TicketEscalationIndexBuild {
 
             # update ticket table
             $Self->{DBObject}->Do(
-                SQL  => "UPDATE ticket SET $EscalationTimes{$Key} = ? WHERE id = ?",
+                SQL => "UPDATE ticket SET $EscalationTimes{$Key} = ? WHERE id = ?",
                 Bind => [ \$Time, \$Ticket{TicketID}, ]
             );
         }
@@ -1831,7 +1832,7 @@ sub TicketEscalationIndexBuild {
     my $FirstResponseTime = 0;
     if ( !$Escalation{FirstResponseTime} ) {
         $Self->{DBObject}->Do(
-            SQL  => 'UPDATE ticket SET escalation_response_time = ? WHERE id = ?',
+            SQL => 'UPDATE ticket SET escalation_response_time = ? WHERE id = ?',
             Bind => [ \$FirstResponseTime, \$Ticket{TicketID}, ]
         );
     }
@@ -1859,7 +1860,7 @@ sub TicketEscalationIndexBuild {
         # update first response time to 0
         if ($FirstResponseDone) {
             $Self->{DBObject}->Do(
-                SQL  => 'UPDATE ticket SET escalation_response_time = ? WHERE id = ?',
+                SQL => 'UPDATE ticket SET escalation_response_time = ? WHERE id = ?',
                 Bind => [ \$FirstResponseTime, \$Ticket{TicketID}, ]
             );
         }
@@ -1876,7 +1877,7 @@ sub TicketEscalationIndexBuild {
 
             # update first response time to $DestinationTime
             $Self->{DBObject}->Do(
-                SQL  => 'UPDATE ticket SET escalation_response_time = ? WHERE id = ?',
+                SQL => 'UPDATE ticket SET escalation_response_time = ? WHERE id = ?',
                 Bind => [ \$DestinationTime, \$Ticket{TicketID}, ]
             );
         }
@@ -1886,7 +1887,7 @@ sub TicketEscalationIndexBuild {
     my $UpdateTime = 0;
     if ( !$Escalation{UpdateTime} ) {
         $Self->{DBObject}->Do(
-            SQL  => 'UPDATE ticket SET escalation_solution_time = ? WHERE id = ?',
+            SQL => 'UPDATE ticket SET escalation_solution_time = ? WHERE id = ?',
             Bind => [ \$UpdateTime, \$Ticket{TicketID}, ]
         );
     }
@@ -1916,7 +1917,7 @@ sub TicketEscalationIndexBuild {
 
             # update update time to $DestinationTime
             $Self->{DBObject}->Do(
-                SQL  => 'UPDATE ticket SET escalation_update_time = ? WHERE id = ?',
+                SQL => 'UPDATE ticket SET escalation_update_time = ? WHERE id = ?',
                 Bind => [ \$DestinationTime, \$Ticket{TicketID}, ]
             );
         }
@@ -1926,7 +1927,7 @@ sub TicketEscalationIndexBuild {
     my $SolutionTime = 0;
     if ( !$Escalation{SolutionTime} ) {
         $Self->{DBObject}->Do(
-            SQL  => 'UPDATE ticket SET escalation_solution_time = ? WHERE id = ?',
+            SQL => 'UPDATE ticket SET escalation_solution_time = ? WHERE id = ?',
             Bind => [ \$SolutionTime, \$Ticket{TicketID}, ]
         );
     }
@@ -1952,7 +1953,7 @@ sub TicketEscalationIndexBuild {
         # update solution time to 0
         if ($SolutionDone) {
             $Self->{DBObject}->Do(
-                SQL  => 'UPDATE ticket SET escalation_solution_time = ? WHERE id = ?',
+                SQL => 'UPDATE ticket SET escalation_solution_time = ? WHERE id = ?',
                 Bind => [ \$SolutionTime, \$Ticket{TicketID}, ]
             );
         }
@@ -1967,7 +1968,7 @@ sub TicketEscalationIndexBuild {
 
             # update solution time to $DestinationTime
             $Self->{DBObject}->Do(
-                SQL  => 'UPDATE ticket SET escalation_solution_time = ? WHERE id = ?',
+                SQL => 'UPDATE ticket SET escalation_solution_time = ? WHERE id = ?',
                 Bind => [ \$DestinationTime, \$Ticket{TicketID}, ]
             );
         }
@@ -6554,6 +6555,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.317 $ $Date: 2008-05-19 06:50:07 $
+$Revision: 1.318 $ $Date: 2008-05-21 08:26:09 $
 
 =cut
