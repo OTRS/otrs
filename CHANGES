@@ -2,12 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.653 2008-05-19 06:41:37 martin Exp $
+# $Id: CHANGES,v 1.654 2008-05-22 21:44:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
+2.3.0 beta2 (2008/??/??)
+ - (2008/05/22) Upgraded Mail::Tools from version 2.02 to 2.03 from CPAN.
 
 2.3.0 beta1 (2008/05/19)
  - (2008/05/16) Updated cpan module Text::CSV to the version 1.05.
@@ -285,6 +287,10 @@
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.7 (2008/??/??)
+ - (2008/05/22) Fixed bug# 2829 - Added config option if Cc should be taken over
+    to Cc recipients list in compose email answer screen.
+    SysConfig -> Ticket -> Frontend::Agent::Ticket::ViewCompose ->
+    Ticket::Frontend::ComposeExcludeCcRecipients
  - (2008/05/15) Fixed bug# 2870 - Customer-Frontend: No Access to Company Tickets
     (CustomerIDCheck fails).
  - (2008/05/09) Added new catalonian language translation. Thanks to Antonio Linde!
