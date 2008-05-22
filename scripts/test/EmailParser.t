@@ -2,7 +2,7 @@
 # EmailParser.t - email parser tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.t,v 1.15 2008-05-08 09:58:38 mh Exp $
+# $Id: EmailParser.t,v 1.16 2008-05-22 17:15:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -639,6 +639,40 @@ $Self->Is(
     $MD5,
     '474f97c23688e88edfb70139d5658e01',
     "#13 md5 body check",
+);
+
+# test #14
+@Array = ();
+open( IN, "< $Home/scripts/test/sample/PostMaster-Test14.box" );
+while (<IN>) {
+    push( @Array, $_ );
+}
+close(IN);
+
+$Self->{EmailParserObject} = Kernel::System::EmailParser->new(
+    %{$Self},
+    Email => \@Array,
+);
+$Self->Is(
+    $Self->{EmailParserObject}->GetCharset(),
+    'UTF-8',
+    "#14 GetCharset() - no charset should be found",
+);
+$Self->Is(
+    $Self->{EmailParserObject}->GetParam( WHAT => 'To' ),
+    '<security@example.org>',
+    "#14 GetParam(WHAT => 'To')",
+);
+$Self->Is(
+    $Self->{EmailParserObject}->GetParam( WHAT => 'From' ),
+    'VIAGRA ® Official Site <security@example.org>',
+    "#14 GetParam(WHAT => 'From')",
+);
+$MD5 = $Self->{MainObject}->MD5sum( String => $Self->{EmailParserObject}->GetMessageBody() ) || '';
+$Self->Is(
+    $MD5,
+    'fd394293f15dd476ba630a3ad992d6d5',
+    "#14 md5 body check",
 );
 
 1;
