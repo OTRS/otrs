@@ -2,7 +2,7 @@
 # Kernel/System/Encode.pm - character encodings
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Encode.pm,v 1.30 2008-05-08 14:44:19 mh Exp $
+# $Id: Encode.pm,v 1.31 2008-05-22 17:16:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 =head1 NAME
 
@@ -171,7 +171,7 @@ sub Convert {
 
     # check needed stuff
     for (qw(From To)) {
-        if ( !defined( $Param{$_} ) ) {
+        if ( !defined $Param{$_} ) {
             print STDERR "Need $_!\n";
             return;
         }
@@ -182,9 +182,19 @@ sub Convert {
 
     # if no encode is needed
     if ( $Param{From} =~ /^$Param{To}$/i ) {
+
+        # check if string is valid utf8
+        if ( !eval { Encode::from_to( $Param{Text}, $Param{From}, $Param{To}, 1 ) } ) {
+            print STDERR "No valid '$Param{To}' string: '$Param{Text}'!\n";
+            return $Param{Text};
+        }
+
+        # set utf-8 flag
         if ( $Param{To} =~ /^utf(-8|8)/i ) {
             Encode::_utf8_on( $Param{Text} );
         }
+
+        # return text
         return $Param{Text};
     }
 
@@ -193,9 +203,10 @@ sub Convert {
         Encode::_utf8_off( $Param{Text} );
     }
 
-    if ( !eval { Encode::from_to( $Param{Text}, $Param{From}, $Param{To} ) } ) {
-        print STDERR
-            "Charset encode '$Param{From}' -=> '$Param{To}' ($Param{Text}) not supported!\n";
+    # convert string
+    if ( !eval { Encode::from_to( $Param{Text}, $Param{From}, $Param{To}, 1 ) } ) {
+        print STDERR "Charset encode '$Param{From}' -=> '$Param{To}' ($Param{Text})"
+            . " not supported!\n";
         return $Param{Text};
     }
 
@@ -297,7 +308,7 @@ sub Decode {
     return if !defined $Param{Text};
 
     # check needed stuff
-    if ( !defined( $Param{From} ) ) {
+    if ( !defined $Param{From} ) {
         print STDERR "Need From!\n";
         return;
     }
@@ -346,6 +357,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.30 $ $Date: 2008-05-08 14:44:19 $
+$Revision: 1.31 $ $Date: 2008-05-22 17:16:22 $
 
 =cut
