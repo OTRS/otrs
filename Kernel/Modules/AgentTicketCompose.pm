@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.30.2.6 2008-05-22 21:43:53 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.30.2.7 2008-05-22 21:49:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30.2.6 $';
+$VERSION = '$Revision: 1.30.2.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -665,7 +665,7 @@ sub Run {
 
         # find duplicate addresses
         my %Recipient = ();
-        for my $Type ( qw(To Cc) ) {
+        for my $Type ( qw(To Cc Bcc) ) {
             if ( $Data{$Type} ) {
                 my $NewLine = '';
                 for my $Email ( Mail::Address->parse( $Data{$Type} ) ) {
