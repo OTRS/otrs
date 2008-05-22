@@ -1,0 +1,88 @@
+From security@ofir.dk  Tue May 20 10:20:32 2008
+Return-Path: <security@ofir.dk>
+X-Original-To: portal@mail.example.org
+Delivered-To: portal@mail.example.org
+Received: from localhost (localhost [127.0.0.1])
+	by mail.example.org (Postfix) with ESMTP id 1DEEE6E660
+	for <portal@mail.example.org>; Tue, 20 May 2008 10:20:32 +0200 (CEST)
+Received: from mail.example.org ([127.0.0.1])
+ by localhost (osser.example.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 30786-02 for <portal@mail.example.org>;
+ Tue, 20 May 2008 10:20:29 +0200 (CEST)
+Received: from chello089078050203.chello.pl (chello089078050203.chello.pl [89.78.1.1])
+	by mail.example.org (Postfix) with SMTP id 1D72C6E93E
+	for <security@example.org>; Tue, 20 May 2008 10:20:25 +0200 (CEST)
+Content-Return: allowed
+X-Mailer: devMail.Net (3.0.1854.22234-2)
+Message-Id: <20080520112028.3972.qmail@chello089078050203.chello.pl>
+To: <security@example.org>
+Subject: Dear security@example.org May 88% 0FF
+From: VIAGRA ® Official Site <security@example.org>
+MIME-Version: 1.0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Date: Tue, 20 May 2008 10:20:25 +0200 (CEST)
+X-CVS: $Id: PostMaster-Test14.box,v 1.1.2.2 2008-05-22 17:16:43 martin Exp $
+X-Virus-Scanned: amavisd-new at example.org
+X-Amavis-Alert: BAD HEADER Non-encoded 8-bit data (char AE hex) in message header 'From': From: VIAGRA \256 Official Site ...
+X-Spam-Status: Yes, score=22.455 tagged_above=-900 required=5
+ tests=[ADDRESS_IN_SUBJECT=0.533, BAYES_80=2, DNS_FROM_RFC_ABUSE=0.2,
+ DNS_FROM_RFC_WHOIS=1.447, HTML_IMAGE_ONLY_20=1.157, HTML_MESSAGE=0.001,
+ HTML_SHORT_LINK_IMG_3=0.881, MIME_HTML_ONLY=0.001,
+ RCVD_IN_BL_SPAMCOP_NET=1.558, RCVD_IN_SORBS_DUL=2.046, RCVD_IN_XBL=3.897,
+ URIBL_JP_SURBL=4.087, URIBL_OB_SURBL=3.008, URIBL_SBL=1.639]
+X-Spam-Score: 22.455
+X-Spam-Level: **********************
+X-Spam-Flag: YES
+X-UID: 58147                                                  
+Status: RO
+Content-Length: 1837
+Lines: 45
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+ </head>
+        <html>
+<body>
+<img src="http://tracking.msadcenter.example.com/xho.gif?o=1" width=0 height=0>
+<h1>THIS IS ONLY A TEST EXAMPLE, NO VALID CONTENT, ONLY FOR TESTING</h1>
+<table cellpadding=0 cellspacing=0 width=600 align=center>
+	<tr>
+		<td class=EC_container bgcolor="#F2F2F2">
+			<table cellpadding=0 cellspacing=0 width="100%">
+				<tr>
+					<td>
+                                                                                        
+                                                <div align=center> <a href="http://www.example.com" target="_blank"><img src="http://www.example.com/3.gif" border=0 alt="Click Here!"></a> </div>
+					                    </td>
+				</tr>
+				<tr>
+					<td class=EC_legal>
+					<strong>About this mailing: </strong><br>
+You are receiving this e-mail because you subscribed to DDD Featured Offers. XYZsoft respects your privacy. If you do not wish to receive this DDD Featured Offers e-mail, please click the "Unsubscribe" link below. This will not unsubscribe 
+you from e-mail communications from third-party advertisers that may appear in DDD Feature Offers. This shall not constitute an offer by DDD. DDD shall not be responsible or liable for the advertisers' content nor any of the goods or service
+ advertised. Prices and item availability subject to change without notice.<br><br>
+
+		©2008 XYZsoft | <a href="http://www.example.com" target="_blank">Unsubscribe</a> | <a href="http://www.example.com" target="_blank">More Newsletters</a> | <a href="http://www.example.com" target="_blank">Privacy</a><br><br>
+		XYZsoft Corporation, One XYZsoft Way, Mond, AA 99999
+
+                
+
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+
+
+
+        </div>
+    </div>
+
+          </div>
+    
+    </body>
+</html>
+
