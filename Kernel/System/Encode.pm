@@ -2,7 +2,7 @@
 # Kernel/System/Encode.pm - character encodings
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Encode.pm,v 1.31 2008-05-22 17:16:22 martin Exp $
+# $Id: Encode.pm,v 1.32 2008-05-22 17:56:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 =head1 NAME
 
@@ -159,7 +159,8 @@ Convert one charset to an other charset.
     );
 
 There is also a Force => 1 option if you need to force the
-already converted string.
+already converted string. And Check => 1 if the sting result
+should be checked if it's a valid string (e. g. valid utf8 string).
 
 =cut
 
@@ -184,7 +185,7 @@ sub Convert {
     if ( $Param{From} =~ /^$Param{To}$/i ) {
 
         # check if string is valid utf8
-        if ( !eval { Encode::from_to( $Param{Text}, $Param{From}, $Param{To}, 1 ) } ) {
+        if ( $Param{Check} && !eval { Encode::from_to( $Param{Text}, $Param{From}, $Param{To}, 1 ) } ) {
             print STDERR "No valid '$Param{To}' string: '$Param{Text}'!\n";
             return $Param{Text};
         }
@@ -357,6 +358,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.31 $ $Date: 2008-05-22 17:16:22 $
+$Revision: 1.32 $ $Date: 2008-05-22 17:56:03 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.67 2008-05-22 17:23:05 martin Exp $
+# $Id: EmailParser.pm,v 1.68 2008-05-22 17:56:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 =head1 NAME
 
@@ -167,8 +167,9 @@ sub GetParam {
                     }
                 }
                 $ReturnLine .= $Self->{EncodeObject}->Decode(
-                    Text => $Array->[0],
-                    From => $Array->[1] || $Self->GetCharset() || 'us-ascii',
+                    Text  => $Array->[0],
+                    From  => $Array->[1] || $Self->GetCharset() || 'us-ascii',
+                    Check => 1,
                 );
             }
             else {
@@ -452,8 +453,9 @@ sub GetMessageBody {
         # charset decode
         if ( $Self->GetCharset() ) {
             $Self->{MessageBody} = $Self->{EncodeObject}->Decode(
-                Text => $BodyStrg,
-                From => $Self->GetCharset(),
+                Text  => $BodyStrg,
+                From  => $Self->GetCharset(),
+                Check => 1,
             );
         }
         else {
@@ -496,8 +498,9 @@ sub GetMessageBody {
             # check if charset exists
             if ( $Self->GetCharset() ) {
                 $Self->{MessageBody} = $Self->{EncodeObject}->Decode(
-                    Text => $Attachments[0]->{Content},
-                    From => $Self->GetCharset(),
+                    Text  => $Attachments[0]->{Content},
+                    From  => $Self->GetCharset(),
+                    Check => 1,
                 );
             }
             else {
@@ -654,8 +657,9 @@ sub PartsAttachments {
             # convert the file name in utf-8 if utf-8 is used
             if ( $PartData{Charset} ) {
                 $PartData{Filename} = $Self->{EncodeObject}->Decode(
-                    Text => $PartData{Filename},
-                    From => $PartData{Charset},
+                    Text  => $PartData{Filename},
+                    From  => $PartData{Charset},
+                    Check => 1,
                 );
             }
         }
@@ -1200,6 +1204,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.67 $ $Date: 2008-05-22 17:23:05 $
+$Revision: 1.68 $ $Date: 2008-05-22 17:56:03 $
 
 =cut
