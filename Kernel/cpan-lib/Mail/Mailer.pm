@@ -1,12 +1,12 @@
-# Copyrights 1995-2007 by Mark Overmeer <perl@overmeer.net>.
+# Copyrights 1995-2008 by Mark Overmeer <perl@overmeer.net>.
 #  For other contributors see ChangeLog.
 # See the manual pages for details on the licensing terms.
-# Pod stripped from pm file by OODoc 1.03.
+# Pod stripped from pm file by OODoc 1.04.
 use strict;
 
 package Mail::Mailer;
 use vars '$VERSION';
-$VERSION = '2.02';
+$VERSION = '2.03';
 use base 'IO::Handle';
 
 use POSIX qw/_exit/;
@@ -38,9 +38,9 @@ our $MailerBinary;
 # does this really need to be done? or should a default mailer be specfied?
 
 $Mailers{sendmail} = 'sendmail'
-   if $^O eq 'os2' && ! is_exe $Mailers{sendmail};
+    if $^O eq 'os2' && ! is_exe $Mailers{sendmail};
 
-if($^O eq 'MacOS' || $^O eq 'VMS' || $^O eq 'MSWin32' || $^O eq 'os2')
+if($^O =~ m/^ (?: MacOS|VMS|MSWin|os2|NetWare ) $/x )
 {   $MailerType   = 'smtp';
     $MailerBinary = $Mailers{$MailerType};
 }

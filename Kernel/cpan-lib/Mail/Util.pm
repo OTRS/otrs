@@ -1,12 +1,12 @@
-# Copyrights 1995-2007 by Mark Overmeer <perl@overmeer.net>.
+# Copyrights 1995-2008 by Mark Overmeer <perl@overmeer.net>.
 #  For other contributors see ChangeLog.
 # See the manual pages for details on the licensing terms.
-# Pod stripped from pm file by OODoc 1.03.
+# Pod stripped from pm file by OODoc 1.04.
 use strict;
 
 package Mail::Util;
 use vars '$VERSION';
-$VERSION = '2.02';
+$VERSION = '2.03';
 use base 'Exporter';
 
 our @EXPORT_OK = qw(read_mbox maildomain mailaddress);
