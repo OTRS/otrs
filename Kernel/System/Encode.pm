@@ -2,7 +2,7 @@
 # Kernel/System/Encode.pm - character encodings
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Encode.pm,v 1.17.2.2 2008-05-22 17:17:00 martin Exp $
+# $Id: Encode.pm,v 1.17.2.3 2008-05-22 17:55:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.17.2.2 $) [1];
+$VERSION = qw($Revision: 1.17.2.3 $) [1];
 
 =head1 NAME
 
@@ -199,7 +199,7 @@ sub Convert {
     if ( $Param{From} =~ /^$Param{To}$/i ) {
 
         # check if string is valid utf8
-        if ( !eval { Encode::from_to( $Param{Text}, $Param{From}, $Param{To}, 1 ) } ) {
+        if ( $Param{Check} && !eval { Encode::from_to( $Param{Text}, $Param{From}, $Param{To}, 1 ) } ) {
             print STDERR "No valid '$Param{To}' string: '$Param{Text}'!\n";
             return $Param{Text};
         }
@@ -377,6 +377,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.17.2.2 $ $Date: 2008-05-22 17:17:00 $
+$Revision: 1.17.2.3 $ $Date: 2008-05-22 17:55:46 $
 
 =cut

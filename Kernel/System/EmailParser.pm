@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.50.2.6 2008-04-07 10:28:02 martin Exp $
+# $Id: EmailParser.pm,v 1.50.2.7 2008-05-22 17:55:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.50.2.6 $';
+$VERSION = '$Revision: 1.50.2.7 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -160,6 +160,7 @@ sub GetParam {
                 $ReturnLine .= $Self->{EncodeObject}->Decode(
                     Text => $Array->[0],
                     From => $Array->[1] || $Self->GetCharset() || 'us-ascii',
+                    Check => 1,
                 );
             }
             else {
@@ -414,6 +415,7 @@ sub GetMessageBody {
             $Self->{MessageBody} = $Self->{EncodeObject}->Decode(
                 Text => $BodyStrg,
                 From => $Self->GetCharset(),
+                Check => 1,
             );
         }
         else {
@@ -449,6 +451,7 @@ sub GetMessageBody {
                 $Self->{MessageBody} = $Self->{EncodeObject}->Decode(
                     Text => $Attachment{Content},
                     From => $Self->GetCharset(),
+                    Check => 1,
                 );
             }
             else {
@@ -592,6 +595,7 @@ sub PartsAttachments {
                 $PartData{Filename} = $Self->{EncodeObject}->Decode(
                     Text => $PartData{Filename},
                     From => $PartData{Charset},
+                    Check => 1,
                 );
             }
         }
@@ -1105,6 +1109,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.50.2.6 $ $Date: 2008-04-07 10:28:02 $
+$Revision: 1.50.2.7 $ $Date: 2008-05-22 17:55:46 $
 
 =cut
