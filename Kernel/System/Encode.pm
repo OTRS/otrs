@@ -2,7 +2,7 @@
 # Kernel/System/Encode.pm - character encodings
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Encode.pm,v 1.33 2008-05-25 12:26:40 martin Exp $
+# $Id: Encode.pm,v 1.34 2008-05-25 12:32:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 =head1 NAME
 
@@ -160,7 +160,7 @@ Convert one charset to an other charset.
 
 There is also a Force => 1 option if you need to force the
 already converted string. And Check => 1 if the sting result
-should be checked if it's a valid string (e. g. valid utf8 string).
+should be checked if it's a valid string (e. g. valid utf-8 string).
 
 =cut
 
@@ -189,7 +189,7 @@ sub Convert {
             Encode::_utf8_on( $Param{Text} );
         }
 
-        # check if string is valid utf8
+        # check if string is valid utf-8
         if ( $Param{Check} && !eval { Encode::is_utf8( $Param{Text}, 1 ) } ) {
             Encode::_utf8_off( $Param{Text} );
             print STDERR "No valid '$Param{To}' string: '$Param{Text}'!\n";
@@ -321,10 +321,10 @@ sub Decode {
 
 =item EncodeOutput()
 
-Convert utf8 to a sequence of octets. All possible characters have
+Convert utf-8 to a sequence of octets. All possible characters have
 a UTF-8 representation so this function cannot fail.
 
-This should be used in for output of utf8 chars.
+This should be used in for output of utf-8 chars.
 
     $EncodeObject->EncodeOutput(\$String);
 
@@ -359,6 +359,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.33 $ $Date: 2008-05-25 12:26:40 $
+$Revision: 1.34 $ $Date: 2008-05-25 12:32:28 $
 
 =cut
