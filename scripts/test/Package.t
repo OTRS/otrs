@@ -2,7 +2,7 @@
 # Package.t - Package tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.t,v 1.12 2008-05-08 09:35:57 mh Exp $
+# $Id: Package.t,v 1.13 2008-05-25 12:38:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -279,7 +279,7 @@ $PackageInstall = $Self->{PackageObject}->PackageInstall(
 );
 $Self->True(
     $PackageInstall || 0,
-    '#5 PackageInstall() - 1/3 File already existis in package X.',
+    '#5 PackageInstall() - 1/3 File already exists in package X.',
 );
 my $String2 = '<?xml version="1.0" encoding="utf-8" ?>
 <otrs_package version="1.0">
@@ -308,7 +308,7 @@ $PackageInstall = $Self->{PackageObject}->PackageInstall(
 
 $Self->True(
     !$PackageInstall || 0,
-    '#5 PackageInstall() - 2/3 File already existis in package X.',
+    '#5 PackageInstall() - 2/3 File already exists in package X.',
 );
 my $String3 = '<?xml version="1.0" encoding="utf-8" ?>
 <otrs_package version="1.0">
@@ -362,21 +362,21 @@ my $PackageUpgrade = $Self->{PackageObject}->PackageUpgrade(
 
 $Self->True(
     !$PackageUpgrade || 0,
-    '#5 PackageUpgrade() - 2/3 File already existis in package X.',
+    '#5 PackageUpgrade() - 2/3 File already exists in package X.',
 );
 $PackageUninstall = $Self->{PackageObject}->PackageUninstall(
     String => $String3,
 );
 $Self->True(
     $PackageUninstall,
-    '#5 PackageUninstall() - 3/3 File already existis in package X.',
+    '#5 PackageUninstall() - 3/3 File already exists in package X.',
 );
 $PackageUninstall = $Self->{PackageObject}->PackageUninstall(
     String => $String1,
 );
 $Self->True(
     $PackageUninstall,
-    '#5 PackageUninstall() - 3/3 File already existis in package X.',
+    '#5 PackageUninstall() - 3/3 File already exists in package X.',
 );
 
 # #6 os check
