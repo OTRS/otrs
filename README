@@ -2,7 +2,7 @@
 # README - readme file of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: README,v 1.28 2008-04-29 11:40:58 tr Exp $
+# $Id: README,v 1.29 2008-05-27 07:18:15 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -180,7 +180,7 @@ $HOME (e. g. /opt/otrs/)
 |           |--- /User.pm       (user module)
 |           |--- /Group.pm      (group module)
 |           |--- /WebParam.pm   (e. g. get param)
-|           |--- /Queue.pm      (informations about queues. e. g. responses, ...)
+|           |--- /Queue.pm      (information about queues. e. g. responses, ...)
 |           |--- /Ticket.pm     (ticket and article funktions)
 |
 |  (data stuff)

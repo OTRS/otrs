@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all advice functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.46 2008-05-08 09:36:19 mh Exp $
+# $Id: Stats.pm,v 1.47 2008-05-27 07:18:15 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 =head1 SYNOPSIS
 
@@ -669,7 +669,7 @@ sub GenerateDynamicStats {
 
     # get the selected values
     # perhaps i can split the StatGet function to make this needless
-    # Problem, i need the block informations
+    # Problem, i need the block information
     my %NewParam = ();
 
     $NewParam{Title}        = $Param{Title};
@@ -2916,6 +2916,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.46 $ $Date: 2008-05-08 09:36:19 $
+$Revision: 1.47 $ $Date: 2008-05-27 07:18:15 $
 
 =cut

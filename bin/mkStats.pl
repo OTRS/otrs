@@ -3,7 +3,7 @@
 # mkStats.pl - send stats output via email
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: mkStats.pl,v 1.57 2008-05-08 09:36:57 mh Exp $
+# $Id: mkStats.pl,v 1.58 2008-05-27 07:18:15 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -147,7 +147,7 @@ if ( $Opts{o} && !-e $Opts{o} ) {
     exit 1;
 }
 
-# process the informations
+# process the information
 my $StatNumber = $Opts{n};
 my $StatID = $CommonObject{StatsObject}->StatNumber2StatID( StatNumber => $StatNumber );
 if ( !$StatID ) {
