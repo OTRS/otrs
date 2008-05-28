@@ -2,7 +2,7 @@
 # TODO - todo list OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: TODO,v 1.115 2008-05-08 22:57:54 martin Exp $
+# $Id: TODO,v 1.116 2008-05-28 11:40:27 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -117,7 +117,7 @@ ideas (just ideas - nobody is working on it)
 - SysConfig: a Descriptionfield for each SysConfigElement. That each admin can reproduce why this change of the Configuration had been done.
   (a idea of Alex Schollerer)
 - a Extension of the generic agent that he can be triggered by an event
-- Systemchecklist - with all informations of the system, for better support. Plus a function for a automatic apache errorlog export
+- Systemchecklist - with all information of the system, for better support. Plus a function for a automatic apache errorlog export
 - stats functionality: - use a existing stat as template for a new stat
                        - integrate a CustomerFrontendModul Stats/Dynamic/Customer.pm
 - Agent ticket search base on customer name

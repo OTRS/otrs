@@ -2,7 +2,7 @@
 # Kernel/Language/sk_SK.pm - provides sk_SK language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: sk_SK.pm,v 1.30 2008-05-28 07:27:30 tr Exp $
+# $Id: sk_SK.pm,v 1.31 2008-05-28 11:40:27 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -199,7 +199,7 @@ sub Data {
         'There is no account with that login name.' => 'Neexistuje ¾iadny úèet s týmto ú¾ívateµským menom',
         'Login failed! Your username or password was entered incorrectly.' => 'Prihlásenie zlyhalo! Va¹e pou¾ívateµské meno alebo heslo bolo vlo¾ené nesprávne.',
         'Please contact your admin' => 'Prosím kontaktujte vá¹ho administrátora.',
-        'Logout successful. Thank you for using OTRS!' => 'Odhlásenie úspe¹né. Ïakujeme za pou¾ívanie ORTS!',
+        'Logout successful. Thank you for using OTRS!' => 'Odhlásenie úspe¹né. Ïakujeme za pou¾ívanie OTRS!',
         'Invalid SessionID!' => 'Neplatný SessionID',
         'Feature not active!' => 'Funkcia neaktívna!',
         'Login is needed!' => '',
