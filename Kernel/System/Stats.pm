@@ -1,8 +1,8 @@
 # --
-# Kernel/System/Stats.pm - all advice functions
+# Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.47 2008-05-27 07:18:15 tr Exp $
+# $Id: Stats.pm,v 1.48 2008-05-28 05:40:59 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,11 +20,11 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 =head1 SYNOPSIS
 
-All call functions. E. g. to get,
+All stats functions.
 
 =head1 PUBLIC INTERFACE
 
@@ -92,11 +92,11 @@ create an object
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
+    # allocate new hash ref to object
     my $Self = {};
     bless( $Self, $Type );
 
-    # check needed objects
+    # check objects list for completeness
     for my $Object (
         qw(
         ConfigObject LogObject UserID GroupObject
@@ -107,7 +107,9 @@ sub new {
     {
         $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
-    $Self->{XMLObject}    = Kernel::System::XML->new(%Param);
+
+    # create supplementary objects
+    $Self->{XMLObject}    = Kernel::System::XML   ->new(%Param);
     $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
 
     return $Self;
@@ -115,39 +117,40 @@ sub new {
 
 =item StatsAdd()
 
-add a new stat
+add new stats
 
     my $StatID = $StatsObject->StatsAdd();
 
 =cut
 
 sub StatsAdd {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
     my $StatID = 1;
 
-    # Get new StatID
+    # get new StatID
     my @Keys = $Self->{XMLObject}->XMLHashSearch( Type => 'Stats', );
     if (@Keys) {
         my @SortKeys = sort { $a <=> $b } @Keys;
         $StatID = $SortKeys[-1] + 1;
     }
 
+    # requesting current time stamp
     my $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
         SystemTime => $Self->{TimeObject}->SystemTime(),
     );
 
     # meta tags
     my %MetaData = ();
-    $MetaData{Created}[0]{Content}   = $TimeStamp;
-    $MetaData{CreatedBy}[0]{Content} = $Self->{UserID};
-    $MetaData{Changed}[0]{Content}   = $TimeStamp;
-    $MetaData{ChangedBy}[0]{Content} = $Self->{UserID};
-    $MetaData{Valid}[0]{Content}     = 1;
+    $MetaData{Created}   [0]{Content}   = $TimeStamp;
+    $MetaData{CreatedBy} [0]{Content} = $Self->{UserID};
+    $MetaData{Changed}   [0]{Content}   = $TimeStamp;
+    $MetaData{ChangedBy} [0]{Content} = $Self->{UserID};
+    $MetaData{Valid}     [0]{Content}     = 1;
     $MetaData{StatNumber}[0]{Content}
         = $StatID + $Self->{ConfigObject}->Get('Stats::StatsStartNumber');
 
-    # new
-    my @XMLHash;    # it's a array but the wording is hash
+    # start new stats record
+    my @XMLHash;    # it's an array but the wording is hash
     $XMLHash[0]{otrs_stats}[0] = \%MetaData;
     if (
         !$Self->{XMLObject}->XMLHashAdd(
@@ -163,15 +166,16 @@ sub StatsAdd {
         );
         return 0;
     }
+
     return $StatID;
 }
 
 =item StatsGet()
 
-get a hashref with the stat you need
+get a hash ref of the stats you need
 
     my $HashRef = $StatsObject->StatsGet(
-        StatID => '123',
+        StatID             => '123',
         NoObjectAttributes => 1,       # optional
     );
 
@@ -180,6 +184,7 @@ get a hashref with the stat you need
 sub StatsGet {
     my ( $Self, %Param ) = @_;
 
+    # check necessary data
     if ( !$Param{StatID} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'StatsGet: Need StatID!' );
     }
@@ -198,7 +203,7 @@ sub StatsGet {
     my %Stat    = ();
     my $StatXML = $XMLHash[0]{otrs_stats}[1];
 
-    # string
+    # process all strings
     $Stat{StatID} = $Param{StatID};
     for my $Key (
         qw(Title Object File Description SumRow SumCol StatNumber
@@ -211,7 +216,7 @@ sub StatsGet {
         }
     }
 
-    # array
+    # process all arrays
     KEY:
     for my $Key (qw(Permission Format GraphSize)) {
         next KEY if !$StatXML->{$Key}[1]{Content};
@@ -223,7 +228,7 @@ sub StatsGet {
     }
 
     # get the configuration elements of the dynamic stats
-    # %Allowed is used to inhibit douple selction in the different forms
+    # %Allowed is used to avoid douple selection in different forms
     my %Allowed     = ();
     my %TimeAllowed = ();
     my $TimeElement = $Self->{ConfigObject}->Get('Stats::TimeElement') || 'Time';
@@ -234,10 +239,10 @@ sub StatsGet {
     KEY:
     for my $Key (qw(UseAsXvalue UseAsValueSeries UseAsRestriction)) {
 
-        # @StatAttributesSimplified give you Arrays without undef Arrayelements
+        # @StatAttributesSimplified give you arrays without undef array elements
         my @StatAttributesSimplified = ();
 
-        # get the Attributes of the Object
+        # get the attributes of the object
         my @ObjectAttributes = $Self->GetStatsObjectAttributes(
             ObjectModule => $Stat{ObjectModule},
             Use          => $Key,
@@ -294,11 +299,12 @@ sub StatsGet {
                         && $Attribute->{Element} eq $Ref->{Element}
                         );
 
-                    # if selected elements exits add the information to the StatAttributes
+                    # if selected elements exit, add the information to the StatAttributes
                     $Attribute->{Selected} = 1;
                     if ( $Ref->{Fixed} ) {
                         $Attribute->{Fixed} = 1;
                     }
+
                     for my $Index ( 1 .. $#{ $Ref->{SelectedValues} } ) {
                         push(
                             @{ $Attribute->{SelectedValues} },
@@ -335,7 +341,7 @@ update a stat
 
     $StatsObject->StatsUpdate(
         StatID => '123',
-        Hash => \%Hash
+        Hash   => \%Hash
     );
 
 =cut
@@ -343,22 +349,25 @@ update a stat
 sub StatsUpdate {
     my ( $Self, %Param ) = @_;
 
+    # declaration of the hash
     my %StatXML = ();
 
+    # check necessary data
     if ( !$Param{StatID} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'StatsUpdate: Need StatID!' );
     }
 
+    # requesting stats reference
     my $StatOld = $Self->StatsGet( StatID => $Param{StatID} );
-
     if ( !$StatOld ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "StatsUpddate: Can't get stat, perhaps you have an invalid stat id!"
+            Message  => "StatsUpddate: Can't get stats, perhaps you have an invalid stats id! (StatsID => $Param{StatID})"
         );
         return 0;
     }
 
+    # declare variable
     my $StatNew = $Param{Hash};
 
     # a delete function can be the better solution
@@ -370,10 +379,11 @@ sub StatsUpdate {
         }
     }
 
-    # merge
+    # adopt changes
     for my $Key ( keys %{$StatNew} ) {
         $StatOld->{$Key} = $StatNew->{$Key};
     }
+
     for my $Key ( keys %{$StatOld} ) {
         if ( $Key eq 'UseAsXvalue' || $Key eq 'UseAsValueSeries' || $Key eq 'UseAsRestriction' ) {
             my $Index = 0;
@@ -418,10 +428,10 @@ sub StatsUpdate {
     $StatXML{ChangedBy}[1]{Content} = $Self->{UserID};
 
     # please don't change the functionality of XMLHashDelete and XMLHashAdd
-    # into the new function XMLHashUpdate, there is an incompatiblty.
-    # Perhaps these are intricacies because of the 'Array[0] = undef' definition
+    # into the new function XMLHashUpdate, there is an incompatibility.
+    # Perhaps there are intricacies because of the 'Array[0] = undef' definition
 
-    # delete
+    # delete the old record
     if (
         !$Self->{XMLObject}->XMLHashDelete(
             Type => 'Stats',
@@ -442,7 +452,7 @@ sub StatsUpdate {
     my @Array = ();
     $Array[0]{otrs_stats}[0] = \%StatXML;
 
-    # add
+    # add the revised record
     if (
         $Self->{XMLObject}->XMLHashAdd(
             Type    => 'Stats',
@@ -460,7 +470,7 @@ sub StatsUpdate {
 
 =item StatsDelete()
 
-delete a stat
+delete a stats
 
     $StatsObject->StatsDelete(StatID => '123');
 
@@ -469,10 +479,12 @@ delete a stat
 sub StatsDelete {
     my ( $Self, %Param ) = @_;
 
+    # check necessary data
     if ( !$Param{StatID} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => "StatsDelete: Need StatID!" );
     }
 
+    # delete the record
     if (
         $Self->{XMLObject}->XMLHashDelete(
             Type => 'Stats',
@@ -485,16 +497,17 @@ sub StatsDelete {
         $Self->_DeleteCache( StatID => $Param{StatID} );
         return 1;
     }
+
     $Self->{LogObject}->Log( Priority => 'error', Message => "StatsDelete: Can't delete XMLHash!" );
     return 0;
 }
 
 =item GetStatsList()
 
-list all id's from stats
+lists all stats id's
 
     my $ArrayRef = $StatsObject->GetStatsList(
-        OrderBy => 'ID' || 'Title' || 'Object', # optional
+        OrderBy   => 'ID' || 'Title' || 'Object', # optional
         Direction => 'ASC' || 'DESC',             # optional
     );
 
@@ -2916,6 +2929,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.47 $ $Date: 2008-05-27 07:18:15 $
+$Revision: 1.48 $ $Date: 2008-05-28 05:40:59 $
 
 =cut
