@@ -4,11 +4,11 @@
 #               2003 Gabriele Santilli <gsantilli at omnibus.net>
 #               2005 Giordano Bianchi <giordano.bianchi at gmail.com>
 # --
-# $Id: it.pm,v 1.50.2.1 2007-12-10 08:44:44 mh Exp $
+# $Id: it.pm,v 1.50.2.2 2008-05-28 08:03:42 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Language::it;
@@ -16,7 +16,7 @@ package Kernel::Language::it;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.50.2.1 $';
+$VERSION = '$Revision: 1.50.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1066,7 +1066,7 @@ sub Data {
 
         # Template: AgentStatsView
         'Export Config' => '',
-        'Informations about the Stat' => '',
+        'Information about the Stat' => '',
         'Exchange Axis' => '',
         'Configurable params of static stat' => '',
         'No element selected.' => '',
@@ -1400,7 +1400,7 @@ sub Data {
         'Admin-Email' => 'Invia messaggio agli operatori',
         'Create new database' => 'Crea un nuovo database',
         'A message must be spell checked!' => 'Il messaggio necessita di correzione ortografica!',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'La tua email con il numero di richiesta "<OTRS_TICKET>" è stata reindirizzata a "<OTRS_BOUNCE_TO>". Contattare questo indirizzo per ulteriori informazioni.',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'La tua email con il numero di richiesta "<OTRS_TICKET>" è stata reindirizzata a "<OTRS_BOUNCE_TO>". Contattare questo indirizzo per ulteriori informazioni.',
         'ArticleID' => 'Codice articolo',
         'A message should have a body!' => 'Un messaggio deve avere un contenuto!',
         'All Agents' => 'Tutti gli operatori',

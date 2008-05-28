@@ -3,11 +3,11 @@
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # Update (C) 2007 Mikko Hynninen <first.last at cence.fi>
 # --
-# $Id: fi.pm,v 1.62.2.1 2007-12-10 08:44:44 mh Exp $
+# $Id: fi.pm,v 1.62.2.2 2008-05-28 08:03:42 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Language::fi;
@@ -15,7 +15,7 @@ package Kernel::Language::fi;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.62.2.1 $';
+$VERSION = '$Revision: 1.62.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1065,7 +1065,7 @@ sub Data {
 
         # Template: AgentStatsView
         'Export Config' => 'Vie asetukset',
-        'Informations about the Stat' => 'Tietoja tilastosta',
+        'Information about the Stat' => 'Tietoja tilastosta',
         'Exchange Axis' => 'Vaihda akseleita',
         'Configurable params of static stat' => '',
         'No element selected.' => 'Ei valittua elementtiä.',
@@ -1394,7 +1394,7 @@ sub Data {
         'Customer history search' => 'Asiakashistoriahaku',
         'Admin-Email' => 'Ylläpidon sähköposti',
         'A message must be spell checked!' => 'Viesti täytyy oikolukea!',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Sähköposti, tikettinumero "<OTRS_TICKET>" on välitetty osoitteeseen: "<OTRS_BOUNCE_TO>" . Ota yhteyttä kyseiseen osoitteeseen saadaksesi lisätietoja',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Sähköposti, tikettinumero "<OTRS_TICKET>" on välitetty osoitteeseen: "<OTRS_BOUNCE_TO>" . Ota yhteyttä kyseiseen osoitteeseen saadaksesi lisätietoja',
         'Mail Account Management' => 'Sähköpostitunnushallinta',
         'ArticleID' => 'ArtikkeliID',
         'A message should have a body!' => 'Viestiin tulee lisätä tietoja',

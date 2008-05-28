@@ -7,11 +7,11 @@
 # Copyright (C) 2007 Remi Seguy <remi.seguy at laposte.net>
 # Copyright (C) 2007 Massimiliano Franco <max-lists at ycom.ch>
 # --
-# $Id: fr.pm,v 1.78.2.1 2007-12-10 08:44:44 mh Exp $
+# $Id: fr.pm,v 1.78.2.2 2008-05-28 08:03:42 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Language::fr;
@@ -19,7 +19,7 @@ package Kernel::Language::fr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.78.2.1 $';
+$VERSION = '$Revision: 1.78.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1069,7 +1069,7 @@ sub Data {
 
         # Template: AgentStatsView
         'Export Config' => 'Exporter la configuration',
-        'Informations about the Stat' => 'Informations à propos de la statistique',
+        'Information about the Stat' => 'Informations à propos de la statistique',
         'Exchange Axis' => 'Échangez les axes',
         'Configurable params of static stat' => 'Paramètres modifiables des statistiques',
         'No element selected.' => 'Aucun élément sélectionné.',
@@ -1412,7 +1412,7 @@ sub Data {
         'Admin-Email' => 'Email de l\'administrateur',
         'Create new database' => 'Créer une nouvelle base de données',
         'A message must be spell checked!' => 'L\'orthographe d\'un message doit être vérifiée!',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Votre message concernant le ticket numéro "<OTRS_TICKET> est réémis à "<OTRS_BOUNCE_TO>". Contactez cette adresse pour de plus amples renseignements',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Votre message concernant le ticket numéro "<OTRS_TICKET> est réémis à "<OTRS_BOUNCE_TO>". Contactez cette adresse pour de plus amples renseignements',
         'FAQ Language' => 'Langue dans la FAQ',
         'ArticleID' => 'Identifiant de l\'Article',
         'A message should have a body!' => 'Un message doit avoir un corps !',

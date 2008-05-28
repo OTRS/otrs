@@ -3,11 +3,11 @@
 # Copyright (C) 2003-2006 Jorge Becerra <jorge at hab.desoft.cu>
 # Copyright (C) 2007 Carlos Oyarzabal <carlos.oyarzabal at grupocash.com.mx>
 # --
-# $Id: es.pm,v 1.61.2.1 2007-12-10 08:44:44 mh Exp $
+# $Id: es.pm,v 1.61.2.2 2008-05-28 08:03:42 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Language::es;
@@ -15,7 +15,7 @@ package Kernel::Language::es;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.61.2.1 $';
+$VERSION = '$Revision: 1.61.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1065,7 +1065,7 @@ sub Data {
 
         # Template: AgentStatsView
         'Export Config' => 'Exportar Configuración',
-        'Informations about the Stat' => 'Informaciones sobre la estadistica',
+        'Information about the Stat' => 'Informaciones sobre la estadistica',
         'Exchange Axis' => 'Intercambiar Ejes',
         'Configurable params of static stat' => 'Parámetro configurable de estadistica estatica',
         'No element selected.' => 'No hay elemento seleccionado',
@@ -1399,7 +1399,7 @@ sub Data {
         'Admin-Email' => 'Correo Administrativo',
         'Create new database' => 'Crear nueva base de datos',
         'A message must be spell checked!' => 'El mensaje debe ser chequeado ortograficamente!',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Su correo con el ticket número "<OTRS_TICKET>"  fue rebotado a "<OTRS_BOUNCE_TO>". Contacte dicha dirección para mas información',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Su correo con el ticket número "<OTRS_TICKET>"  fue rebotado a "<OTRS_BOUNCE_TO>". Contacte dicha dirección para mas información',
         'ArticleID' => 'Identificador de articulo',
         'A message should have a body!' => 'Los mensajes deben tener contenido',
         'All Agents' => 'Todos los Agentes',

@@ -2,18 +2,18 @@
 # Kernel/Language/ar_SA.pm - provides ar_SA language translation
 # Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
 # --
-# $Id: ar_SA.pm,v 1.6.2.1 2007-12-10 08:44:44 mh Exp $
+# $Id: ar_SA.pm,v 1.6.2.2 2008-05-28 08:03:42 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 package Kernel::Language::ar_SA;
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6.2.1 $';
+$VERSION = '$Revision: 1.6.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1138,7 +1138,7 @@ sub Data {
         # Template: AgentStatsView
         'Stat#' => '',
         'Export Config' => ' ’œÌ— «·Œ’«∆’',
-        'Informations about the Stat' => '„⁄·Ê„«  ⁄‰ «·≈Õ’«∆« ',
+        'Information about the Stat' => '„⁄·Ê„«  ⁄‰ «·≈Õ’«∆« ',
         'Stat#' => '',
         'Exchange Axis' => '',
         'Configurable params of static stat' => '',
@@ -1161,7 +1161,7 @@ sub Data {
         'Bounce to' => '',
         'Next ticket state' => 'Õ«·… «·»ÿ«ﬁ… »⁄œ ≈‰‘«∆Â«',
         'Inform sender' => '√Œ»— «·„—”·',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => '',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => '',
         'Send mail!' => '≈—”«· «·»—Ìœ',
 
         # Template: AgentTicketBulk

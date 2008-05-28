@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # mkStats.pl - send stats output via email
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: mkStats.pl,v 1.49 2007-07-31 13:09:19 tr Exp $
+# $Id: mkStats.pl,v 1.49.2.1 2008-05-28 08:03:43 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin)."/Kernel/cpan-lib";
 
 use vars qw($VERSION);
 
-$VERSION = '$Revision: 1.49 $';
+$VERSION = '$Revision: 1.49.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 use Getopt::Std;
@@ -143,7 +143,7 @@ if ($Opts{o} && !-e $Opts{o}) {
     exit 1;
 }
 
-# process the informations
+# process the information
 my $StatNumber = $Opts{n};
 my $StatID = $CommonObject{StatsObject}->StatNumber2StatID(StatNumber => $StatNumber);
 if (!$StatID) {

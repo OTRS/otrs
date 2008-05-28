@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all advice functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.25.2.2 2008-02-20 10:09:54 tr Exp $
+# $Id: Stats.pm,v 1.25.2.3 2008-05-28 08:03:43 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Date::Pcalc qw(Today_and_Now Days_in_Month Day_of_Week Day_of_Week_Abbreviation Add_Delta_Days Add_Delta_DHMS Add_Delta_YMD);
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.25.2.2 $';
+$VERSION = '$Revision: 1.25.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 SYNOPSIS
@@ -575,7 +575,7 @@ sub GenerateDynamicStats {
 
     # get the selected values
     # perhaps i can split the StatGet function to make this needless
-    # Problem, i need the block informations
+    # Problem, I need the block information
     my %NewParam = ();
 
     $NewParam{Title} = $Param{Title};
@@ -2482,6 +2482,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.25.2.2 $ $Date: 2008-02-20 10:09:54 $
+$Revision: 1.25.2.3 $ $Date: 2008-05-28 08:03:43 $
 
 =cut

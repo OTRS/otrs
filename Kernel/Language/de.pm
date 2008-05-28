@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.147.2.5 2008-04-23 10:27:28 mh Exp $
+# $Id: de.pm,v 1.147.2.6 2008-05-28 08:03:42 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::de;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.147.2.5 $';
+$VERSION = '$Revision: 1.147.2.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1064,7 +1064,7 @@ sub Data {
 
         # Template: AgentStatsView
         'Export Config' => 'Konfiguration exportieren',
-        'Informations about the Stat' => 'Informationen über die Statistik',
+        'Information about the Stat' => 'Informationen über die Statistik',
         'Exchange Axis' => 'Achsen vertauschen',
         'Configurable params of static stat' => 'Konfigurierbare Parameter der statischen Statistik',
         'No element selected.' => 'Es wurde kein Element ausgewählt.',
@@ -1406,7 +1406,7 @@ sub Data {
         'Year' => 'Jahr',
         'A message must be spell checked!' => 'Eine Nachricht muss auf Rechtschreibung überprüft werden!',
         'X-axis' => 'X-Achse',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Die E-Mail mit der Ticketnummer "<OTRS_TICKET>" ist an "<OTRS_BOUNCE_TO>" gebounced. Kontaktieren Sie diese Adresse für weitere Nachfragen.',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Die E-Mail mit der Ticketnummer "<OTRS_TICKET>" ist an "<OTRS_BOUNCE_TO>" gebounced. Kontaktieren Sie diese Adresse für weitere Nachfragen.',
         'A message should have a body!' => 'Eine Nachricht sollte einen Body haben!',
         'All Agents' => 'Alle Agenten',
         'Keywords' => 'Schlüsselwörter',

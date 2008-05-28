@@ -5,11 +5,11 @@
 #               2006 Knut Haugen <knuthaug at linpro.no>
 #               2007 Fredrik Andersen <fredrik.andersen at husbanken.no>
 # --
-# $Id: nb_NO.pm,v 1.46.2.1 2007-12-10 08:44:44 mh Exp $
+# $Id: nb_NO.pm,v 1.46.2.2 2008-05-28 08:03:42 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Language::nb_NO;
@@ -17,7 +17,7 @@ package Kernel::Language::nb_NO;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.46.2.1 $;
+$VERSION = q$Revision: 1.46.2.2 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1083,7 +1083,7 @@ sub Data {
 
         # Template: AgentStatsView
         'Export Config' => 'Eksporter konfigurasjon',
-        'Informations about the Stat' => 'Informasjon om statistikken',
+        'Information about the Stat' => 'Informasjon om statistikken',
         'Exchange Axis' => 'Bytt akser',
         'Configurable params of static stat' => 'Konfigurerbare parametre til statisk statistikk',
         'No element selected.' => 'Ingen valgte elementer.',
@@ -1105,7 +1105,7 @@ sub Data {
         'Bounce to' => 'Oversend til',
         'Next ticket state' => 'Neste status på sak',
         'Inform sender' => 'Informer avsender',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'E-posten med saksnummer "<OTRS_TICKET>" er oversendt "<OTRS_BOUNCE_TO>". Vennligst ta kontakt på denne adressen for videre henvendelser.',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'E-posten med saksnummer "<OTRS_TICKET>" er oversendt "<OTRS_BOUNCE_TO>". Vennligst ta kontakt på denne adressen for videre henvendelser.',
         'Send mail!' => 'Send e-posten!',
 
         # Template: AgentTicketBulk

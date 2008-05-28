@@ -2,7 +2,7 @@
 # Kernel/Language/vi_VN.pm - provides vi_VN language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: vi_VN.pm,v 1.1.2.3 2008-03-10 15:39:21 martin Exp $
+# $Id: vi_VN.pm,v 1.1.2.4 2008-05-28 08:03:42 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1.2.3 $) [1];
+$VERSION = qw($Revision: 1.1.2.4 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -1195,7 +1195,7 @@ sub Data {
 
         # Template: AgentStatsView
         'Export Config'               => 'C¤u hình xu¤t',
-        'Informations about the Stat' => 'Thông tin v« th¯ng kê',
+        'Information about the Stat' => 'Thông tin v« th¯ng kê',
         'Exchange Axis'               => 'Trøc trao ð±i',
         'Configurable params of static stat' =>
             'Tham s¯ c¤u hình cüa th¯ng kê tînh',
@@ -1556,7 +1556,7 @@ sub Data {
         'A message must be spell checked!' =>
             'Tin nh¡n phäi ðßþc ki¬m tra chính tä!',
         'X-axis' => 'trøc X',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.'
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.'
             => 'Email cüa bÕn v¾i s¯ thë "<OTRS_TICKET>" ðßþc chuy¬n t¾i "<OTRS_BOUNCE_TO>". Hãy liên h® v¾i ð¸a chï này ð¬ có thêm thông tin.',
         'A message should have a body!' => 'Tin nh¡n nên có nµi dung!',
         'All Agents'                    => 'T¤t cä nhân viên',

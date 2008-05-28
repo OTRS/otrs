@@ -6,11 +6,11 @@
 # Copyright (C) 2005-2007 Jurgen Rutgers <jurgen 'at' besite.nl>
 #                         Richard Hinkamp <richard 'at' besite.nl>
 # --
-# $Id: nl.pm,v 1.64.2.1 2007-12-10 08:44:44 mh Exp $
+# $Id: nl.pm,v 1.64.2.2 2008-05-28 08:03:42 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 # Not translated terms / words:
@@ -28,7 +28,7 @@ package Kernel::Language::nl;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.64.2.1 $';
+$VERSION = '$Revision: 1.64.2.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 
 sub Data {
@@ -1078,7 +1078,7 @@ sub Data {
 
         # Template: AgentStatsView
         'Export Config' => 'Exporteer configuratie',
-        'Informations about the Stat' => 'Informatie over deze statistieken',
+        'Information about the Stat' => 'Informatie over deze statistieken',
         'Exchange Axis' => '',
         'Configurable params of static stat' => '',
         'No element selected.' => 'Geen element geselecteerd.',
@@ -1405,7 +1405,7 @@ sub Data {
         'Customer history search' => 'Zoeken in klantgeschiednis',
         'Admin-Email' => 'Admin e-mail adres',
         'A message must be spell checked!' => 'Van een bericht moet de spelling gecontroleerd worden',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Uw e-mail met Ticket nummer "<OTRS_TICKET>" is gebounced naar "<OTRS_BOUNCE_TO>". Neem contact op met dit adres voor meer informatie.',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Uw e-mail met Ticket nummer "<OTRS_TICKET>" is gebounced naar "<OTRS_BOUNCE_TO>". Neem contact op met dit adres voor meer informatie.',
         'ArticleID' => 'Artikel ID',
         'A message should have a body!' => 'Een bericht moet een berichttekst hebben!',
         'All Agents' => 'Alle agenten',

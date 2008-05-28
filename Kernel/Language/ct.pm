@@ -2,7 +2,7 @@
 # Kernel/Language/ct.pm - provides ct language translation
 # Copyright (C) 2008 Sistemes OTIC (ibsalut) - Antonio Linde
 # --
-# $Id: ct.pm,v 1.1.2.3 2008-05-27 08:08:30 martin Exp $
+# $Id: ct.pm,v 1.1.2.4 2008-05-28 08:03:42 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1.2.3 $) [1];
+$VERSION = qw($Revision: 1.1.2.4 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -1199,7 +1199,7 @@ sub Data {
 
         # Template: AgentStatsView
         'Export Config'                      => 'Exportar Configuració',
-        'Informations about the Stat'        => 'Informacions sobre l\'estadística',
+        'Information about the Stat'        => 'Informacions sobre l\'estadística',
         'Exchange Axis'                      => 'Intercanviar Eixos',
         'Configurable params of static stat' => 'Paràmetre configurable d\'estadística estàtica',
         'No element selected.'               => 'No hi ha element seleccionat',
@@ -1548,7 +1548,7 @@ sub Data {
         'Admin-Email'                      => 'Correu-Admin',
         'Create new database'              => 'Crear nova base de dades',
         'A message must be spell checked!' => 'El missatge ha de ser verificat ortograficamente!',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.'
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.'
             => 'El seu correu amb el tiquet nombre "<OTRS_TICKET>" va ser retornat a "<OTRS_BOUNCE_TO>". Contacti aquesta adreça para mes informació',
         'ArticleID'                     => 'Identificador d\'article',
         'A message should have a body!' => 'Els missatges han de tenir contingut',

@@ -2,7 +2,7 @@
 # Kernel/Language/tr.pm - provides de language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: tr.pm,v 1.1.2.2 2008-03-13 21:20:11 martin Exp $
+# $Id: tr.pm,v 1.1.2.3 2008-05-28 08:03:42 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::tr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1.2.2 $';
+$VERSION = '$Revision: 1.1.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1065,7 +1065,7 @@ sub Data {
 
         # Template: AgentStatsView
         'Export Config' => 'Yapýlandýrmayý Dýþarý Aktar',
-        'Informations about the Stat' => 'Ýstatistik hakkýnda bilgi',
+        'Information about the Stat' => 'Ýstatistik hakkýnda bilgi',
         'Exchange Axis' => 'Eksenlerin Yerini Deðiþtir',
         'Configurable params of static stat' => 'Deðiþmez istatistiðin ayarlanabilir parametreleri',
         'No element selected.' => 'Öðe seçilmedi.',
@@ -1406,7 +1406,7 @@ sub Data {
         'Year' => 'Yýl',
         'A message must be spell checked!' => 'Mesajýn sözyazým kontrolünden geçmesi gereki!',
         'X-axis' => 'X-Ekseni',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => '"<OTRS_TICKET>" bilet numaralý e-postanýz "<OTRS_BOUNCE_TO>" adresine gönderildi. Daha fazla bilgi için bu adresle baðlantýya geçin.',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => '"<OTRS_TICKET>" bilet numaralý e-postanýz "<OTRS_BOUNCE_TO>" adresine gönderildi. Daha fazla bilgi için bu adresle baðlantýya geçin.',
         'A message should have a body!' => 'Mesajýn bir gövdesi olmalýdýr!',
         'All Agents' => 'Tüm Aracýlar',
         'Keywords' => 'Anahtar Kelimeler',

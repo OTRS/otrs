@@ -2,7 +2,7 @@
 # Kernel/Language/hu.pm - provides de language translation
 # Copyright (C) 2004 RLAN Internet <MAGIC at rlan.hu>
 # --
-# $Id: hu.pm,v 1.41.2.1 2007-12-10 08:44:44 mh Exp $
+# $Id: hu.pm,v 1.41.2.2 2008-05-28 08:03:42 tr Exp $
 # Translation: Gabor Gancs /gg@magicnet.hu/ & Krisztian Gancs /krisz@gancs.hu/
 # Verify: Flora Szabo /szaboflora@magicnet.hu/
 # Hungary Sopron Europe
@@ -12,7 +12,7 @@
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Language::hu;
@@ -20,7 +20,7 @@ package Kernel::Language::hu;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.41.2.1 $';
+$VERSION = '$Revision: 1.41.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1089,7 +1089,7 @@ sub Data {
 
         # Template: AgentStatsView
         'Export Config' => 'Beállítások exportálása',
-        'Informations about the Stat' => 'Információ a statisztikáról',
+        'Information about the Stat' => 'Információ a statisztikáról',
         'Exchange Axis' => 'Tengelyek fölcserélése',
         'Configurable params of static stat' => '',
         'No element selected.' => 'Nincsenek ertékek kiválasztva.',
@@ -1429,7 +1429,7 @@ sub Data {
         'Year' => 'Év',
         'A message must be spell checked!' => 'Az üzenetnek helyesírásellenõrzésen kell átmennie!',
         'X-axis' => 'X tengely',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Az ön "<OTRS_TICKET>" számú jegyhez rendelt e-mailje visszaküldésre került a "<OTRS_BOUNCE_TO>" címre. Vegye fel ezzel a címmel a kapcsolatot további információkért.',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Az ön "<OTRS_TICKET>" számú jegyhez rendelt e-mailje visszaküldésre került a "<OTRS_BOUNCE_TO>" címre. Vegye fel ezzel a címmel a kapcsolatot további információkért.',
         'A message should have a body!' => 'Egy üzenetnek kell legyen törzse!',
         'All Agents' => 'Minden ügyintézõ',
         'Keywords' => 'Kulcsszó',

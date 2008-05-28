@@ -2,11 +2,11 @@
 # Kernel/Language/zh_CN.pm - provides za_CN language translation
 # Copyright (C) 2005 zuowei <j2ee@hirain-sh.com>
 # --
-# $Id: zh_CN.pm,v 1.30.2.1 2007-12-10 08:44:45 mh Exp $
+# $Id: zh_CN.pm,v 1.30.2.2 2008-05-28 08:03:43 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Language::zh_CN;
@@ -14,7 +14,7 @@ package Kernel::Language::zh_CN;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.30.2.1 $';
+$VERSION = '$Revision: 1.30.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1064,7 +1064,7 @@ sub Data {
 
         # Template: AgentStatsView
         'Export Config' => '',
-        'Informations about the Stat' => '',
+        'Information about the Stat' => '',
         'Exchange Axis' => '',
         'Configurable params of static stat' => '',
         'No element selected.' => '',
@@ -1396,7 +1396,7 @@ sub Data {
         'Customer history search' => '客户历史搜索',
         'Create new database' => '创建新的数据库',
         'A message must be spell checked!' => '消息必须经过拼写检查!',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => '您的邮件 编号: "<OTRS_TICKET>" 回退到 "<OTRS_BOUNCE_TO>" . 请联系以下地址获取详细信息.',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => '您的邮件 编号: "<OTRS_TICKET>" 回退到 "<OTRS_BOUNCE_TO>" . 请联系以下地址获取详细信息.',
         'A message should have a body!' => '邮件必须包含内容!',
         'All Agents' => '所有技术支持人员',
         'Keywords' => '关键字',

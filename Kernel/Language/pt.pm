@@ -2,11 +2,11 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004-2007 CAT - Filipe Henriques <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.49.2.1 2007-12-10 08:44:44 mh Exp $
+# $Id: pt.pm,v 1.49.2.2 2008-05-28 08:03:42 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Language::pt;
@@ -14,7 +14,7 @@ package Kernel::Language::pt;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.49.2.1 $';
+$VERSION = '$Revision: 1.49.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1065,7 +1065,7 @@ sub Data {
 
         # Template: AgentStatsView
         'Export Config' => 'Exportar configuraçao',
-        'Informations about the Stat' => 'Informaçoes sobre estatisticas',
+        'Information about the Stat' => 'Informaçoes sobre estatisticas',
         'Exchange Axis' => 'Troca de eixos',
         'Configurable params of static stat' => 'Parametros configuraveis de estatisticas estaticas',
         'No element selected.' => 'Sem elemento selecionado',
@@ -1409,7 +1409,7 @@ sub Data {
         'SMIME Certificate Upload' => 'Carregamento de Certificado SMIME',
         'Create new database' => 'Criar nova base de dados',
         'A message must be spell checked!' => 'Tem de verificar a ortografia da mensagem!',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Seu email com o número de ticket "<OTRS_TICKET>" foi devolvido para "<OTRS_BOUNCE_TO>". Contate este endereço para mais informações.',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Seu email com o número de ticket "<OTRS_TICKET>" foi devolvido para "<OTRS_BOUNCE_TO>". Contate este endereço para mais informações.',
         'ArticleID' => 'ID de Artigo',
         'A message should have a body!' => 'A mensagem deve conter um texto!',
         'All Agents' => 'Todos os Agentes',

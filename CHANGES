@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.123 2008-05-22 21:43:53 martin Exp $
+# $Id: CHANGES,v 1.465.2.124 2008-05-28 08:03:42 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.2.7 (2008/??/??)
+ - (2008/05/28) Fixed bug# 2891 - Typo in Bounce Customer notification
+    'informations'.
  - (2008/05/22) Fixed bug# 2829 - Added config option if Cc should be taken over
     to Cc recipients list in compose email answer screen.
     SysConfig -> Ticket -> Frontend::Agent::Ticket::ViewCompose ->

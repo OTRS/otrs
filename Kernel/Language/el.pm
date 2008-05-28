@@ -3,11 +3,11 @@
 # Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
 #                    George Thomas <gthomas aegean.gr>
 # --
-# $Id: el.pm,v 1.23.2.1 2007-12-10 08:44:44 mh Exp $
+# $Id: el.pm,v 1.23.2.2 2008-05-28 08:03:42 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Language::el;
@@ -15,7 +15,7 @@ package Kernel::Language::el;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.23.2.1 $';
+$VERSION = '$Revision: 1.23.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1078,7 +1078,7 @@ sub Data {
 
         # Template: AgentStatsView
         'Export Config' => '',
-        'Informations about the Stat' => '',
+        'Information about the Stat' => '',
         'Exchange Axis' => '',
         'Configurable params of static stat' => '',
         'No element selected.' => '',
@@ -1415,7 +1415,7 @@ sub Data {
         'Customer history search' => 'Αναζήτηση σε ιστορικό πελάτη',
         'Create new database' => 'Δημιουργία νέας βάσης',
         'A message must be spell checked!' => 'Το μήνυμα πρέπει να έχει ελεγχθεί για την ορθογραφία του!',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'το
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'το
 email σας με αριθμο δελτιου "<OTRS_TICKET>" αναπηδησε στο "<OTRS_BOUNCE_TO>".Επισκευθείτε αυτήν την διεύθυνση για περισσότερες πληροφορίες',
         'No entry Found!' => 'Δεν βρέθηκε εγγραφή!',
         'ArticleID' => '',

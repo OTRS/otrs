@@ -5,18 +5,18 @@
 # Original created by Thorsten Rossner
 # Maintained by Mads N. Vestergaard <mnv[at]timmy.dk>
 # --
-# $Id: da.pm,v 1.25.2.1 2007-12-10 08:44:44 mh Exp $
+# $Id: da.pm,v 1.25.2.2 2008-05-28 08:03:42 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 package Kernel::Language::da;
 
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.25.2.1 $';
+$VERSION = '$Revision: 1.25.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1066,7 +1066,7 @@ sub Data {
 
         # Template: AgentStatsView
         'Export Config' => 'Eksporter konfiguration',
-        'Informations about the Stat' => 'Information om Stat',
+        'Information about the Stat' => 'Information om Stat',
         'Exchange Axis' => 'Udskiftning af akser',
         'Configurable params of static stat' => 'Konfigurer bare parametre af en statitisk stat',
         'No element selected.' => 'Intet element er valgt',
@@ -1403,7 +1403,7 @@ sub Data {
         'Stat#' => '',
         'Create new database' => 'Opret ny database',
         'A message must be spell checked!' => 'En meddelelse skal stavekontrolleres!',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Din e-mail med sagnummer "<OTRS_TICKET>" er sendt retur til afsender til "<OTRS_BOUNCE_TO>". Kontakt denne adresse for at få flere oplysninger.',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Din e-mail med sagnummer "<OTRS_TICKET>" er sendt retur til afsender til "<OTRS_BOUNCE_TO>". Kontakt denne adresse for at få flere oplysninger.',
         'Mail Account Management' => '',
         'ArticleID' => 'Artikel-ID',
         'A message should have a body!' => 'En meddelelse skal have en tekst!',

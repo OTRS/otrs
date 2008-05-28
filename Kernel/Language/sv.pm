@@ -2,11 +2,11 @@
 # Kernel/Language/sv.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats@synergy.se>
 # --
-# $Id: sv.pm,v 1.39.2.1 2007-12-10 08:44:45 mh Exp $
+# $Id: sv.pm,v 1.39.2.2 2008-05-28 08:03:42 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Language::sv;
@@ -14,7 +14,7 @@ package Kernel::Language::sv;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.39.2.1 $;
+$VERSION = q$Revision: 1.39.2.2 $;
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1087,7 +1087,7 @@ sub Data {
 
         # Template: AgentStatsView
         'Export Config' => '',
-        'Informations about the Stat' => '',
+        'Information about the Stat' => '',
         'Exchange Axis' => '',
         'Configurable params of static stat' => '',
         'No element selected.' => '',
@@ -1109,7 +1109,7 @@ sub Data {
         'Bounce to' => 'Skicka över till',
         'Next ticket state' => 'Nästa ärendestatus',
         'Inform sender' => 'Informera avsändare',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Emailen med ärendenummer "<OTRS_TICKET>" har skickats över till "<OTRS_BOUNCE_TO>". Vänligen kontakta denna adress för vidare hänvisningar.',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Emailen med ärendenummer "<OTRS_TICKET>" har skickats över till "<OTRS_BOUNCE_TO>". Vänligen kontakta denna adress för vidare hänvisningar.',
         'Send mail!' => 'Skicka mail!',
 
         # Template: AgentTicketBulk

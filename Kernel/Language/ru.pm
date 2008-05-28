@@ -3,11 +3,11 @@
 # Copyright (C) 2003 Serg V Kravchenko <skraft at rgs.ru>
 # Copyright (C) 2007 Andrey Feldman <afeldman at alt-lan.ru>
 # --
-# $Id: ru.pm,v 1.49.2.1 2007-12-10 08:44:44 mh Exp $
+# $Id: ru.pm,v 1.49.2.2 2008-05-28 08:03:42 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Language::ru;
@@ -15,7 +15,7 @@ package Kernel::Language::ru;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.49.2.1 $';
+$VERSION = '$Revision: 1.49.2.2 $';
 $VERSION =~ s/^.*:\s(\d+\.\d+)\s.*\$/$1/;
 
 sub Data {
@@ -1065,7 +1065,7 @@ sub Data {
 
         # Template: AgentStatsView
         'Export Config' => 'Экспорт конфигурации',
-        'Informations about the Stat' => 'Информация об отчете',
+        'Information about the Stat' => 'Информация об отчете',
         'Exchange Axis' => 'Поменять оси',
         'Configurable params of static stat' => 'Конфигурируемые параметры статического отчета',
         'No element selected.' => 'Элементы не выбраны',
@@ -1400,7 +1400,7 @@ sub Data {
         'Admin-Email' => 'e-mail администратора',
         'Create new database' => 'Создать новую БД',
         'A message must be spell checked!' => 'Сообщение должно быть проверено на ошибки!',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Ваш e-mail с номером заявки "<OTRS_TICKET>" отвергнут и переслан по адресу "<OTRS_BOUNCE_TO>". Пожалуйста, свяжитесь по этому адресу для выяснения причин. ',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Ваш e-mail с номером заявки "<OTRS_TICKET>" отвергнут и переслан по адресу "<OTRS_BOUNCE_TO>". Пожалуйста, свяжитесь по этому адресу для выяснения причин. ',
         'ArticleID' => 'ID заметки',
         'A message should have a body!' => 'Тело сообщения не может быть пустым!',
         'Keywords' => 'Ключевые слова',

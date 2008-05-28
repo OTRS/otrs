@@ -3,11 +3,11 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.62.2.1 2007-12-10 08:44:44 mh Exp $
+# $Id: bg.pm,v 1.62.2.2 2008-05-28 08:03:42 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Language::bg;
@@ -15,7 +15,7 @@ package Kernel::Language::bg;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.62.2.1 $';
+$VERSION = '$Revision: 1.62.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1065,7 +1065,7 @@ sub Data {
 
         # Template: AgentStatsView
         'Export Config' => 'Експортиране на конфигурация',
-        'Informations about the Stat' => 'Информация относно статистиката',
+        'Information about the Stat' => 'Информация относно статистиката',
         'Exchange Axis' => 'Размяна на осите',
         'Configurable params of static stat' => 'Конфигурируеми параметри на статичната статистика',
         'No element selected.' => 'Няма избран елемент',
@@ -1402,7 +1402,7 @@ sub Data {
         'Stat#' => 'Статистика#',
         'Create new database' => 'Създаване на нова база данни',
         'A message must be spell checked!' => 'Съобщението трябва да бъде проверено за грешки!',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Писмото Ви с номер "<OTRS_TICKET>" е отхвърлен към "<OTRS_BOUNCE_TO>". Свържете се с този адрес за повече информация',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Писмото Ви с номер "<OTRS_TICKET>" е отхвърлен към "<OTRS_BOUNCE_TO>". Свържете се с този адрес за повече информация',
         'Mail Account Management' => 'Управление на e-mail акаунти',
         'ArticleID' => 'Идентификатор на клауза',
         'A message should have a body!' => 'Съобщението трябва да има текст',

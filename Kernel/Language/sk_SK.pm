@@ -1,12 +1,12 @@
 # --
 # Kernel/Language/sk_SK.pm - provides sk_SK language translation
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: sk_SK.pm,v 1.22.2.1 2007-12-10 08:44:45 mh Exp $
+# $Id: sk_SK.pm,v 1.22.2.2 2008-05-28 08:03:42 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Language::sk_SK;
@@ -14,7 +14,7 @@ package Kernel::Language::sk_SK;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.22.2.1 $';
+$VERSION = '$Revision: 1.22.2.2 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1064,7 +1064,7 @@ sub Data {
 
         # Template: AgentStatsView
         'Export Config' => '',
-        'Informations about the Stat' => '',
+        'Information about the Stat' => '',
         'Exchange Axis' => '',
         'Configurable params of static stat' => '',
         'No element selected.' => '',
@@ -1485,7 +1485,7 @@ sub Data {
         'Riadenie radov' => 'Sub-Queue of',
         'Potrebujete èasové konto!' => 'Close ticket',
         'Send me a notification if a ticket is moved into one of My Queues"."' => 'Po¹li mi oznámenie =>  ak je po¾iadavka premiestnená do jedného z mojich radov.',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => '',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => '',
         'prilo¾i»' => 'Pending Date',
         'zobrazené po¾iadavky' => 'Page',
         'Rein¹talova»' => 'PGP Management',
@@ -1519,7 +1519,7 @@ sub Data {
         'Ulo¾i»' => 'Group Management',
         'login klientského u¾ívateµa' => '(e. g. U5150)',
         'kým' => 'Change priority of ticket',
-        'informova» odosielateµa.' => 'Your email with ticket number <OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations."',
+        'informova» odosielateµa.' => 'Your email with ticket number <OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information."',
         'naèíta» nastavenia' => 'Subgroup',
         'OTRS DB Password' => 'OTRS DB heslo',
         'Hlavièka' => 'Value',
