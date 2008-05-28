@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004-2007 CAT - Filipe Henriques <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.56 2008-05-16 12:16:14 martin Exp $
+# $Id: pt.pm,v 1.57 2008-05-28 07:27:30 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -1091,7 +1091,7 @@ sub Data {
 
         # Template: AgentStatsView
         'Export Config' => 'Exportar configuraçao',
-        'Informations about the Stat' => 'Informaçoes sobre estatisticas',
+        'Information about the Stat' => 'Informaçoes sobre estatisticas',
         'Exchange Axis' => 'Troca de eixos',
         'Configurable params of static stat' => 'Parametros configuraveis de estatisticas estaticas',
         'No element selected.' => 'Sem elemento selecionado',
@@ -1454,7 +1454,7 @@ sub Data {
         'SMIME Certificate Upload' => 'Carregamento de Certificado SMIME',
         'Create new database' => 'Criar nova base de dados',
         'A message must be spell checked!' => 'Tem de verificar a ortografia da mensagem!',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Seu email com o número de ticket "<OTRS_TICKET>" foi devolvido para "<OTRS_BOUNCE_TO>". Contate este endereço para mais informações.',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Seu email com o número de ticket "<OTRS_TICKET>" foi devolvido para "<OTRS_BOUNCE_TO>". Contate este endereço para mais informações.',
         'ArticleID' => 'ID de Artigo',
         'A message should have a body!' => 'A mensagem deve conter um texto!',
         'All Agents' => 'Todos os Agentes',

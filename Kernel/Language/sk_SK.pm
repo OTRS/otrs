@@ -2,7 +2,7 @@
 # Kernel/Language/sk_SK.pm - provides sk_SK language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: sk_SK.pm,v 1.29 2008-05-16 12:16:14 martin Exp $
+# $Id: sk_SK.pm,v 1.30 2008-05-28 07:27:30 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -1091,7 +1091,7 @@ sub Data {
 
         # Template: AgentStatsView
         'Export Config' => '',
-        'Informations about the Stat' => '',
+        'Information about the Stat' => '',
         'Exchange Axis' => '',
         'Configurable params of static stat' => '',
         'No element selected.' => '',
@@ -1529,7 +1529,7 @@ sub Data {
         'Riadenie radov' => 'Sub-Queue of',
         'Potrebujete èasové konto!' => 'Close ticket',
         'Send me a notification if a ticket is moved into one of My Queues"."' => 'Po¹li mi oznámenie =>  ak je po¾iadavka premiestnená do jedného z mojich radov.',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => '',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => '',
         'prilo¾i»' => 'Pending Date',
         'zobrazené po¾iadavky' => 'Page',
         'Rein¹talova»' => 'PGP Management',
@@ -1563,7 +1563,7 @@ sub Data {
         'Ulo¾i»' => 'Group Management',
         'login klientského u¾ívateµa' => '(e. g. U5150)',
         'kým' => 'Change priority of ticket',
-        'informova» odosielateµa.' => 'Your email with ticket number <OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations."',
+        'informova» odosielateµa.' => 'Your email with ticket number <OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information."',
         'naèíta» nastavenia' => 'Subgroup',
         'OTRS DB Password' => 'OTRS DB heslo',
         'Hlavièka' => 'Value',

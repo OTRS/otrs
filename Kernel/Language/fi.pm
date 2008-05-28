@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # Update (C) 2007 Mikko Hynninen <first.last at cence.fi>
 # --
-# $Id: fi.pm,v 1.69 2008-05-16 12:16:13 martin Exp $
+# $Id: fi.pm,v 1.70 2008-05-28 07:27:31 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.70 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -1092,7 +1092,7 @@ sub Data {
 
         # Template: AgentStatsView
         'Export Config' => 'Vie asetukset',
-        'Informations about the Stat' => 'Tietoja tilastosta',
+        'Information about the Stat' => 'Tietoja tilastosta',
         'Exchange Axis' => 'Vaihda akseleita',
         'Configurable params of static stat' => '',
         'No element selected.' => 'Ei valittua elementtiä.',
@@ -1439,7 +1439,7 @@ sub Data {
         'Customer history search' => 'Asiakashistoriahaku',
         'Admin-Email' => 'Ylläpidon sähköposti',
         'A message must be spell checked!' => 'Viesti täytyy oikolukea!',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Sähköposti, tikettinumero "<OTRS_TICKET>" on välitetty osoitteeseen: "<OTRS_BOUNCE_TO>" . Ota yhteyttä kyseiseen osoitteeseen saadaksesi lisätietoja',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Sähköposti, tikettinumero "<OTRS_TICKET>" on välitetty osoitteeseen: "<OTRS_BOUNCE_TO>" . Ota yhteyttä kyseiseen osoitteeseen saadaksesi lisätietoja',
         'ArticleID' => 'ArtikkeliID',
         'A message should have a body!' => 'Viestiin tulee lisätä tietoja',
         'All Agents' => 'Kaikki agentit',

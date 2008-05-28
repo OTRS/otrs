@@ -2,7 +2,7 @@
 # Kernel/Language/bb.pm - provides bavarian language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: bb.pm,v 1.31 2008-04-23 10:28:01 mh Exp $
+# $Id: bb.pm,v 1.32 2008-05-28 07:27:31 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -1194,7 +1194,7 @@ sub Data {
 
         # Template: AgentStatsView
         'Export Config'               => 'Konfiguration exportieren',
-        'Informations about the Stat' => 'Informationen über die Statistik',
+        'Information about the Stat' => 'Informationen über die Statistik',
         'Exchange Axis'               => 'Achsen vertauschen',
         'Configurable params of static stat' =>
             'Konfigurierbare Parameter der statischen Statistik',
@@ -1551,7 +1551,7 @@ sub Data {
         'A message must be spell checked!' =>
             'Eine Nachricht muss auf Rechtschreibung überprüft werden!',
         'X-axis' => 'X-Achse',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.'
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.'
             => 'Die E-Mail mit der Ticketnummer "<OTRS_TICKET>" ist an "<OTRS_BOUNCE_TO>" gebounced. Kontaktieren Sie diese Adresse für weitere Nachfragen.',
         'A message should have a body!' => 'Eine Nachricht sollte einen Body haben!',
         'All Agents'                    => 'Alle Agenten',

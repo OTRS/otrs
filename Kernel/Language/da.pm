@@ -4,7 +4,7 @@
 # Original created by Thorsten Rossner
 # Maintained by Mads N. Vestergaard <mnv[at]timmy.dk>
 # --
-# $Id: da.pm,v 1.32 2008-05-16 12:16:13 martin Exp $
+# $Id: da.pm,v 1.33 2008-05-28 07:27:31 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -1092,7 +1092,7 @@ sub Data {
 
         # Template: AgentStatsView
         'Export Config' => 'Eksporter konfiguration',
-        'Informations about the Stat' => 'Information om Stat',
+        'Information about the Stat' => 'Information om Stat',
         'Exchange Axis' => 'Udskiftning af akser',
         'Configurable params of static stat' => 'Konfigurer bare parametre af en statitisk stat',
         'No element selected.' => 'Intet element er valgt',
@@ -1447,7 +1447,7 @@ sub Data {
         'Stat#' => '',
         'Create new database' => 'Opret ny database',
         'A message must be spell checked!' => 'En meddelelse skal stavekontrolleres!',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Din e-mail med sagnummer "<OTRS_TICKET>" er sendt retur til afsender til "<OTRS_BOUNCE_TO>". Kontakt denne adresse for at få flere oplysninger.',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Din e-mail med sagnummer "<OTRS_TICKET>" er sendt retur til afsender til "<OTRS_BOUNCE_TO>". Kontakt denne adresse for at få flere oplysninger.',
         'ArticleID' => 'Artikel-ID',
         'A message should have a body!' => 'En meddelelse skal have en tekst!',
         'All Agents' => 'Alle Repræsentanter',

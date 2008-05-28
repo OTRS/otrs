@@ -3,7 +3,7 @@
 # Copyright (C) 2003-2006 Jorge Becerra <jorge at hab.desoft.cu>
 # Copyright (C) 2007 Carlos Oyarzabal <carlos.oyarzabal at grupocash.com.mx>
 # --
-# $Id: es.pm,v 1.68 2008-05-16 12:16:13 martin Exp $
+# $Id: es.pm,v 1.69 2008-05-28 07:27:31 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -1092,7 +1092,7 @@ sub Data {
 
         # Template: AgentStatsView
         'Export Config' => 'Exportar Configuración',
-        'Informations about the Stat' => 'Informaciones sobre la estadistica',
+        'Information about the Stat' => 'Informaciones sobre la estadistica',
         'Exchange Axis' => 'Intercambiar Ejes',
         'Configurable params of static stat' => 'Parámetro configurable de estadistica estatica',
         'No element selected.' => 'No hay elemento seleccionado',
@@ -1444,7 +1444,7 @@ sub Data {
         'Admin-Email' => 'Correo Administrativo',
         'Create new database' => 'Crear nueva base de datos',
         'A message must be spell checked!' => 'El mensaje debe ser chequeado ortograficamente!',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Su correo con el ticket número "<OTRS_TICKET>"  fue rebotado a "<OTRS_BOUNCE_TO>". Contacte dicha dirección para mas información',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Su correo con el ticket número "<OTRS_TICKET>"  fue rebotado a "<OTRS_BOUNCE_TO>". Contacte dicha dirección para mas información',
         'ArticleID' => 'Identificador de articulo',
         'A message should have a body!' => 'Los mensajes deben tener contenido',
         'All Agents' => 'Todos los Agentes',

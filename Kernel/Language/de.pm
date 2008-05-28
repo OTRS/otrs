@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.160 2008-05-28 06:55:25 tr Exp $
+# $Id: de.pm,v 1.161 2008-05-28 07:27:31 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.160 $) [1];
+$VERSION = qw($Revision: 1.161 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -1442,7 +1442,7 @@ sub Data {
         'Year' => 'Jahr',
         'A message must be spell checked!' => 'Eine Nachricht muss auf Rechtschreibung überprüft werden!',
         'X-axis' => 'X-Achse',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Die E-Mail mit der Ticketnummer "<OTRS_TICKET>" ist an "<OTRS_BOUNCE_TO>" gebounced. Kontaktieren Sie diese Adresse für weitere Nachfragen.',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Die E-Mail mit der Ticketnummer "<OTRS_TICKET>" ist an "<OTRS_BOUNCE_TO>" gebounced. Kontaktieren Sie diese Adresse für weitere Nachfragen.',
         'A message should have a body!' => 'Eine Nachricht sollte einen Body haben!',
         'All Agents' => 'Alle Agenten',
         'Keywords' => 'Schlüsselwörter',

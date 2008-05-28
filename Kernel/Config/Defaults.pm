@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.296 2008-05-15 17:40:49 martin Exp $
+# $Id: Defaults.pm,v 1.297 2008-05-28 07:27:31 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.296 $) [1];
+$VERSION = qw($Revision: 1.297 $) [1];
 
 sub LoadDefaults {
     my ($Self) = @_;
@@ -625,7 +625,7 @@ sub LoadDefaults {
     $Self->{SessionUseCookieAfterBrowserClose} = 0;
 
     # SessionDir
-    # directory for all sessen id informations (just needed if
+    # directory for all sessen id information (just needed if
     # $Self->{SessionModule}='Kernel::System::AuthSession::FS)
     $Self->{SessionDir} = '<OTRS_CONFIG_Home>/var/sessions';
 
@@ -2325,6 +2325,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.296 $ $Date: 2008-05-15 17:40:49 $
+$Revision: 1.297 $ $Date: 2008-05-28 07:27:31 $
 
 =cut

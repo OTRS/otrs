@@ -2,7 +2,7 @@
 # Kernel/Language/ar_SA.pm - provides ar_SA language translation
 # Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
 # --
-# $Id: ar_SA.pm,v 1.14 2008-05-28 06:55:25 tr Exp $
+# $Id: ar_SA.pm,v 1.15 2008-05-28 07:27:31 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -1467,7 +1467,7 @@ sub Data {
         'A message must be spell checked!' => '«·—”«·… ÌÃ»  œﬁÌﬁÂ« ·€ÊÌ«!',
         'Service-Port' => '',
         'X-axis' => '',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => '',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => '',
         'ArticleID' => '',
         'A message should have a body!' => '«·—”«·… ÌÃ» √‰ ÌﬂÊ‰ ·Â« ‰’',
         'All Agents' => 'Ã„Ì⁄ «·„‘€·Ì‰',

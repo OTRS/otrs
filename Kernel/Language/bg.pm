@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.69 2008-05-16 12:16:13 martin Exp $
+# $Id: bg.pm,v 1.70 2008-05-28 07:27:31 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.70 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -1093,7 +1093,7 @@ sub Data {
 
         # Template: AgentStatsView
         'Export Config' => 'Експортиране на конфигурация',
-        'Informations about the Stat' => 'Информация относно статистиката',
+        'Information about the Stat' => 'Информация относно статистиката',
         'Exchange Axis' => 'Размяна на осите',
         'Configurable params of static stat' => 'Конфигурируеми параметри на статичната статистика',
         'No element selected.' => 'Няма избран елемент',
@@ -1449,7 +1449,7 @@ sub Data {
         'Stat#' => 'Статистика#',
         'Create new database' => 'Създаване на нова база данни',
         'A message must be spell checked!' => 'Съобщението трябва да бъде проверено за грешки!',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Писмото Ви с номер "<OTRS_TICKET>" е отхвърлен към "<OTRS_BOUNCE_TO>". Свържете се с този адрес за повече информация',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Писмото Ви с номер "<OTRS_TICKET>" е отхвърлен към "<OTRS_BOUNCE_TO>". Свържете се с този адрес за повече информация',
         'ArticleID' => 'Идентификатор на клауза',
         'A message should have a body!' => 'Съобщението трябва да има текст',
         'All Agents' => 'Всички агенти',

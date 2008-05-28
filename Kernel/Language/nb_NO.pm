@@ -5,7 +5,7 @@
 #               2006 Knut Haugen <knuthaug at linpro.no>
 #               2007 Fredrik Andersen <fredrik.andersen at husbanken.no>
 # --
-# $Id: nb_NO.pm,v 1.53 2008-05-16 12:16:13 martin Exp $
+# $Id: nb_NO.pm,v 1.54 2008-05-28 07:27:30 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.53 $;
+$VERSION = q$Revision: 1.54 $;
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -1097,7 +1097,7 @@ sub Data {
 
         # Template: AgentStatsView
         'Export Config' => 'Eksporter konfigurasjon',
-        'Informations about the Stat' => 'Informasjon om statistikken',
+        'Information about the Stat' => 'Informasjon om statistikken',
         'Exchange Axis' => 'Bytt akser',
         'Configurable params of static stat' => 'Konfigurerbare parametre til statisk statistikk',
         'No element selected.' => 'Ingen valgte elementer.',
@@ -1455,7 +1455,7 @@ sub Data {
         'Stat#' => 'Stat#',
         'Create new database' => 'Opprett ny database',
         'A message must be spell checked!' => 'Stavekontroll må utføres på alle meldinger!',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'E-posten med saksnummer "<OTRS_TICKET>" er oversendt "<OTRS_BOUNCE_TO>". Vennligst ta kontakt på denne adressen for videre henvendelser.',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'E-posten med saksnummer "<OTRS_TICKET>" er oversendt "<OTRS_BOUNCE_TO>". Vennligst ta kontakt på denne adressen for videre henvendelser.',
         'ArticleID' => 'Artikkel-ID',
         'A message should have a body!' => 'En melding må inneholde en meldingstekst!',
         'All Agents' => 'Alle agenter',

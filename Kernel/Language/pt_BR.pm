@@ -4,7 +4,7 @@
 # Copyright (C) 2005 Alterado por Glaucia C. Messina (glauglauu@yahoo.com)
 # Copyright (C) 2007 Fabricio Luiz Machado <soprobr gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.63 2008-05-16 12:16:14 martin Exp $
+# $Id: pt_BR.pm,v 1.64 2008-05-28 07:27:30 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -1093,7 +1093,7 @@ sub Data {
 
         # Template: AgentStatsView
         'Export Config' => 'Exportar Configuração',
-        'Informations about the Stat' => 'Informações sobre a Estatística',
+        'Information about the Stat' => 'Informações sobre a Estatística',
         'Exchange Axis' => 'Trocar Eixo',
         'Configurable params of static stat' => 'Parâmetros configuráveis da estatística estática',
         'No element selected.' => 'Nenhum elemento selecionado.',
@@ -1446,7 +1446,7 @@ sub Data {
         'Options of the ticket data (e. g. OTRS_TICKET_Number, OTRS_TICKET_ID, OTRS_TICKET_Queue, OTRS_TICKET_State)' => 'Opções de dados do chamado (ex.: OTRS_TICKET_Number, OTRS_TICKET_ID, OTRS_TICKET_Queue, OTRS_TICKET_State;)',
         'A message must be spell checked!' => 'A mensagem necessita ser verificada ortograficamente!',
         'Options of the current customer user data (e. g. OTRS_CUSTOMER_DATA_USERFIRSTNAME)' => 'Opções de dados do usuário do cliente atual (ex.: OTRS_CUSTOMER_DATA_USERFIRSTNAME)',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Seu email com o número de chamado "<OTRS_TICKET>" foi devolvido para "<OTRS_BOUNCE_TO>". Contate este endereço para mais informações.',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Seu email com o número de chamado "<OTRS_TICKET>" foi devolvido para "<OTRS_BOUNCE_TO>". Contate este endereço para mais informações.',
         'ArticleID' => 'Id.do artigo',
         'A message should have a body!' => 'A mensagem deve conter um texto!',
         'All Agents' => 'Todos os Atendentes',

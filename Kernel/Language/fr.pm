@@ -7,7 +7,7 @@
 # Copyright (C) 2007 Remi Seguy <remi.seguy at laposte.net>
 # Copyright (C) 2007 Massimiliano Franco <max-lists at ycom.ch>
 # --
-# $Id: fr.pm,v 1.85 2008-05-16 12:16:13 martin Exp $
+# $Id: fr.pm,v 1.86 2008-05-28 07:27:30 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.85 $) [1];
+$VERSION = qw($Revision: 1.86 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -1096,7 +1096,7 @@ sub Data {
 
         # Template: AgentStatsView
         'Export Config' => 'Exporter la configuration',
-        'Informations about the Stat' => 'Informations à propos de la statistique',
+        'Information about the Stat' => 'Informations à propos de la statistique',
         'Exchange Axis' => 'Échangez les axes',
         'Configurable params of static stat' => 'Paramètres modifiables des statistiques',
         'No element selected.' => 'Aucun élément sélectionné.',
@@ -1457,7 +1457,7 @@ sub Data {
         'Admin-Email' => 'Email de l\'administrateur',
         'Create new database' => 'Créer une nouvelle base de données',
         'A message must be spell checked!' => 'L\'orthographe d\'un message doit être vérifiée!',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Votre message concernant le ticket numéro "<OTRS_TICKET> est réémis à "<OTRS_BOUNCE_TO>". Contactez cette adresse pour de plus amples renseignements',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Votre message concernant le ticket numéro "<OTRS_TICKET> est réémis à "<OTRS_BOUNCE_TO>". Contactez cette adresse pour de plus amples renseignements',
         'FAQ Language' => 'Langue dans la FAQ',
         'ArticleID' => 'Identifiant de l\'Article',
         'A message should have a body!' => 'Un message doit avoir un corps !',

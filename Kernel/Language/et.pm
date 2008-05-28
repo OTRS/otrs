@@ -2,7 +2,7 @@
 # Kernel/Language/et.pm - provides et language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: et.pm,v 1.3 2008-05-16 12:16:13 martin Exp $
+# $Id: et.pm,v 1.4 2008-05-28 07:27:31 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -1090,7 +1090,7 @@ sub Data {
 
         # Template: AgentStatsView
         'Export Config' => 'Export Config',
-        'Informations about the Stat' => 'Informations about the Stat',
+        'Information about the Stat' => 'Information about the Stat',
         'Exchange Axis' => 'Exchange Axis',
         'Configurable params of static stat' => 'Configurable params of static stat',
         'No element selected.' => 'No element selected.',
@@ -1452,7 +1452,7 @@ sub Data {
         'Year' => 'Aasta',
         'A message must be spell checked!' => 'Kiri peab olema õigekirja osas kontrollitud!',
         'X-axis' => 'X-telg',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Sinu kiri intsidendiga nr "<OTRS_TICKET>" põrgatati "<OTRS_BOUNCE_TO>". Täpsema info saamiseks kirjuta sellel aadressil.',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Sinu kiri intsidendiga nr "<OTRS_TICKET>" põrgatati "<OTRS_BOUNCE_TO>". Täpsema info saamiseks kirjuta sellel aadressil.',
         'A message should have a body!' => 'Kirjal peab olema sisu!',
         'All Agents' => 'Kõik töötajad',
         'Keywords' => 'Võtmesõnad',

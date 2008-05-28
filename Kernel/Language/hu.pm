@@ -2,7 +2,7 @@
 # Kernel/Language/hu.pm - provides de language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: hu.pm,v 1.47 2008-05-16 12:16:13 martin Exp $
+# $Id: hu.pm,v 1.48 2008-05-28 07:27:30 tr Exp $
 # Translation: Gabor Gancs /gg@magicnet.hu/ & Krisztian Gancs /krisz@gancs.hu/
 # Verify: Flora Szabo /szaboflora@magicnet.hu/
 # Hungary Sopron Europe
@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -1097,7 +1097,7 @@ sub Data {
 
         # Template: AgentStatsView
         'Export Config' => 'Beállítások exportálása',
-        'Informations about the Stat' => 'Információ a statisztikáról',
+        'Information about the Stat' => 'Információ a statisztikáról',
         'Exchange Axis' => 'Tengelyek fölcserélése',
         'Configurable params of static stat' => '',
         'No element selected.' => 'Nincsenek ertékek kiválasztva.',
@@ -1463,7 +1463,7 @@ sub Data {
         'Year' => 'Év',
         'A message must be spell checked!' => 'Az üzenetnek helyesírásellenõrzésen kell átmennie!',
         'X-axis' => 'X tengely',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Az ön "<OTRS_TICKET>" számú jegyhez rendelt e-mailje visszaküldésre került a "<OTRS_BOUNCE_TO>" címre. Vegye fel ezzel a címmel a kapcsolatot további információkért.',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Az ön "<OTRS_TICKET>" számú jegyhez rendelt e-mailje visszaküldésre került a "<OTRS_BOUNCE_TO>" címre. Vegye fel ezzel a címmel a kapcsolatot további információkért.',
         'A message should have a body!' => 'Egy üzenetnek kell legyen törzse!',
         'All Agents' => 'Minden ügyintézõ',
         'Keywords' => 'Kulcsszó',

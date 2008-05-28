@@ -6,7 +6,7 @@
 # Copyright (C) 2005-2007 Jurgen Rutgers <jurgen 'at' besite.nl>
 #                         Richard Hinkamp <richard 'at' besite.nl>
 # --
-# $Id: nl.pm,v 1.71 2008-05-16 12:16:14 martin Exp $
+# $Id: nl.pm,v 1.72 2008-05-28 07:27:30 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -29,7 +29,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -1105,7 +1105,7 @@ sub Data {
 
         # Template: AgentStatsView
         'Export Config' => 'Exporteer configuratie',
-        'Informations about the Stat' => 'Informatie over deze statistieken',
+        'Information about the Stat' => 'Informatie over deze statistieken',
         'Exchange Axis' => '',
         'Configurable params of static stat' => '',
         'No element selected.' => 'Geen element geselecteerd.',
@@ -1450,7 +1450,7 @@ sub Data {
         'Customer history search' => 'Zoeken in klantgeschiednis',
         'Admin-Email' => 'Admin e-mail adres',
         'A message must be spell checked!' => 'Van een bericht moet de spelling gecontroleerd worden',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further informations.' => 'Uw e-mail met Ticket nummer "<OTRS_TICKET>" is gebounced naar "<OTRS_BOUNCE_TO>". Neem contact op met dit adres voor meer informatie.',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Uw e-mail met Ticket nummer "<OTRS_TICKET>" is gebounced naar "<OTRS_BOUNCE_TO>". Neem contact op met dit adres voor meer informatie.',
         'ArticleID' => 'Artikel ID',
         'A message should have a body!' => 'Een bericht moet een berichttekst hebben!',
         'All Agents' => 'Alle agenten',

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.654 2008-05-22 21:44:15 martin Exp $
+# $Id: CHANGES,v 1.655 2008-05-28 07:27:31 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 2.3.0 beta2 (2008/??/??)
  - (2008/05/22) Upgraded Mail::Tools from version 2.02 to 2.03 from CPAN.
+ - (2008/05/28) Fixed bug# 2891 - Typo in Bounce Customer notification
+    'informations'.
 
 2.3.0 beta1 (2008/05/19)
  - (2008/05/16) Updated cpan module Text::CSV to the version 1.05.

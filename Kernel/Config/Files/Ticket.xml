@@ -152,7 +152,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.179 2008-05-22 21:44:15 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.180 2008-05-28 07:27:31 tr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -5179,7 +5179,7 @@ TimeWorkingHours
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewBounce</SubGroup>
         <Setting>
-            <TextArea>Your email with ticket number "&lt;OTRS_TICKET&gt;" is bounced to "&lt;OTRS_BOUNCE_TO&gt;". Contact this address for further informations.</TextArea>
+            <TextArea>Your email with ticket number "&lt;OTRS_TICKET&gt;" is bounced to "&lt;OTRS_BOUNCE_TO&gt;". Contact this address for further information.</TextArea>
         </Setting>
     </ConfigItem>
 
