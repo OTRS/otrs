@@ -1,11 +1,11 @@
 # --
 # Kernel/Language/nb_NO.pm - Norwegian language translation (bokmål)
 # Copyright (C) 2004 Arne Georg Gleditsch <argggh at linpro.no>
-#               2005 Stefansen Espen <espen.stefansen at imr.no>
-#               2006 Knut Haugen <knuthaug at linpro.no>
-#               2007 Fredrik Andersen <fredrik.andersen at husbanken.no>
+# Copyright (C) 2005 Stefansen Espen <espen.stefansen at imr.no>
+# Copyright (C) 2006 Knut Haugen <knuthaug at linpro.no>
+# Copyright (C) 2007 Fredrik Andersen <fredrik.andersen at husbanken.no>
 # --
-# $Id: nb_NO.pm,v 1.54 2008-05-28 07:27:30 tr Exp $
+# $Id: nb_NO.pm,v 1.55 2008-05-28 13:49:48 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,10 +18,10 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.54 $;
+$VERSION = q$Revision: 1.55 $;
 
 sub Data {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
 
     # $$START$$
     # Last translation file sync: Fri May 16 14:08:39 2008

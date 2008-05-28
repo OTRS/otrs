@@ -2,7 +2,7 @@
 # Kernel/Language/sv.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats@synergy.se>
 # --
-# $Id: sv.pm,v 1.47 2008-05-28 07:27:30 tr Exp $
+# $Id: sv.pm,v 1.48 2008-05-28 13:49:48 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,10 +15,10 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.47 $;
+$VERSION = q$Revision: 1.48 $;
 
 sub Data {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
 
     # $$START$$
     # Last translation file sync: Fri May 16 14:09:02 2008

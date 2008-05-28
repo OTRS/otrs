@@ -1,14 +1,11 @@
 # --
-# Kernel/Language/hu.pm - provides de language translation
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Kernel/Language/hu.pm - provides hu language translation
+# Copyright (C) 2006 Gabor Gancs /gg@magicnet.hu/
+# Copyright (C) 2006 Krisztian Gancs /krisz@gancs.hu/
+# Copyright (C) 2006 Flora Szabo /szaboflora@magicnet.hu/
+# Copyright (C) 2007 Aron Ujvari <ujvari@hungary.com>
 # --
-# $Id: hu.pm,v 1.48 2008-05-28 07:27:30 tr Exp $
-# Translation: Gabor Gancs /gg@magicnet.hu/ & Krisztian Gancs /krisz@gancs.hu/
-# Verify: Flora Szabo /szaboflora@magicnet.hu/
-# Hungary Sopron Europe
-#
-# Reviewed and adapted to OTRS v2.2 by Aron Ujvari <ujvari@hungary.com>
-#
+# $Id: hu.pm,v 1.49 2008-05-28 13:49:48 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,10 +18,10 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub Data {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
 
     # $$START$$
     # Last translation file sync: Fri May 16 14:08:31 2008

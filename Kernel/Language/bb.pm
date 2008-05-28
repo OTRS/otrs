@@ -2,7 +2,7 @@
 # Kernel/Language/bb.pm - provides bavarian language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: bb.pm,v 1.32 2008-05-28 07:27:31 tr Exp $
+# $Id: bb.pm,v 1.33 2008-05-28 13:49:48 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,10 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub Data {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
 
     # $$START$$
     # Last translation file sync: Tue May 29 15:05:19 2007

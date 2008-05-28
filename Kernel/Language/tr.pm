@@ -1,8 +1,8 @@
 # --
-# Kernel/Language/tr.pm - provides de language translation
+# Kernel/Language/tr.pm - provides tr language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: tr.pm,v 1.4 2008-05-28 07:27:30 tr Exp $
+# $Id: tr.pm,v 1.5 2008-05-28 13:49:49 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,12 +13,11 @@ package Kernel::Language::tr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.4 $';
+$VERSION = '$Revision: 1.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
     my $Self = shift;
-    my %Param = @_;
 
     # $$START$$
     # Last translation file sync: Fri May 16 14:09:04 2008

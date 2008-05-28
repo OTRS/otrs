@@ -1,9 +1,9 @@
 # --
 # Kernel/Language/fi.pm - provides fi language translation
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
-# Update (C) 2007 Mikko Hynninen <first.last at cence.fi>
+# Copyright (C) 2007 Mikko Hynninen <first.last at cence.fi>
 # --
-# $Id: fi.pm,v 1.70 2008-05-28 07:27:31 tr Exp $
+# $Id: fi.pm,v 1.71 2008-05-28 13:49:48 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,10 +16,10 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 sub Data {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
 
     # $$START$$
     # Last translation file sync: Fri May 16 14:08:27 2008

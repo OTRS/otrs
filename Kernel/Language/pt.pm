@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004-2007 CAT - Filipe Henriques <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.57 2008-05-28 07:27:30 tr Exp $
+# $Id: pt.pm,v 1.58 2008-05-28 13:49:48 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,10 +15,10 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 sub Data {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
 
     # $$START$$
     # Last translation file sync: Fri May 16 14:08:50 2008

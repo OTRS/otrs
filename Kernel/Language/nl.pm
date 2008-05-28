@@ -4,9 +4,9 @@
 # Copyright (C) 2003 A-NeT Internet Services bv Hans Bakker <h.bakker at a-net.nl>
 # Copyright (C) 2004 Martijn Lohmeijer <martijn.lohmeijer 'at' sogeti.nl>
 # Copyright (C) 2005-2007 Jurgen Rutgers <jurgen 'at' besite.nl>
-#                         Richard Hinkamp <richard 'at' besite.nl>
+# Copyright (C) 2005-2007 Richard Hinkamp <richard 'at' besite.nl>
 # --
-# $Id: nl.pm,v 1.72 2008-05-28 07:27:30 tr Exp $
+# $Id: nl.pm,v 1.73 2008-05-28 13:49:48 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -29,10 +29,10 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 sub Data {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
 
     # $$START$$
     # Last translation file sync: Fri May 16 14:08:45 2008
