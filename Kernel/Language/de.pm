@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.159 2008-05-16 12:16:13 martin Exp $
+# $Id: de.pm,v 1.160 2008-05-28 06:55:25 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.159 $) [1];
+$VERSION = qw($Revision: 1.160 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -1086,7 +1086,7 @@ sub Data {
 
         # Template: AgentStatsView
         'Export Config' => 'Konfiguration exportieren',
-        'Informations about the Stat' => 'Informationen über die Statistik',
+        'Information about the Stat' => 'Informationen über die Statistik',
         'Exchange Axis' => 'Achsen vertauschen',
         'Configurable params of static stat' => 'Konfigurierbare Parameter der statischen Statistik',
         'No element selected.' => 'Es wurde kein Element ausgewählt.',

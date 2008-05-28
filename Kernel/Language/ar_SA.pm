@@ -2,7 +2,7 @@
 # Kernel/Language/ar_SA.pm - provides ar_SA language translation
 # Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
 # --
-# $Id: ar_SA.pm,v 1.13 2008-05-16 12:16:13 martin Exp $
+# $Id: ar_SA.pm,v 1.14 2008-05-28 06:55:25 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub Data {
     my ( $Self, %Param ) = @_;
@@ -1093,7 +1093,7 @@ sub Data {
 
         # Template: AgentStatsView
         'Export Config' => 'ÊÕÏíÑ ÇáÎÕÇÆÕ',
-        'Informations about the Stat' => 'ãÚáæãÇÊ Úä ÇáÅÍÕÇÆÇÊ',
+        'Information about the Stat' => 'ãÚáæãÇÊ Úä ÇáÅÍÕÇÆÇÊ',
         'Exchange Axis' => '',
         'Configurable params of static stat' => '',
         'No element selected.' => 'áã íÊã ÊÍÏíÏ Ãí ÚäÕÑ',

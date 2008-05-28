@@ -2,7 +2,7 @@
 # AgentStatsView.dtl - provides HTML form for view IDMEF
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsView.dtl,v 1.10 2008-04-02 08:59:22 ot Exp $
+# $Id: AgentStatsView.dtl,v 1.11 2008-05-28 06:55:25 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@
           <input type="hidden" name="Subaction" value="Run"/>
           <input type="hidden" name="StatID"    value="$Data{"StatID"}"/>
           <tr>
-            <td class="contenthead">$Text{"Informations about the Stat"}</td>
+            <td class="contenthead">$Text{"Information about the Stat"}</td>
           </tr>
           <tr>
             <td>
