@@ -2,7 +2,7 @@
 # AgentTicketHistory.dtl - provides HTML form for history
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketHistory.dtl,v 1.7 2008-04-29 11:48:26 tr Exp $
+# $Id: AgentTicketHistory.dtl,v 1.8 2008-05-28 13:52:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,29 +23,29 @@
   </tr>
   <tr>
     <td class="mainbody">
-      <table border="0" cellspacing="1" cellpadding="1" width="100%">
-        <tr>
+      <table border="0" cellspacing="0" cellpadding="2" width="100%">
+        <tr class="contenthead">
           <td>
-            <B>$Text{"Action"}:</B>
+            $Text{"Action"}:
           </td>
           <td>
-            <B>$Text{"Comment"}:</B>
+            $Text{"Comment"}:
           </td>
           <td WIDTH="60" ALIGN="CENTER">
-            <B>$Text{"Zoom"}:</B>
+            $Text{"Zoom"}:
           </td>
           <td>
-            <B>$Text{"User"}:</B>
+            $Text{"User"}:
           </td>
           <td>
-            <B>$Text{"Createtime"}:</B>
+            $Text{"Createtime"}:
           </td>
         </tr>
 <!-- dtl:block:Row -->
 # should i show  the zoom link?
         <dtl set $Data{"Link"} = "-">
         <dtl if ($Data{"ArticleID"} ne "0") { $Data{"Link"} = "<a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}" onmouseover="window.status='$JSText{"Zoom"}'; return true;" onmouseout="window.status='';">x</a>"; }>
-        <tr>
+        <tr class="$QData{"css"}">
           <td>
             $Quote{"$Data{"HistoryType"}"}
           </td>
@@ -65,6 +65,9 @@
           </td>
         </tr>
 <!-- dtl:block:Row -->
+        <tr class="contenthead">
+          <td colspan="5">&nbsp;</td>
+        </tr>
       </table>
     </td>
   </tr>

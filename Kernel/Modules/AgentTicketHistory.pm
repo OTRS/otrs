@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketHistory.pm - ticket history
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketHistory.pm,v 1.11 2008-05-08 09:36:36 mh Exp $
+# $Id: AgentTicketHistory.pm,v 1.12 2008-05-28 13:52:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -36,14 +36,12 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Output;
-
     # check needed stuff
     if ( !$Self->{TicketID} ) {
 
         # error page
         return $Self->{LayoutObject}->ErrorScreen(
-            Message => "Can't show history, no TicketID is given!",
+            Message => 'Can\'t show history, no TicketID is given!',
             Comment => 'Please contact the admin.',
         );
     }
@@ -77,7 +75,9 @@ sub Run {
         @NewLines = @Lines;
     }
     my $Table = '';
+    my $Counter = 1;
     for my $DataTmp (@NewLines) {
+        $Counter++;
         my %Data = %{$DataTmp};
 
         # replace text
@@ -102,17 +102,23 @@ sub Run {
             # remove not needed place holder
             $Data{Name} =~ s/\%s//g;
         }
+
+        # seperate each searchresult line by using several css
+        if ( $Counter % 2 ) {
+            $Data{css} = 'searchpassive';
+        }
+        else {
+            $Data{css} = 'searchactive';
+        }
         $Self->{LayoutObject}->Block(
-            Name => "Row",
+            Name => 'Row',
             Data => {%Data},
         );
     }
 
-    # build header
-    $Output .= $Self->{LayoutObject}->Header( Value => $Tn );
+    # build page
+    my $Output = $Self->{LayoutObject}->Header( Value => $Tn );
     $Output .= $Self->{LayoutObject}->NavigationBar();
-
-    # get output
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentTicketHistory',
         Data         => {
@@ -120,8 +126,6 @@ sub Run {
             TicketID     => $Self->{TicketID},
         },
     );
-
-    # add footer
     $Output .= $Self->{LayoutObject}->Footer();
 
     return $Output;
