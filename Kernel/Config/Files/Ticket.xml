@@ -152,7 +152,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.181 2008-06-01 15:51:41 mh Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.182 2008-06-01 15:55:36 mh Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1621,7 +1621,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::SearchIndexModule" Required="1" Valid="1">
-        <Description Lang="en">Select your TicketSearchIndexModule to increase your full text search of article (From, To, Cc, Subject and Body search). Runtime will do fulltext searches on live data on runtime (fine till about 50.000 tickets). StaticDB will strip all articles and will build and index (all uniq words of an article) after article creation (this will increase fulltext searches about 50%). To create inital index use "bin/otrs.RebuildFulltextIndex.pl".</Description>
+        <Description Lang="en">Select your TicketSearchIndexModule to increase your full text search of article (From, To, Cc, Subject and Body search). Runtime will do fulltext searches on live data on runtime (fine till about 50.000 tickets). StaticDB will strip all articles and will build and index (all uniq words of an article) after article creation (this will increase fulltext searches about 50%). To create initial index use "bin/otrs.RebuildFulltextIndex.pl".</Description>
         <Description Lang="de">Wählen Sie das TicketSearchIndex-Modul um die Volltextsuch-Geschwindigkeit der Artikel (Von, An, Cc, Betreff und Body Suche) zu verbessern. Runtime sicht in dem allen aktuellen Datensätzen zur Laufzeit (bis ca. 50.000 Tickets). StaticDB entfernt unnötige oder doppelte Wörter und baut einen Index direkt nach der Artikel Erstellung (dies verbessert Volltextsuchen um bis zu ca. 50%). Um einen initialen Index zu erstellen kann "bin/otrs.RebuildFulltextIndex.pl" benutzt werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::FulltextSearch</SubGroup>
