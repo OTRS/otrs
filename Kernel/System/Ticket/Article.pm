@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.179 2008-05-19 06:50:07 martin Exp $
+# $Id: Article.pm,v 1.180 2008-06-01 20:35:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.179 $) [1];
+$VERSION = qw($Revision: 1.180 $) [1];
 
 =head1 NAME
 
@@ -1164,7 +1164,7 @@ sub ArticleIndex {
     }
     else {
         $Self->{DBObject}->Prepare(
-            SQL  => 'SELECT at.id FROM article at WHERE at.ticket_id = ? ORDER BY at.id',
+            SQL  => 'SELECT id FROM article WHERE ticket_id = ? ORDER BY id',
             Bind => [ \$Param{TicketID} ],
         );
     }
@@ -1872,9 +1872,8 @@ sub ArticleSend {
 bounce an article
 
     $TicketObject->ArticleBounce(
-        From      => '',
-        To        => '',
-        Email     => $EmailAsString,
+        From      => 'some@example.com',
+        To        => 'webmaster@example.com',
         TicketID  => 123,
         ArticleID => 123,
         UserID    => 123,
@@ -1890,7 +1889,7 @@ sub ArticleBounce {
     my $HistoryType = $Param{HistoryType} || 'Bounce';
 
     # check needed stuff
-    for (qw(From To UserID Email)) {
+    for (qw(TicketID ArticleID From To UserID)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
@@ -1899,13 +1898,23 @@ sub ArticleBounce {
 
     # create message id
     my $NewMessageID = "<$Time.$Random.$Param{TicketID}.0.$Param{UserID}\@$Self->{FQDN}>";
+    my $Email        = $Self->ArticlePlain( ArticleID => $Param{ArticleID} );
+
+    # check if plain email exists
+    if ( !$Email ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "No such plain article for ArticleID ($Param{ArticleID})!",
+        );
+        return;
+    }
 
     # pipe all into sendmail
     return if !$Self->{SendmailObject}->Bounce(
         MessageID => $NewMessageID,
         From      => $Param{From},
         To        => $Param{To},
-        Email     => $Param{Email},
+        Email     => $Email,
     );
 
     # write history

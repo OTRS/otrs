@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.pm,v 1.16 2008-05-08 09:36:36 mh Exp $
+# $Id: AgentTicketBounce.pm,v 1.17 2008-06-01 20:35:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -333,14 +333,12 @@ sub Run {
         my %Address = $Self->{QueueObject}->GetSystemAddress( QueueID => $Ticket{QueueID}, );
         $Param{From}       = "$Address{RealName} <$Address{Email}>";
         $Param{Email}      = $Address{Email};
-        $Param{EmailPlain} = $Self->{TicketObject}->ArticlePlain( ArticleID => $Self->{ArticleID} );
         my $Bounce = $Self->{TicketObject}->ArticleBounce(
             TicketID    => $Self->{TicketID},
             ArticleID   => $Self->{ArticleID},
             UserID      => $Self->{UserID},
             To          => $Param{BounceTo},
             From        => $Param{Email},
-            Email       => $Param{EmailPlain},
             HistoryType => 'Bounce',
         );
 
