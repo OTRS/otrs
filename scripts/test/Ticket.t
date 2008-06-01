@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.39 2008-05-08 09:35:57 mh Exp $
+# $Id: Ticket.t,v 1.40 2008-06-01 20:27:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@ $Self->Is(
     "GetTNByString() (DateChecksum: true eq)",
 );
 $Self->IsNot(
-    $Self->{TicketObject}->GetTNByString("Ticket#: 200206231010138"),
+    $Self->{TicketObject}->GetTNByString('Ticket#: 200206231010138') || '',
     $Tn,
     "GetTNByString() (DateChecksum: false eq)",
 );
@@ -41,7 +41,6 @@ $Self->False(
     $Self->{TicketObject}->GetTNByString("Ticket#: 1234567") || 0,
     "GetTNByString() (DateChecksum: false)",
 );
-
 my $OldTicketSubjectRe = $Self->{ConfigObject}->Get('Ticket::SubjectRe');
 $Self->{ConfigObject}->Set(
     Key   => 'Ticket::SubjectRe',
@@ -4010,12 +4009,168 @@ else {
     );
 }
 
+my $Delete = $Self->{TicketObject}->TicketDelete(
+    TicketID => $TicketID,
+    UserID   => 1,
+);
+$Self->True(
+    $Delete,
+    'TicketDelete()',
+);
+
+# ticket search sort/order test
+my $TicketIDSortOrder1 = $Self->{TicketObject}->TicketCreate(
+    Title        => 'Some Ticket Title - ticket sort/order by tests',
+    Queue        => 'Raw',
+    Lock         => 'unlock',
+    Priority     => '3 normal',
+    State        => 'new',
+    CustomerNo   => '123465',
+    CustomerUser => 'customer@example.com',
+    OwnerID      => 1,
+    UserID       => 1,
+);
+sleep 2;
+my $TicketIDSortOrder2 = $Self->{TicketObject}->TicketCreate(
+    Title        => 'Some Ticket Title - ticket sort/order by tests2',
+    Queue        => 'Raw',
+    Lock         => 'unlock',
+    Priority     => '3 normal',
+    State        => 'new',
+    CustomerNo   => '123465',
+    CustomerUser => 'customer@example.com',
+    OwnerID      => 1,
+    UserID       => 1,
+);
+
+# find newest ticket by priority, age
+my @TicketIDsSortOrder = $Self->{TicketObject}->TicketSearch(
+    Result  => 'ARRAY',
+    Title   => '%sort/order by test%',
+    Queues  => ['Raw'],
+    OrderBy => ['Down', 'Up'],
+    SortBy  => ['Priority', 'Age'],
+    UserID  => 1,
+);
+$Self->True(
+    $TicketIDsSortOrder[0] eq $TicketIDSortOrder1,
+    'TicketTicketSearch() - ticket sort/order by (Priority (Down), Age (Up))',
+);
+# find oldest ticket by priority, age
+@TicketIDsSortOrder = $Self->{TicketObject}->TicketSearch(
+    Result  => 'ARRAY',
+    Title   => '%sort/order by test%',
+    Queues  => ['Raw'],
+    OrderBy => ['Down', 'Down'],
+    SortBy  => ['Priority', 'Age'],
+    UserID  => 1,
+);
+$Self->True(
+    $TicketIDsSortOrder[0] eq $TicketIDSortOrder2,
+    'TicketTicketSearch() - ticket sort/order by (Priority (Down), Age (Down))',
+);
+my $TicketIDSortOrder3 = $Self->{TicketObject}->TicketCreate(
+    Title        => 'Some Ticket Title - ticket sort/order by tests2',
+    Queue        => 'Raw',
+    Lock         => 'unlock',
+    Priority     => '4 high',
+    State        => 'new',
+    CustomerNo   => '123465',
+    CustomerUser => 'customer@example.com',
+    OwnerID      => 1,
+    UserID       => 1,
+);
+sleep 2;
+my $TicketIDSortOrder4 = $Self->{TicketObject}->TicketCreate(
+    Title        => 'Some Ticket Title - ticket sort/order by tests2',
+    Queue        => 'Raw',
+    Lock         => 'unlock',
+    Priority     => '4 high',
+    State        => 'new',
+    CustomerNo   => '123465',
+    CustomerUser => 'customer@example.com',
+    OwnerID      => 1,
+    UserID       => 1,
+);
+# find oldest ticket by priority, age
+@TicketIDsSortOrder = $Self->{TicketObject}->TicketSearch(
+    Result  => 'ARRAY',
+    Title   => '%sort/order by test%',
+    Queues  => ['Raw'],
+    OrderBy => ['Down', 'Down'],
+    SortBy  => ['Priority', 'Age'],
+    UserID  => 1,
+);
+$Self->True(
+    $TicketIDsSortOrder[0] eq $TicketIDSortOrder4,
+    'TicketTicketSearch() - ticket sort/order by (Priority (Down), Age (Down))',
+);
+# find oldest ticket by priority, age
+@TicketIDsSortOrder = $Self->{TicketObject}->TicketSearch(
+    Result  => 'ARRAY',
+    Title   => '%sort/order by test%',
+    Queues  => ['Raw'],
+    OrderBy => ['Up', 'Down'],
+    SortBy  => ['Priority', 'Age'],
+    UserID  => 1,
+);
+$Self->True(
+    $TicketIDsSortOrder[0] eq $TicketIDSortOrder2,
+    'TicketTicketSearch() - ticket sort/order by (Priority (Up), Age (Down))',
+);
+# find newest ticket
+@TicketIDsSortOrder = $Self->{TicketObject}->TicketSearch(
+    Result  => 'ARRAY',
+    Title   => '%sort/order by test%',
+    Queues  => ['Raw'],
+    OrderBy => 'Down',
+    SortBy  => 'Age',
+    UserID  => 1,
+);
+$Self->True(
+    $TicketIDsSortOrder[0] eq $TicketIDSortOrder4,
+    'TicketTicketSearch() - ticket sort/order by (Age (Down))',
+);
+# find oldest ticket
+@TicketIDsSortOrder = $Self->{TicketObject}->TicketSearch(
+    Result  => 'ARRAY',
+    Title   => '%sort/order by test%',
+    Queues  => ['Raw'],
+    OrderBy => 'Up',
+    SortBy  => 'Age',
+    UserID  => 1,
+);
+$Self->True(
+    $TicketIDsSortOrder[0] eq $TicketIDSortOrder1,
+    'TicketTicketSearch() - ticket sort/order by (Age (Up))',
+);
 $Self->True(
     $Self->{TicketObject}->TicketDelete(
-        TicketID => $TicketID,
+        TicketID => $TicketIDSortOrder1,
         UserID   => 1,
     ),
-    'TicketDelete()',
+    "TicketDelete()",
+);
+$Self->True(
+    $Self->{TicketObject}->TicketDelete(
+        TicketID => $TicketIDSortOrder2,
+        UserID   => 1,
+    ),
+    "TicketDelete()",
+);
+$Self->True(
+    $Self->{TicketObject}->TicketDelete(
+        TicketID => $TicketIDSortOrder3,
+        UserID   => 1,
+    ),
+    "TicketDelete()",
+);
+$Self->True(
+    $Self->{TicketObject}->TicketDelete(
+        TicketID => $TicketIDSortOrder4,
+        UserID   => 1,
+    ),
+    "TicketDelete()",
 );
 
 # ticket index accelerator tests

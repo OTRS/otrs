@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.318 2008-05-21 08:26:09 mh Exp $
+# $Id: Ticket.pm,v 1.319 2008-06-01 20:27:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.318 $) [1];
+$VERSION = qw($Revision: 1.319 $) [1];
 
 =head1 NAME
 
@@ -1682,6 +1682,11 @@ sub TicketEscalationDateCalculation {
 
     my %Ticket = %{ $Param{Ticket} };
 
+    # do no escalations it a ticket is closed
+    if ( $Ticket{StateType} =~ /^close/i ) {
+        return;
+    }
+
     my %Escalation = ();
     if ( $Self->{ConfigObject}->Get('Ticket::Service') && $Ticket{SLAID} ) {
         %Escalation = $Self->{SLAObject}->SLAGet(
@@ -1813,6 +1818,7 @@ sub TicketEscalationIndexBuild {
 
     # find escalation times
     my %Escalation = ();
+    my $EscalationTime = 0;
     if ( $Self->{ConfigObject}->Get('Ticket::Service') && $Ticket{SLAID} ) {
         %Escalation = $Self->{SLAObject}->SLAGet(
             SLAID  => $Ticket{SLAID},
@@ -1880,6 +1886,9 @@ sub TicketEscalationIndexBuild {
                 SQL => 'UPDATE ticket SET escalation_response_time = ? WHERE id = ?',
                 Bind => [ \$DestinationTime, \$Ticket{TicketID}, ]
             );
+
+            # remember escalation time
+            $EscalationTime = $DestinationTime;
         }
     }
 
@@ -1920,6 +1929,11 @@ sub TicketEscalationIndexBuild {
                 SQL => 'UPDATE ticket SET escalation_update_time = ? WHERE id = ?',
                 Bind => [ \$DestinationTime, \$Ticket{TicketID}, ]
             );
+
+            # remember escalation time
+            if ( $DestinationTime < $EscalationTime ) {
+                $EscalationTime = $DestinationTime;
+            }
         }
     }
 
@@ -1971,7 +1985,20 @@ sub TicketEscalationIndexBuild {
                 SQL => 'UPDATE ticket SET escalation_solution_time = ? WHERE id = ?',
                 Bind => [ \$DestinationTime, \$Ticket{TicketID}, ]
             );
+
+            # remember escalation time
+            if ( $DestinationTime < $EscalationTime ) {
+                $EscalationTime = $DestinationTime;
+            }
         }
+    }
+
+    # update escalation time (< escalation time)
+    if ($EscalationTime) {
+        $Self->{DBObject}->Do(
+            SQL => 'UPDATE ticket SET escalation_time = ? WHERE id = ?',
+            Bind => [ \$EscalationTime, \$Ticket{TicketID}, ]
+        );
     }
 
     return 1;
@@ -2760,61 +2787,6 @@ sub CustomerPermission {
     return;
 }
 
-=item GetLockedTicketIDs()
-
-Get locked ticket ids for an agent.
-
-    my @TicketIDs = $TicketObject->GetLockedTicketIDs(UserID => 23);
-
-=cut
-
-sub GetLockedTicketIDs {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
-        return;
-    }
-
-    my @ViewableTickets;
-    my @ViewableLocks = @{ $Self->{ConfigObject}->Get('Ticket::ViewableLocks') };
-    my $SQL           = "SELECT ti.id FROM "
-        . " ticket ti, ticket_lock_type slt, queue sq WHERE "
-        . " ti.user_id = ? AND "
-        . " slt.id = ti.ticket_lock_id AND "
-        . " sq.id = ti.queue_id AND "
-        . " slt.name not IN ( ${\(join ', ', @ViewableLocks)} ) ORDER BY ";
-
-    # sort by
-    if ( $Param{SortBy} =~ /^Queue$/i ) {
-        $SQL .= 'sq.name';
-    }
-    elsif ( $Param{SortBy} =~ /^CustomerID$/i ) {
-        $SQL .= 'ti.customer_id';
-    }
-    elsif ( $Param{SortBy} =~ /^Priority$/i ) {
-        $SQL .= 'ti.ticket_priority_id';
-    }
-    else {
-        $SQL .= 'ti.create_time';
-    }
-
-    # order
-    if ( $Param{OrderBy} && $Param{OrderBy} eq 'Down' ) {
-        $SQL .= ' DESC';
-    }
-    else {
-        $SQL .= ' ASC';
-    }
-
-    $Self->{DBObject}->Prepare( SQL => $SQL, Bind => [ \$Param{UserID} ] );
-    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        push @ViewableTickets, $Row[0];
-    }
-    return @ViewableTickets;
-}
-
 =item GetSubscribedUserIDsByQueueID()
 
 returns a array of user ids which selected the given queue id as
@@ -3043,7 +3015,7 @@ To find tickets in your system.
         # 1..6 (optional)
         # tickets with free time after ... (optional)
         TicketFreeTime1NewerDate => '2006-01-09 00:00:01',
-        # tickets with free time before then .... (optional)
+        # tickets with free time before then ... (optional)
         TicketFreeTime1OlderDate => '2006-01-19 23:59:59',
 
         # article stuff (optional)
@@ -3070,7 +3042,7 @@ To find tickets in your system.
 
         # tickets with created time after ... (ticket newer then this date) (optional)
         TicketCreateTimeNewerDate => '2006-01-09 00:00:01',
-        # tickets with created time before then .... (ticket older this date) (optional)
+        # tickets with created time before then ... (ticket older this date) (optional)
         TicketCreateTimeOlderDate => '2006-01-19 23:59:59',
 
         # tickets closed after 60 minutes (ticket closed newer then 60 minutes)  (optional)
@@ -3080,7 +3052,7 @@ To find tickets in your system.
 
         # tickets with closed time after ... (ticket closed newer then this date) (optional)
         TicketCloseTimeNewerDate => '2006-01-09 00:00:01',
-        # tickets with closed time before then .... (ticket closed older this date) (optional)
+        # tickets with closed time before then ... (ticket closed older this date) (optional)
         TicketCloseTimeOlderDate => '2006-01-19 23:59:59',
 
         # tickets pending after 60 minutes (optional)
@@ -3090,7 +3062,7 @@ To find tickets in your system.
 
         # tickets with pending time after ... (optional)
         TicketPendingTimeNewerDate => '2006-01-09 00:00:01',
-        # tickets with pending time before then .... (optional)
+        # tickets with pending time before then ... (optional)
         TicketPendingTimeOlderDate => '2006-01-19 23:59:59',
 
         # get escalated tickets (optional)
@@ -3098,17 +3070,31 @@ To find tickets in your system.
         TicketEscalationIn        => 'today',
         TicketEscalationInMinutes => 60,
 
+        # ticket escalations over 60 minutes (optional)
+        TicketEscalationTimeOlderMinutes => 60,
+        # ticket escalations in 120 minutes (optional)
+        TicketEscalationTimeNewerMinutes => 120,
+
+        # tickets with escalation time after ... (optional)
+        TicketEscalationTimeNewerDate => '2006-01-09 00:00:01',
+        # tickets with escalation time before ... (optional)
+        TicketEscalationTimeOlderDate => '2006-01-09 23:59:59',
+
         # OrderBy and SortBy (optional)
         OrderBy => 'Down',      # Down|Up
         SortBy  => 'Age',       # Owner|CustomerID|State|Ticket|Queue|Priority|Age|Type|Lock
                                 # Service|SLA|TicketEscalation
                                 # TicketFreeTime1-2|TicketFreeKey1-16|TicketFreeText1-16
 
-        # user search (UserID or CustomerUserID is required)
+        # OrderBy and SortBy as ARRAY for sub sorting (optional)
+        OrderBy => ['Down', 'Up'],
+        SortBy  => ['Priority', 'Age'],
+
+        # user search (UserID is required)
         UserID     => 123,
         Permission => 'ro' || 'rw',
 
-        # customer search (UserID or CustomerUserID is required)
+        # customer search (CustomerUserID is required)
         CustomerUserID => 123,
         Permission     => 'ro' || 'rw',
     );
@@ -3188,19 +3174,41 @@ sub TicketSearch {
         return;
     }
 
-    # check options
-    if ( !$SortOptions{$SortBy} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need valid SortBy ($SortBy)!" );
-        return;
+    # check sort/order by options
+    my @SortByArray;
+    my @OrderByArray;
+    if ( ref $SortBy eq 'ARRAY' ) {
+        @SortByArray = @{$SortBy};
+        @OrderByArray = @{$OrderBy};
     }
-    if ( $OrderBy ne 'Down' && $OrderBy ne 'Up' ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need valid OrderBy ($OrderBy)!" );
-        return;
+    else {
+        @SortByArray = ($SortBy);
+        @OrderByArray = ($OrderBy);
+    }
+    for my $Count ( 0..$#SortByArray) {
+        if ( !$SortOptions{ $SortByArray[$Count] } ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'Need valid SortBy (' . $SortByArray[$Count] . ')!',
+            );
+            return;
+        }
+        if ( $OrderByArray[$Count] ne 'Down' && $OrderByArray[$Count] ne 'Up' ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'Need valid OrderBy (' . $OrderByArray[$Count] . ')!',
+            );
+            return;
+        }
     }
 
     # sql
     my $SQLExt = '';
-    my $SQL    = "SELECT DISTINCT st.id, st.tn, $SortOptions{$SortBy} FROM ticket st, queue sq ";
+    my $SQL    = 'SELECT DISTINCT st.id, st.tn';
+    for my $SortBy (@SortByArray) {
+        $SQL .= ', ' . $SortOptions{$SortBy};
+    }
+    $SQL .= ' FROM ticket st, queue sq ';
 
     # sql, use also article table if needed
     my ( $ArticleSQL, $ArticleSQLExt ) = $Self->_ArticleIndexQuerySQL( Data => \%Param );
@@ -3842,12 +3850,9 @@ sub TicketSearch {
                 );
                 return;
             }
-            else {
-                $SQLExt
-                    .= " AND st.freetime$_ <= '"
-                    . $Self->{DBObject}->Quote( $Param{ 'TicketFreeTime' . $_ . 'OlderDate' } )
-                    . "'";
-            }
+            $SQLExt .= " AND st.freetime$_ <= '"
+                . $Self->{DBObject}->Quote( $Param{ 'TicketFreeTime' . $_ . 'OlderDate' } )
+                . "'";
         }
 
         # get tickets newer then xxxx-xx-xx xx:xx date
@@ -3864,66 +3869,65 @@ sub TicketSearch {
                 );
                 return;
             }
-            else {
-                $SQLExt
-                    .= " AND st.freetime$_ >= '"
-                    . $Self->{DBObject}->Quote( $Param{ 'TicketFreeTime' . $_ . 'NewerDate' } )
-                    . "'";
+            $SQLExt .= " AND st.freetime$_ >= '"
+                . $Self->{DBObject}->Quote( $Param{ 'TicketFreeTime' . $_ . 'NewerDate' } )
+                . "'";
+        }
+    }
+
+    # get tickets created/escalated older then x minutes
+    my %TicketTime = (
+        TicketCreateTime     => 'st.create_time_unix',
+        TicketEscalationTime => 'st.escalation_time',
+    );
+    for my $Key ( keys %TicketTime ) {
+        if ( $Param{ $Key . 'OlderMinutes' } ) {
+            my $Time = $Self->{TimeObject}->SystemTime() - ( $Param{ $Key . 'OlderMinutes' } * 60 );
+            $SQLExt .= " AND $TicketTime{$Key} <= " . $Self->{DBObject}->Quote($Time);
+        }
+
+        # get tickets created newer then x minutes
+        if ( $Param{ $Key . 'NewerMinutes' } ) {
+            my $Time = $Self->{TimeObject}->SystemTime() - ( $Param{ $Key . 'NewerMinutes' } * 60 );
+            $SQLExt .= " AND $TicketTime{$Key} >= " . $Self->{DBObject}->Quote($Time);
+        }
+    }
+
+    # get tickets created/escalated older then xxxx-xx-xx xx:xx date
+    for my $Key ( keys %TicketTime ) {
+        if ( $Param{ $Key . 'OlderDate' } ) {
+
+            # check time format
+            if (
+                $Param{ $Key . 'OlderDate' }
+                !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
+                )
+            {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "No valid time format '" . $Param{ $Key . 'OlderDate'} . "'!",
+                );
+                return;
             }
+            my $Time =  $Self->{DBObject}->Quote( $Param{ $Key . 'OlderDate' } );
+            $SQLExt .= " AND st.create_time <= '$Time'";
         }
-    }
 
-    # get tickets created older then x minutes
-    if ( $Param{TicketCreateTimeOlderMinutes} ) {
-        my $Time
-            = $Self->{TimeObject}->SystemTime() - ( $Param{TicketCreateTimeOlderMinutes} * 60 );
-        $SQLExt .= ' AND st.create_time_unix <= ' . $Self->{DBObject}->Quote($Time);
-    }
-
-    # get tickets created newer then x minutes
-    if ( $Param{TicketCreateTimeNewerMinutes} ) {
-        my $Time
-            = $Self->{TimeObject}->SystemTime() - ( $Param{TicketCreateTimeNewerMinutes} * 60 );
-        $SQLExt .= ' AND st.create_time_unix >= ' . $Self->{DBObject}->Quote($Time);
-    }
-
-    # get tickets created older then xxxx-xx-xx xx:xx date
-    if ( $Param{TicketCreateTimeOlderDate} ) {
-
-        # check time format
-        if (
-            $Param{TicketCreateTimeOlderDate}
-            !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
-            )
-        {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "No valid time format '$Param{TicketCreateTimeOlderDate}'!",
-            );
-            return;
-        }
-        else {
-            $SQLExt .= " AND st.create_time <= '"
-                . $Self->{DBObject}->Quote( $Param{TicketCreateTimeOlderDate} ) . "'";
-        }
-    }
-
-    # get tickets created newer then xxxx-xx-xx xx:xx date
-    if ( $Param{TicketCreateTimeNewerDate} ) {
-        if (
-            $Param{TicketCreateTimeNewerDate}
-            !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
-            )
-        {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "No valid time format '$Param{TicketCreateTimeNewerDate}'!",
-            );
-            return;
-        }
-        else {
-            $SQLExt .= " AND st.create_time >= '"
-                . $Self->{DBObject}->Quote( $Param{TicketCreateTimeNewerDate} ) . "'";
+        # get tickets created newer then xxxx-xx-xx xx:xx date
+        if ( $Param{ $Key . 'NewerDate' } ) {
+            if (
+                $Param{ $Key . 'NewerDate' }
+                !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
+                )
+            {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "No valid time format '" . $Param{ $Key . 'NewerDate' } . "'!",
+                );
+                return;
+            }
+            my $Time = $Self->{DBObject}->Quote( $Param{ $Key . 'NewerDate' } );
+            $SQLExt .= " AND st.create_time >= '$Time'";
         }
     }
 
@@ -3960,21 +3964,19 @@ sub TicketSearch {
             );
             return;
         }
-        else {
 
-            # get close state ids
-            my @List = $Self->{StateObject}->StateGetStatesByType(
-                StateType => ['closed'],
-                Result    => 'ID',
-            );
-            my @StateID = ( $Self->HistoryTypeLookup( Type => 'NewTicket' ) );
-            push( @StateID, $Self->HistoryTypeLookup( Type => 'StateUpdate' ) );
-            if (@StateID) {
-                $SQLExt .= " AND th.history_type_id IN  (${\(join ', ', sort @StateID)}) AND "
-                    . " th.state_id IN (${\(join ', ', sort @List)}) AND "
-                    . "th.create_time <= '"
-                    . $Self->{DBObject}->Quote( $Param{TicketCloseTimeOlderDate} ) . "'";
-            }
+        # get close state ids
+        my @List = $Self->{StateObject}->StateGetStatesByType(
+            StateType => ['closed'],
+            Result    => 'ID',
+        );
+        my @StateID = ( $Self->HistoryTypeLookup( Type => 'NewTicket' ) );
+        push( @StateID, $Self->HistoryTypeLookup( Type => 'StateUpdate' ) );
+        if (@StateID) {
+            $SQLExt .= " AND th.history_type_id IN  (${\(join ', ', sort @StateID)}) AND "
+                . " th.state_id IN (${\(join ', ', sort @List)}) AND "
+                . "th.create_time <= '"
+                . $Self->{DBObject}->Quote( $Param{TicketCloseTimeOlderDate} ) . "'";
         }
     }
 
@@ -3991,21 +3993,19 @@ sub TicketSearch {
             );
             return;
         }
-        else {
 
-            # get close state ids
-            my @List = $Self->{StateObject}->StateGetStatesByType(
-                StateType => ['closed'],
-                Result    => 'ID',
-            );
-            my @StateID = ( $Self->HistoryTypeLookup( Type => 'NewTicket' ) );
-            push( @StateID, $Self->HistoryTypeLookup( Type => 'StateUpdate' ) );
-            if (@StateID) {
-                $SQLExt .= " AND th.history_type_id IN  (${\(join ', ', sort @StateID)}) AND "
-                    . " th.state_id IN (${\(join ', ', sort @List)}) AND "
-                    . " th.create_time >= '"
-                    . $Self->{DBObject}->Quote( $Param{TicketCloseTimeNewerDate} ) . "'";
-            }
+        # get close state ids
+        my @List = $Self->{StateObject}->StateGetStatesByType(
+            StateType => ['closed'],
+            Result    => 'ID',
+        );
+        my @StateID = ( $Self->HistoryTypeLookup( Type => 'NewTicket' ) );
+        push( @StateID, $Self->HistoryTypeLookup( Type => 'StateUpdate' ) );
+        if (@StateID) {
+            $SQLExt .= " AND th.history_type_id IN  (${\(join ', ', sort @StateID)}) AND "
+                . " th.state_id IN (${\(join ', ', sort @List)}) AND "
+                . " th.create_time >= '"
+                . $Self->{DBObject}->Quote( $Param{TicketCloseTimeNewerDate} ) . "'";
         }
     }
 
@@ -4057,12 +4057,10 @@ sub TicketSearch {
             );
             return;
         }
-        else {
-            my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
-                String => $Param{TicketPendingTimeOlderDate},
-            );
-            $SQLExt .= " AND st.until_time <= '" . $TimeStamp . "'";
-        }
+        my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $Param{TicketPendingTimeOlderDate},
+        );
+        $SQLExt .= " AND st.until_time <= '" . $TimeStamp . "'";
     }
 
     # get pending tickets newer then xxxx-xx-xx xx:xx date
@@ -4078,12 +4076,10 @@ sub TicketSearch {
             );
             return;
         }
-        else {
-            my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
-                String => $Param{TicketPendingTimeNewerDate},
-            );
-            $SQLExt .= " AND st.until_time >= '" . $Self->{DBObject}->Quote($TimeStamp) . "'";
-        }
+        my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $Param{TicketPendingTimeNewerDate},
+        );
+        $SQLExt .= " AND st.until_time >= '" . $Self->{DBObject}->Quote($TimeStamp) . "'";
     }
 
     # get escalated ticket
@@ -4091,13 +4087,19 @@ sub TicketSearch {
         return;
     }
 
-    # database query
-    $SQLExt .= ' ORDER BY ' . $SortOptions{$SortBy};
-    if ( $OrderBy eq 'Up' ) {
-        $SQLExt .= ' ASC';
-    }
-    else {
-        $SQLExt .= ' DESC';
+    # database query for sort/order by option
+    $SQLExt .= ' ORDER BY';
+    for my $Count ( 0 .. $#SortByArray ) {
+        if ( $Count > 0 ) {
+            $SQLExt .= ',';
+        }
+        $SQLExt .= ' ' . $SortOptions{ $SortByArray[$Count] };
+        if ( $OrderByArray[$Count] eq 'Up' ) {
+            $SQLExt .= ' ASC';
+        }
+        else {
+            $SQLExt .= ' DESC';
+        }
     }
 
     # check cache
@@ -6555,6 +6557,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.318 $ $Date: 2008-05-21 08:26:09 $
+$Revision: 1.319 $ $Date: 2008-06-01 20:27:02 $
 
 =cut
