@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.319 2008-06-01 20:27:02 martin Exp $
+# $Id: Ticket.pm,v 1.320 2008-06-01 22:31:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.319 $) [1];
+$VERSION = qw($Revision: 1.320 $) [1];
 
 =head1 NAME
 
@@ -960,6 +960,7 @@ sub TicketGet {
     # get escalation attributes
     my %Escalation = $Self->TicketEscalationDateCalculation(
         Ticket => \%Ticket,
+        UserID => $Param{UserID} || 1,
     );
     for my $Key ( keys %Escalation ) {
         $Ticket{$Key} = $Escalation{$Key};
@@ -1673,7 +1674,7 @@ sub TicketEscalationDateCalculation {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Ticket)) {
+    for (qw(Ticket UserID)) {
         if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
@@ -1709,6 +1710,7 @@ sub TicketEscalationDateCalculation {
     my $Time = $Self->{TimeObject}->SystemTime();
     my %Data;
     my %Map = (
+#        EscalationTime         => 'Escalation',
         EscalationResponseTime => 'FirstResponse',
         EscalationUpdateTime   => 'Update',
         EscalationSolutionTime => 'Solution',
@@ -1765,6 +1767,8 @@ sub TicketEscalationDateCalculation {
             {
                 $Data{EscalationDestinationTime} = $Ticket{$Key};
                 $Data{EscalationDestinationDate} = $DestinationDate;
+                $Data{EscalationTimeWorkingTime} = $WorkingTime;
+                $Data{EscalationTime}            = $TimeDiff;
 
                 # escalation time in readable way
                 $Data{EscalationDestinationIn} = '';
@@ -3065,15 +3069,10 @@ To find tickets in your system.
         # tickets with pending time before then ... (optional)
         TicketPendingTimeOlderDate => '2006-01-19 23:59:59',
 
-        # get escalated tickets (optional)
-        # now, today, tomorrow, nextweek
-        TicketEscalationIn        => 'today',
-        TicketEscalationInMinutes => 60,
-
         # ticket escalations over 60 minutes (optional)
-        TicketEscalationTimeOlderMinutes => 60,
+        TicketEscalationTimeOlderMinutes => -60,
         # ticket escalations in 120 minutes (optional)
-        TicketEscalationTimeNewerMinutes => 120,
+        TicketEscalationTimeNewerMinutes => -120,
 
         # tickets with escalation time after ... (optional)
         TicketEscalationTimeNewerDate => '2006-01-09 00:00:01',
@@ -3083,7 +3082,7 @@ To find tickets in your system.
         # OrderBy and SortBy (optional)
         OrderBy => 'Down',      # Down|Up
         SortBy  => 'Age',       # Owner|CustomerID|State|Ticket|Queue|Priority|Age|Type|Lock
-                                # Service|SLA|TicketEscalation
+                                # Service|SLA|EscalationTime
                                 # TicketFreeTime1-2|TicketFreeKey1-16|TicketFreeText1-16
 
         # OrderBy and SortBy as ARRAY for sub sorting (optional)
@@ -3125,6 +3124,7 @@ sub TicketSearch {
         Age              => 'st.create_time_unix',
         Service          => 'st.service_id',
         SLA              => 'st.sla_id',
+        EscalationTime   => 'st.escalation_time',
         TicketFreeTime1  => 'st.freetime1',
         TicketFreeTime2  => 'st.freetime2',
         TicketFreeTime3  => 'st.freetime3',
@@ -3881,15 +3881,29 @@ sub TicketSearch {
         TicketEscalationTime => 'st.escalation_time',
     );
     for my $Key ( keys %TicketTime ) {
+
+        # get tickets created older then x minutes
         if ( $Param{ $Key . 'OlderMinutes' } ) {
+
+            # exclude tickets wirt no escalation
+            if ( $Key eq 'TicketEscalationTime' ) {
+                $SQLExt .= " AND $TicketTime{$Key} != 0";
+            }
+
             my $Time = $Self->{TimeObject}->SystemTime() - ( $Param{ $Key . 'OlderMinutes' } * 60 );
-            $SQLExt .= " AND $TicketTime{$Key} <= " . $Self->{DBObject}->Quote($Time);
+            $SQLExt .= " AND $TicketTime{$Key} <= $Time";
         }
 
         # get tickets created newer then x minutes
         if ( $Param{ $Key . 'NewerMinutes' } ) {
+
+            # exclude tickets wirt no escalation
+            if ( $Key eq 'TicketEscalationTime' ) {
+                $SQLExt .= " AND $TicketTime{$Key} != 0";
+            }
+
             my $Time = $Self->{TimeObject}->SystemTime() - ( $Param{ $Key . 'NewerMinutes' } * 60 );
-            $SQLExt .= " AND $TicketTime{$Key} >= " . $Self->{DBObject}->Quote($Time);
+            $SQLExt .= " AND $TicketTime{$Key} >= $Time";
         }
     }
 
@@ -3909,8 +3923,14 @@ sub TicketSearch {
                 );
                 return;
             }
-            my $Time =  $Self->{DBObject}->Quote( $Param{ $Key . 'OlderDate' } );
-            $SQLExt .= " AND st.create_time <= '$Time'";
+            # exclude tickets wirt no escalation
+            if ( $Key eq 'TicketEscalationTime' ) {
+                $SQLExt .= " AND $TicketTime{$Key} != 0";
+            }
+            my $Time =  $Self->{TimeObject}->TimeStamp2SystemTime(
+                String => $Param{ $Key . 'OlderDate' },
+            );
+            $SQLExt .= " AND $TicketTime{$Key} <= $Time";
         }
 
         # get tickets created newer then xxxx-xx-xx xx:xx date
@@ -3926,8 +3946,14 @@ sub TicketSearch {
                 );
                 return;
             }
-            my $Time = $Self->{DBObject}->Quote( $Param{ $Key . 'NewerDate' } );
-            $SQLExt .= " AND st.create_time >= '$Time'";
+            # exclude tickets wirt no escalation
+            if ( $Key eq 'TicketEscalationTime' ) {
+                $SQLExt .= " AND $TicketTime{$Key} != 0";
+            }
+            my $Time =  $Self->{TimeObject}->TimeStamp2SystemTime(
+                String => $Param{ $Key . 'NewerDate' },
+            );
+            $SQLExt .= " AND $TicketTime{$Key} >= '$Time'";
         }
     }
 
@@ -4080,11 +4106,6 @@ sub TicketSearch {
             String => $Param{TicketPendingTimeNewerDate},
         );
         $SQLExt .= " AND st.until_time >= '" . $Self->{DBObject}->Quote($TimeStamp) . "'";
-    }
-
-    # get escalated ticket
-    if ( $Param{TicketEscalationIn} || $Param{TicketEscalationInMinutes} ) {
-        return;
     }
 
     # database query for sort/order by option
@@ -6557,6 +6578,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.319 $ $Date: 2008-06-01 20:27:02 $
+$Revision: 1.320 $ $Date: 2008-06-01 22:31:57 $
 
 =cut

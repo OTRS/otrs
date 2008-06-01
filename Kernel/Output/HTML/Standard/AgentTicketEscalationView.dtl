@@ -2,7 +2,7 @@
 # AgentTicketEscalationView.dtl - html for ticket status view (all tickets)
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEscalationView.dtl,v 1.1 2008-05-16 09:49:46 martin Exp $
+# $Id: AgentTicketEscalationView.dtl,v 1.2 2008-06-01 22:31:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -40,9 +40,9 @@
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Escalation=$QData{"Escalation"}&TakeLastSearch=1&SortBy=Age&Order=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
           <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Escalation=$QData{"Escalation"}&TakeLastSearch=1&SortBy=Age&Order=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
           </th>
-          <th width="15%">$Text{"Escalation"}<br/>
-          <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Escalation=$QData{"Escalation"}&TakeLastSearch=1&SortBy=Escalation&Order=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
-          <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Escalation=$QData{"Escalation"}&TakeLastSearch=1&SortBy=Escalation&Order=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
+          <th width="15%">$Text{"Escalation in"}<br/>
+          <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Escalation=$QData{"Escalation"}&TakeLastSearch=1&SortBy=EscalationTime&Order=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
+          <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Search&$Data{"SearchLink"}Profile=$Data{"Profile"}&Escalation=$QData{"Escalation"}&TakeLastSearch=1&SortBy=EscalationTime&Order=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
           </th>
           <th width="25%">$Text{"From"}/$Text{"Subject"}</th>
           <th width="5%">$Text{"State"}<br/>
@@ -83,7 +83,13 @@
             $Data{"StartFont"}$QData{"Age"}$Data{"StopFont"}
           </td>
           <td>
-            $Data{"StartFont"}$QData{"Escalation"}$Data{"StopFont"}
+<!-- dtl:block:RecordEscalationFontStart -->
+            <font color="red">
+<!-- dtl:block:RecordEscalationFontStart -->
+            $Data{"StartFont"}<div title="$Text{"Service Time"}: $QData{"EscalationTimeWorkingTime"} - $QData{"EscalationDestinationDate"}">$QData{"EscalationTimeHuman"}</div>$Data{"StopFont"}
+<!-- dtl:block:RecordEscalationFontStop -->
+            </font>
+<!-- dtl:block:RecordEscalationFontStop -->
           </td>
           <td>
             $Data{"StartFont"}
@@ -113,7 +119,7 @@
         </tr>
 <!-- dtl:block:Record -->
         <tr class="contentfooter">
-          <td colspan="8">
+          <td colspan="9">
             &nbsp;
           </td>
         </tr>

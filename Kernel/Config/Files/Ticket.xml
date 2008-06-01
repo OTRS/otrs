@@ -152,7 +152,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.182 2008-06-01 15:55:36 mh Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.183 2008-06-01 22:31:57 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -2268,13 +2268,13 @@ TimeWorkingHours
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewEscalation</SubGroup>
         <Setting>
-            <Option SelectedID="Age">
+            <Option SelectedID="EscalationTime">
                 <Item Key="Age">Age</Item>
                 <Item Key="Ticket">Ticket</Item>
                 <Item Key="Subject">Subject</Item>
                 <Item Key="Queue">Queue</Item>
                 <Item Key="Priority">Priority</Item>
-                <Item Key="TicketEscalation">TicketEscalation</Item>
+                <Item Key="EscalationTime">EscalationTime</Item>
                 <Item Key="TicketFreeTime1">TicketFreeTime1</Item>
                 <Item Key="TicketFreeTime2">TicketFreeTime2</Item>
                 <Item Key="TicketFreeTime3">TicketFreeTime3</Item>
@@ -2322,7 +2322,7 @@ TimeWorkingHours
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewEscalation</SubGroup>
         <Setting>
-            <Option SelectedID="Down">
+            <Option SelectedID="Up">
                 <Item Key="Down">Down</Item>
                 <Item Key="Up">Up</Item>
             </Option>
@@ -2421,7 +2421,7 @@ TimeWorkingHours
                 <Item Key="Subject">Subject</Item>
                 <Item Key="Queue">Queue</Item>
                 <Item Key="Priority">Priority</Item>
-                <Item Key="TicketEscalation">TicketEscalation</Item>
+                <Item Key="EscalationTime">EscalationTime</Item>
                 <Item Key="TicketFreeTime1">TicketFreeTime1</Item>
                 <Item Key="TicketFreeTime2">TicketFreeTime2</Item>
                 <Item Key="TicketFreeTime3">TicketFreeTime3</Item>
@@ -2548,7 +2548,7 @@ TimeWorkingHours
                 <Item Key="Subject">Subject</Item>
                 <Item Key="Queue">Queue</Item>
                 <Item Key="Priority">Priority</Item>
-                <Item Key="TicketEscalation">TicketEscalation</Item>
+                <Item Key="EscalationTime">EscalationTime</Item>
                 <Item Key="TicketFreeTime1">TicketFreeTime1</Item>
                 <Item Key="TicketFreeTime2">TicketFreeTime2</Item>
                 <Item Key="TicketFreeTime3">TicketFreeTime3</Item>
@@ -6804,7 +6804,7 @@ $QData{"Signature"}
                 <Item Key="Subject">Subject</Item>
                 <Item Key="Queue">Queue</Item>
                 <Item Key="Priority">Priority</Item>
-                <Item Key="TicketEscalation">TicketEscalation</Item>
+                <Item Key="EscalationTime">EscalationTime</Item>
                 <Item Key="TicketFreeTime1">TicketFreeTime1</Item>
                 <Item Key="TicketFreeTime2">TicketFreeTime2</Item>
                 <Item Key="TicketFreeTime3">TicketFreeTime3</Item>

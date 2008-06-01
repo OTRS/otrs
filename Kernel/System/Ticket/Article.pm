@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.180 2008-06-01 20:35:05 martin Exp $
+# $Id: Article.pm,v 1.181 2008-06-01 22:31:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.180 $) [1];
+$VERSION = qw($Revision: 1.181 $) [1];
 
 =head1 NAME
 
@@ -1567,6 +1567,7 @@ sub ArticleGet {
     # get esclation attributes
     my %Escalation = $Self->TicketEscalationDateCalculation(
         Ticket => \%Ticket,
+        UserID => $Param{UserID} || 1,
     );
 
     # article stuff

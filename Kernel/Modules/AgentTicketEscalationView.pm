@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEscalationView.pm - status for all open tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEscalationView.pm,v 1.3 2008-05-16 14:38:01 mh Exp $
+# $Id: AgentTicketEscalationView.pm,v 1.4 2008-06-01 22:31:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -43,7 +43,7 @@ sub new {
     # get params
     $Self->{SortBy} = $Self->{ParamObject}->GetParam( Param => 'SortBy' )
         || $Self->{Config}->{'SortBy::Default'}
-        || 'Age';
+        || 'EscalationTime';
     $Self->{Order} = $Self->{ParamObject}->GetParam( Param => 'Order' )
         || $Self->{Config}->{'Order::Default'}
         || 'Up';
@@ -98,15 +98,35 @@ sub Run {
     $Self->{LayoutObject}->Print( Output => \$Output );
     $Output = '';
 
+    my $TimeStamp;
+    if ( $Self->{Escalation} eq 'NextWeek' ) {
+        my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
+            SystemTime => $Self->{TimeObject}->SystemTime() + 60 * 60 * 24 * 7,
+        );
+        $TimeStamp = "$Year-$Month-$Day 23:59:59";
+    }
+    elsif ( $Self->{Escalation} eq 'Tomorrow' ) {
+        my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
+            SystemTime => $Self->{TimeObject}->SystemTime() + 60 * 60 * 24,
+        );
+        $TimeStamp = "$Year-$Month-$Day 23:59:59";
+    }
+    else {
+        my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
+            SystemTime => $Self->{TimeObject}->SystemTime(),
+        );
+        $TimeStamp = "$Year-$Month-$Day 23:59:59";
+    }
+
     # get shown tickets
     my @TicketIDs = $Self->{TicketObject}->TicketSearch(
-        Result             => 'ARRAY',
-        Limit              => $Self->{Limit},
-        TicketEscalationIn => $Self->{Escalation},
-        OrderBy            => $Self->{Order},
-        SortBy             => $Self->{SortBy},
-        UserID             => $Self->{UserID},
-        Permission         => 'ro',
+        Result                        => 'ARRAY',
+        Limit                         => $Self->{Limit},
+        TicketEscalationTimeOlderDate => $TimeStamp,
+        OrderBy                       => $Self->{Order},
+        SortBy                        => $Self->{SortBy},
+        UserID                        => $Self->{UserID},
+        Permission                    => 'ro',
     );
 
     # show ticket's
@@ -131,8 +151,20 @@ sub Run {
             );
 
             # create human age
-            $Article{Age}
-                = $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' );
+            $Article{Age} = $Self->{LayoutObject}->CustomerAge(
+                Age => $Article{Age},
+                Space => ' ',
+            );
+
+            $Article{EscalationTimeHuman} = $Self->{LayoutObject}->CustomerAgeInHours(
+                Age   => $Article{EscalationTime},
+                Space => ' ',
+            );
+
+            $Article{EscalationTimeWorkingTime} = $Self->{LayoutObject}->CustomerAgeInHours(
+                Age   => $Article{EscalationTimeWorkingTime},
+                Space => ' ',
+            );
 
             # customer info (customer name)
             my %CustomerData = ();
@@ -164,6 +196,17 @@ sub Run {
                 Name => 'Record',
                 Data => { %Article, %UserInfo },
             );
+
+            if ( $Article{EscalationTime} < 60 * 60 * 1 ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'RecordEscalationFontStart',
+                    Data => { %Article, %UserInfo },
+                );
+                $Self->{LayoutObject}->Block(
+                    Name => 'RecordEscalationFontStop',
+                    Data => { %Article, %UserInfo },
+                );
+            }
         }
     }
 
