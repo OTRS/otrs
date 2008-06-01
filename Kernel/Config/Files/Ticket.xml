@@ -152,7 +152,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.180 2008-05-28 07:27:31 tr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.181 2008-06-01 15:51:41 mh Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1987,7 +1987,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketQueue###SortBy::Default" Required="1" Valid="1">
-        <Description Lang="en">Default sort criteria for all queues displayed in the QueueView after sort by priority is done</Description>
+        <Description Lang="en">Default sort criteria for all queues displayed in the QueueView after sort by priority is done.</Description>
         <Description Lang="de">Standard Sortierkriterium für alle Queues innerha lb der Queue-Ansicht nachdem nach der Priorität sortiert wurde.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
@@ -3138,7 +3138,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPhone###Body" Required="1" Valid="1">
-        <Description Lang="en">Default note text for new telephone tickets. E.g 'New ticket via call.'</Description>
+        <Description Lang="en">Default note text for new telephone tickets. E.g 'New ticket via call'.</Description>
         <Description Lang="de">Standard-Text für neue Telefontickets, z. B. 'Neues Ticket durch Anruf!'.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
@@ -3322,7 +3322,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###StateType" Required="1" Valid="1">
         <Description Lang="en">Next possible states after an email ticket.</Description>
-        <Description Lang="de">Mögliche Status nach der Erstellung eines Email-Tickets</Description>
+        <Description Lang="de">Mögliche Status nach der Erstellung eines Email-Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
         <Setting>
@@ -5511,7 +5511,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AutomaticMergeText" Required="1" Valid="1">
-        <Description Lang="en">When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text. (This text cannot be changed by the agent.)</Description>
+        <Description Lang="en">When tickets are merged, a note will be added automatically to the ticket which is no longer active. In this text area you can define this text (This text cannot be changed by the agent).</Description>
         <Description Lang="de">Wenn Tickets zusammengefasst werden, wird automatisch ein Artikel in dem stillgelegten Ticket erstellt, welcher folgenden Inhalt hat.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewMerge</SubGroup>
@@ -5615,8 +5615,8 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerDBLink" Required="1" Valid="1">
-        <Description Lang="en">External link to customer db. E.g. 'http://yourhost/customer.php?CID=$Data{"CustomerID"}' or ''</Description>
-        <Description Lang="de">Standardlink zur Customer-Datenbank. z. B. 'http://yourhost/customer.php?CID=$Data{"CustomerID"}' oder ''</Description>
+        <Description Lang="en">External link to customer database (e.g. 'http://yourhost/customer.php?CID=$Data{"CustomerID"}' or '').</Description>
+        <Description Lang="de">Standardlink zur Customer-Datenbank (z. B. 'http://yourhost/customer.php?CID=$Data{"CustomerID"}' oder '').</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -7944,7 +7944,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::Module###CustomerTicketPrint" Required="0" Valid="1">
-        <Description Lang="en">Customer Frontend module registration for the Customer Ticket Print Module</Description>
+        <Description Lang="en">Customer Frontend module registration for the Customer Ticket Print Module.</Description>
         <Description Lang="de">Frontendmodul-Registration des CustomerTicketPrint-Objekts im Kunden-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::ModuleRegistration</SubGroup>
@@ -8034,8 +8034,8 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostmasterMaxEmails" Required="1" Valid="1">
-        <Description Lang="en">Maximal auto email responses to own email-address a day (Loop-Protection)!</Description>
-        <Description Lang="de">Maximale Anzahl von Auto-Antworten an eine Email-Adresse pro Tag (Schutz vor Emailschleifen!).</Description>
+        <Description Lang="en">Maximal auto email responses to own email-address a day (Loop-Protection).</Description>
+        <Description Lang="de">Maximale Anzahl von Auto-Antworten an eine Email-Adresse pro Tag (Schutz vor Emailschleifen).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
@@ -8052,8 +8052,8 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PostMasterReconnectMessage" Required="1" Valid="1">
-        <Description Lang="en">"bin/PostMasterMailAccount.pl" will reconnect to POP3/POP3S/IMAP/IMAPS host after the specified count of messages.</Description>
-        <Description Lang="de">"bin/PostMasterMailAccount.pl" baut eine neue Verbindung zum POP3/POP3S/IMAP/IMAPS-Server nach der hier angegebenen Anzahl an Nachrichten auf.</Description>
+        <Description Lang="en">The "bin/PostMasterMailAccount.pl" will reconnect to POP3/POP3S/IMAP/IMAPS host after the specified count of messages.</Description>
+        <Description Lang="de">Die "bin/PostMasterMailAccount.pl" baut eine neue Verbindung zum POP3/POP3S/IMAP/IMAPS-Server nach der hier angegebenen Anzahl an Nachrichten auf.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
@@ -8061,8 +8061,8 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="LoopProtectionModule" Required="1" Valid="1">
-        <Description Lang="en">Default loop protection modul</Description>
-        <Description Lang="de">Standard Modul zum Schutz vor Endlos-Schleifen</Description>
+        <Description Lang="en">Default loop protection modul.</Description>
+        <Description Lang="de">Standard Modul zum Schutz vor Endlos-Schleifen.</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::PostMaster</SubGroup>
         <Setting>
