@@ -2,7 +2,7 @@
 # Kernel/System/SLA.pm - all sla function
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SLA.pm,v 1.27 2008-06-01 22:16:24 martin Exp $
+# $Id: SLA.pm,v 1.28 2008-06-01 22:23:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 =head1 NAME
 
@@ -551,16 +551,16 @@ sub SLAUpdate {
     # fetch the result
     my $Update = 0;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        if ( $Row[0] ) {
-            $Update = 1;
+        if ( $Row[0] != $Param{SLAID} ) {
+            $Update = $Row[0];
         }
     }
 
-    # abort insert of new sla, if name already exists
-    if ( !$Update ) {
+    # abort update of sla, if name already exists
+    if ( $Update ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Can't update SLA! '$Param{Name}' dosn't exists.",
+            Message  => "Can't update SLA! '$Param{Name}' already exists.",
         );
         return;
     }
@@ -620,6 +620,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2008-06-01 22:16:24 $
+$Revision: 1.28 $ $Date: 2008-06-01 22:23:47 $
 
 =cut
