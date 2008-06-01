@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketHistory.pm - ticket history
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketHistory.pm,v 1.12 2008-05-28 13:52:59 martin Exp $
+# $Id: AgentTicketHistory.pm,v 1.13 2008-06-01 12:01:29 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -74,7 +74,7 @@ sub Run {
     else {
         @NewLines = @Lines;
     }
-    my $Table = '';
+    my $Table   = '';
     my $Counter = 1;
     for my $DataTmp (@NewLines) {
         $Counter++;

@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.48 2008-05-28 05:40:59 tr Exp $
+# $Id: Stats.pm,v 1.49 2008-06-01 12:01:29 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 =head1 SYNOPSIS
 
@@ -109,7 +109,7 @@ sub new {
     }
 
     # create supplementary objects
-    $Self->{XMLObject}    = Kernel::System::XML   ->new(%Param);
+    $Self->{XMLObject}    = Kernel::System::XML->new(%Param);
     $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
 
     return $Self;
@@ -125,6 +125,7 @@ add new stats
 
 sub StatsAdd {
     my $Self = shift;
+
     my $StatID = 1;
 
     # get new StatID
@@ -141,11 +142,11 @@ sub StatsAdd {
 
     # meta tags
     my %MetaData = ();
-    $MetaData{Created}   [0]{Content}   = $TimeStamp;
-    $MetaData{CreatedBy} [0]{Content} = $Self->{UserID};
-    $MetaData{Changed}   [0]{Content}   = $TimeStamp;
-    $MetaData{ChangedBy} [0]{Content} = $Self->{UserID};
-    $MetaData{Valid}     [0]{Content}     = 1;
+    $MetaData{Created}[0]{Content}   = $TimeStamp;
+    $MetaData{CreatedBy}[0]{Content} = $Self->{UserID};
+    $MetaData{Changed}[0]{Content}   = $TimeStamp;
+    $MetaData{ChangedBy}[0]{Content} = $Self->{UserID};
+    $MetaData{Valid}[0]{Content}     = 1;
     $MetaData{StatNumber}[0]{Content}
         = $StatID + $Self->{ConfigObject}->Get('Stats::StatsStartNumber');
 
@@ -362,7 +363,8 @@ sub StatsUpdate {
     if ( !$StatOld ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "StatsUpddate: Can't get stats, perhaps you have an invalid stats id! (StatsID => $Param{StatID})"
+            Message =>
+                "StatsUpddate: Can't get stats, perhaps you have an invalid stats id! (StatsID => $Param{StatID})"
         );
         return 0;
     }
@@ -2929,6 +2931,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.48 $ $Date: 2008-05-28 05:40:59 $
+$Revision: 1.49 $ $Date: 2008-06-01 12:01:29 $
 
 =cut
