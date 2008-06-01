@@ -2,7 +2,7 @@
 # AdminSystemAddressForm.dtl - provides HTML form for AdminSystemAddress
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSystemAddressForm.dtl,v 1.25 2008-04-02 08:59:22 ot Exp $
+# $Id: AdminSystemAddressForm.dtl,v 1.26 2008-06-01 20:38:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -135,6 +135,9 @@
   </tr>
   <tr>
     <td class="mainbody">
+      <p>
+        $Text{"Note"}: $Text{"All email addresses get excluded on replaying on composing and email."}
+      </p>
       <p>
         $Text{"All incoming emails with this "Email" (To:) will be dispatched in the selected queue!"}
       </p>
