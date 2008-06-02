@@ -1,5 +1,5 @@
 // ----------------------------------------------------------
-//  driver: maxdb, generated: 2008-05-16 10:21:50
+//  driver: maxdb, generated: 2008-06-02 12:22:53
 // ----------------------------------------------------------
 // ----------------------------------------------------------
 //  alter table users
@@ -16,7 +16,7 @@ CREATE TABLE queue_preferences
     preferences_value VARCHAR (250)
 )
 //
-CREATE INDEX queue_preferences_qu53 ON queue_preferences (queue_id)
+CREATE INDEX queue_preferences_qu74 ON queue_preferences (queue_id)
 //
 // ----------------------------------------------------------
 //  create table service_sla

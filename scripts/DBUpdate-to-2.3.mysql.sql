@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2008-05-16 10:21:50
+#  driver: mysql, generated: 2008-06-02 12:22:53
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  alter table users
@@ -108,7 +108,7 @@ ALTER TABLE ticket ADD escalation_time INTEGER;
 UPDATE ticket SET escalation_time = 0 WHERE escalation_time IS NULL;
 ALTER TABLE ticket CHANGE escalation_time escalation_time INTEGER NOT NULL;
 CREATE INDEX ticket_escalation_time ON ticket (escalation_time);
-CREATE INDEX ticket_escalation_start_time ON ticket (escalation_start_time);
+CREATE INDEX ticket_escalation_update_time ON ticket (escalation_update_time);
 CREATE INDEX ticket_escalation_response_time ON ticket (escalation_response_time);
 CREATE INDEX ticket_escalation_solution_time ON ticket (escalation_solution_time);
 CREATE INDEX ticket_title ON ticket (title);

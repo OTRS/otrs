@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2008-05-16 10:21:50
+--  driver: db2, generated: 2008-06-02 12:22:53
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table users
@@ -162,7 +162,7 @@ ALTER TABLE ticket ADD escalation_time INTEGER NOT NULL DEFAULT 0;
 
 CREATE INDEX ticket_escalation_time ON ticket (escalation_time);
 
-CREATE INDEX ticket_escalation_start_time ON ticket (escalation_start_time);
+CREATE INDEX ticket_escalation_update_time ON ticket (escalation_update_time);
 
 CREATE INDEX ticket_escalation_response_time ON ticket (escalation_response_time);
 
