@@ -4,7 +4,7 @@
 # Copyright (C) 2005 Alterado por Glaucia C. Messina (glauglauu@yahoo.com)
 # Copyright (C) 2007 Fabricio Luiz Machado <soprobr gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.65 2008-05-28 13:49:48 tr Exp $
+# $Id: pt_BR.pm,v 1.66 2008-06-02 12:47:40 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.65 $) [1];
+$VERSION = qw($Revision: 1.66 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1516,6 +1516,10 @@ sub Data {
         'TicketID' => 'Id.do Chamado',
         'Modified' => 'Modificado',
         'Ticket selected for bulk action!' => 'Chamado selecionado para execução de ação!',
+
+        'Link Object: %s' => '',
+        'Unlink Object: %s' => '',
+        'Already linked as' => '',
     };
     # $$STOP$$
     return;

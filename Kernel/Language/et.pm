@@ -2,7 +2,7 @@
 # Kernel/Language/et.pm - provides et language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: et.pm,v 1.5 2008-05-28 13:49:48 tr Exp $
+# $Id: et.pm,v 1.6 2008-06-02 12:47:40 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1543,6 +1543,10 @@ sub Data {
         'closed with workaround' => 'suletud ajutise lahendusega',
         'Modified' => 'Muudetud',
         'Ticket selected for bulk action!' => 'Intsident märgiti hulgitegevuseks',
+
+        'Link Object: %s' => '',
+        'Unlink Object: %s' => '',
+        'Already linked as' => '',
     };
     # $$STOP$$
     return;

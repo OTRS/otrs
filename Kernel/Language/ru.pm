@@ -3,7 +3,7 @@
 # Copyright (C) 2003 Serg V Kravchenko <skraft at rgs.ru>
 # Copyright (C) 2007 Andrey Feldman <afeldman at alt-lan.ru>
 # --
-# $Id: ru.pm,v 1.58 2008-05-28 13:49:48 tr Exp $
+# $Id: ru.pm,v 1.59 2008-06-02 12:47:40 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1527,6 +1527,10 @@ sub Data {
         'Change setting' => 'Изменить настройки',
         'Modified' => 'Изменено',
         'Ticket selected for bulk action!' => 'Заявка выбрана для массового действия!',
+
+        'Link Object: %s' => '',
+        'Unlink Object: %s' => '',
+        'Already linked as' => '',
     };
     # $$STOP$$
     return;

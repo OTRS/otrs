@@ -2,7 +2,7 @@
 # Kernel/Language/vi_VN.pm - provides vi_VN language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: vi_VN.pm,v 1.7 2008-05-28 13:49:49 tr Exp $
+# $Id: vi_VN.pm,v 1.8 2008-06-02 12:47:42 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1543,6 +1543,10 @@ sub Data {
         'File-Path' => 'Ðß¶ng dçn file',
         'Modified' => 'Ðã chïnh sØa',
         'Ticket selected for bulk action!' => 'Thë ðã ðßþc ch÷n cho l®nh lô',
+
+        'Link Object: %s' => '',
+        'Unlink Object: %s' => '',
+        'Already linked as' => '',
     };
     # $$STOP$$
     return;

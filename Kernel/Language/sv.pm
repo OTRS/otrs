@@ -2,7 +2,7 @@
 # Kernel/Language/sv.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats@synergy.se>
 # --
-# $Id: sv.pm,v 1.48 2008-05-28 13:49:48 tr Exp $
+# $Id: sv.pm,v 1.49 2008-06-02 12:47:42 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.48 $;
+$VERSION = q$Revision: 1.49 $;
 
 sub Data {
     my $Self = shift;
@@ -1532,6 +1532,10 @@ sub Data {
         'POP3S' => '',
         'Modified' => 'Ändrat',
         'Ticket selected for bulk action!' => '',
+
+        'Link Object: %s' => '',
+        'Unlink Object: %s' => '',
+        'Already linked as' => '',
     };
     # $$STOP$$
     return;
