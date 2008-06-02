@@ -2,13 +2,14 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.658 2008-06-02 11:12:32 martin Exp $
+# $Id: CHANGES,v 1.659 2008-06-02 11:58:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 2.3.0 beta2 (2008/??/??)
+ - (2008/06/02) Moved to new link mechanism.
  - (2008/06/02) Fixed bug# 2902 - Salutation and Signature examples in the
     admin interface are same.
  - (2008/06/02) Fixed bug# 2940 - Error/typo in DBUpdate-to-2.3.*.sql,

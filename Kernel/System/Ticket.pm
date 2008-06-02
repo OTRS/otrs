@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.320 2008-06-01 22:31:57 martin Exp $
+# $Id: Ticket.pm,v 1.321 2008-06-02 11:56:29 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.320 $) [1];
+$VERSION = qw($Revision: 1.321 $) [1];
 
 =head1 NAME
 
@@ -158,6 +158,7 @@ sub new {
     $Self->{LockObject}           = Kernel::System::Lock->new(%Param);
     $Self->{NotificationObject}   = Kernel::System::Notification->new(%Param);
     $Self->{ValidObject}          = Kernel::System::Valid->new(%Param);
+    $Self->{LinkObject}           = Kernel::System::LinkObject->new(%Param);
 
     # get viewable states list
     my @ViewableStates = $Self->{StateObject}->StateGetStatesByType(
@@ -551,36 +552,11 @@ sub TicketDelete {
     delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
     # delete ticket links
-    my $LinkObject = Kernel::System::LinkObject->new(
-        %Param,
-        %{$Self},
-    );
-
-    # get linked objects and ids, then delete links
-    my %Links = $LinkObject->AllLinkedObjects(
+    $Self->{LinkObject}->LinkDeleteAll(
         Object   => 'Ticket',
-        ObjectID => $Param{TicketID},
+        Key      => $Param{TicketID},
         UserID   => $Param{UserID},
     );
-    for my $LinkType (qw(Normal Parent Child)) {
-        if ( !$Links{$LinkType} ) {
-            next;
-        }
-        my %ObjectType = %{ $Links{$LinkType} };
-        for my $Object ( sort keys %ObjectType ) {
-            my %Data = %{ $ObjectType{$Object} };
-            for my $Item ( sort keys %Data ) {
-                $LinkObject->UnlinkObject(
-                    LinkType    => $LinkType,
-                    LinkID1     => $Data{$Item}->{ID},
-                    LinkObject1 => $Object,
-                    LinkID2     => $Param{TicketID},
-                    LinkObject2 => 'Ticket',
-                    UserID      => $Param{UserID},
-                );
-            }
-        }
-    }
 
     # update ticket index
     return if !$Self->TicketAcceleratorDelete(%Param);
@@ -5938,19 +5914,30 @@ sub TicketMerge {
         CreateUserID => $Param{UserID},
     );
 
+    # lookup the link type id
+    my $LinkTypeID = $Self->{LinkObject}->TypeLookup(
+        Name   => 'ParentChild',
+        UserID => $Param{UserID},
+    );
+
+    # lookup the link state id
+    my $LinkStateID = $Self->{LinkObject}->StateLookup(
+        Name   => 'Valid',
+        UserID => $Param{UserID},
+    );
+
     # link tickets
-    my $LinkObject = Kernel::System::LinkObject->new(
-        %Param,
-        %{$Self},
-    );
-    $LinkObject->LinkObject(
-        LinkType    => 'Parent',
-        LinkID1     => $Param{MainTicketID},
-        LinkObject1 => 'Ticket',
-        LinkID2     => $Param{MergeTicketID},
-        LinkObject2 => 'Ticket',
-        UserID      => $Param{UserID},
-    );
+    if ($LinkTypeID && $LinkStateID) {
+        $Self->{LinkObject}->LinkAdd(
+            SourceObject => 'Ticket',
+            SourceKey    => $Param{MainTicketID},
+            TargetObject => 'Ticket',
+            TargetKey    => $Param{MergeTicketID},
+            TypeID       => $LinkTypeID,
+            StateID      => $LinkStateID,
+            UserID       => $Param{UserID},
+        );
+    }
 
     # set new state of merge ticket
     $Self->StateSet(
@@ -6578,6 +6565,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.320 $ $Date: 2008-06-01 22:31:57 $
+$Revision: 1.321 $ $Date: 2008-06-02 11:56:29 $
 
 =cut

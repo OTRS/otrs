@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject/Ticket.pm - to link ticket objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.19 2008-05-08 09:36:21 mh Exp $
+# $Id: Ticket.pm,v 1.20 2008-06-02 11:56:29 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Ticket;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -27,157 +27,238 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject MainObject TimeObject UserID)) {
+    for (qw(DBObject ConfigObject LogObject MainObject TimeObject LinkObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
-
     $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
 
     return $Self;
 }
 
-sub FillDataMap {
+=item PossibleObjectsSelectList()
+
+return an array hash with selectable objects
+
+Return
+    @ObjectSelectList = (
+        {
+            Key   => 'Ticket',
+            Value => 'Ticket',
+        },
+    );
+
+    @ObjectSelectList = $LinkObject->PossibleObjectsSelectList();
+
+=cut
+
+sub PossibleObjectsSelectList {
+    my $Self = shift;
+
+    # get object description
+    my %ObjectDescription = $Self->ObjectDescriptionGet(
+        UserID => 1,
+    );
+
+    # object select list
+    my @ObjectSelectList = (
+        {
+            Key   => $ObjectDescription{Object},
+            Value => $ObjectDescription{Realname},
+        },
+    );
+
+    return @ObjectSelectList;
+}
+
+=item ObjectDescriptionGet()
+
+return a hash of object description data
+
+    %ObjectDescription = $LinkObject->ObjectDescriptionGet(
+        UserID => 1,
+    );
+
+=cut
+
+sub ObjectDescriptionGet {
     my ( $Self, %Param ) = @_;
 
-    if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID!' );
+    # check needed stuff
+    if ( !$Param{UserID} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!',
+        );
         return;
     }
 
+    # define object description
+    my %ObjectDescription = (
+        Object   => 'Ticket',
+        Realname => 'Ticket',
+        Overview => {
+            Normal => {
+                Key     => 'TicketNumber',
+                Value   => 'Ticket#',
+                Type    => 'Link',
+                Subtype => 'Compact',
+            },
+            Complex => [
+                {
+                    Key   => 'TicketNumber',
+                    Value => 'Ticket#',
+                    Type  => 'Link',
+                },
+                {
+                    Key   => 'Title',
+                    Value => 'Title',
+                    Type  => 'Text',
+                },
+                {
+                    Key   => 'Queue',
+                    Value => 'Queue',
+                    Type  => 'Text',
+                },
+                {
+                    Key   => 'State',
+                    Value => 'State',
+                    Type  => 'Text',
+                },
+                {
+                    Key   => 'Age',
+                    Value => 'Age',
+                    Type  => 'Age',
+                },
+                {
+                    Key   => 'LinkType',
+                    Value => 'Already linked as',
+                    Type  => 'LinkType',
+                },
+            ],
+        },
+    );
+
+    return %ObjectDescription;
+}
+
+=item ObjectSearchOptionsGet()
+
+return an array hash list with search options
+
+    @SearchOptions = $LinkObject->ObjectSearchOptionsGet();
+
+=cut
+
+sub ObjectSearchOptionsGet {
+    my ( $Self, %Param ) = @_;
+
+    # define search params
+    my @SearchOptions = (
+        {
+            Key   => 'TicketNumber',
+            Value => 'Ticket#',
+        },
+        {
+            Key   => 'Title',
+            Value => 'Title',
+        },
+        {
+            Key   => 'TicketFulltext',
+            Value => 'Fulltext',
+        },
+    );
+
+    return @SearchOptions;
+}
+
+=item ItemDescriptionGet()
+
+return a hash of item description data
+
+    %ItemDescription = $BackendObject->ItemDescriptionGet(
+        Key    => '123',
+        UserID => 1,
+    );
+
+=cut
+
+sub ItemDescriptionGet {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Argument (qw(Key UserID)) {
+        if ( !$Param{$Argument} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!",
+            );
+            return;
+        }
+    }
+
+    # get ticket
     my %Ticket = $Self->{TicketObject}->TicketGet(
-        TicketID => $Param{ID},
-        UserID   => $Self->{UserID},
+        TicketID => $Param{Key},
+        UserID   => 1,
     );
 
     return if !%Ticket;
 
-    my $Css = '';
-    if ( $Ticket{StateType} eq 'merged' ) {
-        $Css = ' style="text-decoration: line-through"';
-    }
-    return (
-        Text         => 'T:' . $Ticket{TicketNumber},
-        Number       => $Ticket{TicketNumber},
-        Title        => $Ticket{Title},
-        ID           => $Param{ID},
-        Object       => 'Ticket',
-        Css          => $Css,
-        FrontendDest => 'Action=AgentTicketZoom&TicketID=',
+    # lookup the valid state id
+    my $ValidStateID = $Self->{LinkObject}->StateLookup(
+        Name   => 'Valid',
+        UserID => 1,
     );
-}
 
-sub BackendLinkObject {
-    my ( $Self, %Param ) = @_;
+    # get link data
+    my $ExistingLinks = $Self->{LinkObject}->LinksGet(
+        Object  => 'Ticket',
+        Key     => $Param{Key},
+        StateID => $Param{StateID} || $ValidStateID,
+        UserID  => 1,
+    ) || {};
 
-    if ( $Param{LinkObject1} eq 'Ticket' && $Param{LinkObject2} eq 'Ticket' ) {
-
-        # add ticket hostory
-        my $SlaveTicketNumber = $Self->{TicketObject}->TicketNumberLookup(
-            TicketID => $Param{LinkID2},
-            UserID   => $Self->{UserID},
-        );
-        $Self->{TicketObject}->HistoryAdd(
-            TicketID     => $Param{LinkID1},
-            CreateUserID => $Self->{UserID},
-            HistoryType  => 'TicketLinkAdd',
-            Name         => "\%\%$SlaveTicketNumber\%\%$Param{LinkID2}\%\%$Param{LinkID1}",
-        );
-
-        # ticket event
-        $Self->{TicketObject}->TicketEventHandlerPost(
-            Event    => 'TicketSlaveLinkAdd' . $Param{LinkType},
-            UserID   => $Self->{UserID},
-            TicketID => $Param{LinkID1},
-        );
-
-        # added slave ticket history
-        my $MasterTicketNumber = $Self->{TicketObject}->TicketNumberLookup(
-            TicketID => $Param{LinkID1},
-            UserID   => $Self->{UserID},
-        );
-        $Self->{TicketObject}->HistoryAdd(
-            TicketID     => $Param{LinkID2},
-            CreateUserID => $Self->{UserID},
-            HistoryType  => 'TicketLinkAdd',
-            Name         => "\%\%$MasterTicketNumber\%\%$Param{LinkID1}\%\%$Param{LinkID2}",
-        );
-
-        # ticket event
-        $Self->{TicketObject}->TicketEventHandlerPost(
-            Event    => 'TicketMasterLinkAdd' . $Param{LinkType},
-            UserID   => $Self->{UserID},
-            TicketID => $Param{LinkID2},
-        );
-    }
-    return 1;
-}
-
-sub BackendUnlinkObject {
-    my ( $Self, %Param ) = @_;
-
-    if ( $Param{LinkObject1} eq 'Ticket' && $Param{LinkObject2} eq 'Ticket' ) {
-
-        # add ticket hostory
-        my $SlaveTicketNumber = $Self->{TicketObject}->TicketNumberLookup(
-            TicketID => $Param{LinkID1},
-            UserID   => $Self->{UserID},
-        );
-        $Self->{TicketObject}->HistoryAdd(
-            TicketID     => $Param{LinkID2},
-            CreateUserID => $Self->{UserID},
-            HistoryType  => 'TicketLinkDelete',
-            Name         => "\%\%$SlaveTicketNumber\%\%$Param{LinkID2}\%\%$Param{LinkID1}",
-        );
-
-        # ticket event
-        $Self->{TicketObject}->TicketEventHandlerPost(
-            Event    => 'TicketSlaveLinkDelete' . $Param{LinkType},
-            UserID   => $Self->{UserID},
-            TicketID => $Param{LinkID2},
-        );
-
-        # added slave ticket history
-        my $MasterTicketNumber = $Self->{TicketObject}->TicketNumberLookup(
-            TicketID => $Param{LinkID2},
-            UserID   => $Self->{UserID},
-        );
-        $Self->{TicketObject}->HistoryAdd(
-            TicketID     => $Param{LinkID1},
-            CreateUserID => $Self->{UserID},
-            HistoryType  => 'TicketLinkDelete',
-            Name         => "\%\%$MasterTicketNumber\%\%$Param{LinkID1}\%\%$Param{LinkID2}",
-        );
-
-        # ticket event
-        $Self->{TicketObject}->TicketEventHandlerPost(
-            Event    => 'TicketMasterLinkDelete' . $Param{LinkType},
-            UserID   => $Self->{UserID},
-            TicketID => $Param{LinkID1},
-        );
-    }
-    return 1;
-}
-
-sub LinkSearchParams {
-    my ( $Self, %Param ) = @_;
-
-    return (
-        { Name => 'TicketNumber',   Text => 'Ticket#' },
-        { Name => 'Title',          Text => 'Title' },
-        { Name => 'TicketFulltext', Text => 'Fulltext' },
+    # define item description
+    my %ItemDescription = (
+        Identifier  => 'Ticket',
+        Description => {
+            Short  => "T:$Ticket{TicketNumber}",
+            Normal => "Ticket# $Ticket{TicketNumber}",
+            Long   => "Ticket# $Ticket{TicketNumber}: $Ticket{Title}",
+        },
+        ItemData => {
+            %Ticket,
+        },
+        LinkData => {
+            %{$ExistingLinks},
+        },
     );
+
+    return %ItemDescription;
 }
 
-sub LinkSearch {
+=item ItemSearch()
+
+return an array list of the search results
+
+    @ItemKeys = $LinkObject->ItemSearch(
+        SearchParams => $HashRef,  # (optional)
+    );
+
+=cut
+
+sub ItemSearch {
     my ( $Self, %Param ) = @_;
 
-    my %Search         = ();
-    my @ResultWithData = ();
+    # set default params
+    $Param{SearchParams} ||= {};
 
     # set focus
+    my %Search;
     if ( $Param{Title} ) {
         $Param{Title} = '*' . $Param{Title} . '*';
     }
+
     if ( $Param{TicketFulltext} ) {
         $Param{TicketFulltext} = '*' . $Param{TicketFulltext} . '*';
         %Search = (
@@ -189,48 +270,19 @@ sub LinkSearch {
             ContentSearch => 'OR',
         );
     }
-    my @TicketIDs = $Self->{TicketObject}->TicketSearch(
+
+    # search the tickets
+    my @ItemKeys = $Self->{TicketObject}->TicketSearch(
         Result => 'ARRAY',
-        %Param,
+        %{ $Param{SearchParams} },
         %Search,
         ConditionInline => 1,
         FullTextIndex   => 1,
+        OrderBy         => 'Down',
+        SortBy          => 'Age',
     );
-    for (@TicketIDs) {
-        my %Ticket = $Self->{TicketObject}->TicketGet(
-            TicketID => $_,
-            UserID   => $Self->{UserID},
-        );
-        push(
-            @ResultWithData,
-            {
-                %Ticket,
-                ID     => $_,
-                Number => $Ticket{TicketNumber},
-            },
-        );
 
-    }
-    return @ResultWithData;
-}
-
-sub LinkItemData {
-    my ( $Self, %Param ) = @_;
-
-    my $Body       = '';
-    my %Ticket     = $Self->{TicketObject}->TicketGet( TicketID => $Param{ID} );
-    my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex( TicketID => $Param{ID} );
-    for my $Article ( reverse @ArticleBox ) {
-        $Body .= $Article->{Body};
-    }
-    return (
-        %Ticket,
-        ID         => $Param{ID},
-        Title      => $Ticket{Title},
-        Number     => $Ticket{TicketNumber},
-        Body       => $Body,
-        DetailLink => "Action=AgentTicketZoom&TicketID=$Param{ID}",
-    );
+    return @ItemKeys;
 }
 
 1;

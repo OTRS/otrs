@@ -2,44 +2,53 @@
 # AgentLinkObject.dtl - provides HTML for AgentLinkObject mask
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.dtl,v 1.20 2008-04-02 08:59:22 ot Exp $
+# $Id: AgentLinkObject.dtl,v 1.21 2008-06-02 11:56:29 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
-<!-- dtl:block:LinkOption -->
+<!-- dtl:block:Link -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td class="mainhead">
-      $Env{"Box0"}$Text{"Link Object"}$Env{"Box1"}
-    </td>
-  </tr>
-  <tr>
-    <td class="menu">
-      <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$JSText{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
+      $Env{"Box0"}$Text{"Link Object: %s","$QData{"SourceItemDescriptionNormal"}$Env{"Box1"}
     </td>
   </tr>
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
-    <td class="mainbody">
-      <br/>
-      <form name="AgentTicketLink" action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="$Env{"Action"}"/>
-        <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
+    <td width="75%" class="menu">
+      <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$JSText{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
+      -
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=LinkDelete&SourceObject=$LQData{"SourceObject"}&SourceKey=$LQData{"SourceKey"}" class="menuitem">$Text{"Delete"}</a>
+    </td>
+    <td align="right" width="25%" class="menu"></td>
+  </tr>
+</table>
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+  <tr>
+    <td class="mainbody" align="center">
+      <br>
+      <form action="$Env{"CGIHandle"}" method="get" name="compose">
+        <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="SourceObject" value="$QData{"SourceObject"}">
+        <input type="hidden" name="SourceKey" value="$QData{"SourceKey"}">
+        <input type="hidden" name="TargetObject" value="$QData{"TargetObject"}">
+        <table width="800" border="0" cellspacing="0" cellpadding="3">
           <tr>
-            <td colspan="2" class="contenthead">$Text{"Options"}</td>
+            <td class="contenthead">
+              $Text{"Object"}
+            </td>
           </tr>
           <tr>
             <td class="contentbody">
-              <table border="0">
-                <tr>
-                  <td class="contentkey">$Text{"Link Object"} "$Text{"$QData{"SourceObject"}"}" $Text{"with"}:</td>
-                  <td class="contentvalue">$Data{"LinkToObject"}</td>
-                </tr>
-              </table>
+              $Text{"Link Object"}
+              <span title="$QData{"SourceItemDescriptionLong"}">
+              $QData{"SourceItemDescriptionNormal"}
+              </span>
+              $Text{"with"} $Data{"TargetObjectStrg"}
             </td>
           </tr>
           <tr>
@@ -48,140 +57,120 @@
             </td>
           </tr>
         </table>
-      </form>
-      <br/>
-    </td>
-  </tr>
-</table>
-<!-- dtl:block:LinkOption -->
-<!-- dtl:block:Search -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr>
-    <td class="mainhead">
-      $Env{"Box0"}$Text{"Search"}$Env{"Box1"}
-    </td>
-  </tr>
-</table>
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr>
-    <td class="mainbody">
-      <br/>
-      <form name="AgentTicketLink" action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="$Env{"Action"}"/>
-        <input type="hidden" name="Subaction" value="Search"/>
-        <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
+        <br>
+        <table width="800" border="0" cellspacing="0" cellpadding="3">
           <tr>
-            <td class="contenthead">$Text{"Options"}</td>
-          </tr>
-          <tr>
-            <td class="contentbody">
-              <table border="0">
-<!-- dtl:block:SearchItem -->
-                <tr>
-                  <td class="contentkey">$Text{"$QData{"Text"}"}</td>
-                  <td class="contentvalue"><input type="text" name="$QData{"Name"}" value="$QData{"Value"}" size="40"/></td>
-                </tr>
-<!-- dtl:block:SearchItem -->
-<!-- dtl:block:SearchItemSelect -->
-                <tr>
-                  <td class="contentkey">$Text{"$QData{"Text"}"}</td>
-                  <td class="contentvalue">$Data{"Option"}</td>
-                </tr>
-<!-- dtl:block:SearchItemSelect -->
-              </table>
+            <td colspan="2" class="contenthead">
+              $Text{"Search"} $QData{"TargetRealname"}
             </td>
           </tr>
+<!-- dtl:block:LinkSearchRow -->
+          <tr class="contentbody">
+            <td width="20%" class="contentkey">$Text{"$Data{"Value"}"}: </td>
+            <td class="contentvalue">
+              <input type="Text" name="$QData{"Key"}" size="60" value="$QData{"SearchParam"}">
+            </td>
+          </tr>
+<!-- dtl:block:LinkSearchRow -->
           <tr>
-            <td class="contentfooter">
-              <input class="button" accesskey="g" type="submit" value="$Text{"Search"}"/>
+            <td colspan="2" class="contentfooter">
+              <input class="button" type="submit" name="SubmitSearch" value="$Text{"Search"}"/>
             </td>
           </tr>
         </table>
+<!-- dtl:block:LinkResult -->
+        <br>
+        <table width="800" border="0" cellspacing="0" cellpadding="3">
+          <tr>
+<!-- dtl:block:LinkResultColumn -->
+            <td class="contenthead">
+              $Text{"$Data{"ColumnDescription"}"}
+            </td>
+<!-- dtl:block:LinkResultColumn -->
+          </tr>
+<!-- dtl:block:LinkResultRow -->
+          <tr>
+<!-- dtl:block:LinkResultRowColumn -->
+            <td class="$QData{"CssClass"}">
+              $Data{"CellData"}
+            </td>
+<!-- dtl:block:LinkResultRowColumn -->
+          </tr>
+<!-- dtl:block:LinkResultRow -->
+          <tr>
+            <td colspan="$QData{"LinkColspan"}" class="contentfooter">
+              $Data{"LinkTypeStrg"}
+              &nbsp;
+              <input class="button" type="submit" name="SubmitLink" value="$Text{"Link"}"/>
+            </td>
+          </tr>
+        </table>
+<!-- dtl:block:LinkResult -->
       </form>
-      <br/>
+      <br>
     </td>
   </tr>
 </table>
-<!-- dtl:block:Search -->
-<!-- dtl:block:SearchResult -->
+<!-- dtl:block:Link -->
+<!-- dtl:block:Delete -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td class="mainhead">
-      $Env{"Box0"}$Text{"Result"}$Env{"Box1"}
-    </td>
-  </tr>
-  <tr>
-    <td class="menu">
-$Text{"Results"}: <b>$QData{"Result"}</b> - $Text{"Total hits"}: <b>$Data{"TotalHits"}</b>
-      - $Text{"Page"}: $Data{"SiteNavBar"}
+      $Env{"Box0"}$Text{"Unlink Object: %s",$QData{"SourceItemDescriptionNormal"}$Env{"Box1"}
     </td>
   </tr>
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
-    <td class="mainbody">
-      <table border="0" width="100%" cellspacing="0" cellpadding="3">
-        <tr>
-          <td class="contenthead" width="10%">$Text{"Number"}</td>
-          <td class="contenthead" width="30%">$Text{"Title"}</td>
-          <td class="contenthead" width="18%">$Text{"Created"}</td>
-          <td class="contenthead" width="18%">$Text{"Changed"}</td>
-          <td class="contenthead" width="8%" align="center">$Text{"Normal"}</td>
-          <td class="contenthead" width="8%" align="center">$Text{"Parent"}</td>
-          <td class="contenthead" width="8%" align="center">$Text{"Child"}</td>
-        </tr>
-<!-- dtl:block:SearchResultItem -->
-        <dtl if ($Data{"LinkedParent"} eq "1") { $Data{"LinkParent"} = "Unlink"; }>
-        <dtl if ($Data{"LinkedParent"} eq "0") { $Data{"LinkParent"} = "Link"; }>
-        <dtl if ($Data{"LinkedParent"} eq "2") { $Data{"LinkParent"} = ""; }>
-        <dtl if ($Data{"LinkedChild"} eq "1") { $Data{"LinkChild"} = "Unlink"; }>
-        <dtl if ($Data{"LinkedChild"} eq "2") { $Data{"LinkChild"} = ""; }>
-        <dtl if ($Data{"LinkedChild"} eq "0") { $Data{"LinkChild"} = "Link"; }>
-        <dtl if ($Data{"LinkedNormal"} eq "1") { $Data{"LinkNormal"} = "Unlink"; }>
-        <dtl if ($Data{"LinkedNormal"} eq "2") { $Data{"LinkNormal"} = ""; }>
-        <dtl if ($Data{"LinkedNormal"} eq "0") { $Data{"LinkNormal"} = "Link"; }>
-        <tr class="$QData{"css"}">
-          <td><a href="$Env{"Baselink"}Action=$Env{"Action"}&PreviewID=$QData{"ID"}">$QData{"Number"}</a></td>
-          <td>$QData{"Title"}</td>
-          <td>$TimeLong{"$Data{"Created"}"}</td>
-          <td>$TimeLong{"$Data{"Changed"}"}</td>
-          <td align="center">
-            <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$LQData{"LinkNormal"}Normal&ID=$QData{"ID"}&StartHit=$LQData{"StartHit"}">$Text{"$QData{"LinkNormal"}"}</a>
-          </td>
-          <td align="center">
-            <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$LQData{"LinkParent"}Parent&ID=$QData{"ID"}&StartHit=$LQData{"StartHit"}">$Text{"$QData{"LinkParent"}"}</a>
-          </td>
-          <td align="center">
-            <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$LQData{"LinkChild"}Child&ID=$QData{"ID"}&StartHit=$LQData{"StartHit"}">$Text{"$QData{"LinkChild"}"}</a>
-          </td>
-        </tr>
-<!-- dtl:block:SearchResultItem -->
-        <tr>
-          <td class="contentfooter" colspan="7">&nbsp;</td>
-        </tr>
-      </table>
+    <td width="75%" class="menu">
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}&SourceObject=$LQData{"SourceObject"}&SourceKey=$LQData{"SourceKey"}" class="menuitem">$Text{"Back"}</a>
     </td>
-  </tr>
-</table>
-<!-- dtl:block:SearchResult -->
-<!-- dtl:block:Preview -->
-<table border="0" width="100%" cellspacing="0" cellpadding="3">
-  <tr>
-    <td class="mainhead">
-      $Env{"Box0"}$Text{"Preview"}$Env{"Box1"}
-    </td>
-  </tr>
-  <tr>
-    <td class="menu">
-      <a href="$Env{"Baselink"}$Data{"DetailLink"}" onmouseover="window.status='$JSText{"Detail"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Detail"}</a>
-    </td>
+    <td align="right" width="25%" class="menu"></td>
   </tr>
 </table>
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
-    <td valign="top" class="mainbody">
-      <pre>$Data{"Body"}</pre>
+    <td class="mainbody" align="center">
+      <br>
+<!-- dtl:block:DeleteObject -->
+      <form action="$Env{"CGIHandle"}" method="get">
+        <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="Subaction" value="LinkDelete">
+        <input type="hidden" name="SourceObject" value="$QData{"SourceObject"}">
+        <input type="hidden" name="SourceKey" value="$QData{"SourceKey"}">
+        <input type="hidden" name="TargetObject" value="$QData{"TargetObject"}">
+        <table width="800" border="0" cellspacing="0" cellpadding="3">
+          <tr>
+            <td colspan="$QData{"LinkColspan"}">
+              <b><i>$QData{"TargetObjectRealname"} $QData{"TargetSubobject"}</i></b>
+            </td>
+          </tr>
+          <tr>
+<!-- dtl:block:DeleteObjectLinkColumn -->
+            <td class="contenthead">
+              $Text{"$Data{"ColumnDescription"}"}
+            </td>
+<!-- dtl:block:DeleteObjectLinkColumn -->
+          </tr>
+<!-- dtl:block:DeleteObjectLinkRow -->
+          <tr>
+<!-- dtl:block:DeleteObjectLinkRowColumn -->
+            <td class="$QData{"CssClass"}">
+              $Data{"CellData"}
+            </td>
+<!-- dtl:block:DeleteObjectLinkRowColumn -->
+          </tr>
+<!-- dtl:block:DeleteObjectLinkRow -->
+          <tr>
+            <td colspan="$QData{"LinkColspan"}" class="contentfooter">
+              <input class="button" type="submit" name="SubmitDelete" value="$Text{"Delete"}"/>
+            </td>
+          </tr>
+        </table>
+        <br>
+      </form>
+<!-- dtl:block:DeleteObject -->
     </td>
   </tr>
 </table>
-<!-- dtl:block:Preview-->
+<!-- dtl:block:Delete -->

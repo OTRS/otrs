@@ -152,7 +152,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.183 2008-06-01 22:31:57 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.184 2008-06-02 11:56:28 mh Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -3251,18 +3251,17 @@ TimeWorkingHours
             <String Regex=""></String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketPhone###SplitLinkType" Required="1" Valid="1">
-        <Description Lang="en">Default link type of splited tickets.</Description>
+
+    <ConfigItem Name="Ticket::Frontend::AgentTicketPhone###SplitLinkType" Required="0" Valid="1">
+        <Description Lang="en">Default link type of splitted tickets.</Description>
         <Description Lang="de">Standardmäßig vergebener Verknüpfungs-Typ von geteilten Tickets.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
         <Setting>
-            <Option SelectedID="Child">
-                <Item Key="">- (no links between tickets)</Item>
-                <Item Key="Child">Child (new ticket is child)</Item>
-                <Item Key="Parent">Parent (new ticket is parent)</Item>
-                <Item Key="Normal">Normal (normal link between ticket)</Item>
-            </Option>
+            <Hash>
+                <Item Key="LinkType">ParentChild</Item>
+                <Item Key="Direction">Target</Item>
+            </Hash>
         </Setting>
     </ConfigItem>
 
@@ -5632,23 +5631,6 @@ $QData{"Signature"}
             <String Regex=""></String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="LinkObject###Ticket" Required="1" Valid="1">
-        <Description Lang="en">Objects that can be linked.</Description>
-        <Description Lang="de">Objekte, die verknüpft werden können.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::LinkObject</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Name">Ticket Object</Item>
-                <Item Key="Type">Object</Item>
-                <Item Key="LinkObjects">
-                    <Array>
-                        <Item>Ticket</Item>
-                    </Array>
-                </Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="Frontend::NavBarModule###1-Ticket::TicketWatcher" Required="0" Valid="1">
         <Description Lang="en">Agent interface notification module to see the number of watched tickets.</Description>
         <Description Lang="de">Modul mit dem Agents über das Agent-Interface über die Anzahl von beobachteten Tickets benachrichtigt werden.</Description>
@@ -5906,7 +5888,7 @@ $QData{"Signature"}
                 <Item Key="Name">Link</Item>
                 <Item Key="Description">Link this ticket to an other objects!</Item>
                 <Item Key="Action">AgentLinkObject</Item>
-                <Item Key="Link">Action=AgentLinkObject&amp;SourceObject=Ticket&amp;SourceID=$QData{"TicketID"}</Item>
+                <Item Key="Link">Action=AgentLinkObject&amp;SourceObject=Ticket&amp;SourceKey=$QData{"TicketID"}</Item>
             </Hash>
         </Setting>
     </ConfigItem>

@@ -107,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.169 2008-05-09 12:45:14 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.170 2008-06-02 11:56:28 mh Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -260,7 +260,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultTheme::HostBased" Required="0" Valid="0">
-        <Description Lang="en">Individual themes for Customers and Agents are possible in OTRS. These can be activated by a seperate domain. The field "Key" contains the domain or a regexp to match a domain. "Content" states the name of the theme being used. </Description>
+        <Description Lang="en">Individual themes for Customers and Agents are possible in OTRS. These can be activated by a seperate domain. The field "Key" contains the domain or a regexp to match a domain. "Content" states the name of the theme being used.</Description>
         <Description Lang="de">OTRS bietet die Möglichkeit individuelle Themes für Kunden und Agents festzulegen. Diese können unter anderem durch den Aufruf einer extra dafür geschaffenen Domain angezeigt werden. Dabei enthält das Feld "Schlüssel" eine Domain oder eine RegExp die eine Domain matched. Das zugehörige Theme wird im Feld "Inhalt" angegeben.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -397,6 +397,68 @@ TimeWorkingHours
             <String Regex="">@(aa|aaa|aaaa|aaaaa|abc|any|anywhere|anonymous|bar|demo|example|foo|hello|hallo|me|nospam|nowhere|null|some|somewhere|test|teste.|there|user|xx|xxx|xxxx)\.(..|...)$</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="LinkObject::Type###Normal" Required="0" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de">Definiert den Linktyp 'Normal'. Wird als SourceName und TargetName der gleiche Inhalt angegeben, entsteht ein ungerichteter Linktyp. Wird als SourceName und TargetName verschiedene Inhalt angegeben, entsteht ein gerichteter Linktyp.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::LinkObject</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="SourceName">Normal</Item>
+                <Item Key="TargetName">Normal</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="LinkObject::Type###ParentChild" Required="0" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de">Definiert den Linktyp 'ParentChild'. Wird als SourceName und TargetName der gleiche Inhalt angegeben, entsteht ein ungerichteter Linktyp. Wird als SourceName und TargetName verschiedene Inhalt angegeben, entsteht ein gerichteter Linktyp.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::LinkObject</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="SourceName">Parent</Item>
+                <Item Key="TargetName">Child</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="LinkObject::TypeGroup###001" Required="0" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de">Definiert eine Linktyp-Gruppe. Die Linktypen einer Gruppe schließen sich gegenseitig aus. Beispiel: Wird Ticket A mit Ticket B über den Linktyp 'Normal' verlinkt, können diese beiden Tickets nicht noch zusätzlich mit dem Linktyp 'ParentChild' verlinkt werden.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::LinkObject</SubGroup>
+        <Setting>
+            <Array>
+                <Item>Normal</Item>
+                <Item>ParentChild</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="LinkObject::PossibleLink###001" Required="0" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de">Definiert, dass ein 'Ticket'-Objekte mit dem Linktyp 'Normal' mit anderen 'Ticket'-Objekten verlinkt werden kann.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::LinkObject</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Object1">Ticket</Item>
+                <Item Key="Object2">Ticket</Item>
+                <Item Key="Type">Normal</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="LinkObject::PossibleLink###002" Required="0" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de">Definiert, dass ein 'Ticket'-Objekte mit dem Linktyp 'ParentChild' mit anderen 'Ticket'-Objekten verlinkt werden kann.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::LinkObject</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Object1">Ticket</Item>
+                <Item Key="Object2">Ticket</Item>
+                <Item Key="Type">ParentChild</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="LogModule" Required="1" Valid="1">
         <Description Lang="en">Log module for the system. "File" writes all messages in a given logfile, "SysLog" uses the syslog daemon of the system, e.g. syslogd.</Description>
         <Description Lang="de">Logmodul für das System. "File" schreibt in eine anzugebende Datei, "SysLog" logt mit Hilfe des systemspezifischen Logdaemons, z. B. syslogd.</Description>
@@ -513,7 +575,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SendmailBcc" Required="0" Valid="1">
-        <Description Lang="en">Send all outgoing email via bcc to the specified address. Please use this only for backup reasons!</Description>
+        <Description Lang="en">Send all outgoing email via bcc to the specified address. Please use this only for backup reasons.</Description>
         <Description Lang="de">Alle ausgehenden Nachrichten werden via BCC ('Blind Copy') an die angegebene Adresse gesendet. Bitte nutzen Sie diese Funktionalität nur aus Gründen der Datensicherung.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
@@ -2617,7 +2679,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Package::Timeout" Required="1" Valid="1">
-        <Description Lang="en">http/ftp timeout for package downloads (in sec).</Description>
+        <Description Lang="en">Timeout for package downloads (in seconds).</Description>
         <Description Lang="de">Timeout für das Herunterladen von zusätzlichen Paketen (in Sekunden).</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Package</SubGroup>
@@ -2674,8 +2736,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PDF::PageSize" Required="1" Valid="1">
-        <Description Lang="en">Standard-size of PDF pages</Description>
-        <Description Lang="de">Standard-Seitengröße von PDF Seiten</Description>
+        <Description Lang="en">Standard-size of PDF pages.</Description>
+        <Description Lang="de">Standard-Seitengröße von PDF Seiten.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::PDF</SubGroup>
         <Setting>
@@ -2686,8 +2748,8 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PDF::MaxPages" Required="1" Valid="1">
-        <Description Lang="en">Maximum number of pages per PDF file</Description>
-        <Description Lang="de">Maximale Anzahl von Seiten pro PDF Datei</Description>
+        <Description Lang="en">Maximum number of pages per PDF file.</Description>
+        <Description Lang="de">Maximale Anzahl von Seiten pro PDF Datei.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::PDF</SubGroup>
         <Setting>
@@ -2842,7 +2904,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SMIME::Bin" Required="1" Valid="1">
-        <Description Lang="en">Path to openssl binary. Maybe openssl need a HOME env ($ENV{HOME} = '/var/lib/wwwrun';)!</Description>
+        <Description Lang="en">Path to openssl binary. Maybe openssl need a HOME env ($ENV{HOME} = '/var/lib/wwwrun';).</Description>
         <Description Lang="de">Pfad zum openssl Binary. Evtl. benötigt openssl eine '$ENV{HOME}' Variable ($ENV{HOME} = '/var/lib/wwwrun';).</Description>
         <Group>Framework</Group>
         <SubGroup>Crypt::SMIME</SubGroup>
@@ -4639,7 +4701,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Stats::Graph::t_margin" Required="1" Valid="1">
         <Description Lang="en">Top margin of chart.</Description>
-        <Description Lang="de">Abstand von oben zum Diagramm</Description>
+        <Description Lang="de">Abstand von oben zum Diagramm.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Stats::Graph</SubGroup>
         <Setting>
@@ -4970,7 +5032,7 @@ Your OTRS Notification Master
     </ConfigItem>
     <ConfigItem Name="Stats::CustomerIDAsMultiSelect" Required="0" Valid="0">
         <Description Lang="en">If you activate this option all CustomerIDs will be shown in a multi-select field (Not useful if you have a lot of CustomerIDs).</Description>
-        <Description Lang="de">Wenn diese Option aktiviert wird, werden die Kunden# in einem MultiSelectFeld dargestellt. Dadurch werden die Kunden# für die X-Achse und Wertereihen zugänglich (Nur bei einer begrenzten Anzahl von Kunden# sinnvoll.)</Description>
+        <Description Lang="de">Wenn diese Option aktiviert wird, werden die Kunden# in einem MultiSelectFeld dargestellt. Dadurch werden die Kunden# für die X-Achse und Wertereihen zugänglich (Nur bei einer begrenzten Anzahl von Kunden# sinnvoll).</Description>
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent::Stats</SubGroup>
         <Setting>
@@ -4990,31 +5052,31 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Core::MirrorDB::DSN" Required="0" Valid="0">
-      <Description Lang="en">If you want to use a mirror database for agent ticket fulltext search or to generate stats, specify the DSN to this database.</Description>
-      <Description Lang="de">Wenn eine Datenbank mit den gespiegelten Daten für die Volltextsuche oder für die Statistikerstellung genutzt werden soll, kann hier die DSN für diese Datenbank angegeben werden.</Description>
-      <Group>Framework</Group>
-      <SubGroup>Core::MirrorDB</SubGroup>
-      <Setting>
-        <String Regex="">DBI:mysql:database=mirrordb;host=mirrordbhost</String>
-      </Setting>
+        <Description Lang="en">If you want to use a mirror database for agent ticket fulltext search or to generate stats, specify the DSN to this database.</Description>
+        <Description Lang="de">Wenn eine Datenbank mit den gespiegelten Daten für die Volltextsuche oder für die Statistikerstellung genutzt werden soll, kann hier die DSN für diese Datenbank angegeben werden.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::MirrorDB</SubGroup>
+        <Setting>
+            <String Regex="">DBI:mysql:database=mirrordb;host=mirrordbhost</String>
+        </Setting>
     </ConfigItem>
     <ConfigItem Name="Core::MirrorDB::User" Required="0" Valid="0">
-      <Description Lang="en">If you want to use a mirror database for agent ticket fulltext search or to generate stats, you can specify the user to authenticate to this database.</Description>
-      <Description Lang="de">Wenn eine Datenbank mit den gespiegelten Daten für die Volltextsuche oder für die Statistikerstellung genutzt werden soll, kann hier der Benutzer angegeben werden, der für die Anmeldung an dieser Datenbank benötigt wird.</Description>
-      <Group>Framework</Group>
-      <SubGroup>Core::MirrorDB</SubGroup>
-      <Setting>
-        <String Regex="">some_user</String>
-      </Setting>
+        <Description Lang="en">If you want to use a mirror database for agent ticket fulltext search or to generate stats, you can specify the user to authenticate to this database.</Description>
+        <Description Lang="de">Wenn eine Datenbank mit den gespiegelten Daten für die Volltextsuche oder für die Statistikerstellung genutzt werden soll, kann hier der Benutzer angegeben werden, der für die Anmeldung an dieser Datenbank benötigt wird.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::MirrorDB</SubGroup>
+        <Setting>
+            <String Regex="">some_user</String>
+        </Setting>
     </ConfigItem>
     <ConfigItem Name="Core::MirrorDB::Password" Required="0" Valid="0">
-      <Description Lang="en">If you want to use a mirror database for agent ticket fulltext search or to generate stats, you can specify the password to authenticate to this database.</Description>
-      <Description Lang="de">Wenn eine Datenbank mit den gespiegelten Daten für die Volltextsuche oder für die Statistikerstellung genutzt werden soll, kann hier das Kennwort angegeben werden, das für die Anmeldung an dieser Datenbank benötigt wird.</Description>
-      <Group>Framework</Group>
-      <SubGroup>Core::MirrorDB</SubGroup>
-      <Setting>
-        <String Regex="">some_password</String>
-      </Setting>
+        <Description Lang="en">If you want to use a mirror database for agent ticket fulltext search or to generate stats, you can specify the password to authenticate to this database.</Description>
+        <Description Lang="de">Wenn eine Datenbank mit den gespiegelten Daten für die Volltextsuche oder für die Statistikerstellung genutzt werden soll, kann hier das Kennwort angegeben werden, das für die Anmeldung an dieser Datenbank benötigt wird.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::MirrorDB</SubGroup>
+        <Setting>
+            <String Regex="">some_password</String>
+        </Setting>
     </ConfigItem>
     <ConfigItem Name="LanguageDebug" Required="0" Valid="0">
         <Description Lang="en">Write all strings which have no translation in STDERR.</Description>

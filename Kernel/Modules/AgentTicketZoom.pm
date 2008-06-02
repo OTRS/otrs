@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.51 2008-05-08 09:58:00 mh Exp $
+# $Id: AgentTicketZoom.pm,v 1.52 2008-06-02 11:56:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -60,12 +60,8 @@ sub new {
             UserID => $Self->{UserID},
         );
     }
-
-    # customer user object
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
-
-    # link object
-    $Self->{LinkObject} = Kernel::System::LinkObject->new(%Param);
+    $Self->{LinkObject}         = Kernel::System::LinkObject->new(%Param);
 
     return $Self;
 }
@@ -326,8 +322,6 @@ sub MaskAgentZoom {
         @NewArticleBox = @ArticleBox;
     }
 
-    #
-
     # build shown article(s)
     my $Count      = 0;
     my $BodyOutput = '';
@@ -499,38 +493,88 @@ sub MaskAgentZoom {
                 );
             }
 
-            # get linked objects
-            my %Links = $Self->{LinkObject}->AllLinkedObjects(
-                Object   => 'Ticket',
-                ObjectID => $Self->{TicketID},
-                UserID   => $Self->{UserID},
+            # lookup the link state id
+            my $LinkStateID = $Self->{LinkObject}->StateLookup(
+                Name   => 'Valid',
+                UserID => $Self->{UserID},
             );
-            my %LinkTypeBox = ();
-            for my $LinkType (qw(Normal Parent Child)) {
-                if ( !$Links{$LinkType} ) {
-                    next;
-                }
-                my %ObjectType = %{ $Links{$LinkType} };
-                for my $Object ( sort keys %ObjectType ) {
-                    my %Data = %{ $ObjectType{$Object} };
-                    for my $Item ( sort keys %Data ) {
-                        if ( !$LinkTypeBox{$LinkType} ) {
-                            $Self->{LayoutObject}->Block(
-                                Name => 'Link',
-                                Data => {
-                                    %Param,
-                                    LinkType => $LinkType,
-                                },
-                            );
-                            $LinkTypeBox{$LinkType} = 1;
-                        }
+
+            # get linked objects
+            my $ExistingLinks = $Self->{LinkObject}->LinksGet(
+                Object  => 'Ticket',
+                Key     => $Self->{TicketID},
+                StateID => $LinkStateID,
+                UserID  => $Self->{UserID},
+            );
+
+            # prepare the output hash
+            for my $Object ( sort { lc $a cmp lc $b } keys %{$ExistingLinks} ) {
+
+                # get object description
+                my %ObjectDescription = $Self->{LinkObject}->ObjectDescriptionGet(
+                    Object => $Object,
+                    UserID => $Self->{UserID},
+                );
+
+                for my $Type ( sort { lc $a cmp lc $b } keys %{ $ExistingLinks->{$Object} } ) {
+
+                    # lookup type id
+                    my $TypeID = $Self->{LinkObject}->TypeLookup(
+                        Name   => $Type,
+                        UserID => $Self->{UserID},
+                    );
+
+                    # get type data
+                    my %TypeData = $Self->{LinkObject}->TypeGet(
+                        TypeID => $TypeID,
+                        UserID => $Self->{UserID},
+                    );
+
+                    for my $Direction ( keys %{ $ExistingLinks->{$Object}->{$Type} } ) {
+
+                        my $LinkTypeName = $Direction eq 'Target' ? $TypeData{TargetName} : $TypeData{SourceName};
+
                         $Self->{LayoutObject}->Block(
-                            Name => 'LinkItem',
+                            Name => 'Link',
                             Data => {
-                                %{ $Data{$Item} },
-                                LinkType => $LinkType,
+                                %Param,
+                                LinkTypeName => $LinkTypeName,
                             },
                         );
+
+                        for my $ItemKey ( @{ $ExistingLinks->{$Object}->{$Type}->{$Direction} } ) {
+
+                            # get item description
+                            my %ItemDescription = $Self->{LinkObject}->ItemDescriptionGet(
+                                Object => $Object,
+                                Key    => $ItemKey,
+                                UserID => $Self->{UserID},
+                            );
+
+                            # extract cell value
+                            my $Content = $ItemDescription{ItemData}->{ $ObjectDescription{Overview}->{Normal}->{Key} } || '';
+
+                            my $LinkString = $Self->{LayoutObject}->LinkObjectContentStringCreate(
+                                SourceObject => {
+                                    Object => 'Ticket',
+                                    Key    => $Self->{TicketID},
+                                },
+                                TargetObject => {
+                                    Object => $Object,
+                                    Key    => $ItemKey,
+                                },
+                                TargetItemDescription => \%ItemDescription,
+                                ColumnData => $ObjectDescription{Overview}->{Normal},
+                                Content    => $Content,
+                            );
+
+                            $Self->{LayoutObject}->Block(
+                                Name => 'LinkItem',
+                                Data => {
+                                    LinkString => $LinkString,
+                                },
+                            );
+                        }
                     }
                 }
             }
