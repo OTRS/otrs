@@ -2,13 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.657 2008-06-02 10:30:04 martin Exp $
+# $Id: CHANGES,v 1.658 2008-06-02 11:12:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 2.3.0 beta2 (2008/??/??)
+ - (2008/06/02) Fixed bug# 2902 - Salutation and Signature examples in the
+    admin interface are same.
  - (2008/06/02) Fixed bug# 2940 - Error/typo in DBUpdate-to-2.3.*.sql,
     'escalation_start_time' instead of 'escalation_update_time' is used.
  - (2008/06/01) Fixed bug# 2956 - Not working ticket escalation by using SLAs.
