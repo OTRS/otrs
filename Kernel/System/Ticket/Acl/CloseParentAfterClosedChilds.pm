@@ -3,7 +3,7 @@
 # - allow no parent close till all clients are closed -
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CloseParentAfterClosedChilds.pm,v 1.5 2008-05-08 10:28:15 mh Exp $
+# $Id: CloseParentAfterClosedChilds.pm,v 1.6 2008-06-02 13:06:42 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -49,17 +49,55 @@ sub Run {
 
     # check if child tickets are not closed
     if ( $Param{TicketID} && $Param{UserID} ) {
-        my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
-        $Self->{LinkObject} = Kernel::System::LinkObject->new( %Param, %{$Self} );
-        my %Link = $Self->{LinkObject}->LinkedObjects(
-            LinkType    => 'Child',
-            LinkObject1 => 'Ticket',
-            LinkID1     => $Param{TicketID},
-            LinkObject2 => 'Ticket',
+
+        # get ticket
+        my %Ticket = $Self->{TicketObject}->TicketGet(
+            TicketID => $Param{TicketID},
         );
+
+        $Self->{LinkObject} = Kernel::System::LinkObject->new(
+            %Param,
+            %{$Self},
+        );
+
+        # lookup the link type id
+        my $LinkTypeID = $Self->{LinkObject}->TypeLookup(
+            Name   => 'ParentChild',
+            UserID => $Param{UserID},
+        );
+
+        # lookup the link state id
+        my $LinkStateID = $Self->{LinkObject}->StateLookup(
+            Name   => 'Valid',
+            UserID => $Param{UserID},
+        );
+
+        # link tickets
+        my $Links = $Self->{LinkObject}->LinksGet(
+            Object  => 'Ticket',
+            Key     => $Param{TicketID},
+            StateID => $LinkStateID,
+            TypeID  => $LinkTypeID,
+            UserID  => $Param{UserID},
+        );
+
+        return 1 if !$Links;
+        return 1 if ref $Links ne 'HASH';
+        return 1 if !$Links->{Ticket};
+        return 1 if ref $Links->{Ticket} ne 'HASH';
+        return 1 if !$Links->{Ticket}->{ParentChild};
+        return 1 if ref $Links->{Ticket}->{ParentChild} ne 'HASH';
+        return 1 if !$Links->{Ticket}->{ParentChild}->{Target};
+        return 1 if ref $Links->{Ticket}->{ParentChild}->{Target} ne 'ARRAY';
+
         my $OpenSubTickets = 0;
-        for my $TicketID ( sort keys %Link ) {
-            my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
+        for my $TicketID ( sort @{ $Links->{Ticket}->{ParentChild}->{Target} } ) {
+
+            # get ticket
+            my %Ticket = $Self->{TicketObject}->TicketGet(
+                TicketID => $TicketID,
+            );
+
             if ( $Ticket{StateType} !~ /^(close|merge|remove)/ ) {
                 $OpenSubTickets = 1;
                 last;
