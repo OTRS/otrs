@@ -2,7 +2,7 @@
 # AgentLinkObject.dtl - provides HTML for AgentLinkObject mask
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.dtl,v 1.21 2008-06-02 11:56:29 mh Exp $
+# $Id: AgentLinkObject.dtl,v 1.22 2008-06-02 12:46:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td class="mainhead">
-      $Env{"Box0"}$Text{"Link Object: %s","$QData{"SourceItemDescriptionNormal"}$Env{"Box1"}
+      $Env{"Box0"}$Text{"Link Object: %s", "$Data{"SourceItemDescriptionNormal"}"}$Env{"Box1"}
     </td>
   </tr>
 </table>
@@ -116,7 +116,7 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td class="mainhead">
-      $Env{"Box0"}$Text{"Unlink Object: %s",$QData{"SourceItemDescriptionNormal"}$Env{"Box1"}
+      $Env{"Box0"}$Text{"Unlink Object: %s", "$QData{"SourceItemDescriptionNormal"}"}$Env{"Box1"}
     </td>
   </tr>
 </table>
