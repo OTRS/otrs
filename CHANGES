@@ -2,12 +2,16 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.125 2008-06-03 09:00:49 martin Exp $
+# $Id: CHANGES,v 1.465.2.126 2008-06-04 08:49:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
+
+2.2.8 (2008/??/??)
+ - (2008/06/04) Removed not wanted email rfc check in AgentTicketPhone and
+    AgentTicketEmail, it's already done by OTRS via config settings.
 
 2.2.7 (2008/06/04)
  - (2008/05/28) Fixed bug# 2891 - Typo in Bounce Customer notification
