@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.181 2008-06-01 22:31:57 martin Exp $
+# $Id: Article.pm,v 1.182 2008-06-04 14:42:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.181 $) [1];
+$VERSION = qw($Revision: 1.182 $) [1];
 
 =head1 NAME
 
@@ -200,9 +200,9 @@ sub ArticleCreate {
         # check if latest article comes from customer
         my $LastSender = '';
         $Self->{DBObject}->Prepare(
-            SQL => 'SELECT ast.name FROM article at, article_sender_type ast WHERE '
-                . ' at.ticket_id = ? AND at.id NOT IN (?) AND '
-                . ' at.article_sender_type_id = ast.id ORDER BY at.create_time ASC',
+            SQL => 'SELECT ast.name FROM article art, article_sender_type ast WHERE '
+                . ' art.ticket_id = ? AND art.id NOT IN (?) AND '
+                . ' art.article_sender_type_id = ast.id ORDER BY art.create_time ASC',
             Bind => [ \$Param{TicketID}, \$ArticleID ],
         );
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -1156,9 +1156,9 @@ sub ArticleIndex {
     # db query
     if ( $Param{SenderType} ) {
         $Self->{DBObject}->Prepare(
-            SQL => "SELECT at.id FROM article at, article_sender_type ast WHERE "
-                . " at.ticket_id = ? AND at.article_sender_type_id = ast.id AND "
-                . " ast.name = ? ORDER BY at.id",
+            SQL => "SELECT art.id FROM article art, article_sender_type ast WHERE "
+                . " art.ticket_id = ? AND art.article_sender_type_id = ast.id AND "
+                . " ast.name = ? ORDER BY art.id",
             Bind => [ \$Param{TicketID}, \$Param{SenderType} ],
         );
     }

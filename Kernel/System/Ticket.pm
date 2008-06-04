@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.321 2008-06-02 11:56:29 mh Exp $
+# $Id: Ticket.pm,v 1.322 2008-06-04 14:42:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.321 $) [1];
+$VERSION = qw($Revision: 1.322 $) [1];
 
 =head1 NAME
 
@@ -1827,13 +1827,13 @@ sub TicketEscalationIndexBuild {
         # check if first response is already done
         $Self->{DBObject}->Prepare(
             SQL => 'SELECT a.create_time,a.id FROM'
-                . ' article a, article_sender_type ast, article_type at'
+                . ' article a, article_sender_type ast, article_type art'
                 . ' WHERE'
                 . ' a.article_sender_type_id = ast.id AND'
-                . ' a.article_type_id = at.id AND'
+                . ' a.article_type_id = art.id AND'
                 . ' a.ticket_id = ? AND'
                 . ' ast.name = \'agent\' AND'
-                . ' (at.name LIKE \'email-ext%\' OR at.name = \'phone\' OR at.name = \'fax\')'
+                . ' (art.name LIKE \'email-ext%\' OR art.name = \'phone\' OR art.name = \'fax\')'
                 . ' ORDER BY a.create_time',
             Bind  => [ \$Ticket{TicketID} ],
             Limit => 1,
@@ -1885,9 +1885,9 @@ sub TicketEscalationIndexBuild {
         # check if latest article comes from customer
         my @LastSender;
         $Self->{DBObject}->Prepare(
-            SQL => 'SELECT ast.name, at.create_time FROM article at, article_sender_type ast '
-                . 'WHERE at.ticket_id = ? AND at.article_sender_type_id = ast.id '
-                . 'ORDER BY at.create_time ASC',
+            SQL => 'SELECT ast.name, art.create_time FROM article art, article_sender_type ast '
+                . 'WHERE art.ticket_id = ? AND art.article_sender_type_id = ast.id '
+                . 'ORDER BY art.create_time ASC',
             Bind => [ \$Param{TicketID} ],
         );
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -6565,6 +6565,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.321 $ $Date: 2008-06-02 11:56:29 $
+$Revision: 1.322 $ $Date: 2008-06-04 14:42:00 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleSearchIndex/RuntimeDB.pm - article search index backend runtime
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: RuntimeDB.pm,v 1.3 2008-05-08 09:36:21 mh Exp $
+# $Id: RuntimeDB.pm,v 1.4 2008-06-04 14:42:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub ArticleIndexBuild {
     my ( $Self, %Param ) = @_;
@@ -61,8 +61,8 @@ sub _ArticleIndexQuerySQL {
     my $SQLExt = '';
     for (qw(From To Cc Subject Body)) {
         if ( $Param{Data}->{$_} ) {
-            $SQL    = ', article at ';
-            $SQLExt = ' AND st.id = at.ticket_id';
+            $SQL    = ', article art ';
+            $SQLExt = ' AND st.id = art.ticket_id';
             last;
         }
     }
@@ -82,11 +82,11 @@ sub _ArticleIndexQuerySQLExt {
     }
 
     my %FieldSQLMapFullText = (
-        From    => 'at.a_from',
-        To      => 'at.a_to',
-        Cc      => 'at.a_cc',
-        Subject => 'at.a_subject',
-        Body    => 'at.a_body',
+        From    => 'art.a_from',
+        To      => 'art.a_to',
+        Cc      => 'art.a_cc',
+        Subject => 'art.a_subject',
+        Body    => 'art.a_body',
     );
     my $SQLExt      = '';
     my $FullTextSQL = '';
@@ -123,6 +123,10 @@ sub _ArticleIndexQuerySQLExt {
                 }
                 elsif ( $Self->{DBObject}->GetDatabaseFunction('LcaseLikeInLargeText') ) {
                     $FullTextSQL .= " LCASE($FieldSQLMapFullText{$Key}) LIKE LCASE('"
+                        . $Self->{DBObject}->Quote( $Param{Data}->{$Key}, 'Like' ) . "')";
+                }
+                elsif ( $Self->{DBObject}->GetDatabaseFunction('Type') eq 'ingres' ) {
+                    $FullTextSQL .= " LOWER(VARCHAR($FieldSQLMapFullText{$Key})) LIKE LOWER('"
                         . $Self->{DBObject}->Quote( $Param{Data}->{$Key}, 'Like' ) . "')";
                 }
                 else {
