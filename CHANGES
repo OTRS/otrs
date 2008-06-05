@@ -2,13 +2,19 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.659 2008-06-02 11:58:10 mh Exp $
+# $Id: CHANGES,v 1.660 2008-06-05 09:23:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
-2.3.0 beta2 (2008/??/??)
+
+2.3.0 beta3 (2008/06/??)
+ - (2008/06/05) Improved Kernel::System::Cache::File, moved cache type files
+    to sub directory of tmp/ to tmp/Cache/to have it clear where the cache
+    files are.
+
+2.3.0 beta2 (2008/06/02)
  - (2008/06/02) Moved to new link mechanism.
  - (2008/06/02) Fixed bug# 2902 - Salutation and Signature examples in the
     admin interface are same.

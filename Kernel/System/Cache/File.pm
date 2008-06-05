@@ -2,7 +2,7 @@
 # Kernel/System/Cache/File.pm - all cache functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: File.pm,v 1.13 2008-05-08 09:36:20 mh Exp $
+# $Id: File.pm,v 1.14 2008-06-05 09:23:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 umask 002;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -30,15 +30,18 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
-    $Self->{CacheDirectory} = $Self->{ConfigObject}->Get('TempDir');
+    my $TempDir = $Self->{ConfigObject}->Get('TempDir');
+    $Self->{CacheDirectory} = $TempDir . '/Cache/';
 
     # check if cache directory exists and in case create one
-    if ( !-e $Self->{CacheDirectory} ) {
-        if ( !mkdir( $Self->{CacheDirectory}, 0775 ) ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Can't create directory '$Self->{CacheDirectory}': $!",
-            );
+    for my $Directory ( $TempDir, $Self->{CacheDirectory} ) {
+        if ( !-e $Directory ) {
+            if ( !mkdir( $Directory, 0775 ) ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "Can't create directory '$Directory': $!",
+                );
+            }
         }
     }
 
