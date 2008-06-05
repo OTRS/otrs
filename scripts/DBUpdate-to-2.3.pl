@@ -3,7 +3,7 @@
 # DBUpdate-to-2.3.pl - update script to migrate OTRS 2.2.x to 2.3.x
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-2.3.pl,v 1.7 2008-05-16 07:19:37 martin Exp $
+# $Id: DBUpdate-to-2.3.pl,v 1.8 2008-06-05 16:48:05 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -207,8 +207,9 @@ sub MigrateLinkObject {
     return if !scalar @Links;
 
     # lookup the object state id
-    my $StateID = $CommonObject{LinkObject}->LinkStateLookup(
-        Name => 'Valid',
+    my $StateID = $CommonObject{LinkObject}->StateLookup(
+        Name   => 'Valid',
+        UserID => 1,
     );
 
     # add the new links
@@ -226,8 +227,9 @@ sub MigrateLinkObject {
         }
 
         # lookup the object type id
-        my $TypeID = $CommonObject{LinkObject}->LinkTypeLookup(
-            Name => $Type,
+        my $TypeID = $CommonObject{LinkObject}->TypeLookup(
+            Name   => $Type,
+            UserID => 1,
         );
 
         # add the link
