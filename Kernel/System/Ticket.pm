@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.322 2008-06-04 14:42:00 martin Exp $
+# $Id: Ticket.pm,v 1.323 2008-06-05 08:59:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.322 $) [1];
+$VERSION = qw($Revision: 1.323 $) [1];
 
 =head1 NAME
 
@@ -2276,7 +2276,9 @@ sub TicketFreeTextGet {
             Type => 'TicketFreeTextLookup',
             Key  => $Param{Type},
         );
-        if ($CacheData) {
+
+        # do cache lookup
+        if ( $CacheData && ref $CacheData eq 'HASH' ) {
             %Data = ( %{$CacheData}, %Data );
         }
 
@@ -6565,6 +6567,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.322 $ $Date: 2008-06-04 14:42:00 $
+$Revision: 1.323 $ $Date: 2008-06-05 08:59:41 $
 
 =cut
