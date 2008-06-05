@@ -43,6 +43,7 @@
 %dir /opt/otrs/var/spool/
 %dir /opt/otrs/var/cron/
 %dir /opt/otrs/var/tmp/
+%dir /opt/otrs/var/tmp/Cache
 %dir /opt/otrs/var/pics/stats/
 
 /opt/otrs/Kernel/cpan-lib*
