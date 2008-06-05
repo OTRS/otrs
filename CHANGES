@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.126 2008-06-04 08:49:28 martin Exp $
+# $Id: CHANGES,v 1.465.2.127 2008-06-05 08:59:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.2.8 (2008/??/??)
+ - (2008/06/05) Fixed bug# 2962 - Freetext cache problem, old used ticket
+    free text values get not added to pull down list in agent ticket search.
  - (2008/06/04) Removed not wanted email rfc check in AgentTicketPhone and
     AgentTicketEmail, it's already done by OTRS via config settings.
 

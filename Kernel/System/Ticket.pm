@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.275.2.16 2008-04-17 06:46:45 martin Exp $
+# $Id: Ticket.pm,v 1.275.2.17 2008-06-05 08:59:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.275.2.16 $';
+$VERSION = '$Revision: 1.275.2.17 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2250,14 +2250,16 @@ sub TicketFreeTextGet {
         my $CacheData;
         if ($Self->{MainObject}->Require('Kernel::System::Cache')) {
             $CacheObject = Kernel::System::Cache->new( %{ $Self } );
-        }
-        if ( $CacheObject ) {
-            $CacheData = $CacheObject->Get(
-                Key  => 'Ticket::' . $Param{Type},
-            );
-            if ( $CacheData ) {
-                %Data = ( %{ $CacheData }, %Data );
+            if ( $CacheObject ) {
+                $CacheData = $CacheObject->Get(
+                    Key  => 'Ticket::' . $Param{Type},
+                );
             }
+        }
+
+        # do cache lookup
+        if ( $CacheData && ref $CacheData eq 'HASH' ) {
+            %Data = ( %{ $CacheData }, %Data );
         }
 
         # do database lookup
@@ -6274,6 +6276,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.275.2.16 $ $Date: 2008-04-17 06:46:45 $
+$Revision: 1.275.2.17 $ $Date: 2008-06-05 08:59:09 $
 
 =cut
