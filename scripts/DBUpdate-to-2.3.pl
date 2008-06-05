@@ -3,7 +3,7 @@
 # DBUpdate-to-2.3.pl - update script to migrate OTRS 2.2.x to 2.3.x
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-2.3.pl,v 1.8 2008-06-05 16:48:05 mh Exp $
+# $Id: DBUpdate-to-2.3.pl,v 1.9 2008-06-05 18:17:23 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -39,6 +39,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 use Kernel::System::DB;
 use Kernel::System::Main;
+use Kernel::System::Config;
 use Kernel::System::Ticket;
 use Kernel::System::LinkObject;
 
@@ -58,12 +59,13 @@ $CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-DBUpdate-to-2.3',
     %CommonObject,
 );
-$CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{TimeObject}   = Kernel::System::Time->new(%CommonObject);
-$CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
-$CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
-$CommonObject{LinkObject}   = Kernel::System::LinkObject->new(
+$CommonObject{MainObject}      = Kernel::System::Main->new(%CommonObject);
+$CommonObject{EncodeObject}    = Kernel::System::Encode->new(%CommonObject);
+$CommonObject{TimeObject}      = Kernel::System::Time->new(%CommonObject);
+$CommonObject{DBObject}        = Kernel::System::DB->new(%CommonObject);
+$CommonObject{SysConfigObject} = Kernel::System::Config->new(%CommonObject);
+$CommonObject{TicketObject}    = Kernel::System::Ticket->new(%CommonObject);
+$CommonObject{LinkObject}      = Kernel::System::LinkObject->new(
     %CommonObject,
     UserID => 1,
 );
@@ -71,6 +73,7 @@ $CommonObject{LinkObject}   = Kernel::System::LinkObject->new(
 print STDOUT "Start migration of the system...\n\n";
 
 # start migration process
+RebuildConfig();
 MigrateServiceSLARelation();
 MigrateLinkObject();
 MigrateEscalation();
@@ -78,6 +81,30 @@ MigrateEscalation();
 print STDOUT "\nMigration of the system completed!\n";
 
 exit 0;
+
+=item RebuildConfig()
+
+rebuild config files (based on Kernel/Config/Files/*.xml)
+
+    RebuildConfig();
+
+=cut
+
+sub RebuildConfig {
+
+    print STDOUT "NOTICE: Rebuild config... ";
+
+    my $Success = $CommonObject{SysConfigObject}->WriteDefault();
+
+    if ($Success) {
+        print STDOUT " done.\n";
+    }
+    else {
+        print STDOUT " failed.\n";
+    }
+
+    return 1;
+}
 
 =item MigrateEscalation()
 
@@ -110,7 +137,7 @@ sub MigrateEscalation {
         );
     }
 
-    print STDOUT " done\n";
+    print STDOUT " done.\n";
 
     return 1;
 }
@@ -162,7 +189,7 @@ sub MigrateServiceSLARelation {
         );
     }
 
-    print STDOUT " done\n";
+    print STDOUT " done.\n";
 
     return 1;
 }
@@ -244,7 +271,7 @@ sub MigrateLinkObject {
         );
     }
 
-    print STDOUT " done\n";
+    print STDOUT " done.\n";
 
     return 1;
 }

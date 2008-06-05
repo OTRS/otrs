@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.662 2008-06-05 16:50:03 mh Exp $
+# $Id: CHANGES,v 1.663 2008-06-05 18:17:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,9 @@
 # --
 
 2.3.0 beta3 (2008/06/??)
+ - (2008/06/05) Fixed bug# 2969 - Unable to get past login screen - undefined
+    value as a HASH reference at
+    Kernel/System/Ticket/IndexAccelerator/RuntimeDB.pm line 57.
  - (2008/06/05) Fixed bug# 2960 - DBUpdate-to-2.3.pl script possibly fails.
  - (2008/06/05) Added enhancement bug# 2964 - Add hash sort to data dumper
     of Kernel::System::Main::Dump to get it better readable and comparable
