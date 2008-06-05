@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.25 2008-05-08 09:36:19 mh Exp $
+# $Id: Main.pm,v 1.26 2008-06-05 11:28:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Data::Dumper;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 =head1 NAME
 
@@ -639,6 +639,9 @@ sub Dump {
     # mild pretty print
     $Data::Dumper::Indent = 1;
 
+    # sort hash keys
+    $Data::Dumper::Sortkeys = 1;
+
     # This Dump() is using Data::Dumer with a utf8 workarounds to handle
     # the bug [rt.cpan.org #28607] Data::Dumper::Dumper is dumping utf8
     # strings as latin1/8bit instead of utf8. Use Storable module used for
@@ -745,6 +748,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2008-05-08 09:36:19 $
+$Revision: 1.26 $ $Date: 2008-06-05 11:28:22 $
 
 =cut
