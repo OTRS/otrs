@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.61 2008-06-01 22:31:57 martin Exp $
+# $Id: StaticDB.pm,v 1.62 2008-06-05 21:05:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 sub TicketAcceleratorUpdate {
     my ( $Self, %Param ) = @_;
@@ -253,10 +253,8 @@ sub TicketAcceleratorIndex {
 
     # get user groups
     my $Type = 'rw';
-    if (
-        $Self->{ConfigObject}->Get('Ticket::Frontend::AgentTicketQueue')->{ViewAllPossibleTickets}
-        )
-    {
+    my $AgentTicketQueue = $Self->{ConfigObject}->Get('Ticket::Frontend::AgentTicketQueue');
+    if ( $AgentTicketQueue && ref $AgentTicketQueue eq 'HASH' && $AgentTicketQueue->{ViewAllPossibleTickets} ) {
         $Type = 'ro';
     }
     my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
@@ -590,7 +588,7 @@ sub GetOverTimeTickets {
         Result                           => 'ARRAY',
         Limit                            => 100,
         TicketEscalationTimeOlderMinutes => -60,
-        UserID                           => $Param{UserID},
+        UserID                           => $Param{UserID} || 1,
     );
 
     # return overtime tickets
