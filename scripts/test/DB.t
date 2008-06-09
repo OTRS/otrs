@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.37 2008-06-04 16:27:43 martin Exp $
+# $Id: DB.t,v 1.38 2008-06-09 16:06:09 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -386,7 +386,7 @@ $Self->True(
 for my $SQL (@SQL) {
     $Self->True(
         $Self->{DBObject}->Do( SQL => $SQL ) || 0,
-        "#2 Do() CREATE TABLE ($SQL)",
+        "#2 Do() ALTER TABLE ($SQL)",
     );
 }
 
@@ -1069,6 +1069,603 @@ for my $SQL (@SQL) {
 }
 
 # ---
+# XML test 6 - default value test (create table)
+# ---
+$XML = '
+<TableCreate Name="test_e">
+    <Column Name="id" Required="true" Type="INTEGER"/>
+    <Column Name="name_a" Required="false" Default="1" Type="INTEGER" />
+    <Column Name="name_b" Required="false" Default="0" Type="INTEGER" />
+    <Column Name="name_c" Required="true" Default="2" Type="INTEGER" />
+    <Column Name="name_d" Required="true" Default="0" Type="INTEGER" />
+    <Column Name="name_e" Required="false" Default="Test1" Size="20" Type="VARCHAR" />
+    <Column Name="name_f" Required="false" Default="" Size="20" Type="VARCHAR" />
+    <Column Name="name_g" Required="true" Default="Test2" Size="20" Type="VARCHAR" />
+    <Column Name="name_h" Required="true" Default="" Size="20" Type="VARCHAR" />
+</TableCreate>
+';
+
+@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+
+@SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+$Self->True(
+    $SQL[0],
+    '#6 SQLProcessorPost() CREATE TABLE',
+);
+
+for my $SQL (@SQL) {
+    $Self->True(
+        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        "#6 Do() CREATE TABLE ($SQL)",
+    );
+}
+
+my $DefaultTest = [
+    {
+        Insert => {
+            name_a => 10,
+            name_b => 10,
+            name_c => 10,
+            name_d => 10,
+            name_e => q{'Test'},
+            name_f => q{'Test'},
+            name_g => q{'Test'},
+            name_h => q{'Test'},
+        },
+        Select => {
+            name_a => 10,
+            name_b => 10,
+            name_c => 10,
+            name_d => 10,
+            name_e => 'Test',
+            name_f => 'Test',
+            name_g => 'Test',
+            name_h => 'Test',
+        },
+    },
+    {
+        Insert => {
+            name_e => q{''},
+            name_f => q{''},
+            name_g => q{''},
+            name_h => q{''},
+        },
+        Select => {
+            name_a => 1,
+            name_b => 0,
+            name_c => 2,
+            name_d => 0,
+            name_e => '',
+            name_f => '',
+            name_g => '',
+            name_h => '',
+        },
+    },
+    {
+        Insert => {
+            name_a => 0,
+            name_b => 0,
+            name_c => 0,
+            name_d => 0,
+        },
+        Select => {
+            name_a => 0,
+            name_b => 0,
+            name_c => 0,
+            name_d => 0,
+            name_e => 'Test1',
+            name_f => '',
+            name_g => 'Test2',
+            name_h => '',
+        },
+    },
+];
+
+my $Counter2 = 1;
+for my $Test (@{$DefaultTest}) {
+
+    # create unique id
+    my $ID = int rand 30_000;
+
+    my @InsertColumnsSorted = sort { $a cmp $b } keys %{ $Test->{Insert} };
+    my @InsertValuesSorted  = map { $Test->{Insert}->{$_} } @InsertColumnsSorted;
+    my $InsertColumns = join q{, }, @InsertColumnsSorted;
+    my $InsertValues  = join q{, }, @InsertValuesSorted;
+
+    my $SQLInsert = "INSERT INTO test_e (id, $InsertColumns) VALUES ($ID, $InsertValues)";
+
+    $Self->True(
+        $Self->{DBObject}->Do( SQL => $SQLInsert ) || 0,
+        "#6.$Counter2 Do() INSERT",
+    );
+
+    for my $Column ( sort { $a cmp $b } keys %{ $Test->{Select} } ) {
+
+        my $SelectedValue;
+        my $ReferenceValue = $Test->{Select}->{$Column};
+
+        $Self->{DBObject}->Prepare(
+            SQL   => "SELECT $Column FROM test_e WHERE id = $ID",
+            Limit => 1,
+        );
+
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+
+            $SelectedValue  = defined $Row[0] ? $Row[0] : 'unittest-UNDEF';
+            $ReferenceValue = defined $ReferenceValue ? $ReferenceValue : 'unittest-UNDEF';
+
+            $Self->Is(
+                $SelectedValue,
+                $ReferenceValue,
+                "#6.$Counter2 SELECT check selected value",
+            );
+        }
+    }
+}
+continue {
+    $Counter2++;
+}
+
+$XML      = '<TableDrop Name="test_e"/>';
+@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+@SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+$Self->True(
+    $SQL[0],
+    '#6 SQLProcessorPost() DROP TABLE',
+);
+
+for my $SQL (@SQL) {
+    $Self->True(
+        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        "#6 Do() DROP TABLE ($SQL)",
+    );
+}
+
+# ---
+# XML test 7 - default value test (alter table)
+# ---
+$XML = '
+<TableCreate Name="test_f">
+    <Column Name="id" Required="true" Type="INTEGER"/>
+    <Column Name="name_a" Required="false" Type="INTEGER" />
+    <Column Name="name_b" Required="false" Default="0" Type="INTEGER" />
+    <Column Name="name_c" Required="false" Default="10" Type="INTEGER" />
+    <Column Name="name_d" Required="false" Size="20" Type="VARCHAR" />
+    <Column Name="name_e" Required="false" Default="" Size="20" Type="VARCHAR" />
+    <Column Name="name_f" Required="false" Default="Test1" Size="20" Type="VARCHAR" />
+</TableCreate>
+';
+@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+
+@SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+$Self->True(
+    $SQL[0],
+    '#7 SQLProcessorPost() CREATE TABLE',
+);
+
+for my $SQL (@SQL) {
+    $Self->True(
+        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        "#7 Do() CREATE TABLE ($SQL)",
+    );
+}
+
+my $DefaultTest2Insert = [
+    {
+        Insert => {
+            name_a => 100,
+            name_b => 100,
+            name_c => 100,
+            name_d => q{'Test'},
+            name_e => q{'Test'},
+            name_f => q{'Test'},
+        },
+        Select => {
+            name_a => 100,
+            name_b => 100,
+            name_c => 100,
+            name_d => 'Test',
+            name_e => 'Test',
+            name_f => 'Test',
+        },
+    },
+    {
+        Insert => {
+            name_d => q{''},
+            name_e => q{''},
+            name_f => q{''},
+        },
+        Select => {
+            name_a => undef,
+            name_b => 0,
+            name_c => 10,
+            name_d => '',
+            name_e => '',
+            name_f => '',
+        },
+    },
+    {
+        Insert => {
+            name_a => 0,
+            name_b => 0,
+            name_c => 0,
+        },
+        Select => {
+            name_a => 0,
+            name_b => 0,
+            name_c => 0,
+            name_d => undef,
+            name_e => '',
+            name_f => 'Test1',
+        },
+    },
+];
+
+my $Counter3 = 1;
+for my $Test (@{$DefaultTest2Insert}) {
+
+    # create unique id
+    my $ID = int rand 30_000;
+
+    my @InsertColumnsSorted = sort { $a cmp $b } keys %{ $Test->{Insert} };
+    my @InsertValuesSorted  = map { $Test->{Insert}->{$_} } @InsertColumnsSorted;
+    my $InsertColumns = join q{, }, @InsertColumnsSorted;
+    my $InsertValues  = join q{, }, @InsertValuesSorted;
+
+    my $SQLInsert = "INSERT INTO test_f (id, $InsertColumns) VALUES ($ID, $InsertValues)";
+
+    $Self->True(
+        $Self->{DBObject}->Do( SQL => $SQLInsert ) || 0,
+        "#7.$Counter3 Do() INSERT",
+    );
+
+    for my $Column ( sort { $a cmp $b } keys %{ $Test->{Select} } ) {
+
+        my $SelectedValue;
+        my $ReferenceValue = $Test->{Select}->{$Column};
+
+        $Self->{DBObject}->Prepare(
+            SQL   => "SELECT $Column FROM test_f WHERE id = $ID",
+            Limit => 1,
+        );
+
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+
+            $SelectedValue  = defined $Row[0] ? $Row[0] : 'unittest-UNDEF';
+            $ReferenceValue = defined $ReferenceValue ? $ReferenceValue : 'unittest-UNDEF';
+
+            $Self->Is(
+                $SelectedValue,
+                $ReferenceValue,
+                "#7.$Counter3 SELECT check selected value",
+            );
+        }
+    }
+}
+continue {
+    $Counter3++;
+}
+
+$XML = '
+<TableAlter Name="test_f">
+    <ColumnChange NameOld="name_a" NameNew="name_a" Required="false" Default="20" Type="INTEGER" />
+    <ColumnChange NameOld="name_b" NameNew="name_b" Required="false" Type="INTEGER" />
+    <ColumnChange NameOld="name_c" NameNew="name_c" Required="false" Default="0" Type="INTEGER" />
+    <ColumnChange NameOld="name_d" NameNew="name_d" Required="false" Default="Test1" Size="20" Type="VARCHAR" />
+    <ColumnChange NameOld="name_e" NameNew="name_e" Required="false" Size="20" Type="VARCHAR" />
+    <ColumnChange NameOld="name_f" NameNew="name_f" Required="false" Default="" Size="20" Type="VARCHAR" />
+    <ColumnAdd Name="name2_a" Required="false" Default="1" Type="INTEGER" />
+    <ColumnAdd Name="name2_b" Required="false" Default="0" Type="INTEGER" />
+    <ColumnAdd Name="name2_c" Required="true" Default="2" Type="INTEGER" />
+    <ColumnAdd Name="name2_d" Required="true" Default="0" Type="INTEGER" />
+    <ColumnAdd Name="name2_e" Required="false" Default="Test1" Size="20" Type="VARCHAR" />
+    <ColumnAdd Name="name2_f" Required="false" Default="" Size="20" Type="VARCHAR" />
+    <ColumnAdd Name="name2_g" Required="true" Default="Test2" Size="20" Type="VARCHAR" />
+    <ColumnAdd Name="name2_h" Required="true" Default="" Size="20" Type="VARCHAR" />
+    <ColumnAdd Name="name3_a" Required="false" Type="INTEGER" />
+    <ColumnAdd Name="name3_b" Required="false" Type="INTEGER" />
+    <ColumnAdd Name="name3_c" Required="false" Size="20" Type="VARCHAR" />
+    <ColumnAdd Name="name3_d" Required="false" Size="20" Type="VARCHAR" />
+</TableAlter>
+';
+@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+@SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+$Self->True(
+    $SQL[0],
+    '#7 SQLProcessorPost() ALTER TABLE',
+);
+
+for my $SQL (@SQL) {
+    $Self->True(
+        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        "#7 Do() ALTER TABLE ($SQL)",
+    );
+}
+
+my $DefaultTest2Alter1 = [
+    {
+        Insert => {
+            name_a => 10,
+            name_b => 10,
+            name_c => 10,
+            name_d => q{'Test'},
+            name_e => q{'Test'},
+            name_f => q{'Test'},
+            name2_a => 10,
+            name2_b => 10,
+            name2_c => 10,
+            name2_d => 10,
+            name2_e => q{'Test'},
+            name2_f => q{'Test'},
+            name2_g => q{'Test'},
+            name2_h => q{'Test'},
+        },
+        Select => {
+            name_a => 10,
+            name_b => 10,
+            name_c => 10,
+            name_d => 'Test',
+            name_e => 'Test',
+            name_f => 'Test',
+            name2_a => 10,
+            name2_b => 10,
+            name2_c => 10,
+            name2_d => 10,
+            name2_e => 'Test',
+            name2_f => 'Test',
+            name2_g => 'Test',
+            name2_h => 'Test',
+        },
+    },
+    {
+        Insert => {
+            name_d => q{''},
+            name_e => q{''},
+            name_f => q{''},
+            name2_e => q{''},
+            name2_f => q{''},
+            name2_g => q{''},
+            name2_h => q{''},
+        },
+        Select => {
+            name_a => 20,
+            name_b => undef,
+            name_c => 0,
+            name_d => '',
+            name_e => '',
+            name_f => '',
+            name2_a => 1,
+            name2_b => 0,
+            name2_c => 2,
+            name2_d => 0,
+            name2_e => '',
+            name2_f => '',
+            name2_g => '',
+            name2_h => '',
+        },
+    },
+    {
+        Insert => {
+            name_a => 0,
+            name_b => 0,
+            name_c => 0,
+            name2_a => 0,
+            name2_b => 0,
+            name2_c => 0,
+            name2_d => 0,
+        },
+        Select => {
+            name_a => 0,
+            name_b => 0,
+            name_c => 0,
+            name_d => 'Test1',
+            name_e => undef,
+            name_f => '',
+            name2_a => 0,
+            name2_b => 0,
+            name2_c => 0,
+            name2_d => 0,
+            name2_e => 'Test1',
+            name2_f => '',
+            name2_g => 'Test2',
+            name2_h => '',
+        },
+    },
+];
+
+my $Counter4 = 1;
+for my $Test (@{$DefaultTest2Alter1}) {
+
+    # create unique id
+    my $ID = int rand 30_000;
+
+    my @InsertColumnsSorted = sort { $a cmp $b } keys %{ $Test->{Insert} };
+    my @InsertValuesSorted  = map { $Test->{Insert}->{$_} } @InsertColumnsSorted;
+    my $InsertColumns = join q{, }, @InsertColumnsSorted;
+    my $InsertValues  = join q{, }, @InsertValuesSorted;
+
+    my $SQLInsert = "INSERT INTO test_f (id, $InsertColumns) VALUES ($ID, $InsertValues)";
+
+    $Self->True(
+        $Self->{DBObject}->Do( SQL => $SQLInsert ) || 0,
+        "#7.$Counter4 Do() INSERT",
+    );
+
+    for my $Column ( sort { $a cmp $b } keys %{ $Test->{Select} } ) {
+
+        my $SelectedValue;
+        my $ReferenceValue = $Test->{Select}->{$Column};
+
+        $Self->{DBObject}->Prepare(
+            SQL   => "SELECT $Column FROM test_f WHERE id = $ID",
+            Limit => 1,
+        );
+
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+
+            $SelectedValue  = defined $Row[0] ? $Row[0] : 'unittest-UNDEF';
+            $ReferenceValue = defined $ReferenceValue ? $ReferenceValue : 'unittest-UNDEF';
+
+            $Self->Is(
+                $SelectedValue,
+                $ReferenceValue,
+                "#7.$Counter4 SELECT check selected value:",
+            );
+        }
+    }
+}
+continue {
+    $Counter4++;
+}
+
+$XML = '
+<TableAlter Name="test_f">
+    <ColumnChange NameOld="name_a" NameNew="name_a" Required="true" Type="INTEGER" />
+    <ColumnChange NameOld="name_b" NameNew="name_b" Required="true" Default="0" Type="INTEGER" />
+    <ColumnChange NameOld="name_c" NameNew="name_c" Required="true" Default="0" Type="INTEGER" />
+    <ColumnChange NameOld="name_d" NameNew="name_d" Required="true" Default="Test1" Size="20" Type="VARCHAR" />
+    <ColumnChange NameOld="name_e" NameNew="name_e" Required="true" Size="20" Type="VARCHAR" />
+    <ColumnChange NameOld="name_f" NameNew="name_f" Required="true" Default="" Size="20" Type="VARCHAR" />
+    <ColumnDrop Name="name2_a" />
+    <ColumnDrop Name="name2_b" />
+    <ColumnDrop Name="name2_c" />
+    <ColumnDrop Name="name2_d" />
+    <ColumnDrop Name="name2_e" />
+    <ColumnDrop Name="name2_f" />
+    <ColumnDrop Name="name2_g" />
+    <ColumnDrop Name="name2_h" />
+    <ColumnChange NameOld="name3_a" NameNew="name3_a" Required="true" Default="0" Type="INTEGER" />
+    <ColumnChange NameOld="name3_b" NameNew="name3_b" Required="true" Default="1" Type="INTEGER" />
+    <ColumnChange NameOld="name3_c" NameNew="name3_c" Required="true" Default="" Size="20" Type="VARCHAR" />
+    <ColumnChange NameOld="name3_d" NameNew="name3_d" Required="true" Default="Test1" Size="20" Type="VARCHAR" />
+</TableAlter>
+';
+@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+@SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+$Self->True(
+    $SQL[0],
+    '#7 SQLProcessorPost() ALTER TABLE',
+);
+
+for my $SQL (@SQL) {
+    $Self->True(
+        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        "#7 Do() ALTER TABLE ($SQL)",
+    );
+}
+
+my $DefaultTest2Alter2 = [
+    {
+        Insert => {
+            name_a => 10,
+            name_b => 10,
+            name_c => 10,
+            name_d => q{'Test'},
+            name_e => q{'Test'},
+            name_f => q{'Test'},
+            name3_a => 10,
+            name3_b => 10,
+            name3_c => q{'Test'},
+            name3_d => q{'Test'},
+        },
+        Select => {
+            name_a => 10,
+            name_b => 10,
+            name_c => 10,
+            name_d => 'Test',
+            name_e => 'Test',
+            name_f => 'Test',
+            name3_a => 10,
+            name3_b => 10,
+            name3_c => 'Test',
+            name3_d => 'Test',
+        },
+    },
+    {
+        Insert => {
+            name_a => 10,
+            name_b => 10,
+            name_c => 10,
+            name_d => q{'Test'},
+            name_e => q{'Test'},
+            name_f => q{'Test'},
+        },
+        Select => {
+            name_a => 10,
+            name_b => 10,
+            name_c => 10,
+            name_d => 'Test',
+            name_e => 'Test',
+            name_f => 'Test',
+            name3_a => 0,
+            name3_b => 1,
+            name3_c => '',
+            name3_d => 'Test1',
+        },
+    },
+];
+
+my $Counter5 = 1;
+for my $Test (@{$DefaultTest2Alter2}) {
+
+    # create unique id
+    my $ID = int rand 30_000;
+
+    my @InsertColumnsSorted = sort { $a cmp $b } keys %{ $Test->{Insert} };
+    my @InsertValuesSorted  = map { $Test->{Insert}->{$_} } @InsertColumnsSorted;
+    my $InsertColumns = join q{, }, @InsertColumnsSorted;
+    my $InsertValues  = join q{, }, @InsertValuesSorted;
+
+    my $SQLInsert = "INSERT INTO test_f (id, $InsertColumns) VALUES ($ID, $InsertValues)";
+
+    $Self->True(
+        $Self->{DBObject}->Do( SQL => $SQLInsert ) || 0,
+        "#7.$Counter5 Do() INSERT",
+    );
+
+    for my $Column ( sort { $a cmp $b } keys %{ $Test->{Select} } ) {
+
+        my $SelectedValue;
+        my $ReferenceValue = $Test->{Select}->{$Column};
+
+        $Self->{DBObject}->Prepare(
+            SQL   => "SELECT $Column FROM test_f WHERE id = $ID",
+            Limit => 1,
+        );
+
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+
+            $SelectedValue  = defined $Row[0] ? $Row[0] : 'unittest-UNDEF';
+            $ReferenceValue = defined $ReferenceValue ? $ReferenceValue : 'unittest-UNDEF';
+
+            $Self->Is(
+                $SelectedValue,
+                $ReferenceValue,
+                "#7.$Counter5 SELECT check selected value: --> $Column",
+            );
+        }
+    }
+}
+continue {
+    $Counter5++;
+}
+
+$XML      = '<TableDrop Name="test_f"/>';
+@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+@SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+$Self->True(
+    $SQL[0],
+    '#7 SQLProcessorPost() DROP TABLE',
+);
+
+for my $SQL (@SQL) {
+    $Self->True(
+        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        "#7 Do() DROP TABLE ($SQL)",
+    );
+}
+
+# ---
 # QueryCondition tests
 # ---
 $XML = '
@@ -1081,13 +1678,13 @@ $XML = '
 @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
-    '#6 SQLProcessorPost() CREATE TABLE',
+    '#7 SQLProcessorPost() CREATE TABLE',
 );
 
 for my $SQL (@SQL) {
     $Self->True(
         $Self->{DBObject}->Do( SQL => $SQL ) || 0,
-        "#6 Do() CREATE TABLE ($SQL)",
+        "#7 Do() CREATE TABLE ($SQL)",
     );
 }
 
@@ -1103,7 +1700,7 @@ for my $Key ( sort keys %Fill ) {
             SQL => $SQL,
             )
             || 0,
-        "#6 Do() INSERT ($SQL)",
+        "#7 Do() INSERT ($SQL)",
     );
 }
 my @Queries = (
@@ -1304,7 +1901,7 @@ for my $Query (@Queries) {
         $Self->Is(
             $Result{$Check} || 0,
             $Query->{Result}->{$Check} || 0,
-            "#6 Do() SQL SELECT $Query->{Query} / $Check",
+            "#7 Do() SQL SELECT $Query->{Query} / $Check",
         );
     }
 }
@@ -1434,7 +2031,7 @@ for my $Query (@Queries) {
         $Self->Is(
             $Result{$Check} || 0,
             $Query->{Result}->{$Check} || 0,
-            "#6 Do() SQL SELECT $Query->{Query} / $Check",
+            "#7 Do() SQL SELECT $Query->{Query} / $Check",
         );
     }
 }
@@ -1443,13 +2040,13 @@ $XML      = '<TableDrop Name="test_condition"/>';
 @SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
-    '#6 SQLProcessorPost() DROP TABLE',
+    '#7 SQLProcessorPost() DROP TABLE',
 );
 
 for my $SQL (@SQL) {
     $Self->True(
         $Self->{DBObject}->Do( SQL => $SQL ) || 0,
-        "#6 Do() DROP TABLE ($SQL)",
+        "#7 Do() DROP TABLE ($SQL)",
     );
 }
 

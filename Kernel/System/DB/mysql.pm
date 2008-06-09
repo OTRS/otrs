@@ -2,7 +2,7 @@
 # Kernel/System/DB/mysql.pm - mysql database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: mysql.pm,v 1.38 2008-05-16 08:22:59 martin Exp $
+# $Id: mysql.pm,v 1.39 2008-06-09 16:06:09 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -54,12 +54,7 @@ sub LoadPreferences {
     #$Self->{'DB::ShellConnect'} = '';
 
     # init sql setting on db connect
-    if (
-        $Self->{ConfigObject}->Get('DefaultCharset')
-        =~ /(utf(\-8|8))/i
-        && !$Self->{ConfigObject}->Get('Database::ShellOutput')
-        )
-    {
+    if ( $Self->{ConfigObject}->Get('DefaultCharset') =~ /(utf(\-8|8))/i && !$Self->{ConfigObject}->Get('Database::ShellOutput') ) {
         $Self->{'DB::Connect'} = 'SET NAMES utf8';
     }
 
@@ -189,12 +184,15 @@ sub TableCreate {
         }
 
         # add default
-        if ( defined $Tag->{Default} ) {
+        if ( exists $Tag->{Default} ) {
+            if ( !defined $Tag->{Default} ) {
+                $Tag->{Default} = '';
+            };
             if ( $Tag->{Type} =~ /int/i ) {
-                $SQL .= " SET DEFAULT " . $Tag->{Default} . "";
+                $SQL .= " DEFAULT " . $Tag->{Default};
             }
             else {
-                $SQL .= " SET DEFAULT '" . $Tag->{Default} . "'";
+                $SQL .= " DEFAULT '" . $Tag->{Default} . "'";
             }
         }
 
@@ -314,7 +312,7 @@ sub TableAlter {
     my $SQLStart      = '';
     my @SQL           = ();
     my @Index         = ();
-    my $IndexName     = ();
+    my $IndexName     = '';
     my $ForeignTable  = '';
     my $ReferenceName = '';
     my @Reference     = ();
@@ -344,11 +342,16 @@ sub TableAlter {
 
             # normal data type
             my $SQLEnd = $SQLStart . " ADD $Tag->{Name} $Tag->{Type}";
-            if ( !defined $Tag->{Default} && $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
+            if ( !exists $Tag->{Default} && $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
                 $SQLEnd .= ' NOT NULL';
             }
             push @SQL, $SQLEnd;
-            if ( defined $Tag->{Default} ) {
+
+            # default
+            if ( exists $Tag->{Default} ) {
+                if ( !defined $Tag->{Default} ) {
+                    $Tag->{Default} = '';
+                };
                 if ( $Tag->{Type} =~ /int/i ) {
                     push @SQL,
                         "UPDATE $Table SET $Tag->{Name} = $Tag->{Default} WHERE $Tag->{Name} IS NULL";
@@ -357,10 +360,21 @@ sub TableAlter {
                     push @SQL,
                         "UPDATE $Table SET $Tag->{Name} = '$Tag->{Default}' WHERE $Tag->{Name} IS NULL";
                 }
-                if ( $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
-                    push @SQL,
-                        "ALTER TABLE $Table CHANGE $Tag->{Name} $Tag->{Name} $Tag->{Type} NOT NULL";
+
+                my $SQLEnd = "ALTER TABLE $Table CHANGE $Tag->{Name} $Tag->{Name} $Tag->{Type}";
+
+                if ( $Tag->{Type} =~ /int/i ) {
+                    $SQLEnd .= " DEFAULT " . $Tag->{Default};
                 }
+                else {
+                    $SQLEnd .= " DEFAULT '" . $Tag->{Default} . "'";
+                }
+
+                if ( $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
+                    $SQLEnd .= ' NOT NULL';
+                }
+
+                push @SQL, $SQLEnd;
             }
         }
         elsif ( $Tag->{Tag} eq 'ColumnChange' && $Tag->{TagType} eq 'Start' ) {
@@ -370,18 +384,40 @@ sub TableAlter {
 
             # normal data type
             my $SQLEnd = $SQLStart . " CHANGE $Tag->{NameOld} $Tag->{NameNew} $Tag->{Type}";
-            if ( $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
+            if ( !exists $Tag->{Default} && $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
                 $SQLEnd .= ' NOT NULL';
             }
-            if ( defined $Tag->{Default} ) {
+            push @SQL, $SQLEnd;
+
+            # default
+            if ( exists $Tag->{Default} ) {
+                if ( !defined $Tag->{Default} ) {
+                    $Tag->{Default} = '';
+                };
                 if ( $Tag->{Type} =~ /int/i ) {
-                    $SQLEnd .= " SET DEFAULT " . $Tag->{Default} . "";
+                    push @SQL,
+                        "UPDATE $Table SET $Tag->{NameNew} = $Tag->{Default} WHERE $Tag->{NameNew} IS NULL";
                 }
                 else {
-                    $SQLEnd .= " SET DEFAULT '" . $Tag->{Default} . "'";
+                    push @SQL,
+                        "UPDATE $Table SET $Tag->{NameNew} = '$Tag->{Default}' WHERE $Tag->{NameNew} IS NULL";
                 }
+
+                my $SQLEnd = "ALTER TABLE $Table CHANGE $Tag->{NameNew} $Tag->{NameNew} $Tag->{Type}";
+
+                if ( $Tag->{Type} =~ /int/i ) {
+                    $SQLEnd .= " DEFAULT " . $Tag->{Default};
+                }
+                else {
+                    $SQLEnd .= " DEFAULT '" . $Tag->{Default} . "'";
+                }
+
+                if ( $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
+                    $SQLEnd .= ' NOT NULL';
+                }
+
+                push @SQL, $SQLEnd;
             }
-            push @SQL, $SQLEnd;
         }
         elsif ( $Tag->{Tag} eq 'ColumnDrop' && $Tag->{TagType} eq 'Start' ) {
             my $SQLEnd = $SQLStart . " DROP $Tag->{Name}";
