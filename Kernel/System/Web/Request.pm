@@ -2,7 +2,7 @@
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Request.pm,v 1.23 2008-05-08 09:36:21 mh Exp $
+# $Id: Request.pm,v 1.24 2008-06-09 09:52:25 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 =head1 NAME
 
@@ -56,6 +56,10 @@ create param object
     );
     my $ParamObject = Kernel::System::Web::Request->new(
         ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+        EncodeObject => $EncodeObject,
+        MainObject   => $MainObject,
+
     );
 
 =cut
@@ -265,11 +269,11 @@ sub GetUploadAll {
 
         $Content = "$Path/$NewFileName";
 
-        open( my $Out, '>', $Content ) || die $!;
+        open my $Out, '>', $Content || die $!;
         while (<$Upload>) {
             print $Out $_;
         }
-        close($Out);
+        close $Out;
     }
 
     # check if content is there, IE is always sending file uploades
@@ -341,6 +345,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2008-05-08 09:36:21 $
+$Revision: 1.24 $ $Date: 2008-06-09 09:52:25 $
 
 =cut
