@@ -2,7 +2,7 @@
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Request.pm,v 1.24 2008-06-09 09:52:25 tr Exp $
+# $Id: Request.pm,v 1.25 2008-06-09 14:52:10 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 =head1 NAME
 
@@ -269,7 +269,7 @@ sub GetUploadAll {
 
         $Content = "$Path/$NewFileName";
 
-        open my $Out, '>', $Content || die $!;
+        open my $Out, '>', $Content or die $!;
         while (<$Upload>) {
             print $Out $_;
         }
@@ -345,6 +345,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2008-06-09 09:52:25 $
+$Revision: 1.25 $ $Date: 2008-06-09 14:52:10 $
 
 =cut

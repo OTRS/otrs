@@ -3,7 +3,7 @@
 # scripts/tools/charset-convert.pl - converts a text file from one to an other one charset
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: charset-convert.pl,v 1.6 2008-05-08 09:35:57 mh Exp $
+# $Id: charset-convert.pl,v 1.7 2008-06-09 14:52:11 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 # --
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 use strict;
 use warnings;
@@ -70,7 +70,7 @@ elsif ( !-f $Opts{f} ) {
 
 # read file
 else {
-    open my $IN, '<', $Opts{f} || die "Can't open $Opts{f}: $!\n";
+    open my $IN, '<', $Opts{f} or die "Can't open $Opts{f}: $!\n";
     $In = do { local $/; <$IN> };
     close $IN;
 }

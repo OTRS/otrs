@@ -3,7 +3,7 @@
 # syncuser_csv2otrs.pl - sync csv user list or otrs
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: syncuser_csv2otrs.pl,v 1.9 2008-05-08 09:35:57 mh Exp $
+# $Id: syncuser_csv2otrs.pl,v 1.10 2008-06-09 14:52:11 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -71,7 +71,7 @@ if ( !$Opts{s} ) {
 }
 
 # read csv file
-open my $In, '<', $Opts{s} || die "Can't read $Opts{s}: $!";
+open my $In, '<', $Opts{s} or die "Can't read $Opts{s}: $!";
 while (<$In>) {
     my @Line = split( /;/, $_ );
 

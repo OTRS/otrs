@@ -3,7 +3,7 @@
 # xml2html.pl - a "_simple_" xml2html viewer
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: xml2html.pl,v 1.13 2008-05-08 09:35:57 mh Exp $
+# $Id: xml2html.pl,v 1.14 2008-06-09 14:52:11 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -60,7 +60,7 @@ my $File        = shift;
 my $FileContent = '';
 
 if ($File) {
-    open my $IN, '<', $File || die "Can't open file $File: $!";
+    open my $IN, '<', $File or die "Can't open file $File: $!";
     $FileContent = do { local $/; <$IN> };
     close $IN;
 }
