@@ -2,7 +2,7 @@
 # Kernel/System/DB/mysql.pm - mysql database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: mysql.pm,v 1.42 2008-06-10 13:35:04 mh Exp $
+# $Id: mysql.pm,v 1.43 2008-06-10 15:36:12 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -185,12 +185,12 @@ sub TableCreate {
         # normal data type
         $SQL .= "    $Tag->{Name} $Tag->{Type}";
 
-        # add require
+        # handle require
         if ( $Tag->{Required} =~ /^true$/i ) {
             $SQL .= ' NOT NULL';
         }
 
-        # add default
+        # handle default
         if ( defined $Tag->{Default} ) {
             if ( $Tag->{Type} =~ /int/i ) {
                 $SQL .= " DEFAULT " . $Tag->{Default};
@@ -346,12 +346,14 @@ sub TableAlter {
 
             # normal data type
             my $SQLEnd = $SQLStart . " ADD $Tag->{Name} $Tag->{Type}";
+
+            # handle require
             if ( !defined $Tag->{Default} && $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
                 $SQLEnd .= ' NOT NULL';
             }
             push @SQL, $SQLEnd;
 
-            # default
+            # handle default
             if ( defined $Tag->{Default} ) {
                 if ( $Tag->{Type} =~ /int/i ) {
                     push @SQL,
@@ -385,12 +387,14 @@ sub TableAlter {
 
             # normal data type
             my $SQLEnd = $SQLStart . " CHANGE $Tag->{NameOld} $Tag->{NameNew} $Tag->{Type}";
+
+            # handle require
             if ( !defined $Tag->{Default} && $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
                 $SQLEnd .= ' NOT NULL';
             }
             push @SQL, $SQLEnd;
 
-            # default
+            # handle default
             if ( defined $Tag->{Default} ) {
                 if ( $Tag->{Type} =~ /int/i ) {
                     push @SQL,
