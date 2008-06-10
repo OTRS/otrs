@@ -2,7 +2,7 @@
 # Kernel/System/DB/postgresql.pm - postgresql database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: postgresql.pm,v 1.38 2008-05-16 08:22:59 martin Exp $
+# $Id: postgresql.pm,v 1.39 2008-06-10 16:40:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -191,10 +191,21 @@ sub TableCreate {
             }
         }
 
+        # default values
+        if ( defined $Tag->{Default} ) {
+            if ( $Tag->{Type} =~ /int/i ) {
+                $SQL .= " DEFAULT $Tag->{Default}";
+            }
+            else {
+                $SQL .= " DEFAULT '$Tag->{Default}'";
+            }
+        }
+
         # add primary key
         if ( $Tag->{PrimaryKey} && $Tag->{PrimaryKey} =~ /true/i ) {
             $PrimaryKey = "    PRIMARY KEY($Tag->{Name})";
         }
+
     }
 
     # add primary key
@@ -231,7 +242,7 @@ sub TableCreate {
                 TableName => $TableName,
                 Name      => $Name,
                 Data      => $Index{$Name},
-                )
+            ),
         );
     }
 
@@ -246,7 +257,7 @@ sub TableCreate {
                     Local            => $Array[$_]->{Local},
                     ForeignTableName => $ForeignKey,
                     Foreign          => $Array[$_]->{Foreign},
-                    )
+                ),
             );
         }
     }

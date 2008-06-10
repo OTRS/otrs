@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # Modified for DB2 UDB Friedmar Moch <friedmar@acm.org>
 # --
-# $Id: db2.pm,v 1.44 2008-05-08 09:36:20 mh Exp $
+# $Id: db2.pm,v 1.45 2008-06-10 16:40:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -194,6 +194,16 @@ sub TableCreate {
             $SQL .= ' NOT NULL';
         }
 
+        # default values
+        if ( defined $Tag->{Default} ) {
+            if ( $Tag->{Type} =~ /int/i ) {
+                $SQL .= " DEFAULT $Tag->{Default}";
+            }
+            else {
+                $SQL .= " DEFAULT '$Tag->{Default}'";
+            }
+        }
+
         # auto increment
         if ( $Tag->{AutoIncrement} && $Tag->{AutoIncrement} =~ /^true$/i ) {
             $SQL .= " GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1)";
@@ -239,7 +249,7 @@ sub TableCreate {
                 TableName => $TableName,
                 Name      => $Name,
                 Data      => $Index{$Name},
-                )
+            ),
         );
     }
 
@@ -254,7 +264,7 @@ sub TableCreate {
                     Local            => $Array[$_]->{Local},
                     ForeignTableName => $ForeignKey,
                     Foreign          => $Array[$_]->{Foreign},
-                    )
+                ),
             );
         }
     }
@@ -319,17 +329,16 @@ sub TableAlter {
             my $SQLEnd = $SQLStart . " ADD $Tag->{Name} $Tag->{Type}";
             if ( $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
                 $SQLEnd .= ' NOT NULL';
-                if ( $Tag->{Type} =~ /int/i ) {
-                    $Tag->{Default} ||= 0;
-                }
-                else {
-                    $Tag->{Default} ||= "''";
-                }
             }
 
             # default value
             if ( defined $Tag->{Default} ) {
-                $SQLEnd .= " DEFAULT $Tag->{Default}";
+                if ( $Tag->{Type} =~ /int/i ) {
+                    $SQLEnd .= " DEFAULT $Tag->{Default}";
+                }
+                else {
+                    $SQLEnd .= " DEFAULT '$Tag->{Default}'";
+                }
             }
 
             # auto increment
