@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.39 2008-06-10 09:58:36 mh Exp $
+# $Id: DB.t,v 1.40 2008-06-10 13:36:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -1125,20 +1125,22 @@ my $DefaultTest = [
     },
     {
         Insert => {
+            name_c => 10,
+            name_d => 10,
             name_e => q{''},
             name_f => q{''},
-            name_g => q{''},
-            name_h => q{''},
+            name_g => q{'Test'},
+            name_h => q{'Test'},
         },
         Select => {
             name_a => 1,
             name_b => 0,
-            name_c => 2,
-            name_d => 0,
+            name_c => 10,
+            name_d => 10,
             name_e => '',
             name_f => '',
-            name_g => '',
-            name_h => '',
+            name_g => 'Test',
+            name_h => 'Test',
         },
     },
     {
@@ -1422,10 +1424,12 @@ my $DefaultTest2Alter1 = [
             name_d  => q{''},
             name_e  => q{''},
             name_f  => q{''},
+            name2_c => 10,
+            name2_d => 10,
             name2_e => q{''},
             name2_f => q{''},
-            name2_g => q{''},
-            name2_h => q{''},
+            name2_g => q{'Test'},
+            name2_h => q{'Test'},
         },
         Select => {
             name_a  => 20,
@@ -1436,12 +1440,12 @@ my $DefaultTest2Alter1 = [
             name_f  => '',
             name2_a => 1,
             name2_b => 0,
-            name2_c => 2,
-            name2_d => 0,
+            name2_c => 10,
+            name2_d => 10,
             name2_e => '',
             name2_f => '',
-            name2_g => '',
-            name2_h => '',
+            name2_g => 'Test',
+            name2_h => 'Test',
         },
     },
     {
@@ -1453,6 +1457,8 @@ my $DefaultTest2Alter1 = [
             name2_b => 0,
             name2_c => 0,
             name2_d => 0,
+            name2_g => q{'Test'},
+            name2_h => q{'Test'},
         },
         Select => {
             name_a  => 0,
@@ -1467,8 +1473,8 @@ my $DefaultTest2Alter1 = [
             name2_d => 0,
             name2_e => 'Test1',
             name2_f => '',
-            name2_g => 'Test2',
-            name2_h => '',
+            name2_g => 'Test',
+            name2_h => 'Test',
         },
     },
 ];
@@ -1579,28 +1585,6 @@ my $DefaultTest2Alter2 = [
             name3_b => 10,
             name3_c => 'Test',
             name3_d => 'Test',
-        },
-    },
-    {
-        Insert => {
-            name_a => 10,
-            name_b => 10,
-            name_c => 10,
-            name_d => q{'Test'},
-            name_e => q{'Test'},
-            name_f => q{'Test'},
-        },
-        Select => {
-            name_a  => 10,
-            name_b  => 10,
-            name_c  => 10,
-            name_d  => 'Test',
-            name_e  => 'Test',
-            name_f  => 'Test',
-            name3_a => 0,
-            name3_b => 1,
-            name3_c => '',
-            name3_d => 'Test1',
         },
     },
 ];
