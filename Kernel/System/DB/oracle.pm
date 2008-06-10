@@ -2,7 +2,7 @@
 # Kernel/System/DB/oracle.pm - oracle database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: oracle.pm,v 1.46 2008-06-01 20:28:19 martin Exp $
+# $Id: oracle.pm,v 1.47 2008-06-10 14:53:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -177,8 +177,20 @@ sub TableCreate {
 
         # normal data type
         $SQL .= "    $Tag->{Name} $Tag->{Type}";
+
+        # add require
         if ( $Tag->{Required} =~ /^true$/i ) {
             $SQL .= ' NOT NULL';
+        }
+
+        # add default
+        if ( defined $Tag->{Default} ) {
+            if ( $Tag->{Type} =~ /int/i ) {
+                $SQL .= " DEFAULT " . $Tag->{Default};
+            }
+            else {
+                $SQL .= " DEFAULT '" . $Tag->{Default} . "'";
+            }
         }
 
         # add primary key
@@ -352,8 +364,13 @@ sub TableAlter {
 
             # normal data type
             my $SQLEnd = $SQLStart . " ADD $Tag->{Name} $Tag->{Type}";
+
+            # add require
             if ( !defined $Tag->{Default} && $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
                 $SQLEnd .= ' NOT NULL';
+            }
+            else {
+                $SQLEnd .= ' NULL';
             }
 
             # auto increment
@@ -367,7 +384,7 @@ sub TableAlter {
             }
             push @SQL, $SQLEnd;
 
-            # default values
+            # default
             if ( defined $Tag->{Default} ) {
                 if ( $Tag->{Type} =~ /int/i ) {
                     push @SQL,
@@ -377,9 +394,24 @@ sub TableAlter {
                     push @SQL,
                         "UPDATE $Table SET $Tag->{Name} = '$Tag->{Default}' WHERE $Tag->{Name} IS NULL";
                 }
-                if ( $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
-                    push @SQL, "ALTER TABLE $Table MODIFY $Tag->{Name} $Tag->{Type} NOT NULL";
+
+                my $SQLEnd = "ALTER TABLE $Table MODIFY $Tag->{Name} $Tag->{Type}";
+
+                if ( $Tag->{Type} =~ /int/i ) {
+                    $SQLEnd .= " DEFAULT " . $Tag->{Default};
                 }
+                else {
+                    $SQLEnd .= " DEFAULT '" . $Tag->{Default} . "'";
+                }
+
+                if ( $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
+                    $SQLEnd .= ' NOT NULL';
+                }
+                else {
+                    $SQLEnd .= ' NULL';
+                }
+
+                push @SQL, $SQLEnd;
             }
         }
         elsif ( $Tag->{Tag} eq 'ColumnChange' && $Tag->{TagType} eq 'Start' ) {
@@ -400,11 +432,10 @@ sub TableAlter {
                 $Tag->{Name} = $Tag->{NameOld};
             }
             my $SQLEnd = $SQLStart . " MODIFY $Tag->{Name} $Tag->{Type}";
-            if ( $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
+
+            # add require
+            if ( !defined $Tag->{Default} && $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
                 $SQLEnd .= ' NOT NULL';
-            }
-            else {
-                $SQLEnd .= ' NULL';
             }
 
             # auto increment
@@ -417,6 +448,36 @@ sub TableAlter {
                 $SQLEnd .= " PRIMARY KEY($Tag->{Name})";
             }
             push @SQL, $SQLEnd;
+
+            # default
+            if ( defined $Tag->{Default} ) {
+                if ( $Tag->{Type} =~ /int/i ) {
+                    push @SQL,
+                        "UPDATE $Table SET $Tag->{Name} = $Tag->{Default} WHERE $Tag->{Name} IS NULL";
+                }
+                else {
+                    push @SQL,
+                        "UPDATE $Table SET $Tag->{Name} = '$Tag->{Default}' WHERE $Tag->{Name} IS NULL";
+                }
+
+                my $SQLEnd = "ALTER TABLE $Table MODIFY $Tag->{Name} $Tag->{Type}";
+
+                if ( $Tag->{Type} =~ /int/i ) {
+                    $SQLEnd .= " DEFAULT " . $Tag->{Default};
+                }
+                else {
+                    $SQLEnd .= " DEFAULT '" . $Tag->{Default} . "'";
+                }
+
+                if ( $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
+                    $SQLEnd .= ' NOT NULL';
+                }
+                else {
+                    $SQLEnd .= ' NULL';
+                }
+
+                push @SQL, $SQLEnd;
+            }
         }
         elsif ( $Tag->{Tag} eq 'ColumnDrop' && $Tag->{TagType} eq 'Start' ) {
             my $SQLEnd = $SQLStart . " DROP COLUMN $Tag->{Name}";
