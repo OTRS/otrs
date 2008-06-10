@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.75 2008-05-08 09:36:19 mh Exp $
+# $Id: XML.pm,v 1.76 2008-06-10 08:56:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Encode;
 use Kernel::System::Cache;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.75 $) [1];
+$VERSION = qw($Revision: 1.76 $) [1];
 
 =head1 NAME
 
@@ -1228,7 +1228,7 @@ sub _XMLStructure2XMLHash {
 
 parse a xml file
 
-    my @XMLStructure = $XMLObject->XMLParse(String => $FileString);
+    my @XMLStructure = $XMLObject->XMLParse( String => $FileString );
 
 =cut
 
@@ -1267,8 +1267,13 @@ sub XMLParse {
     my $UseFallback = 1;
 
     if ( eval 'require XML::Parser' ) {
-        my $Parser
-            = XML::Parser->new( Handlers => { Start => \&_HS, End => \&_ES, Char => \&_CS } );
+        my $Parser = XML::Parser->new(
+            Handlers => {
+                Start => \&_HS,
+                End   => \&_ES,
+                Char  => \&_CS,
+            },
+        );
 
         if ( eval { $Parser->parse( $Param{String} ) } ) {
             $UseFallback = 0;
@@ -1285,8 +1290,13 @@ sub XMLParse {
     if ($UseFallback) {
         require XML::Parser::Lite;
 
-        my $Parser
-            = XML::Parser::Lite->new( Handlers => { Start => \&_HS, End => \&_ES, Char => \&_CS } );
+        my $Parser = XML::Parser::Lite->new(
+            Handlers => {
+                Start => \&_HS,
+                End   => \&_ES,
+                Char  => \&_CS,
+            },
+        );
         $Parser->parse( $Param{String} );
     }
 
@@ -1308,7 +1318,7 @@ sub _Decode {
         }
 
         # decode
-        elsif ( defined( $A->{$_} ) ) {
+        elsif ( defined $A->{$_} ) {
             $A->{$_} =~ s/&amp;/&/g;
             $A->{$_} =~ s/&lt;/</g;
             $A->{$_} =~ s/&gt;/>/g;
@@ -1356,6 +1366,7 @@ sub _HS {
         $Key .= "{'$S->{XMLLevelTag}->{$_}'}";
         $Key .= "[" . $S->{XMLLevelCount}->{$_}->{ $S->{XMLLevelTag}->{$_} } . "]";
     }
+
     $S->{LastTag} = {
         %Attr,
         TagType  => 'Start',
@@ -1416,6 +1427,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.75 $ $Date: 2008-05-08 09:36:19 $
+$Revision: 1.76 $ $Date: 2008-06-10 08:56:52 $
 
 =cut
