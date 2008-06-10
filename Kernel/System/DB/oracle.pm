@@ -2,7 +2,7 @@
 # Kernel/System/DB/oracle.pm - oracle database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: oracle.pm,v 1.47 2008-06-10 14:53:00 mh Exp $
+# $Id: oracle.pm,v 1.48 2008-06-10 15:35:04 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -178,12 +178,7 @@ sub TableCreate {
         # normal data type
         $SQL .= "    $Tag->{Name} $Tag->{Type}";
 
-        # add require
-        if ( $Tag->{Required} =~ /^true$/i ) {
-            $SQL .= ' NOT NULL';
-        }
-
-        # add default
+        # handle default
         if ( defined $Tag->{Default} ) {
             if ( $Tag->{Type} =~ /int/i ) {
                 $SQL .= " DEFAULT " . $Tag->{Default};
@@ -191,6 +186,11 @@ sub TableCreate {
             else {
                 $SQL .= " DEFAULT '" . $Tag->{Default} . "'";
             }
+        }
+
+        # handle require
+        if ( $Tag->{Required} =~ /^true$/i ) {
+            $SQL .= ' NOT NULL';
         }
 
         # add primary key
@@ -365,7 +365,7 @@ sub TableAlter {
             # normal data type
             my $SQLEnd = $SQLStart . " ADD $Tag->{Name} $Tag->{Type}";
 
-            # add require
+            # handle require
             if ( !defined $Tag->{Default} && $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
                 $SQLEnd .= ' NOT NULL';
             }
@@ -384,7 +384,7 @@ sub TableAlter {
             }
             push @SQL, $SQLEnd;
 
-            # default
+            # handle default
             if ( defined $Tag->{Default} ) {
                 if ( $Tag->{Type} =~ /int/i ) {
                     push @SQL,
@@ -397,18 +397,18 @@ sub TableAlter {
 
                 my $SQLEnd = "ALTER TABLE $Table MODIFY $Tag->{Name} $Tag->{Type}";
 
-                if ( $Tag->{Type} =~ /int/i ) {
-                    $SQLEnd .= " DEFAULT " . $Tag->{Default};
-                }
-                else {
-                    $SQLEnd .= " DEFAULT '" . $Tag->{Default} . "'";
-                }
-
                 if ( $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
                     $SQLEnd .= ' NOT NULL';
                 }
                 else {
                     $SQLEnd .= ' NULL';
+                }
+
+                if ( $Tag->{Type} =~ /int/i ) {
+                    $SQLEnd .= " DEFAULT " . $Tag->{Default};
+                }
+                else {
+                    $SQLEnd .= " DEFAULT '" . $Tag->{Default} . "'";
                 }
 
                 push @SQL, $SQLEnd;
@@ -433,7 +433,7 @@ sub TableAlter {
             }
             my $SQLEnd = $SQLStart . " MODIFY $Tag->{Name} $Tag->{Type}";
 
-            # add require
+            # handle require
             if ( !defined $Tag->{Default} && $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
                 $SQLEnd .= ' NOT NULL';
             }
@@ -449,7 +449,7 @@ sub TableAlter {
             }
             push @SQL, $SQLEnd;
 
-            # default
+            # handle default
             if ( defined $Tag->{Default} ) {
                 if ( $Tag->{Type} =~ /int/i ) {
                     push @SQL,
@@ -462,18 +462,18 @@ sub TableAlter {
 
                 my $SQLEnd = "ALTER TABLE $Table MODIFY $Tag->{Name} $Tag->{Type}";
 
-                if ( $Tag->{Type} =~ /int/i ) {
-                    $SQLEnd .= " DEFAULT " . $Tag->{Default};
-                }
-                else {
-                    $SQLEnd .= " DEFAULT '" . $Tag->{Default} . "'";
-                }
-
                 if ( $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
                     $SQLEnd .= ' NOT NULL';
                 }
                 else {
                     $SQLEnd .= ' NULL';
+                }
+
+                if ( $Tag->{Type} =~ /int/i ) {
+                    $SQLEnd .= " DEFAULT " . $Tag->{Default};
+                }
+                else {
+                    $SQLEnd .= " DEFAULT '" . $Tag->{Default} . "'";
                 }
 
                 push @SQL, $SQLEnd;
