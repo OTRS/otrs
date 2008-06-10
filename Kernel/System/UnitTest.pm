@@ -2,7 +2,7 @@
 # Kernel/System/UnitTest.pm - the global test wrapper
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.18 2008-05-11 13:43:23 martin Exp $
+# $Id: UnitTest.pm,v 1.19 2008-06-10 10:46:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -105,6 +105,7 @@ sub new {
     }
 
     $Self->{XML} = undef;
+    $Self->{XMLUnit} = '';
 
     return $Self;
 }
@@ -347,13 +348,13 @@ sub Is {
         $Self->_Print( 1, "$Name (is 'undef')" );
         return 1;
     }
-    elsif ( !defined $Test && $ShouldBe ) {
+    elsif ( !defined $Test && defined $ShouldBe ) {
         $Self->_Print( 0, "$Name (is 'undef' should be '$ShouldBe')" );
-        return 1;
+        return;
     }
-    elsif ( $Test && !defined $ShouldBe ) {
+    elsif ( defined $Test && !defined $ShouldBe ) {
         $Self->_Print( 0, "$Name (is '$Test' should be 'undef')" );
-        return 1;
+        return;
     }
     elsif ( $Test eq $ShouldBe ) {
         $Self->_Print( 1, "$Name (is '$ShouldBe')" );
@@ -387,13 +388,13 @@ sub IsNot {
 
     if ( !defined $Test && !defined $ShouldBe ) {
         $Self->_Print( 0, "$Name (is 'undef')" );
-        return 1;
+        return;
     }
-    elsif ( !defined $Test && $ShouldBe ) {
+    elsif ( !defined $Test && defined $ShouldBe ) {
         $Self->_Print( 1, "$Name (is 'undef')" );
         return 1;
     }
-    elsif ( $Test && !defined $ShouldBe ) {
+    elsif ( defined $Test && !defined $ShouldBe ) {
         $Self->_Print( 1, "$Name (is '$Test')" );
         return 1;
     }
@@ -542,6 +543,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2008-05-11 13:43:23 $
+$Revision: 1.19 $ $Date: 2008-06-10 10:46:19 $
 
 =cut
