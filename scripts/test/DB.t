@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.38 2008-06-09 16:06:09 mh Exp $
+# $Id: DB.t,v 1.39 2008-06-10 09:58:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -1162,13 +1162,13 @@ my $DefaultTest = [
 ];
 
 my $Counter2 = 1;
-for my $Test (@{$DefaultTest}) {
+for my $Test ( @{$DefaultTest} ) {
 
     # create unique id
     my $ID = int rand 30_000;
 
     my @InsertColumnsSorted = sort { $a cmp $b } keys %{ $Test->{Insert} };
-    my @InsertValuesSorted  = map { $Test->{Insert}->{$_} } @InsertColumnsSorted;
+    my @InsertValuesSorted  = map  { $Test->{Insert}->{$_} } @InsertColumnsSorted;
     my $InsertColumns = join q{, }, @InsertColumnsSorted;
     my $InsertValues  = join q{, }, @InsertValuesSorted;
 
@@ -1191,7 +1191,7 @@ for my $Test (@{$DefaultTest}) {
 
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
-            $SelectedValue  = defined $Row[0] ? $Row[0] : 'unittest-UNDEF';
+            $SelectedValue  = defined $Row[0]         ? $Row[0]         : 'unittest-UNDEF';
             $ReferenceValue = defined $ReferenceValue ? $ReferenceValue : 'unittest-UNDEF';
 
             $Self->Is(
@@ -1302,13 +1302,13 @@ my $DefaultTest2Insert = [
 ];
 
 my $Counter3 = 1;
-for my $Test (@{$DefaultTest2Insert}) {
+for my $Test ( @{$DefaultTest2Insert} ) {
 
     # create unique id
     my $ID = int rand 30_000;
 
     my @InsertColumnsSorted = sort { $a cmp $b } keys %{ $Test->{Insert} };
-    my @InsertValuesSorted  = map { $Test->{Insert}->{$_} } @InsertColumnsSorted;
+    my @InsertValuesSorted  = map  { $Test->{Insert}->{$_} } @InsertColumnsSorted;
     my $InsertColumns = join q{, }, @InsertColumnsSorted;
     my $InsertValues  = join q{, }, @InsertValuesSorted;
 
@@ -1331,7 +1331,7 @@ for my $Test (@{$DefaultTest2Insert}) {
 
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
-            $SelectedValue  = defined $Row[0] ? $Row[0] : 'unittest-UNDEF';
+            $SelectedValue  = defined $Row[0]         ? $Row[0]         : 'unittest-UNDEF';
             $ReferenceValue = defined $ReferenceValue ? $ReferenceValue : 'unittest-UNDEF';
 
             $Self->Is(
@@ -1385,12 +1385,12 @@ for my $SQL (@SQL) {
 my $DefaultTest2Alter1 = [
     {
         Insert => {
-            name_a => 10,
-            name_b => 10,
-            name_c => 10,
-            name_d => q{'Test'},
-            name_e => q{'Test'},
-            name_f => q{'Test'},
+            name_a  => 10,
+            name_b  => 10,
+            name_c  => 10,
+            name_d  => q{'Test'},
+            name_e  => q{'Test'},
+            name_f  => q{'Test'},
             name2_a => 10,
             name2_b => 10,
             name2_c => 10,
@@ -1401,12 +1401,12 @@ my $DefaultTest2Alter1 = [
             name2_h => q{'Test'},
         },
         Select => {
-            name_a => 10,
-            name_b => 10,
-            name_c => 10,
-            name_d => 'Test',
-            name_e => 'Test',
-            name_f => 'Test',
+            name_a  => 10,
+            name_b  => 10,
+            name_c  => 10,
+            name_d  => 'Test',
+            name_e  => 'Test',
+            name_f  => 'Test',
             name2_a => 10,
             name2_b => 10,
             name2_c => 10,
@@ -1419,21 +1419,21 @@ my $DefaultTest2Alter1 = [
     },
     {
         Insert => {
-            name_d => q{''},
-            name_e => q{''},
-            name_f => q{''},
+            name_d  => q{''},
+            name_e  => q{''},
+            name_f  => q{''},
             name2_e => q{''},
             name2_f => q{''},
             name2_g => q{''},
             name2_h => q{''},
         },
         Select => {
-            name_a => 20,
-            name_b => undef,
-            name_c => 0,
-            name_d => '',
-            name_e => '',
-            name_f => '',
+            name_a  => 20,
+            name_b  => undef,
+            name_c  => 0,
+            name_d  => '',
+            name_e  => '',
+            name_f  => '',
             name2_a => 1,
             name2_b => 0,
             name2_c => 2,
@@ -1446,21 +1446,21 @@ my $DefaultTest2Alter1 = [
     },
     {
         Insert => {
-            name_a => 0,
-            name_b => 0,
-            name_c => 0,
+            name_a  => 0,
+            name_b  => 0,
+            name_c  => 0,
             name2_a => 0,
             name2_b => 0,
             name2_c => 0,
             name2_d => 0,
         },
         Select => {
-            name_a => 0,
-            name_b => 0,
-            name_c => 0,
-            name_d => 'Test1',
-            name_e => undef,
-            name_f => '',
+            name_a  => 0,
+            name_b  => 0,
+            name_c  => 0,
+            name_d  => 'Test1',
+            name_e  => undef,
+            name_f  => '',
             name2_a => 0,
             name2_b => 0,
             name2_c => 0,
@@ -1474,13 +1474,13 @@ my $DefaultTest2Alter1 = [
 ];
 
 my $Counter4 = 1;
-for my $Test (@{$DefaultTest2Alter1}) {
+for my $Test ( @{$DefaultTest2Alter1} ) {
 
     # create unique id
     my $ID = int rand 30_000;
 
     my @InsertColumnsSorted = sort { $a cmp $b } keys %{ $Test->{Insert} };
-    my @InsertValuesSorted  = map { $Test->{Insert}->{$_} } @InsertColumnsSorted;
+    my @InsertValuesSorted  = map  { $Test->{Insert}->{$_} } @InsertColumnsSorted;
     my $InsertColumns = join q{, }, @InsertColumnsSorted;
     my $InsertValues  = join q{, }, @InsertValuesSorted;
 
@@ -1503,7 +1503,7 @@ for my $Test (@{$DefaultTest2Alter1}) {
 
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
-            $SelectedValue  = defined $Row[0] ? $Row[0] : 'unittest-UNDEF';
+            $SelectedValue  = defined $Row[0]         ? $Row[0]         : 'unittest-UNDEF';
             $ReferenceValue = defined $ReferenceValue ? $ReferenceValue : 'unittest-UNDEF';
 
             $Self->Is(
@@ -1557,24 +1557,24 @@ for my $SQL (@SQL) {
 my $DefaultTest2Alter2 = [
     {
         Insert => {
-            name_a => 10,
-            name_b => 10,
-            name_c => 10,
-            name_d => q{'Test'},
-            name_e => q{'Test'},
-            name_f => q{'Test'},
+            name_a  => 10,
+            name_b  => 10,
+            name_c  => 10,
+            name_d  => q{'Test'},
+            name_e  => q{'Test'},
+            name_f  => q{'Test'},
             name3_a => 10,
             name3_b => 10,
             name3_c => q{'Test'},
             name3_d => q{'Test'},
         },
         Select => {
-            name_a => 10,
-            name_b => 10,
-            name_c => 10,
-            name_d => 'Test',
-            name_e => 'Test',
-            name_f => 'Test',
+            name_a  => 10,
+            name_b  => 10,
+            name_c  => 10,
+            name_d  => 'Test',
+            name_e  => 'Test',
+            name_f  => 'Test',
             name3_a => 10,
             name3_b => 10,
             name3_c => 'Test',
@@ -1591,12 +1591,12 @@ my $DefaultTest2Alter2 = [
             name_f => q{'Test'},
         },
         Select => {
-            name_a => 10,
-            name_b => 10,
-            name_c => 10,
-            name_d => 'Test',
-            name_e => 'Test',
-            name_f => 'Test',
+            name_a  => 10,
+            name_b  => 10,
+            name_c  => 10,
+            name_d  => 'Test',
+            name_e  => 'Test',
+            name_f  => 'Test',
             name3_a => 0,
             name3_b => 1,
             name3_c => '',
@@ -1606,13 +1606,13 @@ my $DefaultTest2Alter2 = [
 ];
 
 my $Counter5 = 1;
-for my $Test (@{$DefaultTest2Alter2}) {
+for my $Test ( @{$DefaultTest2Alter2} ) {
 
     # create unique id
     my $ID = int rand 30_000;
 
     my @InsertColumnsSorted = sort { $a cmp $b } keys %{ $Test->{Insert} };
-    my @InsertValuesSorted  = map { $Test->{Insert}->{$_} } @InsertColumnsSorted;
+    my @InsertValuesSorted  = map  { $Test->{Insert}->{$_} } @InsertColumnsSorted;
     my $InsertColumns = join q{, }, @InsertColumnsSorted;
     my $InsertValues  = join q{, }, @InsertValuesSorted;
 
@@ -1635,7 +1635,7 @@ for my $Test (@{$DefaultTest2Alter2}) {
 
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
-            $SelectedValue  = defined $Row[0] ? $Row[0] : 'unittest-UNDEF';
+            $SelectedValue  = defined $Row[0]         ? $Row[0]         : 'unittest-UNDEF';
             $ReferenceValue = defined $ReferenceValue ? $ReferenceValue : 'unittest-UNDEF';
 
             $Self->Is(
