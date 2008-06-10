@@ -2,7 +2,7 @@
 # Kernel/System/DB/mysql.pm - mysql database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: mysql.pm,v 1.41 2008-06-10 09:56:40 mh Exp $
+# $Id: mysql.pm,v 1.42 2008-06-10 13:35:04 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -184,6 +184,8 @@ sub TableCreate {
 
         # normal data type
         $SQL .= "    $Tag->{Name} $Tag->{Type}";
+
+        # add require
         if ( $Tag->{Required} =~ /^true$/i ) {
             $SQL .= ' NOT NULL';
         }
