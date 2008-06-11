@@ -3,7 +3,7 @@
 # the global ticket handle
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: GroupCheck.pm,v 1.11 2008-04-25 09:04:24 tr Exp $
+# $Id: GroupCheck.pm,v 1.12 2008-06-11 00:24:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -48,7 +48,7 @@ sub Run {
     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
 
     # get ticket group
-    my $GroupID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
+    my $QueueGroupID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
 
     # get user groups
     my @GroupIDs = $Self->{GroupObject}->GroupMemberList(
@@ -59,8 +59,8 @@ sub Run {
     );
 
     # search the group id
-    for (@GroupIDs) {
-        return if $_ eq $GroupID;
+    for my $GroupID (@GroupIDs) {
+        return 1 if $GroupID eq $QueueGroupID;
     }
 
     return;
