@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.94 2008-05-08 14:44:19 mh Exp $
+# $Id: DB.pm,v 1.95 2008-06-11 07:23:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.94 $) [1];
+$VERSION = qw($Revision: 1.95 $) [1];
 
 =head1 NAME
 
@@ -419,8 +419,8 @@ sub Do {
         $Self->{LogObject}->Log(
             Caller   => 1,
             Priority => 'error',
-            Message  => "Your SQL is longer the 4k, this probably not work on many "
-                . "databases (use Bind instead)!",
+            Message  => 'Your SQL is longer the 4k, this probably not work on many '
+                . 'databases (use Bind instead)!',
         );
     }
     no bytes;
@@ -1179,6 +1179,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.94 $ $Date: 2008-05-08 14:44:19 $
+$Revision: 1.95 $ $Date: 2008-06-11 07:23:17 $
 
 =cut
