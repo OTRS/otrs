@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.663 2008-06-05 18:17:23 martin Exp $
+# $Id: CHANGES,v 1.664 2008-06-12 22:02:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,13 @@
 # --
 
 2.3.0 beta3 (2008/06/??)
+ - (2008/06/13) Added extra config option for "CheckMXRecord" config option
+    to configure extra name servers for MX lookups.
+ - (2008/06/11) Fixed bug# 2980 - Getting cron emails (Use of uninitialized
+    value in numeric gt (>) at) every time if IMAP and IMAPs gets executed.
+ - (2008/06/11) Fixed bug# 2979 - Unable to work on ticket, get error message
+    "no permission" even with rw permissions on the ticket. Fixed recoding
+    issue.
  - (2008/06/05) Fixed bug# 2969 - Unable to get past login screen - undefined
     value as a HASH reference at
     Kernel/System/Ticket/IndexAccelerator/RuntimeDB.pm line 57.
@@ -213,7 +220,6 @@
     preview to the content of a linked object.
  - (2008/03/01) Added missing ticket title to ticket search mask in agent
     and generic agent interface.
- - (2008/02/22) Improved performance of TicketSearch() function (what is improved? in which cases? how fast is the improvement?).
  - (2008/02/17) Removed not needed Encode::decode_utf8() in core module
     Kernel::System::Encode (only set if utf-8 stamp is needed).
  - (2008/02/17) Upgraded Mail::Tools from version 1.77 to 2.02 from CPAN.

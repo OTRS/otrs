@@ -2,7 +2,7 @@
 # Kernel/System/CheckItem.pm - the global spelling module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CheckItem.pm,v 1.30 2008-05-08 13:43:11 mh Exp $
+# $Id: CheckItem.pm,v 1.31 2008-06-12 22:02:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 =head1 NAME
 
@@ -148,6 +148,12 @@ sub CheckEmail {
         my $Resolver = Net::DNS::Resolver->new();
         if ($Resolver) {
 
+            # check if extra nameserver need to be used
+            my $Nameserver = $Self->{ConfigObject}->Get('CheckMXRecord::Nameserver');
+            if ($Nameserver) {
+                $Resolver->nameservers($Nameserver);
+            }
+
             # A recorde lookup
             my $packet = $Resolver->send( $Host, 'A' );
             if ( !$packet ) {
@@ -276,6 +282,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.30 $ $Date: 2008-05-08 13:43:11 $
+$Revision: 1.31 $ $Date: 2008-06-12 22:02:22 $
 
 =cut
