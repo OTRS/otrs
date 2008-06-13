@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.30 2008-06-02 11:56:29 mh Exp $
+# $Id: LinkObject.pm,v 1.31 2008-06-13 07:44:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 =head1 NAME
 
@@ -91,7 +91,7 @@ sub new {
 
 =item PossibleTypesList()
 
-return an array list of all possible types
+return an array of all possible types
 
 Return
     @PossibleTypesList = (
@@ -178,7 +178,7 @@ sub PossibleTypesList {
 
 =item PossibleObjectsSelectList()
 
-return a 2d array hash list of all possible objects
+return an array hash list of all possible objects
 
 Return
     @PossibleObjectsList = (
@@ -251,7 +251,7 @@ sub PossibleObjectsSelectList {
 
 =item PossibleObjectsList()
 
-return an array list of all possible objects
+return an array of all possible objects
 
 Return
     @PossibleObjectsList = (
@@ -419,8 +419,8 @@ add a new link between two elements
         SourceKey    => '321',
         TargetObject => 'FAQ',
         TargetKey    => '5',
-        TypeID       => 2,
-        StateID      => 1,
+        Type         => 'ParentChild',
+        State        => 'Valid',
         UserID       => 1,
     );
 
@@ -430,7 +430,7 @@ sub LinkAdd {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Argument (qw(SourceObject SourceKey TargetObject TargetKey TypeID StateID UserID)) {
+    for my $Argument (qw(SourceObject SourceKey TargetObject TargetKey Type State UserID)) {
         if ( !$Param{$Argument} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -479,12 +479,6 @@ sub LinkAdd {
     # create possible types hash
     my %PossibleTypes = map { $_ => 1 } @PossibleTypesList;
 
-    # lookup type name
-    $Param{Type} = $Self->TypeLookup(
-        TypeID => $Param{TypeID},
-        UserID => $Param{UserID},
-    );
-
     # check if wanted link type is allowed
     if ( !$PossibleTypes{ $Param{Type} } ) {
         $Self->{LogObject}->Log(
@@ -494,54 +488,60 @@ sub LinkAdd {
         return;
     }
 
+    # lookup state id
+    my $StateID = $Self->StateLookup(
+        Name   => $Param{State},
+        UserID => 1,
+    );
+
+    # lookup type id
+    my $TypeID = $Self->TypeLookup(
+        Name   => $Param{Type},
+        UserID => $Param{UserID},
+    );
+
     # check if link already exists in database
     $Self->{DBObject}->Prepare(
         SQL => 'SELECT state_id '
             . 'FROM link_relation '
             . 'WHERE ( source_object_id = ? AND source_key = ? '
             . 'AND target_object_id = ? AND target_key = ? ) '
-#            . 'OR ( source_object_id = ? AND source_key = ? '
-#            . 'AND target_object_id = ? AND target_key = ? ) '
             . 'AND type_id = ? ',
         Bind => [
             \$Param{SourceObjectID}, \$Param{SourceKey},
             \$Param{TargetObjectID}, \$Param{TargetKey},
-#            \$Param{TargetObjectID}, \$Param{TargetKey},
-#            \$Param{SourceObjectID}, \$Param{SourceKey},
-            \$Param{TypeID},
-            ],
+            \$TypeID,
+        ],
         Limit => 1,
     );
 
     # fetch the result
-    my $StateID;
+    my $ExistingStateID;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $StateID = $Row[0];
+        $ExistingStateID = $Row[0];
     }
 
     # link exists already
-    if ($StateID) {
+    if ($ExistingStateID) {
 
         # existing link has same StateID as the new link
-        if ($StateID == $Param{StateID} ) {
-            return 1;
-        }
+        return 1 if $ExistingStateID == $StateID;
 
         # existing link has a different StateID than the new link
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Link already exists in the database "
-                . "with a different state id '$StateID'!",
+                . "with a different state id '$ExistingStateID'!",
         );
         return;
     }
 
     # get all links that the source object already has
     my $Links = $Self->LinksGet(
-        Object  => $Param{SourceObject},
-        Key     => $Param{SourceKey},
-        StateID => $Param{StateID},
-        UserID  => $Param{UserID},
+        Object => $Param{SourceObject},
+        Key    => $Param{SourceKey},
+        State  => $Param{State},
+        UserID => $Param{UserID},
     );
 
     # check type groups
@@ -602,7 +602,7 @@ sub LinkAdd {
         Bind => [
             \$Param{SourceObjectID}, \$Param{SourceKey},
             \$Param{TargetObjectID}, \$Param{TargetKey},
-            \$Param{TypeID},         \$Param{StateID}, \$Param{UserID},
+            \$TypeID,         \$StateID, \$Param{UserID},
         ],
     );
 }
@@ -618,7 +618,7 @@ return true
         Key1    => '321',
         Object2 => 'FAQ',
         Key2    => '5',
-        TypeID  => 2,
+        Type    => 'Normal',
         UserID  => 1,
     );
 
@@ -628,7 +628,7 @@ sub LinkDelete {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Argument (qw(Object1 Key1 Object2 Key2 TypeID UserID)) {
+    for my $Argument (qw(Object1 Key1 Object2 Key2 Type UserID)) {
         if ( !$Param{$Argument} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -658,6 +658,12 @@ sub LinkDelete {
         return;
     }
 
+    # lookup type id
+    my $TypeID = $Self->TypeLookup(
+        Name   => $Param{Type},
+        UserID => $Param{UserID},
+    );
+
     # delete the link
     return $Self->{DBObject}->Do(
         SQL => 'DELETE FROM link_relation '
@@ -671,10 +677,9 @@ sub LinkDelete {
             \$Param{Object2ID}, \$Param{Key2},
             \$Param{Object2ID}, \$Param{Key2},
             \$Param{Object1ID}, \$Param{Key1},
-            \$Param{TypeID},
+            \$TypeID,
         ],
     );
-
 }
 
 =item LinkDeleteAll()
@@ -754,8 +759,8 @@ Return
     my $Links = $LinkObject->LinksGet(
         Object   => 'Ticket',
         Key      => '321',
-        StateID  => 1,
-        TypeID   => 2,     # (optional)
+        State    => 'Valid',
+        Type     => 'ParentChild', # (optional)
         UserID   => 1,
     );
 
@@ -765,7 +770,7 @@ sub LinksGet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Argument (qw(Object Key StateID UserID)) {
+    for my $Argument (qw(Object Key State UserID)) {
         if ( !$Param{$Argument} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -783,14 +788,27 @@ sub LinksGet {
 
     return if !$ObjectID;
 
+    # lookup state id
+    my $StateID = $Self->StateLookup(
+        Name   => $Param{State},
+        UserID => 1,
+    );
+
     # prepare SQL statement
     my $TypeSQL = '';
-    my @Bind = ( \$ObjectID, \$Param{Key}, \$Param{StateID} );
+    my @Bind = ( \$ObjectID, \$Param{Key}, \$StateID );
 
-    # add TypeID to SQL statement
-    if ( $Param{TypeID} ) {
+    # add type id to SQL statement
+    if ( $Param{Type} ) {
+
+        # lookup type id
+        my $TypeID = $Self->TypeLookup(
+            Name   => $Param{Type},
+            UserID => $Param{UserID},
+        );
+
         $TypeSQL = 'AND type_id = ? ';
-        push @Bind, \$Param{TypeID};
+        push @Bind, \$TypeID;
     }
 
     # get links where the given object is the source
@@ -1521,7 +1539,7 @@ sub PossibleType {
 lookup a link state
 
     $StateID = $LinkObject->StateLookup(
-        Name   => 'Normal',
+        Name   => 'Valid',
         UserID => 1,
     );
 
@@ -1912,6 +1930,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.30 $ $Date: 2008-06-02 11:56:29 $
+$Revision: 1.31 $ $Date: 2008-06-13 07:44:28 $
 
 =cut

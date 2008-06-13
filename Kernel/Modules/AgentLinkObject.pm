@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.24 2008-06-02 11:56:28 mh Exp $
+# $Id: AgentLinkObject.pm,v 1.25 2008-06-13 07:44:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -67,12 +67,6 @@ sub Run {
         );
     }
 
-    # lookup the state id
-    my $StateID = $Self->{LinkObject}->StateLookup(
-        Name   => 'Valid',
-        UserID => $Self->{UserID},
-    );
-
     # get type list
     my %TypeList = $Self->{LinkObject}->TypeList(
         UserID => $Self->{UserID},
@@ -100,21 +94,13 @@ sub Run {
                 next IDENTIFIER if !$TargetKey;
                 next IDENTIFIER if !$Type;
 
-                # lookup type id
-                my $TypeID = $Self->{LinkObject}->TypeLookup(
-                    Name   => $Type,
-                    UserID => $Self->{UserID},
-                );
-
-                next IDENTIFIER if !$TypeID;
-
                 # delete link from database
                 $Self->{LinkObject}->LinkDelete(
                     Object1 => $Source{Object},
                     Key1    => $Source{Key},
                     Object2 => $TargetObject,
                     Key2    => $TargetKey,
-                    TypeID  => $TypeID,
+                    Type    => $Type,
                     UserID  => $Self->{UserID},
                 );
             }
@@ -132,10 +118,10 @@ sub Run {
 
         # get all links of this object
         my $ExistingLinks = $Self->{LinkObject}->LinksGet(
-            Object  => $Source{Object},
-            Key     => $Source{Key},
-            StateID => $StateID,
-            UserID  => $Self->{UserID},
+            Object => $Source{Object},
+            Key    => $Source{Key},
+            State  => 'Valid',
+            UserID => $Self->{UserID},
         );
 
         # investigate the object key list
@@ -339,9 +325,9 @@ sub Run {
                 my $TypeIdentifier = $Self->{ParamObject}->GetParam( Param => 'TypeIdentifier' );
 
                 # split the identifier
-                my ( $TypeID, $Direction ) = $TypeIdentifier =~ m{ \A (.+?) :: (.+) \z }xms;
+                my ( $Type, $Direction ) = $TypeIdentifier =~ m{ \A (.+?) :: (.+) \z }xms;
 
-                if ( $TypeID && ( $Direction eq 'Source' || $Direction eq 'Target' ) ) {
+                if ( $Type && ( $Direction eq 'Source' || $Direction eq 'Target' ) ) {
 
                     # add links
                     for my $TargetKeyOrg (@LinkTargetKeys) {
@@ -364,8 +350,8 @@ sub Run {
                             SourceKey    => $SourceKey,
                             TargetObject => $TargetObject,
                             TargetKey    => $TargetKey,
-                            TypeID       => $TypeID,
-                            StateID      => $StateID,
+                            Type         => $Type,
+                            State        => 'Valid',
                             UserID       => $Self->{UserID},
                         );
                     }
@@ -472,7 +458,7 @@ sub Run {
 
             # create the source name
             my %SourceName;
-            $SourceName{Key}   = $TypeID . '::Source';
+            $SourceName{Key}   = $PossibleType . '::Source';
             $SourceName{Value} = $Type{SourceName};
 
             push @SelectableTypesList, \%SourceName;
@@ -481,7 +467,7 @@ sub Run {
 
             # create the source name
             my %TargetName;
-            $TargetName{Key}   = $TypeID . '::Target';
+            $TargetName{Key}   = $PossibleType . '::Target';
             $TargetName{Value} = $Type{TargetName};
 
             push @SelectableTypesList, \%TargetName;

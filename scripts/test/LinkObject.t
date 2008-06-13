@@ -2,7 +2,7 @@
 # LinkObject.t - link object module testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.t,v 1.6 2008-06-02 12:15:39 ub Exp $
+# $Id: LinkObject.t,v 1.7 2008-06-13 07:44:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -282,8 +282,8 @@ my $TypeData = [
         SourceData => {
             ConfigSet => {
                 Name       => $TypeNames[6],
-                SourceName => ' Պ Č Đ' . $TypeNames[6] . ' Source' . ' ŝ Њ Д ',
-                TargetName => ' Ճ ζ φ' . $TypeNames[6] . ' Target' . ' Σ Վ έ ',
+                SourceName => ' Õ Ä Ä' . $TypeNames[6] . ' Source' . ' Å Ð Ð ',
+                TargetName => ' Õ Î¶ Ï' . $TypeNames[6] . ' Target' . ' Î£ Õ Î­ ',
             },
             TypeGet => {
                 Name   => $TypeNames[6],
@@ -296,8 +296,8 @@ my $TypeData = [
             },
             TypeGet => {
                 Name       => $TypeNames[6],
-                SourceName => 'Պ Č Đ' . $TypeNames[6] . ' Source' . ' ŝ Њ Д',
-                TargetName => 'Ճ ζ φ' . $TypeNames[6] . ' Target' . ' Σ Վ έ',
+                SourceName => 'Õ Ä Ä' . $TypeNames[6] . ' Source' . ' Å Ð Ð',
+                TargetName => 'Õ Î¶ Ï' . $TypeNames[6] . ' Target' . ' Î£ Õ Î­',
                 Pointed    => 1,
                 CreateBy   => 1,
                 ChangeBy   => 1,
@@ -636,13 +636,13 @@ my $ObjectData = [
 
     # this type must be inserted sucessfully (unicode checks)
     {
-        SourceName    => ' ԺΛϢ' . $ObjectNames[3] . 'ΞΏΓ ',
-        ReferenceName => 'ԺΛϢ' . $ObjectNames[3] . 'ΞΏΓ',
+        SourceName    => ' ÔºÎÏ¢' . $ObjectNames[3] . 'ÎÎÎ ',
+        ReferenceName => 'ÔºÎÏ¢' . $ObjectNames[3] . 'ÎÎÎ',
     },
 
     # invalid source name is given (check return false)
     {
-        SourceName => ' Ϭ ϯ Λ ' . $ObjectNames[4] . ' Ϩ ϴ Γ ',
+        SourceName => ' Ï¬ Ï¯ Î ' . $ObjectNames[4] . ' Ï¨ Ï´ Î ',
     },
 ];
 
@@ -740,8 +740,8 @@ continue {
             Type    => $TypeNames[0],
         },
         10002 => {
-            Object1 => ' Λ λ Ə' . $ObjectNames[0] . 'ϔ Ϡ ԉ ',
-            Object2 => ' Ϋ ά Ƣ' . $ObjectNames[0] . 'ƒ ƥ Ư ',
+            Object1 => ' Î Î» Æ' . $ObjectNames[0] . 'Ï Ï  Ô ',
+            Object2 => ' Î« Î¬ Æ¢' . $ObjectNames[0] . 'Æ Æ¥ Æ¯ ',
             Type    => $TypeNames[1],
         },
         10003 => {
@@ -1813,15 +1813,6 @@ continue {
 
 }
 
-# build TypeID hash for later tests
-my %TypeID;
-for my $TypeName (@TypeNames) {
-    $TypeID{$TypeName} = $Self->{LinkObject}->TypeLookup(
-        Name   => $TypeName,
-        UserID => 1,
-    );
-}
-
 # build ObjectID hash for later tests
 my %ObjectID;
 for my $Object (@ObjectNames) {
@@ -1842,8 +1833,8 @@ my $LinkData = [
                 SourceKey    => 321,
                 TargetObject => 'FAQ',
                 TargetKey    => '5',
-                TypeID       => 2,
-                StateID      => 1,
+                Type         => 'ParentChild',
+                State        => 'Valid',
                 UserID       => 1,
             },
         ],
@@ -1858,8 +1849,8 @@ my $LinkData = [
                 SourceKey    => '',
                 TargetObject => 'FAQ',
                 TargetKey    => '5',
-                TypeID       => 2,
-                StateID      => 1,
+                Type         => 'ParentChild',
+                State        => 'Valid',
                 UserID       => 1,
             },
         ],
@@ -1874,8 +1865,8 @@ my $LinkData = [
                 SourceKey    => '321',
                 TargetObject => '',
                 TargetKey    => '5',
-                TypeID       => 2,
-                StateID      => 1,
+                Type         => 'ParentChild',
+                State        => 'Valid',
                 UserID       => 1,
             },
         ],
@@ -1890,14 +1881,14 @@ my $LinkData = [
                 SourceKey    => '321',
                 TargetObject => 'FAQ',
                 TargetKey    => '',
-                TypeID       => 2,
-                StateID      => 1,
+                Type         => 'ParentChild',
+                State        => 'Valid',
                 UserID       => 1,
             },
         ],
     },
 
-    # LinkAdd() needs a TypeID argument (check return false)
+    # LinkAdd() needs a Type argument (check return false)
     {
         SourceData => [
             {
@@ -1906,14 +1897,14 @@ my $LinkData = [
                 SourceKey    => '321',
                 TargetObject => 'FAQ',
                 TargetKey    => '5',
-                TypeID       => undef,
-                StateID      => 1,
+                Type         => undef,
+                State        => 'Valid',
                 UserID       => 1,
             },
         ],
     },
 
-    # LinkAdd() needs a StateID argument (check return false)
+    # LinkAdd() needs a State argument (check return false)
     {
         SourceData => [
             {
@@ -1922,8 +1913,8 @@ my $LinkData = [
                 SourceKey    => '321',
                 TargetObject => 'FAQ',
                 TargetKey    => '5',
-                TypeID       => 2,
-                StateID      => undef,
+                Type         => 'ParentChild',
+                State        => undef,
                 UserID       => 1,
             },
         ],
@@ -1938,8 +1929,8 @@ my $LinkData = [
                 SourceKey    => '321',
                 TargetObject => 'FAQ',
                 TargetKey    => '5',
-                TypeID       => 2,
-                StateID      => 1,
+                Type         => 'ParentChild',
+                State        => 'Valid',
                 UserID       => undef,
             },
         ],
@@ -1954,8 +1945,8 @@ my $LinkData = [
                 SourceKey    => '1',
                 TargetObject => $ObjectNames[1],
                 TargetKey    => '1',
-                TypeID       => $TypeID{ $TypeNames[1] },
-                StateID      => 1,
+                Type         => $TypeNames[1],
+                State        => 'Valid',
                 UserID       => 1,
             },
         ],
@@ -1970,8 +1961,8 @@ my $LinkData = [
                 SourceKey    => '10',
                 TargetObject => $ObjectNames[78],
                 TargetKey    => '11',
-                TypeID       => 1,
-                StateID      => 3333,
+                Type         => 'Normal',
+                State        => 'Dummy',
                 UserID       => 1,
             },
         ],
@@ -1986,8 +1977,8 @@ my $LinkData = [
                 SourceKey    => '1',
                 TargetObject => $ObjectNames[1],
                 TargetKey    => '2',
-                TypeID       => $TypeID{ $TypeNames[1] },
-                StateID      => 1,
+                Type         => $TypeNames[1],
+                State        => 'Valid',
                 UserID       => 1,
             },
         ],
@@ -1996,7 +1987,7 @@ my $LinkData = [
                 Object  => $ObjectNames[1],
                 Key     => '1',
                 Type    => $TypeNames[1],
-                StateID => '1',
+                State        => 'Valid',
                 UserID  => 1,
             },
             LinksGetReference => {
@@ -2009,7 +2000,7 @@ my $LinkData = [
         },
     },
 
-    # add the same link again with same StateID (check return true)
+    # add the same link again with same State (check return true)
     {
         SourceData => [
             {
@@ -2018,8 +2009,8 @@ my $LinkData = [
                 SourceKey    => '1',
                 TargetObject => $ObjectNames[1],
                 TargetKey    => '2',
-                TypeID       => $TypeID{ $TypeNames[1] },
-                StateID      => 1,
+                Type         => $TypeNames[1],
+                State        => 'Valid',
                 UserID       => 1,
             },
         ],
@@ -2028,7 +2019,7 @@ my $LinkData = [
                 Object  => $ObjectNames[1],
                 Key     => '1',
                 Type    => $TypeNames[1],
-                StateID => 1,
+                State        => 'Valid',
                 UserID  => 1,
             },
             LinksGetReference => {
@@ -2041,7 +2032,7 @@ my $LinkData = [
         },
     },
 
-    # add the same link again with different StateID (check return false)
+    # add the same link again with different State (check return false)
     {
         SourceData => [
             {
@@ -2050,8 +2041,8 @@ my $LinkData = [
                 SourceKey    => '1',
                 TargetObject => $ObjectNames[1],
                 TargetKey    => '2',
-                TypeID       => $TypeID{ $TypeNames[1] },
-                StateID      => 2,
+                Type         => $TypeNames[1],
+                State        => 'Temporary',
                 UserID       => 1,
             },
         ],
@@ -2066,8 +2057,8 @@ my $LinkData = [
                 SourceKey    => '1',
                 TargetObject => $ObjectNames[3],
                 TargetKey    => '2',
-                TypeID       => $TypeID{ $TypeNames[1] },
-                StateID      => 1,
+                Type         => $TypeNames[1],
+                State        => 'Valid',
                 UserID       => 1,
             },
         ],
@@ -2082,8 +2073,8 @@ my $LinkData = [
                 SourceKey    => '111',
                 TargetObject => $ObjectNames[2],
                 TargetKey    => '222',
-                TypeID       => $TypeID{ $TypeNames[60] },
-                StateID      => 1,
+                Type         => $TypeNames[60],
+                State        => 'Valid',
                 UserID       => 1,
             },
         ],
@@ -2092,7 +2083,7 @@ my $LinkData = [
                 Object  => $ObjectNames[1],
                 Key     => '111',
                 Type    => $TypeNames[60],
-                StateID => 1,
+                State        => 'Valid',
                 UserID  => 1,
             },
             LinksGetReference => {
@@ -2115,8 +2106,8 @@ my $LinkData = [
                 SourceKey    => '101',
                 TargetObject => $ObjectNames[2],
                 TargetKey    => '231',
-                TypeID       => $TypeID{ $TypeNames[60] },
-                StateID      => 1,
+                Type         => $TypeNames[60],
+                State        => 'Valid',
                 UserID       => 1,
             },
             # pointed link
@@ -2126,8 +2117,8 @@ my $LinkData = [
                 SourceKey    => '101',
                 TargetObject => $ObjectNames[2],
                 TargetKey    => '221',
-                TypeID       => $TypeID{ $TypeNames[60] },
-                StateID      => 1,
+                Type         => $TypeNames[60],
+                State        => 'Valid',
                 UserID       => 1,
             },
             # pointed link
@@ -2137,8 +2128,8 @@ my $LinkData = [
                 SourceKey    => '101',
                 TargetObject => $ObjectNames[2],
                 TargetKey    => '201',
-                TypeID       => $TypeID{ $TypeNames[60] },
-                StateID      => 1,
+                Type         => $TypeNames[60],
+                State        => 'Valid',
                 UserID       => 1,
             },
             # pointed link
@@ -2148,8 +2139,8 @@ my $LinkData = [
                 SourceKey    => '101',
                 TargetObject => $ObjectNames[1],
                 TargetKey    => '102',
-                TypeID       => $TypeID{ $TypeNames[50] },
-                StateID      => 1,
+                Type         => $TypeNames[50],
+                State        => 'Valid',
                 UserID       => 1,
             },
             # unpointed link
@@ -2159,8 +2150,8 @@ my $LinkData = [
                 SourceKey    => '101',
                 TargetObject => $ObjectNames[1],
                 TargetKey    => '103',
-                TypeID       => $TypeID{ $TypeNames[1] },
-                StateID      => 1,
+                Type         => $TypeNames[1],
+                State        => 'Valid',
                 UserID       => 1,
             },
             # pointed link
@@ -2170,8 +2161,8 @@ my $LinkData = [
                 SourceKey    => '999',
                 TargetObject => $ObjectNames[1],
                 TargetKey    => '101',
-                TypeID       => $TypeID{ $TypeNames[60] },
-                StateID      => 1,
+                Type         => $TypeNames[60],
+                State        => 'Valid',
                 UserID       => 1,
             },
             # pointed link
@@ -2181,8 +2172,8 @@ my $LinkData = [
                 SourceKey    => '202',
                 TargetObject => $ObjectNames[1],
                 TargetKey    => '101',
-                TypeID       => $TypeID{ $TypeNames[60] },
-                StateID      => 1,
+                Type         => $TypeNames[60],
+                State        => 'Valid',
                 UserID       => 1,
             },
             # unpointed link
@@ -2192,8 +2183,8 @@ my $LinkData = [
                 SourceKey    => '105',
                 TargetObject => $ObjectNames[1],
                 TargetKey    => '101',
-                TypeID       => $TypeID{ $TypeNames[30] },
-                StateID      => 1,
+                Type         => $TypeNames[30],
+                State        => 'Valid',
                 UserID       => 1,
             },
             # unpointed link
@@ -2203,18 +2194,18 @@ my $LinkData = [
                 SourceKey    => '101',
                 TargetObject => $ObjectNames[5],
                 TargetKey    => '103',
-                TypeID       => $TypeID{ $TypeNames[30] },
-                StateID      => 1,
+                Type         => $TypeNames[30],
+                State        => 'Valid',
                 UserID       => 1,
             },
         ],
         ReferenceData => {
             LinksGet => {
-                Object   => $ObjectNames[1],
-                Key      => 101,
-                Type     => '',
-                StateID  => 1,
-                UserID   => 1,
+                Object => $ObjectNames[1],
+                Key    => 101,
+                Type   => '',
+                State  => 'Valid',
+                UserID => 1,
             },
             LinksGetReference => {
 
@@ -2250,8 +2241,8 @@ my $LinkData = [
                 SourceKey    => '2000',
                 TargetObject => $ObjectNames[2],
                 TargetKey    => '3000',
-                TypeID       => $TypeID{ $TypeNames[49] },
-                StateID      => 1,
+                Type         => $TypeNames[49],
+                State        => 'Valid',
                 UserID       => 1,
             },
             {
@@ -2260,8 +2251,8 @@ my $LinkData = [
                 SourceKey    => '2000',
                 TargetObject => $ObjectNames[2],
                 TargetKey    => '3000',
-                TypeID       => $TypeID{ $TypeNames[60] },
-                StateID      => 1,
+                Type         => $TypeNames[60],
+                State        => 'Valid',
                 UserID       => 1,
             },
         ],
@@ -2270,7 +2261,7 @@ my $LinkData = [
                 Object  => $ObjectNames[1],
                 Key     => '2000',
                 Type    => $TypeNames[60],
-                StateID => 1,
+                State        => 'Valid',
                 UserID  => 1,
             },
             LinksGetReference => {
@@ -2292,8 +2283,8 @@ my $LinkData = [
                 SourceKey    => '250',
                 TargetObject => $ObjectNames[2],
                 TargetKey    => '350',
-                TypeID       => $TypeID{ $TypeNames[49] },
-                StateID      => 1,
+                Type         => $TypeNames[49],
+                State        => 'Valid',
                 UserID       => 1,
             },
         ],
@@ -2302,7 +2293,7 @@ my $LinkData = [
                 Object  => $ObjectNames[1],
                 Key     => '250',
                 Type    => '',
-                StateID => 1,
+                State        => 'Valid',
                 UserID  => 1,
             },
             LinksGetReference => {
@@ -2324,8 +2315,8 @@ my $LinkData = [
                 SourceKey    => '250',
                 TargetObject => $ObjectNames[2],
                 TargetKey    => '350',
-                TypeID       => $TypeID{ $TypeNames[99] },
-                StateID      => 1,
+                Type         => $TypeNames[99],
+                State        => 'Valid',
                 UserID       => 1,
             },
         ],
@@ -2340,8 +2331,8 @@ my $LinkData = [
                 SourceKey    => '500',
                 TargetObject => $ObjectNames[1],
                 TargetKey    => '400',
-                TypeID       => $TypeID{ $TypeNames[48] },
-                StateID      => 1,
+                Type         => $TypeNames[48],
+                State        => 'Valid',
                 UserID       => 1,
             },
         ],
@@ -2350,7 +2341,7 @@ my $LinkData = [
                 Object  => $ObjectNames[1],
                 Key     => '400',
                 Type    => '',
-                StateID => 1,
+                State        => 'Valid',
                 UserID  => 1,
             },
             LinksGetReference => {
@@ -2372,8 +2363,8 @@ my $LinkData = [
                 SourceKey    => '500',
                 TargetObject => $ObjectNames[1],
                 TargetKey    => '400',
-                TypeID       => $TypeID{ $TypeNames[98] },
-                StateID      => 1,
+                Type         => $TypeNames[98],
+                State        => 'Valid',
                 UserID       => 1,
             },
         ],
@@ -2388,8 +2379,8 @@ my $LinkData = [
                 SourceKey    => '555',
                 TargetObject => $ObjectNames[2],
                 TargetKey    => '666',
-                TypeID       => $TypeID{ $TypeNames[48] },
-                StateID      => 1,
+                Type         => $TypeNames[48],
+                State        => 'Valid',
                 UserID       => 1,
             },
         ],
@@ -2398,7 +2389,7 @@ my $LinkData = [
                 Object  => $ObjectNames[1],
                 Key     => '555',
                 Type    => '',
-                StateID => 1,
+                State        => 'Valid',
                 UserID  => 1,
             },
             LinksGetReference => {
@@ -2420,8 +2411,8 @@ my $LinkData = [
                 SourceKey    => '321',
                 TargetObject => $ObjectNames[2],
                 TargetKey    => '654',
-                TypeID       => $TypeID{ $TypeNames[48] },
-                StateID      => 1,
+                Type         => $TypeNames[48],
+                State        => 'Valid',
                 UserID       => 1,
             },
             {
@@ -2430,8 +2421,8 @@ my $LinkData = [
                 SourceKey    => '321',
                 TargetObject => $ObjectNames[2],
                 TargetKey    => '655',
-                TypeID       => $TypeID{ $TypeNames[49] },
-                StateID      => 1,
+                Type         => $TypeNames[49],
+                State        => 'Valid',
                 UserID       => 1,
             },
             {
@@ -2440,8 +2431,8 @@ my $LinkData = [
                 SourceKey    => '777',
                 TargetObject => $ObjectNames[1],
                 TargetKey    => '321',
-                TypeID       => $TypeID{ $TypeNames[60] },
-                StateID      => 1,
+                Type         => $TypeNames[60],
+                State        => 'Valid',
                 UserID       => 1,
             },
         ],
@@ -2450,7 +2441,7 @@ my $LinkData = [
                 Object  => $ObjectNames[1],
                 Key     => '321',
                 Type    => '',
-                StateID => '1',
+                State   => 'Valid',
                 UserID  => 1,
             },
             LinksGetReference => {
@@ -2478,8 +2469,8 @@ my $LinkData = [
                 Key1    => '321',
                 Object2 => $ObjectNames[2],
                 Key2    => '655',
-                TypeID  => $TypeID{ $TypeNames[49] },
-                StateID => 1,
+                Type    => $TypeNames[49],
+                State        => 'Valid',
                 UserID  => 1,
             },
         ],
@@ -2488,7 +2479,7 @@ my $LinkData = [
                 Object  => $ObjectNames[1],
                 Key     => '321',
                 Type    => '',
-                StateID => '1',
+                State        => 'Valid',
                 UserID  => 1,
             },
             LinksGetReference => {
@@ -2589,22 +2580,13 @@ for my $Test ( @{$LinkData} ) {
         next LINK;
     }
 
-    # lookup type id for LinksGet()
-    my $TypeID;
-    if ( $ReferenceData->{LinksGet}->{Type} ) {
-        $TypeID = $Self->{LinkObject}->TypeLookup(
-            Name => $ReferenceData->{LinksGet}->{Type},
-            UserID => 1,
-        );
-    }
-
     # get all links for ReferenceData
     my $Links = $Self->{LinkObject}->LinksGet(
-            Object  => $ReferenceData->{LinksGet}->{Object},
-            Key     => $ReferenceData->{LinksGet}->{Key},
-            TypeID  => $TypeID,
-            StateID => $ReferenceData->{LinksGet}->{StateID},
-            UserID  => $ReferenceData->{LinksGet}->{UserID},
+            Object => $ReferenceData->{LinksGet}->{Object},
+            Key    => $ReferenceData->{LinksGet}->{Key},
+            Type   => $ReferenceData->{LinksGet}->{Type},
+            State  => $ReferenceData->{LinksGet}->{State},
+            UserID => $ReferenceData->{LinksGet}->{UserID},
     );
 
     # turn off all pretty print

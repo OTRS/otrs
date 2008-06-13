@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject/Ticket.pm - to link ticket objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.21 2008-06-02 12:28:51 mh Exp $
+# $Id: Ticket.pm,v 1.22 2008-06-13 07:44:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Ticket;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -204,18 +204,12 @@ sub ItemDescriptionGet {
 
     return if !%Ticket;
 
-    # lookup the valid state id
-    my $ValidStateID = $Self->{LinkObject}->StateLookup(
-        Name   => 'Valid',
-        UserID => 1,
-    );
-
     # get link data
     my $ExistingLinks = $Self->{LinkObject}->LinksGet(
-        Object  => 'Ticket',
-        Key     => $Param{Key},
-        StateID => $Param{StateID} || $ValidStateID,
-        UserID  => 1,
+        Object => 'Ticket',
+        Key    => $Param{Key},
+        State  => $Param{State} || 'Valid',
+        UserID => 1,
     ) || {};
 
     $Ticket{TicketNumber} ||= '';
