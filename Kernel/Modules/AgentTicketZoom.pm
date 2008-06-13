@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.52 2008-06-02 11:56:28 mh Exp $
+# $Id: AgentTicketZoom.pm,v 1.53 2008-06-13 08:09:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -532,7 +532,10 @@ sub MaskAgentZoom {
 
                     for my $Direction ( keys %{ $ExistingLinks->{$Object}->{$Type} } ) {
 
-                        my $LinkTypeName = $Direction eq 'Target' ? $TypeData{TargetName} : $TypeData{SourceName};
+                        my $LinkTypeName
+                            = $Direction eq 'Target'
+                            ? $TypeData{TargetName}
+                            : $TypeData{SourceName};
 
                         $Self->{LayoutObject}->Block(
                             Name => 'Link',
@@ -552,7 +555,8 @@ sub MaskAgentZoom {
                             );
 
                             # extract cell value
-                            my $Content = $ItemDescription{ItemData}->{ $ObjectDescription{Overview}->{Normal}->{Key} } || '';
+                            my $Content = $ItemDescription{ItemData}
+                                ->{ $ObjectDescription{Overview}->{Normal}->{Key} } || '';
 
                             my $LinkString = $Self->{LayoutObject}->LinkObjectContentStringCreate(
                                 SourceObject => {
@@ -564,8 +568,8 @@ sub MaskAgentZoom {
                                     Key    => $ItemKey,
                                 },
                                 TargetItemDescription => \%ItemDescription,
-                                ColumnData => $ObjectDescription{Overview}->{Normal},
-                                Content    => $Content,
+                                ColumnData            => $ObjectDescription{Overview}->{Normal},
+                                Content               => $Content,
                             );
 
                             $Self->{LayoutObject}->Block(

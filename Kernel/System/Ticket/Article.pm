@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.182 2008-06-04 14:42:00 martin Exp $
+# $Id: Article.pm,v 1.183 2008-06-13 08:13:12 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.182 $) [1];
+$VERSION = qw($Revision: 1.183 $) [1];
 
 =head1 NAME
 
@@ -1899,7 +1899,7 @@ sub ArticleBounce {
 
     # create message id
     my $NewMessageID = "<$Time.$Random.$Param{TicketID}.0.$Param{UserID}\@$Self->{FQDN}>";
-    my $Email        = $Self->ArticlePlain( ArticleID => $Param{ArticleID} );
+    my $Email = $Self->ArticlePlain( ArticleID => $Param{ArticleID} );
 
     # check if plain email exists
     if ( !$Email ) {

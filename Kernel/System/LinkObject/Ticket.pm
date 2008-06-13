@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject/Ticket.pm - to link ticket objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.22 2008-06-13 07:44:28 mh Exp $
+# $Id: Ticket.pm,v 1.23 2008-06-13 08:13:12 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Ticket;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -213,7 +213,7 @@ sub ItemDescriptionGet {
     ) || {};
 
     $Ticket{TicketNumber} ||= '';
-    $Ticket{Title} ||= '';
+    $Ticket{Title}        ||= '';
 
     # define item description
     my %ItemDescription = (

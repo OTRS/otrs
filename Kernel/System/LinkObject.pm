@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.31 2008-06-13 07:44:28 mh Exp $
+# $Id: LinkObject.pm,v 1.32 2008-06-13 08:13:12 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 =head1 NAME
 
@@ -546,7 +546,7 @@ sub LinkAdd {
 
     # check type groups
     OBJECT:
-    for my $Object ( keys %{ $Links } ) {
+    for my $Object ( keys %{$Links} ) {
 
         next OBJECT if $Object ne $Param{TargetObject};
 
@@ -559,13 +559,13 @@ sub LinkAdd {
             # extract source ids
             my %SourceIDs;
             if ( $SourceTarget->{Source} ) {
-                %SourceIDs = map {$_ => 1} @{ $SourceTarget->{Source} };
+                %SourceIDs = map { $_ => 1 } @{ $SourceTarget->{Source} };
             }
 
             # extract target ids
             my %TargetIDs;
             if ( $SourceTarget->{Target} ) {
-                %TargetIDs = map {$_ => 1} @{ $SourceTarget->{Target} };
+                %TargetIDs = map { $_ => 1 } @{ $SourceTarget->{Target} };
             }
 
             # merge source and target ids
@@ -582,7 +582,7 @@ sub LinkAdd {
                 );
 
                 # existing link type is in a type group with the new link
-                if ( ! $TypeGroupCheck ) {
+                if ( !$TypeGroupCheck ) {
                     $Self->{LogObject}->Log(
                         Priority => 'error',
                         Message  => "Another Link already exists witin the same type group!"
@@ -602,7 +602,7 @@ sub LinkAdd {
         Bind => [
             \$Param{SourceObjectID}, \$Param{SourceKey},
             \$Param{TargetObjectID}, \$Param{TargetKey},
-            \$TypeID,         \$StateID, \$Param{UserID},
+            \$TypeID, \$StateID, \$Param{UserID},
         ],
     );
 }
@@ -667,11 +667,11 @@ sub LinkDelete {
     # delete the link
     return $Self->{DBObject}->Do(
         SQL => 'DELETE FROM link_relation '
-                . 'WHERE ( source_object_id = ? AND source_key = ? '
-                . 'AND target_object_id = ? AND target_key = ? ) '
-                . 'OR ( source_object_id = ? AND source_key = ? '
-                . 'AND target_object_id = ? AND target_key = ? ) '
-                . 'AND type_id = ? ',
+            . 'WHERE ( source_object_id = ? AND source_key = ? '
+            . 'AND target_object_id = ? AND target_key = ? ) '
+            . 'OR ( source_object_id = ? AND source_key = ? '
+            . 'AND target_object_id = ? AND target_key = ? ) '
+            . 'AND type_id = ? ',
         Bind => [
             \$Param{Object1ID}, \$Param{Key1},
             \$Param{Object2ID}, \$Param{Key2},
@@ -725,8 +725,8 @@ sub LinkDeleteAll {
     # delete all links for given object
     return $Self->{DBObject}->Do(
         SQL => 'DELETE FROM link_relation '
-                . 'WHERE ( source_object_id = ? AND source_key = ? ) '
-                . 'OR ( target_object_id = ? AND target_key = ? ) ',
+            . 'WHERE ( source_object_id = ? AND source_key = ? ) '
+            . 'OR ( target_object_id = ? AND target_key = ? ) ',
         Bind => [
             \$Param{ObjectID}, \$Param{Key},
             \$Param{ObjectID}, \$Param{Key},
@@ -849,7 +849,7 @@ sub LinksGet {
             UserID => $Param{UserID},
         );
 
-        $TypePointedList{$TypeData{Name}} = $TypeData{Pointed};
+        $TypePointedList{ $TypeData{Name} } = $TypeData{Pointed};
 
         # store the result
         push @{ $Links{$TargetObject}->{ $TypeData{Name} }->{Target} }, $LinkData->{TargetKey};
@@ -892,7 +892,7 @@ sub LinksGet {
             UserID => $Param{UserID},
         );
 
-        $TypePointedList{$TypeData{Name}} = $TypeData{Pointed};
+        $TypePointedList{ $TypeData{Name} } = $TypeData{Pointed};
 
         # store the result
         push @{ $Links{$SourceObject}->{ $TypeData{Name} }->{Source} }, $LinkData->{SourceKey};
@@ -924,11 +924,11 @@ sub LinksGet {
             next TYPE if $TypePointedList{$Type};
 
             # extract target ids
-            my %MergedIDs = map {$_ => 1} @{ $SourceTarget->{Target} };
+            my %MergedIDs = map { $_ => 1 } @{ $SourceTarget->{Target} };
 
             # extract source ids
             if ( $SourceTarget->{Source} ) {
-                my %MergedIDs2 = map {$_ => 1} @{ $SourceTarget->{Source} };
+                my %MergedIDs2 = map { $_ => 1 } @{ $SourceTarget->{Source} };
                 %MergedIDs = ( %MergedIDs, %MergedIDs2 );
             }
 
@@ -1930,6 +1930,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.31 $ $Date: 2008-06-13 07:44:28 $
+$Revision: 1.32 $ $Date: 2008-06-13 08:13:12 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEscalationView.pm - status for all open tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEscalationView.pm,v 1.4 2008-06-01 22:31:57 martin Exp $
+# $Id: AgentTicketEscalationView.pm,v 1.5 2008-06-13 08:09:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -100,19 +100,19 @@ sub Run {
 
     my $TimeStamp;
     if ( $Self->{Escalation} eq 'NextWeek' ) {
-        my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
+        my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
             SystemTime => $Self->{TimeObject}->SystemTime() + 60 * 60 * 24 * 7,
         );
         $TimeStamp = "$Year-$Month-$Day 23:59:59";
     }
     elsif ( $Self->{Escalation} eq 'Tomorrow' ) {
-        my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
+        my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
             SystemTime => $Self->{TimeObject}->SystemTime() + 60 * 60 * 24,
         );
         $TimeStamp = "$Year-$Month-$Day 23:59:59";
     }
     else {
-        my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $Self->{TimeObject}->SystemTime2Date(
+        my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
             SystemTime => $Self->{TimeObject}->SystemTime(),
         );
         $TimeStamp = "$Year-$Month-$Day 23:59:59";
@@ -152,7 +152,7 @@ sub Run {
 
             # create human age
             $Article{Age} = $Self->{LayoutObject}->CustomerAge(
-                Age => $Article{Age},
+                Age   => $Article{Age},
                 Space => ' ',
             );
 

@@ -2,7 +2,7 @@
 # Kernel/System/SLA.pm - all sla function
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SLA.pm,v 1.28 2008-06-01 22:23:47 martin Exp $
+# $Id: SLA.pm,v 1.29 2008-06-13 08:13:12 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 =head1 NAME
 
@@ -557,7 +557,7 @@ sub SLAUpdate {
     }
 
     # abort update of sla, if name already exists
-    if ( $Update ) {
+    if ($Update) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't update SLA! '$Param{Name}' already exists.",
@@ -620,6 +620,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.28 $ $Date: 2008-06-01 22:23:47 $
+$Revision: 1.29 $ $Date: 2008-06-13 08:13:12 $
 
 =cut

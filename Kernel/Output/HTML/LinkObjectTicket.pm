@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LinkObjectTicket.pm - layout backend module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObjectTicket.pm,v 1.1 2008-06-02 11:56:29 mh Exp $
+# $Id: LinkObjectTicket.pm,v 1.2 2008-06-13 08:14:50 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Priority;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -180,7 +180,7 @@ sub OutputParamsFillUp {
     # edit options of the link column
     if ( $Param{ColumnData}->{Type} eq 'Link' && $Param{ColumnData}->{Key} eq 'TicketNumber' ) {
 
-        $OutputParams->{Link}  = '$Env{"Baselink"}Action=AgentTicketZoom&TicketID=' . $TicketID;
+        $OutputParams->{Link} = '$Env{"Baselink"}Action=AgentTicketZoom&TicketID=' . $TicketID;
         $OutputParams->{Title} = $Param{TargetItemDescription}->{Description}->{Long} || '';
 
         return 1 if !$Param{ColumnData}->{Subtype};
@@ -228,6 +228,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2008-06-02 11:56:29 $
+$Revision: 1.2 $ $Date: 2008-06-13 08:14:50 $
 
 =cut

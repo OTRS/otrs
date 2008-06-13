@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.40 2008-06-01 20:27:01 martin Exp $
+# $Id: Ticket.t,v 1.41 2008-06-13 08:14:20 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -4048,21 +4048,22 @@ my @TicketIDsSortOrder = $Self->{TicketObject}->TicketSearch(
     Result  => 'ARRAY',
     Title   => '%sort/order by test%',
     Queues  => ['Raw'],
-    OrderBy => ['Down', 'Up'],
-    SortBy  => ['Priority', 'Age'],
+    OrderBy => [ 'Down', 'Up' ],
+    SortBy  => [ 'Priority', 'Age' ],
     UserID  => 1,
 );
 $Self->True(
     $TicketIDsSortOrder[0] eq $TicketIDSortOrder1,
     'TicketTicketSearch() - ticket sort/order by (Priority (Down), Age (Up))',
 );
+
 # find oldest ticket by priority, age
 @TicketIDsSortOrder = $Self->{TicketObject}->TicketSearch(
     Result  => 'ARRAY',
     Title   => '%sort/order by test%',
     Queues  => ['Raw'],
-    OrderBy => ['Down', 'Down'],
-    SortBy  => ['Priority', 'Age'],
+    OrderBy => [ 'Down', 'Down' ],
+    SortBy  => [ 'Priority', 'Age' ],
     UserID  => 1,
 );
 $Self->True(
@@ -4092,32 +4093,35 @@ my $TicketIDSortOrder4 = $Self->{TicketObject}->TicketCreate(
     OwnerID      => 1,
     UserID       => 1,
 );
+
 # find oldest ticket by priority, age
 @TicketIDsSortOrder = $Self->{TicketObject}->TicketSearch(
     Result  => 'ARRAY',
     Title   => '%sort/order by test%',
     Queues  => ['Raw'],
-    OrderBy => ['Down', 'Down'],
-    SortBy  => ['Priority', 'Age'],
+    OrderBy => [ 'Down', 'Down' ],
+    SortBy  => [ 'Priority', 'Age' ],
     UserID  => 1,
 );
 $Self->True(
     $TicketIDsSortOrder[0] eq $TicketIDSortOrder4,
     'TicketTicketSearch() - ticket sort/order by (Priority (Down), Age (Down))',
 );
+
 # find oldest ticket by priority, age
 @TicketIDsSortOrder = $Self->{TicketObject}->TicketSearch(
     Result  => 'ARRAY',
     Title   => '%sort/order by test%',
     Queues  => ['Raw'],
-    OrderBy => ['Up', 'Down'],
-    SortBy  => ['Priority', 'Age'],
+    OrderBy => [ 'Up', 'Down' ],
+    SortBy  => [ 'Priority', 'Age' ],
     UserID  => 1,
 );
 $Self->True(
     $TicketIDsSortOrder[0] eq $TicketIDSortOrder2,
     'TicketTicketSearch() - ticket sort/order by (Priority (Up), Age (Down))',
 );
+
 # find newest ticket
 @TicketIDsSortOrder = $Self->{TicketObject}->TicketSearch(
     Result  => 'ARRAY',
@@ -4131,6 +4135,7 @@ $Self->True(
     $TicketIDsSortOrder[0] eq $TicketIDSortOrder4,
     'TicketTicketSearch() - ticket sort/order by (Age (Down))',
 );
+
 # find oldest ticket
 @TicketIDsSortOrder = $Self->{TicketObject}->TicketSearch(
     Result  => 'ARRAY',
