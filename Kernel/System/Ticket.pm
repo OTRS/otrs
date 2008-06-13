@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.323 2008-06-05 08:59:41 martin Exp $
+# $Id: Ticket.pm,v 1.324 2008-06-13 08:12:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.323 $) [1];
+$VERSION = qw($Revision: 1.324 $) [1];
 
 =head1 NAME
 
@@ -553,9 +553,9 @@ sub TicketDelete {
 
     # delete ticket links
     $Self->{LinkObject}->LinkDeleteAll(
-        Object   => 'Ticket',
-        Key      => $Param{TicketID},
-        UserID   => $Param{UserID},
+        Object => 'Ticket',
+        Key    => $Param{TicketID},
+        UserID => $Param{UserID},
     );
 
     # update ticket index
@@ -1686,7 +1686,8 @@ sub TicketEscalationDateCalculation {
     my $Time = $Self->{TimeObject}->SystemTime();
     my %Data;
     my %Map = (
-#        EscalationTime         => 'Escalation',
+
+        #        EscalationTime         => 'Escalation',
         EscalationResponseTime => 'FirstResponse',
         EscalationUpdateTime   => 'Update',
         EscalationSolutionTime => 'Solution',
@@ -1797,7 +1798,7 @@ sub TicketEscalationIndexBuild {
     }
 
     # find escalation times
-    my %Escalation = ();
+    my %Escalation     = ();
     my $EscalationTime = 0;
     if ( $Self->{ConfigObject}->Get('Ticket::Service') && $Ticket{SLAID} ) {
         %Escalation = $Self->{SLAObject}->SLAGet(
@@ -3156,14 +3157,14 @@ sub TicketSearch {
     my @SortByArray;
     my @OrderByArray;
     if ( ref $SortBy eq 'ARRAY' ) {
-        @SortByArray = @{$SortBy};
+        @SortByArray  = @{$SortBy};
         @OrderByArray = @{$OrderBy};
     }
     else {
-        @SortByArray = ($SortBy);
+        @SortByArray  = ($SortBy);
         @OrderByArray = ($OrderBy);
     }
-    for my $Count ( 0..$#SortByArray) {
+    for my $Count ( 0 .. $#SortByArray ) {
         if ( !$SortOptions{ $SortByArray[$Count] } ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -3897,15 +3898,16 @@ sub TicketSearch {
             {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  => "No valid time format '" . $Param{ $Key . 'OlderDate'} . "'!",
+                    Message  => "No valid time format '" . $Param{ $Key . 'OlderDate' } . "'!",
                 );
                 return;
             }
+
             # exclude tickets wirt no escalation
             if ( $Key eq 'TicketEscalationTime' ) {
                 $SQLExt .= " AND $TicketTime{$Key} != 0";
             }
-            my $Time =  $Self->{TimeObject}->TimeStamp2SystemTime(
+            my $Time = $Self->{TimeObject}->TimeStamp2SystemTime(
                 String => $Param{ $Key . 'OlderDate' },
             );
             $SQLExt .= " AND $TicketTime{$Key} <= $Time";
@@ -3924,11 +3926,12 @@ sub TicketSearch {
                 );
                 return;
             }
+
             # exclude tickets wirt no escalation
             if ( $Key eq 'TicketEscalationTime' ) {
                 $SQLExt .= " AND $TicketTime{$Key} != 0";
             }
-            my $Time =  $Self->{TimeObject}->TimeStamp2SystemTime(
+            my $Time = $Self->{TimeObject}->TimeStamp2SystemTime(
                 String => $Param{ $Key . 'NewerDate' },
             );
             $SQLExt .= " AND $TicketTime{$Key} >= '$Time'";
@@ -5916,30 +5919,16 @@ sub TicketMerge {
         CreateUserID => $Param{UserID},
     );
 
-    # lookup the link type id
-    my $LinkTypeID = $Self->{LinkObject}->TypeLookup(
-        Name   => 'ParentChild',
-        UserID => $Param{UserID},
-    );
-
-    # lookup the link state id
-    my $LinkStateID = $Self->{LinkObject}->StateLookup(
-        Name   => 'Valid',
-        UserID => $Param{UserID},
-    );
-
     # link tickets
-    if ($LinkTypeID && $LinkStateID) {
-        $Self->{LinkObject}->LinkAdd(
-            SourceObject => 'Ticket',
-            SourceKey    => $Param{MainTicketID},
-            TargetObject => 'Ticket',
-            TargetKey    => $Param{MergeTicketID},
-            TypeID       => $LinkTypeID,
-            StateID      => $LinkStateID,
-            UserID       => $Param{UserID},
-        );
-    }
+    $Self->{LinkObject}->LinkAdd(
+        SourceObject => 'Ticket',
+        SourceKey    => $Param{MainTicketID},
+        TargetObject => 'Ticket',
+        TargetKey    => $Param{MergeTicketID},
+        Type         => 'ParentChild',
+        State        => 'Valid',
+        UserID       => $Param{UserID},
+    );
 
     # set new state of merge ticket
     $Self->StateSet(
@@ -6567,6 +6556,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.323 $ $Date: 2008-06-05 08:59:41 $
+$Revision: 1.324 $ $Date: 2008-06-13 08:12:49 $
 
 =cut
