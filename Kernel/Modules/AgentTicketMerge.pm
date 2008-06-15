@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.pm,v 1.19 2008-05-08 09:36:36 mh Exp $
+# $Id: AgentTicketMerge.pm,v 1.20 2008-06-15 20:48:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -143,8 +143,9 @@ sub Run {
     # merge action
     if ( $Self->{Subaction} eq 'Merge' ) {
         my $MainTicketNumber = $Self->{ParamObject}->GetParam( Param => 'MainTicketNumber' );
-        my $MainTicketID
-            = $Self->{TicketObject}->TicketIDLookup( TicketNumber => $MainTicketNumber );
+        my $MainTicketID = $Self->{TicketObject}->TicketIDLookup(
+            TicketNumber => $MainTicketNumber,
+        );
 
         # check permissions
         if (
@@ -220,18 +221,16 @@ sub Run {
                     Type           => 'text/plain',
                     Charset        => $Self->{LayoutObject}->{UserCharset},
                 );
-                if ($ArticleID) {
-                    return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenOverview} );
-                }
-                else {
-
+                if ( !$ArticleID ) {
                     # error page
                     return $Self->{LayoutObject}->ErrorScreen();
                 }
             }
-            else {
-                return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenOverview} );
-            }
+
+            # redirect to merged ticket
+            return $Self->{LayoutObject}->Redirect(
+                OP => "Action=AgentTicketZoom&TicketID=$MainTicketID"
+            );
         }
     }
     else {
