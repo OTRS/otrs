@@ -2,7 +2,7 @@
 # Kernel/System/MailAccount/IMAP.pm - lib for imap accounts
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: IMAP.pm,v 1.2 2008-05-08 09:36:21 mh Exp $
+# $Id: IMAP.pm,v 1.3 2008-06-17 09:17:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Net::IMAP::Simple;
 use Kernel::System::PostMaster;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -86,7 +86,7 @@ sub Fetch {
         );
         return;
     }
-    my $NOM = $IMAPObject->select('INBOX');
+    my $NOM = $IMAPObject->select('INBOX') || 0;
 
     # fetch messages
     if ( $NOM > 0 ) {
