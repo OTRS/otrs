@@ -2,7 +2,7 @@
 # Kernel/System/Service.pm - all service function
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.27 2008-05-15 22:05:46 mh Exp $
+# $Id: Service.pm,v 1.28 2008-06-18 10:15:20 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 =head1 NAME
 
@@ -40,12 +40,17 @@ create an object
 
     use Kernel::Config;
     use Kernel::System::Log;
+    use Kernel::System::Main;
     use Kernel::System::DB;
     use Kernel::System::Service;
 
     my $ConfigObject = Kernel::Config->new();
     my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
+    );
+    my $MainObject = Kernel::System::Main->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
     );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
@@ -57,6 +62,7 @@ create an object
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
         DBObject     => $DBObject,
+        MainObject   => $MainObject,
     );
 
 =cut
@@ -817,6 +823,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2008-05-15 22:05:46 $
+$Revision: 1.28 $ $Date: 2008-06-18 10:15:20 $
 
 =cut
