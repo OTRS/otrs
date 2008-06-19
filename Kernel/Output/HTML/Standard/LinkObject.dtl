@@ -2,7 +2,7 @@
 # LinkObject.dtl - provides HTML elements for link object lists
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.dtl,v 1.1 2008-06-02 11:56:29 mh Exp $
+# $Id: LinkObject.dtl,v 1.2 2008-06-19 14:16:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,17 +14,107 @@ $Data{"Content"}
 <!-- dtl:block:Plain -->
 
 <!-- dtl:block:Text -->
-$Quote{"$Data{"Content"}","$QData{"MaxLength"}"}
+<span title="$Data{"Content"}">$Quote{"$Data{"Content"}","$QData{"MaxLength"}"}</span>
 <!-- dtl:block:Text -->
 
 <!-- dtl:block:TextTranslate -->
-$Quote{"$Text{"$Data{"Content"}"}","$QData{"MaxLength"}"}
+<span title="$Text{"$Data{"Content"}"}">$Quote{"$Text{"$Data{"Content"}"}","$QData{"MaxLength"}"}</span>
 <!-- dtl:block:TextTranslate -->
 
 <!-- dtl:block:Link -->
-<a href="$Data{"Link"}" alt="$QData{"Title"}" title="$QData{"Title"}">$Quote{"$Data{"Content"}","$QData{"MaxLength"}"}</a>
+<a href="$Data{"Link"}" alt="$QData{"Title"}" title="$QData{"Title"}" $Data{"Css"}>
+$Quote{"$Data{"Content"}","$QData{"MaxLength"}"}
+</a>
 <!-- dtl:block:Link -->
+
+<!-- dtl:block:TimeLong -->
+$TimeLong{"$Data{"Content"}"}
+<!-- dtl:block:TimeLong -->
 
 <!-- dtl:block:Checkbox -->
 <input type="checkbox" name="$QData{"Name"}" value="$QData{"Content"}" alt="$QData{"Title"}" title="$QData{"Title"}">
 <!-- dtl:block:Checkbox -->
+
+<!-- dtl:block:InputText -->
+<input type="Text" name="$QData{"Key"}" size="60" value="$QData{"Value"}">
+<!-- dtl:block:InputText -->
+
+<!-- dtl:block:NewLine -->
+<br>
+<!-- dtl:block:NewLine -->
+
+<!-- dtl:block:TableSimple -->
+<tr>
+  <td colspan="2">
+    <b>$Text{"Linked"}:</b>
+  </td>
+</tr>
+<!-- dtl:block:TableSimpleType -->
+<tr valign="top">
+  <td>
+    <b>&nbsp;&nbsp;$Text{"$QData{"LinkTypeName"}"}:</b>
+  </td>
+  <td>
+<!-- dtl:block:TableSimpleTypeRow -->
+    $Data{"Content"}<br>
+<!-- dtl:block:TableSimpleTypeRow -->
+  </td>
+</tr>
+<!-- dtl:block:TableSimpleType -->
+<!-- dtl:block:TableSimple -->
+
+<!-- dtl:block:TableComplex -->
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+<!-- dtl:block:TableComplexBlock -->
+  <tr>
+    <td>
+      <b><i>$Data{"Blockname"}</i></b>
+    </td>
+    <tr>
+      <tr>
+        <td>
+          <table width="100%" border="0" cellspacing="0" cellpadding="3">
+            <tr>
+<!-- dtl:block:TableComplexBlockColumn -->
+              <td class="contenthead" width="$QData{"Width"}">$Text{"$QData{"Content"}"}</td>
+<!-- dtl:block:TableComplexBlockColumn -->
+            </tr>
+<!-- dtl:block:TableComplexBlockRow -->
+            <tr class="contentbody">
+<!-- dtl:block:TableComplexBlockRowColumn -->
+              <td class="$QData{"CssClass"}" $Data{"Css"}>$Data{"Content"}</td>
+<!-- dtl:block:TableComplexBlockRowColumn -->
+            </tr>
+<!-- dtl:block:TableComplexBlockRow -->
+<!-- dtl:block:TableComplexBlockFooterNormal -->
+            <tr>
+              <td class="contentfooter" colspan="$QData{"Colspan"}">&nbsp;</td>
+            </tr>
+<!-- dtl:block:TableComplexBlockFooterNormal -->
+<!-- dtl:block:TableComplexBlockFooterAdd -->
+            <tr>
+              <td class="contentfooter" colspan="$QData{"Colspan"}">
+                $Data{"LinkTypeStrg"}
+                &nbsp;
+                <input class="button" type="submit" name="SubmitLink" value="$Text{"Link"}"/>
+              </td>
+            </tr>
+<!-- dtl:block:TableComplexBlockFooterAdd -->
+<!-- dtl:block:TableComplexBlockFooterDelete -->
+            <tr>
+              <td class="contentfooter" colspan="$QData{"Colspan"}">
+                <input class="button" type="submit" name="SubmitDelete" value="$Text{"Delete"}"/>
+              </td>
+            </tr>
+<!-- dtl:block:TableComplexBlockFooterDelete -->
+          </table>
+        </td>
+        <tr>
+          <tr>
+            <td>
+              <font size="1">&nbsp;</font>
+            </td>
+          </tr>
+<!-- dtl:block:TableComplexBlock -->
+        </table>
+<!-- dtl:block:TableComplex -->

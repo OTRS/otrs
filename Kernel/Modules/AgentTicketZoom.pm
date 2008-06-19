@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.53 2008-06-13 08:09:44 mh Exp $
+# $Id: AgentTicketZoom.pm,v 1.54 2008-06-19 14:16:40 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -493,94 +493,31 @@ sub MaskAgentZoom {
                 );
             }
 
-            # lookup the link state id
-            my $LinkStateID = $Self->{LinkObject}->StateLookup(
-                Name   => 'Valid',
+            # get linked objects
+            my $LinkListWithData = $Self->{LinkObject}->LinkListWithData(
+                Object => 'Ticket',
+                Key    => $Self->{TicketID},
+                State  => 'Valid',
                 UserID => $Self->{UserID},
             );
 
-            # get linked objects
-            my $ExistingLinks = $Self->{LinkObject}->LinksGet(
-                Object  => 'Ticket',
-                Key     => $Self->{TicketID},
-                StateID => $LinkStateID,
-                UserID  => $Self->{UserID},
+            # get link table view mode
+            my $LinkTableViewMode = $Self->{ConfigObject}->Get( 'LinkObject::ViewMode' );
+
+            # create the link table
+            my $LinkTableStrg = $Self->{LayoutObject}->LinkObjectTableCreate(
+                LinkListWithData => $LinkListWithData,
+                ViewMode         => $LinkTableViewMode,
             );
 
-            # prepare the output hash
-            for my $Object ( sort { lc $a cmp lc $b } keys %{$ExistingLinks} ) {
-
-                # get object description
-                my %ObjectDescription = $Self->{LinkObject}->ObjectDescriptionGet(
-                    Object => $Object,
-                    UserID => $Self->{UserID},
+            # output the link table
+            if ($LinkTableStrg) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'LinkTable' . $LinkTableViewMode,
+                    Data => {
+                        LinkTableStrg => $LinkTableStrg,
+                    },
                 );
-
-                for my $Type ( sort { lc $a cmp lc $b } keys %{ $ExistingLinks->{$Object} } ) {
-
-                    # lookup type id
-                    my $TypeID = $Self->{LinkObject}->TypeLookup(
-                        Name   => $Type,
-                        UserID => $Self->{UserID},
-                    );
-
-                    # get type data
-                    my %TypeData = $Self->{LinkObject}->TypeGet(
-                        TypeID => $TypeID,
-                        UserID => $Self->{UserID},
-                    );
-
-                    for my $Direction ( keys %{ $ExistingLinks->{$Object}->{$Type} } ) {
-
-                        my $LinkTypeName
-                            = $Direction eq 'Target'
-                            ? $TypeData{TargetName}
-                            : $TypeData{SourceName};
-
-                        $Self->{LayoutObject}->Block(
-                            Name => 'Link',
-                            Data => {
-                                %Param,
-                                LinkTypeName => $LinkTypeName,
-                            },
-                        );
-
-                        for my $ItemKey ( @{ $ExistingLinks->{$Object}->{$Type}->{$Direction} } ) {
-
-                            # get item description
-                            my %ItemDescription = $Self->{LinkObject}->ItemDescriptionGet(
-                                Object => $Object,
-                                Key    => $ItemKey,
-                                UserID => $Self->{UserID},
-                            );
-
-                            # extract cell value
-                            my $Content = $ItemDescription{ItemData}
-                                ->{ $ObjectDescription{Overview}->{Normal}->{Key} } || '';
-
-                            my $LinkString = $Self->{LayoutObject}->LinkObjectContentStringCreate(
-                                SourceObject => {
-                                    Object => 'Ticket',
-                                    Key    => $Self->{TicketID},
-                                },
-                                TargetObject => {
-                                    Object => $Object,
-                                    Key    => $ItemKey,
-                                },
-                                TargetItemDescription => \%ItemDescription,
-                                ColumnData            => $ObjectDescription{Overview}->{Normal},
-                                Content               => $Content,
-                            );
-
-                            $Self->{LayoutObject}->Block(
-                                Name => 'LinkItem',
-                                Data => {
-                                    LinkString => $LinkString,
-                                },
-                            );
-                        }
-                    }
-                }
             }
 
             # ticket free text

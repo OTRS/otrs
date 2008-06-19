@@ -107,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.171 2008-06-12 22:02:22 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.172 2008-06-19 14:15:20 mh Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -406,8 +406,20 @@ TimeWorkingHours
             <String Regex="">@(aa|aaa|aaaa|aaaaa|abc|any|anywhere|anonymous|bar|demo|example|foo|hello|hallo|me|nospam|nowhere|null|some|somewhere|test|teste.|there|user|xx|xxx|xxxx)\.(..|...)$</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="LinkObject::Type###Normal" Required="0" Valid="1">
+    <ConfigItem Name="LinkObject::ViewMode" Required="1" Valid="1">
         <Description Lang="en"></Description>
+        <Description Lang="de">Legt die Ansicht der verlinkten Objekte in den jeweiligen Zoom-Masken fest.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::LinkObject</SubGroup>
+        <Setting>
+            <Option SelectedID="Simple">
+                <Item Key="Simple">Simple</Item>
+                <Item Key="Complex">Complex</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="LinkObject::Type###Normal" Required="0" Valid="1">
+        <Description Lang="en">This setting defines the link type 'Normal'. If the source name and the target name contain the same value, the resulting link is a non-directional one. If the values are different, the resulting link is a directional link.</Description>
         <Description Lang="de">Definiert den Linktyp 'Normal'. Wird als SourceName und TargetName der gleiche Inhalt angegeben, entsteht ein ungerichteter Linktyp. Wird als SourceName und TargetName verschiedene Inhalt angegeben, entsteht ein gerichteter Linktyp.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::LinkObject</SubGroup>
@@ -419,7 +431,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="LinkObject::Type###ParentChild" Required="0" Valid="1">
-        <Description Lang="en"></Description>
+        <Description Lang="en">This setting defines the link type 'ParentChild'. If the source name and the target name contain the same value, the resulting link is a non-directional one. If the values are different, the resulting link is a directional link.</Description>
         <Description Lang="de">Definiert den Linktyp 'ParentChild'. Wird als SourceName und TargetName der gleiche Inhalt angegeben, entsteht ein ungerichteter Linktyp. Wird als SourceName und TargetName verschiedene Inhalt angegeben, entsteht ein gerichteter Linktyp.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::LinkObject</SubGroup>
@@ -430,8 +442,8 @@ TimeWorkingHours
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="LinkObject::TypeGroup###001" Required="0" Valid="1">
-        <Description Lang="en"></Description>
+    <ConfigItem Name="LinkObject::TypeGroup###0001" Required="0" Valid="1">
+        <Description Lang="en">This setting defines the link type groups. The link types of the same group cancel one another. Example: If ticket A is linked per a 'Normal' link with ticket B, then these tickets could not be additionally linked with link of a 'ParentChild' relationship.</Description>
         <Description Lang="de">Definiert eine Linktyp-Gruppe. Die Linktypen einer Gruppe schließen sich gegenseitig aus. Beispiel: Wird Ticket A mit Ticket B über den Linktyp 'Normal' verlinkt, können diese beiden Tickets nicht noch zusätzlich mit dem Linktyp 'ParentChild' verlinkt werden.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::LinkObject</SubGroup>
@@ -442,8 +454,8 @@ TimeWorkingHours
             </Array>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="LinkObject::PossibleLink###001" Required="0" Valid="1">
-        <Description Lang="en"></Description>
+    <ConfigItem Name="LinkObject::PossibleLink###0001" Required="0" Valid="1">
+        <Description Lang="en">This setting defines that a 'Ticket' object can be linked with other 'Ticket' objects using the 'Normal' link type.</Description>
         <Description Lang="de">Definiert, dass ein 'Ticket'-Objekte mit dem Linktyp 'Normal' mit anderen 'Ticket'-Objekten verlinkt werden kann.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::LinkObject</SubGroup>
@@ -455,8 +467,8 @@ TimeWorkingHours
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="LinkObject::PossibleLink###002" Required="0" Valid="1">
-        <Description Lang="en"></Description>
+    <ConfigItem Name="LinkObject::PossibleLink###0002" Required="0" Valid="1">
+        <Description Lang="en">This setting defines that a 'Ticket' object can be linked with other 'Ticket' objects using the 'ParentChild' link type.</Description>
         <Description Lang="de">Definiert, dass ein 'Ticket'-Objekte mit dem Linktyp 'ParentChild' mit anderen 'Ticket'-Objekten verlinkt werden kann.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::LinkObject</SubGroup>

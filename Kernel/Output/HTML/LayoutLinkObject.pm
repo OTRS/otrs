@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLinkObject.pm - provides generic HTML output for LinkObject
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLinkObject.pm,v 1.1 2008-06-02 11:56:29 mh Exp $
+# $Id: LayoutLinkObject.pm,v 1.2 2008-06-19 14:16:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,17 +14,453 @@ package Kernel::Output::HTML::LayoutLinkObject;
 use strict;
 use warnings;
 
+use Kernel::System::LinkObject;
+
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
+
+=item LinkObjectTableCreate()
+
+create a output table
+
+    my $String = $LayoutObject->LinkObjectTableCreate(
+        LinkListWithData => $LinkListWithDataRef,
+        ViewMode         => 'Simple', # (Simple|Complex|ComplexAdd|ComplexDelete)
+    );
+
+=cut
+
+sub LinkObjectTableCreate {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Argument (qw(LinkListWithData ViewMode)) {
+        if ( !$Param{$Argument} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!",
+            );
+            return;
+        }
+    }
+
+    if ( $Param{ViewMode} eq 'Simple' ) {
+
+        return $Self->LinkObjectTableCreateSimple(
+            LinkListWithData => $Param{LinkListWithData},
+        );
+    }
+    else {
+
+        return $Self->LinkObjectTableCreateComplex(
+            LinkListWithData => $Param{LinkListWithData},
+            ViewMode         => $Param{ViewMode},
+        );
+    }
+}
+
+=item LinkObjectTableCreateComplex()
+
+create a complex output table
+
+    my $String = $LayoutObject->LinkObjectTableCreateComplex(
+        LinkListWithData => $LinkListRef,
+        ViewMode         => 'Complex', # (Complex|ComplexAdd|ComplexDelete)
+    );
+
+=cut
+
+sub LinkObjectTableCreateComplex {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Argument (qw(LinkListWithData ViewMode)) {
+        if ( !$Param{$Argument} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!",
+            );
+            return;
+        }
+    }
+
+    # check link list
+    if ( ref $Param{LinkListWithData} ne 'HASH' ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'LinkListWithData must be a hash referance!',
+        );
+        return;
+    }
+
+    return if !%{ $Param{LinkListWithData} };
+
+    # convert the link list
+    my %LinkList;
+    for my $Object ( keys %{ $Param{LinkListWithData} } ) {
+
+        for my $LinkType ( keys %{ $Param{LinkListWithData}->{$Object} } ) {
+
+            # extract link type List
+            my $LinkTypeList = $Param{LinkListWithData}->{$Object}->{$LinkType};
+
+            for my $Direction ( keys %{ $LinkTypeList } ) {
+
+                # extract direction list
+                my $DirectionList = $Param{LinkListWithData}->{$Object}->{$LinkType}->{$Direction};
+
+                for my $ObjectKey ( keys %{ $DirectionList } ) {
+
+                    $LinkList{$Object}->{$ObjectKey}->{$LinkType} = $Direction;
+                }
+            }
+        }
+    }
+
+    my @OutputData;
+    OBJECT:
+    for my $Object ( sort { lc $a cmp lc $b } keys %{$Param{LinkListWithData}} ) {
+
+        # load backend
+        my $BackendObject = $Self->_LoadLinkObjectLayoutBackend(
+            Object => $Object,
+        );
+
+        next OBJECT if !$BackendObject;
+
+        # get block data
+        my %BlockData = $BackendObject->TableCreateComplex(
+            ObjectLinkListWithData => $Param{LinkListWithData}->{$Object},
+        );
+
+        next OBJECT if !%BlockData;
+
+        push @OutputData, \%BlockData;
+    }
+
+    # error handling
+    for my $Block (@OutputData) {
+
+        ITEM:
+        for my $Item ( @{ $Block->{ItemList} } ) {
+
+            next ITEM if $Item->[0]->{Key} && $Block->{Object};
+
+            if ( !$Block->{Object} ) {
+                $Item->[0] = {
+                    Type    => 'Text',
+                    Content => 'ERROR: Object attribute not found in the block data.',
+                };
+            }
+            else {
+                $Item->[0] = {
+                    Type    => 'Text',
+                    Content => 'ERROR: Key attribute not found in the first column of the item list.',
+                };
+            }
+        }
+    }
+
+    # add "linked as" column to the table
+    for my $Block (@OutputData) {
+
+        # define the headline column
+        my $Column = {
+            Content => 'Linked as',
+            Width   => 90,
+        };
+
+        # add new column to the headline
+        push @{ $Block->{Headline} }, $Column;
+
+        for my $Item ( @{ $Block->{ItemList} } ) {
+
+            # define checkbox cell
+            my $CheckboxCell = {
+                Type         => 'LinkTypeList',
+                Content      => '',
+                LinkTypeList => $LinkList{ $Block->{Object} }->{ $Item->[0]->{Key} },
+                Translate    => 1,
+            };
+
+            # add checkbox cell to item
+            push @{$Item}, $CheckboxCell;
+        }
+    }
+
+    if ( $Param{ViewMode} eq 'ComplexAdd' ) {
+
+        for my $Block (@OutputData) {
+
+            # define the headline column
+            my $Column = {
+                Content => ' ',
+                Width   => 27,
+            };
+
+            # add new column to the headline
+            unshift @{ $Block->{Headline} }, $Column;
+
+            for my $Item ( @{ $Block->{ItemList} } ) {
+
+                # define checkbox cell
+                my $CheckboxCell = {
+                    Type    => 'Checkbox',
+                    Name    => 'LinkTargetKeys',
+                    Content => $Item->[0]->{Key},
+                };
+
+                # add checkbox cell to item
+                unshift @{$Item}, $CheckboxCell;
+            }
+        }
+    }
+
+    if ( $Param{ViewMode} eq 'ComplexDelete' ) {
+
+        for my $Block (@OutputData) {
+
+            # define the headline column
+            my $Column = {
+                Content => ' ',
+                Width   => 27,
+            };
+
+            # add new column to the headline
+            unshift @{ $Block->{Headline} }, $Column;
+
+            for my $Item ( @{ $Block->{ItemList} } ) {
+
+                # define checkbox delete cell
+                my $CheckboxCell = {
+                    Type         => 'CheckboxDelete',
+                    Object       => $Block->{Object},
+                    Content      => '',
+                    Key          => $Item->[0]->{Key},
+                    LinkTypeList => $LinkList{ $Block->{Object} }->{ $Item->[0]->{Key} },
+                    Translate    => 1,
+                };
+
+                # add checkbox cell to item
+                unshift @{$Item}, $CheckboxCell;
+            }
+        }
+    }
+
+    # create new instance of the layout object
+    my $LayoutObject = Kernel::Output::HTML::Layout->new( %{$Self} );
+
+    # output the table complex block
+    $LayoutObject->Block(
+        Name => 'TableComplex',
+    );
+
+    BLOCK:
+    for my $Block ( @OutputData ) {
+
+        next BLOCK if !$Block->{ItemList};
+        next BLOCK if ref $Block->{ItemList} ne 'ARRAY';
+        next BLOCK if !@{ $Block->{ItemList} };
+
+        # output the block
+        $LayoutObject->Block(
+            Name => 'TableComplexBlock',
+            Data => {
+                Blockname => $Block->{Blockname} || '',
+            },
+        );
+
+        # output table headline
+        for my $HeadlineColumn ( @{ $Block->{Headline} } ) {
+
+            # output a headline column block
+            $LayoutObject->Block(
+                Name => 'TableComplexBlockColumn',
+                Data => $HeadlineColumn,
+            );
+        }
+
+        # output item list
+        my $CssClass = '';
+        for my $Row ( @{ $Block->{ItemList} } ) {
+
+            # output a table row block
+            $LayoutObject->Block(
+                Name => 'TableComplexBlockRow',
+            );
+
+            # set the css class
+            $CssClass = $CssClass eq 'searchpassive' ? 'searchactive' : 'searchpassive';
+
+            for my $Column ( @{$Row} ) {
+
+                # create the content string
+                my $Content = $Self->LinkObjectContentStringCreate(
+                    ContentData => $Column,
+                );
+
+                # output a table column block
+                $LayoutObject->Block(
+                    Name => 'TableComplexBlockRowColumn',
+                    Data => {
+                        %{$Column},
+                        Content  => $Content,
+                        CssClass => $CssClass,
+                    },
+                );
+            }
+        }
+
+        if ( $Param{ViewMode} eq 'ComplexAdd') {
+
+            # output the footer block
+            $LayoutObject->Block(
+                Name => 'TableComplexBlockFooterAdd',
+                Data => {
+                    Colspan      => scalar @{ $Block->{Headline} },
+                    LinkTypeStrg => $Param{LinkTypeStrg} || '',
+                },
+            );
+        }
+        elsif ( $Param{ViewMode} eq 'ComplexDelete') {
+
+            # output the footer block
+            $LayoutObject->Block(
+                Name => 'TableComplexBlockFooterDelete',
+                Data => {
+                    Colspan => scalar @{ $Block->{Headline} },
+                },
+            );
+        }
+        else {
+
+            # output the footer block
+            $LayoutObject->Block(
+                Name => 'TableComplexBlockFooterNormal',
+                Data => {
+                    Colspan => scalar @{ $Block->{Headline} },
+                },
+            );
+        }
+    }
+
+    return $LayoutObject->Output(
+        TemplateFile => 'LinkObject',
+    );
+}
+
+=item LinkObjectTableCreateSimple()
+
+create a simple output table
+
+    my $String = $LayoutObject->LinkObjectTableCreateSimple(
+        LinkListWithData => $LinkListWithDataRef,
+    );
+
+=cut
+
+sub LinkObjectTableCreateSimple {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{LinkListWithData} || ref $Param{LinkListWithData} ne 'HASH' ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message  => 'Need LinkListWithData!' );
+        return;
+    }
+
+    # load link core module
+    if ( !$Self->{LinkObject} ) {
+        $Self->{LinkObject} = Kernel::System::LinkObject->new( %{$Self} );
+    }
+
+    # get type list
+    my %TypeList = $Self->{LinkObject}->TypeList(
+        UserID => $Self->{UserID},
+    );
+
+    return if !%TypeList;
+
+    my %OutputData;
+    OBJECT:
+    for my $Object ( keys %{$Param{LinkListWithData}} ) {
+
+        # load backend
+        my $BackendObject = $Self->_LoadLinkObjectLayoutBackend(
+            Object => $Object,
+        );
+
+        next OBJECT if !$BackendObject;
+
+        # get link output data
+        my %LinkOutputData = $BackendObject->TableCreateSimple(
+            ObjectLinkListWithData => $Param{LinkListWithData}->{$Object},
+        );
+
+        next OBJECT if !%LinkOutputData;
+
+        for my $LinkType ( keys %LinkOutputData ) {
+
+            $OutputData{$LinkType}->{$Object} = $LinkOutputData{$LinkType}->{$Object};
+        }
+    }
+
+    # create new instance of the layout object
+    my $LayoutObject = Kernel::Output::HTML::Layout->new( %{$Self} );
+
+    # output the table simple block
+    $LayoutObject->Block(
+        Name => 'TableSimple',
+    );
+
+    for my $LinkTypeLinkDirection ( sort { lc $a cmp lc $b } keys %OutputData ) {
+
+        # investigate link type name
+        my @LinkData = split q{::}, $LinkTypeLinkDirection;
+        my $LinkTypeName = $TypeList{ $LinkData[0] }->{ $LinkData[1] . 'Name' };
+
+        # output the type block
+        $LayoutObject->Block(
+            Name => 'TableSimpleType',
+            Data => {
+                LinkTypeName => $LinkTypeName,
+            },
+        );
+
+        # extract object list
+        my $ObjectList = $OutputData{$LinkTypeLinkDirection};
+
+        for my $Object ( sort { lc $a cmp lc $b } keys %{ $ObjectList } ) {
+
+            for my $Item ( @{ $ObjectList->{$Object} } ) {
+
+                # create the content string
+                my $Content = $Self->LinkObjectContentStringCreate(
+                    ContentData => $Item,
+                );
+
+                # output the type block
+                $LayoutObject->Block(
+                    Name => 'TableSimpleTypeRow',
+                    Data => {
+                        %{$Item},
+                        Content => $Content,
+                    },
+                );
+            }
+        }
+    }
+
+    return $LayoutObject->Output(
+        TemplateFile => 'LinkObject',
+    );
+}
 
 =item LinkObjectContentStringCreate()
 
 return a output string
 
     my $String = $LayoutObject->LinkObjectContentStringCreate(
-        TargetObject          => 'Ticket',
-        TargetItemDescription => $Hashref,
-        ColumnData            => $Hashref,
+        ContentData => $HashRef,
     );
 
 =cut
@@ -33,200 +469,234 @@ sub LinkObjectContentStringCreate {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Argument (qw(TargetObject TargetItemDescription ColumnData)) {
-        if ( !$Param{$Argument} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Need $Argument!",
-            );
-            return;
-        }
+    if ( !$Param{ContentData} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message  => 'Need ContentData!' );
+        return;
     }
 
-    # load backend
-    my $BackendObject = $Self->_LoadLinkObjectLayoutBackend(
-        Object => $Param{TargetObject}->{Object},
-    );
+    # load link core module
+    if ( !$Self->{LinkObject} ) {
+        $Self->{LinkObject} = Kernel::System::LinkObject->new( %{$Self} );
+    }
 
-    return if !$BackendObject;
+    # extract content
+    my $Content = $Param{ContentData};
 
-    # fill up column params (framework)
-    $Self->_OutputParamsFillUp(%Param);
+    # set blockname
+    my $Blockname = $Content->{Type};
 
-    # fill up column params (backend)
-    $BackendObject->OutputParamsFillUp(%Param);
+    # set global default value
+    $Content->{MaxLength} ||= 100;
 
-    # output block
+    # prepare linktypelist
+    if ( $Content->{Type} eq 'LinkTypeList' ) {
+
+        $Blockname = 'Plain';
+
+        # get type list
+        my %TypeList = $Self->{LinkObject}->TypeList(
+            UserID => $Self->{UserID},
+        );
+
+        return if !%TypeList;
+
+        my @LinkNameList;
+        LINKTYPE:
+        for my $LinkType ( keys %{ $Content->{LinkTypeList} } ) {
+
+            next LINKTYPE if $LinkType eq 'NOTLINKED';
+
+            # extract direction
+            my $Direction = $Content->{LinkTypeList}->{$LinkType};
+
+            # extract linkname
+            my $LinkName = $TypeList{ $LinkType }->{ $Direction . 'Name' };
+
+            # translate
+            if ( $Content->{Translate} ) {
+                $LinkName = $Self->{LayoutObject}->{LanguageObject}->Get( $LinkName );
+            }
+
+            push @LinkNameList, $LinkName;
+        };
+
+        # join string
+        my $String = join qq{\n}, sort { lc $a cmp lc $b } @LinkNameList;
+
+        # transform ascii to html
+        $Content->{Content} = $Self->{LayoutObject}->Ascii2Html(
+            Text           => $String  || '-',
+            HTMLResultMode => 1,
+            LinkFeature    => 0,
+        );
+    }
+
+    # prepare checkbox delete
+    if ( $Content->{Type} eq 'CheckboxDelete' ) {
+
+        $Blockname = 'Plain';
+
+        # get type list
+        my %TypeList = $Self->{LinkObject}->TypeList(
+            UserID => $Self->{UserID},
+        );
+
+        return if !%TypeList;
+
+        # create new instance of the layout object
+        my $LayoutObject = Kernel::Output::HTML::Layout->new( %{$Self} );
+
+        LINKTYPE:
+        for my $LinkType ( keys %{ $Content->{LinkTypeList} } ) {
+
+            next LINKTYPE if $LinkType eq 'NOTLINKED';
+
+            # extract direction
+            my $Direction = $Content->{LinkTypeList}->{$LinkType};
+
+            # extract linkname
+            my $LinkName = $TypeList{ $LinkType }->{ $Direction . 'Name' };
+
+            # translate
+            if ( $Content->{Translate} ) {
+                $LinkName = $Self->{LayoutObject}->{LanguageObject}->Get( $LinkName );
+            }
+
+            # run checkbox block
+            $LayoutObject->Block(
+                Name => 'Checkbox',
+                Data => {
+                    %{$Content},
+                    Name    => 'LinkDeleteIdentifier',
+                    Title   => $LinkName,
+                    Content =>  $Content->{Object} . '::' . $Content->{Key} . '::' . $LinkType,
+                },
+            );
+
+            # run new line block
+            $LayoutObject->Block(
+                Name => 'NewLine',
+            );
+        };
+
+        $Content->{Content} = $LayoutObject->Output(
+            TemplateFile => 'LinkObject',
+        );
+    }
+
+    # prepare text
+    elsif ( $Content->{Type} eq 'Text' || !$Content->{Type} ) {
+
+        $Blockname = $Content->{Translate} ? 'TextTranslate' : 'Text';
+        $Content->{Content} ||= '-';
+    }
+
+    # run block
     $Self->{LayoutObject}->Block(
-        Name => $Param{ColumnData}->{Output}->{TemplateBlock},
-        Data => {
-            %{ $Param{ColumnData}->{Output} },
-            Content => $Param{ColumnData}->{Output}->{Content} || '',
-        },
+        Name => $Blockname,
+        Data => $Content,
     );
 
-    # create output content
-    my $OutputContent = $Self->{LayoutObject}->Output(
-        TemplateFile => $Param{ColumnData}->{Output}->{TemplateFile},
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'LinkObject',
     );
-
-    return $OutputContent;
 }
 
-=item _OutputParamsFillUp()
+=item LinkObjectSelectableObjectList()
 
-fill up output params
+return a selection list of linkable objects
 
-    $LayoutObject->_OutputParamsFillUp(
-        ColumnData => $Hashref,
+    my $String = $LayoutObject->LinkObjectSelectableObjectList(
+        Object   => 'Ticket',
+        Selected => $Identifier,  # (optional)
     );
 
 =cut
 
-sub _OutputParamsFillUp {
+sub LinkObjectSelectableObjectList {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Argument (qw(TargetObject TargetItemDescription ColumnData)) {
-        if ( !$Param{$Argument} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Need $Argument!",
-            );
-            return;
-        }
+    if ( !$Param{Object} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message  => 'Need Object!' );
+        return;
     }
 
-    # set default type
-    $Param{ColumnData}->{Type} ||= 'Text';
-
-    my $OutputParams = {};
-    $Param{ColumnData}->{Output} = $OutputParams;
-
-    # set default options
-    $OutputParams->{Content}       = $Param{Content};
-    $OutputParams->{TemplateFile}  = 'LinkObject';
-    $OutputParams->{TemplateBlock} = 'Text';
-    $OutputParams->{MaxLength}     = 20;
-
-    # edit text params
-    if ( $Param{ColumnData}->{Type} eq 'Text' ) {
-
-        return 1;
+    # load link core module
+    if ( !$Self->{LinkObject} ) {
+        $Self->{LinkObject} = Kernel::System::LinkObject->new( %{$Self} );
     }
 
-    # edit link params
-    if ( $Param{ColumnData}->{Type} eq 'Link' ) {
+    # get possible objects list
+    my %PossibleObjectsList = $Self->{LinkObject}->PossibleObjectsList(
+        Object => $Param{Object},
+        UserID => $Self->{UserID},
+    );
 
-        $OutputParams->{TemplateBlock} = 'Link';
-        $OutputParams->{Link}          = '$Env{"Baselink"}';
+    return if !%PossibleObjectsList;
 
-        return 1;
-    }
+    # prepare the select list
+    my @SelectableObjectList;
+    for my $PossibleObject (sort { lc $a cmp lc $b } keys %PossibleObjectsList) {
 
-    # edit checkbox params
-    if ( $Param{ColumnData}->{Type} eq 'Checkbox' ) {
-
-        $OutputParams->{TemplateBlock} = 'Checkbox';
-
-        return 1;
-    }
-
-    # edit age params
-    if ( $Param{ColumnData}->{Type} eq 'Age' ) {
-
-        $OutputParams->{TemplateBlock} = 'Text';
-
-        return if !$OutputParams->{Content};
-
-        # prepare the age string
-        $OutputParams->{Content} = $Self->{LayoutObject}->CustomerAge(
-            Age   => $OutputParams->{Content},
-            Space => ' ',
+        # load backend
+        my $BackendObject = $Self->_LoadLinkObjectLayoutBackend(
+            Object => $Param{Object},
         );
 
-        return 1;
+        return if !$BackendObject;
+
+        # get object select list
+        my @SelectableList = $BackendObject->SelectableObjectList(
+            %Param,
+        );
+
+        push @SelectableObjectList, @SelectableList;
     }
 
-    # edit age params
-    if ( $Param{ColumnData}->{Type} eq 'LinkType' ) {
+    # create target object string
+    my $TargetObjectStrg = $Self->{LayoutObject}->BuildSelection(
+        Data     => \@SelectableObjectList,
+        Name     => 'TargetIdentifier',
+        TreeView => 1,
+        OnChange => 'document.compose.submit(); return false;',
+    );
 
-        # check needed stuff
-        for my $Argument (qw(TypeList SourceObject)) {
-            if ( !$Param{$Argument} ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message  => "Need $Argument!",
-                );
-                return;
-            }
-        }
+    return $TargetObjectStrg;
+}
 
-        # check needed stuff
-        if ( !$Param{TypeList} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => 'Need TypeList!',
-            );
-            return;
-        }
+=item LinkObjectSearchOptionList()
 
-        $OutputParams->{TemplateBlock} = 'Plain';
-        $OutputParams->{Content}       = '-';
+return a list of search options
 
-        return 1 if !$Param{TargetItemDescription}->{LinkData};
+    my @SearchOptionList = $LayoutObject->LinkObjectSearchOptionList(
+        Object   => 'Ticket',
+    );
 
-        # extract the link data and object id
-        my $LinkData = $Param{TargetItemDescription}->{LinkData};
-        my $Object = $Param{TargetObject}->{Object} || '';
+=cut
 
-        return 1 if ref $LinkData            ne 'HASH';
-        return 1 if !%{$LinkData};
-        return 1 if !$LinkData->{$Object};
-        return 1 if ref $LinkData->{$Object} ne 'HASH';
-        return 1 if !%{ $LinkData->{$Object} };
+sub LinkObjectSearchOptionList {
+    my ( $Self, %Param ) = @_;
 
-        # create the type list
-        my %AlreadyLinkedTypeList;
-        LINKTYPEID:
-        for my $Type ( keys %{ $LinkData->{$Object} } ) {
-
-            DIRECTION:
-            for my $Direction (qw(Source Target)) {
-
-                # extract data
-                my $Data = $LinkData->{$Object}->{$Type}->{$Direction} || [];
-
-                # investigate matched keys
-                my $MatchedKeys = scalar grep { $_ == $Param{SourceObject}->{Key} } @{$Data};
-
-                next DIRECTION if !$MatchedKeys;
-
-                my $Name = $Direction eq 'Source' ? 'TargetName' : 'SourceName';
-
-                $AlreadyLinkedTypeList{ $Param{TypeList}->{$Type}->{$Name} } = 1;
-            }
-        }
-
-        # sort link name list
-        my @LinkNameList;
-        for my $LinkName ( sort { lc $a cmp lc $b } keys %AlreadyLinkedTypeList ) {
-
-            # translate
-            my $LinkNameTranslated = $Self->{LayoutObject}->{LanguageObject}->Get($LinkName);
-
-            push @LinkNameList, $LinkNameTranslated;
-        }
-
-        return 1 if !@LinkNameList;
-
-        # create the content string
-        $OutputParams->{Content} = join '<br>', @LinkNameList;
-
-        return 1;
+    # check needed stuff
+    if ( !$Param{Object} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message  => 'Need Object!' );
+        return;
     }
 
-    return 1;
+    # load backend
+    my $BackendObject = $Self->_LoadLinkObjectLayoutBackend(
+        Object => $Param{Object},
+    );
+
+    return if !$BackendObject;
+
+    # get search option list
+    my @SearchOptionList = $BackendObject->SearchOptionList(
+        %Param,
+    );
+
+    return @SearchOptionList;
 }
 
 =item _LoadLinkObjectLayoutBackend()

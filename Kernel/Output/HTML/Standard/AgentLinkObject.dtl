@@ -2,7 +2,7 @@
 # AgentLinkObject.dtl - provides HTML for AgentLinkObject mask
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.dtl,v 1.22 2008-06-02 12:46:37 mh Exp $
+# $Id: AgentLinkObject.dtl,v 1.23 2008-06-19 14:16:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td class="mainhead">
-      $Env{"Box0"}$Text{"Link Object: %s", "$Data{"SourceItemDescriptionNormal"}"}$Env{"Box1"}
+      $Env{"Box0"}$Text{"Link Object: %s", "$Data{"SourceObjectNormal"}"}$Env{"Box1"}
     </td>
   </tr>
 </table>
@@ -35,7 +35,6 @@
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="SourceObject" value="$QData{"SourceObject"}">
         <input type="hidden" name="SourceKey" value="$QData{"SourceKey"}">
-        <input type="hidden" name="TargetObject" value="$QData{"TargetObject"}">
         <table width="800" border="0" cellspacing="0" cellpadding="3">
           <tr>
             <td class="contenthead">
@@ -45,8 +44,8 @@
           <tr>
             <td class="contentbody">
               $Text{"Link Object"}
-              <span title="$QData{"SourceItemDescriptionLong"}">
-              $QData{"SourceItemDescriptionNormal"}
+              <span title="$QData{"SourceObjectLong"}">
+              $QData{"SourceObjectNormal"}
               </span>
               $Text{"with"} $Data{"TargetObjectStrg"}
             </td>
@@ -66,9 +65,9 @@
           </tr>
 <!-- dtl:block:LinkSearchRow -->
           <tr class="contentbody">
-            <td width="20%" class="contentkey">$Text{"$Data{"Value"}"}: </td>
+            <td width="20%" class="contentkey">$Text{"$Data{"Name"}"}: </td>
             <td class="contentvalue">
-              <input type="Text" name="$QData{"Key"}" size="60" value="$QData{"SearchParam"}">
+              $Data{"InputStrg"}
             </td>
           </tr>
 <!-- dtl:block:LinkSearchRow -->
@@ -78,45 +77,28 @@
             </td>
           </tr>
         </table>
-<!-- dtl:block:LinkResult -->
+<!-- dtl:block:LinkTableComplex -->
         <br>
-        <table width="800" border="0" cellspacing="0" cellpadding="3">
+        <table width="806" align="center" border="0" cellspacing="0" cellpadding="0">
           <tr>
-<!-- dtl:block:LinkResultColumn -->
-            <td class="contenthead">
-              $Text{"$Data{"ColumnDescription"}"}
-            </td>
-<!-- dtl:block:LinkResultColumn -->
-          </tr>
-<!-- dtl:block:LinkResultRow -->
-          <tr>
-<!-- dtl:block:LinkResultRowColumn -->
-            <td class="$QData{"CssClass"}">
-              $Data{"CellData"}
-            </td>
-<!-- dtl:block:LinkResultRowColumn -->
-          </tr>
-<!-- dtl:block:LinkResultRow -->
-          <tr>
-            <td colspan="$QData{"LinkColspan"}" class="contentfooter">
-              $Data{"LinkTypeStrg"}
-              &nbsp;
-              <input class="button" type="submit" name="SubmitLink" value="$Text{"Link"}"/>
+            <td>
+              $Data{"LinkTableStrg"}
             </td>
           </tr>
         </table>
-<!-- dtl:block:LinkResult -->
+<!-- dtl:block:LinkTableComplex -->
       </form>
       <br>
     </td>
   </tr>
 </table>
 <!-- dtl:block:Link -->
+
 <!-- dtl:block:Delete -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td class="mainhead">
-      $Env{"Box0"}$Text{"Unlink Object: %s", "$QData{"SourceItemDescriptionNormal"}"}$Env{"Box1"}
+      $Env{"Box0"}$Text{"Unlink Object: %s", "$QData{"SourceObjectNormal"}"}$Env{"Box1"}
     </td>
   </tr>
 </table>
@@ -131,45 +113,22 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td class="mainbody" align="center">
-      <br>
-<!-- dtl:block:DeleteObject -->
       <form action="$Env{"CGIHandle"}" method="get">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="LinkDelete">
         <input type="hidden" name="SourceObject" value="$QData{"SourceObject"}">
         <input type="hidden" name="SourceKey" value="$QData{"SourceKey"}">
-        <input type="hidden" name="TargetObject" value="$QData{"TargetObject"}">
-        <table width="800" border="0" cellspacing="0" cellpadding="3">
+<!-- dtl:block:DeleteTableComplex -->
+        <br>
+        <table width="806" align="center" border="0" cellspacing="0" cellpadding="0">
           <tr>
-            <td colspan="$QData{"LinkColspan"}">
-              <b><i>$QData{"TargetObjectRealname"} $QData{"TargetSubobject"}</i></b>
-            </td>
-          </tr>
-          <tr>
-<!-- dtl:block:DeleteObjectLinkColumn -->
-            <td class="contenthead">
-              $Text{"$Data{"ColumnDescription"}"}
-            </td>
-<!-- dtl:block:DeleteObjectLinkColumn -->
-          </tr>
-<!-- dtl:block:DeleteObjectLinkRow -->
-          <tr>
-<!-- dtl:block:DeleteObjectLinkRowColumn -->
-            <td class="$QData{"CssClass"}">
-              $Data{"CellData"}
-            </td>
-<!-- dtl:block:DeleteObjectLinkRowColumn -->
-          </tr>
-<!-- dtl:block:DeleteObjectLinkRow -->
-          <tr>
-            <td colspan="$QData{"LinkColspan"}" class="contentfooter">
-              <input class="button" type="submit" name="SubmitDelete" value="$Text{"Delete"}"/>
+            <td>
+              $Data{"LinkTableStrg"}
             </td>
           </tr>
         </table>
-        <br>
+<!-- dtl:block:DeleteTableComplex -->
       </form>
-<!-- dtl:block:DeleteObject -->
     </td>
   </tr>
 </table>

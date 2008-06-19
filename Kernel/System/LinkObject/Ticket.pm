@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject/Ticket.pm - to link ticket objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.23 2008-06-13 08:13:12 mh Exp $
+# $Id: Ticket.pm,v 1.24 2008-06-19 14:16:40 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Ticket;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,47 +35,81 @@ sub new {
     return $Self;
 }
 
-=item PossibleObjectsSelectList()
+=item LinkListWithData()
 
-return an array hash with selectable objects
+fill up the link list with data
 
-Return
-    @ObjectSelectList = (
-        {
-            Key   => 'Ticket',
-            Value => 'Ticket',
-        },
+    $Success = $LinkObjectBackend->LinkListWithData(
+        LinkList => $HashRef,
+        UserID   => 1,
     );
-
-    @ObjectSelectList = $LinkObject->PossibleObjectsSelectList();
 
 =cut
 
-sub PossibleObjectsSelectList {
-    my $Self = shift;
+sub LinkListWithData {
+    my ( $Self, %Param ) = @_;
 
-    # get object description
-    my %ObjectDescription = $Self->ObjectDescriptionGet(
-        UserID => 1,
-    );
+    # check needed stuff
+    for my $Argument (qw(LinkList UserID)) {
+        if ( !$Param{$Argument} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!",
+            );
+            return;
+        }
+    }
 
-    # object select list
-    my @ObjectSelectList = (
-        {
-            Key   => $ObjectDescription{Object},
-            Value => $ObjectDescription{Realname},
-        },
-    );
+    # check link list
+    if ( ref $Param{LinkList} ne 'HASH' ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'LinkList must be a hash reference!',
+        );
+        return;
+    }
 
-    return @ObjectSelectList;
+    for my $LinkType ( keys %{ $Param{LinkList} } ) {
+
+        for my $Direction ( keys %{ $Param{LinkList}->{$LinkType} } ) {
+
+            TICKETID:
+            for my $TicketID ( keys %{ $Param{LinkList}->{$LinkType}->{$Direction} } ) {
+
+                # get ticket data
+                my %TicketData = $Self->{TicketObject}->TicketGet(
+                    TicketID => $TicketID,
+                    UserID   => $Param{UserID},
+                );
+
+                # remove id from hash if ticket can not get
+                if ( !%TicketData ) {
+                    delete $Param{LinkList}->{$LinkType}->{$Direction}->{$TicketID};
+                    next TICKETID;
+                }
+
+                # add ticket data
+                $Param{LinkList}->{$LinkType}->{$Direction}->{$TicketID} = \%TicketData;
+            }
+        }
+    }
+
+    return 1;
 }
 
 =item ObjectDescriptionGet()
 
-return a hash of object description data
+return a hash of object descriptions
 
-    %ObjectDescription = $LinkObject->ObjectDescriptionGet(
-        UserID => 1,
+Return
+    %Description = (
+        Normal => "Ticket# 1234455",
+        Long   => "Ticket# 1234455: The Ticket Title",
+    );
+
+    %Description = $LinkObject->ObjectDescriptionGet(
+        Key     => 123,
+        UserID  => 1,
     );
 
 =cut
@@ -84,109 +118,7 @@ sub ObjectDescriptionGet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => 'Need UserID!',
-        );
-        return;
-    }
-
-    # define object description
-    my %ObjectDescription = (
-        Object   => 'Ticket',
-        Realname => 'Ticket',
-        Overview => {
-            Normal => {
-                Key     => 'TicketNumber',
-                Value   => 'Ticket#',
-                Type    => 'Link',
-                Subtype => 'Compact',
-            },
-            Complex => [
-                {
-                    Key   => 'TicketNumber',
-                    Value => 'Ticket#',
-                    Type  => 'Link',
-                },
-                {
-                    Key   => 'Title',
-                    Value => 'Title',
-                    Type  => 'Text',
-                },
-                {
-                    Key   => 'Queue',
-                    Value => 'Queue',
-                    Type  => 'Text',
-                },
-                {
-                    Key   => 'State',
-                    Value => 'State',
-                    Type  => 'Text',
-                },
-                {
-                    Key   => 'Age',
-                    Value => 'Age',
-                    Type  => 'Age',
-                },
-                {
-                    Key   => 'LinkType',
-                    Value => 'Already linked as',
-                    Type  => 'LinkType',
-                },
-            ],
-        },
-    );
-
-    return %ObjectDescription;
-}
-
-=item ObjectSearchOptionsGet()
-
-return an array hash list with search options
-
-    @SearchOptions = $LinkObject->ObjectSearchOptionsGet();
-
-=cut
-
-sub ObjectSearchOptionsGet {
-    my ( $Self, %Param ) = @_;
-
-    # define search params
-    my @SearchOptions = (
-        {
-            Key   => 'TicketNumber',
-            Value => 'Ticket#',
-        },
-        {
-            Key   => 'Title',
-            Value => 'Title',
-        },
-        {
-            Key   => 'TicketFulltext',
-            Value => 'Fulltext',
-        },
-    );
-
-    return @SearchOptions;
-}
-
-=item ItemDescriptionGet()
-
-return a hash of item description data
-
-    %ItemDescription = $BackendObject->ItemDescriptionGet(
-        Key    => '123',
-        UserID => 1,
-    );
-
-=cut
-
-sub ItemDescriptionGet {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for my $Argument (qw(Key UserID)) {
+    for my $Argument (qw(Object Key UserID)) {
         if ( !$Param{$Argument} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -204,58 +136,54 @@ sub ItemDescriptionGet {
 
     return if !%Ticket;
 
-    # get link data
-    my $ExistingLinks = $Self->{LinkObject}->LinksGet(
-        Object => 'Ticket',
-        Key    => $Param{Key},
-        State  => $Param{State} || 'Valid',
-        UserID => 1,
-    ) || {};
-
-    $Ticket{TicketNumber} ||= '';
-    $Ticket{Title}        ||= '';
-
-    # define item description
-    my %ItemDescription = (
-        Identifier  => 'Ticket',
-        Description => {
-            Short  => "T:$Ticket{TicketNumber}",
-            Normal => "Ticket# $Ticket{TicketNumber}",
-            Long   => "Ticket# $Ticket{TicketNumber}: $Ticket{Title}",
-        },
-        ItemData => {
-            %Ticket,
-        },
-        LinkData => {
-            %{$ExistingLinks},
-        },
+    # create description
+    my %Description = (
+        Normal => "Ticket# $Ticket{TicketNumber}",
+        Long   => "Ticket# $Ticket{TicketNumber}: $Ticket{Title}",
     );
 
-    return %ItemDescription;
+    return %Description;
 }
 
-=item ItemSearch()
+=item ObjectSearch()
 
-return an array list of the search results
+return a hash list of the search results
 
-    @ItemKeys = $LinkObject->ItemSearch(
+Return
+    $SearchList = {
+        NOTLINKED => {
+            Source => {
+                12  => $DataOfItem12,
+                212 => $DataOfItem212,
+                332 => $DataOfItem332,
+            },
+        },
+    };
+
+    $SearchList = $LinkObjectBackend->ObjectSearch(
         SearchParams => $HashRef,  # (optional)
+        UserID       => 1,
     );
 
 =cut
 
-sub ItemSearch {
+sub ObjectSearch {
     my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{UserID} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need UserID!',
+        );
+        return;
+    }
 
     # set default params
     $Param{SearchParams} ||= {};
 
     # set focus
     my %Search;
-    if ( $Param{Title} ) {
-        $Param{Title} = '*' . $Param{Title} . '*';
-    }
-
     if ( $Param{TicketFulltext} ) {
         $Param{TicketFulltext} = '*' . $Param{TicketFulltext} . '*';
         %Search = (
@@ -267,19 +195,183 @@ sub ItemSearch {
             ContentSearch => 'OR',
         );
     }
+    if ( $Param{Title} ) {
+        $Search{Title} = '*' . $Param{Title} . '*';
+    }
 
     # search the tickets
-    my @ItemKeys = $Self->{TicketObject}->TicketSearch(
-        Result => 'ARRAY',
+    my @TicketIDs = $Self->{TicketObject}->TicketSearch(
         %{ $Param{SearchParams} },
         %Search,
+        Result          => 'ARRAY',
         ConditionInline => 1,
         FullTextIndex   => 1,
         OrderBy         => 'Down',
         SortBy          => 'Age',
+        UserID          => $Param{UserID},
     );
 
-    return @ItemKeys;
+    my %SearchList;
+    TICKETID:
+    for my $TicketID (@TicketIDs) {
+
+        # get ticket data
+        my %TicketData = $Self->{TicketObject}->TicketGet(
+            TicketID => $TicketID,
+            UserID   => $Param{UserID},
+        );
+
+        next TICKETID if !%TicketData;
+
+        # add ticket data
+        $SearchList{NOTLINKED}->{Source}->{$TicketID} = \%TicketData;
+    }
+
+    return \%SearchList;
+}
+
+=item LinkAddPre()
+
+link add pre event module
+
+    $True = $LinkObject->LinkAddPre(
+        Key          => 123,
+        SourceObject => 'Ticket',
+        SourceKey    => 321,
+        Type         => 'Normal',
+        UserID       => 1,
+    );
+
+    or
+
+    $True = $LinkObject->LinkAddPre(
+        Key          => 123,
+        TargetObject => 'Ticket',
+        TargetKey    => 321,
+        Type         => 'Normal',
+        UserID       => 1,
+    );
+
+=cut
+
+sub LinkAddPre {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Argument (qw(Key Type UserID)) {
+        if ( !$Param{$Argument} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!",
+            );
+            return;
+        }
+    }
+
+    return 1;
+}
+
+=item LinkAddPost()
+
+link add pre event module
+
+    $True = $LinkObject->LinkAddPost(
+        Key          => 123,
+        SourceObject => 'Ticket',
+        SourceKey    => 321,
+        Type         => 'Normal',
+        UserID       => 1,
+    );
+
+    or
+
+    $True = $LinkObject->LinkAddPost(
+        Key          => 123,
+        TargetObject => 'Ticket',
+        TargetKey    => 321,
+        Type         => 'Normal',
+        UserID       => 1,
+    );
+
+=cut
+
+sub LinkAddPost {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Argument (qw(Key Type UserID)) {
+        if ( !$Param{$Argument} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!",
+            );
+            return;
+        }
+    }
+
+    return 1;
+}
+
+=item LinkDeletePre()
+
+link delete pre event module
+
+    $True = $LinkObject->LinkDeletePre(
+        Key     => 123,
+        Object2 => 'Ticket',
+        Key2    => 321,
+        Type    => 'Normal',
+        UserID  => 1,
+    );
+
+=cut
+
+sub LinkDeletePre {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Argument (qw(Key Object2 Key2 Type UserID)) {
+        if ( !$Param{$Argument} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!",
+            );
+            return;
+        }
+    }
+
+    return 1;
+}
+
+=item LinkDeletePost()
+
+link delete post event module
+
+    $True = $LinkObject->LinkDeletePost(
+        Key     => 123,
+        Object2 => 'Ticket',
+        Key2    => 321,
+        Type    => 'Normal',
+        UserID  => 1,
+    );
+
+=cut
+
+sub LinkDeletePost {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Argument (qw(Key Object2 Key2 Type UserID)) {
+        if ( !$Param{$Argument} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!",
+            );
+            return;
+        }
+    }
+
+    return 1;
 }
 
 1;

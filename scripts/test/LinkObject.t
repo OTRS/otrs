@@ -2,7 +2,7 @@
 # LinkObject.t - link object module testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.t,v 1.8 2008-06-13 08:14:20 mh Exp $
+# $Id: LinkObject.t,v 1.9 2008-06-19 14:17:22 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,16 +15,14 @@ use utf8;
 
 use vars qw($Self);
 
+use Data::Dumper;
 use Kernel::System::Ticket;
 use Kernel::System::LinkObject;
 use Kernel::System::User;
 
 $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
-$Self->{LinkObject}   = Kernel::System::LinkObject->new(
-    %{$Self},
-    UserID => 1,
-);
-$Self->{UserObject} = Kernel::System::User->new( %{$Self} );
+$Self->{LinkObject}   = Kernel::System::LinkObject->new( %{$Self} );
+$Self->{UserObject}   = Kernel::System::User->new( %{$Self} );
 
 # ------------------------------------------------------------ #
 # make preparations
@@ -67,10 +65,23 @@ for my $Counter ( 1 .. 100 ) {
     push @TypeNames, 'UnitTestType' . int rand 1_000_000;
 }
 
+# get location of the backend modules
+my $BackendLocation = $Self->{ConfigObject}->Get('Home') . '/Kernel/System/LinkObject/';
+
 # create needed random object names
 my @ObjectNames;
 for my $Counter ( 1 .. 100 ) {
-    push @ObjectNames, 'UnitTestObject' . int rand 1_000_000;
+
+    my $Name = 'UnitTestObject' . int rand 1_000_000;
+
+    # create the backend file
+    $Self->{MainObject}->FileWrite(
+        Directory => $BackendLocation,
+        Filename  => $Name . '.pm',
+        Content   => \do{ my $AnonScalar = 'DUMMY' },
+    );
+
+    push @ObjectNames, $Name;
 }
 
 # save original LinkObject::Type settings
@@ -523,10 +534,11 @@ for my $Test ( @{$TypeData} ) {
     else {
 
         my $TypeData = %TypeGet ? 1 : 0;
+        my $TypeName = $TypeGet{Name} || '';
 
         $Self->False(
             $TypeData,
-            "Test $TestCount: TypeGet() - return false :   $TypeGet{Name}",
+            "Test $TestCount: TypeGet() - return false :   $TypeName",
         );
     }
 }
@@ -1051,7 +1063,7 @@ for my $Test ( @{$PossibleObjectsReference} ) {
     }
 
     # get possible objects list
-    my @PossibleObjects = $Self->{LinkObject}->PossibleObjectsList(
+    my %PossibleObjectsList = $Self->{LinkObject}->PossibleObjectsList(
         %{ $Test->{SourceData} },
     );
 
@@ -1060,7 +1072,7 @@ for my $Test ( @{$PossibleObjectsReference} ) {
 
         # compare if list has the correct size
         $Self->Is(
-            scalar @PossibleObjects,
+            scalar keys %PossibleObjectsList,
             scalar @{ $Test->{ReferenceData} },
             "Test $TestCount: PossibleObjectsList() - check number of elements",
         );
@@ -1069,7 +1081,7 @@ for my $Test ( @{$PossibleObjectsReference} ) {
         my %ObjectsReference = map { $_ => 1 } @{ $Test->{ReferenceData} };
 
         # compare if all elements of both lists are the same
-        for my $PossibleObject (@PossibleObjects) {
+        for my $PossibleObject (keys %PossibleObjectsList) {
             $Self->True(
                 $ObjectsReference{$PossibleObject},
                 "Test $TestCount: PossibleObjectsList() - check values - $PossibleObject",
@@ -1078,7 +1090,7 @@ for my $Test ( @{$PossibleObjectsReference} ) {
     }
     else {
         $Self->False(
-            scalar @PossibleObjects,
+            scalar keys %PossibleObjectsList,
             "Test $TestCount: PossibleObjectsList() - return false",
         );
     }
@@ -1323,7 +1335,7 @@ for my $Test ( @{$PossibleTypesReference} ) {
     }
 
     # get possible objects list
-    my @PossibleTypes = $Self->{LinkObject}->PossibleTypesList(
+    my %PossibleTypesList = $Self->{LinkObject}->PossibleTypesList(
         %{ $Test->{SourceData} },
     );
 
@@ -1332,7 +1344,7 @@ for my $Test ( @{$PossibleTypesReference} ) {
 
         # compare if list has the correct size
         $Self->Is(
-            scalar @PossibleTypes,
+            scalar keys %PossibleTypesList,
             scalar @{ $Test->{ReferenceData} },
             "Test $TestCount: PossibleTypesList() - check number of elements",
         );
@@ -1341,7 +1353,7 @@ for my $Test ( @{$PossibleTypesReference} ) {
         my %TypesReference = map { $_ => 1 } @{ $Test->{ReferenceData} };
 
         # compare if all elements of both lists are the same
-        for my $PossibleType (@PossibleTypes) {
+        for my $PossibleType (keys %PossibleTypesList) {
             $Self->True(
                 $TypesReference{$PossibleType},
                 "Test $TestCount: PossibleTypesList() - check values - $PossibleType",
@@ -1350,7 +1362,7 @@ for my $Test ( @{$PossibleTypesReference} ) {
     }
     else {
         $Self->False(
-            scalar @PossibleTypes,
+            scalar keys %PossibleTypesList,
             "Test $TestCount: PossibleTypesList() - return false",
         );
     }
@@ -1695,7 +1707,7 @@ continue {
     }
 
     # add pointed test types to config for later tests
-    for my $Counter ( 50 .. 100 ) {
+    for my $Counter ( 50 .. 99 ) {
         $Settings->{ $TypeNames[$Counter] } = {
             SourceName => 'Parent' . $Counter,
             TargetName => 'Child' . $Counter,
@@ -1707,9 +1719,6 @@ continue {
         Key   => 'LinkObject::Type',
         Value => $Settings,
     );
-
-#$Self->{LogObject}->Dum_per( '', 'LinkObject::Type', $Self->{ConfigObject}->Get('LinkObject::Type') );
-
 }
 
 # make possible link preparations
@@ -1986,17 +1995,19 @@ my $LinkData = [
             },
         ],
         ReferenceData => {
-            LinksGet => {
+            LinkList => {
                 Object => $ObjectNames[1],
                 Key    => '1',
                 Type   => $TypeNames[1],
                 State  => 'Valid',
                 UserID => 1,
             },
-            LinksGetReference => {
+            LinkListReference => {
                 $ObjectNames[1] => {
                     $TypeNames[1] => {
-                        Source => ['2'],
+                        Source => {
+                            2 => 1,
+                        },
                     },
                 },
             },
@@ -2018,17 +2029,19 @@ my $LinkData = [
             },
         ],
         ReferenceData => {
-            LinksGet => {
+            LinkList => {
                 Object => $ObjectNames[1],
                 Key    => '1',
                 Type   => $TypeNames[1],
                 State  => 'Valid',
                 UserID => 1,
             },
-            LinksGetReference => {
+            LinkListReference => {
                 $ObjectNames[1] => {
                     $TypeNames[1] => {
-                        Source => ['2'],
+                        Source => {
+                            2 => 1,
+                        },
                     },
                 },
             },
@@ -2082,17 +2095,19 @@ my $LinkData = [
             },
         ],
         ReferenceData => {
-            LinksGet => {
+            LinkList => {
                 Object => $ObjectNames[1],
                 Key    => '111',
                 Type   => $TypeNames[60],
                 State  => 'Valid',
                 UserID => 1,
             },
-            LinksGetReference => {
+            LinkListReference => {
                 $ObjectNames[2] => {
                     $TypeNames[60] => {
-                        Target => ['222'],
+                        Target => {
+                            222 => 1,
+                        },
                     },
                 },
             },
@@ -2212,39 +2227,53 @@ my $LinkData = [
             },
         ],
         ReferenceData => {
-            LinksGet => {
+            LinkList => {
                 Object => $ObjectNames[1],
                 Key    => 101,
                 Type   => '',
                 State  => 'Valid',
                 UserID => 1,
             },
-            LinksGetReference => {
+            LinkListReference => {
 
                 $ObjectNames[1] => {
                     $TypeNames[50] => {
-                        Target => ['102'],
+                        Target => {
+                            102 => 1,
+                        },
                     },
                     $TypeNames[1] => {
-                        Source => ['103'],
+                        Source => {
+                            103 => 1,
+                        },
                     },
                 },
                 $ObjectNames[2] => {
                     $TypeNames[60] => {
-                        Source => [ '202', '999' ],
-                        Target => [ '201', '221', '231' ],
+                        Source => {
+                            202 => 1,
+                            999 => 1,
+                        },
+                        Target => {
+                            201 => 1,
+                            221 => 1,
+                            231 => 1,
+                        },
                     },
                 },
                 $ObjectNames[5] => {
                     $TypeNames[30] => {
-                        Source => [ '103', '105' ],
+                        Source => {
+                            103 => 1,
+                            105 => 1,
+                        },
                     },
                 },
             },
         },
     },
 
-    # add a link ( test LinksGet() with Type option )
+    # add a link ( test LinkList() with Type option )
     {
         SourceData => [
             {
@@ -2269,17 +2298,19 @@ my $LinkData = [
             },
         ],
         ReferenceData => {
-            LinksGet => {
+            LinkList => {
                 Object => $ObjectNames[1],
                 Key    => '2000',
                 Type   => $TypeNames[60],
                 State  => 'Valid',
                 UserID => 1,
             },
-            LinksGetReference => {
+            LinkListReference => {
                 $ObjectNames[2] => {
                     $TypeNames[60] => {
-                        Target => ['3000'],
+                        Target => {
+                            3000 => 1,
+                        },
                     },
                 },
             },
@@ -2301,17 +2332,19 @@ my $LinkData = [
             },
         ],
         ReferenceData => {
-            LinksGet => {
+            LinkList => {
                 Object => $ObjectNames[1],
                 Key    => '250',
                 Type   => '',
                 State  => 'Valid',
                 UserID => 1,
             },
-            LinksGetReference => {
+            LinkListReference => {
                 $ObjectNames[2] => {
                     $TypeNames[49] => {
-                        Source => ['350'],
+                        Source => {
+                            350 => 1,
+                        },
                     },
                 },
             },
@@ -2349,17 +2382,19 @@ my $LinkData = [
             },
         ],
         ReferenceData => {
-            LinksGet => {
+            LinkList => {
                 Object => $ObjectNames[1],
                 Key    => '400',
                 Type   => '',
                 State  => 'Valid',
                 UserID => 1,
             },
-            LinksGetReference => {
+            LinkListReference => {
                 $ObjectNames[2] => {
                     $TypeNames[48] => {
-                        Source => ['500'],
+                        Source => {
+                            500 => 1,
+                        },
                     },
                 },
             },
@@ -2397,17 +2432,19 @@ my $LinkData = [
             },
         ],
         ReferenceData => {
-            LinksGet => {
+            LinkList => {
                 Object => $ObjectNames[1],
                 Key    => '555',
                 Type   => '',
                 State  => 'Valid',
                 UserID => 1,
             },
-            LinksGetReference => {
+            LinkListReference => {
                 $ObjectNames[2] => {
                     $TypeNames[48] => {
-                        Source => ['666'],
+                        Source => {
+                            666 => 1,
+                        },
                     },
                 },
             },
@@ -2449,23 +2486,29 @@ my $LinkData = [
             },
         ],
         ReferenceData => {
-            LinksGet => {
+            LinkList => {
                 Object => $ObjectNames[1],
                 Key    => '321',
                 Type   => '',
                 State  => 'Valid',
                 UserID => 1,
             },
-            LinksGetReference => {
+            LinkListReference => {
                 $ObjectNames[2] => {
                     $TypeNames[48] => {
-                        Source => ['654'],
+                        Source => {
+                            654 => 1,
+                        },
                     },
                     $TypeNames[60] => {
-                        Source => ['777'],
+                        Source => {
+                            777 => 1,
+                        },
                     },
                     $TypeNames[49] => {
-                        Source => ['655'],
+                        Source => {
+                            655 => 1,
+                        },
                     },
                 },
             },
@@ -2487,20 +2530,24 @@ my $LinkData = [
             },
         ],
         ReferenceData => {
-            LinksGet => {
+            LinkList => {
                 Object => $ObjectNames[1],
                 Key    => '321',
                 Type   => '',
                 State  => 'Valid',
                 UserID => 1,
             },
-            LinksGetReference => {
+            LinkListReference => {
                 $ObjectNames[2] => {
                     $TypeNames[48] => {
-                        Source => ['654'],
+                        Source => {
+                            654 => 1,
+                        },
                     },
                     $TypeNames[60] => {
-                        Source => ['777'],
+                        Source => {
+                            777 => 1,
+                        },
                     },
                 },
             },
@@ -2574,45 +2621,45 @@ for my $Test ( @{$LinkData} ) {
     # extract ReferenceData
     my $ReferenceData = $Test->{ReferenceData};
 
-    # check LinksGet attribute
-    if ( !$ReferenceData->{LinksGet} || ref $ReferenceData->{LinksGet} ne 'HASH' ) {
+    # check LinkList attribute
+    if ( !$ReferenceData->{LinkList} || ref $ReferenceData->{LinkList} ne 'HASH' ) {
         $Self->True(
             0,
-            "Test $TestCount: No LinksGet attribute found for this test.",
+            "Test $TestCount: No LinkList attribute found for this test.",
         );
         next LINK;
     }
 
-    # check LinksGetReference attribute
-    if ( !$ReferenceData->{LinksGetReference} || ref $ReferenceData->{LinksGetReference} ne 'HASH' )
+    # check LinkListReference attribute
+    if ( !$ReferenceData->{LinkListReference} || ref $ReferenceData->{LinkListReference} ne 'HASH' )
     {
         $Self->True(
             0,
-            "Test $TestCount: No LinksGetReference attribute found for this test.",
+            "Test $TestCount: No LinkListReference attribute found for this test.",
         );
         next LINK;
     }
 
     # get all links for ReferenceData
-    my $Links = $Self->{LinkObject}->LinksGet(
-        Object => $ReferenceData->{LinksGet}->{Object},
-        Key    => $ReferenceData->{LinksGet}->{Key},
-        Type   => $ReferenceData->{LinksGet}->{Type},
-        State  => $ReferenceData->{LinksGet}->{State},
-        UserID => $ReferenceData->{LinksGet}->{UserID},
+    my $Links = $Self->{LinkObject}->LinkList(
+        Object => $ReferenceData->{LinkList}->{Object},
+        Key    => $ReferenceData->{LinkList}->{Key},
+        Type   => $ReferenceData->{LinkList}->{Type},
+        State  => $ReferenceData->{LinkList}->{State},
+        UserID => $ReferenceData->{LinkList}->{UserID},
     );
 
     # turn off all pretty print
     $Data::Dumper::Indent = 0;
 
-    # dump the results from LinksGet()
+    # dump the results from LinkList()
     my $LinksString = Data::Dumper::Dumper($Links);
 
     # dump the reference data
-    my $LinksReferenceString = Data::Dumper::Dumper( $ReferenceData->{LinksGetReference} );
+    my $LinksReferenceString = Data::Dumper::Dumper( $ReferenceData->{LinkListReference} );
 
     # get objects lists
-    my @ReferenceObjects = sort keys %{ $ReferenceData->{LinksGetReference} };
+    my @ReferenceObjects = sort keys %{ $ReferenceData->{LinkListReference} };
     my @LinkObjects      = sort keys %{$Links};
 
     # check number of objects
@@ -2622,13 +2669,13 @@ for my $Test ( @{$LinkData} ) {
         for my $Object (@LinkObjects) {
 
             my @LinksTypes     = sort keys %{ $Links->{$Object} };
-            my @ReferenceTypes = sort keys %{ $ReferenceData->{LinksGetReference}->{$Object} };
+            my @ReferenceTypes = sort keys %{ $ReferenceData->{LinkListReference}->{$Object} };
 
             # check number of types
             $Self->Is(
                 scalar @LinksTypes,
                 scalar @ReferenceTypes,
-                "Test $TestCount: LinksGet()- check number of types",
+                "Test $TestCount: LinkList()- check number of types",
             );
 
             TYPE:
@@ -2636,27 +2683,27 @@ for my $Test ( @{$LinkData} ) {
 
                 my @LinksSourceTargetKeys = sort keys %{ $Links->{$Object}->{$Type} };
                 my @ReferenceSourceTargetKeys
-                    = sort keys %{ $ReferenceData->{LinksGetReference}->{$Object}->{$Type} };
+                    = sort keys %{ $ReferenceData->{LinkListReference}->{$Object}->{$Type} };
 
                 # check number of source target keys
                 $Self->Is(
                     scalar @LinksSourceTargetKeys,
                     scalar @ReferenceSourceTargetKeys,
-                    "Test $TestCount: LinksGet()- check number of source target keys",
+                    "Test $TestCount: LinkList()- check number of source target keys",
                 );
 
                 KEY:
                 for my $Key (@ReferenceSourceTargetKeys) {
 
-                    my @LinksIDs = sort @{ $Links->{$Object}->{$Type}->{$Key} };
+                    my @LinksIDs = sort keys %{ $Links->{$Object}->{$Type}->{$Key} };
                     my @ReferenceIDs
-                        = sort @{ $ReferenceData->{LinksGetReference}->{$Object}->{$Type}->{$Key} };
+                        = sort keys %{ $ReferenceData->{LinkListReference}->{$Object}->{$Type}->{$Key} };
 
                     # check number of ids
                     $Self->Is(
                         scalar @LinksIDs,
                         scalar @ReferenceIDs,
-                        "Test $TestCount: LinksGet()- check number of object ids",
+                        "Test $TestCount: LinkList()- check number of object ids",
                     );
                 }
             }
@@ -2668,7 +2715,7 @@ for my $Test ( @{$LinkData} ) {
         $Self->Is(
             $LinksString,
             $LinksReferenceString,
-            "Test $TestCount: LinksGet()- check number of objects",
+            "Test $TestCount: LinkList()- check number of objects",
         );
     }
 }
@@ -2684,5 +2731,20 @@ $Self->True(
     ),
     "Test $TestCount: LinkDeleteAll() - check success",
 );
+
+# ------------------------------------------------------------ #
+# run link tests
+# ------------------------------------------------------------ #
+
+# create needed random object names
+for my $Name ( @ObjectNames ) {
+
+    # create the backend file
+    $Self->{MainObject}->FileDelete(
+        Directory       => $BackendLocation,
+        Filename        => $Name . '.pm',
+        DisableWarnings => 1,
+    );
+}
 
 1;

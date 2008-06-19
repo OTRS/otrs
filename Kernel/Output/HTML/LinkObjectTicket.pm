@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LinkObjectTicket.pm - layout backend module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObjectTicket.pm,v 1.2 2008-06-13 08:14:50 mh Exp $
+# $Id: LinkObjectTicket.pm,v 1.3 2008-06-19 14:16:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,11 +14,11 @@ package Kernel::Output::HTML::LinkObjectTicket;
 use strict;
 use warnings;
 
-use Kernel::System::Priority;
+use Kernel::Output::HTML::Layout;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -51,165 +51,447 @@ sub new {
 
     # check needed objects
     for my $Object (
-        qw(ConfigObject LogObject MainObject LayoutObject DBObject UserObject QueueObject GroupObject ParamObject TimeObject)
+        qw(ConfigObject LogObject MainObject DBObject UserObject EncodeObject QueueObject GroupObject ParamObject TimeObject UserID)
         )
     {
         $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
-    $Self->{PriorityObject} = Kernel::System::Priority->new( %{$Self} );
-    $Self->{StateObject}    = Kernel::System::State->new( %{$Self} );
+
+    $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new( %{$Self} );
+    $Self->{StateObject}  = Kernel::System::State->new( %{$Self} );
+
+    # define needed variables
+    $Self->{ObjectData} = {
+        Object   => 'Ticket',
+        Realname => 'Ticket',
+    };
 
     return $Self;
 }
 
-=item OutputParamsFillUp()
+=item TableCreateComplex()
 
-fill up output params
+return a hash with the block data
 
-    $Backend->OutputParamsFillUp(
-        ColumnData => $Hashref,
+Return
+    %BlockData = (
+        Object    => 'Ticket',
+        Blockname => 'Ticket',
+        Headline  => [
+            {
+                Content => 'Number#',
+                Width   => 130,
+            },
+            {
+                Content => 'Title',
+            },
+            {
+                Content => 'Created',
+                Width   => 110,
+            },
+        ],
+        ItemList => [
+            [
+                {
+                    Type    => 'Link',
+                    Key     => $TicketID,
+                    Content => '123123123',
+                    Css     => 'style="text-decoration: line-through"',
+                },
+                {
+                    Type      => 'Text',
+                    Content   => 'The title',
+                    MaxLength => 50,
+                },
+                {
+                    Type    => 'TimeLong',
+                    Content => '2008-01-01 12:12:00',
+                },
+            ],
+            [
+                {
+                    Type    => 'Link',
+                    Key     => $TicketID,
+                    Content => '434234',
+                },
+                {
+                    Type      => 'Text',
+                    Content   => 'The title of ticket 2',
+                    MaxLength => 50,
+                },
+                {
+                    Type    => 'TimeLong',
+                    Content => '2008-01-01 12:12:00',
+                },
+            ],
+        ],
+    );
+
+    %BlockData = $LinkObject->TableCreateComplex(
+        ObjectLinkListWithData => $ObjectLinkListRef,
     );
 
 =cut
 
-sub OutputParamsFillUp {
+sub TableCreateComplex {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Argument (qw(SourceObject TargetObject TargetItemDescription ColumnData)) {
-        if ( !$Param{$Argument} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Need $Argument!",
-            );
-            return;
-        }
+    if ( !$Param{ObjectLinkListWithData} || ref $Param{ObjectLinkListWithData} ne 'HASH' ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need ObjectLinkListWithData!',
+        );
+        return;
     }
 
-    # extract output params and ticket id
-    my $OutputParams = $Param{ColumnData}->{Output};
-    my $TicketID     = $Param{TargetItemDescription}->{ItemData}->{TicketID};
+    # convert the list
+    my %LinkList;
+    for my $LinkType ( keys %{ $Param{ObjectLinkListWithData} } ) {
 
-    # edit options of the link column
-    if ( $Param{ColumnData}->{Type} eq 'Checkbox' && $Param{ColumnData}->{Key} eq 'LinkTargetKeys' )
-    {
+        # extract link type List
+        my $LinkTypeList = $Param{ObjectLinkListWithData}->{$LinkType};
 
-        $OutputParams->{Name}    = $Param{ColumnData}->{Key};
-        $OutputParams->{Content} = $TicketID;
+        for my $Direction ( keys %{ $LinkTypeList } ) {
 
-        return 1;
-    }
+            # extract direction list
+            my $DirectionList = $Param{ObjectLinkListWithData}->{$LinkType}->{$Direction};
 
-    # edit options of the link column
-    if (
-        $Param{ColumnData}->{Type}   eq 'Checkbox'
-        && $Param{ColumnData}->{Key} eq 'LinkDeleteIdentifier'
-        )
-    {
+            for my $TicketID ( keys %{ $DirectionList } ) {
 
-        $OutputParams->{TemplateBlock} = 'Plain';
-        $OutputParams->{Content}       = '';
-
-        return 1 if !$Param{TargetItemDescription}->{LinkData};
-
-        # extract the link data and object id
-        my $LinkData = $Param{TargetItemDescription}->{LinkData};
-        my $Object = $Param{TargetObject}->{Object} || '';
-
-        return 1 if ref $LinkData            ne 'HASH';
-        return 1 if !%{$LinkData};
-        return 1 if !$LinkData->{$Object};
-        return 1 if ref $LinkData->{$Object} ne 'HASH';
-        return 1 if !%{ $LinkData->{$Object} };
-
-        # create the type list
-        my %AlreadyLinkedTypeList;
-        LINKTYPEID:
-        for my $Type ( keys %{ $LinkData->{$Object} } ) {
-
-            DIRECTION:
-            for my $Direction (qw(Source Target)) {
-
-                # extract data
-                my $Data = $LinkData->{$Object}->{$Type}->{$Direction} || [];
-
-                # investigate matched keys
-                my $MatchedKeys = scalar grep { $_ == $Param{SourceObject}->{Key} } @{$Data};
-
-                next DIRECTION if !$MatchedKeys;
-
-                my $Name = $Direction eq 'Source' ? 'TargetName' : 'SourceName';
-
-                $AlreadyLinkedTypeList{ $Param{TypeList}->{$Type}->{$Name} } = $Type;
+                $LinkList{$TicketID}->{Data}= $DirectionList->{$TicketID};
             }
         }
+    }
 
-        # sort link name list
-        my @CheckboxeStrings;
-        for my $LinkName ( sort { lc $a cmp lc $b } keys %AlreadyLinkedTypeList ) {
+    # create the item list
+    my @ItemList;
+    for my $TicketID ( sort { $a <=> $b } keys %LinkList ) {
 
-            # translate
-            my $LinkNameTranslated = $Self->{LayoutObject}->{LanguageObject}->Get($LinkName);
+        # extract ticket data
+        my $Ticket = $LinkList{$TicketID}{Data};
 
-            # output block
+        # set css
+        my $Css = '';
+        if ( $Ticket->{StateType} eq 'merged' ) {
+            $Css = ' style="text-decoration: line-through"';
+        }
+
+        my @ItemColumns = (
+            {
+                Type    => 'Link',
+                Key     => $TicketID,
+                Content => $Ticket->{TicketNumber},
+                Link    => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID=' . $TicketID,
+                Css     => $Css,
+            },
+            {
+                Type      => 'Text',
+                Content   => $Ticket->{Title},
+                MaxLength => 50,
+            },
+            {
+                Type    => 'Text',
+                Content => $Ticket->{Queue},
+            },
+            {
+                Type      => 'Text',
+                Content   => $Ticket->{State},
+                Translate => 1,
+            },
+            {
+                Type    => 'TimeLong',
+                Content => $Ticket->{Created},
+            },
+        );
+
+        push @ItemList, \@ItemColumns;
+    }
+
+    return if !@ItemList;
+
+    # block data
+    my %BlockData = (
+        Object    => 'Ticket',
+        Blockname => 'Ticket',
+        Headline  => [
+            {
+                Content => 'Number#',
+                Width   => 130,
+            },
+            {
+                Content => 'Title',
+            },
+            {
+                Content => 'Queue',
+                Width   => 100,
+            },
+            {
+                Content => 'State',
+                Width   => 110,
+            },
+            {
+                Content => 'Created',
+                Width   => 130,
+            },
+        ],
+        ItemList => \@ItemList,
+    );
+
+    return %BlockData;
+}
+
+=item TableCreateSimple()
+
+return a hash with the link output data
+
+Return
+    %LinkOutputData = (
+        Normal::Source => {
+            Ticket => [
+                {
+                    Type    => 'Link',
+                    Content => 'T:55555',
+                    Css     => 'style="text-decoration: line-through"',
+                },
+                {
+                    Type    => 'Link',
+                    Content => 'T:22222',
+                },
+            ],
+        },
+        ParentChild::Target => {
+            Ticket => [
+                {
+                    Type    => 'Link',
+                    Content => 'T:77777',
+                },
+            ],
+        },
+    );
+
+    %LinkOutputData = $LinkObject->TableCreateSimple(
+        ObjectLinkListWithData => $ObjectLinkListRef,
+    );
+
+=cut
+
+sub TableCreateSimple {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{ObjectLinkListWithData} || ref $Param{ObjectLinkListWithData} ne 'HASH' ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message  => 'Need ObjectLinkListWithData!' );
+        return;
+    }
+
+    my %LinkOutputData;
+    for my $LinkType ( keys %{ $Param{ObjectLinkListWithData} } ) {
+
+        # extract link type List
+        my $LinkTypeList = $Param{ObjectLinkListWithData}->{$LinkType};
+
+        for my $Direction ( keys %{ $LinkTypeList } ) {
+
+            # extract direction list
+            my $DirectionList = $Param{ObjectLinkListWithData}->{$LinkType}->{$Direction};
+
+            my @ItemList;
+            for my $TicketID ( sort { $a <=> $b } keys %{ $DirectionList } ) {
+
+                # extract tickt data
+                my $Ticket = $DirectionList->{$TicketID};
+
+                # set css
+                my $Css = '';
+                if ( $Ticket->{StateType} eq 'merged' ) {
+                    $Css = ' style="text-decoration: line-through"';
+                }
+
+                # define item data
+                my %Item = (
+                    Type    => 'Link',
+                    Content => 'T:' . $Ticket->{TicketNumber},
+                    Title   => "Ticket# $Ticket->{TicketNumber}: $Ticket->{Title}",
+                    Link    => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID=' . $TicketID,
+                    Css     => $Css,
+                );
+
+                push @ItemList, \%Item;
+            }
+
+            # add item list to link output data
+            $LinkOutputData{ $LinkType . '::' . $Direction }->{Ticket} = \@ItemList;
+        }
+    }
+
+    return %LinkOutputData;
+}
+
+=item SelectableObjectList()
+
+return an array hash with selectable objects
+
+Return
+    @SelectableObjectList = (
+        {
+            Key   => 'Ticket',
+            Value => 'Ticket',
+        },
+    );
+
+    @SelectableObjectList = $LinkObject->SelectableObjectList(
+        Selected => $Identifier,  # (optional)
+    );
+
+=cut
+
+sub SelectableObjectList {
+    my ( $Self, %Param ) = @_;
+
+    my $Selected;
+    if ( $Param{Selected} && $Param{Selected} eq $Self->{ObjectData}->{Object} ) {
+        $Selected = 1;
+    }
+
+    # object select list
+    my @ObjectSelectList = (
+        {
+            Key      => $Self->{ObjectData}->{Object},
+            Value    => $Self->{ObjectData}->{Realname},
+            Selected => $Selected,
+        },
+    );
+
+    return @ObjectSelectList;
+}
+
+=item SearchOptionList()
+
+return an array hash with selectable objects
+
+Return
+    @SearchOptionList = (
+        {
+            Key       => 'TicketNumber',
+            Name      => 'Ticket#',
+            InputStrg => $FormString,
+            FormData  => '1234',
+        },
+        {
+            Key       => 'Title',
+            Name      => 'Title',
+            InputStrg => $FormString,
+            FormData  => 'BlaBla',
+        },
+    );
+
+    @SearchOptionList = $LinkObject->SearchOptionList();
+
+=cut
+
+sub SearchOptionList {
+    my ( $Self, %Param ) = @_;
+
+    # search option list
+    my @SearchOptionList = (
+        {
+            Key  => 'TicketNumber',
+            Name => 'Ticket#',
+            Type => 'Text',
+        },
+        {
+            Key  => 'Title',
+            Name => 'Title',
+            Type => 'Text',
+        },
+        {
+            Key  => 'TicketFulltext',
+            Name => 'Fulltext',
+            Type => 'Text',
+        },
+        {
+            Key  => 'StateIDs',
+            Name => 'State',
+            Type => 'List',
+        },
+    );
+
+    # add formkey
+    for my $Row (@SearchOptionList) {
+        $Row->{FormKey} = 'SEARCH::' . $Row->{Key};
+    }
+
+    # add form data and input string
+    ROW:
+    for my $Row (@SearchOptionList) {
+
+        # prepare text input fields
+        if ( $Row->{Type} eq 'Text' ) {
+
+            # get form data
+            $Row->{FormData} = $Self->{ParamObject}->GetParam( Param => $Row->{FormKey} );
+
+            # parse the input text block
             $Self->{LayoutObject}->Block(
-                Name => 'Checkbox',
+                Name => 'InputText',
                 Data => {
-                    Name    => $Param{ColumnData}->{Key},
-                    Content => $TicketID . '::' . $AlreadyLinkedTypeList{$LinkName},
-                    Title   => $LinkNameTranslated,
+                    Key   => $Row->{FormKey},
+                    Value => $Row->{FormData} || '',
                 },
             );
 
-            # create output content
-            my $CheckboxString = $Self->{LayoutObject}->Output(
-                TemplateFile => $Param{ColumnData}->{Output}->{TemplateFile},
+            # add the input string
+            $Row->{InputStrg} = $Self->{LayoutObject}->Output(
+                TemplateFile => 'LinkObject',
             );
 
-            push @CheckboxeStrings, $CheckboxString;
+            next ROW;
         }
 
-        return 1 if !@CheckboxeStrings;
+        # prepare list boxes
+        if ( $Row->{Type} eq 'List' ) {
 
-        # create the content string
-        $OutputParams->{Content} = join '<br>', @CheckboxeStrings;
+            # get form data
+            my @FormData = $Self->{ParamObject}->GetArray( Param => $Row->{FormKey} );
+            $Row->{FormData} = \@FormData;
 
-        return 1;
+            my %ListData;
+            if ( $Row->{Key} eq 'StateIDs' ) {
+
+                # get state list
+                %ListData = $Self->{StateObject}->StateList(
+                    UserID => $Self->{UserID},
+                );
+
+                # set default state ids
+                if (!$Row->{FormData} || !@{ $Row->{FormData} }) {
+
+                    # get stateids of all open states
+                    my @List = $Self->{StateObject}->StateGetStatesByType(
+                        StateType => ['open', 'new'],
+                        Result    => 'ID',
+                        UserID    => $Self->{UserID},
+                    );
+
+                    $Row->{FormData} = \@List;
+                }
+            }
+
+            # add the input string
+            $Row->{InputStrg} = $Self->{LayoutObject}->BuildSelection(
+                Data       => \%ListData,
+                Name       => $Row->{FormKey},
+                SelectedID => $Row->{FormData},
+                Size       => 3,
+                Multiple   => 1,
+            );
+
+            next ROW;
+        }
     }
 
-    # edit options of the link column
-    if ( $Param{ColumnData}->{Type} eq 'Link' && $Param{ColumnData}->{Key} eq 'TicketNumber' ) {
-
-        $OutputParams->{Link} = '$Env{"Baselink"}Action=AgentTicketZoom&TicketID=' . $TicketID;
-        $OutputParams->{Title} = $Param{TargetItemDescription}->{Description}->{Long} || '';
-
-        return 1 if !$Param{ColumnData}->{Subtype};
-        return 1 if $Param{ColumnData}->{Subtype} ne 'Compact';
-        return 1 if !$Param{TargetItemDescription}->{Description}->{Short};
-
-        $OutputParams->{Content} = $Param{TargetItemDescription}->{Description}->{Short};
-
-        return 1;
-    }
-
-    # edit options of the title column
-    if ( $Param{ColumnData}->{Type} eq 'Text' && $Param{ColumnData}->{Key} eq 'Title' ) {
-
-        $OutputParams->{MaxLength} = 40;
-
-        return 1;
-    }
-
-    # edit options of the state column
-    if ( $Param{ColumnData}->{Type} eq 'Text' && $Param{ColumnData}->{Key} eq 'State' ) {
-
-        $OutputParams->{TemplateBlock} = 'TextTranslate';
-        $OutputParams->{MaxLength}     = 20;
-
-        return 1;
-    }
-
-    return 1;
+    return @SearchOptionList;
 }
 
 1;
@@ -228,6 +510,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2008-06-13 08:14:50 $
+$Revision: 1.3 $ $Date: 2008-06-19 14:16:15 $
 
 =cut

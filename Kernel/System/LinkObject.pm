@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.32 2008-06-13 08:13:12 mh Exp $
+# $Id: LinkObject.pm,v 1.33 2008-06-19 14:16:40 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 =head1 NAME
 
@@ -94,12 +94,12 @@ sub new {
 return an array of all possible types
 
 Return
-    @PossibleTypesList = (
-        'Normal',
-        'ParentChild',
+    %PossibleTypesList = (
+        'Normal'      => 1,
+        'ParentChild' => 1,
     );
 
-    my @PossibleTypesList = $LinkObject->PossibleTypesList(
+    my %PossibleTypesList = $LinkObject->PossibleTypesList(
         Object1 => 'Ticket',
         Object2 => 'FAQ',
         UserID  => 1,
@@ -161,92 +161,16 @@ sub PossibleTypesList {
     }
 
     # extract the type list
-    my %PossibleTypesListTmp;
+    my %PossibleTypesList;
     for my $PossibleLink ( keys %PossibleLinkList ) {
 
         # extract type
         my $Type = $PossibleLinkList{$PossibleLink}{Type};
 
-        $PossibleTypesListTmp{$Type} = 1;
+        $PossibleTypesList{$Type} = 1;
     }
 
-    # prepare final list
-    my @PossibleTypesList = sort { lc $a cmp lc $b } keys %PossibleTypesListTmp;
-
-    return @PossibleTypesList;
-}
-
-=item PossibleObjectsSelectList()
-
-return an array hash list of all possible objects
-
-Return
-    @PossibleObjectsList = (
-        {
-            Key   => 'Ticket',
-            Value => 'Ticket',
-        },
-        {
-            Key   => 'FAQ',
-            Value => 'FAQ',
-        },
-        {
-            Key   => '',
-            Value => 'ConfigItem',
-        },
-        {
-            Key   => 'ITSMConfigItem::Computer',
-            Value => 'ConfigItem::Computer',
-        },
-    );
-
-    my @PossibleObjectsSelectList = $LinkObject->PossibleObjectsSelectList(
-        Object => 'Ticket',
-        UserID => 1,
-    );
-
-=cut
-
-sub PossibleObjectsSelectList {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for my $Argument (qw(Object UserID)) {
-        if ( !$Param{$Argument} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Need $Argument!",
-            );
-            return;
-        }
-    }
-
-    # get possible objects list
-    my @PossibleObjectsList = $Self->PossibleObjectsList(
-        Object => $Param{Object},
-        UserID => $Param{UserID},
-    );
-
-    # prepare the select list
-    my @PossibleObjectsSelectList;
-    for my $PossibleObject (@PossibleObjectsList) {
-
-        # load the backend module
-        my $BackendObject = $Self->_LoadBackend(
-            Object => $PossibleObject,
-        );
-
-        return if !$BackendObject;
-
-        # get object select list
-        my @ObjectSelectList = $BackendObject->PossibleObjectsSelectList(
-            %Param,
-        );
-
-        push @PossibleObjectsSelectList, @ObjectSelectList;
-    }
-
-    return @PossibleObjectsSelectList;
+    return %PossibleTypesList;
 }
 
 =item PossibleObjectsList()
@@ -254,12 +178,12 @@ sub PossibleObjectsSelectList {
 return an array of all possible objects
 
 Return
-    @PossibleObjectsList = (
-        'Ticket',
-        'FAQ',
+    %PossibleObjectsList = (
+        'Ticket' => 1,
+        'FAQ'    => 1,
     );
 
-    my @PossibleObjectsList = $LinkObject->PossibleObjectsList(
+    my %PossibleObjectsList = $LinkObject->PossibleObjectsList(
         Object => 'Ticket',
         UserID => 1,
     );
@@ -286,7 +210,7 @@ sub PossibleObjectsList {
     );
 
     # investigate the possible object list
-    my %PossibleObjects;
+    my %PossibleObjectsList;
     POSSIBLELINK:
     for my $PossibleLink ( keys %PossibleLinkList ) {
 
@@ -298,17 +222,14 @@ sub PossibleObjectsList {
 
         # add object to list
         if ( $Param{Object} eq $Object1 ) {
-            $PossibleObjects{$Object2} = 1;
+            $PossibleObjectsList{$Object2} = 1;
         }
         else {
-            $PossibleObjects{$Object1} = 1;
+            $PossibleObjectsList{$Object1} = 1;
         }
     }
 
-    # reverse the hash
-    my @PossibleObjectsList = sort { lc $a cmp lc $b } keys %PossibleObjects;
-
-    return @PossibleObjectsList;
+    return %PossibleObjectsList;
 }
 
 =item PossibleLinkList()
@@ -383,6 +304,29 @@ sub PossibleLinkList {
         }
     }
 
+    # get location of the backend modules
+    my $BackendLocation = $Self->{ConfigObject}->Get('Home') . '/Kernel/System/LinkObject/';
+
+    # check the existing objects
+    POSSIBLELINK:
+    for my $PossibleLink ( keys %PossibleLinkList ) {
+
+        # check if object backends exists
+        ARGUMENT:
+        for my $Argument (qw(Object1 Object2)) {
+
+            # extract object
+            my $Object = $PossibleLinkList{$PossibleLink}{$Argument};
+
+            next ARGUMENT if -e $BackendLocation . $Object . '.pm';
+
+            # remove entry from list if it is invalid
+            delete $PossibleLinkList{$PossibleLink};
+
+            next POSSIBLELINK;
+        }
+    }
+
     # get type list
     my %TypeList = $Self->TypeList(
         UserID => $Param{UserID},
@@ -393,7 +337,7 @@ sub PossibleLinkList {
     for my $PossibleLink ( keys %PossibleLinkList ) {
 
         # extract type
-        my $Type = $PossibleLinkList{$PossibleLink}{Type} || '';
+        my $Type = $PossibleLinkList{$PossibleLink}{Type};
 
         next POSSIBLELINK if $TypeList{$Type};
 
@@ -470,17 +414,14 @@ sub LinkAdd {
     }
 
     # get a list of possible link types for the two objects
-    my @PossibleTypesList = $Self->PossibleTypesList(
+    my %PossibleTypesList = $Self->PossibleTypesList(
         Object1 => $Param{SourceObject},
         Object2 => $Param{TargetObject},
         UserID  => $Param{UserID},
     );
 
-    # create possible types hash
-    my %PossibleTypes = map { $_ => 1 } @PossibleTypesList;
-
     # check if wanted link type is allowed
-    if ( !$PossibleTypes{ $Param{Type} } ) {
+    if ( !$PossibleTypesList{ $Param{Type} } ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Not allowed to link $Param{SourceObject} with $Param{TargetObject}!",
@@ -537,7 +478,7 @@ sub LinkAdd {
     }
 
     # get all links that the source object already has
-    my $Links = $Self->LinksGet(
+    my $Links = $Self->LinkList(
         Object => $Param{SourceObject},
         Key    => $Param{SourceKey},
         State  => $Param{State},
@@ -553,48 +494,66 @@ sub LinkAdd {
         TYPE:
         for my $Type ( keys %{ $Links->{$Object} } ) {
 
-            # extract source target pair
-            my $SourceTarget = $Links->{$Object}->{$Type};
-
-            # extract source ids
-            my %SourceIDs;
-            if ( $SourceTarget->{Source} ) {
-                %SourceIDs = map { $_ => 1 } @{ $SourceTarget->{Source} };
-            }
-
-            # extract target ids
-            my %TargetIDs;
-            if ( $SourceTarget->{Target} ) {
-                %TargetIDs = map { $_ => 1 } @{ $SourceTarget->{Target} };
-            }
-
-            # merge source and target ids
-            my %ObjectKeys = ( %SourceIDs, %TargetIDs );
+            # extract source and target
+            my $Source = $Links->{$Object}->{$Type}->{Source} ||= {};
+            my $Target = $Links->{$Object}->{$Type}->{Target} ||= {};
 
             # check if source and target object are already linked
-            if ( $ObjectKeys{ $Param{TargetKey} } ) {
+            next TYPE if !$Source->{ $Param{TargetKey} } && !$Target->{ $Param{TargetKey} };
 
-                # check the type groups
-                my $TypeGroupCheck = $Self->PossibleType(
-                    Type1  => $Type,
-                    Type2  => $Param{Type},
-                    UserID => $Param{UserID},
+            # check the type groups
+            my $TypeGroupCheck = $Self->PossibleType(
+                Type1  => $Type,
+                Type2  => $Param{Type},
+                UserID => $Param{UserID},
+            );
+
+            # existing link type is in a type group with the new link
+            if ( !$TypeGroupCheck ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "Another Link already exists witin the same type group!"
                 );
-
-                # existing link type is in a type group with the new link
-                if ( !$TypeGroupCheck ) {
-                    $Self->{LogObject}->Log(
-                        Priority => 'error',
-                        Message  => "Another Link already exists witin the same type group!"
-                    );
-                    return;
-                }
+                return;
             }
         }
     }
 
-    # add the new link
-    return $Self->{DBObject}->Do(
+    # load backend of source object
+    my $BackendSourceObject = $Self->_LoadBackend(
+        Object => $Param{SourceObject},
+        UserID => $Param{UserID},
+    );
+
+    return if !$BackendSourceObject;
+
+    # load backend of target object
+    my $BackendTargetObject = $Self->_LoadBackend(
+        Object => $Param{TargetObject},
+        UserID => $Param{UserID},
+    );
+
+    return if !$BackendTargetObject;
+
+    # run pre event module of source object
+    $BackendSourceObject->LinkAddPre(
+        Key          => $Param{SourceKey},
+        TargetObject => $Param{TargetObject},
+        TargetKey    => $Param{TargetKey},
+        Type         => $Param{Type},
+        UserID       => $Param{UserID},
+    );
+
+    # run pre event module of target object
+    $BackendTargetObject->LinkAddPre(
+        Key          => $Param{TargetKey},
+        SourceObject => $Param{SourceObject},
+        SourceKey    => $Param{SourceKey},
+        Type         => $Param{Type},
+        UserID       => $Param{UserID},
+    );
+
+    my $Success = $Self->{DBObject}->Do(
         SQL => 'INSERT INTO link_relation '
             . '(source_object_id, source_key, target_object_id, target_key, '
             . 'type_id, state_id, create_time, create_by) '
@@ -605,6 +564,28 @@ sub LinkAdd {
             \$TypeID, \$StateID, \$Param{UserID},
         ],
     );
+
+    return if !$Success;
+
+    # run post event module of source object
+    $BackendSourceObject->LinkAddPost(
+        Key          => $Param{SourceKey},
+        TargetObject => $Param{TargetObject},
+        TargetKey    => $Param{TargetKey},
+        Type         => $Param{Type},
+        UserID       => $Param{UserID},
+    );
+
+    # run post event module of target object
+    $BackendTargetObject->LinkAddPost(
+        Key          => $Param{TargetKey},
+        SourceObject => $Param{SourceObject},
+        SourceKey    => $Param{SourceKey},
+        Type         => $Param{Type},
+        UserID       => $Param{UserID},
+    );
+
+    return $Success;
 }
 
 =item LinkDelete()
@@ -664,6 +645,40 @@ sub LinkDelete {
         UserID => $Param{UserID},
     );
 
+    # load backend of object1
+    my $BackendObject1 = $Self->_LoadBackend(
+        Object => $Param{Object1},
+        UserID => $Param{UserID},
+    );
+
+    return if !$BackendObject1;
+
+    # load backend of object2
+    my $BackendObject2 = $Self->_LoadBackend(
+        Object => $Param{Object2},
+        UserID => $Param{UserID},
+    );
+
+    return if !$BackendObject2;
+
+    # run pre event module of object 1
+    $BackendObject1->LinkDeletePre(
+        Key     => $Param{Key1},
+        Object2 => $Param{Object2},
+        Key2    => $Param{Key2},
+        Type    => $Param{Type},
+        UserID  => $Param{UserID},
+    );
+
+    # run pre event module of object 2
+    $BackendObject2->LinkDeletePre(
+        Key     => $Param{Key2},
+        Object2 => $Param{Object1},
+        Key2    => $Param{Key1},
+        Type    => $Param{Type},
+        UserID  => $Param{UserID},
+    );
+
     # delete the link
     return $Self->{DBObject}->Do(
         SQL => 'DELETE FROM link_relation '
@@ -679,6 +694,24 @@ sub LinkDelete {
             \$Param{Object1ID}, \$Param{Key1},
             \$TypeID,
         ],
+    );
+
+    # run post event module of object 1
+    $BackendObject1->LinkDeletePost(
+        Key     => $Param{Key1},
+        Object2 => $Param{Object2},
+        Key2    => $Param{Key2},
+        Type    => $Param{Type},
+        UserID  => $Param{UserID},
+    );
+
+    # run post event module of object 2
+    $BackendObject2->LinkDeletePost(
+        Key     => $Param{Key2},
+        Object2 => $Param{Object1},
+        Key2    => $Param{Key1},
+        Type    => $Param{Type},
+        UserID  => $Param{UserID},
     );
 }
 
@@ -734,7 +767,7 @@ sub LinkDeleteAll {
     );
 }
 
-=item LinksGet()
+=item LinkList()
 
 get all existing links for a given object
 
@@ -742,21 +775,34 @@ Return
     $Links = {
         Ticket => {
             Normal => {
-                Source => [ 1, 2, 3 ],
+                Source => {
+                    12  => 1,
+                    212 => 1,
+                    332 => 1,
+                },
             },
             ParentChild => {
-                Source => [ 5, 9 ],
-                Target => [ 4, 8, 15 ],
+                Source => {
+                    5 => 1,
+                    9 => 1,
+                },
+                Target => {
+                    4  => 1,
+                    8  => 1,
+                    15 => 1,
+                },
             },
         },
         FAQ => {
             ParentChild => {
-                Source => [5],
+                Source => {
+                    5 => 1,
+                },
             },
         },
     };
 
-    my $Links = $LinkObject->LinksGet(
+    my $Links = $LinkObject->LinkList(
         Object   => 'Ticket',
         Key      => '321',
         State    => 'Valid',
@@ -766,7 +812,7 @@ Return
 
 =cut
 
-sub LinksGet {
+sub LinkList {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
@@ -852,7 +898,7 @@ sub LinksGet {
         $TypePointedList{ $TypeData{Name} } = $TypeData{Pointed};
 
         # store the result
-        push @{ $Links{$TargetObject}->{ $TypeData{Name} }->{Target} }, $LinkData->{TargetKey};
+        $Links{$TargetObject}->{ $TypeData{Name} }->{Target}->{ $LinkData->{TargetKey} } = 1;
     }
 
     # get links where the given object is the target
@@ -895,7 +941,7 @@ sub LinksGet {
         $TypePointedList{ $TypeData{Name} } = $TypeData{Pointed};
 
         # store the result
-        push @{ $Links{$SourceObject}->{ $TypeData{Name} }->{Source} }, $LinkData->{SourceKey};
+        $Links{$SourceObject}->{ $TypeData{Name} }->{Source}->{ $LinkData->{SourceKey} } = 1;
     }
 
     # merge source target pairs into source for unpointed link types
@@ -904,44 +950,149 @@ sub LinksGet {
         TYPE:
         for my $Type ( keys %{ $Links{$Object} } ) {
 
+            # next if link type is pointed
+            next TYPE if $TypePointedList{$Type};
+
             # extract source target pair
             my $SourceTarget = $Links{$Object}->{$Type};
-
-            # sort source ids
-            if ( $SourceTarget->{Source} ) {
-                my @SortedSourceIDs = sort @{ $SourceTarget->{Source} };
-                $SourceTarget->{Source} = \@SortedSourceIDs;
-            }
 
             # next if there are no target entries
             next TYPE if !$SourceTarget->{Target};
 
-            # sort target ids
-            my @SortedTargetIDs = sort @{ $SourceTarget->{Target} };
-            $SourceTarget->{Target} = \@SortedTargetIDs;
+            # set empty hash reference as default
+            $SourceTarget->{Source} ||= {};
 
-            # next if link type is pointed
-            next TYPE if $TypePointedList{$Type};
+            # merge the data
+            my %MergedIDs = ( %{$SourceTarget->{Source}}, %{$SourceTarget->{Target}} );
+            $SourceTarget->{Source} = \%MergedIDs;
 
-            # extract target ids
-            my %MergedIDs = map { $_ => 1 } @{ $SourceTarget->{Target} };
-
-            # extract source ids
-            if ( $SourceTarget->{Source} ) {
-                my %MergedIDs2 = map { $_ => 1 } @{ $SourceTarget->{Source} };
-                %MergedIDs = ( %MergedIDs, %MergedIDs2 );
-            }
-
-            # delete target array
+            # delete target hash
             delete $SourceTarget->{Target};
-
-            # copy merged ids to source
-            my @SourceIDs = sort keys %MergedIDs;
-            $SourceTarget->{Source} = \@SourceIDs;
         }
     }
 
     return \%Links;
+}
+
+=item LinkListWithData()
+
+get all existing links for a given object with data of the other objects
+
+Return
+    $Links = {
+        Ticket => {
+            Normal => {
+                Source => {
+                    12  => $DataOfItem12,
+                    212 => $DataOfItem212,
+                    332 => $DataOfItem332,
+                },
+            },
+            ParentChild => {
+                Source => {
+                    5 => $DataOfItem5,
+                    9 => $DataOfItem9,
+                },
+                Target => {
+                    4  => $DataOfItem4,
+                    8  => $DataOfItem8,
+                    15 => $DataOfItem15,
+                },
+            },
+        },
+        FAQ => {
+            ParentChild => {
+                Source => {
+                    5 => $DataOfItem5,
+                },
+            },
+        },
+    };
+
+    my $Links = $LinkObject->LinkListWithData(
+        Object   => 'Ticket',
+        Key      => '321',
+        State    => 'Valid',
+        Type     => 'ParentChild', # (optional)
+        UserID   => 1,
+    );
+
+=cut
+
+sub LinkListWithData {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Argument (qw(Object Key State UserID)) {
+        if ( !$Param{$Argument} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!",
+            );
+            return;
+        }
+    }
+
+    # get the link list
+    my $LinkList = $Self->LinkList(%Param);
+
+    # check link list
+    return if !$LinkList;
+    return if ref $LinkList ne 'HASH';
+
+    # add data to hash
+    OBJECT:
+    for my $Object ( keys %{$LinkList} ) {
+
+        # load backend
+        my $BackendObject = $Self->_LoadBackend(
+            Object => $Object,
+            UserID => $Param{UserID},
+        );
+
+        # check backend object
+        if (!$BackendObject) {
+            delete $LinkList->{$Object};
+            next OBJECT;
+        }
+
+        # add backend data
+        my $Success = $BackendObject->LinkListWithData(
+            LinkList => $LinkList->{$Object},
+            UserID   => $Param{UserID},
+        );
+
+        next OBJECT if $Success;
+
+        delete $LinkList->{$Object};
+    }
+
+    # clean the hash
+    OBJECT:
+    for my $Object ( keys %{$LinkList} ) {
+
+        LINKTYPE:
+        for my $LinkType ( keys %{ $Param{LinkList} } ) {
+
+            DIRECTION:
+            for my $Direction ( keys %{ $Param{LinkList}->{$LinkType} } ) {
+
+                next DIRECTION if %{ $Param{LinkList}->{$LinkType}->{$Direction} };
+
+                delete $Param{LinkList}->{$LinkType}->{$Direction};
+            }
+
+            next LINKTYPE if %{ $Param{LinkList}->{$LinkType} };
+
+            delete $Param{LinkList}->{$LinkType};
+        }
+
+        next OBJECT if %{ $Param{LinkList} };
+
+        delete $Param{LinkList};
+    }
+
+    return $LinkList;
 }
 
 =item ObjectLookup()
@@ -975,14 +1126,9 @@ sub ObjectLookup {
     }
 
     # check needed stuff
-    for my $Argument (qw( UserID )) {
-        if ( !$Param{$Argument} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Need $Argument!"
-            );
-            return;
-        }
+    if ( !$Param{UserID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
+        return;
     }
 
     if ( $Param{ObjectID} ) {
@@ -1106,14 +1252,9 @@ sub TypeLookup {
     }
 
     # check needed stuff
-    for my $Argument (qw( UserID )) {
-        if ( !$Param{$Argument} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Need $Argument!"
-            );
-            return;
-        }
+    if ( !$Param{UserID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
+        return;
     }
 
     if ( $Param{TypeID} ) {
@@ -1246,7 +1387,7 @@ sub TypeGet {
         if ( !$Param{$Argument} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "Need $Argument!"
+                Message  => "Need $Argument!",
             );
             return;
         }
@@ -1510,7 +1651,7 @@ sub PossibleType {
         if ( !$Param{$Argument} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "Need $Argument!"
+                Message  => "Need $Argument!",
             );
             return;
         }
@@ -1565,14 +1706,9 @@ sub StateLookup {
     }
 
     # check needed stuff
-    for my $Argument (qw( UserID )) {
-        if ( !$Param{$Argument} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Need $Argument!"
-            );
-            return;
-        }
+    if ( !$Param{UserID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
+        return;
     }
 
     if ( $Param{StateID} ) {
@@ -1702,96 +1838,23 @@ sub StateList {
 
 =item ObjectDescriptionGet()
 
-return a hash of object description data
+return a hash of object descriptions
 
-    %ObjectDescription = $LinkObject->ObjectDescriptionGet(
-        Object => 'Ticket',
-        UserID => 1,
+Return
+    %Description = (
+        Normal => '',
+        Long   => '',
+    );
+
+    %Description = $LinkObject->ObjectDescriptionGet(
+        Object  => 'Ticket',
+        Key     => 123,
+        UserID  => 1,
     );
 
 =cut
 
 sub ObjectDescriptionGet {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    for my $Argument (qw(Object UserID)) {
-        if ( !$Param{$Argument} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Need $Argument!",
-            );
-            return;
-        }
-    }
-
-    # load backend
-    my $BackendObject = $Self->_LoadBackend(
-        Object => $Param{Object},
-    );
-
-    return $Param{Object} if !$BackendObject;
-
-    # get object description data
-    my %ObjectDescription = $BackendObject->ObjectDescriptionGet(
-        %Param,
-    );
-
-    return %ObjectDescription;
-}
-
-=item ObjectSearchOptionsGet()
-
-return an array of object search options
-
-    @OverviewData = $LinkObject->ObjectSearchOptionsGet(
-        Object    => 'ITSMConfigItem',
-        SubObject => 'Computer',        # (optional)
-        Key       => '123',
-    );
-
-=cut
-
-sub ObjectSearchOptionsGet {
-    my ( $Self, %Param ) = @_;
-
-    # check needed stuff
-    if ( !$Param{Object} ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => 'Need Object!',
-        );
-        return;
-    }
-
-    # load backend
-    my $BackendObject = $Self->_LoadBackend(
-        Object => $Param{Object},
-    );
-
-    return if !$BackendObject;
-
-    # get search options
-    my @SearchOptions = $BackendObject->ObjectSearchOptionsGet(
-        %Param,
-    );
-
-    return @SearchOptions;
-}
-
-=item ItemDescriptionGet()
-
-return a hash of item description data
-
-    %ItemDescription = $LinkObject->ItemDescriptionGet(
-        Object => 'Ticket',
-        Key    => '123',
-        UserID => 1,
-    );
-
-=cut
-
-sub ItemDescriptionGet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
@@ -1808,52 +1871,75 @@ sub ItemDescriptionGet {
     # load backend
     my $BackendObject = $Self->_LoadBackend(
         Object => $Param{Object},
+        UserID => $Param{UserID},
     );
 
     return if !$BackendObject;
 
-    # get item description data
-    my %ItemDescription = $BackendObject->ItemDescriptionGet(%Param);
+    # get object description
+    my %Description = $BackendObject->ObjectDescriptionGet(
+        %Param,
+    );
 
-    return %ItemDescription;
+    return %Description;
 }
 
-=item ItemSearch()
+=item ObjectSearch()
 
-return an array list of the search results
+return an array of the search results
 
-    @ItemKeys = $LinkObject->ItemSearch(
+Return
+    $ObjectList = {
+        Ticket => {
+            NOTLINKED => {
+                Source => {
+                    12  => $DataOfItem12,
+                    212 => $DataOfItem212,
+                    332 => $DataOfItem332,
+                },
+            },
+        },
+    };
+
+    $ObjectList = $LinkObject->ObjectSearch(
         Object       => 'Ticket',
         SearchParams => $HashRef,  # (optional)
+        UserID       => 1,
     );
 
 =cut
 
-sub ItemSearch {
+sub ObjectSearch {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{Object} ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => 'Need Object!',
-        );
-        return;
+    for my $Argument (qw(Object UserID)) {
+        if ( !$Param{$Argument} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!",
+            );
+            return;
+        }
     }
 
     # load backend
     my $BackendObject = $Self->_LoadBackend(
         Object => $Param{Object},
+        UserID => $Param{UserID},
     );
 
     return if !$BackendObject;
 
-    # search items
-    my @ItemKeys = $BackendObject->ItemSearch(
+    # search objects
+    my $SearchList = $BackendObject->ObjectSearch(
         %Param,
     );
 
-    return @ItemKeys;
+    my %ObjectList;
+    $ObjectList{ $Param{Object} } = $SearchList;
+
+    return \%ObjectList;
 }
 
 =item _LoadBackend()
@@ -1862,6 +1948,7 @@ to load a link object backend module
 
     $HashRef = $LinkObject->_LoadBackend(
         Object => 'Ticket',
+        UserID => 1,
     );
 
 =cut
@@ -1870,12 +1957,14 @@ sub _LoadBackend {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{Object} ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => 'Need Object!',
-        );
-        return;
+    for my $Argument (qw(Object UserID)) {
+        if ( !$Param{$Argument} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!",
+            );
+            return;
+        }
     }
 
     # check if object is already cached
@@ -1930,6 +2019,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.32 $ $Date: 2008-06-13 08:13:12 $
+$Revision: 1.33 $ $Date: 2008-06-19 14:16:40 $
 
 =cut
