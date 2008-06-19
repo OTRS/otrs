@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.664 2008-06-12 22:02:22 martin Exp $
+# $Id: CHANGES,v 1.665 2008-06-19 06:29:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,10 @@
 # --
 
 2.3.0 beta3 (2008/06/??)
+ - (2008/06/19) Added cleanup of old cache files and cleanup of non existing
+    TicketIDs in ticket_watcher and ArticleIDs in article_flag table (there
+    was a bug, this reference entries got not deleted by deleting a ticket
+    or article, e. g. by GenericAgent) to scripts/DBUpgrade-to-2.3.pl.
  - (2008/06/13) Added extra config option for "CheckMXRecord" config option
     to configure extra name servers for MX lookups.
  - (2008/06/11) Fixed bug# 2980 - Getting cron emails (Use of uninitialized

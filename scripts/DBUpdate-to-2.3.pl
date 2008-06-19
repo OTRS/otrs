@@ -3,7 +3,7 @@
 # DBUpdate-to-2.3.pl - update script to migrate OTRS 2.2.x to 2.3.x
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-2.3.pl,v 1.10 2008-06-13 08:18:58 mh Exp $
+# $Id: DBUpdate-to-2.3.pl,v 1.11 2008-06-19 06:29:53 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -27,10 +27,10 @@ use warnings;
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-use lib dirname($RealBin) . "/Kernel/cpan-lib";
+use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -74,6 +74,8 @@ print STDOUT "Start migration of the system...\n\n";
 
 # start migration process
 RebuildConfig();
+CleanUpCacheDir();
+CleanUpDatabase();
 MigrateServiceSLARelation();
 MigrateLinkObject();
 MigrateEscalation();
@@ -102,6 +104,117 @@ sub RebuildConfig {
     else {
         print STDOUT " failed.\n";
     }
+
+    return 1;
+}
+
+=item CleanUpCacheDir()
+
+this function removes all cache files
+
+    CleanUpCacheDir();
+
+=cut
+
+sub CleanUpCacheDir {
+
+    print STDOUT "NOTICE: Clean up old cache files... ";
+
+    my $CacheDirectory = $CommonObject{ConfigObject}->Get('TempDir');
+
+    # delete all cache files
+    my @CacheFiles = glob( $CacheDirectory . '/*' );
+    for my $CacheFile (@CacheFiles) {
+        next if (! -f $CacheFile);
+        unlink $CacheFile;
+    }
+    print STDOUT " done.\n";
+
+    return 1;
+}
+
+=item CleanUpDatabase()
+
+this function removes all non existing table references
+
+    CleanUpDatabase();
+
+=cut
+
+sub CleanUpDatabase {
+
+    print STDOUT "NOTICE: Clean up non existing table references... ";
+
+    my $Success = $CommonObject{DBObject}->Prepare(
+        SQL => 'SELECT ticket_id FROM ticket_watcher',
+    );
+    if ( !$Success ) {
+        print STDOUT " error.!\n";
+        return;
+    }
+
+    # fetch watched ticket ids
+    my %TicketIDsWatcher;
+    while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {
+        $TicketIDsWatcher{ $Row[0] } = 1;
+    }
+
+    # check if ticket still exists
+    for my $TicketIDWatched ( keys %TicketIDsWatcher ) {
+        $CommonObject{DBObject}->Prepare(
+            SQL  => 'SELECT id FROM ticket WHERE id = ?',
+            Bind => [ \$TicketIDWatched ],
+        );
+        my $Exists = 0;
+        while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {
+            $Exists = 1;
+        }
+
+        next if $Exists;
+
+        # delete ticket watcher recorde
+        $CommonObject{DBObject}->Do(
+            SQL  => 'DELETE FROM ticket_watcher WHERE ticket_id = ?',
+            Bind => [ \$TicketIDWatched ],
+        );
+    }
+
+    # article flags
+    $Success = $CommonObject{DBObject}->Prepare(
+        SQL => 'SELECT article_id FROM article_flag',
+    );
+    if ( !$Success ) {
+        print STDOUT " error.!\n";
+        return;
+    }
+
+    # fetch article ids of article flags
+    my %ArticleIDsFlag;
+    while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {
+        $ArticleIDsFlag{ $Row[0] } = 1;
+    }
+
+    # check if article still exists
+    for my $ArticleIDFlag ( keys %ArticleIDsFlag ) {
+        $CommonObject{DBObject}->Prepare(
+            SQL  => 'SELECT id FROM article WHERE id = ?',
+            Bind => [ \$ArticleIDFlag ],
+        );
+        my $Exists = 0;
+        while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {
+            $Exists = 1;
+        }
+
+        next if $Exists;
+
+        # delete article watcher recorde
+        $CommonObject{DBObject}->Do(
+            SQL  => 'DELETE FROM article_flag WHERE article_id = ?',
+            Bind => [ \$ArticleIDFlag ],
+        );
+    }
+
+    print STDOUT " done.\n";
 
     return 1;
 }
@@ -156,7 +269,7 @@ sub MigrateServiceSLARelation {
 
     # get all existing relations
     my $Success = $CommonObject{DBObject}->Prepare(
-        SQL => "SELECT id, service_id FROM sla ORDER BY id ASC",
+        SQL => 'SELECT id, service_id FROM sla ORDER BY id ASC',
     );
 
     if ( !$Success ) {
