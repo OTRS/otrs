@@ -2,7 +2,7 @@
 # Cache.t - Cache tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Cache.t,v 1.5 2008-05-08 09:35:57 mh Exp $
+# $Id: Cache.t,v 1.6 2008-06-19 06:34:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,6 @@ my $CacheSet = $Self->{CacheObject}->Set(
     Value => '1234',
     TTL   => 24 * 60 * 60,
 );
-
 $Self->True(
     $CacheSet,
     '#1 CacheSet(), TTL 24*60*60',
@@ -30,7 +29,6 @@ my $CacheGet = $Self->{CacheObject}->Get(
     Type => 'CacheTest',
     Key  => 'Test',
 );
-
 $Self->Is(
     $CacheGet || '',
     '1234',
@@ -331,7 +329,6 @@ my $CacheDelete = $Self->{CacheObject}->Delete(
     Type => 'CacheTest',
     Key  => 'Test',
 );
-
 $Self->True(
     $CacheDelete,
     '#5 CacheDelete()',
@@ -348,14 +345,54 @@ $Self->True(
     !$CacheSet || '',
     '#6 Set() - A-z type check',
 );
+
 $CacheDelete = $Self->{CacheObject}->Delete(
     Type => 'Value2ÄÜÖäüöß',
     Key  => 'Test',
 );
-
 $Self->True(
     !$CacheDelete || 0,
     '#6 CacheDelete() - A-z type check',
+);
+
+# create new cache files
+$CacheSet = $Self->{CacheObject}->Set(
+    Type  => 'CacheTest',
+    Key   => 'Test',
+    Value => '1234',
+    TTL   => 24 * 60 * 60,
+);
+$Self->True(
+    $CacheSet,
+    '#7 CacheSet(), TTL 24*60*60',
+);
+
+# check get
+$CacheGet = $Self->{CacheObject}->Get(
+    Type => 'CacheTest',
+    Key  => 'Test',
+);
+$Self->Is(
+    $CacheGet || '',
+    '1234',
+    '#7 CacheGet()',
+);
+
+# cleanup
+my $CacheCleanUp = $Self->{CacheObject}->CleanUp();
+$Self->True(
+    $CacheCleanUp,
+    '#7 CleanUp()',
+);
+
+# check get
+$CacheGet = $Self->{CacheObject}->Get(
+    Type => 'CacheTest',
+    Key  => 'Test',
+);
+$Self->False(
+    $CacheGet,
+    '#7 CacheGet()',
 );
 
 1;
