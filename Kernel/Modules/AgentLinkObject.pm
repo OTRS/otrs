@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.26 2008-06-19 14:16:40 mh Exp $
+# $Id: AgentLinkObject.pm,v 1.27 2008-06-19 14:46:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -44,6 +44,7 @@ sub Run {
     my %Form;
     $Form{SourceObject} = $Self->{ParamObject}->GetParam( Param => 'SourceObject' );
     $Form{SourceKey}    = $Self->{ParamObject}->GetParam( Param => 'SourceKey' );
+    $Form{State}         = $Self->{ParamObject}->GetParam( Param => 'State' ) || 'Valid';
 
     # check needed stuff
     if ( !$Form{SourceObject} || !$Form{SourceKey} ) {
@@ -107,7 +108,7 @@ sub Run {
         my $LinkListWithData = $Self->{LinkObject}->LinkListWithData(
             Object => $Form{SourceObject},
             Key    => $Form{SourceKey},
-            State  => 'Valid',
+            State  => $Form{State},
             UserID => $Self->{UserID},
         );
 
@@ -193,7 +194,7 @@ sub Run {
                         TargetObject => $TargetObject,
                         TargetKey    => $TargetKey,
                         Type         => $Type[0],
-                        State        => 'Valid',
+                        State        => $Form{State},
                         UserID       => $Self->{UserID},
                     );
                 }
@@ -276,7 +277,7 @@ sub Run {
         my $LinkListWithData = $Self->{LinkObject}->LinkListWithData(
             Object => $Form{SourceObject},
             Key    => $Form{SourceKey},
-            State  => 'Valid',
+            State  => $Form{State},
             UserID => $Self->{UserID},
         );
 
