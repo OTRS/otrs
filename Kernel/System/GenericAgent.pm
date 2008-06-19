@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.39 2008-05-15 21:47:52 martin Exp $
+# $Id: GenericAgent.pm,v 1.40 2008-06-19 06:36:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 =head1 NAME
 
@@ -366,8 +366,8 @@ sub JobRun {
             if ( !$Count ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message =>
-                        "Attanchen: Can't run GenericAgent Job '$Param{Job}' because no search attributes are used!.",
+                    Message => "Attention: Can't run GenericAgent Job '$Param{Job}' because no "
+                        . "search attributes are used!.",
                 );
                 return;
             }
@@ -1309,6 +1309,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.39 $ $Date: 2008-05-15 21:47:52 $
+$Revision: 1.40 $ $Date: 2008-06-19 06:36:29 $
 
 =cut
