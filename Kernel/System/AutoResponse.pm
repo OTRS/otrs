@@ -2,7 +2,7 @@
 # Kernel/System/AutoResponse.pm - lib for auto responses
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AutoResponse.pm,v 1.18 2008-05-08 09:36:19 mh Exp $
+# $Id: AutoResponse.pm,v 1.19 2008-06-19 18:44:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,10 @@ package Kernel::System::AutoResponse;
 use strict;
 use warnings;
 
-use Kernel::System::Queue;
+use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -31,8 +31,8 @@ sub new {
         die "Got no $_" if !$Self->{$_};
     }
 
-    if ( !$Self->{QueueObject} ) {
-        $Self->{QueueObject} = Kernel::System::Queue->new(%Param);
+    if ( !$Self->{SystemAddressObject} ) {
+        $Self->{SystemAddressObject} = Kernel::System::SystemAddress->new(%Param);
     }
 
     return $Self;
@@ -49,30 +49,34 @@ sub AutoResponseAdd {
         }
     }
 
-    # db quote
-    for (qw(Name Comment Response Charset Subject)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} ) || '';
-    }
-    for (qw(ValidID TypeID AddressID UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
+    # insert into database
+    return if !$Self->{DBObject}->Do(
+        SQL => 'INSERT INTO auto_response '
+            . '(name, valid_id, comments, text0, text1, type_id, system_address_id, '
+            . 'charset,  create_time, create_by, change_time, change_by)'
+            . 'VALUES '
+            . '(?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+        Bind => [
+            \$Param{Name}, \$Param{ValidID}, \$Param{Comment}, \$Param{Response},
+            \$Param{Subject}, \$Param{TypeID}, \$Param{AddressID}, \$Param{Charset},
+            \$Param{UserID}, \$Param{UserID},
+        ],
+    );
 
-    # sql
-    my $SQL
-        = "INSERT INTO auto_response "
-        . " (name, valid_id, comments, text0, text1, type_id, system_address_id, "
-        . " charset,  create_time, create_by, change_time, change_by)"
-        . " VALUES "
-        . " ('$Param{Name}', $Param{ValidID}, '$Param{Comment}', '$Param{Response}', "
-        . " '$Param{Subject}', $Param{TypeID}, $Param{AddressID}, '$Param{Charset}', "
-        . " current_timestamp, $Param{UserID}, current_timestamp,  $Param{UserID})";
-
-    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
-        return 1;
+    # get id
+    return if !$Self->{DBObject}->Prepare(
+        SQL => 'SELECT id FROM auto_response WHERE name = ? AND text0 = ? AND text1 = ? '
+            . 'AND charset = ? AND type_id = ?',
+        Bind => [
+            \$Param{Name}, \$Param{Response}, \$Param{Subject}, \$Param{Charset},
+            \$Param{TypeID},
+        ],
+    );
+    my $ID;
+    if ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $ID = $Row[0];
     }
-    else {
-        return;
-    }
+    return $ID;
 }
 
 sub AutoResponseGet {
@@ -80,29 +84,23 @@ sub AutoResponseGet {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID!' );
         return;
     }
 
-    # db quote
-    for (qw(ID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
+    # select
+    return if !$Self->{DBObject}->Prepare(
+        SQL => 'SELECT name, valid_id, comments, text0, text1, '
+            . 'type_id, system_address_id, charset '
+            . 'FROM auto_response WHERE id = ?',
+        Bind => [
+            \$Param{ID},
+        ],
+    );
 
-    # sql
-    my $SQL
-        = "SELECT name, valid_id, comments, text0, text1, "
-        . " type_id, system_address_id, charset "
-        . " FROM "
-        . " auto_response "
-        . " WHERE "
-        . " id = $Param{ID}";
-
-    if ( !$Self->{DBObject}->Prepare( SQL => $SQL ) ) {
-        return;
-    }
+    my %Data;
     if ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-        my %Data = (
+        %Data = (
             ID        => $Param{ID},
             Name      => $Data[0],
             Comment   => $Data[2],
@@ -113,11 +111,8 @@ sub AutoResponseGet {
             AddressID => $Data[6],
             Charset   => $Data[7],
         );
-        return %Data;
     }
-    else {
-        return;
-    }
+    return %Data;
 }
 
 sub AutoResponseUpdate {
@@ -131,42 +126,20 @@ sub AutoResponseUpdate {
         }
     }
 
-    # db quote
-    for (qw(Name Comment Response Charset Subject)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} ) || '';
-    }
-    for (qw(ID ValidID TypeID AddressID UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
-    # sql
-    my $SQL
-        = "UPDATE auto_response SET "
-        . " name = '$Param{Name}', "
-        . " text0 = '$Param{Response}', "
-        . " comments = '$Param{Comment}', "
-        . " text1 = '$Param{Subject}', "
-        . " type_id = $Param{TypeID}, "
-        . " system_address_id = $Param{AddressID}, "
-        . " charset = '$Param{Charset}', "
-        . " valid_id = $Param{ValidID}, "
-        . " change_time = current_timestamp, "
-        . " change_by = $Param{UserID} "
-        . " WHERE "
-        . " id = $Param{ID}";
-
-    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
-        return 1;
-    }
-    else {
-        return;
-    }
+    return $Self->{DBObject}->Do(
+        SQL => 'UPDATE auto_response SET '
+            . 'name = ?, text0 = ?, comments = ?, text1 = ?, type_id = ?, '
+            . 'system_address_id = ?, charset = ?, valid_id = ?, change_time = current_timestamp, '
+            . 'change_by = ? WHERE id = ?',
+        Bind => [
+            \$Param{Name}, \$Param{Response}, \$Param{Comment}, \$Param{Subject}, \$Param{TypeID},
+            \$Param{AddressID}, \$Param{Charset}, \$Param{ValidID}, \$Param{UserID}, \$Param{ID},
+        ],
+    );
 }
 
 sub AutoResponseGetByTypeQueueID {
     my ( $Self, %Param ) = @_;
-
-    my %Data;
 
     # check needed stuff
     for (qw(QueueID Type)) {
@@ -176,37 +149,83 @@ sub AutoResponseGetByTypeQueueID {
         }
     }
 
-    # db quote
-    for (qw(Type)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} ) || '';
-    }
-    for (qw(QueueID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # SQL query
-    my $SQL
-        = "SELECT ar.text0, ar.text1, ar.charset"
-        . " FROM "
-        . " auto_response_type art, auto_response ar, queue_auto_response qar "
-        . " WHERE "
-        . " qar.queue_id = $Param{QueueID} " . " AND "
-        . " art.id = ar.type_id " . " AND "
-        . " qar.auto_response_id = ar.id " . " AND "
-        . " art.name = '$Param{Type}'";
-    $Self->{DBObject}->Prepare( SQL => $SQL );
-
+    return if !$Self->{DBObject}->Prepare(
+        SQL => 'SELECT ar.text0, ar.text1, ar.charset, ar.system_address_id FROM '
+            . 'auto_response_type art, auto_response ar, queue_auto_response qar '
+            . 'WHERE qar.queue_id = ? AND art.id = ar.type_id AND '
+            . 'qar.auto_response_id = ar.id AND art.name = ?',
+        Bind => [
+            \$Param{QueueID}, \$Param{Type},
+        ],
+    );
+    my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Data{Text}    = $Row[0];
-        $Data{Subject} = $Row[1];
-        $Data{Charset} = $Row[2];
+        $Data{Text}            = $Row[0];
+        $Data{Subject}         = $Row[1];
+        $Data{Charset}         = $Row[2];
+        $Data{SystemAddressID} = $Row[3];
     }
-    my %Adresss = $Self->{QueueObject}->GetSystemAddress( QueueID => $Param{QueueID}, );
+    my %Adresss = $Self->{SystemAddressObject}->SystemAddressGet(
+        ID => $Data{SystemAddressID},
+    );
 
     # COMPAT: 2.1
-    $Data{Realname} = $Adresss{RealName};
-    $Data{Address}  = $Adresss{Email};
+    $Data{Address}  = $Adresss{Name};
     return ( %Adresss, %Data );
+}
+
+sub AutoResponseList {
+    my ( $Self, %Param ) = @_;
+
+    return $Self->{DBObject}->GetTableData(
+        What  => 'id, name, id',
+        Valid => 0,
+        Clamp => 1,
+        Table => 'auto_response',
+    );
+}
+
+sub AutoResponseTypeList {
+    my ( $Self, %Param ) = @_;
+
+    return $Self->{DBObject}->GetTableData(
+        What  => 'id, name',
+        Valid => 1,
+        Clamp => 1,
+        Table => 'auto_response_type',
+    );
+}
+
+sub AutoResponseQueue {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(QueueID AutoResponseIDs UserID)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # store queue:auto response relations
+    return if !$Self->{DBObject}->Do(
+        SQL  => 'DELETE FROM queue_auto_response WHERE queue_id = ?',
+        Bind => [ \$Param{QueueID} ],
+    );
+    for my $NewID ( @{ $Param{AutoResponseIDs} } ) {
+        next if !$NewID;
+
+        $Self->{DBObject}->Do(
+            SQL => 'INSERT INTO queue_auto_response (queue_id, auto_response_id, '
+                . 'create_time, create_by, change_time, change_by) VALUES '
+                . '(?, ?, current_timestamp, ?, current_timestamp, ?)',
+            Bind => [
+                \$Param{QueueID}, \$NewID, \$Param{UserID}, \ $Param{UserID},
+            ],
+        );
+    }
+    return 1;
 }
 
 1;
