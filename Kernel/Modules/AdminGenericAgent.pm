@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.50 2008-05-15 21:47:52 martin Exp $
+# $Id: AdminGenericAgent.pm,v 1.51 2008-06-19 18:42:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -134,7 +134,7 @@ sub Run {
             NewCustomerID NewCustomerUserLogin
             NewStateID NewQueueID NewPriorityID NewOwnerID
             NewTypeID NewServiceID NewSLAID
-            NewNoteFrom NewNoteSubject NewNoteBody NewModule
+            NewNoteFrom NewNoteSubject NewNoteBody NewNoteTimeUnits NewModule
             NewParamKey1 NewParamKey2 NewParamKey3 NewParamKey4
             NewParamValue1 NewParamValue2 NewParamValue3 NewParamValue4
             NewParamKey5 NewParamKey6 NewParamKey7 NewParamKey8
