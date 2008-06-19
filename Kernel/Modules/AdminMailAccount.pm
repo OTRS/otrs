@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminMailAccount.pm - to add/update/delete MailAccount acounts
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminMailAccount.pm,v 1.3 2008-05-08 09:36:36 mh Exp $
+# $Id: AdminMailAccount.pm,v 1.4 2008-06-19 19:32:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,11 +14,12 @@ package Kernel::Modules::AdminMailAccount;
 use strict;
 use warnings;
 
+use Kernel::System::Queue;
 use Kernel::System::MailAccount;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -33,6 +34,7 @@ sub new {
             $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
         }
     }
+    $Self->{QueueObject} = Kernel::System::Queue->new(%Param);
     $Self->{MailAccount} = Kernel::System::MailAccount->new(%Param);
     $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
 
@@ -208,13 +210,9 @@ sub _MaskUpdate {
     );
 
     $Param{'QueueOption'} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data => {
-            $Self->{DBObject}->GetTableData(
-                What  => 'id, name',
-                Table => 'queue',
-                Valid => 1,
-            ),
+        Data           => {
             '' => '-',
+            $Self->{QueueObject}->QueueList( Valid => 1 ),
         },
         Name           => 'QueueID',
         SelectedID     => $Param{QueueID},

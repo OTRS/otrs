@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSystemAddress.pm - to add/update/delete system addresses
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSystemAddress.pm,v 1.25 2008-05-08 09:36:36 mh Exp $
+# $Id: AdminSystemAddress.pm,v 1.26 2008-06-19 19:32:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,11 +14,12 @@ package Kernel::Modules::AdminSystemAddress;
 use strict;
 use warnings;
 
+use Kernel::System::Queue;
 use Kernel::System::SystemAddress;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -33,6 +34,7 @@ sub new {
             $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
         }
     }
+    $Self->{QueueObject}         = Kernel::System::Queue->new(%Param);
     $Self->{SystemAddressObject} = Kernel::System::SystemAddress->new(%Param);
     $Self->{ValidObject}         = Kernel::System::Valid->new(%Param);
 
@@ -203,13 +205,7 @@ sub _Edit {
         SelectedID => $Param{ValidID},
     );
     $Param{'QueueOption'} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data => {
-            $Self->{DBObject}->GetTableData(
-                What  => 'id, name',
-                Table => 'queue',
-                Valid => 1,
-                )
-        },
+        Data           => { $Self->{QueueObject}->QueueList( Valid => 1 ), },
         Name           => 'QueueID',
         SelectedID     => $Param{QueueID},
         OnChangeSubmit => 0,
