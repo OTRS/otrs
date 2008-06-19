@@ -107,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.172 2008-06-19 14:15:20 mh Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.173 2008-06-19 14:44:27 mh Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -407,7 +407,7 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
     <ConfigItem Name="LinkObject::ViewMode" Required="1" Valid="1">
-        <Description Lang="en"></Description>
+        <Description Lang="en">Determines the way the linked objects are displayed in each zoom mask.</Description>
         <Description Lang="de">Legt die Ansicht der verlinkten Objekte in den jeweiligen Zoom-Masken fest.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::LinkObject</SubGroup>
