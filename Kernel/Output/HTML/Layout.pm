@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.93 2008-05-08 09:36:57 mh Exp $
+# $Id: Layout.pm,v 1.94 2008-06-19 09:32:40 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.93 $) [1];
+$VERSION = qw($Revision: 1.94 $) [1];
 
 =head1 NAME
 
@@ -102,6 +102,9 @@ sub new {
         }
     }
 
+    # reset block data
+    delete $Self->{BlockData};
+
     # get/set some common params
     if ( !$Self->{UserTheme} ) {
         $Self->{UserTheme} = $Self->{ConfigObject}->Get('DefaultTheme');
@@ -128,14 +131,16 @@ sub new {
     }
 
     # create language object
-    $Self->{LanguageObject} = Kernel::Language->new(
-        UserTimeZone => $Self->{UserTimeZone},
-        UserLanguage => $Self->{UserLanguage},
-        LogObject    => $Self->{LogObject},
-        ConfigObject => $Self->{ConfigObject},
-        MainObject   => $Self->{MainObject},
-        Action       => $Self->{Action},
-    );
+    if ( !$Self->{LanguageObject} ) {
+        $Self->{LanguageObject} = Kernel::Language->new(
+            UserTimeZone => $Self->{UserTimeZone},
+            UserLanguage => $Self->{UserLanguage},
+            LogObject    => $Self->{LogObject},
+            ConfigObject => $Self->{ConfigObject},
+            MainObject   => $Self->{MainObject},
+            Action       => $Self->{Action},
+        );
+    }
 
     # set charset if there is no charset given
     $Self->{UserCharset} = $Self->{LanguageObject}->GetRecommendedCharset();
@@ -3914,6 +3919,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.93 $ $Date: 2008-05-08 09:36:57 $
+$Revision: 1.94 $ $Date: 2008-06-19 09:32:40 $
 
 =cut
