@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.96 2008-05-15 22:05:46 mh Exp $
+# $Id: Queue.pm,v 1.97 2008-06-19 18:46:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.96 $) [1];
+$VERSION = qw($Revision: 1.97 $) [1];
 
 =head1 NAME
 
@@ -1039,6 +1039,51 @@ sub QueueUpdate {
     return 1;
 }
 
+=item QueueList()
+
+get all queues
+
+    my %Queues = $QueueObject->QueueList();
+
+    my %Queues = $QueueObject->GetAllQueues( Valid => 1 );
+
+=cut
+
+sub QueueList {
+    my ( $Self, %Param ) = @_;
+
+    my $Valid = $Param{Valid};
+    if ( !defined $Valid ) {
+        $Valid = 1;
+    }
+
+    if ( $Self->{ 'QG::QueueList' . $Valid } ) {
+        return %{ $Self->{ 'QG::QueueList' . $Valid } };
+    }
+
+    # sql query
+    if ( $Valid ) {
+        $Self->{DBObject}->Prepare(
+            SQL => "SELECT id, name FROM queue WHERE valid_id IN "
+                . "( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )",
+        );
+    }
+    else {
+        $Self->{DBObject}->Prepare(
+            SQL => 'SELECT id, name FROM queue',
+        );
+    }
+    my %Queues;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $Queues{ $Row[0] } = $Row[1];
+    }
+
+    # cache result
+    $Self->{ 'QG::QueueList' . $Valid } = \%Queues;
+
+    return %Queues;
+}
+
 =item QueuePreferencesSet()
 
 set queue preferences
@@ -1091,6 +1136,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.96 $ $Date: 2008-05-15 22:05:46 $
+$Revision: 1.97 $ $Date: 2008-06-19 18:46:12 $
 
 =cut
