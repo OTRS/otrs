@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LinkObjectTicket.pm - layout backend module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObjectTicket.pm,v 1.3 2008-06-19 14:16:15 mh Exp $
+# $Id: LinkObjectTicket.pm,v 1.4 2008-06-19 15:18:51 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::Output::HTML::Layout;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -328,6 +328,28 @@ sub TableCreateSimple {
     return %LinkOutputData;
 }
 
+=item ContentStringCreate()
+
+return a output string
+
+    my $String = $LayoutObject->ContentStringCreate(
+        ContentData => $HashRef,
+    );
+
+=cut
+
+sub ContentStringCreate {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{ContentData} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message  => 'Need ContentData!' );
+        return;
+    }
+
+    return;
+}
+
 =item SelectableObjectList()
 
 return an array hash with selectable objects
@@ -510,6 +532,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2008-06-19 14:16:15 $
+$Revision: 1.4 $ $Date: 2008-06-19 15:18:51 $
 
 =cut

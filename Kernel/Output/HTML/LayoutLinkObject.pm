@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLinkObject.pm - provides generic HTML output for LinkObject
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLinkObject.pm,v 1.2 2008-06-19 14:16:15 mh Exp $
+# $Id: LayoutLinkObject.pm,v 1.3 2008-06-19 15:18:51 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =item LinkObjectTableCreate()
 
@@ -296,6 +296,7 @@ sub LinkObjectTableCreateComplex {
 
                 # create the content string
                 my $Content = $Self->LinkObjectContentStringCreate(
+                    Object      => $Block->{Object},
                     ContentData => $Column,
                 );
 
@@ -435,6 +436,7 @@ sub LinkObjectTableCreateSimple {
 
                 # create the content string
                 my $Content = $Self->LinkObjectContentStringCreate(
+                    Object      => $Object,
                     ContentData => $Item,
                 );
 
@@ -460,6 +462,7 @@ sub LinkObjectTableCreateSimple {
 return a output string
 
     my $String = $LayoutObject->LinkObjectContentStringCreate(
+        Object      => 'Ticket',
         ContentData => $HashRef,
     );
 
@@ -469,14 +472,35 @@ sub LinkObjectContentStringCreate {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{ContentData} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message  => 'Need ContentData!' );
-        return;
+    for my $Argument (qw(Object ContentData)) {
+        if ( !$Param{$Argument} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!",
+            );
+            return;
+        }
     }
 
     # load link core module
     if ( !$Self->{LinkObject} ) {
         $Self->{LinkObject} = Kernel::System::LinkObject->new( %{$Self} );
+    }
+
+    # load backend
+    my $BackendObject = $Self->_LoadLinkObjectLayoutBackend(
+        Object => $Param{Object},
+    );
+
+    # create content string in backend module
+    if ($BackendObject) {
+
+        my $ContentString = $BackendObject->ContentStringCreate(
+            %Param,
+            LinkObject => $Self->{LinkObject},
+        );
+
+        return $ContentString if defined $ContentString;
     }
 
     # extract content
