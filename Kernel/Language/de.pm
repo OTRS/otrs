@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.163 2008-06-02 12:22:13 mh Exp $
+# $Id: de.pm,v 1.164 2008-06-19 14:14:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.163 $) [1];
+$VERSION = qw($Revision: 1.164 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1536,7 +1536,7 @@ sub Data {
 
         'Link Object: %s' => 'Verknüpfung erstellen: %s',
         'Unlink Object: %s' => 'Verknüpfung aufheben: %s',
-        'Already linked as' => 'Already linked as',
+        'Linked as' => 'Verknüpft als',
     };
     # $$STOP$$
     return;

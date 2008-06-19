@@ -3,7 +3,7 @@
 # Copyright (C) 2003-2006 Jorge Becerra <jorge at hab.desoft.cu>
 # Copyright (C) 2007 Carlos Oyarzabal <carlos.oyarzabal at grupocash.com.mx>
 # --
-# $Id: es.pm,v 1.71 2008-06-02 12:47:40 ub Exp $
+# $Id: es.pm,v 1.72 2008-06-19 14:14:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1536,7 +1536,7 @@ sub Data {
 
         'Link Object: %s' => '',
         'Unlink Object: %s' => '',
-        'Already linked as' => '',
+        'Linked as' => '',
     };
     # $$STOP$$
     return;

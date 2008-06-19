@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Thorsten Rossner <thorsten.rossner[at]stepstone.de>
 # Copyright (C) 2007 Mads N. Vestergaard <mnv[at]timmy.dk>
 # --
-# $Id: da.pm,v 1.35 2008-06-02 12:47:40 ub Exp $
+# $Id: da.pm,v 1.36 2008-06-19 14:14:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1538,7 +1538,7 @@ sub Data {
 
         'Link Object: %s' => '',
         'Unlink Object: %s' => '',
-        'Already linked as' => '',
+        'Linked as' => '',
     };
     # $$STOP$$
     return;

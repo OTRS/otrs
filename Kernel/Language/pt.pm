@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004-2007 CAT - Filipe Henriques <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.59 2008-06-02 12:47:40 ub Exp $
+# $Id: pt.pm,v 1.60 2008-06-19 14:14:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1551,7 +1551,7 @@ sub Data {
 
         'Link Object: %s' => '',
         'Unlink Object: %s' => '',
-        'Already linked as' => '',
+        'Linked as' => '',
     };
     # $$STOP$$
     return;

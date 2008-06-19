@@ -2,7 +2,7 @@
 # Kernel/Language/fa.pm - provides fa language translation
 # Copyright (C) 2006 Amir Shams Parsa <amir at parsa.name>
 # --
-# $Id: fa.pm,v 1.37 2008-06-02 12:47:40 ub Exp $
+# $Id: fa.pm,v 1.38 2008-06-19 14:14:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1539,7 +1539,7 @@ sub Data {
 
         'Link Object: %s' => '',
         'Unlink Object: %s' => '',
-        'Already linked as' => '',
+        'Linked as' => '',
     };
     # $$STOP$$
     return;
