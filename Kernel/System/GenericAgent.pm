@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.40 2008-06-19 06:36:29 martin Exp $
+# $Id: GenericAgent.pm,v 1.41 2008-06-19 18:18:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 =head1 NAME
 
@@ -103,6 +103,7 @@ sub new {
         Cc                           => 'SCALAR',
         Subject                      => 'SCALAR',
         Body                         => 'SCALAR',
+        TimeUnit                     => 'SCALAR',
         CustomerID                   => 'SCALAR',
         CustomerUserLogin            => 'SCALAR',
         Agent                        => 'SCALAR',
@@ -481,7 +482,7 @@ sub _JobRunTicket {
         if ( $Self->{NoticeSTDOUT} ) {
             print "  - Add note to Ticket $Ticket\n";
         }
-        $Self->{TicketObject}->ArticleCreate(
+        my $ArticleID = $Self->{TicketObject}->ArticleCreate(
             TicketID    => $Param{TicketID},
             ArticleType => $Param{Config}->{New}->{Note}->{ArticleType} || 'note-internal',
             SenderType  => 'agent',
@@ -496,6 +497,14 @@ sub _JobRunTicket {
             HistoryType    => 'AddNote',
             HistoryComment => 'Generic Agent note added.',
         );
+        if ( $ArticleID && $Param{Config}->{New}->{Note}->{TimeUnit} ) {
+            $Self->{TicketObject}->TicketAccountTime(
+                TicketID  => $Param{TicketID},
+                ArticleID => $ArticleID,
+                TimeUnit  => $Param{Config}->{New}->{Note}->{TimeUnit},
+                UserID    => $Param{UserID},
+            );
+        }
     }
 
     # set new state
@@ -1309,6 +1318,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.40 $ $Date: 2008-06-19 06:36:29 $
+$Revision: 1.41 $ $Date: 2008-06-19 18:18:35 $
 
 =cut
