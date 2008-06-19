@@ -2,7 +2,7 @@
 # Kernel/System/PID.pm - all system pid functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PID.pm,v 1.14 2008-05-08 09:36:19 mh Exp $
+# $Id: PID.pm,v 1.15 2008-06-19 06:33:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -89,6 +89,13 @@ create a new process id lock
         Name => 'PostMasterPOP3',
     );
 
+    or to create a new PID forced, without check if already exists
+
+    $PIDObject->PIDCreate(
+        Name  => 'PostMasterPOP3',
+        Force => 1,
+    );
+
 =cut
 
 sub PIDCreate {
@@ -102,32 +109,31 @@ sub PIDCreate {
 
     # check if already exists
     my %ProcessID = $Self->PIDGet(%Param);
-    if (%ProcessID) {
-        if ( $ProcessID{Created} > ( time() - (3600) ) ) {    # 60 * 60
+    if (%ProcessID && !$Param{Force}) {
+        if ( $ProcessID{Created} > ( time() - 3600 ) ) {    # 60 * 60
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message =>
-                    "Can't create PID $ProcessID{Name}, because it's already running ($ProcessID{Host}/$ProcessID{PID})!",
+                Message => "Can't create PID $ProcessID{Name}, because it's already running "
+                    . "($ProcessID{Host}/$ProcessID{PID})!",
             );
             return;
         }
 
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message =>
-                "Removed PID ($ProcessID{Name}/$ProcessID{Host}/$ProcessID{PID}, because 1 hour old!",
+            Message => "Removed PID ($ProcessID{Name}/$ProcessID{Host}/$ProcessID{PID}, "
+                . "because 1 hour old!",
         );
-        $Self->PIDDelete(%Param);
     }
 
-    # remember to delete it in DESTROY
-    $Self->{Name} = $Param{Name};
+    # delete if extists
+    $Self->PIDDelete(%Param);
 
     # sql
     my $Time = time();
     return $Self->{DBObject}->Do(
-        SQL => 'INSERT INTO process_id '
-            . ' (process_name, process_id, process_host, process_create) '
+        SQL => 'INSERT INTO process_id'
+            . ' (process_name, process_id, process_host, process_create)'
             . ' VALUES (?, ?, ?, ?)',
         Bind => [ \$Param{Name}, \$Self->{PID}, \$Self->{Host}, \$Time ],
     );
@@ -154,8 +160,8 @@ sub PIDGet {
 
     # sql
     return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT process_name, process_id, process_host, process_create '
-            . 'FROM process_id WHERE process_name = ?',
+        SQL => 'SELECT process_name, process_id, process_host, process_create'
+            . ' FROM process_id WHERE process_name = ?',
         Bind => [ \$Param{Name} ],
     );
     my %Data = ();
@@ -212,6 +218,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2008-05-08 09:36:19 $
+$Revision: 1.15 $ $Date: 2008-06-19 06:33:00 $
 
 =cut
