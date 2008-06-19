@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.70 2008-06-13 08:09:44 mh Exp $
+# $Id: AgentTicketPhone.pm,v 1.71 2008-06-19 20:50:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1026,16 +1026,27 @@ sub Run {
         }
     }
     elsif ( $Self->{Subaction} eq 'AJAXUpdate' ) {
-        my $Dest = $Self->{ParamObject}->GetParam( Param => 'Dest' );
+        my $Dest         = $Self->{ParamObject}->GetParam( Param => 'Dest' );
+        my $CustomerUser = $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' );
         my $QueueID = '';
         if ( $Dest =~ /^(\d{1,100})\|\|.+?$/ ) {
             $QueueID = $1;
         }
-        my $Users = $Self->_GetUsers( QueueID => $QueueID, AllUsers => $GetParam{OwnerAll} );
-        my $ResponsibleUsers
-            = $Self->_GetUsers( QueueID => $QueueID, AllUsers => $GetParam{ResponsibleAll} );
+        my $Users = $Self->_GetUsers(
+            QueueID  => $QueueID,
+            AllUsers => $GetParam{OwnerAll},
+        );
+        my $ResponsibleUsers = $Self->_GetUsers(
+            QueueID  => $QueueID,
+            AllUsers => $GetParam{ResponsibleAll},
+        );
         my $NextStates = $Self->_GetNextStates( QueueID => $QueueID || 1 );
         my $Priorities = $Self->_GetPriorities( QueueID => $QueueID || 1 );
+        my $Services = $Self->_GetServices(
+            CustomerUserID => $CustomerUser || '',
+            QueueID        => $QueueID      || 1,
+        );
+        my $SLAs = $Self->_GetSLAs( QueueID => $QueueID || 1, %GetParam );
 
         # get free text config options
         my @TicketFreeTextConfig = ();
@@ -1108,6 +1119,22 @@ sub Run {
                     Name        => 'PriorityID',
                     Data        => $Priorities,
                     SelectedID  => $GetParam{PriorityID},
+                    Translation => 1,
+                    Max         => 100,
+                },
+                {
+                    Name        => 'ServiceID',
+                    Data        => $Services,
+                    SelectedID  => $GetParam{ServiceID},
+                    PossibleNone => 1,
+                    Translation => 1,
+                    Max         => 100,
+                },
+                {
+                    Name        => 'SLAID',
+                    Data        => $SLAs,
+                    SelectedID  => $GetParam{SLAID},
+                    PossibleNone => 1,
                     Translation => 1,
                     Max         => 100,
                 },
@@ -1382,6 +1409,8 @@ sub _MaskPhoneNew {
                     'NewResponsibleID',
                     'NextStateID',
                     'PriorityID',
+                    'ServiceID',
+                    'SLAID',
                     'TicketFreeText1',
                     'TicketFreeText2',
                     'TicketFreeText3',
@@ -1401,8 +1430,11 @@ sub _MaskPhoneNew {
                 ],
                 Depend => [
                     'Dest',
+                    'SelectedCustomerUser',
                     'NextStateID',
                     'PriorityID',
+                    'ServiceID',
+                    'SLAID',
                     'OwnerAll',
                     'ResponsibleAll',
                     'TicketFreeText1',
@@ -1440,6 +1472,8 @@ sub _MaskPhoneNew {
                     'NewResponsibleID',
                     'NextStateID',
                     'PriorityID',
+                    'ServiceID',
+                    'SLAID',
                     'TicketFreeText1',
                     'TicketFreeText2',
                     'TicketFreeText3',
@@ -1459,8 +1493,11 @@ sub _MaskPhoneNew {
                 ],
                 Depend => [
                     'Dest',
+                    'SelectedCustomerUser',
                     'NextStateID',
                     'PriorityID',
+                    'ServiceID',
+                    'SLAID',
                     'OwnerAll',
                     'ResponsibleAll',
                     'TicketFreeText1',
@@ -1481,7 +1518,7 @@ sub _MaskPhoneNew {
                     'TicketFreeText16',
                 ],
                 Subaction => 'AJAXUpdate',
-                }
+            },
         );
     }
 
@@ -1521,6 +1558,8 @@ sub _MaskPhoneNew {
                     'NewResponsibleID',
                     'NextStateID',
                     'PriorityID',
+                    'ServiceID',
+                    'SLAID',
                     'TicketFreeText1',
                     'TicketFreeText2',
                     'TicketFreeText3',
@@ -1540,8 +1579,11 @@ sub _MaskPhoneNew {
                 ],
                 Depend => [
                     'Dest',
+                    'SelectedCustomerUser',
                     'NextStateID',
                     'PriorityID',
+                    'ServiceID',
+                    'SLAID',
                     'OwnerAll',
                     'ResponsibleAll',
                     'TicketFreeText1',
@@ -1562,7 +1604,7 @@ sub _MaskPhoneNew {
                     'TicketFreeText16',
                 ],
                 Subaction => 'AJAXUpdate',
-                }
+            },
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketType',
@@ -1583,6 +1625,59 @@ sub _MaskPhoneNew {
             Max          => 200,
             OnChange =>
                 "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
+            Ajax => {
+                Update => [
+                    'NewUserID',
+                    'NewResponsibleID',
+                    'NextStateID',
+                    'PriorityID',
+                    'ServiceID',
+                    'SLAID',
+                    'TicketFreeText1',
+                    'TicketFreeText2',
+                    'TicketFreeText3',
+                    'TicketFreeText4',
+                    'TicketFreeText5',
+                    'TicketFreeText6',
+                    'TicketFreeText7',
+                    'TicketFreeText8',
+                    'TicketFreeText9',
+                    'TicketFreeText10',
+                    'TicketFreeText11',
+                    'TicketFreeText12',
+                    'TicketFreeText13',
+                    'TicketFreeText14',
+                    'TicketFreeText15',
+                    'TicketFreeText16',
+                ],
+                Depend => [
+                    'Dest',
+                    'SelectedCustomerUser',
+                    'NextStateID',
+                    'PriorityID',
+                    'ServiceID',
+                    'SLAID',
+                    'OwnerAll',
+                    'ResponsibleAll',
+                    'TicketFreeText1',
+                    'TicketFreeText2',
+                    'TicketFreeText3',
+                    'TicketFreeText4',
+                    'TicketFreeText5',
+                    'TicketFreeText6',
+                    'TicketFreeText7',
+                    'TicketFreeText8',
+                    'TicketFreeText9',
+                    'TicketFreeText10',
+                    'TicketFreeText11',
+                    'TicketFreeText12',
+                    'TicketFreeText13',
+                    'TicketFreeText14',
+                    'TicketFreeText15',
+                    'TicketFreeText16',
+                ],
+                Subaction => 'AJAXUpdate',
+            },
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketService',
@@ -1598,6 +1693,59 @@ sub _MaskPhoneNew {
             Max          => 200,
             OnChange =>
                 "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
+            Ajax => {
+                Update => [
+                    'NewUserID',
+                    'NewResponsibleID',
+                    'NextStateID',
+                    'PriorityID',
+                    'ServiceID',
+                    'SLAID',
+                    'TicketFreeText1',
+                    'TicketFreeText2',
+                    'TicketFreeText3',
+                    'TicketFreeText4',
+                    'TicketFreeText5',
+                    'TicketFreeText6',
+                    'TicketFreeText7',
+                    'TicketFreeText8',
+                    'TicketFreeText9',
+                    'TicketFreeText10',
+                    'TicketFreeText11',
+                    'TicketFreeText12',
+                    'TicketFreeText13',
+                    'TicketFreeText14',
+                    'TicketFreeText15',
+                    'TicketFreeText16',
+                ],
+                Depend => [
+                    'Dest',
+                    'SelectedCustomerUser',
+                    'NextStateID',
+                    'PriorityID',
+                    'ServiceID',
+                    'SLAID',
+                    'OwnerAll',
+                    'ResponsibleAll',
+                    'TicketFreeText1',
+                    'TicketFreeText2',
+                    'TicketFreeText3',
+                    'TicketFreeText4',
+                    'TicketFreeText5',
+                    'TicketFreeText6',
+                    'TicketFreeText7',
+                    'TicketFreeText8',
+                    'TicketFreeText9',
+                    'TicketFreeText10',
+                    'TicketFreeText11',
+                    'TicketFreeText12',
+                    'TicketFreeText13',
+                    'TicketFreeText14',
+                    'TicketFreeText15',
+                    'TicketFreeText16',
+                ],
+                Subaction => 'AJAXUpdate',
+            },
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketSLA',

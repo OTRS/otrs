@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.667 2008-06-19 18:42:28 martin Exp $
+# $Id: CHANGES,v 1.668 2008-06-19 20:50:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.3.0 beta3 (2008/06/??)
+ - (2008/06/19) Fixed bug# 3005 - AJAX functionality is not working in phone
+    and email ticket for Service and SLA.
  - (2008/06/19) Added article TimeUnit support to automatically add time
     units to ticket by using generic agent (also usable over admin
     interface).
