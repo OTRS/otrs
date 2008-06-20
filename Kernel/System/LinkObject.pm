@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.34 2008-06-20 08:08:40 mh Exp $
+# $Id: LinkObject.pm,v 1.35 2008-06-20 14:15:02 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 =head1 NAME
 
@@ -643,38 +643,89 @@ sub LinkDelete {
         UserID => $Param{UserID},
     );
 
-    # load backend of object1
-    my $BackendObject1 = $Self->_LoadBackend(
-        Object => $Param{Object1},
+    # get the existing link
+    return if !$Self->{DBObject}->Prepare(
+        SQL => 'SELECT source_object_id, source_key, target_object_id, target_key '
+            . 'FROM link_relation '
+            . 'WHERE ( source_object_id = ? AND source_key = ? '
+            . 'AND target_object_id = ? AND target_key = ? ) '
+            . 'OR ( source_object_id = ? AND source_key = ? '
+            . 'AND target_object_id = ? AND target_key = ? ) '
+            . 'AND type_id = ? ',
+        Bind => [
+            \$Param{Object1ID}, \$Param{Key1},
+            \$Param{Object2ID}, \$Param{Key2},
+            \$Param{Object2ID}, \$Param{Key2},
+            \$Param{Object1ID}, \$Param{Key1},
+            \$TypeID,
+        ],
+        Limit => 1,
+    );
+
+    # fetch results
+    my %Existing;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+
+        $Existing{SourceObjectID} = $Row[0];
+        $Existing{SourceKey}      = $Row[1];
+        $Existing{TargetObjectID} = $Row[2];
+        $Existing{TargetKey}      = $Row[3];
+    }
+
+    return 1 if !%Existing;
+
+    # lookup the object names
+    OBJECT:
+    for my $Object (qw(SourceObject TargetObject)) {
+
+        # lookup the object name
+        $Existing{$Object} = $Self->ObjectLookup(
+            ObjectID => $Existing{ $Object . 'ID' },
+            UserID   => $Param{UserID},
+        );
+
+        next OBJECT if $Existing{$Object};
+
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Invalid $Object is given!",
+        );
+
+        return;
+    }
+
+    # load backend of source object
+    my $BackendSourceObject = $Self->_LoadBackend(
+        Object => $Existing{SourceObject},
         UserID => $Param{UserID},
     );
 
-    return if !$BackendObject1;
+    return if !$BackendSourceObject;
 
-    # load backend of object2
-    my $BackendObject2 = $Self->_LoadBackend(
-        Object => $Param{Object2},
+    # load backend of target object
+    my $BackendTargetObject = $Self->_LoadBackend(
+        Object => $Existing{TargetObject},
         UserID => $Param{UserID},
     );
 
-    return if !$BackendObject2;
+    return if !$BackendTargetObject;
 
-    # run pre event module of object 1
-    $BackendObject1->LinkDeletePre(
-        Key     => $Param{Key1},
-        Object2 => $Param{Object2},
-        Key2    => $Param{Key2},
-        Type    => $Param{Type},
-        UserID  => $Param{UserID},
+    # run pre event module of source object
+    $BackendSourceObject->LinkDeletePre(
+        Key          => $Existing{SourceKey},
+        TargetObject => $Existing{TargetObject},
+        TargetKey    => $Existing{TargetKey},
+        Type         => $Param{Type},
+        UserID       => $Param{UserID},
     );
 
-    # run pre event module of object 2
-    $BackendObject2->LinkDeletePre(
-        Key     => $Param{Key2},
-        Object2 => $Param{Object1},
-        Key2    => $Param{Key1},
-        Type    => $Param{Type},
-        UserID  => $Param{UserID},
+    # run pre event module of target object
+    $BackendTargetObject->LinkDeletePre(
+        Key          => $Existing{TargetKey},
+        SourceObject => $Existing{SourceObject},
+        SourceKey    => $Existing{SourceKey},
+        Type         => $Param{Type},
+        UserID       => $Param{UserID},
     );
 
     # delete the link
@@ -694,22 +745,22 @@ sub LinkDelete {
         ],
     );
 
-    # run post event module of object 1
-    $BackendObject1->LinkDeletePost(
-        Key     => $Param{Key1},
-        Object2 => $Param{Object2},
-        Key2    => $Param{Key2},
-        Type    => $Param{Type},
-        UserID  => $Param{UserID},
+    # run post event module of source object
+    $BackendSourceObject->LinkDeletePost(
+        Key          => $Existing{SourceKey},
+        TargetObject => $Existing{TargetObject},
+        TargetKey    => $Existing{TargetKey},
+        Type         => $Param{Type},
+        UserID       => $Param{UserID},
     );
 
-    # run post event module of object 2
-    $BackendObject2->LinkDeletePost(
-        Key     => $Param{Key2},
-        Object2 => $Param{Object1},
-        Key2    => $Param{Key1},
-        Type    => $Param{Type},
-        UserID  => $Param{UserID},
+    # run post event module of target object
+    $BackendTargetObject->LinkDeletePost(
+        Key          => $Existing{TargetKey},
+        SourceObject => $Existing{SourceObject},
+        SourceKey    => $Existing{SourceKey},
+        Type         => $Param{Type},
+        UserID       => $Param{UserID},
     );
 
     return 1;
@@ -2019,6 +2070,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2008-06-20 08:08:40 $
+$Revision: 1.35 $ $Date: 2008-06-20 14:15:02 $
 
 =cut
