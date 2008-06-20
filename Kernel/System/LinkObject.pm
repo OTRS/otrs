@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.33 2008-06-19 14:16:40 mh Exp $
+# $Id: LinkObject.pm,v 1.34 2008-06-20 08:08:40 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 =head1 NAME
 
@@ -553,7 +553,7 @@ sub LinkAdd {
         UserID       => $Param{UserID},
     );
 
-    my $Success = $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => 'INSERT INTO link_relation '
             . '(source_object_id, source_key, target_object_id, target_key, '
             . 'type_id, state_id, create_time, create_by) '
@@ -564,8 +564,6 @@ sub LinkAdd {
             \$TypeID, \$StateID, \$Param{UserID},
         ],
     );
-
-    return if !$Success;
 
     # run post event module of source object
     $BackendSourceObject->LinkAddPost(
@@ -585,7 +583,7 @@ sub LinkAdd {
         UserID       => $Param{UserID},
     );
 
-    return $Success;
+    return 1;
 }
 
 =item LinkDelete()
@@ -680,7 +678,7 @@ sub LinkDelete {
     );
 
     # delete the link
-    return $Self->{DBObject}->Do(
+    return if !$Self->{DBObject}->Do(
         SQL => 'DELETE FROM link_relation '
             . 'WHERE ( source_object_id = ? AND source_key = ? '
             . 'AND target_object_id = ? AND target_key = ? ) '
@@ -713,6 +711,8 @@ sub LinkDelete {
         Type    => $Param{Type},
         UserID  => $Param{UserID},
     );
+
+    return 1;
 }
 
 =item LinkDeleteAll()
@@ -2019,6 +2019,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.33 $ $Date: 2008-06-19 14:16:40 $
+$Revision: 1.34 $ $Date: 2008-06-20 08:08:40 $
 
 =cut
