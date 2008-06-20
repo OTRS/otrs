@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLinkObject.pm - provides generic HTML output for LinkObject
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLinkObject.pm,v 1.4 2008-06-20 15:34:29 ub Exp $
+# $Id: LayoutLinkObject.pm,v 1.5 2008-06-20 16:55:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =item LinkObjectTableCreate()
 
@@ -104,12 +104,12 @@ sub LinkObjectTableCreateComplex {
             # extract link type List
             my $LinkTypeList = $Param{LinkListWithData}->{$Object}->{$LinkType};
 
-            for my $Direction ( keys %{ $LinkTypeList } ) {
+            for my $Direction ( keys %{$LinkTypeList} ) {
 
                 # extract direction list
                 my $DirectionList = $Param{LinkListWithData}->{$Object}->{$LinkType}->{$Direction};
 
-                for my $ObjectKey ( keys %{ $DirectionList } ) {
+                for my $ObjectKey ( keys %{$DirectionList} ) {
 
                     $LinkList{$Object}->{$ObjectKey}->{$LinkType} = $Direction;
                 }
@@ -119,7 +119,7 @@ sub LinkObjectTableCreateComplex {
 
     my @OutputData;
     OBJECT:
-    for my $Object ( sort { lc $a cmp lc $b } keys %{$Param{LinkListWithData}} ) {
+    for my $Object ( sort { lc $a cmp lc $b } keys %{ $Param{LinkListWithData} } ) {
 
         # load backend
         my $BackendObject = $Self->_LoadLinkObjectLayoutBackend(
@@ -154,8 +154,9 @@ sub LinkObjectTableCreateComplex {
             }
             else {
                 $Item->[0] = {
-                    Type    => 'Text',
-                    Content => 'ERROR: Key attribute not found in the first column of the item list.',
+                    Type => 'Text',
+                    Content =>
+                        'ERROR: Key attribute not found in the first column of the item list.',
                 };
             }
         }
@@ -256,7 +257,7 @@ sub LinkObjectTableCreateComplex {
     );
 
     BLOCK:
-    for my $Block ( @OutputData ) {
+    for my $Block (@OutputData) {
 
         next BLOCK if !$Block->{ItemList};
         next BLOCK if ref $Block->{ItemList} ne 'ARRAY';
@@ -312,18 +313,18 @@ sub LinkObjectTableCreateComplex {
             }
         }
 
-        if ( $Param{ViewMode} eq 'ComplexAdd') {
+        if ( $Param{ViewMode} eq 'ComplexAdd' ) {
 
             # output the footer block
             $LayoutObject->Block(
                 Name => 'TableComplexBlockFooterAdd',
                 Data => {
-                    Colspan      => scalar @{ $Block->{Headline} },
+                    Colspan => scalar @{ $Block->{Headline} },
                     LinkTypeStrg => $Param{LinkTypeStrg} || '',
                 },
             );
         }
-        elsif ( $Param{ViewMode} eq 'ComplexDelete') {
+        elsif ( $Param{ViewMode} eq 'ComplexDelete' ) {
 
             # output the footer block
             $LayoutObject->Block(
@@ -365,7 +366,7 @@ sub LinkObjectTableCreateSimple {
 
     # check needed stuff
     if ( !$Param{LinkListWithData} || ref $Param{LinkListWithData} ne 'HASH' ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message  => 'Need LinkListWithData!' );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need LinkListWithData!' );
         return;
     }
 
@@ -383,7 +384,7 @@ sub LinkObjectTableCreateSimple {
 
     my %OutputData;
     OBJECT:
-    for my $Object ( keys %{$Param{LinkListWithData}} ) {
+    for my $Object ( keys %{ $Param{LinkListWithData} } ) {
 
         # load backend
         my $BackendObject = $Self->_LoadLinkObjectLayoutBackend(
@@ -430,7 +431,7 @@ sub LinkObjectTableCreateSimple {
         # extract object list
         my $ObjectList = $OutputData{$LinkTypeLinkDirection};
 
-        for my $Object ( sort { lc $a cmp lc $b } keys %{ $ObjectList } ) {
+        for my $Object ( sort { lc $a cmp lc $b } keys %{$ObjectList} ) {
 
             for my $Item ( @{ $ObjectList->{$Object} } ) {
 
@@ -534,22 +535,22 @@ sub LinkObjectContentStringCreate {
             my $Direction = $Content->{LinkTypeList}->{$LinkType};
 
             # extract linkname
-            my $LinkName = $TypeList{ $LinkType }->{ $Direction . 'Name' };
+            my $LinkName = $TypeList{$LinkType}->{ $Direction . 'Name' };
 
             # translate
             if ( $Content->{Translate} ) {
-                $LinkName = $Self->{LayoutObject}->{LanguageObject}->Get( $LinkName );
+                $LinkName = $Self->{LayoutObject}->{LanguageObject}->Get($LinkName);
             }
 
             push @LinkNameList, $LinkName;
-        };
+        }
 
         # join string
         my $String = join qq{\n}, sort { lc $a cmp lc $b } @LinkNameList;
 
         # transform ascii to html
         $Content->{Content} = $Self->{LayoutObject}->Ascii2Html(
-            Text           => $String  || '-',
+            Text => $String || '-',
             HTMLResultMode => 1,
             LinkFeature    => 0,
         );
@@ -579,11 +580,11 @@ sub LinkObjectContentStringCreate {
             my $Direction = $Content->{LinkTypeList}->{$LinkType};
 
             # extract linkname
-            my $LinkName = $TypeList{ $LinkType }->{ $Direction . 'Name' };
+            my $LinkName = $TypeList{$LinkType}->{ $Direction . 'Name' };
 
             # translate
             if ( $Content->{Translate} ) {
-                $LinkName = $Self->{LayoutObject}->{LanguageObject}->Get( $LinkName );
+                $LinkName = $Self->{LayoutObject}->{LanguageObject}->Get($LinkName);
             }
 
             # run checkbox block
@@ -593,7 +594,7 @@ sub LinkObjectContentStringCreate {
                     %{$Content},
                     Name    => 'LinkDeleteIdentifier',
                     Title   => $LinkName,
-                    Content =>  $Content->{Object} . '::' . $Content->{Key} . '::' . $LinkType,
+                    Content => $Content->{Object} . '::' . $Content->{Key} . '::' . $LinkType,
                 },
             );
 
@@ -601,7 +602,7 @@ sub LinkObjectContentStringCreate {
             $LayoutObject->Block(
                 Name => 'NewLine',
             );
-        };
+        }
 
         $Content->{Content} = $LayoutObject->Output(
             TemplateFile => 'LinkObject',
@@ -642,7 +643,7 @@ sub LinkObjectSelectableObjectList {
 
     # check needed stuff
     if ( !$Param{Object} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message  => 'Need Object!' );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Object!' );
         return;
     }
 
@@ -661,7 +662,7 @@ sub LinkObjectSelectableObjectList {
 
     # prepare the select list
     my @SelectableObjectList;
-    for my $PossibleObject (sort { lc $a cmp lc $b } keys %PossibleObjectsList) {
+    for my $PossibleObject ( sort { lc $a cmp lc $b } keys %PossibleObjectsList ) {
 
         # load backend
         my $BackendObject = $Self->_LoadLinkObjectLayoutBackend(
@@ -704,7 +705,7 @@ sub LinkObjectSearchOptionList {
 
     # check needed stuff
     if ( !$Param{Object} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message  => 'Need Object!' );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Object!' );
         return;
     }
 

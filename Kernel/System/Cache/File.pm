@@ -2,7 +2,7 @@
 # Kernel/System/Cache/File.pm - all cache functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: File.pm,v 1.15 2008-06-19 06:34:21 martin Exp $
+# $Id: File.pm,v 1.16 2008-06-20 16:55:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 umask 002;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -178,7 +178,7 @@ sub CleanUp {
         for my $CacheFile (@CacheList) {
 
             # only remove files
-            next if (! -f $CacheFile);
+            next if ( !-f $CacheFile );
 
             # delete all cache files
             if ( !unlink $CacheFile ) {

@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.97 2008-06-19 18:46:12 martin Exp $
+# $Id: Queue.pm,v 1.98 2008-06-20 16:55:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.97 $) [1];
+$VERSION = qw($Revision: 1.98 $) [1];
 
 =head1 NAME
 
@@ -1062,7 +1062,7 @@ sub QueueList {
     }
 
     # sql query
-    if ( $Valid ) {
+    if ($Valid) {
         $Self->{DBObject}->Prepare(
             SQL => "SELECT id, name FROM queue WHERE valid_id IN "
                 . "( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )",
@@ -1136,6 +1136,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.97 $ $Date: 2008-06-19 18:46:12 $
+$Revision: 1.98 $ $Date: 2008-06-20 16:55:33 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSystemAddress.pm - to add/update/delete system addresses
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSystemAddress.pm,v 1.26 2008-06-19 19:32:07 martin Exp $
+# $Id: AdminSystemAddress.pm,v 1.27 2008-06-20 16:55:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::SystemAddress;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -205,8 +205,8 @@ sub _Edit {
         SelectedID => $Param{ValidID},
     );
     $Param{'QueueOption'} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data           => { $Self->{QueueObject}->QueueList( Valid => 1 ), },
-        Name           => 'QueueID',
+        Data => { $Self->{QueueObject}->QueueList( Valid => 1 ), },
+        Name => 'QueueID',
         SelectedID     => $Param{QueueID},
         OnChangeSubmit => 0,
     );

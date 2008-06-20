@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.pm,v 1.42 2008-06-19 18:46:12 martin Exp $
+# $Id: AdminQueue.pm,v 1.43 2008-06-20 16:55:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Signature;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -306,9 +306,9 @@ sub _Mask {
         OnChangeSubmit => 0,
     );
     $Param{'QueueLongOption'} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data           => { $Self->{QueueObject}->QueueList( Valid => 0 ), },
-        Name           => 'QueueID',
-        Size           => 15,
+        Data => { $Self->{QueueObject}->QueueList( Valid => 0 ), },
+        Name => 'QueueID',
+        Size => 15,
         SelectedID     => $Param{QueueID},
         OnChangeSubmit => 0,
     );
@@ -342,8 +342,8 @@ sub _Mask {
         PossibleNone => 1,
     );
     $Param{'SignatureOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data       => { $Self->{SignatureObject}->SignatureList( Valid => 1 ), },
-        Name       => 'SignatureID',
+        Data => { $Self->{SignatureObject}->SignatureList( Valid => 1 ), },
+        Name => 'SignatureID',
         SelectedID => $Param{SignatureID},
     );
     $Param{'FollowUpLockYesNoOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
@@ -353,8 +353,8 @@ sub _Mask {
     );
 
     $Param{'SystemAddressOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data       => { $Self->{SystemAddressObject}->SystemAddressList( Valid => 1 ), },
-        Name       => 'SystemAddressID',
+        Data => { $Self->{SystemAddressObject}->SystemAddressList( Valid => 1 ), },
+        Name => 'SystemAddressID',
         SelectedID => $Param{SystemAddressID},
     );
 
@@ -372,8 +372,8 @@ sub _Mask {
         SelectedID => $Param{DefaultSignKey},
     );
     $Param{'SalutationOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data       => { $Self->{SalutationObject}->SalutationList( Valid => 1 ), },
-        Name       => 'SalutationID',
+        Data => { $Self->{SalutationObject}->SalutationList( Valid => 1 ), },
+        Name => 'SalutationID',
         SelectedID => $Param{SalutationID},
     );
     $Param{'FollowUpOption'} = $Self->{LayoutObject}->OptionStrgHashRef(

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.28 2008-06-20 15:05:23 mh Exp $
+# $Id: AgentLinkObject.pm,v 1.29 2008-06-20 16:55:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -79,9 +79,9 @@ sub Run {
 
                 my @Target = split q{::}, $Identifier;
 
-                next IDENTIFIER if !$Target[0];  # TargetObject
-                next IDENTIFIER if !$Target[1];  # TargetKey
-                next IDENTIFIER if !$Target[2];  # LinkType
+                next IDENTIFIER if !$Target[0];    # TargetObject
+                next IDENTIFIER if !$Target[1];    # TargetKey
+                next IDENTIFIER if !$Target[2];    # LinkType
 
                 # delete link from database
                 $Self->{LinkObject}->LinkDelete(
@@ -116,7 +116,8 @@ sub Run {
         if ( !$LinkListWithData || !%{$LinkListWithData} ) {
 
             return $Self->{LayoutObject}->Redirect(
-                OP => "Action=$Self->{Action}&SourceObject=$Form{SourceObject}&SourceKey=$Form{SourceKey}",
+                OP =>
+                    "Action=$Self->{Action}&SourceObject=$Form{SourceObject}&SourceKey=$Form{SourceKey}",
             );
         }
 
@@ -256,7 +257,7 @@ sub Run {
 
             next OPTION if !$Option->{FormData};
             $SearchParam{ $Option->{Key} } = $Option->{FormData};
-        };
+        }
 
         # start search
         my $SearchList = $Self->{LinkObject}->ObjectSearch(
@@ -273,7 +274,7 @@ sub Run {
                 # extract link type List
                 my $LinkTypeList = $SearchList->{ $Form{SourceObject} }->{$LinkType};
 
-                for my $Direction ( keys %{ $LinkTypeList } ) {
+                for my $Direction ( keys %{$LinkTypeList} ) {
 
                     # remove the source key
                     delete $LinkTypeList->{$Direction}->{ $Form{SourceKey} };
@@ -315,7 +316,7 @@ sub Run {
         # create the selectable type list
         my @SelectableTypesList;
         POSSIBLETYPE:
-        for my $PossibleType ( sort { lc $a cmp lc $b } keys %PossibleTypesList) {
+        for my $PossibleType ( sort { lc $a cmp lc $b } keys %PossibleTypesList ) {
 
             # lookup type id
             my $TypeID = $Self->{LinkObject}->TypeLookup(

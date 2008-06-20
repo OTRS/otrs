@@ -2,7 +2,7 @@
 # AutoResponse.t - AutoResponse tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AutoResponse.t,v 1.1 2008-06-19 18:44:32 martin Exp $
+# $Id: AutoResponse.t,v 1.2 2008-06-20 16:55:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ $Self->{SystemAddressObject} = Kernel::System::SystemAddress->new( %{$Self} );
 
 # adde system address
 my $SystemAddressNameRand0 = 'unittest' . int rand 1000000;
-my $SystemAddressID = $Self->{SystemAddressObject}->SystemAddressAdd(
+my $SystemAddressID        = $Self->{SystemAddressObject}->SystemAddressAdd(
     Name     => $SystemAddressNameRand0 . '@example.com',
     Realname => $SystemAddressNameRand0,
     ValidID  => 1,
@@ -105,8 +105,8 @@ $Self->True(
 );
 
 my $AutoResponseUpdate = $Self->{AutoResponseObject}->AutoResponseUpdate(
-    ID      => $AutoResponseID,
-    Name    => $AutoResponseNameRand0 . '1',
+    ID        => $AutoResponseID,
+    Name      => $AutoResponseNameRand0 . '1',
     Subject   => 'Some Subject1',
     Response  => 'Some Response1',
     Comment   => 'Some Comment1',
@@ -164,7 +164,7 @@ $Self->Is(
 
 my $AutoResponseQueue = $Self->{AutoResponseObject}->AutoResponseQueue(
     QueueID         => 1,
-    AutoResponseIDs => [ $AutoResponseID ],
+    AutoResponseIDs => [$AutoResponseID],
     UserID          => 1,
 );
 $Self->True(

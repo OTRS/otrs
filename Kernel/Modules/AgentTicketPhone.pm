@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.72 2008-06-20 14:52:32 mh Exp $
+# $Id: AgentTicketPhone.pm,v 1.73 2008-06-20 16:55:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1012,7 +1012,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'AJAXUpdate' ) {
         my $Dest         = $Self->{ParamObject}->GetParam( Param => 'Dest' );
         my $CustomerUser = $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' );
-        my $QueueID = '';
+        my $QueueID      = '';
         if ( $Dest =~ /^(\d{1,100})\|\|.+?$/ ) {
             $QueueID = $1;
         }
@@ -1107,20 +1107,20 @@ sub Run {
                     Max         => 100,
                 },
                 {
-                    Name        => 'ServiceID',
-                    Data        => $Services,
-                    SelectedID  => $GetParam{ServiceID},
+                    Name         => 'ServiceID',
+                    Data         => $Services,
+                    SelectedID   => $GetParam{ServiceID},
                     PossibleNone => 1,
-                    Translation => 1,
-                    Max         => 100,
+                    Translation  => 1,
+                    Max          => 100,
                 },
                 {
-                    Name        => 'SLAID',
-                    Data        => $SLAs,
-                    SelectedID  => $GetParam{SLAID},
+                    Name         => 'SLAID',
+                    Data         => $SLAs,
+                    SelectedID   => $GetParam{SLAID},
                     PossibleNone => 1,
-                    Translation => 1,
-                    Max         => 100,
+                    Translation  => 1,
+                    Max          => 100,
                 },
                 @TicketFreeTextConfig,
             ],

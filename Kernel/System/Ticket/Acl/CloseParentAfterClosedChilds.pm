@@ -3,7 +3,7 @@
 # - allow no parent close till all clients are closed -
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CloseParentAfterClosedChilds.pm,v 1.8 2008-06-20 14:49:04 mh Exp $
+# $Id: CloseParentAfterClosedChilds.pm,v 1.9 2008-06-20 16:55:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -56,7 +56,7 @@ sub Run {
         );
 
         # create new instance of the link object
-        if (!$Self->{LinkObject}) {
+        if ( !$Self->{LinkObject} ) {
             $Self->{LinkObject} = Kernel::System::LinkObject->new(
                 %{$Self},
                 %Param,

@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.36 2008-06-20 15:31:00 mh Exp $
+# $Id: LinkObject.pm,v 1.37 2008-06-20 16:55:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 =head1 NAME
 
@@ -800,7 +800,7 @@ sub LinkDeleteAll {
 
     # delete all links
     STATE:
-    for my $State (values %StateList) {
+    for my $State ( values %StateList ) {
 
         # get link list
         my $LinkList = $Self->LinkList(
@@ -811,7 +811,7 @@ sub LinkDeleteAll {
         );
 
         next STATE if !$LinkList;
-        next STATE if !%{ $LinkList };
+        next STATE if !%{$LinkList};
 
         for my $Object ( keys %{$LinkList} ) {
 
@@ -820,12 +820,12 @@ sub LinkDeleteAll {
                 # extract link type List
                 my $LinkTypeList = $LinkList->{$Object}->{$LinkType};
 
-                for my $Direction ( keys %{ $LinkTypeList } ) {
+                for my $Direction ( keys %{$LinkTypeList} ) {
 
                     # extract direction list
                     my $DirectionList = $LinkList->{$Object}->{$LinkType}->{$Direction};
 
-                    for my $ObjectKey ( keys %{ $DirectionList } ) {
+                    for my $ObjectKey ( keys %{$DirectionList} ) {
 
                         # delete the link
                         $Self->LinkDelete(
@@ -1041,7 +1041,7 @@ sub LinkList {
             $SourceTarget->{Source} ||= {};
 
             # merge the data
-            my %MergedIDs = ( %{$SourceTarget->{Source}}, %{$SourceTarget->{Target}} );
+            my %MergedIDs = ( %{ $SourceTarget->{Source} }, %{ $SourceTarget->{Target} } );
             $SourceTarget->{Source} = \%MergedIDs;
 
             # delete target hash
@@ -1129,7 +1129,7 @@ sub LinkListWithData {
         );
 
         # check backend object
-        if (!$BackendObject) {
+        if ( !$BackendObject ) {
             delete $LinkList->{$Object};
             next OBJECT;
         }
@@ -2097,6 +2097,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.36 $ $Date: 2008-06-20 15:31:00 $
+$Revision: 1.37 $ $Date: 2008-06-20 16:55:33 $
 
 =cut

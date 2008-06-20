@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.42 2008-06-19 18:42:28 martin Exp $
+# $Id: GenericAgent.pm,v 1.43 2008-06-20 16:55:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 =head1 NAME
 
@@ -367,7 +367,7 @@ sub JobRun {
             if ( !$Count ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message => "Attention: Can't run GenericAgent Job '$Param{Job}' because no "
+                    Message  => "Attention: Can't run GenericAgent Job '$Param{Job}' because no "
                         . "search attributes are used!.",
                 );
                 return;
@@ -497,7 +497,8 @@ sub _JobRunTicket {
             HistoryType    => 'AddNote',
             HistoryComment => 'Generic Agent note added.',
         );
-        my $TimeUnits = $Param{Config}->{New}->{Note}->{TimeUnits} || $Param{Config}->{New}->{NoteTimeUnits};
+        my $TimeUnits = $Param{Config}->{New}->{Note}->{TimeUnits}
+            || $Param{Config}->{New}->{NoteTimeUnits};
         if ( $ArticleID && $TimeUnits ) {
             $Self->{TicketObject}->TicketAccountTime(
                 TicketID  => $Param{TicketID},
@@ -1319,6 +1320,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.42 $ $Date: 2008-06-19 18:42:28 $
+$Revision: 1.43 $ $Date: 2008-06-20 16:55:33 $
 
 =cut

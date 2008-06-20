@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAutoResponse.pm - provides AdminAutoResponse HTML
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAutoResponse.pm,v 1.24 2008-06-19 18:44:32 martin Exp $
+# $Id: AdminAutoResponse.pm,v 1.25 2008-06-20 16:55:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::SystemAddress;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -130,7 +130,7 @@ sub _Mask {
 
     $Param{SystemAddressOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => { $Self->{SystemAddressObject}->SystemAddressList( Valid => 1 ), },
-        Name       => 'AddressID',
+        Name => 'AddressID',
         SelectedID => $Param{AddressID},
     );
     $Param{Subaction} = 'Add' if ( !$Param{Subaction} );

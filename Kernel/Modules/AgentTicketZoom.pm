@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.54 2008-06-19 14:16:40 mh Exp $
+# $Id: AgentTicketZoom.pm,v 1.55 2008-06-20 16:55:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -502,7 +502,7 @@ sub MaskAgentZoom {
             );
 
             # get link table view mode
-            my $LinkTableViewMode = $Self->{ConfigObject}->Get( 'LinkObject::ViewMode' );
+            my $LinkTableViewMode = $Self->{ConfigObject}->Get('LinkObject::ViewMode');
 
             # create the link table
             my $LinkTableStrg = $Self->{LayoutObject}->LinkObjectTableCreate(

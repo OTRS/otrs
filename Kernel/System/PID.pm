@@ -2,7 +2,7 @@
 # Kernel/System/PID.pm - all system pid functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PID.pm,v 1.15 2008-06-19 06:33:00 martin Exp $
+# $Id: PID.pm,v 1.16 2008-06-20 16:55:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 =head1 NAME
 
@@ -109,11 +109,11 @@ sub PIDCreate {
 
     # check if already exists
     my %ProcessID = $Self->PIDGet(%Param);
-    if (%ProcessID && !$Param{Force}) {
+    if ( %ProcessID && !$Param{Force} ) {
         if ( $ProcessID{Created} > ( time() - 3600 ) ) {    # 60 * 60
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message => "Can't create PID $ProcessID{Name}, because it's already running "
+                Message  => "Can't create PID $ProcessID{Name}, because it's already running "
                     . "($ProcessID{Host}/$ProcessID{PID})!",
             );
             return;
@@ -121,7 +121,7 @@ sub PIDCreate {
 
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message => "Removed PID ($ProcessID{Name}/$ProcessID{Host}/$ProcessID{PID}, "
+            Message  => "Removed PID ($ProcessID{Name}/$ProcessID{Host}/$ProcessID{PID}, "
                 . "because 1 hour old!",
         );
     }
@@ -218,6 +218,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2008-06-19 06:33:00 $
+$Revision: 1.16 $ $Date: 2008-06-20 16:55:33 $
 
 =cut

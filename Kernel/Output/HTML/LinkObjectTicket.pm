@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LinkObjectTicket.pm - layout backend module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObjectTicket.pm,v 1.5 2008-06-20 14:13:44 mh Exp $
+# $Id: LinkObjectTicket.pm,v 1.6 2008-06-20 16:55:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::Output::HTML::Layout;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -152,14 +152,14 @@ sub TableCreateComplex {
         # extract link type List
         my $LinkTypeList = $Param{ObjectLinkListWithData}->{$LinkType};
 
-        for my $Direction ( keys %{ $LinkTypeList } ) {
+        for my $Direction ( keys %{$LinkTypeList} ) {
 
             # extract direction list
             my $DirectionList = $Param{ObjectLinkListWithData}->{$LinkType}->{$Direction};
 
-            for my $TicketID ( keys %{ $DirectionList } ) {
+            for my $TicketID ( keys %{$DirectionList} ) {
 
-                $LinkList{$TicketID}->{Data}= $DirectionList->{$TicketID};
+                $LinkList{$TicketID}->{Data} = $DirectionList->{$TicketID};
             }
         }
     }
@@ -281,7 +281,7 @@ sub TableCreateSimple {
 
     # check needed stuff
     if ( !$Param{ObjectLinkListWithData} || ref $Param{ObjectLinkListWithData} ne 'HASH' ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message  => 'Need ObjectLinkListWithData!' );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ObjectLinkListWithData!' );
         return;
     }
 
@@ -291,13 +291,13 @@ sub TableCreateSimple {
         # extract link type List
         my $LinkTypeList = $Param{ObjectLinkListWithData}->{$LinkType};
 
-        for my $Direction ( keys %{ $LinkTypeList } ) {
+        for my $Direction ( keys %{$LinkTypeList} ) {
 
             # extract direction list
             my $DirectionList = $Param{ObjectLinkListWithData}->{$LinkType}->{$Direction};
 
             my @ItemList;
-            for my $TicketID ( sort { $a <=> $b } keys %{ $DirectionList } ) {
+            for my $TicketID ( sort { $a <=> $b } keys %{$DirectionList} ) {
 
                 # extract tickt data
                 my $Ticket = $DirectionList->{$TicketID};
@@ -343,7 +343,7 @@ sub ContentStringCreate {
 
     # check needed stuff
     if ( !$Param{ContentData} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message  => 'Need ContentData!' );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ContentData!' );
         return;
     }
 
@@ -458,7 +458,7 @@ sub SearchOptionList {
             $Self->{LayoutObject}->Block(
                 Name => 'InputText',
                 Data => {
-                    Key   => $Row->{FormKey},
+                    Key => $Row->{FormKey},
                     Value => $Row->{FormData} || '',
                 },
             );
@@ -487,11 +487,11 @@ sub SearchOptionList {
                 );
 
                 # set default state ids
-                if (!$Row->{FormData} || !@{ $Row->{FormData} }) {
+                if ( !$Row->{FormData} || !@{ $Row->{FormData} } ) {
 
                     # get stateids of all open states
                     my @List = $Self->{StateObject}->StateGetStatesByType(
-                        StateType => ['open', 'new'],
+                        StateType => [ 'open', 'new' ],
                         Result    => 'ID',
                         UserID    => $Self->{UserID},
                     );
@@ -532,6 +532,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2008-06-20 14:13:44 $
+$Revision: 1.6 $ $Date: 2008-06-20 16:55:33 $
 
 =cut

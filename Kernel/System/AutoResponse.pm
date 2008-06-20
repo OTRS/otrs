@@ -2,7 +2,7 @@
 # Kernel/System/AutoResponse.pm - lib for auto responses
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AutoResponse.pm,v 1.19 2008-06-19 18:44:32 martin Exp $
+# $Id: AutoResponse.pm,v 1.20 2008-06-20 16:55:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -57,9 +57,9 @@ sub AutoResponseAdd {
             . 'VALUES '
             . '(?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{Name}, \$Param{ValidID}, \$Param{Comment}, \$Param{Response},
-            \$Param{Subject}, \$Param{TypeID}, \$Param{AddressID}, \$Param{Charset},
-            \$Param{UserID}, \$Param{UserID},
+            \$Param{Name},    \$Param{ValidID}, \$Param{Comment},   \$Param{Response},
+            \$Param{Subject}, \$Param{TypeID},  \$Param{AddressID}, \$Param{Charset},
+            \$Param{UserID},  \$Param{UserID},
         ],
     );
 
@@ -171,7 +171,7 @@ sub AutoResponseGetByTypeQueueID {
     );
 
     # COMPAT: 2.1
-    $Data{Address}  = $Adresss{Name};
+    $Data{Address} = $Adresss{Name};
     return ( %Adresss, %Data );
 }
 
@@ -221,7 +221,7 @@ sub AutoResponseQueue {
                 . 'create_time, create_by, change_time, change_by) VALUES '
                 . '(?, ?, current_timestamp, ?, current_timestamp, ?)',
             Bind => [
-                \$Param{QueueID}, \$NewID, \$Param{UserID}, \ $Param{UserID},
+                \$Param{QueueID}, \$NewID, \$Param{UserID}, \$Param{UserID},
             ],
         );
     }

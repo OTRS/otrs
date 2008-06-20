@@ -2,7 +2,7 @@
 # LinkObject.t - link object module testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.t,v 1.9 2008-06-19 14:17:22 mh Exp $
+# $Id: LinkObject.t,v 1.10 2008-06-20 16:55:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -78,7 +78,7 @@ for my $Counter ( 1 .. 100 ) {
     $Self->{MainObject}->FileWrite(
         Directory => $BackendLocation,
         Filename  => $Name . '.pm',
-        Content   => \do{ my $AnonScalar = 'DUMMY' },
+        Content   => \do { my $AnonScalar = 'DUMMY' },
     );
 
     push @ObjectNames, $Name;
@@ -1081,7 +1081,7 @@ for my $Test ( @{$PossibleObjectsReference} ) {
         my %ObjectsReference = map { $_ => 1 } @{ $Test->{ReferenceData} };
 
         # compare if all elements of both lists are the same
-        for my $PossibleObject (keys %PossibleObjectsList) {
+        for my $PossibleObject ( keys %PossibleObjectsList ) {
             $Self->True(
                 $ObjectsReference{$PossibleObject},
                 "Test $TestCount: PossibleObjectsList() - check values - $PossibleObject",
@@ -1353,7 +1353,7 @@ for my $Test ( @{$PossibleTypesReference} ) {
         my %TypesReference = map { $_ => 1 } @{ $Test->{ReferenceData} };
 
         # compare if all elements of both lists are the same
-        for my $PossibleType (keys %PossibleTypesList) {
+        for my $PossibleType ( keys %PossibleTypesList ) {
             $Self->True(
                 $TypesReference{$PossibleType},
                 "Test $TestCount: PossibleTypesList() - check values - $PossibleType",
@@ -2697,7 +2697,8 @@ for my $Test ( @{$LinkData} ) {
 
                     my @LinksIDs = sort keys %{ $Links->{$Object}->{$Type}->{$Key} };
                     my @ReferenceIDs
-                        = sort keys %{ $ReferenceData->{LinkListReference}->{$Object}->{$Type}->{$Key} };
+                        = sort
+                        keys %{ $ReferenceData->{LinkListReference}->{$Object}->{$Type}->{$Key} };
 
                     # check number of ids
                     $Self->Is(
@@ -2737,7 +2738,7 @@ $Self->True(
 # ------------------------------------------------------------ #
 
 # create needed random object names
-for my $Name ( @ObjectNames ) {
+for my $Name (@ObjectNames) {
 
     # create the backend file
     $Self->{MainObject}->FileDelete(
