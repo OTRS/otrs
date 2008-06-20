@@ -1,5 +1,5 @@
 # --
-# $Id: CREDITS,v 1.14 2006-01-07 15:24:28 martin Exp $
+# $Id: CREDITS,v 1.15 2008-06-20 08:04:16 martin Exp $
 # --
 
 This is at least a partial credits-file of people that have
@@ -12,6 +12,11 @@ Thanks,
 
        Martin
 
+--
+N: Filipe Henriques
+E: filipehenriques at ip.pt
+D: Maintainer of Portuguese translation
+S: Portugal
 --
 N: Mats Eric Olausson
 E: mats at synergy.se
@@ -45,6 +50,11 @@ W: http://www.sogeti.nl/
 D: Maintainer of Dutch translation
 S: Netherlands
 --
+N: George Thomas
+E: gthomas at aegean.gr
+D: Maintainer of Greek translation
+S: Greece
+--
 N: Gilberto Cezar de Almeida
 E: gilberto at visaonet.com.br
 D: Maintainer of Brazilian Portuguese translation
@@ -55,10 +65,25 @@ E: jorge at icc-cuba.com
 D: Maintainer of Spanish translation
 S: Cuba
 --
+N: Lukas Vicanek
+E: lulka at centrum dot cz
+D: Maintainer of Czech translation
+S: Czech
+--
+N: Mads N. Vestergaard
+E: mnv at timmy.dk
+D: Maintainer of Danish translation
+S: Denmark
+--
 N: Martin Scherbaum
 E: maddin at scherbaum.org
 W: http://www.scherbaum.org
 D: German and initial French translation - RPM-Tips
+S: Germany
+--
+N: Manuel Hecht
+E: manuel.hecht at otrs.org
+D: Module development, creation of coding style guide.
 S: Germany
 --
 N: Nicolas Goralski
@@ -81,6 +106,11 @@ N: Vladimir Gerdjikov
 E: gerdjikov at gerdjikovs.net
 D: Maintainer of Bulgarian translation
 S: Bulgaria
+--
+N: Yann Richard
+E: ze at nbox.org
+D: Maintainer of French translation
+S: France
 --
 N: Martin Edenhofer
 E: martin at otrs.org

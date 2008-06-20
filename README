@@ -2,7 +2,7 @@
 # README - readme file of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: README,v 1.29 2008-05-27 07:18:15 tr Exp $
+# $Id: README,v 1.30 2008-06-20 08:04:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -101,42 +101,14 @@ Documentation:
   You can find quick documentation in README.* and the long version online at
   http://docu.otrs.org/.
 
-On what hardware does it run?
-=============================
-
-  On all! You need Perl! My System is a Pentium II 500 with 256 MB RAM and
-  a 8 GB SCSI Harddisk. I can easily handle ~150.000 tickets, without problems.
-  For more then ~150.000 or ~400 tickets a day please ask the list about the
-  requirements.
-
-  The biggest OTRS setup (where we got feedback) is ~750.000 tickets, ~4.200.000
-  articles and ~12.000.000 ticket-history database table records. This system is
-  running with MySQL, Apache and mod_perl on a Linux box with Pentium III 800 Mhz,
-  256 MB RAM, SCSI.
-
 Software requirements?
 ======================
 
   On all Perl-Platforms! You need:
-    * min. Perl5
-    * Database (e. g. MySQL)
-    * Webserver (mod_perl isn't required but very nice to have)
-    * A MTA (e. g. Sendmail or Postfix)
-
-  Currently tested (feedback):
-
-    * SuSE Linux 7.0 (i386), Perl 5, MySQL 3.22.32 and Apache 1.3.12.
-    * SuSE Linux 7.2 (i386), Perl 5.6.0, MySQL 3.23.37 and Apache 1.3.19.
-    * SuSE Linux 7.3 (s390), Perl 5.6.0, MySQL 3.23.48 and Apache 1.3.22.
-    * SuSE Linux 8.0 (i386), Perl 5.6.1, MySQL 3.23.48 and Apache 1.3.23 (incl. mod_perl 1.26).
-    * SuSE Linux 8.0 (i386), Perl 5.6.1, MySQL 3.23.48 and Roxen-Webserver 2.2.252
-    * SuSE Linux 8.0 (i386) interfacing with Exchange 5.5 via fetchmail and postfix
-    * Debian (i386), Postfix, Apache 1.3.19 with mod_perl
-    * Redhat 7.3 (i386) (no detail description available)
-    * Redhat 8.0 (i386), Perl 5.8, MySQL 4, Apache2 and mod_perl2.
-    * Mandrake 8.2 server (i386) interfacing with Lotus Notes mail server via fetchmail and sendmail
-    * FreeBSD (i386), Sendmail, Perl 5.6.1, MySQL and Apache.
-    ... and you? ;-)
+    * min. Perl 5.8
+    * Database (e. g. MySQL, PostgreSQL, Oracle, DB2)
+    * Webserver (e. g. Apache / mod_perl isn't required but very nice to have)
+    * A MTA (e. g. Sendmail or Postfix) or SMTP
 
 Directories & Files:
 ====================
@@ -145,10 +117,11 @@ $HOME (e. g. /opt/otrs/)
 |  (all executables)
 |--/bin/             (all system programs)
 |   |--/PostMaster.pl      (email2db)
-|   |--/PostMasterPOP3.pl  (email2db)
+|   |--/PostMasterMail.pl  (email2db)
 |   |--/cgi-bin/
 |   |   |----- /index.pl        (Global Agent & Admin handel)
 |   |   |----- /customer.pl     (Global Customer handel)
+|   |   |----- /public.pl       (Global Public handel)
 |   |   |----- /installer.pl    (Global Installer handel)
 |
 |  (all modules)
