@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LinkObjectTicket.pm - layout backend module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObjectTicket.pm,v 1.4 2008-06-19 15:18:51 mh Exp $
+# $Id: LinkObjectTicket.pm,v 1.5 2008-06-20 14:13:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::Output::HTML::Layout;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -212,8 +212,8 @@ sub TableCreateComplex {
 
     # block data
     my %BlockData = (
-        Object    => 'Ticket',
-        Blockname => 'Ticket',
+        Object    => $Self->{ObjectData}->{Object},
+        Blockname => $Self->{ObjectData}->{Realname},
         Headline  => [
             {
                 Content => 'Number#',
@@ -532,6 +532,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2008-06-19 15:18:51 $
+$Revision: 1.5 $ $Date: 2008-06-20 14:13:44 $
 
 =cut
