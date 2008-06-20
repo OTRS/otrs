@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - print layout for agent interface
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.pm,v 1.53 2008-06-20 16:29:38 mh Exp $
+# $Id: AgentTicketPrint.pm,v 1.54 2008-06-20 16:35:02 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -38,12 +38,9 @@ sub new {
         }
     }
 
-    # customer user object
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
-
-    # link object
-    $Self->{LinkObject} = Kernel::System::LinkObject->new(%Param);
-    $Self->{PDFObject}  = Kernel::System::PDF->new(%Param);
+    $Self->{LinkObject}         = Kernel::System::LinkObject->new(%Param);
+    $Self->{PDFObject}          = Kernel::System::PDF->new(%Param);
 
     return $Self;
 }
@@ -222,11 +219,11 @@ sub Run {
             TicketData => \%Ticket,
         );
 
-        # output linked objects
-        $Self->_PDFOutputLinkedObjects(
-            PageData => \%Page,
-            LinkData => $LinkList,
-        );
+#        # output linked objects
+#        $Self->_PDFOutputLinkedObjects(
+#            PageData => \%Page,
+#            LinkData => $LinkList,
+#        );
 
         # output customer infos
         if (%CustomerData) {
@@ -266,19 +263,19 @@ sub Run {
         # output header
         $Output .= $Self->{LayoutObject}->PrintHeader( Value => $Ticket{TicketNumber} );
 
-        # output linked objects
-        for my $LinkType ( sort keys %{$LinkList} ) {
-            my %ObjectType = %{ $Links{$LinkType} };
-            for my $Object ( sort keys %ObjectType ) {
-                my %Data = %{ $ObjectType{$Object} };
-                for my $Item ( sort keys %Data ) {
-                    $Self->{LayoutObject}->Block(
-                        Name => "Link$LinkType",
-                        Data => $Data{$Item},
-                    );
-                }
-            }
-        }
+#        # output linked objects
+#        for my $LinkType ( sort keys %{$LinkList} ) {
+#            my %ObjectType = %{ $Links{$LinkType} };
+#            for my $Object ( sort keys %ObjectType ) {
+#                my %Data = %{ $ObjectType{$Object} };
+#                for my $Item ( sort keys %Data ) {
+#                    $Self->{LayoutObject}->Block(
+#                        Name => "Link$LinkType",
+#                        Data => $Data{$Item},
+#                    );
+#                }
+#            }
+#        }
 
         # output customer infos
         if (%CustomerData) {
@@ -1253,8 +1250,10 @@ sub _HTMLMask {
         }
     }
 
-    # return output
-    return $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketPrint', Data => {%Param} );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentTicketPrint',
+        Data         => \%Param,
+    );
 }
 
 1;
