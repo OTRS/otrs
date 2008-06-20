@@ -3,7 +3,7 @@
 # - allow no parent close till all clients are closed -
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CloseParentAfterClosedChilds.pm,v 1.7 2008-06-13 08:33:05 mh Exp $
+# $Id: CloseParentAfterClosedChilds.pm,v 1.8 2008-06-20 14:49:04 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -55,13 +55,16 @@ sub Run {
             TicketID => $Param{TicketID},
         );
 
-        $Self->{LinkObject} = Kernel::System::LinkObject->new(
-            %Param,
-            %{$Self},
-        );
+        # create new instance of the link object
+        if (!$Self->{LinkObject}) {
+            $Self->{LinkObject} = Kernel::System::LinkObject->new(
+                %{$Self},
+                %Param,
+            );
+        }
 
         # link tickets
-        my $Links = $Self->{LinkObject}->LinksGet(
+        my $Links = $Self->{LinkObject}->LinkList(
             Object => 'Ticket',
             Key    => $Param{TicketID},
             State  => 'ParentChild',
