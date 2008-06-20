@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.35 2008-06-20 14:15:02 mh Exp $
+# $Id: LinkObject.pm,v 1.36 2008-06-20 15:31:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 =head1 NAME
 
@@ -792,30 +792,57 @@ sub LinkDeleteAll {
         }
     }
 
-    # lookup the object id
-    $Param{ObjectID} = $Self->ObjectLookup(
-        Name   => $Param{Object},
+    # get state list
+    my %StateList = $Self->StateList(
+        Valid  => 0,
         UserID => $Param{UserID},
     );
 
-    if ( !$Param{ObjectID} ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Invalid Object '$Param{Object}' is given!",
+    # delete all links
+    STATE:
+    for my $State (values %StateList) {
+
+        # get link list
+        my $LinkList = $Self->LinkList(
+            Object => $Param{Object},
+            Key    => $Param{Key},
+            State  => $State,
+            UserID => $Param{UserID},
         );
-        return;
+
+        next STATE if !$LinkList;
+        next STATE if !%{ $LinkList };
+
+        for my $Object ( keys %{$LinkList} ) {
+
+            for my $LinkType ( keys %{ $LinkList->{$Object} } ) {
+
+                # extract link type List
+                my $LinkTypeList = $LinkList->{$Object}->{$LinkType};
+
+                for my $Direction ( keys %{ $LinkTypeList } ) {
+
+                    # extract direction list
+                    my $DirectionList = $LinkList->{$Object}->{$LinkType}->{$Direction};
+
+                    for my $ObjectKey ( keys %{ $DirectionList } ) {
+
+                        # delete the link
+                        $Self->LinkDelete(
+                            Object1 => $Param{Object},
+                            Key1    => $Param{Key},
+                            Object2 => $Object,
+                            Key2    => $ObjectKey,
+                            Type    => $LinkType,
+                            UserID  => $Param{UserID},
+                        );
+                    }
+                }
+            }
+        }
     }
 
-    # delete all links for given object
-    return $Self->{DBObject}->Do(
-        SQL => 'DELETE FROM link_relation '
-            . 'WHERE ( source_object_id = ? AND source_key = ? ) '
-            . 'OR ( target_object_id = ? AND target_key = ? ) ',
-        Bind => [
-            \$Param{ObjectID}, \$Param{Key},
-            \$Param{ObjectID}, \$Param{Key},
-        ],
-    );
+    return 1;
 }
 
 =item LinkList()
@@ -823,7 +850,7 @@ sub LinkDeleteAll {
 get all existing links for a given object
 
 Return
-    $Links = {
+    $LinkList = {
         Ticket => {
             Normal => {
                 Source => {
@@ -853,7 +880,7 @@ Return
         },
     };
 
-    my $Links = $LinkObject->LinkList(
+    my $LinkList = $LinkObject->LinkList(
         Object   => 'Ticket',
         Key      => '321',
         State    => 'Valid',
@@ -1030,7 +1057,7 @@ sub LinkList {
 get all existing links for a given object with data of the other objects
 
 Return
-    $Links = {
+    $LinkList = {
         Ticket => {
             Normal => {
                 Source => {
@@ -1060,7 +1087,7 @@ Return
         },
     };
 
-    my $Links = $LinkObject->LinkListWithData(
+    my $LinkList = $LinkObject->LinkListWithData(
         Object   => 'Ticket',
         Key      => '321',
         State    => 'Valid',
@@ -2070,6 +2097,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.35 $ $Date: 2008-06-20 14:15:02 $
+$Revision: 1.36 $ $Date: 2008-06-20 15:31:00 $
 
 =cut
