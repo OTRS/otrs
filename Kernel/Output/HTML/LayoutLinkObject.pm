@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLinkObject.pm - provides generic HTML output for LinkObject
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLinkObject.pm,v 1.3 2008-06-19 15:18:51 mh Exp $
+# $Id: LayoutLinkObject.pm,v 1.4 2008-06-20 15:34:29 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =item LinkObjectTableCreate()
 
@@ -665,7 +665,7 @@ sub LinkObjectSelectableObjectList {
 
         # load backend
         my $BackendObject = $Self->_LoadLinkObjectLayoutBackend(
-            Object => $Param{Object},
+            Object => $PossibleObject,
         );
 
         return if !$BackendObject;
