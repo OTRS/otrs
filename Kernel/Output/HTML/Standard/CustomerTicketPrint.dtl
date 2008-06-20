@@ -2,7 +2,7 @@
 # CustomerTicketPrint.dtl - provides HTML print view
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketPrint.dtl,v 1.9 2008-04-02 08:59:22 ot Exp $
+# $Id: CustomerTicketPrint.dtl,v 1.10 2008-06-20 16:21:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -163,35 +163,6 @@
 #            <td class="contentvalue"><div title="$TimeShort{"$QData{"TicketFreeTime2"}"}">$TimeShort{"$QData{"TicketFreeTime2"}"}</div></td>
 #          </tr>
 #<!-- dtl:block:TicketFreeTime2 -->
-
-        <tr>
-          <td class="contentkey">&nbsp;</td>
-          <td colspan="3" class="contentvalue">&nbsp;</td>
-        </tr>
-        <tr>
-          <td class="contentkey">$Text{"Linked-Object"}:</td>
-          <td colspan="3" class="contentvalue">
-<!-- dtl:block:LinkNormal -->
-            <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"}">$QData{"Text"}</a>
-<!-- dtl:block:LinkNormal -->
-          </td>
-        </tr>
-        <tr>
-          <td class="contentkey">$Text{"Parent-Object"}:</td>
-          <td colspan="3" class="contentvalue">
-<!-- dtl:block:LinkParent -->
-            <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"}">$QData{"Text"}</a>
-<!-- dtl:block:LinkParent -->
-          </td>
-        </tr>
-        <tr>
-          <td class="contentkey">$Text{"Child-Object"}:</td>
-          <td colspan="3" class="contentvalue">
-<!-- dtl:block:LinkChild -->
-            <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"}">$QData{"Text"}</a>
-<!-- dtl:block:LinkChild -->
-          </td>
-        </tr>
       </table>
     </td>
   </tr>
