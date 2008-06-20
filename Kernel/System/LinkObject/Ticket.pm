@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject/Ticket.pm - to link ticket objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.24 2008-06-19 14:16:40 mh Exp $
+# $Id: Ticket.pm,v 1.25 2008-06-20 14:17:01 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Ticket;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -309,6 +309,58 @@ sub LinkAddPost {
         }
     }
 
+    if ( $Param{SourceObject} && $Param{SourceObject} eq 'Ticket' && $Param{SourceKey} ) {
+
+        # lookup ticket number
+        my $TicketNumber = $Self->{TicketObject}->TicketNumberLookup(
+            TicketID => $Param{SourceKey},
+            UserID   => $Param{UserID},
+        );
+
+        # add ticket history entry
+        $Self->{TicketObject}->HistoryAdd(
+            TicketID     => $Param{Key},
+            CreateUserID => $Param{UserID},
+            HistoryType  => 'TicketLinkAdd',
+            Name         => "\%\%$TicketNumber\%\%$Param{SourceKey}\%\%$Param{Key}",
+        );
+
+        # ticket event
+        $Self->{TicketObject}->TicketEventHandlerPost(
+            Event    => 'TicketSlaveLinkAdd' . $Param{Type},
+            UserID   => $Param{UserID},
+            TicketID => $Param{Key},
+        );
+
+        return 1;
+    }
+
+    if ( $Param{TargetObject} && $Param{TargetObject} eq 'Ticket' && $Param{TargetKey} ) {
+
+        # lookup ticket number
+        my $TicketNumber = $Self->{TicketObject}->TicketNumberLookup(
+            TicketID => $Param{TargetKey},
+            UserID   => $Param{UserID},
+        );
+
+        # add ticket history entry
+        $Self->{TicketObject}->HistoryAdd(
+            TicketID     => $Param{Key},
+            CreateUserID => $Param{UserID},
+            HistoryType  => 'TicketLinkAdd',
+            Name         => "\%\%$TicketNumber\%\%$Param{TargetKey}\%\%$Param{Key}",
+        );
+
+        # ticket event
+        $Self->{TicketObject}->TicketEventHandlerPost(
+            Event    => 'TicketMasterLinkAdd' . $Param{Type},
+            UserID   => $Param{UserID},
+            TicketID => $Param{Key},
+        );
+
+        return 1;
+    }
+
     return 1;
 }
 
@@ -317,11 +369,21 @@ sub LinkAddPost {
 link delete pre event module
 
     $True = $LinkObject->LinkDeletePre(
-        Key     => 123,
-        Object2 => 'Ticket',
-        Key2    => 321,
-        Type    => 'Normal',
-        UserID  => 1,
+        Key          => 123,
+        SourceObject => 'Ticket',
+        SourceKey    => 321,
+        Type         => 'Normal',
+        UserID       => 1,
+    );
+
+    or
+
+    $True = $LinkObject->LinkDeletePre(
+        Key          => 123,
+        TargetObject => 'Ticket',
+        TargetKey    => 321,
+        Type         => 'Normal',
+        UserID       => 1,
     );
 
 =cut
@@ -330,7 +392,7 @@ sub LinkDeletePre {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Argument (qw(Key Object2 Key2 Type UserID)) {
+    for my $Argument (qw(Key Type UserID)) {
         if ( !$Param{$Argument} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -348,11 +410,21 @@ sub LinkDeletePre {
 link delete post event module
 
     $True = $LinkObject->LinkDeletePost(
-        Key     => 123,
-        Object2 => 'Ticket',
-        Key2    => 321,
-        Type    => 'Normal',
-        UserID  => 1,
+        Key          => 123,
+        SourceObject => 'Ticket',
+        SourceKey    => 321,
+        Type         => 'Normal',
+        UserID       => 1,
+    );
+
+    or
+
+    $True = $LinkObject->LinkDeletePost(
+        Key          => 123,
+        TargetObject => 'Ticket',
+        TargetKey    => 321,
+        Type         => 'Normal',
+        UserID       => 1,
     );
 
 =cut
@@ -361,7 +433,7 @@ sub LinkDeletePost {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Argument (qw(Key Object2 Key2 Type UserID)) {
+    for my $Argument (qw(Key Type UserID)) {
         if ( !$Param{$Argument} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -369,6 +441,58 @@ sub LinkDeletePost {
             );
             return;
         }
+    }
+
+    if ( $Param{SourceObject} && $Param{SourceObject} eq 'Ticket' && $Param{SourceKey} ) {
+
+        # lookup ticket number
+        my $TicketNumber = $Self->{TicketObject}->TicketNumberLookup(
+            TicketID => $Param{SourceKey},
+            UserID   => $Param{UserID},
+        );
+
+        # add ticket history entry
+        $Self->{TicketObject}->HistoryAdd(
+            TicketID     => $Param{Key},
+            CreateUserID => $Param{UserID},
+            HistoryType  => 'TicketLinkDelete',
+            Name         => "\%\%$TicketNumber\%\%$Param{SourceKey}\%\%$Param{Key}",
+        );
+
+        # ticket event
+        $Self->{TicketObject}->TicketEventHandlerPost(
+            Event    => 'TicketSlaveLinkDelete' . $Param{Type},
+            UserID   => $Param{UserID},
+            TicketID => $Param{Key},
+        );
+
+        return 1;
+    }
+
+    if ( $Param{TargetObject} && $Param{TargetObject} eq 'Ticket' && $Param{TargetKey} ) {
+
+        # lookup ticket number
+        my $TicketNumber = $Self->{TicketObject}->TicketNumberLookup(
+            TicketID => $Param{TargetKey},
+            UserID   => $Param{UserID},
+        );
+
+        # add ticket history entry
+        $Self->{TicketObject}->HistoryAdd(
+            TicketID     => $Param{Key},
+            CreateUserID => $Param{UserID},
+            HistoryType  => 'TicketLinkDelete',
+            Name         => "\%\%$TicketNumber\%\%$Param{TargetKey}\%\%$Param{Key}",
+        );
+
+        # ticket event
+        $Self->{TicketObject}->TicketEventHandlerPost(
+            Event    => 'TicketMasterLinkDelete' . $Param{Type},
+            UserID   => $Param{UserID},
+            TicketID => $Param{Key},
+        );
+
+        return 1;
     }
 
     return 1;
