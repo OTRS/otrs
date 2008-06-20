@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.27 2008-06-19 14:46:25 mh Exp $
+# $Id: AgentLinkObject.pm,v 1.28 2008-06-20 15:05:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -44,7 +44,7 @@ sub Run {
     my %Form;
     $Form{SourceObject} = $Self->{ParamObject}->GetParam( Param => 'SourceObject' );
     $Form{SourceKey}    = $Self->{ParamObject}->GetParam( Param => 'SourceKey' );
-    $Form{State}         = $Self->{ParamObject}->GetParam( Param => 'State' ) || 'Valid';
+    $Form{State}        = $Self->{ParamObject}->GetParam( Param => 'State' ) || 'Valid';
 
     # check needed stuff
     if ( !$Form{SourceObject} || !$Form{SourceKey} ) {
@@ -111,6 +111,14 @@ sub Run {
             State  => $Form{State},
             UserID => $Self->{UserID},
         );
+
+        # redirect to overview if list is empty
+        if ( !$LinkListWithData || !%{$LinkListWithData} ) {
+
+            return $Self->{LayoutObject}->Redirect(
+                OP => "Action=$Self->{Action}&SourceObject=$Form{SourceObject}&SourceKey=$Form{SourceKey}",
+            );
+        }
 
         # create the link table
         my $LinkTableStrg = $Self->{LayoutObject}->LinkObjectTableCreateComplex(
@@ -280,6 +288,16 @@ sub Run {
             State  => $Form{State},
             UserID => $Self->{UserID},
         );
+
+        # output back link
+        if ( $LinkListWithData && %{$LinkListWithData} ) {
+
+            # output the link back block
+            $Self->{LayoutObject}->Block(
+                Name => 'LinkBack',
+                Data => \%Form,
+            );
+        }
 
         # add search result to link list
         if ( $SearchList && $SearchList->{ $Form{SourceObject} } ) {
