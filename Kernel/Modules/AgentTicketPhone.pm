@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.71 2008-06-19 20:50:04 martin Exp $
+# $Id: AgentTicketPhone.pm,v 1.72 2008-06-20 14:52:32 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -964,32 +964,16 @@ sub Run {
                     $TargetKey = $GetParam{LinkTicketID};
                 }
 
-                # lookup the link state id
-                my $LinkStateID = $Self->{LinkObject}->StateLookup(
-                    Name   => 'Valid',
-                    UserID => $Self->{UserID},
+                # link the tickets
+                $Self->{LinkObject}->LinkAdd(
+                    SourceObject => 'Ticket',
+                    SourceKey    => $SourceKey,
+                    TargetObject => 'Ticket',
+                    TargetKey    => $TargetKey,
+                    Type         => $Self->{Config}->{SplitLinkType}->{LinkType} || 'Normal',
+                    State        => 'Valid',
+                    UserID       => $Self->{UserID},
                 );
-
-                # lookupd the type id
-                my $TypeID = $Self->{LinkObject}->TypeLookup(
-                    Name   => $Self->{Config}->{SplitLinkType}->{LinkType},
-                    UserID => $Self->{UserID},
-                );
-
-                if ($TypeID) {
-
-                    # add links to database
-
-                    $Self->{LinkObject}->LinkAdd(
-                        SourceObject => 'Ticket',
-                        SourceKey    => $SourceKey,
-                        TargetObject => 'Ticket',
-                        TargetKey    => $TargetKey,
-                        TypeID       => $TypeID,
-                        StateID      => $LinkStateID,
-                        UserID       => $Self->{UserID},
-                    );
-                }
             }
 
             # should i set an unlock?
