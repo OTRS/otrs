@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.62 2008-06-20 16:55:33 mh Exp $
+# $Id: AgentTicketEmail.pm,v 1.63 2008-06-20 19:34:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -760,7 +760,7 @@ sub Run {
             SLAID        => $GetParam{SLAID},
             StateID      => $NextStateID,
             PriorityID   => $GetParam{PriorityID},
-            OwnerID      => $Self->{UserID},
+            OwnerID      => 1,
             CustomerID   => $CustomerID,
             CustomerUser => $SelectedCustomerUser,
             UserID       => $Self->{UserID},
@@ -897,6 +897,16 @@ sub Run {
                     TicketID => $TicketID,
                     Lock     => 'lock',
                     UserID   => $Self->{UserID},
+                );
+            }
+
+            # else set owner to current agent but do not lock it
+            else {
+                $Self->{TicketObject}->OwnerSet(
+                    TicketID           => $TicketID,
+                    NewUserID          => $Self->{UserID},
+                    SendNoNotification => 1,
+                    UserID             => $Self->{UserID},
                 );
             }
 

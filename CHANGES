@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.670 2008-06-20 16:29:38 mh Exp $
+# $Id: CHANGES,v 1.671 2008-06-20 19:34:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,7 +10,10 @@
 # --
 
 2.3.0 beta3 (2008/06/??)
- - (2008/06/20) Removed output of linked objects in customer ticket print.
+ - (2008/06/20) Fixed bug# 1565 - Responsible Agent not updated when creating
+    new ticket in phone or email ticket.
+ - (2008/06/20) Removed output of linked objects in customer ticket print
+    (because it's not needed in the customer panel).
  - (2008/06/19) Fixed bug# 2998 - Highlighted selection for notification
     listbox in admin interface.
  - (2008/06/19) Fixed bug# 3005 - AJAX functionality is not working in phone

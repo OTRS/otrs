@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.73 2008-06-20 16:55:33 mh Exp $
+# $Id: AgentTicketPhone.pm,v 1.74 2008-06-20 19:34:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.73 $) [1];
+$VERSION = qw($Revision: 1.74 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -786,7 +786,7 @@ sub Run {
             SLAID        => $GetParam{SLAID},
             StateID      => $GetParam{NextStateID},
             PriorityID   => $GetParam{PriorityID},
-            OwnerID      => $Self->{UserID},
+            OwnerID      => 1,
             CustomerNo   => $CustomerID,
             CustomerUser => $SelectedCustomerUser,
             UserID       => $Self->{UserID},
@@ -897,6 +897,16 @@ sub Run {
                     TicketID => $TicketID,
                     Lock     => 'lock',
                     UserID   => $Self->{UserID},
+                );
+            }
+
+            # else set owner to current agent but do not lock it
+            else {
+                $Self->{TicketObject}->OwnerSet(
+                    TicketID           => $TicketID,
+                    NewUserID          => $Self->{UserID},
+                    SendNoNotification => 1,
+                    UserID             => $Self->{UserID},
                 );
             }
 
