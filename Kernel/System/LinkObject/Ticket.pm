@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject/Ticket.pm - to link ticket objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.25 2008-06-20 14:17:01 mh Exp $
+# $Id: Ticket.pm,v 1.26 2008-06-21 14:29:02 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Ticket;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -184,19 +184,21 @@ sub ObjectSearch {
 
     # set focus
     my %Search;
-    if ( $Param{TicketFulltext} ) {
-        $Param{TicketFulltext} = '*' . $Param{TicketFulltext} . '*';
+    if ( $Param{SearchParams}->{TicketFulltext} ) {
         %Search = (
-            From          => $Param{TicketFulltext},
-            To            => $Param{TicketFulltext},
-            Cc            => $Param{TicketFulltext},
-            Subject       => $Param{TicketFulltext},
-            Body          => $Param{TicketFulltext},
+            From          => '*' . $Param{SearchParams}->{TicketFulltext} . '*',
+            To            => '*' . $Param{SearchParams}->{TicketFulltext} . '*',
+            Cc            => '*' . $Param{SearchParams}->{TicketFulltext} . '*',
+            Subject       => '*' . $Param{SearchParams}->{TicketFulltext} . '*',
+            Body          => '*' . $Param{SearchParams}->{TicketFulltext} . '*',
             ContentSearch => 'OR',
         );
     }
-    if ( $Param{Title} ) {
-        $Search{Title} = '*' . $Param{Title} . '*';
+    if ( $Param{SearchParams}->{Title} ) {
+        $Search{Title} = '*' . $Param{SearchParams}->{Title} . '*';
+    }
+    if ( $Param{SearchParams}->{TicketNumber} ) {
+        $Search{TicketNumber} = '*' . $Param{SearchParams}->{TicketNumber} . '*';
     }
 
     # search the tickets
