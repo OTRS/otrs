@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.30 2008-06-21 00:07:35 ub Exp $
+# $Id: AgentLinkObject.pm,v 1.31 2008-06-21 12:07:05 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -261,7 +261,7 @@ sub Run {
 
         # start search
         my $SearchList = $Self->{LinkObject}->ObjectSearch(
-            Object       => $Form{SourceObject},
+            Object       => $Form{TargetObject},
             SearchParams => \%SearchParam,
             UserID       => $Self->{UserID},
         );
@@ -301,9 +301,9 @@ sub Run {
         }
 
         # add search result to link list
-        if ( $SearchList && $SearchList->{ $Form{SourceObject} } ) {
-            $LinkListWithData->{ $Form{SourceObject} }->{NOTLINKED}
-                = $SearchList->{ $Form{SourceObject} }->{NOTLINKED};
+        if ( $SearchList && $SearchList->{ $Form{TargetObject} } ) {
+            $LinkListWithData->{ $Form{TargetObject} }->{NOTLINKED}
+                = $SearchList->{ $Form{TargetObject} }->{NOTLINKED};
         }
 
         # get possible types list
@@ -366,7 +366,9 @@ sub Run {
 
         # create the link table
         my $LinkTableStrg = $Self->{LayoutObject}->LinkObjectTableCreateComplex(
-            LinkListWithData => $LinkListWithData,
+            LinkListWithData => {
+                $Form{TargetObject} => $LinkListWithData->{ $Form{TargetObject} },
+            },
             ViewMode         => 'ComplexAdd',
             LinkTypeStrg     => $LinkTypeStrg,
         );
