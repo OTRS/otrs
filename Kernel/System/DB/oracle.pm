@@ -2,7 +2,7 @@
 # Kernel/System/DB/oracle.pm - oracle database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: oracle.pm,v 1.48 2008-06-10 15:35:04 mh Exp $
+# $Id: oracle.pm,v 1.49 2008-06-23 19:47:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -371,6 +371,14 @@ sub TableAlter {
             }
             else {
                 $SQLEnd .= ' NULL';
+            }
+
+            # default value
+            if ( $Tag->{Type} =~ /int/i ) {
+                $SQLEnd .= " DEFAULT $Tag->{Default}";
+            }
+            else {
+                $SQLEnd .= " DEFAULT '$Tag->{Default}'";
             }
 
             # auto increment

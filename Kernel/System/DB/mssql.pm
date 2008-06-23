@@ -2,7 +2,7 @@
 # Kernel/System/DB/mssql.pm - mssql database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: mssql.pm,v 1.38 2008-05-16 08:22:59 martin Exp $
+# $Id: mssql.pm,v 1.39 2008-06-23 19:47:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -188,6 +188,16 @@ sub TableCreate {
         $SQL .= "    $Tag->{Name} $Tag->{Type}";
         if ( $Tag->{Required} =~ /^true$/i ) {
             $SQL .= ' NOT NULL';
+        }
+
+        # default values
+        if ( defined $Tag->{Default} ) {
+            if ( $Tag->{Type} =~ /int/i ) {
+                $SQL .= " DEFAULT $Tag->{Default}";
+            }
+            else {
+                $SQL .= " DEFAULT '$Tag->{Default}'";
+            }
         }
 
         # auto increment
