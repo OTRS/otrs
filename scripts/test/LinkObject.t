@@ -2,7 +2,7 @@
 # LinkObject.t - link object module testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.t,v 1.10 2008-06-20 16:55:33 mh Exp $
+# $Id: LinkObject.t,v 1.11 2008-06-23 10:28:45 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -65,6 +65,12 @@ for my $Counter ( 1 .. 100 ) {
     push @TypeNames, 'UnitTestType' . int rand 1_000_000;
 }
 
+# read ticket backend file
+my $TicketBackendContent = $Self->{MainObject}->FileRead(
+    Location => $Self->{ConfigObject}->Get('Home') . '/scripts/test/sample/LinkBackendDummy.pm',
+    Result   => 'SCALAR',
+);
+
 # get location of the backend modules
 my $BackendLocation = $Self->{ConfigObject}->Get('Home') . '/Kernel/System/LinkObject/';
 
@@ -72,13 +78,20 @@ my $BackendLocation = $Self->{ConfigObject}->Get('Home') . '/Kernel/System/LinkO
 my @ObjectNames;
 for my $Counter ( 1 .. 100 ) {
 
+    # copy the content
+    my $Content = ${$TicketBackendContent};
+
+    # generate name
     my $Name = 'UnitTestObject' . int rand 1_000_000;
+
+    # replace Dummy with the UnitTestName
+    $Content =~ s{ Dummy }{$Name}xmsg;
 
     # create the backend file
     $Self->{MainObject}->FileWrite(
         Directory => $BackendLocation,
         Filename  => $Name . '.pm',
-        Content   => \do { my $AnonScalar = 'DUMMY' },
+        Content   => \$Content,
     );
 
     push @ObjectNames, $Name;
@@ -2553,7 +2566,6 @@ my $LinkData = [
             },
         },
     },
-
 ];
 
 # ------------------------------------------------------------ #
