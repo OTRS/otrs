@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutAJAX.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutAJAX.pm,v 1.8 2008-05-15 22:05:46 mh Exp $
+# $Id: LayoutAJAX.pm,v 1.9 2008-06-23 07:39:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,66 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
+
+=item JSON()
+
+build a JSON output based on perl data
+
+    my $JSON = $LayoutObject->JSON(
+        Data => $DataRef,
+    );
+
+=cut
+
+sub JSON {
+    my ( $Self, %Param ) = @_;
+
+    my $JSON  = '';
+    # check needed stuff
+    for (qw(Data)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # array
+    if ( ref $Param{Data} eq 'ARRAY' ) {
+        $JSON .= '[';
+        for my $Key ( @{ $Param{Data} } ) {
+            if ( ref $Key ) {
+                $JSON .= $Self->JSON( Data => $Key ) . ',';
+            }
+            else {
+                $JSON .= "'" . $Self->JSONQuote( Data => $Key ) . "',";
+            }
+        }
+        $JSON .= ']';
+    }
+
+    # hash
+    elsif ( ref $Param{Data} eq 'HASH' ) {
+        $JSON .= '{';
+        for my $Key ( sort keys %{ $Param{Data} } ) {
+            $JSON .= "" . $Key . ":";
+            if ( ref $Param{Data}->{$Key} ) {
+                $JSON .= $Self->JSON( Data => $Param{Data}->{$Key} ) . ',';
+            }
+            else {
+                $JSON .= "'" . $Self->JSONQuote( Data => $Param{Data}->{$Key} ) . "',";
+            }
+        }
+        $JSON .= '}';
+    }
+
+    # string
+    else {
+        $JSON .= "'" . $Self->JSONQuote( Data => $Param{Data} ) . "'";
+    }
+
+    return $JSON;
+}
 
 =item BuildJSON()
 
@@ -55,20 +114,8 @@ sub BuildJSON {
                 return;
             }
         }
-        if ( ref( $Param{Data} ) eq '' ) {
-
-            # quote
-            my %Quote = (
-                "\n" => '\n',
-                "\r" => '\r',
-                "\t" => '\t',
-                "\f" => '\f',
-                "\b" => '\b',
-                "\"" => '\"',
-                "\\" => '\\\\',
-                "\'" => '\\\'',
-            );
-            $Param{Data} =~ s/([\\"\n\r\t\f\b])/$Quote{$1}/eg;
+        if ( ref $Param{Data} eq '' ) {
+            $Param{Data} = $Self->JSONQuote( Data => $Param{Data} );
             $JSON .= "'$Param{Name}': [";
             $JSON .= "'$Param{Data}'";
             $JSON .= "]";
@@ -118,7 +165,7 @@ sub _BuildJSONOutput {
         my $Count = 0;
         for my $Row ( @{ $Param{DataRef} } ) {
             if ($Count) {
-                $String .= ",";
+                $String .= ',';
             }
             my $Key = '';
             if ( defined( $Row->{Key} ) ) {
@@ -136,25 +183,40 @@ sub _BuildJSONOutput {
                 $SelectedDisabled = 'false';
             }
 
-            # quote
-            my %Quote = (
-                "\n" => '\n',
-                "\r" => '\r',
-                "\t" => '\t',
-                "\f" => '\f',
-                "\b" => '\b',
-                "\"" => '\"',
-                "\\" => '\\\\',
-                "\'" => '\\\'',
-            );
-            $Key   =~ s/([\\"\n\r\t\f\b])/$Quote{$1}/eg;
-            $Value =~ s/([\\"\n\r\t\f\b])/$Quote{$1}/eg;
+            $Key   = $Self->JSONQuote( Data => $Key );
+            $Value = $Self->JSONQuote( Data => $Value );
             $String .= "['$Key','$Value',$SelectedDisabled,$SelectedDisabled]";
             $Count++;
         }
-        $String .= "]";
+        $String .= ']';
     }
     return \$String;
+}
+
+sub JSONQuote {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(Data)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # quote
+    my %Quote = (
+        "\n" => '\n',
+        "\r" => '\r',
+        "\t" => '\t',
+        "\f" => '\f',
+        "\b" => '\b',
+        "\"" => '\"',
+        "\\" => '\\\\',
+        "\'" => '\\\'',
+    );
+    $Param{Data} =~ s/([\\"\n\r\t\f\b])/$Quote{$1}/eg;
+    return $Param{Data};
 }
 
 1;
@@ -173,6 +235,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2008-05-15 22:05:46 $
+$Revision: 1.9 $ $Date: 2008-06-23 07:39:00 $
 
 =cut
