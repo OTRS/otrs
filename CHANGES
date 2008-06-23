@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.672 2008-06-23 07:23:39 mh Exp $
+# $Id: CHANGES,v 1.673 2008-06-23 07:41:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.3.0 beta3 (2008/06/??)
+ - (2008/06/23) Moved Ticket::ResponsibleAutoSet feature to external ticket
+    event module (Kernel::System::Ticket::Event::ResponsibleAutoSet).
  - (2008/06/23) Fixed bug# 2959 - Linking and Unlinking Tickets is not addin
     ticket history and not executing TicketEventHandlerPost() by ticket link
     backend anymore.
@@ -345,14 +347,26 @@
     HTML to text convertion to email parser.
  - (2007/09/13) Improved report overview of perfornance log.
 
-2.2.7 (2008/??/??)
+2.2.8 (2008/??/??)
+ - (2008/06/20) Fixed bug# 3000 - Configured sender address for auto response
+    get's ignored.
+ - (2008/06/05) Fixed bug# 2962 - Freetext cache problem, old used ticket
+    free text values get not added to pull down list in agent ticket search.
+ - (2008/06/04) Removed not wanted email rfc check in AgentTicketPhone and
+    AgentTicketEmail, it's already done by OTRS via config settings.
+
+2.2.7 (2008/06/04)
+ - (2008/05/28) Fixed bug# 2891 - Typo in Bounce Customer notification
+    'informations'.
+ - (2008/05/25) Fixed bug# 2934 - PostmasterPOP3.pl - craches on malformed UTF-8
+    character (fatal)... on incoming emails.
  - (2008/05/22) Fixed bug# 2829 - Added config option if Cc should be taken over
     to Cc recipients list in compose email answer screen.
     SysConfig -> Ticket -> Frontend::Agent::Ticket::ViewCompose ->
     Ticket::Frontend::ComposeExcludeCcRecipients
  - (2008/05/15) Fixed bug# 2870 - Customer-Frontend: No Access to Company Tickets
     (CustomerIDCheck fails).
- - (2008/05/09) Added new catalonian language translation. Thanks to Antonio Linde!
+ - (2008/05/09) Added new catalonian language translation, thanks to Antonio Linde!
  - (2008/05/08) Fixed bug# 2683 - $QData{"OrigFrom"} in Reply leads to wrong
     quote in email answer if sender is agent (To of origin email is used).
  - (2008/05/08) Fixed bug# 2604 - Response Format - Date of Original Mail is
