@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LinkObjectTicket.pm - layout backend module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObjectTicket.pm,v 1.7 2008-06-23 07:11:28 mh Exp $
+# $Id: LinkObjectTicket.pm,v 1.8 2008-06-23 17:49:34 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::Output::HTML::Layout;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -393,7 +393,7 @@ sub SelectableObjectList {
 
 =item SearchOptionList()
 
-return an array hash with selectable objects
+return an array hash with search options
 
 Return
     @SearchOptionList = (
@@ -535,6 +535,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2008-06-23 07:11:28 $
+$Revision: 1.8 $ $Date: 2008-06-23 17:49:34 $
 
 =cut
