@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2008-05-16 13:10:19
+--  driver: db2, generated: 2008-06-10 14:13:43
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -922,7 +922,7 @@ CREATE TABLE service_sla (
 -- ----------------------------------------------------------
 CREATE TABLE sessions (
     session_id VARCHAR (150) NOT NULL,
-    session_value CLOB (78K) NOT NULL,
+    session_value CLOB (195K) NOT NULL,
     PRIMARY KEY(session_id)
 );
 
