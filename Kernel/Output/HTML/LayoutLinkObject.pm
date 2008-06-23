@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLinkObject.pm - provides generic HTML output for LinkObject
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLinkObject.pm,v 1.5 2008-06-20 16:55:33 mh Exp $
+# $Id: LayoutLinkObject.pm,v 1.6 2008-06-23 07:10:41 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =item LinkObjectTableCreate()
 
@@ -25,7 +25,7 @@ create a output table
 
     my $String = $LayoutObject->LinkObjectTableCreate(
         LinkListWithData => $LinkListWithDataRef,
-        ViewMode         => 'Simple', # (Simple|Complex|ComplexAdd|ComplexDelete)
+        ViewMode         => 'Simple', # (Simple|SimpleRaw|Complex|ComplexAdd|ComplexDelete|ComplexRaw)
     );
 
 =cut
@@ -44,10 +44,11 @@ sub LinkObjectTableCreate {
         }
     }
 
-    if ( $Param{ViewMode} eq 'Simple' ) {
+    if ( $Param{ViewMode} =~ m{ \A Simple }xms ) {
 
         return $Self->LinkObjectTableCreateSimple(
             LinkListWithData => $Param{LinkListWithData},
+            ViewMode         => $Param{ViewMode},
         );
     }
     else {
@@ -65,7 +66,7 @@ create a complex output table
 
     my $String = $LayoutObject->LinkObjectTableCreateComplex(
         LinkListWithData => $LinkListRef,
-        ViewMode         => 'Complex', # (Complex|ComplexAdd|ComplexDelete)
+        ViewMode         => 'Complex', # (Complex|ComplexAdd|ComplexDelete|ComplexRaw)
     );
 
 =cut
@@ -188,6 +189,8 @@ sub LinkObjectTableCreateComplex {
             push @{$Item}, $CheckboxCell;
         }
     }
+
+    return @OutputData if $Param{ViewMode} && $Param{ViewMode} eq 'ComplexRaw';
 
     if ( $Param{ViewMode} eq 'ComplexAdd' ) {
 
@@ -357,6 +360,7 @@ create a simple output table
 
     my $String = $LayoutObject->LinkObjectTableCreateSimple(
         LinkListWithData => $LinkListWithDataRef,
+        ViewMode         => 'Raw',                 # (optional) (Simple|SimpleRaw)
     );
 
 =cut
@@ -405,6 +409,8 @@ sub LinkObjectTableCreateSimple {
             $OutputData{$LinkType}->{$Object} = $LinkOutputData{$LinkType}->{$Object};
         }
     }
+
+    return %OutputData if $Param{ViewMode} && $Param{ViewMode} eq 'SimpleRaw';
 
     # create new instance of the layout object
     my $LayoutObject = Kernel::Output::HTML::Layout->new( %{$Self} );
