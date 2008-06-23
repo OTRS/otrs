@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.673 2008-06-23 07:41:33 martin Exp $
+# $Id: CHANGES,v 1.674 2008-06-23 17:47:51 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.3.0 beta3 (2008/06/??)
+ - (2008/06/23) Updated cpan module TEXT::CSV to version 1.06.
  - (2008/06/23) Moved Ticket::ResponsibleAutoSet feature to external ticket
     event module (Kernel::System::Ticket::Event::ResponsibleAutoSet).
  - (2008/06/23) Fixed bug# 2959 - Linking and Unlinking Tickets is not addin

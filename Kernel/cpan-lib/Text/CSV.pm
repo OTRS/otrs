@@ -5,14 +5,14 @@ use strict;
 use Carp ();
 
 BEGIN {
-    $Text::CSV::VERSION = '1.05';
+    $Text::CSV::VERSION = '1.06';
     $Text::CSV::DEBUG   = 0;
 }
 
 # if use CSV_XS, requires version
 my $Module_XS  = 'Text::CSV_XS';
 my $Module_PP  = 'Text::CSV_PP';
-my $XS_Version = '0.43';
+my $XS_Version = '0.51';
 
 my $Is_Dynamic = 0;
 
@@ -270,9 +270,9 @@ perhaps better called ASV (anything separated values) rather than just CSV.
 
 =head1 VERSION
 
-    1.05
+    1.06
 
-This module is compatible with Text::CSV_XS B<0.43> or later.
+This module is compatible with Text::CSV_XS B<0.51> or later.
 
 =head2 BINARY MODE
 
@@ -283,6 +283,15 @@ binary mode.
  my $csv = Text::CSV->new({binary => 1});
 
 See to L<Text::CSV_XS/Embedded newlines>.
+
+=head2 Unicode (UTF8)
+
+On parsing (both for C<getline ()> and C<parse ()>), if the source is
+marked being UTF8, then parsing that source will mark all fields that
+are marked binary will also be marked UTF8.
+
+On combining (C<print ()> and C<combine ()>), if any of the combining
+fields was marked UTF8, the resulting string will be marked UTF8.
 
 =head1 SPECIFICATION
 
@@ -636,7 +645,7 @@ C<column_names ()> croaks on invalid arguments.
 
 =head2 bind_columns
 
-Takes a list of references to scalars (max 255) to store the fields fetched
+Takes a list of references to scalars to store the fields fetched
 C<getline ()> in. When you don't pass enough references to store the
 fetched fields in, C<getline ()> will fail. If you pass more than there are
 fields to return, the remaining references are left untouched.
@@ -800,7 +809,7 @@ of the failure.
 
  $csv->SetDiag (0);
 
-Use to reset the diagnosticts if you are dealing with errors.
+Use to reset the diagnostics if you are dealing with errors.
 
 =head2 Some methods are Text::CSV only.
 
