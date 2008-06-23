@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2008-05-16 14:30:28
+--  driver: mssql, generated: 2008-06-23 09:27:09
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  insert into table valid
@@ -718,9 +718,9 @@ INSERT INTO article_sender_type (name, valid_id, create_by, create_time, change_
 -- ----------------------------------------------------------
 --  insert into table ticket
 -- ----------------------------------------------------------
-INSERT INTO ticket (tn, queue_id, ticket_lock_id, ticket_answered, user_id, responsible_user_id, group_id, ticket_priority_id, ticket_state_id, create_time_unix, escalation_time, escalation_response_time, escalation_update_time, escalation_solution_time, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket (tn, queue_id, ticket_lock_id, ticket_answered, user_id, responsible_user_id, group_id, ticket_priority_id, ticket_state_id, title, create_time_unix, escalation_time, escalation_response_time, escalation_update_time, escalation_solution_time, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('1010001', 2, 1, 0, 1, 1, 1, 3, 1, 1173345999, 0, 0, 0, 0, 1, 1, current_timestamp, 1, current_timestamp);
+    ('1010001', 2, 1, 0, 1, 1, 1, 3, 1, 'Welcome to OTRS!', 1173345999, 0, 0, 0, 0, 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table article
 -- ----------------------------------------------------------
