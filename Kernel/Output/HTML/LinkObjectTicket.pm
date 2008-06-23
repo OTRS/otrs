@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LinkObjectTicket.pm - layout backend module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObjectTicket.pm,v 1.6 2008-06-20 16:55:33 mh Exp $
+# $Id: LinkObjectTicket.pm,v 1.7 2008-06-23 07:11:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::Output::HTML::Layout;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -252,11 +252,13 @@ Return
                 {
                     Type    => 'Link',
                     Content => 'T:55555',
+                    Title   => 'Ticket# 555555: The ticket title',
                     Css     => 'style="text-decoration: line-through"',
                 },
                 {
                     Type    => 'Link',
                     Content => 'T:22222',
+                    Title   => 'Ticket# 22222: Title of ticket 22222',
                 },
             ],
         },
@@ -265,6 +267,7 @@ Return
                 {
                     Type    => 'Link',
                     Content => 'T:77777',
+                    Title   => 'Ticket# 77777: Ticket title',
                 },
             ],
         },
@@ -532,6 +535,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2008-06-20 16:55:33 $
+$Revision: 1.7 $ $Date: 2008-06-23 07:11:28 $
 
 =cut
