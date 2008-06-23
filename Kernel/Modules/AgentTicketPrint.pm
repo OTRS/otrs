@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - print layout for agent interface
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.pm,v 1.54 2008-06-20 16:35:02 mh Exp $
+# $Id: AgentTicketPrint.pm,v 1.55 2008-06-23 07:07:53 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -64,27 +64,35 @@ sub Run {
         UserID   => $Self->{UserID}
     );
 
-    # error screen, don't show ticket
-    if ( !$Access ) {
-        return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
-    }
+    return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' ) if !$Access;
 
     # get linked objects
-    my $LinkList = $Self->LinkList(
+    my $LinkListWithData = $Self->{LinkObject}->LinkListWithData(
         Object => 'Ticket',
         Key    => $Self->{TicketID},
         State  => 'Valid',
-        UserID   => $Self->{UserID},
+        UserID => $Self->{UserID},
     );
 
-#    my %Links = $Self->{LinkObject}->AllLinkedObjects(
-#        Object   => 'Ticket',
-#        ObjectID => $Self->{TicketID},
-#        UserID   => $Self->{UserID},
-#    );
+    # get link type list
+    my %LinkTypeList = $Self->{LinkObject}->TypeList(
+        UserID => $Self->{UserID},
+    );
+
+    # get the link data
+    my %LinkData;
+    if ( $LinkListWithData && ref $LinkListWithData eq 'HASH' && %{$LinkListWithData} ) {
+        %LinkData = $Self->{LayoutObject}->LinkObjectTableCreate(
+            LinkListWithData => $LinkListWithData,
+            ViewMode         => 'SimpleRaw',
+        );
+    }
 
     # get content
-    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
+    my %Ticket = $Self->{TicketObject}->TicketGet(
+        TicketID => $Self->{TicketID},
+        UserID   => $Self->{UserID},
+    );
     my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
         TicketID                   => $Self->{TicketID},
         StripPlainBodyAsAttachment => 1,
@@ -110,7 +118,7 @@ sub Run {
     # user info
     my %UserInfo = $Self->{UserObject}->GetUserData(
         User   => $Ticket{Owner},
-        Cached => 1
+        Cached => 1,
     );
 
     # responsible info
@@ -118,15 +126,16 @@ sub Run {
     if ( $Self->{ConfigObject}->Get('Ticket::Responsible') && $Ticket{Responsible} ) {
         %ResponsibleInfo = $Self->{UserObject}->GetUserData(
             User   => $Ticket{Responsible},
-            Cached => 1
+            Cached => 1,
         );
     }
 
     # customer info
-    my %CustomerData = ();
+    my %CustomerData;
     if ( $Ticket{CustomerUserID} ) {
-        %CustomerData
-            = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $Ticket{CustomerUserID}, );
+        %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            User => $Ticket{CustomerUserID},
+        );
     }
     elsif ( $Ticket{CustomerID} ) {
         %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
@@ -135,7 +144,11 @@ sub Run {
     }
 
     # do some html quoting
-    $Ticket{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Ticket{Age}, Space => ' ' );
+    $Ticket{Age} = $Self->{LayoutObject}->CustomerAge(
+        Age   => $Ticket{Age},
+        Space => ' ',
+    );
+
     if ( $Ticket{UntilTime} ) {
         $Ticket{PendingUntil} = $Self->{LayoutObject}->CustomerAge(
             Age   => $Ticket{UntilTime},
@@ -219,11 +232,14 @@ sub Run {
             TicketData => \%Ticket,
         );
 
-#        # output linked objects
-#        $Self->_PDFOutputLinkedObjects(
-#            PageData => \%Page,
-#            LinkData => $LinkList,
-#        );
+        # output linked objects
+        if (%LinkData) {
+            $Self->_PDFOutputLinkedObjects(
+                PageData     => \%Page,
+                LinkData     => \%LinkData,
+                LinkTypeList => \%LinkTypeList,
+            );
+        }
 
         # output customer infos
         if (%CustomerData) {
@@ -262,6 +278,45 @@ sub Run {
 
         # output header
         $Output .= $Self->{LayoutObject}->PrintHeader( Value => $Ticket{TicketNumber} );
+
+        if (%LinkData) {
+
+            # output link data
+            $Self->{LayoutObject}->Block(
+                Name => 'Link',
+            );
+
+            for my $LinkTypeLinkDirection ( sort { lc $a cmp lc $b } keys %LinkData ) {
+
+                # investigate link type name
+                my @LinkData = split q{::}, $LinkTypeLinkDirection;
+
+                # output link type data
+                $Self->{LayoutObject}->Block(
+                    Name => 'LinkType',
+                    Data => {
+                        LinkTypeName => $LinkTypeList{ $LinkData[0] }->{ $LinkData[1] . 'Name' },
+                    },
+                );
+
+                # extract object list
+                my $ObjectList = $LinkData{$LinkTypeLinkDirection};
+
+                for my $Object ( sort { lc $a cmp lc $b } keys %{$ObjectList} ) {
+
+                    for my $Item ( @{ $ObjectList->{$Object} } ) {
+
+                        # output link type data
+                        $Self->{LayoutObject}->Block(
+                            Name => 'LinkTypeRow',
+                            Data => {
+                                LinkStrg => $Item->{Title},
+                            },
+                        );
+                    }
+                }
+            }
+        }
 
 #        # output linked objects
 #        for my $LinkType ( sort keys %{$LinkList} ) {
@@ -503,115 +558,97 @@ sub _PDFOutputLinkedObjects {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(PageData LinkData)) {
+    for (qw(PageData LinkData LinkTypeList)) {
         if ( !defined( $Param{$_} ) ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
-    my %Page  = %{ $Param{PageData} };
+    my %Page     = %{ $Param{PageData} };
+    my %TypeList = %{ $Param{LinkTypeList} };
+    my %TableParam;
+    my $Row = 0;
 
-#    my $LONormal;
-#    my $LOParent;
-#    my $LOChild;
-#
-#    # generate strings
-#    for my $LinkType ( sort keys %{ $Param{LinkData} } ) {
-#        my %ObjectType = %{ $Links{$LinkType} };
-#        for my $Object ( sort keys %ObjectType ) {
-#            my %Data = %{ $ObjectType{$Object} };
-#            for my $Item ( sort keys %Data ) {
-#                if ( $LinkType eq 'Normal' ) {
-#                    $LONormal .= $Data{$Item}{Text} . ' ';
-#                }
-#                elsif ( $LinkType eq 'Parent' ) {
-#                    $LOParent .= $Data{$Item}{Text} . ' ';
-#                }
-#                elsif ( $LinkType eq 'Child' ) {
-#                    $LOChild .= $Data{$Item}{Text} . ' ';
-#                }
-#            }
-#        }
-#    }
-#
-#    # output linked objects
-#    if ( $LONormal || $LOParent || $LOChild ) {
-#        my %TableParam;
-#        my $Row = 0;
-#        if ($LONormal) {
-#            $TableParam{CellData}[$Row][0]{Content}
-#                = $Self->{LayoutObject}->{LanguageObject}->Get('Normal') . ':';
-#            $TableParam{CellData}[$Row][0]{Font}    = 'ProportionalBold';
-#            $TableParam{CellData}[$Row][1]{Content} = $LONormal;
-#            $Row++;
-#        }
-#        if ($LOParent) {
-#            $TableParam{CellData}[$Row][0]{Content}
-#                = $Self->{LayoutObject}->{LanguageObject}->Get('Parent') . ':';
-#            $TableParam{CellData}[$Row][0]{Font}    = 'ProportionalBold';
-#            $TableParam{CellData}[$Row][1]{Content} = $LOParent;
-#            $Row++;
-#        }
-#        if ($LOChild) {
-#            $TableParam{CellData}[$Row][0]{Content}
-#                = $Self->{LayoutObject}->{LanguageObject}->Get('Child') . ':';
-#            $TableParam{CellData}[$Row][0]{Font}    = 'ProportionalBold';
-#            $TableParam{CellData}[$Row][1]{Content} = $LOChild;
-#            $Row++;
-#        }
-#        $TableParam{ColumnData}[0]{Width} = 80;
-#        $TableParam{ColumnData}[1]{Width} = 431;
-#
-#        # set new position
-#        $Self->{PDFObject}->PositionSet(
-#            Move => 'relativ',
-#            Y    => -15,
-#        );
-#
-#        # output headline
-#        $Self->{PDFObject}->Text(
-#            Text     => $Self->{LayoutObject}->{LanguageObject}->Get('Linked Objects'),
-#            Height   => 7,
-#            Type     => 'Cut',
-#            Font     => 'ProportionalBoldItalic',
-#            FontSize => 7,
-#            Color    => '#666666',
-#        );
-#
-#        # set new position
-#        $Self->{PDFObject}->PositionSet(
-#            Move => 'relativ',
-#            Y    => -4,
-#        );
-#
-#        # table params
-#        $TableParam{Type}            = 'Cut';
-#        $TableParam{Border}          = 0;
-#        $TableParam{FontSize}        = 6;
-#        $TableParam{BackgroundColor} = '#DDDDDD';
-#        $TableParam{Padding}         = 1;
-#        $TableParam{PaddingTop}      = 3;
-#        $TableParam{PaddingBottom}   = 3;
-#
-#        # output table
-#        for ( $Page{PageCount} .. $Page{MaxPages} ) {
-#
-#            # output table (or a fragment of it)
-#            %TableParam = $Self->{PDFObject}->Table( %TableParam, );
-#
-#            # stop output or output next page
-#            if ( $TableParam{State} ) {
-#                last;
-#            }
-#            else {
-#                $Self->{PDFObject}->PageNew(
-#                    %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount},
-#                );
-#                $Page{PageCount}++;
-#            }
-#        }
-#    }
+    for my $LinkTypeLinkDirection ( sort { lc $a cmp lc $b } keys %{ $Param{LinkData} } ) {
+
+        # investigate link type name
+        my @LinkData = split q{::}, $LinkTypeLinkDirection;
+        my $LinkTypeName = $TypeList{ $LinkData[0] }->{ $LinkData[1] . 'Name' };
+        $LinkTypeName = $Self->{LayoutObject}->{LanguageObject}->Get($LinkTypeName);
+
+        # define headline
+        $TableParam{CellData}[$Row][0]{Content} = $LinkTypeName . ':';
+        $TableParam{CellData}[$Row][0]{Font}    = 'ProportionalBold';
+        $TableParam{CellData}[$Row][1]{Content} = '';
+
+        # extract object list
+        my $ObjectList = $Param{LinkData}->{$LinkTypeLinkDirection};
+
+        for my $Object ( sort { lc $a cmp lc $b } keys %{$ObjectList} ) {
+
+            for my $Item ( @{ $ObjectList->{$Object} } ) {
+
+                $TableParam{CellData}[$Row][0]{Content} ||= '';
+                $TableParam{CellData}[$Row][1]{Content} = $Item->{Title} || '';
+            }
+            continue {
+                $Row++;
+            }
+        }
+    }
+
+    $TableParam{ColumnData}[0]{Width} = 80;
+    $TableParam{ColumnData}[1]{Width} = 431;
+
+    # set new position
+    $Self->{PDFObject}->PositionSet(
+        Move => 'relativ',
+        Y    => -15,
+    );
+
+    # output headline
+    $Self->{PDFObject}->Text(
+        Text     => $Self->{LayoutObject}->{LanguageObject}->Get('Linked Objects'),
+        Height   => 7,
+        Type     => 'Cut',
+        Font     => 'ProportionalBoldItalic',
+        FontSize => 7,
+        Color    => '#666666',
+    );
+
+    # set new position
+    $Self->{PDFObject}->PositionSet(
+        Move => 'relativ',
+        Y    => -4,
+    );
+
+    # table params
+    $TableParam{Type}            = 'Cut';
+    $TableParam{Border}          = 0;
+    $TableParam{FontSize}        = 6;
+    $TableParam{BackgroundColor} = '#DDDDDD';
+    $TableParam{Padding}         = 1;
+    $TableParam{PaddingTop}      = 3;
+    $TableParam{PaddingBottom}   = 3;
+
+    # output table
+    for ( $Page{PageCount} .. $Page{MaxPages} ) {
+
+        # output table (or a fragment of it)
+        %TableParam = $Self->{PDFObject}->Table( %TableParam, );
+
+        # stop output or output next page
+        if ( $TableParam{State} ) {
+            last;
+        }
+        else {
+            $Self->{PDFObject}->PageNew(
+                %Page, FooterRight => $Page{PageText} . ' ' . $Page{PageCount},
+            );
+            $Page{PageCount}++;
+        }
+    }
 
     return 1;
 }

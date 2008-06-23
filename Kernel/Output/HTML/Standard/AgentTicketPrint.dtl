@@ -2,7 +2,7 @@
 # AgentTicketPrint.dtl - provides HTML print view
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.dtl,v 1.22 2008-04-02 08:59:22 ot Exp $
+# $Id: AgentTicketPrint.dtl,v 1.23 2008-06-23 07:07:53 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -163,38 +163,34 @@
 #            <td class="contentvalue"><div title="$TimeShort{"$QData{"TicketFreeTime2"}"}">$TimeShort{"$QData{"TicketFreeTime2"}"}</div></td>
 #          </tr>
 #<!-- dtl:block:TicketFreeTime2 -->
-
+      </table>
+    </td>
+  </tr>
+<!-- dtl:block:Link -->
+  <tr>
+    <td class="contentkey">
+      $Text{"Linked-Object"}:
+      <table border="0" cellspacing="0" cellpadding="0" width="100%">
         <tr>
-          <td class="contentkey">&nbsp;</td>
-          <td colspan="3" class="contentvalue">&nbsp;</td>
-        </tr>
-        <tr>
-          <td class="contentkey">$Text{"Linked-Object"}:</td>
-          <td colspan="3" class="contentvalue">
-<!-- dtl:block:LinkNormal -->
-            <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"}">$QData{"Text"}</a>
-<!-- dtl:block:LinkNormal -->
-          </td>
-        </tr>
-        <tr>
-          <td class="contentkey">$Text{"Parent-Object"}:</td>
-          <td colspan="3" class="contentvalue">
-<!-- dtl:block:LinkParent -->
-            <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"}">$QData{"Text"}</a>
-<!-- dtl:block:LinkParent -->
-          </td>
-        </tr>
-        <tr>
-          <td class="contentkey">$Text{"Child-Object"}:</td>
-          <td colspan="3" class="contentvalue">
-<!-- dtl:block:LinkChild -->
-            <a href="$Env{"Baselink"}$Data{"FrontendDest"}$QData{"ID"}" title="$QData{"Object"}: $QData{"Number"}">$QData{"Text"}</a>
-<!-- dtl:block:LinkChild -->
+          <td width="50%" valign="top">
+            <table border="0" cellspacing="3" cellpadding="0" width="100%">
+<!-- dtl:block:LinkType -->
+              <tr valign="top">
+                <td class="contentkey" width="20%">$Text{"$Data{"LinkTypeName"}"}:</td>
+                <td class="contentvalue">
+<!-- dtl:block:LinkTypeRow -->
+                  $Data{"LinkStrg"}<br>
+<!-- dtl:block:LinkTypeRow -->
+                </td>
+              </tr>
+<!-- dtl:block:LinkType -->
+            </table>
           </td>
         </tr>
       </table>
     </td>
   </tr>
+<!-- dtl:block:Link -->
   <tr>
     <td colspan="4" class="contentkey">
       $Text{"Customer Info"}:
