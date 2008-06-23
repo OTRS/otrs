@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.183 2008-06-13 08:13:12 mh Exp $
+# $Id: Article.pm,v 1.184 2008-06-23 07:30:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.183 $) [1];
+$VERSION = qw($Revision: 1.184 $) [1];
 
 =head1 NAME
 
@@ -75,10 +75,10 @@ sub ArticleCreate {
     }
 
     # lockups if no ids!!!
-    if ( ( $Param{ArticleType} ) && ( !$Param{ArticleTypeID} ) ) {
+    if ( $Param{ArticleType} && !$Param{ArticleTypeID} ) {
         $Param{ArticleTypeID} = $Self->ArticleTypeLookup( ArticleType => $Param{ArticleType} );
     }
-    if ( ( $Param{SenderType} ) && ( !$Param{SenderTypeID} ) ) {
+    if ( $Param{SenderType} && !$Param{SenderTypeID} ) {
         $Param{SenderTypeID} = $Self->ArticleSenderTypeLookup( SenderType => $Param{SenderType} );
     }
 
@@ -121,11 +121,11 @@ sub ArticleCreate {
     # do db insert
     return if !$Self->{DBObject}->Do(
         SQL => 'INSERT INTO article '
-            . ' (ticket_id, article_type_id, article_sender_type_id, a_from, a_reply_to, a_to, '
-            . ' a_cc, a_subject, a_message_id, a_body, a_content_type, content_path, '
-            . ' valid_id, incoming_time,  create_time, create_by, change_time, change_by) '
-            . ' VALUES '
-            . ' (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+            . '(ticket_id, article_type_id, article_sender_type_id, a_from, a_reply_to, a_to, '
+            . 'a_cc, a_subject, a_message_id, a_body, a_content_type, content_path, '
+            . 'valid_id, incoming_time,  create_time, create_by, change_time, change_by) '
+            . 'VALUES '
+            . '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
             \$Param{TicketID}, \$Param{ArticleTypeID}, \$Param{SenderTypeID},
             \$Param{From},     \$Param{ReplyTo},       \$Param{To}, \$Param{Cc},
@@ -133,7 +133,7 @@ sub ArticleCreate {
             \$Param{ContentType}, \$Self->{ArticleContentPath},
             \$ValidID, \$IncomingTime,
             \$Param{UserID}, \$Param{UserID},
-            ]
+        ],
     );
 
     # get article id
