@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.63 2008-06-20 19:34:20 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.64 2008-06-23 09:58:58 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -588,6 +588,7 @@ sub Run {
             );
 
             # reset previous ServiceID to reset SLA-List if no service is selected
+            $GetParam{ServiceID} ||= '';
             if ( !$Services->{ $GetParam{ServiceID} } ) {
                 $GetParam{ServiceID} = '';
             }
