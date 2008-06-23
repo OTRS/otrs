@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.324 2008-06-13 08:12:49 mh Exp $
+# $Id: Ticket.pm,v 1.325 2008-06-23 07:35:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.324 $) [1];
+$VERSION = qw($Revision: 1.325 $) [1];
 
 =head1 NAME
 
@@ -1877,7 +1877,7 @@ sub TicketEscalationIndexBuild {
     my $UpdateTime = 0;
     if ( !$Escalation{UpdateTime} ) {
         $Self->{DBObject}->Do(
-            SQL => 'UPDATE ticket SET escalation_solution_time = ? WHERE id = ?',
+            SQL => 'UPDATE ticket SET escalation_update_time = ? WHERE id = ?',
             Bind => [ \$UpdateTime, \$Ticket{TicketID}, ]
         );
     }
@@ -2304,7 +2304,7 @@ sub TicketFreeTextGet {
         # fill cache
         if ( !$CacheData && %Data ) {
             my $TimeEnd = $Self->{TimeObject}->SystemTime();
-            my $TTL     = 10 * 60;
+            my $TTL     = 6 * 60;
             if ( $TimeEnd - $TimeStart > 2 ) {
                 $TTL = 4 * 60 * 60;
             }
@@ -2312,7 +2312,7 @@ sub TicketFreeTextGet {
                 $TTL = 2 * 60 * 60;
             }
             elsif ( $TimeEnd - $TimeStart > 0 ) {
-                $TTL = 60 * 60;
+                $TTL = 45 * 60;
             }
             $CacheObject->Set(
                 Type  => 'TicketFreeTextLookup',
@@ -4732,27 +4732,6 @@ sub OwnerSet {
         TicketID => $Param{TicketID},
     );
 
-    # set responsible if first change
-    if (
-        $Self->{ConfigObject}->Get('Ticket::Responsible')
-        && $Self->{ConfigObject}->Get('Ticket::ResponsibleAutoSet')
-        )
-    {
-        my %Ticket = $Self->TicketGet(
-            TicketID => $Param{TicketID},
-            UserID   => $Param{UserID},
-        );
-        if ( $Ticket{ResponsibleID} == 1 && $Param{NewUserID} != 1 ) {
-
-            # check responible update
-            $Self->ResponsibleSet(
-                TicketID           => $Param{TicketID},
-                NewUserID          => $Param{NewUserID},
-                SendNoNotification => 1,
-                UserID             => $Param{UserID},
-            );
-        }
-    }
     return 1;
 }
 
@@ -6184,7 +6163,10 @@ sub TicketAcl {
 
     # use user data
     if ( $Param{UserID} ) {
-        my %User = $Self->{UserObject}->GetUserData( UserID => $Param{UserID}, Cached => 1 );
+        my %User = $Self->{UserObject}->GetUserData(
+            UserID => $Param{UserID},
+            Cached => 1,
+        );
         for my $Type ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
             my @Groups = $Self->{GroupObject}->GroupMemberList(
                 UserID => $Param{UserID},
@@ -6195,6 +6177,23 @@ sub TicketAcl {
             $User{"Group_$Type"} = \@Groups;
         }
         $Checks{User} = \%User;
+    }
+
+    # use customer user data
+    if ($Param{CustomerUserID}) {
+        my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            User => $Param{CustomerUserID},
+        );
+        foreach my $Type (@{$Self->{ConfigObject}->Get('System::Customer::Permission')}) {
+            my @Groups = $Self->{CustomerGroupObject}->GroupMemberList(
+                UserID => $Param{UserID},
+                Result => 'Name',
+                Type   => $Type,
+                Cached => 1,
+            );
+            $CustomerUser{"Group_$Type"} = \@Groups;
+        }
+        $Checks{CustomerUser} = \%CustomerUser;
     }
 
     # use queue data (if given)
@@ -6556,6 +6555,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.324 $ $Date: 2008-06-13 08:12:49 $
+$Revision: 1.325 $ $Date: 2008-06-23 07:35:37 $
 
 =cut
