@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.671 2008-06-20 19:34:21 martin Exp $
+# $Id: CHANGES,v 1.672 2008-06-23 07:23:39 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,9 @@
 # --
 
 2.3.0 beta3 (2008/06/??)
+ - (2008/06/23) Fixed bug# 2959 - Linking and Unlinking Tickets is not addin
+    ticket history and not executing TicketEventHandlerPost() by ticket link
+    backend anymore.
  - (2008/06/20) Fixed bug# 1565 - Responsible Agent not updated when creating
     new ticket in phone or email ticket.
  - (2008/06/20) Removed output of linked objects in customer ticket print
