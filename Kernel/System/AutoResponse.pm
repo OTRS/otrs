@@ -2,7 +2,7 @@
 # Kernel/System/AutoResponse.pm - lib for auto responses
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AutoResponse.pm,v 1.14.2.1 2008-06-21 09:29:12 martin Exp $
+# $Id: AutoResponse.pm,v 1.14.2.2 2008-06-24 15:15:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14.2.1 $) [1];
+$VERSION = qw($Revision: 1.14.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -202,11 +202,13 @@ sub AutoResponseGetByTypeQueueID {
         $Data{Charset} = $Row[2];
         $Data{SystemAddressID} = $Row[3];
     }
+
+    # return if no auto response is configured
+    return if !%Data;
+
     my %Adresss = $Self->{SystemAddressObject}->SystemAddressGet(
         ID => $Data{SystemAddressID},
     );
-
-    return if !%Adresss;
 
     # COMPAT: 2.1
     $Data{Realname} = $Adresss{Realname};
