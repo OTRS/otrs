@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.31 2008-06-21 12:07:05 ub Exp $
+# $Id: AgentLinkObject.pm,v 1.32 2008-06-24 08:04:01 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -369,8 +369,8 @@ sub Run {
             LinkListWithData => {
                 $Form{TargetObject} => $LinkListWithData->{ $Form{TargetObject} },
             },
-            ViewMode         => 'ComplexAdd',
-            LinkTypeStrg     => $LinkTypeStrg,
+            ViewMode     => 'ComplexAdd',
+            LinkTypeStrg => $LinkTypeStrg,
         );
 
         # output the link table
