@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.32 2008-06-24 08:04:01 mh Exp $
+# $Id: AgentLinkObject.pm,v 1.33 2008-06-24 09:12:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -256,6 +256,9 @@ sub Run {
         for my $Option (@SearchOptionList) {
 
             next OPTION if !$Option->{FormData};
+            next OPTION if $Option->{FormData}
+                    && ref $Option->{FormData} eq 'ARRAY' && !@{ $Option->{FormData} };
+
             $SearchParam{ $Option->{Key} } = $Option->{FormData};
         }
 

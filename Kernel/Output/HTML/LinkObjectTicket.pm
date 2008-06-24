@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LinkObjectTicket.pm - layout backend module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObjectTicket.pm,v 1.8 2008-06-23 17:49:34 ub Exp $
+# $Id: LinkObjectTicket.pm,v 1.9 2008-06-24 09:12:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::Output::HTML::Layout;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =head1 NAME
 
@@ -488,19 +488,6 @@ sub SearchOptionList {
                 %ListData = $Self->{StateObject}->StateList(
                     UserID => $Self->{UserID},
                 );
-
-                # set default state ids
-                if ( !$Row->{FormData} || !@{ $Row->{FormData} } ) {
-
-                    # get stateids of all open states
-                    my @List = $Self->{StateObject}->StateGetStatesByType(
-                        StateType => [ 'open', 'new' ],
-                        Result    => 'ID',
-                        UserID    => $Self->{UserID},
-                    );
-
-                    $Row->{FormData} = \@List;
-                }
             }
 
             # add the input string
@@ -535,6 +522,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.8 $ $Date: 2008-06-23 17:49:34 $
+$Revision: 1.9 $ $Date: 2008-06-24 09:12:36 $
 
 =cut
