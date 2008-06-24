@@ -2,12 +2,17 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.677 2008-06-24 11:25:44 mh Exp $
+# $Id: CHANGES,v 1.678 2008-06-24 14:43:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
+
+2.3.0 beta4 (2008/??/??)
+ - (2008/06/23) Fixed bug# 3020 - New complex link table blocks output of the
+    free text fields.
+ - (2008/06/23) Fixed bug# 3019 - Wrong location of the new complex link table.
 
 2.3.0 beta3 (2008/06/24)
  - (2008/06/23) Fixed bug# 3015 - Performace problem in AgentLinkObject.

@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.42 2008-06-19 14:16:15 mh Exp $
+# $Id: AgentTicketZoom.dtl,v 1.43 2008-06-24 14:41:56 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -166,17 +166,6 @@ $Data{"BodyNote"}
             <div class="message">
 $Data{"Body"}
             </div>
-<!-- dtl:block:LinkTableComplex -->
-            <hr size="2">
-            <br>
-            <table width="98%" align="center" border="0" cellspacing="0" cellpadding="0">
-              <tr>
-                <td>
-                  $Data{"LinkTableStrg"}
-                </td>
-              </tr>
-            </table>
-<!-- dtl:block:LinkTableComplex -->
           </td>
           <td valign="top">
 <!-- dtl:block:Expand -->
@@ -192,6 +181,17 @@ $Data{"Body"}
           </td>
         </tr>
       </table>
+<!-- dtl:block:LinkTableComplex -->
+      <hr size="2">
+      <br>
+      <table width="98%" align="center" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td>
+            $Data{"LinkTableStrg"}
+          </td>
+        </tr>
+      </table>
+<!-- dtl:block:LinkTableComplex -->
     </td>
     <td width="25%" valign="top" class="PriorityID-$Data{"PriorityID"}">
 # show ticket status (state, lock, ...)
@@ -340,10 +340,6 @@ $Data{"Body"}
           </td>
         </tr>
 <!-- dtl:block:Responsible -->
-# object links
-<!-- dtl:block:LinkTableSimple -->
-        $Data{"LinkTableStrg"}
-<!-- dtl:block:LinkTableSimple -->
 # show TicketFreeKey1-16 and TicketFreeText1-16
 <!-- dtl:block:TicketFreeText -->
         <tr valign="top">
@@ -405,6 +401,10 @@ $Data{"Body"}
 #          </tr>
 #<!-- dtl:block:TicketFreeTime2 -->
 
+# object links
+<!-- dtl:block:LinkTableSimple -->
+        $Data{"LinkTableStrg"}
+<!-- dtl:block:LinkTableSimple -->
       </table>
 # show customer info table
 <!-- dtl:block:CustomerTable -->

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.56 2008-06-23 17:47:53 ub Exp $
+# $Id: AgentTicketZoom.pm,v 1.57 2008-06-24 14:41:56 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -266,6 +266,23 @@ sub MaskAgentZoom {
         }
     }
 
+    # get linked objects
+    my $LinkListWithData = $Self->{LinkObject}->LinkListWithData(
+        Object => 'Ticket',
+        Key    => $Self->{TicketID},
+        State  => 'Valid',
+        UserID => $Self->{UserID},
+    );
+
+    # get link table view mode
+    my $LinkTableViewMode = $Self->{ConfigObject}->Get('LinkObject::ViewMode');
+
+    # create the link table
+    my $LinkTableStrg = $Self->{LayoutObject}->LinkObjectTableCreate(
+        LinkListWithData => $LinkListWithData,
+        ViewMode         => $LinkTableViewMode,
+    );
+
     # build article stuff
     my $BaseLink   = $Self->{LayoutObject}->{Baselink} . "TicketID=$Self->{TicketID}&";
     my @ArticleBox = @{ $Param{ArticleBox} };
@@ -493,27 +510,10 @@ sub MaskAgentZoom {
                 );
             }
 
-            # get linked objects
-            my $LinkListWithData = $Self->{LinkObject}->LinkListWithData(
-                Object => 'Ticket',
-                Key    => $Self->{TicketID},
-                State  => 'Valid',
-                UserID => $Self->{UserID},
-            );
-
-            # get link table view mode
-            my $LinkTableViewMode = $Self->{ConfigObject}->Get('LinkObject::ViewMode');
-
-            # create the link table
-            my $LinkTableStrg = $Self->{LayoutObject}->LinkObjectTableCreate(
-                LinkListWithData => $LinkListWithData,
-                ViewMode         => $LinkTableViewMode,
-            );
-
-            # output the link table
-            if ($LinkTableStrg) {
+            # output the simple link table
+            if ( $LinkTableStrg && $LinkTableViewMode eq 'Simple' ) {
                 $Self->{LayoutObject}->Block(
-                    Name => 'LinkTable' . $LinkTableViewMode,
+                    Name => 'LinkTableSimple',
                     Data => {
                         LinkTableStrg => $LinkTableStrg,
                     },
@@ -805,6 +805,21 @@ sub MaskAgentZoom {
                     return $Self->{LayoutObject}->ErrorScreen();
                 }
             }
+        }
+
+        # output the complex link table
+        if (
+            $LinkTableStrg
+            && $LinkTableViewMode eq 'Complex'
+            && $ArticleTmp eq $NewArticleBox[-1]
+            )
+        {
+            $Self->{LayoutObject}->Block(
+                Name => 'LinkTableComplex',
+                Data => {
+                    LinkTableStrg => $LinkTableStrg,
+                },
+            );
         }
 
         # get StdResponsesStrg
