@@ -2,14 +2,34 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.675 2008-06-23 18:49:29 ub Exp $
+# $Id: CHANGES,v 1.676 2008-06-24 07:25:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
-2.3.0 beta3 (2008/06/??)
+2.3.0 beta3 (2008/06/24)
+ - (2008/06/23) Added CustomerUser attribute support for Ticket-ACLs. For
+    Example you can use customer user attributes in ACL properties in
+    this case to create an list of possible queues in the customer
+    interface for creating or moving tickets.
+
+    $Self->{TicketAcl}->{'ACL-Name-Test'} = {
+        # match properties
+        Properties => {
+            CustomerUser => {
+                UserCustomerID => ['some_customer_id'],
+            },
+        }
+        # possible properties
+        Possible => {
+            Ticket => {
+                Queue => ['Hotline', 'Junk'],
+            },
+        },
+    };
+
  - (2008/06/23) Fixed bug# 3013 - Freetext fields show wrong data when queue
     is changed.
  - (2008/06/23) Updated cpan module TEXT::CSV to version 1.06.

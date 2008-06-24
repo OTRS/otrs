@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.325 2008-06-23 07:35:37 martin Exp $
+# $Id: Ticket.pm,v 1.326 2008-06-24 07:25:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.325 $) [1];
+$VERSION = qw($Revision: 1.326 $) [1];
 
 =head1 NAME
 
@@ -6186,7 +6186,7 @@ sub TicketAcl {
         );
         foreach my $Type (@{$Self->{ConfigObject}->Get('System::Customer::Permission')}) {
             my @Groups = $Self->{CustomerGroupObject}->GroupMemberList(
-                UserID => $Param{UserID},
+                UserID => $Param{CustomerUserID},
                 Result => 'Name',
                 Type   => $Type,
                 Cached => 1,
@@ -6555,6 +6555,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.325 $ $Date: 2008-06-23 07:35:37 $
+$Revision: 1.326 $ $Date: 2008-06-24 07:25:07 $
 
 =cut
