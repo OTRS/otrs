@@ -2,7 +2,7 @@
 # AgentLinkObject.dtl - provides HTML for AgentLinkObject mask
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.dtl,v 1.24 2008-06-20 15:05:34 mh Exp $
+# $Id: AgentLinkObject.dtl,v 1.25 2008-06-25 07:56:29 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,24 +17,30 @@
     </td>
   </tr>
 </table>
+<!-- dtl:block:LinkMenu -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
-    <td width="75%" class="menu">
+    <td class="menu">
+<!-- dtl:block:LinkMenuBack -->
       <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$JSText{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
-<!-- dtl:block:LinkBack -->
+<!-- dtl:block:LinkMenuBack -->
+<!-- dtl:block:LinkMenuSeperator -->
       -
-      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=LinkDelete&SourceObject=$LQData{"SourceObject"}&SourceKey=$LQData{"SourceKey"}" class="menuitem">$Text{"Delete"}</a>
-<!-- dtl:block:LinkBack -->
+<!-- dtl:block:LinkMenuSeperator -->
+<!-- dtl:block:LinkMenuDelete -->
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=LinkDelete&Mode=$LQData{"Mode"}&SourceObject=$LQData{"SourceObject"}&SourceKey=$LQData{"SourceKey"}" class="menuitem">$Text{"Delete"}</a>
+<!-- dtl:block:LinkMenuDelete -->
     </td>
-    <td align="right" width="25%" class="menu"></td>
   </tr>
 </table>
+<!-- dtl:block:LinkMenu -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td class="mainbody" align="center">
       <br>
       <form action="$Env{"CGIHandle"}" method="get" name="compose">
         <input type="hidden" name="Action" value="$Env{"Action"}">
+        <input type="hidden" name="Mode" value="$QData{"Mode"}">
         <input type="hidden" name="SourceObject" value="$QData{"SourceObject"}">
         <input type="hidden" name="SourceKey" value="$QData{"SourceKey"}">
         <table width="800" border="0" cellspacing="0" cellpadding="3">
@@ -107,7 +113,7 @@
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td width="75%" class="menu">
-      <a href="$Env{"Baselink"}Action=$Env{"Action"}&SourceObject=$LQData{"SourceObject"}&SourceKey=$LQData{"SourceKey"}" class="menuitem">$Text{"Back"}</a>
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Mode=$LQData{"Mode"}&SourceObject=$LQData{"SourceObject"}&SourceKey=$LQData{"SourceKey"}" class="menuitem">$Text{"Back"}</a>
     </td>
     <td align="right" width="25%" class="menu"></td>
   </tr>
@@ -118,6 +124,7 @@
       <form action="$Env{"CGIHandle"}" method="get">
         <input type="hidden" name="Action" value="$Env{"Action"}">
         <input type="hidden" name="Subaction" value="LinkDelete">
+        <input type="hidden" name="Mode" value="$QData{"Mode"}">
         <input type="hidden" name="SourceObject" value="$QData{"SourceObject"}">
         <input type="hidden" name="SourceKey" value="$QData{"SourceKey"}">
 <!-- dtl:block:DeleteTableComplex -->

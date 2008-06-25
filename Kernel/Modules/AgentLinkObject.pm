@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.33 2008-06-24 09:12:21 mh Exp $
+# $Id: AgentLinkObject.pm,v 1.34 2008-06-25 07:56:29 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -44,7 +44,7 @@ sub Run {
     my %Form;
     $Form{SourceObject} = $Self->{ParamObject}->GetParam( Param => 'SourceObject' );
     $Form{SourceKey}    = $Self->{ParamObject}->GetParam( Param => 'SourceKey' );
-    $Form{State}        = $Self->{ParamObject}->GetParam( Param => 'State' ) || 'Valid';
+    $Form{Mode}         = $Self->{ParamObject}->GetParam( Param => 'Mode' ) || 'Normal';
 
     # check needed stuff
     if ( !$Form{SourceObject} || !$Form{SourceKey} ) {
@@ -60,6 +60,15 @@ sub Run {
         Key    => $Form{SourceKey},
         UserID => $Self->{UserID},
     );
+
+    # set mode params
+    if ( $Form{Mode} eq 'Temporary' ) {
+        $Form{State} = 'Temporary';
+    }
+    else {
+        $Form{Mode}  = 'Normal';
+        $Form{State} = 'Valid';
+    }
 
     # ------------------------------------------------------------ #
     # link delete
@@ -116,8 +125,8 @@ sub Run {
         if ( !$LinkListWithData || !%{$LinkListWithData} ) {
 
             return $Self->{LayoutObject}->Redirect(
-                OP =>
-                    "Action=$Self->{Action}&SourceObject=$Form{SourceObject}&SourceKey=$Form{SourceKey}",
+                OP => "Action=$Self->{Action}&Mode=$Form{Mode}"
+                    . "&SourceObject=$Form{SourceObject}&SourceKey=$Form{SourceKey}",
             );
         }
 
@@ -137,7 +146,11 @@ sub Run {
 
         # output header and navbar
         my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+
+        # output navbar
+        if ( $Form{Mode} eq 'Normal' ) {
+            $Output .= $Self->{LayoutObject}->NavigationBar();
+        }
 
         # start template output
         $Output .= $Self->{LayoutObject}->Output(
@@ -293,12 +306,48 @@ sub Run {
             UserID => $Self->{UserID},
         );
 
-        # output back link
+        my %LinkMenuOutput;
+        if ( $Form{Mode} eq 'Normal' ) {
+            $LinkMenuOutput{Back} = 1;
+        }
         if ( $LinkListWithData && %{$LinkListWithData} ) {
+            $LinkMenuOutput{Delete} = 1;
+        }
 
-            # output the link back block
+        # output link menu
+        if (%LinkMenuOutput) {
+
+            # output the link menu block
             $Self->{LayoutObject}->Block(
-                Name => 'LinkBack',
+                Name => 'LinkMenu',
+            );
+        }
+
+        # output back link
+        if ( $LinkMenuOutput{Back} ) {
+
+            # output the link menu back block
+            $Self->{LayoutObject}->Block(
+                Name => 'LinkMenuBack',
+                Data => \%Form,
+            );
+        }
+
+        # output link seperator
+        if ( $LinkMenuOutput{Back} && $LinkMenuOutput{Delete} ) {
+
+            # output the link menu seperator block
+            $Self->{LayoutObject}->Block(
+                Name => 'LinkMenuSeperator',
+            );
+        }
+
+        # output delete link
+        if ( $LinkMenuOutput{Delete} ) {
+
+            # output the link menu delete block
+            $Self->{LayoutObject}->Block(
+                Name => 'LinkMenuDelete',
                 Data => \%Form,
             );
         }
@@ -384,9 +433,13 @@ sub Run {
             },
         );
 
-        # output header and navbar
+        # output header
         my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
+
+        # output navbar
+        if ( $Form{Mode} eq 'Normal' ) {
+            $Output .= $Self->{LayoutObject}->NavigationBar();
+        }
 
         # start template output
         $Output .= $Self->{LayoutObject}->Output(
