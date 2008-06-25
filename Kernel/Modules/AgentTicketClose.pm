@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketClose.pm - close a ticket
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketClose.pm,v 1.43 2008-05-08 09:36:36 mh Exp $
+# $Id: AgentTicketClose.pm,v 1.44 2008-06-25 22:48:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -817,7 +817,7 @@ sub _Mask {
             my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
             my %MemberList = $Self->{GroupObject}->GroupMemberList(
                 GroupID => $GID,
-                Type    => 'rw',
+                Type    => 'owner',
                 Result  => 'HASH',
                 Cached  => 1,
             );
@@ -896,7 +896,7 @@ sub _Mask {
             my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
             my %MemberList = $Self->{GroupObject}->GroupMemberList(
                 GroupID => $GID,
-                Type    => 'rw',
+                Type    => 'responsible',
                 Result  => 'HASH',
                 Cached  => 1,
             );

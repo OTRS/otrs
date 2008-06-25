@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.20 2008-05-08 09:36:36 mh Exp $
+# $Id: AgentTicketMove.pm,v 1.21 2008-06-25 22:48:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -436,7 +436,7 @@ sub AgentMove {
     }
 
     # build string
-    $Param{'OldUserStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{OldUserStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data       => \%UserHash,
         SelectedID => $OldUserSelectedID,
         Name       => 'OldUserID',
@@ -444,14 +444,14 @@ sub AgentMove {
     );
 
     # build next states string
-    $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{NextStatesStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data       => $Param{NextStates},
         Name       => 'NewStateID',
         SelectedID => $Param{NewStateID},
     );
 
     # build owner string
-    $Param{'OwnerStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{OwnerStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Self->_GetUsers(
             QueueID  => $Param{DestQueueID},
             AllUsers => $Param{ExpandQueueUsers}
@@ -553,7 +553,7 @@ sub _GetUsers {
         my $GID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Param{QueueID} );
         my %MemberList = $Self->{GroupObject}->GroupMemberList(
             GroupID => $GID,
-            Type    => 'rw',
+            Type    => 'owner',
             Result  => 'HASH',
             Cached  => 1,
         );
