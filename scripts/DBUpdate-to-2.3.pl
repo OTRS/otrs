@@ -3,7 +3,7 @@
 # DBUpdate-to-2.3.pl - update script to migrate OTRS 2.2.x to 2.3.x
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-2.3.pl,v 1.12 2008-06-20 16:55:33 mh Exp $
+# $Id: DBUpdate-to-2.3.pl,v 1.13 2008-06-25 12:55:24 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -343,8 +343,6 @@ sub MigrateLinkObject {
 
         push @Links, \%Link;
     }
-
-    return if !scalar @Links;
 
     # add the new links
     RELATION:
