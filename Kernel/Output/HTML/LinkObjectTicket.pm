@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LinkObjectTicket.pm - layout backend module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObjectTicket.pm,v 1.9 2008-06-24 09:12:36 mh Exp $
+# $Id: LinkObjectTicket.pm,v 1.10 2008-06-25 21:08:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::Output::HTML::Layout;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -211,12 +211,13 @@ sub TableCreateComplex {
     return if !@ItemList;
 
     # block data
-    my %BlockData = (
+    my $TicketHook = $Self->{ConfigObject}->Get('Ticket::Hook');
+    my %BlockData  = (
         Object    => $Self->{ObjectData}->{Object},
         Blockname => $Self->{ObjectData}->{Realname},
         Headline  => [
             {
-                Content => 'Number#',
+                Content => $TicketHook,
                 Width   => 130,
             },
             {
@@ -252,13 +253,13 @@ Return
                 {
                     Type    => 'Link',
                     Content => 'T:55555',
-                    Title   => 'Ticket# 555555: The ticket title',
+                    Title   => 'Ticket#555555: The ticket title',
                     Css     => 'style="text-decoration: line-through"',
                 },
                 {
                     Type    => 'Link',
                     Content => 'T:22222',
-                    Title   => 'Ticket# 22222: Title of ticket 22222',
+                    Title   => 'Ticket#22222: Title of ticket 22222',
                 },
             ],
         },
@@ -267,7 +268,7 @@ Return
                 {
                     Type    => 'Link',
                     Content => 'T:77777',
-                    Title   => 'Ticket# 77777: Ticket title',
+                    Title   => 'Ticket#77777: Ticket title',
                 },
             ],
         },
@@ -288,6 +289,7 @@ sub TableCreateSimple {
         return;
     }
 
+    my $TicketHook = $Self->{ConfigObject}->Get('Ticket::Hook');
     my %LinkOutputData;
     for my $LinkType ( keys %{ $Param{ObjectLinkListWithData} } ) {
 
@@ -315,7 +317,7 @@ sub TableCreateSimple {
                 my %Item = (
                     Type    => 'Link',
                     Content => 'T:' . $Ticket->{TicketNumber},
-                    Title   => "Ticket# $Ticket->{TicketNumber}: $Ticket->{Title}",
+                    Title   => "$TicketHook$Ticket->{TicketNumber}: $Ticket->{Title}",
                     Link    => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID=' . $TicketID,
                     Css     => $Css,
                 );
@@ -522,6 +524,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2008-06-24 09:12:36 $
+$Revision: 1.10 $ $Date: 2008-06-25 21:08:46 $
 
 =cut
