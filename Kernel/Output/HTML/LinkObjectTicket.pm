@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LinkObjectTicket.pm - layout backend module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObjectTicket.pm,v 1.10 2008-06-25 21:08:46 martin Exp $
+# $Id: LinkObjectTicket.pm,v 1.11 2008-06-26 17:00:44 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::Output::HTML::Layout;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
@@ -166,7 +166,7 @@ sub TableCreateComplex {
 
     # create the item list
     my @ItemList;
-    for my $TicketID ( sort { $a <=> $b } keys %LinkList ) {
+    for my $TicketID ( sort { $LinkList{$a}{Data}->{Age} <=> $LinkList{$b}{Data}->{Age} } keys %LinkList ) {
 
         # extract ticket data
         my $Ticket = $LinkList{$TicketID}{Data};
@@ -524,6 +524,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2008-06-25 21:08:46 $
+$Revision: 1.11 $ $Date: 2008-06-26 17:00:44 $
 
 =cut

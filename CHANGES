@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.682 2008-06-26 16:07:16 mh Exp $
+# $Id: CHANGES,v 1.683 2008-06-26 17:03:02 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.3.0 beta4 (2008/07/??)
+ - (2008/06/26) Fixed bug# 3029 - Search result of linkable objects is not
+    sorted correctly
  - (2008/06/26) Fixed bug# 3035 - Missing check to prevent creation of the same
     link with opposite direction.
  - (2008/06/26) Fixed bug# 3030 - Getting no error message if I link an already
