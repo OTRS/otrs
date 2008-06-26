@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.34 2008-06-25 07:56:29 mh Exp $
+# $Id: AgentLinkObject.pm,v 1.35 2008-06-26 15:50:51 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -75,6 +75,14 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'LinkDelete' ) {
 
+        # output header and navbar
+        my $Output = $Self->{LayoutObject}->Header();
+
+        # output navbar
+        if ( $Form{Mode} eq 'Normal' ) {
+            $Output .= $Self->{LayoutObject}->NavigationBar();
+        }
+
         if ( $Self->{ParamObject}->GetParam( Param => 'SubmitDelete' ) ) {
 
             # get the link delete keys and target object
@@ -93,13 +101,30 @@ sub Run {
                 next IDENTIFIER if !$Target[2];    # LinkType
 
                 # delete link from database
-                $Self->{LinkObject}->LinkDelete(
+                my $Success = $Self->{LinkObject}->LinkDelete(
                     Object1 => $Form{SourceObject},
                     Key1    => $Form{SourceKey},
                     Object2 => $Target[0],
                     Key2    => $Target[1],
                     Type    => $Target[2],
                     UserID  => $Self->{UserID},
+                );
+
+                next IDENTIFIER if $Success;
+
+                # get target object description
+                my %TargetObjectDescription = $Self->{LinkObject}->ObjectDescriptionGet(
+                    Object => $Target[0],
+                    Key    => $Target[1],
+                    UserID => $Self->{UserID},
+                );
+
+                # output an error notification
+                $Output .= $Self->{LayoutObject}->Notify(
+                    Priority => 'Error',
+                    Data     => '$Text{"Can not delete link with %s!", "'
+                        . $TargetObjectDescription{Normal}
+                        . '"}',
                 );
             }
         }
@@ -144,14 +169,6 @@ sub Run {
             },
         );
 
-        # output header and navbar
-        my $Output = $Self->{LayoutObject}->Header();
-
-        # output navbar
-        if ( $Form{Mode} eq 'Normal' ) {
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-        }
-
         # start template output
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentLinkObject',
@@ -166,6 +183,14 @@ sub Run {
     # overview
     # ------------------------------------------------------------ #
     else {
+
+        # output header
+        my $Output = $Self->{LayoutObject}->Header();
+
+        # output navbar
+        if ( $Form{Mode} eq 'Normal' ) {
+            $Output .= $Self->{LayoutObject}->NavigationBar();
+        }
 
         # get form params
         $Form{TargetIdentifier} = $Self->{ParamObject}->GetParam( Param => 'TargetIdentifier' )
@@ -189,13 +214,89 @@ sub Run {
             # get the type
             my $TypeIdentifier = $Self->{ParamObject}->GetParam( Param => 'TypeIdentifier' );
 
+            # get all links that the source object already has
+            my $LinkList = $Self->{LinkObject}->LinkList(
+                Object => $Form{SourceObject},
+                Key    => $Form{SourceKey},
+                State  => $Form{State},
+                UserID => $Self->{UserID},
+            );
+
             # split the identifier
             my @Type = split q{::}, $TypeIdentifier;
 
             if ( $Type[0] && $Type[1] && ( $Type[1] eq 'Source' || $Type[1] eq 'Target' ) ) {
 
                 # add links
+                TARGETKEYORG:
                 for my $TargetKeyOrg (@LinkTargetKeys) {
+
+                    TYPE:
+                    for my $LType ( keys %{ $LinkList->{ $Form{TargetObject} } } ) {
+
+                        # extract source and target
+                        my $Source = $LinkList->{ $Form{TargetObject} }->{$LType}->{Source} ||= {};
+                        my $Target = $LinkList->{ $Form{TargetObject} }->{$LType}->{Target} ||= {};
+
+                        # check if source and target object are already linked
+                        next TYPE
+                            if !$Source->{$TargetKeyOrg} && !$Target->{$TargetKeyOrg};
+
+                        # next type, if link already exists
+                        if ( $LType eq $Type[0] ) {
+                            next TYPE if $Type[1] eq 'Source' && $Source->{$TargetKeyOrg};
+                            next TYPE if $Type[1] eq 'Target' && $Target->{$TargetKeyOrg};
+                        }
+
+                        # check the type groups
+                        my $TypeGroupCheck = $Self->{LinkObject}->PossibleType(
+                            Type1  => $Type[0],
+                            Type2  => $LType,
+                            UserID => $Self->{UserID},
+                        );
+
+                        next TYPE if $TypeGroupCheck && $Type[0] ne $LType;
+
+                        # get target object description
+                        my %TargetObjectDescription = $Self->{LinkObject}->ObjectDescriptionGet(
+                            Object => $Form{TargetObject},
+                            Key    => $TargetKeyOrg,
+                            UserID => $Self->{UserID},
+                        );
+
+                        # lookup type id
+                        my $TypeID = $Self->{LinkObject}->TypeLookup(
+                            Name   => $LType,
+                            UserID => $Self->{UserID},
+                        );
+
+                        # get type data
+                        my %TypeData = $Self->{LinkObject}->TypeGet(
+                            TypeID => $TypeID,
+                            UserID => $Self->{UserID},
+                        );
+
+                        # investigate type name
+                        my $TypeName = $TypeData{SourceName};
+                        if ( $Target->{$TargetKeyOrg} ) {
+                            $TypeName = $TypeData{TargetName};
+                        }
+
+                        # translate the type name
+                        $TypeName = $Self->{LayoutObject}->{LanguageObject}->Get($TypeName);
+
+                        # output an error notification
+                        $Output .= $Self->{LayoutObject}->Notify(
+                            Priority => 'Error',
+                            Data     => '$Text{"Can not create link with %s!", "'
+                                . $TargetObjectDescription{Normal}
+                                . '"} $Text{"Object already linked as %s.", "'
+                                . $TypeName
+                                . '"}',
+                        );
+
+                        next TARGETKEYORG;
+                    }
 
                     my $SourceObject = $Form{TargetObject};
                     my $SourceKey    = $TargetKeyOrg;
@@ -210,7 +311,7 @@ sub Run {
                     }
 
                     # add links to database
-                    $Self->{LinkObject}->LinkAdd(
+                    my $Success = $Self->{LinkObject}->LinkAdd(
                         SourceObject => $SourceObject,
                         SourceKey    => $SourceKey,
                         TargetObject => $TargetObject,
@@ -218,6 +319,23 @@ sub Run {
                         Type         => $Type[0],
                         State        => $Form{State},
                         UserID       => $Self->{UserID},
+                    );
+
+                    next TARGETKEYORG if $Success;
+
+                    # get target object description
+                    my %TargetObjectDescription = $Self->{LinkObject}->ObjectDescriptionGet(
+                        Object => $Form{TargetObject},
+                        Key    => $TargetKeyOrg,
+                        UserID => $Self->{UserID},
+                    );
+
+                    # output an error notification
+                    $Output .= $Self->{LayoutObject}->Notify(
+                        Priority => 'Error',
+                        Data     => '$Text{"Can not create link with %s!", "'
+                            . $TargetObjectDescription{Normal}
+                            . '"}',
                     );
                 }
             }
@@ -401,7 +519,7 @@ sub Run {
         continue {
             my %BlankLine;
             $BlankLine{Key}   = '-';
-            $BlankLine{Value} = '';
+            $BlankLine{Value} = '-------------------------';
 
             push @SelectableTypesList, \%BlankLine;
         }
@@ -432,14 +550,6 @@ sub Run {
                 LinkTableStrg => $LinkTableStrg,
             },
         );
-
-        # output header
-        my $Output = $Self->{LayoutObject}->Header();
-
-        # output navbar
-        if ( $Form{Mode} eq 'Normal' ) {
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-        }
 
         # start template output
         $Output .= $Self->{LayoutObject}->Output(
