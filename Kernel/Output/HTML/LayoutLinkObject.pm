@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLinkObject.pm - provides generic HTML output for LinkObject
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLinkObject.pm,v 1.7 2008-06-23 21:42:11 ub Exp $
+# $Id: LayoutLinkObject.pm,v 1.8 2008-06-26 17:03:32 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =item LinkObjectTableCreate()
 
@@ -533,7 +533,7 @@ sub LinkObjectContentStringCreate {
 
         my @LinkNameList;
         LINKTYPE:
-        for my $LinkType ( keys %{ $Content->{LinkTypeList} } ) {
+        for my $LinkType ( sort { lc $a cmp lc $b } keys %{ $Content->{LinkTypeList} } ) {
 
             next LINKTYPE if $LinkType eq 'NOTLINKED';
 
@@ -552,7 +552,7 @@ sub LinkObjectContentStringCreate {
         }
 
         # join string
-        my $String = join qq{\n}, sort { lc $a cmp lc $b } @LinkNameList;
+        my $String = join qq{\n}, @LinkNameList;
 
         # transform ascii to html
         $Content->{Content} = $Self->{LayoutObject}->Ascii2Html(
@@ -578,7 +578,7 @@ sub LinkObjectContentStringCreate {
         my $LayoutObject = Kernel::Output::HTML::Layout->new( %{$Self} );
 
         LINKTYPE:
-        for my $LinkType ( keys %{ $Content->{LinkTypeList} } ) {
+        for my $LinkType ( sort { lc $a cmp lc $b } keys %{ $Content->{LinkTypeList} } ) {
 
             next LINKTYPE if $LinkType eq 'NOTLINKED';
 
@@ -602,11 +602,6 @@ sub LinkObjectContentStringCreate {
                     Title   => $LinkName,
                     Content => $Content->{Object} . '::' . $Content->{Key} . '::' . $LinkType,
                 },
-            );
-
-            # run new line block
-            $LayoutObject->Block(
-                Name => 'NewLine',
             );
         }
 
