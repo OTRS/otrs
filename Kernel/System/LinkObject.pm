@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.37 2008-06-20 16:55:33 mh Exp $
+# $Id: LinkObject.pm,v 1.38 2008-06-26 13:25:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 =head1 NAME
 
@@ -508,14 +508,15 @@ sub LinkAdd {
                 UserID => $Param{UserID},
             );
 
+            next TYPE if $TypeGroupCheck;
+
             # existing link type is in a type group with the new link
-            if ( !$TypeGroupCheck ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message  => "Another Link already exists witin the same type group!"
-                );
-                return;
-            }
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'Another Link already exists within the same type group!',
+            );
+
+            return;
         }
     }
 
@@ -1713,7 +1714,7 @@ sub TypeGroupList {
 
 return true if both types are NOT together in a type group
 
-    my $Result = $LinkObject->PossibleType(
+    my $True = $LinkObject->PossibleType(
         Type1  => 'Normal',
         Type2  => 'ParentChild',
         UserID => 1,
@@ -2097,6 +2098,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2008-06-20 16:55:33 $
+$Revision: 1.38 $ $Date: 2008-06-26 13:25:31 $
 
 =cut
