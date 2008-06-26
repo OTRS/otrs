@@ -2,7 +2,7 @@
 # Kernel/Language/bb.pm - provides bavarian language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: bb.pm,v 1.35 2008-06-19 14:14:14 mh Exp $
+# $Id: bb.pm,v 1.36 2008-06-26 13:24:02 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1653,6 +1653,9 @@ sub Data {
         'Link Object: %s' => '',
         'Unlink Object: %s' => '',
         'Linked as' => '',
+        'Can not create link with %s!' => '',
+        'Can not delete link with %s!' => '',
+        'Object already linked as %s.' => '',
     };
 
     # $$STOP$$

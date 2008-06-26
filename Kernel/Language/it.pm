@@ -4,7 +4,7 @@
 # Copyright (C) 2003 Gabriele Santilli <gsantilli at omnibus.net>
 # Copyright (C) 2005 Giordano Bianchi <giordano.bianchi at gmail.com>
 # --
-# $Id: it.pm,v 1.61 2008-06-19 14:14:14 mh Exp $
+# $Id: it.pm,v 1.62 2008-06-26 13:24:02 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1534,6 +1534,9 @@ sub Data {
         'Link Object: %s' => '',
         'Unlink Object: %s' => '',
         'Linked as' => '',
+        'Can not create link with %s!' => '',
+        'Can not delete link with %s!' => '',
+        'Object already linked as %s.' => '',
     };
     # $$STOP$$
     return;

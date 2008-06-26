@@ -2,7 +2,7 @@
 # Kernel/Language/sv.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats@synergy.se>
 # --
-# $Id: sv.pm,v 1.50 2008-06-19 14:14:15 mh Exp $
+# $Id: sv.pm,v 1.51 2008-06-26 13:24:02 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.50 $;
+$VERSION = q$Revision: 1.51 $;
 
 sub Data {
     my $Self = shift;
@@ -1536,6 +1536,9 @@ sub Data {
         'Link Object: %s' => '',
         'Unlink Object: %s' => '',
         'Linked as' => '',
+        'Can not create link with %s!' => '',
+        'Can not delete link with %s!' => '',
+        'Object already linked as %s.' => '',
     };
     # $$STOP$$
     return;
