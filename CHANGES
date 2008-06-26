@@ -2,14 +2,20 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.679 2008-06-25 13:06:25 martin Exp $
+# $Id: CHANGES,v 1.680 2008-06-26 11:02:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
-2.3.0 beta4 (2008/??/??)
+2.3.0 beta4 (2008/07/??)
+ - (2008/06/26) Fixed bug# 3034 - Ticket::Frontend::ZoomExpandSort is
+    conflicting with new ticket Expand/Collapse feature in AgentTicketZoom, it
+    get lost after clicking on Collapse.
+ - (2008/06/26) Moved required permissions for ticket owner-selections to
+    owner and for ticket responsible-selection to responsible (instead rw
+    permissions).
  - (2008/06/23) Fixed bug# 3020 - New complex link table blocks output of the
     free text fields.
  - (2008/06/23) Fixed bug# 3019 - Wrong location of the new complex link table.
@@ -36,8 +42,8 @@
         },
     };
 
- - (2008/06/23) Fixed bug# 3013 - Freetext fields show wrong data when queue
-    is changed.
+ - (2008/06/23) Fixed bug# 3013 - Freetext fields show wrong on AJAX update
+    in phone and email ticket when queue is changed.
  - (2008/06/23) Updated cpan module TEXT::CSV to version 1.06.
  - (2008/06/23) Moved Ticket::ResponsibleAutoSet feature to external ticket
     event module (Kernel::System::Ticket::Event::ResponsibleAutoSet).
@@ -57,7 +63,8 @@
     interface).
  - (2008/06/19) Added CleanUp() to Kernel::System::Cache to clean up/remove
     all cache files.
- - (2008/06/19) Fixed bug# 2957 - Merged ticket not canceled in link table.
+ - (2008/06/19) Fixed bug# 2957 - Merged ticket not shown "canceled" in linked
+    objects table.
  - (2008/06/19) Simplifed the new link mechanism.
  - (2008/06/19) Added cleanup of old cache files and cleanup of non existing
     TicketIDs in ticket_watcher and ArticleIDs in article_flag table (there

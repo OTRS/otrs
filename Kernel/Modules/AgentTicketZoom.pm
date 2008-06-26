@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.57 2008-06-24 14:41:56 mh Exp $
+# $Id: AgentTicketZoom.pm,v 1.58 2008-06-26 11:02:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -330,13 +330,12 @@ sub MaskAgentZoom {
         }
     }
     else {
-
-        # resort article order
-        if ( $Self->{ZoomExpandSort} eq 'reverse' ) {
-            @ArticleBox = reverse(@ArticleBox);
-        }
-
         @NewArticleBox = @ArticleBox;
+    }
+
+    # resort article order
+    if ( $Self->{ZoomExpandSort} eq 'reverse' ) {
+        @ArticleBox = reverse(@ArticleBox);
     }
 
     # build shown article(s)
