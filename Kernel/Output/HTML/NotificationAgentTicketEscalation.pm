@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NotificationAgentTicketEscalation.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationAgentTicketEscalation.pm,v 1.25 2008-06-23 07:36:23 martin Exp $
+# $Id: NotificationAgentTicketEscalation.pm,v 1.26 2008-06-26 17:38:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -46,7 +46,7 @@ sub Run {
     return '' if $Self->{LayoutObject}->{Action} !~ /^AgentTicket(Queue|Mailbox|Status)/;
 
     # check result cache
-    my $CacheTime = $Param{Config}->{CacheTime} || 120;
+    my $CacheTime = $Param{Config}->{CacheTime} || 80;
     if ($CacheTime) {
         my $Output = $Self->{CacheObject}->Get(
             Type => 'TicketEscalation',
@@ -58,7 +58,7 @@ sub Run {
     }
 
     # get all overtime tickets
-    my $ShownMax            = $Param{Config}->{ShownMax}            || 30;
+    my $ShownMax            = $Param{Config}->{ShownMax}            || 25;
     my $EscalationInMinutes = $Param{Config}->{EscalationInMinutes} || 120;
     my @TicketIDs           = $Self->{TicketObject}->TicketSearch(
         Result                           => 'ARRAY',
