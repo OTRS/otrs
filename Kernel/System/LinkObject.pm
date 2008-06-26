@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.38 2008-06-26 13:25:31 mh Exp $
+# $Id: LinkObject.pm,v 1.39 2008-06-26 16:04:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 =head1 NAME
 
@@ -443,36 +443,59 @@ sub LinkAdd {
 
     # check if link already exists in database
     $Self->{DBObject}->Prepare(
-        SQL => 'SELECT state_id '
+        SQL => 'SELECT source_object_id, source_key, state_id '
             . 'FROM link_relation '
-            . 'WHERE ( source_object_id = ? AND source_key = ? '
+            . 'WHERE ( ( source_object_id = ? AND source_key = ? '
             . 'AND target_object_id = ? AND target_key = ? ) '
+            . 'OR ( source_object_id = ? AND source_key = ? '
+            . 'AND target_object_id = ? AND target_key = ? ) ) '
             . 'AND type_id = ? ',
         Bind => [
             \$Param{SourceObjectID}, \$Param{SourceKey},
             \$Param{TargetObjectID}, \$Param{TargetKey},
+            \$Param{TargetObjectID}, \$Param{TargetKey},
+            \$Param{SourceObjectID}, \$Param{SourceKey},
             \$TypeID,
         ],
         Limit => 1,
     );
 
     # fetch the result
-    my $ExistingStateID;
+    my %Existing;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $ExistingStateID = $Row[0];
+        $Existing{SourceObjectID} = $Row[0];
+        $Existing{SourceKey}      = $Row[1];
+        $Existing{StateID}        = $Row[2];
     }
 
     # link exists already
-    if ($ExistingStateID) {
-
-        # existing link has same StateID as the new link
-        return 1 if $ExistingStateID == $StateID;
+    if (%Existing) {
 
         # existing link has a different StateID than the new link
+        if ( $Existing{StateID} ne $StateID ) {
+
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Link already exists between these two objects "
+                    . "with a different state id '$Existing{StateID}'!",
+            );
+            return;
+        }
+
+        # get type data
+        my %TypeData = $Self->TypeGet(
+            TypeID => $TypeID,
+            UserID => $Param{UserID},
+        );
+
+        return 1 if !$TypeData{Pointed};
+        return 1 if $Existing{SourceObjectID} eq $Param{SourceObjectID}
+            && $Existing{SourceKey} eq $Param{SourceKey};
+
+        # log error
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Link already exists in the database "
-                . "with a different state id '$ExistingStateID'!",
+            Message  => 'Link already exists between these two objects in opposite direction!',
         );
         return;
     }
@@ -2098,6 +2121,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.38 $ $Date: 2008-06-26 13:25:31 $
+$Revision: 1.39 $ $Date: 2008-06-26 16:04:59 $
 
 =cut
