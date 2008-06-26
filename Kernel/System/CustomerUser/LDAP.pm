@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.40 2008-05-15 20:19:40 martin Exp $
+# $Id: LDAP.pm,v 1.41 2008-06-26 11:03:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Encode;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -33,86 +33,86 @@ sub new {
     }
 
     # max shown user a search list
-    $Self->{UserSearchListLimit} = $Self->{CustomerUserMap}->{'CustomerUserSearchListLimit'} || 200;
+    $Self->{UserSearchListLimit} = $Self->{CustomerUserMap}->{CustomerUserSearchListLimit} || 200;
 
     # get ldap preferences
-    if ( defined( $Self->{CustomerUserMap}->{'Params'}->{'Die'} ) ) {
-        $Self->{Die} = $Self->{CustomerUserMap}->{'Params'}->{'Die'};
+    if ( defined( $Self->{CustomerUserMap}->{Params}->{Die} ) ) {
+        $Self->{Die} = $Self->{CustomerUserMap}->{Params}->{Die};
     }
     else {
         $Self->{Die} = 1;
     }
 
     # host
-    if ( $Self->{CustomerUserMap}->{'Params'}->{'Host'} ) {
-        $Self->{Host} = $Self->{CustomerUserMap}->{'Params'}->{'Host'};
+    if ( $Self->{CustomerUserMap}->{Params}->{Host} ) {
+        $Self->{Host} = $Self->{CustomerUserMap}->{Params}->{Host};
     }
     else {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Need CustomerUser->Params->Host in Kernel/Config.pm",
+            Message  => 'Need CustomerUser->Params->Host in Kernel/Config.pm',
         );
         return;
     }
 
     # base dn
-    if ( defined( $Self->{CustomerUserMap}->{'Params'}->{'BaseDN'} ) ) {
-        $Self->{BaseDN} = $Self->{CustomerUserMap}->{'Params'}->{'BaseDN'};
+    if ( defined $Self->{CustomerUserMap}->{Params}->{BaseDN} ) {
+        $Self->{BaseDN} = $Self->{CustomerUserMap}->{Params}->{BaseDN};
     }
     else {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Need CustomerUser->Params->BaseDN in Kernel/Config.pm",
+            Message  => 'Need CustomerUser->Params->BaseDN in Kernel/Config.pm',
         );
         return;
     }
 
     # scope
-    if ( $Self->{CustomerUserMap}->{'Params'}->{'SSCOPE'} ) {
-        $Self->{SScope} = $Self->{CustomerUserMap}->{'Params'}->{'SSCOPE'};
+    if ( $Self->{CustomerUserMap}->{Params}->{SSCOPE} ) {
+        $Self->{SScope} = $Self->{CustomerUserMap}->{Params}->{SSCOPE};
     }
     else {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Need CustomerUser->Params->SSCOPE in Kernel/Config.pm",
+            Message  => 'Need CustomerUser->Params->SSCOPE in Kernel/Config.pm',
         );
         return;
     }
 
     # search user
-    $Self->{SearchUserDN} = $Self->{CustomerUserMap}->{'Params'}->{'UserDN'} || '';
-    $Self->{SearchUserPw} = $Self->{CustomerUserMap}->{'Params'}->{'UserPw'} || '';
+    $Self->{SearchUserDN} = $Self->{CustomerUserMap}->{Params}->{UserDN} || '';
+    $Self->{SearchUserPw} = $Self->{CustomerUserMap}->{Params}->{UserPw} || '';
 
     # customer key
-    if ( $Self->{CustomerUserMap}->{'CustomerKey'} ) {
-        $Self->{CustomerKey} = $Self->{CustomerUserMap}->{'CustomerKey'};
+    if ( $Self->{CustomerUserMap}->{CustomerKey} ) {
+        $Self->{CustomerKey} = $Self->{CustomerUserMap}->{CustomerKey};
     }
     else {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Need CustomerUser->CustomerKey in Kernel/Config.pm",
+            Message  => 'Need CustomerUser->CustomerKey in Kernel/Config.pm',
         );
         return;
     }
 
     # customer id
-    if ( $Self->{CustomerUserMap}->{'CustomerID'} ) {
-        $Self->{CustomerID} = $Self->{CustomerUserMap}->{'CustomerID'};
+    if ( $Self->{CustomerUserMap}->{CustomerID} ) {
+        $Self->{CustomerID} = $Self->{CustomerUserMap}->{CustomerID};
     }
     else {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Need CustomerUser->CustomerID in Kernel/Config.pm",
+            Message  => 'Need CustomerUser->CustomerID in Kernel/Config.pm',
         );
         return;
     }
 
     # ldap filter always used
-    $Self->{AlwaysFilter} = $Self->{CustomerUserMap}->{'Params'}->{'AlwaysFilter'} || '';
+    $Self->{AlwaysFilter} = $Self->{CustomerUserMap}->{Params}->{AlwaysFilter} || '';
 
     # Net::LDAP new params
-    if ( $Self->{CustomerUserMap}->{'Params'}->{'Params'} ) {
-        $Self->{Params} = $Self->{CustomerUserMap}->{'Params'}->{'Params'};
+    if ( $Self->{CustomerUserMap}->{Params}->{Params} ) {
+        $Self->{Params} = $Self->{CustomerUserMap}->{Params}->{Params};
     }
     else {
         $Self->{Params} = {};
@@ -152,34 +152,34 @@ sub new {
     $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
 
     # cache object
-    if ( $Self->{CustomerUserMap}->{'CacheTTL'} ) {
+    if ( $Self->{CustomerUserMap}->{CacheTTL} ) {
         $Self->{CacheObject} = Kernel::System::Cache->new(%Param);
     }
-    $Self->{SourceCharset} = $Self->{CustomerUserMap}->{'Params'}->{'SourceCharset'} || '';
-    $Self->{DestCharset}   = $Self->{CustomerUserMap}->{'Params'}->{'DestCharset'}   || '';
+    $Self->{SourceCharset} = $Self->{CustomerUserMap}->{Params}->{SourceCharset} || '';
+    $Self->{DestCharset}   = $Self->{CustomerUserMap}->{Params}->{DestCharset}   || '';
     $Self->{ExcludePrimaryCustomerID}
         = $Self->{CustomerUserMap}->{CustomerUserExcludePrimaryCustomerID} || 0;
-    $Self->{SearchPrefix} = $Self->{CustomerUserMap}->{'CustomerUserSearchPrefix'};
-    if ( !defined( $Self->{SearchPrefix} ) ) {
+    $Self->{SearchPrefix} = $Self->{CustomerUserMap}->{CustomerUserSearchPrefix};
+    if ( !defined $Self->{SearchPrefix} ) {
         $Self->{SearchPrefix} = '';
     }
-    $Self->{SearchSuffix} = $Self->{CustomerUserMap}->{'CustomerUserSearchSuffix'};
-    if ( !defined( $Self->{SearchSuffix} ) ) {
+    $Self->{SearchSuffix} = $Self->{CustomerUserMap}->{CustomerUserSearchSuffix};
+    if ( !defined $Self->{SearchSuffix} ) {
         $Self->{SearchSuffix} = '*';
     }
 
     # cache key prefix
-    if ( !defined( $Param{Count} ) ) {
+    if ( !defined $Param{Count} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Need Count param, update Kernel/System/CustomerUser.pm to v1.32 or higher!",
+            Message  => 'Need Count param, update Kernel/System/CustomerUser.pm to v1.32 or higher!',
         );
         $Param{Count} = '';
     }
     $Self->{CacheType} = 'CustomerUser' . $Param{Count};
 
     # get valid filter if used
-    $Self->{ValidFilter} = $Self->{CustomerUserMap}->{'CustomerUserValidFilter'} || '';
+    $Self->{ValidFilter} = $Self->{CustomerUserMap}->{CustomerUserValidFilter} || '';
 
     return $Self;
 }
@@ -191,7 +191,7 @@ sub CustomerName {
 
     # check needed stuff
     if ( !$Param{UserLogin} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserLogin!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserLogin!' );
         return;
     }
 
@@ -207,7 +207,7 @@ sub CustomerName {
     if ( $Self->{CacheObject} ) {
         my $Name = $Self->{CacheObject}->Get(
             Type => $Self->{CacheType},
-            Key  => "CustomerName::$Filter",
+            Key  => 'CustomerName::' . $Filter,
         );
         if ( defined($Name) ) {
             return $Name;
@@ -224,7 +224,7 @@ sub CustomerName {
     if ( $Result->code ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Search failed! " . $Result->error,
+            Message  => 'Search failed! ' . $Result->error,
         );
         return;
     }
@@ -245,9 +245,9 @@ sub CustomerName {
     if ( $Self->{CacheObject} ) {
         $Self->{CacheObject}->Set(
             Type  => $Self->{CacheType},
-            Key   => "CustomerName::$Filter",
+            Key   => 'CustomerName::' . $Filter,
             Value => $Name,
-            TTL   => $Self->{CustomerUserMap}->{'CacheTTL'},
+            TTL   => $Self->{CustomerUserMap}->{CacheTTL},
         );
     }
     return $Name;
@@ -260,7 +260,7 @@ sub CustomerSearch {
     if ( !$Param{Search} && !$Param{UserLogin} && !$Param{PostMasterSearch} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Need Search, UserLogin or PostMasterSearch!"
+            Message  => 'Need Search, UserLogin or PostMasterSearch!'
         );
         return;
     }
@@ -318,7 +318,7 @@ sub CustomerSearch {
     if ( $Self->{CacheObject} ) {
         my $Users = $Self->{CacheObject}->Get(
             Type => $Self->{CacheType},
-            Key  => "CustomerSearch::$Filter",
+            Key  => 'CustomerSearch::' . $Filter,
         );
         if ($Users) {
             return %{$Users};
@@ -363,9 +363,9 @@ sub CustomerSearch {
     if ( $Self->{CacheObject} ) {
         $Self->{CacheObject}->Set(
             Type  => $Self->{CacheType},
-            Key   => "CustomerSearch::$Filter",
+            Key   => 'CustomerSearch::' . $Filter,
             Value => \%Users,
-            TTL   => $Self->{CustomerUserMap}->{'CacheTTL'},
+            TTL   => $Self->{CustomerUserMap}->{CacheTTL},
         );
     }
     return %Users;
@@ -429,7 +429,7 @@ sub CustomerUserList {
             Type  => $Self->{CacheType},
             Key   => "CustomerUserList::$Filter",
             Value => \%Users,
-            TTL   => $Self->{CustomerUserMap}->{'CacheTTL'},
+            TTL   => $Self->{CustomerUserMap}->{CacheTTL},
         );
     }
     return %Users;
@@ -442,7 +442,7 @@ sub CustomerIDs {
 
     # check needed stuff
     if ( !$Param{User} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need User!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need User!' );
         return;
     }
 
@@ -488,9 +488,9 @@ sub CustomerIDs {
     if ( $Self->{CacheObject} ) {
         $Self->{CacheObject}->Set(
             Type  => $Self->{CacheType},
-            Key   => "CustomerIDs::$Param{User}",
+            Key   => 'CustomerIDs::' . $Param{User},
             Value => \@CustomerIDs,
-            TTL   => $Self->{CustomerUserMap}->{'CacheTTL'},
+            TTL   => $Self->{CustomerUserMap}->{CacheTTL},
         );
     }
     return @CustomerIDs;
@@ -503,7 +503,7 @@ sub CustomerUserDataGet {
 
     # check needed stuff
     if ( !$Param{User} && !$Param{CustomerID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need User or CustomerID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need User or CustomerID!' );
         return;
     }
 
@@ -530,7 +530,7 @@ sub CustomerUserDataGet {
     if ( $Self->{CacheObject} ) {
         my $Data = $Self->{CacheObject}->Get(
             Type => $Self->{CacheType},
-            Key  => "CustomerUserDataGet::$Filter",
+            Key  => 'CustomerUserDataGet::' . $Filter,
         );
         if ($Data) {
             return %{$Data};
@@ -587,9 +587,9 @@ sub CustomerUserDataGet {
     if ( $Self->{CacheObject} ) {
         $Self->{CacheObject}->Set(
             Type  => $Self->{CacheType},
-            Key   => "CustomerUserDataGet::$Filter",
+            Key   => 'CustomerUserDataGet::' . $Filter,
             Value => { %Data, %Preferences },
-            TTL   => $Self->{CustomerUserMap}->{'CacheTTL'},
+            TTL   => $Self->{CustomerUserMap}->{CacheTTL},
         );
     }
 
@@ -602,10 +602,10 @@ sub CustomerUserAdd {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Customer backend is ro!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Customer backend is ro!' );
         return;
     }
-    $Self->{LogObject}->Log( Priority => 'error', Message => "Not supported for this module!" );
+    $Self->{LogObject}->Log( Priority => 'error', Message => 'Not supported for this module!' );
     return;
 }
 
@@ -614,10 +614,10 @@ sub CustomerUserUpdate {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Customer backend is ro!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Customer backend is ro!' );
         return;
     }
-    $Self->{LogObject}->Log( Priority => 'error', Message => "Not supported for this module!" );
+    $Self->{LogObject}->Log( Priority => 'error', Message => 'Not supported for this module!' );
     return;
 }
 
@@ -628,10 +628,10 @@ sub SetPassword {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Customer backend is ro!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Customer backend is ro!' );
         return;
     }
-    $Self->{LogObject}->Log( Priority => 'error', Message => "Not supported for this module!" );
+    $Self->{LogObject}->Log( Priority => 'error', Message => 'Not supported for this module!' );
     return;
 }
 
