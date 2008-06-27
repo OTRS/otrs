@@ -3,7 +3,7 @@
 # DBUpdate-to-2.3.pl - update script to migrate OTRS 2.2.x to 2.3.x
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-2.3.pl,v 1.13 2008-06-25 12:55:24 mh Exp $
+# $Id: DBUpdate-to-2.3.pl,v 1.14 2008-06-27 16:17:25 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,10 +30,11 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
+use Kernel::System::CheckItem;
 use Kernel::System::Log;
 use Kernel::System::Time;
 use Kernel::System::Encode;
@@ -41,7 +42,6 @@ use Kernel::System::DB;
 use Kernel::System::Main;
 use Kernel::System::Config;
 use Kernel::System::Ticket;
-use Kernel::System::LinkObject;
 
 # get options
 my %Opts;
@@ -60,20 +60,22 @@ $CommonObject{LogObject}    = Kernel::System::Log->new(
     %CommonObject,
 );
 $CommonObject{MainObject}      = Kernel::System::Main->new(%CommonObject);
+$CommonObject{CheckItemObject} = Kernel::System::CheckItem->new(%CommonObject);
 $CommonObject{EncodeObject}    = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{TimeObject}      = Kernel::System::Time->new(%CommonObject);
 $CommonObject{DBObject}        = Kernel::System::DB->new(%CommonObject);
 $CommonObject{SysConfigObject} = Kernel::System::Config->new(%CommonObject);
-$CommonObject{TicketObject}    = Kernel::System::Ticket->new(%CommonObject);
-$CommonObject{LinkObject}      = Kernel::System::LinkObject->new(
-    %CommonObject,
-    UserID => 1,
-);
 
 print STDOUT "Start migration of the system...\n\n";
 
-# start migration process
+# rebuild config
 RebuildConfig();
+
+# instance needed objects
+$CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
+
+# start migration process
 CleanUpCacheDir();
 CleanUpDatabase();
 MigrateServiceSLARelation();
@@ -359,7 +361,7 @@ sub MigrateLinkObject {
         }
 
         # add the link
-        $CommonObject{LinkObject}->LinkAdd(
+        LinkAdd(
             SourceObject => $SourceObject,
             SourceKey    => $SourceKey,
             TargetObject => $TargetObject,
@@ -373,6 +375,369 @@ sub MigrateLinkObject {
     print STDOUT " done.\n";
 
     return 1;
+}
+
+=item LinkAdd()
+
+add a new link between two elements
+
+    $True = LinkAdd(
+        SourceObject => 'Ticket',
+        SourceKey    => '321',
+        TargetObject => 'FAQ',
+        TargetKey    => '5',
+        Type         => 'ParentChild',
+        State        => 'Valid',
+        UserID       => 1,
+    );
+
+=cut
+
+sub LinkAdd {
+    my (%Param) = @_;
+
+    # check needed stuff
+    for my $Argument (qw(SourceObject SourceKey TargetObject TargetKey Type State UserID)) {
+        if ( !$Param{$Argument} ) {
+            $CommonObject{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!",
+            );
+            return;
+        }
+    }
+
+    # check if source and target are the same object
+    if ( $Param{SourceObject} eq $Param{TargetObject} && $Param{SourceKey} eq $Param{TargetKey} ) {
+        $CommonObject{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Impossible to link object with itself!',
+        );
+        return;
+    }
+
+    # lookup the object ids
+    OBJECT:
+    for my $Object (qw(SourceObject TargetObject)) {
+
+        # lookup the object id
+        $Param{ $Object . 'ID' } = ObjectLookup(
+            Name   => $Param{$Object},
+            UserID => $Param{UserID},
+        );
+
+        next OBJECT if $Param{ $Object . 'ID' };
+
+        $CommonObject{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Invalid $Object is given!",
+        );
+
+        return;
+    }
+
+    # lookup state id
+    my $StateID = StateLookup(
+        Name   => $Param{State},
+        UserID => 1,
+    );
+
+    # lookup type id
+    my $TypeID = TypeLookup(
+        Name   => $Param{Type},
+        UserID => $Param{UserID},
+    );
+
+    # check if link already exists in database
+    $CommonObject{DBObject}->Prepare(
+        SQL => 'SELECT source_object_id, source_key, state_id '
+            . 'FROM link_relation '
+            . 'WHERE ( ( source_object_id = ? AND source_key = ? '
+            . 'AND target_object_id = ? AND target_key = ? ) '
+            . 'OR ( source_object_id = ? AND source_key = ? '
+            . 'AND target_object_id = ? AND target_key = ? ) ) '
+            . 'AND type_id = ? ',
+        Bind => [
+            \$Param{SourceObjectID}, \$Param{SourceKey},
+            \$Param{TargetObjectID}, \$Param{TargetKey},
+            \$Param{TargetObjectID}, \$Param{TargetKey},
+            \$Param{SourceObjectID}, \$Param{SourceKey},
+            \$TypeID,
+        ],
+        Limit => 1,
+    );
+
+    # fetch the result
+    my %Existing;
+    while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {
+        $Existing{SourceObjectID} = $Row[0];
+        $Existing{SourceKey}      = $Row[1];
+        $Existing{StateID}        = $Row[2];
+    }
+
+    # link exists already
+    if (%Existing) {
+
+        # existing link has a different StateID than the new link
+        if ( $Existing{StateID} ne $StateID ) {
+
+            $CommonObject{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Link already exists between these two objects "
+                    . "with a different state id '$Existing{StateID}'!",
+            );
+            return;
+        }
+
+        # get type data
+        my %TypeData = TypeGet(
+            TypeID => $TypeID,
+            UserID => $Param{UserID},
+        );
+
+        return 1 if !$TypeData{Pointed};
+        return 1 if $Existing{SourceObjectID} eq $Param{SourceObjectID}
+            && $Existing{SourceKey} eq $Param{SourceKey};
+
+        # log error
+        $CommonObject{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Link already exists between these two objects in opposite direction!',
+        );
+        return;
+    }
+
+    return $CommonObject{DBObject}->Do(
+        SQL => 'INSERT INTO link_relation '
+            . '(source_object_id, source_key, target_object_id, target_key, '
+            . 'type_id, state_id, create_time, create_by) '
+            . 'VALUES (?, ?, ?, ?, ?, ?, current_timestamp, ?)',
+        Bind => [
+            \$Param{SourceObjectID}, \$Param{SourceKey},
+            \$Param{TargetObjectID}, \$Param{TargetKey},
+            \$TypeID, \$StateID, \$Param{UserID},
+        ],
+    );
+}
+
+=item ObjectLookup()
+
+lookup a link object
+
+    $ObjectID = ObjectLookup(
+        Name   => 'Ticket',
+        UserID => 1,
+    );
+
+=cut
+
+sub ObjectLookup {
+    my (%Param) = @_;
+
+    # check needed stuff
+    for my $Argument (qw(Name UserID)) {
+        if ( !$Param{$Argument} ) {
+            $CommonObject{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!",
+            );
+            return;
+        }
+    }
+
+    # check cache
+    return $CommonObject{Cache}->{ObjectLookup}->{ $Param{Name} }
+        if $CommonObject{Cache}->{ObjectLookup}->{ $Param{Name} };
+
+    # investigate the object id
+    my $ObjectID;
+    TRY:
+    for my $Try ( 1 .. 3 ) {
+
+        # ask the database
+        $CommonObject{DBObject}->Prepare(
+            SQL   => 'SELECT id FROM link_object WHERE name = ?',
+            Bind  => [ \$Param{Name} ],
+            Limit => 1,
+        );
+
+        # fetch the result
+        while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {
+            $ObjectID = $Row[0];
+        }
+
+        last TRY if $ObjectID;
+
+        # cleanup the given name
+        $CommonObject{CheckItemObject}->StringClean(
+            StringRef => \$Param{Name},
+        );
+
+        # check if name is valid
+        if ( !$Param{Name} || $Param{Name} =~ m{ :: }xms || $Param{Name} =~ m{ \s }xms ) {
+            $CommonObject{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Invalid object name '$Param{Name}' is given!",
+            );
+            return;
+        }
+
+        next TRY if $Try == 1;
+
+        # insert the new object
+        return if !$CommonObject{DBObject}->Do(
+            SQL  => 'INSERT INTO link_object (name) VALUES (?)',
+            Bind => [ \$Param{Name} ],
+        );
+    }
+
+    # cache result
+    $CommonObject{Cache}->{ObjectLookup}->{ $Param{Name} } = $ObjectID;
+
+    return $ObjectID;
+}
+
+=item StateLookup()
+
+lookup a link state
+
+    $StateID = StateLookup(
+        Name   => 'Valid',
+        UserID => 1,
+    );
+
+=cut
+
+sub StateLookup {
+    my (%Param) = @_;
+
+    # check needed stuff
+    for my $Argument (qw(Name UserID)) {
+        if ( !$Param{$Argument} ) {
+            $CommonObject{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!",
+            );
+            return;
+        }
+    }
+
+    # check cache
+    return $CommonObject{Cache}->{StateLookup}->{ $Param{Name} }
+        if $CommonObject{Cache}->{StateLookup}->{ $Param{Name} };
+
+    # ask the database
+    $CommonObject{DBObject}->Prepare(
+        SQL   => 'SELECT id FROM link_state WHERE name = ?',
+        Bind  => [ \$Param{Name} ],
+        Limit => 1,
+    );
+
+    # fetch the result
+    my $StateID;
+    while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {
+        $StateID = $Row[0];
+    }
+
+    # check the state id
+    if ( !$StateID ) {
+        $CommonObject{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Link state '$Param{Name}' not found in the database!",
+        );
+        return;
+    }
+
+    # cache result
+    $CommonObject{Cache}->{StateLookup}->{ $Param{Name} } = $StateID;
+
+    return $StateID;
+}
+
+=item TypeLookup()
+
+lookup a link type
+
+    $TypeID = TypeLookup(
+        Name   => 'Normal',
+        UserID => 1,
+    );
+
+=cut
+
+sub TypeLookup {
+    my (%Param) = @_;
+
+    # check needed stuff
+    for my $Argument (qw(Name UserID)) {
+        if ( !$Param{$Argument} ) {
+            $CommonObject{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!",
+            );
+            return;
+        }
+    }
+
+    # cleanup the given name
+    $CommonObject{CheckItemObject}->StringClean(
+        StringRef => \$Param{Name},
+    );
+
+    # check cache
+    return $CommonObject{Cache}->{TypeLookup}->{ $Param{Name} }
+        if $CommonObject{Cache}->{TypeLookup}->{ $Param{Name} };
+
+    # investigate the type id
+    my $TypeID;
+    TRY:
+    for my $Try ( 1 .. 2 ) {
+
+        # ask the database
+        $CommonObject{DBObject}->Prepare(
+            SQL   => 'SELECT id FROM link_type WHERE name = ?',
+            Bind  => [ \$Param{Name} ],
+            Limit => 1,
+        );
+
+        # fetch the result
+        while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {
+            $TypeID = $Row[0];
+        }
+
+        last TRY if $TypeID;
+
+        # check if name is valid
+        if ( !$Param{Name} || $Param{Name} =~ m{ :: }xms || $Param{Name} =~ m{ \s }xms ) {
+            $CommonObject{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Invalid type name '$Param{Name}' is given!",
+            );
+            return;
+        }
+
+        # insert the new type
+        return if !$CommonObject{DBObject}->Do(
+            SQL => 'INSERT INTO link_type '
+                . '(name, valid_id, create_time, create_by, change_time, change_by) '
+                . 'VALUES (?, 1, current_timestamp, ?, current_timestamp, ?)',
+            Bind => [ \$Param{Name}, \$Param{UserID}, \$Param{UserID} ],
+        );
+    }
+
+    # check the state id
+    if ( !$TypeID ) {
+        $CommonObject{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Link type '$Param{Name}' not found in the database!",
+        );
+        return;
+    }
+
+    # cache result
+    $CommonObject{Cache}->{TypeLookup}->{ $Param{Name} } = $TypeID;
+
+    return $TypeID;
 }
 
 1;
