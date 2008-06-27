@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.41 2008-06-26 11:03:47 martin Exp $
+# $Id: LDAP.pm,v 1.42 2008-06-27 17:11:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Encode;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -172,7 +172,7 @@ sub new {
     if ( !defined $Param{Count} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => 'Need Count param, update Kernel/System/CustomerUser.pm to v1.32 or higher!',
+            Message => 'Need Count param, update Kernel/System/CustomerUser.pm to v1.32 or higher!',
         );
         $Param{Count} = '';
     }

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.36 2008-06-27 08:45:07 ub Exp $
+# $Id: AgentLinkObject.pm,v 1.37 2008-06-27 17:11:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -441,11 +441,11 @@ sub Run {
                 # extract link type List
                 my $LinkTypeList = $LinkListWithData->{ $Form{TargetObject} }->{$LinkType};
 
-                for my $Direction ( keys %{ $LinkTypeList } ) {
+                for my $Direction ( keys %{$LinkTypeList} ) {
 
                     # extract the keys
                     KEY:
-                    for my $Key ( keys %{ $LinkTypeList->{ $Direction } } ) {
+                    for my $Key ( keys %{ $LinkTypeList->{$Direction} } ) {
 
                         next KEY if $SearchListObjectKeys{$Key};
 
