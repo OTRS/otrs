@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.35 2008-06-26 15:50:51 mh Exp $
+# $Id: AgentLinkObject.pm,v 1.36 2008-06-27 08:45:07 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -400,8 +400,8 @@ sub Run {
             UserID       => $Self->{UserID},
         );
 
-        # remove the source object from the list
-        if ( $SearchList->{ $Form{SourceObject} } ) {
+        # remove the source object from the search list
+        if ( $SearchList && $SearchList->{ $Form{SourceObject} } ) {
 
             for my $LinkType ( keys %{ $SearchList->{ $Form{SourceObject} } } ) {
 
@@ -417,12 +417,44 @@ sub Run {
         }
 
         # get already linked objects
-        my $LinkListWithData = $Self->{LinkObject}->LinkListWithData(
-            Object => $Form{SourceObject},
-            Key    => $Form{SourceKey},
-            State  => $Form{State},
-            UserID => $Self->{UserID},
-        );
+        my $LinkListWithData = {};
+        if ( $SearchList && $SearchList->{ $Form{TargetObject} } ) {
+            $LinkListWithData = $Self->{LinkObject}->LinkListWithData(
+                Object => $Form{SourceObject},
+                Key    => $Form{SourceKey},
+                State  => $Form{State},
+                UserID => $Self->{UserID},
+            );
+        }
+
+        if ( $LinkListWithData && $LinkListWithData->{ $Form{TargetObject} } ) {
+
+            # build object id lookup hash from search list
+            my %SearchListObjectKeys;
+            for my $Key ( keys %{ $SearchList->{ $Form{TargetObject} }->{NOTLINKED}->{Source} } ) {
+                $SearchListObjectKeys{$Key} = 1;
+            }
+
+            # check if linked objects are part of the search list
+            for my $LinkType ( keys %{ $LinkListWithData->{ $Form{TargetObject} } } ) {
+
+                # extract link type List
+                my $LinkTypeList = $LinkListWithData->{ $Form{TargetObject} }->{$LinkType};
+
+                for my $Direction ( keys %{ $LinkTypeList } ) {
+
+                    # extract the keys
+                    KEY:
+                    for my $Key ( keys %{ $LinkTypeList->{ $Direction } } ) {
+
+                        next KEY if $SearchListObjectKeys{$Key};
+
+                        # delete from linked objects list if key is not in search list
+                        delete $LinkTypeList->{$Direction}->{$Key};
+                    }
+                }
+            }
+        }
 
         my %LinkMenuOutput;
         if ( $Form{Mode} eq 'Normal' ) {
