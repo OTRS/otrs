@@ -3,7 +3,7 @@
 # DBUpdate-to-2.3.pl - update script to migrate OTRS 2.2.x to 2.3.x
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-2.3.pl,v 1.14 2008-06-27 16:17:25 mh Exp $
+# $Id: DBUpdate-to-2.3.pl,v 1.15 2008-06-27 16:39:15 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -75,12 +75,18 @@ RebuildConfig();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
 
-# start migration process
+# start migration process (stage 1)
 CleanUpCacheDir();
 CleanUpDatabase();
+MigrateEscalation();
+
+# disable STDERR
+close STDERR;
+open STDERR, '>', \do { my $Anon = '' };
+
+# start migration process (stage 2)
 MigrateServiceSLARelation();
 MigrateLinkObject();
-MigrateEscalation();
 
 print STDOUT "\nMigration of the system completed!\n";
 
