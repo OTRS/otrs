@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.40 2008-06-27 17:11:06 mh Exp $
+# $Id: LinkObject.pm,v 1.41 2008-06-28 10:34:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 =head1 NAME
 
@@ -388,7 +388,7 @@ sub LinkAdd {
     if ( $Param{SourceObject} eq $Param{TargetObject} && $Param{SourceKey} eq $Param{TargetKey} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Impossible to link object with itself!",
+            Message  => 'Impossible to link object with itself!',
         );
         return;
     }
@@ -1439,7 +1439,6 @@ sub TypeLookup {
                     . 'VALUES (?, 1, current_timestamp, ?, current_timestamp, ?)',
                 Bind => [ \$Param{Name}, \$Param{UserID}, \$Param{UserID} ],
             );
-
         }
 
         # check the state id
@@ -2121,6 +2120,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.40 $ $Date: 2008-06-27 17:11:06 $
+$Revision: 1.41 $ $Date: 2008-06-28 10:34:21 $
 
 =cut
