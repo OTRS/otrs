@@ -107,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.174 2008-06-28 12:49:09 mh Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.175 2008-06-28 12:54:21 mh Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -2658,11 +2658,11 @@ TimeWorkingHours
         <Description Lang="de">Liste der zur Verfügung stehenden Online-Quellen (es koennen z. B. auch andere Installationen als Online-Quellen verwendet werden mit der Verwendung von Key="http://example.com/otrs/public.pl?Action=PublicRepository&amp;File=" and Content="Ein Name").</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Package</SubGroup>
-            <Setting>
-                <Hash>
-                    <Item Key="ftp://ftp.example.com/pub/otrs/misc/packages/">[Example] ftp://ftp.example.com/</Item>
-                </Hash>
-            </Setting>
+        <Setting>
+            <Hash>
+                <Item Key="ftp://ftp.example.com/pub/otrs/misc/packages/">[Example] ftp://ftp.example.com/</Item>
+            </Hash>
+        </Setting>
     </ConfigItem>
     <ConfigItem Name="Package::RepositoryAccessRegExp" Required="0" Valid="0">
         <Description Lang="en">IP RegExp for accessing local repository. You need to enable this to have access to your local repository. Package::RepositoryList is required on the remote host.</Description>
