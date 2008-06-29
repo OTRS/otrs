@@ -2,30 +2,31 @@
 # css.dtl - css file
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: css.dtl,v 1.20 2008-06-29 11:19:40 tr Exp $
+# $Id: css.dtl,v 1.21 2008-06-29 11:33:05 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
+
 <style type="text/css">
 <!--
 # body
-body { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:11pt;background-color:#ffffff;color:black; }
+body { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:11pt;background-color:#bbddff;color:black; }
 a { color:#557799;}
-#  a:hover { color:#002244;text-decoration:none; }
-a:hover { color:#cd9931;text-decoration:none; }
+a:hover { color:#002244;text-decoration:none; }
 pre { font-family:Courier,monospace,fixed;font-size:12px; }
+textarea { font-family:Courier,monospace,fixed;font-size:12px; }
 td,th { font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif; }
-.header { color:#ffffff;background-color:#31659c;font-size:12px;vertical-align:top; }
+# header
+.header { color:#ffffff;background-color:#000000;font-size:12px;vertical-align:top; }
 a.headeritem { color:#ffffff;text-decoration:none; }
 a.headeritem:hover { color:#dedede;text-decoration:underline; }
 # nav bar
 .nav { color:#000000;background-color:#ffffff;font-size:10px;vertical-align:top; }
 # nav bar item
 a.navitem { color:#557799;font-size:11px; }
-#  a.navitem:hover { color:#002244;font-size:11px; }
-a.navitem:hover { color:#cd9931;font-size:11px; }
+a.navitem:hover { color:#002244;font-size:11px; }
 # nav bar itemarea
 a.navitemarea { color:#898989;font-size:11px; }
 a.navitemarea:hover { color:#002244;font-size:11px; }
@@ -33,19 +34,17 @@ a.navitemarea:hover { color:#002244;font-size:11px; }
 a.navitemareaactive { color:#cd9931;font-size:11px; }
 a.navitemareaactive:hover { color:#002244;font-size:11px; }
 # menu bar
-.menu { color:#000000;background-color:#eeeeee;font-size:10px;vertical-align:top; }
+.menu { color:#000000;background-color:#eeeeee;font-size:12px;vertical-align:top; }
 a.menuitem { color:#557799;font-size:12px; }
-#  a.menuitem:hover { color:#002244;font-size:12px; }
-a.menuitem:hover { color:#cd9931;font-size:12px; }
-.mainhead2 { color:#000000;background-color:#dedede;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top;horizontal-align:center }
+a.menuitem:hover { color:#002244;font-size:12px; }
 # footer
-.footer { color:#ffffff;background-color:#31659c;font-size:10px; }
+.footer { color:#ffffff;background-color:#000000;font-size:10px; }
 a.footeritem { color:#ffffff;text-decoration:none; }
 a.footeritem:hover { color:#dddddd;text-decoration:underline; }
 # small
-.small { color:#000000;font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px; }
-a.small { color:#000000;text-decoration:none; }
-a.small:hover { color:#222222;text-decoration:underline; }
+.small { color:#000000;font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px;font-weight: normal; }
+a.small { color:#000000;text-decoration:none;font-weight: normal; }
+a.small:hover { color:#222222;text-decoration:underline;font-weight: normal; }
 # form
 .required { color:red;font-size:11px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
 .validity { color:red;font-size:11px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; font-weight: bold;}
@@ -55,16 +54,16 @@ form {margin:0px;}
 input {font-family:Geneva,Helvetica,Arial,Helvetica,sans-serif;font-size:12px;}
 .button {color:black;background-color:#dddddd;border-bottom:thin solid #222244;border-right:thin solid #222244;border-top:thin solid #bbbbbb;border-left:thin solid #bbbbbb;font-size:12px;font-family:Verdana,Geneva,Helvetica,Arial,sans-serif;font-weight:normal;}
 # main
-.mainhead { color:#ffffff;background-color:#31659c;font-size:13px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
-.mainhead2 { color:#000000;background-color:#dedede;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top;horizontal-align:center }
-.mainbody { color:#000000;background-color:#ffffff;font-size:13px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+.mainhead { color:#ffffff;background-color:#00000c;font-size:13px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
+.mainhead2 { color:#000000;background-color:#dedede;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
+.mainbody { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
 .mainkey { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
 .mainvalue { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
 # content
-.contenthead { color:#000000;background-color:#cdcdcd;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
+.contenthead { color:#000000;background-color:#dedede;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
 .contentheadpassiv { color:#BBBBBB;background-color:#dedede;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
 .contentbody { color:#000000;background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
-.contentfooter { color:#000000;background-color:#cdcdcd;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:normal;vertical-align:top;text-align:right; }
+.contentfooter { color:#000000;background-color:#dedede;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:normal;vertical-align:top;text-align:right; }
 .contentkey { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
 .contentkeypassiv { color:#BBBBBB;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
 .contentvalue { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
@@ -72,8 +71,8 @@ input {font-family:Geneva,Helvetica,Arial,Helvetica,sans-serif;font-size:12px;}
 .searchactive { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
 .searchpassive { color:#000000;background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
 # singleboxhead
-.singleboxhead { color:#ffffff;background-color:#31659c;font-size:13px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top;horizontal-align:center }
-.singleboxbody { color:#000000;background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+.singleboxhead { color:#ffffff;background-color:#00000c;font-size:13px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
+.singleboxbody { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
 .singleboxkey { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:normal;vertical-align:top; }
 .singleboxvalue { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
 # tab window layer 0
@@ -90,26 +89,12 @@ input {font-family:Geneva,Helvetica,Arial,Helvetica,sans-serif;font-size:12px;}
 .agent-email-external { background-color:#ccffcc; }
 .agent-note-internal { background-color:#ffcccc; }
 .agent-note-external { background-color:#eeeeee; }
+.system-email-external { background-color:#fffbbb; }
 # priority id color
 .PriorityID-1 { background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
 .PriorityID-2 { background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
 .PriorityID-3 { background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
 .PriorityID-4 { background-color:#ffcccc;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
 .PriorityID-5 { background-color:#ffaaaa;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
-# rating color
-.ratingvery_low  { background-color:#f4f4f4; horizontal-align:center; }
-.ratinglow       { background-color:#e3e3e3; horizontal-align:center; }
-.ratingmedium    { background-color:#c5c5c5; horizontal-align:center; }
-.ratinghigh      { background-color:#9c9c9c; horizontal-align:center; }
-.ratingvery_high { background-color:#767676; horizontal-align:center; }
-.ratingvery_lowactive  { background-color:#ffff9a; horizontal-align:center; }
-.ratinglowactive       { background-color:#ffff00; horizontal-align:center; }
-.ratingmediumactive    { background-color:#ffcc00; horizontal-align:center; }
-.ratinghighactive      { background-color:#ff0000; horizontal-align:center; }
-.ratingvery_highactive { background-color:#800000; horizontal-align:center; }
-.linkselectedrw { font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
-.linkrw { font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
-.linkselectedro { color:#BBBBBB;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
-.linkro { color:#BBBBBB;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
-//-->
+-->
 </style>

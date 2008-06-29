@@ -2,22 +2,21 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.51 2008-06-29 11:19:40 tr Exp $
+# $Id: Header.dtl,v 1.52 2008-06-29 11:33:05 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
+#
 # http headers
-# --
 Content-Type: text/html; charset=$Env{"UserCharset"};
 Content-Disposition: $Data{"ContentDisposition"}
-X-Powered-By: $Config{"Product"} $Config{"Version"} - Open Ticket Request System (http://otrs.org)
+X-Powered-By: $Config{"Product"} $Config{"Version"} - Open Ticket Request System (http://otrs.org/)
 X-Wanted: I think you are smart. I'm looking for smart people!
 Expires: Tue, 1 Jan 1980 12:00:00 GMT
 Cache-Control: no-cache
 Pragma: no-cache
-
 
 # include Copyright.dtl
 $Include{"Copyright"}
@@ -26,33 +25,31 @@ $Include{"Copyright"}
 # --
 <dtl set $Env{"Box0"} = "[ ">
 <dtl set $Env{"Box1"} = " ]">
-
 # --
 # create $Data{"UserLoginTop"} if user is loged in
 # --
-<dtl if ($Env{"UserLogin"} ne "") { $Data{"UserLoginTop"} = "$Env{"UserEmail"} ($Env{"PrimaryRole"})"; }>
+<dtl if ($Env{"UserLogin"} ne "") { $Data{"UserLoginTop"} = "($Env{"UserEmail"})"; }>
 # --
 <html>
 <head>
 <!-- dtl:block:MetaHttpEquivRefresh -->
   <meta http-equiv="refresh" content="$QData{"Refresh"}">
 <!-- dtl:block:MetaHttpEquivRefresh -->
+<!-- dtl:block:MetaLink -->
+  <link rel="$QData{"Rel"}" type="$QData{"Type"}" title="$Data{"Title"}" href="$Data{"Href"}">
+<!-- dtl:block:MetaLink -->
+  <link rel="shortcut icon" href="$Env{"Images"}product.ico" type="image/ico" />
   <title>$Config{"ProductName"} $QData{"TitleArea"}</title>
 # include css.dtl  file
 $Include{"css"}
 </head>
 <a name="top"></a>
 <body>
-
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td align="left" width="20%" class="header">
       <b>
-      $Env{"Box0"}
-      <a href="$Env{"Baselink"}" accesskey="h" onmouseover="window.status='$JSText{"Home"}'; return true;" onmouseout="window.status='';" class="headeritem">
-      $Config{"ProductName"}
-      </a>
-      $Env{"Box1"}
+      $Env{"Box0"}<a href="$Env{"Baselink"}" accesskey="h" onmouseover="window.status='$JSText{"Home"}'; return true;" onmouseout="window.status='';" class="headeritem">$Config{"ProductName"}</a>$Env{"Box1"}
       </b>
     </td>
     <td align="right" width="80%" class="header">
