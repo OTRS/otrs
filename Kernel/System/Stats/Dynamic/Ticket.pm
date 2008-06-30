@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/Ticket.pm - all advice functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.18 2008-05-08 09:36:21 mh Exp $
+# $Id: Ticket.pm,v 1.19 2008-06-30 16:46:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -235,11 +235,63 @@ sub GetObjectAttributes {
             UseAsValueSeries => 1,
             UseAsRestriction => 1,
             Element          => 'CloseTime2',
-            TimePeriodFormat => 'DateInputFormat',    #'DateInputFormat',  # 'DateInputFormatLong',
+            TimePeriodFormat => 'DateInputFormat',    # 'DateInputFormatLong',
             Block            => 'Time',
             Values           => {
                 TimeStart => 'TicketCloseTimeNewerDate',
                 TimeStop  => 'TicketCloseTimeOlderDate',
+            },
+        },
+        {
+            Name             => 'Escalation',
+            UseAsXvalue      => 1,
+            UseAsValueSeries => 1,
+            UseAsRestriction => 1,
+            Element          => 'EscalationTime',
+            TimePeriodFormat => 'DateInputFormatLong',    # 'DateInputFormat',
+            Block            => 'Time',
+            Values           => {
+                TimeStart => 'TicketEscalationTimeNewerDate',
+                TimeStop  => 'TicketEscalationTimeOlderDate',
+            },
+        },
+        {
+            Name             => 'Escalation - First Response Time',
+            UseAsXvalue      => 1,
+            UseAsValueSeries => 1,
+            UseAsRestriction => 1,
+            Element          => 'EscalationResponseTime',
+            TimePeriodFormat => 'DateInputFormatLong',                # 'DateInputFormat',
+            Block            => 'Time',
+            Values           => {
+                TimeStart => 'TicketEscalationResponseTimeNewerDate',
+                TimeStop  => 'TicketEscalationResponseTimeOlderDate',
+            },
+        },
+        {
+            Name             => 'Escalation - Update Time',
+            UseAsXvalue      => 1,
+            UseAsValueSeries => 1,
+            UseAsRestriction => 1,
+            Element          => 'EscalationUpdateTime',
+            TimePeriodFormat => 'DateInputFormatLong',        # 'DateInputFormat',
+            Block            => 'Time',
+            Values           => {
+                TimeStart => 'TicketEscalationUpdateTimeNewerDate',
+                TimeStop  => 'TicketEscalationUpdateTimeOlderDate',
+            },
+        },
+        {
+            Name             => 'Escalation - Solution Time',
+            UseAsXvalue      => 1,
+            UseAsValueSeries => 1,
+            UseAsRestriction => 1,
+            Element          => 'EscalationSolutionTime',
+            TimePeriodFormat => 'DateInputFormatLong',          # 'DateInputFormat',
+            Block            => 'Time',
+            Values           => {
+                TimeStart => 'TicketEscalationSolutionTimeNewerDate',
+                TimeStop  => 'TicketEscalationSolutionTimeOlderDate',
             },
         },
     );
