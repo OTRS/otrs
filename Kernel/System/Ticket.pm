@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.327 2008-06-24 08:04:01 mh Exp $
+# $Id: Ticket.pm,v 1.328 2008-06-30 15:03:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.327 $) [1];
+$VERSION = qw($Revision: 1.328 $) [1];
 
 =head1 NAME
 
@@ -3048,6 +3048,12 @@ To find tickets in your system.
         # tickets with pending time before then ... (optional)
         TicketPendingTimeOlderDate => '2006-01-19 23:59:59',
 
+        # you can use all following escalation options with this four different ways of escalations
+        # TicketEscalationTime...
+        # TicketEscalationUpdateTime...
+        # TicketEscalationResponseTime...
+        # TicketEscalationSolutionTime...
+
         # ticket escalations over 60 minutes (optional)
         TicketEscalationTimeOlderMinutes => -60,
         # ticket escalations in 120 minutes (optional)
@@ -3059,10 +3065,11 @@ To find tickets in your system.
         TicketEscalationTimeOlderDate => '2006-01-09 23:59:59',
 
         # OrderBy and SortBy (optional)
-        OrderBy => 'Down',      # Down|Up
-        SortBy  => 'Age',       # Owner|CustomerID|State|Ticket|Queue|Priority|Age|Type|Lock
-                                # Service|SLA|EscalationTime
-                                # TicketFreeTime1-2|TicketFreeKey1-16|TicketFreeText1-16
+        OrderBy => 'Down',  # Down|Up
+        SortBy  => 'Age',   # Owner|CustomerID|State|Ticket|Queue|Priority|Age|Type|Lock
+                            # Service|SLA|EscalationTime
+                            # EscalationUpdateTime|EscalationResponseTime|EscalationSolutionTime
+                            # TicketFreeTime1-2|TicketFreeKey1-16|TicketFreeText1-16
 
         # OrderBy and SortBy as ARRAY for sub sorting (optional)
         OrderBy => ['Down', 'Up'],
@@ -3090,58 +3097,61 @@ sub TicketSearch {
         $Param{ContentSearch} = 'AND';
     }
     my %SortOptions = (
-        Owner            => 'st.user_id',
-        Responsible      => 'st.responsible_user_id',
-        CustomerID       => 'st.customer_id',
-        State            => 'st.ticket_state_id',
-        Lock             => 'st.ticket_lock_id',
-        Ticket           => 'st.tn',
-        Title            => 'st.title',
-        Queue            => 'sq.name',
-        Type             => 'st.type_id',
-        Priority         => 'st.ticket_priority_id',
-        Age              => 'st.create_time_unix',
-        Service          => 'st.service_id',
-        SLA              => 'st.sla_id',
-        EscalationTime   => 'st.escalation_time',
-        TicketFreeTime1  => 'st.freetime1',
-        TicketFreeTime2  => 'st.freetime2',
-        TicketFreeTime3  => 'st.freetime3',
-        TicketFreeTime4  => 'st.freetime4',
-        TicketFreeTime5  => 'st.freetime5',
-        TicketFreeTime6  => 'st.freetime6',
-        TicketFreeKey1   => 'st.freekey1',
-        TicketFreeText1  => 'st.freetext1',
-        TicketFreeKey2   => 'st.freekey2',
-        TicketFreeText2  => 'st.freetext2',
-        TicketFreeKey3   => 'st.freekey3',
-        TicketFreeText3  => 'st.freetext3',
-        TicketFreeKey4   => 'st.freekey4',
-        TicketFreeText4  => 'st.freetext4',
-        TicketFreeKey5   => 'st.freekey5',
-        TicketFreeText5  => 'st.freetext5',
-        TicketFreeKey6   => 'st.freekey6',
-        TicketFreeText6  => 'st.freetext6',
-        TicketFreeKey7   => 'st.freekey7',
-        TicketFreeText7  => 'st.freetext7',
-        TicketFreeKey8   => 'st.freekey8',
-        TicketFreeText8  => 'st.freetext8',
-        TicketFreeKey9   => 'st.freekey9',
-        TicketFreeText9  => 'st.freetext9',
-        TicketFreeKey10  => 'st.freekey10',
-        TicketFreeText10 => 'st.freetext10',
-        TicketFreeKey11  => 'st.freekey11',
-        TicketFreeText11 => 'st.freetext11',
-        TicketFreeKey12  => 'st.freekey12',
-        TicketFreeText12 => 'st.freetext12',
-        TicketFreeKey13  => 'st.freekey13',
-        TicketFreeText13 => 'st.freetext13',
-        TicketFreeKey14  => 'st.freekey14',
-        TicketFreeText14 => 'st.freetext14',
-        TicketFreeKey15  => 'st.freekey15',
-        TicketFreeText15 => 'st.freetext15',
-        TicketFreeKey16  => 'st.freekey16',
-        TicketFreeText16 => 'st.freetext16',
+        Owner                  => 'st.user_id',
+        Responsible            => 'st.responsible_user_id',
+        CustomerID             => 'st.customer_id',
+        State                  => 'st.ticket_state_id',
+        Lock                   => 'st.ticket_lock_id',
+        Ticket                 => 'st.tn',
+        Title                  => 'st.title',
+        Queue                  => 'sq.name',
+        Type                   => 'st.type_id',
+        Priority               => 'st.ticket_priority_id',
+        Age                    => 'st.create_time_unix',
+        Service                => 'st.service_id',
+        SLA                    => 'st.sla_id',
+        EscalationTime         => 'st.escalation_time',
+        EscalationUpdateTime   => 'st.escalation_update_time',
+        EscalationResponseTime => 'st.escalation_response_time',
+        EscalationSolutionTime => 'st.escalation_solution_time',
+        TicketFreeTime1        => 'st.freetime1',
+        TicketFreeTime2        => 'st.freetime2',
+        TicketFreeTime3        => 'st.freetime3',
+        TicketFreeTime4        => 'st.freetime4',
+        TicketFreeTime5        => 'st.freetime5',
+        TicketFreeTime6        => 'st.freetime6',
+        TicketFreeKey1         => 'st.freekey1',
+        TicketFreeText1        => 'st.freetext1',
+        TicketFreeKey2         => 'st.freekey2',
+        TicketFreeText2        => 'st.freetext2',
+        TicketFreeKey3         => 'st.freekey3',
+        TicketFreeText3        => 'st.freetext3',
+        TicketFreeKey4         => 'st.freekey4',
+        TicketFreeText4        => 'st.freetext4',
+        TicketFreeKey5         => 'st.freekey5',
+        TicketFreeText5        => 'st.freetext5',
+        TicketFreeKey6         => 'st.freekey6',
+        TicketFreeText6        => 'st.freetext6',
+        TicketFreeKey7         => 'st.freekey7',
+        TicketFreeText7        => 'st.freetext7',
+        TicketFreeKey8         => 'st.freekey8',
+        TicketFreeText8        => 'st.freetext8',
+        TicketFreeKey9         => 'st.freekey9',
+        TicketFreeText9        => 'st.freetext9',
+        TicketFreeKey10        => 'st.freekey10',
+        TicketFreeText10       => 'st.freetext10',
+        TicketFreeKey11        => 'st.freekey11',
+        TicketFreeText11       => 'st.freetext11',
+        TicketFreeKey12        => 'st.freekey12',
+        TicketFreeText12       => 'st.freetext12',
+        TicketFreeKey13        => 'st.freekey13',
+        TicketFreeText13       => 'st.freetext13',
+        TicketFreeKey14        => 'st.freekey14',
+        TicketFreeText14       => 'st.freetext14',
+        TicketFreeKey15        => 'st.freekey15',
+        TicketFreeText15       => 'st.freetext15',
+        TicketFreeKey16        => 'st.freekey16',
+        TicketFreeText16       => 'st.freetext16',
     );
 
     # check required params
@@ -3856,16 +3866,19 @@ sub TicketSearch {
 
     # get tickets created/escalated older then x minutes
     my %TicketTime = (
-        TicketCreateTime     => 'st.create_time_unix',
-        TicketEscalationTime => 'st.escalation_time',
+        TicketCreateTime             => 'st.create_time_unix',
+        TicketEscalationTime         => 'st.escalation_time',
+        TicketEscalationUpdateTime   => 'st.escalation_update_time',
+        TicketEscalationResponseTime => 'st.escalation_response_time',
+        TicketEscalationSolutionTime => 'st.escalation_solution_time',
     );
     for my $Key ( keys %TicketTime ) {
 
         # get tickets created older then x minutes
         if ( $Param{ $Key . 'OlderMinutes' } ) {
 
-            # exclude tickets wirt no escalation
-            if ( $Key eq 'TicketEscalationTime' ) {
+            # exclude tickets with no escalation
+            if ( $Key =~ m{ \A TicketEscalation }xms ) {
                 $SQLExt .= " AND $TicketTime{$Key} != 0";
             }
 
@@ -3876,8 +3889,8 @@ sub TicketSearch {
         # get tickets created newer then x minutes
         if ( $Param{ $Key . 'NewerMinutes' } ) {
 
-            # exclude tickets wirt no escalation
-            if ( $Key eq 'TicketEscalationTime' ) {
+            # exclude tickets with no escalation
+            if ( $Key =~ m{ \A TicketEscalation }xms ) {
                 $SQLExt .= " AND $TicketTime{$Key} != 0";
             }
 
@@ -3903,8 +3916,8 @@ sub TicketSearch {
                 return;
             }
 
-            # exclude tickets wirt no escalation
-            if ( $Key eq 'TicketEscalationTime' ) {
+            # exclude tickets with no escalation
+            if ( $Key =~ m{ \A TicketEscalation }xms ) {
                 $SQLExt .= " AND $TicketTime{$Key} != 0";
             }
             my $Time = $Self->{TimeObject}->TimeStamp2SystemTime(
@@ -3927,8 +3940,8 @@ sub TicketSearch {
                 return;
             }
 
-            # exclude tickets wirt no escalation
-            if ( $Key eq 'TicketEscalationTime' ) {
+            # exclude tickets with no escalation
+            if ( $Key =~ m{ \A TicketEscalation }xms ) {
                 $SQLExt .= " AND $TicketTime{$Key} != 0";
             }
             my $Time = $Self->{TimeObject}->TimeStamp2SystemTime(
@@ -6555,6 +6568,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.327 $ $Date: 2008-06-24 08:04:01 $
+$Revision: 1.328 $ $Date: 2008-06-30 15:03:28 $
 
 =cut
