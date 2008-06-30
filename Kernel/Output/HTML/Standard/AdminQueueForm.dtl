@@ -2,7 +2,7 @@
 # AdminQueueForm.dtl - provides HTML form for AdminQueue
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueueForm.dtl,v 1.39 2008-04-02 08:59:22 ot Exp $
+# $Id: AdminQueueForm.dtl,v 1.40 2008-06-30 16:44:12 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -98,7 +98,7 @@
                 </tr>
                 <tr>
                   <td class="contentkey">
-                    $Text{"Escalation - Update Time"}
+                    $Text{"Escalation - Update Time"}:
                     <br/>
                     <i class="small">($Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"} - $Text{"Only business hours are counted."})</i>
                   </td>
@@ -108,7 +108,7 @@
                 </tr>
                 <tr>
                   <td class="contentkey">
-                    $Text{"Escalation - Solution Time"}
+                    $Text{"Escalation - Solution Time"}:
                     <br/>
                     <i class="small">($Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"} - $Text{"Only business hours are counted."})</i>
                   </td>
