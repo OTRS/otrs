@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.64 2008-06-23 09:58:58 ub Exp $
+# $Id: AgentTicketEmail.pm,v 1.65 2008-06-30 17:42:36 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -964,7 +964,7 @@ sub Run {
         }
     }
     elsif ( $Self->{Subaction} eq 'AJAXUpdate' ) {
-        my $Dest         = $Self->{ParamObject}->GetParam( Param => 'Dest' );
+        my $Dest         = $Self->{ParamObject}->GetParam( Param => 'Dest' ) || '';
         my $CustomerUser = $Self->{ParamObject}->GetParam( Param => 'SelectedCustomerUser' );
         my $QueueID      = '';
         if ( $Dest =~ /^(\d{1,100})\|\|.+?$/ ) {
@@ -1189,7 +1189,7 @@ sub _GetTypes {
 
     my %Type = ();
 
-    # get priority
+    # get type
     if ( $Param{QueueID} || $Param{TicketID} ) {
         %Type = $Self->{TicketObject}->TicketTypeList(
             %Param,
@@ -1205,7 +1205,7 @@ sub _GetServices {
 
     my %Service = ();
 
-    # get priority
+    # get service
     if ( ( $Param{QueueID} || $Param{TicketID} ) && $Param{CustomerUserID} ) {
         %Service = $Self->{TicketObject}->TicketServiceList(
             %Param,
@@ -1221,7 +1221,7 @@ sub _GetSLAs {
 
     my %SLA = ();
 
-    # get priority
+    # get sla
     if ( $Param{ServiceID} ) {
         %SLA = $Self->{TicketObject}->TicketSLAList(
             %Param,
@@ -1291,7 +1291,7 @@ sub _GetTos {
         }
     }
 
-    # adde empty selection
+    # add empty selection
     $NewTos{''} = '-';
     return \%NewTos;
 }
@@ -1368,7 +1368,7 @@ sub _MaskEmailNew {
         );
     }
 
-    # build so string
+    # build to string
     my %NewTo = ();
     if ( $Param{FromList} ) {
         for ( keys %{ $Param{FromList} } ) {
