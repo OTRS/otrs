@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.95 2008-06-25 13:06:25 martin Exp $
+# $Id: Layout.pm,v 1.96 2008-07-01 22:34:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.95 $) [1];
+$VERSION = qw($Revision: 1.96 $) [1];
 
 =head1 NAME
 
@@ -2123,28 +2123,29 @@ sub OptionElement {
 build a html option element based on given data
 
     my $HTML = $LayoutObject->BuildSelection(
-        Data => $ArrayRef,           # use $HashRef, $ArrayRef or $ArrayHashRef (see below)
+        Data => $ArrayRef,                # use $HashRef, $ArrayRef or $ArrayHashRef (see below)
 
-        Name => 'TheName',           # name of element
-        Multiple => 0,               # (optional) default 0 (0|1)
-        Size => 1,                   # (optional) default 1 element size
-        Class => 'class',            # (optional) a css class
-        Disabled => 0,               # (optional) default 0 (0|1) disable the element
-        OnChange => 'javascript',    # (optional)
+        Name       => 'TheName',          # name of element
+        Multiple   => 0,                  # (optional) default 0 (0|1)
+        Size       => 1,                  # (optional) default 1 element size
+        Class      => 'class',            # (optional) a css class
+        Disabled   => 0,                  # (optional) default 0 (0|1) disable the element
+        OnChange   => 'javascript',       # (optional)
+        OnClick    => 'javascript',       # (optional)
 
-        SelectedID => 1,             # (optional) use integer or arrayref (unable to use with ArrayHashRef)
-        SelectedID => [1, 5, 3],     # (optional) use integer or arrayref (unable to use with ArrayHashRef)
-        SelectedValue => 'test',     # (optional) use string or arrayref (unable to use with ArrayHashRef)
+        SelectedID    => 1,               # (optional) use integer or arrayref (unable to use with ArrayHashRef)
+        SelectedID    => [1, 5, 3],       # (optional) use integer or arrayref (unable to use with ArrayHashRef)
+        SelectedValue => 'test',          # (optional) use string or arrayref (unable to use with ArrayHashRef)
         SelectedValue => ['test', 'test1'], # (optional) use string or arrayref (unable to use with ArrayHashRef)
-        Sort => 'NumericValue',      # (optional) (AlphanumericValue|NumericValue|AlphanumericKey|NumericKey|TreeView) unable to use with ArrayHashRef
-        SortReverse => 0,            # (optional) reverse the list
-        Translation => 1,            # (optional) default 1 (0|1) translate value
-        PossibleNone => 0,           # (optional) default 0 (0|1) add a leading empty selection
-        TreeView => 0,               # (optional) default 0 (0|1)
-        DisabledBranch => 'Branch',  # (optional) disable all elements of this branch (use string or arrayref)
-        Max => 100,                  # (optional) default 100 max size of the shown value
-        HTMLQuote => 0,              # (optional) default 1 (0|1) disable html quote
-        Title => 'Tooltip Text',     # (optional) string will be shown as Tooltip on mouseover
+        Sort => 'NumericValue',           # (optional) (AlphanumericValue|NumericValue|AlphanumericKey|NumericKey|TreeView) unable to use with ArrayHashRef
+        SortReverse    => 0,              # (optional) reverse the list
+        Translation    => 1,              # (optional) default 1 (0|1) translate value
+        PossibleNone   => 0,              # (optional) default 0 (0|1) add a leading empty selection
+        TreeView       => 0,              # (optional) default 0 (0|1)
+        DisabledBranch => 'Branch',       # (optional) disable all elements of this branch (use string or arrayref)
+        Max            => 100,            # (optional) default 100 max size of the shown value
+        HTMLQuote      => 0,              # (optional) default 1 (0|1) disable html quote
+        Title          => 'Tooltip Text', # (optional) string will be shown as Tooltip on mouseover
     );
 
     my $HashRef = {
@@ -2376,7 +2377,7 @@ sub _BuildSelectionAttributeRefCreate {
     my $AttributeRef = {};
 
     # check params with key and value
-    for (qw(Name Size Class OnChange)) {
+    for (qw(Name Size Class OnChange OnClick)) {
         if ( $Param{$_} ) {
             $AttributeRef->{ lc($_) } = $Param{$_};
         }
@@ -3919,6 +3920,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.95 $ $Date: 2008-06-25 13:06:25 $
+$Revision: 1.96 $ $Date: 2008-07-01 22:34:55 $
 
 =cut
