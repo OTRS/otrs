@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketNote.pm - to add notes to a ticket
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketNote.pm,v 1.47 2008-07-01 12:08:28 ub Exp $
+# $Id: AgentTicketNote.pm,v 1.48 2008-07-01 12:22:45 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -968,7 +968,7 @@ sub _Mask {
 
     # get next states
     if ( $Self->{Config}->{Priority} ) {
-        my %Priority = ();
+        my %Priority;
         my %PriorityList = $Self->{TicketObject}->PriorityList(
             UserID   => $Self->{UserID},
             TicketID => $Self->{TicketID},
