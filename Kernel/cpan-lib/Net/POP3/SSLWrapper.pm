@@ -4,7 +4,7 @@ use warnings;
 use base qw/Net::Cmd IO::Socket::SSL Exporter/;
 use Net::POP3;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 our @EXPORT = 'pop3s';
 
 sub pop3s(&) { ## no critic.
