@@ -61,8 +61,7 @@ Authen::SASL::Perl::CRAM_MD5 - CRAM MD5 Authentication class
 =head1 DESCRIPTION
 
 This method implements the client part of the CRAM-MD5 SASL algorithm,
-as described in RFC 2195 resp. in IETF Draft draft-ietf-sasl-crammd5-02.txt
-from January 2004.
+as described in RFC 2195 resp. in IETF Draft draft-ietf-sasl-crammd5-XX.txt.
 
 =head2 CALLBACK
 

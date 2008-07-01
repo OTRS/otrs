@@ -52,8 +52,7 @@ Authen::SASL::Perl::ANONYMOUS - Anonymous Authentication class
 =head1 DESCRIPTION
 
 This method implements the client part of the ANONYMOUS SASL algorithm,
-as described in RFC 2245 resp. in IETF Draft draft-ietf-sasl-anon-03.txt
-from February 2004.
+as described in RFC 2245 resp. in IETF Draft draft-ietf-sasl-anon-XX.txt.
 
 =head2 CALLBACK
 

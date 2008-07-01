@@ -8,7 +8,7 @@ use strict;
 use vars qw($VERSION);
 use Carp;
 
-$VERSION = "1.05";
+$VERSION = "1.06";
 
 my %secflags = (
 	noplaintext  => 1,
@@ -26,6 +26,7 @@ sub client_new {
     callback => { %{$parent->callback} },
     service  => $service  || '',
     host     => $host     || '',
+    debug    => $parent->{debug} || 0,
   };
 
   my @mpkg = sort {
@@ -124,8 +125,173 @@ sub answer {
 
 sub _secflags { 0 }
 
-sub securesocket { $_[1] }
+sub securesocket {
+  my $self = shift;
+  return $_[0] unless ($self->property('ssf') > 0);
+
+  local *GLOB; # avoid used only once warning
+  my $glob = \do { local *GLOB; };
+  tie(*$glob, 'Authen::SASL::Perl::Layer', $_[0], $self);
+  $glob;
+}
+
+{
+
+#
+# Add SASL encoding/decoding to a filehandle
+#
+
+  package Authen::SASL::Perl::Layer;
+
+  use bytes;
+
+  require Tie::Handle;
+  our @ISA = qw(Tie::Handle);
+
+  sub TIEHANDLE {
+    my ($class, $fh, $conn) = @_;
+    my $self;
+
+    warn __PACKAGE__ . ': non-blocking handle may not work'
+      if ($fh->can('blocking') and not $fh->blocking());
+
+    $self->{fh}         = $fh;
+    $self->{conn}       = $conn;
+    $self->{readbuflen} = 0;
+    $self->{sndbufsz}   = $conn->property('maxout');
+    $self->{rcvbufsz}   = $conn->property('maxbuf');
+
+    return bless($self, $class);
+  }
+
+  sub CLOSE {
+    my ($self) = @_;
+
+    # forward close to the inner handle
+    close($self->{fh});
+    delete $self->{fh};
+  }
+
+  sub DESTROY {
+    my ($self) = @_;
+    delete $self->{fh};
+    undef $self;
+  }
+
+  sub FETCH {
+    my ($self) = @_;
+    return $self->{fh};
+  }
+
+  sub FILENO {
+    my ($self) = @_;
+    return fileno($self->{fh});
+  }
+
+
+  sub READ {
+    my ($self, $buf, $len, $offset) = @_;
+    my $debug = $self->{conn}->{debug};
+
+    $buf = \$_[1];
+
+    my $avail = $self->{readbuflen};
+
+    print STDERR " [READ(len=$len,offset=$offset)] avail=$avail;\n"
+      if ($debug & 4);
+
+    # Check if there's leftovers from a previous READ
+    if ($avail <= 0) {
+      $avail = $self->_getbuf();
+      return undef unless ($avail > 0);
+    }
+
+    # if there's more than we need right now, leave the rest for later
+    if ($avail >= $len) {
+      print STDERR "   GOT ALL: avail=$avail; need=$len\n"
+        if ($debug & 4);
+      substr($$buf, $offset, $len) = substr($self->{readbuf}, 0, $len, '');
+      $self->{readbuflen} -= $len;
+      return ($len);
+    }
+
+    # there's not enough; take all we have, read more on next call
+    print STDERR "   GOT PARTIAL: avail=$avail; need=$len\n"
+      if ($debug & 4);
+    substr($$buf, $offset, $avail) = $self->{readbuf};
+    $self->{readbuf}    = '';
+    $self->{readbuflen} = 0;
+
+    return ($avail);
+  }
+
+  # retrieve and decode a buffer of cipher text in SASL format
+  sub _getbuf {
+    my ($self) = @_;
+    my $debug  = $self->{conn}->{debug};
+    my $fh     = $self->{fh};
+    my $buf    = '';
+
+    # first, read 4-octet buffer size
+    my $n = 0;
+    while ($n < 4) {
+      my $rv = sysread($fh, $buf, 4 - $n, $n);
+      print STDERR "    [getbuf: sysread($fh,$buf,4-$n,$n)=$rv: $!\n"
+        if ($debug & 4);
+      return $rv unless $rv > 0;
+      $n += $rv;
+    }
+
+    # size is encoded in network byte order
+    my ($bsz) = unpack('N', $buf);
+    print STDERR "    [getbuf: cipher buffer sz=$bsz]\n" if ($debug & 4);
+    return undef unless ($bsz <= $self->{rcvbufsz});
+
+    # next, read actual cipher text
+    $buf = '';
+    $n   = 0;
+    while ($n < $bsz) {
+      my $rv = sysread($fh, $buf, $bsz - $n, $n);
+      print STDERR "    [getbuf: got o=$n,n=", $bsz - $n, ",rv=$rv,bl=" . length($buf) . "]\n"
+        if ($debug & 4);
+      return $rv unless $rv > 0;
+      $n += $rv;
+    }
+
+    # call mechanism specific decoding routine
+    $self->{readbuf} = $self->{conn}->decode($buf, $bsz);
+    $n = length($self->{readbuf});
+    print STDERR "    [getbuf: clear text buffer sz=$n]\n" if ($debug & 4);
+    $self->{readbuflen} = $n;
+  }
+
+
+  # Encrypting a write() to a filehandle is much easier than reading, because
+  # all the data to be encrypted is immediately available
+  sub WRITE {
+    my ($self, undef, $len, $offset) = @_;
+    my $debug = $self->{conn}->{debug};
+
+    my $fh = $self->{fh};
+
+    $offset |= 0;	# keep substr() happy
+
+    # put on wire in peer-sized chunks
+    my $bsz = $self->{sndbufsz};
+    while ($len > 0) {
+      print STDERR " [WRITE: chunk $bsz/$len]\n"
+        if ($debug & 8);
+
+      # call mechanism specific encoding routine
+      my $x = $self->{conn}->encode(substr($_[1], $offset, $bsz));
+      print $fh pack('N', length($x)), $x;
+      $len -= $bsz;
+      $offset += $bsz;
+    }
+
+    return $_[2];
+  }
+
+}
 
 1;
-
-

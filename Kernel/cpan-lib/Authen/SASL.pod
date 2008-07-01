@@ -53,40 +53,76 @@ or if you have another plugin module that supports the Authen::SASL API
 
 =head2 CONTRUCTOR
 
+=over 4
+
+=item new ( OPTIONS )
+
 The contructor may be called with or without arguments. Passing arguments is
 just a short cut to calling the C<mechanism> and C<callback> methods.
+
+=over 4
+
+=item callback =E<gt> { NAME => VALUE, NAME => VALUE, ... }
+
+Set the callbacks.
+See the L<callback|/callback> method for details.
+
+=item mechanism =E<gt> NAMES
+
+=item mech =E<gt> NAMES
+
+Set the list of mechanisms to choose from.
+See the L<mechanism|/mechanism> method for details.
+
+=item debug =E<gt> VALUE
+
+Set the debug level bit-value to C<VALUE> 
+
+Debug output will be sent to C<STDERR>. The
+bits of this value are:
+
+ 1   Show debug messages in the Perl modules for the mechanisms.
+     (Currently only used in GSSAPI)
+ 4   With security layers in place show information on packages read.
+ 8   With security layers in place show information on packages written.
+
+The default value is 0.
+
+=back
+
+=back
 
 =head2 METHODS
 
 =over 4
 
-=item mechanism
+=item mechanism ( )
 
 Returns the current list of mechanisms
 
-=item mechanism NAMES
+=item mechanism ( NAMES )
 
-Set the list of mechanisms to choose from. NAMES should be a space separated string
+Set the list of mechanisms to choose from. C<NAMES> should be a space separated string
 of the names.
 
-=item callback NAME
+=item callback ( NAME )
 
-Returns the current callback associated with NAME
+Returns the current callback associated with C<NAME>.
 
-=item callback NAME => VALUE, NAME => VALUE, ...
+=item callback ( NAME => VALUE, NAME => VALUE, ... )
 
 Sets the given callbacks to the given values
 
-=item client_new SERVICE, HOST, SECURITY
+=item client_new ( SERVICE, HOST, SECURITY )
 
 Creates and returns a new connection object for a client-side connection.
 
-=item server_new SERVICE, HOST
+=item server_new ( SERVICE, HOST )
 
 Creates and returns a new connection object for a server-side connection.
 Currently only supported by L<Authen::SASL::Cyrus>.
 
-=item error
+=item error ( )
 
 Returns any error from the last connection
 
@@ -108,34 +144,38 @@ you can give the client challenge as a parameter.
 server_step performs the next step in the negotiation process. The
 first parameter you give is the clients challenge/response.
 
-=item client_start
+=item client_start ( )
 
 The initial step to be performed. Returns the initial value to pass to the server
 or an empty list on error.
 
-=item client_step CHALLENGE
+=item client_step ( CHALLENGE )
 
 This method is called when a response from the server requires it. CHALLENGE
 is the value from the server. Returns the next value to pass to the server or an
 empty list on error.
 
-=item answer NAME
+=item answer ( NAME )
 
 The method will return the value returned from the last call to the callback NAME
 
-=item property NAME
+=item property ( NAME )
 
-=item property NAME => VALUE, NAME => VALUE
+Returns the property value associated with C<NAME>.
 
-=item service
+=item property ( NAME => VALUE, NAME => VALUE, ... )
+
+Sets the named properties to their associated values.
+
+=item service ( )
 
 Returns the service argument that was passed to *_new-methods.
 
-=item host
+=item host ( )
 
 Returns the host argument that was passed to *_new-methods.
 
-=item mechanism
+=item mechanism ( )
 
 Returns the name of the chosen mechanism.
 

@@ -60,7 +60,7 @@ Authen::SASL::Perl::LOGIN - Login Authentication class
 =head1 DESCRIPTION
 
 This method implements the client part of the LOGIN SASL algorithm,
-as described in IETF Draft draft-murchison-sasl-login-00.txt from August 2003.
+as described in IETF Draft draft-murchison-sasl-login-XX.txt.
 
 =head2 CALLBACK
 

@@ -8,7 +8,7 @@ use strict;
 use vars qw($VERSION @Plugins);
 use Carp;
 
-$VERSION = "2.10";
+$VERSION = "2.11";
 
 @Plugins = qw(
 	Authen::SASL::Cyrus
@@ -33,6 +33,7 @@ sub new {
   my $self = bless {
     mechanism => $opt{mechanism} || $opt{mech},
     callback  => {},
+    debug => $opt{debug},
   }, $pkg;
 
   $self->callback(%{$opt{callback}}) if ref($opt{callback}) eq 'HASH';

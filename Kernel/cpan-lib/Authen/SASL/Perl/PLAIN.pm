@@ -56,8 +56,7 @@ Authen::SASL::Perl::PLAIN - Plain Login Authentication class
 =head1 DESCRIPTION
 
 This method implements the client part of the PLAIN SASL algorithm,
-as described in RFC 2595 resp. IETF Draft draft-ietf-sasl-plain-04.txt
-from February 2004.
+as described in RFC 2595 resp. IETF Draft draft-ietf-sasl-plain-XX.txt
 
 =head2 CALLBACK
 
