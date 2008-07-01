@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.692 2008-07-01 15:30:15 ub Exp $
+# $Id: CHANGES,v 1.693 2008-07-01 15:51:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.3.0 beta4 (2008/07/??)
+ - (2008/07/01) Fixed bug# 3046 - Phone and Email-Ticket needs to get clicked
+    twice on "create" to get created.
  - (2008/07/01) Fixed bug# 3047 - Not possible to reset service or sla in
     AgentTicketNote.
  - (2008/07/01) Updated CPAN module Net::POP3::SSLWrapper to version 0.02.
