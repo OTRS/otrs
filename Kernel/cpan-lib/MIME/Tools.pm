@@ -11,7 +11,7 @@ use vars (qw(@ISA %CONFIG @EXPORT_OK %EXPORT_TAGS $VERSION $ME
 
 require Exporter;
 use IO::File;
-use File::Temp ();
+use File::Temp 0.18 ();
 use Carp;
 
 $ME = "MIME-tools";
@@ -22,13 +22,13 @@ $ME = "MIME-tools";
 %EXPORT_TAGS = (
     'config'  => [qw(%CONFIG)],
     'msgs'    => [qw(usage debug whine error)],
-    'msgtypes'=> [qw($M_DEBUG $M_WARNING $M_ERROR)],		
+    'msgtypes'=> [qw($M_DEBUG $M_WARNING $M_ERROR)],
     'utils'   => [qw(textual_type tmpopen )],
     );
 Exporter::export_ok_tags('config', 'msgs', 'msgtypes', 'utils');
 
 # The TOOLKIT version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.425";
+$VERSION = "5.427";
 
 # Configuration (do NOT alter this directly)...
 # All legal CONFIG vars *must* be in here, even if only to be set to undef:
@@ -275,7 +275,7 @@ Here are the classes you'll generally be dealing with directly:
            `-----------'   \ filer()  | MIME::          |
               | parse()     `-------->| Parser::Filer   |
               | gives you             `-----------------'
-              | a...                        	      | output_path() 
+              | a...                        	      | output_path()
               |                         	      | determines
               |					      | path() of...
               |    head()       .--------.	      |
@@ -470,7 +470,7 @@ to be asking for trouble... or at least, for Mail::Cap...
 
 =head2 Message-logging
 
-MIME-tools is a large and complex toolkit which tries to deal with 
+MIME-tools is a large and complex toolkit which tries to deal with
 a wide variety of external input.  It's sometimes helpful to see
 what's really going on behind the scenes.
 There are several kinds of messages logged by the toolkit itself:
@@ -480,7 +480,7 @@ There are several kinds of messages logged by the toolkit itself:
 =item Debug messages
 
 These are printed directly to the STDERR, with a prefix of
-C<"MIME-tools: debug">.  
+C<"MIME-tools: debug">.
 
 Debug message are only logged if you have turned
 L</debugging> on in the MIME::Tools configuration.
@@ -489,10 +489,10 @@ L</debugging> on in the MIME::Tools configuration.
 =item Warning messages
 
 These are logged by the standard Perl warn() mechanism
-to indicate an unusual situation.  
+to indicate an unusual situation.
 They all have a prefix of C<"MIME-tools: warning">.
 
-Warning messages are only logged if C<$^W> is set true 
+Warning messages are only logged if C<$^W> is set true
 and MIME::Tools is not configured to be L</quiet>.
 
 
@@ -502,26 +502,26 @@ These are logged by the standard Perl warn() mechanism
 to indicate that something actually failed.
 They all have a prefix of C<"MIME-tools: error">.
 
-Error messages are only logged if C<$^W> is set true 
+Error messages are only logged if C<$^W> is set true
 and MIME::Tools is not configured to be L</quiet>.
 
 
 =item Usage messages
 
 Unlike "typical" warnings above, which warn about problems processing
-data, usage-warnings are for alerting developers of deprecated methods 
-and suspicious invocations.  
+data, usage-warnings are for alerting developers of deprecated methods
+and suspicious invocations.
 
-Usage messages are currently only logged if C<$^W> is set true 
+Usage messages are currently only logged if C<$^W> is set true
 and MIME::Tools is not configured to be L</quiet>.
 
 =back
 
 When a MIME::Parser (or one of its internal helper classes)
-wants to report a message, it generally does so by recording 
+wants to report a message, it generally does so by recording
 the message to the B<MIME::Parser::Results> object
 immediately before invoking the appropriate function above.
-That means each parsing run has its own trace-log which 
+That means each parsing run has its own trace-log which
 can be examined for problems.
 
 
@@ -534,7 +534,7 @@ turn on debugging), use the routines in the B<MIME::Tools> module.
 
 =item debugging
 
-Turn debugging on or off.  
+Turn debugging on or off.
 Default is false (off).
 
      MIME::Tools->debugging(1);
@@ -542,7 +542,7 @@ Default is false (off).
 
 =item quiet
 
-Turn the reporting of warning/error messages on or off.  
+Turn the reporting of warning/error messages on or off.
 Default is true, meaning that these message are silenced.
 
      MIME::Tools->quiet(1);
@@ -576,7 +576,7 @@ they'll give you some ideas of how to use the parser.
 =head2 Run with warnings enabled
 
 I<Always> run your Perl script with C<-w>.
-If you see a warning about a deprecated method, change your 
+If you see a warning about a deprecated method, change your
 code ASAP.  This will ease upgrades tremendously.
 
 
@@ -615,20 +615,20 @@ parse the way you thought they would.
 =head2 Don't plan on printing exactly what you parsed!
 
 I<Parsing is a (slightly) lossy operation.>
-Because of things like ambiguities in base64-encoding, the following 
+Because of things like ambiguities in base64-encoding, the following
 is I<not> going to spit out its input unchanged in all cases:
 
     $entity = $parser->parse(\*STDIN);
     $entity->print(\*STDOUT);
 
 If you're using MIME::Tools to process email, remember to save
-the data you parse if you want to send it on unchanged.  
+the data you parse if you want to send it on unchanged.
 This is vital for things like PGP-signed email.
 
 
 =head2 Understand how international characters are represented
 
-The MIME standard allows for text strings in headers to contain 
+The MIME standard allows for text strings in headers to contain
 characters from any character set, by using special sequences
 which look like this:
 
@@ -636,25 +636,25 @@ which look like this:
 
 To be consistent with the existing Mail::Field classes, MIME::Tools
 does I<not> automatically unencode these strings, since doing so would
-lose the character-set information and interfere with the parsing 
+lose the character-set information and interfere with the parsing
 of fields (see L<MIME::Parser/decode_headers> for a full explanation).
 That means you should be prepared to deal with these encoded strings.
 
 The most common question then is, B<how do I decode these encoded strings?>
 The answer depends on what you want to decode them I<to>:
 ASCII, Latin1, UTF-8, etc.  Be aware that your "target" representation
-may not support all possible character sets you might encounter; 
-for example, Latin1 (ISO-8859-1) has no way of representing Big5 
+may not support all possible character sets you might encounter;
+for example, Latin1 (ISO-8859-1) has no way of representing Big5
 (Chinese) characters.  A common practice is to represent "untranslateable"
 characters as "?"s, or to ignore them completely.
 
-To unencode the strings into some of the more-popular Western byte 
-representations (e.g., Latin1, Latin2, etc.), you can use the decoders 
-in MIME::WordDecoder (see L<MIME::WordDecoder>).  
+To unencode the strings into some of the more-popular Western byte
+representations (e.g., Latin1, Latin2, etc.), you can use the decoders
+in MIME::WordDecoder (see L<MIME::WordDecoder>).
 The simplest way is by using C<unmime()>, a function wrapped
 around your "default" decoder, as follows:
 
-    use MIME::WordDecoder;    
+    use MIME::WordDecoder;
     ...
     $subject = unmime $entity->head->get('subject');
 
@@ -711,7 +711,7 @@ incorrect, which it is.
 
 =head2 Ignoring non-header headers
 
-People like to hand the parser raw messages straight from 
+People like to hand the parser raw messages straight from
 POP3 or from a mailbox.  There is often predictable non-header
 information in front of the real headers; e.g., the initial
 "From" line in the following message:
@@ -728,29 +728,29 @@ shouldn't, but most people seem to want that behavior.
 
 Please note that there is currently an ambiguity in the way
 preambles are parsed in.  The following message fragments I<both>
-are regarded as having an empty preamble (where C<\n> indicates a 
+are regarded as having an empty preamble (where C<\n> indicates a
 newline character):
 
      Content-type: multipart/mixed; boundary="xyz"\n
      Subject: This message (#1) has an empty preamble\n
-     \n      
+     \n
      --xyz\n
      ...
-      
+
      Content-type: multipart/mixed; boundary="xyz"\n
      Subject: This message (#2) also has an empty preamble\n
-     \n      
+     \n
      \n
      --xyz\n
      ...
 
 In both cases, the I<first> completely-empty line (after the "Subject")
-marks the end of the header.  
+marks the end of the header.
 
 But we should clearly ignore the I<second> empty line in message #2,
 since it fills the role of I<"the newline which is only there to make
-sure that the boundary is at the beginning of a line">.  
-Such newlines are I<never> part of the content preceding the boundary; 
+sure that the boundary is at the beginning of a line">.
+Such newlines are I<never> part of the content preceding the boundary;
 thus, there is no preamble "content" in message #2.
 
 However, it seems clear that message #1 I<also> has no preamble
@@ -758,7 +758,7 @@ However, it seems clear that message #1 I<also> has no preamble
 empty preamble.
 
 
-=head2 Use of a temp file during parsing 
+=head2 Use of a temp file during parsing
 
 I<Why not do everything in core?>
 Although the amount of core available on even a modest home
@@ -960,52 +960,46 @@ Latin-2, or any other 8-bit alphabet).
 
 =back
 
+=head1 SEE ALSO
 
+L<MIME::Parser>, L<MIME::Head>, L<MIME::Body>, L<MIME::Entity>, L<MIME::Decoder>, L<Mail::Header>,
+L<Mail::Internet>
 
+At the time of this writing, the MIME-tools homepage was
+F<http://www.mimedefang.org/static/mime-tools.php>.  Check there for
+updates and support.
 
-=head1 TERMS AND CONDITIONS
+The MIME format is documented in RFCs 1521-1522, and more recently
+in RFCs 2045-2049.
 
-Eryq (F<eryq@zeegee.com>), ZeeGee Software Inc (F<http://www.zeegee.com>).
-David F. Skoll (dfs@roaringpenguin.com) http://www.roaringpenguin.com
-
-Copyright (c) 1998, 1999 by ZeeGee Software Inc (www.zeegee.com).
-Copyright (c) 2004 by Roaring Penguin Software Inc (www.roaringpenguin.com)
-
-All rights reserved.  This program is free software; you can redistribute
-it and/or modify it under the same terms as Perl itself.
-See the COPYING file in the distribution for details.
-
+The MIME header format is an outgrowth of the mail header format
+documented in RFC 822.
 
 =head1 SUPPORT
 
-Please email me directly with questions/problems (see AUTHOR below).
-
-If you want to be placed on an email distribution list (not a mailing list!)
-for MIME-tools, and receive bug reports, patches, and updates as to when new
-MIME-tools releases are planned, just email me and say so.  If your project
-is using MIME-tools, it might not be a bad idea to find out about those
-bugs I<before> they become problems...
+Please file support requests via rt.cpan.org.
 
 =head1 CHANGE LOG
-
-See ChangeLog file
-
-=head1 AUTHOR
-
-MIME-tools was created by:
-
-    ___  _ _ _   _  ___ _
-   / _ \| '_| | | |/ _ ' /    Eryq, (eryq@zeegee.com)
-  |  __/| | | |_| | |_| |     President, ZeeGee Software Inc.
-   \___||_|  \__, |\__, |__   http://www.zeegee.com/
-             |___/    |___/
 
 Released as MIME-parser (1.0): 28 April 1996.
 Released as MIME-tools (2.0): Halloween 1996.
 Released as MIME-tools (4.0): Christmas 1997.
 Released as MIME-tools (5.0): Mother's Day 2000.
 
+See ChangeLog file for full details.
 
+=head1 AUTHOR
+
+Eryq (F<eryq@zeegee.com>), ZeeGee Software Inc (F<http://www.zeegee.com>).
+David F. Skoll (F<dfs@roaringpenguin.com>) F<http://www.roaringpenguin.com>.
+
+Copyright (c) 1998, 1999 by ZeeGee Software Inc (www.zeegee.com).
+Copyright (c) 2004 by Roaring Penguin Software Inc (www.roaringpenguin.com)
+
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+
+See the COPYING file in the distribution for details.
 
 =head1 ACKNOWLEDGMENTS
 
@@ -1044,23 +1038,5 @@ comments) have been invaluable in improving the whole:
 
 Please forgive me if I've accidentally left you out.
 Better yet, email me, and I'll put you in.
-
-
-
-=head1 SEE ALSO
-
-At the time of this writing, the MIME-tools homepage was
-F<http://www.mimedefang.org/static/mime-tools.php>.  Check there for
-updates and support.
-
-Users of this toolkit may wish to read the documentation of Mail::Header
-and Mail::Internet.
-
-The MIME format is documented in RFCs 1521-1522, and more recently
-in RFCs 2045-2049.
-
-The MIME header format is an outgrowth of the mail header format
-documented in RFC 822.
-
 
 =cut

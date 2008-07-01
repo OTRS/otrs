@@ -12,30 +12,30 @@ See L<MIME::Words> for the basics of encoded words.
 See L<"DESCRIPTION"> for how this class works.
 
     use MIME::WordDecoder;
-     
-    
+
+
     ### Get the default word-decoder (used by unmime()):
     $wd = default MIME::WordDecoder;
-      
+
     ### Get a word-decoder which maps to ISO-8859-1 (Latin1):
     $wd = supported MIME::WordDecoder "ISO-8859-1";
-    
-       
+
+
     ### Decode a MIME string (e.g., into Latin1) via the default decoder:
     $str = $wd->decode('To: =?ISO-8859-1?Q?Keld_J=F8rn_Simonsen?= <keld>');
-      
+
     ### Decode a string using the default decoder, non-OO style:
     $str = unmime('To: =?ISO-8859-1?Q?Keld_J=F8rn_Simonsen?= <keld>');
- 
+
 
 =head1 DESCRIPTION
 
 A MIME::WordDecoder consists, fundamentally, of a hash which maps
-a character set name (US-ASCII, ISO-8859-1, etc.) to a subroutine which 
-knows how to take bytes in that character set and turn them into 
-the target string representation.  Ideally, this target representation 
-would be Unicode, but we don't want to overspecify the translation 
-that takes place: if you want to convert MIME strings directly to Big5, 
+a character set name (US-ASCII, ISO-8859-1, etc.) to a subroutine which
+knows how to take bytes in that character set and turn them into
+the target string representation.  Ideally, this target representation
+would be Unicode, but we don't want to overspecify the translation
+that takes place: if you want to convert MIME strings directly to Big5,
 that's your own decision.
 
 The subroutine will be invoked with two arguments: DATA (the data in
@@ -44,7 +44,7 @@ the given character set), and CHARSET (the upcased character set name).
 For example:
 
     ### Keep 7-bit characters as-is, convert 8-bit characters to '#':
-    sub keep7bit {  
+    sub keep7bit {
 	local $_ = shift;
 	tr/\x00-\x7F/#/c;
 	$_;
@@ -58,10 +58,10 @@ Here's a decoder which uses that:
                                  'ISO-8859-2' => \&keep7bit,
                                  'Big5'       => "WARN",
                                  '*'          => "DIE"});
-         
-   ### Convert some MIME text to a pure ASCII string...   
+
+   ### Convert some MIME text to a pure ASCII string...
    $ascii = $wd->decode('To: =?ISO-8859-1?Q?Keld_J=F8rn_Simonsen?= <keld>');
-      
+
    ### ...which will now hold: "To: Keld J#rn Simonsen <keld>"
 
 
@@ -86,14 +86,14 @@ use vars qw(@ISA @EXPORT);
 #------------------------------
 #
 # Globals
-# 
+#
 #------------------------------
 
 ### Decoders.
 my %DecoderFor = ();
 
 ### Standard handlers.
-my %Handler = 
+my %Handler =
 (
  KEEP   => sub {$_[0]},
  IGNORE => sub {''},
@@ -129,13 +129,13 @@ sub default {
 I<Class method.>
 If just CHARSET is given, returns a decoder object which maps
 data into that character set (the character set is forced to
-all-uppercase).  
+all-uppercase).
 
     $wd = supported MIME::WordDecoder "ISO-8859-1";
 
 If DECODER is given, installs such an object:
 
-    MIME::WordDecoder->supported("ISO-8859-1" => 
+    MIME::WordDecoder->supported("ISO-8859-1" =>
 				 (new MIME::WordDecoder::ISO_8859 "1"));
 
 You should not override this method.
@@ -160,11 +160,11 @@ to initiallize the internal map.
 
 sub new {
     my ($class, $h) = @_;
-    my $self = bless { MWD_Map=>{} }, $class;   
+    my $self = bless { MWD_Map=>{} }, $class;
 
     ### Init the map:
     $self->handler(@$h);
-    
+
     ### Add fallbacks:
     $self->{MWD_Map}{'*'}   ||= $Handler{WARN};
     $self->{MWD_Map}{'raw'} ||= $self->{MWD_Map}{'US-ASCII'};
@@ -181,7 +181,7 @@ as you care to supply.
 
 When performing the translation of a MIME-encoded string, a
 given SUBREF will be invoked when translating a block of text
-in character set CHARSET.  The subroutine will be invoked with 
+in character set CHARSET.  The subroutine will be invoked with
 the following arguments:
 
     DATA    - the data in the given character set.
@@ -207,21 +207,21 @@ a set of special keywords:
    DIE      Fatal exception with "can't handle character set" message.
 
 The subroutine for the special CHARSET of 'raw' is used for raw
-(non-MIME-encoded) text, which is supposed to be US-ASCII.  
+(non-MIME-encoded) text, which is supposed to be US-ASCII.
 The handler for 'raw' defaults to whatever was specified for 'US-ASCII'
 at the time of construction.
 
-The subroutine for the special CHARSET of '*' is used for any 
+The subroutine for the special CHARSET of '*' is used for any
 unrecognized character set.  The default action for '*' is WARN.
 
 =cut
 
 sub handler {
     my $self = shift;
-    
+
     ### Copy the hash, and edit it:
     while (@_) {
-	my $c   = shift; 
+	my $c   = shift;
 	my $sub = shift;
 	$self->{MWD_Map}{$c} = $self->real_handler($sub);
     }
@@ -249,9 +249,9 @@ sub decode {
 
 	### Get the handler; guess if never seen before:
 	defined($self->{MWD_Map}{$charset}) or
-	    $self->{MWD_Map}{$charset} = 
+	    $self->{MWD_Map}{$charset} =
 		($self->real_handler($self->guess_handler($charset)) || 0);
-	my $subr = $self->{MWD_Map}{$charset} || $self->{MWD_Map}{'*'}; 
+	my $subr = $self->{MWD_Map}{$charset} || $self->{MWD_Map}{'*'};
 
 	### Map this chunk:
 	&$subr($data, $charset, $self);
@@ -260,10 +260,10 @@ sub decode {
 
 #------------------------------
 #
-# guess_handler CHARSET    
+# guess_handler CHARSET
 #
-# Instance method.  
-# An unrecognized charset has been seen.  Guess a handler subref 
+# Instance method.
+# An unrecognized charset has been seen.  Guess a handler subref
 # for the given charset, returning false if there is none.
 # Successful mappings will be cached in the main map.
 #
@@ -275,13 +275,13 @@ sub guess_handler {
 #
 # real_handler HANDLER
 #
-# Instance method.  
+# Instance method.
 # Translate the given handler, which might be a subref or a string.
 #
 sub real_handler {
     my ($self, $sub) = @_;
-    (!$sub) or 
-	(ref($sub) eq 'CODE') or 
+    (!$sub) or
+	(ref($sub) eq 'CODE') or
 	    $sub = ($Handler{$sub} || croak "bad named handler: $sub\n");
     $sub;
 }
@@ -327,33 +327,33 @@ characters from the indicated character set.
 
     ### Construct:
     $wd = new MIME::WordDecoder::ISO_8859 2;    ### ISO-8859-2
-       
+
     ### What to translate unknown characters to (can also use empty):
     ### Default is "?".
     $wd->unknown("?");
-    
+
     ### Collapse runs of unknown characters to a single unknown()?
     ### Default is false.
     $wd->collapse(1);
 
 
-According to B<http://czyborra.com/charsets/iso8859.html> 
+According to B<http://czyborra.com/charsets/iso8859.html>
 (ca. November 2000):
 
 ISO 8859 is a full series of 10 (and soon even more) standardized
 multilingual single-byte coded (8bit) graphic character sets for
 writing in alphabetic languages:
 
-    1. Latin1 (West European) 
-    2. Latin2 (East European) 
-    3. Latin3 (South European) 
-    4. Latin4 (North European) 
-    5. Cyrillic 
-    6. Arabic 
-    7. Greek 
-    8. Hebrew 
-    9. Latin5 (Turkish) 
-   10. Latin6 (Nordic) 
+    1. Latin1 (West European)
+    2. Latin2 (East European)
+    3. Latin3 (South European)
+    4. Latin4 (North European)
+    5. Cyrillic
+    6. Arabic
+    7. Greek
+    8. Hebrew
+    9. Latin5 (Turkish)
+   10. Latin6 (Nordic)
 
 The ISO 8859 charsets are not even remotely as complete as the truly
 great Unicode but they have been around and usable for quite a while
@@ -381,7 +381,7 @@ use vars qw(@ISA);
 
 ### Keep 7bit characters.
 ### Turn all else to the special \x00.
-sub h_keep7bit {  
+sub h_keep7bit {
     local $_    = $_[0];
 #   my $unknown = $_[2]->{MWDI_Unknown};
 
@@ -389,17 +389,17 @@ sub h_keep7bit {
     $_;
 }
 
-### Note: should use Unicode::String, converting/manipulating 
+### Note: should use Unicode::String, converting/manipulating
 ### everything into full Unicode form.
 
 ### Keep 7bit UTF8 characters (ASCII).
 ### Keep ISO-8859-1 if this decoder is for Latin-1.
 ### Turn all else to the special \x00.
-sub h_utf8 {  
+sub h_utf8 {
     local $_    = $_[0];
 #   my $unknown = $_[2]->{MWDI_Unknown};
     my $latin1 = ($_[2]->{MWDI_Num} == 1);
-    #print STDERR "UTF8 in:  <$_>\n"; 
+    #print STDERR "UTF8 in:  <$_>\n";
 
     my $tgt = '';
     while (m{\G(
@@ -408,25 +408,25 @@ sub h_utf8 {
 	  ([\xE0-\xEF] [\x80-\xBF]{2}) | # 1110zzzz 10yyyyyy 10xxxxxx
 	  ([\xF0-\xF7] [\x80-\xBF]{3}) | # 11110uuu 10uuzzzz 10yyyyyy 10xxxxxx
 	  .                              # error; synch
-	  )}gcsx and ($1 ne '')) {   
+	  )}gcsx and ($1 ne '')) {
 
 	if    (defined($2))            { $tgt .= $2 }
 	elsif (defined($3) && $latin1) { $tgt .= "\x00" }
         else                           { $tgt .= "\x00" }
     }
 
-    #print STDERR "UTF8 out: <$tgt>\n"; 
+    #print STDERR "UTF8 out: <$tgt>\n";
     $tgt;
 }
 
 ### Keep characters which are 7bit in UTF8 (ASCII).
 ### Keep ISO-8859-1 if this decoder is for Latin-1.
 ### Turn all else to the special \x00.
-sub h_utf16 {  
+sub h_utf16 {
     local $_    = $_[0];
 #   my $unknown = $_[2]->{MWDI_Unknown};
     my $latin1 = ($_[2]->{MWDI_Num} == 1);
-    #print STDERR "UTF16 in:  <$_>\n"; 
+    #print STDERR "UTF16 in:  <$_>\n";
 
     my $tgt = '';
     while (m{\G(
@@ -441,7 +441,7 @@ sub h_utf16 {
         else                           { $tgt .= "\x00" }
     }
 
-    #print STDERR "UTF16 out: <$tgt>\n"; 
+    #print STDERR "UTF16 out: <$tgt>\n";
     $tgt;
 }
 
@@ -475,7 +475,7 @@ sub new {
 #
 sub guess_handler {
     my ($self, $charset) = @_;
-    return 'KEEP'              if (($charset =~ /^ISO[-_]?8859[-_](\d+)$/) && 
+    return 'KEEP'              if (($charset =~ /^ISO[-_]?8859[-_](\d+)$/) &&
 				   ($1 eq $self->{MWDI_Num}));
     return \&h_keep7bit        if ($charset =~ /^ISO[-_]?8859/);
     return \&h_utf8            if ($charset =~ /^UTF[-_]?8$/);
@@ -525,7 +525,7 @@ sub decode {
 
 =item MIME::WordDecoder::US_ASCII
 
-A subclass of the ISO-8859-1 decoder which discards 8-bit characters.  
+A subclass of the ISO-8859-1 decoder which discards 8-bit characters.
 You're probably better off using ISO-8859-1.
 
 =cut
@@ -570,13 +570,16 @@ $Default = (MIME::WordDecoder::ISO_8859->new('1'));
 $DecoderFor{"US-ASCII"} = MIME::WordDecoder::US_ASCII->new;
 
 ### Add ISO-8859-{1..15} handlers:
-for (1..15) { 
+for (1..15) {
     $DecoderFor{"ISO-8859-$_"} = MIME::WordDecoder::ISO_8859->new($_);
 }
 
 1;           # end the module
 __END__
 
+=head1 SEE ALSO
+
+L<MIME::Tools>
 
 =head1 AUTHOR
 

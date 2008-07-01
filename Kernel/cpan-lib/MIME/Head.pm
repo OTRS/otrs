@@ -8,7 +8,7 @@ MIME::Head - MIME message header (a subclass of Mail::Header)
 
 =head1 SYNOPSIS
 
-Before reading further, you should see L<MIME::Tools> to make sure that 
+Before reading further, you should see L<MIME::Tools> to make sure that
 you understand where this module fits into the grand scheme of things.
 Go on, do it now.  I'll wait.
 
@@ -16,14 +16,14 @@ Ready?  Ok...
 
 =head2 Construction
 
-    ### Create a new, empty header, and populate it manually:    
+    ### Create a new, empty header, and populate it manually:
     $head = MIME::Head->new;
     $head->replace('content-type', 'text/plain; charset=US-ASCII');
     $head->replace('content-length', $len);
-    
+
     ### Parse a new header from a filehandle:
     $head = MIME::Head->read(\*STDIN);
-    
+
     ### Parse a new header from a file, or a readable pipe:
     $testhead = MIME::Head->from_file("/tmp/test.hdr");
     $a_b_head = MIME::Head->from_file("cat a.hdr b.hdr |");
@@ -32,8 +32,8 @@ Ready?  Ok...
 =head2 Output
 
     ### Output to filehandle:
-    $head->print(\*STDOUT);  
-    
+    $head->print(\*STDOUT);
+
     ### Output as string:
     print STDOUT $head->as_string;
     print STDOUT $head->stringify;
@@ -43,17 +43,17 @@ Ready?  Ok...
 
     ### Is this a reply?
     $is_reply = 1 if ($head->get('Subject') =~ /^Re: /);
-    
+
     ### Get receipt information:
-    print "Last received from: ", $head->get('Received', 0), "\n";
+    print "Last received from: ", $head->get('Received', 0);
     @all_received = $head->get('Received');
-    
+
     ### Print the subject, or the empty string if none:
-    print "Subject: ", $head->get('Subject',0), "\n";
-     
+    print "Subject: ", $head->get('Subject',0);
+
     ### Too many hops?  Count 'em and see!
     if ($head->count('Received') > 5) { ...
-    
+
     ### Test whether a given field exists
     warn "missing subject!" if (! $head->count('subject'));
 
@@ -68,10 +68,10 @@ Ready?  Ok...
 
     ### Get rid of internal newlines in fields:
     $head->unfold;
-    
+
     ### Decode any Q- or B-encoded-text in fields (DEPRECATED):
     $head->decode;
-     
+
 
 =head2 Getting high-level MIME information
 
@@ -82,13 +82,13 @@ Ready?  Ok...
 
     ### The content type (e.g., "text/html"):
     $mime_type     = $head->mime_type;
-    
+
     ### The content transfer encoding (e.g., "quoted-printable"):
     $mime_encoding = $head->mime_encoding;
-    
+
     ### The recommended name when extracted:
     $file_name     = $head->recommended_filename;
-    
+
     ### The boundary text, for multipart messages:
     $boundary      = $head->multipart_boundary;
 
@@ -114,6 +114,7 @@ use strict;
 use vars qw($VERSION @ISA @EXPORT_OK);
 
 ### System modules:
+use IO::File;
 
 ### Other modules:
 use Mail::Header 1.09 ();
@@ -137,7 +138,7 @@ use MIME::Field::ContType;
 #------------------------------
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.425";
+$VERSION = "5.427";
 
 ### Sanity (we put this test after our own version, for CPAN::):
 use Mail::Header 1.06 ();
@@ -159,8 +160,8 @@ use Mail::Header 1.06 ();
 =item new [ARG],[OPTIONS]
 
 I<Class method, inherited.>
-Creates a new header object.  Arguments are the same as those in the 
-superclass.  
+Creates a new header object.  Arguments are the same as those in the
+superclass.
 
 =cut
 
@@ -174,15 +175,15 @@ sub new {
 =item from_file EXPR,OPTIONS
 
 I<Class or instance method>.
-For convenience, you can use this to parse a header object in from EXPR, 
-which may actually be any expression that can be sent to open() so as to 
-return a readable filehandle.  The "file" will be opened, read, and then 
+For convenience, you can use this to parse a header object in from EXPR,
+which may actually be any expression that can be sent to open() so as to
+return a readable filehandle.  The "file" will be opened, read, and then
 closed:
 
     ### Create a new header by parsing in a file:
     my $head = MIME::Head->from_file("/tmp/test.hdr");
 
-Since this method can function as either a class constructor I<or> 
+Since this method can function as either a class constructor I<or>
 an instance initializer, the above is exactly equivalent to:
 
     ### Create a new header by parsing in a file:
@@ -214,9 +215,9 @@ sub from_file {
 
 =item read FILEHANDLE
 
-I<Instance (or class) method.> 
+I<Instance (or class) method.>
 This initiallizes a header object by reading it in from a FILEHANDLE,
-until the terminating blank line is encountered.  
+until the terminating blank line is encountered.
 A syntax error or end-of-stream will also halt processing.
 
 Supply this routine with a reference to a filehandle glob; e.g., C<\*STDIN>:
@@ -240,7 +241,7 @@ into account.
 sub read {
     my $self = shift;      ### either instance or class!
     ref($self) or $self = $self->new;    ### if used as class method, make new
-    $self->SUPER::read(@_);   
+    $self->SUPER::read(@_);
 }
 
 
@@ -251,7 +252,7 @@ sub read {
 
 =head2 Getting/setting fields
 
-The following are methods related to retrieving and modifying the header 
+The following are methods related to retrieving and modifying the header
 fields.  Some are inherited from Mail::Header, but I've kept the
 documentation around for convenience.
 
@@ -269,18 +270,18 @@ documentation around for convenience.
 I<Instance method, inherited.>
 Add a new occurence of the field named TAG, given by TEXT:
 
-    ### Add the trace information:    
-    $head->add('Received', 
+    ### Add the trace information:
+    $head->add('Received',
                'from eryq.pr.mcs.net by gonzo.net with smtp');
 
-Normally, the new occurence will be I<appended> to the existing 
-occurences.  However, if the optional INDEX argument is 0, then the 
-new occurence will be I<prepended>.  If you want to be I<explicit> 
+Normally, the new occurence will be I<appended> to the existing
+occurences.  However, if the optional INDEX argument is 0, then the
+new occurence will be I<prepended>.  If you want to be I<explicit>
 about appending, specify an INDEX of -1.
 
 B<Warning>: this method always adds new occurences; it doesn't overwrite
 any existing occurences... so if you just want to I<change> the value
-of a field (creating it if necessary), then you probably B<don't> want to use 
+of a field (creating it if necessary), then you probably B<don't> want to use
 this method: consider using C<replace()> instead.
 
 =cut
@@ -364,18 +365,18 @@ Latin characters with 7 bit sequences /o and 'e):
 B<Note:> currently, the decodings are done without regard to the
 character set: thus, the Q-encoding C<=F8> is simply translated to the
 octet (hexadecimal C<F8>), period.  For piece-by-piece decoding
-of a given field, you want the array context of 
+of a given field, you want the array context of
 C<MIME::Word::decode_mimewords()>.
 
-B<Warning:> the CRLF+SPACE separator that splits up long encoded words 
+B<Warning:> the CRLF+SPACE separator that splits up long encoded words
 into shorter sequences (see the Subject: example above) gets lost
 when the field is unfolded, and so decoding after unfolding causes
-a spurious space to be left in the field.  
+a spurious space to be left in the field.
 I<THEREFORE: if you're going to decode, do so BEFORE unfolding!>
 
 This method returns the self object.
 
-I<Thanks to Kent Boortz for providing the idea, and the baseline 
+I<Thanks to Kent Boortz for providing the idea, and the baseline
 RFC-1522-decoding code.>
 
 =cut
@@ -422,7 +423,7 @@ Delete all occurences of the field named TAG.
 #
 # exists
 #
-sub exists {   
+sub exists {
     usage "deprecated; use count() instead";
     shift->count(@_);
 }
@@ -440,15 +441,15 @@ sub fields {
 
 =item get TAG,[INDEX]
 
-I<Instance method, inherited.>  
+I<Instance method, inherited.>
 Get the contents of field TAG.
 
-If a B<numeric INDEX> is given, returns the occurence at that index, 
+If a B<numeric INDEX> is given, returns the occurence at that index,
 or undef if not present:
 
     ### Print the first and last 'Received:' entries (explicitly):
-    print "First, or most recent: ", $head->get('received', 0), "\n";
-    print "Last, or least recent: ", $head->get('received',-1), "\n"; 
+    print "First, or most recent: ", $head->get('received', 0);
+    print "Last, or least recent: ", $head->get('received',-1);
 
 If B<no INDEX> is given, but invoked in a B<scalar> context, then
 INDEX simply defaults to 0:
@@ -472,19 +473,19 @@ I<all> occurences of the field are returned:
 =item get_all FIELD
 
 I<Instance method.>
-Returns the list of I<all> occurences of the field, or the 
+Returns the list of I<all> occurences of the field, or the
 empty list if the field is not present:
 
     ### How did it get here?
     @history = $head->get_all('Received');
 
-B<Note:> I had originally experimented with having C<get()> return all 
-occurences when invoked in an array context... but that causes a lot of 
+B<Note:> I had originally experimented with having C<get()> return all
+occurences when invoked in an array context... but that causes a lot of
 accidents when you get careless and do stuff like this:
 
-    print "\u$field: ", $head->get($field), "\n";
+    print "\u$field: ", $head->get($field);
 
-It also made the intuitive behaviour unclear if the INDEX argument 
+It also made the intuitive behaviour unclear if the INDEX argument
 was given in an array context.  So I opted for an explicit approach
 to asking for all occurences.
 
@@ -500,9 +501,9 @@ sub get_all {
 #
 # original_text
 #
-# Instance method, DEPRECATED.  
+# Instance method, DEPRECATED.
 # Return an approximation of the original text.
-#    
+#
 sub original_text {
     usage "deprecated: use stringify() instead";
     shift->stringify(@_);
@@ -565,7 +566,7 @@ sub as_string { shift->stringify(@_) }
 =item unfold [FIELD]
 
 I<Instance method, inherited.>
-Unfold (remove newlines in) the text of all occurences of the given FIELD.  
+Unfold (remove newlines in) the text of all occurences of the given FIELD.
 If the FIELD is omitted, I<all> fields are unfolded.
 Returns the "self" object.
 
@@ -588,7 +589,7 @@ All of the following methods extract information from the following fields:
 
 Be aware that they do not just return the raw contents of those fields,
 and in some cases they will fill in sensible (I hope) default values.
-Use C<get()> or C<mime_attr()> if you need to grab and process the 
+Use C<get()> or C<mime_attr()> if you need to grab and process the
 raw field text.
 
 B<Note:> some of these methods are provided both as a convenience and
@@ -612,19 +613,19 @@ field, you should really use the Mail::Field interface to get it.
 # Instance method, DEPRECATED.
 # Extract parameter info from a structured field, and return
 # it as a hash reference.  Provided for 1.0 compatibility only!
-# Use the new MIME::Field interface classes (subclasses of Mail::Field).  
+# Use the new MIME::Field interface classes (subclasses of Mail::Field).
 
 sub params {
     my ($self, $tag) = @_;
     usage "deprecated: use the MIME::Field interface classes from now on!";
-    return MIME::Field::ParamVal->parse_params($self->get($tag,0));     
+    return MIME::Field::ParamVal->parse_params($self->get($tag,0));
 }
 
 #------------------------------
 
 =item mime_attr ATTR,[VALUE]
 
-A quick-and-easy interface to set/get the attributes in structured 
+A quick-and-easy interface to set/get the attributes in structured
 MIME fields:
 
     $head->mime_attr("content-type"         => "text/html");
@@ -635,10 +636,10 @@ This would cause the final output to look something like this:
 
     Content-type: text/html; charset=US-ASCII; name="homepage.html"
 
-Note that the special empty sub-field tag indicates the anonymous 
+Note that the special empty sub-field tag indicates the anonymous
 first sub-field.
 
-B<Giving VALUE as undefined> will cause the contents of the named subfield 
+B<Giving VALUE as undefined> will cause the contents of the named subfield
 to be deleted:
 
     $head->mime_attr("content-type.charset" => undef);
@@ -726,8 +727,8 @@ feature.
 sub mime_type {
     my ($self, $default) = @_;
     $self->{MIH_DefaultType} = $default if @_ > 1;
-    lc($self->mime_attr('content-type') || 
-       $self->{MIH_DefaultType} || 
+    lc($self->mime_attr('content-type') ||
+       $self->{MIH_DefaultType} ||
        'text/plain');
 }
 
@@ -770,7 +771,7 @@ Returns undef if no filename could be suggested.
 
 =cut
 
-sub recommended_filename 
+sub recommended_filename
 {
 	my $self = shift;
 
@@ -778,7 +779,7 @@ sub recommended_filename
 	# non-blank one we find.
 	foreach my $attr_name ( qw( content-disposition.filename content-type.name ) ) {
 		my $value = $self->mime_attr( $attr_name );
-		if ( defined $value 
+		if ( defined $value
 		    && $value ne ''
 		    && $value =~ /\S/ ) {
 			return $value;
@@ -863,19 +864,19 @@ having MIME::Head.
 Aaaaaaaaaahh....no.
 
 Looking at a typical mail message header, it is sooooooo tempting to just
-store the fields as a hash of strings, one string per hash entry.  
-Unfortunately, there's the little matter of the C<Received:> field, 
-which (unlike C<From:>, C<To:>, etc.) will often have multiple 
+store the fields as a hash of strings, one string per hash entry.
+Unfortunately, there's the little matter of the C<Received:> field,
+which (unlike C<From:>, C<To:>, etc.) will often have multiple
 occurences; e.g.:
 
     Received: from gsfc.nasa.gov by eryq.pr.mcs.net  with smtp
-        (Linux Smail3.1.28.1 #5) id m0tStZ7-0007X4C; 
+        (Linux Smail3.1.28.1 #5) id m0tStZ7-0007X4C;
 	 Thu, 21 Dec 95 16:34 CST
-    Received: from rhine.gsfc.nasa.gov by gsfc.nasa.gov 
-	 (5.65/Ultrix3.0-C) id AA13596; 
+    Received: from rhine.gsfc.nasa.gov by gsfc.nasa.gov
+	 (5.65/Ultrix3.0-C) id AA13596;
 	 Thu, 21 Dec 95 17:20:38 -0500
-    Received: (from eryq@localhost) by rhine.gsfc.nasa.gov 
-	 (8.6.12/8.6.12) id RAA28069; 
+    Received: (from eryq@localhost) by rhine.gsfc.nasa.gov
+	 (8.6.12/8.6.12) id RAA28069;
 	 Thu, 21 Dec 1995 17:27:54 -0500
     Date: Thu, 21 Dec 1995 17:27:54 -0500
     From: Eryq <eryq@rhine.gsfc.nasa.gov>
@@ -886,7 +887,7 @@ occurences; e.g.:
 The C<Received:> field is used for tracing message routes, and although
 it's not generally used for anything other than human debugging, I
 didn't want to inconvenience anyone who actually wanted to get at that
-information.  
+information.
 
 I also didn't want to make this a special case; after all, who
 knows what other fields could have multiple occurences in the
@@ -895,16 +896,19 @@ multiple times... and the different occurences had to be retrievable.
 
 =back
 
+=head1 SEE ALSO
+
+L<Mail::Header>, L<Mail::Field>, L<MIME::Words>, L<MIME::Tools>
 
 =head1 AUTHOR
 
 Eryq (F<eryq@zeegee.com>), ZeeGee Software Inc (F<http://www.zeegee.com>).
 David F. Skoll (dfs@roaringpenguin.com) http://www.roaringpenguin.com
 
-All rights reserved.  This program is free software; you can redistribute 
+All rights reserved.  This program is free software; you can redistribute
 it and/or modify it under the same terms as Perl itself.
 
-The more-comprehensive filename extraction is courtesy of 
+The more-comprehensive filename extraction is courtesy of
 Lee E. Brotzman, Advanced Data Solutions.
 
 =cut

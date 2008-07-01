@@ -8,7 +8,7 @@ MIME::Field::ContDisp - a "Content-disposition" field
 
 =head1 DESCRIPTION
 
-A subclass of Mail::Field.  
+A subclass of Mail::Field.
 
 I<Don't use this class directly... its name may change in the future!>
 Instead, ask Mail::Field for new instances based on the field name!
@@ -18,16 +18,19 @@ Instead, ask Mail::Field for new instances based on the field name!
 
     use Mail::Field;
     use MIME::Head;
-    
+
     # Create an instance from some text:
     $field = Mail::Field->new('Content-disposition', $text);
-    
+
     # Inline or attachment?
-    $type = $field->type;    
-    
+    $type = $field->type;
+
     # Recommended filename?
     $filename = $field->filename;
 
+=head1 SEE ALSO
+
+L<MIME::Field::ParamVal>, L<Mail::Field>
 
 =head1 AUTHOR
 
@@ -45,9 +48,9 @@ use vars qw($VERSION @ISA);
 @ISA = qw(MIME::Field::ParamVal);
 
 # The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.425";
+$VERSION = "5.427";
 
-# Install it: 
+# Install it:
 bless([])->register('Content-disposition');
 
 #------------------------------

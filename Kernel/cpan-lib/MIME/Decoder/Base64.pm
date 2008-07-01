@@ -37,6 +37,9 @@ specifies:
 
 =back
 
+=head1 SEE ALSO
+
+L<MIME::Decoder>
 
 =head1 AUTHOR
 
@@ -55,7 +58,7 @@ use MIME::Tools qw(debug);
 @ISA = qw(MIME::Decoder);
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.425";
+$VERSION = "5.427";
 
 ### How many bytes to encode at a time (must be a multiple of 3, and
 ### less than (76 * 0.75)!

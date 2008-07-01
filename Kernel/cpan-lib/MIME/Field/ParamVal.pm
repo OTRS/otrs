@@ -80,7 +80,7 @@ use MIME::Tools qw(:config :msgs);
 #------------------------------
 
 # The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.425";
+$VERSION = "5.427";
 
 
 #------------------------------
@@ -210,7 +210,7 @@ sub rfc2231decode {
 sub rfc2231percent {
     # Do percent-subsitution
     my($str) = @_;
-    $str =~ s/%([0-9a-fA-F]{2})/pack("c", hex($1))/ge;
+    $str =~ s/%([0-9a-fA-F]{2})/pack("C", hex($1))/ge;
     return $str;
 }
 
@@ -375,6 +375,10 @@ Return the tag for this field.
 sub tag { '' }
 
 =back
+
+=head1 SEE ALSO
+
+L<Mail::Field>
 
 =cut
 

@@ -7,7 +7,7 @@ MIME::Parser::Filer - manage file-output of the parser
 
 =head1 SYNOPSIS
 
-Before reading further, you should see L<MIME::Parser> to make sure that 
+Before reading further, you should see L<MIME::Parser> to make sure that
 you understand where this module fits into the grand scheme of things.
 Go on, do it now.  I'll wait.
 
@@ -21,20 +21,20 @@ should make sense.
     my $filer = MIME::Parser::FileInto->new($dir);
     my $filer = MIME::Parser::FileUnder->new($basedir);
     ...
-     
+
     ### Want added security?  Don't let outsiders name your files:
-    $filer->ignore_filename(1); 
-     
-    ### Prepare for the parsing of a new top-level message:     
+    $filer->ignore_filename(1);
+
+    ### Prepare for the parsing of a new top-level message:
     $filer->init_parse;
-     
+
     ### Return the path where this message's data should be placed:
     $path = $filer->output_path($head);
 
 
 =head2 Semi-public interface
 
-These methods might be overriden or ignored in some subclasses, 
+These methods might be overriden or ignored in some subclasses,
 so they don't all make sense in all circumstances:
 
     ### Tweak the mapping from content-type to extension:
@@ -50,8 +50,8 @@ so they don't all make sense in all circumstances:
 =head2 How this class is used when parsing
 
 When a MIME::Parser decides that it wants to output a file to disk,
-it uses its "Filer" object -- an instance of a MIME::Parser::Filer 
-subclass -- to determine where to put the file.  
+it uses its "Filer" object -- an instance of a MIME::Parser::Filer
+subclass -- to determine where to put the file.
 
 Every parser has a single Filer object, which it uses for all
 parsing.  You can get the Filer for a given $parser like this:
@@ -59,18 +59,18 @@ parsing.  You can get the Filer for a given $parser like this:
     $filer = $parser->filer;
 
 At the beginning of each C<parse()>, the filer's internal state
-is reset by the parser: 
+is reset by the parser:
 
     $parser->filer->init_parse;
 
 The parser can then get a path for each entity in the message
-by handing that entity's header (a MIME::Head) to the filer 
+by handing that entity's header (a MIME::Head) to the filer
 and having it do the work, like this:
 
     $new_file = $parser->filer->output_path($head);
 
 Since it's nice to be able to clean up after a parse (especially
-a failed parse), the parser tells the filer when it has actually 
+a failed parse), the parser tells the filer when it has actually
 used a path:
 
     $parser->filer->purgeable($new_file);
@@ -85,19 +85,19 @@ you would do this:
 
 =head2 Writing your own subclasses
 
-There are two standard "Filer" subclasses (see below): 
+There are two standard "Filer" subclasses (see below):
 B<MIME::Parser::FileInto>, which throws all files from all parses
-into the same directory, and B<MIME::Parser::FileUnder> (preferred), which 
-creates a subdirectory for each message.  Hopefully, these will be 
+into the same directory, and B<MIME::Parser::FileUnder> (preferred), which
+creates a subdirectory for each message.  Hopefully, these will be
 sufficient for most uses, but just in case...
 
 The only method you have to override is L<output_path()|/output_path>:
 
     $filer->output_path($head);
 
-This method is invoked by MIME::Parser when it wants to put a 
-decoded message body in an output file.  The method should return a 
-path to the file to create.  Failure is indicated by throwing an 
+This method is invoked by MIME::Parser when it wants to put a
+decoded message body in an output file.  The method should return a
+path to the file to create.  Failure is indicated by throwing an
 exception.
 
 The path returned by C<output_path()> should be "ready for open()":
@@ -140,7 +140,7 @@ my $GSubdirNo = 0;
 
 ### Map content-type to extension.
 ### If we can't map "major/minor", we try "major/*", then use "*/*".
-my %DefaultTypeToExt = 
+my %DefaultTypeToExt =
 qw(
 
 application/andrew-inset	.ez
@@ -218,7 +218,6 @@ message/*                       .msg
 */*                             .dat
 
 );
-	      
 
 #------------------------------
 
@@ -271,8 +270,8 @@ sub cleanup_dir {
 =item results RESULTS
 
 I<Instance method.>
-Link this filer to a MIME::Parser::Results object which will 
-tally the messages.  Notice that we avoid linking it to the 
+Link this filer to a MIME::Parser::Results object which will
+tally the messages.  Notice that we avoid linking it to the
 parser to avoid circular reference!
 
 =cut
@@ -335,22 +334,22 @@ in generating a disk file name?  It is if any of these are true:
       "$", and " ".
     * it is too long
 
-If you just want to change this behavior, you should override 
+If you just want to change this behavior, you should override
 this method in the subclass of MIME::Parser::Filer that you use.
 
-B<Warning:> at the time this method is invoked, the FILENAME has 
-already been unmime'd into the local character set.  
-If you're using any character set other than ASCII, ISO-8859-*, 
-or UTF-8, the interpretation of the "path" characters might be 
+B<Warning:> at the time this method is invoked, the FILENAME has
+already been unmime'd into the local character set.
+If you're using any character set other than ASCII, ISO-8859-*,
+or UTF-8, the interpretation of the "path" characters might be
 very different, and you will probably need to override this method.
 See L<MIME::WordDecoder/unmime> for more details.
 
-B<Note:> subclasses of MIME::Parser::Filer which override 
+B<Note:> subclasses of MIME::Parser::Filer which override
 output_path() might not consult this method; note, however, that
 the built-in subclasses do consult it.
 
 I<Thanks to Andrew Pimlott for finding a real dumb bug in the original
-version.  Thanks to Nickolay Saukh for noting that evil is in the 
+version.  Thanks to Nickolay Saukh for noting that evil is in the
 eye of the beholder.>
 
 =cut
@@ -383,10 +382,10 @@ evil_filename().
 Returns the exorcised filename (which is guaranteed to not
 be evil), or undef if it could not be salvaged.
 
-B<Warning:> at the time this method is invoked, the FILENAME has 
-already been unmime'd into the local character set.  
-If you're using anything character set other than ASCII, ISO-8859-*, 
-or UTF-8, the interpretation of the "path" characters might be very 
+B<Warning:> at the time this method is invoked, the FILENAME has
+already been unmime'd into the local character set.
+If you're using anything character set other than ASCII, ISO-8859-*,
+or UTF-8, the interpretation of the "path" characters might be very
 very different, and you will probably need to override this method.
 See L<MIME::WordDecoder/unmime> for more details.
 
@@ -481,10 +480,10 @@ sub find_unused_path {
 
 I<Instance method.>
 Return true if we should always ignore recommended filenames in
-messages, choosing instead to always generate our own filenames.  
+messages, choosing instead to always generate our own filenames.
 With argument, sets this value.
 
-B<Note:> subclasses of MIME::Parser::Filer which override 
+B<Note:> subclasses of MIME::Parser::Filer which override
 output_path() might not honor this setting; note, however, that
 the built-in subclasses honor it.
 
@@ -517,12 +516,12 @@ sub output_dir {
 
 I<Instance method, subclasses only.>
 A given recommended filename was either not given, or it was judged
-to be evil.  Return a fake name, possibly using information in the 
+to be evil.  Return a fake name, possibly using information in the
 message HEADer.  Note that this is just the filename, not the full path.
 
 Used by L<output_path()|/output_path>.
-If you're using the default C<output_path()>, you probably don't 
-need to worry about avoiding collisions with existing files; 
+If you're using the default C<output_path()>, you probably don't
+need to worry about avoiding collisions with existing files;
 we take care of that in L<find_unused_path()|/find_unused_path>.
 
 =cut
@@ -538,7 +537,7 @@ sub output_filename {
 
     ### Get recommended extension, being quite conservative:
     my $recommended_ext = (($recommended and ($recommended =~ m{(\.\w+)\Z}))
-			   ? $1 
+			   ? $1
 			   : undef);
 
     ### Try and get an extension, honoring a given one first:
@@ -558,8 +557,8 @@ sub output_filename {
 =item output_prefix [PREFIX]
 
 I<Instance method.>
-Get the short string that all filenames for extracted body-parts 
-will begin with (assuming that there is no better "recommended filename").  
+Get the short string that all filenames for extracted body-parts
+will begin with (assuming that there is no better "recommended filename").
 The default is F<"msg">.
 
 If PREFIX I<is not> given, the current output prefix is returned.
@@ -568,8 +567,8 @@ and the previous value is returned.
 
 Used by L<output_filename()|/output_filename>.
 
-B<Note:> subclasses of MIME::Parser::Filer which override 
-output_path() or output_filename() might not honor this setting; 
+B<Note:> subclasses of MIME::Parser::Filer which override
+output_path() or output_filename() might not honor this setting;
 note, however, that the built-in subclasses honor it.
 
 =cut
@@ -582,11 +581,11 @@ sub output_prefix {
 
 #------------------------------
 
-=item output_type_ext 
+=item output_type_ext
 
 I<Instance method.>
-Return a reference to the hash used by the default 
-L<output_filename()|/output_filename> for mapping from content-types 
+Return a reference to the hash used by the default
+L<output_filename()|/output_filename> for mapping from content-types
 to extensions when there is no default extension to use.
 
     $emap = $filer->output_typemap;
@@ -595,8 +594,8 @@ to extensions when there is no default extension to use.
     $emap->{'text/*'}     = '.txt';
     $emap->{'*/*'}        = '.dat';
 
-B<Note:> subclasses of MIME::Parser::Filer which override 
-output_path() or output_filename() might not consult this hash; 
+B<Note:> subclasses of MIME::Parser::Filer which override
+output_path() or output_filename() might not consult this hash;
 note, however, that the built-in subclasses consult it.
 
 =cut
@@ -615,37 +614,37 @@ Given a MIME head for a file to be extracted, come up with a good
 output pathname for the extracted file.  This is the only method
 you need to worry about if you are building a custom filer.
 
-The default implementation does a lot of work; subclass 
-implementers I<really> should try to just override its components 
+The default implementation does a lot of work; subclass
+implementers I<really> should try to just override its components
 instead of the whole thing.  It works basically as follows:
 
-    $directory = $self->output_dir($head);   
-     
+    $directory = $self->output_dir($head);
+
     $filename = $head->recommended_filename();
-    if (!$filename or 
-	 $self->ignore_filename() or 
+    if (!$filename or
+	 $self->ignore_filename() or
 	 $self->evil_filename($filename)) {
  	$filename = $self->output_filename($head);
     }
-    
+
     return $self->find_unused_path($directory, $filename);
 
 B<Note:> There are many, many, many ways you might want to control
-the naming of files, based on your application.  If you don't like 
-the behavior of this function, you can easily define your own subclass 
+the naming of files, based on your application.  If you don't like
+the behavior of this function, you can easily define your own subclass
 of MIME::Parser::Filer and override it there.
 
 B<Note:> Nickolay Saukh pointed out that, given the subjective nature of
 what is "evil", this function really shouldn't I<warn> about an evil
-filename, but maybe just issue a I<debug> message.  I considered that, 
-but then I thought: if debugging were off, people wouldn't know why 
+filename, but maybe just issue a I<debug> message.  I considered that,
+but then I thought: if debugging were off, people wouldn't know why
 (or even if) a given filename had been ignored.  In mail robots
-that depend on externally-provided filenames, this could cause 
+that depend on externally-provided filenames, this could cause
 hard-to-diagnose problems.  So, the message is still a warning.
 
 I<Thanks to Laurent Amon for pointing out problems with the original
 implementation, and for making some good suggestions.  Thanks also to
-Achim Bohnet for pointing out that there should be a hookless, OO way of 
+Achim Bohnet for pointing out that there should be a hookless, OO way of
 overriding the output path.>
 
 =cut
@@ -696,7 +695,7 @@ sub output_path {
 
 I<Instance method, final.>
 Purge all files/directories created by the last parse.
-This method simply goes through the purgeable list in reverse order 
+This method simply goes through the purgeable list in reverse order
 (see L</purgeable>) and removes all existing files/directories in it.
 You should not need to override this method.
 
@@ -705,7 +704,7 @@ You should not need to override this method.
 sub purge {
     my ($self) = @_;
     foreach my $path (reverse @{$self->{MPF_Purgeable}}) {
-	(-e $path) or next;   ### must check: might delete DIR before DIR/FILE 
+	(-e $path) or next;   ### must check: might delete DIR before DIR/FILE
 	rmtree($path, 0, 1);
 	(-e $path) and $self->whine("unable to purge: $path");
     }
@@ -728,7 +727,7 @@ As a special case, invoking this method with a FILE that is an
 arrayref will replace the purgeable list with a copy of the
 array's contents, so [] may be used to clear the list.
 
-Note that the "purgeable" list is cleared when a parser begins a 
+Note that the "purgeable" list is cleared when a parser begins a
 new parse; therefore, if you want to use purge() to do cleanup,
 you I<must> do so I<before> starting a new parse!
 
@@ -736,7 +735,7 @@ you I<must> do so I<before> starting a new parse!
 
 sub purgeable {
     my ($self, $path) = @_;
-    return @{$self->{MPF_Purgeable}} if (@_ == 1);   
+    return @{$self->{MPF_Purgeable}} if (@_ == 1);
 
     if (ref($path)) { $self->{MPF_Purgeable} = [ @$path ]; }
     else            { push @{$self->{MPF_Purgeable}}, $path; }
@@ -753,7 +752,7 @@ sub purgeable {
 
 =head2 MIME::Parser::FileInto
 
-This concrete subclass of MIME::Parser::Filer supports filing 
+This concrete subclass of MIME::Parser::Filer supports filing
 into a given directory.
 
 =over 4
@@ -803,7 +802,7 @@ sub output_dir {
 
 =head2 MIME::Parser::FileUnder
 
-This concrete subclass of MIME::Parser::Filer supports filing under 
+This concrete subclass of MIME::Parser::Filer supports filing under
 a given directory, using one subdirectory per message, but with
 all message parts in the same directory.
 
@@ -824,7 +823,7 @@ use vars qw(@ISA);
 I<Instance method, initiallizer.>
 Set the base directory which will contain the message directories.
 If used, then each parse of begins by creating a new subdirectory
-of BASEDIR where the actual parts of the message are placed.  
+of BASEDIR where the actual parts of the message are placed.
 OPTSHASH can contain the following:
 
 =over 4
@@ -833,7 +832,7 @@ OPTSHASH can contain the following:
 
 Explicitly set the name of the subdirectory which is created.
 The default is to use the time, process id, and a sequence number,
-but you might want a predictable directory.  
+but you might want a predictable directory.
 
 =item Purge
 
@@ -845,17 +844,17 @@ familiarize yourself with the caveats therein.
 
 =back
 
-The output_dir() will return the path to this message-specific directory 
+The output_dir() will return the path to this message-specific directory
 until the next parse is begun, so you can do this:
 
     use File::Path;
-     
+
     $parser->output_under("/tmp");
     $ent = eval { $parser->parse_open($msg); };   ### parse
     if (!$ent) {	 ### parse failed
 	rmtree($parser->output_dir);
 	die "parse failed: $@";
-    } 
+    }
     else {               ### parse succeeded
 	...do stuff...
     }
@@ -866,8 +865,8 @@ sub init {
     my ($self, $basedir, %opts) = @_;
 
     $self->{MPFU_Base}    = $self->cleanup_dir($basedir);
-    $self->{MPFU_DirName} = $opts{DirName}; 
-    $self->{MPFU_Purge}   = $opts{Purge}; 
+    $self->{MPFU_DirName} = $opts{DirName};
+    $self->{MPFU_Purge}   = $opts{Purge};
 }
 
 #------------------------------
@@ -888,14 +887,14 @@ sub init_parse {
 		  ?       $self->{MPFU_DirName}
 		  :       ("msg-".scalar(time)."-$$-".$GSubdirNo++));
     $self->debug("subdir = $subdir");
-    
+
     ### Determine full path to the per-message output directory:
     $self->{MPFU_Dir} = File::Spec->catfile($self->{MPFU_Base}, $subdir);
 
     ### Remove and re-create the per-message output directory:
     rmtree $self->output_dir if $self->{MPFU_Purge};
     (-d $self->output_dir) or
-	mkdir $self->output_dir, 0700 or 
+	mkdir $self->output_dir, 0700 or
 	    die "mkdir ".$self->output_dir.": $!\n";
 
     ### Add the per-message output directory to the puregables:
@@ -921,11 +920,14 @@ sub output_dir {
 1;
 __END__
 
+=head1 SEE ALSO
+
+L<MIME::Tools>, L<MIME::Parser>
 
 =head1 AUTHOR
 
 Eryq (F<eryq@zeegee.com>), ZeeGee Software Inc (F<http://www.zeegee.com>).
 
-All rights reserved.  This program is free software; you can redistribute 
+All rights reserved.  This program is free software; you can redistribute
 it and/or modify it under the same terms as Perl itself.
 

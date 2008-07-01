@@ -18,35 +18,35 @@ Instead, ask Mail::Field for new instances based on the field name!
 
     use Mail::Field;
     use MIME::Head;
-    
+
     # Create an instance from some text:
-    $field = Mail::Field->new('Content-type', 
+    $field = Mail::Field->new('Content-type',
                               'text/HTML; charset="US-ASCII"');
-    
+
     # Get the MIME type, like 'text/plain' or 'x-foobar'.
     # Returns 'text/plain' as default, as per RFC 2045:
     my ($type, $subtype) = split('/', $field->type);
 
     # Get generic information:
     print $field->name;
-    
+
     # Get information related to "message" type:
     if ($type eq 'message') {
 	print $field->id;
 	print $field->number;
 	print $field->total;
     }
-    
+
     # Get information related to "multipart" type:
     if ($type eq 'multipart') {
 	print $field->boundary;            # the basic value, fixed up
 	print $field->multipart_boundary;  # empty if not a multipart message!
     }
-    
+
     # Get information related to "text" type:
     if ($type eq 'text') {
 	print $field->charset;      # returns 'us-ascii' as default
-    }     
+    }
 
 
 =head1 PUBLIC INTERFACE
@@ -63,9 +63,9 @@ use vars qw($VERSION @ISA);
 @ISA = qw(MIME::Field::ParamVal);
 
 # The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.425";
+$VERSION = "5.427";
 
-# Install it: 
+# Install it:
 bless([])->register('Content-type');
 
 #------------------------------
@@ -139,8 +139,8 @@ sub multipart_boundary {
 =item type
 
 Try real hard to determine the content type (e.g., C<"text/plain">,
-C<"image/gif">, C<"x-weird-type">, which is returned 
-in all-lowercase.  
+C<"image/gif">, C<"x-weird-type">, which is returned
+in all-lowercase.
 
 A happy thing: the following code will work just as you would want,
 even if there's no subtype (as in C<"x-weird-type">)... in such a case,
@@ -148,13 +148,13 @@ the $subtype would simply be the empty string:
 
     ($type, $subtype) = split('/', $head->mime_type);
 
-If the content-type information is missing, it defaults to C<"text/plain">, 
+If the content-type information is missing, it defaults to C<"text/plain">,
 as per RFC 2045:
 
     Default RFC 2822 messages are typed by this protocol as plain text in
     the US-ASCII character set, which can be explicitly specified as
     "Content-type: text/plain; charset=us-ascii".  If no Content-Type is
-    specified, this default is assumed.  
+    specified, this default is assumed.
 
 B<Note:> under the "be liberal in what we accept" principle, this routine
 no longer syntax-checks the content type.  If it ain't empty,
@@ -174,11 +174,14 @@ sub type {
 =head1 NOTES
 
 Since nearly all (if not all) parameters must have non-empty values
-to be considered valid, we just return the empty string to signify 
+to be considered valid, we just return the empty string to signify
 missing fields.  If you need to get the I<real> underlying value,
-use the inherited C<param()> method (which returns undef if the 
+use the inherited C<param()> method (which returns undef if the
 parameter is missing).
 
+=head1 SEE ALSO
+
+L<MIME::Field::ParamVal>, L<Mail::Field>
 
 =head1 AUTHOR
 

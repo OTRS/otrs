@@ -246,7 +246,7 @@ use IO::Lines;
 #------------------------------
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.425";
+$VERSION = "5.427";
 
 ### Boundary counter:
 my $BCount = 0;
@@ -1163,15 +1163,14 @@ sub make_singlepart {
     return 'ALREADY' if !$self->is_multipart;      ### already a singlepart?
     return '0' if ($self->parts > 1);              ### can this even be done?
 
-    ### Do it:
+    # Get rid of all our existing content info
+    my $tag;
+    foreach $tag (grep {/^content-/i} $self->head->tags) {
+        $self->head->delete($tag);
+    }
+
     if ($self->parts == 1) {    ### one part
 	my $part = $self->parts(0);
-	my $tag;
-
-	### Get rid of all our existing content info:
-	foreach $tag (grep {/^content-/i} $self->head->tags) {
-	    $self->head->delete($tag);
-	}
 
 	### Populate ourselves with any content info from the part:
 	foreach $tag (grep {/^content-/i} $part->head->tags) {
@@ -1279,8 +1278,17 @@ sub remove_sig {
     my $self = shift;
     my $nlines = shift;
 
-    ### Handle multiparts:
-    $self->is_multipart and return $self->{ME_Parts}[0]->remove_sig(@_);
+    # If multipart, we only attempt to remove the sig from the first
+    # part.  This is usually a good assumption for multipart/mixed, but
+    # may not always be correct.  It is also possibly incorrect on
+    # multipart/alternative (both may have sigs).
+    if( $self->is_multipart ) {
+	my $first_part = $self->parts(0);
+	if( $first_part ) {
+            return $first_part->remove_sig(@_);
+	}
+	return undef;
+    }
 
     ### Refuse non-textual unless forced:
     textual_type($self->head->mime_type)
@@ -2220,6 +2228,9 @@ how we work.
 
 =back
 
+=head1 SEE ALSO
+
+L<MIME::Tools>, L<MIME::Head>, L<MIME::Body>, L<MIME::Decoder>, L<Mail::Internet>
 
 =head1 AUTHOR
 

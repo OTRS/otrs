@@ -7,7 +7,7 @@ MIME::Parser::Results - results of the last entity parsed
 
 =head1 SYNOPSIS
 
-Before reading further, you should see L<MIME::Parser> to make sure that 
+Before reading further, you should see L<MIME::Parser> to make sure that
 you understand where this module fits into the grand scheme of things.
 Go on, do it now.  I'll wait.
 
@@ -16,14 +16,14 @@ Ready?  Ok...
    ### Do parse, get results:
    my $entity = eval { $parser->parse(\*STDIN); };
    my $results  = $parser->results;
-   
+
    ### Get all messages logged:
    @msgs = $results->msgs;
-   
+
    ### Get messages of specific types (also tests if there were problems):
    $had_errors   = $results->errors;
    $had_warnings = $results->warnings;
-    
+
    ### Get outermost header:
    $top_head  = $results->top_head;
 
@@ -66,14 +66,14 @@ sub new {
 
 =item msgs
 
-I<Instance method.>  
+I<Instance method.>
 Return all messages that we logged, in order.
-Every message is a string beginning with its type followed by C<": ">; 
+Every message is a string beginning with its type followed by C<": ">;
 the current types are C<debug>, C<warning>, and C<error>.
 
 =cut
 
-sub msgs { 
+sub msgs {
     @{shift->{MPI_Msgs}};
 }
 
@@ -81,13 +81,13 @@ sub msgs {
 
 =item errors
 
-I<Instance method.>  
+I<Instance method.>
 Return all error messages that we logged, in order.
 A convenience front-end onto msgs().
 
 =cut
 
-sub errors { 
+sub errors {
     grep /^error: /, @{shift->{MPI_Msgs}};
 }
 
@@ -95,13 +95,13 @@ sub errors {
 
 =item warnings
 
-I<Instance method.>  
+I<Instance method.>
 Return all warning messages that we logged, in order.
 A convenience front-end onto msgs().
 
 =cut
 
-sub warnings { 
+sub warnings {
     grep /^warning: /, @{shift->{MPI_Msgs}};
 }
 
@@ -109,13 +109,13 @@ sub warnings {
 
 =item top_head
 
-I<Instance method.>  
+I<Instance method.>
 Return the topmost header, if we were able to read it.
 This may be useful if the parse fails.
 
 =cut
 
-sub top_head { 
+sub top_head {
     my ($self, $head) = @_;
     $self->{MPI_TopHead} = $head if @_ > 1;
     $self->{MPI_TopHead};
@@ -173,11 +173,14 @@ sub indent {
 1;
 __END__
 
+=head1 SEE ALSO
+
+L<MIME::Tools>, L<MIME::Parser>
 
 =head1 AUTHOR
 
 Eryq (F<eryq@zeegee.com>), ZeeGee Software Inc (F<http://www.zeegee.com>).
 
-All rights reserved.  This program is free software; you can redistribute 
+All rights reserved.  This program is free software; you can redistribute
 it and/or modify it under the same terms as Perl itself.
 

@@ -180,7 +180,7 @@ package MIME::Parser;
 #------------------------------
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.425";
+$VERSION = "5.427";
 
 ### How to catenate:
 $CAT = '/bin/cat';
@@ -1051,7 +1051,7 @@ sub process_part {
     if (not defined $head) {
        $self->debug("bogus empty part");
        $head = $self->interface('HEAD_CLASS')->new;
-       $head->mime_type('text/plain; charset=US-ASCII');
+       $head->mime_type('text/plain');
        $ent->head($head);
        $ent->bodyhandle($self->new_body_for($head));
        $ent->bodyhandle->open("w")->close or die "$ME: can't close: $!";
@@ -2029,7 +2029,9 @@ my attention.>
 
 =back
 
+=head1 SEE ALSO
 
+L<MIME::Tools>, L<MIME::Head>, L<MIME::Body>, L<MIME::Entity>, L<MIME::Decoder>
 
 =head1 AUTHOR
 

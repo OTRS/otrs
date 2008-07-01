@@ -1,6 +1,5 @@
 package MIME::Words;
 
-
 =head1 NAME
 
 MIME::Words - deal with RFC 2047 encoded words
@@ -8,29 +7,29 @@ MIME::Words - deal with RFC 2047 encoded words
 
 =head1 SYNOPSIS
 
-Before reading further, you should see L<MIME::Tools> to make sure that 
+Before reading further, you should see L<MIME::Tools> to make sure that
 you understand where this module fits into the grand scheme of things.
-Go on, do it now.  I'll wait.  
+Go on, do it now.  I'll wait.
 
 Ready?  Ok...
 
 
-    use MIME::Words qw(:all);   
-     
+    use MIME::Words qw(:all);
+
     ### Decode the string into another string, forgetting the charsets:
     $decoded = decode_mimewords(
           'To: =?ISO-8859-1?Q?Keld_J=F8rn_Simonsen?= <keld@dkuug.dk>',
           );
-    
+
     ### Split string into array of decoded [DATA,CHARSET] pairs:
     @decoded = decode_mimewords(
           'To: =?ISO-8859-1?Q?Keld_J=F8rn_Simonsen?= <keld@dkuug.dk>',
           );
-     
+
     ### Encode a single unsafe word:
     $encoded = encode_mimeword("\xABFran\xE7ois\xBB");
-    
-    ### Encode a string, trying to find the unsafe words inside it: 
+
+    ### Encode a string, trying to find the unsafe words inside it:
     $encoded = encode_mimewords("Me and \xABFran\xE7ois\xBB in town");
 
 
@@ -38,7 +37,7 @@ Ready?  Ok...
 =head1 DESCRIPTION
 
 Fellow Americans, you probably won't know what the hell this module
-is for.  Europeans, Russians, et al, you probably do.  C<:-)>. 
+is for.  Europeans, Russians, et al, you probably do.  C<:-)>.
 
 For example, here's a valid MIME header you might get:
 
@@ -94,10 +93,10 @@ use MIME::QuotedPrint;
 #------------------------------
 
 ### The package version, both in 1.23 style *and* usable by MakeMaker:
-$VERSION = "5.425";
+$VERSION = "5.427";
 
 ### Nonprintables (controls + x7F + 8bit):
-my $NONPRINT = "\\x00-\\x1F\\x7F-\\xFF"; 
+my $NONPRINT = "\\x00-\\x1F\\x7F-\\xFF";
 
 
 #------------------------------
@@ -117,13 +116,7 @@ sub _decode_Q {
 #     almost, but not exactly, quoted-printable.  :-P
 sub _encode_Q {
     my $str = shift;
-# ---
-# 2007-12-10 added patch/workaround for bug in MIME::Words
-# bug #5462: MIME::Words::encode_mimewords strips spaces
-# see: http://rt.cpan.org/Public/Bug/Display.html?id=5462
-#    $str =~ s{([_\?\=$NONPRINT])}{sprintf("=%02X", ord($1))}eog;
     $str =~ s{([ _\?\=$NONPRINT])}{sprintf("=%02X", ord($1))}eog;
-# ---
     $str;
 }
 
@@ -151,9 +144,9 @@ I<Function.>
 Go through the string looking for RFC 2047-style "Q"
 (quoted-printable, sort of) or "B" (base64) encoding, and decode them.
 
-B<In an array context,> splits the ENCODED string into a list of decoded 
-C<[DATA, CHARSET]> pairs, and returns that list.  Unencoded 
-data are returned in a 1-element array C<[DATA]>, giving an effective 
+B<In an array context,> splits the ENCODED string into a list of decoded
+C<[DATA, CHARSET]> pairs, and returns that list.  Unencoded
+data are returned in a 1-element array C<[DATA]>, giving an effective
 CHARSET of C<undef>.
 
     $enc = '=?ISO-8859-1?Q?Keld_J=F8rn_Simonsen?= <keld@dkuug.dk>';
@@ -161,14 +154,14 @@ CHARSET of C<undef>.
         print "", ($_[1] || 'US-ASCII'), ": ", $_[0], "\n";
     }
 
-B<In a scalar context,> joins the "data" elements of the above 
+B<In a scalar context,> joins the "data" elements of the above
 list together, and returns that.  I<Warning: this is information-lossy,>
-and probably I<not> what you want, but if you know that all charsets 
+and probably I<not> what you want, but if you know that all charsets
 in the ENCODED string are identical, it might be useful to you.
 (Before you use this, please see L<MIME::WordDecoder/unmime>,
 which is probably what you want.)
 
-In the event of a syntax error, $@ will be set to a description 
+In the event of a syntax error, $@ will be set to a description
 of the error, but parsing will continue as best as possible (so as to
 get I<something> back when decoding headers).
 $@ will be false if no error was detected.
@@ -215,7 +208,7 @@ sub decode_mimewords {
 	    next;
 	}
 
-	### Case 2: are we looking at a bad "=?..." prefix? 
+	### Case 2: are we looking at a bad "=?..." prefix?
 	### We need this to detect problems for case 3, which stops at "=?":
 	pos($encstr) = $pos;               # reset the pointer.
 	if ($encstr =~ m{\G=\?}xg) {
@@ -272,7 +265,7 @@ sub encode_mimeword {
 =item encode_mimewords RAW, [OPTS]
 
 I<Function.>
-Given a RAW string, try to find and encode all "unsafe" sequences 
+Given a RAW string, try to find and encode all "unsafe" sequences
 of characters:
 
     ### Encode a string with some unsafe "words":
@@ -313,21 +306,16 @@ sub encode_mimewords {
     my $encoding = lc($params{Encoding} || 'q');
 
     ### Encode any "words" with unsafe characters.
-    ###    We limit such words to 18 characters, to guarantee that the 
+    ###    We limit such words to 18 characters, to guarantee that the
     ###    worst-case encoding give us no more than 54 + ~10 < 75 characters
     my $word;
-# ---
-# 2007-12-10 added patch/workaround for bug in MIME::Words
-# bug #5462: MIME::Words::encode_mimewords strips spaces
-# see: http://rt.cpan.org/Public/Bug/Display.html?id=5462
-#    $rawstr =~ s{([a-zA-Z0-9\x7F-\xFF]{1,18})}{     ### get next "word"
-# ---
-    $rawstr =~ s{([a-zA-Z0-9\x7F-\xFF]+\s*)}{     ### get next "word"
+    $rawstr =~ s{([ a-zA-Z0-9\x7F-\xFF]{1,18})}{     ### get next "word"
 	$word = $1;
-	(($word !~ /[$NONPRINT]/o) 
+	(($word !~ /(?:[$NONPRINT])|(?:^\s+$)/o)
 	 ? $word                                          ### no unsafe chars
 	 : encode_mimeword($word, $encoding, $charset));  ### has unsafe chars
     }xeg;
+    $rawstr =~ s/\?==\?/?= =?/g;
     $rawstr;
 }
 
@@ -337,9 +325,13 @@ __END__
 
 =back
 
+=head1 SEE ALSO
+
+L<MIME::Base64>, L<MIME::QuotedPrint>, L<MIME::Tools>
+
 =head1 NOTES
 
-Exports its principle functions by default, in keeping with 
+Exports its principle functions by default, in keeping with
 MIME::Base64 and MIME::QuotedPrint.
 
 
@@ -348,12 +340,12 @@ MIME::Base64 and MIME::QuotedPrint.
 Eryq (F<eryq@zeegee.com>), ZeeGee Software Inc (F<http://www.zeegee.com>).
 David F. Skoll (dfs@roaringpenguin.com) http://www.roaringpenguin.com
 
-All rights reserved.  This program is free software; you can redistribute 
+All rights reserved.  This program is free software; you can redistribute
 it and/or modify it under the same terms as Perl itself.
 
 Thanks also to...
 
-      Kent Boortz        For providing the idea, and the baseline 
+      Kent Boortz        For providing the idea, and the baseline
                          RFC-1522-decoding code!
       KJJ at PrimeNet    For requesting that this be split into
                          its own module.
