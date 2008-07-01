@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.328 2008-06-30 15:03:28 mh Exp $
+# $Id: Ticket.pm,v 1.329 2008-07-01 15:26:21 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.328 $) [1];
+$VERSION = qw($Revision: 1.329 $) [1];
 
 =head1 NAME
 
@@ -1424,7 +1424,7 @@ to set a ticket type
 sub TicketTypeSet {
     my ( $Self, %Param ) = @_;
 
-    # queue lookup
+    # type lookup
     if ( $Param{Type} && !$Param{TypeID} ) {
         $Param{TypeID} = $Self->{TypeObject}->TypeLookup( Type => $Param{Type} );
     }
@@ -1440,12 +1440,8 @@ sub TicketTypeSet {
     # get current ticket
     my %Ticket = $Self->TicketGet(%Param);
 
-    # move needed?
-    if ( $Param{TypeID} == $Ticket{TypeID} ) {
-
-        # update not needed
-        return 1;
-    }
+    # update needed?
+    return 1 if ( $Param{TypeID} == $Ticket{TypeID} );
 
     # permission check
     my %TypeList = $Self->TicketTypeList(%Param);
@@ -1580,7 +1576,7 @@ to set a ticket service
 sub TicketServiceSet {
     my ( $Self, %Param ) = @_;
 
-    # queue lookup
+    # service lookup
     if ( $Param{Service} && !$Param{ServiceID} ) {
         $Param{ServiceID} = $Self->{ServiceObject}->ServiceLookup( Name => $Param{Service} );
     }
@@ -1596,12 +1592,8 @@ sub TicketServiceSet {
     # get current ticket
     my %Ticket = $Self->TicketGet(%Param);
 
-    # move needed?
-    if ( $Param{ServiceID} eq $Ticket{ServiceID} ) {
-
-        # update not needed
-        return 1;
-    }
+    # update needed?
+    return 1 if ( $Param{ServiceID} eq $Ticket{ServiceID} );
 
     # permission check
     my %ServiceList = $Self->TicketServiceList(%Param);
@@ -1613,9 +1605,11 @@ sub TicketServiceSet {
         return;
     }
 
+    $Param{ServiceID} ||= 'NULL';
+
     return if !$Self->{DBObject}->Do(
-        SQL => 'UPDATE ticket SET service_id = ? WHERE id = ?',
-        Bind => [ \$Param{ServiceID}, \$Param{TicketID} ],
+        SQL => "UPDATE ticket SET service_id = $Param{ServiceID} WHERE id = ?",
+        Bind => [ \$Param{TicketID} ],
     );
 
     # clear ticket cache
@@ -1623,10 +1617,10 @@ sub TicketServiceSet {
 
     # get new ticket data
     my %TicketNew = $Self->TicketGet(%Param);
-    $TicketNew{Service} = $TicketNew{Service} || 'NULL';
-    $Param{ServiceID}   = $Param{ServiceID}   || '';
-    $Ticket{Service}    = $Ticket{Service}    || 'NULL';
-    $Ticket{ServiceID}  = $Ticket{ServiceID}  || '';
+    $TicketNew{Service} ||= 'NULL';
+    $Param{ServiceID}   ||= '';
+    $Ticket{Service}    ||= 'NULL';
+    $Ticket{ServiceID}  ||= '';
 
     # history insert
     $Self->HistoryAdd(
@@ -2070,7 +2064,7 @@ to set a ticket service
 sub TicketSLASet {
     my ( $Self, %Param ) = @_;
 
-    # queue lookup
+    # sla lookup
     if ( $Param{SLA} && !$Param{SLAID} ) {
         $Param{SLAID} = $Self->{SLAObject}->SLALookup( Name => $Param{SLA} );
     }
@@ -2086,15 +2080,15 @@ sub TicketSLASet {
     # get current ticket
     my %Ticket = $Self->TicketGet(%Param);
 
-    # move needed?
-    if ( $Param{SLAID} eq $Ticket{SLAID} ) {
-
-        # update not needed
-        return 1;
-    }
+    # update needed?
+    return 1 if ( $Param{SLAID} eq $Ticket{SLAID} );
 
     # permission check
-    my %SLAList = $Self->TicketSLAList( %Param, ServiceID => $Ticket{ServiceID} );
+    my %SLAList = $Self->TicketSLAList(
+        %Param,
+        ServiceID => $Ticket{ServiceID},
+    );
+
     if ( $Param{UserID} != 1 && $Param{SLAID} ne '' && !$SLAList{ $Param{SLAID} } ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
@@ -2103,9 +2097,11 @@ sub TicketSLASet {
         return;
     }
 
+    $Param{SLAID} ||= 'NULL';
+
     return if !$Self->{DBObject}->Do(
-        SQL => 'UPDATE ticket SET sla_id = ? WHERE id = ?',
-        Bind => [ \$Param{SLAID}, \$Param{TicketID} ],
+        SQL => "UPDATE ticket SET sla_id = $Param{SLAID} WHERE id = ?",
+        Bind => [ \$Param{TicketID} ],
     );
 
     # clear ticket cache
@@ -2113,10 +2109,10 @@ sub TicketSLASet {
 
     # get new ticket data
     my %TicketNew = $Self->TicketGet(%Param);
-    $TicketNew{SLA} = $TicketNew{SLA} || 'NULL';
-    $Param{SLAID}   = $Param{SLAID}   || '';
-    $Ticket{SLA}    = $Ticket{SLA}    || 'NULL';
-    $Ticket{SLAID}  = $Ticket{SLAID}  || '';
+    $TicketNew{SLA} ||= 'NULL';
+    $Param{SLAID}   ||= '';
+    $Ticket{SLA}    ||= 'NULL';
+    $Ticket{SLAID}  ||= '';
 
     # history insert
     $Self->HistoryAdd(
@@ -6568,6 +6564,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.328 $ $Date: 2008-06-30 15:03:28 $
+$Revision: 1.329 $ $Date: 2008-07-01 15:26:21 $
 
 =cut
