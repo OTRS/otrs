@@ -2,7 +2,7 @@
 # Login.dtl - provides HTML login screen
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Login.dtl,v 1.31 2008-04-02 08:59:22 ot Exp $
+# $Id: Login.dtl,v 1.32 2008-07-01 15:56:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,6 +19,7 @@ $Include{"Copyright"}
 # --
 <html>
 <head>
+  <link rel="shortcut icon" href="$Env{"Images"}product.ico" type="image/ico" />
   <title>$Config{"ProductName"} :: $Text{"$Data{"Title"}"}</title>
 # include css.dtl file
 $Include{"css"}
