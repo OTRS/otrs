@@ -4,7 +4,7 @@
 # Copyright (C) 2005 Alterado por Glaucia C. Messina (glauglauu@yahoo.com)
 # Copyright (C) 2007 Fabricio Luiz Machado <soprobr gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.68 2008-06-26 13:24:02 mh Exp $
+# $Id: pt_BR.pm,v 1.69 2008-07-01 21:29:24 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1523,6 +1523,9 @@ sub Data {
         'Can not create link with %s!' => '',
         'Can not delete link with %s!' => '',
         'Object already linked as %s.' => '',
+        'Priority Management' => '',
+        'Add a new Priority.' => '',
+        'Add Priority' => '',
     };
     # $$STOP$$
     return;

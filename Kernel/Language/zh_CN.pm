@@ -2,7 +2,7 @@
 # Kernel/Language/zh_CN.pm - provides za_CN language translation
 # Copyright (C) 2005 zuowei <j2ee@hirain-sh.com>
 # --
-# $Id: zh_CN.pm,v 1.43 2008-06-26 13:24:03 mh Exp $
+# $Id: zh_CN.pm,v 1.44 2008-07-01 21:29:24 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1525,6 +1525,9 @@ sub Data {
         'Can not create link with %s!' => '',
         'Can not delete link with %s!' => '',
         'Object already linked as %s.' => '',
+        'Priority Management' => '',
+        'Add a new Priority.' => '',
+        'Add Priority' => '',
     };
     # $$STOP$$
     return;
