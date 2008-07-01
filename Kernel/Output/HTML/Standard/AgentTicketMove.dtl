@@ -2,12 +2,15 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.12 2008-04-02 08:59:22 ot Exp $
+# $Id: AgentTicketMove.dtl,v 1.13 2008-07-01 22:31:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
+
+# include AJAX lib
+$Include{"AJAX"}
 
 <!-- start form -->
 <script language="JavaScript" type="text/javascript">
@@ -44,6 +47,20 @@ function submit_compose() {
         document.compose.Subject.focus();
         return false;
     }
+<!-- dtl:block:TicketFreeTextCheckJs -->
+    if (document.compose.$Data{"TicketFreeTextField"}.value == "") {
+        alert('$JSText{"A required field is:"} ' + document.compose.$Data{"TicketFreeKeyField"}.value + '!');
+        document.compose.$Data{"TicketFreeTextField"}.focus();
+        return false;
+    }
+<!-- dtl:block:TicketFreeTextCheckJs -->
+<!-- dtl:block:TicketFreeTimeCheckJs -->
+    if (document.compose.$Data{"TicketFreeTimeCheck"} && document.compose.$Data{"TicketFreeTimeCheck"}.checked == false) {
+        alert('$JSText{"A required field is:"} $QData{"TicketFreeTimeKey"}!');
+        document.compose.$Data{"TicketFreeTimeCheck"}.focus();
+        return false;
+    }
+<!-- dtl:block:TicketFreeTimeCheckJs -->
 <!-- dtl:block:TimeUnitsJs -->
     else if (document.compose.TimeUnits.value != "") {
         var reg = /^-{0,1}\d+?((\.|,){0,1}\d+?){0,1}$/;
@@ -101,13 +118,13 @@ function SpellCheckSubmit() {
               <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
               <input type="hidden" name="TicketID" value="$Data{"TicketID"}"/>
               <input type="hidden" name="TicketUnlock" value="$Data{"TicketUnlock"}"/>
-              <input type="hidden" name="ExpandQueueUsers" value="$QData{"ExpandQueueUsers"}"/>
+              <input type="hidden" name="OwnerAll" value="$QData{"OwnerAll"}"/>
               <input type="hidden" name="NoSubmit" value=""/>
               <table border="0" width="100%">
                 <tr>
                   <td class="contentkey">$Text{"New Queue"}:</td>
                   <td class="contentvalue"></td>
-                  <td class="contentvalue">$Data{"MoveQueuesStrg"} $Data{"LatestQueue"}</td>
+                  <td class="contentvalue">$Data{"MoveQueuesStrg"}</td>
                 </tr>
                 <tr>
                   <td width="18%" class="contentkey">$Text{"New Owner"}:</td>
@@ -115,7 +132,9 @@ function SpellCheckSubmit() {
                     <input type="radio" name="UserSelection" value="New" $QData{"UserSelection::New"}/>
                   </td>
                   <td width="80%" class="contentvalue">
-                    $Data{"OwnerStrg"} $Env{"Box0"}<a href="" onclick="document.compose.ExpandQueueUsers.value='3'; document.compose.NoSubmit.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
+                    $Data{"OwnerStrg"}
+#                    $Env{"Box0"}<a href="" onclick="document.compose.OwnerAll.value='3'; document.compose.NoSubmit.value='1'; document.compose.submit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
+                    $Env{"Box0"}<a href="" onclick="change_selected(0); document.compose.OwnerAll.value='3'; AJAXUpdate('AJAXUpdate', 'OwnerAll', ['TicketID', 'DestQueueID', 'NewStateID', 'OwnerAll'], ['NewUserID']); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"All Agents"}'; return true;">$Text{"All"}</a>$Env{"Box1"}
                   </td>
                 </tr>
                 <tr>
@@ -172,9 +191,6 @@ function SpellCheckSubmit() {
                     </table>
                   </td>
                 </tr>
-# --
-# use ticket is move
-# --
 <!-- dtl:block:State -->
                 <tr>
                   <td width="20%" class="contentkey">$Text{"Next ticket state"}:</td>
@@ -182,6 +198,48 @@ function SpellCheckSubmit() {
                   <td width="80%">$Data{"NextStatesStrg"}</td>
                 </tr>
 <!-- dtl:block:State -->
+<!-- dtl:block:Priority -->
+                <tr>
+                  <td colspan="2" class="contentkey">$Text{"Priority"}:</td>
+                  <td class="contentvalue">$Data{"NextPrioritiesStrg"}</td>
+                </tr>
+<!-- dtl:block:Priority -->
+<!-- dtl:block:TicketFreeText -->
+                <tr>
+                  <td colspan="2" class="contentkey">$Data{"TicketFreeKeyField"}:</td>
+                  <td class="contentvalue">$Data{"TicketFreeTextField"}</td>
+                </tr>
+<!-- dtl:block:TicketFreeText -->
+#<!-- dtl:block:TicketFreeText1 -->
+#                <tr>
+#                  <td colspan="2" class="contentkey">$Data{"TicketFreeKeyField1"}:</td>
+#                  <td class="contentvalue">$Data{"TicketFreeTextField1"}</td>
+#                </tr>
+#<!-- dtl:block:TicketFreeText1 -->
+#<!-- dtl:block:TicketFreeText2 -->
+#                <tr>
+#                  <td colspan="2" class="contentkey">$Data{"TicketFreeKeyField2"}:</td>
+#                  <td class="contentvalue">$Data{"TicketFreeTextField2"}</td>
+#                </tr>
+#<!-- dtl:block:TicketFreeText2 -->
+<!-- dtl:block:TicketFreeTime -->
+                <tr>
+                  <td colspan="2" class="contentkey">$Text{"$QData{"TicketFreeTimeKey"}"}:</td>
+                  <td class="contentvalue">$Data{"TicketFreeTime"}</td>
+                </tr>
+<!-- dtl:block:TicketFreeTime -->
+#<!-- dtl:block:TicketFreeTime1 -->
+#                <tr>
+#                  <td colspan="2" class="contentkey">$Text{"$Config{"TicketFreeTimeKey1"}"}:</td>
+#                  <td class="contentvalue">$Data{"TicketFreeTime1"}</td>
+#                </tr>
+#<!-- dtl:block:TicketFreeTime1 -->
+#<!-- dtl:block:TicketFreeTime2 -->
+#                <tr>
+#                  <td colspan="2" class="contentkey">$Text{"$Config{"TicketFreeTimeKey2"}"}:</td>
+#                  <td class="contentvalue">$Data{"TicketFreeTime2"}</td>
+#                </tr>
+#<!-- dtl:block:TicketFreeTime2 -->
 <!-- dtl:block:TimeUnits -->
                 <tr>
                   <td class="contentkey">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</td>

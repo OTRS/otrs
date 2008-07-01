@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.21 2008-06-25 22:48:27 martin Exp $
+# $Id: AgentTicketMove.pm,v 1.22 2008-07-01 22:31:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -47,6 +47,8 @@ sub new {
         $Self->{FormID} = $Self->{UploadCachObject}->FormIDCreate();
     }
 
+    $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
+
     return $Self;
 }
 
@@ -56,8 +58,6 @@ sub Run {
     # check needed stuff
     for (qw(TicketID)) {
         if ( !$Self->{$_} ) {
-
-            # error page
             return $Self->{LayoutObject}->ErrorScreen( Message => "Need $_!", );
         }
     }
@@ -99,12 +99,15 @@ sub Run {
         }
     }
 
+    # ticket attributes
+    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
+
     # get params
     my %GetParam = ();
     for (
         qw(Subject Body TimeUnits
-        NewUserID OldUserID NewStateID
-        UserSelection ExpandQueueUsers NoSubmit DestQueueID DestQueue
+        NewUserID OldUserID NewStateID NewPriorityID
+        UserSelection OwnerAll NoSubmit DestQueueID DestQueue
         AttachmentUpload
         AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
         AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
@@ -115,6 +118,76 @@ sub Run {
     {
         $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
     }
+
+    # get ticket free text params
+    for ( 1 .. 16 ) {
+        $GetParam{"TicketFreeKey$_"} = $Self->{ParamObject}->GetParam( Param => "TicketFreeKey$_" );
+        $GetParam{"TicketFreeText$_"}
+            = $Self->{ParamObject}->GetParam( Param => "TicketFreeText$_" );
+        if ( !defined $GetParam{"TicketFreeKey$_"} && $Ticket{"TicketFreeKey$_"} ) {
+            $GetParam{"TicketFreeKey$_"} = $Ticket{"TicketFreeKey$_"};
+        }
+        if ( !defined $GetParam{"TicketFreeText$_"} && $Ticket{"TicketFreeText$_"} ) {
+            $GetParam{"TicketFreeText$_"} = $Ticket{"TicketFreeText$_"};
+        }
+    }
+
+    # get ticket free time params
+    FREETIMENUMBER:
+    for my $FreeTimeNumber ( 1 .. 6 ) {
+
+        # create freetime prefix
+        my $FreeTimePrefix = 'TicketFreeTime' . $FreeTimeNumber;
+
+        # get form params
+        for my $Type (qw(Used Year Month Day Hour Minute)) {
+            $GetParam{ $FreeTimePrefix . $Type }
+                = $Self->{ParamObject}->GetParam( Param => $FreeTimePrefix . $Type );
+        }
+
+        # set additional params
+        $GetParam{ $FreeTimePrefix . 'Optional' } = 1;
+        $GetParam{ $FreeTimePrefix . 'Used' } = $GetParam{ $FreeTimePrefix . 'Used' } || 0;
+        if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $FreeTimeNumber ) ) {
+            $GetParam{ $FreeTimePrefix . 'Optional' } = 0;
+            $GetParam{ $FreeTimePrefix . 'Used' }     = 1;
+        }
+
+        # check the timedata
+        my $TimeDataComplete = 1;
+        TYPE:
+        for my $Type (qw(Used Year Month Day Hour Minute)) {
+            next TYPE if defined $GetParam{ $FreeTimePrefix . $Type };
+
+            $TimeDataComplete = 0;
+            last TYPE;
+        }
+
+        next FREETIMENUMBER if $TimeDataComplete;
+
+        if ( !$Ticket{$FreeTimePrefix} ) {
+
+            for my $Type (qw(Used Year Month Day Hour Minute)) {
+                delete $GetParam{ $FreeTimePrefix . $Type };
+            }
+
+            next FREETIMENUMBER;
+        }
+        # get freetime data from ticket
+        my $TicketFreeTimeString
+            = $Self->{TimeObject}->TimeStamp2SystemTime( String => $Ticket{$FreeTimePrefix} );
+        my ( $Second, $Minute, $Hour, $Day, $Month, $Year )
+            = $Self->{TimeObject}->SystemTime2Date( SystemTime => $TicketFreeTimeString );
+
+        $GetParam{ $FreeTimePrefix . 'Used' }   = 1;
+        $GetParam{ $FreeTimePrefix . 'Minute' } = $Minute;
+        $GetParam{ $FreeTimePrefix . 'Hour' }   = $Hour;
+        $GetParam{ $FreeTimePrefix . 'Day' }    = $Day;
+        $GetParam{ $FreeTimePrefix . 'Month' }  = $Month;
+        $GetParam{ $FreeTimePrefix . 'Year' }   = $Year;
+    }
+
+    # error handling
     my %Error = ();
     if ( $GetParam{AttachmentUpload} ) {
         $Error{AttachmentUpload} = 1;
@@ -123,6 +196,17 @@ sub Run {
     # check subject if body exists
     if ( $GetParam{Body} && !$GetParam{Subject} ) {
         $Error{'Subject invalid'} = 'invalid';
+    }
+
+    # check required FreeTextField (if configured)
+    for ( 1 .. 16 ) {
+        if (
+            $Self->{Config}->{'TicketFreeText'}->{$_} == 2
+            && $GetParam{"TicketFreeText$_"} eq ''
+            )
+        {
+            $Error{"TicketFreeTextField$_ invalid"} = '* invalid';
+        }
     }
 
     # DestQueueID lookup
@@ -138,9 +222,6 @@ sub Run {
         $Error{NoSubmit} = 1;
     }
 
-    # ticket attributes
-    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
-
     # check new/old user selection
     if ( $GetParam{UserSelection} && $GetParam{UserSelection} eq 'Old' ) {
         $GetParam{'UserSelection::Old'} = 'checked';
@@ -152,8 +233,125 @@ sub Run {
         $GetParam{'UserSelection::New'} = 'checked';
     }
 
+    # ajax update
+    if ( $Self->{Subaction} eq 'AJAXUpdate' ) {
+        my $Users = $Self->_GetUsers(
+            QueueID  => $GetParam{DestQueueID},
+            AllUsers => $GetParam{OwnerAll},
+        );
+        my $NextStates = $Self->_GetNextStates(
+            TicketID => $Self->{TicketID},
+            QueueID  => $GetParam{DestQueueID} || 1,
+        );
+        my $NextPriorities = $Self->_GetPriorities(
+            TicketID => $Self->{TicketID},
+            QueueID  => $GetParam{DestQueueID} || 1,
+        );
+        # get free text config options
+        my @TicketFreeTextConfig = ();
+        for ( 1 .. 16 ) {
+            my $ConfigKey = $Self->{TicketObject}->TicketFreeTextGet(
+                TicketID => $Self->{TicketID},
+                Type     => "TicketFreeKey$_",
+                Action   => $Self->{Action},
+                QueueID  => $GetParam{DestQueueID} || 0,
+                UserID   => $Self->{UserID},
+            );
+            if ($ConfigKey) {
+                push(
+                    @TicketFreeTextConfig,
+                    {
+                        Name        => "TicketFreeKey$_",
+                        Data        => $ConfigKey,
+                        SelectedID  => $GetParam{"TicketFreeKey$_"},
+                        Translation => 0,
+                        Max         => 100,
+                    }
+                );
+            }
+            my $ConfigValue = $Self->{TicketObject}->TicketFreeTextGet(
+                TicketID => $Self->{TicketID},
+                Type     => "TicketFreeText$_",
+                Action   => $Self->{Action},
+                QueueID  => $GetParam{DestQueueID} || 0,
+                UserID   => $Self->{UserID},
+            );
+            if ($ConfigValue) {
+                push(
+                    @TicketFreeTextConfig,
+                    {
+                        Name        => "TicketFreeText$_",
+                        Data        => $ConfigValue,
+                        SelectedID  => $GetParam{"TicketFreeText$_"},
+                        Translation => 0,
+                        Max         => 100,
+                    }
+                );
+            }
+        }
+        my $JSON = $Self->{LayoutObject}->BuildJSON(
+            [
+                {
+                    Name         => 'NewUserID',
+                    Data         => $Users,
+                    SelectedID   => $GetParam{NewUserID},
+                    Translation  => 0,
+                    PossibleNone => 1,
+                    Max          => 100,
+                },
+                {
+                    Name         => 'NewStateID',
+                    Data         => $NextStates,
+                    SelectedID   => $GetParam{NewStateID},
+                    Translation  => 1,
+                    PossibleNone => 1,
+                    Max          => 100,
+                },
+                {
+                    Name         => 'NewPriorityID',
+                    Data         => $NextPriorities,
+                    SelectedID   => $GetParam{NewPriorityID},
+                    Translation  => 1,
+                    PossibleNone => 1,
+                    Max          => 100,
+                },
+                @TicketFreeTextConfig,
+            ],
+        );
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'text/plain; charset=' . $Self->{LayoutObject}->{Charset},
+            Content     => $JSON,
+            Type        => 'inline',
+            NoCache     => 1,
+        );
+    }
+
     # move queue
     if (%Error) {
+        # ticket free text
+        my %TicketFreeText = ();
+        for ( 1 .. 16 ) {
+            $TicketFreeText{"TicketFreeKey$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+                TicketID => $Self->{TicketID},
+                Type     => "TicketFreeKey$_",
+                Action   => $Self->{Action},
+                UserID   => $Self->{UserID},
+            );
+            $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
+                TicketID => $Self->{TicketID},
+                Type     => "TicketFreeText$_",
+                Action   => $Self->{Action},
+                UserID   => $Self->{UserID},
+            );
+        }
+        my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
+            Config => \%TicketFreeText,
+            Ticket => \%GetParam,
+        );
+
+        # ticket free time
+        my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate( Ticket => \%GetParam );
+
         my $Output = $Self->{LayoutObject}->Header();
 
         # get lock state && write (lock) permissions
@@ -206,19 +404,19 @@ sub Run {
         );
 
         # get next states
-        my %NextStates = $Self->{TicketObject}->StateList(
-            Type     => 'DefaultNextMove',
-            Action   => $Self->{Action},
+        my $NextStates = $Self->_GetNextStates(
             TicketID => $Self->{TicketID},
-            UserID   => $Self->{UserID},
+            QueueID  => $GetParam{DestQueueID} || 1,
         );
-        $NextStates{''} = '-';
+
+        # get next priorities
+        my $NextPriorities = $Self->_GetPriorities(
+            TicketID => $Self->{TicketID},
+            QueueID  => $GetParam{DestQueueID} || 1,
+        );
 
         # get old owners
         my @OldUserInfo = $Self->{TicketObject}->OwnerList( TicketID => $Self->{TicketID} );
-
-        # get lod queues
-        my @OldQueue = $Self->{TicketObject}->MoveQueueList( TicketID => $Self->{TicketID} );
 
         # attachment delete
         for ( 1 .. 16 ) {
@@ -245,23 +443,26 @@ sub Run {
         }
 
         # get all attachments meta data
-        my @Attachments
-            = $Self->{UploadCachObject}->FormIDGetAllFilesMeta( FormID => $Self->{FormID} );
+        my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
+            FormID => $Self->{FormID},
+        );
 
         # print change form
         $Output .= $Self->AgentMove(
-            OldQueue     => \@OldQueue,
-            OldUser      => \@OldUserInfo,
-            Attachments  => \@Attachments,
-            MoveQueues   => \%MoveQueues,
-            TicketID     => $Self->{TicketID},
-            NextStates   => \%NextStates,
-            TicketUnlock => $Self->{TicketUnlock},
-            TimeUnits    => $GetParam{TimeUnits},
-            FormID       => $Self->{FormID},
-            %Error,
-            %GetParam,
+            OldUser        => \@OldUserInfo,
+            Attachments    => \@Attachments,
+            MoveQueues     => \%MoveQueues,
+            TicketID       => $Self->{TicketID},
+            NextStates     => $NextStates,
+            NextPriorities => $NextPriorities,
+            TicketUnlock   => $Self->{TicketUnlock},
+            TimeUnits      => $GetParam{TimeUnits},
+            FormID         => $Self->{FormID},
             %Ticket,
+            %TicketFreeTextHTML,
+            %TicketFreeTimeHTML,
+            %GetParam,
+            %Error,
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -277,9 +478,17 @@ sub Run {
         )
     {
 
+        # set priority
+        if ( $Self->{Config}->{Priority} && $GetParam{NewPriorityID} ) {
+            $Self->{TicketObject}->PrioritySet(
+                TicketID   => $Self->{TicketID},
+                PriorityID => $GetParam{NewPriorityID},
+                UserID     => $Self->{UserID},
+            );
+        }
+
         # set state
-        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::MoveSetState') && $GetParam{NewStateID} )
-        {
+        if ( $Self->{Config}->{State} && $GetParam{NewStateID} ) {
             $Self->{TicketObject}->StateSet(
                 TicketID => $Self->{TicketID},
                 StateID  => $GetParam{NewStateID},
@@ -378,6 +587,52 @@ sub Run {
             $Self->{UploadCachObject}->FormIDRemove( FormID => $Self->{FormID} );
         }
 
+        # set ticket free text
+        for ( 1 .. 16 ) {
+            if ( defined( $GetParam{"TicketFreeKey$_"} ) ) {
+                $Self->{TicketObject}->TicketFreeTextSet(
+                    TicketID => $Self->{TicketID},
+                    Key      => $GetParam{"TicketFreeKey$_"},
+                    Value    => $GetParam{"TicketFreeText$_"},
+                    Counter  => $_,
+                    UserID   => $Self->{UserID},
+                );
+            }
+        }
+
+        # set ticket free time
+        for ( 1 .. 6 ) {
+            if (
+                defined( $GetParam{ "TicketFreeTime" . $_ . "Year" } )
+                && defined( $GetParam{ "TicketFreeTime" . $_ . "Month" } )
+                && defined( $GetParam{ "TicketFreeTime" . $_ . "Day" } )
+                && defined( $GetParam{ "TicketFreeTime" . $_ . "Hour" } )
+                && defined( $GetParam{ "TicketFreeTime" . $_ . "Minute" } )
+                )
+            {
+                my %Time;
+                $Time{ "TicketFreeTime" . $_ . "Year" }    = 0;
+                $Time{ "TicketFreeTime" . $_ . "Month" }   = 0;
+                $Time{ "TicketFreeTime" . $_ . "Day" }     = 0;
+                $Time{ "TicketFreeTime" . $_ . "Hour" }    = 0;
+                $Time{ "TicketFreeTime" . $_ . "Minute" }  = 0;
+                $Time{ "TicketFreeTime" . $_ . "Secunde" } = 0;
+
+                if ( $GetParam{ "TicketFreeTime" . $_ . "Used" } ) {
+                    %Time = $Self->{LayoutObject}->TransfromDateSelection(
+                        %GetParam, Prefix => "TicketFreeTime" . $_
+                    );
+                }
+                $Self->{TicketObject}->TicketFreeTimeSet(
+                    %Time,
+                    Prefix   => "TicketFreeTime",
+                    TicketID => $Self->{TicketID},
+                    Counter  => $_,
+                    UserID   => $Self->{UserID},
+                );
+            }
+        }
+
         # time accounting
         if ( $GetParam{TimeUnits} ) {
             $Self->{TicketObject}->TicketAccountTime(
@@ -410,11 +665,6 @@ sub AgentMove {
     my %MoveQueues    = %Data;
     my %UsedData      = ();
     my %UserHash      = ();
-    my @OldQueue      = @{ $Param{OldQueue} };
-    my $LatestQueueID = '';
-    if ( $#OldQueue >= 1 ) {
-        $LatestQueueID = $OldQueue[ $#OldQueue - 1 ] || '';
-    }
     if ( $Param{OldUser} ) {
         my $Counter = 0;
         for my $User ( reverse @{ $Param{OldUser} } ) {
@@ -427,50 +677,69 @@ sub AgentMove {
             $Counter++;
         }
     }
-    if ( !%UserHash ) {
-        $UserHash{''} = '-';
-    }
     my $OldUserSelectedID = $Param{OldUserID};
     if ( !$OldUserSelectedID && $Param{OldUser}->[0]->{UserID} ) {
         $OldUserSelectedID = $Param{OldUser}->[0]->{UserID} . '1';
     }
 
     # build string
-    $Param{OldUserStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data       => \%UserHash,
-        SelectedID => $OldUserSelectedID,
-        Name       => 'OldUserID',
-        OnClick    => "change_selected(2)",
+    $Param{OldUserStrg} = $Self->{LayoutObject}->BuildSelection(
+        Data         => \%UserHash,
+        SelectedID   => $OldUserSelectedID,
+        Name         => 'OldUserID',
+        Translation  => 0,
+        PossibleNone => 1,
+        OnClick      => "change_selected(2)",
     );
 
     # build next states string
-    $Param{NextStatesStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data       => $Param{NextStates},
-        Name       => 'NewStateID',
-        SelectedID => $Param{NewStateID},
+    $Param{NextStatesStrg} = $Self->{LayoutObject}->BuildSelection(
+        Data         => $Param{NextStates},
+        Name         => 'NewStateID',
+        SelectedID   => $Param{NewStateID},
+        Translation  => 1,
+        PossibleNone => 1,
+    );
+
+    # build next priority string
+    $Param{NextPrioritiesStrg} = $Self->{LayoutObject}->BuildSelection(
+        Data         => $Param{NextPriorities},
+        Name         => 'NewPriorityID',
+        SelectedID   => $Param{NewPriorityID},
+        Translation  => 1,
+        PossibleNone => 1,
     );
 
     # build owner string
-    $Param{OwnerStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{OwnerStrg} = $Self->{LayoutObject}->BuildSelection(
         Data => $Self->_GetUsers(
             QueueID  => $Param{DestQueueID},
-            AllUsers => $Param{ExpandQueueUsers}
+            AllUsers => $Param{OwnerAll}
         ),
-        Name       => 'NewUserID',
-        SelectedID => $Param{NewUserID},
-        OnClick    => "change_selected(0)",
+        Name         => 'NewUserID',
+        SelectedID   => $Param{NewUserID},
+        Translation  => 0,
+        PossibleNone => 1,
+        OnClick      => "change_selected(0)",
     );
-    if ( $LatestQueueID && $MoveQueues{$LatestQueueID} ) {
-        $Param{LatestQueue} = '$Text{"Latest Queue!"} "' . $MoveQueues{$LatestQueueID} . '"';
-    }
 
     # set state
-    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::MoveSetState') ) {
+    if ( $Self->{Config}->{State} ) {
         $Self->{LayoutObject}->Block(
             Name => 'State',
             Data => {%Param},
         );
     }
+
+    # set priority
+    if ( $Self->{Config}->{Priority} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'Priority',
+            Data => {%Param},
+        );
+    }
+
+    # set move queues
     $Param{MoveQueuesStrg} = $Self->{LayoutObject}->AgentQueueListOption(
         Data => { %MoveQueues, '' => '-' },
         Multiple       => 0,
@@ -480,6 +749,54 @@ sub AgentMove {
         OnChangeSubmit => 0,
         OnChange =>
             "document.compose.NoSubmit.value='1'; document.compose.submit(); return false;",
+            Ajax => {
+                Update => [
+                    'NewUserID',
+                    'NewStateID',
+                    'NewPriorityID',
+                    'TicketFreeText1',
+                    'TicketFreeText2',
+                    'TicketFreeText3',
+                    'TicketFreeText4',
+                    'TicketFreeText5',
+                    'TicketFreeText6',
+                    'TicketFreeText7',
+                    'TicketFreeText8',
+                    'TicketFreeText9',
+                    'TicketFreeText10',
+                    'TicketFreeText11',
+                    'TicketFreeText12',
+                    'TicketFreeText13',
+                    'TicketFreeText14',
+                    'TicketFreeText15',
+                    'TicketFreeText16',
+                ],
+                Depend => [
+                    'TicketID',
+                    'DestQueueID',
+                    'NewUserID',
+                    'OwnerAll',
+                    'NewStateID',
+                    'NewPriorityID',
+                    'TicketFreeText1',
+                    'TicketFreeText2',
+                    'TicketFreeText3',
+                    'TicketFreeText4',
+                    'TicketFreeText5',
+                    'TicketFreeText6',
+                    'TicketFreeText7',
+                    'TicketFreeText8',
+                    'TicketFreeText9',
+                    'TicketFreeText10',
+                    'TicketFreeText11',
+                    'TicketFreeText12',
+                    'TicketFreeText13',
+                    'TicketFreeText14',
+                    'TicketFreeText15',
+                    'TicketFreeText16',
+                ],
+                Subaction => 'AJAXUpdate',
+        },
     );
 
     # show time accounting box
@@ -512,6 +829,68 @@ sub AgentMove {
             Name => 'Attachment',
             Data => $DataRef,
         );
+    }
+
+    # ticket free text
+    for my $Count ( 1 .. 16 ) {
+        if ( $Self->{Config}->{'TicketFreeText'}->{$Count} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeText',
+                Data => {
+                    TicketFreeKeyField  => $Param{ 'TicketFreeKeyField' . $Count },
+                    TicketFreeTextField => $Param{ 'TicketFreeTextField' . $Count },
+                    Count               => $Count,
+                    %Param,
+                },
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeText' . $Count,
+                Data => { %Param, Count => $Count },
+            );
+        }
+    }
+    for my $Count ( 1 .. 6 ) {
+        if ( $Self->{Config}->{'TicketFreeTime'}->{$Count} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeTime',
+                Data => {
+                    TicketFreeTimeKey => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count ),
+                    TicketFreeTime    => $Param{ 'TicketFreeTime' . $Count },
+                    Count             => $Count,
+                },
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeTime' . $Count,
+                Data => { %Param, Count => $Count },
+            );
+        }
+    }
+
+    # java script check for required free text fields by form submit
+    for my $Key ( keys %{ $Self->{Config}->{TicketFreeText} } ) {
+        if ( $Self->{Config}->{TicketFreeText}->{$Key} == 2 ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeTextCheckJs',
+                Data => {
+                    TicketFreeTextField => "TicketFreeText$Key",
+                    TicketFreeKeyField  => "TicketFreeKey$Key",
+                },
+            );
+        }
+    }
+
+    # java script check for required free time fields by form submit
+    for my $Key ( keys %{ $Self->{Config}->{TicketFreeTime} } ) {
+        if ( $Self->{Config}->{TicketFreeTime}->{$Key} == 2 ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeTimeCheckJs',
+                Data => {
+                    TicketFreeTimeCheck => 'TicketFreeTime' . $Key . 'Used',
+                    TicketFreeTimeField => 'TicketFreeTime' . $Key,
+                    TicketFreeTimeKey   => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Key ),
+                },
+            );
+        }
     }
 
     return $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketMove', Data => \%Param );
@@ -558,11 +937,43 @@ sub _GetUsers {
             Cached  => 1,
         );
         for ( keys %MemberList ) {
-            $ShownUsers{$_} = $AllGroupsMembers{$_};
+            if ( $AllGroupsMembers{$_} ) {
+                $ShownUsers{$_} = $AllGroupsMembers{$_};
+            }
         }
     }
-    $ShownUsers{''} = '-';
     return \%ShownUsers;
+}
+
+sub _GetPriorities {
+    my ( $Self, %Param ) = @_;
+
+    my %Priorities = ();
+
+    # get priority
+    if ( $Param{QueueID} || $Param{TicketID} ) {
+        %Priorities = $Self->{TicketObject}->PriorityList(
+            %Param,
+            Action => $Self->{Action},
+            UserID => $Self->{UserID},
+        );
+    }
+    return \%Priorities;
+}
+
+sub _GetNextStates {
+    my ( $Self, %Param ) = @_;
+
+    my %NextStates = ();
+    if ( $Param{QueueID} || $Param{TicketID} ) {
+        %NextStates = $Self->{TicketObject}->StateList(
+            %Param,
+            Type   => 'DefaultNextMove',
+            Action => $Self->{Action},
+            UserID => $Self->{UserID},
+        );
+    }
+    return \%NextStates;
 }
 
 1;

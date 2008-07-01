@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.694 2008-07-01 17:49:29 mh Exp $
+# $Id: CHANGES,v 1.695 2008-07-01 22:32:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.3.0 beta4 (2008/07/??)
+ - (2008/07/02) Added AJAX support to ticket move screen.
  - (2008/07/01) Added priority management mask to the admin interface.
  - (2008/07/01) Fixed bug# 3046 - Phone and Email-Ticket needs to get clicked
     twice on "create" to get created.

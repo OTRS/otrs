@@ -152,7 +152,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.188 2008-07-01 17:49:29 mh Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.189 2008-07-01 22:31:43 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -2152,42 +2152,6 @@ TimeWorkingHours
                 <Item Key="0">No</Item>
                 <Item Key="1">Yes</Item>
             </Option>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::MoveType" Required="1" Valid="1">
-        <Description Lang="en">The queue selection can be shown in a dropdown list or in a new window. If "New Window" is set you can add a move note to the ticket.</Description>
-        <Description Lang="de">Die Queue-Auswahl beim Verschieben eines Tickets kann als Dropdown-Box oder in einem neuen Fensters angezeigt werden. Ist "Neues Fenster" ausgewählt kann eine Notiz beim Verschieben an das Ticket angefügt werden.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewMove</SubGroup>
-        <Setting>
-            <Option SelectedID="form">
-                <Item Key="link">New Window</Item>
-                <Item Key="form">Dropdown</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::MoveSetState" Required="1" Valid="1">
-        <Description Lang="en">Set new ticket state after ticket move?</Description>
-        <Description Lang="de">Setzen eines neuen Ticket-Status nach dem Verschieben?</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewMove</SubGroup>
-        <Setting>
-            <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::DefaultNextMoveStateType" Required="1" Valid="1">
-        <Description Lang="en">Possible states after a ticket is moved.</Description>
-        <Description Lang="de">Mögliche Status nach dem Verschieben von Tickets.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewMove</SubGroup>
-        <Setting>
-            <Array>
-                <Item>open</Item>
-                <Item>closed</Item>
-            </Array>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketStatusView###ViewableTicketsPage" Required="1" Valid="1">
@@ -5142,6 +5106,97 @@ TimeWorkingHours
         </Setting>
     </ConfigItem>
 
+    <ConfigItem Name="Ticket::Frontend::MoveType" Required="1" Valid="1">
+        <Description Lang="en">The queue selection can be shown in a dropdown list or in a new window. If "New Window" is set you can add a move note to the ticket.</Description>
+        <Description Lang="de">Die Queue-Auswahl beim Verschieben eines Tickets kann als Dropdown-Box oder in einem neuen Fensters angezeigt werden. Ist "Neues Fenster" ausgewählt kann eine Notiz beim Verschieben an das Ticket angefügt werden.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewMove</SubGroup>
+        <Setting>
+            <Option SelectedID="form">
+                <Item Key="link">New Window</Item>
+                <Item Key="form">Dropdown</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketMove###State" Required="0" Valid="1">
+        <Description Lang="en">Set new ticket state in ticket move screen.</Description>
+        <Description Lang="de">Setzen eines neuen Ticket-Status beim Verschieben.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewMove</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::DefaultNextMoveStateType" Required="1" Valid="1">
+        <Description Lang="en">Possible states after a ticket is moved.</Description>
+        <Description Lang="de">Mögliche Status nach dem Verschieben von Tickets.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewMove</SubGroup>
+        <Setting>
+            <Array>
+                <Item>open</Item>
+                <Item>closed</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketMove###Priority" Required="0" Valid="0">
+        <Description Lang="en">Show priority options.</Description>
+        <Description Lang="de">Möglichkeit der Auswahl für die Priorität.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewMove</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketMove###TicketFreeText" Required="0" Valid="1">
+        <Description Lang="en">Shown ticket free text options. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.</Description>
+        <Description Lang="de">Angezeigte Ticket-Frei-Text-Felder. Mögliche Einstellungen: 0 = Deaktiviert, 1 = Aktiviert, 2 = Aktiviert und Pflichtfeld.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewMove</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
+                <Item Key="4">0</Item>
+                <Item Key="5">0</Item>
+                <Item Key="6">0</Item>
+                <Item Key="7">0</Item>
+                <Item Key="8">0</Item>
+                <Item Key="9">0</Item>
+                <Item Key="10">0</Item>
+                <Item Key="11">0</Item>
+                <Item Key="12">0</Item>
+                <Item Key="13">0</Item>
+                <Item Key="14">0</Item>
+                <Item Key="15">0</Item>
+                <Item Key="16">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketMove###TicketFreeTime" Required="0" Valid="1">
+        <Description Lang="en">Shown ticket free time options. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.</Description>
+        <Description Lang="de">Angezeigte Ticket-Frei-Time-Felder. Mögliche Einstellungen: 0 = Deaktiviert, 1 = Aktiviert, 2 = Aktiviert und Pflichtfeld.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewMove</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="1">0</Item>
+                <Item Key="2">0</Item>
+                <Item Key="3">0</Item>
+                <Item Key="4">0</Item>
+                <Item Key="5">0</Item>
+                <Item Key="6">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+
     <ConfigItem Name="Ticket::Frontend::AgentTicketBounce###Permission" Required="1" Valid="1">
         <Description Lang="en">Required permissions to use this option.</Description>
         <Description Lang="de">Benötigte Rechte zur Bearbeitung des Tickets.</Description>
@@ -7805,26 +7860,6 @@ $QData{"Signature"}
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::Module###AdminPriority" Required="0" Valid="1">
-        <Description Lang="en">Frontend module registration for the AdminPriority object in the admin area.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AdminPriority-Objekts im Admin-Bereich.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
-        <Setting>
-            <FrontendModuleReg>
-                <Group>admin</Group>
-                <Description>Admin</Description>
-                <Title>Priority</Title>
-                <NavBarName>Admin</NavBarName>
-                <NavBarModule>
-                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
-                    <Name>Priority</Name>
-                    <Block>Block3</Block>
-                    <Prio>420</Prio>
-                </NavBarModule>
-            </FrontendModuleReg>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="Frontend::Module###AdminType" Required="0" Valid="1">
         <Description Lang="en">Frontend module registration for the AdminType object in the admin area.</Description>
         <Description Lang="de">Frontendmodul-Registration des AdminType-Objekts im Admin-Bereich.</Description>
@@ -7861,6 +7896,26 @@ $QData{"Signature"}
                     <Name>Status</Name>
                     <Block>Block3</Block>
                     <Prio>800</Prio>
+                </NavBarModule>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminPriority" Required="0" Valid="1">
+        <Description Lang="en">Frontend module registration for the AdminPriority object in the admin area.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminPriority-Objekts im Admin-Bereich.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title>Priority</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Name>Priority</Name>
+                    <Block>Block3</Block>
+                    <Prio>850</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
