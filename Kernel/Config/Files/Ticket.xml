@@ -152,7 +152,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.187 2008-06-28 12:49:24 mh Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.188 2008-07-01 17:49:29 mh Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -7801,6 +7801,26 @@ $QData{"Signature"}
                     <Name>SLA</Name>
                     <Block>Block3</Block>
                     <Prio>1000</Prio>
+                </NavBarModule>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminPriority" Required="0" Valid="1">
+        <Description Lang="en">Frontend module registration for the AdminPriority object in the admin area.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminPriority-Objekts im Admin-Bereich.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title>Priority</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Name>Priority</Name>
+                    <Block>Block3</Block>
+                    <Prio>420</Prio>
                 </NavBarModule>
             </FrontendModuleReg>
         </Setting>
