@@ -2,7 +2,7 @@
 # LinkObject.t - link object module testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.t,v 1.12 2008-07-02 15:05:35 mh Exp $
+# $Id: LinkObject.t,v 1.13 2008-07-02 15:20:53 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -306,8 +306,8 @@ my $TypeData = [
         SourceData => {
             ConfigSet => {
                 Name       => $TypeNames[6],
-                SourceName => ' Պ Č Đ' . $TypeNames[6] . ' Source' . ' ŝ Њ Д ',
-                TargetName => ' Ճ ζ φ' . $TypeNames[6] . ' Target' . ' Σ Վ έ ',
+                SourceName => ' Պ Č Đ' . $TypeNames[6] . ' Source' . ' ŝ Њ Д ',
+                TargetName => ' Ճ ζ φ' . $TypeNames[6] . ' Target' . ' Σ Վ έ ',
             },
             TypeGet => {
                 Name   => $TypeNames[6],
@@ -320,8 +320,8 @@ my $TypeData = [
             },
             TypeGet => {
                 Name       => $TypeNames[6],
-                SourceName => 'Պ Č Đ' . $TypeNames[6] . ' Source' . ' ŝ Њ Д',
-                TargetName => 'Ճ ζ φ' . $TypeNames[6] . ' Target' . ' Σ Վ έ',
+                SourceName => 'Պ Č Đ' . $TypeNames[6] . ' Source' . ' ŝ Њ Д',
+                TargetName => 'Ճ ζ φ' . $TypeNames[6] . ' Target' . ' Σ Վ έ',
                 Pointed    => 1,
                 CreateBy   => 1,
                 ChangeBy   => 1,
@@ -661,13 +661,13 @@ my $ObjectData = [
 
     # this type must be inserted sucessfully (unicode checks)
     {
-        SourceName    => ' ԺΛϢ' . $ObjectNames[3] . 'ΞΏΓ ',
-        ReferenceName => 'ԺΛϢ' . $ObjectNames[3] . 'ΞΏΓ',
+        SourceName    => ' ԺΛϢ' . $ObjectNames[3] . 'ΞΏΓ ',
+        ReferenceName => 'ԺΛϢ' . $ObjectNames[3] . 'ΞΏΓ',
     },
 
     # invalid source name is given (check return false)
     {
-        SourceName => ' Ϭ ϯ Λ ' . $ObjectNames[4] . ' Ϩ ϴ Γ ',
+        SourceName => ' Ϭ ϯ Λ ' . $ObjectNames[4] . ' Ϩ ϴ Γ ',
     },
 ];
 
