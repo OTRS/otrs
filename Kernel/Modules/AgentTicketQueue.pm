@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.50 2008-05-09 08:47:36 mh Exp $
+# $Id: AgentTicketQueue.pm,v 1.51 2008-07-02 10:23:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Lock;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -162,6 +162,11 @@ sub Run {
         Queue            => 'sq.name',
         Priority         => 'st.ticket_priority_id',
         Age              => 'st.create_time_unix',
+        TicketEscalation       => 'st.escalation_time',
+        EscalationTime         => 'st.escalation_time',
+        EscalationUpdateTime   => 'st.escalation_update_time',
+        EscalationResponseTime => 'st.escalation_response_time',
+        EscalationSolutionTime => 'st.escalation_solution_time',
         TicketFreeTime1  => 'st.freetime1',
         TicketFreeTime2  => 'st.freetime2',
         TicketFreeKey1   => 'st.freekey1',
