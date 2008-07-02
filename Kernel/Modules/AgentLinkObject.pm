@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.37 2008-06-27 17:11:06 mh Exp $
+# $Id: AgentLinkObject.pm,v 1.38 2008-07-02 08:09:45 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -203,6 +203,18 @@ sub Run {
         }
         else {
             $Form{TargetObject} = $Form{TargetIdentifier};
+        }
+
+        # get possible objects list
+        my %PossibleObjectsList = $Self->{LinkObject}->PossibleObjectsList(
+            Object => $Form{SourceObject},
+            UserID => $Self->{UserID},
+        );
+
+        # check if target object is a possible object to link with the source object
+        if ( !$PossibleObjectsList{ $Form{TargetObject} } ) {
+            my @PossibleObjects = sort { lc $a cmp lc $b } keys %PossibleObjectsList;
+            $Form{TargetObject} = $PossibleObjects[0];
         }
 
         # add new links
