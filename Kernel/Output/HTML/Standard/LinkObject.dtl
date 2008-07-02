@@ -2,7 +2,7 @@
 # LinkObject.dtl - provides HTML elements for link object lists
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.dtl,v 1.4 2008-06-26 17:03:32 mh Exp $
+# $Id: LinkObject.dtl,v 1.5 2008-07-02 12:05:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -50,7 +50,7 @@ $TimeLong{"$Data{"Content"}"}
   </td>
   <td>
 <!-- dtl:block:TableSimpleTypeRow -->
-    $Data{"Content"}
+    $Data{"Content"}<br>
 <!-- dtl:block:TableSimpleTypeRow -->
   </td>
 </tr>
