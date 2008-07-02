@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLinkObject.pm - provides generic HTML output for LinkObject
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLinkObject.pm,v 1.8 2008-06-26 17:03:32 mh Exp $
+# $Id: LayoutLinkObject.pm,v 1.9 2008-07-02 14:35:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 =item LinkObjectTableCreate()
 
@@ -259,6 +259,9 @@ sub LinkObjectTableCreateComplex {
         Name => 'TableComplex',
     );
 
+    # set block description
+    my $BlockDescription = $Param{ViewMode} eq 'ComplexAdd' ? 'Search Result' : 'Linked';
+
     BLOCK:
     for my $Block (@OutputData) {
 
@@ -270,7 +273,8 @@ sub LinkObjectTableCreateComplex {
         $LayoutObject->Block(
             Name => 'TableComplexBlock',
             Data => {
-                Blockname => $Block->{Blockname} || '',
+                BlockDescription => $BlockDescription,
+                Blockname        => $Block->{Blockname} || '',
             },
         );
 
