@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.38 2008-07-02 08:09:45 mh Exp $
+# $Id: AgentLinkObject.pm,v 1.39 2008-07-02 08:29:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -60,6 +60,31 @@ sub Run {
         Key    => $Form{SourceKey},
         UserID => $Self->{UserID},
     );
+
+    # get form params
+    $Form{TargetIdentifier} = $Self->{ParamObject}->GetParam( Param => 'TargetIdentifier' )
+        || $Form{SourceObject};
+
+    # investigate the target object
+    if ( $Form{TargetIdentifier} =~ m{ \A ( .+? ) :: ( .+ ) \z }xms ) {
+        $Form{TargetObject}    = $1;
+        $Form{TargetSubObject} = $2;
+    }
+    else {
+        $Form{TargetObject} = $Form{TargetIdentifier};
+    }
+
+    # get possible objects list
+    my %PossibleObjectsList = $Self->{LinkObject}->PossibleObjectsList(
+        Object => $Form{SourceObject},
+        UserID => $Self->{UserID},
+    );
+
+    # check if target object is a possible object to link with the source object
+    if ( !$PossibleObjectsList{ $Form{TargetObject} } ) {
+        my @PossibleObjects = sort { lc $a cmp lc $b } keys %PossibleObjectsList;
+        $Form{TargetObject} = $PossibleObjects[0];
+    }
 
     # set mode params
     if ( $Form{Mode} eq 'Temporary' ) {
@@ -151,7 +176,8 @@ sub Run {
 
             return $Self->{LayoutObject}->Redirect(
                 OP => "Action=$Self->{Action}&Mode=$Form{Mode}"
-                    . "&SourceObject=$Form{SourceObject}&SourceKey=$Form{SourceKey}",
+                    . "&SourceObject=$Form{SourceObject}&SourceKey=$Form{SourceKey}"
+                    . "&TargetIdentifier=$Form{TargetIdentifier}",
             );
         }
 
@@ -190,31 +216,6 @@ sub Run {
         # output navbar
         if ( $Form{Mode} eq 'Normal' ) {
             $Output .= $Self->{LayoutObject}->NavigationBar();
-        }
-
-        # get form params
-        $Form{TargetIdentifier} = $Self->{ParamObject}->GetParam( Param => 'TargetIdentifier' )
-            || $Form{SourceObject};
-
-        # investigate the target object
-        if ( $Form{TargetIdentifier} =~ m{ \A ( .+? ) :: ( .+ ) \z }xms ) {
-            $Form{TargetObject}    = $1;
-            $Form{TargetSubObject} = $2;
-        }
-        else {
-            $Form{TargetObject} = $Form{TargetIdentifier};
-        }
-
-        # get possible objects list
-        my %PossibleObjectsList = $Self->{LinkObject}->PossibleObjectsList(
-            Object => $Form{SourceObject},
-            UserID => $Self->{UserID},
-        );
-
-        # check if target object is a possible object to link with the source object
-        if ( !$PossibleObjectsList{ $Form{TargetObject} } ) {
-            my @PossibleObjects = sort { lc $a cmp lc $b } keys %PossibleObjectsList;
-            $Form{TargetObject} = $PossibleObjects[0];
         }
 
         # add new links
