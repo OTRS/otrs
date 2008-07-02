@@ -2,7 +2,7 @@
 # AdminPriority.dtl - provides HTML form for AdminTicketPriority
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPriority.dtl,v 1.1 2008-07-01 17:49:30 mh Exp $
+# $Id: AdminPriority.dtl,v 1.2 2008-07-02 08:55:12 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -47,8 +47,10 @@
           <td class="contentbody">
             <table width="100%" border="0" cellspacing="0" cellpadding="3">
               <tr>
-                <td class="contentkey" width="60%">$Text{"Priority"}</td>
-                <td align="center" class="contentkey">$Text{"valid"}/$Text{"invalid"}</td>
+                <td class="contentkey">$Text{"Name"}</td>
+                <td class="contentkey" align="center">$Text{"valid"}/$Text{"invalid"}</td>
+                <td class="contentkey">$Text{"Changed"}</td>
+                <td class="contentkey">$Text{"Created"}</td>
               </tr>
 <!-- dtl:block:OverviewListRow -->
               <tr>
@@ -60,6 +62,8 @@
                 <td align="center" class="$QData{"CssClass"}">
                   $Text{"$QData{"Valid"}"}
                 </td>
+                <td class="$QData{"CssClass"}">$TimeShort{"$QData{"ChangeTime"}"}</td>
+                <td class="$QData{"CssClass"}">$TimeShort{"$QData{"CreateTime"}"}</td>
               </tr>
 <!-- dtl:block:OverviewListRow -->
             </table>
@@ -79,7 +83,9 @@
         <input type="hidden" name="PriorityID" value="$QData{"PriorityID"}">
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
-            <td class="contenthead">$Text{"Edit"}:</td>
+            <td class="contenthead">
+              $Text{"Edit"} ($Text{"$QData{"Action"}"}):
+            </td>
           </tr>
           <tr>
             <td class="contentbody">

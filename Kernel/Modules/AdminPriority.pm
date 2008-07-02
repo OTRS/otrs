@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPriority.pm - admin frontend of ticket priority
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPriority.pm,v 1.1 2008-07-01 17:49:30 mh Exp $
+# $Id: AdminPriority.pm,v 1.2 2008-07-02 08:55:12 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Priority;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -47,6 +47,7 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'PriorityEdit' ) {
         my %PriorityData;
+        $PriorityData{Action} = 'Add';
 
         # get params
         $PriorityData{PriorityID} = $Self->{ParamObject}->GetParam( Param => "PriorityID" );
@@ -58,6 +59,7 @@ sub Run {
                 UserID     => $Self->{UserID},
             );
             $PriorityData{PriorityID} = $PriorityData{ID};
+            $PriorityData{Action}     = 'Change';
         }
 
         # output overview
@@ -161,7 +163,7 @@ sub Run {
         my %ValidList = $Self->{ValidObject}->ValidList();
 
         my $CssClass = '';
-        for my $PriorityID ( sort { $PriorityList{$a} cmp $PriorityList{$b} } keys %PriorityList ) {
+        for my $PriorityID ( sort { $a <=> $b } keys %PriorityList ) {
 
             # set output object
             $CssClass = $CssClass eq 'searchactive' ? 'searchpassive' : 'searchactive';
