@@ -2,7 +2,7 @@
 # AgentTicketFreeText.dtl - provides HTML form for free text mask
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketFreeText.dtl,v 1.24 2008-05-08 22:52:35 martin Exp $
+# $Id: AgentTicketFreeText.dtl,v 1.25 2008-07-02 16:08:05 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,12 +19,7 @@ function submit_compose() {
         return false;
     }
 <!-- dtl:block:NoteJs -->
-    if (document.compose.TypeID && document.compose.TypeID.value == "") {
-        alert('$JSText{"Ticket Type is required!"}');
-        document.compose.TypeID.focus();
-        return false;
-    }
-    else if (document.compose.Subject.value == "") {
+    if (document.compose.Subject.value == "") {
         alert('$JSText{"A message should have a subject!"}');
         document.compose.Subject.focus();
         return false;
