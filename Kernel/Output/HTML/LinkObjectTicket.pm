@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LinkObjectTicket.pm - layout backend module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObjectTicket.pm,v 1.13 2008-07-01 15:10:30 martin Exp $
+# $Id: LinkObjectTicket.pm,v 1.14 2008-07-02 12:04:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::Output::HTML::Layout;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 =head1 NAME
 
@@ -310,7 +310,7 @@ sub TableCreateSimple {
             my @ItemList;
             for my $TicketID ( sort { $a <=> $b } keys %{$DirectionList} ) {
 
-                # extract tickt data
+                # extract ticket data
                 my $Ticket = $DirectionList->{$TicketID};
 
                 # set css
@@ -532,6 +532,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2008-07-01 15:10:30 $
+$Revision: 1.14 $ $Date: 2008-07-02 12:04:59 $
 
 =cut
