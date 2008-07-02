@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketClose.pm - close a ticket
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketClose.pm,v 1.44 2008-06-25 22:48:27 martin Exp $
+# $Id: AgentTicketClose.pm,v 1.45 2008-07-02 13:39:05 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -704,7 +704,7 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Mask(
             %GetParam, %Ticket, %TicketFreeTextHTML, %TicketFreeTimeHTML,
-            %ArticleFreeTextHTML
+            %ArticleFreeTextHTML,
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -966,9 +966,9 @@ sub _Mask {
         }
     }
 
-    # get next states
+    # get priority
     if ( $Self->{Config}->{Priority} ) {
-        my %Priority     = ();
+        my %Priority;
         my %PriorityList = $Self->{TicketObject}->PriorityList(
             UserID   => $Self->{UserID},
             TicketID => $Self->{TicketID},
