@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.41 2008-06-28 10:34:21 mh Exp $
+# $Id: LinkObject.pm,v 1.42 2008-07-02 07:59:40 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 =head1 NAME
 
@@ -91,7 +91,7 @@ sub new {
 
 =item PossibleTypesList()
 
-return an array of all possible types
+return a hash of all possible types
 
 Return
     %PossibleTypesList = (
@@ -175,7 +175,7 @@ sub PossibleTypesList {
 
 =item PossibleObjectsList()
 
-return an array of all possible objects
+return a hash of all possible objects
 
 Return
     %PossibleObjectsList = (
@@ -1987,7 +1987,7 @@ sub ObjectDescriptionGet {
 
 =item ObjectSearch()
 
-return an array of the search results
+return a hash reference of the search results
 
 Return
     $ObjectList = {
@@ -2120,6 +2120,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.41 $ $Date: 2008-06-28 10:34:21 $
+$Revision: 1.42 $ $Date: 2008-07-02 07:59:40 $
 
 =cut
