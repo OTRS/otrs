@@ -2,7 +2,7 @@
 # LinkObject.t - link object module testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.t,v 1.11 2008-06-23 10:28:45 mh Exp $
+# $Id: LinkObject.t,v 1.12 2008-07-02 15:05:35 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -306,8 +306,8 @@ my $TypeData = [
         SourceData => {
             ConfigSet => {
                 Name       => $TypeNames[6],
-                SourceName => ' Õ Ä Ä' . $TypeNames[6] . ' Source' . ' Å Ð Ð ',
-                TargetName => ' Õ Î¶ Ï' . $TypeNames[6] . ' Target' . ' Î£ Õ Î­ ',
+                SourceName => ' Պ Č Đ' . $TypeNames[6] . ' Source' . ' ŝ Њ Д ',
+                TargetName => ' Ճ ζ φ' . $TypeNames[6] . ' Target' . ' Σ Վ έ ',
             },
             TypeGet => {
                 Name   => $TypeNames[6],
@@ -320,8 +320,8 @@ my $TypeData = [
             },
             TypeGet => {
                 Name       => $TypeNames[6],
-                SourceName => 'Õ Ä Ä' . $TypeNames[6] . ' Source' . ' Å Ð Ð',
-                TargetName => 'Õ Î¶ Ï' . $TypeNames[6] . ' Target' . ' Î£ Õ Î­',
+                SourceName => 'Պ Č Đ' . $TypeNames[6] . ' Source' . ' ŝ Њ Д',
+                TargetName => 'Ճ ζ φ' . $TypeNames[6] . ' Target' . ' Σ Վ έ',
                 Pointed    => 1,
                 CreateBy   => 1,
                 ChangeBy   => 1,
@@ -661,13 +661,13 @@ my $ObjectData = [
 
     # this type must be inserted sucessfully (unicode checks)
     {
-        SourceName    => ' ÔºÎÏ¢' . $ObjectNames[3] . 'ÎÎÎ ',
-        ReferenceName => 'ÔºÎÏ¢' . $ObjectNames[3] . 'ÎÎÎ',
+        SourceName    => ' ԺΛϢ' . $ObjectNames[3] . 'ΞΏΓ ',
+        ReferenceName => 'ԺΛϢ' . $ObjectNames[3] . 'ΞΏΓ',
     },
 
     # invalid source name is given (check return false)
     {
-        SourceName => ' Ï¬ Ï¯ Î ' . $ObjectNames[4] . ' Ï¨ Ï´ Î ',
+        SourceName => ' Ϭ ϯ Λ ' . $ObjectNames[4] . ' Ϩ ϴ Γ ',
     },
 ];
 
@@ -765,8 +765,8 @@ continue {
             Type    => $TypeNames[0],
         },
         10002 => {
-            Object1 => ' Î Î» Æ' . $ObjectNames[0] . 'Ï Ï  Ô ',
-            Object2 => ' Î« Î¬ Æ¢' . $ObjectNames[0] . 'Æ Æ¥ Æ¯ ',
+            Object1 => ' Λ λ Ə' . $ObjectNames[0] . 'ϔ Ϡ ԉ ',
+            Object2 => ' Ϋ ά Ƣ' . $ObjectNames[0] . 'ƒ ƥ Ư ',
             Type    => $TypeNames[1],
         },
         10003 => {
