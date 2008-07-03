@@ -107,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.175 2008-06-28 12:54:21 mh Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.176 2008-07-03 18:21:14 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -663,6 +663,29 @@ TimeWorkingHours
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
             <String Regex="">AgentInfo</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::HeaderMetaModule###1-Refresh" Required="1" Valid="1">
+        <Description Lang="en">Module to generate html refresh header of html sites.</Description>
+        <Description Lang="de">Modul zum generieren des HTML "Refresh" Headers um Seiten automatisch neuladen zu lassen.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::ModuleMetaHead</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::HeaderMetaRefresh</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::HeaderMetaModule###2-TicketSearch" Required="1" Valid="1">
+        <Description Lang="en">Module to generate html OpenSearch profile for short ticket search.</Description>
+        <Description Lang="de">Modul zum generieren des HTML "OpenSearch" Profiles schnelle Ticket-Suchen über das Browser-Suchfeld anbieten zu können.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::ModuleMetaHead</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::HeaderMetaTicketSearch</Item>
+                <Item Key="Action">AgentTicketSearch</Item>
+            </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::NotifyModule###1-CharsetCheck" Required="1" Valid="1">
@@ -3295,6 +3318,29 @@ Your OTRS Notification Master
                 <Item>users</Item>
                 <Item>info</Item>
             </Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CustomerFrontend::HeaderMetaModule###1-Refresh" Required="1" Valid="1">
+        <Description Lang="en">Module to generate html refresh header of html sites.</Description>
+        <Description Lang="de">Modul zum generieren des HTML "Refresh" Headers um Seiten automatisch neuladen zu lassen.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Customer::ModuleMetaHead</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::HeaderMetaRefresh</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CustomerFrontend::HeaderMetaModule###2-TicketSearch" Required="1" Valid="1">
+        <Description Lang="en">Module to generate html OpenSearch profile for short ticket search.</Description>
+        <Description Lang="de">Modul zum generieren des HTML "OpenSearch" Profiles schnelle Ticket-Suchen über das Browser-Suchfeld anbieten zu können.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Customer::ModuleMetaHead</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::HeaderMetaTicketSearch</Item>
+                <Item Key="Action">CustomerTicketSearch</Item>
+            </Hash>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerFrontend::NotifyModule###1-ShowAgentOnline" Required="0" Valid="0">

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketStatusView.pm - status for all open tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketStatusView.pm,v 1.14 2008-05-16 09:53:58 martin Exp $
+# $Id: AgentTicketStatusView.pm,v 1.15 2008-07-03 18:21:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -86,15 +86,6 @@ sub Run {
     if ( $Self->{UserRefreshTime} ) {
         $Refresh = 60 * $Self->{UserRefreshTime};
     }
-    $Self->{LayoutObject}->Block(
-        Name => 'MetaLink',
-        Data => {
-            Rel   => 'search',
-            Type  => 'application/opensearchdescription+xml',
-            Title => '$Quote{"$Config{"ProductName"}"} ($Quote{"$Config{"Ticket::Hook"}"})',
-            Href  => '$Env{"Baselink"}Action=AgentTicketSearch&Subaction=OpenSearchDescription',
-        },
-    );
     my $Output = $Self->{LayoutObject}->Header( Refresh => $Refresh, );
 
     # build NavigationBar

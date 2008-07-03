@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.33 2008-05-08 09:36:37 mh Exp $
+# $Id: CustomerTicketSearch.pm,v 1.34 2008-07-03 18:21:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -194,6 +194,20 @@ sub Run {
     }
     if ( $GetParam{ResultForm} eq 'Print' || $GetParam{ResultForm} eq 'CSV' ) {
         $Self->{SearchPageShown} = $Self->{SearchLimit};
+    }
+
+    # check request
+    if ( $Self->{Subaction} eq 'OpenSearchDescription' ) {
+        my $Output = $Self->{LayoutObject}->Output(
+            TemplateFile => 'CustomerTicketSearchOpenSearchDescription',
+            Data         => {%Param},
+        );
+        return $Self->{LayoutObject}->Attachment(
+            Filename    => 'OpenSearchDescription.xml',
+            ContentType => "text/xml",
+            Content     => $Output,
+            Type        => 'inline',
+        );
     }
 
     # show result site

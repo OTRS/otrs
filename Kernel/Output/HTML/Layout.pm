@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.97 2008-07-03 13:50:47 mh Exp $
+# $Id: Layout.pm,v 1.98 2008-07-03 18:21:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.97 $) [1];
+$VERSION = qw($Revision: 1.98 $) [1];
 
 =head1 NAME
 
@@ -1159,6 +1159,12 @@ sub Redirect {
     return $Output;
 }
 
+sub Continue {
+    my ( $Self, %Param ) = @_;
+
+    return $Self->Output( TemplateFile => 'Continue', Data => \%Param );
+}
+
 sub Login {
     my ( $Self, %Param ) = @_;
 
@@ -1456,12 +1462,18 @@ sub Header {
         }
     }
 
-    # check if refresh block should be used
-    if ( $Param{Refresh} ) {
-        $Self->Block(
-            Name => 'MetaHttpEquivRefresh',
-            Data => \%Param,
-        );
+    # run header meta modules
+    my $HeaderMetaModule = $Self->{ConfigObject}->Get('Frontend::HeaderMetaModule');
+    if ( ref $HeaderMetaModule eq 'HASH' ) {
+        my %Jobs = %{$HeaderMetaModule};
+        for my $Job ( sort keys %Jobs ) {
+
+            # load and run module
+            next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
+            my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, LayoutObject => $Self );
+            next if !$Object;
+            $Object->Run( %Param, Config => $Jobs{$Job} );
+        }
     }
 
     # create & return output
@@ -3688,12 +3700,18 @@ sub CustomerHeader {
         }
     }
 
-    # check if refresh block should be used
-    if ( $Param{Refresh} ) {
-        $Self->Block(
-            Name => 'MetaHttpEquivRefresh',
-            Data => \%Param,
-        );
+    # run header meta modules
+    my $HeaderMetaModule = $Self->{ConfigObject}->Get('CustomerFrontend::HeaderMetaModule');
+    if ( ref $HeaderMetaModule eq 'HASH' ) {
+        my %Jobs = %{$HeaderMetaModule};
+        for my $Job ( sort keys %Jobs ) {
+
+            # load and run module
+            next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
+            my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, LayoutObject => $Self );
+            next if !$Object;
+            $Object->Run( %Param, Config => $Jobs{$Job} );
+        }
     }
 
     # create & return output
@@ -3920,6 +3938,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.97 $ $Date: 2008-07-03 13:50:47 $
+$Revision: 1.98 $ $Date: 2008-07-03 18:21:14 $
 
 =cut
