@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.54 2008-05-08 09:36:37 mh Exp $
+# $Id: AgentTicketSearch.pm,v 1.55 2008-07-03 19:34:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::State;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -746,15 +746,6 @@ sub Run {
         }
 
         # start html page
-        $Self->{LayoutObject}->Block(
-            Name => 'MetaLink',
-            Data => {
-                Rel   => 'search',
-                Type  => 'application/opensearchdescription+xml',
-                Title => '$Quote{"$Config{"ProductName"}"} ($Quote{"$Config{"Ticket::Hook"}"})',
-                Href  => '$Env{"Baselink"}Action=AgentTicketSearch&Subaction=OpenSearchDescription',
-            },
-        );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
 
@@ -978,15 +969,6 @@ sub Run {
         }
 
         # generate search mask
-        $Self->{LayoutObject}->Block(
-            Name => 'MetaLink',
-            Data => {
-                Rel   => 'search',
-                Type  => 'application/opensearchdescription+xml',
-                Title => '$Quote{"$Config{"ProductName"}"} ($Quote{"$Config{"Ticket::Hook"}"})',
-                Href  => '$Env{"Baselink"}Action=AgentTicketSearch&Subaction=OpenSearchDescription',
-            },
-        );
         my $Output = $Self->{LayoutObject}->Header();
         my %LockedData = $Self->{TicketObject}->GetLockedCount( UserID => $Self->{UserID} );
 

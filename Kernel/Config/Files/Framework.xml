@@ -107,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.176 2008-07-03 18:21:14 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.177 2008-07-03 19:34:09 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -676,18 +676,6 @@ TimeWorkingHours
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::HeaderMetaModule###2-TicketSearch" Required="1" Valid="1">
-        <Description Lang="en">Module to generate html OpenSearch profile for short ticket search.</Description>
-        <Description Lang="de">Modul zum generieren des HTML "OpenSearch" Profiles schnelle Ticket-Suchen über das Browser-Suchfeld anbieten zu können.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Frontend::Agent::ModuleMetaHead</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Module">Kernel::Output::HTML::HeaderMetaTicketSearch</Item>
-                <Item Key="Action">AgentTicketSearch</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="Frontend::NotifyModule###1-CharsetCheck" Required="1" Valid="1">
         <Description Lang="en">Module to inform agents via the agent interface about the used charset. A notification is displayed, if the default charset is not used, e.g. in tickets.</Description>
         <Description Lang="de">Modul, welches die Agents innerhalb des Agent-Interfaces über den benutzten Zeichensatz informiert. Es wird ein Hinweis ausgegeben, wenn z. B. ein Ticket mit einem anderen als den Standard-Zeichensatz angezeigt wird.</Description>
@@ -733,6 +721,17 @@ TimeWorkingHours
                 <Item Key="Module">Kernel::Output::HTML::NotificationCustomerOnline</Item>
                 <Item Key="ShowEmail">1</Item>
                 <Item Key="IdleMinutes">60</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::NotifyModule###5-CTI" Required="0" Valid="1">
+        <Description Lang="en">This module can display the latest CTI events.</Description>
+        <Description Lang="de">Mit diesem Modul können die letzten CTI Events angezeigt werden.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::NotificationAgentCTI</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -3331,18 +3330,6 @@ Your OTRS Notification Master
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="CustomerFrontend::HeaderMetaModule###2-TicketSearch" Required="1" Valid="1">
-        <Description Lang="en">Module to generate html OpenSearch profile for short ticket search.</Description>
-        <Description Lang="de">Modul zum generieren des HTML "OpenSearch" Profiles schnelle Ticket-Suchen über das Browser-Suchfeld anbieten zu können.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Frontend::Customer::ModuleMetaHead</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Module">Kernel::Output::HTML::HeaderMetaTicketSearch</Item>
-                <Item Key="Action">CustomerTicketSearch</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="CustomerFrontend::NotifyModule###1-ShowAgentOnline" Required="0" Valid="0">
         <Description Lang="en">Module that shows the currently loged in agents in the customer interface.</Description>
         <Description Lang="de">Modul für die Anzeige von gerade am System angemeldeten Agenten innerhalb des Customer-Interfaces.</Description>
@@ -3966,6 +3953,19 @@ Your OTRS Notification Master
             <FrontendModuleReg>
                 <Description>Address book of CustomerUser sources</Description>
                 <Title>Address Book</Title>
+                <NavBarName></NavBarName>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AgentCTI" Required="0" Valid="1">
+        <Description Lang="en">Frontend module registration for the AgentCTI object in the agent interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentCTI-Objekts im Agent-Interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>CTI Interface</Description>
+                <Title>CTI Interface</Title>
                 <NavBarName></NavBarName>
             </FrontendModuleReg>
         </Setting>
