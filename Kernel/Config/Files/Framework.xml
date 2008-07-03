@@ -107,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.177 2008-07-03 19:34:09 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.178 2008-07-03 19:37:13 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -721,17 +721,6 @@ TimeWorkingHours
                 <Item Key="Module">Kernel::Output::HTML::NotificationCustomerOnline</Item>
                 <Item Key="ShowEmail">1</Item>
                 <Item Key="IdleMinutes">60</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Frontend::NotifyModule###5-CTI" Required="0" Valid="1">
-        <Description Lang="en">This module can display the latest CTI events.</Description>
-        <Description Lang="de">Mit diesem Modul können die letzten CTI Events angezeigt werden.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Frontend::Agent::ModuleNotify</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Module">Kernel::Output::HTML::NotificationAgentCTI</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -3953,19 +3942,6 @@ Your OTRS Notification Master
             <FrontendModuleReg>
                 <Description>Address book of CustomerUser sources</Description>
                 <Title>Address Book</Title>
-                <NavBarName></NavBarName>
-            </FrontendModuleReg>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Frontend::Module###AgentCTI" Required="0" Valid="1">
-        <Description Lang="en">Frontend module registration for the AgentCTI object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentCTI-Objekts im Agent-Interface.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
-        <Setting>
-            <FrontendModuleReg>
-                <Description>CTI Interface</Description>
-                <Title>CTI Interface</Title>
                 <NavBarName></NavBarName>
             </FrontendModuleReg>
         </Setting>
