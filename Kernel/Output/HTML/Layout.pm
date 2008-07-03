@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.96 2008-07-01 22:34:55 martin Exp $
+# $Id: Layout.pm,v 1.97 2008-07-03 13:50:47 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.96 $) [1];
+$VERSION = qw($Revision: 1.97 $) [1];
 
 =head1 NAME
 
@@ -1988,7 +1988,7 @@ sub OptionStrgHashRef {
             $Output .= "</option>\n";
         }
     }
-    $Output .= "</select><a id=\"AJAXImage$Name\" disabled href=\"\"></a>\n";
+    $Output .= "</select><a id=\"AJAXImage$Name\"></a>\n";
     return $Output;
 }
 
@@ -2236,7 +2236,7 @@ sub BuildSelection {
         AttributeRef => $AttributeRef,
         DataRef      => $DataRef,
     );
-    $String .= "<a id=\"AJAXImage$Param{Name}\" disabled href=\"\"></a>\n";
+    $String .= "<a id=\"AJAXImage$Param{Name}\"></a>\n";
     return $String;
 }
 
@@ -3920,6 +3920,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.96 $ $Date: 2008-07-01 22:34:55 $
+$Revision: 1.97 $ $Date: 2008-07-03 13:50:47 $
 
 =cut
