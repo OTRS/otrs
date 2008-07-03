@@ -3,7 +3,7 @@
 # otrs.RebuildFulltextIndex.pl - the global search indexer handle
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.RebuildFulltextIndex.pl,v 1.2 2008-05-08 09:36:57 mh Exp $
+# $Id: otrs.RebuildFulltextIndex.pl,v 1.3 2008-07-03 23:15:10 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -94,7 +94,7 @@ for my $TicketID (@TicketIDs) {
             ArticleID => $ArticleID,
             UserID    => 1,
         );
-        if ( ( $Count / 2000 ) == int( $Count / 2000 ) ) {
+        if ( ( $Count / 5000 ) == int( $Count / 5000 ) ) {
             my $Percent = int( $Count / ( $#TicketIDs / 100 ) );
             print "NOTICE: $Count of $#TicketIDs processed ($Percent% done).\n";
         }
