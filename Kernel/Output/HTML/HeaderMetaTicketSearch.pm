@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/HeaderMetaTicketSearch.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: HeaderMetaTicketSearch.pm,v 1.1 2008-07-03 18:21:14 martin Exp $
+# $Id: HeaderMetaTicketSearch.pm,v 1.2 2008-07-03 22:30:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -25,7 +25,7 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (qw(ConfigObject LogObject DBObject LayoutObject TimeObject UserID)) {
+    for (qw(ConfigObject LogObject LayoutObject TimeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
