@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.42 2008-07-02 07:59:40 mh Exp $
+# $Id: LinkObject.pm,v 1.43 2008-07-03 18:29:41 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 =head1 NAME
 
@@ -905,11 +905,13 @@ Return
     };
 
     my $LinkList = $LinkObject->LinkList(
-        Object   => 'Ticket',
-        Key      => '321',
-        State    => 'Valid',
-        Type     => 'ParentChild', # (optional)
-        UserID   => 1,
+        Object    => 'Ticket',
+        Key       => '321',
+        Object2   => 'FAQ',         # (optional)
+        State     => 'Valid',
+        Type      => 'ParentChild', # (optional)
+        Direction => 'Target',      # (optional) default Both (Source|Target|Both)
+        UserID    => 1,
     );
 
 =cut
@@ -1073,6 +1075,34 @@ sub LinkList {
         }
     }
 
+    return \%Links if !$Param{Object2} && !$Param{Direction};
+
+    # removed not needed elements
+    OBJECT:
+    for my $Object ( keys %Links ) {
+
+        # removed not needed object
+        if ( $Param{Object2} && $Param{Object2} ne $Object ) {
+            delete $Links{$Object};
+            next OBJECT;
+        }
+
+        next OBJECT if !$Param{Direction};
+
+        # removed not needed direction
+        for my $Type ( keys %{ $Links{$Object} } ) {
+
+            DIRECTION:
+            for my $Direction ( keys %{ $Links{$Object}->{$Type} } ) {
+
+                next DIRECTION if $Param{Direction} eq $Direction;
+                next DIRECTION if $Param{Direction} ne 'Source' && $Param{Direction} ne 'Target';
+
+                delete $Links{$Object}->{$Type}->{$Direction};
+            }
+        }
+    }
+
     return \%Links;
 }
 
@@ -1112,11 +1142,13 @@ Return
     };
 
     my $LinkList = $LinkObject->LinkListWithData(
-        Object   => 'Ticket',
-        Key      => '321',
-        State    => 'Valid',
-        Type     => 'ParentChild', # (optional)
-        UserID   => 1,
+        Object    => 'Ticket',
+        Key       => '321',
+        Object2   => 'FAQ',         # (optional)
+        State     => 'Valid',
+        Type      => 'ParentChild', # (optional)
+        Direction => 'Target',      # (optional) default Both (Source|Target|Both)
+        UserID    => 1,
     );
 
 =cut
@@ -2120,6 +2152,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.42 $ $Date: 2008-07-02 07:59:40 $
+$Revision: 1.43 $ $Date: 2008-07-03 18:29:41 $
 
 =cut
