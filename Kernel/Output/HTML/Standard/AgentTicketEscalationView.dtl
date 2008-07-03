@@ -2,7 +2,7 @@
 # AgentTicketEscalationView.dtl - html for ticket status view (all tickets)
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEscalationView.dtl,v 1.2 2008-06-01 22:31:57 martin Exp $
+# $Id: AgentTicketEscalationView.dtl,v 1.3 2008-07-03 16:15:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -71,8 +71,7 @@
           <td>
             <table border="0" width="100%" height="100%" cellspacing="0" cellpadding="0">
               <tr>
-                <td class="PriorityID-$Data{"PriorityID"}" width="1%">&nbsp;
-                </td>
+                <td class="PriorityID-$Data{"PriorityID"}" title="$Text{"Priority"}: $Text{"$Data{"Priority"}"}" width="1%">&nbsp;&nbsp;</td>
                 <td>
                   <a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Zoom"}'; return true;" onmouseout="window.status='';" title="$QData{"Title"}">$Data{"TicketNumber"}</a>
                 </td>
