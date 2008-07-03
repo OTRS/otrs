@@ -3,7 +3,7 @@
 # DBUpdate-to-2.3.pl - update script to migrate OTRS 2.2.x to 2.3.x
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-2.3.pl,v 1.16 2008-06-27 17:11:06 mh Exp $
+# $Id: DBUpdate-to-2.3.pl,v 1.17 2008-07-03 22:40:35 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -79,10 +79,6 @@ $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
 CleanUpCacheDir();
 CleanUpDatabase();
 MigrateEscalation();
-
-# disable STDERR
-close STDERR;
-open STDERR, '>', \do { my $Anon = '' };
 
 # start migration process (stage 2)
 MigrateServiceSLARelation();
@@ -744,6 +740,87 @@ sub TypeLookup {
     $CommonObject{Cache}->{TypeLookup}->{ $Param{Name} } = $TypeID;
 
     return $TypeID;
+}
+
+sub TypeGet {
+    my (%Param) = @_;
+
+    # check needed stuff
+    for my $Argument (qw(TypeID UserID)) {
+        if ( !$Param{$Argument} ) {
+            $CommonObject{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!",
+            );
+            return;
+        }
+    }
+
+    # check cache
+    return %{ $CommonObject{Cache}->{TypeGet}->{TypeID}->{ $Param{TypeID} } }
+        if $CommonObject{Cache}->{TypeGet}->{TypeID}->{ $Param{TypeID} };
+
+    # ask the database
+    $CommonObject{DBObject}->Prepare(
+        SQL => 'SELECT id, name, create_time, create_by, change_time, change_by '
+            . 'FROM link_type WHERE id = ?',
+        Bind  => [ \$Param{TypeID} ],
+        Limit => 1,
+    );
+
+    # fetch the result
+    my %Type;
+    while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {
+        $Type{TypeID}     = $Row[0];
+        $Type{Name}       = $Row[1];
+        $Type{CreateTime} = $Row[2];
+        $Type{CreateBy}   = $Row[3];
+        $Type{ChangeTime} = $Row[4];
+        $Type{ChangeBy}   = $Row[5];
+    }
+
+    # get config of all types
+    my $ConfiguredTypes = $CommonObject{ConfigObject}->Get('LinkObject::Type');
+
+    # check the config
+    if ( !$ConfiguredTypes->{ $Type{Name} } ) {
+        $CommonObject{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Linktype '$Type{Name}' does not exist!",
+        );
+        return;
+    }
+
+    # add source and target name
+    $Type{SourceName} = $ConfiguredTypes->{ $Type{Name} }->{SourceName} || '';
+    $Type{TargetName} = $ConfiguredTypes->{ $Type{Name} }->{TargetName} || '';
+
+    # clean the names
+    ARGUMENT:
+    for my $Argument (qw(SourceName TargetName)) {
+        $CommonObject{CheckItemObject}->StringClean(
+            StringRef         => \$Type{$Argument},
+            RemoveAllNewlines => 1,
+            RemoveAllTabs     => 1,
+        );
+
+        next ARGUMENT if $Type{$Argument};
+
+        $CommonObject{LogObject}->Log(
+            Priority => 'error',
+            Message =>
+                "The $Argument '$Type{$Argument}' is invalid in SysConfig (LinkObject::Type)!",
+        );
+        return;
+    }
+
+    # add pointed value
+    $Type{Pointed} = $Type{SourceName} ne $Type{TargetName} ? 1 : 0;
+
+    # cache result
+    $CommonObject{Cache}->{TypeGet}->{TypeID}->{ $Param{TypeID} } = \%Type;
+
+    return %Type;
 }
 
 1;

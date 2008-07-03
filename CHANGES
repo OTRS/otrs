@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.697 2008-07-03 17:37:57 martin Exp $
+# $Id: CHANGES,v 1.698 2008-07-03 22:40:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,10 @@
 # --
 
 2.3.0 beta4 (2008/07/??)
+ - (2008/07/04) Fixed bug# 3055 - Link migration from 2.2 -> 2.3 is no working
+    (missing TypeGet(), not shown because of disabled STDERR).
+ - (2008/07/03) Fixed bug# 3053 - AJAX functionality without cookies is not
+    working.
  - (2008/07/03) Improved OPM package CodeUpgrade by using Version attribute
     for code execurtion (like already exisitng DatabaseUpgrade). If no Version
     is used, CodeUpgrade will performed on every upgrade. For more info see
