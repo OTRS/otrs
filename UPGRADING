@@ -2,7 +2,7 @@
 # UPGRADING - upgrading OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.26 2008-05-16 09:51:48 martin Exp $
+# $Id: UPGRADING,v 1.27 2008-07-03 22:52:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ These instructions are for people upgrading OTRS from "2.2" to "2.3".
    (Don't worry about the error messages, you can update all previous version
    with this script and in the most cases your database has already the most changes!)
 
-*) Run the migration script:
+*) Run the migration script (as OTRS user, _not_ as root):
    You must execute the migration script to migrate some data from the old database
    structure to the new one. Please run $OTRS_HOME/scripts/DBUpdate-to-2.3.pl!
 
