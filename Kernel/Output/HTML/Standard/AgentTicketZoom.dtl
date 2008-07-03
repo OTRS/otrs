@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.43 2008-06-24 14:41:56 mh Exp $
+# $Id: AgentTicketZoom.dtl,v 1.44 2008-07-03 19:24:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -55,7 +55,7 @@
       <table border="0" width="100%" cellspacing="0" cellpadding="1">
         <tr>
           <td>
-            <table border="0" width="100%" cellspacing="0" cellpadding="0">
+            <table border="0" width="100%" cellspacing="0" cellpadding="1">
 <!-- dtl:block:TreeItem -->
               <tr class="$QData{"SenderType"}-$QData{"ArticleType"}">
                 <td class="small">
@@ -64,16 +64,7 @@
 <!-- dtl:block:TreeItemEmail -->
                   (<a href="$Env{"Baselink"}Action=AgentTicketPlain&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}" onmouseover="window.status='$JSText{"plain"}'; return true;" onmouseout="window.status='';" title="$Text{"plain"}">$Text{"plain"}</a>)
 <!-- dtl:block:TreeItemEmail -->
-                  </div>
-                </td>
-                <td class="small">
-                  <div title="$QData{"From","70"}: $QData{"Subject","200"} - $TimeShort{"$QData{"Created"}"}">
-                  $Data{"Start"}$QData{"From","32"}$Data{"Stop"}
-                  </div>
-                </td>
-                <td class="small">
-                  <div title="$QData{"From","70"}: $QData{"Subject","200"} - $TimeShort{"$QData{"Created"}"}">
-                  $Data{"Start"}$QData{"Subject","30"}$Data{"Stop"}
+                  $Data{"Start"}$QData{"From","34"} $QData{"Subject","34"}$Data{"Stop"}
                   </div>
                 </td>
                 <td class="small" align="right">
@@ -162,6 +153,7 @@
               </tr>
 <!-- dtl:block:ArticleAttachment -->
             </table>
+
 $Data{"BodyNote"}
             <div class="message">
 $Data{"Body"}
