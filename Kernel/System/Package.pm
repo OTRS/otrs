@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.78 2008-05-08 09:58:20 mh Exp $
+# $Id: Package.pm,v 1.79 2008-07-03 17:37:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.78 $) [1];
+$VERSION = qw($Revision: 1.79 $) [1];
 
 =head1 NAME
 
@@ -598,8 +598,24 @@ sub PackageUpgrade {
     );
 
     # upgrade code (pre)
-    if ( $Structure{CodeUpgrade} ) {
-        $Self->_Code( Code => $Structure{CodeUpgrade}, Type => 'pre' );
+    if ( $Structure{CodeUpgrade} && ref $Structure{CodeUpgrade} eq 'ARRAY' ) {
+        my @Parts = ();
+        for my $Part ( @{ $Structure{CodeUpgrade} } ) {
+            if ( $Part->{Version} ) {
+                 my $CheckVersion = $Self->_CheckVersion(
+                    Version1 => $Part->{Version},
+                    Version2 => $InstalledVersion,
+                    Type     => 'Min'
+                );
+                if ( $CheckVersion ) {
+                    push @Parts, $Part;
+                }
+            }
+            else {
+                push @Parts, $Part;
+            }
+        }
+        $Self->_Code( Code => \@Parts, Type => 'pre' );
     }
 
     # upgrade database (pre)
@@ -608,14 +624,12 @@ sub PackageUpgrade {
         my $Use   = 0;
         for my $Part ( @{ $Structure{DatabaseUpgrade}->{pre} } ) {
             if ( $Part->{TagLevel} == 3 && $Part->{Version} ) {
-                if (
-                    !$Self->_CheckVersion(
-                        Version1 => $Part->{Version},
-                        Version2 => $InstalledVersion,
-                        Type     => 'Min'
-                    )
-                    )
-                {
+                 my $CheckVersion = $Self->_CheckVersion(
+                    Version1 => $Part->{Version},
+                    Version2 => $InstalledVersion,
+                    Type     => 'Min'
+                );
+                if ( !$CheckVersion ) {
                     $Use   = 1;
                     @Parts = ();
                     push @Parts, $Part;
@@ -661,14 +675,12 @@ sub PackageUpgrade {
         my $Use   = 0;
         for my $Part ( @{ $Structure{DatabaseUpgrade}->{post} } ) {
             if ( $Part->{TagLevel} == 3 && $Part->{Version} ) {
-                if (
-                    !$Self->_CheckVersion(
-                        Version1 => $Part->{Version},
-                        Version2 => $InstalledVersion,
-                        Type     => 'Min'
-                    )
-                    )
-                {
+                my $CheckVersion = $Self->_CheckVersion(
+                    Version1 => $Part->{Version},
+                    Version2 => $InstalledVersion,
+                    Type     => 'Min'
+                );
+                if ( !$CheckVersion ) {
                     $Use   = 1;
                     @Parts = ();
                     push @Parts, $Part;
@@ -686,8 +698,24 @@ sub PackageUpgrade {
     }
 
     # upgrade code (post)
-    if ( $Structure{CodeUpgrade} ) {
-        $Self->_Code( Code => $Structure{CodeUpgrade}, Type => 'post' );
+    if ( $Structure{CodeUpgrade} && ref $Structure{CodeUpgrade} eq 'ARRAY' ) {
+        my @Parts = ();
+        for my $Part ( @{ $Structure{CodeUpgrade} } ) {
+            if ( $Part->{Version} ) {
+                 my $CheckVersion = $Self->_CheckVersion(
+                    Version1 => $Part->{Version},
+                    Version2 => $InstalledVersion,
+                    Type     => 'Min'
+                );
+                if ( $CheckVersion ) {
+                    push @Parts, $Part;
+                }
+            }
+            else {
+                push @Parts, $Part;
+            }
+        }
+        $Self->_Code( Code => \@Parts, Type => 'post' );
     }
 
     return 1;
@@ -1538,7 +1566,7 @@ sub _Code {
 
     # check format
     if ( ref $Param{Code} ne 'ARRAY' ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need array ref in Core param!' );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need array ref in Code param!' );
         return;
     }
 
@@ -2105,6 +2133,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.78 $ $Date: 2008-05-08 09:58:20 $
+$Revision: 1.79 $ $Date: 2008-07-03 17:37:57 $
 
 =cut

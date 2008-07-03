@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.696 2008-07-02 08:09:45 mh Exp $
+# $Id: CHANGES,v 1.697 2008-07-03 17:37:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,13 @@
 # --
 
 2.3.0 beta4 (2008/07/??)
+ - (2008/07/03) Improved OPM package CodeUpgrade by using Version attribute
+    for code execurtion (like already exisitng DatabaseUpgrade). If no Version
+    is used, CodeUpgrade will performed on every upgrade. For more info see
+    developer manual.
+ - (2008/07/02) Fixed bug# 3042 - QueueView Sort by Escalation unfunctional.
+ - (2008/07/02) Fixed bug# 3045 - Hard coded permission check on merging
+    tickets.
  - (2008/07/02) Fixed bug# 3048 - AgentLinkObject shows a wrong search result
     list, if a object cannot link with itself.
  - (2008/07/02) Added AJAX support to ticket move screen.
