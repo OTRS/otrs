@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.39 2008-07-02 08:29:28 mh Exp $
+# $Id: AgentLinkObject.pm,v 1.40 2008-07-04 16:15:47 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -210,6 +210,9 @@ sub Run {
     # ------------------------------------------------------------ #
     else {
 
+        # get the type
+        my $TypeIdentifier = $Self->{ParamObject}->GetParam( Param => 'TypeIdentifier' );
+
         # output header
         my $Output = $Self->{LayoutObject}->Header();
 
@@ -223,9 +226,6 @@ sub Run {
 
             # get the link target keys
             my @LinkTargetKeys = $Self->{ParamObject}->GetArray( Param => 'LinkTargetKeys' );
-
-            # get the type
-            my $TypeIdentifier = $Self->{ParamObject}->GetParam( Param => 'TypeIdentifier' );
 
             # get all links that the source object already has
             my $LinkList = $Self->{LinkObject}->LinkList(
@@ -528,7 +528,15 @@ sub Run {
             UserID  => $Self->{UserID},
         );
 
+        # define blank line entry
+        my %BlankLine = (
+            Key      => '-',
+            Value    => '-------------------------',
+            Disabled => 1,
+        );
+
         # create the selectable type list
+        my $Counter = 0;
         my @SelectableTypesList;
         POSSIBLETYPE:
         for my $PossibleType ( sort { lc $a cmp lc $b } keys %PossibleTypesList ) {
@@ -562,21 +570,27 @@ sub Run {
             push @SelectableTypesList, \%TargetName;
         }
         continue {
-            my %BlankLine;
-            $BlankLine{Key}   = '-';
-            $BlankLine{Value} = '-------------------------';
 
+            # add blank line
             push @SelectableTypesList, \%BlankLine;
+
+            $Counter++;
         }
 
         # removed last (empty) entry
         pop @SelectableTypesList;
 
+        # add blank lines on top and bottom of the list if more then two linktypes
+        if ( $Counter > 2 ) {
+            unshift @SelectableTypesList, \%BlankLine;
+            push @SelectableTypesList, \%BlankLine;
+        }
+
         # create link type string
         my $LinkTypeStrg = $Self->{LayoutObject}->BuildSelection(
             Data       => \@SelectableTypesList,
             Name       => 'TypeIdentifier',
-            SelectedID => 'Normal::Source',
+            SelectedID => $TypeIdentifier || 'Normal::Source',
         );
 
         # create the link table

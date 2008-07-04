@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLinkObject.pm - provides generic HTML output for LinkObject
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLinkObject.pm,v 1.9 2008-07-02 14:35:00 mh Exp $
+# $Id: LayoutLinkObject.pm,v 1.10 2008-07-04 16:16:12 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =item LinkObjectTableCreate()
 
@@ -665,8 +665,11 @@ sub LinkObjectSelectableObjectList {
 
     return if !%PossibleObjectsList;
 
-    # prepare the select list
+    # get the select lists
     my @SelectableObjectList;
+    my @SelectableTempList;
+    my $AddBlankLines;
+    POSSIBLEOBJECT:
     for my $PossibleObject ( sort { lc $a cmp lc $b } keys %PossibleObjectsList ) {
 
         # load backend
@@ -681,7 +684,45 @@ sub LinkObjectSelectableObjectList {
             %Param,
         );
 
+        next POSSIBLEOBJECT if !@SelectableList;
+
+        push @SelectableTempList, \@SelectableList;
         push @SelectableObjectList, @SelectableList;
+
+        next POSSIBLEOBJECT if $AddBlankLines;
+
+        # check each keys if blank lines must be added
+        ROW:
+        for my $Row (@SelectableList) {
+            next ROW if !$Row->{Key} || $Row->{Key} !~ m{ :: }xms;
+            $AddBlankLines = 1;
+            last ROW;
+        }
+    }
+
+    # add blank lines
+    if ($AddBlankLines) {
+
+        # reset list
+        @SelectableObjectList = ();
+
+        # define blank line entry
+        my %BlankLine = (
+            Key      => '-',
+            Value    => '-------------------------',
+            Disabled => 1,
+        );
+
+        # insert the blank lines
+        for my $Elements (@SelectableTempList) {
+            push @SelectableObjectList, @{$Elements};
+        }
+        continue {
+            push @SelectableObjectList, \%BlankLine;
+        }
+
+        # add blank lines in top of the list
+        unshift @SelectableObjectList, \%BlankLine;
     }
 
     # create target object string
