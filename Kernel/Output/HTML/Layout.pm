@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.99 2008-07-03 19:34:09 martin Exp $
+# $Id: Layout.pm,v 1.100 2008-07-04 09:07:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.99 $) [1];
+$VERSION = qw($Revision: 1.100 $) [1];
 
 =head1 NAME
 
@@ -160,10 +160,6 @@ sub new {
         Format => 'DateFormatLong',
     );
 
-    # check browser (defaut is IE because I don't have IE)
-    $Self->{BrowserWrap} = 'physical';
-    $Self->{Browser}     = 'Unknown';
-
     # check Frontend::Output::FilterElementPre
     $Self->{FilterElementPre} = $Self->{ConfigObject}->Get('Frontend::Output::FilterElementPre');
 
@@ -172,6 +168,14 @@ sub new {
 
     # check Frontend::Output::FilterContent
     $Self->{FilterContent} = $Self->{ConfigObject}->Get('Frontend::Output::FilterContent');
+
+    # check Frontend::Output::FilterText
+    $Self->{FilterText} = $Self->{ConfigObject}->Get('Frontend::Output::FilterText');
+
+    # check browser (defaut is IE because I don't have IE)
+    $Self->{BrowserWrap} = 'physical';
+    $Self->{Browser}     = 'Unknown';
+
     if ( $Self->{FilterElementPre} && $Self->{FilterElementPre}->{ActiveElementFilter} ) {
         $Self->{BrowserJavaScriptSupport} = 0;
     }
@@ -1569,24 +1573,23 @@ sub PrintFooter {
 
 =item Ascii2Html()
 
-convert ascii to html
+convert ascii to html string
 
-    my $ConvertedText = $LayoutObject->Ascii2Html(
-        Text            => 'some Text',
-        Max             => ?, # optional
-        VMax            => ?, # optional
-        NewLine         => ?  # optional
-        HTMLResultMode  => ?; # optional
-        StripEmptyLines => ?, # optional
-        Type            => ?, # optional
-        LinkFeature     => ?, # optional
+    my $HTML = $LayoutObject->Ascii2Html(
+        Text            => 'Some <> Test <font color="red">Test</font>',
+        Max             => 20,       # max 20 chars folowed by [..]
+        VMax            => 15,       # first 15 lines
+        NewLine         => 0,        # move \r to \n
+        HTMLResultMode  => 0,        # replace " " with &nbsp;
+        StripEmptyLines => 0,
+        Type            => 'Normal', # JSText or Normal text
+        LinkFeature     => 0,        # do some URL detections
     );
 
 =cut
 
 sub Ascii2Html {
     my ( $Self, %Param ) = @_;
-    my $Text = defined $Param{Text} ? $Param{Text} : return;
 
     my $Max             = $Param{Max}             || '';
     my $VMax            = $Param{VMax}            || '';
@@ -1595,120 +1598,124 @@ sub Ascii2Html {
     my $StripEmptyLines = $Param{StripEmptyLines} || '';
     my $Type            = $Param{Type}            || '';
 
-    my %LinkHash = ();
-    if ( $Param{LinkFeature} ) {
+    return if !defined $Param{Text};
 
-        my $Counter = 0;
-        $Text =~ s{
-            ( > | < | &gt; | &lt; | )  # $1 greater-than and less-than sign
+    # check ref
+    my $TextScalar;
+    my $Text;
+    if ( !ref $Param{Text} ) {
+        $TextScalar = 1;
+        $Text = \$Param{Text};
+    }
+    else {
+        $Text = $Param{Text};
+    }
 
-            (                                              #2
-               (?:                                      # http or only www
-                   (?: (?: http s? | ftp ) :\/\/) |        # http://,https:// and ftp://
-                   (?: (?: www | ftp ) \.)                 # www. and ftp.
-               )
-               .*?               # this part should be better defined!
-            )
-            (                               # $3
-                [\?,;!\.\)] (?: \s | $ )    # \)\s this construct is because of bug# 2450
-              | \s
-              | \"
-              | &quot;
-              | &nbsp;
-              | ]
-              | '
-              | >                           # greater-than and less-than sign
-              | <                           # "
-              | &gt;                        # "
-              | &lt;                        # "
-              | $                           # bug# 2715
-            )        }
-        {
-            my $Start = $1;
-            my $Link  = $2;
-            my $End   = $3;
-            $Counter++;
-            if (
-                $Link !~ m{^ ( http | https | ftp ) : \/ \/ }xi
-            ) {
-                if ($Link =~ m{^ ftp }smx ) {
-                    $Link = "ftp://$Link";
+    my @Filters = ();
+    if ( $Param{LinkFeature} && $Self->{FilterText} ) {
+        my %Filters = %{ $Self->{FilterText} };
+        foreach my $Filter ( sort keys %Filters ) {
+
+            # load module
+            my $Object = $Filters{$Filter}->{Module};
+            if ( !$Self->{FilterTextObject}->{ $Object } ) {
+                if ( !$Self->{MainObject}->Require( $Filters{$Filter}->{Module} ) ) {
+                    $Self->FatalDie();
                 }
-                else {
-                    $Link = "http://$Link";
-                }
+                $Self->{FilterTextObject}->{ $Object }  = $Filters{$Filter}->{Module}->new(
+                    %{$Self},
+                    LayoutObject => $Self,
+                );
             }
-            my $Length = length($Link);
-            $Length = $Length < 75 ? $Length : 75;
-            my $String = '#' x $Length;
-            $LinkHash{"[$String$Counter]"} = $Link;
-            $Start."[$String$Counter]".$End;
-         }egxism;
+            push (@Filters, {
+                Object => $Self->{FilterTextObject}->{ $Object },
+                Filter => $Filters{$Filter} },
+            );
+        }
+
+        # pre run
+        for my $Filter (@Filters) {
+            $Text = $Filter->{Object}->Pre( Filter => $Filter->{Filter}, Data => $Text );
+        }
     }
 
     # max width
     if ($Max) {
-        $Text =~ s/^(.{$Max}).+?$/$1\[\.\.\]/gs;
+        ${ $Text } =~ s/^(.{$Max}).+?$/$1\[\.\.\]/gs;
     }
 
     # newline
     if ( $NewLine && length($Text) < 60_000 ) {
-        $Text =~ s/(\n\r|\r\r\n|\r\n)/\n/g;
-        $Text =~ s/\r/\n/g;
-        $Text =~ s/(.{4,$NewLine})(?:\s|\z)/$1\n/gm;
+        ${ $Text } =~ s/(\n\r|\r\r\n|\r\n)/\n/g;
+        ${ $Text } =~ s/\r/\n/g;
+        ${ $Text } =~ s/(.{4,$NewLine})(?:\s|\z)/$1\n/gm;
         my $ForceNewLine = $NewLine + 10;
-
-        #        $Text =~ s/([A-z-_#=\.]{$ForceNewLine})/$1\n/g;
-        $Text =~ s/(.{$ForceNewLine})(.+?)/$1\n$2/g;
+        ${ $Text } =~ s/(.{$ForceNewLine})(.+?)/$1\n$2/g;
     }
 
     # remove taps
-    $Text =~ s/\t/ /g;
+    ${ $Text } =~ s/\t/ /g;
 
     # strip empty lines
     if ($StripEmptyLines) {
-        $Text =~ s/^\s*\n//mg;
+        ${ $Text } =~ s/^\s*\n//mg;
     }
 
     # max lines
     if ($VMax) {
-        my @TextList = split( "\n", $Text );
-        $Text = '';
+        my @TextList = split( "\n", ${ $Text });
+        ${ $Text } = '';
         my $Counter = 1;
         for (@TextList) {
-            $Text .= $_ . "\n" if ( $Counter <= $VMax );
+            if ( $Counter <= $VMax ) {
+                ${ $Text } .= $_ . "\n";
+            }
             $Counter++;
         }
-        $Text .= "[...]\n" if ( $Counter >= $VMax );
+        if ( $Counter >= $VMax ) {
+            ${ $Text } .= "[...]\n";
+        }
     }
 
     # html quoting
-    $Text =~ s/&/&amp;/g;
-    $Text =~ s/</&lt;/g;
-    $Text =~ s/>/&gt;/g;
-    $Text =~ s/"/&quot;/g;
+    ${ $Text } =~ s/&/&amp;/g;
+    ${ $Text } =~ s/</&lt;/g;
+    ${ $Text } =~ s/>/&gt;/g;
+    ${ $Text } =~ s/"/&quot;/g;
 
     # text -> html format quoting
-    if ( $Param{LinkFeature} && %LinkHash ) {
-        for my $Key ( sort keys %LinkHash ) {
-            my $LinkSmall = $LinkHash{$Key};
-            $LinkSmall =~ s/^(.{75}).*$/$1\[\.\.\]/gs;
-            $LinkHash{$Key} =~ s/ //g;
-            $Text
-                =~ s/\Q$Key\E/<a href=\"$LinkHash{$Key}\" target=\"_blank\" title=\"$LinkHash{$Key}\">$LinkSmall<\/a>/;
+    if ( $Param{LinkFeature} ) {
+        for my $Filter (@Filters) {
+            $Text = $Filter->{Object}->Post( Filter => $Filter->{Filter}, Data => $Text );
         }
     }
+
     if ($HTMLMode) {
-        $Text =~ s/\n/<br\/>\n/g;
-        $Text =~ s/  /&nbsp;&nbsp;/g;
+        ${ $Text } =~ s/\n/<br\/>\n/g;
+        ${ $Text } =~ s/  /&nbsp;&nbsp;/g;
     }
     if ( $Type eq 'JSText' ) {
-        $Text =~ s/'/\\'/g;
+        ${ $Text } =~ s/'/\\'/g;
     }
 
-    # return result
-    return $Text;
+    # check ref && return result like called
+    if ( defined $TextScalar ) {
+        return ${ $Text };
+    }
+    else {
+        return $Text;
+    }
 }
+
+=item LinkQuote()
+
+so some URL link detections
+
+    my $HTMLWithLinks = $LayoutObject->LinkQuote(
+        Text => $HTMLWithOutLinks,
+    );
+
+=cut
 
 sub LinkQuote {
     my ( $Self, %Param ) = @_;
@@ -1716,27 +1723,55 @@ sub LinkQuote {
     my $Text   = $Param{Text}   || '';
     my $Target = $Param{Target} || 'NewPage' . int( rand(199) );
 
-    # do link quote
-    $Text .= ' ';
-    $Text =~ s{
-        (https|http|ftp|www)((:\/\/|\.).*?)(\.\s|\s|\)|\"|&quot;|&nbsp;|]|'|>|<|&gt;|&lt;)
+    # check ref
+    my $TextScalar;
+    if ( !ref($Text) ) {
+        $TextScalar = $Text;
+        $Text = \$TextScalar;
     }
-    {
-        my $Link = $1.$2;
-        my $OrigText = $1.$2;
-        my $OrigTextEnd = $4;
-        $Link =~ s/ //g;
-        if ($Link !~ /^(http|https|ftp):\/\//) {
-            $Link = "http://$Link";
+
+    my @Filters = ();
+    if ( $Self->{FilterText} ) {
+        my %Filters = %{ $Self->{FilterText} };
+        foreach my $Filter (sort keys %Filters) {
+            if ($Self->{MainObject}->Require($Filters{$Filter}->{Module})) {
+                my $Object = $Filters{$Filter}->{Module}->new(%{$Self});
+                # run module
+                if ($Object){
+                    push (@Filters, { Object => $Object, Filter => $Filters{$Filter} } );
+                }
+            }
+            else {
+                $Self->FatalDie();
+            }
         }
-        "<a href=\"$Link\" target=\"$Target\">$OrigText<\/a>$OrigTextEnd";
-    }egxi;
+    }
+    for my $Filter (@Filters) {
+        $Text = $Filter->{Object}->Pre(Filter => $Filter->{Filter}, Data => $Text);
+    }
+    for my $Filter (@Filters) {
+        $Text = $Filter->{Object}->Post(Filter => $Filter->{Filter}, Data => $Text);
+    }
 
     # do mail to quote
-    $Text =~ s/(mailto:.*?)(\.\s|\s|\)|\"|]|')/<a href=\"$1\">$1<\/a>$2/gi;
-    chop($Text);
-    return $Text;
+    ${ $Text } =~ s/(mailto:.*?)(\.\s|\s|\)|\"|]|')/<a href=\"$1\">$1<\/a>$2/gi;
+
+    # check ref && return result like called
+    if ($TextScalar) {
+        return ${ $Text };
+    }
+    else {
+        return $Text;
+    }
 }
+
+=item LinkEncode()
+
+do some url encoding - e. g. replace + with %2B in links
+
+    my $URLEncoded = $LayoutObject->LinkEncode($URL);
+
+=cut
 
 sub LinkEncode {
     my ( $Self, $Link ) = @_;
@@ -2246,21 +2281,21 @@ sub BuildSelection {
     return $String;
 }
 
-=item _BuildSelectionOptionRefCreate()
-
-create the option hash
-
-    my $OptionRef = $LayoutObject->_BuildSelectionOptionRefCreate(
-        %Param,
-    );
-
-    my $OptionRef = {
-        Sort => 'numeric',
-        PossibleNone => 0,
-        Max => 100,
-    }
-
-=cut
+#=item _BuildSelectionOptionRefCreate()
+#
+#create the option hash
+#
+#    my $OptionRef = $LayoutObject->_BuildSelectionOptionRefCreate(
+#        %Param,
+#    );
+#
+#    my $OptionRef = {
+#        Sort => 'numeric',
+#        PossibleNone => 0,
+#        Max => 100,
+#    }
+#
+#=cut
 
 sub _BuildSelectionOptionRefCreate {
     my ( $Self, %Param ) = @_;
@@ -2361,21 +2396,21 @@ sub _BuildSelectionOptionRefCreate {
     return $OptionRef;
 }
 
-=item _BuildSelectionAttributeRefCreate()
-
-create the attribute hash
-
-    my $AttributeRef = $LayoutObject->_BuildSelectionAttributeRefCreate(
-        %Param,
-    );
-
-    my $AttributeRef = {
-        name => 'TheName',
-        multiple => undef,
-        size => 5,
-    }
-
-=cut
+#=item _BuildSelectionAttributeRefCreate()
+#
+#create the attribute hash
+#
+#    my $AttributeRef = $LayoutObject->_BuildSelectionAttributeRefCreate(
+#        %Param,
+#    );
+#
+#    my $AttributeRef = {
+#        name => 'TheName',
+#        multiple => undef,
+#        size => 5,
+#    }
+#
+#=cut
 
 sub _BuildSelectionAttributeRefCreate {
     my ( $Self, %Param ) = @_;
@@ -2406,29 +2441,29 @@ sub _BuildSelectionAttributeRefCreate {
     return $AttributeRef;
 }
 
-=item _BuildSelectionDataRefCreate()
-
-create the data hash
-
-    my $DataRef = $LayoutObject->_BuildSelectionDataRefCreate(
-        Data => $ArrayRef,              # use $HashRef, $ArrayRef or $ArrayHashRef
-        AttributeRef => $AttributeRef,
-        OptionRef => $OptionRef,
-    );
-
-    my $DataRef  = [
-        {
-            Key => 11,
-            Value => 'Text',
-        },
-        {
-            Key => 'abc',
-            Value => '&nbsp;&nbsp;Text',
-            Selected => 1,
-        },
-    ];
-
-=cut
+#=item _BuildSelectionDataRefCreate()
+#
+#create the data hash
+#
+#    my $DataRef = $LayoutObject->_BuildSelectionDataRefCreate(
+#        Data => $ArrayRef,              # use $HashRef, $ArrayRef or $ArrayHashRef
+#        AttributeRef => $AttributeRef,
+#        OptionRef => $OptionRef,
+#    );
+#
+#    my $DataRef  = [
+#        {
+#            Key => 11,
+#            Value => 'Text',
+#        },
+#        {
+#            Key => 'abc',
+#            Value => '&nbsp;&nbsp;Text',
+#            Selected => 1,
+#        },
+#    ];
+#
+#=cut
 
 sub _BuildSelectionDataRefCreate {
     my ( $Self, %Param ) = @_;
@@ -2641,35 +2676,35 @@ sub _BuildSelectionDataRefCreate {
     return $DataRef;
 }
 
-=item _BuildSelectionOutput()
-
-create the html string
-
-    my $HTMLString = $LayoutObject->_BuildSelectionOutput(
-        AttributeRef => $AttributeRef,
-        DataRef => $DataRef,
-    );
-
-    my $AttributeRef = {
-        name => 'TheName',
-        multiple => undef,
-        size => 5,
-    }
-
-    my $DataRef  = [
-        {
-            Key => 11,
-            Value => 'Text',
-            Disabled => 1,
-        },
-        {
-            Key => 'abc',
-            Value => '&nbsp;&nbsp;Text',
-            Selected => 1,
-        },
-    ];
-
-=cut
+#=item _BuildSelectionOutput()
+#
+#create the html string
+#
+#    my $HTMLString = $LayoutObject->_BuildSelectionOutput(
+#        AttributeRef => $AttributeRef,
+#        DataRef => $DataRef,
+#    );
+#
+#    my $AttributeRef = {
+#        name => 'TheName',
+#        multiple => undef,
+#        size => 5,
+#    }
+#
+#    my $DataRef  = [
+#        {
+#            Key => 11,
+#            Value => 'Text',
+#            Disabled => 1,
+#        },
+#        {
+#            Key => 'abc',
+#            Value => '&nbsp;&nbsp;Text',
+#            Selected => 1,
+#        },
+#    ];
+#
+#=cut
 
 sub _BuildSelectionOutput {
     my ( $Self, %Param ) = @_;
@@ -3932,6 +3967,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.99 $ $Date: 2008-07-03 19:34:09 $
+$Revision: 1.100 $ $Date: 2008-07-04 09:07:40 $
 
 =cut
