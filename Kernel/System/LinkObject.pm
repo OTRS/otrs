@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.45 2008-07-05 17:41:35 mh Exp $
+# $Id: LinkObject.pm,v 1.46 2008-07-05 20:26:41 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 =head1 NAME
 
@@ -432,7 +432,7 @@ sub LinkAdd {
     # lookup state id
     my $StateID = $Self->StateLookup(
         Name   => $Param{State},
-        UserID => 1,
+        UserID => $Param{UserID},
     );
 
     # lookup type id
@@ -565,6 +565,7 @@ sub LinkAdd {
         TargetObject => $Param{TargetObject},
         TargetKey    => $Param{TargetKey},
         Type         => $Param{Type},
+        State        => $Param{State},
         UserID       => $Param{UserID},
     );
 
@@ -574,6 +575,7 @@ sub LinkAdd {
         SourceObject => $Param{SourceObject},
         SourceKey    => $Param{SourceKey},
         Type         => $Param{Type},
+        State        => $Param{State},
         UserID       => $Param{UserID},
     );
 
@@ -595,6 +597,7 @@ sub LinkAdd {
         TargetObject => $Param{TargetObject},
         TargetKey    => $Param{TargetKey},
         Type         => $Param{Type},
+        State        => $Param{State},
         UserID       => $Param{UserID},
     );
 
@@ -604,6 +607,7 @@ sub LinkAdd {
         SourceObject => $Param{SourceObject},
         SourceKey    => $Param{SourceKey},
         Type         => $Param{Type},
+        State        => $Param{State},
         UserID       => $Param{UserID},
     );
 
@@ -669,7 +673,7 @@ sub LinkDelete {
 
     # get the existing link
     return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT source_object_id, source_key, target_object_id, target_key '
+        SQL => 'SELECT source_object_id, source_key, target_object_id, target_key, state_id '
             . 'FROM link_relation '
             . 'WHERE ( source_object_id = ? AND source_key = ? '
             . 'AND target_object_id = ? AND target_key = ? ) '
@@ -694,6 +698,7 @@ sub LinkDelete {
         $Existing{SourceKey}      = $Row[1];
         $Existing{TargetObjectID} = $Row[2];
         $Existing{TargetKey}      = $Row[3];
+        $Existing{StateID}        = $Row[4];
     }
 
     return 1 if !%Existing;
@@ -718,6 +723,12 @@ sub LinkDelete {
         return;
     }
 
+    # lookup state
+    $Existing{State} = $Self->StateLookup(
+        StateID => $Existing{StateID},
+        UserID  => $Param{UserID},
+    );
+
     # load backend of source object
     my $BackendSourceObject = $Self->_LoadBackend(
         Object => $Existing{SourceObject},
@@ -740,6 +751,7 @@ sub LinkDelete {
         TargetObject => $Existing{TargetObject},
         TargetKey    => $Existing{TargetKey},
         Type         => $Param{Type},
+        State        => $Existing{State},
         UserID       => $Param{UserID},
     );
 
@@ -749,6 +761,7 @@ sub LinkDelete {
         SourceObject => $Existing{SourceObject},
         SourceKey    => $Existing{SourceKey},
         Type         => $Param{Type},
+        State        => $Existing{State},
         UserID       => $Param{UserID},
     );
 
@@ -775,6 +788,7 @@ sub LinkDelete {
         TargetObject => $Existing{TargetObject},
         TargetKey    => $Existing{TargetKey},
         Type         => $Param{Type},
+        State        => $Existing{State},
         UserID       => $Param{UserID},
     );
 
@@ -784,6 +798,7 @@ sub LinkDelete {
         SourceObject => $Existing{SourceObject},
         SourceKey    => $Existing{SourceKey},
         Type         => $Param{Type},
+        State        => $Existing{State},
         UserID       => $Param{UserID},
     );
 
@@ -941,7 +956,7 @@ sub LinkList {
     # lookup state id
     my $StateID = $Self->StateLookup(
         Name   => $Param{State},
-        UserID => 1,
+        UserID => $Param{UserID},
     );
 
     # prepare SQL statement
@@ -1279,26 +1294,22 @@ sub LinkKeyList {
     return if !$LinkList;
     return if ref $LinkList ne 'HASH';
 
+    # extract typelist
+    my $TypeList = $LinkList->{ $Param{Object2} };
+
     # add data to hash
     my %LinkKeyList;
-    OBJECT:
-    for my $Object ( keys %{$LinkList} ) {
+    for my $Type ( keys %{$TypeList} ) {
 
-        # extract typelist
-        my $TypeList = $LinkList->{ $Param{Object2} };
+        # extract direction list
+        my $DirectionList = $TypeList->{$Type};
 
-        for my $Type ( keys %{$TypeList} ) {
+        for my $Direction ( keys %{$DirectionList} ) {
 
-            # extract direction list
-            my $DirectionList = $TypeList->{$Type};
+            for my $Key ( keys %{ $DirectionList->{$Direction} } ) {
 
-            for my $Direction ( keys %{$DirectionList} ) {
-
-                for my $Key ( keys %{ $DirectionList->{$Direction} } ) {
-
-                    # add id
-                    $LinkKeyList{$Key} = $DirectionList->{$Direction}->{$Key};
-                }
+                # add key to list
+                $LinkKeyList{$Key} = $DirectionList->{$Direction}->{$Key};
             }
         }
     }
@@ -1356,26 +1367,22 @@ sub LinkKeyListWithData {
     return if !$LinkList;
     return if ref $LinkList ne 'HASH';
 
+    # extract typelist
+    my $TypeList = $LinkList->{ $Param{Object2} };
+
     # add data to hash
     my %LinkKeyList;
-    OBJECT:
-    for my $Object ( keys %{$LinkList} ) {
+    for my $Type ( keys %{$TypeList} ) {
 
-        # extract typelist
-        my $TypeList = $LinkList->{ $Param{Object2} };
+        # extract direction list
+        my $DirectionList = $TypeList->{$Type};
 
-        for my $Type ( keys %{$TypeList} ) {
+        for my $Direction ( keys %{$DirectionList} ) {
 
-            # extract direction list
-            my $DirectionList = $TypeList->{$Type};
+            for my $Key ( keys %{ $DirectionList->{$Direction} } ) {
 
-            for my $Direction ( keys %{$DirectionList} ) {
-
-                for my $Key ( keys %{ $DirectionList->{$Direction} } ) {
-
-                    # add id
-                    $LinkKeyList{$Key} = $DirectionList->{$Direction}->{$Key};
-                }
+                # add key to list
+                $LinkKeyList{$Key} = $DirectionList->{$Direction}->{$Key};
             }
         }
     }
@@ -2307,6 +2314,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.45 $ $Date: 2008-07-05 17:41:35 $
+$Revision: 1.46 $ $Date: 2008-07-05 20:26:41 $
 
 =cut
