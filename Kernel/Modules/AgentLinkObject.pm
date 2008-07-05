@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.40 2008-07-04 16:15:47 mh Exp $
+# $Id: AgentLinkObject.pm,v 1.41 2008-07-05 15:04:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -381,7 +381,8 @@ sub Run {
 
         # get search option list
         my @SearchOptionList = $Self->{LayoutObject}->LinkObjectSearchOptionList(
-            Object => $Form{TargetObject},
+            Object    => $Form{TargetObject},
+            SubObject => $Form{TargetSubObject},
         );
 
         # output search option fields
@@ -409,6 +410,7 @@ sub Run {
         # start search
         my $SearchList = $Self->{LinkObject}->ObjectSearch(
             Object       => $Form{TargetObject},
+            SubObject    => $Form{TargetSubObject},
             SearchParams => \%SearchParam,
             UserID       => $Self->{UserID},
         );

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LinkObjectTicket.pm - layout backend module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObjectTicket.pm,v 1.14 2008-07-02 12:04:59 mh Exp $
+# $Id: LinkObjectTicket.pm,v 1.15 2008-07-05 15:03:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::Output::HTML::Layout;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -71,64 +71,66 @@ sub new {
 
 =item TableCreateComplex()
 
-return a hash with the block data
+return an array with the block data
 
 Return
 
     %BlockData = (
-        Object    => 'Ticket',
-        Blockname => 'Ticket',
-        Headline  => [
-            {
-                Content => 'Number#',
-                Width   => 130,
-            },
-            {
-                Content => 'Title',
-            },
-            {
-                Content => 'Created',
-                Width   => 110,
-            },
-        ],
-        ItemList => [
-            [
+        {
+            Object    => 'Ticket',
+            Blockname => 'Ticket',
+            Headline  => [
                 {
-                    Type    => 'Link',
-                    Key     => $TicketID,
-                    Content => '123123123',
-                    Css     => 'style="text-decoration: line-through"',
+                    Content => 'Number#',
+                    Width   => 130,
                 },
                 {
-                    Type      => 'Text',
-                    Content   => 'The title',
-                    MaxLength => 50,
+                    Content => 'Title',
                 },
                 {
-                    Type    => 'TimeLong',
-                    Content => '2008-01-01 12:12:00',
+                    Content => 'Created',
+                    Width   => 110,
                 },
             ],
-            [
-                {
-                    Type    => 'Link',
-                    Key     => $TicketID,
-                    Content => '434234',
-                },
-                {
-                    Type      => 'Text',
-                    Content   => 'The title of ticket 2',
-                    MaxLength => 50,
-                },
-                {
-                    Type    => 'TimeLong',
-                    Content => '2008-01-01 12:12:00',
-                },
+            ItemList => [
+                [
+                    {
+                        Type    => 'Link',
+                        Key     => $TicketID,
+                        Content => '123123123',
+                        Css     => 'style="text-decoration: line-through"',
+                    },
+                    {
+                        Type      => 'Text',
+                        Content   => 'The title',
+                        MaxLength => 50,
+                    },
+                    {
+                        Type    => 'TimeLong',
+                        Content => '2008-01-01 12:12:00',
+                    },
+                ],
+                [
+                    {
+                        Type    => 'Link',
+                        Key     => $TicketID,
+                        Content => '434234',
+                    },
+                    {
+                        Type      => 'Text',
+                        Content   => 'The title of ticket 2',
+                        MaxLength => 50,
+                    },
+                    {
+                        Type    => 'TimeLong',
+                        Content => '2008-01-01 12:12:00',
+                    },
+                ],
             ],
-        ],
+        },
     );
 
-    %BlockData = $LinkObject->TableCreateComplex(
+    @BlockData = $LinkObject->TableCreateComplex(
         ObjectLinkListWithData => $ObjectLinkListRef,
     );
 
@@ -215,9 +217,9 @@ sub TableCreateComplex {
 
     return if !@ItemList;
 
-    # block data
+    # define the block data
     my $TicketHook = $Self->{ConfigObject}->Get('Ticket::Hook');
-    my %BlockData  = (
+    my %Block      = (
         Object    => $Self->{ObjectData}->{Object},
         Blockname => $Self->{ObjectData}->{Realname},
         Headline  => [
@@ -244,7 +246,7 @@ sub TableCreateComplex {
         ItemList => \@ItemList,
     );
 
-    return %BlockData;
+    return ( \%Block );
 }
 
 =item TableCreateSimple()
@@ -421,7 +423,9 @@ Return
         },
     );
 
-    @SearchOptionList = $LinkObject->SearchOptionList();
+    @SearchOptionList = $LinkObject->SearchOptionList(
+        SubObject => 'Bla',  # (optional)
+    );
 
 =cut
 
@@ -532,6 +536,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2008-07-02 12:04:59 $
+$Revision: 1.15 $ $Date: 2008-07-05 15:03:28 $
 
 =cut

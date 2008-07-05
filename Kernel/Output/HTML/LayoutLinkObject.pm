@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLinkObject.pm - provides generic HTML output for LinkObject
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLinkObject.pm,v 1.10 2008-07-04 16:16:12 mh Exp $
+# $Id: LayoutLinkObject.pm,v 1.11 2008-07-05 15:03:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =item LinkObjectTableCreate()
 
@@ -130,13 +130,13 @@ sub LinkObjectTableCreateComplex {
         next OBJECT if !$BackendObject;
 
         # get block data
-        my %BlockData = $BackendObject->TableCreateComplex(
+        my @BlockData = $BackendObject->TableCreateComplex(
             ObjectLinkListWithData => $Param{LinkListWithData}->{$Object},
         );
 
-        next OBJECT if !%BlockData;
+        next OBJECT if !@BlockData;
 
-        push @OutputData, \%BlockData;
+        push @OutputData, @BlockData;
     }
 
     # error handling
@@ -741,7 +741,8 @@ sub LinkObjectSelectableObjectList {
 return a list of search options
 
     my @SearchOptionList = $LayoutObject->LinkObjectSearchOptionList(
-        Object   => 'Ticket',
+        Object    => 'Ticket',
+        SubObject => 'Bla',     # (optional)
     );
 
 =cut
