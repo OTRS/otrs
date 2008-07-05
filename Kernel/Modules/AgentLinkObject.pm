@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.41 2008-07-05 15:04:06 mh Exp $
+# $Id: AgentLinkObject.pm,v 1.42 2008-07-05 20:28:02 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -54,13 +54,6 @@ sub Run {
         );
     }
 
-    # get source object description
-    my %SourceObjectDescription = $Self->{LinkObject}->ObjectDescriptionGet(
-        Object => $Form{SourceObject},
-        Key    => $Form{SourceKey},
-        UserID => $Self->{UserID},
-    );
-
     # get form params
     $Form{TargetIdentifier} = $Self->{ParamObject}->GetParam( Param => 'TargetIdentifier' )
         || $Form{SourceObject};
@@ -94,6 +87,14 @@ sub Run {
         $Form{Mode}  = 'Normal';
         $Form{State} = 'Valid';
     }
+
+    # get source object description
+    my %SourceObjectDescription = $Self->{LinkObject}->ObjectDescriptionGet(
+        Object => $Form{SourceObject},
+        Key    => $Form{SourceKey},
+        Mode   => $Form{Mode},
+        UserID => $Self->{UserID},
+    );
 
     # ------------------------------------------------------------ #
     # link delete
@@ -141,6 +142,7 @@ sub Run {
                 my %TargetObjectDescription = $Self->{LinkObject}->ObjectDescriptionGet(
                     Object => $Target[0],
                     Key    => $Target[1],
+                    Mode   => $Form{Mode},
                     UserID => $Self->{UserID},
                 );
 
