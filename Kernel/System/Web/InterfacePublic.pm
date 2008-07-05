@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfacePublic.pm - the public interface file
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfacePublic.pm,v 1.20 2008-05-08 13:43:11 mh Exp $
+# $Id: InterfacePublic.pm,v 1.21 2008-07-05 14:40:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 # all framework needed  modules
 use Kernel::Config;
@@ -75,8 +75,10 @@ sub new {
     $Self->{MainObject}   = Kernel::System::Main->new( %{$Self} );
     $Self->{EncodeObject} = Kernel::System::Encode->new( %{$Self} );
     $Self->{TimeObject}   = Kernel::System::Time->new( %{$Self} );
-    $Self->{ParamObject}
-        = Kernel::System::Web::Request->new( %{$Self}, WebRequest => $Param{WebRequest} || 0, );
+    $Self->{ParamObject}  = Kernel::System::Web::Request->new(
+        %{$Self},
+        WebRequest => $Param{WebRequest} || 0,
+    );
 
     # debug info
     if ( $Self->{Debug} ) {
@@ -283,6 +285,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2008-05-08 13:43:11 $
+$Revision: 1.21 $ $Date: 2008-07-05 14:40:40 $
 
 =cut
