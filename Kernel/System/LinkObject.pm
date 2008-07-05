@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.43 2008-07-03 18:29:41 mh Exp $
+# $Id: LinkObject.pm,v 1.44 2008-07-05 15:01:05 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 =head1 NAME
 
@@ -2035,8 +2035,9 @@ Return
     };
 
     $ObjectList = $LinkObject->ObjectSearch(
-        Object       => 'Ticket',
-        SearchParams => $HashRef,  # (optional)
+        Object       => 'ITSMConfigItem',
+        SubObject    => 'Computer'         # (optional)
+        SearchParams => $HashRef,          # (optional)
         UserID       => 1,
     );
 
@@ -2152,6 +2153,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.43 $ $Date: 2008-07-03 18:29:41 $
+$Revision: 1.44 $ $Date: 2008-07-05 15:01:05 $
 
 =cut
