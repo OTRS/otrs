@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/OutputFilterTextURL.pm - auto URL detection filter
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: OutputFilterTextURL.pm,v 1.1 2008-07-04 09:07:40 martin Exp $
+# $Id: OutputFilterTextURL.pm,v 1.2 2008-07-05 18:40:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,10 @@
 package Kernel::Output::HTML::OutputFilterTextURL;
 
 use strict;
+use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,7 +36,7 @@ sub Pre {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( ! defined $Param{Data} ) {
+    if ( !defined $Param{Data} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Data!' );
         $Self->{LayoutObject}->FatalDie();
     }
@@ -93,17 +94,18 @@ sub Post {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( ! defined $Param{Data} ) {
+    if ( !defined $Param{Data} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Data!' );
         $Self->{LayoutObject}->FatalDie();
     }
 
-    if ($Self->{LinkHash}) {
+    if ( $Self->{LinkHash} ) {
         for my $Key ( sort keys %{ $Self->{LinkHash} } ) {
             my $LinkSmall = $Self->{LinkHash}->{$Key};
-            $LinkSmall    =~ s/^(.{75}).*$/$1\[\.\.\]/gs;
+            $LinkSmall =~ s/^(.{75}).*$/$1\[\.\.\]/gs;
             $Self->{LinkHash}->{$Key} =~ s/ //g;
-            ${ $Param{Data} } =~ s/\Q$Key\E/<a href=\"$Self->{LinkHash}->{$Key}\" target=\"_blank\" title=\"$Self->{LinkHash}->{$Key}\">$LinkSmall<\/a>/;
+            ${ $Param{Data} }
+                =~ s/\Q$Key\E/<a href=\"$Self->{LinkHash}->{$Key}\" target=\"_blank\" title=\"$Self->{LinkHash}->{$Key}\">$LinkSmall<\/a>/;
         }
     }
 

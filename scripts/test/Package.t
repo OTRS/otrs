@@ -2,7 +2,7 @@
 # Package.t - Package tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.t,v 1.14 2008-07-03 17:37:57 martin Exp $
+# $Id: Package.t,v 1.15 2008-07-05 18:40:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -365,7 +365,7 @@ $Self->True(
     '#5 PackageUpgrade() - 2/3 File already exists in package X.',
 );
 
-my $TmpDir = $Self->{ConfigObject}->Get('TempDir');
+my $TmpDir   = $Self->{ConfigObject}->Get('TempDir');
 my $String3b = '<?xml version="1.0" encoding="utf-8" ?>
 <otrs_package version="1.0">
   <Name>Test3</Name>
@@ -385,28 +385,28 @@ my $String3b = '<?xml version="1.0" encoding="utf-8" ?>
   <CodeUpgrade Type="pre" Version="0.0.4">
         my $Content = "test";
         $Self->{MainObject}-&gt;FileWrite(
-            Location  =&gt; "'.$TmpDir.'/test1",
+            Location  =&gt; "' . $TmpDir . '/test1",
             Content   =&gt; \$Content,
         );
   </CodeUpgrade>
   <CodeUpgrade Type="pre" Version="0.0.3">
         my $Content = "test";
         $Self->{MainObject}-&gt;FileWrite(
-            Location  =&gt; "'.$TmpDir.'/test2",
+            Location  =&gt; "' . $TmpDir . '/test2",
             Content   =&gt; \$Content,
         );
   </CodeUpgrade>
   <CodeUpgrade Type="pre" Version="0.0.2">
         my $Content = "test";
         $Self->{MainObject}-&gt;FileWrite(
-            Location  =&gt; "'.$TmpDir.'/test3",
+            Location  =&gt; "' . $TmpDir . '/test3",
             Content   =&gt; \$Content,
         );
   </CodeUpgrade>
   <CodeUpgrade Type="pre">
         my $Content = "test";
         $Self->{MainObject}-&gt;FileWrite(
-            Location  =&gt; "'.$TmpDir.'/test4",
+            Location  =&gt; "' . $TmpDir . '/test4",
             Content   =&gt; \$Content,
         );
   </CodeUpgrade>
@@ -426,23 +426,23 @@ $Self->True(
 );
 
 $Self->True(
-    !-f $TmpDir .'/test1',
+    !-f $TmpDir . '/test1',
     '#5 PackageUpgrade() - CodeUpgrade with version 0.0.4 (no file).',
 );
 $Self->True(
-    !-f $TmpDir .'/test2',
+    !-f $TmpDir . '/test2',
     '#5 PackageUpgrade() - CodeUpgrade with version 0.0.3 (no file).',
 );
 $Self->True(
-    -f $TmpDir .'/test3',
+    -f $TmpDir . '/test3',
     '#5 PackageUpgrade() - CodeUpgrade with version 0.0.2 (no file).',
 );
-unlink $TmpDir .'/test3';
+unlink $TmpDir . '/test3';
 $Self->True(
-    -f $TmpDir .'/test4',
+    -f $TmpDir . '/test4',
     '#5 PackageUpgrade() - CodeUpgrade without version.',
 );
-unlink $TmpDir .'/test4';
+unlink $TmpDir . '/test4';
 
 $PackageUninstall = $Self->{PackageObject}->PackageUninstall(
     String => $String3b,

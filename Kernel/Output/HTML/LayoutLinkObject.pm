@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLinkObject.pm - provides generic HTML output for LinkObject
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLinkObject.pm,v 1.11 2008-07-05 15:03:28 mh Exp $
+# $Id: LayoutLinkObject.pm,v 1.12 2008-07-05 18:40:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =item LinkObjectTableCreate()
 
@@ -274,7 +274,7 @@ sub LinkObjectTableCreateComplex {
             Name => 'TableComplexBlock',
             Data => {
                 BlockDescription => $BlockDescription,
-                Blockname        => $Block->{Blockname} || '',
+                Blockname => $Block->{Blockname} || '',
             },
         );
 
@@ -686,7 +686,7 @@ sub LinkObjectSelectableObjectList {
 
         next POSSIBLEOBJECT if !@SelectableList;
 
-        push @SelectableTempList, \@SelectableList;
+        push @SelectableTempList,   \@SelectableList;
         push @SelectableObjectList, @SelectableList;
 
         next POSSIBLEOBJECT if $AddBlankLines;

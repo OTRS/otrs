@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.329 2008-07-01 15:26:21 ub Exp $
+# $Id: Ticket.pm,v 1.330 2008-07-05 18:40:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.329 $) [1];
+$VERSION = qw($Revision: 1.330 $) [1];
 
 =head1 NAME
 
@@ -1608,7 +1608,7 @@ sub TicketServiceSet {
     $Param{ServiceID} ||= 'NULL';
 
     return if !$Self->{DBObject}->Do(
-        SQL => "UPDATE ticket SET service_id = $Param{ServiceID} WHERE id = ?",
+        SQL  => "UPDATE ticket SET service_id = $Param{ServiceID} WHERE id = ?",
         Bind => [ \$Param{TicketID} ],
     );
 
@@ -2100,7 +2100,7 @@ sub TicketSLASet {
     $Param{SLAID} ||= 'NULL';
 
     return if !$Self->{DBObject}->Do(
-        SQL => "UPDATE ticket SET sla_id = $Param{SLAID} WHERE id = ?",
+        SQL  => "UPDATE ticket SET sla_id = $Param{SLAID} WHERE id = ?",
         Bind => [ \$Param{TicketID} ],
     );
 
@@ -6564,6 +6564,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.329 $ $Date: 2008-07-01 15:26:21 $
+$Revision: 1.330 $ $Date: 2008-07-05 18:40:28 $
 
 =cut

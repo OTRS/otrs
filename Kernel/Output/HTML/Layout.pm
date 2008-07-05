@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.100 2008-07-04 09:07:40 martin Exp $
+# $Id: Layout.pm,v 1.101 2008-07-05 18:40:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.100 $) [1];
+$VERSION = qw($Revision: 1.101 $) [1];
 
 =head1 NAME
 
@@ -1605,7 +1605,7 @@ sub Ascii2Html {
     my $Text;
     if ( !ref $Param{Text} ) {
         $TextScalar = 1;
-        $Text = \$Param{Text};
+        $Text       = \$Param{Text};
     }
     else {
         $Text = $Param{Text};
@@ -1614,22 +1614,25 @@ sub Ascii2Html {
     my @Filters = ();
     if ( $Param{LinkFeature} && $Self->{FilterText} ) {
         my %Filters = %{ $Self->{FilterText} };
-        foreach my $Filter ( sort keys %Filters ) {
+        for my $Filter ( sort keys %Filters ) {
 
             # load module
             my $Object = $Filters{$Filter}->{Module};
-            if ( !$Self->{FilterTextObject}->{ $Object } ) {
+            if ( !$Self->{FilterTextObject}->{$Object} ) {
                 if ( !$Self->{MainObject}->Require( $Filters{$Filter}->{Module} ) ) {
                     $Self->FatalDie();
                 }
-                $Self->{FilterTextObject}->{ $Object }  = $Filters{$Filter}->{Module}->new(
+                $Self->{FilterTextObject}->{$Object} = $Filters{$Filter}->{Module}->new(
                     %{$Self},
                     LayoutObject => $Self,
                 );
             }
-            push (@Filters, {
-                Object => $Self->{FilterTextObject}->{ $Object },
-                Filter => $Filters{$Filter} },
+            push(
+                @Filters,
+                {
+                    Object => $Self->{FilterTextObject}->{$Object},
+                    Filter => $Filters{$Filter}
+                },
             );
         }
 
@@ -1641,47 +1644,47 @@ sub Ascii2Html {
 
     # max width
     if ($Max) {
-        ${ $Text } =~ s/^(.{$Max}).+?$/$1\[\.\.\]/gs;
+        ${$Text} =~ s/^(.{$Max}).+?$/$1\[\.\.\]/gs;
     }
 
     # newline
     if ( $NewLine && length($Text) < 60_000 ) {
-        ${ $Text } =~ s/(\n\r|\r\r\n|\r\n)/\n/g;
-        ${ $Text } =~ s/\r/\n/g;
-        ${ $Text } =~ s/(.{4,$NewLine})(?:\s|\z)/$1\n/gm;
+        ${$Text} =~ s/(\n\r|\r\r\n|\r\n)/\n/g;
+        ${$Text} =~ s/\r/\n/g;
+        ${$Text} =~ s/(.{4,$NewLine})(?:\s|\z)/$1\n/gm;
         my $ForceNewLine = $NewLine + 10;
-        ${ $Text } =~ s/(.{$ForceNewLine})(.+?)/$1\n$2/g;
+        ${$Text} =~ s/(.{$ForceNewLine})(.+?)/$1\n$2/g;
     }
 
     # remove taps
-    ${ $Text } =~ s/\t/ /g;
+    ${$Text} =~ s/\t/ /g;
 
     # strip empty lines
     if ($StripEmptyLines) {
-        ${ $Text } =~ s/^\s*\n//mg;
+        ${$Text} =~ s/^\s*\n//mg;
     }
 
     # max lines
     if ($VMax) {
-        my @TextList = split( "\n", ${ $Text });
-        ${ $Text } = '';
+        my @TextList = split( "\n", ${$Text} );
+        ${$Text} = '';
         my $Counter = 1;
         for (@TextList) {
             if ( $Counter <= $VMax ) {
-                ${ $Text } .= $_ . "\n";
+                ${$Text} .= $_ . "\n";
             }
             $Counter++;
         }
         if ( $Counter >= $VMax ) {
-            ${ $Text } .= "[...]\n";
+            ${$Text} .= "[...]\n";
         }
     }
 
     # html quoting
-    ${ $Text } =~ s/&/&amp;/g;
-    ${ $Text } =~ s/</&lt;/g;
-    ${ $Text } =~ s/>/&gt;/g;
-    ${ $Text } =~ s/"/&quot;/g;
+    ${$Text} =~ s/&/&amp;/g;
+    ${$Text} =~ s/</&lt;/g;
+    ${$Text} =~ s/>/&gt;/g;
+    ${$Text} =~ s/"/&quot;/g;
 
     # text -> html format quoting
     if ( $Param{LinkFeature} ) {
@@ -1691,16 +1694,16 @@ sub Ascii2Html {
     }
 
     if ($HTMLMode) {
-        ${ $Text } =~ s/\n/<br\/>\n/g;
-        ${ $Text } =~ s/  /&nbsp;&nbsp;/g;
+        ${$Text} =~ s/\n/<br\/>\n/g;
+        ${$Text} =~ s/  /&nbsp;&nbsp;/g;
     }
     if ( $Type eq 'JSText' ) {
-        ${ $Text } =~ s/'/\\'/g;
+        ${$Text} =~ s/'/\\'/g;
     }
 
     # check ref && return result like called
     if ( defined $TextScalar ) {
-        return ${ $Text };
+        return ${$Text};
     }
     else {
         return $Text;
@@ -1727,18 +1730,19 @@ sub LinkQuote {
     my $TextScalar;
     if ( !ref($Text) ) {
         $TextScalar = $Text;
-        $Text = \$TextScalar;
+        $Text       = \$TextScalar;
     }
 
     my @Filters = ();
     if ( $Self->{FilterText} ) {
         my %Filters = %{ $Self->{FilterText} };
-        foreach my $Filter (sort keys %Filters) {
-            if ($Self->{MainObject}->Require($Filters{$Filter}->{Module})) {
-                my $Object = $Filters{$Filter}->{Module}->new(%{$Self});
+        for my $Filter ( sort keys %Filters ) {
+            if ( $Self->{MainObject}->Require( $Filters{$Filter}->{Module} ) ) {
+                my $Object = $Filters{$Filter}->{Module}->new( %{$Self} );
+
                 # run module
-                if ($Object){
-                    push (@Filters, { Object => $Object, Filter => $Filters{$Filter} } );
+                if ($Object) {
+                    push( @Filters, { Object => $Object, Filter => $Filters{$Filter} } );
                 }
             }
             else {
@@ -1747,18 +1751,18 @@ sub LinkQuote {
         }
     }
     for my $Filter (@Filters) {
-        $Text = $Filter->{Object}->Pre(Filter => $Filter->{Filter}, Data => $Text);
+        $Text = $Filter->{Object}->Pre( Filter => $Filter->{Filter}, Data => $Text );
     }
     for my $Filter (@Filters) {
-        $Text = $Filter->{Object}->Post(Filter => $Filter->{Filter}, Data => $Text);
+        $Text = $Filter->{Object}->Post( Filter => $Filter->{Filter}, Data => $Text );
     }
 
     # do mail to quote
-    ${ $Text } =~ s/(mailto:.*?)(\.\s|\s|\)|\"|]|')/<a href=\"$1\">$1<\/a>$2/gi;
+    ${$Text} =~ s/(mailto:.*?)(\.\s|\s|\)|\"|]|')/<a href=\"$1\">$1<\/a>$2/gi;
 
     # check ref && return result like called
     if ($TextScalar) {
-        return ${ $Text };
+        return ${$Text};
     }
     else {
         return $Text;
@@ -3967,6 +3971,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.100 $ $Date: 2008-07-04 09:07:40 $
+$Revision: 1.101 $ $Date: 2008-07-05 18:40:28 $
 
 =cut

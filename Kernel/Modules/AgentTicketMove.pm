@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.22 2008-07-01 22:31:43 martin Exp $
+# $Id: AgentTicketMove.pm,v 1.23 2008-07-05 18:40:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -173,6 +173,7 @@ sub Run {
 
             next FREETIMENUMBER;
         }
+
         # get freetime data from ticket
         my $TicketFreeTimeString
             = $Self->{TimeObject}->TimeStamp2SystemTime( String => $Ticket{$FreeTimePrefix} );
@@ -241,12 +242,13 @@ sub Run {
         );
         my $NextStates = $Self->_GetNextStates(
             TicketID => $Self->{TicketID},
-            QueueID  => $GetParam{DestQueueID} || 1,
+            QueueID => $GetParam{DestQueueID} || 1,
         );
         my $NextPriorities = $Self->_GetPriorities(
             TicketID => $Self->{TicketID},
-            QueueID  => $GetParam{DestQueueID} || 1,
+            QueueID => $GetParam{DestQueueID} || 1,
         );
+
         # get free text config options
         my @TicketFreeTextConfig = ();
         for ( 1 .. 16 ) {
@@ -328,6 +330,7 @@ sub Run {
 
     # move queue
     if (%Error) {
+
         # ticket free text
         my %TicketFreeText = ();
         for ( 1 .. 16 ) {
@@ -406,13 +409,13 @@ sub Run {
         # get next states
         my $NextStates = $Self->_GetNextStates(
             TicketID => $Self->{TicketID},
-            QueueID  => $GetParam{DestQueueID} || 1,
+            QueueID => $GetParam{DestQueueID} || 1,
         );
 
         # get next priorities
         my $NextPriorities = $Self->_GetPriorities(
             TicketID => $Self->{TicketID},
-            QueueID  => $GetParam{DestQueueID} || 1,
+            QueueID => $GetParam{DestQueueID} || 1,
         );
 
         # get old owners
@@ -661,10 +664,10 @@ sub Run {
 sub AgentMove {
     my ( $Self, %Param ) = @_;
 
-    my %Data          = %{ $Param{MoveQueues} };
-    my %MoveQueues    = %Data;
-    my %UsedData      = ();
-    my %UserHash      = ();
+    my %Data       = %{ $Param{MoveQueues} };
+    my %MoveQueues = %Data;
+    my %UsedData   = ();
+    my %UserHash   = ();
     if ( $Param{OldUser} ) {
         my $Counter = 0;
         for my $User ( reverse @{ $Param{OldUser} } ) {
@@ -749,53 +752,53 @@ sub AgentMove {
         OnChangeSubmit => 0,
         OnChange =>
             "document.compose.NoSubmit.value='1'; document.compose.submit(); return false;",
-            Ajax => {
-                Update => [
-                    'NewUserID',
-                    'NewStateID',
-                    'NewPriorityID',
-                    'TicketFreeText1',
-                    'TicketFreeText2',
-                    'TicketFreeText3',
-                    'TicketFreeText4',
-                    'TicketFreeText5',
-                    'TicketFreeText6',
-                    'TicketFreeText7',
-                    'TicketFreeText8',
-                    'TicketFreeText9',
-                    'TicketFreeText10',
-                    'TicketFreeText11',
-                    'TicketFreeText12',
-                    'TicketFreeText13',
-                    'TicketFreeText14',
-                    'TicketFreeText15',
-                    'TicketFreeText16',
-                ],
-                Depend => [
-                    'TicketID',
-                    'DestQueueID',
-                    'NewUserID',
-                    'OwnerAll',
-                    'NewStateID',
-                    'NewPriorityID',
-                    'TicketFreeText1',
-                    'TicketFreeText2',
-                    'TicketFreeText3',
-                    'TicketFreeText4',
-                    'TicketFreeText5',
-                    'TicketFreeText6',
-                    'TicketFreeText7',
-                    'TicketFreeText8',
-                    'TicketFreeText9',
-                    'TicketFreeText10',
-                    'TicketFreeText11',
-                    'TicketFreeText12',
-                    'TicketFreeText13',
-                    'TicketFreeText14',
-                    'TicketFreeText15',
-                    'TicketFreeText16',
-                ],
-                Subaction => 'AJAXUpdate',
+        Ajax => {
+            Update => [
+                'NewUserID',
+                'NewStateID',
+                'NewPriorityID',
+                'TicketFreeText1',
+                'TicketFreeText2',
+                'TicketFreeText3',
+                'TicketFreeText4',
+                'TicketFreeText5',
+                'TicketFreeText6',
+                'TicketFreeText7',
+                'TicketFreeText8',
+                'TicketFreeText9',
+                'TicketFreeText10',
+                'TicketFreeText11',
+                'TicketFreeText12',
+                'TicketFreeText13',
+                'TicketFreeText14',
+                'TicketFreeText15',
+                'TicketFreeText16',
+            ],
+            Depend => [
+                'TicketID',
+                'DestQueueID',
+                'NewUserID',
+                'OwnerAll',
+                'NewStateID',
+                'NewPriorityID',
+                'TicketFreeText1',
+                'TicketFreeText2',
+                'TicketFreeText3',
+                'TicketFreeText4',
+                'TicketFreeText5',
+                'TicketFreeText6',
+                'TicketFreeText7',
+                'TicketFreeText8',
+                'TicketFreeText9',
+                'TicketFreeText10',
+                'TicketFreeText11',
+                'TicketFreeText12',
+                'TicketFreeText13',
+                'TicketFreeText14',
+                'TicketFreeText15',
+                'TicketFreeText16',
+            ],
+            Subaction => 'AJAXUpdate',
         },
     );
 

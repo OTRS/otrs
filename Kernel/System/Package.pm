@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.79 2008-07-03 17:37:57 martin Exp $
+# $Id: Package.pm,v 1.80 2008-07-05 18:40:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.79 $) [1];
+$VERSION = qw($Revision: 1.80 $) [1];
 
 =head1 NAME
 
@@ -602,12 +602,12 @@ sub PackageUpgrade {
         my @Parts = ();
         for my $Part ( @{ $Structure{CodeUpgrade} } ) {
             if ( $Part->{Version} ) {
-                 my $CheckVersion = $Self->_CheckVersion(
+                my $CheckVersion = $Self->_CheckVersion(
                     Version1 => $Part->{Version},
                     Version2 => $InstalledVersion,
                     Type     => 'Min'
                 );
-                if ( $CheckVersion ) {
+                if ($CheckVersion) {
                     push @Parts, $Part;
                 }
             }
@@ -624,7 +624,7 @@ sub PackageUpgrade {
         my $Use   = 0;
         for my $Part ( @{ $Structure{DatabaseUpgrade}->{pre} } ) {
             if ( $Part->{TagLevel} == 3 && $Part->{Version} ) {
-                 my $CheckVersion = $Self->_CheckVersion(
+                my $CheckVersion = $Self->_CheckVersion(
                     Version1 => $Part->{Version},
                     Version2 => $InstalledVersion,
                     Type     => 'Min'
@@ -702,12 +702,12 @@ sub PackageUpgrade {
         my @Parts = ();
         for my $Part ( @{ $Structure{CodeUpgrade} } ) {
             if ( $Part->{Version} ) {
-                 my $CheckVersion = $Self->_CheckVersion(
+                my $CheckVersion = $Self->_CheckVersion(
                     Version1 => $Part->{Version},
                     Version2 => $InstalledVersion,
                     Type     => 'Min'
                 );
-                if ( $CheckVersion ) {
+                if ($CheckVersion) {
                     push @Parts, $Part;
                 }
             }
@@ -2133,6 +2133,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.79 $ $Date: 2008-07-03 17:37:57 $
+$Revision: 1.80 $ $Date: 2008-07-05 18:40:28 $
 
 =cut
