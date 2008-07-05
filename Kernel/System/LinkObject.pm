@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.44 2008-07-05 15:01:05 mh Exp $
+# $Id: LinkObject.pm,v 1.45 2008-07-05 17:41:35 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 =head1 NAME
 
@@ -1229,6 +1229,160 @@ sub LinkListWithData {
     return $LinkList;
 }
 
+=item LinkKeyList()
+
+return a hash with all existing links of a given object
+
+Return
+    %LinkKeyList = (
+        5   => 1,
+        9   => 1,
+        12  => 1,
+        212 => 1,
+        332 => 1,
+    );
+
+    my %LinkKeyList = $LinkObject->LinkKeyList(
+        Object1   => 'Ticket',
+        Key1      => '321',
+        Object2   => 'FAQ',
+        State     => 'Valid',
+        Type      => 'ParentChild', # (optional)
+        Direction => 'Target',      # (optional) default Both (Source|Target|Both)
+        UserID    => 1,
+    );
+
+=cut
+
+sub LinkKeyList {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Argument (qw(Object1 Key1 Object2 State UserID)) {
+        if ( !$Param{$Argument} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!",
+            );
+            return;
+        }
+    }
+
+    # get the link list
+    my $LinkList = $Self->LinkList(
+        %Param,
+        Object => $Param{Object1},
+        Key    => $Param{Key1},
+    );
+
+    # check link list
+    return if !$LinkList;
+    return if ref $LinkList ne 'HASH';
+
+    # add data to hash
+    my %LinkKeyList;
+    OBJECT:
+    for my $Object ( keys %{$LinkList} ) {
+
+        # extract typelist
+        my $TypeList = $LinkList->{ $Param{Object2} };
+
+        for my $Type ( keys %{$TypeList} ) {
+
+            # extract direction list
+            my $DirectionList = $TypeList->{$Type};
+
+            for my $Direction ( keys %{$DirectionList} ) {
+
+                for my $Key ( keys %{ $DirectionList->{$Direction} } ) {
+
+                    # add id
+                    $LinkKeyList{$Key} = $DirectionList->{$Direction}->{$Key};
+                }
+            }
+        }
+    }
+
+    return %LinkKeyList;
+}
+
+=item LinkKeyListWithData()
+
+return a hash with all existing links of a given object
+
+Return
+    %LinkKeyList = (
+        5   => $DataOfItem5,
+        9   => $DataOfItem9,
+        12  => $DataOfItem12,
+        212 => $DataOfItem212,
+        332 => $DataOfItem332,
+    );
+
+    my %LinkKeyList = $LinkObject->LinkKeyListWithData(
+        Object1   => 'Ticket',
+        Key1      => '321',
+        Object2   => 'FAQ',
+        State     => 'Valid',
+        Type      => 'ParentChild', # (optional)
+        Direction => 'Target',      # (optional) default Both (Source|Target|Both)
+        UserID    => 1,
+    );
+
+=cut
+
+sub LinkKeyListWithData {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Argument (qw(Object1 Key1 Object2 State UserID)) {
+        if ( !$Param{$Argument} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!",
+            );
+            return;
+        }
+    }
+
+    # get the link list
+    my $LinkList = $Self->LinkListWithData(
+        %Param,
+        Object => $Param{Object1},
+        Key    => $Param{Key1},
+    );
+
+    # check link list
+    return if !$LinkList;
+    return if ref $LinkList ne 'HASH';
+
+    # add data to hash
+    my %LinkKeyList;
+    OBJECT:
+    for my $Object ( keys %{$LinkList} ) {
+
+        # extract typelist
+        my $TypeList = $LinkList->{ $Param{Object2} };
+
+        for my $Type ( keys %{$TypeList} ) {
+
+            # extract direction list
+            my $DirectionList = $TypeList->{$Type};
+
+            for my $Direction ( keys %{$DirectionList} ) {
+
+                for my $Key ( keys %{ $DirectionList->{$Direction} } ) {
+
+                    # add id
+                    $LinkKeyList{$Key} = $DirectionList->{$Direction}->{$Key};
+                }
+            }
+        }
+    }
+
+    return %LinkKeyList;
+}
+
 =item ObjectLookup()
 
 lookup a link object
@@ -2153,6 +2307,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.44 $ $Date: 2008-07-05 15:01:05 $
+$Revision: 1.45 $ $Date: 2008-07-05 17:41:35 $
 
 =cut
