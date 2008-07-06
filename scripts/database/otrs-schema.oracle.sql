@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2008-07-06 11:41:44
+--  driver: oracle, generated: 2008-07-07 00:24:52
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -21,9 +21,11 @@ CREATE OR REPLACE TRIGGER SE_valid_t
 before insert on valid
 for each row
 begin
+  if :new.id IS NULL then
     select SE_valid.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -49,9 +51,11 @@ CREATE OR REPLACE TRIGGER SE_ticket_priority_t
 before insert on ticket_priority
 for each row
 begin
+  if :new.id IS NULL then
     select SE_ticket_priority.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -77,9 +81,11 @@ CREATE OR REPLACE TRIGGER SE_ticket_type_t
 before insert on ticket_type
 for each row
 begin
+  if :new.id IS NULL then
     select SE_ticket_type.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -106,9 +112,11 @@ CREATE OR REPLACE TRIGGER SE_ticket_lock_type_t
 before insert on ticket_lock_type
 for each row
 begin
+  if :new.id IS NULL then
     select SE_ticket_lock_type.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -139,9 +147,11 @@ CREATE OR REPLACE TRIGGER SE_users_t
 before insert on users
 for each row
 begin
+  if :new.id IS NULL then
     select SE_users.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -178,9 +188,11 @@ CREATE OR REPLACE TRIGGER SE_groups_t
 before insert on groups
 for each row
 begin
+  if :new.id IS NULL then
     select SE_groups.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -259,9 +271,11 @@ CREATE OR REPLACE TRIGGER SE_roles_t
 before insert on roles
 for each row
 begin
+  if :new.id IS NULL then
     select SE_roles.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -312,9 +326,11 @@ CREATE OR REPLACE TRIGGER SE_theme_t
 before insert on theme
 for each row
 begin
+  if :new.id IS NULL then
     select SE_theme.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -343,9 +359,11 @@ CREATE OR REPLACE TRIGGER SE_ticket_state_t
 before insert on ticket_state
 for each row
 begin
+  if :new.id IS NULL then
     select SE_ticket_state.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -373,9 +391,11 @@ CREATE OR REPLACE TRIGGER SE_ticket_state_type_t
 before insert on ticket_state_type
 for each row
 begin
+  if :new.id IS NULL then
     select SE_ticket_state_type.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -403,9 +423,11 @@ CREATE OR REPLACE TRIGGER SE_salutation_t
 before insert on salutation
 for each row
 begin
+  if :new.id IS NULL then
     select SE_salutation.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -434,9 +456,11 @@ CREATE OR REPLACE TRIGGER SE_signature_t
 before insert on signature
 for each row
 begin
+  if :new.id IS NULL then
     select SE_signature.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -467,9 +491,11 @@ CREATE OR REPLACE TRIGGER SE_system_address_t
 before insert on system_address
 for each row
 begin
+  if :new.id IS NULL then
     select SE_system_address.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -497,9 +523,11 @@ CREATE OR REPLACE TRIGGER SE_follow_up_possible_t
 before insert on follow_up_possible
 for each row
 begin
+  if :new.id IS NULL then
     select SE_follow_up_possible.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -546,9 +574,11 @@ CREATE OR REPLACE TRIGGER SE_queue_t
 before insert on queue
 for each row
 begin
+  if :new.id IS NULL then
     select SE_queue.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -652,9 +682,11 @@ CREATE OR REPLACE TRIGGER SE_ticket_t
 before insert on ticket
 for each row
 begin
+  if :new.id IS NULL then
     select SE_ticket.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -699,9 +731,11 @@ CREATE OR REPLACE TRIGGER SE_link_type_t
 before insert on link_type
 for each row
 begin
+  if :new.id IS NULL then
     select SE_link_type.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -728,9 +762,11 @@ CREATE OR REPLACE TRIGGER SE_link_state_t
 before insert on link_state
 for each row
 begin
+  if :new.id IS NULL then
     select SE_link_state.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -752,9 +788,11 @@ CREATE OR REPLACE TRIGGER SE_link_object_t
 before insert on link_object
 for each row
 begin
+  if :new.id IS NULL then
     select SE_link_object.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -804,9 +842,11 @@ CREATE OR REPLACE TRIGGER SE_ticket_history_t
 before insert on ticket_history
 for each row
 begin
+  if :new.id IS NULL then
     select SE_ticket_history.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -843,9 +883,11 @@ CREATE OR REPLACE TRIGGER SE_ticket_history_type_t
 before insert on ticket_history_type
 for each row
 begin
+  if :new.id IS NULL then
     select SE_ticket_history_type.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -873,9 +915,11 @@ CREATE OR REPLACE TRIGGER SE_article_type_t
 before insert on article_type
 for each row
 begin
+  if :new.id IS NULL then
     select SE_article_type.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -903,9 +947,11 @@ CREATE OR REPLACE TRIGGER SE_article_sender_type_t
 before insert on article_sender_type
 for each row
 begin
+  if :new.id IS NULL then
     select SE_article_sender_type.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -960,9 +1006,11 @@ CREATE OR REPLACE TRIGGER SE_article_t
 before insert on article
 for each row
 begin
+  if :new.id IS NULL then
     select SE_article.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -1002,9 +1050,11 @@ CREATE OR REPLACE TRIGGER SE_article_search_t
 before insert on article_search
 for each row
 begin
+  if :new.id IS NULL then
     select SE_article_search.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -1031,9 +1081,11 @@ CREATE OR REPLACE TRIGGER SE_article_plain_t
 before insert on article_plain
 for each row
 begin
+  if :new.id IS NULL then
     select SE_article_plain.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -1062,9 +1114,11 @@ CREATE OR REPLACE TRIGGER SE_article_attachment_t
 before insert on article_attachment
 for each row
 begin
+  if :new.id IS NULL then
     select SE_article_attachment.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -1093,9 +1147,11 @@ CREATE OR REPLACE TRIGGER SE_standard_response_t
 before insert on standard_response
 for each row
 begin
+  if :new.id IS NULL then
     select SE_standard_response.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -1141,9 +1197,11 @@ CREATE OR REPLACE TRIGGER SE_standard_attachment_t
 before insert on standard_attachment
 for each row
 begin
+  if :new.id IS NULL then
     select SE_standard_attachment.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -1169,9 +1227,11 @@ CREATE OR REPLACE TRIGGER SE_standard_response_attace7_t
 before insert on standard_response_attachment
 for each row
 begin
+  if :new.id IS NULL then
     select SE_standard_response_attace7.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -1200,9 +1260,11 @@ CREATE OR REPLACE TRIGGER SE_auto_response_type_t
 before insert on auto_response_type
 for each row
 begin
+  if :new.id IS NULL then
     select SE_auto_response_type.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -1236,9 +1298,11 @@ CREATE OR REPLACE TRIGGER SE_auto_response_t
 before insert on auto_response
 for each row
 begin
+  if :new.id IS NULL then
     select SE_auto_response.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -1266,9 +1330,11 @@ CREATE OR REPLACE TRIGGER SE_queue_auto_response_t
 before insert on queue_auto_response
 for each row
 begin
+  if :new.id IS NULL then
     select SE_queue_auto_response.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -1296,9 +1362,11 @@ CREATE OR REPLACE TRIGGER SE_time_accounting_t
 before insert on time_accounting
 for each row
 begin
+  if :new.id IS NULL then
     select SE_time_accounting.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -1342,9 +1410,11 @@ CREATE OR REPLACE TRIGGER SE_service_t
 before insert on service
 for each row
 begin
+  if :new.id IS NULL then
     select SE_service.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -1390,9 +1460,11 @@ CREATE OR REPLACE TRIGGER SE_sla_t
 before insert on sla
 for each row
 begin
+  if :new.id IS NULL then
     select SE_sla.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -1465,9 +1537,11 @@ CREATE OR REPLACE TRIGGER SE_customer_user_t
 before insert on customer_user
 for each row
 begin
+  if :new.id IS NULL then
     select SE_customer_user.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -1537,9 +1611,11 @@ CREATE OR REPLACE TRIGGER SE_mail_account_t
 before insert on mail_account
 for each row
 begin
+  if :new.id IS NULL then
     select SE_mail_account.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -1619,9 +1695,11 @@ CREATE OR REPLACE TRIGGER SE_notifications_t
 before insert on notifications
 for each row
 begin
+  if :new.id IS NULL then
     select SE_notifications.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
@@ -1663,9 +1741,11 @@ CREATE OR REPLACE TRIGGER SE_package_repository_t
 before insert on package_repository
 for each row
 begin
+  if :new.id IS NULL then
     select SE_package_repository.nextval
     into :new.id
     from dual;
+  end if
 end;
 /
 --;
