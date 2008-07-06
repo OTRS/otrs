@@ -2,7 +2,7 @@
 # Kernel/System/DB/mssql.pm - mssql database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: mssql.pm,v 1.39 2008-06-23 19:47:46 martin Exp $
+# $Id: mssql.pm,v 1.40 2008-07-06 22:36:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -578,6 +578,11 @@ sub Insert {
             $SQL .= "INSERT INTO $Tag->{Table} ";
         }
         if ( $Tag->{Tag} eq 'Data' && $Tag->{TagType} eq 'Start' ) {
+
+            # do not use auto increment values
+            if ( $Tag->{Type} && $Tag->{Type} =~ /^AutoIncrement$/i ) {
+                next;
+            }
             $Tag->{Key} = ${ $Self->Quote( \$Tag->{Key} ) };
             push @Keys, $Tag->{Key};
             my $Value;
