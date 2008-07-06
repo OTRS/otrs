@@ -2,7 +2,7 @@
 # Kernel/System/DB/oracle.pm - oracle database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: oracle.pm,v 1.49 2008-06-23 19:47:46 martin Exp $
+# $Id: oracle.pm,v 1.50 2008-07-06 19:21:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -180,7 +180,7 @@ sub TableCreate {
 
         # handle default
         if ( defined $Tag->{Default} ) {
-            if ( $Tag->{Type} =~ /int/i ) {
+            if ( $Tag->{Type} =~ /(int|number)/i ) {
                 $SQL .= " DEFAULT " . $Tag->{Default};
             }
             else {
@@ -365,22 +365,6 @@ sub TableAlter {
             # normal data type
             my $SQLEnd = $SQLStart . " ADD $Tag->{Name} $Tag->{Type}";
 
-            # handle require
-            if ( !defined $Tag->{Default} && $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
-                $SQLEnd .= ' NOT NULL';
-            }
-            else {
-                $SQLEnd .= ' NULL';
-            }
-
-            # default value
-            if ( $Tag->{Type} =~ /int/i ) {
-                $SQLEnd .= " DEFAULT $Tag->{Default}";
-            }
-            else {
-                $SQLEnd .= " DEFAULT '$Tag->{Default}'";
-            }
-
             # auto increment
             if ( $Tag->{AutoIncrement} && $Tag->{AutoIncrement} =~ /^true$/i ) {
                 $SQLEnd .= ' AUTO_INCREMENT';
@@ -394,7 +378,7 @@ sub TableAlter {
 
             # handle default
             if ( defined $Tag->{Default} ) {
-                if ( $Tag->{Type} =~ /int/i ) {
+                if ( $Tag->{Type} =~ /(int|number)/i ) {
                     push @SQL,
                         "UPDATE $Table SET $Tag->{Name} = $Tag->{Default} WHERE $Tag->{Name} IS NULL";
                 }
@@ -412,7 +396,7 @@ sub TableAlter {
                     $SQLEnd .= ' NULL';
                 }
 
-                if ( $Tag->{Type} =~ /int/i ) {
+                if ( $Tag->{Type} =~ /(int|number)/i ) {
                     $SQLEnd .= " DEFAULT " . $Tag->{Default};
                 }
                 else {
@@ -459,7 +443,7 @@ sub TableAlter {
 
             # handle default
             if ( defined $Tag->{Default} ) {
-                if ( $Tag->{Type} =~ /int/i ) {
+                if ( $Tag->{Type} =~ /(int|number)/i ) {
                     push @SQL,
                         "UPDATE $Table SET $Tag->{Name} = $Tag->{Default} WHERE $Tag->{Name} IS NULL";
                 }
@@ -477,7 +461,7 @@ sub TableAlter {
                     $SQLEnd .= ' NULL';
                 }
 
-                if ( $Tag->{Type} =~ /int/i ) {
+                if ( $Tag->{Type} =~ /(int|number)/i ) {
                     $SQLEnd .= " DEFAULT " . $Tag->{Default};
                 }
                 else {

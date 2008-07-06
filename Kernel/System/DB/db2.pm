@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # Modified for DB2 UDB Friedmar Moch <friedmar@acm.org>
 # --
-# $Id: db2.pm,v 1.46 2008-06-10 17:36:43 martin Exp $
+# $Id: db2.pm,v 1.47 2008-07-06 19:21:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -329,14 +329,6 @@ sub TableAlter {
             my $SQLEnd = $SQLStart . " ADD $Tag->{Name} $Tag->{Type}";
             if ( $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
                 $SQLEnd .= ' NOT NULL';
-            }
-
-            # set default if not exists
-            if ( $Tag->{Type} =~ /int/i ) {
-                $Tag->{Default} ||= 0;
-            }
-            else {
-                $Tag->{Default} ||= '';
             }
 
             # default value
