@@ -5,7 +5,7 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 
-    $Id: otrs-schema.xml,v 1.93 2008-06-10 12:24:49 martin Exp $
+    $Id: otrs-schema.xml,v 1.94 2008-07-06 18:46:55 martin Exp $
 
 -->
 
@@ -967,6 +967,48 @@
     <ForeignKey ForeignTable="users">
         <Reference Local="create_by" Foreign="id"/>
         <Reference Local="change_by" Foreign="id"/>
+    </ForeignKey>
+</Table>
+
+<!-- article_search - article search index -->
+<Table Name="article_search">
+    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
+    <Column Name="ticket_id" Required="true" Type="BIGINT"/>
+    <Column Name="article_type_id" Required="true" Type="SMALLINT"/>
+    <Column Name="article_sender_type_id" Required="true" Type="SMALLINT"/>
+    <Column Name="a_from" Required="false" Size="3800" Type="VARCHAR"/>
+    <Column Name="a_to" Required="false" Size="3800" Type="VARCHAR"/>
+    <Column Name="a_cc" Required="false" Size="3800" Type="VARCHAR"/>
+    <Column Name="a_subject" Required="false" Size="3800" Type="VARCHAR"/>
+    <Column Name="a_message_id" Required="false" Size="3800" Type="VARCHAR"/>
+    <Column Name="a_body" Required="true" Size="1800000" Type="VARCHAR"/>
+    <Column Name="incoming_time" Required="true" Type="INTEGER"/>
+    <Column Name="a_freekey1" Required="false" Size="250" Type="VARCHAR"/>
+    <Column Name="a_freetext1" Required="false" Size="250" Type="VARCHAR"/>
+    <Column Name="a_freekey2" Required="false" Size="250" Type="VARCHAR"/>
+    <Column Name="a_freetext2" Required="false" Size="250" Type="VARCHAR"/>
+    <Column Name="a_freekey3" Required="false" Size="250" Type="VARCHAR"/>
+    <Column Name="a_freetext3" Required="false" Size="250" Type="VARCHAR"/>
+    <Index Name="article_search_ticket_id">
+        <IndexColumn Name="ticket_id"/>
+    </Index>
+    <Index Name="article_search_article_type_id">
+        <IndexColumn Name="article_type_id"/>
+    </Index>
+    <Index Name="article_search_article_sender_type_id">
+        <IndexColumn Name="article_sender_type_id"/>
+    </Index>
+    <Index Name="article_search_message_id">
+        <IndexColumn Name="a_message_id" Size="255"/>
+    </Index>
+    <ForeignKey ForeignTable="ticket">
+        <Reference Local="ticket_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="article_type">
+        <Reference Local="article_type_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="article_sender_type">
+        <Reference Local="article_sender_type_id" Foreign="id"/>
     </ForeignKey>
 </Table>
 

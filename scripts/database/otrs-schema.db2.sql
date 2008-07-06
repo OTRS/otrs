@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2008-06-10 14:13:43
+--  driver: db2, generated: 2008-07-06 11:41:43
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -672,6 +672,38 @@ CREATE INDEX article_article_type_id ON article (article_type_id);
 CREATE INDEX article_message_id ON article (a_message_id);
 
 CREATE INDEX article_ticket_id ON article (ticket_id);
+
+-- ----------------------------------------------------------
+--  create table article_search
+-- ----------------------------------------------------------
+CREATE TABLE article_search (
+    id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+    ticket_id BIGINT NOT NULL,
+    article_type_id SMALLINT NOT NULL,
+    article_sender_type_id SMALLINT NOT NULL,
+    a_from VARCHAR (3800),
+    a_to VARCHAR (3800),
+    a_cc VARCHAR (3800),
+    a_subject VARCHAR (3800),
+    a_message_id VARCHAR (3800),
+    a_body CLOB (14062K) NOT NULL,
+    incoming_time INTEGER NOT NULL,
+    a_freekey1 VARCHAR (250),
+    a_freetext1 VARCHAR (250),
+    a_freekey2 VARCHAR (250),
+    a_freetext2 VARCHAR (250),
+    a_freekey3 VARCHAR (250),
+    a_freetext3 VARCHAR (250),
+    PRIMARY KEY(id)
+);
+
+CREATE INDEX article_search_article_sender_c7 ON article_search (article_sender_type_id);
+
+CREATE INDEX article_search_article_type_id ON article_search (article_type_id);
+
+CREATE INDEX article_search_message_id ON article_search (a_message_id);
+
+CREATE INDEX article_search_ticket_id ON article_search (ticket_id);
 
 -- ----------------------------------------------------------
 --  create table article_plain

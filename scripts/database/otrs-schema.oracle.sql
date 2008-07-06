@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2008-05-16 13:10:20
+--  driver: oracle, generated: 2008-07-06 11:41:44
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -973,6 +973,45 @@ CREATE INDEX article_article_sender_type_id ON article (article_sender_type_id);
 CREATE INDEX article_article_type_id ON article (article_type_id);
 CREATE INDEX article_message_id ON article (a_message_id);
 CREATE INDEX article_ticket_id ON article (ticket_id);
+-- ----------------------------------------------------------
+--  create table article_search
+-- ----------------------------------------------------------
+CREATE TABLE article_search (
+    id NUMBER (20, 0) NOT NULL,
+    ticket_id NUMBER (20, 0) NOT NULL,
+    article_type_id NUMBER (5, 0) NOT NULL,
+    article_sender_type_id NUMBER (5, 0) NOT NULL,
+    a_from VARCHAR2 (3800),
+    a_to VARCHAR2 (3800),
+    a_cc VARCHAR2 (3800),
+    a_subject VARCHAR2 (3800),
+    a_message_id VARCHAR2 (3800),
+    a_body CLOB NOT NULL,
+    incoming_time NUMBER (12, 0) NOT NULL,
+    a_freekey1 VARCHAR2 (250),
+    a_freetext1 VARCHAR2 (250),
+    a_freekey2 VARCHAR2 (250),
+    a_freetext2 VARCHAR2 (250),
+    a_freekey3 VARCHAR2 (250),
+    a_freetext3 VARCHAR2 (250)
+);
+ALTER TABLE article_search ADD CONSTRAINT PK_article_search PRIMARY KEY (id);
+DROP SEQUENCE SE_article_search;
+CREATE SEQUENCE SE_article_search;
+CREATE OR REPLACE TRIGGER SE_article_search_t
+before insert on article_search
+for each row
+begin
+    select SE_article_search.nextval
+    into :new.id
+    from dual;
+end;
+/
+--;
+CREATE INDEX article_search_article_sendec7 ON article_search (article_sender_type_id);
+CREATE INDEX article_search_article_type_id ON article_search (article_type_id);
+CREATE INDEX article_search_message_id ON article_search (a_message_id);
+CREATE INDEX article_search_ticket_id ON article_search (ticket_id);
 -- ----------------------------------------------------------
 --  create table article_plain
 -- ----------------------------------------------------------

@@ -1,5 +1,5 @@
 // ----------------------------------------------------------
-//  driver: maxdb, generated: 2008-05-15 20:29:11
+//  driver: maxdb, generated: 2008-07-06 11:41:43
 // ----------------------------------------------------------
 ALTER TABLE valid ADD FOREIGN KEY (create_by) REFERENCES users(id)
 //
@@ -232,6 +232,12 @@ ALTER TABLE article ADD FOREIGN KEY (create_by) REFERENCES users(id)
 ALTER TABLE article ADD FOREIGN KEY (change_by) REFERENCES users(id)
 //
 ALTER TABLE article ADD FOREIGN KEY (valid_id) REFERENCES valid(id)
+//
+ALTER TABLE article_search ADD FOREIGN KEY (article_sender_type_id) REFERENCES article_sender_type(id)
+//
+ALTER TABLE article_search ADD FOREIGN KEY (article_type_id) REFERENCES article_type(id)
+//
+ALTER TABLE article_search ADD FOREIGN KEY (ticket_id) REFERENCES ticket(id)
 //
 ALTER TABLE article_plain ADD FOREIGN KEY (article_id) REFERENCES article(id)
 //

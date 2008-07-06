@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2008-05-16 13:10:20
+#  driver: mysql, generated: 2008-07-06 11:41:44
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -596,6 +596,33 @@ CREATE TABLE article (
     INDEX article_article_type_id (article_type_id),
     INDEX article_message_id (a_message_id(255)),
     INDEX article_ticket_id (ticket_id)
+);
+# ----------------------------------------------------------
+#  create table article_search
+# ----------------------------------------------------------
+CREATE TABLE article_search (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    ticket_id BIGINT NOT NULL,
+    article_type_id SMALLINT NOT NULL,
+    article_sender_type_id SMALLINT NOT NULL,
+    a_from TEXT,
+    a_to TEXT,
+    a_cc TEXT,
+    a_subject TEXT,
+    a_message_id TEXT,
+    a_body MEDIUMTEXT NOT NULL,
+    incoming_time INTEGER NOT NULL,
+    a_freekey1 VARCHAR (250),
+    a_freetext1 VARCHAR (250),
+    a_freekey2 VARCHAR (250),
+    a_freetext2 VARCHAR (250),
+    a_freekey3 VARCHAR (250),
+    a_freetext3 VARCHAR (250),
+    PRIMARY KEY(id),
+    INDEX article_search_article_sender_type_id (article_sender_type_id),
+    INDEX article_search_article_type_id (article_type_id),
+    INDEX article_search_message_id (a_message_id(255)),
+    INDEX article_search_ticket_id (ticket_id)
 );
 # ----------------------------------------------------------
 #  create table article_plain
