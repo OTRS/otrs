@@ -1,54 +1,54 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2008-07-06 21:15:10
+--  driver: db2, generated: 2008-07-07 00:16:37
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  insert into table valid
 -- ----------------------------------------------------------
-INSERT INTO valid (id, name, create_by, create_time, change_by, change_time)
+INSERT INTO valid (name, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 'valid', 1, current_timestamp, 1, current_timestamp);
+    ('valid', 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table valid
 -- ----------------------------------------------------------
-INSERT INTO valid (id, name, create_by, create_time, change_by, change_time)
+INSERT INTO valid (name, create_by, create_time, change_by, change_time)
     VALUES
-    (2, 'invalid', 1, current_timestamp, 1, current_timestamp);
+    ('invalid', 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table valid
 -- ----------------------------------------------------------
-INSERT INTO valid (id, name, create_by, create_time, change_by, change_time)
+INSERT INTO valid (name, create_by, create_time, change_by, change_time)
     VALUES
-    (3, 'invalid-temporarily', 1, current_timestamp, 1, current_timestamp);
+    ('invalid-temporarily', 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table users
 -- ----------------------------------------------------------
-INSERT INTO users (id, first_name, last_name, login, pw, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO users (first_name, last_name, login, pw, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 'Admin', 'OTRS', 'root@localhost', 'roK20XGbWEsSM', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Admin', 'OTRS', 'root@localhost', 'roK20XGbWEsSM', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table groups
 -- ----------------------------------------------------------
-INSERT INTO groups (id, name, comments, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO groups (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 'users', 'Group for default access.', 1, 1, current_timestamp, 1, current_timestamp);
+    ('users', 'Group for default access.', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table groups
 -- ----------------------------------------------------------
-INSERT INTO groups (id, name, comments, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO groups (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (2, 'admin', 'Group of all admins.', 1, 1, current_timestamp, 1, current_timestamp);
+    ('admin', 'Group of all admins.', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table groups
 -- ----------------------------------------------------------
-INSERT INTO groups (id, name, comments, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO groups (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (3, 'stats', 'Group for stats access.', 1, 1, current_timestamp, 1, current_timestamp);
+    ('stats', 'Group for stats access.', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table group_user
@@ -116,198 +116,198 @@ INSERT INTO link_state (name, valid_id, create_by, create_time, change_by, chang
 -- ----------------------------------------------------------
 --  insert into table ticket_state_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_state_type (id, name, comments, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_state_type (name, comments, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 'new', 'All new state types (default: viewable).', 1, current_timestamp, 1, current_timestamp);
+    ('new', 'All new state types (default: viewable).', 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_state_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_state_type (id, name, comments, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_state_type (name, comments, create_by, create_time, change_by, change_time)
     VALUES
-    (2, 'open', 'All open state types (default: viewable).', 1, current_timestamp, 1, current_timestamp);
+    ('open', 'All open state types (default: viewable).', 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_state_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_state_type (id, name, comments, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_state_type (name, comments, create_by, create_time, change_by, change_time)
     VALUES
-    (3, 'closed', 'All closed state types (default: not viewable).', 1, current_timestamp, 1, current_timestamp);
+    ('closed', 'All closed state types (default: not viewable).', 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_state_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_state_type (id, name, comments, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_state_type (name, comments, create_by, create_time, change_by, change_time)
     VALUES
-    (4, 'pending reminder', 'All ''pending reminder'' state types (default: viewable).', 1, current_timestamp, 1, current_timestamp);
+    ('pending reminder', 'All ''pending reminder'' state types (default: viewable).', 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_state_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_state_type (id, name, comments, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_state_type (name, comments, create_by, create_time, change_by, change_time)
     VALUES
-    (5, 'pending auto', 'All ''pending auto *'' state types (default: viewable).', 1, current_timestamp, 1, current_timestamp);
+    ('pending auto', 'All ''pending auto *'' state types (default: viewable).', 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_state_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_state_type (id, name, comments, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_state_type (name, comments, create_by, create_time, change_by, change_time)
     VALUES
-    (6, 'removed', 'All ''removed'' state types (default: not viewable).', 1, current_timestamp, 1, current_timestamp);
+    ('removed', 'All ''removed'' state types (default: not viewable).', 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_state_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_state_type (id, name, comments, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_state_type (name, comments, create_by, create_time, change_by, change_time)
     VALUES
-    (7, 'merged', 'State type for merged tickets (default: not viewable).', 1, current_timestamp, 1, current_timestamp);
+    ('merged', 'State type for merged tickets (default: not viewable).', 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_state
 -- ----------------------------------------------------------
-INSERT INTO ticket_state (id, name, comments, type_id, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_state (name, comments, type_id, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 'new', 'New ticket created by customer.', 1, 1, 1, current_timestamp, 1, current_timestamp);
+    ('new', 'New ticket created by customer.', 1, 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_state
 -- ----------------------------------------------------------
-INSERT INTO ticket_state (id, name, comments, type_id, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_state (name, comments, type_id, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (2, 'closed successful', 'Ticket is closed successful.', 3, 1, 1, current_timestamp, 1, current_timestamp);
+    ('closed successful', 'Ticket is closed successful.', 3, 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_state
 -- ----------------------------------------------------------
-INSERT INTO ticket_state (id, name, comments, type_id, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_state (name, comments, type_id, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (3, 'closed unsuccessful', 'Ticket is closed unsuccessful.', 3, 1, 1, current_timestamp, 1, current_timestamp);
+    ('closed unsuccessful', 'Ticket is closed unsuccessful.', 3, 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_state
 -- ----------------------------------------------------------
-INSERT INTO ticket_state (id, name, comments, type_id, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_state (name, comments, type_id, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (4, 'open', 'Open tickets.', 2, 1, 1, current_timestamp, 1, current_timestamp);
+    ('open', 'Open tickets.', 2, 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_state
 -- ----------------------------------------------------------
-INSERT INTO ticket_state (id, name, comments, type_id, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_state (name, comments, type_id, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (5, 'removed', 'Customer removed ticket.', 6, 1, 1, current_timestamp, 1, current_timestamp);
+    ('removed', 'Customer removed ticket.', 6, 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_state
 -- ----------------------------------------------------------
-INSERT INTO ticket_state (id, name, comments, type_id, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_state (name, comments, type_id, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (6, 'pending reminder', 'Ticket is pending for agent reminder.', 4, 1, 1, current_timestamp, 1, current_timestamp);
+    ('pending reminder', 'Ticket is pending for agent reminder.', 4, 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_state
 -- ----------------------------------------------------------
-INSERT INTO ticket_state (id, name, comments, type_id, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_state (name, comments, type_id, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (7, 'pending auto close+', 'Ticket is pending for automatic close.', 5, 1, 1, current_timestamp, 1, current_timestamp);
+    ('pending auto close+', 'Ticket is pending for automatic close.', 5, 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_state
 -- ----------------------------------------------------------
-INSERT INTO ticket_state (id, name, comments, type_id, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_state (name, comments, type_id, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (8, 'pending auto close-', 'Ticket is pending for automatic close.', 5, 1, 1, current_timestamp, 1, current_timestamp);
+    ('pending auto close-', 'Ticket is pending for automatic close.', 5, 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_state
 -- ----------------------------------------------------------
-INSERT INTO ticket_state (id, name, comments, type_id, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_state (name, comments, type_id, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (9, 'merged', 'State for merged tickets.', 7, 1, 1, current_timestamp, 1, current_timestamp);
+    ('merged', 'State for merged tickets.', 7, 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table salutation
 -- ----------------------------------------------------------
-INSERT INTO salutation (id, name, text, comments, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO salutation (name, text, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 'system standard salutation (en)', 'Dear <OTRS_CUSTOMER_REALNAME>,Thank you for your request.', 'Standard Salutation.', 1, 1, current_timestamp, 1, current_timestamp);
+    ('system standard salutation (en)', 'Dear <OTRS_CUSTOMER_REALNAME>,Thank you for your request.', 'Standard Salutation.', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table signature
 -- ----------------------------------------------------------
-INSERT INTO signature (id, name, text, comments, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO signature (name, text, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 'system standard signature (en)', 'Your Ticket-Team <OTRS_Agent_UserFirstname> <OTRS_Agent_UserLastname>-- Super Support - Waterford Business Park 5201 Blue Lagoon Drive - 8th Floor & 9th Floor - Miami, 33126 USA Email: hot@example.com - Web: http://www.example.com/--', 'Standard Signature.', 1, 1, current_timestamp, 1, current_timestamp);
+    ('system standard signature (en)', 'Your Ticket-Team <OTRS_Agent_UserFirstname> <OTRS_Agent_UserLastname>-- Super Support - Waterford Business Park 5201 Blue Lagoon Drive - 8th Floor & 9th Floor - Miami, 33126 USA Email: hot@example.com - Web: http://www.example.com/--', 'Standard Signature.', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table system_address
 -- ----------------------------------------------------------
-INSERT INTO system_address (id, value0, value1, comments, valid_id, queue_id, create_by, create_time, change_by, change_time)
+INSERT INTO system_address (value0, value1, comments, valid_id, queue_id, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 'otrs@localhost', 'OTRS System', 'Standard Address.', 1, 1, 1, current_timestamp, 1, current_timestamp);
+    ('otrs@localhost', 'OTRS System', 'Standard Address.', 1, 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table follow_up_possible
 -- ----------------------------------------------------------
-INSERT INTO follow_up_possible (id, name, comments, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO follow_up_possible (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 'possible', 'Follow ups after closed(+|-) possible. Ticket will be reopen.', 1, 1, current_timestamp, 1, current_timestamp);
+    ('possible', 'Follow ups after closed(+|-) possible. Ticket will be reopen.', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table follow_up_possible
 -- ----------------------------------------------------------
-INSERT INTO follow_up_possible (id, name, comments, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO follow_up_possible (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (2, 'reject', 'Follow ups after closed(+|-) not possible. No new ticket will be created.', 1, 1, current_timestamp, 1, current_timestamp);
+    ('reject', 'Follow ups after closed(+|-) not possible. No new ticket will be created.', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table follow_up_possible
 -- ----------------------------------------------------------
-INSERT INTO follow_up_possible (id, name, comments, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO follow_up_possible (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (3, 'new ticket', 'Follow ups after closed(+|-) not possible. A new ticket will be created..', 1, 1, current_timestamp, 1, current_timestamp);
+    ('new ticket', 'Follow ups after closed(+|-) not possible. A new ticket will be created..', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table queue
 -- ----------------------------------------------------------
-INSERT INTO queue (id, name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comments, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO queue (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 'Postmaster', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 'Post master queue.', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Postmaster', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 'Post master queue.', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table queue
 -- ----------------------------------------------------------
-INSERT INTO queue (id, name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comments, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO queue (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (2, 'Raw', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 'All default incoming ticket.', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Raw', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 'All default incoming ticket.', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table queue
 -- ----------------------------------------------------------
-INSERT INTO queue (id, name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comments, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO queue (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (3, 'Junk', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 'All junk tickets.', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Junk', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 'All junk tickets.', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table queue
 -- ----------------------------------------------------------
-INSERT INTO queue (id, name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comments, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO queue (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (4, 'Misc', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 'All misc tickets.', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Misc', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 'All misc tickets.', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table standard_response
 -- ----------------------------------------------------------
-INSERT INTO standard_response (id, name, text, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO standard_response (name, text, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 'empty answer', '', 1, 1, current_timestamp, 1, current_timestamp);
+    ('empty answer', '', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table standard_response
 -- ----------------------------------------------------------
-INSERT INTO standard_response (id, name, text, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO standard_response (name, text, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (2, 'test answer', 'Some test answer to show how a standard response can be used.', 1, 1, current_timestamp, 1, current_timestamp);
+    ('test answer', 'Some test answer to show how a standard response can be used.', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table queue_standard_response
@@ -340,520 +340,520 @@ INSERT INTO queue_standard_response (queue_id, standard_response_id, create_by, 
 -- ----------------------------------------------------------
 --  insert into table auto_response_type
 -- ----------------------------------------------------------
-INSERT INTO auto_response_type (id, name, comments, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO auto_response_type (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 'auto reply', 'Auto replay which will be sent out after a new ticket has been created.', 1, 1, current_timestamp, 1, current_timestamp);
+    ('auto reply', 'Auto replay which will be sent out after a new ticket has been created.', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table auto_response_type
 -- ----------------------------------------------------------
-INSERT INTO auto_response_type (id, name, comments, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO auto_response_type (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (2, 'auto reject', 'Auto reject which will be sent out after a follow up has been rejected (in case queue follow up option is "reject").', 1, 1, current_timestamp, 1, current_timestamp);
+    ('auto reject', 'Auto reject which will be sent out after a follow up has been rejected (in case queue follow up option is "reject").', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table auto_response_type
 -- ----------------------------------------------------------
-INSERT INTO auto_response_type (id, name, comments, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO auto_response_type (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (3, 'auto follow up', 'Auto follow up is sent out after a added follow up has been received for a ticket (in case queue follow up option is "possible").', 1, 1, current_timestamp, 1, current_timestamp);
+    ('auto follow up', 'Auto follow up is sent out after a added follow up has been received for a ticket (in case queue follow up option is "possible").', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table auto_response_type
 -- ----------------------------------------------------------
-INSERT INTO auto_response_type (id, name, comments, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO auto_response_type (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (4, 'auto reply/new ticket', 'Auto reply/new ticket which will be sent out after a follow up has been rejected and a new ticket has been created (in case queue follow up option is "new ticket").', 1, 1, current_timestamp, 1, current_timestamp);
+    ('auto reply/new ticket', 'Auto reply/new ticket which will be sent out after a follow up has been rejected and a new ticket has been created (in case queue follow up option is "new ticket").', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table auto_response_type
 -- ----------------------------------------------------------
-INSERT INTO auto_response_type (id, name, comments, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO auto_response_type (name, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (5, 'auto remove', 'Auto remove will be sent out after a customer removed th request by it self.', 1, 1, current_timestamp, 1, current_timestamp);
+    ('auto remove', 'Auto remove will be sent out after a customer removed th request by it self.', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table auto_response
 -- ----------------------------------------------------------
-INSERT INTO auto_response (id, type_id, system_address_id, name, text0, text1, charset, comments, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO auto_response (type_id, system_address_id, name, text0, text1, charset, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 1, 1, 'default reply (after new ticket has been created)', 'This is a demo text which is send to every inquery.It could contain something like:Thanks for your e-mail. A new ticket has been created.You wrote:<OTRS_CUSTOMER_EMAIL[6]>Your e-mail will be answered by a human asapHave fun with OTRS! :-)Your OTRS Team', 'RE: <OTRS_CUSTOMER_SUBJECT[24]>', 'iso-8859-1', '', 1, 1, current_timestamp, 1, current_timestamp);
+    (1, 1, 'default reply (after new ticket has been created)', 'This is a demo text which is send to every inquery.It could contain something like:Thanks for your e-mail. A new ticket has been created.You wrote:<OTRS_CUSTOMER_EMAIL[6]>Your e-mail will be answered by a human asapHave fun with OTRS! :-)Your OTRS Team', 'RE: <OTRS_CUSTOMER_SUBJECT[24]>', 'iso-8859-1', '', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table auto_response
 -- ----------------------------------------------------------
-INSERT INTO auto_response (id, type_id, system_address_id, name, text0, text1, charset, comments, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO auto_response (type_id, system_address_id, name, text0, text1, charset, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (2, 2, 1, 'default reject (after follow up and rejected of a closed ticket)', 'Your previous ticket is closed.-- Your follow up has been rejected. --Please create a new ticket.Your OTRS Team', 'Your email has been rejected! (RE: <OTRS_CUSTOMER_SUBJECT[24]>)', 'iso-8859-1', '', 1, 1, current_timestamp, 1, current_timestamp);
+    (2, 1, 'default reject (after follow up and rejected of a closed ticket)', 'Your previous ticket is closed.-- Your follow up has been rejected. --Please create a new ticket.Your OTRS Team', 'Your email has been rejected! (RE: <OTRS_CUSTOMER_SUBJECT[24]>)', 'iso-8859-1', '', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table auto_response
 -- ----------------------------------------------------------
-INSERT INTO auto_response (id, type_id, system_address_id, name, text0, text1, charset, comments, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO auto_response (type_id, system_address_id, name, text0, text1, charset, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (3, 3, 1, 'default follow up (after a ticket follow up has been added)', 'Thanks for your follow up e-mailYou wrote:<OTRS_CUSTOMER_EMAIL[6]>Your e-mail will be answered by a human asap.Have fun with OTRS!Your OTRS Team', 'RE: <OTRS_CUSTOMER_SUBJECT[24]>', 'iso-8859-1', '', 1, 1, current_timestamp, 1, current_timestamp);
+    (3, 1, 'default follow up (after a ticket follow up has been added)', 'Thanks for your follow up e-mailYou wrote:<OTRS_CUSTOMER_EMAIL[6]>Your e-mail will be answered by a human asap.Have fun with OTRS!Your OTRS Team', 'RE: <OTRS_CUSTOMER_SUBJECT[24]>', 'iso-8859-1', '', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table auto_response
 -- ----------------------------------------------------------
-INSERT INTO auto_response (id, type_id, system_address_id, name, text0, text1, charset, comments, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO auto_response (type_id, system_address_id, name, text0, text1, charset, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (4, 4, 1, 'default reject/new ticket created (after closed follow up with new ticket creation)', 'Your previous ticket is closed.-- A new ticket has been created for you. --You wrote:<OTRS_CUSTOMER_EMAIL[6]>Your e-mail will be answered by a human asap.Have fun with OTRS!Your OTRS Team', 'New ticket has been created! (RE: <OTRS_CUSTOMER_SUBJECT[24]>)', 'iso-8859-1', '', 1, 1, current_timestamp, 1, current_timestamp);
+    (4, 1, 'default reject/new ticket created (after closed follow up with new ticket creation)', 'Your previous ticket is closed.-- A new ticket has been created for you. --You wrote:<OTRS_CUSTOMER_EMAIL[6]>Your e-mail will be answered by a human asap.Have fun with OTRS!Your OTRS Team', 'New ticket has been created! (RE: <OTRS_CUSTOMER_SUBJECT[24]>)', 'iso-8859-1', '', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 'default', 1, 1, current_timestamp, 1, current_timestamp);
+    ('default', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_priority
 -- ----------------------------------------------------------
-INSERT INTO ticket_priority (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_priority (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (1, '1 very low', 1, 1, current_timestamp, 1, current_timestamp);
+    ('1 very low', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_priority
 -- ----------------------------------------------------------
-INSERT INTO ticket_priority (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_priority (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (2, '2 low', 1, 1, current_timestamp, 1, current_timestamp);
+    ('2 low', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_priority
 -- ----------------------------------------------------------
-INSERT INTO ticket_priority (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_priority (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (3, '3 normal', 1, 1, current_timestamp, 1, current_timestamp);
+    ('3 normal', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_priority
 -- ----------------------------------------------------------
-INSERT INTO ticket_priority (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_priority (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (4, '4 high', 1, 1, current_timestamp, 1, current_timestamp);
+    ('4 high', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_priority
 -- ----------------------------------------------------------
-INSERT INTO ticket_priority (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_priority (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (5, '5 very high', 1, 1, current_timestamp, 1, current_timestamp);
+    ('5 very high', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_lock_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_lock_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_lock_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 'unlock', 1, 1, current_timestamp, 1, current_timestamp);
+    ('unlock', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_lock_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_lock_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_lock_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (2, 'lock', 1, 1, current_timestamp, 1, current_timestamp);
+    ('lock', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_lock_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_lock_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_lock_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (3, 'tmp_lock', 1, 1, current_timestamp, 1, current_timestamp);
+    ('tmp_lock', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 'NewTicket', 1, 1, current_timestamp, 1, current_timestamp);
+    ('NewTicket', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (2, 'FollowUp', 1, 1, current_timestamp, 1, current_timestamp);
+    ('FollowUp', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (3, 'SendAutoReject', 1, 1, current_timestamp, 1, current_timestamp);
+    ('SendAutoReject', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (4, 'SendAutoReply', 1, 1, current_timestamp, 1, current_timestamp);
+    ('SendAutoReply', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (5, 'SendAutoFollowUp', 1, 1, current_timestamp, 1, current_timestamp);
+    ('SendAutoFollowUp', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (6, 'Forward', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Forward', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (7, 'Bounce', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Bounce', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (8, 'SendAnswer', 1, 1, current_timestamp, 1, current_timestamp);
+    ('SendAnswer', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (9, 'SendAgentNotification', 1, 1, current_timestamp, 1, current_timestamp);
+    ('SendAgentNotification', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (10, 'SendCustomerNotification', 1, 1, current_timestamp, 1, current_timestamp);
+    ('SendCustomerNotification', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (11, 'EmailAgent', 1, 1, current_timestamp, 1, current_timestamp);
+    ('EmailAgent', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (12, 'EmailCustomer', 1, 1, current_timestamp, 1, current_timestamp);
+    ('EmailCustomer', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (13, 'PhoneCallAgent', 1, 1, current_timestamp, 1, current_timestamp);
+    ('PhoneCallAgent', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (14, 'PhoneCallCustomer', 1, 1, current_timestamp, 1, current_timestamp);
+    ('PhoneCallCustomer', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (15, 'AddNote', 1, 1, current_timestamp, 1, current_timestamp);
+    ('AddNote', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (16, 'Move', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Move', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (17, 'Lock', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Lock', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (18, 'Unlock', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Unlock', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (19, 'Remove', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Remove', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (20, 'TimeAccounting', 1, 1, current_timestamp, 1, current_timestamp);
+    ('TimeAccounting', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (21, 'CustomerUpdate', 1, 1, current_timestamp, 1, current_timestamp);
+    ('CustomerUpdate', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (22, 'PriorityUpdate', 1, 1, current_timestamp, 1, current_timestamp);
+    ('PriorityUpdate', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (23, 'OwnerUpdate', 1, 1, current_timestamp, 1, current_timestamp);
+    ('OwnerUpdate', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (24, 'LoopProtection', 1, 1, current_timestamp, 1, current_timestamp);
+    ('LoopProtection', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (25, 'Misc', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Misc', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (26, 'SetPendingTime', 1, 1, current_timestamp, 1, current_timestamp);
+    ('SetPendingTime', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (27, 'StateUpdate', 1, 1, current_timestamp, 1, current_timestamp);
+    ('StateUpdate', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (28, 'TicketFreeTextUpdate', 1, 1, current_timestamp, 1, current_timestamp);
+    ('TicketFreeTextUpdate', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (29, 'WebRequestCustomer', 1, 1, current_timestamp, 1, current_timestamp);
+    ('WebRequestCustomer', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (30, 'TicketLinkAdd', 1, 1, current_timestamp, 1, current_timestamp);
+    ('TicketLinkAdd', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (31, 'TicketLinkDelete', 1, 1, current_timestamp, 1, current_timestamp);
+    ('TicketLinkDelete', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (32, 'SystemRequest', 1, 1, current_timestamp, 1, current_timestamp);
+    ('SystemRequest', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (33, 'Merged', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Merged', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (34, 'ResponsibleUpdate', 1, 1, current_timestamp, 1, current_timestamp);
+    ('ResponsibleUpdate', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (35, 'Subscribe', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Subscribe', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (36, 'Unsubscribe', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Unsubscribe', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (37, 'TypeUpdate', 1, 1, current_timestamp, 1, current_timestamp);
+    ('TypeUpdate', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (38, 'ServiceUpdate', 1, 1, current_timestamp, 1, current_timestamp);
+    ('ServiceUpdate', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history_type
 -- ----------------------------------------------------------
-INSERT INTO ticket_history_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (39, 'SLAUpdate', 1, 1, current_timestamp, 1, current_timestamp);
+    ('SLAUpdate', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table article_type
 -- ----------------------------------------------------------
-INSERT INTO article_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO article_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 'email-external', 1, 1, current_timestamp, 1, current_timestamp);
+    ('email-external', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table article_type
 -- ----------------------------------------------------------
-INSERT INTO article_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO article_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (2, 'email-internal', 1, 1, current_timestamp, 1, current_timestamp);
+    ('email-internal', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table article_type
 -- ----------------------------------------------------------
-INSERT INTO article_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO article_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (3, 'email-notification-ext', 1, 1, current_timestamp, 1, current_timestamp);
+    ('email-notification-ext', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table article_type
 -- ----------------------------------------------------------
-INSERT INTO article_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO article_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (4, 'email-notification-int', 1, 1, current_timestamp, 1, current_timestamp);
+    ('email-notification-int', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table article_type
 -- ----------------------------------------------------------
-INSERT INTO article_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO article_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (5, 'phone', 1, 1, current_timestamp, 1, current_timestamp);
+    ('phone', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table article_type
 -- ----------------------------------------------------------
-INSERT INTO article_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO article_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (6, 'fax', 1, 1, current_timestamp, 1, current_timestamp);
+    ('fax', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table article_type
 -- ----------------------------------------------------------
-INSERT INTO article_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO article_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (7, 'sms', 1, 1, current_timestamp, 1, current_timestamp);
+    ('sms', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table article_type
 -- ----------------------------------------------------------
-INSERT INTO article_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO article_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (8, 'webrequest', 1, 1, current_timestamp, 1, current_timestamp);
+    ('webrequest', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table article_type
 -- ----------------------------------------------------------
-INSERT INTO article_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO article_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (9, 'note-internal', 1, 1, current_timestamp, 1, current_timestamp);
+    ('note-internal', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table article_type
 -- ----------------------------------------------------------
-INSERT INTO article_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO article_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (10, 'note-external', 1, 1, current_timestamp, 1, current_timestamp);
+    ('note-external', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table article_type
 -- ----------------------------------------------------------
-INSERT INTO article_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO article_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (11, 'note-report', 1, 1, current_timestamp, 1, current_timestamp);
+    ('note-report', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table article_sender_type
 -- ----------------------------------------------------------
-INSERT INTO article_sender_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO article_sender_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 'agent', 1, 1, current_timestamp, 1, current_timestamp);
+    ('agent', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table article_sender_type
 -- ----------------------------------------------------------
-INSERT INTO article_sender_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO article_sender_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (2, 'system', 1, 1, current_timestamp, 1, current_timestamp);
+    ('system', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table article_sender_type
 -- ----------------------------------------------------------
-INSERT INTO article_sender_type (id, name, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO article_sender_type (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (3, 'customer', 1, 1, current_timestamp, 1, current_timestamp);
+    ('customer', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket
 -- ----------------------------------------------------------
-INSERT INTO ticket (id, tn, queue_id, ticket_lock_id, ticket_answered, user_id, responsible_user_id, group_id, ticket_priority_id, ticket_state_id, title, create_time_unix, escalation_time, escalation_response_time, escalation_update_time, escalation_solution_time, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket (tn, queue_id, ticket_lock_id, ticket_answered, user_id, responsible_user_id, group_id, ticket_priority_id, ticket_state_id, title, create_time_unix, escalation_time, escalation_response_time, escalation_update_time, escalation_solution_time, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (1, '1010001', 2, 1, 0, 1, 1, 1, 3, 1, 'Welcome to OTRS!', 1173345999, 0, 0, 0, 0, 1, 1, current_timestamp, 1, current_timestamp);
+    ('1010001', 2, 1, 0, 1, 1, 1, 3, 1, 'Welcome to OTRS!', 1173345999, 0, 0, 0, 0, 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table article
 -- ----------------------------------------------------------
-INSERT INTO article (id, ticket_id, article_type_id, article_sender_type_id, a_from, a_to, a_subject, a_body, a_message_id, incoming_time, content_path, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO article (ticket_id, article_type_id, article_sender_type_id, a_from, a_to, a_subject, a_body, a_message_id, incoming_time, content_path, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 1, 1, 3, 'OTRS Feedback <feedback@otrs.org>', 'Your OTRS System <otrs@localhost>', 'Welcome to OTRS!', 'Welcome!thank you for installing OTRS.You will find updates and patches at http://otrs.org/. Onlinedocumentation is available at http://doc.otrs.org/. You can alsotake advantage of our mailing lists http://lists.otrs.org/. ((enjoy))Your OTRS Team--Communication with success!', '<007@localhost>', 1173345999, '2007/03/08', 1, 1, current_timestamp, 1, current_timestamp);
+    (1, 1, 3, 'OTRS Feedback <feedback@otrs.org>', 'Your OTRS System <otrs@localhost>', 'Welcome to OTRS!', 'Welcome!thank you for installing OTRS.You will find updates and patches at http://otrs.org/. Onlinedocumentation is available at http://doc.otrs.org/. You can alsotake advantage of our mailing lists http://lists.otrs.org/. ((enjoy))Your OTRS Team--Communication with success!', '<007@localhost>', 1173345999, '2007/03/08', 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table ticket_history
 -- ----------------------------------------------------------
-INSERT INTO ticket_history (id, name, history_type_id, ticket_id, type_id, article_id, priority_id, owner_id, state_id, queue_id, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO ticket_history (name, history_type_id, ticket_id, type_id, article_id, priority_id, owner_id, state_id, queue_id, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    (1, 'New Ticket [1010001] created.', 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, current_timestamp, 1, current_timestamp);
+    ('New Ticket [1010001] created.', 1, 1, 1, 1, 3, 1, 1, 1, 1, 1, current_timestamp, 1, current_timestamp);
 
 -- ----------------------------------------------------------
 --  insert into table notifications

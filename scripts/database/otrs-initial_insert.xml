@@ -5,7 +5,7 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 
-    $Id: otrs-initial_insert.xml,v 1.22 2008-07-06 21:08:49 martin Exp $
+    $Id: otrs-initial_insert.xml,v 1.23 2008-07-06 22:17:03 martin Exp $
 
 -->
 
@@ -13,7 +13,7 @@
 
 <!-- framework -->
     <Insert Table="valid">
-        <Data Key="id">1</Data>
+        <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="name" Type="Quote">valid</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
@@ -21,7 +21,7 @@
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="valid">
-        <Data Key="id">2</Data>
+        <Data Key="id" Type="AutoIncrement">2</Data>
         <Data Key="name" Type="Quote">invalid</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
@@ -29,7 +29,7 @@
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="valid">
-        <Data Key="id">3</Data>
+        <Data Key="id" Type="AutoIncrement">3</Data>
         <Data Key="name" Type="Quote">invalid-temporarily</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
@@ -38,7 +38,7 @@
     </Insert>
 
     <Insert Table="users">
-        <Data Key="id">1</Data>
+        <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="first_name" Type="Quote">Admin</Data>
         <Data Key="last_name" Type="Quote">OTRS</Data>
         <Data Key="login" Type="Quote">root@localhost</Data>
@@ -51,7 +51,7 @@
     </Insert>
 
     <Insert Table="groups">
-        <Data Key="id">1</Data>
+        <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="name" Type="Quote">users</Data>
         <Data Key="comments" Type="Quote">Group for default access.</Data>
         <Data Key="valid_id">1</Data>
@@ -61,7 +61,7 @@
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="groups">
-        <Data Key="id">2</Data>
+        <Data Key="id" Type="AutoIncrement">2</Data>
         <Data Key="name" Type="Quote">admin</Data>
         <Data Key="comments" Type="Quote">Group of all admins.</Data>
         <Data Key="valid_id">1</Data>
@@ -71,7 +71,7 @@
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="groups">
-        <Data Key="id">3</Data>
+        <Data Key="id" Type="AutoIncrement">3</Data>
         <Data Key="name" Type="Quote">stats</Data>
         <Data Key="comments" Type="Quote">Group for stats access.</Data>
         <Data Key="valid_id">1</Data>
@@ -166,7 +166,7 @@
 
 <!-- ticket -->
     <Insert Table="ticket_state_type">
-        <Data Key="id">1</Data>
+        <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="name" Type="Quote">new</Data>
         <Data Key="comments" Type="Quote">All new state types (default: viewable).</Data>
         <Data Key="create_by">1</Data>
@@ -175,7 +175,7 @@
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_state_type">
-        <Data Key="id">2</Data>
+        <Data Key="id" Type="AutoIncrement">2</Data>
         <Data Key="name" Type="Quote">open</Data>
         <Data Key="comments" Type="Quote">All open state types (default: viewable).</Data>
         <Data Key="create_by">1</Data>
@@ -184,7 +184,7 @@
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_state_type">
-        <Data Key="id">3</Data>
+        <Data Key="id" Type="AutoIncrement">3</Data>
         <Data Key="name" Type="Quote">closed</Data>
         <Data Key="comments" Type="Quote">All closed state types (default: not viewable).</Data>
         <Data Key="create_by">1</Data>
@@ -193,7 +193,7 @@
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_state_type">
-        <Data Key="id">4</Data>
+        <Data Key="id" Type="AutoIncrement">4</Data>
         <Data Key="name" Type="Quote">pending reminder</Data>
         <Data Key="comments" Type="Quote">All 'pending reminder' state types (default: viewable).</Data>
         <Data Key="create_by">1</Data>
@@ -202,7 +202,7 @@
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_state_type">
-        <Data Key="id">5</Data>
+        <Data Key="id" Type="AutoIncrement">5</Data>
         <Data Key="name" Type="Quote">pending auto</Data>
         <Data Key="comments" Type="Quote">All 'pending auto *' state types (default: viewable).</Data>
         <Data Key="create_by">1</Data>
@@ -211,7 +211,7 @@
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_state_type">
-        <Data Key="id">6</Data>
+        <Data Key="id" Type="AutoIncrement">6</Data>
         <Data Key="name" Type="Quote">removed</Data>
         <Data Key="comments" Type="Quote">All 'removed' state types (default: not viewable).</Data>
         <Data Key="create_by">1</Data>
@@ -220,7 +220,7 @@
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_state_type">
-        <Data Key="id">7</Data>
+        <Data Key="id" Type="AutoIncrement">7</Data>
         <Data Key="name" Type="Quote">merged</Data>
         <Data Key="comments" Type="Quote">State type for merged tickets (default: not viewable).</Data>
         <Data Key="create_by">1</Data>
@@ -230,7 +230,7 @@
     </Insert>
 
     <Insert Table="ticket_state">
-        <Data Key="id">1</Data>
+        <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="name" Type="Quote">new</Data>
         <Data Key="comments" Type="Quote">New ticket created by customer.</Data>
         <Data Key="type_id">1</Data>
@@ -241,7 +241,7 @@
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_state">
-        <Data Key="id">2</Data>
+        <Data Key="id" Type="AutoIncrement">2</Data>
         <Data Key="name" Type="Quote">closed successful</Data>
         <Data Key="comments" Type="Quote">Ticket is closed successful.</Data>
         <Data Key="type_id">3</Data>
@@ -252,7 +252,7 @@
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_state">
-        <Data Key="id">3</Data>
+        <Data Key="id" Type="AutoIncrement">3</Data>
         <Data Key="name" Type="Quote">closed unsuccessful</Data>
         <Data Key="comments" Type="Quote">Ticket is closed unsuccessful.</Data>
         <Data Key="type_id">3</Data>
@@ -263,7 +263,7 @@
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_state">
-        <Data Key="id">4</Data>
+        <Data Key="id" Type="AutoIncrement">4</Data>
         <Data Key="name" Type="Quote">open</Data>
         <Data Key="comments" Type="Quote">Open tickets.</Data>
         <Data Key="type_id">2</Data>
@@ -274,7 +274,7 @@
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_state">
-        <Data Key="id">5</Data>
+        <Data Key="id" Type="AutoIncrement">5</Data>
         <Data Key="name" Type="Quote">removed</Data>
         <Data Key="comments" Type="Quote">Customer removed ticket.</Data>
         <Data Key="type_id">6</Data>
@@ -285,7 +285,7 @@
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_state">
-        <Data Key="id">6</Data>
+        <Data Key="id" Type="AutoIncrement">6</Data>
         <Data Key="name" Type="Quote">pending reminder</Data>
         <Data Key="comments" Type="Quote">Ticket is pending for agent reminder.</Data>
         <Data Key="type_id">4</Data>
@@ -296,7 +296,7 @@
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_state">
-        <Data Key="id">7</Data>
+        <Data Key="id" Type="AutoIncrement">7</Data>
         <Data Key="name" Type="Quote">pending auto close+</Data>
         <Data Key="comments" Type="Quote">Ticket is pending for automatic close.</Data>
         <Data Key="type_id">5</Data>
@@ -307,7 +307,7 @@
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_state">
-        <Data Key="id">8</Data>
+        <Data Key="id" Type="AutoIncrement">8</Data>
         <Data Key="name" Type="Quote">pending auto close-</Data>
         <Data Key="comments" Type="Quote">Ticket is pending for automatic close.</Data>
         <Data Key="type_id">5</Data>
@@ -318,7 +318,7 @@
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_state">
-        <Data Key="id">9</Data>
+        <Data Key="id" Type="AutoIncrement">9</Data>
         <Data Key="name" Type="Quote">merged</Data>
         <Data Key="comments" Type="Quote">State for merged tickets.</Data>
         <Data Key="type_id">7</Data>
@@ -330,7 +330,7 @@
     </Insert>
 
     <Insert Table="salutation">
-        <Data Key="id">1</Data>
+        <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="name" Type="Quote">system standard salutation (en)</Data>
         <Data Key="text" Type="Quote">Dear &lt;OTRS_CUSTOMER_REALNAME&gt;,
 
@@ -346,7 +346,7 @@ Thank you for your request.
     </Insert>
 
     <Insert Table="signature">
-        <Data Key="id">1</Data>
+        <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="name" Type="Quote">system standard signature (en)</Data>
         <Data Key="text" Type="Quote">
 Your Ticket-Team
@@ -367,7 +367,7 @@ Your Ticket-Team
     </Insert>
 
     <Insert Table="system_address">
-        <Data Key="id">1</Data>
+        <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="value0" Type="Quote">otrs@localhost</Data>
         <Data Key="value1" Type="Quote">OTRS System</Data>
         <Data Key="comments" Type="Quote">Standard Address.</Data>
@@ -380,7 +380,7 @@ Your Ticket-Team
     </Insert>
 
     <Insert Table="follow_up_possible">
-        <Data Key="id">1</Data>
+        <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="name" Type="Quote">possible</Data>
         <Data Key="comments" Type="Quote">Follow ups after closed(+|-) possible. Ticket will be reopen.</Data>
         <Data Key="valid_id">1</Data>
@@ -390,7 +390,7 @@ Your Ticket-Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="follow_up_possible">
-        <Data Key="id">2</Data>
+        <Data Key="id" Type="AutoIncrement">2</Data>
         <Data Key="name" Type="Quote">reject</Data>
         <Data Key="comments" Type="Quote">Follow ups after closed(+|-) not possible. No new ticket will be created.</Data>
         <Data Key="valid_id">1</Data>
@@ -400,7 +400,7 @@ Your Ticket-Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="follow_up_possible">
-        <Data Key="id">3</Data>
+        <Data Key="id" Type="AutoIncrement">3</Data>
         <Data Key="name" Type="Quote">new ticket</Data>
         <Data Key="comments" Type="Quote">Follow ups after closed(+|-) not possible. A new ticket will be created..</Data>
         <Data Key="valid_id">1</Data>
@@ -411,7 +411,7 @@ Your Ticket-Team
     </Insert>
 
     <Insert Table="queue">
-        <Data Key="id">1</Data>
+        <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="name" Type="Quote">Postmaster</Data>
         <Data Key="group_id">1</Data>
         <Data Key="system_address_id">1</Data>
@@ -432,7 +432,7 @@ Your Ticket-Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="queue">
-        <Data Key="id">2</Data>
+        <Data Key="id" Type="AutoIncrement">2</Data>
         <Data Key="name" Type="Quote">Raw</Data>
         <Data Key="group_id">1</Data>
         <Data Key="system_address_id">1</Data>
@@ -453,7 +453,7 @@ Your Ticket-Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="queue">
-        <Data Key="id">3</Data>
+        <Data Key="id" Type="AutoIncrement">3</Data>
         <Data Key="name" Type="Quote">Junk</Data>
         <Data Key="group_id">1</Data>
         <Data Key="system_address_id">1</Data>
@@ -474,7 +474,7 @@ Your Ticket-Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="queue">
-        <Data Key="id">4</Data>
+        <Data Key="id" Type="AutoIncrement">4</Data>
         <Data Key="name" Type="Quote">Misc</Data>
         <Data Key="group_id">1</Data>
         <Data Key="system_address_id">1</Data>
@@ -496,7 +496,7 @@ Your Ticket-Team
     </Insert>
 
     <Insert Table="standard_response">
-        <Data Key="id">1</Data>
+        <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="name" Type="Quote">empty answer</Data>
         <Data Key="text" Type="Quote"></Data>
         <Data Key="valid_id">1</Data>
@@ -506,7 +506,7 @@ Your Ticket-Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="standard_response">
-        <Data Key="id">2</Data>
+        <Data Key="id" Type="AutoIncrement">2</Data>
         <Data Key="name" Type="Quote">test answer</Data>
         <Data Key="text" Type="Quote">Some test answer to show how a standard response can be used.</Data>
         <Data Key="valid_id">1</Data>
@@ -550,7 +550,7 @@ Your Ticket-Team
     </Insert>
 
     <Insert Table="auto_response_type">
-        <Data Key="id">1</Data>
+        <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="name" Type="Quote">auto reply</Data>
         <Data Key="comments" Type="Quote">Auto replay which will be sent out after a new ticket has been created.</Data>
         <Data Key="valid_id">1</Data>
@@ -560,7 +560,7 @@ Your Ticket-Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="auto_response_type">
-        <Data Key="id">2</Data>
+        <Data Key="id" Type="AutoIncrement">2</Data>
         <Data Key="name" Type="Quote">auto reject</Data>
         <Data Key="comments" Type="Quote">Auto reject which will be sent out after a follow up has been rejected (in case queue follow up option is "reject").</Data>
         <Data Key="valid_id">1</Data>
@@ -570,7 +570,7 @@ Your Ticket-Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="auto_response_type">
-        <Data Key="id">3</Data>
+        <Data Key="id" Type="AutoIncrement">3</Data>
         <Data Key="name" Type="Quote">auto follow up</Data>
         <Data Key="comments" Type="Quote">Auto follow up is sent out after a added follow up has been received for a ticket (in case queue follow up option is "possible").</Data>
         <Data Key="valid_id">1</Data>
@@ -580,7 +580,7 @@ Your Ticket-Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="auto_response_type">
-        <Data Key="id">4</Data>
+        <Data Key="id" Type="AutoIncrement">4</Data>
         <Data Key="name" Type="Quote">auto reply/new ticket</Data>
         <Data Key="comments" Type="Quote">Auto reply/new ticket which will be sent out after a follow up has been rejected and a new ticket has been created (in case queue follow up option is "new ticket").</Data>
         <Data Key="valid_id">1</Data>
@@ -590,7 +590,7 @@ Your Ticket-Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="auto_response_type">
-        <Data Key="id">5</Data>
+        <Data Key="id" Type="AutoIncrement">5</Data>
         <Data Key="name" Type="Quote">auto remove</Data>
         <Data Key="comments" Type="Quote">Auto remove will be sent out after a customer removed th request by it self.</Data>
         <Data Key="valid_id">1</Data>
@@ -601,7 +601,7 @@ Your Ticket-Team
     </Insert>
 
     <Insert Table="auto_response">
-        <Data Key="id">1</Data>
+        <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="type_id">1</Data>
         <Data Key="system_address_id">1</Data>
         <Data Key="name" Type="Quote">default reply (after new ticket has been created)</Data>
@@ -629,7 +629,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="auto_response">
-        <Data Key="id">2</Data>
+        <Data Key="id" Type="AutoIncrement">2</Data>
         <Data Key="type_id">2</Data>
         <Data Key="system_address_id">1</Data>
         <Data Key="name" Type="Quote">default reject (after follow up and rejected of a closed ticket)</Data>
@@ -651,7 +651,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="auto_response">
-        <Data Key="id">3</Data>
+        <Data Key="id" Type="AutoIncrement">3</Data>
         <Data Key="type_id">3</Data>
         <Data Key="system_address_id">1</Data>
         <Data Key="name" Type="Quote">default follow up (after a ticket follow up has been added)</Data>
@@ -676,7 +676,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="auto_response">
-        <Data Key="id">4</Data>
+        <Data Key="id" Type="AutoIncrement">4</Data>
         <Data Key="type_id">4</Data>
         <Data Key="system_address_id">1</Data>
         <Data Key="name" Type="Quote">default reject/new ticket created (after closed follow up with new ticket creation)</Data>
@@ -704,7 +704,7 @@ Your OTRS Team
     </Insert>
 
     <Insert Table="ticket_type">
-        <Data Key="id">1</Data>
+        <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="name" Type="Quote">default</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -714,7 +714,7 @@ Your OTRS Team
     </Insert>
 
     <Insert Table="ticket_priority">
-        <Data Key="id">1</Data>
+        <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="name" Type="Quote">1 very low</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -723,7 +723,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_priority">
-        <Data Key="id">2</Data>
+        <Data Key="id" Type="AutoIncrement">2</Data>
         <Data Key="name" Type="Quote">2 low</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -732,7 +732,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_priority">
-        <Data Key="id">3</Data>
+        <Data Key="id" Type="AutoIncrement">3</Data>
         <Data Key="name" Type="Quote">3 normal</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -741,7 +741,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_priority">
-        <Data Key="id">4</Data>
+        <Data Key="id" Type="AutoIncrement">4</Data>
         <Data Key="name" Type="Quote">4 high</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -750,7 +750,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_priority">
-        <Data Key="id">5</Data>
+        <Data Key="id" Type="AutoIncrement">5</Data>
         <Data Key="name" Type="Quote">5 very high</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -760,7 +760,7 @@ Your OTRS Team
     </Insert>
 
     <Insert Table="ticket_lock_type">
-        <Data Key="id">1</Data>
+        <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="name" Type="Quote">unlock</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -769,7 +769,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_lock_type">
-        <Data Key="id">2</Data>
+        <Data Key="id" Type="AutoIncrement">2</Data>
         <Data Key="name" Type="Quote">lock</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -778,7 +778,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_lock_type">
-        <Data Key="id">3</Data>
+        <Data Key="id" Type="AutoIncrement">3</Data>
         <Data Key="name" Type="Quote">tmp_lock</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -788,7 +788,7 @@ Your OTRS Team
     </Insert>
 
     <Insert Table="ticket_history_type">
-        <Data Key="id">1</Data>
+        <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="name" Type="Quote">NewTicket</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -797,7 +797,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">2</Data>
+        <Data Key="id" Type="AutoIncrement">2</Data>
         <Data Key="name" Type="Quote">FollowUp</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -806,7 +806,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">3</Data>
+        <Data Key="id" Type="AutoIncrement">3</Data>
         <Data Key="name" Type="Quote">SendAutoReject</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -815,7 +815,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">4</Data>
+        <Data Key="id" Type="AutoIncrement">4</Data>
         <Data Key="name" Type="Quote">SendAutoReply</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -824,7 +824,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">5</Data>
+        <Data Key="id" Type="AutoIncrement">5</Data>
         <Data Key="name" Type="Quote">SendAutoFollowUp</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -833,7 +833,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">6</Data>
+        <Data Key="id" Type="AutoIncrement">6</Data>
         <Data Key="name" Type="Quote">Forward</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -842,7 +842,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">7</Data>
+        <Data Key="id" Type="AutoIncrement">7</Data>
         <Data Key="name" Type="Quote">Bounce</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -851,7 +851,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">8</Data>
+        <Data Key="id" Type="AutoIncrement">8</Data>
         <Data Key="name" Type="Quote">SendAnswer</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -860,7 +860,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">9</Data>
+        <Data Key="id" Type="AutoIncrement">9</Data>
         <Data Key="name" Type="Quote">SendAgentNotification</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -869,7 +869,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">10</Data>
+        <Data Key="id" Type="AutoIncrement">10</Data>
         <Data Key="name" Type="Quote">SendCustomerNotification</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -878,7 +878,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">11</Data>
+        <Data Key="id" Type="AutoIncrement">11</Data>
         <Data Key="name" Type="Quote">EmailAgent</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -887,7 +887,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">12</Data>
+        <Data Key="id" Type="AutoIncrement">12</Data>
         <Data Key="name" Type="Quote">EmailCustomer</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -896,7 +896,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">13</Data>
+        <Data Key="id" Type="AutoIncrement">13</Data>
         <Data Key="name" Type="Quote">PhoneCallAgent</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -905,7 +905,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">14</Data>
+        <Data Key="id" Type="AutoIncrement">14</Data>
         <Data Key="name" Type="Quote">PhoneCallCustomer</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -914,7 +914,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">15</Data>
+        <Data Key="id" Type="AutoIncrement">15</Data>
         <Data Key="name" Type="Quote">AddNote</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -923,7 +923,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">16</Data>
+        <Data Key="id" Type="AutoIncrement">16</Data>
         <Data Key="name" Type="Quote">Move</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -932,7 +932,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">17</Data>
+        <Data Key="id" Type="AutoIncrement">17</Data>
         <Data Key="name" Type="Quote">Lock</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -941,7 +941,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">18</Data>
+        <Data Key="id" Type="AutoIncrement">18</Data>
         <Data Key="name" Type="Quote">Unlock</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -950,7 +950,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">19</Data>
+        <Data Key="id" Type="AutoIncrement">19</Data>
         <Data Key="name" Type="Quote">Remove</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -959,7 +959,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">20</Data>
+        <Data Key="id" Type="AutoIncrement">20</Data>
         <Data Key="name" Type="Quote">TimeAccounting</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -968,7 +968,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">21</Data>
+        <Data Key="id" Type="AutoIncrement">21</Data>
         <Data Key="name" Type="Quote">CustomerUpdate</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -977,7 +977,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">22</Data>
+        <Data Key="id" Type="AutoIncrement">22</Data>
         <Data Key="name" Type="Quote">PriorityUpdate</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -986,7 +986,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">23</Data>
+        <Data Key="id" Type="AutoIncrement">23</Data>
         <Data Key="name" Type="Quote">OwnerUpdate</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -995,7 +995,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">24</Data>
+        <Data Key="id" Type="AutoIncrement">24</Data>
         <Data Key="name" Type="Quote">LoopProtection</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -1004,7 +1004,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">25</Data>
+        <Data Key="id" Type="AutoIncrement">25</Data>
         <Data Key="name" Type="Quote">Misc</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -1013,7 +1013,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">26</Data>
+        <Data Key="id" Type="AutoIncrement">26</Data>
         <Data Key="name" Type="Quote">SetPendingTime</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -1022,7 +1022,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">27</Data>
+        <Data Key="id" Type="AutoIncrement">27</Data>
         <Data Key="name" Type="Quote">StateUpdate</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -1031,7 +1031,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">28</Data>
+        <Data Key="id" Type="AutoIncrement">28</Data>
         <Data Key="name" Type="Quote">TicketFreeTextUpdate</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -1040,7 +1040,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">29</Data>
+        <Data Key="id" Type="AutoIncrement">29</Data>
         <Data Key="name" Type="Quote">WebRequestCustomer</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -1049,7 +1049,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">30</Data>
+        <Data Key="id" Type="AutoIncrement">30</Data>
         <Data Key="name" Type="Quote">TicketLinkAdd</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -1058,7 +1058,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">31</Data>
+        <Data Key="id" Type="AutoIncrement">31</Data>
         <Data Key="name" Type="Quote">TicketLinkDelete</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -1067,7 +1067,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">32</Data>
+        <Data Key="id" Type="AutoIncrement">32</Data>
         <Data Key="name" Type="Quote">SystemRequest</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -1076,7 +1076,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">33</Data>
+        <Data Key="id" Type="AutoIncrement">33</Data>
         <Data Key="name" Type="Quote">Merged</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -1085,7 +1085,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">34</Data>
+        <Data Key="id" Type="AutoIncrement">34</Data>
         <Data Key="name" Type="Quote">ResponsibleUpdate</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -1094,7 +1094,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">35</Data>
+        <Data Key="id" Type="AutoIncrement">35</Data>
         <Data Key="name" Type="Quote">Subscribe</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -1103,7 +1103,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">36</Data>
+        <Data Key="id" Type="AutoIncrement">36</Data>
         <Data Key="name" Type="Quote">Unsubscribe</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -1112,7 +1112,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">37</Data>
+        <Data Key="id" Type="AutoIncrement">37</Data>
         <Data Key="name" Type="Quote">TypeUpdate</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -1121,7 +1121,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">38</Data>
+        <Data Key="id" Type="AutoIncrement">38</Data>
         <Data Key="name" Type="Quote">ServiceUpdate</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -1130,7 +1130,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="ticket_history_type">
-        <Data Key="id">39</Data>
+        <Data Key="id" Type="AutoIncrement">39</Data>
         <Data Key="name" Type="Quote">SLAUpdate</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -1140,7 +1140,7 @@ Your OTRS Team
     </Insert>
 
     <Insert Table="article_type">
-        <Data Key="id">1</Data>
+        <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="name" Type="Quote">email-external</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -1149,7 +1149,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="article_type">
-        <Data Key="id">2</Data>
+        <Data Key="id" Type="AutoIncrement">2</Data>
         <Data Key="name" Type="Quote">email-internal</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -1158,7 +1158,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="article_type">
-        <Data Key="id">3</Data>
+        <Data Key="id" Type="AutoIncrement">3</Data>
         <Data Key="name" Type="Quote">email-notification-ext</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -1167,7 +1167,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="article_type">
-        <Data Key="id">4</Data>
+        <Data Key="id" Type="AutoIncrement">4</Data>
         <Data Key="name" Type="Quote">email-notification-int</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -1176,7 +1176,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="article_type">
-        <Data Key="id">5</Data>
+        <Data Key="id" Type="AutoIncrement">5</Data>
         <Data Key="name" Type="Quote">phone</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -1185,7 +1185,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="article_type">
-        <Data Key="id">6</Data>
+        <Data Key="id" Type="AutoIncrement">6</Data>
         <Data Key="name" Type="Quote">fax</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -1194,7 +1194,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="article_type">
-        <Data Key="id">7</Data>
+        <Data Key="id" Type="AutoIncrement">7</Data>
         <Data Key="name" Type="Quote">sms</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -1203,7 +1203,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="article_type">
-        <Data Key="id">8</Data>
+        <Data Key="id" Type="AutoIncrement">8</Data>
         <Data Key="name" Type="Quote">webrequest</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -1212,7 +1212,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="article_type">
-        <Data Key="id">9</Data>
+        <Data Key="id" Type="AutoIncrement">9</Data>
         <Data Key="name" Type="Quote">note-internal</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -1221,7 +1221,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="article_type">
-        <Data Key="id">10</Data>
+        <Data Key="id" Type="AutoIncrement">10</Data>
         <Data Key="name" Type="Quote">note-external</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -1230,7 +1230,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="article_type">
-        <Data Key="id">11</Data>
+        <Data Key="id" Type="AutoIncrement">11</Data>
         <Data Key="name" Type="Quote">note-report</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -1240,7 +1240,7 @@ Your OTRS Team
     </Insert>
 
     <Insert Table="article_sender_type">
-        <Data Key="id">1</Data>
+        <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="name" Type="Quote">agent</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -1249,7 +1249,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="article_sender_type">
-        <Data Key="id">2</Data>
+        <Data Key="id" Type="AutoIncrement">2</Data>
         <Data Key="name" Type="Quote">system</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -1258,7 +1258,7 @@ Your OTRS Team
         <Data Key="change_time">current_timestamp</Data>
     </Insert>
     <Insert Table="article_sender_type">
-        <Data Key="id">3</Data>
+        <Data Key="id" Type="AutoIncrement">3</Data>
         <Data Key="name" Type="Quote">customer</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -1268,7 +1268,7 @@ Your OTRS Team
     </Insert>
 
     <Insert Table="ticket">
-        <Data Key="id">1</Data>
+        <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="tn" Type="Quote">1010001</Data>
         <Data Key="queue_id">2</Data>
         <Data Key="ticket_lock_id">1</Data>
@@ -1292,7 +1292,7 @@ Your OTRS Team
     </Insert>
 
     <Insert Table="article">
-        <Data Key="id">1</Data>
+        <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="ticket_id">1</Data>
         <Data Key="article_type_id">1</Data>
         <Data Key="article_sender_type_id">3</Data>
@@ -1324,7 +1324,7 @@ Communication with success!
     </Insert>
 
     <Insert Table="ticket_history">
-        <Data Key="id">1</Data>
+        <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="name" Type="Quote">New Ticket [1010001] created.</Data>
         <Data Key="history_type_id">1</Data>
         <Data Key="ticket_id">1</Data>
