@@ -2,7 +2,7 @@
 # Kernel/System/DB/oracle.pm - oracle database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: oracle.pm,v 1.51 2008-07-06 22:24:13 martin Exp $
+# $Id: oracle.pm,v 1.52 2008-07-06 22:29:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -239,7 +239,7 @@ sub TableCreate {
                     . "    select $Sequence.nextval\n"
                     . "    into :new.$Tag->{Name}\n"
                     . "    from dual;\n"
-                    . "  end if\n"
+                    . "  end if;\n"
                     . "end;\n"
                     . "$Shell",
             );
