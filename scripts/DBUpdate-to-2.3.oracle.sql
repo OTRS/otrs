@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2008-06-02 12:22:53
+--  driver: oracle, generated: 2008-07-06 21:11:16
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -159,8 +159,8 @@ ALTER TABLE ticket MODIFY escalation_update_time NUMBER (12, 0) NOT NULL;
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket ADD escalation_time NUMBER (12, 0);
-UPDATE ticket SET escalation_time = '0' WHERE escalation_time IS NULL;
-ALTER TABLE ticket MODIFY escalation_time NUMBER (12, 0) NOT NULL;
+UPDATE ticket SET escalation_time = 0 WHERE escalation_time IS NULL;
+ALTER TABLE ticket MODIFY escalation_time NUMBER (12, 0) NOT NULL DEFAULT 0;
 CREATE INDEX ticket_escalation_time ON ticket (escalation_time);
 CREATE INDEX ticket_escalation_update_time ON ticket (escalation_update_time);
 CREATE INDEX ticket_escalation_response_t29 ON ticket (escalation_response_time);
@@ -198,6 +198,45 @@ ALTER TABLE sla ADD update_notify NUMBER (5, 0);
 ALTER TABLE sla ADD solution_notify NUMBER (5, 0);
 CREATE INDEX article_article_type_id ON article (article_type_id);
 CREATE INDEX article_article_sender_type_id ON article (article_sender_type_id);
+-- ----------------------------------------------------------
+--  create table article_search
+-- ----------------------------------------------------------
+CREATE TABLE article_search (
+    id NUMBER (20, 0) NOT NULL,
+    ticket_id NUMBER (20, 0) NOT NULL,
+    article_type_id NUMBER (5, 0) NOT NULL,
+    article_sender_type_id NUMBER (5, 0) NOT NULL,
+    a_from VARCHAR2 (3800),
+    a_to VARCHAR2 (3800),
+    a_cc VARCHAR2 (3800),
+    a_subject VARCHAR2 (3800),
+    a_message_id VARCHAR2 (3800),
+    a_body CLOB NOT NULL,
+    incoming_time NUMBER (12, 0) NOT NULL,
+    a_freekey1 VARCHAR2 (250),
+    a_freetext1 VARCHAR2 (250),
+    a_freekey2 VARCHAR2 (250),
+    a_freetext2 VARCHAR2 (250),
+    a_freekey3 VARCHAR2 (250),
+    a_freetext3 VARCHAR2 (250)
+);
+ALTER TABLE article_search ADD CONSTRAINT PK_article_search PRIMARY KEY (id);
+DROP SEQUENCE SE_article_search;
+CREATE SEQUENCE SE_article_search;
+CREATE OR REPLACE TRIGGER SE_article_search_t
+before insert on article_search
+for each row
+begin
+    select SE_article_search.nextval
+    into :new.id
+    from dual;
+end;
+/
+--;
+CREATE INDEX article_search_article_sendec7 ON article_search (article_sender_type_id);
+CREATE INDEX article_search_article_type_id ON article_search (article_type_id);
+CREATE INDEX article_search_message_id ON article_search (a_message_id);
+CREATE INDEX article_search_ticket_id ON article_search (ticket_id);
 CREATE INDEX ticket_watcher_user_id ON ticket_watcher (user_id);
 ALTER TABLE ticket_watcher ADD CONSTRAINT FK_ticket_watcher_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket(id);
 ALTER TABLE ticket_watcher ADD CONSTRAINT FK_ticket_watcher_user_id_id FOREIGN KEY (user_id) REFERENCES users(id);
@@ -225,7 +264,7 @@ ALTER TABLE article MODIFY a_body CLOB NOT NULL;
 -- ----------------------------------------------------------
 --  alter table xml_storage
 -- ----------------------------------------------------------
-ALTER TABLE xml_storage MODIFY xml_content_value CLOB NULL;
+ALTER TABLE xml_storage MODIFY xml_content_value CLOB;
 -- ----------------------------------------------------------
 --  insert into table notifications
 -- ----------------------------------------------------------
@@ -277,3 +316,6 @@ ALTER TABLE link_relation ADD CONSTRAINT FK_link_relation_target_obje18 FOREIGN 
 ALTER TABLE link_relation ADD CONSTRAINT FK_link_relation_state_id_id FOREIGN KEY (state_id) REFERENCES link_state(id);
 ALTER TABLE link_relation ADD CONSTRAINT FK_link_relation_type_id_id FOREIGN KEY (type_id) REFERENCES link_type(id);
 ALTER TABLE link_relation ADD CONSTRAINT FK_link_relation_create_by_id FOREIGN KEY (create_by) REFERENCES users(id);
+ALTER TABLE article_search ADD CONSTRAINT FK_article_search_article_se5d FOREIGN KEY (article_sender_type_id) REFERENCES article_sender_type(id);
+ALTER TABLE article_search ADD CONSTRAINT FK_article_search_article_tydd FOREIGN KEY (article_type_id) REFERENCES article_type(id);
+ALTER TABLE article_search ADD CONSTRAINT FK_article_search_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket(id);

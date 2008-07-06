@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2008-06-02 12:22:53
+--  driver: postgresql, generated: 2008-07-06 21:11:16
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table users
@@ -152,6 +152,33 @@ ALTER TABLE sla ADD update_notify INTEGER;
 ALTER TABLE sla ADD solution_notify INTEGER;
 CREATE INDEX article_article_type_id ON article (article_type_id);
 CREATE INDEX article_article_sender_type_id ON article (article_sender_type_id);
+-- ----------------------------------------------------------
+--  create table article_search
+-- ----------------------------------------------------------
+CREATE TABLE article_search (
+    id serial,
+    ticket_id INTEGER NOT NULL,
+    article_type_id INTEGER NOT NULL,
+    article_sender_type_id INTEGER NOT NULL,
+    a_from VARCHAR (3800),
+    a_to VARCHAR (3800),
+    a_cc VARCHAR (3800),
+    a_subject VARCHAR (3800),
+    a_message_id VARCHAR (3800),
+    a_body VARCHAR NOT NULL,
+    incoming_time INTEGER NOT NULL,
+    a_freekey1 VARCHAR (250),
+    a_freetext1 VARCHAR (250),
+    a_freekey2 VARCHAR (250),
+    a_freetext2 VARCHAR (250),
+    a_freekey3 VARCHAR (250),
+    a_freetext3 VARCHAR (250),
+    PRIMARY KEY(id)
+);
+CREATE INDEX article_search_article_sender_type_id ON article_search (article_sender_type_id);
+CREATE INDEX article_search_article_type_id ON article_search (article_type_id);
+CREATE INDEX article_search_message_id ON article_search (a_message_id);
+CREATE INDEX article_search_ticket_id ON article_search (ticket_id);
 CREATE INDEX ticket_watcher_user_id ON ticket_watcher (user_id);
 ALTER TABLE ticket_watcher ADD FOREIGN KEY (ticket_id) REFERENCES ticket(id);
 ALTER TABLE ticket_watcher ADD FOREIGN KEY (user_id) REFERENCES users(id);
@@ -238,3 +265,6 @@ ALTER TABLE link_relation ADD FOREIGN KEY (target_object_id) REFERENCES link_obj
 ALTER TABLE link_relation ADD FOREIGN KEY (state_id) REFERENCES link_state(id);
 ALTER TABLE link_relation ADD FOREIGN KEY (type_id) REFERENCES link_type(id);
 ALTER TABLE link_relation ADD FOREIGN KEY (create_by) REFERENCES users(id);
+ALTER TABLE article_search ADD FOREIGN KEY (article_sender_type_id) REFERENCES article_sender_type(id);
+ALTER TABLE article_search ADD FOREIGN KEY (article_type_id) REFERENCES article_type(id);
+ALTER TABLE article_search ADD FOREIGN KEY (ticket_id) REFERENCES ticket(id);
