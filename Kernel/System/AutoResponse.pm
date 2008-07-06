@@ -2,7 +2,7 @@
 # Kernel/System/AutoResponse.pm - lib for auto responses
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AutoResponse.pm,v 1.21 2008-06-23 06:42:36 martin Exp $
+# $Id: AutoResponse.pm,v 1.22 2008-07-06 19:35:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -65,11 +65,11 @@ sub AutoResponseAdd {
 
     # get id
     return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT id FROM auto_response WHERE name = ? AND text0 = ? AND text1 = ? '
-            . 'AND charset = ? AND type_id = ?',
+        SQL => 'SELECT id FROM auto_response WHERE name = ? AND type_id = ? AND'
+            . ' system_address_id = ? AND charset = ? AND create_by = ?',
         Bind => [
-            \$Param{Name}, \$Param{Response}, \$Param{Subject}, \$Param{Charset},
-            \$Param{TypeID},
+            \$Param{Name}, \$Param{TypeID}, \$Param{AddressID}, \$Param{Charset},
+            \$Param{UserID},
         ],
     );
     my $ID;
