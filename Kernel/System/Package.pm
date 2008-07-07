@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.80 2008-07-05 18:40:28 mh Exp $
+# $Id: Package.pm,v 1.81 2008-07-07 06:14:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.80 $) [1];
+$VERSION = qw($Revision: 1.81 $) [1];
 
 =head1 NAME
 
@@ -1092,10 +1092,78 @@ returns the info of the latest DeployCheck(), what's not deployed correctly
 sub DeployCheckInfo {
     my ( $Self, %Param ) = @_;
 
-    # no special stuff needed
-
     if ( $Self->{DeployCheckInfo} ) {
         return %{ $Self->{DeployCheckInfo} };
+    }
+    return ();
+}
+
+=item PackageVerify()
+
+check if package is verified by the vendor
+
+    $PackageObject->PackageVerify(
+        Package   => $Package,
+        Structure => \%Structure,
+    );
+
+=cut
+
+sub PackageVerify {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(Package Structure)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined!" );
+            return;
+        }
+    }
+
+    # diable verifying
+    return 1;
+
+    $Self->{PackageVerifyInfo} = undef;
+
+    # vendor name check
+    if ( $Param{Structure}->{Vendor}->{Content} =~ /^otrs/i ) {
+        return 1;
+    }
+
+    # verify info
+    $Self->{PackageVerifyInfo} = {
+        Description => "This package is not deployed by the OTRS Project. The OTRS "
+            . "Project is not responable if you run into problems by using this package. "
+            . "Please contact <a href=\"mailto:enjoy\@otrs.com?Subject=Package "
+            . $Param{Structure}->{Name}->{Content}
+            . "Version=" . $Param{Structure}->{Name}->{Content}
+            . "\">enjoy\@otrs.com</a> if you have any "
+            . "problems.<br>For more info see: "
+            . "<a href=\"http://otrs.org/verify?Name="
+            . $Param{Structure}->{Name}->{Content}
+            . "&Version="
+            . $Param{Structure}->{Version}->{Content}
+            . "\">http://otrs.org/verify/</a>",
+        Title => 'Package Verification failed (not deployed by the OTRS Project)',
+
+    };
+
+    return;
+}
+
+=item PackageVerifyInfo()
+
+returns the info of the latest PackageVerify(), what's not correctly
+
+    my %Hash = $PackageObject->PackageVerifyInfo();
+
+=cut
+
+sub PackageVerifyInfo {
+    my ( $Self, %Param ) = @_;
+
+    if ( $Self->{PackageVerifyInfo} ) {
+        return %{ $Self->{PackageVerifyInfo} };
     }
     return ();
 }
@@ -2133,6 +2201,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.80 $ $Date: 2008-07-05 18:40:28 $
+$Revision: 1.81 $ $Date: 2008-07-07 06:14:55 $
 
 =cut
