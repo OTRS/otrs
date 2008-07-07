@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.63 2008-07-07 06:14:55 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.64 2008-07-07 12:59:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -162,13 +162,13 @@ sub Run {
     # view package
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'View' ) {
-        my $Name     = $Self->{ParamObject}->GetParam( Param => 'Name' )    || '';
-        my $Version  = $Self->{ParamObject}->GetParam( Param => 'Version' ) || '';
+        my $Name    = $Self->{ParamObject}->GetParam( Param => 'Name' )    || '';
+        my $Version = $Self->{ParamObject}->GetParam( Param => 'Version' ) || '';
         my $Location = $Self->{ParamObject}->GetParam( Param => 'Location' );
         my %Frontend = ();
 
         # get package
-        my $Package  = $Self->{PackageObject}->RepositoryGet(
+        my $Package = $Self->{PackageObject}->RepositoryGet(
             Name    => $Name,
             Version => $Version,
         );
@@ -389,7 +389,8 @@ sub Run {
             my %VerifyInfo = $Self->{PackageObject}->DeployCheckInfo();
             $Output .= $Self->{LayoutObject}->Notify(
                 Priority => 'Error',
-                Data     => '$Text{"Package verification failed!"} $Text{"For more info see:"} http://otrs.org/verify/',
+                Data =>
+                    '$Text{"Package verification failed!"} $Text{"For more info see:"} http://otrs.org/verify/',
                 Link => 'http://otrs.org/verify?Name'
                     . $Name
                     . '&Version='
@@ -636,12 +637,13 @@ sub Run {
     # install package
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Install' ) {
-        my $Name               = $Self->{ParamObject}->GetParam( Param => 'Name' )               || '';
-        my $Version            = $Self->{ParamObject}->GetParam( Param => 'Version' )            || '';
-        my $IntroInstallPre    = $Self->{ParamObject}->GetParam( Param => 'IntroInstallPre' )    || '';
-        my $IntroInstallPost   = $Self->{ParamObject}->GetParam( Param => 'IntroInstallPost' )   || '';
-        my $IntroInstallVendor = $Self->{ParamObject}->GetParam( Param => 'IntroInstallVendor' ) || '';
-        my %Frontend           = ();
+        my $Name             = $Self->{ParamObject}->GetParam( Param => 'Name' )             || '';
+        my $Version          = $Self->{ParamObject}->GetParam( Param => 'Version' )          || '';
+        my $IntroInstallPre  = $Self->{ParamObject}->GetParam( Param => 'IntroInstallPre' )  || '';
+        my $IntroInstallPost = $Self->{ParamObject}->GetParam( Param => 'IntroInstallPost' ) || '';
+        my $IntroInstallVendor = $Self->{ParamObject}->GetParam( Param => 'IntroInstallVendor' )
+            || '';
+        my %Frontend = ();
 
         # get package
         my $Package = $Self->{PackageObject}->RepositoryGet(
@@ -758,11 +760,12 @@ sub Run {
     # install remote package
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'InstallRemote' ) {
-        my $File               = $Self->{ParamObject}->GetParam( Param => 'File' )               || '';
-        my $IntroInstallPre    = $Self->{ParamObject}->GetParam( Param => 'IntroInstallPre' )    || '';
-        my $IntroInstallPost   = $Self->{ParamObject}->GetParam( Param => 'IntroInstallPost' )   || '';
-        my $IntroInstallVendor = $Self->{ParamObject}->GetParam( Param => 'IntroInstallVendor' ) || '';
-        my %Frontend           = ();
+        my $File             = $Self->{ParamObject}->GetParam( Param => 'File' )             || '';
+        my $IntroInstallPre  = $Self->{ParamObject}->GetParam( Param => 'IntroInstallPre' )  || '';
+        my $IntroInstallPost = $Self->{ParamObject}->GetParam( Param => 'IntroInstallPost' ) || '';
+        my $IntroInstallVendor = $Self->{ParamObject}->GetParam( Param => 'IntroInstallVendor' )
+            || '';
+        my %Frontend = ();
 
         # download package
         my $Package = $Self->{PackageObject}->PackageOnlineGet(
@@ -1236,11 +1239,12 @@ sub Run {
     # install package
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'InstallUpload' ) {
-        my $IntroInstallPre    = $Self->{ParamObject}->GetParam( Param => 'IntroInstallPre' )    || '';
-        my $IntroInstallPost   = $Self->{ParamObject}->GetParam( Param => 'IntroInstallPost' )   || '';
-        my $IntroInstallVendor = $Self->{ParamObject}->GetParam( Param => 'IntroInstallVendor' ) || '';
-        my $FormID             = $Self->{ParamObject}->GetParam( Param => 'FormID' )             || '';
-        my %UploadStuff        = $Self->{ParamObject}->GetUploadAll(
+        my $IntroInstallPre  = $Self->{ParamObject}->GetParam( Param => 'IntroInstallPre' )  || '';
+        my $IntroInstallPost = $Self->{ParamObject}->GetParam( Param => 'IntroInstallPost' ) || '';
+        my $IntroInstallVendor = $Self->{ParamObject}->GetParam( Param => 'IntroInstallVendor' )
+            || '';
+        my $FormID = $Self->{ParamObject}->GetParam( Param => 'FormID' ) || '';
+        my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
             Param  => 'file_upload',
             Source => 'string',
         );
