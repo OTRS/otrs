@@ -2,7 +2,7 @@
 # Kernel/System/CustomerCompany.pm - All customer company related function should be here eventually
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerCompany.pm,v 1.12 2008-05-08 13:43:11 mh Exp $
+# $Id: CustomerCompany.pm,v 1.13 2008-07-07 22:52:27 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -369,7 +369,7 @@ sub CustomerCompanyList {
                 }
             }
             else {
-                $SQL .= " LOWER($Self->{CustomerKey}) LIKE LOWER('"
+                $SQL .= " LOWER($Self->{CustomerCompanyKey}) LIKE LOWER('"
                     . $Self->{DBObject}->Quote($Part) . "') ";
             }
         }
@@ -423,6 +423,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2008-05-08 13:43:11 $
+$Revision: 1.13 $ $Date: 2008-07-07 22:52:27 $
 
 =cut
