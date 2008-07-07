@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.330 2008-07-05 18:40:28 mh Exp $
+# $Id: Ticket.pm,v 1.331 2008-07-07 06:11:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.330 $) [1];
+$VERSION = qw($Revision: 1.331 $) [1];
 
 =head1 NAME
 
@@ -1605,11 +1605,16 @@ sub TicketServiceSet {
         return;
     }
 
-    $Param{ServiceID} ||= 'NULL';
+    # check database undef/NULL (set value to undef/NULL to prevent database errors)
+    for (qw(ServiceID SLAID)) {
+        if ( !$Param{$_} ) {
+            $Param{$_} = undef;
+        }
+    }
 
     return if !$Self->{DBObject}->Do(
-        SQL  => "UPDATE ticket SET service_id = $Param{ServiceID} WHERE id = ?",
-        Bind => [ \$Param{TicketID} ],
+        SQL  => 'UPDATE ticket SET service_id = ? WHERE id = ?',
+        Bind => [ \$Param{ServiceID}, \$Param{TicketID} ],
     );
 
     # clear ticket cache
@@ -1617,10 +1622,10 @@ sub TicketServiceSet {
 
     # get new ticket data
     my %TicketNew = $Self->TicketGet(%Param);
-    $TicketNew{Service} ||= 'NULL';
-    $Param{ServiceID}   ||= '';
-    $Ticket{Service}    ||= 'NULL';
-    $Ticket{ServiceID}  ||= '';
+    $TicketNew{Service} = $TicketNew{Service} || 'NULL';
+    $Param{ServiceID}   = $Param{ServiceID}   || '';
+    $Ticket{Service}    = $Ticket{Service}    || 'NULL';
+    $Ticket{ServiceID}  = $Ticket{ServiceID}  || '';
 
     # history insert
     $Self->HistoryAdd(
@@ -1654,7 +1659,7 @@ sub TicketEscalationDateCalculation {
     my %Ticket = %{ $Param{Ticket} };
 
     # do no escalations it a ticket is closed
-    if ( $Ticket{StateType} =~ /^close/i ) {
+    if ( $Ticket{StateType} =~ /^(merge|close|remove)/i ) {
         return;
     }
 
@@ -2097,11 +2102,16 @@ sub TicketSLASet {
         return;
     }
 
-    $Param{SLAID} ||= 'NULL';
+    # check database undef/NULL (set value to undef/NULL to prevent database errors)
+    for (qw(ServiceID SLAID)) {
+        if ( !$Param{$_} ) {
+            $Param{$_} = undef;
+        }
+    }
 
     return if !$Self->{DBObject}->Do(
-        SQL  => "UPDATE ticket SET sla_id = $Param{SLAID} WHERE id = ?",
-        Bind => [ \$Param{TicketID} ],
+        SQL  => 'UPDATE ticket SET sla_id = ? WHERE id = ?',
+        Bind => [ \$Param{SLAID}, \$Param{TicketID} ],
     );
 
     # clear ticket cache
@@ -2109,10 +2119,10 @@ sub TicketSLASet {
 
     # get new ticket data
     my %TicketNew = $Self->TicketGet(%Param);
-    $TicketNew{SLA} ||= 'NULL';
-    $Param{SLAID}   ||= '';
-    $Ticket{SLA}    ||= 'NULL';
-    $Ticket{SLAID}  ||= '';
+    $TicketNew{SLA} = $TicketNew{SLA} || 'NULL';
+    $Param{SLAID}   = $Param{SLAID}   || '';
+    $Ticket{SLA}    = $Ticket{SLA}    || 'NULL';
+    $Ticket{SLAID}  = $Ticket{SLAID}  || '';
 
     # history insert
     $Self->HistoryAdd(
@@ -3106,6 +3116,7 @@ sub TicketSearch {
         Age                    => 'st.create_time_unix',
         Service                => 'st.service_id',
         SLA                    => 'st.sla_id',
+        TicketEscalation       => 'st.escalation_time',
         EscalationTime         => 'st.escalation_time',
         EscalationUpdateTime   => 'st.escalation_update_time',
         EscalationResponseTime => 'st.escalation_response_time',
@@ -6564,6 +6575,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.330 $ $Date: 2008-07-05 18:40:28 $
+$Revision: 1.331 $ $Date: 2008-07-07 06:11:07 $
 
 =cut
