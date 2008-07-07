@@ -2,14 +2,21 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.698 2008-07-03 22:40:35 martin Exp $
+# $Id: CHANGES,v 1.699 2008-07-07 06:17:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
-2.3.0 beta4 (2008/07/??)
+2.3.0 beta4 (2008/07/07)
+ - (2008/07/07) Fixed bug# 2158 - Trigger Definitions not allow export / import
+    through oracle exp/imp tool.
+ - (2008/07/06) Fixed bug# 3058 - Unconsistent usage of id's in
+    otrs-initial_insert.*.sql. E. g. in case of Dual-Master MySQL 5 Replication
+    is used.
+ - (2008/07/06) Fixed bug# 3059 - article_search table is missing in
+    scripts/database/otrs-schema.*.sql and scripts/DBUpdate-to-2.3.*.sql.
  - (2008/07/04) Fixed bug# 3055 - Link migration from 2.2 -> 2.3 is no working
     (missing TypeGet(), not shown because of disabled STDERR).
  - (2008/07/03) Fixed bug# 3053 - AJAX functionality without cookies is not
