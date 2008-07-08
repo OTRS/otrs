@@ -2,7 +2,7 @@
 # Package.t - Package tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.t,v 1.15 2008-07-05 18:40:28 mh Exp $
+# $Id: Package.t,v 1.16 2008-07-08 23:33:31 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -403,6 +403,13 @@ my $String3b = '<?xml version="1.0" encoding="utf-8" ?>
             Content   =&gt; \$Content,
         );
   </CodeUpgrade>
+  <CodeUpgrade Type="pre" Version="0.0.1">
+        my $Content = "test";
+        $Self->{MainObject}-&gt;FileWrite(
+            Location  =&gt; "' . $TmpDir . '/test3b",
+            Content   =&gt; \$Content,
+        );
+  </CodeUpgrade>
   <CodeUpgrade Type="pre">
         my $Content = "test";
         $Self->{MainObject}-&gt;FileWrite(
@@ -430,14 +437,18 @@ $Self->True(
     '#5 PackageUpgrade() - CodeUpgrade with version 0.0.4 (no file).',
 );
 $Self->True(
-    !-f $TmpDir . '/test2',
-    '#5 PackageUpgrade() - CodeUpgrade with version 0.0.3 (no file).',
+    -f $TmpDir . '/test2',
+    '#5 PackageUpgrade() - CodeUpgrade with version 0.0.3.',
 );
+unlink $TmpDir . '/test2';
 $Self->True(
-    -f $TmpDir . '/test3',
+    !-f $TmpDir . '/test3',
     '#5 PackageUpgrade() - CodeUpgrade with version 0.0.2 (no file).',
 );
-unlink $TmpDir . '/test3';
+$Self->True(
+    !-f $TmpDir . '/test3b',
+    '#5 PackageUpgrade() - CodeUpgrade with version 0.0.1 (no file).',
+);
 $Self->True(
     -f $TmpDir . '/test4',
     '#5 PackageUpgrade() - CodeUpgrade without version.',

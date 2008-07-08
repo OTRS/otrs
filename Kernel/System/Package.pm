@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.81 2008-07-07 06:14:55 martin Exp $
+# $Id: Package.pm,v 1.82 2008-07-08 23:33:31 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.81 $) [1];
+$VERSION = qw($Revision: 1.82 $) [1];
 
 =head1 NAME
 
@@ -575,7 +575,7 @@ sub PackageUpgrade {
         }
     }
 
-    # check if one of this files is already intalled by an other package
+    # check if one of this files is already installed by an other package
     if ( %Structure && !$Param{Force} ) {
         return if !$Self->_PackageFileCheck(
             Structure => \%Structure,
@@ -600,14 +600,24 @@ sub PackageUpgrade {
     # upgrade code (pre)
     if ( $Structure{CodeUpgrade} && ref $Structure{CodeUpgrade} eq 'ARRAY' ) {
         my @Parts = ();
+        PART:
         for my $Part ( @{ $Structure{CodeUpgrade} } ) {
             if ( $Part->{Version} ) {
+
+                # skip code upgrade block if its version is bigger than the new package version
                 my $CheckVersion = $Self->_CheckVersion(
+                    Version1 => $Part->{Version},
+                    Version2 => $Structure{Version}->{Content},
+                    Type     => 'Max'
+                );
+                next PART if $CheckVersion;
+
+                $CheckVersion = $Self->_CheckVersion(
                     Version1 => $Part->{Version},
                     Version2 => $InstalledVersion,
                     Type     => 'Min'
                 );
-                if ($CheckVersion) {
+                if (!$CheckVersion) {
                     push @Parts, $Part;
                 }
             }
@@ -700,14 +710,24 @@ sub PackageUpgrade {
     # upgrade code (post)
     if ( $Structure{CodeUpgrade} && ref $Structure{CodeUpgrade} eq 'ARRAY' ) {
         my @Parts = ();
+        PART:
         for my $Part ( @{ $Structure{CodeUpgrade} } ) {
             if ( $Part->{Version} ) {
+
+                # skip code upgrade block if its version is bigger than the new package version
                 my $CheckVersion = $Self->_CheckVersion(
+                    Version1 => $Part->{Version},
+                    Version2 => $Structure{Version}->{Content},
+                    Type     => 'Max'
+                );
+                next PART if $CheckVersion;
+
+                $CheckVersion = $Self->_CheckVersion(
                     Version1 => $Part->{Version},
                     Version2 => $InstalledVersion,
                     Type     => 'Min'
                 );
-                if ($CheckVersion) {
+                if (!$CheckVersion) {
                     push @Parts, $Part;
                 }
             }
@@ -2201,6 +2221,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.81 $ $Date: 2008-07-07 06:14:55 $
+$Revision: 1.82 $ $Date: 2008-07-08 23:33:31 $
 
 =cut
