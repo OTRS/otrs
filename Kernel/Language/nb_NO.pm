@@ -3,9 +3,9 @@
 # Copyright (C) 2004 Arne Georg Gleditsch <argggh at linpro.no>
 # Copyright (C) 2005 Stefansen Espen <espen.stefansen at imr.no>
 # Copyright (C) 2006 Knut Haugen <knuthaug at linpro.no>
-# Copyright (C) 2007 Fredrik Andersen <fredrik.andersen at husbanken.no>
+# Copyright (C) 2007-2008 Fredrik Andersen <fredrik.andersen at husbanken.no>
 # --
-# $Id: nb_NO.pm,v 1.59 2008-07-01 21:29:24 mh Exp $
+# $Id: nb_NO.pm,v 1.60 2008-07-08 11:04:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.59 $;
+$VERSION = q$Revision: 1.60 $;
 
 sub Data {
     my $Self = shift;
@@ -99,7 +99,7 @@ sub Data {
         'Back' => 'Tilbake',
         'Next...' => 'Neste...',
         '...Back' => '...Tilbake',
-        '-none-' => '-ingen',
+        '-none-' => '-ingen-',
         'none' => 'ingen',
         'none!' => 'ingen!',
         'none - answered' => 'ingen - besvart',
@@ -226,7 +226,7 @@ sub Data {
         'Cc: (%s) added database email!' => 'Cc: (%s) la til database-epost!',
         '(Click here to add)' => '(Klikk her for å legge til)',
         'Preview' => 'Forhåndsvisning',
-        'Package not correctly deployed! You should reinstall the Package again!' => 'Pakken er ikke installert korrekt! Du burde reinstallere pakken igjen!',
+        'Package not correctly deployed! You should reinstall the Package again!' => 'Pakken er ikke installert korrekt! Du bør reinstallere pakken igjen!',
         'Added User "%s"' => 'Lagt til bruker "%s"',
         'Contract' => 'Kontrakt',
         'Online Customer: %s' => 'Pålogget kunde: %s',
@@ -257,16 +257,16 @@ sub Data {
         'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' => 'Ingen pakker ble funnet for det ønskede rammeverket i online bibliotek, men pakker for andre rammeverk ble funnet!',
         'No Packages or no new Packages in selected Online Repository!' => 'Ingen pakker, eller ingen nye pakker i valgte online bibliotek!',
         'printed at' => 'skrevet ut på',
-        'Dear Mr. %s,' => '',
-        'Dear Mrs. %s,' => '',
-        'Dear %s,' => '',
-        'Hello %s,' => '',
-        'This account exists.' => '',
-        'New account created. Sent Login-Account to %s.' => '',
-        'Please press Back and try again.' => '',
-        'Sent password token to: %s' => '',
-        'Sent new password to: %s' => '',
-        'Invalid Token!' => '',
+        'Dear Mr. %s,' => 'Kjære %s',
+        'Dear Mrs. %s,' => 'Kjære %s',
+        'Dear %s,' => 'Kjære %s',
+        'Hello %s,' => 'Kjære %s',
+        'This account exists.' => 'Kontoen finnes allerede',
+        'New account created. Sent Login-Account to %s.' => 'Ny konto opprettet. Login-konto sendt til %s',
+        'Please press Back and try again.' => 'Vennligst gå tilbake og prøv på nytt',
+        'Sent password token to: %s' => 'Passord-bevis sendt til: %s',
+        'Sent new password to: %s' => 'Sendt nytt passord til: %s',
+        'Invalid Token!' => 'Ugyldig bevis!',
 
         # Template: AAAMonth
         'Jan' => 'jan',
@@ -628,16 +628,16 @@ sub Data {
 
         # Template: AdminCustomerUserService
         'Customer Users <-> Services Management' => 'Kunde <-> Tjenesteadministrasjon',
-        'CustomerUser' => '',
-        'Service' => '',
-        'Edit default services.' => '',
-        'Search Result' => '',
-        'CustomerUser' => '',
-        'Service' => '',
-        'Allocate services to CustomerUser' => 'Tilordne tjenester til kunde-bruker',
-        'Active' => '',
-        'Allocate CustomerUser to service' => 'Tilordne kunde-bruker til tjeneste',
-        'Active' => '',
+        'CustomerUser' => 'Kundebruker',
+        'Service' => 'Tjeneste',
+        'Edit default services.' => 'Endre standardtjenester',
+        'Search Result' => 'Søkeresultat',
+        'CustomerUser' => 'Kundebruker',
+        'Service' => 'Tjeneste',
+        'Allocate services to CustomerUser' => 'Tilordne tjenester til kundebruker',
+        'Active' => 'Aktivere',
+        'Allocate CustomerUser to service' => 'Tilordne kundebruker til tjeneste',
+        'Active' => 'Aktiv',
 
         # Template: AdminEmail
         'Message sent to' => 'Melding sendt til',
@@ -668,16 +668,16 @@ sub Data {
         'No create time settings.' => 'Ingen opprettelsestidspunkt innstillinger.',
         'Ticket created' => 'Sak opprettet',
         'Ticket created between' => 'Sak opprettet mellom',
-        'Close Times' => '',
-        'No close time settings.' => '',
-        'Ticket closed' => '',
-        'Ticket closed between' => '',
+        'Close Times' => 'Stengetider',
+        'No close time settings.' => 'Ingen stengetid innstillinger',
+        'Ticket closed' => 'Sak låst',
+        'Ticket closed between' => 'Sak låst mellom',
         'Pending Times' => 'Ventetid',
         'No pending time settings.' => 'Ingen innstillinger for ventetid.',
         'Ticket pending time reached' => 'Ventetiden er nådd',
         'Ticket pending time reached between' => 'Ventetiden er nådd mellom',
-        'New Service' => '',
-        'New SLA' => '',
+        'New Service' => 'Ny Tjeneste',
+        'New SLA' => 'Ny SLA',
         'New Priority' => 'Ny prioritet',
         'New Queue' => 'Ny mappe',
         'New State' => 'Ny status',
@@ -685,9 +685,9 @@ sub Data {
         'New Owner' => 'Ny saksbehandler',
         'New Customer' => 'Ny kunde',
         'New Ticket Lock' => 'Ny saks-lås',
-        'New Type' => '',
-        'New Title' => '',
-        'New Type' => '',
+        'New Type' => 'Ny type',
+        'New Title' => 'Ny tittel',
+        'New Type' => 'Ny type',
         'New TicketFreeFields' => 'Ny SakTilgjengeligFelter',
         'Add Note' => 'Legg til notis',
         'CMD' => 'Kommando',
@@ -721,7 +721,7 @@ sub Data {
         'Time' => 'Tid',
 
         # Template: AdminMailAccount
-        'Mail Account Management' => '',
+        'Mail Account Management' => 'Epost konto administrasjon',
         'Host' => 'Maskin',
         'Trusted' => 'Betrodd',
         'Dispatching' => 'Fordeling',
@@ -782,10 +782,10 @@ sub Data {
         'Min Response' => 'Min Respons',
         'Max Response' => 'Max Respons',
         'Average Response' => 'Gjennomsnittlig Respons',
-        'Period' => '',
-        'Min' => '',
-        'Max' => '',
-        'Average' => '',
+        'Period' => 'Periode',
+        'Min' => 'Min',
+        'Max' => 'Max',
+        'Average' => 'Gjennomsnitt',
 
         # Template: AdminPGPForm
         'PGP Management' => 'PGP-innstillinger',
@@ -816,13 +816,13 @@ sub Data {
         'Sub-Queue of' => 'Undermappe av',
         'Unlock timeout' => 'Tidsintervall for å sette sak tilgjengelig for andre',
         '0 = no unlock' => '0 = ikke gjør saker tilgjengelig',
-        'Only business hours are counted.' => '',
+        'Only business hours are counted.' => 'Kun timene i åpningstiden telles',
         'Escalation - First Response Time' => 'Eskalering - første responstid',
         '0 = no escalation' => '0 = ingen eskalering',
-        'Only business hours are counted.' => '',
-        'Notify by' => '',
+        'Only business hours are counted.' => 'Kun timene i åpningstiden telles',
+        'Notify by' => 'Varsle med',
         'Escalation - Update Time' => 'Eskalering - oppdateringstid',
-        'Notify by' => '',
+        'Notify by' => 'Varsle med',
         'Escalation - Solution Time' => 'Eskalering - løsningstid',
         'Follow up Option' => 'Korrespondanse på avsluttet sak',
         'Ticket lock after a follow up' => 'Saken settes som privat etter oppfølgnings e-post',
@@ -892,7 +892,7 @@ sub Data {
         'Add a new Salutation.' => 'Legg til en ny hilsning.',
 
         # Template: AdminSelectBoxForm
-        'SQL Box' => '',
+        'SQL Box' => 'SQL boks',
         'Limit' => 'Grense',
         'Go' => 'Kjør',
         'Select Box Result' => 'Select Box-resultat',
@@ -1156,14 +1156,14 @@ sub Data {
         'Clear To' => 'Visk ut "Til"',
 
         # Template: AgentTicketEscalationView
-        'Ticket Escalation View' => '',
-        'Escalation' => '',
-        'Today' => '',
-        'Tomorrow' => '',
-        'Next Week' => '',
+        'Ticket Escalation View' => 'Eskaleringsvisning',
+        'Escalation' => 'Eskalering',
+        'Today' => 'Idag',
+        'Tomorrow' => 'I morgen',
+        'Next Week' => 'Neste Uke',
         'up' => 'stigende',
         'down' => 'synkende',
-        'Escalation' => '',
+        'Escalation' => 'Eskalering',
         'Locked' => 'Tilgjenglighet',
 
         # Template: AgentTicketForward
@@ -1252,10 +1252,10 @@ sub Data {
         'Search-Template' => 'Søkemal',
         'TicketFreeText' => 'Stikkordssøk',
         'Created in Queue' => 'Opprettet i mappe',
-        'Close Times' => '',
-        'No close time settings.' => '',
-        'Ticket closed' => '',
-        'Ticket closed between' => '',
+        'Close Times' => 'Stengetider',
+        'No close time settings.' => 'Ingen stengetid innstilling',
+        'Ticket closed' => 'Sak låst',
+        'Ticket closed between' => 'Sak låst mellom',
         'Result Form' => 'Resultatbilde',
         'Save Search-Profile as Template?' => 'Lagre søkekriterier som mal?',
         'Yes, save it with name' => 'Ja, lagre med navn',
@@ -1263,7 +1263,7 @@ sub Data {
         # Template: AgentTicketSearchOpenSearchDescription
 
         # Template: AgentTicketSearchResult
-        'Search Result' => '',
+        'Search Result' => 'Søkeresultat',
         'Change search options' => 'Endre søke-innstillinger',
 
         # Template: AgentTicketSearchResultPrint
@@ -1275,8 +1275,8 @@ sub Data {
         'Open Tickets' => 'Åpne saker',
 
         # Template: AgentTicketZoom
-        'Expand View' => '',
-        'Collapse View' => '',
+        'Expand View' => 'Utvid',
+        'Collapse View' => 'Begrens',
 
         # Template: AgentWindowTab
 
@@ -1353,7 +1353,7 @@ sub Data {
         'Accept license' => 'Aksepter lisens',
         'Don\'t accept license' => 'Ikke aksepter lisens',
         'Admin-User' => 'Admin-bruker',
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' => '',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' => 'Hvis du har satt et root passord for databasen, må det skrives inn her. Hvis ikke kan du la dette feltet være åpent. For sikkerhetsskyld anbefaler vi å sette et root passord. For mer informasjon, vennligst se i databasedokumentasjonen.',
         'Admin-Password' => 'Administrator-passord',
         'Database-User' => 'Database-bruker',
         'default \'hot\'' => 'Standard \'hot\'',
@@ -1467,7 +1467,7 @@ sub Data {
         'OTRS DB Password' => 'OTRS DB passord',
         'Last update' => 'Sist endret',
         'to get the first 20 character of the subject' => 'gir de første 20 bokstavene av emnebeskrivelsen',
-        'Select the customeruser:service relations.' => '',
+        'Select the customeruser:service relations.' => 'Velg kundebruker:tjeneste relasjoner',
         'DB Admin Password' => 'DB administratorpassord',
         'Drop Database' => 'Slett database',
         'Advisory' => 'Råd',
@@ -1546,15 +1546,15 @@ sub Data {
         'Modified' => 'Endret',
         'Ticket selected for bulk action!' => 'Sak valgt for masseredigering',
 
-        'Link Object: %s' => '',
-        'Unlink Object: %s' => '',
-        'Linked as' => '',
-        'Can not create link with %s!' => '',
-        'Can not delete link with %s!' => '',
-        'Object already linked as %s.' => '',
-        'Priority Management' => '',
-        'Add a new Priority.' => '',
-        'Add Priority' => '',
+        'Link Object: %s' => 'Koble Objekt: %s',
+        'Unlink Object: %s' => 'Koble fra Objekt: %s',
+        'Linked as' => 'Koblet som',
+        'Can not create link with %s!' => 'Kan ikke opprette kobling mot %s!',
+        'Can not delete link with %s!' => 'Kan ikke fjerne kobling mot %s',
+        'Object already linked as %s.' => 'Objekt er allerede koblet som %s.',
+        'Priority Management' => 'Prioriteringsadministrasjon',
+        'Add a new Priority.' => 'Legg til som ny Prioritering',
+        'Add Priority' => 'Legg til Prioritering',
     };
     # $$STOP$$
     return;

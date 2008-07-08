@@ -2,12 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.700 2008-07-07 22:52:27 ub Exp $
+# $Id: CHANGES,v 1.701 2008-07-08 11:04:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
+
+2.3.0 rc1 (2008/07/??)
+ - (2007/07/08) Updated norwegian translation, thanks to Fredrik Andersen!
 
 2.3.0 beta4 (2008/07/07)
  - (2008/07/07) Fixed bug# 2158 - Trigger Definitions not allow export / import
