@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.701 2008-07-08 11:04:16 martin Exp $
+# $Id: CHANGES,v 1.702 2008-07-08 23:45:35 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.3.0 rc1 (2008/07/??)
+ - (2007/07/09) Fixed problem in CodeUpgrade functionallity.
+    Code did not react correctly to version number in CodeUpgrade sections.
  - (2007/07/08) Updated norwegian translation, thanks to Fredrik Andersen!
 
 2.3.0 beta4 (2008/07/07)
