@@ -2,7 +2,7 @@
 # customer-css.dtl - customer css
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: customer-css.dtl,v 1.13 2008-02-17 16:15:44 martin Exp $
+# $Id: customer-css.dtl,v 1.14 2008-07-08 18:55:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,8 +38,8 @@ a.menuitem:hover { color:#002244;font-size:12px; }
 .footer { color:#efefef;background-color:green;font-weight:bold;font-size:10px;font-family:Geneva,Helvetica,Arial,sans-serif; }
 a.footeritem { color:#efefef; }
 # small
-.small { font-size:10px;font-family:Geneva,Helvetica,Arial,sans-serif; }
-a.small { color:#111111;text-decoration:none;font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px; }
+.small { font-size:10px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+a.small { color:#111111;text-decoration:none;font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px;vertical-align:top; }
 # form
 form {margin:0px;}
 input {font-family:Geneva,Helvetica,Arial,Helvetica,sans-serif;font-size:12px;}

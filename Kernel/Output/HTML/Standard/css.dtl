@@ -2,7 +2,7 @@
 # css.dtl - css file
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: css.dtl,v 1.21 2008-06-29 11:33:05 tr Exp $
+# $Id: css.dtl,v 1.22 2008-07-08 18:55:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -42,9 +42,9 @@ a.menuitem:hover { color:#002244;font-size:12px; }
 a.footeritem { color:#ffffff;text-decoration:none; }
 a.footeritem:hover { color:#dddddd;text-decoration:underline; }
 # small
-.small { color:#000000;font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px;font-weight: normal; }
-a.small { color:#000000;text-decoration:none;font-weight: normal; }
-a.small:hover { color:#222222;text-decoration:underline;font-weight: normal; }
+.small { color:#000000;font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px;font-weight:normal;vertical-align:top; }
+a.small { color:#000000;text-decoration:none;font-weight: normal;vertical-align:top; }
+a.small:hover { color:#222222;text-decoration:underline;font-weight: normal;vertical-align:top; }
 # form
 .required { color:red;font-size:11px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
 .validity { color:red;font-size:11px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; font-weight: bold;}
