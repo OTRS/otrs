@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.82 2008-07-08 23:33:31 ub Exp $
+# $Id: Package.pm,v 1.83 2008-07-09 15:09:02 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.82 $) [1];
+$VERSION = qw($Revision: 1.83 $) [1];
 
 =head1 NAME
 
@@ -798,7 +798,7 @@ sub PackageUninstall {
         $Self->_Database( Database => $Structure{DatabaseUninstall}->{post} );
     }
 
-    # uninstall code (pre)
+    # uninstall code (post)
     if ( $Structure{CodeUninstall} ) {
         $Self->_Code( Code => $Structure{CodeUninstall}, Type => 'post' );
     }
@@ -2221,6 +2221,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.82 $ $Date: 2008-07-08 23:33:31 $
+$Revision: 1.83 $ $Date: 2008-07-09 15:09:02 $
 
 =cut
