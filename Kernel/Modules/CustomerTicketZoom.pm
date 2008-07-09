@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.26 2008-05-15 22:05:46 mh Exp $
+# $Id: CustomerTicketZoom.pm,v 1.27 2008-07-09 12:32:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -378,6 +378,8 @@ sub _Mask {
         my %Article = %$ArticleTmp;
         my $Start   = '';
         my $Stop    = '';
+        my $Start2  = '';
+        my $Stop2   = '';
 
         $CounterTree++;
         my $TmpSubject = $Self->{TicketObject}->TicketSubjectClean(
@@ -392,12 +394,14 @@ sub _Mask {
 
         # if this is the shown article -=> add <b>
         if ( $ArticleID eq $Article{ArticleID} ) {
-            $Start = '&gt;&gt;<i><b><u>';
+            $Start  = '<i><u>';
+            $Start2 = '<b>';
         }
 
         # if this is the shown article -=> add </b>
         if ( $ArticleID eq $Article{ArticleID} ) {
-            $Stop = '</u></b></i>';
+            $Stop  = '</u></i>';
+            $Stop2 = '</b>';
         }
         $Self->{LayoutObject}->Block(
             Name => 'TreeItem',
@@ -407,6 +411,8 @@ sub _Mask {
                 Space   => $Space,
                 Start   => $Start,
                 Stop    => $Stop,
+                Start2  => $Start2,
+                Stop2   => $Stop2,
                 Count   => $CounterTree,
             },
         );
