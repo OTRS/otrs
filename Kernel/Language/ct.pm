@@ -2,7 +2,7 @@
 # Kernel/Language/ct.pm - provides ct language translation
 # Copyright (C) 2008 Sistemes OTIC (ibsalut) - Antonio Linde
 # --
-# $Id: ct.pm,v 1.9 2008-07-01 21:29:24 mh Exp $
+# $Id: ct.pm,v 1.10 2008-07-09 19:50:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -35,13 +35,13 @@ sub Data {
     $Self->{Translation} = {
         # Template: AAABase
         'Yes' => 'Si',
-        'No' => '',
+        'No' => 'No',
         'yes' => 'si',
-        'no' => '',
-        'Off' => '',
-        'off' => '',
-        'On' => '',
-        'on' => '',
+        'no' => 'no',
+        'Off' => 'Off',
+        'off' => 'off',
+        'On' => 'On',
+        'on' => 'on',
         'top' => 'inici',
         'end' => 'fi',
         'Done' => 'Fet',
@@ -103,7 +103,7 @@ sub Data {
         'please do not edit!' => 'Per favor no ho editi!',
         'AddLink' => 'Afegir enllaç',
         'Link' => 'Enllaç',
-        'Unlink' => '',
+        'Unlink' => 'Llevar enllaç',
         'Linked' => 'Enllaçat',
         'Link (Normal)' => 'Enllaç (Normal)',
         'Link (Parent)' => 'Enllaç (Pare)',
@@ -245,7 +245,7 @@ sub Data {
         'Mobile' => 'Mòbil',
         'Zip' => 'CP',
         'City' => 'Ciutat',
-        'Street' => '',
+        'Street' => 'Carrer',
         'Country' => 'Pais',
         'installed' => 'instal·lat',
         'uninstalled' => 'desinstal·lat',
@@ -254,16 +254,16 @@ sub Data {
         'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' => 'No hi ha paquets per al Framework sol·licitat en aquest repositori en línia, però si hi ha per a altres Frameworks',
         'No Packages or no new Packages in selected Online Repository!' => 'No hi ha paquets o no hi ha paquets nous en el repositori en línia seleccionat',
         'printed at' => 'imprès en',
-        'Dear Mr. %s,' => '',
-        'Dear Mrs. %s,' => '',
-        'Dear %s,' => '',
-        'Hello %s,' => '',
-        'This account exists.' => '',
-        'New account created. Sent Login-Account to %s.' => '',
-        'Please press Back and try again.' => '',
-        'Sent password token to: %s' => '',
-        'Sent new password to: %s' => '',
-        'Invalid Token!' => '',
+        'Dear Mr. %s,' => 'Benvolgut Sr. %s',
+        'Dear Mrs. %s,' => 'Benvolguda Sra. %s',
+        'Dear %s,' => 'Benvolgut %s',
+        'Hello %s,' => 'Hola %s,',
+        'This account exists.' => 'Aquest compte existeix',
+        'New account created. Sent Login-Account to %s.' => 'Nou compte creat. Dades d\'inici de sessió enviats a %s.',
+        'Please press Back and try again.' => 'Per favor premi Tornar i provi de nou.',
+        'Sent password token to: %s' => 'Enviar el \'token\' de la contrasenya a: %s ',
+        'Sent new password to: %s' => 'Enviar nova contrasenya a: %s',
+        'Invalid Token!' => '\'Token\' invàlid!',
 
         # Template: AAAMonth
         'Jan' => 'Gen',
@@ -394,7 +394,7 @@ sub Data {
         'Move' => 'Moure',
         'Queue' => 'Cues',
         'Priority' => 'Prioritat',
-        'Priority Update' => '',
+        'Priority Update' => 'Actualitzar la prioritat',
         'State' => 'Estat',
         'Compose' => 'Redactar',
         'Pending' => 'Pendent',
@@ -462,8 +462,8 @@ sub Data {
         'Create new Email Ticket' => 'Crea nou tiquet de correu',
         'Phone-Ticket' => 'Tiquet-Telefònic',
         'Search Tickets' => 'Cercar tiquets',
-        'Edit Customer Users' => 'Editar clients',
-        'Edit Customer Company' => '',
+        'Edit Customer Users' => 'Editar els usuaris del client',
+        'Edit Customer Company' => 'Editar la companyia del client',
         'Bulk-Action' => 'Acció múltiple',
         'Bulk Actions on Tickets' => 'Acció múltiple en tiquets',
         'Send Email and create a new Ticket' => 'Enviar un correu i crear un nou tiquet',
@@ -562,8 +562,8 @@ sub Data {
         'History::WebRequestCustomer' => 'Sol·licitud de client per web.',
         'History::TicketLinkAdd' => 'Afegit enllaç al tiquet "%s".',
         'History::TicketLinkDelete' => 'Eliminat enllaç al tiquet "%s".',
-        'History::Subscribe' => '',
-        'History::Unsubscribe' => '',
+        'History::Subscribe' => 'Subscriure\'s',
+        'History::Unsubscribe' => 'Cancel·lar subscripció',
 
         # Template: AAAWeekDay
         'Sun' => 'Diu',
@@ -663,16 +663,16 @@ sub Data {
         'No create time settings.' => 'No hi ha valors per a temps de creació',
         'Ticket created' => 'Tiquet creat',
         'Ticket created between' => 'Tiquet creat entre',
-        'Close Times' => '',
-        'No close time settings.' => '',
-        'Ticket closed' => '',
-        'Ticket closed between' => '',
+        'Close Times' => 'Temps tancats',
+        'No close time settings.' => 'Sense configuración de temps tancat',
+        'Ticket closed' => 'Tiquet tancat',
+        'Ticket closed between' => 'Tiquet tancat entre',
         'Pending Times' => 'Temps Pendents',
         'No pending time settings.' => 'No hi ha valors per a temps de pendent',
         'Ticket pending time reached' => 'Temps de Pendent del Tiquet arribat',
         'Ticket pending time reached between' => 'Temps de Pendent del Tiquet arribat entre',
-        'New Service' => '',
-        'New SLA' => '',
+        'New Service' => 'Nou servei',
+        'New SLA' => 'Nova SLA',
         'New Priority' => 'Nova prioritat',
         'New Queue' => 'Nova cua',
         'New State' => 'Nou estat',
@@ -680,12 +680,12 @@ sub Data {
         'New Owner' => 'Nou Propietari',
         'New Customer' => 'Nou Client',
         'New Ticket Lock' => 'Nou bloqueig de tiquet',
-        'New Type' => '',
-        'New Title' => '',
-        'New Type' => '',
+        'New Type' => 'Nou tipus',
+        'New Title' => 'Nou títol',
+        'New Type' => 'Nou tipus',
         'New TicketFreeFields' => 'Nou CampsLliuresDeTiquet',
         'Add Note' => 'Afegir Nota',
-        'CMD' => '',
+        'CMD' => 'CMD',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'S\'executarà el comandament. ARG%[0] el nombre del tiquet. ARG%[0] l\'id del tiquet.',
         'Delete tickets' => 'Eliminar tiquets',
         'Warning! This tickets will be removed from the database! This tickets are lost!' => 'Avís! Aquests tiquets seran eliminats de la base de dades! Aquests tiquets es perdran!',
@@ -716,7 +716,7 @@ sub Data {
         'Time' => 'Temps',
 
         # Template: AdminMailAccount
-        'Mail Account Management' => '',
+        'Mail Account Management' => 'Gestió de comptes de correu',
         'Host' => 'Amfitrió',
         'Trusted' => 'Es pot confiar',
         'Dispatching' => 'Remetent',
@@ -777,10 +777,10 @@ sub Data {
         'Min Response' => 'Resposta Mínima',
         'Max Response' => 'Resposta Màxima',
         'Average Response' => 'Resposta Promig',
-        'Period' => '',
-        'Min' => '',
-        'Max' => '',
-        'Average' => '',
+        'Period' => 'Període',
+        'Min' => 'Mín',
+        'Max' => 'Màx',
+        'Average' => 'Promig',
 
         # Template: AdminPGPForm
         'PGP Management' => 'Administració PGP',
@@ -811,13 +811,13 @@ sub Data {
         'Sub-Queue of' => 'Sub-cua de',
         'Unlock timeout' => 'Temps per a desbloqueig automàtic',
         '0 = no unlock' => '0 = sense bloqueig',
-        'Only business hours are counted.' => '',
+        'Only business hours are counted.' => 'Només es conta l\'horari laboral',
         'Escalation - First Response Time' => 'Escalat - Temps per a Primera Resposta',
         '0 = no escalation' => '0 = sense escalat',
-        'Only business hours are counted.' => '',
-        'Notify by' => '',
+        'Only business hours are counted.' => 'Només es conta l\'horari laboral',
+        'Notify by' => 'Notificat per',
         'Escalation - Update Time' => 'Escalat - Temps per a Actualització',
-        'Notify by' => '',
+        'Notify by' => 'Notificat per',
         'Escalation - Solution Time' => 'Escalat - Temps per a Solució',
         'Follow up Option' => 'Opció de seguiment',
         'Ticket lock after a follow up' => 'Bloquejar un tiquet després del seguiment',
@@ -887,7 +887,7 @@ sub Data {
         'Add a new Salutation.' => 'Afegir una salutació nova',
 
         # Template: AdminSelectBoxForm
-        'SQL Box' => '',
+        'SQL Box' => 'SQL',
         'Limit' => 'Límit',
         'Go' => 'Anar',
         'Select Box Result' => 'Seleccioni tipus de resultat',
@@ -950,8 +950,8 @@ sub Data {
         'New Group' => 'Nou grup',
         'Group Ro' => 'Grup Ro',
         'New Group Ro' => 'Nou Grup Ro',
-        'NavBarName' => '',
-        'NavBar' => '',
+        'NavBarName' => 'NomBarNav',
+        'NavBar' => 'BarNav',
         'Image' => 'Imatge',
         'Prio' => 'Prio',
         'Block' => 'Bloquejar',
@@ -1024,15 +1024,15 @@ sub Data {
 
         # Template: AgentStatsEditRestrictions
         'Select the restrictions to characterise the stat' => 'Seleccioni les restriccions per a caracteritzar l\'estadística',
-        'Fixed' => 'Arreglat',
-        'Please select only one element or turn off the button \'Fixed\'.' => 'Per favor seleccioni un element de desactivi el botó \'Arreglat\'',
+        'Fixed' => 'Fix',
+        'Please select only one element or turn off the button \'Fixed\'.' => 'Per favor seleccioni un element de desactivi el botó \'Fix\'',
         'Absolut Period' => 'Període Absolut',
         'Between' => 'Entre',
         'Relative Period' => 'Període Relatiu',
         'The last' => 'L\'últim',
         'Finish' => 'Finalitzar',
         'Here you can make restrictions to your stat.' => 'Aquí pot declarar restriccions a les seves estadístiques.',
-        'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributes of the corresponding element.' => 'Si elimina la marca en la casella "Arreglat", l\'agent que genera l\'estadística pot canviar els atributs de l\'element corresponent',
+        'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributes of the corresponding element.' => 'Si elimina la marca en la casella "Fix", l\'agent que genera l\'estadística pot canviar els atributs de l\'element corresponent',
 
         # Template: AgentStatsEditSpecification
         'Insert of the common specifications' => 'Insereixi les especificacions ordinàries',
@@ -1151,14 +1151,14 @@ sub Data {
         'Clear To' => 'Còpia Oculta a',
 
         # Template: AgentTicketEscalationView
-        'Ticket Escalation View' => '',
-        'Escalation' => '',
-        'Today' => '',
-        'Tomorrow' => '',
-        'Next Week' => '',
+        'Ticket Escalation View' => 'Vista escalat de tiquet',
+        'Escalation' => 'Escalat',
+        'Today' => 'Avui',
+        'Tomorrow' => 'Demà',
+        'Next Week' => 'Pròxima setmana',
         'up' => 'amunt',
         'down' => 'avall',
-        'Escalation' => '',
+        'Escalation' => 'Escalat',
         'Locked' => 'Bloquejat',
 
         # Template: AgentTicketForward
@@ -1247,10 +1247,10 @@ sub Data {
         'Search-Template' => 'Buscar-Plantilla',
         'TicketFreeText' => 'TextLliureTiquet',
         'Created in Queue' => 'Creat en Cua',
-        'Close Times' => '',
-        'No close time settings.' => '',
-        'Ticket closed' => '',
-        'Ticket closed between' => '',
+        'Close Times' => 'Temps tancats',
+        'No close time settings.' => 'Sense configuració de temps tancat',
+        'Ticket closed' => 'Tiquet tancat',
+        'Ticket closed between' => 'Tiquet tancat entre',
         'Result Form' => 'Formulari de resultats',
         'Save Search-Profile as Template?' => 'Guardar perfil de recerca com plantilla?',
         'Yes, save it with name' => 'Si, guardar-lo amb nom',
@@ -1269,8 +1269,8 @@ sub Data {
         'Open Tickets' => 'Tiquets Oberts',
 
         # Template: AgentTicketZoom
-        'Expand View' => '',
-        'Collapse View' => '',
+        'Expand View' => 'Expandir vista',
+        'Collapse View' => 'Reduir vista',
 
         # Template: AgentWindowTab
 
@@ -1290,7 +1290,7 @@ sub Data {
         'Traceback' => 'Rastrejar',
 
         # Template: CustomerFooter
-        'Powered by' => '',
+        'Powered by' => 'Funciona con',
 
         # Template: CustomerFooterSmall
 
@@ -1354,7 +1354,7 @@ sub Data {
         'DB connect host' => 'Amfitrió BD',
         'Database' => 'Base de dades',
         'Default Charset' => 'Joc de caràcters per defecte',
-        'utf8' => '',
+        'utf8' => 'utf8',
         'false' => 'fals',
         'SystemID' => 'ID de sistema',
         '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(La identitat del sistema. Cada nombre de tiquet i cada id de sessió http comença amb aquest nombre)',
@@ -1391,7 +1391,7 @@ sub Data {
         'Important' => 'Important',
 
         # Template: PrintFooter
-        'URL' => '',
+        'URL' => 'URL',
 
         # Template: PrintHeader
         'printed by' => 'imprès per',
@@ -1535,15 +1535,15 @@ sub Data {
         'Modified' => 'Modificat',
         'Ticket selected for bulk action!' => 'Tiquet seleccionat per a acció múltiple!',
 
-        'Link Object: %s' => '',
-        'Unlink Object: %s' => '',
-        'Linked as' => '',
-        'Can not create link with %s!' => '',
-        'Can not delete link with %s!' => '',
-        'Object already linked as %s.' => '',
-        'Priority Management' => '',
-        'Add a new Priority.' => '',
-        'Add Priority' => '',
+        'Link Object: %s' => 'Enllaçar l\'objecte: %s',
+        'Unlink Object: %s' => 'Llevar enllaç de l\'objecte: %s',
+        'Linked as' => 'Enllaçat com',
+        'Can not create link with %s!' => 'No es pot crear enllaç amb %s! ',
+        'Can not delete link with %s!' => 'No es pot suprimir enllaç amb %s! ',
+        'Object already linked as %s.' => 'Objecte ja enllaçat com %s.',
+        'Priority Management' => 'Gestió de prioritat',
+        'Add a new Priority.' => 'Afegir una nova prioritat',
+        'Add Priority' => 'Afegir prioritat',
     };
     # $$STOP$$
     return;

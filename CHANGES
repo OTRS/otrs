@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.703 2008-07-09 12:09:50 martin Exp $
+# $Id: CHANGES,v 1.704 2008-07-09 19:50:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,10 +10,11 @@
 # --
 
 2.3.0 rc1 (2008/07/??)
- - (2007/07/09) Updated finish translation, thanks to Mikko Hynninen!
- - (2007/07/09) Fixed problem in CodeUpgrade functionallity.
+ - (2008/07/09) Updated catalonian translation, thanks to Antonio Linde!
+ - (2008/07/09) Updated finish translation, thanks to Mikko Hynninen!
+ - (2008/07/09) Fixed problem in CodeUpgrade functionallity.
     Code did not react correctly to version number in CodeUpgrade sections.
- - (2007/07/08) Updated norwegian translation, thanks to Fredrik Andersen!
+ - (2008/07/08) Updated norwegian translation, thanks to Fredrik Andersen!
 
 2.3.0 beta4 (2008/07/07)
  - (2008/07/07) Fixed bug# 2158 - Trigger Definitions not allow export / import
