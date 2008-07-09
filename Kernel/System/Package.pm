@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.83 2008-07-09 15:09:02 ub Exp $
+# $Id: Package.pm,v 1.84 2008-07-09 17:26:29 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.83 $) [1];
+$VERSION = qw($Revision: 1.84 $) [1];
 
 =head1 NAME
 
@@ -400,7 +400,11 @@ sub PackageInstall {
 
     # install code (pre)
     if ( $Structure{CodeInstall} ) {
-        $Self->_Code( Code => $Structure{CodeInstall}, Type => 'pre' );
+        $Self->_Code(
+            Code => $Structure{CodeInstall},
+            Type => 'pre',
+            Structure => \%Structure,
+        );
     }
 
     # install database (pre)
@@ -426,7 +430,11 @@ sub PackageInstall {
 
     # install code (post)
     if ( $Structure{CodeInstall} ) {
-        $Self->_Code( Code => $Structure{CodeInstall}, Type => 'post' );
+        $Self->_Code(
+            Code => $Structure{CodeInstall},
+            Type => 'post',
+            Structure => \%Structure,
+        );
     }
 
     return 1;
@@ -454,7 +462,11 @@ sub PackageReinstall {
 
     # reinstall code (pre)
     if ( $Structure{CodeReinstall} ) {
-        $Self->_Code( Code => $Structure{CodeReinstall}, Type => 'pre' );
+        $Self->_Code(
+            Code => $Structure{CodeReinstall},
+            Type => 'pre',
+            Structure => \%Structure,
+        );
     }
 
     # install files
@@ -473,7 +485,11 @@ sub PackageReinstall {
 
     # reinstall code (post)
     if ( $Structure{CodeReinstall} ) {
-        $Self->_Code( Code => $Structure{CodeReinstall}, Type => 'post' );
+        $Self->_Code(
+            Code => $Structure{CodeReinstall},
+            Type => 'post',
+            Structure => \%Structure,
+        );
     }
 
     return 1;
@@ -625,7 +641,11 @@ sub PackageUpgrade {
                 push @Parts, $Part;
             }
         }
-        $Self->_Code( Code => \@Parts, Type => 'pre' );
+        $Self->_Code(
+            Code => \@Parts,
+            Type => 'pre',
+            Structure => \%Structure,
+        );
     }
 
     # upgrade database (pre)
@@ -735,7 +755,11 @@ sub PackageUpgrade {
                 push @Parts, $Part;
             }
         }
-        $Self->_Code( Code => \@Parts, Type => 'post' );
+        $Self->_Code(
+            Code => \@Parts,
+            Type => 'post',
+            Structure => \%Structure,
+        );
     }
 
     return 1;
@@ -768,7 +792,11 @@ sub PackageUninstall {
 
     # uninstall code (pre)
     if ( $Structure{CodeUninstall} ) {
-        $Self->_Code( Code => $Structure{CodeUninstall}, Type => 'pre' );
+        $Self->_Code(
+            Code => $Structure{CodeUninstall},
+            Type => 'pre',
+            Structure => \%Structure,
+        );
     }
 
     # uninstall database (pre)
@@ -800,7 +828,11 @@ sub PackageUninstall {
 
     # uninstall code (post)
     if ( $Structure{CodeUninstall} ) {
-        $Self->_Code( Code => $Structure{CodeUninstall}, Type => 'post' );
+        $Self->_Code(
+            Code => $Structure{CodeUninstall},
+            Type => 'post',
+            Structure => \%Structure,
+        );
     }
 
     return 1;
@@ -1645,7 +1677,7 @@ sub _Code {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Code Type)) {
+    for (qw(Code Type Structure)) {
         if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined!" );
             return;
@@ -2221,6 +2253,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.83 $ $Date: 2008-07-09 15:09:02 $
+$Revision: 1.84 $ $Date: 2008-07-09 17:26:29 $
 
 =cut
