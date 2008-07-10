@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.704 2008-07-09 19:50:56 martin Exp $
+# $Id: CHANGES,v 1.705 2008-07-10 12:23:10 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.3.0 rc1 (2008/07/??)
+ - (2008/07/10) Fixed bug# 3066 - The CPAN module XML::Parser::Lite crashs after
+    login if the CPAN module version is not installed.
  - (2008/07/09) Updated catalonian translation, thanks to Antonio Linde!
  - (2008/07/09) Updated finish translation, thanks to Mikko Hynninen!
  - (2008/07/09) Fixed problem in CodeUpgrade functionallity.
