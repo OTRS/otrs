@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.84 2008-07-09 17:26:29 ub Exp $
+# $Id: Package.pm,v 1.85 2008-07-11 10:52:40 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.84 $) [1];
+$VERSION = qw($Revision: 1.85 $) [1];
 
 =head1 NAME
 
@@ -77,14 +77,14 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
+    my $Self = {};
     bless( $Self, $Type );
 
-    # check all needed objects
-    for (qw(DBObject ConfigObject LogObject TimeObject MainObject)) {
-        die "Got no $_" if !$Self->{$_};
+    # check needed objects
+    for my $Object (qw(DBObject ConfigObject LogObject TimeObject MainObject)) {
+        $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
-    $Self->{XMLObject} = Kernel::System::XML->new(%Param);
+    $Self->{XMLObject} = Kernel::System::XML->new( %{$Self} );
 
     $Self->{PackageMap} = {
         Name            => 'SCALAR',
@@ -268,7 +268,7 @@ sub RepositoryAdd {
         Bind => [
             \$Structure{Name}->{Content}, \$Structure{Version}->{Content},
             \$Structure{Vendor}->{Content}, \$FileName, \$Param{String},
-            ]
+        ],
     );
 }
 
@@ -299,6 +299,7 @@ sub RepositoryRemove {
         $SQL .= ' AND version = ?';
         push @Bind, \$Param{Version};
     }
+
     return $Self->{DBObject}->Do( SQL => $SQL, Bind => \@Bind );
 }
 
@@ -349,17 +350,18 @@ sub PackageInstall {
 
     # check required packages
     if ( $Structure{PackageRequired} && !$Param{Force} ) {
-        return
-            if !$Self->_CheckPackageRequired(
+        return if !$Self->_CheckPackageRequired(
             %Param,
-            PackageRequired => $Structure{PackageRequired}
-            );
+            PackageRequired => $Structure{PackageRequired},
+        );
     }
 
     # check required modules
     if ( $Structure{ModuleRequired} && !$Param{Force} ) {
-        return
-            if !$Self->_CheckModuleRequired( %Param, ModuleRequired => $Structure{ModuleRequired} );
+        return if !$Self->_CheckModuleRequired(
+            %Param,
+            ModuleRequired => $Structure{ModuleRequired},
+        );
     }
 
     # check files
@@ -401,8 +403,8 @@ sub PackageInstall {
     # install code (pre)
     if ( $Structure{CodeInstall} ) {
         $Self->_Code(
-            Code => $Structure{CodeInstall},
-            Type => 'pre',
+            Code      => $Structure{CodeInstall},
+            Type      => 'pre',
             Structure => \%Structure,
         );
     }
@@ -431,8 +433,8 @@ sub PackageInstall {
     # install code (post)
     if ( $Structure{CodeInstall} ) {
         $Self->_Code(
-            Code => $Structure{CodeInstall},
-            Type => 'post',
+            Code      => $Structure{CodeInstall},
+            Type      => 'post',
             Structure => \%Structure,
         );
     }
@@ -463,8 +465,8 @@ sub PackageReinstall {
     # reinstall code (pre)
     if ( $Structure{CodeReinstall} ) {
         $Self->_Code(
-            Code => $Structure{CodeReinstall},
-            Type => 'pre',
+            Code      => $Structure{CodeReinstall},
+            Type      => 'pre',
             Structure => \%Structure,
         );
     }
@@ -486,8 +488,8 @@ sub PackageReinstall {
     # reinstall code (post)
     if ( $Structure{CodeReinstall} ) {
         $Self->_Code(
-            Code => $Structure{CodeReinstall},
-            Type => 'post',
+            Code      => $Structure{CodeReinstall},
+            Type      => 'post',
             Structure => \%Structure,
         );
     }
@@ -549,17 +551,18 @@ sub PackageUpgrade {
 
     # check required packages
     if ( $Structure{PackageRequired} && !$Param{Force} ) {
-        return
-            if !$Self->_CheckPackageRequired(
+        return if !$Self->_CheckPackageRequired(
             %Param,
-            PackageRequired => $Structure{PackageRequired}
-            );
+            PackageRequired => $Structure{PackageRequired},
+        );
     }
 
     # check required modules
     if ( $Structure{ModuleRequired} && !$Param{Force} ) {
-        return
-            if !$Self->_CheckModuleRequired( %Param, ModuleRequired => $Structure{ModuleRequired} );
+        return if !$Self->_CheckModuleRequired(
+            %Param,
+            ModuleRequired => $Structure{ModuleRequired},
+        );
     }
 
     # check version
@@ -633,7 +636,7 @@ sub PackageUpgrade {
                     Version2 => $InstalledVersion,
                     Type     => 'Min'
                 );
-                if (!$CheckVersion) {
+                if ( !$CheckVersion ) {
                     push @Parts, $Part;
                 }
             }
@@ -642,8 +645,8 @@ sub PackageUpgrade {
             }
         }
         $Self->_Code(
-            Code => \@Parts,
-            Type => 'pre',
+            Code      => \@Parts,
+            Type      => 'pre',
             Structure => \%Structure,
         );
     }
@@ -747,7 +750,7 @@ sub PackageUpgrade {
                     Version2 => $InstalledVersion,
                     Type     => 'Min'
                 );
-                if (!$CheckVersion) {
+                if ( !$CheckVersion ) {
                     push @Parts, $Part;
                 }
             }
@@ -756,8 +759,8 @@ sub PackageUpgrade {
             }
         }
         $Self->_Code(
-            Code => \@Parts,
-            Type => 'post',
+            Code      => \@Parts,
+            Type      => 'post',
             Structure => \%Structure,
         );
     }
@@ -793,8 +796,8 @@ sub PackageUninstall {
     # uninstall code (pre)
     if ( $Structure{CodeUninstall} ) {
         $Self->_Code(
-            Code => $Structure{CodeUninstall},
-            Type => 'pre',
+            Code      => $Structure{CodeUninstall},
+            Type      => 'pre',
             Structure => \%Structure,
         );
     }
@@ -829,8 +832,8 @@ sub PackageUninstall {
     # uninstall code (post)
     if ( $Structure{CodeUninstall} ) {
         $Self->_Code(
-            Code => $Structure{CodeUninstall},
-            Type => 'post',
+            Code      => $Structure{CodeUninstall},
+            Type      => 'post',
             Structure => \%Structure,
         );
     }
@@ -2253,6 +2256,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.84 $ $Date: 2008-07-09 17:26:29 $
+$Revision: 1.85 $ $Date: 2008-07-11 10:52:40 $
 
 =cut
