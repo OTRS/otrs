@@ -2,7 +2,7 @@
 # Ticket/Number/Date.pm - a date ticket number generator
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Date.pm,v 1.28 2008-05-08 09:36:21 mh Exp $
+# $Id: Date.pm,v 1.29 2008-07-13 23:14:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub TicketCreateNumber {
     my ( $Self, $JumpCounter ) = @_;
@@ -72,9 +72,6 @@ sub TicketCreateNumber {
                 Message  => "Write counter: $Count",
             );
         }
-    }
-    else {
-        $Self->{MainObject}->Die("Can't write $CounterLog: $!");
     }
 
     # create new ticket number

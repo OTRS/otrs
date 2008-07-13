@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # Copyright (C) 2002 Stefan Schmidt <jsj@jsj.dyndns.org>
 # --
-# $Id: DateChecksum.pm,v 1.32 2008-05-08 09:36:21 mh Exp $
+# $Id: DateChecksum.pm,v 1.33 2008-07-13 23:14:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -30,7 +30,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub TicketCreateNumber {
     my ( $Self, $JumpCounter ) = @_;
@@ -90,13 +90,10 @@ sub TicketCreateNumber {
             );
         }
     }
-    else {
-        $Self->{MainObject}->Die("Can't write $CounterLog: $!");
-    }
 
     # pad ticket number with leading '0' to length 5
     while ( length($Count) < 5 ) {
-        $Count = "0" . $Count;
+        $Count = '0' . $Count;
     }
 
     # create new ticket number
