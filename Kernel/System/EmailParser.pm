@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.68 2008-05-22 17:56:03 martin Exp $
+# $Id: EmailParser.pm,v 1.69 2008-07-13 23:08:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 =head1 NAME
 
@@ -50,7 +50,7 @@ create an object
     my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
-    my $ParseObject = Kernel::System::EmailParser->new(
+    my $ParserObject = Kernel::System::EmailParser->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
         Email        => \@ArrayOfEmail,
@@ -115,7 +115,7 @@ sub new {
 
 To get a email as a string back (plain email).
 
-    my $Email = $ParseObject->GetPlainEmail();
+    my $Email = $ParserObject->GetPlainEmail();
 
 =cut
 
@@ -130,7 +130,7 @@ sub GetPlainEmail {
 To get a header (e. g. Subject, To, ContentType, ...) of an email
 (mime is already done!).
 
-    my $To = $ParseObject->GetParam( WHAT => 'To' );
+    my $To = $ParserObject->GetParam( WHAT => 'To' );
 
 =cut
 
@@ -192,7 +192,7 @@ sub GetParam {
 
 To get the senders email address back.
 
-    my $SenderEmail = $ParseObject->GetEmailAddress(
+    my $SenderEmail = $ParserObject->GetEmailAddress(
         Email => 'Juergen Weber <juergen.qeber@air.com>',
     );
 
@@ -212,7 +212,7 @@ sub GetEmailAddress {
 
 To get an array of email addresses of an To, Cc or Bcc line back.
 
-    my @Addresses = $ParseObject->SplitAddressLine(
+    my @Addresses = $ParserObject->SplitAddressLine(
         Line => 'Juergen Weber <juergen.qeber@air.com>, me@example.com, hans@example.com (Hans Huber)',
     );
 
@@ -234,7 +234,7 @@ sub SplitAddressLine {
 
 Returns the message body (or from the first attachment) "ContentType" header.
 
-    my $ContentType = $ParseObject->GetContentType();
+    my $ContentType = $ParserObject->GetContentType();
 
 (e. g. 'text/plain; charset="iso-8859-1"')
 
@@ -258,7 +258,7 @@ sub GetContentType {
 
 Returns the message body (or from the first attachment) "charset".
 
-    my $Charset = $ParseObject->GetCharset();
+    my $Charset = $ParserObject->GetCharset();
 
 (e. g. iso-8859-1, utf-8, ...)
 
@@ -353,7 +353,7 @@ sub GetCharset {
 Returns the new message body (or from the first attachment) "ContentType" header
 (maybe the message is converted to utf-8).
 
-    my $ContentType = $ParseObject->GetReturnContentType();
+    my $ContentType = $ParserObject->GetReturnContentType();
 
 (e. g. 'text/plain; charset="utf-8"')
 
@@ -396,7 +396,7 @@ sub GetReturnContentType {
 Returns the charset of the new message body "Charset"
 (maybe the message is converted to utf-8).
 
-    my $Charset = $ParseObject->GetReturnCharset();
+    my $Charset = $ParserObject->GetReturnCharset();
 
 (e. g. 'text/plain; charset="utf-8"')
 
@@ -418,7 +418,7 @@ sub GetReturnCharset {
 
 Returns the message body (or from the first attachment) from the email.
 
-    my $Body = $ParseObject->GetMessageBody();
+    my $Body = $ParserObject->GetMessageBody();
 
 =cut
 
@@ -537,7 +537,7 @@ sub GetMessageBody {
 
 Returns an array of the email attachments.
 
-    my @Attachments = $ParseObject->GetAttachments();
+    my @Attachments = $ParserObject->GetAttachments();
     for my $Attachment (@Attachments) {
         print $Attachment->{Filename};
         print $Attachment->{Charset};
@@ -686,7 +686,7 @@ sub PartsAttachments {
 
 To get an array of reference ids of the parsed email
 
-    my @References = $ParseObject->GetReferences();
+    my @References = $ParserObject->GetReferences();
 
 This returns an array with ('fasfda@host.de', '4124.2313.1231@host.com').
 
@@ -1204,6 +1204,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.68 $ $Date: 2008-05-22 17:56:03 $
+$Revision: 1.69 $ $Date: 2008-07-13 23:08:59 $
 
 =cut
