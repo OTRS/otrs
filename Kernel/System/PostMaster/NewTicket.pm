@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: NewTicket.pm,v 1.68 2008-05-08 09:36:21 mh Exp $
+# $Id: NewTicket.pm,v 1.69 2008-07-13 23:10:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -30,7 +30,7 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # get all objects
-    for (qw(DBObject ConfigObject TicketObject LogObject ParseObject TimeObject QueueObject)) {
+    for (qw(DBObject ConfigObject TicketObject LogObject ParserObject TimeObject QueueObject)) {
         $Self->{$_} = $Param{$_} || die 'Got no $_';
     }
 
@@ -70,9 +70,9 @@ sub Run {
     }
 
     # get sender email
-    my @EmailAddresses = $Self->{ParseObject}->SplitAddressLine( Line => $GetParam{From}, );
+    my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine( Line => $GetParam{From}, );
     for (@EmailAddresses) {
-        $GetParam{'SenderEmailAddress'} = $Self->{ParseObject}->GetEmailAddress( Email => $_, );
+        $GetParam{'SenderEmailAddress'} = $Self->{ParserObject}->GetEmailAddress( Email => $_, );
     }
 
     # get customer id (sender email) if there is no customer id given
@@ -91,9 +91,9 @@ sub Run {
     if ( !$GetParam{'X-OTRS-CustomerUser'} ) {
         my %CustomerData = ();
         if ( $GetParam{'From'} ) {
-            my @EmailAddresses = $Self->{ParseObject}->SplitAddressLine( Line => $GetParam{From}, );
+            my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine( Line => $GetParam{From}, );
             for (@EmailAddresses) {
-                $GetParam{'EmailForm'} = $Self->{ParseObject}->GetEmailAddress( Email => $_, );
+                $GetParam{'EmailForm'} = $Self->{ParserObject}->GetEmailAddress( Email => $_, );
             }
             my %List = $Self->{CustomerUserObject}->CustomerSearch(
                 PostMasterSearch => lc( $GetParam{'EmailForm'} ),
@@ -305,12 +305,12 @@ sub Run {
     # write plain email to the storage
     $Self->{TicketObject}->ArticleWritePlain(
         ArticleID => $ArticleID,
-        Email     => $Self->{ParseObject}->GetPlainEmail(),
+        Email     => $Self->{ParserObject}->GetPlainEmail(),
         UserID    => $Param{InmailUserID},
     );
 
     # write attachments to the storage
-    for my $Attachment ( $Self->{ParseObject}->GetAttachments() ) {
+    for my $Attachment ( $Self->{ParserObject}->GetAttachments() ) {
         $Self->{TicketObject}->ArticleWriteAttachment(
             Content     => $Attachment->{Content},
             Filename    => $Attachment->{Filename},

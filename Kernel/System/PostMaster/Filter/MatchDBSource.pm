@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter/MatchDBSource.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: MatchDBSource.pm,v 1.10 2008-03-04 11:07:35 martin Exp $
+# $Id: MatchDBSource.pm,v 1.11 2008-07-13 23:11:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::PostMaster::Filter;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -29,7 +29,7 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # get needed opbjects
-    for (qw(ConfigObject LogObject DBObject ParseObject)) {
+    for (qw(ConfigObject LogObject DBObject ParserObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -67,9 +67,9 @@ sub Run {
             if ( $Param{GetParam}->{$_} && $Match{$_} =~ /^EMAILADDRESS:(.*)$/ ) {
                 my $SearchEmail = $1;
                 my @EmailAddresses
-                    = $Self->{ParseObject}->SplitAddressLine( Line => $Param{GetParam}->{$_} );
+                    = $Self->{ParserObject}->SplitAddressLine( Line => $Param{GetParam}->{$_} );
                 for my $RawEmail (@EmailAddresses) {
-                    my $Email = $Self->{ParseObject}->GetEmailAddress( Email => $RawEmail );
+                    my $Email = $Self->{ParserObject}->GetEmailAddress( Email => $RawEmail );
                     if ( $Email =~ /^$SearchEmail$/i ) {
                         $Matched = $SearchEmail || 1;
                         if ( $Self->{Debug} > 1 ) {

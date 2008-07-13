@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Reject.pm - the sub part of PostMaster.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Reject.pm,v 1.11 2008-05-08 09:36:21 mh Exp $
+# $Id: Reject.pm,v 1.12 2008-07-13 23:10:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -27,7 +27,7 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # check needed Objects
-    for (qw(DBObject ConfigObject TicketObject LogObject ParseObject)) {
+    for (qw(DBObject ConfigObject TicketObject LogObject ParserObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -93,12 +93,12 @@ sub Run {
     # write plain email to the storage
     $Self->{TicketObject}->ArticleWritePlain(
         ArticleID => $ArticleID,
-        Email     => $Self->{ParseObject}->GetPlainEmail(),
+        Email     => $Self->{ParserObject}->GetPlainEmail(),
         UserID    => $Param{InmailUserID},
     );
 
     # write attachments to the storage
-    for my $Attachment ( $Self->{ParseObject}->GetAttachments() ) {
+    for my $Attachment ( $Self->{ParserObject}->GetAttachments() ) {
         $Self->{TicketObject}->ArticleWriteAttachment(
             Content     => $Attachment->{Content},
             Filename    => $Attachment->{Filename},

@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.pm,v 1.72 2008-05-08 09:36:19 mh Exp $
+# $Id: PostMaster.pm,v 1.73 2008-07-13 23:10:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 =head1 NAME
 
@@ -102,7 +102,7 @@ sub new {
 
     # create common objects
     $Self->{TicketObject} = Kernel::System::Ticket->new(%Param);
-    $Self->{ParseObject}  = Kernel::System::EmailParser->new(
+    $Self->{ParserObject}  = Kernel::System::EmailParser->new(
         Email => $Param{Email},
         %Param,
     );
@@ -111,12 +111,12 @@ sub new {
     $Self->{DestQueueObject} = Kernel::System::PostMaster::DestQueue->new(
         %Param,
         QueueObject => $Self->{QueueObject},
-        ParseObject => $Self->{ParseObject},
+        ParserObject => $Self->{ParserObject},
     );
     $Self->{NewTicket} = Kernel::System::PostMaster::NewTicket->new(
         %Param,
         Debug                => $Self->{Debug},
-        ParseObject          => $Self->{ParseObject},
+        ParserObject          => $Self->{ParserObject},
         TicketObject         => $Self->{TicketObject},
         QueueObject          => $Self->{QueueObject},
         LoopProtectionObject => $Self->{LoopProtectionObject},
@@ -126,14 +126,14 @@ sub new {
         Debug                => $Self->{Debug},
         TicketObject         => $Self->{TicketObject},
         LoopProtectionObject => $Self->{LoopProtectionObject},
-        ParseObject          => $Self->{ParseObject},
+        ParserObject          => $Self->{ParserObject},
     );
     $Self->{Reject} = Kernel::System::PostMaster::Reject->new(
         %Param,
         Debug                => $Self->{Debug},
         TicketObject         => $Self->{TicketObject},
         LoopProtectionObject => $Self->{LoopProtectionObject},
-        ParseObject          => $Self->{ParseObject},
+        ParserObject          => $Self->{ParserObject},
     );
 
     # should i use the x-otrs header?
@@ -181,7 +181,7 @@ sub Run {
                 MainObject   => $Self->{MainObject},
                 LogObject    => $Self->{LogObject},
                 DBObject     => $Self->{DBObject},
-                ParseObject  => $Self->{ParseObject},
+                ParserObject  => $Self->{ParserObject},
                 TicketObject => $Self->{TicketObject},
                 TimeObject   => $Self->{TimeObject},
                 Debug        => $Self->{Debug},
@@ -354,7 +354,7 @@ sub Run {
                 MainObject   => $Self->{MainObject},
                 LogObject    => $Self->{LogObject},
                 DBObject     => $Self->{DBObject},
-                ParseObject  => $Self->{ParseObject},
+                ParserObject  => $Self->{ParserObject},
                 TicketObject => $Self->{TicketObject},
                 TimeObject   => $Self->{TimeObject},
                 Debug        => $Self->{Debug},
@@ -411,7 +411,7 @@ sub CheckFollowUp {
     # There is no valid ticket number in the subject.
     # Try to find ticket number in References and In-Reply-To header.
     if ( $Self->{ConfigObject}->Get('PostmasterFollowUpSearchInReferences') ) {
-        my @References = $Self->{ParseObject}->GetReferences();
+        my @References = $Self->{ParserObject}->GetReferences();
         for my $Reference (@References) {
 
             # get ticket id of message id
@@ -429,7 +429,7 @@ sub CheckFollowUp {
 
     # do body ticket number lookup
     if ( $Self->{ConfigObject}->Get('PostmasterFollowUpSearchInBody') ) {
-        my $Tn = $Self->{TicketObject}->GetTNByString( $Self->{ParseObject}->GetMessageBody() );
+        my $Tn = $Self->{TicketObject}->GetTNByString( $Self->{ParserObject}->GetMessageBody() );
         if ($Tn) {
             my $TicketID = $Self->{TicketObject}->TicketCheckNumber( Tn => $Tn );
             if ($TicketID) {
@@ -448,7 +448,7 @@ sub CheckFollowUp {
 
     # do attachment ticket number lookup
     if ( $Self->{ConfigObject}->Get('PostmasterFollowUpSearchInAttachment') ) {
-        for my $Attachment ( $Self->{ParseObject}->GetAttachments() ) {
+        for my $Attachment ( $Self->{ParserObject}->GetAttachments() ) {
             my $Tn = $Self->{TicketObject}->GetTNByString( $Attachment->{Content} );
             if ($Tn) {
                 my $TicketID = $Self->{TicketObject}->TicketCheckNumber( Tn => $Tn );
@@ -469,7 +469,7 @@ sub CheckFollowUp {
 
     # do plain/raw ticket number lookup
     if ( $Self->{ConfigObject}->Get('PostmasterFollowUpSearchInRaw') ) {
-        my $Tn = $Self->{TicketObject}->GetTNByString( $Self->{ParseObject}->GetPlainEmail() );
+        my $Tn = $Self->{TicketObject}->GetTNByString( $Self->{ParserObject}->GetPlainEmail() );
         if ($Tn) {
             my $TicketID = $Self->{TicketObject}->TicketCheckNumber( Tn => $Tn );
             if ($TicketID) {
@@ -513,10 +513,10 @@ sub GetEmailParams {
             if ( $Self->{Debug} > 2 ) {
                 $Self->{LogObject}->Log(
                     Priority => 'debug',
-                    Message => "$Param: " . $Self->{ParseObject}->GetParam( WHAT => $Param ),
+                    Message => "$Param: " . $Self->{ParserObject}->GetParam( WHAT => $Param ),
                 );
             }
-            $GetParam{$Param} = $Self->{ParseObject}->GetParam( WHAT => $Param );
+            $GetParam{$Param} = $Self->{ParserObject}->GetParam( WHAT => $Param );
         }
     }
 
@@ -540,11 +540,11 @@ sub GetEmailParams {
     if ( !$GetParam{'X-Sender'} ) {
 
         # get sender email
-        my @EmailAddresses = $Self->{ParseObject}->SplitAddressLine(
+        my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine(
             Line => $GetParam{From},
         );
         for my $Email (@EmailAddresses) {
-            $GetParam{'X-Sender'} = $Self->{ParseObject}->GetEmailAddress(
+            $GetParam{'X-Sender'} = $Self->{ParserObject}->GetEmailAddress(
                 Email => $Email,
             );
         }
@@ -583,11 +583,17 @@ sub GetEmailParams {
     }
 
     # get body
-    $GetParam{'Body'} = $Self->{ParseObject}->GetMessageBody();
+    $GetParam{Body} = $Self->{ParserObject}->GetMessageBody();
 
     # get content type
-    $GetParam{'Content-Type'} = $Self->{ParseObject}->GetReturnContentType();
-    $GetParam{'Charset'}      = $Self->{ParseObject}->GetReturnCharset();
+    $GetParam{'Content-Type'} = $Self->{ParserObject}->GetReturnContentType();
+    $GetParam{Charset}      = $Self->{ParserObject}->GetReturnCharset();
+
+    # get attachments
+    my @Attachments = $Self->{ParserObject}->GetAttachments();
+    $GetParam{Attachment} = \@Attachments;
+
+    # return params
     return \%GetParam;
 }
 
@@ -607,6 +613,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.72 $ $Date: 2008-05-08 09:36:19 $
+$Revision: 1.73 $ $Date: 2008-07-13 23:10:02 $
 
 =cut

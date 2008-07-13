@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/DestQueue.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DestQueue.pm,v 1.23 2008-05-08 09:36:21 mh Exp $
+# $Id: DestQueue.pm,v 1.24 2008-07-13 23:10:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -27,7 +27,7 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # get needed opbjects
-    for (qw(ConfigObject LogObject DBObject ParseObject QueueObject)) {
+    for (qw(ConfigObject LogObject DBObject ParserObject QueueObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -61,11 +61,11 @@ sub GetQueueID {
     }
 
     # get addresses
-    my @EmailAddresses = $Self->{ParseObject}->SplitAddressLine( Line => $Recipient, );
+    my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine( Line => $Recipient, );
 
     # check addresses
     for (@EmailAddresses) {
-        my $Address = $Self->{ParseObject}->GetEmailAddress( Email => $_ );
+        my $Address = $Self->{ParserObject}->GetEmailAddress( Email => $_ );
         for ( keys %SystemAddresses ) {
             if ( $_ =~ /^\Q$Address\E$/i ) {
                 if ( $Self->{Debug} > 1 ) {

@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter/AgentInterface.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentInterface.pm,v 1.12 2008-05-08 09:36:21 mh Exp $
+# $Id: AgentInterface.pm,v 1.13 2008-07-13 23:11:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::User;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 # bulk, list
 sub new {
@@ -33,7 +33,7 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # get needed opbjects
-    for (qw(ConfigObject LogObject DBObject ParseObject TicketObject MainObject)) {
+    for (qw(ConfigObject LogObject DBObject ParserObject TicketObject MainObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -149,9 +149,9 @@ sub Run {
                 $Recipient .= $Param{GetParam}->{$_};
             }
         }
-        my @EmailAddresses = $Self->{ParseObject}->SplitAddressLine( Line => $Recipient, );
+        my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine( Line => $Recipient, );
         for (@EmailAddresses) {
-            my $Address = $Self->{ParseObject}->GetEmailAddress( Email => $_ );
+            my $Address = $Self->{ParserObject}->GetEmailAddress( Email => $_ );
             if ( $Config{AgentInterfaceAddress} =~ /^\Q$Address\E$/i ) {
                 $ForAgentInterface = 1;
                 if ( $Self->{Debug} > 1 ) {
@@ -177,8 +177,8 @@ sub Run {
 
     # check From: Address (return if sender is no valid agent)
     my $From = $Param{GetParam}->{'From'};
-    my @FromEmailAddress = $Self->{ParseObject}->SplitAddressLine( Line => $From, );
-    $FromEmailAddress[0] = $Self->{ParseObject}->GetEmailAddress( Email => $FromEmailAddress[0] );
+    my @FromEmailAddress = $Self->{ParserObject}->SplitAddressLine( Line => $From, );
+    $FromEmailAddress[0] = $Self->{ParserObject}->GetEmailAddress( Email => $FromEmailAddress[0] );
     my %User = $Self->{UserObject}->UserSearch(
         Valid            => 1,
         PostMasterSearch => $FromEmailAddress[0],
@@ -466,7 +466,7 @@ sub Run {
             InReplyTo      => $Data{InReplyTo},
             Charset        => $Param{GetParam}->{'Charset'},
             Type           => 'text/plain',
-            Attachment     => [ $Self->{ParseObject}->GetAttachments() ],
+            Attachment     => [ $Self->{ParserObject}->GetAttachments() ],
         );
         $Self->{LogObject}->Log(
             Priority => 'notice',
