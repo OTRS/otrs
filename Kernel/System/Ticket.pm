@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.332 2008-07-07 12:59:44 mh Exp $
+# $Id: Ticket.pm,v 1.333 2008-07-13 23:15:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.332 $) [1];
+$VERSION = qw($Revision: 1.333 $) [1];
 
 =head1 NAME
 
@@ -3752,6 +3752,10 @@ sub TicketSearch {
                     SearchSuffix => '*',
                 );
             }
+            elsif ( $Param{$Key} !~ /%/ ) {
+                $SQLExt .= " AND LOWER($FieldSQLMap{$Key}) = LOWER('"
+                    . $Self->{DBObject}->Quote( $Param{$Key} ) . "')";
+            }
             else {
                 $SQLExt .= " AND LOWER($FieldSQLMap{$Key}) LIKE LOWER('"
                     . $Self->{DBObject}->Quote( $Param{$Key}, 'Like' ) . "')";
@@ -6575,6 +6579,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.332 $ $Date: 2008-07-07 12:59:44 $
+$Revision: 1.333 $ $Date: 2008-07-13 23:15:26 $
 
 =cut
