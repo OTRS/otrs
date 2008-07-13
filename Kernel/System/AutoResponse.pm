@@ -2,7 +2,7 @@
 # Kernel/System/AutoResponse.pm - lib for auto responses
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AutoResponse.pm,v 1.22 2008-07-06 19:35:43 martin Exp $
+# $Id: AutoResponse.pm,v 1.23 2008-07-13 23:20:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,18 +17,23 @@ use warnings;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
+    my $Self = {};
     bless( $Self, $Type );
 
-    # check all needed objects
-    for (qw(DBObject ConfigObject LogObject)) {
-        die "Got no $_" if !$Self->{$_};
+    # get needed objects
+    for (qw(ConfigObject LogObject DBObject)) {
+        if ( $Param{$_} ) {
+            $Self->{$_} = $Param{$_};
+        }
+        else {
+            die "Got no $_!";
+        }
     }
 
     if ( !$Self->{SystemAddressObject} ) {

@@ -2,7 +2,7 @@
 # Kernel/System/StdAttachment.pm - lib for std attachemnt
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: StdAttachment.pm,v 1.23 2008-05-08 09:36:19 mh Exp $
+# $Id: StdAttachment.pm,v 1.24 2008-07-13 23:19:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 =head1 NAME
 
@@ -64,12 +64,17 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
+    my $Self = {};
     bless( $Self, $Type );
 
-    # check all needed objects
-    for (qw(DBObject ConfigObject LogObject)) {
-        die "Got no $_" if ( !$Self->{$_} );
+    # get needed objects
+    for (qw(ConfigObject LogObject DBObject)) {
+        if ( $Param{$_} ) {
+            $Self->{$_} = $Param{$_};
+        }
+        else {
+            die "Got no $_!";
+        }
     }
 
     $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
@@ -160,20 +165,20 @@ sub StdAttachmentGet {
         Limit  => 1,
     );
     my %Data = ();
-    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
         # decode attachemnt if it's a postgresql backend!!!
         if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') ) {
-            $Data[2] = decode_base64( $Data[2] );
+            $Row[2] = decode_base64( $Row[2] );
         }
         %Data = (
             ID          => $Param{ID},
-            Name        => $Data[0],
-            ContentType => $Data[1],
-            Content     => $Data[2],
-            Filename    => $Data[3],
-            ValidID     => $Data[4],
-            Comment     => $Data[5],
+            Name        => $Row[0],
+            ContentType => $Row[1],
+            Content     => $Row[2],
+            Filename    => $Row[3],
+            ValidID     => $Row[4],
+            Comment     => $Row[5],
         );
     }
     return %Data;
@@ -466,6 +471,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2008-05-08 09:36:19 $
+$Revision: 1.24 $ $Date: 2008-07-13 23:19:07 $
 
 =cut

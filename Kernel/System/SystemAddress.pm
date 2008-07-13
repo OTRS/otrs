@@ -2,7 +2,7 @@
 # Kernel/System/SystemAddress.pm - lib for system addresses
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SystemAddress.pm,v 1.20 2008-06-19 19:29:20 martin Exp $
+# $Id: SystemAddress.pm,v 1.21 2008-07-13 23:19:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 =head1 NAME
 
@@ -64,13 +64,19 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
+    my $Self = {};
     bless( $Self, $Type );
 
-    # check all needed objects
-    for (qw(DBObject ConfigObject LogObject)) {
-        die "Got no $_" if ( !$Self->{$_} );
+    # get needed objects
+    for (qw(ConfigObject LogObject DBObject)) {
+        if ( $Param{$_} ) {
+            $Self->{$_} = $Param{$_};
+        }
+        else {
+            die "Got no $_!";
+        }
     }
+
     $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
 
     return $Self;
@@ -281,6 +287,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2008-06-19 19:29:20 $
+$Revision: 1.21 $ $Date: 2008-07-13 23:19:07 $
 
 =cut

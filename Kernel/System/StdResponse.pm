@@ -2,7 +2,7 @@
 # Kernel/System/StdResponse.pm - lib for std responses
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: StdResponse.pm,v 1.21 2008-05-08 09:36:19 mh Exp $
+# $Id: StdResponse.pm,v 1.22 2008-07-13 23:19:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,18 +15,23 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
+    my $Self = {};
     bless( $Self, $Type );
 
-    # check all needed objects
-    for (qw(DBObject ConfigObject LogObject)) {
-        die "Got no $_" if ( !$Self->{$_} );
+    # get needed objects
+    for (qw(ConfigObject LogObject DBObject)) {
+        if ( $Param{$_} ) {
+            $Self->{$_} = $Param{$_};
+        }
+        else {
+            die "Got no $_!";
+        }
     }
 
     return $Self;
