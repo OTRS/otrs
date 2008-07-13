@@ -3,7 +3,7 @@
 # scripts/tools/compress-mail.pl - compress email, zip attachments
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: compress-mail.pl,v 1.11 2008-05-08 09:35:57 mh Exp $
+# $Id: compress-mail.pl,v 1.12 2008-07-13 23:04:25 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 # config
 my @Compress
@@ -52,12 +52,12 @@ $CommonObject{LogObject}    = Kernel::System::Log->new(
 );
 $CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
 my @Email = <STDIN>;
-$CommonObject{ParseObject} = Kernel::System::EmailParser->new(
+$CommonObject{ParserObject} = Kernel::System::EmailParser->new(
     Email        => \@Email,
     NoHTMLChecks => 1,
     %CommonObject,
 );
-my $MSGID   = $CommonObject{ParseObject}->GetParam( WHAT => 'Message-ID' ) || 'No Message-ID';
+my $MSGID   = $CommonObject{ParserObject}->GetParam( WHAT => 'Message-ID' ) || 'No Message-ID';
 my $Touch   = 0;
 my $NoTouch = 0;
 my $Counter = 0;
@@ -67,9 +67,9 @@ my $CompressAttachmentMaxSize = $CommonObject{ConfigObject}->Get('CompressAttach
     || ( 1024 * 1024 * 60 );
 my $CompressAttachmentNoTouch = $CommonObject{ConfigObject}->Get('CompressAttachmentNoTouch')
     || '(application/(x-pkcs.-signature|pgp-signature))';
-my @Attachments = $CommonObject{ParseObject}->GetAttachments();
+my @Attachments = $CommonObject{ParserObject}->GetAttachments();
 my $Entity;
-my $Header = $CommonObject{ParseObject}->{HeaderObject}->header_hashref();
+my $Header = $CommonObject{ParserObject}->{HeaderObject}->header_hashref();
 
 # check if this mail can be modified (not touch signed or crypted emails)
 for my $Attachment (@Attachments) {
@@ -147,7 +147,7 @@ if ( !$Touch ) {
         Priority => 'notice',
         Message  => "No changes ($MSGID)!",
     );
-    my $Header = $CommonObject{ParseObject}->{HeaderObject}->as_string();
+    my $Header = $CommonObject{ParserObject}->{HeaderObject}->as_string();
     print $Header;
     print "\n";
     for (@Email) {
@@ -161,7 +161,7 @@ else {
         Priority => 'notice',
         Message  => "Changes ($MSGID)!"
     );
-    my $Header = $CommonObject{ParseObject}->{HeaderObject}->as_string();
+    my $Header = $CommonObject{ParserObject}->{HeaderObject}->as_string();
     print $Header;
     print "\n";
     print $Entity->body_as_string();
