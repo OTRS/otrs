@@ -3,7 +3,7 @@
 # bin/CheckSum.pl - a tool to compare changes in a installation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CheckSum.pl,v 1.12 2008-05-08 09:36:57 mh Exp $
+# $Id: CheckSum.pl,v 1.13 2008-07-13 23:14:11 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION $RealBin);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 use Getopt::Std;
 use Digest::MD5 qw(md5_hex);
@@ -65,10 +65,10 @@ else {
 
 if ( $Action eq 'create' ) {
     print "Writing $Archive ...";
-    open( OUT, "> $Archive" ) || die "ERROR: Can't open: $Archive";
+    open( OUT, '>', $Archive ) || die "ERROR: Can't open: $Archive";
 }
 else {
-    open( IN, "< $Archive" ) || die "ERROR: Can't open: $Archive";
+    open( IN, '<', $Archive ) || die "ERROR: Can't open: $Archive";
     while (<IN>) {
         my @Row = split( /::/, $_ );
         chomp( $Row[1] );
@@ -114,7 +114,7 @@ sub R {
                 )
             {
                 my $Content = '';
-                open( IN, "< $OrigFile" ) || die "ERROR: $!";
+                open( IN, '<', $OrigFile ) || die "ERROR: $!";
                 while (<IN>) {
                     $Content .= $_;
                 }
