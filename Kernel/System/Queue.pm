@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.98 2008-06-20 16:55:33 mh Exp $
+# $Id: Queue.pm,v 1.99 2008-07-15 14:38:24 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.98 $) [1];
+$VERSION = qw($Revision: 1.99 $) [1];
 
 =head1 NAME
 
@@ -629,43 +629,6 @@ add queue with attributes
 sub QueueAdd {
     my ( $Self, %Param ) = @_;
 
-    # Add Queue to the Database
-
-    # Requires
-    # Params{GroupID}   : ID of the group responsible for this quese
-    # Param{QueueName}  : Duh! Name of the Queue
-    # Param{ValidID}    : Is the queue invalid, valid, suspended etc
-    # Param{UserID}     : ID of the person creating the Queue
-
-    # Returns
-    # new Queue ID on success
-    # null/false on failure
-
-    # ' and , are for modems. Line noise
-    # A less noisy way to defining @Params is
-    my @Params = qw(
-        Name
-        GroupID
-        UnlockTimeout
-        SystemAddressID
-        Calendar
-        DefaultSignKey
-        SalutationID
-        SignatureID
-        FollowUpID
-        FollowUpLock
-        FirstResponseTime
-        FirstResponseNotify
-        UpdateTime
-        UpdateNotify
-        SolutionTime
-        SolutionNotify
-        MoveNotify
-        StateNotify
-        Comment
-        ValidID
-    );
-
     for (
         qw(UnlockTimeout FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify
         FollowUpLock SystemAddressID SalutationID SignatureID
@@ -673,7 +636,6 @@ sub QueueAdd {
         )
     {
 
-        # these are coming from Config.pm
         # I added default values in the Load Routine
         if ( !$Param{$_} ) {
             $Param{$_} = $Self->{QueueDefaults}->{$_} || 0;
@@ -681,17 +643,14 @@ sub QueueAdd {
     }
 
     # check needed stuff
-    for (
-        qw(Name GroupID SystemAddressID SalutationID SignatureID MoveNotify StateNotify
-        LockNotify OwnerNotify ValidID UserID)
-        )
-    {
+    for (qw(MoveNotify StateNotify LockNotify OwnerNotify)) {
         if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
-    for (qw(Name GroupID SystemAddressID SalutationID SignatureID ValidID)) {
+
+    for (qw(Name GroupID SystemAddressID SalutationID SignatureID ValidID UserID FollowUpID)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
@@ -919,6 +878,7 @@ update queue attributes
         StateNotify       => 0,
         LockNotify        => 0,
         OwnerNotify       => 0,
+        FollowUpID        => 1,
     );
 
 =cut
@@ -927,17 +887,13 @@ sub QueueUpdate {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (
-        qw(QueueID Name ValidID GroupID SystemAddressID SalutationID SignatureID FollowUpID UserID
-        MoveNotify StateNotify LockNotify OwnerNotify)
-        )
-    {
+    for (qw(MoveNotify StateNotify LockNotify OwnerNotify)) {
         if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
-    for (qw(QueueID Name ValidID GroupID SystemAddressID SalutationID SignatureID UserID)) {
+    for (qw(QueueID Name ValidID GroupID SystemAddressID SalutationID SignatureID UserID FollowUpID)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
@@ -946,9 +902,9 @@ sub QueueUpdate {
 
     # check !!!
     for (
-        qw(UnlockTimeout FollowUpLock MoveNotify StateNotify LockNotify OwnerNotify
+        qw(UnlockTimeout FollowUpLock
         FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify
-        FollowUpID FollowUpLock DefaultSignKey Calendar)
+        FollowUpLock DefaultSignKey Calendar)
         )
     {
         if ( !$Param{$_} ) {
@@ -1136,6 +1092,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.98 $ $Date: 2008-06-20 16:55:33 $
+$Revision: 1.99 $ $Date: 2008-07-15 14:38:24 $
 
 =cut
