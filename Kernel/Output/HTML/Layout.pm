@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.101 2008-07-05 18:40:28 mh Exp $
+# $Id: Layout.pm,v 1.102 2008-07-15 19:34:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.101 $) [1];
+$VERSION = qw($Revision: 1.102 $) [1];
 
 =head1 NAME
 
@@ -3176,6 +3176,7 @@ sub NavigationBar {
         Data => \%Param,
     );
     for ( sort keys %NavBarModule ) {
+        next if !%{ $NavBarModule{$_} };
         $Self->Block(
             Name => $NavBarModule{$_}->{Block} || 'Item',
             Data => $NavBarModule{$_},
@@ -3971,6 +3972,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.101 $ $Date: 2008-07-05 18:40:28 $
+$Revision: 1.102 $ $Date: 2008-07-15 19:34:24 $
 
 =cut
