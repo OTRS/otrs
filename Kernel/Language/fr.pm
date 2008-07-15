@@ -3,11 +3,11 @@
 # Copyright (C) 2002 Bernard Choppy <choppy at imaginet.fr>
 # Copyright (C) 2002 Nicolas Goralski <ngoralski at oceanet-technology.com>
 # Copyright (C) 2004 Igor Genibel <igor.genibel at eds-opensource.com>
-# Copyright (C) 2004-2007 Yann Richard <ze at nbox.org>
 # Copyright (C) 2007 Remi Seguy <remi.seguy at laposte.net>
 # Copyright (C) 2007 Massimiliano Franco <max-lists at ycom.ch>
+# Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # --
-# $Id: fr.pm,v 1.91 2008-07-01 21:29:24 mh Exp $
+# $Id: fr.pm,v 1.92 2008-07-15 10:09:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.91 $) [1];
+$VERSION = qw($Revision: 1.92 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -107,8 +107,8 @@ sub Data {
         'none - answered' => 'aucun - réponse faite',
         'please do not edit!' => 'Ne pas modifier !',
         'AddLink' => 'Ajouter un lien',
-        'Link' => 'Lien',
-        'Unlink' => '',
+        'Link' => 'Lier',
+        'Unlink' => 'Délier',
         'Linked' => 'Liée',
         'Link (Normal)' => 'Lien (Normal)',
         'Link (Parent)' => 'Lien (Parent)',
@@ -250,7 +250,7 @@ sub Data {
         'Mobile' => 'Téléphone portable',
         'Zip' => 'Code postal',
         'City' => 'Ville',
-        'Street' => '',
+        'Street' => 'Rue',
         'Country' => 'Pays',
         'installed' => 'installé',
         'uninstalled' => 'désinstallé',
@@ -259,16 +259,16 @@ sub Data {
         'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' => 'Aucun paquet pour le Framework sélectionné dans ce dépot en ligne, mais des paquets pour d\'autres Frameworks !',
         'No Packages or no new Packages in selected Online Repository!' => 'Pas de paquets ou de nouveau paquets dans le dépot en ligne sélectionné !',
         'printed at' => 'imprimé à',
-        'Dear Mr. %s,' => '',
-        'Dear Mrs. %s,' => '',
-        'Dear %s,' => '',
-        'Hello %s,' => '',
-        'This account exists.' => '',
-        'New account created. Sent Login-Account to %s.' => '',
-        'Please press Back and try again.' => '',
-        'Sent password token to: %s' => '',
-        'Sent new password to: %s' => '',
-        'Invalid Token!' => '',
+        'Dear Mr. %s,' => 'Cher M. %s',
+        'Dear Mrs. %s,' => 'Cher Mme %s',
+        'Dear %s,' => 'Cher %s',
+        'Hello %s,' => 'Bonjour %s',
+        'This account exists.' => 'Ce compte existe déjà.',
+        'New account created. Sent Login-Account to %s.' => 'Nouveau compte	crée. Identifiant envoyé à %s',
+        'Please press Back and try again.' => 'SVP, reculer d\'une page et	rééssayez.',
+        'Sent password token to: %s' => 'Envoit du jeton à: %s',
+        'Sent new password to: %s' => 'Envoit du nouveau mot de passe à: %s',
+        'Invalid Token!' => 'Jeton invalide !',
 
         # Template: AAAMonth
         'Jan' => 'Jan',
@@ -366,7 +366,7 @@ sub Data {
         'Common Specification' => 'Caractéristiques Communes',
         'Xaxis' => 'Axe X',
         'Value Series' => 'Séries de valeurs',
-        'Restrictions' => '',
+        'Restrictions' => 'Restrictions',
         'graph-lines' => '',
         'graph-bars' => '',
         'graph-hbars' => '',
@@ -377,10 +377,10 @@ sub Data {
         'extended' => 'étendu',
         'Agent/Owner' => 'Technicien/Propriétaire',
         'Created by Agent/Owner' => 'Créé par le Technicien/Propriétaire',
-        'Created Priority' => '',
-        'Created State' => '',
+        'Created Priority' => 'Priorité créée',
+        'Created State' => 'État créé',
         'Create Time' => 'Date de création',
-        'CustomerUserLogin' => '',
+        'CustomerUserLogin' => 'Identifiant Client',
         'Close Time' => 'Date de fermeture',
 
         # Template: AAATicket
@@ -399,7 +399,7 @@ sub Data {
         'Move' => 'Déplacer',
         'Queue' => 'File',
         'Priority' => 'Priorité',
-        'Priority Update' => '',
+        'Priority Update' => 'Mise à jour de la priorité',
         'State' => 'État',
         'Compose' => 'Composer',
         'Pending' => 'En attente',
@@ -468,7 +468,7 @@ sub Data {
         'Phone-Ticket' => 'Vue téléphone',
         'Search Tickets' => 'Recherche de tickets',
         'Edit Customer Users' => 'Editer clients',
-        'Edit Customer Company' => '',
+        'Edit Customer Company' => 'Éditer l\'entreprise cliente',
         'Bulk-Action' => 'Action groupée',
         'Bulk Actions on Tickets' => 'Action groupées sur les tickets',
         'Send Email and create a new Ticket' => 'Envoyer un courriel et créer un nouveau Ticket',
@@ -629,10 +629,10 @@ sub Data {
         # Template: AdminCustomerUserGroupForm
 
         # Template: AdminCustomerUserService
-        'Customer Users <-> Services Management' => '',
+        'Customer Users <-> Services Management' => 'Client utilisateur <->	Gestion des Services',
         'CustomerUser' => 'Client utilisateur',
         'Service' => 'Service',
-        'Edit default services.' => '',
+        'Edit default services.' => 'Éditer le Service par défaut',
         'Search Result' => 'Résultat de la recherche',
         'Allocate services to CustomerUser' => '',
         'Active' => 'Actif',
@@ -667,16 +667,16 @@ sub Data {
         'No create time settings.' => 'Pas de critère de date de création',
         'Ticket created' => 'Ticket créé',
         'Ticket created between' => 'Ticket créé entre le',
-        'Close Times' => '',
+        'Close Times' => 'Temps de fermeture',
         'No close time settings.' => '',
-        'Ticket closed' => '',
-        'Ticket closed between' => '',
+        'Ticket closed' => 'Ticket fermé',
+        'Ticket closed between' => 'Ticket fermé entre',
         'Pending Times' => 'Dates d\'échéance',
         'No pending time settings.' => 'pas de critère de date d\'échéance',
         'Ticket pending time reached' => 'Date d\'échéance atteinte le',
         'Ticket pending time reached between' => 'Date d\'échéance atteinte entre le',
-        'New Service' => '',
-        'New SLA' => '',
+        'New Service' => 'Nouveau Service',
+        'New SLA' => 'Nouveau SLA',
         'New Priority' => 'Nouvelle Priorité',
         'New Queue' => 'Nouvelle File',
         'New State' => 'Nouvel État',
@@ -684,9 +684,8 @@ sub Data {
         'New Owner' => 'Nouveau Propriétaire',
         'New Customer' => 'Nouveau Client',
         'New Ticket Lock' => 'Nouveau Verrou',
-        'New Type' => '',
-        'New Title' => '',
-        'New Type' => '',
+        'New Type' => 'Nouveau Type',
+        'New Title' => 'Nouveau Titre',
         'New TicketFreeFields' => 'Nouveau champs libres',
         'Add Note' => 'Ajouter une note',
         'CMD' => 'CMD',
@@ -720,7 +719,7 @@ sub Data {
         'Time' => 'Date et heure',
 
         # Template: AdminMailAccount
-        'Mail Account Management' => '',
+        'Mail Account Management' => 'Gestion du compte de messagerie',
         'Host' => 'Hôte',
         'Trusted' => 'Vérifié',
         'Dispatching' => 'Répartition',
@@ -781,10 +780,10 @@ sub Data {
         'Min Response' => 'Temps de réponse minimum',
         'Max Response' => 'Temps de réponse maximun',
         'Average Response' => 'Temps de réponse moyen',
-        'Period' => '',
-        'Min' => '',
-        'Max' => '',
-        'Average' => '',
+        'Period' => 'Période',
+        'Min' => 'Min',
+        'Max' => 'Max',
+        'Average' => 'Moyenne',
 
         # Template: AdminPGPForm
         'PGP Management' => 'Gestion de PGP',
@@ -815,13 +814,11 @@ sub Data {
         'Sub-Queue of' => 'Sous-file',
         'Unlock timeout' => 'Délai du déverrouillage',
         '0 = no unlock' => '0 = pas de verrouillage',
-        'Only business hours are counted.' => '',
+        'Only business hours are counted.' => 'Seuls les plages horaires de bureau sont comptés',
         'Escalation - First Response Time' => 'Rémontée du ticket - Premier temps de réponse',
         '0 = no escalation' => '0 = pas de remontée du ticket',
-        'Only business hours are counted.' => '',
-        'Notify by' => '',
+        'Notify by' => 'Notification par',
         'Escalation - Update Time' => 'Escalade - échéance pour le suivi',
-        'Notify by' => '',
         'Escalation - Solution Time' => 'Escalade - échéance pour la solution',
         'Follow up Option' => 'Option des suivis',
         'Ticket lock after a follow up' => 'Ticket verrouillé après un suivi',
@@ -891,7 +888,7 @@ sub Data {
         'Add a new Salutation.' => 'Ajoute une nouvelle en-tête.',
 
         # Template: AdminSelectBoxForm
-        'SQL Box' => '',
+        'SQL Box' => 'Reqêtes SQL',
         'Limit' => 'Limite',
         'Go' => 'Valider',
         'Select Box Result' => 'Choisissez le résultat',
@@ -1155,14 +1152,13 @@ sub Data {
         'Clear To' => 'Effacer la zone de saisie "De:"',
 
         # Template: AgentTicketEscalationView
-        'Ticket Escalation View' => '',
-        'Escalation' => '',
-        'Today' => '',
-        'Tomorrow' => '',
-        'Next Week' => '',
+        'Ticket Escalation View' => 'Vue des remontées du ticket',
+        'Escalation' => 'Remontée',
+        'Today' => 'Aujourd\'hui',
+        'Tomorrow' => 'Demain',
+        'Next Week' => 'La semaine prochaine',
         'up' => 'vers le haut',
         'down' => 'vers le bas',
-        'Escalation' => '',
         'Locked' => 'Verrouillé',
 
         # Template: AgentTicketForward
@@ -1251,10 +1247,10 @@ sub Data {
         'Search-Template' => 'Profil de recherche',
         'TicketFreeText' => 'Texte Libre du Ticket',
         'Created in Queue' => 'Créé dans la file',
-        'Close Times' => '',
-        'No close time settings.' => '',
-        'Ticket closed' => '',
-        'Ticket closed between' => '',
+        'Close Times' => 'Temps de fermeture',
+        'No close time settings.' => 'Pas de paramètre de temps de fermeture',
+        'Ticket closed' => 'Ticket fermé',
+        'Ticket closed between' => 'Ticket fermé entre',
         'Result Form' => 'Format du résultat',
         'Save Search-Profile as Template?' => 'Sauver le profil de recherche ?',
         'Yes, save it with name' => 'Oui, le sauver avec le nom',
@@ -1273,8 +1269,8 @@ sub Data {
         'Open Tickets' => 'Tickets ouverts',
 
         # Template: AgentTicketZoom
-        'Expand View' => '',
-        'Collapse View' => '',
+        'Expand View' => 'Afficher plus',
+        'Collapse View' => 'Réduire',
 
         # Template: AgentWindowTab
 
@@ -1358,7 +1354,7 @@ sub Data {
         'DB connect host' => 'Nom d\'hôte de la base de donnée',
         'Database' => 'Base de donnée',
         'Default Charset' => 'Charset par défaut',
-        'utf8' => '',
+        'utf8' => 'UTF-8',
         'false' => 'faux',
         'SystemID' => 'ID Système',
         '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(L\'identité du système. Chaque numéro de ticket et chaque id de session http commence avec ce nombre)',
@@ -1551,15 +1547,15 @@ sub Data {
         'Modified' => 'Modifié',
         'Ticket selected for bulk action!' => 'Ticket sélectionné pour une action groupée!',
 
-        'Link Object: %s' => '',
-        'Unlink Object: %s' => '',
-        'Linked as' => '',
-        'Can not create link with %s!' => '',
-        'Can not delete link with %s!' => '',
-        'Object already linked as %s.' => '',
-        'Priority Management' => '',
-        'Add a new Priority.' => '',
-        'Add Priority' => '',
+        'Link Object: %s' => 'Lier l\'Objet: %s',
+        'Unlink Object: %s' => 'Délier l\'objet: %s',
+        'Linked as' => 'Liée en tant que',
+        'Can not create link with %s!' => 'Impossible de créer un lien avec %s !',
+        'Can not delete link with %s!' => 'Impossible d\'effacer le lien avec %s !',
+        'Object already linked as %s.' => 'Objet déjà lié en tant que %s',
+        'Priority Management' => 'Gestion de la priorité',
+        'Add a new Priority.' => 'Ajouter une nouvelle priorité',
+        'Add Priority' => 'Ajouter la priorité',
     };
     # $$STOP$$
     return;
