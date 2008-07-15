@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.129 2008-07-07 22:49:50 ub Exp $
+# $Id: CHANGES,v 1.465.2.130 2008-07-15 22:01:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,10 @@
 # --
 
 2.2.8 (2008/??/??)
+ - (2008/06/20) Fixed bug# 3079 - Default CheckEmailInvalidAddress regexp
+    rejects mail to MobileMe (me.com) accounts.
+ - (2008/06/20) Fixed bug# 3000 - Configured sender address for auto response
+    get's ignored.
  - (2008/07/08) Fixed bug# 3062 - Not possible to search for Customer Company
  - (2008/06/25) Increaded max size of reformated text (reformating new lines)
     from 20,000 to 60,000 signs (this size is just a safty performance
