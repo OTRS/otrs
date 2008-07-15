@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.181 2008-07-15 19:36:07 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.182 2008-07-15 22:03:05 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -296,7 +296,7 @@
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
-            <String Regex="">@(aa|aaa|aaaa|aaaaa|abc|any|anywhere|anonymous|bar|demo|example|foo|hello|hallo|me|nospam|nowhere|null|some|somewhere|test|teste.|there|user|xx|xxx|xxxx)\.(..|...)$</String>
+            <String Regex="">@(aa|aaa|aaaa|aaaaa|abc|any|anywhere|anonymous|bar|demo|example|foo|hello|hallo|nospam|nowhere|null|some|somewhere|test|teste.|there|user|xx|xxx|xxxx)\.(..|...)$</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="LinkObject::ViewMode" Required="1" Valid="1">
