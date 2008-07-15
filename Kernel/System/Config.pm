@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Config.pm - all system config tool functions
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Config.pm,v 1.57.2.3 2007-03-04 23:05:11 martin Exp $
+# $Id: Config.pm,v 1.57.2.4 2008-07-15 12:58:31 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Config;
@@ -18,7 +18,7 @@ use Kernel::System::Main;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.57.2.3 $';
+$VERSION = '$Revision: 1.57.2.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -1320,7 +1320,7 @@ sub _XML2Perl {
                     foreach my $Index (1...$#{$Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}}) {
                         my $Content = $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}->[$Index];
                         my %NavBar = ();
-                        foreach $Key (sort keys %{$Content}) {
+                        foreach my $Key (sort keys %{$Content}) {
                             if ($Key eq 'Group' || $Key eq 'GroupRo') {
                                 my @Array = ();
                                 foreach my $Index (1...$#{$Content->{$Key}}) {
@@ -1345,7 +1345,7 @@ sub _XML2Perl {
                 else {
                     my $Content = $Param{Data}->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key};
                     my %NavBar = ();
-                    foreach $Key (sort keys %{$Content}) {
+                    foreach my $Key (sort keys %{$Content}) {
                         if ($Key eq 'Group' || $Key eq 'GroupRo') {
                             my @Array = ();
                             foreach my $Index (1...$#{$Content->{$Key}}) {
@@ -1434,12 +1434,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.57.2.3 $ $Date: 2007-03-04 23:05:11 $
+$Revision: 1.57.2.4 $ $Date: 2008-07-15 12:58:31 $
 
 =cut
