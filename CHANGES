@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.130 2008-07-15 22:01:44 martin Exp $
+# $Id: CHANGES,v 1.465.2.131 2008-07-16 11:18:38 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.2.8 (2008/??/??)
+ - (2008/07/16) Fixed bug# 2967 - Stats module, illegal division by zero at
+    ../..//Kernel/System/Stats.pm line 1581
  - (2008/06/20) Fixed bug# 3079 - Default CheckEmailInvalidAddress regexp
     rejects mail to MobileMe (me.com) accounts.
  - (2008/06/20) Fixed bug# 3000 - Configured sender address for auto response
