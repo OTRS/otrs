@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.709 2008-07-16 09:09:57 tr Exp $
+# $Id: CHANGES,v 1.710 2008-07-16 11:19:40 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -442,6 +442,8 @@
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.8 (2008/??/??)
+ - (2008/07/16) Fixed bug# 2967 - Stats module, illegal division by zero at
+    ../..//Kernel/System/Stats.pm line 1581
  - (2008/07/08) Fixed bug# 3062 - Not possible to search for Customer Company
  - (2008/06/25) Increaded max size of reformated text (reformating new lines)
     from 20,000 to 60,000 signs (this size is just a safty performance

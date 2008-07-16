@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.49 2008-06-01 12:01:29 mh Exp $
+# $Id: Stats.pm,v 1.50 2008-07-16 11:19:41 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 =head1 SYNOPSIS
 
@@ -1685,6 +1685,14 @@ sub CompletenessCheck {
         Info     => 'Your reporting time interval is to small, please use a larger time scale!',
         Priority => 'Error'
     };
+    $Notify[16] = {
+        Info     => 'There is something wrong with your time scale selection. Please check it!',
+        Priority => 'Error'
+    };
+    $Notify[17] = {
+        Info     => 'You have to select a time scale like day or month!',
+        Priority => 'Error'
+    };
 
     # check if need params are available
     for (qw(StatData Section)) {
@@ -1764,10 +1772,10 @@ sub CompletenessCheck {
                     }
 
                     if ( !$Xvalue->{SelectedValues}[0] ) {
-                        push @IndexArray, 10;
+                        push @IndexArray, 16;
                     }
                     elsif ( $Xvalue->{Fixed} && $#{ $Xvalue->{SelectedValues} } > 0 ) {
-                        push @IndexArray, 6;
+                        push @IndexArray, 16;
                     }
                 }
                 $Flag = 1;
@@ -1919,6 +1927,11 @@ sub CompletenessCheck {
 
                 $ScalePeriod = $TimeInSeconds{ $Xvalue->{SelectedValues}[0] };
 
+                if (!$ScalePeriod) {
+                    push @IndexArray, 17;
+                    last XVALUE;
+                }
+
                 if ( $Xvalue->{TimeStop} && $Xvalue->{TimeStart} ) {
                     $TimePeriod
                         = (
@@ -1932,11 +1945,9 @@ sub CompletenessCheck {
                     $TimePeriod = $TimeInSeconds{ $Xvalue->{TimeRelativeUnit} }
                         * $Xvalue->{TimeRelativeCount};
                 }
-                if (
-                    $TimePeriod / ( $ScalePeriod * $Count )
-                    > ( $Self->{ConfigObject}->Get('Stats::MaxXaxisAttributes') || 1000 )
-                    )
-                {
+
+                my $MaxAttr = $Self->{ConfigObject}->Get('Stats::MaxXaxisAttributes') || 1000;
+                if ( $TimePeriod / ( $ScalePeriod * $Count ) > $MaxAttr ) {
                     push @IndexArray, 15;
                 }
 
@@ -2931,6 +2942,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.49 $ $Date: 2008-06-01 12:01:29 $
+$Revision: 1.50 $ $Date: 2008-07-16 11:19:41 $
 
 =cut

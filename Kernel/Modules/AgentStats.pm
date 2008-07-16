@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.58 2008-07-16 09:09:57 tr Exp $
+# $Id: AgentStats.pm,v 1.59 2008-07-16 11:19:41 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -32,7 +32,6 @@ sub new {
         GroupObject   ParamObject  DBObject   ModuleReg  LayoutObject
         LogObject     ConfigObject UserObject MainObject TimeObject
         SessionObject UserID       Subaction  AccessRo   SessionID
-        RequestedURL
         )
         )
     {
@@ -43,7 +42,7 @@ sub new {
     }
 
     # check usefull params
-    for my $Transfer (qw( AccessRw )) {
+    for my $Transfer (qw( AccessRw RequestedURL)) {
         if ( $Param{$Transfer} ) {
             $Self->{$Transfer} = $Param{$Transfer};
         }
