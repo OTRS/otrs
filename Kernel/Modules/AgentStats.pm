@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.55 2008-05-08 09:36:36 mh Exp $
+# $Id: AgentStats.pm,v 1.56 2008-07-16 07:32:57 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -30,8 +30,8 @@ sub new {
     for my $NeededData (
         qw(
         GroupObject ParamObject  DBObject   ModuleReg  LayoutObject
-        LogObject   ConfigObject UserObject MainObject TimeObject   SessionObject
-        UserID      Subaction    AccessRo   AccessRw   UserLanguage
+        LogObject   ConfigObject UserObject MainObject TimeObject
+        UserID      Subaction    AccessRo   AccessRw   SessionObject
         )
         )
     {
@@ -41,8 +41,11 @@ sub new {
         $Self->{$NeededData} = $Param{$NeededData};
     }
 
+    # get current frontend language
+    $Self->{UserLanguage} = $Param{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage');
+
     # create needed objects
-    $Self->{CSVObject}   = Kernel::System::CSV->new( %{$Self} );
+    $Self->{CSVObject}   = Kernel::System::CSV  ->new( %{$Self} );
     $Self->{StatsObject} = Kernel::System::Stats->new( %{$Self} );
 
     return $Self;
