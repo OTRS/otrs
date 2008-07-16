@@ -2,7 +2,7 @@
 # AgentStatsDelete.dtl - provides HTML form for delete a Stats
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsDelete.dtl,v 1.5 2008-04-02 08:59:22 ot Exp $
+# $Id: AgentStatsDelete.dtl,v 1.6 2008-07-16 09:09:57 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@
   </tr>
   <tr>
     <td class="menu">
-      <a href="$Env{"Baselink"}$Env{"LastScreenView"}" class="menuitem">$Text{"Back"}</a>
+      <a href="$Env{"Baselink"}$Env{"LastStatsView"}" class="menuitem">$Text{"Back"}</a>
     </td>
   </tr>
   <tr>

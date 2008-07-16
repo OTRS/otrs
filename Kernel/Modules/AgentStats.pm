@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.57 2008-07-16 07:58:08 tr Exp $
+# $Id: AgentStats.pm,v 1.58 2008-07-16 09:09:57 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -29,9 +29,10 @@ sub new {
     # check needed objects
     for my $NeededData (
         qw(
-        GroupObject ParamObject  DBObject   ModuleReg  LayoutObject
-        LogObject   ConfigObject UserObject MainObject TimeObject
-        UserID      Subaction    AccessRo   SessionObject
+        GroupObject   ParamObject  DBObject   ModuleReg  LayoutObject
+        LogObject     ConfigObject UserObject MainObject TimeObject
+        SessionObject UserID       Subaction  AccessRo   SessionID
+        RequestedURL
         )
         )
     {
@@ -81,7 +82,7 @@ sub Run {
         # store last screen
         $Self->{SessionObject}->UpdateSessionID(
             SessionID => $Self->{SessionID},
-            Key       => 'LastScreenOverview',
+            Key       => 'LastStatsOverview',
             Value     => $Self->{RequestedURL},
         );
 
@@ -550,7 +551,7 @@ sub Run {
         # store last screen
         $Self->{SessionObject}->UpdateSessionID(
             SessionID => $Self->{SessionID},
-            Key       => 'LastScreenView',
+            Key       => 'LastStatsView',
             Value     => $Self->{RequestedURL},
         );
 
