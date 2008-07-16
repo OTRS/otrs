@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.707 2008-07-16 07:32:57 tr Exp $
+# $Id: CHANGES,v 1.708 2008-07-16 07:58:08 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.3.0 rc1 (2008/07/??)
+ - (2008/07/16) Fixed bug# 3088 - Statistics module fails with
+    message "Got no AccessRw" if you work with ro permissions
  - (2008/07/16) Fixed bug# 3012 - Statistics module fails with
     message "Got no UserLanguage"
  - (2008/07/15) Fixed bug# 3082 - Wrong requirement checks and false default
