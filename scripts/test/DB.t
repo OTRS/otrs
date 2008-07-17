@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.41 2008-07-17 12:54:49 mh Exp $
+# $Id: DB.t,v 1.42 2008-07-17 16:08:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -253,7 +253,7 @@ my @XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
 my @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
-    '#1 SQLProcessorPost() CREATE TABLE',
+    '#1 SQLProcessor() CREATE TABLE',
 );
 
 for my $SQL (@SQL) {
@@ -291,7 +291,7 @@ $XML      = '<TableAlter NameOld="test_a" NameNew="test_aa"/>';
 @SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
-    '#1 SQLProcessorPost() ALTER TABLE',
+    '#1 SQLProcessor() ALTER TABLE',
 );
 for my $SQL (@SQL) {
     $Self->True(
@@ -327,7 +327,7 @@ $XML      = '<TableDrop Name="test_aa"/>';
 @SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
-    '#1 SQLProcessorPost() DROP TABLE',
+    '#1 SQLProcessor() DROP TABLE',
 );
 
 for my $SQL (@SQL) {
@@ -355,7 +355,7 @@ $XML = '
 @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
-    '#2 SQLProcessorPost() CREATE TABLE',
+    '#2 SQLProcessor() CREATE TABLE',
 );
 
 for my $SQL (@SQL) {
@@ -385,7 +385,7 @@ $XML = '
 @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
-    '#2 SQLProcessorPost() ALTER TABLE',
+    '#2 SQLProcessor() ALTER TABLE',
 );
 
 for my $SQL (@SQL) {
@@ -405,7 +405,7 @@ $XML = '
 @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
-    '#2 SQLProcessorPost() INSERT 1',
+    '#2 SQLProcessor() INSERT 1',
 );
 
 for my $SQL (@SQL) {
@@ -449,7 +449,7 @@ for my $Count ( 1 .. 6 ) {
     @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
     $Self->True(
         $SQL[0],
-        "#2 SQLProcessorPost() INSERT 2 - $Count",
+        "#2 SQLProcessor() INSERT 2 - $Count",
     );
 
     for my $SQL (@SQL) {
@@ -633,7 +633,7 @@ $XML      = '<TableDrop Name="test_a"/>';
 @SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
-    '#2 SQLProcessorPost() DROP TABLE',
+    '#2 SQLProcessor() DROP TABLE',
 );
 
 for my $SQL (@SQL) {
@@ -660,7 +660,7 @@ $XML = '
 @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
-    '#3 SQLProcessorPost() CREATE TABLE',
+    '#3 SQLProcessor() CREATE TABLE',
 );
 
 for my $SQL (@SQL) {
@@ -684,7 +684,7 @@ for my $Count ( 1 .. 40 ) {
     @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
     $Self->True(
         $SQL[0],
-        "#3 SQLProcessorPost() INSERT - $Count",
+        "#3 SQLProcessor() INSERT - $Count",
     );
 
     for my $SQL (@SQL) {
@@ -831,7 +831,7 @@ $XML      = '<TableDrop Name="test_b"/>';
 @SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
-    '#3 SQLProcessorPost() DROP TABLE',
+    '#3 SQLProcessor() DROP TABLE',
 );
 
 for my $SQL (@SQL) {
@@ -854,7 +854,7 @@ $XML = '
 @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
-    '#4 SQLProcessorPost() CREATE TABLE',
+    '#4 SQLProcessor() CREATE TABLE',
 );
 
 for my $SQL (@SQL) {
@@ -988,7 +988,7 @@ $XML      = '<TableDrop Name="test_c"/>';
 @SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
-    '#4 SQLProcessorPost() DROP TABLE',
+    '#4 SQLProcessor() DROP TABLE',
 );
 
 for my $SQL (@SQL) {
@@ -1011,7 +1011,7 @@ $XML = '
 @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
-    '#5 SQLProcessorPost() CREATE TABLE',
+    '#5 SQLProcessor() CREATE TABLE',
 );
 
 for my $SQL (@SQL) {
@@ -1063,7 +1063,7 @@ $XML      = '<TableDrop Name="test_d"/>';
 @SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
-    '#5 SQLProcessorPost() DROP TABLE',
+    '#5 SQLProcessor() DROP TABLE',
 );
 
 for my $SQL (@SQL) {
@@ -1095,7 +1095,7 @@ $XML = '
 @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
-    '#6 SQLProcessorPost() CREATE TABLE',
+    '#6 SQLProcessor() CREATE TABLE',
 );
 
 for my $SQL (@SQL) {
@@ -1216,7 +1216,7 @@ $XML      = '<TableDrop Name="test_e"/>';
 @SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
-    '#6 SQLProcessorPost() DROP TABLE',
+    '#6 SQLProcessor() DROP TABLE',
 );
 
 for my $SQL (@SQL) {
@@ -1245,7 +1245,7 @@ $XML = '
 @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
-    '#7 SQLProcessorPost() CREATE TABLE',
+    '#7 SQLProcessor() CREATE TABLE',
 );
 
 for my $SQL (@SQL) {
@@ -1377,7 +1377,7 @@ $XML = '
 @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
-    '#7 SQLProcessorPost() ALTER TABLE',
+    '#7 SQLProcessor() ALTER TABLE',
 );
 
 for my $SQL (@SQL) {
@@ -1549,7 +1549,7 @@ $XML = '
 @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
-    '#7 SQLProcessorPost() ALTER TABLE',
+    '#7 SQLProcessor() ALTER TABLE',
 );
 
 for my $SQL (@SQL) {
@@ -1682,7 +1682,7 @@ $XML      = '<TableDrop Name="test_f"/>';
 @SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
-    '#7 SQLProcessorPost() DROP TABLE',
+    '#7 SQLProcessor() DROP TABLE',
 );
 
 for my $SQL (@SQL) {
@@ -1705,7 +1705,7 @@ $XML = '
 @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
-    '#8 SQLProcessorPost() CREATE TABLE',
+    '#8 SQLProcessor() CREATE TABLE',
 );
 
 for my $SQL (@SQL) {
@@ -2067,7 +2067,7 @@ $XML      = '<TableDrop Name="test_condition"/>';
 @SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
-    '#8 SQLProcessorPost() DROP TABLE',
+    '#8 SQLProcessor() DROP TABLE',
 );
 
 for my $SQL (@SQL) {
@@ -2083,8 +2083,12 @@ for my $SQL (@SQL) {
 $XML = '
 <SQL>
     <TableCreate Name="test_foreignkeys_1">
+        <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
         <Column Name="name_a" Required="true" Type="INTEGER" />
         <Column Name="name_b" Required="false" Default="0" Type="INTEGER" />
+        <Unique>
+            <UniqueColumn Name="name_a"/>
+        </Unique>
     </TableCreate>
     <TableCreate Name="test_foreignkeys_2">
         <Column Name="name_a" Required="true" Type="INTEGER" />
@@ -2136,13 +2140,26 @@ $XML = '
 @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
-    '#9 SQLProcessorPost() CREATE TABLE',
+    '#9 SQLProcessor() CREATE TABLE',
 );
 
 for my $SQL (@SQL) {
     $Self->True(
         $Self->{DBObject}->Do( SQL => $SQL ) || 0,
         "#9 Do() CREATE TABLE ($SQL)",
+    );
+}
+
+@SQL = $Self->{DBObject}->SQLProcessorPost();
+$Self->True(
+    $SQL[0],
+    '#9 SQLProcessorPost() ALTER TABLE',
+);
+
+for my $SQL (@SQL) {
+    $Self->True(
+        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        "#9 Do() ALTER TABLE ($SQL)",
     );
 }
 
@@ -2159,7 +2176,7 @@ $XML = '
 @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
-    '#9 SQLProcessorPost() ALTER TABLE',
+    '#9 SQLProcessor() ALTER TABLE',
 );
 
 for my $SQL (@SQL) {
@@ -2180,7 +2197,7 @@ $XML = '
 @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
-    '#9 SQLProcessorPost() ALTER TABLE',
+    '#9 SQLProcessor() ALTER TABLE',
 );
 
 for my $SQL (@SQL) {
@@ -2201,7 +2218,7 @@ $XML = '
 @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
-    '#9 SQLProcessorPost() DROP TABLE',
+    '#9 SQLProcessor() DROP TABLE',
 );
 
 for my $SQL (@SQL) {
