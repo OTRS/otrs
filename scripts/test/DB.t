@@ -2,20 +2,25 @@
 # DB.t - database tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.40 2008-06-10 13:36:33 mh Exp $
+# $Id: DB.t,v 1.41 2008-07-17 12:54:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
+use strict;
+use warnings;
+
+use vars qw($Self);
+
 use Kernel::System::XML;
 
 $Self->{XMLObject} = Kernel::System::XML->new( %{$Self} );
 
-# ---
+# ------------------------------------------------------------ #
 # quoting tests
-# ---
+# ------------------------------------------------------------ #
 $Self->Is(
     $Self->{DBObject}->Quote( 0, 'Integer' ),
     0,
@@ -232,9 +237,9 @@ else {
     );
 }
 
-# ---
+# ------------------------------------------------------------ #
 # XML test 1 (XML:TableCreate, SQL:Insert, SQL:Select, SQL:Delete,  XML:TableDrop)
-# ---
+# ------------------------------------------------------------ #
 my $XML = '
 <TableCreate Name="test_a">
     <Column Name="name_a" Required="true" Size="60" Type="VARCHAR"/>
@@ -332,10 +337,10 @@ for my $SQL (@SQL) {
     );
 }
 
-# ---
+# ------------------------------------------------------------ #
 # XML test 2 (XML:TableCreate, XML:TableAlter, XML:Insert (size check),
 # SQL:Insert (size check), SQL:Delete,  XML:TableDrop)
-# ---
+# ------------------------------------------------------------ #
 $XML = '
 <TableCreate Name="test_a">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
@@ -638,9 +643,9 @@ for my $SQL (@SQL) {
     );
 }
 
-# ---
+# ------------------------------------------------------------ #
 # XML test 3 (XML:TableCreate, XML:Insert, SQL:Select (Start/Limit checks) XML:TableDrop)
-# ---
+# ------------------------------------------------------------ #
 $XML = '
 <TableCreate Name="test_b">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
@@ -836,9 +841,9 @@ for my $SQL (@SQL) {
     );
 }
 
-# ---
+# ------------------------------------------------------------ #
 # XML test 4 - SELECT * ... LIKE ...
-# ---
+# ------------------------------------------------------------ #
 $XML = '
 <TableCreate Name="test_c">
     <Column Name="name_a" Required="true" Size="60" Type="VARCHAR"/>
@@ -993,9 +998,9 @@ for my $SQL (@SQL) {
     );
 }
 
-# ---
+# ------------------------------------------------------------ #
 # XML test 5 - INSERT special characters test
-# ---
+# ------------------------------------------------------------ #
 $XML = '
 <TableCreate Name="test_d">
     <Column Name="name_a" Required="true" Size="60" Type="VARCHAR"/>
@@ -1068,9 +1073,9 @@ for my $SQL (@SQL) {
     );
 }
 
-# ---
+# ------------------------------------------------------------ #
 # XML test 6 - default value test (create table)
-# ---
+# ------------------------------------------------------------ #
 $XML = '
 <TableCreate Name="test_e">
     <Column Name="id" Required="true" Type="INTEGER"/>
@@ -1101,6 +1106,8 @@ for my $SQL (@SQL) {
 }
 
 my $DefaultTest = [
+
+    # general function test
     {
         Insert => {
             name_a => 10,
@@ -1123,10 +1130,10 @@ my $DefaultTest = [
             name_h => 'Test',
         },
     },
+
+    # check integer columns
     {
         Insert => {
-            name_c => 10,
-            name_d => 10,
             name_e => q{''},
             name_f => q{''},
             name_g => q{'Test'},
@@ -1135,14 +1142,16 @@ my $DefaultTest = [
         Select => {
             name_a => 1,
             name_b => 0,
-            name_c => 10,
-            name_d => 10,
+            name_c => 2,
+            name_d => 0,
             name_e => '',
             name_f => '',
             name_g => 'Test',
             name_h => 'Test',
         },
     },
+
+    # check text columns
     {
         Insert => {
             name_a => 0,
@@ -1183,9 +1192,6 @@ for my $Test ( @{$DefaultTest} ) {
 
     for my $Column ( sort { $a cmp $b } keys %{ $Test->{Select} } ) {
 
-        my $SelectedValue;
-        my $ReferenceValue = $Test->{Select}->{$Column};
-
         $Self->{DBObject}->Prepare(
             SQL   => "SELECT $Column FROM test_e WHERE id = $ID",
             Limit => 1,
@@ -1193,12 +1199,9 @@ for my $Test ( @{$DefaultTest} ) {
 
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
-            $SelectedValue  = defined $Row[0]         ? $Row[0]         : 'unittest-UNDEF';
-            $ReferenceValue = defined $ReferenceValue ? $ReferenceValue : 'unittest-UNDEF';
-
             $Self->Is(
-                $SelectedValue,
-                $ReferenceValue,
+                $Row[0] || '',
+                $Test->{Select}->{$Column} || '',
                 "#6.$Counter2 SELECT check selected value",
             );
         }
@@ -1223,9 +1226,9 @@ for my $SQL (@SQL) {
     );
 }
 
-# ---
+# ------------------------------------------------------------ #
 # XML test 7 - default value test (alter table)
-# ---
+# ------------------------------------------------------------ #
 $XML = '
 <TableCreate Name="test_f">
     <Column Name="id" Required="true" Type="INTEGER"/>
@@ -1253,6 +1256,8 @@ for my $SQL (@SQL) {
 }
 
 my $DefaultTest2Insert = [
+
+    # general function test
     {
         Insert => {
             name_a => 100,
@@ -1271,6 +1276,8 @@ my $DefaultTest2Insert = [
             name_f => 'Test',
         },
     },
+
+    # check integer columns
     {
         Insert => {
             name_d => q{''},
@@ -1278,7 +1285,7 @@ my $DefaultTest2Insert = [
             name_f => q{''},
         },
         Select => {
-            name_a => undef,
+            name_a => '',
             name_b => 0,
             name_c => 10,
             name_d => '',
@@ -1286,6 +1293,8 @@ my $DefaultTest2Insert = [
             name_f => '',
         },
     },
+
+    # check text columns
     {
         Insert => {
             name_a => 0,
@@ -1296,7 +1305,7 @@ my $DefaultTest2Insert = [
             name_a => 0,
             name_b => 0,
             name_c => 0,
-            name_d => undef,
+            name_d => '',
             name_e => '',
             name_f => 'Test1',
         },
@@ -1323,9 +1332,6 @@ for my $Test ( @{$DefaultTest2Insert} ) {
 
     for my $Column ( sort { $a cmp $b } keys %{ $Test->{Select} } ) {
 
-        my $SelectedValue;
-        my $ReferenceValue = $Test->{Select}->{$Column};
-
         $Self->{DBObject}->Prepare(
             SQL   => "SELECT $Column FROM test_f WHERE id = $ID",
             Limit => 1,
@@ -1333,12 +1339,9 @@ for my $Test ( @{$DefaultTest2Insert} ) {
 
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
-            $SelectedValue  = defined $Row[0]         ? $Row[0]         : 'unittest-UNDEF';
-            $ReferenceValue = defined $ReferenceValue ? $ReferenceValue : 'unittest-UNDEF';
-
             $Self->Is(
-                $SelectedValue,
-                $ReferenceValue,
+                $Row[0] || '',
+                $Test->{Select}->{$Column} || '',
                 "#7.$Counter3 SELECT check selected value",
             );
         }
@@ -1385,6 +1388,8 @@ for my $SQL (@SQL) {
 }
 
 my $DefaultTest2Alter1 = [
+
+    # general function test
     {
         Insert => {
             name_a  => 10,
@@ -1419,13 +1424,13 @@ my $DefaultTest2Alter1 = [
             name2_h => 'Test',
         },
     },
+
+    # check integer columns
     {
         Insert => {
             name_d  => q{''},
             name_e  => q{''},
             name_f  => q{''},
-            name2_c => 10,
-            name2_d => 10,
             name2_e => q{''},
             name2_f => q{''},
             name2_g => q{'Test'},
@@ -1433,21 +1438,23 @@ my $DefaultTest2Alter1 = [
         },
         Select => {
             name_a  => 20,
-            name_b  => undef,
+            name_b  => '',
             name_c  => 0,
             name_d  => '',
             name_e  => '',
             name_f  => '',
             name2_a => 1,
             name2_b => 0,
-            name2_c => 10,
-            name2_d => 10,
+            name2_c => 2,
+            name2_d => 0,
             name2_e => '',
             name2_f => '',
             name2_g => 'Test',
             name2_h => 'Test',
         },
     },
+
+    # check text columns
     {
         Insert => {
             name_a  => 0,
@@ -1457,15 +1464,13 @@ my $DefaultTest2Alter1 = [
             name2_b => 0,
             name2_c => 0,
             name2_d => 0,
-            name2_g => q{'Test'},
-            name2_h => q{'Test'},
         },
         Select => {
             name_a  => 0,
             name_b  => 0,
             name_c  => 0,
             name_d  => 'Test1',
-            name_e  => undef,
+            name_e  => '',
             name_f  => '',
             name2_a => 0,
             name2_b => 0,
@@ -1473,8 +1478,8 @@ my $DefaultTest2Alter1 = [
             name2_d => 0,
             name2_e => 'Test1',
             name2_f => '',
-            name2_g => 'Test',
-            name2_h => 'Test',
+            name2_g => 'Test2',
+            name2_h => '',
         },
     },
 ];
@@ -1499,9 +1504,6 @@ for my $Test ( @{$DefaultTest2Alter1} ) {
 
     for my $Column ( sort { $a cmp $b } keys %{ $Test->{Select} } ) {
 
-        my $SelectedValue;
-        my $ReferenceValue = $Test->{Select}->{$Column};
-
         $Self->{DBObject}->Prepare(
             SQL   => "SELECT $Column FROM test_f WHERE id = $ID",
             Limit => 1,
@@ -1509,12 +1511,9 @@ for my $Test ( @{$DefaultTest2Alter1} ) {
 
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
-            $SelectedValue  = defined $Row[0]         ? $Row[0]         : 'unittest-UNDEF';
-            $ReferenceValue = defined $ReferenceValue ? $ReferenceValue : 'unittest-UNDEF';
-
             $Self->Is(
-                $SelectedValue,
-                $ReferenceValue,
+                $Row[0] || '',
+                $Test->{Select}->{$Column} || '',
                 "#7.$Counter4 SELECT check selected value:",
             );
         }
@@ -1561,6 +1560,8 @@ for my $SQL (@SQL) {
 }
 
 my $DefaultTest2Alter2 = [
+
+    # general function test
     {
         Insert => {
             name_a  => 10,
@@ -1587,6 +1588,54 @@ my $DefaultTest2Alter2 = [
             name3_d => 'Test',
         },
     },
+
+    # check integer columns
+    {
+        Insert => {
+            name_a  => 100,
+            name_d  => q{'Test'},
+            name_e  => q{'Test'},
+            name_f  => q{'Test'},
+            name3_c => q{'Test'},
+            name3_d => q{'Test'},
+        },
+        Select => {
+            name_a  => 100,
+            name_b  => 0,
+            name_c  => 0,
+            name_d  => 'Test',
+            name_e  => 'Test',
+            name_f  => 'Test',
+            name3_a => 0,
+            name3_b => 1,
+            name3_c => 'Test',
+            name3_d => 'Test',
+        },
+    },
+
+    # check text columns
+    {
+        Insert => {
+            name_a  => 0,
+            name_b  => 0,
+            name_c  => 0,
+            name_e  => q{'Test'},
+            name3_a => 0,
+            name3_b => 0,
+        },
+        Select => {
+            name_a  => 0,
+            name_b  => 0,
+            name_c  => 0,
+            name_d  => 'Test1',
+            name_e  => 'Test',
+            name_f  => '',
+            name3_a => 0,
+            name3_b => 0,
+            name3_c => '',
+            name3_d => 'Test1',
+        },
+    },
 ];
 
 my $Counter5 = 1;
@@ -1609,9 +1658,6 @@ for my $Test ( @{$DefaultTest2Alter2} ) {
 
     for my $Column ( sort { $a cmp $b } keys %{ $Test->{Select} } ) {
 
-        my $SelectedValue;
-        my $ReferenceValue = $Test->{Select}->{$Column};
-
         $Self->{DBObject}->Prepare(
             SQL   => "SELECT $Column FROM test_f WHERE id = $ID",
             Limit => 1,
@@ -1619,12 +1665,9 @@ for my $Test ( @{$DefaultTest2Alter2} ) {
 
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
-            $SelectedValue  = defined $Row[0]         ? $Row[0]         : 'unittest-UNDEF';
-            $ReferenceValue = defined $ReferenceValue ? $ReferenceValue : 'unittest-UNDEF';
-
             $Self->Is(
-                $SelectedValue,
-                $ReferenceValue,
+                $Row[0] || '',
+                $Test->{Select}->{$Column} || '',
                 "#7.$Counter5 SELECT check selected value: --> $Column",
             );
         }
@@ -1649,9 +1692,9 @@ for my $SQL (@SQL) {
     );
 }
 
-# ---
+# ------------------------------------------------------------ #
 # QueryCondition tests
-# ---
+# ------------------------------------------------------------ #
 $XML = '
 <TableCreate Name="test_condition">
     <Column Name="name_a" Required="true" Size="60" Type="VARCHAR"/>
@@ -1662,13 +1705,13 @@ $XML = '
 @SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
-    '#7 SQLProcessorPost() CREATE TABLE',
+    '#8 SQLProcessorPost() CREATE TABLE',
 );
 
 for my $SQL (@SQL) {
     $Self->True(
         $Self->{DBObject}->Do( SQL => $SQL ) || 0,
-        "#7 Do() CREATE TABLE ($SQL)",
+        "#8 Do() CREATE TABLE ($SQL)",
     );
 }
 
@@ -1684,7 +1727,7 @@ for my $Key ( sort keys %Fill ) {
             SQL => $SQL,
             )
             || 0,
-        "#7 Do() INSERT ($SQL)",
+        "#8 Do() INSERT ($SQL)",
     );
 }
 my @Queries = (
@@ -1885,7 +1928,7 @@ for my $Query (@Queries) {
         $Self->Is(
             $Result{$Check} || 0,
             $Query->{Result}->{$Check} || 0,
-            "#7 Do() SQL SELECT $Query->{Query} / $Check",
+            "#8 Do() SQL SELECT $Query->{Query} / $Check",
         );
     }
 }
@@ -2015,7 +2058,7 @@ for my $Query (@Queries) {
         $Self->Is(
             $Result{$Check} || 0,
             $Query->{Result}->{$Check} || 0,
-            "#7 Do() SQL SELECT $Query->{Query} / $Check",
+            "#8 Do() SQL SELECT $Query->{Query} / $Check",
         );
     }
 }
@@ -2024,13 +2067,147 @@ $XML      = '<TableDrop Name="test_condition"/>';
 @SQL      = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
 $Self->True(
     $SQL[0],
-    '#7 SQLProcessorPost() DROP TABLE',
+    '#8 SQLProcessorPost() DROP TABLE',
 );
 
 for my $SQL (@SQL) {
     $Self->True(
         $Self->{DBObject}->Do( SQL => $SQL ) || 0,
-        "#7 Do() DROP TABLE ($SQL)",
+        "#8 Do() DROP TABLE ($SQL)",
+    );
+}
+
+# ------------------------------------------------------------ #
+# check foreign keys
+# ------------------------------------------------------------ #
+$XML = '
+<SQL>
+    <TableCreate Name="test_foreignkeys_1">
+        <Column Name="name_a" Required="true" Type="INTEGER" />
+        <Column Name="name_b" Required="false" Default="0" Type="INTEGER" />
+    </TableCreate>
+    <TableCreate Name="test_foreignkeys_2">
+        <Column Name="name_a" Required="true" Type="INTEGER" />
+        <Column Name="name_b" Required="false" Default="0" Type="INTEGER" />
+        <ForeignKey ForeignTable="test_foreignkeys_1">
+            <Reference Local="name_a" Foreign="name_a"/>
+        </ForeignKey>
+    </TableCreate>
+    <Insert Table="test_foreignkeys_1">
+        <Data Key="name_a">1</Data>
+        <Data Key="name_b">1</Data>
+    </Insert>
+    <Insert Table="test_foreignkeys_1">
+        <Data Key="name_a">2</Data>
+        <Data Key="name_b">2</Data>
+    </Insert>
+    <Insert Table="test_foreignkeys_1">
+        <Data Key="name_a">3</Data>
+        <Data Key="name_b">3</Data>
+    </Insert>
+    <Insert Table="test_foreignkeys_2">
+        <Data Key="name_a">1</Data>
+        <Data Key="name_b">100</Data>
+    </Insert>
+        <Insert Table="test_foreignkeys_2">
+        <Data Key="name_a">1</Data>
+        <Data Key="name_b">101</Data>
+    </Insert>
+    <Insert Table="test_foreignkeys_2">
+        <Data Key="name_a">2</Data>
+        <Data Key="name_b">200</Data>
+    </Insert>
+    <Insert Table="test_foreignkeys_2">
+        <Data Key="name_a">2</Data>
+        <Data Key="name_b">201</Data>
+    </Insert>
+    <Insert Table="test_foreignkeys_2">
+        <Data Key="name_a">3</Data>
+        <Data Key="name_b">300</Data>
+    </Insert>
+    <Insert Table="test_foreignkeys_2">
+        <Data Key="name_a">3</Data>
+        <Data Key="name_b">301</Data>
+    </Insert>
+</SQL>
+';
+@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+
+@SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+$Self->True(
+    $SQL[0],
+    '#9 SQLProcessorPost() CREATE TABLE',
+);
+
+for my $SQL (@SQL) {
+    $Self->True(
+        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        "#9 Do() CREATE TABLE ($SQL)",
+    );
+}
+
+# remove the foreign key
+$XML = '
+<TableAlter Name="test_foreignkeys_2">
+    <ForeignKeyDrop ForeignTable="test_foreignkeys_1">
+        <Reference Local="name_a" Foreign="name_a"/>
+    </ForeignKeyDrop>
+</TableAlter>
+';
+@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+
+@SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+$Self->True(
+    $SQL[0],
+    '#9 SQLProcessorPost() ALTER TABLE',
+);
+
+for my $SQL (@SQL) {
+    $Self->True(
+        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        "#9 Do() ALTER TABLE ($SQL)",
+    );
+}
+
+# delete the column
+$XML = '
+<TableAlter Name="test_foreignkeys_1">
+    <ColumnDrop Name="name_a"/>
+</TableAlter>
+';
+@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+
+@SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+$Self->True(
+    $SQL[0],
+    '#9 SQLProcessorPost() ALTER TABLE',
+);
+
+for my $SQL (@SQL) {
+    $Self->True(
+        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        "#9 Do() ALTER TABLE ($SQL)",
+    );
+}
+
+# drop the test tables
+$XML = '
+<SQL>
+    <TableDrop Name="test_foreignkeys_1"/>
+    <TableDrop Name="test_foreignkeys_2"/>
+</SQL>
+';
+@XMLARRAY = $Self->{XMLObject}->XMLParse( String => $XML );
+@SQL = $Self->{DBObject}->SQLProcessor( Database => \@XMLARRAY );
+$Self->True(
+    $SQL[0],
+    '#9 SQLProcessorPost() DROP TABLE',
+);
+
+for my $SQL (@SQL) {
+    $Self->True(
+        $Self->{DBObject}->Do( SQL => $SQL ) || 0,
+        "#9 Do() DROP TABLE ($SQL)",
     );
 }
 
