@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.50 2008-07-16 11:19:41 tr Exp $
+# $Id: Stats.pm,v 1.51 2008-07-17 14:30:39 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 =head1 SYNOPSIS
 
@@ -487,16 +487,18 @@ sub StatsDelete {
     }
 
     # delete the record
-    if (
-        $Self->{XMLObject}->XMLHashDelete(
-            Type => 'Stats',
-            Key  => $Param{StatID},
-        )
-        )
-    {
+    my $Result = $Self->{XMLObject}->XMLHashDelete(
+        Type => 'Stats',
+        Key  => $Param{StatID},
+    );
 
+    if ( $Result ) {
         # delete cache
         $Self->_DeleteCache( StatID => $Param{StatID} );
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message  => "Delete stats (StatsID = $Param{StatID})",
+        );
         return 1;
     }
 
@@ -1967,7 +1969,7 @@ sub CompletenessCheck {
 
 Get all attributes from the object in dependence of the use
 
-    my %ObjectAttributes => $StatsObject->GetStatsObjectAttributes(
+    my %ObjectAttributes = $StatsObject->GetStatsObjectAttributes(
         ObjectModule => 'Ticket',
         Use          => 'UseAsXvalue' || 'UseAsValueSeries' || 'UseAsRestriction',
     );
@@ -2014,7 +2016,9 @@ sub GetStatsObjectAttributes {
 
 Get all static files
 
-    my $FileHash => $StatsObject->GetStaticFiles();
+    my $FileHash = $StatsObject->GetStaticFiles(
+        OnlyUnusedFiles => 1 | 0, # optional default 0
+    );
 
 =cut
 
@@ -2037,17 +2041,20 @@ sub GetStaticFiles {
         return ();
     }
 
-    # get all Stats from the db
     my %StaticFiles = ();
-    my $Result      = $Self->GetStatsList();
 
-    if ( defined $Result ) {
-        for my $StatID ( @{$Result} ) {
-            my $Data = $Self->StatsGet( StatID => $StatID );
+    if ( $Param{OnlyUnusedFiles}) {
+        # get all Stats from the db
+        my $Result      = $Self->GetStatsList();
 
-            # check witch one are static statistics
-            if ( $Data->{File} && $Data->{StatType} eq 'static' ) {
-                $StaticFiles{ $Data->{File} } = 1;
+        if ( defined $Result ) {
+            for my $StatID ( @{$Result} ) {
+                my $Data = $Self->StatsGet( StatID => $StatID );
+
+                # check witch one are static statistics
+                if ( $Data->{File} && $Data->{StatType} eq 'static' ) {
+                    $StaticFiles{ $Data->{File} } = 1;
+                }
             }
         }
     }
@@ -2070,12 +2077,12 @@ sub GetStaticFiles {
 
 Get all static objects
 
-    my $FileHash => $StatsObject->GetDynamicFiles();
+    my $FileHash = $StatsObject->GetDynamicFiles();
 
 =cut
 
 sub GetDynamicFiles {
-    my ( $Self, %Param ) = @_;
+    my $Self = shift;
 
     my %Filelist = %{ $Self->{ConfigObject}->Get('Stats::DynamicObjectRegistration') };
     for ( keys %Filelist ) {
@@ -2928,6 +2935,33 @@ sub _AutomaticSampleImport {
     return 1;
 }
 
+sub StatsCleanUp {
+    my $Self = shift;
+
+    # get all dynamic stats modules
+    my $Dynamic = $Self->GetDynamicFiles();
+
+    # get all static stats files
+    my $Static = $Self->GetStaticFiles();
+
+    # get a list of all stats
+    my $ListRef = $Self->GetStatsList();
+
+    for my $StatsID ( @{$ListRef} ) {
+        my $HashRef = $Self->StatsGet(
+            StatID             => $StatsID,
+            NoObjectAttributes => 1,
+        );
+
+        if (   ( $HashRef->{StatType} eq 'static'  && !$Static ->{ $HashRef->{File}   } )
+            || ( $HashRef->{StatType} eq 'dynamic' && !$Dynamic->{ $HashRef->{Object} } )
+        ) {
+            $Self->StatsDelete(StatID => $StatsID);
+        }
+    }
+
+    return 1;
+}
 1;
 
 =back
@@ -2942,6 +2976,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.50 $ $Date: 2008-07-16 11:19:41 $
+$Revision: 1.51 $ $Date: 2008-07-17 14:30:39 $
 
 =cut

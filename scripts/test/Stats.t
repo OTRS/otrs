@@ -2,7 +2,7 @@
 # scripts/test/Stats.t - stats module testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.t,v 1.15 2008-05-08 09:35:57 mh Exp $
+# $Id: Stats.t,v 1.16 2008-07-17 14:30:39 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -313,6 +313,13 @@ my $Graph = $Self->{StatsObject}->GenerateGraph(
 $Self->True(
     $Graph,
     'GenerateGraph() make a diagram',
+);
+
+# try the clean up function
+my $Result = $Self->{StatsObject}->StatsCleanUp();
+$Self->True(
+    $Result,
+    'StatsCleanUp() - clean up stats',
 );
 
 1;
