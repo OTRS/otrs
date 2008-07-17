@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # Modified for DB2 UDB Friedmar Moch <friedmar@acm.org>
 # --
-# $Id: db2.pm,v 1.48 2008-07-06 22:36:57 martin Exp $
+# $Id: db2.pm,v 1.49 2008-07-17 14:44:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -184,23 +184,27 @@ sub TableCreate {
 
         # type translation
         $Tag = $Self->_TypeTranslation($Tag);
+
+        # add new line
         if ($SQL) {
             $SQL .= ",\n";
         }
 
         # normal data type
         $SQL .= "    $Tag->{Name} $Tag->{Type}";
-        if ( $Tag->{Required} =~ /^true$/i ) {
+
+        # handle require
+        if ( lc $Tag->{Required} eq 'true' ) {
             $SQL .= ' NOT NULL';
         }
 
-        # default values
+        # handle default
         if ( defined $Tag->{Default} ) {
             if ( $Tag->{Type} =~ /int/i ) {
-                $SQL .= " DEFAULT $Tag->{Default}";
+                $SQL .= " DEFAULT " . $Tag->{Default};
             }
             else {
-                $SQL .= " DEFAULT '$Tag->{Default}'";
+                $SQL .= " DEFAULT '" . $Tag->{Default} . "'";
             }
         }
 
@@ -327,7 +331,9 @@ sub TableAlter {
 
             # normal data type
             my $SQLEnd = $SQLStart . " ADD $Tag->{Name} $Tag->{Type}";
-            if ( $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
+
+            # handle require
+            if ( !defined $Tag->{Default} && $Tag->{Required} && lc $Tag->{Required} eq 'true' ) {
                 $SQLEnd .= ' NOT NULL';
             }
 
@@ -386,7 +392,7 @@ sub TableAlter {
             my $SQLEnd = $SQLStart . " ALTER COLUMN $Tag->{NameNew} SET DATA TYPE $Tag->{Type}";
             push @SQL, $SQLEnd;
             push @SQL, "CALL SYSPROC.ADMIN_CMD ('REORG TABLE $Table')";
-            if ( $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
+            if ( $Tag->{Required} && lc $Tag->{Required} eq 'true' ) {
                 my $SQLEnd = $SQLStart . " ALTER COLUMN $Tag->{NameNew} SET NOT NULL";
                 push @SQL, $SQLEnd;
                 push @SQL, "CALL SYSPROC.ADMIN_CMD ('REORG TABLE $Table')";
@@ -531,12 +537,22 @@ sub ForeignKeyCreate {
         }
     }
 
+    # create foreign key name
     my $ForeignKey = "FK_$Param{LocalTableName}_$Param{Local}_$Param{Foreign}";
-    my $SQL        = "ALTER TABLE $Param{LocalTableName} ADD CONSTRAINT $ForeignKey FOREIGN KEY (";
+    if ( length($ForeignKey) > 60 ) {
+        my $MD5 = $Self->{MainObject}->MD5sum(
+            String => $ForeignKey,
+        );
+        $ForeignKey = substr $ForeignKey, 0, 58;
+        $ForeignKey .= substr $MD5, 0,  1;
+        $ForeignKey .= substr $MD5, 61, 1;
+    }
+
+    # add foreign key
+    my $SQL = "ALTER TABLE $Param{LocalTableName} ADD CONSTRAINT $ForeignKey FOREIGN KEY (";
     $SQL .= "$Param{Local}) REFERENCES ";
     $SQL .= "$Param{ForeignTableName}($Param{Foreign})";
 
-    # return SQL
     return ($SQL);
 }
 
@@ -544,14 +560,27 @@ sub ForeignKeyDrop {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(TableName Name)) {
+    for (qw(LocalTableName Local ForeignTableName Foreign)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
+
+    # create foreign key name
     my $ForeignKey = "FK_$Param{LocalTableName}_$Param{Local}_$Param{Foreign}";
-    my $SQL        = 'ALTER TABLE ' . $Param{TableName} . ' DROP CONSTRAINT ' . $Param{Name};
+    if ( length($ForeignKey) > 60 ) {
+        my $MD5 = $Self->{MainObject}->MD5sum(
+            String => $ForeignKey,
+        );
+        $ForeignKey = substr $ForeignKey, 0, 58;
+        $ForeignKey .= substr $MD5, 0,  1;
+        $ForeignKey .= substr $MD5, 61, 1;
+    }
+
+    # drop foreign key
+    my $SQL = "ALTER TABLE $Param{LocalTableName} DROP CONSTRAINT $ForeignKey";
+
     return ($SQL);
 }
 

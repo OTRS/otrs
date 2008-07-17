@@ -2,7 +2,7 @@
 # Kernel/System/DB/postgresql.pm - postgresql database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: postgresql.pm,v 1.40 2008-07-06 22:36:57 martin Exp $
+# $Id: postgresql.pm,v 1.41 2008-07-17 14:44:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -174,6 +174,8 @@ sub TableCreate {
 
         # type translation
         $Tag = $Self->_TypeTranslation($Tag);
+
+        # add new line
         if ($SQL) {
             $SQL .= ",\n";
         }
@@ -186,18 +188,20 @@ sub TableCreate {
         # normal data type
         else {
             $SQL .= "    $Tag->{Name} $Tag->{Type}";
-            if ( $Tag->{Required} =~ /^true$/i ) {
+
+            # handle require
+            if ( lc $Tag->{Required} eq 'true' ) {
                 $SQL .= " NOT NULL";
             }
         }
 
-        # default values
+        # handle default
         if ( defined $Tag->{Default} ) {
             if ( $Tag->{Type} =~ /int/i ) {
-                $SQL .= " DEFAULT $Tag->{Default}";
+                $SQL .= " DEFAULT " . $Tag->{Default};
             }
             else {
-                $SQL .= " DEFAULT '$Tag->{Default}'";
+                $SQL .= " DEFAULT '" . $Tag->{Default} . "'";
             }
         }
 
@@ -320,12 +324,15 @@ sub TableAlter {
 
             # normal data type
             my $SQLEnd = $SQLStart . " ADD $Tag->{Name} $Tag->{Type}";
-            if ( !defined $Tag->{Default} && $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
+
+            # handle require
+            if ( !defined $Tag->{Default} && $Tag->{Required} && lc $Tag->{Required} eq 'true' ) {
                 $SQLEnd .= ' NOT NULL';
             }
+
             push @SQL, $SQLEnd;
 
-            # default values
+            # handle default
             if ( defined $Tag->{Default} ) {
                 if ( $Tag->{Type} =~ /int/i ) {
                     push @SQL,
@@ -335,9 +342,21 @@ sub TableAlter {
                     push @SQL,
                         "UPDATE $Table SET $Tag->{Name} = '$Tag->{Default}' WHERE $Tag->{Name} IS NULL";
                 }
-                if ( $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
-                    push @SQL, "ALTER TABLE $Table ALTER $Tag->{Name} SET NOT NULL";
+
+                my $SQLEnd = "ALTER TABLE $Table ALTER $Tag->{Name} ";
+
+                if ( $Tag->{Type} =~ /int/i ) {
+                    $SQLEnd .= " SET DEFAULT " . $Tag->{Default};
                 }
+                else {
+                    $SQLEnd .= " SET DEFAULT '" . $Tag->{Default} . "'";
+                }
+
+                if ( $Tag->{Required} && lc $Tag->{Required} eq 'true' ) {
+                    $SQLEnd .= ' SET NOT NULL';
+                }
+
+                push @SQL, $SQLEnd;
             }
         }
         elsif ( $Tag->{Tag} eq 'ColumnChange' && $Tag->{TagType} eq 'Start' ) {
@@ -352,12 +371,41 @@ sub TableAlter {
             }
             my $SQLEnd = $SQLStart . " ALTER $Tag->{NameNew} TYPE $Tag->{Type}";
             push @SQL, $SQLEnd;
-            if ( $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
+
+            # handle require
+            if ( !defined $Tag->{Default} && $Tag->{Required} && lc $Tag->{Required} eq 'true' ) {
                 my $SQLEnd = $SQLStart . " ALTER $Tag->{NameNew} SET NOT NULL";
                 push @SQL, $SQLEnd;
             }
-            elsif ( !$Tag->{Required} || $Tag->{Required} =~ /^false$/i ) {
+            else {
                 my $SQLEnd = $SQLStart . " ALTER $Tag->{NameNew} DROP NOT NULL";
+                push @SQL, $SQLEnd;
+            }
+
+            # handle default
+            if ( defined $Tag->{Default} ) {
+                if ( $Tag->{Type} =~ /int/i ) {
+                    push @SQL,
+                        "UPDATE $Table SET $Tag->{NameNew} = $Tag->{Default} WHERE $Tag->{NameNew} IS NULL";
+                }
+                else {
+                    push @SQL,
+                        "UPDATE $Table SET $Tag->{NameNew} = '$Tag->{Default}' WHERE $Tag->{NameNew} IS NULL";
+                }
+
+                my $SQLEnd = "ALTER TABLE $Table ALTER $Tag->{NameNew} ";
+
+                if ( $Tag->{Type} =~ /int/i ) {
+                    $SQLEnd .= " SET DEFAULT " . $Tag->{Default};
+                }
+                else {
+                    $SQLEnd .= " SET DEFAULT '" . $Tag->{Default} . "'";
+                }
+
+                if ( $Tag->{Required} && lc $Tag->{Required} eq 'true' ) {
+                    $SQLEnd .= ' SET NOT NULL';
+                }
+
                 push @SQL, $SQLEnd;
             }
         }
@@ -461,11 +509,23 @@ sub ForeignKeyCreate {
             return;
         }
     }
-    my $SQL = "ALTER TABLE $Param{LocalTableName} ADD FOREIGN KEY (";
+
+    # create foreign key name
+    my $ForeignKey = "FK_$Param{LocalTableName}_$Param{Local}_$Param{Foreign}";
+    if ( length($ForeignKey) > 60 ) {
+        my $MD5 = $Self->{MainObject}->MD5sum(
+            String => $ForeignKey,
+        );
+        $ForeignKey = substr $ForeignKey, 0, 58;
+        $ForeignKey .= substr $MD5, 0,  1;
+        $ForeignKey .= substr $MD5, 61, 1;
+    }
+
+    # add foreign key
+    my $SQL = "ALTER TABLE $Param{LocalTableName} ADD CONSTRAINT $ForeignKey FOREIGN KEY (";
     $SQL .= "$Param{Local}) REFERENCES ";
     $SQL .= "$Param{ForeignTableName}($Param{Foreign})";
 
-    # return SQL
     return ($SQL);
 }
 
@@ -473,14 +533,27 @@ sub ForeignKeyDrop {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(TableName Name)) {
+    for (qw(LocalTableName Local ForeignTableName Foreign)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
-    my $SQL = 'ALTER TABLE ' . $Param{TableName} . ' DROP FOREIGN KEY ' . $Param{Name};
+    # create foreign key name
+    my $ForeignKey = "FK_$Param{LocalTableName}_$Param{Local}_$Param{Foreign}";
+    if ( length($ForeignKey) > 60 ) {
+        my $MD5 = $Self->{MainObject}->MD5sum(
+            String => $ForeignKey,
+        );
+        $ForeignKey = substr $ForeignKey, 0, 58;
+        $ForeignKey .= substr $MD5, 0,  1;
+        $ForeignKey .= substr $MD5, 61, 1;
+    }
+
+    # drop foreign key
+    my $SQL = "ALTER TABLE $Param{LocalTableName} DROP CONSTRAINT $ForeignKey";
+
     return ($SQL);
 }
 

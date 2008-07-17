@@ -2,7 +2,7 @@
 # Kernel/System/DB/oracle.pm - oracle database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: oracle.pm,v 1.53 2008-07-07 00:08:31 martin Exp $
+# $Id: oracle.pm,v 1.54 2008-07-17 14:44:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -171,6 +171,8 @@ sub TableCreate {
 
         # type translation
         $Tag = $Self->_TypeTranslation($Tag);
+
+        # add new line
         if ($SQL) {
             $SQL .= ",\n";
         }
@@ -180,7 +182,7 @@ sub TableCreate {
 
         # handle default
         if ( defined $Tag->{Default} ) {
-            if ( $Tag->{Type} =~ /(int|number)/i ) {
+            if ( $Tag->{Type} =~ m{ (int|number) }xmsi ) {
                 $SQL .= " DEFAULT " . $Tag->{Default};
             }
             else {
@@ -189,7 +191,7 @@ sub TableCreate {
         }
 
         # handle require
-        if ( $Tag->{Required} =~ /^true$/i ) {
+        if ( lc $Tag->{Required} eq 'true' ) {
             $SQL .= ' NOT NULL';
         }
 
@@ -392,7 +394,7 @@ sub TableAlter {
 
                 my $SQLEnd = "ALTER TABLE $Table MODIFY $Tag->{Name} $Tag->{Type}";
 
-                if ( $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
+                if ( $Tag->{Required} && lc $Tag->{Required} eq 'true' ) {
                     $SQLEnd .= ' NOT NULL';
                 }
                 else {
@@ -429,7 +431,7 @@ sub TableAlter {
             my $SQLEnd = $SQLStart . " MODIFY $Tag->{Name} $Tag->{Type}";
 
             # handle require
-            if ( !defined $Tag->{Default} && $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
+            if ( !defined $Tag->{Default} && $Tag->{Required} && lc $Tag->{Required} eq 'true' ) {
                 $SQLEnd .= ' NOT NULL';
             }
 
@@ -457,7 +459,7 @@ sub TableAlter {
 
                 my $SQLEnd = "ALTER TABLE $Table MODIFY $Tag->{Name} $Tag->{Type}";
 
-                if ( $Tag->{Required} && $Tag->{Required} =~ /^true$/i ) {
+                if ( $Tag->{Required} && lc $Tag->{Required} eq 'true' ) {
                     $SQLEnd .= ' NOT NULL';
                 }
                 else {
@@ -594,6 +596,8 @@ sub ForeignKeyCreate {
             return;
         }
     }
+
+    # create foreign key name
     my $ForeignKey = "FK_$Param{LocalTableName}_$Param{Local}_$Param{Foreign}";
     if ( length($ForeignKey) > 30 ) {
         my $MD5 = $Self->{MainObject}->MD5sum(
@@ -603,11 +607,12 @@ sub ForeignKeyCreate {
         $ForeignKey .= substr $MD5, 0,  1;
         $ForeignKey .= substr $MD5, 31, 1;
     }
+
+    # add foreign key
     my $SQL = "ALTER TABLE $Param{LocalTableName} ADD CONSTRAINT $ForeignKey FOREIGN KEY (";
     $SQL .= "$Param{Local}) REFERENCES ";
     $SQL .= "$Param{ForeignTableName}($Param{Foreign})";
 
-    # return SQL
     return ($SQL);
 }
 
@@ -621,6 +626,8 @@ sub ForeignKeyDrop {
             return;
         }
     }
+
+    # create foreign key name
     my $ForeignKey = "FK_$Param{LocalTableName}_$Param{Local}_$Param{Foreign}";
     if ( length($ForeignKey) > 30 ) {
         my $MD5 = $Self->{MainObject}->MD5sum(
@@ -630,7 +637,10 @@ sub ForeignKeyDrop {
         $ForeignKey .= substr $MD5, 0,  1;
         $ForeignKey .= substr $MD5, 31, 1;
     }
-    my $SQL = "ALTER TABLE $Param{TableName} DROP CONSTRAINT $ForeignKey";
+
+    # drop foreign key
+    my $SQL = "ALTER TABLE $Param{LocalTableName} DROP CONSTRAINT $ForeignKey";
+
     return ($SQL);
 }
 
