@@ -2,7 +2,7 @@
 # Kernel/System/DB/mysql.pm - mysql database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: mysql.pm,v 1.44 2008-07-17 14:44:19 mh Exp $
+# $Id: mysql.pm,v 1.45 2008-07-17 16:10:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -471,6 +471,7 @@ sub TableAlter {
             push @Reference, $Tag;
         }
     }
+
     return @SQL;
 }
 
@@ -570,7 +571,7 @@ sub ForeignKeyDrop {
     }
 
     # drop foreign key
-    my $SQL = "ALTER TABLE $Param{LocalTableName} DROP CONSTRAINT $ForeignKey";
+    my $SQL = "ALTER TABLE $Param{LocalTableName} DROP FOREIGN KEY $ForeignKey";
 
     return ($SQL);
 }
