@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.42 2008-07-17 16:08:31 mh Exp $
+# $Id: DB.t,v 1.43 2008-07-18 08:52:41 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -1192,6 +1192,9 @@ for my $Test ( @{$DefaultTest} ) {
 
     for my $Column ( sort { $a cmp $b } keys %{ $Test->{Select} } ) {
 
+        my $SelectedValue;
+        my $ReferenceValue = $Test->{Select}->{$Column};
+
         $Self->{DBObject}->Prepare(
             SQL   => "SELECT $Column FROM test_e WHERE id = $ID",
             Limit => 1,
@@ -1199,9 +1202,12 @@ for my $Test ( @{$DefaultTest} ) {
 
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
+            $SelectedValue  = defined $Row[0]         ? $Row[0]         : '';
+            $ReferenceValue = defined $ReferenceValue ? $ReferenceValue : '';
+
             $Self->Is(
-                $Row[0] || '',
-                $Test->{Select}->{$Column} || '',
+                $SelectedValue,
+                $ReferenceValue,
                 "#6.$Counter2 SELECT check selected value",
             );
         }
@@ -1332,6 +1338,9 @@ for my $Test ( @{$DefaultTest2Insert} ) {
 
     for my $Column ( sort { $a cmp $b } keys %{ $Test->{Select} } ) {
 
+        my $SelectedValue;
+        my $ReferenceValue = $Test->{Select}->{$Column};
+
         $Self->{DBObject}->Prepare(
             SQL   => "SELECT $Column FROM test_f WHERE id = $ID",
             Limit => 1,
@@ -1339,9 +1348,12 @@ for my $Test ( @{$DefaultTest2Insert} ) {
 
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
+            $SelectedValue  = defined $Row[0]         ? $Row[0]         : '';
+            $ReferenceValue = defined $ReferenceValue ? $ReferenceValue : '';
+
             $Self->Is(
-                $Row[0] || '',
-                $Test->{Select}->{$Column} || '',
+                $SelectedValue,
+                $ReferenceValue,
                 "#7.$Counter3 SELECT check selected value",
             );
         }
@@ -1504,6 +1516,9 @@ for my $Test ( @{$DefaultTest2Alter1} ) {
 
     for my $Column ( sort { $a cmp $b } keys %{ $Test->{Select} } ) {
 
+        my $SelectedValue;
+        my $ReferenceValue = $Test->{Select}->{$Column};
+
         $Self->{DBObject}->Prepare(
             SQL   => "SELECT $Column FROM test_f WHERE id = $ID",
             Limit => 1,
@@ -1511,9 +1526,12 @@ for my $Test ( @{$DefaultTest2Alter1} ) {
 
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
+            $SelectedValue  = defined $Row[0]         ? $Row[0]         : '';
+            $ReferenceValue = defined $ReferenceValue ? $ReferenceValue : '';
+
             $Self->Is(
-                $Row[0] || '',
-                $Test->{Select}->{$Column} || '',
+                $SelectedValue,
+                $ReferenceValue,
                 "#7.$Counter4 SELECT check selected value:",
             );
         }
@@ -1658,6 +1676,9 @@ for my $Test ( @{$DefaultTest2Alter2} ) {
 
     for my $Column ( sort { $a cmp $b } keys %{ $Test->{Select} } ) {
 
+        my $SelectedValue;
+        my $ReferenceValue = $Test->{Select}->{$Column};
+
         $Self->{DBObject}->Prepare(
             SQL   => "SELECT $Column FROM test_f WHERE id = $ID",
             Limit => 1,
@@ -1665,9 +1686,12 @@ for my $Test ( @{$DefaultTest2Alter2} ) {
 
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
+            $SelectedValue  = defined $Row[0]         ? $Row[0]         : '';
+            $ReferenceValue = defined $ReferenceValue ? $ReferenceValue : '';
+
             $Self->Is(
-                $Row[0] || '',
-                $Test->{Select}->{$Column} || '',
+                $SelectedValue,
+                $ReferenceValue,
                 "#7.$Counter5 SELECT check selected value: --> $Column",
             );
         }
