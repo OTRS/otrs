@@ -2,7 +2,7 @@
 # Kernel/System/DB/mysql.pm - mysql database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: mysql.pm,v 1.46 2008-07-18 07:57:18 mh Exp $
+# $Id: mysql.pm,v 1.47 2008-07-18 15:18:32 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -190,8 +190,11 @@ sub TableCreate {
         $SQL .= "    $Tag->{Name} $Tag->{Type}";
 
         # handle require
-        if ( lc $Tag->{Required} eq 'true' ) {
+        if ( $Tag->{Required} && lc $Tag->{Required} eq 'true' ) {
             $SQL .= ' NOT NULL';
+        }
+        else {
+            $SQL .= ' NULL';
         }
 
         # handle default
@@ -349,40 +352,42 @@ sub TableAlter {
             $Tag = $Self->_TypeTranslation($Tag);
 
             # normal data type
-            my $SQLEnd = $SQLStart . " ADD $Tag->{Name} $Tag->{Type}";
+            push @SQL, $SQLStart . " ADD $Tag->{Name} $Tag->{Type} NULL";
 
-            # handle require
-            if ( !defined $Tag->{Default} && $Tag->{Required} && lc $Tag->{Required} eq 'true' ) {
-                $SQLEnd .= ' NOT NULL';
+            # investigate the default value
+            my $Default = '';
+            if ( $Tag->{Type} =~ /int/i ) {
+                $Default = defined $Tag->{Default} ? $Tag->{Default} : 0;
+            }
+            else {
+                $Default = defined $Tag->{Default} ? "'$Tag->{Default}'" : "''";
             }
 
-            push @SQL, $SQLEnd;
+            # investigate the require
+            my $Required = ( $Tag->{Required} && lc $Tag->{Required} eq 'true' ) ? 1 : 0;
 
-            # handle default
-            if ( defined $Tag->{Default} ) {
-                if ( $Tag->{Type} =~ /int/i ) {
-                    push @SQL,
-                        "UPDATE $Table SET $Tag->{Name} = $Tag->{Default} WHERE $Tag->{Name} IS NULL";
+            # handle default and require
+            if ( $Required || defined $Tag->{Default} ) {
+
+                # fill up empty rows
+                push @SQL, "UPDATE $Table SET $Tag->{Name} = $Default WHERE $Tag->{Name} IS NULL";
+
+                my $SQLAlter = "ALTER TABLE $Table CHANGE $Tag->{Name} $Tag->{Name} $Tag->{Type}";
+
+                # add default
+                if ( defined $Tag->{Default} ) {
+                    $SQLAlter .= " DEFAULT $Default";
+                }
+
+                # add require
+                if ($Required) {
+                    $SQLAlter .= ' NOT NULL';
                 }
                 else {
-                    push @SQL,
-                        "UPDATE $Table SET $Tag->{Name} = '$Tag->{Default}' WHERE $Tag->{Name} IS NULL";
+                    $SQLAlter .= ' NULL';
                 }
 
-                my $SQLEnd = "ALTER TABLE $Table CHANGE $Tag->{Name} $Tag->{Name} $Tag->{Type}";
-
-                if ( $Tag->{Type} =~ /int/i ) {
-                    $SQLEnd .= " DEFAULT " . $Tag->{Default};
-                }
-                else {
-                    $SQLEnd .= " DEFAULT '" . $Tag->{Default} . "'";
-                }
-
-                if ( $Tag->{Required} && lc $Tag->{Required} eq 'true' ) {
-                    $SQLEnd .= ' NOT NULL';
-                }
-
-                push @SQL, $SQLEnd;
+                push @SQL, $SQLAlter;
             }
         }
         elsif ( $Tag->{Tag} eq 'ColumnChange' && $Tag->{TagType} eq 'Start' ) {
@@ -391,40 +396,44 @@ sub TableAlter {
             $Tag = $Self->_TypeTranslation($Tag);
 
             # normal data type
-            my $SQLEnd = $SQLStart . " CHANGE $Tag->{NameOld} $Tag->{NameNew} $Tag->{Type}";
+            push @SQL, $SQLStart . " CHANGE $Tag->{NameOld} $Tag->{NameNew} $Tag->{Type} NULL";
 
-            # handle require
-            if ( !defined $Tag->{Default} && $Tag->{Required} && lc $Tag->{Required} eq 'true' ) {
-                $SQLEnd .= ' NOT NULL';
+            # investigate the default value
+            my $Default = '';
+            if ( $Tag->{Type} =~ /int/i ) {
+                $Default = defined $Tag->{Default} ? $Tag->{Default} : 0;
             }
-            push @SQL, $SQLEnd;
+            else {
+                $Default = defined $Tag->{Default} ? "'$Tag->{Default}'" : "''";
+            }
 
-            # handle default
-            if ( defined $Tag->{Default} ) {
-                if ( $Tag->{Type} =~ /int/i ) {
-                    push @SQL,
-                        "UPDATE $Table SET $Tag->{NameNew} = $Tag->{Default} WHERE $Tag->{NameNew} IS NULL";
-                }
-                else {
-                    push @SQL,
-                        "UPDATE $Table SET $Tag->{NameNew} = '$Tag->{Default}' WHERE $Tag->{NameNew} IS NULL";
-                }
+            # investigate the require
+            my $Required = ( $Tag->{Required} && lc $Tag->{Required} eq 'true' ) ? 1 : 0;
 
-                my $SQLEnd
+            # handle default and require
+            if ( $Required || defined $Tag->{Default} ) {
+
+                # fill up empty rows
+                push @SQL,
+                    "UPDATE $Table SET $Tag->{NameNew} = $Default WHERE $Tag->{NameNew} IS NULL";
+
+                my $SQLAlter
                     = "ALTER TABLE $Table CHANGE $Tag->{NameNew} $Tag->{NameNew} $Tag->{Type}";
 
-                if ( $Tag->{Type} =~ /int/i ) {
-                    $SQLEnd .= " DEFAULT " . $Tag->{Default};
+                # add default
+                if ( defined $Tag->{Default} ) {
+                    $SQLAlter .= " DEFAULT $Default";
+                }
+
+                # add require
+                if ($Required) {
+                    $SQLAlter .= ' NOT NULL';
                 }
                 else {
-                    $SQLEnd .= " DEFAULT '" . $Tag->{Default} . "'";
+                    $SQLAlter .= ' NULL';
                 }
 
-                if ( $Tag->{Required} && lc $Tag->{Required} eq 'true' ) {
-                    $SQLEnd .= ' NOT NULL';
-                }
-
-                push @SQL, $SQLEnd;
+                push @SQL, $SQLAlter;
             }
         }
         elsif ( $Tag->{Tag} eq 'ColumnDrop' && $Tag->{TagType} eq 'Start' ) {
