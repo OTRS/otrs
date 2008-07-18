@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.43 2008-07-18 08:52:41 mh Exp $
+# $Id: DB.t,v 1.44 2008-07-18 15:16:41 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -1208,7 +1208,7 @@ for my $Test ( @{$DefaultTest} ) {
             $Self->Is(
                 $SelectedValue,
                 $ReferenceValue,
-                "#6.$Counter2 SELECT check selected value",
+                "#6.$Counter2 SELECT check selected value of column '$Column':",
             );
         }
     }
@@ -1354,7 +1354,7 @@ for my $Test ( @{$DefaultTest2Insert} ) {
             $Self->Is(
                 $SelectedValue,
                 $ReferenceValue,
-                "#7.$Counter3 SELECT check selected value",
+                "#7.$Counter3 SELECT check selected value of column '$Column':",
             );
         }
     }
@@ -1532,7 +1532,7 @@ for my $Test ( @{$DefaultTest2Alter1} ) {
             $Self->Is(
                 $SelectedValue,
                 $ReferenceValue,
-                "#7.$Counter4 SELECT check selected value:",
+                "#7.$Counter4 SELECT check selected value of column '$Column':",
             );
         }
     }
@@ -1692,7 +1692,7 @@ for my $Test ( @{$DefaultTest2Alter2} ) {
             $Self->Is(
                 $SelectedValue,
                 $ReferenceValue,
-                "#7.$Counter5 SELECT check selected value: --> $Column",
+                "#7.$Counter5 SELECT check selected value of column '$Column':",
             );
         }
     }
