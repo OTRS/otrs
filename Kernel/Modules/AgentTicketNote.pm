@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketNote.pm - to add notes to a ticket
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketNote.pm,v 1.50 2008-07-02 13:39:05 ub Exp $
+# $Id: AgentTicketNote.pm,v 1.51 2008-07-18 18:41:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -635,7 +635,11 @@ sub Run {
                     %GetParam,
                 );
             }
-            return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenOverview} );
+
+            # redirect to last screen overview on closed tickets
+            if ( $StateData{TypeName} =~ /^close/i ) {
+                return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenOverview} );
+            }
         }
 
         # redirect

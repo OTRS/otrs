@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.713 2008-07-18 12:04:26 tr Exp $
+# $Id: CHANGES,v 1.714 2008-07-18 18:41:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,8 +18,13 @@
     message "Got no AccessRw" if you work with ro permissions
  - (2008/07/16) Fixed bug# 3012 - Statistics module fails with
     message "Got no UserLanguage"
+ - (2008/07/15) Moved config option PostMasterMaxEmailSize default 12 MB
+    to 16 MB.
  - (2008/07/15) Fixed bug# 3082 - Wrong requirement checks and false default
-    handling in function QueueAdd and QueueUpdate
+    handling in function QueueAdd and QueueUpdate.
+ - (2008/07/15) Updated french translation, thanks to Yann Richard!
+ - (2008/07/14) Only show Company-NavBar item if CustomerCompanySupport is
+    enabled for min. one CustomerUser source.
  - (2008/07/10) Fixed bug# 3066 - The CPAN module XML::Parser::Lite crashs after
     login if the CPAN module version is not installed.
  - (2008/07/09) Updated catalonian translation, thanks to Antonio Linde!
@@ -444,10 +449,14 @@
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.8 (2008/??/??)
+ - (2008/07/18) Fixed bug# 3101 - Getting Queue view after adding a note with
+    state "open".
  - (2008/07/18) Fixed reopend bug# 2330 - Cron.sh restart <OTRS_USER> doesn't
     work.
  - (2008/07/16) Fixed bug# 2967 - Stats module, illegal division by zero at
     ../..//Kernel/System/Stats.pm line 1581
+ - (2008/07/16) Fixed bug# 3079 - Default CheckEmailInvalidAddress regexp
+    rejects mail to MobileMe (me.com) accounts.
  - (2008/07/08) Fixed bug# 3062 - Not possible to search for Customer Company
  - (2008/06/25) Increaded max size of reformated text (reformating new lines)
     from 20,000 to 60,000 signs (this size is just a safty performance
