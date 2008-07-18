@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.102 2008-07-15 19:34:24 martin Exp $
+# $Id: Layout.pm,v 1.103 2008-07-18 12:04:26 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.102 $) [1];
+$VERSION = qw($Revision: 1.103 $) [1];
 
 =head1 NAME
 
@@ -909,21 +909,25 @@ sub _Output {
         $Self->{LanguageObject}->FormatTimeString($2, 'DateFormatShort');
     }egx;
 
+    # Remark: regexp like ({"(.+?)"}|{""}) could be replaced with ( {"(.*?)"} )
+    #         defined($2) could be removed if '' is replaced with $2
+
     # do translation
     for ( 1 .. 2 ) {
         $Output =~ s{
-            \$Text({"(.+?)"}|{""})
+            \$Text ( {"(.*?)"} )
         }
         {
             if (defined($2)) {
                 $Self->Ascii2Html(
                     Text => $Self->{LanguageObject}->Get($2),
                 );
+
             }
             else {
                 '';
             }
-        }egx;
+        }egxs;
     }
 
     $Output =~ s{
@@ -3972,6 +3976,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.102 $ $Date: 2008-07-15 19:34:24 $
+$Revision: 1.103 $ $Date: 2008-07-18 12:04:26 $
 
 =cut
