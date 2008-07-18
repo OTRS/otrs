@@ -3,7 +3,7 @@
 # Cron.sh - start|stop OTRS Cronjobs
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Cron.sh,v 1.15 2008-03-07 16:44:14 martin Exp $
+# $Id: Cron.sh,v 1.16 2008-07-18 07:26:53 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -39,11 +39,6 @@ if test -z "$CRON_USER"; then
     fi
 fi
 
-# add -u to cron user if exits
-if test -n "$CRON_USER"; then
-    CRON_USER=" -u $CRON_USER"
-fi
-
 # find otrs root
 cd "`dirname $0`/../"
 OTRS_HOME="`pwd`"
@@ -61,7 +56,7 @@ fi
 CRON_DIR=$OTRS_ROOT/var/cron
 CRON_TMP_FILE=$OTRS_ROOT/var/tmp/otrs-cron-tmp.$$
 
-echo "Cron.sh - start/stop OTRS cronjobs - <\$Revision: 1.15 $> "
+echo "Cron.sh - start/stop OTRS cronjobs - <\$Revision: 1.16 $> "
 echo "Copyright (C) 2001-2008 OTRS AG, http://otrs.org/"
 
 #
@@ -72,6 +67,11 @@ case "$1" in
     # start
     # ------------------------------------------------------
     start)
+        # add -u to cron user if exits
+        if test -n "$CRON_USER"; then
+            CRON_USER=" -u $CRON_USER"
+        fi
+
         if mkdir -p $CRON_DIR; cd $CRON_DIR && ls * |grep -v '.dist'|grep -v '.rpm'| grep -v CVS | grep -v Entries | grep -v Repository | grep -v Root | xargs cat > $CRON_TMP_FILE && crontab $CRON_USER $CRON_TMP_FILE; then
 
             rm -rf $CRON_TMP_FILE
@@ -86,6 +86,11 @@ case "$1" in
     # stop
     # ------------------------------------------------------
     stop)
+        # add -u to cron user if exits
+        if test -n "$CRON_USER"; then
+            CRON_USER=" -u $CRON_USER"
+        fi
+
         if crontab $CRON_USER -r ; then
             echo "done";
             exit 0;

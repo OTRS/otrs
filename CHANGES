@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.711 2008-07-17 14:30:38 tr Exp $
+# $Id: CHANGES,v 1.712 2008-07-18 07:26:53 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -443,6 +443,8 @@
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.8 (2008/??/??)
+ - (2008/07/18) Fixed reopend bug# 2330 - Cron.sh restart <OTRS_USER> doesn't
+    work.
  - (2008/07/16) Fixed bug# 2967 - Stats module, illegal division by zero at
     ../..//Kernel/System/Stats.pm line 1581
  - (2008/07/08) Fixed bug# 3062 - Not possible to search for Customer Company
