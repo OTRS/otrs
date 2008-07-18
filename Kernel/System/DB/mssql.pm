@@ -2,7 +2,7 @@
 # Kernel/System/DB/mssql.pm - mssql database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: mssql.pm,v 1.44 2008-07-18 08:36:57 mh Exp $
+# $Id: mssql.pm,v 1.45 2008-07-18 19:17:02 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -118,6 +118,7 @@ sub TableCreate {
     my $SQL          = '';
     my @Column       = ();
     my $TableName    = '';
+    my %Default      = ();
     my $ForeignKey   = ();
     my %Foreign      = ();
     my $IndexCurrent = ();
@@ -192,18 +193,11 @@ sub TableCreate {
         $SQL .= "    $Tag->{Name} $Tag->{Type}";
 
         # handle require
-        if ( lc $Tag->{Required} eq 'true' ) {
+        if ( $Tag->{Required} && lc $Tag->{Required} eq 'true' ) {
             $SQL .= ' NOT NULL';
         }
-
-        # handle default
-        if ( defined $Tag->{Default} ) {
-            if ( $Tag->{Type} =~ /int/i ) {
-                $SQL .= " DEFAULT " . $Tag->{Default};
-            }
-            else {
-                $SQL .= " DEFAULT '" . $Tag->{Default} . "'";
-            }
+        else {
+            $SQL .= ' NULL';
         }
 
         # auto increment
@@ -214,6 +208,16 @@ sub TableCreate {
         # add primary key
         if ( $Tag->{PrimaryKey} && $Tag->{PrimaryKey} =~ /true/i ) {
             $PrimaryKey = "    PRIMARY KEY($Tag->{Name})";
+        }
+
+        # save default value
+        if ( defined $Tag->{Default} ) {
+            if ( $Tag->{Type} =~ /int/i ) {
+                $Default{ $Tag->{Name} } = $Tag->{Default};
+            }
+            else {
+                $Default{ $Tag->{Name} } = "'" . $Tag->{Default} . "'";
+            }
         }
     }
 
@@ -261,6 +265,15 @@ sub TableCreate {
     #    }
     $SQL .= "\n";
     push @Return, $SQLStart . $SQL . $SQLEnd;
+
+    # add default constraint
+    for my $Column ( keys %Default ) {
+
+        # create the default name
+        my $DefaultName = 'DF_' . $TableName . '_' . $Column;
+
+        push @Return, "ALTER TABLE $TableName ADD CONSTRAINT $DefaultName DEFAULT ($Default{$Column}) FOR $Column";
+    }
 
     # add indexs
     for my $Name ( sort keys %Index ) {
@@ -337,15 +350,9 @@ sub TableAlter {
 
             # rename table
             if ( $Tag->{NameOld} && $Tag->{NameNew} ) {
-                my $Start = '';
-                if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
-                    $Start = "GO\n";
-                }
                 push @SQL,
                     $SQLStart
-                    . $Start
-                    . "EXEC sp_rename '$Tag->{NameOld}', '$Tag->{NameNew}'\n"
-                    . $Start;
+                    . "EXEC sp_rename '$Tag->{NameOld}', '$Tag->{NameNew}'\n";
             }
             $SQLStart .= "ALTER TABLE $Table";
         }
@@ -355,44 +362,41 @@ sub TableAlter {
             $Tag = $Self->_TypeTranslation($Tag);
 
             # normal data type
-            my $SQLEnd = $SQLStart . " ADD $Tag->{Name} $Tag->{Type}";
+            push @SQL, $SQLStart . " ADD $Tag->{Name} $Tag->{Type} NULL";
 
-            # handle require
-            if ( !defined $Tag->{Default} && $Tag->{Required} && lc $Tag->{Required} eq 'true' ) {
-                $SQLEnd .= ' NOT NULL';
+            # investigate the default value
+            my $Default = '';
+            if ( $Tag->{Type} =~ /int/i ) {
+                $Default = defined $Tag->{Default} ? $Tag->{Default} : 0;
+            }
+            else {
+                $Default = defined $Tag->{Default} ? "'$Tag->{Default}'" : "''";
             }
 
-            push @SQL, $SQLEnd;
+            # investigate the require
+            my $Required = ( $Tag->{Required} && lc $Tag->{Required} eq 'true' ) ? 1 : 0;
 
-            # handle default
-            if ( defined $Tag->{Default} ) {
-                my $Start = '';
-                if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
-                    $Start = "GO\n";
-                }
-                if ( $Tag->{Type} =~ /int/i ) {
-                    push @SQL, $Start
-                        . "UPDATE $Table SET $Tag->{Name} = $Tag->{Default} WHERE $Tag->{Name} IS NULL";
+            # handle default and require
+            if ( $Required || defined $Tag->{Default} ) {
+
+                # fill up empty rows
+                push @SQL, "UPDATE $Table SET $Tag->{Name} = $Default WHERE $Tag->{Name} IS NULL";
+
+                # add require
+                my $SQLAlter = "ALTER TABLE $Table ALTER COLUMN $Tag->{Name} $Tag->{Type}";
+                if ($Required) {
+                    $SQLAlter .= ' NOT NULL';
                 }
                 else {
-                    push @SQL, $Start
-                        . "UPDATE $Table SET $Tag->{Name} = '$Tag->{Default}' WHERE $Tag->{Name} IS NULL";
+                    $SQLAlter .= ' NULL';
                 }
+                push @SQL, $SQLAlter;
 
-                my $SQLEnd = "ALTER TABLE $Table ALTER COLUMN $Tag->{Name} $Tag->{Type}";
-
-                if ( $Tag->{Type} =~ /int/i ) {
-                    $SQLEnd .= " DEFAULT " . $Tag->{Default};
+                # add default
+                my $DefaultName = 'DF_' . $Table . '_' . $Tag->{Name};
+                if ( defined $Tag->{Default} ) {
+                    push @SQL, "ALTER TABLE $Table ADD CONSTRAINT $DefaultName DEFAULT ($Default) FOR $Tag->{Name}";
                 }
-                else {
-                    $SQLEnd .= " DEFAULT '" . $Tag->{Default} . "'";
-                }
-
-                if ( $Tag->{Required} && lc $Tag->{Required} eq 'true' ) {
-                    $SQLEnd .= ' NOT NULL';
-                }
-
-                push @SQL, $SQLEnd;
             }
         }
         elsif ( $Tag->{Tag} eq 'ColumnChange' && $Tag->{TagType} eq 'Start' ) {
@@ -413,43 +417,47 @@ sub TableAlter {
             if ( !$Tag->{Name} && $Tag->{NameOld} ) {
                 $Tag->{Name} = $Tag->{NameOld};
             }
-            my $SQLEnd = $SQLStart . " ALTER COLUMN $Tag->{Name} $Tag->{Type}";
+            my $SQLEnd = $SQLStart . " ALTER COLUMN $Tag->{Name} $Tag->{Type} NULL";
 
-            # handle require
-            if ( !defined $Tag->{Default} && $Tag->{Required} && lc $Tag->{Required} eq 'true' ) {
-                $SQLEnd .= ' NOT NULL';
+            # create the default name
+            my $DefaultName = 'DF_' . $Table . '_' . $Tag->{Name};
+
+            # remove possible default
+            push @SQL, "ALTER TABLE $Table DROP CONSTRAINT $DefaultName";
+
+            # investigate the default value
+            my $Default = '';
+            if ( $Tag->{Type} =~ /int/i ) {
+                $Default = defined $Tag->{Default} ? $Tag->{Default} : 0;
             }
-            push @SQL, $SQLEnd;
+            else {
+                $Default = defined $Tag->{Default} ? "'$Tag->{Default}'" : "''";
+            }
 
-            # handle default
-            if ( defined $Tag->{Default} ) {
-                my $Start = '';
-                if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
-                    $Start = "GO\n";
-                }
-                if ( $Tag->{Type} =~ /int/i ) {
-                    push @SQL, $Start
-                        . "UPDATE $Table SET $Tag->{NameNew} = $Tag->{Default} WHERE $Tag->{NameNew} IS NULL";
+            # investigate the require
+            my $Required = ( $Tag->{Required} && lc $Tag->{Required} eq 'true' ) ? 1 : 0;
+
+            # handle default and require
+            if ( $Required || defined $Tag->{Default} ) {
+
+                # fill up empty rows
+                push @SQL,
+                    "UPDATE $Table SET $Tag->{NameNew} = $Default WHERE $Tag->{NameNew} IS NULL";
+
+                # add require
+                my $SQLAlter = "ALTER TABLE $Table ALTER COLUMN $Tag->{Name} $Tag->{Type}";
+                if ($Required) {
+                    $SQLAlter .= ' NOT NULL';
                 }
                 else {
-                    push @SQL, $Start
-                        . "UPDATE $Table SET $Tag->{NameNew} = '$Tag->{Default}' WHERE $Tag->{NameNew} IS NULL";
+                    $SQLAlter .= ' NULL';
                 }
+                push @SQL, $SQLAlter;
 
-                my $SQLEnd = "ALTER TABLE $Table ALTER COLUMN $Tag->{Name} $Tag->{Type}";
-
-                if ( $Tag->{Type} =~ /int/i ) {
-                    $SQLEnd .= " DEFAULT " . $Tag->{Default};
+                # add default
+                if ( defined $Tag->{Default} ) {
+                    push @SQL, "ALTER TABLE $Table ADD CONSTRAINT $DefaultName DEFAULT ($Default) FOR $Tag->{Name}";
                 }
-                else {
-                    $SQLEnd .= " DEFAULT '" . $Tag->{Default} . "'";
-                }
-
-                if ( $Tag->{Required} && lc $Tag->{Required} eq 'true' ) {
-                    $SQLEnd .= ' NOT NULL';
-                }
-
-                push @SQL, $SQLEnd;
             }
         }
         elsif ( $Tag->{Tag} eq 'ColumnDrop' && $Tag->{TagType} eq 'Start' ) {
@@ -496,6 +504,18 @@ sub TableAlter {
             push @Reference, $Tag;
         }
     }
+
+    my @SQLNew;
+    if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
+
+        for my $Row (@SQL) {
+            push @SQLNew, $Row;
+            push @SQLNew, "GO\n";
+        }
+
+        pop @SQLNew;
+    }
+
     return @SQL;
 }
 
