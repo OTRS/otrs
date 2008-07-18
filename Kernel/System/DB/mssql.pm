@@ -2,7 +2,7 @@
 # Kernel/System/DB/mssql.pm - mssql database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: mssql.pm,v 1.43 2008-07-18 07:57:18 mh Exp $
+# $Id: mssql.pm,v 1.44 2008-07-18 08:36:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -364,7 +364,7 @@ sub TableAlter {
 
             push @SQL, $SQLEnd;
 
-            # default values
+            # handle default
             if ( defined $Tag->{Default} ) {
                 my $Start = '';
                 if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
@@ -378,9 +378,21 @@ sub TableAlter {
                     push @SQL, $Start
                         . "UPDATE $Table SET $Tag->{Name} = '$Tag->{Default}' WHERE $Tag->{Name} IS NULL";
                 }
-                if ( $Tag->{Required} && lc $Tag->{Required} eq 'true' ) {
-                    push @SQL, "ALTER TABLE $Table ALTER COLUMN $Tag->{Name} $Tag->{Type} NOT NULL";
+
+                my $SQLEnd = "ALTER TABLE $Table ALTER COLUMN $Tag->{Name} $Tag->{Type}";
+
+                if ( $Tag->{Type} =~ /int/i ) {
+                    $SQLEnd .= " DEFAULT " . $Tag->{Default};
                 }
+                else {
+                    $SQLEnd .= " DEFAULT '" . $Tag->{Default} . "'";
+                }
+
+                if ( $Tag->{Required} && lc $Tag->{Required} eq 'true' ) {
+                    $SQLEnd .= ' NOT NULL';
+                }
+
+                push @SQL, $SQLEnd;
             }
         }
         elsif ( $Tag->{Tag} eq 'ColumnChange' && $Tag->{TagType} eq 'Start' ) {
@@ -402,10 +414,43 @@ sub TableAlter {
                 $Tag->{Name} = $Tag->{NameOld};
             }
             my $SQLEnd = $SQLStart . " ALTER COLUMN $Tag->{Name} $Tag->{Type}";
-            if ( $Tag->{Required} && lc $Tag->{Required} eq 'true' ) {
-                $SQLEnd .= " NOT NULL";
+
+            # handle require
+            if ( !defined $Tag->{Default} && $Tag->{Required} && lc $Tag->{Required} eq 'true' ) {
+                $SQLEnd .= ' NOT NULL';
             }
             push @SQL, $SQLEnd;
+
+            # handle default
+            if ( defined $Tag->{Default} ) {
+                my $Start = '';
+                if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
+                    $Start = "GO\n";
+                }
+                if ( $Tag->{Type} =~ /int/i ) {
+                    push @SQL, $Start
+                        . "UPDATE $Table SET $Tag->{NameNew} = $Tag->{Default} WHERE $Tag->{NameNew} IS NULL";
+                }
+                else {
+                    push @SQL, $Start
+                        . "UPDATE $Table SET $Tag->{NameNew} = '$Tag->{Default}' WHERE $Tag->{NameNew} IS NULL";
+                }
+
+                my $SQLEnd = "ALTER TABLE $Table ALTER COLUMN $Tag->{Name} $Tag->{Type}";
+
+                if ( $Tag->{Type} =~ /int/i ) {
+                    $SQLEnd .= " DEFAULT " . $Tag->{Default};
+                }
+                else {
+                    $SQLEnd .= " DEFAULT '" . $Tag->{Default} . "'";
+                }
+
+                if ( $Tag->{Required} && lc $Tag->{Required} eq 'true' ) {
+                    $SQLEnd .= ' NOT NULL';
+                }
+
+                push @SQL, $SQLEnd;
+            }
         }
         elsif ( $Tag->{Tag} eq 'ColumnDrop' && $Tag->{TagType} eq 'Start' ) {
             my $SQLEnd = $SQLStart . " DROP COLUMN $Tag->{Name}";
