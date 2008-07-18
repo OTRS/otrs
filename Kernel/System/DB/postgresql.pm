@@ -2,7 +2,7 @@
 # Kernel/System/DB/postgresql.pm - postgresql database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: postgresql.pm,v 1.43 2008-07-18 07:42:47 mh Exp $
+# $Id: postgresql.pm,v 1.44 2008-07-18 07:57:18 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -209,7 +209,6 @@ sub TableCreate {
         if ( $Tag->{PrimaryKey} && $Tag->{PrimaryKey} =~ /true/i ) {
             $PrimaryKey = "    PRIMARY KEY($Tag->{Name})";
         }
-
     }
 
     # add primary key
@@ -522,9 +521,8 @@ sub ForeignKeyCreate {
     }
 
     # add foreign key
-    my $SQL = "ALTER TABLE $Param{LocalTableName} ADD CONSTRAINT $ForeignKey FOREIGN KEY (";
-    $SQL .= "$Param{Local}) REFERENCES ";
-    $SQL .= "$Param{ForeignTableName} ($Param{Foreign})";
+    my $SQL = "ALTER TABLE $Param{LocalTableName} ADD CONSTRAINT $ForeignKey FOREIGN KEY "
+        . "($Param{Local}) REFERENCES $Param{ForeignTableName} ($Param{Foreign})";
 
     return ($SQL);
 }
