@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.23 2008-07-03 13:50:48 mh Exp $
+# $Id: LayoutTicket.pm,v 1.24 2008-07-18 05:38:30 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -239,25 +239,28 @@ sub AgentQueueListOption {
                 }
             }
 
-            # build select string
-            if ( $UsedData{$UpQueue} ) {
-                if (
-                    $SelectedID  eq $_
-                    || $Selected eq $Param{Data}->{$_}
-                    || $Param{SelectedIDRefArrayOK}->{$_}
-                    )
-                {
-                    $Param{MoveQueuesStrg}
-                        .= '<option selected value="'
-                        . $_ . '">'
-                        . $Space
-                        . $Queue[-1]
-                        . "</option>\n";
+            if ( !$UsedData{$UpQueue} ) {
+                # integrate the not selectable parent and root queues of this queue
+                # useful for ACLs and complex permission settings
+                for my $Index ( 0..(scalar @Queue -2) ) {
+                    my $DSpace = '&nbsp;&nbsp;' x $Index;
+                    $Param{MoveQueuesStrg} .= '<option value="-" disabled>' . $DSpace . $Queue[$Index] . "</option>\n";
                 }
-                else {
-                    $Param{MoveQueuesStrg}
-                        .= '<option value="' . $_ . '">' . $Space . $Queue[-1] . "</option>\n";
-                }
+            }
+
+            # create selectable elements
+            my $String =  $Space . $Queue[-1];
+            if (
+                $SelectedID  eq $_
+                || $Selected eq $Param{Data}->{$_}
+                || $Param{SelectedIDRefArrayOK}->{$_}
+                )
+            {
+                $Param{MoveQueuesStrg}
+                    .= '<option selected value="' . $_ . '">' . $String . "</option>\n";
+            }
+            else {
+                $Param{MoveQueuesStrg} .= '<option value="' . $_ . '">' . $String . "</option>\n";
             }
         }
     }
