@@ -2,7 +2,7 @@
 # Kernel/System/DB/postgresql.pm - postgresql database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: postgresql.pm,v 1.42 2008-07-17 16:26:09 mh Exp $
+# $Id: postgresql.pm,v 1.43 2008-07-18 07:42:47 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -352,11 +352,11 @@ sub TableAlter {
                     $SQLEnd .= " SET DEFAULT '" . $Tag->{Default} . "'";
                 }
 
-                if ( $Tag->{Required} && lc $Tag->{Required} eq 'true' ) {
-                    $SQLEnd .= ' SET NOT NULL';
-                }
-
                 push @SQL, $SQLEnd;
+
+                if ( $Tag->{Required} && lc $Tag->{Required} eq 'true' ) {
+                    push @SQL, "ALTER TABLE $Table ALTER $Tag->{Name} SET NOT NULL";
+                }
             }
         }
         elsif ( $Tag->{Tag} eq 'ColumnChange' && $Tag->{TagType} eq 'Start' ) {
@@ -402,11 +402,11 @@ sub TableAlter {
                     $SQLEnd .= " SET DEFAULT '" . $Tag->{Default} . "'";
                 }
 
-                if ( $Tag->{Required} && lc $Tag->{Required} eq 'true' ) {
-                    $SQLEnd .= ' SET NOT NULL';
-                }
-
                 push @SQL, $SQLEnd;
+
+                if ( $Tag->{Required} && lc $Tag->{Required} eq 'true' ) {
+                    push @SQL, "ALTER TABLE $Table ALTER $Tag->{NameNew} SET NOT NULL";
+                }
             }
         }
         elsif ( $Tag->{Tag} eq 'ColumnDrop' && $Tag->{TagType} eq 'Start' ) {
