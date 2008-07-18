@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.132 2008-07-18 08:12:06 tr Exp $
+# $Id: CHANGES,v 1.465.2.133 2008-07-18 18:37:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,18 +10,18 @@
 # --
 
 2.2.8 (2008/??/??)
+ - (2008/07/18) Fixed bug# 3101 - Getting Queue view after adding a note with
+    state "open".
+ - (2008/07/08) Fixed bug# 3062 - Not possible to search for Customer Company
  - (2008/07/18) Fixed reopend bug# 2330 - Cron.sh restart <OTRS_USER> doesn't
     work.
  - (2008/07/16) Fixed bug# 2967 - Stats module, illegal division by zero at
     ../..//Kernel/System/Stats.pm line 1581
- - (2008/06/20) Fixed bug# 3079 - Default CheckEmailInvalidAddress regexp
-    rejects mail to MobileMe (me.com) accounts.
- - (2008/06/20) Fixed bug# 3000 - Configured sender address for auto response
-    get's ignored.
- - (2008/07/08) Fixed bug# 3062 - Not possible to search for Customer Company
  - (2008/06/25) Increaded max size of reformated text (reformating new lines)
     from 20,000 to 60,000 signs (this size is just a safty performance
     setting in Kernel::Output::HTML::Layout::Ascii2Html()).
+ - (2008/06/20) Fixed bug# 3079 - Default CheckEmailInvalidAddress regexp
+    rejects mail to MobileMe (me.com) accounts.
  - (2008/06/20) Fixed bug# 3000 - Configured sender address for auto response
     get's ignored.
  - (2008/06/05) Fixed bug# 2962 - Freetext cache problem, old used ticket

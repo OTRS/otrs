@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketFreeText.pm - free text for ticket
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketFreeText.pm,v 1.26.2.4 2008-03-25 13:27:05 ub Exp $
+# $Id: AgentTicketFreeText.pm,v 1.26.2.5 2008-07-18 18:37:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.26.2.4 $';
+$VERSION = '$Revision: 1.26.2.5 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -585,7 +585,11 @@ sub Run {
                     %GetParam,
                 );
             }
-            return $Self->{LayoutObject}->Redirect(OP => $Self->{LastScreenOverview});
+
+            # redirect to last screen overview on closed tickets
+            if ( $StateData{TypeName} =~ /^close/i ) {
+                return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenOverview} );
+            }
         }
         # redirect
         return $Self->{LayoutObject}->Redirect(
