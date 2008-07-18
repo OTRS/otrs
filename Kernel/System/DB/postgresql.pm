@@ -2,7 +2,7 @@
 # Kernel/System/DB/postgresql.pm - postgresql database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: postgresql.pm,v 1.45 2008-07-18 15:38:20 mh Exp $
+# $Id: postgresql.pm,v 1.46 2008-07-18 15:49:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -345,22 +345,15 @@ sub TableAlter {
                 # fill up empty rows
                 push @SQL, "UPDATE $Table SET $Tag->{Name} = $Default WHERE $Tag->{Name} IS NULL";
 
-                my $SQLAlter = "ALTER TABLE $Table ALTER $Tag->{Name} ";
-
                 # add default
                 if ( defined $Tag->{Default} ) {
-                    $SQLAlter .= " SET DEFAULT $Default";
+                    push @SQL, "ALTER TABLE $Table ALTER $Tag->{Name} SET DEFAULT $Default";
                 }
 
                 # add require
                 if ($Required) {
-                    $SQLAlter .= ' SET NOT NULL';
+                    push @SQL, "ALTER TABLE $Table ALTER $Tag->{Name} SET NOT NULL";
                 }
-                else {
-                    $SQLAlter .= ' DROP NOT NULL';
-                }
-
-                push @SQL, $SQLAlter;
             }
         }
         elsif ( $Tag->{Tag} eq 'ColumnChange' && $Tag->{TagType} eq 'Start' ) {
@@ -396,22 +389,15 @@ sub TableAlter {
                 push @SQL,
                     "UPDATE $Table SET $Tag->{NameNew} = $Default WHERE $Tag->{NameNew} IS NULL";
 
-                my $SQLAlter = "ALTER TABLE $Table ALTER $Tag->{NameNew} ";
-
                 # add default
                 if ( defined $Tag->{Default} ) {
-                    $SQLAlter .= " SET DEFAULT $Default";
+                    push @SQL, "ALTER TABLE $Table ALTER $Tag->{NameNew} SET DEFAULT $Default";
                 }
 
                 # add require
                 if ($Required) {
-                    $SQLAlter .= ' SET NOT NULL';
+                    push @SQL, "ALTER TABLE $Table ALTER $Tag->{NameNew} SET NOT NULL";
                 }
-                else {
-                    $SQLAlter .= ' DROP NOT NULL';
-                }
-
-                push @SQL, $SQLAlter;
             }
         }
         elsif ( $Tag->{Tag} eq 'ColumnDrop' && $Tag->{TagType} eq 'Start' ) {
