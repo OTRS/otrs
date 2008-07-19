@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.pm,v 1.73 2008-07-13 23:10:02 martin Exp $
+# $Id: PostMaster.pm,v 1.74 2008-07-19 21:54:18 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.73 $) [1];
+$VERSION = qw($Revision: 1.74 $) [1];
 
 =head1 NAME
 
@@ -102,7 +102,7 @@ sub new {
 
     # create common objects
     $Self->{TicketObject} = Kernel::System::Ticket->new(%Param);
-    $Self->{ParserObject}  = Kernel::System::EmailParser->new(
+    $Self->{ParserObject} = Kernel::System::EmailParser->new(
         Email => $Param{Email},
         %Param,
     );
@@ -110,13 +110,13 @@ sub new {
     $Self->{StateObject}     = Kernel::System::State->new(%Param);
     $Self->{DestQueueObject} = Kernel::System::PostMaster::DestQueue->new(
         %Param,
-        QueueObject => $Self->{QueueObject},
+        QueueObject  => $Self->{QueueObject},
         ParserObject => $Self->{ParserObject},
     );
     $Self->{NewTicket} = Kernel::System::PostMaster::NewTicket->new(
         %Param,
         Debug                => $Self->{Debug},
-        ParserObject          => $Self->{ParserObject},
+        ParserObject         => $Self->{ParserObject},
         TicketObject         => $Self->{TicketObject},
         QueueObject          => $Self->{QueueObject},
         LoopProtectionObject => $Self->{LoopProtectionObject},
@@ -126,14 +126,14 @@ sub new {
         Debug                => $Self->{Debug},
         TicketObject         => $Self->{TicketObject},
         LoopProtectionObject => $Self->{LoopProtectionObject},
-        ParserObject          => $Self->{ParserObject},
+        ParserObject         => $Self->{ParserObject},
     );
     $Self->{Reject} = Kernel::System::PostMaster::Reject->new(
         %Param,
         Debug                => $Self->{Debug},
         TicketObject         => $Self->{TicketObject},
         LoopProtectionObject => $Self->{LoopProtectionObject},
-        ParserObject          => $Self->{ParserObject},
+        ParserObject         => $Self->{ParserObject},
     );
 
     # should i use the x-otrs header?
@@ -181,7 +181,7 @@ sub Run {
                 MainObject   => $Self->{MainObject},
                 LogObject    => $Self->{LogObject},
                 DBObject     => $Self->{DBObject},
-                ParserObject  => $Self->{ParserObject},
+                ParserObject => $Self->{ParserObject},
                 TicketObject => $Self->{TicketObject},
                 TimeObject   => $Self->{TimeObject},
                 Debug        => $Self->{Debug},
@@ -354,7 +354,7 @@ sub Run {
                 MainObject   => $Self->{MainObject},
                 LogObject    => $Self->{LogObject},
                 DBObject     => $Self->{DBObject},
-                ParserObject  => $Self->{ParserObject},
+                ParserObject => $Self->{ParserObject},
                 TicketObject => $Self->{TicketObject},
                 TimeObject   => $Self->{TimeObject},
                 Debug        => $Self->{Debug},
@@ -587,7 +587,7 @@ sub GetEmailParams {
 
     # get content type
     $GetParam{'Content-Type'} = $Self->{ParserObject}->GetReturnContentType();
-    $GetParam{Charset}      = $Self->{ParserObject}->GetReturnCharset();
+    $GetParam{Charset} = $Self->{ParserObject}->GetReturnCharset();
 
     # get attachments
     my @Attachments = $Self->{ParserObject}->GetAttachments();
@@ -613,6 +613,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.73 $ $Date: 2008-07-13 23:10:02 $
+$Revision: 1.74 $ $Date: 2008-07-19 21:54:18 $
 
 =cut

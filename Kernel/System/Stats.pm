@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.51 2008-07-17 14:30:39 tr Exp $
+# $Id: Stats.pm,v 1.52 2008-07-19 21:54:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 =head1 SYNOPSIS
 
@@ -492,7 +492,8 @@ sub StatsDelete {
         Key  => $Param{StatID},
     );
 
-    if ( $Result ) {
+    if ($Result) {
+
         # delete cache
         $Self->_DeleteCache( StatID => $Param{StatID} );
         $Self->{LogObject}->Log(
@@ -1929,7 +1930,7 @@ sub CompletenessCheck {
 
                 $ScalePeriod = $TimeInSeconds{ $Xvalue->{SelectedValues}[0] };
 
-                if (!$ScalePeriod) {
+                if ( !$ScalePeriod ) {
                     push @IndexArray, 17;
                     last XVALUE;
                 }
@@ -2043,9 +2044,10 @@ sub GetStaticFiles {
 
     my %StaticFiles = ();
 
-    if ( $Param{OnlyUnusedFiles}) {
+    if ( $Param{OnlyUnusedFiles} ) {
+
         # get all Stats from the db
-        my $Result      = $Self->GetStatsList();
+        my $Result = $Self->GetStatsList();
 
         if ( defined $Result ) {
             for my $StatID ( @{$Result} ) {
@@ -2953,10 +2955,12 @@ sub StatsCleanUp {
             NoObjectAttributes => 1,
         );
 
-        if (   ( $HashRef->{StatType} eq 'static'  && !$Static ->{ $HashRef->{File}   } )
+        if (
+            ( $HashRef->{StatType} eq 'static' && !$Static->{ $HashRef->{File} } )
             || ( $HashRef->{StatType} eq 'dynamic' && !$Dynamic->{ $HashRef->{Object} } )
-        ) {
-            $Self->StatsDelete(StatID => $StatsID);
+            )
+        {
+            $Self->StatsDelete( StatID => $StatsID );
         }
     }
 
@@ -2976,6 +2980,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.51 $ $Date: 2008-07-17 14:30:39 $
+$Revision: 1.52 $ $Date: 2008-07-19 21:54:19 $
 
 =cut

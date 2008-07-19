@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.99 2008-07-15 14:38:24 tr Exp $
+# $Id: Queue.pm,v 1.100 2008-07-19 21:54:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.99 $) [1];
+$VERSION = qw($Revision: 1.100 $) [1];
 
 =head1 NAME
 
@@ -893,7 +893,10 @@ sub QueueUpdate {
             return;
         }
     }
-    for (qw(QueueID Name ValidID GroupID SystemAddressID SalutationID SignatureID UserID FollowUpID)) {
+    for (
+        qw(QueueID Name ValidID GroupID SystemAddressID SalutationID SignatureID UserID FollowUpID)
+        )
+    {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
@@ -1092,6 +1095,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.99 $ $Date: 2008-07-15 14:38:24 $
+$Revision: 1.100 $ $Date: 2008-07-19 21:54:19 $
 
 =cut
