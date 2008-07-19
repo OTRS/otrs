@@ -3,7 +3,7 @@
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # Modified for DB2 UDB Friedmar Moch <friedmar@acm.org>
 # --
-# $Id: db2.pm,v 1.51 2008-07-18 07:57:18 mh Exp $
+# $Id: db2.pm,v 1.52 2008-07-19 12:50:53 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -194,7 +194,7 @@ sub TableCreate {
         $SQL .= "    $Tag->{Name} $Tag->{Type}";
 
         # handle require
-        if ( lc $Tag->{Required} eq 'true' ) {
+        if ( $Tag->{Required} && lc $Tag->{Required} eq 'true' ) {
             $SQL .= ' NOT NULL';
         }
 
@@ -330,34 +330,38 @@ sub TableAlter {
             $Tag = $Self->_TypeTranslation($Tag);
 
             # normal data type
-            my $SQLEnd = $SQLStart . " ADD $Tag->{Name} $Tag->{Type}";
+            push @SQL, $SQLStart . " ADD $Tag->{Name} $Tag->{Type}";
 
-            # handle require
-            if ( !defined $Tag->{Default} && $Tag->{Required} && lc $Tag->{Required} eq 'true' ) {
-                $SQLEnd .= ' NOT NULL';
+            # investigate the default value
+            my $Default = '';
+            if ( $Tag->{Type} =~ /int/i ) {
+                $Default = defined $Tag->{Default} ? $Tag->{Default} : 0;
+            }
+            else {
+                $Default = defined $Tag->{Default} ? "'$Tag->{Default}'" : "''";
             }
 
-            # default value
-            if ( defined $Tag->{Default} ) {
-                if ( $Tag->{Type} =~ /int/i ) {
-                    $SQLEnd .= " DEFAULT $Tag->{Default}";
+            # investigate the require
+            my $Required = ( $Tag->{Required} && lc $Tag->{Required} eq 'true' ) ? 1 : 0;
+
+            # handle default and require
+            if ( $Required || defined $Tag->{Default} ) {
+
+                # fill up empty rows
+                push @SQL, "UPDATE $Table SET $Tag->{Name} = $Default WHERE $Tag->{Name} IS NULL";
+
+                # add default
+                if ( defined $Tag->{Default} ) {
+                    push @SQL, "ALTER TABLE $Table ALTER COLUMN $Tag->{Name} SET DEFAULT $Default";
+                    push @SQL, "CALL SYSPROC.ADMIN_CMD ('REORG TABLE $Table')";
                 }
-                else {
-                    $SQLEnd .= " DEFAULT '$Tag->{Default}'";
+
+                # add require
+                if ($Required) {
+                    push @SQL, "ALTER TABLE $Table ALTER COLUMN $Tag->{Name} SET NOT NULL";
+                    push @SQL, "CALL SYSPROC.ADMIN_CMD ('REORG TABLE $Table')";
                 }
             }
-
-            # auto increment
-            if ( $Tag->{AutoIncrement} && $Tag->{AutoIncrement} =~ /^true$/i ) {
-                $SQLEnd .= ' AUTO_INCREMENT';
-            }
-
-            # add primary key
-            if ( $Tag->{PrimaryKey} && $Tag->{PrimaryKey} =~ /true/i ) {
-                $SQLEnd .= " PRIMARY KEY($Tag->{Name})";
-            }
-
-            push @SQL, $SQLEnd;
         }
         elsif ( $Tag->{Tag} eq 'ColumnChange' && $Tag->{TagType} eq 'Start' ) {
 
@@ -366,55 +370,56 @@ sub TableAlter {
 
             # renaming column
             if ( $Tag->{NameOld} ne $Tag->{NameNew} ) {
-                push @SQL, " SET INTEGRITY FOR $Table OFF";
+                push @SQL, "SET INTEGRITY FOR $Table OFF";
                 push @SQL, $SQLStart
                     . " ADD COLUMN $Tag->{NameNew} $Tag->{Type} GENERATED ALWAYS AS ($Tag->{NameOld})";
-                push @SQL, " SET INTEGRITY FOR $Table IMMEDIATE CHECKED FORCE GENERATED";
+                push @SQL, "SET INTEGRITY FOR $Table IMMEDIATE CHECKED FORCE GENERATED";
                 push @SQL, $SQLStart . " ALTER $Tag->{NameNew} DROP EXPRESSION";
                 push @SQL, $SQLStart . " DROP COLUMN $Tag->{NameOld}";
                 push @SQL, "CALL SYSPROC.ADMIN_CMD ('REORG TABLE $Table')";
             }
 
-            # default value
-            if ( defined $Tag->{Default} ) {
-                my $SQLEnd = $SQLStart . " ALTER COLUMN $Tag->{NameNew} SET";
-                if ( $Tag->{Type} =~ /int/i ) {
-                    $SQLEnd .= " DEFAULT $Tag->{Default}";
-                }
-                else {
-                    $SQLEnd .= " DEFAULT '$Tag->{Default}'";
-                }
-                push @SQL, $SQLEnd;
-                push @SQL, "CALL SYSPROC.ADMIN_CMD ('REORG TABLE $Table')";
-            }
+           # normal data type
+           #push @SQL, "ALTER TABLE $Table ALTER COLUMN $Tag->{NameNew} SET DATA TYPE $Tag->{Type}";
+           #push @SQL, "CALL SYSPROC.ADMIN_CMD ('REORG TABLE $Table')";
 
-            # normal data type
-            my $SQLEnd = $SQLStart . " ALTER COLUMN $Tag->{NameNew} SET DATA TYPE $Tag->{Type}";
-            push @SQL, $SQLEnd;
-            push @SQL, "CALL SYSPROC.ADMIN_CMD ('REORG TABLE $Table')";
-            if ( $Tag->{Required} && lc $Tag->{Required} eq 'true' ) {
-                my $SQLEnd = $SQLStart . " ALTER COLUMN $Tag->{NameNew} SET NOT NULL";
-                push @SQL, $SQLEnd;
-                push @SQL, "CALL SYSPROC.ADMIN_CMD ('REORG TABLE $Table')";
+            # investigate the default value
+            my $Default = '';
+            if ( $Tag->{Type} =~ /int/i ) {
+                $Default = defined $Tag->{Default} ? $Tag->{Default} : 0;
             }
             else {
-                my $SQLEnd = $SQLStart . " ALTER COLUMN $Tag->{NameNew} DROP NOT NULL";
-                push @SQL, $SQLEnd;
-                push @SQL, "CALL SYSPROC.ADMIN_CMD ('REORG TABLE $Table')";
+                $Default = defined $Tag->{Default} ? "'$Tag->{Default}'" : "''";
             }
 
-            # auto increment
-            if ( $Tag->{AutoIncrement} || $Tag->{PrimaryKey} ) {
-                my $SQLEnd = $SQLStart . " ALTER COLUMN $Tag->{NameNew} SET";
-                if ( $Tag->{AutoIncrement} && $Tag->{AutoIncrement} =~ /^true$/i ) {
-                    $SQLEnd .= " AUTO_INCREMENT";
+            # remove possible default
+            push @SQL, "ALTER TABLE $Table ALTER COLUMN $Tag->{NameNew} SET DEFAULT $Default";
+            push @SQL, "CALL SYSPROC.ADMIN_CMD ('REORG TABLE $Table')";
+            push @SQL, "ALTER TABLE $Table ALTER COLUMN $Tag->{NameNew} DROP DEFAULT";
+            push @SQL, "CALL SYSPROC.ADMIN_CMD ('REORG TABLE $Table')";
+
+            # investigate the require
+            my $Required = ( $Tag->{Required} && lc $Tag->{Required} eq 'true' ) ? 1 : 0;
+
+            # handle default and require
+            if ( $Required || defined $Tag->{Default} ) {
+
+                # fill up empty rows
+                push @SQL,
+                    "UPDATE $Table SET $Tag->{NameNew} = $Default WHERE $Tag->{NameNew} IS NULL";
+
+                # add default
+                if ( defined $Tag->{Default} ) {
+                    push @SQL,
+                        "ALTER TABLE $Table ALTER COLUMN $Tag->{NameNew} SET DEFAULT $Default";
+                    push @SQL, "CALL SYSPROC.ADMIN_CMD ('REORG TABLE $Table')";
                 }
 
-                # add primary key
-                if ( $Tag->{PrimaryKey} && $Tag->{PrimaryKey} =~ /true/i ) {
-                    $SQLEnd .= " PRIMARY KEY($Tag->{Name})";
+                # add require
+                if ($Required) {
+                    push @SQL, "ALTER TABLE $Table ALTER COLUMN $Tag->{NameNew} SET NOT NULL";
+                    push @SQL, "CALL SYSPROC.ADMIN_CMD ('REORG TABLE $Table')";
                 }
-                push @SQL, $SQLEnd;
             }
         }
         elsif ( $Tag->{Tag} eq 'ColumnDrop' && $Tag->{TagType} eq 'Start' ) {
