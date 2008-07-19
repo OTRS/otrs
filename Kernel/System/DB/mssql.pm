@@ -2,7 +2,7 @@
 # Kernel/System/DB/mssql.pm - mssql database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: mssql.pm,v 1.45 2008-07-18 19:17:02 mh Exp $
+# $Id: mssql.pm,v 1.46 2008-07-19 16:23:38 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -245,24 +245,6 @@ sub TableCreate {
         $SQL .= ')';
     }
 
-    # add index
-    #    for my $Name (sort keys %Index) {
-    #        if ($SQL) {
-    #            $SQL .= ",\n";
-    #        }
-    #        $SQL .= "    INDEX $Name (";
-    #        my @Array = @{$Index{$Name}};
-    #        for (0..$#Array) {
-    #            if ($_ > 0) {
-    #                $SQL .= ", ";
-    #            }
-    #            $SQL .= $Array[$_]->{Name};
-    #            if ($Array[$_]->{Size}) {
-    #                $SQL .= "($Array[$_]->{Size})";
-    #            }
-    #        }
-    #        $SQL .= ")";
-    #    }
     $SQL .= "\n";
     push @Return, $SQLStart . $SQL . $SQLEnd;
 
@@ -272,7 +254,8 @@ sub TableCreate {
         # create the default name
         my $DefaultName = 'DF_' . $TableName . '_' . $Column;
 
-        push @Return, "ALTER TABLE $TableName ADD CONSTRAINT $DefaultName DEFAULT ($Default{$Column}) FOR $Column";
+        push @Return,
+            "ALTER TABLE $TableName ADD CONSTRAINT $DefaultName DEFAULT ($Default{$Column}) FOR $Column";
     }
 
     # add indexs
@@ -395,7 +378,8 @@ sub TableAlter {
                 # add default
                 my $DefaultName = 'DF_' . $Table . '_' . $Tag->{Name};
                 if ( defined $Tag->{Default} ) {
-                    push @SQL, "ALTER TABLE $Table ADD CONSTRAINT $DefaultName DEFAULT ($Default) FOR $Tag->{Name}";
+                    push @SQL,
+                        "ALTER TABLE $Table ADD CONSTRAINT $DefaultName DEFAULT ($Default) FOR $Tag->{Name}";
                 }
             }
         }
@@ -423,7 +407,9 @@ sub TableAlter {
             my $DefaultName = 'DF_' . $Table . '_' . $Tag->{Name};
 
             # remove possible default
-            push @SQL, "ALTER TABLE $Table DROP CONSTRAINT $DefaultName";
+            push @SQL, "IF EXISTS (SELECT * FROM dbo.sysobjects WHERE "
+                . "name = '$DefaultName' )\n"
+                . "ALTER TABLE $Table DROP CONSTRAINT $DefaultName";
 
             # investigate the default value
             my $Default = '';
@@ -456,11 +442,32 @@ sub TableAlter {
 
                 # add default
                 if ( defined $Tag->{Default} ) {
-                    push @SQL, "ALTER TABLE $Table ADD CONSTRAINT $DefaultName DEFAULT ($Default) FOR $Tag->{Name}";
+                    push @SQL,
+                        "ALTER TABLE $Table ADD CONSTRAINT $DefaultName DEFAULT ($Default) FOR $Tag->{Name}";
                 }
             }
         }
         elsif ( $Tag->{Tag} eq 'ColumnDrop' && $Tag->{TagType} eq 'Start' ) {
+
+            # create the default name
+            my $DefaultName = 'DF_' . $Table . '_' . $Tag->{Name};
+
+            # remove possible default
+            push @SQL, sprintf(
+                <<END
+                DECLARE \@defname VARCHAR(200), \@cmd VARCHAR(2000)
+                SET \@defname = (
+                    SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
+                    WHERE object_name(so.parent_obj) = '%s' AND so.xtype = 'D' AND sc.colid = (
+                        SELECT colid FROM syscolumns WHERE id = object_id('%s') AND name = '%s'
+                    )
+                )
+                SET \@cmd = 'ALTER TABLE %s DROP CONSTRAINT ' + \@defname
+                EXEC(\@cmd)
+END
+                , $Table, $Table, $Tag->{Name}, $Table
+            );
+
             my $SQLEnd = $SQLStart . " DROP COLUMN $Tag->{Name}";
             push @SQL, $SQLEnd;
         }
@@ -505,6 +512,7 @@ sub TableAlter {
         }
     }
 
+    # add GO commando
     my @SQLNew;
     if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
 
@@ -585,8 +593,8 @@ sub ForeignKeyCreate {
     }
 
     # add foreign key
-    my $SQL = "ALTER TABLE $Param{LocalTableName} ADD (CONSTRAINT $ForeignKey) FOREIGN KEY "
-        . "($Param{Local}) REFERENCES $Param{ForeignTableName}($Param{Foreign})";
+    my $SQL = "ALTER TABLE $Param{LocalTableName} ADD CONSTRAINT $ForeignKey FOREIGN KEY "
+        . "($Param{Local}) REFERENCES $Param{ForeignTableName} ($Param{Foreign})";
 
     return ($SQL);
 }
