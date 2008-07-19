@@ -2,7 +2,7 @@
 # Kernel/System/DB/mssql.pm - mssql database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: mssql.pm,v 1.47 2008-07-19 21:12:09 mh Exp $
+# $Id: mssql.pm,v 1.48 2008-07-19 21:39:28 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -448,6 +448,25 @@ sub TableAlter {
             }
         }
         elsif ( $Tag->{Tag} eq 'ColumnDrop' && $Tag->{TagType} eq 'Start' ) {
+
+            # create the default name
+            my $DefaultName = 'DF_' . $Table . '_' . $Tag->{Name};
+
+            # remove possible default
+            push @SQL, sprintf(
+                <<END
+                DECLARE \@defname VARCHAR(200), \@cmd VARCHAR(2000)
+                SET \@defname = (
+                    SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
+                    WHERE object_name(so.parent_obj) = '%s' AND so.xtype = 'D' AND sc.colid = (
+                        SELECT colid FROM syscolumns WHERE id = object_id('%s') AND name = '%s'
+                    )
+                )
+                SET \@cmd = 'ALTER TABLE %s DROP CONSTRAINT ' + \@defname
+                EXEC(\@cmd)
+END
+                , $Table, $Table, $Tag->{Name}, $Table
+            );
 
             # remove all possible constrains
             push @SQL, sprintf(
