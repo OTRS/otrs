@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.714 2008-07-18 18:41:15 martin Exp $
+# $Id: CHANGES,v 1.715 2008-07-19 19:50:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.3.0 rc1 (2008/07/??)
+ - (2008/07/19) Fixed bug# 2826 - Impossible to use DEFAULT values in SOPM
+    files.
  - (2008/07/18) Fixed bug# 2893 - Allow translation texts with new lines.
  - (2008/07/17) Integrate function StatsCleanUp().
  - (2008/07/16) Fixed bug# 3089 - Stats module creates an error log entry with
