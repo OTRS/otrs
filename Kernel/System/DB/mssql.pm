@@ -2,7 +2,7 @@
 # Kernel/System/DB/mssql.pm - mssql database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: mssql.pm,v 1.46 2008-07-19 16:23:38 mh Exp $
+# $Id: mssql.pm,v 1.47 2008-07-19 21:12:09 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -449,23 +449,22 @@ sub TableAlter {
         }
         elsif ( $Tag->{Tag} eq 'ColumnDrop' && $Tag->{TagType} eq 'Start' ) {
 
-            # create the default name
-            my $DefaultName = 'DF_' . $Table . '_' . $Tag->{Name};
-
-            # remove possible default
+            # remove all possible constrains
             push @SQL, sprintf(
-                <<END
-                DECLARE \@defname VARCHAR(200), \@cmd VARCHAR(2000)
-                SET \@defname = (
-                    SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
-                    WHERE object_name(so.parent_obj) = '%s' AND so.xtype = 'D' AND sc.colid = (
-                        SELECT colid FROM syscolumns WHERE id = object_id('%s') AND name = '%s'
-                    )
-                )
-                SET \@cmd = 'ALTER TABLE %s DROP CONSTRAINT ' + \@defname
-                EXEC(\@cmd)
-END
-                , $Table, $Table, $Tag->{Name}, $Table
+                <<HEREDOC
+                    DECLARE \@sql NVARCHAR(4000)
+
+                    WHILE 1=1
+                    BEGIN
+                     SET \@sql = (SELECT TOP 1 'ALTER TABLE %s DROP CONSTRAINT [' + constraint_name + ']'
+                      -- SELECT *
+                      FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='%s' and column_name='%s'
+                     )
+                     IF \@sql IS NULL BREAK
+                     EXEC (\@sql)
+                    END
+HEREDOC
+                , $Table, $Table, $Tag->{Name}
             );
 
             my $SQLEnd = $SQLStart . " DROP COLUMN $Tag->{Name}";
