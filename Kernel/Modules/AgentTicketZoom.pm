@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.59 2008-07-09 09:34:08 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.60 2008-07-20 10:24:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -490,8 +490,9 @@ sub MaskAgentZoom {
             # customer info string
             if ( $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoZoom') ) {
                 $Param{CustomerTable} = $Self->{LayoutObject}->AgentCustomerViewTable(
-                    Data => { %Param, %{ $Param{CustomerData} }, },
-                    Max => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoZoomMaxSize'),
+                    Data   => $Param{CustomerData},
+                    Ticket => \%Param,
+                    Max    => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoZoomMaxSize'),
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'CustomerTable',
