@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.333 2008-07-13 23:15:26 martin Exp $
+# $Id: Ticket.pm,v 1.334 2008-07-20 13:07:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.333 $) [1];
+$VERSION = qw($Revision: 1.334 $) [1];
 
 =head1 NAME
 
@@ -1694,6 +1694,10 @@ sub TicketEscalationDateCalculation {
 
     for my $Key ( keys %Map ) {
         if ( $Ticket{$Key} ) {
+            # do not escalations in "pending auto" for update time
+            if ( $Key eq 'EscalationUpdateTime' && $Ticket{StateType} =~ /^(pending\sauto)/i ) {
+                return;
+            }
             my $WorkingTime = 0;
             my $TimeDiff    = $Ticket{$Key} - $Time;
 
@@ -2563,7 +2567,6 @@ sub Permission {
     }
 
     # run all TicketPermission modules
-    my $AccessOk = 0;
     if ( ref $Self->{ConfigObject}->Get('Ticket::Permission') eq 'HASH' ) {
         my %Modules = %{ $Self->{ConfigObject}->Get('Ticket::Permission') };
         for my $Module ( sort keys %Modules ) {
@@ -2594,54 +2597,40 @@ sub Permission {
             );
 
             # execute Run()
-            if ( $ModuleObject->Run(%Param) ) {
+            my $AccessOk = $ModuleObject->Run(%Param);
+
+            # check granted option (should I say ok)
+            if ( $AccessOk && $Modules{$Module}->{Granted} ) {
                 if ( $Self->{Debug} > 0 ) {
                     $Self->{LogObject}->Log(
                         Priority => 'debug',
-                        Message  => "Got '$Param{Type}' true for TicketID '$Param{TicketID}' "
-                            . "through $Modules{$Module}->{Module}!",
+                        Message => "Granted access '$Param{Type}' true for "
+                            . "TicketID '$Param{TicketID}' "
+                            . "through $Modules{$Module}->{Module} (no more checks)!",
                     );
                 }
 
-                # set access ok
-                $AccessOk = 1;
-
-                # check granted option (should I say ok)
-                if ( $Modules{$Module}->{Granted} ) {
-                    if ( $Self->{Debug} > 0 ) {
-                        $Self->{LogObject}->Log(
-                            Priority => 'debug',
-                            Message =>
-                                "Granted access '$Param{Type}' true for TicketID '$Param{TicketID}' "
-                                . "through $Modules{$Module}->{Module} (no more checks)!",
-                        );
-                    }
-
-                    # access ok
-                    return 1;
-                }
+                # access ok
+                return 1;
             }
-            else {
 
-                # return because true is required
-                if ( $Modules{$Module}->{Required} ) {
-                    if ( !$Param{LogNo} ) {
-                        $Self->{LogObject}->Log(
-                            Priority => 'notice',
-                            Message  => "Permission denied because module "
-                                . "($Modules{$Module}->{Module}) is required "
-                                . "(UserID: $Param{UserID} '$Param{Type}' on "
-                                . "TicketID: $Param{TicketID})!",
-                        );
-                    }
-                    return;
+            # return because access is false but it's required
+            if ( !$AccessOk && $Modules{$Module}->{Required} ) {
+                if ( !$Param{LogNo} ) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'notice',
+                        Message  => "Permission denied because module "
+                            . "($Modules{$Module}->{Module}) is required "
+                            . "(UserID: $Param{UserID} '$Param{Type}' on "
+                            . "TicketID: $Param{TicketID})!",
+                    );
                 }
+
+                # access not ok
+                return;
             }
         }
     }
-
-    # grant access to the ticket
-    return 1 if $AccessOk;
 
     # don't grant access to the ticket
     if ( !$Param{LogNo} ) {
@@ -2687,7 +2676,6 @@ sub CustomerPermission {
     }
 
     # run all CustomerTicketPermission modules
-    my $AccessOk = 0;
     if ( ref $Self->{ConfigObject}->Get('CustomerTicket::Permission') eq 'HASH' ) {
         my %Modules = %{ $Self->{ConfigObject}->Get('CustomerTicket::Permission') };
         for my $Module ( sort keys %Modules ) {
@@ -2718,37 +2706,26 @@ sub CustomerPermission {
             );
 
             # execute Run()
-            if ( $ModuleObject->Run(%Param) ) {
+            my $AccessOk = $ModuleObject->Run(%Param);
+
+            # check granted option (should I say ok)
+            if ( $AccessOk && $Modules{$Module}->{Granted} ) {
                 if ( $Self->{Debug} > 0 ) {
                     $Self->{LogObject}->Log(
                         Priority => 'debug',
-                        Message  => "Got '$Param{Type}' true for TicketID '$Param{TicketID}' "
-                            . "through $Modules{$Module}->{Module}!",
+                        Message => "Granted access '$Param{Type}' true for "
+                            . "TicketID '$Param{TicketID}' "
+                            . "through $Modules{$Module}->{Module} (no more checks)!",
                     );
                 }
 
-                # set access ok
-                $AccessOk = 1;
-
-                # check granted option (should I say ok)
-                if ( $Modules{$Module}->{Granted} ) {
-                    if ( $Self->{Debug} > 0 ) {
-                        $Self->{LogObject}->Log(
-                            Priority => 'debug',
-                            Message =>
-                                "Granted access '$Param{Type}' true for TicketID '$Param{TicketID}' "
-                                . "through $Modules{$Module}->{Module} (no more checks)!",
-                        );
-                    }
-
-                    # access ok
-                    return 1;
-                }
+                # access ok
+                return 1;
             }
-            else {
 
-                # return because true is required
-                if ( $Modules{$Module}->{Required} ) {
+            # return because access is false but it's required
+            if ( !$AccessOk && $Modules{$Module}->{Required} ) {
+                if ( !$Param{LogNo} ) {
                     $Self->{LogObject}->Log(
                         Priority => 'notice',
                         Message  => "Permission denied because module "
@@ -2756,23 +2733,21 @@ sub CustomerPermission {
                             . "(UserID: $Param{UserID} '$Param{Type}' on "
                             . "TicketID: $Param{TicketID})!",
                     );
-                    return;
                 }
+                # access not ok
+                return;
             }
         }
     }
 
-    # grant access to the ticket
-    if ($AccessOk) {
-        return 1;
-    }
-
     # don't grant access to the ticket
-    $Self->{LogObject}->Log(
-        Priority => 'notice',
-        Message =>
-            "Permission denied (UserID: $Param{UserID} '$Param{Type}' on TicketID: $Param{TicketID})!",
-    );
+    if ( !$Param{LogNo} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message => "Permission denied (UserID: $Param{UserID} '$Param{Type}' on "
+                . "TicketID: $Param{TicketID})!",
+        );
+    }
     return;
 }
 
@@ -6579,6 +6554,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.333 $ $Date: 2008-07-13 23:15:26 $
+$Revision: 1.334 $ $Date: 2008-07-20 13:07:13 $
 
 =cut

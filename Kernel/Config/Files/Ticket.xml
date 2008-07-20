@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.193 2008-07-20 10:22:29 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.194 2008-07-20 13:07:13 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -6115,20 +6115,7 @@ $QData{"Signature"}
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Permission###2-GroupCheck" Required="0" Valid="1">
-        <Description Lang="en">Module to check, if a user is in a special group. Access is granted, if the user is in the specified group and has ro and rw permissions.</Description>
-        <Description Lang="de">Modul zur Überprüfung, ob ein Benutzer in einer bestimmten Gruppe ist. Hat der Benutzer ro- und rw-Zugriffsrechte, wird der Zugriff erlaubt.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Module">Kernel::System::Ticket::Permission::GroupCheck</Item>
-                <Item Key="Required">0</Item>
-                <Item Key="Granted">0</Item>
-                </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Permission###1-ResponsibleCheck" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::Permission###2-ResponsibleCheck" Required="0" Valid="1">
         <Description Lang="en">Module to check the responsible.</Description>
         <Description Lang="de">Modul zum Überprüfen des Verantwortlichen.</Description>
         <Group>Ticket</Group>
@@ -6141,7 +6128,33 @@ $QData{"Signature"}
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="CustomerTicket::Permission###1-CustomerUserIDCheck" Required="0" Valid="1">
+    <ConfigItem Name="Ticket::Permission###3-GroupCheck" Required="0" Valid="1">
+        <Description Lang="en">Module to check, if a user is in a special group. Access is granted, if the user is in the specified group and has ro and rw permissions.</Description>
+        <Description Lang="de">Modul zur Überprüfung, ob ein Benutzer in einer bestimmten Gruppe ist. Hat der Benutzer ro- und rw-Zugriffsrechte, wird der Zugriff erlaubt.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::Ticket::Permission::GroupCheck</Item>
+                <Item Key="Required">0</Item>
+                <Item Key="Granted">1</Item>
+                </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CustomerTicket::Permission###1-GroupCheck" Required="0" Valid="1">
+        <Description Lang="en">Module to check the group permissions for the access to customer tickets.</Description>
+        <Description Lang="de">Modul zur Überprüfung der Zugriffsrechte für Benutzergruppen auf Customer-Tickets.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::Ticket::CustomerPermission::GroupCheck</Item>
+                <Item Key="Required">1</Item>
+                <Item Key="Granted">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="CustomerTicket::Permission###2-CustomerUserIDCheck" Required="0" Valid="1">
         <Description Lang="en">Grant access, if customer ID is the same and group is accessible.</Description>
         <Description Lang="de">Den Zugriff erlauben, wenn die Customer ID übereinstimmt und auf die Gruppe zugegriffen werden darf.</Description>
         <Group>Ticket</Group>
@@ -6154,7 +6167,7 @@ $QData{"Signature"}
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="CustomerTicket::Permission###2-CustomerIDCheck" Required="0" Valid="1">
+    <ConfigItem Name="CustomerTicket::Permission###3-CustomerIDCheck" Required="0" Valid="1">
         <Description Lang="en">Module to check customer permissions.</Description>
         <Description Lang="de">Modul zum überprüfen der Rechte eines Customers.</Description>
         <Group>Ticket</Group>
@@ -6164,19 +6177,6 @@ $QData{"Signature"}
                 <Item Key="Module">Kernel::System::Ticket::CustomerPermission::CustomerIDCheck</Item>
                 <Item Key="Required">0</Item>
                 <Item Key="Granted">1</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="CustomerTicket::Permission###3-GroupCheck" Required="0" Valid="1">
-        <Description Lang="en">Module to check the group permissions for the access to customer tickets.</Description>
-        <Description Lang="de">Modul zur Überprüfung der Zugriffsrechte für Benutzergruppen auf Customer-Tickets.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Module">Kernel::System::Ticket::CustomerPermission::GroupCheck</Item>
-                <Item Key="Required">1</Item>
-                <Item Key="Granted">0</Item>
             </Hash>
         </Setting>
     </ConfigItem>

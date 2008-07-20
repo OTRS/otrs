@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.718 2008-07-20 10:10:08 martin Exp $
+# $Id: CHANGES,v 1.719 2008-07-20 13:07:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -456,6 +456,8 @@
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.8 (2008/??/??)
+ - (2008/07/20) Fixed bug# 3103 - CustomerInterface: Ticket of other customers
+    accessible for other customers.
  - (2008/07/18) Fixed bug# 3101 - Getting Queue view after adding a note with
     state "open".
  - (2008/07/18) Fixed reopend bug# 2330 - Cron.sh restart <OTRS_USER> doesn't
