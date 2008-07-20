@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - the global ticket handle
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.275.2.17 2008-06-05 08:59:09 martin Exp $
+# $Id: Ticket.pm,v 1.275.2.18 2008-07-20 12:14:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = '$Revision: 1.275.2.17 $';
+$VERSION = '$Revision: 1.275.2.18 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -2631,7 +2631,6 @@ sub CustomerPermission {
         }
     }
     # run all CustomerTicketPermission modules
-    my $AccessOk = 0;
     if (ref($Self->{ConfigObject}->Get('CustomerTicket::Permission')) eq 'HASH') {
         my %Modules = %{$Self->{ConfigObject}->Get('CustomerTicket::Permission')};
         foreach my $Module (sort keys %Modules) {
@@ -2656,17 +2655,10 @@ sub CustomerPermission {
                     Debug => $Self->{Debug},
                 );
                 # execute Run()
-                if ($ModuleObject->Run(%Param)) {
-                    if ($Self->{Debug} > 0) {
-                        $Self->{LogObject}->Log(
-                            Priority => 'debug',
-                            Message => "Got '$Param{Type}' true for TicketID '$Param{TicketID}' ".
-                                "through $Modules{$Module}->{Module}!",
-                        );
-                    }
-                    # set access ok
-                    $AccessOk = 1;
-                    # check granted option (should I say ok)
+                my $AccessOk = $ModuleObject->Run(%Param);
+
+                # check granted option (should I say ok)
+                if ($AccessOk) {
                     if ($Modules{$Module}->{Granted}) {
                         if ($Self->{Debug} > 0) {
                             $Self->{LogObject}->Log(
@@ -2689,24 +2681,20 @@ sub CustomerPermission {
                                 "(UserID: $Param{UserID} '$Param{Type}' on ".
                                 "TicketID: $Param{TicketID})!",
                         );
+                        # access not ok
                         return;
                     }
                 }
             }
         }
     }
-    # grant access to the ticket
-    if ($AccessOk) {
-        return 1;
-    }
+
     # don't grant access to the ticket
-    else {
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message => "Permission denied (UserID: $Param{UserID} '$Param{Type}' on TicketID: $Param{TicketID})!",
-        );
-        return;
-    }
+    $Self->{LogObject}->Log(
+        Priority => 'notice',
+        Message => "Permission denied (UserID: $Param{UserID} '$Param{Type}' on TicketID: $Param{TicketID})!",
+    );
+    return;
 }
 
 =item GetLockedTicketIDs()
@@ -6276,6 +6264,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.275.2.17 $ $Date: 2008-06-05 08:59:09 $
+$Revision: 1.275.2.18 $ $Date: 2008-07-20 12:14:05 $
 
 =cut
