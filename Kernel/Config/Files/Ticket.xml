@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.192 2008-07-15 22:03:58 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.193 2008-07-20 10:22:29 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -5938,8 +5938,8 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###460-Delete" Required="0" Valid="0">
-        <Description Lang="en">Show delete link.</Description>
-        <Description Lang="de">Link zum Löschen anzeigen.</Description>
+        <Description Lang="en">Show delete link. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".</Description>
+        <Description Lang="de">Link zum Löschen verarbeiten. Weitere Zugriffsbeschränkung, ob dieser Link gezeigt werden soll, kann mit dem Schlüssel "Group" und Inhalt wie z. B. "rw:group1;move_into:group2" eingeschränkt werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -5953,8 +5953,8 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MenuModule###470-Spam" Required="0" Valid="0">
-        <Description Lang="en">Show spam link.</Description>
-        <Description Lang="de">Link zum Spam verarbeiten.</Description>
+        <Description Lang="en">Show spam link. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".</Description>
+        <Description Lang="de">Link zum Spam verarbeiten. Weitere Zugriffsbeschränkung, ob dieser Link gezeigt werden soll, kann mit dem Schlüssel "Group" und Inhalt wie z. B. "rw:group1;move_into:group2" eingeschränkt werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModule</SubGroup>
         <Setting>
@@ -5969,7 +5969,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PreMenuModule###100-Lock" Required="0" Valid="1">
         <Description Lang="en">Show lock / unlock link.</Description>
-        <Description Lang="de">Link für gesperrt / nicht gesperrt in der Ticketvorschau anzeigen.</Description>
+        <Description Lang="de">Link für gesperrt / nicht gesperrt in der Ticketvorschau.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModulePre</SubGroup>
         <Setting>
@@ -5982,7 +5982,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PreMenuModule###200-Zoom" Required="0" Valid="1">
         <Description Lang="en">Show zoom link.</Description>
-        <Description Lang="de">Link zum Zoomen in der Ticketvorschau anzeigen.</Description>
+        <Description Lang="de">Link zum Zoomen in der Ticketvorschau.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModulePre</SubGroup>
         <Setting>
@@ -5997,7 +5997,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PreMenuModule###210-History" Required="0" Valid="1">
         <Description Lang="en">Show history link.</Description>
-        <Description Lang="de">History Link in der Ticketvorschau anzeigen.</Description>
+        <Description Lang="de">History Link in der Ticketvorschau.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModulePre</SubGroup>
         <Setting>
@@ -6012,7 +6012,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PreMenuModule###300-Priority" Required="0" Valid="1">
         <Description Lang="en">Show priority link.</Description>
-        <Description Lang="de">Link für die Priorität in der Ticketvorschau anzeigen.</Description>
+        <Description Lang="de">Link für die Priorität in der Ticketvorschau.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModulePre</SubGroup>
         <Setting>
@@ -6027,7 +6027,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PreMenuModule###420-Note" Required="0" Valid="1">
         <Description Lang="en">Show note link.</Description>
-        <Description Lang="de">Link für eine Notiz in der Ticketvorschau anzeigen.</Description>
+        <Description Lang="de">Link für eine Notiz in der Ticketvorschau.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModulePre</SubGroup>
         <Setting>
@@ -6042,7 +6042,7 @@ $QData{"Signature"}
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PreMenuModule###440-Close" Required="0" Valid="1">
         <Description Lang="en">Show close link.</Description>
-        <Description Lang="de">Link zum Schließen in der Ticketvorschau anzeigen.</Description>
+        <Description Lang="de">Link zum Schließen in der Ticketvorschau.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModulePre</SubGroup>
         <Setting>
@@ -6056,8 +6056,8 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PreMenuModule###450-Delete" Required="0" Valid="0">
-        <Description Lang="en">Show delete link.</Description>
-        <Description Lang="de">Link zum Löschen in der Ticketvorschau anzeigen.</Description>
+        <Description Lang="en">Show delete link. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".</Description>
+        <Description Lang="de">Link zum Löschen in der Ticketvorschau. Weitere Zugriffsbeschränkung, ob dieser Link gezeigt werden soll, kann mit dem Schlüssel "Group" und Inhalt wie z. B. "rw:group1;move_into:group2" eingeschränkt werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModulePre</SubGroup>
         <Setting>
@@ -6071,8 +6071,8 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PreMenuModule###460-Spam" Required="0" Valid="0">
-        <Description Lang="en">Show spam link.</Description>
-        <Description Lang="de">Link zum Spam verarbeiten in der Ticketvorschau anzeigen.</Description>
+        <Description Lang="en">Show spam link. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".</Description>
+        <Description Lang="de">Link zum Spam verarbeiten in der Ticketvorschau. Weitere Zugriffsbeschränkung, ob dieser Link gezeigt werden soll, kann mit dem Schlüssel "Group" und Inhalt wie z. B. "rw:group1;move_into:group2" eingeschränkt werden.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::MenuModulePre</SubGroup>
         <Setting>
