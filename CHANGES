@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.719 2008-07-20 13:07:13 martin Exp $
+# $Id: CHANGES,v 1.720 2008-07-20 14:40:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.3.0 rc1 (2008/07/??)
+ - (2008/07/20) Fixed bug# 2712 - Email in POP3 or IMAP box gets deleted/lost
+    also if it got not processed.
  - (2008/07/20) Fixed bug# 3102 - (Optional) group-Permissions for
     Frontend::Agent::Ticket::MenuModule(Pre).
  - (2008/07/19) Fixed bug# 3098 - Ticket number search in the new link mask does

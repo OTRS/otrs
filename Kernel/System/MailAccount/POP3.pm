@@ -2,7 +2,7 @@
 # Kernel/System/MailAccount/POP3.pm - lib for pop3 accounts
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: POP3.pm,v 1.2 2008-05-08 09:36:21 mh Exp $
+# $Id: POP3.pm,v 1.3 2008-07-20 14:40:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Net::POP3;
 use Kernel::System::PostMaster;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -145,12 +145,17 @@ sub Fetch {
                 );
                 my @Return = $PostMasterObject->Run( QueueID => $Param{QueueID} || 0 );
                 if ( !$Return[0] ) {
+                    my $Lines = $PopObject->get($Messageno);
+                    my $File  = $Self->_ProcessFailed( Email => $Lines );
                     $Self->{LogObject}->Log(
                         Priority => 'error',
-                        Message  => "$AuthType: Can't process mail, see log sub system!",
+                        Message  => "$AuthType: Can't process mail, see log sub system ("
+                            . "$File, report it on http://bugs.otrs.org/)!",
                     );
                 }
                 undef $PostMasterObject;
+
+                # mark email to delete if it got processed
                 $PopObject->delete($Messageno);
 
                 # check limit
@@ -189,6 +194,38 @@ sub Fetch {
         $Self->Fetch(%Param);
     }
     return 1;
+}
+
+sub _ProcessFailed {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(Email)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined!" );
+            return;
+        }
+    }
+
+    # get content of email
+    my $Content;
+    for my $Line (@{ $Param{Email} } ) {
+        $Content .= $Line;
+    }
+
+    my $Home = $Self->{ConfigObject}->Get('Home') . '/var/spool/';
+    my $MD5  = $Self->{MainObject}->MD5sum(
+        String => \$Content,
+    );
+    my $Location = $Home . 'problem-email-' . $MD5;
+
+    return $Self->{MainObject}->FileWrite(
+        Location   => $Location,
+        Content    => \$Content,
+        Mode       => 'binmode',
+        Type       => 'Local',
+        Permission => '644',
+    );
 }
 
 1;
