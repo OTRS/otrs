@@ -1,8 +1,9 @@
 # --
 # Kernel/Language/fa.pm - provides fa language translation
 # Copyright (C) 2006 Amir Shams Parsa <amir at parsa.name>
+# Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # --
-# $Id: fa.pm,v 1.40 2008-07-01 21:29:24 mh Exp $
+# $Id: fa.pm,v 1.41 2008-07-20 08:50:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Fri May 16 14:08:25 2008
+    # Last translation file sync: Tue July 15 15:36:24 2008
 
     # possible charsets
     $Self->{Charset} = ['utf-8', 'utf-8', ];
@@ -1407,135 +1408,135 @@ sub Data {
         # Template: Warning
         # Misc
         'Edit Article' => '',
-        'Create Database' => 'ÃÂ§ÃÂÃÂ¬ÃÂ§ÃÂ¯ ÃÂ¨ÃÂ§ÃÂÃÂ©',
-        'DB Host' => 'ÃÂ³ÃÂ±ÃÂÃÂ± ÃÂ¨ÃÂ§ÃÂÃÂ© ÃÂ§ÃÂ·ÃÂÃÂ§ÃÂ¹ÃÂ§ÃÂªÃÂ',
-        'Change roles <-> groups settings' => 'ÃÂªÃÂºÃÂÃÂ± ÃÂªÃÂÃÂ¸ÃÂÃÂÃÂ§ÃÂª ÃÂÃÂ¸ÃÂÃÂÃÂ <-> ÃÂ¯ÃÂ±ÃÂÃÂ',
-        'Ticket Number Generator' => 'ÃÂªÃÂÃÂÃÂÃÂ¯ ÃÂ©ÃÂÃÂÃÂ¯ÃÂ ÃÂ´ÃÂÃÂ§ÃÂ±ÃÂ ÃÂªÃÂÃÂ©ÃÂª ÃÂÃÂ§',
-        '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(ÃÂÃÂ´ÃÂ®ÃÂµÃÂ ÃÂªÃÂÃÂ©ÃÂª ÃÂÃÂ§. ÃÂ§ÃÂ©ÃÂ«ÃÂ± ÃÂ©ÃÂ§ÃÂ±ÃÂ¨ÃÂ±ÃÂ§ÃÂ ÃÂÃÂ§ÃÂÃÂÃÂÃÂ¯ÃÂ§ÃÂ² ÃÂ§ÃÂÃÂ ÃÂªÃÂ±ÃÂ©ÃÂÃÂ¨ ÃÂ§ÃÂ³ÃÂªÃÂÃÂ§ÃÂ¯ÃÂ ÃÂ©ÃÂÃÂÃÂ¯ ÃÂÃÂ«ÃÂ§ÃÂ: \'ÃÂ´ÃÂÃÂ§ÃÂ±ÃÂ ÃÂªÃÂÃÂ©ÃÂª\', \'ÃÂÃÂ§ÃÂ ÃÂ´ÃÂ±ÃÂ©ÃÂª#\' ÃÂÃÂ§ \'ÃÂÃÂ§ÃÂ ÃÂ¯ÃÂÃÂ®ÃÂÃÂ§ÃÂ #\')',
-        'Create new Phone Ticket' => 'Ø§ÛØ¬Ø§Ø¯ ØªÛÚ©Øª ØªÙÙÙÛ',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'ÃÂªÃÂÃÂ¸ÃÂÃÂ ÃÂÃÂ³ÃÂªÃÂÃÂÃÂ ÃÂ©ÃÂÃÂÃÂ¯ ÃÂÃÂ§ Kernel/Config.pm',
-        'Symptom' => 'ÃÂÃÂ´ÃÂ§ÃÂÃÂ',
+        'Create Database' => 'ایجاد بانک',
+        'DB Host' => 'سرور بانک اطلاعاتی',
+        'Change roles <-> groups settings' => 'تغیر تنظیمات وظیفه <-> گروه',
+        'Ticket Number Generator' => 'تولید کننده شماره تیکت ها',
+        '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(مشخصه تیکت ها. اکثر کاربران مایلنداز این ترکیب استفاده کنند مثال: \'شماره تیکت\', \'نام شرکت#\' یا \'نام دلخواه #\')',
+        'Create new Phone Ticket' => 'ایجاد تیکت تلفنی',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'تنظیم مستقیم کلید ها Kernel/Config.pm',
+        'Symptom' => 'نشانه',
         'U' => 'Z-A, ی-الف',
-        'A message should have a To: recipient!' => 'Ø¢Ø¯Ø±Ø³ Ø¯Ø±ÛØ§ÙØª Ú©ÙÙØ¯Ù Ù¾ÛØ§Ù ÙØ´Ø®Øµ ÙØ´Ø¯Ù Ø§Ø³Øª!',
-        'Site' => 'ÃÂ³ÃÂ§ÃÂÃÂª',
-        'Customer history search (e. g. "ID342425").' => 'ÃÂ¬ÃÂ³ÃÂªÃÂ¬ÃÂ ÃÂ¯ÃÂ± ÃÂ³ÃÂÃÂ§ÃÂ¨ÃÂ ÃÂÃÂ´ÃÂªÃÂ±ÃÂ© (ÃÂÃÂ«ÃÂ§ÃÂ: "ID342425")',
-        'for agent firstname' => 'Ø¨Ø±Ø§Û ÙØ§Ù Ú©Ø§Ø±Ø´ÙØ§Ø³',
-        'Close!' => 'ÃÂ¨ÃÂ³ÃÂªÃÂ!',
-        'The message being composed has been closed.  Exiting.' => 'Ù¾ÛØ§ÙÛ Ú©Ù Ø§Ø±Ø³Ø§Ù Ø´Ø¯ Ø¨Ø³ØªÙ Ø´Ø¯.',
-        'A web calendar' => 'ÛÚ© ØªÙÙÛÙ',
-        'to get the realname of the sender (if given)' => 'Ø¨Ø±Ø§Û Ú¯Ø±ÙØªÙ ÙØ§Ù ÙØ±Ø³ØªÙØ¯Ù',
-        'OTRS DB Name' => 'ÃÂÃÂ§ÃÂ ÃÂ¨ÃÂ§ÃÂÃÂ© ÃÂ§ÃÂ·ÃÂÃÂ§ÃÂ¹ÃÂ§ÃÂªÃÂ ÃÂ³ÃÂÃÂ³ÃÂªÃÂ',
+        'A message should have a To: recipient!' => 'آدرس دریافت کننده پیام مشخص نشده است!',
+        'Site' => 'سایت',
+        'Customer history search (e. g. "ID342425").' => 'جستجو در سوابق مشترک (مثال: "ID342425")',
+        'for agent firstname' => 'برای نام کارشناس',
+        'Close!' => 'بستن!',
+        'The message being composed has been closed.  Exiting.' => 'پیامی که ارسال شد بسته شد.',
+        'A web calendar' => 'یک تقویم',
+        'to get the realname of the sender (if given)' => 'برای گرفتن نام فرستنده',
+        'OTRS DB Name' => 'نام بانک اطلاعاتی سیستم',
         'Notification (Customer)' => '',
-        'Select Source (for add)' => 'ÙÙØ¨Ø¹ Ø±Ø§ Ø§ÙØªØ®Ø§Ø¨ ÙÙØ§Ø¦ÛØ¯ (Ø¨Ø±Ø§Û Ø§ÙØ²ÙØ¯Ù)',
+        'Select Source (for add)' => 'منبع را انتخاب نمائید (برای افزودن)',
         'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
-        'Days' => 'ÃÂ±ÃÂÃÂ²',
-        'Queue ID' => 'ÃÂ©ÃÂ¯ ÃÂÃÂÃÂ³ÃÂª',
-        'Home' => 'ØµÙØ­Ù Ø§ÙÙ',
-        'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'Ú¯Ø²ÛÙÙ ÙØ§Û ØªÙØ¸ÛÙØ§Øª ',
-        'System History' => 'ÃÂ³ÃÂÃÂ§ÃÂ¨ÃÂ ÃÂ³ÃÂÃÂ³ÃÂªÃÂ',
-        'customer realname' => 'ÙØ§Ù Ù ÙØ§Ù Ø®Ø§ÙÙØ§Ø¯Ú¯Û ÙØ´ØªØ±Ú©',
-        'Pending messages' => 'Ù¾ÛØ§ÙÙØ§Û Ø¯Ø± ØªØ¹ÙÛÙ',
-        'Modules' => 'ÃÂÃÂ§ÃÂÃÂÃÂ ÃÂÃÂ§',
-        'for agent login' => 'Ø¨Ø±Ø§Û ÙØ±ÙØ¯ Ú©Ø§Ø±Ø´ÙØ§Ø³ Ø¨Ù Ø³ÛØ³ØªÙ',
-        'Keyword' => 'ÃÂ©ÃÂÃÂÃÂ ÃÂ©ÃÂÃÂÃÂ¯ÃÂ',
-        'Close type' => 'ÃÂÃÂÃÂ¹ ÃÂ¨ÃÂ³ÃÂªÃÂ',
-        'DB Admin User' => 'ÃÂÃÂ§ÃÂ ÃÂ©ÃÂ§ÃÂ±ÃÂ¨ÃÂ±ÃÂ ÃÂÃÂ¯ÃÂÃÂ± ÃÂ¨ÃÂ§ÃÂÃÂ© ÃÂ§ÃÂ·ÃÂÃÂ§ÃÂ¹ÃÂ§ÃÂªÃÂ ',
-        'for agent user id' => 'Ø¨Ø±Ø§Û Ú©Ø¯ Ú©Ø§Ø±Ø¨Ø±Û Ú©Ø§Ø±Ø´ÙØ§Ø³',
-        'sort upward' => 'ØµØ¹ÙØ¯Û',
-        'Change user <-> group settings' => 'ÃÂªÃÂºÃÂÃÂÃÂ± ÃÂªÃÂÃÂ¸ÃÂÃÂÃÂ§ÃÂª ÃÂ©ÃÂ§ÃÂ±ÃÂ¨ÃÂ± <-> ÃÂ¯ÃÂ±ÃÂÃÂ',
-        'Problem' => 'ÃÂÃÂ´ÃÂ©ÃÂ',
-        'next step' => 'ÃÂÃÂ¯ÃÂ ÃÂ¨ÃÂ¹ÃÂ¯ÃÂ',
-        'Customer history search' => 'ÃÂ¬ÃÂ³ÃÂªÃÂ¬ÃÂ ÃÂ¯ÃÂ± ÃÂ³ÃÂÃÂ§ÃÂ¨ÃÂ ÃÂÃÂ´ÃÂªÃÂ±ÃÂ©',
-        'Admin-Email' => 'e-mail ÃÂÃÂ¯ÃÂÃÂ± ÃÂ³ÃÂÃÂ³ÃÂªÃÂ',
-        'Create new database' => 'ÃÂ§ÃÂÃÂ¬ÃÂ§ÃÂ¯ ÃÂ¨ÃÂ§ÃÂÃÂ© ÃÂ¬ÃÂ¯ÃÂÃÂ¯',
-        'A message must be spell checked!' => 'Ù¾ÛØ§Ù Ø¨Ø§ÛØ¯ ØºÙØ· ÛØ§Ø¨Û Ø´Ø¯Ù Ø¨Ø§Ø´Ø¯!',
-        'Ticket#' => 'ÃÂ´ÃÂÃÂ§ÃÂ±ÃÂ ÃÂªÃÂÃÂ©ÃÂª',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Ù¾ÛØ§Ù Ø´ÙØ§ Ø¯Ø± ØªÛÚ©Øª Ø¨Ù Ø´ÙØ§Ø±Ù "<OTRS_TICKET> Ø§Ø±Ø¬Ø§Ø¹ Ø´Ø¯ Ø¨Ù "<OTRS_BOUNCE_TO>". Ø¨Ø±Ø§Û Ø§Ø·ÙØ§Ø¹Ø§Øª Ø¨ÛØ´ØªØ± Ø¨Ø§ Ø§ÛÙ Ø¢Ø¯Ø±Ø³ ØªÙØ§Ø³ Ø¨Ú¯ÛØ±ÛØ¯',
+        'Days' => 'روز',
+        'Queue ID' => 'کد لیست',
+        'Home' => 'صفحه اول',
+        'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'گزینه های تنظیمات ',
+        'System History' => 'سوابق سیستم',
+        'customer realname' => 'نام و نام خانوادگی مشترک',
+        'Pending messages' => 'پیامهای در تعلیق',
+        'Modules' => 'ماژول ها',
+        'for agent login' => 'برای ورود کارشناس به سیستم',
+        'Keyword' => 'کلمه کلیدی',
+        'Close type' => 'نوع بستن',
+        'DB Admin User' => 'نام کاربری مدیر بانک اطلاعاتی ',
+        'for agent user id' => 'برای کد کاربری کارشناس',
+        'sort upward' => 'صعودی',
+        'Change user <-> group settings' => 'تغییر تنظیمات کاربر <-> گروه',
+        'Problem' => 'مشکل',
+        'next step' => 'قدم بعدی',
+        'Customer history search' => 'جستجو در سوابق مشترک',
+        'Admin-Email' => 'e-mail مدیر سیستم',
+        'Create new database' => 'ایجاد بانک جدید',
+        'A message must be spell checked!' => 'پیام باید غلط یابی شده باشد!',
+        'Ticket#' => 'شماره تیکت',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'پیام شما در تیکت به شماره "<OTRS_TICKET> ارجاع شد به "<OTRS_BOUNCE_TO>". برای اطلاعات بیشتر با این آدرس تماس بگیرید',
         'ArticleID' => 'شماره مورد',
         'A message should have a body!' => 'پیام میبایست دارای متن باشد !',
-        'All Agents' => 'ÙÙÙ Ú©Ø§Ø±Ø´ÙØ§Ø³Ø§Ù',
-        'Keywords' => 'ÃÂ©ÃÂÃÂÃÂ§ÃÂª ÃÂ©ÃÂÃÂÃÂ¯ÃÂ',
-        'No * possible!' => 'ÃÂÃÂÃÂ * ÃÂÃÂÃÂ©ÃÂ ÃÂÃÂÃÂ³ÃÂª !',
-        'Options ' => 'ÃÂ¯ÃÂ²ÃÂÃÂÃÂ ÃÂÃÂ§',
-        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
-        'Message for new Owner' => 'ÃÂ¾ÃÂÃÂ§ÃÂ ÃÂ¨ÃÂ±ÃÂ§ÃÂ ÃÂµÃÂ§ÃÂ­ÃÂ¨ ÃÂ¬ÃÂ¯ÃÂÃÂ¯ ÃÂªÃÂÃÂ©ÃÂª',
-        'to get the first 5 lines of the email' => 'Ø¨Ø±Ø§Û Ú¯Ø±ÙØªÙ 5 Ø®Ø· Ø§ÙÙ email',
-        'OTRS DB Password' => 'ÃÂ±ÃÂÃÂ² ÃÂ¹ÃÂ¨ÃÂÃÂ± ÃÂ¨ÃÂ§ÃÂÃÂ© ÃÂ§ÃÂ·ÃÂÃÂ§ÃÂ¹ÃÂ§ÃÂªÃÂ ÃÂ³ÃÂÃÂ³ÃÂªÃÂ',
-        'Last update' => 'ÃÂ¢ÃÂ®ÃÂ±ÃÂÃÂ ÃÂ¨ÃÂ±ÃÂÃÂ²ÃÂ±ÃÂ³ÃÂ§ÃÂÃÂ',
-        'to get the first 20 character of the subject' => 'Ø¨Ø±Ø§Û Ú¯Ø±ÙØªÙ 20 Ú©Ø§Ø±Ø§Ú©ØªØ± Ø§ÙÙ ÙÙØ¶ÙØ¹',
+        'All Agents' => 'همه کارشناسان',
+        'Keywords' => 'کلمات کلیدی',
+        'No * possible!' => 'هیچ * ممکن نیست !',
+        'Options ' => 'گزینه ها',
+        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'گزینه های تنظیمات صاحب تیکت',
+        'Message for new Owner' => 'پیام برای صاحب جدید تیکت',
+        'to get the first 5 lines of the email' => 'برای گرفتن 5 خط اول email',
+        'OTRS DB Password' =>  'رمز عبور بانک اطلاعاتی سیستم',
+        'Last update' => 'آخرین بروزرسانی',
+        'to get the first 20 character of the subject' => 'برای گرفتن 20 کاراکتر اول موضوع',
         'Select the customeruser:service relations.' => '',
-        'DB Admin Password' => 'ÃÂ±ÃÂÃÂ² ÃÂ¹ÃÂ¨ÃÂÃÂ± ÃÂÃÂ¯ÃÂÃÂ± ÃÂ³ÃÂÃÂ³ÃÂªÃÂ',
-        'Advisory' => 'ÙØ´ÙØ±ØªÛ',
-        'Drop Database' => 'ÃÂ­ÃÂ°ÃÂ ÃÂ©ÃÂ§ÃÂÃÂ ÃÂ¨ÃÂ§ÃÂÃÂ© ÃÂ§ÃÂ·ÃÂÃÂ§ÃÂ¹ÃÂ§ÃÂªÃÂ',
-        'FileManager' => 'ÙÛØ±ÛØª ÙØ§ÛÙ',
-        'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Ú¯Ø²ÛÙÙ ÙØ§Û ÙØ´ØªØ±Ú© ÙØ¹ÙÛ',
-        'Pending type' => 'ÃÂÃÂÃÂ¹ ÃÂªÃÂ¹ÃÂÃÂÃÂ',
-        'Comment (internal)' => 'ÃÂªÃÂÃÂ¶ÃÂÃÂ­ ÃÂ¯ÃÂ§ÃÂ®ÃÂÃÂ',
+        'DB Admin Password' => 'رمز عبور مدیر سیستم',
+        'Advisory' => 'مشورتی',
+        'Drop Database' => 'حذف کامل بانک اطلاعاتی',
+        'FileManager' => 'میریت فایل',
+        'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'گزینه های مشترک فعلی',
+        'Pending type' => 'نوع تعلیق',
+        'Comment (internal)' => 'توضیح داخلی',
         'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
-        'This window must be called from compose window' => 'Ø§ÛÙ Ù¾ÙØ¬Ø±Ù ÙÛØ¨Ø§ÛØ³Øª Ø§Ø² Ø·Ø±ÛÙ Ù¾ÙØ¬Ø±Ù Ø§Ø±Ø³Ø§Ù ÙØ±Ø§Ø®ÙØ§ÙÛ Ø´ÙØ¯',
-        'You need min. one selected Ticket!' => 'Ø´ÙØ§ Ø¯Ø³Øª Ú©Ù Ø¨Ù ÛÚ© ØªÛÚ©Øª Ø§ÙØªØ®Ø§Ø¨ Ø´Ø¯Ù ÙÛØ§Ø² Ø¯Ø§Ø±ÛØ¯!',
-        'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Ú¯Ø²ÛÙÙ ÙØ§Û Ø§Ø·ÙØ§Ø¹Ø§Øª ØªÛÚ©Øª ÙØ§',
-        '(Used ticket number format)' => '(ÃÂÃÂ±ÃÂÃÂª ÃÂ´ÃÂÃÂ§ÃÂ±ÃÂ ÃÂªÃÂÃÂ©ÃÂª)',
-        'Fulltext' => 'ÃÂªÃÂÃÂ§ÃÂ ÃÂÃÂªÃÂ',
-        'Incident' => 'Ø±ÙÛØ¯Ø§Ø¯',
-        'OTRS DB connect host' => 'ÃÂ³ÃÂ±ÃÂÃÂ± ÃÂÃÂÃÂ²ÃÂ¨ÃÂ§ÃÂ ÃÂ¨ÃÂ§ÃÂÃÂ© ÃÂ§ÃÂ·ÃÂÃÂ§ÃÂ¹ÃÂ§ÃÂªÃÂ ',
-        ' (work units)' => ' ÙØ§Ø­Ø¯ Ú©Ø§Ø±',
-        'All Customer variables like defined in config option CustomerUser.' => 'ÙÙÙ ØªÙØ¸ÛÙØ§Øª ÙØ´ØªØ±Ú©ÛÙ Ø¯Ø± ÙØ§ÛÙ ØªÙØ¸ÛÙØ§Øª Ø³ÛØ³ØªÙ Ø°Ø®ÛØ±Ù Ø´Ø¯Ù Ø§Ø³Øª',
+        'This window must be called from compose window' => 'این پنجره میبایست از طریق پنجره ارسال فراخوانی شود',
+        'You need min. one selected Ticket!' => 'شما دست کم به یک تیکت انتخاب شده نیاز دارید!',
+        'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' =>  'گزینه های اطلاعات تیکت',
+        '(Used ticket number format)' => '(فرمت شماره تیکت)',
+        'Fulltext' => 'جستجوی متنی',
+        'Incident' => 'رویداد',
+        'OTRS DB connect host' => 'سرور میزبان بانک اطلاعاتی ',
+        ' (work units)' => ' واحد کار',
+        'All Customer variables like defined in config option CustomerUser.' => 'همه تنظیمات مشترکین در فایل تنظیمات سیستم ذخیره شده است',
         'accept license' => 'Accepter la licence',
-        'for agent lastname' => 'Ø¨Ø±Ø§Û ÙØ§Ù Ø®Ø§ÙÙØ§Ø¯Ú¯Û Ú©Ø§Ø±Ø´ÙØ§Ø³',
-        'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => 'Ú¯Ø²ÛÙÙ ÙØ§Û ØªÙØ¸ÛÙØ§Øª ØµØ§Ø­Ø¨ ØªÛÚ©Øª',
-        'Reminder messages' => 'Ù¾ÛØ§ÙÙØ§Û ÛØ§Ø¯Ø¢ÙØ±Û',
-        'Change users <-> roles settings' => 'ÃÂªÃÂºÃÂÃÂÃÂ± ÃÂªÃÂÃÂ¸ÃÂÃÂÃÂ§ÃÂª ÃÂ©ÃÂ§ÃÂ±ÃÂ¨ÃÂ± <-> ÃÂÃÂ¸ÃÂÃÂÃÂ',
+        'for agent lastname' => 'برای نام خانوادگی کارشناس',
+        'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => 'گزینه های تنظیمات صاحب تیکت',
+        'Reminder messages' => 'پیامهای یادآوری',
+        'Change users <-> roles settings' => 'تغییر تنظیمات کاربر <-> وظیفه',
         'A message should have a subject!' => 'یک پیام میبایست دارای عنوان باشد',
-        'TicketZoom' => 'ÃÂÃÂÃÂ§ÃÂÃÂ´ ÃÂ©ÃÂ§ÃÂÃÂ ÃÂªÃÂÃÂ©ÃÂª',
-        'Don\'t forget to add a new user to groups!' => 'ÃÂÃÂ±ÃÂ§ÃÂÃÂÃÂ´ ÃÂÃÂ©ÃÂÃÂÃÂ¯ ÃÂ©ÃÂ ÃÂÃÂ© ÃÂ©ÃÂ§ÃÂ±ÃÂ¨ÃÂ± ÃÂ¨ÃÂ ÃÂ¯ÃÂ±ÃÂÃÂ ÃÂ§ÃÂÃÂ¬ÃÂ§ÃÂ¯ ÃÂ´ÃÂ¯ÃÂ ÃÂ§ÃÂ¶ÃÂ§ÃÂÃÂ ÃÂ©ÃÂÃÂÃÂ¯!',
-        'You need a email address (e. g. customer@example.com) in To:!' => 'Ø¢Ø¯Ø±Ø³ email ÙØ§Ø±Ø¯ Ø´Ø¯Ù ÙØ¹ØªØ¨Ø± ÙÛØ³Øª!',
-        'CreateTicket' => 'ÃÂ§ÃÂÃÂ¬ÃÂ§ÃÂ¯ ÃÂªÃÂÃÂ©ÃÂª',
+        'TicketZoom' => 'نمایش کامل تیکت',
+        'Don\'t forget to add a new user to groups!' => 'فراموش نکنید که یک کاربر به گروه ایجاد شده اضافه کنید!',
+        'You need a email address (e. g. customer@example.com) in To:!' => 'آدرس email وارد شده معتبر نیست!',
+        'CreateTicket' => 'ایجاد تیکت',
         'You need to account time!' => 'شما نیاز به محاسبه زمان دارید!',
-        'System Settings' => 'ÃÂªÃÂÃÂ¸ÃÂÃÂÃÂ§ÃÂª ÃÂ³ÃÂÃÂ³ÃÂªÃÂ',
-        'WebWatcher' => 'Ø¨Ø§Ø²Ø±Ø³Û ÙØ¨',
-        'Hours' => 'ÃÂ³ÃÂ§ÃÂ¹ÃÂª',
-        'Finished' => 'ÃÂ¾ÃÂ§ÃÂÃÂ§ÃÂ ÃÂÃÂ§ÃÂÃÂª',
-        'Split' => 'ÙØ³ÙØª Ú©Ø±Ø¯Ù ØªÛÚ©Øª',
+        'System Settings' => 'تنظیمات سیستم',
+        'WebWatcher' => 'بازرسی وب',
+        'Hours' => 'ساعت',
+        'Finished' => 'پایان یافت',
+        'Split' => 'قسمت کردن تیکت',
         'D' => 'A-Z, الف-ی',
         'System Status' => '',
-        'All messages' => 'ÙÙÙ Ù¾ÛØ§Ù ÙØ§',
-        'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
-        'Artefact' => 'ÙØ­ØµÙÙ',
-        'A article should have a title!' => 'ÃÂÃÂ© ÃÂÃÂÃÂ±ÃÂ¯ ÃÂ¨ÃÂ§ÃÂÃÂ¯ ÃÂ¯ÃÂ§ÃÂ±ÃÂ§ÃÂ ÃÂ¹ÃÂÃÂÃÂ§ÃÂ ÃÂ¨ÃÂ§ÃÂ´ÃÂ¯',
-        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
+        'All messages' => 'همه پیام ها',
+        'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'گزینه های اطلاعات تیکت',
+        'Artefact' => 'محصول',
+        'A article should have a title!' => 'یک مورد باید دارای عنوان باشد',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'گزینه های تنظیمات ',
         'Event' => '',
         'don\'t accept license' => 'Ne pas accepter la licence',
-        'A web mail client' => 'ÛÚ© ÙØ­ÛØ· Ù¾Ø³Øª Ø§ÙÚ©ØªØ±ÙÙÛÚ©Û',
-        'WebMail' => 'Ù¾Ø³Øª Ø§ÙÚ©ØªØ±ÙÙÛÚ©Û ØªØ­Øª ÙØ¨',
-        'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'ÃÂ¯ÃÂ²ÃÂÃÂÃÂ ÃÂÃÂ§ÃÂ ÃÂ§ÃÂ·ÃÂÃÂ§ÃÂ¹ÃÂ§ÃÂª ÃÂªÃÂÃÂ©ÃÂª',
+        'A web mail client' => 'یک محیط پست الکترونیکی',
+        'WebMail' => 'پست الکترونیکی تحت وب',
+        'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'گزینه های اطلاعات تیکت ها',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Options du propriÃ©taire d\'un ticket (ex: <OTRS_OWNER_UserFirstname>)',
-        'Name is required!' => 'ÃÂÃÂ§ÃÂ ÃÂÃÂÃÂ±ÃÂ¯ ÃÂÃÂÃÂ§ÃÂ² ÃÂ§ÃÂ³ÃÂª!',
-        'DB Type' => 'ÃÂÃÂÃÂ¹ ÃÂ¨ÃÂ§ÃÂÃÂ© ÃÂ§ÃÂ·ÃÂÃÂ§ÃÂ¹ÃÂ§ÃÂªÃÂ ÃÂ³ÃÂÃÂ³ÃÂªÃÂ',
-        'kill all sessions' => 'ÙÙÙ Session ÙØ§ Ø±Ø§ Ø§Ø² Ø¨ÛÙ Ø¨Ø¨Ø±',
-        'to get the from line of the email' => 'Ø¨Ø±Ø§Û Ú¯Ø±ÙØªÙ Ø®Ø· (Ø§Ø²) email',
-        'Solution' => 'ÃÂ±ÃÂ§ÃÂ ÃÂ­ÃÂ',
-        'QueueView' => 'ÃÂÃÂÃÂ§ÃÂÃÂ´ ÃÂÃÂÃÂ³ÃÂª',
+        'Name is required!' => 'نام مورد نیاز است!',
+        'DB Type' => 'نوع بانک اطلاعاتی سیستم',
+        'kill all sessions' => 'همه Session ها را از بین ببر',
+        'to get the from line of the email' => 'برای گرفتن خط (از) email',
+        'Solution' => 'راه حل',
+        'QueueView' => 'نمایش لیست',
         'Select Box' => 'باکس انتخاب.',
-        'Welcome to OTRS' => 'Ø¨Ù Ø³ÛØ³ØªÙ Ù¾Ø´ØªÛØ¨Ø§ÙÛ Ø³ÙØ±Ø³ Ø¨Ø§Ø² Ø®ÙØ´ Ø¢ÙØ¯ÛØ¯',
-        'modified' => 'ÃÂªÃÂºÃÂÃÂÃÂ± ÃÂÃÂ§ÃÂÃÂª',
+        'Welcome to OTRS' => 'به سیستم پشتیبانی سورس باز خوش آمدید',
+        'modified' => 'تغییر یافته',
         'Escalation in' => 'جابجایی در',
-        'Delete old database' => 'ÃÂ­ÃÂ°ÃÂ ÃÂ¨ÃÂ§ÃÂÃÂ© ÃÂÃÂ¨ÃÂÃÂ',
-        'sort downward' => 'ÙØ²ÙÙÛ',
-        'You need to use a ticket number!' => 'Ø´ÙØ§ Ø¨Ø§ÛØ¯ Ø§Ø² Ø´ÙØ§Ø±Ù ØªÛÚ©Øª Ø§Ø³ØªÙØ§Ø¯Ù ÙÙØ§Ø¦ÛØ¯!',
-        'A web file manager' => 'ÛÚ© ÙØ­ÛØ· ÙØ¯ÛØ±ÛØª ÙØ§ÛÙ ØªØ­Øª ÙØ¨',
+        'Delete old database' => 'حذف بانک قبلی',
+        'sort downward' => 'نزولی',
+        'You need to use a ticket number!' => 'شما باید از شماره تیکت استفاده نمائید!',
+        'A web file manager' => 'یک محیط مدیریت فایل تحت وب',
         'Have a lot of fun!' => 'Amusez vous bien !',
-        'send' => 'Ø§Ø±Ø³Ø§Ù',
-        'Note Text' => 'ÃÂÃÂ§ÃÂ¯ÃÂ¯ÃÂ§ÃÂ´ÃÂª',
+        'send' => 'ارسال',
+        'Note Text' => 'یادداشت',
         'POP3 Account Management' => 'مدیریت POP3',
-        'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
-        'System State Management' => 'ÙØ¯ÛØ±ÛØª ÙØ¶Ø¹ÛØª Ø³ÛØ³ØªÙ',
-        'OTRS DB User' => 'ÃÂÃÂ§ÃÂ ÃÂ©ÃÂ§ÃÂ±ÃÂ¨ÃÂ±ÃÂ ÃÂ¨ÃÂ§ÃÂÃÂ© ÃÂ§ÃÂ·ÃÂÃÂ§ÃÂ¹ÃÂ§ÃÂªÃÂ ÃÂ³ÃÂÃÂ³ÃÂªÃÂ',
-        'PhoneView' => 'ÃÂÃÂÃÂ§ÃÂÃÂ´ ÃÂªÃÂÃÂÃÂ',
-        'Verion' => 'ÃÂÃÂÃÂ±ÃÂ§ÃÂÃÂ´',
+        'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'گزینه های مشترک فعلی',
+        'System State Management' => 'مدیریت وضعیت سیستم',
+        'OTRS DB User' => 'نام کاربری بانک اطلاعاتی سیستم',
+        'PhoneView' => 'نمایش تلفن',
+        'Verion' => 'ویرایش',
         'TicketID' => 'شماره تیکت',
-        'Modified' => 'ÃÂªÃÂºÃÂÃÂÃÂ± ÃÂÃÂ§ÃÂÃÂªÃÂ',
-        'Ticket selected for bulk action!' => 'ØªÛÚ©Øª Ø¬ÙØª Ø¹ÙÙÛØ§Øª Ú©ÙÛ Ø§ÙØªØ®Ø§Ø¨ Ú¯Ø±Ø¯ÛØ¯!',
+        'Modified' => 'تغییر یافته',
+        'Ticket selected for bulk action!' => 'تیکت جهت عملیات کلی انتخاب گردید!',
 
         'Link Object: %s' => '',
         'Unlink Object: %s' => '',
