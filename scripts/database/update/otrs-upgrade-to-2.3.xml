@@ -254,6 +254,9 @@
         <ColumnAdd Name="first_response_notify" Required="false" Type="SMALLINT"/>
         <ColumnAdd Name="update_notify" Required="false" Type="SMALLINT"/>
         <ColumnAdd Name="solution_notify" Required="false" Type="SMALLINT"/>
+        <ForeignKeyDrop ForeignTable="service">
+            <Reference Local="service_id" Foreign="id"/>
+        </ForeignKeyDrop>
     </TableAlter>
 
     <TableAlter Name="article">
