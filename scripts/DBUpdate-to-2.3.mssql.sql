@@ -1,12 +1,10 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2008-07-06 21:11:15
+--  driver: mssql, generated: 2008-07-21 09:17:10
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table users
 -- ----------------------------------------------------------
-GO
 EXEC sp_rename 'system_user', 'users'
-GO
 ;
 -- ----------------------------------------------------------
 --  create table queue_preferences
@@ -14,7 +12,7 @@ GO
 CREATE TABLE queue_preferences (
     queue_id INTEGER NOT NULL,
     preferences_key VARCHAR (150) NOT NULL,
-    preferences_value VARCHAR (250)
+    preferences_value VARCHAR (250) NULL
 );
 CREATE INDEX queue_preferences_queue_id ON queue_preferences (queue_id);
 -- ----------------------------------------------------------
@@ -90,28 +88,28 @@ CREATE INDEX personal_queues_queue_id ON personal_queues (queue_id);
 -- ----------------------------------------------------------
 --  alter table queue
 -- ----------------------------------------------------------
-ALTER TABLE queue ADD first_response_notify SMALLINT;
+ALTER TABLE queue ADD first_response_notify SMALLINT NULL;
 -- ----------------------------------------------------------
 --  alter table queue
 -- ----------------------------------------------------------
-ALTER TABLE queue ADD update_notify SMALLINT;
+ALTER TABLE queue ADD update_notify SMALLINT NULL;
 -- ----------------------------------------------------------
 --  alter table queue
 -- ----------------------------------------------------------
-ALTER TABLE queue ADD solution_notify SMALLINT;
+ALTER TABLE queue ADD solution_notify SMALLINT NULL;
 CREATE INDEX queue_group_id ON queue (group_id);
 EXECUTE sp_rename N'ticket.escalation_start_time', N'escalation_update_time', 'COLUMN';
--- ----------------------------------------------------------
---  alter table ticket
--- ----------------------------------------------------------
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE name = 'DF_ticket_escalation_update_time' )
+ALTER TABLE ticket DROP CONSTRAINT DF_ticket_escalation_update_time;
+UPDATE ticket SET escalation_update_time = 0 WHERE escalation_update_time IS NULL;
 ALTER TABLE ticket ALTER COLUMN escalation_update_time INTEGER NOT NULL;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
-ALTER TABLE ticket ADD escalation_time INTEGER;
-GO
+ALTER TABLE ticket ADD escalation_time INTEGER NULL;
 UPDATE ticket SET escalation_time = 0 WHERE escalation_time IS NULL;
 ALTER TABLE ticket ALTER COLUMN escalation_time INTEGER NOT NULL;
+ALTER TABLE ticket ADD CONSTRAINT DF_ticket_escalation_time DEFAULT (0) FOR escalation_time;
 CREATE INDEX ticket_escalation_time ON ticket (escalation_time);
 CREATE INDEX ticket_escalation_update_time ON ticket (escalation_update_time);
 CREATE INDEX ticket_escalation_response_time ON ticket (escalation_response_time);
@@ -138,15 +136,16 @@ CREATE INDEX ticket_history_state_id ON ticket_history (state_id);
 -- ----------------------------------------------------------
 --  alter table sla
 -- ----------------------------------------------------------
-ALTER TABLE sla ADD first_response_notify SMALLINT;
+ALTER TABLE sla ADD first_response_notify SMALLINT NULL;
 -- ----------------------------------------------------------
 --  alter table sla
 -- ----------------------------------------------------------
-ALTER TABLE sla ADD update_notify SMALLINT;
+ALTER TABLE sla ADD update_notify SMALLINT NULL;
 -- ----------------------------------------------------------
 --  alter table sla
 -- ----------------------------------------------------------
-ALTER TABLE sla ADD solution_notify SMALLINT;
+ALTER TABLE sla ADD solution_notify SMALLINT NULL;
+ALTER TABLE sla DROP CONSTRAINT FK_sla_service_id_id;
 CREATE INDEX article_article_type_id ON article (article_type_id);
 CREATE INDEX article_article_sender_type_id ON article (article_sender_type_id);
 -- ----------------------------------------------------------
@@ -157,19 +156,19 @@ CREATE TABLE article_search (
     ticket_id BIGINT NOT NULL,
     article_type_id SMALLINT NOT NULL,
     article_sender_type_id SMALLINT NOT NULL,
-    a_from VARCHAR (3800),
-    a_to VARCHAR (3800),
-    a_cc VARCHAR (3800),
-    a_subject VARCHAR (3800),
-    a_message_id VARCHAR (3800),
+    a_from VARCHAR (3800) NULL,
+    a_to VARCHAR (3800) NULL,
+    a_cc VARCHAR (3800) NULL,
+    a_subject VARCHAR (3800) NULL,
+    a_message_id VARCHAR (3800) NULL,
     a_body TEXT NOT NULL,
     incoming_time INTEGER NOT NULL,
-    a_freekey1 VARCHAR (250),
-    a_freetext1 VARCHAR (250),
-    a_freekey2 VARCHAR (250),
-    a_freetext2 VARCHAR (250),
-    a_freekey3 VARCHAR (250),
-    a_freetext3 VARCHAR (250),
+    a_freekey1 VARCHAR (250) NULL,
+    a_freetext1 VARCHAR (250) NULL,
+    a_freekey2 VARCHAR (250) NULL,
+    a_freetext2 VARCHAR (250) NULL,
+    a_freekey3 VARCHAR (250) NULL,
+    a_freetext3 VARCHAR (250) NULL,
     PRIMARY KEY(id)
 );
 CREATE INDEX article_search_article_sender_type_id ON article_search (article_sender_type_id);
@@ -177,36 +176,32 @@ CREATE INDEX article_search_article_type_id ON article_search (article_type_id);
 CREATE INDEX article_search_message_id ON article_search (a_message_id);
 CREATE INDEX article_search_ticket_id ON article_search (ticket_id);
 CREATE INDEX ticket_watcher_user_id ON ticket_watcher (user_id);
-ALTER TABLE ticket_watcher ADD FOREIGN KEY (ticket_id) REFERENCES ticket(id);
-ALTER TABLE ticket_watcher ADD FOREIGN KEY (user_id) REFERENCES users(id);
-ALTER TABLE ticket_watcher ADD FOREIGN KEY (create_by) REFERENCES users(id);
-ALTER TABLE ticket_watcher ADD FOREIGN KEY (change_by) REFERENCES users(id);
+ALTER TABLE ticket_watcher ADD CONSTRAINT FK_ticket_watcher_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket (id);
+ALTER TABLE ticket_watcher ADD CONSTRAINT FK_ticket_watcher_user_id_id FOREIGN KEY (user_id) REFERENCES users (id);
+ALTER TABLE ticket_watcher ADD CONSTRAINT FK_ticket_watcher_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE ticket_watcher ADD CONSTRAINT FK_ticket_watcher_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 CREATE INDEX ticket_index_queue_id ON ticket_index (queue_id);
 CREATE INDEX ticket_index_group_id ON ticket_index (group_id);
-ALTER TABLE ticket_index ADD FOREIGN KEY (ticket_id) REFERENCES ticket(id);
-ALTER TABLE ticket_index ADD FOREIGN KEY (queue_id) REFERENCES queue(id);
-ALTER TABLE ticket_index ADD FOREIGN KEY (group_id) REFERENCES groups(id);
+ALTER TABLE ticket_index ADD CONSTRAINT FK_ticket_index_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket (id);
+ALTER TABLE ticket_index ADD CONSTRAINT FK_ticket_index_queue_id_id FOREIGN KEY (queue_id) REFERENCES queue (id);
+ALTER TABLE ticket_index ADD CONSTRAINT FK_ticket_index_group_id_id FOREIGN KEY (group_id) REFERENCES groups (id);
 CREATE INDEX postmaster_filter_f_name ON postmaster_filter (f_name);
 CREATE INDEX generic_agent_jobs_job_name ON generic_agent_jobs (job_name);
 -- ----------------------------------------------------------
 --  alter table mail_account
 -- ----------------------------------------------------------
-GO
 EXEC sp_rename 'pop3_account', 'mail_account'
-GO
 ;
 -- ----------------------------------------------------------
 --  alter table mail_account
 -- ----------------------------------------------------------
-ALTER TABLE mail_account ADD account_type VARCHAR (20);
--- ----------------------------------------------------------
---  alter table article
--- ----------------------------------------------------------
+ALTER TABLE mail_account ADD account_type VARCHAR (20) NULL;
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE name = 'DF_article_a_body' )
+ALTER TABLE article DROP CONSTRAINT DF_article_a_body;
+UPDATE article SET a_body = '' WHERE a_body IS NULL;
 ALTER TABLE article ALTER COLUMN a_body TEXT NOT NULL;
--- ----------------------------------------------------------
---  alter table xml_storage
--- ----------------------------------------------------------
-ALTER TABLE xml_storage ALTER COLUMN xml_content_value TEXT;
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE name = 'DF_xml_storage_xml_content_value' )
+ALTER TABLE xml_storage DROP CONSTRAINT DF_xml_storage_xml_content_value;
 -- ----------------------------------------------------------
 --  insert into table notifications
 -- ----------------------------------------------------------
@@ -243,20 +238,20 @@ INSERT INTO link_state (name, valid_id, create_by, create_time, change_by, chang
 INSERT INTO link_state (name, valid_id, create_by, create_time, change_by, change_time)
     VALUES
     ('Temporary', 1, 1, current_timestamp, 1, current_timestamp);
-ALTER TABLE queue_preferences ADD FOREIGN KEY (queue_id) REFERENCES queue(id);
-ALTER TABLE service_sla ADD FOREIGN KEY (service_id) REFERENCES service(id);
-ALTER TABLE service_sla ADD FOREIGN KEY (sla_id) REFERENCES sla(id);
-ALTER TABLE link_type ADD FOREIGN KEY (create_by) REFERENCES users(id);
-ALTER TABLE link_type ADD FOREIGN KEY (change_by) REFERENCES users(id);
-ALTER TABLE link_type ADD FOREIGN KEY (valid_id) REFERENCES valid(id);
-ALTER TABLE link_state ADD FOREIGN KEY (create_by) REFERENCES users(id);
-ALTER TABLE link_state ADD FOREIGN KEY (change_by) REFERENCES users(id);
-ALTER TABLE link_state ADD FOREIGN KEY (valid_id) REFERENCES valid(id);
-ALTER TABLE link_relation ADD FOREIGN KEY (source_object_id) REFERENCES link_object(id);
-ALTER TABLE link_relation ADD FOREIGN KEY (target_object_id) REFERENCES link_object(id);
-ALTER TABLE link_relation ADD FOREIGN KEY (state_id) REFERENCES link_state(id);
-ALTER TABLE link_relation ADD FOREIGN KEY (type_id) REFERENCES link_type(id);
-ALTER TABLE link_relation ADD FOREIGN KEY (create_by) REFERENCES users(id);
-ALTER TABLE article_search ADD FOREIGN KEY (article_sender_type_id) REFERENCES article_sender_type(id);
-ALTER TABLE article_search ADD FOREIGN KEY (article_type_id) REFERENCES article_type(id);
-ALTER TABLE article_search ADD FOREIGN KEY (ticket_id) REFERENCES ticket(id);
+ALTER TABLE queue_preferences ADD CONSTRAINT FK_queue_preferences_queue_id_id FOREIGN KEY (queue_id) REFERENCES queue (id);
+ALTER TABLE service_sla ADD CONSTRAINT FK_service_sla_service_id_id FOREIGN KEY (service_id) REFERENCES service (id);
+ALTER TABLE service_sla ADD CONSTRAINT FK_service_sla_sla_id_id FOREIGN KEY (sla_id) REFERENCES sla (id);
+ALTER TABLE link_type ADD CONSTRAINT FK_link_type_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE link_type ADD CONSTRAINT FK_link_type_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE link_type ADD CONSTRAINT FK_link_type_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
+ALTER TABLE link_state ADD CONSTRAINT FK_link_state_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE link_state ADD CONSTRAINT FK_link_state_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE link_state ADD CONSTRAINT FK_link_state_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
+ALTER TABLE link_relation ADD CONSTRAINT FK_link_relation_source_object_id_id FOREIGN KEY (source_object_id) REFERENCES link_object (id);
+ALTER TABLE link_relation ADD CONSTRAINT FK_link_relation_target_object_id_id FOREIGN KEY (target_object_id) REFERENCES link_object (id);
+ALTER TABLE link_relation ADD CONSTRAINT FK_link_relation_state_id_id FOREIGN KEY (state_id) REFERENCES link_state (id);
+ALTER TABLE link_relation ADD CONSTRAINT FK_link_relation_type_id_id FOREIGN KEY (type_id) REFERENCES link_type (id);
+ALTER TABLE link_relation ADD CONSTRAINT FK_link_relation_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE article_search ADD CONSTRAINT FK_article_search_article_sender_type_id_id FOREIGN KEY (article_sender_type_id) REFERENCES article_sender_type (id);
+ALTER TABLE article_search ADD CONSTRAINT FK_article_search_article_type_id_id FOREIGN KEY (article_type_id) REFERENCES article_type (id);
+ALTER TABLE article_search ADD CONSTRAINT FK_article_search_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket (id);

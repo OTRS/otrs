@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2008-07-06 21:11:15
+--  driver: db2, generated: 2008-07-21 09:16:44
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table users
@@ -120,14 +120,14 @@ ALTER TABLE queue ADD solution_notify SMALLINT;
 
 CREATE INDEX queue_group_id ON queue (group_id);
 
- SET INTEGRITY FOR ticket OFF;
+SET INTEGRITY FOR ticket OFF;
 
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket ADD COLUMN escalation_update_time INTEGER GENERATED ALWAYS AS (escalation_start_time);
 
- SET INTEGRITY FOR ticket IMMEDIATE CHECKED FORCE GENERATED;
+SET INTEGRITY FOR ticket IMMEDIATE CHECKED FORCE GENERATED;
 
 -- ----------------------------------------------------------
 --  alter table ticket
@@ -141,16 +141,16 @@ ALTER TABLE ticket DROP COLUMN escalation_start_time;
 
 CALL SYSPROC.ADMIN_CMD ('REORG TABLE ticket');
 
--- ----------------------------------------------------------
---  alter table ticket
--- ----------------------------------------------------------
-ALTER TABLE ticket ALTER COLUMN escalation_update_time SET DATA TYPE INTEGER;
+ALTER TABLE ticket ALTER COLUMN escalation_update_time SET DEFAULT 0;
 
 CALL SYSPROC.ADMIN_CMD ('REORG TABLE ticket');
 
--- ----------------------------------------------------------
---  alter table ticket
--- ----------------------------------------------------------
+ALTER TABLE ticket ALTER COLUMN escalation_update_time DROP DEFAULT;
+
+CALL SYSPROC.ADMIN_CMD ('REORG TABLE ticket');
+
+UPDATE ticket SET escalation_update_time = 0 WHERE escalation_update_time IS NULL;
+
 ALTER TABLE ticket ALTER COLUMN escalation_update_time SET NOT NULL;
 
 CALL SYSPROC.ADMIN_CMD ('REORG TABLE ticket');
@@ -158,7 +158,17 @@ CALL SYSPROC.ADMIN_CMD ('REORG TABLE ticket');
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
-ALTER TABLE ticket ADD escalation_time INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE ticket ADD escalation_time INTEGER;
+
+UPDATE ticket SET escalation_time = 0 WHERE escalation_time IS NULL;
+
+ALTER TABLE ticket ALTER COLUMN escalation_time SET DEFAULT 0;
+
+CALL SYSPROC.ADMIN_CMD ('REORG TABLE ticket');
+
+ALTER TABLE ticket ALTER COLUMN escalation_time SET NOT NULL;
+
+CALL SYSPROC.ADMIN_CMD ('REORG TABLE ticket');
 
 CREATE INDEX ticket_escalation_time ON ticket (escalation_time);
 
@@ -221,6 +231,8 @@ ALTER TABLE sla ADD update_notify SMALLINT;
 -- ----------------------------------------------------------
 ALTER TABLE sla ADD solution_notify SMALLINT;
 
+ALTER TABLE sla DROP CONSTRAINT FK_sla_service_id_id;
+
 CREATE INDEX article_article_type_id ON article (article_type_id);
 
 CREATE INDEX article_article_sender_type_id ON article (article_sender_type_id);
@@ -259,23 +271,23 @@ CREATE INDEX article_search_ticket_id ON article_search (ticket_id);
 
 CREATE INDEX ticket_watcher_user_id ON ticket_watcher (user_id);
 
-ALTER TABLE ticket_watcher ADD CONSTRAINT FK_ticket_watcher_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket(id);
+ALTER TABLE ticket_watcher ADD CONSTRAINT FK_ticket_watcher_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket (id);
 
-ALTER TABLE ticket_watcher ADD CONSTRAINT FK_ticket_watcher_user_id_id FOREIGN KEY (user_id) REFERENCES users(id);
+ALTER TABLE ticket_watcher ADD CONSTRAINT FK_ticket_watcher_user_id_id FOREIGN KEY (user_id) REFERENCES users (id);
 
-ALTER TABLE ticket_watcher ADD CONSTRAINT FK_ticket_watcher_create_by_id FOREIGN KEY (create_by) REFERENCES users(id);
+ALTER TABLE ticket_watcher ADD CONSTRAINT FK_ticket_watcher_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 
-ALTER TABLE ticket_watcher ADD CONSTRAINT FK_ticket_watcher_change_by_id FOREIGN KEY (change_by) REFERENCES users(id);
+ALTER TABLE ticket_watcher ADD CONSTRAINT FK_ticket_watcher_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 
 CREATE INDEX ticket_index_queue_id ON ticket_index (queue_id);
 
 CREATE INDEX ticket_index_group_id ON ticket_index (group_id);
 
-ALTER TABLE ticket_index ADD CONSTRAINT FK_ticket_index_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket(id);
+ALTER TABLE ticket_index ADD CONSTRAINT FK_ticket_index_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket (id);
 
-ALTER TABLE ticket_index ADD CONSTRAINT FK_ticket_index_queue_id_id FOREIGN KEY (queue_id) REFERENCES queue(id);
+ALTER TABLE ticket_index ADD CONSTRAINT FK_ticket_index_queue_id_id FOREIGN KEY (queue_id) REFERENCES queue (id);
 
-ALTER TABLE ticket_index ADD CONSTRAINT FK_ticket_index_group_id_id FOREIGN KEY (group_id) REFERENCES groups(id);
+ALTER TABLE ticket_index ADD CONSTRAINT FK_ticket_index_group_id_id FOREIGN KEY (group_id) REFERENCES groups (id);
 
 CREATE INDEX postmaster_filter_f_name ON postmaster_filter (f_name);
 
@@ -291,31 +303,25 @@ RENAME TABLE pop3_account TO mail_account;
 -- ----------------------------------------------------------
 ALTER TABLE mail_account ADD account_type VARCHAR (20);
 
--- ----------------------------------------------------------
---  alter table article
--- ----------------------------------------------------------
-ALTER TABLE article ALTER COLUMN a_body SET DATA TYPE CLOB (14062K);
+ALTER TABLE article ALTER COLUMN a_body SET DEFAULT '';
 
 CALL SYSPROC.ADMIN_CMD ('REORG TABLE article');
 
--- ----------------------------------------------------------
---  alter table article
--- ----------------------------------------------------------
+ALTER TABLE article ALTER COLUMN a_body DROP DEFAULT;
+
+CALL SYSPROC.ADMIN_CMD ('REORG TABLE article');
+
+UPDATE article SET a_body = '' WHERE a_body IS NULL;
+
 ALTER TABLE article ALTER COLUMN a_body SET NOT NULL;
 
 CALL SYSPROC.ADMIN_CMD ('REORG TABLE article');
 
--- ----------------------------------------------------------
---  alter table xml_storage
--- ----------------------------------------------------------
-ALTER TABLE xml_storage ALTER COLUMN xml_content_value SET DATA TYPE CLOB (7812K);
+ALTER TABLE xml_storage ALTER COLUMN xml_content_value SET DEFAULT '';
 
 CALL SYSPROC.ADMIN_CMD ('REORG TABLE xml_storage');
 
--- ----------------------------------------------------------
---  alter table xml_storage
--- ----------------------------------------------------------
-ALTER TABLE xml_storage ALTER COLUMN xml_content_value DROP NOT NULL;
+ALTER TABLE xml_storage ALTER COLUMN xml_content_value DROP DEFAULT;
 
 CALL SYSPROC.ADMIN_CMD ('REORG TABLE xml_storage');
 
@@ -361,37 +367,37 @@ INSERT INTO link_state (name, valid_id, create_by, create_time, change_by, chang
     VALUES
     ('Temporary', 1, 1, current_timestamp, 1, current_timestamp);
 
-ALTER TABLE queue_preferences ADD CONSTRAINT FK_queue_preferences_queue_id_id FOREIGN KEY (queue_id) REFERENCES queue(id);
+ALTER TABLE queue_preferences ADD CONSTRAINT FK_queue_preferences_queue_id_id FOREIGN KEY (queue_id) REFERENCES queue (id);
 
-ALTER TABLE service_sla ADD CONSTRAINT FK_service_sla_service_id_id FOREIGN KEY (service_id) REFERENCES service(id);
+ALTER TABLE service_sla ADD CONSTRAINT FK_service_sla_service_id_id FOREIGN KEY (service_id) REFERENCES service (id);
 
-ALTER TABLE service_sla ADD CONSTRAINT FK_service_sla_sla_id_id FOREIGN KEY (sla_id) REFERENCES sla(id);
+ALTER TABLE service_sla ADD CONSTRAINT FK_service_sla_sla_id_id FOREIGN KEY (sla_id) REFERENCES sla (id);
 
-ALTER TABLE link_type ADD CONSTRAINT FK_link_type_create_by_id FOREIGN KEY (create_by) REFERENCES users(id);
+ALTER TABLE link_type ADD CONSTRAINT FK_link_type_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 
-ALTER TABLE link_type ADD CONSTRAINT FK_link_type_change_by_id FOREIGN KEY (change_by) REFERENCES users(id);
+ALTER TABLE link_type ADD CONSTRAINT FK_link_type_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 
-ALTER TABLE link_type ADD CONSTRAINT FK_link_type_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid(id);
+ALTER TABLE link_type ADD CONSTRAINT FK_link_type_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
 
-ALTER TABLE link_state ADD CONSTRAINT FK_link_state_create_by_id FOREIGN KEY (create_by) REFERENCES users(id);
+ALTER TABLE link_state ADD CONSTRAINT FK_link_state_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 
-ALTER TABLE link_state ADD CONSTRAINT FK_link_state_change_by_id FOREIGN KEY (change_by) REFERENCES users(id);
+ALTER TABLE link_state ADD CONSTRAINT FK_link_state_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
 
-ALTER TABLE link_state ADD CONSTRAINT FK_link_state_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid(id);
+ALTER TABLE link_state ADD CONSTRAINT FK_link_state_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
 
-ALTER TABLE link_relation ADD CONSTRAINT FK_link_relation_source_object_id_id FOREIGN KEY (source_object_id) REFERENCES link_object(id);
+ALTER TABLE link_relation ADD CONSTRAINT FK_link_relation_source_object_id_id FOREIGN KEY (source_object_id) REFERENCES link_object (id);
 
-ALTER TABLE link_relation ADD CONSTRAINT FK_link_relation_target_object_id_id FOREIGN KEY (target_object_id) REFERENCES link_object(id);
+ALTER TABLE link_relation ADD CONSTRAINT FK_link_relation_target_object_id_id FOREIGN KEY (target_object_id) REFERENCES link_object (id);
 
-ALTER TABLE link_relation ADD CONSTRAINT FK_link_relation_state_id_id FOREIGN KEY (state_id) REFERENCES link_state(id);
+ALTER TABLE link_relation ADD CONSTRAINT FK_link_relation_state_id_id FOREIGN KEY (state_id) REFERENCES link_state (id);
 
-ALTER TABLE link_relation ADD CONSTRAINT FK_link_relation_type_id_id FOREIGN KEY (type_id) REFERENCES link_type(id);
+ALTER TABLE link_relation ADD CONSTRAINT FK_link_relation_type_id_id FOREIGN KEY (type_id) REFERENCES link_type (id);
 
-ALTER TABLE link_relation ADD CONSTRAINT FK_link_relation_create_by_id FOREIGN KEY (create_by) REFERENCES users(id);
+ALTER TABLE link_relation ADD CONSTRAINT FK_link_relation_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 
-ALTER TABLE article_search ADD CONSTRAINT FK_article_search_article_sender_type_id_id FOREIGN KEY (article_sender_type_id) REFERENCES article_sender_type(id);
+ALTER TABLE article_search ADD CONSTRAINT FK_article_search_article_sender_type_id_id FOREIGN KEY (article_sender_type_id) REFERENCES article_sender_type (id);
 
-ALTER TABLE article_search ADD CONSTRAINT FK_article_search_article_type_id_id FOREIGN KEY (article_type_id) REFERENCES article_type(id);
+ALTER TABLE article_search ADD CONSTRAINT FK_article_search_article_type_id_id FOREIGN KEY (article_type_id) REFERENCES article_type (id);
 
-ALTER TABLE article_search ADD CONSTRAINT FK_article_search_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket(id);
+ALTER TABLE article_search ADD CONSTRAINT FK_article_search_ticket_id_id FOREIGN KEY (ticket_id) REFERENCES ticket (id);
 
