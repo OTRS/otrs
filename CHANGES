@@ -2,12 +2,16 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.721 2008-07-21 06:10:56 martin Exp $
+# $Id: CHANGES,v 1.722 2008-07-21 14:29:24 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
+
+2.3.1 (2008/??/??)
+ - (2008/07/21) Fixed bug# 3104 - Error message by using
+    scripts/DBUpdate-to-2.3.pl.
 
 2.3.0 rc1 (2008/07/21)
  - (2008/07/20) Update persian translation, thanks to Amir Shams Parsa and
