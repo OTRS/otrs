@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketMenuGeneric.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketMenuGeneric.pm,v 1.9 2008-07-20 10:10:08 martin Exp $
+# $Id: TicketMenuGeneric.pm,v 1.10 2008-07-21 11:28:26 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -69,7 +69,7 @@ sub Run {
         my @Items = split /;/, $Param{Config}->{Group};
         my $AccessOk;
         for my $Item (@Items) {
-            my ($Permission, $Name) = split /:/, $Item;
+            my ( $Permission, $Name ) = split /:/, $Item;
             if ( !$Permission || !$Name ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.26 2008-07-21 04:04:07 martin Exp $
+# $Id: LayoutTicket.pm,v 1.27 2008-07-21 11:28:26 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -78,11 +78,11 @@ sub AgentCustomerViewTable {
 
     # add ticket params if given
     if ( $Param{Ticket} ) {
-        %{ $Param{Data} } = (%{ $Param{Data} }, %{ $Param{Ticket} });
+        %{ $Param{Data} } = ( %{ $Param{Data} }, %{ $Param{Ticket} } );
     }
 
-    my @MapNew    = ();
-    my $Map = $Param{Data}->{Config}->{Map};
+    my @MapNew = ();
+    my $Map    = $Param{Data}->{Config}->{Map};
     if ($Map) {
         @MapNew = ( @{$Map} );
     }
@@ -140,14 +140,15 @@ sub AgentCustomerViewTable {
             );
         }
     }
+
     # check Frontend::CustomerUser::Item
-    my $CustomerItem = $Self->{ConfigObject}->Get('Frontend::CustomerUser::Item');
+    my $CustomerItem      = $Self->{ConfigObject}->Get('Frontend::CustomerUser::Item');
     my $CustomerItemCount = 0;
     if ($CustomerItem) {
         $Self->Block(
             Name => 'CustomerItem',
         );
-        my %Modules = %{ $CustomerItem };
+        my %Modules = %{$CustomerItem};
         for my $Module ( sort keys %Modules ) {
             if ( !$Self->{MainObject}->Require( $Modules{$Module}->{Module} ) ) {
                 $Self->FatalDie();
@@ -176,6 +177,7 @@ sub AgentCustomerViewTable {
             }
         }
     }
+
     # Acivity Index: History
     # Open Tickets
     # CTI

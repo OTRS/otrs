@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.334 2008-07-20 13:07:13 martin Exp $
+# $Id: Ticket.pm,v 1.335 2008-07-21 11:28:26 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.334 $) [1];
+$VERSION = qw($Revision: 1.335 $) [1];
 
 =head1 NAME
 
@@ -1694,6 +1694,7 @@ sub TicketEscalationDateCalculation {
 
     for my $Key ( keys %Map ) {
         if ( $Ticket{$Key} ) {
+
             # do not escalations in "pending auto" for update time
             if ( $Key eq 'EscalationUpdateTime' && $Ticket{StateType} =~ /^(pending\sauto)/i ) {
                 return;
@@ -2604,7 +2605,7 @@ sub Permission {
                 if ( $Self->{Debug} > 0 ) {
                     $Self->{LogObject}->Log(
                         Priority => 'debug',
-                        Message => "Granted access '$Param{Type}' true for "
+                        Message  => "Granted access '$Param{Type}' true for "
                             . "TicketID '$Param{TicketID}' "
                             . "through $Modules{$Module}->{Module} (no more checks)!",
                     );
@@ -2713,7 +2714,7 @@ sub CustomerPermission {
                 if ( $Self->{Debug} > 0 ) {
                     $Self->{LogObject}->Log(
                         Priority => 'debug',
-                        Message => "Granted access '$Param{Type}' true for "
+                        Message  => "Granted access '$Param{Type}' true for "
                             . "TicketID '$Param{TicketID}' "
                             . "through $Modules{$Module}->{Module} (no more checks)!",
                     );
@@ -2734,6 +2735,7 @@ sub CustomerPermission {
                             . "TicketID: $Param{TicketID})!",
                     );
                 }
+
                 # access not ok
                 return;
             }
@@ -2744,7 +2746,7 @@ sub CustomerPermission {
     if ( !$Param{LogNo} ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message => "Permission denied (UserID: $Param{UserID} '$Param{Type}' on "
+            Message  => "Permission denied (UserID: $Param{UserID} '$Param{Type}' on "
                 . "TicketID: $Param{TicketID})!",
         );
     }
@@ -6554,6 +6556,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.334 $ $Date: 2008-07-20 13:07:13 $
+$Revision: 1.335 $ $Date: 2008-07-21 11:28:26 $
 
 =cut

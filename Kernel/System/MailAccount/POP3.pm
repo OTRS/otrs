@@ -2,7 +2,7 @@
 # Kernel/System/MailAccount/POP3.pm - lib for pop3 accounts
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: POP3.pm,v 1.3 2008-07-20 14:40:00 martin Exp $
+# $Id: POP3.pm,v 1.4 2008-07-21 11:28:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Net::POP3;
 use Kernel::System::PostMaster;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -146,7 +146,7 @@ sub Fetch {
                 my @Return = $PostMasterObject->Run( QueueID => $Param{QueueID} || 0 );
                 if ( !$Return[0] ) {
                     my $Lines = $PopObject->get($Messageno);
-                    my $File  = $Self->_ProcessFailed( Email => $Lines );
+                    my $File = $Self->_ProcessFailed( Email => $Lines );
                     $Self->{LogObject}->Log(
                         Priority => 'error',
                         Message  => "$AuthType: Can't process mail, see log sub system ("
@@ -209,7 +209,7 @@ sub _ProcessFailed {
 
     # get content of email
     my $Content;
-    for my $Line (@{ $Param{Email} } ) {
+    for my $Line ( @{ $Param{Email} } ) {
         $Content .= $Line;
     }
 
