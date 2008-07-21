@@ -2,7 +2,7 @@
 # Kernel/Language/sk_SK.pm - provides sk_SK language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: sk_SK.pm,v 1.36 2008-07-01 21:29:24 mh Exp $
+# $Id: sk_SK.pm,v 1.37 2008-07-21 23:27:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -245,6 +245,7 @@ sub Data {
         'Mobile' => '',
         'Zip' => '',
         'City' => '',
+        'Location' => '',
         'Street' => '',
         'Country' => '',
         'installed' => 'nain¹talovaný',

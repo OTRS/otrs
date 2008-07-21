@@ -5,7 +5,7 @@
 # Copyright (C) 2006 Knut Haugen <knuthaug at linpro.no>
 # Copyright (C) 2007-2008 Fredrik Andersen <fredrik.andersen at husbanken.no>
 # --
-# $Id: nb_NO.pm,v 1.60 2008-07-08 11:04:17 martin Exp $
+# $Id: nb_NO.pm,v 1.61 2008-07-21 23:27:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.60 $;
+$VERSION = q$Revision: 1.61 $;
 
 sub Data {
     my $Self = shift;
@@ -248,6 +248,7 @@ sub Data {
         'Mobile' => 'Mobil',
         'Zip' => 'Postnummer',
         'City' => 'By',
+        'Location' => '',
         'Street' => 'Gate',
         'Country' => 'Land',
         'installed' => 'installert',

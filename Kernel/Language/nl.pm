@@ -6,7 +6,7 @@
 # Copyright (C) 2005-2007 Jurgen Rutgers <jurgen 'at' besite.nl>
 # Copyright (C) 2005-2007 Richard Hinkamp <richard 'at' besite.nl>
 # --
-# $Id: nl.pm,v 1.77 2008-07-01 21:29:24 mh Exp $
+# $Id: nl.pm,v 1.78 2008-07-21 23:27:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -29,7 +29,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.77 $) [1];
+$VERSION = qw($Revision: 1.78 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -259,6 +259,7 @@ sub Data {
         'Mobile' => 'Mobiel',
         'Zip' => 'Postcode',
         'City' => 'Plaats',
+        'Location' => '',
         'Street' => '',
         'Country' => 'Land',
         'installed' => '',

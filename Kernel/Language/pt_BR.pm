@@ -4,7 +4,7 @@
 # Copyright (C) 2005 Alterado por Glaucia C. Messina (glauglauu@yahoo.com)
 # Copyright (C) 2007 Fabricio Luiz Machado <soprobr gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.69 2008-07-01 21:29:24 mh Exp $
+# $Id: pt_BR.pm,v 1.70 2008-07-21 23:27:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.70 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -247,6 +247,7 @@ sub Data {
         'Mobile' => 'Celular',
         'Zip' => 'CEP',
         'City' => 'Cidade',
+        'Location' => '',
         'Street' => '',
         'Country' => 'País',
         'installed' => 'instalado',

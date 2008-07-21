@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Thorsten Rossner <thorsten.rossner[at]stepstone.de>
 # Copyright (C) 2007 Mads N. Vestergaard <mnv[at]timmy.dk>
 # --
-# $Id: da.pm,v 1.38 2008-07-01 21:29:24 mh Exp $
+# $Id: da.pm,v 1.39 2008-07-21 23:27:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -245,6 +245,7 @@ sub Data {
         'Mobile' => 'Mobil',
         'Zip' => 'Post Nr.',
         'City' => 'By',
+        'Location' => '',
         'Street' => '',
         'Country' => 'Land',
         'installed' => 'installeret',

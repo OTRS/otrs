@@ -2,7 +2,7 @@
 # Kernel/Language/ct.pm - provides ct language translation
 # Copyright (C) 2008 Sistemes OTIC (ibsalut) - Antonio Linde
 # --
-# $Id: ct.pm,v 1.10 2008-07-09 19:50:56 martin Exp $
+# $Id: ct.pm,v 1.11 2008-07-21 23:27:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -247,6 +247,7 @@ sub Data {
         'City' => 'Ciutat',
         'Street' => 'Carrer',
         'Country' => 'Pais',
+        'Location' => '',
         'installed' => 'instal·lat',
         'uninstalled' => 'desinstal·lat',
         'Security Note: You should activate %s because application is already running!' => 'Nota de seguretat: Vostè ha d\'activar %s perquè l\'aplicació ja està corrent!',

@@ -2,7 +2,7 @@
 # Kernel/Language/sv.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats@synergy.se>
 # --
-# $Id: sv.pm,v 1.52 2008-07-01 21:29:24 mh Exp $
+# $Id: sv.pm,v 1.53 2008-07-21 23:27:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.52 $;
+$VERSION = q$Revision: 1.53 $;
 
 sub Data {
     my $Self = shift;
@@ -245,6 +245,7 @@ sub Data {
         'Mobile' => '',
         'Zip' => '',
         'City' => '',
+        'Location' => '',
         'Street' => '',
         'Country' => '',
         'installed' => '',

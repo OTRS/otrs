@@ -2,7 +2,7 @@
 # Kernel/Language/pl.pm - provides pl language translation
 # Copyright (C) 2007 Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.62 2008-07-01 21:29:24 mh Exp $
+# $Id: pl.pm,v 1.63 2008-07-21 23:27:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -245,6 +245,7 @@ sub Data {
         'Mobile' => '',
         'Zip' => '',
         'City' => '',
+        'Location' => '',
         'Street' => '',
         'Country' => '',
         'installed' => '',

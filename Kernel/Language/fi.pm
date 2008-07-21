@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # Copyright (C) 2007-2008 Mikko Hynninen <first.last at tietokartano.fi>
 # --
-# $Id: fi.pm,v 1.76 2008-07-09 12:09:50 martin Exp $
+# $Id: fi.pm,v 1.77 2008-07-21 23:27:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -246,6 +246,7 @@ sub Data {
         'Mobile' => 'GSM',
         'Zip' => 'Postinumero',
         'City' => 'Kaupunki',
+        'Location' => '',
         'Street' => 'Katuosoite',
         'Country' => 'Maa',
         'installed' => 'asennettu',

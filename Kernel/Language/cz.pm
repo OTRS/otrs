@@ -6,7 +6,7 @@
 #              Vadim Buzek
 #              Petr Ocasek
 # --
-# $Id: cz.pm,v 1.60 2008-07-01 21:29:24 mh Exp $
+# $Id: cz.pm,v 1.61 2008-07-21 23:27:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -249,6 +249,7 @@ sub Data {
         'Mobile' => '',
         'Zip' => '',
         'City' => '',
+        'Location' => '',
         'Street' => '',
         'Country' => '',
         'installed' => '',

@@ -2,7 +2,7 @@
 # AAABase.dtl - $Text variable file
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AAABase.dtl,v 1.61 2008-04-29 22:13:27 martin Exp $
+# $Id: AAABase.dtl,v 1.62 2008-07-21 23:27:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -242,6 +242,7 @@ $Text{"Zip"}
 $Text{"City"}
 $Text{"Street"}
 $Text{"Country"}
+$Text{"Location"}
 
 $Text{"installed"}
 $Text{"uninstalled"}
@@ -264,3 +265,5 @@ $Text{"Please press Back and try again."}
 $Text{"Sent password token to: %s"}
 $Text{"Sent new password to: %s"}
 $Text{"Invalid Token!"}
+$Text{"For more info see:"}
+$Text{"Package verification failed!"}

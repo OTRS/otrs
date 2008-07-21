@@ -5,7 +5,7 @@
 # Copyright (C) 2006 Flora Szabo /szaboflora@magicnet.hu/
 # Copyright (C) 2007 Aron Ujvari <ujvari@hungary.com>
 # --
-# $Id: hu.pm,v 1.53 2008-07-01 21:29:24 mh Exp $
+# $Id: hu.pm,v 1.54 2008-07-21 23:27:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -248,6 +248,7 @@ sub Data {
         'Mobile' => 'Mobil szám',
         'Zip' => 'Irányítószám',
         'City' => 'Város',
+        'Location' => '',
         'Street' => 'Utca',
         'Country' => 'Ország',
         'installed' => 'telepített',

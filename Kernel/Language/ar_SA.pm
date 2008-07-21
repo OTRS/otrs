@@ -2,7 +2,7 @@
 # Kernel/Language/ar_SA.pm - provides ar_SA language translation
 # Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
 # --
-# $Id: ar_SA.pm,v 1.20 2008-07-01 21:29:24 mh Exp $
+# $Id: ar_SA.pm,v 1.21 2008-07-21 23:27:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -248,6 +248,7 @@ sub Data {
         'Zip' => '',
         'City' => '«·„œÌ‰…',
         'Street' => '',
+        'Location' => '',
         'Country' => '«·œÊ·…',
         'installed' => ' „  Œ“Ì‰ «·»—‰«„Ã',
         'uninstalled' => ' „ Õ–› «·»—‰«„Ã',
