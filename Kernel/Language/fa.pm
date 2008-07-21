@@ -3,7 +3,7 @@
 # Copyright (C) 2006-2008 Amir Shams Parsa <amir at parsa.name>
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # --
-# $Id: fa.pm,v 1.43 2008-07-21 18:00:59 martin Exp $
+# $Id: fa.pm,v 1.44 2008-07-21 23:24:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -249,6 +249,7 @@ sub Data {
         'Mobile' => 'تلفن همراه',
         'Zip' => 'کد پستی',
         'City' => 'شهر',
+        'Location' => '',
         'Street' => 'استان',
         'Country' => 'کشور',
         'installed' => 'نصب شده',
@@ -603,7 +604,7 @@ sub Data {
         'Search for' => 'جستجو برای',
         'Add Customer Company' => 'افزودن شرکت مشترک ',
         'Add a new Customer Company.' => 'افزودن شرکت جدید ',
-        'List' => '',
+        'List' => 'لیست',
         'This values are required.' => 'این مقادیر مورد نیاز هستند.',
         'This values are read only.' => 'این مقادیر فقط قابل خواندن هستند.',
 
@@ -1293,7 +1294,7 @@ sub Data {
         'Traceback' => 'بازبینی',
 
         # Template: CustomerFooter
-        'Powered by' => '',
+        'Powered by' => 'Powered by ',
 
         # Template: CustomerFooterSmall
 
