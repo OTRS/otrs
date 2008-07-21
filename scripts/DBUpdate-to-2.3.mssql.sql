@@ -1,6 +1,7 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2008-07-21 09:17:10
+--  driver: mssql, generated: 2008-07-21 18:17:56
 -- ----------------------------------------------------------
+ALTER TABLE sla DROP CONSTRAINT FK_sla_service_id_id;
 -- ----------------------------------------------------------
 --  alter table users
 -- ----------------------------------------------------------
@@ -145,7 +146,6 @@ ALTER TABLE sla ADD update_notify SMALLINT NULL;
 --  alter table sla
 -- ----------------------------------------------------------
 ALTER TABLE sla ADD solution_notify SMALLINT NULL;
-ALTER TABLE sla DROP CONSTRAINT FK_sla_service_id_id;
 CREATE INDEX article_article_type_id ON article (article_type_id);
 CREATE INDEX article_article_sender_type_id ON article (article_sender_type_id);
 -- ----------------------------------------------------------
