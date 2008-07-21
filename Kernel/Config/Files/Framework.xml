@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.182 2008-07-15 22:03:05 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.183 2008-07-21 04:30:13 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -3265,6 +3265,74 @@ Your OTRS Notification Master
         <Setting>
             <String Regex="">http://host.example.com/cgi-bin/login.pl</String>
         </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::CustomerUser::Item###1-GoogleMaps" Required="0" Valid="1">
+        <Description Lang="en">A customer item (icon) which generates an google maps icon at the end of an customer info block.</Description>
+        <Description Lang="de">Ein Kunden-Icon welche ein Google Maps Icon unter den Kunden-Daten.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Customer</SubGroup>
+            <Setting>
+                <Hash>
+                    <Item Key="Module">Kernel::Output::HTML::CustomerUserGeneric</Item>
+                    <Item Key="Required">UserStreet;UserCity;</Item>
+                    <Item Key="Attributes">UserStreet;UserCity;UserCountry;</Item>
+                    <Item Key="Image">maps.png</Item>
+                    <Item Key="Target">_blank</Item>
+                    <Item Key="Text">Location</Item>
+                    <Item Key="URL">http://maps.google.com/maps?q=</Item>
+                </Hash>
+            </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::CustomerUser::Item###2-Google" Required="0" Valid="0">
+        <Description Lang="en">A customer item (icon) which generates an google icon at the end of an customer info block.</Description>
+        <Description Lang="de">Ein Kunden-Icon welche ein Google Icon unter den Kunden-Daten.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Customer</SubGroup>
+            <Setting>
+                <Hash>
+                    <Item Key="Module">Kernel::Output::HTML::CustomerUserGeneric</Item>
+                    <Item Key="Required">UserFirstname;UserLastname;</Item>
+                    <Item Key="Attributes">UserFirstname;UserLastname;</Item>
+                    <Item Key="Image">maps.png</Item>
+                    <Item Key="Target">_blank</Item>
+                    <Item Key="Text">Google</Item>
+                    <Item Key="URL">http://google.com/search?q=</Item>
+                </Hash>
+            </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::CustomerUser::Item###2-LinkedIn" Required="0" Valid="1">
+        <Description Lang="en">A customer item (icon) which generates an LinkedIn icon at the end of an customer info block.</Description>
+        <Description Lang="de">Ein Kunden-Icon welche ein LinkedIn Icon unter den Kunden-Daten.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Customer</SubGroup>
+            <Setting>
+                <Hash>
+                    <Item Key="Module">Kernel::Output::HTML::CustomerUserGeneric</Item>
+                    <Item Key="Required">UserFirstname;UserLastname;</Item>
+                    <Item Key="Attributes">UserFirstname;UserLastname;</Item>
+                    <Item Key="Image">in.png</Item>
+                    <Item Key="Target">_blank</Item>
+                    <Item Key="Text">LinkedIn</Item>
+                    <Item Key="URL">http://www.linkedin.com/search?search=&amp;currentCompany=currentCompany&amp;keywords=</Item>
+                </Hash>
+            </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::CustomerUser::Item###3-XING" Required="0" Valid="1">
+        <Description Lang="en">A customer item (icon) which generates an XING icon at the end of an customer info block.</Description>
+        <Description Lang="de">Ein Kunden-Icon welche ein XING Icon unter den Kunden-Daten.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Customer</SubGroup>
+            <Setting>
+                <Hash>
+                    <Item Key="Module">Kernel::Output::HTML::CustomerUserGeneric</Item>
+                    <Item Key="Required">UserFirstname;UserLastname;</Item>
+                    <Item Key="Attributes">UserFirstname;UserLastname;</Item>
+                    <Item Key="Image">xing.png</Item>
+                    <Item Key="Target">_blank</Item>
+                    <Item Key="Text">XING</Item>
+                    <Item Key="URL">https://www.xing.com/app/search?op=search&amp;keywords=</Item>
+                </Hash>
+            </Setting>
     </ConfigItem>
     <ConfigItem Name="CustomerPanelPreApplicationModule###CustomerAccept" Required="0" Valid="0">
         <Description Lang="en">This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.</Description>
