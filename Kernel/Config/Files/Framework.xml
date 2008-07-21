@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.183 2008-07-21 04:30:13 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.184 2008-07-21 08:24:39 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -3300,7 +3300,7 @@ Your OTRS Notification Master
                 </Hash>
             </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::CustomerUser::Item###2-LinkedIn" Required="0" Valid="1">
+    <ConfigItem Name="Frontend::CustomerUser::Item###2-LinkedIn" Required="0" Valid="0">
         <Description Lang="en">A customer item (icon) which generates an LinkedIn icon at the end of an customer info block.</Description>
         <Description Lang="de">Ein Kunden-Icon welche ein LinkedIn Icon unter den Kunden-Daten.</Description>
         <Group>Framework</Group>
@@ -3317,7 +3317,7 @@ Your OTRS Notification Master
                 </Hash>
             </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::CustomerUser::Item###3-XING" Required="0" Valid="1">
+    <ConfigItem Name="Frontend::CustomerUser::Item###3-XING" Required="0" Valid="0">
         <Description Lang="en">A customer item (icon) which generates an XING icon at the end of an customer info block.</Description>
         <Description Lang="de">Ein Kunden-Icon welche ein XING Icon unter den Kunden-Daten.</Description>
         <Group>Framework</Group>
