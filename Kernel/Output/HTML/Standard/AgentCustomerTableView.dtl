@@ -2,20 +2,43 @@
 # AgentCustomerTableView.dtl - provides HTML customer table view
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerTableView.dtl,v 1.6 2008-04-29 11:48:26 tr Exp $
+# $Id: AgentCustomerTableView.dtl,v 1.7 2008-07-21 04:04:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
-
-<!-- start customer table -->
+<!-- dtl:block:Customer -->
 <table border="0" cellspacing="1" cellpadding="0">
 <!-- dtl:block:CustomerRow -->
   <tr>
     <td class="contentkey">$Text{"$QData{"Key"}"}:</td>
-    <td class="contentvalue">$Data{"LinkStart"}<div title="$QData{"Value"}">$Data{"ValueShort"}</div>$Data{"LinkStop"}</td>
+    <td class="contentvalue">$Data{"LinkStart"}<div title="$QData{"Value"}">$Data{"ValueShort"}</div>$Data{"LinkStop"}
+<!-- dtl:block:CustomerRowItem -->
+#        $Data{"Item"}
+      <a href="$Data{"URL"}" target="$QData{"Target"}"><img src="$Env{"Images"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Alt"}"}"></a>
+
+<!-- dtl:block:CustomerRowItem -->
+    </td>
   </tr>
 <!-- dtl:block:CustomerRow -->
+  <tr>
+    <td colspan="2">
+      <table width="70%" border="0" cellspacing="3" cellpadding="1">
+<!-- dtl:block:CustomerItem-->
+        <tr>
+<!-- dtl:block:CustomerItemRow-->
+          <td width="10%">
+            <a href="$Data{"URL"}" target="$QData{"Target"}"><img src="$Env{"Images"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Text"}"}" title="$Text{"$QData{"Text"}"}"></a>
+          </td>
+          <td>
+            <a href="$Data{"URL"}" target="$QData{"Target"}">$Text{"$QData{"Text"}"}</a>
+          </td>
+<!-- dtl:block:CustomerItemRow-->
+        </tr>
+<!-- dtl:block:CustomerItem-->
+      </table>
+    </td>
+  </tr>
 </table>
-<!-- stop customer table -->
+<!-- dtl:block:Customer -->

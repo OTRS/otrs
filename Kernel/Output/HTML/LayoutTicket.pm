@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.25 2008-07-19 21:54:18 mh Exp $
+# $Id: LayoutTicket.pm,v 1.26 2008-07-21 04:04:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -65,26 +65,23 @@ sub TicketStdResponseString {
     return $Param{StdResponsesStrg};
 }
 
-sub AgentCustomerView {
-    my ( $Self, %Param ) = @_;
-
-    $Param{Table} = $Self->AgentCustomerViewTable(%Param);
-
-    # create & return output
-    return $Self->Output( TemplateFile => 'AgentCustomerView', Data => \%Param );
-}
-
 sub AgentCustomerViewTable {
     my ( $Self, %Param ) = @_;
 
-    my $ShownType = 1;
-    my @MapNew    = ();
-    if ( ref( $Param{Data} ) ne 'HASH' ) {
+    # check customer params
+    if ( ref $Param{Data} ne 'HASH' ) {
         $Self->FatalError( Message => 'Need Hash ref in Data param' );
     }
-    elsif ( ref( $Param{Data} ) eq 'HASH' && !%{ $Param{Data} } ) {
+    elsif ( ref $Param{Data} eq 'HASH' && !%{ $Param{Data} } ) {
         return '$Text{"none"}';
     }
+
+    # add ticket params if given
+    if ( $Param{Ticket} ) {
+        %{ $Param{Data} } = (%{ $Param{Data} }, %{ $Param{Ticket} });
+    }
+
+    my @MapNew    = ();
     my $Map = $Param{Data}->{Config}->{Map};
     if ($Map) {
         @MapNew = ( @{$Map} );
@@ -97,6 +94,8 @@ sub AgentCustomerViewTable {
             push( @MapNew, @{$Map2} );
         }
     }
+
+    my $ShownType = 1;
     if ( $Param{Type} && $Param{Type} eq 'Lite' ) {
         $ShownType = 2;
 
@@ -114,31 +113,74 @@ sub AgentCustomerViewTable {
     }
 
     # build html table
+    $Self->Block(
+        Name => 'Customer',
+        Data => $Param{Data},
+    );
     for my $Field (@MapNew) {
         if ( $Field->[3] && $Field->[3] >= $ShownType && $Param{Data}->{ $Field->[0] } ) {
-            my %Record = ();
+            my %Record = (
+                %{ $Param{Data} },
+                Key   => $Field->[1],
+                Value => $Param{Data}->{ $Field->[0] },
+            );
             if ( $Field->[6] ) {
                 $Record{LinkStart} = "<a href=\"$Field->[6]\">";
                 $Record{LinkStop}  = "</a>";
             }
             if ( $Field->[0] ) {
                 $Record{ValueShort} = $Self->Ascii2Html(
-                    Text => $Param{Data}->{ $Field->[0] },
+                    Text => $Record{Value},
                     Max  => $Param{Max}
                 );
             }
             $Self->Block(
                 Name => 'CustomerRow',
-                Data => {
-                    %{ $Param{Data} },
-                    Key   => $Field->[1],
-                    Value => $Param{Data}->{ $Field->[0] },
-                    %Record,
-                },
+                Data => \%Record,
             );
         }
     }
+    # check Frontend::CustomerUser::Item
+    my $CustomerItem = $Self->{ConfigObject}->Get('Frontend::CustomerUser::Item');
+    my $CustomerItemCount = 0;
+    if ($CustomerItem) {
+        $Self->Block(
+            Name => 'CustomerItem',
+        );
+        my %Modules = %{ $CustomerItem };
+        for my $Module ( sort keys %Modules ) {
+            if ( !$Self->{MainObject}->Require( $Modules{$Module}->{Module} ) ) {
+                $Self->FatalDie();
+            }
 
+            my $Object = $Modules{$Module}->{Module}->new(
+                %{$Self},
+                LayoutObject => $Self,
+            );
+
+            # run module
+            next if !$Object;
+
+            my $Run = $Object->Run(
+                Config => $Modules{$Module},
+                Data   => $Param{Data},
+            );
+
+            next if !$Run;
+
+            $CustomerItemCount++;
+            if ( ( $CustomerItemCount / 2 ) !~ /\./ ) {
+                $Self->Block(
+                    Name => 'CustomerItem',
+                );
+            }
+        }
+    }
+    # Acivity Index: History
+    # Open Tickets
+    # CTI
+    # vCard
+    # Bugzilla Status
     # create & return output
     return $Self->Output( TemplateFile => 'AgentCustomerTableView', Data => \%Param );
 }
