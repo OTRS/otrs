@@ -1,11 +1,13 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2008-07-21 18:17:56
+--  driver: mssql, generated: 2008-07-22 11:18:10
 -- ----------------------------------------------------------
 ALTER TABLE sla DROP CONSTRAINT FK_sla_service_id_id;
 -- ----------------------------------------------------------
 --  alter table users
 -- ----------------------------------------------------------
+GO
 EXEC sp_rename 'system_user', 'users'
+GO
 ;
 -- ----------------------------------------------------------
 --  create table queue_preferences
@@ -99,17 +101,24 @@ ALTER TABLE queue ADD update_notify SMALLINT NULL;
 -- ----------------------------------------------------------
 ALTER TABLE queue ADD solution_notify SMALLINT NULL;
 CREATE INDEX queue_group_id ON queue (group_id);
+GO
 EXECUTE sp_rename N'ticket.escalation_start_time', N'escalation_update_time', 'COLUMN';
+GO
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE name = 'DF_ticket_escalation_update_time' )
 ALTER TABLE ticket DROP CONSTRAINT DF_ticket_escalation_update_time;
+GO
 UPDATE ticket SET escalation_update_time = 0 WHERE escalation_update_time IS NULL;
+GO
 ALTER TABLE ticket ALTER COLUMN escalation_update_time INTEGER NOT NULL;
 -- ----------------------------------------------------------
 --  alter table ticket
 -- ----------------------------------------------------------
 ALTER TABLE ticket ADD escalation_time INTEGER NULL;
+GO
 UPDATE ticket SET escalation_time = 0 WHERE escalation_time IS NULL;
+GO
 ALTER TABLE ticket ALTER COLUMN escalation_time INTEGER NOT NULL;
+GO
 ALTER TABLE ticket ADD CONSTRAINT DF_ticket_escalation_time DEFAULT (0) FOR escalation_time;
 CREATE INDEX ticket_escalation_time ON ticket (escalation_time);
 CREATE INDEX ticket_escalation_update_time ON ticket (escalation_update_time);
@@ -190,16 +199,22 @@ CREATE INDEX generic_agent_jobs_job_name ON generic_agent_jobs (job_name);
 -- ----------------------------------------------------------
 --  alter table mail_account
 -- ----------------------------------------------------------
+GO
 EXEC sp_rename 'pop3_account', 'mail_account'
+GO
 ;
 -- ----------------------------------------------------------
 --  alter table mail_account
 -- ----------------------------------------------------------
 ALTER TABLE mail_account ADD account_type VARCHAR (20) NULL;
+GO
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE name = 'DF_article_a_body' )
 ALTER TABLE article DROP CONSTRAINT DF_article_a_body;
+GO
 UPDATE article SET a_body = '' WHERE a_body IS NULL;
+GO
 ALTER TABLE article ALTER COLUMN a_body TEXT NOT NULL;
+GO
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE name = 'DF_xml_storage_xml_content_value' )
 ALTER TABLE xml_storage DROP CONSTRAINT DF_xml_storage_xml_content_value;
 -- ----------------------------------------------------------

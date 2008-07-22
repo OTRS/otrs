@@ -2,7 +2,7 @@
 # Kernel/System/DB/mssql.pm - mssql database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: mssql.pm,v 1.48 2008-07-19 21:39:28 mh Exp $
+# $Id: mssql.pm,v 1.49 2008-07-22 09:22:18 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -266,7 +266,7 @@ sub TableCreate {
                 TableName => $TableName,
                 Name      => $Name,
                 Data      => $Index{$Name},
-                )
+            ),
         );
     }
 
@@ -319,6 +319,12 @@ sub TableAlter {
     my $ReferenceName = '';
     my @Reference     = ();
     my $Table         = '';
+
+    my $Start = '';
+    if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
+        $Start = "GO\n";
+    }
+
     for my $Tag (@Param) {
 
         if ( $Tag->{Tag} eq 'TableAlter' && $Tag->{TagType} eq 'Start' ) {
@@ -335,7 +341,9 @@ sub TableAlter {
             if ( $Tag->{NameOld} && $Tag->{NameNew} ) {
                 push @SQL,
                     $SQLStart
-                    . "EXEC sp_rename '$Tag->{NameOld}', '$Tag->{NameNew}'\n";
+                    . $Start
+                    . "EXEC sp_rename '$Tag->{NameOld}', '$Tag->{NameNew}'\n"
+                    . $Start;
             }
             $SQLStart .= "ALTER TABLE $Table";
         }
@@ -363,7 +371,7 @@ sub TableAlter {
             if ( $Required || defined $Tag->{Default} ) {
 
                 # fill up empty rows
-                push @SQL, "UPDATE $Table SET $Tag->{Name} = $Default WHERE $Tag->{Name} IS NULL";
+                push @SQL, $Start . "UPDATE $Table SET $Tag->{Name} = $Default WHERE $Tag->{Name} IS NULL";
 
                 # add require
                 my $SQLAlter = "ALTER TABLE $Table ALTER COLUMN $Tag->{Name} $Tag->{Type}";
@@ -373,13 +381,12 @@ sub TableAlter {
                 else {
                     $SQLAlter .= ' NULL';
                 }
-                push @SQL, $SQLAlter;
+                push @SQL, $Start . $SQLAlter;
 
                 # add default
                 my $DefaultName = 'DF_' . $Table . '_' . $Tag->{Name};
                 if ( defined $Tag->{Default} ) {
-                    push @SQL,
-                        "ALTER TABLE $Table ADD CONSTRAINT $DefaultName DEFAULT ($Default) FOR $Tag->{Name}";
+                    push @SQL, $Start . "ALTER TABLE $Table ADD CONSTRAINT $DefaultName DEFAULT ($Default) FOR $Tag->{Name}";
                 }
             }
         }
@@ -390,8 +397,7 @@ sub TableAlter {
 
             # rename oldname to newname
             if ( $Tag->{NameOld} ne $Tag->{NameNew} ) {
-                push @SQL,
-                    "EXECUTE sp_rename N'$Table.$Tag->{NameOld}', N'$Tag->{NameNew}', 'COLUMN'";
+                push @SQL, $Start . "EXECUTE sp_rename N'$Table.$Tag->{NameOld}', N'$Tag->{NameNew}', 'COLUMN'";
             }
 
             # alter table name modify
@@ -407,7 +413,7 @@ sub TableAlter {
             my $DefaultName = 'DF_' . $Table . '_' . $Tag->{Name};
 
             # remove possible default
-            push @SQL, "IF EXISTS (SELECT * FROM dbo.sysobjects WHERE "
+            push @SQL, $Start . "IF EXISTS (SELECT * FROM dbo.sysobjects WHERE "
                 . "name = '$DefaultName' )\n"
                 . "ALTER TABLE $Table DROP CONSTRAINT $DefaultName";
 
@@ -427,8 +433,7 @@ sub TableAlter {
             if ( $Required || defined $Tag->{Default} ) {
 
                 # fill up empty rows
-                push @SQL,
-                    "UPDATE $Table SET $Tag->{NameNew} = $Default WHERE $Tag->{NameNew} IS NULL";
+                push @SQL, $Start . "UPDATE $Table SET $Tag->{NameNew} = $Default WHERE $Tag->{NameNew} IS NULL";
 
                 # add require
                 my $SQLAlter = "ALTER TABLE $Table ALTER COLUMN $Tag->{Name} $Tag->{Type}";
@@ -438,12 +443,11 @@ sub TableAlter {
                 else {
                     $SQLAlter .= ' NULL';
                 }
-                push @SQL, $SQLAlter;
+                push @SQL, $Start . $SQLAlter;
 
                 # add default
                 if ( defined $Tag->{Default} ) {
-                    push @SQL,
-                        "ALTER TABLE $Table ADD CONSTRAINT $DefaultName DEFAULT ($Default) FOR $Tag->{Name}";
+                    push @SQL, $Start . "ALTER TABLE $Table ADD CONSTRAINT $DefaultName DEFAULT ($Default) FOR $Tag->{Name}";
                 }
             }
         }
@@ -486,8 +490,7 @@ HEREDOC
                 , $Table, $Table, $Tag->{Name}
             );
 
-            my $SQLEnd = $SQLStart . " DROP COLUMN $Tag->{Name}";
-            push @SQL, $SQLEnd;
+            push @SQL, $SQLStart . " DROP COLUMN $Tag->{Name}";
         }
         elsif ( $Tag->{Tag} =~ /^((Index|Unique)(Create|Drop))/ ) {
             my $Method = $Tag->{Tag};
@@ -528,18 +531,6 @@ HEREDOC
         elsif ( $Tag->{Tag} =~ /^(Reference)/ && $Tag->{TagType} eq 'Start' ) {
             push @Reference, $Tag;
         }
-    }
-
-    # add GO commando
-    my @SQLNew;
-    if ( $Self->{ConfigObject}->Get('Database::ShellOutput') ) {
-
-        for my $Row (@SQL) {
-            push @SQLNew, $Row;
-            push @SQLNew, "GO\n";
-        }
-
-        pop @SQLNew;
     }
 
     return @SQL;
