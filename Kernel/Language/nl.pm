@@ -6,7 +6,7 @@
 # Copyright (C) 2005-2007 Jurgen Rutgers <jurgen 'at' besite.nl>
 # Copyright (C) 2005-2007 Richard Hinkamp <richard 'at' besite.nl>
 # --
-# $Id: nl.pm,v 1.78 2008-07-21 23:27:13 martin Exp $
+# $Id: nl.pm,v 1.79 2008-07-22 00:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -29,7 +29,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.78 $) [1];
+$VERSION = qw($Revision: 1.79 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -259,11 +259,11 @@ sub Data {
         'Mobile' => 'Mobiel',
         'Zip' => 'Postcode',
         'City' => 'Plaats',
-        'Location' => '',
-        'Street' => '',
+        'Location' => 'Locatie',
+        'Street' => 'Straat',
         'Country' => 'Land',
-        'installed' => '',
-        'uninstalled' => '',
+        'installed' => 'geïnstalleerd',
+        'uninstalled' => 'verwijderd',
         'Security Note: You should activate %s because application is already running!' => '',
         'Unable to parse Online Repository index document!' => '',
         'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' => '',
@@ -752,24 +752,24 @@ sub Data {
         'Uninstall' => '',
         'Version' => '',
         'Do you really want to uninstall this package?' => '',
-        'Reinstall' => '',
+        'Reinstall' => 'Reinstall',
         'Do you really want to reinstall this package (all manual changes get lost)?' => '',
-        'Continue' => '',
-        'Install' => '',
-        'Package' => '',
+        'Continue' => 'Doorgaan',
+        'Install' => 'Installeer',
+        'Package' => 'Arrangement',
         'Online Repository' => '',
-        'Vendor' => '',
+        'Vendor' => 'Verkoper',
         'Upgrade' => '',
         'Local Repository' => '',
         'Status' => '',
-        'Overview' => '',
-        'Download' => '',
-        'Rebuild' => '',
+        'Overview' => 'Overzicht',
+        'Download' => 'Downloaden',
+        'Rebuild' => 'Herbouw',
         'ChangeLog' => '',
-        'Date' => '',
+        'Date' => 'Datum',
         'Filelist' => '',
         'Download file from package!' => '',
-        'Required' => '',
+        'Required' => 'verplicht',
         'PrimaryKey' => '',
         'AutoIncrement' => '',
         'SQL' => '',
@@ -787,14 +787,14 @@ sub Data {
         'Logfile too large, you need to reset it!' => '',
         'Range' => 'Bereik',
         'Interface' => '',
-        'Requests' => '',
+        'Requests' => 'Verzoeken',
         'Min Response' => '',
         'Max Response' => '',
-        'Average Response' => '',
-        'Period' => '',
+        'Average Response' => 'Gemiddelde Response',
+        'Period' => 'Looptijd',
         'Min' => '',
         'Max' => '',
-        'Average' => '',
+        'Average' => 'Gemiddeld',
 
         # Template: AdminPGPForm
         'PGP Management' => '',
@@ -803,7 +803,7 @@ sub Data {
         'Bit' => '',
         'Key' => '',
         'Fingerprint' => '',
-        'Expires' => '',
+        'Expires' => 'Verloopt',
         'In this way you can directly edit the keyring configured in SysConfig.' => '',
 
         # Template: AdminPostMasterFilter

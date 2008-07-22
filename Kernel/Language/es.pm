@@ -3,7 +3,7 @@
 # Copyright (C) 2003-2006 Jorge Becerra <jorge at hab.desoft.cu>
 # Copyright (C) 2007 Carlos Oyarzabal <carlos.oyarzabal at grupocash.com.mx>
 # --
-# $Id: es.pm,v 1.75 2008-07-21 23:27:13 martin Exp $
+# $Id: es.pm,v 1.76 2008-07-22 00:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.75 $) [1];
+$VERSION = qw($Revision: 1.76 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -246,8 +246,8 @@ sub Data {
         'Mobile' => 'Móvil',
         'Zip' => '',
         'City' => 'Ciudad',
-        'Location' => '',
-        'Street' => '',
+        'Location' => 'Ubicación',
+        'Street' => 'Calle',
         'Country' => 'Pais',
         'installed' => 'instalado',
         'uninstalled' => 'desinstalado',

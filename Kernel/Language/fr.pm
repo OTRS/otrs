@@ -7,7 +7,7 @@
 # Copyright (C) 2007 Massimiliano Franco <max-lists at ycom.ch>
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # --
-# $Id: fr.pm,v 1.93 2008-07-21 23:27:13 martin Exp $
+# $Id: fr.pm,v 1.94 2008-07-22 00:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.93 $) [1];
+$VERSION = qw($Revision: 1.94 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -250,7 +250,7 @@ sub Data {
         'Mobile' => 'Téléphone portable',
         'Zip' => 'Code postal',
         'City' => 'Ville',
-        'Location' => '',
+        'Location' => 'Emplacement',
         'Street' => 'Rue',
         'Country' => 'Pays',
         'installed' => 'installé',
