@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleSearchIndex/StaticDB.pm - article search index backend static
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.3 2008-06-04 14:42:00 martin Exp $
+# $Id: StaticDB.pm,v 1.4 2008-07-22 11:39:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub ArticleIndexBuild {
     my ( $Self, %Param ) = @_;
@@ -33,7 +33,16 @@ sub ArticleIndexBuild {
         UserID    => $Param{UserID},
     );
 
-    for my $Key (qw(From To Cc Subject Body)) {
+    for my $Key (qw(From To Cc Subject)) {
+        if ( $Article{$Key} ) {
+            $Article{$Key} = $Self->_ArticleIndexString(
+                String   => $Article{$Key},
+                WordLengthMin => 3,
+                WordLengthMax => 60,
+            );
+        }
+    }
+    for my $Key (qw(Body)) {
         if ( $Article{$Key} ) {
             $Article{$Key} = $Self->_ArticleIndexString(
                 String => $Article{$Key},
@@ -187,10 +196,14 @@ sub _ArticleIndexString {
     }
 
     my $Config = $Self->{ConfigObject}->Get('Ticket::SearchIndex::Attribute');
-    my $WordCountMax = $Config->{WorCountMax} || 1000;
+    my $WordCountMax = $Config->{WordCountMax} || 1000;
 
     # get words
-    my $ListOfWords = $Self->_ArticleIndexStringToWord( String => \$Param{String} );
+    my $ListOfWords = $Self->_ArticleIndexStringToWord(
+        String        => \$Param{String},
+        WordLengthMin => $Param{WordLengthMin},
+        WordLengthMax => $Param{WordLengthMax},
+    );
 
     # find ranking of words
     my %List;
@@ -256,12 +269,11 @@ sub _ArticleIndexStringToWord {
     );
 
     # get words
-    my $LengthMin = $Config->{WordLengthMin} || 3;
-    my $LengthMax = $Config->{WordLengthMax} || 20;
+    my $LengthMin = $Param{WordLengthMin} || $Config->{WordLengthMin} || 3;
+    my $LengthMax = $Param{WordLengthMax} || $Config->{WordLengthMax} || 30;
     my @ListOfWords = split /\s+/, ${ $Param{String} };
     my @ListOfWordsNew = ();
     for my $Word (@ListOfWords) {
-
         # remove some not needed chars
         #        $Word =~ s/[\d+\.,\-\&\-\_\<\>\?":\\\*\|\/;\[\]\(\)\+\$\^=]//g;
         $Word =~ s/[,\&\<\>\?"\!\*\|;\[\]\(\)\+\$\^=]//g;
@@ -282,6 +294,7 @@ sub _ArticleIndexStringToWord {
 
         if ( $Word && !$StopWord{$Word} ) {
             push @ListOfWordsNew, $Word;
+            next;
         }
     }
     return \@ListOfWordsNew;
