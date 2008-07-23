@@ -3,7 +3,7 @@
 # Copyright (C) 2006-2008 Amir Shams Parsa <amir at parsa.name>
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # --
-# $Id: fa.pm,v 1.44 2008-07-21 23:24:09 martin Exp $
+# $Id: fa.pm,v 1.45 2008-07-23 21:56:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -249,7 +249,7 @@ sub Data {
         'Mobile' => 'تلفن همراه',
         'Zip' => 'کد پستی',
         'City' => 'شهر',
-        'Location' => '',
+        'Location' => 'موقعیت',
         'Street' => 'استان',
         'Country' => 'کشور',
         'installed' => 'نصب شده',
