@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2008-07-21 09:31:20
+--  driver: postgresql, generated: 2008-07-24 00:48:17
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -601,7 +601,7 @@ CREATE INDEX article_ticket_id ON article (ticket_id);
 --  create table article_search
 -- ----------------------------------------------------------
 CREATE TABLE article_search (
-    id serial NOT NULL,
+    id INTEGER NOT NULL,
     ticket_id INTEGER NOT NULL,
     article_type_id INTEGER NOT NULL,
     article_sender_type_id INTEGER NOT NULL,

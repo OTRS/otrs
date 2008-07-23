@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.722 2008-07-21 14:29:24 mh Exp $
+# $Id: CHANGES,v 1.723 2008-07-23 22:54:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,8 +10,10 @@
 # --
 
 2.3.1 (2008/??/??)
- - (2008/07/21) Fixed bug# 3104 - Error message by using
-    scripts/DBUpdate-to-2.3.pl.
+ - (2008/07/21) Fixed bug# 3117 - Auto increment of "id" in article_search
+    table is not needed.
+ - (2008/07/21) Fixed bug# 3104 - If new config can't get created by
+    scripts/DBUpdate-to-2.3.pl, the script need to stop.
 
 2.3.0 rc1 (2008/07/21)
  - (2008/07/20) Update persian translation, thanks to Amir Shams Parsa and
@@ -44,7 +46,7 @@
  - (2008/07/10) Fixed bug# 3066 - The CPAN module XML::Parser::Lite crashs after
     login if the CPAN module version is not installed.
  - (2008/07/09) Updated catalonian translation, thanks to Antonio Linde!
- - (2008/07/09) Updated finish translation, thanks to Mikko Hynninen!
+ - (2008/07/09) Updated finnish translation, thanks to Mikko Hynninen!
  - (2008/07/09) Fixed problem in CodeUpgrade functionallity.
     Code did not react correctly to version number in CodeUpgrade sections.
  - (2008/07/08) Updated norwegian translation, thanks to Fredrik Andersen!

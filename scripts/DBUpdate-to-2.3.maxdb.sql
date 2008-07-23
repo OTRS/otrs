@@ -136,7 +136,7 @@ ALTER TABLE sla ADD solution_notify SMALLINT
 // ----------------------------------------------------------
 CREATE TABLE article_search
 (
-    id serial,
+    id INTEGER,
     ticket_id INTEGER NOT NULL,
     article_type_id SMALLINT NOT NULL,
     article_sender_type_id SMALLINT NOT NULL,

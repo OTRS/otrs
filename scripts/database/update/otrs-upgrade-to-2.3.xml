@@ -272,7 +272,7 @@
     </TableAlter>
 
     <TableCreate Name="article_search">
-        <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
+        <Column Name="id" Required="true" PrimaryKey="true" Type="BIGINT"/>
         <Column Name="ticket_id" Required="true" Type="BIGINT"/>
         <Column Name="article_type_id" Required="true" Type="SMALLINT"/>
         <Column Name="article_sender_type_id" Required="true" Type="SMALLINT"/>

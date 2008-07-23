@@ -227,20 +227,6 @@ CREATE TABLE article_search (
     a_freetext3 VARCHAR2 (250) NULL
 );
 ALTER TABLE article_search ADD CONSTRAINT PK_article_search PRIMARY KEY (id);
-DROP SEQUENCE SE_article_search;
-CREATE SEQUENCE SE_article_search;
-CREATE OR REPLACE TRIGGER SE_article_search_t
-before insert on article_search
-for each row
-begin
-  if :new.id IS NULL then
-    select SE_article_search.nextval
-    into :new.id
-    from dual;
-  end if;
-end;
-/
---;
 CREATE INDEX article_search_article_sendec7 ON article_search (article_sender_type_id);
 CREATE INDEX article_search_article_type_id ON article_search (article_type_id);
 CREATE INDEX article_search_message_id ON article_search (a_message_id);

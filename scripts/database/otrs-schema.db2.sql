@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2008-07-06 11:41:43
+--  driver: db2, generated: 2008-07-24 00:48:15
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -677,7 +677,7 @@ CREATE INDEX article_ticket_id ON article (ticket_id);
 --  create table article_search
 -- ----------------------------------------------------------
 CREATE TABLE article_search (
-    id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+    id BIGINT NOT NULL,
     ticket_id BIGINT NOT NULL,
     article_type_id SMALLINT NOT NULL,
     article_sender_type_id SMALLINT NOT NULL,

@@ -157,7 +157,7 @@ CREATE INDEX article_article_sender_type_id ON article (article_sender_type_id);
 --  create table article_search
 -- ----------------------------------------------------------
 CREATE TABLE article_search (
-    id serial NOT NULL,
+    id INTEGER NOT NULL,
     ticket_id INTEGER NOT NULL,
     article_type_id INTEGER NOT NULL,
     article_sender_type_id INTEGER NOT NULL,

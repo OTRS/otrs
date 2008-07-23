@@ -5,7 +5,7 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 
-    $Id: otrs-schema.xml,v 1.94 2008-07-06 18:46:55 martin Exp $
+    $Id: otrs-schema.xml,v 1.95 2008-07-23 22:54:56 martin Exp $
 
 -->
 
@@ -972,7 +972,7 @@
 
 <!-- article_search - article search index -->
 <Table Name="article_search">
-    <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
+    <Column Name="id" Required="true" PrimaryKey="true" Type="BIGINT"/>
     <Column Name="ticket_id" Required="true" Type="BIGINT"/>
     <Column Name="article_type_id" Required="true" Type="SMALLINT"/>
     <Column Name="article_sender_type_id" Required="true" Type="SMALLINT"/>

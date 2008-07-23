@@ -241,7 +241,7 @@ CREATE INDEX article_article_sender_type_id ON article (article_sender_type_id);
 --  create table article_search
 -- ----------------------------------------------------------
 CREATE TABLE article_search (
-    id BIGINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+    id BIGINT NOT NULL,
     ticket_id BIGINT NOT NULL,
     article_type_id SMALLINT NOT NULL,
     article_sender_type_id SMALLINT NOT NULL,

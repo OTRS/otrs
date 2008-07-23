@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2008-07-21 09:31:01
+#  driver: mysql, generated: 2008-07-24 00:48:17
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -601,7 +601,7 @@ CREATE TABLE article (
 #  create table article_search
 # ----------------------------------------------------------
 CREATE TABLE article_search (
-    id BIGINT NOT NULL AUTO_INCREMENT,
+    id BIGINT NOT NULL,
     ticket_id BIGINT NOT NULL,
     article_type_id SMALLINT NOT NULL,
     article_sender_type_id SMALLINT NOT NULL,

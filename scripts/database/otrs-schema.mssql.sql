@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2008-07-21 09:30:53
+--  driver: mssql, generated: 2008-07-24 00:48:16
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -601,7 +601,7 @@ CREATE INDEX article_ticket_id ON article (ticket_id);
 --  create table article_search
 -- ----------------------------------------------------------
 CREATE TABLE article_search (
-    id BIGINT NOT NULL IDENTITY(1,1) ,
+    id BIGINT NOT NULL,
     ticket_id BIGINT NOT NULL,
     article_type_id SMALLINT NOT NULL,
     article_sender_type_id SMALLINT NOT NULL,
