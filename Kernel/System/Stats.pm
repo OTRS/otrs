@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.52 2008-07-19 21:54:19 mh Exp $
+# $Id: Stats.pm,v 1.53 2008-07-23 15:27:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 =head1 SYNOPSIS
 
@@ -67,7 +67,7 @@ create an object
         LogObject    => $LogObject,
     );
     my $CSVObject = Kernel::System::CSV->new(
-        LogObject    => $LogObject,
+        LogObject => $LogObject,
     );
     my $UserObject = Kernel::System::User->new(
         ConfigObject => $ConfigObject,
@@ -81,7 +81,7 @@ create an object
         LogObject    => $LogObject,
         DBObject     => $DBObject,
         MainObject   => $MainObject,
-        CVSObject    => $CVSObject,
+        CSVObject    => $CSVObject,
         TimeObject   => $TimeObject,
         GroupObject  => $GroupObject,
         UserID       => 123,
@@ -111,6 +111,9 @@ sub new {
     # create supplementary objects
     $Self->{XMLObject}    = Kernel::System::XML->new(%Param);
     $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
+
+    # temporary directory
+    $Self->{StatsTempDir} = $Self->{ConfigObject}->Get('Home') . '/var/stats/';
 
     return $Self;
 }
@@ -492,19 +495,49 @@ sub StatsDelete {
         Key  => $Param{StatID},
     );
 
-    if ($Result) {
-
-        # delete cache
-        $Self->_DeleteCache( StatID => $Param{StatID} );
+    # error handling
+    if (!$Result) {
         $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message  => "Delete stats (StatsID = $Param{StatID})",
+            Priority => 'error',
+            Message => "StatsDelete: Can't delete XMLHash!",
         );
-        return 1;
+        return 0;
     }
 
-    $Self->{LogObject}->Log( Priority => 'error', Message => "StatsDelete: Can't delete XMLHash!" );
-    return 0;
+    # delete cache
+    $Self->_DeleteCache( StatID => $Param{StatID} );
+
+    # get list of installed stats files
+    my @StatsFileList = glob $Self->{StatsTempDir} . '*.xml.installed';
+
+    # delete the .installed file in temp dir
+    FILE:
+    for my $File ( sort @StatsFileList ) {
+
+        # read file content
+        my $StatsIDRef = $Self->{MainObject}->FileRead(
+            Location => $File,
+        );
+
+        next FILE if !$StatsIDRef;
+        next FILE if ref $StatsIDRef ne 'SCALAR';
+        next FILE if !${$StatsIDRef};
+
+        next FILE if ${$StatsIDRef} ne $Param{StatID};
+
+        # delete .installed file
+        $Self->{MainObject}->FileDelete(
+            Location => $File,
+        );
+    }
+
+    # add log message
+    $Self->{LogObject}->Log(
+        Priority => 'notice',
+        Message  => "Delete stats (StatsID = $Param{StatID})",
+    );
+
+    return 1;
 }
 
 =item GetStatsList()
@@ -2010,6 +2043,7 @@ sub GetStatsObjectAttributes {
             push @ObjectAttributes, $HashRef;
         }
     }
+
     return @ObjectAttributes;
 }
 
@@ -2072,6 +2106,7 @@ sub GetStaticFiles {
         }
     }
     closedir(DIR);
+
     return \%Filelist;
 }
 
@@ -2133,6 +2168,7 @@ sub ObjectFileCheck {
     if ( -r "$Directory" ) {
         return 1;
     }
+
     return 0;
 }
 
@@ -2174,6 +2210,7 @@ sub _WriteResultCache {
             Result   => $Param{Data},
         );
     }
+
     return $Cache;
 }
 
@@ -2433,8 +2470,8 @@ sub Export {
     }
 
     # convert hash to string
-
     $File{Content} = $Self->{XMLObject}->XMLHash2XML(@XMLHash);
+
     return \%File;
 }
 
@@ -2452,7 +2489,7 @@ sub Import {
     my ( $Self, %Param ) = @_;
 
     my $StatID = 1;
-    my @Keys   = ();
+    my @Keys;
 
     if ( !$Param{Content} ) {
         return $Self->{LogObject}->Log(
@@ -2626,18 +2663,13 @@ sub Import {
     }
 
     # new
-    if (
-        $Self->{XMLObject}->XMLHashAdd(
-            Type    => 'Stats',
-            Key     => $StatID,
-            XMLHash => \@XMLHash,
-        )
-        )
-    {
+    return 0 if !$Self->{XMLObject}->XMLHashAdd(
+        Type    => 'Stats',
+        Key     => $StatID,
+        XMLHash => \@XMLHash,
+    );
 
-        return $StatID;
-    }
-    return 0;
+    return $StatID;
 }
 
 =item GetParams()
@@ -2829,6 +2861,7 @@ sub _MonthArray {
         = (
         '', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
         );
+
     return \@MonthArray;
 }
 
@@ -2913,6 +2946,7 @@ sub _AutomaticSampleImport {
             #                );
             #                next;
             #            }
+
             # read file
             my $Filehandle;
             if ( !open $Filehandle, '<', $Directory . $Filename ) {
@@ -2934,38 +2968,142 @@ sub _AutomaticSampleImport {
         }
     }
     closedir(DIRE);
+
     return 1;
 }
+
+=item StatsInstall()
+
+installs stats
+
+    my $Result = $CodeObject->StatsInstall(
+        FilePrefix => 'FAQ',  # (optional)
+    );
+
+=cut
+
+sub StatsInstall {
+    my ( $Self, %Param ) = @_;
+
+    # prepare prefix
+    $Param{FilePrefix} = $Param{FilePrefix} ? $Param{FilePrefix} . '-' : '';
+
+    # start AutomaticSampleImport if no stats are installed
+    $Self->GetStatsList();
+
+    # cleanup stats
+    $Self->StatsCleanUp();
+
+    # get list of stats files
+    my @StatsFileList = glob $Self->{StatsTempDir} . $Param{FilePrefix} . '*.xml';
+
+    # import the stats
+    my $InstalledPostfix = '.installed';
+    FILE:
+    for my $File ( sort @StatsFileList ) {
+
+        next FILE if !-f $File;
+        next FILE if -e $File . $InstalledPostfix;
+
+        # read file content
+        my $XMLContentRef = $Self->{MainObject}->FileRead(
+            Location => $File,
+        );
+
+        # import stat
+        my $StatID = $Self->Import(
+            Content => ${$XMLContentRef},
+        );
+
+        next FILE if !$StatID;
+
+        # write installed file with stat id
+        $Self->{MainObject}->FileWrite(
+            Content  => \$StatID,
+            Location => $File . $InstalledPostfix,
+        );
+    }
+
+    return 1;
+}
+
+=item StatsUninstall()
+
+uninstalls stats
+
+    my $Result = $CodeObject->StatsUninstall(
+        FilePrefix => 'FAQ',  # (optional)
+    );
+
+=cut
+
+sub StatsUninstall {
+    my ( $Self, %Param ) = @_;
+
+    # prepare prefix
+    $Param{FilePrefix} = $Param{FilePrefix} ? $Param{FilePrefix} . '-' : '';
+
+    # get list of installed stats files
+    my @StatsFileList = glob $Self->{StatsTempDir} . $Param{FilePrefix} . '*.xml.installed';
+
+    # delete the stats
+    for my $File ( sort @StatsFileList ) {
+
+        # read file content
+        my $StatsIDRef = $Self->{MainObject}->FileRead(
+            Location => $File,
+        );
+
+        # delete stats
+        $Self->StatsDelete(
+            StatID => ${$StatsIDRef},
+        );
+    }
+
+    # cleanup stats
+    $Self->StatsCleanUp();
+
+    return 1;
+}
+
+=item StatsCleanUp()
+
+removed stats with not existing backend file
+
+    my $Result = $CodeObject->StatsCleanUp();
+
+=cut
 
 sub StatsCleanUp {
     my $Self = shift;
 
-    # get all dynamic stats modules
-    my $Dynamic = $Self->GetDynamicFiles();
-
-    # get all static stats files
-    my $Static = $Self->GetStaticFiles();
-
     # get a list of all stats
     my $ListRef = $Self->GetStatsList();
 
+    return if !$ListRef;
+    return if ref $ListRef ne 'ARRAY';
+
+    STATSID:
     for my $StatsID ( @{$ListRef} ) {
+
+        # get stats
         my $HashRef = $Self->StatsGet(
             StatID             => $StatsID,
             NoObjectAttributes => 1,
         );
 
-        if (
-            ( $HashRef->{StatType} eq 'static' && !$Static->{ $HashRef->{File} } )
-            || ( $HashRef->{StatType} eq 'dynamic' && !$Dynamic->{ $HashRef->{Object} } )
-            )
-        {
-            $Self->StatsDelete( StatID => $StatsID );
-        }
+        next STATSID if $HashRef
+            && ref $HashRef eq 'HASH'
+            && $HashRef->{ObjectModule}
+            && $Self->{MainObject}->Require( $HashRef->{ObjectModule} );
+
+        # delete stats
+        $Self->StatsDelete( StatID => $StatsID );
     }
 
     return 1;
 }
+
 1;
 
 =back
@@ -2980,6 +3118,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.52 $ $Date: 2008-07-19 21:54:19 $
+$Revision: 1.53 $ $Date: 2008-07-23 15:27:21 $
 
 =cut
