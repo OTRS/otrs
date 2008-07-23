@@ -2,7 +2,7 @@
 # Kernel/Modules/PublicRepository.pm - provides a local repository
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PublicRepository.pm,v 1.10 2008-05-08 09:36:37 mh Exp $
+# $Id: PublicRepository.pm,v 1.11 2008-07-23 23:09:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Package;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -51,7 +51,9 @@ sub Run {
     }
     else {
         if ( $ENV{REMOTE_ADDR} !~ /^$AccessControlRexExp$/ ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => 'Authentication failed!', );
+            return $Self->{LayoutObject}->ErrorScreen(
+                Message => "Authentication failed from $ENV{REMOTE_ADDR}!",
+            );
         }
     }
 
