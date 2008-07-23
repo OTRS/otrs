@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.17 2008-05-08 09:35:57 mh Exp $
+# $Id: Layout.t,v 1.18 2008-07-23 23:08:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -62,6 +62,7 @@ $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new(
     GroupObject   => $Self->{GroupObject},
     UserID        => 1,
     Lang          => 'de',
+    SessionID     => 123,
 );
 
 # here everyone can insert example data for the tests
@@ -496,6 +497,16 @@ for my $Test (@Tests) {
         String => 'some Text',
         Result => 'some Text',
         Max    => 9,
+    },
+    {
+        Name   => 'Ascii2Html()',
+        String => '',
+        Result => '',
+    },
+    {
+        Name   => 'Ascii2Html()',
+        String => undef,
+        Result => '',
     },
 );
 
