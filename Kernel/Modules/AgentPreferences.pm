@@ -1,12 +1,12 @@
 # --
 # Kernel/Modules/AgentPreferences.pm - provides agent preferences
-# Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentPreferences.pm,v 1.32 2006-11-02 12:20:51 tr Exp $
+# $Id: AgentPreferences.pm,v 1.32.4.1 2008-07-24 10:09:13 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Modules::AgentPreferences;
@@ -14,7 +14,7 @@ package Kernel::Modules::AgentPreferences;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.32 $';
+$VERSION = '$Revision: 1.32.4.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -25,7 +25,7 @@ sub new {
     my $Self = {};
     bless ($Self, $Type);
 
-    # get common opjects
+    # get common objects
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }

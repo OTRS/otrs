@@ -1,12 +1,12 @@
 # --
 # Kernel/Modules/AgentZoom.pm - to get a closer view
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentZoom.pm,v 1.87 2007-01-20 18:04:49 mh Exp $
+# $Id: AgentZoom.pm,v 1.87.2.1 2008-07-24 10:09:14 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Modules::AgentZoom;
@@ -16,7 +16,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.87 $';
+$VERSION = '$Revision: 1.87.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -30,7 +30,7 @@ sub new {
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
-    # check needed Opjects
+    # check needed Objects
     foreach (qw(ParamObject DBObject LayoutObject LogObject ConfigObject )) {
         if (!$Self->{$_}) {
             $Self->{LayoutObject}->FatalError(Message => "Got no $_!");

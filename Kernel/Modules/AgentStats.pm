@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.33.2.9 2008-03-10 10:56:28 tr Exp $
+# $Id: AgentStats.pm,v 1.33.2.10 2008-07-24 10:09:13 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33.2.9 $';
+$VERSION = '$Revision: 1.33.2.10 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -31,7 +31,7 @@ sub new {
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
-    # check needed Opjects
+    # check needed Objects
     foreach (qw(GroupObject ParamObject DBObject ModuleReg LogObject ConfigObject UserObject MainObject)) {
         if (!$Self->{$_}) {
             $Self->{LayoutObject}->FatalError(Message => "Got no $_!");

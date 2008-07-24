@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketClose.pm - close a ticket
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketClose.pm,v 1.33.2.5 2008-07-18 18:37:56 martin Exp $
+# $Id: AgentTicketClose.pm,v 1.33.2.6 2008-07-24 10:09:13 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.33.2.5 $';
+$VERSION = '$Revision: 1.33.2.6 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -31,7 +31,7 @@ sub new {
         $Self->{$_} = $Param{$_};
     }
 
-    # check needed Opjects
+    # check needed Objects
     foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject ConfigObject)) {
         if (!$Self->{$_}) {
             $Self->{LayoutObject}->FatalError(Message => "Got no $_!");

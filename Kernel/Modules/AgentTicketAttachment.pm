@@ -1,12 +1,12 @@
 # --
 # Kernel/Modules/AgentTicketAttachment.pm - to get the attachments
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketAttachment.pm,v 1.6 2007-01-20 18:04:49 mh Exp $
+# $Id: AgentTicketAttachment.pm,v 1.6.2.1 2008-07-24 10:09:13 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::Modules::AgentTicketAttachment;
@@ -15,7 +15,7 @@ use strict;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.6 $';
+$VERSION = '$Revision: 1.6.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -30,7 +30,7 @@ sub new {
         $Self->{$_} = $Param{$_};
     }
 
-    # check needed Opjects
+    # check needed Objects
     foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject ConfigObject)) {
         if (!$Self->{$_}) {
             $Self->{LayoutObject}->FatalError(Message => "Got no $_!");

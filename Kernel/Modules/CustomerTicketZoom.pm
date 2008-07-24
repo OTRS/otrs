@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.13.2.2 2008-02-17 20:09:08 martin Exp $
+# $Id: CustomerTicketZoom.pm,v 1.13.2.3 2008-07-24 10:09:14 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13.2.2 $';
+$VERSION = '$Revision: 1.13.2.3 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -29,7 +29,7 @@ sub new {
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
-    # check needed Opjects
+    # check needed Objects
     foreach (qw(ParamObject DBObject TicketObject LayoutObject LogObject QueueObject
         ConfigObject UserObject SessionObject
     )) {

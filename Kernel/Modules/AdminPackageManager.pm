@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.46.2.3 2008-03-03 14:00:23 mh Exp $
+# $Id: AdminPackageManager.pm,v 1.46.2.4 2008-07-24 10:09:13 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.46.2.3 $';
+$VERSION = '$Revision: 1.46.2.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -30,7 +30,7 @@ sub new {
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
-    # check needed Opjects
+    # check needed Objects
     foreach (qw(ParamObject DBObject LayoutObject LogObject ConfigObject)) {
         if (!$Self->{$_}) {
             $Self->{LayoutObject}->FatalError(Message => "Got no $_!");

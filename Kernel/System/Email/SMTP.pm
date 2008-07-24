@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Email/SMTP.pm - the global email send module
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SMTP.pm,v 1.14 2007-08-22 09:35:23 martin Exp $
+# $Id: SMTP.pm,v 1.14.2.1 2008-07-24 10:09:14 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Email::SMTP;
@@ -16,7 +16,7 @@ use warnings;
 use Net::SMTP;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.14.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -25,7 +25,7 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless ($Self, $Type);
-    # get common opjects
+    # get common objects
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }

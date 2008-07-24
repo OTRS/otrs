@@ -1,12 +1,12 @@
 # --
 # Kernel/System/XML.pm - lib xml
-# Copyright (C) 2001-2008 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.61.2.3 2008-01-15 13:55:26 mh Exp $
+# $Id: XML.pm,v 1.61.2.4 2008-07-24 10:09:14 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::XML;
@@ -16,7 +16,7 @@ use Kernel::System::Encode;
 use Kernel::System::Cache;
 
 use vars qw($VERSION $S);
-$VERSION = '$Revision: 1.61.2.3 $';
+$VERSION = '$Revision: 1.61.2.4 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 =head1 NAME
@@ -70,7 +70,7 @@ sub new {
     my $Self = {};
     bless ($Self, $Type);
 
-    # get common opjects
+    # get common objects
     foreach (keys %Param) {
         $Self->{$_} = $Param{$_};
     }
@@ -1190,12 +1190,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.61.2.3 $ $Date: 2008-01-15 13:55:26 $
+$Revision: 1.61.2.4 $ $Date: 2008-07-24 10:09:14 $
 
 =cut

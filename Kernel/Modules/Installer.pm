@@ -1,12 +1,12 @@
 # --
 # Kernel/Modules/Installer.pm - provides the DB installer
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.pm,v 1.48 2007-07-13 10:27:54 tr Exp $
+# $Id: Installer.pm,v 1.48.2.1 2008-07-24 10:09:14 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 # Note: this is the first version to support mysql. More databases
@@ -18,7 +18,7 @@ use strict;
 use DBI;
 
 use vars qw($VERSION %INC);
-$VERSION = '$Revision: 1.48 $';
+$VERSION = '$Revision: 1.48.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub new {
@@ -33,7 +33,7 @@ sub new {
         $Self->{$_} = $Param{$_};
     }
 
-    # check needed Opjects
+    # check needed Objects
     foreach (qw(ParamObject LayoutObject LogObject ConfigObject)) {
         if (!$Self->{$_}) {
             $Self->{LayoutObject}->FatalError(Message => "Got no $_!");
