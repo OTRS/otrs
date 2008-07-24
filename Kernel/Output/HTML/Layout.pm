@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.104 2008-07-18 15:45:44 martin Exp $
+# $Id: Layout.pm,v 1.105 2008-07-24 23:45:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.104 $) [1];
+$VERSION = qw($Revision: 1.105 $) [1];
 
 =head1 NAME
 
@@ -3565,6 +3565,9 @@ sub OutputCSV {
     }
     for my $Entry (@Head) {
 
+        # header language translation
+        $Entry = $Self->{LanguageObject}->Get($Entry);
+
         # csv quote
         $Entry =~ s/"/""/g if ($Entry);
         $Entry = '' if ( !defined($Entry) );
@@ -3976,6 +3979,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.104 $ $Date: 2008-07-18 15:45:44 $
+$Revision: 1.105 $ $Date: 2008-07-24 23:45:01 $
 
 =cut
