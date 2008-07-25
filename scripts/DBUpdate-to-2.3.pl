@@ -3,7 +3,7 @@
 # DBUpdate-to-2.3.pl - update script to migrate OTRS 2.2.x to 2.3.x
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-2.3.pl,v 1.18 2008-07-21 14:26:08 mh Exp $
+# $Id: DBUpdate-to-2.3.pl,v 1.19 2008-07-25 08:39:51 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -52,6 +52,8 @@ if ( $Opts{'h'} ) {
     exit 1;
 }
 
+print STDOUT "Start migration of the system...\n\n";
+
 # create needed objects
 my %CommonObject;
 $CommonObject{ConfigObject} = Kernel::Config->new();
@@ -66,7 +68,14 @@ $CommonObject{TimeObject}      = Kernel::System::Time->new(%CommonObject);
 $CommonObject{DBObject}        = Kernel::System::DB->new(%CommonObject);
 $CommonObject{SysConfigObject} = Kernel::System::Config->new(%CommonObject);
 
-print STDOUT "Start migration of the system...\n\n";
+# define config dir
+my $ConfigDir = $CommonObject{ConfigObject}->Get('Home') . '/Kernel/Config/Files/';
+
+# check ZZZ files
+my %ZZZFiles = (
+    ZZZAAuto => -f $ConfigDir . 'ZZZAAuto.pm' ? 1: 0,
+    ZZZAuto  => -f $ConfigDir . 'ZZZAuto.pm' ? 1: 0,
+);
 
 # rebuild config
 my $Success = RebuildConfig();
@@ -89,6 +98,13 @@ MigrateEscalation();
 # start migration process (stage 2)
 MigrateServiceSLARelation();
 MigrateLinkObject();
+
+# removed ZZZ files to fix permission problem
+ZZZFILE:
+for my $ZZZFile ( keys %ZZZFiles ) {
+    next ZZZFILE if $ZZZFiles{$ZZZFile};
+    unlink $ConfigDir . $ZZZFile . '.pm';
+}
 
 print STDOUT "\nMigration of the system completed!\n";
 
