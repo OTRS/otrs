@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.184 2008-06-23 07:30:19 martin Exp $
+# $Id: Article.pm,v 1.185 2008-07-25 12:10:35 rk Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.184 $) [1];
+$VERSION = qw($Revision: 1.185 $) [1];
 
 =head1 NAME
 
@@ -2312,6 +2312,24 @@ sub SendCustomerNotification {
         if ( !$Notification{$_} ) {
             $Notification{$_} = "No CustomerNotification $_ for $Param{Type} found!";
         }
+    }
+
+    # prepare customer realname
+    if ( $Notification{Body} =~ /<OTRS_CUSTOMER_REALNAME>/ ) {
+
+        # get realname
+        my $From = '';
+        if ( $Article{CustomerUserID} ) {
+            $From = $Self->{CustomerUserObject}->CustomerName(
+                UserLogin => $Article{CustomerUserID},
+            );
+        }
+        if ( !$From ) {
+            $From = $Notification{From} || '';
+            $From =~ s/<.*>|\(.*\)|\"|;|,//g;
+            $From =~ s/( $)|(  $)//g;
+        }
+        $Notification{Body} =~ s/<OTRS_CUSTOMER_REALNAME>/$From/g;
     }
 
     # replace config options
