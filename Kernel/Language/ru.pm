@@ -4,7 +4,7 @@
 # Copyright (C) 2007 Andrey Feldman <afeldman at alt-lan.ru>
 # Copyright (C) 2008 Egor Tsilenko <bg8s at symlink.ru>
 # --
-# $Id: ru.pm,v 1.64 2008-07-27 09:26:22 martin Exp $
+# $Id: ru.pm,v 1.65 2008-07-27 10:22:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1072,7 +1072,7 @@ sub Data {
         'Scale' => 'Масштаб',
         'minimal' => 'Минимальный',
         'Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' => 'Помните, что масштаб для последовательности значений должен быть больше, чем масштаб для оси X (например Ось Х => Месяц, последовательность значений => Год).',
-        'Here you can the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Здесь вы можете (пропущен глагол) серии значений. У вас есть возможность выбрать один или два элемента. Затем вы можете выбрать признаки элементов. Каждый признак будет отображен как отдельная серия значений. Если вы не выберете ни одного признака, все признаки элемента будут использованы при генерирации отчета. Так же новый атрибут добавлен с прошлой конфигурации',
+        'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Здесь вы можете (пропущен глагол) серии значений. У вас есть возможность выбрать один или два элемента. Затем вы можете выбрать признаки элементов. Каждый признак будет отображен как отдельная серия значений. Если вы не выберете ни одного признака, все признаки элемента будут использованы при генерирации отчета. Так же новый атрибут добавлен с прошлой конфигурации',
 
         # Template: AgentStatsEditXaxis
         'Select the element, which will be used at the X-axis' => 'Выберите элемент, который будет использован на оси Х',

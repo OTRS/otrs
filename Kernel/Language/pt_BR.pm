@@ -4,7 +4,7 @@
 # Copyright (C) 2005 Alterado por Glaucia C. Messina (glauglauu@yahoo.com)
 # Copyright (C) 2007 Fabricio Luiz Machado <soprobr gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.71 2008-07-22 00:58:12 martin Exp $
+# $Id: pt_BR.pm,v 1.72 2008-07-27 10:22:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1072,7 +1072,7 @@ sub Data {
         'Scale' => 'Escala',
         'minimal' => 'mínimo',
         'Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' => 'Lembre que a escala para o conjunto de valores deve ser mair que o eixo X (ex.: Eixo X => Mês, Conjunto de Valores => Ano).',
-        'Here you can the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'É possível escolher um ou dois elementos. Então você pode selecionar os atributos dos elementos. Cada atributo será mostrado como um conjunto único de valores. Se você não selecionar nenhum atributo todos os atributos do elemento serão utilizados para gerar a estatística. Assim como um novo atributo é adicionado desde a última configuração.',
+        'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'É possível escolher um ou dois elementos. Então você pode selecionar os atributos dos elementos. Cada atributo será mostrado como um conjunto único de valores. Se você não selecionar nenhum atributo todos os atributos do elemento serão utilizados para gerar a estatística. Assim como um novo atributo é adicionado desde a última configuração.',
 
         # Template: AgentStatsEditXaxis
         'Select the element, which will be used at the X-axis' => 'Selecione o elemento que será usado no eixo X',

@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Thorsten Rossner <thorsten.rossner[at]stepstone.de>
 # Copyright (C) 2007 Mads N. Vestergaard <mnv[at]timmy.dk>
 # --
-# $Id: da.pm,v 1.39 2008-07-21 23:27:13 martin Exp $
+# $Id: da.pm,v 1.40 2008-07-27 10:22:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1070,7 +1070,7 @@ sub Data {
         'Scale' => 'Skala',
         'minimal' => 'minimum',
         'Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' => 'Husk venligst at skalen for værdi serien, skal være større end den skala for X-Aksen (f.eks. X-Akse => Month, VærdiSerie => År).',
-        'Here you can the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Her kan du vælge værdi serierne. Du har muligheden for at vælge en eller to elementer. Derefter kan du vælge attributter for elementerne. Hvert element vil blive vist som en enkelt værdi sere. Hvis du ikke har valgt nogle attributter, vil alle attributter for elementet blive brugt til at generere stat. Ligesom en ny attribut vil blive tilføjet siden sidste konfiguration.',
+        'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Her kan du vælge værdi serierne. Du har muligheden for at vælge en eller to elementer. Derefter kan du vælge attributter for elementerne. Hvert element vil blive vist som en enkelt værdi sere. Hvis du ikke har valgt nogle attributter, vil alle attributter for elementet blive brugt til at generere stat. Ligesom en ny attribut vil blive tilføjet siden sidste konfiguration.',
 
         # Template: AgentStatsEditXaxis
         'Select the element, which will be used at the X-axis' => 'Vælg det element der skal bruges ved X-aksen',

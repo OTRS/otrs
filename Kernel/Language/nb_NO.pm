@@ -5,7 +5,7 @@
 # Copyright (C) 2006 Knut Haugen <knuthaug at linpro.no>
 # Copyright (C) 2007-2008 Fredrik Andersen <fredrik.andersen at husbanken.no>
 # --
-# $Id: nb_NO.pm,v 1.62 2008-07-23 21:26:49 martin Exp $
+# $Id: nb_NO.pm,v 1.63 2008-07-27 10:22:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.62 $;
+$VERSION = q$Revision: 1.63 $;
 
 sub Data {
     my $Self = shift;
@@ -1076,7 +1076,7 @@ sub Data {
         'Scale' => 'Skala',
         'minimal' => 'minimal',
         'Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' => 'Bemerk at skalaen for verdieserien må være større enn skalaen til X-aksen (f.eks. X-akse => måned, verdiserie => år).',
-        'Here you can the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Her kan du sette verdiserien. Du har muligheten til å velge en eller flere elementer, og deretter kan du velge attributtene til elementene. Hver attributt vil bli vist som en egen verdiserie. Dersom du ikke velge noen attributter, vil alle attributtene bli brukt når statistikken genereres. I tillegg vil nye attributter som er lagt til etter konfigurasjonen av statistikken også vises.',
+        'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Her kan du sette verdiserien. Du har muligheten til å velge en eller flere elementer, og deretter kan du velge attributtene til elementene. Hver attributt vil bli vist som en egen verdiserie. Dersom du ikke velge noen attributter, vil alle attributtene bli brukt når statistikken genereres. I tillegg vil nye attributter som er lagt til etter konfigurasjonen av statistikken også vises.',
 
         # Template: AgentStatsEditXaxis
         'Select the element, which will be used at the X-axis' => 'Velg et element som skal brukes på X-aksen',

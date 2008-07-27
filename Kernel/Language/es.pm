@@ -3,7 +3,7 @@
 # Copyright (C) 2003-2006 Jorge Becerra <jorge at hab.desoft.cu>
 # Copyright (C) 2007 Carlos Oyarzabal <carlos.oyarzabal at grupocash.com.mx>
 # --
-# $Id: es.pm,v 1.76 2008-07-22 00:58:12 martin Exp $
+# $Id: es.pm,v 1.77 2008-07-27 10:22:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1071,7 +1071,7 @@ sub Data {
         'Scale' => 'Escala',
         'minimal' => 'mínimo',
         'Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' => 'Recuerde, la escala para los valores de la serie necesita ser mayor que la escala para el eje-X (ej: eje-X => Mes, ValorSeries => Año).',
-        'Here you can the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Aqui puede el valor de la serie. Tiene la posibilidad de selecciona uno o mas elementos, Luego puede selecicona los atributos de los elementos. Cada atributo será mostrado como un elemento de la serie. Si no selecciona ningun atributo, todos los atributos del elemento serán utilizados si genera una estadistica.',
+        'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Aqui puede el valor de la serie. Tiene la posibilidad de selecciona uno o mas elementos, Luego puede selecicona los atributos de los elementos. Cada atributo será mostrado como un elemento de la serie. Si no selecciona ningun atributo, todos los atributos del elemento serán utilizados si genera una estadistica.',
 
         # Template: AgentStatsEditXaxis
         'Select the element, which will be used at the X-axis' => 'Seleccione el elemento, que será utilizado en el eje-X',

@@ -2,7 +2,7 @@
 # Kernel/Language/vi_VN.pm - provides vi_VN language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: vi_VN.pm,v 1.12 2008-07-21 23:27:13 martin Exp $
+# $Id: vi_VN.pm,v 1.13 2008-07-27 10:22:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1069,7 +1069,7 @@ sub Data {
         'Scale' => 'PhÕm vi',
         'minimal' => 't¯i thi¬u',
         'Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' => 'Hãy nh¾ r¢ng, phÕm vi cho chu²i giá tr¸ phäi l¾n h½n phÕm vi cho trøc X (ví dø: trøc X => Tháng; Chu²i giá tr¸ => Nåm).',
-        'Here you can the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'BÕn có th¬ ğ¸nh nghîa chu²i giá tr¸ tÕi ğây. BÕn có khä nång chon 1 ho£c 2 thành t¯. Sau ğó có th¬ ch÷n các thuµc tính cüa thành t¯. M²i thuµc tính s¨ ğßşc hi¬n th¸ là mµt chu²i giá tr¸ ğ½n lë. Nªu không ch÷n thuµc tính nào, t¤t cä thuµc tính cüa thành t¯ s¨ ğßşc sØ døng nªu bÕn sinh th¯ng kê. Cùng v¾i ğó mµt thuµc tính m¾i cûng ğßşc thêm k¬ t× l¥n c¤u hình cu¯i cùng.',
+        'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'BÕn có th¬ ğ¸nh nghîa chu²i giá tr¸ tÕi ğây. BÕn có khä nång chon 1 ho£c 2 thành t¯. Sau ğó có th¬ ch÷n các thuµc tính cüa thành t¯. M²i thuµc tính s¨ ğßşc hi¬n th¸ là mµt chu²i giá tr¸ ğ½n lë. Nªu không ch÷n thuµc tính nào, t¤t cä thuµc tính cüa thành t¯ s¨ ğßşc sØ døng nªu bÕn sinh th¯ng kê. Cùng v¾i ğó mµt thuµc tính m¾i cûng ğßşc thêm k¬ t× l¥n c¤u hình cu¯i cùng.',
 
         # Template: AgentStatsEditXaxis
         'Select the element, which will be used at the X-axis' => 'Ch÷n thành t¯ sØ døng trên trøc X.',

@@ -2,7 +2,7 @@
 # Kernel/Language/ct.pm - provides ct language translation
 # Copyright (C) 2008 Sistemes OTIC (ibsalut) - Antonio Linde
 # --
-# $Id: ct.pm,v 1.11 2008-07-21 23:27:13 martin Exp $
+# $Id: ct.pm,v 1.12 2008-07-27 10:22:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1071,7 +1071,7 @@ sub Data {
         'Scale' => 'Escala',
         'minimal' => 'mínim',
         'Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' => 'Recordi, que l\'escala per als valors de la sèrie necessita ser major que l\'escala per a l\'eix-X (ej: eix-X => Mes, ValorSeries => Any).',
-        'Here you can the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Aquí pot seleccionar el valor de la sèrie. Té la possibilitat de seleccionar un o més elements. Després pot seleccionar els atributs dels elements. Cada atribut serà mostrat com un element de la sèrie. Si no selecciona cap atribut, tots els atributs de l\'element seran utilitzats si genera una estadística.',
+        'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Aquí pot seleccionar el valor de la sèrie. Té la possibilitat de seleccionar un o més elements. Després pot seleccionar els atributs dels elements. Cada atribut serà mostrat com un element de la sèrie. Si no selecciona cap atribut, tots els atributs de l\'element seran utilitzats si genera una estadística.',
 
         # Template: AgentStatsEditXaxis
         'Select the element, which will be used at the X-axis' => 'Seleccioni l\'element, que serà utilitzat en l\'eix-X',

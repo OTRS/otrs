@@ -2,7 +2,7 @@
 # Kernel/Language/tr.pm - provides tr language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: tr.pm,v 1.10 2008-07-21 23:27:13 martin Exp $
+# $Id: tr.pm,v 1.11 2008-07-27 10:22:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::tr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.10 $';
+$VERSION = '$Revision: 1.11 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1069,7 +1069,7 @@ sub Data {
         'Scale' => 'Ölçek',
         'minimal' => 'mümkün olan en düþük',
         'Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' => 'Unutmayýn deðer serilerinin ölçeði X-ekseninin ölçeðinden daha yüksek olmalýdýr (örneðin X-ekseni => Ay, Deðer Serileri => Yýl).',
-        'Here you can the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Burada deðer serilerini seçebilirsiniz. Bir veya iki öðe seçebilirsiniz. Sonra öðelerin niteliklerini seçebilirsiniz. Her nitelik tek deðer serileri olarak gösterilir. Eðer herhangi bir nitelik seçmeden istatistik oluþturursanýz öðenin tüm nitelikleri kullanýlýr.  Son yapýlandýrmadan sonra yeni bir nitelik eklendiðinde de.',
+        'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Burada deðer serilerini seçebilirsiniz. Bir veya iki öðe seçebilirsiniz. Sonra öðelerin niteliklerini seçebilirsiniz. Her nitelik tek deðer serileri olarak gösterilir. Eðer herhangi bir nitelik seçmeden istatistik oluþturursanýz öðenin tüm nitelikleri kullanýlýr.  Son yapýlandýrmadan sonra yeni bir nitelik eklendiðinde de.',
 
         # Template: AgentStatsEditXaxis
         'Select the element, which will be used at the X-axis' => 'X-ekseni olarak kullanýlacak öðeyi seçin.',

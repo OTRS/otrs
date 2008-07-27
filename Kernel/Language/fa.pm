@@ -3,7 +3,7 @@
 # Copyright (C) 2006-2008 Amir Shams Parsa <amir at parsa.name>
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # --
-# $Id: fa.pm,v 1.45 2008-07-23 21:56:40 martin Exp $
+# $Id: fa.pm,v 1.46 2008-07-27 10:22:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1074,7 +1074,7 @@ sub Data {
         'Scale' => 'مقیاس',
         'minimal' => 'کمترین',
         'Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' => 'مقیاس لیست مقادیر باید بزرگتر از مقیاس محور افقی باشد ',
-        'Here you can the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'لیست ها را در این بخش میتوانید مقداردهی نمائید، یک یا دو گزینه را انتخاب نمائید، خصوصیات گزینه را انتخاب نمائید.هر ویژگی به عنوان یک لیست نمایش داده خواهد شد.اگر هیچ ویژگی انتخاب نشود همه ویژگی های گزینه در تهیه گزارش منظور خواهد شد.همینطور ویژگی های اضافه شده پس از این تنظیمات ',
+        'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'لیست ها را در این بخش میتوانید مقداردهی نمائید، یک یا دو گزینه را انتخاب نمائید، خصوصیات گزینه را انتخاب نمائید.هر ویژگی به عنوان یک لیست نمایش داده خواهد شد.اگر هیچ ویژگی انتخاب نشود همه ویژگی های گزینه در تهیه گزارش منظور خواهد شد.همینطور ویژگی های اضافه شده پس از این تنظیمات ',
 
         # Template: AgentStatsEditXaxis
         'Select the element, which will be used at the X-axis' => 'گزینه ای را برای استفاده در محور افقی انتخاب نمائید',
