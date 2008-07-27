@@ -2,8 +2,9 @@
 # Kernel/Language/ru.pm - provides ru language translation
 # Copyright (C) 2003 Serg V Kravchenko <skraft at rgs.ru>
 # Copyright (C) 2007 Andrey Feldman <afeldman at alt-lan.ru>
+# Copyright (C) 2008 Egor Tsilenko <bg8s at symlink.ru>
 # --
-# $Id: ru.pm,v 1.63 2008-07-21 23:27:13 martin Exp $
+# $Id: ru.pm,v 1.64 2008-07-27 09:26:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -104,7 +105,7 @@ sub Data {
         'please do not edit!' => 'Не редактировать!',
         'AddLink' => 'Добавить ссылку',
         'Link' => 'Связать',
-        'Unlink' => '',
+        'Unlink' => 'Отвязать',
         'Linked' => 'Связан',
         'Link (Normal)' => 'Связь (обычная)',
         'Link (Parent)' => 'Связь (Родитель)',
@@ -125,7 +126,7 @@ sub Data {
         'Signature' => 'Подпись',
         'Customer' => 'Клиент',
         'CustomerID' => 'ID Пользователя',
-        'CustomerIDs' => '',
+        'CustomerIDs' => 'ID Пользователей',
         'customer' => 'клиент',
         'agent' => 'агент',
         'system' => 'система',
@@ -164,7 +165,7 @@ sub Data {
         'Search' => 'Поиск',
         'and' => 'и',
         'between' => 'между',
-        'Fulltext Search' => '',
+        'Fulltext Search' => 'Полнотекстовый поиск',
         'Data' => 'Дата',
         'Options' => 'Настройки',
         'Title' => 'Заголовок',
@@ -246,8 +247,8 @@ sub Data {
         'Mobile' => 'Мобильный телефон',
         'Zip' => 'Индекс',
         'City' => 'Город',
-        'Location' => '',
-        'Street' => '',
+        'Location' => 'Местоположение',
+        'Street' => 'Улица',
         'Country' => 'Страна',
         'installed' => 'Установлено',
         'uninstalled' => 'Деинсталлировано',
@@ -256,15 +257,15 @@ sub Data {
         'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' => 'Нет пакетов для запрошенного Framework в этом Онлайн Репозитории, но есть пакеты для других Framework-ов!',
         'No Packages or no new Packages in selected Online Repository!' => 'Нет пакетов или новых пакетов в выбранном Онлайн Репозитории!',
         'printed at' => 'напечатано в',
-        'Dear Mr. %s,' => '',
-        'Dear Mrs. %s,' => '',
-        'Dear %s,' => '',
-        'Hello %s,' => '',
-        'This account exists.' => '',
-        'New account created. Sent Login-Account to %s.' => '',
-        'Please press Back and try again.' => '',
+        'Dear Mr. %s,' => 'Уважаемый %s,',
+        'Dear Mrs. %s,' => 'Уважаемая %s,',
+        'Dear %s,' => 'Уважаемый(ая)',
+        'Hello %s,' => 'Здравствуйте %s,',
+        'This account exists.' => 'Эта учетная запись уже существует.',
+        'New account created. Sent Login-Account to %s.' => 'Создана новая учетная запись. Данные для входа в систему отправлены %s.',
+        'Please press Back and try again.' => 'Пожалуйста нажмите Назад и попробуйте еще раз',
         'Sent password token to: %s' => '',
-        'Sent new password to: %s' => '',
+        'Sent new password to: %s' => 'Новый пароль отправлен',
         'Invalid Token!' => '',
 
         # Template: AAAMonth
@@ -295,7 +296,7 @@ sub Data {
         # Template: AAANavBar
         'Admin-Area' => 'Администрирование системы',
         'Agent-Area' => 'Пользователь',
-        'Ticket-Area' => 'Тикеты',
+        'Ticket-Area' => 'Заявки',
         'Logout' => 'Выход',
         'Agent Preferences' => 'Настройки пользователя',
         'Preferences' => 'Предпочтения',
@@ -331,7 +332,7 @@ sub Data {
         'Select your frontend QueueView.' => 'Выберите язык для монитора очередей.',
         'Spelling Dictionary' => 'Словарь',
         'Select your default spelling dictionary.' => 'Выбирете основной словарь',
-        'Max. shown Tickets a page in Overview.' => 'Макс. кол-во Тикетов на странице при отображении очереди',
+        'Max. shown Tickets a page in Overview.' => 'Макс. кол-во Заявок на странице при отображении очереди',
         'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'Невозможно сменить пароль, пароли несоответствуют!',
         'Can\'t update password, invalid characters!' => 'Невозможно сменить пароль, неверная кодировка!',
         'Can\'t update password, need min. 8 characters!' => 'Невозможно сменить пароль, необходимо не менее 8 символов!',
@@ -396,7 +397,7 @@ sub Data {
         'Move' => 'Переместить',
         'Queue' => 'Очередь',
         'Priority' => 'Приоритет',
-        'Priority Update' => '',
+        'Priority Update' => 'Обновление приоритета',
         'State' => 'Статус',
         'Compose' => 'Создать',
         'Pending' => 'Отложить',
@@ -465,7 +466,7 @@ sub Data {
         'Phone-Ticket' => 'Телефонный звонок',
         'Search Tickets' => 'Поиск заявок',
         'Edit Customer Users' => 'Редактировать клиентов',
-        'Edit Customer Company' => '',
+        'Edit Customer Company' => 'Редактировать компании клиентов',
         'Bulk-Action' => 'Массовое действие',
         'Bulk Actions on Tickets' => 'Массовое действие над заявками',
         'Send Email and create a new Ticket' => 'Отправить письмо и создать новую заявку',
@@ -626,14 +627,14 @@ sub Data {
         # Template: AdminCustomerUserGroupForm
 
         # Template: AdminCustomerUserService
-        'Customer Users <-> Services Management' => '',
-        'CustomerUser' => 'Пользователь клиента',
+        'Customer Users <-> Services Management' => 'Клиенты <-> Сервисы',
+        'CustomerUser' => 'Клиент',
         'Service' => 'Сервис',
-        'Edit default services.' => '',
+        'Edit default services.' => 'Правка сервисов по умолчанию',
         'Search Result' => 'Результат поиска',
-        'Allocate services to CustomerUser' => '',
+        'Allocate services to CustomerUser' => 'Привязать сервисы к клиенту',
         'Active' => 'Активный',
-        'Allocate CustomerUser to service' => '',
+        'Allocate CustomerUser to service' => 'Привязать клиента к сервисам',
 
         # Template: AdminEmail
         'Message sent to' => 'Сообщение отправлено для',
@@ -656,7 +657,7 @@ sub Data {
         '(e. g. 234321)' => '(например 234321)',
         'Customer User Login' => 'Логин клиента',
         '(e. g. U5150)' => '(например U5150)',
-        'SLA' => '',
+        'SLA' => 'SLA',
         'Agent' => 'Пользователь',
         'Ticket Lock' => 'Состояни заявки',
         'TicketFreeFields' => 'Свободные поля заявки',
@@ -666,14 +667,14 @@ sub Data {
         'Ticket created between' => 'Заявка создана между ',
         'Close Times' => '',
         'No close time settings.' => '',
-        'Ticket closed' => '',
-        'Ticket closed between' => '',
+        'Ticket closed' => 'Заявка закрыт',
+        'Ticket closed between' => 'Заявка закрыта между',
         'Pending Times' => 'Время, когда запрос был отложен',
         'No pending time settings.' => 'Без учета данного времени',
         'Ticket pending time reached' => 'Запрос был отложен',
         'Ticket pending time reached between' => 'Запрос был отложен между',
-        'New Service' => '',
-        'New SLA' => '',
+        'New Service' => 'Новый сервис',
+        'New SLA' => 'Новый SLA',
         'New Priority' => 'Новый приоритет',
         'New Queue' => 'Новая очередь',
         'New State' => 'Новый статус',
@@ -681,13 +682,13 @@ sub Data {
         'New Owner' => 'Новый владелец',
         'New Customer' => 'Новый клиент',
         'New Ticket Lock' => 'Новый статус заявки',
-        'New Type' => '',
-        'New Title' => '',
-        'New Type' => '',
+        'New Type' => 'Новый тип',
+        'New Title' => 'Новый заголовок',
+        'New Type' => 'Новый тип',
         'New TicketFreeFields' => 'Новые свободные поля заявки',
         'Add Note' => 'Добавить заметку',
         'CMD' => 'Комманда',
-        'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'Эта команда будет выполнена. ARG[0] - номер тикета. ARG[1] - id тикета',
+        'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'Эта команда будет выполнена. ARG[0] - номер заявки. ARG[1] - id заявки.',
         'Delete tickets' => 'Удалить заявки',
         'Warning! This tickets will be removed from the database! This tickets are lost!' => 'Внимание! Данные заявки будут удалены из базы!',
         'Send Notification' => 'Послать уведомление',
@@ -717,7 +718,7 @@ sub Data {
         'Time' => 'Время',
 
         # Template: AdminMailAccount
-        'Mail Account Management' => '',
+        'Mail Account Management' => 'Управление почтовыми учетными записями',
         'Host' => 'Сервер',
         'Trusted' => 'Безопасный',
         'Dispatching' => 'Перенаправление',
@@ -757,10 +758,10 @@ sub Data {
         'Filelist' => 'Список файлов',
         'Download file from package!' => 'Скачать файл из пакета!',
         'Required' => 'Необходим',
-        'PrimaryKey' => '',
-        'AutoIncrement' => '',
-        'SQL' => '',
-        'Diff' => '',
+        'PrimaryKey' => 'Первичный ключ',
+        'AutoIncrement' => 'Автоинкремент',
+        'SQL' => 'SQL',
+        'Diff' => 'Diff',
 
         # Template: AdminPerformanceLog
         'Performance Log' => 'Лог производительности',
@@ -778,10 +779,10 @@ sub Data {
         'Min Response' => 'Мин. время ответа',
         'Max Response' => 'Макс. время ответа',
         'Average Response' => 'Средн. время ответа',
-        'Period' => '',
-        'Min' => '',
-        'Max' => '',
-        'Average' => '',
+        'Period' => 'Период',
+        'Min' => 'Мин',
+        'Max' => 'Макс',
+        'Average' => 'Среднее',
 
         # Template: AdminPGPForm
         'PGP Management' => 'Управление PGP',
@@ -789,7 +790,7 @@ sub Data {
         'Identifier' => 'Идентефикатор',
         'Bit' => 'Бит',
         'Key' => 'Ключ',
-        'Fingerprint' => '',
+        'Fingerprint' => 'Цифровой отпечаток',
         'Expires' => 'Истекает',
         'In this way you can directly edit the keyring configured in SysConfig.' => 'В данном случае вы можете изменить "keyring" прямо в Конфигурации Системы',
 
@@ -812,10 +813,10 @@ sub Data {
         'Sub-Queue of' => 'Подочередь в',
         'Unlock timeout' => 'Срок блокировки',
         '0 = no unlock' => '0 = без блокировки',
-        'Only business hours are counted.' => '',
-        'Escalation - First Response Time' => '',
+        'Only business hours are counted.' => 'С учетом только рабочего времени.',
+        'Escalation - First Response Time' => 'Эскалация - Время первого ответа',
         '0 = no escalation' => '0 = без эскалации',
-        'Only business hours are counted.' => '',
+        'Only business hours are counted.' => 'С учетом только рабочего времени.',
         'Notify by' => '',
         'Escalation - Update Time' => 'Эскалация - Время Изменения',
         'Notify by' => '',
@@ -888,7 +889,7 @@ sub Data {
         'Add a new Salutation.' => 'Добавить новое приветствие',
 
         # Template: AdminSelectBoxForm
-        'SQL Box' => '',
+        'SQL Box' => 'SQL запрос',
         'Limit' => 'Лимит',
         'Go' => 'Выполнить',
         'Select Box Result' => 'Выберите из меню',
@@ -922,7 +923,7 @@ sub Data {
         'S/MIME Management' => 'Управление S/MIME',
         'Add Certificate' => 'Добавить сертификат',
         'Add Private Key' => 'Добавить Private Key',
-        'Secret' => '',
+        'Secret' => 'Секрет',
         'Hash' => 'Хэш',
         'In this way you can directly edit the certification and private keys in file system.' => 'В данном случае вы можете редактировать сертификаты и Private Keys прямо на файловой системе',
 
@@ -955,8 +956,8 @@ sub Data {
         'NavBar' => 'Навигационное меню',
         'Image' => 'Картинка',
         'Prio' => '',
-        'Block' => '',
-        'AccessKey' => '',
+        'Block' => 'Раздел',
+        'AccessKey' => 'Клавиша доступа',
 
         # Template: AdminSystemAddressForm
         'System Email Addresses Management' => 'Управление системными e-mail адресами',
@@ -1071,12 +1072,12 @@ sub Data {
         'Scale' => 'Масштаб',
         'minimal' => 'Минимальный',
         'Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' => 'Помните, что масштаб для последовательности значений должен быть больше, чем масштаб для оси X (например Ось Х => Месяц, последовательность значений => Год).',
-        'Here you can the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
+        'Here you can the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Здесь вы можете (пропущен глагол) серии значений. У вас есть возможность выбрать один или два элемента. Затем вы можете выбрать признаки элементов. Каждый признак будет отображен как отдельная серия значений. Если вы не выберете ни одного признака, все признаки элемента будут использованы при генерирации отчета. Так же новый атрибут добавлен с прошлой конфигурации',
 
         # Template: AgentStatsEditXaxis
-        'Select the element, which will be used at the X-axis' => '',
-        'maximal period' => '',
-        'minimal scale' => '',
+        'Select the element, which will be used at the X-axis' => 'Выберите элемент, который будет использован на оси Х',
+        'maximal period' => 'максимальный период',
+        'minimal scale' => 'минимальный масштаб',
         'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Здесь вы можете определить ось X. Вы можете выбрать один элемент. Затем необходимо выбрать два или более аттрибутов элемента. Если вы совсем не выбирете аттрибутов элемента - все аттрибуты будут использованы для генерации отчета, а также вновь добавленные аттрибуты.',
 
         # Template: AgentStatsImport
@@ -1152,14 +1153,14 @@ sub Data {
         'Clear To' => 'Очистить',
 
         # Template: AgentTicketEscalationView
-        'Ticket Escalation View' => '',
-        'Escalation' => '',
+        'Ticket Escalation View' => 'Вид эскалации заявки',
+        'Escalation' => 'Эскалация',
         'Today' => 'Сегодня',
-        'Tomorrow' => '',
-        'Next Week' => '',
+        'Tomorrow' => 'Завтра',
+        'Next Week' => 'На будущей неделе',
         'up' => 'вверх',
         'down' => 'вниз',
-        'Escalation' => '',
+        'Escalation' => 'Эскалация',
         'Locked' => 'Блокировка',
 
         # Template: AgentTicketForward
@@ -1245,13 +1246,13 @@ sub Data {
         # Template: AgentTicketSearch
         'Ticket Search' => 'Поиск заявки',
         'Profile' => 'Параметры',
-        'Search-Template' => 'Шаблон',
-        'TicketFreeText' => 'Свободный поля заявки',
+        'Search-Template' => 'Шаблон поиска',
+        'TicketFreeText' => 'Свободные поля заявки',
         'Created in Queue' => 'Создано в очереди',
         'Close Times' => '',
         'No close time settings.' => '',
-        'Ticket closed' => '',
-        'Ticket closed between' => '',
+        'Ticket closed' => 'Заявка закрыта',
+        'Ticket closed between' => 'Заявка закрыта между',
         'Result Form' => 'Вывод результатов',
         'Save Search-Profile as Template?' => 'Сохранить параметры поиска в качестве шаблона?',
         'Yes, save it with name' => 'Да, сохранить с именем',
@@ -1270,8 +1271,8 @@ sub Data {
         'Open Tickets' => 'Открытые заявки',
 
         # Template: AgentTicketZoom
-        'Expand View' => '',
-        'Collapse View' => '',
+        'Expand View' => 'Развернутый вид',
+        'Collapse View' => 'Сжатый вид',
 
         # Template: AgentWindowTab
 
@@ -1291,7 +1292,7 @@ sub Data {
         'Traceback' => 'Отслежевание',
 
         # Template: CustomerFooter
-        'Powered by' => '',
+        'Powered by' => 'Использует',
 
         # Template: CustomerFooterSmall
 
@@ -1348,14 +1349,14 @@ sub Data {
         'Accept license' => 'Принять условия лицензии',
         'Don\'t accept license' => 'Не принимать условия лицензии',
         'Admin-User' => 'Имя пользователя(Администратор)',
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' => '',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' => 'Если вы создали пароль администратора для вашей базы данных, он должен быть введен здесь. Если нет, оставьте поле пустым. Из соображений безопасности мы рекомендуем создать пароль администратора. Для более детальной информации пожалуйста обратитесь к документации по вашей базе данных',
         'Admin-Password' => 'Пароль пользователя',
         'Database-User' => 'БД пользователь',
         'default \'hot\'' => 'По умолчанию \'hot\'',
         'DB connect host' => 'Имя БД-хоста',
         'Database' => 'Имя БД',
         'Default Charset' => 'Кодировка по умолчанию',
-        'utf8' => '',
+        'utf8' => 'utf8',
         'false' => '',
         'SystemID' => 'Системный ID',
         '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(ID системы. Каждый номер Заявки и каждая http сессия будет начинаться с этого числа)',
@@ -1392,7 +1393,7 @@ sub Data {
         'Important' => 'Важно',
 
         # Template: PrintFooter
-        'URL' => '',
+        'URL' => 'URL',
 
         # Template: PrintHeader
         'printed by' => 'напечатано',
@@ -1412,13 +1413,13 @@ sub Data {
         'Ticket Number Generator' => 'Генератор номера Заявки',
         'Create new Phone Ticket' => 'Создать телефонную заявку',
         'Symptom' => 'Признак',
-        'U' => '',
+        'U' => 'U',
         'A message should have a To: recipient!' => 'Сообщение должно иметь поле ДЛЯ: адресата!',
         'Site' => 'Место',
         'Customer history search (e. g. "ID342425").' => 'Поиск истории клиента (напр. "ID342425").',
         'for agent firstname' => 'для агента - имя',
         'Close!' => 'Закрыть!',
-        'Subgroup \'' => 'подгруппа',
+        'Subgroup \'' => 'Подгруппа \'',
         'The message being composed has been closed.  Exiting.' => 'создаваемое сообщение было закрыто. выход.',
         'A web calendar' => 'Календарь',
         'to get the realname of the sender (if given)' => 'получить (если есть) имя отправителя',
@@ -1458,7 +1459,7 @@ sub Data {
         'to get the first 5 lines of the email' => 'получить первые 5 строк письма',
         'Last update' => 'Последнее изменение',
         'to get the first 20 character of the subject' => 'получить первые 20 символов поля "тема"',
-        'Select the customeruser:service relations.' => '',
+        'Select the customeruser:service relations.' => 'Выберите связь: клиент-сервис.',
         'Drop Database' => 'Удалить базу',
         'FileManager' => 'Файл менеджер',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Опции текущих данных пользователя (например <OTRS_CUSTOMER_DATA_UserFirstname>)',
@@ -1490,7 +1491,7 @@ sub Data {
         'Hours' => 'Часы',
         'Finished' => 'Закончено',
         'Split' => 'Разделить',
-        'D' => '',
+        'D' => 'D',
         'All messages' => 'Все сообщения',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Опции заявки (например <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         '7 Day' => '7 Дней',
@@ -1529,15 +1530,15 @@ sub Data {
         'Modified' => 'Изменено',
         'Ticket selected for bulk action!' => 'Заявка выбрана для массового действия!',
 
-        'Link Object: %s' => '',
-        'Unlink Object: %s' => '',
-        'Linked as' => '',
-        'Can not create link with %s!' => '',
-        'Can not delete link with %s!' => '',
-        'Object already linked as %s.' => '',
-        'Priority Management' => '',
-        'Add a new Priority.' => '',
-        'Add Priority' => '',
+        'Link Object: %s' => 'Связать объект:',
+        'Unlink Object: %s' => 'Отвязать объект:',
+        'Linked as' => 'Связан как',
+        'Can not create link with %s!' => 'Невозможно создать связь с %s!',
+        'Can not delete link with %s!' => 'Невозможно удалить связь с %s!',
+        'Object already linked as %s.' => 'Объект уже связан с %s!',
+        'Priority Management' => 'Управление приоритетами',
+        'Add a new Priority.' => 'Создать новый приоритет.',
+        'Add Priority' => 'Создать приоритет',
     };
     # $$STOP$$
     return;
