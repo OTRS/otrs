@@ -3,7 +3,7 @@
 # Copyright (C) 2006-2008 Amir Shams Parsa <amir at parsa.name>
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # --
-# $Id: fa.pm,v 1.46 2008-07-27 10:22:33 martin Exp $
+# $Id: fa.pm,v 1.47 2008-07-27 10:46:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -211,11 +211,11 @@ sub Data {
         'License' => 'مجوز بهره برداری سیستم',
         'Take this Customer' => 'این مشترک را بگیر',
         'Take this User' => 'این کاربر را بگیر',
-        'possible' => 'امکانپذیر',
-        'reject' => 'نپذیر',
+        'possible' => 'بله',
+        'reject' => 'خیر',
         'reverse' => 'برگردان',
         'Facility' => 'سهولت',
-        'Timeover' => 'وقت تمام شد',
+        'Timeover' => 'پایان وقت',
         'Pending till' => 'تا زمانی که',
         'Don\'t work with UserID 1 (System account)! Create new users!' => 'با نام کاربری سیستم کار نکنید برای ادامه یک نام کاربری جدید بسازید.!',
         'Dispatching by email To: field.' => 'ارسال با پست الکترونیکی به:فیلد',
@@ -249,7 +249,6 @@ sub Data {
         'Mobile' => 'تلفن همراه',
         'Zip' => 'کد پستی',
         'City' => 'شهر',
-        'Location' => 'موقعیت',
         'Street' => 'استان',
         'Country' => 'کشور',
         'installed' => 'نصب شده',
@@ -409,7 +408,7 @@ sub Data {
         'Responsible Update' => 'بروزرسانی توسط مسئول',
         'Sender' => 'فرستنده',
         'Article' => 'مورد',
-        'Ticket' => 'درخواست',
+        'Ticket' => 'درخواست ها',
         'Createtime' => 'زمان ایجاد ',
         'plain' => 'ساده',
         'Email' => 'EMail',
@@ -505,7 +504,7 @@ sub Data {
         'Ticket %s: update time will be over in %s!' => 'زمان بروزرسانی درخواست %s ، %s خواهد بود',
         'Ticket %s: solution time is over (%s)!' => 'زمان ارائه راهکار برای درخواست %s : %s ',
         'Ticket %s: solution time will be over in %s!' => ' زمان ارائه راهکار برای درخواست %s ، %s خواهد بود ',
-        'There are more escalated tickets!' => 'درخواست های زیادی وجود دارد',
+        'There are more escalated tickets!' => 'درخواست های مهم بیشتری وجود دارد',
         'New ticket notification' => 'اعلام درخواست جدید',
         'Send me a notification if there is a new ticket in "My Queues".' => 'دریافت درخواست جدید را به من اطلاع بده.',
         'Follow up notification' => 'اعلام پیگیری درخواست',
@@ -629,7 +628,7 @@ sub Data {
         # Template: AdminCustomerUserGroupForm
 
         # Template: AdminCustomerUserService
-        'Customer Users <-> Services Management' => 'مشترک <-> مدیریت خدمات',
+        'Customer Users <-> Services Management' => 'مدیریت مشترک <-> خدمات',
         'CustomerUser' => 'مشترک',
         'Service' => 'خدمات',
         'Edit default services.' => 'ویرایش خدمات پیش فرض',
@@ -816,22 +815,22 @@ sub Data {
         'Unlock timeout' => 'مهلت آزاد شدن درخواست',
         '0 = no unlock' => '0 = آزاد نشود',
         'Only business hours are counted.' => 'فقط ساعات اداری محاسبه شده است',
-        'Escalation - First Response Time' =>  'بالارفتن اولین پاسخ',
-        '0 = no escalation' => '0 = بدون افزایش',
+        'Escalation - First Response Time' =>  'آخرین مهلت برای اولین پاسخگویی',
+        '0 = no escalation' => '0 = بدون افزایش اولویت',
         'Only business hours are counted.' => ' فقط ساعات اداری محاسبه شده است ',
         'Notify by' => 'اعلام با',
-        'Escalation - Update Time' => ' بالارفتن زمان بروز رسانی',
+        'Escalation - Update Time' => ' آخرین مهلت برای رسیدگی به یک درخواست',
         'Notify by' => 'اعلام با',
-        'Escalation - Solution Time' => ' بالارفتن زمان ارائه راهکار',
-        'Follow up Option' => 'گزینه پیگیری',
+        'Escalation - Solution Time' => ' آخرین مهلت برای ارائه راهکار',
+        'Follow up Option' => 'پیگیری',
         'Ticket lock after a follow up' => 'درخواست بعد از پیگیری تحویل گرفته شود',
         'Systemaddress' => 'آدرس سیستمی',
         'Customer Move Notify' => 'اعلام انتقال به مشترک',
         'Customer State Notify' => 'اعلام وضعیت به مشترک',
         'Customer Owner Notify' => 'اعلام تعیین صاحب به مشترک',
         'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'اگر یک کارشناس درخواست را تحویل بگیرد و در این مدت زمان نتواند به آن پاسخ دهد درخواست آزاد شده و به لیست باز میگردد و قابل دسترس برای سایر کارشناسان خواهد شد',
-        'Escalation time' => 'زمان زیاد شدن',
-        'If a ticket will not be answered in this time, just only this ticket will be shown.' => 'اگر به هیچ درخواستی الان پاسخ داده نشد فقط این درخواست نمایش داده شود',
+        'Escalation time' => 'زمان در اولویت اول قرارگرفتن درخواست',
+        'If a ticket will not be answered in this time, just only this ticket will be shown.' => 'اگر به یک درخواست در این زمان پاسخ داده نشد بجای نمایش لیست فقط این درخواست نمایش داده شود',
         'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'اگر یک درخواست بسته شود و مشترک دوباره آنرا پیگیری کند بطور خودکار به صاحب  قبلی آن تحویل داده خواهد شد',
         'Will be the sender address of this queue for email answers.' => 'آدرس ارسال کننده این لیست برای پاسخ به نامه استفاده خواهد شد.',
         'The salutation for email answers.' => 'عنوان برای پاسخ email',
@@ -1155,14 +1154,14 @@ sub Data {
         'Clear To' => 'آزاد کن به',
 
         # Template: AgentTicketEscalationView
-        'Ticket Escalation View' => 'نمای رشد درخواست',
-        'Escalation' => 'رشد',
+        'Ticket Escalation View' => 'نمای تغییر اولویت درخواست',
+        'Escalation' => 'بالاترین اولویت را دادن',
         'Today' => 'امروز',
         'Tomorrow' => 'فردا',
         'Next Week' => 'هفته آینده',
         'up' => 'صعودی',
         'down' => 'نزولی',
-        'Escalation' => 'رشد',
+        'Escalation' => ' بالاترین اولویت را دادن ',
         'Locked' => 'تحویل گرفته شده',
 
         # Template: AgentTicketForward
@@ -1230,7 +1229,7 @@ sub Data {
         'Tickets available' => 'درخواست های موجود',
         'All tickets' => 'همه درخواست ها',
         'Queues' => 'لیست های درخواست',
-        'Ticket escalation!' => 'رشد درخواست !',
+        'Ticket escalation!' => 'در اولویت اول قرارگرفتن درخواست !',
 
         # Template: AgentTicketQueueTicketView
         'Service Time' => 'زمان خدمات',
@@ -1294,7 +1293,7 @@ sub Data {
         'Traceback' => 'بازبینی',
 
         # Template: CustomerFooter
-        'Powered by' => 'Powered by ',
+        'Powered by' => ' Powered by ',
 
         # Template: CustomerFooterSmall
 
@@ -1509,7 +1508,7 @@ sub Data {
         'Event' => 'رویداد',
         'don\'t accept license' => 'مجوز را تائید نکن',
         'A web mail client' => 'یک محیط پست الکترونیکی',
-        'WebMail' => 'پست الکترونیکی تحت وب',
+        'WebMail' => 'پست الکترونیکی',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'گزینه های اطلاعات درخواست ها',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'گزینه های صاحب درخواست (مثال: <OTRS_OWNER_UserFirstname>)',
         'Name is required!' => 'نام الزامی است!',
@@ -1521,7 +1520,7 @@ sub Data {
         'Select Box' => 'جعبه انتخاب.',
         'Welcome to OTRS' => 'به سیستم پشتیبانی سورس باز (OTRS) خوش آمدید',
         'modified' => 'تغییر یافته',
-        'Escalation in' => 'رشد در',
+        'Escalation in' => 'بالارفتن اولویت در',
         'Delete old database' => 'حذف بانک قبلی',
         'sort downward' => 'مرتب سازی نزولی',
         'You need to use a ticket number!' => 'شما باید از شماره درخواست استفاده نمائید!',
@@ -1548,6 +1547,12 @@ sub Data {
         'Priority Management' => 'مدیریت اولویت ها',
         'Add a new Priority.' => 'افزودن اولویت جدید',
         'Add Priority' => 'افزودن اولویت',
+        'Location' => 'موقعیت',
+        'Location on Map' => 'موقعیت روی نقشه',
+        'Customer Users <-> Services' => 'مشترک <-> خدمات',
+        'PostMaster Mail Account' => 'حساب Email سیستم',
+        'PostMaster Filter' => 'فیلتر Email سیستم',
+
     };
     # $$STOP$$
     return;
