@@ -107,7 +107,7 @@ TimeWorkingHours
 
 -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.149.2.8 2008-07-15 22:01:44 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.149.2.9 2008-07-28 09:18:17 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -345,7 +345,7 @@ TimeWorkingHours
     </ConfigItem>
     <ConfigItem Name="ExtendedSearchCondition" Required="0" Valid="1">
         <Description Lang="en">Extended search condition in object search. With this feature you can search w. g. with this kind of conditions like "(key1&amp;&amp;key2)" or "(key1||key2)".</Description>
-        <Description Lang="de">Erweiterte Such-Ausdruecke. Es ist dann z. B. möglich Abfragen wie z. B. "(key1&amp;&amp;key2)" oder "(key1||key2)" zu benuten.</Description>
+        <Description Lang="de">Erweiterte Such-Ausdruecke. Es ist dann z. B. möglich Abfragen wie z. B. "(key1&amp;&amp;key2)" oder "(key1||key2)" zu benutzen.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
