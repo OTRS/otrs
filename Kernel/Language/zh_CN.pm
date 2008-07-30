@@ -2,7 +2,7 @@
 # Kernel/Language/zh_CN.pm - provides za_CN language translation
 # Copyright (C) 2005 zuowei <j2ee@hirain-sh.com>
 # --
-# $Id: zh_CN.pm,v 1.46 2008-07-27 10:22:33 martin Exp $
+# $Id: zh_CN.pm,v 1.47 2008-07-30 23:00:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1516,7 +1516,6 @@ sub Data {
         'OTRS DB User' => 'OTRS 数据库用户名',
         'PhoneView' => '电话视图',
         'maximal period form' => '',
-        'Verion' => '版本',
         'Modified' => '修改于',
         'Ticket selected for bulk action!' => '被选中进行批量操作的 Tickets',
 

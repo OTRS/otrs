@@ -3,7 +3,7 @@
 # Copyright (C) 2006-2008 Amir Shams Parsa <amir at parsa.name>
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # --
-# $Id: fa.pm,v 1.47 2008-07-27 10:46:13 martin Exp $
+# $Id: fa.pm,v 1.48 2008-07-30 23:00:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1533,7 +1533,6 @@ sub Data {
         'System State Management' => 'مدیریت وضعیت سیستم',
         'OTRS DB User' => 'نام کاربری بانک اطلاعاتی سیستم',
         'PhoneView' => 'نمایش تلفن',
-        'Verion' => 'نسخه',
         'TicketID' => 'شناسه درخواست',
         'Modified' => 'تغییر یافته',
         'Ticket selected for bulk action!' => 'درخواست برای اعمال عملیات کلی انتخاب شد!',

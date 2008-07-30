@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
 # Copyright (C) 2006 George Thomas <gthomas aegean.gr>
 # --
-# $Id: el.pm,v 1.38 2008-07-27 10:22:33 martin Exp $
+# $Id: el.pm,v 1.39 2008-07-30 23:00:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1555,7 +1555,6 @@ department, ...).' => 'Δημιουργία νέων ομάδων για να διαχειρίζονται τα δικαιώματ
         'PhoneView' => 'Ουρές Τηλεφώνου',
         'Σημείωση Ασφάλειας: Πρέπει να ενεργοποιήσετε %s διότι η εφαρμογή ήδη τρέχει !' => '',
         'maximal period form' => '',
-        'Verion' => 'Έκδοση',
         'TicketID' => 'Αναγνωριστίκό (ID) Δελτίου',
         'Modified' => 'Ενημερώθηκε',
         'Ticket selected for bulk action!' => 'Δελτίο Επιλεχθηκε για Μαζική Εργασία',

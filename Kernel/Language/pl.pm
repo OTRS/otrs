@@ -2,7 +2,7 @@
 # Kernel/Language/pl.pm - provides pl language translation
 # Copyright (C) 2007 Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.64 2008-07-27 10:22:33 martin Exp $
+# $Id: pl.pm,v 1.65 2008-07-30 23:00:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1517,7 +1517,6 @@ sub Data {
         'OTRS DB User' => 'U¿ytkownik bazy danych OTRS',
         'PhoneView' => 'Nowy telefon',
         'maximal period form' => '',
-        'Verion' => '',
         'TicketID' => 'ID Zg³oszenia',
         'Modified' => 'Zmodyfikowany',
         'Ticket selected for bulk action!' => '',

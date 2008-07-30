@@ -6,7 +6,7 @@
 #              Vadim Buzek
 #              Petr Ocasek
 # --
-# $Id: cz.pm,v 1.62 2008-07-27 10:22:33 martin Exp $
+# $Id: cz.pm,v 1.63 2008-07-30 23:00:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1532,7 +1532,6 @@ sub Data {
         'OTRS DB User' => 'U¾ivatel OTRS databáze',
         'PhoneView' => 'Nový tiket / hovor',
         'maximal period form' => '',
-        'Verion' => '',
         'TicketID' => 'ID tiketu',
         'Modified' => 'Zmìnìno',
         'Ticket selected for bulk action!' => '',

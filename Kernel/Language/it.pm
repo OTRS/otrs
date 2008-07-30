@@ -4,7 +4,7 @@
 # Copyright (C) 2003 Gabriele Santilli <gsantilli at omnibus.net>
 # Copyright (C) 2005 Giordano Bianchi <giordano.bianchi at gmail.com>
 # --
-# $Id: it.pm,v 1.65 2008-07-27 10:22:33 martin Exp $
+# $Id: it.pm,v 1.66 2008-07-30 23:00:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.65 $) [1];
+$VERSION = qw($Revision: 1.66 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1527,7 +1527,6 @@ sub Data {
         'System State Management' => 'Gestione stati richieste',
         'PhoneView' => 'RichiestaTelefonica',
         'maximal period form' => '',
-        'Verion' => 'Versione',
         'TicketID' => 'Codice richiesta',
         'Modified' => 'Modificato',
         'Ticket selected for bulk action!' => 'Richiesta selezionata per azione di massa!',

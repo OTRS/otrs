@@ -2,7 +2,7 @@
 # Kernel/Language/sk_SK.pm - provides sk_SK language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: sk_SK.pm,v 1.38 2008-07-27 10:22:33 martin Exp $
+# $Id: sk_SK.pm,v 1.39 2008-07-30 23:00:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1778,7 +1778,6 @@ sub Data {
         'OTRS DB User' => 'OTRS DB pou¾ívateµ',
         'systémová adresa' => 'Customer Move Notify',
         'maximal period form' => '',
-        'Verion' => 'Do you really want to uninstall this package?',
         'Vytvori» úèet' => 'Welcome %s',
         'Unlock po¾iadavky.' => 'A message should have a body!',
         'TicketID' => 'ID po¾iadavky',

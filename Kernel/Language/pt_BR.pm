@@ -4,7 +4,7 @@
 # Copyright (C) 2005 Alterado por Glaucia C. Messina (glauglauu@yahoo.com)
 # Copyright (C) 2007 Fabricio Luiz Machado <soprobr gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.72 2008-07-27 10:22:33 martin Exp $
+# $Id: pt_BR.pm,v 1.73 2008-07-30 23:00:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1513,7 +1513,6 @@ sub Data {
         'System State Management' => 'Gerenciamento de Estados do Sistema',
         'PhoneView' => 'Chamada',
         'maximal period form' => 'formulário de período máximo',
-        'Verion' => 'Versão',
         'TicketID' => 'Id.do Chamado',
         'Modified' => 'Modificado',
         'Ticket selected for bulk action!' => 'Chamado selecionado para execução de ação!',

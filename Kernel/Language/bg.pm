@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.77 2008-07-27 10:22:33 martin Exp $
+# $Id: bg.pm,v 1.78 2008-07-30 23:00:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.77 $) [1];
+$VERSION = qw($Revision: 1.78 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1535,7 +1535,6 @@ sub Data {
         'OTRS DB User' => 'Потребител на OTRS база данни',
         'PhoneView' => 'Преглед на телефоните',
         'maximal period form' => 'форма за максимален интервал',
-        'Verion' => 'Версия',
         'TicketID' => 'Идентификатор на билет',
         'Management Summary' => 'Обзор за мениджмънта',
         'POP3' => 'POP3',

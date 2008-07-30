@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Thorsten Rossner <thorsten.rossner[at]stepstone.de>
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # --
-# $Id: da.pm,v 1.41 2008-07-30 22:49:42 martin Exp $
+# $Id: da.pm,v 1.42 2008-07-30 23:00:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1554,7 +1554,6 @@ sub Data {
         'OTRS DB User' => 'OTRS DB-bruger',
         'PhoneView' => 'TelefonVisning',
         'maximal period form' => 'maksimal periode form',
-        'Verion' => 'Version',
         'TicketID' => 'Sag-ID',
         'SMIME Management' => 'SMIME-styring',
         'Modified' => 'Modificeret',

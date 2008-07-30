@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004-2007 CAT - Filipe Henriques <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.65 2008-07-27 10:22:33 martin Exp $
+# $Id: pt.pm,v 1.66 2008-07-30 23:00:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.65 $) [1];
+$VERSION = qw($Revision: 1.66 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1543,7 +1543,6 @@ sub Data {
         'OTRS DB User' => 'Utilizador de Base de Dados OTRS',
         'PhoneView' => 'Visualização de Chamada',
         'maximal period form' => 'Maximo periodo desde',
-        'Verion' => 'Versão',
         'TicketID' => 'ID de Ticket',
         'SMIME Management' => 'Gestão de SMIME',
         'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_UserFirstname&gt;)' => 'Opções do utilizador que requereu a acção (Ex. &lt;OTRS_CURRENT_UserFirstname&gt;)',
