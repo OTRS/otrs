@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.724 2008-07-25 12:10:35 rk Exp $
+# $Id: CHANGES,v 1.725 2008-07-30 06:54:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.3.1 (2008/??/??)
+ - (2008/07/30) Updated CPAN module CGI to version 3.39.
+ - (2008/07/30) Updated CPAN module MailTools to version 2.04.
  - (2008/07/25) Fixed bug# 2300 - Not all Notification Tags are working in Notifications.
  - (2008/07/21) Fixed bug# 3117 - Auto increment of "id" in article_search
     table is not needed.
