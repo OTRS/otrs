@@ -1,12 +1,13 @@
 # Copyrights 1995-2008 by Mark Overmeer <perl@overmeer.net>.
 #  For other contributors see ChangeLog.
 # See the manual pages for details on the licensing terms.
-# Pod stripped from pm file by OODoc 1.04.
+# Pod stripped from pm file by OODoc 1.05.
 use strict;
 
 package Mail::Mailer;
 use vars '$VERSION';
-$VERSION = '2.03';
+$VERSION = '2.04';
+
 use base 'IO::Handle';
 
 use POSIX qw/_exit/;

@@ -1,10 +1,11 @@
 # Copyrights 1995-2008 by Mark Overmeer <perl@overmeer.net>.
 #  For other contributors see ChangeLog.
 # See the manual pages for details on the licensing terms.
-# Pod stripped from pm file by OODoc 1.04.
+# Pod stripped from pm file by OODoc 1.05.
 package Mail::Field;
 use vars '$VERSION';
-$VERSION = '2.03';
+$VERSION = '2.04';
+
 
 use Carp;
 use strict;
@@ -30,25 +31,25 @@ sub _header_pkg_name
 sub _require_dir
 {   my($class,$dir,$dir_sep) = @_;
 
+    local *DIR;
     opendir DIR, $dir
         or return;
 
-   my @inc;
+    my @inc;
+    foreach my $f (readdir DIR)
+    {   $f =~ /^([\w\-]+)/ or next;
+        my $p = $1;
+        my $n = "$dir$dir_sep$p";
 
-   foreach my $f (readdir DIR)
-   {   $f =~ /^([\w\-]+)/ or next;
-       my $p = $1;
-       my $n = "$dir$dir_sep$p";
-
-       if(-d $n )
-       {   _require_dir("${class}::$f", $n, $dir_sep);
-       }
-       else
-       {   $p =~ s/-/_/go;
-           eval "require ${class}::$p";
-       }
-   }
-   closedir DIR;
+        if(-d $n )
+        {   _require_dir("${class}::$f", $n, $dir_sep);
+        }
+        else
+        {   $p =~ s/-/_/go;
+            eval "require ${class}::$p";
+        }
+    }
+    closedir DIR;
 }
 
 sub import
