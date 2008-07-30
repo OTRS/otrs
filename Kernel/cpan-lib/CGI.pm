@@ -18,8 +18,8 @@ use Carp 'croak';
 # The most recent version and complete docs are available at:
 #   http://stein.cshl.org/WWW/software/CGI/
 
-$CGI::revision = '$Id: CGI.pm,v 1.14 2008-06-25 21:13:21 mh Exp $';
-$CGI::VERSION='3.38';
+$CGI::revision = '$Id: CGI.pm,v 1.15 2008-07-30 06:53:20 mh Exp $';
+$CGI::VERSION='3.39';
 
 # HARD-CODED LOCATION FOR FILE UPLOAD TEMPORARY FILES.
 # UNCOMMENT THIS ONLY IF YOU KNOW WHAT YOU'RE DOING.
@@ -1176,7 +1176,7 @@ END_OF_FUNC
 
 'EXISTS' => <<'END_OF_FUNC',
 sub EXISTS {
-    exists $_[0]->{$_[1]};
+    exists $_[0]->{param}{$_[1]};
 }
 END_OF_FUNC
 
