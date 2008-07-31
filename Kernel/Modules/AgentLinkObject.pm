@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.42 2008-07-05 20:28:02 mh Exp $
+# $Id: AgentLinkObject.pm,v 1.43 2008-07-31 12:46:43 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -110,6 +110,13 @@ sub Run {
         }
 
         if ( $Self->{ParamObject}->GetParam( Param => 'SubmitDelete' ) ) {
+
+            # delete all temporary links older than one day
+            $Self->{LinkObject}->LinkCleanup(
+                State  => 'Temporary',
+                Age    => ( 60 * 60 * 24 ),
+                UserID => $Self->{UserID},
+            );
 
             # get the link delete keys and target object
             my @LinkDeleteIdentifier = $Self->{ParamObject}->GetArray(
