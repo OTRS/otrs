@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.336 2008-07-31 14:45:04 tr Exp $
+# $Id: Ticket.pm,v 1.337 2008-07-31 15:25:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.336 $) [1];
+$VERSION = qw($Revision: 1.337 $) [1];
 
 =head1 NAME
 
@@ -3935,7 +3935,7 @@ sub TicketSearch {
             my $Time = $Self->{TimeObject}->TimeStamp2SystemTime(
                 String => $Param{ $Key . 'NewerDate' },
             );
-            $SQLExt .= " AND $TicketTime{$Key} >= '$Time'";
+            $SQLExt .= " AND $TicketTime{$Key} >= $Time";
         }
     }
 
@@ -6557,6 +6557,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.336 $ $Date: 2008-07-31 14:45:04 $
+$Revision: 1.337 $ $Date: 2008-07-31 15:25:59 $
 
 =cut
