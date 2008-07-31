@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Thorsten Rossner <thorsten.rossner[at]stepstone.de>
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # --
-# $Id: da.pm,v 1.42 2008-07-30 23:00:41 martin Exp $
+# $Id: da.pm,v 1.43 2008-07-31 07:59:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -104,7 +104,7 @@ sub Data {
         'please do not edit!' => 'vær venlig ikke at redigere!',
         'AddLink' => 'TilføjLink',
         'Link' => 'Link',
-        'Unlink' => '',
+        'Unlink' => 'Fjern link',
         'Linked' => 'Linket',
         'Link (Normal)' => 'Link (normal)',
         'Link (Parent)' => 'Link (forældre)',
@@ -246,9 +246,9 @@ sub Data {
         'Mobile' => 'Mobil',
         'Zip' => 'Post Nr.',
         'City' => 'By',
-        'Street' => '',
+        'Street' => 'Gade',
         'Country' => 'Land',
-        'Location' => '',
+        'Location' => 'Lokation',
         'installed' => 'installeret',
         'uninstalled' => 'afinstalleret',
         'Security Note: You should activate %s because application is already running!' => 'Sikkerheds advarsel: Du skal aktivere %s fordi applikationen allerede kører!',
@@ -256,18 +256,18 @@ sub Data {
         'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' => 'Der var ingen pakker for the valgte Framework i Online Repositoryet, der var dog pakker til andre Frameworks!',
         'No Packages or no new Packages in selected Online Repository!' => 'Der var ingen pakker, eller ingen nye pakker i det valgte Online Repository.',
         'printed at' => 'printet den',
-        'Dear Mr. %s,' => '',
-        'Dear Mrs. %s,' => '',
-        'Dear %s,' => '',
-        'Hello %s,' => '',
-        'This account exists.' => '',
-        'New account created. Sent Login-Account to %s.' => '',
-        'Please press Back and try again.' => '',
-        'Sent password token to: %s' => '',
-        'Sent new password to: %s' => '',
-        'Invalid Token!' => '',
-        'For more info see:' => '',
-        'Package verification failed!' => '',
+        'Dear Mr. %s,' => 'Kære Hr. %s',
+        'Dear Mrs. %s,' => 'Kære Fru. %s',
+        'Dear %s,' => 'Kære %s',
+        'Hello %s,' => 'Hej %s',
+        'This account exists.' => 'Denne konto eksisterer allerede.',
+        'New account created. Sent Login-Account to %s.' => 'Ny konto er oprettet. Login informationer er sendt til %s.',
+        'Please press Back and try again.' => 'Tryk venligst tilbage og prøv igen.',
+        'Sent password token to: %s' => 'Kodeords kendetegn er sendt til: %s',
+        'Sent new password to: %s' => 'Nyt kodeord er sendt til: %s',
+        'Invalid Token!' => 'Ugyldigt kendetegn!',
+        'For more info see:' => 'For mere information se:',
+        'Package verification failed!' => 'Pakke godkendelse fejlede!',
 
         # Template: AAAMonth
         'Jan' => 'Jan',
@@ -321,7 +321,7 @@ sub Data {
         # Template: AAAPreferences
         'Preferences updated successfully!' => 'Indstillingerne er opdateret!',
         'Mail Management' => 'Mailstyring',
-        'Frontend' => '',
+        'Frontend' => 'Frontend',
         'Other Options' => 'Andre valgmuligheder',
         'Change Password' => 'Skift adgangskode',
         'New password' => 'Ny adgangskode',
@@ -392,13 +392,13 @@ sub Data {
         'Forward' => 'Videresend',
         'From' => 'Fra',
         'To' => 'Til',
-        'Cc' => '',
-        'Bcc' => '',
+        'Cc' => 'Cc',
+        'Bcc' => 'Bcc',
         'Subject' => 'Emne',
         'Move' => 'Flyt',
         'Queue' => 'Kø',
         'Priority' => 'Prioritering',
-        'Priority Update' => '',
+        'Priority Update' => 'Prioritets opdatering',
         'State' => 'Status',
         'Compose' => 'Skrive',
         'Pending' => 'Afventer',
@@ -447,12 +447,12 @@ sub Data {
         'unlock' => 'ulåst',
         'very low' => 'meget lav',
         'low' => 'lav',
-        'normal' => '',
+        'normal' => 'normal',
         'high' => 'høj',
         'very high' => 'meget høj',
         '1 very low' => '1 meget lav',
         '2 low' => '2 lav',
-        '3 normal' => '',
+        '3 normal' => '3 normal',
         '4 high' => '4 høj',
         '5 very high' => '5 meget høj',
         'Ticket "%s" created!' => 'Sag "%s" oprettet!',
@@ -467,7 +467,7 @@ sub Data {
         'Phone-Ticket' => 'Telefon-Sag',
         'Search Tickets' => 'Søg sager',
         'Edit Customer Users' => 'Rediger kundebrugere',
-        'Edit Customer Company' => '',
+        'Edit Customer Company' => 'Rediger kunde firma',
         'Bulk-Action' => 'Massehandling',
         'Bulk Actions on Tickets' => 'Massehandlinger vedrørende sager',
         'Send Email and create a new Ticket' => 'Send e-mail og opret en ny sag',
@@ -566,8 +566,8 @@ sub Data {
         'History::WebRequestCustomer' => 'Historik::WebAnmodningKunde',
         'History::TicketLinkAdd' => 'Historik::SagLinkTilføj',
         'History::TicketLinkDelete' => 'Historik::SagLinkSlet',
-        'History::Subscribe' => '',
-        'History::Unsubscribe' => '',
+        'History::Subscribe' => 'Historik::Tilmeld',
+        'History::Unsubscribe' => 'Historik::Afmeld',
 
         # Template: AAAWeekDay
         'Sun' => 'Søn',
@@ -620,9 +620,9 @@ sub Data {
         'Select the user:group permissions.' => 'Vælg rettigheder til brugeren:gruppen.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the user).' => 'Er intet valgt, er der ingen rettigheder i denne gruppe (der er ingen tilgængelige sag til brugeren).',
         'Permission' => 'Tilladdelse',
-        'ro' => '',
+        'ro' => 'ro',
         'Read only access to the ticket in this group/queue.' => 'Kun læseadgang til sager i denne gruppe/kø.',
-        'rw' => '',
+        'rw' => 'rw',
         'Full read and write access to the tickets in this group/queue.' => 'Komplet læse- og skriveadgang til sagerne i denne gruppe/kø.',
 
         # Template: AdminCustomerUserGroupForm
@@ -648,7 +648,7 @@ sub Data {
         'Job-List' => 'Job-Liste',
         'Last run' => 'Sidste kørsel',
         'Run Now!' => 'Kør nu!',
-        'x' => '',
+        'x' => 'x',
         'Save Job as?' => 'Gem et job som?',
         'Is Job Valid?' => 'Er jobbet gyldigt?',
         'Is Job Valid' => 'Er jobbet gyldigt',
@@ -666,16 +666,16 @@ sub Data {
         'No create time settings.' => 'Opret ikke tider.',
         'Ticket created' => 'Sag oprettet',
         'Ticket created between' => 'Sag oprettet mellem',
-        'Close Times' => '',
-        'No close time settings.' => '',
-        'Ticket closed' => '',
-        'Ticket closed between' => '',
+        'Close Times' => 'Lukket tid',
+        'No close time settings.' => 'Ingen lukke tids indstillinger',
+        'Ticket closed' => 'Sag er lukket',
+        'Ticket closed between' => 'Sag er lukket mellem',
         'Pending Times' => 'Afventende tider',
         'No pending time settings.' => 'Ingen afventende tider',
         'Ticket pending time reached' => 'Sags afvents tid er nået',
         'Ticket pending time reached between' => 'Sagens afventnings tid er opnået mellem',
-        'New Service' => '',
-        'New SLA' => '',
+        'New Service' => 'Ny service',
+        'New SLA' => 'Ny SLA',
         'New Priority' => 'Ny prioritering',
         'New Queue' => 'Ny kø',
         'New State' => 'Ny status',
@@ -683,24 +683,24 @@ sub Data {
         'New Owner' => 'Ny ejer',
         'New Customer' => 'Ny kunde',
         'New Ticket Lock' => 'Ny saglås',
-        'New Type' => '',
-        'New Title' => '',
-        'New Type' => '',
+        'New Type' => 'Ny type',
+        'New Title' => 'Ny titel',
+        'New Type' => 'Ny type',
         'New TicketFreeFields' => 'iNy SagsFriFelter',
         'Add Note' => 'Tilføj bemærkning',
         'Time units' => 'Tidsenheder',
-        ' (minutes)' => '',
-        'CMD' => '',
+        ' (minutes)' => ' (minutter)',
+        'CMD' => 'CMD',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'Denne kommando vil blive udført. ARG[0] bliver sagens nummer. ARG[1] sagens ID. ',
         'Delete tickets' => 'Slet sager',
         'Warning! This tickets will be removed from the database! This tickets are lost!' => 'Advarsel! Denne sag fjernes fra databasen! Denne sag er gået tabt!',
         'Send Notification' => 'Send Meddelse',
-        'Param 1' => '',
-        'Param 2' => '',
-        'Param 3' => '',
-        'Param 4' => '',
-        'Param 5' => '',
-        'Param 6' => '',
+        'Param 1' => 'Param 1',
+        'Param 2' => 'Param 2',
+        'Param 3' => 'Param 3',
+        'Param 4' => 'Param 4',
+        'Param 5' => 'Param 5',
+        'Param 6' => 'Param 6',
         'Send no notifications' => 'Send ingen meddelser',
         'Yes means, send no agent and customer notifications on changes.' => 'Ja betyder, send ingen meddelser til Repræsentant eller Kunde ved ændringer.',
         'No means, send agent and customer notifications on changes.' => 'Nej betyder, send meddelser til Repræsentant eller Kunde ved ændringer.',
@@ -741,7 +741,7 @@ sub Data {
         # Template: AdminPackageManager
         'Package Manager' => 'Pakke Styring',
         'Uninstall' => 'Afinstaller',
-        'Version' => '',
+        'Version' => 'Version',
         'Do you really want to uninstall this package?' => 'Er du sikker på, du ønsker at afinstallere denne pakke?',
         'Reinstall' => 'Geninstaller',
         'Do you really want to reinstall this package (all manual changes get lost)?' => 'Ønsker du virkeleg at geninstallere denne pakke (Alle manuelle ændringer vil blive slettet)?',
@@ -752,19 +752,19 @@ sub Data {
         'Vendor' => 'Sælger',
         'Upgrade' => 'Opgrader',
         'Local Repository' => 'Lokalt lagerdepot',
-        'Status' => '',
+        'Status' => 'Status',
         'Overview' => 'Oversigt',
-        'Download' => '',
+        'Download' => 'Download',
         'Rebuild' => 'Genopbyg',
-        'ChangeLog' => '',
+        'ChangeLog' => 'ChangeLog',
         'Date' => 'Dato',
         'Filelist' => 'Filliste',
         'Download file from package!' => 'Download fil fra pakke!',
         'Required' => 'Påkrævet',
         'PrimaryKey' => 'PrimærNøgle',
         'AutoIncrement' => 'AutoForhøjelse',
-        'SQL' => '',
-        'Diff' => '',
+        'SQL' => 'SQL',
+        'Diff' => 'Diff',
 
         # Template: AdminPerformanceLog
         'Performance Log' => 'Ydelses log',
@@ -777,21 +777,21 @@ sub Data {
         'Logfile too large!' => 'Logfil er for stor',
         'Logfile too large, you need to reset it!' => 'Log fil er fort stor, du skal nulstille den',
         'Range' => 'Område',
-        'Interface' => '',
+        'Interface' => 'Interface',
         'Requests' => 'Forespørgsel',
         'Min Response' => 'Min Svar',
         'Max Response' => 'Max Svar',
         'Average Response' => 'Gennemsnitligt Svar',
-        'Period' => '',
-        'Min' => '',
-        'Max' => '',
-        'Average' => '',
+        'Period' => 'Periode',
+        'Min' => 'Min',
+        'Max' => 'Max',
+        'Average' => 'Gennemsnitlig',
 
         # Template: AdminPGPForm
         'PGP Management' => 'PGP-styring',
         'Result' => 'Resultat',
         'Identifier' => 'Identifikator',
-        'Bit' => '',
+        'Bit' => 'Bit',
         'Key' => 'Nøgle',
         'Fingerprint' => 'Fingeraftryk',
         'Expires' => 'Udløber',
@@ -800,7 +800,7 @@ sub Data {
         # Template: AdminPostMasterFilter
         'PostMaster Filter Management' => 'PostMasters filterstyring',
         'Filtername' => 'Filternavn',
-        'Match' => '',
+        'Match' => 'Match',
         'Header' => 'Overskrift',
         'Value' => 'Værdi',
         'Set' => 'Indstil',
@@ -809,9 +809,9 @@ sub Data {
         'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => 'Anvender du RegExp, kan du også bruge den matchede værdi i () som [***] i \'Set\'.',
 
         # Template: AdminPriority
-        'Priority Management' => '',
-        'Add Priority' => '',
-        'Add a new Priority.' => '',
+        'Priority Management' => 'Prioritets administration',
+        'Add Priority' => 'Tilføj prioritet',
+        'Add a new Priority.' => 'Tilføj ny prioritet',
 
         # Template: AdminQueueAutoResponseForm
         'Queue <-> Auto Responses Management' => 'Kø <-> Styring af autosvar',
@@ -821,13 +821,13 @@ sub Data {
         'Sub-Queue of' => 'Underkø af',
         'Unlock timeout' => 'Lås tisfristen op',
         '0 = no unlock' => '0 = ingen oplåsning',
-        'Only business hours are counted.' => '',
+        'Only business hours are counted.' => 'Kun normal kontor tid er beregnet.',
         'Escalation - First Response Time' => 'Eskalation - Første svar tid',
         '0 = no escalation' => '0 = ingen eskalering',
-        'Only business hours are counted.' => '',
-        'Notify by' => '',
+        'Only business hours are counted.' => 'Kun normal kontor tid er beregnet.',
+        'Notify by' => 'Adviser via',
         'Escalation - Update Time' => 'Eskalation - Opdaterings tid',
-        'Notify by' => '',
+        'Notify by' => 'Adviser via',
         'Escalation - Solution Time' => 'Eskalation - Løsnings tid',
         'Follow up Option' => 'Opfølgningsmulighed',
         'Ticket lock after a follow up' => 'Sag oplåst efter en opfølgning',
@@ -897,7 +897,7 @@ sub Data {
         'Add a new Salutation.' => 'Tilføj en ny hilsen',
 
         # Template: AdminSelectBoxForm
-        'SQL Box' => '',
+        'SQL Box' => 'SQL Box',
         'Limit' => 'Grænse',
         'Go' => 'Gå',
         'Select Box Result' => 'Vælg feltresultat',
@@ -912,8 +912,8 @@ sub Data {
         'Session Management' => 'Sessionsstyring',
         'Sessions' => 'Sessioner',
         'Uniq' => 'Unik',
-        'Kill all sessions' => '',
-        'Session' => '',
+        'Kill all sessions' => 'Drøb alle sessions',
+        'Session' => 'Session',
         'Content' => 'Indhold',
         'kill session' => 'afbryd session',
 
@@ -932,7 +932,7 @@ sub Data {
         'Add Certificate' => 'Tilføj certifikat',
         'Add Private Key' => 'Tilføj privat nøgle',
         'Secret' => 'Hemmelig',
-        'Hash' => '',
+        'Hash' => 'Hash',
         'In this way you can directly edit the certification and private keys in file system.' => 'Du kan på denne måde direkte redigere certificeringsnøgler og private nøgler i filsystemet.',
 
         # Template: AdminStateForm
@@ -944,7 +944,7 @@ sub Data {
         'See also' => 'Se også',
 
         # Template: AdminSysConfig
-        'SysConfig' => '',
+        'SysConfig' => 'SysConfig',
         'Group selection' => 'Gruppevalg',
         'Show' => 'Vis',
         'Download Settings' => 'Download indstillinger',
@@ -961,9 +961,9 @@ sub Data {
         'Group Ro' => 'Gruppe Ro',
         'New Group Ro' => 'Ny grupperolle',
         'NavBarName' => 'NavBarNavn',
-        'NavBar' => '',
+        'NavBar' => 'NavBar',
         'Image' => 'Billede',
-        'Prio' => '',
+        'Prio' => 'Prio',
         'Block' => 'Blok',
         'AccessKey' => 'AdgangsNøgle',
 
@@ -972,7 +972,7 @@ sub Data {
         'Add System Address' => 'Tilføj system adresse',
         'Add a new System Address.' => 'Tilføj en ny system adresse',
         'Realname' => 'RigtigtNavn',
-        'All email addresses get excluded on replaying on composing and email.' => '',
+        'All email addresses get excluded on replaying on composing and email.' => 'Alle email adresser er ekskluderet når du besvarer eller laver en ny email.',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alle indkommende e-mail med denne "E-mail" (Til:) sendes til den valgte kø!',
 
         # Template: AdminTypeForm
@@ -1004,21 +1004,18 @@ sub Data {
 
         # Template: AgentCalendarSmallIcon
 
-        # Template: AgentCTI
-        'CTI Monitor' => '',
-
         # Template: AgentCustomerTableView
 
         # Template: AgentInfo
-        'Info' => '',
+        'Info' => 'Info',
 
         # Template: AgentLinkObject
-        'Link Object: %s' => '',
+        'Link Object: %s' => 'Kæd objekt: %s',
         'Object' => 'Objekt',
         'Link Object' => 'Kæd til objekt',
         'with' => '',
         'Select' => 'Vælg',
-        'Unlink Object: %s' => '',
+        'Unlink Object: %s' => 'Fjern kædning af objekt: %s',
 
         # Template: AgentLookup
         'Lookup' => 'Find',
@@ -1052,11 +1049,11 @@ sub Data {
         # Template: AgentStatsEditSpecification
         'Insert of the common specifications' => 'Indsæt fælles specifikationer',
         'Permissions' => 'Rettigeheder',
-        'Format' => '',
+        'Format' => 'Format',
         'Graphsize' => 'Graf størrelse',
         'Sum rows' => 'Antal rækker',
         'Sum columns' => 'Antal Kollonner',
-        'Cache' => '',
+        'Cache' => 'Cache',
         'Required Field' => 'Påkærvede felter',
         'Selection needed' => 'Valg påkrævet',
         'Explanation' => 'Forklaring',
@@ -1115,7 +1112,7 @@ sub Data {
         'No element selected.' => 'Intet element er valgt',
         'maximal period from' => 'maksimal periode fra',
         'to' => 'til',
-        'Start' => '',
+        'Start' => 'Start',
         'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => 'Med input og select felterne kan du konfigurere en stat til dine behov. Hvilket element af en stat du kan rette afhænger af administratoren der har konfigureret denne stat.',
 
         # Template: AgentTicketBounce
@@ -1143,7 +1140,7 @@ sub Data {
         'Attach' => 'Vedhæft',
         'Next state' => 'Næste status',
         'Pending date' => 'Afventer dato',
-        ' (minutes)' => '',
+        ' (minutes)' => ' (minutter)',
 
         # Template: AgentTicketCompose
         'Compose answer for ticket' => 'Formuler svar til sag',
@@ -1169,11 +1166,11 @@ sub Data {
         'Clear To' => 'Ryd til',
 
         # Template: AgentTicketEscalationView
-        'Ticket Escalation View' => '',
-        'Escalation' => '',
-        'Today' => '',
-        'Tomorrow' => '',
-        'Next Week' => '',
+        'Ticket Escalation View' => 'Sags eskalerings visning',
+        'Escalation' => 'Eskalering',
+        'Today' => 'Idag',
+        'Tomorrow' => 'Imorgen',
+        'Next Week' => 'Næste uge',
         'up' => 'op',
         'down' => 'ned',
         'Escalation in' => 'Eskalering ind',
@@ -1195,7 +1192,7 @@ sub Data {
         'Mailbox' => 'Mailboks',
         'Tickets' => 'Sager',
         'of' => 'af',
-        'Filter' => '',
+        'Filter' => 'Filter',
         'New messages' => 'Nye meddelelser',
         'Reminder' => 'Påmindelse',
         'Sort by' => 'Sorter efter',
@@ -1263,10 +1260,10 @@ sub Data {
         'Search-Template' => 'Søge-skabelon',
         'TicketFreeText' => 'SagFriTekst',
         'Created in Queue' => 'Oprettet i kø',
-        'Close Times' => '',
-        'No close time settings.' => '',
-        'Ticket closed' => '',
-        'Ticket closed between' => '',
+        'Close Times' => 'Lukke tid',
+        'No close time settings.' => 'Ingen lukke tids indstillinger',
+        'Ticket closed' => 'Sag lukket',
+        'Ticket closed between' => 'Sag lukket mellem',
         'Result Form' => 'Resultatformular',
         'Save Search-Profile as Template?' => 'Gem søgeprofil som skabelon?',
         'Yes, save it with name' => 'Ja, gem den med navn',
@@ -1285,8 +1282,8 @@ sub Data {
         'Open Tickets' => 'Åbne sager',
 
         # Template: AgentTicketZoom
-        'Expand View' => '',
-        'Collapse View' => '',
+        'Expand View' => 'Udvid visning',
+        'Collapse View' => 'Indskrænk visning',
 
         # Template: AgentWindowTab
 
@@ -1317,7 +1314,7 @@ sub Data {
         # Template: CustomerHeaderSmall
 
         # Template: CustomerLogin
-        'Login' => '',
+        'Login' => 'Login',
         'Lost your password?' => 'Mistet din adgangskode?',
         'Request new password' => 'Anmod om ny adgangskode',
         'Create Account' => 'Opret konto',
@@ -1367,14 +1364,14 @@ sub Data {
         'Accept license' => 'Accepter licens',
         'Don\'t accept license' => 'Accepter ikke icensen',
         'Admin-User' => 'Admin-bruger',
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' => '',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' => 'Hvis du har sat et root kodeord til din database skal du taste det her. Hvis ikke, lad feltet være tomt. Af sikkerheds årsager anbefaler vi at sætte et root kodeord. For mere information henviser vi til documentationen for din database.',
         'Admin-Password' => 'Admin-adgangskode',
         'Database-User' => 'Database-bruger',
         'default \'hot\'' => 'standard \'hot\'',
         'DB connect host' => 'DB tilsluttes værtscomputer',
-        'Database' => '',
+        'Database' => 'Database',
         'Default Charset' => 'Standardtegnsæt',
-        'utf8' => '',
+        'utf8' => 'utf8',
         'false' => 'negativ',
         'SystemID' => 'System-ID',
         '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(Systemets identificering. Hvert sagnummer og hver http-sessions ID starter med dette tal) ',
@@ -1383,12 +1380,12 @@ sub Data {
         'AdminEmail' => 'AdminE-mail',
         '(Email of the system admin)' => '(Systemadministrators e-mail)',
         'Organization' => 'Organisation',
-        'Log' => '',
+        'Log' => 'Log',
         'LogModule' => 'LogModul',
         '(Used log backend)' => '(Anvendt log til backend)',
         'Logfile' => 'Logfil',
         '(Logfile just needed for File-LogModule!)' => '(Logfilen behøves kun til Fil-LogModul!)',
-        'Webfrontend' => '',
+        'Webfrontend' => 'Webfrontend',
         'Use utf-8 it your database supports it!' => 'Anvend utf-8, hvis din database understøtter det!',
         'Default Language' => 'Standardsprog',
         '(Used default language)' => '(Anvendt standardsprog)',
@@ -1413,7 +1410,7 @@ sub Data {
         'Important' => 'Vigtigt',
 
         # Template: PrintFooter
-        'URL' => '',
+        'URL' => 'URL',
 
         # Template: PrintHeader
         'printed by' => 'udskrevet af',
@@ -1455,7 +1452,7 @@ sub Data {
         'System History' => 'Systemhistorik',
         'customer realname' => 'kundens virkelige navn',
         'Pending messages' => 'Afventer meddelelser',
-        'Port' => '',
+        'Port' => 'Port',
         'Modules' => 'Moduler',
         'for agent login' => 'til repræsentantens login',
         'Keyword' => 'Søgeord',
@@ -1513,7 +1510,7 @@ sub Data {
         'CreateTicket' => 'Opret sag',
         'You need to account time!' => 'Du skal beregne tiden!',
         'System Settings' => 'Systemindstillinger',
-        'WebWatcher' => '',
+        'WebWatcher' => 'WebWatcher',
         'Finished' => 'Færdig',
         'Account Type' => 'Konto type',
         'Split' => 'Del',
@@ -1527,7 +1524,7 @@ sub Data {
         'Event' => 'Handling',
         'don\'t accept license' => 'accepter ikke licens',
         'A web mail client' => 'En webmailklient',
-        'WebMail' => '',
+        'WebMail' => 'WebMail',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Valgmuligheder for sagens data (f.eks. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Sagsejers valgmuligheder (f.eks. <OTRS_OWNER_UserFirstname>)',
         'Name is required!' => 'Navn er påkrævet!',
@@ -1549,7 +1546,7 @@ sub Data {
         'send' => '',
         'Note Text' => 'Bemærkningstekst',
         'POP3 Account Management' => 'POP3 kontostyring',
-        'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
+        'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'Muligheder for den nuværende kundes data (f.eks. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)',
         'System State Management' => 'Systemtilstandsstyring',
         'OTRS DB User' => 'OTRS DB-bruger',
         'PhoneView' => 'TelefonVisning',
