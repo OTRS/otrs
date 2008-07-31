@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.46 2008-07-05 20:26:41 mh Exp $
+# $Id: LinkObject.pm,v 1.47 2008-07-31 12:45:13 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 =head1 NAME
 
@@ -609,6 +609,62 @@ sub LinkAdd {
         Type         => $Param{Type},
         State        => $Param{State},
         UserID       => $Param{UserID},
+    );
+
+    return 1;
+}
+
+=item LinkCleanup()
+
+deletes old links from database
+
+return true
+
+    $True = $LinkObject->LinkCleanup(
+        State  => 'Temporary',
+        Age    => ( 60 * 60 * 24 ),
+        UserID => 1,
+    );
+
+=cut
+
+sub LinkCleanup {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Argument (qw(State Age UserID)) {
+        if ( !$Param{$Argument} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!",
+            );
+            return;
+        }
+    }
+
+    # lookup state id
+    my $StateID = $Self->StateLookup(
+        Name   => $Param{State},
+        UserID => $Param{UserID},
+    );
+
+    return if !$StateID;
+
+    # get current time
+    my $Now = $Self->{TimeObject}->SystemTime();
+
+    # calculate delete time
+    my $DeleteTime = $Self->{TimeObject}->SystemTime2TimeStamp(
+        SystemTime => ( $Now - $Param{Age} ),
+    );
+
+    # delete the link
+    return if !$Self->{DBObject}->Do(
+        SQL => 'DELETE FROM link_relation '
+            . 'WHERE state_id = ? AND create_time < ?',
+        Bind => [
+            \$StateID, \$DeleteTime,
+        ],
     );
 
     return 1;
@@ -2314,6 +2370,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.46 $ $Date: 2008-07-05 20:26:41 $
+$Revision: 1.47 $ $Date: 2008-07-31 12:45:13 $
 
 =cut
