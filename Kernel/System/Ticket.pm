@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.335 2008-07-21 11:28:26 mh Exp $
+# $Id: Ticket.pm,v 1.336 2008-07-31 14:45:04 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.335 $) [1];
+$VERSION = qw($Revision: 1.336 $) [1];
 
 =head1 NAME
 
@@ -5159,7 +5159,8 @@ sub PriorityList {
 
 =item HistoryTicketStatusGet()
 
-to get the priority list for a ticket (depends on workflow, if configured)
+get a hash with ticket id as key and a hash ref (result of HistoryTicketGet)
+of all affected tickets in this time area.
 
     my %Tickets = $TicketObject->HistoryTicketStatusGet(
         StartDay   => 12,
@@ -6556,6 +6557,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.335 $ $Date: 2008-07-21 11:28:26 $
+$Revision: 1.336 $ $Date: 2008-07-31 14:45:04 $
 
 =cut
