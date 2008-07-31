@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.726 2008-07-31 13:39:52 ub Exp $
+# $Id: CHANGES,v 1.727 2008-07-31 16:31:30 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.3.1 (2008/??/??)
+ - (2008/07/31) Fixed bug# 3141 - The TicketSearch() function produces error on
+    a DB2 database, if the argument TicketCreateTimeOlderDate is given.
  - (2008/07/31) Added function LinkCleanup() to delete forgotten temporary links
     that are older than one day. The function is called only when deleting a link.
  - (2008/07/30) Updated CPAN module CGI to version 3.39.
