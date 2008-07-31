@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.196 2008-07-28 09:17:44 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.197 2008-07-31 20:35:22 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -5517,8 +5517,8 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::StateAfterPending" Required="1" Valid="1">
-        <Description Lang="en">States after pending time has reached.</Description>
-        <Description Lang="de">Status den das Ticket bekommt nach dem die Pendingzeit abgelaufen ist.</Description>
+        <Description Lang="en">Define which State should be set automatically (Value) after pending time of State (Key) has been reached.</Description>
+        <Description Lang="de">Definition welche Status automatisch gesetzt werden soll (Inhalt) nach dem erreichen des "Warten Zeit" (Schlüssel).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
