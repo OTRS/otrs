@@ -3,7 +3,7 @@
 # - allow no parent close till all clients are closed -
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CloseParentAfterClosedChilds.pm,v 1.9 2008-06-20 16:55:33 mh Exp $
+# $Id: CloseParentAfterClosedChilds.pm,v 1.10 2008-08-01 06:53:12 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,8 +15,10 @@ package Kernel::System::Ticket::Acl::CloseParentAfterClosedChilds;
 use strict;
 use warnings;
 
+use Kernel::System::LinkObject;
+
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -67,8 +69,8 @@ sub Run {
         my $Links = $Self->{LinkObject}->LinkList(
             Object => 'Ticket',
             Key    => $Param{TicketID},
-            State  => 'ParentChild',
-            Type   => 'Valid',
+            State  => 'Valid',
+            Type   => 'ParentChild',
             UserID => $Param{UserID},
         );
 
