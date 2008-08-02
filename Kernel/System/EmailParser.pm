@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.69 2008-07-13 23:08:59 martin Exp $
+# $Id: EmailParser.pm,v 1.70 2008-08-02 13:10:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.70 $) [1];
 
 =head1 NAME
 
@@ -92,7 +92,7 @@ sub new {
 
         # create MIME::Parser object and get message body or body of first attachemnt
         my $Parser = new MIME::Parser;
-        $Parser->output_to_core("ALL");
+        $Parser->output_to_core('ALL');
         $Self->{ParserParts} = $Parser->parse_data( $Self->{Email}->as_string() );
     }
     else {
@@ -335,7 +335,7 @@ sub GetCharset {
             if ( $Self->{Debug} > 0 ) {
                 $Self->{LogObject}->Log(
                     Priority => 'debug',
-                    Message  => "Got no charset from email body! Take iso-8859-1!",
+                    Message  => 'Got no charset from email body! Take iso-8859-1!',
                 );
             }
 
@@ -384,7 +384,7 @@ sub GetReturnContentType {
         if ( $Self->{Debug} > 0 ) {
             $Self->{LogObject}->Log(
                 Priority => 'debug',
-                Message  => "Changed no ContentType",
+                Message  => 'Changed no ContentType',
             );
         }
         return $ContentType;
@@ -435,10 +435,10 @@ sub GetMessageBody {
         if ( $Self->{Debug} > 0 ) {
             $Self->{LogObject}->Log(
                 Priority => 'debug',
-                Message  => "It's a plain (not mime) email!",
+                Message  => 'It\'s a plain (not mime) email!',
             );
         }
-        my $BodyStrg = join( '', @{ $Self->{Email}->body() } );
+        my $BodyStrg = join( "\n", @{ $Self->{Email}->body() } );
 
         # quoted printable!
         if ( $Self->GetParam( WHAT => 'Content-Transfer-Encoding' ) =~ /quoted-printable/i ) {
@@ -473,7 +473,7 @@ sub GetMessageBody {
         if ( $Self->{Debug} > 0 ) {
             $Self->{LogObject}->Log(
                 Priority => 'debug',
-                Message  => "It's a mime email!",
+                Message  => 'It\'s a mime email!',
             );
         }
 
@@ -520,7 +520,7 @@ sub GetMessageBody {
                 $Self->{LogObject}->Log(
                     Priority => 'debug',
                     Message =>
-                        "No attachments returned from GetAttachments(), just a null attachment!?",
+                        'No attachments returned from GetAttachments(), just a null attachment!?',
                 );
             }
 
@@ -1183,7 +1183,7 @@ sub CheckMessageBody {
             $Self->{LogObject}->Log(
                 Priority => 'debug',
                 Message =>
-                    "It's an html only email, added ascii dump, attached html email as attachment.",
+                    'It\'s an html only email, added ascii dump, attached html email as attachment.',
             );
         }
     }
@@ -1204,6 +1204,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.69 $ $Date: 2008-07-13 23:08:59 $
+$Revision: 1.70 $ $Date: 2008-08-02 13:10:15 $
 
 =cut
