@@ -309,7 +309,13 @@ sub encode_mimewords {
     ###    We limit such words to 18 characters, to guarantee that the
     ###    worst-case encoding give us no more than 54 + ~10 < 75 characters
     my $word;
-    $rawstr =~ s{([ a-zA-Z0-9\x7F-\xFF]{1,18})}{     ### get next "word"
+# ---
+# 2008-08-02 added patch/workaround for bug in MIME::Words (v5.427, maybe
+# also higner)
+# see also: http://rt.cpan.org/Public/Bug/Display.html?id=5462
+#           http://bugs.otrs.org/show_bug.cgi?id=3121
+#    $rawstr =~ s{([ a-zA-Z0-9\x7F-\xFF]{1,18})}{     ### get next "word"
+    $rawstr =~ s{([a-zA-Z0-9\x7F-\xFF]+\s*)}{     ### get next "word"
 	$word = $1;
 	(($word !~ /(?:[$NONPRINT])|(?:^\s+$)/o)
 	 ? $word                                          ### no unsafe chars
