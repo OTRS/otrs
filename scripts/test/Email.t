@@ -2,7 +2,7 @@
 # Email.t - email parser tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.t,v 1.1 2008-08-02 13:06:16 martin Exp $
+# $Id: Email.t,v 1.2 2008-08-02 13:49:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -76,6 +76,9 @@ for my $Encoding ( '', qw(base64 quoted-printable 8bit) ) {
             %{ $Test->{Data} },
         );
 
+        # start MIME::Tools workaround
+        ${ $Body } =~ s/\n/\r/g;
+        # end MIME::Tools workaround
         my $Email = ${ $Header } . "\n" . ${ $Body };
         my @Array = split /\n/, $Email;
 
@@ -99,6 +102,9 @@ for my $Encoding ( '', qw(base64 quoted-printable 8bit) ) {
         if ( $Test->{Data}->{Body} ) {
             my $Body = $ParserObject->GetMessageBody();
             # start MIME::Tools workaround
+            $Body =~ s/\r/\n/g;
+            $Body =~ s/=\n//;
+            $Body =~ s/\n$//;
             $Body =~ s/=$//;
             # end MIME::Tools workaround
             $Self->Is(
