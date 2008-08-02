@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.43 2008-07-23 10:34:48 martin Exp $
+# $Id: Email.pm,v 1.44 2008-08-02 13:07:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,14 +13,13 @@ package Kernel::System::Email;
 
 use strict;
 use warnings;
-use MIME::Words qw(:all);
 use MIME::Entity;
 use Mail::Address;
 use Kernel::System::Encode;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 =head1 NAME
 
@@ -99,11 +98,10 @@ sub new {
     }
 
     # create backend object
-    $Self->{Backend} = $GenericModule->new( %Param, EncodeObject => $Self->{EncodeObject}, );
-
-    $Self->{FQDN}         = $Self->{ConfigObject}->Get('FQDN');
-    $Self->{Organization} = $Self->{ConfigObject}->Get('Organization');
-    $Self->{SendmailBcc}  = $Self->{ConfigObject}->Get('SendmailBcc');
+    $Self->{Backend} = $GenericModule->new(
+        %Param,
+        EncodeObject => $Self->{EncodeObject},
+    );
 
     return $Self;
 }
@@ -168,7 +166,7 @@ sub Send {
         }
     }
     if ( !$Param{To} && !$Param{Cc} && !$Param{Bcc} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need To, Cc or Bcc!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need To, Cc or Bcc!' );
         return;
     }
 
@@ -232,42 +230,41 @@ sub Send {
 
     # loop
     if ( $Param{Loop} ) {
-        $Header{'X-Loop'}     = 'yes';
-        $Header{'Precedence'} = 'bulk';
+        $Header{'X-Loop'}   = 'yes';
+        $Header{Precedence} = 'bulk';
     }
 
     # do some encode
     for (qw(From To Cc Subject)) {
-        if ( $Header{$_} && $Param{Charset} ) {
-            $Header{$_} = encode_mimewords(
-                Encode::encode( $Param{Charset}, $Header{$_} ),
-                Charset => $Param{Charset}
-                )
-                || '';
+        if ( $Header{$_} ) {
+            $Header{$_} = $Self->_EncodeMIMEWords(
+                Field   => $_,
+                Line    => $Header{$_},
+                Charset => $Param{Charset},
+            );
         }
     }
-    $Header{'X-Mailer'}
-        = $Self->{ConfigObject}->Get('Product')
-        . " Mail Service ("
-        . $Self->{ConfigObject}->Get('Version') . ")";
+    $Header{'X-Mailer'} = $Self->{ConfigObject}->Get('Product')
+        . ' Mail Service ('
+        . $Self->{ConfigObject}->Get('Version') . ')';
     $Header{'X-Powered-By'} = 'OTRS - Open Ticket Request System (http://otrs.org/)';
-    $Header{'Type'} = $Param{Type} || 'text/plain';
+    $Header{Type} = $Param{Type} || 'text/plain';
 
     # define email encoding
     if ( $Param{Charset} && $Param{Charset} =~ /^iso/i ) {
-        $Header{'Encoding'} = '8bit';
+        $Header{Encoding} = '8bit';
     }
     else {
-        $Header{'Encoding'} = 'quoted-printable';
+        $Header{Encoding} = 'quoted-printable';
     }
 
     # check if we need to force the encoding
     if ( $Self->{ConfigObject}->Get('SendmailEncodingForce') ) {
-        $Header{'Encoding'} = $Self->{ConfigObject}->Get('SendmailEncodingForce');
+        $Header{Encoding} = $Self->{ConfigObject}->Get('SendmailEncodingForce');
     }
 
     # body encode if utf8 and base64 is used
-    if ( $Header{'Encoding'} =~ /utf(8|-8)/i && $Header{'Encoding'} =~ /base64/i ) {
+    if ( $Header{Encoding} =~ /utf(8|-8)/i && $Header{Encoding} =~ /base64/i ) {
         $Self->{EncodeObject}->EncodeOutput( \$Param{Body} );
     }
 
@@ -280,20 +277,20 @@ sub Send {
     }
     if ( $Param{'In-Reply-To'} ) {
         $Header{'In-Reply-To'} = $Param{'In-Reply-To'};
-        $Header{'References'}  = $Param{'In-Reply-To'};
+        $Header{References}    = $Param{'In-Reply-To'};
     }
 
     # add date header
-    $Header{'Date'} = "Date: " . $Self->{TimeObject}->MailTimeStamp();
+    $Header{Date} = 'Date: ' . $Self->{TimeObject}->MailTimeStamp();
 
     # add organisation header
-    if ( $Self->{Organization} ) {
-        $Header{'Organization'}
-            = encode_mimewords(
-            Encode::encode( $Param{Charset}, $Self->{Organization} ),
-            Charset => $Param{Charset}
-            )
-            || '';
+    my $Organization = $Self->{ConfigObject}->Get('Organization');
+    if ( $Organization ) {
+        $Header{Organization} = $Self->_EncodeMIMEWords(
+            Field   => 'Organization',
+            Line    => $Organization,
+            Charset => $Param{Charset},
+        );
     }
 
     # build MIME::Entity
@@ -362,8 +359,8 @@ sub Send {
                 $Entity->attach(
                     Filename => 'pgp_sign.asc',
                     Data     => $Sign,
-                    Type     => "application/pgp-signature",
-                    Encoding => "7bit",
+                    Type     => 'application/pgp-signature',
+                    Encoding => '7bit',
                 );
             }
         }
@@ -371,7 +368,7 @@ sub Send {
 
             # make multi part
             my $EntityCopy = $Entity->dup();
-            $EntityCopy->make_multipart( "mixed;", Force => 1, );
+            $EntityCopy->make_multipart( 'mixed;', Force => 1, );
 
             # get header to remember
             my $head = $EntityCopy->head;
@@ -395,7 +392,7 @@ sub Send {
             if ($Sign) {
                 use MIME::Parser;
                 my $Parser = new MIME::Parser;
-                $Parser->output_to_core("ALL");
+                $Parser->output_to_core('ALL');
 
                 #        $Parser->output_dir($Self->{ConfigObject}->Get('TempDir'));
                 $Entity = $Parser->parse_data( $Header . $Sign );
@@ -449,17 +446,17 @@ sub Send {
 
             # add crypted parts
             $Entity->attach(
-                Type        => "application/pgp-encrypted",
-                Disposition => "attachment",
+                Type        => 'application/pgp-encrypted',
+                Disposition => 'attachment',
                 Data        => [ "Version: 1", "" ],
-                Encoding    => "7bit",
+                Encoding    => '7bit',
             );
             $Entity->attach(
-                Type        => "application/octet-stream",
-                Disposition => "inline",
-                Filename    => "msg.asc",
+                Type        => 'application/octet-stream',
+                Disposition => 'inline',
+                Filename    => 'msg.asc',
                 Data        => $Crypt,
-                Encoding    => "7bit",
+                Encoding    => '7bit',
             );
         }
     }
@@ -476,7 +473,7 @@ sub Send {
         }
 
         # make_multipart -=> one attachment for encryption
-        $Entity->make_multipart( "mixed;", Force => 1, );
+        $Entity->make_multipart( 'mixed;', Force => 1, );
 
         # get header to remember
         my $head = $Entity->head;
@@ -529,9 +526,12 @@ sub Send {
             }
         }
     }
-    if ( $Self->{SendmailBcc} ) {
-        push( @ToArray, $Self->{SendmailBcc} );
-        $To .= ", $Self->{SendmailBcc}";
+
+    # add Bcc recipients
+    my $SendmailBcc  = $Self->{ConfigObject}->Get('SendmailBcc');
+    if ( $SendmailBcc ) {
+        push @ToArray, $SendmailBcc;
+        $To .= ', ' . $SendmailBcc;
     }
 
     # get sender
@@ -545,7 +545,7 @@ sub Send {
     if ( $Self->{Debug} > 1 ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message  => "Sent email to '$To' from '$RealFrom'. " . "Subject => $Param{Subject};",
+            Message  => "Sent email to '$To' from '$RealFrom'. Subject => '$Param{Subject}';",
         );
     }
 
@@ -556,9 +556,9 @@ sub Send {
         Header  => \$Param{Header},
         Body    => \$Param{Body},
     );
-    if ( !$Sent ) {
-        return;
-    }
+
+    return if !$Sent;
+
     return ( \$Param{Header}, \$Param{Body} );
 }
 
@@ -617,7 +617,7 @@ sub Bounce {
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message  => "Bounced email to '$Param{To}' from '$Param{From}'. "
-                . "MessageID => $OldMessageID;",
+                . "MessageID => '$OldMessageID';",
         );
     }
 
@@ -628,16 +628,57 @@ sub Bounce {
         Body    => \$BodyAsString,
     );
 
-    if ( !$Sent ) {
-        return;
+    return if !$Sent;
+
+    return ( \$HeaderAsString, \$BodyAsString );
+}
+
+sub _EncodeMIMEWords {
+    my ( $Self, %Param ) = @_;
+
+    # return if no content is given
+    return '' if !defined $Param{Line};
+
+    # check if MIME::EncWords is installed
+    if ( eval { require MIME::EncWords } ) {
+        return MIME::EncWords::encode_mimewords(
+            Encode::encode(
+                $Param{Charset},
+                $Param{Line},
+            ),
+            Charset  => $Param{Charset},
+
+            # use 'a' for quoted printable or base64 choice automatically
+            Encoding => 'a',
+
+            # for line length calculation to fold lines
+            Field    => $Param{Field},
+        );
     }
-    return 1;
+
+    # as fallback use MIME::Words of MIME::Tools (but it lakes on some utf8
+    # issues, see pod of MIME::Words)
+    else {
+        require MIME::Words;
+        return MIME::Words::encode_mimewords(
+            Encode::encode(
+                $Param{Charset},
+                $Param{Line},
+            ),
+            Charset => $Param{Charset},
+
+            # for line length calculation to fold lines (gets ignored by
+            # MIME::Words, see pod of MIME::Words)
+            Field   => $Param{Field},
+        );
+    }
 }
 
 sub _MessageIDCreate {
     my ( $Self, %Param ) = @_;
 
-    return "Message-ID: <" . time() . "." . rand(999999) . "\@$Self->{FQDN}>";
+    my $FQDN = $Self->{ConfigObject}->Get('FQDN');
+    return 'Message-ID: <' . time() . '.' . rand(999999) . '@' . $FQDN .'>';
 }
 1;
 
@@ -655,6 +696,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.43 $ $Date: 2008-07-23 10:34:48 $
+$Revision: 1.44 $ $Date: 2008-08-02 13:07:44 $
 
 =cut

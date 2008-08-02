@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.728 2008-08-01 06:53:12 mh Exp $
+# $Id: CHANGES,v 1.729 2008-08-02 13:07:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.3.1 (2008/??/??)
+ - (2008/08/02) Fixed bug# 3121 - OTRS corrupts email headers (Subject, From etc.)
+    while encoding with utf-8.
  - (2008/08/01) Fixed bug# 3142 - The Ticket-ACL module
     CloseParentAfterClosedChilds produces errors.
  - (2008/07/31) Fixed bug# 3141 - The TicketSearch() function produces error on
@@ -17,8 +19,13 @@
  - (2008/07/31) Added function LinkCleanup() to delete forgotten temporary
     links that are older than one day. The function is called only when deleting
     a link.
+ - (2008/07/30) Updated dansk language translation, thanks to Mads N. Vestergaard!
+ - (2008/07/30) Updated spanish translation, thanks to Pelayo Romero Martin!
  - (2008/07/30) Updated CPAN module CGI to version 3.39.
  - (2008/07/30) Updated CPAN module MailTools to version 2.04.
+ - (2008/07/27) Updated russian translation, thanks to Egor Tsilenko!
+ - (2008/07/25) Fixed bug# 3122 - Ticket attributes in agent ticket search
+    CSV export gets not translated.
  - (2008/07/25) Fixed bug# 2300 - Not all Notification Tags are working in
     Notifications.
  - (2008/07/21) Fixed bug# 3117 - Auto increment of "id" in article_search
