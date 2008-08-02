@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.70 2008-08-02 13:10:15 martin Exp $
+# $Id: EmailParser.pm,v 1.71 2008-08-02 13:14:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 =head1 NAME
 
@@ -438,7 +438,7 @@ sub GetMessageBody {
                 Message  => 'It\'s a plain (not mime) email!',
             );
         }
-        my $BodyStrg = join( "\n", @{ $Self->{Email}->body() } );
+        my $BodyStrg = join( '', @{ $Self->{Email}->body() } );
 
         # quoted printable!
         if ( $Self->GetParam( WHAT => 'Content-Transfer-Encoding' ) =~ /quoted-printable/i ) {
@@ -1204,6 +1204,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.70 $ $Date: 2008-08-02 13:10:15 $
+$Revision: 1.71 $ $Date: 2008-08-02 13:14:12 $
 
 =cut
