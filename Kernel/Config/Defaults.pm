@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.298 2008-08-03 14:48:57 martin Exp $
+# $Id: Defaults.pm,v 1.299 2008-08-03 15:23:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.298 $) [1];
+$VERSION = qw($Revision: 1.299 $) [1];
 
 sub LoadDefaults {
     my ($Self) = @_;
@@ -1200,7 +1200,7 @@ Your OTRS Notification Master
         Map => [
 
             # note: Login, Email and CustomerID needed!
-            # var, frontend, storage, shown (1=always,2=lite), required, storage-type, http-link, readonly
+            # var, frontend, storage, shown (1=always,2=lite), required, storage-type, http-link, readonly, http-link-target
             [ 'UserSalutation', 'Salutation', 'salutation', 1, 0, 'var', '', 0 ],
             [ 'UserFirstname',  'Firstname',  'first_name', 1, 1, 'var', '', 0 ],
             [ 'UserLastname',   'Lastname',   'last_name',  1, 1, 'var', '', 0 ],
@@ -2327,6 +2327,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.298 $ $Date: 2008-08-03 14:48:57 $
+$Revision: 1.299 $ $Date: 2008-08-03 15:23:46 $
 
 =cut

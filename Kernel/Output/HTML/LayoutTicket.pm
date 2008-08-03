@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.27 2008-07-21 11:28:26 mh Exp $
+# $Id: LayoutTicket.pm,v 1.28 2008-08-03 15:23:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -125,7 +125,11 @@ sub AgentCustomerViewTable {
                 Value => $Param{Data}->{ $Field->[0] },
             );
             if ( $Field->[6] ) {
-                $Record{LinkStart} = "<a href=\"$Field->[6]\">";
+                $Record{LinkStart} = "<a href=\"$Field->[6]\"";
+                if ( $Field->[8] ) {
+                    $Record{LinkStart} .= " target=\"$Field->[8]\"";
+                }
+                $Record{LinkStart} .= "\">";
                 $Record{LinkStop}  = "</a>";
             }
             if ( $Field->[0] ) {
@@ -179,7 +183,6 @@ sub AgentCustomerViewTable {
     }
 
     # Acivity Index: History
-    # Open Tickets
     # CTI
     # vCard
     # Bugzilla Status
