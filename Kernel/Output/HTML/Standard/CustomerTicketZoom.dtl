@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.34 2008-07-09 12:32:06 martin Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.35 2008-08-03 15:07:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -121,10 +121,12 @@ function submit_compose() {
         </tr>
 <!-- dtl:block:ArticleAttachment -->
       </table>
+      <p>
 $Data{"Article::TextNote"}
-      <div class="message">
+        <div class="message">
 $Data{"Article::Text"}
-      </div>
+        </div>
+      </p>
 <!-- dtl:block:FollowUp -->
       <hr>
       <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
