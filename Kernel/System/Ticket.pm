@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.337 2008-07-31 15:25:59 mh Exp $
+# $Id: Ticket.pm,v 1.338 2008-08-03 15:26:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.337 $) [1];
+$VERSION = qw($Revision: 1.338 $) [1];
 
 =head1 NAME
 
@@ -1694,10 +1694,9 @@ sub TicketEscalationDateCalculation {
 
     for my $Key ( keys %Map ) {
         if ( $Ticket{$Key} ) {
-
-            # do not escalations in "pending auto" for update time
+            # do not escalations in "pending auto" for escalation update time
             if ( $Key eq 'EscalationUpdateTime' && $Ticket{StateType} =~ /^(pending\sauto)/i ) {
-                return;
+                next;
             }
             my $WorkingTime = 0;
             my $TimeDiff    = $Ticket{$Key} - $Time;
@@ -2315,15 +2314,15 @@ sub TicketFreeTextGet {
         # fill cache
         if ( !$CacheData && %Data ) {
             my $TimeEnd = $Self->{TimeObject}->SystemTime();
-            my $TTL     = 6 * 60;
+            my $TTL     = 10 * 60;
             if ( $TimeEnd - $TimeStart > 2 ) {
-                $TTL = 4 * 60 * 60;
+                $TTL = 8 * 60 * 60;
             }
             elsif ( $TimeEnd - $TimeStart > 1 ) {
-                $TTL = 2 * 60 * 60;
+                $TTL = 4 * 60 * 60;
             }
             elsif ( $TimeEnd - $TimeStart > 0 ) {
-                $TTL = 45 * 60;
+                $TTL = 2 * 60 * 60;
             }
             $CacheObject->Set(
                 Type  => 'TicketFreeTextLookup',
@@ -6557,6 +6556,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.337 $ $Date: 2008-07-31 15:25:59 $
+$Revision: 1.338 $ $Date: 2008-08-03 15:26:35 $
 
 =cut
