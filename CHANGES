@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.730 2008-08-03 15:23:46 martin Exp $
+# $Id: CHANGES,v 1.731 2008-08-03 16:09:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.3.1 (2008/08/04)
+ - (2008/08/03) Fixed bug# 3096 - Errorlog messages from NET::DNS (Subroutine
+    nxrrset redefined at ...).
  - (2008/08/03) Added http target for customer user map config options in
     position 9 (see Kernel/Config/Defaults.pm for examples).
  - (2008/08/02) Fixed bug# 3121 - OTRS corrupts email headers (Subject, From etc.)
