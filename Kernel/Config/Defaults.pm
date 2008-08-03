@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.297 2008-05-28 07:27:31 tr Exp $
+# $Id: Defaults.pm,v 1.298 2008-08-03 14:48:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.297 $) [1];
+$VERSION = qw($Revision: 1.298 $) [1];
 
 sub LoadDefaults {
     my ($Self) = @_;
@@ -2206,7 +2206,9 @@ sub new {
                 if ( exists $ENV{MOD_PERL} ) {
 
                     # if mod_perl 2.x is used, check if Apache::Reload is use
-                    if ( $mod_perl::VERSION >= 1.99 ) {
+                    # on win32 Apache::Reload is not working correctly, so do also use "do"
+                    my $OS = $^O;
+                    if ( $mod_perl::VERSION >= 1.99 && $OS ne 'MSWin32') {
                         my $ApacheReload = 0;
                         for my $Module ( keys %INC ) {
                             $Module =~ s/\//::/g;
@@ -2325,6 +2327,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.297 $ $Date: 2008-05-28 07:27:31 $
+$Revision: 1.298 $ $Date: 2008-08-03 14:48:57 $
 
 =cut
