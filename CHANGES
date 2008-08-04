@@ -2,16 +2,12 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.732 2008-08-04 10:45:56 ub Exp $
+# $Id: CHANGES,v 1.733 2008-08-04 14:15:07 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
-
-2.3.2 (2008/??/??)
- - (2008/08/04) Fixed bug# 3149 - Search form works differently when
-    creating links from the phone ticket mask.
 
 2.3.1 (2008/08/04)
  - (2008/08/03) Fixed bug# 3096 - Errorlog messages from NET::DNS (Subroutine
