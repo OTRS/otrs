@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.169 2008-08-06 11:19:00 ub Exp $
+# $Id: de.pm,v 1.170 2008-08-06 12:28:37 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.169 $) [1];
+$VERSION = qw($Revision: 1.170 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -262,7 +262,7 @@ sub Data {
         'New account created. Sent Login-Account to %s.' => 'Neuen Account erstellt. Login-Daten an %s gesendet.',
         'Please press Back and try again.' => 'Bitte auf Zurück klicken und erneut versuchen.',
         'Sent password token to: %s' => 'Passwort-Token an %s gesendet.',
-        'Sent new password to: %s' => 'Neues Passwort and %s gesendet.',
+        'Sent new password to: %s' => 'Neues Passwort an %s gesendet.',
         'Invalid Token!' => 'Ungültiger Token!',
 
         # Template: AAAMonth
