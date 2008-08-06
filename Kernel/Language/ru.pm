@@ -4,7 +4,7 @@
 # Copyright (C) 2007 Andrey Feldman <afeldman at alt-lan.ru>
 # Copyright (C) 2008 Egor Tsilenko <bg8s at symlink.ru>
 # --
-# $Id: ru.pm,v 1.66 2008-07-30 23:00:41 martin Exp $
+# $Id: ru.pm,v 1.67 2008-08-06 11:48:12 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1538,6 +1538,7 @@ sub Data {
         'Priority Management' => 'Управление приоритетами',
         'Add a new Priority.' => 'Создать новый приоритет.',
         'Add Priority' => 'Создать приоритет',
+        'Ticket Type is required!' => '',
     };
     # $$STOP$$
     return;

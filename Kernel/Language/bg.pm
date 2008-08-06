@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.78 2008-07-30 23:00:41 martin Exp $
+# $Id: bg.pm,v 1.79 2008-08-06 11:48:12 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.78 $) [1];
+$VERSION = qw($Revision: 1.79 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1551,6 +1551,7 @@ sub Data {
         'Priority Management' => 'Управление на приоритетите',
         'Add a new Priority.' => 'Добави нов приоритет.',
         'Add Priority' => 'Добави приоритет',
+        'Ticket Type is required!' => '',
     };
     # $$STOP$$
     return;

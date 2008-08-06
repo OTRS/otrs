@@ -2,7 +2,7 @@
 # Kernel/Language/ct.pm - provides ct language translation
 # Copyright (C) 2008 Sistemes OTIC (ibsalut) - Antonio Linde
 # --
-# $Id: ct.pm,v 1.12 2008-07-27 10:22:33 martin Exp $
+# $Id: ct.pm,v 1.13 2008-08-06 11:48:12 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1545,6 +1545,7 @@ sub Data {
         'Priority Management' => 'Gestió de prioritat',
         'Add a new Priority.' => 'Afegir una nova prioritat',
         'Add Priority' => 'Afegir prioritat',
+        'Ticket Type is required!' => '',
     };
     # $$STOP$$
     return;

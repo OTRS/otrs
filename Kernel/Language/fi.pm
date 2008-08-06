@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # Copyright (C) 2007-2008 Mikko Hynninen <first.last at tietokartano.fi>
 # --
-# $Id: fi.pm,v 1.78 2008-07-27 10:22:33 martin Exp $
+# $Id: fi.pm,v 1.79 2008-08-06 11:48:12 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.78 $) [1];
+$VERSION = qw($Revision: 1.79 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1525,6 +1525,7 @@ sub Data {
         'Priority Management' => 'Prioriteettien hallinta',
         'Add a new Priority.' => 'Lisää uusi prioriteetti.',
         'Add Priority' => 'Lisää prioriteetti',
+        'Ticket Type is required!' => '',
     };
     # $$STOP$$
     return;

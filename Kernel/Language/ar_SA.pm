@@ -2,7 +2,7 @@
 # Kernel/Language/ar_SA.pm - provides ar_SA language translation
 # Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
 # --
-# $Id: ar_SA.pm,v 1.22 2008-07-27 10:22:33 martin Exp $
+# $Id: ar_SA.pm,v 1.23 2008-08-06 11:48:12 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1580,6 +1580,7 @@ sub Data {
         'Priority Management' => '',
         'Add a new Priority.' => '',
         'Add Priority' => '',
+        'Ticket Type is required!' => '',
     };
     # $$STOP$$
     return;

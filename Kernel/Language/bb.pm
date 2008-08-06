@@ -2,7 +2,7 @@
 # Kernel/Language/bb.pm - provides bavarian language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: bb.pm,v 1.38 2008-07-27 10:22:33 martin Exp $
+# $Id: bb.pm,v 1.39 2008-08-06 11:48:12 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1659,6 +1659,7 @@ sub Data {
         'Priority Management' => '',
         'Add a new Priority.' => '',
         'Add Priority' => '',
+        'Ticket Type is required!' => '',
     };
 
     # $$STOP$$

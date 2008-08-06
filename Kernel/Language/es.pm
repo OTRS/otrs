@@ -4,7 +4,7 @@
 # Copyright (C) 2007 Carlos Oyarzabal <carlos.oyarzabal at grupocash.com.mx>
 # Copyright (C) 2008 Pelayo Romero Martín <pelayo.romero at gmail.com>
 # --
-# $Id: es.pm,v 1.79 2008-07-30 23:00:41 martin Exp $
+# $Id: es.pm,v 1.80 2008-08-06 11:48:12 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.79 $) [1];
+$VERSION = qw($Revision: 1.80 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1544,6 +1544,7 @@ sub Data {
         'Priority Management' => 'Gestión de Prioridades',
         'Add a new Priority.' => 'Añadir una nueva Prioridad.',
         'Add Priority' => 'Añadir Prioridad',
+        'Ticket Type is required!' => '',
     };
     # $$STOP$$
     return;

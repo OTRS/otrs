@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Thorsten Rossner <thorsten.rossner[at]stepstone.de>
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # --
-# $Id: da.pm,v 1.43 2008-07-31 07:59:34 martin Exp $
+# $Id: da.pm,v 1.44 2008-08-06 11:48:12 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1555,6 +1555,7 @@ sub Data {
         'SMIME Management' => 'SMIME-styring',
         'Modified' => 'Modificeret',
         'Ticket selected for bulk action!' => 'Sag valgt til massehandling!',
+        'Ticket Type is required!' => '',
     };
     # $$STOP$$
     return;

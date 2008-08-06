@@ -5,7 +5,7 @@
 # Copyright (C) 2006 Flora Szabo /szaboflora@magicnet.hu/
 # Copyright (C) 2007 Aron Ujvari <ujvari@hungary.com>
 # --
-# $Id: hu.pm,v 1.55 2008-07-27 10:22:33 martin Exp $
+# $Id: hu.pm,v 1.56 2008-08-06 11:48:12 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1569,6 +1569,7 @@ sub Data {
         'Priority Management' => '',
         'Add a new Priority.' => '',
         'Add Priority' => '',
+        'Ticket Type is required!' => '',
     };
     # $$STOP$$
     return;
