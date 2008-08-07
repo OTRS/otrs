@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
-# Copyright (C) 2001-2007 OTRS GmbH, http://otrs.org/
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceAgent.pm,v 1.23 2007-09-07 09:12:46 martin Exp $
+# $Id: InterfaceAgent.pm,v 1.23.2.1 2008-08-07 08:56:48 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
 package Kernel::System::Web::InterfaceAgent;
@@ -14,7 +14,7 @@ package Kernel::System::Web::InterfaceAgent;
 use strict;
 
 use vars qw($VERSION @INC);
-$VERSION = '$Revision: 1.23 $';
+$VERSION = '$Revision: 1.23.2.1 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 # all framework needed modules
@@ -430,7 +430,7 @@ sub Run {
             if ($EmailObject->Send(
                 To => $UserData{UserEmail},
                 Subject => $Subject,
-                Charset => 'iso-8859-15',
+                Charset => $Self->{LayoutObject}->{UserCharset},
                 Type => 'text/plain',
                 Body => $Body)
             ) {
@@ -729,12 +729,12 @@ This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
 the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.23 $ $Date: 2007-09-07 09:12:46 $
+$Revision: 1.23.2.1 $ $Date: 2008-08-07 08:56:48 $
 
 =cut
