@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.465.2.134 2008-07-20 12:14:05 martin Exp $
+# $Id: CHANGES,v 1.465.2.135 2008-08-07 09:50:10 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.2.8 (2008/??/??)
+ - (2008/07/20) Fixed bug# 3155 - Wrong header charset in lost password
+    notification.
  - (2008/07/20) Fixed bug# 3103 - CustomerInterface: Ticket of other customers
     accessible for other customers.
  - (2008/07/18) Fixed bug# 3101 - Getting Queue view after adding a note with
