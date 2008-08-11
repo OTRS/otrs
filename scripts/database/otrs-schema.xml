@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<database Name="otrs">
 
 <!--
 
     XML File for the OTRS database description
     Copyright (C) 2001-2006 OTRS GmbH, http://otrs.org/
 
-    $Id: otrs-schema.xml,v 1.71 2007-07-29 23:43:10 martin Exp $
+    $Id: otrs-schema.xml,v 1.71.2.1 2008-08-11 23:21:11 martin Exp $
 
     $Log: not supported by cvs2svn $
+    Revision 1.71  2007/07/29 23:43:10  martin
+    Removed xml tags from comment log.
+
     Revision 1.70  2007/07/26 13:26:46  martin
     Improved system performance of escalation (bug# 2020 Performance
     problem after updating to 2.2.0).
@@ -308,8 +312,6 @@
 
 
 -->
-
-<database Name="otrs">
 
 <!-- valid - all valid stats -->
 <Table Name="valid">
