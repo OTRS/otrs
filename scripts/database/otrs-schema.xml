@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<database Name="otrs">
 
 <!--
 
     XML File for the OTRS database description
     Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 
-    $Id: otrs-schema.xml,v 1.95 2008-07-23 22:54:56 martin Exp $
+    $Id: otrs-schema.xml,v 1.96 2008-08-11 23:19:09 martin Exp $
 
 -->
-
-<database Name="otrs">
 
 <!-- valid - all valid stats -->
 <Table Name="valid">
