@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.734 2008-08-07 09:52:02 ub Exp $
+# $Id: CHANGES,v 1.735 2008-08-11 22:52:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -490,6 +490,9 @@
  - (2007/09/13) Improved report overview of perfornance log.
 
 2.2.8 (2008/??/??)
+ - (2008/08/12) Fixed bug# 3156 - When the "EMAILADDRESS:" attribute is used to
+    define a specific email address, then secodary match attributes are applied
+    to all mails.
  - (2008/07/20) Fixed bug# 3155 - Wrong header charset in lost password
     notification.
  - (2008/07/20) Fixed bug# 3103 - CustomerInterface: Ticket of other customers

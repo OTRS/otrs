@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter/MatchDBSource.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: MatchDBSource.pm,v 1.11 2008-07-13 23:11:15 martin Exp $
+# $Id: MatchDBSource.pm,v 1.12 2008-08-11 22:52:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::PostMaster::Filter;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -66,12 +66,14 @@ sub Run {
         for ( keys %Match ) {
             if ( $Param{GetParam}->{$_} && $Match{$_} =~ /^EMAILADDRESS:(.*)$/ ) {
                 my $SearchEmail = $1;
-                my @EmailAddresses
-                    = $Self->{ParserObject}->SplitAddressLine( Line => $Param{GetParam}->{$_} );
+                my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine(
+                    Line => $Param{GetParam}->{$_},
+                );
+                my $LocalMatched;
                 for my $RawEmail (@EmailAddresses) {
                     my $Email = $Self->{ParserObject}->GetEmailAddress( Email => $RawEmail );
                     if ( $Email =~ /^$SearchEmail$/i ) {
-                        $Matched = $SearchEmail || 1;
+                        $LocalMatched = $SearchEmail || 1;
                         if ( $Self->{Debug} > 1 ) {
                             $Self->{LogObject}->Log(
                                 Priority => 'debug',
@@ -79,9 +81,15 @@ sub Run {
                                     "$Prefix'$Param{GetParam}->{$_}' =~ /$Match{$_}/i matched!",
                             );
                         }
+                        last;
                     }
                 }
-
+                if ( !$LocalMatched ) {
+                    $MatchedNot = 1;
+                }
+                else {
+                    $Matched = $LocalMatched;
+                }
             }
             elsif ( $Param{GetParam}->{$_} && $Param{GetParam}->{$_} =~ /$Match{$_}/i ) {
                 $Matched = $1 || '1';

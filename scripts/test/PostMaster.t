@@ -2,7 +2,7 @@
 # PostMaster.t - PostMaster tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.t,v 1.9 2008-05-08 09:35:57 mh Exp $
+# $Id: PostMaster.t,v 1.10 2008-08-11 22:52:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,6 +11,7 @@
 
 use Kernel::System::PostMaster::LoopProtection;
 use Kernel::System::PostMaster;
+use Kernel::System::PostMaster::Filter;
 use Kernel::System::Ticket;
 
 for my $Module (qw(DB FS)) {
@@ -20,6 +21,7 @@ for my $Module (qw(DB FS)) {
     );
 
     $Self->{LoopProtectionObject} = Kernel::System::PostMaster::LoopProtection->new( %{$Self} );
+    $Self->{PostMasterFilter}     = Kernel::System::PostMaster::Filter->new( %{$Self} );
 
     # get rand sender address
     my $UserRand1 = 'example-user' . int( rand(1000000) ) . '@example.com';
@@ -62,6 +64,45 @@ for my $NumberModule (qw(AutoIncrement DateChecksum Date Random)) {
         $Self->{ConfigObject}->Set(
             Key   => 'Ticket::StorageModule',
             Value => "Kernel::System::Ticket::$StorageModule",
+        );
+
+        # add rand postmaster filter
+        my $FilterRand1 = 'filter' . int( rand(1000000) );
+        my $FilterRand2 = 'filter' . int( rand(1000000) );
+        my $FilterRand3 = 'filter' . int( rand(1000000) );
+        $Self->{PostMasterFilter}->FilterAdd(
+            Name  => $FilterRand1,
+            Match => {
+                Subject => 'test',
+                To      => 'EMAILADDRESS:darthvader@otrs.org',
+            },
+            Set   => {
+                'X-OTRS-Queue'        => 'Misc',
+                'X-OTRS-TicketKey1'   => 'Key1',
+                'X-OTRS-TicketValue1' => 'Text1',
+            }
+        );
+        $Self->{PostMasterFilter}->FilterAdd(
+            Name  => $FilterRand2,
+            Match => {
+                Subject => 'test',
+                To      => 'EMAILADDRESS:darthvader2@otrs.org',
+            },
+            Set   => {
+                'X-OTRS-TicketKey2'   => 'Key2',
+                'X-OTRS-TicketValue2' => 'Text2',
+            }
+        );
+        $Self->{PostMasterFilter}->FilterAdd(
+            Name  => $FilterRand3,
+            Match => {
+                Subject => 'test 1',
+                To      => 'otrs.org',
+            },
+            Set   => {
+                'X-OTRS-TicketKey3'   => 'Key3',
+                'X-OTRS-TicketValue3' => 'Text3',
+            }
         );
 
         # get rand sender address
@@ -114,6 +155,46 @@ for my $NumberModule (qw(AutoIncrement DateChecksum Date Random)) {
             my @ArticleIDs = $Self->{TicketObject}->ArticleIndex(
                 TicketID => $Return[1],
             );
+
+            if ( $File == 1 ) {
+                my @Tests = (
+                    {
+                        Key    => 'Queue',
+                        Result => 'Misc',
+                    },
+                    {
+                        Key    => 'TicketFreeKey1',
+                        Result => 'Key1',
+                    },
+                    {
+                        Key    => 'TicketFreeText1',
+                        Result => 'Text1',
+                    },
+                    {
+                        Key    => 'TicketFreeKey2',
+                        Result => '',
+                    },
+                    {
+                        Key    => 'TicketFreeText2',
+                        Result => '',
+                    },
+                    {
+                        Key    => 'TicketFreeKey3',
+                        Result => 'Key3',
+                    },
+                    {
+                        Key    => 'TicketFreeText3',
+                        Result => 'Text3',
+                    },
+                );
+                for my $Test (@Tests) {
+                    $Self->Is(
+                        $Ticket{ $Test->{Key} },
+                        $Test->{Result},
+                        "#$NumberModule $StorageModule $File $Test->{Key} check",
+                    );
+                }
+            }
 
             if ( $File == 3 ) {
 
@@ -467,6 +548,9 @@ for my $NumberModule (qw(AutoIncrement DateChecksum Date Random)) {
                 "#$NumberModule $StorageModule $File TicketDelete()",
             );
         }
+        $Self->{PostMasterFilter}->FilterDelete( Name => $FilterRand1 );
+        $Self->{PostMasterFilter}->FilterDelete( Name => $FilterRand2 );
+        $Self->{PostMasterFilter}->FilterDelete( Name => $FilterRand3 );
     }
 }
 
