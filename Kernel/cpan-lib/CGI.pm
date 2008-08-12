@@ -18,8 +18,8 @@ use Carp 'croak';
 # The most recent version and complete docs are available at:
 #   http://stein.cshl.org/WWW/software/CGI/
 
-$CGI::revision = '$Id: CGI.pm,v 1.15 2008-07-30 06:53:20 mh Exp $';
-$CGI::VERSION='3.39';
+$CGI::revision = '$Id: CGI.pm,v 1.16 2008-08-12 15:11:46 mh Exp $';
+$CGI::VERSION='3.40';
 
 # HARD-CODED LOCATION FOR FILE UPLOAD TEMPORARY FILES.
 # UNCOMMENT THIS ONLY IF YOU KNOW WHAT YOU'RE DOING.
@@ -2849,30 +2849,58 @@ sub path_info {
 }
 END_OF_FUNC
 
-# WE USE THIS TO COMPENSATE FOR A BUG IN APACHE 2 PRESENT AT LEAST UP THROUGH 2.0.54
+# This function returns a potentially modified version of SCRIPT_NAME
+# and PATH_INFO. Some HTTP servers do sanitise the paths in those
+# variables. It is the case of at least Apache 2. If for instance the
+# user requests: /path/./to/script.cgi/x//y/z/../x?y, Apache will set:
+# REQUEST_URI=/path/./to/script.cgi/x//y/z/../x?y
+# SCRIPT_NAME=/path/to/env.cgi
+# PATH_INFO=/x/y/x
+#
+# This is all fine except that some bogus CGI scripts expect
+# PATH_INFO=/http://foo when the user requests
+# http://xxx/script.cgi/http://foo
+#
+# Old versions of this module used to accomodate with those scripts, so
+# this is why we do this here to keep those scripts backward compatible.
+# Basically, we accomodate with those scripts but within limits, that is
+# we only try to preserve the number of / that were provided by the user
+# if $REQUEST_URI and "$SCRIPT_NAME$PATH_INFO" only differ by the number
+# of consecutive /.
+#
+# So for instance, in: http://foo/x//y/script.cgi/a//b, we'll return a
+# script_name of /x//y/script.cgi and a path_info of /a//b, but in:
+# http://foo/./x//z/script.cgi/a/../b//c, we'll return the versions
+# possibly sanitised by the HTTP server, so in the case of Apache 2:
+# script_name == /foo/x/z/script.cgi and path_info == /b/c.
+#
+# Future versions of this module may no longer do that, so one should
+# avoid relying on the browser, proxy, server, and CGI.pm preserving the
+# number of consecutive slashes as no guarantee can be made there.
 '_name_and_path_from_env' => <<'END_OF_FUNC',
 sub _name_and_path_from_env {
-   my $self = shift;
-   my $raw_script_name = $ENV{SCRIPT_NAME} || '';
-   my $raw_path_info   = $ENV{PATH_INFO}   || '';
-   my $uri             = unescape($self->request_uri) || '';
+    my $self = shift;
+    my $script_name = $ENV{SCRIPT_NAME}  || '';
+    my $path_info   = $ENV{PATH_INFO}    || '';
+    my $uri         = $self->request_uri || '';
 
-   my $protected    = quotemeta($raw_path_info);
-   $raw_script_name =~ s/$protected$//;
+    $uri =~ s/\?.*//s;
+    $uri = unescape($uri);
 
-   my @uri_double_slashes  = $uri =~ m^(/{2,}?)^g;
-   my @path_double_slashes = "$raw_script_name $raw_path_info" =~ m^(/{2,}?)^g;
+    if ($uri ne "$script_name$path_info") {
+        my $script_name_pattern = quotemeta($script_name);
+        my $path_info_pattern = quotemeta($path_info);
+        $script_name_pattern =~ s{(?:\\/)+}{/+}g;
+        $path_info_pattern =~ s{(?:\\/)+}{/+}g;
 
-   my $apache_bug      = @uri_double_slashes != @path_double_slashes;
-   return ($raw_script_name,$raw_path_info) unless $apache_bug;
-
-   my $path_info_search = quotemeta($raw_path_info);
-   $path_info_search    =~ s!/!/+!g;
-   if ($uri =~ m/^(.+)($path_info_search)/) {
-       return ($1,$2);
-   } else {
-       return ($raw_script_name,$raw_path_info);
-   }
+        if ($uri =~ /^($script_name_pattern)($path_info_pattern)$/s) {
+            # REQUEST_URI and SCRIPT_NAME . PATH_INFO only differ by the
+            # numer of consecutive slashes, so we can extract the info from
+            # REQUEST_URI:
+            ($script_name, $path_info) = ($1, $2);
+        }
+    }
+    return ($script_name,$path_info);
 }
 END_OF_FUNC
 
