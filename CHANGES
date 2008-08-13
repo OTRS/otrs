@@ -2,12 +2,16 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.735 2008-08-11 22:52:02 martin Exp $
+# $Id: CHANGES,v 1.736 2008-08-13 12:18:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
+
+2.3.2 (2008/??/??)
+ - (2008/08/13) Fixed bug# 3133 - OTRS creates temp dirs with wrong access
+    permissions.
 
 2.3.1 (2008/08/04)
  - (2008/08/03) Fixed bug# 3096 - Errorlog messages from NET::DNS (Subroutine
