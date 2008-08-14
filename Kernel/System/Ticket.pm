@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.338 2008-08-03 15:26:35 martin Exp $
+# $Id: Ticket.pm,v 1.339 2008-08-14 15:01:28 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.338 $) [1];
+$VERSION = qw($Revision: 1.339 $) [1];
 
 =head1 NAME
 
@@ -1150,14 +1150,12 @@ to move a ticket (send notification to agents of selected my queues, it ticket i
     $TicketObject->MoveTicket(
         QueueID  => 123,
         TicketID => 123,
-        SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
         UserID   => 123,
     );
 
     $TicketObject->MoveTicket(
         Queue    => 'Some Queue Name',
         TicketID => 123,
-        SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
         UserID   => 123,
     );
 
@@ -1168,6 +1166,14 @@ to move a ticket (send notification to agents of selected my queues, it ticket i
         ForceNotificationToUserID => [1,43,56], # if you want to force somebody
         UserID   => 123,
     );
+
+    Optional attribute:
+    SendNoNotification, disable or enable agent and customer notification for this
+    action. Otherwise a notification will be send to agent and cusomer.
+
+    For example:
+
+        SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
 
 =cut
 
@@ -4203,18 +4209,24 @@ sub LockIsTicketLocked {
 to set a ticket lock or unlock
 
     $TicketObject->LockSet(
-        Lock => 'lock',
+        Lock     => 'lock',
         TicketID => 123,
-        SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
-        UserID => 123,
+        UserID   => 123,
     );
 
     $TicketObject->LockSet(
-        LockID => 1,
+        LockID   => 1,
         TicketID => 123,
-        SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
-        UserID => 123,
+        UserID   => 123,
     );
+
+    Optional attribute:
+    SendNoNotification, disable or enable agent and customer notification for this
+    action. Otherwise a notification will be send to agent and cusomer.
+
+    For example:
+
+        SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
 
 =cut
 
@@ -4346,16 +4358,22 @@ to set a ticket state
     $TicketObject->StateSet(
         State    => 'open',
         TicketID => 123,
-        SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
         UserID   => 123,
     );
 
     $TicketObject->StateSet(
         StateID  => 3,
         TicketID => 123,
-        SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
         UserID   => 123,
     );
+
+    Optional attribute:
+    SendNoNotification, disable or enable agent and customer notification for this
+    action. Otherwise a notification will be send to agent and cusomer.
+
+    For example:
+
+        SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
 
 =cut
 
@@ -4634,9 +4652,16 @@ to set the ticket owner (notification to the new owner will be sent)
     $TicketObject->OwnerSet(
         TicketID  => 123,
         NewUserID => 555,
-        SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
         UserID    => 123,
     );
+
+    Optional attribute:
+    SendNoNotification, disable or enable agent and customer notification for this
+    action. Otherwise a notification will be send to agent and cusomer.
+
+    For example:
+
+        SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
 
 =cut
 
@@ -4805,9 +4830,16 @@ to set the ticket responsible (notification to the new responsible will be sent)
     $TicketObject->ResponsibleSet(
         TicketID  => 123,
         NewUserID => 555,
-        SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
         UserID    => 213,
     );
+
+    Optional attribute:
+    SendNoNotification, disable or enable agent and customer notification for this
+    action. Otherwise a notification will be send to agent and cusomer.
+
+    For example:
+
+        SendNoNotification => 0, # optional 1|0 (send no agent and customer notification)
 
 =cut
 
@@ -6556,6 +6588,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.338 $ $Date: 2008-08-03 15:26:35 $
+$Revision: 1.339 $ $Date: 2008-08-14 15:01:28 $
 
 =cut
