@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.105 2008-07-24 23:45:01 martin Exp $
+# $Id: Layout.pm,v 1.106 2008-08-14 15:42:59 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.105 $) [1];
+$VERSION = qw($Revision: 1.106 $) [1];
 
 =head1 NAME
 
@@ -2984,12 +2984,11 @@ sub PageNavBar {
         if ( $i <= ( $WindowStart + $WindowSize ) && $i > $WindowStart ) {
             $Param{SearchNavBar} .= " <a href=\"$Self->{Baselink}$Param{Action}&$Param{Link}"
                 . "StartWindow=$WindowStart&StartHit=" . ( ( ( $i - 1 ) * $Param{PageShown} ) + 1 );
-            $Param{SearchNavBar} .= '">';
             if ( $Page == $i ) {
-                $Param{SearchNavBar} .= '<b>' . ($i) . '</b>';
+                $Param{SearchNavBar} .= '" style="text-decoration:none"><b>' . $i . '</b>';
             }
             else {
-                $Param{SearchNavBar} .= ($i);
+                $Param{SearchNavBar} .= '" >' . $i;
             }
             $Param{SearchNavBar} .= '</a> ';
         }
@@ -3979,6 +3978,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.105 $ $Date: 2008-07-24 23:45:01 $
+$Revision: 1.106 $ $Date: 2008-08-14 15:42:59 $
 
 =cut
