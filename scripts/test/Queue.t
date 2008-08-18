@@ -2,7 +2,7 @@
 # Queue.t - Queue tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.t,v 1.7 2008-05-15 09:38:28 martin Exp $
+# $Id: Queue.t,v 1.8 2008-08-18 12:47:54 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -101,12 +101,47 @@ $Self->True(
     'QueueLookup() by Name',
 );
 
-my $QueueUpdate = $Self->{QueueObject}->QueueUpdate(
+# a real szenario from AdminQueue.pm
+# for more information see 3139
+my $QueueUpdate2 = $Self->{QueueObject}->QueueUpdate(
+    QueueID             => $QueueID,
+    Name                => $QueueRand . "2",
+    ValidID             => 1,
+    GroupID             => 1,
+    Calendar            => '',
+    FirstResponseTime   => '',
+    FirstResponseNotify => '',
+    UpdateTime          => '',
+    UpdateNotify        => '',
+    SolutionTime        => '',
+    SolutionNotify      => '',
+    SystemAddressID     => 1,
+    SalutationID        => 1,
+    SignatureID         => 1,
+    FollowUpID          => 1,
+    UserID              => 1,
+    MoveNotify          => '',
+    StateNotify         => '',
+    LockNotify          => '',
+    OwnerNotify         => '',
+    Comment             => 'Some Comment2',
+    DefaultSignKey      => '',
+    UnlockTimeOut       => '',
+    FollowUpLock        => 1,
+    ParentQueueID       => '',
+);
+
+$Self->True(
+    $QueueUpdate2,
+    'QueueUpdate() - a real szenario from AdminQueue.pm',
+);
+
+my $QueueUpdate1 = $Self->{QueueObject}->QueueUpdate(
     QueueID             => $QueueID,
     Name                => $QueueRand . "1",
     ValidID             => 2,
     GroupID             => 1,
-    Calendar            => 1,
+    Calendar            => '1',
     FirstResponseTime   => 60,
     FirstResponseNotify => 60,
     UpdateTime          => 480,
@@ -126,7 +161,7 @@ my $QueueUpdate = $Self->{QueueObject}->QueueUpdate(
 );
 
 $Self->True(
-    $QueueUpdate,
+    $QueueUpdate1,
     'QueueUpdate()',
 );
 

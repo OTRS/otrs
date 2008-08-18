@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.100 2008-07-19 21:54:19 mh Exp $
+# $Id: Queue.pm,v 1.101 2008-08-18 12:47:54 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.100 $) [1];
+$VERSION = qw($Revision: 1.101 $) [1];
 
 =head1 NAME
 
@@ -863,7 +863,7 @@ update queue attributes
         Name              => 'Some::Queue',
         ValidID           => 1,
         GroupID           => 1,
-        Calendar          => 'Calendar1', # (optional)
+        Calendar          => '1', # (optional) default ''
         FirstResponseTime   => 120, # (optional)
         FirstResponseNotify => 60,  # (optional, notify agent if first response escalation is 60% reached)
         UpdateTime        => 180,   # (optional)
@@ -879,6 +879,11 @@ update queue attributes
         LockNotify        => 0,
         OwnerNotify       => 0,
         FollowUpID        => 1,
+        Comment           => 'Some Comment2',
+        DefaultSignKey    => ''
+        UnlockTimeOut     => ''
+        FollowUpLock      => 1,
+        ParentQueueID     => '',
     );
 
 =cut
@@ -887,12 +892,7 @@ sub QueueUpdate {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(MoveNotify StateNotify LockNotify OwnerNotify)) {
-        if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
+
     for (
         qw(QueueID Name ValidID GroupID SystemAddressID SalutationID SignatureID UserID FollowUpID)
         )
@@ -903,15 +903,42 @@ sub QueueUpdate {
         }
     }
 
-    # check !!!
-    for (
-        qw(UnlockTimeout FollowUpLock
-        FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify
-        FollowUpLock DefaultSignKey Calendar)
-        )
-    {
-        if ( !$Param{$_} ) {
-            $Param{$_} = 0;
+    # FollowUpLock 0 | 1
+    $Param{FollowUpLock} = $Param{FollowUpLock} || 0;
+
+    # DefaultSignKey   '' || 'string'
+    $Param{DefaultSignKey} = $Param{DefaultSignKey} || '';
+
+    # Calendar string  '', '1', '2', '3', '4', '5'  default ''
+    $Param{Calendar} = $Param{Calendar} || '';
+
+    # notify 0 | 1
+    for my $Notify (qw(MoveNotify StateNotify LockNotify OwnerNotify)) {
+        if ( !defined $Param{$Notify} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Notify!" );
+            return;
+        }
+        $Param{$Notify} = $Param{$Notify} || 0;
+    }
+
+    # content -> time in seconds
+    for my $Time (qw( UnlockTimeout FirstResponseTime UpdateTime SolutionTime )) {
+        $Param{$Time} = $Param{$Time} || 0;
+        if ($Param{$Time} !~ m{^\d+$}smx) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "$Time is not numeric!" );
+            return;
+        }
+    }
+
+    # content integer from 0 - 99
+    for my $Notify (qw(FirstResponseNotify  UpdateNotify  SolutionNotify)) {
+        $Param{$Notify} = $Param{$Notify} || 0;
+        if ($Param{$Notify} !~ m{^\d{1,2}}smx) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "$Notify must be an integer in the range from 0 to 99!",
+            );
+            return;
         }
     }
 
@@ -1095,6 +1122,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.100 $ $Date: 2008-07-19 21:54:19 $
+$Revision: 1.101 $ $Date: 2008-08-18 12:47:54 $
 
 =cut
