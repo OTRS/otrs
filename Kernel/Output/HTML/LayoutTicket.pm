@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.28 2008-08-03 15:23:46 martin Exp $
+# $Id: LayoutTicket.pm,v 1.29 2008-08-18 14:00:36 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -264,6 +264,9 @@ sub AgentQueueListOption {
         $Data{$_} .= '::';
     }
 
+    # to show disabled queues only one time in the selection tree
+    my %DisabledQueueAlreadyUsed = ();
+
     # build selection string
     for ( sort { $Data{$a} cmp $Data{$b} } keys %Data ) {
         my @Queue = split( /::/, $Param{Data}->{$_} );
@@ -291,9 +294,12 @@ sub AgentQueueListOption {
                 # integrate the not selectable parent and root queues of this queue
                 # useful for ACLs and complex permission settings
                 for my $Index ( 0 .. ( scalar @Queue - 2 ) ) {
-                    my $DSpace = '&nbsp;&nbsp;' x $Index;
-                    $Param{MoveQueuesStrg}
-                        .= '<option value="-" disabled>' . $DSpace . $Queue[$Index] . "</option>\n";
+                    if ( !$DisabledQueueAlreadyUsed{ $Queue[$Index] } ) {
+                        my $DSpace = '&nbsp;&nbsp;' x $Index;
+                        $Param{MoveQueuesStrg}
+                            .= '<option value="-" disabled>' . $DSpace . $Queue[$Index] . "</option>\n";
+                        $DisabledQueueAlreadyUsed{ $Queue[$Index] } = 1;
+                    }
                 }
             }
 
