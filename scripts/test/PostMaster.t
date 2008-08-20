@@ -2,7 +2,7 @@
 # PostMaster.t - PostMaster tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.t,v 1.10 2008-08-11 22:52:02 martin Exp $
+# $Id: PostMaster.t,v 1.11 2008-08-20 15:10:38 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -76,11 +76,11 @@ for my $NumberModule (qw(AutoIncrement DateChecksum Date Random)) {
                 Subject => 'test',
                 To      => 'EMAILADDRESS:darthvader@otrs.org',
             },
-            Set   => {
+            Set => {
                 'X-OTRS-Queue'        => 'Misc',
                 'X-OTRS-TicketKey1'   => 'Key1',
                 'X-OTRS-TicketValue1' => 'Text1',
-            }
+                }
         );
         $Self->{PostMasterFilter}->FilterAdd(
             Name  => $FilterRand2,
@@ -88,10 +88,10 @@ for my $NumberModule (qw(AutoIncrement DateChecksum Date Random)) {
                 Subject => 'test',
                 To      => 'EMAILADDRESS:darthvader2@otrs.org',
             },
-            Set   => {
+            Set => {
                 'X-OTRS-TicketKey2'   => 'Key2',
                 'X-OTRS-TicketValue2' => 'Text2',
-            }
+                }
         );
         $Self->{PostMasterFilter}->FilterAdd(
             Name  => $FilterRand3,
@@ -99,10 +99,10 @@ for my $NumberModule (qw(AutoIncrement DateChecksum Date Random)) {
                 Subject => 'test 1',
                 To      => 'otrs.org',
             },
-            Set   => {
+            Set => {
                 'X-OTRS-TicketKey3'   => 'Key3',
                 'X-OTRS-TicketValue3' => 'Text3',
-            }
+                }
         );
 
         # get rand sender address

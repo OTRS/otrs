@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter/CMD.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CMD.pm,v 1.10 2008-08-19 09:45:01 mh Exp $
+# $Id: CMD.pm,v 1.11 2008-08-20 15:10:38 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -58,7 +58,7 @@ sub Run {
 
     # execute prog
     my $TmpFile = $Self->{ConfigObject}->Get('TempDir') . "/PostMaster.Filter.CMD.$$";
-    if ( open my $Prog, '|-',  "$Config{CMD} > $TmpFile" ) {
+    if ( open my $Prog, '|-', "$Config{CMD} > $TmpFile" ) {
         print $Prog $Self->{ParserObject}->GetPlainEmail();
         close $Prog;
     }

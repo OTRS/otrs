@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.44 2008-08-02 13:07:44 martin Exp $
+# $Id: Email.pm,v 1.45 2008-08-20 15:10:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 =head1 NAME
 
@@ -230,7 +230,7 @@ sub Send {
 
     # loop
     if ( $Param{Loop} ) {
-        $Header{'X-Loop'}   = 'yes';
+        $Header{'X-Loop'} = 'yes';
         $Header{Precedence} = 'bulk';
     }
 
@@ -277,7 +277,7 @@ sub Send {
     }
     if ( $Param{'In-Reply-To'} ) {
         $Header{'In-Reply-To'} = $Param{'In-Reply-To'};
-        $Header{References}    = $Param{'In-Reply-To'};
+        $Header{References} = $Param{'In-Reply-To'};
     }
 
     # add date header
@@ -285,7 +285,7 @@ sub Send {
 
     # add organisation header
     my $Organization = $Self->{ConfigObject}->Get('Organization');
-    if ( $Organization ) {
+    if ($Organization) {
         $Header{Organization} = $Self->_EncodeMIMEWords(
             Field   => 'Organization',
             Line    => $Organization,
@@ -528,8 +528,8 @@ sub Send {
     }
 
     # add Bcc recipients
-    my $SendmailBcc  = $Self->{ConfigObject}->Get('SendmailBcc');
-    if ( $SendmailBcc ) {
+    my $SendmailBcc = $Self->{ConfigObject}->Get('SendmailBcc');
+    if ($SendmailBcc) {
         push @ToArray, $SendmailBcc;
         $To .= ', ' . $SendmailBcc;
     }
@@ -646,13 +646,13 @@ sub _EncodeMIMEWords {
                 $Param{Charset},
                 $Param{Line},
             ),
-            Charset  => $Param{Charset},
+            Charset => $Param{Charset},
 
             # use 'a' for quoted printable or base64 choice automatically
             Encoding => 'a',
 
             # for line length calculation to fold lines
-            Field    => $Param{Field},
+            Field => $Param{Field},
         );
     }
 
@@ -669,7 +669,7 @@ sub _EncodeMIMEWords {
 
             # for line length calculation to fold lines (gets ignored by
             # MIME::Words, see pod of MIME::Words)
-            Field   => $Param{Field},
+            Field => $Param{Field},
         );
     }
 }
@@ -678,7 +678,7 @@ sub _MessageIDCreate {
     my ( $Self, %Param ) = @_;
 
     my $FQDN = $Self->{ConfigObject}->Get('FQDN');
-    return 'Message-ID: <' . time() . '.' . rand(999999) . '@' . $FQDN .'>';
+    return 'Message-ID: <' . time() . '.' . rand(999999) . '@' . $FQDN . '>';
 }
 1;
 
@@ -696,6 +696,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.44 $ $Date: 2008-08-02 13:07:44 $
+$Revision: 1.45 $ $Date: 2008-08-20 15:10:37 $
 
 =cut

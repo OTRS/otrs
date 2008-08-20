@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.53 2008-07-23 15:27:21 mh Exp $
+# $Id: Stats.pm,v 1.54 2008-08-20 15:10:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 =head1 SYNOPSIS
 
@@ -496,10 +496,10 @@ sub StatsDelete {
     );
 
     # error handling
-    if (!$Result) {
+    if ( !$Result ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "StatsDelete: Can't delete XMLHash!",
+            Message  => "StatsDelete: Can't delete XMLHash!",
         );
         return 0;
     }
@@ -3093,9 +3093,9 @@ sub StatsCleanUp {
         );
 
         next STATSID if $HashRef
-            && ref $HashRef eq 'HASH'
-            && $HashRef->{ObjectModule}
-            && $Self->{MainObject}->Require( $HashRef->{ObjectModule} );
+                && ref $HashRef eq 'HASH'
+                && $HashRef->{ObjectModule}
+                && $Self->{MainObject}->Require( $HashRef->{ObjectModule} );
 
         # delete stats
         $Self->StatsDelete( StatID => $StatsID );
@@ -3118,6 +3118,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.53 $ $Date: 2008-07-23 15:27:21 $
+$Revision: 1.54 $ $Date: 2008-08-20 15:10:37 $
 
 =cut

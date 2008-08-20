@@ -2,7 +2,7 @@
 # Kernel/System/DB/mssql.pm - mssql database backend
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: mssql.pm,v 1.49 2008-07-22 09:22:18 mh Exp $
+# $Id: mssql.pm,v 1.50 2008-08-20 15:10:38 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -371,7 +371,8 @@ sub TableAlter {
             if ( $Required || defined $Tag->{Default} ) {
 
                 # fill up empty rows
-                push @SQL, $Start . "UPDATE $Table SET $Tag->{Name} = $Default WHERE $Tag->{Name} IS NULL";
+                push @SQL,
+                    $Start . "UPDATE $Table SET $Tag->{Name} = $Default WHERE $Tag->{Name} IS NULL";
 
                 # add require
                 my $SQLAlter = "ALTER TABLE $Table ALTER COLUMN $Tag->{Name} $Tag->{Type}";
@@ -386,7 +387,8 @@ sub TableAlter {
                 # add default
                 my $DefaultName = 'DF_' . $Table . '_' . $Tag->{Name};
                 if ( defined $Tag->{Default} ) {
-                    push @SQL, $Start . "ALTER TABLE $Table ADD CONSTRAINT $DefaultName DEFAULT ($Default) FOR $Tag->{Name}";
+                    push @SQL, $Start
+                        . "ALTER TABLE $Table ADD CONSTRAINT $DefaultName DEFAULT ($Default) FOR $Tag->{Name}";
                 }
             }
         }
@@ -397,7 +399,8 @@ sub TableAlter {
 
             # rename oldname to newname
             if ( $Tag->{NameOld} ne $Tag->{NameNew} ) {
-                push @SQL, $Start . "EXECUTE sp_rename N'$Table.$Tag->{NameOld}', N'$Tag->{NameNew}', 'COLUMN'";
+                push @SQL, $Start
+                    . "EXECUTE sp_rename N'$Table.$Tag->{NameOld}', N'$Tag->{NameNew}', 'COLUMN'";
             }
 
             # alter table name modify
@@ -433,7 +436,8 @@ sub TableAlter {
             if ( $Required || defined $Tag->{Default} ) {
 
                 # fill up empty rows
-                push @SQL, $Start . "UPDATE $Table SET $Tag->{NameNew} = $Default WHERE $Tag->{NameNew} IS NULL";
+                push @SQL, $Start
+                    . "UPDATE $Table SET $Tag->{NameNew} = $Default WHERE $Tag->{NameNew} IS NULL";
 
                 # add require
                 my $SQLAlter = "ALTER TABLE $Table ALTER COLUMN $Tag->{Name} $Tag->{Type}";
@@ -447,7 +451,8 @@ sub TableAlter {
 
                 # add default
                 if ( defined $Tag->{Default} ) {
-                    push @SQL, $Start . "ALTER TABLE $Table ADD CONSTRAINT $DefaultName DEFAULT ($Default) FOR $Tag->{Name}";
+                    push @SQL, $Start
+                        . "ALTER TABLE $Table ADD CONSTRAINT $DefaultName DEFAULT ($Default) FOR $Tag->{Name}";
                 }
             }
         }

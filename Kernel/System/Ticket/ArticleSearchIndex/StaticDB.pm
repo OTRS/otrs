@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleSearchIndex/StaticDB.pm - article search index backend static
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.4 2008-07-22 11:39:48 martin Exp $
+# $Id: StaticDB.pm,v 1.5 2008-08-20 15:10:38 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub ArticleIndexBuild {
     my ( $Self, %Param ) = @_;
@@ -36,7 +36,7 @@ sub ArticleIndexBuild {
     for my $Key (qw(From To Cc Subject)) {
         if ( $Article{$Key} ) {
             $Article{$Key} = $Self->_ArticleIndexString(
-                String   => $Article{$Key},
+                String        => $Article{$Key},
                 WordLengthMin => 3,
                 WordLengthMax => 60,
             );
@@ -274,6 +274,7 @@ sub _ArticleIndexStringToWord {
     my @ListOfWords = split /\s+/, ${ $Param{String} };
     my @ListOfWordsNew = ();
     for my $Word (@ListOfWords) {
+
         # remove some not needed chars
         #        $Word =~ s/[\d+\.,\-\&\-\_\<\>\?":\\\*\|\/;\[\]\(\)\+\$\^=]//g;
         $Word =~ s/[,\&\<\>\?"\!\*\|;\[\]\(\)\+\$\^=]//g;

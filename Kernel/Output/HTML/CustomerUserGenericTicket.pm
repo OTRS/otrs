@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/CustomerUserGenericTicket.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUserGenericTicket.pm,v 1.1 2008-08-03 14:58:53 martin Exp $
+# $Id: CustomerUserGenericTicket.pm,v 1.2 2008-08-20 15:10:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -46,7 +46,7 @@ sub Run {
         }
         elsif ( !ref $TicketSearch{$Key} ) {
             my $ValueTmp = $TicketSearch{$Key};
-            @{ $TicketSearch{$Key} } = ($ValueTmp, $Value);
+            @{ $TicketSearch{$Key} } = ( $ValueTmp, $Value );
         }
         else {
             push @{ $TicketSearch{$Key} }, $Value;
@@ -76,6 +76,7 @@ sub Run {
     }
 
     my @TicketIDs = $Self->{TicketObject}->TicketSearch(
+
         # result (required)
         %TicketSearch,
         CustomerID => $Param{Data}->{UserCustomerID},
@@ -87,7 +88,7 @@ sub Run {
     my $Count = scalar @TicketIDs;
 
     my $Image = $Param{Config}->{ImageNoOpenTicket};
-    if ( $Count ) {
+    if ($Count) {
         $Image = $Param{Config}->{ImageOpenTicket};
     }
 

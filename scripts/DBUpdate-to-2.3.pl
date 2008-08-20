@@ -3,7 +3,7 @@
 # DBUpdate-to-2.3.pl - update script to migrate OTRS 2.2.x to 2.3.x
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-2.3.pl,v 1.19 2008-07-25 08:39:51 mh Exp $
+# $Id: DBUpdate-to-2.3.pl,v 1.20 2008-08-20 15:10:38 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -73,15 +73,15 @@ my $ConfigDir = $CommonObject{ConfigObject}->Get('Home') . '/Kernel/Config/Files
 
 # check ZZZ files
 my %ZZZFiles = (
-    ZZZAAuto => -f $ConfigDir . 'ZZZAAuto.pm' ? 1: 0,
-    ZZZAuto  => -f $ConfigDir . 'ZZZAuto.pm' ? 1: 0,
+    ZZZAAuto => -f $ConfigDir . 'ZZZAAuto.pm' ? 1 : 0,
+    ZZZAuto  => -f $ConfigDir . 'ZZZAuto.pm'  ? 1 : 0,
 );
 
 # rebuild config
 my $Success = RebuildConfig();
 
 # error handling
-if (!$Success) {
+if ( !$Success ) {
     print STDOUT "Can't write config files! Please run the SetPermissions.sh and try it again.";
     exit 0;
 }
@@ -124,7 +124,7 @@ sub RebuildConfig {
 
     my $Success = $CommonObject{SysConfigObject}->WriteDefault();
 
-    if (!$Success) {
+    if ( !$Success ) {
         print STDOUT " failed.\n";
         return;
     }

@@ -2,7 +2,7 @@
 # Email.t - email parser tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.t,v 1.2 2008-08-02 13:49:03 martin Exp $
+# $Id: Email.t,v 1.3 2008-08-20 15:10:38 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -35,9 +35,10 @@ my @Tests = (
     {
         Name => 'utf8 - de',
         Data => {
-            From    => '"Fritz Müller" <fritz@example.com>',
-            To      => 'Hans Kölner (friend@example.com)',
-            Subject => 'This is a text with öäüßöäüß to check for problems äöüÄÖüßüöä!',
+            From => '"Fritz Müller" <fritz@example.com>',
+            To   => 'Hans Kölner (friend@example.com)',
+            Subject =>
+                'This is a text with öäüßöäüß to check for problems äöüÄÖüßüöä!',
             Body    => "Some Body\nwith\n\nöäüßüüäöäüß1öää?ÖÄPÜ",
             Type    => 'text/plain',
             Charset => 'utf8',
@@ -46,9 +47,10 @@ my @Tests = (
     {
         Name => 'utf8 - ru',
         Data => {
-            From    => '"Служба поддержки (support)" <me@example.com>',
-            To      => 'friend@example.com',
-            Subject => 'это специальныйсабжект для теста системы тикетов',
+            From => '"Служба поддержки (support)" <me@example.com>',
+            To   => 'friend@example.com',
+            Subject =>
+                'это специальныйсабжект для теста системы тикетов',
             Body    => "Some Body\nlala",
             Type    => 'text/plain',
             Charset => 'utf8',
@@ -72,14 +74,15 @@ for my $Encoding ( '', qw(base64 quoted-printable 8bit) ) {
 
         # gererate email
         my $EmailObject = Kernel::System::Email->new( %{$Self} );
-        my ($Header, $Body) = $EmailObject->Send(
+        my ( $Header, $Body ) = $EmailObject->Send(
             %{ $Test->{Data} },
         );
 
         # start MIME::Tools workaround
-        ${ $Body } =~ s/\n/\r/g;
+        ${$Body} =~ s/\n/\r/g;
+
         # end MIME::Tools workaround
-        my $Email = ${ $Header } . "\n" . ${ $Body };
+        my $Email = ${$Header} . "\n" . ${$Body};
         my @Array = split /\n/, $Email;
 
         # parse email
@@ -89,7 +92,7 @@ for my $Encoding ( '', qw(base64 quoted-printable 8bit) ) {
         );
 
         # check header
-        for my $Key ( qw(From To Cc Subject) ) {
+        for my $Key (qw(From To Cc Subject)) {
             next if !$Test->{Data}->{$Key};
             $Self->Is(
                 $ParserObject->GetParam( WHAT => $Key ),
@@ -101,11 +104,13 @@ for my $Encoding ( '', qw(base64 quoted-printable 8bit) ) {
         # check body
         if ( $Test->{Data}->{Body} ) {
             my $Body = $ParserObject->GetMessageBody();
+
             # start MIME::Tools workaround
             $Body =~ s/\r/\n/g;
             $Body =~ s/=\n//;
             $Body =~ s/\n$//;
             $Body =~ s/=$//;
+
             # end MIME::Tools workaround
             $Self->Is(
                 $Body,

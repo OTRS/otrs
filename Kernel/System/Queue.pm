@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.101 2008-08-18 12:47:54 tr Exp $
+# $Id: Queue.pm,v 1.102 2008-08-20 15:10:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.101 $) [1];
+$VERSION = qw($Revision: 1.102 $) [1];
 
 =head1 NAME
 
@@ -924,7 +924,7 @@ sub QueueUpdate {
     # content -> time in seconds
     for my $Time (qw( UnlockTimeout FirstResponseTime UpdateTime SolutionTime )) {
         $Param{$Time} = $Param{$Time} || 0;
-        if ($Param{$Time} !~ m{^\d+$}smx) {
+        if ( $Param{$Time} !~ m{^\d+$}smx ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "$Time is not numeric!" );
             return;
         }
@@ -933,7 +933,7 @@ sub QueueUpdate {
     # content integer from 0 - 99
     for my $Notify (qw(FirstResponseNotify  UpdateNotify  SolutionNotify)) {
         $Param{$Notify} = $Param{$Notify} || 0;
-        if ($Param{$Notify} !~ m{^\d{1,2}}smx) {
+        if ( $Param{$Notify} !~ m{^\d{1,2}}smx ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "$Notify must be an integer in the range from 0 to 99!",
@@ -1122,6 +1122,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.101 $ $Date: 2008-08-18 12:47:54 $
+$Revision: 1.102 $ $Date: 2008-08-20 15:10:37 $
 
 =cut

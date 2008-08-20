@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.339 2008-08-14 15:01:28 tr Exp $
+# $Id: Ticket.pm,v 1.340 2008-08-20 15:10:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.339 $) [1];
+$VERSION = qw($Revision: 1.340 $) [1];
 
 =head1 NAME
 
@@ -1700,6 +1700,7 @@ sub TicketEscalationDateCalculation {
 
     for my $Key ( keys %Map ) {
         if ( $Ticket{$Key} ) {
+
             # do not escalations in "pending auto" for escalation update time
             if ( $Key eq 'EscalationUpdateTime' && $Ticket{StateType} =~ /^(pending\sauto)/i ) {
                 next;
@@ -6588,6 +6589,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.339 $ $Date: 2008-08-14 15:01:28 $
+$Revision: 1.340 $ $Date: 2008-08-20 15:10:37 $
 
 =cut
