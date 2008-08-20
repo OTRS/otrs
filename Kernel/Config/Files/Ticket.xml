@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.198 2008-08-03 14:58:53 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.199 2008-08-20 09:13:13 tr Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -8728,7 +8728,7 @@ Thanks for your help!
     </ConfigItem>
     <ConfigItem Name="LinkObject::PossibleLink###0200" Required="0" Valid="1">
         <Description Lang="en">This setting defines that a 'Ticket' object can be linked with other 'Ticket' objects using the 'Normal' link type.</Description>
-        <Description Lang="de">Definiert, dass ein 'Ticket'-Objekte mit dem Linktyp 'Normal' mit anderen 'Ticket'-Objekten verlinkt werden kann.</Description>
+        <Description Lang="de">Definiert, dass ein 'Ticket'-Objekt mit dem Linktyp 'Normal' mit anderen 'Ticket'-Objekten verlinkt werden kann.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::LinkObject</SubGroup>
         <Setting>
@@ -8741,7 +8741,7 @@ Thanks for your help!
     </ConfigItem>
     <ConfigItem Name="LinkObject::PossibleLink###0201" Required="0" Valid="1">
         <Description Lang="en">This setting defines that a 'Ticket' object can be linked with other 'Ticket' objects using the 'ParentChild' link type.</Description>
-        <Description Lang="de">Definiert, dass ein 'Ticket'-Objekte mit dem Linktyp 'ParentChild' mit anderen 'Ticket'-Objekten verlinkt werden kann.</Description>
+        <Description Lang="de">Definiert, dass ein 'Ticket'-Objekt mit dem Linktyp 'ParentChild' mit anderen 'Ticket'-Objekten verlinkt werden kann.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::LinkObject</SubGroup>
         <Setting>
