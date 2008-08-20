@@ -2,7 +2,7 @@
 # css.dtl - css file
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: css.dtl,v 1.23 2008-07-09 12:32:52 martin Exp $
+# $Id: css.dtl,v 1.24 2008-08-20 12:16:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ body { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:11pt;background-c
 a { color:#557799;}
 a:hover { color:#002244;text-decoration:none; }
 pre { font-family:Courier,monospace,fixed;font-size:12px; }
-textarea { font-family:Courier,monospace,fixed;font-size:12px; }
+textarea { font-family:monospace,fixed;font-size:12px; }
 td,th { font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif; }
 # header
 .header { color:#ffffff;background-color:#000000;font-size:12px;vertical-align:top; }
