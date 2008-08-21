@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.743 2008-08-21 20:09:06 martin Exp $
+# $Id: CHANGES,v 1.744 2008-08-21 23:48:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,12 @@
 # --
 
 2.3.2 (2008/08/25)
+ - (2008/08/21) Fixed bug# 3076 - Ticket Eskalation of update time is not
+    working correctly.
+ - (2008/08/21) Fixed bug# 3064 - Java Script Error if I use
+    "Internet Explorer 7".
+ - (2008/08/21) Fixed bug# 3198 - ACL is not working for services in Customer
+    Panel for creating new tickets.
  - (2008/08/21) Fixed bug# 3214 - PostMasterFilter - Its not possible to
     filter for "Return-Path".
  - (2008/08/21) Fixed bug# 3216 - CustomerTicketSearch returns links to
