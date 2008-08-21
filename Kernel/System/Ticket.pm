@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.340 2008-08-20 15:10:37 mh Exp $
+# $Id: Ticket.pm,v 1.341 2008-08-21 18:45:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.340 $) [1];
+$VERSION = qw($Revision: 1.341 $) [1];
 
 =head1 NAME
 
@@ -1496,14 +1496,13 @@ sub TicketTypeSet {
 to get all possible services for a ticket (depends on workflow, if configured)
 
     my %Services = $TicketObject->TicketServiceList(
-        CustomerUserID => 123,
+        QueueID        => 123,
         UserID         => 123,
     );
 
     my %Services = $TicketObject->TicketServiceList(
         CustomerUserID => 123,
         QueueID        => 123,
-        UserID         => 123,
     );
 
     my %Services = $TicketObject->TicketServiceList(
@@ -1518,10 +1517,10 @@ sub TicketServiceList {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{UserID} || ( $Param{UserID} != 1 && !$Param{CustomerUserID} ) ) {
+    if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => 'Need UserID and CustomerUserID!',
+            Message  => 'Need UserID, CustomerUserID or UserID and CustomerUserID is needed!',
         );
         return;
     }
@@ -6589,6 +6588,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.340 $ $Date: 2008-08-20 15:10:37 $
+$Revision: 1.341 $ $Date: 2008-08-21 18:45:18 $
 
 =cut

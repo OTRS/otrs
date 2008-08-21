@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.34 2008-05-15 22:05:46 mh Exp $
+# $Id: CustomerTicketMessage.pm,v 1.35 2008-08-21 18:49:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -119,8 +119,10 @@ sub Run {
         }
 
         # free time
-        my %FreeTime
-            = $Self->{LayoutObject}->CustomerFreeDate( %Param, Ticket => \%TicketFreeTime, );
+        my %FreeTime = $Self->{LayoutObject}->CustomerFreeDate(
+            %Param,
+            Ticket => \%TicketFreeTime,
+        );
 
         # print form ...
         my $Output .= $Self->{LayoutObject}->CustomerHeader();
@@ -192,8 +194,9 @@ sub Run {
         my %TicketFreeTime = ();
         for ( 1 .. 6 ) {
             for my $Type (qw(Used Year Month Day Hour Minute)) {
-                $TicketFreeTime{ "TicketFreeTime" . $_ . $Type }
-                    = $Self->{ParamObject}->GetParam( Param => "TicketFreeTime" . $_ . $Type );
+                $TicketFreeTime{ "TicketFreeTime" . $_ . $Type } = $Self->{ParamObject}->GetParam(
+                    Param => "TicketFreeTime" . $_ . $Type,
+                );
             }
             $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Optional' }
                 = $Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) || 0;
@@ -203,8 +206,10 @@ sub Run {
         }
 
         # free time
-        my %FreeTime
-            = $Self->{LayoutObject}->CustomerFreeDate( %Param, Ticket => \%TicketFreeTime, );
+        my %FreeTime = $Self->{LayoutObject}->CustomerFreeDate(
+            %Param,
+            Ticket => \%TicketFreeTime,
+        );
 
         # rewrap body if exists
         if ( $GetParam{Body} ) {
@@ -528,7 +533,6 @@ sub _MaskNew {
                 %Param,
                 Action         => $Self->{Action},
                 CustomerUserID => $Self->{UserID},
-                UserID         => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
             );
         }
         $Param{'ServiceStrg'} = $Self->{LayoutObject}->BuildSelection(
@@ -545,7 +549,7 @@ sub _MaskNew {
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketService',
-            Data => {%Param},
+            Data => \%Param,
         );
         my %SLA = ();
         if ( $Param{ServiceID} ) {
@@ -568,7 +572,7 @@ sub _MaskNew {
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketSLA',
-            Data => {%Param},
+            Data => \%Param,
         );
     }
 
