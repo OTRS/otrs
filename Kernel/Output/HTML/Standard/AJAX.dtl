@@ -2,7 +2,7 @@
 # AJAX.dtl - provides AJAX functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AJAX.dtl,v 1.13 2008-07-03 15:13:47 martin Exp $
+# $Id: AJAX.dtl,v 1.14 2008-08-21 22:37:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -120,8 +120,8 @@ function AJAXLoadingImage (Type, FieldName) {
 
 function AJAXLoadingImagePreload (FieldName) {
     for (F=0;F<FieldName.length;F++) {
-        Image = new Image();
-        Image.src = FieldName[F];
+        ImagePreload = new Image();
+        ImagePreload.src = FieldName[F];
     }
 }
 AJAXLoadingImagePreload( ["$Env{"Images"}loading.gif"] );
