@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.342 2008-08-21 23:44:27 martin Exp $
+# $Id: Ticket.pm,v 1.343 2008-08-21 23:47:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.342 $) [1];
+$VERSION = qw($Revision: 1.343 $) [1];
 
 =head1 NAME
 
@@ -1663,7 +1663,7 @@ sub TicketEscalationDateCalculation {
 
     my %Ticket = %{ $Param{Ticket} };
 
-    # do no escalations it a ticket is closed
+    # do no escalations on (merge|close|remove) tickets
     if ( $Ticket{StateType} =~ /^(merge|close|remove)/i ) {
         return;
     }
@@ -1779,8 +1779,8 @@ sub TicketEscalationIndexBuild {
         UserID   => $Param{UserID},
     );
 
-    # do no escalations it a ticket is closed
-    if ( $Ticket{StateType} =~ /^close/i ) {
+    # do no escalations on (merge|close|remove) tickets
+    if ( $Ticket{StateType} =~ /^(merge|close|remove)/i ) {
 
         # update escalation times with 0
         my %EscalationTimes = (
@@ -6644,6 +6644,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.342 $ $Date: 2008-08-21 23:44:27 $
+$Revision: 1.343 $ $Date: 2008-08-21 23:47:08 $
 
 =cut
