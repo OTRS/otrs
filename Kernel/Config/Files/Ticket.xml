@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.199 2008-08-20 09:13:13 tr Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.200 2008-08-21 13:02:23 sb Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -8760,6 +8760,21 @@ Thanks for your help!
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::Stats::Dynamic::Ticket</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::NavBarModule###1-Ticket::TicketSearchProfile" Required="0" Valid="0">
+        <Description Lang="en">Agent interface module to access search profiles via nav bar.</Description>
+        <Description Lang="de">Modul im Agenten-Interface zum direkten Zugriff auf Such-Profile.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::NavBarModule</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::NavBarTicketSearchProfile</Item>
+                <Item Key="Description">Search-Template</Item>
+                <Item Key="Name">Search-Template</Item>
+                <Item Key="Block">ItemSearchProfile</Item>
+                <Item Key="MaxWidth">40</Item>
             </Hash>
         </Setting>
     </ConfigItem>
