@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.341 2008-08-21 18:45:18 martin Exp $
+# $Id: Ticket.pm,v 1.342 2008-08-21 23:44:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.341 $) [1];
+$VERSION = qw($Revision: 1.342 $) [1];
 
 =head1 NAME
 
@@ -1892,23 +1892,71 @@ sub TicketEscalationIndexBuild {
     }
     else {
 
-        # check if latest article comes from customer
-        my @LastSender;
+        # check if update escalation should be set
+        my @SenderHistory;
         $Self->{DBObject}->Prepare(
-            SQL => 'SELECT ast.name, art.create_time FROM article art, article_sender_type ast '
-                . 'WHERE art.ticket_id = ? AND art.article_sender_type_id = ast.id '
-                . 'ORDER BY art.create_time ASC',
+            SQL => 'SELECT article_sender_type_id, article_type_id, create_time FROM '
+                . 'article WHERE ticket_id = ? ORDER BY create_time ASC',
             Bind => [ \$Param{TicketID} ],
         );
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-            if ( $Row[0] eq 'agent' ) {
-                @LastSender = ( $Row[0], $Row[1] );
+            push @SenderHistory, {
+                SenderTypeID  => $Row[0],
+                ArticleTypeID => $Row[1],
+                Created       => $Row[2],
+            };
+        }
+
+        # fill up lookups
+        for my $Row ( @SenderHistory ) {
+
+            # get sender type
+            $Row->{SenderType} = $Self->ArticleSenderTypeLookup(
+                SenderTypeID => $Row->{SenderTypeID},
+            );
+
+            # get article type
+            $Row->{ArticleType} = $Self->ArticleTypeLookup(
+                ArticleTypeID => $Row->{ArticleTypeID},
+            );
+        }
+
+        # get latest customer contact time
+        my $LastSenderTime;
+        my $LastSenderType = '';
+        for my $Row ( reverse @SenderHistory ) {
+
+            # do not use locked tickets for calc.
+#            last if $Ticket{Lock} eq 'lock';
+
+            # do not use /int/ article types for calc.
+            next if $Row->{ArticleType} =~ /int/i;
+
+            # do not use /agent|customer/ article types for calc.
+            next if $Row->{SenderType} !~ /^(agent|customer)$/;
+
+            # last if latest was customer and the next was not customer
+            # otherwise use also next, older customer article as latest
+            # customer followup for starting escalation
+            if ( $Row->{SenderType} eq 'agent' && $LastSenderType eq 'customer' ) {
+                last;
+            }
+            # start escalation on latest customer article
+            if ( $Row->{SenderType} eq 'customer' ) {
+                $LastSenderType = 'customer';
+                $LastSenderTime = $Row->{Created};
+            }
+
+            # start escalation on latest agent article
+            if ( $Row->{SenderType} eq 'agent' ) {
+                $LastSenderTime = $Row->{Created};
+                last;
             }
         }
-        if (@LastSender) {
+        if ($LastSenderTime) {
             my $DestinationTime = $Self->{TimeObject}->DestinationTime(
                 StartTime => $Self->{TimeObject}->TimeStamp2SystemTime(
-                    String => $LastSender[1],
+                    String => $LastSenderTime,
                 ),
                 Time     => $Escalation{UpdateTime} * 60,
                 Calendar => $Escalation{Calendar},
@@ -1924,6 +1972,14 @@ sub TicketEscalationIndexBuild {
             if ( $DestinationTime < $EscalationTime ) {
                 $EscalationTime = $DestinationTime;
             }
+        }
+
+        # else, no not escalate, because latest sender was agent
+        else {
+            $Self->{DBObject}->Do(
+                SQL => 'UPDATE ticket SET escalation_update_time = ? WHERE id = ?',
+                Bind => [ \$UpdateTime, \$Ticket{TicketID}, ]
+            );
         }
     }
 
@@ -6588,6 +6644,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.341 $ $Date: 2008-08-21 18:45:18 $
+$Revision: 1.342 $ $Date: 2008-08-21 23:44:27 $
 
 =cut
