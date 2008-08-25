@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.744 2008-08-21 23:48:20 martin Exp $
+# $Id: CHANGES,v 1.745 2008-08-25 05:42:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -511,7 +511,7 @@
     HTML to text convertion to email parser.
  - (2007/09/13) Improved report overview of perfornance log.
 
-2.2.8 (2008/??/??)
+2.2.8 (2008/08/25)
  - (2008/08/12) Fixed bug# 3156 - When the "EMAILADDRESS:" attribute is used to
     define a specific email address, then secodary match attributes are applied
     to all mails.
