@@ -2,7 +2,7 @@
 # LinkObject.t - link object module testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.t,v 1.13 2008-07-02 15:20:53 mh Exp $
+# $Id: LinkObject.t,v 1.14 2008-08-26 11:26:58 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -2528,6 +2528,41 @@ my $LinkData = [
         },
     },
 
+    {
+        # an key with ::
+        SourceData => [
+            {
+                Action       => 'LinkAdd',
+                SourceObject => $ObjectNames[1],
+                SourceKey    => 'DB01::101',
+                TargetObject => $ObjectNames[1],
+                TargetKey    => '103',
+                Type         => $TypeNames[1],
+                State        => 'Valid',
+                UserID       => 1,
+            },
+        ],
+        ReferenceData => {
+            LinkList => {
+                Object => $ObjectNames[1],
+                Key    => 'DB01::101',
+                Type   => $TypeNames[1],
+                State  => 'Valid',
+                UserID => 1,
+            },
+            LinkListReference => {
+                $ObjectNames[1] => {
+                    $TypeNames[1] => {
+                        Source => {
+                            '103' => 1,
+                        },
+                    },
+                },
+            },
+        },
+
+    },
+
     # delete a link
     {
         SourceData => [
@@ -2564,6 +2599,32 @@ my $LinkData = [
                     },
                 },
             },
+        },
+    },
+    # delete a link with :: in the key
+    {
+        SourceData => [
+           {
+                Action       => 'LinkDelete',
+                Object1      => $ObjectNames[1],
+                Key1         => 'DB01::101',
+                Object2      => $ObjectNames[1],
+                Key2         => '103',
+                Type         => $TypeNames[1],
+                State        => 'Valid',
+                UserID       => 1,
+            },
+
+        ],
+        ReferenceData => {
+            LinkList => {
+                Object => $ObjectNames[1],
+                Key    => 'DB01::101',
+                Type   => '',
+                State  => 'Valid',
+                UserID => 1,
+            },
+            LinkListReference => {},
         },
     },
 ];
