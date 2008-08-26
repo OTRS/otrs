@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLinkObject.pm - to link objects
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLinkObject.pm,v 1.45 2008-08-04 14:07:55 mh Exp $
+# $Id: AgentLinkObject.pm,v 1.46 2008-08-26 11:29:29 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -127,7 +127,7 @@ sub Run {
             IDENTIFIER:
             for my $Identifier (@LinkDeleteIdentifier) {
 
-                my @Target = split q{::}, $Identifier;
+                my @Target = $Identifier =~ m{^ ( [^:]+? ) :: (.+?) :: ( [^:]+? ) $}smx;
 
                 next IDENTIFIER if !$Target[0];    # TargetObject
                 next IDENTIFIER if !$Target[1];    # TargetKey

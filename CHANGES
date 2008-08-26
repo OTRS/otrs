@@ -2,12 +2,15 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.745 2008-08-25 05:42:22 martin Exp $
+# $Id: CHANGES,v 1.746 2008-08-26 11:29:28 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
+
+2.3.2 (2008/??/??)
+ - (2008/08/21) Fixed bug# 3227 - LinkObject - problems if the key includes '::'.
 
 2.3.2 (2008/08/25)
  - (2008/08/21) Fixed bug# 3076 - Ticket Eskalation of update time is not
