@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LinkObjectTicket.pm - layout backend module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObjectTicket.pm,v 1.15 2008-07-05 15:03:28 mh Exp $
+# $Id: LinkObjectTicket.pm,v 1.16 2008-08-29 14:32:30 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::Output::HTML::Layout;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 =head1 NAME
 
@@ -50,13 +50,11 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for my $Object (
-        qw(ConfigObject LogObject MainObject DBObject UserObject EncodeObject QueueObject GroupObject ParamObject TimeObject UserID)
-        )
-    {
+    for my $Object (qw(ConfigObject LogObject MainObject DBObject UserObject EncodeObject
+        QueueObject GroupObject ParamObject TimeObject LanguageObject UserLanguage UserID)
+    ){
         $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
-
     $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new( %{$Self} );
     $Self->{StateObject}  = Kernel::System::State->new( %{$Self} );
 
@@ -536,6 +534,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2008-07-05 15:03:28 $
+$Revision: 1.16 $ $Date: 2008-08-29 14:32:30 $
 
 =cut

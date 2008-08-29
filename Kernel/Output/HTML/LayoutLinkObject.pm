@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutLinkObject.pm - provides generic HTML output for LinkObject
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutLinkObject.pm,v 1.12 2008-07-05 18:40:28 mh Exp $
+# $Id: LayoutLinkObject.pm,v 1.13 2008-08-29 14:32:30 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =item LinkObjectTableCreate()
 
@@ -253,6 +253,7 @@ sub LinkObjectTableCreateComplex {
 
     # create new instance of the layout object
     my $LayoutObject = Kernel::Output::HTML::Layout->new( %{$Self} );
+    my $LayoutObject2 = Kernel::Output::HTML::Layout->new( %{$Self} );
 
     # output the table complex block
     $LayoutObject->Block(
@@ -303,9 +304,10 @@ sub LinkObjectTableCreateComplex {
             for my $Column ( @{$Row} ) {
 
                 # create the content string
-                my $Content = $Self->LinkObjectContentStringCreate(
-                    Object      => $Block->{Object},
-                    ContentData => $Column,
+                my $Content = $Self->_LinkObjectContentStringCreate(
+                    Object       => $Block->{Object},
+                    ContentData  => $Column,
+                    LayoutObject => $LayoutObject2,
                 );
 
                 # output a table column block
@@ -417,7 +419,8 @@ sub LinkObjectTableCreateSimple {
     return %OutputData if $Param{ViewMode} && $Param{ViewMode} eq 'SimpleRaw';
 
     # create new instance of the layout object
-    my $LayoutObject = Kernel::Output::HTML::Layout->new( %{$Self} );
+    my $LayoutObject  = Kernel::Output::HTML::Layout->new( %{$Self} );
+    my $LayoutObject2 = Kernel::Output::HTML::Layout->new( %{$Self} );
 
     # output the table simple block
     $LayoutObject->Block(
@@ -446,9 +449,10 @@ sub LinkObjectTableCreateSimple {
             for my $Item ( @{ $ObjectList->{$Object} } ) {
 
                 # create the content string
-                my $Content = $Self->LinkObjectContentStringCreate(
-                    Object      => $Object,
-                    ContentData => $Item,
+                my $Content = $Self->_LinkObjectContentStringCreate(
+                    Object       => $Object,
+                    ContentData  => $Item,
+                    LayoutObject => $LayoutObject2,
                 );
 
                 # output the type block
@@ -468,22 +472,23 @@ sub LinkObjectTableCreateSimple {
     );
 }
 
-=item LinkObjectContentStringCreate()
+=item _LinkObjectContentStringCreate()
 
 return a output string
 
-    my $String = $LayoutObject->LinkObjectContentStringCreate(
-        Object      => 'Ticket',
-        ContentData => $HashRef,
+    my $String = $LayoutObject->_LinkObjectContentStringCreate(
+        Object       => 'Ticket',
+        ContentData  => $HashRef,
+        LayoutObject => $LocalLayoutObject,
     );
 
 =cut
 
-sub LinkObjectContentStringCreate {
+sub _LinkObjectContentStringCreate {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for my $Argument (qw(Object ContentData)) {
+    for my $Argument (qw(Object ContentData LayoutObject)) {
         if ( !$Param{$Argument} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -508,7 +513,8 @@ sub LinkObjectContentStringCreate {
 
         my $ContentString = $BackendObject->ContentStringCreate(
             %Param,
-            LinkObject => $Self->{LinkObject},
+            LinkObject   => $Self->{LinkObject},
+            LayoutObject => $Param{LayoutObject},
         );
 
         return $ContentString if defined $ContentString;
@@ -549,7 +555,7 @@ sub LinkObjectContentStringCreate {
 
             # translate
             if ( $Content->{Translate} ) {
-                $LinkName = $Self->{LayoutObject}->{LanguageObject}->Get($LinkName);
+                $LinkName = $Param{LayoutObject}->{LanguageObject}->Get($LinkName);
             }
 
             push @LinkNameList, $LinkName;
@@ -559,7 +565,7 @@ sub LinkObjectContentStringCreate {
         my $String = join qq{\n}, @LinkNameList;
 
         # transform ascii to html
-        $Content->{Content} = $Self->{LayoutObject}->Ascii2Html(
+        $Content->{Content} = $Param{LayoutObject}->Ascii2Html(
             Text => $String || '-',
             HTMLResultMode => 1,
             LinkFeature    => 0,
@@ -567,7 +573,7 @@ sub LinkObjectContentStringCreate {
     }
 
     # prepare checkbox delete
-    if ( $Content->{Type} eq 'CheckboxDelete' ) {
+    elsif ( $Content->{Type} eq 'CheckboxDelete' ) {
 
         $Blockname = 'Plain';
 
@@ -577,9 +583,6 @@ sub LinkObjectContentStringCreate {
         );
 
         return if !%TypeList;
-
-        # create new instance of the layout object
-        my $LayoutObject = Kernel::Output::HTML::Layout->new( %{$Self} );
 
         LINKTYPE:
         for my $LinkType ( sort { lc $a cmp lc $b } keys %{ $Content->{LinkTypeList} } ) {
@@ -594,11 +597,11 @@ sub LinkObjectContentStringCreate {
 
             # translate
             if ( $Content->{Translate} ) {
-                $LinkName = $Self->{LayoutObject}->{LanguageObject}->Get($LinkName);
+                $LinkName = $Param{LayoutObject}->{LanguageObject}->Get($LinkName);
             }
 
             # run checkbox block
-            $LayoutObject->Block(
+            $Param{LayoutObject}->Block(
                 Name => 'Checkbox',
                 Data => {
                     %{$Content},
@@ -609,7 +612,7 @@ sub LinkObjectContentStringCreate {
             );
         }
 
-        $Content->{Content} = $LayoutObject->Output(
+        $Content->{Content} = $Param{LayoutObject}->Output(
             TemplateFile => 'LinkObject',
         );
     }
@@ -622,12 +625,12 @@ sub LinkObjectContentStringCreate {
     }
 
     # run block
-    $Self->{LayoutObject}->Block(
+    $Param{LayoutObject}->Block(
         Name => $Blockname,
         Data => $Content,
     );
 
-    return $Self->{LayoutObject}->Output(
+    return $Param{LayoutObject}->Output(
         TemplateFile => 'LinkObject',
     );
 }
@@ -725,8 +728,11 @@ sub LinkObjectSelectableObjectList {
         unshift @SelectableObjectList, \%BlankLine;
     }
 
+    # create new instance of the layout object
+    my $LayoutObject = Kernel::Output::HTML::Layout->new( %{$Self} );
+
     # create target object string
-    my $TargetObjectStrg = $Self->{LayoutObject}->BuildSelection(
+    my $TargetObjectStrg = $LayoutObject->BuildSelection(
         Data     => \@SelectableObjectList,
         Name     => 'TargetIdentifier',
         TreeView => 1,
@@ -812,7 +818,6 @@ sub _LoadLinkObjectLayoutBackend {
     my $BackendObject = $GenericModule->new(
         %{$Self},
         %Param,
-        LayoutObject => $Self,
     );
 
     if ( !$BackendObject ) {
