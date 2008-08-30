@@ -2,7 +2,7 @@
 # AJAX.dtl - provides AJAX functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AJAX.dtl,v 1.14 2008-08-21 22:37:21 martin Exp $
+# $Id: AJAX.dtl,v 1.15 2008-08-30 14:32:16 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -70,7 +70,7 @@ function AJAXURLGet (Subaction, Changed, FieldName, FieldName2) {
     var url = '$Env{"Baselink"}Action=$Env{"Action"}&Subaction=' + Subaction + '&ElementChanged=' + Changed + ParamPart;
     // add sessionid if no cookies are used
     if ( !'$Env{"SessionIDCookie"}' ) {
-        url = url + '&' + '$Config{"SessionName"}=$Env{"SessionID"}';
+        url = url + '&' + '$Config{"SessionName"}=$Env{"SessionID"}' + '&' + '$Config{"CustomerPanelSessionName"}=$Env{"SessionID"}';
     }
     return url;
 }
