@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutAJAX.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutAJAX.pm,v 1.12 2008-07-05 18:40:28 mh Exp $
+# $Id: LayoutAJAX.pm,v 1.13 2008-09-02 08:16:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =item JSON()
 
@@ -103,8 +103,7 @@ build a JSON output js witch can be used for e. g. data for pull downs
 sub BuildJSON {
     my ( $Self, $Array ) = @_;
 
-    my $JSON  = '{';
-    my $Count = 0;
+    my $JSON  = '';
     for my $Data ( @{$Array} ) {
         my %Param = %{$Data};
 
@@ -114,6 +113,9 @@ sub BuildJSON {
                 $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
                 return;
             }
+        }
+        if ($JSON) {
+            $JSON .= ',';
         }
         if ( ref $Param{Data} eq '' ) {
             $Param{Data} = $Self->JSONQuote( Data => $Param{Data} );
@@ -138,9 +140,6 @@ sub BuildJSON {
                 AttributeRef => $AttributeRef,
                 OptionRef    => $OptionRef,
             );
-            if ($Count) {
-                $JSON .= ",";
-            }
 
             # generate output
             $JSON .= ${
@@ -150,9 +149,8 @@ sub BuildJSON {
                     )
                 };
         }
-        $Count++;
     }
-    return $JSON . '}';
+    return '{' . $JSON . '}';
 }
 
 sub _BuildJSONOutput {
@@ -216,7 +214,7 @@ sub JSONQuote {
         "\\" => '\\\\',
         "\'" => '\\\'',
     );
-    $Param{Data} =~ s/([\\"\n\r\t\f\b])/$Quote{$1}/eg;
+    $Param{Data} =~ s/(['\\"\n\r\t\f\b])/$Quote{$1}/eg;
     return $Param{Data};
 }
 
@@ -236,6 +234,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2008-07-05 18:40:28 $
+$Revision: 1.13 $ $Date: 2008-09-02 08:16:15 $
 
 =cut
