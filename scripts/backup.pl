@@ -3,7 +3,7 @@
 # scripts/backup.pl - the backup script
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: backup.pl,v 1.13 2008-05-08 09:35:57 mh Exp $
+# $Id: backup.pl,v 1.14 2008-09-08 17:08:19 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -114,7 +114,7 @@ if ( $DatabasePw =~ /^\{(.*)\}$/ ) {
 # check db backup support
 if ( $DatabaseDSN =~ /:mysql/i ) {
     $DB     = 'MySQL';
-    $DBDump = 'mysqldump5';
+    $DBDump = 'mysqldump';
 }
 elsif ( $DatabaseDSN =~ /:pg/i ) {
     $DB     = 'PostgreSQL';
