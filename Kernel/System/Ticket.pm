@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.343 2008-08-21 23:47:08 martin Exp $
+# $Id: Ticket.pm,v 1.344 2008-09-08 23:28:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.343 $) [1];
+$VERSION = qw($Revision: 1.344 $) [1];
 
 =head1 NAME
 
@@ -1701,7 +1701,7 @@ sub TicketEscalationDateCalculation {
         if ( $Ticket{$Key} ) {
 
             # do not escalations in "pending auto" for escalation update time
-            if ( $Key eq 'EscalationUpdateTime' && $Ticket{StateType} =~ /^(pending\sauto)/i ) {
+            if ( $Key eq 'EscalationUpdateTime' && $Ticket{StateType} =~ /^(pending)/i ) {
                 next;
             }
             my $WorkingTime = 0;
@@ -6295,6 +6295,16 @@ sub TicketAcl {
         $Checks{Queue} = \%Queue;
     }
 
+    # use queue data (if given)
+    if ( $Param{ServiceID} ) {
+        my %Service = $Self->{ServiceObject}->ServiceGet( ServiceID => $Param{ServiceID}, UserID => 1 );
+        $Checks{Service} = \%Service;
+    }
+    elsif ( $Param{Service} ) {
+        my %Service = $Self->{ServiceObject}->ServiceGet( Name => $Param{Service}, UserID => 1 );
+        $Checks{Service} = \%Service;
+    }
+
     # check acl config
     my %Acls = ();
     if ( $Self->{ConfigObject}->Get('TicketAcl') ) {
@@ -6644,6 +6654,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.343 $ $Date: 2008-08-21 23:47:08 $
+$Revision: 1.344 $ $Date: 2008-09-08 23:28:33 $
 
 =cut
