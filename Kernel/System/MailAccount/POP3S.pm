@@ -2,7 +2,7 @@
 # Kernel/System/MailAccount/POP3S.pm - lib for pop3 accounts
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: POP3S.pm,v 1.4 2008-07-21 11:28:27 mh Exp $
+# $Id: POP3S.pm,v 1.5 2008-09-08 12:32:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,11 +13,12 @@ package Kernel::System::MailAccount::POP3S;
 
 use strict;
 use warnings;
-use Net::POP3::SSLWrapper;
+#use Net::POP3::SSLWrapper;
+use Mail::POP3Client;
 use Kernel::System::PostMaster;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -69,9 +70,18 @@ sub Fetch {
     my $Reconnect    = 0;
     my $AuthType     = 'POP3S';
 
+# Net::POP3::SSLWrapper is not working with gmail, so we switched to Mail::POP3Client temporally
+#    my $PopObject
+#        = Net::POP3->new( $Param{Host}, Port => 995, Timeout => $Timeout, Debug => $Debug );
+
     # connect to host
-    my $PopObject
-        = Net::POP3->new( $Param{Host}, Port => 995, Timeout => $Timeout, Debug => $Debug );
+    my $PopObject = Mail::POP3Client->new(
+        USER     => $Param{Login},
+        PASSWORD => $Param{Password},
+        HOST     => $Param{Host},
+        USESSL   => 'true',
+    );
+
     if ( !$PopObject ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -81,19 +91,24 @@ sub Fetch {
     }
 
     # authentcation
-    my $NOM = $PopObject->login( $Param{Login}, $Param{Password} );
-    if ( !defined $NOM ) {
-        $PopObject->quit();
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "$AuthType: Auth for user $Param{Login}/$Param{Host} failed!",
-        );
-        return;
-    }
+# Net::POP3::SSLWrapper is not working with gmail, so we switched to Mail::POP3Client temporally
+#    my $NOM = $PopObject->login( $Param{Login}, $Param{Password} );
+#    if ( !defined $NOM ) {
+#        $PopObject->quit();
+#        $Self->{LogObject}->Log(
+#            Priority => 'error',
+#            Message  => "$AuthType: Auth for user $Param{Login}/$Param{Host} failed!",
+#        );
+#        return;
+#    }
+    my $NOM = $PopObject->Count();
 
     # fetch messages
     if ( $NOM > 0 ) {
-        for my $Messageno ( sort { $a <=> $b } keys %{ $PopObject->list() } ) {
+# Net::POP3::SSLWrapper is not working with gmail, so we switched to Mail::POP3Client temporally
+#        for my $Messageno ( sort { $a <=> $b } keys %{ $PopObject->list() } ) {
+        for my $MessagenoString ( $PopObject->List() ) {
+            my ($Messageno, $MessageSize) = split('\s+', $MessagenoString);
 
             # check if reconnect is needed
             if ( ( $FetchCounter + 1 ) > $MaxPopEmailSession ) {
@@ -108,7 +123,9 @@ sub Fetch {
             }
 
             # check message size
-            my $MessageSize = int( $PopObject->list($Messageno) / 1024 );
+# Net::POP3::SSLWrapper is not working with gmail, so we switched to Mail::POP3Client temporally
+#            my $MessageSize = int( $PopObject->list($Messageno) / 1024 );
+            $MessageSize = int( $MessageSize / 1024 );
             if ( $MessageSize > $MaxEmailSize ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
@@ -137,17 +154,29 @@ sub Fetch {
                 }
 
                 # get message (header and body)
-                my $Lines            = $PopObject->get($Messageno);
+# Net::POP3::SSLWrapper is not working with gmail, so we switched to Mail::POP3Client temporally
+#                my $Lines            = $PopObject->get($Messageno);
+                my $Line             = $PopObject->HeadAndBody($Messageno);
+                my @Lines            = split(/\n/, $Line);
+                for my $LineItem ( @Lines ) {
+                    $LineItem .= "\n";
+                }
                 my $PostMasterObject = Kernel::System::PostMaster->new(
                     %{$Self},
-                    Email   => $Lines,
+                    Email   => \@Lines,
                     Trusted => $Param{Trusted} || 0,
                     Debug   => $Debug,
                 );
                 my @Return = $PostMasterObject->Run( QueueID => $Param{QueueID} || 0 );
                 if ( !$Return[0] ) {
-                    my $Lines = $PopObject->get($Messageno);
-                    my $File = $Self->_ProcessFailed( Email => $Lines );
+# Net::POP3::SSLWrapper is not working with gmail, so we switched to Mail::POP3Client temporally
+#                    my $Lines = $PopObject->get($Messageno);
+                    my $Line  = $PopObject->HeadAndBody($Messageno);
+                    my @Lines = split(/\n/, $Line);
+                    for my $LineItem ( @Lines ) {
+                        $LineItem .= "\n";
+                    }
+                    my $File  = $Self->_ProcessFailed( Email => \@Lines );
                     $Self->{LogObject}->Log(
                         Priority => 'error',
                         Message  => "$AuthType: Can't process mail, see log sub system ("
@@ -157,7 +186,9 @@ sub Fetch {
                 undef $PostMasterObject;
 
                 # mark email to delete if it got processed
-                $PopObject->delete($Messageno);
+# Net::POP3::SSLWrapper is not working with gmail, so we switched to Mail::POP3Client temporally
+#                $PopObject->delete($Messageno);
+                $PopObject->Delete($Messageno);
 
                 # check limit
                 $Self->{Limit}++;
@@ -185,7 +216,9 @@ sub Fetch {
             Message => "$AuthType: Fetched $FetchCounter email(s) from $Param{Login}/$Param{Host}.",
         );
     }
-    $PopObject->quit();
+# Net::POP3::SSLWrapper is not working with gmail, so we switched to Mail::POP3Client temporally
+#    $PopObject->quit();
+    $PopObject->Close();
     if ($CMD) {
         print "$AuthType: Connection to $Param{Host} closed.\n\n";
     }
