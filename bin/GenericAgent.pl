@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pl,v 1.49 2008-05-08 09:36:57 mh Exp $
+# $Id: GenericAgent.pl,v 1.50 2008-09-08 06:48:58 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION %Jobs @ISA);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -123,62 +123,61 @@ if ( $Opts{c} eq 'db' ) {
     # process all jobs
     my %DBJobs = $CommonObject{GenericAgentObject}->JobList();
     for my $DBJob ( sort keys %DBJobs ) {
+        # get job
         my %DBJobRaw = $CommonObject{GenericAgentObject}->JobGet( Name => $DBJob );
-        my $Run      = 0;
-        my $False    = 0;
 
-        # check last run
+        # check requred params (need min. one param)
+        my $Schedule;
+        for my $Key (qw( ScheduleDays ScheduleMinutes ScheduleHours ) ) {
+            if ( $DBJobRaw{$Key} ) {
+                $Schedule = 1;
+            }
+        }
+        next if !$Schedule;
+
+        # next if jobs is invalid
+        next if !$DBJobRaw{Valid};
+
+        # get time params to check last and current run
         my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay )
             = $CommonObject{TimeObject}->SystemTime2Date(
             SystemTime => $CommonObject{TimeObject}->SystemTime(),
             );
-
         if ( $Min =~ /(.)./ ) {
-            $Min = ($1) . "0";
+            $Min = ($1) . '0';
         }
+
+        # check ScheduleDays
         if ( $DBJobRaw{ScheduleDays} ) {
             my $Match = 0;
             for ( @{ $DBJobRaw{ScheduleDays} } ) {
                 if ( $_ eq $WDay ) {
                     $Match = 1;
-                    $Run   = 1;
                 }
             }
-            if ( !$Match ) {
-                $False = 1;
-            }
-        }
-        if ( !defined $DBJobRaw{ScheduleMinutes} ) {
-            @{ $DBJobRaw{ScheduleMinutes} } = qw(00 10 20 30 40 50);
-        }
-        my $Match = 0;
-        for ( @{ $DBJobRaw{ScheduleMinutes} } ) {
-            if ( $_ == $Min ) {
-                $Match = 1;
-                $Run   = 1;
-            }
-        }
-        if ( !$Match ) {
-            $False = 1;
-        }
-        if ( !defined $DBJobRaw{ScheduleHours} ) {
-            @{ $DBJobRaw{ScheduleHours} }
-                = qw(00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21 22 23);
-        }
-        $Match = 0;
-        for ( @{ $DBJobRaw{ScheduleHours} } ) {
-            if ( $_ == $Hour ) {
-                $Match = 1;
-                $Run   = 1;
-            }
-        }
-        if ( !$Match ) {
-            $False = 1;
+            next if !$Match;
         }
 
-        # check if job is invalid
-        if ( !$DBJobRaw{Valid} ) {
-            $False = 1;
+        # check ScheduleMinutes
+        if ( $DBJobRaw{ScheduleMinutes} ) {
+            my $Match = 0;
+            for ( @{ $DBJobRaw{ScheduleMinutes} } ) {
+                if ( $_ == $Min ) {
+                    $Match = 1;
+                }
+            }
+            next if !$Match;
+        }
+
+        # check ScheduleHours
+        if ( $DBJobRaw{ScheduleHours} ) {
+            my $Match = 0;
+            for ( @{ $DBJobRaw{ScheduleHours} } ) {
+                if ( $_ == $Hour ) {
+                    $Match = 1;
+                }
+            }
+            next if !$Match;
         }
 
         # check if job already was running
@@ -189,17 +188,15 @@ if ( $Opts{c} eq 'db' ) {
             )
         {
             print "Job '$DBJob' already finished!\n";
-            $False = 1;
+            next;
         }
-        if ( !$False ) {
 
-            # log event
-            $CommonObject{GenericAgentObject}->JobRun(
-                Job    => $DBJob,
-                Limit  => $Opts{l},
-                UserID => $UserIDOfGenericAgent,
-            );
-        }
+        # log event
+        $CommonObject{GenericAgentObject}->JobRun(
+            Job    => $DBJob,
+            Limit  => $Opts{l},
+            UserID => $UserIDOfGenericAgent,
+        );
     }
 
     # delete pid lock
