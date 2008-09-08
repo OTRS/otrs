@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.26 2008-06-05 11:28:22 martin Exp $
+# $Id: Main.pm,v 1.27 2008-09-08 17:54:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Data::Dumper;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 =head1 NAME
 
@@ -509,10 +509,12 @@ sub FileDelete {
 
     # delete file
     if ( !unlink( $Param{Location} ) ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => "Can't delete '$Param{Location}': $!",
-        );
+        if ( !$Param{DisableWarnings} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Can't delete '$Param{Location}': $!",
+            );
+        }
         return;
     }
 
@@ -748,6 +750,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.26 $ $Date: 2008-06-05 11:28:22 $
+$Revision: 1.27 $ $Date: 2008-09-08 17:54:41 $
 
 =cut
