@@ -2,14 +2,22 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.748 2008-08-30 14:34:39 mh Exp $
+# $Id: CHANGES,v 1.749 2008-09-08 12:35:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
-2.3.2 (2008/??/??)
+2.3.3 (2008/??/??)
+ - (2008/09/08) Fixed bug# 3251 - Error retrieving pop3s email from gmail
+    or MS Exchange.
+ - (2008/09/08) Fixed bug# 3247 - GenericAgent is running also without time
+    settings.
+ - (2008/09/08) Fixed bug# 3261 - Escalation also for ro tickets (normally just
+    rw tickets).
+ - (2008/08/30) Fixed bug# 2862 - Wrong summary in GenericAgent webinterface
+    after adding a new job. Max. shown 10,000 affected tickets.
  - (2008/08/30) Fixed bug# 3053 - AJAX functionality without cookies is not
     working.
  - (2008/08/29) Fixed bug# 3152 - German wording in link tables within english
@@ -370,11 +378,11 @@
         Name   => 'Database Backend',
         Module => 'Kernel::System::CustomerUser::DB',
         Params => {
-            DSN        => 'DBI:sybase:yourdsn',
-            User       => 'some_user',
-            Password   => 'some_password',
-            Table      => 'customer_user',
-            Attributes => {},
+            DSN       => 'DBI:sybase:yourdsn',
+            User      => 'some_user',
+            Password  => 'some_password',
+            Table     => 'customer_user',
+            Attribute => {},
         },
     [...]
 
