@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketOverView.pm - status for all open tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketOverView.pm,v 1.47 2008-05-08 09:36:37 mh Exp $
+# $Id: CustomerTicketOverView.pm,v 1.48 2008-09-10 11:15:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -145,14 +145,18 @@ sub Run {
     }
 
     # create & return output
+    my $Link = 'SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{SortBy} )
+        . '&OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Order} )
+        . '&ShowClosedTickets=' . $Self->{LayoutObject}->Ascii2Html( Text => $ShowClosed )
+        . '&Type=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Type} )
+        . '&';
     my %PageNav = $Self->{LayoutObject}->PageNavBar(
         Limit     => 10000,
         StartHit  => $Self->{StartHit},
         PageShown => $Self->{PageShown},
         AllHits   => $AllTickets,
-        Action    => "Action=CustomerTicketOverView",
-        Link =>
-            "SortBy=$Self->{SortBy}&Order=$Self->{Order}&ShowClosedTickets=$ShowClosed&Type=$Self->{Type}&",
+        Action    => 'Action=CustomerTicketOverView',
+        Link      => $Link,
     );
 
     # create & return output
