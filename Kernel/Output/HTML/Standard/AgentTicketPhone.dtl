@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.36 2008-07-01 16:01:02 martin Exp $
+# $Id: AgentTicketPhone.dtl,v 1.37 2008-09-10 11:11:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -140,9 +140,9 @@ function clear_field() {
         <input type="hidden" name="OwnerAll" value="$QData{"OwnerAll"}"/>
         <input type="hidden" name="ResponsibleAll" value="$QData{"ResponsibleAll"}"/>
         <input type="hidden" name="PreSelectedCustomerUser" value=""/>
-        <input type="hidden" name="SelectedCustomerUser" value="$Data{"CustomerUser"}"/>
-        <input type="hidden" name="TicketID" value="$Data{"TicketID"}"/>
-        <input type="hidden" name="LinkTicketID" value="$Data{"LinkTicketID"}"/>
+        <input type="hidden" name="SelectedCustomerUser" value="$QData{"CustomerUser"}"/>
+        <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
+        <input type="hidden" name="LinkTicketID" value="$QData{"LinkTicketID"}"/>
         <table border="0" width="100%">
 <!-- dtl:block:TicketType -->
           <tr>
