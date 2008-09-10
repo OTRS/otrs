@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMailbox.pm - to view all locked tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMailbox.pm,v 1.26 2008-05-09 08:47:36 mh Exp $
+# $Id: AgentTicketMailbox.pm,v 1.27 2008-09-10 11:14:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -76,15 +76,6 @@ sub Run {
     if ( $Self->{UserRefreshTime} ) {
         $Refresh = 60 * $Self->{UserRefreshTime};
     }
-    $Self->{LayoutObject}->Block(
-        Name => 'MetaLink',
-        Data => {
-            Rel   => 'search',
-            Type  => 'application/opensearchdescription+xml',
-            Title => '$Quote{"$Config{"ProductName"}"} ($Quote{"$Config{"Ticket::Hook"}"})',
-            Href  => '$Env{"Baselink"}Action=AgentTicketSearch&Subaction=OpenSearchDescription',
-        },
-    );
     $Output .= $Self->{LayoutObject}->Header( Refresh => $Refresh, );
     $Output .= $Self->{LayoutObject}->NavigationBar();
     my %LockedData = $Self->{TicketObject}->GetLockedCount( UserID => $Self->{UserID} );
@@ -259,13 +250,19 @@ sub Run {
     }
 
     # create & return output
+    my $Link = 'Subaction='
+        . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Subaction} )
+        . '&SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $SortBy )
+        . '&OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $OrderBy )
+        . '&';
+
     my %PageNav = $Self->{LayoutObject}->PageNavBar(
         Limit     => 10000,
         StartHit  => $Self->{StartHit},
         PageShown => $Self->{PageShown},
         AllHits   => $AllTickets,
-        Action    => "Action=AgentTicketMailbox",
-        Link      => "Subaction=$Self->{Subaction}&SortBy=$SortBy&OrderBy=$OrderBy&",
+        Action    => 'Action=AgentTicketMailbox',
+        Link      => $Link,
     );
     $Self->{LayoutObject}->Block(
         Name => 'NavBar',

@@ -2,7 +2,7 @@
 # AgentTicketMailbox.dtl - provides HTML for AgentTicketMailbox
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMailbox.dtl,v 1.10 2008-04-02 08:59:22 ot Exp $
+# $Id: AgentTicketMailbox.dtl,v 1.11 2008-09-10 11:14:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,24 +20,24 @@
     <td class="menu">
       $Text{"Tickets"}: $Data{"Result"} $Text{"of"} $Data{"TotalHits"} -
       $Text{"Page"}: $Data{"SiteNavBar"} - $Text{"Filter"}:
-      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=All&SortBy=$Data{"SortBy"}&OrderBy=$Data{"OrderBy"}" onmouseover="window.status='$JSText{"All messages"} ($Data{"All"})'; return true;" onmouseout="window.status='';">$Text{"All"} ($Data{"All"})</a>
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=All&SortBy=$LQData{"SortBy"}&OrderBy=$LQData{"OrderBy"}" onmouseover="window.status='$JSText{"All messages"} ($QData{"All"})'; return true;" onmouseout="window.status='';">$Text{"All"} ($QData{"All"})</a>
 #      -
-#      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Open&SortBy=$Data{"SortBy"}&OrderBy=$Data{"OrderBy"}" onmouseover="window.status='$JSText{"Open messages"} ($Data{"Open"})'; return true;" onmouseout="window.status='';">$Text{"Old messages"} ($Data{"Open"})</a>
+#      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Open&SortBy=$LQData{"SortBy"}&OrderBy=$LQData{"OrderBy"}" onmouseover="window.status='$JSText{"Open messages"} ($QData{"Open"})'; return true;" onmouseout="window.status='';">$Text{"Old messages"} ($QData{"Open"})</a>
       -
-      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=New&SortBy=$Data{"SortBy"}&OrderBy=$Data{"OrderBy"}" onmouseover="window.status='$JSText{"New messages"} ($Data{"New"})'; return true;" onmouseout="window.status='';">$Text{"New messages"} ($Data{"New"})</a>
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=New&SortBy=$LQData{"SortBy"}&OrderBy=$LQData{"OrderBy"}" onmouseover="window.status='$JSText{"New messages"} ($Data{"New"})'; return true;" onmouseout="window.status='';">$Text{"New messages"} ($Data{"New"})</a>
       -
-      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Pending&SortBy=$Data{"SortBy"}&OrderBy=$Data{"OrderBy"}" onmouseover="window.status='$JSText{"Pending messages"} ($Data{"Pending"})'; return true;" onmouseout="window.status='';">$Text{"Pending"} ($Data{"Pending"})</a>
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Pending&SortBy=$LQData{"SortBy"}&OrderBy=$LQData{"OrderBy"}" onmouseover="window.status='$JSText{"Pending messages"} ($Data{"Pending"})'; return true;" onmouseout="window.status='';">$Text{"Pending"} ($Data{"Pending"})</a>
       -
-      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Reminder&SortBy=$Data{"SortBy"}&OrderBy=$Data{"OrderBy"}" onmouseover="window.status='$JSText{"Reminder messages"} ($Data{"Reminder"})'; return true;" onmouseout="window.status='';">$Text{"Reminder"} ($Data{"Reminder"})</a>
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Reminder&SortBy=$LQData{"SortBy"}&OrderBy=$LQData{"OrderBy"}" onmouseover="window.status='$JSText{"Reminder messages"} ($Data{"Reminder"})'; return true;" onmouseout="window.status='';">$Text{"Reminder"} ($Data{"Reminder"})</a>
       <br/>
       $Text{"Sort by"}:
-      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$Env{"Subaction"}&SortBy=Age">$Text{"Age"}</a> -
-      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$Env{"Subaction"}&SortBy=Queue">$Text{"Queue"}</a> -
-      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$Env{"Subaction"}&SortBy=Priority&OrderBy=Down">$Text{"Priority"}</a> -
-      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$Env{"Subaction"}&SortBy=CustomerID">$Text{"CustomerID"}</a>
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$QEnv{"Subaction"}&SortBy=Age">$Text{"Age"}</a> -
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$QEnv{"Subaction"}&SortBy=Queue">$Text{"Queue"}</a> -
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$QEnv{"Subaction"}&SortBy=Priority&OrderBy=Down">$Text{"Priority"}</a> -
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$QEnv{"Subaction"}&SortBy=CustomerID">$Text{"CustomerID"}</a>
       | $Text{"Order"}:
-      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$Env{"Subaction"}&SortBy=$Data{"SortBy"}&OrderBy=Up">$Text{"up"}</a> -
-      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$Env{"Subaction"}&SortBy=$Data{"SortBy"}&OrderBy=Down">$Text{"down"}</a>
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$QEnv{"Subaction"}&SortBy=$Data{"SortBy"}&OrderBy=Up">$Text{"up"}</a> -
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$QEnv{"Subaction"}&SortBy=$Data{"SortBy"}&OrderBy=Down">$Text{"down"}</a>
     </td>
   </tr>
 </table>
