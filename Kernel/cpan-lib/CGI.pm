@@ -18,13 +18,13 @@ use Carp 'croak';
 # The most recent version and complete docs are available at:
 #   http://stein.cshl.org/WWW/software/CGI/
 
-$CGI::revision = '$Id: CGI.pm,v 1.17 2008-08-28 11:16:10 mh Exp $';
-$CGI::VERSION='3.41';
+$CGI::revision = '$Id: CGI.pm,v 1.18 2008-09-10 10:05:13 mh Exp $';
+$CGI::VERSION='3.42';
 
 # HARD-CODED LOCATION FOR FILE UPLOAD TEMPORARY FILES.
 # UNCOMMENT THIS ONLY IF YOU KNOW WHAT YOU'RE DOING.
 # $CGITempFile::TMPDIRECTORY = '/usr/tmp';
-use CGI::Util qw(rearrange make_attributes unescape escape expires ebcdic2ascii ascii2ebcdic);
+use CGI::Util qw(rearrange rearrange_header make_attributes unescape escape expires ebcdic2ascii ascii2ebcdic);
 
 #use constant XHTML_DTD => ['-//W3C//DTD XHTML Basic 1.0//EN',
 #                           'http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd'];
@@ -1381,7 +1381,7 @@ END_OF_FUNC
 'multipart_init' => <<'END_OF_FUNC',
 sub multipart_init {
     my($self,@p) = self_or_default(@_);
-    my($boundary,@other) = rearrange([BOUNDARY],@p);
+    my($boundary,@other) = rearrange_header([BOUNDARY],@p);
     $boundary = $boundary || '------- =_aaaaaaaaaa0';
     $self->{'separator'} = "$CRLF--$boundary$CRLF";
     $self->{'final_separator'} = "$CRLF--$boundary--$CRLF";
@@ -3762,7 +3762,7 @@ sub new {
     (my $safename = $name) =~ s/([':%])/ sprintf '%%%02X', ord $1 /eg;
     my $fv = ++$FH . $safename;
     my $ref = \*{"Fh::$fv"};
-    $file =~ m!^([a-zA-Z0-9_\+ \'\":/.\$\\-]+)$! || return;
+    $file =~ m!^([a-zA-Z0-9_\+ \'\":/.\$\\~-]+)$! || return;
     my $safe = $1;
     sysopen($ref,$safe,Fcntl::O_RDWR()|Fcntl::O_CREAT()|Fcntl::O_EXCL(),0600) || return;
     unlink($safe) if $delete;
@@ -4060,6 +4060,14 @@ sub find_tempdir {
 	   "${vol}${SL}Temporary Items",
            "${SL}WWW_ROOT", "${SL}SYS\$SCRATCH",
 	   "C:${SL}system${SL}temp");
+    
+    if( $CGI::OS eq 'WINDOWS' ){
+       unshift @TEMP,
+           $ENV{TEMP},
+           $ENV{TMP},
+           $ENV{WINDIR} . $SL . 'TEMP';
+    }
+
     unshift(@TEMP,$ENV{'TMPDIR'}) if defined $ENV{'TMPDIR'};
 
     # this feature was supposed to provide per-user tmpfiles, but
@@ -4088,7 +4096,7 @@ $MAXTRIES = 5000;
 
 sub DESTROY {
     my($self) = @_;
-    $$self =~ m!^([a-zA-Z0-9_ \'\":/.\$\\-]+)$! || return;
+    $$self =~ m!^([a-zA-Z0-9_ \'\":/.\$\\~-]+)$! || return;
     my $safe = $1;             # untaint operation
     unlink $safe;              # get rid of the file
 }
@@ -4109,7 +4117,7 @@ sub new {
 	last if ! -f ($filename = sprintf("\%s${SL}CGItemp%d", $TMPDIRECTORY, $sequence++));
     }
     # check that it is a more-or-less valid filename
-    return unless $filename =~ m!^([a-zA-Z0-9_\+ \'\":/.\$\\-]+)$!;
+    return unless $filename =~ m!^([a-zA-Z0-9_\+ \'\":/.\$\\~-]+)$!;
     # this used to untaint, now it doesn't
     # $filename = $1;
     return bless \$filename;
