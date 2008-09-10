@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.107 2008-09-02 09:38:50 martin Exp $
+# $Id: Layout.pm,v 1.108 2008-09-10 11:10:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.107 $) [1];
+$VERSION = qw($Revision: 1.108 $) [1];
 
 =head1 NAME
 
@@ -1006,6 +1006,7 @@ sub _Output {
         }iegx;
 
         # rewrite forms: <form action="index.pl" method="get">
+        my $SessionID = $Self->Ascii2Html( Text => $Self->{SessionID} );
         $Output =~ s{
             (<form.+?action=")(.+?)(">|".+?>)
         }
@@ -1017,7 +1018,7 @@ sub _Output {
                 $Start.$Target.$End;
             }
             else {
-                $Start.$Target.$End."<input type=\"hidden\" name=\"$Self->{SessionName}\" value=\"$Self->{SessionID}\"/>";
+                $Start.$Target.$End."<input type=\"hidden\" name=\"$Self->{SessionName}\" value=\"$SessionID\"/>";
             }
         }iegx;
     }
@@ -3980,6 +3981,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.107 $ $Date: 2008-09-02 09:38:50 $
+$Revision: 1.108 $ $Date: 2008-09-10 11:10:25 $
 
 =cut
