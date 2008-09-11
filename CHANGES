@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.751 2008-09-08 23:28:33 martin Exp $
+# $Id: CHANGES,v 1.752 2008-09-11 14:50:15 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.3.3 (2008/??/??)
+ - (2008/09/11) Fixed bug# 3284 - Missing entries in the stats mask if a
+    freetext field is configured as pull down menu.
  - (2008/09/08) Fixed bug# 3158 - Ticket has a "pending" state --> the
     escalation time is not set out.
  - (2008/09/08) Fixed bug# 3266 - backup.pl calls "mysqldump5" not "mysqldump".
