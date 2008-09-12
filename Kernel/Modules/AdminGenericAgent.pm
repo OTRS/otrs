@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.51 2008-06-19 18:42:28 martin Exp $
+# $Id: AdminGenericAgent.pm,v 1.52 2008-09-12 16:23:53 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -985,65 +985,55 @@ sub Run {
             );
         }
 
+        # get free text config options
+        my %TicketFreeText;
+        my %TicketFreeTextData;
+        for my $Count ( 1 .. 16 ) {
+            $TicketFreeText{ 'TicketFreeKey' . $Count } = $Self->{TicketObject}->TicketFreeTextGet(
+                Type   => 'TicketFreeKey' . $Count,
+                FillUp => 1,
+                Action => $Self->{Action},
+                UserID => $Self->{UserID},
+            );
+            $TicketFreeText{ 'TicketFreeText' . $Count } = $Self->{TicketObject}->TicketFreeTextGet(
+                Type   => 'TicketFreeText' . $Count,
+                FillUp => 1,
+                Action => $Self->{Action},
+                UserID => $Self->{UserID},
+            );
+
+            $TicketFreeTextData{ 'TicketFreeKey' . $Count } = $Param{ 'TicketFreeKey' . $Count };
+            $TicketFreeTextData{ 'TicketFreeText' . $Count } = $Param{ 'TicketFreeText' . $Count };
+        }
+
+        # generate the free text fields
+        my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
+            Config     => \%TicketFreeText,
+            Ticket     => \%TicketFreeTextData,
+            NullOption => 1,
+        );
+
         # Free field settings
         my $Flag = 1;
-        for my $ID ( 1 .. 16 ) {
-            if ( ref( $Self->{ConfigObject}->Get( 'TicketFreeKey' . $ID ) ) eq 'HASH' ) {
+        COUNT:
+        for my $Count ( 1 .. 16 ) {
 
-                # $Flag to show the whole freefield block
-                if ($Flag) {
-                    $Self->{LayoutObject}->Block( Name => 'TicketFreeField' );
-                    $Flag = 0;
-                }
+            next COUNT if ref $Self->{ConfigObject}->Get( 'TicketFreeKey' . $Count ) ne 'HASH';
 
-                # generate free key
-                my %TicketFreeKey = %{ $Self->{ConfigObject}->Get( 'TicketFreeKey' . $ID ) };
-                my @FreeKey       = keys %TicketFreeKey;
-                my $TicketFreeKey = '';
-
-                if ( $#FreeKey == 0 ) {
-                    $TicketFreeKey = $TicketFreeKey{ $FreeKey[0] };
-                }
-                else {
-                    $TicketFreeKey = $Self->{LayoutObject}->OptionStrgHashRef(
-                        Data                => \%TicketFreeKey,
-                        Name                => 'TicketFreeKey' . $ID,
-                        Size                => 4,
-                        Multiple            => 1,
-                        LanguageTranslation => 0,
-                        SelectedIDRefArray  => $Param{ 'TicketFreeKey' . $ID },
-                    );
-                }
-
-                # generate free text
-                my $TicketFreeText = '';
-                if ( !$Self->{ConfigObject}->Get( 'TicketFreeText' . $ID ) ) {
-                    $TicketFreeText
-                        = '<input type="text" name="TicketFreeText'
-                        . $ID
-                        . '" size="30" value="'
-                        . ( $Param{ 'TicketFreeText' . $ID }[0] || '' ) . '">';
-                }
-                else {
-                    my %TicketFreeText = %{ $Self->{ConfigObject}->Get( 'TicketFreeText' . $ID ) };
-                    $TicketFreeText = $Self->{LayoutObject}->OptionStrgHashRef(
-                        Data                => \%TicketFreeText,
-                        Name                => 'TicketFreeText' . $ID,
-                        Size                => 4,
-                        Multiple            => 1,
-                        LanguageTranslation => 0,
-                        SelectedIDRefArray  => $Param{ 'TicketFreeText' . $ID },
-                    );
-                }
-
-                $Self->{LayoutObject}->Block(
-                    Name => 'TicketFreeFieldElement',
-                    Data => {
-                        TicketFreeKey  => $TicketFreeKey,
-                        TicketFreeText => $TicketFreeText,
-                    },
-                );
+            # $Flag to show the whole freefield block
+            if ($Flag) {
+                $Self->{LayoutObject}->Block( Name => 'TicketFreeField' );
+                $Flag = 0;
             }
+
+            # output free text field
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFreeFieldElement',
+                Data => {
+                    TicketFreeKey  => $TicketFreeTextHTML{ 'TicketFreeKeyField' . $Count },
+                    TicketFreeText => $TicketFreeTextHTML{ 'TicketFreeTextField' . $Count },
+                },
+            );
         }
 
         # New free field settings
