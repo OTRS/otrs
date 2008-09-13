@@ -2,7 +2,7 @@
 # Kernel/System/StdAttachment.pm - lib for std attachemnt
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: StdAttachment.pm,v 1.24 2008-07-13 23:19:07 martin Exp $
+# $Id: StdAttachment.pm,v 1.25 2008-09-13 10:24:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 =head1 NAME
 
@@ -266,6 +266,12 @@ sub StdAttachmentDelete {
     $Self->{ 'StdAttachmentLookupID::' . $Param{ID} }    = 0;
     $Self->{ 'StdAttachmentLookupName::' . $Data{Name} } = 0;
 
+    # delete attachment<->std response relation
+    return if !$Self->{DBObject}->Do(
+        SQL => 'DELETE FROM standard_response_attachment WHERE standard_attachment_id = ?',
+        Bind => [ \$Param{ID} ],
+    );
+
     # sql
     return $Self->{DBObject}->Do(
         SQL  => 'DELETE FROM standard_attachment WHERE ID = ?',
@@ -471,6 +477,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2008-07-13 23:19:07 $
+$Revision: 1.25 $ $Date: 2008-09-13 10:24:00 $
 
 =cut
