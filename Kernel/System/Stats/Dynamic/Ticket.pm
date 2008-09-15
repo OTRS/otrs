@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/Ticket.pm - all advice functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.20 2008-09-11 14:50:15 mh Exp $
+# $Id: Ticket.pm,v 1.21 2008-09-15 11:02:31 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -469,6 +469,7 @@ sub GetObjectAttributes {
         # get ticket free text
         my $TicketFreeText = $Self->{TicketObject}->TicketFreeTextGet(
             Type   => 'TicketFreeText' . $FreeKey,
+            Action => 'AgentStats',
             FillUp => 1,
             UserID => 1,
         );
