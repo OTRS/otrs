@@ -2,7 +2,7 @@
 # INSTALL description of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: INSTALL,v 1.45 2008-04-29 11:40:58 tr Exp $
+# $Id: INSTALL,v 1.46 2008-09-16 08:38:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -78,9 +78,9 @@ settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
 
     Add user to webserver group (if the webserver is not running with OTRS user):
     -----------------------------------------------------------------------------
-    $shell: usermod -G nogroup otrs
+    $shell: usermod -G www otrs
 
-    (SuSE=nogroup, Red Hat=apache)
+    (SuSE=www, Red Hat/Fedora=apache)
 
 4. Demo config files:
    ------------------
