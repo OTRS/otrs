@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.54 2008-08-20 15:10:37 mh Exp $
+# $Id: Stats.pm,v 1.55 2008-09-19 13:11:02 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 =head1 SYNOPSIS
 
@@ -2515,7 +2515,7 @@ sub Import {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message =>
-                    "Import: Can't import Stat, becauce the required element $Element is not available!"
+                    "Import: Can't import Stat, because the required element $Element is not available!"
             );
             return;
         }
@@ -3118,6 +3118,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.54 $ $Date: 2008-08-20 15:10:37 $
+$Revision: 1.55 $ $Date: 2008-09-19 13:11:02 $
 
 =cut
