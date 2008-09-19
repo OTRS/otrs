@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.55 2008-09-19 13:11:02 ub Exp $
+# $Id: Stats.pm,v 1.56 2008-09-19 13:21:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 =head1 SYNOPSIS
 
@@ -2530,7 +2530,7 @@ sub Import {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
                     Message =>
-                        "Import: Can't import StatNumber $Key, becauce this StatNumber is already used!"
+                        "Import: Can't import StatNumber $Key, because this StatNumber is already used!"
                 );
                 return;
             }
@@ -3118,6 +3118,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.55 $ $Date: 2008-09-19 13:11:02 $
+$Revision: 1.56 $ $Date: 2008-09-19 13:21:13 $
 
 =cut
