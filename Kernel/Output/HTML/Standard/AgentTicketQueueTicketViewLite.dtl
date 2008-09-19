@@ -2,7 +2,7 @@
 # AgentTicketQueueTicketViewLite.dtl - provides HTML TicketView for AgentTicketQueue
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketQueueTicketViewLite.dtl,v 1.17 2008-04-29 22:00:58 martin Exp $
+# $Id: AgentTicketQueueTicketViewLite.dtl,v 1.18 2008-09-19 13:00:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -236,8 +236,8 @@
 #    <td valign="top" class="PriorityID-$Data{"PriorityID"}">
 #      <form action="$Env{"CGIHandle"}" method="get">
 #        <input type="hidden" name="Action" value="AgentTicketMove"/>
-#        <input type="hidden" name="QueueID" value="$Data{"QueueID"}"/>
-#        <input type="hidden" name="TicketID" value="$Data{"TicketID"}"/>
+#        <input type="hidden" name="QueueID" value="$QData{"QueueID"}"/>
+#        <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
 #        $Data{"MoveQueuesStrg"}
 #        <input class="button" type="submit" value="$Text{"Move"}"/>
 #      </form>
