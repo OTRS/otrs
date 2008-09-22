@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.108 2008-09-10 11:10:25 martin Exp $
+# $Id: Layout.pm,v 1.109 2008-09-22 16:30:05 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.108 $) [1];
+$VERSION = qw($Revision: 1.109 $) [1];
 
 =head1 NAME
 
@@ -607,10 +607,11 @@ sub _Output {
             if ( $Self->{MainObject}->Require( $Filters{$Filter}->{Module} ) ) {
                 my $Object = $Filters{$Filter}->{Module}->new(
                     ConfigObject => $Self->{ConfigObject},
-                    MainObject   => $Self->{MainObject},
                     LogObject    => $Self->{LogObject},
-                    Debug        => $Self->{Debug},
+                    MainObject   => $Self->{MainObject},
+                    ParamObject  => $Self->{ParamObject},
                     LayoutObject => $Self,
+                    Debug        => $Self->{Debug},
                 );
 
                 # run module
@@ -1061,10 +1062,11 @@ sub _Output {
             if ( $Self->{MainObject}->Require( $Filters{$Filter}->{Module} ) ) {
                 my $Object = $Filters{$Filter}->{Module}->new(
                     ConfigObject => $Self->{ConfigObject},
-                    MainObject   => $Self->{MainObject},
                     LogObject    => $Self->{LogObject},
-                    Debug        => $Self->{Debug},
+                    MainObject   => $Self->{MainObject},
+                    ParamObject  => $Self->{ParamObject},
                     LayoutObject => $Self,
+                    Debug        => $Self->{Debug},
                 );
 
                 # run module
@@ -1510,10 +1512,11 @@ sub Print {
             if ( $Self->{MainObject}->Require( $Filters{$Filter}->{Module} ) ) {
                 my $Object = $Filters{$Filter}->{Module}->new(
                     ConfigObject => $Self->{ConfigObject},
-                    MainObject   => $Self->{MainObject},
                     LogObject    => $Self->{LogObject},
-                    Debug        => $Self->{Debug},
+                    MainObject   => $Self->{MainObject},
+                    ParamObject  => $Self->{ParamObject},
                     LayoutObject => $Self,
+                    Debug        => $Self->{Debug},
                 );
 
                 # run module
@@ -3981,6 +3984,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.108 $ $Date: 2008-09-10 11:10:25 $
+$Revision: 1.109 $ $Date: 2008-09-22 16:30:05 $
 
 =cut
