@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.43 2008-06-20 16:55:33 mh Exp $
+# $Id: GenericAgent.pm,v 1.44 2008-09-24 23:11:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 =head1 NAME
 
@@ -358,7 +358,7 @@ sub JobRun {
             # check min. one search arg
             my $Count = 0;
             for ( keys %Job ) {
-                if ( $_ !~ /^(New|Name|Valid|ScheduleLast)/ && $Job{$_} ) {
+                if ( $_ !~ /^(New|Name|Valid|Schedule)/ && $Job{$_} ) {
                     $Count++;
                 }
             }
@@ -1320,6 +1320,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.43 $ $Date: 2008-06-20 16:55:33 $
+$Revision: 1.44 $ $Date: 2008-09-24 23:11:54 $
 
 =cut
