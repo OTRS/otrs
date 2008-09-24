@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.27 2008-05-08 09:36:20 mh Exp $
+# $Id: LDAP.pm,v 1.28 2008-09-24 23:46:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -206,6 +206,8 @@ sub Auth {
     # user quote
     my $UserQuote = $Param{User};
     $UserQuote =~ s/\\/\\\\/g;
+    $UserQuote =~ s/\(/\\(/g;
+    $UserQuote =~ s/\)/\\)/g;
 
     # build filter
     my $Filter = "($Self->{UID}=$UserQuote)";
@@ -252,6 +254,8 @@ sub Auth {
     # DN quote
     my $UserDNQuote = $UserDN;
     $UserDNQuote =~ s/\\/\\\\/g;
+    $UserDNQuote =~ s/\(/\\(/g;
+    $UserDNQuote =~ s/\)/\\)/g;
 
     # check if user need to be in a group!
     if ( $Self->{AccessAttr} && $Self->{GroupDN} ) {
