@@ -2,7 +2,7 @@
 # AdminPerformanceLog.dtl - provides HTML form for AdminPerformanceLog
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPerformanceLog.dtl,v 1.10 2008-04-02 08:59:22 ot Exp $
+# $Id: AdminPerformanceLog.dtl,v 1.11 2008-09-24 23:02:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -120,20 +120,20 @@
                 <td class="contentkey">$Text{"Average Response"}</td>
               </tr>
 <!-- dtl:block:OverviewInterface -->
-              <tr>
-                <td class="$QData{"CssClass"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=View&Interface=$LQData{"Interface"}&Minute=$LQData{"Minute"}">$QData{"Interface"}</a></td>
-                <td class="$QData{"CssClass"}">$QData{"Count"}</td>
-                <td class="$QData{"CssClass"}">$QData{"Min"}s</td>
-                <td class="$QData{"CssClass"}">$QData{"Max"}s</td>
-                <td class="$QData{"CssClass"}">$QData{"Average"}s</td>
+              <tr class="$QData{"CssClass"}">
+                <td><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=View&Interface=$LQData{"Interface"}&Minute=$LQData{"Minute"}">$QData{"Interface"}</a></td>
+                <td>$QData{"Count"}</td>
+                <td>$QData{"Min"}s</td>
+                <td>$QData{"Max"}s</td>
+                <td>$QData{"Average"}s</td>
               </tr>
 <!-- dtl:block:OverviewRow -->
-              <tr>
-                <td class="$QData{"CssClass"}"><i> o <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=View&Interface=$LQData{"Interface"}&Module=$LQData{"Module"}&Minute=$LQData{"Minute"}">$QData{"Module"}</a></i></td>
-                <td class="$QData{"CssClass"}"><i>$QData{"Count"}</i></td>
-                <td class="$QData{"CssClass"}"><i>$QData{"Min"}s</i></td>
-                <td class="$QData{"CssClass"}"><i>$QData{"Max"}s</i></td>
-                <td class="$QData{"CssClass"}"><i>$QData{"Average"}s</i></td>
+              <tr class="$QData{"CssClass"}">
+                <td><i> o <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=View&Interface=$LQData{"Interface"}&Module=$LQData{"Module"}&Minute=$LQData{"Minute"}">$QData{"Module"}</a></i></td>
+                <td><i>$QData{"Count"}</i></td>
+                <td><i>$QData{"Min"}s</i></td>
+                <td><i>$QData{"Max"}s</i></td>
+                <td><i>$QData{"Average"}s</i></td>
               </tr>
 <!-- dtl:block:OverviewRow -->
               <tr>
@@ -182,13 +182,13 @@
                 <td class="contentkey"></td>
               </tr>
 <!-- dtl:block:ViewRow -->
-              <tr>
-                <td class="$QData{"CssClass"}"><i>$TimeShort{"$QData{"Date"}"}</i></td>
-                <td class="$QData{"CssClass"}"><i>$QData{"Count"}</i></td>
-                <td class="$QData{"CssClass"}"><i>$QData{"Min"}s</i></td>
-                <td class="$QData{"CssClass"}"><i>$QData{"Max"}s</i></td>
-                <td class="$QData{"CssClass"}"><i>$QData{"Average"}s</i></td>
-                <td class="$QData{"CssClass"}">
+              <tr class="$QData{"CssClass"}">
+                <td><i>$TimeShort{"$QData{"Date"}"}</i></td>
+                <td><i>$QData{"Count"}</i></td>
+                <td><i>$QData{"Min"}s</i></td>
+                <td><i>$QData{"Max"}s</i></td>
+                <td><i>$QData{"Average"}s</i></td>
+                <td>
                   <table width="$QData{"Width"}" bgcolor="blue" cellspacing="0" cellpadding="0">
                     <tr>
                       <td>

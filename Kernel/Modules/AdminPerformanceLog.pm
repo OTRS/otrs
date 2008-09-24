@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPerformanceLog.pm - provides a log view for admins
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPerformanceLog.pm,v 1.12 2008-05-08 09:36:36 mh Exp $
+# $Id: AdminPerformanceLog.pm,v 1.13 2008-09-24 23:02:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -106,12 +106,17 @@ sub Run {
                 {
 
                     # for each action
+                    my $ModuleCurrent = '';
                     if ( $Row->[4] =~ /^(.+?|)Action=(.+?)(&.*|)$/ ) {
+                        $ModuleCurrent = $2;
+                        if ( $Row->[4] =~ /Subaction=(.+?)(&.*|)$/ ) {
+                            $ModuleCurrent .= '&' . $1;
+                        }
                         if ($Interface) {
                             if ( !$Module && $Row->[1] ne $Interface ) {
                                 next;
                             }
-                            if ( $Module && $Module ne $2 ) {
+                            if ( $Module && $Module ne $ModuleCurrent ) {
                                 next;
                             }
                         }
@@ -267,6 +272,9 @@ sub Run {
                     # for each action
                     if ( $Row->[4] =~ /^(.+?|)Action=(.+?)(&.*|)$/ ) {
                         my $Module = $2;
+                        if ( $Row->[4] =~ /Subaction=(.+?)(&.*|)$/ ) {
+                            $Module .= '&' . $1;
+                        }
                         $Action{$Module}->{Count}->{ $Row->[1] }++;
                         if ( $Action{$Module}->{Sum}->{ $Row->[1] } ) {
                             $Action{$Module}->{Sum}->{ $Row->[1] }
