@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.64 2008-07-07 12:59:44 mh Exp $
+# $Id: AdminPackageManager.pm,v 1.65 2008-09-24 11:25:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1445,6 +1445,42 @@ sub Run {
             my $CssClass = '';
             for my $Data (@List) {
 
+                # investigate a documentation file
+                my $DocumentationFile;
+                if ( $Data->{Filelist} && ref $Data->{Filelist} eq 'ARRAY' ) {
+
+                    # get default language
+                    my $DefaultLanguage = $Self->{ConfigObject}->Get('DefaultLanguage');
+
+                    # find documentation files
+                    FILE:
+                    for my $File ( @{ $Data->{Filelist} } ) {
+
+                        next FILE if !$File;
+                        next FILE if ref $File ne 'HASH';
+                        next FILE if !$File->{Location};
+
+                        my ( $Dir, $Filename )
+                            = $File->{Location} =~ m{ \A doc/ ( .+ ) / ( .+? .pdf ) }xmsi;
+
+                        next FILE if !$Dir;
+                        next FILE if !$Filename;
+
+                        # check the laguage of the documentation file
+                        if ( $Dir eq $Self->{UserLanguage} ) {
+                            $DocumentationFile = $File->{Location};
+                            last FILE;
+                        }
+                        elsif ( $Dir eq $DefaultLanguage ) {
+                            $DocumentationFile = $File->{Location};
+                            next FILE;
+                        }
+                        elsif ( $Dir eq 'en' && !$DocumentationFile ){
+                            $DocumentationFile = $File->{Location};
+                        }
+                    }
+                }
+
                 # set output class
                 if ( $CssClass && $CssClass eq 'searchactive' ) {
                     $CssClass = 'searchpassive';
@@ -1485,6 +1521,43 @@ sub Run {
                 $CssClass = 'searchactive';
             }
             my %Data = $Self->_MessageGet( Info => $Package->{Description} );
+
+            # investigate a documentation file
+            my $DocumentationFile;
+            if ( $Package->{Filelist} && ref $Package->{Filelist} eq 'ARRAY' ) {
+
+                # get default language
+                my $DefaultLanguage = $Self->{ConfigObject}->Get('DefaultLanguage');
+
+                # find documentation files
+                FILE:
+                for my $File ( @{ $Package->{Filelist} } ) {
+
+                    next FILE if !$File;
+                    next FILE if ref $File ne 'HASH';
+                    next FILE if !$File->{Location};
+
+                    my ( $Dir, $Filename )
+                        = $File->{Location} =~ m{ \A doc/ ( .+ ) / ( .+? .pdf ) }xmsi;
+
+                    next FILE if !$Dir;
+                    next FILE if !$Filename;
+
+                    # check the laguage of the documentation file
+                    if ( $Dir eq $Self->{UserLanguage} ) {
+                        $DocumentationFile = $File->{Location};
+                        last FILE;
+                    }
+                    elsif ( $Dir eq $DefaultLanguage ) {
+                        $DocumentationFile = $File->{Location};
+                        next FILE;
+                    }
+                    elsif ( $Dir eq 'en' && !$DocumentationFile ){
+                        $DocumentationFile = $File->{Location};
+                    }
+                }
+            }
+
             $Self->{LayoutObject}->Block(
                 Name => 'ShowLocalPackage',
                 Data => {
@@ -1497,6 +1570,19 @@ sub Run {
                     CssClass => $CssClass,
                 },
             );
+
+            # output documentation link
+            if ($DocumentationFile) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'ShowLocalPackageDocumentation',
+                    Data => {
+                        Name     => $Package->{Name}->{Content},
+                        Version  => $Package->{Version}->{Content},
+                        Location => $DocumentationFile,
+                    },
+                );
+            }
+
             if ( $Package->{Status} eq 'installed' ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'ShowLocalPackageUninstall',
