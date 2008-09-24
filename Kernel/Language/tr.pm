@@ -2,7 +2,7 @@
 # Kernel/Language/tr.pm - provides tr language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: tr.pm,v 1.12 2008-08-06 11:48:12 ub Exp $
+# $Id: tr.pm,v 1.13 2008-09-24 11:39:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::tr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.12 $';
+$VERSION = '$Revision: 1.13 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -1555,6 +1555,7 @@ sub Data {
         'Add a new Priority.' => '',
         'Add Priority' => '',
         'Ticket Type is required!' => '',
+        'Module documentation' => '',
     };
     # $$STOP$$
     return;

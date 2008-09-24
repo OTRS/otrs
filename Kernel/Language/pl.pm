@@ -2,7 +2,7 @@
 # Kernel/Language/pl.pm - provides pl language translation
 # Copyright (C) 2007 Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.66 2008-08-06 11:48:12 ub Exp $
+# $Id: pl.pm,v 1.67 2008-09-24 11:39:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1531,6 +1531,7 @@ sub Data {
         'Add a new Priority.' => '',
         'Add Priority' => '',
         'Ticket Type is required!' => '',
+        'Module documentation' => '',
     };
     # $$STOP$$
     return;

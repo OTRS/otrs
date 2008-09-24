@@ -6,7 +6,7 @@
 #              Vadim Buzek
 #              Petr Ocasek
 # --
-# $Id: cz.pm,v 1.64 2008-08-06 11:48:12 ub Exp $
+# $Id: cz.pm,v 1.65 2008-09-24 11:39:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1546,6 +1546,7 @@ sub Data {
         'Add a new Priority.' => 'Dodat novou prioritou',
         'Add Priority' => 'Dodat prioritou',
         'Ticket Type is required!' => '',
+        'Module documentation' => '',
     };
     # $$STOP$$
     return;
