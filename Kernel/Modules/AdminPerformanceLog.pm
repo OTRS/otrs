@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPerformanceLog.pm - provides a log view for admins
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPerformanceLog.pm,v 1.13 2008-09-24 23:02:26 martin Exp $
+# $Id: AdminPerformanceLog.pm,v 1.14 2008-09-24 23:06:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -312,7 +312,7 @@ sub Run {
             }
             for my $Interface (qw(Agent Customer Public)) {
                 my $CssClass = '';
-                if ( $Sum{$Interface} ) {
+                if ( defined $Sum{$Interface} ) {
 
                     # set output class
                     if ( $CssClass && $CssClass eq 'searchactive' ) {
@@ -337,7 +337,7 @@ sub Run {
                         },
                     );
                     for my $Module ( sort keys %Action ) {
-                        if ( $Action{$Module}->{Sum}->{$Interface} ) {
+                        if ( defined $Action{$Module}->{Sum}->{$Interface} ) {
 
                             # set output class
                             if ( $CssClass && $CssClass eq 'searchactive' ) {
