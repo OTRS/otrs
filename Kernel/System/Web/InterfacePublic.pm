@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfacePublic.pm - the public interface file
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfacePublic.pm,v 1.21 2008-07-05 14:40:40 martin Exp $
+# $Id: InterfacePublic.pm,v 1.22 2008-09-24 22:54:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 # all framework needed  modules
 use Kernel::Config;
@@ -105,7 +105,6 @@ sub Run {
     # get common framework params
     my %Param = ();
 
-    # get session id
     # get session id
     $Param{SessionName} = $Self->{ConfigObject}->Get('CustomerPanelSessionName') || 'CSID';
     $Param{SessionID} = $Self->{ParamObject}->GetParam( Param => $Param{SessionName} ) || '';
@@ -213,7 +212,7 @@ sub Run {
         if ( $Self->{Debug} ) {
             $Self->{LogObject}->Log(
                 Priority => 'debug',
-                Message  => '' . 'Kernel::Modules::' . $Param{Action} . '->run',
+                Message  => 'Kernel::Modules::' . $Param{Action} . '->run',
             );
         }
 
@@ -223,7 +222,7 @@ sub Run {
         # log request time
         if ( $Self->{ConfigObject}->Get('PerformanceLog') ) {
             if ( ( !$QueryString && $Param{Action} ) || ( $QueryString !~ /Action=/ ) ) {
-                $QueryString = 'Action=' . $Param{Action};
+                $QueryString = 'Action=' . $Param{Action} . '&Subaction=' . $Param{Subaction};
             }
             my $File = $Self->{ConfigObject}->Get('PerformanceLog::File');
             if ( open my $Out, '>>', $File ) {
@@ -285,6 +284,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2008-07-05 14:40:40 $
+$Revision: 1.22 $ $Date: 2008-09-24 22:54:54 $
 
 =cut
