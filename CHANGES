@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.756 2008-09-24 23:46:39 martin Exp $
+# $Id: CHANGES,v 1.757 2008-09-25 00:20:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,9 @@
 # --
 
 2.3.3 (2008/??/??)
+ - (2008/09/24) Fixed bug# 3322 - After updating SysConfig I get: Can't use
+    string ("0") as a HASH ref while "strict refs" in use at
+    Kernel/System/Config.pm line 716.
  - (2008/09/24) Fixed bug# 3321 - "(" or ")" in user name is braking ldap query
     for agent and customer auth.
  - (2008/09/13) Fixed bug# 3289 - Error when trying to delete an answer (with
