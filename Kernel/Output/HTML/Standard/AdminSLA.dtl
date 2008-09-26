@@ -2,7 +2,7 @@
 # AdminSLA.dtl - provides HTML form for AdminSLA
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSLA.dtl,v 1.10 2008-04-02 08:59:22 ot Exp $
+# $Id: AdminSLA.dtl,v 1.11 2008-09-26 10:35:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -56,7 +56,7 @@
               <tr>
                 <td class="$QData{"CssClass"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=SLAEdit&SLAID=$QData{"SLAID"}">$QData{"Name"}</a></td>
                 <td class="$QData{"CssClass"}">$QData{"Service"}</td>
-                <td align="center" class="$QData{"CssClass"}">$Text{"$QData{"Valid"}"}</td>
+                <td class="$QData{"CssClass"}" align="center">$Text{"$QData{"Valid"}"}</td>
                 <td class="$QData{"CssClass"}">$TimeShort{"$QData{"ChangeTime"}"}</td>
                 <td class="$QData{"CssClass"}">$TimeShort{"$QData{"CreateTime"}"}</td>
               </tr>
@@ -109,7 +109,7 @@
                 </tr>
                 <tr>
                   <td class="contentkey">
-                    $Text{"Escalation - Update Time"}
+                    $Text{"Escalation - Update Time"}:
                     <br/>
                     <i class="small">($Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"} - $Text{"Only business hours are counted."})</i>
                   </td>
@@ -119,7 +119,7 @@
                 </tr>
                 <tr>
                   <td class="contentkey">
-                    $Text{"Escalation - Solution Time"}
+                    $Text{"Escalation - Solution Time"}:
                     <br/>
                     <i class="small">($Text{"0 = no escalation"} - 24 $Text{"hours"} = 1440 $Text{"minutes"} - $Text{"Only business hours are counted."})</i>
                   </td>
