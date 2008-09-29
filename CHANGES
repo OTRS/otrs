@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.758 2008-09-29 04:34:49 martin Exp $
+# $Id: CHANGES,v 1.759 2008-09-29 05:13:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,8 +10,11 @@
 # --
 
 2.3.3 (2008/??/??)
+ - (2008/09/29) Fixed bug# 3315 - GenericAgent does not work with pending time
+    reached for x units.
  - (2008/09/29) Fixed bug# 3314 - Escalation time not updated correctly, e. g.
     ticket get's not escalated if one escalation time got solved.
+ - (2008/09/25) Updated Chinese translation, thanks to Never Min!
  - (2008/09/24) Fixed bug# 3322 - After updating SysConfig I get: Can't use
     string ("0") as a HASH ref while "strict refs" in use at
     Kernel/System/Config.pm line 716.
