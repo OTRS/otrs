@@ -1,10 +1,10 @@
 # --
 # Kernel/Language/it.pm - provides it language translation
-# Copyright (C) 2003 Remo Catelotti <Remo.Catelotti at bull.it>
+# Copyright (C) 2003,2008 Remo Catelotti <Remo.Catelotti at bull.it>
 # Copyright (C) 2003 Gabriele Santilli <gsantilli at omnibus.net>
 # Copyright (C) 2005 Giordano Bianchi <giordano.bianchi at gmail.com>
 # --
-# $Id: it.pm,v 1.68 2008-09-24 11:39:25 mh Exp $
+# $Id: it.pm,v 1.69 2008-09-29 05:28:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -247,7 +247,6 @@ sub Data {
         'Mobile' => '',
         'Zip' => '',
         'City' => '',
-        'Location' => '',
         'Street' => '',
         'Country' => '',
         'installed' => '',
@@ -333,7 +332,7 @@ sub Data {
         'Spelling Dictionary' => 'Dizionario',
         'Select your default spelling dictionary.' => 'Seleziona il dizionario standard',
         'Max. shown Tickets a page in Overview.' => 'Numero massimo di richieste per pagina nel Sommario',
-        'Can\'t update password, passwords doesn\'t match! Please try it again!' => '',
+        'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'Le password digitate non coincidono',
         'Can\'t update password, invalid characters!' => 'Non posso aggiornare la password, dei caratteri non sono validi',
         'Can\'t update password, need min. 8 characters!' => 'Non posso aggiornare la password, ho bisogno di almeno 8 caratteri ',
         'Can\'t update password, need 2 lower and 2 upper characters!' => 'Non posso aggiornare la password, ho bisogno di 2 caratteri maiuscoli e 2 minuscoli ',
@@ -586,10 +585,10 @@ sub Data {
         'Auto Response From' => 'Risposta automatica da',
         'Note' => 'Nota',
         'Useable options' => 'Opzioni disponibili',
-        'To get the first 20 character of the subject.' => '',
-        'To get the first 5 lines of the email.' => '',
-        'To get the realname of the sender (if given).' => '',
-        'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => '',
+        'To get the first 20 character of the subject.' => 'Usa i primi 20 caratteri del subject.',
+        'To get the first 5 lines of the email.' => 'Usa le prime 5 linee della Email .',
+        'To get the realname of the sender (if given).' => 'Usa il realname dello user (se presente).',
+        'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => 'Usa gli attributi presenti nel testo ( esempio  (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>).' => '',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>).' => '',
         'Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>).' => '',
@@ -608,10 +607,10 @@ sub Data {
 
         # Template: AdminCustomerUserForm
         'Customer User Management' => 'Gestione clienti',
-        'Add Customer User' => '',
-        'Source' => 'Sorgente',
+        'Add Customer User' => 'Inserisci un nuovo cliente',
+        'Source' => 'catalogo',
         'Create' => 'Crea',
-        'Customer user will be needed to have a customer history and to login via customer panel.' => 'Il cliente sarà necessario per registrare la sua storia e permettere il collegamento via web',
+        'Customer user will be needed to have a customer history and to login via customer panel.' => 'Il cliente sarà necessario per permettere il collegamento via web e avere la tracciatura ',
 
         # Template: AdminCustomerUserGroupChangeForm
         'Customer Users <-> Groups Management' => '',
@@ -629,18 +628,18 @@ sub Data {
         # Template: AdminCustomerUserService
         'Customer Users <-> Services Management' => '',
         'CustomerUser' => 'Cliente',
-        'Service' => '',
-        'Edit default services.' => '',
+        'Service' => 'Servizio',
+        'Edit default services.' => 'Edita il servizio di default',
         'Search Result' => 'Risultato ricerca',
-        'Allocate services to CustomerUser' => '',
+        'Allocate services to CustomerUser' => 'assegna servizio a utente ',
         'Active' => 'Attivo',
-        'Allocate CustomerUser to service' => '',
+        'Allocate CustomerUser to service' => 'Associa utente a servizio',
 
         # Template: AdminEmail
         'Message sent to' => 'Messaggio inviato a',
         'Recipents' => 'Destinatari',
         'Body' => 'Testo',
-        'Send' => '',
+        'Send' => 'Invia',
 
         # Template: AdminGenericAgent
         'GenericAgent' => 'OperatoreGenerico',
@@ -691,24 +690,24 @@ sub Data {
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'Questo comando verrà eseguito. ARG[0] sarà il numero della richiesta. ARG[1] sarà l\'identificativo della richiesta.',
         'Delete tickets' => 'Elimina richieste',
         'Warning! This tickets will be removed from the database! This tickets are lost!' => 'Attenzione! Queste richieste verranno eliminate dalla base dati! Queste richieste saranno perse!',
-        'Send Notification' => '',
+        'Send Notification' => 'Invio Notifiche ',
         'Param 1' => 'Parametro 1',
         'Param 2' => 'Parametro 2',
         'Param 3' => 'Parametro 3',
         'Param 4' => 'Parametro 4',
         'Param 5' => 'Parametro 5',
         'Param 6' => 'Parametro 6',
-        'Send no notifications' => '',
-        'Yes means, send no agent and customer notifications on changes.' => '',
-        'No means, send agent and customer notifications on changes.' => '',
+        'Send no notifications' => 'Non inviare notifiche ',
+        'Yes means, send no agent and customer notifications on changes.' => 'Si- significa , non inviare notifiche anche dopo modifiche',
+        'No means, send agent and customer notifications on changes.' => 'No- significa , invia notifiche ad agenti e utenti dopo modifiche ',
         'Save' => 'Salva',
         '%s Tickets affected! Do you really want to use this job?' => '',
         '"}' => '',
 
         # Template: AdminGroupForm
         'Group Management' => 'Gestione gruppo',
-        'Add Group' => '',
-        'Add a new Group.' => '',
+        'Add Group' => 'Inserisci gruppo',
+        'Add a new Group.' => 'Inserisci un nuovo gruppo',
         'The admin group is to get in the admin area and the stats group to get stats area.' => 'Il gruppo admin ha accesso all\'area amministrazione mentre il gruppo stats ha accesso alle statistiche.',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...).' => 'Creare nuovi gruppi per gestire i permessi di accesso per diversi gruppi di agenti (p.es. sezione vendite, supporto tecnico, ecc.)',
         'It\'s useful for ASP solutions.' => 'È utile per soluzioni ASP',
@@ -737,7 +736,7 @@ sub Data {
 
         # Template: AdminPackageManager
         'Package Manager' => 'Gestione Pacchetti',
-        'Uninstall' => 'disinstalla',
+        'Uninstall' => 'rimuovi pacchetto',
         'Version' => 'Versione',
         'Do you really want to uninstall this package?' => 'Vuoi davvero disinstallare questo pacchetto?',
         'Reinstall' => 'Re-installa',
@@ -747,7 +746,7 @@ sub Data {
         'Package' => 'Pacchetto',
         'Online Repository' => 'Archivio Online',
         'Vendor' => 'Fornitore',
-        'Upgrade' => '',
+        'Upgrade' => 'Aggiorna',
         'Local Repository' => 'Archivio Locale',
         'Status' => 'Stato',
         'Overview' => 'Sommario',
@@ -765,24 +764,24 @@ sub Data {
 
         # Template: AdminPerformanceLog
         'Performance Log' => '',
-        'This feature is enabled!' => '',
-        'Just use this feature if you want to log each request.' => '',
-        'Of couse this feature will take some system performance it self!' => '',
-        'Disable it here!' => '',
-        'This feature is disabled!' => '',
-        'Enable it here!' => '',
-        'Logfile too large!' => '',
-        'Logfile too large, you need to reset it!' => '',
-        'Range' => '',
-        'Interface' => '',
-        'Requests' => '',
+        'This feature is enabled!' => 'Funzione abilitata',
+        'Just use this feature if you want to log each request.' => 'usa questa funzionalita per tracciare ogni richiesta',
+        'Of couse this feature will take some system performance it self!' => 'attenzione questa funzionalita usa risorse di sistema',
+        'Disable it here!' => 'Disabilita funzione qui',
+        'This feature is disabled!' => 'Questa funzione e disabilitata',
+        'Enable it here!' => 'Abilita funzione qui',
+        'Logfile too large!' => 'Log File troppo grande ',
+        'Logfile too large, you need to reset it!' => 'Il log file e troppo grande serve svuotarlo',
+        'Range' => 'intervallo',
+        'Interface' => 'interfaccia',
+        'Requests' => 'Richiesta',
         'Min Response' => '',
         'Max Response' => '',
         'Average Response' => '',
-        'Period' => '',
+        'Period' => 'Periodo',
         'Min' => '',
         'Max' => '',
-        'Average' => '',
+        'Average' => 'Media',
 
         # Template: AdminPGPForm
         'PGP Management' => 'Gestione PGP',
@@ -792,7 +791,7 @@ sub Data {
         'Key' => 'Etichetta',
         'Fingerprint' => 'Impronta (fingerprint)',
         'Expires' => 'Scade',
-        'In this way you can directly edit the keyring configured in SysConfig.' => '',
+        'In this way you can directly edit the keyring configured in SysConfig.' => 'In questo modo puoi configurare direttamente la key PGP in SysConfig',
 
         # Template: AdminPostMasterFilter
         'PostMaster Filter Management' => 'Gestione filtri posta in ingresso',
@@ -806,7 +805,7 @@ sub Data {
         'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => 'Se usi espressioni regolari, puoi anche utilizzare il valore corrispondente a () come [***] negli insiemi',
 
         # Template: AdminQueueAutoResponseForm
-        'Queue <-> Auto Responses Management' => '',
+        'Queue <-> Auto Responses Management' => 'Code <-> Risposta automatica ',
 
         # Template: AdminQueueForm
         'Queue Management' => 'Gestione delle code',
@@ -885,34 +884,34 @@ sub Data {
 
         # Template: AdminSalutationForm
         'Salutation Management' => 'Gestione saluti',
-        'Add Salutation' => '',
-        'Add a new Salutation.' => '',
+        'Add Salutation' => 'Aggiungi il template di saluti',
+        'Add a new Salutation.' => 'aggiungi un nuovo modello di saluti ',
 
         # Template: AdminSelectBoxForm
-        'SQL Box' => '',
+        'SQL Box' => 'script SQL ',
         'Limit' => 'Limite',
-        'Go' => '',
+        'Go' => 'Esegui SQL script',
         'Select Box Result' => 'Seleziona il risultato',
 
         # Template: AdminService
-        'Service Management' => '',
-        'Add Service' => '',
-        'Add a new Service.' => '',
-        'Sub-Service of' => '',
+        'Service Management' => 'Gestione Servizi',
+        'Add Service' => 'inserisci un servizio',
+        'Add a new Service.' => 'inserisci un nuovo servizio',
+        'Sub-Service of' => 'Servizio dipendente da',
 
         # Template: AdminSession
         'Session Management' => 'Gestione Sessioni',
         'Sessions' => 'Sessioni',
         'Uniq' => '',
-        'Kill all sessions' => '',
+        'Kill all sessions' => 'termina tutte le sessioni',
         'Session' => 'Sessione',
         'Content' => '',
         'kill session' => 'Termina sessione',
 
         # Template: AdminSignatureForm
-        'Signature Management' => 'Gestione firme',
-        'Add Signature' => '',
-        'Add a new Signature.' => '',
+        'Signature Management' => 'Gestione firme digitali',
+        'Add Signature' => 'inserisci Firma',
+        'Add a new Signature.' => 'inserisci nuova firma',
 
         # Template: AdminSLA
         'SLA Management' => '',
@@ -928,17 +927,17 @@ sub Data {
         'In this way you can directly edit the certification and private keys in file system.' => 'Puoi modificare il certificato e la chiave privata direttamente sul filesystem.',
 
         # Template: AdminStateForm
-        'State Management' => '',
-        'Add State' => '',
-        'Add a new State.' => '',
-        'State Type' => 'Tipologia',
+        'State Management' => 'Gestione Stati',
+        'Add State' => 'inserisci stato',
+        'Add a new State.' => 'Aggiungi un nuovo stato',
+        'State Type' => 'Tipologia stato',
         'Take care that you also updated the default states in you Kernel/Config.pm!' => 'Assicurati di aver aggiornato gli stati pre-impostati (default) nel file Kernel/Config.pm!',
         'See also' => 'Vedi anche',
 
         # Template: AdminSysConfig
         'SysConfig' => '',
-        'Group selection' => '',
-        'Show' => '',
+        'Group selection' => 'Selezione del gruppo',
+        'Show' => 'Mostra',
         'Download Settings' => '',
         'Download all system config changes.' => '',
         'Load Settings' => '',
@@ -949,7 +948,7 @@ sub Data {
         'Config Options' => '',
         'Default' => '',
         'New' => 'Nuovi',
-        'New Group' => '',
+        'New Group' => 'Nuovo gruppo',
         'Group Ro' => '',
         'New Group Ro' => '',
         'NavBarName' => '',
@@ -960,9 +959,9 @@ sub Data {
         'AccessKey' => '',
 
         # Template: AdminSystemAddressForm
-        'System Email Addresses Management' => 'Gestione indirizzi di sistema',
-        'Add System Address' => '',
-        'Add a new System Address.' => '',
+        'System Email Addresses Management' => 'Gestione indirizzi Email di sistema',
+        'Add System Address' => 'Inserisci Email di sistema',
+        'Add a new System Address.' => 'Inserisci nuova Email di sistema',
         'Realname' => 'Nome',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Tutte le email in arrivo indirizzate a questo indirizzo (campo To:) saranno smistate nella coda selezionata!',
 
@@ -973,16 +972,16 @@ sub Data {
 
         # Template: AdminUserForm
         'User Management' => 'Gestione operatori',
-        'Add User' => '',
-        'Add a new Agent.' => '',
-        'Login as' => '',
+        'Add User' => 'inserisci utente ',
+        'Add a new Agent.' => 'inserisci nuovo Agente',
+        'Login as' => 'nome per login',
         'Firstname' => 'Nome',
         'Lastname' => 'Cognome',
         'User will be needed to handle tickets.' => 'Gli operatori sono necessari per gestire le richieste.',
-        'Don\'t forget to add a new user to groups and/or roles!' => '',
+        'Don\'t forget to add a new user to groups and/or roles!' => 'Non dimenticare di inserire anche il gruppo e/o regole ',
 
         # Template: AdminUserGroupChangeForm
-        'Users <-> Groups Management' => '',
+        'Users <-> Groups Management' => 'Utente <-> gestione gruppi',
 
         # Template: AdminUserGroupForm
 
@@ -1006,7 +1005,7 @@ sub Data {
         'Results' => 'Risultati',
         'Total hits' => 'Totale risultati',
         'Page' => 'Pagina',
-        'Detail' => '',
+        'Detail' => 'Dettaglio',
 
         # Template: AgentLookup
         'Lookup' => 'Ricerca',
@@ -1025,57 +1024,57 @@ sub Data {
         'Do you really want to delete this Object?' => 'Vuoi davvero cancellare questo oggetto?',
 
         # Template: AgentStatsEditRestrictions
-        'Select the restrictions to characterise the stat' => '',
-        'Fixed' => '',
-        'Please select only one element or turn off the button \'Fixed\'.' => '',
-        'Absolut Period' => '',
+        'Select the restrictions to characterise the stat' => 'Seleziona le regole filtro per le stat',
+        'Fixed' => 'Fissa',
+        'Please select only one element or turn off the button \'Fixed\'.' => 'Seleziona solo un elemento e togli  \'Fissa\' . ',
+        'Absolut Period' => ' Periodo assoluto',
         'Between' => '',
-        'Relative Period' => '',
-        'The last' => '',
-        'Finish' => '',
-        'Here you can make restrictions to your stat.' => '',
-        'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributes of the corresponding element.' => '',
+        'Relative Period' => 'Periodo relativo',
+        'The last' => ' Ultimo ',
+        'Finish' => 'Fine',
+        'Here you can make restrictions to your stat.' => 'Qui puoi creare le regole filtri per le stat.',
+        'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributes of the corresponding element.' => 'Se cancelli "Fisso" , l agente genera i cambiamenti per gli attributi del corrispondente elemento. ',
 
         # Template: AgentStatsEditSpecification
-        'Insert of the common specifications' => '',
-        'Permissions' => '',
-        'Format' => '',
-        'Graphsize' => '',
-        'Sum rows' => '',
-        'Sum columns' => '',
+        'Insert of the common specifications' => 'iserisci le specifiche di base ',
+        'Permissions' => ' Permessi',
+        'Format' => 'Formato',
+        'Graphsize' => 'Dimensione Immagine',
+        'Sum rows' => 'Somma le righe',
+        'Sum columns' => 'somma le colonne',
         'Cache' => '',
-        'Required Field' => '',
-        'Selection needed' => '',
-        'Explanation' => '',
-        'In this form you can select the basic specifications.' => '',
-        'Attribute' => '',
-        'Title of the stat.' => '',
-        'Here you can insert a description of the stat.' => '',
+        'Required Field' => 'Campi richiesti',
+        'Selection needed' => 'Selezioni richieste',
+        'Explanation' => 'Descrizione',
+        'In this form you can select the basic specifications.' => 'In questa From si possono compilare parametri generali',
+        'Attribute' => 'Attributi',
+        'Title of the stat.' => 'Titolo della stat.',
+        'Here you can insert a description of the stat.' => 'Qui descrivi la tipologia di stat.',
         'Dynamic-Object' => '',
-        'Here you can select the dynamic object you want to use.' => '',
-        '(Note: It depends on your installation how many dynamic objects you can use)' => '',
-        'Static-File' => '',
-        'For very complex stats it is possible to include a hardcoded file.' => '',
-        'If a new hardcoded file is available this attribute will be shown and you can select one.' => '',
-        'Permission settings. You can select one or more groups to make the configurated stat visible for different agents.' => '',
-        'Multiple selection of the output format.' => '',
-        'If you use a graph as output format you have to select at least one graph size.' => '',
-        'If you need the sum of every row select yes' => '',
-        'If you need the sum of every column select yes.' => '',
-        'Most of the stats can be cached. This will speed up the presentation of this stat.' => '',
-        '(Note: Useful for big databases and low performance server)' => '',
-        'With an invalid stat it isn\'t feasible to generate a stat.' => '',
-        'This is useful if you want that no one can get the result of the stat or the stat isn\'t ready configurated.' => '',
+        'Here you can select the dynamic object you want to use.' => 'Seleziona i Dynamic-Object che vuoi usare ',
+        '(Note: It depends on your installation how many dynamic objects you can use)' => '(nota:Dipende dalla tua installazione quanti sono usabili)',
+        'Static-File' => 'File fisso',
+        'For very complex stats it is possible to include a hardcoded file.' => 'Per statistiche complesse si possono includere file statici precompilati',
+        'If a new hardcoded file is available this attribute will be shown and you can select one.' => 'Se i file precompilati sono presenti questo possibilita viene mostrata e si puo selezionare ',
+        'Permission settings. You can select one or more groups to make the configurated stat visible for different agents.' => 'Permessi . E\' possibile selezionare uno o piu gruppi per permettere la visualizzazione delle stat. a piu agenti',
+        'Multiple selection of the output format.' => 'selezione multipla dei formati di output ',
+        'If you use a graph as output format you have to select at least one graph size.' => ' Se hai selezioneto il grafo come formato delle stat. devi anche selezione la dimensione ',
+        'If you need the sum of every row select yes' => 'Se vuoi la somma sulle righe seleziona si ',
+        'If you need the sum of every column select yes.' => 'Se vuoi la somma sulle colonne seleziona si ',
+        'Most of the stats can be cached. This will speed up the presentation of this stat.' => 'le stat possono usare il meccanismo della cache ',
+        '(Note: Useful for big databases and low performance server)' => 'Nota: utile con grossi data base e basse performance ',
+        'With an invalid stat it isn\'t feasible to generate a stat.' => 'Se invalido non serve la generazione delle stat .',
+        'This is useful if you want that no one can get the result of the stat or the stat isn\'t ready configurated.' => 'questo serve quando non si vule mostrare il risultato della stat. o quando la config non finita di compilare ',
 
         # Template: AgentStatsEditValueSeries
-        'Select the elements for the value series' => '',
-        'Scale' => '',
-        'minimal' => '',
-        'Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' => '',
-        'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
+        'Select the elements for the value series' => 'Seleziona gli elementi come valori della serie ',
+        'Scale' => 'scala valori',
+        'minimal' => 'minimo',
+        'Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' => 'Prego ricorda ,La scala dei valori deve essere piu ampia della scala per la X-axis (esempio X-Axis => Mesi , ValueSeries => Anni).',
+        'Here you can the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
 
         # Template: AgentStatsEditXaxis
-        'Select the element, which will be used at the X-axis' => '',
+        'Select the element, which will be used at the X-axis' => 'Seleziona un elemento usato come valore sul asse delle X ',
         'maximal period' => '',
         'minimal scale' => '',
         'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
@@ -1090,18 +1089,18 @@ sub Data {
 
         # Template: AgentStatsPrint
         'Print' => 'Stampa',
-        'No Element selected.' => '',
+        'No Element selected.' => 'nessun elemento selezionato',
 
         # Template: AgentStatsView
-        'Export Config' => '',
-        'Information about the Stat' => '',
+        'Export Config' => 'esporta config',
+        'Information about the Stat' => 'Informazione sul report di Stat',
         'Exchange Axis' => '',
         'Configurable params of static stat' => '',
-        'No element selected.' => '',
+        'No element selected.' => 'nessun elemento selezionato',
         'maximal period from' => '',
         'to' => '',
         'Start' => '',
-        'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => '',
+        'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => 'Selezionando i campi puoi visualizzare le stat a tuo piacimento. Gli elementi che puoi editare dipendono dalla configurazione del tuo administrator . ',
 
         # Template: AgentTicketBounce
         'Bounce ticket' => 'Rispedisci richiesta',
@@ -1178,7 +1177,7 @@ sub Data {
         'Mailbox' => 'Casella postale',
         'Tickets' => 'Richieste',
         'of' => 'di',
-        'Filter' => '',
+        'Filter' => 'Filtro',
         'New messages' => 'Nuovi messaggi',
         'Reminder' => 'Richiamo',
         'Sort by' => 'Ordina per',
@@ -1213,7 +1212,7 @@ sub Data {
         'Ticket-Info' => 'Richiesta-Info',
         'Accounted time' => 'Tempo addebitato',
         'First Response Time' => '',
-        'Update Time' => '',
+        'Update Time' => 'Tempo per aggiornamento',
         'Solution Time' => '',
         'Linked-Object' => 'Oggetto Collegato',
         'Parent-Object' => 'Oggetto Genitore',
@@ -1249,8 +1248,8 @@ sub Data {
         'Search-Template' => 'Modello di ricerca',
         'TicketFreeText' => 'Ricerca a testo libero nella richiesta',
         'Created in Queue' => 'Creata nella Coda',
-        'Close Times' => '',
-        'No close time settings.' => '',
+        'Close Times' => 'data  chiusura',
+        'No close time settings.' => 'nessuna data  chiusura',
         'Ticket closed' => '',
         'Ticket closed between' => '',
         'Result Form' => 'Tipo di risultato',
@@ -1271,8 +1270,8 @@ sub Data {
         'Open Tickets' => 'Richieste Aperte',
 
         # Template: AgentTicketZoom
-        'Expand View' => '',
-        'Collapse View' => '',
+        'Expand View' => 'espandi report',
+        'Collapse View' => 'riduci report',
 
         # Template: AgentWindowTab
 
@@ -1289,7 +1288,7 @@ sub Data {
         # Template: CustomerCalendarSmallIcon
 
         # Template: CustomerError
-        'Traceback' => 'Dettaglio del passato',
+        'Traceback' => 'Dettaglio della loggatura ',
 
         # Template: CustomerFooter
         'Powered by' => '',
@@ -1301,7 +1300,7 @@ sub Data {
         # Template: CustomerHeaderSmall
 
         # Template: CustomerLogin
-        'Login' => 'Codice utente',
+        'Login' => '',
         'Lost your password?' => 'Hai dimenticato la password?',
         'Request new password' => 'Richiedi una nuova password',
         'Create Account' => 'Registrati',
@@ -1318,7 +1317,7 @@ sub Data {
         # Template: CustomerTicketPrint
 
         # Template: CustomerTicketSearch
-        'Times' => 'Volte',
+        'Times' => 'n. Volte',
         'No time settings.' => 'Non ci sono impostazioni temporali.',
 
         # Template: CustomerTicketSearchResultCSV
@@ -1346,10 +1345,10 @@ sub Data {
         # Template: Installer
         'Web-Installer' => 'Installazione guidata via web',
         'Welcome to %s' => 'Benvenuto in %s',
-        'Accept license' => '',
-        'Don\'t accept license' => '',
+        'Accept license' => 'accetto ',
+        'Don\'t accept license' => 'non accetto ',
         'Admin-User' => 'Utente amministratore',
-        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' => '',
+        'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' => 'Se hei una passwd per accesso al db , devi inserirla qui. Se no lascia il campo vuoto. Per maggiori info sulla sicurezza sul db consulta il manuale ',
         'Admin-Password' => '',
         'Database-User' => '',
         'default \'hot\'' => '\'hot\' predefinito',
@@ -1374,7 +1373,7 @@ sub Data {
         'Use utf-8 it your database supports it!' => '',
         'Default Language' => 'Lingua predefinita',
         '(Used default language)' => '(Lingua predefinita)',
-        'CheckMXRecord' => 'Verifica record MX',
+        'CheckMXRecord' => 'Controlli sui records MX',
         '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Controlla il record MX per i domini degli indirizzi email quando si compone un messaggio. Non usare se il vostro server con OTRS ha una connessione dial-up!)',
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => 'Per poter usare OTRS devi inserire questa riga di comando in una shell come utente root.',
         'Restart your webserver' => 'Riavvia il tuo server web',
@@ -1527,6 +1526,7 @@ sub Data {
         'System State Management' => 'Gestione stati richieste',
         'PhoneView' => 'RichiestaTelefonica',
         'maximal period form' => '',
+        'Verion' => 'Versione',
         'TicketID' => 'Codice richiesta',
         'Modified' => 'Modificato',
         'Ticket selected for bulk action!' => 'Richiesta selezionata per azione di massa!',
@@ -1540,6 +1540,7 @@ sub Data {
         'Priority Management' => '',
         'Add a new Priority.' => '',
         'Add Priority' => '',
+        'Location' => '',
         'Ticket Type is required!' => '',
         'Module documentation' => '',
     };
