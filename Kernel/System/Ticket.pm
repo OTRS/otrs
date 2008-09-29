@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.344 2008-09-08 23:28:33 martin Exp $
+# $Id: Ticket.pm,v 1.345 2008-09-29 04:34:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.344 $) [1];
+$VERSION = qw($Revision: 1.345 $) [1];
 
 =head1 NAME
 
@@ -1969,7 +1969,7 @@ sub TicketEscalationIndexBuild {
             );
 
             # remember escalation time
-            if ( $DestinationTime < $EscalationTime ) {
+            if ( $EscalationTime == 0 || $DestinationTime < $EscalationTime ) {
                 $EscalationTime = $DestinationTime;
             }
         }
@@ -2033,14 +2033,14 @@ sub TicketEscalationIndexBuild {
             );
 
             # remember escalation time
-            if ( $DestinationTime < $EscalationTime ) {
+            if ( $EscalationTime == 0 || $DestinationTime < $EscalationTime ) {
                 $EscalationTime = $DestinationTime;
             }
         }
     }
 
     # update escalation time (< escalation time)
-    if ($EscalationTime) {
+    if ( defined $EscalationTime ) {
         $Self->{DBObject}->Do(
             SQL => 'UPDATE ticket SET escalation_time = ? WHERE id = ?',
             Bind => [ \$EscalationTime, \$Ticket{TicketID}, ]
@@ -6230,12 +6230,6 @@ sub TicketAcl {
         return;
     }
 
-    # get used data
-    my %Data = ();
-    if ( ref $Param{Data} ) {
-        undef $Self->{TicketAclActionData};
-        %Data = %{ $Param{Data} };
-    }
     my %Checks = ();
 
     # match also frontend options
@@ -6324,9 +6318,17 @@ sub TicketAcl {
             $Generic->Run(
                 %Param,
                 Acl    => \%Acls,
+                Checks => \%Checks,
                 Config => $Modules->{$Module},
             );
         }
+    }
+
+    # get used data
+    my %Data = ();
+    if ( ref $Param{Data} ) {
+        undef $Self->{TicketAclActionData};
+        %Data = %{ $Param{Data} };
     }
 
     my %NewData            = ();
@@ -6654,6 +6656,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.344 $ $Date: 2008-09-08 23:28:33 $
+$Revision: 1.345 $ $Date: 2008-09-29 04:34:49 $
 
 =cut
