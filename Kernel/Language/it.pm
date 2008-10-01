@@ -1,10 +1,10 @@
 # --
 # Kernel/Language/it.pm - provides it language translation
-# Copyright (C) 2003,2008 Remo Catelotti <Remo.Catelotti at bull.it>
+# Copyright (C) 2003,2008 Remo Catelotti <Remo.Catelotti at eutelia.it>
 # Copyright (C) 2003 Gabriele Santilli <gsantilli at omnibus.net>
 # Copyright (C) 2005 Giordano Bianchi <giordano.bianchi at gmail.com>
 # --
-# $Id: it.pm,v 1.69 2008-09-29 05:28:32 martin Exp $
+# $Id: it.pm,v 1.69.2.1 2008-10-01 09:02:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.69.2.1 $) [1];
 
 sub Data {
     my $Self = shift;
