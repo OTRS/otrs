@@ -2,7 +2,7 @@
 # Kernel/System/SLA.pm - all sla function
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SLA.pm,v 1.30 2008-06-19 11:08:23 ub Exp $
+# $Id: SLA.pm,v 1.31 2008-10-01 10:16:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 =head1 NAME
 
@@ -80,6 +80,13 @@ sub new {
     }
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new( %{$Self} );
     $Self->{ValidObject}     = Kernel::System::Valid->new( %{$Self} );
+
+    # load generator preferences module
+    my $GeneratorModule = $Self->{ConfigObject}->Get('SLA::PreferencesModule')
+        || 'Kernel::System::SLA::PreferencesDB';
+    if ( $Self->{MainObject}->Require($GeneratorModule) ) {
+        $Self->{PreferencesObject} = $GeneratorModule->new(%Param);
+    }
 
     return $Self;
 }
@@ -251,6 +258,14 @@ sub SLAGet {
 
     # add the ids
     $SLAData{ServiceIDs} = \@ServiceIDs;
+
+    # get queue preferences
+    my %Preferences = $Self->SLAPreferencesGet( SLAID => $Param{SLAID} );
+
+    # merge hash
+    if (%Preferences) {
+        %SLAData = ( %SLAData, %Preferences );
+    }
 
     # cache the result
     $Self->{$CacheKey} = \%SLAData;
@@ -610,6 +625,42 @@ sub SLAUpdate {
     return 1;
 }
 
+=item SLAPreferencesSet()
+
+set queue preferences
+
+    $SLAObject->SLAPreferencesSet(
+        SLAID => 123,
+        Key       => 'UserComment',
+        Value     => 'some comment',
+        UserID    => 123,
+    );
+
+=cut
+
+sub SLAPreferencesSet {
+    my $Self = shift;
+
+    return $Self->{PreferencesObject}->SLAPreferencesSet(@_);
+}
+
+=item SLAPreferencesGet()
+
+get queue preferences
+
+    my %Preferences = $SLAObject->SLAPreferencesGet(
+        SLAID => 123,
+        UserID    => 123,
+    );
+
+=cut
+
+sub SLAPreferencesGet {
+    my $Self = shift;
+
+    return $Self->{PreferencesObject}->SLAPreferencesGet(@_);
+}
+
 1;
 
 =back
@@ -626,6 +677,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.30 $ $Date: 2008-06-19 11:08:23 $
+$Revision: 1.31 $ $Date: 2008-10-01 10:16:10 $
 
 =cut
