@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.85 2008-07-11 10:52:40 mh Exp $
+# $Id: Package.pm,v 1.86 2008-10-01 07:04:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.85 $) [1];
+$VERSION = qw($Revision: 1.86 $) [1];
 
 =head1 NAME
 
@@ -159,7 +159,7 @@ sub RepositoryList {
 
         # get package attributes
         if ( $Row[3] ) {
-            my %Structure = $Self->PackageParse( String => $Row[3] );
+            my %Structure = $Self->PackageParse( String => \$Row[3] );
             push @Data, { %Package, %Structure };
         }
     }
@@ -174,6 +174,12 @@ get a package from local repository
     my $Package = $PackageObject->RepositoryGet(
         Name    => 'Application A',
         Version => '1.0',
+    );
+
+    my $PackageScalar = $PackageObject->RepositoryGet(
+        Name    => 'Application A',
+        Version => '1.0',
+        Result  => 'SCALAR',
     );
 
 =cut
@@ -193,7 +199,7 @@ sub RepositoryGet {
 
     # db access
     $Self->{DBObject}->Prepare(
-        SQL => 'SELECT content FROM package_repository WHERE name = ? AND version = ?',
+        SQL  => 'SELECT content FROM package_repository WHERE name = ? AND version = ?',
         Bind => [ \$Param{Name}, \$Param{Version} ],
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -205,6 +211,10 @@ sub RepositoryGet {
             Message  => "No such package $Param{Name}-$Param{Version}!",
         );
         return;
+    }
+
+    if ( $Param{Result} && $Param{Result} eq 'SCALAR' ) {
+        return \$Package;
     }
 
     return $Package;
@@ -241,7 +251,8 @@ sub RepositoryAdd {
     # check if package already exists
     my $PackageExists = $Self->RepositoryGet(
         Name    => $Structure{Name}->{Content},
-        Version => $Structure{Version}->{Content}
+        Version => $Structure{Version}->{Content},
+        Result  => 'SCALAR',
     );
 
     if ($PackageExists) {
@@ -1092,7 +1103,7 @@ sub DeployCheck {
             return;
         }
     }
-    my $Package = $Self->RepositoryGet(%Param);
+    my $Package = $Self->RepositoryGet(%Param, Result => 'SCALAR' );
     my %Structure = $Self->PackageParse( String => $Package );
     $Self->{DeployCheckInfo} = undef;
     if ( $Structure{Filelist} && ref $Structure{Filelist} eq 'ARRAY' ) {
@@ -1108,12 +1119,14 @@ sub DeployCheck {
                 $Hit = 1;
             }
             elsif ( -e $LocalFile ) {
-                my $Content = $Self->{MainObject}->FileRead(
-                    Location => $Self->{Home} . '/' . $File->{Location},
-                    Mode     => 'binmode',
+                my $MD5File = $Self->{MainObject}->MD5sum(
+                    Filename => $LocalFile,
                 );
-                if ($Content) {
-                    if ( ${$Content} ne $File->{Content} ) {
+                if ($MD5File) {
+                    my $MD5Package = $Self->{MainObject}->MD5sum(
+                        String => $File->{Content},
+                    );
+                    if ( $MD5File ne $MD5Package ) {
                         $Self->{LogObject}->Log(
                             Priority => 'error',
                             Message  => "$Param{Name}-$Param{Version}: $LocalFile is different!",
@@ -1128,6 +1141,8 @@ sub DeployCheck {
                         Priority => 'error',
                         Message  => "Can't read $LocalFile!",
                     );
+                     $Self->{DeployCheckInfo}->{File}->{ $File->{Location} }
+                         = 'Can\' read File!';
                 }
             }
         }
@@ -1177,6 +1192,11 @@ sub PackageVerify {
 
     # diable verifying
     return 1;
+
+    # check input type
+    if ( ref $Param{Package} ) {
+        $Param{Package} = ${ $Param{Package} };
+    }
 
     $Self->{PackageVerifyInfo} = undef;
 
@@ -1363,15 +1383,14 @@ sub PackageBuild {
         }
     }
 
-    # dont use Build*, Filelist and Database* in index mode
-    return $XML if $Param{Type};
-
-    $XML .= "    <BuildDate>"
-        . $Self->{TimeObject}->SystemTime2TimeStamp(
-        SystemTime => $Self->{TimeObject}->SystemTime(),
-        )
-        . "</BuildDate>\n";
-    $XML .= "    <BuildHost>" . $Self->{ConfigObject}->Get('FQDN') . "</BuildHost>\n";
+    # dont use Build* in index mode
+    if ( !$Param{Type} ) {
+        my $Time = $Self->{TimeObject}->SystemTime2TimeStamp(
+            SystemTime => $Self->{TimeObject}->SystemTime(),
+        );
+        $XML .= "    <BuildDate>" . $Time . "</BuildDate>\n";
+        $XML .= "    <BuildHost>" . $Self->{ConfigObject}->Get('FQDN') . "</BuildHost>\n";
+    }
     if ( $Param{Filelist} ) {
         $XML .= "    <Filelist>\n";
         for my $File ( @{ $Param{Filelist} } ) {
@@ -1380,6 +1399,9 @@ sub PackageBuild {
                 $OldParam{$_} = $File->{$_} || '';
                 delete $File->{$_};
             }
+
+            # do only use doc/* Filelist in index mode
+            next if $Param{Type} && $File->{Location} !~ /^doc\//;
 
             $XML .= "        <File";
             for ( sort keys %{$File} ) {
@@ -1395,11 +1417,18 @@ sub PackageBuild {
             if ( !$FileContent ) {
                 $Self->{MainObject}->Die("Can't open: $File->{Location}: $!");
             }
-            $XML .= encode_base64( ${$FileContent}, '' );
+            # dont use content in in index mode
+            if ( !$Param{Type} ) {
+                $XML .= encode_base64( ${$FileContent}, '' );
+            }
             $XML .= "</File>\n";
         }
         $XML .= "    </Filelist>\n";
     }
+
+    # dont use Database* in index mode
+    return $XML if $Param{Type};
+
     for (qw(DatabaseInstall DatabaseUpgrade DatabaseReinstall DatabaseUninstall)) {
         if ( ref $Param{$_} ne 'HASH' ) {
             next;
@@ -2256,6 +2285,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.85 $ $Date: 2008-07-11 10:52:40 $
+$Revision: 1.86 $ $Date: 2008-10-01 07:04:49 $
 
 =cut
