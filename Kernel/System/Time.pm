@@ -2,7 +2,7 @@
 # Kernel/System/Time.pm - time functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Time.pm,v 1.44 2008-05-08 13:43:11 mh Exp $
+# $Id: Time.pm,v 1.45 2008-10-01 08:45:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 =head1 NAME
 
@@ -59,12 +59,17 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
+    my $Self = {};
     bless( $Self, $Type );
 
-    # check needed objects
+    # get needed objects
     for (qw(ConfigObject LogObject)) {
-        die "Got no $_!" if ( !$Self->{$_} );
+        if ( $Param{$_} ) {
+            $Self->{$_} = $Param{$_};
+        }
+        else {
+            die "Got no $_!";
+        }
     }
 
     # 0=off; 1=on;
@@ -795,6 +800,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.44 $ $Date: 2008-05-08 13:43:11 $
+$Revision: 1.45 $ $Date: 2008-10-01 08:45:37 $
 
 =cut
