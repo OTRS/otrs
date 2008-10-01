@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.76 2008-06-10 08:56:52 martin Exp $
+# $Id: XML.pm,v 1.77 2008-10-01 08:46:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Encode;
 use Kernel::System::Cache;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 =head1 NAME
 
@@ -602,7 +602,7 @@ sub _ElementBuild {
 
 parse a xml file and return a XMLHash structur
 
-    my @XMLHash = $XMLObject->XMLParse2XMLHash(String => $FileString);
+    my @XMLHash = $XMLObject->XMLParse2XMLHash( String => $FileString );
 
     XML:
     ====
@@ -1230,6 +1230,8 @@ parse a xml file
 
     my @XMLStructure = $XMLObject->XMLParse( String => $FileString );
 
+    my @XMLStructure = $XMLObject->XMLParse( String => \$FileStringScalar );
+
 =cut
 
 sub XMLParse {
@@ -1239,6 +1241,11 @@ sub XMLParse {
     if ( !defined $Param{String} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'String not defined!' );
         return;
+    }
+
+    # check input type
+    if ( ref $Param{String} ) {
+        $Param{String} = ${ $Param{String} };
     }
 
     # cleanup global vars
@@ -1427,6 +1434,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.76 $ $Date: 2008-06-10 08:56:52 $
+$Revision: 1.77 $ $Date: 2008-10-01 08:46:34 $
 
 =cut
