@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Language.pm,v 1.58 2008-05-08 14:44:19 mh Exp $
+# $Id: Language.pm,v 1.59 2008-10-01 08:42:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 =head1 NAME
 
@@ -196,6 +196,7 @@ sub Get {
 
     # check
     return if !defined $What;
+    return '' if $What eq '';
 
     # check dyn spaces
     if ( $What && $What =~ /^(.+?)", "(.+?|)$/ ) {
@@ -205,7 +206,7 @@ sub Get {
 
     # check wanted param and returns the
     # lookup or the english data
-    if ( exists $Self->{Translation}->{$What} && $Self->{Translation}->{$What} ne '' ) {
+    if ( $Self->{Translation}->{$What} ) {
 
         # Debug
         if ( $Self->{Debug} > 3 ) {
@@ -228,8 +229,10 @@ sub Get {
             );
         }
         my $Text = $Self->{Translation}->{$What};
-        for ( 0 .. 3 ) {
-            if ( defined $Dyn[$_] ) {
+        if (@Dyn) {
+            for ( 0 .. 3 ) {
+                last if ( !$Dyn[$_] );
+
                 if ( $Dyn[$_] =~ /Time\((.*)\)/ ) {
                     $Dyn[$_] = $Self->Time(
                         Action => 'GET',
@@ -256,8 +259,11 @@ sub Get {
     if ( $Self->{LanguageDebug} ) {
         print STDERR "No translation available for '$What'\n";
     }
-    for ( 0 .. 3 ) {
-        if ( defined $Dyn[$_] ) {
+
+    if (@Dyn) {
+        for ( 0 .. 3 ) {
+            last if ( !$Dyn[$_] );
+
             if ( $Dyn[$_] =~ /Time\((.*)\)/ ) {
                 $Dyn[$_] = $Self->Time(
                     Action => 'GET',
@@ -283,7 +289,7 @@ Get date format in used language formate (based on translation file).
 
 sub FormatTimeString {
     my ( $Self, $String, $Config, $Short ) = @_;
-    return if !$String;
+    return '' if !$String;
 
     if ( !$Config ) {
         $Config = 'DateFormat';
@@ -300,8 +306,9 @@ sub FormatTimeString {
         if ( $Self->{TimeZone} ) {
             my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime( String => "$Y-$M-$D $T", );
             $TimeStamp = $TimeStamp + ( $Self->{TimeZone} * 60 * 60 );
-            my ( $Sec, $Min, $Hour, $Day, $Month, $Year )
-                = $Self->{TimeObject}->SystemTime2Date( SystemTime => $TimeStamp, );
+            my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
+                SystemTime => $TimeStamp,
+            );
             ( $Y, $M, $D, $T ) = ( $Year, $Month, $Day, "$Hour:$Min:$Sec" );
         }
 
@@ -414,10 +421,9 @@ sub Time {
     if ( $Param{Action} =~ /^GET$/i ) {
         my @DAYS = qw/Sun Mon Tue Wed Thu Fri Sat/;
         my @MONS = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
-        ( $s, $m, $h, $D, $M, $Y, $wd, $yd, $dst )
-            = $Self->{TimeObject}->SystemTime2Date(
+        ( $s, $m, $h, $D, $M, $Y, $wd, $yd, $dst ) = $Self->{TimeObject}->SystemTime2Date(
             SystemTime => $Self->{TimeObject}->SystemTime(),
-            );
+        );
     }
     elsif ( $Param{Action} =~ /^RETURN$/i ) {
         $m = $Param{Minute} || 0;
@@ -467,7 +473,7 @@ GetRecommendedCharset() will be used).
     my $Text = $LanguageObject->CharsetConvert(
         Text => $String,
         From => 'iso-8859-15',
-        To => 'utf-8',
+        To   => 'utf-8',
     );
 
 =cut
@@ -504,6 +510,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.58 $ $Date: 2008-05-08 14:44:19 $
+$Revision: 1.59 $ $Date: 2008-10-01 08:42:36 $
 
 =cut
