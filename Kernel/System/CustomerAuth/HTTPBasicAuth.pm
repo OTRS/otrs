@@ -3,7 +3,7 @@
 # authentification
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: HTTPBasicAuth.pm,v 1.11 2008-05-08 09:36:20 mh Exp $
+# $Id: HTTPBasicAuth.pm,v 1.12 2008-10-01 08:39:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -26,7 +26,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -70,26 +70,9 @@ sub Auth {
     # get params
     my $User       = $ENV{REMOTE_USER} || $ENV{HTTP_REMOTE_USER};
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'Got no REMOTE_ADDR env!';
-    if ($User) {
-        my $Replace = $Self->{ConfigObject}->Get(
-            'Customer::AuthModule::HTTPBasicAuth::Replace' . $Self->{Count},
-        );
-        if ($Replace) {
-            $User =~ s/^\Q$Replace\E//;
-        }
-        my $ReplaceRegExp = $Self->{ConfigObject}->Get(
-            'Customer::AuthModule::HTTPBasicAuth::ReplaceRegExp' . $Self->{Count},
-        );
-        if ($ReplaceRegExp) {
-            $User =~ s/$ReplaceRegExp/$1/;
-        }
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message  => "User: $User authentification ok (REMOTE_ADDR: $RemoteAddr).",
-        );
-        return $User;
-    }
-    else {
+
+    # return on on user
+    if (!$User) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message =>
@@ -97,6 +80,31 @@ sub Auth {
         );
         return;
     }
+
+    # replace parts of login
+    my $Replace = $Self->{ConfigObject}->Get(
+        'Customer::AuthModule::HTTPBasicAuth::Replace' . $Self->{Count},
+    );
+    if ($Replace) {
+        $User =~ s/^\Q$Replace\E//;
+    }
+
+    # regexp on login
+    my $ReplaceRegExp = $Self->{ConfigObject}->Get(
+        'Customer::AuthModule::HTTPBasicAuth::ReplaceRegExp' . $Self->{Count},
+    );
+    if ($ReplaceRegExp) {
+        $User =~ s/$ReplaceRegExp/$1/;
+    }
+
+    # log
+    $Self->{LogObject}->Log(
+        Priority => 'notice',
+        Message  => "User: $User authentification ok (REMOTE_ADDR: $RemoteAddr).",
+    );
+
+    # return user
+    return $User;
 }
 
 1;
