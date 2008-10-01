@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.204 2008-09-10 10:03:23 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.205 2008-10-01 08:59:01 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -2924,7 +2924,6 @@
             </Hash>
         </Setting>
     </ConfigItem>
-
     <ConfigItem Name="Ticket::Frontend::AgentTicketPhone###Priority" Required="1" Valid="1">
         <Description Lang="en">Default priority for new phone tickets.</Description>
         <Description Lang="de">Standardpriorität eines neuen Telefontickets.</Description>
@@ -6418,6 +6417,23 @@ $QData{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::QueuePreferencesGeneric</Item>
                 <Item Key="Label">Comment2</Item>
                 <Item Key="Desc">Define the queue comment 2.</Item>
+                <Item Key="Block">TextArea</Item>
+                <Item Key="Cols">50</Item>
+                <Item Key="Rows">5</Item>
+                <Item Key="PrefKey">Comment2</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="ServicePreferences###Comment2" Required="0" Valid="0">
+        <Description Lang="en">Parameters for the example comment 2 of service attributes.</Description>
+        <Description Lang="de">Parameter für den Beispiel-Kommentar 2 der Service-Attribute.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Service::Preferences</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::ServicePreferencesGeneric</Item>
+                <Item Key="Label">Comment2</Item>
+                <Item Key="Desc">Define the service comment 2.</Item>
                 <Item Key="Block">TextArea</Item>
                 <Item Key="Cols">50</Item>
                 <Item Key="Rows">5</Item>

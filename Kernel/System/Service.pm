@@ -2,7 +2,7 @@
 # Kernel/System/Service.pm - all service function
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.28 2008-06-18 10:15:20 ub Exp $
+# $Id: Service.pm,v 1.29 2008-10-01 08:55:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 =head1 NAME
 
@@ -80,6 +80,13 @@ sub new {
     }
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new( %{$Self} );
     $Self->{ValidObject}     = Kernel::System::Valid->new( %{$Self} );
+
+    # load generator preferences module
+    my $GeneratorModule = $Self->{ConfigObject}->Get('Service::PreferencesModule')
+        || 'Kernel::System::Service::PreferencesDB';
+    if ( $Self->{MainObject}->Require($GeneratorModule) ) {
+        $Self->{PreferencesObject} = $GeneratorModule->new(%Param);
+    }
 
     return $Self;
 }
@@ -202,7 +209,6 @@ sub ServiceGet {
     }
 
     # get service from db
-    my %ServiceData = ();
     $Self->{DBObject}->Prepare(
         SQL =>
             'SELECT id, name, valid_id, comments, create_time, create_by, change_time, change_by '
@@ -211,6 +217,7 @@ sub ServiceGet {
         Limit => 1,
     );
 
+    my %ServiceData = ();
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $ServiceData{ServiceID}  = $Row[0];
         $ServiceData{Name}       = $Row[1];
@@ -239,6 +246,14 @@ sub ServiceGet {
         # lookup parent
         my $ServiceID = $Self->ServiceLookup( Name => $1, );
         $ServiceData{ParentID} = $ServiceID;
+    }
+
+    # get queue preferences
+    my %Preferences = $Self->ServicePreferencesGet( ServiceID => $Param{ServiceID} );
+
+    # merge hash
+    if (%Preferences) {
+        %ServiceData = ( %ServiceData, %Preferences );
     }
 
     return %ServiceData;
@@ -807,6 +822,42 @@ sub CustomerUserServiceMemberAdd {
     );
 }
 
+=item ServicePreferencesSet()
+
+set queue preferences
+
+    $ServiceObject->ServicePreferencesSet(
+        ServiceID => 123,
+        Key       => 'UserComment',
+        Value     => 'some comment',
+        UserID    => 123,
+    );
+
+=cut
+
+sub ServicePreferencesSet {
+    my $Self = shift;
+
+    return $Self->{PreferencesObject}->ServicePreferencesSet(@_);
+}
+
+=item ServicePreferencesGet()
+
+get queue preferences
+
+    my %Preferences = $ServiceObject->ServicePreferencesGet(
+        ServiceID => 123,
+        UserID    => 123,
+    );
+
+=cut
+
+sub ServicePreferencesGet {
+    my $Self = shift;
+
+    return $Self->{PreferencesObject}->ServicePreferencesGet(@_);
+}
+
 1;
 
 =back
@@ -823,6 +874,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.28 $ $Date: 2008-06-18 10:15:20 $
+$Revision: 1.29 $ $Date: 2008-10-01 08:55:22 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminService.pm - admin frontend to manage services
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminService.pm,v 1.12 2008-05-08 09:36:36 mh Exp $
+# $Id: AdminService.pm,v 1.13 2008-10-01 08:59:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Service;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -102,6 +102,52 @@ sub Run {
             Data => { %Param, %ServiceData, },
         );
 
+        # show each preferences setting
+        my %Preferences = ();
+        if ( $Self->{ConfigObject}->Get('ServicePreferences') ) {
+            %Preferences = %{ $Self->{ConfigObject}->Get('ServicePreferences') };
+        }
+        for my $Item ( sort keys %Preferences ) {
+            my $Module = $Preferences{$Item}->{Module}
+                || 'Kernel::Output::HTML::ServicePreferencesGeneric';
+
+            # load module
+            if ( !$Self->{MainObject}->Require($Module) ) {
+                return $Self->{LayoutObject}->FatalError();
+            }
+            my $Object = $Module->new(
+                %{$Self},
+                ConfigItem => $Preferences{$Item},
+                Debug      => $Self->{Debug},
+            );
+            my @Params = $Object->Param( ServiceData => \%ServiceData );
+            if (@Params) {
+                for my $ParamItem (@Params) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'Item',
+                        Data => { %Param, },
+                    );
+                    if (
+                        ref( $ParamItem->{Data} ) eq 'HASH'
+                        || ref( $Preferences{$Item}->{Data} ) eq 'HASH'
+                        )
+                    {
+                        $ParamItem->{'Option'} = $Self->{LayoutObject}->OptionStrgHashRef(
+                            %{ $Preferences{$Item} },
+                            %{$ParamItem},
+                        );
+                    }
+                    $Self->{LayoutObject}->Block(
+                        Name => $ParamItem->{Block} || $Preferences{$Item}->{Block} || 'Option',
+                        Data => {
+                            %{ $Preferences{$Item} },
+                            %{$ParamItem},
+                        },
+                    );
+                }
+            }
+        }
+
         # generate output
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminService',
@@ -116,26 +162,62 @@ sub Run {
     # service save
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ServiceSave' ) {
-        my %ServiceData;
 
         # get params
+        my %GetParam;
         for (qw(ServiceID ParentID Name ValidID Comment)) {
-            $ServiceData{$_} = $Self->{ParamObject}->GetParam( Param => "$_" ) || '';
+            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
         }
 
         # save to database
-        if ( $ServiceData{ServiceID} eq 'NEW' ) {
-            my $Success
-                = $Self->{ServiceObject}->ServiceAdd( %ServiceData, UserID => $Self->{UserID}, );
+        if ( $GetParam{ServiceID} eq 'NEW' ) {
+            $GetParam{ServiceID} = $Self->{ServiceObject}->ServiceAdd( %GetParam, UserID => $Self->{UserID}, );
+            if ( !$GetParam{ServiceID} ) {
+                return $Self->{LayoutObject}->ErrorScreen();
+            }
+
+        }
+        else {
+            my $Success = $Self->{ServiceObject}->ServiceUpdate( %GetParam, UserID => $Self->{UserID}, );
             if ( !$Success ) {
                 return $Self->{LayoutObject}->ErrorScreen();
             }
         }
-        else {
-            my $Success
-                = $Self->{ServiceObject}->ServiceUpdate( %ServiceData, UserID => $Self->{UserID}, );
-            if ( !$Success ) {
-                return $Self->{LayoutObject}->ErrorScreen();
+
+        # update preferences
+        my %ServiceData = $Self->{ServiceObject}->ServiceGet(
+            ServiceID => $GetParam{ServiceID},
+            UserID    => $Self->{UserID},
+        );
+        my %Preferences = ();
+        if ( $Self->{ConfigObject}->Get('ServicePreferences') ) {
+            %Preferences = %{ $Self->{ConfigObject}->Get('ServicePreferences') };
+        }
+        for my $Item ( sort keys %Preferences ) {
+            my $Module = $Preferences{$Item}->{Module}
+                || 'Kernel::Output::HTML::ServicePreferencesGeneric';
+
+            # load module
+            if ( !$Self->{MainObject}->Require($Module) ) {
+                return $Self->{LayoutObject}->FatalError();
+            }
+
+            my $Object = $Module->new(
+                %{$Self},
+                ConfigItem => $Preferences{$Item},
+                Debug      => $Self->{Debug},
+            );
+            my $Note;
+            my @Params = $Object->Param( ServiceData => \%ServiceData );
+            if (@Params) {
+                my %GetParam = ();
+                for my $ParamItem (@Params) {
+                    my @Array = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
+                    $GetParam{ $ParamItem->{Name} } = \@Array;
+                }
+                if ( !$Object->Run( GetParam => \%GetParam, ServiceData => \%ServiceData ) ) {
+                    $Note .= $Self->{LayoutObject}->Notify( Info => $Object->Error() );
+                }
             }
         }
 

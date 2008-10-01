@@ -2,7 +2,7 @@
 # AdminService.dtl - provides HTML form for AdminService
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminService.dtl,v 1.5 2008-04-02 08:59:22 ot Exp $
+# $Id: AdminService.dtl,v 1.6 2008-10-01 08:59:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -51,8 +51,8 @@
                 <td align="center" class="contentkey">$Text{"valid"}/$Text{"invalid"}</td>
               </tr>
 <!-- dtl:block:OverviewListRow -->
-              <tr>
-                <td class="$QData{"CssClass"}">
+              <tr class="$QData{"CssClass"}">
+                <td>
 <!-- dtl:block:OverviewListRowSpace -->
                   &nbsp;&nbsp;&nbsp;&nbsp;
 <!-- dtl:block:OverviewListRowSpace -->
@@ -60,7 +60,7 @@
                   $QData{"Name"}
                   </a>
                 </td>
-                <td align="center" class="$QData{"CssClass"}">
+                <td align="center">
                   $Text{"$QData{"Valid"}"}
                 </td>
               </tr>
@@ -107,6 +107,53 @@
                     <input type="text" name="Comment" value="$QData{"Comment"}" size="60" maxlength="150"/>
                   </td>
                 </tr>
+<!-- dtl:block:Item -->
+<!-- dtl:block:InputKey -->
+                <tr>
+                  <td class="contentkey">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:</td>
+                  <td class="contentvalue"><input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="30"/></td>
+                </tr>
+<!-- dtl:block:InputKey -->
+<!-- dtl:block:Input -->
+                <tr>
+                  <td class="contentkey">$Text{"$Data{"Label"}"}:<br/><i class="small">($Text{"$Data{"Desc"}"})</i></td>
+                  <td class="contentvalue">
+                    <input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="30"/>
+                  </td>
+                </tr>
+<!-- dtl:block:Input -->
+<!-- dtl:block:TextArea -->
+                <tr>
+                  <td class="contentkey">$Text{"$Data{"Label"}"}:<br/><i class="small">($Text{"$Data{"Desc"}"})</i></td>
+                  <td class="contentvalue">
+                    <textarea name="$QData{"Name"}" rows="$QData{"Rows"}" cols="$QData{"Cols"}">$QData{"SelectedID"}</textarea>
+                  </td>
+                </tr>
+<!-- dtl:block:TextArea -->
+<!-- dtl:block:Option -->
+                <tr>
+                  <td class="contentkey">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:<br/>
+                    <i class="small">($Text{"$Data{"Desc"}"})</i>
+                  </td>
+                  <td class="contentvalue">$Data{"Option"}</td>
+                </tr>
+<!-- dtl:block:Option -->
+<!-- dtl:block:Upload -->
+                <tr>
+                  <td class="contentkey">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}</td>
+                  <td class="contentvalue">
+                    <input name="$QData{"Name"}" type="file" size="30" class="fixed"/><br/>
+                    <a href="">$QData{"Filename"}</a>
+                  </td>
+                </tr>
+<!-- dtl:block:Upload -->
+<!-- dtl:block:Password -->
+                <tr>
+                  <td class="contentkey">$Text{"$Data{"Label"}"} $Text{"$QData{"Key"}"}:</td>
+                  <td class="contentvalue"><input type="password" name="$QData{"Name"}" value="" size="30"/></td>
+                </tr>
+<!-- dtl:block:Password -->
+<!-- dtl:block:Item -->
               </table>
             </td>
           </tr>
