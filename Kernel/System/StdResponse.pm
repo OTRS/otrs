@@ -2,7 +2,7 @@
 # Kernel/System/StdResponse.pm - lib for std responses
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: StdResponse.pm,v 1.23 2008-09-13 10:24:00 martin Exp $
+# $Id: StdResponse.pm,v 1.24 2008-10-01 08:37:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -48,37 +48,25 @@ sub StdResponseAdd {
         }
     }
 
-    # db quote
-    for (qw(Name Comment Response)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} ) || '';
-    }
-    for (qw(ValidID UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # sql
-    my $SQL
-        = "INSERT INTO standard_response "
-        . " (name, valid_id, comments, text, "
-        . " create_time, create_by, change_time, change_by)"
-        . " VALUES "
-        . " ('$Param{Name}', $Param{ValidID}, '$Param{Comment}', '$Param{Response}', "
-        . " current_timestamp, $Param{UserID}, current_timestamp,  $Param{UserID})";
-
-    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
-        my $Id = 0;
-        $Self->{DBObject}->Prepare(
-            SQL => "SELECT id FROM standard_response WHERE "
-                . "name = '$Param{Name}' AND text like '$Param{Response}'",
-        );
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-            $Id = $Row[0];
-        }
-        return $Id;
+    return if !$Self->{DBObject}->Do(
+        SQL => 'INSERT INTO standard_response (name, valid_id, comments, text, '
+            . ' create_time, create_by, change_time, change_by)'
+            . ' VALUES (?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+        Bind => [
+            \$Param{Name}, \$Param{ValidID}, \$Param{Comment}, \$Param{Response},
+            \$Param{UserID}, \$Param{UserID},
+        ],
+    );
+    my $ID;
+    return if !$Self->{DBObject}->Prepare(
+        SQL  => 'SELECT id FROM standard_response WHERE name = ? AND text = ?',
+        Bind => [ \$Param{Name}, \$Param{Response}, ],
+    );
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $ID = $Row[0];
     }
-    else {
-        return;
-    }
+    return $ID;
 }
 
 sub StdResponseGet {
@@ -90,34 +78,22 @@ sub StdResponseGet {
         return;
     }
 
-    # db quote
-    for (qw(ID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # sql
-    my $SQL
-        = "SELECT name, valid_id, comments, text "
-        . " FROM "
-        . " standard_response "
-        . " WHERE "
-        . " id = $Param{ID}";
-    if ( !$Self->{DBObject}->Prepare( SQL => $SQL ) ) {
-        return;
-    }
-    if ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-        my %Data = (
+    return if !$Self->{DBObject}->Prepare(
+        SQL  => 'SELECT name, valid_id, comments, text FROM standard_response WHERE id = ?',
+        Bind => [ \$Param{ID} ],
+    );
+    my %Data;
+    while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+        %Data = (
             ID       => $Param{ID},
             Name     => $Data[0],
             Comment  => $Data[2],
             Response => $Data[3],
             ValidID  => $Data[1],
         );
-        return %Data;
     }
-    else {
-        return;
-    }
+    return %Data;
 }
 
 sub StdResponseDelete {
@@ -159,32 +135,17 @@ sub StdResponseUpdate {
         }
     }
 
-    # db quote
-    for (qw(Name Comment Response)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} ) || '';
-    }
-    for (qw(ID ValidID UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # sql
-    my $SQL
-        = "UPDATE standard_response SET "
-        . " name = '$Param{Name}', "
-        . " text = '$Param{Response}', "
-        . " comments = '$Param{Comment}', "
-        . " valid_id = $Param{ValidID}, "
-        . " change_time = current_timestamp, "
-        . " change_by = $Param{UserID} "
-        . " WHERE "
-        . " id = $Param{ID}";
-
-    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
-        return 1;
-    }
-    else {
-        return;
-    }
+    return $Self->{DBObject}->Do(
+        SQL => 'UPDATE standard_response SET'
+            . ' name = ?, text = ?, comments = ?, valid_id = ?,'
+            . ' change_time = current_timestamp, change_by = ?'
+            . ' WHERE id = ?',
+        Bind => [
+            \$Param{Name}, \$Param{Response}, \$Param{Comment}, \$Param{ValidID},
+            \$Param{UserID}, \$Param{ID},
+        ],
+    );
 }
 
 sub StdResponseLookup {
@@ -208,19 +169,20 @@ sub StdResponseLookup {
     }
 
     # get data
-    my $SQL    = '';
-    my $Suffix = '';
+    my $SQL;
+    my $Suffix;
+    my @Bind;
     if ( $Param{StdResponse} ) {
         $Suffix = 'StdResponseID';
-        $SQL    = "SELECT id FROM standard_response WHERE name = '"
-            . $Self->{DBObject}->Quote( $Param{StdResponse} ) . "'";
+        $SQL    = 'SELECT id FROM standard_response WHERE name = ?';
+        @Bind   = ( \$Param{StdResponse} );
     }
     else {
         $Suffix = 'StdResponse';
-        $SQL    = "SELECT name FROM standard_response WHERE id = "
-            . $Self->{DBObject}->Quote( $Param{StdResponseID}, 'Integer' ) . "";
+        $SQL    = 'SELECT name FROM standard_response WHERE id = ?';
+        @Bind   = ( \$Param{StdResponseID} );
     }
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    return if !$Self->{DBObject}->Prepare( SQL => $SQL, Bind => @Bind );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
         # store result
