@@ -2,7 +2,7 @@
 # Kernel/System/Encode.pm - character encodings
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Encode.pm,v 1.35 2008-06-10 08:55:51 martin Exp $
+# $Id: Encode.pm,v 1.36 2008-10-01 08:38:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,10 +13,11 @@ package Kernel::System::Encode;
 
 use strict;
 use warnings;
+use Encode;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 =head1 NAME
 
@@ -24,9 +25,7 @@ Kernel::System::Encode - character encodings
 
 =head1 SYNOPSIS
 
-This module will use Perl's Encode module (Perl 5.8.0 or higher required).
-If the Perl version is lower then 5.8.0, no encoding will be possible. The
-return string is still the same charset.
+This module will use Perl's Encode module (Perl 5.8.0 or higher is required).
 
 =head1 PUBLIC INTERFACE
 
@@ -62,21 +61,13 @@ sub new {
     # 0=off; 1=on;
     $Self->{Debug} = 0;
 
-    # check if Perl 5.8.0 encode is available
-    if ( eval "require Encode" ) {
-        $Self->{CharsetEncodeSupported} = 1;
-    }
-    elsif ( $Self->{Debug} ) {
-        print STDERR "Charset encode not supported with your perl version!\n";
-    }
-
     # get internal charset
-    if (
-        $Self->{CharsetEncodeSupported}
-        && $Self->{ConfigObject}->Get('DefaultCharset') =~ /^utf(-8|8)$/i
-        )
-    {
-        $Self->{UTF8Support} = 1;
+    my $DefaultCharset = lc $Self->{ConfigObject}->Get('DefaultCharset');
+    if ( $DefaultCharset eq 'utf8' ) {
+        $DefaultCharset = 'utf-8';
+    }
+    if ( $DefaultCharset eq 'utf-8' ) {
+        $Self->{UTF8Used} = 1;
     }
 
     # get frontend charset
@@ -88,29 +79,10 @@ sub new {
     return $Self;
 }
 
-=item EncodeSupported()
-
-Returns true or false if charset encoding is possible (depends on Perl version =< 5.8.0).
-
-    if ($EncodeObject->EncodeSupported()) {
-        print "Charset encoding is possible!\n";
-    }
-    else {
-        print "Sorry, charset encoding is not possible!\n";
-    }
-
-=cut
-
-sub EncodeSupported {
-    my $Self = shift;
-
-    return $Self->{CharsetEncodeSupported};
-}
-
 =item EncodeInternalUsed()
 
-Returns the internal used charset if possible. E. g. if "EncodeSupported()"
-is true and Kernel/Config.pm "DefaultCharset" is "utf-8", then utf-8 is
+Returns the internal used charset if possible.
+If Kernel/Config.pm "DefaultCharset" is "utf-8", then utf-8 is
 the internal charset. It returns false if no internal charset (utf-8) is
 used.
 
@@ -121,14 +93,14 @@ used.
 sub EncodeInternalUsed {
     my $Self = shift;
 
-    return 'utf-8' if $Self->{UTF8Support};
+    return 'utf-8' if $Self->{UTF8Used};
     return;
 }
 
 =item EncodeFrontendUsed()
 
-Returns the used frontend charset if possible. E. g. if "EncodeSupported()"
-is true and Kernel/Config.pm "DefaultCharset" is "utf-8", then utf-8 is
+Returns the used frontend charset if possible.
+If Kernel/Config.pm "DefaultCharset" is "utf-8", then utf-8 is
 the frontend charset. It returns false if no frontend charset (utf-8) is
 used (then the translation charset (from translation file) will be used).
 
@@ -139,7 +111,8 @@ used (then the translation charset (from translation file) will be used).
 sub EncodeFrontendUsed {
     my $Self = shift;
 
-    return 'utf-8' if $Self->{UTF8Support};
+    return 'utf-8' if $Self->{UTF8Used};
+    return;
 }
 
 =item Convert()
@@ -178,14 +151,19 @@ sub Convert {
         }
     }
 
-    # if there is no charset encode supported (min. Perl 5.8.0)
-    return $Param{Text} if !$Self->{CharsetEncodeSupported};
+    # utf8 cleanup
+    for my $Key ( qw(From To) ) {
+        $Param{$Key} = lc $Param{$Key};
+        if ( $Param{$Key} eq 'utf8' ) {
+            $Param{$Key} = 'utf-8';
+        }
+    }
 
     # if no encode is needed
-    if ( $Param{From} =~ /^$Param{To}$/i ) {
+    if ( $Param{From} eq $Param{To} ) {
 
         # set utf-8 flag
-        if ( $Param{To} =~ /^utf(-8|8)/i ) {
+        if ( $Param{To} eq 'utf-8' ) {
             Encode::_utf8_on( $Param{Text} );
         }
 
@@ -213,7 +191,7 @@ sub Convert {
     }
 
     # set utf-8 flag
-    if ( $Param{To} =~ /^utf(8|-8)$/i ) {
+    if ( $Param{To} eq 'utf-8' ) {
         Encode::_utf8_on( $Param{Text} );
     }
 
@@ -236,9 +214,8 @@ Set array of file handles to utf-8 output.
 sub SetIO {
     my ( $Self, @Array ) = @_;
 
-    return if !$Self->{CharsetEncodeSupported};
     return if !$Self->{CharsetEncodeFrontendUsed};
-    return if !$Self->{CharsetEncodeFrontendUsed} =~ /utf(-8|8)/i;
+    return if $Self->{CharsetEncodeFrontendUsed} ne 'utf-8';
 
     ROW:
     for my $Row (@Array) {
@@ -266,9 +243,8 @@ sub Encode {
     my ( $Self, $What ) = @_;
 
     return if !defined $What;
-    return if !$Self->{CharsetEncodeSupported};
     return if !$Self->{CharsetEncodeFrontendUsed};
-    return if !$Self->{CharsetEncodeFrontendUsed} =~ /utf(-8|8)/i;
+    return if $Self->{CharsetEncodeFrontendUsed} ne 'utf-8';
 
     if ( ref $What eq 'SCALAR' ) {
         return $What if !defined ${$What};
@@ -333,9 +309,8 @@ This should be used in for output of utf-8 chars.
 sub EncodeOutput {
     my ( $Self, $What ) = @_;
 
-    return 1 if !$Self->{CharsetEncodeSupported};
     return 1 if !$Self->EncodeFrontendUsed();
-    return 1 if !$Self->EncodeFrontendUsed() =~ /utf(-8|8)/i;
+    return 1 if $Self->EncodeFrontendUsed() ne 'utf-8';
 
     return 1 if !Encode::is_utf8( ${$What} );
 
@@ -359,6 +334,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.35 $ $Date: 2008-06-10 08:55:51 $
+$Revision: 1.36 $ $Date: 2008-10-01 08:38:15 $
 
 =cut
