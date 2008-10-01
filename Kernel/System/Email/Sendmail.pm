@@ -2,7 +2,7 @@
 # Kernel/System/Email/Sendmail.pm - the global email send module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Sendmail.pm,v 1.27 2008-05-08 09:36:20 mh Exp $
+# $Id: Sendmail.pm,v 1.28 2008-10-01 08:43:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -31,9 +31,6 @@ sub new {
     for (qw(ConfigObject LogObject)) {
         die "Got no $_" if ( !$Self->{$_} );
     }
-
-    # get config data
-    $Self->{Sendmail} = $Self->{ConfigObject}->Get('SendmailModule::CMD');
 
     return $Self;
 }
@@ -59,15 +56,18 @@ sub Send {
     my $ToString = '';
     for my $To ( @{ $Param{ToArray} } ) {
         if ($ToString) {
-            $ToString .= ", ";
+            $ToString .= ', ';
         }
         $ToString .= $To;
         $Arg .= ' ' . quotemeta($To);
     }
 
+    # get config data
+    my $Sendmail = $Self->{ConfigObject}->Get('SendmailModule::CMD');
+
     # invoke sendmail in order to send off mail, catching errors in a temporary file
     my $FH;
-    if ( open( $FH, '|-', "$Self->{Sendmail} $Arg " ) ) {
+    if ( open( $FH, '|-', "$Sendmail $Arg " ) ) {
 
         # switch filehandle to utf8 mode if utf-8 is used
         if ( $Self->{ConfigObject}->Get('DefaultCharset') =~ /^utf(-8|8)$/i ) {
