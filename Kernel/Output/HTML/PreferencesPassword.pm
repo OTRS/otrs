@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesPassword.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesPassword.pm,v 1.17 2008-05-08 09:36:57 mh Exp $
+# $Id: PreferencesPassword.pm,v 1.18 2008-10-02 14:03:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -38,13 +38,30 @@ sub Param {
 
     my @Params = ();
     if ( $Self->{ConfigItem}->{Area} eq 'Agent' ) {
-        if ( $Self->{ConfigObject}->Get('AuthModule') =~ /(LDAP|HTTPBasicAuth|Radius)/i ) {
+
+        # get auth module
+        my $Module = $Self->{ConfigObject}->Get('AuthModule');
+        my $AuthBackend = $Param{UserData}->{UserAuthBackend};
+        if ( $AuthBackend ) {
+            $Module = $Self->{ConfigObject}->Get('AuthModule' . $AuthBackend );
+        }
+
+        # return on no pw reset backends
+        if ( $Module =~ /(LDAP|HTTPBasicAuth|Radius)/i ) {
             return ();
         }
     }
     elsif ( $Self->{ConfigItem}->{Area} eq 'Customer' ) {
-        if ( $Self->{ConfigObject}->Get('Customer::AuthModule') =~ /(LDAP|HTTPBasicAuth|Radius)/i )
-        {
+
+        # get auth module
+        my $Module = $Self->{ConfigObject}->Get('Customer::AuthModule');
+        my $AuthBackend = $Param{UserData}->{UserAuthBackend};
+        if ( $AuthBackend ) {
+            $Module = $Self->{ConfigObject}->Get('Customer::AuthModule' . $AuthBackend );
+        }
+
+        # return on no pw reset backends
+        if ( $Module =~ /(LDAP|HTTPBasicAuth|Radius)/i ) {
             return ();
         }
     }
