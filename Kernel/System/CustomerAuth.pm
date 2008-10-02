@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth.pm - provides the authentification
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerAuth.pm,v 1.18 2008-05-08 09:36:19 mh Exp $
+# $Id: CustomerAuth.pm,v 1.19 2008-10-02 14:08:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -77,12 +77,12 @@ sub new {
     # load generator auth module
     for my $Count ( '', 1 .. 10 ) {
         my $GenericModule = $Self->{ConfigObject}->Get("Customer::AuthModule$Count");
-        if ($GenericModule) {
-            if ( !$Self->{MainObject}->Require($GenericModule) ) {
-                $Self->{MainObject}->Die("Can't load backend module $GenericModule! $@");
-            }
-            $Self->{"Backend$Count"} = $GenericModule->new( %Param, Count => $Count );
+        next if !$GenericModule;
+
+        if ( !$Self->{MainObject}->Require($GenericModule) ) {
+            $Self->{MainObject}->Die("Can't load backend module $GenericModule! $@");
         }
+        $Self->{"Backend$Count"} = $GenericModule->new( %Param, Count => $Count );
     }
 
     return $Self;
@@ -120,34 +120,42 @@ The autentificaion function.
 sub Auth {
     my ( $Self, %Param ) = @_;
 
-    # auth. request against backend
-    my $User = '';
+    # use all 11 backends and return on first auth
+    my $User;
     for ( '', 1 .. 10 ) {
-        if ( $Self->{"Backend$_"} ) {
-            $User = $Self->{"Backend$_"}->Auth(%Param);
-            if ($User) {
-                last;
-            }
+
+        # return on no config setting
+        next if !$Self->{"Backend$_"};
+
+        # check auth backend
+        $User = $Self->{"Backend$_"}->Auth(%Param);
+
+        # remember auth backend
+        if ($User) {
+            $Self->{CustomerUserObject}->SetPreferences(
+                Key    => 'UserAuthBackend',
+                Value  => $_,
+                UserID => $User,
+            );
+            last;
         }
     }
 
-    # if recorde exists, check if user is vaild
-    if ($User) {
-        my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $User );
-        if ( defined( $CustomerData{ValidID} ) && $CustomerData{ValidID} ne 1 ) {
-            $Self->{LogObject}->Log(
-                Priority => 'notice',
-                Message  => "CustomerUser: '$User' is set to invalid, can't login!",
-            );
-            return;
-        }
-        else {
-            return $User;
-        }
-    }
-    else {
+    # check if recorde exists
+    return if !$User;
+
+    # check if user is vaild
+    my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $User );
+    if ( defined( $CustomerData{ValidID} ) && $CustomerData{ValidID} ne 1 ) {
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message  => "CustomerUser: '$User' is set to invalid, can't login!",
+        );
         return;
     }
+
+    # return user
+    return $User;
 }
 
 1;
@@ -166,6 +174,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2008-05-08 09:36:19 $
+$Revision: 1.19 $ $Date: 2008-10-02 14:08:49 $
 
 =cut
