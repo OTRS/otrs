@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.42 2008-06-27 17:11:06 mh Exp $
+# $Id: LDAP.pm,v 1.43 2008-10-04 15:16:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Encode;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -151,10 +151,6 @@ sub new {
     # encode object
     $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
 
-    # cache object
-    if ( $Self->{CustomerUserMap}->{CacheTTL} ) {
-        $Self->{CacheObject} = Kernel::System::Cache->new(%Param);
-    }
     $Self->{SourceCharset} = $Self->{CustomerUserMap}->{Params}->{SourceCharset} || '';
     $Self->{DestCharset}   = $Self->{CustomerUserMap}->{Params}->{DestCharset}   || '';
     $Self->{ExcludePrimaryCustomerID}
@@ -176,7 +172,14 @@ sub new {
         );
         $Param{Count} = '';
     }
-    $Self->{CacheType} = 'CustomerUser' . $Param{Count};
+
+    # cache object
+    if ( $Self->{CustomerUserMap}->{CacheTTL} ) {
+        $Self->{CacheObject} = Kernel::System::Cache->new(%Param);
+
+        # set cache type
+        $Self->{CacheType} = 'CustomerUser' . $Param{Count};
+    }
 
     # get valid filter if used
     $Self->{ValidFilter} = $Self->{CustomerUserMap}->{CustomerUserValidFilter} || '';
