@@ -2,7 +2,7 @@
 # Kernel/System/Cache/File.pm - all cache functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: File.pm,v 1.17 2008-08-21 19:51:43 martin Exp $
+# $Id: File.pm,v 1.17.2.1 2008-10-04 15:04:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 umask 002;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.17.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -169,8 +169,17 @@ sub Delete {
 sub CleanUp {
     my ( $Self, %Param ) = @_;
 
+    my @TypeList;
+
+    # get all only one type cache
+    if ( $Param{Type} ) {
+        @TypeList = glob( $Self->{CacheDirectory} . '/' . $Param{Type} );
+    }
+
     # get all cache types
-    my @TypeList = glob( $Self->{CacheDirectory} . '/*' );
+    else {
+        @TypeList = glob( $Self->{CacheDirectory} . '/*' );
+    }
     for my $Type (@TypeList) {
 
         # get all .cache files

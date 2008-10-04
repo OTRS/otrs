@@ -2,7 +2,7 @@
 # Kernel/System/Cache.pm - all cache functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Cache.pm,v 1.11 2008-06-19 06:34:21 martin Exp $
+# $Id: Cache.pm,v 1.11.2.1 2008-10-04 15:04:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.11.2.1 $) [1];
 
 =head1 NAME
 
@@ -196,6 +196,11 @@ delete all caches
 
     $CacheObject->CleanUp();
 
+    of if you want to cleanup only one object cache
+
+    $CacheObject->CleanUp(
+        Type => 'ObjectName', # only A-z chars usable
+    );
 =cut
 
 sub CleanUp {
@@ -205,7 +210,7 @@ sub CleanUp {
     if ( $Self->{Debug} > 1 ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message  => 'CleanUp all caches!',
+            Message  => 'CleanUp cache!',
         );
     }
     return $Self->{CacheObject}->CleanUp(%Param);
@@ -227,6 +232,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2008-06-19 06:34:21 $
+$Revision: 1.11.2.1 $ $Date: 2008-10-04 15:04:27 $
 
 =cut
