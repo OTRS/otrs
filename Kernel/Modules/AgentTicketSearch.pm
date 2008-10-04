@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.56 2008-08-03 15:00:02 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.56.2.1 2008-10-04 14:50:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::State;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.56.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -132,7 +132,7 @@ sub Run {
     else {
         for (
             qw(TicketNumber Title From To Cc Subject Body CustomerID CustomerUserLogin StateType
-            Agent ResultForm TimeSearchType CloseTimeSearchType
+            Agent ResultForm TimeSearchType CloseTimeSearchType UseSubQueues
             TicketFreeTime1
             TicketFreeTime1Start TicketFreeTime1StartDay TicketFreeTime1StartMonth
             TicketFreeTime1StartYear
