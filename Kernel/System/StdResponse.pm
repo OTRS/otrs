@@ -2,7 +2,7 @@
 # Kernel/System/StdResponse.pm - lib for std responses
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: StdResponse.pm,v 1.24 2008-10-01 08:37:03 martin Exp $
+# $Id: StdResponse.pm,v 1.25 2008-10-04 15:59:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -60,8 +60,8 @@ sub StdResponseAdd {
     );
     my $ID;
     return if !$Self->{DBObject}->Prepare(
-        SQL  => 'SELECT id FROM standard_response WHERE name = ? AND text = ?',
-        Bind => [ \$Param{Name}, \$Param{Response}, ],
+        SQL  => 'SELECT id FROM standard_response WHERE name = ? AND change_by = ?',
+        Bind => [ \$Param{Name}, \$Param{UserID}, ],
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $ID = $Row[0];
