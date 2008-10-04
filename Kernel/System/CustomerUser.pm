@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser.pm - some customer user functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUser.pm,v 1.44 2008-05-08 14:44:19 mh Exp $
+# $Id: CustomerUser.pm,v 1.45 2008-10-04 12:41:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Kernel::System::CustomerCompany;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 =head1 NAME
 
@@ -80,18 +80,20 @@ sub new {
 
     # load customer user backend module
     for my $Count ( '', 1 .. 10 ) {
-        if ( $Self->{ConfigObject}->Get("CustomerUser$Count") ) {
-            my $GenericModule = $Self->{ConfigObject}->Get("CustomerUser$Count")->{Module};
-            if ( !$Self->{MainObject}->Require($GenericModule) ) {
-                $Self->{MainObject}->Die("Can't load backend module $GenericModule! $@");
-            }
-            $Self->{"CustomerUser$Count"} = $GenericModule->new(
-                Count => $Count,
-                %Param,
-                PreferencesObject => $Self->{PreferencesObject},
-                CustomerUserMap   => $Self->{ConfigObject}->Get("CustomerUser$Count"),
-            );
+
+        # next if customer backend is used
+        next if !$Self->{ConfigObject}->Get("CustomerUser$Count");
+
+        my $GenericModule = $Self->{ConfigObject}->Get("CustomerUser$Count")->{Module};
+        if ( !$Self->{MainObject}->Require($GenericModule) ) {
+            $Self->{MainObject}->Die("Can't load backend module $GenericModule! $@");
         }
+        $Self->{"CustomerUser$Count"} = $GenericModule->new(
+            Count => $Count,
+            %Param,
+            PreferencesObject => $Self->{PreferencesObject},
+            CustomerUserMap   => $Self->{ConfigObject}->Get("CustomerUser$Count"),
+        );
     }
 
     $Self->{CustomerCompanyObject} = Kernel::System::CustomerCompany->new(%Param);
@@ -112,10 +114,12 @@ sub CustomerSourceList {
 
     my %Data = ();
     for ( '', 1 .. 10 ) {
-        if ( $Self->{ConfigObject}->Get("CustomerUser$_") ) {
-            $Data{"CustomerUser$_"} = $Self->{ConfigObject}->Get("CustomerUser$_")->{Name}
-                || "No Name $_";
-        }
+
+        # next if customer backend is used
+        next if !$Self->{ConfigObject}->Get("CustomerUser$_");
+
+        $Data{"CustomerUser$_"} = $Self->{ConfigObject}->Get("CustomerUser$_")->{Name}
+            || "No Name $_";
     }
     return %Data;
 }
@@ -152,10 +156,13 @@ sub CustomerSearch {
 
     my %Data = ();
     for ( '', 1 .. 10 ) {
-        if ( $Self->{"CustomerUser$_"} ) {
-            my %SubData = $Self->{"CustomerUser$_"}->CustomerSearch(%Param);
-            %Data = ( %SubData, %Data );
-        }
+
+        # next if customer backend is used
+        next if !$Self->{"CustomerUser$_"};
+
+        # get customer search result of backend and merge it
+        my %SubData = $Self->{"CustomerUser$_"}->CustomerSearch(%Param);
+        %Data = ( %SubData, %Data );
     }
     return %Data;
 }
@@ -175,10 +182,13 @@ sub CustomerUserList {
 
     my %Data = ();
     for ( '', 1 .. 10 ) {
-        if ( $Self->{"CustomerUser$_"} ) {
-            my %SubData = $Self->{"CustomerUser$_"}->CustomerUserList(%Param);
-            %Data = ( %Data, %SubData );
-        }
+
+        # next if customer backend is used
+        next if !$Self->{"CustomerUser$_"};
+
+        # get customer list result of backend and merge it
+        my %SubData = $Self->{"CustomerUser$_"}->CustomerUserList(%Param);
+        %Data = ( %Data, %SubData );
     }
     return %Data;
 }
@@ -197,11 +207,14 @@ sub CustomerName {
     my ( $Self, %Param ) = @_;
 
     for ( '', 1 .. 10 ) {
-        if ( $Self->{"CustomerUser$_"} ) {
-            my $Name = $Self->{"CustomerUser$_"}->CustomerName(%Param);
-            if ($Name) {
-                return $Name;
-            }
+
+        # next if customer backend is used
+        next if !$Self->{"CustomerUser$_"};
+
+        # get customer name and return it
+        my $Name = $Self->{"CustomerUser$_"}->CustomerName(%Param);
+        if ($Name) {
+            return $Name;
         }
     }
     return;
@@ -221,11 +234,14 @@ sub CustomerIDs {
     my ( $Self, %Param ) = @_;
 
     for ( '', 1 .. 10 ) {
-        if ( $Self->{"CustomerUser$_"} ) {
-            my @CustomerIDs = $Self->{"CustomerUser$_"}->CustomerIDs(%Param);
-            if (@CustomerIDs) {
-                return @CustomerIDs;
-            }
+
+        # next if customer backend is used
+        next if !$Self->{"CustomerUser$_"};
+
+        # get customer id's and return it
+        my @CustomerIDs = $Self->{"CustomerUser$_"}->CustomerIDs(%Param);
+        if (@CustomerIDs) {
+            return @CustomerIDs;
         }
     }
     return;
@@ -245,30 +261,34 @@ sub CustomerUserDataGet {
     my ( $Self, %Param ) = @_;
 
     for ( '', 1 .. 10 ) {
-        if ( $Self->{"CustomerUser$_"} ) {
-            my %Customer = $Self->{"CustomerUser$_"}->CustomerUserDataGet( %Param, );
-            if (%Customer) {
-                my %Company = ();
 
-                # check if customer company support is enabled
-                if (
-                    $Self->{ConfigObject}->Get("CustomerCompany")
-                    && $Self->{ConfigObject}->Get("CustomerUser$_")->{CustomerCompanySupport}
-                    )
-                {
-                    %Company = $Self->{CustomerCompanyObject}->CustomerCompanyGet(
-                        CustomerID => $Customer{UserCustomerID},
-                    );
-                }
-                return (
-                    %Company,
-                    %Customer,
-                    Source        => "CustomerUser$_",
-                    Config        => $Self->{ConfigObject}->Get("CustomerUser$_"),
-                    CompanyConfig => $Self->{ConfigObject}->Get("CustomerCompany"),
-                );
-            }
+        # next if customer backend is used
+        next if !$Self->{"CustomerUser$_"};
+
+        # next if no customer got found
+        my %Customer = $Self->{"CustomerUser$_"}->CustomerUserDataGet( %Param, );
+        next if !%Customer;
+
+        # check if customer company support is enabled and get company data
+        my %Company = ();
+        if (
+            $Self->{ConfigObject}->Get("CustomerCompany")
+            && $Self->{ConfigObject}->Get("CustomerUser$_")->{CustomerCompanySupport}
+        )
+        {
+            %Company = $Self->{CustomerCompanyObject}->CustomerCompanyGet(
+                CustomerID => $Customer{UserCustomerID},
+            );
         }
+
+        # return customer data
+        return (
+            %Company,
+            %Customer,
+            Source        => "CustomerUser$_",
+            Config        => $Self->{ConfigObject}->Get("CustomerUser$_"),
+            CompanyConfig => $Self->{ConfigObject}->Get("CustomerCompany"),
+        );
     }
     return;
 }
@@ -343,7 +363,10 @@ sub CustomerUserUpdate {
     # check if user exists
     my %User = $Self->CustomerUserDataGet( User => $Param{ID} || $Param{UserLogin} );
     if ( !%User ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "No such user!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "No such user '$Param{UserLogin}'!",
+        );
         return;
     }
     return $Self->{ $User{Source} }->CustomerUserUpdate(%Param);
@@ -372,7 +395,10 @@ sub SetPassword {
     # check if user exists
     my %User = $Self->CustomerUserDataGet( User => $Param{UserLogin} );
     if ( !%User ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "No such user!" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "No such user '$Param{UserLogin}'!",
+        );
         return;
     }
     return $Self->{ $User{Source} }->SetPassword(%Param);
@@ -529,11 +555,9 @@ sub TokenCheck {
         # return true if token is valid
         return 1;
     }
-    else {
 
-        # return false if token is invalid
-        return;
-    }
+    # return false if token is invalid
+    return;
 }
 
 1;
@@ -552,6 +576,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.44 $ $Date: 2008-05-08 14:44:19 $
+$Revision: 1.45 $ $Date: 2008-10-04 12:41:42 $
 
 =cut
