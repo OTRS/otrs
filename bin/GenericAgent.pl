@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pl,v 1.50 2008-09-08 06:48:58 martin Exp $
+# $Id: GenericAgent.pl,v 1.51 2008-10-06 16:44:37 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION %Jobs @ISA);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -123,12 +123,13 @@ if ( $Opts{c} eq 'db' ) {
     # process all jobs
     my %DBJobs = $CommonObject{GenericAgentObject}->JobList();
     for my $DBJob ( sort keys %DBJobs ) {
+
         # get job
         my %DBJobRaw = $CommonObject{GenericAgentObject}->JobGet( Name => $DBJob );
 
         # check requred params (need min. one param)
         my $Schedule;
-        for my $Key (qw( ScheduleDays ScheduleMinutes ScheduleHours ) ) {
+        for my $Key (qw( ScheduleDays ScheduleMinutes ScheduleHours )) {
             if ( $DBJobRaw{$Key} ) {
                 $Schedule = 1;
             }

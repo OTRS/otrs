@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageFS.pm,v 1.51 2008-10-02 06:30:14 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.52 2008-10-06 16:44:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -362,7 +362,7 @@ sub ArticlePlain {
             Filename  => 'plain.txt',
             Mode      => 'binmode',
         );
-        if (!$Data) {
+        if ( !$Data ) {
             return;
         }
         return ${$Data};
@@ -380,10 +380,11 @@ sub ArticlePlain {
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data = $Row[0];
     }
-    if (!$Data) {
+    if ( !$Data ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => "Can't open $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt: $!",
+            Message =>
+                "Can't open $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/plain.txt: $!",
         );
         return;
     }
@@ -443,7 +444,7 @@ sub ArticleAttachmentIndex {
                 my $Content = $Self->{MainObject}->FileRead(
                     Location => "$Filename.content_type",
                 );
-                if (!$Content) {
+                if ( !$Content ) {
                     return;
                 }
                 $ContentType = ${$Content};
@@ -455,7 +456,7 @@ sub ArticleAttachmentIndex {
                     Location => $Filename,
                     Result   => 'ARRAY',
                 );
-                if (!$Content) {
+                if ( !$Content ) {
                     return;
                 }
                 $ContentType = $Content->[0];
@@ -559,7 +560,7 @@ sub ArticleAttachment {
                         my $Content = $Self->{MainObject}->FileRead(
                             Location => "$Filename.content_type",
                         );
-                        if (!$Content) {
+                        if ( !$Content ) {
                             return;
                         }
                         $Data{ContentType} = ${$Content};
@@ -569,7 +570,7 @@ sub ArticleAttachment {
                             Location => $Filename,
                             Mode     => 'binmode',
                         );
-                        if (!$Content) {
+                        if ( !$Content ) {
                             return;
                         }
                         $Data{Content} = ${$Content};
@@ -582,7 +583,7 @@ sub ArticleAttachment {
                             Mode     => 'binmode',
                             Result   => 'ARRAY',
                         );
-                        if (!$Content) {
+                        if ( !$Content ) {
                             return;
                         }
                         $Data{ContentType} = $Content->[0];
@@ -634,7 +635,7 @@ sub ArticleAttachment {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message =>
-                    "$!: $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/$Data{Filename}!",
+                "$!: $Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/$Data{Filename}!",
         );
         return;
     }

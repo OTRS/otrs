@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageDB.pm,v 1.56 2008-10-02 06:28:25 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.57 2008-10-06 16:44:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -291,7 +291,7 @@ sub ArticlePlain {
     $Self->{DBObject}->Prepare(
         SQL    => 'SELECT body FROM article_plain WHERE article_id = ?',
         Bind   => [ \$Param{ArticleID} ],
-        Encode => [ 0 ],
+        Encode => [0],
     );
     my $Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -427,7 +427,7 @@ sub ArticleAttachmentIndex {
             my $Content = $Self->{MainObject}->FileRead(
                 Location => "$Filename.content_type",
             );
-            if (!$Content) {
+            if ( !$Content ) {
                 return;
             }
             $ContentType = ${$Content};
@@ -439,7 +439,7 @@ sub ArticleAttachmentIndex {
                 Location => $Filename,
                 Result   => 'ARRAY',
             );
-            if (!$Content) {
+            if ( !$Content ) {
                 return;
             }
             $ContentType = $Content->[0];
@@ -528,7 +528,7 @@ sub ArticleAttachment {
                         my $Content = $Self->{MainObject}->FileRead(
                             Location => "$Filename.content_type",
                         );
-                        if (!$Content) {
+                        if ( !$Content ) {
                             return;
                         }
                         $Data{ContentType} = ${$Content};
@@ -538,7 +538,7 @@ sub ArticleAttachment {
                             Location => $Filename,
                             Mode     => 'binmode',
                         );
-                        if (!$Content) {
+                        if ( !$Content ) {
                             return;
                         }
                         $Data{Content} = ${$Content};
@@ -551,7 +551,7 @@ sub ArticleAttachment {
                             Mode     => 'binmode',
                             Result   => 'ARRAY',
                         );
-                        if (!$Content) {
+                        if ( !$Content ) {
                             return;
                         }
                         $Data{ContentType} = $Content->[0];
@@ -580,7 +580,7 @@ sub ArticleAttachment {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message =>
-                    "No article attachment (article id $Param{ArticleID}, file id $Param{FileID}) in database!",
+                "No article attachment (article id $Param{ArticleID}, file id $Param{FileID}) in database!",
         );
         return;
     }

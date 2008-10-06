@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesPassword.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesPassword.pm,v 1.18 2008-10-02 14:03:30 martin Exp $
+# $Id: PreferencesPassword.pm,v 1.19 2008-10-06 16:44:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -40,10 +40,10 @@ sub Param {
     if ( $Self->{ConfigItem}->{Area} eq 'Agent' ) {
 
         # get auth module
-        my $Module = $Self->{ConfigObject}->Get('AuthModule');
+        my $Module      = $Self->{ConfigObject}->Get('AuthModule');
         my $AuthBackend = $Param{UserData}->{UserAuthBackend};
-        if ( $AuthBackend ) {
-            $Module = $Self->{ConfigObject}->Get('AuthModule' . $AuthBackend );
+        if ($AuthBackend) {
+            $Module = $Self->{ConfigObject}->Get( 'AuthModule' . $AuthBackend );
         }
 
         # return on no pw reset backends
@@ -54,10 +54,10 @@ sub Param {
     elsif ( $Self->{ConfigItem}->{Area} eq 'Customer' ) {
 
         # get auth module
-        my $Module = $Self->{ConfigObject}->Get('Customer::AuthModule');
+        my $Module      = $Self->{ConfigObject}->Get('Customer::AuthModule');
         my $AuthBackend = $Param{UserData}->{UserAuthBackend};
-        if ( $AuthBackend ) {
-            $Module = $Self->{ConfigObject}->Get('Customer::AuthModule' . $AuthBackend );
+        if ($AuthBackend) {
+            $Module = $Self->{ConfigObject}->Get( 'Customer::AuthModule' . $AuthBackend );
         }
 
         # return on no pw reset backends

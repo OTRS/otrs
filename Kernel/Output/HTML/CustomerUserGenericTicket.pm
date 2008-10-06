@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/CustomerUserGenericTicket.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUserGenericTicket.pm,v 1.3 2008-10-04 14:49:23 martin Exp $
+# $Id: CustomerUserGenericTicket.pm,v 1.4 2008-10-06 16:44:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -91,7 +91,7 @@ sub Run {
         # do lookups
         if ( $Lookup{$Key} ) {
             next if !$Self->{MainObject}->Require( $Lookup{$Key}->{Object} );
-            my $Object = $Lookup{$Key}->{Object}->new( %{ $Self } );
+            my $Object = $Lookup{$Key}->{Object}->new( %{$Self} );
             my $Method = $Lookup{$Key}->{Method};
             $Value = $Object->$Method( $Lookup{$Key}->{Input} => $Value );
             $Key = $Lookup{$Key}->{Return};
@@ -100,7 +100,7 @@ sub Run {
         # build link and search attributes
         if ( $Key =~ /IDs$/ ) {
             if ( !$TicketSearch{$Key} ) {
-                $TicketSearch{$Key} = [ $Value ];
+                $TicketSearch{$Key} = [$Value];
             }
             else {
                 push @{ $TicketSearch{$Key} }, $Value;
@@ -111,7 +111,7 @@ sub Run {
         }
         elsif ( !ref $TicketSearch{$Key} ) {
             my $ValueTmp = $TicketSearch{$Key};
-            $TicketSearch{$Key} = [ $ValueTmp ];
+            $TicketSearch{$Key} = [$ValueTmp];
         }
         else {
             push @{ $TicketSearch{$Key} }, $Value;

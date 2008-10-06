@@ -2,7 +2,7 @@
 # Kernel/System/Cache/File.pm - all cache functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: File.pm,v 1.18 2008-10-04 15:07:16 martin Exp $
+# $Id: File.pm,v 1.19 2008-10-06 16:44:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 umask 002;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -74,7 +74,7 @@ sub Set {
     }
 
     # check for 7 bit chars in type
-    if ( grep { $_ < 32 or $_ > 126 } unpack("C*", $Param{Type}) ) {
+    if ( grep { $_ < 32 or $_ > 126 } unpack( "C*", $Param{Type} ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can only 7 bit chars use as cache type ($Param{Type})!",

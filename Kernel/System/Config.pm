@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Config.pm,v 1.78 2008-09-25 00:20:31 martin Exp $
+# $Id: Config.pm,v 1.79 2008-10-06 16:44:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.78 $) [1];
+$VERSION = qw($Revision: 1.79 $) [1];
 
 =head1 NAME
 
@@ -652,7 +652,7 @@ sub ConfigItemGet {
     }
 
     # return on invalid config item
-    return if ! $Self->{Config}->{ $Param{Name} };
+    return if !$Self->{Config}->{ $Param{Name} };
 
     # copy config and store it as default
     my $Dump = $Self->{MainObject}->Dump( $Self->{Config}->{ $Param{Name} }, 'ascii' );
@@ -757,7 +757,7 @@ sub ConfigItemGet {
                             defined( $Array[$Index]{Key} )
                             && $Array[$Index]{Key} eq $Key
                             && defined( $Array[$Index]{Option} )
-                        )
+                            )
                         {
                             $Option = 1;
                             $Array[$Index]{Option}[1]{SelectedID} = $Hash{$Key};
@@ -840,7 +840,7 @@ sub ConfigItemGet {
                             push(
                                 @{
                                     $ConfigItem->{Setting}->[1]->{FrontendModuleReg}->[1]->{$Key}
-                                },
+                                    },
                                 \%NavBar
                             );
                         }
@@ -938,8 +938,9 @@ sub ConfigItemGet {
                         for my $Day ( sort { $a <=> $b } keys %{ $Hash{$Year}->{$Month} } ) {
                             push(
                                 @{
-                                    $ConfigItem->{Setting}->[1]->{TimeVacationDaysOneTime}->[1]->{Item}
-                                },
+                                    $ConfigItem->{Setting}->[1]->{TimeVacationDaysOneTime}->[1]
+                                        ->{Item}
+                                    },
                                 {
                                     Year    => $Year,
                                     Month   => $Month,
@@ -973,7 +974,7 @@ sub ConfigItemGet {
             ( defined($A1) && !defined($A2) )
             || ( !defined($A1) && defined($A2) )
             || $Self->DataDiff( Data1 => $A1, Data2 => $A2 )
-        )
+            )
         {
             $ConfigItem->{Diff} = 1;
         }
@@ -981,7 +982,7 @@ sub ConfigItemGet {
     if (
         $ConfigItem->{Setting}->[1]->{Option}
         && $ConfigItem->{Setting}->[1]->{Option}->[1]->{Location}
-    )
+        )
     {
         my $Home = $Self->{Home};
         my @List = glob( $Home . "/$ConfigItem->{Setting}->[1]->{Option}->[1]->{Location}" );
@@ -1749,6 +1750,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.78 $ $Date: 2008-09-25 00:20:31 $
+$Revision: 1.79 $ $Date: 2008-10-06 16:44:37 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.57 2008-10-04 14:49:48 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.58 2008-10-06 16:44:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::State;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -662,10 +662,10 @@ sub Run {
                     $Self->{PDFObject} = Kernel::System::PDF->new( %{$Self} );
                     if ( $Self->{PDFObject} ) {
                         my %Info = ( %Data, %UserInfo ),
-                        my $Created = $Self->{LayoutObject}->Output(
+                            my $Created = $Self->{LayoutObject}->Output(
                             Template => '$TimeLong{"$Data{"Created"}"}',
                             Data     => \%Data,
-                        );
+                            );
                         my $Owner = $Self->{LayoutObject}->Output(
                             Template =>
                                 '$QData{"Owner","30"} ($Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","30"})',

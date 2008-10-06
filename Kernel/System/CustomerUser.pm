@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser.pm - some customer user functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUser.pm,v 1.45 2008-10-04 12:41:42 martin Exp $
+# $Id: CustomerUser.pm,v 1.46 2008-10-06 16:44:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Kernel::System::CustomerCompany;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 =head1 NAME
 
@@ -274,7 +274,7 @@ sub CustomerUserDataGet {
         if (
             $Self->{ConfigObject}->Get("CustomerCompany")
             && $Self->{ConfigObject}->Get("CustomerUser$_")->{CustomerCompanySupport}
-        )
+            )
         {
             %Company = $Self->{CustomerCompanyObject}->CustomerCompanyGet(
                 CustomerID => $Customer{UserCustomerID},
@@ -576,6 +576,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.45 $ $Date: 2008-10-04 12:41:42 $
+$Revision: 1.46 $ $Date: 2008-10-06 16:44:37 $
 
 =cut

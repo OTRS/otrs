@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.346 2008-09-29 05:13:03 martin Exp $
+# $Id: Ticket.pm,v 1.347 2008-10-06 16:44:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.346 $) [1];
+$VERSION = qw($Revision: 1.347 $) [1];
 
 =head1 NAME
 
@@ -1908,7 +1908,7 @@ sub TicketEscalationIndexBuild {
         }
 
         # fill up lookups
-        for my $Row ( @SenderHistory ) {
+        for my $Row (@SenderHistory) {
 
             # get sender type
             $Row->{SenderType} = $Self->ArticleSenderTypeLookup(
@@ -1927,7 +1927,7 @@ sub TicketEscalationIndexBuild {
         for my $Row ( reverse @SenderHistory ) {
 
             # do not use locked tickets for calc.
-#            last if $Ticket{Lock} eq 'lock';
+            #            last if $Ticket{Lock} eq 'lock';
 
             # do not use /int/ article types for calc.
             next if $Row->{ArticleType} =~ /int/i;
@@ -1941,6 +1941,7 @@ sub TicketEscalationIndexBuild {
             if ( $Row->{SenderType} eq 'agent' && $LastSenderType eq 'customer' ) {
                 last;
             }
+
             # start escalation on latest customer article
             if ( $Row->{SenderType} eq 'customer' ) {
                 $LastSenderType = 'customer';
@@ -6293,7 +6294,8 @@ sub TicketAcl {
 
     # use queue data (if given)
     if ( $Param{ServiceID} ) {
-        my %Service = $Self->{ServiceObject}->ServiceGet( ServiceID => $Param{ServiceID}, UserID => 1 );
+        my %Service
+            = $Self->{ServiceObject}->ServiceGet( ServiceID => $Param{ServiceID}, UserID => 1 );
         $Checks{Service} = \%Service;
     }
     elsif ( $Param{Service} ) {
@@ -6658,6 +6660,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.346 $ $Date: 2008-09-29 05:13:03 $
+$Revision: 1.347 $ $Date: 2008-10-06 16:44:37 $
 
 =cut

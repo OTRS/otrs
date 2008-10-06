@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.86 2008-10-01 07:04:49 martin Exp $
+# $Id: Package.pm,v 1.87 2008-10-06 16:44:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.86 $) [1];
+$VERSION = qw($Revision: 1.87 $) [1];
 
 =head1 NAME
 
@@ -199,7 +199,7 @@ sub RepositoryGet {
 
     # db access
     $Self->{DBObject}->Prepare(
-        SQL  => 'SELECT content FROM package_repository WHERE name = ? AND version = ?',
+        SQL => 'SELECT content FROM package_repository WHERE name = ? AND version = ?',
         Bind => [ \$Param{Name}, \$Param{Version} ],
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -1103,7 +1103,7 @@ sub DeployCheck {
             return;
         }
     }
-    my $Package = $Self->RepositoryGet(%Param, Result => 'SCALAR' );
+    my $Package = $Self->RepositoryGet( %Param, Result => 'SCALAR' );
     my %Structure = $Self->PackageParse( String => $Package );
     $Self->{DeployCheckInfo} = undef;
     if ( $Structure{Filelist} && ref $Structure{Filelist} eq 'ARRAY' ) {
@@ -1141,8 +1141,8 @@ sub DeployCheck {
                         Priority => 'error',
                         Message  => "Can't read $LocalFile!",
                     );
-                     $Self->{DeployCheckInfo}->{File}->{ $File->{Location} }
-                         = 'Can\' read File!';
+                    $Self->{DeployCheckInfo}->{File}->{ $File->{Location} }
+                        = 'Can\' read File!';
                 }
             }
         }
@@ -1417,6 +1417,7 @@ sub PackageBuild {
             if ( !$FileContent ) {
                 $Self->{MainObject}->Die("Can't open: $File->{Location}: $!");
             }
+
             # dont use content in in index mode
             if ( !$Param{Type} ) {
                 $XML .= encode_base64( ${$FileContent}, '' );
@@ -2285,6 +2286,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.86 $ $Date: 2008-10-01 07:04:49 $
+$Revision: 1.87 $ $Date: 2008-10-06 16:44:37 $
 
 =cut

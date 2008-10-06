@@ -3,7 +3,7 @@
 # otrs.ArticleStorageSwitch.pl - to move stored attachments from one backend to other
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.ArticleStorageSwitch.pl,v 1.1 2008-10-02 11:19:48 martin Exp $
+# $Id: otrs.ArticleStorageSwitch.pl,v 1.2 2008-10-06 16:44:37 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -129,7 +129,9 @@ for my $TicketID (@TicketIDs) {
                 String => $Attachment{Content},
             );
             $MD5Sums{$MD5Sum} = 1;
-            print "Read: ArticleID: $ArticleID $Index{$FileID}->{Filename} $Index{$FileID}->{Filesize} ($MD5Sum)\n" if $Opts{v};
+            print
+                "Read: ArticleID: $ArticleID $Index{$FileID}->{Filename} $Index{$FileID}->{Filesize} ($MD5Sum)\n"
+                if $Opts{v};
         }
 
         $CommonObject{ConfigObject}->Set(
@@ -137,12 +139,13 @@ for my $TicketID (@TicketIDs) {
             Value => 'Kernel::System::Ticket::' . $Opts{d},
         );
         my $TicketObjectDestination = Kernel::System::Ticket->new(%CommonObject);
-        for my $Attachment ( @Attachments ) {
-            print "Wrtie: ArticleID: $ArticleID $Attachment->{Filename} $Attachment->{Filesize} \n" if $Opts{v};
+        for my $Attachment (@Attachments) {
+            print "Wrtie: ArticleID: $ArticleID $Attachment->{Filename} $Attachment->{Filesize} \n"
+                if $Opts{v};
             $TicketObjectDestination->ArticleWriteAttachment(
-                %{ $Attachment },
-                ArticleID   => $ArticleID,
-                UserID      => 1,
+                %{$Attachment},
+                ArticleID => $ArticleID,
+                UserID    => 1,
             );
 
         }
@@ -150,9 +153,9 @@ for my $TicketID (@TicketIDs) {
         # write destination plain
         if ($Plain) {
             $TicketObjectDestination->ArticleWritePlain(
-                Email      => $Plain,
-                ArticleID  => $ArticleID,
-                UserID     => 1,
+                Email     => $Plain,
+                ArticleID => $ArticleID,
+                UserID    => 1,
             );
         }
 
@@ -190,7 +193,8 @@ for my $TicketID (@TicketIDs) {
             );
         }
         if ( $PlainMD5Sum ne $PlainMD5SumVerify ) {
-            print "ERROR: Corrupt plain file: ArticleID: $ArticleID ($PlainMD5Sum/$PlainMD5SumVerify)\n";
+            print
+                "ERROR: Corrupt plain file: ArticleID: $ArticleID ($PlainMD5Sum/$PlainMD5SumVerify)\n";
         }
 
         # remove source attachments
