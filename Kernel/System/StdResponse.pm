@@ -2,7 +2,7 @@
 # Kernel/System/StdResponse.pm - lib for std responses
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: StdResponse.pm,v 1.23 2008-09-13 10:24:00 martin Exp $
+# $Id: StdResponse.pm,v 1.23.2.1 2008-10-06 15:37:24 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.23.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -131,13 +131,13 @@ sub StdResponseDelete {
 
     # delete queue<->std response relation
     return if !$Self->{DBObject}->Do(
-        SQL => 'DELETE FROM queue_standard_response WHERE standard_response_id = ?',
+        SQL  => 'DELETE FROM queue_standard_response WHERE standard_response_id = ?',
         Bind => [ \$Param{ID} ],
     );
 
     # delete attachment<->std response relation
     return if !$Self->{DBObject}->Do(
-        SQL => 'DELETE FROM standard_response_attachment WHERE standard_response_id = ?',
+        SQL  => 'DELETE FROM standard_response_attachment WHERE standard_response_id = ?',
         Bind => [ \$Param{ID} ],
     );
 

@@ -2,7 +2,7 @@
 # LinkObject.t - link object module testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.t,v 1.14 2008-08-26 11:26:58 tr Exp $
+# $Id: LinkObject.t,v 1.14.2.1 2008-10-06 15:37:24 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -2529,6 +2529,7 @@ my $LinkData = [
     },
 
     {
+
         # an key with ::
         SourceData => [
             {
@@ -2601,18 +2602,19 @@ my $LinkData = [
             },
         },
     },
+
     # delete a link with :: in the key
     {
         SourceData => [
-           {
-                Action       => 'LinkDelete',
-                Object1      => $ObjectNames[1],
-                Key1         => 'DB01::101',
-                Object2      => $ObjectNames[1],
-                Key2         => '103',
-                Type         => $TypeNames[1],
-                State        => 'Valid',
-                UserID       => 1,
+            {
+                Action  => 'LinkDelete',
+                Object1 => $ObjectNames[1],
+                Key1    => 'DB01::101',
+                Object2 => $ObjectNames[1],
+                Key2    => '103',
+                Type    => $TypeNames[1],
+                State   => 'Valid',
+                UserID  => 1,
             },
 
         ],

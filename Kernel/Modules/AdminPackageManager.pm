@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.65 2008-09-24 11:25:21 mh Exp $
+# $Id: AdminPackageManager.pm,v 1.65.2.1 2008-10-06 15:37:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.65 $) [1];
+$VERSION = qw($Revision: 1.65.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1475,7 +1475,7 @@ sub Run {
                             $DocumentationFile = $File->{Location};
                             next FILE;
                         }
-                        elsif ( $Dir eq 'en' && !$DocumentationFile ){
+                        elsif ( $Dir eq 'en' && !$DocumentationFile ) {
                             $DocumentationFile = $File->{Location};
                         }
                     }
@@ -1552,7 +1552,7 @@ sub Run {
                         $DocumentationFile = $File->{Location};
                         next FILE;
                     }
-                    elsif ( $Dir eq 'en' && !$DocumentationFile ){
+                    elsif ( $Dir eq 'en' && !$DocumentationFile ) {
                         $DocumentationFile = $File->{Location};
                     }
                 }

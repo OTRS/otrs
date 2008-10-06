@@ -2,7 +2,7 @@
 # StdResponse.t - StdResponse tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: StdResponse.t,v 1.1 2008-09-13 10:24:01 martin Exp $
+# $Id: StdResponse.t,v 1.1.2.1 2008-10-06 15:37:24 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ $Self->{StdResponseObject} = Kernel::System::StdResponse->new( %{$Self} );
 my @Tests = (
     {
         Name => 'text',
-        Add => {
+        Add  => {
             Name     => 'text',
             ValidID  => 1,
             Response => 'Response text',
@@ -47,7 +47,7 @@ my @Tests = (
     },
 );
 
-for my $Test ( @Tests ) {
+for my $Test (@Tests) {
 
     # add
     my $ID = $Self->{StdResponseObject}->StdResponseAdd(
