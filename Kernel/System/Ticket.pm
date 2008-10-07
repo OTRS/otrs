@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.347 2008-10-06 16:44:37 mh Exp $
+# $Id: Ticket.pm,v 1.348 2008-10-07 21:05:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.347 $) [1];
+$VERSION = qw($Revision: 1.348 $) [1];
 
 =head1 NAME
 
@@ -1661,13 +1661,13 @@ sub TicketEscalationDateCalculation {
         }
     }
 
+    # get ticket attributes
     my %Ticket = %{ $Param{Ticket} };
 
     # do no escalations on (merge|close|remove) tickets
-    if ( $Ticket{StateType} =~ /^(merge|close|remove)/i ) {
-        return;
-    }
+    return if $Ticket{StateType} =~ /^(merge|close|remove)/i;
 
+    # get escalation properties
     my %Escalation = ();
     if ( $Self->{ConfigObject}->Get('Ticket::Service') && $Ticket{SLAID} ) {
         %Escalation = $Self->{SLAObject}->SLAGet(
@@ -1687,83 +1687,84 @@ sub TicketEscalationDateCalculation {
     # return if we do not have any escalation attributes
     return if !%Escalation;
 
+    # calculate escalation times based on escalation properties
     my $Time = $Self->{TimeObject}->SystemTime();
     my %Data;
     my %Map = (
-
-        #        EscalationTime         => 'Escalation',
         EscalationResponseTime => 'FirstResponse',
         EscalationUpdateTime   => 'Update',
         EscalationSolutionTime => 'Solution',
     );
-
     for my $Key ( keys %Map ) {
-        if ( $Ticket{$Key} ) {
 
-            # do not escalations in "pending auto" for escalation update time
-            if ( $Key eq 'EscalationUpdateTime' && $Ticket{StateType} =~ /^(pending)/i ) {
-                next;
-            }
-            my $WorkingTime = 0;
-            my $TimeDiff    = $Ticket{$Key} - $Time;
+        # next is not escalation for this type is given
+        next if !$Ticket{$Key};
 
-            # ticket is not escalated till now
-            if ( $TimeDiff > 0 ) {
-                $WorkingTime = $Self->{TimeObject}->WorkingTime(
-                    StartTime => $Time,
-                    StopTime  => $Ticket{$Key},
-                    Calendar  => $Escalation{Calendar},
-                );
+        # next if ticket state is "pending*" for escalation update time (do not escalate in this state)
+        if ( $Key eq 'EscalationUpdateTime' && $Ticket{StateType} =~ /^(pending)/i ) {
+            next;
+        }
 
-                # set notification if notfy % is reached
-                if ( $Escalation{ $Map{$Key} . 'Notify' } ) {
-                    my $Reached = 100
-                        - ( $WorkingTime / ( $Escalation{ $Map{$Key} . 'Time' } * 60 / 100 ) );
-                    if ( $Reached >= $Escalation{ $Map{$Key} . 'Notify' } ) {
-                        $Data{ $Map{$Key} . 'TimeNotification' } = 1;
-                    }
-                }
-            }
+        # get time before or over escalation (escalation_destination_unixtime - now)
+        my $TimeTillEscalation = $Ticket{$Key} - $Time;
 
-            # ticket is overtime
-            else {
-                $WorkingTime = $Self->{TimeObject}->WorkingTime(
-                    StartTime => $Ticket{$Key},
-                    StopTime  => $Time,
-                    Calendar  => $Escalation{Calendar},
-                );
-                $WorkingTime = "-$WorkingTime";
-
-                # set escalation
-                $Data{ $Map{$Key} . 'TimeEscalation' } = 1;
-            }
-            my $DestinationDate = $Self->{TimeObject}->SystemTime2TimeStamp(
-                SystemTime => $Ticket{$Key},
+        # ticket is not escalated till now ($TimeTillEscalation > 0)
+        my $WorkingTime = 0;
+        if ( $TimeTillEscalation > 0 ) {
+            $WorkingTime = $Self->{TimeObject}->WorkingTime(
+                StartTime => $Time,
+                StopTime  => $Ticket{$Key},
+                Calendar  => $Escalation{Calendar},
             );
-            $Data{ $Map{$Key} . 'TimeDestinationTime' } = $Ticket{$Key};
-            $Data{ $Map{$Key} . 'TimeDestinationDate' } = $DestinationDate;
-            $Data{ $Map{$Key} . 'TimeWorkingTime' }     = $WorkingTime;
-            $Data{ $Map{$Key} . 'Time' }                = $TimeDiff;
 
-            # set escalation attributes
-            if (
-                !$Data{EscalationDestinationTime}
-                || $Data{EscalationDestinationTime} > $Ticket{$Key}
-                )
-            {
-                $Data{EscalationDestinationTime} = $Ticket{$Key};
-                $Data{EscalationDestinationDate} = $DestinationDate;
-                $Data{EscalationTimeWorkingTime} = $WorkingTime;
-                $Data{EscalationTime}            = $TimeDiff;
+            # set notification if notfy % is reached
+            if ( $Escalation{ $Map{$Key} . 'Notify' } ) {
+                my $Reached = 100 - ( $WorkingTime / ( $Escalation{ $Map{$Key} . 'Time' } * 60 / 100 ) );
+                if ( $Reached >= $Escalation{ $Map{$Key} . 'Notify' } ) {
+                    $Data{ $Map{$Key} . 'TimeNotification' } = 1;
+                }
+            }
+        }
 
-                # escalation time in readable way
-                $Data{EscalationDestinationIn} = '';
-                if ( $WorkingTime >= 3600 ) {
-                    $Data{EscalationDestinationIn} .= int( $WorkingTime / 3600 ) . 'h ';
-                }
-                if ( $WorkingTime <= 3600 || int( ( $WorkingTime / 60 ) % 60 ) ) {
-                    $Data{EscalationDestinationIn} .= int( ( $WorkingTime / 60 ) % 60 ) . 'm';
-                }
+        # ticket is overtime ($TimeTillEscalation < 0)
+        else {
+            $WorkingTime = $Self->{TimeObject}->WorkingTime(
+                StartTime => $Ticket{$Key},
+                StopTime  => $Time,
+                Calendar  => $Escalation{Calendar},
+            );
+            $WorkingTime = "-$WorkingTime";
+
+            # set escalation
+            $Data{ $Map{$Key} . 'TimeEscalation' } = 1;
+        }
+        my $DestinationDate = $Self->{TimeObject}->SystemTime2TimeStamp(
+            SystemTime => $Ticket{$Key},
+        );
+        $Data{ $Map{$Key} . 'TimeDestinationTime' } = $Ticket{$Key};
+        $Data{ $Map{$Key} . 'TimeDestinationDate' } = $DestinationDate;
+        $Data{ $Map{$Key} . 'TimeWorkingTime' }     = $WorkingTime;
+        $Data{ $Map{$Key} . 'Time' }                = $TimeTillEscalation;
+
+        # set global escalation attributes (aet the escalation which is the first in time)
+        if (
+            !$Data{EscalationDestinationTime}
+            || $Data{EscalationDestinationTime} > $Ticket{$Key}
+            )
+        {
+            $Data{EscalationDestinationTime} = $Ticket{$Key};
+            $Data{EscalationDestinationDate} = $DestinationDate;
+            $Data{EscalationTimeWorkingTime} = $WorkingTime;
+            $Data{EscalationTime}            = $TimeTillEscalation;
+
+            # escalation time in readable way
+            $Data{EscalationDestinationIn} = '';
+            if ( $WorkingTime >= 3600 ) {
+                $Data{EscalationDestinationIn} .= int( $WorkingTime / 3600 ) . 'h ';
+                $WorkingTime = $WorkingTime - ( int( $WorkingTime / 3600) * 3600 ); # remove already shown hours
+            }
+            if ( $WorkingTime <= 3600 || int( $WorkingTime / 60 ) ) {
+                $Data{EscalationDestinationIn} .= int( $WorkingTime / 60 ) . 'm';
             }
         }
     }
@@ -1793,9 +1794,7 @@ sub TicketEscalationIndexBuild {
         for my $Key ( keys %EscalationTimes ) {
 
             # check if table update is needed
-            if ( !$Ticket{$Key} ) {
-                next;
-            }
+            next if !$Ticket{$Key};
 
             # update ticket table
             $Self->{DBObject}->Do(
@@ -6660,6 +6659,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.347 $ $Date: 2008-10-06 16:44:37 $
+$Revision: 1.348 $ $Date: 2008-10-07 21:05:36 $
 
 =cut
