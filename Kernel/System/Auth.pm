@@ -2,7 +2,7 @@
 # Kernel/System/Auth.pm - provides the authentification
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Auth.pm,v 1.30 2008-10-02 14:08:49 martin Exp $
+# $Id: Auth.pm,v 1.31 2008-10-07 21:01:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 =head1 NAME
 
@@ -139,7 +139,7 @@ sub Auth {
         # check auth backend
         my $Return = $Self->{"Backend$_"}->Auth(%Param);
 
-        # return on not success
+        # next on no success
         next if !$Return;
 
         # remember auth backend
@@ -176,6 +176,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.30 $ $Date: 2008-10-02 14:08:49 $
+$Revision: 1.31 $ $Date: 2008-10-07 21:01:34 $
 
 =cut
