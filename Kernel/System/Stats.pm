@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.56 2008-09-19 13:21:13 mh Exp $
+# $Id: Stats.pm,v 1.56.2.1 2008-10-09 09:54:28 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.56.2.1 $) [1];
 
 =head1 SYNOPSIS
 
@@ -1675,10 +1675,6 @@ sub CompletenessCheck {
         Info     => 'Please select one element for the X-axis!',
         Priority => 'Error'
     };
-    $Notify[5] = {
-        Info     => 'You have to select two or more attributes from the select field!',
-        Priority => 'Error'
-    };
     $Notify[6] = {
         Info =>
             'Please select only one element or turn of the button \'Fixed\' where the select field is marked!',
@@ -1777,14 +1773,6 @@ sub CompletenessCheck {
             for my $Xvalue ( @{ $StatData{UseAsXvalue} } ) {
                 next XVALUE if !$Xvalue->{Selected};
 
-                if (
-                    $Xvalue->{Block} ne 'Time'
-                    && $#{ $Xvalue->{SelectedValues} } < 1
-                    && $Xvalue->{SelectedValues}[0]
-                    )
-                {
-                    push @IndexArray, 5;
-                }
                 if ( $Xvalue->{Block} eq 'Time' ) {
                     if ( $Xvalue->{TimeStart} && $Xvalue->{TimeStop} ) {
                         my $TimeStart = $Self->{TimeObject}->TimeStamp2SystemTime(
@@ -1845,13 +1833,7 @@ sub CompletenessCheck {
                     }
                     $Flag = 1;
                 }
-                elsif (
-                    $ValueSeries->{SelectedValues}[0]
-                    && $#{ $ValueSeries->{SelectedValues} } < 1
-                    )
-                {
-                    push @IndexArray, 5;
-                }
+
                 $Counter++;
             }
             if ( $Counter > 1 && $Flag ) {
@@ -3118,6 +3100,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.56 $ $Date: 2008-09-19 13:21:13 $
+$Revision: 1.56.2.1 $ $Date: 2008-10-09 09:54:28 $
 
 =cut
