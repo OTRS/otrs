@@ -2,7 +2,7 @@
 # AAAStats.dtl - $Text variable file
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AAAStats.dtl,v 1.7 2008-04-29 11:48:26 tr Exp $
+# $Id: AAAStats.dtl,v 1.8 2008-10-09 09:55:05 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,6 @@ $Text{"Please select a file!"}
 $Text{"Please select an object!"}
 $Text{"Please select a graph size!"}
 $Text{"Please select one element for the X-axis!"}
-$Text{"You have to select two or more attributes from the select field!"}
 $Text{"Please select only one element or turn off the button 'Fixed' where the select field is marked!"}
 $Text{"If you use a checkbox you have to select some attributes of the select field!"}
 $Text{"Please insert a value in the selected input field or turn off the 'Fixed' checkbox!"}

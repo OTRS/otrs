@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.766 2008-10-02 11:19:48 martin Exp $
+# $Id: CHANGES,v 1.767 2008-10-09 09:55:05 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,6 +16,9 @@
     user, customer and queue preferences. Can be extended by config settings.
  - (2008/10/02) Improved package manager to get info about documentation
     availabe in online repository packages.
+
+2.3.4 (2008/??/??)
+   (2008/10/09) Fixed bug# 3358 - Removed useless error warning in stats module.
 
 2.3.3 (2008/10/02)
  - (2008/09/30) Fixed bug# 3335 - No user name in pdf - print of stats-report

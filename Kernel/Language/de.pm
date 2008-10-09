@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.171 2008-09-24 11:39:25 mh Exp $
+# $Id: de.pm,v 1.172 2008-10-09 09:55:05 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.171 $) [1];
+$VERSION = qw($Revision: 1.172 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -344,7 +344,6 @@ sub Data {
         'Please select an object!' => 'Bitte wählen Sie ein Statistik-Objekt aus!',
         'Please select a graph size!' => 'Bitte legen Sie die Graphikgröße fest!',
         'Please select one element for the X-axis!' => 'Bitte wählen Sie ein Element für die X-Achse aus!',
-        'You have to select two or more attributes from the select field!' => 'Sie müssen mindestens zwei Attribute des Auswahlfelds auswählen!',
         'Please select only one element or turn off the button \'Fixed\' where the select field is marked!' => 'Bitte wählen Sie nur ein Element aus oder entfernen Sie das Häkchen der Checkbox \'Fixed\'!',
         'If you use a checkbox you have to select some attributes of the select field!' => 'Wenn Sie Inhalte eines Auswahlfelds auswählen müssen Sie mindestens zwei Attribute auswählen!',
         'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!' => 'Tragen Sie bitte etwas in die Eingabezeile ein oder entfernen Sie das Häkchen aus der Checkbox \'Fixed\'!',
@@ -1071,7 +1070,7 @@ sub Data {
         'Select the element, which will be used at the X-axis' => 'Auswahl des Elements, welches für die X-Achse genutzt wird.',
         'maximal period' => 'maximaler Zeitraum',
         'minimal scale' => 'minimale Skalierung',
-        'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Auf dieser Seite wird die X-Achse definert. Sie können ein Element per Optionsfeld auswählen. Anschließend müssen zwei oder mehr Attribute des Elements ausgewählt werden. Wenn Sie keine Attribute des Elements auswählen werden alle Attribute verwendet. Auch solche die nach der Konfiguration der Statistik erst hinzukommen.',
+        'Here you can define the x-axis. You can select one element via the radio button. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Auf dieser Seite wird die X-Achse definert. Sie können ein Element per Optionsfeld auswählen. Wenn Sie keine Attribute des Elements auswählen werden alle Attribute verwendet. Auch solche die nach der Konfiguration der Statistik erst hinzukommen.',
 
         # Template: AgentStatsImport
         'Import' => 'Import',
