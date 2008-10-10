@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter/Match.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Match.pm,v 1.10 2008-10-10 15:15:40 ho Exp $
+# $Id: Match.pm,v 1.11 2008-10-10 15:36:27 ho Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -56,15 +56,14 @@ sub Run {
     my $MatchedNot = 0;
     for ( sort keys %Match ) {
         if ( $Param{GetParam}->{$_} && $Param{GetParam}->{$_} =~ /$Match{$_}/i ) {
-		# don't loose older match values if more than one header is
-		# used for matching.
-		if ($1) {
-			$Matched = $1;
-		}
-		else {
-			$Matched = '1';
-		}
-            $Matched = $1 || '1';
+	    # don't lose older match values if more than one header is
+	    # used for matching.
+	    if ($1) {
+		$Matched = $1;
+	    }
+	    else {
+		$Matched = '1';
+	    }
             if ( $Self->{Debug} > 1 ) {
                 $Self->{LogObject}->Log(
                     Priority => 'debug',
