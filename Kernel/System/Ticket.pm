@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.348 2008-10-07 21:05:36 martin Exp $
+# $Id: Ticket.pm,v 1.349 2008-10-13 13:22:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.348 $) [1];
+$VERSION = qw($Revision: 1.349 $) [1];
 
 =head1 NAME
 
@@ -1842,7 +1842,7 @@ sub TicketEscalationIndexBuild {
                 . ' a.article_type_id = art.id AND'
                 . ' a.ticket_id = ? AND'
                 . ' ast.name = \'agent\' AND'
-                . ' (art.name LIKE \'email-ext%\' OR art.name = \'phone\' OR art.name = \'fax\')'
+                . ' (art.name LIKE \'email-ext%\' OR art.name LIKE \'note-ext%\' OR art.name = \'phone\' OR art.name = \'fax\' OR art.name LIKE \'sms\')'
                 . ' ORDER BY a.create_time',
             Bind  => [ \$Ticket{TicketID} ],
             Limit => 1,
@@ -6659,6 +6659,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.348 $ $Date: 2008-10-07 21:05:36 $
+$Revision: 1.349 $ $Date: 2008-10-13 13:22:44 $
 
 =cut
