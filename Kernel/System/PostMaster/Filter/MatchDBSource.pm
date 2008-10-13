@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter/MatchDBSource.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: MatchDBSource.pm,v 1.13 2008-08-20 15:10:38 mh Exp $
+# $Id: MatchDBSource.pm,v 1.13.2.1 2008-10-13 21:23:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::PostMaster::Filter;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.13.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -92,7 +92,15 @@ sub Run {
                 }
             }
             elsif ( $Param{GetParam}->{$_} && $Param{GetParam}->{$_} =~ /$Match{$_}/i ) {
-                $Matched = $1 || '1';
+
+                # don't lose older match values if more than one header is
+                # used for matching.
+                if ($1) {
+                    $Matched = $1;
+                }
+                else {
+                    $Matched = $Matched || '1';
+                }
                 if ( $Self->{Debug} > 1 ) {
                     $Self->{LogObject}->Log(
                         Priority => 'debug',
