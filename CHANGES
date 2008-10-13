@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.768 2008-10-13 13:22:44 martin Exp $
+# $Id: CHANGES,v 1.769 2008-10-13 21:22:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,6 +18,8 @@
     availabe in online repository packages.
 
 2.3.4 (2008/??/??)
+ - (2008/10/13) Fixed bug# 3373 - Postmaster match filter is losing [***] on
+    second time.
  - (2008/10/13) Fixed bug# 3367 - Escalation of first response gets not changed
     on note-external (which was working in OTRS 2.2.x).
  - (2008/10/09) Fixed bug# 3358 - Removed useless error warning in stats module.
