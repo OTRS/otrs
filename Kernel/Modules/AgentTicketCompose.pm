@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.44 2008-05-22 21:44:15 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.45 2008-10-14 09:33:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -161,7 +161,7 @@ sub Run {
     my %GetParam = ();
     for (
         qw(
-        From To Cc Bcc Subject Body InReplyTo ResponseID ReplyArticleID StateID
+        From To Cc Bcc Subject Body InReplyTo References ResponseID ReplyArticleID StateID
         ArticleID TimeUnits Year Month Day Hour Minute AttachmentUpload
         AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
         AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
@@ -412,6 +412,7 @@ sub Run {
             UserID         => $Self->{UserID},
             Body           => $GetParam{Body},
             InReplyTo      => $GetParam{InReplyTo},
+            References     => $GetParam{References},
             Charset        => $Self->{LayoutObject}->{UserCharset},
             Type           => 'text/plain',
             Attachment     => \@AttachmentData,
@@ -933,6 +934,8 @@ sub Run {
             ReplyArticleID => $GetParam{ArticleID},
             %Ticket,
             %Data,
+            InReplyTo      => $Data{MessageID},
+            References     => "$Data{References} $Data{MessageID}",
             %TicketFreeTextHTML,
             %TicketFreeTimeHTML,
             %ArticleFreeTextHTML,

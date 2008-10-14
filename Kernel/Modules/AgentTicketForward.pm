@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.30 2008-05-08 09:36:36 mh Exp $
+# $Id: AgentTicketForward.pm,v 1.31 2008-10-14 09:33:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -49,7 +49,7 @@ sub new {
 
     # get params
     for (
-        qw(From To Cc Bcc Subject Body InReplyTo ComposeStateID ArticleTypeID
+        qw(From To Cc Bcc Subject Body InReplyTo References ComposeStateID ArticleTypeID
         ArticleID TimeUnits Year Month Day Hour Minute AttachmentUpload
         AttachmentDelete1 AttachmentDelete2 AttachmentDelete3 AttachmentDelete4
         AttachmentDelete5 AttachmentDelete6 AttachmentDelete7 AttachmentDelete8
@@ -442,6 +442,8 @@ sub Form {
         Attachments  => \@Attachments,
         %Data,
         %GetParam,
+        InReplyTo    => $Data{MessageID},
+        References   => "$Data{References} $Data{MessageID}",
         %TicketFreeTextHTML,
         %TicketFreeTimeHTML,
     );
@@ -640,8 +642,9 @@ sub SendEmail {
     }
 
     # get pre loaded attachments
-    my @AttachmentData
-        = $Self->{UploadCachObject}->FormIDGetAllFilesData( FormID => $GetParam{FormID}, );
+    my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
+        FormID => $GetParam{FormID},
+    );
 
     # get submit attachment
     my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
@@ -653,134 +656,131 @@ sub SendEmail {
     }
 
     # send email
-    if (
-        my $ArticleID = $Self->{TicketObject}->ArticleSend(
-            ArticleTypeID  => $Self->{GetParam}->{ArticleTypeID},
-            SenderType     => 'agent',
-            TicketID       => $Self->{TicketID},
-            HistoryType    => 'Forward',
-            HistoryComment => "\%\%$GetParam{To}, $GetParam{Cc}, $GetParam{Bcc}",
-            From           => $GetParam{From},
-            To             => $GetParam{To},
-            Cc             => $GetParam{Cc},
-            Bcc            => $GetParam{Bcc},
-            Subject        => $GetParam{Subject},
-            UserID         => $Self->{UserID},
-            Body           => $GetParam{Body},
-            InReplyTo      => $GetParam{InReplyTo},
-            Charset        => $Self->{LayoutObject}->{UserCharset},
-            Type           => 'text/plain',
-            Attachment     => \@AttachmentData,
-            %ArticleParam,
-        )
-        )
-    {
+    my $ArticleID = $Self->{TicketObject}->ArticleSend(
+        ArticleTypeID  => $Self->{GetParam}->{ArticleTypeID},
+        SenderType     => 'agent',
+        TicketID       => $Self->{TicketID},
+        HistoryType    => 'Forward',
+        HistoryComment => "\%\%$GetParam{To}, $GetParam{Cc}, $GetParam{Bcc}",
+        From           => $GetParam{From},
+        To             => $GetParam{To},
+        Cc             => $GetParam{Cc},
+        Bcc            => $GetParam{Bcc},
+        Subject        => $GetParam{Subject},
+        UserID         => $Self->{UserID},
+        Body           => $GetParam{Body},
+        InReplyTo      => $GetParam{InReplyTo},
+        References     => $GetParam{References},
+        Charset        => $Self->{LayoutObject}->{UserCharset},
+        Type           => 'text/plain',
+        Attachment     => \@AttachmentData,
+        %ArticleParam,
+    );
 
-        # time accounting
-        if ( $GetParam{TimeUnits} ) {
-            $Self->{TicketObject}->TicketAccountTime(
-                TicketID  => $Self->{TicketID},
-                ArticleID => $ArticleID,
-                TimeUnit  => $GetParam{TimeUnits},
-                UserID    => $Self->{UserID},
-            );
-        }
+    # error page
+    if ( !$ArticleID) {
+        return $Self->{LayoutObject}->ErrorScreen( Comment => 'Please contact the admin.', );
+    }
 
-        # update ticket free text
-        for ( 1 .. 16 ) {
-            my $FreeKey   = $Self->{ParamObject}->GetParam( Param => "TicketFreeKey$_" );
-            my $FreeValue = $Self->{ParamObject}->GetParam( Param => "TicketFreeText$_" );
-            if ( defined($FreeKey) && defined($FreeValue) ) {
-                $Self->{TicketObject}->TicketFreeTextSet(
-                    Key      => $FreeKey,
-                    Value    => $FreeValue,
-                    Counter  => $_,
-                    TicketID => $Self->{TicketID},
-                    UserID   => $Self->{UserID},
-                );
-            }
-        }
-
-        # set ticket free time
-        for ( 1 .. 6 ) {
-            if (
-                defined( $GetParam{ "TicketFreeTime" . $_ . "Year" } )
-                && defined( $GetParam{ "TicketFreeTime" . $_ . "Month" } )
-                && defined( $GetParam{ "TicketFreeTime" . $_ . "Day" } )
-                && defined( $GetParam{ "TicketFreeTime" . $_ . "Hour" } )
-                && defined( $GetParam{ "TicketFreeTime" . $_ . "Minute" } )
-                )
-            {
-                my %Time;
-                $Time{ "TicketFreeTime" . $_ . "Year" }    = 0;
-                $Time{ "TicketFreeTime" . $_ . "Month" }   = 0;
-                $Time{ "TicketFreeTime" . $_ . "Day" }     = 0;
-                $Time{ "TicketFreeTime" . $_ . "Hour" }    = 0;
-                $Time{ "TicketFreeTime" . $_ . "Minute" }  = 0;
-                $Time{ "TicketFreeTime" . $_ . "Secunde" } = 0;
-
-                if ( $GetParam{ "TicketFreeTime" . $_ . "Used" } ) {
-                    %Time = $Self->{LayoutObject}->TransfromDateSelection(
-                        %GetParam, Prefix => "TicketFreeTime" . $_,
-                    );
-                }
-                $Self->{TicketObject}->TicketFreeTimeSet(
-                    %Time,
-                    Prefix   => "TicketFreeTime",
-                    TicketID => $Self->{TicketID},
-                    Counter  => $_,
-                    UserID   => $Self->{UserID},
-                );
-            }
-        }
-
-        # set state
-        $Self->{TicketObject}->StateSet(
+    # time accounting
+    if ( $GetParam{TimeUnits} ) {
+        $Self->{TicketObject}->TicketAccountTime(
             TicketID  => $Self->{TicketID},
             ArticleID => $ArticleID,
-            State     => $NextState,
+            TimeUnit  => $GetParam{TimeUnits},
             UserID    => $Self->{UserID},
         );
+    }
 
-        # should I set an unlock?
-        if ( $StateData{TypeName} =~ /^close/i ) {
-            $Self->{TicketObject}->LockSet(
+    # update ticket free text
+    for ( 1 .. 16 ) {
+        my $FreeKey   = $Self->{ParamObject}->GetParam( Param => "TicketFreeKey$_" );
+        my $FreeValue = $Self->{ParamObject}->GetParam( Param => "TicketFreeText$_" );
+        if ( defined($FreeKey) && defined($FreeValue) ) {
+            $Self->{TicketObject}->TicketFreeTextSet(
+                Key      => $FreeKey,
+                Value    => $FreeValue,
+                Counter  => $_,
                 TicketID => $Self->{TicketID},
-                Lock     => 'unlock',
                 UserID   => $Self->{UserID},
-            );
-        }
-
-        # set pending time
-        elsif ( $StateData{TypeName} =~ /^pending/i ) {
-            $Self->{TicketObject}->TicketPendingTimeSet(
-                UserID   => $Self->{UserID},
-                TicketID => $Self->{TicketID},
-                Year     => $GetParam{Year},
-                Month    => $GetParam{Month},
-                Day      => $GetParam{Day},
-                Hour     => $GetParam{Hour},
-                Minute   => $GetParam{Minute},
-            );
-        }
-
-        # remove pre submited attachments
-        $Self->{UploadCachObject}->FormIDRemove( FormID => $GetParam{FormID} );
-
-        # redirect
-        if ( $StateData{TypeName} =~ /^close/i ) {
-            return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenOverview} );
-        }
-        else {
-            return $Self->{LayoutObject}->Redirect(
-                OP => "Action=AgentTicketZoom&TicketID=$Self->{TicketID}&ArticleID=$ArticleID"
             );
         }
     }
-    else {
 
-        # error page
-        return $Self->{LayoutObject}->ErrorScreen( Comment => 'Please contact the admin.', );
+    # set ticket free time
+    for ( 1 .. 6 ) {
+        if (
+            defined( $GetParam{ "TicketFreeTime" . $_ . "Year" } )
+            && defined( $GetParam{ "TicketFreeTime" . $_ . "Month" } )
+            && defined( $GetParam{ "TicketFreeTime" . $_ . "Day" } )
+            && defined( $GetParam{ "TicketFreeTime" . $_ . "Hour" } )
+            && defined( $GetParam{ "TicketFreeTime" . $_ . "Minute" } )
+            )
+        {
+            my %Time;
+            $Time{ "TicketFreeTime" . $_ . "Year" }    = 0;
+            $Time{ "TicketFreeTime" . $_ . "Month" }   = 0;
+            $Time{ "TicketFreeTime" . $_ . "Day" }     = 0;
+            $Time{ "TicketFreeTime" . $_ . "Hour" }    = 0;
+            $Time{ "TicketFreeTime" . $_ . "Minute" }  = 0;
+            $Time{ "TicketFreeTime" . $_ . "Secunde" } = 0;
+
+            if ( $GetParam{ "TicketFreeTime" . $_ . "Used" } ) {
+                %Time = $Self->{LayoutObject}->TransfromDateSelection(
+                    %GetParam, Prefix => "TicketFreeTime" . $_,
+                );
+            }
+            $Self->{TicketObject}->TicketFreeTimeSet(
+                %Time,
+                Prefix   => "TicketFreeTime",
+                TicketID => $Self->{TicketID},
+                Counter  => $_,
+                UserID   => $Self->{UserID},
+            );
+        }
+    }
+
+    # set state
+    $Self->{TicketObject}->StateSet(
+        TicketID  => $Self->{TicketID},
+        ArticleID => $ArticleID,
+        State     => $NextState,
+        UserID    => $Self->{UserID},
+    );
+
+    # should I set an unlock?
+    if ( $StateData{TypeName} =~ /^close/i ) {
+        $Self->{TicketObject}->LockSet(
+            TicketID => $Self->{TicketID},
+            Lock     => 'unlock',
+            UserID   => $Self->{UserID},
+        );
+    }
+
+    # set pending time
+    elsif ( $StateData{TypeName} =~ /^pending/i ) {
+        $Self->{TicketObject}->TicketPendingTimeSet(
+            UserID   => $Self->{UserID},
+            TicketID => $Self->{TicketID},
+            Year     => $GetParam{Year},
+            Month    => $GetParam{Month},
+            Day      => $GetParam{Day},
+            Hour     => $GetParam{Hour},
+            Minute   => $GetParam{Minute},
+        );
+    }
+
+    # remove pre submited attachments
+    $Self->{UploadCachObject}->FormIDRemove( FormID => $GetParam{FormID} );
+
+    # redirect
+    if ( $StateData{TypeName} =~ /^close/i ) {
+        return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenOverview} );
+    }
+    else {
+        return $Self->{LayoutObject}->Redirect(
+            OP => "Action=AgentTicketZoom&TicketID=$Self->{TicketID}&ArticleID=$ArticleID"
+        );
     }
 }
 

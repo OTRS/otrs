@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.45 2008-08-20 15:10:37 mh Exp $
+# $Id: Email.pm,v 1.46 2008-10-14 09:31:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 =head1 NAME
 
@@ -110,14 +110,16 @@ sub new {
 
 To send an email without already created header:
 
-    if ($SendObject->Send(
-        From    => 'me@example.com',
-        To      => 'friend@example.com',
-        Subject => 'Some words!',
-        Type    => 'text/plain',
-        Charset => 'iso-8859-15',
-        Body    => 'Some nice text',
-        Loop    => 1, # not required, removes smtp from
+    my $Sent = $SendObject->Send(
+        From       => 'me@example.com',
+        To         => 'friend@example.com',
+        Subject    => 'Some words!',
+        Type       => 'text/plain',
+        Charset    => 'iso-8859-15',
+        Body       => 'Some nice text',
+        InReplyTo  => '<somemessageid-2@example.com>',
+        References => '<somemessageid-1@example.com> <somemessageid-2@example.com>',
+        Loop       => 1, # not required, removes smtp from
         Attachment => [
             {
                 Filename    => "somefile.csv",
@@ -146,7 +148,9 @@ To send an email without already created header:
             Type => 'SMIME',
             Key  => '3b630c80',
         },
-    )) {
+    );
+
+    if ($Sent) {
         print "Email sent!\n";
     }
     else {
@@ -223,9 +227,8 @@ sub Send {
     # build header
     my %Header = ();
     for (qw(From To Cc Subject Charset Reply-To)) {
-        if ( $Param{$_} ) {
-            $Header{$_} = $Param{$_};
-        }
+        next if !$Param{$_};
+        $Header{$_} = $Param{$_};
     }
 
     # loop
@@ -236,19 +239,19 @@ sub Send {
 
     # do some encode
     for (qw(From To Cc Subject)) {
-        if ( $Header{$_} ) {
-            $Header{$_} = $Self->_EncodeMIMEWords(
-                Field   => $_,
-                Line    => $Header{$_},
-                Charset => $Param{Charset},
-            );
-        }
+        next if !$Header{$_};
+        $Header{$_} = $Self->_EncodeMIMEWords(
+            Field   => $_,
+            Line    => $Header{$_},
+            Charset => $Param{Charset},
+        );
     }
-    $Header{'X-Mailer'} = $Self->{ConfigObject}->Get('Product')
+    my $XMailer = $Self->{ConfigObject}->Get('Product')
         . ' Mail Service ('
         . $Self->{ConfigObject}->Get('Version') . ')';
+    $Header{'X-Mailer'}     = $XMailer;
     $Header{'X-Powered-By'} = 'OTRS - Open Ticket Request System (http://otrs.org/)';
-    $Header{Type} = $Param{Type} || 'text/plain';
+    $Header{Type}           = $Param{Type} || 'text/plain';
 
     # define email encoding
     if ( $Param{Charset} && $Param{Charset} =~ /^iso/i ) {
@@ -275,10 +278,6 @@ sub Send {
     else {
         $Header{'Message-ID'} = $Self->_MessageIDCreate();
     }
-    if ( $Param{'In-Reply-To'} ) {
-        $Header{'In-Reply-To'} = $Param{'In-Reply-To'};
-        $Header{References} = $Param{'In-Reply-To'};
-    }
 
     # add date header
     $Header{Date} = 'Date: ' . $Self->{TimeObject}->MailTimeStamp();
@@ -295,6 +294,16 @@ sub Send {
 
     # build MIME::Entity
     my $Entity = MIME::Entity->build( %Header, Data => $Param{Body} );
+
+    # set In-Reply-To and References header
+    my $Header = $Entity->head;
+    if ($Param{InReplyTo}) {
+        $Param{'In-Reply-To'} = $Param{InReplyTo};
+    }
+    for my $Key ('In-Reply-To', 'References') {
+        next if !$Param{$Key};
+        $Header->replace( $Key, $Param{$Key} );
+    }
 
     # add attachments to email
     if ( $Param{Attachment} ) {
@@ -696,6 +705,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.45 $ $Date: 2008-08-20 15:10:37 $
+$Revision: 1.46 $ $Date: 2008-10-14 09:31:39 $
 
 =cut
