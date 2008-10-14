@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.185 2008-07-25 12:10:35 rk Exp $
+# $Id: Article.pm,v 1.186 2008-10-14 10:45:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.185 $) [1];
+$VERSION = qw($Revision: 1.186 $) [1];
 
 =head1 NAME
 
@@ -42,22 +42,24 @@ create an article
 
     my $ArticleID = $TicketObject->ArticleCreate(
         TicketID         => 123,
-        ArticleType      => 'note-internal',                   # email-external|email-internal|phone|fax|...
-        SenderType       => 'agent',                           # agent|system|customer
-        From             => 'Some Agent <email@example.com>',  # not required but useful
+        ArticleType      => 'note-internal',                        # email-external|email-internal|phone|fax|...
+        SenderType       => 'agent',                                # agent|system|customer
+        From             => 'Some Agent <email@example.com>',       # not required but useful
         To               => 'Some Customer A <customer-a@example.com>', # not required but useful
         Cc               => 'Some Customer B <customer-b@example.com>', # not required but useful
         ReplyTo          => 'Some Customer B <customer-b@example.com>', # not required
-        Subject          => 'some short description',          # required
-        Body             => 'the message text',                # required
-        MessageID        => '<asdasdasd.123@example.com>',     # not required but useful
+        Subject          => 'some short description',               # required
+        Body             => 'the message text',                     # required
+        MessageID        => '<asdasdasd.123@example.com>',          # not required but useful
+        InReplyTo        => '<asdasdasd.12@example.com>',           # not required but useful
+        References       => '<asdasdasd.1@example.com> <asdasdasd.12@example.com>', # not required but useful
         ContentType      => 'text/plain; charset=ISO-8859-15',
-        HistoryType      => 'OwnerUpdate',                     # EmailCustomer|Move|AddNote|PriorityUpdate|WebRequestCustomer|...
+        HistoryType      => 'OwnerUpdate',                          # EmailCustomer|Move|AddNote|PriorityUpdate|WebRequestCustomer|...
         HistoryComment   => 'Some free text!',
         UserID           => 123,
-        NoAgentNotify    => 0,                                 # if you don't want to send agent notifications
-        AutoResponseType => 'auto reply'                       # auto reject|auto follow up|auto follow up|auto remove
-        ForceNotificationToUserID => [1,43,56],                # if you want to force somebody
+        NoAgentNotify    => 0,                                      # if you don't want to send agent notifications
+        AutoResponseType => 'auto reply'                            # auto reject|auto follow up|auto follow up|auto remove
+        ForceNotificationToUserID => [1,43,56],                     # if you want to force somebody
     );
 
 =cut
@@ -95,6 +97,45 @@ sub ArticleCreate {
         $Param{Body} = 'No body';
     }
 
+    # process html article
+    elsif (
+        $Param{Body} =~ /</ &&
+        $Param{ContentType} &&
+        $Param{ContentType} =~ /text\/html/i
+        )
+    {
+        my $Attach = {
+            Content     => $Param{Body},
+            ContentType => "text/html, charset=\"$Param{Charset}\"",
+            Filename    => 'HTML-Attachment.html',
+        };
+        push ( @{ $Param{Attachment} }, $Attach );
+
+        # set ascii body
+        $Param{ContentType} = 'text/plain';
+        $Param{Body}        = $Self->HTML2Ascii(
+            Body => $Param{Body},
+        );
+    }
+
+    # if body isn't text, attach body as attachment (mostly done by OE) :-/
+    elsif ( $Param{ContentType} && $Param{ContentType} !~ /\btext\b/i ) {
+        my $FileName = 'unknown';
+        if ( $Param{ContentType} =~ /name="(.+?)"/i ) {
+            $FileName = $1;
+        }
+        my $Attach = {
+            Content     => $Param{Body},
+            ContentType => $Param{ContentType},
+            Filename    => $FileName,
+        };
+        push ( @{ $Param{Attachment} }, $Attach );
+
+        # set ascii body
+        $Param{ContentType} = 'text/plain';
+        $Param{Body}        = '- no text message => see attachment -';
+    }
+
     # if body isn't text, attach body as attachment (mostly done by OE) :-/
     elsif ( $Param{ContentType} && $Param{ContentType} !~ /\btext\b/i ) {
         $Param{AttachContentType} = $Param{ContentType};
@@ -109,7 +150,7 @@ sub ArticleCreate {
     }
 
     # strip not wanted stuff
-    for (qw(From To Cc Subject MessageID ReplyTo)) {
+    for (qw(From To Cc Subject MessageID InReplyTo References ReplyTo)) {
         if ( defined $Param{$_} ) {
             $Param{$_} =~ s/\n|\r//g;
         }
@@ -117,22 +158,27 @@ sub ArticleCreate {
             $Param{$_} = '';
         }
     }
+    for (qw(InReplyTo References)) {
+        next if !$Param{$_};
+        $Param{$_} = substr( $Param{$_}, 0, 3800 );
+    }
 
     # do db insert
     return if !$Self->{DBObject}->Do(
         SQL => 'INSERT INTO article '
             . '(ticket_id, article_type_id, article_sender_type_id, a_from, a_reply_to, a_to, '
-            . 'a_cc, a_subject, a_message_id, a_body, a_content_type, content_path, '
-            . 'valid_id, incoming_time,  create_time, create_by, change_time, change_by) '
+            . 'a_cc, a_subject, a_message_id, a_in_reply_to, a_references, a_body, a_content_type, '
+            . 'content_path, valid_id, incoming_time, create_time, create_by, change_time, change_by) '
             . 'VALUES '
-            . '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+            . '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
             \$Param{TicketID}, \$Param{ArticleTypeID}, \$Param{SenderTypeID},
-            \$Param{From},     \$Param{ReplyTo},       \$Param{To}, \$Param{Cc},
-            \$Param{Subject},  \$Param{MessageID},     \$Param{Body},
-            \$Param{ContentType}, \$Self->{ArticleContentPath},
-            \$ValidID, \$IncomingTime,
-            \$Param{UserID}, \$Param{UserID},
+            \$Param{From},     \$Param{ReplyTo},       \$Param{To},
+            \$Param{Cc},       \$Param{Subject},       \$Param{MessageID},
+            \$Param{InReplyTo},\$Param{References},    \$Param{Body},
+            \$Param{ContentType},
+            \$Self->{ArticleContentPath},              \$ValidID,
+            \$IncomingTime,     \$Param{UserID},       \$Param{UserID},
         ],
     );
 
@@ -149,24 +195,20 @@ sub ArticleCreate {
     if ( !$ArticleID ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Can't get ArticleID from INSERT!",
+            Message  => 'Can\'t get ArticleID from INSERT!',
         );
         return;
     }
 
-    # if body isn't text, attach body as attachment (mostly done by OE) :-/
-    if ( $Param{AttachContentType} && $Param{AttachBody} ) {
-        my $FileName = 'unknown';
-        if ( $Param{AttachContentType} =~ /name="(.+?)"/i ) {
-            $FileName = $1;
+    # add attachments
+    if ( $Param{Attachment} ) {
+        for my $Attachment ( @{ $Param{Attachment} } ) {
+            $Self->ArticleWriteAttachment(
+                %{ $Attachment },
+                ArticleID   => $ArticleID,
+                UserID      => $Param{UserID},
+            );
         }
-        $Self->ArticleWriteAttachment(
-            Content     => $Param{AttachBody},
-            Filename    => $FileName,
-            ContentType => $Param{AttachContentType},
-            ArticleID   => $ArticleID,
-            UserID      => $Param{UserID},
-        );
     }
 
     # add history row
@@ -343,11 +385,7 @@ sub ArticleCreate {
     }
 
     # send no agent notification!?
-    if ( $Param{NoAgentNotify} ) {
-
-        # return ArticleID
-        return $ArticleID;
-    }
+    return $ArticleID if ( $Param{NoAgentNotify} );
 
     # send agent notification!?
     my $To          = '';
@@ -358,27 +396,24 @@ sub ArticleCreate {
         )
     {
         for ( $Self->GetSubscribedUserIDsByQueueID( QueueID => $Ticket{QueueID} ) ) {
-            if ( $AlreadySent{$_} ) {
-                next;
-            }
+            next if $AlreadySent{$_};
             $AlreadySent{$_} = 1;
             my %UserData = $Self->{UserObject}->GetUserData(
                 UserID => $_,
                 Cached => 1,
                 Valid  => 1,
             );
-            if ( $UserData{UserSendNewTicketNotification} ) {
+            next if !$UserData{UserSendNewTicketNotification};
 
-                # send notification
-                $Self->SendAgentNotification(
-                    Type                  => $Param{HistoryType},
-                    UserData              => \%UserData,
-                    CustomerMessageParams => \%Param,
-                    TicketID              => $Param{TicketID},
-                    Queue                 => $Param{Queue},
-                    UserID                => $Param{UserID},
-                );
-            }
+            # send notification
+            $Self->SendAgentNotification(
+                Type                  => $Param{HistoryType},
+                UserData              => \%UserData,
+                CustomerMessageParams => \%Param,
+                TicketID              => $Param{TicketID},
+                Queue                 => $Param{Queue},
+                UserID                => $Param{UserID},
+            );
         }
     }
     elsif ( $Param{HistoryType} =~ /^AddNote$/i ) {
@@ -386,9 +421,7 @@ sub ArticleCreate {
         # send owner/responsible notification to agent
         for (qw(OwnerID ResponsibleID)) {
             if ( $Ticket{$_} && $Ticket{$_} ne 1 && $Ticket{$_} ne $Param{UserID} ) {
-                if ( $AlreadySent{ $Ticket{$_} } ) {
-                    next;
-                }
+                next if $AlreadySent{ $Ticket{$_} };
                 $AlreadySent{ $Ticket{$_} } = 1;
                 my %UserData = $Self->{UserObject}->GetUserData(
                     UserID => $Ticket{$_},
@@ -436,18 +469,17 @@ sub ArticleCreate {
                         Cached => 1,
                         Valid  => 1,
                     );
-                    if ( $UserData{UserSendFollowUpNotification} ) {
+                    next if !$UserData{UserSendFollowUpNotification};
 
-                        # send notification
-                        $Self->SendAgentNotification(
-                            Type                  => $Param{HistoryType},
-                            UserData              => \%UserData,
-                            CustomerMessageParams => \%Param,
-                            TicketID              => $Param{TicketID},
-                            Queue                 => $Param{Queue},
-                            UserID                => $Param{UserID},
-                        );
-                    }
+                    # send notification
+                    $Self->SendAgentNotification(
+                        Type                  => $Param{HistoryType},
+                        UserData              => \%UserData,
+                        CustomerMessageParams => \%Param,
+                        TicketID              => $Param{TicketID},
+                        Queue                 => $Param{Queue},
+                        UserID                => $Param{UserID},
+                    );
                 }
             }
         }
@@ -456,27 +488,24 @@ sub ArticleCreate {
         else {
             for my $Type (qw(OwnerID ResponsibleID)) {
                 if ( $Ticket{$Type} && $Ticket{$Type} ne 1 ) {
-                    if ( $AlreadySent{ $Ticket{$Type} } ) {
-                        next;
-                    }
+                    next if $AlreadySent{ $Ticket{$Type} };
                     $AlreadySent{ $Ticket{$Type} } = 1;
                     my %UserData = $Self->{UserObject}->GetUserData(
                         UserID => $Ticket{$Type},
                         Cached => 1,
                         Valid  => 1,
                     );
-                    if ( $UserData{UserSendFollowUpNotification} ) {
+                    next if !$UserData{UserSendFollowUpNotification};
 
-                        # send notification
-                        $Self->SendAgentNotification(
-                            Type                  => $Param{HistoryType},
-                            UserData              => \%UserData,
-                            CustomerMessageParams => \%Param,
-                            TicketID              => $Param{TicketID},
-                            Queue                 => $Param{Queue},
-                            UserID                => $Param{UserID},
-                        );
-                    }
+                    # send notification
+                    $Self->SendAgentNotification(
+                        Type                  => $Param{HistoryType},
+                        UserData              => \%UserData,
+                        CustomerMessageParams => \%Param,
+                        TicketID              => $Param{TicketID},
+                        Queue                 => $Param{Queue},
+                        UserID                => $Param{UserID},
+                    );
                 }
             }
 
@@ -519,9 +548,7 @@ sub ArticleCreate {
     if ( $Param{ForceNotificationToUserID} && ref $Param{ForceNotificationToUserID} eq 'ARRAY' )
     {
         for my $UserID ( @{ $Param{ForceNotificationToUserID} } ) {
-            if ( $AlreadySent{$UserID} ) {
-                next;
-            }
+            next if $AlreadySent{$UserID};
 
             # remember already sent info
             $AlreadySent{$UserID} = 1;
@@ -1353,7 +1380,7 @@ sub ArticleGet {
     my @Content = ();
     my @Bind;
     my $SQL = 'SELECT sa.ticket_id, sa.a_from, sa.a_to, sa.a_cc, sa.a_subject, '
-        . ' sa.a_reply_to, sa.a_message_id, sa.a_body, '
+        . ' sa.a_reply_to, sa.a_message_id, sa.a_in_reply_to, sa.a_references, sa.a_body, '
         . ' st.create_time_unix, st.ticket_state_id, st.queue_id, sa.create_time, '
         . ' sa.a_content_type, sa.create_by, st.tn, article_sender_type_id, st.customer_id, '
         . ' st.until_time, st.ticket_priority_id, st.customer_user_id, st.user_id, '
@@ -1394,42 +1421,44 @@ sub ArticleGet {
     my %Ticket = ();
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         my %Data;
-        $Data{ArticleID}                = $Row[31];
+        $Data{ArticleID}                = $Row[33];
         $Data{TicketID}                 = $Row[0];
         $Ticket{TicketID}               = $Data{TicketID};
-        $Data{Title}                    = $Row[65];
+        $Data{Title}                    = $Row[67];
         $Ticket{Title}                  = $Data{Title};
-        $Data{EscalationTime}           = $Row[78];
+        $Data{EscalationTime}           = $Row[80];
         $Ticket{EscalationTime}         = $Data{EscalationTime};
-        $Data{EscalationUpdateTime}     = $Row[66];
+        $Data{EscalationUpdateTime}     = $Row[68];
         $Ticket{EscalationUpdateTime}   = $Data{EscalationUpdateTime};
-        $Data{EscalationResponseTime}   = $Row[76];
+        $Data{EscalationResponseTime}   = $Row[78];
         $Ticket{EscalationResponseTime} = $Data{EscalationResponseTime};
-        $Data{EscalationSolutionTime}   = $Row[77];
+        $Data{EscalationSolutionTime}   = $Row[79];
         $Ticket{EscalationSolutionTime} = $Data{EscalationSolutionTime};
         $Data{From}                     = $Row[1];
         $Data{To}                       = $Row[2];
         $Data{Cc}                       = $Row[3];
         $Data{Subject}                  = $Row[4];
         $Data{ReplyTo}                  = $Row[5];
-        $Data{InReplyTo}                = $Row[6];
-        $Data{Body}                     = $Row[7];
-        $Data{Age}                      = $Self->{TimeObject}->SystemTime() - $Row[8];
-        $Ticket{CreateTimeUnix}         = $Row[8];
-        $Ticket{Created}    = $Self->{TimeObject}->SystemTime2TimeStamp( SystemTime => $Row[8] );
-        $Data{PriorityID}   = $Row[18];
-        $Ticket{PriorityID} = $Row[18];
-        $Data{StateID}      = $Row[9];
-        $Ticket{StateID}    = $Row[9];
-        $Data{QueueID}      = $Row[10];
-        $Ticket{QueueID}    = $Row[10];
-        $Data{Created}      = $Self->{TimeObject}->SystemTime2TimeStamp( SystemTime => $Row[30] );
-        $Data{ContentType}  = $Row[12];
-        $Data{CreatedBy}    = $Row[13];
-        $Data{TicketNumber} = $Row[14];
-        $Data{SenderTypeID} = $Row[15];
+        $Data{MessageID}                = $Row[6];
+        $Data{InReplyTo}                = $Row[7];
+        $Data{References}               = $Row[8];
+        $Data{Body}                     = $Row[9];
+        $Data{Age}                      = $Self->{TimeObject}->SystemTime() - $Row[10];
+        $Ticket{CreateTimeUnix}         = $Row[10];
+        $Ticket{Created}    = $Self->{TimeObject}->SystemTime2TimeStamp( SystemTime => $Row[10] );
+        $Data{PriorityID}   = $Row[20];
+        $Ticket{PriorityID} = $Row[20];
+        $Data{StateID}      = $Row[11];
+        $Ticket{StateID}    = $Row[11];
+        $Data{QueueID}      = $Row[12];
+        $Ticket{QueueID}    = $Row[12];
+        $Data{Created}      = $Self->{TimeObject}->SystemTime2TimeStamp( SystemTime => $Row[32] );
+        $Data{ContentType}  = $Row[14];
+        $Data{CreatedBy}    = $Row[15];
+        $Data{TicketNumber} = $Row[16];
+        $Data{SenderTypeID} = $Row[17];
 
-        if ( $Row[12] && $Data{ContentType} =~ /charset=/i ) {
+        if ( $Row[14] && $Data{ContentType} =~ /charset=/i ) {
             $Data{ContentCharset} = $Data{ContentType};
             $Data{ContentCharset} =~ s/.+?charset=("|'|)(\w+)/$2/gi;
             $Data{ContentCharset} =~ s/"|'//g;
@@ -1438,75 +1467,75 @@ sub ArticleGet {
         else {
             $Data{ContentCharset} = '';
         }
-        if ( $Row[12] && $Data{ContentType} =~ /^(\w+\/\w+)/i ) {
+        if ( $Row[14] && $Data{ContentType} =~ /^(\w+\/\w+)/i ) {
             $Data{MimeType} = $1;
             $Data{MimeType} =~ s/"|'//g;
         }
         else {
             $Data{MimeType} = '';
         }
-        $Data{CustomerUserID}      = $Row[19];
-        $Ticket{CustomerUserID}    = $Row[19];
-        $Data{CustomerID}          = $Row[16];
-        $Ticket{CustomerID}        = $Row[16];
-        $Data{OwnerID}             = $Row[20];
-        $Ticket{OwnerID}           = $Row[20];
-        $Data{ResponsibleID}       = $Row[21] || 1;
-        $Ticket{ResponsibleID}     = $Row[21] || 1;
-        $Data{ArticleTypeID}       = $Row[22];
-        $Data{ArticleFreeKey1}     = $Row[23];
-        $Data{ArticleFreeText1}    = $Row[24];
-        $Data{ArticleFreeKey2}     = $Row[25];
-        $Data{ArticleFreeText2}    = $Row[26];
-        $Data{ArticleFreeKey3}     = $Row[27];
-        $Data{ArticleFreeText3}    = $Row[28];
-        $Data{TicketFreeKey1}      = $Row[32];
-        $Data{TicketFreeText1}     = $Row[33];
-        $Data{TicketFreeKey2}      = $Row[34];
-        $Data{TicketFreeText2}     = $Row[35];
-        $Data{TicketFreeKey3}      = $Row[36];
-        $Data{TicketFreeText3}     = $Row[37];
-        $Data{TicketFreeKey4}      = $Row[38];
-        $Data{TicketFreeText4}     = $Row[39];
-        $Data{TicketFreeKey5}      = $Row[40];
-        $Data{TicketFreeText5}     = $Row[41];
-        $Data{TicketFreeKey6}      = $Row[42];
-        $Data{TicketFreeText6}     = $Row[43];
-        $Data{TicketFreeKey7}      = $Row[44];
-        $Data{TicketFreeText7}     = $Row[45];
-        $Data{TicketFreeKey8}      = $Row[46];
-        $Data{TicketFreeText8}     = $Row[47];
-        $Data{TicketFreeKey9}      = $Row[48];
-        $Data{TicketFreeText9}     = $Row[49];
-        $Data{TicketFreeKey10}     = $Row[50];
-        $Data{TicketFreeText10}    = $Row[51];
-        $Data{TicketFreeKey11}     = $Row[52];
-        $Data{TicketFreeText11}    = $Row[53];
-        $Data{TicketFreeKey12}     = $Row[54];
-        $Data{TicketFreeText12}    = $Row[55];
-        $Data{TicketFreeKey13}     = $Row[56];
-        $Data{TicketFreeText13}    = $Row[57];
-        $Data{TicketFreeKey14}     = $Row[58];
-        $Data{TicketFreeText14}    = $Row[59];
-        $Data{TicketFreeKey15}     = $Row[60];
-        $Data{TicketFreeText15}    = $Row[61];
-        $Data{TicketFreeKey16}     = $Row[62];
-        $Data{TicketFreeText16}    = $Row[63];
-        $Data{TicketFreeTime1}     = $Row[67];
-        $Data{TicketFreeTime2}     = $Row[68];
-        $Data{TicketFreeTime3}     = $Row[69];
-        $Data{TicketFreeTime4}     = $Row[70];
-        $Data{TicketFreeTime5}     = $Row[71];
-        $Data{TicketFreeTime6}     = $Row[72];
-        $Data{IncomingTime}        = $Row[30];
-        $Data{RealTillTimeNotUsed} = $Row[17];
-        $Ticket{LockID}            = $Row[64];
-        $Data{TypeID}              = $Row[73];
-        $Ticket{TypeID}            = $Row[73];
-        $Data{ServiceID}           = $Row[74];
-        $Ticket{ServiceID}         = $Row[74];
-        $Data{SLAID}               = $Row[75];
-        $Ticket{SLAID}             = $Row[75];
+        $Data{CustomerUserID}      = $Row[21];
+        $Ticket{CustomerUserID}    = $Row[21];
+        $Data{CustomerID}          = $Row[18];
+        $Ticket{CustomerID}        = $Row[18];
+        $Data{OwnerID}             = $Row[22];
+        $Ticket{OwnerID}           = $Row[22];
+        $Data{ResponsibleID}       = $Row[23] || 1;
+        $Ticket{ResponsibleID}     = $Row[23] || 1;
+        $Data{ArticleTypeID}       = $Row[24];
+        $Data{ArticleFreeKey1}     = $Row[25];
+        $Data{ArticleFreeText1}    = $Row[26];
+        $Data{ArticleFreeKey2}     = $Row[27];
+        $Data{ArticleFreeText2}    = $Row[28];
+        $Data{ArticleFreeKey3}     = $Row[29];
+        $Data{ArticleFreeText3}    = $Row[30];
+        $Data{TicketFreeKey1}      = $Row[34];
+        $Data{TicketFreeText1}     = $Row[35];
+        $Data{TicketFreeKey2}      = $Row[36];
+        $Data{TicketFreeText2}     = $Row[37];
+        $Data{TicketFreeKey3}      = $Row[38];
+        $Data{TicketFreeText3}     = $Row[39];
+        $Data{TicketFreeKey4}      = $Row[40];
+        $Data{TicketFreeText4}     = $Row[41];
+        $Data{TicketFreeKey5}      = $Row[42];
+        $Data{TicketFreeText5}     = $Row[43];
+        $Data{TicketFreeKey6}      = $Row[44];
+        $Data{TicketFreeText6}     = $Row[45];
+        $Data{TicketFreeKey7}      = $Row[46];
+        $Data{TicketFreeText7}     = $Row[47];
+        $Data{TicketFreeKey8}      = $Row[48];
+        $Data{TicketFreeText8}     = $Row[49];
+        $Data{TicketFreeKey9}      = $Row[50];
+        $Data{TicketFreeText9}     = $Row[51];
+        $Data{TicketFreeKey10}     = $Row[52];
+        $Data{TicketFreeText10}    = $Row[53];
+        $Data{TicketFreeKey11}     = $Row[54];
+        $Data{TicketFreeText11}    = $Row[55];
+        $Data{TicketFreeKey12}     = $Row[56];
+        $Data{TicketFreeText12}    = $Row[57];
+        $Data{TicketFreeKey13}     = $Row[58];
+        $Data{TicketFreeText13}    = $Row[59];
+        $Data{TicketFreeKey14}     = $Row[60];
+        $Data{TicketFreeText14}    = $Row[61];
+        $Data{TicketFreeKey15}     = $Row[62];
+        $Data{TicketFreeText15}    = $Row[63];
+        $Data{TicketFreeKey16}     = $Row[64];
+        $Data{TicketFreeText16}    = $Row[65];
+        $Data{TicketFreeTime1}     = $Row[69];
+        $Data{TicketFreeTime2}     = $Row[70];
+        $Data{TicketFreeTime3}     = $Row[71];
+        $Data{TicketFreeTime4}     = $Row[72];
+        $Data{TicketFreeTime5}     = $Row[73];
+        $Data{TicketFreeTime6}     = $Row[74];
+        $Data{IncomingTime}        = $Row[32];
+        $Data{RealTillTimeNotUsed} = $Row[19];
+        $Ticket{LockID}            = $Row[66];
+        $Data{TypeID}              = $Row[75];
+        $Ticket{TypeID}            = $Row[75];
+        $Data{ServiceID}           = $Row[76];
+        $Ticket{ServiceID}         = $Row[76];
+        $Data{SLAID}               = $Row[77];
+        $Ticket{SLAID}             = $Row[77];
 
         # strip not wanted stuff
         for (qw(From To Cc Subject)) {
@@ -1687,15 +1716,16 @@ send article via email and create article with attachments
 
     my $ArticleID = $TicketObject->ArticleSend(
         TicketID    => 123,
-        ArticleType => 'note-internal' # email-external|email-internal|phone|fax|...
-        SenderType  => 'agent', # agent|system|customer
-        From        => 'Some Agent <email@example.com>', # not required but useful
-        To          => 'Some Customer A <customer-a@example.com>', # not required but useful
-        Cc          => 'Some Customer B <customer-b@example.com>', # not required but useful
-        ReplyTo     => 'Some Customer B <customer-b@example.com>', # not required
-        Subject     => 'some short description', # required
-        Body        => 'the message text', # required
-        MessageID   => '<asdasdasd.123@example.com>', # not required but useful
+        ArticleType => 'note-internal'                                         # email-external|email-internal|phone|fax|...
+        SenderType  => 'agent',                                                # agent|system|customer
+        From        => 'Some Agent <email@example.com>',                       # not required but useful
+        To          => 'Some Customer A <customer-a@example.com>',             # not required but useful
+        Cc          => 'Some Customer B <customer-b@example.com>',             # not required but useful
+        ReplyTo     => 'Some Customer B <customer-b@example.com>',             # not required
+        Subject     => 'some short description',                               # required
+        Body        => 'the message text',                                     # required
+        InReplyTo   => '<asdasdasd.12@example.com>',                           # not required but useful
+        References  => '<asdasdasd.1@example.com> <asdasdasd.12@example.com>', # not required but useful
         Charset     => 'ISO-8859-15'
         Type        => 'text/plain',
         Loop        => 0, # 1|0 used for bulk emails
@@ -1739,7 +1769,6 @@ sub ArticleSend {
     my $Time        = $Self->{TimeObject}->SystemTime();
     my $Random      = rand(999999);
     my $ToOrig      = $Param{To} || '';
-    my $InReplyTo   = $Param{InReplyTo} || '';
     my $Loop        = $Param{Loop} || 0;
     my $HistoryType = $Param{HistoryType} || 'SendAnswer';
 
@@ -1771,20 +1800,12 @@ sub ArticleSend {
 
     # create article
     my $MessageID = "<$Time.$Random.$Param{TicketID}.$Param{UserID}\@$Self->{FQDN}>";
-    if (
-        $Param{ArticleID} = $Self->ArticleCreate(
-            %Param,
-            ContentType => "$Param{Type}, charset=$Param{Charset}",
-            MessageID   => $MessageID,
-        )
-        )
-    {
-
-        # no action
-    }
-    else {
-        return;
-    }
+    my $ArticleID = $Self->ArticleCreate(
+        %Param,
+        ContentType => "$Param{Type}, charset=$Param{Charset}",
+        MessageID   => $MessageID,
+    );
+    return if !$ArticleID;
 
     # add attachments to ticket
     if ( $Param{Attachment} ) {
@@ -1795,7 +1816,7 @@ sub ArticleSend {
                 # add attachments to article
                 $Self->ArticleWriteAttachment(
                     %Upload,
-                    ArticleID => $Param{ArticleID},
+                    ArticleID => $ArticleID,
                     UserID    => $Param{UserID},
                 );
             }
@@ -1821,7 +1842,7 @@ sub ArticleSend {
             # add attachments to article storage
             $Self->ArticleWriteAttachment(
                 %Data,
-                ArticleID => $Param{ArticleID},
+                ArticleID => $ArticleID,
                 UserID    => $Param{UserID},
             );
         }
@@ -1832,40 +1853,35 @@ sub ArticleSend {
         'Message-ID' => $MessageID,
         %Param,
     );
-    if ( $HeadRef && $BodyRef ) {
 
-        # write article to fs
-        if (
-            !$Self->ArticleWritePlain(
-                ArticleID => $Param{ArticleID},
-                Email     => ${$HeadRef} . "\n" . ${$BodyRef},
-                UserID    => $Param{UserID}
-            )
-            )
-        {
-            return;
-        }
-
-        # log
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message  => "Sent email to '$ToOrig' from '$Param{From}'. "
-                . "HistoryType => $HistoryType, Subject => $Param{Subject};",
-        );
-
-        # ticket event
-        $Self->TicketEventHandlerPost(
-            Event    => 'ArticleSend',
-            TicketID => $Param{TicketID},
-            UserID   => $Param{UserID},
-        );
-        return $Param{ArticleID};
-    }
-    else {
-
-        # error
+    # return if no mail was able to send
+    if ( !$HeadRef || !$BodyRef ) {
         return;
     }
+
+    # write article to fs
+    my $Plain = $Self->ArticleWritePlain(
+        ArticleID => $ArticleID,
+        Email     => ${$HeadRef} . "\n" . ${$BodyRef},
+        UserID    => $Param{UserID}
+    );
+    return if !$Plain;
+
+    # log
+    $Self->{LogObject}->Log(
+        Priority => 'notice',
+        Message  => "Sent email to '$ToOrig' from '$Param{From}'. "
+            . "HistoryType => $HistoryType, Subject => $Param{Subject};",
+    );
+
+    # ticket event
+    $Self->TicketEventHandlerPost(
+        Event     => 'ArticleSend',
+        TicketID  => $Param{TicketID},
+        ArticleID => $ArticleID,
+        UserID    => $Param{UserID},
+    );
+    return $ArticleID;
 }
 
 =item ArticleBounce()
@@ -2170,12 +2186,12 @@ sub SendAgentNotification {
     $Self->{SendmailObject}->Send(
         From => $Self->{ConfigObject}->Get('NotificationSenderName') . ' <'
             . $Self->{ConfigObject}->Get('NotificationSenderEmail') . '>',
-        To      => $User{UserEmail},
-        Subject => $Notification{Subject},
-        Type    => 'text/plain',
-        Charset => $Notification{Charset},
-        Body    => $Notification{Body},
-        Loop    => 1,
+        To         => $User{UserEmail},
+        Subject    => $Notification{Subject},
+        Type       => 'text/plain',
+        Charset    => $Notification{Charset},
+        Body       => $Notification{Body},
+        Loop       => 1,
     );
 
     # write history
@@ -2285,8 +2301,9 @@ sub SendCustomerNotification {
     # get language and send recipient
     my $Language = $Self->{ConfigObject}->Get('DefaultLanguage') || 'en';
     if ( $Article{CustomerUserID} ) {
-        my %CustomerUser
-            = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $Article{CustomerUserID}, );
+        my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            User => $Article{CustomerUserID},
+        );
         if ( $CustomerUser{UserEmail} ) {
             $Article{From} = $CustomerUser{UserEmail};
         }
@@ -2385,8 +2402,9 @@ sub SendCustomerNotification {
     $Notification{Body}    =~ s/<OTRS_OWNER_.+?>/-/gi;
 
     # get responsible data
-    my %ResponsiblePreferences
-        = $Self->{UserObject}->GetUserData( UserID => $Article{ResponsibleID}, );
+    my %ResponsiblePreferences = $Self->{UserObject}->GetUserData(
+        UserID => $Article{ResponsibleID},
+    );
     for ( keys %ResponsiblePreferences ) {
         if ( $ResponsiblePreferences{$_} ) {
             $Notification{Body}    =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
@@ -2409,8 +2427,9 @@ sub SendCustomerNotification {
 
     # get customer data and replace it with <OTRS_CUSTOMER_DATA_...
     if ( $Article{CustomerUserID} ) {
-        my %CustomerUser
-            = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $Article{CustomerUserID}, );
+        my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            User => $Article{CustomerUserID},
+        );
 
         # replace customer stuff with tags
         for ( keys %CustomerUser ) {
@@ -2997,6 +3016,97 @@ sub ArticleAccountedTimeDelete {
         SQL  => 'DELETE FROM time_accounting WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ],
     );
+}
+
+sub HTML2Ascii {
+    my ( $Self, %Param ) = @_;
+    my $Body = $Param{Body} || return $Param{Body};
+        # html2text filter for message body
+        my $LinkList = '';
+        my $Counter  = 0;
+
+        # find <a href=....> and replace it with [x]
+        $Body =~ s{
+            <a\Whref=("|')(.+?)("|')(|.+?)>
+        }
+        {
+            my $Link = $2;
+            if ($Link !~ /^(......|.....|....|...):/i) {
+                $Link = $Param{URL}.$Link;
+            }
+            $Counter++;
+            $LinkList .= "[$Counter] $Link\n";
+            "[$Counter]";
+        }egxi;
+        # remove empty lines
+        $Body =~ s/^\s*//mg;
+        $Body =~ s/\n//gs;
+
+        # remove style tags
+        $Body =~ s/\<style.+?\>.*\<\/style\>//gsi;
+
+        # remove br tags and replace it with \n
+        $Body =~ s/\<br(\/|)\>/\n/gsi;
+
+        # remove hr tags and replace it with \n
+        $Body =~ s/\<(hr|hr.+?)\>/\n\n/gsi;
+
+        # remove pre, p, table, code tags and replace it with \n
+        $Body =~ s/\<(\/|)(pre|pre.+?|p|p.+?|table|table.+?|code|code.+?)\>/\n\n/gsi;
+
+        # remove tr, th tags and replace it with \n
+        $Body =~ s/\<(tr|tr.+?|th|th.+?)\>/\n\n/gsi;
+
+        # remove td tags and replace it with \n
+        $Body =~ s/\.+?<\/(td|td.+?)\>/ /gsi;
+
+        # strip all other tags
+        $Body =~ s/\<.+?\>//gs;
+        # replace "  " with " " space
+        $Body =~ s/  / /mg;
+        # encode html entities like "&#8211;"
+        $Body =~ s{
+            (&\#(\d+);?)
+        }
+        {
+            my $Chr = chr( $2 );
+            if ( $Chr ) {
+                $Chr;
+            }
+            else {
+                $1;
+            };
+        }egx;
+        # encode html entities like "&#3d;"
+        $Body =~ s{
+            (&\#[xX]([0-9a-fA-F]+);?)
+        }
+        {
+            my $ChrOrig = $1;
+            my $Hex = hex( $2 );
+            if ( $Hex ) {
+                my $Chr = chr( $Hex );
+                if ( $Chr ) {
+                    $Chr;
+                }
+                else {
+                    $ChrOrig;
+                }
+            }
+            else {
+                $ChrOrig;
+            }
+        }egx;
+        # remove empty lines
+        $Body =~ s/^\s*\n\s*\n/\n/mg;
+
+        # force line bracking
+        $Body =~ s/(.{4,78})(?:\s|\z)/$1\n/gm;
+
+        # add extracted links
+        $Body .= "\n\n" . $LinkList;
+
+    return $Body;
 }
 
 1;
