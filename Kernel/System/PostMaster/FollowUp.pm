@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: FollowUp.pm,v 1.60 2008-07-13 23:10:02 martin Exp $
+# $Id: FollowUp.pm,v 1.61 2008-10-14 10:30:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::User;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -268,6 +268,8 @@ sub Run {
         Cc               => $GetParam{Cc},
         Subject          => $GetParam{Subject},
         MessageID        => $GetParam{'Message-ID'},
+        InReplyTo        => $GetParam{'In-Reply-To'},
+        References       => $GetParam{'References'},
         ContentType      => $GetParam{'Content-Type'},
         Body             => $GetParam{Body},
         UserID           => $Param{InmailUserID},

@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Reject.pm - the sub part of PostMaster.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Reject.pm,v 1.12 2008-07-13 23:10:02 martin Exp $
+# $Id: Reject.pm,v 1.13 2008-10-14 10:30:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -64,6 +64,8 @@ sub Run {
         Cc               => $GetParam{Cc},
         Subject          => $GetParam{Subject},
         MessageID        => $GetParam{'Message-ID'},
+        InReplyTo        => $GetParam{'In-Reply-To'},
+        References       => $GetParam{'References'},
         ContentType      => $GetParam{'Content-Type'},
         Body             => $GetParam{Body},
         UserID           => $Param{InmailUserID},
