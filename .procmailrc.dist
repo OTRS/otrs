@@ -2,7 +2,7 @@
 # .procmailrc - procmailrc of the OTRS user
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: .procmailrc.dist,v 1.3 2008-03-07 17:00:14 martin Exp $
+# $Id: .procmailrc.dist,v 1.4 2008-10-15 17:19:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -64,9 +64,8 @@ VERBOSE=on
 # Backup of all incoming emails.
 # It's always better to have a backup of all incoming emails!
 
-:0 c :
-$SYS_HOME/var/INBOX.Backup.$MONTHFOLDER
-
+#:0 c :
+#$SYS_HOME/var/INBOX.Backup.$MONTHFOLDER
 
 
 # Pipe all email into the PostMaster process.
