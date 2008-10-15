@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.87 2008-10-06 16:44:37 mh Exp $
+# $Id: Package.pm,v 1.88 2008-10-15 18:34:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.87 $) [1];
+$VERSION = qw($Revision: 1.88 $) [1];
 
 =head1 NAME
 
@@ -933,6 +933,7 @@ sub PackageOnlineList {
     }
     my @Packages = ();
     my %Package  = ();
+    my $Filelist;
     for my $Tag (@XMLARRAY) {
 
         # remember package
@@ -950,10 +951,17 @@ sub PackageOnlineList {
 
         # reset package data
         if ( $Tag->{Tag} eq 'Package' ) {
-            %Package = ();
+            %Package  = ();
+            $Filelist = 0;
         }
         elsif ( $Tag->{Tag} eq 'Framework' ) {
             push @{ $Package{Framework} }, $Tag;
+        }
+        elsif ( $Tag->{Tag} eq 'Filelist' ) {
+            $Filelist = 1;
+        }
+        elsif ( $Filelist && $Tag->{Tag} eq 'FileDoc' ) {
+            push @{ $Package{Filelist} }, $Tag;
         }
         elsif ( $Tag->{Tag} eq 'Description' ) {
             if ( !$Package{Description} ) {
@@ -1403,26 +1411,34 @@ sub PackageBuild {
             # do only use doc/* Filelist in index mode
             next if $Param{Type} && $File->{Location} !~ /^doc\//;
 
-            $XML .= "        <File";
+            if ( !$Param{Type} ) {
+                $XML .= "        <File";
+            }
+            else {
+                $XML .= "        <FileDoc";
+            }
             for ( sort keys %{$File} ) {
                 if ( $_ ne 'Tag' && $_ ne 'Content' && $_ ne 'TagType' && $_ ne 'Size' ) {
                     $XML .= " " . $Self->_Encode($_) . "=\"" . $Self->_Encode( $File->{$_} ) . "\"";
                 }
             }
-            $XML .= " Encode=\"Base64\">";
-            my $FileContent = $Self->{MainObject}->FileRead(
-                Location => $Home . '/' . $File->{Location},
-                Mode     => 'binmode',
-            );
-            if ( !$FileContent ) {
-                $Self->{MainObject}->Die("Can't open: $File->{Location}: $!");
-            }
-
             # dont use content in in index mode
             if ( !$Param{Type} ) {
+                $XML .= " Encode=\"Base64\">";
+                my $FileContent = $Self->{MainObject}->FileRead(
+                    Location => $Home . '/' . $File->{Location},
+                    Mode     => 'binmode',
+                );
+                if ( !$FileContent ) {
+                    $Self->{MainObject}->Die("Can't open: $File->{Location}: $!");
+                }
                 $XML .= encode_base64( ${$FileContent}, '' );
+                $XML .= "</File>\n";
             }
-            $XML .= "</File>\n";
+            else {
+                $XML .= " >";
+                $XML .= "</FileDoc>\n";
+            }
         }
         $XML .= "    </Filelist>\n";
     }
@@ -2286,6 +2302,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.87 $ $Date: 2008-10-06 16:44:37 $
+$Revision: 1.88 $ $Date: 2008-10-15 18:34:56 $
 
 =cut
