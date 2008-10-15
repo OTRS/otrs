@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2008-07-24 00:48:17
+--  driver: postgresql, generated: 2008-10-15 11:52:40
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -576,6 +576,8 @@ CREATE TABLE article (
     a_cc VARCHAR (3800) NULL,
     a_subject VARCHAR (3800) NULL,
     a_message_id VARCHAR (3800) NULL,
+    a_in_reply_to VARCHAR (3800) NULL,
+    a_references VARCHAR (3800) NULL,
     a_content_type VARCHAR (250) NULL,
     a_body VARCHAR NOT NULL,
     incoming_time INTEGER NOT NULL,
@@ -806,6 +808,15 @@ CREATE TABLE service (
     CONSTRAINT service_name UNIQUE (name)
 );
 -- ----------------------------------------------------------
+--  create table service_preferences
+-- ----------------------------------------------------------
+CREATE TABLE service_preferences (
+    service_id INTEGER NOT NULL,
+    preferences_key VARCHAR (150) NOT NULL,
+    preferences_value VARCHAR (250) NULL
+);
+CREATE INDEX service_preferences_service_id ON service_preferences (service_id);
+-- ----------------------------------------------------------
 --  create table service_customer_user
 -- ----------------------------------------------------------
 CREATE TABLE service_customer_user (
@@ -838,6 +849,15 @@ CREATE TABLE sla (
     PRIMARY KEY(id),
     CONSTRAINT sla_name UNIQUE (name)
 );
+-- ----------------------------------------------------------
+--  create table sla_preferences
+-- ----------------------------------------------------------
+CREATE TABLE sla_preferences (
+    sla_id INTEGER NOT NULL,
+    preferences_key VARCHAR (150) NOT NULL,
+    preferences_value VARCHAR (250) NULL
+);
+CREATE INDEX sla_preferences_sla_id ON sla_preferences (sla_id);
 -- ----------------------------------------------------------
 --  create table service_sla
 -- ----------------------------------------------------------
@@ -888,6 +908,13 @@ CREATE TABLE customer_user (
     salutation VARCHAR (50) NULL,
     first_name VARCHAR (100) NOT NULL,
     last_name VARCHAR (100) NOT NULL,
+    phone VARCHAR (150) NULL,
+    fax VARCHAR (150) NULL,
+    mobile VARCHAR (150) NULL,
+    street VARCHAR (150) NULL,
+    zip VARCHAR (150) NULL,
+    city VARCHAR (150) NULL,
+    country VARCHAR (150) NULL,
     comments VARCHAR (250) NULL,
     valid_id INTEGER NOT NULL,
     create_time timestamp(0) NOT NULL,

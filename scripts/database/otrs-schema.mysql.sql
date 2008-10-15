@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2008-07-24 00:48:17
+#  driver: mysql, generated: 2008-10-15 11:52:39
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -576,6 +576,8 @@ CREATE TABLE article (
     a_cc TEXT NULL,
     a_subject TEXT NULL,
     a_message_id TEXT NULL,
+    a_in_reply_to TEXT NULL,
+    a_references TEXT NULL,
     a_content_type VARCHAR (250) NULL,
     a_body MEDIUMTEXT NOT NULL,
     incoming_time INTEGER NOT NULL,
@@ -806,6 +808,15 @@ CREATE TABLE service (
     UNIQUE INDEX service_name (name)
 );
 # ----------------------------------------------------------
+#  create table service_preferences
+# ----------------------------------------------------------
+CREATE TABLE service_preferences (
+    service_id INTEGER NOT NULL,
+    preferences_key VARCHAR (150) NOT NULL,
+    preferences_value VARCHAR (250) NULL,
+    INDEX service_preferences_service_id (service_id)
+);
+# ----------------------------------------------------------
 #  create table service_customer_user
 # ----------------------------------------------------------
 CREATE TABLE service_customer_user (
@@ -837,6 +848,15 @@ CREATE TABLE sla (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id),
     UNIQUE INDEX sla_name (name)
+);
+# ----------------------------------------------------------
+#  create table sla_preferences
+# ----------------------------------------------------------
+CREATE TABLE sla_preferences (
+    sla_id INTEGER NOT NULL,
+    preferences_key VARCHAR (150) NOT NULL,
+    preferences_value VARCHAR (250) NULL,
+    INDEX sla_preferences_sla_id (sla_id)
 );
 # ----------------------------------------------------------
 #  create table service_sla
@@ -888,6 +908,13 @@ CREATE TABLE customer_user (
     salutation VARCHAR (50) NULL,
     first_name VARCHAR (100) NOT NULL,
     last_name VARCHAR (100) NOT NULL,
+    phone VARCHAR (150) NULL,
+    fax VARCHAR (150) NULL,
+    mobile VARCHAR (150) NULL,
+    street VARCHAR (150) NULL,
+    zip VARCHAR (150) NULL,
+    city VARCHAR (150) NULL,
+    country VARCHAR (150) NULL,
     comments VARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,

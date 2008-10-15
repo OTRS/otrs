@@ -1,5 +1,5 @@
 // ----------------------------------------------------------
-//  driver: maxdb, generated: 2008-07-06 11:41:43
+//  driver: maxdb, generated: 2008-10-15 11:52:39
 // ----------------------------------------------------------
 ALTER TABLE valid ADD FOREIGN KEY (create_by) REFERENCES users(id)
 //
@@ -323,6 +323,8 @@ ALTER TABLE service ADD FOREIGN KEY (create_by) REFERENCES users(id)
 //
 ALTER TABLE service ADD FOREIGN KEY (change_by) REFERENCES users(id)
 //
+ALTER TABLE service_preferences ADD FOREIGN KEY (service_id) REFERENCES service(id)
+//
 ALTER TABLE service_customer_user ADD FOREIGN KEY (service_id) REFERENCES service(id)
 //
 ALTER TABLE service_customer_user ADD FOREIGN KEY (create_by) REFERENCES users(id)
@@ -330,6 +332,8 @@ ALTER TABLE service_customer_user ADD FOREIGN KEY (create_by) REFERENCES users(i
 ALTER TABLE sla ADD FOREIGN KEY (create_by) REFERENCES users(id)
 //
 ALTER TABLE sla ADD FOREIGN KEY (change_by) REFERENCES users(id)
+//
+ALTER TABLE sla_preferences ADD FOREIGN KEY (sla_id) REFERENCES sla(id)
 //
 ALTER TABLE service_sla ADD FOREIGN KEY (service_id) REFERENCES service(id)
 //

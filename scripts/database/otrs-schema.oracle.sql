@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2008-07-24 00:48:17
+--  driver: oracle, generated: 2008-10-15 11:52:40
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -983,6 +983,8 @@ CREATE TABLE article (
     a_cc VARCHAR2 (3800) NULL,
     a_subject VARCHAR2 (3800) NULL,
     a_message_id VARCHAR2 (3800) NULL,
+    a_in_reply_to VARCHAR2 (3800) NULL,
+    a_references VARCHAR2 (3800) NULL,
     a_content_type VARCHAR2 (250) NULL,
     a_body CLOB NOT NULL,
     incoming_time NUMBER (12, 0) NOT NULL,
@@ -1407,6 +1409,15 @@ end;
 CREATE INDEX FK_service_change_by ON service (change_by);
 CREATE INDEX FK_service_create_by ON service (create_by);
 -- ----------------------------------------------------------
+--  create table service_preferences
+-- ----------------------------------------------------------
+CREATE TABLE service_preferences (
+    service_id NUMBER (12, 0) NOT NULL,
+    preferences_key VARCHAR2 (150) NOT NULL,
+    preferences_value VARCHAR2 (250) NULL
+);
+CREATE INDEX service_preferences_service_id ON service_preferences (service_id);
+-- ----------------------------------------------------------
 --  create table service_customer_user
 -- ----------------------------------------------------------
 CREATE TABLE service_customer_user (
@@ -1456,6 +1467,15 @@ end;
 --;
 CREATE INDEX FK_sla_change_by ON sla (change_by);
 CREATE INDEX FK_sla_create_by ON sla (create_by);
+-- ----------------------------------------------------------
+--  create table sla_preferences
+-- ----------------------------------------------------------
+CREATE TABLE sla_preferences (
+    sla_id NUMBER (12, 0) NOT NULL,
+    preferences_key VARCHAR2 (150) NOT NULL,
+    preferences_value VARCHAR2 (250) NULL
+);
+CREATE INDEX sla_preferences_sla_id ON sla_preferences (sla_id);
 -- ----------------------------------------------------------
 --  create table service_sla
 -- ----------------------------------------------------------
@@ -1508,6 +1528,13 @@ CREATE TABLE customer_user (
     salutation VARCHAR2 (50) NULL,
     first_name VARCHAR2 (100) NOT NULL,
     last_name VARCHAR2 (100) NOT NULL,
+    phone VARCHAR2 (150) NULL,
+    fax VARCHAR2 (150) NULL,
+    mobile VARCHAR2 (150) NULL,
+    street VARCHAR2 (150) NULL,
+    zip VARCHAR2 (150) NULL,
+    city VARCHAR2 (150) NULL,
+    country VARCHAR2 (150) NULL,
     comments VARCHAR2 (250) NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,

@@ -6,7 +6,7 @@
     XML File for the OTRS database description
     Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 
-    $Id: otrs-schema.xml,v 1.96 2008-08-11 23:19:09 martin Exp $
+    $Id: otrs-schema.xml,v 1.97 2008-10-15 09:55:52 martin Exp $
 
 -->
 
@@ -924,6 +924,8 @@
     <Column Name="a_cc" Required="false" Size="3800" Type="VARCHAR"/>
     <Column Name="a_subject" Required="false" Size="3800" Type="VARCHAR"/>
     <Column Name="a_message_id" Required="false" Size="3800" Type="VARCHAR"/>
+    <Column Name="a_in_reply_to" Required="false" Size="3800" Type="VARCHAR"/>
+    <Column Name="a_references" Required="false" Size="3800" Type="VARCHAR"/>
     <Column Name="a_content_type" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="a_body" Required="true" Size="1800000" Type="VARCHAR"/>
     <Column Name="incoming_time" Required="true" Type="INTEGER"/>
@@ -1290,6 +1292,19 @@
     </ForeignKey>
 </Table>
 
+<!-- service preferences -->
+<Table Name="service_preferences">
+    <Column Name="service_id" Required="true" Type="INTEGER"/>
+    <Column Name="preferences_key" Required="true" Size="150" Type="VARCHAR"/>
+    <Column Name="preferences_value" Required="false" Size="250" Type="VARCHAR"/>
+    <Index Name="service_preferences_service_id">
+        <IndexColumn Name="service_id"/>
+    </Index>
+    <ForeignKey ForeignTable="service">
+        <Reference Local="service_id" Foreign="id"/>
+    </ForeignKey>
+</Table>
+
 <!-- service_customer_user - relation customeruser<->service -->
 <Table Name="service_customer_user">
     <Column Name="customer_user_login" Required="true" Size="100" Type="VARCHAR"/>
@@ -1335,6 +1350,20 @@
         <Reference Local="change_by" Foreign="id"/>
     </ForeignKey>
 </Table>
+
+<!-- sla preferences -->
+<Table Name="sla_preferences">
+    <Column Name="sla_id" Required="true" Type="INTEGER"/>
+    <Column Name="preferences_key" Required="true" Size="150" Type="VARCHAR"/>
+    <Column Name="preferences_value" Required="false" Size="250" Type="VARCHAR"/>
+    <Index Name="sla_preferences_sla_id">
+        <IndexColumn Name="sla_id"/>
+    </Index>
+    <ForeignKey ForeignTable="sla">
+        <Reference Local="sla_id" Foreign="id"/>
+    </ForeignKey>
+</Table>
+
 
 <!-- service_sla - relation service<->sla -->
 <Table Name="service_sla">
@@ -1408,6 +1437,13 @@
     <Column Name="salutation" Required="false" Size="50" Type="VARCHAR"/>
     <Column Name="first_name" Required="true" Size="100" Type="VARCHAR"/>
     <Column Name="last_name" Required="true" Size="100" Type="VARCHAR"/>
+    <Column Name="phone" Required="false" Size="150" Type="VARCHAR"/>
+    <Column Name="fax" Required="false" Size="150" Type="VARCHAR"/>
+    <Column Name="mobile" Required="false" Size="150" Type="VARCHAR"/>
+    <Column Name="street" Required="false" Size="150" Type="VARCHAR"/>
+    <Column Name="zip" Required="false" Size="150" Type="VARCHAR"/>
+    <Column Name="city" Required="false" Size="150" Type="VARCHAR"/>
+    <Column Name="country" Required="false" Size="150" Type="VARCHAR"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
