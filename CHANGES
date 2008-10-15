@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.770 2008-10-14 10:58:54 martin Exp $
+# $Id: CHANGES,v 1.771 2008-10-15 09:57:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.4.0 beta1 (2009/??/??)
+ - (2008/10/14) Added new tables for "RFC 2822 conform" and Service/SLA
+    preferences feature (use scripts/DBUpdate-to-2.4.*.sql for upgrading).
  - (2008/10/14) Added RFC 2822 conform In-Reply-To and References header
     support for outgoing emails (Threading).
  - (2008/10/02) Added script to move stored attachments from one backend to
