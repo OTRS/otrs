@@ -3,7 +3,7 @@
 # Copyright (C) 2008 Never Min <never at qnofae.org>
 # Copyright (C) 2005 zuowei <j2ee at hirain-sh.com>
 # --
-# $Id: zh_CN.pm,v 1.51 2008-10-15 11:29:13 martin Exp $
+# $Id: zh_CN.pm,v 1.52 2008-10-16 14:43:40 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1535,6 +1535,8 @@ sub Data {
         'Customer Users <-> Services' => '客户帐号 <-> 服务管理',
         'General Catalog' => '总目录',
         'QuickSearch' => '快速搜索',
+        'Added!' => '',
+        'Updated!' => '',
 
     };
     # $$STOP$$

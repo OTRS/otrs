@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSystemAddress.pm - to add/update/delete system addresses
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSystemAddress.pm,v 1.27 2008-06-20 16:55:33 mh Exp $
+# $Id: AdminSystemAddress.pm,v 1.28 2008-10-16 14:41:07 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::SystemAddress;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -84,7 +84,7 @@ sub Run {
             $Self->_Overview();
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify( Info => 'System Address updated!' );
+            $Output .= $Self->{LayoutObject}->Notify( Info => 'Updated!' );
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminSystemAddressForm',
                 Data         => \%Param,
@@ -150,7 +150,7 @@ sub Run {
             $Self->_Overview();
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify( Info => 'System Address added!' );
+            $Output .= $Self->{LayoutObject}->Notify( Info => 'Added!' );
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminSystemAddressForm',
                 Data         => \%Param,

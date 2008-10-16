@@ -3,7 +3,7 @@
 # Copyright (C) 2006-2008 Amir Shams Parsa <amir at parsa.name>
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # --
-# $Id: fa.pm,v 1.50 2008-09-24 11:39:25 mh Exp $
+# $Id: fa.pm,v 1.51 2008-10-16 14:42:26 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1553,6 +1553,8 @@ sub Data {
         'PostMaster Filter' => 'فیلتر Email سیستم',
         'Ticket Type is required!' => '',
         'Module documentation' => '',
+        'Added!' => '',
+        'Updated!' => '',
     };
     # $$STOP$$
     return;

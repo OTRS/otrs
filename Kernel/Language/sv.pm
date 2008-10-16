@@ -2,7 +2,7 @@
 # Kernel/Language/sv.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats@synergy.se>
 # --
-# $Id: sv.pm,v 1.57 2008-09-24 11:39:25 mh Exp $
+# $Id: sv.pm,v 1.58 2008-10-16 14:43:40 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.57 $;
+$VERSION = q$Revision: 1.58 $;
 
 sub Data {
     my $Self = shift;
@@ -1544,6 +1544,8 @@ sub Data {
         'Add Priority' => '',
         'Ticket Type is required!' => '',
         'Module documentation' => '',
+        'Added!' => '',
+        'Updated!' => '',
     };
     # $$STOP$$
     return;

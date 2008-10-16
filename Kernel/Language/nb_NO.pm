@@ -5,7 +5,7 @@
 # Copyright (C) 2006 Knut Haugen <knuthaug at linpro.no>
 # Copyright (C) 2007-2008 Fredrik Andersen <fredrik.andersen at husbanken.no>
 # --
-# $Id: nb_NO.pm,v 1.66 2008-09-24 11:39:25 mh Exp $
+# $Id: nb_NO.pm,v 1.67 2008-10-16 14:42:26 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.66 $;
+$VERSION = q$Revision: 1.67 $;
 
 sub Data {
     my $Self = shift;
@@ -1557,6 +1557,8 @@ sub Data {
         'Add Priority' => 'Legg til Prioritering',
         'Ticket Type is required!' => '',
         'Module documentation' => '',
+        'Added!' => '',
+        'Updated!' => '',
     };
     # $$STOP$$
     return;

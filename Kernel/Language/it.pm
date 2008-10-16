@@ -4,7 +4,7 @@
 # Copyright (C) 2003 Gabriele Santilli <gsantilli at omnibus.net>
 # Copyright (C) 2005 Giordano Bianchi <giordano.bianchi at gmail.com>
 # --
-# $Id: it.pm,v 1.70 2008-10-01 09:02:09 martin Exp $
+# $Id: it.pm,v 1.71 2008-10-16 14:42:26 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1543,6 +1543,8 @@ sub Data {
         'Location' => '',
         'Ticket Type is required!' => '',
         'Module documentation' => '',
+        'Added!' => '',
+        'Updated!' => '',
     };
     # $$STOP$$
     return;
