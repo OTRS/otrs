@@ -7,7 +7,7 @@
 # Copyright (C) 2007 Massimiliano Franco <max-lists at ycom.ch>
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # --
-# $Id: fr.pm,v 1.99 2008-09-24 11:39:25 mh Exp $
+# $Id: fr.pm,v 1.99.2.1 2008-10-16 14:08:46 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.99 $) [1];
+$VERSION = qw($Revision: 1.99.2.1 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1558,6 +1558,8 @@ sub Data {
         'Add Priority' => 'Ajouter la priorité',
         'Ticket Type is required!' => '',
         'Module documentation' => '',
+        'Added!' => '',
+        'Updated!' => '',
     };
     # $$STOP$$
     return;

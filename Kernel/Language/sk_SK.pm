@@ -2,7 +2,7 @@
 # Kernel/Language/sk_SK.pm - provides sk_SK language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: sk_SK.pm,v 1.41 2008-09-24 11:39:25 mh Exp $
+# $Id: sk_SK.pm,v 1.41.2.1 2008-10-16 14:08:47 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.41.2.1 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1812,6 +1812,8 @@ sub Data {
         'Add Priority' => '',
         'Ticket Type is required!' => '',
         'Module documentation' => '',
+        'Added!' => '',
+        'Updated!' => '',
     };
     # $$STOP$$
     return;

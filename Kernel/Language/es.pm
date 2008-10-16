@@ -4,7 +4,7 @@
 # Copyright (C) 2007 Carlos Oyarzabal <carlos.oyarzabal at grupocash.com.mx>
 # Copyright (C) 2008 Pelayo Romero Martín <pelayo.romero at gmail.com>
 # --
-# $Id: es.pm,v 1.81 2008-09-24 11:39:25 mh Exp $
+# $Id: es.pm,v 1.81.2.1 2008-10-16 14:08:46 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.81 $) [1];
+$VERSION = qw($Revision: 1.81.2.1 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1546,6 +1546,8 @@ sub Data {
         'Add Priority' => 'Añadir Prioridad',
         'Ticket Type is required!' => '',
         'Module documentation' => '',
+        'Added!' => '',
+        'Updated!' => '',
     };
     # $$STOP$$
     return;

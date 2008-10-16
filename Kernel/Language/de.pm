@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.171.2.1 2008-10-09 09:54:28 tr Exp $
+# $Id: de.pm,v 1.171.2.2 2008-10-16 14:08:46 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.171.2.1 $) [1];
+$VERSION = qw($Revision: 1.171.2.2 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1545,6 +1545,8 @@ sub Data {
         'Add Priority' => 'Priorität hinzufügen',
         'Ticket Type is required!' => 'Das Feld Ticket-Typ ist ein Pflichtfeld!',
         'Module documentation' => 'Moduldokumentation',
+        'Added!' => 'Hinzugefügt!',
+        'Updated!' => 'Aktualisiert!',
     };
     # $$STOP$$
     return;

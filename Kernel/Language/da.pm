@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Thorsten Rossner <thorsten.rossner[at]stepstone.de>
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # --
-# $Id: da.pm,v 1.45 2008-09-24 11:39:25 mh Exp $
+# $Id: da.pm,v 1.45.2.1 2008-10-16 14:08:46 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.45.2.1 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1557,6 +1557,8 @@ sub Data {
         'Ticket selected for bulk action!' => 'Sag valgt til massehandling!',
         'Ticket Type is required!' => '',
         'Module documentation' => '',
+        'Added!' => '',
+        'Updated!' => '',
     };
     # $$STOP$$
     return;
