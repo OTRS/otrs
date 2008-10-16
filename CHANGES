@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.762.2.6 2008-10-16 14:16:04 ub Exp $
+# $Id: CHANGES,v 1.762.2.7 2008-10-16 14:20:07 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,7 +10,7 @@
 # --
 
 2.3.4 (2008/??/??)
- - (2008/10/16) Fixed bug# 2415 - Wrong info after editing saluation.
+ - (2008/10/16) Fixed bug# 2415 - Wrong info after editing salutation.
  - (2008/10/15) Fixed bug# 3379 - Documentation of packages got not shown in
     admin package manager.
  - (2008/10/15) Updated Chinese translation, thanks to Never Min!
