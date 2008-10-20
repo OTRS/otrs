@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.110 2008-09-24 14:05:24 ub Exp $
+# $Id: Layout.pm,v 1.110.2.1 2008-10-20 14:30:23 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.110 $) [1];
+$VERSION = qw($Revision: 1.110.2.1 $) [1];
 
 =head1 NAME
 
@@ -1120,6 +1120,28 @@ sub Redirect {
         # external redirect
         $Param{Redirect} = $Param{ExtURL};
         return $Cookies . $Self->Output( TemplateFile => 'Redirect', Data => \%Param );
+    }
+
+    # Filter out hazardous characters
+    if ($Param{OP} =~ s{\x00}{}smxg) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Someone tries to use a null bytes (\x00) character in redirect!',
+        );
+    }
+
+    if ($Param{OP} =~ s{\r}{}smxg) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Someone tries to use a carriage return character in redirect!',
+        );
+    }
+
+    if ($Param{OP} =~ s{\n}{}smxg) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Someone tries to use a newline character in redirect!',
+        );
     }
 
     # internal redirect
@@ -3984,6 +4006,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.110 $ $Date: 2008-09-24 14:05:24 $
+$Revision: 1.110.2.1 $ $Date: 2008-10-20 14:30:23 $
 
 =cut
