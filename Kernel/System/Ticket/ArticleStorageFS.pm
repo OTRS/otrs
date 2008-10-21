@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageFS.pm,v 1.52 2008-10-06 16:44:37 mh Exp $
+# $Id: ArticleStorageFS.pm,v 1.53 2008-10-21 11:14:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -415,67 +415,67 @@ sub ArticleAttachmentIndex {
         my $FileSize    = -s $Filename;
         my $FileSizeRaw = $FileSize;
 
+        # do not use control file
+        next if $Filename =~ /.content_type$/;
+        next if $Filename =~ /\/plain.txt$/;
+
         # convert the file name in utf-8 if utf-8 is used
         $Filename = $Self->{EncodeObject}->Decode(
             Text => $Filename,
             From => 'utf-8',
         );
-        if ( $Filename !~ /\/plain.txt$/ && $Filename !~ /\.content_type$/ ) {
 
-            # human readable file size
-            if ($FileSize) {
+        # human readable file size
+        if ($FileSize) {
 
-                # remove meta data in files
-                $FileSize = $FileSize - 30 if ( $FileSize > 30 );
-                if ( $FileSize > ( 1024 * 1024 ) ) {
-                    $FileSize = sprintf "%.1f MBytes", ( $FileSize / ( 1024 * 1024 ) );
-                }
-                elsif ( $FileSize > 1024 ) {
-                    $FileSize = sprintf "%.1f KBytes", ( ( $FileSize / 1024 ) );
-                }
-                else {
-                    $FileSize = $FileSize . ' Bytes';
-                }
+            # remove meta data in files
+            $FileSize = $FileSize - 30 if ( $FileSize > 30 );
+            if ( $FileSize > ( 1024 * 1024 ) ) {
+                $FileSize = sprintf "%.1f MBytes", ( $FileSize / ( 1024 * 1024 ) );
             }
-
-            # read content type
-            my $ContentType = '';
-            if ( -e "$Filename.content_type" ) {
-                my $Content = $Self->{MainObject}->FileRead(
-                    Location => "$Filename.content_type",
-                );
-                if ( !$Content ) {
-                    return;
-                }
-                $ContentType = ${$Content};
+            elsif ( $FileSize > 1024 ) {
+                $FileSize = sprintf "%.1f KBytes", ( ( $FileSize / 1024 ) );
             }
-
-            # read content type (old style)
             else {
-                my $Content = $Self->{MainObject}->FileRead(
-                    Location => $Filename,
-                    Result   => 'ARRAY',
-                );
-                if ( !$Content ) {
-                    return;
-                }
-                $ContentType = $Content->[0];
-            }
-
-            # strip filename
-            $Filename =~ s!^.*/!!;
-            if ( $Filename ne 'plain.txt' ) {
-
-                # add the info the the hash
-                $Counter++;
-                $Index{$Counter} = {
-                    Filename    => $Filename,
-                    Filesize    => $FileSize,
-                    FilesizeRaw => $FileSizeRaw,
-                    ContentType => $ContentType,
-                };
+                $FileSize = $FileSize . ' Bytes';
             }
         }
+
+        # read content type
+        my $ContentType = '';
+        if ( -e "$Filename.content_type" ) {
+            my $Content = $Self->{MainObject}->FileRead(
+                Location => "$Filename.content_type",
+            );
+            if ( !$Content ) {
+                return;
+            }
+            $ContentType = ${$Content};
+        }
+
+        # read content type (old style)
+        else {
+            my $Content = $Self->{MainObject}->FileRead(
+                Location => $Filename,
+                Result   => 'ARRAY',
+            );
+            if ( !$Content ) {
+                return;
+            }
+            $ContentType = $Content->[0];
+        }
+
+        # strip filename
+        $Filename =~ s!^.*/!!;
+
+        # add the info the the hash
+        $Counter++;
+        $Index{$Counter} = {
+            Filename    => $Filename,
+            Filesize    => $FileSize,
+            FilesizeRaw => $FileSizeRaw,
+            ContentType => $ContentType,
+        };
     }
 
     # return if index exists

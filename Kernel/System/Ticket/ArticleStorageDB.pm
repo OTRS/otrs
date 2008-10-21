@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageDB.pm,v 1.57 2008-10-06 16:44:37 mh Exp $
+# $Id: ArticleStorageDB.pm,v 1.58 2008-10-21 11:14:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -399,6 +399,10 @@ sub ArticleAttachmentIndex {
         my $FileSize    = -s $Filename;
         my $FileSizeRaw = $FileSize;
 
+        # do not use control file
+        next if $Filename =~ /.content_type$/;
+        next if $Filename =~ /\/plain.txt$/;
+
         # convert the file name in utf-8 if utf-8 is used
         $Filename = $Self->{EncodeObject}->Decode(
             Text => $Filename,
@@ -447,17 +451,15 @@ sub ArticleAttachmentIndex {
 
         # strip filename
         $Filename =~ s!^.*/!!;
-        if ( $Filename ne 'plain.txt' ) {
 
-            # add the info the the hash
-            $Counter++;
-            $Index{$Counter} = {
-                Filename    => $Filename,
-                Filesize    => $FileSize,
-                FilesizeRaw => $FileSizeRaw,
-                ContentType => $ContentType,
-            };
-        }
+        # add the info the the hash
+        $Counter++;
+        $Index{$Counter} = {
+            Filename    => $Filename,
+            Filesize    => $FileSize,
+            FilesizeRaw => $FileSizeRaw,
+            ContentType => $ContentType,
+        };
     }
     return %Index;
 }
