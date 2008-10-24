@@ -2,7 +2,7 @@
 # AgentTicketSearch.dtl - provides HTML form for AgentTicketSearch
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.dtl,v 1.24 2008-04-20 01:24:19 martin Exp $
+# $Id: AgentTicketSearch.dtl,v 1.25 2008-10-24 08:38:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -64,12 +64,10 @@
                   <td width="50%" class="contentkey">$Config{"Ticket::Hook"} $Text{"(e. g. 10*5155 or 105658*)"}</td>
                   <td width="50%" class="contentvalue"><input type="text" name="TicketNumber" size="30" value="$QData{"TicketNumber"}"/></td>
                 </tr>
-<!-- dtl:block:TicketTitle-->
                 <tr>
                   <td class="contentkey">$Text{"Title"}</td>
                   <td class="contentvalue"><input type="text" name="Title" size="30" value="$QData{"Title"}"/></td>
                 </tr>
-<!-- dtl:block:TicketTitle-->
                 <tr>
                   <td class="contentkey">$Text{"CustomerID"} $Text{"(e. g. 234321)"}</td>
                   <td class="contentvalue"><input type="text" name="CustomerID" size="30" value="$QData{"CustomerID"}"/></td>
@@ -249,6 +247,27 @@
             <td colspan="2" class="contentbody">
               <input type="radio" name="TimeSearchType" value="TimeSlot" $Data{"TimeSearchType::TimeSlot"}/>
               $Text{"Ticket created between"} $Data{"TicketCreateTimeStart"} $Text{"and"} $Data{"TicketCreateTimeStop"}
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contenthead">$Text{"Change Times"}</td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contentbody">
+              <input type="radio" name="ChangeTimeSearchType" value="" $Data{"ChangeTimeSearchType::None"}/>
+              $Text{"No change time settings."}
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contentbody">
+              <input type="radio" name="ChangeTimeSearchType" value="TimePoint" $Data{"ChangeTimeSearchType::TimePoint"}/>
+              $Text{"Ticket changed"} $Data{"TicketChangeTimePointStart"} $Data{"TicketChangeTimePoint"} $Data{"TicketChangeTimePointFormat"}
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contentbody">
+              <input type="radio" name="ChangeTimeSearchType" value="TimeSlot" $Data{"ChangeTimeSearchType::TimeSlot"}/>
+              $Text{"Ticket changed between"} $Data{"TicketChangeTimeStart"} $Text{"and"} $Data{"TicketChangeTimeStop"}
             </td>
           </tr>
           <tr>
