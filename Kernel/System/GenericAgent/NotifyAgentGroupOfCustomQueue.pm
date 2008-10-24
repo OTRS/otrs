@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent/NotifyAgentGroupOfCustomQueue.pm - generic agent notifications
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: NotifyAgentGroupOfCustomQueue.pm,v 1.17 2008-05-15 10:46:20 martin Exp $
+# $Id: NotifyAgentGroupOfCustomQueue.pm,v 1.18 2008-10-24 08:45:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Email;
 use Kernel::System::Queue;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -65,7 +65,7 @@ sub Run {
         return 1;
     }
 
-    # check if it's a escalation ot escalation notification
+    # check if it's a escalation of escalation notification
     # check escalation times
     my $EscalationType = '';
     for my $Type (
