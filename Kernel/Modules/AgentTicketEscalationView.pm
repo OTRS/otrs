@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEscalationView.pm - status for all open tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEscalationView.pm,v 1.6 2008-07-03 18:21:14 martin Exp $
+# $Id: AgentTicketEscalationView.pm,v 1.7 2008-10-24 08:35:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,11 +14,8 @@ package Kernel::Modules::AgentTicketEscalationView;
 use strict;
 use warnings;
 
-use Kernel::System::State;
-use Kernel::System::CustomerUser;
-
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -36,24 +33,19 @@ sub new {
 
     $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
 
-    # needed objects
-    $Self->{StateObject}        = Kernel::System::State->new(%Param);
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
-
     # get params
     $Self->{SortBy} = $Self->{ParamObject}->GetParam( Param => 'SortBy' )
         || $Self->{Config}->{'SortBy::Default'}
         || 'EscalationTime';
-    $Self->{Order} = $Self->{ParamObject}->GetParam( Param => 'Order' )
+    $Self->{OrderBy} = $Self->{ParamObject}->GetParam( Param => 'OrderBy' )
         || $Self->{Config}->{'Order::Default'}
         || 'Up';
 
     # viewable tickets a page
-    $Self->{Limit} = $Self->{ParamObject}->GetParam( Param => 'Limit' ) || 6000;
+    $Self->{Limit} = $Self->{ParamObject}->GetParam( Param => 'Limit' ) || 1000;
 
-    $Self->{StartHit} = $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1;
-    $Self->{PageShown} = $Self->{Config}->{ViewableTicketsPage} || 50;
-    $Self->{Escalation} = $Self->{ParamObject}->GetParam( Param => 'Escalation' ) || 'Today';
+    $Self->{Filter}   = $Self->{ParamObject}->GetParam( Param => 'Filter' ) || 'Today';
+    $Self->{View}     = $Self->{ParamObject}->GetParam( Param => 'View' ) || '';
 
     return $Self;
 }
@@ -81,146 +73,122 @@ sub Run {
         $Refresh = 60 * $Self->{UserRefreshTime};
     }
     my $Output = $Self->{LayoutObject}->Header( Refresh => $Refresh, );
-
-    # build NavigationBar
     $Output .= $Self->{LayoutObject}->NavigationBar();
-
-    # to get the output faster!
     $Self->{LayoutObject}->Print( Output => \$Output );
     $Output = '';
 
-    my $TimeStamp;
-    if ( $Self->{Escalation} eq 'NextWeek' ) {
-        my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
-            SystemTime => $Self->{TimeObject}->SystemTime() + 60 * 60 * 24 * 7,
-        );
-        $TimeStamp = "$Year-$Month-$Day 23:59:59";
-    }
-    elsif ( $Self->{Escalation} eq 'Tomorrow' ) {
-        my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
-            SystemTime => $Self->{TimeObject}->SystemTime() + 60 * 60 * 24,
-        );
-        $TimeStamp = "$Year-$Month-$Day 23:59:59";
-    }
-    else {
-        my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
-            SystemTime => $Self->{TimeObject}->SystemTime(),
-        );
-        $TimeStamp = "$Year-$Month-$Day 23:59:59";
+    my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
+        SystemTime => $Self->{TimeObject}->SystemTime() + 60 * 60 * 24 * 7,
+    );
+    my $TimeStampNextWeek = "$Year-$Month-$Day 23:59:59";
+
+    ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
+        SystemTime => $Self->{TimeObject}->SystemTime() + 60 * 60 * 24,
+    );
+    my $TimeStampTomorrow = "$Year-$Month-$Day 23:59:59";
+
+    ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $Self->{TimeObject}->SystemTime2Date(
+        SystemTime => $Self->{TimeObject}->SystemTime(),
+    );
+    my $TimeStampToday = "$Year-$Month-$Day 23:59:59";
+
+    my %Filters = (
+        Today => {
+            Name   => 'Today',
+            Prio   => 1000,
+            Search => {
+                TicketEscalationTimeOlderDate => $TimeStampToday,
+                OrderBy                       => $Self->{OrderBy},
+                SortBy                        => $Self->{SortBy},
+                UserID                        => $Self->{UserID},
+                Permission                    => 'ro',
+            },
+        },
+        Tomorrow => {
+            Name   => 'Tomorrow',
+            Prio   => 2000,
+            Search => {
+                TicketEscalationTimeOlderDate => $TimeStampTomorrow,
+                OrderBy                       => $Self->{OrderBy},
+                SortBy                        => $Self->{SortBy},
+                UserID                        => $Self->{UserID},
+                Permission                    => 'ro',
+            },
+        },
+        NextWeek => {
+            Name   => 'Next Week',
+            Prio   => 3000,
+            Search => {
+                TicketEscalationTimeOlderDate => $TimeStampNextWeek,
+                OrderBy                       => $Self->{OrderBy},
+                SortBy                        => $Self->{SortBy},
+                UserID                        => $Self->{UserID},
+                Permission                    => 'ro',
+            },
+        },
+    );
+
+    # check if filter is valid
+    if ( !$Filters{ $Self->{Filter} } ) {
+        $Self->{LayoutObject}->FatalError( Message => "Invalid Filter: $Self->{Filter}!" );
     }
 
-    # get shown tickets
-    my @TicketIDs = $Self->{TicketObject}->TicketSearch(
-        Result                        => 'ARRAY',
-        Limit                         => $Self->{Limit},
-        TicketEscalationTimeOlderDate => $TimeStamp,
-        OrderBy                       => $Self->{Order},
-        SortBy                        => $Self->{SortBy},
-        UserID                        => $Self->{UserID},
-        Permission                    => 'ro',
+    my @ViewableTickets = $Self->{TicketObject}->TicketSearch(
+        %{ $Filters{ $Self->{Filter} }->{Search} },
+        Result     => 'ARRAY',
+        Limit      => $Self->{Limit},
     );
+
+    my %NavBarFilter;
+    for my $Filter ( keys %Filters ) {
+        my @ViewableTickets = $Self->{TicketObject}->TicketSearch(
+            %{ $Filters{ $Filter }->{Search} },
+            Result     => 'ARRAY',
+            Limit      => $Self->{Limit},
+        );
+        $NavBarFilter{ $Filters{ $Filter }->{Prio} } = {
+            Count  => scalar @ViewableTickets,
+            Filter => $Filter,
+            %{ $Filters{ $Filter } },
+        };
+    }
 
     # show ticket's
-    my $Counter = 0;
-    for my $TicketID (@TicketIDs) {
-        $Counter++;
-        if (
-            $Counter >= $Self->{StartHit}
-            && $Counter < ( $Self->{PageShown} + $Self->{StartHit} )
-            )
-        {
+    my $LinkPage = 'Filter='
+        . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Filter} )
+        . '&View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
+        . '&SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{SortBy} )
+        . '&OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{OrderBy} )
+        . '&';
+    my $LinkSort = 'Filter='
+        . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Filter} )
+        . '&View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
+        . '&';
+    my $LinkFilter = 'SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{SortBy} )
+        . '&OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{OrderBy} )
+        . '&View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
+        . '&';
+    $Output .= $Self->{LayoutObject}->TicketListShow(
+        TicketIDs => \@ViewableTickets,
+        Total      => scalar @ViewableTickets,
 
-            # get last customer article
-            my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
-                TicketID => $TicketID,
-            );
+        View       => $Self->{View},
 
-            # prepare subject
-            $Article{Subject} = $Self->{TicketObject}->TicketSubjectClean(
-                TicketNumber => $Article{TicketNumber},
-                Subject => $Article{Subject} || '',
-            );
+        Filter     => $Self->{Filter},
+        Filters    => \%NavBarFilter,
+        FilterLink => $LinkFilter,
 
-            # create human age
-            $Article{Age} = $Self->{LayoutObject}->CustomerAge(
-                Age   => $Article{Age},
-                Space => ' ',
-            );
+        TitleName  => 'Ticket Escalation View',
+        TitleValue => $Self->{Filter},
 
-            $Article{EscalationTimeHuman} = $Self->{LayoutObject}->CustomerAgeInHours(
-                Age   => $Article{EscalationTime},
-                Space => ' ',
-            );
+        Env        => $Self,
+        LinkPage   => $LinkPage,
+        LinkSort   => $LinkSort,
 
-            $Article{EscalationTimeWorkingTime} = $Self->{LayoutObject}->CustomerAgeInHours(
-                Age   => $Article{EscalationTimeWorkingTime},
-                Space => ' ',
-            );
-
-            # customer info (customer name)
-            my %CustomerData = ();
-            if ( $Article{CustomerUserID} ) {
-                %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                    User => $Article{CustomerUserID},
-                );
-            }
-            if ( $CustomerData{UserLogin} ) {
-                $Article{CustomerName} = $Self->{CustomerUserObject}->CustomerName(
-                    UserLogin => $CustomerData{UserLogin},
-                );
-            }
-
-            # user info
-            my %UserInfo = $Self->{UserObject}->GetUserData(
-                User   => $Article{Owner},
-                Cached => 1
-            );
-
-            # seperate each searchresult line by using several css
-            if ( $Counter % 2 ) {
-                $Article{css} = "searchpassive";
-            }
-            else {
-                $Article{css} = "searchactive";
-            }
-            $Self->{LayoutObject}->Block(
-                Name => 'Record',
-                Data => { %Article, %UserInfo },
-            );
-
-            if ( $Article{EscalationTime} < 60 * 60 * 1 ) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'RecordEscalationFontStart',
-                    Data => { %Article, %UserInfo },
-                );
-                $Self->{LayoutObject}->Block(
-                    Name => 'RecordEscalationFontStop',
-                    Data => { %Article, %UserInfo },
-                );
-            }
-        }
-    }
-
-    # build search navigation bar
-    my %PageNav = $Self->{LayoutObject}->PageNavBar(
-        Limit     => $Self->{Limit},
-        StartHit  => $Self->{StartHit},
-        PageShown => $Self->{PageShown},
-        AllHits   => $Counter,
-        Action    => "Action=AgentTicketEscalationView&",
-        Link      => "SortBy=$Self->{SortBy}&Order=$Self->{Order}&Escalation=$Self->{Escalation}&",
+        Escalation => 1,
     );
 
-    # use template
-    $Output .= $Self->{LayoutObject}->Output(
-        TemplateFile => 'AgentTicketEscalationView',
-        Data => { %Param, %PageNav, Escalation => $Self->{Escalation}, },
-    );
-
-    # get page footer
     $Output .= $Self->{LayoutObject}->Footer();
-
-    # return page
     return $Output;
 }
 

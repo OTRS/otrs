@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.207 2008-10-02 07:27:03 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.208 2008-10-24 08:43:37 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1515,6 +1515,51 @@
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::Overview###Small" Required="0" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::TicketOverview</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::TicketOverviewSmall</Item>
+                <Item Key="Name">Small</Item>
+                <Item Key="PageShown">25</Item>
+                <Item Key="Image">overviewsmall.png</Item>
+                <Item Key="ImageSelected">overviewsmall-selected.png</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::Overview###Medium" Required="0" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::TicketOverview</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::TicketOverviewMedium</Item>
+                <Item Key="Name">Medium</Item>
+                <Item Key="PageShown">20</Item>
+                <Item Key="Image">overviewmedium.png</Item>
+                <Item Key="ImageSelected">overviewmedium-selected.png</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::Overview###Preview" Required="0" Valid="1">
+        <Description Lang="en"></Description>
+        <Description Lang="de"></Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::TicketOverview</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::TicketOverviewPreview</Item>
+                <Item Key="Name">Preview</Item>
+                <Item Key="PageShown">15</Item>
+                <Item Key="Image">overviewpreview.png</Item>
+                <Item Key="ImageSelected">overviewpreview-selected.png</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PendingDiffTime" Required="1" Valid="1">
         <Description Lang="en">Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).</Description>
         <Description Lang="de">Zeit die für pending-Status zur aktuellen Zeit addiert wird (Angabe in Sekunden; 86400 Sekunden = 1 Tag).</Description>
@@ -1522,18 +1567,6 @@
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
             <String Regex="^[0-9]{1,6}$">86400</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::Title" Required="1" Valid="1">
-        <Description Lang="en">Show ticket title in ticket view like QueueView, ZoomView and MailboxView.</Description>
-        <Description Lang="de">Anzeigen des Ticket-Titel in z. B. Queue-Ansicht, Inhalts-Ansicht und Mailbox-Ansicht.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
-        <Setting>
-            <Option SelectedID="1">
-                <Item Key="1">Yes</Item>
-                <Item Key="0">No</Item>
-            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ListType" Required="1" Valid="1">
@@ -1699,7 +1732,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
-            <String Regex="^[0-9]{1,3}$">70</String>
+            <String Regex="^[0-9]{1,3}$">76</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::CustomerInfoCompose" Required="1" Valid="1">
@@ -1763,15 +1796,6 @@
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
             <String Regex="^[0-9]{1,3}$">18</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketQueue###MaxShown" Required="1" Valid="1">
-        <Description Lang="en">Max shown tickets in QueueView.</Description>
-        <Description Lang="de">Maximale Anzahl der in der QueueAnsicht angezeigten Tickets.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewQueue</SubGroup>
-        <Setting>
-            <String Regex="^[0-9]{1,4}$">1200</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketQueue###StripEmptyLines" Required="1" Valid="1">
@@ -1969,18 +1993,6 @@
     <ConfigItem Name="Ticket::Frontend::BulkFeature" Required="1" Valid="1">
         <Description Lang="en">Do you want to activate an agent frontend feature to work on more than one ticket at the same time?</Description>
         <Description Lang="de">Soll eine Agent-Frontend-Funktion aktiviert werden, mit der gleichzeitig mit mehreren Tickets gearbeitet werden kann?</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
-        <Setting>
-            <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::BulkFeatureJavaScriptAlert" Required="1" Valid="1">
-        <Description Lang="en">Show java script popup if a ticket is selected for bulk action?</Description>
-        <Description Lang="de">Zeige Java Script PopUp, wenn ein Ticket für die Bulk-Aktion ausgewählt wurde?</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
@@ -5567,17 +5579,6 @@ $QData{"Signature"}
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::NavBarModule###2-Ticket::BulkAction" Required="0" Valid="1">
-        <Description Lang="en">Module registration for the BulkAction object in the agent interface.</Description>
-        <Description Lang="de">Modul-Registration für das BulkAction-Objekt im Agent-Interface.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::NavBarModule</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Module">Kernel::Output::HTML::NavBarTicketBulkAction</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="Frontend::HeaderMetaModule###2-TicketSearch" Required="0" Valid="1">
         <Description Lang="en">Module to generate html OpenSearch profile for short ticket search.</Description>
         <Description Lang="de">Modul zum generieren des HTML "OpenSearch" Profiles schnelle Ticket-Suchen über das Browser-Suchfeld anbieten zu können.</Description>
@@ -6329,56 +6330,6 @@ $QData{"Signature"}
                 </Item>
                 <Item Key="PrefKey">UserRefreshTime</Item>
                 <Item Key="Prio">3000</Item>
-                <Item Key="Activ">1</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="PreferencesGroups###QueueView" Required="0" Valid="1">
-        <Description Lang="en">Parameters for the QueueView object in the preference view.</Description>
-        <Description Lang="de">Parameter für das QueueView-Objekt in der Ansicht für die Einstellungen.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Preferences</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
-                <Item Key="Colum">Frontend</Item>
-                <Item Key="Label">QueueView</Item>
-                <Item Key="Desc">Select your frontend QueueView.</Item>
-                <Item Key="Data">
-                    <Hash>
-                        <Item Key="AgentTicketQueueTicketView">Standard</Item>
-                        <Item Key="AgentTicketQueueTicketViewLite">Lite</Item>
-                    </Hash>
-                </Item>
-                <Item Key="DataSelected">AgentTicketQueueTicketView</Item>
-                <Item Key="PrefKey">UserQueueView</Item>
-                <Item Key="Prio">3000</Item>
-                <Item Key="Activ">1</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="PreferencesGroups###QueueViewShownTickets" Required="0" Valid="1">
-        <Description Lang="en">Parameters for the QueueViewShowTickets object in the preference view.</Description>
-        <Description Lang="de">Parameter für das QueueViewShowTickets-Objekt in der Ansicht für die Einstellungen.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Preferences</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Module">Kernel::Output::HTML::PreferencesGeneric</Item>
-                <Item Key="Colum">Frontend</Item>
-                <Item Key="Label">Shown Tickets</Item>
-                <Item Key="Desc">Max. shown Tickets a page in QueueView.</Item>
-                <Item Key="Data">
-                    <Hash>
-                        <Item Key="10">10</Item>
-                        <Item Key="15">15</Item>
-                        <Item Key="20">20</Item>
-                        <Item Key="25">25</Item>
-                    </Hash>
-                </Item>
-                <Item Key="DataSelected">15</Item>
-                <Item Key="PrefKey">UserQueueViewShowTickets</Item>
-                <Item Key="Prio">4000</Item>
                 <Item Key="Activ">1</Item>
             </Hash>
         </Setting>

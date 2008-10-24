@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketStatusView.pm - status for all open tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketStatusView.pm,v 1.15 2008-07-03 18:21:14 martin Exp $
+# $Id: AgentTicketStatusView.pm,v 1.16 2008-10-24 08:35:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,11 +14,8 @@ package Kernel::Modules::AgentTicketStatusView;
 use strict;
 use warnings;
 
-use Kernel::System::State;
-use Kernel::System::CustomerUser;
-
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -36,36 +33,21 @@ sub new {
 
     $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
 
-    # needed objects
-    $Self->{StateObject}        = Kernel::System::State->new(%Param);
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
-
-    # get params
-    $Self->{SortBy} = $Self->{ParamObject}->GetParam( Param => 'SortBy' )
-        || $Self->{Config}->{'SortBy::Default'}
-        || 'Age';
-    $Self->{Order} = $Self->{ParamObject}->GetParam( Param => 'Order' )
-        || $Self->{Config}->{'Order::Default'}
-        || 'Up';
-
-    # viewable tickets a page
-    $Self->{Limit} = $Self->{ParamObject}->GetParam( Param => 'Limit' ) || 6000;
-
-    $Self->{StartHit} = $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1;
-    $Self->{PageShown} = $Self->{Config}->{ViewableTicketsPage} || 50;
-    $Self->{ViewType} = $Self->{ParamObject}->GetParam( Param => 'Type' ) || 'Open';
-    if ( $Self->{ViewType} =~ /^close/i ) {
-        $Self->{ViewType} = 'Closed';
-    }
-    else {
-        $Self->{ViewType} = 'Open';
-    }
+    $Self->{Filter}   = $Self->{ParamObject}->GetParam( Param => 'Filter' ) || 'Open';
+    $Self->{View}     = $Self->{ParamObject}->GetParam( Param => 'View' )   || '';
 
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
+    my $SortBy = $Self->{ParamObject}->GetParam( Param => 'SortBy' )
+        || $Self->{Config}->{'SortBy::Default'}
+        || 'Age';
+    my $OrderBy = $Self->{ParamObject}->GetParam( Param => 'OrderBy' )
+        || $Self->{Config}->{'Order::Default'}
+        || 'Up';
 
     # store last queue screen
     $Self->{SessionObject}->UpdateSessionID(
@@ -87,104 +69,92 @@ sub Run {
         $Refresh = 60 * $Self->{UserRefreshTime};
     }
     my $Output = $Self->{LayoutObject}->Header( Refresh => $Refresh, );
-
-    # build NavigationBar
     $Output .= $Self->{LayoutObject}->NavigationBar();
-
-    # to get the output faster!
     $Self->{LayoutObject}->Print( Output => \$Output );
     $Output = '';
 
-    if ( $Self->{ViewType} =~ /close/i ) {
-        $Self->{ViewType} = 'Closed';
-    }
-    else {
-        $Self->{ViewType} = 'Open';
+    # define filter
+    my %Filters = (
+        Open => {
+            Name   => 'Open',
+            Prio   => 1000,
+            Search => {
+                Limit      => 2000,
+                StateType  => 'Open',
+                OrderBy    => $OrderBy,
+                SortBy     => $SortBy,
+                UserID     => $Self->{UserID},
+                Permission => 'ro',
+            },
+        },
+        Closed => {
+            Name   => 'Closed',
+            Prio   => 1001,
+            Search => {
+                Limit      => 2000,
+                StateType  => 'Closed',
+                OrderBy    => $OrderBy,
+                SortBy     => $SortBy,
+                UserID     => $Self->{UserID},
+                Permission => 'ro',
+            },
+        },
+    );
+
+    # check if filter is valid
+    if ( !$Filters{ $Self->{Filter} } ) {
+        $Self->{LayoutObject}->FatalError( Message => "Invalid Filter: $Self->{Filter}!" );
     }
 
-    # get shown tickets
-    my @TicketIDs = $Self->{TicketObject}->TicketSearch(
+    # do shown tickets lookup
+    my @ViewableTickets = $Self->{TicketObject}->TicketSearch(
+        %{ $Filters{ $Self->{Filter} }->{Search} },
         Result     => 'ARRAY',
-        Limit      => $Self->{Limit},
-        StateType  => $Self->{ViewType},
-        OrderBy    => $Self->{Order},
-        SortBy     => $Self->{SortBy},
-        UserID     => $Self->{UserID},
-        Permission => 'ro',
     );
+
+    # do nav bar lookup
+    my %NavBarFilter;
+    for my $Filter ( keys %Filters ) {
+        my $Count = $Self->{TicketObject}->TicketSearch(
+            %{ $Filters{ $Filter }->{Search} },
+            Result     => 'COUNT',
+        );
+
+        $NavBarFilter{ $Filters{ $Filter }->{Prio} } = {
+            Count  => $Count,
+            Filter => $Filter,
+            %{ $Filters{ $Filter } },
+        };
+    }
 
     # show ticket's
-    my $Counter = 0;
-    for my $TicketID (@TicketIDs) {
-        $Counter++;
-        if (
-            $Counter >= $Self->{StartHit}
-            && $Counter < ( $Self->{PageShown} + $Self->{StartHit} )
-            )
-        {
+    my $LinkPage = 'Filter='
+        . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Filter} )
+        . '&View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
+        . '&SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $SortBy )
+        . '&OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $OrderBy )
+        . '&';
+    my $LinkSort = 'Filter='
+        . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Filter} )
+        . '&View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
+        . '&';
+    my $FilterLink = 'SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $SortBy )
+        . '&OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $OrderBy )
+        . '&View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
+        . '&';
+    $Output .= $Self->{LayoutObject}->TicketListShow(
+        TicketIDs => \@ViewableTickets,
+        Total      => scalar @ViewableTickets,
+        Env        => $Self,
+        LinkPage   => $LinkPage,
+        LinkSort   => $LinkSort,
+        View       => $Self->{View},
+        TitleName  => 'Status View',
+        TitleValue => $Self->{Filter},
 
-            # get last customer article
-            my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
-                TicketID => $TicketID,
-            );
-
-            # prepare subject
-            $Article{Subject} = $Self->{TicketObject}->TicketSubjectClean(
-                TicketNumber => $Article{TicketNumber},
-                Subject => $Article{Subject} || '',
-            );
-
-            # create human age
-            $Article{Age}
-                = $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' );
-
-            # customer info (customer name)
-            my %CustomerData = ();
-            if ( $Article{CustomerUserID} ) {
-                %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                    User => $Article{CustomerUserID},
-                );
-            }
-            if ( $CustomerData{UserLogin} ) {
-                $Article{CustomerName} = $Self->{CustomerUserObject}->CustomerName(
-                    UserLogin => $CustomerData{UserLogin},
-                );
-            }
-
-            # user info
-            my %UserInfo = $Self->{UserObject}->GetUserData(
-                User   => $Article{Owner},
-                Cached => 1
-            );
-
-            # seperate each searchresult line by using several css
-            if ( $Counter % 2 ) {
-                $Article{css} = "searchpassive";
-            }
-            else {
-                $Article{css} = "searchactive";
-            }
-            $Self->{LayoutObject}->Block(
-                Name => 'Record',
-                Data => { %Article, %UserInfo },
-            );
-        }
-    }
-
-    # build search navigation bar
-    my %PageNav = $Self->{LayoutObject}->PageNavBar(
-        Limit     => $Self->{Limit},
-        StartHit  => $Self->{StartHit},
-        PageShown => $Self->{PageShown},
-        AllHits   => $Counter,
-        Action    => "Action=AgentTicketStatusView&",
-        Link      => "SortBy=$Self->{SortBy}&Order=$Self->{Order}&Type=$Self->{ViewType}&",
-    );
-
-    # use template
-    $Output .= $Self->{LayoutObject}->Output(
-        TemplateFile => 'AgentTicketStatusView',
-        Data => { %Param, %PageNav, Type => $Self->{ViewType}, },
+        Filter     => $Self->{Filter},
+        Filters    => \%NavBarFilter,
+        FilterLink => $FilterLink,
     );
 
     # get page footer

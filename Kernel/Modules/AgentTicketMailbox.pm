@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMailbox.pm - to view all locked tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMailbox.pm,v 1.27 2008-09-10 11:14:37 martin Exp $
+# $Id: AgentTicketMailbox.pm,v 1.28 2008-10-24 08:35:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,10 +14,8 @@ package Kernel::Modules::AgentTicketMailbox;
 use strict;
 use warnings;
 
-use Kernel::System::State;
-
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,12 +33,8 @@ sub new {
 
     $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
 
-    $Self->{StateObject} = Kernel::System::State->new(%Param);
-
-    $Self->{StartHit} = $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1;
-    $Self->{PageShown} = $Self->{UserQueueViewShowTickets}
-        || $Self->{ConfigObject}->Get('PreferencesGroups')->{QueueViewShownTickets}->{DataSelected}
-        || 10;
+    $Self->{Filter}   = $Self->{ParamObject}->GetParam( Param => 'Filter' ) || 'All';
+    $Self->{View}     = $Self->{ParamObject}->GetParam( Param => 'View' ) || '';
 
     return $Self;
 }
@@ -48,8 +42,6 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Output;
-    my $QueueID = $Self->{QueueID};
     my $SortBy = $Self->{ParamObject}->GetParam( Param => 'SortBy' )
         || $Self->{Config}->{'SortBy::Default'}
         || 'Age';
@@ -76,325 +68,220 @@ sub Run {
     if ( $Self->{UserRefreshTime} ) {
         $Refresh = 60 * $Self->{UserRefreshTime};
     }
-    $Output .= $Self->{LayoutObject}->Header( Refresh => $Refresh, );
+    my $Output = $Self->{LayoutObject}->Header( Refresh => $Refresh, );
     $Output .= $Self->{LayoutObject}->NavigationBar();
-    my %LockedData = $Self->{TicketObject}->GetLockedCount( UserID => $Self->{UserID} );
+    $Self->{LayoutObject}->Print( Output => \$Output );
+    $Output = '';
 
     # get locked  viewable tickets...
-    my @ViewableTickets = ();
     my $SortByS         = $SortBy;
     if ( $SortByS eq 'CreateTime' ) {
         $SortByS = 'Age';
     }
 
-    # check view type
-    if ( !$Self->{Subaction} ) {
-        $Self->{Subaction} = 'All';
+    my %Filters = (
+        All => {
+            Name   => 'All',
+            Prio   => 1000,
+            Search => {
+                Result     => 'ARRAY',
+                Limit      => 1000,
+                Locks      => ['lock'],
+                OwnerIDs   => [ $Self->{UserID} ],
+                OrderBy    => $OrderBy,
+                SortBy     => $SortByS,
+                UserID     => 1,
+                Permission => 'ro',
+            },
+        },
+        New => {
+            Name   => 'New message',
+            Prio   => 1001,
+            Search => {
+                Result     => 'ARRAY',
+                Limit      => 1000,
+                Locks      => ['lock'],
+                OwnerIDs   => [ $Self->{UserID} ],
+                OrderBy    => $OrderBy,
+                SortBy     => $SortByS,
+                UserID     => 1,
+                Permission => 'ro',
+            },
+        },
+        Reminder => {
+            Name   => 'Reminder',
+            Prio   => 1002,
+            Search => {
+                Result         => 'ARRAY',
+                Limit          => 1000,
+                StateType      => ['pending reminder', 'pending auto'],
+                OwnerIDs       => [ $Self->{UserID} ],
+                OrderBy        => $OrderBy,
+                SortBy         => $SortByS,
+                UserID         => 1,
+                Permission     => 'ro',
+            },
+        },
+        ReminderReached => {
+            Name   => 'Reminder messages',
+            Prio   => 1003,
+            Search => {
+                Result         => 'ARRAY',
+                Limit          => 1000,
+                StateType      => ['pending reminder', 'pending auto'],
+                OwnerIDs       => [ $Self->{UserID} ],
+                OrderBy        => $OrderBy,
+                SortBy         => $SortByS,
+                UserID         => 1,
+                Permission     => 'ro',
+            },
+        },
+        Responsible => {
+            Name   => 'Responsible',
+            Prio   => 1004,
+            Search => {
+                Result         => 'ARRAY',
+                Limit          => 1000,
+                StateType      => 'Open',
+                ResponsibleIDs => [ $Self->{UserID} ],
+                OrderBy        => $OrderBy,
+                SortBy         => $SortByS,
+                UserID         => 1,
+                Permission     => 'ro',
+            },
+        },
+        Watched => {
+            Name   => 'Watched',
+            Prio   => 1005,
+            Search => {
+                Result       => 'ARRAY',
+                Limit        => 1000,
+                OrderBy      => $OrderBy,
+                SortBy       => $SortByS,
+                WatchUserIDs => [ $Self->{UserID} ],
+                UserID       => 1,
+                Permission   => 'ro',
+            },
+        },
+    );
+
+    # check if filter is valid
+    if ( !$Filters{ $Self->{Filter} } ) {
+        $Self->{LayoutObject}->FatalError( Message => "Invalid Filter: $Self->{Filter}!" );
     }
 
-    if ( $Self->{Subaction} eq 'Pending' ) {
-        my @StateIDs = $Self->{StateObject}->StateGetStatesByType(
-            Type   => 'PendingReminder',
-            Result => 'ARRAY',
-        );
-        push(
-            @StateIDs,
-            $Self->{StateObject}->StateGetStatesByType(
-                Type   => 'PendingAuto',
-                Result => 'ARRAY',
-                )
-        );
-        @ViewableTickets = $Self->{TicketObject}->TicketSearch(
-            Result     => 'ARRAY',
-            Limit      => 1000,
-            StateIDs   => \@StateIDs,
-            Locks      => ['lock'],
-            OwnerIDs   => [ $Self->{UserID} ],
-            OrderBy    => $OrderBy,
-            SortBy     => $SortByS,
-            UserID     => 1,
-            Permission => 'ro',
-        );
+    my @ViewableTickets = $Self->{TicketObject}->TicketSearch(
+        %{ $Filters{ $Self->{Filter} }->{Search} },
+        Result     => 'ARRAY',
+        Limit      => 1000,
+    );
+
+    # prepare new message tickets
+    if ( $Self->{Filter} eq 'New') {
+        my @ViewableTicketsTmp;
+        my %LockedData = $Self->{TicketObject}->GetLockedCount( UserID => $Self->{UserID} );
+        for my $TicketID (@ViewableTickets) {
+            # check what tickets are new
+            my $Message = '';
+            if ( $LockedData{NewTicketIDs}->{$TicketID} ) {
+                $Message = 'New message!';
+                push( @ViewableTicketsTmp, $TicketID );
+            }
+        }
+        @ViewableTickets = @ViewableTicketsTmp;
     }
-    elsif ( $Self->{Subaction} eq 'Reminder' ) {
-        my @StateIDs = $Self->{StateObject}->StateGetStatesByType(
-            Type   => 'PendingReminder',
-            Result => 'ARRAY',
-        );
-        @ViewableTickets = ();
-        my @ViewableTicketsTmp = $Self->{TicketObject}->TicketSearch(
-            Result     => 'ARRAY',
-            Limit      => 1000,
-            StateIDs   => \@StateIDs,
-            Locks      => ['lock'],
-            OwnerIDs   => [ $Self->{UserID} ],
-            OrderBy    => $OrderBy,
-            SortBy     => $SortByS,
-            UserID     => 1,
-            Permission => 'ro',
-        );
-        for my $TicketID (@ViewableTicketsTmp) {
+    elsif ( $Self->{Filter} eq 'ReminderReached') {
+        my @ViewableTicketsTmp;
+        for my $TicketID (@ViewableTickets) {
             my @Index = $Self->{TicketObject}->ArticleIndex( TicketID => $TicketID );
             if (@Index) {
                 my %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Index[-1] );
                 if ( $Article{UntilTime} < 1 ) {
-                    push( @ViewableTickets, $TicketID );
+                    push( @ViewableTicketsTmp, $TicketID );
                 }
             }
         }
+        @ViewableTickets = @ViewableTicketsTmp;
     }
-    elsif ( $Self->{Subaction} eq 'New' ) {
-        @ViewableTickets = ();
-        my @ViewableTicketsTmp = $Self->{TicketObject}->TicketSearch(
+
+    my %NavBarFilter;
+    for my $Filter ( keys %Filters ) {
+        my @ViewableTickets = $Self->{TicketObject}->TicketSearch(
+            %{ $Filters{ $Filter }->{Search} },
             Result     => 'ARRAY',
             Limit      => 1000,
-            Locks      => ['lock'],
-            OwnerIDs   => [ $Self->{UserID} ],
-            OrderBy    => $OrderBy,
-            SortBy     => $SortByS,
-            UserID     => 1,
-            Permission => 'ro',
         );
-        for my $TicketID (@ViewableTicketsTmp) {
 
+        if ( $Filter eq 'New') {
+            my @ViewableTicketsTmp;
+            my %LockedData = $Self->{TicketObject}->GetLockedCount( UserID => $Self->{UserID} );
             # check what tickets are new
-            my $Message = '';
-            if ( $LockedData{NewTicketIDs}->{$TicketID} ) {
-                $Message = 'New message!';
-            }
-            if ($Message) {
-                push( @ViewableTickets, $TicketID );
-            }
-        }
-    }
-    elsif ( $Self->{Subaction} eq 'Responsible' ) {
-        @ViewableTickets = $Self->{TicketObject}->TicketSearch(
-            Result         => 'ARRAY',
-            Limit          => 1000,
-            StateType      => 'Open',
-            ResponsibleIDs => [ $Self->{UserID} ],
-            OrderBy        => $OrderBy,
-            SortBy         => $SortByS,
-            UserID         => 1,
-            Permission     => 'ro',
-        );
-    }
-    elsif ( $Self->{Subaction} eq 'Watched' ) {
-        @ViewableTickets = $Self->{TicketObject}->TicketSearch(
-            Result       => 'ARRAY',
-            Limit        => 1000,
-            OrderBy      => $OrderBy,
-            SortBy       => $SortByS,
-            WatchUserIDs => [ $Self->{UserID} ],
-            UserID       => 1,
-            Permission   => 'ro',
-        );
-    }
-    else {
-        @ViewableTickets = $Self->{TicketObject}->TicketSearch(
-            Result     => 'ARRAY',
-            Limit      => 1000,
-            Locks      => ['lock'],
-            OwnerIDs   => [ $Self->{UserID} ],
-            OrderBy    => $OrderBy,
-            SortBy     => $SortByS,
-            UserID     => 1,
-            Permission => 'ro',
-        );
-    }
-
-    # get article data
-    my $Counter      = 0;
-    my $CounterShown = 0;
-    my $AllTickets   = 0;
-    if (@ViewableTickets) {
-        $AllTickets = $#ViewableTickets + 1;
-    }
-    for my $TicketID (@ViewableTickets) {
-        $Counter++;
-        if (
-            $Counter >= $Self->{StartHit}
-            && $Counter < ( $Self->{PageShown} + $Self->{StartHit} )
-            )
-        {
-            my %Article = ();
-            my @ArticleBody = $Self->{TicketObject}->ArticleGet( TicketID => $TicketID );
-            if ( !@ArticleBody ) {
-                next;
-            }
-            %Article = %{ $ArticleBody[-1] };
-
-            # return latest non internal article
-            for my $Content ( reverse @ArticleBody ) {
-                my %ArticlePart = %{$Content};
-                if ( $ArticlePart{SenderType} eq 'customer' ) {
-                    %Article = %ArticlePart;
-                    last;
+            for my $TicketID (@ViewableTickets) {
+                my $Message = '';
+                if ( $LockedData{NewTicketIDs}->{$TicketID} ) {
+                    $Message = 'New message!';
+                    push( @ViewableTicketsTmp, $TicketID );
                 }
             }
-
-            # check what tickets are new
-            my $Message = '';
-            if ( $LockedData{NewTicketIDs}->{$TicketID} ) {
-                $Message = 'New message!';
-            }
-
-            # show ticket
-            $CounterShown++;
-            $Self->MaskMailboxTicket(
-                %Article,
-                Message => $Message,
-                Counter => $CounterShown,
-            );
+            @ViewableTickets = @ViewableTicketsTmp;
         }
+        elsif ( $Filter eq 'ReminderReached') {
+            my @ViewableTicketsTmp;
+            for my $TicketID (@ViewableTickets) {
+                my @Index = $Self->{TicketObject}->ArticleIndex( TicketID => $TicketID );
+                if (@Index) {
+                    my %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Index[-1] );
+                    if ( $Article{UntilTime} < 1 ) {
+                        push( @ViewableTicketsTmp, $TicketID );
+                    }
+                }
+            }
+            @ViewableTickets = @ViewableTicketsTmp;
+        }
+
+        $NavBarFilter{ $Filters{ $Filter }->{Prio} } = {
+            Count  => scalar @ViewableTickets,
+            Filter => $Filter,
+            %{ $Filters{ $Filter } },
+        };
     }
 
-    # create & return output
-    my $Link = 'Subaction='
-        . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Subaction} )
+    # show ticket's
+    my $LinkPage = 'Filter='
+        . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Filter} )
+        . '&View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
         . '&SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $SortBy )
         . '&OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $OrderBy )
         . '&';
+    my $LinkSort = 'Filter='
+        . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Filter} )
+        . '&View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
+        . '&';
+    my $LinkFilter = 'SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $SortBy )
+        . '&OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $OrderBy )
+        . '&View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
+        . '&';
+    $Output .= $Self->{LayoutObject}->TicketListShow(
+        TicketIDs => \@ViewableTickets,
+        Total      => scalar @ViewableTickets,
 
-    my %PageNav = $Self->{LayoutObject}->PageNavBar(
-        Limit     => 10000,
-        StartHit  => $Self->{StartHit},
-        PageShown => $Self->{PageShown},
-        AllHits   => $AllTickets,
-        Action    => 'Action=AgentTicketMailbox',
-        Link      => $Link,
-    );
-    $Self->{LayoutObject}->Block(
-        Name => 'NavBar',
-        Data => {
-            %LockedData,
-            SortBy   => $SortBy,
-            OrderBy  => $OrderBy,
-            ViewType => $Self->{Subaction},
-            %PageNav,
-            }
+        View       => $Self->{View},
+
+        Filter     => $Self->{Filter},
+        Filters    => \%NavBarFilter,
+        FilterLink => $LinkFilter,
+
+        TitleName  => 'Mailbox',
+        TitleValue => $Self->{Filter},
+
+        Env        => $Self,
+        LinkPage   => $LinkPage,
+        LinkSort   => $LinkSort,
+
     );
 
-    # create & return output
-    $Output .= $Self->{LayoutObject}->Output(
-        TemplateFile => 'AgentTicketMailbox',
-        Data         => { %Param, },
-    );
     $Output .= $Self->{LayoutObject}->Footer();
     return $Output;
-}
-
-sub MaskMailboxTicket {
-    my ( $Self, %Param ) = @_;
-
-    $Param{Message} = $Self->{LayoutObject}->{LanguageObject}->Get( $Param{Message} ) . ' ';
-
-    # get ack actions
-    $Self->{TicketObject}->TicketAcl(
-        Data          => '-',
-        Action        => $Self->{Action},
-        TicketID      => $Param{TicketID},
-        ReturnType    => 'Action',
-        ReturnSubType => '-',
-        UserID        => $Self->{UserID},
-    );
-    my %AclAction = $Self->{TicketObject}->TicketAclActionData();
-
-    # check if the pending ticket is Over Time
-    if ( $Param{UntilTime} < 0 && $Param{State} !~ /^pending auto/i ) {
-        $Param{Message} .= $Self->{LayoutObject}->{LanguageObject}->Get('Timeover') . ' '
-            . $Self->{LayoutObject}->CustomerAge( Age => $Param{UntilTime}, Space => ' ' ) . '!';
-    }
-
-    # create PendingUntil string if UntilTime is < -1
-    if ( $Param{UntilTime} ) {
-        if ( $Param{UntilTime} < -1 ) {
-            $Param{PendingUntil} = "<font color='red'>";
-        }
-        $Param{PendingUntil} .= $Self->{LayoutObject}->CustomerAge(
-            Age   => $Param{UntilTime},
-            Space => '<br>',
-        );
-        if ( $Param{UntilTime} < -1 ) {
-            $Param{PendingUntil} .= "</font>";
-        }
-    }
-
-    # do some strips && quoting
-    $Param{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Param{Age}, Space => ' ' );
-    $Self->{LayoutObject}->Block(
-        Name => 'Ticket',
-        Data => { %Param, %AclAction, },
-    );
-
-    # ticket bulk block
-    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature') ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'Bulk',
-            Data => {%Param},
-        );
-    }
-
-    # ticket title
-    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::Title') ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'Title',
-            Data => {%Param},
-        );
-    }
-
-    # build ticket view
-    for (qw(From To Cc Subject)) {
-        if ( $Param{$_} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'Row',
-                Data => {
-                    Key   => $_,
-                    Value => $Param{$_},
-                },
-            );
-        }
-    }
-    for ( 1 .. 3 ) {
-        if ( $Param{"ArticleFreeText$_"} ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'ArticleFreeText',
-                Data => {
-                    Key   => $Param{"ArticleFreeKey$_"},
-                    Value => $Param{"ArticleFreeText$_"},
-                },
-            );
-        }
-    }
-
-    # run ticket pre menu modules
-    if ( ref $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') eq 'HASH' ) {
-        my %Menus   = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') };
-        my $Counter = 0;
-        for my $Menu ( sort keys %Menus ) {
-
-            # load module
-            if ( $Self->{MainObject}->Require( $Menus{$Menu}->{Module} ) ) {
-                my $Object = $Menus{$Menu}->{Module}->new(
-                    %{$Self},
-                    TicketID => $Self->{TicketID},
-                );
-
-                # run module
-                $Counter = $Object->Run(
-                    %Param,
-                    Ticket  => \%Param,
-                    Counter => $Counter,
-                    ACL     => \%AclAction,
-                    Config  => $Menus{$Menu},
-                );
-            }
-            else {
-                return $Self->{LayoutObject}->FatalError();
-            }
-        }
-    }
-    return 1;
 }
 
 1;
