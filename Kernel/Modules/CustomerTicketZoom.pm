@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.27 2008-07-09 12:32:06 martin Exp $
+# $Id: CustomerTicketZoom.pm,v 1.28 2008-10-24 07:45:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -478,7 +478,7 @@ sub _Mask {
         }
     }
 
-    # get attacment string
+    # get attachment string
     my %AtmIndex = ();
     if ( $Article{Atms} ) {
         %AtmIndex = %{ $Article{Atms} };

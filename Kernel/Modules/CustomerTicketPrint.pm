@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketPrint.pm - print layout for customer interface
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketPrint.pm,v 1.21 2008-06-20 16:21:44 mh Exp $
+# $Id: CustomerTicketPrint.pm,v 1.22 2008-10-24 07:45:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::User;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -689,7 +689,7 @@ sub _PDFOutputArticles {
 
         my %Article = %{$ArticleTmp};
 
-        # get attacment string
+        # get attachment string
         my %AtmIndex = ();
         if ( $Article{Atms} ) {
             %AtmIndex = %{ $Article{Atms} };
@@ -882,7 +882,7 @@ sub _HTMLMask {
     for my $ArticleTmp (@ArticleBox) {
         my %Article = %{$ArticleTmp};
 
-        # get attacment string
+        # get attachment string
         my %AtmIndex = ();
         if ( $Article{Atms} ) {
             %AtmIndex = %{ $Article{Atms} };
