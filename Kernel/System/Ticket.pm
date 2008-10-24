@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.350 2008-10-13 13:26:09 martin Exp $
+# $Id: Ticket.pm,v 1.351 2008-10-24 08:39:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.350 $) [1];
+$VERSION = qw($Revision: 1.351 $) [1];
 
 =head1 NAME
 
@@ -2961,7 +2961,7 @@ To find tickets in your system.
 
     my @TicketIDs = $TicketObject->TicketSearch(
         # result (required)
-        Result => 'ARRAY' || 'HASH',
+        Result => 'ARRAY' || 'HASH' || 'COUNT',
 
         # result limit
         Limit => 100,
@@ -3071,6 +3071,16 @@ To find tickets in your system.
         TicketCreateTimeNewerDate => '2006-01-09 00:00:01',
         # tickets with created time before then ... (ticket older this date) (optional)
         TicketCreateTimeOlderDate => '2006-01-19 23:59:59',
+
+        # tickets changed after 60 minutes (ticket changed newer then 60 minutes)  (optional)
+        TicketChangeTimeOlderMinutes => 60,
+        # tickets changed before 120 minutes (ticket changed older 120 minutes) (optional)
+        TicketChangeTimeNewerMinutes => 120,
+
+        # tickets with changed time after ... (ticket changed newer then this date) (optional)
+        TicketChangeTimeNewerDate => '2006-01-09 00:00:01',
+        # tickets with changed time before then ... (ticket changed older this date) (optional)
+        TicketChangeTimeOlderDate => '2006-01-19 23:59:59',
 
         # tickets closed after 60 minutes (ticket closed newer then 60 minutes)  (optional)
         TicketCloseTimeOlderMinutes => 60,
@@ -3238,9 +3248,15 @@ sub TicketSearch {
 
     # sql
     my $SQLExt = '';
-    my $SQL    = 'SELECT DISTINCT st.id, st.tn';
-    for my $SortBy (@SortByArray) {
-        $SQL .= ', ' . $SortOptions{$SortBy};
+    my $SQL;
+    if ( $Result eq 'COUNT' ) {
+        $SQL = 'SELECT DISTINCT count(*)';
+    }
+    else {
+        $SQL = 'SELECT DISTINCT st.id, st.tn';
+        for my $SortBy (@SortByArray) {
+            $SQL .= ', ' . $SortOptions{$SortBy};
+        }
     }
     $SQL .= ' FROM ticket st, queue sq ';
 
@@ -3251,7 +3267,7 @@ sub TicketSearch {
 
     # use also history table if required
     for ( keys %Param ) {
-        if ( $_ =~ /^(Ticket(Close)Time(Newer|Older)(Date|Minutes)|Created.+?)/ ) {
+        if ( $_ =~ /^(Ticket(Close|Change)Time(Newer|Older)(Date|Minutes)|Created.+?)/ ) {
             $SQL    .= ', ticket_history th ';
             $SQLExt .= ' AND st.id = th.ticket_id';
             last;
@@ -4001,6 +4017,62 @@ sub TicketSearch {
     }
 
     # get tickets closed older then x minutes
+    if ( $Param{TicketChangeTimeOlderMinutes} ) {
+        my $TimeStamp
+            = $Self->{TimeObject}->SystemTime() - ( $Param{TicketChangeTimeOlderMinutes} * 60 );
+        $Param{TicketChangeTimeOlderDate} = $Self->{TimeObject}->SystemTime2TimeStamp(
+            SystemTime => $TimeStamp,
+        );
+    }
+
+    # get tickets closed newer then x minutes
+    if ( $Param{TicketChangeTimeNewerMinutes} ) {
+        my $TimeStamp
+            = $Self->{TimeObject}->SystemTime() - ( $Param{TicketChangeTimeNewerMinutes} * 60 );
+        $Param{TicketChangeTimeNewerDate} = $Self->{TimeObject}->SystemTime2TimeStamp(
+            SystemTime => $TimeStamp,
+        );
+    }
+
+    # get tickets closed older then xxxx-xx-xx xx:xx date
+    if ( $Param{TicketChangeTimeOlderDate} ) {
+
+        # check time format
+        if (
+            $Param{TicketChangeTimeOlderDate}
+            !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
+            )
+        {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "No valid time format '$Param{TicketChangeTimeOlderDate}'!",
+            );
+            return;
+        }
+
+        $SQLExt .= " AND th.create_time <= '"
+            . $Self->{DBObject}->Quote( $Param{TicketChangeTimeOlderDate} ) . "'";
+    }
+
+    # get tickets closed newer then xxxx-xx-xx xx:xx date
+    if ( $Param{TicketChangeTimeNewerDate} ) {
+        if (
+            $Param{TicketChangeTimeNewerDate}
+            !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
+            )
+        {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "No valid time format '$Param{TicketChangeTimeNewerDate}'!",
+            );
+            return;
+        }
+
+        $SQLExt .= " AND th.create_time >= '"
+                . $Self->{DBObject}->Quote( $Param{TicketChangeTimeNewerDate} ) . "'";
+    }
+
+    # get tickets closed older then x minutes
     if ( $Param{TicketCloseTimeOlderMinutes} ) {
         my $TimeStamp
             = $Self->{TimeObject}->SystemTime() - ( $Param{TicketCloseTimeOlderMinutes} * 60 );
@@ -4154,17 +4226,19 @@ sub TicketSearch {
     }
 
     # database query for sort/order by option
-    $SQLExt .= ' ORDER BY';
-    for my $Count ( 0 .. $#SortByArray ) {
-        if ( $Count > 0 ) {
-            $SQLExt .= ',';
-        }
-        $SQLExt .= ' ' . $SortOptions{ $SortByArray[$Count] };
-        if ( $OrderByArray[$Count] eq 'Up' ) {
-            $SQLExt .= ' ASC';
-        }
-        else {
-            $SQLExt .= ' DESC';
+    if ( $Result ne 'COUNT' ) {
+        $SQLExt .= ' ORDER BY';
+        for my $Count ( 0 .. $#SortByArray ) {
+            if ( $Count > 0 ) {
+                $SQLExt .= ',';
+            }
+            $SQLExt .= ' ' . $SortOptions{ $SortByArray[$Count] };
+            if ( $OrderByArray[$Count] eq 'Up' ) {
+                $SQLExt .= ' ASC';
+            }
+            else {
+                $SQLExt .= ' DESC';
+            }
         }
     }
 
@@ -4196,13 +4270,28 @@ sub TicketSearch {
     # database query
     my %Tickets   = ();
     my @TicketIDs = ();
+    my $Count     = 0;
     $Self->{DBObject}->Prepare( SQL => $SQL . $SQLExt, Limit => $Limit );
 
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $Count = $Row[0];
         $Tickets{ $Row[0] } = $Row[1];
         push @TicketIDs, $Row[0];
     }
-    if ( $Result eq 'HASH' ) {
+    if ( $Result eq 'COUNT' ) {
+
+        # fill cache
+        if ($CacheObject) {
+            $CacheObject->Set(
+                Type  => 'TicketSearch',
+                Key   => $SQL . $SQLExt . $Result . $Limit,
+                Value => $Count,
+                TTL   => 60 * 5,
+            );
+        }
+        return $Count;
+    }
+    elsif ( $Result eq 'HASH' ) {
 
         # fill cache
         if ($CacheObject) {
@@ -6659,6 +6748,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.350 $ $Date: 2008-10-13 13:26:09 $
+$Revision: 1.351 $ $Date: 2008-10-24 08:39:27 $
 
 =cut
