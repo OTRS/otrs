@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPostMasterFilter.pm - to add/update/delete filters
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.pm,v 1.16 2008-05-08 09:36:36 mh Exp $
+# $Id: AdminPostMasterFilter.pm,v 1.17 2008-10-24 07:47:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::PostMaster::Filter;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -44,7 +44,7 @@ sub Run {
     my %GetParam = ();
     my $Name     = $Self->{ParamObject}->GetParam( Param => 'Name' ) || '';
     my $OldName  = $Self->{ParamObject}->GetParam( Param => 'OldName' ) || '';
-    for ( 1 .. 8 ) {
+    for ( 1 .. 12 ) {
         $GetParam{"MatchHeader$_"} = $Self->{ParamObject}->GetParam( Param => "MatchHeader$_" );
         $GetParam{"MatchValue$_"}  = $Self->{ParamObject}->GetParam( Param => "MatchValue$_" );
         $GetParam{"SetHeader$_"}   = $Self->{ParamObject}->GetParam( Param => "SetHeader$_" );
@@ -55,33 +55,27 @@ sub Run {
     # delete
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Delete' ) {
-        if ( $Self->{PostMasterFilter}->FilterDelete( Name => $Name ) ) {
-            return $Self->{LayoutObject}->Redirect( OP => 'Action=$Env{"Action"}' );
-        }
-        else {
+        if ( !$Self->{PostMasterFilter}->FilterDelete( Name => $Name ) ) {
             return $Self->{LayoutObject}->ErrorScreen();
         }
+        return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
     }
 
     # ------------------------------------------------------------ #
     # add action
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
-        if (
-            $Self->{PostMasterFilter}->FilterAdd(
-                Name  => $Name,
-                Match => { _TEST_ => '_TEST_', },
-                Set   => { _TEST_ => '_TEST_', }
-            )
-            )
-        {
-            return $Self->{LayoutObject}->Redirect(
-                OP => 'Action=$Env{"Action"}&Subaction=Update&Name=' . $Name,
-            );
-        }
-        else {
+        my $Add = $Self->{PostMasterFilter}->FilterAdd(
+            Name  => $Name,
+            Match => { _TEST_ => '_TEST_', },
+            Set   => { _TEST_ => '_TEST_', }
+        );
+        if ( !$Add ) {
             return $Self->{LayoutObject}->ErrorScreen();
         }
+        return $Self->{LayoutObject}->Redirect(
+            OP => 'Action=$Env{"Action"}&Subaction=Update&Name=' . $Name,
+        );
     }
 
     # ------------------------------------------------------------ #
@@ -92,9 +86,7 @@ sub Run {
         if ( !%Data ) {
             return $Self->{LayoutObject}->ErrorScreen( Message => "No such filter: $Name" );
         }
-        else {
-            return $Self->_MaskUpdate( Name => $Name, Data => \%Data );
-        }
+        return $Self->_MaskUpdate( Name => $Name, Data => \%Data );
     }
 
     # ------------------------------------------------------------ #
@@ -103,7 +95,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'UpdateAction' ) {
         my %Match = ();
         my %Set   = ();
-        for ( 1 .. 8 ) {
+        for ( 1 .. 12 ) {
             if ( $GetParam{"MatchHeader$_"} && $GetParam{"MatchValue$_"} ) {
                 $Match{ $GetParam{"MatchHeader$_"} } = $GetParam{"MatchValue$_"};
             }
@@ -145,7 +137,7 @@ sub Run {
             Match => \%Match,
             Set   => \%Set,
         );
-        return $Self->{LayoutObject}->Redirect( OP => 'Action=$Env{"Action"}' );
+        return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
     }
 
     # ------------------------------------------------------------ #
@@ -227,7 +219,7 @@ sub _MaskUpdate {
     $SetHeader{''} = '-';
 
     # build strings
-    for ( 1 .. 6 ) {
+    for ( 1 .. 12 ) {
         $Data{"MatchHeader$_"} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data                => \%Header,
             Name                => "MatchHeader$_",
