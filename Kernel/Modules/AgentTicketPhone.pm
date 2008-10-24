@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.78 2008-07-02 10:11:21 ub Exp $
+# $Id: AgentTicketPhone.pm,v 1.79 2008-10-24 08:47:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.78 $) [1];
+$VERSION = qw($Revision: 1.79 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -247,12 +247,14 @@ sub Run {
                 Action   => $Self->{Action},
                 Type     => "TicketFreeKey$_",
                 UserID   => $Self->{UserID},
+                CustomerUserID => $CustomerData{CustomerUserLogin} || '',
             );
             $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
                 TicketID => $Self->{TicketID},
                 Action   => $Self->{Action},
                 Type     => "TicketFreeText$_",
                 UserID   => $Self->{UserID},
+                CustomerUserID => $CustomerData{CustomerUserLogin} || '',
             );
         }
         my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
@@ -289,12 +291,14 @@ sub Run {
                 Type     => "ArticleFreeKey$_",
                 Action   => $Self->{Action},
                 UserID   => $Self->{UserID},
+                CustomerUserID => $CustomerData{CustomerUserLogin} || '',
             );
             $ArticleFreeText{"ArticleFreeText$_"} = $Self->{TicketObject}->ArticleFreeTextGet(
                 TicketID => $Self->{TicketID},
                 Type     => "ArticleFreeText$_",
                 Action   => $Self->{Action},
                 UserID   => $Self->{UserID},
+                CustomerUserID => $CustomerData{CustomerUserLogin} || '',
             );
         }
         my %ArticleFreeTextHTML = $Self->{LayoutObject}->TicketArticleFreeText(
@@ -309,17 +313,38 @@ sub Run {
         # html output
         $Output .= $Self->_MaskPhoneNew(
             QueueID    => $Self->{QueueID},
-            NextStates => $Self->_GetNextStates( QueueID => $Self->{QueueID} || 1 ),
-            Priorities => $Self->_GetPriorities( QueueID => $Self->{QueueID} || 1 ),
-            Types      => $Self->_GetTypes( QueueID => $Self->{QueueID} || 1 ),
-            Services   => $Self->_GetServices(
+            NextStates => $Self->_GetNextStates(
+                %GetParam,
                 CustomerUserID => $CustomerData{CustomerUserLogin} || '',
                 QueueID => $Self->{QueueID} || 1,
             ),
-            SLAs => $Self->_GetSLAs( QueueID => $Self->{QueueID} || 1, %GetParam ),
+            Priorities => $Self->_GetPriorities(
+                %GetParam,
+                CustomerUserID => $CustomerData{CustomerUserLogin} || '',
+                QueueID => $Self->{QueueID} || 1,
+            ),
+            Types      => $Self->_GetTypes(
+                %GetParam,
+                CustomerUserID => $CustomerData{CustomerUserLogin} || '',
+                QueueID => $Self->{QueueID} || 1,
+            ),
+            Services   => $Self->_GetServices(
+                %GetParam,
+                CustomerUserID => $CustomerData{CustomerUserLogin} || '',
+                QueueID => $Self->{QueueID} || 1,
+            ),
+            SLAs => $Self->_GetSLAs(
+                %GetParam,
+                CustomerUserID => $CustomerData{CustomerUserLogin} || '',
+                QueueID => $Self->{QueueID} || 1,
+            ),
             Users            => $Self->_GetUsers( QueueID => $Self->{QueueID} ),
             ResponsibleUsers => $Self->_GetUsers( QueueID => $Self->{QueueID} ),
-            To => $Self->_GetTos( QueueID => $Self->{QueueID} ),
+            To => $Self->_GetTos(
+                %GetParam,
+                CustomerUserID => $CustomerData{CustomerUserLogin} || '',
+                QueueID => $Self->{QueueID},
+            ),
             From    => $Article{From},
             Subject => $Article{Subject}
                 || $Self->{LayoutObject}->Output( Template => $Self->{Config}->{Subject} ),
@@ -442,6 +467,7 @@ sub Run {
                 Action   => $Self->{Action},
                 QueueID  => $NewQueueID || 0,
                 UserID   => $Self->{UserID},
+                CustomerUserID => $CustomerUser || $SelectedCustomerUser || '',
             );
             $TicketFreeText{"TicketFreeText$_"} = $Self->{TicketObject}->TicketFreeTextGet(
                 TicketID => $Self->{TicketID},
@@ -449,6 +475,7 @@ sub Run {
                 Action   => $Self->{Action},
                 QueueID  => $NewQueueID || 0,
                 UserID   => $Self->{UserID},
+                CustomerUserID => $CustomerUser || $SelectedCustomerUser || '',
             );
 
             # check required FreeTextField (if configured)
@@ -477,12 +504,14 @@ sub Run {
                 Type     => "ArticleFreeKey$_",
                 Action   => $Self->{Action},
                 UserID   => $Self->{UserID},
+                CustomerUserID => $CustomerUser || $SelectedCustomerUser || '',
             );
             $ArticleFreeText{"ArticleFreeText$_"} = $Self->{TicketObject}->ArticleFreeTextGet(
                 TicketID => $Self->{TicketID},
                 Type     => "ArticleFreeText$_",
                 Action   => $Self->{Action},
                 UserID   => $Self->{UserID},
+                CustomerUserID => $CustomerUser || $SelectedCustomerUser || '',
             );
         }
         my %ArticleFreeTextHTML = $Self->{LayoutObject}->TicketArticleFreeText(
@@ -617,7 +646,7 @@ sub Run {
             );
 
             # reset previous ServiceID to reset SLA-List if no service is selected
-            $GetParam{ServiceID} ||= '';
+#            $GetParam{ServiceID} ||= '';
             if ( !$Services->{ $GetParam{ServiceID} } ) {
                 $GetParam{ServiceID} = '';
             }
@@ -637,12 +666,25 @@ sub Run {
                     AllUsers => $GetParam{ResponsibleAll}
                 ),
                 ResponsibleUserSelected => $GetParam{NewResponsibleID},
-                NextStates              => $Self->_GetNextStates( QueueID => $NewQueueID || 1 ),
+                NextStates              => $Self->_GetNextStates(
+                    CustomerUserID => $CustomerUser || $SelectedCustomerUser || '',
+                    QueueID => $NewQueueID || 1,
+                ),
                 NextState               => $NextState,
-                Priorities              => $Self->_GetPriorities( QueueID => $NewQueueID || 1 ),
-                Types                   => $Self->_GetTypes( QueueID => $NewQueueID || 1 ),
+                Priorities              => $Self->_GetPriorities(
+                    CustomerUserID => $CustomerUser || $SelectedCustomerUser || '',
+                    QueueID => $NewQueueID || 1,
+                ),
+                Types                   => $Self->_GetTypes(
+                    CustomerUserID => $CustomerUser || $SelectedCustomerUser || '',
+                    QueueID => $NewQueueID || 1,
+                ),
                 Services                => $Services,
-                SLAs => $Self->_GetSLAs( QueueID => $NewQueueID || 1, %GetParam ),
+                SLAs => $Self->_GetSLAs(
+                    %GetParam,
+                    CustomerUserID => $CustomerUser || $SelectedCustomerUser || '',
+                    QueueID => $NewQueueID || 1,
+                ),
                 CustomerID => $Self->{LayoutObject}->Ascii2Html( Text => $CustomerID ),
                 CustomerUser => $CustomerUser,
                 CustomerData => \%CustomerData,
@@ -762,7 +804,7 @@ sub Run {
                     }
                 }
                 $Output .= $Self->{LayoutObject}->Output(
-                    TemplateFile => 'AgentTicketQueueTicketViewLite',
+                    TemplateFile => 'AgentTicketOverviewMedium',
                     Data         => {
                         %AclAction,
                         %Article,
@@ -1035,23 +1077,38 @@ sub Run {
             QueueID  => $QueueID,
             AllUsers => $GetParam{ResponsibleAll},
         );
-        my $NextStates = $Self->_GetNextStates( QueueID => $QueueID || 1 );
-        my $Priorities = $Self->_GetPriorities( QueueID => $QueueID || 1 );
+        my $NextStates = $Self->_GetNextStates(
+            %GetParam,
+            CustomerUserID => $CustomerUser || '',
+            QueueID => $QueueID || 1,
+        );
+        my $Priorities = $Self->_GetPriorities(
+            %GetParam,
+            CustomerUserID => $CustomerUser || '',
+            QueueID => $QueueID || 1,
+        );
         my $Services = $Self->_GetServices(
+            %GetParam,
             CustomerUserID => $CustomerUser || '',
             QueueID        => $QueueID      || 1,
         );
-        my $SLAs = $Self->_GetSLAs( QueueID => $QueueID || 1, %GetParam );
+        my $SLAs = $Self->_GetSLAs(
+            %GetParam,
+            CustomerUserID => $CustomerUser || '',
+            QueueID => $QueueID || 1,
+        );
 
         # get free text config options
         my @TicketFreeTextConfig = ();
         for ( 1 .. 16 ) {
             my $ConfigKey = $Self->{TicketObject}->TicketFreeTextGet(
+                %GetParam,
                 TicketID => $Self->{TicketID},
                 Type     => "TicketFreeKey$_",
                 Action   => $Self->{Action},
                 QueueID  => $QueueID || 0,
                 UserID   => $Self->{UserID},
+                CustomerUserID => $CustomerUser || '',
             );
             if ($ConfigKey) {
                 push(
@@ -1066,11 +1123,13 @@ sub Run {
                 );
             }
             my $ConfigValue = $Self->{TicketObject}->TicketFreeTextGet(
+                %GetParam,
                 TicketID => $Self->{TicketID},
                 Type     => "TicketFreeText$_",
                 Action   => $Self->{Action},
                 QueueID  => $QueueID || 0,
                 UserID   => $Self->{UserID},
+                CustomerUserID => $CustomerUser || '',
             );
             if ($ConfigValue) {
                 push(
@@ -1450,7 +1509,7 @@ sub _MaskPhoneNew {
                     'TicketFreeText16',
                 ],
                 Subaction => 'AJAXUpdate',
-                }
+            },
         );
     }
     else {

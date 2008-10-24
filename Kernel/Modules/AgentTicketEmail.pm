@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.68 2008-06-30 20:16:33 ub Exp $
+# $Id: AgentTicketEmail.pm,v 1.69 2008-10-24 08:47:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -583,12 +583,12 @@ sub Run {
 
             # get services
             my $Services = $Self->_GetServices(
+                %GetParam,
                 CustomerUserID => $CustomerUser || '',
                 QueueID        => $NewQueueID   || 1,
             );
 
             # reset previous ServiceID to reset SLA-List if no service is selected
-            $GetParam{ServiceID} ||= '';
             if ( !$Services->{ $GetParam{ServiceID} } ) {
                 $GetParam{ServiceID} = '';
             }
@@ -610,12 +610,28 @@ sub Run {
                     AllUsers => $GetParam{ResponsibleAll}
                 ),
                 ResponsibleUsersSelected => $NewResponsibleID,
-                NextStates               => $Self->_GetNextStates( QueueID => $NewQueueID || 1 ),
+                NextStates               => $Self->_GetNextStates(
+                    %GetParam,
+                    CustomerUserID => $CustomerUser || '',
+                    QueueID => $NewQueueID || 1,
+                ),
                 NextState                => $NextState,
-                Priorities               => $Self->_GetPriorities( QueueID => $NewQueueID || 1 ),
-                Types                    => $Self->_GetTypes( QueueID => $NewQueueID || 1 ),
+                Priorities               => $Self->_GetPriorities(
+                    %GetParam,
+                    CustomerUserID => $CustomerUser || '',
+                    QueueID => $NewQueueID || 1,
+                ),
+                Types                    => $Self->_GetTypes(
+                    %GetParam,
+                    CustomerUserID => $CustomerUser || '',
+                    QueueID => $NewQueueID || 1,
+                ),
                 Services                 => $Services,
-                SLAs => $Self->_GetSLAs( QueueID => $NewQueueID || 1, %GetParam ),
+                SLAs => $Self->_GetSLAs(
+                    %GetParam,
+                    CustomerUserID => $CustomerUser || '',
+                    QueueID => $NewQueueID || 1, %GetParam,
+                ),
                 CustomerID => $Self->{LayoutObject}->Ascii2Html( Text => $CustomerID ),
                 CustomerUser => $CustomerUser,
                 CustomerData => \%CustomerData,
@@ -735,7 +751,7 @@ sub Run {
                     }
                 }
                 $Output .= $Self->{LayoutObject}->Output(
-                    TemplateFile => 'AgentTicketQueueTicketViewLite',
+                    TemplateFile => 'AgentTicketOverviewMedium',
                     Data         => {
                         %AclAction,
                         %Article,
@@ -983,13 +999,26 @@ sub Run {
             QueueID  => $QueueID,
             AllUsers => $GetParam{ResponsibleAll},
         );
-        my $NextStates = $Self->_GetNextStates( QueueID => $QueueID || 1 );
-        my $Priorities = $Self->_GetPriorities( QueueID => $QueueID || 1 );
+        my $NextStates = $Self->_GetNextStates(
+            %GetParam,
+            CustomerUserID => $CustomerUser || '',
+            QueueID => $QueueID || 1,
+        );
+        my $Priorities = $Self->_GetPriorities(
+            %GetParam,
+            CustomerUserID => $CustomerUser || '',
+            QueueID => $QueueID || 1,
+        );
         my $Services = $Self->_GetServices(
+            %GetParam,
             CustomerUserID => $CustomerUser || '',
             QueueID        => $QueueID      || 1,
         );
-        my $SLAs = $Self->_GetSLAs( QueueID => $QueueID || 1, %GetParam );
+        my $SLAs = $Self->_GetSLAs(
+            %GetParam,
+            CustomerUserID => $CustomerUser || '',
+            QueueID => $QueueID || 1,
+        );
 
         # get free text config options
         my @TicketFreeTextConfig = ();
