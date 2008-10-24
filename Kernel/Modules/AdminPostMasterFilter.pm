@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPostMasterFilter.pm - to add/update/delete filters
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.pm,v 1.17 2008-10-24 07:47:56 martin Exp $
+# $Id: AdminPostMasterFilter.pm,v 1.18 2008-10-24 11:23:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::PostMaster::Filter;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,9 +41,10 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my %GetParam = ();
-    my $Name     = $Self->{ParamObject}->GetParam( Param => 'Name' ) || '';
-    my $OldName  = $Self->{ParamObject}->GetParam( Param => 'OldName' ) || '';
+    my $Name           = $Self->{ParamObject}->GetParam( Param => 'Name' ) || '';
+    my $OldName        = $Self->{ParamObject}->GetParam( Param => 'OldName' ) || '';
+    my $StopAfterMatch = $Self->{ParamObject}->GetParam( Param => 'StopAfterMatch' ) || 0;
+    my %GetParam       = ();
     for ( 1 .. 12 ) {
         $GetParam{"MatchHeader$_"} = $Self->{ParamObject}->GetParam( Param => "MatchHeader$_" );
         $GetParam{"MatchValue$_"}  = $Self->{ParamObject}->GetParam( Param => "MatchValue$_" );
@@ -66,9 +67,10 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
         my $Add = $Self->{PostMasterFilter}->FilterAdd(
-            Name  => $Name,
-            Match => { _TEST_ => '_TEST_', },
-            Set   => { _TEST_ => '_TEST_', }
+            Name           => $Name,
+            StopAfterMatch => $StopAfterMatch,
+            Match          => { _TEST_ => '_TEST_', },
+            Set            => { _TEST_ => '_TEST_', }
         );
         if ( !$Add ) {
             return $Self->{LayoutObject}->ErrorScreen();
@@ -125,17 +127,19 @@ sub Run {
                 Name => $Name,
                 Data => {
                     %Invalid,
-                    Name  => $Name,
-                    Set   => \%Set,
-                    Match => \%Match,
+                    Name           => $Name,
+                    Set            => \%Set,
+                    Match          => \%Match,
+                    StopAfterMatch => $StopAfterMatch,
                 },
             );
         }
         $Self->{PostMasterFilter}->FilterDelete( Name => $OldName );
         $Self->{PostMasterFilter}->FilterAdd(
-            Name  => $Name,
-            Match => \%Match,
-            Set   => \%Set,
+            Name           => $Name,
+            Match          => \%Match,
+            Set            => \%Set,
+            StopAfterMatch => $StopAfterMatch,
         );
         return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
     }
@@ -235,6 +239,13 @@ sub _MaskUpdate {
             HTMLQuote           => 1,
         );
     }
+    $Data{"StopAfterMatch"} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data                => { 0 => 'No', 1 => 'Yes' },
+        Name                => 'StopAfterMatch',
+        SelectedID          => $Data{StopAfterMatch},
+        LanguageTranslation => 1,
+        HTMLQuote           => 1,
+    );
     $Self->{LayoutObject}->Block(
         Name => 'OverviewUpdate',
         Data => { %Param, %Data, OldName => $Data{Name}, },

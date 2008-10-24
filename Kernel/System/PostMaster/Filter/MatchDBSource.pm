@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter/MatchDBSource.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: MatchDBSource.pm,v 1.14 2008-10-13 21:22:21 martin Exp $
+# $Id: MatchDBSource.pm,v 1.15 2008-10-24 11:23:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::PostMaster::Filter;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,20 +41,20 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # get config options
-    my %Config = ();
-    my %Match  = ();
-    my %Set    = ();
-
     my %JobList = $Self->{PostMasterFilter}->FilterList();
     for ( sort keys %JobList ) {
-        %Config = $Self->{PostMasterFilter}->FilterGet( Name => $_ );
+
+        # get config options
+        my %Config = $Self->{PostMasterFilter}->FilterGet( Name => $_ );
+        my %Match  = ();
+        my %Set    = ();
         if ( $Config{Match} ) {
             %Match = %{ $Config{Match} };
         }
         if ( $Config{Set} ) {
             %Set = %{ $Config{Set} };
         }
+        my $StopAfterMatch = $Config{StopAfterMatch} || 0;
         my $Prefix = '';
         if ( $Config{Name} ) {
             $Prefix = "Filter: '$Config{Name}' ";
@@ -129,6 +129,16 @@ sub Run {
                     Message  => $Prefix
                         . "Set param '$_' to '$Set{$_}' (Message-ID: $Param{GetParam}->{'Message-ID'}) ",
                 );
+            }
+
+            # stop after match
+            if ($StopAfterMatch) {
+                $Self->{LogObject}->Log(
+                    Priority => 'notice',
+                    Message  => $Prefix
+                        . "Stopped filter procesing because of used 'StopAfterMatch' (Message-ID: $Param{GetParam}->{'Message-ID'}) ",
+                );
+                return 1;
             }
         }
     }

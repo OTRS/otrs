@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter/Match.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Match.pm,v 1.12 2008-10-13 21:22:21 martin Exp $
+# $Id: Match.pm,v 1.13 2008-10-24 11:23:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,6 +41,7 @@ sub Run {
     my %Config = ();
     my %Match  = ();
     my %Set    = ();
+    my $StopAfterMatch;
     if ( $Param{JobConfig} && ref( $Param{JobConfig} ) eq 'HASH' ) {
         %Config = %{ $Param{JobConfig} };
         if ( $Config{Match} ) {
@@ -49,6 +50,7 @@ sub Run {
         if ( $Config{Set} ) {
             %Set = %{ $Config{Set} };
         }
+        $StopAfterMatch = $Config{StopAfterMatch} || 0;
     }
 
     # match 'Match => ???' stuff
@@ -93,6 +95,15 @@ sub Run {
                 Message =>
                     "Set param '$_' to '$Set{$_}' (Message-ID: $Param{GetParam}->{'Message-ID'}) ",
             );
+        }
+        # stop after match
+        if ($StopAfterMatch) {
+            $Self->{LogObject}->Log(
+                Priority => 'notice',
+                Message  => $Prefix
+                    . "Stopped filter procesing because of used 'StopAfterMatch' (Message-ID: $Param{GetParam}->{'Message-ID'}) ",
+            );
+            return 1;
         }
     }
     return 1;

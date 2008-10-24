@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.208 2008-10-24 08:43:37 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.209 2008-10-24 11:23:03 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -8308,6 +8308,7 @@ $QData{"Signature"}
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::PostMaster::Filter::Match</Item>
+                <Item Key="StopAfterMatch">0</Item>
                 <Item Key="Match">
                     <Hash>
                         <Item Key="From">noreply@</Item>
@@ -8329,6 +8330,7 @@ $QData{"Signature"}
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::PostMaster::Filter::Match</Item>
+                <Item Key="StopAfterMatch">0</Item>
                 <Item Key="Match">
                     <Hash>
                         <Item Key="Subject">SomeNumber:(\d\d\d\d)</Item>
@@ -8351,6 +8353,7 @@ $QData{"Signature"}
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::PostMaster::Filter::NewTicketReject</Item>
+                <Item Key="StopAfterMatch">0</Item>
                 <Item Key="Match">
                     <Hash>
                         <Item Key="From">@example.com</Item>

@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter.pm - all functions to add/delete/list pm db filters
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Filter.pm,v 1.15 2008-05-08 09:36:21 mh Exp $
+# $Id: Filter.pm,v 1.16 2008-10-24 11:23:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 =head1 NAME
 
@@ -97,7 +97,8 @@ sub FilterList {
 add a filter
 
     $PMFilterObject->FilterAdd(
-        Name => 'some name',
+        Name           => 'some name',
+        StopAfterMatch => 0,
         Match = {
             From => 'email@example.com',
             Subject => '^ADV: 123',
@@ -113,7 +114,7 @@ sub FilterAdd {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Name Match Set)) {
+    for (qw(Name StopAfterMatch Match Set)) {
         if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
@@ -124,9 +125,9 @@ sub FilterAdd {
         my %Data = %{ $Param{$Type} };
         for my $Key ( keys %Data ) {
             return if !$Self->{DBObject}->Do(
-                SQL => 'INSERT INTO postmaster_filter (f_name, f_type, f_key, f_value)'
-                    . ' VALUES (?, ?, ?, ?)',
-                Bind => [ \$Param{Name}, \$Type, \$Key, \$Data{$Key} ],
+                SQL => 'INSERT INTO postmaster_filter (f_name, f_stop, f_type, f_key, f_value)'
+                    . ' VALUES (?, ?, ?, ?, ?)',
+                Bind => [ \$Param{Name}, \$Param{StopAfterMatch}, \$Type, \$Key, \$Data{$Key} ],
             );
         }
     }
@@ -182,13 +183,14 @@ sub FilterGet {
     }
 
     return if !$Self->{DBObject}->Prepare(
-        SQL  => 'SELECT f_type, f_key, f_value, f_name FROM postmaster_filter WHERE f_name = ?',
+        SQL  => 'SELECT f_type, f_key, f_value, f_name, f_stop FROM postmaster_filter WHERE f_name = ?',
         Bind => [ \$Param{Name} ],
     );
     my %Data = ();
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ $Row[0] }->{ $Row[1] } = $Row[2];
-        $Data{Name} = $Row[3];
+        $Data{Name}           = $Row[3];
+        $Data{StopAfterMatch} = $Row[4];
     }
     return %Data;
 }
@@ -209,6 +211,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2008-05-08 09:36:21 $
+$Revision: 1.16 $ $Date: 2008-10-24 11:23:03 $
 
 =cut
