@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NavBarLockedTickets.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: NavBarLockedTickets.pm,v 1.10 2008-04-29 12:11:52 tr Exp $
+# $Id: NavBarLockedTickets.pm,v 1.11 2008-10-24 08:47:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -53,7 +53,7 @@ sub Run {
             Description => $Text,
             Name        => $Text,
             Image       => 'folder_yellow.png',
-            Link        => 'Action=AgentTicketMailbox&Subaction=Responsible',
+            Link        => 'Action=AgentTicketMailbox&Filter=Responsible',
             AccessKey   => 'r',
         };
     }
@@ -77,7 +77,7 @@ sub Run {
         Description => $Text,
         Name        => $Text,
         Image       => 'new-message.png',
-        Link        => 'Action=AgentTicketMailbox&Subaction=New',
+        Link        => 'Action=AgentTicketMailbox&Filter=New',
         AccessKey   => 'm',
     };
     return %Return;
