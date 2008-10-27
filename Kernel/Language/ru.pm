@@ -4,7 +4,7 @@
 # Copyright (C) 2007 Andrey Feldman <afeldman at alt-lan.ru>
 # Copyright (C) 2008 Egor Tsilenko <bg8s at symlink.ru>
 # --
-# $Id: ru.pm,v 1.69 2008-10-16 14:43:40 ub Exp $
+# $Id: ru.pm,v 1.70 2008-10-27 08:05:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.70 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -467,7 +467,7 @@ sub Data {
         'Search Tickets' => 'Поиск заявок',
         'Edit Customer Users' => 'Редактировать клиентов',
         'Edit Customer Company' => 'Редактировать компании клиентов',
-        'Bulk-Action' => 'Массовое действие',
+        'Bulk Action' => 'Массовое действие',
         'Bulk Actions on Tickets' => 'Массовое действие над заявками',
         'Send Email and create a new Ticket' => 'Отправить письмо и создать новую заявку',
         'Create new Email Ticket and send this out (Outbound)' => 'Создать новую e-mail заявку и отослать ее',

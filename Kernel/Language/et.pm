@@ -2,7 +2,7 @@
 # Kernel/Language/et.pm - provides et language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: et.pm,v 1.14 2008-10-16 14:42:25 ub Exp $
+# $Id: et.pm,v 1.15 2008-10-27 08:05:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -464,7 +464,7 @@ sub Data {
         'Search Tickets' => 'Otsi intsidente',
         'Edit Customer Users' => 'Klientkasutajate muutmine',
         'Edit Customer Company' => '',
-        'Bulk-Action' => 'Hulgitegevus',
+        'Bulk Action' => 'Hulgitegevus',
         'Bulk Actions on Tickets' => 'Hulgitegevus intsidentidel',
         'Send Email and create a new Ticket' => 'Saada e-kiri ja loo uus intsident',
         'Create new Email Ticket and send this out (Outbound)' => 'Tee uus intsident ja saada kiri (väljaminev) ',

@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # Copyright (C) 2007-2008 Mikko Hynninen <first.last at tietokartano.fi>
 # --
-# $Id: fi.pm,v 1.81 2008-10-16 14:42:26 ub Exp $
+# $Id: fi.pm,v 1.82 2008-10-27 08:05:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.81 $) [1];
+$VERSION = qw($Revision: 1.82 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -466,7 +466,7 @@ sub Data {
         'Search Tickets' => 'Etsi tikettejä',
         'Edit Customer Users' => 'Muokkaa asiakaskäyttäjää',
         'Edit Customer Company' => 'Muokkaa asiakasyritystä',
-        'Bulk-Action' => 'Massatoimenpide',
+        'Bulk Action' => 'Massatoimenpide',
         'Bulk Actions on Tickets' => 'Messatoimenpide tiketeille',
         'Send Email and create a new Ticket' => 'Lähetä sähklöposti ja luo uusi tiketti',
         'Create new Email Ticket and send this out (Outbound)' => 'Luo uusi sähköpostitiketti ja lähetä se eteenpäin',

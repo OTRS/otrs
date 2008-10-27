@@ -5,7 +5,7 @@
 # Copyright (C) 2006 Knut Haugen <knuthaug at linpro.no>
 # Copyright (C) 2007-2008 Fredrik Andersen <fredrik.andersen at husbanken.no>
 # --
-# $Id: nb_NO.pm,v 1.67 2008-10-16 14:42:26 ub Exp $
+# $Id: nb_NO.pm,v 1.68 2008-10-27 08:05:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.67 $;
+$VERSION = q$Revision: 1.68 $;
 
 sub Data {
     my $Self = shift;
@@ -468,7 +468,7 @@ sub Data {
         'Search Tickets' => 'Søk i saker',
         'Edit Customer Users' => 'Redigér kundebrukere',
         'Edit Customer Company' => 'Redigér kundebedrift',
-        'Bulk-Action' => 'Masseredigering',
+        'Bulk Action' => 'Masseredigering',
         'Bulk Actions on Tickets' => 'Masseredigering på saker',
         'Send Email and create a new Ticket' => 'Send e-post og opprett en ny sak',
         'Create new Email Ticket and send this out (Outbound)' => 'Opprett ny e-post sak, og send denne utgående',

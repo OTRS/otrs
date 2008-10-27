@@ -2,7 +2,7 @@
 # Kernel/Language/vi_VN.pm - provides vi_VN language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: vi_VN.pm,v 1.16 2008-10-16 14:43:40 ub Exp $
+# $Id: vi_VN.pm,v 1.17 2008-10-27 08:05:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -464,7 +464,7 @@ sub Data {
         'Search Tickets' => 'Tìm kiªm thë',
         'Edit Customer Users' => 'SØa ngß¶i dùng khách hàng',
         'Edit Customer Company' => '',
-        'Bulk-Action' => 'L®nh lô',
+        'Bulk Action' => 'L®nh lô',
         'Bulk Actions on Tickets' => 'L®nh lô trên các thë',
         'Send Email and create a new Ticket' => 'GØi e-mail và tÕo 1 thë m¾i',
         'Create new Email Ticket and send this out (Outbound)' => 'TÕo 1 thë e-mail m¾i và gØi ra ngoài',

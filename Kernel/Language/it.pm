@@ -4,7 +4,7 @@
 # Copyright (C) 2003 Gabriele Santilli <gsantilli at omnibus.net>
 # Copyright (C) 2005 Giordano Bianchi <giordano.bianchi at gmail.com>
 # --
-# $Id: it.pm,v 1.71 2008-10-16 14:42:26 ub Exp $
+# $Id: it.pm,v 1.72 2008-10-27 08:05:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -466,7 +466,7 @@ sub Data {
         'Search Tickets' => 'Ricerca Richieste',
         'Edit Customer Users' => 'Modifica Utenti Clienti',
         'Edit Customer Company' => '',
-        'Bulk-Action' => 'Operazioni Multiple',
+        'Bulk Action' => 'Operazioni Multiple',
         'Bulk Actions on Tickets' => 'Operazione di massa sulle richieste',
         'Send Email and create a new Ticket' => 'Manda un email e crea una nuova richiesta',
         'Create new Email Ticket and send this out (Outbound)' => '',

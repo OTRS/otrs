@@ -6,7 +6,7 @@
 # Copyright (C) 2005-2007 Jurgen Rutgers <jurgen 'at' besite.nl>
 # Copyright (C) 2005-2007 Richard Hinkamp <richard 'at' besite.nl>
 # --
-# $Id: nl.pm,v 1.84 2008-10-16 14:42:26 ub Exp $
+# $Id: nl.pm,v 1.85 2008-10-27 08:05:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -29,7 +29,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.84 $) [1];
+$VERSION = qw($Revision: 1.85 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -479,7 +479,7 @@ sub Data {
         'Search Tickets' => 'Zoek Tickets',
         'Edit Customer Users' => 'Wijzig klant gebruikers',
         'Edit Customer Company' => '',
-        'Bulk-Action' => 'Bulk Actie',
+        'Bulk Action' => 'Bulk Actie',
         'Bulk Actions on Tickets' => 'Bulk Actie op Tickets',
         'Send Email and create a new Ticket' => 'Verstuur e-mail en maak een nieuw Ticket aan',
         'Create new Email Ticket and send this out (Outbound)' => '',

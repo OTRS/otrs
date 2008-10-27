@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
 # Copyright (C) 2006 George Thomas <gthomas aegean.gr>
 # --
-# $Id: el.pm,v 1.42 2008-10-16 14:42:25 ub Exp $
+# $Id: el.pm,v 1.43 2008-10-27 08:05:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -467,7 +467,7 @@ sub Data {
         'Search Tickets' => 'Αναζήτηση Δελτίων',
         'Edit Customer Users' => 'Αλλαγή Χρηστών-πελατών',
         'Edit Customer Company' => '',
-        'Bulk-Action' => 'Μαζική ενέργεια',
+        'Bulk Action' => 'Μαζική ενέργεια',
         'Bulk Actions on Tickets' => 'Μαζική Ενέργεια Δελτίων',
         'Send Email and create a new Ticket' => 'Αποστολη email και δημιουργια νεου Δελτίου',
         'Create new Email Ticket and send this out (Outbound)' => 'Δημιουργία Νεόυ Δελτίου (email) και αποστολή',

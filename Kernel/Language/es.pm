@@ -4,7 +4,7 @@
 # Copyright (C) 2007 Carlos Oyarzabal <carlos.oyarzabal at grupocash.com.mx>
 # Copyright (C) 2008 Pelayo Romero Martín <pelayo.romero at gmail.com>
 # --
-# $Id: es.pm,v 1.82 2008-10-16 14:42:25 ub Exp $
+# $Id: es.pm,v 1.83 2008-10-27 08:05:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.82 $) [1];
+$VERSION = qw($Revision: 1.83 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -467,7 +467,7 @@ sub Data {
         'Search Tickets' => 'Buscar Tickets',
         'Edit Customer Users' => 'Editar Clientes',
         'Edit Customer Company' => 'Editar Compañía de Clientes',
-        'Bulk-Action' => 'Acción Múltiple',
+        'Bulk Action' => 'Acción Múltiple',
         'Bulk Actions on Tickets' => 'Acción Múltiple sobre Tickets',
         'Send Email and create a new Ticket' => 'Enviar un correo y crear un nuevo ticket',
         'Create new Email Ticket and send this out (Outbound)' => 'Crea nuevo Ticket de Email y descartar este (saliente)',

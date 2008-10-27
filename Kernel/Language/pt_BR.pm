@@ -4,7 +4,7 @@
 # Copyright (C) 2005 Alterado por Glaucia C. Messina (glauglauu@yahoo.com)
 # Copyright (C) 2007 Fabricio Luiz Machado <soprobr gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.76 2008-10-16 14:43:40 ub Exp $
+# $Id: pt_BR.pm,v 1.77 2008-10-27 08:05:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -467,7 +467,7 @@ sub Data {
         'Search Tickets' => 'Pesquisar Chamados',
         'Edit Customer Users' => 'Editar Clientes(Usuários)',
         'Edit Customer Company' => '',
-        'Bulk-Action' => 'Executar Ação',
+        'Bulk Action' => 'Executar Ação',
         'Bulk Actions on Tickets' => 'Executar Ação nos Chamados',
         'Send Email and create a new Ticket' => 'Enviar mail e criar novo Chamado',
         'Create new Email Ticket and send this out (Outbound)' => '',

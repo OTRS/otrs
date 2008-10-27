@@ -2,7 +2,7 @@
 # Kernel/Language/ar_SA.pm - provides ar_SA language translation
 # Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
 # --
-# $Id: ar_SA.pm,v 1.25 2008-10-16 14:41:07 ub Exp $
+# $Id: ar_SA.pm,v 1.26 2008-10-27 08:05:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -467,7 +467,7 @@ sub Data {
         'Search Tickets' => 'ÃÈÍË Ýí ÇáÈØÇÞÇÊ',
         'Edit Customer Users' => 'ÊÚÏíá ãÚáæãÇÊ ÇáÚãáÇÁ',
         'Edit Customer Company' => '',
-        'Bulk-Action' => 'ÊäÝíÐ ÌãÇÚí',
+        'Bulk Action' => 'ÊäÝíÐ ÌãÇÚí',
         'Bulk Actions on Tickets' => 'ÇáÚãáíÇÊ ÇáÌãÇÚíÉ Úáì ÇáÈØÇÞÇÊ',
         'Send Email and create a new Ticket' => 'ÃÑÓá ÇáÈÑíÏ æ ÃäÔíÁ ÈØÇÞÉ ÌÏíÏÉ',
         'Create new Email Ticket and send this out (Outbound)' => '',

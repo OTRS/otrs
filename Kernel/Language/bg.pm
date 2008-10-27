@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.81 2008-10-16 14:41:07 ub Exp $
+# $Id: bg.pm,v 1.82 2008-10-27 08:05:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.81 $) [1];
+$VERSION = qw($Revision: 1.82 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -466,7 +466,7 @@ sub Data {
         'Search Tickets' => 'Търсене на билети',
         'Edit Customer Users' => 'Редакция на клиент-потребители',
         'Edit Customer Company' => '',
-        'Bulk-Action' => 'Събирателно действие',
+        'Bulk Action' => 'Събирателно действие',
         'Bulk Actions on Tickets' => 'Събирателно действие върху билети',
         'Send Email and create a new Ticket' => 'Изпращане на е-поща и създаване на нов билет',
         'Create new Email Ticket and send this out (Outbound)' => 'Създаване на нов билет: е-поша и изпращане на този (Изходящ)',

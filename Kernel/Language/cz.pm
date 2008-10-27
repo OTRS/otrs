@@ -6,7 +6,7 @@
 #              Vadim Buzek
 #              Petr Ocasek
 # --
-# $Id: cz.pm,v 1.66 2008-10-16 14:41:07 ub Exp $
+# $Id: cz.pm,v 1.67 2008-10-27 08:05:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -469,7 +469,7 @@ sub Data {
         'Search Tickets' => '',
         'Edit Customer Users' => '',
         'Edit Customer Company' => '',
-        'Bulk-Action' => '',
+        'Bulk Action' => '',
         'Bulk Actions on Tickets' => '',
         'Send Email and create a new Ticket' => '',
         'Create new Email Ticket and send this out (Outbound)' => '',

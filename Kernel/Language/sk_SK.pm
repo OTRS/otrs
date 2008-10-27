@@ -2,7 +2,7 @@
 # Kernel/Language/sk_SK.pm - provides sk_SK language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: sk_SK.pm,v 1.42 2008-10-16 14:43:40 ub Exp $
+# $Id: sk_SK.pm,v 1.43 2008-10-27 08:05:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -465,7 +465,7 @@ sub Data {
         'Search Tickets' => 'Hµadaj po¾iadavky',
         'Edit Customer Users' => 'Uprav zákazníckeho u¾ívateµa.',
         'Edit Customer Company' => '',
-        'Bulk-Action' => 'Hromadná akcia',
+        'Bulk Action' => 'Hromadná akcia',
         'Bulk Actions on Tickets' => 'hromadné akcie na po¾iadavkách.',
         'Send Email and create a new Ticket' => 'Po¹li e-mail a vytvor novú po¾iadavku',
         'Create new Email Ticket and send this out (Outbound)' => '',

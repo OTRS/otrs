@@ -3,7 +3,7 @@
 # Copyright (C) 2006-2008 Amir Shams Parsa <amir at parsa.name>
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # --
-# $Id: fa.pm,v 1.51 2008-10-16 14:42:26 ub Exp $
+# $Id: fa.pm,v 1.52 2008-10-27 08:05:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -468,7 +468,7 @@ sub Data {
         'Search Tickets' => 'جستجو در درخواست ها',
         'Edit Customer Users' => 'ویرایش مشترکین',
         'Edit Customer Company' => 'ویرایش شرکت/سازمان مشترک',
-        'Bulk-Action' => 'اعمال کلی',
+        'Bulk Action' => 'اعمال کلی',
         'Bulk Actions on Tickets' => 'اعمال کلی روی درخواست ها',
         'Send Email and create a new Ticket' => 'ارسال email و ایجاد درخواست جدید',
         'Create new Email Ticket and send this out (Outbound)' => 'ایجاد درخواست جدید با Email و ارسال - بیرونی',

@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Thorsten Rossner <thorsten.rossner[at]stepstone.de>
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # --
-# $Id: da.pm,v 1.46 2008-10-16 14:42:25 ub Exp $
+# $Id: da.pm,v 1.47 2008-10-27 08:05:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -468,7 +468,7 @@ sub Data {
         'Search Tickets' => 'Søg sager',
         'Edit Customer Users' => 'Rediger kundebrugere',
         'Edit Customer Company' => 'Rediger kunde firma',
-        'Bulk-Action' => 'Massehandling',
+        'Bulk Action' => 'Massehandling',
         'Bulk Actions on Tickets' => 'Massehandlinger vedrørende sager',
         'Send Email and create a new Ticket' => 'Send e-mail og opret en ny sag',
         'Create new Email Ticket and send this out (Outbound)' => 'Opret ny email sag, og afsend denne (Outbound)',

@@ -2,7 +2,7 @@
 # Kernel/Language/sv.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats@synergy.se>
 # --
-# $Id: sv.pm,v 1.58 2008-10-16 14:43:40 ub Exp $
+# $Id: sv.pm,v 1.59 2008-10-27 08:05:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.58 $;
+$VERSION = q$Revision: 1.59 $;
 
 sub Data {
     my $Self = shift;
@@ -465,7 +465,7 @@ sub Data {
         'Search Tickets' => '',
         'Edit Customer Users' => '',
         'Edit Customer Company' => '',
-        'Bulk-Action' => '',
+        'Bulk Action' => '',
         'Bulk Actions on Tickets' => '',
         'Send Email and create a new Ticket' => '',
         'Create new Email Ticket and send this out (Outbound)' => '',

@@ -5,7 +5,7 @@
 # Copyright (C) 2006 Flora Szabo /szaboflora@magicnet.hu/
 # Copyright (C) 2007 Aron Ujvari <ujvari@hungary.com>
 # --
-# $Id: hu.pm,v 1.58 2008-10-16 14:42:26 ub Exp $
+# $Id: hu.pm,v 1.59 2008-10-27 08:05:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -468,7 +468,7 @@ sub Data {
         'Search Tickets' => 'Jegyek keresése',
         'Edit Customer Users' => 'Ügyfél felhasználó szerkesztése',
         'Edit Customer Company' => 'Ügyfél cég szerkesztése',
-        'Bulk-Action' => 'Csoportos mûvelet',
+        'Bulk Action' => 'Csoportos mûvelet',
         'Bulk Actions on Tickets' => 'Csoportos mûvelet jegyeken',
         'Send Email and create a new Ticket' => '',
         'Create new Email Ticket and send this out (Outbound)' => 'Új E-mail jegy létrehozása és kiküldése (Kimenõ)',

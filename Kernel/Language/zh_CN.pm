@@ -3,7 +3,7 @@
 # Copyright (C) 2008 Never Min <never at qnofae.org>
 # Copyright (C) 2005 zuowei <j2ee at hirain-sh.com>
 # --
-# $Id: zh_CN.pm,v 1.52 2008-10-16 14:43:40 ub Exp $
+# $Id: zh_CN.pm,v 1.53 2008-10-27 08:05:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -466,7 +466,7 @@ sub Data {
         'Search Tickets' => '搜索 Tickets',
         'Edit Customer Users' => '编辑客户帐户',
         'Edit Customer Company' => '编辑客户单位',
-        'Bulk-Action' => '批量处理',
+        'Bulk Action' => '批量处理',
         'Bulk Actions on Tickets' => '批量处理 Tickets',
         'Send Email and create a new Ticket' => '发送 Email 并创建一个新的 Ticket',
         'Create new Email Ticket and send this out (Outbound)' => '',

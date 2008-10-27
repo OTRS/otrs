@@ -7,7 +7,7 @@
 # Copyright (C) 2007 Massimiliano Franco <max-lists at ycom.ch>
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # --
-# $Id: fr.pm,v 1.100 2008-10-16 14:46:26 ub Exp $
+# $Id: fr.pm,v 1.101 2008-10-27 08:05:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.100 $) [1];
+$VERSION = qw($Revision: 1.101 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -470,7 +470,7 @@ sub Data {
         'Search Tickets' => 'Recherche de tickets',
         'Edit Customer Users' => 'Editer clients',
         'Edit Customer Company' => 'Éditer l\'entreprise cliente',
-        'Bulk-Action' => 'Action groupée',
+        'Bulk Action' => 'Action groupée',
         'Bulk Actions on Tickets' => 'Action groupées sur les tickets',
         'Send Email and create a new Ticket' => 'Envoyer un courriel et créer un nouveau Ticket',
         'Create new Email Ticket and send this out (Outbound)' => 'Créer un ticket Email et l\'envoyer (Sortant)',

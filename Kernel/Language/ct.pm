@@ -2,7 +2,7 @@
 # Kernel/Language/ct.pm - provides ct language translation
 # Copyright (C) 2008 Sistemes OTIC (ibsalut) - Antonio Linde
 # --
-# $Id: ct.pm,v 1.15 2008-10-16 14:41:07 ub Exp $
+# $Id: ct.pm,v 1.16 2008-10-27 08:05:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -465,7 +465,7 @@ sub Data {
         'Search Tickets' => 'Cercar tiquets',
         'Edit Customer Users' => 'Editar els usuaris del client',
         'Edit Customer Company' => 'Editar la companyia del client',
-        'Bulk-Action' => 'Acció múltiple',
+        'Bulk Action' => 'Acció múltiple',
         'Bulk Actions on Tickets' => 'Acció múltiple en tiquets',
         'Send Email and create a new Ticket' => 'Enviar un correu i crear un nou tiquet',
         'Create new Email Ticket and send this out (Outbound)' => 'Crea nou tiquet de correu i ho envia (sortida)',

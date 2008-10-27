@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.173 2008-10-16 14:41:07 ub Exp $
+# $Id: de.pm,v 1.174 2008-10-27 08:05:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.173 $) [1];
+$VERSION = qw($Revision: 1.174 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -463,7 +463,7 @@ sub Data {
         'Search Tickets' => 'Ticket-Suche',
         'Edit Customer Users' => 'Kunden-Benutzer bearbeiten',
         'Edit Customer Company' => 'Kunden-Firma bearbeiten',
-        'Bulk-Action' => 'Sammel-Aktion',
+        'Bulk Action' => 'Sammel-Aktion',
         'Bulk Actions on Tickets' => 'Sammel-Action an Tickets',
         'Send Email and create a new Ticket' => 'E-Mail senden und neues Ticket erstellen',
         'Create new Email Ticket and send this out (Outbound)' => 'Neues Ticket wird erstellt und Email versendet',

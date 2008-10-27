@@ -2,7 +2,7 @@
 # Kernel/Language/tr.pm - provides tr language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: tr.pm,v 1.14 2008-10-16 14:43:40 ub Exp $
+# $Id: tr.pm,v 1.15 2008-10-27 08:05:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -13,7 +13,7 @@ package Kernel::Language::tr;
 use strict;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.14 $';
+$VERSION = '$Revision: 1.15 $';
 $VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
 
 sub Data {
@@ -464,7 +464,7 @@ sub Data {
         'Search Tickets' => 'Biletleri Ara',
         'Edit Customer Users' => 'Müþteri Kullanýcýlarý Belirle',
         'Edit Customer Company' => '',
-        'Bulk-Action' => 'Toplu Ýþlem',
+        'Bulk Action' => 'Toplu Ýþlem',
         'Bulk Actions on Tickets' => 'Biletler Üzerinde Toplu Ýþlem',
         'Send Email and create a new Ticket' => 'E-Postayý gönder ve yeni Bilet oluþtur',
         'Create new Email Ticket and send this out (Outbound)' => 'Yeni E-Posta-Bilet oluþtur ve bunu gönder (dýþarý)',
