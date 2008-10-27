@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - print layout for agent interface
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.pm,v 1.56 2008-06-24 08:04:01 mh Exp $
+# $Id: AgentTicketPrint.pm,v 1.57 2008-10-27 07:21:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -947,7 +947,7 @@ sub _PDFOutputArticles {
 
         my %Article = %{$ArticleTmp};
 
-        # get attacment string
+        # get attachment string
         my %AtmIndex = ();
         if ( $Article{Atms} ) {
             %AtmIndex = %{ $Article{Atms} };
@@ -1179,7 +1179,7 @@ sub _HTMLMask {
     for my $ArticleTmp (@ArticleBox) {
         my %Article = %{$ArticleTmp};
 
-        # get attacment string
+        # get attachment string
         my %AtmIndex = ();
         if ( $Article{Atms} ) {
             %AtmIndex = %{ $Article{Atms} };
