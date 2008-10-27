@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminRoleUser.pm - to add/update/delete role <-> users
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRoleUser.pm,v 1.14 2008-05-08 09:36:36 mh Exp $
+# $Id: AdminRoleUser.pm,v 1.15 2008-10-27 00:13:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -188,7 +188,16 @@ sub MaskAdminUserGroupChangeForm {
     my $Type   = $Param{Type} || 'User';
     my $NeType = 'Role';
     $NeType = 'User' if ( $Type eq 'Role' );
+    my $CssClass = 'searchactive';
     for ( sort { uc( $Data{$a} ) cmp uc( $Data{$b} ) } keys %Data ) {
+
+        # set output class
+        if ( $CssClass && $CssClass eq 'searchactive' ) {
+            $CssClass = 'searchpassive';
+        }
+        else {
+            $CssClass = 'searchactive';
+        }
 
         # input box
         my $Selected = '';
@@ -204,6 +213,7 @@ sub MaskAdminUserGroupChangeForm {
                 Type     => $Type,
                 NeType   => $NeType,
                 ID       => $_,
+                CssClass => $CssClass,
             },
         );
     }

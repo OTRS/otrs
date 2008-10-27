@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUserGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUserGroup.pm,v 1.29 2008-05-08 09:36:36 mh Exp $
+# $Id: AdminUserGroup.pm,v 1.30 2008-10-27 00:13:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -221,20 +221,33 @@ sub MaskAdminUserGroupChangeForm {
         . "$Param{Name}</A> (id=$Param{ID})<BR>";
     $Param{OptionStrg0} .= '<INPUT TYPE="hidden" NAME="ID" VALUE="' . $Param{ID} . '"><BR>';
 
-    $Param{OptionStrg0} .= "<br>\n";
-    $Param{OptionStrg0} .= "<table>\n";
-    $Param{OptionStrg0} .= "<tr><th>\$Text{\"$NeType\"}</th>";
+    $Param{OptionStrg0} .= "<br/>\n";
+    $Param{OptionStrg0} .= "<table cellspacing=\"0\" cellpadding=\"4\">\n";
+    $Param{OptionStrg0} .= "<tr valign=\"top\"><th>\$Text{\"$NeType\"}</th>";
     for ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
-        $Param{OptionStrg0} .= "<th>$_</th>";
+        $Param{OptionStrg0} .= "<th>$_<br/>";
+        if ( $_ eq 'rw' ) {
+            $Param{OptionStrg0} .= " | ";
+        }
+        $Param{OptionStrg0} .= "<input type=\"checkbox\" name=\"$_\" value=\"\" onchange=\"select_items('$_');\"></th>";
     }
     $Param{OptionStrg0} .= "</tr>\n";
+    my $CssClass = 'searchactive';
     for ( sort { uc( $Data{$a} ) cmp uc( $Data{$b} ) } keys %Data ) {
+
+        # set output class
+        if ( $CssClass && $CssClass eq 'searchactive' ) {
+            $CssClass = 'searchpassive';
+        }
+        else {
+            $CssClass = 'searchactive';
+        }
         $Param{Data}->{$_} = $Self->{LayoutObject}->Ascii2Html(
             Text                => $Param{Data}->{$_},
             HTMLQuote           => 1,
             LanguageTranslation => 0,
         ) || '';
-        $Param{OptionStrg0} .= '<tr><td>';
+        $Param{OptionStrg0} .= "<tr class=\"$CssClass\"><td>";
         $Param{OptionStrg0} .= "<a href=\"$BaseLink"
             . "Action=Admin$NeType&Subaction=Change&ID=$_\">$Param{Data}->{$_}</a></td>";
         for my $Type ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
