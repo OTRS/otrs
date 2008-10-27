@@ -2,7 +2,7 @@
 # AgentTicketOverviewMediumMeta.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewMediumMeta.dtl,v 1.1 2008-10-27 07:20:42 martin Exp $
+# $Id: AgentTicketOverviewMediumMeta.dtl,v 1.2 2008-10-27 07:44:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -27,6 +27,15 @@ function select_item (Type, TicketID) {
     else {
         document.matrix.TicketID[Type].value = TicketID;
     }
+}
+function select_item_check () {
+    for (var i = 1; i < document.matrix.TicketID.length; i++) {
+        if ( document.matrix.TicketID[i].checked ) {
+            return true;
+        }
+    }
+    alert('$JSText{"You need min. one selected Ticket!"}');
+    return false;
 }
 </script>
 <!-- dtl:block:TicketHeader -->
@@ -78,7 +87,7 @@ function select_item (Type, TicketID) {
     <tr>
       <td class="menu">
         <img border="0" src="$Env{"Images"}checkbox_arrow_left_up.png">
-        <input type="submit" name="BulkAtion" value="$Text{"Bulk Action"}" class="button">
+        <input type="submit" name="BulkAktion" value="$Text{"Bulk Action"}" class="button" onclick="return select_item_check();">
       </td>
     </tr>
   </table>
