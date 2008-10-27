@@ -1,0 +1,86 @@
+# --
+# AgentTicketOverviewMediumMeta.dtl - provides HTML Ticket Overview
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# --
+# $Id: AgentTicketOverviewMediumMeta.dtl,v 1.1 2008-10-27 07:20:42 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# --
+<!-- dtl:block:TicketHeader -->
+<script language="JavaScript" type="text/javascript">
+function select_items (Type) {
+    for (var i = 1; i < document.matrix.elements[Type].length; i++) {
+        if ( document.matrix.elements[Type][0].checked ) {
+            document.matrix.elements[Type][i].checked = true;
+        }
+        else {
+            document.matrix.elements[Type][i].checked = false;
+        }
+    }
+}
+function select_item (Type, TicketID) {
+    if ( document.matrix.TicketID[Type].value ) {
+        document.matrix.TicketID[Type].value = '';
+    }
+    else {
+        document.matrix.TicketID[Type].value = TicketID;
+    }
+}
+</script>
+<!-- dtl:block:TicketHeader -->
+
+<!-- dtl:block:TicketFooter -->
+<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="matrix">
+  <input type="hidden" name="Action" value="AgentTicketBulk"/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <input type="hidden" name="TicketID" value=""/>
+  <table border="0" width="100%" cellspacing="0" cellpadding="3">
+    <tr>
+      <td class="menu">
+        <img border="0" src="$Env{"Images"}checkbox_arrow_left_up.png">
+        <input type="submit" name="BulkAtion" value="$Text{"Bulk Action"}" class="button">
+      </td>
+    </tr>
+  </table>
+</form>
+<!-- dtl:block:TicketFooter -->

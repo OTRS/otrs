@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewMedium.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewMedium.pm,v 1.1 2008-10-24 08:36:25 martin Exp $
+# $Id: TicketOverviewMedium.pm,v 1.2 2008-10-27 07:20:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -47,14 +47,38 @@ sub Run {
         }
     }
 
+    $Self->{LayoutObject}->Block(
+        Name => 'TicketHeader',
+        Data => \%Param,
+    );
+    $Self->{LayoutObject}->Print(
+        Output => \$Self->{LayoutObject}->Output(
+            TemplateFile => 'AgentTicketOverviewMediumMeta',
+            Data => \%Param,
+        ),
+    );
     my $Output = '';
     my $Counter = 0;
+    my $CounterOnSite = 0;
     for my $TicketID ( @{ $Param{TicketIDs} } ) {
         $Counter++;
         if ( $Counter >= $Param{StartHit} && $Counter < ( $Param{PageShown} + $Param{StartHit} ) ) {
-            my $Output = $Self->_Show( TicketID => $TicketID );
+            my $Output = $Self->_Show( TicketID => $TicketID, Counter => $CounterOnSite );
+            $CounterOnSite++;
             $Self->{LayoutObject}->Print( Output => $Output );
         }
+    }
+    if ( $Self->{ConfigObject}->Get( 'Ticket::Frontend::BulkFeature' ) ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'TicketFooter',
+            Data => \%Param,
+        );
+        $Self->{LayoutObject}->Print(
+            Output => \$Self->{LayoutObject}->Output(
+                TemplateFile => 'AgentTicketOverviewMediumMeta',
+                Data => \%Param,
+            ),
+        );
     }
     return $Output;
 }
@@ -66,6 +90,14 @@ sub _Show {
     if ( !$Param{TicketID} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
         return;
+    }
+
+    # check if bulk feature is enabled
+    if ( $Self->{ConfigObject}->Get( 'Ticket::Frontend::BulkFeature' ) ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'Bulk',
+            Data => \%Param,
+        );
     }
 
     # get move queues

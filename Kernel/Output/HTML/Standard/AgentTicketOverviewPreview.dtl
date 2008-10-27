@@ -2,7 +2,7 @@
 # AgentTicketOverviewPreview.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreview.dtl,v 1.1 2008-10-24 08:38:11 martin Exp $
+# $Id: AgentTicketOverviewPreview.dtl,v 1.2 2008-10-27 07:20:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,11 +11,18 @@
 <!-- start ticket -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
+    <td align="left" width="1%" class="mainhead">
+<!-- dtl:block:Bulk -->
+      <form>
+        <input type="checkbox" name="TicketID" value="" onclick="select_item($QData{"Counter"},$QData{"TicketID"})"/>
+      </form>
+<!-- dtl:block:Bulk -->
+    </td>
     <td width="60%" class="mainhead">
       $Env{"Box0"}$Config{"Ticket::Hook"}: $Data{"TicketNumber"}$Env{"Box1"}
       $QData{"Title","60"}
     </td>
-    <td align="right" width="40%" class="mainhead">
+    <td align="right" width="39%" class="mainhead">
       $Env{"Box0"}$Text{"Age"}: $Data{"Age"}$Env{"Box1"}
     </td>
   </tr>

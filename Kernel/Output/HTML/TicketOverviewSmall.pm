@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewSmall.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewSmall.pm,v 1.1 2008-10-24 08:36:25 martin Exp $
+# $Id: TicketOverviewSmall.pm,v 1.2 2008-10-27 07:20:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -45,6 +45,14 @@ sub Run {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
+    }
+
+    # check if bulk feature is enabled
+    if ( $Self->{ConfigObject}->Get( 'Ticket::Frontend::BulkFeature' ) ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'BulkHead',
+            Data => \%Param,
+        );
     }
 
     if ( $Param{Escalation} ) {
@@ -118,6 +126,14 @@ sub Run {
                 Data => { %Article, %UserInfo },
             );
 
+            # check if bulk feature is enabled
+            if ( $Self->{ConfigObject}->Get( 'Ticket::Frontend::BulkFeature' ) ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'Bulk',
+                    Data => { %Article, %UserInfo },
+                );
+            }
+
             if ( $Param{Escalation} ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'RecordEscalation',
@@ -135,6 +151,14 @@ sub Run {
                 }
             }
         }
+    }
+
+    # check if bulk feature is enabled
+    if ( $Self->{ConfigObject}->Get( 'Ticket::Frontend::BulkFeature' ) ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'BulkFooter',
+            Data => \%Param,
+        );
     }
 
     # use template
