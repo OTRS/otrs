@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.14 2008-05-08 09:36:36 mh Exp $
+# $Id: AgentTicketBulk.pm,v 1.15 2008-10-28 14:07:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,14 +41,12 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Output;
-
     # get involved tickets
-    my @TicketIDs = $Self->{ParamObject}->GetArray( Param => 'TicketIDs' );
-    for ( 1 .. 30 ) {
-        if ( $Self->{ParamObject}->GetParam( Param => "TicketID$_" ) ) {
-            push( @TicketIDs, $Self->{ParamObject}->GetParam( Param => "TicketID$_" ) );
-        }
+    my @TicketIDs;
+    my @TicketIDsRaw = $Self->{ParamObject}->GetArray( Param => 'TicketID' );
+    for my $TicketID (@TicketIDsRaw) {
+        next if !$TicketID;
+        push @TicketIDs, $TicketID;
     }
 
     # check needed stuff
@@ -58,141 +56,147 @@ sub Run {
             Comment => 'You need min. one selected Ticket!',
         );
     }
-    $Output = $Self->{LayoutObject}->Header();
+    my $Output = $Self->{LayoutObject}->Header();
 
     # process tickets
     for my $TicketID (@TicketIDs) {
         my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
 
         # check permissions
-        if (
-            !$Self->{TicketObject}->Permission(
-                Type     => 'rw',
-                TicketID => $TicketID,
-                UserID   => $Self->{UserID}
-            )
-            )
-        {
-
+        my $Access = $Self->{TicketObject}->Permission(
+            Type     => 'rw',
+            TicketID => $TicketID,
+            UserID   => $Self->{UserID}
+        );
+        if ( !$Access ) {
             # error screen, don't show ticket
             $Output .= $Self->{LayoutObject}->Notify(
                 Info => 'No access to %s!", "$Quote{"' . $Ticket{TicketNumber} . '"}',
             );
+            next;
         }
-        else {
-            $Param{TicketIDHidden} .= "<input type='hidden' name='TicketIDs' value='$TicketID'>\n";
 
-            # show locked tickets
-            my $LockIt = 1;
-            if ( $Self->{TicketObject}->LockIsTicketLocked( TicketID => $TicketID ) ) {
-                my $AccessOk = $Self->{TicketObject}->OwnerCheck(
-                    TicketID => $TicketID,
-                    OwnerID  => $Self->{UserID},
+        # check if it's already locked by somebody else
+        if ( $Self->{TicketObject}->LockIsTicketLocked( TicketID => $TicketID ) ) {
+            my $AccessOk = $Self->{TicketObject}->OwnerCheck(
+                TicketID => $TicketID,
+                OwnerID  => $Self->{UserID},
+            );
+            if ( !$AccessOk ) {
+                $Output .= $Self->{LayoutObject}->Notify(
+                    Info => 'Ticket %s is locked for an other agent!", "$Quote{"'
+                        . $Ticket{TicketNumber}
+                        . '"}',
                 );
-                if ( !$AccessOk ) {
-                    $LockIt = 0;
-                    $Output
-                        .= $Self->{LayoutObject}->Notify(
-                        Info => 'Ticket %s is locked for an other agent!", "$Quote{"'
-                            . $Ticket{TicketNumber}
-                            . '"}',
-                        );
-                }
+                next;
             }
-            if ($LockIt) {
+        }
 
-                # set lock
-                $Self->{TicketObject}->LockSet(
+        $Param{TicketIDHidden} .= "<input type='hidden' name='TicketID' value='$TicketID'>\n";
+        # set lock
+        $Self->{TicketObject}->LockSet(
+            TicketID => $TicketID,
+            Lock     => 'lock',
+            UserID   => $Self->{UserID},
+        );
+
+        # set user id
+        $Self->{TicketObject}->OwnerSet(
+            TicketID  => $TicketID,
+            UserID    => $Self->{UserID},
+            NewUserID => $Self->{UserID},
+        );
+        $Output .= $Self->{LayoutObject}->Notify(
+            Data => $Ticket{TicketNumber} . ': $Text{"Ticket locked!"}',
+        );
+
+        # do some actions on tickets
+        if ( $Self->{Subaction} eq 'Do' ) {
+
+            # set queue
+            my $QueueID = $Self->{ParamObject}->GetParam( Param => 'QueueID' ) || '';
+            my $Queue   = $Self->{ParamObject}->GetParam( Param => 'Queue' )   || '';
+            if ( $QueueID || $Queue ) {
+                $Self->{TicketObject}->MoveTicket(
+                    QueueID  => $QueueID,
+                    Queue    => $Queue,
                     TicketID => $TicketID,
-                    Lock     => 'lock',
                     UserID   => $Self->{UserID},
                 );
+            }
 
-                # set user id
-                $Self->{TicketObject}->OwnerSet(
-                    TicketID  => $TicketID,
-                    UserID    => $Self->{UserID},
-                    NewUserID => $Self->{UserID},
+            # add note
+            my $Subject = $Self->{ParamObject}->GetParam( Param => 'Subject' ) || '';
+            my $Body    = $Self->{ParamObject}->GetParam( Param => 'Body' )    || '';
+            my $ArticleTypeID = $Self->{ParamObject}->GetParam( Param => 'ArticleTypeID' ) || '';
+            my $ArticleType = $Self->{ParamObject}->GetParam( Param => 'ArticleType' ) || '';
+
+            my $ArticleID;
+            if ( $Subject && $Body && ( $ArticleTypeID || $ArticleType ) ) {
+                $ArticleID = $Self->{TicketObject}->ArticleCreate(
+                    TicketID      => $TicketID,
+                    ArticleTypeID => $ArticleTypeID,
+                    ArticleType   => $ArticleType,
+                    SenderType    => 'agent',
+                    From          => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
+                    Subject       => $Subject,
+                    Body          => $Body,
+                    ContentType   => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
+                    UserID         => $Self->{UserID},
+                    HistoryType    => 'AddNote',
+                    HistoryComment => '%%Bulk',
                 );
-                $Output .= $Self->{LayoutObject}->Notify(
-                    Data => $Ticket{TicketNumber} . ': $Text{"Ticket locked!"}',
+            }
+
+            # set state
+            my $StateID = $Self->{ParamObject}->GetParam( Param => 'StateID' ) || '';
+            my $State   = $Self->{ParamObject}->GetParam( Param => 'State' )   || '';
+            if ( $StateID || $State ) {
+                $Self->{TicketObject}->StateSet(
+                    TicketID => $TicketID,
+                    StateID  => $StateID,
+                    State    => $State,
+                    UserID   => $Self->{UserID},
+                );
+                my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
+                my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+                    ID => $Ticket{StateID},
                 );
 
-                # do some actions on tickets
-                if ( $Self->{Subaction} eq 'Do' ) {
-
-                    # set queue
-                    my $QueueID = $Self->{ParamObject}->GetParam( Param => 'QueueID' ) || '';
-                    my $Queue   = $Self->{ParamObject}->GetParam( Param => 'Queue' )   || '';
-                    if ( $QueueID || $Queue ) {
-                        $Self->{TicketObject}->MoveTicket(
-                            QueueID  => $QueueID,
-                            Queue    => $Queue,
-                            TicketID => $TicketID,
-                            UserID   => $Self->{UserID},
-                        );
-                    }
-
-                    # add note
-                    my $Subject = $Self->{ParamObject}->GetParam( Param => 'Subject' ) || '';
-                    my $Body    = $Self->{ParamObject}->GetParam( Param => 'Body' )    || '';
-                    my $ArticleTypeID = $Self->{ParamObject}->GetParam( Param => 'ArticleTypeID' )
-                        || '';
-                    my $ArticleType = $Self->{ParamObject}->GetParam( Param => 'ArticleType' )
-                        || '';
-
-                    if ( $Subject && $Body && ( $ArticleTypeID || $ArticleType ) ) {
-                        my $ArticleID = $Self->{TicketObject}->ArticleCreate(
-                            TicketID      => $TicketID,
-                            ArticleTypeID => $ArticleTypeID,
-                            ArticleType   => $ArticleType,
-                            SenderType    => 'agent',
-                            From =>
-                                "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
-                            Subject => $Subject,
-                            Body    => $Body,
-                            ContentType =>
-                                "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
-                            UserID         => $Self->{UserID},
-                            HistoryType    => 'AddNote',
-                            HistoryComment => '%%Bulk',
-                        );
-                    }
-
-                    # set state
-                    my $StateID = $Self->{ParamObject}->GetParam( Param => 'StateID' ) || '';
-                    my $State   = $Self->{ParamObject}->GetParam( Param => 'State' )   || '';
-                    if ( $StateID || $State ) {
-                        $Self->{TicketObject}->StateSet(
-                            TicketID => $TicketID,
-                            StateID  => $StateID,
-                            State    => $State,
-                            UserID   => $Self->{UserID},
-                        );
-                        my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
-                        my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
-                            ID => $Ticket{StateID},
-                        );
-
-                        # should I set an unlock?
-                        if ( $Ticket{StateType} =~ /^close/i ) {
-                            $Self->{TicketObject}->LockSet(
-                                TicketID => $TicketID,
-                                Lock     => 'unlock',
-                                UserID   => $Self->{UserID},
-                            );
-                        }
-                    }
-
-                    # Should I unlock tickets at user request?
-                    if ( $Self->{ParamObject}->GetParam( Param => 'Unlock' ) ) {
-                        $Self->{TicketObject}->LockSet(
-                            TicketID => $TicketID,
-                            Lock     => 'unlock',
-                            UserID   => $Self->{UserID},
-                        );
-                    }
+                # should I set an unlock?
+                if ( $Ticket{StateType} =~ /^close/i ) {
+                    $Self->{TicketObject}->LockSet(
+                        TicketID => $TicketID,
+                        Lock     => 'unlock',
+                        UserID   => $Self->{UserID},
+                    );
                 }
+            }
+
+            # time units
+            my $TimeUnits = $Self->{ParamObject}->GetParam( Param => 'TimeUnits' );
+            if ( $TimeUnits ) {
+                $Self->{TicketObject}->TicketAccountTime(
+                    TicketID  => $TicketID,
+                    ArticleID => $ArticleID,
+                    TimeUnit  => $TimeUnits,
+                    UserID    => $Self->{UserID},
+                );
+            }
+
+            # merge to
+
+            # link with
+
+            # link togehter
+
+            # Should I unlock tickets at user request?
+            if ( $Self->{ParamObject}->GetParam( Param => 'Unlock' ) ) {
+                $Self->{TicketObject}->LockSet(
+                    TicketID => $TicketID,
+                    Lock     => 'unlock',
+                    UserID   => $Self->{UserID},
+                );
             }
         }
     }
@@ -201,11 +205,10 @@ sub Run {
         # redirect
         return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreen} );
     }
-    else {
-        $Output .= $Self->_Mask(%Param);
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
-    }
+
+    $Output .= $Self->_Mask(%Param);
+    $Output .= $Self->{LayoutObject}->Footer();
+    return $Output;
 }
 
 sub _Mask {
@@ -258,6 +261,19 @@ sub _Mask {
         #       SelectedID => $Self->{DestQueueID},
         OnChangeSubmit => 0,
     );
+
+    # show time accounting box
+    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'TimeUnitsJs',
+            Data => \%Param,
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'TimeUnits',
+            Data => \%Param,
+        );
+    }
+
     $Param{'UnlockYesNoOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
         Name       => 'Unlock',
