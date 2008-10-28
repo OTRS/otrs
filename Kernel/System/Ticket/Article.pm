@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.187 2008-10-28 14:50:30 sb Exp $
+# $Id: Article.pm,v 1.188 2008-10-28 16:33:38 tt Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.187 $) [1];
+$VERSION = qw($Revision: 1.188 $) [1];
 
 =head1 NAME
 
@@ -1067,6 +1067,7 @@ sub ArticleFreeTextSet {
     $Self->TicketEventHandlerPost(
         Event    => 'ArticleFreeTextUpdate',
         TicketID => $Param{TicketID},
+        ArticleID => $Param{ArticleID},
         UserID   => $Param{UserID},
     );
     return 1;
