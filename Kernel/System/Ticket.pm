@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.346.2.3 2008-10-13 13:24:57 martin Exp $
+# $Id: Ticket.pm,v 1.346.2.4 2008-10-28 18:43:50 tt Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.346.2.3 $) [1];
+$VERSION = qw($Revision: 1.346.2.4 $) [1];
 
 =head1 NAME
 
@@ -418,10 +418,10 @@ sub TicketCreate {
             PriorityID => $Param{PriorityID},
         );
     }
-    if ( !$Param{PriorityID} && !$Param{Priority} ) {
+    if ( !$Param{PriorityID} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => 'No PriorityID and no Priority!',
+            Message  => 'No PriorityID (invalid Priority Name?)!',
         );
         return;
     }
@@ -6660,6 +6660,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.346.2.3 $ $Date: 2008-10-13 13:24:57 $
+$Revision: 1.346.2.4 $ $Date: 2008-10-28 18:43:50 $
 
 =cut
