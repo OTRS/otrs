@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.37 2008-06-19 18:42:28 martin Exp $
+# $Id: AdminGenericAgent.dtl,v 1.38 2008-10-28 19:12:19 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -131,8 +131,15 @@
           </tr>
           <tr>
             <td colspan="2" class="contentbody">
-              $Text{"minutes"}: $Data{"ScheduleMinutes"} $Text{"hours"}: $Data{"ScheduleHours"}
-              $Text{"days"}: $Data{"ScheduleDays"}
+              $Text{"minutes"}: $Data{"ScheduleMinutesList"} $Text{"hours"}: $Data{"ScheduleHoursList"}
+              $Text{"days"}: $Data{"ScheduleDaysList"}
+<!-- dtl:block:JobScheduleWarning-->
+              <br/>
+              <span class="validity">
+              $Text{"Currently this generic agent job will not run automatically."}
+              $Text{"To enable automatic execusion select at least one value form minutes, hours and days!"}
+              </span>
+<!-- dtl:block:JobScheduleWarning-->
             </td>
           </tr>
           <tr>

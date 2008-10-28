@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.54 2008-10-06 16:44:37 mh Exp $
+# $Id: AdminGenericAgent.pm,v 1.55 2008-10-28 19:12:19 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -581,14 +581,14 @@ sub Run {
         for ( 0 .. 23 ) {
             $Hours{$_} = sprintf( "%02d", $_ );
         }
-        $Param{ScheduleHours} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{ScheduleHoursList} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data               => \%Hours,
             Name               => 'ScheduleHours',
             Size               => 6,
             Multiple           => 1,
             SelectedIDRefArray => $Param{ScheduleHours},
         );
-        $Param{ScheduleMinutes} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{ScheduleMinutesList} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => {
                 '00' => '00',
                 10   => '10',
@@ -602,7 +602,7 @@ sub Run {
             Multiple           => 1,
             SelectedIDRefArray => $Param{ScheduleMinutes},
         );
-        $Param{ScheduleDays} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{ScheduleDaysList} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => {
                 1 => 'Mon',
                 2 => 'Tue',
@@ -880,6 +880,16 @@ sub Run {
             Name => 'Edit',
             Data => \%Param,
         );
+
+        # check if the schedule options are selected
+        if (   !defined $Param{ScheduleDays}->[0]
+            || !defined $Param{ScheduleHours}->[0]
+            || !defined $Param{ScheduleMinutes}-[0]
+         ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'JobScheduleWarning',
+            );
+        }
 
         # add ticket title
         if ( $Self->{ConfigObject}->Get('Ticket::Frontend::Title') ) {
