@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.53.2.1 2008-10-06 15:37:23 mh Exp $
+# $Id: AdminGenericAgent.pm,v 1.53.2.2 2008-10-28 19:07:05 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53.2.1 $) [1];
+$VERSION = qw($Revision: 1.53.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -563,6 +563,7 @@ sub Run {
             Type  => 'Long',
             Valid => 1,
         );
+
         $Param{OwnerStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data               => \%ShownUsers,
             Name               => 'OwnerIDs',
@@ -581,14 +582,14 @@ sub Run {
         for ( 0 .. 23 ) {
             $Hours{$_} = sprintf( "%02d", $_ );
         }
-        $Param{ScheduleHours} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{ScheduleHoursList} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data               => \%Hours,
             Name               => 'ScheduleHours',
             Size               => 6,
             Multiple           => 1,
             SelectedIDRefArray => $Param{ScheduleHours},
         );
-        $Param{ScheduleMinutes} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{ScheduleMinutesList} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => {
                 '00' => '00',
                 10   => '10',
@@ -602,7 +603,7 @@ sub Run {
             Multiple           => 1,
             SelectedIDRefArray => $Param{ScheduleMinutes},
         );
-        $Param{ScheduleDays} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{ScheduleDaysList} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => {
                 1 => 'Mon',
                 2 => 'Tue',
@@ -631,6 +632,7 @@ sub Run {
             Size               => 5,
             SelectedIDRefArray => $Param{StateIDs},
         );
+
         $Param{NewStatesStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => {
                 $Self->{StateObject}->StateList(

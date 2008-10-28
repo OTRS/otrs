@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.171.2.2 2008-10-16 14:08:46 ub Exp $
+# $Id: de.pm,v 1.171.2.3 2008-10-28 19:07:05 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.171.2.2 $) [1];
+$VERSION = qw($Revision: 1.171.2.3 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -698,6 +698,8 @@ sub Data {
         'No means, send agent and customer notifications on changes.' => 'Nein bedeutet, es werden die Kunden und Agents durch eine Benachrichtigung über die Änderung informiert.',
         'Save' => 'Speichern',
         '%s Tickets affected! Do you really want to use this job?' => '%s Tickets sind betroffen! Wollen Sie diesen Job wirklich benutzen?',
+        'Currently this generic agent job will not run automatically.' => 'Derzeit würde dieser GenericAgentJob nicht automatisch ausgeführt werden.',
+        'To enable automatic execusion select at least one value form minutes, hours and days!' => 'Um ihn automatisch auszuführen muß mindestens ein Wert vom Minuten, Stunden und Tagen ausgewählt werden!',
 
         # Template: AdminGroupForm
         'Group Management' => 'Gruppen Verwaltung',
