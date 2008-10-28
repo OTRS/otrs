@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.781 2008-10-28 19:12:19 tr Exp $
+# $Id: CHANGES,v 1.782 2008-10-28 19:14:13 tt Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,8 +10,9 @@
 # --
 
 2.4.0 beta1 (2009/??/??)
- - (2008/10/28) Fixed bug# improved error logging of new postmaster tickets for
-    invalid priority names
+ - (2008/10/28) Fixed bug# 1719 - psql -u deprecated.
+ - (2008/10/28) Fixed bug# 3346 improved error logging of new postmaster tickets
+    for invalid priority names.
  - (2008/10/28) Fixed bug# 3366 -TicketEvent ArticleFreeTextSet does not know
     ArticleID.
  - (2008/10/28) Fixed bug# 1491 - text in the file "UPGRADING" is misleading.
