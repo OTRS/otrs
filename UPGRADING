@@ -2,14 +2,18 @@
 # UPGRADING - upgrading OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.28 2008-07-21 18:41:42 ub Exp $
+# $Id: UPGRADING,v 1.29 2008-10-28 16:24:56 tt Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
-These instructions are for people upgrading OTRS from "2.2" to "2.3".
+These instructions are for people upgrading OTRS from "2.2" to "2.3". 
+
+If you are running a lower version of OTRS you need to follow the upgrade path
+to 2.2 first (1.1->1.2->1.3->2.0->2.1->2.2 ...).
+
 
 *) Stop all your services (e. g. rcotrs stop-force)
 
@@ -33,8 +37,6 @@ These instructions are for people upgrading OTRS from "2.2" to "2.3".
     PostgreSQL:
       cat $OTRS_HOME/scripts/DBUpdate-to-2.3.postgresql.sql | psql otrs
 
-   (Don't worry about the error messages, you can update all previous version
-   with this script and in the most cases your database has already the most changes!)
 
 *) Run the migration script (as OTRS user, _not_ as root):
    You must execute the migration script to migrate some data from the old database
