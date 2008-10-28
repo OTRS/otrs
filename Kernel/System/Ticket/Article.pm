@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.186 2008-10-14 10:45:05 martin Exp $
+# $Id: Article.pm,v 1.187 2008-10-28 14:50:30 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.186 $) [1];
+$VERSION = qw($Revision: 1.187 $) [1];
 
 =head1 NAME
 
@@ -1398,7 +1398,7 @@ sub ArticleGet {
         . ' st.ticket_lock_id, st.title, st.escalation_update_time, '
         . ' st.freetime1 , st.freetime2, st.freetime3, st.freetime4, st.freetime5, st.freetime6, '
         . ' st.type_id, st.service_id, st.sla_id, st.escalation_response_time, '
-        . ' st.escalation_solution_time, st.escalation_time '
+        . ' st.escalation_solution_time, st.escalation_time, st.change_time '
         . ' FROM article sa, ticket st WHERE ';
 
     if ( $Param{ArticleID} ) {
@@ -1457,6 +1457,7 @@ sub ArticleGet {
         $Data{CreatedBy}    = $Row[15];
         $Data{TicketNumber} = $Row[16];
         $Data{SenderTypeID} = $Row[17];
+        $Ticket{Changed}    = $Row[81];
 
         if ( $Row[14] && $Data{ContentType} =~ /charset=/i ) {
             $Data{ContentCharset} = $Data{ContentType};

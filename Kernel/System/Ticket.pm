@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.351 2008-10-24 08:39:27 martin Exp $
+# $Id: Ticket.pm,v 1.352 2008-10-28 14:50:30 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.351 $) [1];
+$VERSION = qw($Revision: 1.352 $) [1];
 
 =head1 NAME
 
@@ -817,6 +817,7 @@ sub TicketGet {
         $Ticket{Age}            = $Self->{TimeObject}->SystemTime() - $Row[7];
         $Ticket{CreateTimeUnix} = $Row[7];
         $Ticket{Created} = $Self->{TimeObject}->SystemTime2TimeStamp( SystemTime => $Row[7] );
+        $Ticket{Changed}        = $Row[54];
         $Ticket{EscalationTime}         = $Row[63];
         $Ticket{EscalationUpdateTime}   = $Row[56];
         $Ticket{EscalationResponseTime} = $Row[61];
@@ -6748,6 +6749,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.351 $ $Date: 2008-10-24 08:39:27 $
+$Revision: 1.352 $ $Date: 2008-10-28 14:50:30 $
 
 =cut
