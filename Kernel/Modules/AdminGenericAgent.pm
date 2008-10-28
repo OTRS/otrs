@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.55 2008-10-28 19:12:19 tr Exp $
+# $Id: AdminGenericAgent.pm,v 1.56 2008-10-28 19:33:51 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -498,12 +498,8 @@ sub Run {
             $Param{DeleteMessage}
                 = 'You use the DELETE option! Take care, all deleted Tickets are lost!!!';
         }
-        if (@ViewableIDs) {
-            $Param{AffectedIDs} = $#ViewableIDs + 1;
-        }
-        else {
-            $Param{AffectedIDs} = 0;
-        }
+
+        $Param{AffectedIDs} = @ViewableIDs ? scalar @ViewableIDs : 0;
 
         $Self->{LayoutObject}->Block(
             Name => 'Result',
@@ -790,7 +786,7 @@ sub Run {
             %Param,
             Prefix   => 'TicketCloseTimeStart',
             Format   => 'DateInputFormat',
-            DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
+            DiffTime => - 60 * 60 * 24 * 30,
         );
         $Param{TicketCloseTimeStop} = $Self->{LayoutObject}->BuildDateSelection(
             %Param,
@@ -828,7 +824,7 @@ sub Run {
             %Param,
             Prefix   => 'TicketPendingTimeStart',
             Format   => 'DateInputFormat',
-            DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
+            DiffTime => - 60 * 60 * 24 * 30,
         );
         $Param{TicketPendingTimeStop} = $Self->{LayoutObject}->BuildDateSelection(
             %Param,
@@ -906,7 +902,7 @@ sub Run {
         # build type string
         if ( $Self->{ConfigObject}->Get('Ticket::Type') ) {
             my %Type = $Self->{TypeObject}->TypeList( UserID => $Self->{UserID}, );
-            $Param{'TypesStrg'} = $Self->{LayoutObject}->BuildSelection(
+            $Param{TypesStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data        => \%Type,
                 Name        => 'TypeIDs',
                 SelectedID  => $Param{TypeIDs},
@@ -1152,12 +1148,7 @@ sub Run {
 
         # seperate each searchresult line by using several css
         $Counter++;
-        if ( $Counter % 2 ) {
-            $JobData{css} = "searchpassive";
-        }
-        else {
-            $JobData{css} = "searchactive";
-        }
+        $JobData{css} = $Counter % 2 ? 'searchpassive' : 'searchactive';
 
         $Self->{LayoutObject}->Block(
             Name => 'Row',
