@@ -2,7 +2,7 @@
 # AdminPerformanceLog.dtl - provides HTML form for AdminPerformanceLog
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPerformanceLog.dtl,v 1.11 2008-09-24 23:02:26 martin Exp $
+# $Id: AdminPerformanceLog.dtl,v 1.12 2008-10-28 16:34:13 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,7 +33,7 @@
           <tr>
             <td class="contentbody">
               <p>$Text{"Just use this feature if you want to log each request."}<font color="red">*</font></p>
-              <p><font color="red">$Text{"Of couse this feature will take some system performance it self!"}</font></p>
+              <p><font color="red">$Text{"Activating this feature might affect your system performance!"}</font></p>
             </td>
           </tr>
           <tr>
@@ -59,7 +59,7 @@
           <tr>
             <td class="contentbody">
               <p>$Text{"Just use this feature if you want to log each request."}<font color="red">*</font></p>
-              <p><font color="red">$Text{"Of couse this feature will take some system performance it self!"}</font></p>
+              <p><font color="red">$Text{"Activating this feature might affect your system performance!"}</font></p>
             </td>
           </tr>
           <tr>
