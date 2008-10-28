@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.784 2008-10-28 19:45:48 tt Exp $
+# $Id: CHANGES,v 1.785 2008-10-28 19:54:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -33,6 +33,8 @@
     availabe in online repository packages.
 
 2.3.4 (2008/??/??)
+ - (2008/10/28) Fixed bug# 3402 - AgentLinkObject crashes with "Got no
+    UserLanguage" if browser sends exotic language.
  - (2008/10/28) Fixed bug# 3405 - Input field agent-email-address too short.
  - (2008/10/28) Fixed bug# 1719 - psql -u deprecated.
  - (2008/10/28) Fixed bug# 3366 - TicketEvent ArticleFreeTextSet does not know

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.111 2008-10-20 14:31:01 tr Exp $
+# $Id: Layout.pm,v 1.112 2008-10-28 19:52:24 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.111 $) [1];
+$VERSION = qw($Revision: 1.112 $) [1];
 
 =head1 NAME
 
@@ -128,6 +128,7 @@ sub new {
                 last LANGUAGE;
             }
         }
+        $Self->{UserLanguage} ||= $Self->{ConfigObject}->Get('DefaultLanguage') || 'en';
     }
 
     # create language object
@@ -4005,6 +4006,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.111 $ $Date: 2008-10-20 14:31:01 $
+$Revision: 1.112 $ $Date: 2008-10-28 19:52:24 $
 
 =cut
