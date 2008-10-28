@@ -3,7 +3,7 @@
 # scripts/restore.pl - the restore script
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: restore.pl,v 1.7 2008-05-08 09:35:57 mh Exp $
+# $Id: restore.pl,v 1.7.2.1 2008-10-28 19:06:17 tt Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.7.2.1 $) [1];
 
 use Getopt::Std;
 
@@ -206,7 +206,7 @@ else {
         system("gunzip $Opts{'b'}/DatabaseBackup.sql.gz");
         print "cat SQL-file into $DB database\n";
         system(
-            "cat $Opts{'b'}/DatabaseBackup.sql | psql -u$DatabaseUser -h$DatabaseHost $Database"
+            "cat $Opts{'b'}/DatabaseBackup.sql | psql -U$DatabaseUser -W$DatabasePw -h$DatabaseHost $Database"
         );
         print "compress SQL-file...\n";
         system("gzip $Opts{'b'}/DatabaseBackup.sql");
@@ -216,7 +216,7 @@ else {
         system("bunzip $Opts{'b'}/DatabaseBackup.sql.bz2");
         print "cat SQL-file into $DB database\n";
         system(
-            "cat $Opts{'b'}/DatabaseBackup.sql | psql -u$DatabaseUser -h$DatabaseHost $Database"
+            "cat $Opts{'b'}/DatabaseBackup.sql | psql -U$DatabaseUser -W$DatabasePw -h$DatabaseHost $Database"
         );
         print "compress SQL-file...\n";
         system("bzip $Opts{'b'}/DatabaseBackup.sql");
