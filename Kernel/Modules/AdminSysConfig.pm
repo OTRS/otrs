@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.70 2008-05-08 21:58:12 martin Exp $
+# $Id: AdminSysConfig.pm,v 1.71 2008-10-28 21:10:52 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1320,7 +1320,25 @@ sub ListConfigItem {
         );
 
         # TimeWorkingHoursElements
+
+        # create lookup day -> day id
+        my %WeekdayLookup = (
+            Mon => 1,
+            Tue => 2,
+            Wed => 3,
+            Thu => 4,
+            Fri => 5,
+            Sat => 6,
+            Sun => 7,
+        );
+        my %SortWeekdays;
         for my $Index ( 1 .. $#{ $ItemHash{Setting}[1]{TimeWorkingHours}[1]{Day} } ) {
+            # assign index id to day id for sorting
+            $SortWeekdays{ $WeekdayLookup{ $ItemHash{Setting}[1]{TimeWorkingHours}[1]{Day}[$Index]{Name} } } = $Index;
+        }
+        # get output sorted by day id
+        for my $DayIndex ( 1 .. 7 ) {
+            my $Index = $SortWeekdays{$DayIndex};
             $Self->{LayoutObject}->Block(
                 Name => 'ConfigElementTimeWorkingHoursContent',
                 Data => {

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.785 2008-10-28 19:54:57 mh Exp $
+# $Id: CHANGES,v 1.786 2008-10-28 21:10:52 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.4.0 beta1 (2009/??/??)
+ - (2008/10/28) Fixed bug# 1722 - weekday sorting in TimeWorkingHours corrected.
  - (2008/10/28) Fixed bug# 1491 - text in the file "UPGRADING" is misleading.
  - (2008/10/28) Implemented RFE (bug# 1006): Added ticket change time to
     TicketGet and ArticleGet output. As a result, parameter 'Changed' is now
