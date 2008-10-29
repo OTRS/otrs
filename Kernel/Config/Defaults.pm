@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.300 2008-10-29 16:23:00 tt Exp $
+# $Id: Defaults.pm,v 1.301 2008-10-29 18:51:32 tt Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.300 $) [1];
+$VERSION = qw($Revision: 1.301 $) [1];
 
 sub LoadDefaults {
     my ($Self) = @_;
@@ -443,10 +443,10 @@ sub LoadDefaults {
 #            'role3' => 1,
 #        }
 #    };
-    # UserSyncLDAPAttibuteGroupsDefinition
+    # UserSyncLDAPAttributeGroupsDefinition
     # (If "LDAP" was selected for AuthModule and you want to sync LDAP
     # attributes to otrs groups, define the following.)
-#    $Self->{'UserSyncLDAPAttibuteGroupsDefinition'} = {
+#    $Self->{'UserSyncLDAPAttributeGroupsDefinition'} = {
 #        # ldap attribute
 #        'LDAPAttribute' => {
 #            # ldap attribute value
@@ -472,10 +472,10 @@ sub LoadDefaults {
 #            },
 #         }
 #    };
-    # UserSyncLDAPAttibuteRolesDefinition
+    # UserSyncLDAPAttributeRolesDefinition
     # (If "LDAP" was selected for AuthModule and you want to sync LDAP
     # attributes to otrs roles, define the following.)
-#    $Self->{'UserSyncLDAPAttibuteRolesDefinition'} = {
+#    $Self->{'UserSyncLDAPAttributeRolesDefinition'} = {
 #        # ldap attribute
 #        'LDAPAttribute' => {
 #            # ldap attribute value
@@ -2327,6 +2327,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.300 $ $Date: 2008-10-29 16:23:00 $
+$Revision: 1.301 $ $Date: 2008-10-29 18:51:32 $
 
 =cut
