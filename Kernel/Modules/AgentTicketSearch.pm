@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.59 2008-10-24 08:35:16 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.60 2008-10-29 23:36:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::State;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -921,6 +921,13 @@ sub Run {
                 . '&View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
                 . '&Profile='.$Self->{Profile}.'&TakeLastSearch=1&Subaction=Search'
                 . '&';
+            my $LinkFilter = 'TakeLastSearch=1&Subaction=Search&Profile='
+                . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Profile} )
+                . '&';
+            my $LinkBack = 'Subaction=LoadProfile&Profile='
+                . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Profile} )
+                . '&TakeLastSearch=1&';
+
             my $FilterLink = 'SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{SortBy} )
                 . '&OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{OrderBy} )
                 . '&View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
@@ -935,10 +942,14 @@ sub Run {
                 Env        => $Self,
                 LinkPage   => $LinkPage,
                 LinkSort   => $LinkSort,
+                LinkFilter => $LinkFilter,
+                LinkBack   => $LinkBack,
+
                 TitleName  => 'Search Result',
 
                 Filter     => $Self->{Filter},
                 FilterLink => $FilterLink,
+
             );
 
             # build footer

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.32 2008-10-29 18:36:34 martin Exp $
+# $Id: LayoutTicket.pm,v 1.33 2008-10-29 23:36:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -694,6 +694,14 @@ sub TicketListShow {
         Name => 'OverviewNavBar',
         Data => \%Param,
     );
+
+    # back link
+    if ( $Param{LinkBack} ) {
+        $Param{Env}->{LayoutObject}->Block(
+            Name => 'OverviewNavBarPageBack',
+            Data => \%Param,
+        );
+    }
 
     # filter
     if ( $Param{Filters} ) {

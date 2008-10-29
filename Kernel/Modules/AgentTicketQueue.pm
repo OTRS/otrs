@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.55 2008-10-24 08:35:16 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.56 2008-10-29 23:36:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Lock;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -159,6 +159,9 @@ sub Run {
         . '&SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $SortBy )
         . '&OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $OrderBy )
         . '&';
+    my $LinkFilter = 'QueueID='
+        . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{QueueID} )
+        . '&';
 
     my %NavBar = $Self->BuildQueueView( QueueIDs => \@ViewableQueueIDs );
 
@@ -174,7 +177,7 @@ sub Run {
             TitleValue  => $NavBar{SelectedQueue},
             LinkPage    => $LinkPage,
             LinkSort    => $LinkSort,
-#            FilterLink  => $Link,
+            LinkFilter  => $LinkFilter,
         ),
     );
 
