@@ -2,7 +2,7 @@
 # scripts/test/Performance.t - a performance testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Performance.t,v 1.5 2008-05-08 09:35:57 mh Exp $
+# $Id: Performance.t,v 1.5.2.1 2008-10-29 18:38:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -126,6 +126,7 @@ $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new(
     QueueObject   => $Self->{QueueObject},
     UserObject    => $Self->{UserObject},
     Action        => 'AgentTicketQueue',
+    SessionID     => 1234,
     UserID        => 2,
     Lang          => 'de',
 );
