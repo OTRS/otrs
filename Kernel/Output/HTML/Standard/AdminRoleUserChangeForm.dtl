@@ -2,7 +2,7 @@
 # AdminRoleUserChangeForm.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRoleUserChangeForm.dtl,v 1.14 2008-10-27 00:13:15 martin Exp $
+# $Id: AdminRoleUserChangeForm.dtl,v 1.15 2008-10-29 15:31:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -47,7 +47,7 @@ function select_items (Type) {
               <table>
                 <tr>
                   <th align="left" valign="top">$Text{"$QData{"NeType"}"}</th>
-                  <th align="center">$Text{"Active"}<br/><input type="checkbox" value="" name="$QData{"Type"}" onchange="select_items('$QData{"Type"}');"></th></th>
+                  <th align="center">$Text{"Active"}<br/><input type="checkbox" value="" name="$QData{"Type"}" onclick="select_items('$QData{"Type"}');"></th></th>
                 </tr>
 <!-- dtl:block:Row -->
                 <tr class="$QData{"CssClass"}">

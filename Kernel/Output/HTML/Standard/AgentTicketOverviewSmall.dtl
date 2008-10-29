@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.3 2008-10-27 07:44:29 martin Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.4 2008-10-29 15:32:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -39,7 +39,7 @@ function select_item_check () {
           <tr class="contenthead" align="left">
             <th width="1%">
 <!-- dtl:block:BulkHead -->
-            <input type="checkbox" name="TicketID" value="" onchange="select_items('TicketID')"/>
+            <input type="checkbox" name="TicketID" value="" onclick="select_items('TicketID')"/>
 <!-- dtl:block:BulkHead -->
             </th>
             <th width="10%">$Config{"Ticket::Hook"}<br/>

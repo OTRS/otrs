@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminRoleGroup.pm - to add/update/delete role <-> groups
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRoleGroup.pm,v 1.13 2008-10-27 00:13:15 martin Exp $
+# $Id: AdminRoleGroup.pm,v 1.14 2008-10-29 15:31:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -212,7 +212,7 @@ sub MaskAdminUserGroupChangeForm {
         if ( $_ eq 'rw' ) {
             $Param{OptionStrg0} .= " | ";
         }
-        $Param{OptionStrg0} .= "<input type=\"checkbox\" name=\"$_\" value=\"\" onchange=\"select_items('$_');\"></th>";
+        $Param{OptionStrg0} .= "<input type=\"checkbox\" name=\"$_\" value=\"\" onclick=\"select_items('$_');\"></th>";
     }
     $Param{OptionStrg0} .= "</tr>\n";
     my $CssClass = 'searchactive';
