@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.299 2008-08-03 15:23:46 martin Exp $
+# $Id: Defaults.pm,v 1.299.2.1 2008-10-29 16:20:41 tt Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.299 $) [1];
+$VERSION = qw($Revision: 1.299.2.1 $) [1];
 
 sub LoadDefaults {
     my ($Self) = @_;
@@ -405,10 +405,10 @@ sub LoadDefaults {
 #    $Self->{UserSyncLDAPGroups} = [
 #        'users',
 #    ];
-    # UserSyncLDAPGroupsDefination
+    # UserSyncLDAPGroupsDefinition
     # (If "LDAP" was selected for AuthModule and you want to sync LDAP
     # groups to otrs groups, define the following.)
-#    $Self->{'UserSyncLDAPGroupsDefination'} = {
+#    $Self->{'UserSyncLDAPGroupsDefinition'} = {
 #        # ldap group
 #        'cn=agent,o=otrs' => {
 #            # otrs group
@@ -429,10 +429,10 @@ sub LoadDefaults {
 #            },
 #        }
 #    };
-    # UserSyncLDAPRolesDefination
+    # UserSyncLDAPRolesDefinition
     # (If "LDAP" was selected for AuthModule and you want to sync LDAP
     # groups to otrs roles, define the following.)
-#    $Self->{'UserSyncLDAPRolesDefination'} = {
+#    $Self->{'UserSyncLDAPRolesDefinition'} = {
 #        # ldap group
 #        'cn=agent,o=otrs' => {
 #            # otrs role
@@ -443,10 +443,10 @@ sub LoadDefaults {
 #            'role3' => 1,
 #        }
 #    };
-    # UserSyncLDAPAttibuteGroupsDefination
+    # UserSyncLDAPAttibuteGroupsDefinition
     # (If "LDAP" was selected for AuthModule and you want to sync LDAP
     # attributes to otrs groups, define the following.)
-#    $Self->{'UserSyncLDAPAttibuteGroupsDefination'} = {
+#    $Self->{'UserSyncLDAPAttibuteGroupsDefinition'} = {
 #        # ldap attribute
 #        'LDAPAttribute' => {
 #            # ldap attribute value
@@ -472,10 +472,10 @@ sub LoadDefaults {
 #            },
 #         }
 #    };
-    # UserSyncLDAPAttibuteRolesDefination
+    # UserSyncLDAPAttibuteRolesDefinition
     # (If "LDAP" was selected for AuthModule and you want to sync LDAP
     # attributes to otrs roles, define the following.)
-#    $Self->{'UserSyncLDAPAttibuteRolesDefination'} = {
+#    $Self->{'UserSyncLDAPAttibuteRolesDefinition'} = {
 #        # ldap attribute
 #        'LDAPAttribute' => {
 #            # ldap attribute value
@@ -2327,6 +2327,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.299 $ $Date: 2008-08-03 15:23:46 $
+$Revision: 1.299.2.1 $ $Date: 2008-10-29 16:20:41 $
 
 =cut
