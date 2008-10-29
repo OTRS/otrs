@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.789 2008-10-29 16:23:39 tt Exp $
+# $Id: CHANGES,v 1.790 2008-10-29 19:02:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,9 @@
 # --
 
 2.4.0 beta1 (2009/??/??)
+ - (2008/10/29) Added additional default attributes of customer attributes like
+    (phone, fax, mobile, street, zip, city). Use scripts/DBUpdate-to-2.4.*.sql
+    for upgrading.
  - (2008/10/28) Fixed bug# 1722 - weekday sorting in TimeWorkingHours corrected.
  - (2008/10/28) Fixed bug# 1491 - text in the file "UPGRADING" is misleading.
  - (2008/10/28) Implemented RFE (bug# 1006): Added ticket change time to

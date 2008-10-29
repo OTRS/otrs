@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.301 2008-10-29 18:51:32 tt Exp $
+# $Id: Defaults.pm,v 1.302 2008-10-29 19:02:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.301 $) [1];
+$VERSION = qw($Revision: 1.302 $) [1];
 
 sub LoadDefaults {
     my ($Self) = @_;
@@ -1212,8 +1212,15 @@ Your OTRS Notification Master
             [ 'UserCustomerID', 'CustomerID', 'customer_id', 0, 1, 'var', '', 0 ],
 
 #            [ 'UserCustomerIDs', 'CustomerIDs', 'customer_ids', 1, 0, 'var', '', 0 ],
-            [ 'UserComment', 'Comment', 'comments', 1, 0, 'var', '', 0 ],
-            [ 'ValidID',     'Valid',   'valid_id', 0, 1, 'int', '', 0 ],
+            [ 'UserPhone',        'Phone',       'phone',        1, 0, 'var', '', 0 ],
+            [ 'UserFax',          'Fax',         'fax',          1, 0, 'var', '', 0 ],
+            [ 'UserMobile',       'Mobile',      'mobile',       1, 0, 'var', '', 0 ],
+            [ 'UserStreet',       'Street',      'street',       1, 0, 'var', '', 0 ],
+            [ 'UserZip',          'Zip',         'zip',          1, 0, 'var', '', 0 ],
+            [ 'UserCity',         'City',        'city',         1, 0, 'var', '', 0 ],
+            [ 'UserCountry',      'Country',     'country',      1, 0, 'var', '', 0 ],
+            [ 'UserComment',      'Comment',     'comments',     1, 0, 'var', '', 0 ],
+            [ 'ValidID',          'Valid',       'valid_id',     0, 1, 'int', '', 0 ],
         ],
 
         # default selections
@@ -2327,6 +2334,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.301 $ $Date: 2008-10-29 18:51:32 $
+$Revision: 1.302 $ $Date: 2008-10-29 19:02:03 $
 
 =cut
