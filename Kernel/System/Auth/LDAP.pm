@@ -2,7 +2,7 @@
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.47.2.1 2008-10-29 19:12:57 tt Exp $
+# $Id: LDAP.pm,v 1.47.2.2 2008-10-29 19:44:55 tt Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47.2.1 $) [1];
+$VERSION = qw($Revision: 1.47.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -796,8 +796,7 @@ sub Auth {
             $UserSyncLDAPAttrGroupsDefKey = "UserSyncLDAPAttributeGroupsDefinition";
         }
 
-        if ( $Self->{ConfigObject}->Get( $UserSyncLDAPAttrGroupsDefKey . $Self->{Count} ) )
-        {
+        if ( $Self->{ConfigObject}->Get( $UserSyncLDAPAttrGroupsDefKey . $Self->{Count} ) ) {
             my $Result = '';
             if ( $Self->{SearchUserDN} && $Self->{SearchUserPw} ) {
                 $Result = $LDAP->bind(
@@ -914,7 +913,7 @@ sub Auth {
         #
         #FOR COMPATIBILITY - check parameter with typo first...
         my $UserSyncLDAPAttrRolesDefKey = "UserSyncLDAPAttibuteRolesDefination";
-        if ( $Self->{ConfigObject}->Get( $UserSyncLDAPRolesDefKey . $Self->{Count} ) ) {
+        if ( $Self->{ConfigObject}->Get( $UserSyncLDAPAttrRolesDefKey . $Self->{Count} ) ) {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
                 Message  => "Config: UserSyncLDAPAttibuteRolesDefination deprecated, ".
@@ -925,8 +924,7 @@ sub Auth {
             $UserSyncLDAPAttrRolesDefKey = "UserSyncLDAPAttributeRolesDefinition";
         }
 
-        if ( $Self->{ConfigObject}->Get( $UserSyncLDAPAttrRolesDefKey . $Self->{Count} ) )
-        {
+        if ( $Self->{ConfigObject}->Get( $UserSyncLDAPAttrRolesDefKey . $Self->{Count} ) ) {
             my $Result = '';
             if ( $Self->{SearchUserDN} && $Self->{SearchUserPw} ) {
                 $Result = $LDAP->bind(
