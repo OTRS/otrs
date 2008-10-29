@@ -2,7 +2,7 @@
 # INSTALL description of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: INSTALL,v 1.46 2008-09-16 08:38:09 martin Exp $
+# $Id: INSTALL,v 1.46.2.1 2008-10-29 19:49:07 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -28,6 +28,7 @@ Installation:
 This few steps describe an OTRS installation incl. webserver and database
 settings. The OTRS user is "otrs" and the home (root) directory is /opt/otrs
 (of course you can choose an other directory or/and OTRS user).
+
 
 1. Install tar.gz:
    ---------------
