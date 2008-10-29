@@ -2,7 +2,7 @@
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.47 2008-09-24 23:46:39 martin Exp $
+# $Id: LDAP.pm,v 1.47.2.1 2008-10-29 19:12:57 tt Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.47.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -493,7 +493,21 @@ sub Auth {
         }
 
         # sync ldap group 2 otrs group permissions
-        if ( $Self->{ConfigObject}->Get( 'UserSyncLDAPGroupsDefination' . $Self->{Count} ) ) {
+        #
+        #FOR COMPATIBILITY - check parameter with typo first...
+        my $UserSyncLDAPGroupsDefKey = "UserSyncLDAPGroupsDefination";
+        if ( $Self->{ConfigObject}->Get( $UserSyncLDAPGroupsDefKey . $Self->{Count} ) ) {
+            $Self->{LogObject}->Log(
+                Priority => 'notice',
+                Message  => "Config: UserSyncLDAPGroupsDefination deprecated, ".
+                    "use UserSyncLDAPGroupsDefinition instead.",
+            );
+        }
+        else {
+            $UserSyncLDAPGroupsDefKey = "UserSyncLDAPGroupsDefinition";
+        }
+
+        if ( $Self->{ConfigObject}->Get( $UserSyncLDAPGroupsDefKey . $Self->{Count} ) ) {
             my $Result = '';
             if ( $Self->{SearchUserDN} && $Self->{SearchUserPw} ) {
                 $Result = $LDAP->bind(
@@ -538,7 +552,7 @@ sub Auth {
             # group config settings
             for my $GroupDN (
                 sort keys
-                %{ $Self->{ConfigObject}->Get( 'UserSyncLDAPGroupsDefination' . $Self->{Count} ) }
+                %{ $Self->{ConfigObject}->Get( $UserSyncLDAPGroupsDefKey . $Self->{Count} ) }
                 )
             {
 
@@ -591,7 +605,7 @@ sub Auth {
                     # sync groups permissions
                     my %SGroups = %{
                         $Self->{ConfigObject}->Get(
-                            'UserSyncLDAPGroupsDefination' . $Self->{Count}
+                            $UserSyncLDAPGroupsDefKey . $Self->{Count}
                             )->{$GroupDN}
                         };
                     for my $SGroup ( sort keys %SGroups ) {
@@ -626,7 +640,21 @@ sub Auth {
         }
 
         # sync ldap group 2 otrs role permissions
-        if ( $Self->{ConfigObject}->Get( 'UserSyncLDAPRolesDefination' . $Self->{Count} ) ) {
+        #
+        #FOR COMPATIBILITY - check parameter with typo first...
+        my $UserSyncLDAPRolesDefKey = "UserSyncLDAPRolesDefination";
+        if ( $Self->{ConfigObject}->Get( $UserSyncLDAPRolesDefKey . $Self->{Count} ) ) {
+            $Self->{LogObject}->Log(
+                Priority => 'notice',
+                Message  => "Config: UserSyncLDAPRolesDefination deprecated, ".
+                    "use UserSyncLDAPRolesDefinition instead.",
+            );
+        }
+        else {
+            $UserSyncLDAPRolesDefKey = "UserSyncLDAPRolesDefinition";
+        }
+
+        if ( $Self->{ConfigObject}->Get( $UserSyncLDAPRolesDefKey . $Self->{Count} ) ) {
             my $Result = '';
             if ( $Self->{SearchUserDN} && $Self->{SearchUserPw} ) {
                 $Result = $LDAP->bind(
@@ -666,7 +694,7 @@ sub Auth {
             for my $GroupDN (
                 sort
                 keys %{
-                    $Self->{ConfigObject}->Get( 'UserSyncLDAPRolesDefination' . $Self->{Count} )
+                    $Self->{ConfigObject}->Get( $UserSyncLDAPRolesDefKey . $Self->{Count} )
                 }
                 )
             {
@@ -720,7 +748,7 @@ sub Auth {
                     # sync groups permissions
                     my %SRoles = %{
                         $Self->{ConfigObject}->Get(
-                            'UserSyncLDAPRolesDefination' . $Self->{Count}
+                            $UserSyncLDAPRolesDefKey . $Self->{Count}
                             )->{$GroupDN}
                         };
                     for my $SRole ( sort keys %SRoles ) {
@@ -754,7 +782,21 @@ sub Auth {
         }
 
         # sync ldap attribute 2 otrs group permissions
-        if ( $Self->{ConfigObject}->Get( 'UserSyncLDAPAttibuteGroupsDefination' . $Self->{Count} ) )
+        #
+        #FOR COMPATIBILITY - check parameter with typo first...
+        my $UserSyncLDAPAttrGroupsDefKey = "UserSyncLDAPAttibuteGroupsDefination";
+        if ( $Self->{ConfigObject}->Get( $UserSyncLDAPAttrGroupsDefKey . $Self->{Count} ) ) {
+            $Self->{LogObject}->Log(
+                Priority => 'notice',
+                Message  => "Config: UserSyncLDAPAttibuteGroupsDefination deprecated, ".
+                    "use UserSyncLDAPAttributeGroupsDefinition instead.",
+            );
+        }
+        else {
+            $UserSyncLDAPAttrGroupsDefKey = "UserSyncLDAPAttributeGroupsDefinition";
+        }
+
+        if ( $Self->{ConfigObject}->Get( $UserSyncLDAPAttrGroupsDefKey . $Self->{Count} ) )
         {
             my $Result = '';
             if ( $Self->{SearchUserDN} && $Self->{SearchUserPw} ) {
@@ -816,7 +858,7 @@ sub Auth {
             }
             my %SyncConfig = %{
                 $Self->{ConfigObject}->Get(
-                    'UserSyncLDAPAttibuteGroupsDefination' . $Self->{Count}
+                    $UserSyncLDAPAttrGroupsDefKey . $Self->{Count}
                     )
                 };
             for my $Attribute ( keys %SyncConfig ) {
@@ -869,7 +911,21 @@ sub Auth {
         }
 
         # sync ldap attribute 2 otrs role permissions
-        if ( $Self->{ConfigObject}->Get( 'UserSyncLDAPAttibuteRolesDefination' . $Self->{Count} ) )
+        #
+        #FOR COMPATIBILITY - check parameter with typo first...
+        my $UserSyncLDAPAttrRolesDefKey = "UserSyncLDAPAttibuteRolesDefination";
+        if ( $Self->{ConfigObject}->Get( $UserSyncLDAPRolesDefKey . $Self->{Count} ) ) {
+            $Self->{LogObject}->Log(
+                Priority => 'notice',
+                Message  => "Config: UserSyncLDAPAttibuteRolesDefination deprecated, ".
+                    "use UserSyncLDAPAttributeRolesDefinition instead.",
+            );
+        }
+        else {
+            $UserSyncLDAPAttrRolesDefKey = "UserSyncLDAPAttributeRolesDefinition";
+        }
+
+        if ( $Self->{ConfigObject}->Get( $UserSyncLDAPAttrRolesDefKey . $Self->{Count} ) )
         {
             my $Result = '';
             if ( $Self->{SearchUserDN} && $Self->{SearchUserPw} ) {
@@ -925,7 +981,7 @@ sub Auth {
             }
             my %SyncConfig = %{
                 $Self->{ConfigObject}->Get(
-                    'UserSyncLDAPAttibuteRolesDefination' . $Self->{Count}
+                    $UserSyncLDAPAttrRolesDefKey . $Self->{Count}
                     )
                 };
             for my $Attribute ( keys %SyncConfig ) {
