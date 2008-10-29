@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2008-10-15 11:52:38
+--  driver: db2, generated: 2008-10-29 19:48:39
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1108,6 +1108,7 @@ CREATE TABLE mail_account (
 -- ----------------------------------------------------------
 CREATE TABLE postmaster_filter (
     f_name VARCHAR (200) NOT NULL,
+    f_stop SMALLINT,
     f_type VARCHAR (20) NOT NULL,
     f_key VARCHAR (200) NOT NULL,
     f_value VARCHAR (200) NOT NULL

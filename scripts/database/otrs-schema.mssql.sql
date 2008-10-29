@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2008-10-15 11:52:39
+--  driver: mssql, generated: 2008-10-29 19:48:40
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -986,6 +986,7 @@ CREATE TABLE mail_account (
 -- ----------------------------------------------------------
 CREATE TABLE postmaster_filter (
     f_name VARCHAR (200) NOT NULL,
+    f_stop SMALLINT NULL,
     f_type VARCHAR (20) NOT NULL,
     f_key VARCHAR (200) NOT NULL,
     f_value VARCHAR (200) NOT NULL

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2008-10-15 11:52:40
+--  driver: oracle, generated: 2008-10-29 19:48:40
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -1640,6 +1640,7 @@ CREATE INDEX FK_mail_account_valid_id ON mail_account (valid_id);
 -- ----------------------------------------------------------
 CREATE TABLE postmaster_filter (
     f_name VARCHAR2 (200) NOT NULL,
+    f_stop NUMBER (5, 0) NULL,
     f_type VARCHAR2 (20) NOT NULL,
     f_key VARCHAR2 (200) NOT NULL,
     f_value VARCHAR2 (200) NOT NULL
