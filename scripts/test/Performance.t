@@ -2,7 +2,7 @@
 # scripts/test/Performance.t - a performance testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Performance.t,v 1.6 2008-10-29 18:36:54 martin Exp $
+# $Id: Performance.t,v 1.7 2008-10-29 18:39:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -191,7 +191,7 @@ $DiffTime = tv_interval($StartShowTicket);
 
 $Self->True(
     1,
-    "$DiffTime seconds - to handle ShowTicket.",
+    "$DiffTime seconds - to handle TicketListShow, View->Preview.",
 );
 
 #----------------------------------#
