@@ -1,6 +1,11 @@
 // ----------------------------------------------------------
-//  driver: maxdb, generated: 2008-10-15 11:56:48
+//  driver: maxdb, generated: 2008-10-29 19:56:34
 // ----------------------------------------------------------
+// ----------------------------------------------------------
+//  alter table postmaster_filter
+// ----------------------------------------------------------
+ALTER TABLE postmaster_filter ADD f_stop SMALLINT
+//
 // ----------------------------------------------------------
 //  alter table article
 // ----------------------------------------------------------
@@ -21,7 +26,7 @@ CREATE TABLE service_preferences
     preferences_value VARCHAR (250)
 )
 //
-CREATE INDEX service_preferences_26 ON service_preferences (service_id)
+CREATE INDEX service_preferences_22 ON service_preferences (service_id)
 //
 // ----------------------------------------------------------
 //  create table sla_preferences
@@ -33,7 +38,42 @@ CREATE TABLE sla_preferences
     preferences_value VARCHAR (250)
 )
 //
-CREATE INDEX sla_preferences_sla_51 ON sla_preferences (sla_id)
+CREATE INDEX sla_preferences_sla_2 ON sla_preferences (sla_id)
+//
+// ----------------------------------------------------------
+//  alter table customer_user
+// ----------------------------------------------------------
+ALTER TABLE customer_user ADD phone VARCHAR (150)
+//
+// ----------------------------------------------------------
+//  alter table customer_user
+// ----------------------------------------------------------
+ALTER TABLE customer_user ADD fax VARCHAR (150)
+//
+// ----------------------------------------------------------
+//  alter table customer_user
+// ----------------------------------------------------------
+ALTER TABLE customer_user ADD mobile VARCHAR (150)
+//
+// ----------------------------------------------------------
+//  alter table customer_user
+// ----------------------------------------------------------
+ALTER TABLE customer_user ADD street VARCHAR (150)
+//
+// ----------------------------------------------------------
+//  alter table customer_user
+// ----------------------------------------------------------
+ALTER TABLE customer_user ADD zip VARCHAR (150)
+//
+// ----------------------------------------------------------
+//  alter table customer_user
+// ----------------------------------------------------------
+ALTER TABLE customer_user ADD city VARCHAR (150)
+//
+// ----------------------------------------------------------
+//  alter table customer_user
+// ----------------------------------------------------------
+ALTER TABLE customer_user ADD country VARCHAR (150)
 //
 ALTER TABLE service_preferences ADD FOREIGN KEY (service_id) REFERENCES service(id)
 //

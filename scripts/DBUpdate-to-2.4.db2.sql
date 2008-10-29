@@ -1,6 +1,11 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2008-10-15 11:56:48
+--  driver: db2, generated: 2008-10-29 19:56:34
 -- ----------------------------------------------------------
+-- ----------------------------------------------------------
+--  alter table postmaster_filter
+-- ----------------------------------------------------------
+ALTER TABLE postmaster_filter ADD f_stop SMALLINT;
+
 -- ----------------------------------------------------------
 --  alter table article
 -- ----------------------------------------------------------
@@ -32,6 +37,41 @@ CREATE TABLE sla_preferences (
 );
 
 CREATE INDEX sla_preferences_sla_id ON sla_preferences (sla_id);
+
+-- ----------------------------------------------------------
+--  alter table customer_user
+-- ----------------------------------------------------------
+ALTER TABLE customer_user ADD phone VARCHAR (150);
+
+-- ----------------------------------------------------------
+--  alter table customer_user
+-- ----------------------------------------------------------
+ALTER TABLE customer_user ADD fax VARCHAR (150);
+
+-- ----------------------------------------------------------
+--  alter table customer_user
+-- ----------------------------------------------------------
+ALTER TABLE customer_user ADD mobile VARCHAR (150);
+
+-- ----------------------------------------------------------
+--  alter table customer_user
+-- ----------------------------------------------------------
+ALTER TABLE customer_user ADD street VARCHAR (150);
+
+-- ----------------------------------------------------------
+--  alter table customer_user
+-- ----------------------------------------------------------
+ALTER TABLE customer_user ADD zip VARCHAR (150);
+
+-- ----------------------------------------------------------
+--  alter table customer_user
+-- ----------------------------------------------------------
+ALTER TABLE customer_user ADD city VARCHAR (150);
+
+-- ----------------------------------------------------------
+--  alter table customer_user
+-- ----------------------------------------------------------
+ALTER TABLE customer_user ADD country VARCHAR (150);
 
 ALTER TABLE service_preferences ADD CONSTRAINT FK_service_preferences_service_id_id FOREIGN KEY (service_id) REFERENCES service (id);
 

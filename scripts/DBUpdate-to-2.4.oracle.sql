@@ -1,7 +1,11 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2008-10-15 11:56:48
+--  driver: oracle, generated: 2008-10-29 19:56:34
 -- ----------------------------------------------------------
 SET DEFINE OFF;
+-- ----------------------------------------------------------
+--  alter table postmaster_filter
+-- ----------------------------------------------------------
+ALTER TABLE postmaster_filter ADD f_stop NUMBER (5, 0) NULL;
 -- ----------------------------------------------------------
 --  alter table article
 -- ----------------------------------------------------------
@@ -28,6 +32,34 @@ CREATE TABLE sla_preferences (
     preferences_value VARCHAR2 (250) NULL
 );
 CREATE INDEX sla_preferences_sla_id ON sla_preferences (sla_id);
+-- ----------------------------------------------------------
+--  alter table customer_user
+-- ----------------------------------------------------------
+ALTER TABLE customer_user ADD phone VARCHAR2 (150) NULL;
+-- ----------------------------------------------------------
+--  alter table customer_user
+-- ----------------------------------------------------------
+ALTER TABLE customer_user ADD fax VARCHAR2 (150) NULL;
+-- ----------------------------------------------------------
+--  alter table customer_user
+-- ----------------------------------------------------------
+ALTER TABLE customer_user ADD mobile VARCHAR2 (150) NULL;
+-- ----------------------------------------------------------
+--  alter table customer_user
+-- ----------------------------------------------------------
+ALTER TABLE customer_user ADD street VARCHAR2 (150) NULL;
+-- ----------------------------------------------------------
+--  alter table customer_user
+-- ----------------------------------------------------------
+ALTER TABLE customer_user ADD zip VARCHAR2 (150) NULL;
+-- ----------------------------------------------------------
+--  alter table customer_user
+-- ----------------------------------------------------------
+ALTER TABLE customer_user ADD city VARCHAR2 (150) NULL;
+-- ----------------------------------------------------------
+--  alter table customer_user
+-- ----------------------------------------------------------
+ALTER TABLE customer_user ADD country VARCHAR2 (150) NULL;
 SET DEFINE OFF;
 ALTER TABLE service_preferences ADD CONSTRAINT FK_service_preferences_servi62 FOREIGN KEY (service_id) REFERENCES service (id);
 ALTER TABLE sla_preferences ADD CONSTRAINT FK_sla_preferences_sla_id_id FOREIGN KEY (sla_id) REFERENCES sla (id);

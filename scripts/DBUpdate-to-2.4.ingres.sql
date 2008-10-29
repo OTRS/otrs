@@ -1,6 +1,10 @@
 -- ----------------------------------------------------------
---  driver: ingres, generated: 2008-10-15 11:56:48
+--  driver: ingres, generated: 2008-10-29 19:56:34
 -- ----------------------------------------------------------
+-- ----------------------------------------------------------
+--  alter table postmaster_filter
+-- ----------------------------------------------------------
+ALTER TABLE postmaster_filter ADD COLUMN f_stop SMALLINT;\g
 -- ----------------------------------------------------------
 --  alter table article
 -- ----------------------------------------------------------
@@ -23,5 +27,33 @@ CREATE TABLE sla_preferences (
 );\g
 MODIFY sla_preferences TO btree;\g
 CREATE INDEX sla_preferences_sla_id ON sla_preferences (sla_id);\g
+-- ----------------------------------------------------------
+--  alter table customer_user
+-- ----------------------------------------------------------
+ALTER TABLE customer_user ADD COLUMN phone VARCHAR(150);\g
+-- ----------------------------------------------------------
+--  alter table customer_user
+-- ----------------------------------------------------------
+ALTER TABLE customer_user ADD COLUMN fax VARCHAR(150);\g
+-- ----------------------------------------------------------
+--  alter table customer_user
+-- ----------------------------------------------------------
+ALTER TABLE customer_user ADD COLUMN mobile VARCHAR(150);\g
+-- ----------------------------------------------------------
+--  alter table customer_user
+-- ----------------------------------------------------------
+ALTER TABLE customer_user ADD COLUMN street VARCHAR(150);\g
+-- ----------------------------------------------------------
+--  alter table customer_user
+-- ----------------------------------------------------------
+ALTER TABLE customer_user ADD COLUMN zip VARCHAR(150);\g
+-- ----------------------------------------------------------
+--  alter table customer_user
+-- ----------------------------------------------------------
+ALTER TABLE customer_user ADD COLUMN city VARCHAR(150);\g
+-- ----------------------------------------------------------
+--  alter table customer_user
+-- ----------------------------------------------------------
+ALTER TABLE customer_user ADD COLUMN country VARCHAR(150);\g
 ALTER TABLE service_preferences ADD FOREIGN KEY (service_id) REFERENCES service(id);\g
 ALTER TABLE sla_preferences ADD FOREIGN KEY (sla_id) REFERENCES sla(id);\g
