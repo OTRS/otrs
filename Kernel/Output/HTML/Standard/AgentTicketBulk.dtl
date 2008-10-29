@@ -2,7 +2,7 @@
 # AgentTicketBulk.dtl - provides HTML form for bulk mask
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.dtl,v 1.10 2008-04-02 08:59:22 ot Exp $
+# $Id: AgentTicketBulk.dtl,v 1.11 2008-10-29 15:54:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -89,9 +89,23 @@ function SpellCheckSubmit() {
                   <td width="80%" class="contentvalue">$Data{"NextStatesStrg"}</td>
                 </tr>
                 <tr>
-                  <td class="contentkey">$Text{"New Queue"}:</td>
+                  <td class="contentkey">$Text{"Queue"}:</td>
                   <td class="contentvalue">$Data{"MoveQueuesStrg"}</td>
                 </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Merge to"}:</td>
+                  <td class="contentvalue"><input type="text" size="30" name="MergeTo" value="$QData{"MergeTo"}"/></td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Link together"}:</td>
+                  <td class="contentvalue">$Data{"LinkTogetherYesNoOption"}, $Text{"define Parent"} <input type="text" size="30" name="LinkTogetherParent" value="$QData{"LinkTogetherParent"}"/></td>
+                </tr>
+<!-- dtl:block:TimeUnits -->
+                <tr>
+                  <td class="contentkey">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</td>
+                  <td class="contentvalue"><input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"/></td>
+                </tr>
+<!-- dtl:block:TimeUnits -->
                 <tr>
                   <td class="contentkey">$Text{"Unlock Tickets"}:</td>
                   <td class="contentvalue">$Data{"UnlockYesNoOption"}</td>

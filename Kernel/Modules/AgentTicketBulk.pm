@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.15 2008-10-28 14:07:57 martin Exp $
+# $Id: AgentTicketBulk.pm,v 1.16 2008-10-29 15:54:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,9 +15,10 @@ use strict;
 use warnings;
 
 use Kernel::System::State;
+use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -34,6 +35,7 @@ sub new {
     }
 
     $Self->{StateObject} = Kernel::System::State->new(%Param);
+    $Self->{LinkObject}  = Kernel::System::LinkObject->new(%Param);
 
     return $Self;
 }
@@ -185,10 +187,66 @@ sub Run {
             }
 
             # merge to
+            my $MergeTo = $Self->{ParamObject}->GetParam( Param => 'MergeTo' );
+            if ($MergeTo) {
+                $MergeTo =~ s/\s+$//g;
+                $MergeTo =~ s/^\s+//g;
+                my $MainTicketID = $Self->{TicketObject}->TicketIDLookup(
+                    TicketNumber => $MergeTo,
+                );
+                if ( $MainTicketID ne $TicketID ) {
+                    $Self->{TicketObject}->TicketMerge(
+                        MainTicketID  => $MainTicketID,
+                        MergeTicketID => $TicketID,
+                        UserID        => $Self->{UserID},
+                    );
+                }
+            }
 
             # link with
 
             # link togehter
+            my $LinkTogether       = $Self->{ParamObject}->GetParam( Param => 'LinkTogether' );
+            my $LinkTogetherParent = $Self->{ParamObject}->GetParam( Param => 'LinkTogetherParent' );
+            if ($LinkTogether) {
+
+                # link parent
+                if ($LinkTogetherParent) {
+                    $LinkTogetherParent =~ s/\s+$//g;
+                    $LinkTogetherParent =~ s/^\s+//g;
+                    my $MainTicketID = $Self->{TicketObject}->TicketIDLookup(
+                        TicketNumber => $LinkTogetherParent,
+                    );
+                    if ( $MainTicketID ne $TicketID ) {
+                        $Self->{LinkObject}->LinkAdd(
+                            SourceObject => 'Ticket',
+                            SourceKey    => $MainTicketID,
+                            TargetObject => 'Ticket',
+                            TargetKey    => $TicketID,
+                            Type         => 'ParentChild',
+                            State        => 'Valid',
+                            UserID       => $Self->{UserID},
+                        );
+                    }
+                }
+
+                # link normal
+                else {
+                    for my $TicketIDPartner (@TicketIDs) {
+                        if ( $TicketID ne $TicketIDPartner ) {
+                            $Self->{LinkObject}->LinkAdd(
+                                SourceObject => 'Ticket',
+                                SourceKey    => $TicketID,
+                                TargetObject => 'Ticket',
+                                TargetKey    => $TicketIDPartner,
+                                Type         => 'Normal',
+                                State        => 'Valid',
+                                UserID       => $Self->{UserID},
+                            );
+                        }
+                    }
+                }
+            }
 
             # Should I unlock tickets at user request?
             if ( $Self->{ParamObject}->GetParam( Param => 'Unlock' ) ) {
@@ -203,7 +261,7 @@ sub Run {
     if ( $Self->{Subaction} eq 'Do' ) {
 
         # redirect
-        return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreen} );
+        return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenOverview} );
     }
 
     $Output .= $Self->_Mask(%Param);
@@ -273,6 +331,12 @@ sub _Mask {
             Data => \%Param,
         );
     }
+
+    $Param{'LinkTogetherYesNoOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
+        Name       => 'LinkTogether',
+        SelectedID => 0,
+    );
 
     $Param{'UnlockYesNoOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
