@@ -2,7 +2,7 @@
 # scripts/test/Performance.t - a performance testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Performance.t,v 1.5 2008-05-08 09:35:57 mh Exp $
+# $Id: Performance.t,v 1.6 2008-10-29 18:36:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -60,9 +60,10 @@ $Self->{QueueObject} = Kernel::System::Queue->new(
     MainObject   => $Self->{MainObject},
 );
 $Self->{GroupObject} = Kernel::System::Group->new(
-    ConfigObject => $Self->{ConfigObject},
-    LogObject    => $Self->{LogObject},
-    DBObject     => $Self->{DBObject},
+    ConfigObject   => $Self->{ConfigObject},
+    LogObject      => $Self->{LogObject},
+    MainObject     => $Self->{MainObject},
+    DBObject       => $Self->{DBObject},
 );
 $Self->{UserObject} = Kernel::System::User->new(
     ConfigObject => $Self->{ConfigObject},
@@ -125,6 +126,7 @@ $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new(
     GroupObject   => $Self->{GroupObject},
     QueueObject   => $Self->{QueueObject},
     UserObject    => $Self->{UserObject},
+    SessionID     => 1234,
     Action        => 'AgentTicketQueue',
     UserID        => 2,
     Lang          => 'de',
@@ -174,9 +176,16 @@ my @TicketIDs = $Self->{TicketObject}->TicketSearch(
 );
 my $StartShowTicket = [ gettimeofday() ];
 
-for my $TicketID (@TicketIDs) {
-    $Self->{AgentTicketQueueObject}->ShowTicket( TicketID => $TicketID );
-}
+$Self->{LayoutObject}->TicketListShow(
+    TicketIDs   => \@TicketIDs,
+    Total       => 40,
+    Env         => $Self,
+    View        => 'Preview',
+    TitleName   => 'Queue',
+    TitleValue  => 'SelectedQueue',
+    LinkPage    => 'LinkPage',
+    LinkSort    => 'LinkSort',
+);
 
 $DiffTime = tv_interval($StartShowTicket);
 
