@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.pm,v 1.49 2008-10-29 15:30:49 tr Exp $
+# $Id: AdminUser.pm,v 1.50 2008-10-29 15:40:26 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -105,7 +105,7 @@ sub Run {
         );
 
         # redirect with new session id
-        return $LayoutObject->Redirect( OP => "" );
+        return $LayoutObject->Redirect( OP => '' );
     }
 
     # ------------------------------------------------------------ #
@@ -120,7 +120,7 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
-            Action => "Change",
+            Action => 'Change',
             Search => $Search,
             %UserData,
         );
@@ -199,7 +199,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' ) . $Note;
             $Self->_Edit(
-                Action => "Change",
+                Action => 'Change',
                 Search => $Search,
                 %GetParam,
             );
@@ -224,7 +224,7 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
-            Action => "Add",
+            Action => 'Add',
             Search => $Search,
             %GetParam,
         );
@@ -260,9 +260,7 @@ sub Run {
             # update preferences
             my %Preferences = %{ $Self->{ConfigObject}->Get('PreferencesGroups') };
             for my $Group ( keys %Preferences ) {
-                if ( $Group eq 'Password' ) {
-                    next;
-                }
+                next if $Group eq 'Password';
 
                 # get user data
                 my %UserData = $Self->{UserObject}->GetUserData( UserID => $UserID );
@@ -307,7 +305,7 @@ sub Run {
                 );
             }
             else {
-                return $Self->{LayoutObject}->Redirect( OP => "Action=AdminUser", );
+                return $Self->{LayoutObject}->Redirect( OP => 'Action=AdminUser', );
             }
         }
         else {
@@ -315,7 +313,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' ) . $Note;
             $Self->_Edit(
-                Action => "Add",
+                Action => 'Add',
                 Search => $Search,
                 %GetParam,
             );
@@ -351,7 +349,7 @@ sub _Edit {
         Name => 'Overview',
         Data => \%Param,
     );
-    $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{ValidOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data       => { $Self->{ValidObject}->ValidList(), },
         Name       => 'ValidID',
         SelectedID => $Param{ValidID},
@@ -365,19 +363,21 @@ sub _Edit {
     for my $Colum (@Groups) {
         my %Data        = ();
         my %Preferences = %{ $Self->{ConfigObject}->Get('PreferencesGroups') };
+
+        GROUP:
         for my $Group ( keys %Preferences ) {
-            if ( $Preferences{$Group}->{Colum} eq $Colum ) {
-                if ( $Data{ $Preferences{$Group}->{Prio} } ) {
-                    for ( 1 .. 151 ) {
-                        $Preferences{$Group}->{Prio}++;
-                        if ( !$Data{ $Preferences{$Group}->{Prio} } ) {
-                            $Data{ $Preferences{$Group}->{Prio} } = $Group;
-                            last;
-                        }
+            next GROUP if $Preferences{$Group}->{Colum} ne $Colum;
+
+            if ( $Data{ $Preferences{$Group}->{Prio} } ) {
+                for ( 1 .. 151 ) {
+                    $Preferences{$Group}->{Prio}++;
+                    if ( !$Data{ $Preferences{$Group}->{Prio} } ) {
+                        $Data{ $Preferences{$Group}->{Prio} } = $Group;
+                        last;
                     }
                 }
-                $Data{ $Preferences{$Group}->{Prio} } = $Group;
             }
+            $Data{ $Preferences{$Group}->{Prio} } = $Group;
         }
 
         # sort
@@ -443,8 +443,6 @@ sub _Edit {
 sub _Overview {
     my ( $Self, %Param ) = @_;
 
-    my $Output = '';
-
     $Self->{LayoutObject}->Block(
         Name => 'Overview',
         Data => \%Param,
@@ -456,7 +454,6 @@ sub _Overview {
     if ( $Self->{ConfigObject}->Get('SwitchToUser') ) {
         $Self->{LayoutObject}->Block(
             Name => 'OverviewResultSwitchToUser',
-            Data => {},
         );
     }
     if ( $Param{Search} ) {
