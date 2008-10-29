@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCustomer.pm - to set the ticket customer and show the customer history
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.pm,v 1.17 2008-05-08 09:36:36 mh Exp $
+# $Id: AgentTicketCustomer.pm,v 1.18 2008-10-29 19:49:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -54,7 +54,7 @@ sub Run {
 
         # error page
         return $Self->{LayoutObject}->ErrorScreen(
-            Message => "Need TicketID is given!",
+            Message => 'No TicketID is given!',
             Comment => 'Please contact the admin.',
         );
     }
@@ -329,7 +329,7 @@ sub Form {
             }
         }
         $OutputTables .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AgentTicketQueueTicketViewLite',
+            TemplateFile => 'AgentTicketOverviewMedium',
             Data         => {
                 %AclAction, %Article,
                 Age => $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' ),

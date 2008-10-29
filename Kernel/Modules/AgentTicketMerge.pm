@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.pm,v 1.21 2008-06-20 16:55:33 mh Exp $
+# $Id: AgentTicketMerge.pm,v 1.22 2008-10-29 19:49:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -47,45 +47,25 @@ sub Run {
 
     # check needed stuff
     if ( !$Self->{TicketID} ) {
-
-        # error page
         return $Self->{LayoutObject}->ErrorScreen(
-            Message => "Need TicketID is given!",
+            Message => 'No TicketID is given!',
             Comment => 'Please contact the admin.',
         );
-        return $Output;
     }
 
     # check permissions
-    if (
-        !$Self->{TicketObject}->Permission(
-            Type     => 'rw',
-            TicketID => $Self->{TicketID},
-            UserID   => $Self->{UserID}
-        )
-        )
-    {
-
-        # error screen, don't show ticket
+    my $Access =  $Self->{TicketObject}->Permission(
+        Type     => $Self->{Config}->{Permission},
+        TicketID => $Self->{TicketID},
+        UserID   => $Self->{UserID}
+    );
+    # error screen, don't show ticket
+    if ( !$Access ) {
         return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
     }
 
     # get ticket data
     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
-
-    # check permissions
-    if (
-        !$Self->{TicketObject}->Permission(
-            Type     => $Self->{Config}->{Permission},
-            TicketID => $Self->{TicketID},
-            UserID   => $Self->{UserID}
-        )
-        )
-    {
-
-        # error screen, don't show ticket
-        return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
-    }
 
     # get lock state && write (lock) permissions
     if ( $Self->{Config}->{RequiredLock} ) {
@@ -148,16 +128,14 @@ sub Run {
         );
 
         # check permissions
-        if (
-            !$Self->{TicketObject}->Permission(
-                Type     => 'rw',
-                TicketID => $MainTicketID,
-                UserID   => $Self->{UserID}
-            )
-            )
-        {
+        my $Access = $Self->{TicketObject}->Permission(
+            Type     => $Self->{Config}->{Permission},
+            TicketID => $MainTicketID,
+            UserID   => $Self->{UserID}
+        );
 
-            # error screen, don't show ticket
+        # error screen, don't show ticket
+        if ( !$Access ) {
             return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
         }
 
