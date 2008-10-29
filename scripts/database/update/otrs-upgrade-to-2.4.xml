@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<database Name="otrs">
+
+    <TableAlter Name="postmaster_filter">
+        <ColumnAdd Name="f_stop" Required="false" Type="SMALLINT"/>
+    </TableAlter>
+
+    <TableAlter Name="article">
+        <ColumnAdd Name="a_in_reply_to" Required="false" Size="3800" Type="VARCHAR"/>
+        <ColumnAdd Name="a_references" Required="false" Size="3800" Type="VARCHAR"/>
+    </TableAlter>
+
+    <TableCreate Name="service_preferences">
+        <Column Name="service_id" Required="true" Type="INTEGER"/>
+        <Column Name="preferences_key" Required="true" Size="150" Type="VARCHAR"/>
+        <Column Name="preferences_value" Required="false" Size="250" Type="VARCHAR"/>
+        <Index Name="service_preferences_service_id">
+            <IndexColumn Name="service_id"/>
+        </Index>
+        <ForeignKey ForeignTable="service">
+            <Reference Local="service_id" Foreign="id"/>
+        </ForeignKey>
+    </TableCreate>
+
+    <TableCreate Name="sla_preferences">
+        <Column Name="sla_id" Required="true" Type="INTEGER"/>
+        <Column Name="preferences_key" Required="true" Size="150" Type="VARCHAR"/>
+        <Column Name="preferences_value" Required="false" Size="250" Type="VARCHAR"/>
+        <Index Name="sla_preferences_sla_id">
+            <IndexColumn Name="sla_id"/>
+        </Index>
+        <ForeignKey ForeignTable="sla">
+            <Reference Local="sla_id" Foreign="id"/>
+        </ForeignKey>
+    </TableCreate>
+
+    <TableAlter Name="customer_user">
+        <ColumnAdd Name="phone" Required="false" Size="150" Type="VARCHAR"/>
+        <ColumnAdd Name="fax" Required="false" Size="150" Type="VARCHAR"/>
+        <ColumnAdd Name="mobile" Required="false" Size="150" Type="VARCHAR"/>
+        <ColumnAdd Name="street" Required="false" Size="150" Type="VARCHAR"/>
+        <ColumnAdd Name="zip" Required="false" Size="150" Type="VARCHAR"/>
+        <ColumnAdd Name="city" Required="false" Size="150" Type="VARCHAR"/>
+        <ColumnAdd Name="country" Required="false" Size="150" Type="VARCHAR"/>
+    </TableAlter>
+
+</database>
