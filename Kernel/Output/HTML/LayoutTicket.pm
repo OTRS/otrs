@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.31 2008-10-24 08:36:25 martin Exp $
+# $Id: LayoutTicket.pm,v 1.32 2008-10-29 18:36:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -674,7 +674,7 @@ sub TicketListShow {
         );
     }
     if ( !$Backends->{ $View } ) {
-        return $Self->{LayoutObject}->FatalError(
+        return $Param{Env}->{LayoutObject}->FatalError(
             Message => "No Config option found for $View!",
         );
     }
@@ -798,27 +798,45 @@ sub TicketListShow {
         }
     }
 
-    my $Output = $Param{Env}->{LayoutObject}->Output(
+    my $OutputNavBar = $Param{Env}->{LayoutObject}->Output(
         TemplateFile => 'AgentTicketOverviewNavBar',
         Data => { %Param, },
     );
-    $Self->{LayoutObject}->Print( Output => \$Output );
+    $Param{Env}->{LayoutObject}->Print( Output => \$OutputNavBar );
 
     # load module
     if ( !$Self->{MainObject}->Require( $Backends->{$View}->{Module} ) ) {
-        return $Self->{LayoutObject}->FatalError();
+        return $Param{Env}->{LayoutObject}->FatalError();
     }
     my $Object = $Backends->{$View}->{Module}->new( %{ $Param{Env} } );
 
     # run module
-    $Output = $Object->Run(
+    my $Output = $Object->Run(
         %Param,
         Limit     => 10000,
         StartHit  => $StartHit,
         PageShown => $Backends->{$View}->{ PageShown },
         AllHits   => $Param{Total} || 0,
     );
-    $Self->{LayoutObject}->Print( Output => \$Output );
+    $Param{Env}->{LayoutObject}->Print( Output => \$Output );
+
+    if ( 1 ) {
+        $Param{Env}->{LayoutObject}->Block(
+            Name => 'OverviewNavBar',
+            Data => \%Param,
+        );
+        if ( %PageNav ) {
+            $Param{Env}->{LayoutObject}->Block(
+                Name => 'OverviewNavBarPageNavBar',
+                Data => \%PageNav,
+            );
+        }
+        my $OutputNavBarSmall = $Param{Env}->{LayoutObject}->Output(
+            TemplateFile => 'AgentTicketOverviewNavBarSmall',
+            Data => { %Param, },
+        );
+        $Param{Env}->{LayoutObject}->Print( Output => \$OutputNavBarSmall );
+    }
 
     return '';
 }
