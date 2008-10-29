@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.762.2.15 2008-10-28 19:58:43 mh Exp $
+# $Id: CHANGES,v 1.762.2.16 2008-10-29 14:41:07 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.3.4 (2008/??/??)
+ - (2008/10/29) Fixed bug# 2710 - Error: Module 'Kernel::Modules::' not found!
  - (2008/10/28) Fixed bug# 3402 - AgentLinkObject crashes with "Got no
     UserLanguage" if browser sends exotic language.
  - (2008/10/28) Fixed bug# 3405 - Input field agent-email-address too short.

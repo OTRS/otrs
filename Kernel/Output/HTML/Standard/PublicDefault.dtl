@@ -1,0 +1,14 @@
+# --
+# PublicFAQ.dtl - provides HTML view for faq articles
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# --
+# $Id: PublicDefault.dtl,v 1.1.2.1 2008-10-29 14:38:38 ub Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# --
+Welcome! This is the default public interface of OTRS!<br>
+There was no action parameter given.<br>
+You could install a custom public module (via the package manager), for example the FAQ module,
+which has a public interface.

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.185 2008-07-31 20:34:21 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.185.2.1 2008-10-29 14:37:19 ub Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -4554,6 +4554,28 @@ Your OTRS Notification Master
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
             <String Regex="">AdminInit</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PublicFrontend::CommonParam###Action" Required="1" Valid="1">
+        <Description Lang="en">Default value for the Action parameter for the public frontend. The Action parameter is used in the scripts of the system.</Description>
+        <Description Lang="de">Standardwert des Action-Parameters für den öffentlichen Bereich. Der Action-Parameter wird von den Skripten des Systems benutzt.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Public</SubGroup>
+        <Setting>
+            <String>PublicDefault</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PublicFrontend::Module###PublicDefault" Required="0" Valid="1">
+        <Description Lang="en">Frontend module registration for the PublicDefault object in the public interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des PublicDefault-Objekts im Public-Interface.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Public::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>PublicDefault</Description>
+                <Title>PublicDefault</Title>
+                <NavBarName></NavBarName>
+            </FrontendModuleReg>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PublicFrontend::Module###PublicRepository" Required="0" Valid="1">
