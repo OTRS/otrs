@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.762.2.18 2008-10-29 16:20:41 tt Exp $
+# $Id: CHANGES,v 1.762.2.19 2008-10-30 09:37:16 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.3.4 (2008/??/??)
+ - (2008/10/30) Fixed bug# 2071 - Dead link to online documentation in admin
+    interface (AdminState).
  - (2008/10/29) Fixed bug# 3244 - "Defination"-Typo in Defaults.pm.
  - (2008/10/29) Fixed bug# 2736 - AdminUser&Subaction=Change - Valid is
     automatically changed
