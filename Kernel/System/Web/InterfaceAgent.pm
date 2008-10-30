@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceAgent.pm,v 1.35 2008-09-24 22:54:54 martin Exp $
+# $Id: InterfaceAgent.pm,v 1.36 2008-10-30 09:53:17 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -201,7 +201,7 @@ sub Run {
 
                     # redirect to alternate login
                     print $Self->{LayoutObject}->Redirect(
-                        ExtURL => $Self->{ConfigObject}->Get('LoginURL') . "?Reason=SystemError",
+                        ExtURL => $Self->{ConfigObject}->Get('LoginURL') . '?Reason=SystemError',
                     );
                 }
                 else {
@@ -210,7 +210,7 @@ sub Run {
                     $Self->{LayoutObject}->Print(
                         Output => \$Self->{LayoutObject}->Login(
                             Title   => 'Panic!',
-                            Message => 'Panic! No UserData!!!',
+                            Message => 'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.',
                             %Param,
                         ),
                     );
@@ -266,7 +266,7 @@ sub Run {
                     $TimeOffset = '-' . ( $TimeOffset / 60 );
                 }
                 else {
-                    $TimeOffset = ( $TimeOffset / 60 );
+                    $TimeOffset = $TimeOffset / 60;
                     $TimeOffset =~ s/-/+/;
                 }
                 $Self->{UserObject}->SetPreferences(
@@ -899,6 +899,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.35 $ $Date: 2008-09-24 22:54:54 $
+$Revision: 1.36 $ $Date: 2008-10-30 09:53:17 $
 
 =cut
