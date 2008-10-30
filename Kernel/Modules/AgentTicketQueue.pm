@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.56 2008-10-29 23:36:03 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.57 2008-10-30 00:17:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Lock;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -194,15 +194,6 @@ sub BuildQueueView {
         QueueID       => $Self->{QueueID},
         ShownQueueIDs => $Param{QueueIDs},
     );
-
-# FIXME
-    # check start option, if higher then tickets available, set
-    # it to the last ticket page (Thanks to Stefan Schmidt!)
-#    if ( $Self->{Start} > $Data{TicketsAvailAll} ) {
-#        my $PageShown = $Self->{ViewableTickets};
-#        my $Pages = int( ( $Data{TicketsAvailAll} / $PageShown ) + 0.99999 );
-#        $Self->{Start} = ( ( $Pages - 1 ) * $PageShown ) + 1;
-#    }
 
     # build output ...
     my %AllQueues = $Self->{QueueObject}->GetAllQueues();

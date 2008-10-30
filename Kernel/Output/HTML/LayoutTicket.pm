@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.33 2008-10-29 23:36:03 martin Exp $
+# $Id: LayoutTicket.pm,v 1.34 2008-10-30 00:17:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -681,10 +681,19 @@ sub TicketListShow {
 
     # nav bar
     my $StartHit = $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1;
+
+    # check start option, if higher then tickets available, set
+    # it to the last ticket page (Thanks to Stefan Schmidt!)
+    my $PageShown = $Backends->{ $View }->{ PageShown };
+    if ( $StartHit > $Param{Total} ) {
+        my $Pages = int( ( $Param{Total} / $PageShown ) + 0.99999 );
+        $StartHit = ( ( $Pages - 1 ) * $PageShown ) + 1;
+    }
+
     my %PageNav = $Param{Env}->{LayoutObject}->PageNavBar(
         Limit     => 10000,
         StartHit  => $StartHit,
-        PageShown => $Backends->{ $View }->{ PageShown },
+        PageShown => $PageShown,
         AllHits   => $Param{Total} || 0,
         Action    => 'Action=' . $Param{Env}->{LayoutObject}->{Action},
         Link      => $Param{LinkPage},
@@ -823,7 +832,7 @@ sub TicketListShow {
         %Param,
         Limit     => 10000,
         StartHit  => $StartHit,
-        PageShown => $Backends->{$View}->{ PageShown },
+        PageShown => $PageShown,
         AllHits   => $Param{Total} || 0,
     );
     $Param{Env}->{LayoutObject}->Print( Output => \$Output );
