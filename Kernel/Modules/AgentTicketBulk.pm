@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.16 2008-10-29 15:54:53 martin Exp $
+# $Id: AgentTicketBulk.pm,v 1.17 2008-11-04 14:31:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -115,6 +115,18 @@ sub Run {
         # do some actions on tickets
         if ( $Self->{Subaction} eq 'Do' ) {
 
+            # set owner
+            my $OwnerID = $Self->{ParamObject}->GetParam( Param => 'OwnerID' ) || '';
+            my $Owner   = $Self->{ParamObject}->GetParam( Param => 'Owner' )   || '';
+            if ( $OwnerID || $Owner ) {
+                $Self->{TicketObject}->OwnerSet(
+                    TicketID  => $TicketID,
+                    UserID    => $Self->{UserID},
+                    NewUser   => $Owner,
+                    NewUserID => $OwnerID,
+                );
+            }
+
             # set queue
             my $QueueID = $Self->{ParamObject}->GetParam( Param => 'QueueID' ) || '';
             my $Queue   = $Self->{ParamObject}->GetParam( Param => 'Queue' )   || '';
@@ -203,6 +215,35 @@ sub Run {
                 }
             }
 
+            # merge to oldest
+            my $MergeToOldest = $Self->{ParamObject}->GetParam( Param => 'MergeToOldest' );
+            if ( !$MergeTo && $MergeToOldest ) {
+
+                # find oldest
+                my $TicketIDOldest;
+                my $TicketIDOldestID;
+                for my $TicketIDCheck (@TicketIDs) {
+                    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketIDCheck );
+                    if ( !defined $TicketIDOldest ) {
+                        $TicketIDOldest   = $Ticket{CreateTimeUnix};
+                        $TicketIDOldestID = $TicketIDCheck;
+                    }
+                    if ( $TicketIDOldest > $Ticket{CreateTimeUnix} ) {
+                        $TicketIDOldest   = $Ticket{CreateTimeUnix};
+                        $TicketIDOldestID = $TicketIDCheck;
+                    }
+                }
+
+                # merge
+                if ( $TicketIDOldestID ne $TicketID ) {
+                    $Self->{TicketObject}->TicketMerge(
+                        MainTicketID  => $TicketIDOldestID,
+                        MergeTicketID => $TicketID,
+                        UserID        => $Self->{UserID},
+                    );
+                }
+            }
+
             # link with
 
             # link togehter
@@ -258,19 +299,24 @@ sub Run {
             }
         }
     }
-    if ( $Self->{Subaction} eq 'Do' ) {
 
-        # redirect
+    # redirect
+    if ( $Self->{Subaction} eq 'Do' ) {
         return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenOverview} );
     }
 
-    $Output .= $Self->_Mask(%Param);
+    $Output .= $Self->_Mask( %Param, TicketIDs => \@TicketIDs );
     $Output .= $Self->{LayoutObject}->Footer();
     return $Output;
 }
 
 sub _Mask {
     my ( $Self, %Param ) = @_;
+
+    $Self->{LayoutObject}->Block(
+        Name => 'BulkAction',
+        Data => \%Param,
+    );
 
     # build ArticleTypeID string
     my %DefaultNoteTypes
@@ -302,6 +348,49 @@ sub _Mask {
     $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => \%NextStates,
         Name => 'StateID',
+    );
+    for my $StateID ( sort keys %NextStates ) {
+        next if !$StateID;
+        my %StateData = $Self->{TicketObject}->{StateObject}->StateGet( ID => $StateID );
+        next if $StateData{TypeName} !~ /pending/i;
+        $Param{DateString} = $Self->{LayoutObject}->BuildDateSelection(
+            Format   => 'DateInputFormatLong',
+            DiffTime => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
+            %Param,
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'StatePending',
+            Data => \%Param,
+        );
+        last;
+    }
+
+    # owner list
+    my %AllGroupsMembers = $Self->{UserObject}->UserList(Type => 'Long', Valid => 1);
+
+    # only put possible rw agents to possible owner list
+    if ( !$Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone')) {
+        my %AllGroupsMembersNew;
+        for my $TicketID ( @{ $Param{TicketIDs} } ) {
+            my %Ticket      = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
+            my $GroupID     = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
+            my %GroupMember =  $Self->{GroupObject}->GroupMemberList(
+                GroupID => $GroupID,
+                Type    => 'rw',
+                Result  => 'HASH',
+                Cached  => 1,
+            );
+            for my $UserID ( sort keys %GroupMember ){
+                next if !$AllGroupsMembers{$UserID};
+                $AllGroupsMembersNew{$UserID} = $AllGroupsMembers{$UserID};
+            }
+            %AllGroupsMembers = %AllGroupsMembersNew;
+        }
+    }
+    $Param{OwnerStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data                => { '' => '-', %AllGroupsMembers },
+        Name                => 'OwnerID',
+        LanguageTranslation => 0,
     );
 
     # build move queue string

@@ -2,14 +2,14 @@
 # AgentTicketBulk.dtl - provides HTML form for bulk mask
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.dtl,v 1.11 2008-10-29 15:54:53 martin Exp $
+# $Id: AgentTicketBulk.dtl,v 1.12 2008-11-04 14:31:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
-<!-- start form -->
+<!-- dtl:block:BulkAction -->
 <script language="JavaScript" type="text/javascript">
 <!--
 function submit_compose() {
@@ -18,9 +18,22 @@ function submit_compose() {
         document.compose.Subject.focus();
         return false;
     }
-    else {
-        return true;
+<!-- dtl:block:TimeUnitsJs -->
+    if (document.compose.TimeUnits.value != "") {
+        var reg = /^-{0,1}\d+?((\.|,){0,1}\d+?){0,1}$/;
+        if (reg.test(document.compose.TimeUnits.value) == false) {
+            alert('$JSText{"Invalid time!"}');
+            document.compose.TimeUnits.focus();
+            return false;
+        }
     }
+    else if (document.compose.TimeUnits.value == "" && $Config{"Ticket::Frontend::NeedAccountedTime"}) {
+        alert('$JSText{"You need to account time!"}');
+        document.compose.TimeUnits.focus();
+        return false;
+    }
+<!-- dtl:block:TimeUnitsJs -->
+    return true;
 }
 //-->
 </script>
@@ -85,8 +98,18 @@ function SpellCheckSubmit() {
                   <td class="contentvalue">$Data{"NoteStrg"}</td>
                 </tr>
                 <tr>
-                  <td width="20%" class="contentkey">$Text{"Next ticket state"}:</td>
+                  <td width="20%" class="contentkey">$Text{"Next state"}:</td>
                   <td width="80%" class="contentvalue">$Data{"NextStatesStrg"}</td>
+                </tr>
+<!-- dtl:block:StatePending -->
+                <tr>
+                  <td class="contentkey">$Text{"Pending date"}:</td>
+                  <td class="contentvalue">$Data{"DateString"} <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font></td>
+                </tr>
+<!-- dtl:block:StatePending -->
+                <tr>
+                  <td class="contentkey">$Text{"Owner"}:</td>
+                  <td class="contentvalue">$Data{"OwnerStrg"}</td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Queue"}:</td>
@@ -94,11 +117,15 @@ function SpellCheckSubmit() {
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Merge to"}:</td>
-                  <td class="contentvalue"><input type="text" size="30" name="MergeTo" value="$QData{"MergeTo"}"/></td>
+                  <td class="contentvalue"><input type="text" size="30" name="MergeTo" value="$QData{"MergeTo"}"/> $Text{"Merge to oldest"} <input type="checkbox" name="MergeToOldest" value="1"/>. </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Link together"}:</td>
-                  <td class="contentvalue">$Data{"LinkTogetherYesNoOption"}, $Text{"define Parent"} <input type="text" size="30" name="LinkTogetherParent" value="$QData{"LinkTogetherParent"}"/></td>
+                  <td class="contentvalue">$Data{"LinkTogetherYesNoOption"}, $Text{"define Parent"} <input type="text" size="30" name="LinkTogetherParent" value="$QData{"LinkTogetherParent"}"/>.</td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Unlock Tickets"}:</td>
+                  <td class="contentvalue">$Data{"UnlockYesNoOption"}</td>
                 </tr>
 <!-- dtl:block:TimeUnits -->
                 <tr>
@@ -106,10 +133,6 @@ function SpellCheckSubmit() {
                   <td class="contentvalue"><input type="text" name="TimeUnits" value="$QData{"TimeUnits"}" size="3"/></td>
                 </tr>
 <!-- dtl:block:TimeUnits -->
-                <tr>
-                  <td class="contentkey">$Text{"Unlock Tickets"}:</td>
-                  <td class="contentvalue">$Data{"UnlockYesNoOption"}</td>
-                </tr>
               </table>
             </td>
           </tr>
@@ -129,4 +152,4 @@ function SpellCheckSubmit() {
     </td>
   </tr>
 </table>
-<!-- end form -->
+<!-- dtl:block:BulkAction -->
