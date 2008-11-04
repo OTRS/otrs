@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.4 2008-10-29 15:32:02 martin Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.5 2008-11-04 18:27:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,8 +10,8 @@
 # --
 <script language="JavaScript" type="text/javascript">
 function select_items (Type) {
-    for (var i = 1; i < document.matrix.elements[Type].length; i++) {
-        if ( document.matrix.elements[Type][0].checked ) {
+    for (var i = 0; i < document.matrix.elements[Type].length; i++) {
+        if ( document.matrix.Check.checked ) {
             document.matrix.elements[Type][i].checked = true;
         }
         else {
@@ -38,9 +38,9 @@ function select_item_check () {
         <table border="0" width="100%" cellspacing="0" cellpadding="3">
           <tr class="contenthead" align="left">
             <th width="1%">
-<!-- dtl:block:BulkHead -->
-            <input type="checkbox" name="TicketID" value="" onclick="select_items('TicketID')"/>
-<!-- dtl:block:BulkHead -->
+#<!-- dtl:block:BulkHead -->
+#            <input type="checkbox" name="TicketID" value="" onclick="select_items('TicketID')"/>
+#<!-- dtl:block:BulkHead -->
             </th>
             <th width="10%">$Config{"Ticket::Hook"}<br/>
             <a href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Ticket&OrderBy=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
@@ -140,7 +140,8 @@ function select_item_check () {
           <tr class="contentfooter">
             <td align="left" colspan="9">
 <!-- dtl:block:BulkFooter -->
-              <img border="0" src="$Env{"Images"}checkbox_arrow_left_up.png">
+              <input type="checkbox" name="Check" value="" onclick="select_items('TicketID')"/>
+#              <img border="0" src="$Env{"Images"}checkbox_arrow_left_up.png">
               <input type="submit" name="BulkAktion" value="$Text{"Bulk Action"}" class="button" onclick="return select_item_check();">
 <!-- dtl:block:BulkFooter -->
               &nbsp;

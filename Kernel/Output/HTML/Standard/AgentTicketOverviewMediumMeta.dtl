@@ -2,7 +2,7 @@
 # AgentTicketOverviewMediumMeta.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewMediumMeta.dtl,v 1.3 2008-10-29 23:47:57 martin Exp $
+# $Id: AgentTicketOverviewMediumMeta.dtl,v 1.4 2008-11-04 18:27:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,21 +11,23 @@
 <!-- dtl:block:TicketHeader -->
 <script language="JavaScript" type="text/javascript">
 function select_items (Type) {
-    for (var i = 1; i < document.matrix.elements[Type].length; i++) {
-        if ( document.matrix.elements[Type][0].checked ) {
-            document.matrix.elements[Type][i].checked = true;
+    for (var i = 0; i < document.matrix.elements[Type].length; i++) {
+        if ( document.matrix.Check.checked ) {
+            document.matrix.elements[Type][i].value = document.bulk[i].elements[Type].value;
+            document.bulk[i].elements[Type].checked = true;
         }
         else {
-            document.matrix.elements[Type][i].checked = false;
+            document.matrix.elements[Type][i].value = '';
+            document.bulk[i].elements[Type].checked = false;
         }
     }
 }
-function select_item (Type, TicketID) {
-    if ( document.matrix.TicketID[Type].value ) {
-        document.matrix.TicketID[Type].value = '';
+function select_item (Counter, TicketID) {
+    if ( document.matrix.TicketID[Counter].value ) {
+        document.matrix.TicketID[Counter].value = '';
     }
     else {
-        document.matrix.TicketID[Type].value = TicketID;
+        document.matrix.TicketID[Counter].value = TicketID;
     }
 }
 function select_item_check () {
@@ -43,50 +45,14 @@ function select_item_check () {
 <!-- dtl:block:TicketFooter -->
 <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="matrix">
   <input type="hidden" name="Action" value="AgentTicketBulk"/>
+<!-- dtl:block:TicketFooterBulkItem -->
   <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
-  <input type="hidden" name="TicketID" value=""/>
+<!-- dtl:block:TicketFooterBulkItem -->
   <table border="0" width="100%" cellspacing="0" cellpadding="3">
     <tr>
       <td class="menu">
-        <img border="0" src="$Env{"Images"}checkbox_arrow_left_up.png">
+        <input type="checkbox" name="Check" value="" onclick="select_items('TicketID')"/>
+#        <img border="0" src="$Env{"Images"}checkbox_arrow_left_up.png">
         <input type="submit" name="BulkAktion" value="$Text{"Bulk Action"}" class="button" onclick="return select_item_check();">
       </td>
     </tr>

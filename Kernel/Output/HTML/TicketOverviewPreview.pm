@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewPreview.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewPreview.pm,v 1.2 2008-10-27 07:20:42 martin Exp $
+# $Id: TicketOverviewPreview.pm,v 1.3 2008-11-04 18:27:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -57,12 +57,14 @@ sub Run {
             Data => \%Param,
         ),
     );
-    my $Output = '';
-    my $Counter = 0;
+    my $Output        = '';
+    my $Counter       = 0;
     my $CounterOnSite = 0;
+    my @TicketIDsShown;
     for my $TicketID ( @{ $Param{TicketIDs} } ) {
         $Counter++;
         if ( $Counter >= $Param{StartHit} && $Counter < ( $Param{PageShown} + $Param{StartHit} ) ) {
+            push @TicketIDsShown, $TicketID;
             my $Output = $Self->_Show( TicketID => $TicketID, Counter => $CounterOnSite );
             $CounterOnSite++;
             $Self->{LayoutObject}->Print( Output => $Output );
@@ -73,6 +75,12 @@ sub Run {
             Name => 'TicketFooter',
             Data => \%Param,
         );
+        for my $TicketID (@TicketIDsShown) {
+            $Self->{LayoutObject}->Block(
+                Name => 'TicketFooterBulkItem',
+                Data => \%Param,
+            );
+        }
         $Self->{LayoutObject}->Print(
             Output => \$Self->{LayoutObject}->Output(
                 TemplateFile => 'AgentTicketOverviewPreviewMeta',
