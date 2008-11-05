@@ -2,7 +2,7 @@
 # AgentTicketOverviewMediumMeta.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewMediumMeta.dtl,v 1.4 2008-11-04 18:27:00 martin Exp $
+# $Id: AgentTicketOverviewMediumMeta.dtl,v 1.5 2008-11-05 08:50:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -31,7 +31,7 @@ function select_item (Counter, TicketID) {
     }
 }
 function select_item_check () {
-    for (var i = 1; i < document.matrix.TicketID.length; i++) {
+    for (var i = 0; i < document.matrix.TicketID.length; i++) {
         if ( document.matrix.TicketID[i].value ) {
             return true;
         }
