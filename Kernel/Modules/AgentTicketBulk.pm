@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.17 2008-11-04 14:31:23 martin Exp $
+# $Id: AgentTicketBulk.pm,v 1.18 2008-11-05 07:54:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -199,8 +199,9 @@ sub Run {
             }
 
             # merge to
-            my $MergeTo = $Self->{ParamObject}->GetParam( Param => 'MergeTo' );
-            if ($MergeTo) {
+            my $MergeToSelection = $Self->{ParamObject}->GetParam( Param => 'MergeToSelection' );
+            my $MergeTo          = $Self->{ParamObject}->GetParam( Param => 'MergeTo' );
+            if ( $MergeToSelection eq 'MergeTo' && $MergeTo ) {
                 $MergeTo =~ s/\s+$//g;
                 $MergeTo =~ s/^\s+//g;
                 my $MainTicketID = $Self->{TicketObject}->TicketIDLookup(
@@ -216,8 +217,7 @@ sub Run {
             }
 
             # merge to oldest
-            my $MergeToOldest = $Self->{ParamObject}->GetParam( Param => 'MergeToOldest' );
-            if ( !$MergeTo && $MergeToOldest ) {
+            if ( $MergeToSelection eq 'MergeToOldest' ) {
 
                 # find oldest
                 my $TicketIDOldest;

@@ -2,7 +2,7 @@
 # AgentTicketBulk.dtl - provides HTML form for bulk mask
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.dtl,v 1.12 2008-11-04 14:31:23 martin Exp $
+# $Id: AgentTicketBulk.dtl,v 1.13 2008-11-05 07:54:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -116,12 +116,16 @@ function SpellCheckSubmit() {
                   <td class="contentvalue">$Data{"MoveQueuesStrg"}</td>
                 </tr>
                 <tr>
-                  <td class="contentkey">$Text{"Merge to"}:</td>
-                  <td class="contentvalue"><input type="text" size="30" name="MergeTo" value="$QData{"MergeTo"}"/> $Text{"Merge to oldest"} <input type="checkbox" name="MergeToOldest" value="1"/>. </td>
+                  <td class="contentkey">$Text{"Merge"}:</td>
+                  <td class="contentvalue"> <input type="radio" name="MergeToSelection" value="MergeTo"/> $Text{"Merge to"} <input type="text" size="30" name="MergeTo" value="$QData{"MergeTo"}"/> / <input type="radio" name="MergeToSelection" value="MergeToOldest"/> $Text{"Merge to oldest"} </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Link together"}:</td>
-                  <td class="contentvalue">$Data{"LinkTogetherYesNoOption"}, $Text{"define Parent"} <input type="text" size="30" name="LinkTogetherParent" value="$QData{"LinkTogetherParent"}"/>.</td>
+                  <td class="contentvalue">$Data{"LinkTogetherYesNoOption"}</td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Link to Parent"}:</td>
+                  <td class="contentvalue"><input type="text" size="30" name="LinkTogetherParent" value="$QData{"LinkTogetherParent"}"/></td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Unlock Tickets"}:</td>
