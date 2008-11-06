@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.79 2008-10-24 08:47:10 martin Exp $
+# $Id: AgentTicketPhone.pm,v 1.80 2008-11-06 18:16:18 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.79 $) [1];
+$VERSION = qw($Revision: 1.80 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -646,8 +646,7 @@ sub Run {
             );
 
             # reset previous ServiceID to reset SLA-List if no service is selected
-#            $GetParam{ServiceID} ||= '';
-            if ( !$Services->{ $GetParam{ServiceID} } ) {
+            if ( !$GetParam{ServiceID} || !$Services->{ $GetParam{ServiceID} } ) {
                 $GetParam{ServiceID} = '';
             }
 
