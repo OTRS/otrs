@@ -2,7 +2,7 @@
 # Kernel/System/Email/SMTP.pm - the global email send module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SMTP.pm,v 1.21 2008-05-08 09:36:20 mh Exp $
+# $Id: SMTP.pm,v 1.22 2008-11-07 14:52:51 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Net::SMTP;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -65,14 +65,26 @@ sub Send {
         $Param{From} = '';
     }
 
-    # send mail
-    my $SMTP = Net::SMTP->new(
-        $Self->{MailHost},
-        Hello   => $Self->{FQDN},
-        Port    => $Self->{SMTPPort},
-        Timeout => $Self->{SMTPTimeout},
-        Debug   => $Self->{SMTPDebug}
-    );
+    # try it 3 times to connect with the SMTP server
+    # (M$ Exchange Server 2007 have sometimes problems on port 25)
+    my $SMTP;
+    TRY:
+    for my $Try ( 1 .. 3 ) {
+
+        # connect to mail server
+        $SMTP = Net::SMTP->new(
+            $Self->{MailHost},
+            Hello   => $Self->{FQDN},
+            Port    => $Self->{SMTPPort},
+            Timeout => $Self->{SMTPTimeout},
+            Debug   => $Self->{SMTPDebug},
+        );
+
+        last TRY if $SMTP;
+
+        # sleep 0,3 seconds;
+        select (undef, undef, undef, 0.3);
+    }
 
     # return if no connect was possible
     if ( !$SMTP ) {
