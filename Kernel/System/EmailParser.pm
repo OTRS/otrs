@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.72 2008-09-11 16:47:56 martin Exp $
+# $Id: EmailParser.pm,v 1.72.2.1 2008-11-09 23:15:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.72.2.1 $) [1];
 
 =head1 NAME
 
@@ -820,7 +820,13 @@ sub CheckMessageBody {
 
         # remove empty lines
         $Self->{MessageBody} =~ s/^\s*//mg;
-        $Self->{MessageBody} =~ s/\n//gs;
+
+        # fix some bad stuff from opera and others
+        $Self->{MessageBody} =~ s/(\n\r|\r\r\n|\r\n)/\n/gs;
+
+        # repalce new lines with one space
+        $Self->{MessageBody} =~ s/\n/ /gs;
+        $Self->{MessageBody} =~ s/\r/ /gs;
 
         # remove style tags
         $Self->{MessageBody} =~ s/\<style.+?\>.*\<\/style\>//gsi;
@@ -1201,6 +1207,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.72 $ $Date: 2008-09-11 16:47:56 $
+$Revision: 1.72.2.1 $ $Date: 2008-11-09 23:15:58 $
 
 =cut
