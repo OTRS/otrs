@@ -1,0 +1,157 @@
+# --
+# CustomerSearchAutoComplete.dtl - provides autocomplete feature for customer search
+# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# --
+# $Id: CustomerSearchAutoComplete.dtl,v 1.1 2008-11-10 10:45:17 ub Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# --
+
+<!--CSS file (default YUI Sam Skin) -->
+<link type="text/css" rel="stylesheet" href="$Env{"Images"}../../yui/2.6.0/build/autocomplete/assets/skins/sam/autocomplete.css">
+
+<!-- Dependencies -->
+<script type="text/javascript" src="$Env{"Images"}../../yui/2.6.0/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="$Env{"Images"}../../yui/2.6.0/build/datasource/datasource-min.js"></script>
+
+<!-- OPTIONAL: Connection (required only if using XHRDataSource) -->
+<script type="text/javascript" src="$Env{"Images"}../../yui/2.6.0/build/connection/connection-min.js"></script>
+
+<!-- OPTIONAL: Animation (required only if enabling animation) -->
+<script type="text/javascript" src="$Env{"Images"}../../yui/2.6.0/build/animation/animation-min.js"></script>
+
+<!-- OPTIONAL: JSON (enables JSON validation) -->
+<script type="text/javascript" src="$Env{"Images"}../../yui/2.6.0/build/json/json-min.js"></script>
+
+<!-- Source file -->
+<script type="text/javascript" src="$Env{"Images"}../../yui/2.6.0/build/autocomplete/autocomplete-min.js"></script>
+
+<style type="text/css">
+.myAutoComplete {
+    width:36em; /* set width here or else widget will expand to fit its container */
+    padding-bottom:0.5em;
+}
+</style>
+
+<script type="text/javascript">
+(function() {
+
+    var Dom = YAHOO.util.Dom,
+        Event = YAHOO.util.Event;
+
+    Event.onDOMReady(function() {
+
+        // add yui css to body tag
+        document.body.className = "yui-skin-sam";
+
+        // define XHRDataSource
+        var myDataSource = new YAHOO.util.XHRDataSource('');
+        myDataSource.responseType = YAHOO.util.XHRDataSource.TYPE_JSON;
+        myDataSource.maxCacheEntries = 100;
+
+        // define the schema of the results
+        myDataSource.responseSchema = {
+            resultsList : "Response.Results", // String pointer to result data
+            fields : [
+                { key: "CustomerKey" },
+                { key: "CustomerValue" },
+                { key: "CustomerValuePlain" }
+            ]
+        };
+
+        // define autocomplete object
+        var myAutoComp = new YAHOO.widget.AutoComplete("myAutoCompleteInput", "myAutoCompleteContainer", myDataSource);
+        myAutoComp.resultTypeList = false;
+
+        // define request parameters
+        myAutoComp.generateRequest = function(sQuery) {
+          return "?Action=AgentCustomerSearch&Search=" + sQuery ;
+        };
+
+        // define output format for drop down list
+        myAutoComp.formatResult = function(oResultData, sQuery, sResultMatch) {
+            return (oResultData.CustomerValue + " (" + oResultData.CustomerKey + ")");
+        };
+
+        // define various autocomplete properties
+        myAutoComp.minQueryLength = $QData{"minQueryLength"};
+        myAutoComp.queryDelay     = $QData{"queryDelay"};
+        myAutoComp.typeAhead      = $QData{"typeAhead"};
+        myAutoComp.animVert       = true;
+        myAutoComp.animSpeed      = 0.2;
+        myAutoComp.allowBrowserAutocomplete = false;
+
+        var AjaxRequest;
+
+        // Define custom itemSelect handler function
+        var itemSelectHandler = function(sType, aArgs) {
+            var oMyAcInstance = aArgs[0];  // your AutoComplete instance
+            var elListItem    = aArgs[1];  // the <li> element selected in the suggestion container
+            var oData         = aArgs[2];  // object literal of data for the result
+
+            // set autocomplete field with selected value
+            document.getElementById('myAutoCompleteInput').value = oData.CustomerValuePlain;
+
+            // set hidden field SelectedCustomerUser
+            if (document.compose.SelectedCustomerUser) {
+                document.compose.SelectedCustomerUser.value = oData.CustomerKey;
+            }
+
+            // needed for AgentTicketCustomer.pm
+            if (document.compose.CustomerUserID) {
+                document.compose.CustomerUserID.value = oData.CustomerKey;
+
+                // set hidden field 'ExpandCustomerName2'
+                input = document.createElement('input');
+                input.setAttribute("type", "hidden");
+                input.setAttribute("name", "ExpandCustomerName2");
+                input.value = 1;
+                document.compose.appendChild(input);
+
+                // set hidden field 'CustomerUserOption'
+                var input = document.createElement('input');
+                input.setAttribute("type", "hidden");
+                input.setAttribute("name", "CustomerUserOption");
+                input.value = oData.CustomerKey;
+                document.compose.appendChild(input);
+
+                // submit the form
+                document.compose.submit();
+            }
+
+            // get customer data for customer info table
+            var sURL = "?Action=AgentCustomerSearch&Subaction=CustomerInfo&CustomerUserID=" + oData.CustomerKey;
+            var handleSuccess = function(o){
+                if (o.responseText !== undefined) {
+                    var Response = YAHOO.lang.JSON.parse(o.responseText);
+
+                    // set CustomerID
+                    document.compose.CustomerID.value = Response.CustomerID;
+
+                    // show customer info table
+                    var div = document.getElementById('CustomerTable');
+                    div.innerHTML = Response.CustomerTableHTMLString;
+
+                    // update services (trigger ServiceID change event)
+                    AJAXUpdate('AJAXUpdate', 'ServiceID', ['Dest', 'SelectedCustomerUser', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'OwnerAll', 'ResponsibleAll', 'TicketFreeText1', 'TicketFreeText2', 'TicketFreeText3', 'TicketFreeText4', 'TicketFreeText5', 'TicketFreeText6', 'TicketFreeText7', 'TicketFreeText8', 'TicketFreeText9', 'TicketFreeText10', 'TicketFreeText11', 'TicketFreeText12', 'TicketFreeText13', 'TicketFreeText14', 'TicketFreeText15', 'TicketFreeText16'], ['NewUserID', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'TicketFreeText1', 'TicketFreeText2', 'TicketFreeText3', 'TicketFreeText4', 'TicketFreeText5', 'TicketFreeText6', 'TicketFreeText7', 'TicketFreeText8', 'TicketFreeText9', 'TicketFreeText10', 'TicketFreeText11', 'TicketFreeText12', 'TicketFreeText13', 'TicketFreeText14', 'TicketFreeText15', 'TicketFreeText16']);
+                }
+            }
+            var callback = {
+                success: handleSuccess
+            };
+           AjaxRequest = YAHOO.util.Connect.asyncRequest('GET', sURL, callback);
+
+        };
+
+        // subscribe custom itemSelect handler to the event
+        myAutoComp.itemSelectEvent.subscribe(itemSelectHandler);
+
+        return {
+            myDataSource: myDataSource,
+            myAutoComp  : myAutoComp
+        };
+    });
+})();
+</script>
