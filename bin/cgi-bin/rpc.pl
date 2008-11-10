@@ -3,7 +3,7 @@
 # bin/cgi-bin/rpc.pl - soap handle
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: rpc.pl,v 1.8 2008-05-08 13:43:11 mh Exp $
+# $Id: rpc.pl,v 1.9 2008-11-10 10:35:00 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -41,23 +41,7 @@ use Kernel::System::Queue;
 use Kernel::System::Ticket;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
-
-# common objects
-my %CommonObject = ();
-$CommonObject{ConfigObject} = Kernel::Config->new();
-$CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-RPC',
-    %CommonObject,
-);
-$CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
-$CommonObject{PIDObject}    = Kernel::System::PID->new(%CommonObject);
-$CommonObject{TimeObject}   = Kernel::System::Time->new(%CommonObject);
-$CommonObject{UserObject}   = Kernel::System::User->new(%CommonObject);
-$CommonObject{GroupObject}  = Kernel::System::Group->new(%CommonObject);
-$CommonObject{QueueObject}  = Kernel::System::Queue->new(%CommonObject);
-$CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
+$VERSION = qw($Revision: 1.9 $) [1];
 
 SOAP::Transport::HTTP::CGI->dispatch_to('Core')->handle;
 
@@ -78,6 +62,22 @@ sub Dispatch {
     $User ||= '';
     $Pw   ||= '';
 
+    # common objects
+    my %CommonObject = ();
+    $CommonObject{ConfigObject} = Kernel::Config->new();
+    $CommonObject{LogObject}    = Kernel::System::Log->new(
+        LogPrefix => 'OTRS-RPC',
+        %CommonObject,
+    );
+    $CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
+    $CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
+    $CommonObject{PIDObject}    = Kernel::System::PID->new(%CommonObject);
+    $CommonObject{TimeObject}   = Kernel::System::Time->new(%CommonObject);
+    $CommonObject{UserObject}   = Kernel::System::User->new(%CommonObject);
+    $CommonObject{GroupObject}  = Kernel::System::Group->new(%CommonObject);
+    $CommonObject{QueueObject}  = Kernel::System::Queue->new(%CommonObject);
+    $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
+
     my $RequiredUser     = $CommonObject{ConfigObject}->Get('SOAP::User');
     my $RequiredPassword = $CommonObject{ConfigObject}->Get('SOAP::Password');
 
@@ -97,7 +97,7 @@ sub Dispatch {
     if ( $User ne $RequiredUser || $Pw ne $RequiredPassword ) {
         $CommonObject{LogObject}->Log(
             Priority => 'notice',
-            Message  => "Auth for user $User faild!",
+            Message  => "Auth for user $User (pw $Pw) failed!",
         );
         return;
     }
