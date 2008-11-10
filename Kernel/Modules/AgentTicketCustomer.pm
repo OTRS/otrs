@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCustomer.pm - to set the ticket customer and show the customer history
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.pm,v 1.18 2008-10-29 19:49:37 martin Exp $
+# $Id: AgentTicketCustomer.pm,v 1.19 2008-11-10 10:36:33 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -200,6 +200,19 @@ sub Form {
     my %CustomerUserData = ();
     if ( $Self->{TicketID} ) {
 
+        # set some customer search autocomplete properties
+        my $AutoCompleteConfig = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
+        if ( $AutoCompleteConfig->{Active} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'CustomerSearchAutoComplete',
+                Data => {
+                    minQueryLength => $AutoCompleteConfig->{MinQueryLength} || 2,
+                    queryDelay     => $AutoCompleteConfig->{QueryDelay}     || 0.1,
+                    typeAhead      => $AutoCompleteConfig->{TypeAhead}      || 'false',
+                },
+            );
+        }
+
         # get ticket data
         my %TicketData = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
         if ( $TicketData{CustomerUserID} || $Param{CustomerUserID} ) {
@@ -215,6 +228,21 @@ sub Form {
             Name => 'Customer',
             Data => { %TicketData, %Param, },
         );
+
+        # build customer search autocomplete field
+        if ( $AutoCompleteConfig->{Active} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'CustomerSearchAutoCompleteDivStart',
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'CustomerSearchAutoCompleteDivEnd',
+            );
+        }
+        else {
+            $Self->{LayoutObject}->Block(
+                Name => 'SearchCustomerButton',
+            );
+        }
 
         # build from string
         if ( $Param{CustomerUserOptions} && %{ $Param{CustomerUserOptions} } ) {

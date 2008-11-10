@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.209 2008-10-24 11:23:03 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.210 2008-11-10 10:38:18 ub Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1560,6 +1560,49 @@
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CustomerSearchAutoComplete###Active" Required="1" Valid="1">
+        <Description Lang="en">Enable or disable the autocomplete feature for the customer search in the agent interface.</Description>
+        <Description Lang="de">Aktivieren oder deativieren der Autocomplete-Funktionalitaet für die Kundensuche im Agenteninterface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::CustomerSearch</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CustomerSearchAutoComplete###MinQueryLength" Required="1" Valid="1">
+        <Description Lang="en">Set minimum number of characters before autocomplete query is sent.</Description>
+        <Description Lang="de">Mindestanzahl von Zeichen zum Ausfuehren der Autocomplete-Funktionalitaet.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::CustomerSearch</SubGroup>
+        <Setting>
+            <String Regex="^[1-9]$">2</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CustomerSearchAutoComplete###QueryDelay" Required="1" Valid="1">
+        <Description Lang="en">Delay time between autocomplete queries.</Description>
+        <Description Lang="de">Wartezeit zwischen zwei Autocomplete-Queries.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::CustomerSearch</SubGroup>
+        <Setting>
+            <String Regex="^(0\.[1-9]+)|([1-9](\.[0-9]+)?)$">0.1</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::CustomerSearchAutoComplete###TypeAhead" Required="1" Valid="1">
+        <Description Lang="en">Enable or disable TypeAhead for the autocomplete feature.</Description>
+        <Description Lang="de">Aktivieren oder deativieren von TypeAhead für die Autocomplete-Funktionalitaet.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::CustomerSearch</SubGroup>
+        <Setting>
+            <Option SelectedID="false">
+                <Item Key="false">No</Item>
+                <Item Key="true">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+
     <ConfigItem Name="Ticket::Frontend::PendingDiffTime" Required="1" Valid="1">
         <Description Lang="en">Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).</Description>
         <Description Lang="de">Zeit die für pending-Status zur aktuellen Zeit addiert wird (Angabe in Sekunden; 86400 Sekunden = 1 Tag).</Description>
@@ -7122,6 +7165,19 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Description>Agent Mailbox</Description>
                 <Title>Locked Tickets</Title>
+                <NavBarName>Ticket</NavBarName>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AgentCustomerSearch" Required="0" Valid="1">
+        <Description Lang="en">Frontend module registration for the AgentCustomerSearch object in the agent interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentCustomerSearch-Objekts im Agent-Interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>AgentCustomerSearch</Description>
+                <Title>AgentCustomerSearch</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>

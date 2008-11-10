@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.70 2008-11-06 18:16:18 ub Exp $
+# $Id: AgentTicketEmail.pm,v 1.71 2008-11-10 10:35:26 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1372,6 +1372,30 @@ sub _MaskEmailNew {
     my $TreeView = 0;
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
         $TreeView = 1;
+    }
+
+    # build customer search autocomplete field
+    my $AutoCompleteConfig = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
+    if ( $AutoCompleteConfig->{Active} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'CustomerSearchAutoComplete',
+            Data => {
+                minQueryLength => $AutoCompleteConfig->{MinQueryLength} || 2,
+                queryDelay     => $AutoCompleteConfig->{QueryDelay}     || 0.1,
+                typeAhead      => $AutoCompleteConfig->{TypeAhead}      || 'false',
+            },
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'CustomerSearchAutoCompleteDivStart',
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'CustomerSearchAutoCompleteDivEnd',
+        );
+    }
+    else {
+        $Self->{LayoutObject}->Block(
+            Name => 'SearchCustomerButton',
+        );
     }
 
     # build string
