@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutAJAX.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutAJAX.pm,v 1.14 2008-10-06 16:44:37 mh Exp $
+# $Id: LayoutAJAX.pm,v 1.15 2008-11-10 10:32:10 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =item JSON()
 
@@ -48,9 +48,11 @@ sub JSON {
                 $JSON .= $Self->JSON( Data => $Key ) . ',';
             }
             else {
-                $JSON .= "'" . $Self->JSONQuote( Data => $Key ) . "',";
+                $JSON .= '"' . $Self->JSONQuote( Data => $Key ) . '",';
             }
         }
+        # delete comma at end of string
+        $JSON =~ s{ , \z }{}xms;
         $JSON .= ']';
     }
 
@@ -58,20 +60,22 @@ sub JSON {
     elsif ( ref $Param{Data} eq 'HASH' ) {
         $JSON .= '{';
         for my $Key ( sort keys %{ $Param{Data} } ) {
-            $JSON .= "" . $Key . ":";
+            $JSON .= '"' . $Key . '":';
             if ( ref $Param{Data}->{$Key} ) {
                 $JSON .= $Self->JSON( Data => $Param{Data}->{$Key} ) . ',';
             }
             else {
-                $JSON .= "'" . $Self->JSONQuote( Data => $Param{Data}->{$Key} ) . "',";
+                $JSON .= '"' . $Self->JSONQuote( Data => $Param{Data}->{$Key} ) . '",';
             }
         }
+        # delete comma at end of string
+        $JSON =~ s{ , \z }{}xms;
         $JSON .= '}';
     }
 
     # string
     else {
-        $JSON .= "'" . $Self->JSONQuote( Data => $Param{Data} ) . "'";
+        $JSON .= '"' . $Self->JSONQuote( Data => $Param{Data} ) . '"';
     }
 
     return $JSON;
@@ -119,9 +123,9 @@ sub BuildJSON {
         }
         if ( ref $Param{Data} eq '' ) {
             $Param{Data} = $Self->JSONQuote( Data => $Param{Data} );
-            $JSON .= "'$Param{Name}': [";
-            $JSON .= "'$Param{Data}'";
-            $JSON .= "]";
+            $JSON .= '"' . $Param{Name} . '": [';
+            $JSON .= '"' . $Param{Data} . '"';
+            $JSON .= ']';
         }
         else {
 
@@ -160,7 +164,7 @@ sub _BuildJSONOutput {
 
     # start generation, if AttributeRef and DataRef was found
     if ( $Param{AttributeRef} && $Param{DataRef} ) {
-        $String = "'$Param{AttributeRef}->{name}':[";
+        $String = '"' . $Param{AttributeRef}->{name} . '":[';
         my $Count = 0;
         for my $Row ( @{ $Param{DataRef} } ) {
             if ($Count) {
@@ -184,7 +188,7 @@ sub _BuildJSONOutput {
 
             $Key   = $Self->JSONQuote( Data => $Key );
             $Value = $Self->JSONQuote( Data => $Value );
-            $String .= "['$Key','$Value',$SelectedDisabled,$SelectedDisabled]";
+            $String .= '["' . $Key . '","'. $Value . '",' . $SelectedDisabled . ',' . $SelectedDisabled . ']';
             $Count++;
         }
         $String .= ']';
@@ -234,6 +238,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2008-10-06 16:44:37 $
+$Revision: 1.15 $ $Date: 2008-11-10 10:32:10 $
 
 =cut
