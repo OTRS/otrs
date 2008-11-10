@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.38 2008-09-15 09:12:32 mh Exp $
+# $Id: AgentTicketPhone.dtl,v 1.39 2008-11-10 10:33:31 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -11,6 +11,10 @@
 
 # include AJAX lib
 $Include{"AJAX"}
+
+<!-- dtl:block:CustomerSearchAutoComplete -->
+$Include{"CustomerSearchAutoComplete"}
+<!-- dtl:block:CustomerSearchAutoComplete -->
 
 <!-- start form -->
 <script language="JavaScript" type="text/javascript">
@@ -153,19 +157,35 @@ function clear_field() {
           <tr>
             <td width="20%" class="contentkey">$Text{"From"}:</td>
             <td width="60%" class="contentvalue">
-              <input type="text" name="From" value="$QData{"From"}" size="80"/>
+<!-- dtl:block:CustomerSearchAutoCompleteDivStart-->
+              <div id="myAutoComplete" class="myAutoComplete">
+<!-- dtl:block:CustomerSearchAutoCompleteDivStart -->
+              <input id="myAutoCompleteInput" type="text" name="From" value="$QData{"From"}" size="80"/>
+<!-- dtl:block:CustomerSearchAutoCompleteDivEnd -->
+              <div id="myAutoCompleteContainer"></div>
+              </div>
+<!-- dtl:block:CustomerSearchAutoCompleteDivEnd -->
               <font color="red" size="-2">$Text{"$Data{"From invalid"}"}</font>
               <br/>
               $Data{"CustomerUserStrg"}
               <dtl if ($Data{"CustomerUserStrg"} ne "") { $Data{"TakeThisCustomer"} = "<br/><input class="button" type="submit" name="ExpandCustomerName2" value="$Text{"Take this Customer"}"/>"; }>
               $Data{"TakeThisCustomer"}
+<!-- dtl:block:SearchCustomerButton -->
               <input class="button" type="submit" name="ExpandCustomerName1" value="$Text{"Search Customer"}"/>
+<!-- dtl:block:SearchCustomerButton -->
               <input class="button" type="submit" name="ClearFrom" value="$Text{"Clear From"}" onclick="javascript:clear_field(); return false;"/>
             </td>
-            <td width="20%" rowspan="10" class="contentkey">
+            <td width="20%" rowspan="10" class="contentvalue">
 # show customer info table
 <!-- dtl:block:CustomerTable -->
-              <p><b>$Text{"Customer Info"}</b>:<br/>$Data{"CustomerTable"}</p>
+              <p>
+                <div>
+                <b>$Text{"Customer Info"}</b>:<br/>
+                <div id="CustomerTable">
+                $Data{"CustomerTable"}
+                </div>
+                </div>
+              </p>
 <!-- dtl:block:CustomerTable -->
 #              $Text{"FAQ-Search"}: $Env{"Box0"}<a href="" onclick="FAQSubmit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"Insert"}'; return true;">$Text{"Insert"}</a>$Env{"Box1"}
 #              <input type="text" name="FAQ" value="" onSubmit="document.compose.ExpandCustomerName.value='4';"/>

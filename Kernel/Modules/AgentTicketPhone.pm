@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.80 2008-11-06 18:16:18 ub Exp $
+# $Id: AgentTicketPhone.pm,v 1.81 2008-11-10 10:34:39 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.80 $) [1];
+$VERSION = qw($Revision: 1.81 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -637,6 +637,7 @@ sub Run {
         {
             $Error{'Service invalid'} = 'invalid';
         }
+
         if (%Error) {
 
             # get services
@@ -1410,6 +1411,30 @@ sub _MaskPhoneNew {
     my $TreeView = 0;
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
         $TreeView = 1;
+    }
+
+    # build customer search autocomplete field
+    my $AutoCompleteConfig = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
+    if ( $AutoCompleteConfig->{Active} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'CustomerSearchAutoComplete',
+            Data => {
+                minQueryLength => $AutoCompleteConfig->{MinQueryLength} || 2,
+                queryDelay     => $AutoCompleteConfig->{QueryDelay}     || 0.1,
+                typeAhead      => $AutoCompleteConfig->{TypeAhead}      || 'false',
+            },
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'CustomerSearchAutoCompleteDivStart',
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'CustomerSearchAutoCompleteDivEnd',
+        );
+    }
+    else {
+        $Self->{LayoutObject}->Block(
+            Name => 'SearchCustomerButton',
+        );
     }
 
     # build string
