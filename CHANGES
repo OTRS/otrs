@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.762.2.22 2008-11-09 23:15:58 martin Exp $
+# $Id: CHANGES,v 1.762.2.23 2008-11-10 10:33:59 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.3.4 (2008/??/??)
+ - (2008/11/10) Fixed bug# 3213 - Make rpc.pl work when using ModPerl.
  - (2008/11/10) Fixed bug# 3442 - HTML2Ascii is ignoring spaces on email
     processing.
  - (2008/11/07) Fixed bug# 2730 - Sending mails to MS Exchange Server 2007
