@@ -2,7 +2,7 @@
 # CustomerSearchAutoComplete.dtl - provides autocomplete feature for customer search
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerSearchAutoComplete.dtl,v 1.1 2008-11-10 10:45:17 ub Exp $
+# $Id: CustomerSearchAutoComplete.dtl,v 1.2 2008-11-11 22:15:50 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -119,6 +119,8 @@
 
                 // submit the form
                 document.compose.submit();
+
+                return;
             }
 
             // get customer data for customer info table
@@ -131,8 +133,9 @@
                     document.compose.CustomerID.value = Response.CustomerID;
 
                     // show customer info table
-                    var div = document.getElementById('CustomerTable');
-                    div.innerHTML = Response.CustomerTableHTMLString;
+                    if ( document.getElementById('CustomerTable') ) {
+                        document.getElementById('CustomerTable').innerHTML = Response.CustomerTableHTMLString;
+                    }
 
                     // update services (trigger ServiceID change event)
                     AJAXUpdate('AJAXUpdate', 'ServiceID', ['Dest', 'SelectedCustomerUser', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'OwnerAll', 'ResponsibleAll', 'TicketFreeText1', 'TicketFreeText2', 'TicketFreeText3', 'TicketFreeText4', 'TicketFreeText5', 'TicketFreeText6', 'TicketFreeText7', 'TicketFreeText8', 'TicketFreeText9', 'TicketFreeText10', 'TicketFreeText11', 'TicketFreeText12', 'TicketFreeText13', 'TicketFreeText14', 'TicketFreeText15', 'TicketFreeText16'], ['NewUserID', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'TicketFreeText1', 'TicketFreeText2', 'TicketFreeText3', 'TicketFreeText4', 'TicketFreeText5', 'TicketFreeText6', 'TicketFreeText7', 'TicketFreeText8', 'TicketFreeText9', 'TicketFreeText10', 'TicketFreeText11', 'TicketFreeText12', 'TicketFreeText13', 'TicketFreeText14', 'TicketFreeText15', 'TicketFreeText16']);
