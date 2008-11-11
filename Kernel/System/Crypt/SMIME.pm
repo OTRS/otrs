@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.24 2008-05-15 22:05:46 mh Exp $
+# $Id: SMIME.pm,v 1.24.2.1 2008-11-11 10:20:34 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.24.2.1 $) [1];
 
 =head1 NAME
 
@@ -274,7 +274,7 @@ sub Sign {
     my $LogMessage = $Self->_CleanOutput(qx{$Self->{Cmd} $Options 2>&1});
     unlink $SecretFile;
     if ($LogMessage) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Can't sign: $LogMessage!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Can't sign: $LogMessage!(Command: $Option)" );
         return;
     }
 
@@ -911,6 +911,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2008-05-15 22:05:46 $
+$Revision: 1.24.2.1 $ $Date: 2008-11-11 10:20:34 $
 
 =cut
