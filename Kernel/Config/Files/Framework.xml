@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.186 2008-10-29 14:47:24 ub Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.187 2008-11-12 22:01:52 shb Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
-        <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
+        <Description Lang="en">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -14,7 +14,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ProductName" Required="1" Valid="1">
-        <Description Lang="en">The name of the application that is shown in the frontend.</Description>
+        <Description Lang="en">This setting controls the name of the application as is shown in the web interface as well as the tabs and title bar of your web browser.</Description>
         <Description Lang="de">Im WebFrontend angezeigter Name der Software.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -23,7 +23,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SystemID" Required="1" Valid="1">
-        <Description Lang="en">The system identifier. Every ticket number and ID of a http-session starts with this number.</Description>
+        <Description Lang="en">The system identifier. Every ticket number contains this ID, and the session ID, of a http session string, starts with this number. This ensures that only tickets which belong to your system will be processed as follow-ups. This could be use full when communicating between two instances of OTRS. So be sure of what you choose when you set this setting.</Description>
         <Description Lang="de">Identifikationsnummer für das installierte System. Jede Ticketnummer und ID einer http-Session beginnt mit dieser Nummer.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -32,7 +32,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="FQDN" Required="1" Valid="1">
-        <Description Lang="en">Full qualified domain name of your system.</Description>
+        <Description Lang="en">Please enter the fully qualified domain name of your system here. This setting is used as a variable, OTRS_CONFIG_FQDN which is found in all forms of messaging used by the application, to build links to the tickets within your system.</Description>
         <Description Lang="de">Vollständiger Domain Name des Systems.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -41,7 +41,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="HttpType" Required="1" Valid="1">
-        <Description Lang="en">If you want to use https protocoll instead of plain http, specify it here.</Description>
+        <Description Lang="en">Please enter the type of protocol, used by your web server, to serve the application. If you want to use the https protocol, instead of plain http, please specify it here. This has no affect on your web server's settings or behavior. This setting will not change the method of access to the application. If this setting is wrong, it will not prevent you from logging into the application. This setting is used as a variable, OTRS_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.</Description>
         <Description Lang="de">Legen Sie hier fest, ob das http- oder https-Protokoll innerhalb des Systems genutzt werden soll.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -53,7 +53,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="ScriptAlias" Required="1" Valid="1">
-        <Description Lang="en">Prefix to index.pl, like it is specified in your webserver configuration.</Description>
+        <Description Lang="en">Please enter the prefix to the scripts folder on your server as configured on your web server. This setting is used as a variable, OTRS_CONFIG_ScriptAlias which is found in all forms of messaging used by the application, to build links to the tickets within your system.</Description>
         <Description Lang="de">ScriptAlias zur Datei index.pl, wie in der Webserver-Konfiguration festgelegt.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -62,7 +62,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="AdminEmail" Required="1" Valid="1">
-        <Description Lang="en">Mailaddress of the system administrator.</Description>
+        <Description Lang="en">Please enter the system administrator's e-mail address. This is the e-mail address that will be displayed in error screens of the application.</Description>
         <Description Lang="de">Emailadresse des Systemadministrators.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -71,7 +71,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Organization" Required="1" Valid="1">
-        <Description Lang="en">If an organization or company name is specified, every outgoing message will contain a X-header entry with this string.</Description>
+        <Description Lang="en">If configured, all e-mails sent by the application will contain a X-Header with this  organization or company name.</Description>
         <Description Lang="de">Firma bzw. Name der Organisation. Jede ausgehende Nachricht wird mit einem X-Header-Eintrag für die Organisation und dem angegebenen Namen als Wert versehen.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -80,7 +80,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultCharset" Required="1" Valid="1">
-        <Description Lang="en">Default frontend charset. "utf-8" is a good choice for environments with many possible charsets. Specify another charset (e.g "iso-8859-1"), if only this specific charset is needed.</Description>
+        <Description Lang="en">Please configure the default charset for the web interface to use. The charset "utf-8" is a good choice for environments expecting many charsets. You can specify another charset here (i.e. "iso-8859-1"). Please be sure that you will not be receiving foreign e-mails, or text, otherwise this could lead to problems. This setting should represent that of the charset used to create the database or, in some cases, that of the database management system being used.</Description>
         <Description Lang="de">Standard-Zeichensatz des Frontends. Wählen Sie "utf-8", wenn verschiedene Zeichensätze für die Anzeige benötigt werden. Wird nur ein Zeichensatz eingesetzt (z. B. "iso-8859-1"), nutzen Sie bitte diese Einstellung.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -99,7 +99,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultLanguage" Required="1" Valid="1">
-        <Description Lang="en">The default frontend language. Possible values are ar_SA, bg, ct, cz, da, de, en, el, es, et, fi, fr, hu, it, nb_NO, nl, pl, pt, pt_BR ru, th, sk_SK, sv, tr, vi_VN and zh_CN.</Description>
+        <Description Lang="en">The default front-end language. Possible values that can be used are determined by the available language files on your system. Please see the next setting to determine which values can be used.</Description>
         <Description Lang="de">Standard Frontend Sprache. Mögliche Werte sind ar_SA, bg, ct, cz, da, de, en, el, es, et, fi, fr, hu, it, nb_NO, nl, pl, pt, pt_BR ru, th, sk_SK, sv, tr, vi_VN und zh_CN.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -108,7 +108,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultUsedLanguages" Required="1" Valid="1">
-        <Description Lang="en">Shortname for languages (short name = long name and file).</Description>
+        <Description Lang="en">These are all of the languages that are available to the application. The Key/Content pair links the front-end display name to the appropriate language PM file. The "Key" value should be the base-name of your PM file (i.e. de.pm is the file, then de is the "Key" value). The "Content" value should be the display name for the front-end. If you create your own language (see the developer documentation http://doc.otrs.org/ for more infomation), then you can add it here. Please remember, if you language uses non-ASCII characters, you must use the HTML equivalent for the proper display to occur (i.e. for the German oe = o umlaut, it is necessary to use the &amp;ouml; symbol).</Description>
         <Description Lang="de">Abkürzung für die Zuordnung der verschiedenen Sprachen (Abkürzung = Vollständiger Name und Datei).</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -144,7 +144,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultTheme" Required="1" Valid="1">
-        <Description Lang="en">Default frontend HTML theme (Standard or Lite).</Description>
+        <Description Lang="en">Please enter the default front-end (HTML) theme to be used by your agents and customers. The default themes are Standard and Lite. If you like, you can add your own theme. Please refer the the administrator manual located at http://doc.otrs.org/.</Description>
         <Description Lang="de">Standard Design der Weboberfläche (Standard oder Lite).</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -153,7 +153,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultTheme::HostBased" Required="0" Valid="0">
-        <Description Lang="en">Individual themes for Customers and Agents are possible in OTRS. These can be activated by a seperate domain. The field "Key" contains the domain or a regexp to match a domain. "Content" states the name of the theme being used.</Description>
+        <Description Lang="en">It is possible to configure different themes, for example to distinguish between agents and customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid theme on your system. Please see the example entries for the proper form of the regex.</Description>
         <Description Lang="de">OTRS bietet die Möglichkeit individuelle Themes für Kunden und Agents festzulegen. Diese können unter anderem durch den Aufruf einer extra dafür geschaffenen Domain angezeigt werden. Dabei enthält das Feld "Schlüssel" eine Domain oder eine RegExp die eine Domain matched. Das zugehörige Theme wird im Feld "Inhalt" angegeben.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -249,7 +249,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CheckMXRecord" Required="1" Valid="1">
-        <Description Lang="en">Check the MX record of email addresses before sending an email.</Description>
+        <Description Lang="en">Should the application check the MX record of e-mail addresses before sending an e-mail or submitting a telephone or e-mail ticket?</Description>
         <Description Lang="de">Überprüft den MX-Record von Emailadressen vor dem Versenden.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -261,7 +261,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CheckMXRecord::Nameserver" Required="0" Valid="0">
-        <Description Lang="en">Using a dedicated nameserver for "CheckMXRecord" lookups.</Description>
+        <Description Lang="en">If it is necessary for the application to use a dedicated DNS server for the "CheckMXRecord" look-ups, please configure this settng here.</Description>
         <Description Lang="de">Benutzung eines dedizierten Namenservers für "CheckMXRecord" abfragen.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -270,7 +270,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CheckEmailAddresses" Required="1" Valid="1">
-        <Description Lang="en">Check the syntax of email addresses?</Description>
+        <Description Lang="en">Should the application check the syntax of e-mail addresses?</Description>
         <Description Lang="de">Sollen Emailadressen auf korrekte Syntax überprüft werden?</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -282,7 +282,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CheckEmailValidAddress" Required="1" Valid="1">
-        <Description Lang="en">Regex for email addresses that aren't syntactically valid but necessary for the system, e.g. "root@localhost".</Description>
+        <Description Lang="en">If "CheckEmailAddresses" is set to "yes", it may be necessary to exclude some addresses from this check. Please enter a regex in this field for e-mail addresses, that aren't syntactically valid, but are necessary for the system (i.e. "root@localhost").</Description>
         <Description Lang="de">Regulärer Ausdruck für syntaktisch nicht korrekte Mailadressen, die aber trotzdem im System verwendet werden sollen, z. B. "root@localhost".</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -291,7 +291,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CheckEmailInvalidAddress" Required="1" Valid="1">
-        <Description Lang="en">Regex of not allowed email addresses.</Description>
+        <Description Lang="en">The regex found in this setting can filter all e-mail addresses that should not be used in the application.</Description>
         <Description Lang="de">Regulärer Ausdruck für nicht zulässige Emailadressen.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -2383,7 +2383,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="CGILogPrefix" Required="1" Valid="1">
-        <Description Lang="en">Log prefix for the CGI scripts of the system.</Description>
+        <Description Lang="en">Please enter the text that should appear in the log file to denote a CGI script entry.</Description>
         <Description Lang="de">Logprefix für die CGI-Skripte des Systems.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -2439,7 +2439,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DemoSystem" Required="1" Valid="1">
-        <Description Lang="en">Activate the demo system? If set to "Yes", agents can change their preferences like selection of language and theme via the agent frontend just for the current session. Also it isn't possible to change passwords.</Description>
+        <Description Lang="en">Should the system be run in "Demo" mode? If set to "Yes", agents can change preferences such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.</Description>
         <Description Lang="de">Demosystem aktivieren? Wenn diese Einstellung aktiviert wird, können Agenten nur für die aktuelle Sitzung ihre Sprache oder das Anzeige-Schema auswählen. Weiterhin können keine Kennwörter geändert werden.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -2451,7 +2451,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SwitchToUser" Required="1" Valid="1">
-        <Description Lang="en">Allow the admin to login as a selected user via the users administration.</Description>
+        <Description Lang="en">Should the administrators be allowed, via the users administration panel, to login as other users?</Description>
         <Description Lang="de">Dem Administrator erlauben sich über die Benutzerverwaltung mit dem Zugang eines Benutzers anzumelden.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -2841,7 +2841,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="NotificationSenderName" Required="1" Valid="1">
-        <Description Lang="en">Sender name for system notification messages.</Description>
+        <Description Lang="en">Please enter the name that should be used by the application when sending notifications. The sender name is used to build the complete display name for the notification master (i.e. "OTRS Notification Master" otrs@your.example.com). Notifications are messages such as en::Customer::QueueUpdate or en::Agnet::Move.</Description>
         <Description Lang="de">Absendername für Benachrichtigungsemails verwendet.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -2850,7 +2850,7 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="NotificationSenderEmail" Required="1" Valid="1">
-        <Description Lang="en">Mail address of sender for notification messages.</Description>
+        <Description Lang="en">Please enter the e-mail address that should be used by the application when sending notifications. The e-mail address is used to build the complete display name for the notification master (i.e. "OTRS Notification Master" otrs@your.example.com). You can use the OTRS_CONFIG_FQDN variable as set in your configuation, or choose another email address. Notifications are messages such as en::Customer::QueueUpdate or en::Agnet::Move.</Description>
         <Description Lang="de">Emailadresse die beim Versenden von Benachrichtigungsmails verwendet wird.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -2915,7 +2915,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="System::Permission" Required="1" Valid="1">
-        <Description Lang="en">The different system permissions of the agents in the system.</Description>
+        <Description Lang="en">These are the standard permissions available for agents within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.</Description>
         <Description Lang="de">Die unterschiedlichen Zugriffsrechte der Agenten innerhalb des Systems.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -2927,7 +2927,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="System::Customer::Permission" Required="1" Valid="1">
-        <Description Lang="en">The different system permissions for customers.</Description>
+        <Description Lang="en">These are the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.</Description>
         <Description Lang="de">Die verschiedenen Zugriffsrechte für die Kunden.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
@@ -5101,7 +5101,7 @@ Your OTRS Notification Master
         </Setting>
     </ConfigItem>
     <ConfigItem Name="LanguageDebug" Required="0" Valid="0">
-        <Description Lang="en">Write all strings which have no translation in STDERR.</Description>
+        <Description Lang="en">Should debugging be turned to debug your translation set? If this is set to "Yes" all strings (text) without translations are written to STDERR. This can be helpful when you are creating an new tranlation file. Otherwise, this option should remain set to "No".</Description>
         <Description Lang="de">Schreibt alle Strings die nicht übersetzt werden können in STDERR.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>

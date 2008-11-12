@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.210 2008-11-10 10:38:18 ub Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.211 2008-11-12 22:02:12 shb Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -6147,7 +6147,7 @@ $QData{"Signature"}
         </Setting>
     </ConfigItem>
     <ConfigItem Name="System::Permission" Required="1" Valid="1">
-        <Description Lang="en">The different system permissions of the agents in the system (also possible in addition is note, close, pending, customer, freetext, move, compose, responsible, forward and bounce - rw should be the latest in the line).</Description>
+        <Description Lang="en">These are the standard permissions available for agents within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Some other good permissions have provisioning already built-in. The following permissions can also be used: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.</Description>
         <Description Lang="de">Die unterschiedlichen Zugriffsrechte der Agenten innerhalb des Systems (möglich sind zusätzlich note, close, pending, customer, freetext, move, compose, responsible, forward und bounce - rw sollte das letzte in der Aufzählung bleiben).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
