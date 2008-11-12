@@ -2,7 +2,7 @@
 # CustomerSearchAutoComplete.dtl - provides autocomplete feature for customer search
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerSearchAutoComplete.dtl,v 1.2 2008-11-11 22:15:50 ub Exp $
+# $Id: CustomerSearchAutoComplete.dtl,v 1.3 2008-11-12 18:15:16 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -103,34 +103,25 @@
             if (document.compose.CustomerUserID) {
                 document.compose.CustomerUserID.value = oData.CustomerKey;
 
-                // set hidden field 'ExpandCustomerName2'
-                input = document.createElement('input');
-                input.setAttribute("type", "hidden");
-                input.setAttribute("name", "ExpandCustomerName2");
-                input.value = 1;
-                document.compose.appendChild(input);
-
                 // set hidden field 'CustomerUserOption'
                 var input = document.createElement('input');
                 input.setAttribute("type", "hidden");
                 input.setAttribute("name", "CustomerUserOption");
                 input.value = oData.CustomerKey;
                 document.compose.appendChild(input);
-
-                // submit the form
-                document.compose.submit();
-
-                return;
             }
 
             // get customer data for customer info table
-            var sURL = "?Action=AgentCustomerSearch&Subaction=CustomerInfo&CustomerUserID=" + oData.CustomerKey;
+            var sURL = "?Action=AgentCustomerSearch&Subaction=CustomerInfo&CustomerUserID=" + oData.CustomerKey + "&ParentAction=$QData{"ParentAction"}";
             var handleSuccess = function(o){
                 if (o.responseText !== undefined) {
                     var Response = YAHOO.lang.JSON.parse(o.responseText);
 
                     // set CustomerID
                     document.compose.CustomerID.value = Response.CustomerID;
+                    if ( document.getElementById('CustomerID') ) {
+                        document.getElementById('CustomerID').innerHTML = Response.CustomerID;
+                    }
 
                     // show customer info table
                     if ( document.getElementById('CustomerTable') ) {
@@ -138,7 +129,14 @@
                     }
 
                     // update services (trigger ServiceID change event)
-                    AJAXUpdate('AJAXUpdate', 'ServiceID', ['Dest', 'SelectedCustomerUser', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'OwnerAll', 'ResponsibleAll', 'TicketFreeText1', 'TicketFreeText2', 'TicketFreeText3', 'TicketFreeText4', 'TicketFreeText5', 'TicketFreeText6', 'TicketFreeText7', 'TicketFreeText8', 'TicketFreeText9', 'TicketFreeText10', 'TicketFreeText11', 'TicketFreeText12', 'TicketFreeText13', 'TicketFreeText14', 'TicketFreeText15', 'TicketFreeText16'], ['NewUserID', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'TicketFreeText1', 'TicketFreeText2', 'TicketFreeText3', 'TicketFreeText4', 'TicketFreeText5', 'TicketFreeText6', 'TicketFreeText7', 'TicketFreeText8', 'TicketFreeText9', 'TicketFreeText10', 'TicketFreeText11', 'TicketFreeText12', 'TicketFreeText13', 'TicketFreeText14', 'TicketFreeText15', 'TicketFreeText16']);
+                    if (window.AJAXUpdate) {
+                        AJAXUpdate('AJAXUpdate', 'ServiceID', ['Dest', 'SelectedCustomerUser', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'OwnerAll', 'ResponsibleAll', 'TicketFreeText1', 'TicketFreeText2', 'TicketFreeText3', 'TicketFreeText4', 'TicketFreeText5', 'TicketFreeText6', 'TicketFreeText7', 'TicketFreeText8', 'TicketFreeText9', 'TicketFreeText10', 'TicketFreeText11', 'TicketFreeText12', 'TicketFreeText13', 'TicketFreeText14', 'TicketFreeText15', 'TicketFreeText16'], ['NewUserID', 'NewResponsibleID', 'NextStateID', 'PriorityID', 'ServiceID', 'SLAID', 'TicketFreeText1', 'TicketFreeText2', 'TicketFreeText3', 'TicketFreeText4', 'TicketFreeText5', 'TicketFreeText6', 'TicketFreeText7', 'TicketFreeText8', 'TicketFreeText9', 'TicketFreeText10', 'TicketFreeText11', 'TicketFreeText12', 'TicketFreeText13', 'TicketFreeText14', 'TicketFreeText15', 'TicketFreeText16']);
+                    }
+
+                    // show customer tickets
+                    if ( document.getElementById('CustomerTickets') ) {
+                        document.getElementById('CustomerTickets').innerHTML = Response.CustomerTicketsHTMLString;
+                    }
                 }
             }
             var callback = {

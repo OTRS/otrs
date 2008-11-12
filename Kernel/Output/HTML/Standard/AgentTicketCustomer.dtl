@@ -2,7 +2,7 @@
 # AgentTicketCustomer.dtl - provides HTML for AgentCustomer.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.dtl,v 1.13 2008-11-10 10:36:58 ub Exp $
+# $Id: AgentTicketCustomer.dtl,v 1.14 2008-11-12 18:20:40 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -87,11 +87,13 @@ padding-bottom:2em;
       <br/>
       <table border="0" width="500" align="center" cellspacing="0" cellpadding="4">
         <tr>
-          <td class="contenthead">$Text{"Customer Data"}: $Data{"CustomerID"}</td>
+          <td class="contenthead">$Text{"Customer Data"}: <span id="CustomerID">$Data{"CustomerID"}</span></td>
         </tr>
         <tr>
           <td class="contentbody">
+            <div id="CustomerTable">
 $Data{"Table"}
+            </div>
           </td>
         </tr>
         <tr>
@@ -119,3 +121,9 @@ $Data{"Table"}
   </tr>
 </table>
 <!-- dtl:block:CustomerHistory -->
+
+<div id="CustomerTickets">
+<!-- dtl:block:CustomerTickets -->
+$Data{"CustomerTickets"}
+<!-- dtl:block:CustomerTickets -->
+</div>

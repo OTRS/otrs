@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.39 2008-11-10 10:33:31 ub Exp $
+# $Id: AgentTicketPhone.dtl,v 1.40 2008-11-12 18:18:48 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -400,3 +400,4 @@ function clear_field() {
   </tr>
 </table>
 <!-- end form -->
+<div id="CustomerTickets"></div>
