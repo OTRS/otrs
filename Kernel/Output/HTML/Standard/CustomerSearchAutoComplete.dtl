@@ -2,7 +2,7 @@
 # CustomerSearchAutoComplete.dtl - provides autocomplete feature for customer search
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerSearchAutoComplete.dtl,v 1.12 2008-11-13 19:09:44 ub Exp $
+# $Id: CustomerSearchAutoComplete.dtl,v 1.13 2008-11-13 19:30:47 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -117,7 +117,10 @@ function GetCustomerTickets( CustomerUserID ) {
         // add yui css to body tag
         document.body.className = "yui-skin-sam";
 
-        ReplaceOverviewControlLinks();
+        // get customer tickets for AgentTicketCustomer.pm
+        if (document.compose.CustomerUserID) {
+            GetCustomerTickets( document.compose.CustomerUserID.value );
+        }
 
         // define XHRDataSource for autocomplete object
         var myDataSource = new YAHOO.util.XHRDataSource('');
