@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCustomerSearch.pm - a module used for the autocomplete feature
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerSearch.pm,v 1.5 2008-11-13 14:49:39 martin Exp $
+# $Id: AgentCustomerSearch.pm,v 1.6 2008-11-13 18:11:39 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -45,19 +45,17 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Output;
-
-    # get needed params
-    for (qw(Search)) {
-        $Param{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
-    }
+    my $JSON = '';
 
     # search customers
     if ( !$Self->{Subaction} ) {
 
+        # get needed params
+        my $Search = $Self->{ParamObject}->GetParam( Param => 'Search' ) || '';
+
         # get customer list
         my %CustomerUserList = $Self->{CustomerUserObject}->CustomerSearch(
-            Search => $Param{Search},
+            Search => $Search,
         );
 
         # build data
@@ -78,33 +76,23 @@ sub Run {
         }
 
         # build JSON output
-        my $JSON = $Self->{LayoutObject}->JSON(
+        $JSON = $Self->{LayoutObject}->JSON(
             Data => {
                 Response => {
                     Results => \@Data,
                 }
             },
         );
-
-        return $Self->{LayoutObject}->Attachment(
-            ContentType => 'text/plain; charset=' . $Self->{LayoutObject}->{Charset},
-            Content     => $JSON,
-            Type        => 'inline',
-            NoCache     => 1,
-        );
     }
 
-    # get customer info and customer tickets
+    # get customer info
     elsif ( $Self->{Subaction} eq 'CustomerInfo' ) {
 
         # get params
         my $CustomerUserID = $Self->{ParamObject}->GetParam( Param => 'CustomerUserID' ) || '';
-        my $ParentAction = $Self->{ParamObject}->GetParam( Param => 'ParentAction' ) || '';
 
-        my $JSON = '';
         my $CustomerID = '';
         my $CustomerTableHTMLString = '';
-        my $CustomerTicketsHTMLString = '';
 
         # get customer data
         my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
@@ -123,6 +111,35 @@ sub Run {
                 Data => { %CustomerData },
                 Max  => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoComposeMaxSize'),
             );
+        }
+
+        # build JSON output
+        $JSON = $Self->{LayoutObject}->JSON(
+            Data => {
+                CustomerID => $CustomerID,
+                CustomerTableHTMLString => $CustomerTableHTMLString,
+            },
+        );
+    }
+
+    # get customer tickets
+    elsif ( $Self->{Subaction} eq 'CustomerTickets' ) {
+
+        # get params
+        my $CustomerUserID = $Self->{ParamObject}->GetParam( Param => 'CustomerUserID' ) || '';
+        my $ParentAction   = $Self->{ParamObject}->GetParam( Param => 'ParentAction' ) || '';
+
+        my $CustomerID = '';
+        my $CustomerTicketsHTMLString = '';
+
+        # get customer data
+        my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            User => $CustomerUserID,
+        );
+
+        # get customer id
+        if ( $CustomerData{UserCustomerID} ) {
+            $CustomerID = $CustomerData{UserCustomerID};
         }
 
         # get config of ParentAction
@@ -199,19 +216,19 @@ sub Run {
         # build JSON output
         $JSON = $Self->{LayoutObject}->JSON(
             Data => {
-                CustomerID => $CustomerID,
-                CustomerTableHTMLString   => $CustomerTableHTMLString,
                 CustomerTicketsHTMLString => $CustomerTicketsHTMLString,
             },
         );
-
-        return $Self->{LayoutObject}->Attachment(
-            ContentType => 'text/plain; charset=' . $Self->{LayoutObject}->{Charset},
-            Content     => $JSON || '',
-            Type        => 'inline',
-            NoCache     => 1,
-        );
     }
+
+    # send JSON response
+    return $Self->{LayoutObject}->Attachment(
+        ContentType => 'text/plain; charset=' . $Self->{LayoutObject}->{Charset},
+        Content     => $JSON || '',
+        Type        => 'inline',
+        NoCache     => 1,
+    );
+
 }
 
 1;
