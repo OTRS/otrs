@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCustomerSearch.pm - a module used for the autocomplete feature
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerSearch.pm,v 1.3 2008-11-12 18:13:26 ub Exp $
+# $Id: AgentCustomerSearch.pm,v 1.4 2008-11-13 14:21:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -148,106 +148,44 @@ sub Run {
                 push @CustomerIDs, $CustomerID;
             }
 
-            my @TicketIDs = ();
+            my $View    = $Self->{ParamObject}->GetParam( Param => 'View' );
+            my $SortBy  = $Self->{ParamObject}->GetParam( Param => 'SortBy' )  || 'Age';
+            my $OrderBy = $Self->{ParamObject}->GetParam( Param => 'OrderBy' ) || 'Down';
+
+            my @ViewableTickets = ();
             if (@CustomerIDs) {
-                @TicketIDs = $Self->{TicketObject}->TicketSearch(
+                @ViewableTickets = $Self->{TicketObject}->TicketSearch(
                     Result     => 'ARRAY',
                     Limit      => $ParentActionConfig->{ShownCustomerTickets},
+                    SortBy     => [ $SortBy ],
+                    OrderBy    => [ $OrderBy ],
+
                     CustomerID => \@CustomerIDs,
                     UserID     => $Self->{UserID},
                     Permission => 'ro',
                 );
             }
 
-            for my $TicketID (@TicketIDs) {
-                my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
-                    TicketID => $TicketID,
-                );
+            my $LinkSort = 'View=' . $Self->{LayoutObject}->Ascii2Html( Text => $View )
+                . '&';
+            my $LinkPage = 'View=' . $Self->{LayoutObject}->Ascii2Html( Text => $View )
+                . '&SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $SortBy )
+                . '&OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $OrderBy )
+                . '&';
+            my $LinkFilter = '&';
 
-                # get acl actions
-                $Self->{TicketObject}->TicketAcl(
-                    Data          => '-',
-                    Action        => $ParentActionConfig,
-                    TicketID      => $TicketID,
-                    ReturnType    => 'Action',
-                    ReturnSubType => '-',
-                    UserID        => $Self->{UserID},
-                );
-                my %AclAction = $Self->{TicketObject}->TicketAclActionData();
+            $CustomerTicketsHTMLString .= $Self->{LayoutObject}->TicketListShow(
+                TicketIDs   => \@ViewableTickets,
+                Total       => scalar @ViewableTickets,
+                Env         => $Self,
+                View        => $View,
+                TitleName   => 'Customer Tickets',
+                LinkPage    => $LinkPage,
+                LinkSort    => $LinkSort,
+                LinkFilter  => $LinkFilter,
+                Output      => 'raw',
+            );
 
-                # ticket title
-                if ( $Self->{ConfigObject}->Get('Ticket::Frontend::Title') ) {
-                    $Self->{LayoutObject}->Block(
-                        Name => 'Title',
-                        Data => { %Param, %Article },
-                    );
-                }
-
-                # run ticket menu modules
-                if (
-                    ref( $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') ) eq 'HASH'
-                    )
-                {
-                    my %Menus = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') };
-                    my $Counter = 0;
-                    for my $Menu ( sort keys %Menus ) {
-
-                        # load module
-                        if ( $Self->{MainObject}->Require( $Menus{$Menu}->{Module} ) ) {
-                            my $Object = $Menus{$Menu}->{Module}->new(
-                                %{$Self},
-                                TicketID => $TicketID,
-                            );
-
-                            # run module
-                            $Counter = $Object->Run(
-                                %Param,
-                                TicketID => $TicketID,
-                                Ticket   => \%Article,
-                                Counter  => $Counter,
-                                ACL      => \%AclAction,
-                                Config   => $Menus{$Menu},
-                            );
-                        }
-                        else {
-                            return $Self->{LayoutObject}->FatalError();
-                        }
-                    }
-                }
-                for (qw(From To Cc Subject)) {
-                    if ( $Article{$_} ) {
-                        $Self->{LayoutObject}->Block(
-                            Name => 'Row',
-                            Data => {
-                                Key   => $_,
-                                Value => $Article{$_},
-                            },
-                        );
-                    }
-                }
-                for ( 1 .. 3 ) {
-                    if ( $Article{"FreeText$_"} ) {
-                        $Self->{LayoutObject}->Block(
-                            Name => 'ArticleFreeText',
-                            Data => {
-                                Key   => $Article{"FreeKey$_"},
-                                Value => $Article{"FreeText$_"},
-                            },
-                        );
-                    }
-                }
-
-                $CustomerTicketsHTMLString .= $Self->{LayoutObject}->Output(
-                    TemplateFile => 'AgentTicketOverviewMedium',
-                    Data         => {
-                        %AclAction,
-                        %Article,
-                        Age =>
-                            $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' )
-                            || '',
-                        }
-                );
-            }
         }
 
         # build JSON output
