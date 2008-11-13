@@ -2,7 +2,7 @@
 # CustomerSearchAutoComplete.dtl - provides autocomplete feature for customer search
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerSearchAutoComplete.dtl,v 1.7 2008-11-13 17:30:32 ub Exp $
+# $Id: CustomerSearchAutoComplete.dtl,v 1.8 2008-11-13 17:42:16 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -43,10 +43,10 @@ function ReplaceOverviewControlLinks () {
         return;
     }
 
-    var SortFields = document.getElementsByName("OverviewControl");
+    var ControlFields = document.getElementsByName("OverviewControl");
 
-    for (var i = 0; i < SortFields.length; i++) {
-        var Element = SortFields[i];
+    for (var i = 0; i < ControlFields.length; i++) {
+        var Element = ControlFields[i];
         var Link = Element.href;
         Element.href = 'javascript:OverviewControlNew("' + Link +  '");';
     }
