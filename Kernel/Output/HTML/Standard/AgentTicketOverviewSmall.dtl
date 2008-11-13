@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.7 2008-11-13 14:31:42 martin Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.8 2008-11-13 17:30:03 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -43,39 +43,39 @@ function select_item_check () {
 #<!-- dtl:block:BulkHead -->
             </th>
             <th width="10%">$Config{"Ticket::Hook"}<br/>
-            <a name="OverviewSort" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Ticket&OrderBy=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
-            <a name="OverviewSort" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Ticket&OrderBy=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
+            <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Ticket&OrderBy=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
+            <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Ticket&OrderBy=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
             </th>
             <th width="15%">$Text{"Age"}<br/>
-            <a name="OverviewSort" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Age&OrderBy=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
-            <a name="OverviewSort" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Age&OrderBy=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
+            <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Age&OrderBy=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
+            <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Age&OrderBy=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
             </th>
 <!-- dtl:block:RecordEscalationHeader -->
             <th width="15%">$Text{"Escalation in"}<br/>
-            <a name="OverviewSort" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=EscalationTime&OrderBy=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
-            <a name="OverviewSort" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=EscalationTime&OrderBy=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
+            <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=EscalationTime&OrderBy=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
+            <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=EscalationTime&OrderBy=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
             </th>
 <!-- dtl:block:RecordEscalationHeader -->
             <th width="25%">$Text{"From"}/$Text{"Subject"}</th>
             <th width="5%">$Text{"State"}<br/>
-            <a name="OverviewSort" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=State&OrderBy=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
-            <a name="OverviewSort" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=State&OrderBy=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
+            <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=State&OrderBy=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
+            <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=State&OrderBy=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
             </th>
             <th width="5%">$Text{"Locked"}<br/>
-            <a name="OverviewSort" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Lock&OrderBy=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
-            <a name="OverviewSort" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Lock&OrderBy=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
+            <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Lock&OrderBy=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
+            <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Lock&OrderBy=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
             </th>
             <th width="10%">$Text{"Queue"}<br/>
-            <a name="OverviewSort" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Queue&OrderBy=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
-            <a name="OverviewSort" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Queue&OrderBy=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
+            <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Queue&OrderBy=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
+            <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Queue&OrderBy=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
             </th>
             <th width="15%">$Text{"Owner"}<br/>
-            <a name="OverviewSort" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Owner&OrderBy=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
-            <a name="OverviewSort" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Owner&OrderBy=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
+            <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Owner&OrderBy=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
+            <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=Owner&OrderBy=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
             </th>
             <th width="15%">$Text{"CustomerID"}<br/>
-            <a name="OverviewSort" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=CustomerID&OrderBy=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
-            <a name="OverviewSort" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=CustomerID&OrderBy=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
+            <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=CustomerID&OrderBy=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
+            <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=CustomerID&OrderBy=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
             </th>
           </tr>
 <!-- dtl:block:Record -->

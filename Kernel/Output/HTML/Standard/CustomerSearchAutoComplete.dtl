@@ -2,7 +2,7 @@
 # CustomerSearchAutoComplete.dtl - provides autocomplete feature for customer search
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerSearchAutoComplete.dtl,v 1.6 2008-11-13 16:23:30 ub Exp $
+# $Id: CustomerSearchAutoComplete.dtl,v 1.7 2008-11-13 17:30:32 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -37,22 +37,22 @@
 
 <script type="text/javascript">
 
-function ReplaceOverviewSortLinks () {
+function ReplaceOverviewControlLinks () {
 
     if ( ! document.getElementsByName("OverviewSort") ) {
         return;
     }
 
-    var SortFields = document.getElementsByName("OverviewSort");
+    var SortFields = document.getElementsByName("OverviewControl");
 
     for (var i = 0; i < SortFields.length; i++) {
         var Element = SortFields[i];
         var Link = Element.href;
-        Element.href = 'javascript:OverviewSortNew("' + Link +  '");';
+        Element.href = 'javascript:OverviewControlNew("' + Link +  '");';
     }
 }
 
-function OverviewSortNew( Link ) {
+function OverviewControlNew( Link ) {
 
    var AjaxRequest = YAHOO.util.Connect.asyncRequest('GET', Link, {
         success: function(o){
@@ -63,7 +63,7 @@ function OverviewSortNew( Link ) {
                 // show customer tickets
                 if ( document.getElementById('CustomerTickets') ) {
                     document.getElementById('CustomerTickets').innerHTML = Response.CustomerTicketsHTMLString;
-                    ReplaceOverviewSortLinks();
+                    ReplaceOverviewControlLinks();
                 }
             }
         }
@@ -80,7 +80,7 @@ function OverviewSortNew( Link ) {
         // add yui css to body tag
         document.body.className = "yui-skin-sam";
 
-        ReplaceOverviewSortLinks();
+        ReplaceOverviewControlLinks();
 
         // define XHRDataSource for autocomplete object
         var myDataSource = new YAHOO.util.XHRDataSource('');
@@ -169,7 +169,7 @@ function OverviewSortNew( Link ) {
                         document.getElementById('CustomerTickets').innerHTML = Response.CustomerTicketsHTMLString;
 
                         // replace links
-                        ReplaceOverviewSortLinks();
+                        ReplaceOverviewControlLinks();
                     }
 
                     // update services (trigger ServiceID change event)
