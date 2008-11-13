@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewMedium.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewMedium.pm,v 1.3 2008-11-04 18:27:00 martin Exp $
+# $Id: TicketOverviewMedium.pm,v 1.4 2008-11-13 14:20:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -51,12 +51,17 @@ sub Run {
         Name => 'TicketHeader',
         Data => \%Param,
     );
-    $Self->{LayoutObject}->Print(
-        Output => \$Self->{LayoutObject}->Output(
-            TemplateFile => 'AgentTicketOverviewMediumMeta',
-            Data => \%Param,
-        ),
+    my $OutputMeta = $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentTicketOverviewMediumMeta',
+        Data => \%Param,
     );
+    my $OutputRaw = '';
+    if ( !$Param{Output} ) {
+        $Self->{LayoutObject}->Print( Output => \$OutputMeta );
+    }
+    else {
+        $OutputRaw .= $OutputMeta;
+    }
     my $Output        = '';
     my $Counter       = 0;
     my $CounterOnSite = 0;
@@ -67,7 +72,12 @@ sub Run {
             push @TicketIDsShown, $TicketID;
             my $Output = $Self->_Show( TicketID => $TicketID, Counter => $CounterOnSite );
             $CounterOnSite++;
-            $Self->{LayoutObject}->Print( Output => $Output );
+            if ( !$Param{Output} ) {
+                $Self->{LayoutObject}->Print( Output => $Output );
+            }
+            else {
+                $OutputRaw .= ${ $Output };
+            }
         }
     }
 
@@ -83,14 +93,18 @@ sub Run {
                 Data => \%Param,
             );
         }
-        $Self->{LayoutObject}->Print(
-            Output => \$Self->{LayoutObject}->Output(
-                TemplateFile => 'AgentTicketOverviewMediumMeta',
-                Data => \%Param,
-            ),
+        my $OutputMeta = $Self->{LayoutObject}->Output(
+            TemplateFile => 'AgentTicketOverviewMediumMeta',
+            Data         => \%Param,
         );
+        if ( !$Param{Output} ) {
+            $Self->{LayoutObject}->Print( Output => \$OutputMeta );
+        }
+        else {
+            $OutputRaw .= $OutputMeta;
+        }
     }
-    return $Output;
+    return $OutputRaw;
 }
 
 sub _Show {

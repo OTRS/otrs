@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.34 2008-10-30 00:17:01 martin Exp $
+# $Id: LayoutTicket.pm,v 1.35 2008-11-13 14:20:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -819,7 +819,13 @@ sub TicketListShow {
         TemplateFile => 'AgentTicketOverviewNavBar',
         Data => { %Param, },
     );
-    $Param{Env}->{LayoutObject}->Print( Output => \$OutputNavBar );
+    my $OutputRaw = '';
+    if ( !$Param{Output} ) {
+        $Param{Env}->{LayoutObject}->Print( Output => \$OutputNavBar );
+    }
+    else {
+        $OutputRaw .= $OutputNavBar;
+    }
 
     # load module
     if ( !$Self->{MainObject}->Require( $Backends->{$View}->{Module} ) ) {
@@ -835,7 +841,12 @@ sub TicketListShow {
         PageShown => $PageShown,
         AllHits   => $Param{Total} || 0,
     );
-    $Param{Env}->{LayoutObject}->Print( Output => \$Output );
+    if ( !$Param{Output} ) {
+        $Param{Env}->{LayoutObject}->Print( Output => \$Output );
+    }
+    else {
+        $OutputRaw .= $Output;
+    }
 
     if ( 1 ) {
         $Param{Env}->{LayoutObject}->Block(
@@ -852,10 +863,15 @@ sub TicketListShow {
             TemplateFile => 'AgentTicketOverviewNavBarSmall',
             Data => { %Param, },
         );
-        $Param{Env}->{LayoutObject}->Print( Output => \$OutputNavBarSmall );
+        if ( !$Param{Output} ) {
+            $Param{Env}->{LayoutObject}->Print( Output => \$OutputNavBarSmall );
+        }
+        else {
+            $OutputRaw .= $OutputNavBarSmall;
+        }
     }
 
-    return '';
+    return $OutputRaw;
 }
 
 1;
