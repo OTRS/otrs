@@ -2,7 +2,7 @@
 # CustomerSearchAutoComplete.dtl - provides autocomplete feature for customer search
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerSearchAutoComplete.dtl,v 1.4 2008-11-12 18:51:52 ub Exp $
+# $Id: CustomerSearchAutoComplete.dtl,v 1.5 2008-11-13 10:15:33 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -85,14 +85,14 @@
 
         var AjaxRequest;
 
-        // Define custom itemSelect handler function
+        // define custom itemSelect handler function
         var itemSelectHandler = function(sType, aArgs) {
             var oMyAcInstance = aArgs[0];  // your AutoComplete instance
             var elListItem    = aArgs[1];  // the <li> element selected in the suggestion container
             var oData         = aArgs[2];  // object literal of data for the result
 
             // set autocomplete field with selected value
-            document.getElementById('myAutoCompleteInput').value = oData.CustomerValuePlain;
+            oMyAcInstance.getInputEl().value = oData.CustomerValuePlain;
 
             // set hidden field SelectedCustomerUser
             if (document.compose.SelectedCustomerUser) {
@@ -119,8 +119,8 @@
 
                     // set CustomerID
                     document.compose.CustomerID.value = Response.CustomerID;
-                    if ( document.getElementById('CustomerID') ) {
-                        document.getElementById('CustomerID').innerHTML = Response.CustomerID;
+                    if ( document.getElementById('ShowCustomerID') ) {
+                        document.getElementById('ShowCustomerID').innerHTML = Response.CustomerID;
                     }
 
                     // show customer info table
