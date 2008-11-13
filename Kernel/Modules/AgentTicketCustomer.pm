@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCustomer.pm - to set the ticket customer and show the customer history
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.pm,v 1.20 2008-11-12 18:21:11 ub Exp $
+# $Id: AgentTicketCustomer.pm,v 1.21 2008-11-13 19:39:59 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -191,6 +191,9 @@ sub Form {
 
     my $Output;
 
+    # get autocomplete config
+    my $AutoCompleteConfig = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
+
     # print header
     $Output .= $Self->{LayoutObject}->Header();
     $Output .= $Self->{LayoutObject}->NavigationBar();
@@ -201,7 +204,6 @@ sub Form {
     if ( $Self->{TicketID} ) {
 
         # set some customer search autocomplete properties
-        my $AutoCompleteConfig = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
         if ( $AutoCompleteConfig->{Active} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'CustomerSearchAutoComplete',
@@ -260,118 +262,120 @@ sub Form {
     }
 
     # get ticket ids with customer id
-    my @TicketIDs = ();
-    if ( $CustomerUserData{UserID} ) {
+    if ( !$AutoCompleteConfig->{Active} ) {
+        my @TicketIDs = ();
+        if ( $CustomerUserData{UserID} ) {
 
-        # get secondary customer ids
-        my @CustomerIDs
-            = $Self->{CustomerUserObject}->CustomerIDs( User => $CustomerUserData{UserID} );
+            # get secondary customer ids
+            my @CustomerIDs
+                = $Self->{CustomerUserObject}->CustomerIDs( User => $CustomerUserData{UserID} );
 
-        # get own customer id
-        if ( $CustomerUserData{UserCustomerID} ) {
-            push( @CustomerIDs, $CustomerUserData{UserCustomerID} );
-        }
-        if (@CustomerIDs) {
-            @TicketIDs = $Self->{TicketObject}->TicketSearch(
-                Result     => 'ARRAY',
-                CustomerID => \@CustomerIDs,
-                UserID     => $Self->{UserID},
-                Permission => 'ro',
-                Limit      => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerShownTickets')
-                    || '40',
-            );
-        }
-    }
-    elsif ($TicketCustomerID) {
-        @TicketIDs = $Self->{TicketObject}->TicketSearch(
-            Result     => 'ARRAY',
-            CustomerID => $TicketCustomerID,
-            UserID     => $Self->{UserID},
-            Permission => 'ro',
-            Limit => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerShownTickets') || '40',
-        );
-    }
-    if (@TicketIDs) {
-        $Self->{LayoutObject}->Block(
-            Name => 'CustomerHistory',
-            Data => {},
-        );
-    }
-    my $OutputTables = '';
-    for my $TicketID (@TicketIDs) {
-
-        # get ack actions
-        $Self->{TicketObject}->TicketAcl(
-            Data          => '-',
-            Action        => $Self->{Action},
-            TicketID      => $TicketID,
-            ReturnType    => 'Action',
-            ReturnSubType => '-',
-            UserID        => $Self->{UserID},
-        );
-        my %AclAction = $Self->{TicketObject}->TicketAclActionData();
-        my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle( TicketID => $TicketID );
-
-        # ticket title
-        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::Title') ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'Title',
-                Data => { %Param, %Article },
-            );
-        }
-
-        # run ticket menu modules
-        if ( ref( $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') ) eq 'HASH' ) {
-            my %Menus   = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') };
-            my $Counter = 0;
-            for my $Menu ( sort keys %Menus ) {
-
-                # load module
-                if ( $Self->{MainObject}->Require( $Menus{$Menu}->{Module} ) ) {
-                    my $Object
-                        = $Menus{$Menu}->{Module}->new( %{$Self}, TicketID => $Self->{TicketID}, );
-
-                    # run module
-                    $Counter = $Object->Run(
-                        %Param,
-                        TicketID => $TicketID,
-                        Ticket   => \%Article,
-                        Counter  => $Counter,
-                        ACL      => \%AclAction,
-                        Config   => $Menus{$Menu},
-                    );
-                }
-                else {
-                    return $Self->{LayoutObject}->FatalError();
-                }
+            # get own customer id
+            if ( $CustomerUserData{UserCustomerID} ) {
+                push( @CustomerIDs, $CustomerUserData{UserCustomerID} );
             }
-        }
-        for (qw(From To Cc Subject)) {
-            if ( $Article{$_} ) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'Row',
-                    Data => {
-                        Key   => $_,
-                        Value => $Article{$_},
-                    },
+            if (@CustomerIDs) {
+                @TicketIDs = $Self->{TicketObject}->TicketSearch(
+                    Result     => 'ARRAY',
+                    CustomerID => \@CustomerIDs,
+                    UserID     => $Self->{UserID},
+                    Permission => 'ro',
+                    Limit      => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerShownTickets')
+                        || '40',
                 );
             }
         }
-        $OutputTables .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AgentTicketOverviewMedium',
-            Data         => {
-                %AclAction, %Article,
-                Age => $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' ),
+        elsif ($TicketCustomerID) {
+            @TicketIDs = $Self->{TicketObject}->TicketSearch(
+                Result     => 'ARRAY',
+                CustomerID => $TicketCustomerID,
+                UserID     => $Self->{UserID},
+                Permission => 'ro',
+                Limit => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerShownTickets') || '40',
+            );
+        }
+        if (@TicketIDs) {
+            $Self->{LayoutObject}->Block(
+                Name => 'CustomerHistory',
+                Data => {},
+            );
+        }
+        my $OutputTables = '';
+        for my $TicketID (@TicketIDs) {
+
+            # get ack actions
+            $Self->{TicketObject}->TicketAcl(
+                Data          => '-',
+                Action        => $Self->{Action},
+                TicketID      => $TicketID,
+                ReturnType    => 'Action',
+                ReturnSubType => '-',
+                UserID        => $Self->{UserID},
+            );
+            my %AclAction = $Self->{TicketObject}->TicketAclActionData();
+            my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle( TicketID => $TicketID );
+
+            # ticket title
+            if ( $Self->{ConfigObject}->Get('Ticket::Frontend::Title') ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'Title',
+                    Data => { %Param, %Article },
+                );
+            }
+
+            # run ticket menu modules
+            if ( ref( $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') ) eq 'HASH' ) {
+                my %Menus   = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') };
+                my $Counter = 0;
+                for my $Menu ( sort keys %Menus ) {
+
+                    # load module
+                    if ( $Self->{MainObject}->Require( $Menus{$Menu}->{Module} ) ) {
+                        my $Object
+                            = $Menus{$Menu}->{Module}->new( %{$Self}, TicketID => $Self->{TicketID}, );
+
+                        # run module
+                        $Counter = $Object->Run(
+                            %Param,
+                            TicketID => $TicketID,
+                            Ticket   => \%Article,
+                            Counter  => $Counter,
+                            ACL      => \%AclAction,
+                            Config   => $Menus{$Menu},
+                        );
+                    }
+                    else {
+                        return $Self->{LayoutObject}->FatalError();
+                    }
                 }
+            }
+            for (qw(From To Cc Subject)) {
+                if ( $Article{$_} ) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'Row',
+                        Data => {
+                            Key   => $_,
+                            Value => $Article{$_},
+                        },
+                    );
+                }
+            }
+            $OutputTables .= $Self->{LayoutObject}->Output(
+                TemplateFile => 'AgentTicketOverviewMedium',
+                Data         => {
+                    %AclAction, %Article,
+                    Age => $Self->{LayoutObject}->CustomerAge( Age => $Article{Age}, Space => ' ' ),
+                    }
+            );
+        }
+
+        $Self->{LayoutObject}->Block(
+            Name => 'CustomerTickets',
+            Data => {
+                CustomerTickets => $OutputTables,
+            },
         );
     }
-
-    $Self->{LayoutObject}->Block(
-        Name => 'CustomerTickets',
-        Data => {
-            CustomerTickets => $OutputTables,
-        },
-    );
 
     $Output
         .= $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketCustomer', Data => \%Param );
