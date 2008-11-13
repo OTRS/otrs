@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.797 2008-11-10 10:48:27 ub Exp $
+# $Id: CHANGES,v 1.798 2008-11-13 12:04:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.4.0 beta1 (2009/??/??)
+ - (2008/11/12) Removed not supported PostMaster module
+    Kernel/System/PostMaster/Filter/AgentInterface.pm.
  - (2008/11/10) Added autocomplete feature for customer search.
  - (2008/10/30) Fixed bug# 2371 - "Panic, no user data!" message should be more
     verbose.
