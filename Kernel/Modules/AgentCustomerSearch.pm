@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCustomerSearch.pm - a module used for the autocomplete feature
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerSearch.pm,v 1.4 2008-11-13 14:21:18 martin Exp $
+# $Id: AgentCustomerSearch.pm,v 1.5 2008-11-13 14:49:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -159,20 +159,28 @@ sub Run {
                     Limit      => $ParentActionConfig->{ShownCustomerTickets},
                     SortBy     => [ $SortBy ],
                     OrderBy    => [ $OrderBy ],
-
                     CustomerID => \@CustomerIDs,
                     UserID     => $Self->{UserID},
                     Permission => 'ro',
                 );
             }
 
-            my $LinkSort = 'View=' . $Self->{LayoutObject}->Ascii2Html( Text => $View )
+            my $LinkSort = 'Subaction=' . $Self->{Subaction}
+                . '&View=' . $Self->{LayoutObject}->Ascii2Html( Text => $View )
+                . '&CustomerUserID=' . $Self->{LayoutObject}->Ascii2Html( Text => $CustomerUserID )
+                . '&ParentAction=' . $Self->{LayoutObject}->Ascii2Html( Text => $ParentAction )
                 . '&';
-            my $LinkPage = 'View=' . $Self->{LayoutObject}->Ascii2Html( Text => $View )
+            my $LinkPage = 'Subaction=' . $Self->{Subaction}
+                . '&View=' . $Self->{LayoutObject}->Ascii2Html( Text => $View )
                 . '&SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $SortBy )
                 . '&OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $OrderBy )
+                . '&CustomerUserID=' . $Self->{LayoutObject}->Ascii2Html( Text => $CustomerUserID )
+                . '&ParentAction=' . $Self->{LayoutObject}->Ascii2Html( Text => $ParentAction )
                 . '&';
-            my $LinkFilter = '&';
+            my $LinkFilter = 'Subaction=' . $Self->{Subaction}
+                . '&CustomerUserID=' . $Self->{LayoutObject}->Ascii2Html( Text => $CustomerUserID )
+                . '&ParentAction=' . $Self->{LayoutObject}->Ascii2Html( Text => $ParentAction )
+                . '&';
 
             $CustomerTicketsHTMLString .= $Self->{LayoutObject}->TicketListShow(
                 TicketIDs   => \@ViewableTickets,
