@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.112 2008-10-28 19:52:24 mh Exp $
+# $Id: Layout.pm,v 1.113 2008-11-14 11:34:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.112 $) [1];
+$VERSION = qw($Revision: 1.113 $) [1];
 
 =head1 NAME
 
@@ -2010,7 +2010,7 @@ sub OptionStrgHashRef {
     #        $SelectedID = 1;
     #    }
     # build select string
-    $Output .= "<select name=\"$Name\" $Multiple $OnStuff $Size>\n";
+    $Output .= "<select id=\"$Name\" name=\"$Name\" $Multiple $OnStuff $Size>\n";
     if ($PossibleNone) {
         $Output .= '<option VALUE="">-$Text{"none"}-</option>';
     }
@@ -2454,10 +2454,15 @@ sub _BuildSelectionAttributeRefCreate {
     my $AttributeRef = {};
 
     # check params with key and value
-    for (qw(Name Size Class OnChange OnClick)) {
+    for (qw(Name ID Size Class OnChange OnClick)) {
         if ( $Param{$_} ) {
             $AttributeRef->{ lc($_) } = $Param{$_};
         }
+    }
+
+    # add id attriubut
+    if ( !$AttributeRef->{id} ) {
+        $AttributeRef->{id} = $AttributeRef->{name};
     }
 
     # check params with key and value that need to be HTML-Quoted
@@ -3010,7 +3015,7 @@ sub PageNavBar {
     while ( $i <= ( $Pages - 1 ) ) {
         $i++;
         if ( $i <= ( $WindowStart + $WindowSize ) && $i > $WindowStart ) {
-            $Param{SearchNavBar} .= " <a href=\"$Self->{Baselink}$Param{Action}&$Param{Link}"
+            $Param{SearchNavBar} .= " <a name=\"OverviewControl\" href=\"$Self->{Baselink}$Param{Action}&$Param{Link}"
                 . "StartWindow=$WindowStart&StartHit=" . ( ( ( $i - 1 ) * $Param{PageShown} ) + 1 );
             if ( $Page == $i ) {
                 $Param{SearchNavBar} .= '" style="text-decoration:none"><b>' . $i . '</b>';
@@ -3397,7 +3402,7 @@ sub BuildDateSelection {
         );
     }
     else {
-        $Param{Year} = "<input type=\"text\" name=\""
+        $Param{Year} = "<input id=\"" . $Prefix . "Year\" " . "type=\"text\" name=\""
             . $Prefix
             . "Year\" size=\"4\" maxlength=\"4\" "
             . "value=\""
@@ -3419,9 +3424,7 @@ sub BuildDateSelection {
         );
     }
     else {
-        $Param{Month} = "<input type=\"text\" name=\""
-            . $Prefix
-            . "Month\" size=\"2\" maxlength=\"2\" "
+        $Param{Month} = "<input type=\"text\" name=\"" . $Prefix . "Month\" id=\"" . $Prefix . "Month\" size=\"2\" maxlength=\"2\" "
             . "value=\""
             . sprintf( "%02d", ( $Param{ $Prefix . 'Month' } || $M ) ) . "\"/>";
     }
@@ -3443,7 +3446,7 @@ sub BuildDateSelection {
     else {
         $Param{Day} = "<input type=\"text\" name=\""
             . $Prefix
-            . "Day\" size=\"2\" maxlength=\"2\" "
+            . "Day\" id=\"". $Prefix . "Day\" size=\"2\" maxlength=\"2\" "
             . "value=\""
             . ( $Param{ $Prefix . 'Day' } || $D ) . "\"/>";
     }
@@ -3468,7 +3471,7 @@ sub BuildDateSelection {
         else {
             $Param{Hour} = "<input type=\"text\" name=\""
                 . $Prefix
-                . "Hour\" size=\"2\" maxlength=\"2\" "
+                . "Hour\" id=\"". $Prefix . "Hour\" size=\"2\" maxlength=\"2\" "
                 . "value=\""
                 . sprintf(
                 "%02d",
@@ -3496,7 +3499,7 @@ sub BuildDateSelection {
         else {
             $Param{Minute} = "<input type=\"text\" name=\""
                 . $Prefix
-                . "Minute\" size=\"2\" maxlength=\"2\" "
+                . "Minute\" id=\"" . $Prefix . "Minute\" size=\"2\" maxlength=\"2\" "
                 . "value=\""
                 . sprintf(
                 "%02d",
@@ -3518,7 +3521,7 @@ sub BuildDateSelection {
         }
         $Output .= "<input type=\"checkbox\" name=\""
             . $Prefix
-            . "Used\" value=\"1\""
+            . "Used\" id=\"" . $Prefix . "Used\" value=\"1\""
             . $Checked
             . "/>&nbsp;";
     }
@@ -4006,6 +4009,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.112 $ $Date: 2008-10-28 19:52:24 $
+$Revision: 1.113 $ $Date: 2008-11-14 11:34:13 $
 
 =cut
