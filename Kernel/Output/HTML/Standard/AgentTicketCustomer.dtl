@@ -2,14 +2,13 @@
 # AgentTicketCustomer.dtl - provides HTML for AgentCustomer.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.dtl,v 1.15 2008-11-13 10:16:08 ub Exp $
+# $Id: AgentTicketCustomer.dtl,v 1.16 2008-11-14 11:05:23 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
-<!-- dtl:block:CustomerSearchAutoComplete -->
 $Include{"CustomerSearchAutoComplete"}
 
 <style type="text/css">
@@ -18,7 +17,6 @@ width:19.5em; /* set width here or else widget will expand to fit its container 
 padding-bottom:2em;
 }
 </style>
-<!-- dtl:block:CustomerSearchAutoComplete -->
 
 <!-- dtl:block:Customer -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
