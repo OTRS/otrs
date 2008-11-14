@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.353 2008-10-28 18:41:28 tt Exp $
+# $Id: Ticket.pm,v 1.354 2008-11-14 17:09:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.353 $) [1];
+$VERSION = qw($Revision: 1.354 $) [1];
 
 =head1 NAME
 
@@ -1701,11 +1701,6 @@ sub TicketEscalationDateCalculation {
         # next is not escalation for this type is given
         next if !$Ticket{$Key};
 
-        # next if ticket state is "pending*" for escalation update time (do not escalate in this state)
-        if ( $Key eq 'EscalationUpdateTime' && $Ticket{StateType} =~ /^(pending)/i ) {
-            next;
-        }
-
         # get time before or over escalation (escalation_destination_unixtime - now)
         my $TimeTillEscalation = $Ticket{$Key} - $Time;
 
@@ -1799,7 +1794,7 @@ sub TicketEscalationIndexBuild {
 
             # update ticket table
             $Self->{DBObject}->Do(
-                SQL => "UPDATE ticket SET $EscalationTimes{$Key} = ? WHERE id = ?",
+                SQL  => "UPDATE ticket SET $EscalationTimes{$Key} = ? WHERE id = ?",
                 Bind => [ \$Time, \$Ticket{TicketID}, ]
             );
         }
@@ -1882,9 +1877,9 @@ sub TicketEscalationIndexBuild {
         }
     }
 
-    # update update
+    # update update && do not escalate in "pending auto" for escalation update time
     my $UpdateTime = 0;
-    if ( !$Escalation{UpdateTime} ) {
+    if ( !$Escalation{UpdateTime} || $Ticket{StateType} =~ /^(pending)/i ) {
         $Self->{DBObject}->Do(
             SQL => 'UPDATE ticket SET escalation_update_time = ? WHERE id = ?',
             Bind => [ \$UpdateTime, \$Ticket{TicketID}, ]
@@ -6749,6 +6744,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.353 $ $Date: 2008-10-28 18:41:28 $
+$Revision: 1.354 $ $Date: 2008-11-14 17:09:49 $
 
 =cut

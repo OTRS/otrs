@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.798 2008-11-13 12:04:00 martin Exp $
+# $Id: CHANGES,v 1.799 2008-11-14 17:09:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -42,6 +42,9 @@
     availabe in online repository packages.
 
 2.3.4 (2008/??/??)
+ - (2008/11/14) Fixed bug# 3459 - Ticket in state "pending" are not escalating
+    but shown in escalation overview with incorect timestamp calculation
+    (34512 days).
  - (2008/11/10) Fixed bug# 3213 - Make rpc.pl work when using ModPerl.
  - (2008/11/10) Fixed bug# 3442 - HTML2Ascii is ignoring spaces on email
     processing.
