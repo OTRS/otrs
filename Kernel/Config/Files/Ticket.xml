@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.212 2008-11-13 12:05:23 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.213 2008-11-14 11:31:37 ub Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1979,15 +1979,6 @@
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::CustomerShownTickets" Required="0" Valid="1">
-        <Description Lang="en">Max. shown customer tickets in customer change mask.</Description>
-        <Description Lang="de">Max. gezeigte Kunden--Tickets in Kunden-Aendern-Maske.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
-        <Setting>
-            <String Regex="">25</String>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AccountTime" Required="1" Valid="1">
         <Description Lang="en">Activate time accounting.</Description>
         <Description Lang="de">Aktivieren der Zeiterfassung.</Description>
@@ -3047,15 +3038,6 @@
             </Array>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketPhone###ShownCustomerTickets" Required="0" Valid="1">
-        <Description Lang="en">Max. shown customer history tickets in phone-ticket mask.</Description>
-        <Description Lang="de">Max. gezeigte Kunden-Historie-Tickets in Telefon-Ticket (diese werden unterhalb der Telefon-Ticket-Maske angezeigt).</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewPhoneNew</SubGroup>
-        <Setting>
-            <String Regex="">10</String>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketPhone###TicketFreeText" Required="0" Valid="1">
         <Description Lang="en">Shown ticket free text options. Possible settings: 0 = Disabled, 1 = Enabled, 2 = Enabled and required.</Description>
         <Description Lang="de">Angezeigte Ticket-Frei-Text-Felder. Mögliche Einstellungen: 0 = Deaktiviert, 1 = Aktiviert, 2 = Aktiviert und Pflichtfeld.</Description>
@@ -3209,15 +3191,6 @@
                 <Item>pending reminder</Item>
                 <Item>closed</Item>
             </Array>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###ShownCustomerTickets" Required="0" Valid="1">
-        <Description Lang="en">Max. shown customer history tickets in email-ticket mask.</Description>
-        <Description Lang="de">Max. gezeigte Kunden-Historie-Tickets in Email-Ticket.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewEmailNew</SubGroup>
-        <Setting>
-            <String Regex="">10</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketEmail###TicketFreeText" Required="0" Valid="1">
