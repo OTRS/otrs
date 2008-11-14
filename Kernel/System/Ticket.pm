@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.346.2.4 2008-10-28 18:43:50 tt Exp $
+# $Id: Ticket.pm,v 1.346.2.5 2008-11-14 17:11:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.346.2.4 $) [1];
+$VERSION = qw($Revision: 1.346.2.5 $) [1];
 
 =head1 NAME
 
@@ -1663,11 +1663,6 @@ sub TicketEscalationDateCalculation {
 
     my %Ticket = %{ $Param{Ticket} };
 
-    # do no escalations on (merge|close|remove) tickets
-    if ( $Ticket{StateType} =~ /^(merge|close|remove)/i ) {
-        return;
-    }
-
     my %Escalation = ();
     if ( $Self->{ConfigObject}->Get('Ticket::Service') && $Ticket{SLAID} ) {
         %Escalation = $Self->{SLAObject}->SLAGet(
@@ -1882,9 +1877,9 @@ sub TicketEscalationIndexBuild {
         }
     }
 
-    # update update
+    # update update && do not escalate in "pending auto" for escalation update time
     my $UpdateTime = 0;
-    if ( !$Escalation{UpdateTime} ) {
+    if ( !$Escalation{UpdateTime} || $Ticket{StateType} =~ /^(pending)/i ) {
         $Self->{DBObject}->Do(
             SQL => 'UPDATE ticket SET escalation_update_time = ? WHERE id = ?',
             Bind => [ \$UpdateTime, \$Ticket{TicketID}, ]
@@ -6660,6 +6655,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.346.2.4 $ $Date: 2008-10-28 18:43:50 $
+$Revision: 1.346.2.5 $ $Date: 2008-11-14 17:11:17 $
 
 =cut
