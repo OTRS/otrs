@@ -2,7 +2,7 @@
 # CustomerSearchAutoComplete.dtl - provides autocomplete feature for customer search
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerSearchAutoComplete.dtl,v 1.14 2008-11-14 11:03:02 ub Exp $
+# $Id: CustomerSearchAutoComplete.dtl,v 1.15 2008-11-14 11:47:53 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -89,7 +89,7 @@ function GetCustomerInfo( CustomerUserID ) {
 }
 
 function GetCustomerTickets( CustomerUserID ) {
-    var sURL = "?Action=AgentCustomerSearch&Subaction=CustomerTickets&CustomerUserID=" + CustomerUserID + "&ParentAction=$QData{"ParentAction"}";
+    var sURL = "?Action=AgentCustomerSearch&Subaction=CustomerTickets&CustomerUserID=" + CustomerUserID;
     var AjaxRequestCustomerTickets = YAHOO.util.Connect.asyncRequest('GET', sURL, {
         success: function(o){
             if (o.responseText !== undefined) {

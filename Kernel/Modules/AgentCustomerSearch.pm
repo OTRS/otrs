@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCustomerSearch.pm - a module used for the autocomplete feature
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerSearch.pm,v 1.6 2008-11-13 18:11:39 ub Exp $
+# $Id: AgentCustomerSearch.pm,v 1.7 2008-11-14 11:47:24 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -127,7 +127,6 @@ sub Run {
 
         # get params
         my $CustomerUserID = $Self->{ParamObject}->GetParam( Param => 'CustomerUserID' ) || '';
-        my $ParentAction   = $Self->{ParamObject}->GetParam( Param => 'ParentAction' ) || '';
 
         my $CustomerID = '';
         my $CustomerTicketsHTMLString = '';
@@ -142,19 +141,8 @@ sub Run {
             $CustomerID = $CustomerData{UserCustomerID};
         }
 
-        # get config of ParentAction
-        my $ParentActionConfig = $Self->{ConfigObject}->Get("Ticket::Frontend::$ParentAction");
-
-        my $ShowCustomerTickets = 0;
-        if ( !defined $ParentActionConfig->{ShownCustomerTickets} ) {
-            $ShowCustomerTickets = 1;
-        }
-        else {
-            $ShowCustomerTickets = $ParentActionConfig->{ShownCustomerTickets};
-        }
-
         # show customer tickets
-        if ( $CustomerUserID && $ShowCustomerTickets ) {
+        if ( $CustomerUserID ) {
 
             # get secondary customer ids
             my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs(
@@ -173,7 +161,7 @@ sub Run {
             if (@CustomerIDs) {
                 @ViewableTickets = $Self->{TicketObject}->TicketSearch(
                     Result     => 'ARRAY',
-                    Limit      => $ParentActionConfig->{ShownCustomerTickets},
+                    Limit      => 250,
                     SortBy     => [ $SortBy ],
                     OrderBy    => [ $OrderBy ],
                     CustomerID => \@CustomerIDs,
@@ -185,18 +173,15 @@ sub Run {
             my $LinkSort = 'Subaction=' . $Self->{Subaction}
                 . '&View=' . $Self->{LayoutObject}->Ascii2Html( Text => $View )
                 . '&CustomerUserID=' . $Self->{LayoutObject}->Ascii2Html( Text => $CustomerUserID )
-                . '&ParentAction=' . $Self->{LayoutObject}->Ascii2Html( Text => $ParentAction )
                 . '&';
             my $LinkPage = 'Subaction=' . $Self->{Subaction}
                 . '&View=' . $Self->{LayoutObject}->Ascii2Html( Text => $View )
                 . '&SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $SortBy )
                 . '&OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $OrderBy )
                 . '&CustomerUserID=' . $Self->{LayoutObject}->Ascii2Html( Text => $CustomerUserID )
-                . '&ParentAction=' . $Self->{LayoutObject}->Ascii2Html( Text => $ParentAction )
                 . '&';
             my $LinkFilter = 'Subaction=' . $Self->{Subaction}
                 . '&CustomerUserID=' . $Self->{LayoutObject}->Ascii2Html( Text => $CustomerUserID )
-                . '&ParentAction=' . $Self->{LayoutObject}->Ascii2Html( Text => $ParentAction )
                 . '&';
 
             $CustomerTicketsHTMLString .= $Self->{LayoutObject}->TicketListShow(
