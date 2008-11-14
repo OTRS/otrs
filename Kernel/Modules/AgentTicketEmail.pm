@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.72 2008-11-12 18:18:06 ub Exp $
+# $Id: AgentTicketEmail.pm,v 1.73 2008-11-14 11:08:40 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -649,119 +649,6 @@ sub Run {
                 %ArticleFreeTextHTML,
             );
 
-            # show customer tickets
-            my @TicketIDs = ();
-            if ( $CustomerUser && $Self->{Config}->{ShownCustomerTickets} ) {
-
-                # get secondary customer ids
-                my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs( User => $CustomerUser );
-
-                # get own customer id
-                my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                    User => $CustomerUser,
-                );
-                if ( $CustomerData{UserCustomerID} ) {
-                    push( @CustomerIDs, $CustomerData{UserCustomerID} );
-                }
-                if (@CustomerIDs) {
-                    @TicketIDs = $Self->{TicketObject}->TicketSearch(
-                        Result     => 'ARRAY',
-                        Limit      => $Self->{Config}->{ShownCustomerTickets},
-                        CustomerID => \@CustomerIDs,
-                        UserID     => $Self->{UserID},
-                        Permission => 'ro',
-                    );
-                }
-            }
-            for my $TicketID (@TicketIDs) {
-                my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
-                    TicketID => $TicketID,
-                );
-
-                # get acl actions
-                $Self->{TicketObject}->TicketAcl(
-                    Data          => '-',
-                    Action        => $Self->{Action},
-                    TicketID      => $Article{TicketID},
-                    ReturnType    => 'Action',
-                    ReturnSubType => '-',
-                    UserID        => $Self->{UserID},
-                );
-                my %AclAction = $Self->{TicketObject}->TicketAclActionData();
-
-                # ticket title
-                if ( $Self->{ConfigObject}->Get('Ticket::Frontend::Title') ) {
-                    $Self->{LayoutObject}->Block(
-                        Name => 'Title',
-                        Data => { %Param, %Article },
-                    );
-                }
-
-                # run ticket menu modules
-                if (
-                    ref( $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') ) eq 'HASH'
-                    )
-                {
-                    my %Menus = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::PreMenuModule') };
-                    my $Counter = 0;
-                    for my $Menu ( sort keys %Menus ) {
-
-                        # load module
-                        if ( $Self->{MainObject}->Require( $Menus{$Menu}->{Module} ) ) {
-                            my $Object = $Menus{$Menu}->{Module}->new(
-                                %{$Self},
-                                TicketID => $Self->{TicketID},
-                            );
-
-                            # run module
-                            $Counter = $Object->Run(
-                                %Param,
-                                TicketID => $TicketID,
-                                Ticket   => \%Article,
-                                Counter  => $Counter,
-                                ACL      => \%AclAction,
-                                Config   => $Menus{$Menu},
-                            );
-                        }
-                        else {
-                            return $Self->{LayoutObject}->FatalError();
-                        }
-                    }
-                }
-                for (qw(From To Cc Subject)) {
-                    if ( $Article{$_} ) {
-                        $Self->{LayoutObject}->Block(
-                            Name => 'Row',
-                            Data => {
-                                Key   => $_,
-                                Value => $Article{$_},
-                            },
-                        );
-                    }
-                }
-                for ( 1 .. 3 ) {
-                    if ( $Article{"FreeText$_"} ) {
-                        $Self->{LayoutObject}->Block(
-                            Name => 'ArticleFreeText',
-                            Data => {
-                                Key   => $Article{"FreeKey$_"},
-                                Value => $Article{"FreeText$_"},
-                            },
-                        );
-                    }
-                }
-                $Output .= $Self->{LayoutObject}->Output(
-                    TemplateFile => 'AgentTicketOverviewMedium',
-                    Data         => {
-                        %AclAction,
-                        %Article,
-                        Age => $Self->{LayoutObject}->CustomerAge(
-                            Age   => $Article{Age},
-                            Space => ' '
-                        ),
-                        }
-                );
-            }
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
