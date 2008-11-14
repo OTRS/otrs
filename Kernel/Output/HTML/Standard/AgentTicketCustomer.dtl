@@ -2,14 +2,14 @@
 # AgentTicketCustomer.dtl - provides HTML for AgentCustomer.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.dtl,v 1.16 2008-11-14 11:05:23 ub Exp $
+# $Id: AgentTicketCustomer.dtl,v 1.17 2008-11-14 11:56:37 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
-$Include{"CustomerSearchAutoComplete"}
+$Include{"AgentCustomerSearch"}
 
 <style type="text/css">
 .myAutoComplete {
