@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.65.2.2 2008-10-15 15:37:59 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.65.2.3 2008-11-16 16:13:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.65.2.2 $) [1];
+$VERSION = qw($Revision: 1.65.2.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1445,42 +1445,6 @@ sub Run {
             my $CssClass = '';
             for my $Data (@List) {
 
-                # investigate a documentation file
-                my $DocumentationFile;
-                if ( $Data->{Filelist} && ref $Data->{Filelist} eq 'ARRAY' ) {
-
-                    # get default language
-                    my $DefaultLanguage = $Self->{ConfigObject}->Get('DefaultLanguage');
-
-                    # find documentation files
-                    FILE:
-                    for my $File ( @{ $Data->{Filelist} } ) {
-
-                        next FILE if !$File;
-                        next FILE if ref $File ne 'HASH';
-                        next FILE if !$File->{Location};
-
-                        my ( $Dir, $Filename )
-                            = $File->{Location} =~ m{ \A doc/ ( .+ ) / ( .+? .pdf ) }xmsi;
-
-                        next FILE if !$Dir;
-                        next FILE if !$Filename;
-
-                        # check the laguage of the documentation file
-                        if ( $Dir eq $Self->{UserLanguage} ) {
-                            $DocumentationFile = $File->{Location};
-                            last FILE;
-                        }
-                        elsif ( $Dir eq $DefaultLanguage ) {
-                            $DocumentationFile = $File->{Location};
-                            next FILE;
-                        }
-                        elsif ( $Dir eq 'en' && !$DocumentationFile ) {
-                            $DocumentationFile = $File->{Location};
-                        }
-                    }
-                }
-
                 # set output class
                 if ( $CssClass && $CssClass eq 'searchactive' ) {
                     $CssClass = 'searchpassive';
@@ -1496,6 +1460,20 @@ sub Run {
                         CssClass => $CssClass,
                     },
                 );
+
+                # show documentation link
+                my %DocFile = $Self->_DocumentationGet( Filelist => $Data->{Filelist} );
+                if (%DocFile) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'ShowRemotePackageDocumentation',
+                        Data => {
+                            %{$Data},
+                            Source => $Source,
+                            %DocFile,
+                        },
+                    );
+                }
+
                 if ( $Data->{Upgrade} ) {
                     $Self->{LayoutObject}->Block(
                         Name => 'ShowRemotePackageUpgrade',
@@ -1522,42 +1500,6 @@ sub Run {
             }
             my %Data = $Self->_MessageGet( Info => $Package->{Description} );
 
-            # investigate a documentation file
-            my $DocumentationFile;
-            if ( $Package->{Filelist} && ref $Package->{Filelist} eq 'ARRAY' ) {
-
-                # get default language
-                my $DefaultLanguage = $Self->{ConfigObject}->Get('DefaultLanguage');
-
-                # find documentation files
-                FILE:
-                for my $File ( @{ $Package->{Filelist} } ) {
-
-                    next FILE if !$File;
-                    next FILE if ref $File ne 'HASH';
-                    next FILE if !$File->{Location};
-
-                    my ( $Dir, $Filename )
-                        = $File->{Location} =~ m{ \A doc/ ( .+ ) / ( .+? .pdf ) }xmsi;
-
-                    next FILE if !$Dir;
-                    next FILE if !$Filename;
-
-                    # check the laguage of the documentation file
-                    if ( $Dir eq $Self->{UserLanguage} ) {
-                        $DocumentationFile = $File->{Location};
-                        last FILE;
-                    }
-                    elsif ( $Dir eq $DefaultLanguage ) {
-                        $DocumentationFile = $File->{Location};
-                        next FILE;
-                    }
-                    else {
-                        $DocumentationFile = $File->{Location};
-                    }
-                }
-            }
-
             $Self->{LayoutObject}->Block(
                 Name => 'ShowLocalPackage',
                 Data => {
@@ -1571,14 +1513,15 @@ sub Run {
                 },
             );
 
-            # output documentation link
-            if ($DocumentationFile) {
+            # show documentation link
+            my %DocFile = $Self->_DocumentationGet( Filelist => $Package->{Filelist} );
+            if (%DocFile) {
                 $Self->{LayoutObject}->Block(
                     Name => 'ShowLocalPackageDocumentation',
                     Data => {
                         Name     => $Package->{Name}->{Content},
                         Version  => $Package->{Version}->{Content},
-                        Location => $DocumentationFile,
+                        %DocFile,
                     },
                 );
             }
@@ -1704,6 +1647,75 @@ sub _MessageGet {
         Description => $Description,
         Title       => $Title,
     );
+}
+
+sub _DocumentationGet {
+    my ( $Self, %Param ) = @_;
+
+    return if !$Param{Filelist};
+    return if ref $Param{Filelist} ne 'ARRAY';
+
+    # find the correct user language documentation file
+    my $DocumentationFileUserLanguage;
+
+    # find the correct default language documentation file
+    my $DocumentationFileDefaultLanguage;
+
+    # find the correct en documentation file
+    my $DocumentationFile;
+
+    # remember fallback file
+    my $DocumentationFileFallback;
+
+    # get default language
+    my $DefaultLanguage = $Self->{ConfigObject}->Get('DefaultLanguage');
+
+    # find documentation files
+    FILE:
+    for my $File ( @{ $Param{Filelist} } ) {
+
+        next FILE if !$File;
+        next FILE if !$File->{Location};
+
+        my ( $Dir, $Filename ) = $File->{Location} =~ m{ \A doc/ ( .+ ) / ( .+? .pdf ) }xmsi;
+
+        next FILE if !$Dir;
+        next FILE if !$Filename;
+
+        # take user language first
+        if ( $Dir eq $Self->{UserLanguage} ) {
+            $DocumentationFileUserLanguage = $File->{Location};
+        }
+
+        # take default language next
+        elsif ( $Dir eq $DefaultLanguage ) {
+            $DocumentationFileDefaultLanguage = $File->{Location};
+        }
+
+        # take en language next
+        elsif ( $Dir eq 'en' && !$DocumentationFile ) {
+            $DocumentationFile = $File->{Location};
+        }
+
+        # remember fallback file
+        $DocumentationFileFallback = $File->{Location};
+    }
+
+    # set fallback file (if exists) as documentation file
+    my %Doc;
+    if ( $DocumentationFileUserLanguage ) {
+        $Doc{Location} = $DocumentationFileUserLanguage;
+    }
+    elsif ( $DocumentationFileDefaultLanguage ) {
+        $Doc{Location} = $DocumentationFileDefaultLanguage;
+    }
+    elsif ( $DocumentationFile ) {
+        $Doc{Location} = $DocumentationFile;
+    }
+    elsif ( $DocumentationFileFallback ) {
+        $Doc{Location} = $DocumentationFileFallback;
+    }
+    return %Doc;
 }
 
 1;

@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.44 2008-09-24 11:25:41 mh Exp $
+# $Id: AdminPackageManager.dtl,v 1.44.2.1 2008-11-16 16:13:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -287,7 +287,7 @@
                 </td>
                 <td class="$QData{"CssClass"}">
 <!-- dtl:block:ShowRemotePackageDocumentation -->
-                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=View&Name=$QData{"Name"}&Version=$QData{"Version"}&File=$QData{"File"}&Location=$LQData{"Location"}" title="$Text{"Module documentation"}"><img alt="$Text{"Module documentation"}" border="0" src="$Env{"Images"}pdf.png"></a>
+                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=ViewRemote&Source=$LQData{"Source"}&File=$LQData{"File"}&Name=$QData{"Name"}&Version=$QData{"Version"}&Location=$LQData{"Location"}" title="$Text{"Module documentation"}"><img alt="$Text{"Module documentation"}" border="0" src="$Env{"Images"}pdf.png"></a>
 <!-- dtl:block:ShowRemotePackageDocumentation -->
                 </td>
                 <td class="$QData{"CssClass"}">$QData{"Version"}</td>
