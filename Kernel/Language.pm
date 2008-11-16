@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Language.pm,v 1.58 2008-05-08 14:44:19 mh Exp $
+# $Id: Language.pm,v 1.58.2.1 2008-11-16 16:03:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.58.2.1 $) [1];
 
 =head1 NAME
 
@@ -93,6 +93,14 @@ sub new {
     $Self->{UserLanguage} = $Param{UserLanguage}
         || $Self->{ConfigObject}->Get('DefaultLanguage')
         || 'en';
+
+    # check if language is configured
+    my %Languages = %{ $Self->{ConfigObject}->Get('DefaultUsedLanguages') };
+    if ( !$Languages{ $Self->{UserLanguage} } ) {
+        $Self->{UserLanguage} = 'en';
+    }
+
+    # take time zone
     $Self->{TimeZone} = $Param{UserTimeZone} || $Param{TimeZone} || 0;
 
     # Debug
@@ -504,6 +512,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.58 $ $Date: 2008-05-08 14:44:19 $
+$Revision: 1.58.2.1 $ $Date: 2008-11-16 16:03:30 $
 
 =cut
