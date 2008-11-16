@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.762.2.24 2008-11-14 17:11:17 martin Exp $
+# $Id: CHANGES,v 1.762.2.25 2008-11-16 16:10:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,9 @@
 # --
 
 2.3.4 (2008/??/??)
+ - (2008/11/16) Fixed bug# 3461 - It's not possible to past an email into a
+    note screen, only 70 signs are possible for each line, it should be
+    increased to 78.
  - (2008/11/14) Fixed bug# 3459 - Ticket in state "pending" are not escalating
     but shown in escalation overview with incorect timestamp calculation
     (34512 days).
