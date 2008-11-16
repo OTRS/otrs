@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.23 2008-07-05 18:40:27 mh Exp $
+# $Id: AgentTicketMove.pm,v 1.23.2.1 2008-11-16 16:22:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.23.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -63,16 +63,13 @@ sub Run {
     }
 
     # check permissions
-    if (
-        !$Self->{TicketObject}->Permission(
-            Type     => 'move',
-            TicketID => $Self->{TicketID},
-            UserID   => $Self->{UserID}
-        )
-        )
-    {
-
-        # error screen, don't show ticket
+    my $Access = $Self->{TicketObject}->Permission(
+        Type     => 'move',
+        TicketID => $Self->{TicketID},
+        UserID   => $Self->{UserID}
+    );
+    # error screen, don't show ticket
+    if ( !$Access) {
         return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
     }
 
@@ -646,7 +643,17 @@ sub Run {
             );
         }
 
-        # redirect
+        # check permission for redirect
+        my $Access = $Self->{TicketObject}->Permission(
+            Type     => 'ro',
+            TicketID => $Self->{TicketID},
+            UserID   => $Self->{UserID}
+        );
+
+        # redirect to last overview if we do not have ro permissions anymore
+        if ( !$Access ) {
+            return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenOverview} );
+        }
         return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenView} );
     }
     else {
