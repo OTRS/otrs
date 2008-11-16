@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.pm,v 1.44 2008-10-01 09:04:32 martin Exp $
+# $Id: AdminQueue.pm,v 1.45 2008-11-16 18:18:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Signature;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -401,7 +401,7 @@ sub _Mask {
     );
     my %Calendar = ( '' => '-' );
 
-    for ( '', 1 .. 20 ) {
+    for ( '', 1 .. 50 ) {
         if ( $Self->{ConfigObject}->Get("TimeVacationDays::Calendar$_") ) {
             $Calendar{$_} = "Calendar $_ - "
                 . $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $_ . "Name" );
