@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.57 2008-10-30 00:17:01 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.58 2008-11-17 14:36:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Lock;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -79,6 +79,7 @@ sub Run {
         || $Self->{Config}->{'SortBy::Default'}
         || 'Age';
     my $OrderBy = $Self->{ParamObject}->GetParam( Param => 'OrderBy' );
+
     # if we have only one queue, check if there
     # is a setting in Config.pm for sorting
     if ( !$OrderBy ) {
@@ -172,8 +173,9 @@ sub Run {
             Total       => $NavBar{Total},
             Env         => $Self,
             NavBar      => \%NavBar,
+            Bulk        => 1,
             View        => $Self->{View},
-            TitleName   => 'Queue',
+            TitleName   => 'QueueView',
             TitleValue  => $NavBar{SelectedQueue},
             LinkPage    => $LinkPage,
             LinkSort    => $LinkSort,

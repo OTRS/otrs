@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewSmall.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewSmall.pm,v 1.3 2008-11-04 18:27:00 martin Exp $
+# $Id: TicketOverviewSmall.pm,v 1.4 2008-11-17 14:36:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -48,7 +48,7 @@ sub Run {
     }
 
     # check if bulk feature is enabled
-    if ( $Self->{ConfigObject}->Get( 'Ticket::Frontend::BulkFeature' ) ) {
+    if ( $Param{Bulk} && $Self->{ConfigObject}->Get( 'Ticket::Frontend::BulkFeature' ) ) {
         $Self->{LayoutObject}->Block(
             Name => 'BulkHead',
             Data => \%Param,
@@ -127,7 +127,7 @@ sub Run {
             );
 
             # check if bulk feature is enabled
-            if ( $Self->{ConfigObject}->Get( 'Ticket::Frontend::BulkFeature' ) ) {
+            if ( $Param{Bulk} && $Self->{ConfigObject}->Get( 'Ticket::Frontend::BulkFeature' ) ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'Bulk',
                     Data => { %Article, %UserInfo },
@@ -154,7 +154,7 @@ sub Run {
     }
 
     # check if bulk feature is enabled
-    if ( $Self->{ConfigObject}->Get( 'Ticket::Frontend::BulkFeature' ) ) {
+    if ( $Param{Bulk} && $Self->{ConfigObject}->Get( 'Ticket::Frontend::BulkFeature' ) ) {
         $Self->{LayoutObject}->Block(
             Name => 'BulkFooter',
             Data => \%Param,
