@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMailbox.pm - to view all locked tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMailbox.pm,v 1.29 2008-11-17 14:36:17 martin Exp $
+# $Id: AgentTicketMailbox.pm,v 1.30 2008-11-20 09:34:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -136,7 +136,11 @@ sub Run {
                 Permission     => 'ro',
             },
         },
-        Responsible => {
+    );
+
+    # check if feature is aktive
+    if ( $Self->{ConfigObject}->Get('Ticket::Responsible') ) {
+        $Filters{Responsible} = {
             Name   => 'Responsible',
             Prio   => 1004,
             Search => {
@@ -149,8 +153,34 @@ sub Run {
                 UserID         => 1,
                 Permission     => 'ro',
             },
-        },
-        Watched => {
+        };
+    }
+
+    # check if feature is aktive
+    my $Access = 0;
+    if ( $Self->{ConfigObject}->Get('Ticket::Watcher') ) {
+        my @Groups;
+        if ( $Self->{ConfigObject}->Get('Ticket::WatcherGroup') ) {
+            @Groups = @{ $Self->{ConfigObject}->Get('Ticket::WatcherGroup') };
+        }
+        # check access
+        if ( !@Groups ) {
+            $Access = 1;
+        }
+        else {
+            for my $Group (@Groups) {
+                if (
+                    $Self->{LayoutObject}->{"UserIsGroup[$Group]"}
+                    && $Self->{LayoutObject}->{"UserIsGroup[$Group]"} eq 'Yes'
+                    )
+                {
+                    $Access = 1;
+                }
+            }
+        }
+    }
+    if ($Access) {
+        $Filters{Watched} = {
             Name   => 'Watched',
             Prio   => 1005,
             Search => {
@@ -162,8 +192,8 @@ sub Run {
                 UserID       => 1,
                 Permission   => 'ro',
             },
-        },
-    );
+        };
+    }
 
     # check if filter is valid
     if ( !$Filters{ $Self->{Filter} } ) {
