@@ -2,7 +2,7 @@
 # RPM spec file for RedHat Linux of the OTRS package
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: redhat-otrs-8.0.spec,v 1.15 2008-02-04 09:55:04 ot Exp $
+# $Id: redhat-otrs-8.0.spec,v 1.16 2008-11-25 02:02:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,6 +22,7 @@ Requires:     perl perl-DBI perl-DBD-MySQL perl-URI mod_perl httpd mysql mysql-s
 Autoreqprov:  no
 Release:      01
 Source0:      otrs-%{version}.tar.bz2
+BuildArch:    noarch
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 
 %description

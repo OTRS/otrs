@@ -2,7 +2,7 @@
 # RPM spec file for SuSE Linux 8.x of the OTRS package
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: suse-otrs-8.0.spec,v 1.15 2008-02-04 14:31:14 ot Exp $
+# $Id: suse-otrs-8.0.spec,v 1.16 2008-11-25 02:02:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,6 +22,7 @@ Requires:     perl perl-DBI perl-GD perl-Net-DNS perl-Digest-MD5 apache mod_perl
 Autoreqprov:  on
 Release:      01
 Source0:      otrs-%{version}.tar.bz2
+BuildArch:    noarch
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 
 %description
