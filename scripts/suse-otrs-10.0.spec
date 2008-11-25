@@ -1,8 +1,8 @@
 # --
-# RPM spec file for SUSE Linux 9.1 of the OTRS package
+# RPM spec file for SUSE Linux 10.0 of the OTRS package
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: suse-otrs-10.0.spec,v 1.7 2008-02-04 09:55:04 ot Exp $
+# $Id: suse-otrs-10.0.spec,v 1.7.2.1 2008-11-25 01:54:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,6 +22,7 @@ Requires:     perl perl-DBI perl-GD perl-GDGraph perl-GDTextUtil perl-Net-DNS pe
 Autoreqprov:  on
 Release:      01
 Source0:      otrs-%{version}.tar.bz2
+BuildArch:    noarch
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 
 %description
