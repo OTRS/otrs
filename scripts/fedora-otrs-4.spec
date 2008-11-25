@@ -2,7 +2,7 @@
 # RPM spec file for Fedora of the OTRS package
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: fedora-otrs-4.spec,v 1.4 2008-02-04 09:55:04 ot Exp $
+# $Id: fedora-otrs-4.spec,v 1.4.2.1 2008-11-25 02:00:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,6 +22,7 @@ Requires:     perl perl-DBI perl-DBD-MySQL perl-URI mod_perl httpd mysql mysql-s
 Autoreqprov:  no
 Release:      01
 Source0:      otrs-%{version}.tar.bz2
+BuildArch:    noarch
 BuildRoot:    %{_tmppath}/%{name}-%{version}-build
 
 %description
