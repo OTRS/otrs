@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.762.2.26 2008-11-16 16:22:30 martin Exp $
+# $Id: CHANGES,v 1.762.2.27 2008-11-26 14:20:31 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.3.4 (2008/??/??)
+ - (2008/11/26) Fixed bug# 2582 - Ticket print and config option
+     Ticket::Frontend::ZoomExpandSort gets not recognized.
  - (2008/11/16) Fixed bug# 3452 - "permission denied" after moving tickets into
     a queue with no permissions.
  - (2008/11/16) Fixed bug# 3461 - It's not possible to past an email into a
