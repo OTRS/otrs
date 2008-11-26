@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - print layout for agent interface
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.pm,v 1.56.2.1 2008-11-26 14:13:26 ub Exp $
+# $Id: AgentTicketPrint.pm,v 1.56.2.2 2008-11-26 14:14:01 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.56.2.1 $) [1];
+$VERSION = qw($Revision: 1.56.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -114,7 +114,6 @@ sub Run {
         }
     }
 
-    $Self->{LogObject}->Dumper( '', '$Self->{ZoomExpandSort}', $Self->{ZoomExpandSort} );
     # resort article order
     if ( $Self->{ZoomExpandSort} eq 'reverse' ) {
         @ArticleBox = reverse(@ArticleBox);
