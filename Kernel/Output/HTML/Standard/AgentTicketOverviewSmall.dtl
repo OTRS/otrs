@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.9 2008-11-20 09:11:39 martin Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.10 2008-11-27 13:20:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -104,7 +104,7 @@ function select_item_check () {
 <!-- dtl:block:RecordEscalationFontStart -->
               <font color="red">
 <!-- dtl:block:RecordEscalationFontStart -->
-              $Data{"StartFont"}<div title="$Text{"Service Time"}: $QData{"EscalationTimeWorkingTime"} - $QData{"EscalationDestinationDate"}">$QData{"EscalationTimeHuman"}</div>$Data{"StopFont"}
+              $Data{"StartFont"}<div title="$Text{"Service Time"}: $QData{"EscalationTimeWorkingTime"} - $QData{"EscalationDestinationDate"}">$QData{"EscalationTimeHuman"}<br/>$TimeShort{"$QData{"UpdateTimeDestinationDate"}"}</div>$Data{"StopFont"}
 <!-- dtl:block:RecordEscalationFontStop -->
               </font>
 <!-- dtl:block:RecordEscalationFontStop -->

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewSmall.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewSmall.pm,v 1.4 2008-11-17 14:36:17 martin Exp $
+# $Id: TicketOverviewSmall.pm,v 1.5 2008-11-27 13:20:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -86,14 +86,16 @@ sub Run {
             );
 
             # escalation human times
-            $Article{EscalationTimeHuman} = $Self->{LayoutObject}->CustomerAgeInHours(
-                Age   => $Article{EscalationTime},
-                Space => ' ',
-            );
-            $Article{EscalationTimeWorkingTime} = $Self->{LayoutObject}->CustomerAgeInHours(
-                Age   => $Article{EscalationTimeWorkingTime},
-                Space => ' ',
-            );
+            if ( $Article{EscalationTime} ) {
+                $Article{EscalationTimeHuman} = $Self->{LayoutObject}->CustomerAgeInHours(
+                    Age   => $Article{EscalationTime},
+                    Space => ' ',
+                );
+                $Article{EscalationTimeWorkingTime} = $Self->{LayoutObject}->CustomerAgeInHours(
+                    Age   => $Article{EscalationTimeWorkingTime},
+                    Space => ' ',
+                );
+            }
 
             # customer info (customer name)
             my %CustomerData = ();
@@ -160,6 +162,10 @@ sub Run {
             Data => \%Param,
         );
     }
+    $Self->{LayoutObject}->Block(
+        Name => 'EscalationFooter',
+        Data => \%Param,
+    );
 
     # use template
     $Output .= $Self->{LayoutObject}->Output(
