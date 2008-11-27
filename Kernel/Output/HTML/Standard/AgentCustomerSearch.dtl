@@ -2,7 +2,7 @@
 # AgentCustomerSearch.dtl - provides autocomplete feature for customer search
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerSearch.dtl,v 1.1 2008-11-14 11:56:37 ub Exp $
+# $Id: AgentCustomerSearch.dtl,v 1.2 2008-11-27 22:56:49 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -158,11 +158,12 @@ function GetCustomerTickets( CustomerUserID ) {
         };
 
         // define various autocomplete properties
-        myAutoComp.minQueryLength = $QData{"minQueryLength"};
-        myAutoComp.queryDelay     = $QData{"queryDelay"};
-        myAutoComp.typeAhead      = $QData{"typeAhead"};
-        myAutoComp.animVert       = true;
-        myAutoComp.animSpeed      = 0.2;
+        myAutoComp.minQueryLength           = $QData{"minQueryLength"};
+        myAutoComp.queryDelay               = $QData{"queryDelay"};
+        myAutoComp.typeAhead                = $QData{"typeAhead"};
+        myAutoComp.maxResultsDisplayed      = $QData{"maxResultsDisplayed"};
+        myAutoComp.animVert                 = true;
+        myAutoComp.animSpeed                = 0.2;
         myAutoComp.allowBrowserAutocomplete = false;
 
         // define custom itemSelect handler function
