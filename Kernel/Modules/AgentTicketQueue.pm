@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.59 2008-11-27 07:11:16 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.60 2008-11-27 11:26:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Lock;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -75,10 +75,19 @@ sub Run {
         Value     => $Self->{RequestedURL},
     );
 
-    my $SortBy = $Self->{ParamObject}->GetParam( Param => 'SortBy' )
-        || $Self->{Config}->{'SortBy::Default'}
-        || 'Age';
-    my $OrderBy = $Self->{ParamObject}->GetParam( Param => 'OrderBy' );
+    my $SortDefault = 1;
+
+    my $SortBy = $Self->{Config}->{'SortBy::Default'} || 'Age';
+    if ( $Self->{ParamObject}->GetParam( Param => 'SortBy' ) ) {
+        $SortBy = $Self->{ParamObject}->GetParam( Param => 'SortBy' );
+        $SortDefault = 0;
+    }
+
+    my $OrderBy;
+    if ( $Self->{ParamObject}->GetParam( Param => 'OrderBy' ) ) {
+        $OrderBy = $Self->{ParamObject}->GetParam( Param => 'OrderBy' );
+        $SortDefault = 0;
+    }
 
     # if we have only one queue, check if there
     # is a setting in Config.pm for sorting
@@ -136,13 +145,27 @@ sub Run {
             $Permission = 'ro';
         }
 
+        # sort on default by using both (Priority, Age) else use only one sort argument
+        my %Sort;
+        if (!$SortDefault) {
+            %Sort = (
+                SortBy     => $SortBy,
+                OrderBy    => $OrderBy,
+            );
+        }
+        else {
+            %Sort = (
+                SortBy     => [ 'Priority', $SortBy ],
+                OrderBy    => [ 'Down', $OrderBy ],
+            );
+        }
+
         # search all tickets
         @ViewableTickets = $Self->{TicketObject}->TicketSearch(
             StateIDs   => \@ViewableStateIDs,
             LockIDs    => \@ViewableLockIDs,
             QueueIDs   => \@ViewableQueueIDs,
-            SortBy     => [ 'Priority', $SortBy ],
-            OrderBy    => [ $OrderBy, $OrderBy ],
+            %Sort,
             Permission => $Permission,
             UserID     => $Self->{UserID},
             Result     => 'ARRAY',
