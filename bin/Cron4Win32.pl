@@ -3,7 +3,7 @@
 # bin/Cron4Win32.pl - a script tp generate a full crontab file for OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Cron4Win32.pl,v 1.8 2008-02-01 12:49:20 tr Exp $
+# $Id: Cron4Win32.pl,v 1.9 2008-11-28 15:14:42 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 my $PerlExe   = "";
 my $Directory = "";
@@ -83,8 +83,8 @@ else {
     }
 
     closedir(DIR);
-    closedir(DAT);
-    closedir(DATOUT);
+    close(DAT);
+    close(DATOUT);
 
     1;
 }
