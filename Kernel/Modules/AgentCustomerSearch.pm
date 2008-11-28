@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCustomerSearch.pm - a module used for the autocomplete feature
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerSearch.pm,v 1.7 2008-11-14 11:47:24 ub Exp $
+# $Id: AgentCustomerSearch.pm,v 1.8 2008-11-28 11:27:02 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -153,7 +153,7 @@ sub Run {
                 push @CustomerIDs, $CustomerID;
             }
 
-            my $View    = $Self->{ParamObject}->GetParam( Param => 'View' );
+            my $View    = $Self->{ParamObject}->GetParam( Param => 'View' )    || '';
             my $SortBy  = $Self->{ParamObject}->GetParam( Param => 'SortBy' )  || 'Age';
             my $OrderBy = $Self->{ParamObject}->GetParam( Param => 'OrderBy' ) || 'Down';
 
