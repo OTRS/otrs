@@ -3,7 +3,7 @@
 # - allow no parent close till all clients are closed -
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CloseParentAfterClosedChilds.pm,v 1.11 2008-08-04 14:08:43 mh Exp $
+# $Id: CloseParentAfterClosedChilds.pm,v 1.12 2008-12-01 15:29:05 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use warnings;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -81,11 +81,11 @@ sub Run {
     return 1 if !$Links->{Ticket}->{ParentChild};
     return 1 if ref $Links->{Ticket}->{ParentChild} ne 'HASH';
     return 1 if !$Links->{Ticket}->{ParentChild}->{Target};
-    return 1 if ref $Links->{Ticket}->{ParentChild}->{Target} ne 'ARRAY';
+    return 1 if ref $Links->{Ticket}->{ParentChild}->{Target} ne 'HASH';
 
     my $OpenSubTickets = 0;
     TICKETID:
-    for my $TicketID ( sort @{ $Links->{Ticket}->{ParentChild}->{Target} } ) {
+    for my $TicketID ( sort keys %{ $Links->{Ticket}->{ParentChild}->{Target} } ) {
 
         # get ticket
         my %Ticket = $Self->{TicketObject}->TicketGet(
