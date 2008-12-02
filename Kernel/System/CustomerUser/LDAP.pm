@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.42 2008-06-27 17:11:06 mh Exp $
+# $Id: LDAP.pm,v 1.42.2.1 2008-12-02 09:51:00 tt Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Encode;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.42.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -696,7 +696,7 @@ sub _ConvertTo {
     }
 }
 
-sub Destroy {
+sub DESTROY {
     my ( $Self, %Param ) = @_;
 
     # take down session
