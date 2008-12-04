@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewSmall.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewSmall.pm,v 1.5 2008-11-27 13:20:43 martin Exp $
+# $Id: TicketOverviewSmall.pm,v 1.6 2008-12-04 14:52:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -27,7 +27,10 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (qw(ConfigObject LogObject DBObject LayoutObject UserID UserObject GroupObject TicketObject MainObject QueueObject)) {
+    for (
+        qw(ConfigObject LogObject DBObject LayoutObject UserID UserObject GroupObject TicketObject MainObject QueueObject)
+        )
+    {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -40,7 +43,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for ( qw(TicketIDs PageShown StartHit) ) {
+    for (qw(TicketIDs PageShown StartHit)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
@@ -48,7 +51,7 @@ sub Run {
     }
 
     # check if bulk feature is enabled
-    if ( $Param{Bulk} && $Self->{ConfigObject}->Get( 'Ticket::Frontend::BulkFeature' ) ) {
+    if ( $Param{Bulk} && $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature') ) {
         $Self->{LayoutObject}->Block(
             Name => 'BulkHead',
             Data => \%Param,
@@ -76,7 +79,7 @@ sub Run {
             # prepare subject
             $Article{Subject} = $Self->{TicketObject}->TicketSubjectClean(
                 TicketNumber => $Article{TicketNumber},
-                Subject      => $Article{Subject} || '',
+                Subject => $Article{Subject} || '',
             );
 
             # create human age
@@ -129,7 +132,7 @@ sub Run {
             );
 
             # check if bulk feature is enabled
-            if ( $Param{Bulk} && $Self->{ConfigObject}->Get( 'Ticket::Frontend::BulkFeature' ) ) {
+            if ( $Param{Bulk} && $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature') ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'Bulk',
                     Data => { %Article, %UserInfo },
@@ -156,7 +159,7 @@ sub Run {
     }
 
     # check if bulk feature is enabled
-    if ( $Param{Bulk} && $Self->{ConfigObject}->Get( 'Ticket::Frontend::BulkFeature' ) ) {
+    if ( $Param{Bulk} && $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature') ) {
         $Self->{LayoutObject}->Block(
             Name => 'BulkFooter',
             Data => \%Param,

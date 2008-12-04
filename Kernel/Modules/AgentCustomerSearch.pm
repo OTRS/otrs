@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentCustomerSearch.pm - a module used for the autocomplete feature
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerSearch.pm,v 1.8 2008-11-28 11:27:02 ub Exp $
+# $Id: AgentCustomerSearch.pm,v 1.9 2008-12-04 14:52:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -60,7 +60,11 @@ sub Run {
 
         # build data
         my @Data;
-        for my $CustomerUserID ( sort { $CustomerUserList{$a} cmp $CustomerUserList{$b} } keys %CustomerUserList ) {
+        for my $CustomerUserID (
+            sort { $CustomerUserList{$a} cmp $CustomerUserList{$b} }
+            keys %CustomerUserList
+            )
+        {
 
             # html quote characters like <>
             my $CustomerValuePlain = $CustomerUserList{$CustomerUserID};
@@ -80,7 +84,7 @@ sub Run {
             Data => {
                 Response => {
                     Results => \@Data,
-                }
+                    }
             },
         );
     }
@@ -91,7 +95,7 @@ sub Run {
         # get params
         my $CustomerUserID = $Self->{ParamObject}->GetParam( Param => 'CustomerUserID' ) || '';
 
-        my $CustomerID = '';
+        my $CustomerID              = '';
         my $CustomerTableHTMLString = '';
 
         # get customer data
@@ -108,7 +112,7 @@ sub Run {
         if ( $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoCompose') ) {
 
             $CustomerTableHTMLString = $Self->{LayoutObject}->AgentCustomerViewTable(
-                Data => { %CustomerData },
+                Data => {%CustomerData},
                 Max  => $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerInfoComposeMaxSize'),
             );
         }
@@ -116,7 +120,7 @@ sub Run {
         # build JSON output
         $JSON = $Self->{LayoutObject}->JSON(
             Data => {
-                CustomerID => $CustomerID,
+                CustomerID              => $CustomerID,
                 CustomerTableHTMLString => $CustomerTableHTMLString,
             },
         );
@@ -128,7 +132,7 @@ sub Run {
         # get params
         my $CustomerUserID = $Self->{ParamObject}->GetParam( Param => 'CustomerUserID' ) || '';
 
-        my $CustomerID = '';
+        my $CustomerID                = '';
         my $CustomerTicketsHTMLString = '';
 
         # get customer data
@@ -142,14 +146,15 @@ sub Run {
         }
 
         # show customer tickets
-        if ( $CustomerUserID ) {
+        if ($CustomerUserID) {
 
             # get secondary customer ids
             my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs(
                 User => $CustomerUserID,
             );
+
             # get own customer id
-            if ( $CustomerID ) {
+            if ($CustomerID) {
                 push @CustomerIDs, $CustomerID;
             }
 
@@ -162,8 +167,8 @@ sub Run {
                 @ViewableTickets = $Self->{TicketObject}->TicketSearch(
                     Result     => 'ARRAY',
                     Limit      => 250,
-                    SortBy     => [ $SortBy ],
-                    OrderBy    => [ $OrderBy ],
+                    SortBy     => [$SortBy],
+                    OrderBy    => [$OrderBy],
                     CustomerID => \@CustomerIDs,
                     UserID     => $Self->{UserID},
                     Permission => 'ro',
@@ -185,15 +190,15 @@ sub Run {
                 . '&';
 
             $CustomerTicketsHTMLString .= $Self->{LayoutObject}->TicketListShow(
-                TicketIDs   => \@ViewableTickets,
-                Total       => scalar @ViewableTickets,
-                Env         => $Self,
-                View        => $View,
-                TitleName   => 'Customer Tickets',
-                LinkPage    => $LinkPage,
-                LinkSort    => $LinkSort,
-                LinkFilter  => $LinkFilter,
-                Output      => 'raw',
+                TicketIDs  => \@ViewableTickets,
+                Total      => scalar @ViewableTickets,
+                Env        => $Self,
+                View       => $View,
+                TitleName  => 'Customer Tickets',
+                LinkPage   => $LinkPage,
+                LinkSort   => $LinkSort,
+                LinkFilter => $LinkFilter,
+                Output     => 'raw',
             );
 
         }

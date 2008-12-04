@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.76 2008-12-04 12:50:14 mh Exp $
+# $Id: AgentTicketEmail.pm,v 1.77 2008-12-04 14:52:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -613,21 +613,21 @@ sub Run {
                 NextStates               => $Self->_GetNextStates(
                     %GetParam,
                     CustomerUserID => $CustomerUser || '',
-                    QueueID => $NewQueueID || 1,
+                    QueueID        => $NewQueueID   || 1,
                 ),
-                NextState                => $NextState,
-                Priorities               => $Self->_GetPriorities(
+                NextState  => $NextState,
+                Priorities => $Self->_GetPriorities(
                     %GetParam,
                     CustomerUserID => $CustomerUser || '',
-                    QueueID => $NewQueueID || 1,
+                    QueueID        => $NewQueueID   || 1,
                 ),
-                Types                    => $Self->_GetTypes(
+                Types => $Self->_GetTypes(
                     %GetParam,
                     CustomerUserID => $CustomerUser || '',
-                    QueueID => $NewQueueID || 1,
+                    QueueID        => $NewQueueID   || 1,
                 ),
-                Services                 => $Services,
-                SLAs => $Self->_GetSLAs(
+                Services => $Services,
+                SLAs     => $Self->_GetSLAs(
                     %GetParam,
                     CustomerUserID => $CustomerUser || '',
                     QueueID => $NewQueueID || 1, %GetParam,
@@ -895,12 +895,12 @@ sub Run {
         my $NextStates = $Self->_GetNextStates(
             %GetParam,
             CustomerUserID => $CustomerUser || '',
-            QueueID => $QueueID || 1,
+            QueueID        => $QueueID      || 1,
         );
         my $Priorities = $Self->_GetPriorities(
             %GetParam,
             CustomerUserID => $CustomerUser || '',
-            QueueID => $QueueID || 1,
+            QueueID        => $QueueID      || 1,
         );
         my $Services = $Self->_GetServices(
             %GetParam,
@@ -910,7 +910,7 @@ sub Run {
         my $SLAs = $Self->_GetSLAs(
             %GetParam,
             CustomerUserID => $CustomerUser || '',
-            QueueID => $QueueID || 1,
+            QueueID        => $QueueID      || 1,
         );
 
         # get free text config options
@@ -1269,7 +1269,8 @@ sub _MaskEmailNew {
     }
 
     # build customer search autocomplete field
-    my $AutoCompleteConfig = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
+    my $AutoCompleteConfig
+        = $Self->{ConfigObject}->Get('Ticket::Frontend::CustomerSearchAutoComplete');
     if ( $AutoCompleteConfig->{Active} ) {
         $Self->{LayoutObject}->Block(
             Name => 'CustomerSearchAutoComplete',

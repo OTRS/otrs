@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.113 2008-11-14 11:34:13 martin Exp $
+# $Id: Layout.pm,v 1.114 2008-12-04 14:52:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.113 $) [1];
+$VERSION = qw($Revision: 1.114 $) [1];
 
 =head1 NAME
 
@@ -1117,27 +1117,28 @@ sub Redirect {
 
     # create & return output
     if ( $Param{ExtURL} ) {
+
         # external redirect
         $Param{Redirect} = $Param{ExtURL};
         return $Cookies . $Self->Output( TemplateFile => 'Redirect', Data => \%Param );
     }
 
     # Filter out hazardous characters
-    if ($Param{OP} =~ s{\x00}{}smxg) {
+    if ( $Param{OP} =~ s{\x00}{}smxg ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => 'Someone tries to use a null bytes (\x00) character in redirect!',
         );
     }
 
-    if ($Param{OP} =~ s{\r}{}smxg) {
+    if ( $Param{OP} =~ s{\r}{}smxg ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => 'Someone tries to use a carriage return character in redirect!',
         );
     }
 
-    if ($Param{OP} =~ s{\n}{}smxg) {
+    if ( $Param{OP} =~ s{\n}{}smxg ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => 'Someone tries to use a newline character in redirect!',
@@ -3015,7 +3016,8 @@ sub PageNavBar {
     while ( $i <= ( $Pages - 1 ) ) {
         $i++;
         if ( $i <= ( $WindowStart + $WindowSize ) && $i > $WindowStart ) {
-            $Param{SearchNavBar} .= " <a name=\"OverviewControl\" href=\"$Self->{Baselink}$Param{Action}&$Param{Link}"
+            $Param{SearchNavBar}
+                .= " <a name=\"OverviewControl\" href=\"$Self->{Baselink}$Param{Action}&$Param{Link}"
                 . "StartWindow=$WindowStart&StartHit=" . ( ( ( $i - 1 ) * $Param{PageShown} ) + 1 );
             if ( $Page == $i ) {
                 $Param{SearchNavBar} .= '" style="text-decoration:none"><b>' . $i . '</b>';
@@ -3424,7 +3426,12 @@ sub BuildDateSelection {
         );
     }
     else {
-        $Param{Month} = "<input type=\"text\" name=\"" . $Prefix . "Month\" id=\"" . $Prefix . "Month\" size=\"2\" maxlength=\"2\" "
+        $Param{Month}
+            = "<input type=\"text\" name=\""
+            . $Prefix
+            . "Month\" id=\""
+            . $Prefix
+            . "Month\" size=\"2\" maxlength=\"2\" "
             . "value=\""
             . sprintf( "%02d", ( $Param{ $Prefix . 'Month' } || $M ) ) . "\"/>";
     }
@@ -3446,7 +3453,7 @@ sub BuildDateSelection {
     else {
         $Param{Day} = "<input type=\"text\" name=\""
             . $Prefix
-            . "Day\" id=\"". $Prefix . "Day\" size=\"2\" maxlength=\"2\" "
+            . "Day\" id=\"" . $Prefix . "Day\" size=\"2\" maxlength=\"2\" "
             . "value=\""
             . ( $Param{ $Prefix . 'Day' } || $D ) . "\"/>";
     }
@@ -3471,7 +3478,7 @@ sub BuildDateSelection {
         else {
             $Param{Hour} = "<input type=\"text\" name=\""
                 . $Prefix
-                . "Hour\" id=\"". $Prefix . "Hour\" size=\"2\" maxlength=\"2\" "
+                . "Hour\" id=\"" . $Prefix . "Hour\" size=\"2\" maxlength=\"2\" "
                 . "value=\""
                 . sprintf(
                 "%02d",
@@ -4009,6 +4016,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.113 $ $Date: 2008-11-14 11:34:13 $
+$Revision: 1.114 $ $Date: 2008-12-04 14:52:37 $
 
 =cut

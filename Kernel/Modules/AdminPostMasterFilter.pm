@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPostMasterFilter.pm - to add/update/delete filters
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.pm,v 1.18 2008-10-24 11:23:02 martin Exp $
+# $Id: AdminPostMasterFilter.pm,v 1.19 2008-12-04 14:52:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::PostMaster::Filter;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,8 +41,8 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Name           = $Self->{ParamObject}->GetParam( Param => 'Name' ) || '';
-    my $OldName        = $Self->{ParamObject}->GetParam( Param => 'OldName' ) || '';
+    my $Name           = $Self->{ParamObject}->GetParam( Param => 'Name' )           || '';
+    my $OldName        = $Self->{ParamObject}->GetParam( Param => 'OldName' )        || '';
     my $StopAfterMatch = $Self->{ParamObject}->GetParam( Param => 'StopAfterMatch' ) || 0;
     my %GetParam       = ();
     for ( 1 .. 12 ) {
@@ -240,8 +240,8 @@ sub _MaskUpdate {
         );
     }
     $Data{"StopAfterMatch"} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data                => { 0 => 'No', 1 => 'Yes' },
-        Name                => 'StopAfterMatch',
+        Data => { 0 => 'No', 1 => 'Yes' },
+        Name => 'StopAfterMatch',
         SelectedID          => $Data{StopAfterMatch},
         LanguageTranslation => 1,
         HTMLQuote           => 1,

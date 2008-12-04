@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.pm,v 1.22 2008-10-29 19:49:37 martin Exp $
+# $Id: AgentTicketMerge.pm,v 1.23 2008-12-04 14:52:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -54,11 +54,12 @@ sub Run {
     }
 
     # check permissions
-    my $Access =  $Self->{TicketObject}->Permission(
+    my $Access = $Self->{TicketObject}->Permission(
         Type     => $Self->{Config}->{Permission},
         TicketID => $Self->{TicketID},
         UserID   => $Self->{UserID}
     );
+
     # error screen, don't show ticket
     if ( !$Access ) {
         return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );

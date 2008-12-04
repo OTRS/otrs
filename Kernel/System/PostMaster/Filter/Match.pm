@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter/Match.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Match.pm,v 1.13 2008-10-24 11:23:03 martin Exp $
+# $Id: Match.pm,v 1.14 2008-12-04 14:52:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -96,6 +96,7 @@ sub Run {
                     "Set param '$_' to '$Set{$_}' (Message-ID: $Param{GetParam}->{'Message-ID'}) ",
             );
         }
+
         # stop after match
         if ($StopAfterMatch) {
             $Self->{LogObject}->Log(

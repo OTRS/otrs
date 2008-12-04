@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.56 2008-10-28 19:33:51 tr Exp $
+# $Id: AdminGenericAgent.pm,v 1.57 2008-12-04 14:52:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -786,7 +786,7 @@ sub Run {
             %Param,
             Prefix   => 'TicketCloseTimeStart',
             Format   => 'DateInputFormat',
-            DiffTime => - 60 * 60 * 24 * 30,
+            DiffTime => -60 * 60 * 24 * 30,
         );
         $Param{TicketCloseTimeStop} = $Self->{LayoutObject}->BuildDateSelection(
             %Param,
@@ -824,7 +824,7 @@ sub Run {
             %Param,
             Prefix   => 'TicketPendingTimeStart',
             Format   => 'DateInputFormat',
-            DiffTime => - 60 * 60 * 24 * 30,
+            DiffTime => -60 * 60 * 24 * 30,
         );
         $Param{TicketPendingTimeStop} = $Self->{LayoutObject}->BuildDateSelection(
             %Param,
@@ -878,10 +878,12 @@ sub Run {
         );
 
         # check if the schedule options are selected
-        if (   !defined $Param{ScheduleDays}->[0]
+        if (
+            !defined $Param{ScheduleDays}->[0]
             || !defined $Param{ScheduleHours}->[0]
-            || !defined $Param{ScheduleMinutes}-[0]
-         ) {
+            || !defined $Param{ScheduleMinutes} - [0]
+            )
+        {
             $Self->{LayoutObject}->Block(
                 Name => 'JobScheduleWarning',
             );

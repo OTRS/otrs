@@ -2,7 +2,7 @@
 # PostMaster.t - PostMaster tests
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.t,v 1.12 2008-10-24 11:23:03 martin Exp $
+# $Id: PostMaster.t,v 1.13 2008-12-04 14:52:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -73,7 +73,7 @@ for my $NumberModule (qw(AutoIncrement DateChecksum Date Random)) {
         $Self->{PostMasterFilter}->FilterAdd(
             Name           => $FilterRand1,
             StopAfterMatch => 0,
-            Match => {
+            Match          => {
                 Subject => 'test',
                 To      => 'EMAILADDRESS:darthvader@otrs.org',
             },
@@ -86,7 +86,7 @@ for my $NumberModule (qw(AutoIncrement DateChecksum Date Random)) {
         $Self->{PostMasterFilter}->FilterAdd(
             Name           => $FilterRand2,
             StopAfterMatch => 0,
-            Match => {
+            Match          => {
                 Subject => 'test',
                 To      => 'EMAILADDRESS:darthvader2@otrs.org',
             },
@@ -98,7 +98,7 @@ for my $NumberModule (qw(AutoIncrement DateChecksum Date Random)) {
         $Self->{PostMasterFilter}->FilterAdd(
             Name           => $FilterRand3,
             StopAfterMatch => 0,
-            Match => {
+            Match          => {
                 Subject => 'test 1',
                 To      => 'otrs.org',
             },

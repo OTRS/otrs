@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.18 2008-11-05 07:54:21 martin Exp $
+# $Id: AgentTicketBulk.pm,v 1.19 2008-12-04 14:52:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -71,6 +71,7 @@ sub Run {
             UserID   => $Self->{UserID}
         );
         if ( !$Access ) {
+
             # error screen, don't show ticket
             $Output .= $Self->{LayoutObject}->Notify(
                 Info => 'No access to %s!", "$Quote{"' . $Ticket{TicketNumber} . '"}',
@@ -95,6 +96,7 @@ sub Run {
         }
 
         $Param{TicketIDHidden} .= "<input type='hidden' name='TicketID' value='$TicketID'>\n";
+
         # set lock
         $Self->{TicketObject}->LockSet(
             TicketID => $TicketID,
@@ -140,10 +142,10 @@ sub Run {
             }
 
             # add note
-            my $Subject = $Self->{ParamObject}->GetParam( Param => 'Subject' ) || '';
-            my $Body    = $Self->{ParamObject}->GetParam( Param => 'Body' )    || '';
+            my $Subject       = $Self->{ParamObject}->GetParam( Param => 'Subject' )       || '';
+            my $Body          = $Self->{ParamObject}->GetParam( Param => 'Body' )          || '';
             my $ArticleTypeID = $Self->{ParamObject}->GetParam( Param => 'ArticleTypeID' ) || '';
-            my $ArticleType = $Self->{ParamObject}->GetParam( Param => 'ArticleType' ) || '';
+            my $ArticleType   = $Self->{ParamObject}->GetParam( Param => 'ArticleType' )   || '';
 
             my $ArticleID;
             if ( $Subject && $Body && ( $ArticleTypeID || $ArticleType ) ) {
@@ -152,10 +154,10 @@ sub Run {
                     ArticleTypeID => $ArticleTypeID,
                     ArticleType   => $ArticleType,
                     SenderType    => 'agent',
-                    From          => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
-                    Subject       => $Subject,
-                    Body          => $Body,
-                    ContentType   => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
+                    From    => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
+                    Subject => $Subject,
+                    Body    => $Body,
+                    ContentType    => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
                     UserID         => $Self->{UserID},
                     HistoryType    => 'AddNote',
                     HistoryComment => '%%Bulk',
@@ -189,7 +191,7 @@ sub Run {
 
             # time units
             my $TimeUnits = $Self->{ParamObject}->GetParam( Param => 'TimeUnits' );
-            if ( $TimeUnits ) {
+            if ($TimeUnits) {
                 $Self->{TicketObject}->TicketAccountTime(
                     TicketID  => $TicketID,
                     ArticleID => $ArticleID,
@@ -247,8 +249,9 @@ sub Run {
             # link with
 
             # link togehter
-            my $LinkTogether       = $Self->{ParamObject}->GetParam( Param => 'LinkTogether' );
-            my $LinkTogetherParent = $Self->{ParamObject}->GetParam( Param => 'LinkTogetherParent' );
+            my $LinkTogether = $Self->{ParamObject}->GetParam( Param => 'LinkTogether' );
+            my $LinkTogetherParent
+                = $Self->{ParamObject}->GetParam( Param => 'LinkTogetherParent' );
             if ($LinkTogether) {
 
                 # link parent
@@ -354,7 +357,7 @@ sub _Mask {
         my %StateData = $Self->{TicketObject}->{StateObject}->StateGet( ID => $StateID );
         next if $StateData{TypeName} !~ /pending/i;
         $Param{DateString} = $Self->{LayoutObject}->BuildDateSelection(
-            Format   => 'DateInputFormatLong',
+            Format => 'DateInputFormatLong',
             DiffTime => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
             %Param,
         );
@@ -366,21 +369,21 @@ sub _Mask {
     }
 
     # owner list
-    my %AllGroupsMembers = $Self->{UserObject}->UserList(Type => 'Long', Valid => 1);
+    my %AllGroupsMembers = $Self->{UserObject}->UserList( Type => 'Long', Valid => 1 );
 
     # only put possible rw agents to possible owner list
-    if ( !$Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone')) {
+    if ( !$Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone') ) {
         my %AllGroupsMembersNew;
         for my $TicketID ( @{ $Param{TicketIDs} } ) {
-            my %Ticket      = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
-            my $GroupID     = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
-            my %GroupMember =  $Self->{GroupObject}->GroupMemberList(
+            my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
+            my $GroupID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
+            my %GroupMember = $Self->{GroupObject}->GroupMemberList(
                 GroupID => $GroupID,
                 Type    => 'rw',
                 Result  => 'HASH',
                 Cached  => 1,
             );
-            for my $UserID ( sort keys %GroupMember ){
+            for my $UserID ( sort keys %GroupMember ) {
                 next if !$AllGroupsMembers{$UserID};
                 $AllGroupsMembersNew{$UserID} = $AllGroupsMembers{$UserID};
             }
@@ -388,8 +391,8 @@ sub _Mask {
         }
     }
     $Param{OwnerStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data                => { '' => '-', %AllGroupsMembers },
-        Name                => 'OwnerID',
+        Data => { '' => '-', %AllGroupsMembers },
+        Name => 'OwnerID',
         LanguageTranslation => 0,
     );
 

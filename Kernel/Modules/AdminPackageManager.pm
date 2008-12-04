@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.69 2008-11-16 16:14:14 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.70 2008-12-04 14:52:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.70 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1520,8 +1520,8 @@ sub Run {
                 $Self->{LayoutObject}->Block(
                     Name => 'ShowLocalPackageDocumentation',
                     Data => {
-                        Name     => $Package->{Name}->{Content},
-                        Version  => $Package->{Version}->{Content},
+                        Name    => $Package->{Name}->{Content},
+                        Version => $Package->{Version}->{Content},
                         %DocFile,
                     },
                 );
@@ -1704,16 +1704,16 @@ sub _DocumentationGet {
 
     # set fallback file (if exists) as documentation file
     my %Doc;
-    if ( $DocumentationFileUserLanguage ) {
+    if ($DocumentationFileUserLanguage) {
         $Doc{Location} = $DocumentationFileUserLanguage;
     }
-    elsif ( $DocumentationFileDefaultLanguage ) {
+    elsif ($DocumentationFileDefaultLanguage) {
         $Doc{Location} = $DocumentationFileDefaultLanguage;
     }
-    elsif ( $DocumentationFile ) {
+    elsif ($DocumentationFile) {
         $Doc{Location} = $DocumentationFile;
     }
-    elsif ( $DocumentationFileFallback ) {
+    elsif ($DocumentationFileFallback) {
         $Doc{Location} = $DocumentationFileFallback;
     }
     return %Doc;

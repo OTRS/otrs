@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.35 2008-11-13 14:20:41 martin Exp $
+# $Id: LayoutTicket.pm,v 1.36 2008-12-04 14:52:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -662,7 +662,7 @@ sub TicketListShow {
     );
 
     # check backends
-    my $Backends = $Self->{ConfigObject}->Get( 'Ticket::Frontend::Overview' );
+    my $Backends = $Self->{ConfigObject}->Get('Ticket::Frontend::Overview');
     if ( !$Backends ) {
         return $Self->{LayoutObject}->FatalError(
             Message => 'Need config option Ticket::Frontend::Overview',
@@ -673,7 +673,7 @@ sub TicketListShow {
             Message => 'Config option Ticket::Frontend::Overview need to be HASH ref!',
         );
     }
-    if ( !$Backends->{ $View } ) {
+    if ( !$Backends->{$View} ) {
         return $Param{Env}->{LayoutObject}->FatalError(
             Message => "No Config option found for $View!",
         );
@@ -684,7 +684,7 @@ sub TicketListShow {
 
     # check start option, if higher then tickets available, set
     # it to the last ticket page (Thanks to Stefan Schmidt!)
-    my $PageShown = $Backends->{ $View }->{ PageShown };
+    my $PageShown = $Backends->{$View}->{PageShown};
     if ( $StartHit > $Param{Total} ) {
         my $Pages = int( ( $Param{Total} / $PageShown ) + 0.99999 );
         $StartHit = ( ( $Pages - 1 ) * $PageShown ) + 1;
@@ -715,7 +715,7 @@ sub TicketListShow {
     # filter
     if ( $Param{Filters} ) {
         my @NavBarFilters;
-        for my $Prio ( sort keys %{ $Param{Filters} }) {
+        for my $Prio ( sort keys %{ $Param{Filters} } ) {
             push @NavBarFilters, $Param{Filters}->{$Prio};
         }
         $Param{Env}->{LayoutObject}->Block(
@@ -725,13 +725,13 @@ sub TicketListShow {
             },
         );
         my $Count = 0;
-        for my $Filter ( @NavBarFilters ) {
+        for my $Filter (@NavBarFilters) {
             if ($Count) {
                 $Param{Env}->{LayoutObject}->Block(
                     Name => 'OverviewNavBarFilterItemSplit',
                     Data => {
                         %Param,
-                        %{ $Filter },
+                        %{$Filter},
                     },
                 );
             }
@@ -740,7 +740,7 @@ sub TicketListShow {
                 Name => 'OverviewNavBarFilterItem',
                 Data => {
                     %Param,
-                    %{ $Filter },
+                    %{$Filter},
                 },
             );
             if ( $Filter->{Filter} eq $Param{Filter} ) {
@@ -748,7 +748,7 @@ sub TicketListShow {
                     Name => 'OverviewNavBarFilterItemSelected',
                     Data => {
                         %Param,
-                        %{ $Filter },
+                        %{$Filter},
                     },
                 );
             }
@@ -757,7 +757,7 @@ sub TicketListShow {
                     Name => 'OverviewNavBarFilterItemSelectedNot',
                     Data => {
                         %Param,
-                        %{ $Filter },
+                        %{$Filter},
                     },
                 );
             }
@@ -765,7 +765,7 @@ sub TicketListShow {
     }
 
     # mode
-    for my $Backend ( keys %{ $Backends } ) {
+    for my $Backend ( keys %{$Backends} ) {
         $Param{Env}->{LayoutObject}->Block(
             Name => 'OverviewNavBarViewMode',
             Data => {
@@ -773,7 +773,7 @@ sub TicketListShow {
                 %{ $Backends->{$Backend} },
                 Filter => $Param{Filter},
                 View   => $Backend,
-            }
+                }
         );
         if ( $View eq $Backend ) {
             $Param{Env}->{LayoutObject}->Block(
@@ -783,7 +783,7 @@ sub TicketListShow {
                     %{ $Backends->{$Backend} },
                     Filter => $Param{Filter},
                     View   => $Backend,
-                }
+                    }
             );
         }
         else {
@@ -794,12 +794,12 @@ sub TicketListShow {
                     %{ $Backends->{$Backend} },
                     Filter => $Param{Filter},
                     View   => $Backend,
-                }
+                    }
             );
         }
     }
 
-    if ( %PageNav ) {
+    if (%PageNav) {
         $Param{Env}->{LayoutObject}->Block(
             Name => 'OverviewNavBarPageNavBar',
             Data => \%PageNav,
@@ -817,7 +817,7 @@ sub TicketListShow {
 
     my $OutputNavBar = $Param{Env}->{LayoutObject}->Output(
         TemplateFile => 'AgentTicketOverviewNavBar',
-        Data => { %Param, },
+        Data         => { %Param, },
     );
     my $OutputRaw = '';
     if ( !$Param{Output} ) {
@@ -848,12 +848,12 @@ sub TicketListShow {
         $OutputRaw .= $Output;
     }
 
-    if ( 1 ) {
+    if (1) {
         $Param{Env}->{LayoutObject}->Block(
             Name => 'OverviewNavBar',
             Data => \%Param,
         );
-        if ( %PageNav ) {
+        if (%PageNav) {
             $Param{Env}->{LayoutObject}->Block(
                 Name => 'OverviewNavBarPageNavBar',
                 Data => \%PageNav,
@@ -861,7 +861,7 @@ sub TicketListShow {
         }
         my $OutputNavBarSmall = $Param{Env}->{LayoutObject}->Output(
             TemplateFile => 'AgentTicketOverviewNavBarSmall',
-            Data => { %Param, },
+            Data         => { %Param, },
         );
         if ( !$Param{Output} ) {
             $Param{Env}->{LayoutObject}->Print( Output => \$OutputNavBarSmall );

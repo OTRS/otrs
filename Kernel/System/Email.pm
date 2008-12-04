@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.46 2008-10-14 09:31:39 martin Exp $
+# $Id: Email.pm,v 1.47 2008-12-04 14:52:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 =head1 NAME
 
@@ -251,7 +251,7 @@ sub Send {
         . $Self->{ConfigObject}->Get('Version') . ')';
     $Header{'X-Mailer'}     = $XMailer;
     $Header{'X-Powered-By'} = 'OTRS - Open Ticket Request System (http://otrs.org/)';
-    $Header{Type}           = $Param{Type} || 'text/plain';
+    $Header{Type} = $Param{Type} || 'text/plain';
 
     # define email encoding
     if ( $Param{Charset} && $Param{Charset} =~ /^iso/i ) {
@@ -297,10 +297,10 @@ sub Send {
 
     # set In-Reply-To and References header
     my $Header = $Entity->head;
-    if ($Param{InReplyTo}) {
+    if ( $Param{InReplyTo} ) {
         $Param{'In-Reply-To'} = $Param{InReplyTo};
     }
-    for my $Key ('In-Reply-To', 'References') {
+    for my $Key ( 'In-Reply-To', 'References' ) {
         next if !$Param{$Key};
         $Header->replace( $Key, $Param{$Key} );
     }
@@ -705,6 +705,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.46 $ $Date: 2008-10-14 09:31:39 $
+$Revision: 1.47 $ $Date: 2008-12-04 14:52:37 $
 
 =cut

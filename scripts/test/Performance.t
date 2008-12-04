@@ -2,7 +2,7 @@
 # scripts/test/Performance.t - a performance testscript
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Performance.t,v 1.7 2008-10-29 18:39:38 martin Exp $
+# $Id: Performance.t,v 1.8 2008-12-04 14:52:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -60,10 +60,10 @@ $Self->{QueueObject} = Kernel::System::Queue->new(
     MainObject   => $Self->{MainObject},
 );
 $Self->{GroupObject} = Kernel::System::Group->new(
-    ConfigObject   => $Self->{ConfigObject},
-    LogObject      => $Self->{LogObject},
-    MainObject     => $Self->{MainObject},
-    DBObject       => $Self->{DBObject},
+    ConfigObject => $Self->{ConfigObject},
+    LogObject    => $Self->{LogObject},
+    MainObject   => $Self->{MainObject},
+    DBObject     => $Self->{DBObject},
 );
 $Self->{UserObject} = Kernel::System::User->new(
     ConfigObject => $Self->{ConfigObject},
@@ -177,14 +177,14 @@ my @TicketIDs = $Self->{TicketObject}->TicketSearch(
 my $StartShowTicket = [ gettimeofday() ];
 
 $Self->{LayoutObject}->TicketListShow(
-    TicketIDs   => \@TicketIDs,
-    Total       => 40,
-    Env         => $Self,
-    View        => 'Preview',
-    TitleName   => 'Queue',
-    TitleValue  => 'SelectedQueue',
-    LinkPage    => 'LinkPage',
-    LinkSort    => 'LinkSort',
+    TicketIDs  => \@TicketIDs,
+    Total      => 40,
+    Env        => $Self,
+    View       => 'Preview',
+    TitleName  => 'Queue',
+    TitleValue => 'SelectedQueue',
+    LinkPage   => 'LinkPage',
+    LinkSort   => 'LinkSort',
 );
 
 $DiffTime = tv_interval($StartShowTicket);

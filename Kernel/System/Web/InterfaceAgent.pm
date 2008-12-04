@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceAgent.pm,v 1.36 2008-10-30 09:53:17 tr Exp $
+# $Id: InterfaceAgent.pm,v 1.37 2008-12-04 14:52:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -209,8 +209,9 @@ sub Run {
                     # show need user data error message
                     $Self->{LayoutObject}->Print(
                         Output => \$Self->{LayoutObject}->Login(
-                            Title   => 'Panic!',
-                            Message => 'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.',
+                            Title => 'Panic!',
+                            Message =>
+                                'Panic, user authenticated but no user data can be found in OTRS DB!! Perhaps the user is invalid.',
                             %Param,
                         ),
                     );
@@ -899,6 +900,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.36 $ $Date: 2008-10-30 09:53:17 $
+$Revision: 1.37 $ $Date: 2008-12-04 14:52:37 $
 
 =cut

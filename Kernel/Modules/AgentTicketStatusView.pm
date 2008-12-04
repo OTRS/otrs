@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketStatusView.pm - status for all open tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketStatusView.pm,v 1.16 2008-10-24 08:35:16 martin Exp $
+# $Id: AgentTicketStatusView.pm,v 1.17 2008-12-04 14:52:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -33,8 +33,8 @@ sub new {
 
     $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
 
-    $Self->{Filter}   = $Self->{ParamObject}->GetParam( Param => 'Filter' ) || 'Open';
-    $Self->{View}     = $Self->{ParamObject}->GetParam( Param => 'View' )   || '';
+    $Self->{Filter} = $Self->{ParamObject}->GetParam( Param => 'Filter' ) || 'Open';
+    $Self->{View}   = $Self->{ParamObject}->GetParam( Param => 'View' )   || '';
 
     return $Self;
 }
@@ -109,21 +109,21 @@ sub Run {
     # do shown tickets lookup
     my @ViewableTickets = $Self->{TicketObject}->TicketSearch(
         %{ $Filters{ $Self->{Filter} }->{Search} },
-        Result     => 'ARRAY',
+        Result => 'ARRAY',
     );
 
     # do nav bar lookup
     my %NavBarFilter;
     for my $Filter ( keys %Filters ) {
         my $Count = $Self->{TicketObject}->TicketSearch(
-            %{ $Filters{ $Filter }->{Search} },
-            Result     => 'COUNT',
+            %{ $Filters{$Filter}->{Search} },
+            Result => 'COUNT',
         );
 
-        $NavBarFilter{ $Filters{ $Filter }->{Prio} } = {
+        $NavBarFilter{ $Filters{$Filter}->{Prio} } = {
             Count  => $Count,
             Filter => $Filter,
-            %{ $Filters{ $Filter } },
+            %{ $Filters{$Filter} },
         };
     }
 
@@ -143,7 +143,7 @@ sub Run {
         . '&View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
         . '&';
     $Output .= $Self->{LayoutObject}->TicketListShow(
-        TicketIDs => \@ViewableTickets,
+        TicketIDs  => \@ViewableTickets,
         Total      => scalar @ViewableTickets,
         Env        => $Self,
         LinkPage   => $LinkPage,

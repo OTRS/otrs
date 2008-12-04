@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.60 2008-11-27 11:26:42 martin Exp $
+# $Id: AgentTicketQueue.pm,v 1.61 2008-12-04 14:52:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Lock;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -40,8 +40,8 @@ sub new {
     $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
 
     # some new objects
-    $Self->{StateObject}        = Kernel::System::State->new(%Param);
-    $Self->{LockObject}         = Kernel::System::Lock->new(%Param);
+    $Self->{StateObject} = Kernel::System::State->new(%Param);
+    $Self->{LockObject}  = Kernel::System::Lock->new(%Param);
 
     # get config data
     $Self->{ViewableSenderTypes} = $Self->{ConfigObject}->Get('Ticket::ViewableSenderTypes')
@@ -103,7 +103,7 @@ sub Run {
             }
         }
     }
-    if (!$OrderBy) {
+    if ( !$OrderBy ) {
         $OrderBy = $Self->{Config}->{'Order::Default'} || 'Up';
     }
 
@@ -128,7 +128,7 @@ sub Run {
 
     # get data (viewable tickets...)
     my @ViewableTickets = ();
-    if ( @ViewableQueueIDs ) {
+    if (@ViewableQueueIDs) {
 
         # viewable states
         my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType(
@@ -147,24 +147,24 @@ sub Run {
 
         # sort on default by using both (Priority, Age) else use only one sort argument
         my %Sort;
-        if (!$SortDefault) {
+        if ( !$SortDefault ) {
             %Sort = (
-                SortBy     => $SortBy,
-                OrderBy    => $OrderBy,
+                SortBy  => $SortBy,
+                OrderBy => $OrderBy,
             );
         }
         else {
             %Sort = (
-                SortBy     => [ 'Priority', $SortBy ],
-                OrderBy    => [ 'Down', $OrderBy ],
+                SortBy  => [ 'Priority', $SortBy ],
+                OrderBy => [ 'Down',     $OrderBy ],
             );
         }
 
         # search all tickets
         @ViewableTickets = $Self->{TicketObject}->TicketSearch(
-            StateIDs   => \@ViewableStateIDs,
-            LockIDs    => \@ViewableLockIDs,
-            QueueIDs   => \@ViewableQueueIDs,
+            StateIDs => \@ViewableStateIDs,
+            LockIDs  => \@ViewableLockIDs,
+            QueueIDs => \@ViewableQueueIDs,
             %Sort,
             Permission => $Permission,
             UserID     => $Self->{UserID},
@@ -192,17 +192,17 @@ sub Run {
     # show ticket's
     $Self->{LayoutObject}->Print(
         Output => \$Self->{LayoutObject}->TicketListShow(
-            TicketIDs   => \@ViewableTickets,
-            Total       => $NavBar{Total},
-            Env         => $Self,
-            NavBar      => \%NavBar,
-            Bulk        => 1,
-            View        => $Self->{View},
-            TitleName   => 'QueueView',
-            TitleValue  => $NavBar{SelectedQueue},
-            LinkPage    => $LinkPage,
-            LinkSort    => $LinkSort,
-            LinkFilter  => $LinkFilter,
+            TicketIDs  => \@ViewableTickets,
+            Total      => $NavBar{Total},
+            Env        => $Self,
+            NavBar     => \%NavBar,
+            Bulk       => 1,
+            View       => $Self->{View},
+            TitleName  => 'QueueView',
+            TitleValue => $NavBar{SelectedQueue},
+            LinkPage   => $LinkPage,
+            LinkSort   => $LinkSort,
+            LinkFilter => $LinkFilter,
         ),
     );
 

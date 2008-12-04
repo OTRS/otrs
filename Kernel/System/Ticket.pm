@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.354 2008-11-14 17:09:49 martin Exp $
+# $Id: Ticket.pm,v 1.355 2008-12-04 14:52:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.354 $) [1];
+$VERSION = qw($Revision: 1.355 $) [1];
 
 =head1 NAME
 
@@ -817,7 +817,7 @@ sub TicketGet {
         $Ticket{Age}            = $Self->{TimeObject}->SystemTime() - $Row[7];
         $Ticket{CreateTimeUnix} = $Row[7];
         $Ticket{Created} = $Self->{TimeObject}->SystemTime2TimeStamp( SystemTime => $Row[7] );
-        $Ticket{Changed}        = $Row[54];
+        $Ticket{Changed} = $Row[54];
         $Ticket{EscalationTime}         = $Row[63];
         $Ticket{EscalationUpdateTime}   = $Row[56];
         $Ticket{EscalationResponseTime} = $Row[61];
@@ -1715,7 +1715,8 @@ sub TicketEscalationDateCalculation {
 
             # set notification if notfy % is reached
             if ( $Escalation{ $Map{$Key} . 'Notify' } ) {
-                my $Reached = 100 - ( $WorkingTime / ( $Escalation{ $Map{$Key} . 'Time' } * 60 / 100 ) );
+                my $Reached
+                    = 100 - ( $WorkingTime / ( $Escalation{ $Map{$Key} . 'Time' } * 60 / 100 ) );
                 if ( $Reached >= $Escalation{ $Map{$Key} . 'Notify' } ) {
                     $Data{ $Map{$Key} . 'TimeNotification' } = 1;
                 }
@@ -1757,7 +1758,8 @@ sub TicketEscalationDateCalculation {
             $Data{EscalationDestinationIn} = '';
             if ( $WorkingTime >= 3600 ) {
                 $Data{EscalationDestinationIn} .= int( $WorkingTime / 3600 ) . 'h ';
-                $WorkingTime = $WorkingTime - ( int( $WorkingTime / 3600) * 3600 ); # remove already shown hours
+                $WorkingTime = $WorkingTime
+                    - ( int( $WorkingTime / 3600 ) * 3600 );    # remove already shown hours
             }
             if ( $WorkingTime <= 3600 || int( $WorkingTime / 60 ) ) {
                 $Data{EscalationDestinationIn} .= int( $WorkingTime / 60 ) . 'm';
@@ -1794,7 +1796,7 @@ sub TicketEscalationIndexBuild {
 
             # update ticket table
             $Self->{DBObject}->Do(
-                SQL  => "UPDATE ticket SET $EscalationTimes{$Key} = ? WHERE id = ?",
+                SQL => "UPDATE ticket SET $EscalationTimes{$Key} = ? WHERE id = ?",
                 Bind => [ \$Time, \$Ticket{TicketID}, ]
             );
         }
@@ -4065,7 +4067,7 @@ sub TicketSearch {
         }
 
         $SQLExt .= " AND th.create_time >= '"
-                . $Self->{DBObject}->Quote( $Param{TicketChangeTimeNewerDate} ) . "'";
+            . $Self->{DBObject}->Quote( $Param{TicketChangeTimeNewerDate} ) . "'";
     }
 
     # get tickets closed older then x minutes
@@ -6744,6 +6746,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.354 $ $Date: 2008-11-14 17:09:49 $
+$Revision: 1.355 $ $Date: 2008-12-04 14:52:37 $
 
 =cut

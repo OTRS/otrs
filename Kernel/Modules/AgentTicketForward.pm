@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.31 2008-10-14 09:33:39 martin Exp $
+# $Id: AgentTicketForward.pm,v 1.32 2008-12-04 14:52:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Web::UploadCache;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -442,8 +442,8 @@ sub Form {
         Attachments  => \@Attachments,
         %Data,
         %GetParam,
-        InReplyTo    => $Data{MessageID},
-        References   => "$Data{References} $Data{MessageID}",
+        InReplyTo  => $Data{MessageID},
+        References => "$Data{References} $Data{MessageID}",
         %TicketFreeTextHTML,
         %TicketFreeTimeHTML,
     );
@@ -678,7 +678,7 @@ sub SendEmail {
     );
 
     # error page
-    if ( !$ArticleID) {
+    if ( !$ArticleID ) {
         return $Self->{LayoutObject}->ErrorScreen( Comment => 'Please contact the admin.', );
     }
 

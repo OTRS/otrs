@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEscalationView.pm - status for all open tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEscalationView.pm,v 1.8 2008-11-17 14:36:17 martin Exp $
+# $Id: AgentTicketEscalationView.pm,v 1.9 2008-12-04 14:52:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -44,8 +44,8 @@ sub new {
     # viewable tickets a page
     $Self->{Limit} = $Self->{ParamObject}->GetParam( Param => 'Limit' ) || 1000;
 
-    $Self->{Filter}   = $Self->{ParamObject}->GetParam( Param => 'Filter' ) || 'Today';
-    $Self->{View}     = $Self->{ParamObject}->GetParam( Param => 'View' ) || '';
+    $Self->{Filter} = $Self->{ParamObject}->GetParam( Param => 'Filter' ) || 'Today';
+    $Self->{View}   = $Self->{ParamObject}->GetParam( Param => 'View' )   || '';
 
     return $Self;
 }
@@ -135,21 +135,21 @@ sub Run {
 
     my @ViewableTickets = $Self->{TicketObject}->TicketSearch(
         %{ $Filters{ $Self->{Filter} }->{Search} },
-        Result     => 'ARRAY',
-        Limit      => $Self->{Limit},
+        Result => 'ARRAY',
+        Limit  => $Self->{Limit},
     );
 
     my %NavBarFilter;
     for my $Filter ( keys %Filters ) {
         my @ViewableTickets = $Self->{TicketObject}->TicketSearch(
-            %{ $Filters{ $Filter }->{Search} },
-            Result     => 'ARRAY',
-            Limit      => $Self->{Limit},
+            %{ $Filters{$Filter}->{Search} },
+            Result => 'ARRAY',
+            Limit  => $Self->{Limit},
         );
-        $NavBarFilter{ $Filters{ $Filter }->{Prio} } = {
+        $NavBarFilter{ $Filters{$Filter}->{Prio} } = {
             Count  => scalar @ViewableTickets,
             Filter => $Filter,
-            %{ $Filters{ $Filter } },
+            %{ $Filters{$Filter} },
         };
     }
 
@@ -170,9 +170,9 @@ sub Run {
         . '&';
     $Output .= $Self->{LayoutObject}->TicketListShow(
         TicketIDs => \@ViewableTickets,
-        Total      => scalar @ViewableTickets,
+        Total     => scalar @ViewableTickets,
 
-        View       => $Self->{View},
+        View => $Self->{View},
 
         Filter     => $Self->{Filter},
         Filters    => \%NavBarFilter,
@@ -182,9 +182,9 @@ sub Run {
         TitleValue => $Self->{Filter},
         Bulk       => 1,
 
-        Env        => $Self,
-        LinkPage   => $LinkPage,
-        LinkSort   => $LinkSort,
+        Env      => $Self,
+        LinkPage => $LinkPage,
+        LinkSort => $LinkSort,
 
         Escalation => 1,
     );

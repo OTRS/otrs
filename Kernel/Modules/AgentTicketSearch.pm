@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.61 2008-11-17 14:36:17 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.62 2008-12-04 14:52:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::State;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -79,8 +79,8 @@ sub Run {
     my $Output;
 
     # get confid data
-    $Self->{StartHit}        = $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1;
-    $Self->{SearchLimit}     = $Self->{Config}->{SearchLimit}                        || 500;
+    $Self->{StartHit} = $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1;
+    $Self->{SearchLimit} = $Self->{Config}->{SearchLimit} || 500;
     $Self->{SortBy} = $Self->{ParamObject}->GetParam( Param => 'SortBy' )
         || $Self->{Config}->{'SortBy::Default'}
         || 'Age';
@@ -601,7 +601,8 @@ sub Run {
             my @CSVData = ();
 
             for (@ViewableTicketIDs) {
-            # get first article data
+
+                # get first article data
                 my %Data = $Self->{TicketObjectSearch}->ArticleFirstArticle( TicketID => $_ );
                 $Data{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Data{Age}, Space => ' ' );
 
@@ -627,13 +628,15 @@ sub Run {
                 }
 
                 # user info
-                my %UserInfo = $Self->{UserObject}->GetUserData( User => $Data{Owner}, Cached => 1);
+                my %UserInfo
+                    = $Self->{UserObject}->GetUserData( User => $Data{Owner}, Cached => 1 );
 
                 # merge row data
                 my %Info = (
                     %Data,
                     %UserInfo,
-                    AccountedTime => $Self->{TicketObjectSearch}->TicketAccountedTimeGet( TicketID => $_ ),
+                    AccountedTime =>
+                        $Self->{TicketObjectSearch}->TicketAccountedTimeGet( TicketID => $_ ),
                 );
 
                 # csv quote
@@ -705,7 +708,8 @@ sub Run {
                 $Data{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Data{Age}, Space => ' ' );
 
                 # customer info string
-                $UserInfo{CustomerName} = '(' . $UserInfo{CustomerName} . ')' if ( $UserInfo{CustomerName} );
+                $UserInfo{CustomerName} = '(' . $UserInfo{CustomerName} . ')'
+                    if ( $UserInfo{CustomerName} );
 
                 use Kernel::System::PDF;
                 $Self->{PDFObject} = Kernel::System::PDF->new( %{$Self} );
@@ -717,7 +721,7 @@ sub Run {
                     );
                     my $Owner = $Self->{LayoutObject}->Output(
                         Template =>
-                                '$QData{"Owner","30"} ($Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","30"})',
+                            '$QData{"Owner","30"} ($Quote{"$Data{"UserFirstname"} $Data{"UserLastname"}","30"})',
                         Data => \%Info
                     );
                     my $Customer = $Self->{LayoutObject}->Output(
@@ -900,13 +904,13 @@ sub Run {
         else {
 
             # start html page
-             my $Output = $Self->{LayoutObject}->Header();
+            my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Self->{LayoutObject}->Print( Output => \$Output );
             $Output = '';
 
-            $Self->{Filter}   = $Self->{ParamObject}->GetParam( Param => 'Filter' ) || '';
-            $Self->{View}     = $Self->{ParamObject}->GetParam( Param => 'View' ) || '';
+            $Self->{Filter} = $Self->{ParamObject}->GetParam( Param => 'Filter' ) || '';
+            $Self->{View}   = $Self->{ParamObject}->GetParam( Param => 'View' )   || '';
 
             # show ticket's
             my $LinkPage = 'Filter='
@@ -919,7 +923,7 @@ sub Run {
             my $LinkSort = 'Filter='
                 . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Filter} )
                 . '&View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
-                . '&Profile='.$Self->{Profile}.'&TakeLastSearch=1&Subaction=Search'
+                . '&Profile=' . $Self->{Profile} . '&TakeLastSearch=1&Subaction=Search'
                 . '&';
             my $LinkFilter = 'TakeLastSearch=1&Subaction=Search&Profile='
                 . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Profile} )
@@ -928,16 +932,17 @@ sub Run {
                 . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{Profile} )
                 . '&TakeLastSearch=1&';
 
-            my $FilterLink = 'SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{SortBy} )
+            my $FilterLink
+                = 'SortBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{SortBy} )
                 . '&OrderBy=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{OrderBy} )
                 . '&View=' . $Self->{LayoutObject}->Ascii2Html( Text => $Self->{View} )
-                . '&Profile='.$Self->{Profile}.'&TakeLastSearch=1&Subaction=Search'
+                . '&Profile=' . $Self->{Profile} . '&TakeLastSearch=1&Subaction=Search'
                 . '&';
             $Output .= $Self->{LayoutObject}->TicketListShow(
                 TicketIDs => \@ViewableTicketIDs,
-                Total      => scalar @ViewableTicketIDs,
+                Total     => scalar @ViewableTicketIDs,
 
-                View       => $Self->{View},
+                View => $Self->{View},
 
                 Env        => $Self,
                 LinkPage   => $LinkPage,
@@ -945,8 +950,8 @@ sub Run {
                 LinkFilter => $LinkFilter,
                 LinkBack   => $LinkBack,
 
-                TitleName  => 'Search Result',
-                Bulk       => 1,
+                TitleName => 'Search Result',
+                Bulk      => 1,
 
                 Filter     => $Self->{Filter},
                 FilterLink => $FilterLink,
@@ -1042,9 +1047,9 @@ sub MaskForm {
     );
     $Param{'ResultFormStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
-            Normal  => 'Normal',
-            Print   => 'Print',
-            CSV     => 'CSV',
+            Normal => 'Normal',
+            Print  => 'Print',
+            CSV    => 'CSV',
         },
         Name => 'ResultForm',
         SelectedID => $Param{ResultForm} || 'Normal',

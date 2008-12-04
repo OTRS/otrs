@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.188 2008-10-28 16:33:38 tt Exp $
+# $Id: Article.pm,v 1.189 2008-12-04 14:52:37 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.188 $) [1];
+$VERSION = qw($Revision: 1.189 $) [1];
 
 =head1 NAME
 
@@ -109,7 +109,7 @@ sub ArticleCreate {
             ContentType => "text/html, charset=\"$Param{Charset}\"",
             Filename    => 'HTML-Attachment.html',
         };
-        push ( @{ $Param{Attachment} }, $Attach );
+        push( @{ $Param{Attachment} }, $Attach );
 
         # set ascii body
         $Param{ContentType} = 'text/plain';
@@ -129,7 +129,7 @@ sub ArticleCreate {
             ContentType => $Param{ContentType},
             Filename    => $FileName,
         };
-        push ( @{ $Param{Attachment} }, $Attach );
+        push( @{ $Param{Attachment} }, $Attach );
 
         # set ascii body
         $Param{ContentType} = 'text/plain';
@@ -172,13 +172,13 @@ sub ArticleCreate {
             . 'VALUES '
             . '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{TicketID}, \$Param{ArticleTypeID}, \$Param{SenderTypeID},
-            \$Param{From},     \$Param{ReplyTo},       \$Param{To},
-            \$Param{Cc},       \$Param{Subject},       \$Param{MessageID},
-            \$Param{InReplyTo},\$Param{References},    \$Param{Body},
+            \$Param{TicketID},  \$Param{ArticleTypeID}, \$Param{SenderTypeID},
+            \$Param{From},      \$Param{ReplyTo},       \$Param{To},
+            \$Param{Cc},        \$Param{Subject},       \$Param{MessageID},
+            \$Param{InReplyTo}, \$Param{References},    \$Param{Body},
             \$Param{ContentType},
-            \$Self->{ArticleContentPath},              \$ValidID,
-            \$IncomingTime,     \$Param{UserID},       \$Param{UserID},
+            \$Self->{ArticleContentPath}, \$ValidID,
+            \$IncomingTime, \$Param{UserID}, \$Param{UserID},
         ],
     );
 
@@ -204,9 +204,9 @@ sub ArticleCreate {
     if ( $Param{Attachment} ) {
         for my $Attachment ( @{ $Param{Attachment} } ) {
             $Self->ArticleWriteAttachment(
-                %{ $Attachment },
-                ArticleID   => $ArticleID,
-                UserID      => $Param{UserID},
+                %{$Attachment},
+                ArticleID => $ArticleID,
+                UserID    => $Param{UserID},
             );
         }
     }
@@ -1065,10 +1065,10 @@ sub ArticleFreeTextSet {
 
     # ticket event
     $Self->TicketEventHandlerPost(
-        Event    => 'ArticleFreeTextUpdate',
-        TicketID => $Param{TicketID},
+        Event     => 'ArticleFreeTextUpdate',
+        TicketID  => $Param{TicketID},
         ArticleID => $Param{ArticleID},
-        UserID   => $Param{UserID},
+        UserID    => $Param{UserID},
     );
     return 1;
 }
@@ -2188,12 +2188,12 @@ sub SendAgentNotification {
     $Self->{SendmailObject}->Send(
         From => $Self->{ConfigObject}->Get('NotificationSenderName') . ' <'
             . $Self->{ConfigObject}->Get('NotificationSenderEmail') . '>',
-        To         => $User{UserEmail},
-        Subject    => $Notification{Subject},
-        Type       => 'text/plain',
-        Charset    => $Notification{Charset},
-        Body       => $Notification{Body},
-        Loop       => 1,
+        To      => $User{UserEmail},
+        Subject => $Notification{Subject},
+        Type    => 'text/plain',
+        Charset => $Notification{Charset},
+        Body    => $Notification{Body},
+        Loop    => 1,
     );
 
     # write history
@@ -3023,12 +3023,13 @@ sub ArticleAccountedTimeDelete {
 sub HTML2Ascii {
     my ( $Self, %Param ) = @_;
     my $Body = $Param{Body} || return $Param{Body};
-        # html2text filter for message body
-        my $LinkList = '';
-        my $Counter  = 0;
 
-        # find <a href=....> and replace it with [x]
-        $Body =~ s{
+    # html2text filter for message body
+    my $LinkList = '';
+    my $Counter  = 0;
+
+    # find <a href=....> and replace it with [x]
+    $Body =~ s{
             <a\Whref=("|')(.+?)("|')(|.+?)>
         }
         {
@@ -3040,34 +3041,37 @@ sub HTML2Ascii {
             $LinkList .= "[$Counter] $Link\n";
             "[$Counter]";
         }egxi;
-        # remove empty lines
-        $Body =~ s/^\s*//mg;
-        $Body =~ s/\n//gs;
 
-        # remove style tags
-        $Body =~ s/\<style.+?\>.*\<\/style\>//gsi;
+    # remove empty lines
+    $Body =~ s/^\s*//mg;
+    $Body =~ s/\n//gs;
 
-        # remove br tags and replace it with \n
-        $Body =~ s/\<br(\/|)\>/\n/gsi;
+    # remove style tags
+    $Body =~ s/\<style.+?\>.*\<\/style\>//gsi;
 
-        # remove hr tags and replace it with \n
-        $Body =~ s/\<(hr|hr.+?)\>/\n\n/gsi;
+    # remove br tags and replace it with \n
+    $Body =~ s/\<br(\/|)\>/\n/gsi;
 
-        # remove pre, p, table, code tags and replace it with \n
-        $Body =~ s/\<(\/|)(pre|pre.+?|p|p.+?|table|table.+?|code|code.+?)\>/\n\n/gsi;
+    # remove hr tags and replace it with \n
+    $Body =~ s/\<(hr|hr.+?)\>/\n\n/gsi;
 
-        # remove tr, th tags and replace it with \n
-        $Body =~ s/\<(tr|tr.+?|th|th.+?)\>/\n\n/gsi;
+    # remove pre, p, table, code tags and replace it with \n
+    $Body =~ s/\<(\/|)(pre|pre.+?|p|p.+?|table|table.+?|code|code.+?)\>/\n\n/gsi;
 
-        # remove td tags and replace it with \n
-        $Body =~ s/\.+?<\/(td|td.+?)\>/ /gsi;
+    # remove tr, th tags and replace it with \n
+    $Body =~ s/\<(tr|tr.+?|th|th.+?)\>/\n\n/gsi;
 
-        # strip all other tags
-        $Body =~ s/\<.+?\>//gs;
-        # replace "  " with " " space
-        $Body =~ s/  / /mg;
-        # encode html entities like "&#8211;"
-        $Body =~ s{
+    # remove td tags and replace it with \n
+    $Body =~ s/\.+?<\/(td|td.+?)\>/ /gsi;
+
+    # strip all other tags
+    $Body =~ s/\<.+?\>//gs;
+
+    # replace "  " with " " space
+    $Body =~ s/  / /mg;
+
+    # encode html entities like "&#8211;"
+    $Body =~ s{
             (&\#(\d+);?)
         }
         {
@@ -3079,8 +3083,9 @@ sub HTML2Ascii {
                 $1;
             };
         }egx;
-        # encode html entities like "&#3d;"
-        $Body =~ s{
+
+    # encode html entities like "&#3d;"
+    $Body =~ s{
             (&\#[xX]([0-9a-fA-F]+);?)
         }
         {
@@ -3099,14 +3104,15 @@ sub HTML2Ascii {
                 $ChrOrig;
             }
         }egx;
-        # remove empty lines
-        $Body =~ s/^\s*\n\s*\n/\n/mg;
 
-        # force line bracking
-        $Body =~ s/(.{4,78})(?:\s|\z)/$1\n/gm;
+    # remove empty lines
+    $Body =~ s/^\s*\n\s*\n/\n/mg;
 
-        # add extracted links
-        $Body .= "\n\n" . $LinkList;
+    # force line bracking
+    $Body =~ s/(.{4,78})(?:\s|\z)/$1\n/gm;
+
+    # add extracted links
+    $Body .= "\n\n" . $LinkList;
 
     return $Body;
 }
