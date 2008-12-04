@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser.pm - some customer user functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUser.pm,v 1.46 2008-10-06 16:44:37 mh Exp $
+# $Id: CustomerUser.pm,v 1.47 2008-12-04 16:28:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Kernel::System::CustomerCompany;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 =head1 NAME
 
@@ -38,6 +38,7 @@ create an object
 
     use Kernel::Config;
     use Kernel::System::Log;
+    use Kernel::System::Main;
     use Kernel::System::DB;
     use Kernel::System::CustomerUser;
 
@@ -45,6 +46,12 @@ create an object
     my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
+
+    my $MainObject = Kernel::System::Main->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+    );
+
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
@@ -55,6 +62,7 @@ create an object
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
         DBObject     => $DBObject,
+        MainObject   => $MainObject,
     );
 
 =cut
@@ -576,6 +584,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.46 $ $Date: 2008-10-06 16:44:37 $
+$Revision: 1.47 $ $Date: 2008-12-04 16:28:27 $
 
 =cut
