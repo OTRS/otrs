@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.68 2008-06-30 20:16:33 ub Exp $
+# $Id: AgentTicketEmail.pm,v 1.68.2.1 2008-12-04 12:49:09 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.68.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -971,6 +971,12 @@ sub Run {
             $QueueID = $1;
         }
 
+        # get list type
+        my $TreeView = 0;
+        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
+            $TreeView = 1;
+        }
+
         my $Signature = '';
         if ($QueueID) {
             $Signature = $Self->_GetSignature( QueueID => $QueueID );
@@ -1078,6 +1084,7 @@ sub Run {
                     SelectedID   => $GetParam{ServiceID},
                     PossibleNone => 1,
                     Translation  => 1,
+                    TreeView     => $TreeView,
                     Max          => 100,
                 },
                 {
@@ -1588,7 +1595,7 @@ sub _MaskEmailNew {
                     'TicketFreeText16',
                 ],
                 Subaction => 'AJAXUpdate',
-                }
+            },
         );
         $Self->{LayoutObject}->Block(
             Name => 'TicketType',
