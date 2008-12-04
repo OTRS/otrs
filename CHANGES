@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.804 2008-12-02 09:53:02 tt Exp $
+# $Id: CHANGES,v 1.805 2008-12-04 12:50:14 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -42,7 +42,8 @@
     availabe in online repository packages.
 
 2.3.4 (2008/??/??)
- - (2008/12/02) Fixed bug# 3495 - no unbind in LDAP-CustomerDataBackend.
+ - (2008/12/04) Fixed bug# 3360 - Service list formating broken after AJAX reload.
+ - (2008/12/02) Fixed bug# 3495 - No unbind in LDAP-CustomerDataBackend.
  - (2008/12/01) Fixed bug# 3493 - CloseParentAfterClosedChilds.pm does not work.
  - (2008/11/26) Fixed bug# 2582 - Ticket print and config option
      Ticket::Frontend::ZoomExpandSort gets not recognized.
