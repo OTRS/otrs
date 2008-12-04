@@ -2,7 +2,7 @@
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.47.2.2 2008-10-29 19:44:55 tt Exp $
+# $Id: LDAP.pm,v 1.47.2.3 2008-12-04 13:38:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47.2.2 $) [1];
+$VERSION = qw($Revision: 1.47.2.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -499,7 +499,7 @@ sub Auth {
         if ( $Self->{ConfigObject}->Get( $UserSyncLDAPGroupsDefKey . $Self->{Count} ) ) {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message  => "Config: UserSyncLDAPGroupsDefination deprecated, ".
+                Message  => "Config: UserSyncLDAPGroupsDefination deprecated, " .
                     "use UserSyncLDAPGroupsDefinition instead.",
             );
         }
@@ -646,7 +646,7 @@ sub Auth {
         if ( $Self->{ConfigObject}->Get( $UserSyncLDAPRolesDefKey . $Self->{Count} ) ) {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message  => "Config: UserSyncLDAPRolesDefination deprecated, ".
+                Message  => "Config: UserSyncLDAPRolesDefination deprecated, " .
                     "use UserSyncLDAPRolesDefinition instead.",
             );
         }
@@ -788,7 +788,7 @@ sub Auth {
         if ( $Self->{ConfigObject}->Get( $UserSyncLDAPAttrGroupsDefKey . $Self->{Count} ) ) {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message  => "Config: UserSyncLDAPAttibuteGroupsDefination deprecated, ".
+                Message  => "Config: UserSyncLDAPAttibuteGroupsDefination deprecated, " .
                     "use UserSyncLDAPAttributeGroupsDefinition instead.",
             );
         }
@@ -916,7 +916,7 @@ sub Auth {
         if ( $Self->{ConfigObject}->Get( $UserSyncLDAPAttrRolesDefKey . $Self->{Count} ) ) {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message  => "Config: UserSyncLDAPAttibuteRolesDefination deprecated, ".
+                Message  => "Config: UserSyncLDAPAttibuteRolesDefination deprecated, " .
                     "use UserSyncLDAPAttributeRolesDefinition instead.",
             );
         }
