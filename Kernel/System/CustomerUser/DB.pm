@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.68 2008-10-04 15:16:41 martin Exp $
+# $Id: DB.pm,v 1.69 2008-12-04 16:19:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Encode;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -31,7 +31,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject PreferencesObject CustomerUserMap)) {
+    for (qw(DBObject ConfigObject LogObject PreferencesObject CustomerUserMap MainObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -45,7 +45,7 @@ sub new {
     $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
 
     # max shown user a search list
-    $Self->{UserSearchListLimit} = $Self->{CustomerUserMap}->{'CustomerUserSearchListLimit'} || 250;
+    $Self->{UserSearchListLimit} = $Self->{CustomerUserMap}->{CustomerUserSearchListLimit} || 250;
 
     # config options
     $Self->{CustomerTable} = $Self->{CustomerUserMap}->{Params}->{Table}
@@ -58,13 +58,13 @@ sub new {
     $Self->{ReadOnly} = $Self->{CustomerUserMap}->{ReadOnly};
     $Self->{ExcludePrimaryCustomerID}
         = $Self->{CustomerUserMap}->{CustomerUserExcludePrimaryCustomerID} || 0;
-    $Self->{SearchPrefix} = $Self->{CustomerUserMap}->{'CustomerUserSearchPrefix'};
+    $Self->{SearchPrefix} = $Self->{CustomerUserMap}->{CustomerUserSearchPrefix};
 
-    if ( !defined( $Self->{SearchPrefix} ) ) {
+    if ( !defined $Self->{SearchPrefix} ) {
         $Self->{SearchPrefix} = '';
     }
-    $Self->{SearchSuffix} = $Self->{CustomerUserMap}->{'CustomerUserSearchSuffix'};
-    if ( !defined( $Self->{SearchSuffix} ) ) {
+    $Self->{SearchSuffix} = $Self->{CustomerUserMap}->{CustomerUserSearchSuffix};
+    if ( !defined $Self->{SearchSuffix} ) {
         $Self->{SearchSuffix} = '*';
     }
 
@@ -76,17 +76,8 @@ sub new {
         }
     }
 
-    # cache key prefix
-    if ( !defined $Param{Count} ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message => "Need Count param, update Kernel/System/CustomerUser.pm to v1.32 or higher!",
-        );
-        $Param{Count} = '';
-    }
-
     # create cache object
-    if ( $Self->{CustomerUserMap}->{'CacheTTL'} ) {
+    if ( $Self->{CustomerUserMap}->{CacheTTL} ) {
         $Self->{CacheObject} = Kernel::System::Cache->new(%Param);
 
         # set cache type
@@ -180,7 +171,7 @@ sub CustomerName {
             Type  => $Self->{CacheType},
             Key   => "CustomerName::$SQL",
             Value => $Name,
-            TTL   => $Self->{CustomerUserMap}->{'CacheTTL'},
+            TTL   => $Self->{CustomerUserMap}->{CacheTTL},
         );
     }
     return $Name;
@@ -297,7 +288,7 @@ sub CustomerSearch {
             Type  => $Self->{CacheType},
             Key   => "CustomerSearch::$SQL",
             Value => \%Users,
-            TTL   => $Self->{CustomerUserMap}->{'CacheTTL'},
+            TTL   => $Self->{CustomerUserMap}->{CacheTTL},
         );
     }
     return %Users;
@@ -338,7 +329,7 @@ sub CustomerUserList {
             Type  => $Self->{CacheType},
             Key   => "CustomerUserList::$Valid",
             Value => \%Users,
-            TTL   => $Self->{CustomerUserMap}->{'CacheTTL'},
+            TTL   => $Self->{CustomerUserMap}->{CacheTTL},
         );
     }
     return %Users;
@@ -399,7 +390,7 @@ sub CustomerIDs {
             Type  => $Self->{CacheType},
             Key   => "CustomerIDs::$Param{User}",
             Value => \@CustomerIDs,
-            TTL   => $Self->{CustomerUserMap}->{'CacheTTL'},
+            TTL   => $Self->{CustomerUserMap}->{CacheTTL},
         );
     }
     return @CustomerIDs;
@@ -411,8 +402,8 @@ sub CustomerUserDataGet {
     my %Data;
 
     # check needed stuff
-    if ( !$Param{User} && !$Param{CustomerID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need User or CustomerID!" );
+    if ( !$Param{User} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need User!" );
         return;
     }
 
@@ -422,45 +413,28 @@ sub CustomerUserDataGet {
         $SQL .= " $Entry->[2], ";
     }
     $SQL .= $Self->{CustomerKey} . " FROM $Self->{CustomerTable} WHERE ";
-    if ( $Param{User} ) {
 
-        # check cache
-        if ( $Self->{CacheObject} ) {
-            my $Data = $Self->{CacheObject}->Get(
-                Type => $Self->{CacheType},
-                Key  => "CustomerUserDataGet::User::$Param{User}",
-            );
-            if ($Data) {
-                return %{$Data};
-            }
-        }
-
-        # check CustomerKey type
-        if ( $Self->{CustomerKeyInteger} ) {
-            if ( $Param{User} !~ /^(\+|\-|)\d{1,16}$/ ) {
-                return;
-            }
-            $SQL .= "$Self->{CustomerKey} = " . $Self->{DBObject}->Quote( $Param{User}, 'Integer' );
-        }
-        else {
-            $SQL .= "LOWER($Self->{CustomerKey}) = LOWER('"
-                . $Self->{DBObject}->Quote( $Param{User} ) . "')";
+    # check cache
+    if ( $Self->{CacheObject} ) {
+        my $Data = $Self->{CacheObject}->Get(
+            Type => $Self->{CacheType},
+            Key  => "CustomerUserDataGet::$Param{User}",
+        );
+        if ($Data) {
+            return %{$Data};
         }
     }
-    elsif ( $Param{CustomerID} ) {
 
-        # check cache
-        if ( $Self->{CacheObject} ) {
-            my $Data = $Self->{CacheObject}->Get(
-                Type => $Self->{CacheType},
-                Key  => "CustomerUserDataGet::CustomerID::$Param{CustomerID}",
-            );
-            if ($Data) {
-                return %{$Data};
-            }
+    # check CustomerKey type
+    if ( $Self->{CustomerKeyInteger} ) {
+        if ( $Param{User} !~ /^(\+|\-|)\d{1,16}$/ ) {
+            return;
         }
-        $SQL .= "LOWER($Self->{CustomerID}) = LOWER('"
-            . $Self->{DBObject}->Quote( $Param{CustomerID} ) . "')";
+        $SQL .= "$Self->{CustomerKey} = " . $Self->{DBObject}->Quote( $Param{User}, 'Integer' );
+    }
+    else {
+        $SQL .= "LOWER($Self->{CustomerKey}) = LOWER('"
+            . $Self->{DBObject}->Quote( $Param{User} ) . "')";
     }
 
     # get initial data
@@ -474,28 +448,15 @@ sub CustomerUserDataGet {
     }
 
     # check data
-    if ( !exists $Data{UserLogin} && $Param{User} ) {
+    if ( !$Data{UserLogin} ) {
 
         # cache request
         if ( $Self->{CacheObject} ) {
             $Self->{CacheObject}->Set(
                 Type  => $Self->{CacheType},
-                Key   => "CustomerUserDataGet::User::$Param{User}",
+                Key   => "CustomerUserDataGet::$Param{User}",
                 Value => {},
-                TTL   => $Self->{CustomerUserMap}->{'CacheTTL'},
-            );
-        }
-        return;
-    }
-    if ( !exists $Data{UserLogin} && $Param{CustomerID} ) {
-
-        # cache request
-        if ( $Self->{CacheObject} ) {
-            $Self->{CacheObject}->Set(
-                Type  => $Self->{CacheType},
-                Key   => "CustomerUserDataGet::CustomerID::$Param{CustomerID}",
-                Value => {},
-                TTL   => $Self->{CustomerUserMap}->{'CacheTTL'},
+                TTL   => $Self->{CustomerUserMap}->{CacheTTL},
             );
         }
         return;
@@ -509,22 +470,12 @@ sub CustomerUserDataGet {
 
     # cache request
     if ( $Self->{CacheObject} ) {
-        if ( $Param{User} ) {
-            $Self->{CacheObject}->Set(
-                Type  => $Self->{CacheType},
-                Key   => "CustomerUserDataGet::User::$Param{User}",
-                Value => { %Data, %Preferences },
-                TTL   => $Self->{CustomerUserMap}->{'CacheTTL'},
-            );
-        }
-        elsif ( $Param{CustomerID} ) {
-            $Self->{CacheObject}->Set(
-                Type  => $Self->{CacheType},
-                Key   => "CustomerUserDataGet::CustomerID::$Param{CustomerID}",
-                Value => { %Data, %Preferences },
-                TTL   => $Self->{CustomerUserMap}->{'CacheTTL'},
-            );
-        }
+        $Self->{CacheObject}->Set(
+            Type  => $Self->{CacheType},
+            Key   => "CustomerUserDataGet::$Param{User}",
+            Value => { %Data, %Preferences },
+            TTL   => $Self->{CustomerUserMap}->{CacheTTL},
+        );
     }
 
     # return data
@@ -548,7 +499,7 @@ sub CustomerUserAdd {
         }
     }
     if ( !$Param{UserID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserID!' );
         return;
     }
 
@@ -568,7 +519,7 @@ sub CustomerUserAdd {
 
     # check if user login exists
     if ( !$Param{UserLogin} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserLogin!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserLogin!' );
         return;
     }
 
@@ -581,7 +532,7 @@ sub CustomerUserAdd {
         if (%Result) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "Email already exists!",
+                Message  => 'Email already exists!',
             );
             return;
         }
@@ -656,7 +607,7 @@ sub CustomerUserAdd {
     if ( $Self->{CacheObject} ) {
         $Self->{CacheObject}->Delete(
             Type => $Self->{CacheType},
-            Key  => "CustomerUserDataGet::User::$Param{UserLogin}",
+            Key  => "CustomerUserDataGet::$Param{UserLogin}",
         );
     }
 
@@ -668,7 +619,7 @@ sub CustomerUserUpdate {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Customer backend is ro!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Customer backend is ro!' );
         return;
     }
 
@@ -760,7 +711,7 @@ sub CustomerUserUpdate {
     if ( $Self->{CacheObject} ) {
         $Self->{CacheObject}->Delete(
             Type => $Self->{CacheType},
-            Key  => "CustomerUserDataGet::User::$Param{UserLogin}",
+            Key  => "CustomerUserDataGet::$Param{UserLogin}",
         );
     }
     return 1;
@@ -773,13 +724,13 @@ sub SetPassword {
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Customer backend is ro!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Customer backend is ro!' );
         return;
     }
 
     # check needed stuff
     if ( !$Param{UserLogin} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need UserLogin!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need UserLogin!' );
         return;
     }
     my $CryptedPw = '';
@@ -874,7 +825,7 @@ sub SetPassword {
         if ( $Self->{CacheObject} ) {
             $Self->{CacheObject}->Delete(
                 Type => $Self->{CacheType},
-                Key  => "CustomerUserDataGet::User::$Param{UserLogin}",
+                Key  => "CustomerUserDataGet::$Param{UserLogin}",
             );
         }
         return 1;

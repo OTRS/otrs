@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.44 2008-12-02 09:52:37 tt Exp $
+# $Id: LDAP.pm,v 1.45 2008-12-04 16:19:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Encode;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -28,7 +28,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject PreferencesObject CustomerUserMap)) {
+    for (qw(DBObject ConfigObject LogObject PreferencesObject CustomerUserMap MainObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -162,15 +162,6 @@ sub new {
     $Self->{SearchSuffix} = $Self->{CustomerUserMap}->{CustomerUserSearchSuffix};
     if ( !defined $Self->{SearchSuffix} ) {
         $Self->{SearchSuffix} = '*';
-    }
-
-    # cache key prefix
-    if ( !defined $Param{Count} ) {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message => 'Need Count param, update Kernel/System/CustomerUser.pm to v1.32 or higher!',
-        );
-        $Param{Count} = '';
     }
 
     # cache object
@@ -505,8 +496,8 @@ sub CustomerUserDataGet {
     my %Data;
 
     # check needed stuff
-    if ( !$Param{User} && !$Param{CustomerID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need User or CustomerID!' );
+    if ( !$Param{User} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need User!' );
         return;
     }
 
@@ -516,13 +507,7 @@ sub CustomerUserDataGet {
         $attrs .= "\'$Entry->[2]\',";
     }
     $attrs = substr $attrs, 0, -1;
-    my $Filter = '';
-    if ( $Param{CustomerID} ) {
-        $Filter = "($Self->{CustomerID}=$Param{CustomerID})";
-    }
-    else {
-        $Filter = "($Self->{CustomerKey}=$Param{User})";
-    }
+    my $Filter = "($Self->{CustomerKey}=$Param{User})";
 
     # prepare filter
     if ( $Self->{AlwaysFilter} ) {
@@ -573,10 +558,7 @@ sub CustomerUserDataGet {
     }
 
     # check data
-    if ( !exists $Data{UserLogin} && $Param{User} ) {
-        return;
-    }
-    if ( !exists $Data{UserLogin} && $Param{CustomerID} ) {
+    if ( !$Data{UserLogin} ) {
         return;
     }
 
@@ -584,7 +566,7 @@ sub CustomerUserDataGet {
     $Data{UserID} = $Data{UserLogin};
 
     # get preferences
-    my %Preferences = $Self->{PreferencesObject}->GetPreferences( UserID => $Data{UserID} );
+    my %Preferences = $Self->{PreferencesObject}->GetPreferences( UserID => $Data{UserLogin} );
 
     # cache request
     if ( $Self->{CacheObject} ) {
