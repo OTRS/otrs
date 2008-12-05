@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: NewTicket.pm,v 1.72 2008-10-14 10:30:48 martin Exp $
+# $Id: NewTicket.pm,v 1.73 2008-12-05 13:45:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -72,7 +72,7 @@ sub Run {
     # get sender email
     my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine( Line => $GetParam{From}, );
     for (@EmailAddresses) {
-        $GetParam{'SenderEmailAddress'} = $Self->{ParserObject}->GetEmailAddress( Email => $_, );
+        $GetParam{SenderEmailAddress} = $Self->{ParserObject}->GetEmailAddress( Email => $_, );
     }
 
     # get customer id (sender email) if there is no customer id given
@@ -90,17 +90,22 @@ sub Run {
     # get customer user data form From: (sender address)
     if ( !$GetParam{'X-OTRS-CustomerUser'} ) {
         my %CustomerData = ();
-        if ( $GetParam{'From'} ) {
-            my @EmailAddresses
-                = $Self->{ParserObject}->SplitAddressLine( Line => $GetParam{From}, );
+        if ( $GetParam{From} ) {
+            my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine(
+                Line => $GetParam{From},
+            );
             for (@EmailAddresses) {
-                $GetParam{'EmailForm'} = $Self->{ParserObject}->GetEmailAddress( Email => $_, );
+                $GetParam{EmailForm} = $Self->{ParserObject}->GetEmailAddress(
+                    Email => $_,
+                );
             }
             my %List = $Self->{CustomerUserObject}->CustomerSearch(
-                PostMasterSearch => lc( $GetParam{'EmailForm'} ),
+                PostMasterSearch => lc( $GetParam{EmailForm} ),
             );
             for ( keys %List ) {
-                %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $_, );
+                %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                    User => $_,
+                );
             }
         }
 
@@ -129,12 +134,12 @@ sub Run {
 
     # if there is no customer id found!
     if ( !$GetParam{'X-OTRS-CustomerNo'} ) {
-        $GetParam{'X-OTRS-CustomerNo'} = $GetParam{'SenderEmailAddress'};
+        $GetParam{'X-OTRS-CustomerNo'} = $GetParam{SenderEmailAddress};
     }
 
     # if there is no customer user found!
     if ( !$GetParam{'X-OTRS-CustomerUser'} ) {
-        $GetParam{'X-OTRS-CustomerUser'} = $GetParam{'SenderEmailAddress'};
+        $GetParam{'X-OTRS-CustomerUser'} = $GetParam{SenderEmailAddress};
     }
 
     # create new ticket
