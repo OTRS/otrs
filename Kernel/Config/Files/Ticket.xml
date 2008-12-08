@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.215 2008-11-27 22:56:49 ub Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.216 2008-12-08 12:45:40 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -8492,6 +8492,17 @@ Thanks for your help!
         <Setting>
             <Hash>
                 <Item Key="Module">Kernel::System::PostMaster::Filter::MatchDBSource</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PostMaster::PostFilterModule###000-FollowUpArticleTypeCheck" Required="0" Valid="1">
+        <Description Lang="en">Module to check if arrived email should be marked als email-internal (because of original forwared internal email it college).</Description>
+        <Description Lang="de">Modul um eingehende Email als "email-internal" zu setzen (wenn an diesen Sender die Email urspruenglich als "email-internal" weitergeleitet wirde).</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::PostMaster</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::PostMaster::Filter::FollowUpArticleTypeCheck</Item>
             </Hash>
         </Setting>
     </ConfigItem>
