@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NavBarTicketWatcher.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: NavBarTicketWatcher.pm,v 1.10 2008-10-24 08:47:42 martin Exp $
+# $Id: NavBarTicketWatcher.pm,v 1.11 2008-12-08 17:46:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,13 +35,11 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my %Return = ();
-    my @Groups = ();
-
     # check if feature is aktive
     if ( !$Self->{ConfigObject}->Get('Ticket::Watcher') ) {
-        return %Return;
+        return;
     }
+    my @Groups;
     if ( $Self->{ConfigObject}->Get('Ticket::WatcherGroup') ) {
         @Groups = @{ $Self->{ConfigObject}->Get('Ticket::WatcherGroup') };
     }
@@ -62,6 +60,7 @@ sub Run {
             }
         }
     }
+    my %Return = ();
     if ($Access) {
         my $Count = $Self->{TicketObject}->TicketSearch(
             Result       => 'ARRAY',
@@ -76,7 +75,7 @@ sub Run {
             Description => $Text,
             Name        => $Text,
             Image       => 'watcher.png',
-            Link        => 'Action=AgentTicketMailbox&Filter=Watched',
+            Link        => 'Action=AgentTicketWatchView',
             AccessKey   => '',
         };
     }
