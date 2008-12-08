@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketLockedView.pm - to view all locked tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketLockedView.pm,v 1.1 2008-12-08 17:39:35 martin Exp $
+# $Id: AgentTicketLockedView.pm,v 1.2 2008-12-08 17:47:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -137,63 +137,6 @@ sub Run {
             },
         },
     );
-
-    # check if feature is aktive
-    if ( $Self->{ConfigObject}->Get('Ticket::Responsible') ) {
-        $Filters{Responsible} = {
-            Name   => 'Responsible',
-            Prio   => 1004,
-            Search => {
-                Result         => 'ARRAY',
-                Limit          => 1000,
-                StateType      => 'Open',
-                ResponsibleIDs => [ $Self->{UserID} ],
-                OrderBy        => $OrderBy,
-                SortBy         => $SortByS,
-                UserID         => 1,
-                Permission     => 'ro',
-            },
-        };
-    }
-
-    # check if feature is aktive
-    my $Access = 0;
-    if ( $Self->{ConfigObject}->Get('Ticket::Watcher') ) {
-        my @Groups;
-        if ( $Self->{ConfigObject}->Get('Ticket::WatcherGroup') ) {
-            @Groups = @{ $Self->{ConfigObject}->Get('Ticket::WatcherGroup') };
-        }
-        # check access
-        if ( !@Groups ) {
-            $Access = 1;
-        }
-        else {
-            for my $Group (@Groups) {
-                if (
-                    $Self->{LayoutObject}->{"UserIsGroup[$Group]"}
-                    && $Self->{LayoutObject}->{"UserIsGroup[$Group]"} eq 'Yes'
-                    )
-                {
-                    $Access = 1;
-                }
-            }
-        }
-    }
-    if ($Access) {
-        $Filters{Watched} = {
-            Name   => 'Watched',
-            Prio   => 1005,
-            Search => {
-                Result       => 'ARRAY',
-                Limit        => 1000,
-                OrderBy      => $OrderBy,
-                SortBy       => $SortByS,
-                WatchUserIDs => [ $Self->{UserID} ],
-                UserID       => 1,
-                Permission   => 'ro',
-            },
-        };
-    }
 
     # check if filter is valid
     if ( !$Filters{ $Self->{Filter} } ) {
