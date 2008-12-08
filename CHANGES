@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.805 2008-12-04 12:50:14 mh Exp $
+# $Id: CHANGES,v 1.806 2008-12-08 10:09:43 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -42,6 +42,8 @@
     availabe in online repository packages.
 
 2.3.4 (2008/??/??)
+ - (2008/12/08) Fixed bug# 3462 - SMIME crypt and sign functions bail out -
+     unable to save random state.
  - (2008/12/04) Fixed bug# 3360 - Service list formating broken after AJAX reload.
  - (2008/12/02) Fixed bug# 3495 - No unbind in LDAP-CustomerDataBackend.
  - (2008/12/01) Fixed bug# 3493 - CloseParentAfterClosedChilds.pm does not work.
