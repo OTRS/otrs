@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.216 2008-12-08 12:45:40 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.217 2008-12-08 17:39:35 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -2414,7 +2414,7 @@
             </Array>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketMailbox###SortBy::Default" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketLockedView###SortBy::Default" Required="1" Valid="1">
         <Description Lang="en">Mailbox sort by default.</Description>
         <Description Lang="de">Standard Sortierung der Mailbox.</Description>
         <Group>Ticket</Group>
@@ -2468,7 +2468,139 @@
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketMailbox###Order::Default" Required="1" Valid="1">
+    <ConfigItem Name="Ticket::Frontend::AgentTicketLockedView###Order::Default" Required="1" Valid="1">
+        <Description Lang="en">Mailbox order default.</Description>
+        <Description Lang="de">Standard Reihenfolge der Mailbox.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewMailbox</SubGroup>
+        <Setting>
+            <Option SelectedID="Up">
+                <Item Key="Down">Down</Item>
+                <Item Key="Up">Up</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsibleView###SortBy::Default" Required="1" Valid="1">
+        <Description Lang="en">Mailbox sort by default.</Description>
+        <Description Lang="de">Standard Sortierung der Mailbox.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewMailbox</SubGroup>
+        <Setting>
+            <Option SelectedID="Age">
+                <Item Key="Age">Age</Item>
+                <Item Key="Ticket">Ticket</Item>
+                <Item Key="Subject">Subject</Item>
+                <Item Key="Queue">Queue</Item>
+                <Item Key="Priority">Priority</Item>
+                <Item Key="EscalationTime">EscalationTime</Item>
+                <Item Key="TicketFreeTime1">TicketFreeTime1</Item>
+                <Item Key="TicketFreeTime2">TicketFreeTime2</Item>
+                <Item Key="TicketFreeTime3">TicketFreeTime3</Item>
+                <Item Key="TicketFreeTime4">TicketFreeTime4</Item>
+                <Item Key="TicketFreeTime5">TicketFreeTime5</Item>
+                <Item Key="TicketFreeTime6">TicketFreeTime6</Item>
+                <Item Key="TicketFreeKey1">TicketFreeKey1</Item>
+                <Item Key="TicketFreeKey2">TicketFreeKey2</Item>
+                <Item Key="TicketFreeKey3">TicketFreeKey3</Item>
+                <Item Key="TicketFreeKey4">TicketFreeKey4</Item>
+                <Item Key="TicketFreeKey5">TicketFreeKey5</Item>
+                <Item Key="TicketFreeKey6">TicketFreeKey6</Item>
+                <Item Key="TicketFreeKey7">TicketFreeKey7</Item>
+                <Item Key="TicketFreeKey8">TicketFreeKey8</Item>
+                <Item Key="TicketFreeKey9">TicketFreeKey9</Item>
+                <Item Key="TicketFreeKey10">TicketFreeKey10</Item>
+                <Item Key="TicketFreeKey11">TicketFreeKey11</Item>
+                <Item Key="TicketFreeKey12">TicketFreeKey12</Item>
+                <Item Key="TicketFreeKey13">TicketFreeKey13</Item>
+                <Item Key="TicketFreeKey14">TicketFreeKey14</Item>
+                <Item Key="TicketFreeKey15">TicketFreeKey15</Item>
+                <Item Key="TicketFreeKey16">TicketFreeKey16</Item>
+                <Item Key="TicketFreeText1">TicketFreeText1</Item>
+                <Item Key="TicketFreeText2">TicketFreeText2</Item>
+                <Item Key="TicketFreeText3">TicketFreeText3</Item>
+                <Item Key="TicketFreeText4">TicketFreeText4</Item>
+                <Item Key="TicketFreeText5">TicketFreeText5</Item>
+                <Item Key="TicketFreeText6">TicketFreeText6</Item>
+                <Item Key="TicketFreeText7">TicketFreeText7</Item>
+                <Item Key="TicketFreeText8">TicketFreeText8</Item>
+                <Item Key="TicketFreeText9">TicketFreeText9</Item>
+                <Item Key="TicketFreeText10">TicketFreeText10</Item>
+                <Item Key="TicketFreeText11">TicketFreeText11</Item>
+                <Item Key="TicketFreeText12">TicketFreeText12</Item>
+                <Item Key="TicketFreeText13">TicketFreeText13</Item>
+                <Item Key="TicketFreeText14">TicketFreeText14</Item>
+                <Item Key="TicketFreeText15">TicketFreeText15</Item>
+                <Item Key="TicketFreeText16">TicketFreeText16</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketResponsibleView###Order::Default" Required="1" Valid="1">
+        <Description Lang="en">Mailbox order default.</Description>
+        <Description Lang="de">Standard Reihenfolge der Mailbox.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewMailbox</SubGroup>
+        <Setting>
+            <Option SelectedID="Up">
+                <Item Key="Down">Down</Item>
+                <Item Key="Up">Up</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketWatchView###SortBy::Default" Required="1" Valid="1">
+        <Description Lang="en">Mailbox sort by default.</Description>
+        <Description Lang="de">Standard Sortierung der Mailbox.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewMailbox</SubGroup>
+        <Setting>
+            <Option SelectedID="Age">
+                <Item Key="Age">Age</Item>
+                <Item Key="Ticket">Ticket</Item>
+                <Item Key="Subject">Subject</Item>
+                <Item Key="Queue">Queue</Item>
+                <Item Key="Priority">Priority</Item>
+                <Item Key="EscalationTime">EscalationTime</Item>
+                <Item Key="TicketFreeTime1">TicketFreeTime1</Item>
+                <Item Key="TicketFreeTime2">TicketFreeTime2</Item>
+                <Item Key="TicketFreeTime3">TicketFreeTime3</Item>
+                <Item Key="TicketFreeTime4">TicketFreeTime4</Item>
+                <Item Key="TicketFreeTime5">TicketFreeTime5</Item>
+                <Item Key="TicketFreeTime6">TicketFreeTime6</Item>
+                <Item Key="TicketFreeKey1">TicketFreeKey1</Item>
+                <Item Key="TicketFreeKey2">TicketFreeKey2</Item>
+                <Item Key="TicketFreeKey3">TicketFreeKey3</Item>
+                <Item Key="TicketFreeKey4">TicketFreeKey4</Item>
+                <Item Key="TicketFreeKey5">TicketFreeKey5</Item>
+                <Item Key="TicketFreeKey6">TicketFreeKey6</Item>
+                <Item Key="TicketFreeKey7">TicketFreeKey7</Item>
+                <Item Key="TicketFreeKey8">TicketFreeKey8</Item>
+                <Item Key="TicketFreeKey9">TicketFreeKey9</Item>
+                <Item Key="TicketFreeKey10">TicketFreeKey10</Item>
+                <Item Key="TicketFreeKey11">TicketFreeKey11</Item>
+                <Item Key="TicketFreeKey12">TicketFreeKey12</Item>
+                <Item Key="TicketFreeKey13">TicketFreeKey13</Item>
+                <Item Key="TicketFreeKey14">TicketFreeKey14</Item>
+                <Item Key="TicketFreeKey15">TicketFreeKey15</Item>
+                <Item Key="TicketFreeKey16">TicketFreeKey16</Item>
+                <Item Key="TicketFreeText1">TicketFreeText1</Item>
+                <Item Key="TicketFreeText2">TicketFreeText2</Item>
+                <Item Key="TicketFreeText3">TicketFreeText3</Item>
+                <Item Key="TicketFreeText4">TicketFreeText4</Item>
+                <Item Key="TicketFreeText5">TicketFreeText5</Item>
+                <Item Key="TicketFreeText6">TicketFreeText6</Item>
+                <Item Key="TicketFreeText7">TicketFreeText7</Item>
+                <Item Key="TicketFreeText8">TicketFreeText8</Item>
+                <Item Key="TicketFreeText9">TicketFreeText9</Item>
+                <Item Key="TicketFreeText10">TicketFreeText10</Item>
+                <Item Key="TicketFreeText11">TicketFreeText11</Item>
+                <Item Key="TicketFreeText12">TicketFreeText12</Item>
+                <Item Key="TicketFreeText13">TicketFreeText13</Item>
+                <Item Key="TicketFreeText14">TicketFreeText14</Item>
+                <Item Key="TicketFreeText15">TicketFreeText15</Item>
+                <Item Key="TicketFreeText16">TicketFreeText16</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketWatchView###Order::Default" Required="1" Valid="1">
         <Description Lang="en">Mailbox order default.</Description>
         <Description Lang="de">Standard Reihenfolge der Mailbox.</Description>
         <Group>Ticket</Group>
@@ -7137,15 +7269,41 @@ $QData{"Signature"}
             </FrontendModuleReg>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::Module###AgentTicketMailbox" Required="0" Valid="1">
-        <Description Lang="en">Frontend module registration for the AgentTicketMailbox object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentTicketMailbox-Objekts im Agent-Interface.</Description>
+    <ConfigItem Name="Frontend::Module###AgentTicketLockedView" Required="0" Valid="1">
+        <Description Lang="en">Frontend module registration for the AgentTicketLockedView object in the agent interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentTicketLockedView-Objekts im Agent-Interface.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
         <Setting>
             <FrontendModuleReg>
-                <Description>Agent Mailbox</Description>
+                <Description>Locked Tickets</Description>
                 <Title>Locked Tickets</Title>
+                <NavBarName>Ticket</NavBarName>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AgentTicketResponsibleView" Required="0" Valid="1">
+        <Description Lang="en">Frontend module registration for the AgentTicketResponsibleView object in the agent interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentTicketResponsibleView-Objekts im Agent-Interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>Responsible Tickets</Description>
+                <Title>Responsible Tickets</Title>
+                <NavBarName>Ticket</NavBarName>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AgentTicketWatchView" Required="0" Valid="1">
+        <Description Lang="en">Frontend module registration for the AgentTicketWatchView object in the agent interface.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AgentTicketWatchView-Objekts im Agent-Interface.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Description>Watched Tickets</Description>
+                <Title>Watched Tickets</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>
