@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Config.pm,v 1.81 2008-12-08 12:53:44 martin Exp $
+# $Id: Config.pm,v 1.82 2008-12-09 00:02:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.81 $) [1];
+$VERSION = qw($Revision: 1.82 $) [1];
 
 =head1 NAME
 
@@ -238,6 +238,7 @@ sub _Init {
     my %Used;
     my @XMLConfig;
     for my $ConfigItem ( reverse @{ $Self->{XMLConfig} } ) {
+        next if !$ConfigItem->{Name};
         next if $Used{ $ConfigItem->{Name} };
         $Used{ $ConfigItem->{Name} } = 1;
         push @XMLConfig, $ConfigItem;
@@ -1760,6 +1761,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.81 $ $Date: 2008-12-08 12:53:44 $
+$Revision: 1.82 $ $Date: 2008-12-09 00:02:33 $
 
 =cut
