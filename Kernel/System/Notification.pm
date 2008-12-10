@@ -2,7 +2,7 @@
 # Kernel/System/Notification.pm - lib for notifications
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Notification.pm,v 1.18 2008-10-01 09:05:45 martin Exp $
+# $Id: Notification.pm,v 1.19 2008-12-10 07:11:16 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -64,12 +64,9 @@ sub new {
 
     # get needed objects
     for (qw(ConfigObject LogObject DBObject)) {
-        if ( $Param{$_} ) {
-            $Self->{$_} = $Param{$_};
-        }
-        else {
-            die "Got no $_!";
-        }
+        die "Got no $_!" if !$Param{$_};
+
+        $Self->{$_} = $Param{$_};
     }
 
     $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
@@ -102,9 +99,7 @@ sub NotificationGet {
     }
 
     # db quote
-    for (qw(ID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
+    $Param{ID} = $Self->{DBObject}->Quote( $Param{ID}, 'Integer' );
 
     # sql
     my $SQL
@@ -113,15 +108,16 @@ sub NotificationGet {
         . " FROM "
         . " notifications "
         . " WHERE ";
+
     if ( $Param{ID} ) {
         $SQL .= " id = $Param{ID}";
     }
     else {
         $SQL .= " notification_type = '$Type' AND " . "notification_language = '$Language'";
     }
-    if ( !$Self->{DBObject}->Prepare( SQL => $SQL ) ) {
-        return;
-    }
+
+    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
+
     my %Data = ();
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         if ( $Self->{EncodeObject}->EncodeInternalUsed() ) {
@@ -170,9 +166,8 @@ sub NotificationGet {
         );
         return;
     }
-    else {
-        return ( %Data, Language => $Param{Loop} || $Language );
-    }
+
+    return ( %Data, Language => $Param{Loop} || $Language );
 }
 
 =item NotificationList()
@@ -192,9 +187,8 @@ sub NotificationList {
         . " notification_language "
         . " FROM "
         . " notifications";
-    if ( !$Self->{DBObject}->Prepare( SQL => $SQL ) ) {
-        return;
-    }
+
+    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
 
     # get languages
     my %Languages = %{ $Self->{ConfigObject}->{DefaultUsedLanguages} };
@@ -217,9 +211,8 @@ sub NotificationList {
     }
 
     # get real list
-    if ( !$Self->{DBObject}->Prepare( SQL => $SQL ) ) {
-        return;
-    }
+    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
+
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         $List{ $Data[3] . '::' . $Data[1] } = "$Data[3]::$Data[1]";
     }
@@ -259,9 +252,8 @@ sub NotificationUpdate {
     for (qw(Type Charset Language Subject Body)) {
         $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} ) || '';
     }
-    for (qw(UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
+
+    $Param{UserID} = $Self->{DBObject}->Quote( $Param{UserID}, 'Integer' );
 
     # sql
     $Self->{DBObject}->Do(
@@ -278,12 +270,9 @@ sub NotificationUpdate {
         . " ('$Param{Type}', '$Param{Charset}', '$Param{Language}', '$Param{Subject}', '$Param{Body}', "
         . " current_timestamp, $Param{UserID}, current_timestamp,  $Param{UserID})";
 
-    if ( $Self->{DBObject}->Do( SQL => $SQL ) ) {
-        return 1;
-    }
-    else {
-        return;
-    }
+    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
+
+    return 1;
 }
 
 1;
@@ -302,6 +291,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2008-10-01 09:05:45 $
+$Revision: 1.19 $ $Date: 2008-12-10 07:11:16 $
 
 =cut
