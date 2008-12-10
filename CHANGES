@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.807 2008-12-09 00:04:44 martin Exp $
+# $Id: CHANGES,v 1.808 2008-12-10 08:26:20 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.4.0 beta1 (2009/??/??)
+ - (2008/12/10) Added the text auto link function to the standard
  - (2008/12/08) Added feature to install included packages located under
     var/packages/*.opm on first/initial setup.
  - (2008/12/08) Added new postmaster filter to check if new arrived email is

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.187 2008-11-12 22:01:52 shb Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.188 2008-12-10 08:26:19 tr Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -5110,6 +5110,197 @@ Your OTRS Notification Master
                 <Item Key="0">No</Item>
                 <Item Key="1">Yes</Item>
             </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Output::FilterText###OutputFilterTextAutoLink" Required="0" Valid="0">
+        <Description Lang="en">A filter to process the text in the articles in order to highlight predefined keywords.</Description>
+        <Description Lang="de">Mit Hilfe des Filters werden verschiedene Schlüsselwörter gefunden, hervorgehoben und verlinkt.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Web</SubGroup>
+            <Setting>
+                <Hash>
+                    <Item Key="Module">Kernel::Output::HTML::OutputFilterTextAutoLink</Item>
+                </Hash>
+            </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Output::OutputFilterTextAutoLink###CVE" Required="0" Valid="0">
+        <Description Lang="en">A filter for html output to add links behind CVE numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.</Description>
+        <Description Lang="de">Ein Filter zur automatischen Generierung von Links, wenn CVE-Nummern identifiziert werden. Das Element Image erlaubt zwei Eingabeformen: Erstens der Name eines Icons (z. B. faq.png). In diesem Fall wird auf das Graphikverzeichnis des OTRS zugegriffen. Als zweite Möglichkeit kann man aber auch den direkten Link zur Graphik angeben (z. B. http://otrs.org/faq.png).</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Web</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="RegExp">
+                    <Array>
+                        <Item>(CVE|CAN)\-(\d{3,4})\-(\d{2,6})</Item>
+                    </Array>
+                </Item>
+                <Item Key="URL1">
+                    <Hash>
+                        <Item Key="Description">Mitre</Item>
+                        <Item Key="URL">http://cve.mitre.org/cgi-bin/cvename.cgi?name=&lt;MATCH1&gt;-&lt;MATCH2&gt;-&lt;MATCH3&gt;</Item>
+                        <Item Key="Image">http://cve.mitre.org/favicon.ico</Item>
+                        <Item Key="Target">_blank</Item>
+                    </Hash>
+                </Item>
+                <Item Key="URL2">
+                    <Hash>
+                        <Item Key="Description">Google</Item>
+                        <Item Key="URL">http://google.com/search?q=&lt;MATCH1&gt;-&lt;MATCH2&gt;-&lt;MATCH3&gt;</Item>
+                        <Item Key="Image">http://www.google.de/favicon.ico</Item>
+                        <Item Key="Target">_blank</Item>
+                    </Hash>
+                </Item>
+                <Item Key="URL3">
+                    <Hash>
+                        <Item Key="Description">US-CERT NVD</Item>
+                        <Item Key="URL">http://nvd.nist.gov/nvd.cfm?cvename=&lt;MATCH1&gt;-&lt;MATCH2&gt;-&lt;MATCH3&gt;</Item>
+                        <Item Key="Image">http://nvd.nist.gov/favicon.ico</Item>
+                        <Item Key="Target">_blank</Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Output::OutputFilterTextAutoLink###Bugtraq" Required="0" Valid="0">
+        <Description Lang="en">A filter for html  output to add links behind Bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.</Description>
+        <Description Lang="de">Ein Filter zur automatischen Generierung von Links, wenn Bugtraq-Nummern identifiziert werden. Das Element Image erlaubt zwei Eingabeformen: Erstens der Name eines Icons (z. B. faq.png). In diesem Fall wird auf das Graphikverzeichnis des OTRS zugegriffen. Als zweite Möglichkeit kann man aber auch den direkten Link zur Graphik angeben (z. B. http://otrs.org/faq.png).</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Web</SubGroup>
+        <!-- Example strings: BugTraq ID: 23862 | BugTraq ID: 8945 | Bugtraq ID 140 | BUGTRAQ:20070425 | BID 20799 -->
+        <!-- Example URL: http://www.securityfocus.com/bid/23862/info  -->
+        <Setting>
+            <Hash>
+                <Item Key="RegExp">
+                    <Array>
+                        <Item>Bugtraq[\s\w\t]*?ID[\s\w\t]*?:[\s\w\t]*?(\d{2,8})</Item>
+                        <Item>Bugtraq[\s\w\t]*?ID[\s\w\t]*?(\d{2,8})</Item>
+                        <Item>Bugtraq[\s\w\t]*?:[\s\w\t]*?(\d{2,8})</Item>
+                        <Item>Bugtraq[\s\w\t]*?(\d{2,8})</Item>
+                        <Item>BID[\s\w\t]*?:[\s\w\t]*?(\d{2,8})</Item>
+                        <Item>BID[\s\w\t]*?(\d{2,8})</Item>
+                    </Array>
+                </Item>
+                <Item Key="URL1">
+                    <Hash>
+                        <Item Key="Description">Security Focus</Item>
+                        <Item Key="URL">http://www.securityfocus.com/bid/&lt;MATCH1&gt;/info</Item>
+                        <Item Key="Image">http://www.securityfocus.com/favicon.ico</Item>
+                        <Item Key="Target">_blank</Item>
+                    </Hash>
+                </Item>
+                <Item Key="URL2">
+                    <Hash>
+                        <Item Key="Description">Google</Item>
+                        <Item Key="URL">http://google.com/search?q=&lt;MATCH&gt;</Item>
+                        <Item Key="Image">http://www.google.de/favicon.ico</Item>
+                        <Item Key="Target">_blank</Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Output::OutputFilterTextAutoLink###MSBulletins" Required="0" Valid="0">
+        <Description Lang="en">A filter for html output to add links behind MSBulletin numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.</Description>
+        <Description Lang="de">Ein Filter zur automatischen Generierung von Links, wenn Microsoft-Bulletin-Nummern identifiziert werden. Das Element Image erlaubt zwei Eingabeformen: Erstens der Name eines Icons (z. B. faq.png). In diesem Fall wird auf das Graphikverzeichnis des OTRS zugegriffen. Als zweite Möglichkeit kann man aber auch den direkten Link zur Graphik angeben (z. B. http://otrs.org/faq.png).</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Web</SubGroup>
+        <!-- Example strings: MS07-021 | MS04-028 | MS-07-002 -->
+        <!-- Example URL: http://www.microsoft.com/technet/security/bulletin/MS07-021.mspx  -->
+        <Setting>
+            <Hash>
+                <Item Key="RegExp">
+                    <Array>
+                        <Item>MS[^A-Za-z]{0,5}(\d\d).?(\d{2,4})</Item>
+                    </Array>
+                </Item>
+                <Item Key="URL1">
+                    <Hash>
+                        <Item Key="Description">Microsoft Technet</Item>
+                        <Item Key="URL">http://www.microsoft.com/technet/security/bulletin/MS&lt;MATCH1&gt;-&lt;MATCH2&gt;.mspx</Item>
+                        <Item Key="Image">http://www.microsoft.com/favicon.ico</Item>
+                        <Item Key="Target">_blank</Item>
+                    </Hash>
+                </Item>
+                <Item Key="URL2">
+                    <Hash>
+                        <Item Key="Description">Google</Item>
+                        <Item Key="URL">http://google.com/search?q=MS&lt;MATCH1&gt;-&lt;MATCH2&gt;</Item>
+                        <Item Key="Image">http://www.google.de/favicon.ico</Item>
+                        <Item Key="Target">_blank</Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Output::OutputFilterTextAutoLink###Setting1" Required="0" Valid="0">
+        <Description Lang="en">A filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.</Description>
+        <Description Lang="de">Ein Filter zur automatischen Generierung von Links, wenn ein bestimmter String identifiziert wird. Das Element Image erlaubt zwei Eingabeformen: Erstens der Name eines Icons (z. B. faq.png). In diesem Fall wird auf das Graphikverzeichnis des OTRS zugegriffen. Als zweite Möglichkeit kann man aber auch den direkten Link zur Graphik angeben (z. B. http://otrs.org/faq.png).</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Web</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="RegExp">
+                    <Array>
+                        <Item>RegExp</Item>
+                    </Array>
+                </Item>
+                <Item Key="URL1">
+                    <Hash>
+                        <Item Key="Description">Description</Item>
+                        <Item Key="URL">URL</Item>
+                        <Item Key="Image">right-small.png</Item>
+                        <Item Key="Target">_blank</Item>
+                    </Hash>
+                </Item>
+                <Item Key="URL2">
+                    <Hash>
+                        <Item Key="Description">Description</Item>
+                        <Item Key="URL">URL</Item>
+                        <Item Key="Image">Image</Item>
+                        <Item Key="Target">_blank</Item>
+                    </Hash>
+                </Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Output::OutputFilterTextAutoLink###Setting2" Required="0" Valid="0">
+        <Description Lang="en">A filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTRS image path will be used. The second possiblity is to insert the link to the image.</Description>
+        <Description Lang="de">Ein Filter zur automatischen Generierung von Links, wenn ein bestimmter String identifiziert wird. Das Element Image erlaubt zwei Eingabeformen: Erstens der Name eines Icons (z. B. faq.png). In diesem Fall wird auf das Graphikverzeichnis des OTRS zugegriffen. Als zweite Möglichkeit kann man aber auch den direkten Link zur Graphik angeben (z. B. http://otrs.org/faq.png).</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Web</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="RegExp">
+                    <Array>
+                        <Item>RegExp</Item>
+                    </Array>
+                </Item>
+                <Item Key="URL1">
+                    <Hash>
+                        <Item Key="Description">Description</Item>
+                        <Item Key="URL">URL</Item>
+                        <Item Key="Image">right-small.png</Item>
+                        <Item Key="Target">_blank</Item>
+                    </Hash>
+                </Item>
+                <Item Key="URL2">
+                    <Hash>
+                        <Item Key="Description">Description</Item>
+                        <Item Key="URL">URL</Item>
+                        <Item Key="Image">Image</Item>
+                        <Item Key="Target">_blank</Item>
+                    </Hash>
+                </Item>
+                <Item Key="URL3">
+                    <Hash>
+                        <Item Key="Description">Description</Item>
+                        <Item Key="URL">URL</Item>
+                        <Item Key="Image">Image</Item>
+                        <Item Key="Target">_blank</Item>
+                    </Hash>
+                </Item>
+            </Hash>
         </Setting>
     </ConfigItem>
 </otrs_config>
