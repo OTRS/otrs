@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.356 2008-12-10 12:48:45 martin Exp $
+# $Id: Ticket.pm,v 1.357 2008-12-15 07:09:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.356 $) [1];
+$VERSION = qw($Revision: 1.357 $) [1];
 
 =head1 NAME
 
@@ -766,6 +766,14 @@ TicketFreeKey1-16, TicketFreeText1-16, TicketFreeTime1-6, ...)
         UserID   => 123,
     );
 
+to get extended attributes (Closed, FirstLock and FirstResponse), use param Extended
+
+    my %Ticket = $TicketObject->TicketGet(
+        TicketID => 123,
+        UserID   => 123,
+        Extended => 1,
+    );
+
 =cut
 
 sub TicketGet {
@@ -778,10 +786,14 @@ sub TicketGet {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
         return;
     }
+    if ( !$Param{Extended} ) {
+        $Param{Extended} = '';
+    }
+    my $CacheKey = 'Cache::GetTicket' . $Param{Extended} . '::' . $Param{TicketID};
 
     # check if result is cached
-    if ( $Self->{ 'Cache::GetTicket' . $Param{TicketID} } ) {
-        return %{ $Self->{ 'Cache::GetTicket' . $Param{TicketID} } };
+    if ( $Self->{$CacheKey} ) {
+        return %{ $Self->{$CacheKey} };
     }
 
     # db query
@@ -943,11 +955,129 @@ sub TicketGet {
         $Ticket{$Key} = $Escalation{$Key};
     }
 
+    # do extended lookups
+    if ( $Param{Extended} ) {
+        my %TicketExtended = $Self->_TicketGetExtended( TicketID => $Param{TicketID} );
+        for my $Key ( keys %TicketExtended ) {
+            $Ticket{$Key} = $TicketExtended{$Key};
+        }
+    }
+
     # cache user result
-    $Self->{ 'Cache::GetTicket' . $Param{TicketID} } = \%Ticket;
+    $Self->{$CacheKey} = \%Ticket;
 
     # return ticket data
     return %Ticket;
+}
+
+sub _TicketGetExtended {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{TicketID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
+        return;
+    }
+
+    my %Ticket;
+    $Ticket{Closed}        = $Self->_TicketGetClosed( TicketID => $Param{TicketID} );
+    $Ticket{FirstResponse} = $Self->_TicketGetFirstResponse( TicketID => $Param{TicketID} );
+    $Ticket{FirstLock}     = $Self->_TicketGetFirstLock( TicketID => $Param{TicketID} );
+    return %Ticket;
+}
+
+sub _TicketGetFirstResponse {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{TicketID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
+        return;
+    }
+
+    # check if first response is already done
+    $Self->{DBObject}->Prepare(
+        SQL => 'SELECT a.create_time,a.id FROM article a, article_sender_type ast, article_type art'
+            . ' WHERE a.article_sender_type_id = ast.id AND a.article_type_id = art.id AND'
+            . ' a.ticket_id = ? AND ast.name = \'agent\' AND'
+            . ' (art.name LIKE \'email-ext%\' OR art.name LIKE \'note-ext%\' OR art.name = \'phone\' OR art.name = \'fax\' OR art.name = \'sms\')'
+            . ' ORDER BY a.create_time',
+        Bind  => [ \$Param{TicketID} ],
+        Limit => 1,
+    );
+    my $FirstResponse;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $FirstResponse = $Row[0];
+
+        # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
+        # and 0000-00-00 00:00:00 time stamps)
+        $FirstResponse =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
+    }
+    return $FirstResponse;
+}
+
+sub _TicketGetClosed {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{TicketID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
+        return;
+    }
+
+    # get close time
+    my @List = $Self->{StateObject}->StateGetStatesByType(
+        StateType => ['closed'],
+        Result    => 'ID',
+    );
+    return if !@List;
+
+    $Self->{DBObject}->Prepare(
+        SQL   => "SELECT create_time FROM ticket_history WHERE ticket_id = ? AND "
+            . " state_id IN (${\(join ', ', sort @List)}) ORDER BY create_time DESC",
+        Limit => 1,
+        Bind => [ \$Param{TicketID} ],
+    );
+    my $Closed;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $Closed = $Row[0];
+
+        # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
+        # and 0000-00-00 00:00:00 time stamps)
+        $Closed =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
+    }
+    return $Closed;
+}
+
+sub _TicketGetFirstLock {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{TicketID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
+        return;
+    }
+
+    # first lock
+    $Self->{DBObject}->Prepare(
+        SQL   => 'SELECT th.name, tht.name, th.create_time '
+            . ' FROM ticket_history th, ticket_history_type tht '
+            . 'WHERE th.history_type_id = tht.id AND th.ticket_id = ? '
+            . 'AND tht.name = \'Lock\' ORDER BY th.create_time, th.id ASC',
+        Limit => 100,
+        Bind  => [ \$Param{TicketID}],
+    );
+    my $FirstLock;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        if ( !$FirstLock ) {
+            $FirstLock = $Row[2];
+
+            # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
+            # and 0000-00-00 00:00:00 time stamps)
+            $FirstLock =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
+        }
+    }
+    return $FirstLock;
 }
 
 =item TicketTitleUpdate()
@@ -1832,23 +1962,7 @@ sub TicketEscalationIndexBuild {
     else {
 
         # check if first response is already done
-        $Self->{DBObject}->Prepare(
-            SQL => 'SELECT a.create_time,a.id FROM'
-                . ' article a, article_sender_type ast, article_type art'
-                . ' WHERE'
-                . ' a.article_sender_type_id = ast.id AND'
-                . ' a.article_type_id = art.id AND'
-                . ' a.ticket_id = ? AND'
-                . ' ast.name = \'agent\' AND'
-                . ' (art.name LIKE \'email-ext%\' OR art.name LIKE \'note-ext%\' OR art.name = \'phone\' OR art.name = \'fax\' OR art.name = \'sms\')'
-                . ' ORDER BY a.create_time',
-            Bind  => [ \$Ticket{TicketID} ],
-            Limit => 1,
-        );
-        my $FirstResponseDone = 0;
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-            $FirstResponseDone = 1;
-        }
+        my $FirstResponseDone = $Self->_TicketGetFirstResponse( TicketID => $Ticket{TicketID} );
 
         # update first response time to 0
         if ($FirstResponseDone) {
@@ -1997,21 +2111,7 @@ sub TicketEscalationIndexBuild {
     else {
 
         # find solution time / first close time
-        my @StateIDs = $Self->{StateObject}->StateGetStatesByType(
-            StateType => ['closed'],
-            Result    => 'ID',
-        );
-        $Self->{DBObject}->Prepare(
-            SQL => "SELECT create_time FROM ticket_history "
-                . " WHERE ticket_id = ? AND state_id IN (${\(join ', ', @StateIDs)}) "
-                . " ORDER BY create_time",
-            Bind  => [ \$Ticket{TicketID} ],
-            Limit => 1,
-        );
-        my $SolutionDone = 0;
-        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-            $SolutionDone = 1;
-        }
+        my $SolutionDone = $Self->_TicketGetClosed( TicketID => $Ticket{TicketID} );
 
         # update solution time to 0
         if ($SolutionDone) {
@@ -6751,6 +6851,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.356 $ $Date: 2008-12-10 12:48:45 $
+$Revision: 1.357 $ $Date: 2008-12-15 07:09:49 $
 
 =cut
