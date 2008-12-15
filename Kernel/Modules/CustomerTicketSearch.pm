@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearch.pm,v 1.35 2008-08-21 20:02:52 martin Exp $
+# $Id: CustomerTicketSearch.pm,v 1.36 2008-12-15 07:15:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::State;
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -391,7 +391,10 @@ sub Run {
             {
 
                 # get first article data
-                my %Data = $Self->{TicketObject}->ArticleLastCustomerArticle( TicketID => $_ );
+                my %Data = $Self->{TicketObject}->ArticleLastCustomerArticle(
+                    TicketID => $_,
+                    Extended => 1,
+                );
 
                 # get whole article (if configured!)
                 if (

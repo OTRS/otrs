@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.62 2008-12-04 14:52:37 mh Exp $
+# $Id: AgentTicketSearch.pm,v 1.63 2008-12-15 07:15:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::State;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -603,12 +603,18 @@ sub Run {
             for (@ViewableTicketIDs) {
 
                 # get first article data
-                my %Data = $Self->{TicketObjectSearch}->ArticleFirstArticle( TicketID => $_ );
+                my %Data = $Self->{TicketObjectSearch}->ArticleFirstArticle(
+                    TicketID => $_,
+                    Extended => 1,
+                );
+
                 $Data{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Data{Age}, Space => ' ' );
 
                 # get whole article (if configured!)
-                if ( $Self->{Config}->{'SearchArticleCSVTree'} && $GetParam{ResultForm} eq 'CSV' ) {
-                    my @Article = $Self->{TicketObjectSearch}->ArticleGet( TicketID => $_ );
+                if ( $Self->{Config}->{SearchArticleCSVTree} && $GetParam{ResultForm} eq 'CSV' ) {
+                    my @Article = $Self->{TicketObjectSearch}->ArticleGet(
+                        TicketID => $_,
+                    );
                     for my $Articles (@Article) {
                         if ( $Articles->{Body} ) {
                             $Data{ArticleTree}

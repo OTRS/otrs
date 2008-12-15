@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.217 2008-12-08 17:39:35 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.218 2008-12-15 07:15:23 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -2375,6 +2375,9 @@
                 <Item>TicketNumber</Item>
                 <Item>Age</Item>
                 <Item>Created</Item>
+                <Item>Closed</Item>
+                <Item>FirstLock</Item>
+                <Item>FirstResponse</Item>
                 <Item>State</Item>
                 <Item>Priority</Item>
                 <Item>Queue</Item>
@@ -2409,7 +2412,6 @@
                 <Item>TicketFreeTime4</Item>
                 <Item>TicketFreeTime5</Item>
                 <Item>TicketFreeTime6</Item>
-                <Item>CustomerName</Item>
                 <Item>ArticleTree</Item>
             </Array>
         </Setting>
