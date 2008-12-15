@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.189 2008-12-04 14:52:37 mh Exp $
+# $Id: Article.pm,v 1.190 2008-12-15 07:07:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.189 $) [1];
+$VERSION = qw($Revision: 1.190 $) [1];
 
 =head1 NAME
 
@@ -1096,10 +1096,12 @@ sub ArticleLastCustomerArticle {
     my @Index = $Self->ArticleIndex( TicketID => $Param{TicketID}, SenderType => 'customer' );
 
     # get article data
-    return $Self->ArticleGet( ArticleID => $Index[-1] ) if @Index;
+    if (@Index) {
+        return $Self->ArticleGet( ArticleID => $Index[-1], Extended => $Param{Extended} );
+    }
 
+    # get whole article index
     @Index = $Self->ArticleIndex( TicketID => $Param{TicketID} );
-
     if ( !@Index ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -1108,7 +1110,7 @@ sub ArticleLastCustomerArticle {
         return;
     }
 
-    # return latest non internal article
+    # second try, return latest non internal article
     for my $ArticleID ( reverse @Index ) {
         my %Article = $Self->ArticleGet( ArticleID => $ArticleID );
         if ( $Article{StateType} eq 'merged' || $Article{ArticleType} !~ /int/ ) {
@@ -1116,7 +1118,7 @@ sub ArticleLastCustomerArticle {
         }
     }
 
-    # if we got no internal article, return the latest one
+    # third try, if we got no internal article, return the latest one
     return $Self->ArticleGet( ArticleID => $Index[-1] );
 }
 
@@ -1144,7 +1146,7 @@ sub ArticleFirstArticle {
 
     # get article data
     if (@Index) {
-        return $Self->ArticleGet( ArticleID => $Index[0] );
+        return $Self->ArticleGet( ArticleID => $Index[0], Extended => $Param{Extended} );
     }
     else {
         $Self->{LogObject}->Log(
@@ -1331,20 +1333,31 @@ returns article data
 
     my %Article = $TicketObject->ArticleGet(
         ArticleID => 123,
+        UserID    => 123,
     );
 
 returns articles in array / hash by given ticket id
 
     my @ArticleIndex = $TicketObject->ArticleGet(
         TicketID => 123,
+        UserID   => 123,
     );
 
 returns articles in array / hash by given ticket id but
 only requestet article types
 
     my @ArticleIndex = $TicketObject->ArticleGet(
-        TicketID => 123,
+        TicketID    => 123,
         ArticleType => [ $ArticleType1, $ArticleType2 ],
+        UserID      => 123,
+    );
+
+to get extended ticket attributes, use param Extended
+
+    my @ArticleIndex = $TicketObject->ArticleGet(
+        TicketID => 123,
+        UserID   => 123,
+        Extended => 1,
     );
 
 =cut
@@ -1600,6 +1613,24 @@ sub ArticleGet {
         Ticket => \%Ticket,
         UserID => $Param{UserID} || 1,
     );
+    for my $Part (@Content) {
+        for ( keys %Escalation ) {
+            $Part->{$_} = $Escalation{$_};
+        }
+    }
+
+    # do extended lookups
+    if ( $Param{Extended} ) {
+        my %TicketExtended = $Self->_TicketGetExtended( TicketID => $Ticket{TicketID} );
+        for my $Key ( keys %TicketExtended ) {
+            $Ticket{$Key} = $TicketExtended{$Key};
+        }
+        for my $Part (@Content) {
+            for ( keys %TicketExtended ) {
+                $Part->{$_} = $TicketExtended{$_};
+            }
+        }
+    }
 
     # article stuff
     for my $Part (@Content) {
@@ -1640,12 +1671,6 @@ sub ArticleGet {
         $Part->{State}     = $StateData{Name};
     }
 
-    # get escalation time
-    for my $Part (@Content) {
-        for ( keys %Escalation ) {
-            $Part->{$_} = $Escalation{$_};
-        }
-    }
     if ( $Param{ArticleID} ) {
         return %{ $Content[0] };
     }
@@ -1658,12 +1683,20 @@ sub ArticleGet {
 
 update a article item
 
-Note: Key "Body", "Subject", "From", "To" and "Cc" is implemented.
+Note: Key "Body", "Subject", "From", "To", "Cc", "ArticleType" or "SenderType" is implemented.
 
     $TicketObject->ArticleUpdate(
         ArticleID => 123,
         Key       => 'Body',
         Value     => 'New Body',
+        UserID    => 123,
+        TicketID  => 123,
+    );
+
+    $TicketObject->ArticleUpdate(
+        ArticleID => 123,
+        Key       => 'ArticleType',
+        Value     => 'email-internal',
         UserID    => 123,
         TicketID  => 123,
     );
@@ -1687,13 +1720,31 @@ sub ArticleUpdate {
         return;
     }
 
+    # lookup for ArticleType
+    if ( $Param{Key} eq 'ArticleType' ) {
+        $Param{Key} = 'ArticleTypeID';
+        $Param{Value} = $Self->ArticleTypeLookup(
+            ArticleType => $Param{Value},
+        );
+    }
+
+    # lookup for SenderType
+    if ( $Param{Key} eq 'SenderType' ) {
+        $Param{Key} = 'SenderTypeID';
+        $Param{Value} = $Self->ArticleSenderTypeLookup(
+            SenderType => $Param{Value},
+        );
+    }
+
     # map
     my %Map = (
-        Body    => 'a_body',
-        Subject => 'a_subject',
-        From    => 'a_from',
-        To      => 'a_to',
-        Cc      => 'a_cc',
+        Body          => 'a_body',
+        Subject       => 'a_subject',
+        From          => 'a_from',
+        To            => 'a_to',
+        Cc            => 'a_cc',
+        ArticleTypeID => 'article_type_id',
+        SenderTypeID  => 'article_sender_type_id',
     );
 
     # db update
