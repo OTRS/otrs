@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.pm,v 1.50 2008-10-29 15:40:26 tr Exp $
+# $Id: AdminUser.pm,v 1.51 2008-12-19 08:26:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -51,7 +51,10 @@ sub Run {
         )
     {
         my $UserID = $Self->{ParamObject}->GetParam( Param => 'UserID' ) || '';
-        my %UserData = $Self->{UserObject}->GetUserData( UserID => $UserID );
+        my %UserData = $Self->{UserObject}->GetUserData(
+            UserID        => $UserID,
+            NoOutOfOffice => 1,
+        );
 
         # get groups rw
         my %GroupData = $Self->{GroupObject}->GroupMemberList(
@@ -116,7 +119,10 @@ sub Run {
             = $Self->{ParamObject}->GetParam( Param => 'UserID' )
             || $Self->{ParamObject}->GetParam( Param => 'ID' )
             || '';
-        my %UserData = $Self->{UserObject}->GetUserData( UserID => $UserID, );
+        my %UserData = $Self->{UserObject}->GetUserData(
+            UserID        => $UserID,
+            NoOutOfOffice => 1,
+        );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
@@ -155,7 +161,10 @@ sub Run {
                 }
 
                 # get user data
-                my %UserData = $Self->{UserObject}->GetUserData( UserID => $GetParam{UserID} );
+                my %UserData = $Self->{UserObject}->GetUserData(
+                    UserID        => $GetParam{UserID},
+                    NoOutOfOffice => 1,
+                );
                 my $Module = $Preferences{$Group}->{Module};
                 if ( $Self->{MainObject}->Require($Module) ) {
                     my $Object = $Module->new(
@@ -263,7 +272,10 @@ sub Run {
                 next if $Group eq 'Password';
 
                 # get user data
-                my %UserData = $Self->{UserObject}->GetUserData( UserID => $UserID );
+                my %UserData = $Self->{UserObject}->GetUserData(
+                    UserID        => $UserID,
+                    NoOutOfOffice => 1,
+                );
                 my $Module = $Preferences{$Group}->{Module};
                 if ( $Self->{MainObject}->Require($Module) ) {
                     my $Object = $Module->new(
@@ -475,7 +487,10 @@ sub _Overview {
             else {
                 $CssClass = 'searchactive';
             }
-            my %UserData = $Self->{UserObject}->GetUserData( UserID => $_, );
+            my %UserData = $Self->{UserObject}->GetUserData(
+                UserID        => $_,
+                NoOutOfOffice => 1,
+            );
             $Self->{LayoutObject}->Block(
                 Name => 'OverviewResultRow',
                 Data => {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.188 2008-12-10 08:26:19 tr Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.189 2008-12-19 08:26:03 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -2965,7 +2965,7 @@ Your OTRS Notification Master
         <Group>Framework</Group>
         <SubGroup>Core::PerformanceLog</SubGroup>
         <Setting>
-            <String Regex="">15</String>
+            <String Regex="">25</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PreferencesTable" Required="1" Valid="1">
@@ -3166,6 +3166,24 @@ Your OTRS Notification Master
                 <Item Key="Desc">Select your Time-Zone.</Item>
                 <Item Key="PrefKey">UserTimeZone</Item>
                 <Item Key="Prio">3000</Item>
+                <Item Key="Activ">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="PreferencesGroups###OutOfOffice" Required="0" Valid="1">
+        <Description Lang="en">Parameters for the Out Of Office object in the preference view.</Description>
+        <Description Lang="de">Parameter des Out Of Officen-Objekts in der Ansicht für die Einstellungen.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::Preferences</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::PreferencesOutOfOffice</Item>
+                <Item Key="Colum">Other Options</Item>
+                <Item Key="Block">OutOfOffice</Item>
+                <Item Key="Label">Out Of Office</Item>
+                <Item Key="Desc">Select your out of office time.</Item>
+                <Item Key="PrefKey">UserOutOfOffice</Item>
+                <Item Key="Prio">4000</Item>
                 <Item Key="Activ">1</Item>
             </Hash>
         </Setting>

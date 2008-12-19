@@ -2,7 +2,7 @@
 # AdminUserForm.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUserForm.dtl,v 1.35 2008-10-28 19:45:30 tt Exp $
+# $Id: AdminUserForm.dtl,v 1.36 2008-12-19 08:26:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -81,14 +81,14 @@
                 <td align="center" class="contentkey">$Text{"valid"}/$Text{"invalid"}</td>
               </tr>
 <!-- dtl:block:OverviewResultRow -->
-              <tr>
-                <td class="$QData{"CssClass"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Change&UserID=$LQData{"UserID"}&Search=$LQData{"Search"}">$QData{"UserLogin"}</a></td>
-                <td class="$QData{"CssClass"}">$QData{"UserFirstname"} $QData{"UserLastname"}</td>
-                <td class="$QData{"CssClass"}"><div title="$QData{"UserEmail"}">$QData{"UserEmail","26"}</div></td>
+              <tr class="$QData{"CssClass"}" onmouseover="this.className='searchhighlight';" onmouseout="this.className='$QData{"CssClass"}';">
+                <td><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Change&UserID=$LQData{"UserID"}&Search=$LQData{"Search"}">$QData{"UserLogin"}</a></td>
+                <td>$QData{"UserFirstname"} $QData{"UserLastname"}</td>
+                <td><div title="$QData{"UserEmail"}">$QData{"UserEmail","26"}</div></td>
 <!-- dtl:block:OverviewResultRowSwitchToUser -->
-                <td align="center" class="$QData{"CssClass"}"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Switch&UserID=$LQData{"UserID"}">x</a></td>
+                <td align="center"><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Switch&UserID=$LQData{"UserID"}">x</a></td>
 <!-- dtl:block:OverviewResultRowSwitchToUser -->
-                <td align="center" class="$QData{"CssClass"}">$Text{"$QData{"Valid"}"}</td>
+                <td align="center">$Text{"$QData{"Valid"}"}</td>
               </tr>
 <!-- dtl:block:OverviewResultRow -->
             </table>
@@ -182,6 +182,16 @@
                   <td class="contentvalue"><input type="password" name="$QData{"Name"}" value="" size="30"/></td>
                 </tr>
 <!-- dtl:block:Password -->
+<!-- dtl:block:OutOfOffice -->
+                <tr>
+                  <td class="contentkey">$Text{"$Data{"Label"}"}:<br/><i class="small">($Text{"$Data{"Desc"}"})</i></td>
+                  <td class="contentvalue">
+                    <input type="radio" name="OutOfOffice" value="1" $QData{"OutOfOfficeOn"}>$Text{"On"}<input type="radio" name="OutOfOffice" value="0" $QData{"OutOfOfficeOff"}>$Text{"Off"}
+                    <br/>
+                    $Text{"Start"}: $Data{"OptionStart"}<br>$Text{"End"}: $Data{"OptionEnd"}
+                  </td>
+                </tr>
+<!-- dtl:block:OutOfOffice -->
 <!-- dtl:block:Item -->
               </table>
             </td>
