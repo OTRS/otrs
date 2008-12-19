@@ -2,7 +2,7 @@
 # AdminUserForm.dtl - provides HTML form for AdminUser
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUserForm.dtl,v 1.36 2008-12-19 08:26:03 martin Exp $
+# $Id: AdminUserForm.dtl,v 1.37 2008-12-19 08:34:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -81,7 +81,7 @@
                 <td align="center" class="contentkey">$Text{"valid"}/$Text{"invalid"}</td>
               </tr>
 <!-- dtl:block:OverviewResultRow -->
-              <tr class="$QData{"CssClass"}" onmouseover="this.className='searchhighlight';" onmouseout="this.className='$QData{"CssClass"}';">
+              <tr class="$QData{"CssClass"}">
                 <td><a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=Change&UserID=$LQData{"UserID"}&Search=$LQData{"Search"}">$QData{"UserLogin"}</a></td>
                 <td>$QData{"UserFirstname"} $QData{"UserLastname"}</td>
                 <td><div title="$QData{"UserEmail"}">$QData{"UserEmail","26"}</div></td>
