@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.809 2008-12-15 07:15:23 martin Exp $
+# $Id: CHANGES,v 1.810 2008-12-22 00:10:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,10 @@
 # --
 
 2.4.0 beta1 (2009/??/??)
+ - (2008/12/22) Improved ticket escalation notification, moved to .dtl support
+    (Kernel/Output/HTML/Standard/AgentTicketEscalation.dtl) and added ticket
+    title as mouse on over note.
+ - (2008/12/19) Added out of office feature for agent users.
  - (2008/12/15) Added new ticket attributes to CSV export of ticket in ticket
     search. New attributes are 'Closed', 'FirstLock' and 'FirstResponse'.
  - (2008/12/10) Added the text auto link feature ot add http links for text body

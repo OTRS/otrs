@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NotificationAgentTicketEscalation.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationAgentTicketEscalation.pm,v 1.28 2008-10-02 07:27:03 martin Exp $
+# $Id: NotificationAgentTicketEscalation.pm,v 1.29 2008-12-22 00:10:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -43,18 +43,17 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    return '' if $Self->{LayoutObject}->{Action} !~ /^AgentTicket(Queue|Mailbox|Status)/;
+    # only show the escalations on ticket overviews
+    return '' if $Self->{LayoutObject}->{Action} !~ /^AgentTicket(Queue|(Status|Locked|Watch|Responsible)View)/;
 
     # check result cache
     my $CacheTime = $Param{Config}->{CacheTime} || 40;
     if ($CacheTime) {
         my $Output = $Self->{CacheObject}->Get(
             Type => 'TicketEscalation',
-            Key  => "EscalationResult::$Self->{UserID}",
+            Key  => 'EscalationResult::' . $Self->{UserID},
         );
-        if ( defined $Output ) {
-            return $Output;
-        }
+        return $Output if defined $Output;
     }
 
     # get all overtime tickets
@@ -77,96 +76,115 @@ sub Run {
     for my $TicketID (@TicketIDs) {
         my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
 
-        for (
-            qw(FirstResponseTimeDestinationDate UpdateTimeDestinationDate SolutionTimeDestinationDate)
-            )
-        {
-            if ( $Ticket{$_} ) {
-                $Ticket{$_} = $Self->{LayoutObject}->{LanguageObject}->FormatTimeString(
-                    $Ticket{$_}, undef, 'NoSeconds'
-                );
-            }
-        }
-
         # check response time
-        if ( defined( $Ticket{FirstResponseTime} ) ) {
-            my $TimeHuman = $Self->{LayoutObject}->CustomerAgeInHours(
+        if ( defined $Ticket{FirstResponseTime} ) {
+            $Ticket{FirstResponseTimeHuman} = $Self->{LayoutObject}->CustomerAgeInHours(
                 Age   => $Ticket{FirstResponseTime},
                 Space => ' ',
             );
             if ( $Ticket{FirstResponseTimeEscalation} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'TicketEscalationFirstResponseTimeOver',
+                    Data => \%Ticket,
+                );
+                my $Data = $Self->{LayoutObject}->Output(
+                    TemplateFile => 'AgentTicketEscalation',
+                    Data         => \%Param,
+                 );
                 $ResponseTime .= $Self->{LayoutObject}->Notify(
                     Priority => 'Error',
-                    Link     => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID=' . $TicketID,
-                    Data     => '$Text{"Ticket %s: first response time is over (%s)!", "'
-                        . $Ticket{TicketNumber}
-                        . "\", \"$TimeHuman / $Ticket{'FirstResponseTimeDestinationDate'}\"}",
+                    Data     => $Data,
                 );
                 $Count++;
             }
             elsif ( $Ticket{FirstResponseTimeNotification} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'TicketEscalationFirstResponseTimeWillBeOver',
+                    Data => \%Ticket,
+                );
+                my $Data = $Self->{LayoutObject}->Output(
+                    TemplateFile => 'AgentTicketEscalation',
+                    Data         => \%Param,
+                );
                 $ResponseTime .= $Self->{LayoutObject}->Notify(
                     Priority => 'Notice',
-                    Link     => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID=' . $TicketID,
-                    Data     => '$Text{"Ticket %s: first response time will be over in %s!", "'
-                        . $Ticket{TicketNumber}
-                        . "\", \"$TimeHuman / $Ticket{'FirstResponseTimeDestinationDate'}\"}",
+                    Data     => $Data,
                 );
                 $Count++;
             }
         }
 
         # check update time
-        if ( defined( $Ticket{UpdateTime} ) ) {
-            my $TimeHuman = $Self->{LayoutObject}->CustomerAgeInHours(
+        if ( defined $Ticket{UpdateTime} ) {
+            $Ticket{UpdateTimeHuman} = $Self->{LayoutObject}->CustomerAgeInHours(
                 Age   => $Ticket{UpdateTime},
                 Space => ' ',
             );
             if ( $Ticket{UpdateTimeEscalation} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'TicketEscalationUpdateTimeOver',
+                    Data => \%Ticket,
+                );
+                my $Data = $Self->{LayoutObject}->Output(
+                    TemplateFile => 'AgentTicketEscalation',
+                    Data         => \%Param,
+                 );
                 $UpdateTime .= $Self->{LayoutObject}->Notify(
                     Priority => 'Error',
-                    Link     => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID=' . $TicketID,
-                    Data     => '$Text{"Ticket %s: update time is over (%s)!", "'
-                        . $Ticket{TicketNumber}
-                        . "\", \"$TimeHuman / $Ticket{'UpdateTimeDestinationDate'}\"}",
+                    Data     => $Data,
                 );
                 $Count++;
             }
             elsif ( $Ticket{UpdateTimeNotification} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'TicketEscalationUpdateTimeWillBeOver',
+                    Data => \%Ticket,
+                );
+                my $Data = $Self->{LayoutObject}->Output(
+                    TemplateFile => 'AgentTicketEscalation',
+                    Data         => \%Param,
+                );
                 $UpdateTime .= $Self->{LayoutObject}->Notify(
                     Priority => 'Notice',
-                    Link     => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID=' . $TicketID,
-                    Data     => '$Text{"Ticket %s: update time will be over in %s!", "'
-                        . $Ticket{TicketNumber}
-                        . "\", \"$TimeHuman / $Ticket{'UpdateTimeDestinationDate'}\"}",
+                    Data     => $Data,
                 );
                 $Count++;
             }
         }
 
         # check solution
-        if ( defined( $Ticket{SolutionTime} ) ) {
-            my $TimeHuman = $Self->{LayoutObject}->CustomerAgeInHours(
+        if ( defined $Ticket{SolutionTime} ) {
+            $Ticket{SolutionTimeHuman} = $Self->{LayoutObject}->CustomerAgeInHours(
                 Age   => $Ticket{SolutionTime},
                 Space => ' ',
             );
             if ( $Ticket{SolutionTimeEscalation} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'TicketEscalationSolutionTimeOver',
+                    Data => \%Ticket,
+                );
+                my $Data = $Self->{LayoutObject}->Output(
+                    TemplateFile => 'AgentTicketEscalation',
+                    Data         => \%Param,
+                );
                 $SolutionTime .= $Self->{LayoutObject}->Notify(
                     Priority => 'Error',
-                    Link     => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID=' . $TicketID,
-                    Data     => '$Text{"Ticket %s: solution time is over (%s)!", "'
-                        . $Ticket{TicketNumber}
-                        . "\", \"$TimeHuman / $Ticket{'SolutionTimeDestinationDate'}\"}",
+                    Data     => $Data,
                 );
                 $Count++;
             }
             elsif ( $Ticket{SolutionTimeNotification} ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'TicketEscalationSolutionTimeOver',
+                    Data => \%Ticket,
+                );
+                my $Data = $Self->{LayoutObject}->Output(
+                    TemplateFile => 'AgentTicketEscalation',
+                    Data         => \%Param,
+                );
                 $SolutionTime .= $Self->{LayoutObject}->Notify(
                     Priority => 'Notice',
-                    Link     => '$Env{"Baselink"}Action=AgentTicketZoom&TicketID=' . $TicketID,
-                    Data     => '$Text{"Ticket %s: solution time will be over in %s!", "'
-                        . $Ticket{TicketNumber}
-                        . "\", \"$TimeHuman / $Ticket{'SolutionTimeDestinationDate'}\"}",
+                    Data     => $Data,
                 );
                 $Count++;
             }
@@ -184,7 +202,7 @@ sub Run {
     if ($CacheTime) {
         $Self->{CacheObject}->Set(
             Type  => 'TicketEscalation',
-            Key   => "EscalationResult::$Self->{UserID}",
+            Key   => 'EscalationResult::' . $Self->{UserID},
             Value => $Output,
             TTL   => $CacheTime,
         );
