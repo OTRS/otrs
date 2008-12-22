@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/FollowUp.pm - the sub part of PostMaster.pm
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: FollowUp.pm,v 1.62 2008-12-19 08:26:03 martin Exp $
+# $Id: FollowUp.pm,v 1.63 2008-12-22 01:14:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::User;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -59,11 +59,24 @@ sub Run {
 
     # Check if owner of ticket is still valid
     my %UserInfo = $Self->{UserObject}->GetUserData(
-        UserID        => $Ticket{OwnerID},
+        UserID => $Ticket{OwnerID},
     );
 
-    # check user, just lock it if user is valid and ticket was closed
-    if ( $UserInfo{ValidID} eq 1 ) {
+    # 1) check user, out of office, unlock ticket
+    if ( $UserInfo{OutOfOfficeMessage} ) {
+        $Self->{TicketObject}->LockSet(
+            TicketID => $Param{TicketID},
+            Lock     => 'unlock',
+            UserID   => => $Param{InmailUserID},
+        );
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message  => "Ticket [$Param{Tn}] unlocked, current owner is out of office!",
+        );
+    }
+
+    # 2) check user, just lock it if user is valid and ticket was closed
+    elsif ( $UserInfo{ValidID} eq 1 ) {
 
         # set lock (if ticket should be locked on follow up)
         if ( $Lock && $Ticket{StateType} =~ /^close/i ) {
@@ -82,20 +95,7 @@ sub Run {
         }
     }
 
-    # check user, out of office, unlock ticket
-    elsif ( $UserInfo{OutOfOfficeMessage} ) {
-        $Self->{TicketObject}->LockSet(
-            TicketID => $Param{TicketID},
-            Lock     => 'unlock',
-            UserID   => => $Param{InmailUserID},
-        );
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message  => "Ticket [$Param{Tn}] unlocked, current owner is out of office!",
-        );
-    }
-
-    # Unlock ticket, because current user is set to invalid
+    # 3) Unlock ticket, because current user is set to invalid
     else {
         $Self->{TicketObject}->LockSet(
             TicketID => $Param{TicketID},
