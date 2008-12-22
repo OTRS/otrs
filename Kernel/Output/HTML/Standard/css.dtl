@@ -2,7 +2,7 @@
 # css.dtl - css file
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: css.dtl,v 1.24 2008-08-20 12:16:32 martin Exp $
+# $Id: css.dtl,v 1.25 2008-12-22 11:01:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -87,15 +87,20 @@ input {font-family:Geneva,Helvetica,Arial,Helvetica,sans-serif;font-size:12px;}
 # message
 .message { color:#000000;font-size:12px;font-family:monospace, fixed; }
 # article type color
+.agent-phone { background-color:#ccffcc; }
 .agent-email-external { background-color:#ccffcc; }
 .agent-note-internal { background-color:#ffcccc; }
 .agent-note-external { background-color:#eeeeee; }
 .system-email-external { background-color:#fffbbb; }
+.customer-phone { background-color:#99ccff; }
+.customer-email-external { background-color:#ffffcc; }
+.customer-note-internal { background-color:#ffcc99; }
+.customer-note-external { background-color:#ffcc99; }
 .highlight { background-color:#d1d1d1; }
 # priority id color
-.PriorityID-1 { background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
-.PriorityID-2 { background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
-.PriorityID-3 { background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+.PriorityID-1 { background-color:#cdcdcd;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+.PriorityID-2 { background-color:#cdcdcd;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+.PriorityID-3 { background-color:#cdcdcd;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
 .PriorityID-4 { background-color:#ffcccc;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
 .PriorityID-5 { background-color:#ffaaaa;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
 

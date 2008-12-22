@@ -2,7 +2,7 @@
 # customer-css.dtl - customer css
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: customer-css.dtl,v 1.16 2008-08-03 15:07:37 martin Exp $
+# $Id: customer-css.dtl,v 1.17 2008-12-22 11:01:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -66,10 +66,15 @@ input {font-family:Geneva,Helvetica,Arial,Helvetica,sans-serif;font-size:12px;}
 .singleboxkey { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:normal;vertical-align:top; }
 .singleboxvalue { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
 # article type color
+.agent-phone { background-color:#ccffcc; }
 .agent-email-external { background-color:#ccffcc; }
 .agent-note-internal { background-color:#ffcccc; }
 .agent-note-external { background-color:#eeeeee; }
 .system-email-external { background-color:#fffbbb; }
+.customer-phone { background-color:#99ccff; }
+.customer-email-external { background-color:#ffffcc; }
+.customer-note-internal { background-color:#ffcc99; }
+.customer-note-external { background-color:#ffcc99; }
 .highlight { background-color:#d1d1d1; }
 -->
 </style>
