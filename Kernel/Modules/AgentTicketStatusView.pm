@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketStatusView.pm - status for all open tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketStatusView.pm,v 1.18 2008-12-23 13:41:27 martin Exp $
+# $Id: AgentTicketStatusView.pm,v 1.19 2008-12-23 13:51:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -79,7 +79,7 @@ sub Run {
             Name   => 'Open',
             Prio   => 1000,
             Search => {
-                Limit      => 15_000,
+                Limit      => 8_000,
                 StateType  => 'Open',
                 OrderBy    => $OrderBy,
                 SortBy     => $SortBy,
@@ -91,7 +91,7 @@ sub Run {
             Name   => 'Closed',
             Prio   => 1001,
             Search => {
-                Limit      => 15_000,
+                Limit      => 8_000,
                 StateType  => 'Closed',
                 OrderBy    => $OrderBy,
                 SortBy     => $SortBy,
@@ -110,6 +110,10 @@ sub Run {
     my @ViewableTickets = $Self->{TicketObject}->TicketSearch(
         %{ $Filters{ $Self->{Filter} }->{Search} },
         Result => 'ARRAY',
+    );
+    my $ViewableTicketCount = $Self->{TicketObject}->TicketSearch(
+        %{ $Filters{ $Self->{Filter} }->{Search} },
+        Result     => 'COUNT',
     );
 
     # do nav bar lookup
@@ -144,7 +148,7 @@ sub Run {
         . '&';
     $Output .= $Self->{LayoutObject}->TicketListShow(
         TicketIDs  => \@ViewableTickets,
-        Total      => scalar @ViewableTickets,
+        Total      => $ViewableTicketCount,
         Env        => $Self,
         LinkPage   => $LinkPage,
         LinkSort   => $LinkSort,
