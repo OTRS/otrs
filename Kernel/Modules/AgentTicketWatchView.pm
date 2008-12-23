@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketWatchView.pm - to view all locked tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketWatchView.pm,v 1.2 2008-12-08 17:46:55 martin Exp $
+# $Id: AgentTicketWatchView.pm,v 1.3 2008-12-23 13:41:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -128,16 +128,16 @@ sub Run {
 
     my @ViewableTickets = $Self->{TicketObject}->TicketSearch(
         %{ $Filters{ $Self->{Filter} }->{Search} },
-        Result     => 'ARRAY',
-        Limit      => 1000,
+        Result => 'ARRAY',
+        Limit  => 1000,
     );
 
     my %NavBarFilter;
     for my $Filter ( keys %Filters ) {
         my @ViewableTickets = $Self->{TicketObject}->TicketSearch(
             %{ $Filters{ $Filter }->{Search} },
-            Result     => 'ARRAY',
-            Limit      => 1000,
+            Result => 'ARRAY',
+            Limit  => 1000,
         );
 
         if ( $Filter eq 'New') {

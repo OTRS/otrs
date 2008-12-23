@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketStatusView.pm - status for all open tickets
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketStatusView.pm,v 1.17 2008-12-04 14:52:37 mh Exp $
+# $Id: AgentTicketStatusView.pm,v 1.18 2008-12-23 13:41:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -79,7 +79,7 @@ sub Run {
             Name   => 'Open',
             Prio   => 1000,
             Search => {
-                Limit      => 2000,
+                Limit      => 15_000,
                 StateType  => 'Open',
                 OrderBy    => $OrderBy,
                 SortBy     => $SortBy,
@@ -91,7 +91,7 @@ sub Run {
             Name   => 'Closed',
             Prio   => 1001,
             Search => {
-                Limit      => 2000,
+                Limit      => 15_000,
                 StateType  => 'Closed',
                 OrderBy    => $OrderBy,
                 SortBy     => $SortBy,
@@ -149,6 +149,7 @@ sub Run {
         LinkPage   => $LinkPage,
         LinkSort   => $LinkSort,
         View       => $Self->{View},
+        Bulk       => 1,
         TitleName  => 'Status View',
         TitleValue => $Self->{Filter},
 
