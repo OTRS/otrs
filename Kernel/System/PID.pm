@@ -2,7 +2,7 @@
 # Kernel/System/PID.pm - all system pid functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PID.pm,v 1.16 2008-06-20 16:55:33 mh Exp $
+# $Id: PID.pm,v 1.17 2008-12-28 23:13:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 =head1 NAME
 
@@ -110,7 +110,7 @@ sub PIDCreate {
     # check if already exists
     my %ProcessID = $Self->PIDGet(%Param);
     if ( %ProcessID && !$Param{Force} ) {
-        if ( $ProcessID{Created} > ( time() - 3600 ) ) {    # 60 * 60
+        if ( $ProcessID{Created} > ( time() - 3600 ) ) {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
                 Message  => "Can't create PID $ProcessID{Name}, because it's already running "
@@ -126,10 +126,13 @@ sub PIDCreate {
         );
     }
 
+    # do nothing if PID is the same
+    return 1 if $Self->{PID} eq $ProcessID{PID};
+
     # delete if extists
     $Self->PIDDelete(%Param);
 
-    # sql
+    # add new entry
     my $Time = time();
     return $Self->{DBObject}->Do(
         SQL => 'INSERT INTO process_id'
@@ -218,6 +221,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2008-06-20 16:55:33 $
+$Revision: 1.17 $ $Date: 2008-12-28 23:13:58 $
 
 =cut
