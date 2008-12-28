@@ -2,7 +2,7 @@
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.49 2008-12-04 14:52:37 mh Exp $
+# $Id: LDAP.pm,v 1.50 2008-12-28 23:32:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -190,7 +190,7 @@ sub Auth {
     if ( $Result->code ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "First bind failed! " . $Result->error(),
+            Message  => 'First bind failed! ' . $Result->error(),
         );
         return;
     }
@@ -217,7 +217,7 @@ sub Auth {
     if ( $Result->code ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Search failed! " . $Result->error,
+            Message  => 'Search failed! ' . $Result->error,
         );
         return;
     }
@@ -256,7 +256,7 @@ sub Auth {
         if ( $Self->{Debug} > 0 ) {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message  => "check for groupdn!",
+                Message  => 'check for groupdn!',
             );
         }
 
@@ -275,11 +275,7 @@ sub Auth {
         if ( $Result2->code ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "Search failed! base='"
-                    . $Self->{GroupDN}
-                    . "', filter='"
-                    . $Filter2 . "', "
-                    . $Result->error,
+                Message  => "Search failed! base='$Self->{GroupDN}', filter='$Filter2', " . $Result->error,
             );
             return;
         }
@@ -322,189 +318,172 @@ sub Auth {
         $LDAP->unbind;
         return;
     }
-    else {
 
-        # maybe check if pw is expired
-        # if () {
-        #     $Self->{LogObject}->Log(
-        #         Priority => 'info',
-        #         Message => "Password is expired!",
-        #     );
-        #     return;
-        # }
+    # maybe check if pw is expired
+    # if () {
+    #     $Self->{LogObject}->Log(
+    #         Priority => 'info',
+    #         Message => "Password is expired!",
+    #     );
+    #     return;
+    # }
 
-        # login note
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message => "User: $Param{User} ($UserDN) authentication ok (REMOTE_ADDR: $RemoteAddr).",
-        );
+    # login note
+    $Self->{LogObject}->Log(
+        Priority => 'notice',
+        Message => "User: $Param{User} ($UserDN) authentication ok (REMOTE_ADDR: $RemoteAddr).",
+    );
 
-        # sync user from ldap
-        if ( $Self->{ConfigObject}->Get( 'UserSyncLDAPMap' . $Self->{Count} ) ) {
-            my $Result = '';
-            if ( $Self->{SearchUserDN} && $Self->{SearchUserPw} ) {
-                $Result = $LDAP->bind(
-                    dn       => $Self->{SearchUserDN},
-                    password => $Self->{SearchUserPw},
-                );
-            }
-            else {
-                $Result = $LDAP->bind();
-            }
-            if ( $Result->code ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message  => "Sync bind failed! " . $Result->error,
-                );
-
-                # take down session
-                $LDAP->unbind;
-                return $Param{User};
-            }
-
-            # build filter
-            my $Filter = "($Self->{UID}=$UserQuote)";
-
-            # prepare filter
-            if ( $Self->{AlwaysFilter} ) {
-                $Filter = "(&$Filter$Self->{AlwaysFilter})";
-            }
-
-            # perform user search
-            $Result = $LDAP->search(
-                base   => $Self->{BaseDN},
-                filter => $Filter,
+    # sync user from ldap
+    if ( $Self->{ConfigObject}->Get( 'UserSyncLDAPMap' . $Self->{Count} ) ) {
+        my $Result = '';
+        if ( $Self->{SearchUserDN} && $Self->{SearchUserPw} ) {
+            $Result = $LDAP->bind(
+                dn       => $Self->{SearchUserDN},
+                password => $Self->{SearchUserPw},
             );
-            if ( $Result->code ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message  => "Search failed! ("
-                        . $Self->{BaseDN}
-                        . ") filter='$Filter' "
-                        . $Result->error,
+        }
+        else {
+            $Result = $LDAP->bind();
+        }
+        if ( $Result->code ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'Sync bind failed! ' . $Result->error,
+            );
+
+            # take down session
+            $LDAP->unbind;
+            return $Param{User};
+        }
+
+        # build filter
+        my $Filter = "($Self->{UID}=$UserQuote)";
+
+        # prepare filter
+        if ( $Self->{AlwaysFilter} ) {
+            $Filter = "(&$Filter$Self->{AlwaysFilter})";
+        }
+
+        # perform user search
+        $Result = $LDAP->search(
+            base   => $Self->{BaseDN},
+            filter => $Filter,
+        );
+        if ( $Result->code ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Search failed! ($Self->{BaseDN}) filter='$Filter' " . $Result->error,
+            );
+        }
+
+        # get whole user dn
+        my $UserDN   = '';
+        my %SyncUser = ();
+        for my $Entry ( $Result->all_entries ) {
+            $UserDN = $Entry->dn();
+            my $UserSyncLDAPMap = $Self->{ConfigObject}->Get( 'UserSyncLDAPMap' . $Self->{Count} );
+            for my $Key ( keys %{$UserSyncLDAPMap} ) {
+
+                # detect old config setting
+                if ( $Key =~ /^(Firstname|Lastname|Email)/ ) {
+                    $Key = 'User' . $Key;
+                    $Self->{LogObject}->Log(
+                        Priority => 'error',
+                        Message  => 'Old config setting detected, please use the new one '
+                            . 'from Kernel/Config/Defaults.pm (User* has been added!).',
+                    );
+                }
+                $SyncUser{$Key} = $Entry->get_value( $UserSyncLDAPMap->{$Key} );
+
+                # e. g. set utf-8 flag
+                $SyncUser{$Key} = $Self->_ConvertFrom(
+                    $SyncUser{$Key},
+                    $Self->{ConfigObject}->Get('DefaultCharset'),
                 );
             }
+            if ( $Entry->get_value('userPassword') ) {
+                $SyncUser{Pw} = $Entry->get_value('userPassword');
 
-            # get whole user dn
-            my $UserDN   = '';
-            my %SyncUser = ();
-            for my $Entry ( $Result->all_entries ) {
-                $UserDN = $Entry->dn();
-                for my $Key (
-                    keys %{ $Self->{ConfigObject}->Get( 'UserSyncLDAPMap' . $Self->{Count} ) }
-                    )
-                {
-
-                    # detect old config setting
-                    if ( $Key =~ /^(Firstname|Lastname|Email)/ ) {
-                        $Key = "User" . $Key;
-                        $Self->{LogObject}->Log(
-                            Priority => 'error',
-                            Message  => "Old config setting detected, please use the new one "
-                                . "from Kernel/Config/Defaults.pm (User* has been added!).",
-                        );
-                    }
-                    $SyncUser{$Key} = $Entry->get_value(
-                        $Self->{ConfigObject}->Get( 'UserSyncLDAPMap' . $Self->{Count} )->{$Key},
-                    );
-
-                    # e. g. set utf-8 flag
-                    $SyncUser{$Key} = $Self->_ConvertFrom(
-                        $SyncUser{$Key},
-                        $Self->{ConfigObject}->Get('DefaultCharset'),
-                    );
-                }
-                if ( $Entry->get_value('userPassword') ) {
-                    $SyncUser{Pw} = $Entry->get_value('userPassword');
-
-                    # e. g. set utf-8 flag
-                    $SyncUser{Pw} = $Self->_ConvertFrom(
-                        $SyncUser{Pw},
-                        $Self->{ConfigObject}->Get('DefaultCharset')
-                    );
-                }
+                # e. g. set utf-8 flag
+                $SyncUser{Pw} = $Self->_ConvertFrom(
+                    $SyncUser{Pw},
+                    $Self->{ConfigObject}->Get('DefaultCharset')
+                );
             }
+        }
 
-            # sync user
-            if (%SyncUser) {
-                my %UserData = $Self->{UserObject}->GetUserData( User => $Param{User} );
-                if ( !%UserData ) {
-                    my $UserID = $Self->{UserObject}->UserAdd(
-                        UserSalutation => 'Mr/Mrs',
-                        UserLogin      => $Param{User},
-                        %SyncUser,
-                        UserType     => 'User',
-                        ValidID      => 1,
-                        ChangeUserID => 1,
+        # sync user
+        if (%SyncUser) {
+            my %UserData = $Self->{UserObject}->GetUserData( User => $Param{User} );
+            if ( !%UserData ) {
+                my $UserID = $Self->{UserObject}->UserAdd(
+                    UserSalutation => 'Mr/Mrs',
+                    UserLogin      => $Param{User},
+                    %SyncUser,
+                    UserType     => 'User',
+                    ValidID      => 1,
+                    ChangeUserID => 1,
+                );
+                if ( !$UserID ) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'error',
+                        Message  => "Can't create user '$Param{User}' ($UserDN) in RDBMS!",
                     );
-                    if ($UserID) {
-                        $Self->{LogObject}->Log(
-                            Priority => 'notice',
-                            Message =>
-                                "Initial data for '$Param{User}' ($UserDN) created in RDBMS.",
-                        );
+                }
+                else {
+                    $Self->{LogObject}->Log(
+                        Priority => 'notice',
+                        Message => "Initial data for '$Param{User}' ($UserDN) created in RDBMS.",
+                    );
 
-                        # sync initial groups
-                        if ( $Self->{ConfigObject}->Get( 'UserSyncLDAPGroups' . $Self->{Count} ) ) {
-                            my %Groups = $Self->{GroupObject}->GroupList();
-                            for (
-                                @{
-                                    $Self->{ConfigObject}->Get(
-                                        'UserSyncLDAPGroups' . $Self->{Count}
-                                        )
+                    # sync initial groups
+                    my $UserSyncLDAPGroups = $Self->{ConfigObject}->Get( 'UserSyncLDAPGroups' . $Self->{Count} );
+                    if ( $UserSyncLDAPGroups ) {
+                        my %Groups = $Self->{GroupObject}->GroupList();
+                        for ( @{$UserSyncLDAPGroups} ) {
+                            my $GroupID = '';
+                            for my $GID ( keys %Groups ) {
+                                if ( $Groups{$GID} eq $_ ) {
+                                    $GroupID = $GID;
                                 }
-                                )
-                            {
-                                my $GroupID = '';
-                                for my $GID ( keys %Groups ) {
-                                    if ( $Groups{$GID} eq $_ ) {
-                                        $GroupID = $GID;
-                                    }
-                                }
-                                if ($GroupID) {
-                                    $Self->{GroupObject}->GroupMemberAdd(
-                                        GID        => $GroupID,
-                                        UID        => $UserID,
-                                        Permission => { rw => 1, },
-                                        UserID     => 1,
-                                    );
-                                }
+                            }
+                            if ($GroupID) {
+                                $Self->{GroupObject}->GroupMemberAdd(
+                                    GID        => $GroupID,
+                                    UID        => $UserID,
+                                    Permission => { rw => 1, },
+                                    UserID     => 1,
+                                );
                             }
                         }
                     }
-                    else {
-                        $Self->{LogObject}->Log(
-                            Priority => 'error',
-                            Message  => "Can't create user '$Param{User}' ($UserDN) in RDBMS!",
-                        );
-                    }
                 }
-                else {
-                    $Self->{UserObject}->UserUpdate(
-                        %UserData,
-                        UserID    => $UserData{UserID},
-                        UserLogin => $Param{User},
-                        %SyncUser,
-                        UserType     => 'User',
-                        ChangeUserID => 1,
-                    );
-                }
+            }
+            else {
+                $Self->{UserObject}->UserUpdate(
+                    %UserData,
+                    UserID    => $UserData{UserID},
+                    UserLogin => $Param{User},
+                    %SyncUser,
+                    UserType     => 'User',
+                    ChangeUserID => 1,
+                );
             }
         }
 
         # sync ldap group 2 otrs group permissions
-        #
-        #FOR COMPATIBILITY - check parameter with typo first...
-        my $UserSyncLDAPGroupsDefKey = "UserSyncLDAPGroupsDefination";
+        # FOR COMPATIBILITY - check parameter with typo first...
+        my $UserSyncLDAPGroupsDefKey = 'UserSyncLDAPGroupsDefination';
         if ( $Self->{ConfigObject}->Get( $UserSyncLDAPGroupsDefKey . $Self->{Count} ) ) {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message  => "Config: UserSyncLDAPGroupsDefination deprecated, " .
-                    "use UserSyncLDAPGroupsDefinition instead.",
+                Message  => 'Config: UserSyncLDAPGroupsDefination deprecated, ' .
+                    'use UserSyncLDAPGroupsDefinition instead.',
             );
         }
         else {
-            $UserSyncLDAPGroupsDefKey = "UserSyncLDAPGroupsDefinition";
+            $UserSyncLDAPGroupsDefKey = 'UserSyncLDAPGroupsDefinition';
         }
 
         if ( $Self->{ConfigObject}->Get( $UserSyncLDAPGroupsDefKey . $Self->{Count} ) ) {
@@ -521,7 +500,7 @@ sub Auth {
             if ( $Result->code ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  => "Sync bind failed! " . $Result->error,
+                    Message  => 'Sync bind failed! ' . $Result->error,
                 );
 
                 # take down session
@@ -577,10 +556,7 @@ sub Auth {
                 if ( $Result->code ) {
                     $Self->{LogObject}->Log(
                         Priority => 'error',
-                        Message  => "Search failed! ("
-                            . $GroupDN
-                            . ") filter='$Filter' "
-                            . $Result->error,
+                        Message  => "Search failed! ($GroupDN) filter='$Filter' " . $Result->error,
                     );
                 }
 
@@ -640,18 +616,17 @@ sub Auth {
         }
 
         # sync ldap group 2 otrs role permissions
-        #
-        #FOR COMPATIBILITY - check parameter with typo first...
-        my $UserSyncLDAPRolesDefKey = "UserSyncLDAPRolesDefination";
+        # FOR COMPATIBILITY - check parameter with typo first...
+        my $UserSyncLDAPRolesDefKey = 'UserSyncLDAPRolesDefination';
         if ( $Self->{ConfigObject}->Get( $UserSyncLDAPRolesDefKey . $Self->{Count} ) ) {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message  => "Config: UserSyncLDAPRolesDefination deprecated, " .
-                    "use UserSyncLDAPRolesDefinition instead.",
+                Message  => 'Config: UserSyncLDAPRolesDefination deprecated, ' .
+                    'use UserSyncLDAPRolesDefinition instead.',
             );
         }
         else {
-            $UserSyncLDAPRolesDefKey = "UserSyncLDAPRolesDefinition";
+            $UserSyncLDAPRolesDefKey = 'UserSyncLDAPRolesDefinition';
         }
 
         if ( $Self->{ConfigObject}->Get( $UserSyncLDAPRolesDefKey . $Self->{Count} ) ) {
@@ -668,7 +643,7 @@ sub Auth {
             if ( $Result->code ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  => "Sync bind failed! " . $Result->error,
+                    Message  => 'Sync bind failed! ' . $Result->error,
                 );
 
                 # take down session
@@ -691,13 +666,7 @@ sub Auth {
             }
 
             # group config settings
-            for my $GroupDN (
-                sort
-                keys %{
-                    $Self->{ConfigObject}->Get( $UserSyncLDAPRolesDefKey . $Self->{Count} )
-                }
-                )
-            {
+            for my $GroupDN ( sort keys %{ $Self->{ConfigObject}->Get( $UserSyncLDAPRolesDefKey . $Self->{Count} ) } ) {
 
                 # just in case for debug
                 $Self->{LogObject}->Log(
@@ -720,10 +689,7 @@ sub Auth {
                 if ( $Result->code ) {
                     $Self->{LogObject}->Log(
                         Priority => 'error',
-                        Message  => "Search failed! ("
-                            . $GroupDN
-                            . ") filter='$Filter' "
-                            . $Result->error,
+                        Message  => "Search failed! ($GroupDN) filter='$Filter' " . $Result->error,
                     );
                 }
 
@@ -782,22 +748,20 @@ sub Auth {
         }
 
         # sync ldap attribute 2 otrs group permissions
-        #
-        #FOR COMPATIBILITY - check parameter with typo first...
-        my $UserSyncLDAPAttrGroupsDefKey = "UserSyncLDAPAttibuteGroupsDefination";
+        # FOR COMPATIBILITY - check parameter with typo first...
+        my $UserSyncLDAPAttrGroupsDefKey = 'UserSyncLDAPAttibuteGroupsDefination';
         if ( $Self->{ConfigObject}->Get( $UserSyncLDAPAttrGroupsDefKey . $Self->{Count} ) ) {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message  => "Config: UserSyncLDAPAttibuteGroupsDefination deprecated, " .
-                    "use UserSyncLDAPAttributeGroupsDefinition instead.",
+                Message  => 'Config: UserSyncLDAPAttibuteGroupsDefination deprecated, ' .
+                    'use UserSyncLDAPAttributeGroupsDefinition instead.',
             );
         }
         else {
-            $UserSyncLDAPAttrGroupsDefKey = "UserSyncLDAPAttributeGroupsDefinition";
+            $UserSyncLDAPAttrGroupsDefKey = 'UserSyncLDAPAttributeGroupsDefinition';
         }
 
-        if ( $Self->{ConfigObject}->Get( $UserSyncLDAPAttrGroupsDefKey . $Self->{Count} ) )
-        {
+        if ( $Self->{ConfigObject}->Get( $UserSyncLDAPAttrGroupsDefKey . $Self->{Count} ) ) {
             my $Result = '';
             if ( $Self->{SearchUserDN} && $Self->{SearchUserPw} ) {
                 $Result = $LDAP->bind(
@@ -811,7 +775,7 @@ sub Auth {
             if ( $Result->code ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  => "Sync bind failed! " . $Result->error,
+                    Message  => 'Sync bind failed! ' . $Result->error,
                 );
 
                 # take down session
@@ -850,17 +814,10 @@ sub Auth {
             if ( $Result->code ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  => "Search failed! ("
-                        . $Self->{BaseDN}
-                        . ") filter='$Filter' "
-                        . $Result->error,
+                    Message  => "Search failed! ($Self->{BaseDN}) filter='$Filter' " . $Result->error,
                 );
             }
-            my %SyncConfig = %{
-                $Self->{ConfigObject}->Get(
-                    $UserSyncLDAPAttrGroupsDefKey . $Self->{Count}
-                    )
-                };
+            my %SyncConfig = %{ $Self->{ConfigObject}->Get( $UserSyncLDAPAttrGroupsDefKey . $Self->{Count}) };
             for my $Attribute ( keys %SyncConfig ) {
                 my %AttributeValues = %{ $SyncConfig{$Attribute} };
                 for my $AttributeValue ( keys %AttributeValues ) {
@@ -911,23 +868,21 @@ sub Auth {
         }
 
         # sync ldap attribute 2 otrs role permissions
-        #
-        #FOR COMPATIBILITY - check parameter with typo first...
-        my $UserSyncLDAPAttrRolesDefKey = "UserSyncLDAPAttibuteRolesDefination";
+        # FOR COMPATIBILITY - check parameter with typo first...
+        my $UserSyncLDAPAttrRolesDefKey = 'UserSyncLDAPAttibuteRolesDefination';
         if ( $Self->{ConfigObject}->Get( $UserSyncLDAPAttrRolesDefKey . $Self->{Count} ) )
         {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message  => "Config: UserSyncLDAPAttibuteRolesDefination deprecated, " .
-                    "use UserSyncLDAPAttributeRolesDefinition instead.",
+                Message  => 'Config: UserSyncLDAPAttibuteRolesDefination deprecated, ' .
+                    'use UserSyncLDAPAttributeRolesDefinition instead.',
             );
         }
         else {
-            $UserSyncLDAPAttrRolesDefKey = "UserSyncLDAPAttributeRolesDefinition";
+            $UserSyncLDAPAttrRolesDefKey = 'UserSyncLDAPAttributeRolesDefinition';
         }
 
-        if ( $Self->{ConfigObject}->Get( $UserSyncLDAPAttrRolesDefKey . $Self->{Count} ) )
-        {
+        if ( $Self->{ConfigObject}->Get( $UserSyncLDAPAttrRolesDefKey . $Self->{Count} ) ) {
             my $Result = '';
             if ( $Self->{SearchUserDN} && $Self->{SearchUserPw} ) {
                 $Result = $LDAP->bind(
@@ -941,7 +896,7 @@ sub Auth {
             if ( $Result->code ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  => "Sync bind failed! " . $Result->error,
+                    Message  => 'Sync bind failed! ' . $Result->error,
                 );
 
                 # take down session
@@ -974,10 +929,7 @@ sub Auth {
             if ( $Result->code ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  => "Search failed! ("
-                        . $Self->{BaseDN}
-                        . ") filter='$Filter' "
-                        . $Result->error,
+                    Message  => "Search failed! ($Self->{BaseDN}) filter='$Filter' " . $Result->error,
                 );
             }
             my %SyncConfig = %{
