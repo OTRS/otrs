@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminInit.pm - init a new setup
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminInit.pm,v 1.8 2008-05-08 09:36:36 mh Exp $
+# $Id: AdminInit.pm,v 1.8.2.1 2008-12-28 23:21:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.8.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -53,6 +53,29 @@ sub Run {
 
     # create config object
     $Self->{ConfigObject} = Kernel::Config->new( %{$Self} );
+
+    # install included packages
+    if ( $Self->{MainObject}->Require( 'Kernel::System::Package' ) ) {
+        my $PackageObject = Kernel::System::Package->new( %{$Self} );
+        my $Directory = $Self->{ConfigObject}->Get('Home') . '/var/packages/*.opm';
+        my @PackageFiles = glob( $Directory );
+
+        # read packages and install
+        for my $Location (@PackageFiles) {
+
+            # read package
+            my $ContentSCALARRef = $Self->{MainObject}->FileRead(
+                Location        => $Location,
+                Mode            => 'binmode',
+                Type            => 'Local',
+                Result          => 'SCALAR',
+            );
+            next if !$ContentSCALARRef;
+
+            # install package
+            $PackageObject->PackageInstall( String => ${ $ContentSCALARRef } );
+        }
+    }
 
     return $Self->{LayoutObject}->Redirect( OP => 'Subaction=Done' );
 }
