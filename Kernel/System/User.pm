@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.84 2008-12-19 08:26:03 martin Exp $
+# $Id: User.pm,v 1.85 2008-12-28 22:52:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Encode;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.84 $) [1];
+$VERSION = qw($Revision: 1.85 $) [1];
 
 =head1 NAME
 
@@ -728,12 +728,10 @@ sub UserName {
     my ( $Self, %Param ) = @_;
 
     my %User = $Self->GetUserData(%Param);
-    if (%User) {
-        return "$User{UserFirstname} $User{UserLastname}";
-    }
-    else {
+    if ( !%User ) {
         return;
     }
+    return "$User{UserFirstname} $User{UserLastname}";
 }
 
 =item UserList()
@@ -976,6 +974,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.84 $ $Date: 2008-12-19 08:26:03 $
+$Revision: 1.85 $ $Date: 2008-12-28 22:52:36 $
 
 =cut
