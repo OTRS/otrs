@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pl,v 1.51 2008-10-06 16:44:37 mh Exp $
+# $Id: GenericAgent.pl,v 1.52 2008-12-28 23:15:34 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION %Jobs @ISA);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -45,14 +45,15 @@ use Kernel::System::GenericAgent;
 
 # get options
 my %Opts = ();
-getopt( 'fcdl', \%Opts );
+getopt( 'fcdlb', \%Opts );
 if ( $Opts{h} ) {
     print "GenericAgent.pl <Revision $VERSION> - OTRS generic agent\n";
     print "Copyright (c) 2001-2008 OTRS AG, http://otrs.org/\n";
-    print
-        "usage: GenericAgent.pl [-c 'Kernel::Config::GenericAgentJobModule'] [-d 1] [-l <limit>] [-f force]\n";
-    print "usage: GenericAgent.pl [-c db || -c 'Kernel::Config::GenericAgentJobModule'] "
-        . "[-d 1] [-l <limit>] [-f force]\n";
+    print "usage: GenericAgent.pl [-c 'Kernel::Config::GenericAgentJobModule'] [-d 1] ";
+    print "[-l <limit>] [-f force]\n";
+    print "usage: GenericAgent.pl [-c db] [-d 1] [-l <limit>] ";
+    print "[-b <BACKGROUND_INTERVAL_IN_MIN> (note: only 10,20,30,40,50,60,... minutes make ";
+    print "sense)] [-f force]\n";
     print "Use -d for debug mode.\n";
     exit 1;
 }
@@ -65,6 +66,13 @@ if ( !$Opts{d} ) {
 # set limit
 if ( !$Opts{l} ) {
     $Opts{l} = 4000;
+}
+
+# check -b option
+if ( $Opts{c} eq 'db' && $Opts{b} && $Opts{b} !~ /^\d+$/ ) {
+    print STDERR "ERROR: Need -b <BACKGROUND_INTERVAL_IN_MIN>, e. g. -b 10 to execute generic agent";
+    print STDERR " every 10 minutes (note, only 10,20,30,40,50,60,... minutes make sense).\n";
+    exit 1;
 }
 
 # set generic agent uid
@@ -93,32 +101,74 @@ $CommonObject{GenericAgentObject} = Kernel::System::GenericAgent->new(
 if ( !$Opts{c} ) {
     $Opts{c} = 'Kernel::Config::GenericAgent';
 }
+
+# db jobs
 if ( $Opts{c} eq 'db' ) {
     %Jobs = ();
 }
+
+# load/import config jobs
 else {
     if ( !$CommonObject{MainObject}->Require( $Opts{c} ) ) {
-        print STDERR "Can't load agent job file '$Opts{c}': $!\n";
+        print STDERR "ERROR: Can't load agent job file '$Opts{c}': $!\n";
         exit 1;
     }
-    else {
+    eval "import $Opts{c}";
+}
 
-        # import %Jobs
-        eval "import $Opts{c}";
+# create pid lock
+if ( !$Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => 'GenericAgent' ) ) {
+    print "NOTICE: GenericAgent.pl is already running!\n";
+    exit 1;
+}
+elsif ( $Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => 'GenericAgent' ) ) {
+    print "NOTICE: GenericAgent.pl is already running but is starting again!\n";
+}
+
+# while to run several times if -b is used
+while (1) {
+
+    # set new PID
+    $CommonObject{PIDObject}->PIDCreate(
+        Name  => 'GenericAgent',
+        Force => 1,
+    );
+
+    # process all db jobs
+    if ( $Opts{c} eq 'db' ) {
+        ExecuteDBJobs();
+    }
+    # process all config file jobs
+    else {
+        ExecuteConfigJobs();
+    }
+
+    # return if no interval is set
+    last if !$Opts{b};
+
+    # sleep till next interval
+    print "NOTICE: Waiting for next interval ($Opts{b} min)...\n";
+    sleep 60 * $Opts{b};
+}
+
+# delete pid lock
+$CommonObject{PIDObject}->PIDDelete( Name => 'GenericAgent' );
+exit(0);
+
+sub ExecuteConfigJobs {
+    for my $Job ( sort keys %Jobs ) {
+
+        # log event
+        $CommonObject{GenericAgentObject}->JobRun(
+            Job    => $Job,
+            Limit  => $Opts{l},
+            Config => $Jobs{$Job},
+            UserID => $UserIDOfGenericAgent,
+        );
     }
 }
 
-# process all jobs
-if ( $Opts{c} eq 'db' ) {
-
-    # create pid lock
-    if ( !$Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => 'GenericAgent' ) ) {
-        print "Notice: GenericAgent.pl is already running!\n";
-        exit 1;
-    }
-    elsif ( $Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => 'GenericAgent' ) ) {
-        print "Notice: GenericAgent.pl is already running but is starting again!\n";
-    }
+sub ExecuteDBJobs {
 
     # process all jobs
     my %DBJobs = $CommonObject{GenericAgentObject}->JobList();
@@ -140,10 +190,9 @@ if ( $Opts{c} eq 'db' ) {
         next if !$DBJobRaw{Valid};
 
         # get time params to check last and current run
-        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay )
-            = $CommonObject{TimeObject}->SystemTime2Date(
+        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = $CommonObject{TimeObject}->SystemTime2Date(
             SystemTime => $CommonObject{TimeObject}->SystemTime(),
-            );
+        );
         if ( $Min =~ /(.)./ ) {
             $Min = ($1) . '0';
         }
@@ -199,23 +248,4 @@ if ( $Opts{c} eq 'db' ) {
             UserID => $UserIDOfGenericAgent,
         );
     }
-
-    # delete pid lock
-    $CommonObject{PIDObject}->PIDDelete( Name => 'GenericAgent' );
 }
-
-# process all config file jobs
-else {
-    for my $Job ( sort keys %Jobs ) {
-
-        # log event
-        $CommonObject{GenericAgentObject}->JobRun(
-            Job    => $Job,
-            Limit  => $Opts{l},
-            Config => $Jobs{$Job},
-            UserID => $UserIDOfGenericAgent,
-        );
-    }
-}
-
-exit;

@@ -3,7 +3,7 @@
 # bin/PostMasterMailbox.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMasterMailbox.pl,v 1.2 2008-05-08 09:36:57 mh Exp $
+# $Id: PostMasterMailbox.pl,v 1.3 2008-12-28 23:15:34 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -44,16 +44,25 @@ use Kernel::System::MailAccount;
 
 # get options
 my %Opts = ();
-getopt( 'upshdft', \%Opts );
-if ( $Opts{'h'} ) {
+getopt( 'upshdftb', \%Opts );
+if ( $Opts{h} ) {
     print "PostMasterMailbox.pl <Revision $VERSION> - Fetch mail accounts for OTRS\n";
-    print "Copyright (c) 2001-2008 OTRS AG, http://otrs.org/\n";
-    print
-        "usage: PostMasterMailbox.pl -t <TYPE> (POP3|POP3S|IMAP|IMAPS) -s <SERVER> -u <USER> -p <PASSWORD> [-d 1-2] [-f force]\n";
+    print "Copyright (c) 2001-2009 OTRS AG, http://otrs.org/\n";
+    print "usage: PostMasterMailbox.pl -t <TYPE> (POP3|POP3S|IMAP|IMAPS) -s <SERVER> -u <USER> ";
+    print "-p <PASSWORD> [-d 1-2] [-b <BACKGROUND_INTERVAL_IN_MIN>] [-f force]\n";
     exit 1;
 }
-if ( !$Opts{'d'} ) {
-    $Opts{'d'} = 0;
+
+# set debug
+if ( !$Opts{d} ) {
+    $Opts{d} = 0;
+}
+
+# check -b option
+if ( $Opts{b} && $Opts{b} !~ /^\d+$/ ) {
+    print STDERR "ERROR: Need -b <BACKGROUND_INTERVAL_IN_MIN>, e. g. -b 5 for fetching emails ";
+    print STDERR "every 5 minutes.\n";
+    exit 1;
 }
 
 # create common objects
@@ -70,86 +79,108 @@ $CommonObject{PIDObject}   = Kernel::System::PID->new(%CommonObject);
 $CommonObject{MailAccount} = Kernel::System::MailAccount->new(%CommonObject);
 
 # create pid lock
-if ( !$Opts{'f'} && !$CommonObject{PIDObject}->PIDCreate( Name => 'PostMasterMailbox' ) ) {
-    print
-        "Notice: PostMasterMailbox.pl is already running (use '-f 1' if you want to start it forced)!\n";
+if ( !$Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => 'PostMasterMailbox' ) ) {
+    print "NOTICE: PostMasterMailbox.pl is already running (use '-f 1' if you want to start it ";
+    print "forced)!\n";
     exit 1;
 }
-elsif ( $Opts{'f'} && !$CommonObject{PIDObject}->PIDCreate( Name => 'PostMasterMailbox' ) ) {
-    print "Notice: PostMasterMailbox.pl is already running but is starting again!\n";
+elsif ( $Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => 'PostMasterMailbox' ) ) {
+    print "NOTICE: PostMasterMailbox.pl is already running but is starting again!\n";
 }
 
-# debug info
-if ( $Opts{'d'} > 1 ) {
-    $CommonObject{LogObject}->Log(
-        Priority => 'debug',
-        Message  => 'Global OTRS email handle (PostMasterMailbox.pl) started...',
+# while to run several times if -b is used
+while (1) {
+
+    # set new PID
+    $CommonObject{PIDObject}->PIDCreate(
+        Name  => 'PostMasterMailbox',
+        Force => 1,
     );
-}
-if ( $Opts{'s'} || $Opts{'u'} || $Opts{'p'} || $Opts{'t'} ) {
-    if ( !$Opts{'t'} ) {
 
-        # delete pid lock
-        $CommonObject{PIDObject}->PIDDelete( Name => 'PostMasterMailbox' );
-        print STDERR "ERROR: Need -t <TYPE> (POP3|IMAP)\n";
-        exit 1;
-    }
-    if ( !$Opts{'s'} ) {
+    # fetch mails
+    Fetch();
 
-        # delete pid lock
-        $CommonObject{PIDObject}->PIDDelete( Name => 'PostMasterMailbox' );
-        print STDERR "ERROR: Need -s <SERVER>\n";
-        exit 1;
-    }
-    if ( !$Opts{'u'} ) {
+    # return if no interval is set
+    last if !$Opts{b};
 
-        # delete pid lock
-        $CommonObject{PIDObject}->PIDDelete( Name => 'PostMasterMailbox' );
-        print STDERR "ERROR: Need -u <USER>\n";
-        exit 1;
-    }
-    if ( !$Opts{'p'} ) {
-
-        # delete pid lock
-        $CommonObject{PIDObject}->PIDDelete( Name => 'PostMasterMailbox' );
-        print STDERR "ERROR: Need -p <PASSWORD>\n";
-        exit 1;
-    }
-    $CommonObject{MailAccount}->MailAccountFetch(
-        Login         => $Opts{'u'},
-        Password      => $Opts{'p'},
-        Host          => $Opts{'s'},
-        Type          => $Opts{'t'},
-        Trusted       => 0,
-        DispatchingBy => '',
-        QueueID       => 0,
-        Debug         => $Opts{'d'},
-        CMD           => 1,
-        UserID        => 1,
-    );
-}
-else {
-    my %List = $CommonObject{MailAccount}->MailAccountList( Valid => 1 );
-    for my $Key ( keys %List ) {
-        my %Data = $CommonObject{MailAccount}->MailAccountGet( ID => $Key );
-        $CommonObject{MailAccount}->MailAccountFetch(
-            %Data,
-            Debug  => $Opts{'d'},
-            CMD    => 1,
-            UserID => 1,
-        );
-    }
-}
-
-# debug info
-if ( $Opts{'d'} > 1 ) {
-    $CommonObject{LogObject}->Log(
-        Priority => 'debug',
-        Message  => 'Global OTRS email handle (PostMasterMailbox.pl) stoped.',
-    );
+    # sleep till next interval
+    print "NOTICE: Waiting for next interval ($Opts{b} min)...\n";
+    sleep 60 * $Opts{b};
 }
 
 # delete pid lock
 $CommonObject{PIDObject}->PIDDelete( Name => 'PostMasterMailbox' );
-
 exit(0);
+
+sub Fetch {
+    # debug info
+    if ( $Opts{d} > 1 ) {
+        $CommonObject{LogObject}->Log(
+            Priority => 'debug',
+            Message  => 'Global OTRS email handle (PostMasterMailbox.pl) started...',
+        );
+    }
+
+    if ( $Opts{s} || $Opts{u} || $Opts{p} || $Opts{t} ) {
+        if ( !$Opts{t} ) {
+
+            # delete pid lock
+            $CommonObject{PIDObject}->PIDDelete( Name => 'PostMasterMailbox' );
+            print STDERR "ERROR: Need -t <TYPE> (POP3|IMAP)\n";
+            exit 1;
+        }
+        if ( !$Opts{s} ) {
+
+            # delete pid lock
+            $CommonObject{PIDObject}->PIDDelete( Name => 'PostMasterMailbox' );
+            print STDERR "ERROR: Need -s <SERVER>\n";
+            exit 1;
+        }
+        if ( !$Opts{u} ) {
+
+            # delete pid lock
+            $CommonObject{PIDObject}->PIDDelete( Name => 'PostMasterMailbox' );
+            print STDERR "ERROR: Need -u <USER>\n";
+            exit 1;
+        }
+        if ( !$Opts{p} ) {
+
+            # delete pid lock
+            $CommonObject{PIDObject}->PIDDelete( Name => 'PostMasterMailbox' );
+            print STDERR "ERROR: Need -p <PASSWORD>\n";
+            exit 1;
+        }
+        $CommonObject{MailAccount}->MailAccountFetch(
+            Login         => $Opts{u},
+            Password      => $Opts{p},
+            Host          => $Opts{s},
+            Type          => $Opts{t},
+            Trusted       => 0,
+            DispatchingBy => '',
+            QueueID       => 0,
+            Debug         => $Opts{d},
+            CMD           => 1,
+            UserID        => 1,
+        );
+    }
+    else {
+        my %List = $CommonObject{MailAccount}->MailAccountList( Valid => 1 );
+        for my $Key ( keys %List ) {
+            my %Data = $CommonObject{MailAccount}->MailAccountGet( ID => $Key );
+            $CommonObject{MailAccount}->MailAccountFetch(
+                %Data,
+                Debug  => $Opts{d},
+                CMD    => 1,
+                UserID => 1,
+            );
+        }
+    }
+
+    # debug info
+    if ( $Opts{d} > 1 ) {
+        $CommonObject{LogObject}->Log(
+            Priority => 'debug',
+            Message  => 'Global OTRS email handle (PostMasterMailbox.pl) stoped.',
+        );
+    }
+}
