@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/CustomerAccept.pm - to show an agent an login/changes info
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerAccept.pm,v 1.9 2008-05-08 09:36:37 mh Exp $
+# $Id: CustomerAccept.pm,v 1.10 2009-01-02 19:03:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -48,7 +48,7 @@ sub PreRun {
     # redirect if no primary group is selected
     if ( !$Self->{ $Self->{InfoKey} } && $Self->{Action} ne 'CustomerAccept' ) {
 
-        # remove requested url from sesseion storage
+        # remove requested url from session storage
         $Self->{SessionObject}->UpdateSessionID(
             SessionID => $Self->{SessionID},
             Key       => 'UserRequestedURL',
@@ -71,7 +71,7 @@ sub Run {
     my $Accept = $Self->{ParamObject}->GetParam( Param => 'Accept' ) || '';
     if ( $Self->{ $Self->{InfoKey} } ) {
 
-        # remove requested url from sesseion storage
+        # remove requested url from session storage
         $Self->{SessionObject}->UpdateSessionID(
             SessionID => $Self->{SessionID},
             Key       => 'UserRequestedURL',
@@ -97,7 +97,7 @@ sub Run {
             Value  => 1,
         );
 
-        # remove requested url from sesseion storage
+        # remove requested url from session storage
         $Self->{SessionObject}->UpdateSessionID(
             SessionID => $Self->{SessionID},
             Key       => 'UserRequestedURL',
