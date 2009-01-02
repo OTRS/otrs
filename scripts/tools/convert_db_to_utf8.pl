@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # scripts/tools/convert_db_to_utf8.pl - convert a database into utf-8 strings
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: convert_db_to_utf8.pl,v 1.5 2008-05-08 09:35:57 mh Exp $
+# $Id: convert_db_to_utf8.pl,v 1.6 2009-01-02 19:15:28 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 use Encode;
 use Kernel::Config;
@@ -38,9 +38,9 @@ use Kernel::System::Log;
 use Kernel::System::Main;
 use Kernel::System::DB;
 
-# --
+# ---
 # create common objects
-# --
+# ---
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{LogObject}    = Kernel::System::Log->new(
