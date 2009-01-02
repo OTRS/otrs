@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.190 2008-12-15 07:07:00 martin Exp $
+# $Id: Article.pm,v 1.191 2009-01-02 17:54:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.190 $) [1];
+$VERSION = qw($Revision: 1.191 $) [1];
 
 =head1 NAME
 
@@ -3248,5 +3248,23 @@ get article attachment (Content, ContentType, Filename)
         FileID    => 1,
         UserID    => 123,
     );
+
+=cut
+
+=back
+
+=head1 TERMS AND CONDITIONS
+
+This software is part of the OTRS project (http://otrs.org/).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (GPL). If you
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+
+=cut
+
+=head1 VERSION
+
+$Revision: 1.191 $ $Date: 2009-01-02 17:54:46 $
 
 =cut

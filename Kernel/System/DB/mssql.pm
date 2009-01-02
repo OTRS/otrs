@@ -1,8 +1,8 @@
 # --
 # Kernel/System/DB/mssql.pm - mssql database backend
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: mssql.pm,v 1.50 2008-08-20 15:10:38 mh Exp $
+# $Id: mssql.pm,v 1.51 2009-01-02 17:59:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -484,12 +484,12 @@ END
 
                     WHILE 1=1
                     BEGIN
-                     SET \@sql = (SELECT TOP 1 'ALTER TABLE %s DROP CONSTRAINT [' + constraint_name + ']'
-                      -- SELECT *
-                      FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='%s' and column_name='%s'
-                     )
-                     IF \@sql IS NULL BREAK
-                     EXEC (\@sql)
+                        SET \@sql = (SELECT TOP 1 'ALTER TABLE %s DROP CONSTRAINT [' + constraint_name + ']'
+                        -- SELECT *
+                        FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='%s' and column_name='%s'
+                        )
+                        IF \@sql IS NULL BREAK
+                        EXEC (\@sql)
                     END
 HEREDOC
                 , $Table, $Table, $Tag->{Name}

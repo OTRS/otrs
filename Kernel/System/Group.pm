@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Group.pm - All Groups related function should be here eventually
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.pm,v 1.58 2008-05-15 22:05:46 mh Exp $
+# $Id: Group.pm,v 1.59 2009-01-02 17:54:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 =head1 NAME
 
@@ -486,9 +486,9 @@ based on GroupGroupMemberList() and GroupRoleMemberList().
     );
 
     Attention: The user ids (keys) in the hash returned from this function
-               are correct, however the values are not correspond to the user ids.
-               This does not affect the correct operation of otrs, this is just a
-               note to inform you not to use the values in this hash.
+        are correct, however the values are not correspond to the user ids.
+        This does not affect the correct operation of otrs, this is just a
+        note to inform you not to use the values in this hash.
 
 =cut
 
@@ -1527,6 +1527,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.58 $ $Date: 2008-05-15 22:05:46 $
+$Revision: 1.59 $ $Date: 2009-01-02 17:54:46 $
 
 =cut
