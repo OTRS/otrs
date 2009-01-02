@@ -1,8 +1,8 @@
 # --
 # Kernel/System/AutoResponse.pm - lib for auto responses
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AutoResponse.pm,v 1.23 2008-07-13 23:20:02 martin Exp $
+# $Id: AutoResponse.pm,v 1.24 2009-01-02 18:57:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,53 @@ use warnings;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
+
+=head1 NAME
+
+Kernel::System::AutoResponse - auto response lib
+
+=head1 SYNOPSIS
+
+All auto response functions. E. g. to add auto response or other functions.
+
+=head1 PUBLIC INTERFACE
+
+=over 4
+
+=cut
+
+=item new()
+
+create an object
+
+    use Kernel::Config;
+    use Kernel::System::Log;
+    use Kernel::System::Main;
+    use Kernel::System::DB;
+    use Kernel::System::AutoResponse;
+
+    my $ConfigObject = Kernel::Config->new();
+    my $LogObject    = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $MainObject = Kernel::System::Main->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        MainObject   => $MainObject,
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+    );
+    my $AutoResponseObject = Kernel::System::AutoResponse->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+        DBObject     => $DBObject,
+        MainObject   => $MainObject,
+    );
+
+=cut
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -42,6 +88,23 @@ sub new {
 
     return $Self;
 }
+
+=item AutoResponseAdd()
+
+add auto response with attributes
+
+    $AutoResponseObject->AutoResponseAdd(
+        Name      => 'Some::AutoResponse',
+        ValidID   => 1,
+        Subject   => 'Some Subject..',
+        Response  => 'Auto Response Test....',
+        Charset   => 'utf8',
+        AddressID => 1,
+        TypeID    => 1,
+        UserID    => 123,
+    );
+
+=cut
 
 sub AutoResponseAdd {
     my ( $Self, %Param ) = @_;
@@ -84,6 +147,16 @@ sub AutoResponseAdd {
     return $ID;
 }
 
+=item AutoResponseGet()
+
+get auto response with attributes
+
+    my %Data = $AutoResponseObject->AutoResponseGet(
+        ID => 123,
+    );
+
+=cut
+
 sub AutoResponseGet {
     my ( $Self, %Param ) = @_;
 
@@ -95,12 +168,9 @@ sub AutoResponseGet {
 
     # select
     return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT name, valid_id, comments, text0, text1, '
-            . 'type_id, system_address_id, charset '
-            . 'FROM auto_response WHERE id = ?',
-        Bind => [
-            \$Param{ID},
-        ],
+        SQL => 'SELECT name, valid_id, comments, text0, text1, type_id, system_address_id, charset'
+            . ' FROM auto_response WHERE id = ?',
+        Bind => [ \$Param{ID} ],
     );
 
     my %Data;
@@ -119,6 +189,24 @@ sub AutoResponseGet {
     }
     return %Data;
 }
+
+=item AutoResponseUpdate()
+
+update auto response with attributes
+
+    $AutoResponseObject->AutoResponseUpdate(
+        ID        => 123,
+        Name      => 'Some::AutoResponse',
+        ValidID   => 1,
+        Subject   => 'Some Subject..',
+        Response  => 'Auto Response Test....',
+        Charset   => 'utf8',
+        AddressID => 1,
+        TypeID    => 1,
+        UserID    => 123,
+    );
+
+=cut
 
 sub AutoResponseUpdate {
     my ( $Self, %Param ) = @_;
@@ -241,3 +329,21 @@ sub AutoResponseQueue {
 }
 
 1;
+
+=back
+
+=head1 TERMS AND CONDITIONS
+
+This Software is part of the OTRS project (http://otrs.org/).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (GPL). If you
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+
+=cut
+
+=head1 VERSION
+
+$Revision: 1.24 $ $Date: 2009-01-02 18:57:51 $
+
+=cut

@@ -1,8 +1,8 @@
 # --
 # Kernel/System/StdResponse.pm - lib for std responses
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: StdResponse.pm,v 1.26 2008-10-06 16:44:37 mh Exp $
+# $Id: StdResponse.pm,v 1.27 2009-01-02 18:57:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,58 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
+
+use Kernel::System::SystemAddress;
+
+use vars qw($VERSION);
+$VERSION = qw($Revision: 1.27 $) [1];
+
+=head1 NAME
+
+Kernel::System::StdResponse - auto response lib
+
+=head1 SYNOPSIS
+
+All std response functions. E. g. to add std response or other functions.
+
+=head1 PUBLIC INTERFACE
+
+=over 4
+
+=cut
+
+=item new()
+
+create an object
+
+    use Kernel::Config;
+    use Kernel::System::Log;
+    use Kernel::System::Main;
+    use Kernel::System::DB;
+    use Kernel::System::StdResponse;
+
+    my $ConfigObject = Kernel::Config->new();
+    my $LogObject    = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $MainObject = Kernel::System::Main->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+    );
+    my $DBObject = Kernel::System::DB->new(
+        MainObject   => $MainObject,
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+    );
+    my $StdResponseObject = Kernel::System::StdResponse->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+        DBObject     => $DBObject,
+        MainObject   => $MainObject,
+    );
+
+=cut
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -214,3 +265,21 @@ sub GetAllStdResponses {
 }
 
 1;
+
+=back
+
+=head1 TERMS AND CONDITIONS
+
+This Software is part of the OTRS project (http://otrs.org/).
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (GPL). If you
+did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+
+=cut
+
+=head1 VERSION
+
+$Revision: 1.27 $ $Date: 2009-01-02 18:57:51 $
+
+=cut
