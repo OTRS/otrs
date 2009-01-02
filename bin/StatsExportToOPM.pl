@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # StatsExportToOPM.pl - export all stats of a system and create a package for the package manager
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: StatsExportToOPM.pl,v 1.10 2008-05-08 09:36:57 mh Exp $
+# $Id: StatsExportToOPM.pl,v 1.11 2009-01-02 19:08:50 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION $Debug);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 # common objects
 my %CommonObject = ();
@@ -223,7 +223,7 @@ my $Delete = ' . $DeleteStats . ';
 
 if ($Delete) {
     my $StatsListRef = $Self-&gt;{StatsObject}-&gt;GetStatsList();
-   for my $StatID (@{$StatsListRef}) {
+    for my $StatID (@{$StatsListRef}) {
         $Self-&gt;{StatsObject}-&gt;StatsDelete(StatID => $StatID);
     }
 

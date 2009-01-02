@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/NotificationAgentTicketEscalation.pm
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationAgentTicketEscalation.pm,v 1.29 2008-12-22 00:10:59 martin Exp $
+# $Id: NotificationAgentTicketEscalation.pm,v 1.30 2009-01-02 19:09:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -90,7 +90,7 @@ sub Run {
                 my $Data = $Self->{LayoutObject}->Output(
                     TemplateFile => 'AgentTicketEscalation',
                     Data         => \%Param,
-                 );
+                );
                 $ResponseTime .= $Self->{LayoutObject}->Notify(
                     Priority => 'Error',
                     Data     => $Data,
@@ -128,7 +128,7 @@ sub Run {
                 my $Data = $Self->{LayoutObject}->Output(
                     TemplateFile => 'AgentTicketEscalation',
                     Data         => \%Param,
-                 );
+                );
                 $UpdateTime .= $Self->{LayoutObject}->Notify(
                     Priority => 'Error',
                     Data     => $Data,
