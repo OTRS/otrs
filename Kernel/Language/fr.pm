@@ -7,7 +7,7 @@
 # Copyright (C) 2007 Massimiliano Franco <max-lists at ycom.ch>
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # --
-# $Id: fr.pm,v 1.101 2008-10-27 08:05:26 martin Exp $
+# $Id: fr.pm,v 1.102 2009-01-03 10:36:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.101 $) [1];
+$VERSION = qw($Revision: 1.102 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -265,8 +265,8 @@ sub Data {
         'Dear %s,' => 'Cher %s',
         'Hello %s,' => 'Bonjour %s',
         'This account exists.' => 'Ce compte existe déjà.',
-        'New account created. Sent Login-Account to %s.' => 'Nouveau compte	crée. Identifiant envoyé à %s',
-        'Please press Back and try again.' => 'SVP, reculer d\'une page et	rééssayez.',
+        'New account created. Sent Login-Account to %s.' => 'Nouveau compte crée. Identifiant envoyé à %s',
+        'Please press Back and try again.' => 'SVP, reculer d\'une page et rééssayez.',
         'Sent password token to: %s' => 'Envoit du jeton à: %s',
         'Sent new password to: %s' => 'Envoit du nouveau mot de passe à: %s',
         'Invalid Token!' => 'Jeton invalide !',
@@ -630,7 +630,7 @@ sub Data {
         # Template: AdminCustomerUserGroupForm
 
         # Template: AdminCustomerUserService
-        'Customer Users <-> Services Management' => 'Client utilisateur <->	Gestion des Services',
+        'Customer Users <-> Services Management' => 'Client utilisateur <-> Gestion des Services',
         'CustomerUser' => 'Client utilisateur',
         'Service' => 'Service',
         'Edit default services.' => 'Éditer le Service par défaut',
