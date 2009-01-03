@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/LayoutAJAX.pm - provides generic HTML output
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutAJAX.pm,v 1.17 2008-12-04 14:52:37 mh Exp $
+# $Id: LayoutAJAX.pm,v 1.18 2009-01-03 10:15:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =item JSON()
 
@@ -229,21 +229,3 @@ sub JSONQuote {
 }
 
 1;
-
-=back
-
-=head1 TERMS AND CONDITIONS
-
-This Software is part of the OTRS project (http://otrs.org/).
-
-This software comes with ABSOLUTELY NO WARRANTY. For details, see
-the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
-
-=cut
-
-=head1 VERSION
-
-$Revision: 1.17 $ $Date: 2008-12-04 14:52:37 $
-
-=cut
