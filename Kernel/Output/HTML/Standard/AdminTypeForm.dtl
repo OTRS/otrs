@@ -1,8 +1,8 @@
 # --
 # AdminTypeForm.dtl - provides HTML form for AdminType
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminTypeForm.dtl,v 1.4 2008-04-02 08:59:22 ot Exp $
+# $Id: AdminTypeForm.dtl,v 1.5 2009-01-03 09:21:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -91,23 +91,22 @@
                     <input type="text" name="Name" value="$QData{"Name"}" size="50" maxlength="50"/>
                   </td>
                 </tr>
-              </tr>
-              <tr>
-                <td class="contentkey">$Text{"Valid"}: </td>
-                <td class="contentvalue">$Data{"ValidOption"}</td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-        <tr>
-          <td class="contentfooter">
-            <input class="button" type="submit" value="$Text{"Submit"}"/>
-          </td>
-        </tr>
-      </table>
-    </form>
+                <tr>
+                  <td class="contentkey">$Text{"Valid"}: </td>
+                  <td class="contentvalue">$Data{"ValidOption"}</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="contentfooter">
+              <input class="button" type="submit" value="$Text{"Submit"}"/>
+            </td>
+          </tr>
+        </table>
+      </form>
 <!-- dtl:block:OverviewUpdate -->
-  </td>
-</tr>
+    </td>
+  </tr>
 </table>
 <!-- dtl:block:Overview -->

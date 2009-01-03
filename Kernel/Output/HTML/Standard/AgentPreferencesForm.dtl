@@ -1,8 +1,8 @@
 # --
 # AgentPreferencesForm.dtl - provides HTML form for AgentPreferences
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentPreferencesForm.dtl,v 1.25 2008-12-19 08:31:49 martin Exp $
+# $Id: AgentPreferencesForm.dtl,v 1.26 2009-01-03 09:21:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -77,39 +77,38 @@
 <!-- dtl:block:Password -->
 <!-- dtl:block:OutOfOffice -->
                   <tr>
-                    <td>$Text{"$QData{"Key"}"}</td>
-                    <td>
-                    </tr>
-                    <tr>
-                      <td align="top">
-                        <center>
-                        <input type="radio" name="OutOfOffice" value="1" $QData{"OutOfOfficeOn"}>$Text{"On"}<input type="radio" name="OutOfOffice" value="0" $QData{"OutOfOfficeOff"}>$Text{"Off"}
-                        </center>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        $Text{"Start"}: $Data{"OptionStart"}<br>$Text{"End"}: $Data{"OptionEnd"}
-                      </td>
-                    </tr>
+                    <td colspan="2">$Text{"$QData{"Key"}"}</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="top">
+                      <center>
+                      <input type="radio" name="OutOfOffice" value="1" $QData{"OutOfOfficeOn"}>$Text{"On"}<input type="radio" name="OutOfOffice" value="0" $QData{"OutOfOfficeOff"}>$Text{"Off"}
+                      </center>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">
+                      $Text{"Start"}: $Data{"OptionStart"}<br>$Text{"End"}: $Data{"OptionEnd"}
+                    </td>
+                  </tr>
 <!-- dtl:block:OutOfOffice -->
 <!-- dtl:block:Block -->
-                  </table>
-                </p>
-                <input class="button" type="submit" value="$Text{"Update"}"/>
-              </form>
-            </td>
-          </tr>
-          <tr>
-            <td class="contentfooter">
-              &nbsp;
-            </td>
-          </tr>
-        </table>
-        <br/>
+                </table>
+              </p>
+              <input class="button" type="submit" value="$Text{"Update"}"/>
+            </form>
+          </td>
+        </tr>
+        <tr>
+          <td class="contentfooter">
+            &nbsp;
+          </td>
+        </tr>
+      </table>
+      <br/>
 <!-- dtl:block:Item -->
-      </td>
+    </td>
 <!-- dtl:block:Colum -->
-    </tr>
-  </table>
+  </tr>
+</table>
 <!-- dtl:block:Body -->
