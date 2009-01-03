@@ -1,8 +1,8 @@
 # --
 # AgentTicketOverviewNavBar.dtl - html for ticket overview table
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewNavBar.dtl,v 1.8 2008-11-20 09:11:39 martin Exp $
+# $Id: AgentTicketOverviewNavBar.dtl,v 1.9 2009-01-03 09:31:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,6 @@
 <!-- dtl:block:OverviewNavBarMain -->
   <tr>
     <td class="menu">
-#    <td class="mainbody">
       $Text{"$QData{"MainName"}"}: $Data{"MainContent"}
     </td>
   </tr>
