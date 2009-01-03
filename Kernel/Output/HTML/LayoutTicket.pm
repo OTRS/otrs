@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.36 2008-12-04 14:52:37 mh Exp $
+# $Id: LayoutTicket.pm,v 1.37 2009-01-03 09:33:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -646,7 +646,7 @@ sub TicketListShow {
         $Param{View} = $Self->{ 'TicketOverview' . $Param{Env}->{Action} };
     }
 
-    # set defaut view mode to small
+    # set defaut view mode to 'small'
     my $View = $Param{View} || 'Small';
 
     # set default view mode for AgentTicketQueue
