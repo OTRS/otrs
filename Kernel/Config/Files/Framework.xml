@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.189 2008-12-19 08:26:03 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.190 2009-01-05 21:38:22 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -505,30 +505,6 @@
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
             <String Regex="">http://host.example.com/thanks-for-using-otrs.html</String>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="UserSyncLDAPMap" Required="0" Valid="0">
-        <Description Lang="en">If "LDAP" was selected for AuthModule, you can specify attributes for user LDAP sync on login.</Description>
-        <Description Lang="de">Wenn "LDAP" als AuthModule ausgewählt wurde, können hier Attribute zur Syncronisation nach dem Login angegeben werden.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Frontend::Agent::Auth::LDAP</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="UserFirstname">givenName</Item>
-                <Item Key="UserLastname">sn</Item>
-                <Item Key="UserEmail">mail</Item>
-            </Hash>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="UserSyncLDAPGroups" Required="0" Valid="0">
-        <Description Lang="en">If "LDAP" was selected for AuthModule, you can specify initial user groups for first login.</Description>
-        <Description Lang="de">Wenn "LDAP" als AuthModule ausgewählt wurde, können hier initiale Benutzergruppen definiert werden.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Frontend::Agent::Auth::LDAP</SubGroup>
-        <Setting>
-            <Array>
-                <Item>users</Item>
-            </Array>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="PreApplicationModule###AgentInfo" Required="0" Valid="0">

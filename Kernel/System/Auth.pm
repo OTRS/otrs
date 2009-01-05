@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Auth.pm - provides the authentification
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Auth.pm,v 1.31 2008-10-07 21:01:34 martin Exp $
+# $Id: Auth.pm,v 1.32 2009-01-05 21:38:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 =head1 NAME
 
@@ -84,7 +84,7 @@ sub new {
         $Self->{$_} = $Param{$_} || die "No $_!";
     }
 
-    # load generator auth module
+    # load auth module
     for my $Count ( '', 1 .. 10 ) {
         my $GenericModule = $Self->{ConfigObject}->Get("AuthModule$Count");
         next if !$GenericModule;
@@ -92,7 +92,18 @@ sub new {
         if ( !$Self->{MainObject}->Require($GenericModule) ) {
             $Self->{MainObject}->Die("Can't load backend module $GenericModule! $@");
         }
-        $Self->{"Backend$Count"} = $GenericModule->new( %Param, Count => $Count );
+        $Self->{"AuthBackend$Count"} = $GenericModule->new( %Param, Count => $Count );
+    }
+
+    # load sync module
+    for my $Count ( '', 1 .. 10 ) {
+        my $GenericModule = $Self->{ConfigObject}->Get("AuthSyncModule$Count");
+        next if !$GenericModule;
+
+        if ( !$Self->{MainObject}->Require($GenericModule) ) {
+            $Self->{MainObject}->Die("Can't load backend module $GenericModule! $@");
+        }
+        $Self->{"AuthSyncBackend$Count"} = $GenericModule->new( %Param, Count => $Count );
     }
 
     return $Self;
@@ -111,7 +122,7 @@ Get module options. Currently exists just one option, "PreAuth".
 sub GetOption {
     my ( $Self, %Param ) = @_;
 
-    return $Self->{Backend}->GetOption(%Param);
+    return $Self->{AuthBackend}->GetOption(%Param);
 }
 
 =item Auth()
@@ -130,34 +141,50 @@ The autentificaion function.
 sub Auth {
     my ( $Self, %Param ) = @_;
 
-    # use all 11 backends and return on first auth
-    for ( '', 1 .. 10 ) {
+    # use all 11 auth backends and return on first true
+    my $User;
+    for my $Count ( '', 1 .. 10 ) {
 
         # return on no config setting
-        next if !$Self->{"Backend$_"};
+        next if !$Self->{"AuthBackend$Count"};
 
         # check auth backend
-        my $Return = $Self->{"Backend$_"}->Auth(%Param);
+        $User = $Self->{"AuthBackend$Count"}->Auth(%Param);
 
         # next on no success
-        next if !$Return;
+        next if !$User;
+
+        # use all 11 sync backends
+        for my $Count ( '', 1 .. 10 ) {
+
+            # return on no config setting
+            next if !$Self->{"AuthSyncBackend$Count"};
+
+            # sync backend
+            $Self->{"AuthSyncBackend$Count"}->Sync( %Param, User => $User );
+        }
 
         # remember auth backend
         my $UserID = $Self->{UserObject}->UserLookup(
-            UserLogin => $Return,
+            UserLogin => $User,
         );
         if ($UserID) {
             $Self->{UserObject}->SetPreferences(
                 Key    => 'UserAuthBackend',
-                Value  => $_,
+                Value  => $Count,
                 UserID => $UserID,
             );
         }
 
-        # return user
-        return $Return;
+        # last if user is true
+        last if $User;
     }
-    return;
+
+    # return if no auth user
+    return if !$User;
+
+    # return auth user
+    return $User;
 }
 
 1;
@@ -176,6 +203,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.31 $ $Date: 2008-10-07 21:01:34 $
+$Revision: 1.32 $ $Date: 2009-01-05 21:38:22 $
 
 =cut

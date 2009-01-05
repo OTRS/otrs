@@ -1,8 +1,8 @@
 # --
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.302 2008-10-29 19:02:03 martin Exp $
+# $Id: Defaults.pm,v 1.303 2009-01-05 21:38:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,7 +24,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.302 $) [1];
+$VERSION = qw($Revision: 1.303 $) [1];
 
 sub LoadDefaults {
     my ($Self) = @_;
@@ -391,24 +391,69 @@ sub LoadDefaults {
     # Die if backend can't work, e. g. can't connect to server.
 #    $Self->{'AuthModule::Radius::Die'} = 1;
 
-    # UserSyncLDAPMap
-    # (map if agent should create/synced from LDAP to DB after login)
-#    $Self->{UserSyncLDAPMap} = {
+    # --------------------------------------------------- #
+    # authentication sync settings                        #
+    # (enable agent data sync. after succsessful          #
+    # authentication)                                     #
+    # --------------------------------------------------- #
+    # This is an example configuration for an LDAP auth sync. backend.
+    # (take care that Net::LDAP is installed!)
+#    $Self->{'AuthSyncModule'} = 'Kernel::System::Auth::Sync::LDAP';
+#    $Self->{'AuthSyncModule::LDAP::Host'} = 'ldap.example.com';
+#    $Self->{'AuthSyncModule::LDAP::BaseDN'} = 'dc=example,dc=com';
+#    $Self->{'AuthSyncModule::LDAP::UID'} = 'uid';
+
+    # The following is valid but would only be necessary if the
+    # anonymous user do NOT have permission to read from the LDAP tree
+#    $Self->{'AuthSyncModule::LDAP::SearchUserDN'} = '';
+#    $Self->{'AuthSyncModule::LDAP::SearchUserPw'} = '';
+
+    # in case you want to add always one filter to each ldap query, use
+    # this option. e. g. AlwaysFilter => '(mail=*)' or AlwaysFilter => '(objectclass=user)'
+#    $Self->{'AuthSyncModule::LDAP::AlwaysFilter'} = '';
+
+    # AuthSyncModule::LDAP::UserSyncMap
+    # (map if agent should create/synced from LDAP to DB after successful login)
+#    $Self->{'AuthSyncModule::LDAP::UserSyncMap'} = {
 #        # DB -> LDAP
 #        UserFirstname => 'givenName',
-#        UserLastname => 'sn',
-#        UserEmail => 'mail',
+#        UserLastname  => 'sn',
+#        UserEmail     => 'mail',
 #    };
-    # UserSyncLDAPGroups
-    # (If "LDAP" was selected for AuthModule, you can specify initial
-    # user groups for first login.)
-#    $Self->{UserSyncLDAPGroups} = [
+
+    # In case you need to use OTRS in iso-charset, you can define this
+    # by using this option (converts utf-8 data from LDAP to iso).
+#    $Self->{'AuthSyncModule::LDAP::Charset'} = 'iso-8859-1';
+
+    # Net::LDAP new params (if needed - for more info see perldoc Net::LDAP)
+#    $Self->{'AuthSyncModule::LDAP::Params'} = {
+#        port    => 389,
+#        timeout => 120,
+#        async   => 0,
+#        version => 3,
+#    };
+
+    # Die if backend can't work, e. g. can't connect to server.
+#    $Self->{'AuthSyncModule::LDAP::Die'} = 1;
+
+    # Attributes needed for group syncs
+    # (attribute name for group value key)
+#    $Self->{'AuthSyncModule::LDAP::AccessAttr'} = 'memberUid';
+    # (attribute for type of group content UID/DN for full ldap name)
+#    $Self->{'AuthSyncModule::LDAP::UserAttr'} = 'UID';
+#    $Self->{'AuthSyncModule::LDAP::UserAttr'} = 'DN';
+
+    # AuthSyncModule::LDAP::UserSyncInitialGroups
+    # (sync following group with rw permission after initial create of first agent
+    # login)
+#    $Self->{'AuthSyncModule::LDAP::UserSyncInitialGroups'} = [
 #        'users',
 #    ];
-    # UserSyncLDAPGroupsDefinition
+
+    # AuthSyncModule::LDAP::UserSyncGroupsDefinition
     # (If "LDAP" was selected for AuthModule and you want to sync LDAP
     # groups to otrs groups, define the following.)
-#    $Self->{'UserSyncLDAPGroupsDefinition'} = {
+#    $Self->{'AuthSyncModule::LDAP::UserSyncGroupsDefinition'} = {
 #        # ldap group
 #        'cn=agent,o=otrs' => {
 #            # otrs group
@@ -429,10 +474,11 @@ sub LoadDefaults {
 #            },
 #        }
 #    };
-    # UserSyncLDAPRolesDefinition
+
+    # AuthSyncModule::LDAP::UserSyncRolesDefinition
     # (If "LDAP" was selected for AuthModule and you want to sync LDAP
     # groups to otrs roles, define the following.)
-#    $Self->{'UserSyncLDAPRolesDefinition'} = {
+#    $Self->{'AuthSyncModule::LDAP::UserSyncRolesDefinition'} = {
 #        # ldap group
 #        'cn=agent,o=otrs' => {
 #            # otrs role
@@ -443,10 +489,11 @@ sub LoadDefaults {
 #            'role3' => 1,
 #        }
 #    };
-    # UserSyncLDAPAttributeGroupsDefinition
+
+    # AuthSyncModule::LDAP::UserSyncAttributeGroupsDefinition
     # (If "LDAP" was selected for AuthModule and you want to sync LDAP
     # attributes to otrs groups, define the following.)
-#    $Self->{'UserSyncLDAPAttributeGroupsDefinition'} = {
+#    $Self->{'AuthSyncModule::LDAP::UserSyncAttributeGroupsDefinition'} = {
 #        # ldap attribute
 #        'LDAPAttribute' => {
 #            # ldap attribute value
@@ -472,10 +519,11 @@ sub LoadDefaults {
 #            },
 #         }
 #    };
-    # UserSyncLDAPAttributeRolesDefinition
+
+    # AuthSyncModule::LDAP::UserSyncAttributeRolesDefinition
     # (If "LDAP" was selected for AuthModule and you want to sync LDAP
     # attributes to otrs roles, define the following.)
-#    $Self->{'UserSyncLDAPAttributeRolesDefinition'} = {
+#    $Self->{'AuthSyncModule::LDAP::UserSyncAttributeRolesDefinition'} = {
 #        # ldap attribute
 #        'LDAPAttribute' => {
 #            # ldap attribute value
@@ -2095,6 +2143,7 @@ Your OTRS Notification Master
     };
 
     # --------------------------------------------------- #
+    return;
 }
 
 sub Get {
@@ -2334,6 +2383,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.302 $ $Date: 2008-10-29 19:02:03 $
+$Revision: 1.303 $ $Date: 2009-01-05 21:38:22 $
 
 =cut
