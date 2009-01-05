@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket.pm - all ticket functions
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.357 2008-12-15 07:09:49 martin Exp $
+# $Id: Ticket.pm,v 1.358 2009-01-05 11:53:57 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.357 $) [1];
+$VERSION = qw($Revision: 1.358 $) [1];
 
 =head1 NAME
 
@@ -3145,7 +3145,7 @@ To find tickets in your system.
         # 1..6 (optional)
         # tickets with free time after ... (optional)
         TicketFreeTime1NewerDate => '2006-01-09 00:00:01',
-        # tickets with free time before then ... (optional)
+        # tickets with free time before ... (optional)
         TicketFreeTime1OlderDate => '2006-01-19 23:59:59',
 
         # article stuff (optional)
@@ -3165,34 +3165,34 @@ To find tickets in your system.
         # Title,CustomerID and CustomerUserLogin (all optional)
         ConditionInline => 1,
 
-        # tickets created after 60 minutes (ticket newer then 60 minutes)  (optional)
+        # tickets created after 60 minutes (ticket newer than 60 minutes)  (optional)
         TicketCreateTimeOlderMinutes => 60,
         # tickets created before 120 minutes (ticket older 120 minutes) (optional)
         TicketCreateTimeNewerMinutes => 120,
 
-        # tickets with created time after ... (ticket newer then this date) (optional)
+        # tickets with created time after ... (ticket newer than this date) (optional)
         TicketCreateTimeNewerDate => '2006-01-09 00:00:01',
-        # tickets with created time before then ... (ticket older this date) (optional)
+        # tickets with created time before ... (ticket older than this date) (optional)
         TicketCreateTimeOlderDate => '2006-01-19 23:59:59',
 
-        # tickets changed after 60 minutes (ticket changed newer then 60 minutes)  (optional)
+        # tickets changed after 60 minutes (ticket changed newer than 60 minutes)  (optional)
         TicketChangeTimeOlderMinutes => 60,
         # tickets changed before 120 minutes (ticket changed older 120 minutes) (optional)
         TicketChangeTimeNewerMinutes => 120,
 
-        # tickets with changed time after ... (ticket changed newer then this date) (optional)
+        # tickets with changed time after ... (ticket changed newer than this date) (optional)
         TicketChangeTimeNewerDate => '2006-01-09 00:00:01',
-        # tickets with changed time before then ... (ticket changed older this date) (optional)
+        # tickets with changed time before ... (ticket changed older than this date) (optional)
         TicketChangeTimeOlderDate => '2006-01-19 23:59:59',
 
-        # tickets closed after 60 minutes (ticket closed newer then 60 minutes)  (optional)
+        # tickets closed after 60 minutes (ticket closed newer than 60 minutes)  (optional)
         TicketCloseTimeOlderMinutes => 60,
-        # tickets closed before 120 minutes (ticket closed older 120 minutes) (optional)
+        # tickets closed before 120 minutes (ticket closed older than 120 minutes) (optional)
         TicketCloseTimeNewerMinutes => 120,
 
-        # tickets with closed time after ... (ticket closed newer then this date) (optional)
+        # tickets with closed time after ... (ticket closed newer than this date) (optional)
         TicketCloseTimeNewerDate => '2006-01-09 00:00:01',
-        # tickets with closed time before then ... (ticket closed older this date) (optional)
+        # tickets with closed time before ... (ticket closed older than this date) (optional)
         TicketCloseTimeOlderDate => '2006-01-19 23:59:59',
 
         # tickets pending after 60 minutes (optional)
@@ -3202,7 +3202,7 @@ To find tickets in your system.
 
         # tickets with pending time after ... (optional)
         TicketPendingTimeNewerDate => '2006-01-09 00:00:01',
-        # tickets with pending time before then ... (optional)
+        # tickets with pending time before ... (optional)
         TicketPendingTimeOlderDate => '2006-01-19 23:59:59',
 
         # you can use all following escalation options with this four different ways of escalations
@@ -3420,7 +3420,7 @@ sub TicketSearch {
         }
     }
 
-    # create types id
+    # created type ids
     if ( $Param{CreatedTypeIDs} && ref $Param{CreatedTypeIDs} eq 'ARRAY' ) {
         my $ID = $Self->HistoryTypeLookup( Type => 'NewTicket' );
         if ($ID) {
@@ -3477,7 +3477,7 @@ sub TicketSearch {
         }
     }
 
-    # create states id
+    # create state ids
     if ( $Param{CreatedStateIDs} && ref $Param{CreatedStateIDs} eq 'ARRAY' ) {
         my $ID = $Self->HistoryTypeLookup( Type => 'NewTicket' );
         if ($ID) {
@@ -3557,7 +3557,7 @@ sub TicketSearch {
         $SQLExt .= ')';
     }
 
-    # current owners user ids
+    # current owner user ids
     if ( $Param{OwnerIDs} && ref $Param{OwnerIDs} eq 'ARRAY' ) {
         $SQLExt .= ' AND st.user_id IN (';
         my $Exists = 0;
@@ -3571,7 +3571,7 @@ sub TicketSearch {
         $SQLExt .= ')';
     }
 
-    # current owners user ids
+    # current responsible user ids
     if ( $Param{ResponsibleIDs} && ref $Param{ResponsibleIDs} eq 'ARRAY' ) {
         $SQLExt .= ' AND st.responsible_user_id IN (';
         my $Exists = 0;
@@ -3585,7 +3585,7 @@ sub TicketSearch {
         $SQLExt .= ')';
     }
 
-    # created owner user ids
+    # created user ids
     if ( $Param{CreatedUserIDs} && ref $Param{CreatedUserIDs} eq 'ARRAY' ) {
         my $ID = $Self->HistoryTypeLookup( Type => 'NewTicket' );
         if ($ID) {
@@ -3658,7 +3658,7 @@ sub TicketSearch {
         }
     }
 
-    # create queue ids
+    # created queue ids
     if ( $Param{CreatedQueueIDs} && ref $Param{CreatedQueueIDs} eq 'ARRAY' ) {
         my $ID = $Self->HistoryTypeLookup( Type => 'NewTicket' );
         if ($ID) {
@@ -3991,7 +3991,7 @@ sub TicketSearch {
     }
     for ( 1 .. 6 ) {
 
-        # get tickets older then xxxx-xx-xx xx:xx date
+        # get free time older than xxxx-xx-xx xx:xx date
         if ( $Param{ 'TicketFreeTime' . $_ . 'OlderDate' } ) {
 
             # check time format
@@ -4012,7 +4012,7 @@ sub TicketSearch {
                 . "'";
         }
 
-        # get tickets newer then xxxx-xx-xx xx:xx date
+        # get free time newer than xxxx-xx-xx xx:xx date
         if ( $Param{ 'TicketFreeTime' . $_ . 'NewerDate' } ) {
             if (
                 $Param{ 'TicketFreeTime' . $_ . 'NewerDate' }
@@ -4032,7 +4032,7 @@ sub TicketSearch {
         }
     }
 
-    # get tickets created/escalated older then x minutes
+    # get tickets created/escalated older than x minutes
     my %TicketTime = (
         TicketCreateTime             => 'st.create_time_unix',
         TicketEscalationTime         => 'st.escalation_time',
@@ -4042,7 +4042,7 @@ sub TicketSearch {
     );
     for my $Key ( keys %TicketTime ) {
 
-        # get tickets created older then x minutes
+        # get tickets created older than x minutes
         if ( $Param{ $Key . 'OlderMinutes' } ) {
 
             # exclude tickets with no escalation
@@ -4054,7 +4054,7 @@ sub TicketSearch {
             $SQLExt .= " AND $TicketTime{$Key} <= $Time";
         }
 
-        # get tickets created newer then x minutes
+        # get tickets created newer than x minutes
         if ( $Param{ $Key . 'NewerMinutes' } ) {
 
             # exclude tickets with no escalation
@@ -4067,7 +4067,7 @@ sub TicketSearch {
         }
     }
 
-    # get tickets created/escalated older then xxxx-xx-xx xx:xx date
+    # get tickets created/escalated older than xxxx-xx-xx xx:xx date
     for my $Key ( keys %TicketTime ) {
         if ( $Param{ $Key . 'OlderDate' } ) {
 
@@ -4094,7 +4094,7 @@ sub TicketSearch {
             $SQLExt .= " AND $TicketTime{$Key} <= $Time";
         }
 
-        # get tickets created newer then xxxx-xx-xx xx:xx date
+        # get tickets created newer than xxxx-xx-xx xx:xx date
         if ( $Param{ $Key . 'NewerDate' } ) {
             if (
                 $Param{ $Key . 'NewerDate' }
@@ -4119,7 +4119,7 @@ sub TicketSearch {
         }
     }
 
-    # get tickets closed older then x minutes
+    # get tickets changed older than x minutes
     if ( $Param{TicketChangeTimeOlderMinutes} ) {
         my $TimeStamp
             = $Self->{TimeObject}->SystemTime() - ( $Param{TicketChangeTimeOlderMinutes} * 60 );
@@ -4128,7 +4128,7 @@ sub TicketSearch {
         );
     }
 
-    # get tickets closed newer then x minutes
+    # get tickets changed newer than x minutes
     if ( $Param{TicketChangeTimeNewerMinutes} ) {
         my $TimeStamp
             = $Self->{TimeObject}->SystemTime() - ( $Param{TicketChangeTimeNewerMinutes} * 60 );
@@ -4137,7 +4137,7 @@ sub TicketSearch {
         );
     }
 
-    # get tickets closed older then xxxx-xx-xx xx:xx date
+    # get tickets changed older than xxxx-xx-xx xx:xx date
     if ( $Param{TicketChangeTimeOlderDate} ) {
 
         # check time format
@@ -4157,7 +4157,7 @@ sub TicketSearch {
             . $Self->{DBObject}->Quote( $Param{TicketChangeTimeOlderDate} ) . "'";
     }
 
-    # get tickets closed newer then xxxx-xx-xx xx:xx date
+    # get tickets changed newer than xxxx-xx-xx xx:xx date
     if ( $Param{TicketChangeTimeNewerDate} ) {
         if (
             $Param{TicketChangeTimeNewerDate}
@@ -4175,7 +4175,7 @@ sub TicketSearch {
             . $Self->{DBObject}->Quote( $Param{TicketChangeTimeNewerDate} ) . "'";
     }
 
-    # get tickets closed older then x minutes
+    # get tickets closed older than x minutes
     if ( $Param{TicketCloseTimeOlderMinutes} ) {
         my $TimeStamp
             = $Self->{TimeObject}->SystemTime() - ( $Param{TicketCloseTimeOlderMinutes} * 60 );
@@ -4184,7 +4184,7 @@ sub TicketSearch {
         );
     }
 
-    # get tickets closed newer then x minutes
+    # get tickets closed newer than x minutes
     if ( $Param{TicketCloseTimeNewerMinutes} ) {
         my $TimeStamp
             = $Self->{TimeObject}->SystemTime() - ( $Param{TicketCloseTimeNewerMinutes} * 60 );
@@ -4193,7 +4193,7 @@ sub TicketSearch {
         );
     }
 
-    # get tickets closed older then xxxx-xx-xx xx:xx date
+    # get tickets closed older than xxxx-xx-xx xx:xx date
     if ( $Param{TicketCloseTimeOlderDate} ) {
 
         # check time format
@@ -4224,7 +4224,7 @@ sub TicketSearch {
         }
     }
 
-    # get tickets closed newer then xxxx-xx-xx xx:xx date
+    # get tickets closed newer than xxxx-xx-xx xx:xx date
     if ( $Param{TicketCloseTimeNewerDate} ) {
         if (
             $Param{TicketCloseTimeNewerDate}
@@ -4272,7 +4272,7 @@ sub TicketSearch {
         }
     }
 
-    # get tickets pending older then x minutes
+    # get tickets pending older than x minutes
     if ( $Param{TicketPendingTimeOlderMinutes} ) {
         my $Time = $Self->{TimeObject}->SystemTime();
         $Param{TicketPendingTimeOlderDate} = $Self->{TimeObject}->SystemTime2TimeStamp(
@@ -4280,7 +4280,7 @@ sub TicketSearch {
         );
     }
 
-    # get tickets pending newer then x minutes
+    # get tickets pending newer than x minutes
     if ( $Param{TicketPendingTimeNewerMinutes} ) {
         my $Time = $Self->{TimeObject}->SystemTime();
         $Param{TicketPendingTimeNewerDate} = $Self->{TimeObject}->SystemTime2TimeStamp(
@@ -4288,7 +4288,7 @@ sub TicketSearch {
         );
     }
 
-    # get pending tickets older then xxxx-xx-xx xx:xx date
+    # get pending tickets older than xxxx-xx-xx xx:xx date
     if ( $Param{TicketPendingTimeOlderDate} ) {
 
         # check time format
@@ -4309,7 +4309,7 @@ sub TicketSearch {
         $SQLExt .= " AND st.until_time <= '" . $TimeStamp . "'";
     }
 
-    # get pending tickets newer then xxxx-xx-xx xx:xx date
+    # get pending tickets newer than xxxx-xx-xx xx:xx date
     if ( $Param{TicketPendingTimeNewerDate} ) {
         if (
             $Param{TicketPendingTimeNewerDate}
@@ -6851,6 +6851,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.357 $ $Date: 2008-12-15 07:09:49 $
+$Revision: 1.358 $ $Date: 2009-01-05 11:53:57 $
 
 =cut
