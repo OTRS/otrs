@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PID.pm - all system pid functions
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PID.pm,v 1.17 2008-12-28 23:13:58 martin Exp $
+# $Id: PID.pm,v 1.18 2009-01-06 12:58:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =head1 NAME
 
@@ -127,7 +127,7 @@ sub PIDCreate {
     }
 
     # do nothing if PID is the same
-    return 1 if $Self->{PID} eq $ProcessID{PID};
+    return 1 if $ProcessID{PID} && $Self->{PID} eq $ProcessID{PID};
 
     # delete if extists
     $Self->PIDDelete(%Param);
@@ -221,6 +221,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2008-12-28 23:13:58 $
+$Revision: 1.18 $ $Date: 2009-01-06 12:58:11 $
 
 =cut
