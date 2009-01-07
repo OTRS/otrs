@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.63 2008-12-15 07:15:23 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.64 2009-01-07 13:57:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::State;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -744,7 +744,6 @@ sub Run {
                     push( @PDFRow, $Data{Queue} );
                     push( @PDFRow, $Owner );
                     push( @PDFRow, $Customer );
-
                     push( @PDFData, \@PDFRow );
                 }
                 else {
@@ -958,6 +957,7 @@ sub Run {
 
                 TitleName => 'Search Result',
                 Bulk      => 1,
+                Limit     => $Self->{SearchLimit},
 
                 Filter     => $Self->{Filter},
                 FilterLink => $FilterLink,

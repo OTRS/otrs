@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketStatusView.pm - status for all open tickets
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketStatusView.pm,v 1.19 2008-12-23 13:51:04 martin Exp $
+# $Id: AgentTicketStatusView.pm,v 1.20 2009-01-07 13:57:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -79,7 +79,6 @@ sub Run {
             Name   => 'Open',
             Prio   => 1000,
             Search => {
-                Limit      => 8_000,
                 StateType  => 'Open',
                 OrderBy    => $OrderBy,
                 SortBy     => $SortBy,
@@ -91,7 +90,6 @@ sub Run {
             Name   => 'Closed',
             Prio   => 1001,
             Search => {
-                Limit      => 8_000,
                 StateType  => 'Closed',
                 OrderBy    => $OrderBy,
                 SortBy     => $SortBy,
@@ -107,14 +105,19 @@ sub Run {
     }
 
     # do shown tickets lookup
+    my $Limit = 1_000;
     my @ViewableTickets = $Self->{TicketObject}->TicketSearch(
         %{ $Filters{ $Self->{Filter} }->{Search} },
+        Limit  => $Limit,
         Result => 'ARRAY',
     );
     my $ViewableTicketCount = $Self->{TicketObject}->TicketSearch(
         %{ $Filters{ $Self->{Filter} }->{Search} },
-        Result     => 'COUNT',
+        Result => 'COUNT',
     );
+    if ( $ViewableTicketCount > $Limit ) {
+        $ViewableTicketCount = $Limit;
+    }
 
     # do nav bar lookup
     my %NavBarFilter;
@@ -123,6 +126,9 @@ sub Run {
             %{ $Filters{$Filter}->{Search} },
             Result => 'COUNT',
         );
+        if ( $Count > $Limit ) {
+            $Count = $Limit;
+        }
 
         $NavBarFilter{ $Filters{$Filter}->{Prio} } = {
             Count  => $Count,
@@ -154,6 +160,7 @@ sub Run {
         LinkSort   => $LinkSort,
         View       => $Self->{View},
         Bulk       => 1,
+        Limit      => $Limit,
         TitleName  => 'Status View',
         TitleValue => $Self->{Filter},
 

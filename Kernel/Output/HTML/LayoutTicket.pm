@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.37 2009-01-03 09:33:33 martin Exp $
+# $Id: LayoutTicket.pm,v 1.38 2009-01-07 13:57:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -117,6 +117,32 @@ sub AgentCustomerViewTable {
         Name => 'Customer',
         Data => $Param{Data},
     );
+
+    # check Frontend::CustomerUser::Image
+    my $CustomerImage = $Self->{ConfigObject}->Get('Frontend::CustomerUser::Image');
+    if ($CustomerImage) {
+        my %Modules = %{$CustomerImage};
+        for my $Module ( sort keys %Modules ) {
+            if ( !$Self->{MainObject}->Require( $Modules{$Module}->{Module} ) ) {
+                $Self->FatalDie();
+            }
+
+            my $Object = $Modules{$Module}->{Module}->new(
+                %{$Self},
+                LayoutObject => $Self,
+            );
+
+            # run module
+            next if !$Object;
+
+            $Object->Run(
+                Config => $Modules{$Module},
+                Data   => $Param{Data},
+            );
+        }
+    }
+
+    # build table
     for my $Field (@MapNew) {
         if ( $Field->[3] && $Field->[3] >= $ShownType && $Param{Data}->{ $Field->[0] } ) {
             my %Record = (
@@ -690,8 +716,9 @@ sub TicketListShow {
         $StartHit = ( ( $Pages - 1 ) * $PageShown ) + 1;
     }
 
+    my $Limit = $Param{Limit} || 10_000;
     my %PageNav = $Param{Env}->{LayoutObject}->PageNavBar(
-        Limit     => 10000,
+        Limit     => $Limit,
         StartHit  => $StartHit,
         PageShown => $PageShown,
         AllHits   => $Param{Total} || 0,
@@ -836,7 +863,7 @@ sub TicketListShow {
     # run module
     my $Output = $Object->Run(
         %Param,
-        Limit     => 10000,
+        Limit     => $Limit,
         StartHit  => $StartHit,
         PageShown => $PageShown,
         AllHits   => $Param{Total} || 0,
