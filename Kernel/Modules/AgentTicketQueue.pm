@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.61 2008-12-04 14:52:37 mh Exp $
+# $Id: AgentTicketQueue.pm,v 1.62 2009-01-07 13:14:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Lock;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -52,7 +52,7 @@ sub new {
 
     # get params
     $Self->{ViewAll} = $Self->{ParamObject}->GetParam( Param => 'ViewAll' ) || 0;
-    $Self->{Start}   = $Self->{ParamObject}->GetParam( Param => 'Start' )   || 1;
+    $Self->{Start}   = $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1;
     $Self->{View}    = $Self->{ParamObject}->GetParam( Param => 'View' )    || '';
 
     return $Self;
@@ -226,7 +226,6 @@ sub BuildQueueView {
         %Data,
         QueueID         => $Self->{QueueID},
         AllQueues       => \%AllQueues,
-        Start           => $Self->{Start},
         ViewableTickets => $Self->{ViewableTickets},
     );
 }
