@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.191 2009-01-02 17:54:46 martin Exp $
+# $Id: Article.pm,v 1.192 2009-01-08 00:04:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.191 $) [1];
+$VERSION = qw($Revision: 1.192 $) [1];
 
 =head1 NAME
 
@@ -1621,7 +1621,10 @@ sub ArticleGet {
 
     # do extended lookups
     if ( $Param{Extended} ) {
-        my %TicketExtended = $Self->_TicketGetExtended( TicketID => $Ticket{TicketID} );
+        my %TicketExtended = $Self->_TicketGetExtended(
+            TicketID => $Ticket{TicketID},
+            Ticket   => \%Ticket,
+        );
         for my $Key ( keys %TicketExtended ) {
             $Ticket{$Key} = $TicketExtended{$Key};
         }
@@ -3265,6 +3268,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.191 $ $Date: 2009-01-02 17:54:46 $
+$Revision: 1.192 $ $Date: 2009-01-08 00:04:53 $
 
 =cut

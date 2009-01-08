@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.358 2009-01-05 11:53:57 sb Exp $
+# $Id: Ticket.pm,v 1.359 2009-01-08 00:04:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.358 $) [1];
+$VERSION = qw($Revision: 1.359 $) [1];
 
 =head1 NAME
 
@@ -789,11 +789,11 @@ sub TicketGet {
     if ( !$Param{Extended} ) {
         $Param{Extended} = '';
     }
-    my $CacheKey = 'Cache::GetTicket' . $Param{Extended} . '::' . $Param{TicketID};
+    my $CacheKey = 'Cache::GetTicket' . $Param{TicketID};
 
     # check if result is cached
-    if ( $Self->{$CacheKey} ) {
-        return %{ $Self->{$CacheKey} };
+    if ( $Self->{$CacheKey}->{ $Param{Extended} } ) {
+        return %{ $Self->{$CacheKey}->{ $Param{Extended} } };
     }
 
     # db query
@@ -957,14 +957,17 @@ sub TicketGet {
 
     # do extended lookups
     if ( $Param{Extended} ) {
-        my %TicketExtended = $Self->_TicketGetExtended( TicketID => $Param{TicketID} );
+        my %TicketExtended = $Self->_TicketGetExtended(
+            TicketID => $Param{TicketID},
+            Ticket   => \%Ticket,
+        );
         for my $Key ( keys %TicketExtended ) {
             $Ticket{$Key} = $TicketExtended{$Key};
         }
     }
 
     # cache user result
-    $Self->{$CacheKey} = \%Ticket;
+    $Self->{$CacheKey}->{ $Param{Extended} } = \%Ticket;
 
     # return ticket data
     return %Ticket;
@@ -974,25 +977,31 @@ sub _TicketGetExtended {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
-        return;
+    for (qw(TicketID Ticket)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
     }
 
-    my %Ticket;
-    $Ticket{Closed}        = $Self->_TicketGetClosed( TicketID => $Param{TicketID} );
-    $Ticket{FirstResponse} = $Self->_TicketGetFirstResponse( TicketID => $Param{TicketID} );
-    $Ticket{FirstLock}     = $Self->_TicketGetFirstLock( TicketID => $Param{TicketID} );
-    return %Ticket;
+    # get extended attributes
+    my %FirstResponse   = $Self->_TicketGetFirstResponse( %Param );
+    my %FirstLock       = $Self->_TicketGetFirstLock( %Param );
+    my %TicketGetClosed = $Self->_TicketGetClosed( %Param );
+
+    # return all as hash
+    return ( %TicketGetClosed, %FirstResponse, %FirstLock );
 }
 
 sub _TicketGetFirstResponse {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
-        return;
+    for (qw(TicketID Ticket)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
     }
 
     # check if first response is already done
@@ -1005,24 +1014,57 @@ sub _TicketGetFirstResponse {
         Bind  => [ \$Param{TicketID} ],
         Limit => 1,
     );
-    my $FirstResponse;
+    my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $FirstResponse = $Row[0];
+        $Data{FirstResponse} = $Row[0];
 
         # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
         # and 0000-00-00 00:00:00 time stamps)
-        $FirstResponse =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
+        $Data{FirstResponse} =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
     }
-    return $FirstResponse;
+
+    return if !$Data{FirstResponse};
+
+    # get escalation properties
+    my %Escalation = $Self->TicketEscalationPreferences(
+        Ticket => $Param{Ticket},
+        UserID => $Param{UserID} || 1,
+    );
+
+    if ( $Escalation{FirstResponseTime} ) {
+
+        # get unix time stamps
+        my $CreateTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $Param{Ticket}->{Created},
+        );
+        my $FirstResponseTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $Data{FirstResponse},
+        );
+
+        # get time between creation and first response
+        my $WorkingTime = $Self->{TimeObject}->WorkingTime(
+            StartTime => $CreateTime,
+            StopTime  => $FirstResponseTime,
+            Calendar  => $Escalation{Calendar},
+        );
+
+        $Data{FirstResponseInMin} = int ( $WorkingTime / 60 );
+        my $EscalationFirstResponseTime = $Escalation{FirstResponseTime} * 60;
+        $Data{FirstResponseDiffInMin} = int ( ( $EscalationFirstResponseTime - $WorkingTime ) / 60 );
+    }
+
+    return %Data;
 }
 
 sub _TicketGetClosed {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
-        return;
+    for (qw(TicketID Ticket)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
     }
 
     # get close time
@@ -1038,24 +1080,58 @@ sub _TicketGetClosed {
         Limit => 1,
         Bind => [ \$Param{TicketID} ],
     );
-    my $Closed;
+    my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Closed = $Row[0];
+        $Data{Closed} = $Row[0];
 
         # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
         # and 0000-00-00 00:00:00 time stamps)
-        $Closed =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
+        $Data{Closed} =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
     }
-    return $Closed;
+
+    return if !$Data{Closed};
+
+    # get escalation properties
+    my %Escalation = $Self->TicketEscalationPreferences(
+        Ticket => $Param{Ticket},
+        UserID => $Param{UserID} || 1,
+    );
+
+    if ( $Escalation{SolutionTime} ) {
+
+        # get unix time stamps
+        my $CreateTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $Param{Ticket}->{Created},
+        );
+        my $SolutionTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $Data{Closed},
+        );
+
+        # get time between creation and first response
+        my $WorkingTime = $Self->{TimeObject}->WorkingTime(
+            StartTime => $CreateTime,
+            StopTime  => $SolutionTime,
+            Calendar  => $Escalation{Calendar},
+        );
+
+        $Data{SolutionInMin} = int ( $WorkingTime / 60 );
+
+        my $EscalationSolutionTime = $Escalation{SolutionTime} * 60;
+        $Data{SolutionDiffInMin} = int ( ( $EscalationSolutionTime - $WorkingTime ) / 60 );
+    }
+
+    return %Data;
 }
 
 sub _TicketGetFirstLock {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
-        return;
+    for (qw(TicketID Ticket)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
     }
 
     # first lock
@@ -1067,17 +1143,17 @@ sub _TicketGetFirstLock {
         Limit => 100,
         Bind  => [ \$Param{TicketID}],
     );
-    my $FirstLock;
+    my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        if ( !$FirstLock ) {
-            $FirstLock = $Row[2];
+        if ( !$Data{FirstLock} ) {
+            $Data{FirstLock} = $Row[2];
 
             # cleanup time stamps (some databases are using e. g. 2008-02-25 22:03:00.000000
             # and 0000-00-00 00:00:00 time stamps)
-            $FirstLock =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
+            $Data{FirstLock} =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
         }
     }
-    return $FirstLock;
+    return %Data;
 }
 
 =item TicketTitleUpdate()
@@ -1781,6 +1857,39 @@ sub TicketServiceSet {
     return 1;
 }
 
+sub TicketEscalationPreferences {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(Ticket UserID)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # get ticket attributes
+    my %Ticket = %{ $Param{Ticket} };
+
+    # get escalation properties
+    my %Escalation;
+    if ( $Self->{ConfigObject}->Get('Ticket::Service') && $Ticket{SLAID} ) {
+        %Escalation = $Self->{SLAObject}->SLAGet(
+            SLAID  => $Ticket{SLAID},
+            UserID => $Param{UserID},
+            Cache  => 1,
+        );
+    }
+    else {
+        %Escalation = $Self->{QueueObject}->QueueGet(
+            ID     => $Ticket{QueueID},
+            UserID => $Param{UserID},
+            Cache  => 1,
+        );
+    }
+    return %Escalation;
+}
+
 sub TicketEscalationDateCalculation {
     my ( $Self, %Param ) = @_;
 
@@ -1799,21 +1908,10 @@ sub TicketEscalationDateCalculation {
     return if $Ticket{StateType} =~ /^(merge|close|remove)/i;
 
     # get escalation properties
-    my %Escalation = ();
-    if ( $Self->{ConfigObject}->Get('Ticket::Service') && $Ticket{SLAID} ) {
-        %Escalation = $Self->{SLAObject}->SLAGet(
-            SLAID  => $Ticket{SLAID},
-            UserID => $Param{UserID},
-            Cache  => 1,
-        );
-    }
-    else {
-        %Escalation = $Self->{QueueObject}->QueueGet(
-            ID     => $Ticket{QueueID},
-            UserID => $Param{UserID},
-            Cache  => 1,
-        );
-    }
+    my %Escalation = $Self->TicketEscalationPreferences(
+        Ticket => $Param{Ticket},
+        UserID => $Param{UserID} || 1,
+    );
 
     # return if we do not have any escalation attributes
     return if !%Escalation;
@@ -1903,6 +2001,14 @@ sub TicketEscalationDateCalculation {
 sub TicketEscalationIndexBuild {
     my ( $Self, %Param ) = @_;
 
+    # check needed stuff
+    for (qw(TicketID UserID)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
     my %Ticket = $Self->TicketGet(
         TicketID => $Param{TicketID},
         UserID   => $Param{UserID},
@@ -1933,23 +2039,14 @@ sub TicketEscalationIndexBuild {
         return 1;
     }
 
+    # get escalation properties
+    my %Escalation = $Self->TicketEscalationPreferences(
+        Ticket => \%Ticket,
+        UserID => $Param{UserID},
+    );
+
     # find escalation times
-    my %Escalation     = ();
     my $EscalationTime = 0;
-    if ( $Self->{ConfigObject}->Get('Ticket::Service') && $Ticket{SLAID} ) {
-        %Escalation = $Self->{SLAObject}->SLAGet(
-            SLAID  => $Ticket{SLAID},
-            UserID => $Param{UserID},
-            Cache  => 1,
-        );
-    }
-    else {
-        %Escalation = $Self->{QueueObject}->QueueGet(
-            ID     => $Ticket{QueueID},
-            UserID => $Param{UserID},
-            Cache  => 1,
-        );
-    }
 
     # update first response (if not responded till now)
     my $FirstResponseTime = 0;
@@ -1962,10 +2059,13 @@ sub TicketEscalationIndexBuild {
     else {
 
         # check if first response is already done
-        my $FirstResponseDone = $Self->_TicketGetFirstResponse( TicketID => $Ticket{TicketID} );
+        my %FirstResponseDone = $Self->_TicketGetFirstResponse(
+            TicketID => $Ticket{TicketID},
+            Ticket   => \%Ticket,
+        );
 
         # update first response time to 0
-        if ($FirstResponseDone) {
+        if (%FirstResponseDone) {
             $Self->{DBObject}->Do(
                 SQL => 'UPDATE ticket SET escalation_response_time = ? WHERE id = ?',
                 Bind => [ \$FirstResponseTime, \$Ticket{TicketID}, ]
@@ -2111,10 +2211,13 @@ sub TicketEscalationIndexBuild {
     else {
 
         # find solution time / first close time
-        my $SolutionDone = $Self->_TicketGetClosed( TicketID => $Ticket{TicketID} );
+        my %SolutionDone = $Self->_TicketGetClosed(
+            TicketID => $Ticket{TicketID},
+            Ticket   => \%Ticket,
+        );
 
         # update solution time to 0
-        if ($SolutionDone) {
+        if (%SolutionDone) {
             $Self->{DBObject}->Do(
                 SQL => 'UPDATE ticket SET escalation_solution_time = ? WHERE id = ?',
                 Bind => [ \$SolutionTime, \$Ticket{TicketID}, ]
@@ -6851,6 +6954,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.358 $ $Date: 2009-01-05 11:53:57 $
+$Revision: 1.359 $ $Date: 2009-01-08 00:04:53 $
 
 =cut
