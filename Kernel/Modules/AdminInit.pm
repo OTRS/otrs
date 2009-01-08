@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminInit.pm - init a new setup
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminInit.pm,v 1.9 2008-12-09 00:04:45 martin Exp $
+# $Id: AdminInit.pm,v 1.10 2009-01-08 11:11:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -72,8 +72,10 @@ sub Run {
             );
             next if !$ContentSCALARRef;
 
-            # install package
-            $PackageObject->PackageInstall( String => ${ $ContentSCALARRef } );
+            # install package (use eval to be save)
+            eval {
+                $PackageObject->PackageInstall( String => ${ $ContentSCALARRef } );
+            };
         }
     }
 
