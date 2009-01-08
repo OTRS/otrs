@@ -1,8 +1,8 @@
 # --
 # CHANGES - change log of OTRS
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.811 2008-12-28 23:15:35 martin Exp $
+# $Id: CHANGES,v 1.812 2009-01-08 12:43:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,32 @@
 # --
 
 2.4.0 beta1 (2009/??/??)
+ - (2009/01/08) Fixed bug# 3571 - Output Filter Pre+Post of layout object will
+    be use on any block, not on any template file like it was in 2.1-2.2. Moved
+    back to old behavior.
+ - (2009/01/05) Moved to new auth sync layer. Splited auth and agent
+    sync into two module layers. For example:
+
+    [Kernel/Config.pm]
+
+    # agent authentication against http basic auth
+    $Self->{'AuthModule'} = 'Kernel::System::Auth::HTTPBasic';
+
+    # agent data sync against ldap
+    $Self->{'AuthSyncModule'} = 'Kernel::System::Auth::Sync::LDAP';
+    $Self->{'AuthSyncModule::LDAP::Host'} = 'ldap://ldap.example.com/';
+    $Self->{'AuthSyncModule::LDAP::BaseDN'} = 'dc=otrs, dc=org';
+    $Self->{'AuthSyncModule::LDAP::UID'} = 'uid';
+    $Self->{'AuthSyncModule::LDAP::SearchUserDN'} = 'uid=sys, ou=user, dc=otrs, dc=org';
+    $Self->{'AuthSyncModule::LDAP::SearchUserPw'} = 'some_pass';
+    $Self->{'AuthSyncModule::LDAP::UserSyncMap'} = {
+        # DB -> LDAP
+        UserFirstname => 'givenName',
+        UserLastname  => 'sn',
+        UserEmail     => 'mail',
+    };
+    [...]
+
  - (2008/12/28) Added deamon support to bin/PostMasterMailbox.pl and
     bin/GenericAgent.pl by using "-b <BACKGROUND_INTERVAL_IN_MIN>".
  - (2008/12/22) Improved ticket escalation notification, moved to .dtl support
@@ -373,7 +399,7 @@
         UserID  => 1,
     );
  - (2008/05/28) Fixed bug# 2891 - Typo in Bounce Customer notification
-    'informations'.
+    'information'.
  - (2008/05/22) Upgraded Mail::Tools from version 2.02 to 2.03 from CPAN.
 
 2.3.0 beta1 (2008/05/19)
@@ -679,7 +705,7 @@
 
 2.2.7 (2008/06/04)
  - (2008/05/28) Fixed bug# 2891 - Typo in Bounce Customer notification
-    'informations'.
+    'information'.
  - (2008/05/25) Fixed bug# 2934 - PostmasterPOP3.pl - craches on malformed UTF-8
     character (fatal)... on incoming emails.
  - (2008/05/22) Fixed bug# 2829 - Added config option if Cc should be taken over
@@ -1026,7 +1052,7 @@
  - (2007/07/27) Fixed bug# 2059 - config setting $Self->{'Database::Connect'}
     is not overwriting default option used by driver.
  - (2007/07/26) Fixed bug# 2105 - Notification after moving a ticket to my
-    queues is wrong -> ">OTRS_CUSTOMER_QUEUE<" got not replaced in subject.
+    queues is wrong -> "> OTRS_CUSTOMER_QUEUE<" got not replaced in subject.
     SQL files scripts/database/otrs-initial_insert.*.sql got fixed.
  - (2007/07/26) Fixed bug# 2029 - Selected responsible agent was not taken
     over after creating a phone ticket.
@@ -2791,9 +2817,9 @@
  - (2003/11/02) improved GenericAgent.pl to work also with ticket
     priorities (search and change).
     Example for Kernel/Config/GenericAgent.pm:
-    # --
+    # ---
     # [name of job] -> move all tickets from abc to experts and change priority
-    # --
+    # ---
     'move all abc priority "3 normal" tickets to experts and change priority'=> {
       # get all tickets with these properties
       Queue => 'abc',

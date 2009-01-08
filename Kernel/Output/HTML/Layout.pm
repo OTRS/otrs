@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.114 2008-12-04 14:52:37 mh Exp $
+# $Id: Layout.pm,v 1.115 2009-01-08 12:43:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.114 $) [1];
+$VERSION = qw($Revision: 1.115 $) [1];
 
 =head1 NAME
 
@@ -486,9 +486,18 @@ sub _BlockTemplatesReplace {
 
 use a dtl template and get html back
 
+using a template file
+
     my $HTML = $LayoutObject->Output(
         TemplateFile => 'AdminLog',
-        Data => \%Param,
+        Data         => \%Param,
+    );
+
+using a template string
+
+    my $HTML = $LayoutObject->Output(
+        Template => '<b>$QData{"SomeKey"}</b>',
+        Data     => \%Param,
     );
 
 =cut
@@ -498,7 +507,7 @@ sub Output {
 
     # get and check param Data
     if ( $Param{Data} ) {
-        if ( ref( $Param{Data} ) ne 'HASH' ) {
+        if ( ref $Param{Data} ne 'HASH' ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "Need HashRef in Param Data! Got: '" . ref( $Param{Data} ) . "'!",
@@ -543,9 +552,6 @@ sub Output {
         if ( open my $TEMPLATEIN, '<', $File ) {
             $TemplateString = do { local $/; <$TEMPLATEIN> };
             close $TEMPLATEIN;
-
-            # filtering of comment lines
-            $TemplateString =~ s/^#.*\n//gm;
         }
         else {
             $Self->{LogObject}->Log(
@@ -554,6 +560,8 @@ sub Output {
             );
         }
     }
+
+    # take templates from string/array
     elsif ( defined( $Param{Template} ) && ref( $Param{Template} ) eq 'ARRAY' ) {
         for ( @{ $Param{Template} } ) {
             $TemplateString .= $_;
@@ -569,12 +577,66 @@ sub Output {
         );
         $Self->FatalError();
     }
+
+    # custom pre filters
+    if ( $Self->{FilterElementPre} ) {
+        my %Filters = %{ $Self->{FilterElementPre} };
+        for my $Filter ( sort keys %Filters ) {
+            if ( !$Self->{MainObject}->Require( $Filters{$Filter}->{Module} ) ) {
+                $Self->FatalDie();
+            }
+            my $Object = $Filters{$Filter}->{Module}->new(
+                ConfigObject => $Self->{ConfigObject},
+                LogObject    => $Self->{LogObject},
+                MainObject   => $Self->{MainObject},
+                ParamObject  => $Self->{ParamObject},
+                LayoutObject => $Self,
+                Debug        => $Self->{Debug},
+            );
+
+            # run module
+            $Object->Run(
+                %{ $Filters{$Filter} },
+                Data         => \$TemplateString,
+                TemplateFile => $Param{TemplateFile} || '',
+            );
+        }
+    }
+
+    # filtering of comment lines
+    $TemplateString =~ s/^#.*\n//gm;
+
     my $Output = $Self->_Output(
         Template     => $TemplateString,
         Data         => $Param{Data},
         BlockReplace => 1,
         TemplateFile => $Param{TemplateFile} || '',
     );
+
+    # custom post filters
+    if ( $Self->{FilterElementPost} ) {
+        my %Filters = %{ $Self->{FilterElementPost} };
+        for my $Filter ( sort keys %Filters ) {
+            if ( !$Self->{MainObject}->Require( $Filters{$Filter}->{Module} ) ) {
+                $Self->FatalDie();
+            }
+            my $Object = $Filters{$Filter}->{Module}->new(
+                ConfigObject => $Self->{ConfigObject},
+                LogObject    => $Self->{LogObject},
+                MainObject   => $Self->{MainObject},
+                ParamObject  => $Self->{ParamObject},
+                LayoutObject => $Self,
+                Debug        => $Self->{Debug},
+            );
+
+            # run module
+            $Object->Run(
+                %{ $Filters{$Filter} },
+                Data         => \$Output,
+                TemplateFile => $Param{TemplateFile} || '',
+            );
+        }
+    }
 
     return $Output;
 }
@@ -600,33 +662,6 @@ sub _Output {
     };
 
     my $TemplateString = $Param{Template};
-
-    # custom pre filters
-    if ( $Self->{FilterElementPre} ) {
-        my %Filters = %{ $Self->{FilterElementPre} };
-        for my $Filter ( sort keys %Filters ) {
-            if ( $Self->{MainObject}->Require( $Filters{$Filter}->{Module} ) ) {
-                my $Object = $Filters{$Filter}->{Module}->new(
-                    ConfigObject => $Self->{ConfigObject},
-                    LogObject    => $Self->{LogObject},
-                    MainObject   => $Self->{MainObject},
-                    ParamObject  => $Self->{ParamObject},
-                    LayoutObject => $Self,
-                    Debug        => $Self->{Debug},
-                );
-
-                # run module
-                $Object->Run(
-                    %{ $Filters{$Filter} },
-                    Data         => \$TemplateString,
-                    TemplateFile => $Param{TemplateFile},
-                );
-            }
-            else {
-                $Self->FatalDie();
-            }
-        }
-    }
 
     # parse/get text blocks
     my @BR = $Self->_BlockTemplatesReplace(
@@ -1056,32 +1091,6 @@ sub _Output {
         }iegx;
     }
 
-    # custom post filters
-    if ( $Self->{FilterElementPost} ) {
-        my %Filters = %{ $Self->{FilterElementPost} };
-        for my $Filter ( sort keys %Filters ) {
-            if ( $Self->{MainObject}->Require( $Filters{$Filter}->{Module} ) ) {
-                my $Object = $Filters{$Filter}->{Module}->new(
-                    ConfigObject => $Self->{ConfigObject},
-                    LogObject    => $Self->{LogObject},
-                    MainObject   => $Self->{MainObject},
-                    ParamObject  => $Self->{ParamObject},
-                    LayoutObject => $Self,
-                    Debug        => $Self->{Debug},
-                );
-
-                # run module
-                $Object->Run(
-                    %{ $Filters{$Filter} },
-                    Data         => \$Output,
-                    TemplateFile => $Param{TemplateFile},
-                );
-            }
-            else {
-                $Self->FatalDie();
-            }
-        }
-    }
     $Self->{OutputCount} = 0;
 
     # return output
@@ -4016,6 +4025,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.114 $ $Date: 2008-12-04 14:52:37 $
+$Revision: 1.115 $ $Date: 2009-01-08 12:43:54 $
 
 =cut
