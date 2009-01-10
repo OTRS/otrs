@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminInit.pm - init a new setup
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminInit.pm,v 1.8.2.2 2009-01-08 11:00:55 martin Exp $
+# $Id: AdminInit.pm,v 1.8.2.3 2009-01-10 13:09:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8.2.2 $) [1];
+$VERSION = qw($Revision: 1.8.2.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -57,25 +57,30 @@ sub Run {
     # install included packages
     if ( $Self->{MainObject}->Require( 'Kernel::System::Package' ) ) {
         my $PackageObject = Kernel::System::Package->new( %{$Self} );
-        my $Directory = $Self->{ConfigObject}->Get('Home') . '/var/packages/*.opm';
-        my @PackageFiles = glob( $Directory );
+        if ($PackageObject) {
+            my $Directory = $Self->{ConfigObject}->Get('Home') . '/var/packages/*.opm';
+            my @PackageFiles = glob( $Directory );
 
-        # read packages and install
-        for my $Location (@PackageFiles) {
+            # read packages and install
+            for my $Location (@PackageFiles) {
 
-            # read package
-            my $ContentSCALARRef = $Self->{MainObject}->FileRead(
-                Location        => $Location,
-                Mode            => 'binmode',
-                Type            => 'Local',
-                Result          => 'SCALAR',
-            );
-            next if !$ContentSCALARRef;
+                # read package
+                my $ContentSCALARRef = $Self->{MainObject}->FileRead(
+                    Location        => $Location,
+                    Mode            => 'binmode',
+                    Type            => 'Local',
+                    Result          => 'SCALAR',
+                );
+                next if !$ContentSCALARRef;
 
-            # install package (use eval to be save)
-            eval {
-                $PackageObject->PackageInstall( String => ${ $ContentSCALARRef } );
-            };
+                # install package (use eval to be save)
+                eval {
+                    $PackageObject->PackageInstall( String => ${ $ContentSCALARRef } );
+                };
+                if ($@) {
+                    $Self->{LogObject}->Log( Priority => 'error', Message => $@ );
+                }
+            }
         }
     }
 
