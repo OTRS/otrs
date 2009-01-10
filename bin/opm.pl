@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # opm.pl - otrs package manager cmd version
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: opm.pl,v 1.26 2008-05-08 09:36:57 mh Exp $
+# $Id: opm.pl,v 1.26.2.1 2009-01-10 20:28:17 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.26.2.1 $) [1];
 
 # common objects
 my %CommonObject = ();
@@ -614,7 +614,8 @@ sub _MessageGet {
     if ( !$Param{Reformat} || $Param{Reformat} ne 'No' ) {
         $Title       =~ s/(.{4,78})(?:\s|\z)/| $1\n/gm;
         $Description =~ s/^\s*//mg;
-        $Description =~ s/\n//gs;
+        $Description =~ s/\n/ /gs;
+        $Description =~ s/\r/ /gs;
         $Description =~ s/\<style.+?\>.*\<\/style\>//gsi;
         $Description =~ s/\<br(\/|)\>/\n/gsi;
         $Description =~ s/\<(hr|hr.+?)\>/\n\n/gsi;
