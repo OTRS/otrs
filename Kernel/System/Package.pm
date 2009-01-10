@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.85.2.1 2009-01-10 17:51:21 martin Exp $
+# $Id: Package.pm,v 1.85.2.2 2009-01-10 18:18:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.85.2.1 $) [1];
+$VERSION = qw($Revision: 1.85.2.2 $) [1];
 
 =head1 NAME
 
@@ -2031,7 +2031,7 @@ sub _FileInstall {
         return;
     }
     my $RealFile = $Home . '/' . $Param{Location};
-    $RealFile =~ s/\/\///g;
+    $RealFile =~ s/\/\//\//g;
 
     # backup old file (if reinstall, don't overwrite .backup an .save files)
     if ( -e $RealFile ) {
@@ -2121,7 +2121,7 @@ sub _FileRemove {
         return;
     }
     my $RealFile = $Home . '/' . $Param{Location};
-    $RealFile =~ s/\/\///g;
+    $RealFile =~ s/\/\//\//g;
 
     # check if file exists
     if ( !-e $RealFile ) {
@@ -2290,6 +2290,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.85.2.1 $ $Date: 2009-01-10 17:51:21 $
+$Revision: 1.85.2.2 $ $Date: 2009-01-10 18:18:04 $
 
 =cut
