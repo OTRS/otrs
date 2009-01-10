@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.812 2009-01-08 12:43:54 martin Exp $
+# $Id: CHANGES,v 1.813 2009-01-10 18:01:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -84,7 +84,9 @@
  - (2008/10/02) Added password reset option based on auth backend for multi
     auth support.
 
-2.3.4 (2008/??/??)
+2.3.4 (2009/??/??)
+ - (2009/01/10) Fixed bug# 3575 - Framework file get lost after upgrading OTRS
+    and reinstalling or uninstalling e. g. ITSM pakages then.
  - (2008/12/08) Fixed bug# 3462 - SMIME crypt and sign functions bail out -
      unable to save random state.
  - (2008/12/04) Fixed bug# 3360 - Service list formating broken after AJAX reload.
