@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.70 2008-12-04 14:52:37 mh Exp $
+# $Id: AdminPackageManager.pm,v 1.71 2009-01-10 19:26:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -87,9 +87,12 @@ sub Run {
         my $Version = $Self->{ParamObject}->GetParam( Param => 'Version' ) || '';
         my $Location = $Self->{ParamObject}->GetParam( Param => 'Location' );
         my %Frontend = ();
+
+        # get package
         my $Package  = $Self->{PackageObject}->RepositoryGet(
             Name    => $Name,
             Version => $Version,
+            Result  => 'SCALAR',
         );
         if ( !$Package ) {
             return $Self->{LayoutObject}->ErrorScreen( Message => 'No such package!' );
@@ -581,6 +584,8 @@ sub Run {
         my $Name    = $Self->{ParamObject}->GetParam( Param => 'Name' )    || '';
         my $Version = $Self->{ParamObject}->GetParam( Param => 'Version' ) || '';
         my %Frontend = ();
+
+        # get package
         my $Package  = $Self->{PackageObject}->RepositoryGet(
             Name    => $Name,
             Version => $Version,
@@ -650,6 +655,7 @@ sub Run {
         my $Package = $Self->{PackageObject}->RepositoryGet(
             Name    => $Name,
             Version => $Version,
+            Result  => 'SCALAR',
         );
         if ( !$Package ) {
             return $Self->{LayoutObject}->ErrorScreen( Message => 'No such package!' );
@@ -990,9 +996,12 @@ sub Run {
         my $IntroReinstallPre = $Self->{ParamObject}->GetParam( Param => 'IntroReinstallPre' )
             || '';
         my %Frontend = ();
+
+        # get package
         my $Package  = $Self->{PackageObject}->RepositoryGet(
             Name    => $Name,
             Version => $Version,
+            Result  => 'SCALAR',
         );
         if ( !$Package ) {
             return $Self->{LayoutObject}->ErrorScreen( Message => 'No such package!' );
@@ -1062,6 +1071,8 @@ sub Run {
         my $IntroReinstallPost = $Self->{ParamObject}->GetParam( Param => 'IntroReinstallPost' )
             || '';
         my %Frontend = ();
+
+        # get package
         my $Package  = $Self->{PackageObject}->RepositoryGet(
             Name    => $Name,
             Version => $Version,
@@ -1116,9 +1127,12 @@ sub Run {
         my $IntroUninstallPre = $Self->{ParamObject}->GetParam( Param => 'IntroUninstallPre' )
             || '';
         my %Frontend = ();
+
+        # get package
         my $Package  = $Self->{PackageObject}->RepositoryGet(
             Name    => $Name,
             Version => $Version,
+            Result  => 'SCALAR',
         );
         if ( !$Package ) {
             return $Self->{LayoutObject}->ErrorScreen( Message => 'No such package!' );
@@ -1188,6 +1202,8 @@ sub Run {
         my %Frontend = ();
         my $IntroUninstallPost = $Self->{ParamObject}->GetParam( Param => 'IntroUninstallPost' )
             || '';
+
+        # get package
         my $Package = $Self->{PackageObject}->RepositoryGet(
             Name    => $Name,
             Version => $Version,
@@ -1387,9 +1403,12 @@ sub Run {
         my $Name    = $Self->{ParamObject}->GetParam( Param => 'Name' )    || '';
         my $Version = $Self->{ParamObject}->GetParam( Param => 'Version' ) || '';
         my %Frontend = ();
+
+        # get package
         my $Package  = $Self->{PackageObject}->RepositoryGet(
             Name    => $Name,
             Version => $Version,
+            Result  => 'SCALAR',
         );
         if ( !$Package ) {
             return $Self->{LayoutObject}->ErrorScreen( Message => 'No such package!' );
