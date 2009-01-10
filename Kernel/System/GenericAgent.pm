@@ -1,8 +1,8 @@
 # --
 # Kernel/System/GenericAgent.pm - generic agent system module
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.44 2008-09-24 23:11:54 martin Exp $
+# $Id: GenericAgent.pm,v 1.45 2009-01-10 13:13:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 =head1 NAME
 
@@ -766,8 +766,23 @@ sub _JobRunTicket {
             );
         }
         if ( $Self->{MainObject}->Require( $Param{Config}->{New}->{Module} ) ) {
-            my $Object = $Param{Config}->{New}->{Module}->new( %{$Self}, Debug => $Self->{Debug}, );
-            $Object->Run( %{ $Param{Config} }, TicketID => $Param{TicketID} );
+            my $Object = $Param{Config}->{New}->{Module}->new(
+                %{$Self},
+                Debug => $Self->{Debug},
+            );
+            if ($Object) {
+
+                # protect parent process
+                eval {
+                    $Object->Run(
+                        %{ $Param{Config} },
+                        TicketID => $Param{TicketID},
+                    );
+                };
+                if ($@) {
+                    $Self->{LogObject}->Log( Priority => 'error', Message => $@ );
+                }
+            }
         }
     }
 
@@ -1320,6 +1335,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.44 $ $Date: 2008-09-24 23:11:54 $
+$Revision: 1.45 $ $Date: 2009-01-10 13:13:08 $
 
 =cut
