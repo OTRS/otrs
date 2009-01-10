@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Main.pm - main core components
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.27 2008-09-08 17:54:41 martin Exp $
+# $Id: Main.pm,v 1.28 2009-01-10 19:14:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Data::Dumper;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 =head1 NAME
 
@@ -578,13 +578,13 @@ sub MD5sum {
     }
 
     # md5sum string
-    if ( !ref( $Param{String} ) ) {
+    if ( !ref $Param{String} ) {
         $Self->{EncodeObject}->EncodeOutput( \$Param{String} );
         return md5_hex( $Param{String} );
     }
 
     # md5sum scalar reference
-    if ( ref( $Param{String} ) eq 'SCALAR' ) {
+    if ( ref $Param{String} eq 'SCALAR' ) {
         $Self->{EncodeObject}->EncodeOutput( $Param{String} );
         return md5_hex( ${ $Param{String} } );
     }
@@ -685,14 +685,14 @@ sub _Dump {
     my ( $Self, $Data ) = @_;
 
     # data is not a reference
-    if ( !ref( ${$Data} ) ) {
+    if ( !ref ${$Data} ) {
         Encode::_utf8_off( ${$Data} );
 
         return;
     }
 
     # data is a scalar reference
-    if ( ref( ${$Data} ) eq 'SCALAR' ) {
+    if ( ref ${$Data} eq 'SCALAR' ) {
 
         # start recursion
         $Self->_Dump( ${$Data} );
@@ -701,7 +701,7 @@ sub _Dump {
     }
 
     # data is a hash reference
-    if ( ref( ${$Data} ) eq 'HASH' ) {
+    if ( ref ${$Data} eq 'HASH' ) {
         KEY:
         for my $Key ( keys %{ ${$Data} } ) {
             next KEY if !defined ${$Data}->{$Key};
@@ -714,7 +714,7 @@ sub _Dump {
     }
 
     # data is a array reference
-    if ( ref( ${$Data} ) eq 'ARRAY' ) {
+    if ( ref ${$Data} eq 'ARRAY' ) {
         KEY:
         for my $Key ( 0 .. $#{ ${$Data} } ) {
             next KEY if !defined ${$Data}->[$Key];
@@ -750,6 +750,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2008-09-08 17:54:41 $
+$Revision: 1.28 $ $Date: 2009-01-10 19:14:38 $
 
 =cut
