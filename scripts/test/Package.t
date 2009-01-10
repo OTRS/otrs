@@ -2,7 +2,7 @@
 # Package.t - Package tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.t,v 1.16.2.1 2009-01-10 17:51:21 martin Exp $
+# $Id: Package.t,v 1.16.2.2 2009-01-10 18:00:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -706,6 +706,9 @@ $Self->True(
 );
 
 # 11 check "do not remove framework file if no backup exists"
+my $RemoveFile          = $Self->{ConfigObject}->Get('Home') . '/' . 'bin/CheckDB.pl.save';
+my $RemoveFileFramework = $Self->{ConfigObject}->Get('Home') . '/' . 'bin/CheckDB.pl';
+copy( $RemoveFileFramework, $RemoveFileFramework . '.orig' );
 $String = '<?xml version="1.0" encoding="utf-8" ?>
 <otrs_package version="1.0">
   <Name>TestFrameworkFileCheck</Name>
@@ -735,9 +738,6 @@ $Self->True(
     $PackageInstall || 0,
     '#11 PackageInstall() - TestFrameworkFileCheck installed',
 );
-
-my $RemoveFile          = $Self->{ConfigObject}->Get('Home') . '/' . 'bin/CheckDB.pl.save';
-my $RemoveFileFramework = $Self->{ConfigObject}->Get('Home') . '/' . 'bin/CheckDB.pl';
 
 # check if save file exists
 $Self->True(
@@ -778,8 +778,12 @@ $Self->True(
     -e $RemoveFileFramework || 0,
     '#11 PackageUninstall() - save file bin/CheckDB.pl exists',
 );
+move( $RemoveFileFramework . '.orig', $RemoveFileFramework );
 
 # 12 check "do create .save file on reinstall if it's a framework file"
+my $SaveFile          = $Self->{ConfigObject}->Get('Home') . '/' . 'bin/CheckDB.pl.save';
+my $SaveFileFramework = $Self->{ConfigObject}->Get('Home') . '/' . 'bin/CheckDB.pl';
+copy( $SaveFileFramework, $SaveFileFramework . '.orig' );
 $String = '<?xml version="1.0" encoding="utf-8" ?>
 <otrs_package version="1.0">
   <Name>TestFrameworkFileCheck</Name>
@@ -810,11 +814,6 @@ $Self->True(
     '#12 PackageInstall() - TestFrameworkFileCheck installed',
 );
 
-my $SaveFile          = $Self->{ConfigObject}->Get('Home') . '/' . 'bin/CheckDB.pl.save';
-my $SaveFileFramework = $Self->{ConfigObject}->Get('Home') . '/' . 'bin/CheckDB.pl';
-
-# reinstall checks
-copy( $SaveFileFramework, $SaveFileFramework . '.orig' );
 my $Content = 'Test 12345678';
 my $Write = $Self->{MainObject}->FileWrite(
     Location   => $SaveFileFramework,
