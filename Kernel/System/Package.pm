@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Package.pm - lib package manager
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.85 2008-07-11 10:52:40 mh Exp $
+# $Id: Package.pm,v 1.85.2.1 2009-01-10 17:51:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.85 $) [1];
+$VERSION = qw($Revision: 1.85.2.1 $) [1];
 
 =head1 NAME
 
@@ -2031,6 +2031,7 @@ sub _FileInstall {
         return;
     }
     my $RealFile = $Home . '/' . $Param{Location};
+    $RealFile =~ s/\/\///g;
 
     # backup old file (if reinstall, don't overwrite .backup an .save files)
     if ( -e $RealFile ) {
@@ -2052,14 +2053,15 @@ sub _FileInstall {
                 );
                 if ( $Content && ${$Content} ne $Param{Content} ) {
 
-                    # check if it's framework file
-                    $RealFile =~ s/\/\///g;
-                    my %File = $Self->_ReadDistArchive();
-                    if ( $File{$RealFile} ) {
+                    # check if it's framework file, create .save file
+                    my %File = $Self->_ReadDistArchive( Home => $Home );
+                    if ( $File{ $Param{Location} } ) {
                         $Save = 1;
                     }
                 }
             }
+
+            # if it's no reinstall or reinstall and framework file but different, backup it
             if ( !$Param{Reinstall} || ( $Param{Reinstall} && $Save ) ) {
                 move( $RealFile, "$RealFile.save" );
             }
@@ -2119,6 +2121,7 @@ sub _FileRemove {
         return;
     }
     my $RealFile = $Home . '/' . $Param{Location};
+    $RealFile =~ s/\/\///g;
 
     # check if file exists
     if ( !-e $RealFile ) {
@@ -2139,6 +2142,18 @@ sub _FileRemove {
             print STDERR "Notice: Backup for changed file: $RealFile.backup\n";
             copy( $RealFile, "$RealFile.custom_backup" );
         }
+    }
+
+    # check if it's framework file and if $RealFile.(backup|save) exists
+    # then do not remove it!
+    my %File = $Self->_ReadDistArchive( Home => $Home );
+    if ( $File{ $Param{Location} }  && (!-e "$RealFile.backup" && !-e "$RealFile.save") ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Can't remove file $RealFile, because it a framework file and no "
+                . "other one exists!",
+        );
+        return;
     }
 
     # remove old file
@@ -2171,28 +2186,47 @@ sub _FileRemove {
 sub _ReadDistArchive {
     my ( $Self, %Param ) = @_;
 
-    my %File = ();
     my $Home = $Param{Home} || $Self->{Home};
-    if ( -e "$Home/ARCHIVE" ) {
-        my $Content = $Self->{MainObject}->FileRead(
-            Directory => $Home,
-            Filename  => 'ARCHIVE',
-            Result    => 'ARRAY',
+
+    # check cache
+    if ( $Self->{Cache}->{DistArchive}->{$Home} ) {
+        return %{ $Self->{Cache}->{DistArchive}->{$Home} };
+    }
+
+    # check if ARCHIVE exists
+    if ( !-e "$Home/ARCHIVE" ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "No such file $Home/ARCHIVE!",
         );
-        if ($Content) {
-            for ( @{$Content} ) {
-                my @Row = split( /::/, $_ );
-                $Row[1] =~ s/\/\///g;
-                $File{ $Row[1] } = $Row[0];
-            }
-        }
-        else {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Can't open $Home/ARCHIVE: $!",
-            );
+        return;
+    }
+
+    # read ARCHIVE file
+    my $Content = $Self->{MainObject}->FileRead(
+        Directory => $Home,
+        Filename  => 'ARCHIVE',
+        Result    => 'ARRAY',
+    );
+    my %File = ();
+    if ($Content) {
+        for ( @{$Content} ) {
+            my @Row = split( /::/, $_ );
+            $Row[1] =~ s/\/\///g;
+            $Row[1] =~ s/(\n|\r)//g;
+            $File{ $Row[1] } = $Row[0];
         }
     }
+    else {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Can't open $Home/ARCHIVE: $!",
+        );
+    }
+
+    # cache it
+    $Self->{Cache}->{DistArchive}->{$Home} = \%File;
+
     return %File;
 }
 
@@ -2256,6 +2290,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.85 $ $Date: 2008-07-11 10:52:40 $
+$Revision: 1.85.2.1 $ $Date: 2009-01-10 17:51:21 $
 
 =cut
