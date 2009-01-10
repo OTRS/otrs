@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.91 2009-01-10 18:16:48 martin Exp $
+# $Id: Package.pm,v 1.92 2009-01-10 18:44:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.91 $) [1];
+$VERSION = qw($Revision: 1.92 $) [1];
 
 =head1 NAME
 
@@ -428,7 +428,7 @@ sub PackageInstall {
     # install files
     if ( $Structure{Filelist} && ref $Structure{Filelist} eq 'ARRAY' ) {
         for my $File ( @{ $Structure{Filelist} } ) {
-            $Self->_FileInstall( %{$File} );
+            $Self->_FileInstall( File => $File );
         }
     }
 
@@ -488,7 +488,7 @@ sub PackageReinstall {
 
             # install file
             #print STDERR "Notice: Reinstall $File->{Location}!\n";
-            $Self->_FileInstall( %{$File}, Reinstall => 1 );
+            $Self->_FileInstall( File => $File, Reinstall => 1 );
         }
     }
 
@@ -695,7 +695,7 @@ sub PackageUpgrade {
         for my $File ( @{ $InstalledStructure{Filelist} } ) {
 
             # remove file
-            $Self->_FileRemove( %{$File} );
+            $Self->_FileRemove( File => $File );
         }
     }
 
@@ -704,7 +704,7 @@ sub PackageUpgrade {
         for my $File ( @{ $Structure{Filelist} } ) {
 
             # install file
-            $Self->_FileInstall( %{$File} );
+            $Self->_FileInstall( File => $File );
         }
     }
 
@@ -824,7 +824,7 @@ sub PackageUninstall {
         for my $File ( @{ $Structure{Filelist} } ) {
 
             # remove file
-            $Self->_FileRemove( %{$File} );
+            $Self->_FileRemove( File => $File );
         }
     }
 
@@ -1648,7 +1648,7 @@ sub PackageExport {
         for my $File ( @{ $Structure{Filelist} } ) {
 
             # install file
-            $Self->_FileInstall( %{$File}, Home => $Param{Home} );
+            $Self->_FileInstall( File => $File, Home => $Param{Home} );
         }
     }
     return 1;
@@ -2062,9 +2062,15 @@ sub _FileInstall {
     my $Home = $Param{Home} || $Self->{Home};
 
     # check needed stuff
-    for (qw(Location Content Permission)) {
+    for (qw(File)) {
         if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined!" );
+            return;
+        }
+    }
+    for (qw(Location Content Permission)) {
+        if ( !defined $Param{File}->{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined in File!" );
             return;
         }
     }
@@ -2077,12 +2083,14 @@ sub _FileInstall {
         );
         return;
     }
-    my $RealFile = $Home . '/' . $Param{Location};
+
+    # get real file name in fs
+    my $RealFile = $Home . '/' . $Param{File}->{Location};
     $RealFile =~ s/\/\//\//g;
 
     # backup old file (if reinstall, don't overwrite .backup an .save files)
     if ( -e $RealFile ) {
-        if ( $Param{Type} && $Param{Type} =~ /^replace$/i ) {
+        if ( $Param{File}->{Type} && $Param{File}->{Type} =~ /^replace$/i ) {
             if ( !$Param{Reinstall} || ( $Param{Reinstall} && !-e "$RealFile.backup" ) ) {
                 move( $RealFile, "$RealFile.backup" );
             }
@@ -2095,14 +2103,14 @@ sub _FileInstall {
 
                 # check if it's not the same
                 my $Content = $Self->{MainObject}->FileRead(
-                    Location => $Home . '/' . $Param{Location},
+                    Location => $RealFile,
                     Mode     => 'binmode',
                 );
-                if ( $Content && ${$Content} ne $Param{Content} ) {
+                if ( $Content && ${$Content} ne $Param{File}->{Content} ) {
 
                     # check if it's framework file, create .save file
                     my %File = $Self->_ReadDistArchive( Home => $Home );
-                    if ( $File{ $Param{Location} } ) {
+                    if ( $File{ $Param{File}->{Location} } ) {
                         $Save = 1;
                     }
                 }
@@ -2116,7 +2124,7 @@ sub _FileInstall {
     }
 
     # check directory of loaction (in case create a directory)
-    if ( $Param{Location} =~ /^(.*)\/(.+?|)$/ ) {
+    if ( $Param{File}->{Location} =~ /^(.*)\/(.+?|)$/ ) {
         my $Directory        = $1;
         my @Directories      = split( /\//, $Directory );
         my $DirectoryCurrent = $Home;
@@ -2138,13 +2146,13 @@ sub _FileInstall {
 
     # write file
     return if !$Self->{MainObject}->FileWrite(
-        Location   => $Home . '/' . $Param{Location},
-        Content    => \$Param{Content},
+        Location   => $RealFile,
+        Content    => \$Param{File}->{Content},
         Mode       => 'binmode',
-        Permission => $Param{Permission},
+        Permission => $Param{File}->{Permission},
     );
 
-    print STDERR "Notice: Install $Param{Location} ($Param{Permission})!\n";
+    print STDERR "Notice: Install $RealFile ($Param{File}->{Permission})!\n";
     return 1;
 }
 
@@ -2154,9 +2162,17 @@ sub _FileRemove {
     my $Home = $Param{Home} || $Self->{Home};
 
     # check needed stuff
-    if ( !defined $Param{Location} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Location not defined!' );
-        return;
+    for (qw(File)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined!" );
+            return;
+        }
+    }
+    for (qw(Location)) {
+        if ( !defined $Param{File}->{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "$_ not defined in File!" );
+            return;
+        }
     }
 
     # check Home
@@ -2167,7 +2183,9 @@ sub _FileRemove {
         );
         return;
     }
-    my $RealFile = $Home . '/' . $Param{Location};
+
+    # get real file name in fs
+    my $RealFile = $Home . '/' . $Param{File}->{Location};
     $RealFile =~ s/\/\//\//g;
 
     # check if file exists
@@ -2180,12 +2198,12 @@ sub _FileRemove {
     }
 
     # check if we should backup this file, if it is touched/different
-    if ( $Param{Content} ) {
+    if ( $Param{File}->{Content} ) {
         my $Content = $Self->{MainObject}->FileRead(
-            Location => $Home . '/' . $Param{Location},
+            Location => $RealFile,
             Mode     => 'binmode',
         );
-        if ( $Content && ${$Content} ne $Param{Content} ) {
+        if ( $Content && ${$Content} ne $Param{File}->{Content} ) {
             print STDERR "Notice: Backup for changed file: $RealFile.backup\n";
             copy( $RealFile, "$RealFile.custom_backup" );
         }
@@ -2194,7 +2212,7 @@ sub _FileRemove {
     # check if it's framework file and if $RealFile.(backup|save) exists
     # then do not remove it!
     my %File = $Self->_ReadDistArchive( Home => $Home );
-    if ( $File{ $Param{Location} }  && (!-e "$RealFile.backup" && !-e "$RealFile.save") ) {
+    if ( $File{ $Param{File}->{Location} }  && (!-e "$RealFile.backup" && !-e "$RealFile.save") ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't remove file $RealFile, because it a framework file and no "
@@ -2204,7 +2222,7 @@ sub _FileRemove {
     }
 
     # remove old file
-    if ( !$Self->{MainObject}->FileDelete( Location => $Home . '/' . $Param{Location} ) ) {
+    if ( !$Self->{MainObject}->FileDelete( Location => $RealFile ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't remove file $RealFile: $!!",
@@ -2289,23 +2307,24 @@ sub _FileSystemCheck {
         );
         return;
     }
+
+    # create test files in following directories
     for (qw(/bin/ /Kernel/ /Kernel/System/ /Kernel/Output/ /Kernel/Output/HTML/ /Kernel/Modules/)) {
-        my $Directory = "$Home/$_";
-        my $Filename  = "check_permissons.$$";
+        my $Location = "$Home/$_/check_permissons.$$";
         my $FH;
         my $Content = 'test';
-        if (
-            $Self->{MainObject}->FileWrite(
-                Location => $Directory . '/' . $Filename,
-                Content  => \$Content,
-            )
-            )
-        {
-            $Self->{MainObject}->FileDelete( Location => $Directory . '/' . $Filename );
-        }
-        else {
-            return;
-        }
+
+        # create test file
+        my $Write =  $Self->{MainObject}->FileWrite(
+            Location => $Location,
+            Content  => \$Content,
+        );
+
+        # return false if not created
+        return if !$Write;
+
+        # delete test file
+        $Self->{MainObject}->FileDelete( Location => $Location );
     }
     return 1;
 }
@@ -2336,6 +2355,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.91 $ $Date: 2009-01-10 18:16:48 $
+$Revision: 1.92 $ $Date: 2009-01-10 18:44:46 $
 
 =cut
