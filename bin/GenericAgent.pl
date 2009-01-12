@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pl,v 1.52 2008-12-28 23:15:34 martin Exp $
+# $Id: GenericAgent.pl,v 1.53 2009-01-12 12:57:26 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION %Jobs @ISA);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -70,7 +70,8 @@ if ( !$Opts{l} ) {
 
 # check -b option
 if ( $Opts{c} eq 'db' && $Opts{b} && $Opts{b} !~ /^\d+$/ ) {
-    print STDERR "ERROR: Need -b <BACKGROUND_INTERVAL_IN_MIN>, e. g. -b 10 to execute generic agent";
+    print STDERR
+        "ERROR: Need -b <BACKGROUND_INTERVAL_IN_MIN>, e. g. -b 10 to execute generic agent";
     print STDERR " every 10 minutes (note, only 10,20,30,40,50,60,... minutes make sense).\n";
     exit 1;
 }
@@ -138,6 +139,7 @@ while (1) {
     if ( $Opts{c} eq 'db' ) {
         ExecuteDBJobs();
     }
+
     # process all config file jobs
     else {
         ExecuteConfigJobs();
@@ -171,6 +173,7 @@ sub ExecuteConfigJobs {
 sub ExecuteDBJobs {
 
     # process all jobs
+
     my %DBJobs = $CommonObject{GenericAgentObject}->JobList();
     for my $DBJob ( sort keys %DBJobs ) {
 
@@ -190,9 +193,10 @@ sub ExecuteDBJobs {
         next if !$DBJobRaw{Valid};
 
         # get time params to check last and current run
-        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay ) = $CommonObject{TimeObject}->SystemTime2Date(
+        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WDay )
+            = $CommonObject{TimeObject}->SystemTime2Date(
             SystemTime => $CommonObject{TimeObject}->SystemTime(),
-        );
+            );
         if ( $Min =~ /(.)./ ) {
             $Min = ($1) . '0';
         }

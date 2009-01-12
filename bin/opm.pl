@@ -3,7 +3,7 @@
 # opm.pl - otrs package manager cmd version
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: opm.pl,v 1.27 2009-01-10 20:28:01 martin Exp $
+# $Id: opm.pl,v 1.28 2009-01-12 12:49:43 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 # common objects
 my %CommonObject = ();
@@ -547,7 +547,7 @@ else {
 }
 
 sub BuildPackageIndex {
-    my ($In) = @_;
+    my $In = shift;
 
     my @List = glob("$In/*");
     for my $File (@List) {

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NotificationAgentTicketEscalation.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationAgentTicketEscalation.pm,v 1.30 2009-01-02 19:09:31 martin Exp $
+# $Id: NotificationAgentTicketEscalation.pm,v 1.31 2009-01-12 12:50:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::State;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -44,7 +44,9 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # only show the escalations on ticket overviews
-    return '' if $Self->{LayoutObject}->{Action} !~ /^AgentTicket(Queue|(Status|Locked|Watch|Responsible)View)/;
+    return ''
+        if $Self->{LayoutObject}->{Action}
+            !~ /^AgentTicket(Queue|(Status|Locked|Watch|Responsible)View)/;
 
     # check result cache
     my $CacheTime = $Param{Config}->{CacheTime} || 40;

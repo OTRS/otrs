@@ -1,8 +1,8 @@
 # --
 # Kernel/System/PostMaster/Filter/FollowUpArticleTypeCheck.pm - sub part of PostMaster.pm
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: FollowUpArticleTypeCheck.pm,v 1.1 2008-12-08 12:45:40 martin Exp $
+# $Id: FollowUpArticleTypeCheck.pm,v 1.2 2009-01-12 12:52:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -73,7 +73,7 @@ sub Run {
             my $Recipient = $Self->{ParserObject}->GetEmailAddress(
                 Email => $Email,
             );
-            if ( lc( $Recipient ) eq lc ( $Param{GetParam}->{'X-Sender'} ) ) {
+            if ( lc($Recipient) eq lc( $Param{GetParam}->{'X-Sender'} ) ) {
                 $ArticleType = 'email-internal';
                 last;
             }

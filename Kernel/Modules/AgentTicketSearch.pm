@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.64 2009-01-07 13:57:00 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.65 2009-01-12 12:50:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::State;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -736,14 +736,14 @@ sub Run {
                     );
 
                     my @PDFRow;
-                    push( @PDFRow, $Data{TicketNumber} );
-                    push( @PDFRow, $Created );
-                    push( @PDFRow, $Data{From} );
-                    push( @PDFRow, $Data{Subject} );
-                    push( @PDFRow, $Data{State} );
-                    push( @PDFRow, $Data{Queue} );
-                    push( @PDFRow, $Owner );
-                    push( @PDFRow, $Customer );
+                    push( @PDFRow,  $Data{TicketNumber} );
+                    push( @PDFRow,  $Created );
+                    push( @PDFRow,  $Data{From} );
+                    push( @PDFRow,  $Data{Subject} );
+                    push( @PDFRow,  $Data{State} );
+                    push( @PDFRow,  $Data{Queue} );
+                    push( @PDFRow,  $Owner );
+                    push( @PDFRow,  $Customer );
                     push( @PDFData, \@PDFRow );
                 }
                 else {

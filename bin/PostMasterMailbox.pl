@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/PostMasterMailbox.pl - the global eMail handle for email2db
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMasterMailbox.pl,v 1.3 2008-12-28 23:15:34 martin Exp $
+# $Id: PostMasterMailbox.pl,v 1.4 2009-01-12 12:57:37 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -113,7 +113,9 @@ $CommonObject{PIDObject}->PIDDelete( Name => 'PostMasterMailbox' );
 exit(0);
 
 sub Fetch {
+
     # debug info
+
     if ( $Opts{d} > 1 ) {
         $CommonObject{LogObject}->Log(
             Priority => 'debug',

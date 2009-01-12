@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.86 2009-01-02 18:02:00 martin Exp $
+# $Id: User.pm,v 1.87 2009-01-12 12:51:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Encode;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.86 $) [1];
+$VERSION = qw($Revision: 1.87 $) [1];
 
 =head1 NAME
 
@@ -215,20 +215,23 @@ sub GetUserData {
     }
 
     # out of office check
-    if ( !defined($Param{NoOutOfOffice}) && !$Param{NoOutOfOffice} ) {
+    if ( !defined( $Param{NoOutOfOffice} ) && !$Param{NoOutOfOffice} ) {
         if ( $Preferences{OutOfOffice} ) {
-            my $Time  = $Self->{TimeObject}->SystemTime();
-            my $Start = "$Preferences{OutOfOfficeStartYear}-$Preferences{OutOfOfficeStartMonth}-$Preferences{OutOfOfficeStartDay} 00:00:00";
+            my $Time = $Self->{TimeObject}->SystemTime();
+            my $Start
+                = "$Preferences{OutOfOfficeStartYear}-$Preferences{OutOfOfficeStartMonth}-$Preferences{OutOfOfficeStartDay} 00:00:00";
             my $TimeStart = $Self->{TimeObject}->TimeStamp2SystemTime(
                 String => $Start,
             );
-            my $End = "$Preferences{OutOfOfficeEndYear}-$Preferences{OutOfOfficeEndMonth}-$Preferences{OutOfOfficeEndDay} 23:59:59";
+            my $End
+                = "$Preferences{OutOfOfficeEndYear}-$Preferences{OutOfOfficeEndMonth}-$Preferences{OutOfOfficeEndDay} 23:59:59";
             my $TimeEnd = $Self->{TimeObject}->TimeStamp2SystemTime(
                 String => $End,
             );
-            my $Till     = int( ( $TimeEnd - $Time ) / 60 / 60 / 24 );
-            my $TillDate = "$Preferences{OutOfOfficeEndYear}-$Preferences{OutOfOfficeEndMonth}-$Preferences{OutOfOfficeEndDay}";
-            if ($TimeStart < $Time && $TimeEnd > $Time) {
+            my $Till = int( ( $TimeEnd - $Time ) / 60 / 60 / 24 );
+            my $TillDate
+                = "$Preferences{OutOfOfficeEndYear}-$Preferences{OutOfOfficeEndMonth}-$Preferences{OutOfOfficeEndDay}";
+            if ( $TimeStart < $Time && $TimeEnd > $Time ) {
                 $Preferences{OutOfOfficeMessage} = "*** out of office till $TillDate/$Till d ***";
                 $Data{UserLastname} .= ' ' . $Preferences{OutOfOfficeMessage};
             }
@@ -767,7 +770,7 @@ sub UserList {
     );
 
     # check vacation option
-    foreach my $UserID (sort keys %Users) {
+    for my $UserID ( sort keys %Users ) {
         if ($Valid) {
             my %User = $Self->GetUserData(
                 UserID => $UserID,
@@ -974,6 +977,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.86 $ $Date: 2009-01-02 18:02:00 $
+$Revision: 1.87 $ $Date: 2009-01-12 12:51:23 $
 
 =cut

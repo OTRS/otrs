@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/PreferencesOutOfOffice.pm
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesOutOfOffice.pm,v 1.1 2008-12-19 08:26:03 martin Exp $
+# $Id: PreferencesOutOfOffice.pm,v 1.2 2009-01-12 12:50:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,20 +12,21 @@
 package Kernel::Output::HTML::PreferencesOutOfOffice;
 
 use strict;
+use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
     my $Self = {%Param};
-    bless ($Self, $Type);
+    bless( $Self, $Type );
 
     # get needed objects
-    foreach (qw(ConfigObject LogObject DBObject LayoutObject UserID ParamObject ConfigItem)) {
-        die "Got no $_!" if (!$Self->{$_});
+    for (qw(ConfigObject LogObject DBObject LayoutObject UserID ParamObject ConfigItem)) {
+        die "Got no $_!" if ( !$Self->{$_} );
     }
 
     return $Self;
@@ -35,7 +36,7 @@ sub Param {
     my ( $Self, %Param ) = @_;
 
     my @Params = ();
-    if ($Self->{OutOfOffice}) {
+    if ( $Self->{OutOfOffice} ) {
         $Param{OutOfOfficeOn} = 'checked';
     }
     else {
@@ -54,7 +55,7 @@ sub Param {
     $Param{OptionEnd} = $Self->{LayoutObject}->BuildDateSelection(
         Format               => 'DateInputFormat',
         Area                 => 'no',
-        DiffTime             => 60*60*24*1,
+        DiffTime             => 60 * 60 * 24 * 1,
         Prefix               => 'OutOfOfficeEnd',
         OutOfOfficeEndYear   => $Self->{OutOfOfficeEndYear},
         OutOfOfficeEndMonth  => $Self->{OutOfOfficeEndMonth},
@@ -63,7 +64,9 @@ sub Param {
         OutOfOfficeEndMinute => 0,
     );
 
-    push (@Params, {
+    push(
+        @Params,
+        {
             %Param,
             Block => 'OutOfOffice',
         },
@@ -72,17 +75,19 @@ sub Param {
 }
 
 sub Run {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
-    foreach my $Key (qw(OutOfOffice OutOfOfficeStartYear OutOfOfficeStartMonth OutOfOfficeStartDay OutOfOfficeEndYear OutOfOfficeEndMonth OutOfOfficeEndDay)) {
+    for my $Key (
+        qw(OutOfOffice OutOfOfficeStartYear OutOfOfficeStartMonth OutOfOfficeStartDay OutOfOfficeEndYear OutOfOfficeEndMonth OutOfOfficeEndDay)
+        )
+    {
 
-        $Param{$Key} = $Self->{ParamObject}->GetParam(Param => $Key);
+        $Param{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
 
-        if (defined($Param{$Key})) {
+        if ( defined( $Param{$Key} ) ) {
 
             # pref update db
-            if (!$Self->{ConfigObject}->Get('DemoSystem')) {
+            if ( !$Self->{ConfigObject}->Get('DemoSystem') ) {
                 $Self->{UserObject}->SetPreferences(
                     UserID => $Param{UserData}->{UserID},
                     Key    => $Key,
@@ -91,7 +96,7 @@ sub Run {
             }
 
             # update SessionID
-            if ($Param{UserData}->{UserID} eq $Self->{UserID}) {
+            if ( $Param{UserData}->{UserID} eq $Self->{UserID} ) {
                 $Self->{SessionObject}->UpdateSessionID(
                     SessionID => $Self->{SessionID},
                     Key       => $Key,

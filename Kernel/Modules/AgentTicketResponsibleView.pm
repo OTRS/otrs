@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentTicketResponsibleView.pm - to view all locked tickets
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketResponsibleView.pm,v 1.2 2008-12-08 17:46:35 martin Exp $
+# $Id: AgentTicketResponsibleView.pm,v 1.3 2009-01-12 12:50:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -33,8 +33,8 @@ sub new {
 
     $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
 
-    $Self->{Filter}   = $Self->{ParamObject}->GetParam( Param => 'Filter' ) || 'All';
-    $Self->{View}     = $Self->{ParamObject}->GetParam( Param => 'View' ) || '';
+    $Self->{Filter} = $Self->{ParamObject}->GetParam( Param => 'Filter' ) || 'All';
+    $Self->{View}   = $Self->{ParamObject}->GetParam( Param => 'View' )   || '';
 
     return $Self;
 }
@@ -74,7 +74,7 @@ sub Run {
     $Output = '';
 
     # get locked  viewable tickets...
-    my $SortByS         = $SortBy;
+    my $SortByS = $SortBy;
     if ( $SortByS eq 'CreateTime' ) {
         $SortByS = 'Age';
     }
@@ -103,15 +103,16 @@ sub Run {
 
     my @ViewableTickets = $Self->{TicketObject}->TicketSearch(
         %{ $Filters{ $Self->{Filter} }->{Search} },
-        Result     => 'ARRAY',
-        Limit      => 1000,
+        Result => 'ARRAY',
+        Limit  => 1000,
     );
 
     # prepare new message tickets
-    if ( $Self->{Filter} eq 'New') {
+    if ( $Self->{Filter} eq 'New' ) {
         my @ViewableTicketsTmp;
         my %LockedData = $Self->{TicketObject}->GetLockedCount( UserID => $Self->{UserID} );
         for my $TicketID (@ViewableTickets) {
+
             # check what tickets are new
             my $Message = '';
             if ( $LockedData{NewTicketIDs}->{$TicketID} ) {
@@ -121,7 +122,7 @@ sub Run {
         }
         @ViewableTickets = @ViewableTicketsTmp;
     }
-    elsif ( $Self->{Filter} eq 'ReminderReached') {
+    elsif ( $Self->{Filter} eq 'ReminderReached' ) {
         my @ViewableTicketsTmp;
         for my $TicketID (@ViewableTickets) {
             my @Index = $Self->{TicketObject}->ArticleIndex( TicketID => $TicketID );
@@ -138,14 +139,15 @@ sub Run {
     my %NavBarFilter;
     for my $Filter ( keys %Filters ) {
         my @ViewableTickets = $Self->{TicketObject}->TicketSearch(
-            %{ $Filters{ $Filter }->{Search} },
-            Result     => 'ARRAY',
-            Limit      => 1000,
+            %{ $Filters{$Filter}->{Search} },
+            Result => 'ARRAY',
+            Limit  => 1000,
         );
 
-        if ( $Filter eq 'New') {
+        if ( $Filter eq 'New' ) {
             my @ViewableTicketsTmp;
             my %LockedData = $Self->{TicketObject}->GetLockedCount( UserID => $Self->{UserID} );
+
             # check what tickets are new
             for my $TicketID (@ViewableTickets) {
                 my $Message = '';
@@ -156,7 +158,7 @@ sub Run {
             }
             @ViewableTickets = @ViewableTicketsTmp;
         }
-        elsif ( $Filter eq 'ReminderReached') {
+        elsif ( $Filter eq 'ReminderReached' ) {
             my @ViewableTicketsTmp;
             for my $TicketID (@ViewableTickets) {
                 my @Index = $Self->{TicketObject}->ArticleIndex( TicketID => $TicketID );
@@ -170,10 +172,10 @@ sub Run {
             @ViewableTickets = @ViewableTicketsTmp;
         }
 
-        $NavBarFilter{ $Filters{ $Filter }->{Prio} } = {
+        $NavBarFilter{ $Filters{$Filter}->{Prio} } = {
             Count  => scalar @ViewableTickets,
             Filter => $Filter,
-            %{ $Filters{ $Filter } },
+            %{ $Filters{$Filter} },
         };
     }
 
@@ -194,9 +196,9 @@ sub Run {
         . '&';
     $Output .= $Self->{LayoutObject}->TicketListShow(
         TicketIDs => \@ViewableTickets,
-        Total      => scalar @ViewableTickets,
+        Total     => scalar @ViewableTickets,
 
-        View       => $Self->{View},
+        View => $Self->{View},
 
         Filter     => $Self->{Filter},
         Filters    => \%NavBarFilter,
@@ -206,9 +208,9 @@ sub Run {
         TitleValue => $Self->{Filter},
         Bulk       => 1,
 
-        Env        => $Self,
-        LinkPage   => $LinkPage,
-        LinkSort   => $LinkSort,
+        Env      => $Self,
+        LinkPage => $LinkPage,
+        LinkSort => $LinkSort,
 
     );
 

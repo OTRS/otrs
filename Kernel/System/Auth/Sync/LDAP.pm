@@ -2,7 +2,7 @@
 # Kernel/System/Auth/Sync/LDAP.pm - provides the ldap sync
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.1 2009-01-05 21:38:22 martin Exp $
+# $Id: LDAP.pm,v 1.2 2009-01-12 12:52:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -51,7 +51,8 @@ sub new {
         return;
     }
     if ( defined( $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::BaseDN' . $Param{Count} ) ) ) {
-        $Self->{BaseDN} = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::BaseDN' . $Param{Count} );
+        $Self->{BaseDN}
+            = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::BaseDN' . $Param{Count} );
     }
     else {
         $Self->{LogObject}->Log(
@@ -79,9 +80,11 @@ sub new {
     $Self->{AccessAttr}
         = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::AccessAttr' . $Param{Count} )
         || 'memberUid';
-    $Self->{UserAttr} = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::UserAttr' . $Param{Count} )
+    $Self->{UserAttr}
+        = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::UserAttr' . $Param{Count} )
         || 'DN';
-    $Self->{DestCharset} = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::Charset' . $Param{Count} )
+    $Self->{DestCharset}
+        = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::Charset' . $Param{Count} )
         || 'utf-8';
 
     # ldap filter always used
@@ -90,7 +93,8 @@ sub new {
 
     # Net::LDAP new params
     if ( $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::Params' . $Param{Count} ) ) {
-        $Self->{Params} = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::Params' . $Param{Count} );
+        $Self->{Params}
+            = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::Params' . $Param{Count} );
     }
     else {
         $Self->{Params} = {};
@@ -209,7 +213,8 @@ sub Sync {
     $UserDNQuote =~ s/\)/\\)/g;
 
     # sync user from ldap
-    my $UserSyncMap = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::UserSyncMap' . $Self->{Count} );
+    my $UserSyncMap
+        = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::UserSyncMap' . $Self->{Count} );
     if ($UserSyncMap) {
 
         # get whole user dn
@@ -266,12 +271,13 @@ sub Sync {
                 else {
                     $Self->{LogObject}->Log(
                         Priority => 'notice',
-                        Message => "Initial data for '$Param{User}' ($UserDN) created in RDBMS.",
+                        Message  => "Initial data for '$Param{User}' ($UserDN) created in RDBMS.",
                     );
 
                     # sync initial groups
-                    my $UserSyncInitialGroups = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::UserSyncInitialGroups' . $Self->{Count} );
-                    if ( $UserSyncInitialGroups ) {
+                    my $UserSyncInitialGroups = $Self->{ConfigObject}
+                        ->Get( 'AuthSyncModule::LDAP::UserSyncInitialGroups' . $Self->{Count} );
+                    if ($UserSyncInitialGroups) {
                         my %Groups = $Self->{GroupObject}->GroupList();
                         for ( @{$UserSyncInitialGroups} ) {
                             my $GroupID = '';
@@ -305,7 +311,8 @@ sub Sync {
     }
 
     # sync ldap group 2 otrs group permissions
-    my $UserSyncGroupsDefinition = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::UserSyncGroupsDefinition' . $Self->{Count} );
+    my $UserSyncGroupsDefinition = $Self->{ConfigObject}
+        ->Get( 'AuthSyncModule::LDAP::UserSyncGroupsDefinition' . $Self->{Count} );
     if ($UserSyncGroupsDefinition) {
 
         # get current user data
@@ -313,7 +320,7 @@ sub Sync {
 
         # system permissions
         my %PermissionsEmpty = ();
-        for ( @{ $Self->{ConfigObject}->Get( 'System::Permission' ) } ) {
+        for ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
             $PermissionsEmpty{$_} = 0;
         }
 
@@ -329,7 +336,7 @@ sub Sync {
         }
 
         # group config settings
-        for my $GroupDN ( sort keys %{ $UserSyncGroupsDefinition } ) {
+        for my $GroupDN ( sort keys %{$UserSyncGroupsDefinition} ) {
 
             # just in case for debug
             $Self->{LogObject}->Log(
@@ -392,7 +399,8 @@ sub Sync {
                     # just in case for debug
                     $Self->{LogObject}->Log(
                         Priority => 'notice',
-                        Message  => "User: '$Param{User}' sync ldap group $GroupDN in $SGroup group!",
+                        Message =>
+                            "User: '$Param{User}' sync ldap group $GroupDN in $SGroup group!",
                     );
                     $Self->{GroupObject}->GroupMemberAdd(
                         GID        => $GroupID,
@@ -406,7 +414,8 @@ sub Sync {
     }
 
     # sync ldap group 2 otrs role permissions
-    my $UserSyncRolesDefinition = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::UserSyncRolesDefinition' . $Self->{Count} );
+    my $UserSyncRolesDefinition = $Self->{ConfigObject}
+        ->Get( 'AuthSyncModule::LDAP::UserSyncRolesDefinition' . $Self->{Count} );
     if ($UserSyncRolesDefinition) {
 
         # get current user data
@@ -424,7 +433,7 @@ sub Sync {
         }
 
         # group config settings
-        for my $GroupDN ( sort keys %{ $UserSyncRolesDefinition } ) {
+        for my $GroupDN ( sort keys %{$UserSyncRolesDefinition} ) {
 
             # just in case for debug
             $Self->{LogObject}->Log(
@@ -486,7 +495,8 @@ sub Sync {
                         # just in case for debug
                         $Self->{LogObject}->Log(
                             Priority => 'notice',
-                            Message  => "User: '$Param{User}' sync ldap group $GroupDN in $SRole role!",
+                            Message =>
+                                "User: '$Param{User}' sync ldap group $GroupDN in $SRole role!",
                         );
                         $Self->{GroupObject}->GroupUserRoleMemberAdd(
                             UID    => $UserData{UserID},
@@ -501,7 +511,8 @@ sub Sync {
     }
 
     # sync ldap attribute 2 otrs group permissions
-    $UserSyncGroupsDefinition = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::UserSyncAttributeGroupsDefinition' . $Self->{Count} );
+    $UserSyncGroupsDefinition = $Self->{ConfigObject}
+        ->Get( 'AuthSyncModule::LDAP::UserSyncAttributeGroupsDefinition' . $Self->{Count} );
     if ($UserSyncGroupsDefinition) {
 
         # get current user data
@@ -509,7 +520,7 @@ sub Sync {
 
         # system permissions
         my %PermissionsEmpty = ();
-        for ( @{ $Self->{ConfigObject}->Get( 'System::Permission' ) } ) {
+        for ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
             $PermissionsEmpty{$_} = 0;
         }
 
@@ -538,7 +549,7 @@ sub Sync {
                 Message  => "Search failed! ($Self->{BaseDN}) filter='$Filter' " . $Result->error,
             );
         }
-        my %SyncConfig = %{ $UserSyncGroupsDefinition };
+        my %SyncConfig = %{$UserSyncGroupsDefinition};
         for my $Attribute ( keys %SyncConfig ) {
             my %AttributeValues = %{ $SyncConfig{$Attribute} };
             for my $AttributeValue ( keys %AttributeValues ) {
@@ -571,7 +582,8 @@ sub Sync {
                         # just in case for debug
                         $Self->{LogObject}->Log(
                             Priority => 'notice',
-                            Message => "User: '$Param{User}' sync ldap attribute $Attribute=$AttributeValue in $Group group!",
+                            Message =>
+                                "User: '$Param{User}' sync ldap attribute $Attribute=$AttributeValue in $Group group!",
                         );
                         $Self->{GroupObject}->GroupMemberAdd(
                             GID        => $GroupID,
@@ -586,8 +598,9 @@ sub Sync {
     }
 
     # sync ldap attribute 2 otrs role permissions
-    $UserSyncRolesDefinition = $Self->{ConfigObject}->Get( 'AuthSyncModule::LDAP::UserSyncAttributeRolesDefinition' . $Self->{Count} );
-    if ( $UserSyncRolesDefinition ) {
+    $UserSyncRolesDefinition = $Self->{ConfigObject}
+        ->Get( 'AuthSyncModule::LDAP::UserSyncAttributeRolesDefinition' . $Self->{Count} );
+    if ($UserSyncRolesDefinition) {
 
         # get current user data
         my %UserData = $Self->{UserObject}->GetUserData( User => $Param{User} );
@@ -617,7 +630,7 @@ sub Sync {
                 Message  => "Search failed! ($Self->{BaseDN}) filter='$Filter' " . $Result->error,
             );
         }
-        my %SyncConfig = %{ $UserSyncRolesDefinition };
+        my %SyncConfig = %{$UserSyncRolesDefinition};
         for my $Attribute ( keys %SyncConfig ) {
             my %AttributeValues = %{ $SyncConfig{$Attribute} };
             for my $AttributeValue ( keys %AttributeValues ) {
@@ -650,7 +663,8 @@ sub Sync {
                             # just in case for debug
                             $Self->{LogObject}->Log(
                                 Priority => 'notice',
-                                Message => "User: '$Param{User}' sync ldap attribute $Attribute=$AttributeValue in $Role role!",
+                                Message =>
+                                    "User: '$Param{User}' sync ldap attribute $Attribute=$AttributeValue in $Role role!",
                             );
                             $Self->{GroupObject}->GroupUserRoleMemberAdd(
                                 UID    => $UserData{UserID},

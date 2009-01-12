@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/OutputFilterTextAutoLink.pm - Auto article links filter
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: OutputFilterTextAutoLink.pm,v 1.1 2008-12-10 08:26:19 tr Exp $
+# $Id: OutputFilterTextAutoLink.pm,v 1.2 2009-01-12 12:50:59 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -92,8 +92,8 @@ sub Post {
             my $URLLink = '';
 
             DATA:
-            for my $URLRef ( values %{ $Link } ) {
-                next DATA if !$URLRef || ref( $URLRef ) ne 'HASH';
+            for my $URLRef ( values %{$Link} ) {
+                next DATA if !$URLRef || ref($URLRef) ne 'HASH';
 
                 # check URL configuration sanity
                 next DATA if !$URLRef->{URL} || !$URLRef->{Image} || !$URLRef->{Target};
@@ -118,10 +118,10 @@ sub Post {
                 }
 
                 # create the url string
-                $URL  = "<a href=\"$URL\" target=\"$URLRef->{Target}\">";
-                $URL .= "<img border=\"0\" src=\"$Image\" ";
-                $URL .= " alt=\"$URLRef->{Description}: $KeywordQuote\"";
-                $URL .= " title=\"$URLRef->{Description}: $KeywordQuote\"></img></a>";
+                $URL = "<a href=\"$URL\" target=\"$URLRef->{Target}\">";
+                $URL     .= "<img border=\"0\" src=\"$Image\" ";
+                $URL     .= " alt=\"$URLRef->{Description}: $KeywordQuote\"";
+                $URL     .= " title=\"$URLRef->{Description}: $KeywordQuote\"></img></a>";
                 $URLLink .= ' ' if ($URLLink);
                 $URLLink .= $URL;
             }

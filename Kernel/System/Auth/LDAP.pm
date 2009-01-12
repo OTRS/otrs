@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Auth/LDAP.pm - provides the ldap authentification
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.50 2008-12-28 23:32:33 martin Exp $
+# $Id: LDAP.pm,v 1.51 2009-01-12 12:51:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -275,7 +275,8 @@ sub Auth {
         if ( $Result2->code ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "Search failed! base='$Self->{GroupDN}', filter='$Filter2', " . $Result->error,
+                Message  => "Search failed! base='$Self->{GroupDN}', filter='$Filter2', "
+                    . $Result->error,
             );
             return;
         }
@@ -331,7 +332,7 @@ sub Auth {
     # login note
     $Self->{LogObject}->Log(
         Priority => 'notice',
-        Message => "User: $Param{User} ($UserDN) authentication ok (REMOTE_ADDR: $RemoteAddr).",
+        Message  => "User: $Param{User} ($UserDN) authentication ok (REMOTE_ADDR: $RemoteAddr).",
     );
 
     # sync user from ldap
@@ -434,12 +435,13 @@ sub Auth {
                 else {
                     $Self->{LogObject}->Log(
                         Priority => 'notice',
-                        Message => "Initial data for '$Param{User}' ($UserDN) created in RDBMS.",
+                        Message  => "Initial data for '$Param{User}' ($UserDN) created in RDBMS.",
                     );
 
                     # sync initial groups
-                    my $UserSyncLDAPGroups = $Self->{ConfigObject}->Get( 'UserSyncLDAPGroups' . $Self->{Count} );
-                    if ( $UserSyncLDAPGroups ) {
+                    my $UserSyncLDAPGroups
+                        = $Self->{ConfigObject}->Get( 'UserSyncLDAPGroups' . $Self->{Count} );
+                    if ($UserSyncLDAPGroups) {
                         my %Groups = $Self->{GroupObject}->GroupList();
                         for ( @{$UserSyncLDAPGroups} ) {
                             my $GroupID = '';
@@ -666,7 +668,11 @@ sub Auth {
             }
 
             # group config settings
-            for my $GroupDN ( sort keys %{ $Self->{ConfigObject}->Get( $UserSyncLDAPRolesDefKey . $Self->{Count} ) } ) {
+            for my $GroupDN (
+                sort
+                keys %{ $Self->{ConfigObject}->Get( $UserSyncLDAPRolesDefKey . $Self->{Count} ) }
+                )
+            {
 
                 # just in case for debug
                 $Self->{LogObject}->Log(
@@ -814,10 +820,12 @@ sub Auth {
             if ( $Result->code ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  => "Search failed! ($Self->{BaseDN}) filter='$Filter' " . $Result->error,
+                    Message  => "Search failed! ($Self->{BaseDN}) filter='$Filter' "
+                        . $Result->error,
                 );
             }
-            my %SyncConfig = %{ $Self->{ConfigObject}->Get( $UserSyncLDAPAttrGroupsDefKey . $Self->{Count}) };
+            my %SyncConfig
+                = %{ $Self->{ConfigObject}->Get( $UserSyncLDAPAttrGroupsDefKey . $Self->{Count} ) };
             for my $Attribute ( keys %SyncConfig ) {
                 my %AttributeValues = %{ $SyncConfig{$Attribute} };
                 for my $AttributeValue ( keys %AttributeValues ) {
@@ -929,7 +937,8 @@ sub Auth {
             if ( $Result->code ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
-                    Message  => "Search failed! ($Self->{BaseDN}) filter='$Filter' " . $Result->error,
+                    Message  => "Search failed! ($Self->{BaseDN}) filter='$Filter' "
+                        . $Result->error,
                 );
             }
             my %SyncConfig = %{

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminInit.pm - init a new setup
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminInit.pm,v 1.11 2009-01-10 13:09:50 martin Exp $
+# $Id: AdminInit.pm,v 1.12 2009-01-12 12:50:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -55,27 +55,27 @@ sub Run {
     $Self->{ConfigObject} = Kernel::Config->new( %{$Self} );
 
     # install included packages
-    if ( $Self->{MainObject}->Require( 'Kernel::System::Package' ) ) {
+    if ( $Self->{MainObject}->Require('Kernel::System::Package') ) {
         my $PackageObject = Kernel::System::Package->new( %{$Self} );
         if ($PackageObject) {
-            my $Directory = $Self->{ConfigObject}->Get('Home') . '/var/packages/*.opm';
-            my @PackageFiles = glob( $Directory );
+            my $Directory    = $Self->{ConfigObject}->Get('Home') . '/var/packages/*.opm';
+            my @PackageFiles = glob($Directory);
 
             # read packages and install
             for my $Location (@PackageFiles) {
 
                 # read package
                 my $ContentSCALARRef = $Self->{MainObject}->FileRead(
-                    Location        => $Location,
-                    Mode            => 'binmode',
-                    Type            => 'Local',
-                    Result          => 'SCALAR',
+                    Location => $Location,
+                    Mode     => 'binmode',
+                    Type     => 'Local',
+                    Result   => 'SCALAR',
                 );
                 next if !$ContentSCALARRef;
 
                 # install package (use eval to be save)
                 eval {
-                    $PackageObject->PackageInstall( String => ${ $ContentSCALARRef } );
+                    $PackageObject->PackageInstall( String => ${$ContentSCALARRef} );
                 };
                 if ($@) {
                     $Self->{LogObject}->Log( Priority => 'error', Message => $@ );

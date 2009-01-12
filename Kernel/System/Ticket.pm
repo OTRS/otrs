@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.359 2009-01-08 00:04:53 martin Exp $
+# $Id: Ticket.pm,v 1.360 2009-01-12 12:51:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.359 $) [1];
+$VERSION = qw($Revision: 1.360 $) [1];
 
 =head1 NAME
 
@@ -985,9 +985,9 @@ sub _TicketGetExtended {
     }
 
     # get extended attributes
-    my %FirstResponse   = $Self->_TicketGetFirstResponse( %Param );
-    my %FirstLock       = $Self->_TicketGetFirstLock( %Param );
-    my %TicketGetClosed = $Self->_TicketGetClosed( %Param );
+    my %FirstResponse   = $Self->_TicketGetFirstResponse(%Param);
+    my %FirstLock       = $Self->_TicketGetFirstLock(%Param);
+    my %TicketGetClosed = $Self->_TicketGetClosed(%Param);
 
     # return all as hash
     return ( %TicketGetClosed, %FirstResponse, %FirstLock );
@@ -1048,9 +1048,9 @@ sub _TicketGetFirstResponse {
             Calendar  => $Escalation{Calendar},
         );
 
-        $Data{FirstResponseInMin} = int ( $WorkingTime / 60 );
+        $Data{FirstResponseInMin} = int( $WorkingTime / 60 );
         my $EscalationFirstResponseTime = $Escalation{FirstResponseTime} * 60;
-        $Data{FirstResponseDiffInMin} = int ( ( $EscalationFirstResponseTime - $WorkingTime ) / 60 );
+        $Data{FirstResponseDiffInMin} = int( ( $EscalationFirstResponseTime - $WorkingTime ) / 60 );
     }
 
     return %Data;
@@ -1075,10 +1075,10 @@ sub _TicketGetClosed {
     return if !@List;
 
     $Self->{DBObject}->Prepare(
-        SQL   => "SELECT create_time FROM ticket_history WHERE ticket_id = ? AND "
+        SQL => "SELECT create_time FROM ticket_history WHERE ticket_id = ? AND "
             . " state_id IN (${\(join ', ', sort @List)}) ORDER BY create_time DESC",
         Limit => 1,
-        Bind => [ \$Param{TicketID} ],
+        Bind  => [ \$Param{TicketID} ],
     );
     my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -1114,10 +1114,10 @@ sub _TicketGetClosed {
             Calendar  => $Escalation{Calendar},
         );
 
-        $Data{SolutionInMin} = int ( $WorkingTime / 60 );
+        $Data{SolutionInMin} = int( $WorkingTime / 60 );
 
         my $EscalationSolutionTime = $Escalation{SolutionTime} * 60;
-        $Data{SolutionDiffInMin} = int ( ( $EscalationSolutionTime - $WorkingTime ) / 60 );
+        $Data{SolutionDiffInMin} = int( ( $EscalationSolutionTime - $WorkingTime ) / 60 );
     }
 
     return %Data;
@@ -1136,12 +1136,12 @@ sub _TicketGetFirstLock {
 
     # first lock
     $Self->{DBObject}->Prepare(
-        SQL   => 'SELECT th.name, tht.name, th.create_time '
+        SQL => 'SELECT th.name, tht.name, th.create_time '
             . ' FROM ticket_history th, ticket_history_type tht '
             . 'WHERE th.history_type_id = tht.id AND th.ticket_id = ? '
             . 'AND tht.name = \'Lock\' ORDER BY th.create_time, th.id ASC',
         Limit => 100,
-        Bind  => [ \$Param{TicketID}],
+        Bind  => [ \$Param{TicketID} ],
     );
     my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -6954,6 +6954,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.359 $ $Date: 2009-01-08 00:04:53 $
+$Revision: 1.360 $ $Date: 2009-01-12 12:51:23 $
 
 =cut

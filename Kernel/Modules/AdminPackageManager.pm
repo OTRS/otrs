@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.71 2009-01-10 19:26:03 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.72 2009-01-12 12:50:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -89,7 +89,7 @@ sub Run {
         my %Frontend = ();
 
         # get package
-        my $Package  = $Self->{PackageObject}->RepositoryGet(
+        my $Package = $Self->{PackageObject}->RepositoryGet(
             Name    => $Name,
             Version => $Version,
             Result  => 'SCALAR',
@@ -586,7 +586,7 @@ sub Run {
         my %Frontend = ();
 
         # get package
-        my $Package  = $Self->{PackageObject}->RepositoryGet(
+        my $Package = $Self->{PackageObject}->RepositoryGet(
             Name    => $Name,
             Version => $Version,
         );
@@ -998,7 +998,7 @@ sub Run {
         my %Frontend = ();
 
         # get package
-        my $Package  = $Self->{PackageObject}->RepositoryGet(
+        my $Package = $Self->{PackageObject}->RepositoryGet(
             Name    => $Name,
             Version => $Version,
             Result  => 'SCALAR',
@@ -1073,7 +1073,7 @@ sub Run {
         my %Frontend = ();
 
         # get package
-        my $Package  = $Self->{PackageObject}->RepositoryGet(
+        my $Package = $Self->{PackageObject}->RepositoryGet(
             Name    => $Name,
             Version => $Version,
         );
@@ -1129,7 +1129,7 @@ sub Run {
         my %Frontend = ();
 
         # get package
-        my $Package  = $Self->{PackageObject}->RepositoryGet(
+        my $Package = $Self->{PackageObject}->RepositoryGet(
             Name    => $Name,
             Version => $Version,
             Result  => 'SCALAR',
@@ -1405,7 +1405,7 @@ sub Run {
         my %Frontend = ();
 
         # get package
-        my $Package  = $Self->{PackageObject}->RepositoryGet(
+        my $Package = $Self->{PackageObject}->RepositoryGet(
             Name    => $Name,
             Version => $Version,
             Result  => 'SCALAR',
