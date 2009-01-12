@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.85.2.2 2009-01-10 18:18:04 martin Exp $
+# $Id: Package.pm,v 1.85.2.3 2009-01-12 15:12:29 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.85.2.2 $) [1];
+$VERSION = qw($Revision: 1.85.2.3 $) [1];
 
 =head1 NAME
 
@@ -2147,7 +2147,7 @@ sub _FileRemove {
     # check if it's framework file and if $RealFile.(backup|save) exists
     # then do not remove it!
     my %File = $Self->_ReadDistArchive( Home => $Home );
-    if ( $File{ $Param{Location} }  && (!-e "$RealFile.backup" && !-e "$RealFile.save") ) {
+    if ( $File{ $Param{Location} } && ( !-e "$RealFile.backup" && !-e "$RealFile.save" ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Can't remove file $RealFile, because it a framework file and no "
@@ -2290,6 +2290,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.85.2.2 $ $Date: 2009-01-10 18:18:04 $
+$Revision: 1.85.2.3 $ $Date: 2009-01-12 15:12:29 $
 
 =cut

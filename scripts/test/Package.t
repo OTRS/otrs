@@ -2,7 +2,7 @@
 # Package.t - Package tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.t,v 1.16.2.2 2009-01-10 18:00:01 martin Exp $
+# $Id: Package.t,v 1.16.2.3 2009-01-12 15:13:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -815,7 +815,7 @@ $Self->True(
 );
 
 my $Content = 'Test 12345678';
-my $Write = $Self->{MainObject}->FileWrite(
+my $Write   = $Self->{MainObject}->FileWrite(
     Location   => $SaveFileFramework,
     Content    => \$Content,
     Mode       => 'binmode',
@@ -826,8 +826,8 @@ $Self->True(
     '#12 FileWrite() - bin/CheckDB.pl modified',
 );
 my $ReadOrig = $Self->{MainObject}->FileRead(
-    Location   => $SaveFileFramework,
-    Mode       => 'binmode',
+    Location => $SaveFileFramework,
+    Mode     => 'binmode',
 );
 
 # check if save file exists (should not anymore)
@@ -868,8 +868,8 @@ $Self->True(
 );
 
 my $ReadLater = $Self->{MainObject}->FileRead(
-    Location   => $SaveFileFramework,
-    Mode       => 'binmode',
+    Location => $SaveFileFramework,
+    Mode     => 'binmode',
 );
 
 $Self->True(

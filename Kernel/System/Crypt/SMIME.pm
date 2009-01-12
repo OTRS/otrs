@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.24.2.4 2008-12-08 09:58:16 tr Exp $
+# $Id: SMIME.pm,v 1.24.2.5 2009-01-12 15:12:46 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24.2.4 $) [1];
+$VERSION = qw($Revision: 1.24.2.5 $) [1];
 
 =head1 NAME
 
@@ -53,7 +53,8 @@ sub _Init {
     $ENV{RANDFILE} = $Self->{ConfigObject}->Get('TempDir') . '/.rnd';
 
     # prepend RANDFILE declaration to openssl cmd
-    $Self->{Cmd} = "HOME=" . $Self->{ConfigObject}->Get('Home'). " RANDFILE=$ENV{RANDFILE} $Self->{Cmd}";
+    $Self->{Cmd}
+        = "HOME=" . $Self->{ConfigObject}->Get('Home') . " RANDFILE=$ENV{RANDFILE} $Self->{Cmd}";
 
     return $Self;
 }
@@ -277,8 +278,10 @@ sub Sign {
     my $LogMessage = $Self->_CleanOutput(qx{$Self->{Cmd} $Options 2>&1});
     unlink $SecretFile;
     if ($LogMessage) {
-        $Self->{LogObject}
-            ->Log( Priority => 'error', Message => "Can't sign: $LogMessage!(Command: $Options)" );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Can't sign: $LogMessage!(Command: $Options)"
+        );
         return;
     }
 
@@ -915,6 +918,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.24.2.4 $ $Date: 2008-12-08 09:58:16 $
+$Revision: 1.24.2.5 $ $Date: 2009-01-12 15:12:46 $
 
 =cut
