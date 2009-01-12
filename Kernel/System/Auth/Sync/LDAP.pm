@@ -2,7 +2,7 @@
 # Kernel/System/Auth/Sync/LDAP.pm - provides the ldap sync
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.2 2009-01-12 12:52:00 mh Exp $
+# $Id: LDAP.pm,v 1.3 2009-01-12 13:38:51 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -275,8 +275,9 @@ sub Sync {
                     );
 
                     # sync initial groups
-                    my $UserSyncInitialGroups = $Self->{ConfigObject}
-                        ->Get( 'AuthSyncModule::LDAP::UserSyncInitialGroups' . $Self->{Count} );
+                    my $UserSyncInitialGroups = $Self->{ConfigObject}->Get(
+                        'AuthSyncModule::LDAP::UserSyncInitialGroups' . $Self->{Count}
+                    );
                     if ($UserSyncInitialGroups) {
                         my %Groups = $Self->{GroupObject}->GroupList();
                         for ( @{$UserSyncInitialGroups} ) {
@@ -311,8 +312,9 @@ sub Sync {
     }
 
     # sync ldap group 2 otrs group permissions
-    my $UserSyncGroupsDefinition = $Self->{ConfigObject}
-        ->Get( 'AuthSyncModule::LDAP::UserSyncGroupsDefinition' . $Self->{Count} );
+    my $UserSyncGroupsDefinition = $Self->{ConfigObject}->Get(
+        'AuthSyncModule::LDAP::UserSyncGroupsDefinition' . $Self->{Count}
+    );
     if ($UserSyncGroupsDefinition) {
 
         # get current user data
@@ -414,8 +416,9 @@ sub Sync {
     }
 
     # sync ldap group 2 otrs role permissions
-    my $UserSyncRolesDefinition = $Self->{ConfigObject}
-        ->Get( 'AuthSyncModule::LDAP::UserSyncRolesDefinition' . $Self->{Count} );
+    my $UserSyncRolesDefinition = $Self->{ConfigObject}->Get(
+        'AuthSyncModule::LDAP::UserSyncRolesDefinition' . $Self->{Count}
+    );
     if ($UserSyncRolesDefinition) {
 
         # get current user data
@@ -511,8 +514,9 @@ sub Sync {
     }
 
     # sync ldap attribute 2 otrs group permissions
-    $UserSyncGroupsDefinition = $Self->{ConfigObject}
-        ->Get( 'AuthSyncModule::LDAP::UserSyncAttributeGroupsDefinition' . $Self->{Count} );
+    $UserSyncGroupsDefinition = $Self->{ConfigObject}->Get(
+        'AuthSyncModule::LDAP::UserSyncAttributeGroupsDefinition' . $Self->{Count}
+    );
     if ($UserSyncGroupsDefinition) {
 
         # get current user data
@@ -598,8 +602,9 @@ sub Sync {
     }
 
     # sync ldap attribute 2 otrs role permissions
-    $UserSyncRolesDefinition = $Self->{ConfigObject}
-        ->Get( 'AuthSyncModule::LDAP::UserSyncAttributeRolesDefinition' . $Self->{Count} );
+    $UserSyncRolesDefinition = $Self->{ConfigObject}->Get(
+        'AuthSyncModule::LDAP::UserSyncAttributeRolesDefinition' . $Self->{Count}
+    );
     if ($UserSyncRolesDefinition) {
 
         # get current user data

@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PGP.pm,v 1.28 2009-01-12 12:57:07 mh Exp $
+# $Id: PGP.pm,v 1.29 2009-01-12 13:38:51 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 =head1 NAME
 
@@ -495,7 +495,7 @@ sub _ParseGPGKeyList {
             $Key{Bit} = $Fields[2];
 
             # only use last 8 chars of key-ID in order to be compatible with previous parser
-            $Key{Key}     = substr( $Fields[4], -8, 8 );
+            $Key{Key} = substr( $Fields[4], -8, 8 );
             $Key{Created} = $Fields[5];
         }
         elsif ( $Type eq 'sub' ) {
@@ -755,6 +755,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.28 $ $Date: 2009-01-12 12:57:07 $
+$Revision: 1.29 $ $Date: 2009-01-12 13:38:51 $
 
 =cut
