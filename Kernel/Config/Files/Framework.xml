@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.191 2009-01-13 11:56:34 tr Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.192 2009-01-13 11:58:44 tr Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -2737,7 +2737,7 @@
     </ConfigItem>
     <ConfigItem Name="PGP" Required="1" Valid="1">
         <Description Lang="en">Enable PGP support?</Description>
-        <Description Lang="de">PGP aktivieren? Wenn PGP für Verschlüsselungen und Signaturen verwendet wird, wird dringend empfohlen den Webserver unter dem OTRS-Benutzer laufen zu lassen. Andernfalls ist mit Rechteproblemen bei dem Verzeichnisi (.gnupg) zu rechnen.</Description>
+        <Description Lang="de">PGP aktivieren? Wenn PGP für Verschlüsselungen und Signaturen verwendet wird, wird dringend empfohlen den Webserver unter dem OTRS-Benutzer laufen zu lassen. Andernfalls ist mit Rechteproblemen bei dem Verzeichnis (.gnupg) zu rechnen.</Description>
         <Group>Framework</Group>
         <SubGroup>Crypt::PGP</SubGroup>
         <Setting>
