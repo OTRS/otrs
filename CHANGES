@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.813 2009-01-10 18:01:10 martin Exp $
+# $Id: CHANGES,v 1.814 2009-01-13 15:27:28 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -136,6 +136,8 @@
  - (2008/10/09) Fixed bug# 3358 - Removed useless error warning in stats module.
 
 2.3.3 (2008/10/02)
+ - (2009/01/13) Fixed bug# 3542 - Static Stats lose associated perlmodule after
+    editing.
  - (2008/09/30) Fixed bug# 3335 - No user name in pdf - print of stats-report
  - (2008/09/29) Updated Italian translation, thanks to Remo Catelotti!
  - (2008/09/29) Fixed bug# 3315 - GenericAgent does not work with pending time

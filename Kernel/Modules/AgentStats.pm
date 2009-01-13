@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentStats.pm - stats module
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.62 2008-09-30 09:43:35 tr Exp $
+# $Id: AgentStats.pm,v 1.63 2009-01-13 15:27:28 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -115,12 +115,9 @@ sub Run {
                 StatID             => $StatID,
                 NoObjectAttributes => 1,
             );
-            if ( $Counter % 2 ) {
-                $Stat->{css} = 'searchactive';
-            }
-            else {
-                $Stat->{css} = 'searchpassive';
-            }
+
+            $Stat->{css} = $Counter % 2 ? 'searchactive' : 'searchpassive';
+
             $Self->{LayoutObject}->Block(
                 Name => 'Result',
                 Data => $Stat,
@@ -1144,7 +1141,7 @@ sub Run {
         }
 
         # build the dynamic or/and static stats selection if nothing is selected
-        if ( !$Stat->{StatType} | !$Stat->{Object} ) {
+        if ( !$Stat->{StatType} ) {
             my $DynamicFiles = $Self->{StatsObject}->GetDynamicFiles();
             my $StaticFiles  = $Self->{StatsObject}->GetStaticFiles(
                 OnlyUnusedFiles => 1,
@@ -1276,6 +1273,7 @@ sub Run {
 
         # show the static file if it is selected
         elsif ( $Stat->{StatType} eq 'static' ) {
+
             $Self->{LayoutObject}->Block( Name => 'Selection', );
             $Self->{LayoutObject}->Block(
                 Name => 'NoRadioButton',
@@ -1972,9 +1970,9 @@ sub Run {
         }
 
         # presentation
-        my $TitleArrayRef = shift(@StatArray);
+        my $TitleArrayRef = shift @StatArray;
         my $Title         = $TitleArrayRef->[0];
-        my $HeadArrayRef  = shift(@StatArray);
+        my $HeadArrayRef  = shift @StatArray;
 
         # if array = empty
         if ( !@StatArray ) {
@@ -2159,17 +2157,17 @@ sub Run {
                 Format       => $Param{Format},
                 GraphSize    => $Param{GraphSize},
             );
+
+            # error messages if there is no graph
             if ( !$Graph ) {
                 if ( $Param{Format} =~ m{^GD::Graph::pie}x ) {
                     return $Self->{LayoutObject}->ErrorScreen(
                         Message => 'You use invalid data! Perhaps there are no results.',
                     );
                 }
-                else {
-                    return $Self->{LayoutObject}->ErrorScreen(
-                        Message => "To much data, can't use it with graph!",
-                    );
-                }
+                return $Self->{LayoutObject}->ErrorScreen(
+                    Message => "To much data, can't use it with graph!",
+                );
             }
 
             # return image to bowser
@@ -2361,18 +2359,18 @@ sub _TimeScale {
     return \%TimeScale;
 }
 
-=item _ColumnAndRowTranslation()
-
-translate the column and row name if needed
-
-    $Self->_ColumnAndRowTranslation(
-        StatArrayRef => $StatArrayRef,
-        HeadArrayRef => $HeadArrayRef,
-        StatRef      => $StatRef,
-        ExchangeAxis => 1 | 0,
-    );
-
-=cut
+# =item _ColumnAndRowTranslation()
+#
+# translate the column and row name if needed
+#
+#     $StatsObject->_ColumnAndRowTranslation(
+#         StatArrayRef => $StatArrayRef,
+#         HeadArrayRef => $HeadArrayRef,
+#         StatRef      => $StatRef,
+#         ExchangeAxis => 1 | 0,
+#     );
+#
+# =cut
 
 sub _ColumnAndRowTranslation {
     my ( $Self, %Param ) = @_;
