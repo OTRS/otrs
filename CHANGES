@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.762.2.32 2009-01-10 17:51:20 martin Exp $
+# $Id: CHANGES,v 1.762.2.33 2009-01-13 15:26:43 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.3.4 (2009/??/??)
+ - (2009/01/13) Fixed bug# 3542 - Static Stats lose associated perlmodule after
+    editing.
  - (2009/01/10) Fixed bug# 3575 - Framework file get lost after upgrading OTRS
     and reinstalling or uninstalling e. g. ITSM pakages then.
  - (2008/12/08) Fixed bug# 3462 - SMIME crypt and sign functions bail out -
