@@ -1,8 +1,8 @@
 # --
 # Time.t - Time tests
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Time.t,v 1.15 2008-05-08 09:35:57 mh Exp $
+# $Id: Time.t,v 1.16 2009-01-15 17:19:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -465,7 +465,7 @@ $Vacation = $Self->{TimeObject}->VacationCheck(
 );
 
 $Self->Is(
-    $Vacation,
+    $Vacation || 0,
     "New Year's Eve!",
     'Vacation - 2005-01-01',
 );
@@ -478,13 +478,12 @@ $Vacation = $Self->{TimeObject}->VacationCheck(
 );
 
 $Self->Is(
-    $Vacation,
+    $Vacation || 0,
     "New Year's Eve!",
     'Vacation - 2005-01-01',
 );
 
 # 2005-12-31
-
 $Vacation = $Self->{TimeObject}->VacationCheck(
     Year  => '2005',
     Month => '12',
@@ -492,9 +491,128 @@ $Vacation = $Self->{TimeObject}->VacationCheck(
 );
 
 $Self->Is(
-    $Vacation,
+    $Vacation || 0,
     'Silvester',
     'Vacation - 2005-12-31',
+);
+
+# 2005-02-14
+$Vacation = $Self->{TimeObject}->VacationCheck(
+    Year  => 2005,
+    Month => '02',
+    Day   => '14',
+);
+
+$Self->Is(
+    $Vacation || 'no vacation day',
+    'no vacation day',
+    'Vacation - 2005-02-14',
+);
+
+# modify calendar 1
+my $TimeVacationDays1        = $Self->{ConfigObject}->Get( 'TimeVacationDays::Calendar1' );
+my $TimeVacationDaysOneTime1 = $Self->{ConfigObject}->Get( 'TimeVacationDaysOneTime::Calendar1' );
+
+# 2005-01-01
+$Vacation = $Self->{TimeObject}->VacationCheck(
+    Year     => 2005,
+    Month    => 1,
+    Day      => 1,
+    Calendar => 1,
+);
+
+$Self->Is(
+    $Vacation || 0,
+    'New Year\'s Eve!',
+    'Vacation - 2005-01-01 (Calendar1)',
+);
+
+# 2005-01-01
+$Vacation = $Self->{TimeObject}->VacationCheck(
+    Year    => 2005,
+    Month   => '01',
+    Day     => '01',
+    Calendar => 1,
+);
+
+$Self->Is(
+    $Vacation || 0,
+    'New Year\'s Eve!',
+    'Vacation - 2005-01-01 (Calendar1)',
+);
+
+# remove vacation days
+$TimeVacationDays1->{1}->{1} = undef;
+$TimeVacationDaysOneTime1->{2004}->{1}->{1} = undef;
+
+# 2005-01-01
+$Vacation = $Self->{TimeObject}->VacationCheck(
+    Year     => 2005,
+    Month    => 1,
+    Day      => 1,
+    Calendar => 1,
+);
+
+$Self->Is(
+    $Vacation || 'no vacation day',
+    'no vacation day',
+    'Vacation - 2005-01-01 (Calendar1)',
+);
+
+# 2005-01-01
+$Vacation = $Self->{TimeObject}->VacationCheck(
+    Year    => 2005,
+    Month   => '01',
+    Day     => '01',
+    Calendar => 1,
+);
+
+$Self->Is(
+    $Vacation || 'no vacation day',
+    'no vacation day',
+    'Vacation - 2005-01-01 (Calendar1)',
+);
+
+# 2004-01-01
+$Vacation = $Self->{TimeObject}->VacationCheck(
+    Year     => 2004,
+    Month    => 1,
+    Day      => 1,
+    Calendar => 1,
+);
+
+$Self->Is(
+    $Vacation || 'no vacation day',
+    'no vacation day',
+    'Vacation - 2004-01-01 (Calendar1)',
+);
+
+# 2004-01-01
+$Vacation = $Self->{TimeObject}->VacationCheck(
+    Year    => 2004,
+    Month   => '01',
+    Day     => '01',
+    Calendar => 1,
+);
+
+$Self->Is(
+    $Vacation || 'no vacation day',
+    'no vacation day',
+    'Vacation - 2004-01-01 (Calendar1)',
+);
+
+# 2005-02-14
+$Vacation = $Self->{TimeObject}->VacationCheck(
+    Year     => 2005,
+    Month    => '02',
+    Day      => '14',
+    Calendar => 1,
+);
+
+$Self->Is(
+    $Vacation || 'no vacation day',
+    'no vacation day',
+    'Vacation - 2005-02-14 (Calendar1)',
 );
 
 1;
