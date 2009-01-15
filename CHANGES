@@ -2,14 +2,16 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.762.2.33 2009-01-13 15:26:43 tr Exp $
+# $Id: CHANGES,v 1.762.2.34 2009-01-15 17:20:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
 
-2.3.4 (2009/??/??)
+2.3.4 (2009/01/20)
+ - (2009/01/15) Fixed bug# 3595 - VacationCheck() of Kernel::System::Time is
+    ignoring different OTRS calendar.
  - (2009/01/13) Fixed bug# 3542 - Static Stats lose associated perlmodule after
     editing.
  - (2009/01/10) Fixed bug# 3575 - Framework file get lost after upgrading OTRS

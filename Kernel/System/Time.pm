@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Time.pm - time functions
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Time.pm,v 1.44 2008-05-08 13:43:11 mh Exp $
+# $Id: Time.pm,v 1.44.2.1 2009-01-15 17:20:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.44.2.1 $) [1];
 
 =head1 NAME
 
@@ -729,18 +729,26 @@ sub DestinationTime {
 check if the selected day is a vacation (it doesn't matter if you
 insert 01 or 1 for month or day in the function or in the SysConfig)
 
-    $TimeAccountingObject->VacationCheck(
-        Year  => 2005,
-        Month => 7 || '07',
-        Day   => 13,
+returns (true) vacation day if exists, returns false if date is no
+vacation day
+
+    $TimeObject->VacationCheck(
+        Year     => 2005,
+        Month    => 7 || '07',
+        Day      => 13,
+    );
+
+    $TimeObject->VacationCheck(
+        Year     => 2005,
+        Month    => 7 || '07',
+        Day      => 13,
+        Calendar => 3, # '' is default
     );
 
 =cut
 
 sub VacationCheck {
     my ( $Self, %Param ) = @_;
-
-    my $VacationName = '';
 
     # check required params
     for (qw(Year Month Day)) {
@@ -752,30 +760,40 @@ sub VacationCheck {
             return;
         }
     }
-    $Param{Month} = sprintf "%02d", $Param{Month};
-    $Param{Day}   = sprintf "%02d", $Param{Day};
+    my $Year  = $Param{Year};
+    my $Month = sprintf "%02d", $Param{Month};
+    my $Day   = sprintf "%02d", $Param{Day};
 
     my $TimeVacationDays        = $Self->{ConfigObject}->Get('TimeVacationDays');
     my $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get('TimeVacationDaysOneTime');
+    if ( $Param{Calendar} ) {
+        if ( $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $Param{Calendar} . "Name" ) ) {
+            my $Prefix = 'TimeVacationDays';
+            my $Key    = '::Calendar' . $Param{Calendar};
+            $TimeVacationDays        = $Self->{ConfigObject}->Get( $Prefix . $Key );
+            $TimeVacationDaysOneTime = $Self->{ConfigObject}->Get( $Prefix . 'OneTime' . $Key );
+        }
+    }
 
-    if ( defined $TimeVacationDays->{ $Param{Month} }->{ $Param{Day} } ) {
-        return $TimeVacationDays->{ $Param{Month} }->{ $Param{Day} };
+    # '01' - format
+    if ( defined $TimeVacationDays->{$Month}->{$Day} ) {
+        return $TimeVacationDays->{$Month}->{$Day};
     }
-    elsif ( defined $TimeVacationDaysOneTime->{ $Param{Year} }->{ $Param{Month} }->{ $Param{Day} } )
-    {
-        return $TimeVacationDaysOneTime->{ $Param{Year} }->{ $Param{Month} }->{ $Param{Day} };
+    if ( defined $TimeVacationDaysOneTime->{$Year}->{$Month}->{$Day} ) {
+        return $TimeVacationDaysOneTime->{$Year}->{$Month}->{$Day};
     }
-    elsif ( defined $TimeVacationDays->{ int( $Param{Month} ) }->{ int( $Param{Day} ) } ) {
-        return $TimeVacationDays->{ int( $Param{Month} ) }->{ int( $Param{Day} ) };
+
+    # 1 - int format
+    $Month = int $Month;
+    $Day   = int $Day;
+    if ( defined $TimeVacationDays->{$Month}->{$Day} ) {
+        return $TimeVacationDays->{$Month}->{$Day};
     }
-    elsif (
-        defined $TimeVacationDaysOneTime->{ $Param{Year} }->{ int( $Param{Month} ) }
-        ->{ int( $Param{Day} ) }
-        )
-    {
-        return $TimeVacationDaysOneTime->{ $Param{Year} }->{ int( $Param{Month} ) }
-            ->{ int( $Param{Day} ) };
+    if ( defined $TimeVacationDaysOneTime->{$Year}->{$Month}->{$Day} ) {
+        return $TimeVacationDaysOneTime->{$Year}->{$Month}->{$Day};
     }
+
+    # return no vacation
     return;
 }
 
@@ -795,6 +813,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.44 $ $Date: 2008-05-08 13:43:11 $
+$Revision: 1.44.2.1 $ $Date: 2009-01-15 17:20:17 $
 
 =cut
