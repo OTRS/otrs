@@ -2,7 +2,7 @@
 # Kernel/System/Time.pm - time functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Time.pm,v 1.46 2009-01-15 17:19:25 martin Exp $
+# $Id: Time.pm,v 1.47 2009-01-16 14:43:52 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 =head1 NAME
 
@@ -747,7 +747,7 @@ vacation day
         Year     => 2005,
         Month    => 7 || '07',
         Day      => 13,
-        Calendar => 3, # '' is default
+        Calendar => 3, # '' is default; 0 is handled like ''
     );
 
 =cut
@@ -818,6 +818,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.46 $ $Date: 2009-01-15 17:19:25 $
+$Revision: 1.47 $ $Date: 2009-01-16 14:43:52 $
 
 =cut
