@@ -2,7 +2,7 @@
 # AdminSystemAddressForm.dtl - provides HTML form for AdminSystemAddress
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSystemAddressForm.dtl,v 1.27 2009-01-16 15:02:29 martin Exp $
+# $Id: AdminSystemAddressForm.dtl,v 1.28 2009-01-16 15:02:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -77,7 +77,7 @@
       <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="$Env{"Action"}"/>
         <input type="hidden" name="Subaction" value="$LQData{"Action"}Action"/>
-        <input type="hidden" name="ID" value="$Data{"ID"}"/>
+        <input type="hidden" name="ID" value="$QData{"ID"}"/>
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">
