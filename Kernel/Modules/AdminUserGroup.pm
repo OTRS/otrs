@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminUserGroup.pm - to add/update/delete groups <-> users
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUserGroup.pm,v 1.32 2008-12-04 14:52:37 mh Exp $
+# $Id: AdminUserGroup.pm,v 1.33 2009-01-19 13:43:37 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -215,6 +215,7 @@ sub MaskAdminUserGroupChangeForm {
         HTMLQuote           => 1,
         LanguageTranslation => 0,
     ) || '';
+
     $Param{OptionStrg0}
         .= "<B>\$Text{\"$Type\"}:</B> <A HREF=\"$BaseLink"
         . "Action=Admin$Type&Subaction=Change&ID=$Param{ID}\">"
@@ -233,16 +234,13 @@ sub MaskAdminUserGroupChangeForm {
             .= "<input type=\"checkbox\" name=\"$_\" value=\"\" onclick=\"select_items('$_');\"></th>";
     }
     $Param{OptionStrg0} .= "</tr>\n";
-    my $CssClass = 'searchactive';
+
+    my $CssClass = 'searchpassive';
     for ( sort { uc( $Data{$a} ) cmp uc( $Data{$b} ) } keys %Data ) {
 
         # set output class
-        if ( $CssClass && $CssClass eq 'searchactive' ) {
-            $CssClass = 'searchpassive';
-        }
-        else {
-            $CssClass = 'searchactive';
-        }
+        $CssClass = $CssClass eq 'searchactive' ? 'searchpassive' : 'searchactive' ;
+
         $Param{Data}->{$_} = $Self->{LayoutObject}->Ascii2Html(
             Text                => $Param{Data}->{$_},
             HTMLQuote           => 1,
@@ -270,6 +268,7 @@ sub MaskAdminUserGroupChangeForm {
         }
         $Param{OptionStrg0} .= '</tr>' . "\n";
     }
+
     $Param{OptionStrg0} .= "</table>\n";
 
     return $Self->{LayoutObject}->Output(

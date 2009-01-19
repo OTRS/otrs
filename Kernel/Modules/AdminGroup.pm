@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminGroup.pm - to add/update/delete groups
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGroup.pm,v 1.28 2008-05-08 09:36:36 mh Exp $
+# $Id: AdminGroup.pm,v 1.29 2009-01-19 13:42:33 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -74,24 +74,12 @@ sub Run {
         }
 
         # update group
-        if ( $Self->{GroupObject}->GroupUpdate( %GetParam, UserID => $Self->{UserID} ) ) {
-            $Self->_Overview();
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify( Info => 'Group updated!' );
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminGroupForm',
-                Data         => \%Param,
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
-        }
-        else {
+        if ( !$Self->{GroupObject}->GroupUpdate( %GetParam, UserID => $Self->{UserID} ) ) {
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
             $Self->_Edit(
-                Action => "Change",
+                Action => 'Change',
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
@@ -101,6 +89,17 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
+
+        $Self->_Overview();
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Notify( Info => 'Group updated!' );
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminGroupForm',
+            Data         => \%Param,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
 
     # ------------------------------------------------------------ #
@@ -114,7 +113,7 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
-            Action => "Add",
+            Action => 'Add',
             %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Output(
@@ -155,7 +154,7 @@ sub Run {
                 );
             }
             else {
-                return $Self->{LayoutObject}->Redirect( OP => "Action=AdminGroup", );
+                return $Self->{LayoutObject}->Redirect( OP => 'Action=AdminGroup', );
             }
         }
         else {
@@ -163,7 +162,7 @@ sub Run {
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
             $Self->_Edit(
-                Action => "Add",
+                Action => 'Add',
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
@@ -199,7 +198,7 @@ sub _Edit {
         Name => 'Overview',
         Data => \%Param,
     );
-    $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{ValidOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data       => { $Self->{ValidObject}->ValidList(), },
         Name       => 'ValidID',
         SelectedID => $Param{ValidID},
@@ -215,8 +214,6 @@ sub _Edit {
 sub _Overview {
     my ( $Self, %Param ) = @_;
 
-    my $Output = '';
-
     $Self->{LayoutObject}->Block(
         Name => 'Overview',
         Data => \%Param,
@@ -229,16 +226,12 @@ sub _Overview {
 
     # get valid list
     my %ValidList = $Self->{ValidObject}->ValidList();
-    my $CssClass  = '';
+    my $CssClass  = 'searchactive';
     for ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
         # set output class
-        if ( $CssClass && $CssClass eq 'searchactive' ) {
-            $CssClass = 'searchpassive';
-        }
-        else {
-            $CssClass = 'searchactive';
-        }
+        $CssClass = $CssClass eq 'searchactive' ? 'searchpassive' : 'searchactive' ;
+
         my %Data = $Self->{GroupObject}->GroupGet( ID => $_, );
         $Self->{LayoutObject}->Block(
             Name => 'OverviewResultRow',
