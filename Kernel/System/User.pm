@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.87 2009-01-12 12:51:23 mh Exp $
+# $Id: User.pm,v 1.88 2009-01-19 13:12:08 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Encode;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.87 $) [1];
+$VERSION = qw($Revision: 1.88 $) [1];
 
 =head1 NAME
 
@@ -742,8 +742,8 @@ sub UserName {
 return a hash with all users
 
     my %List = $UserObject->UserList(
-        Type => 'Short', # Short|Long
-        Valid => 1, # not required
+        Type => 'Short', # Short|Long, default Short
+        Valid => 1, # not required, default 0
     );
 
 =cut
@@ -770,15 +770,16 @@ sub UserList {
     );
 
     # check vacation option
+    USERID:
     for my $UserID ( sort keys %Users ) {
-        if ($Valid) {
-            my %User = $Self->GetUserData(
-                UserID => $UserID,
-                Cached => 1,
-            );
-            if ( $User{OutOfOfficeMessage} ) {
-                $Users{$UserID} .= ' ' . $User{OutOfOfficeMessage};
-            }
+        next USERID if !$Valid;
+
+        my %User = $Self->GetUserData(
+            UserID => $UserID,
+            Cached => 1,
+        );
+        if ( $User{OutOfOfficeMessage} ) {
+            $Users{$UserID} .= ' ' . $User{OutOfOfficeMessage};
         }
     }
 
@@ -977,6 +978,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.87 $ $Date: 2009-01-12 12:51:23 $
+$Revision: 1.88 $ $Date: 2009-01-19 13:12:08 $
 
 =cut
