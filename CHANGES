@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.762.2.36 2009-01-20 13:33:19 tt Exp $
+# $Id: CHANGES,v 1.762.2.37 2009-01-20 14:16:12 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,14 +10,14 @@
 # --
 
 2.3.5 (2009/??/??)
+
+2.3.4 (2009/01/21)
  - (2009/01/20) Fixed bug# 3447 - CustomerUser-Renaming to existing UserLogin
     was possible.
  - (2009/01/20) Fixed bug# 3603 - Different Max-Attribute handling in Layout.pm
     BuildSelection and OptionStrgHashRef.
  - (2009/01/20) Fixed bug# 3601 - Problems in function BuildSelection with
    ''-Strings and 0.
-
-2.3.4 (2009/01/20)
  - (2009/01/15) Fixed bug# 3595 - VacationCheck() of Kernel::System::Time is
     ignoring different OTRS calendar.
  - (2009/01/13) Fixed bug# 3542 - Static Stats lose associated perlmodule after
