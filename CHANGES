@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.816 2009-01-20 13:28:28 tr Exp $
+# $Id: CHANGES,v 1.817 2009-01-20 13:32:25 tt Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -85,6 +85,8 @@
     auth support.
 
 2.3.5 (2009/??/??)
+ - (2009/01/20) Fixed bug# 3447 - CustomerUser-Renaming to existing UserLogin
+    was possible.
  - (2009/01/20) Fixed bug# 3603 - Different Max-Attribute handling in Layout.pm
     BuildSelection and OptionStrgHashRef.
  - (2009/01/20) Fixed bug# 3601 - Problems in function BuildSelection with
