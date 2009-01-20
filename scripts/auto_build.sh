@@ -3,7 +3,7 @@
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: auto_build.sh,v 1.51.2.1 2009-01-08 10:56:43 martin Exp $
+# $Id: auto_build.sh,v 1.51.2.2 2009-01-20 11:58:49 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.51.2.1 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.51.2.2 $>"
 echo "Copyright (C) 2001-2008 OTRS AG, http://otrs.org/"
 
 PATH_TO_CVS_SRC=$1
@@ -182,7 +182,7 @@ bin/CheckSum.pl -a create
 
 # add pre installed packages
 mkdir var/packages/
-wget 'http://ftp.otrs.org/pub/otrs/packages/Support-1.0.7.opm'
+wget 'http://ftp.otrs.org/pub/otrs/packages/Support-1.0.13.opm'
 mv Support*.opm var/packages/
 
 # --
