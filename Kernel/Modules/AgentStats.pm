@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.62.2.1 2009-01-13 15:26:42 tr Exp $
+# $Id: AgentStats.pm,v 1.62.2.2 2009-01-20 15:00:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62.2.1 $) [1];
+$VERSION = qw($Revision: 1.62.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1144,7 +1144,7 @@ sub Run {
         }
 
         # build the dynamic or/and static stats selection if nothing is selected
-        if ( !$Stat->{StatType}) {
+        if ( !$Stat->{StatType} ) {
             my $DynamicFiles = $Self->{StatsObject}->GetDynamicFiles();
             my $StaticFiles  = $Self->{StatsObject}->GetStaticFiles(
                 OnlyUnusedFiles => 1,
