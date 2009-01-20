@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.110.2.5 2009-01-20 13:29:41 tr Exp $
+# $Id: Layout.pm,v 1.110.2.6 2009-01-20 15:16:47 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.110.2.5 $) [1];
+$VERSION = qw($Revision: 1.110.2.6 $) [1];
 
 =head1 NAME
 
@@ -2672,8 +2672,10 @@ sub _BuildSelectionDataRefCreate {
     # deactivate HTMLQuote
     if ( $OptionRef->{Max} ) {
         for my $Row ( @{$DataRef} ) {
+
             # REMARK: This is the same solution as in Ascii2Html
             $Row->{Value} =~ s/^(.{$OptionRef->{Max}}).+?$/$1\[\.\.\]/gs;
+
             #$Row->{Value} = substr( $Row->{Value}, 0, $OptionRef->{Max} );
         }
     }
@@ -4012,6 +4014,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.110.2.5 $ $Date: 2009-01-20 13:29:41 $
+$Revision: 1.110.2.6 $ $Date: 2009-01-20 15:16:47 $
 
 =cut
