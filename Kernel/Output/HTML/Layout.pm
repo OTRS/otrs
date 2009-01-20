@@ -1,8 +1,8 @@
 # --
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.110.2.3 2008-12-04 13:38:11 mh Exp $
+# $Id: Layout.pm,v 1.110.2.4 2009-01-20 11:37:01 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.110.2.3 $) [1];
+$VERSION = qw($Revision: 1.110.2.4 $) [1];
 
 =head1 NAME
 
@@ -2561,7 +2561,7 @@ sub _BuildSelectionDataRefCreate {
 
         # create DataRef
         for my $Row ( @{ $Param{Data} } ) {
-            if ( ref($Row) eq 'HASH' && $Row->{Key} ) {
+            if ( ref($Row) eq 'HASH' && defined $Row->{Key} ) {
                 $DataRef->[$Counter]->{Key}   = $Row->{Key};
                 $DataRef->[$Counter]->{Value} = $Row->{Value};
 
@@ -4007,6 +4007,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.110.2.3 $ $Date: 2008-12-04 13:38:11 $
+$Revision: 1.110.2.4 $ $Date: 2009-01-20 11:37:01 $
 
 =cut
