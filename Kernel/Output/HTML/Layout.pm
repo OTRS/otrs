@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.110.2.4 2009-01-20 11:37:01 tr Exp $
+# $Id: Layout.pm,v 1.110.2.5 2009-01-20 13:29:41 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.110.2.4 $) [1];
+$VERSION = qw($Revision: 1.110.2.5 $) [1];
 
 =head1 NAME
 
@@ -2666,6 +2666,18 @@ sub _BuildSelectionDataRefCreate {
         }
     }
 
+    # Max option
+    # REMARK: Don't merge the Max handling with Ascii2Html function call of
+    # the HTMLQuote handling. In this case you lose the max handling if you
+    # deactivate HTMLQuote
+    if ( $OptionRef->{Max} ) {
+        for my $Row ( @{$DataRef} ) {
+            # REMARK: This is the same solution as in Ascii2Html
+            $Row->{Value} =~ s/^(.{$OptionRef->{Max}}).+?$/$1\[\.\.\]/gs;
+            #$Row->{Value} = substr( $Row->{Value}, 0, $OptionRef->{Max} );
+        }
+    }
+
     # HTMLQuote option
     if ( $OptionRef->{HTMLQuote} ) {
         for my $Row ( @{$DataRef} ) {
@@ -2686,13 +2698,6 @@ sub _BuildSelectionDataRefCreate {
         $None{Value} = '-';
 
         unshift( @{$DataRef}, \%None );
-    }
-
-    # Max option
-    if ( $OptionRef->{Max} ) {
-        for my $Row ( @{$DataRef} ) {
-            $Row->{Value} = substr( $Row->{Value}, 0, $OptionRef->{Max} );
-        }
     }
 
     # TreeView option
@@ -4007,6 +4012,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.110.2.4 $ $Date: 2009-01-20 11:37:01 $
+$Revision: 1.110.2.5 $ $Date: 2009-01-20 13:29:41 $
 
 =cut

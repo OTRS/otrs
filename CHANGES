@@ -2,12 +2,18 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.762.2.34 2009-01-15 17:20:18 martin Exp $
+# $Id: CHANGES,v 1.762.2.35 2009-01-20 13:29:41 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
+
+2.3.5 (2009/??/??)
+ - (2009/01/20) Fixed bug# 3603 - Different Max-Attribute handling in Layout.pm
+    BuildSelection and OptionStrgHashRef.
+ - (2009/01/20) Fixed bug# 3601 - Problems in function BuildSelection with
+   ''-Strings and 0.
 
 2.3.4 (2009/01/20)
  - (2009/01/15) Fixed bug# 3595 - VacationCheck() of Kernel::System::Time is
