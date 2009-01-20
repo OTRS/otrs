@@ -36,6 +36,7 @@
 /opt/otrs/bin*
 /opt/otrs/scripts*
 %dir /opt/otrs/var/
+%dir /opt/otrs/var/packages/*.opm
 %dir /opt/otrs/var/article/
 /opt/otrs/var/httpd/
 %dir /opt/otrs/var/log/
@@ -56,4 +57,3 @@
 %doc /opt/otrs/READM*
 %doc /opt/otrs/doc*
 %doc /opt/otrs/CREDITS
-
