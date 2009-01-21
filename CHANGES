@@ -2,14 +2,12 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.762.2.37 2009-01-20 14:16:12 tr Exp $
+# $Id: CHANGES,v 1.762.2.38 2009-01-21 08:08:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
-
-2.3.5 (2009/??/??)
 
 2.3.4 (2009/01/21)
  - (2009/01/20) Fixed bug# 3447 - CustomerUser-Renaming to existing UserLogin
