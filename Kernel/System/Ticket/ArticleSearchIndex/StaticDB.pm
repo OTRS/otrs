@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Ticket/ArticleSearchIndex/StaticDB.pm - article search index backend static
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.5 2008-08-20 15:10:38 mh Exp $
+# $Id: StaticDB.pm,v 1.5.2.1 2009-01-22 20:15:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.5.2.1 $) [1];
 
 sub ArticleIndexBuild {
     my ( $Self, %Param ) = @_;
@@ -55,6 +55,11 @@ sub ArticleIndexBuild {
         SQL  => 'DELETE FROM article_search WHERE id = ?',
         Bind => [ \$Article{ArticleID}, ],
     );
+
+    # return if no content exists
+    return 1 if !$Article{Body};
+
+    # insert search index
     $Self->{DBObject}->Do(
         SQL => 'INSERT INTO article_search (id, ticket_id, article_type_id, '
             . 'article_sender_type_id, a_from, a_to, a_cc, a_subject, a_message_id, '
@@ -204,6 +209,7 @@ sub _ArticleIndexString {
         WordLengthMin => $Param{WordLengthMin},
         WordLengthMax => $Param{WordLengthMax},
     );
+    next if !$ListOfWords;
 
     # find ranking of words
     my %List;
@@ -250,9 +256,7 @@ sub _ArticleIndexStringToWord {
         'vom'  => 1,
         'zu'   => 1,
         'im'   => 1,
-        'sich' => 1,
         'den'  => 1,
-        'eine' => 1,
         'auf'  => 1,
         'als'  => 1,
 
@@ -264,8 +268,6 @@ sub _ArticleIndexStringToWord {
         'a'    => 1,
         'is'   => 1,
         'for'  => 1,
-        'that' => 1,
-        'with' => 1,
     );
 
     # get words
@@ -284,12 +286,12 @@ sub _ArticleIndexStringToWord {
         my $Length = length $Word;
 
         # only index words/strings with x or more chars
-        if ( $Length <= $LengthMin ) {
+        if ( $Length < $LengthMin ) {
             next;
         }
 
         # do not index words/strings longer the x chars
-        if ( $Length >= $LengthMax ) {
+        if ( $Length > $LengthMax ) {
             next;
         }
 
