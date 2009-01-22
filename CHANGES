@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.819 2009-01-22 14:55:15 tr Exp $
+# $Id: CHANGES,v 1.820 2009-01-22 20:14:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -85,6 +85,8 @@
     auth support.
 
 2.3.5 (2009/??/??)
+ - (2009/01/22) Fixed bug# 3137 - Ticket search does not work with words like
+    "BPX" and "new".
  - (2009/01/22) Fixed bug# 3596 - Renaming of the admin group.
 
 2.3.4 (2009/01/21)
