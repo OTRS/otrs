@@ -1,13 +1,40 @@
 # --
 # AdminGroupForm.dtl - provides HTML form for AdminGroup
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGroupForm.dtl,v 1.22 2008-04-02 08:59:22 ot Exp $
+# $Id: AdminGroupForm.dtl,v 1.22.2.1 2009-01-22 14:55:52 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 # --
+
+<script language="JavaScript" type="text/javascript">
+<!--
+function AdminGroupCheck() {
+
+    // do nothing if it is not the admin group
+    if (  !document.GroupUpdate.NameOld.value
+        || document.GroupUpdate.NameOld.value != 'admin'
+    ) {
+        return true;
+    }
+
+    // do nothing if the admin group name is not changed
+    if (document.GroupUpdate.Name.value == 'admin') {
+        return true;
+    }
+
+    // ask the admin if he really want do this
+    Check = confirm('$JSText{"WARNING: When you change the name of the group 'admin', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement."}');
+    if (Check == false) {
+        document.GroupUpdate.Name.focus();
+        return false;
+    }
+    return true
+}
+//-->
+</script>
 
 <!-- dtl:block:Overview -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
@@ -74,10 +101,11 @@
       </table>
 <!-- dtl:block:OverviewResult -->
 <!-- dtl:block:OverviewUpdate -->
-      <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+      <form action="$Env{"CGIHandle"}" method="post" name="GroupUpdate">
+        <input type="hidden" name="Action"    value="$Env{"Action"}"/>
         <input type="hidden" name="Subaction" value="$LQData{"Action"}Action"/>
-        <input type="hidden" name="ID" value="$Data{"ID"}"/>
+        <input type="hidden" name="ID"        value="$Data{"ID"}"/>
+        <input type="hidden" name="NameOld"   value="$QData{"Name"}"/>
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">
@@ -108,7 +136,7 @@
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"Submit"}"/>
+              <input class="button" type="submit" value="$Text{"Submit"}" onclick="return AdminGroupCheck(); "/>
             </td>
           </tr>
         </table>
