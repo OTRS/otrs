@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGroup.pm - to add/update/delete groups
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGroup.pm,v 1.29 2009-01-19 13:42:33 tr Exp $
+# $Id: AdminGroup.pm,v 1.30 2009-01-22 14:15:15 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -107,9 +107,9 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Add' ) {
         my %GetParam = ();
-        for (qw(Name)) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
-        }
+
+        $GetParam{Name} = $Self->{ParamObject}->GetParam( Param => 'Name' );
+
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
@@ -135,29 +135,10 @@ sub Run {
         }
 
         # add user
-        if ( my $GroupID = $Self->{GroupObject}->GroupAdd( %GetParam, UserID => $Self->{UserID} ) )
-        {
+        my $GroupID = $Self->{GroupObject}->GroupAdd( %GetParam, UserID => $Self->{UserID} );
 
-            # redirect
-            if (
-                !$Self->{ConfigObject}->Get('Frontend::Module')->{AdminUserGroup}
-                && $Self->{ConfigObject}->Get('Frontend::Module')->{AdminRoleGroup}
-                )
-            {
-                return $Self->{LayoutObject}->Redirect(
-                    OP => "Action=AdminRoleGroup&Subaction=Group&ID=$GroupID",
-                );
-            }
-            if ( $Self->{ConfigObject}->Get('Frontend::Module')->{AdminUserGroup} ) {
-                return $Self->{LayoutObject}->Redirect(
-                    OP => "Action=AdminUserGroup&Subaction=Group&ID=$GroupID",
-                );
-            }
-            else {
-                return $Self->{LayoutObject}->Redirect( OP => 'Action=AdminGroup', );
-            }
-        }
-        else {
+        # error message if add user is false
+        if (!$GroupID) {
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
@@ -172,6 +153,23 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
+
+        # redirect
+        if (
+            !$Self->{ConfigObject}->Get('Frontend::Module')->{AdminUserGroup}
+            && $Self->{ConfigObject}->Get('Frontend::Module')->{AdminRoleGroup}
+            )
+        {
+            return $Self->{LayoutObject}->Redirect(
+                OP => "Action=AdminRoleGroup&Subaction=Group&ID=$GroupID",
+            );
+        }
+        if ( $Self->{ConfigObject}->Get('Frontend::Module')->{AdminUserGroup} ) {
+            return $Self->{LayoutObject}->Redirect(
+                OP => "Action=AdminUserGroup&Subaction=Group&ID=$GroupID",
+            );
+        }
+        return $Self->{LayoutObject}->Redirect( OP => 'Action=AdminGroup', );
     }
 
     # ------------------------------------------------------------
