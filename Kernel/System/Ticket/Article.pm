@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.193 2009-01-12 12:52:49 mh Exp $
+# $Id: Article.pm,v 1.194 2009-01-22 17:24:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.193 $) [1];
+$VERSION = qw($Revision: 1.194 $) [1];
 
 =head1 NAME
 
@@ -1772,7 +1772,7 @@ send article via email and create article with attachments
 
     my $ArticleID = $TicketObject->ArticleSend(
         TicketID    => 123,
-        ArticleType => 'note-internal'                                         # email-external|email-internal|phone|fax|...
+        ArticleType => 'note-internal',                                        # email-external|email-internal|phone|fax|...
         SenderType  => 'agent',                                                # agent|system|customer
         From        => 'Some Agent <email@example.com>',                       # not required but useful
         To          => 'Some Customer A <customer-a@example.com>',             # not required but useful
@@ -3268,6 +3268,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.193 $ $Date: 2009-01-12 12:52:49 $
+$Revision: 1.194 $ $Date: 2009-01-22 17:24:05 $
 
 =cut
