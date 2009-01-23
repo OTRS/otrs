@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Stats.pm - all stats core functions
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.57 2008-10-09 09:55:05 tr Exp $
+# $Id: Stats.pm,v 1.58 2009-01-23 12:38:37 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 =head1 SYNOPSIS
 
@@ -871,7 +871,7 @@ sub GenerateDynamicStats {
             $Year,   $Month,   $Day,   $Hour,   $Minute,   $Second,
             $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond
         );
-        if ( $Element->{'TimeStart'} =~ m{^(\d\d\d\d)-(\d\d)-(\d\d)\s(\d\d):(\d\d):(\d\d)$}ix ) {
+        if ( $Element->{TimeStart} =~ m{^(\d\d\d\d)-(\d\d)-(\d\d)\s(\d\d):(\d\d):(\d\d)$}ix ) {
             $Year   = $VSYear   = $1;
             $Month  = $VSMonth  = int($2);
             $Day    = $VSDay    = int($3);
@@ -1472,44 +1472,45 @@ sub GenerateDynamicStats {
         }
     }
 
-    # search for a better way to cache stats (StatID and Cache)
-    if ( $Param{Cache} ) {
+    return @StatArray if !$Param{Cache};
 
-        # check if we should cache this result
-        # get the current time
-        if ( $TitleTimeStart && $TitleTimeStop ) {
-            if (
-                $Self->{TimeObject}->TimeStamp2SystemTime( String => $TitleTimeStop )
-                < $Self->{TimeObject}->SystemTime()
-                )
-            {
-                my $MD5Key = $Self->{MainObject}->FilenameCleanUp(
-                    Filename => $TitleTimeStart . "-" . $TitleTimeStop,
-                    Type     => 'md5',
-                );
-
-                # write the stats cache
-                $Self->_SetResultCache(
-                    Filename => 'Stats' . $Param{StatID} . '-' . $MD5Key . '.cache',
-                    Result   => \@StatArray,
-                );
-            }
-            else {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message =>
-                        "Can't cache StatID $Param{StatID}: The selected end time is in the future!",
-                );
-            }
-        }
-        else {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message =>
-                    "Can't cache: StatID $Param{StatID} have no time period, so you can't cache the stat!",
-            );
-        }
+    # check if we should cache this result
+    # get the current time
+    if ( !$TitleTimeStart || !$TitleTimeStop ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message =>
+                "Can't cache: StatID $Param{StatID} have no time period, so you can't cache the stat!",
+        );
+        return @StatArray;
     }
+
+    if (
+        $Self->{TimeObject}->TimeStamp2SystemTime( String => $TitleTimeStop )
+        > $Self->{TimeObject}->SystemTime()
+        )
+    {
+
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message =>
+                "Can't cache StatID $Param{StatID}: The selected end time is in the future!",
+        );
+        return @StatArray;
+    }
+
+    # search for a better way to cache stats (StatID and Cache)
+
+    my $MD5Key = $Self->{MainObject}->FilenameCleanUp(
+        Filename => $TitleTimeStart . "-" . $TitleTimeStop,
+        Type     => 'md5',
+    );
+
+    # write the stats cache
+    $Self->_SetResultCache(
+        Filename => 'Stats' . $Param{StatID} . '-' . $MD5Key . '.cache',
+        Result   => \@StatArray,
+    );
     return @StatArray;
 }
 
@@ -2158,7 +2159,6 @@ sub _WriteResultCache {
     my ( $Self, %Param ) = @_;
 
     my %GetParam = %{ $Param{GetParam} };
-    my $Cache    = 0;
 
     # check if we should cache this result
     # get the current time
@@ -2167,41 +2167,36 @@ sub _WriteResultCache {
 
     # if get params in future do not cache
     if ( $GetParam{Year} && $GetParam{Month} ) {
-        if ( $Y > $GetParam{Year} ) {
-            $Cache = 1;
-        }
-        elsif ( $GetParam{Year} == $Y && $GetParam{Month} <= $M ) {
-            if ( $GetParam{Month} < $M ) {
-                $Cache = 1;
-            }
-            if ( $GetParam{Month} == $M && $GetParam{Day} && $GetParam{Day} < $D ) {
-                $Cache = 1;
-            }
-        }
+        return if $GetParam{Year} > $Y;
+        return if $GetParam{Year} == $Y && $GetParam{Month} > $M;
+        return if $GetParam{Year} == $Y && $GetParam{Month} == $M && $GetParam{Day} && $GetParam{Day} >= $D;
     }
 
     # write cache file
-    if ($Cache) {
-        my $Filename = $Self->_CreateStaticResultCacheFilename(
-            GetParam => $Param{GetParam},
-            StatID   => $Param{StatID},
-        );
 
-        $Self->_SetResultCache(
-            Filename => $Filename,
-            Result   => $Param{Data},
-        );
-    }
+    my $Filename = $Self->_CreateStaticResultCacheFilename(
+        GetParam => $Param{GetParam},
+        StatID   => $Param{StatID},
+    );
 
-    return $Cache;
+    $Self->_SetResultCache(
+        Filename => $Filename,
+        Result   => $Param{Data},
+    );
+
+    return 1;
 }
 
 #=item _CreateStaticResultCacheFilename()
 #
 #create a filename out of the GetParam information and the stat id
 #
-#    my $Filename = $Self->_CreateStaticResultCacheFilename(
-#        GetParam => $Param{GetParam},
+#    my $Filename = $StatsObject->_CreateStaticResultCacheFilename(
+#        GetParam => {
+#            Year  => 2008,
+#            Month => 3,
+#            Day   => 5
+#        },
 #        StatID   => $Param{StatID},
 #    );
 #
@@ -2252,7 +2247,7 @@ sub _CreateStaticResultCacheFilename {
 #
 #write the result array as cache in the filesystem
 #
-#    $Self->_SetResultCache(
+#    $StatsObject->_SetResultCache(
 #        Filename => 'Stats' . $Param{StatID} . '-' . $MD5Key . '.cache',
 #        Result   => $Param{Data},
 #    );
@@ -2298,7 +2293,7 @@ sub _SetResultCache {
 #
 #get the result array cache out of the filesystem
 #
-#    my @Result = $Self->_GetResultCache(
+#    my @Result = $StatsObject->_GetResultCache(
 #        Filename => 'Stats' . $Param{StatID} . '-' . $MD5Key . '.cache',
 #    );
 #
@@ -3100,6 +3095,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.57 $ $Date: 2008-10-09 09:55:05 $
+$Revision: 1.58 $ $Date: 2009-01-23 12:38:37 $
 
 =cut

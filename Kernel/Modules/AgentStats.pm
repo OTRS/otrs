@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.63 2009-01-13 15:27:28 tr Exp $
+# $Id: AgentStats.pm,v 1.64 2009-01-23 12:38:37 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1691,20 +1691,21 @@ sub Run {
                 Type   => 'ro',
                 Result => 'ID',
             );
-            if ( $Stat->{Valid} ) {
-                MARKE:
-                for my $GroupID ( @{ $Stat->{Permission} } ) {
-                    for my $UserGroup (@Groups) {
-                        if ( $GroupID == $UserGroup ) {
-                            $UserPermission = 1;
-                            last MARKE;
-                        }
+
+            return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' ) if !$Stat->{Valid};
+
+            MARKE:
+            for my $GroupID ( @{ $Stat->{Permission} } ) {
+                for my $UserGroup (@Groups) {
+                    if ( $GroupID == $UserGroup ) {
+                        $UserPermission = 1;
+                        last MARKE;
                     }
                 }
             }
-            if ( !$UserPermission ) {
-                return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
-            }
+
+            return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' ) if !$UserPermission;
+
         }
 
         # get params
@@ -1910,7 +1911,7 @@ sub Run {
                     $Counter++;
 
                 }
-                if ( ref( $GetParam{$Use} ) ne 'ARRAY' ) {
+                if ( ref $GetParam{$Use} ne 'ARRAY' ) {
                     $GetParam{$Use} = [];
                 }
             }
