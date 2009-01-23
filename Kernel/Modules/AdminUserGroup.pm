@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUserGroup.pm - to add/update/delete groups <-> users
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUserGroup.pm,v 1.33 2009-01-19 13:43:37 tr Exp $
+# $Id: AdminUserGroup.pm,v 1.34 2009-01-23 12:02:14 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -208,8 +208,8 @@ sub MaskAdminUserGroupChangeForm {
     my %Data     = %{ $Param{Data} };
     my $BaseLink = $Self->{LayoutObject}->{Baselink};
     my $Type     = $Param{Type} || 'User';
-    my $NeType   = 'Group';
-    $NeType = 'User' if ( $Type eq 'Group' );
+    my $NeType   = $Type eq 'Group' ? 'User' : 'Group';
+
     $Param{Name} = $Self->{LayoutObject}->Ascii2Html(
         Text                => $Param{Name},
         HTMLQuote           => 1,
@@ -250,14 +250,9 @@ sub MaskAdminUserGroupChangeForm {
         $Param{OptionStrg0} .= "<a href=\"$BaseLink"
             . "Action=Admin$NeType&Subaction=Change&ID=$_\">$Param{Data}->{$_}</a></td>";
         for my $Type ( @{ $Self->{ConfigObject}->Get('System::Permission') } ) {
-            my $Selected = '';
-            if ( $Param{$Type}->{$_} ) {
-                $Selected = ' checked';
-            }
+            my $Selected = $Param{$Type}->{$_} ? ' checked' : '';
             $Param{OptionStrg0} .= '<td align="center">';
-            if ( $Type eq 'rw' ) {
-                $Param{OptionStrg0} .= " | ";
-            }
+            $Param{OptionStrg0} .= $Type eq 'rw' ? " | " : '';
             $Param{OptionStrg0}
                 .= '<input type="checkbox" name="'
                 . $Type
