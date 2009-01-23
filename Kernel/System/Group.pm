@@ -2,7 +2,7 @@
 # Kernel/System/Group.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.pm,v 1.62 2009-01-23 07:37:46 tr Exp $
+# $Id: Group.pm,v 1.63 2009-01-23 08:49:42 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 =head1 NAME
 
@@ -622,8 +622,10 @@ sub GroupMemberInvolvedList {
     }
 
     # quote
-    $Param{Type} = $Self->{DBObject}->Quote( $Param{Type} );
     $Param{UserID} = $Self->{DBObject}->Quote( $Param{UserID}, 'Integer' );
+
+    # only allow valid system permissions as Type
+    my $TypeString = $Self->_GetTypeString(Type => $Param{Type});
 
     # get valid ids
     my $ValidID = join( ', ', $Self->{ValidObject}->ValidIDsGet() );
@@ -634,7 +636,7 @@ sub GroupMemberInvolvedList {
         . "WHERE g.valid_id IN ($ValidID) AND "
         . "g.id = gu.group_id AND "
         . "gu.permission_value = 1 AND "
-        . "gu.permission_key IN ('$Param{Type}', 'rw') AND "
+        . "gu.permission_key IN ( $TypeString ) AND "
         . "gu.user_id = $Param{UserID}";
     $Self->{DBObject}->Prepare( SQL => $SQL );
 
@@ -659,7 +661,7 @@ sub GroupMemberInvolvedList {
             . "WHERE g.valid_id in ($ValidID) AND "
             . " g.id = gu.group_id AND "
             . " gu.permission_value = 1 AND "
-            . "gu.permission_key IN ('$Param{Type}', 'rw') AND "
+            . "gu.permission_key IN ( $TypeString ) AND "
             . "gu.role_id IN (" . join( ',', @Roles ) . ")";
         $Self->{DBObject}->Prepare( SQL => $SQL );
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -675,7 +677,7 @@ sub GroupMemberInvolvedList {
             . "g.valid_id in ($ValidID) AND "
             . "g.id = gu.group_id AND "
             . "gu.permission_value = 1 AND "
-            . "gu.permission_key IN ('$Param{Type}', 'rw') AND "
+            . "gu.permission_key IN ( $TypeString ) AND "
             . "gu.group_id IN (" . join( ',', @ArrayGroups ) . ")";
         $Self->{DBObject}->Prepare( SQL => $SQL );
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -687,7 +689,7 @@ sub GroupMemberInvolvedList {
             . "g.valid_id in ($ValidID) AND "
             . "g.id = gu.group_id AND "
             . "gu.permission_value = 1 AND "
-            . "gu.permission_key IN ('$Param{Type}', 'rw') AND "
+            . "gu.permission_key IN ( $TypeString ) AND "
             . "gu.group_id IN (" . join( ',', @ArrayGroups ) . ")";
         $Self->{DBObject}->Prepare( SQL => $SQL );
         my @AllRoles;
@@ -791,8 +793,8 @@ sub GroupGroupMemberList {
         }
     }
 
-    # db quote
-    $Param{Type} = $Self->{DBObject}->Quote( $Param{Type} );
+    # only allow valid system permissions as Type
+    my $TypeString = $Self->_GetTypeString(Type => $Param{Type});
 
     # sql
     my %Data = ();
@@ -804,7 +806,7 @@ sub GroupGroupMemberList {
         . " g.valid_id IN (" . join( ', ', $Self->{ValidObject}->ValidIDsGet() ) . ") AND "
         . " g.id = gu.group_id AND "
         . " gu.permission_value = 1 AND "
-        . " gu.permission_key IN ('$Param{Type}', 'rw') AND ";
+        . " gu.permission_key IN ( $TypeString ) AND ";
 
     if ( $Param{UserID} ) {
         $SQL .= 'gu.user_id = ' . $Self->{DBObject}->Quote( $Param{UserID}, 'Integer' );
@@ -954,8 +956,8 @@ sub GroupRoleMemberList {
         }
     }
 
-    # db quote
-    $Param{Type} = $Self->{DBObject}->Quote( $Param{Type} );
+    # only allow valid system permissions as Type
+    my $TypeString = $Self->_GetTypeString(Type => $Param{Type});
 
     # sql
     my %Data = ();
@@ -967,7 +969,7 @@ sub GroupRoleMemberList {
         . " g.valid_id IN (" . join( ', ', $Self->{ValidObject}->ValidIDsGet() ) . ") AND "
         . " g.id = gu.group_id AND "
         . " gu.permission_value = 1 AND "
-        . " gu.permission_key IN ('$Param{Type}', 'rw') AND ";
+        . " gu.permission_key IN ( $TypeString ) AND ";
 
     if ( $Param{RoleID} ) {
         $SQL .= ' gu.role_id = ' . $Self->{DBObject}->Quote( $Param{RoleID}, 'Integer' );
@@ -1480,6 +1482,25 @@ sub RoleList {
     return %Roles;
 }
 
+=item _GetTypeString()
+
+returns a string for a sql IN elements which contains a comma separted list of system permissions.
+
+    my $TypeString = $GroupObject->_GetTypeString(Type => 'close');
+
+=cut
+
+sub _GetTypeString {
+    my ($Self, %Param) = @_;
+
+    # only allow valid system permissions as Type; see bug 3499
+    my @Types = grep $_ eq $Param{Type}, @{$Self->{ConfigObject}->Get('System::Permission')};
+    push @Types, 'rw';
+    my $TypeString = join ',', map "'$_'", @Types;
+
+    return $TypeString;
+}
+
 1;
 
 =back
@@ -1496,6 +1517,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.62 $ $Date: 2009-01-23 07:37:46 $
+$Revision: 1.63 $ $Date: 2009-01-23 08:49:42 $
 
 =cut
