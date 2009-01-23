@@ -2,7 +2,7 @@
 # Kernel/System/Group.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.pm,v 1.59 2009-01-02 17:54:46 martin Exp $
+# $Id: Group.pm,v 1.60 2009-01-23 07:04:58 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 =head1 NAME
 
@@ -273,14 +273,13 @@ sub GroupMemberAdd {
             || ( $Value{ $Param{GID} }->{ $Param{UID} }->{$Type} && $Param{Permission}->{$Type} )
             )
         {
-
-#            print STDERR "No updated neede! UID:$Param{UID} to GID:$Param{GID}, $Type:$Param{Permission}->{$Type}!\n";
+            # No updated needed!
         }
         else {
+            # Update needed
             $Self->{"GroupMemberAdd::GID::$Param{GID}"} = undef;
 
-#            print STDERR "Updated needed! UID:$Param{UID} to GID:$Param{GID}, $Type:$Param{Permission}->{$Type}!\n";
-# delete existing permission
+            # delete existing permission
             $Self->{DBObject}->Do(
                 SQL => 'DELETE FROM group_user WHERE '
                     . ' group_id = ? AND user_id = ? AND permission_key = ?',
@@ -509,17 +508,11 @@ sub GroupMemberList {
 
     # create cache key
     my $CacheKey = 'GroupMemberList::' . $Param{Type} . '::' . $Param{Result} . '::';
-    if ( $Param{UserID} ) {
-        $CacheKey .= 'UserID::' . $Param{UserID};
-    }
-    else {
-        $CacheKey .= 'GroupID::' . $Param{GroupID};
-    }
+    $CacheKey .= $Param{UserID} ? "UserID::$Param{UserID}" : "GroupID::$Param{GroupID}";
 
     # check cache
-    if ( $Self->{ForceCache} ) {
-        $Param{Cached} = $Self->{ForceCache};
-    }
+    $Param{Cached} = $Self->{ForceCache} || '';
+
     if ( $Param{Cached} && exists( $Self->{$CacheKey} ) ) {
 
         if ( ref( $Self->{$CacheKey} ) eq 'ARRAY' ) {
@@ -631,12 +624,8 @@ sub GroupMemberInvolvedList {
     }
 
     # quote
-    for (qw(Type)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} );
-    }
-    for (qw(UserID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
+    $Param{Type} = $Self->{DBObject}->Quote( $Param{Type} );
+    $Param{UserID} = $Self->{DBObject}->Quote( $Param{UserID}, 'Integer' );
 
     # get valid ids
     my $ValidID = join( ', ', $Self->{ValidObject}->ValidIDsGet() );
@@ -706,7 +695,7 @@ sub GroupMemberInvolvedList {
         my @AllRoles;
 
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-            push( @AllRoles, $Row[0] );
+            push @AllRoles, $Row[0];
         }
 
         # get all users of the roles
@@ -796,9 +785,8 @@ sub GroupGroupMemberList {
 
     # check cache
     if ( $Param{UserID} || $Param{GroupID} ) {
-        if ( $Self->{ForceCache} ) {
-            $Param{Cached} = $Self->{ForceCache};
-        }
+
+        $Param{Cached} = $Self->{ForceCache} || '';
         if ( $Param{Cached} && $Self->{$CacheKey} ) {
             if ( ref( $Self->{$CacheKey} ) eq 'ARRAY' ) {
                 return @{ $Self->{$CacheKey} };
@@ -857,7 +845,7 @@ sub GroupGroupMemberList {
         }
 
         # remember permissions
-        if ( !defined( $Data{$Key} ) ) {
+        if ( !defined $Data{$Key} ) {
             $Data{$Key} = $Value;
             push @Name, $Value;
             push @ID,   $Key;
@@ -963,9 +951,9 @@ sub GroupRoleMemberList {
 
     # check cache
     if ( $Param{RoleID} || $Param{GroupID} ) {
-        if ( $Self->{ForceCache} ) {
-            $Param{Cached} = $Self->{ForceCache};
-        }
+
+        $Param{Cached} = $Self->{ForceCache} || '';
+
         if ( $Param{Cached} && $Self->{$CacheKey} ) {
             if ( ref( $Self->{$CacheKey} ) eq 'ARRAY' ) {
                 return @{ $Self->{$CacheKey} };
@@ -1118,13 +1106,11 @@ sub GroupRoleMemberAdd {
             || ( $Value{ $Param{GID} }->{ $Param{RID} }->{$Type} && $Param{Permission}->{$Type} )
             )
         {
-
-#            print STDERR "No updated neede! UID:$Param{UID} to GID:$Param{GID}, $Type:$Param{Permission}->{$Type}!\n";
+            # No updated needed!
         }
         else {
-
-#            print STDERR "Updated neede! UID:$Param{UID} to GID:$Param{GID}, $Type:$Param{Permission}->{$Type}!\n";
-# delete existing permission
+            # Update needed
+            # delete existing permission
             $Self->{DBObject}->Do(
                 SQL => 'DELETE FROM group_role WHERE '
                     . 'group_id = ? AND role_id = ? AND permission_key = ?',
@@ -1192,12 +1178,11 @@ sub GroupUserRoleMemberList {
     my @UserIDs;
 
     # check needed stuff
-    for (qw(Result)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
+    if ( !$Param{Result} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Result!' );
+        return;
     }
+
     if ( !$Param{RoleID} && !$Param{UserID} && !$Param{RoleIDs} && !$Param{UserIDs} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -1228,9 +1213,8 @@ sub GroupUserRoleMemberList {
 
     # check cache
     if ( $Param{RoleID} || $Param{UserID} ) {
-        if ( $Self->{ForceCache} ) {
-            $Param{Cached} = $Self->{ForceCache};
-        }
+        $Param{Cached} = $Self->{ForceCache} || '';
+
         if ( $Param{Cached} && $Self->{$CacheKey} ) {
             if ( ref( $Self->{$CacheKey} ) eq 'ARRAY' ) {
                 return @{ $Self->{$CacheKey} };
@@ -1309,14 +1293,13 @@ sub GroupUserRoleMemberList {
         }
         return @Name;
     }
-    else {
-        if ( $Param{RoleID} || $Param{UserID} ) {
 
-            # cache result
-            $Self->{$CacheKey} = \%Data;
-        }
-        return %Data;
+    if ( $Param{RoleID} || $Param{UserID} ) {
+
+        # cache result
+        $Self->{$CacheKey} = \%Data;
     }
+    return %Data;
 }
 
 =item GroupUserRoleMemberAdd()
@@ -1527,6 +1510,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.59 $ $Date: 2009-01-02 17:54:46 $
+$Revision: 1.60 $ $Date: 2009-01-23 07:04:58 $
 
 =cut
