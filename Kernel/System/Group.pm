@@ -2,7 +2,7 @@
 # Kernel/System/Group.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.pm,v 1.60 2009-01-23 07:04:58 tr Exp $
+# $Id: Group.pm,v 1.61 2009-01-23 07:16:34 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 =head1 NAME
 
@@ -265,6 +265,7 @@ sub GroupMemberAdd {
     }
 
     # update permission
+    TYPE:
     for my $Type ( keys %{ $Param{Permission} } ) {
 
         # check if update is needed
@@ -274,40 +275,40 @@ sub GroupMemberAdd {
             )
         {
             # No updated needed!
+            next TYPE;
         }
-        else {
-            # Update needed
-            $Self->{"GroupMemberAdd::GID::$Param{GID}"} = undef;
 
-            # delete existing permission
-            $Self->{DBObject}->Do(
-                SQL => 'DELETE FROM group_user WHERE '
-                    . ' group_id = ? AND user_id = ? AND permission_key = ?',
-                Bind => [ \$Param{GID}, \$Param{UID}, \$Type ],
-            );
+        # Update needed
+        $Self->{"GroupMemberAdd::GID::$Param{GID}"} = undef;
 
-            # debug
-            if ( $Self->{Debug} ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message =>
-                        "Add UID:$Param{UID} to GID:$Param{GID}, $Type:$Param{Permission}->{$Type}!",
-                );
-            }
+        # delete existing permission
+        $Self->{DBObject}->Do(
+            SQL => 'DELETE FROM group_user WHERE '
+                . ' group_id = ? AND user_id = ? AND permission_key = ?',
+            Bind => [ \$Param{GID}, \$Param{UID}, \$Type ],
+        );
 
-            # insert new permission
-            $Self->{DBObject}->Do(
-                SQL => 'INSERT INTO group_user '
-                    . '(user_id, group_id, permission_key, permission_value, '
-                    . 'create_time, create_by, change_time, change_by) '
-                    . 'VALUES '
-                    . '(?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
-                Bind => [
-                    \$Param{UID}, \$Param{GID}, \$Type, \$Param{Permission}->{$Type},
-                    \$Param{UserID}, \$Param{UserID},
-                ],
+        # debug
+        if ( $Self->{Debug} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message =>
+                    "Add UID:$Param{UID} to GID:$Param{GID}, $Type:$Param{Permission}->{$Type}!",
             );
         }
+
+        # insert new permission
+        $Self->{DBObject}->Do(
+            SQL => 'INSERT INTO group_user '
+                . '(user_id, group_id, permission_key, permission_value, '
+                . 'create_time, create_by, change_time, change_by) '
+                . 'VALUES '
+                . '(?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+            Bind => [
+                \$Param{UID}, \$Param{GID}, \$Type, \$Param{Permission}->{$Type},
+                \$Param{UserID}, \$Param{UserID},
+            ],
+        );
     }
     return 1;
 }
@@ -563,42 +564,44 @@ sub GroupMemberList {
         $Self->{$CacheKey} = \@Result;
         return @Result;
     }
-    else {
-        my %Result = $Self->GroupGroupMemberList(%Param);
 
-        # get roles of user
-        if ( $Param{UserID} ) {
-            my @Member = $Self->GroupUserRoleMemberList(
-                UserID => $Param{UserID},
-                Result => 'ID',
-            );
+    # get group member list as hash
 
-            if (@Member) {
-                my %ResultGroupRole = $Self->GroupRoleMemberList( %Param, RoleIDs => \@Member );
-                %Result = ( %Result, %ResultGroupRole );
-            }
+    my %Result = $Self->GroupGroupMemberList(%Param);
+
+    # get roles of user
+    if ( $Param{UserID} ) {
+        my @Member = $Self->GroupUserRoleMemberList(
+            UserID => $Param{UserID},
+            Result => 'ID',
+        );
+
+        if (@Member) {
+            my %ResultGroupRole = $Self->GroupRoleMemberList( %Param, RoleIDs => \@Member );
+            %Result = ( %Result, %ResultGroupRole );
         }
-
-        # get roles of group
-        elsif ( $Param{GroupID} ) {
-            my @Roles = $Self->GroupRoleMemberList(
-                GroupID => $Param{GroupID},
-                Type    => $Param{Type},
-                Result  => 'ID',
-            );
-            if (@Roles) {
-
-                my %ResultGroupUserRole = $Self->GroupUserRoleMemberList(
-                    %Param,
-                    RoleIDs => \@Roles,
-                );
-                %Result = ( %Result, %ResultGroupUserRole );
-            }
-        }
-
-        $Self->{$CacheKey} = \%Result;
-        return %Result;
     }
+
+    # get roles of group
+    elsif ( $Param{GroupID} ) {
+        my @Roles = $Self->GroupRoleMemberList(
+            GroupID => $Param{GroupID},
+            Type    => $Param{Type},
+            Result  => 'ID',
+        );
+        if (@Roles) {
+
+            my %ResultGroupUserRole = $Self->GroupUserRoleMemberList(
+                %Param,
+                RoleIDs => \@Roles,
+            );
+            %Result = ( %Result, %ResultGroupUserRole );
+        }
+    }
+
+    $Self->{$CacheKey} = \%Result;
+    return %Result;
+
 }
 
 =item GroupMemberInvolvedList()
@@ -1098,6 +1101,7 @@ sub GroupRoleMemberAdd {
     }
 
     # update permission
+    TYPE:
     for my $Type ( keys %{ $Param{Permission} } ) {
 
         # check if update is needed
@@ -1107,37 +1111,37 @@ sub GroupRoleMemberAdd {
             )
         {
             # No updated needed!
+            next TYPE
         }
-        else {
-            # Update needed
-            # delete existing permission
-            $Self->{DBObject}->Do(
-                SQL => 'DELETE FROM group_role WHERE '
-                    . 'group_id = ? AND role_id = ? AND permission_key = ?',
-                Bind => [ \$Param{GID}, \$Param{RID}, \$Type ],
-            );
 
-            # debug
-            if ( $Self->{Debug} ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'error',
-                    Message =>
-                        "Add RID:$Param{RID} to GID:$Param{GID}, $Type:$Param{Permission}->{$Type}!",
-                );
-            }
+        # Update needed
+        # delete existing permission
+        $Self->{DBObject}->Do(
+            SQL => 'DELETE FROM group_role WHERE '
+                . 'group_id = ? AND role_id = ? AND permission_key = ?',
+            Bind => [ \$Param{GID}, \$Param{RID}, \$Type ],
+        );
 
-            # insert new permission
-            $Self->{DBObject}->Do(
-                SQL => 'INSERT INTO group_role '
-                    . '(role_id, group_id, permission_key, permission_value, '
-                    . 'create_time, create_by, change_time, change_by) '
-                    . 'VALUES (?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
-                Bind => [
-                    \$Param{RID}, \$Param{GID}, \$Type, \$Param{Permission}->{$Type},
-                    \$Param{UserID}, \$Param{UserID},
-                ],
+        # debug
+        if ( $Self->{Debug} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message =>
+                    "Add RID:$Param{RID} to GID:$Param{GID}, $Type:$Param{Permission}->{$Type}!",
             );
         }
+
+        # insert new permission
+        $Self->{DBObject}->Do(
+            SQL => 'INSERT INTO group_role '
+                . '(role_id, group_id, permission_key, permission_value, '
+                . 'create_time, create_by, change_time, change_by) '
+                . 'VALUES (?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+            Bind => [
+                \$Param{RID}, \$Param{GID}, \$Type, \$Param{Permission}->{$Type},
+                \$Param{UserID}, \$Param{UserID},
+            ],
+        );
     }
     return 1;
 }
@@ -1510,6 +1514,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.60 $ $Date: 2009-01-23 07:04:58 $
+$Revision: 1.61 $ $Date: 2009-01-23 07:16:34 $
 
 =cut
