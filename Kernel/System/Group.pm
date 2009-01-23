@@ -2,7 +2,7 @@
 # Kernel/System/Group.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.pm,v 1.61 2009-01-23 07:16:34 tr Exp $
+# $Id: Group.pm,v 1.62 2009-01-23 07:37:46 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 =head1 NAME
 
@@ -515,13 +515,8 @@ sub GroupMemberList {
     $Param{Cached} = $Self->{ForceCache} || '';
 
     if ( $Param{Cached} && exists( $Self->{$CacheKey} ) ) {
-
-        if ( ref( $Self->{$CacheKey} ) eq 'ARRAY' ) {
-            return @{ $Self->{$CacheKey} };
-        }
-        elsif ( ref( $Self->{$CacheKey} ) eq 'HASH' ) {
-            return %{ $Self->{$CacheKey} };
-        }
+        return @{ $Self->{$CacheKey} } if ref $Self->{$CacheKey} eq 'ARRAY';
+        return %{ $Self->{$CacheKey} } if ref $Self->{$CacheKey} eq 'HASH';
     }
 
     # return result
@@ -655,7 +650,7 @@ sub GroupMemberInvolvedList {
     $Self->{DBObject}->Prepare( SQL => $SQL );
     my @Roles;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        push( @Roles, $Row[0] );
+        push @Roles, $Row[0];
     }
 
     # get groups of roles of given user
@@ -791,12 +786,8 @@ sub GroupGroupMemberList {
 
         $Param{Cached} = $Self->{ForceCache} || '';
         if ( $Param{Cached} && $Self->{$CacheKey} ) {
-            if ( ref( $Self->{$CacheKey} ) eq 'ARRAY' ) {
-                return @{ $Self->{$CacheKey} };
-            }
-            elsif ( ref( $Self->{$CacheKey} ) eq 'HASH' ) {
-                return %{ $Self->{$CacheKey} };
-            }
+            return @{ $Self->{$CacheKey} } if ref $Self->{$CacheKey} eq 'ARRAY';
+            return %{ $Self->{$CacheKey} } if ref $Self->{$CacheKey} eq 'HASH';
         }
     }
 
@@ -958,12 +949,8 @@ sub GroupRoleMemberList {
         $Param{Cached} = $Self->{ForceCache} || '';
 
         if ( $Param{Cached} && $Self->{$CacheKey} ) {
-            if ( ref( $Self->{$CacheKey} ) eq 'ARRAY' ) {
-                return @{ $Self->{$CacheKey} };
-            }
-            elsif ( ref( $Self->{$CacheKey} ) eq 'HASH' ) {
-                return %{ $Self->{$CacheKey} };
-            }
+            return @{ $Self->{$CacheKey} } if ref $Self->{$CacheKey} eq 'ARRAY';
+            return %{ $Self->{$CacheKey} } if ref $Self->{$CacheKey} eq 'HASH';
         }
     }
 
@@ -1220,12 +1207,8 @@ sub GroupUserRoleMemberList {
         $Param{Cached} = $Self->{ForceCache} || '';
 
         if ( $Param{Cached} && $Self->{$CacheKey} ) {
-            if ( ref( $Self->{$CacheKey} ) eq 'ARRAY' ) {
-                return @{ $Self->{$CacheKey} };
-            }
-            elsif ( ref( $Self->{$CacheKey} ) eq 'HASH' ) {
-                return %{ $Self->{$CacheKey} };
-            }
+            return @{ $Self->{$CacheKey} } if ref $Self->{$CacheKey} eq 'ARRAY';
+            return %{ $Self->{$CacheKey} } if ref $Self->{$CacheKey} eq 'HASH';
         }
     }
 
@@ -1335,9 +1318,8 @@ sub GroupUserRoleMemberAdd {
         SQL => 'DELETE FROM role_user WHERE user_id = ? AND role_id = ?',
         Bind => [ \$Param{UID}, \$Param{RID} ],
     );
-    if ( !$Param{Active} ) {
-        return;
-    }
+
+    return if !$Param{Active};
 
     # debug
     if ( $Self->{Debug} ) {
@@ -1514,6 +1496,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.61 $ $Date: 2009-01-23 07:16:34 $
+$Revision: 1.62 $ $Date: 2009-01-23 07:37:46 $
 
 =cut
