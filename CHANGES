@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.762.2.40 2009-01-23 08:51:30 tr Exp $
+# $Id: CHANGES,v 1.762.2.41 2009-01-23 12:01:15 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.3.5 (2009/??/??)
+ - (2009/01/23) Fixed bug# 3615 - Wrong link settings in
+    [ Customer Users <-> Groups ] frontend.
  - (2009/01/23) Fixed bug# 3499 - Permission problems if you change the
     configuration of the System::Permissions.
  - (2009/01/22) Fixed bug# 3596 - Renaming of the admin group.

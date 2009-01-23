@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminCustomerUserGroup.pm - to add/update/delete groups <-> users
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserGroup.pm,v 1.16 2008-05-08 09:36:36 mh Exp $
+# $Id: AdminCustomerUserGroup.pm,v 1.16.2.1 2009-01-23 12:01:15 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.16.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -86,7 +86,7 @@ sub Run {
             %Types,
             ID   => $UserData{UserLogin},
             Name => $UserData{UserLogin},
-            Type => 'User',
+            Type => 'CustomerUser',
         );
         $Output .= $Self->{LayoutObject}->Footer();
     }
@@ -229,8 +229,7 @@ sub MaskAdminUserGroupChangeForm {
     my %Data     = %{ $Param{Data} };
     my $BaseLink = $Self->{LayoutObject}->{Baselink};
     my $Type     = $Param{Type} || 'CustomerUser';
-    my $NeType   = 'Group';
-    $NeType = 'User' if ( $Type eq 'Group' );
+    my $NeType   = $Type eq 'Group' ? 'CustomerUser' : 'Group';
 
     $Param{OptionStrg0} .= "<B>\$Text{\"$Type\"}:</B> <A HREF=\"$BaseLink"
         . "Action=Admin$Type&Subaction=Change&ID="
