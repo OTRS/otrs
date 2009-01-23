@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminCustomerUserService.pm - to add/update/delete customerusers <-> services
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.pm,v 1.7 2008-05-08 09:36:36 mh Exp $
+# $Id: AdminCustomerUserService.pm,v 1.8 2009-01-23 12:16:28 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Service;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -125,18 +125,14 @@ sub Run {
                 Data => { ServiceCount => scalar @ServiceList, },
             );
         }
-        my $CssClass;
+
+        my $Css;
 
         # output rows
         for my $Counter ( 1 .. $MaxCount ) {
 
             # set output class
-            if ( $CssClass && $CssClass eq 'searchactive' ) {
-                $CssClass = 'searchpassive';
-            }
-            else {
-                $CssClass = 'searchactive';
-            }
+            $Css = $Css && $Css eq 'searchactive' ? 'searchpassive' : 'searchactive';
 
             # get service
             my %Service = $Self->{ServiceObject}->ServiceGet(
@@ -145,10 +141,7 @@ sub Run {
             );
 
             # set checked
-            my $Checked = '';
-            if ( $ServiceMemberList{ $Service{ServiceID} } ) {
-                $Checked = 'checked';
-            }
+            my $Checked = $ServiceMemberList{ $Service{ServiceID} } ? 'checked' : '';
 
             # output row block
             $Self->{LayoutObject}->Block(
@@ -157,7 +150,7 @@ sub Run {
                     Service   => $Service{Name},
                     ServiceID => $Service{ServiceID},
                     Checked   => $Checked,
-                    CssClass  => $CssClass,
+                    CssClass  => $Css,
                 },
             );
         }
@@ -254,24 +247,16 @@ sub Run {
                 Data => { CustomerUserCount => scalar @CustomerUserKeyList, },
             );
         }
-        my $CssClass;
 
         # output rows
+        my $Css;
         for my $Counter ( 1 .. $MaxCount ) {
 
             # set output class
-            if ( $CssClass && $CssClass eq 'searchactive' ) {
-                $CssClass = 'searchpassive';
-            }
-            else {
-                $CssClass = 'searchactive';
-            }
+            $Css = $Css && $Css eq 'searchactive' ? 'searchpassive' : 'searchactive';
 
             # set checked
-            my $Checked = '';
-            if ( $CustomerUserMemberList{ $CustomerUserKeyList[ $Counter - 1 ] } ) {
-                $Checked = 'checked';
-            }
+            my $Checked = $CustomerUserMemberList{ $CustomerUserKeyList[ $Counter - 1 ] } ? 'checked' : '';
 
             # output row block
             $Self->{LayoutObject}->Block(
@@ -280,7 +265,7 @@ sub Run {
                     CustomerUserLogin => $CustomerUserKeyList[ $Counter - 1 ],
                     CustomerUser      => $CustomerUserList{ $CustomerUserKeyList[ $Counter - 1 ] },
                     Checked           => $Checked,
-                    CssClass          => $CssClass,
+                    CssClass          => $Css,
                 },
             );
         }
@@ -301,25 +286,19 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'AllocateCustomerUserSave' ) {
 
         # get params
-        $Param{CustomerUserLogin}  = $Self->{ParamObject}->GetParam( Param => "CustomerUserLogin" );
-        $Param{CustomerUserSearch} = $Self->{ParamObject}->GetParam( Param => "CustomerUserSearch" )
+        $Param{CustomerUserLogin}  = $Self->{ParamObject}->GetParam( Param => 'CustomerUserLogin' );
+        $Param{CustomerUserSearch} = $Self->{ParamObject}->GetParam( Param => 'CustomerUserSearch' )
             || '*';
-        $Param{ServiceSearch} = $Self->{ParamObject}->GetParam( Param => "ServiceSearch" ) || '*';
-        my @ServiceIDsSelected = $Self->{ParamObject}->GetArray( Param => "ServiceIDsSelected" );
-        my @ServiceIDsAll      = $Self->{ParamObject}->GetArray( Param => "ServiceIDsAll" );
+        $Param{ServiceSearch} = $Self->{ParamObject}->GetParam( Param => 'ServiceSearch' ) || '*';
+        my @ServiceIDsSelected = $Self->{ParamObject}->GetArray( Param => 'ServiceIDsSelected' );
+        my @ServiceIDsAll      = $Self->{ParamObject}->GetArray( Param => 'ServiceIDsAll' );
 
         # create hash with selected ids
-        my %ServiceIDSelected;
-        for my $ServiceID (@ServiceIDsSelected) {
-            $ServiceIDSelected{$ServiceID} = 1;
-        }
+        my %ServiceIDSelected = map { $_ => 1 } @ServiceIDsSelected;
 
         # check all used service ids
         for my $ServiceID (@ServiceIDsAll) {
-            my $Active = 0;
-            if ( $ServiceIDSelected{$ServiceID} ) {
-                $Active = 1;
-            }
+            my $Active = $ServiceIDSelected{$ServiceID} ? 1 : 0;
 
             # set customer user service member
             $Self->{ServiceObject}->CustomerUserServiceMemberAdd(
@@ -343,14 +322,14 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'AllocateServiceSave' ) {
 
         # get params
-        $Param{ServiceID}          = $Self->{ParamObject}->GetParam( Param => "ServiceID" );
-        $Param{CustomerUserSearch} = $Self->{ParamObject}->GetParam( Param => "CustomerUserSearch" )
+        $Param{ServiceID}          = $Self->{ParamObject}->GetParam( Param => 'ServiceID' );
+        $Param{CustomerUserSearch} = $Self->{ParamObject}->GetParam( Param => 'CustomerUserSearch' )
             || '*';
-        $Param{ServiceSearch} = $Self->{ParamObject}->GetParam( Param => "ServiceSearch" ) || '*';
+        $Param{ServiceSearch} = $Self->{ParamObject}->GetParam( Param => 'ServiceSearch' ) || '*';
         my @CustomerUserLoginsSelected
-            = $Self->{ParamObject}->GetArray( Param => "CustomerUserLoginsSelected" );
+            = $Self->{ParamObject}->GetArray( Param => 'CustomerUserLoginsSelected' );
         my @CustomerUserLoginsAll
-            = $Self->{ParamObject}->GetArray( Param => "CustomerUserLoginsAll" );
+            = $Self->{ParamObject}->GetArray( Param => 'CustomerUserLoginsAll' );
 
         # create hash with selected customer users
         my %CustomerUserLoginsSelected;
@@ -360,10 +339,7 @@ sub Run {
 
         # check all used customer users
         for my $CustomerUserLogin (@CustomerUserLoginsAll) {
-            my $Active = 0;
-            if ( $CustomerUserLoginsSelected{$CustomerUserLogin} ) {
-                $Active = 1;
-            }
+            my $Active = $CustomerUserLoginsSelected{$CustomerUserLogin} ? 1 : 0;
 
             # set customer user service member
             $Self->{ServiceObject}->CustomerUserServiceMemberAdd(
@@ -387,9 +363,9 @@ sub Run {
     else {
 
         # get params
-        $Param{CustomerUserSearch} = $Self->{ParamObject}->GetParam( Param => "CustomerUserSearch" )
+        $Param{CustomerUserSearch} = $Self->{ParamObject}->GetParam( Param => 'CustomerUserSearch' )
             || '*';
-        $Param{ServiceSearch} = $Self->{ParamObject}->GetParam( Param => "ServiceSearch" ) || '*';
+        $Param{ServiceSearch} = $Self->{ParamObject}->GetParam( Param => 'ServiceSearch' ) || '*';
 
         # output header
         my $Output = $Self->{LayoutObject}->Header();
@@ -483,25 +459,21 @@ sub Run {
                 Data => { ServiceCount => scalar @ServiceList, },
             );
         }
-        my $CssClass;
 
         # output rows
+        my $Css = 'searchpassive';
         for my $Counter ( 1 .. $MaxCount ) {
 
             # set output class
-            if ( $CssClass && $CssClass eq 'searchactive' ) {
-                $CssClass = 'searchpassive';
-            }
-            else {
-                $CssClass = 'searchactive';
-            }
+            $Css = $Css eq 'searchactive' ? 'searchpassive' : 'searchactive';
+
             my %RowParam;
 
             # set customer user row params
             if ( defined( $CustomerUserKeyList[ $Counter - 1 ] ) ) {
                 $RowParam{CustomerUserLogin} = $CustomerUserKeyList[ $Counter - 1 ];
                 $RowParam{CustomerUser} = $CustomerUserList{ $CustomerUserKeyList[ $Counter - 1 ] };
-                $RowParam{CustomerUserCssClass} = $CssClass;
+                $RowParam{CustomerUserCssClass} = $Css;
             }
 
             # set service row params
@@ -512,7 +484,7 @@ sub Run {
                 );
                 $RowParam{ServiceID}       = $Service{ServiceID};
                 $RowParam{Service}         = $Service{Name};
-                $RowParam{ServiceCssClass} = $CssClass;
+                $RowParam{ServiceCssClass} = $Css;
             }
 
             # output row block
