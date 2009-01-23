@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.360 2009-01-12 12:51:23 mh Exp $
+# $Id: Ticket.pm,v 1.361 2009-01-23 08:22:47 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.360 $) [1];
+$VERSION = qw($Revision: 1.361 $) [1];
 
 =head1 NAME
 
@@ -2837,6 +2837,7 @@ sub Permission {
     # run all TicketPermission modules
     if ( ref $Self->{ConfigObject}->Get('Ticket::Permission') eq 'HASH' ) {
         my %Modules = %{ $Self->{ConfigObject}->Get('Ticket::Permission') };
+        MODULE:
         for my $Module ( sort keys %Modules ) {
 
             # log try of load module
@@ -2848,9 +2849,7 @@ sub Permission {
             }
 
             # load module
-            if ( !$Self->{MainObject}->Require( $Modules{$Module}->{Module} ) ) {
-                next;
-            }
+            next MODULE if !$Self->{MainObject}->Require( $Modules{$Module}->{Module} );
 
             # create object
             my $ModuleObject = $Modules{$Module}->{Module}->new(
@@ -6954,6 +6953,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.360 $ $Date: 2009-01-12 12:51:23 $
+$Revision: 1.361 $ $Date: 2009-01-23 08:22:47 $
 
 =cut
