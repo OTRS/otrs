@@ -1,4 +1,5 @@
-#! /usr/bin/perl
+#!/usr/bin/perl -w
+
 use strict;
 use warnings;
 
@@ -112,7 +113,6 @@ use Kernel::Modules::AgentTicketCompose;
 use Kernel::Modules::AgentTicketForward;
 use Kernel::Modules::AgentTicketBounce;
 use Kernel::Modules::AgentTicketCustomer;
-use Kernel::Modules::AgentTicketMailbox;
 use Kernel::Modules::AgentTicketOwner;
 use Kernel::Modules::AgentTicketHistory;
 use Kernel::Modules::AgentTicketBulk;
@@ -185,7 +185,6 @@ use Kernel::Output::HTML::NotificationAgentTicketSeen;
 use Kernel::Output::HTML::TicketMenuGeneric;
 use Kernel::Output::HTML::TicketMenuLock;
 use Kernel::Output::HTML::NavBarLockedTickets;
-use Kernel::Output::HTML::NavBarTicketBulkAction;
 use Kernel::Output::HTML::ArticleAttachmentDownload;
 use Kernel::Output::HTML::ArticleAttachmentHTMLViewer;
 
