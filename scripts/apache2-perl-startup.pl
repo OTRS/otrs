@@ -1,4 +1,24 @@
 #!/usr/bin/perl -w
+# --
+# scripts/apache-perl-startup.pl - to load the modules if mod_perl is used
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# --
+# $Id: apache2-perl-startup.pl,v 1.33 2009-01-26 15:26:57 mh Exp $
+# --
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# --
 
 use strict;
 use warnings;
@@ -26,73 +46,67 @@ use DBI ();
 
 # enable this if you use mysql
 #use DBD::mysql ();
+#use Kernel::System::DB::mysql;
+
 # enable this if you use postgresql
 #use DBD::Pg ();
+#use Kernel::System::DB::postgresql;
+
 # enable this if you use oracle
 #use DBD::Oracle ();
+#use Kernel::System::DB::oracle;
 
+# core modules
 use Kernel::Config;
-
 use Kernel::System::Web::InterfaceAgent;
 use Kernel::System::Web::InterfaceCustomer;
 use Kernel::System::Web::InterfacePublic;
 use Kernel::System::Web::Request;
 use Kernel::System::Web::UploadCache;
 use Kernel::System::DB;
-
-#use Kernel::System::DB::mysql;
 use Kernel::System::Encode;
 use Kernel::System::Time;
 use Kernel::System::Auth;
 use Kernel::System::Auth::DB;
-
-#use Kernel::System::Auth::LDAP;
 use Kernel::System::AuthSession;
-
-#use Kernel::System::AuthSession::IPC;
 use Kernel::System::AuthSession::DB;
-
-#use Kernel::System::AuthSession::FS;
 use Kernel::System::User;
 use Kernel::System::User::Preferences::DB;
-
-#use Kernel::System::PDF;
 use Kernel::System::XML;
 use Kernel::System::Log;
-
-#use Kernel::System::Log::SysLog;
-#use Kernel::System::Log::File;
-
 use Kernel::System::Ticket;
-
-#use Kernel::System::Ticket::ArticleStorageDB;
-#use Kernel::System::Ticket::ArticleStorageFS;
-#use Kernel::System::Ticket::IndexAccelerator::RuntimeDB;
-#use Kernel::System::Ticket::IndexAccelerator::StaticDB;
 use Kernel::System::Ticket::Number::DateChecksum;
-
-#use Kernel::System::Ticket::Number::Date;
-#use Kernel::System::Ticket::Number::AutoIncrement;
-#use Kernel::System::Ticket::Number::Random;
-
 use Kernel::System::Queue;
 use Kernel::System::Lock;
 use Kernel::System::State;
 use Kernel::System::Priority;
 use Kernel::System::CustomerUser;
-
-#use Kernel::System::CustomerUser::DB;
-#use Kernel::System::CustomerUser::LDAP;
 use Kernel::System::CustomerGroup;
 use Kernel::System::CustomerAuth;
-
-#use Kernel::System::CustomerAuth::DB;
-#use Kernel::System::CustomerAuth::LDAP;
 use Kernel::System::CheckItem;
 use Kernel::System::AutoResponse;
 use Kernel::System::Notification;
 use Kernel::System::Email;
 use Kernel::System::Stats;
+
+# optional core modules
+#use Kernel::System::Auth::LDAP;
+#use Kernel::System::AuthSession::IPC;
+#use Kernel::System::AuthSession::FS;
+#use Kernel::System::PDF;
+#use Kernel::System::Log::SysLog;
+#use Kernel::System::Log::File;
+#use Kernel::System::Ticket::ArticleStorageDB;
+#use Kernel::System::Ticket::ArticleStorageFS;
+#use Kernel::System::Ticket::IndexAccelerator::RuntimeDB;
+#use Kernel::System::Ticket::IndexAccelerator::StaticDB;
+#use Kernel::System::Ticket::Number::Date;
+#use Kernel::System::Ticket::Number::AutoIncrement;
+#use Kernel::System::Ticket::Number::Random;
+#use Kernel::System::CustomerUser::DB;
+#use Kernel::System::CustomerUser::LDAP;
+#use Kernel::System::CustomerAuth::DB;
+#use Kernel::System::CustomerAuth::LDAP;
 
 # web agent middle ware modules
 use Kernel::Modules::AgentTicketQueue;
@@ -122,6 +136,7 @@ use Kernel::Modules::AgentSpelling;
 use Kernel::Modules::AgentBook;
 use Kernel::Modules::AgentLinkObject;
 use Kernel::Modules::AgentPreferences;
+use Kernel::Modules::AgentStats;
 
 # web admin middle ware modules
 use Kernel::Modules::Admin;
@@ -164,9 +179,6 @@ use Kernel::Modules::CustomerTicketOverView;
 use Kernel::Modules::CustomerTicketZoom;
 use Kernel::Modules::CustomerZoom;
 
-# web stats module
-use Kernel::Modules::AgentStats;
-
 # frontend modules
 use Kernel::Output::HTML::Layout;
 use Kernel::Output::HTML::LayoutTicket;
@@ -179,7 +191,6 @@ use Kernel::Output::HTML::NotificationUIDCheck;
 use Kernel::Output::HTML::NotificationCharsetCheck;
 use Kernel::Output::HTML::NotificationAgentOnline;
 use Kernel::Output::HTML::NotificationCustomerOnline;
-
 use Kernel::Output::HTML::NotificationAgentTicket;
 use Kernel::Output::HTML::NotificationAgentTicketSeen;
 use Kernel::Output::HTML::TicketMenuGeneric;
