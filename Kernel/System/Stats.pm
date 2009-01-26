@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Stats.pm - all stats core functions
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.56.2.1 2008-10-09 09:54:28 tr Exp $
+# $Id: Stats.pm,v 1.56.2.2 2009-01-26 11:47:07 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.56.2.1 $) [1];
+$VERSION = qw($Revision: 1.56.2.2 $) [1];
 
 =head1 SYNOPSIS
 
@@ -1400,15 +1400,13 @@ sub GenerateDynamicStats {
         $Title .= " $TitleTimeStart-$TitleTimeStop";
     }
 
-    # search for a better way to cache stats (StatID and Cache)
-    if ( $Param{Cache} ) {
-        my $MD5Key = $Self->{MainObject}->FilenameCleanUp(
-            Filename => $TitleTimeStart . "-" . $TitleTimeStop,
-            Type     => 'md5',
-        );
+    # create the cache string
+    my $CacheString = $Self->_GetCacheString( %Param );
 
+    # take the cache value if configured and available
+    if ( $Param{Cache} ) {
         my @StatArray = $Self->_GetResultCache(
-            Filename => 'Stats' . $Param{StatID} . '-' . $MD5Key . '.cache',
+            Filename => 'Stats' . $Param{StatID} . '-' . $CacheString . '.cache',
         );
 
         return @StatArray if @StatArray;
@@ -1483,14 +1481,9 @@ sub GenerateDynamicStats {
                 < $Self->{TimeObject}->SystemTime()
                 )
             {
-                my $MD5Key = $Self->{MainObject}->FilenameCleanUp(
-                    Filename => $TitleTimeStart . "-" . $TitleTimeStop,
-                    Type     => 'md5',
-                );
-
                 # write the stats cache
                 $Self->_SetResultCache(
-                    Filename => 'Stats' . $Param{StatID} . '-' . $MD5Key . '.cache',
+                    Filename => 'Stats' . $Param{StatID} . '-' . $CacheString . '.cache',
                     Result   => \@StatArray,
                 );
             }
@@ -2200,7 +2193,7 @@ sub _WriteResultCache {
 #
 #create a filename out of the GetParam information and the stat id
 #
-#    my $Filename = $Self->_CreateStaticResultCacheFilename(
+#    my $Filename = $StatsObject->_CreateStaticResultCacheFilename(
 #        GetParam => $Param{GetParam},
 #        StatID   => $Param{StatID},
 #    );
@@ -2252,7 +2245,7 @@ sub _CreateStaticResultCacheFilename {
 #
 #write the result array as cache in the filesystem
 #
-#    $Self->_SetResultCache(
+#    $StatsObject->_SetResultCache(
 #        Filename => 'Stats' . $Param{StatID} . '-' . $MD5Key . '.cache',
 #        Result   => $Param{Data},
 #    );
@@ -2298,7 +2291,7 @@ sub _SetResultCache {
 #
 #get the result array cache out of the filesystem
 #
-#    my @Result = $Self->_GetResultCache(
+#    my @Result = $StatsObject->_GetResultCache(
 #        Filename => 'Stats' . $Param{StatID} . '-' . $MD5Key . '.cache',
 #    );
 #
@@ -3086,6 +3079,43 @@ sub StatsCleanUp {
     return 1;
 }
 
+# =item _GetCacheString()
+#
+# return the cache string
+#
+#     my $Result = $StatsObject->_GetCacheString(
+#         UseAsXvalue      => $UseAsXvalueRef
+#         UseAsValueSeries => $UseAsValueSeriesRef,
+#         UseAsRestriction => $UseAsRestrictionRef,
+#     );
+#
+# =cut
+
+sub _GetCacheString {
+    my ( $Self, %Param ) = @_;
+    my $CacheString = '';
+
+    for my $Use (qw(UseAsXvalue UseAsValueSeries UseAsRestriction)) {
+        USEREF:
+        for my $UseRef ( @{$Param{$Use}} ) {
+            $CacheString .= '__' . $UseRef->{Name} . '_';
+            if ( $UseRef->{SelectedValues} ) {
+                $CacheString .= join ('_', sort @{$UseRef->{SelectedValues}})
+            }
+            elsif ($UseRef->{TimeStart} && $UseRef->{TimeStop}) {
+                $CacheString .=  $UseRef->{TimeStart} .'-'. $UseRef->{TimeStop};
+            }
+        }
+    }
+
+    my $MD5Key = $Self->{MainObject}->FilenameCleanUp(
+        Filename => $CacheString,
+        Type     => 'md5',
+    );
+
+    return $MD5Key;
+}
+
 1;
 
 =back
@@ -3100,6 +3130,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.56.2.1 $ $Date: 2008-10-09 09:54:28 $
+$Revision: 1.56.2.2 $ $Date: 2009-01-26 11:47:07 $
 
 =cut
