@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.58 2009-01-23 12:38:37 tr Exp $
+# $Id: Stats.pm,v 1.59 2009-01-26 09:39:32 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 =head1 SYNOPSIS
 
@@ -256,39 +256,40 @@ sub StatsGet {
 
         ATTRIBUTE:
         for my $Attribute (@ObjectAttributes) {
+            my $Element = $Attribute->{Element};
             if ( $Attribute->{Block} eq 'Time' ) {
                 if ( $Key eq 'UseAsValueSeries' ) {
                     if (
-                        $Allowed{ $Attribute->{Element} }
-                        && $Allowed{ $Attribute->{Element} } == 1
+                        $Allowed{ $Element }
+                        && $Allowed{ $Element } == 1
                         )
                     {
-                        $Allowed{ $Attribute->{Element} }     = 0;
-                        $TimeAllowed{ $Attribute->{Element} } = 1;
+                        $Allowed{ $Element }     = 0;
+                        $TimeAllowed{ $Element } = 1;
                     }
                     else {
-                        $Allowed{ $Attribute->{Element} } = 1;
+                        $Allowed{ $Element } = 1;
                     }
                 }
                 elsif ( $Key eq 'UseAsRestriction' ) {
                     if (
-                        $TimeAllowed{ $Attribute->{Element} }
-                        && $TimeAllowed{ $Attribute->{Element} } == 1
+                        $TimeAllowed{ $Element }
+                        && $TimeAllowed{ $Element } == 1
                         )
                     {
-                        $Allowed{ $Attribute->{Element} } = 1;
+                        $Allowed{ $Element } = 1;
                     }
                     else {
-                        $Allowed{ $Attribute->{Element} } = 0;
+                        $Allowed{ $Element } = 0;
                     }
                 }
             }
-            next ATTRIBUTE if $Allowed{ $Attribute->{Element} };
+            next ATTRIBUTE if $Allowed{ $Element };
 
             if ( $StatXML->{$Key} ) {
                 my @StatAttributes = @{ $StatXML->{$Key} };
                 if ( !$StatAttributes[0] ) {
-                    shift(@StatAttributes);
+                    shift @StatAttributes;
                 }
                 REF:
                 for my $Ref (@StatAttributes) {
@@ -298,9 +299,9 @@ sub StatsGet {
 
                     next REF
                         if !(
-                        $Attribute->{Element}
+                        $Element
                         && $Ref->{Element}
-                        && $Attribute->{Element} eq $Ref->{Element}
+                        && $Element eq $Ref->{Element}
                         );
 
                     # if selected elements exit, add the information to the StatAttributes
@@ -327,7 +328,7 @@ sub StatsGet {
                             $Attribute->{$_} = $Ref->{$_};
                         }
                     }
-                    $Allowed{ $Attribute->{Element} } = 1;
+                    $Allowed{ $Element } = 1;
                 }
             }
             push @StatAttributesSimplified, $Attribute;
@@ -557,9 +558,7 @@ sub GetStatsList {
     my @SearchResult = ();
     if ( !( @SearchResult = $Self->{XMLObject}->XMLHashSearch( Type => 'Stats' ) ) ) {
         $Self->_AutomaticSampleImport();
-        if ( !( @SearchResult = $Self->{XMLObject}->XMLHashSearch( Type => 'Stats' ) ) ) {
-            return ();
-        }
+        return () if !( @SearchResult = $Self->{XMLObject}->XMLHashSearch( Type => 'Stats' ) );
     }
 
     # get user groups
@@ -568,9 +567,8 @@ sub GetStatsList {
         Type   => 'ro',
         Result => 'ID',
     );
-    if ( !$Param{OrderBy} ) {
-        $Param{OrderBy} = 'ID';
-    }
+
+    $Param{OrderBy} ||= 'ID';
 
     # a solution with more performance is useful
     my %ResultHash = ();
@@ -612,7 +610,7 @@ sub GetStatsList {
 
             # order by id
             else {
-                $ResultHash{$StatID} = int($StatID);
+                $ResultHash{$StatID} = int $StatID;
             }
         }
     }
@@ -624,7 +622,7 @@ sub GetStatsList {
         @SortArray = sort { $ResultHash{$a} cmp $ResultHash{$b} } keys %ResultHash;
     }
     if ( $Param{Direction} && $Param{Direction} eq 'DESC' ) {
-        @SortArray = reverse(@SortArray);
+        @SortArray = reverse @SortArray;
     }
 
     return \@SortArray;
@@ -736,26 +734,20 @@ sub GenerateDynamicStats {
         for my $Element (@Array) {
             next ELEMENT if !$Element->{Selected};
 
-            delete( $Element->{Selected} );
-            delete( $Element->{Fixed} );
+            delete $Element->{Selected};
+            delete $Element->{Fixed};
             if ( $Element->{Block} eq 'Time' ) {
-                delete( $Element->{TimePeriodFormat} );
+                delete $Element->{TimePeriodFormat} ;
                 if ( $Element->{TimeRelativeUnit} ) {
                     my ( $s, $m, $h, $D, $M, $Y )
                         = $Self->{TimeObject}->SystemTime2Date(
                         SystemTime => $Self->{TimeObject}->SystemTime(),
                         );
-                    my $Count = 0;
 
-                    if ( $Element->{TimeRelativeCount} ) {
-                        $Count = $Element->{TimeRelativeCount};
-                    }
-                    else {
-                        $Count = 1;
-                    }
+                    my $Count = $Element->{TimeRelativeCount} ? $Element->{TimeRelativeCount} : 1;
 
                     # -1 because the current time will be not counted
-                    $Count = $Count - 1;
+                    $Count -= 1;
 
                     if ( $Element->{TimeRelativeUnit} eq 'Year' ) {
                         ( $Y, $M, $D ) = Add_Delta_YMD( $Y, $M, $D, -1, 0, 0 );
@@ -814,8 +806,8 @@ sub GenerateDynamicStats {
                         $Element->{TimeStart}
                             = sprintf( "%04d-%02d-%02d %02d:%02d:%02d", $Y, $M, $D, $h, $m, $s );
                     }
-                    delete( $Element->{TimeRelativeUnit} );
-                    delete( $Element->{TimeRelativeCount} );
+                    delete $Element->{TimeRelativeUnit};
+                    delete $Element->{TimeRelativeCount};
                 }
                 $TitleTimeStart = $Element->{TimeStart};
                 $TitleTimeStop  = $Element->{TimeStop};
@@ -873,11 +865,11 @@ sub GenerateDynamicStats {
         );
         if ( $Element->{TimeStart} =~ m{^(\d\d\d\d)-(\d\d)-(\d\d)\s(\d\d):(\d\d):(\d\d)$}ix ) {
             $Year   = $VSYear   = $1;
-            $Month  = $VSMonth  = int($2);
-            $Day    = $VSDay    = int($3);
-            $Hour   = $VSHour   = int($4);
-            $Minute = $VSMinute = int($5);
-            $Second = $VSSecond = int($6);
+            $Month  = $VSMonth  = int $2;
+            $Day    = $VSDay    = int $3;
+            $Hour   = $VSHour   = int $4;
+            $Minute = $VSMinute = int $5;
+            $Second = $VSSecond = int $6;
         }
 
         $TimeAbsolutStopUnixTime
@@ -1102,7 +1094,7 @@ sub GenerateDynamicStats {
                 }
             }
             else {
-                for ( my $Month = 1; $Month < 12; $Month = $Month + $Count ) {
+                for ( my $Month = 1; $Month < 12; $Month += $Count ) {
                     push(
                         @HeaderLine,
                         "$MonthArrayRef->[$Month] - $MonthArrayRef->[$Month + $Count - 1]"
@@ -1118,18 +1110,10 @@ sub GenerateDynamicStats {
         }
         elsif ( $Ref1->{SelectedValues}[0] eq 'Month' ) {
 
-            #if ( $Count == 1 ) {
-            #    for ( 1 .. 31 ) {
-            #        push @HeaderLine, $_;
-            #    }
-            #}
-            #else {
             $Count = 1;
             for ( 1 .. 31 ) {
                 push @HeaderLine, $_;
             }
-
-            #}
 
             $VSSecond   = 0;
             $VSMinute   = 0;
@@ -1138,7 +1122,7 @@ sub GenerateDynamicStats {
             $ColumnName = 'Month';
         }
         elsif ( $Ref1->{SelectedValues}[0] eq 'Day' ) {
-            for ( my $Hour = 0; $Hour < 24; $Hour = $Hour + $Count ) {
+            for ( my $Hour = 0; $Hour < 24; $Hour += $Count ) {
                 push @HeaderLine, sprintf( "%02d:00:00-%02d:59:59", $Hour, $Hour + $Count - 1 );
             }
             $VSSecond   = 0;
@@ -1147,7 +1131,7 @@ sub GenerateDynamicStats {
             $ColumnName = 'Day';
         }
         elsif ( $Ref1->{SelectedValues}[0] eq 'Hour' ) {
-            for ( my $Minute = 0; $Minute < 60; $Minute = $Minute + $Count ) {
+            for ( my $Minute = 0; $Minute < 60; $Minute += $Count ) {
                 my $Time = 'min ' . $Minute . ' - ' . ( $Minute + $Count );
                 push @HeaderLine, $Time;
             }
@@ -1163,7 +1147,7 @@ sub GenerateDynamicStats {
                 }
             }
             else {
-                for ( my $Second = 0; $Second < 60; $Second = $Second + $Count ) {
+                for ( my $Second = 0; $Second < 60; $Second += $Count ) {
                     my $Time = 'sec ' . $Second . '-' . ( $Second + $Count );
                     push @HeaderLine, $Time;
                 }
@@ -1385,7 +1369,7 @@ sub GenerateDynamicStats {
 
     # get the first column name in the headerline
     if ($ColumnName) {
-        unshift( @HeaderLine, $ColumnName );
+        unshift @HeaderLine, $ColumnName;
     }
     elsif ( $ArraySelected[1] ) {
         unshift( @HeaderLine, $ArraySelected[0]{Name} . ' - ' . $ArraySelected[1]{Name} );
@@ -1429,27 +1413,25 @@ sub GenerateDynamicStats {
         push @ResultRow, $Row;
         for my $Cell ( @{ $Xvalue->{SelectedValues} } ) {    # get each cell
             if ( $Xvalue->{Block} eq 'Time' ) {
-                if (
-                    $ValueSeries{$Row}{ $Xvalue->{Values}{TimeStop} }
-                    && $ValueSeries{$Row}{ $Xvalue->{Values}{TimeStart} }
-                    )
-                {
+                my $TimeStart = $Xvalue->{Values}{TimeStart};
+                my $TimeStop  = $Xvalue->{Values}{TimeStop};
+                if ( $ValueSeries{$Row}{ $TimeStop } && $ValueSeries{$Row}{ $TimeStart } ) {
                     if (
                         $Self->{TimeObject}->TimeStamp2SystemTime( String => $Cell->{TimeStop} )
                         > $Self->{TimeObject}->TimeStamp2SystemTime(
-                            String => $ValueSeries{$Row}{ $Xvalue->{Values}{TimeStop} }
+                            String => $ValueSeries{$Row}{ $TimeStop }
                         )
                         || $Self->{TimeObject}->TimeStamp2SystemTime( String => $Cell->{TimeStart} )
                         < $Self->{TimeObject}->TimeStamp2SystemTime(
-                            String => $ValueSeries{$Row}{ $Xvalue->{Values}{TimeStart} }
+                            String => $ValueSeries{$Row}{ $TimeStart }
                         )
                         )
                     {
                         next;
                     }
                 }
-                $SearchAttribut{ $Xvalue->{Values}{TimeStop} }  = $Cell->{TimeStop};
-                $SearchAttribut{ $Xvalue->{Values}{TimeStart} } = $Cell->{TimeStart};
+                $SearchAttribut{ $TimeStop }  = $Cell->{TimeStop};
+                $SearchAttribut{ $TimeStart } = $Cell->{TimeStart};
             }
             elsif ( $Xvalue->{Block} eq 'SelectField' ) {
                 $SearchAttribut{ $Xvalue->{Element} } = $Cell;
@@ -1548,7 +1530,7 @@ sub GenerateGraph {
         pop @StatArray;
     }
     if ( $HeadArrayRef->[-1] eq 'Sum' ) {
-        pop( @{$HeadArrayRef} );
+        pop @{$HeadArrayRef} ;
         for my $Row (@StatArray) {
             pop @{$Row};
         }
@@ -1566,7 +1548,7 @@ sub GenerateGraph {
     }
 
     # remove first y/x position
-    my $XLable = shift( @{$HeadArrayRef} );
+    my $XLable = shift @{$HeadArrayRef};
 
     # get first col for legend
     my @YLine = ();
@@ -1728,14 +1710,14 @@ sub CompletenessCheck {
     };
 
     # check if need params are available
-    for (qw(StatData Section)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "GenerateDynamicStats: Need $_!"
-            );
-            return;
-        }
+    NEED:
+    for my $Need (qw(StatData Section)) {
+        next NEED if $Param{$Need};
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "GenerateDynamicStats: Need $Need"
+        );
+        return;
     }
 
     my %StatData = %{ $Param{StatData} };
@@ -1929,11 +1911,8 @@ sub CompletenessCheck {
 
                 my $ScalePeriod = 0;
                 my $TimePeriod  = 0;
-                my $Count       = 1;
 
-                if ( $Xvalue->{TimeScaleCount} ) {
-                    $Count = $Xvalue->{TimeScaleCount};
-                }
+                my $Count = $Xvalue->{TimeScaleCount} ? $Xvalue->{TimeScaleCount} : 1;
 
                 my %TimeInSeconds = (
                     Year   => 31536000,    # 60 * 60 * 60 * 365
@@ -3095,6 +3074,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.58 $ $Date: 2009-01-23 12:38:37 $
+$Revision: 1.59 $ $Date: 2009-01-26 09:39:32 $
 
 =cut

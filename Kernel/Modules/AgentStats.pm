@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.64 2009-01-23 12:38:37 tr Exp $
+# $Id: AgentStats.pm,v 1.65 2009-01-26 09:39:32 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -674,19 +674,17 @@ sub Run {
         my $Error = 0;
 
         # permission check
-        $Self->{AccessRw} || return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
+        return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' ) if !$Self->{AccessRw};
 
         # get params
-        for (qw(Status)) {
-            $Param{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
-        }
+        $Param{Status} = $Self->{ParamObject}->GetParam( Param => 'Status' );
 
         # importing
         if ( $Param{Status} && $Param{Status} eq 'Action' ) {
             my $Uploadfile = '';
             if ( $Uploadfile = $Self->{ParamObject}->GetParam( Param => 'file_upload' ) ) {
                 my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-                    Param    => "file_upload",
+                    Param    => 'file_upload',
                     Source   => 'string',
                     Encoding => 'Raw'
                 );
@@ -834,12 +832,8 @@ sub Run {
                 $Data{UseAsXvalue}[0]{Block}          = $ObjectAttribute->{Block};
                 $Data{UseAsXvalue}[0]{Selected}       = 1;
 
-                if ( $Self->{ParamObject}->GetParam( Param => 'Fixed' . $Param{Select} ) ) {
-                    $Data{UseAsXvalue}[0]{Fixed} = 1;
-                }
-                else {
-                    $Data{UseAsXvalue}[0]{Fixed} = 0;
-                }
+                my $Fixed = $Self->{ParamObject}->GetParam( Param => 'Fixed' . $Param{Select} );
+                $Data{UseAsXvalue}[0]{Fixed} = $Fixed ? 1 : 0;
 
                 # Check if Time was selected
                 next if $ObjectAttribute->{Block} ne 'Time';
@@ -939,15 +933,9 @@ sub Run {
                 $Data{UseAsValueSeries}[$Index]{Block}          = $ObjectAttribute->{Block};
                 $Data{UseAsValueSeries}[$Index]{Selected}       = 1;
 
-                if (
-                    $Self->{ParamObject}->GetParam( Param => 'Fixed' . $ObjectAttribute->{Element} )
-                    )
-                {
-                    $Data{UseAsValueSeries}[$Index]{Fixed} = 1;
-                }
-                else {
-                    $Data{UseAsValueSeries}[$Index]{Fixed} = 0;
-                }
+                my $FixedElement = 'Fixed' . $ObjectAttribute->{Element};
+                my $Fixed = $Self->{ParamObject}->GetParam( Param => $FixedElement );
+                $Data{UseAsValueSeries}[$Index]{Fixed} = $Fixed ? 1 : 0;
 
                 # Check if Time was selected
                 if ( $ObjectAttribute->{Block} eq 'Time' ) {
@@ -974,9 +962,8 @@ sub Run {
                 $Index++;
 
             }
-            if ( !$Data{UseAsValueSeries} ) {
-                $Data{UseAsValueSeries} = [];
-            }
+
+            $Data{UseAsValueSeries} ||= [];
 
             # CompletenessCheck and set next subaction
             my @Notify = $Self->{StatsObject}->CompletenessCheck(
@@ -1006,12 +993,8 @@ sub Run {
                 $Data{UseAsRestriction}[$Index]{Block}          = $ObjectAttribute->{Block};
                 $Data{UseAsRestriction}[$Index]{Selected}       = 1;
 
-                if ( $Self->{ParamObject}->GetParam( Param => 'Fixed' . $Element ) ) {
-                    $Data{UseAsRestriction}[$Index]{Fixed} = 1;
-                }
-                else {
-                    $Data{UseAsRestriction}[$Index]{Fixed} = 0;
-                }
+                my $Fixed = $Self->{ParamObject}->GetParam( Param => 'Fixed' . $Element );
+                $Data{UseAsRestriction}[$Index]{Fixed} = $Fixed ? 1 : 0;
 
                 if ( $ObjectAttribute->{Block} eq 'Time' ) {
                     my %Time = ();
@@ -1080,9 +1063,8 @@ sub Run {
                 $Index++;
 
             }
-            if ( !$Data{UseAsRestriction} ) {
-                $Data{UseAsRestriction} = [];
-            }
+
+            $Data{UseAsRestriction} ||= [];
 
             # CompletenessCheck and set next subaction
             my @Notify = $Self->{StatsObject}->CompletenessCheck(
@@ -1122,7 +1104,7 @@ sub Run {
         my $Stat     = {};
 
         # permission check
-        $Self->{AccessRw} || return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
+        return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' ) if !$Self->{AccessRw};
 
         # get param
         if ( !( $Param{StatID} = $Self->{ParamObject}->GetParam( Param => 'StatID' ) ) ) {
@@ -1317,16 +1299,15 @@ sub Run {
         $Values{Permission} = { $Self->{GroupObject}->GroupList( Valid => 1 ) };
         $Values{Format}     = $Self->{ConfigObject}->Get('Stats::Format');
         $Values{GraphSize}  = $Self->{ConfigObject}->Get('Stats::GraphSize');
-        for my $Key (qw(Permission)) {
-            $Stat->{ 'Select' . $Key } = $Self->{LayoutObject}->OptionStrgHashRef(
-                Data                => $Values{$Key},
-                Name                => $Key,
-                Multiple            => 1,
-                Size                => 5,
-                SelectedIDRefArray  => $Stat->{$Key},
-                LanguageTranslation => 0,
-            );
-        }
+
+        $Stat->{SelectPermission} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data                => $Values{Permission},
+            Name                => 'Permission',
+            Multiple            => 1,
+            Size                => 5,
+            SelectedIDRefArray  => $Stat->{Permission},
+            LanguageTranslation => 0,
+        );
 
         $Stat->{SelectFormat} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data               => $Values{Format},
@@ -1366,7 +1347,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'EditXaxis' ) {
 
         # permission check
-        $Self->{AccessRw} || return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
+        return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' ) if !$Self->{AccessRw};
 
         # get params
         if ( !( $Param{StatID} = $Self->{ParamObject}->GetParam( Param => 'StatID' ) ) ) {
@@ -1383,7 +1364,7 @@ sub Run {
             if ( $ObjectAttribute->{Selected} ) {
                 $BlockData{Checked} = 'checked="checked"';
                 if ( !$ObjectAttribute->{Fixed} ) {
-                    $BlockData{Fixed} = "";
+                    $BlockData{Fixed} = '';
                 }
             }
 
@@ -1571,7 +1552,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'EditRestrictions' ) {
 
         # permission check
-        $Self->{AccessRw} || return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
+        return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' ) if !$Self->{AccessRw};
 
         # get params
         if ( !( $Param{StatID} = $Self->{ParamObject}->GetParam( Param => 'StatID' ) ) ) {
@@ -2313,7 +2294,7 @@ sub _Timeoutput {
     if ( $Param{OnlySelectedAttributes} ) {
         for ( keys %{$Data} ) {
             if ( !$Data->{$_}{Selected} ) {
-                delete( $Data->{$_} );
+                delete $Data->{$_};
             }
         }
         $Multiple = 0;
@@ -2409,22 +2390,22 @@ sub _ColumnAndRowTranslation {
 
             ELEMENT:
             for my $Element (@Array) {
-                if ( $Element->{SelectedValues} ) {
-                    if ( $Element->{LanguageTranslation} && $Element->{Block} eq 'Time' ) {
-                        $Translation{$Use} = 'Time';
-                    }
-                    elsif ( $Element->{LanguageTranslation} ) {
-                        $Translation{$Use} = 'Common';
-                    }
-                    else {
-                        $Translation{$Use} = '';
-                    }
+                next ELEMENT if !$Element->{SelectedValues};
 
-                    if ( $Element->{LanguageTranslation} && $Element->{Block} ne 'Time' ) {
-                        $Sort{$Use} = 1;
-                    }
-                    last ELEMENT;
+                if ( $Element->{LanguageTranslation} && $Element->{Block} eq 'Time' ) {
+                    $Translation{$Use} = 'Time';
                 }
+                elsif ( $Element->{LanguageTranslation} ) {
+                    $Translation{$Use} = 'Common';
+                }
+                else {
+                    $Translation{$Use} = '';
+                }
+
+                if ( $Element->{LanguageTranslation} && $Element->{Block} ne 'Time' ) {
+                    $Sort{$Use} = 1;
+                }
+                last ELEMENT;
             }
         }
     }
