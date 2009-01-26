@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.762.2.41 2009-01-23 12:01:15 tr Exp $
+# $Id: CHANGES,v 1.762.2.42 2009-01-26 07:26:48 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,11 +10,15 @@
 # --
 
 2.3.5 (2009/??/??)
- - (2009/01/23) Fixed bug# 3615 - Wrong link settings in
-    [ Customer Users <-> Groups ] frontend.
+ - (2009/01/23) Fixed bug# 3615 - The links to the related Customer User and
+    related Group in [ Customer Users <-> Groups ] frontend were broken.
  - (2009/01/23) Fixed bug# 3499 - Permission problems if you change the
-    configuration of the System::Permissions.
- - (2009/01/22) Fixed bug# 3596 - Renaming of the admin group.
+    configuration of the System::Permissions. Now it doesn't matter if you
+    active or deactive one of the additional permissions.
+ - (2009/01/22) Fixed bug# 3137 - Ticket search does not work with words like
+    "BPX" and "new".
+ - (2009/01/22) Fixed bug# 3596 - Show a warning, if some tries to renaming
+    the admin group in admin frontend.
 
 2.3.4 (2009/01/21)
  - (2009/01/20) Fixed bug# 3447 - CustomerUser-Renaming to existing UserLogin
