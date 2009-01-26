@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.823 2009-01-26 07:25:05 tr Exp $
+# $Id: CHANGES,v 1.824 2009-01-26 11:44:13 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -86,6 +86,8 @@
     auth support.
 
 2.3.5 (2009/??/??)
+ - (2009/01/26) Fixed bug# 3528 - Stats-cache-mechanism does not take unfixed
+    restrictions in consideration.
  - (2009/01/23) Fixed bug# 3615 - The links to the related Customer User and
     related Group in [ Customer Users <-> Groups ] frontend were broken.
  - (2009/01/23) Fixed bug# 3499 - Permission problems if you change the
