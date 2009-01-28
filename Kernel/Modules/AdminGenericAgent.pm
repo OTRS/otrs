@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.53.2.2 2008-10-28 19:07:05 tr Exp $
+# $Id: AdminGenericAgent.pm,v 1.53.2.3 2009-01-28 08:14:23 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53.2.2 $) [1];
+$VERSION = qw($Revision: 1.53.2.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1072,11 +1072,12 @@ sub Run {
                 # generate free text
                 my $NewTicketFreeText = '';
                 if ( !$Self->{ConfigObject}->Get( 'TicketFreeText' . $ID ) ) {
+                    my $Value = $Param{ 'NewTicketFreeText' . $ID } || '';
                     $NewTicketFreeText
                         = '<input type="text" name="NewTicketFreeText'
                         . $ID
                         . '" size="30" value="'
-                        . $Param{ 'NewTicketFreeText' . $ID } . '">';
+                        . $Value . '">';
                 }
                 else {
                     my %TicketFreeText = %{ $Self->{ConfigObject}->Get( 'TicketFreeText' . $ID ) };
