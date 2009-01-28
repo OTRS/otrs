@@ -2,7 +2,7 @@
 # Kernel/System/AutoResponse.pm - lib for auto responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AutoResponse.pm,v 1.24 2009-01-02 18:57:51 martin Exp $
+# $Id: AutoResponse.pm,v 1.25 2009-01-28 09:38:58 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 =head1 NAME
 
@@ -116,6 +116,9 @@ sub AutoResponseAdd {
             return;
         }
     }
+
+    # check if a autoresponse with this name already exits
+    return if !$Self->_NameExistsCheck(Name => $Param{Name});
 
     # insert into database
     return if !$Self->{DBObject}->Do(
@@ -219,6 +222,10 @@ sub AutoResponseUpdate {
         }
     }
 
+    # check if a autoresponse with this name already exits
+    return if !$Self->_NameExistsCheck(Name => $Param{Name});
+
+    # update the database
     return $Self->{DBObject}->Do(
         SQL => 'UPDATE auto_response SET '
             . 'name = ?, text0 = ?, comments = ?, text1 = ?, type_id = ?, '
@@ -328,6 +335,36 @@ sub AutoResponseQueue {
     return 1;
 }
 
+=item _NameExistsCheck()
+
+return falls if a autoresponse with this name already exits
+
+    $AutoResponseObject->_NameExistsCheck(
+        Name => 'Some::AutoResponse',
+    );
+
+=cut
+
+sub _NameExistsCheck {
+    my ($Self, %Param) = @_;
+
+    return if !$Self->{DBObject}->Prepare(
+        SQL => 'SELECT id FROM auto_response WHERE name = ?',
+        Bind => [ \$Param{Name} ],
+    );
+
+    my $Flag = 0;
+    while ( $Self->{DBObject}->FetchrowArray() ) {
+        $Flag = 1;
+    }
+
+    if ($Flag) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'This name already exists!' );
+        return;
+    }
+    return 1;
+}
+
 1;
 
 =back
@@ -344,6 +381,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2009-01-02 18:57:51 $
+$Revision: 1.25 $ $Date: 2009-01-28 09:38:58 $
 
 =cut
