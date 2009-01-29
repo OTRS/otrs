@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Web/UploadCache/FS.pm - a fs upload cache
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.12 2008-05-08 09:36:21 mh Exp $
+# $Id: FS.pm,v 1.13 2009-01-29 06:54:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -75,30 +75,20 @@ sub FormIDAddFile {
     }
 
     # files must readable for creater
-    if (
-        !$Self->{MainObject}->FileWrite(
-            Directory  => $Self->{TempDir},
-            Filename   => "$Param{FormID}.$Param{Filename}",
-            Content    => \$Param{Content},
-            Mode       => 'binmode',
-            Permission => '644',
-        )
-        )
-    {
-        return;
-    }
-    if (
-        !$Self->{MainObject}->FileWrite(
-            Directory  => $Self->{TempDir},
-            Filename   => "$Param{FormID}.$Param{Filename}.ContentType",
-            Content    => \$Param{ContentType},
-            Mode       => 'binmode',
-            Permission => '644',
-        )
-        )
-    {
-        return;
-    }
+    return if !$Self->{MainObject}->FileWrite(
+        Directory  => $Self->{TempDir},
+        Filename   => "$Param{FormID}.$Param{Filename}",
+        Content    => \$Param{Content},
+        Mode       => 'binmode',
+        Permission => '644',
+    );
+    return if !$Self->{MainObject}->FileWrite(
+        Directory  => $Self->{TempDir},
+        Filename   => "$Param{FormID}.$Param{Filename}.ContentType",
+        Content    => \$Param{ContentType},
+        Mode       => 'binmode',
+        Permission => '644',
+    );
     return 1;
 }
 
