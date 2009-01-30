@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.762.2.44 2009-01-28 08:14:23 tr Exp $
+# $Id: CHANGES,v 1.762.2.45 2009-01-30 05:51:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,9 @@
 # --
 
 2.3.5 (2009/??/??)
+ - (2009/01/30) Fixed bug# 3635 - Was not able to install .opm packages bigger
+    then 1MB (because of missing MySQL config) but OTRS error message was
+    miss leading.
  - (2009/01/28) Fixed bug# 3242 - AdminGenericAgent produces apache-error-log
     entry.
  - (2009/01/26) Fixed bug# 3528 - Stats-cache-mechanism does not take unfixed

@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.65.2.4 2008-12-04 13:38:10 mh Exp $
+# $Id: AdminPackageManager.pm,v 1.65.2.5 2009-01-30 05:51:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.65.2.4 $) [1];
+$VERSION = qw($Revision: 1.65.2.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1251,10 +1251,15 @@ sub Run {
 
         # save package in upload cache
         if (%UploadStuff) {
-            $Self->{UploadCachObject}->FormIDAddFile(
+            my $Added = $Self->{UploadCachObject}->FormIDAddFile(
                 FormID => $FormID,
                 %UploadStuff,
             );
+
+            # if file got not added to storage (e. g. because of 1 MB max_allowed_packet MySQL problem)
+            if ( !$Added ) {
+                $Self->{LayoutObject}->FatalError();
+            }
         }
 
         # get package from upload cache
