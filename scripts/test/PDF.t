@@ -1,8 +1,8 @@
 # --
 # PDF.t - PDF tests
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PDF.t,v 1.13 2008-05-08 09:35:57 mh Exp $
+# $Id: PDF.t,v 1.14 2009-01-30 16:10:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -12,9 +12,7 @@
 use Kernel::System::PDF;
 
 $Self->{PDFObject} = Kernel::System::PDF->new( %{$Self} );
-if ( !$Self->{PDFObject} ) {
-    return;
-}
+die "PDF output inPDF support is disabled in sysconfig or CPAN module PDF::API2 is missing!" if !$Self->{PDFObject};
 
 # create a pdf document
 my $DocumentNew1 = $Self->{PDFObject}->DocumentNew(
@@ -2689,9 +2687,6 @@ for ( sort keys %TableCellOnCount ) {
 
 # Charset font test 1 (iso-8859-1)
 $Self->{PDFObject2} = Kernel::System::PDF->new( %{$Self} );
-if ( !$Self->{PDFObject2} ) {
-    return;
-}
 
 # create a pdf document
 my $DocumentNew2 = $Self->{PDFObject2}->DocumentNew(
@@ -2777,9 +2772,6 @@ $Self->True(
 
 # Charset font test 2 (utf-8)
 $Self->{PDFObject3} = Kernel::System::PDF->new( %{$Self} );
-if ( !$Self->{PDFObject3} ) {
-    return;
-}
 
 # create a pdf document
 my $DocumentNew3 = $Self->{PDFObject3}->DocumentNew(
@@ -2863,9 +2855,6 @@ $Self->True(
 
 # Charset font test 3 (utf-8)
 $Self->{PDFObject4} = Kernel::System::PDF->new( %{$Self} );
-if ( !$Self->{PDFObject4} ) {
-    return;
-}
 
 # create a pdf document
 my $DocumentNew4 = $Self->{PDFObject4}->DocumentNew(
