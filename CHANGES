@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.826 2009-01-28 09:38:58 tr Exp $
+# $Id: CHANGES,v 1.827 2009-01-30 05:50:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -47,10 +47,8 @@
  - (2008/12/19) Added out of office feature for agent users.
  - (2008/12/15) Added new ticket attributes to CSV export of ticket in ticket
     search. New attributes are 'Closed', 'FirstLock' and 'FirstResponse'.
- - (2008/12/10) Added the text auto link feature ot add http links for text body
+ - (2008/12/10) Added the text auto link feature to add http links for text body
     to add icons after conigured expressions the standard.
- - (2008/12/08) Added feature to install included packages located under
-    var/packages/*.opm on first/initial setup.
  - (2008/12/08) Added new postmaster filter to check if new arrived email is
     based on follow up of forwarded email. Then Followup should not be shown
     as "email-external", it should be shown as "email-internal".
@@ -88,6 +86,9 @@
     auth support.
 
 2.3.5 (2009/??/??)
+ - (2009/01/30) Fixed bug# 3635 - Was not able to install .opm packages bigger
+    then 1MB (because of missing MySQL config) but OTRS error message was
+    miss leading.
  - (2009/01/28) Fixed bug# 3242 - AdminGenericAgent produces apache-error-log
     entry.
  - (2009/01/26) Fixed bug# 3528 - Stats-cache-mechanism does not take unfixed
@@ -115,6 +116,8 @@
     editing.
  - (2009/01/10) Fixed bug# 3575 - Framework file get lost after upgrading OTRS
     and reinstalling or uninstalling e. g. ITSM pakages then.
+ - (2008/12/08) Added feature to install included packages located under
+    var/packages/*.opm on first/initial setup.
  - (2008/12/08) Fixed bug# 3462 - SMIME crypt and sign functions bail out -
      unable to save random state.
  - (2008/12/04) Fixed bug# 3360 - Service list formating broken after AJAX reload.
