@@ -2,9 +2,9 @@
 # --
 # webform.pl - a simple web form script to generate email with
 # X-OTRS-Queue header for an OTRS system (x-headers for dispatching!).
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: webform.pl,v 1.11 2008-04-24 17:32:15 tr Exp $
+# $Id: webform.pl,v 1.12 2009-01-31 17:53:56 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use CGI::Carp qw(fatalsToBrowser);
 # Simple Common Gateway Interface Class
 use CGI;
 
-my $VERSION = qw($Revision: 1.11 $) [1];
+my $VERSION = qw($Revision: 1.12 $) [1];
 
 # --------------------------
 # web form options
@@ -38,7 +38,7 @@ my $VERSION = qw($Revision: 1.11 $) [1];
 my $Ident = 'ahfiw2Fw32r230dddl2foeo3r';
 
 # sendmail location and options
-my $Sendmail = '/usr/sbin/sendmail -t -i -f ';
+my $Sendmail = '/usr/sbin/sendmail -t -i -f';
 
 # email where the emails of the form will send to
 my $OTRSEmail = 'otrs-system@example.com';
@@ -62,16 +62,21 @@ my %Topics = (
 sub Header {
     my (%Param) = @_;
 
+    # html quote
+    for my $Value ( qw(Title) ) {
+        $Param{$Value} = _Ascii2Html( $Param{$Value} );
+    }
+
     ( my $Output = <<EOF);
 Content-Type: text/html
 
 <html>
 <head>
-    <title>$Param{"Title"}</title>
+    <title>$Param{Title}</title>
 </head>
 <body>
 
-<h1>$Param{"Title"}</h1>
+<h1>$Param{Title}</h1>
 <hr>
 EOF
     return $Output;
@@ -98,6 +103,11 @@ EOF
 sub Thanks {
     my (%Param) = @_;
 
+    # html quote
+    for my $Value ( qw(From) ) {
+        $Param{$Value} = _Ascii2Html( $Param{$Value} );
+    }
+
     ( my $Output = <<EOF);
 Thanks <b>$Param{From}</b>! Your request is forwarded to us. <br>
 We will answer ASAP.<br>
@@ -111,6 +121,11 @@ EOF
 
 sub Error {
     my (%Param) = @_;
+
+    # html quote
+    for my $Value ( qw(Message) ) {
+        $Param{$Value} = _Ascii2Html( $Param{$Value} );
+    }
 
     ( my $Output = <<EOF);
 <font color="red">$Param{Message}</font><br>
@@ -148,8 +163,10 @@ sub WebForm {
                 <td>Topic:</td>
                 <td>
 ';
-    for ( sort keys %Topics ) {
-        print $_. '<input type="radio" name="Topic" value="' . $Topics{$_} . '">';
+    for my $Key ( sort keys %Topics ) {
+        my $HTMLKey   = _Ascii2Html( $Key );
+        my $HTMLValue = _Ascii2Html( $Topics{$Key} );
+        print $HTMLKey . '<input type="radio" name="Topic" value="' . $HTMLValue . '">';
     }
     print '
                 </td>
@@ -187,18 +204,15 @@ sub WebForm {
 sub SendMail {
     my (%Param) = @_;
 
-    my $Output = '';
-
     # check needed params
+    my $Output = '';
     for (qw(From FromEmail Subject Topic Body)) {
         if ( !$Param{$_} ) {
             $Output .= Error( Message => "Param $_ is needed!" );
         }
     }
     if ($Output) {
-        $Output = Header( Title => 'Error!' ) . $Output;
-        $Output .= Footer();
-        print $Output;
+        print Header( Title => 'Error!' ) . $Output . Footer();
         return;
     }
 
@@ -217,11 +231,16 @@ sub SendMail {
     my $Regex        = "$Protocol?$UserPart\@$DomainPart";
 
     if ( $Param{FromEmail} !~ /^$Regex$/ ) {
-        $Output = Header( Title => 'Error!' );
+        my $Output = Header( Title => 'Error!' );
         $Output .= Error( Message => "Your email '$Param{FromEmail}' is invalid!" );
         $Output .= Footer();
         print $Output;
         return;
+    }
+
+    # quoting (take care to not injection any other header)
+    for my $Key (qw(From FromEmail Topic Subject Topic)) {
+        $Param{$Key} =~ s/(\n|\r)//g;
     }
 
     # build email
@@ -241,13 +260,15 @@ sub SendMail {
     push @Mail, "\n";
 
     # send mail
-    $Param{From} =~ s/"|;|'|<|>|\|| //ig;
-    if ( open( MAIL, "|$Sendmail $Param{From} " ) ) {
-        print MAIL @Mail;
-        close(MAIL);
+    my $FromEmail = $Param{FromEmail};
+    $FromEmail =~ s/"|;|'|<|>|\||\s|\r|\n|\t|`//ig;
+    $FromEmail = quotemeta $FromEmail;
+    if ( open( my $Mail, '|-', "$Sendmail $FromEmail" ) ) {
+        print $Mail @Mail;
+        close $Mail;
 
         # thanks!
-        $Output = Header( Title => 'Thanks!' );
+        my $Output = Header( Title => 'Thanks!' );
         $Output .= Thanks(%Param);
         $Output .= Footer();
         print $Output;
@@ -255,9 +276,20 @@ sub SendMail {
     else {
 
         # error
-        $Output = Header( Title => 'Error!' );
+        my $Output = Header( Title => 'Error!' );
         $Output .= Error( Message => "Can't send email: $!" );
         $Output .= Footer();
         print $Output;
     }
+}
+
+sub _Ascii2Html {
+    my $Text = shift;
+
+    $Text =~ s/&/&amp;/g;
+    $Text =~ s/</&lt;/g;
+    $Text =~ s/>/&gt;/g;
+    $Text =~ s/"/&quot;/g;
+
+    return $Text;
 }
