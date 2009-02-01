@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AgentPreferences.pm - provides agent preferences
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentPreferences.pm,v 1.36 2008-05-08 09:36:36 mh Exp $
+# $Id: AgentPreferences.pm,v 1.37 2009-02-01 23:47:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -58,36 +58,35 @@ sub Run {
         # get user data
         my %UserData = $Self->{UserObject}->GetUserData( UserID => $Self->{UserID} );
         my $Module = $Preferences{$Group}->{Module};
-        if ( $Self->{MainObject}->Require($Module) ) {
-            my $Object = $Module->new(
-                %{$Self},
-                ConfigItem => $Preferences{$Group},
-                Debug      => $Self->{Debug},
-            );
-            my @Params = $Object->Param( UserData => \%UserData );
-            my %GetParam = ();
-            for my $ParamItem (@Params) {
-                my @Array = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
-                $GetParam{ $ParamItem->{Name} } = \@Array;
-            }
-            my $Message  = '';
-            my $Priority = '';
-            if ( $Object->Run( GetParam => \%GetParam, UserData => \%UserData ) ) {
-                $Message = $Object->Message();
-            }
-            else {
-                $Priority = 'Error';
-                $Message  = $Object->Error();
-            }
-
-            # mk rediect
-            return $Self->{LayoutObject}->Redirect(
-                OP => "Action=AgentPreferences&Priority=$Priority&Message=$Message",
-            );
-        }
-        else {
+        if ( !$Self->{MainObject}->Require($Module) ) {
             return $Self->{LayoutObject}->FatalError();
         }
+
+        my $Object = $Module->new(
+            %{$Self},
+            ConfigItem => $Preferences{$Group},
+            Debug      => $Self->{Debug},
+        );
+        my @Params = $Object->Param( UserData => \%UserData );
+        my %GetParam = ();
+        for my $ParamItem (@Params) {
+            my @Array = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
+            $GetParam{ $ParamItem->{Name} } = \@Array;
+        }
+        my $Message  = '';
+        my $Priority = '';
+        if ( $Object->Run( GetParam => \%GetParam, UserData => \%UserData ) ) {
+            $Message = $Object->Message();
+        }
+        else {
+            $Priority = 'Error';
+            $Message  = $Object->Error();
+        }
+
+        # mk rediect
+        return $Self->{LayoutObject}->Redirect(
+            OP => "Action=AgentPreferences&Priority=$Priority&Message=$Message",
+        );
     }
     else {
 
@@ -165,60 +164,55 @@ sub AgentPreferencesForm {
         # show each preferences setting
         for my $Prio ( sort keys %Data ) {
             my $Group = $Data{$Prio};
-            if ( !$Self->{ConfigObject}->{PreferencesGroups}->{$Group} ) {
-                next;
-            }
+            next if !$Self->{ConfigObject}->{PreferencesGroups}->{$Group};
+
             my %Preference = %{ $Self->{ConfigObject}->{PreferencesGroups}->{$Group} };
-            if ( !$Preference{Activ} ) {
-                next;
-            }
-            my $Module = $Preference{Module} || 'Kernel::Output::HTML::PreferencesGeneric';
+            next if !$Preference{Activ};
 
             # load module
-            if ( $Self->{MainObject}->Require($Module) ) {
-                my $Object = $Module->new(
-                    %{$Self},
-                    ConfigItem => \%Preference,
-                    Debug      => $Self->{Debug},
-                );
-                my @Params = $Object->Param( UserData => $Param{UserData} );
-                if (@Params) {
-                    $Self->{LayoutObject}->Block(
-                        Name => 'Item',
-                        Data => {
-                            Group => $Group,
-                            %Preference,
-                        },
-                    );
-                    for my $ParamItem (@Params) {
-                        if (
-                            ref( $ParamItem->{Data} )   eq 'HASH'
-                            || ref( $Preference{Data} ) eq 'HASH'
-                            )
-                        {
-                            $ParamItem->{'Option'} = $Self->{LayoutObject}->OptionStrgHashRef(
-                                %Preference, %{$ParamItem},
-                            );
-                        }
-                        $Self->{LayoutObject}->Block(
-                            Name => 'Block',
-                            Data => { %Preference, %{$ParamItem}, },
-                        );
-                        $Self->{LayoutObject}->Block(
-                            Name => $ParamItem->{Block} || $Preference{Block} || 'Option',
-                            Data => { %Preference, %{$ParamItem}, },
-                        );
-                    }
-                }
-            }
-            else {
+            my $Module = $Preference{Module} || 'Kernel::Output::HTML::PreferencesGeneric';
+            if ( !$Self->{MainObject}->Require($Module) ) {
                 return $Self->{LayoutObject}->FatalError();
+            }
+            my $Object = $Module->new(
+                %{$Self},
+                ConfigItem => \%Preference,
+                Debug      => $Self->{Debug},
+            );
+            my @Params = $Object->Param( UserData => $Param{UserData} );
+            next if !@Params;
+
+            # show item
+            $Self->{LayoutObject}->Block(
+                Name => 'Item',
+                Data => {
+                    Group => $Group,
+                    %Preference,
+                },
+            );
+            for my $ParamItem (@Params) {
+                if ( ref $ParamItem->{Data} eq 'HASH' || ref $Preference{Data} eq 'HASH' ) {
+                    $ParamItem->{Option} = $Self->{LayoutObject}->OptionStrgHashRef(
+                        %Preference, %{$ParamItem},
+                    );
+                }
+                $Self->{LayoutObject}->Block(
+                    Name => 'Block',
+                    Data => { %Preference, %{$ParamItem}, },
+                );
+                $Self->{LayoutObject}->Block(
+                    Name => $ParamItem->{Block} || $Preference{Block} || 'Option',
+                    Data => { %Preference, %{$ParamItem}, },
+                );
             }
         }
     }
 
     # create & return output
-    return $Self->{LayoutObject}->Output( TemplateFile => 'AgentPreferencesForm', Data => \%Param );
+    return $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentPreferencesForm',
+        Data         => \%Param,
+    );
 }
 
 1;
