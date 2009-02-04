@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.827 2009-01-30 05:50:03 martin Exp $
+# $Id: CHANGES,v 1.828 2009-02-04 07:44:16 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.4.0 beta1 (2009/??/??)
+ - (2009/02/04) Removed a useless slogan from the HTML-Headers.
  - (2009/01/28) Fixed bug# 3233 - Better error message when adding auto
     responses with same name.
  - (2009/01/26) Removed the outdated function FetchrowHashref from DB.pm.
