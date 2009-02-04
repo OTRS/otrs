@@ -2,7 +2,7 @@
 # HeaderSmall.dtl - provides global HTML header
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: HeaderSmall.dtl,v 1.11 2009-02-04 07:44:16 tr Exp $
+# $Id: HeaderSmall.dtl,v 1.12 2009-02-04 13:34:44 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,15 +18,6 @@ Pragma: no-cache
 
 # include Copyright.dtl
 $Include{"Copyright"}
-# --
-# set some html variables
-# --
-<dtl set $Env{"Box0"} = "[ ">
-<dtl set $Env{"Box1"} = " ]">
-# --
-# create $Data{"UserLoginTop"} if user is loged in
-# --
-<dtl if ($Env{"UserLogin"} ne "") { $Data{"UserLoginTop"} = "($Env{"UserEmail"})"; }>
 # --
 <html>
 <head>
