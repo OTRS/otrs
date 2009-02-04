@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.118 2009-01-20 13:28:28 tr Exp $
+# $Id: Layout.pm,v 1.119 2009-02-04 13:28:53 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.118 $) [1];
+$VERSION = qw($Revision: 1.119 $) [1];
 
 =head1 NAME
 
@@ -1244,6 +1244,10 @@ sub Login {
 
     # create & return output
     $Output .= $Self->Output( TemplateFile => 'Login', Data => \%Param );
+
+    # remove the version tag from the header if configured
+    $Self->_DisableBannerCheck(OutputRef => \$Output);
+
     return $Output;
 }
 
@@ -1517,6 +1521,10 @@ sub Header {
 
     # create & return output
     $Output .= $Self->Output( TemplateFile => "Header$Type", Data => \%Param );
+
+    # remove the version tag from the header if configured
+    $Self->_DisableBannerCheck(OutputRef => \$Output);
+
     return $Output;
 }
 
@@ -1526,9 +1534,7 @@ sub Footer {
     my $Type = $Param{Type} || '';
 
     # unless explicitly specified, we set the footer width to use the whole space
-    if ( !$Param{Width} ) {
-        $Param{Width} = '100%';
-    }
+    $Param{Width} ||= '100%';
 
     # create & return output
     return $Self->Output( TemplateFile => "Footer$Type", Data => \%Param );
@@ -1570,9 +1576,7 @@ sub PrintHeader {
     my ( $Self, %Param ) = @_;
 
     # unless explicitly specified, we set the header width
-    if ( !$Param{Width} ) {
-        $Param{Width} = 640;
-    }
+    $Param{Width} ||= 640;
 
     # fix IE bug if in filename is the word attachment
     my $File = $Param{Filename} || $Self->{Action} || 'unknown';
@@ -1599,8 +1603,13 @@ sub PrintHeader {
         }
     }
 
+    my $Output = $Self->Output( TemplateFile => 'PrintHeader', Data => \%Param );
+
+    # remove the version tag from the header if configured
+    $Self->_DisableBannerCheck(OutputRef => \$Output);
+
     # create & return output
-    return $Self->Output( TemplateFile => 'PrintHeader', Data => \%Param );
+    return $Output;
 }
 
 sub PrintFooter {
@@ -3735,6 +3744,10 @@ sub CustomerLogin {
 
     # create & return output
     $Output .= $Self->Output( TemplateFile => 'CustomerLogin', Data => \%Param );
+
+    # remove the version tag from the header if configured
+    $Self->_DisableBannerCheck(OutputRef => \$Output);
+
     return $Output;
 }
 
@@ -3808,6 +3821,10 @@ sub CustomerHeader {
 
     # create & return output
     $Output .= $Self->Output( TemplateFile => "CustomerHeader$Type", Data => \%Param );
+
+    # remove the version tag from the header if configured
+    $Self->_DisableBannerCheck(OutputRef => \$Output);
+
     return $Output;
 }
 
@@ -3948,7 +3965,7 @@ sub CustomerError {
             HTMLResultMode => 1,
         );
     }
-    if ( !$Param{'BackendMessage'} && !$Param{'BackendTraceback'} ) {
+    if ( !$Param{BackendMessage} && !$Param{BackendTraceback} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message => $Param{Message} || '?',
@@ -4014,6 +4031,19 @@ sub CustomerNoPermission {
     return $Output;
 }
 
+sub _DisableBannerCheck {
+    my ( $Self, %Param ) = @_;
+
+    return 1 if !$Self->{ConfigObject}->Get('Secure::DisableBanner');
+    return if !$Param{OutputRef};
+
+    # remove the version tag from the header
+    ${$Param{OutputRef}} =~ s{
+                ^ X-Powered-By: .+? Open \s Ticket \s Request \s System \s \(http .+? \)$ \n
+            }{}smx;
+
+    return 1
+}
 1;
 
 =back
@@ -4030,6 +4060,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.118 $ $Date: 2009-01-20 13:28:28 $
+$Revision: 1.119 $ $Date: 2009-02-04 13:28:53 $
 
 =cut
