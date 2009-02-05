@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.73 2009-01-30 05:50:03 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.74 2009-02-05 14:19:55 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.73 $) [1];
+$VERSION = qw($Revision: 1.74 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -86,7 +86,6 @@ sub Run {
         my $Name    = $Self->{ParamObject}->GetParam( Param => 'Name' )    || '';
         my $Version = $Self->{ParamObject}->GetParam( Param => 'Version' ) || '';
         my $Location = $Self->{ParamObject}->GetParam( Param => 'Location' );
-        my %Frontend = ();
 
         # get package
         my $Package = $Self->{PackageObject}->RepositoryGet(
@@ -155,7 +154,6 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminPackageManager',
-            Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -403,7 +401,6 @@ sub Run {
         }
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminPackageManager',
-            Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -549,7 +546,7 @@ sub Run {
                             }
                         }
                         $Self->{LayoutObject}->Block(
-                            Name => "PackageItemFilelistFile",
+                            Name => 'PackageItemFilelistFile',
                             Data => {
                                 Name    => $Structure{Name}->{Content},
                                 Version => $Structure{Version}->{Content},
@@ -560,7 +557,7 @@ sub Run {
                     }
                     else {
                         $Self->{LayoutObject}->Block(
-                            Name => "PackageItemGeneric",
+                            Name => 'PackageItemGeneric',
                             Data => { %{$Hash}, Tag => $Key, },
                         );
                     }
@@ -571,7 +568,6 @@ sub Run {
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminPackageManager',
-            Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -583,7 +579,6 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Download' ) {
         my $Name    = $Self->{ParamObject}->GetParam( Param => 'Name' )    || '';
         my $Version = $Self->{ParamObject}->GetParam( Param => 'Version' ) || '';
-        my %Frontend = ();
 
         # get package
         my $Package = $Self->{PackageObject}->RepositoryGet(
@@ -606,7 +601,6 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'DownloadRemote' ) {
         my $File = $Self->{ParamObject}->GetParam( Param => 'File' ) || '';
-        my %Frontend = ();
 
         # download package
         my $Package = $Self->{PackageObject}->PackageOnlineGet(
@@ -645,11 +639,6 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Install' ) {
         my $Name             = $Self->{ParamObject}->GetParam( Param => 'Name' )             || '';
         my $Version          = $Self->{ParamObject}->GetParam( Param => 'Version' )          || '';
-        my $IntroInstallPre  = $Self->{ParamObject}->GetParam( Param => 'IntroInstallPre' )  || '';
-        my $IntroInstallPost = $Self->{ParamObject}->GetParam( Param => 'IntroInstallPost' ) || '';
-        my $IntroInstallVendor = $Self->{ParamObject}->GetParam( Param => 'IntroInstallVendor' )
-            || '';
-        my %Frontend = ();
 
         # get package
         my $Package = $Self->{PackageObject}->RepositoryGet(
@@ -657,250 +646,34 @@ sub Run {
             Version => $Version,
             Result  => 'SCALAR',
         );
-        if ( !$Package ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => 'No such package!' );
-        }
 
-        # parse package
-        my %Structure = $Self->{PackageObject}->PackageParse( String => $Package, );
-
-        # online verification
-        my $Verified = $Self->{PackageObject}->PackageVerify(
-            Package   => $Package,
-            Structure => \%Structure,
-        );
-        my %VerifyInfo = $Self->{PackageObject}->PackageVerifyInfo();
-
-        # vendor screen
-        if ( !$IntroInstallVendor && !$IntroInstallPre && !$IntroInstallPost && !$Verified ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'Intro',
-                Data => {
-                    %Param,
-                    %VerifyInfo,
-                    Subaction => $Self->{Subaction},
-                    Type      => 'IntroInstallVendor',
-                    Name      => $Structure{Name}->{Content},
-                    Version   => $Structure{Version}->{Content},
-                },
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'IntroCancel',
-                Data => {},
-            );
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminPackageManager',
-                Data         => \%Param,
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
-        }
-
-        # intro screen
-        my %Data;
-        if ( $Structure{IntroInstall} ) {
-            %Data = $Self->_MessageGet( Info => $Structure{IntroInstall}, Type => 'pre' );
-        }
-        if ( %Data && !$IntroInstallPre ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'Intro',
-                Data => {
-                    %Param,
-                    %Data,
-                    Subaction => $Self->{Subaction},
-                    Type      => 'IntroInstallPre',
-                    Name      => $Structure{Name}->{Content},
-                    Version   => $Structure{Version}->{Content},
-                },
-            );
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminPackageManager',
-                Data         => \%Param,
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
-        }
-
-        # install package
-        elsif ( $Self->{PackageObject}->PackageInstall( String => $Package ) ) {
-
-            # intro screen
-            my %Data;
-            if ( $Structure{IntroInstall} ) {
-                %Data = $Self->_MessageGet( Info => $Structure{IntroInstall}, Type => 'post' );
-            }
-            if ( %Data && !$IntroInstallPost ) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'Intro',
-                    Data => {
-                        %Param,
-                        %Data,
-                        Subaction => 'Install',
-                        Type      => 'IntroInstallPost',
-                        Name      => $Structure{Name}->{Content},
-                        Version   => $Structure{Version}->{Content},
-                    },
-                );
-                my $Output = $Self->{LayoutObject}->Header();
-                $Output .= $Self->{LayoutObject}->NavigationBar();
-                $Output .= $Self->{LayoutObject}->Output(
-                    TemplateFile => 'AdminPackageManager',
-                    Data         => \%Param,
-                );
-                $Output .= $Self->{LayoutObject}->Footer();
-                return $Output;
-            }
-
-            # redirect
-            return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
-        }
-        else {
-            return $Self->{LayoutObject}->ErrorScreen();
-        }
+        return $Self->_InstallHandling(Package => $Package);
     }
 
     # ------------------------------------------------------------ #
     # install remote package
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'InstallRemote' ) {
-        my $File             = $Self->{ParamObject}->GetParam( Param => 'File' )             || '';
-        my $IntroInstallPre  = $Self->{ParamObject}->GetParam( Param => 'IntroInstallPre' )  || '';
-        my $IntroInstallPost = $Self->{ParamObject}->GetParam( Param => 'IntroInstallPost' ) || '';
-        my $IntroInstallVendor = $Self->{ParamObject}->GetParam( Param => 'IntroInstallVendor' )
-            || '';
-        my %Frontend = ();
+        my $File = $Self->{ParamObject}->GetParam( Param => 'File' ) || '';
 
         # download package
         my $Package = $Self->{PackageObject}->PackageOnlineGet(
             Source => $Source,
             File   => $File,
         );
-        if ( !$Package ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => 'No such package!' );
-        }
 
-        # parse package
-        my %Structure = $Self->{PackageObject}->PackageParse( String => $Package, );
-
-        # online verification
-        my $Verified = $Self->{PackageObject}->PackageVerify(
-            Package   => $Package,
-            Structure => \%Structure,
+        return $Self->_InstallHandling(
+            Package => $Package,
+            Source  => $Source,
+            File    => $File,
         );
-        my %VerifyInfo = $Self->{PackageObject}->PackageVerifyInfo();
-
-        # vendor screen
-        if ( !$IntroInstallVendor && !$IntroInstallPre && !$IntroInstallPost && !$Verified ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'Intro',
-                Data => {
-                    %Param,
-                    %VerifyInfo,
-                    Source    => $Source,
-                    File      => $File,
-                    Subaction => $Self->{Subaction},
-                    Type      => 'IntroInstallVendor',
-                    Name      => $Structure{Name}->{Content},
-                    Version   => $Structure{Version}->{Content},
-                },
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'IntroCancel',
-                Data => {},
-            );
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminPackageManager',
-                Data         => \%Param,
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
-        }
-
-        # intro screen
-        my %Data;
-        if ( $Structure{IntroInstall} ) {
-            %Data = $Self->_MessageGet( Info => $Structure{IntroInstall}, Type => 'pre' );
-        }
-        if ( %Data && !$IntroInstallPre ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'Intro',
-                Data => {
-                    %Param,
-                    %Data,
-                    Source    => $Source,
-                    File      => $File,
-                    Subaction => $Self->{Subaction},
-                    Type      => 'IntroInstallPre',
-                    Name      => $Structure{Name}->{Content},
-                    Version   => $Structure{Version}->{Content},
-                },
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'IntroCancel',
-                Data => {},
-            );
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminPackageManager',
-                Data         => \%Param,
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
-        }
-
-        # install
-        elsif ( $Self->{PackageObject}->PackageInstall( String => $Package ) ) {
-
-            # intro screen
-            my %Data;
-            if ( $Structure{IntroInstall} ) {
-                %Data = $Self->_MessageGet( Info => $Structure{IntroInstall}, Type => 'post' );
-            }
-            if ( %Data && !$IntroInstallPost ) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'Intro',
-                    Data => {
-                        %Param,
-                        %Data,
-                        Subaction => '',
-                        Type      => 'IntroInstallPost',
-                        Name      => $Structure{Name}->{Content},
-                        Version   => $Structure{Version}->{Content},
-                    },
-                );
-                my $Output = $Self->{LayoutObject}->Header();
-                $Output .= $Self->{LayoutObject}->NavigationBar();
-                $Output .= $Self->{LayoutObject}->Output(
-                    TemplateFile => 'AdminPackageManager',
-                    Data         => \%Param,
-                );
-                $Output .= $Self->{LayoutObject}->Footer();
-                return $Output;
-            }
-
-            # redirect
-            return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
-        }
-        else {
-            return $Self->{LayoutObject}->ErrorScreen();
-        }
     }
 
     # ------------------------------------------------------------ #
     # upgrade remote package
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'UpgradeRemote' ) {
-        my $File             = $Self->{ParamObject}->GetParam( Param => 'File' )             || '';
-        my $IntroUpgradePre  = $Self->{ParamObject}->GetParam( Param => 'IntroUpgradePre' )  || '';
-        my $IntroUpgradePost = $Self->{ParamObject}->GetParam( Param => 'IntroUpgradePost' ) || '';
-        my %Frontend         = ();
+        my $File = $Self->{ParamObject}->GetParam( Param => 'File' )             || '';
 
         # download package
         my $Package = $Self->{PackageObject}->PackageOnlineGet(
@@ -908,83 +681,11 @@ sub Run {
             Source => $Source,
         );
 
-        # check
-        if ( !$Package ) {
-            return $Self->{LayoutObject}->ErrorScreen( Message => 'No such package!' );
-        }
-
-        # check if we have to show uninstall intro pre
-        my %Structure = $Self->{PackageObject}->PackageParse( String => $Package, );
-
-        # intro screen
-        my %Data;
-        if ( $Structure{IntroUpgrade} ) {
-            %Data = $Self->_MessageGet( Info => $Structure{IntroUpgrade}, Type => 'pre' );
-        }
-        if ( %Data && !$IntroUpgradePre ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'Intro',
-                Data => {
-                    %Param,
-                    %Data,
-                    Source    => $Source,
-                    File      => $File,
-                    Subaction => $Self->{Subaction},
-                    Type      => 'IntroUpgradePre',
-                    Name      => $Structure{Name}->{Content},
-                    Version   => $Structure{Version}->{Content},
-                },
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'IntroCancel',
-                Data => {},
-            );
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminPackageManager',
-                Data         => \%Param,
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
-        }
-
-        # upgrade
-        elsif ( $Self->{PackageObject}->PackageUpgrade( String => $Package ) ) {
-
-            # intro screen
-            my %Data;
-            if ( $Structure{IntroUpgrade} ) {
-                %Data = $Self->_MessageGet( Info => $Structure{IntroUpgrade}, Type => 'post' );
-            }
-            if ( %Data && !$IntroUpgradePost ) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'Intro',
-                    Data => {
-                        %Param,
-                        %Data,
-                        Subaction => '',
-                        Type      => 'IntroUpgradePost',
-                        Name      => $Structure{Name}->{Content},
-                        Version   => $Structure{Version}->{Content},
-                    },
-                );
-                my $Output = $Self->{LayoutObject}->Header();
-                $Output .= $Self->{LayoutObject}->NavigationBar();
-                $Output .= $Self->{LayoutObject}->Output(
-                    TemplateFile => 'AdminPackageManager',
-                    Data         => \%Param,
-                );
-                $Output .= $Self->{LayoutObject}->Footer();
-                return $Output;
-            }
-
-            # redirect
-            return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
-        }
-        else {
-            return $Self->{LayoutObject}->ErrorScreen();
-        }
+        return $Self->_UpgradeHandling(
+            Package => $Package,
+            File    => $File,
+            Source  => $Source,
+        );
     }
 
     # ------------------------------------------------------------ #
@@ -995,7 +696,6 @@ sub Run {
         my $Version = $Self->{ParamObject}->GetParam( Param => 'Version' ) || '';
         my $IntroReinstallPre = $Self->{ParamObject}->GetParam( Param => 'IntroReinstallPre' )
             || '';
-        my %Frontend = ();
 
         # get package
         my $Package = $Self->{PackageObject}->RepositoryGet(
@@ -1055,7 +755,6 @@ sub Run {
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminPackageManager',
-                Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
@@ -1070,7 +769,6 @@ sub Run {
         my $Version = $Self->{ParamObject}->GetParam( Param => 'Version' ) || '';
         my $IntroReinstallPost = $Self->{ParamObject}->GetParam( Param => 'IntroReinstallPost' )
             || '';
-        my %Frontend = ();
 
         # get package
         my $Package = $Self->{PackageObject}->RepositoryGet(
@@ -1108,7 +806,6 @@ sub Run {
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminPackageManager',
-                Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
@@ -1126,7 +823,6 @@ sub Run {
         my $Version = $Self->{ParamObject}->GetParam( Param => 'Version' ) || '';
         my $IntroUninstallPre = $Self->{ParamObject}->GetParam( Param => 'IntroUninstallPre' )
             || '';
-        my %Frontend = ();
 
         # get package
         my $Package = $Self->{PackageObject}->RepositoryGet(
@@ -1166,7 +862,6 @@ sub Run {
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminPackageManager',
-                Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
@@ -1186,7 +881,6 @@ sub Run {
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminPackageManager',
-                Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
@@ -1199,7 +893,6 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'UninstallAction' ) {
         my $Name    = $Self->{ParamObject}->GetParam( Param => 'Name' )    || '';
         my $Version = $Self->{ParamObject}->GetParam( Param => 'Version' ) || '';
-        my %Frontend = ();
         my $IntroUninstallPost = $Self->{ParamObject}->GetParam( Param => 'IntroUninstallPost' )
             || '';
 
@@ -1242,7 +935,6 @@ sub Run {
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Output(
                 TemplateFile => 'AdminPackageManager',
-                Data         => \%Param,
             );
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
@@ -1256,10 +948,6 @@ sub Run {
     # install package
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'InstallUpload' ) {
-        my $IntroInstallPre  = $Self->{ParamObject}->GetParam( Param => 'IntroInstallPre' )  || '';
-        my $IntroInstallPost = $Self->{ParamObject}->GetParam( Param => 'IntroInstallPost' ) || '';
-        my $IntroInstallVendor = $Self->{ParamObject}->GetParam( Param => 'IntroInstallVendor' )
-            || '';
         my $FormID = $Self->{ParamObject}->GetParam( Param => 'FormID' ) || '';
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
             Param  => 'file_upload',
@@ -1292,113 +980,10 @@ sub Run {
             }
         }
 
-        # parse package
-        my %Structure = $Self->{PackageObject}->PackageParse( String => $UploadStuff{Content}, );
-
-        # online verification
-        my $Verified = $Self->{PackageObject}->PackageVerify(
-            Package   => $UploadStuff{Content},
-            Structure => \%Structure,
+        return $Self->_InstallHandling(
+            Package => $UploadStuff{Content},
+            FormID  => $FormID,
         );
-        my %VerifyInfo = $Self->{PackageObject}->PackageVerifyInfo();
-
-        # vendor screen
-        if ( !$IntroInstallVendor && !$IntroInstallPre && !$IntroInstallPost && !$Verified ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'Intro',
-                Data => {
-                    %Param,
-                    %VerifyInfo,
-                    FormID    => $FormID,
-                    Subaction => $Self->{Subaction},
-                    Type      => 'IntroInstallVendor',
-                    Name      => $Structure{Name}->{Content},
-                    Version   => $Structure{Version}->{Content},
-                },
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'IntroCancel',
-                Data => {},
-            );
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminPackageManager',
-                Data         => \%Param,
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
-        }
-
-        # intro screen
-        my %Data;
-        if ( $Structure{IntroInstall} ) {
-            %Data = $Self->_MessageGet( Info => $Structure{IntroInstall}, Type => 'pre' );
-        }
-        if ( %Data && !$IntroInstallPre ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'Intro',
-                Data => {
-                    %Param,
-                    %Data,
-                    FormID    => $FormID,
-                    Subaction => $Self->{Subaction},
-                    Type      => 'IntroInstallPre',
-                    Name      => $Structure{Name}->{Content},
-                    Version   => $Structure{Version}->{Content},
-                },
-            );
-            $Self->{LayoutObject}->Block(
-                Name => 'IntroCancel',
-                Data => {},
-            );
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminPackageManager',
-                Data         => \%Param,
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
-        }
-
-        # install
-        elsif ( $Self->{PackageObject}->PackageInstall( String => $UploadStuff{Content} ) ) {
-
-            # intro screen
-            my %Data;
-            if ( $Structure{IntroInstall} ) {
-                %Data = $Self->_MessageGet( Info => $Structure{IntroInstall}, Type => 'post' );
-            }
-            if ( %Data && !$IntroInstallPost ) {
-                $Self->{LayoutObject}->Block(
-                    Name => 'Intro',
-                    Data => {
-                        %Param,
-                        %Data,
-                        Subaction => '',
-                        Type      => 'IntroInstallPost',
-                        Name      => $Structure{Name}->{Content},
-                        Version   => $Structure{Version}->{Content},
-                    },
-                );
-                my $Output = $Self->{LayoutObject}->Header();
-                $Output .= $Self->{LayoutObject}->NavigationBar();
-                $Output .= $Self->{LayoutObject}->Output(
-                    TemplateFile => 'AdminPackageManager',
-                    Data         => \%Param,
-                );
-                $Output .= $Self->{LayoutObject}->Footer();
-                return $Output;
-            }
-
-            # remove pre submited package
-            $Self->{UploadCachObject}->FormIDRemove( FormID => $FormID );
-            return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
-        }
-        else {
-            return $Self->{LayoutObject}->ErrorScreen();
-        }
     }
 
     # ------------------------------------------------------------ #
@@ -1407,7 +992,6 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'RebuildPackage' ) {
         my $Name    = $Self->{ParamObject}->GetParam( Param => 'Name' )    || '';
         my $Version = $Self->{ParamObject}->GetParam( Param => 'Version' ) || '';
-        my %Frontend = ();
 
         # get package
         my $Package = $Self->{PackageObject}->RepositoryGet(
@@ -1443,7 +1027,7 @@ sub Run {
         if ( $Self->{ConfigObject}->Get('Package::RepositoryRoot') ) {
             %RepositoryRoot = $Self->{PackageObject}->PackageOnlineRepositories();
         }
-        $Frontend{'SourceList'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Frontend{SourceList} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => { %List, %RepositoryRoot, },
             Name => 'Source',
             Max  => 40,
@@ -1467,16 +1051,13 @@ sub Run {
                     );
                 }
             }
-            my $CssClass = '';
+
+            my $CssClass = 'searchactive';
             for my $Data (@List) {
 
                 # set output class
-                if ( $CssClass && $CssClass eq 'searchactive' ) {
-                    $CssClass = 'searchpassive';
-                }
-                else {
-                    $CssClass = 'searchactive';
-                }
+                $CssClass = $CssClass eq 'searchactive' ? 'searchpassive' : 'searchactive';
+
                 $Self->{LayoutObject}->Block(
                     Name => 'ShowRemotePackage',
                     Data => {
@@ -1513,16 +1094,12 @@ sub Run {
                 }
             }
         }
-        my $CssClass = '';
+        my $CssClass = 'searchactive';
         for my $Package ( $Self->{PackageObject}->RepositoryList() ) {
 
             # set output class
-            if ( $CssClass && $CssClass eq 'searchactive' ) {
-                $CssClass = 'searchpassive';
-            }
-            else {
-                $CssClass = 'searchactive';
-            }
+            $CssClass = $CssClass eq 'searchactive' ? 'searchpassive' : 'searchactive';
+
             my %Data = $Self->_MessageGet( Info => $Package->{Description} );
 
             $Self->{LayoutObject}->Block(
@@ -1620,7 +1197,6 @@ sub Run {
         }
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminPackageManager',
-            Data         => \%Param,
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
@@ -1743,4 +1319,188 @@ sub _DocumentationGet {
     return %Doc;
 }
 
+sub _InstallHandling {
+    my ($Self, %Param) = @_;
+
+    # check needed params
+    if ( !$Param{Package} ) {
+        return $Self->{LayoutObject}->ErrorScreen( Message => 'No such package!' );
+    }
+
+    my $IntroInstallPre    = $Self->{ParamObject}->GetParam( Param => 'IntroInstallPre' )  || '';
+    my $IntroInstallPost   = $Self->{ParamObject}->GetParam( Param => 'IntroInstallPost' ) || '';
+    my $IntroInstallVendor = $Self->{ParamObject}->GetParam( Param => 'IntroInstallVendor' ) || '';
+
+    # parse package
+    my %Structure = $Self->{PackageObject}->PackageParse( String => $Param{Package} );
+
+    # online verification
+    my $Verified = $Self->{PackageObject}->PackageVerify(
+        Package   => $Package,
+        Structure => \%Structure,
+    );
+    my %VerifyInfo = $Self->{PackageObject}->PackageVerifyInfo();
+
+    # vendor screen
+    if ( !$IntroInstallVendor && !$IntroInstallPre && !$IntroInstallPost && !$Verified ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'Intro',
+            Data => {
+                %Param,
+                %VerifyInfo,
+                Subaction => $Self->{Subaction},
+                Type      => 'IntroInstallVendor',
+                Name      => $Structure{Name}->{Content},
+                Version   => $Structure{Version}->{Content},
+            },
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'IntroCancel',
+            Data => {},
+        );
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminPackageManager',
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+    }
+
+    # intro screen
+    my %Data;
+    if ( $Structure{IntroInstall} ) {
+        %Data = $Self->_MessageGet( Info => $Structure{IntroInstall}, Type => 'pre' );
+    }
+    if ( %Data && !$IntroInstallPre ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'Intro',
+            Data => {
+                %Param,
+                %Data,
+                Subaction => $Self->{Subaction},
+                Type      => 'IntroInstallPre',
+                Name      => $Structure{Name}->{Content},
+                Version   => $Structure{Version}->{Content},
+            },
+        );
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminPackageManager',
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+    }
+
+    # install package
+    elsif ( $Self->{PackageObject}->PackageInstall( String => $Package ) ) {
+
+        # intro screen
+        my %Data;
+        if ( $Structure{IntroInstall} ) {
+            %Data = $Self->_MessageGet( Info => $Structure{IntroInstall}, Type => 'post' );
+        }
+        if ( %Data && !$IntroInstallPost ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'Intro',
+                Data => {
+                    %Param,
+                    %Data,
+                    Subaction => 'Install',
+                    Type      => 'IntroInstallPost',
+                    Name      => $Structure{Name}->{Content},
+                    Version   => $Structure{Version}->{Content},
+                },
+            );
+            my $Output = $Self->{LayoutObject}->Header();
+            $Output .= $Self->{LayoutObject}->NavigationBar();
+            $Output .= $Self->{LayoutObject}->Output(
+                TemplateFile => 'AdminPackageManager',
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
+
+        # redirect
+        return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
+    }
+    return $Self->{LayoutObject}->ErrorScreen();
+}
+
+sub _UpgradeHandling {
+    my ($Self, %Param) = @_;
+
+    # check needed params
+    if ( !$Param{Package} ) {
+        return $Self->{LayoutObject}->ErrorScreen( Message => 'No such package!' );
+    }
+
+    # check if we have to show uninstall intro pre
+    my %Structure = $Self->{PackageObject}->PackageParse( String => $Param{Package}, );
+
+    # intro screen
+    my %Data;
+    if ( $Structure{IntroUpgrade} ) {
+        %Data = $Self->_MessageGet( Info => $Structure{IntroUpgrade}, Type => 'pre' );
+    }
+    if ( %Data && !$IntroUpgradePre ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'Intro',
+            Data => {
+                %Param,
+                %Data,
+                Subaction => $Self->{Subaction},
+                Type      => 'IntroUpgradePre',
+                Name      => $Structure{Name}->{Content},
+                Version   => $Structure{Version}->{Content},
+            },
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'IntroCancel',
+            Data => {},
+        );
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminPackageManager',
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
+    }
+
+    # upgrade
+    elsif ( $Self->{PackageObject}->PackageUpgrade( String => $Package ) ) {
+
+        # intro screen
+        my %Data;
+        if ( $Structure{IntroUpgrade} ) {
+            %Data = $Self->_MessageGet( Info => $Structure{IntroUpgrade}, Type => 'post' );
+        }
+        if ( %Data && !$IntroUpgradePost ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'Intro',
+                Data => {
+                    %Param,
+                    %Data,
+                    Subaction => '',
+                    Type      => 'IntroUpgradePost',
+                    Name      => $Structure{Name}->{Content},
+                    Version   => $Structure{Version}->{Content},
+                },
+            );
+            my $Output = $Self->{LayoutObject}->Header();
+            $Output .= $Self->{LayoutObject}->NavigationBar();
+            $Output .= $Self->{LayoutObject}->Output(
+                TemplateFile => 'AdminPackageManager',
+            );
+            $Output .= $Self->{LayoutObject}->Footer();
+            return $Output;
+        }
+
+        # redirect
+        return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
+    }
+    return $Self->{LayoutObject}->ErrorScreen();
+}
 1;
