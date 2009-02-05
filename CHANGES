@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.829 2009-02-04 13:28:53 tr Exp $
+# $Id: CHANGES,v 1.830 2009-02-05 12:42:59 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,9 @@
 # --
 
 2.4.0 beta1 (2009/??/??)
+ - (2009/02/05) Removed the dtl-if from Header.dtl. And implement a new
+    handling to set a indentifier for the user information (usually visible
+    on the top of the right side of a page).
  - (2009/02/04) Implement a config option to remove OTRS version tags
     from the HTML headers.
  - (2009/02/04) Removed a useless slogan from the HTML-Headers.

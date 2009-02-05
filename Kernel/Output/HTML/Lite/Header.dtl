@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.30 2009-02-04 07:44:16 tr Exp $
+# $Id: Header.dtl,v 1.31 2009-02-05 12:38:05 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -24,10 +24,6 @@ $Include{"Copyright"}
 <dtl set $Env{"Box0"} = " ">
 <dtl set $Env{"Box1"} = " ">
 # --
-# create $Data{"UserLoginTop"} if user is loged in
-# --
-<dtl if ($Env{"UserLogin"} ne "") { $Data{"UserLoginTop"} = "($Env{"UserEmail"})"; }>
-# --
 <html>
 <head>
 <!-- dtl:block:MetaHttpEquivRefresh -->
@@ -47,7 +43,7 @@ $Include{"css"}
       <b>$Env{"Box1"}</b>
     </td>
     <td align="right" width="70%" class="header">
-      $Env{"UserFirstname"} $Env{"UserLastname"} $Data{"UserLoginTop"} $Env{"TimeLong"}
+      $Env{"UserFirstname"} $Env{"UserLastname"} $Env{"UserLoginIdentifier"} $Env{"TimeLong"}
     </td>
   </tr>
 </table>

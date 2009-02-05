@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.119 2009-02-04 13:28:53 tr Exp $
+# $Id: Layout.pm,v 1.120 2009-02-05 12:38:05 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.119 $) [1];
+$VERSION = qw($Revision: 1.120 $) [1];
 
 =head1 NAME
 
@@ -1503,6 +1503,11 @@ sub Header {
         if ( $Param{$Word} ) {
             $Param{TitleArea} .= ' :: ' . $Self->{LanguageObject}->Get( $Param{$Word} );
         }
+    }
+
+    # create the user login info (usually visible right on the top of the page)
+    if (!$Self->{UserLoginIdentifier}) {
+        $Self->{UserLoginIdentifier} = $Self->{UserLogin} ? "($Self->{UserEmail})" : '';
     }
 
     # run header meta modules
@@ -3940,6 +3945,7 @@ sub CustomerNavigationBar {
             }
         }
     }
+
     if ( $Self->{UserEmail} ne $Self->{UserCustomerID} ) {
         $Param{UserLoginTop} = "$Self->{UserEmail}/$Self->{UserCustomerID}";
     }
@@ -4020,7 +4026,7 @@ sub CustomerNoPermission {
 
     my $WithHeader = $Param{WithHeader} || 'yes';
     my $Output = '';
-    $Param{Message} = 'No Permission!' if ( !$Param{Message} );
+    $Param{Message} ||= 'No Permission!';
 
     # create output
     $Output = $Self->CustomerHeader( Title => 'No Permission' ) if ( $WithHeader eq 'yes' );
@@ -4060,6 +4066,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.119 $ $Date: 2009-02-04 13:28:53 $
+$Revision: 1.120 $ $Date: 2009-02-05 12:38:05 $
 
 =cut
