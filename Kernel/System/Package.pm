@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.93 2009-01-12 12:51:23 mh Exp $
+# $Id: Package.pm,v 1.94 2009-02-05 16:48:55 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.93 $) [1];
+$VERSION = qw($Revision: 1.94 $) [1];
 
 =head1 NAME
 
@@ -335,17 +335,13 @@ sub PackageInstall {
     my %Structure = $Self->PackageParse(%Param);
 
     # check if package is already installed
-    for my $Package ( $Self->RepositoryList() ) {
-        if ( $Structure{Name}->{Content} eq $Package->{Name}->{Content} ) {
-            if ( $Package->{Status} =~ /^installed$/i ) {
-                if ( !$Param{Force} ) {
-                    $Self->{LogObject}->Log(
-                        Priority => 'notice',
-                        Message  => 'Package already installed, try upgrade!',
-                    );
-                    return $Self->PackageUpgrade(%Param);
-                }
-            }
+    if ( $Self->PackageIsInstalled(Name => $Structure{Name}->{Content})) {
+        if ( !$Param{Force} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'notice',
+                Message  => 'Package already installed, try upgrade!',
+            );
+            return $Self->PackageUpgrade(%Param);
         }
     }
 
@@ -1654,10 +1650,46 @@ sub PackageExport {
     return 1;
 }
 
-sub _Download {
+=item PackageIsInstalled()
+
+returns true if the package is already installed
+
+    $PackageObject->PackageIsInstalled(
+        String => $PackageString,    # Attribute String or Name is required
+        Name   => $NameOfThePackage,
+    );
+
+=cut
+
+sub PackageIsInstalled {
     my ( $Self, %Param ) = @_;
 
-    my $Content = '';
+    # check needed stuff
+    if ( !$Param{String} && !$Param{Name}) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need String (PackageString) or Name (Name of the package)!' );
+        return;
+    }
+
+    if ( $Param{String} ) {
+        my %Structure = $Self->PackageParse(%Param);
+        $Param{Name} = $Structure{Name}->{Content};
+    }
+
+    $Self->{DBObject}->Prepare(
+        SQL => "SELECT name FROM package_repository WHERE name = ? AND install_status = 'installed'",
+        Bind => [\$Param{Name}],
+    );
+
+    my $Flag = 0;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $Flag = 1;
+    }
+
+    return $Flag;
+}
+
+sub _Download {
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     if ( !defined $Param{URL} ) {
@@ -2355,6 +2387,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.93 $ $Date: 2009-01-12 12:51:23 $
+$Revision: 1.94 $ $Date: 2009-02-05 16:48:55 $
 
 =cut

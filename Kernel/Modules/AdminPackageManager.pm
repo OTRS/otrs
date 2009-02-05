@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.74 2009-02-05 14:19:55 tr Exp $
+# $Id: AdminPackageManager.pm,v 1.75 2009-02-05 16:48:55 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.74 $) [1];
+$VERSION = qw($Revision: 1.75 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -111,7 +111,7 @@ sub Run {
         my $LocalFile = $Self->{ConfigObject}->Get('Home') . "/$Location";
         if ( !-e $LocalFile ) {
             $Self->{LayoutObject}->Block(
-                Name => "FileDiff",
+                Name => 'FileDiff',
                 Data => {
                     Location => $Location,
                     Name     => $Name,
@@ -267,7 +267,7 @@ sub Run {
                 }
                 else {
                     $Self->{LayoutObject}->Block(
-                        Name => "PackageItemGeneric",
+                        Name => 'PackageItemGeneric',
                         Data => { Tag => $Key, %{ $Structure{$Key} } },
                     );
                 }
@@ -494,7 +494,7 @@ sub Run {
                 }
                 else {
                     $Self->{LayoutObject}->Block(
-                        Name => "PackageItemGeneric",
+                        Name => 'PackageItemGeneric',
                         Data => { Tag => $Key, %{ $Structure{$Key} } },
                     );
                 }
@@ -729,7 +729,6 @@ sub Run {
             );
             $Self->{LayoutObject}->Block(
                 Name => 'IntroCancel',
-                Data => {},
             );
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
@@ -856,7 +855,6 @@ sub Run {
             );
             $Self->{LayoutObject}->Block(
                 Name => 'IntroCancel',
-                Data => {},
             );
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
@@ -979,7 +977,14 @@ sub Run {
                 %UploadStuff = %{ $AttachmentData[0] };
             }
         }
+        my $Feedback = $Self->{PackageObject}->PackageIsInstalled( String => $UploadStuff{Content} );
 
+        if ($Feedback) {
+            return $Self->_UpgradeHandling(
+                Package => $UploadStuff{Content},
+                FormID  => $FormID,
+            );
+        }
         return $Self->_InstallHandling(
             Package => $UploadStuff{Content},
             FormID  => $FormID,
@@ -1336,7 +1341,7 @@ sub _InstallHandling {
 
     # online verification
     my $Verified = $Self->{PackageObject}->PackageVerify(
-        Package   => $Package,
+        Package   => $Param{Package},
         Structure => \%Structure,
     );
     my %VerifyInfo = $Self->{PackageObject}->PackageVerifyInfo();
@@ -1356,7 +1361,6 @@ sub _InstallHandling {
         );
         $Self->{LayoutObject}->Block(
             Name => 'IntroCancel',
-            Data => {},
         );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
@@ -1384,6 +1388,9 @@ sub _InstallHandling {
                 Version   => $Structure{Version}->{Content},
             },
         );
+        $Self->{LayoutObject}->Block(
+            Name => 'IntroCancel',
+        );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Output(
@@ -1394,7 +1401,7 @@ sub _InstallHandling {
     }
 
     # install package
-    elsif ( $Self->{PackageObject}->PackageInstall( String => $Package ) ) {
+    elsif ( $Self->{PackageObject}->PackageInstall( String => $Param{Package} ) ) {
 
         # intro screen
         my %Data;
@@ -1436,6 +1443,9 @@ sub _UpgradeHandling {
         return $Self->{LayoutObject}->ErrorScreen( Message => 'No such package!' );
     }
 
+    my $IntroUpgradePre  = $Self->{ParamObject}->GetParam( Param => 'IntroUpgradePre' )  || '';
+    my $IntroUpgradePost = $Self->{ParamObject}->GetParam( Param => 'IntroUpgradePost' ) || '';
+
     # check if we have to show uninstall intro pre
     my %Structure = $Self->{PackageObject}->PackageParse( String => $Param{Package}, );
 
@@ -1458,7 +1468,6 @@ sub _UpgradeHandling {
         );
         $Self->{LayoutObject}->Block(
             Name => 'IntroCancel',
-            Data => {},
         );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
@@ -1470,7 +1479,7 @@ sub _UpgradeHandling {
     }
 
     # upgrade
-    elsif ( $Self->{PackageObject}->PackageUpgrade( String => $Package ) ) {
+    elsif ( $Self->{PackageObject}->PackageUpgrade( String => $Param{Package} ) ) {
 
         # intro screen
         my %Data;
