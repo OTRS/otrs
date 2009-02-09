@@ -2,7 +2,7 @@
 # Package.t - Package tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.t,v 1.16.2.3 2009-01-12 15:13:13 mh Exp $
+# $Id: Package.t,v 1.16.2.4 2009-02-09 14:58:10 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -705,177 +705,192 @@ $Self->True(
     '#10 PackageUninstall() - post',
 );
 
-# 11 check "do not remove framework file if no backup exists"
-my $RemoveFile          = $Self->{ConfigObject}->Get('Home') . '/' . 'bin/CheckDB.pl.save';
-my $RemoveFileFramework = $Self->{ConfigObject}->Get('Home') . '/' . 'bin/CheckDB.pl';
-copy( $RemoveFileFramework, $RemoveFileFramework . '.orig' );
-$String = '<?xml version="1.0" encoding="utf-8" ?>
-<otrs_package version="1.0">
-  <Name>TestFrameworkFileCheck</Name>
-  <Version>0.0.1</Version>
-  <Vendor>OTRS AG</Vendor>
-  <URL>http://otrs.org/</URL>
-  <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
-  <Description Lang="en">A test package.</Description>
-  <Description Lang="de">Ein Test Paket.</Description>
-  <Framework>2.4.x</Framework>
-  <Framework>2.3.x</Framework>
-  <Framework>2.2.x</Framework>
-  <Framework>2.1.x</Framework>
-  <Framework>2.0.x</Framework>
-  <BuildDate>2005-11-10 21:17:16</BuildDate>
-  <BuildHost>yourhost.example.com</BuildHost>
-  <Filelist>
-    <File Location="bin/CheckDB.pl" Permission="644" Encode="Base64">aGVsbG8K</File>
-  </Filelist>
-</otrs_package>
-';
-$PackageInstall = $Self->{PackageObject}->PackageInstall(
-    String => $String,
-);
+# find out if it is an developer installation with files
+# from the version control system.
+my $DeveloperSystem = 0;
+my $Version         = $Self->{ConfigObject}->Get('Version');
+if (  !-e $Self->{ConfigObject}->Get('Home') . '/ARCHIVE'
+    && $Version =~ m{CVS}
+) {
+    $DeveloperSystem = 1;
+}
 
-$Self->True(
-    $PackageInstall || 0,
-    '#11 PackageInstall() - TestFrameworkFileCheck installed',
-);
+# check #11 doesn't work on developer systems because there is no ARCHIVE file!
+if (!$DeveloperSystem) {
+    # 11 check "do not remove framework file if no backup exists"
+    my $RemoveFile          = $Self->{ConfigObject}->Get('Home') . '/' . 'bin/CheckDB.pl.save';
+    my $RemoveFileFramework = $Self->{ConfigObject}->Get('Home') . '/' . 'bin/CheckDB.pl';
+    copy( $RemoveFileFramework, $RemoveFileFramework . '.orig' );
+    $String = '<?xml version="1.0" encoding="utf-8" ?>
+    <otrs_package version="1.0">
+      <Name>TestFrameworkFileCheck</Name>
+      <Version>0.0.1</Version>
+      <Vendor>OTRS AG</Vendor>
+      <URL>http://otrs.org/</URL>
+      <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
+      <Description Lang="en">A test package.</Description>
+      <Description Lang="de">Ein Test Paket.</Description>
+      <Framework>2.4.x</Framework>
+      <Framework>2.3.x</Framework>
+      <Framework>2.2.x</Framework>
+      <Framework>2.1.x</Framework>
+      <Framework>2.0.x</Framework>
+      <BuildDate>2005-11-10 21:17:16</BuildDate>
+      <BuildHost>yourhost.example.com</BuildHost>
+      <Filelist>
+        <File Location="bin/CheckDB.pl" Permission="644" Encode="Base64">aGVsbG8K</File>
+      </Filelist>
+    </otrs_package>
+    ';
+    $PackageInstall = $Self->{PackageObject}->PackageInstall(
+        String => $String,
+    );
 
-# check if save file exists
-$Self->True(
-    -e $RemoveFile || 0,
-    '#11 PackageInstall() - save file bin/CheckDB.pl.save exists',
-);
+    $Self->True(
+        $PackageInstall || 0,
+        '#11 PackageInstall() - TestFrameworkFileCheck installed',
+    );
 
-# check if save file exists (should not anymore)
-my $RemoveFileUnlink = unlink $RemoveFile;
-$Self->True(
-    $RemoveFileUnlink || 0,
-    '#11 PackageInstall() - save file bin/CheckDB.pl.save got removed',
-);
+    # check if save file exists
+    $Self->True(
+        -e $RemoveFile || 0,
+        '#11 PackageInstall() - save file bin/CheckDB.pl.save exists',
+    );
 
-# check if save file exists (should not anymore)
-$Self->True(
-    !-e $RemoveFile,
-    '#11 PackageInstall() - save file bin/CheckDB.pl.save does not exists',
-);
+    # check if save file exists (should not anymore)
+    my $RemoveFileUnlink = unlink $RemoveFile;
+    $Self->True(
+        $RemoveFileUnlink || 0,
+        '#11 PackageInstall() - save file bin/CheckDB.pl.save got removed',
+    );
 
-# unistall package
-$PackageUninstall = $Self->{PackageObject}->PackageUninstall(
-    String => $String,
-);
-$Self->True(
-    $PackageUninstall,
-    '#11 PackageUninstall()',
-);
+    # check if save file exists (should not anymore)
+    $Self->True(
+        !-e $RemoveFile,
+        '#11 PackageInstall() - save file bin/CheckDB.pl.save does not exists',
+    );
 
-# check if save file exists (should not)
-$Self->True(
-    !-e $RemoveFile,
-    '#11 PackageUninstall() - save file bin/CheckDB.pl.save does not exists',
-);
+    # unistall package
+    $PackageUninstall = $Self->{PackageObject}->PackageUninstall(
+        String => $String,
+    );
+    $Self->True(
+        $PackageUninstall,
+        '#11 PackageUninstall()',
+    );
 
-# check if framework file exists
-$Self->True(
-    -e $RemoveFileFramework || 0,
-    '#11 PackageUninstall() - save file bin/CheckDB.pl exists',
-);
-move( $RemoveFileFramework . '.orig', $RemoveFileFramework );
+    # check if save file exists (should not)
+    $Self->True(
+        !-e $RemoveFile,
+        '#11 PackageUninstall() - save file bin/CheckDB.pl.save does not exists',
+    );
 
-# 12 check "do create .save file on reinstall if it's a framework file"
-my $SaveFile          = $Self->{ConfigObject}->Get('Home') . '/' . 'bin/CheckDB.pl.save';
-my $SaveFileFramework = $Self->{ConfigObject}->Get('Home') . '/' . 'bin/CheckDB.pl';
-copy( $SaveFileFramework, $SaveFileFramework . '.orig' );
-$String = '<?xml version="1.0" encoding="utf-8" ?>
-<otrs_package version="1.0">
-  <Name>TestFrameworkFileCheck</Name>
-  <Version>0.0.1</Version>
-  <Vendor>OTRS AG</Vendor>
-  <URL>http://otrs.org/</URL>
-  <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
-  <Description Lang="en">A test package.</Description>
-  <Description Lang="de">Ein Test Paket.</Description>
-  <Framework>2.4.x</Framework>
-  <Framework>2.3.x</Framework>
-  <Framework>2.2.x</Framework>
-  <Framework>2.1.x</Framework>
-  <Framework>2.0.x</Framework>
-  <BuildDate>2005-11-10 21:17:16</BuildDate>
-  <BuildHost>yourhost.example.com</BuildHost>
-  <Filelist>
-    <File Location="bin/CheckDB.pl" Permission="644" Encode="Base64">aGVsbG8K</File>
-  </Filelist>
-</otrs_package>
-';
-$PackageInstall = $Self->{PackageObject}->PackageInstall(
-    String => $String,
-);
+    # check if framework file exists
+    $Self->True(
+        -e $RemoveFileFramework || 0,
+        '#11 PackageUninstall() - save file bin/CheckDB.pl exists',
+    );
+    move( $RemoveFileFramework . '.orig', $RemoveFileFramework );
+}
 
-$Self->True(
-    $PackageInstall || 0,
-    '#12 PackageInstall() - TestFrameworkFileCheck installed',
-);
+# check #12 doesn't work on developer systems because there is no ARCHIVE file!
+if (!$DeveloperSystem) {
+    # 12 check "do create .save file on reinstall if it's a framework file"
+    my $SaveFile          = $Self->{ConfigObject}->Get('Home') . '/' . 'bin/CheckDB.pl.save';
+    my $SaveFileFramework = $Self->{ConfigObject}->Get('Home') . '/' . 'bin/CheckDB.pl';
+    copy( $SaveFileFramework, $SaveFileFramework . '.orig' );
+    $String = '<?xml version="1.0" encoding="utf-8" ?>
+    <otrs_package version="1.0">
+      <Name>TestFrameworkFileCheck</Name>
+      <Version>0.0.1</Version>
+      <Vendor>OTRS AG</Vendor>
+      <URL>http://otrs.org/</URL>
+      <License>GNU GENERAL PUBLIC LICENSE Version 2, June 1991</License>
+      <Description Lang="en">A test package.</Description>
+      <Description Lang="de">Ein Test Paket.</Description>
+      <Framework>2.4.x</Framework>
+      <Framework>2.3.x</Framework>
+      <Framework>2.2.x</Framework>
+      <Framework>2.1.x</Framework>
+      <Framework>2.0.x</Framework>
+      <BuildDate>2005-11-10 21:17:16</BuildDate>
+      <BuildHost>yourhost.example.com</BuildHost>
+      <Filelist>
+        <File Location="bin/CheckDB.pl" Permission="644" Encode="Base64">aGVsbG8K</File>
+      </Filelist>
+    </otrs_package>
+    ';
+    $PackageInstall = $Self->{PackageObject}->PackageInstall(
+        String => $String,
+    );
 
-my $Content = 'Test 12345678';
-my $Write   = $Self->{MainObject}->FileWrite(
-    Location   => $SaveFileFramework,
-    Content    => \$Content,
-    Mode       => 'binmode',
-    Permission => '644',
-);
-$Self->True(
-    $Write || 0,
-    '#12 FileWrite() - bin/CheckDB.pl modified',
-);
-my $ReadOrig = $Self->{MainObject}->FileRead(
-    Location => $SaveFileFramework,
-    Mode     => 'binmode',
-);
+    $Self->True(
+        $PackageInstall || 0,
+        '#12 PackageInstall() - TestFrameworkFileCheck installed',
+    );
 
-# check if save file exists (should not anymore)
-my $SaveFileUnlink = unlink $SaveFile;
-$Self->True(
-    $SaveFileUnlink || 0,
-    '#12 PackageInstall() - save file bin/CheckDB.pl.save got removed',
-);
+    my $Content = 'Test 12345678';
+    my $Write   = $Self->{MainObject}->FileWrite(
+        Location   => $SaveFileFramework,
+        Content    => \$Content,
+        Mode       => 'binmode',
+        Permission => '644',
+    );
+    $Self->True(
+        $Write || 0,
+        '#12 FileWrite() - bin/CheckDB.pl modified',
+    );
+    my $ReadOrig = $Self->{MainObject}->FileRead(
+        Location => $SaveFileFramework,
+        Mode     => 'binmode',
+    );
 
-# check if save file exists (should not anymore)
-$Self->True(
-    !-e $SaveFile,
-    '#12 PackageInstall() - save file bin/CheckDB.pl.save does not exists',
-);
+    # check if save file exists (should not anymore)
+    my $SaveFileUnlink = unlink $SaveFile;
+    $Self->True(
+        $SaveFileUnlink || 0,
+        '#12 PackageInstall() - save file bin/CheckDB.pl.save got removed',
+    );
 
-# reinstall
-my $PackageReinstall = $Self->{PackageObject}->PackageReinstall(
-    String => $String,
-);
-$Self->True(
-    $PackageReinstall || 0,
-    '#12 PackageReinstall() - TestFrameworkFileCheck reinstalled',
-);
+    # check if save file exists (should not anymore)
+    $Self->True(
+        !-e $SaveFile,
+        '#12 PackageInstall() - save file bin/CheckDB.pl.save does not exists',
+    );
 
-# check if save file exists
-$Self->True(
-    -e $SaveFile,
-    '#12 PackageReinstall() - save file bin/CheckDB.pl.save exists',
-);
+    # reinstall
+    my $PackageReinstall = $Self->{PackageObject}->PackageReinstall(
+        String => $String,
+    );
+    $Self->True(
+        $PackageReinstall || 0,
+        '#12 PackageReinstall() - TestFrameworkFileCheck reinstalled',
+    );
 
-# unistall package
-$PackageUninstall = $Self->{PackageObject}->PackageUninstall(
-    String => $String,
-);
-$Self->True(
-    $PackageUninstall,
-    '#12 PackageUninstall()',
-);
+    # check if save file exists
+    $Self->True(
+        -e $SaveFile,
+        '#12 PackageReinstall() - save file bin/CheckDB.pl.save exists',
+    );
 
-my $ReadLater = $Self->{MainObject}->FileRead(
-    Location => $SaveFileFramework,
-    Mode     => 'binmode',
-);
+    # unistall package
+    $PackageUninstall = $Self->{PackageObject}->PackageUninstall(
+        String => $String,
+    );
+    $Self->True(
+        $PackageUninstall,
+        '#12 PackageUninstall()',
+    );
 
-$Self->True(
-    ${$ReadOrig} eq ${$ReadLater},
-    '#12 PackageReinstall() - file bin/CheckDB.pl is still the orig',
-);
-move( $SaveFileFramework . '.orig', $SaveFileFramework );
+    my $ReadLater = $Self->{MainObject}->FileRead(
+        Location => $SaveFileFramework,
+        Mode     => 'binmode',
+    );
 
+    $Self->True(
+        ${$ReadOrig} eq ${$ReadLater},
+        '#12 PackageReinstall() - file bin/CheckDB.pl is still the orig',
+    );
+    move( $SaveFileFramework . '.orig', $SaveFileFramework );
+}
 1;

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.762.2.46 2009-02-09 11:34:25 tr Exp $
+# $Id: CHANGES,v 1.762.2.47 2009-02-09 14:58:10 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.3.5 (2009/??/??)
+ - (2009/02/09) Fixed bug# 3656 - The package manager testscript doesn't work
+    on developer installations.
  - (2009/02/09) Fixed bug# 3458 - Length of E-mail adress form in
     AdminSystemAddressForm is way too short.
  - (2009/01/30) Fixed bug# 3635 - Was not able to install .opm packages bigger
