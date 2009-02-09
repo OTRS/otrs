@@ -1,8 +1,8 @@
 # --
 # CustomerNavigationBar.dtl - provides global HTML NavigationBar
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerNavigationBar.dtl,v 1.21 2008-04-02 08:59:22 ot Exp $
+# $Id: CustomerNavigationBar.dtl,v 1.22 2009-02-09 12:34:44 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -27,7 +27,7 @@ $Data{"Notification"}
       </table>
     </td>
     <td valign="top" align="right" width="30%" class="nav">
-      $Text{"Welcome %s", "$Env{"UserFirstname"} $Env{"UserLastname"} ($Data{"UserLoginTop"})"}<br/>
+      $Text{"Welcome %s", "$Env{"UserFirstname"} $Env{"UserLastname"} $QData{"UserLoginIdentifier"}"}<br/>
       $Env{"Time"}
     </td>
   </tr>

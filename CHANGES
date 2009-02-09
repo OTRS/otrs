@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.831 2009-02-09 11:33:35 tr Exp $
+# $Id: CHANGES,v 1.832 2009-02-09 12:34:43 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.4.0 beta1 (2009/??/??)
+ - (2009/02/09) Implement the same identifier handling for customer as for
+    user. This effects the files CustomerNavigationBar.dtl and  Layout.pm.
  - (2009/02/05) Removed the dtl-if from Header.dtl. And implement a new
     handling to set a indentifier for the user information (usually visible
     on the top of the right side of a page).

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.120 2009-02-05 12:38:05 tr Exp $
+# $Id: Layout.pm,v 1.121 2009-02-09 12:34:44 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.120 $) [1];
+$VERSION = qw($Revision: 1.121 $) [1];
 
 =head1 NAME
 
@@ -3946,11 +3946,13 @@ sub CustomerNavigationBar {
         }
     }
 
-    if ( $Self->{UserEmail} ne $Self->{UserCustomerID} ) {
-        $Param{UserLoginTop} = "$Self->{UserEmail}/$Self->{UserCustomerID}";
+    # create the customer user login info (usually at the right side of the navigation bar)
+    if (!$Self->{UserLoginIdentifier}) {
+        $Param{UserLoginIdentifier} = $Self->{UserEmail} ne $Self->{UserCustomerID} ?
+            "( $Self->{UserEmail} / $Self->{UserCustomerID} )" : $Self->{UserEmail};
     }
     else {
-        $Param{UserLoginTop} = $Self->{UserEmail};
+        $Param{UserLoginIdentifier} = $Self->{UserLoginIdentifier};
     }
 
     # create & return output
@@ -4066,6 +4068,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.120 $ $Date: 2009-02-05 12:38:05 $
+$Revision: 1.121 $ $Date: 2009-02-09 12:34:44 $
 
 =cut
