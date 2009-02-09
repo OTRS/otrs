@@ -1,8 +1,8 @@
 # --
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.pm,v 1.45 2008-11-16 18:18:14 martin Exp $
+# $Id: AdminQueue.pm,v 1.46 2009-02-09 11:24:55 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Signature;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -244,13 +244,13 @@ sub _Mask {
     my ( $Self, %Param ) = @_;
 
     # build ValidID string
-    $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{ValidOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data       => { $Self->{ValidObject}->ValidList(), },
         Name       => 'ValidID',
         SelectedID => $Param{ValidID},
     );
 
-    $Param{'GroupOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{GroupOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
             $Self->{DBObject}->GetTableData(
                 What  => 'id, name',
@@ -288,14 +288,14 @@ sub _Mask {
             delete( $CleanHash{$Key} );
         }
     }
-    $Param{'QueueOption'} = $Self->{LayoutObject}->AgentQueueListOption(
+    $Param{QueueOption} = $Self->{LayoutObject}->AgentQueueListOption(
         Data => { %CleanHash, '' => '-', },
         Name => 'ParentQueueID',
         Selected       => $ParentQueue,
         MaxLevel       => 4,
         OnChangeSubmit => 0,
     );
-    $Param{'QueueLongOption'} = $Self->{LayoutObject}->AgentQueueListOption(
+    $Param{QueueLongOption} = $Self->{LayoutObject}->AgentQueueListOption(
         Data => { $Self->{QueueObject}->QueueList( Valid => 0 ), },
         Name => 'QueueID',
         Size => 15,
@@ -331,18 +331,18 @@ sub _Mask {
         SelectedID   => $Param{SolutionNotify},
         PossibleNone => 1,
     );
-    $Param{'SignatureOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{SignatureOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => { $Self->{SignatureObject}->SignatureList( Valid => 1 ), },
         Name => 'SignatureID',
         SelectedID => $Param{SignatureID},
     );
-    $Param{'FollowUpLockYesNoOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{FollowUpLockYesNoOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
         Name       => 'FollowUpLock',
         SelectedID => $Param{FollowUpLock},
     );
 
-    $Param{'SystemAddressOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{SystemAddressOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => { $Self->{SystemAddressObject}->SystemAddressList( Valid => 1 ), },
         Name => 'SystemAddressID',
         SelectedID => $Param{SystemAddressID},
@@ -352,7 +352,7 @@ sub _Mask {
     if ( $Param{DefaultSignKeyList} ) {
         %DefaultSignKeyList = %{ $Param{DefaultSignKeyList} };
     }
-    $Param{'DefaultSignKeyOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{DefaultSignKeyOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
             '' => '-none-',
             %DefaultSignKeyList
@@ -361,12 +361,12 @@ sub _Mask {
         Max        => 50,
         SelectedID => $Param{DefaultSignKey},
     );
-    $Param{'SalutationOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{SalutationOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => { $Self->{SalutationObject}->SalutationList( Valid => 1 ), },
         Name => 'SalutationID',
         SelectedID => $Param{SalutationID},
     );
-    $Param{'FollowUpOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{FollowUpOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
             $Self->{DBObject}->GetTableData(
                 What  => 'id, name',
@@ -379,22 +379,22 @@ sub _Mask {
             || $Self->{ConfigObject}->Get('AdminDefaultFollowUpID')
             || 1,
     );
-    $Param{'MoveOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{MoveOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
         Name       => 'MoveNotify',
         SelectedID => $Param{MoveNotify},
     );
-    $Param{'StateOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{StateOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
         Name       => 'StateNotify',
         SelectedID => $Param{StateNotify},
     );
-    $Param{'OwnerOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{OwnerOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
         Name       => 'OwnerNotify',
         SelectedID => $Param{OwnerNotify},
     );
-    $Param{'LockOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{LockOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
         Name       => 'LockNotify',
         SelectedID => $Param{LockNotify},
@@ -407,7 +407,7 @@ sub _Mask {
                 . $Self->{ConfigObject}->Get( "TimeZone::Calendar" . $_ . "Name" );
         }
     }
-    $Param{'CalendarOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{CalendarOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data       => \%Calendar,
         Name       => 'Calendar',
         SelectedID => $Param{Calendar},
