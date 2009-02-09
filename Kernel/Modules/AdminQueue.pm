@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.pm,v 1.46 2009-02-09 11:24:55 tr Exp $
+# $Id: AdminQueue.pm,v 1.47 2009-02-09 11:33:36 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Signature;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -342,10 +342,11 @@ sub _Mask {
         SelectedID => $Param{FollowUpLock},
     );
 
-    $Param{SystemAddressOption} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => { $Self->{SystemAddressObject}->SystemAddressList( Valid => 1 ), },
-        Name => 'SystemAddressID',
+    $Param{SystemAddressOption} = $Self->{LayoutObject}->BuildSelection(
+        Data       => { $Self->{SystemAddressObject}->SystemAddressList( Valid => 1 ), },
+        Name       => 'SystemAddressID',
         SelectedID => $Param{SystemAddressID},
+        Max        => 200,
     );
 
     my %DefaultSignKeyList = ();

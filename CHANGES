@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.830 2009-02-05 12:42:59 tr Exp $
+# $Id: CHANGES,v 1.831 2009-02-09 11:33:35 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -110,6 +110,8 @@
     the admin group in admin frontend.
 
 2.3.4 (2009/01/21)
+ - (2009/02/09) Fixed bug# 3458 - Length of E-mail adress form in
+    AdminSystemAddressForm is way too short.
  - (2009/01/20) Fixed bug# 3447 - CustomerUser-Renaming to existing UserLogin
     was possible.
  - (2009/01/20) Fixed bug# 3603 - Different Max-Attribute handling in Layout.pm
