@@ -2,7 +2,7 @@
 # AdminSystemAddressForm.dtl - provides HTML form for AdminSystemAddress
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSystemAddressForm.dtl,v 1.26.2.1 2009-01-16 15:04:03 martin Exp $
+# $Id: AdminSystemAddressForm.dtl,v 1.26.2.2 2009-02-09 11:34:26 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -90,7 +90,7 @@
                 <tr>
                   <td class="contentkey">$Text{"Email"}: </td>
                   <td class="contentvalue">
-                    <input type="text" name="Name" value="$QData{"Name"}" size="50" maxlength="50"/>
+                    <input type="text" name="Name" value="$QData{"Name"}" size="50" maxlength="200"/>
                   </td>
                 </tr>
                 <tr>
