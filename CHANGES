@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.832 2009-02-09 12:34:43 tr Exp $
+# $Id: CHANGES,v 1.833 2009-02-09 15:26:39 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.4.0 beta1 (2009/??/??)
+ - (2009/02/09) Fixed bug# 3075 - IntroUpgrade Text is not shown during package
+    upgrade.
  - (2009/02/09) Implement the same identifier handling for customer as for
     user. This effects the files CustomerNavigationBar.dtl and  Layout.pm.
  - (2009/02/05) Removed the dtl-if from Header.dtl. And implement a new
@@ -94,6 +96,8 @@
     auth support.
 
 2.3.5 (2009/??/??)
+ - (2009/02/09) Fixed bug# 3656 - The package manager testscript doesn't work
+    on developer installations.
  - (2009/01/30) Fixed bug# 3635 - Was not able to install .opm packages bigger
     then 1MB (because of missing MySQL config) but OTRS error message was
     miss leading.
