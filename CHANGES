@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.833 2009-02-09 15:26:39 tr Exp $
+# $Id: CHANGES,v 1.834 2009-02-11 19:45:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.4.0 beta1 (2009/??/??)
+ - (2009/02/11) Fixed ticket# 2009020942001554 - generic agent is logging many
+    debug infos into log file.
  - (2009/02/09) Fixed bug# 3075 - IntroUpgrade Text is not shown during package
     upgrade.
  - (2009/02/09) Implement the same identifier handling for customer as for
