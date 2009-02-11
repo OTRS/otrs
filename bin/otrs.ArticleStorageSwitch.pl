@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # otrs.ArticleStorageSwitch.pl - to move stored attachments from one backend to other
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.ArticleStorageSwitch.pl,v 1.2 2008-10-06 16:44:37 mh Exp $
+# $Id: otrs.ArticleStorageSwitch.pl,v 1.3 2009-02-11 23:30:00 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -66,11 +66,15 @@ $CommonObject{TimeObject}   = Kernel::System::Time->new( %CommonObject, );
 $CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
 $CommonObject{TicketObject} = Kernel::System::Ticket->new(%CommonObject);
 
+# disable ticket events
+$CommonObject{ConfigObject}->{'Ticket::EventModulePost'} = {};
+
 # get all tickets
 my @TicketIDs = $CommonObject{TicketObject}->TicketSearch(
 
     # result (required)
-    Result => 'ARRAY',
+    Result  => 'ARRAY',
+    OrderBy => 'Up',
 
     # result limit
     Limit      => 1_000_000_000,
@@ -110,12 +114,13 @@ for my $TicketID (@TicketIDs) {
         );
         my $PlainMD5Sum = '';
         if ($Plain) {
+            my $PlainMD5 = $Plain;
             $PlainMD5Sum = $CommonObject{MainObject}->MD5sum(
-                String => $Plain,
+                String => \$PlainMD5,
             );
         }
 
-        # write destination attachments
+        # read source attachments
         my @Attachments;
         my %MD5Sums;
         for my $FileID ( keys %Index ) {
@@ -125,8 +130,9 @@ for my $TicketID (@TicketIDs) {
                 UserID    => 1,
             );
             push @Attachments, \%Attachment;
+            my $Content = $Attachment{Content};
             my $MD5Sum = $CommonObject{MainObject}->MD5sum(
-                String => $Attachment{Content},
+                String => \$Content,
             );
             $MD5Sums{$MD5Sum} = 1;
             print
@@ -134,6 +140,7 @@ for my $TicketID (@TicketIDs) {
                 if $Opts{v};
         }
 
+        # write target attachments
         $CommonObject{ConfigObject}->Set(
             Key   => 'Ticket::StorageModule',
             Value => 'Kernel::System::Ticket::' . $Opts{d},
@@ -152,6 +159,7 @@ for my $TicketID (@TicketIDs) {
 
         # write destination plain
         if ($Plain) {
+            print "NOTICE: write plain attachment to dest backend: ($ArticleID/$PlainMD5Sum)\n" if $Opts{v};
             $TicketObjectDestination->ArticleWritePlain(
                 Email     => $Plain,
                 ArticleID => $ArticleID,
@@ -171,30 +179,32 @@ for my $TicketID (@TicketIDs) {
                 UserID    => 1,
             );
             my $MD5Sum = $CommonObject{MainObject}->MD5sum(
-                String => $Attachment{Content},
+                String => \$Attachment{Content},
             );
             if ( !$MD5Sums{$MD5Sum} ) {
-                print "ERROR: Corrupt file: $Attachment{Filename}\n";
+                print "ERROR: Corrupt file: $Attachment{Filename} (TicketID:$TicketID/ArticleID:$ArticleID)\n";
             }
             else {
                 print "NOTICE: Ok file: $Attachment{Filename} ($MD5Sum)\n" if $Opts{v};
             }
         }
 
-        # verify destination plain
-        my $PlainVerify = $TicketObjectDestination->ArticlePlain(
-            ArticleID     => $ArticleID,
-            OnlyMyBackend => 1,
-        );
-        my $PlainMD5SumVerify = '';
-        if ($PlainVerify) {
-            $PlainMD5SumVerify = $CommonObject{MainObject}->MD5sum(
-                String => $PlainVerify,
+        # verify destination plain if exists in source backend
+        if ($Plain) {
+            my $PlainVerify = $TicketObjectDestination->ArticlePlain(
+                ArticleID     => $ArticleID,
+                OnlyMyBackend => 1,
             );
-        }
-        if ( $PlainMD5Sum ne $PlainMD5SumVerify ) {
-            print
-                "ERROR: Corrupt plain file: ArticleID: $ArticleID ($PlainMD5Sum/$PlainMD5SumVerify)\n";
+            my $PlainMD5SumVerify = '';
+            if ($PlainVerify) {
+                $PlainMD5SumVerify = $CommonObject{MainObject}->MD5sum(
+                    String => \$PlainVerify,
+                );
+            }
+            if ( $PlainMD5Sum ne $PlainMD5SumVerify ) {
+                print
+                    "ERROR: Corrupt plain file: ArticleID: $ArticleID ($PlainMD5Sum/$PlainMD5SumVerify)\n";
+            }
         }
 
         # remove source attachments
