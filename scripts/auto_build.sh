@@ -3,7 +3,7 @@
 # auto_build.sh - build automatically OTRS tar, rpm and src-rpm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: auto_build.sh,v 1.53 2009-01-08 11:12:04 martin Exp $
+# $Id: auto_build.sh,v 1.54 2009-02-11 23:35:15 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # --
 
-echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.53 $>"
+echo "auto_build.sh - build automatically OTRS tar, rpm and src-rpm <\$Revision: 1.54 $>"
 echo "Copyright (C) 2001-2008 OTRS AG, http://otrs.org/"
 
 PATH_TO_CVS_SRC=$1
@@ -375,8 +375,10 @@ else
     echo "No md5sum found in \$PATH!"
 fi
 echo "-----------------------------------------------------------------";
-echo "Note: You may have to tag your cvs tree: cvs tag rel-2_x_x";
+echo "Note: You may have to tag your cvs tree:     cvs tag rel-2_x_x";
 echo "Note: You may have to braunch your cvs tree: cvs tag -b rel-2_x";
+echo "Note: To delete a tag:                       cvs tag -d rel-2_x_x";
+echo "Note: To check out by an timestamp:          cvs co -r rel-2_x -D \"2008-10-02 17:00\" otrs";
 echo "-----------------------------------------------------------------";
 
 # --
