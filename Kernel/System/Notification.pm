@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Notification.pm - lib for notifications
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Notification.pm,v 1.19 2008-12-10 07:11:16 tr Exp $
+# $Id: Notification.pm,v 1.20 2009-02-11 23:27:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 =head1 NAME
 
@@ -89,7 +89,7 @@ sub NotificationGet {
 
     # check needed stuff
     if ( !$Param{Name} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Name!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Name!' );
         return;
     }
     my ( $Language, $Type );
@@ -102,18 +102,15 @@ sub NotificationGet {
     $Param{ID} = $Self->{DBObject}->Quote( $Param{ID}, 'Integer' );
 
     # sql
-    my $SQL
-        = "SELECT id, notification_type, notification_charset, "
-        . " notification_language, subject, text "
-        . " FROM "
-        . " notifications "
-        . " WHERE ";
+    my $SQL = 'SELECT id, notification_type, notification_charset, '
+        . ' notification_language, subject, text '
+        . ' FROM notifications WHERE ';
 
     if ( $Param{ID} ) {
         $SQL .= " id = $Param{ID}";
     }
     else {
-        $SQL .= " notification_type = '$Type' AND " . "notification_language = '$Language'";
+        $SQL .= " notification_type = '$Type' AND notification_language = '$Language'";
     }
 
     return if !$Self->{DBObject}->Prepare( SQL => $SQL );
@@ -157,7 +154,7 @@ sub NotificationGet {
             Priority => 'notice',
             Message  => "Can't find notification for $Type and $Language, try it again with en!",
         );
-        return $Self->NotificationGet( %Param, Name => "en::$Type", Loop => $Language );
+        return $Self->NotificationGet( %Param, Name => 'en::' . $Type, Loop => $Language );
     }
     elsif ( !%Data && $Param{Loop} ) {
         $Self->{LogObject}->Log(
@@ -182,13 +179,10 @@ sub NotificationList {
     my ( $Self, %Param ) = @_;
 
     # sql
-    my $SQL
-        = "SELECT id, notification_type, notification_charset, "
-        . " notification_language "
-        . " FROM "
-        . " notifications";
-
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
+    return if !$Self->{DBObject}->Prepare(
+        SQL => 'SELECT id, notification_type, notification_charset, '
+            . ' notification_language FROM notifications',
+    );
 
     # get languages
     my %Languages = %{ $Self->{ConfigObject}->{DefaultUsedLanguages} };
@@ -206,15 +200,18 @@ sub NotificationList {
     my %List = ();
     for my $Language ( keys %Languages ) {
         for my $Type ( keys %Types ) {
-            $List{ $Language . '::' . $Type } = $Language . "::$Type";
+            $List{ $Language . '::' . $Type } = $Language . '::' . $Type;
         }
     }
 
     # get real list
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
+    return if !$Self->{DBObject}->Prepare(
+        SQL => 'SELECT id, notification_type, notification_charset, '
+            . ' notification_language FROM notifications',
+    );
 
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
-        $List{ $Data[3] . '::' . $Data[1] } = "$Data[3]::$Data[1]";
+        $List{ $Data[3] . '::' . $Data[1] } = $Data[3] . '::' . $Data[1];
     }
     return %List;
 }
@@ -224,12 +221,12 @@ sub NotificationList {
 update notification attributes
 
     $NotificationObject->NotificationUpdate(
-        Type => 'NewTicket',
-        Charset => 'utf-8',
+        Type     => 'NewTicket',
+        Charset  => 'utf-8',
         Language => 'en',
-        Subject => 'Some Subject with <OTRS_TAGS>',
-        Body => 'Some Body with <OTRS_TAGS>',
-        UserID => 123,
+        Subject  => 'Some Subject with <OTRS_TAGS>',
+        Body     => 'Some Body with <OTRS_TAGS>',
+        UserID   => 123,
     );
 
 =cut
@@ -248,31 +245,26 @@ sub NotificationUpdate {
     # fix some bad stuff from some browsers (Opera)!
     $Param{Body} =~ s/(\n\r|\r\r\n|\r\n|\r)/\n/g;
 
-    # db quote
-    for (qw(Type Charset Language Subject Body)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_} ) || '';
-    }
-
-    $Param{UserID} = $Self->{DBObject}->Quote( $Param{UserID}, 'Integer' );
-
     # sql
     $Self->{DBObject}->Do(
-        SQL => "DELETE FROM notifications WHERE notification_type = '$Param{Type}' "
-            . "AND notification_language = '$Param{Language}'"
+        SQL => 'DELETE FROM notifications WHERE notification_type = ? '
+            . 'AND notification_language = ?',
+        Bind => [
+            \$Param{Type}, \$Param{Language},
+        ],
     );
 
     # sql
-    my $SQL
-        = "INSERT INTO notifications "
-        . " (notification_type, notification_charset, notification_language, subject, text, "
-        . " create_time, create_by, change_time, change_by)"
-        . " VALUES "
-        . " ('$Param{Type}', '$Param{Charset}', '$Param{Language}', '$Param{Subject}', '$Param{Body}', "
-        . " current_timestamp, $Param{UserID}, current_timestamp,  $Param{UserID})";
-
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
-
-    return 1;
+    return $Self->{DBObject}->Prepare(
+        SQL => 'INSERT INTO notifications '
+            . '(notification_type, notification_charset, notification_language, subject, text, '
+            . 'create_time, create_by, change_time, change_by) '
+            . 'VALUES (?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+        Bind => [
+            \$Param{Type}, \$Param{Charset}, \$Param{Language}, \$Param{Subject},
+            \$Param{Body}, \$Param{UserID}, \$Param{UserID},
+        ],
+    );
 }
 
 1;
@@ -291,6 +283,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2008-12-10 07:11:16 $
+$Revision: 1.20 $ $Date: 2009-02-11 23:27:58 $
 
 =cut
