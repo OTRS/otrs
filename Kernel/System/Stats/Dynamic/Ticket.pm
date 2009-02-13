@@ -1,8 +1,8 @@
 # --
 # Kernel/System/Stats/Dynamic/Ticket.pm - all advice functions
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.21 2008-09-15 11:02:31 mh Exp $
+# $Id: Ticket.pm,v 1.21.2.1 2009-02-13 15:38:27 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.21.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -156,7 +156,7 @@ sub GetObjectAttributes {
             UseAsXvalue      => 1,
             UseAsValueSeries => 1,
             UseAsRestriction => 1,
-            Element          => 'LocksIDs',
+            Element          => 'LockIDs',
             Block            => 'MultiSelectField',
             Values           => \%LockList,
         },
