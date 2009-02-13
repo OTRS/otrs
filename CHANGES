@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.834 2009-02-11 19:45:59 martin Exp $
+# $Id: CHANGES,v 1.835 2009-02-13 15:41:00 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -98,6 +98,8 @@
     auth support.
 
 2.3.5 (2009/??/??)
+ - (2009/02/13) Fixed bug# 3657 - Stats module: The locking attribute doesn't
+    work.
  - (2009/02/09) Fixed bug# 3656 - The package manager testscript doesn't work
     on developer installations.
  - (2009/01/30) Fixed bug# 3635 - Was not able to install .opm packages bigger
