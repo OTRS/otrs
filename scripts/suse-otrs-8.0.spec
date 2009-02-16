@@ -1,12 +1,12 @@
 # --
 # RPM spec file for SuSE Linux 8.x of the OTRS package
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: suse-otrs-8.0.spec,v 1.16 2008-11-25 02:02:34 martin Exp $
+# $Id: suse-otrs-8.0.spec,v 1.17 2009-02-16 12:50:17 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 #
 # please send bugfixes or comments to bugs+rpm@otrs.org
@@ -199,4 +199,3 @@ rm -rf $RPM_BUILD_ROOT
 - added SuSE like rc scripts
 * Tue Jan 10 2002 - martin+rpm@otrs.org
 - new package created
-

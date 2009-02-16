@@ -1,12 +1,12 @@
 # --
 # CSV.t - CSV tests
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CSV.t,v 1.11 2008-05-08 09:35:57 mh Exp $
+# $Id: CSV.t,v 1.12 2009-02-16 12:50:17 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 use Kernel::System::CSV;

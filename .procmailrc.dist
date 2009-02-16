@@ -1,12 +1,12 @@
 # --
 # .procmailrc - procmailrc of the OTRS user
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: .procmailrc.dist,v 1.4 2008-10-15 17:19:21 martin Exp $
+# $Id: .procmailrc.dist,v 1.5 2009-02-16 12:54:21 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 #SYS_HOME=/opt/otrs/
@@ -82,5 +82,3 @@ $SYS_HOME/var/spool/.
 
 
 # end of .procmailrc
-
-

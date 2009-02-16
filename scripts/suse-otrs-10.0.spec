@@ -1,12 +1,12 @@
 # --
 # RPM spec file for SUSE Linux 9.1 of the OTRS package
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: suse-otrs-10.0.spec,v 1.8 2008-11-25 02:02:34 martin Exp $
+# $Id: suse-otrs-10.0.spec,v 1.9 2009-02-16 12:50:17 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 #
 # please send bugfixes or comments to bugs+rpm@otrs.org
@@ -169,4 +169,3 @@ rm -rf $RPM_BUILD_ROOT
 - added rename of old /opt/otrs/Kernel/Config/Files/(Ticket|TicketPostMaster|FAQ).pm files
 * Sun Mar 25 2006 - martin+rpm@otrs.org
 - added SUSE 10.0 support
-
