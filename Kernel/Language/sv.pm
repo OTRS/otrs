@@ -2,11 +2,11 @@
 # Kernel/Language/sv.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats@synergy.se>
 # --
-# $Id: sv.pm,v 1.59 2008-10-27 08:05:27 martin Exp $
+# $Id: sv.pm,v 1.60 2009-02-16 10:38:04 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 package Kernel::Language::sv;
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.59 $;
+$VERSION = q$Revision: 1.60 $;
 
 sub Data {
     my $Self = shift;
@@ -1357,7 +1357,7 @@ sub Data {
         'utf8' => '',
         'false' => '',
         'SystemID' => '',
-        '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(Unikt id för detta system.  Alla ärendenummer och http-sesssionsid börjar med denna id)',
+        '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(Unikt id för detta system.  Alla ärendenummer och http-sessionsid börjar med denna id)',
         'System FQDN' => '',
         '(Full qualified domain name of your system)' => '(Fullt kvalificerat dns-namn för ditt system)',
         'AdminEmail' => 'Admin-email',

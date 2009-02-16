@@ -5,11 +5,11 @@
 # Copyright (C) 2006 Knut Haugen <knuthaug at linpro.no>
 # Copyright (C) 2007-2008 Fredrik Andersen <fredrik.andersen at husbanken.no>
 # --
-# $Id: nb_NO.pm,v 1.68 2008-10-27 08:05:27 martin Exp $
+# $Id: nb_NO.pm,v 1.69 2009-02-16 10:38:04 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 package Kernel::Language::nb_NO;
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.68 $;
+$VERSION = q$Revision: 1.69 $;
 
 sub Data {
     my $Self = shift;
@@ -1439,7 +1439,7 @@ sub Data {
         'customer realname' => 'Fullt kundenavn',
         'Pending messages' => 'Ventende meldinger',
         'Port' => 'Port',
-        'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributs of the corresponding element.' => 'Dersom du fjerner haken i \'Fast\' avkryssingsboksen, vil agenten som genererer statistikken kunne endre attributtene til det korresponderende elementet.',
+        'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributes of the corresponding element.' => 'Dersom du fjerner haken i \'Fast\' avkryssingsboksen, vil agenten som genererer statistikken kunne endre attributtene til det korresponderende elementet.',
         'Modules' => 'Moduler',
         'for agent login' => 'gir agents login',
         'Keyword' => 'Nøkkelord',
