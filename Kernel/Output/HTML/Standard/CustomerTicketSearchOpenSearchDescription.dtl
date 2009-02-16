@@ -2,11 +2,11 @@
 # CustomerTicketSearchOpenSearchDescription.dtl - provides opensearch form for CustomerTicketSearch
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketSearchOpenSearchDescription.dtl,v 1.2 2009-01-03 09:52:10 martin Exp $
+# $Id: CustomerTicketSearchOpenSearchDescription.dtl,v 1.3 2009-02-16 11:07:25 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 <?xml version="1.0" encoding="utf-8" ?>
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">

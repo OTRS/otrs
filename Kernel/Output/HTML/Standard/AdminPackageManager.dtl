@@ -1,12 +1,12 @@
 # --
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.45 2008-11-16 16:14:14 martin Exp $
+# $Id: AdminPackageManager.dtl,v 1.46 2009-02-16 11:07:25 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 <!-- dtl:block:Uninstall -->
@@ -291,7 +291,7 @@
 <!-- dtl:block:ShowRemotePackageDocumentation -->
                 </td>
                 <td class="$QData{"CssClass"}">$QData{"Version"}</td>
-                <td class="$QData{"CssClass"}"><a href="$QData{"URL"}" target="_blank">$QData{"Vendor"}</a></td>
+                <td class="$QData{"CssClass"}"><a href="$LQData{"URL"}" target="_blank">$QData{"Vendor"}</a></td>
                 <td class="$QData{"CssClass"}" title="$QData{"Description"}">$QData{"Description","55"}</td>
                 <td class="$QData{"CssClass"}">
 <!-- dtl:block:ShowRemotePackageInstall -->
@@ -340,7 +340,7 @@
 <!-- dtl:block:ShowLocalPackageDocumentation -->
                 </td>
                 <td class="$QData{"CssClass"}">$QData{"Version"}</td>
-                <td class="$QData{"CssClass"}"><a href="$QData{"URL"}" target="_blank">$QData{"Vendor"}</a></td>
+                <td class="$QData{"CssClass"}"><a href="$LQData{"URL"}" target="_blank">$QData{"Vendor"}</a></td>
                 <td class="$QData{"CssClass"}" title="$QData{"Description"}">$QData{"Description","55"}</td>
                 <td class="$QData{"CssClass"}">$Text{"$QData{"Status"}"}</td>
                 <td class="$QData{"CssClass"}">
