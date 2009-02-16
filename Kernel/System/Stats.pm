@@ -2,11 +2,11 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.60 2009-01-26 11:44:13 tr Exp $
+# $Id: Stats.pm,v 1.61 2009-02-16 11:57:40 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 package Kernel::System::Stats;
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 =head1 SYNOPSIS
 
@@ -2690,7 +2690,10 @@ sub StatsRun {
             DatabasePw   => $Self->{ConfigObject}->Get('Core::MirrorDB::Password'),
         );
         if ( !$ExtraDatabaseObject ) {
-            $Self->{LayoutObject}->FatalError();
+            return $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'There is no MirroDB!',
+            );
         }
         $Self->{DBObject} = $ExtraDatabaseObject;
     }
@@ -3097,11 +3100,11 @@ sub _GetCacheString {
 This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
-the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+the enclosed file COPYING for license information (AGPL). If you
+did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.60 $ $Date: 2009-01-26 11:44:13 $
+$Revision: 1.61 $ $Date: 2009-02-16 11:57:40 $
 
 =cut
