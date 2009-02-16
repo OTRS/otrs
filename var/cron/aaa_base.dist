@@ -2,13 +2,12 @@
 # cron/aaa_base - base crontab package
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: aaa_base.dist,v 1.6 2009-02-16 20:34:18 tr Exp $
+# $Id: aaa_base.dist,v 1.7 2009-02-16 20:35:25 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-
 
 # Who gets the cron emails?
 MAILTO="root@localhost"
