@@ -1,12 +1,12 @@
 # --
 # Kernel/System/MailAccount/POP3S.pm - lib for pop3 accounts
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: POP3S.pm,v 1.6 2008-10-06 16:44:37 mh Exp $
+# $Id: POP3S.pm,v 1.7 2009-02-16 11:47:35 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 package Kernel::System::MailAccount::POP3S;
@@ -19,7 +19,7 @@ use Mail::POP3Client;
 use Kernel::System::PostMaster;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

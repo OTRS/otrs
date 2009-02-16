@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Log/SysLog.pm - a wrapper for Sys::Syslog or xyz::Syslog
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: SysLog.pm,v 1.16 2008-05-08 09:36:21 mh Exp $
+# $Id: SysLog.pm,v 1.17 2009-02-16 11:48:19 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 package Kernel::System::Log::SysLog;
@@ -18,7 +18,7 @@ use Sys::Syslog qw(:DEFAULT setlogsock);
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

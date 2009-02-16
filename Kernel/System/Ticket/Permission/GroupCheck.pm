@@ -1,13 +1,13 @@
 # --
 # Kernel/System/Ticket/Permission/GroupCheck.pm - the sub module of
 # the global ticket handle
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: GroupCheck.pm,v 1.12 2008-06-11 00:24:53 martin Exp $
+# $Id: GroupCheck.pm,v 1.13 2009-02-16 11:45:13 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 package Kernel::System::Ticket::Permission::GroupCheck;
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;

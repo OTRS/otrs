@@ -1,13 +1,12 @@
 # --
 # Ticket/Number/DateChecksum.pm - a date ticket number generator
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
-# Copyright (C) 2002 Stefan Schmidt <jsj@jsj.dyndns.org>
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DateChecksum.pm,v 1.33 2008-07-13 23:14:45 martin Exp $
+# $Id: DateChecksum.pm,v 1.34 2009-02-16 11:46:10 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 # Note:
@@ -30,7 +29,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub TicketCreateNumber {
     my ( $Self, $JumpCounter ) = @_;

@@ -1,13 +1,12 @@
 # --
 # Kernel/System/DB/db2.pm - db2 database backend
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
-# Modified for DB2 UDB Friedmar Moch <friedmar@acm.org>
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: db2.pm,v 1.52 2008-07-19 12:50:53 mh Exp $
+# $Id: db2.pm,v 1.53 2009-02-16 11:48:19 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 package Kernel::System::DB::db2;
@@ -16,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -379,9 +378,9 @@ sub TableAlter {
                 push @SQL, "CALL SYSPROC.ADMIN_CMD ('REORG TABLE $Table')";
             }
 
-           # normal data type
-           #push @SQL, "ALTER TABLE $Table ALTER COLUMN $Tag->{NameNew} SET DATA TYPE $Tag->{Type}";
-           #push @SQL, "CALL SYSPROC.ADMIN_CMD ('REORG TABLE $Table')";
+            # normal data type
+            #push @SQL, "ALTER TABLE $Table ALTER COLUMN $Tag->{NameNew} SET DATA TYPE $Tag->{Type}";
+            #push @SQL, "CALL SYSPROC.ADMIN_CMD ('REORG TABLE $Table')";
 
             # investigate the default value
             my $Default = '';
