@@ -1,12 +1,12 @@
 # --
 # scripts/test/Layout.t - layout module testscript
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.18 2008-07-23 23:08:34 martin Exp $
+# $Id: Layout.t,v 1.19 2009-02-16 12:41:12 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 use strict;

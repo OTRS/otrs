@@ -1,12 +1,12 @@
 # --
 # scripts/test/Stats.t - stats module testscript
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.t,v 1.16 2008-07-17 14:30:39 tr Exp $
+# $Id: Stats.t,v 1.17 2009-02-16 12:40:23 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 use strict;

@@ -1,12 +1,12 @@
 # --
 # PostMaster.t - PostMaster tests
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.t,v 1.13 2008-12-04 14:52:37 mh Exp $
+# $Id: PostMaster.t,v 1.14 2009-02-16 12:41:12 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 use Kernel::System::PostMaster::LoopProtection;

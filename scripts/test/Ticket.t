@@ -2,11 +2,11 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.42 2009-01-22 20:03:18 martin Exp $
+# $Id: Ticket.t,v 1.43 2009-02-16 12:40:23 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 use utf8;

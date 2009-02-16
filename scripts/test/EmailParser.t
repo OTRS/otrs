@@ -2,11 +2,11 @@
 # EmailParser.t - email parser tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.t,v 1.17 2009-01-10 19:40:02 martin Exp $
+# $Id: EmailParser.t,v 1.18 2009-02-16 12:41:12 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 use utf8;
