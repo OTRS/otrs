@@ -3,7 +3,7 @@
 # module of the global ticket handle
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUserIDCheck.pm,v 1.7 2009-02-16 11:46:47 tr Exp $
+# $Id: CustomerUserIDCheck.pm,v 1.8 2009-02-17 00:07:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -50,10 +50,11 @@ sub Run {
     # get user data
     my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $Param{UserID} );
 
-    # check user login
-    if ( $Ticket{CustomerUserID} && $Ticket{CustomerUserID} =~ /^\Q$CustomerData{UserLogin}\E$/i ) {
-        return 1;
-    }
+    # check user login, return access if customer user id is the same
+    return if !$Ticket{CustomerUserID};
+    return 1 if ( lc $Ticket{CustomerUserID} eq lc $CustomerData{UserLogin} );
+
+    # return no access
     return;
 }
 

@@ -3,7 +3,7 @@
 # module of the global ticket handle
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerIDCheck.pm,v 1.12 2009-02-16 11:46:47 tr Exp $
+# $Id: CustomerIDCheck.pm,v 1.13 2009-02-17 00:07:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -55,15 +55,16 @@ sub Run {
 
     # add own customer id
     if ( $CustomerData{UserCustomerID} ) {
-        push( @CustomerIDs, $CustomerData{UserCustomerID} );
+        push @CustomerIDs, $CustomerData{UserCustomerID};
     }
 
-    # check customer id s
+    # check customer ids, return access if customer id is the same
     for my $CustomerID (@CustomerIDs) {
-        if ( $Ticket{CustomerID} && $Ticket{CustomerID} =~ /^\Q$CustomerID\E$/i ) {
-            return 1;
-        }
+        next if !$Ticket{CustomerID};
+        return 1 if ( lc $Ticket{CustomerID} eq lc $CustomerID );
     }
+
+    # return no access
     return;
 }
 

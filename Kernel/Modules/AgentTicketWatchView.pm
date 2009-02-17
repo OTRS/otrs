@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketWatchView.pm - to view all locked tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketWatchView.pm,v 1.5 2009-02-16 11:20:53 tr Exp $
+# $Id: AgentTicketWatchView.pm,v 1.6 2009-02-17 00:10:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -93,12 +93,10 @@ sub Run {
         }
         else {
             for my $Group (@Groups) {
-                if (
-                    $Self->{LayoutObject}->{"UserIsGroup[$Group]"}
-                    && $Self->{LayoutObject}->{"UserIsGroup[$Group]"} eq 'Yes'
-                    )
-                {
+                next if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
+                if ( $Self->{LayoutObject}->{"UserIsGroup[$Group]"} eq 'Yes' ) {
                     $Access = 1;
+                    last;
                 }
             }
         }
