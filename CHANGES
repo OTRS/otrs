@@ -2,29 +2,37 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.835 2009-02-13 15:41:00 tr Exp $
+# $Id: CHANGES,v 1.836 2009-02-17 00:34:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 2.4.0 beta1 (2009/??/??)
+ - (2009/02/17) Added group permission support for bulk feature (config via
+    SysConfig -> Ticket -> Core::TicketBulkAction).
+ - (2009/02/17) Added read only permission support for watched tickets.
+ - (2009/02/17) Added agent notification support for watched tickets (config
+    via perferences setting for each agent).
  - (2009/02/11) Fixed ticket# 2009020942001554 - generic agent is logging many
     debug infos into log file.
  - (2009/02/09) Fixed bug# 3075 - IntroUpgrade Text is not shown during package
-    upgrade.
+    upgrade in admin interface of package manager.
  - (2009/02/09) Implement the same identifier handling for customer as for
-    user. This effects the files CustomerNavigationBar.dtl and  Layout.pm.
+    user. This effects the files Kernel/Ouptut/HTML/*/CustomerNavigationBar.dtl
+    and Kernel/Ouptut/HTML/Layout.pm.
  - (2009/02/05) Removed the dtl-if from Header.dtl. And implement a new
     handling to set a indentifier for the user information (usually visible
     on the top of the right side of a page).
  - (2009/02/04) Implement a config option to remove OTRS version tags
-    from the HTML headers.
- - (2009/02/04) Removed a useless slogan from the HTML-Headers.
+    from the http headers.
+ - (2009/02/04) Removed a useless slogan from the HTML/DTL-Headers (
+    Kernel/Ouptut/HTML/*/Header.dtl, Kernel/Ouptut/HTML/*/Footer.dtl, ...).
  - (2009/01/28) Fixed bug# 3233 - Better error message when adding auto
     responses with same name.
- - (2009/01/26) Removed the outdated function FetchrowHashref from DB.pm.
+ - (2009/01/26) Removed outdated function FetchrowHashref() from core module
+    Kernel/System/DB.pm.
  - (2009/01/08) Fixed bug# 3571 - Output Filter Pre+Post of layout object will
     be use on any block, not on any template file like it was in 2.1-2.2. Moved
     back to old behavior.
