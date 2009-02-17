@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.122 2009-02-16 11:16:22 tr Exp $
+# $Id: Layout.pm,v 1.123 2009-02-17 22:43:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.122 $) [1];
+$VERSION = qw($Revision: 1.123 $) [1];
 
 =head1 NAME
 
@@ -92,7 +92,7 @@ sub new {
 
     # check needed objects
     # Attention the SessionObject is needet for NavigationBar()
-    for (qw(ConfigObject LogObject TimeObject MainObject EncodeObject)) {
+    for (qw(ConfigObject LogObject TimeObject MainObject EncodeObject ParamObject)) {
         if ( !$Self->{$_} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
@@ -665,7 +665,7 @@ sub _Output {
 
     # parse/get text blocks
     my @BR = $Self->_BlockTemplatesReplace(
-        Template => \$TemplateString,
+        Template     => \$TemplateString,
         TemplateFile => $Param{TemplateFile} || '',
     );
     my $ID        = 0;
@@ -1001,18 +1001,37 @@ sub _Output {
         }
     }egx;
 
+    # rewrite forms, add challenge token : <form action="index.pl" method="get">
+    if ( $Self->{SessionID} ) {
+        my $UserChallengeToken = $Self->Ascii2Html( Text => $Self->{UserChallengeToken} );
+        $Output =~ s{
+            (<form.+?action=")(.+?)(">|".+?>)
+        }
+        {
+            my $Start  = $1;
+            my $Target = $2;
+            my $End    = $3;
+            if ( $Target =~ /^(http:|https:)/i ) {
+                $Start.$Target.$End;
+            }
+            else {
+                $Start.$Target.$End."<input type=\"hidden\" name=\"ChallengeToken\" value=\"$UserChallengeToken\"/>";
+            }
+        }iegx;
+    }
+
     # Check if the browser sends the session id cookie!
     # If not, add the session id to the links and forms!
-    if ( !$Self->{SessionIDCookie} ) {
+    if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
 
         # rewrite a hrefs
         $Output =~ s{
             (<a.+?href=")(.+?)(\#.+?|)(">|".+?>)
         }
         {
-            my $AHref = $1;
-            my $Target = $2;
-            my $End = $3;
+            my $AHref   = $1;
+            my $Target  = $2;
+            my $End     = $3;
             my $RealEnd = $4;
             if ($Target =~ /^(http:|https:|#|ftp:)/i ||
                 $Target !~ /\.(pl|php|cgi|fcg|fcgi|fpl)(\?|$)/ ||
@@ -1048,10 +1067,10 @@ sub _Output {
             (<form.+?action=")(.+?)(">|".+?>)
         }
         {
-            my $Start  = "$1";
+            my $Start  = $1;
             my $Target = $2;
-            my $End    = "$3";
-            if ($Target =~ /^(http:|https:)/i || !$Self->{SessionID}) {
+            my $End    = $3;
+            if ( $Target =~ /^(http:|https:)/i ) {
                 $Start.$Target.$End;
             }
             else {
@@ -1163,16 +1182,18 @@ sub Redirect {
     #  o http://bugs.otrs.org/show_bug.cgi?id=2230
     #  o http://support.microsoft.com/default.aspx?scid=kb;en-us;221154
     if ( $ENV{SERVER_SOFTWARE} =~ /^microsoft\-iis/i ) {
-        my $Host = $ENV{HTTP_HOST} || $Self->{ConfigObject}->Get('FQDN');
-        $Param{Redirect}
-            = $Self->{ConfigObject}->Get('HttpType') . '://' . $Host . '/' . $Param{Redirect};
+        my $Host     = $ENV{HTTP_HOST} || $Self->{ConfigObject}->Get('FQDN');
+        my $HttpType = $Self->{ConfigObject}->Get('HttpType');
+        $Param{Redirect} = $HttpType . '://' . $Host . '/' . $Param{Redirect};
     }
     my $Output = $Cookies . $Self->Output( TemplateFile => 'Redirect', Data => \%Param );
+
+    # add session id to redirect if no cookie is enabled
     if ( !$Self->{SessionIDCookie} ) {
 
         # rewrite location header
         $Output =~ s{
-            (location: )(.*)
+            (location:\s)(.*)
         }
         {
             my $Start  = $1;
@@ -1249,6 +1270,22 @@ sub Login {
     $Self->_DisableBannerCheck(OutputRef => \$Output);
 
     return $Output;
+}
+
+sub ChallengeTokenCheck {
+    my ( $Self, %Param ) = @_;
+
+    # return if feature is disabled
+    return 1 if !$Self->{ConfigObject}->Get('SessionCSRFProtection');
+
+    # get challenge token and check it
+    my $ChallengeToken = $Self->{ParamObject}->GetParam( Param => 'ChallengeToken' ) || '';
+    if ( $ChallengeToken ne $Self->{UserChallengeToken} ) {
+        $Self->FatalError(
+            Message => 'Invalid Challenge Token!',
+        );
+    }
+    return 1;
 }
 
 sub FatalError {
@@ -3110,23 +3147,21 @@ sub NavigationBar {
         for my $Job ( sort keys %Jobs ) {
 
             # load module
-            if ( $Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
-                my $Object = $Jobs{$Job}->{Module}->new(
-                    %{$Self},
-                    ConfigObject => $Self->{ConfigObject},
-                    LogObject    => $Self->{LogObject},
-                    DBObject     => $Self->{DBObject},
-                    LayoutObject => $Self,
-                    UserID       => $Self->{UserID},
-                    Debug        => $Self->{Debug},
-                );
-
-                # run module
-                $Output .= $Object->Run( %Param, Config => $Jobs{$Job} );
-            }
-            else {
+            if ( !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
                 $Self->FatalError();
             }
+            my $Object = $Jobs{$Job}->{Module}->new(
+                %{$Self},
+                ConfigObject => $Self->{ConfigObject},
+                LogObject    => $Self->{LogObject},
+                DBObject     => $Self->{DBObject},
+                LayoutObject => $Self,
+                UserID       => $Self->{UserID},
+                Debug        => $Self->{Debug},
+            );
+
+            # run module
+            $Output .= $Object->Run( %Param, Config => $Jobs{$Job} );
         }
     }
 
@@ -3216,23 +3251,21 @@ sub NavigationBar {
         for my $Job ( sort keys %Jobs ) {
 
             # load module
-            if ( $Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
-                my $Object = $Jobs{$Job}->{Module}->new(
-                    %{$Self},
-                    ConfigObject => $Self->{ConfigObject},
-                    LogObject    => $Self->{LogObject},
-                    DBObject     => $Self->{DBObject},
-                    LayoutObject => $Self,
-                    UserID       => $Self->{UserID},
-                    Debug        => $Self->{Debug},
-                );
-
-                # run module
-                %NavBarModule = ( %NavBarModule, $Object->Run( %Param, Config => $Jobs{$Job} ) );
-            }
-            else {
+            if ( !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
                 $Self->FatalError();
             }
+            my $Object = $Jobs{$Job}->{Module}->new(
+                %{$Self},
+                ConfigObject => $Self->{ConfigObject},
+                LogObject    => $Self->{LogObject},
+                DBObject     => $Self->{DBObject},
+                LayoutObject => $Self,
+                UserID       => $Self->{UserID},
+                Debug        => $Self->{Debug},
+            );
+
+            # run module
+            %NavBarModule = ( %NavBarModule, $Object->Run( %Param, Config => $Jobs{$Job} ) );
         }
     }
 
@@ -3257,23 +3290,21 @@ sub NavigationBar {
         my %Jobs = %{ $Self->{ModuleReg}->{NavBarModule} };
 
         # load module
-        if ( $Self->{MainObject}->Require( $Jobs{Module} ) ) {
-            my $Object = $Jobs{Module}->new(
-                %{$Self},
-                ConfigObject => $Self->{ConfigObject},
-                LogObject    => $Self->{LogObject},
-                DBObject     => $Self->{DBObject},
-                LayoutObject => $Self,
-                UserID       => $Self->{UserID},
-                Debug        => $Self->{Debug},
-            );
-
-            # run module
-            $Output .= $Object->Run( %Param, Config => \%Jobs );
-        }
-        else {
+        if ( !$Self->{MainObject}->Require( $Jobs{Module} ) ) {
             $Self->FatalError();
         }
+        my $Object = $Jobs{Module}->new(
+            %{$Self},
+            ConfigObject => $Self->{ConfigObject},
+            LogObject    => $Self->{LogObject},
+            DBObject     => $Self->{DBObject},
+            LayoutObject => $Self,
+            UserID       => $Self->{UserID},
+            Debug        => $Self->{Debug},
+        );
+
+        # run module
+        $Output .= $Object->Run( %Param, Config => \%Jobs );
     }
     return $Output;
 }
@@ -3894,7 +3925,33 @@ sub CustomerNavigationBar {
             }
         }
     }
+
+    # run menu item modules
+    if ( ref( $Self->{ConfigObject}->Get('CustomerFrontend::NavBarModule') ) eq 'HASH' ) {
+        my %Jobs = %{ $Self->{ConfigObject}->Get('CustomerFrontend::NavBarModule') };
+        for my $Job ( sort keys %Jobs ) {
+
+            # load module
+            if ( !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
+                $Self->FatalError();
+            }
+            my $Object = $Jobs{$Job}->{Module}->new(
+                %{$Self},
+                ConfigObject => $Self->{ConfigObject},
+                LogObject    => $Self->{LogObject},
+                DBObject     => $Self->{DBObject},
+                LayoutObject => $Self,
+                UserID       => $Self->{UserID},
+                Debug        => $Self->{Debug},
+            );
+
+            # run module
+            %NavBarModule = ( %NavBarModule, $Object->Run( %Param, Config => $Jobs{$Job} ) );
+        }
+    }
+
     for ( sort keys %NavBarModule ) {
+        next if !%{ $NavBarModule{$_} };
         $Self->Block(
             Name => $NavBarModule{$_}->{Block} || 'Item',
             Data => $NavBarModule{$_},
@@ -3914,35 +3971,33 @@ sub CustomerNavigationBar {
                     Message  => "Try to load module: $Jobs{$Job}->{Module}!",
                 );
             }
-            if ( $Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
-                my $Object = $Jobs{$Job}->{Module}->new(
-                    ConfigObject   => $Self->{ConfigObject},
-                    LogObject      => $Self->{LogObject},
-                    DBObject       => $Self->{DBObject},
-                    TimeObject     => $Self->{TimeObject},
-                    UserTimeObject => $Self->{UserTimeObject},
-                    LayoutObject   => $Self,
-                    UserID         => $Self->{UserID},
-                    Debug          => $Self->{Debug},
-                );
-
-                # log loaded module
-                if ( $Self->{Debug} > 1 ) {
-                    $Self->{LogObject}->Log(
-                        Priority => 'debug',
-                        Message  => "Module: $Jobs{$Job}->{Module} loaded!",
-                    );
-                }
-
-                # run module
-                $Param{Notification} .= $Object->Run( %Param, Config => $Jobs{$Job} );
-            }
-            else {
+            if ( !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
                     Message  => "Can't load module $Jobs{$Job}->{Module}!",
                 );
             }
+            my $Object = $Jobs{$Job}->{Module}->new(
+                ConfigObject   => $Self->{ConfigObject},
+                LogObject      => $Self->{LogObject},
+                DBObject       => $Self->{DBObject},
+                TimeObject     => $Self->{TimeObject},
+                UserTimeObject => $Self->{UserTimeObject},
+                LayoutObject   => $Self,
+                UserID         => $Self->{UserID},
+                Debug          => $Self->{Debug},
+            );
+
+            # log loaded module
+            if ( $Self->{Debug} > 1 ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message  => "Module: $Jobs{$Job}->{Module} loaded!",
+                );
+            }
+
+            # run module
+            $Param{Notification} .= $Object->Run( %Param, Config => $Jobs{$Job} );
         }
     }
 
@@ -4066,6 +4121,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.122 $ $Date: 2009-02-16 11:16:22 $
+$Revision: 1.123 $ $Date: 2009-02-17 22:43:28 $
 
 =cut
