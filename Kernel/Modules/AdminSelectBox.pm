@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSelectBox.pm - provides a SelectBox for admins
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSelectBox.pm,v 1.27 2009-02-16 11:20:52 tr Exp $
+# $Id: AdminSelectBox.pm,v 1.28 2009-02-17 23:37:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -36,29 +36,12 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # ------------------------------------------------------------ #
-    # print form
-    # ------------------------------------------------------------ #
-    if ( $Self->{Subaction} eq '' || !$Self->{Subaction} ) {
-
-        # get params
-        for (qw(SQL Max)) {
-            $Param{SQL} = $Self->{ParamObject}->GetParam( Param => 'SQL' ) || 'SELECT * FROM ';
-            $Param{Max} = $Self->{ParamObject}->GetParam( Param => 'Max' ) || 40;
-        }
-        my $Output = $Self->{LayoutObject}->Header();
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(
-            TemplateFile => 'AdminSelectBoxForm',
-            Data         => \%Param,
-        );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
-    }
-
-    # ------------------------------------------------------------ #
     # do select
     # ------------------------------------------------------------ #
-    elsif ( $Self->{Subaction} eq 'Select' ) {
+    if ( $Self->{Subaction} eq 'Select' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
 
         # get params
         for (qw(SQL Max)) {
@@ -126,11 +109,25 @@ sub Run {
             return $Output;
         }
     }
+
+    # ------------------------------------------------------------ #
+    # print form
+    # ------------------------------------------------------------ #
     else {
-        return $Self->{LayoutObject}->ErrorScreen(
-            Message => 'No Subaction!!',
-            Comment => 'Please contact your admin',
+
+        # get params
+        for (qw(SQL Max)) {
+            $Param{SQL} = $Self->{ParamObject}->GetParam( Param => 'SQL' ) || 'SELECT * FROM ';
+            $Param{Max} = $Self->{ParamObject}->GetParam( Param => 'Max' ) || 40;
+        }
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminSelectBoxForm',
+            Data         => \%Param,
         );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
 }
 

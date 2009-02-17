@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.59 2009-02-16 11:20:52 tr Exp $
+# $Id: AdminGenericAgent.pm,v 1.60 2009-02-17 23:37:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -99,6 +99,9 @@ sub Run {
     # --------------------------------------------------------------- #
     # show result site
     if ( $Self->{Subaction} eq 'UpdateAction' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
 
         # fill up profile name (e.g. with last-search)
         if ( !$Self->{Profile} ) {

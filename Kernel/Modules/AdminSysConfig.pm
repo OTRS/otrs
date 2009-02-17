@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.73 2009-02-16 11:20:52 tr Exp $
+# $Id: AdminSysConfig.pm,v 1.74 2009-02-17 23:37:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.73 $) [1];
+$VERSION = qw($Revision: 1.74 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -52,7 +52,9 @@ sub Run {
         }
     }
 
+    # ------------------------------------------------------------ #
     # download
+    # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Download' ) {
         my ( $s, $m, $h, $D, $M, $Y, $wd, $yd, $dst )
             = $Self->{TimeObject}->SystemTime2Date(
@@ -72,8 +74,13 @@ sub Run {
         );
     }
 
+    # ------------------------------------------------------------ #
     # upload
-    if ( $Self->{Subaction} eq 'Upload' ) {
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'Upload' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
 
         # get submit attachment
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
@@ -92,8 +99,14 @@ sub Run {
         }
     }
 
+    # ------------------------------------------------------------ #
     # update config
+    # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Update' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $SubGroup = $Self->{ParamObject}->GetParam( Param => 'SysConfigSubGroup' );
         my $Group    = $Self->{ParamObject}->GetParam( Param => 'SysConfigGroup' );
         my @List = $Self->{SysConfigObject}->ConfigSubGroupConfigItemList(
@@ -664,7 +677,9 @@ sub Run {
         );
     }
 
+    # ------------------------------------------------------------ #
     # edit config
+    # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Edit' ) {
         my $SubGroup = $Self->{ParamObject}->GetParam( Param => 'SysConfigSubGroup' );
         my $Group    = $Self->{ParamObject}->GetParam( Param => 'SysConfigGroup' );
@@ -755,7 +770,9 @@ sub Run {
         return $Output;
     }
 
+    # ------------------------------------------------------------ #
     # search config
+    # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Search' ) {
         my $Search = $Self->{ParamObject}->GetParam( Param => 'Search' );
         my @List = $Self->{SysConfigObject}->ConfigItemSearch( Search => $Search );

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSMIME.pm - to add/update/delete pgp keys
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.pm,v 1.21 2009-02-16 11:20:52 tr Exp $
+# $Id: AdminSMIME.pm,v 1.22 2009-02-17 23:37:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,7 +41,6 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Output = '';
     $Param{Search} = $Self->{ParamObject}->GetParam( Param => 'Search' );
     if ( !defined( $Param{Search} ) ) {
         $Param{Search} = $Self->{SMIMESearch} || '';
@@ -55,7 +54,9 @@ sub Run {
         Value     => $Param{Search},
     );
 
+    # ------------------------------------------------------------ #
     # delete key
+    # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Delete' ) {
         my $Hash = $Self->{ParamObject}->GetParam( Param => 'Hash' ) || '';
         my $Type = $Self->{ParamObject}->GetParam( Param => 'Type' ) || '';
@@ -102,8 +103,14 @@ sub Run {
         return $Output;
     }
 
+    # ------------------------------------------------------------ #
     # add certivicate
+    # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'AddCertificate' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         $Self->{SessionObject}->UpdateSessionID(
             SessionID => $Self->{SessionID},
             Key       => 'SMIMESearch',
@@ -143,8 +150,14 @@ sub Run {
         return $Output;
     }
 
+    # ------------------------------------------------------------ #
     # add private
+    # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'AddPrivate' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $Secret = $Self->{ParamObject}->GetParam( Param => 'Secret' ) || '';
         $Self->{SessionObject}->UpdateSessionID(
             SessionID => $Self->{SessionID},
@@ -188,7 +201,9 @@ sub Run {
         return $Output;
     }
 
+    # ------------------------------------------------------------ #
     # download fingerprint
+    # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'DownloadFingerprint' ) {
         my $Hash = $Self->{ParamObject}->GetParam( Param => 'Hash' ) || '';
         if ( !$Hash ) {
@@ -204,7 +219,9 @@ sub Run {
         );
     }
 
+    # ------------------------------------------------------------ #
     # download key
+    # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Download' ) {
         my $Hash = $Self->{ParamObject}->GetParam( Param => 'Hash' ) || '';
         my $Type = $Self->{ParamObject}->GetParam( Param => 'Type' ) || '';
@@ -231,7 +248,9 @@ sub Run {
         );
     }
 
+    # ------------------------------------------------------------ #
     # search key
+    # ------------------------------------------------------------ #
     else {
         my @List = ();
         if ( $Self->{CryptObject} ) {
@@ -247,7 +266,7 @@ sub Run {
                 },
             );
         }
-        $Output .= $Self->{LayoutObject}->Header();
+        my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         if ( !$Self->{CryptObject} ) {
             $Output .= $Self->{LayoutObject}->Notify(
@@ -263,11 +282,13 @@ sub Run {
                 Data     => '$Text{"' . $Self->{CryptObject}->Check() . '"}',
             );
         }
-        $Output
-            .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminSMIMEForm', Data => \%Param );
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminSMIMEForm',
+            Data         => \%Param,
+        );
         $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
-    return $Output;
 }
 
 1;

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAttachment.pm - provides admin std response module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAttachment.pm,v 1.20 2009-02-16 11:20:52 tr Exp $
+# $Id: AdminAttachment.pm,v 1.21 2009-02-17 23:37:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -42,26 +42,33 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Output = '';
     $Param{Subaction} = $Self->{Subaction} || '';
     $Param{NextScreen} = 'AdminAttachment';
 
     my %AttachmentIndex = $Self->{StdAttachmentObject}->GetAllStdAttachments( Valid => 0 );
     my @Params = ( 'ID', 'Name', 'Comment', 'ValidID', 'Response' );
 
+    # ------------------------------------------------------------ #
     # get data 2 form
+    # ------------------------------------------------------------ #
     if ( $Param{Subaction} eq 'Change' ) {
         $Param{ID} = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
         my %ResponseData = $Self->{StdAttachmentObject}->StdAttachmentGet( ID => $Param{ID} );
-        $Output = $Self->{LayoutObject}->Header();
+        my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Mask( %ResponseData, %Param, AttachmentIndex => \%AttachmentIndex, );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
 
+    # ------------------------------------------------------------ #
     # update action
+    # ------------------------------------------------------------ #
     elsif ( $Param{Subaction} eq 'ChangeAction' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my %GetParam;
         for (@Params) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
@@ -73,21 +80,25 @@ sub Run {
             Source => 'string',
         );
 
-        if (
-            $Self->{StdAttachmentObject}->StdAttachmentUpdate(
-                %GetParam, %UploadStuff, UserID => $Self->{UserID}
-            )
-            )
-        {
-            return $Self->{LayoutObject}->Redirect( OP => "Action=$Param{NextScreen}" );
-        }
-        else {
+        my $Update = $Self->{StdAttachmentObject}->StdAttachmentUpdate(
+            %GetParam,
+            %UploadStuff,
+            UserID => $Self->{UserID},
+        );
+        if ( !$Update ) {
             return $Self->{LayoutObject}->ErrorScreen();
         }
+        return $Self->{LayoutObject}->Redirect( OP => "Action=$Param{NextScreen}" );
     }
 
+    # ------------------------------------------------------------ #
     # add new response
+    # ------------------------------------------------------------ #
     elsif ( $Param{Subaction} eq 'AddAction' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my %GetParam;
         for (@Params) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
@@ -99,39 +110,46 @@ sub Run {
             Source => 'string',
         );
 
-        if (
-            my $Id
-            = $Self->{StdAttachmentObject}->StdAttachmentAdd(
-                %GetParam, %UploadStuff, UserID => $Self->{UserID}
-            )
-            )
-        {
-            return $Self->{LayoutObject}->Redirect(
-                OP => "Action=AdminResponseAttachment&Subaction=Attachment&ID=$Id",
-            );
-        }
-        else {
+        my $Id = $Self->{StdAttachmentObject}->StdAttachmentAdd(
+            %GetParam,
+            %UploadStuff,
+            UserID => $Self->{UserID},
+        );
+        if ( !$Id ) {
             return $Self->{LayoutObject}->ErrorScreen();
         }
+
+        return $Self->{LayoutObject}->Redirect(
+            OP => "Action=AdminResponseAttachment&Subaction=Attachment&ID=$Id",
+        );
     }
 
+    # ------------------------------------------------------------ #
     # delete response
+    # ------------------------------------------------------------ #
     elsif ( $Param{Subaction} eq 'Delete' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my %GetParam;
         for (@Params) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
         }
-        if ( $Self->{StdAttachmentObject}->StdAttachmentDelete( ID => $GetParam{ID} ) ) {
-            return $Self->{LayoutObject}->Redirect( OP => "Action=AdminAttachment" );
-        }
-        else {
+
+        my $Delete = $Self->{StdAttachmentObject}->StdAttachmentDelete( ID => $GetParam{ID} );
+        if ( !$Delete ) {
             return $Self->{LayoutObject}->ErrorScreen();
         }
+
+        return $Self->{LayoutObject}->Redirect( OP => "Action=AdminAttachment" );
     }
 
+    # ------------------------------------------------------------ #
     # else ! print form
+    # ------------------------------------------------------------ #
     else {
-        $Output = $Self->{LayoutObject}->Header();
+        my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Mask( AttachmentIndex => \%AttachmentIndex, );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -143,20 +161,20 @@ sub _Mask {
     my ( $Self, %Param ) = @_;
 
     # build ValidID string
-    $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{ValidOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data       => { $Self->{ValidObject}->ValidList(), },
         Name       => 'ValidID',
         SelectedID => $Param{ValidID},
     );
 
     # build ResponseOption string
-    $Param{'ResponseOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{ResponseOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data       => $Param{AttachmentIndex},
         Name       => 'ID',
         Size       => 15,
         SelectedID => $Param{ID},
     );
-    $Param{'Subaction'} = "Add" if ( !$Param{'Subaction'} );
+    $Param{Subaction} = "Add" if ( !$Param{Subaction} );
 
     return $Self->{LayoutObject}->Output( TemplateFile => 'AdminAttachmentForm', Data => \%Param );
 }

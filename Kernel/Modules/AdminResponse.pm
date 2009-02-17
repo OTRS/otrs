@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponse.pm - provides admin std response module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponse.pm,v 1.27 2009-02-16 11:20:52 tr Exp $
+# $Id: AdminResponse.pm,v 1.28 2009-02-17 23:37:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -44,7 +44,6 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Output = '';
     $Param{Subaction} = $Self->{Subaction} || '';
     $Param{NextScreen} = 'AdminResponse';
 
@@ -62,11 +61,13 @@ sub Run {
             = $Self->{StdAttachmentObject}->StdAttachmentsByResponseID( ID => $GetParam{ID}, );
     }
 
+    # ------------------------------------------------------------ #
     # get data 2 form
+    # ------------------------------------------------------------ #
     if ( $Param{Subaction} eq 'Change' ) {
         $Param{ID} = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
         my %ResponseData = $Self->{StdResponseObject}->StdResponseGet( ID => $Param{ID} );
-        $Output = $Self->{LayoutObject}->Header();
+        my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Mask(
             %ResponseData,
@@ -78,66 +79,83 @@ sub Run {
         return $Output;
     }
 
+    # ------------------------------------------------------------ #
     # update action
+    # ------------------------------------------------------------ #
     elsif ( $Param{Subaction} eq 'ChangeAction' ) {
-        if ( $Self->{StdResponseObject}->StdResponseUpdate( %GetParam, UserID => $Self->{UserID} ) )
-        {
 
-            # update attachments to response
-            my @NewIDs = $Self->{ParamObject}->GetArray( Param => 'IDs' );
-            $Self->{StdAttachmentObject}->SetStdAttachmentsOfResponseID(
-                AttachmentIDsRef => \@NewIDs,
-                ID               => $GetParam{ID},
-                UserID           => $Self->{UserID},
-            );
-            return $Self->{LayoutObject}->Redirect( OP => "Action=$Param{NextScreen}" );
-        }
-        else {
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
+        my $Update = $Self->{StdResponseObject}->StdResponseUpdate(
+            %GetParam,
+            UserID => $Self->{UserID},
+        );
+        if ( !$Update ) {
             return $Self->{LayoutObject}->ErrorScreen();
         }
+
+        # update attachments to response
+        my @NewIDs = $Self->{ParamObject}->GetArray( Param => 'IDs' );
+        $Self->{StdAttachmentObject}->SetStdAttachmentsOfResponseID(
+            AttachmentIDsRef => \@NewIDs,
+            ID               => $GetParam{ID},
+            UserID           => $Self->{UserID},
+        );
+        return $Self->{LayoutObject}->Redirect( OP => "Action=$Param{NextScreen}" );
     }
 
+    # ------------------------------------------------------------ #
     # add new response
+    # ------------------------------------------------------------ #
     elsif ( $Param{Subaction} eq 'AddAction' ) {
-        if (
-            my $Id
-            = $Self->{StdResponseObject}->StdResponseAdd( %GetParam, UserID => $Self->{UserID} )
-            )
-        {
 
-            # add attachments to response
-            my @NewIDs = $Self->{ParamObject}->GetArray( Param => 'IDs' );
-            $Self->{StdAttachmentObject}->SetStdAttachmentsOfResponseID(
-                AttachmentIDsRef => \@NewIDs,
-                ID               => $Id,
-                UserID           => $Self->{UserID},
-            );
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
 
-            # show next page
-            return $Self->{LayoutObject}->Redirect(
-                OP => "Action=AdminQueueResponses&Subaction=Response&ID=$Id",
-            );
-        }
-        else {
+        my $Id = $Self->{StdResponseObject}->StdResponseAdd(
+            %GetParam,
+            UserID => $Self->{UserID},
+        );
+        if ( !$Id ) {
             return $Self->{LayoutObject}->ErrorScreen();
         }
+
+        # add attachments to response
+        my @NewIDs = $Self->{ParamObject}->GetArray( Param => 'IDs' );
+        $Self->{StdAttachmentObject}->SetStdAttachmentsOfResponseID(
+            AttachmentIDsRef => \@NewIDs,
+            ID               => $Id,
+            UserID           => $Self->{UserID},
+        );
+
+        # show next page
+        return $Self->{LayoutObject}->Redirect(
+            OP => "Action=AdminQueueResponses&Subaction=Response&ID=$Id",
+        );
     }
 
+    # ------------------------------------------------------------ #
     # delete response
+    # ------------------------------------------------------------ #
     elsif ( $Param{Subaction} eq 'Delete' ) {
-        if ( $Self->{StdResponseObject}->StdResponseDelete( ID => $GetParam{ID} ) ) {
 
-            # show next page
-            return $Self->{LayoutObject}->Redirect( OP => "Action=AdminResponse" );
-        }
-        else {
+        my $Delete = $Self->{StdResponseObject}->StdResponseDelete(
+            ID => $GetParam{ID},
+        );
+        if ( !$Delete ) {
             return $Self->{LayoutObject}->ErrorScreen();
         }
+
+        # show next page
+        return $Self->{LayoutObject}->Redirect( OP => "Action=AdminResponse" );
     }
 
+    # ------------------------------------------------------------ #
     # else ! print form
+    # ------------------------------------------------------------ #
     else {
-        $Output = $Self->{LayoutObject}->Header();
+        my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Mask(
             Subaction           => 'Add',

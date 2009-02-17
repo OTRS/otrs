@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminService.pm - admin frontend to manage services
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminService.pm,v 1.15 2009-02-16 11:20:52 tr Exp $
+# $Id: AdminService.pm,v 1.16 2009-02-17 23:37:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Service;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -163,6 +163,9 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ServiceSave' ) {
 
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         # get params
         my %GetParam;
         for (qw(ServiceID ParentID Name ValidID Comment)) {
@@ -171,16 +174,20 @@ sub Run {
 
         # save to database
         if ( $GetParam{ServiceID} eq 'NEW' ) {
-            $GetParam{ServiceID}
-                = $Self->{ServiceObject}->ServiceAdd( %GetParam, UserID => $Self->{UserID}, );
+            $GetParam{ServiceID} = $Self->{ServiceObject}->ServiceAdd(
+                %GetParam,
+                UserID => $Self->{UserID},
+            );
             if ( !$GetParam{ServiceID} ) {
                 return $Self->{LayoutObject}->ErrorScreen();
             }
 
         }
         else {
-            my $Success
-                = $Self->{ServiceObject}->ServiceUpdate( %GetParam, UserID => $Self->{UserID}, );
+            my $Success = $Self->{ServiceObject}->ServiceUpdate(
+                %GetParam,
+                UserID => $Self->{UserID},
+            );
             if ( !$Success ) {
                 return $Self->{LayoutObject}->ErrorScreen();
             }

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSignature.pm - to add/update/delete system addresses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSignature.pm,v 1.29 2009-02-16 11:20:52 tr Exp $
+# $Id: AdminSignature.pm,v 1.30 2009-02-17 23:37:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Signature;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -66,6 +66,10 @@ sub Run {
     # change action
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $Note = '';
         my %GetParam;
         for (qw(ID Name Text Comment ValidID)) {
@@ -128,6 +132,10 @@ sub Run {
     # add action
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $Note = '';
         my %GetParam;
         for (qw(ID Name Text Comment ValidID)) {
@@ -192,12 +200,12 @@ sub _Edit {
         Name => 'Overview',
         Data => \%Param,
     );
-    $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{ValidOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data       => { $Self->{ValidObject}->ValidList(), },
         Name       => 'ValidID',
         SelectedID => $Param{ValidID},
     );
-    $Param{'QueueOption'} = $Self->{LayoutObject}->AgentQueueListOption(
+    $Param{QueueOption} = $Self->{LayoutObject}->AgentQueueListOption(
         Data => {
             $Self->{DBObject}->GetTableData(
                 What  => 'id, name',

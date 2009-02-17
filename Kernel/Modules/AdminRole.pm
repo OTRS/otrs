@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminRole.pm - to add/update/delete roles
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRole.pm,v 1.17 2009-02-16 11:20:52 tr Exp $
+# $Id: AdminRole.pm,v 1.18 2009-02-17 23:37:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -67,6 +67,10 @@ sub Run {
     # change action
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $Note = '';
         my %GetParam;
         for (qw(ID Name Comment ValidID)) {
@@ -129,6 +133,10 @@ sub Run {
     # add action
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $Note = '';
         my %GetParam;
         for (qw(ID Name Comment ValidID)) {

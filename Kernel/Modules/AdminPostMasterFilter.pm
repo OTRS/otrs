@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPostMasterFilter.pm - to add/update/delete filters
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.pm,v 1.20 2009-02-16 11:20:52 tr Exp $
+# $Id: AdminPostMasterFilter.pm,v 1.21 2009-02-17 23:37:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::PostMaster::Filter;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -66,6 +66,10 @@ sub Run {
     # add action
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $Add = $Self->{PostMasterFilter}->FilterAdd(
             Name           => $Name,
             StopAfterMatch => $StopAfterMatch,
@@ -95,6 +99,10 @@ sub Run {
     # update action
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'UpdateAction' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my %Match = ();
         my %Set   = ();
         for ( 1 .. 12 ) {
@@ -210,8 +218,8 @@ sub _MaskUpdate {
     for ( @{ $Self->{ConfigObject}->Get('PostmasterX-Header') } ) {
         $Header{$_} = $_;
     }
-    $Header{''}     = '-';
-    $Header{'Body'} = 'Body';
+    $Header{''}   = '-';
+    $Header{Body} = 'Body';
 
     # otrs header
     my %SetHeader = ();

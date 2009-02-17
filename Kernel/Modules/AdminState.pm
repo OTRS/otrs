@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminState.pm - to add/update/delete state
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminState.pm,v 1.25 2009-02-16 11:20:52 tr Exp $
+# $Id: AdminState.pm,v 1.26 2009-02-17 23:37:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -66,6 +66,10 @@ sub Run {
     # change action
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $Note = '';
         my %GetParam;
         for (qw(ID Name TypeID Comment ValidID)) {
@@ -128,6 +132,10 @@ sub Run {
     # add action
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $Note = '';
         my %GetParam;
         for (qw(ID TypeID Name Comment ValidID)) {

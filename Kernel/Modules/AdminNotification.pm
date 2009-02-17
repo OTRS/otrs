@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminNotification.pm - provides admin notification translations
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotification.pm,v 1.14 2009-02-16 11:20:52 tr Exp $
+# $Id: AdminNotification.pm,v 1.15 2009-02-17 23:37:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Notification;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -42,8 +42,6 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Output = '';
-
     my @Params = (qw(Name Type Charset Language Subject Body UserID));
     my %GetParam;
     for (@Params) {
@@ -55,58 +53,69 @@ sub Run {
         }
     }
 
+    # ------------------------------------------------------------ #
     # get data 2 form
+    # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
         my %Notification = $Self->{NotificationObject}->NotificationGet(%GetParam);
-        $Output = $Self->{LayoutObject}->Header();
+        my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_MaskNotificationForm( %GetParam, %Param, %Notification, );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
 
+    # ------------------------------------------------------------ #
     # update action
+    # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
-        if (
-            $Self->{NotificationObject}->NotificationUpdate( %GetParam, UserID => $Self->{UserID} )
-            )
-        {
-            return $Self->{LayoutObject}->Redirect( OP => "Action=AdminNotification" );
-        }
-        else {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
+        my $Update = $Self->{NotificationObject}->NotificationUpdate(
+            %GetParam,
+            UserID => $Self->{UserID},
+        );
+        if ( !$Update ) {
             return $Self->{LayoutObject}->Error();
         }
+        return $Self->{LayoutObject}->Redirect( OP => "Action=AdminNotification" );
     }
 
+    # ------------------------------------------------------------ #
     # add new response
+    # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
-        if (
-            my $Id
-            = $Self->{StdNotificationObject}->StdNotificationAdd(
-                %GetParam, UserID => $Self->{UserID}
-            )
-            )
-        {
 
-            # add attachments to response
-            my @NewIDs = $Self->{ParamObject}->GetArray( Param => 'IDs' );
-            $Self->{StdAttachmentObject}->SetStdAttachmentsOfNotificationID(
-                AttachmentIDsRef => \@NewIDs,
-                ID               => $Id,
-                UserID           => $Self->{UserID},
-            );
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
 
-            # show next page
-            return $Self->{LayoutObject}->Redirect( OP => "Action=AdminNotifications", );
-        }
-        else {
+        my $Id = $Self->{StdNotificationObject}->StdNotificationAdd(
+            %GetParam,
+            UserID => $Self->{UserID}
+        );
+        if ( !$Id ) {
             return $Self->{LayoutObject}->Error();
         }
+
+        # add attachments to response
+        my @NewIDs = $Self->{ParamObject}->GetArray( Param => 'IDs' );
+        $Self->{StdAttachmentObject}->SetStdAttachmentsOfNotificationID(
+            AttachmentIDsRef => \@NewIDs,
+            ID               => $Id,
+            UserID           => $Self->{UserID},
+        );
+
+        # show next page
+        return $Self->{LayoutObject}->Redirect( OP => "Action=AdminNotifications", );
     }
 
+    # ------------------------------------------------------------ #
     # else ! print form
+    # ------------------------------------------------------------ #
     else {
-        $Output = $Self->{LayoutObject}->Header();
+        my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_MaskNotificationForm();
         $Output .= $Self->{LayoutObject}->Footer();

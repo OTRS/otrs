@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminMailAccount.pm - to add/update/delete MailAccount acounts
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminMailAccount.pm,v 1.6 2009-02-16 11:20:52 tr Exp $
+# $Id: AdminMailAccount.pm,v 1.7 2009-02-17 23:37:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::MailAccount;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -58,37 +58,37 @@ sub Run {
         if ( !%Data ) {
             return $Self->{LayoutObject}->ErrorScreen();
         }
-        else {
-            my $Ok = $Self->{MailAccount}->MailAccountFetch(
-                %Data,
-                Limit  => 15,
-                UserID => $Self->{UserID},
-            );
-            if ( !$Ok ) {
-                return $Self->{LayoutObject}->ErrorScreen();
-            }
-            else {
-                return $Self->{LayoutObject}->Redirect( OP => 'Action=$Env{"Action"}&Ok=1' );
-            }
+
+        my $Ok = $Self->{MailAccount}->MailAccountFetch(
+            %Data,
+            Limit  => 15,
+            UserID => $Self->{UserID},
+        );
+        if ( !$Ok ) {
+            return $Self->{LayoutObject}->ErrorScreen();
         }
+        return $Self->{LayoutObject}->Redirect( OP => 'Action=$Env{"Action"}&Ok=1' );
     }
 
     # ------------------------------------------------------------ #
     # delete
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Delete' ) {
-        if ( $Self->{MailAccount}->MailAccountDelete(%GetParam) ) {
-            return $Self->{LayoutObject}->Redirect( OP => 'Action=$Env{"Action"}' );
-        }
-        else {
+        my $Delete = $Self->{MailAccount}->MailAccountDelete(%GetParam);
+        if ( !$Delete ) {
             return $Self->{LayoutObject}->ErrorScreen();
         }
+        return $Self->{LayoutObject}->Redirect( OP => 'Action=$Env{"Action"}' );
     }
 
     # ------------------------------------------------------------ #
     # add action
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $ID = $Self->{MailAccount}->MailAccountAdd(
             %GetParam,
             QueueID       => 0,
@@ -97,14 +97,12 @@ sub Run {
             ValidID       => 1,
             UserID        => $Self->{UserID},
         );
-        if ($ID) {
-            return $Self->{LayoutObject}->Redirect(
-                OP => 'Action=$Env{"Action"}&Subaction=Update&ID=' . $ID,
-            );
-        }
-        else {
+        if ( !$ID ) {
             return $Self->{LayoutObject}->ErrorScreen();
         }
+        return $Self->{LayoutObject}->Redirect(
+            OP => 'Action=$Env{"Action"}&Subaction=Update&ID=' . $ID,
+        );
     }
 
     # ------------------------------------------------------------ #
@@ -115,21 +113,25 @@ sub Run {
         if ( !%Data ) {
             return $Self->{LayoutObject}->ErrorScreen();
         }
-        else {
-            return $Self->_MaskUpdate(%Data);
-        }
+        return $Self->_MaskUpdate(%Data);
     }
 
     # ------------------------------------------------------------ #
     # update action
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'UpdateAction' ) {
-        if ( $Self->{MailAccount}->MailAccountUpdate( %GetParam, UserID => $Self->{UserID} ) ) {
-            return $Self->{LayoutObject}->Redirect( OP => 'Action=$Env{"Action"}' );
-        }
-        else {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
+        my $Update = $Self->{MailAccount}->MailAccountUpdate(
+            %GetParam,
+            UserID => $Self->{UserID},
+        );
+        if ( !$Update ) {
             return $Self->{LayoutObject}->ErrorScreen();
         }
+        return $Self->{LayoutObject}->Redirect( OP => 'Action=$Env{"Action"}' );
     }
 
     # ------------------------------------------------------------ #
@@ -139,7 +141,7 @@ sub Run {
         my $Ok      = $Self->{ParamObject}->GetParam( Param => 'Ok' );
         my %Backend = $Self->{MailAccount}->MailAccountBackendList();
         my %List    = $Self->{MailAccount}->MailAccountList( Valid => 0 );
-        $Param{'TypeOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{TypeOption} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data       => { $Self->{MailAccount}->MailAccountBackendList() },
             Name       => 'Type',
             SelectedID => $Param{Type} || 'POP3',
@@ -182,25 +184,25 @@ sub _MaskUpdate {
     my ( $Self, %Param ) = @_;
 
     # build ValidID string
-    $Param{'ValidOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{ValidOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data       => { $Self->{ValidObject}->ValidList(), },
         Name       => 'ValidID',
         SelectedID => $Param{ValidID},
     );
 
-    $Param{'TypeOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{TypeOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data       => { $Self->{MailAccount}->MailAccountBackendList() },
         Name       => 'Type',
         SelectedID => $Param{Type},
     );
 
-    $Param{'TrustedOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{TrustedOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
         Name       => 'Trusted',
         SelectedID => $Param{Trusted},
     );
 
-    $Param{'DispatchingOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{DispatchingOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
             From  => 'Dispatching by email To: field.',
             Queue => 'Dispatching by selected Queue.',
@@ -209,7 +211,7 @@ sub _MaskUpdate {
         SelectedID => $Param{DispatchingBy},
     );
 
-    $Param{'QueueOption'} = $Self->{LayoutObject}->AgentQueueListOption(
+    $Param{QueueOption} = $Self->{LayoutObject}->AgentQueueListOption(
         Data => {
             '' => '-',
             $Self->{QueueObject}->QueueList( Valid => 1 ),

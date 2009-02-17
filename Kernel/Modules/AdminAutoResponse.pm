@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAutoResponse.pm - provides AdminAutoResponse HTML
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAutoResponse.pm,v 1.26 2009-02-16 11:20:52 tr Exp $
+# $Id: AdminAutoResponse.pm,v 1.27 2009-02-17 23:37:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::SystemAddress;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -59,7 +59,9 @@ sub Run {
     # get composed charset
     $GetParam{Charset} = $Self->{LayoutObject}->{UserCharset};
 
+    # ------------------------------------------------------------ #
     # get data
+    # ------------------------------------------------------------ #
     if ( $Param{Subaction} eq 'Change' ) {
         my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
         my %Data = $Self->{AutoResponseObject}->AutoResponseGet( ID => $ID );
@@ -70,8 +72,14 @@ sub Run {
         return $Output;
     }
 
+    # ------------------------------------------------------------ #
     # update action
+    # ------------------------------------------------------------ #
     elsif ( $Param{Subaction} eq 'ChangeAction' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $Update = $Self->{AutoResponseObject}->AutoResponseUpdate(
             %GetParam,
             UserID => $Self->{UserID},
@@ -82,8 +90,14 @@ sub Run {
         return $Self->{LayoutObject}->Redirect( OP => "Action=$Param{NextScreen}" );
     }
 
+    # ------------------------------------------------------------ #
     # add new auto response
+    # ------------------------------------------------------------ #
     elsif ( $Param{Subaction} eq 'AddAction' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $Add = $Self->{AutoResponseObject}->AutoResponseAdd(
             %GetParam,
             UserID => $Self->{UserID},
@@ -94,7 +108,9 @@ sub Run {
         return $Self->{LayoutObject}->Redirect( OP => "Action=$Param{NextScreen}" );
     }
 
+    # ------------------------------------------------------------ #
     # else ! print form
+    # ------------------------------------------------------------ #
     else {
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
