@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.21 2009-02-17 00:09:57 martin Exp $
+# $Id: AgentTicketBulk.pm,v 1.22 2009-02-17 23:51:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -123,6 +123,9 @@ sub Run {
 
         # do some actions on tickets
         if ( $Self->{Subaction} eq 'Do' ) {
+
+            # challenge token check for write action
+            $Self->{LayoutObject}->ChallengeTokenCheck();
 
             # set owner
             my $OwnerID = $Self->{ParamObject}->GetParam( Param => 'OwnerID' ) || '';

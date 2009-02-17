@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerPreferences.pm,v 1.21 2009-02-17 23:39:04 martin Exp $
+# $Id: CustomerPreferences.pm,v 1.22 2009-02-17 23:51:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -43,11 +43,16 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Group = $Self->{ParamObject}->GetParam( Param => 'Group' ) || '';
-
+    # ------------------------------------------------------------ #
+    # update preferences
+    # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Update' ) {
 
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         # check group param
+        my $Group = $Self->{ParamObject}->GetParam( Param => 'Group' ) || '';
         if ( !$Group ) {
             return $Self->{LayoutObject}->ErrorScreen( Message => "Param Group is required!" );
         }
@@ -98,6 +103,9 @@ sub Run {
             OP => "Action=CustomerPreferences&Priority=$Priority&Message=$Message",
         );
     }
+    # ------------------------------------------------------------ #
+    # show preferences
+    # ------------------------------------------------------------ #
     else {
         my $Output = $Self->{LayoutObject}->CustomerHeader( Title => 'Preferences' );
         $Output .= $Self->{LayoutObject}->CustomerNavigationBar();

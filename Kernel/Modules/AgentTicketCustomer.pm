@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCustomer.pm - to set the ticket customer and show the customer history
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.pm,v 1.26 2009-02-16 11:20:53 tr Exp $
+# $Id: AgentTicketCustomer.pm,v 1.27 2009-02-17 23:51:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -93,6 +93,9 @@ sub Run {
     }
 
     if ( $Self->{Subaction} eq 'Update' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
 
         # set customer id
         my $ExpandCustomerName1 = $Self->{ParamObject}->GetParam( Param => 'ExpandCustomerName1' )

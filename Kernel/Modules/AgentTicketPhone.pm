@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.88 2009-02-16 11:20:53 tr Exp $
+# $Id: AgentTicketPhone.pm,v 1.89 2009-02-17 23:51:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.88 $) [1];
+$VERSION = qw($Revision: 1.89 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -323,12 +323,12 @@ sub Run {
                 CustomerUserID => $CustomerData{CustomerUserLogin} || '',
                 QueueID => $Self->{QueueID} || 1,
             ),
-            Types => $Self->_GetTypes(
+            Types      => $Self->_GetTypes(
                 %GetParam,
                 CustomerUserID => $CustomerData{CustomerUserLogin} || '',
                 QueueID => $Self->{QueueID} || 1,
             ),
-            Services => $Self->_GetServices(
+            Services   => $Self->_GetServices(
                 %GetParam,
                 CustomerUserID => $CustomerData{CustomerUserLogin} || '',
                 QueueID => $Self->{QueueID} || 1,
@@ -670,17 +670,17 @@ sub Run {
                     CustomerUserID => $CustomerUser || $SelectedCustomerUser || '',
                     QueueID => $NewQueueID || 1,
                 ),
-                NextState  => $NextState,
-                Priorities => $Self->_GetPriorities(
+                NextState               => $NextState,
+                Priorities              => $Self->_GetPriorities(
                     CustomerUserID => $CustomerUser || $SelectedCustomerUser || '',
                     QueueID => $NewQueueID || 1,
                 ),
-                Types => $Self->_GetTypes(
+                Types                   => $Self->_GetTypes(
                     CustomerUserID => $CustomerUser || $SelectedCustomerUser || '',
                     QueueID => $NewQueueID || 1,
                 ),
-                Services => $Services,
-                SLAs     => $Self->_GetSLAs(
+                Services                => $Services,
+                SLAs => $Self->_GetSLAs(
                     %GetParam,
                     CustomerUserID => $CustomerUser || $SelectedCustomerUser || '',
                     QueueID => $NewQueueID || 1,

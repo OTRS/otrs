@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentPreferences.pm - provides agent preferences
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentPreferences.pm,v 1.38 2009-02-16 11:20:53 tr Exp $
+# $Id: AgentPreferences.pm,v 1.39 2009-02-17 23:51:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -40,11 +40,16 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Group = $Self->{ParamObject}->GetParam( Param => 'Group' ) || '';
-
+    # ------------------------------------------------------------ #
+    # update preferences
+    # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Update' ) {
 
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         # check group param
+        my $Group = $Self->{ParamObject}->GetParam( Param => 'Group' ) || '';
         if ( !$Group ) {
             return $Self->{LayoutObject}->ErrorScreen( Message => "Param Group is required!" );
         }
@@ -88,6 +93,9 @@ sub Run {
             OP => "Action=AgentPreferences&Priority=$Priority&Message=$Message",
         );
     }
+    # ------------------------------------------------------------ #
+    # show preferences
+    # ------------------------------------------------------------ #
     else {
 
         # get header

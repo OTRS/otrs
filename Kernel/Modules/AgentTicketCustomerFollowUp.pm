@@ -3,7 +3,7 @@
 # if the agent is customer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomerFollowUp.pm,v 1.15 2009-02-16 11:20:53 tr Exp $
+# $Id: AgentTicketCustomerFollowUp.pm,v 1.16 2009-02-17 23:51:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -121,6 +121,9 @@ sub Run {
         }
     }
     elsif ( $Self->{Subaction} eq 'Store' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
 
         # get ticket data
         my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID}, );

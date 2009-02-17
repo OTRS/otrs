@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.pm,v 1.19 2009-02-16 11:20:53 tr Exp $
+# $Id: AgentTicketBounce.pm,v 1.20 2009-02-17 23:51:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CustomerUser;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -63,16 +63,14 @@ sub Run {
     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
 
     # check permissions
-    if (
-        !$Self->{TicketObject}->Permission(
-            Type     => $Self->{Config}->{Permission},
-            TicketID => $Self->{TicketID},
-            UserID   => $Self->{UserID}
-        )
-        )
-    {
+    my $Access = $Self->{TicketObject}->Permission(
+        Type     => $Self->{Config}->{Permission},
+        TicketID => $Self->{TicketID},
+        UserID   => $Self->{UserID}
+    );
 
-        # error screen, don't show ticket
+    # error screen, don't show ticket
+    if ( !$Access ) {
         return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
     }
 
@@ -129,7 +127,9 @@ sub Run {
         );
     }
 
-    # prepare salutation
+    # ------------------------------------------------------------ #
+    # show screen
+    # ------------------------------------------------------------ #
     if ( !$Self->{Subaction} ) {
 
         # check if plain article exists
@@ -308,7 +308,13 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
+    # ------------------------------------------------------------ #
+    # bounce
+    # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Store' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
 
         # get params
         for (qw(BounceTo To Subject Body InformSender BounceStateID)) {
