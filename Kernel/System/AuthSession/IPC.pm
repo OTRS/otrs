@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/IPC.pm - provides session IPC/Mem backend
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: IPC.pm,v 1.35 2009-02-16 11:49:56 tr Exp $
+# $Id: IPC.pm,v 1.36 2009-02-17 22:18:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -153,19 +153,19 @@ sub CheckSessionID {
 
     # check session id
     if ( !$Param{SessionID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Got no SessionID!!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no SessionID!!' );
         return;
     }
     my $RemoteAddr = $ENV{REMOTE_ADDR} || 'none';
 
     # set default message
-    $Self->{CheckSessionIDMessage} = "SessionID is invalid!!!";
+    $Self->{CheckSessionIDMessage} = 'SessionID is invalid!!!';
 
     # session id check
     my %Data = $Self->GetSessionIDData( SessionID => $Param{SessionID} );
 
     if ( !$Data{UserID} || !$Data{UserLogin} ) {
-        $Self->{CheckSessionIDMessage} = "SessionID invalid! Need user data!";
+        $Self->{CheckSessionIDMessage} = 'SessionID invalid! Need user data!';
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message  => "SessionID: '$Param{SessionID}' is invalid!!!",
@@ -193,16 +193,14 @@ sub CheckSessionID {
     }
 
     # check session idle time
+    my $TimeNow = $Self->{TimeObject}->SystemTime();
     my $MaxSessionIdleTime = $Self->{ConfigObject}->Get('SessionMaxIdleTime');
-    if ( ( $Self->{TimeObject}->SystemTime() - $MaxSessionIdleTime ) >= $Data{UserLastRequest} ) {
+    if ( ( $TimeNow - $MaxSessionIdleTime ) >= $Data{UserLastRequest} ) {
         $Self->{CheckSessionIDMessage} = 'Session has timed out. Please log in again.';
+        my $Timeout = int( ( $TimeNow - $Data{UserLastRequest} ) / ( 60 * 60 ) );
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message  => "SessionID ($Param{SessionID}) idle timeout ("
-                . int(
-                ( $Self->{TimeObject}->SystemTime() - $Data{UserLastRequest} ) / ( 60 * 60 )
-                )
-                . "h)! Don't grant access!!!",
+            Message  => "SessionID ($Param{SessionID}) idle timeout ($Timeout h)! Don't grant access!!!",
         );
 
         # delete session id if too old?
@@ -214,15 +212,12 @@ sub CheckSessionID {
 
     # check session time
     my $MaxSessionTime = $Self->{ConfigObject}->Get('SessionMaxTime');
-    if ( ( $Self->{TimeObject}->SystemTime() - $MaxSessionTime ) >= $Data{UserSessionStart} ) {
+    if ( ( $TimeNow - $MaxSessionTime ) >= $Data{UserSessionStart} ) {
         $Self->{CheckSessionIDMessage} = 'Session has timed out. Please log in again.';
+        my $Timeout = int( ( $TimeNow - $Data{UserSessionStart} ) / ( 60 * 60 ) );
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message  => "SessionID ($Param{SessionID}) too old ("
-                . int(
-                ( $Self->{TimeObject}->SystemTime() - $Data{UserSessionStart} ) / ( 60 * 60 )
-                )
-                . "h)! Don't grant access!!!",
+            Message  => "SessionID ($Param{SessionID}) too old ($Timeout h)! Don't grant access!!!",
         );
 
         # delete session id if too old?
@@ -243,11 +238,9 @@ sub CheckSessionIDMessage {
 sub GetSessionIDData {
     my ( $Self, %Param ) = @_;
 
-    my %Data;
-
     # check session id
     if ( !$Param{SessionID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Got no SessionID!!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no SessionID!!' );
         return;
     }
 
@@ -259,30 +252,28 @@ sub GetSessionIDData {
 
     # read data
     my $String = $Self->_ReadSHM();
-    if ( !$String ) {
-        return;
-    }
+    return if !$String;
 
     # split data
+    my %Data;
     my @Items = split( /\n/, $String );
     for my $Item (@Items) {
         my @PaarData = split( /;/, $Item );
-        if ( $PaarData[0] ) {
-            if ( $Item =~ /^SessionID:$SessionIDBase64;/ ) {
-                for (@PaarData) {
-                    my ( $Key, $Value ) = split( /:/, $_ );
-                    $Data{$Key} = decode_base64($Value);
-                    $Self->{EncodeObject}->Encode( \$Data{$Key} );
-                }
+        next if !$PaarData[0];
+        if ( $Item =~ /^SessionID:$SessionIDBase64;/ ) {
+            for (@PaarData) {
+                my ( $Key, $Value ) = split( /:/, $_ );
+                $Data{$Key} = decode_base64($Value);
+                $Self->{EncodeObject}->Encode( \$Data{$Key} );
+            }
 
-                # Debug
-                if ( $Self->{Debug} ) {
-                    $Self->{LogObject}->Log(
-                        Priority => 'debug',
-                        Message  => "GetSessionIDData: '$PaarData[1]:"
+            # Debug
+            if ( $Self->{Debug} ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message  => "GetSessionIDData: '$PaarData[1]:"
                             . decode_base64( $PaarData[2] ) . "'",
-                    );
-                }
+                );
             }
         }
     }
@@ -301,15 +292,19 @@ sub CreateSessionID {
     # get HTTP_USER_AGENT
     my $RemoteUserAgent = $ENV{HTTP_USER_AGENT} || 'none';
 
-    # create SessionID
-    my $md5 = Digest::MD5->new();
+    # create session id
+    my $TimeNow = $Self->{TimeObject}->SystemTime();
+    my $md5     = Digest::MD5->new();
     $md5->add(
-        ( $Self->{TimeObject}->SystemTime() . int( rand(999999999) ) . $Self->{SystemID} )
-        . $RemoteAddr
-            . $RemoteUserAgent
+        ( $TimeNow . int( rand(999999999) ) . $Self->{SystemID} ) . $RemoteAddr . $RemoteUserAgent
     );
-    my $SessionID = $Self->{SystemID} . $md5->hexdigest;
+    my $SessionID       = $Self->{SystemID} . $md5->hexdigest;
     my $SessionIDBase64 = encode_base64( $SessionID, '' );
+
+    # create challenge token
+    $md5 = Digest::MD5->new();
+    $md5->add( $TimeNow . $SessionID );
+    my $ChallengeToken = $md5->hexdigest;
 
     # data 2 strg
     my $DataToStore = "SessionID:" . encode_base64( $SessionID, '' ) . ";";
@@ -319,10 +314,10 @@ sub CreateSessionID {
             $DataToStore .= "$_:" . encode_base64( $Param{$_}, '' ) . ";";
         }
     }
-    $DataToStore
-        .= "UserSessionStart:" . encode_base64( $Self->{TimeObject}->SystemTime(), '' ) . ";";
+    $DataToStore .= "UserSessionStart:" . encode_base64( $TimeNow, '' ) . ";";
     $DataToStore .= "UserRemoteAddr:" . encode_base64( $RemoteAddr, '' ) . ";";
-    $DataToStore .= "UserRemoteUserAgent:" . encode_base64( $RemoteUserAgent, '' ) . ";\n";
+    $DataToStore .= "UserRemoteUserAgent:" . encode_base64( $RemoteUserAgent, '' ) . ";";
+    $DataToStore .= "UserChallengeToken:" . encode_base64( $ChallengeToken, '' ) . ";\n";
 
     # read old session data (the rest)
     my $String = $Self->_ReadSHM();
@@ -345,7 +340,7 @@ sub RemoveSessionID {
 
     # check session id
     if ( !$Param{SessionID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Got no SessionID!!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no SessionID!!' );
         return;
     }
     my $SessionIDBase64 = encode_base64( $Param{SessionID}, '' );
@@ -383,7 +378,7 @@ sub UpdateSessionID {
 
     # check session id
     if ( !$Param{SessionID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Got no SessionID!!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no SessionID!!' );
         return;
     }
     my $Key   = defined( $Param{Key} )   ? $Param{Key}   : '';
@@ -462,12 +457,11 @@ sub GetAllSessionIDs {
     my @Items = split( /\n/, $String );
     for my $Item (@Items) {
         my @PaarData = split( /;/, $Item );
-        if ( $PaarData[0] ) {
-            my ( $Key, $Value ) = split( /:/, $PaarData[0] );
-            if ($Value) {
-                my $SessionID = decode_base64($Value);
-                push( @SessionIDs, $SessionID );
-            }
+        next if !$PaarData[0];
+        my ( $Key, $Value ) = split( /:/, $PaarData[0] );
+        if ($Value) {
+            my $SessionID = decode_base64($Value);
+            push( @SessionIDs, $SessionID );
         }
     }
     return @SessionIDs;

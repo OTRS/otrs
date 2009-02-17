@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.36 2009-02-16 11:49:56 tr Exp $
+# $Id: DB.pm,v 1.37 2009-02-17 22:18:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -100,16 +100,14 @@ sub CheckSessionID {
     }
 
     # check session idle time
+    my $TimeNow = $Self->{TimeObject}->SystemTime();
     my $MaxSessionIdleTime = $Self->{ConfigObject}->Get('SessionMaxIdleTime');
-    if ( ( $Self->{TimeObject}->SystemTime() - $MaxSessionIdleTime ) >= $Data{UserLastRequest} ) {
+    if ( ( $TimeNow - $MaxSessionIdleTime ) >= $Data{UserLastRequest} ) {
         $Self->{CheckSessionIDMessage} = 'Session has timed out. Please log in again.';
+        my $Timeout = int( ( $TimeNow - $Data{UserLastRequest} ) / ( 60 * 60 ) );
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message  => "SessionID ($Param{SessionID}) idle timeout ("
-                . int(
-                ( $Self->{TimeObject}->SystemTime() - $Data{UserLastRequest} ) / ( 60 * 60 )
-                )
-                . "h)! Don't grant access!!!",
+            Message  => "SessionID ($Param{SessionID}) idle timeout ($Timeout h)! Don't grant access!!!",
         );
 
         # delete session id if too old?
@@ -121,15 +119,12 @@ sub CheckSessionID {
 
     # check session time
     my $MaxSessionTime = $Self->{ConfigObject}->Get('SessionMaxTime');
-    if ( ( $Self->{TimeObject}->SystemTime() - $MaxSessionTime ) >= $Data{UserSessionStart} ) {
+    if ( ( $TimeNow - $MaxSessionTime ) >= $Data{UserSessionStart} ) {
         $Self->{CheckSessionIDMessage} = 'Session has timed out. Please log in again.';
+        my $Timeout = int( ( $TimeNow - $Data{UserSessionStart} ) / ( 60 * 60 ) );
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message  => "SessionID ($Param{SessionID}) too old ("
-                . int(
-                ( $Self->{TimeObject}->SystemTime() - $Data{UserSessionStart} ) / ( 60 * 60 )
-                )
-                . "h)! Don't grant access!!!",
+            Message  => "SessionID ($Param{SessionID}) too old ($Timeout h)! Don't grant access!!!",
         );
 
         # delete session id if too old?
@@ -211,14 +206,18 @@ sub CreateSessionID {
     # get HTTP_USER_AGENT
     my $RemoteUserAgent = $ENV{HTTP_USER_AGENT} || 'none';
 
-    # create SessionID
-    my $md5 = Digest::MD5->new();
+    # create session id
+    my $TimeNow = $Self->{TimeObject}->SystemTime();
+    my $md5     = Digest::MD5->new();
     $md5->add(
-        ( $Self->{TimeObject}->SystemTime() . int( rand(999999999) ) . $Self->{SystemID} )
-        . $RemoteAddr
-            . $RemoteUserAgent
+        ( $TimeNow . int( rand(999999999) ) . $Self->{SystemID} ) . $RemoteAddr . $RemoteUserAgent
     );
     my $SessionID = $Self->{SystemID} . $md5->hexdigest;
+
+    # create challenge token
+    $md5 = Digest::MD5->new();
+    $md5->add( $TimeNow . $SessionID );
+    my $ChallengeToken = $md5->hexdigest;
 
     # data 2 strg
     my $DataToStore = '';
@@ -228,10 +227,10 @@ sub CreateSessionID {
             $DataToStore .= "$_:" . encode_base64( $Param{$_}, '' ) . ":;";
         }
     }
-    $DataToStore
-        .= "UserSessionStart:" . encode_base64( $Self->{TimeObject}->SystemTime(), '' ) . ":;";
+    $DataToStore .= "UserSessionStart:" . encode_base64( $TimeNow, '' ) . ":;";
     $DataToStore .= "UserRemoteAddr:" . encode_base64( $RemoteAddr, '' ) . ":;";
     $DataToStore .= "UserRemoteUserAgent:" . encode_base64( $RemoteUserAgent, '' ) . ":;";
+    $DataToStore .= "UserChallengeToken:" . encode_base64( $ChallengeToken, '' ) . ":;";
 
     # store SessionID + data
     return if !$Self->{DBObject}->Do(

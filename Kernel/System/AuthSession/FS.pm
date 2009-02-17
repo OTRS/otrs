@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/FS.pm - provides session filesystem backend
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.30 2009-02-16 11:49:56 tr Exp $
+# $Id: FS.pm,v 1.31 2009-02-17 22:18:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -90,16 +90,14 @@ sub CheckSessionID {
     }
 
     # check session idle time
+    my $TimeNow = $Self->{TimeObject}->SystemTime();
     my $MaxSessionIdleTime = $Self->{ConfigObject}->Get('SessionMaxIdleTime');
-    if ( ( $Self->{TimeObject}->SystemTime() - $MaxSessionIdleTime ) >= $Data{UserLastRequest} ) {
+    if ( ( $TimeNow - $MaxSessionIdleTime ) >= $Data{UserLastRequest} ) {
         $Self->{CheckSessionIDMessage} = 'Session has timed out. Please log in again.';
+        my $Timeout = int( ( $TimeNow - $Data{UserLastRequest} ) / ( 60 * 60 ) );
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message  => "SessionID ($Param{SessionID}) idle timeout ("
-                . int(
-                ( $Self->{TimeObject}->SystemTime() - $Data{UserLastRequest} ) / ( 60 * 60 )
-                )
-                . "h)! Don't grant access!!!",
+            Message  => "SessionID ($Param{SessionID}) idle timeout ($Timeout h)! Don't grant access!!!",
         );
 
         # delete session id if too old?
@@ -111,15 +109,12 @@ sub CheckSessionID {
 
     # check session time
     my $MaxSessionTime = $Self->{ConfigObject}->Get('SessionMaxTime');
-    if ( ( $Self->{TimeObject}->SystemTime() - $MaxSessionTime ) >= $Data{UserSessionStart} ) {
+    if ( ( $TimeNow - $MaxSessionTime ) >= $Data{UserSessionStart} ) {
         $Self->{CheckSessionIDMessage} = 'Session has timed out. Please log in again.';
+        my $Timeout = int( ( $TimeNow - $Data{UserSessionStart} ) / ( 60 * 60 ) );
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message  => "SessionID ($Param{SessionID}) too old ("
-                . int(
-                ( $Self->{TimeObject}->SystemTime() - $Data{UserSessionStart} ) / ( 60 * 60 )
-                )
-                . "h)! Don't grant access!!!",
+            Message  => "SessionID ($Param{SessionID}) too old ($Timeout h)! Don't grant access!!!",
         );
 
         # delete session id if too old?
@@ -200,14 +195,18 @@ sub CreateSessionID {
     # HTTP_USER_AGENT
     my $RemoteUserAgent = $ENV{HTTP_USER_AGENT} || 'none';
 
-    # create SessionID
-    my $md5 = Digest::MD5->new();
+    # create session id
+    my $TimeNow = $Self->{TimeObject}->SystemTime();
+    my $md5     = Digest::MD5->new();
     $md5->add(
-        ( $Self->{TimeObject}->SystemTime() . int( rand(999999999) ) . $Self->{SystemID} )
-        . $RemoteAddr
-            . $RemoteUserAgent
+        ( $TimeNow . int( rand(999999999) ) . $Self->{SystemID} ) . $RemoteAddr . $RemoteUserAgent
     );
     my $SessionID = $Self->{SystemID} . $md5->hexdigest;
+
+    # create challenge token
+    $md5 = Digest::MD5->new();
+    $md5->add( $TimeNow . $SessionID );
+    my $ChallengeToken = $md5->hexdigest;
 
     # data 2 strg
     my $DataToStore = '';
@@ -217,17 +216,17 @@ sub CreateSessionID {
             $DataToStore .= "$_:" . encode_base64( $Param{$_}, '' ) . "\n";
         }
     }
-    $DataToStore
-        .= "UserSessionStart:" . encode_base64( $Self->{TimeObject}->SystemTime(), '' ) . "\n";
+    $DataToStore .= "UserSessionStart:" . encode_base64( $TimeNow, '' ) . "\n";
     $DataToStore .= "UserRemoteAddr:" . encode_base64( $RemoteAddr, '' ) . "\n";
     $DataToStore .= "UserRemoteUserAgent:" . encode_base64( $RemoteUserAgent, '' ) . "\n";
+    $DataToStore .= "UserChallengeToken:" . encode_base64( $ChallengeToken, '' ) . "\n";
 
     # store SessionID + data
     return $Self->{MainObject}->FileWrite(
         Directory => $Self->{SessionSpool},
         Filename  => $SessionID,
         Content   => \$DataToStore,
-        Mode      => 'utf8',                  # optional - binmode|utf8
+        Mode      => 'utf8',
     );
 }
 
@@ -236,34 +235,28 @@ sub RemoveSessionID {
 
     # check session id
     if ( !$Param{SessionID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Got no SessionID!!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no SessionID!!' );
         return;
     }
 
     # delete fs file
-    if (
-        $Self->{MainObject}->FileDelete(
-            Directory => $Self->{SessionSpool},
-            Filename  => $Param{SessionID},
-        )
-        )
-    {
+    my $Delete = $Self->{MainObject}->FileDelete(
+        Directory => $Self->{SessionSpool},
+        Filename  => $Param{SessionID},
+    );
+    return if !$Delete;
 
-        # reset cache
-        if ( $Self->{"Cache::$Param{SessionID}"} ) {
-            delete( $Self->{"Cache::$Param{SessionID}"} );
-        }
+    # reset cache
+    if ( $Self->{"Cache::$Param{SessionID}"} ) {
+        delete( $Self->{"Cache::$Param{SessionID}"} );
+    }
 
-        # log event
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message  => "Removed SessionID $Param{SessionID}."
-        );
-        return 1;
-    }
-    else {
-        return;
-    }
+    # log event
+    $Self->{LogObject}->Log(
+        Priority => 'notice',
+        Message  => "Removed SessionID $Param{SessionID}."
+    );
+    return 1;
 }
 
 sub UpdateSessionID {
@@ -274,7 +267,7 @@ sub UpdateSessionID {
 
     # check session id
     if ( !$Param{SessionID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Got no SessionID!!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no SessionID!!' );
         return;
     }
     my %SessionData = $Self->GetSessionIDData( SessionID => $Param{SessionID} );
@@ -307,7 +300,7 @@ sub UpdateSessionID {
         Directory => $Self->{SessionSpool},
         Filename  => $Param{SessionID},
         Content   => \$NewDataToStore,
-        Mode      => 'utf8',                  # optional - binmode|utf8
+        Mode      => 'utf8',
     );
 }
 
@@ -330,10 +323,8 @@ sub CleanUp {
 
     # delete fs files
     my @SessionIDs = $Self->GetAllSessionIDs();
-    for (@SessionIDs) {
-        if ( !$Self->RemoveSessionID( SessionID => $_ ) ) {
-            return;
-        }
+    for my $SessionID (@SessionIDs) {
+        return if !$Self->RemoveSessionID( SessionID => $SessionID );
     }
     return 1;
 }
