@@ -2,7 +2,7 @@
 # CustomerPreferencesForm.dtl - provides HTML form for CustomerPreferences
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerPreferencesForm.dtl,v 1.11 2009-02-16 11:07:25 tr Exp $
+# $Id: CustomerPreferencesForm.dtl,v 1.12 2009-02-17 22:11:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -41,16 +41,17 @@
               <input type="hidden" name="Group" value="$QData{"Group"}"/>
               <p>
                 <table border="0">
+<!-- dtl:block:Block -->
 <!-- dtl:block:InputKey -->
                   <tr>
                     <td>$Text{"$QData{"Key"}"}:</td>
-                    <td><input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="12"/></td>
+                    <td><input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="22"/></td>
                   </tr>
 <!-- dtl:block:InputKey -->
 <!-- dtl:block:Input -->
                   <tr>
                     <td>$Text{"$QData{"Key"}"}</td>
-                    <td><input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="12"/></td>
+                    <td><input type="text" name="$QData{"Name"}" value="$QData{"SelectedID"}" size="22"/></td>
                   </tr>
 <!-- dtl:block:Input -->
 <!-- dtl:block:Option -->
@@ -74,6 +75,7 @@
                     <td><input type="password" name="$QData{"Name"}" value="" size="12"/></td>
                   </tr>
 <!-- dtl:block:Password -->
+<!-- dtl:block:Block -->
                 </table>
               </p>
               <input class="button" type="submit" value="$Text{"Update"}"/>
