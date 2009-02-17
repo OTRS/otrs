@@ -3,7 +3,7 @@
 # queue ticket index module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: RuntimeDB.pm,v 1.65 2009-02-16 11:46:10 tr Exp $
+# $Id: RuntimeDB.pm,v 1.66 2009-02-17 21:36:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.65 $) [1];
+$VERSION = qw($Revision: 1.66 $) [1];
 
 sub TicketAcceleratorUpdate {
     my ( $Self, %Param ) = @_;
@@ -76,12 +76,17 @@ sub TicketAcceleratorIndex {
     $Queues{TicketsAvail} = 0;
 
     # prepar "All tickets: ??" in Queue
+    my @ViewableLockIDs = $Self->{LockObject}->LockViewableLock(
+        Type => 'ID',
+    );
+    my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType(
+        Type   => 'Viewable',
+        Result => 'ID',
+    );
+
     if (@QueueIDs) {
-        my $SQL = "SELECT count(*) "
-            . " FROM "
-            . " ticket st "
-            . " WHERE "
-            . " st.ticket_state_id IN ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) AND "
+        my $SQL = "SELECT count(*) FROM ticket st WHERE "
+            . " st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} ) AND "
             . " st.queue_id IN (";
         for ( 0 .. $#QueueIDs ) {
             if ( $_ > 0 ) {
@@ -109,21 +114,13 @@ sub TicketAcceleratorIndex {
     }
 
     # CustomQueue add on
-    my $SQL = "SELECT count(*) FROM "
-        . " ticket st, queue sq, personal_queues suq "
-        . " WHERE "
-        . " st.ticket_state_id IN ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) AND "
-        . " st.ticket_lock_id IN ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) AND "
+    my $SQL = "SELECT count(*) FROM ticket st, queue sq, personal_queues suq WHERE "
+        . " st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} ) AND "
+        . " st.ticket_lock_id IN ( ${\(join ', ', @ViewableLockIDs)} ) AND "
         . " st.queue_id = sq.id AND "
         . " suq.queue_id = st.queue_id AND "
         . " sq.group_id IN ( ${\(join ', ', @GroupIDs)} ) AND "
-        .
-
-        # get all custom queues
-        " suq.user_id = $Param{UserID} " .
-
-        #/ get all custom queues /
-        "";
+        . " suq.user_id = $Param{UserID}";
     $Self->{DBObject}->Prepare( SQL => $SQL );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         my %Hashes;
@@ -141,12 +138,10 @@ sub TicketAcceleratorIndex {
     }
 
     # prepar the tickets in Queue bar (all data only with my/your Permission)
-    $SQL = "SELECT st.queue_id, sq.name, min(st.create_time_unix), count(*) "
-        . " FROM "
-        . " ticket st, queue sq "
-        . " WHERE "
-        . " st.ticket_state_id IN ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) AND "
-        . " st.ticket_lock_id IN ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) AND "
+    $SQL = "SELECT st.queue_id, sq.name, min(st.create_time_unix), count(*) FROM "
+        . " ticket st, queue sq WHERE "
+        . " st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} ) AND "
+        . " st.ticket_lock_id IN ( ${\(join ', ', @ViewableLockIDs)} ) AND "
         . " st.queue_id = sq.id AND "
         . " sq.group_id IN ( ${\(join ', ', @GroupIDs)} ) "
         . " GROUP BY st.queue_id,sq.name "
@@ -200,15 +195,16 @@ sub GetLockedCount {
     }
 
     # db query
+    my @ViewableLockIDs = $Self->{LockObject}->LockViewableLock(
+        Type => 'ID',
+    );
+
     $Self->{DBObject}->Prepare(
         SQL => "SELECT ar.id, ar.article_sender_type_id, ti.id, "
             . " ar.create_by, ti.create_time_unix, ti.until_time, "
-            . " tst.name, ar.article_type_id "
-            . " FROM "
-            . " ticket ti, article ar, ticket_state ts, ticket_state_type tst "
-            . " WHERE "
-            . " ti.ticket_lock_id NOT IN ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) "
-            . " AND "
+            . " tst.name, ar.article_type_id FROM "
+            . " ticket ti, article ar, ticket_state ts, ticket_state_type tst WHERE "
+            . " ti.ticket_lock_id NOT IN ( ${\(join ', ', @ViewableLockIDs)} ) AND "
             . " ti.user_id = ? AND "
             . " ar.ticket_id = ti.id AND "
             . " ts.id = ti.ticket_state_id AND "
@@ -218,7 +214,7 @@ sub GetLockedCount {
     );
     my @ArticleLocked = ();
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        push( @ArticleLocked, \@Row );
+        push @ArticleLocked, \@Row;
     }
 
     my %TicketIDs = ();

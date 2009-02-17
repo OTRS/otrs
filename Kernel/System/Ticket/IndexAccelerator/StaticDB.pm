@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/IndexAccelerator/StaticDB.pm - static db queue ticket index module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.65 2009-02-16 11:46:10 tr Exp $
+# $Id: StaticDB.pm,v 1.66 2009-02-17 21:36:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,10 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.65 $) [1];
+$VERSION = qw($Revision: 1.66 $) [1];
 
 sub TicketAcceleratorUpdate {
     my ( $Self, %Param ) = @_;
-
-    my @ViewableLocks  = @{ $Self->{ViewableLocks} };
-    my @ViewableStates = @{ $Self->{ViewableStates} };
 
     # check needed stuff
     for (qw(TicketID)) {
@@ -54,12 +51,20 @@ sub TicketAcceleratorUpdate {
     }
 
     # check if this ticket ist still viewable
+    my @ViewableStates = $Self->{StateObject}->StateGetStatesByType(
+        Type   => 'Viewable',
+        Result => 'Name',
+    );
     my $ViewableStatsHit = 0;
     for (@ViewableStates) {
         if ( $_ =~ /^$TicketData{State}$/i ) {
             $ViewableStatsHit = 1;
         }
     }
+
+    my @ViewableLocks  = $Self->{LockObject}->LockViewableLock(
+        Type => 'Name',
+    );
     my $ViewableLocksHit = 0;
     for (@ViewableLocks) {
         if ( $_ =~ /^$TicketData{Lock}$/i ) {
@@ -131,9 +136,6 @@ sub TicketAcceleratorDelete {
 sub TicketAcceleratorAdd {
     my ( $Self, %Param ) = @_;
 
-    my @ViewableLocks  = @{ $Self->{ViewableLocks} };
-    my @ViewableStates = @{ $Self->{ViewableStates} };
-
     # check needed stuff
     for (qw(TicketID)) {
         if ( !$Param{$_} ) {
@@ -146,12 +148,20 @@ sub TicketAcceleratorAdd {
     my %TicketData = $Self->TicketGet(%Param);
 
     # check if this ticket ist still viewable
+    my @ViewableStates = $Self->{StateObject}->StateGetStatesByType(
+        Type   => 'Viewable',
+        Result => 'Name',
+    );
     my $ViewableStatsHit = 0;
     for (@ViewableStates) {
         if ( $_ =~ /^$TicketData{State}$/i ) {
             $ViewableStatsHit = 1;
         }
     }
+
+    my @ViewableLocks  = $Self->{LockObject}->LockViewableLock(
+        Type => 'Name',
+    );
     my $ViewableLocksHit = 0;
     for (@ViewableLocks) {
         if ( $_ =~ /^$TicketData{Lock}$/i ) {
@@ -230,12 +240,13 @@ sub TicketAcceleratorIndex {
     my @QueueIDs = @{ $Param{ShownQueueIDs} };
 
     # prepar "All tickets: ??" in Queue
+    my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType(
+        Type   => 'Viewable',
+        Result => 'ID',
+    );
     if (@QueueIDs) {
-        my $SQL = "SELECT count(*) "
-            . " FROM "
-            . " ticket st "
-            . " WHERE "
-            . " st.ticket_state_id IN ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) AND "
+        my $SQL = "SELECT count(*) FROM ticket st WHERE "
+            . " st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} ) AND "
             . " st.queue_id IN (";
         for ( 0 .. $#QueueIDs ) {
             if ( $_ > 0 ) {
@@ -284,9 +295,7 @@ sub TicketAcceleratorIndex {
     }
 
     # CustomQueue add on
-    my $SQL = "SELECT count(*) FROM "
-        . " ticket_index ti, personal_queues suq "
-        . " WHERE "
+    my $SQL = "SELECT count(*) FROM ticket_index ti, personal_queues suq WHERE "
         . " suq.queue_id = ti.queue_id AND "
         . " ti.group_id IN ( ${\(join ', ', @GroupIDs)} ) AND "
         . " suq.user_id = $Param{UserID}";
@@ -308,12 +317,9 @@ sub TicketAcceleratorIndex {
 
     # prepar the tickets in Queue bar (all data only with my/your Permission)
     $SQL = "SELECT queue_id, queue, min(create_time_unix), count(*) "
-        . " FROM "
-        . " ticket_index "
-        . " WHERE "
+        . " FROM ticket_index WHERE "
         . " group_id IN ( ${\(join ', ', @GroupIDs)} ) "
-        . " GROUP BY queue_id, queue "
-        . " ORDER BY queue";
+        . " GROUP BY queue_id, queue ORDER BY queue";
     $Self->{DBObject}->Prepare( SQL => $SQL );
 
     while ( my @RowTmp = $Self->{DBObject}->FetchrowArray() ) {
@@ -345,18 +351,22 @@ sub TicketAcceleratorIndex {
 sub TicketAcceleratorRebuild {
     my ( $Self, %Param ) = @_;
 
+    my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType(
+        Type   => 'Viewable',
+        Result => 'ID',
+    );
+    my @ViewableLockIDs = $Self->{LockObject}->LockViewableLock( Type => 'ID' );
+
     # get all viewable tickets
     my $SQL = "SELECT st.id, st.queue_id, sq.name, sq.group_id, slt.name, "
-        . " tsd.name, st.create_time_unix "
-        . " FROM "
+        . " tsd.name, st.create_time_unix FROM "
         . " ticket st, queue sq, ticket_state tsd, "
-        . " ticket_lock_type slt "
-        . " WHERE "
+        . " ticket_lock_type slt WHERE "
         . " st.ticket_state_id = tsd.id AND "
         . " st.queue_id = sq.id AND "
         . " st.ticket_lock_id = slt.id AND "
-        . " st.ticket_state_id IN ( ${\(join ', ', @{$Self->{ViewableStateIDs}})} ) AND "
-        . " st.ticket_lock_id IN ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} )";
+        . " st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} ) AND "
+        . " st.ticket_lock_id IN ( ${\(join ', ', @ViewableLockIDs)} )";
 
     $Self->{DBObject}->Prepare( SQL => $SQL );
     my @RowBuffer = ();
@@ -393,7 +403,7 @@ sub TicketAcceleratorRebuild {
     # write lock index
     $Self->{DBObject}->Prepare(
         SQL => "SELECT ti.id, ti.user_id FROM ticket ti WHERE "
-            . " ti.ticket_lock_id not IN ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) ",
+            . " ti.ticket_lock_id not IN ( ${\(join ', ', @ViewableLockIDs)} ) ",
     );
     my @LockRowBuffer = ();
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -417,11 +427,6 @@ sub GetIndexTicket {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
-    }
-
-    # db quote
-    for (qw(TicketID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
     }
 
     # sql query
@@ -483,13 +488,14 @@ sub GetLockedCount {
     }
 
     # db query
+    my @ViewableLockIDs = $Self->{LockObject}->LockViewableLock( Type => 'ID' );
     $Self->{DBObject}->Prepare(
         SQL => "SELECT ar.id, ar.article_sender_type_id, ti.id, "
             . " ar.create_by, ti.create_time_unix, ti.until_time, "
             . " tst.name, ar.article_type_id "
             . " FROM ticket ti, article ar, ticket_state ts, ticket_state_type tst "
             . " WHERE "
-            . " ti.ticket_lock_id NOT IN ( ${\(join ', ', @{$Self->{ViewableLockIDs}})} ) AND "
+            . " ti.ticket_lock_id NOT IN ( ${\(join ', ', @ViewableLockIDs)} ) AND "
             . " ti.user_id = ? AND "
             . " ar.ticket_id = ti.id AND "
             . " ts.id = ti.ticket_state_id AND "
@@ -499,7 +505,7 @@ sub GetLockedCount {
     );
     my @ArticleLocked = ();
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        push( @ArticleLocked, \@Row );
+        push @ArticleLocked, \@Row;
     }
     my %TicketIDs = ();
     my %Data      = (
