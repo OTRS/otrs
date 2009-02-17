@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewSmall.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewSmall.pm,v 1.8 2009-02-17 00:20:37 martin Exp $
+# $Id: TicketOverviewSmall.pm,v 1.9 2009-02-17 00:31:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -52,10 +52,10 @@ sub Run {
 
     # check if bulk feature is enabled
     my $BulkFeature = 0;
-    if ( $Param{Bulk} ) {
+    if ( $Param{Bulk} && $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature') ) {
         my @Groups;
-        if ( $Self->{ConfigObject}->Get('Ticket::BulkFeatureGroup') ) {
-            @Groups = @{ $Self->{ConfigObject}->Get('Ticket::BulkFeatureGroup') };
+        if ( $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeatureGroup') ) {
+            @Groups = @{ $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeatureGroup') };
         }
         if ( !@Groups ) {
             $BulkFeature = 1;
