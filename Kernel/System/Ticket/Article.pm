@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.196 2009-02-17 00:05:05 martin Exp $
+# $Id: Article.pm,v 1.197 2009-02-17 10:59:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.196 $) [1];
+$VERSION = qw($Revision: 1.197 $) [1];
 
 =head1 NAME
 
@@ -423,7 +423,10 @@ sub ArticleCreate {
     elsif ( $Param{HistoryType} =~ /^AddNote$/i ) {
 
         # send notification to owner/responsible/watcher
-        my @UserIDs = ( $Ticket{OwnerID}, $Ticket{ResponsibleID} );
+        my @UserIDs = $Ticket{OwnerID};
+        if ( $Self->{ConfigObject}->Get('Ticket::Responsible') ) {
+            push @UserIDs, $Ticket{ResponsibleID};
+        }
         push @UserIDs, $Self->TicketWatchGet(
             TicketID => $Param{TicketID},
             Notify   => 1,
@@ -503,7 +506,10 @@ sub ArticleCreate {
 
         # send owner/responsible/watcher notification the agents who locked the ticket
         else {
-            my @UserIDs = ( $Ticket{OwnerID}, $Ticket{ResponsibleID} );
+            my @UserIDs = $Ticket{OwnerID};
+            if ( $Self->{ConfigObject}->Get('Ticket::Responsible') ) {
+                push @UserIDs, $Ticket{ResponsibleID};
+            }
             push @UserIDs, $Self->TicketWatchGet(
                 TicketID => $Param{TicketID},
                 Notify   => 1,
@@ -3300,6 +3306,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.196 $ $Date: 2009-02-17 00:05:05 $
+$Revision: 1.197 $ $Date: 2009-02-17 10:59:31 $
 
 =cut
