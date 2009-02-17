@@ -2,7 +2,7 @@
 # Kernel/System/Lock.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Lock.pm,v 1.24 2009-02-16 11:58:56 tr Exp $
+# $Id: Lock.pm,v 1.25 2009-02-17 21:32:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 =head1 NAME
 
@@ -93,13 +93,11 @@ sub new {
 get list of lock types
 
     my @List = $LockObject->LockViewableLock(
-        Type   => 'Viewable',
-        Result => 'Name', # ID|Name
+        Type => 'Name', # ID|Name
     );
 
     my @List = $LockObject->LockViewableLock(
-        Type   => 'Viewable',
-        Result => 'ID', # ID|Name
+        Type => 'ID', # ID|Name
     );
 
 =cut
@@ -115,6 +113,12 @@ sub LockViewableLock {
         }
     }
 
+    # check cache
+    my $CacheKey = 'LockViewableLock::' . $Param{Type};
+    if ( $Self->{$CacheKey} ) {
+        return @{ $Self->{$CacheKey} };
+    }
+
     # sql
     return if !$Self->{DBObject}->Prepare(
         SQL => "SELECT id, name FROM ticket_lock_type WHERE "
@@ -128,6 +132,11 @@ sub LockViewableLock {
         push @Name, $Data[1];
         push @ID,   $Data[0];
     }
+
+    # cache result
+    $Self->{ 'LockViewableLock::Name' } = \@Name;
+    $Self->{ 'LockViewableLock::ID' }   = \@ID;
+
     if ( $Param{Type} eq 'Name' ) {
         return @Name;
     }
@@ -158,7 +167,7 @@ sub LockLookup {
         $Key = 'Lock';
     }
     if ( !$Param{Lock} && !$Param{LockID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need Lock or LockID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Lock or LockID!' );
         return;
     }
 
@@ -249,6 +258,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2009-02-16 11:58:56 $
+$Revision: 1.25 $ $Date: 2009-02-17 21:32:59 $
 
 =cut
