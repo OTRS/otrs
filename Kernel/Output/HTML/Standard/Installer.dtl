@@ -2,7 +2,7 @@
 # Installer.dtl - provides HTML form for Installer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.dtl,v 1.18 2009-02-16 11:07:25 tr Exp $
+# $Id: Installer.dtl,v 1.19 2009-02-17 23:32:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -47,7 +47,7 @@
                       Phone: +49 (0) 9421 56818 0<br/>
                       Fax: +49 (0) 9421 56818 18<br/>
                       Web: <a href="http://otrs.com/">http://otrs.com/</a><br/>
-                      Info: <a href="mailto:info@otrs.com">info@otrs.com</a><br/>
+                      Info: <a href="mailto:enjoy@otrs.com">enjoy@otrs.com</a><br/>
                     </td>
                     <td>
                       OTRS Inc.<br/>
@@ -58,7 +58,7 @@
                       Phone: +1 (408) 725 7501<br/>
                       Fax:  +1 (408) 725 8885<br/>
                       Web: <a href="http://otrs.com/">http://otrs.com/</a><br/>
-                      Info: <a href="mailto:info@otrs.com">info@otrs.com</a><br/>
+                      Info: <a href="mailto:enjoy@otrs.com">enjoy@otrs.com</a><br/>
                     </td>
                   </tr>
                 </table>
@@ -448,6 +448,10 @@ Public License instead of this License.
       </table>
 <!-- dtl:block:License -->
 <!-- dtl:block:DatabaseStart -->
+
+# include AJAX lib
+$Include{"AJAX"}
+
       <img border="0" src="$Env{"Images"}installer1.png" alt="">
       <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action"    value="Installer"/>
