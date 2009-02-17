@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.197 2009-02-17 10:59:31 martin Exp $
+# $Id: Article.pm,v 1.198 2009-02-17 22:10:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.197 $) [1];
+$VERSION = qw($Revision: 1.198 $) [1];
 
 =head1 NAME
 
@@ -1860,8 +1860,6 @@ send article via email and create article with attachments
 sub ArticleSend {
     my ( $Self, %Param ) = @_;
 
-    my $Time        = $Self->{TimeObject}->SystemTime();
-    my $Random      = rand(999999);
     my $ToOrig      = $Param{To} || '';
     my $Loop        = $Param{Loop} || 0;
     my $HistoryType = $Param{HistoryType} || 'SendAnswer';
@@ -1892,8 +1890,18 @@ sub ArticleSend {
     $Param{Body} =~ s/(\r\n|\n\r)/\n/g;
     $Param{Body} =~ s/\r/\n/g;
 
+    # rebuild subject
+    my %Ticket = $Self->TicketGet( TicketID => $Param{TicketID} );
+    $Param{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
+        TicketNumber => $Ticket{TicketNumber},
+        Subject      => $Param{Subject},
+    );
+
     # create article
-    my $MessageID = "<$Time.$Random.$Param{TicketID}.$Param{UserID}\@$Self->{FQDN}>";
+    my $Time       = $Self->{TimeObject}->SystemTime();
+    my $Random     = rand 999999;
+    my $FQDN      = $Self->{ConfigObject}->Get('FQDN');
+    my $MessageID = "<$Time.$Random.$Param{TicketID}.$Param{UserID}\@$FQDN>";
     my $ArticleID = $Self->ArticleCreate(
         %Param,
         ContentType => "$Param{Type}, charset=$Param{Charset}",
@@ -1995,10 +2003,6 @@ bounce an article
 sub ArticleBounce {
     my ( $Self, %Param ) = @_;
 
-    my $Time        = $Self->{TimeObject}->SystemTime();
-    my $Random      = rand(999999);
-    my $HistoryType = $Param{HistoryType} || 'Bounce';
-
     # check needed stuff
     for (qw(TicketID ArticleID From To UserID)) {
         if ( !$Param{$_} ) {
@@ -2008,8 +2012,11 @@ sub ArticleBounce {
     }
 
     # create message id
-    my $NewMessageID = "<$Time.$Random.$Param{TicketID}.0.$Param{UserID}\@$Self->{FQDN}>";
-    my $Email = $Self->ArticlePlain( ArticleID => $Param{ArticleID} );
+    my $Time         = $Self->{TimeObject}->SystemTime();
+    my $Random       = rand 999999;
+    my $FQDN         = $Self->{ConfigObject}->Get('FQDN');
+    my $NewMessageID = "<$Time.$Random.$Param{TicketID}.0.$Param{UserID}\@$FQDN>";
+    my $Email        = $Self->ArticlePlain( ArticleID => $Param{ArticleID} );
 
     # check if plain email exists
     if ( !$Email ) {
@@ -2029,6 +2036,7 @@ sub ArticleBounce {
     );
 
     # write history
+    my $HistoryType = $Param{HistoryType} || 'Bounce';
     $Self->HistoryAdd(
         TicketID     => $Param{TicketID},
         ArticleID    => $Param{ArticleID},
@@ -2112,7 +2120,7 @@ sub SendAgentNotification {
     my %User = %{ $Param{UserData} };
 
     # check recipients
-    if ( !$User{UserEmail} ) {
+    if ( !$User{UserEmail} || $User{UserEmail} !~ /@/ ) {
         return;
     }
 
@@ -3306,6 +3314,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.197 $ $Date: 2009-02-17 10:59:31 $
+$Revision: 1.198 $ $Date: 2009-02-17 22:10:33 $
 
 =cut
