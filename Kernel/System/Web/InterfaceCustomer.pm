@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.36 2009-02-16 11:45:13 tr Exp $
+# $Id: InterfaceCustomer.pm,v 1.37 2009-02-17 22:04:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -587,78 +587,16 @@ sub Run {
             $Self->{LayoutObject}->Print( Output => \$Output );
         }
         else {
-            if (
-                $Self->{UserObject}->CustomerUserAdd(
-                    %GetParams,
-                    Comment => 'Added via Customer Panel ('
-                        . $Self->{TimeObject}->SystemTime2TimeStamp(
-                        SystemTime => $Self->{TimeObject}->SystemTime()
-                        )
-                        . ")",
-                    ValidID => 1,
-                    UserID  => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
-                )
-                )
-            {
-
-                # send notify email
-                my $EmailObject = Kernel::System::Email->new( %{$Self} );
-                my $Body        = $Self->{ConfigObject}->Get('CustomerPanelBodyNewAccount')
-                    || 'No Config Option found!';
-                my $Subject = $Self->{ConfigObject}->Get('CustomerPanelSubjectNewAccount')
-                    || 'New OTRS Account!';
-                for ( keys %GetParams ) {
-                    $Body =~ s/<OTRS_$_>/$GetParams{$_}/gi;
-                }
-
-                # send account info
-                my $Sent = $EmailObject->Send(
-                    To      => $GetParams{UserEmail},
-                    Subject => $Subject,
-                    Charset => $Self->{LayoutObject}->{UserCharset},
-                    Type    => 'text/plain',
-                    Body    => $Body
-                );
-                if ( !$Sent ) {
-
-                    my $Output = $Self->{LayoutObject}->CustomerHeader(
-                        Area  => 'Core',
-                        Title => 'Error'
-                    );
-                    $Output .= $Self->{LayoutObject}->CustomerWarning(
-                        Comment => 'Can\'t send account info!'
-                    );
-                    $Output .= $Self->{LayoutObject}->CustomerFooter();
-                    $Self->{LayoutObject}->Print( Output => \$Output );
-                    exit 0;
-                }
-
-                # show sent account info
-                if ( $Self->{ConfigObject}->Get('CustomerPanelLoginURL') ) {
-
-                    # redirect to alternate login
-                    $Param{RequestedURL}
-                        = $Self->{LayoutObject}->LinkEncode( $Param{RequestedURL} );
-                    print $Self->{LayoutObject}->Redirect(
-                        ExtURL => $Self->{ConfigObject}->Get('CustomerPanelLoginURL')
-                            . "?RequestedURL=$Param{RequestedURL}&User=$GetParams{UserLogin}&"
-                            . "&Email=$GetParams{UserEmail}&Reason=NewAccountCreated",
-                    );
-                }
-                else {
-
-                    # login screen
-                    $Self->{LayoutObject}->Print(
-                        Output => \$Self->{LayoutObject}->CustomerLogin(
-                            Title => 'Login',
-                            Message =>
-                                "New account created. Sent Login-Account to \%s.\", \"$GetParams{UserEmail}",
-                            User => $GetParams{UserLogin},
-                        ),
-                    );
-                }
-            }
-            else {
+            my $Now = $Self->{TimeObject}->SystemTime2TimeStamp(
+                SystemTime => $Self->{TimeObject}->SystemTime(),
+            );
+            my $Add = $Self->{UserObject}->CustomerUserAdd(
+                %GetParams,
+                Comment => "Added via Customer Panel ($Now)",
+                ValidID => 1,
+                UserID  => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
+            );
+            if ( !$Add ) {
                 my $Output = $Self->{LayoutObject}->CustomerHeader(
                     Area  => 'Core',
                     Title => 'Error',
@@ -668,6 +606,62 @@ sub Run {
                 );
                 $Output .= $Self->{LayoutObject}->CustomerFooter();
                 $Self->{LayoutObject}->Print( Output => \$Output );
+                exit 0;
+            }
+
+            # send notify email
+            my $EmailObject = Kernel::System::Email->new( %{$Self} );
+            my $Body        = $Self->{ConfigObject}->Get('CustomerPanelBodyNewAccount')
+                || 'No Config Option found!';
+            my $Subject = $Self->{ConfigObject}->Get('CustomerPanelSubjectNewAccount')
+                || 'New OTRS Account!';
+            for ( keys %GetParams ) {
+                $Body =~ s/<OTRS_$_>/$GetParams{$_}/gi;
+            }
+
+            # send account info
+            my $Sent = $EmailObject->Send(
+                To      => $GetParams{UserEmail},
+                Subject => $Subject,
+                Charset => $Self->{LayoutObject}->{UserCharset},
+                Type    => 'text/plain',
+                Body    => $Body
+            );
+            if ( !$Sent ) {
+                my $Output = $Self->{LayoutObject}->CustomerHeader(
+                    Area  => 'Core',
+                    Title => 'Error'
+                );
+                $Output .= $Self->{LayoutObject}->CustomerWarning(
+                    Comment => 'Can\'t send account info!'
+                );
+                $Output .= $Self->{LayoutObject}->CustomerFooter();
+                $Self->{LayoutObject}->Print( Output => \$Output );
+                exit 0;
+            }
+
+            # show sent account info
+            if ( $Self->{ConfigObject}->Get('CustomerPanelLoginURL') ) {
+
+                # redirect to alternate login
+                $Param{RequestedURL} = $Self->{LayoutObject}->LinkEncode( $Param{RequestedURL} );
+                print $Self->{LayoutObject}->Redirect(
+                    ExtURL => $Self->{ConfigObject}->Get('CustomerPanelLoginURL')
+                        . "?RequestedURL=$Param{RequestedURL}&User=$GetParams{UserLogin}&"
+                        . "&Email=$GetParams{UserEmail}&Reason=NewAccountCreated",
+                );
+            }
+            else {
+
+                # login screen
+                $Self->{LayoutObject}->Print(
+                    Output => \$Self->{LayoutObject}->CustomerLogin(
+                        Title => 'Login',
+                        Message =>
+                            "New account created. Sent Login-Account to \%s.\", \"$GetParams{UserEmail}",
+                        User => $GetParams{UserLogin},
+                    ),
+                );
             }
         }
     }
@@ -926,6 +920,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.36 $ $Date: 2009-02-16 11:45:13 $
+$Revision: 1.37 $ $Date: 2009-02-17 22:04:59 $
 
 =cut
