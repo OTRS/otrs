@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.61 2009-02-16 11:57:40 tr Exp $
+# $Id: Stats.pm,v 1.62 2009-02-17 12:40:26 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 =head1 SYNOPSIS
 
@@ -2363,25 +2363,23 @@ sub Export {
         $FileLocation .= '.pm';
         my $File        = $Self->{ConfigObject}->Get('Home') . "/$FileLocation";
         my $FileContent = '';
-        if ( open my $Filehandle, '<', $File ) {
 
-            # set bin mode
-            binmode $Filehandle;
-            while (<$Filehandle>) {
-                $FileContent .= $_;
-            }
-            close $Filehandle;
+        open my $Filehandle, '<', $File or die "Can't open: $File: $!";
+
+        # set bin mode
+        binmode $Filehandle;
+        while (<$Filehandle>) {
+            $FileContent .= $_;
         }
-        else {
-            die "Can't open: $File: $!";
-        }
+        close $Filehandle;
+
         $Self->{EncodeObject}->Encode( \$FileContent );
         $XMLHash[0]->{otrs_stats}[1]{File}[1]{File}
             = $XMLHash[0]->{otrs_stats}[1]{File}[1]{Content};
         $XMLHash[0]->{otrs_stats}[1]{File}[1]{Content}    = encode_base64( $FileContent, '' );
         $XMLHash[0]->{otrs_stats}[1]{File}[1]{Location}   = $FileLocation;
-        $XMLHash[0]->{otrs_stats}[1]{File}[1]{Permission} = "644";
-        $XMLHash[0]->{otrs_stats}[1]{File}[1]{Encode}     = "Base64";
+        $XMLHash[0]->{otrs_stats}[1]{File}[1]{Permission} = '644';
+        $XMLHash[0]->{otrs_stats}[1]{File}[1]{Encode}     = 'Base64';
     }
 
     # delete create and change data
@@ -3105,6 +3103,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.61 $ $Date: 2009-02-16 11:57:40 $
+$Revision: 1.62 $ $Date: 2009-02-17 12:40:26 $
 
 =cut
