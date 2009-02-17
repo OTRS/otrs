@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.362 2009-02-16 11:57:40 tr Exp $
+# $Id: Ticket.pm,v 1.363 2009-02-17 00:09:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.362 $) [1];
+$VERSION = qw($Revision: 1.363 $) [1];
 
 =head1 NAME
 
@@ -2837,7 +2837,6 @@ sub Permission {
     # run all TicketPermission modules
     if ( ref $Self->{ConfigObject}->Get('Ticket::Permission') eq 'HASH' ) {
         my %Modules = %{ $Self->{ConfigObject}->Get('Ticket::Permission') };
-        MODULE:
         for my $Module ( sort keys %Modules ) {
 
             # log try of load module
@@ -2849,7 +2848,7 @@ sub Permission {
             }
 
             # load module
-            next MODULE if !$Self->{MainObject}->Require( $Modules{$Module}->{Module} );
+            next if !$Self->{MainObject}->Require( $Modules{$Module}->{Module} );
 
             # create object
             my $ModuleObject = $Modules{$Module}->{Module}->new(
@@ -2956,9 +2955,7 @@ sub CustomerPermission {
             }
 
             # load module
-            if ( !$Self->{MainObject}->Require( $Modules{$Module}->{Module} ) ) {
-                next;
-            }
+            next if !$Self->{MainObject}->Require( $Modules{$Module}->{Module} );
 
             # create object
             my $ModuleObject = $Modules{$Module}->{Module}->new(
@@ -6319,11 +6316,24 @@ sub TicketMerge {
 
 =item TicketWatchGet()
 
-to get all additional attributes of an watched ticket
+to get all user ids and additional attributes of an watched ticket
 
     my %Watch = $TicketObject->TicketWatchGet(
-        TicketID => 111,
-        UserID   => 123
+        TicketID => 123,
+    );
+
+get list of users to notify
+
+    my %Watch = $TicketObject->TicketWatchGet(
+        TicketID => 123,
+        Notify   => 1,
+    );
+
+get list of users as array
+
+    my Watch = $TicketObject->TicketWatchGet(
+        TicketID => 123,
+        Result   => 'ARRAY',
     );
 
 =cut
@@ -6332,28 +6342,56 @@ sub TicketWatchGet {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(TicketID UserID)) {
-        if ( !defined $Param{$_} ) {
+    for (qw(TicketID)) {
+        if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
+    # check if feature is enabled
+    return if !$Self->{ConfigObject}->Get('Ticket::Watcher');
+
     # get all attributes of an watched ticket
     $Self->{DBObject}->Prepare(
-        SQL => 'SELECT create_time, create_by, change_time, change_by'
-            . ' FROM ticket_watcher WHERE ticket_id = ? AND user_id = ?',
-        Bind => [ \$Param{TicketID}, \$Param{UserID} ],
+        SQL => 'SELECT user_id, create_time, create_by, change_time, change_by'
+            . ' FROM ticket_watcher WHERE ticket_id = ?',
+        Bind => [ \$Param{TicketID} ],
     );
 
     # fetch the result
-    my %Data = ();
+    my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Data{CreateTime} = $Row[0];
-        $Data{CreateBy}   = $Row[1];
-        $Data{ChangeTime} = $Row[2];
-        $Data{ChangeBy}   = $Row[3];
+        $Data{ $Row[0] } = {
+            CreateTime => $Row[1],
+            CreateBy   => $Row[2],
+            ChangeTime => $Row[3],
+            ChangeBy   => $Row[4],
+        }
     }
+
+    if ( $Param{Notify} ) {
+        for my $UserID ( keys %Data ) {
+            my %UserData = $Self->{UserObject}->GetUserData(
+                UserID => $UserID,
+                Cached => 1,
+                Valid  => 1,
+            );
+            if ( !$UserData{UserSendWatcherNotification} ) {
+                delete $Data{$UserID};
+            }
+        }
+    }
+
+    # check result
+    if ( $Param{Result} && $Param{Result} eq 'ARRAY' ) {
+        my @UserIDs;
+        for my $UserID ( keys %Data ) {
+            push @UserIDs, $UserID;
+        }
+        return @UserIDs;
+    }
+
     return %Data;
 }
 
@@ -6879,13 +6917,12 @@ sub TicketEventHandlerPost {
 
     for my $Module ( sort keys %{$Modules} ) {
         if ( !$Modules->{$Module}->{Event} || $Param{Event} =~ /$Modules->{$Module}->{Event}/i ) {
-            if ( $Self->{MainObject}->Require( $Modules->{$Module}->{Module} ) ) {
-                my $Generic = $Modules->{$Module}->{Module}->new(
-                    %{$Self},
-                    TicketObject => $Self,
-                );
-                $Generic->Run( %Param, Config => $Modules->{$Module}, );
-            }
+            next if !$Self->{MainObject}->Require( $Modules->{$Module}->{Module} );
+            my $Generic = $Modules->{$Module}->{Module}->new(
+                %{$Self},
+                TicketObject => $Self,
+            );
+            $Generic->Run( %Param, Config => $Modules->{$Module}, );
         }
     }
 
@@ -6953,6 +6990,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.362 $ $Date: 2009-02-16 11:57:40 $
+$Revision: 1.363 $ $Date: 2009-02-17 00:09:06 $
 
 =cut
