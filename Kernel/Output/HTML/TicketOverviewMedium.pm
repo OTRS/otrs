@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewMedium.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewMedium.pm,v 1.7 2009-02-16 11:16:22 tr Exp $
+# $Id: TicketOverviewMedium.pm,v 1.8 2009-02-17 00:20:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -50,6 +50,27 @@ sub Run {
         }
     }
 
+    # check if bulk feature is enabled
+    my $BulkFeature = 0;
+    if ( $Param{Bulk} ) {
+        my @Groups;
+        if ( $Self->{ConfigObject}->Get('Ticket::BulkFeatureGroup') ) {
+            @Groups = @{ $Self->{ConfigObject}->Get('Ticket::BulkFeatureGroup') };
+        }
+        if ( !@Groups ) {
+            $BulkFeature = 1;
+        }
+        else {
+            for my $Group (@Groups) {
+                next if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
+                if ( $Self->{LayoutObject}->{"UserIsGroup[$Group]"} eq 'Yes' ) {
+                    $BulkFeature = 1;
+                    last;
+                }
+            }
+        }
+    }
+
     $Self->{LayoutObject}->Block(
         Name => 'TicketHeader',
         Data => \%Param,
@@ -76,7 +97,7 @@ sub Run {
             my $Output = $Self->_Show(
                 TicketID => $TicketID,
                 Counter  => $CounterOnSite,
-                Bulk     => $Param{Bulk},
+                Bulk     => $BulkFeature,
             );
             $CounterOnSite++;
             if ( !$Param{Output} ) {
@@ -89,7 +110,7 @@ sub Run {
     }
 
     # check if bulk feature is enabled
-    if ( $Param{Bulk} && $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature') ) {
+    if ( $BulkFeature ) {
         $Self->{LayoutObject}->Block(
             Name => 'TicketFooter',
             Data => \%Param,
@@ -124,7 +145,7 @@ sub _Show {
     }
 
     # check if bulk feature is enabled
-    if ( $Param{Bulk} && $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature') ) {
+    if ( $Param{Bulk} ) {
         $Self->{LayoutObject}->Block(
             Name => 'Bulk',
             Data => \%Param,

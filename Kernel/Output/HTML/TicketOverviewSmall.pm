@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewSmall.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewSmall.pm,v 1.7 2009-02-16 11:16:22 tr Exp $
+# $Id: TicketOverviewSmall.pm,v 1.8 2009-02-17 00:20:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -51,7 +51,27 @@ sub Run {
     }
 
     # check if bulk feature is enabled
-    if ( $Param{Bulk} && $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature') ) {
+    my $BulkFeature = 0;
+    if ( $Param{Bulk} ) {
+        my @Groups;
+        if ( $Self->{ConfigObject}->Get('Ticket::BulkFeatureGroup') ) {
+            @Groups = @{ $Self->{ConfigObject}->Get('Ticket::BulkFeatureGroup') };
+        }
+        if ( !@Groups ) {
+            $BulkFeature = 1;
+        }
+        else {
+            for my $Group (@Groups) {
+                next if !$Self->{LayoutObject}->{"UserIsGroup[$Group]"};
+                if ( $Self->{LayoutObject}->{"UserIsGroup[$Group]"} eq 'Yes' ) {
+                    $BulkFeature = 1;
+                    last;
+                }
+            }
+        }
+    }
+
+    if ( $BulkFeature ) {
         $Self->{LayoutObject}->Block(
             Name => 'BulkHead',
             Data => \%Param,
@@ -132,7 +152,7 @@ sub Run {
             );
 
             # check if bulk feature is enabled
-            if ( $Param{Bulk} && $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature') ) {
+            if ( $BulkFeature ) {
                 $Self->{LayoutObject}->Block(
                     Name => 'Bulk',
                     Data => { %Article, %UserInfo },
@@ -159,7 +179,7 @@ sub Run {
     }
 
     # check if bulk feature is enabled
-    if ( $Param{Bulk} && $Self->{ConfigObject}->Get('Ticket::Frontend::BulkFeature') ) {
+    if ( $BulkFeature ) {
         $Self->{LayoutObject}->Block(
             Name => 'BulkFooter',
             Data => \%Param,
