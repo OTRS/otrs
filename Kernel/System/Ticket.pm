@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.363 2009-02-17 00:09:06 martin Exp $
+# $Id: Ticket.pm,v 1.364 2009-02-17 21:35:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.363 $) [1];
+$VERSION = qw($Revision: 1.364 $) [1];
 
 =head1 NAME
 
@@ -159,30 +159,6 @@ sub new {
     $Self->{NotificationObject}   = Kernel::System::Notification->new(%Param);
     $Self->{ValidObject}          = Kernel::System::Valid->new(%Param);
     $Self->{LinkObject}           = Kernel::System::LinkObject->new(%Param);
-
-    # get viewable states list
-    my @ViewableStates = $Self->{StateObject}->StateGetStatesByType(
-        Type   => 'Viewable',
-        Result => 'Name',
-    );
-
-    $Self->{ViewableStates} = \@ViewableStates;
-    my @ViewableStateIDs = $Self->{StateObject}->StateGetStatesByType(
-        Type   => 'Viewable',
-        Result => 'ID',
-    );
-
-    $Self->{ViewableStateIDs} = \@ViewableStateIDs;
-    my @ViewableLocks = $Self->{LockObject}->LockViewableLock( Type => 'Name' );
-    $Self->{ViewableLocks} = \@ViewableLocks;
-    my @ViewableLockIDs = $Self->{LockObject}->LockViewableLock( Type => 'ID' );
-    $Self->{ViewableLockIDs} = \@ViewableLockIDs;
-
-    # get basic config settings
-    $Self->{Sendmail}     = $Self->{ConfigObject}->Get('Sendmail');
-    $Self->{SendmailBcc}  = $Self->{ConfigObject}->Get('SendmailBcc');
-    $Self->{FQDN}         = $Self->{ConfigObject}->Get('FQDN');
-    $Self->{Organization} = $Self->{ConfigObject}->Get('Organization');
 
     # load ticket number generator
     my $GeneratorModule = $Self->{ConfigObject}->Get('Ticket::NumberGenerator')
@@ -779,8 +755,6 @@ to get extended attributes (Closed, FirstLock and FirstResponse), use param Exte
 sub TicketGet {
     my ( $Self, %Param ) = @_;
 
-    my %Ticket = ();
-
     # check needed stuff
     if ( !$Param{TicketID} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
@@ -817,6 +791,7 @@ sub TicketGet {
         . ' WHERE sp.id = st.ticket_priority_id AND sq.id = st.queue_id AND st.id = ?';
     $Self->{DBObject}->Prepare( SQL => $SQL, Bind => [ \$Param{TicketID} ] );
 
+    my %Ticket;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Ticket{TicketID}       = $Row[0];
         $Ticket{Title}          = $Row[55];
@@ -1090,6 +1065,9 @@ sub _TicketGetClosed {
     }
 
     return if !$Data{Closed};
+
+    # for compat. wording reasons
+    $Data{SolutionTime} = $Data{Closed};
 
     # get escalation properties
     my %Escalation = $Self->TicketEscalationPreferences(
@@ -1887,6 +1865,7 @@ sub TicketEscalationPreferences {
             Cache  => 1,
         );
     }
+
     return %Escalation;
 }
 
@@ -1914,16 +1893,23 @@ sub TicketEscalationDateCalculation {
     );
 
     # return if we do not have any escalation attributes
-    return if !%Escalation;
-
-    # calculate escalation times based on escalation properties
-    my $Time = $Self->{TimeObject}->SystemTime();
-    my %Data;
     my %Map = (
         EscalationResponseTime => 'FirstResponse',
         EscalationUpdateTime   => 'Update',
         EscalationSolutionTime => 'Solution',
     );
+    my $EscalationAttribute;
+    for my $Key ( keys %Map ) {
+        if ( $Escalation{ $Map{$Key} . 'Time' } ) {
+            $EscalationAttribute = 1;
+            last;
+        }
+    }
+    return if !$EscalationAttribute;
+
+    # calculate escalation times based on escalation properties
+    my $Time = $Self->{TimeObject}->SystemTime();
+    my %Data;
     for my $Key ( keys %Map ) {
 
         # next is not escalation for this type is given
@@ -6990,6 +6976,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.363 $ $Date: 2009-02-17 00:09:06 $
+$Revision: 1.364 $ $Date: 2009-02-17 21:35:26 $
 
 =cut
