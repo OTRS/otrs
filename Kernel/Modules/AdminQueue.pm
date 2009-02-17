@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.pm,v 1.48 2009-02-16 11:20:52 tr Exp $
+# $Id: AdminQueue.pm,v 1.49 2009-02-17 23:45:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Signature;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -47,7 +47,6 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Output = '';
     $Param{NextScreen} = 'AdminQueue';
     my $QueueID = $Self->{ParamObject}->GetParam( Param => 'QueueID' ) || '';
 
@@ -87,18 +86,26 @@ sub Run {
         }
     }
 
+    # ------------------------------------------------------------ #
     # get data
+    # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
         my %QueueData = $Self->{QueueObject}->QueueGet( ID => $QueueID );
-        $Output .= $Self->{LayoutObject}->Header();
+        my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Mask( %Param, %QueueData, DefaultSignKeyList => \%KeyList );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
 
+    # ------------------------------------------------------------ #
     # update action
+    # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'ChangeAction' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $Note = '';
         my %GetParam;
         for (@Params) {
@@ -107,7 +114,7 @@ sub Run {
 
         # check queue name
         if ( $GetParam{Name} =~ /::/ ) {
-            $Output = $Self->{LayoutObject}->Header();
+            my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Warning(
                 Message => 'Don\'t use :: in queue name!',
@@ -161,8 +168,14 @@ sub Run {
         return $Self->{LayoutObject}->Redirect( OP => "Action=$Param{NextScreen}" );
     }
 
+    # ------------------------------------------------------------ #
     # add new queue
+    # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'AddAction' ) {
+
+        # challenge token check for write action
+        $Self->{LayoutObject}->ChallengeTokenCheck();
+
         my $Note = '';
         my %GetParam;
         for (@Params) {
@@ -171,7 +184,7 @@ sub Run {
 
         # check queue name
         if ( $GetParam{Name} =~ /::/ ) {
-            $Output = $Self->{LayoutObject}->Header();
+            my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Warning(
                 Message => 'Don\'t use :: in queue name!',
@@ -230,9 +243,11 @@ sub Run {
         );
     }
 
+    # ------------------------------------------------------------ #
     # else ! print form
+    # ------------------------------------------------------------ #
     else {
-        $Output = $Self->{LayoutObject}->Header();
+        my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_Mask();
         $Output .= $Self->{LayoutObject}->Footer();
