@@ -2,7 +2,7 @@
 # Kernel/System/CustomerGroup.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerGroup.pm,v 1.18 2009-02-16 11:58:56 tr Exp $
+# $Id: CustomerGroup.pm,v 1.19 2009-02-17 21:57:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Group;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -259,6 +259,72 @@ sub GroupMemberList {
     }
 }
 
+=item GroupLookup()
+
+get id or name for group
+
+    my $Group = $GroupObject->GroupLookup(GroupID => $GroupID);
+
+    my $GroupID = $GroupObject->GroupLookup(Group => $Group);
+
+=cut
+
+sub GroupLookup {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{Group} && !$Param{GroupID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Got no Group or GroupID!' );
+        return;
+    }
+
+    # check if we can answer from our cache
+    if ( $Param{GroupID} && $Self->{"GL::Group$Param{GroupID}"} ) {
+        return $Self->{"GL::Group$Param{GroupID}"};
+    }
+    if ( $Param{Group} && $Self->{"GL::GroupID$Param{Group}"} ) {
+        return $Self->{"GL::GroupID$Param{Group}"};
+    }
+
+    # get data
+    my $SQL;
+    my @Bind;
+    my $Suffix;
+    if ( $Param{Group} ) {
+        $Param{What} = $Param{Group};
+        $Suffix      = 'GroupID';
+        $SQL         = 'SELECT id FROM groups WHERE name = ?';
+        push @Bind, \$Param{Group};
+    }
+    else {
+        $Param{What} = $Param{GroupID};
+        $Suffix      = 'Group';
+        $SQL         = 'SELECT name FROM groups WHERE id = ?';
+        push @Bind, \$Param{GroupID};
+    }
+    return if !$Self->{DBObject}->Prepare(
+        SQL  => $SQL,
+        Bind => \@Bind,
+    );
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+
+        # store result
+        $Self->{"GL::$Suffix$Param{What}"} = $Row[0];
+    }
+
+    # check if data exists
+    if ( !exists $Self->{"GL::$Suffix$Param{What}"} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Found no \$$Suffix for $Param{What}!",
+        );
+        return;
+    }
+
+    # return result
+    return $Self->{"GL::$Suffix$Param{What}"};
+}
+
 1;
 
 =back
@@ -275,6 +341,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2009-02-16 11:58:56 $
+$Revision: 1.19 $ $Date: 2009-02-17 21:57:07 $
 
 =cut
