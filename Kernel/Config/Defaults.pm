@@ -2,11 +2,11 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.303 2009-01-05 21:38:22 martin Exp $
+# $Id: Defaults.pm,v 1.304 2009-02-18 19:19:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 #
 #  Note:
@@ -24,7 +24,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.303 $) [1];
+$VERSION = qw($Revision: 1.304 $) [1];
 
 sub LoadDefaults {
     my ($Self) = @_;
@@ -925,8 +925,8 @@ sub LoadDefaults {
             'deutsch' => 'Deutsch',
 
             # dict => frontend (aspell)
-            #            'english' => 'English',
-            #            'german' => 'Deutsch',
+#            'english' => 'English',
+#            'german' => 'Deutsch',
         },
         PrefKey => 'UserSpellDict',
         Prio    => 5000,
@@ -945,15 +945,15 @@ sub LoadDefaults {
     };
 
 #    $Self->{PreferencesGroups}->{FreeText} = {
-#        Module => 'Kernel::Output::HTML::PreferencesGeneric',
-#        Colum => 'Other Options',
-#        Label => 'Free Text',
-#        Desc => 'Example for free text.',
-#        Block => 'Input',
-#        Data => '$Env{"UserFreeText"}',
+#        Module  => 'Kernel::Output::HTML::PreferencesGeneric',
+#        Colum   => 'Other Options',
+#        Label   => 'Free Text',
+#        Desc    => 'Example for free text.',
+#        Block   => 'Input',
+#        Data    => '$Env{"UserFreeText"}',
 #        PrefKey => 'UserFreeText',
-#        Prio => 7000,
-#        Activ => 1,
+#        Prio    => 7000,
+#        Activ   => 1,
 #    };
 
     $Self->{PreferencesGroups}->{Language} = {
@@ -2376,13 +2376,13 @@ sub new {
 This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
-the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+the enclosed file COPYING for license information (AGPL). If you
+did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.303 $ $Date: 2009-01-05 21:38:22 $
+$Revision: 1.304 $ $Date: 2009-02-18 19:19:09 $
 
 =cut
