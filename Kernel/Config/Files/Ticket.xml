@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.220 2009-02-17 00:05:35 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.221 2009-02-18 19:23:42 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1668,6 +1668,30 @@
             </Array>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::BulkFeature" Required="1" Valid="1">
+        <Description Lang="en">Enable ticket bulk action feature for the agent frontend to work on more than one ticket at the same time.</Description>
+        <Description Lang="de">Aktivierung der Ticket-Bulk-Action Funktionalität im Agent-Frontend um gleichzeitig mehreren Tickets bearbeiten zu können.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketBulkAction</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::BulkFeatureGroup" Required="0" Valid="0">
+        <Description Lang="en">Enable ticket bulk action feature only for the following groups.</Description>
+        <Description Lang="de">Ticket-Bulk-Action Funktionalität nur für folgende Gruppen aktivieren.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::TicketBulkAction</SubGroup>
+        <Setting>
+            <Array>
+                <Item>admin</Item>
+                <Item>users</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::PlainView" Required="1" Valid="1">
         <Description Lang="en">Show also in ZoomView the plain link for emails in article tree.</Description>
         <Description Lang="de">Den Plain/Klar-Link in der Inhalts-Ansicht für Emails im Artikel-Baum anzeigen.</Description>
@@ -2030,30 +2054,6 @@
                 <Item Key="0">No</Item>
                 <Item Key="1">Yes</Item>
             </Option>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::BulkFeature" Required="1" Valid="1">
-        <Description Lang="en">Enable ticket bulk action feature for the agent frontend to work on more than one ticket at the same time.</Description>
-        <Description Lang="de">Aktivierung der Ticket-Bulk-Action Funktionalität im Agent-Frontend um gleichzeitig mehreren Tickets bearbeiten zu können.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
-        <Setting>
-            <Option SelectedID="1">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::BulkFeatureGroup" Required="0" Valid="0">
-        <Description Lang="en">Enable ticket bulk action feature only for the following groups.</Description>
-        <Description Lang="de">Ticket-Bulk-Action Funktionalität nur für folgende Gruppen aktivieren.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent</SubGroup>
-        <Setting>
-            <Array>
-                <Item>admin</Item>
-                <Item>users</Item>
-            </Array>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::AgentCanBeCustomer" Required="1" Valid="1">
