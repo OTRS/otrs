@@ -1,12 +1,12 @@
 # --
 # AgentTicketPhoneOutbound.dtl - provides HTML form for phone
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.dtl,v 1.14 2008-05-08 22:52:35 martin Exp $
+# $Id: AgentTicketPhoneOutbound.dtl,v 1.14.2.1 2009-02-19 14:07:12 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 <!-- start form -->
@@ -21,6 +21,11 @@ function submit_compose() {
     else if (document.compose.Subject.value == "") {
         alert('$JSText{"A message should have a subject!"}');
         document.compose.Subject.focus();
+        return false;
+    }
+    else if (document.compose.Body.value == "") {
+        alert('$JSText{"A message should have a body!"}');
+        document.compose.Body.focus();
         return false;
     }
     else if (isNaN(document.compose.Day.value) || isNaN(document.compose.Month.value) || isNaN(document.compose.Year.value) || isNaN(document.compose.Hour.value) || isNaN(document.compose.Minute.value)) {

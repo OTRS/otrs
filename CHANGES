@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.762.2.50 2009-02-19 13:39:37 ub Exp $
+# $Id: CHANGES,v 1.762.2.51 2009-02-19 14:07:12 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.3.5 (2009/??/??)
+ - (2009/02/19) Fixed bug# 3636 - Phone call link can be used without adding
+    a body the ticket mask.
  - (2009/02/19) Fixed bug# 3671 - Priority in CustomerTicketZoom resets to
     pre-configured or 3.
  - (2009/02/13) Fixed bug# 3657 - Stats module: The locking attribute doesn't
