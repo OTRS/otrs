@@ -1,12 +1,12 @@
 # --
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.27 2008-07-09 12:32:06 martin Exp $
+# $Id: CustomerTicketZoom.pm,v 1.27.2.1 2009-02-19 13:33:54 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 package Kernel::Modules::CustomerTicketZoom;
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.27.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -114,6 +114,7 @@ sub Run {
 
     # check follow up
     if ( $Self->{Subaction} eq 'Store' ) {
+
         my $NextScreen = $Self->{NextScreen} || $Self->{Config}->{NextScreenAfterFollowUp};
         my %Error = ();
 
@@ -176,7 +177,7 @@ sub Run {
         }
         if ( !%Error ) {
 
-            # set lock if ticket was cloased
+            # set lock if ticket was closed
             if ( $Lock && $State{TypeName} =~ /^close/i && $Ticket{OwnerID} ne '1' ) {
                 $Self->{TicketObject}->LockSet(
                     TicketID => $Self->{TicketID},
@@ -275,6 +276,11 @@ sub Run {
     $Ticket{TicketTimeUnits} = $Self->{TicketObject}->TicketAccountedTimeGet(
         TicketID => $Ticket{TicketID},
     );
+
+    # set priority from ticket
+    if ( !$GetParam{PriorityID} ) {
+        $GetParam{PriorityID} = $Ticket{PriorityID};
+    }
 
     # get all atricle of this ticket
     my @CustomerArticleTypes = $Self->{TicketObject}->ArticleTypeList( Type => 'Customer' );
