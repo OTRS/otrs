@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.836 2009-02-17 00:34:37 martin Exp $
+# $Id: CHANGES,v 1.837 2009-02-19 13:40:42 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -106,6 +106,8 @@
     auth support.
 
 2.3.5 (2009/??/??)
+ - (2009/02/19) Fixed bug# 3671 - Priority in CustomerTicketZoom resets to
+    pre-configured or 3.
  - (2009/02/13) Fixed bug# 3657 - Stats module: The locking attribute doesn't
     work.
  - (2009/02/09) Fixed bug# 3656 - The package manager testscript doesn't work

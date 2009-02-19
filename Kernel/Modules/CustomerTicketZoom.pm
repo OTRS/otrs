@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.29 2009-02-16 11:20:53 tr Exp $
+# $Id: CustomerTicketZoom.pm,v 1.30 2009-02-19 13:38:32 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -275,6 +275,11 @@ sub Run {
     $Ticket{TicketTimeUnits} = $Self->{TicketObject}->TicketAccountedTimeGet(
         TicketID => $Ticket{TicketID},
     );
+
+    # set priority from ticket
+    if ( !$GetParam{PriorityID} ) {
+        $GetParam{PriorityID} = $Ticket{PriorityID};
+    }
 
     # get all atricle of this ticket
     my @CustomerArticleTypes = $Self->{TicketObject}->ArticleTypeList( Type => 'Customer' );
