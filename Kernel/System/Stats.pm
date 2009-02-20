@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.63 2009-02-20 12:11:41 mh Exp $
+# $Id: Stats.pm,v 1.64 2009-02-20 15:52:32 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 =head1 SYNOPSIS
 
@@ -1971,10 +1971,11 @@ sub GetStatsObjectAttributes {
     # check needed params
     for (qw(ObjectModule Use)) {
         if ( !$Param{$_} ) {
-            return $Self->{LogObject}->Log(
+            $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "GetStatsObjectAttributes: Need $_!"
             );
+            return;
         }
     }
 
@@ -2115,13 +2116,8 @@ sub ObjectFileCheck {
     elsif ( $Param{Type} eq 'dynamic' ) {
         $Directory .= 'Kernel/System/Stats/Dynamic/' . $Param{Name} . '.pm';
     }
-    else {
-        return 0;
-    }
-    if ( -r "$Directory" ) {
-        return 1;
-    }
 
+    return 1 if -r $Directory;
     return 0;
 }
 
@@ -2182,10 +2178,11 @@ sub _CreateStaticResultCacheFilename {
     # check needed params
     for my $NeededParam (qw( StatID GetParam )) {
         if ( !$Param{$NeededParam} ) {
-            return $Self->{LogObject}->Log(
+            $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "_CreateStaticResultCacheFilename: Need $NeededParam!"
             );
+            return;
         }
     }
 
@@ -2234,10 +2231,11 @@ sub _SetResultCache {
     # check needed params
     for my $NeededParam (qw( Filename Result)) {
         if ( !$Param{$NeededParam} ) {
-            return $Self->{LogObject}->Log(
+            $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "_SetResultCache: Need $NeededParam!"
             );
+            return;
         }
     }
 
@@ -2278,10 +2276,11 @@ sub _GetResultCache {
 
     # check needed params
     if ( !$Param{Filename} ) {
-        return $Self->{LogObject}->Log(
+        $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => '_GetResultCache: Need Filename!',
         );
+        return;
     }
 
     my $Path      = $Self->{ConfigObject}->Get('TempDir');
@@ -2338,10 +2337,11 @@ sub Export {
     my %File = ();
 
     if ( !$Param{StatID} ) {
-        return $Self->{LogObject}->Log(
+        $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Export: Need StatID!"
         );
+        return;
     }
 
     my @XMLHash = $Self->{XMLObject}->XMLHashGet(
@@ -2441,10 +2441,11 @@ sub Import {
     my @Keys;
 
     if ( !$Param{Content} ) {
-        return $Self->{LogObject}->Log(
+        $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Import: Need Content!"
         );
+        return;
     }
     my @XMLHash = $Self->{XMLObject}->XMLParse2XMLHash( String => $Param{Content} );
 
@@ -2635,10 +2636,11 @@ sub GetParams {
     my @Params = ();
 
     if ( !$Param{StatID} ) {
-        return $Self->{LogObject}->Log(
+        $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "GetParams: Need StatID!"
         );
+        return;
     }
 
     my $Stat = $Self->StatsGet( StatID => $Param{StatID} );
@@ -2674,10 +2676,11 @@ sub StatsRun {
     my @Result = ();
     for (qw(StatID GetParam)) {
         if ( !$Param{$_} ) {
-            return $Self->{LogObject}->Log(
+            $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "StatsRun: Need $_!"
             );
+            return;
         }
     }
 
@@ -2692,10 +2695,11 @@ sub StatsRun {
             DatabasePw   => $Self->{ConfigObject}->Get('Core::MirrorDB::Password'),
         );
         if ( !$ExtraDatabaseObject ) {
-            return $Self->{LogObject}->Log(
+            $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => 'There is no MirroDB!',
             );
+            return;
         }
         $Self->{DBObject} = $ExtraDatabaseObject;
     }
@@ -2784,10 +2788,11 @@ sub StringAndTimestamp2Filename {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{String} ) {
-        return $Self->{LogObject}->Log(
+        $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => 'StringAndTimestamp2Filename: Need String!'
         );
+        return;
     }
 
     my ( $s, $m, $h, $D, $M, $Y ) = $Self->{TimeObject}->SystemTime2Date(
@@ -2831,10 +2836,11 @@ sub StatNumber2StatID {
     my ( $Self, %Param ) = @_;
 
     if ( !$Param{StatNumber} ) {
-        return $Self->{LogObject}->Log(
+        $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "StatNumber2StatID: Need StatNumber!"
+            Message  => 'StatNumber2StatID: Need StatNumber!',
         );
+        return;
     }
 
     my @Key = $Self->{XMLObject}->XMLHashSearch(
@@ -2847,7 +2853,7 @@ sub StatNumber2StatID {
     else {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "StatNumber invalid!"
+            Message  => 'StatNumber invalid!',
         );
         return 0;
     }
@@ -3107,6 +3113,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.63 $ $Date: 2009-02-20 12:11:41 $
+$Revision: 1.64 $ $Date: 2009-02-20 15:52:32 $
 
 =cut
