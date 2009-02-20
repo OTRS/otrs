@@ -2,11 +2,11 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.56.2.2 2009-01-26 11:47:07 tr Exp $
+# $Id: Stats.pm,v 1.56.2.3 2009-02-20 12:15:18 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 package Kernel::System::Stats;
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.56.2.2 $) [1];
+$VERSION = qw($Revision: 1.56.2.3 $) [1];
 
 =head1 SYNOPSIS
 
@@ -1401,7 +1401,7 @@ sub GenerateDynamicStats {
     }
 
     # create the cache string
-    my $CacheString = $Self->_GetCacheString( %Param );
+    my $CacheString = $Self->_GetCacheString(%Param);
 
     # take the cache value if configured and available
     if ( $Param{Cache} ) {
@@ -1481,6 +1481,7 @@ sub GenerateDynamicStats {
                 < $Self->{TimeObject}->SystemTime()
                 )
             {
+
                 # write the stats cache
                 $Self->_SetResultCache(
                     Filename => 'Stats' . $Param{StatID} . '-' . $CacheString . '.cache',
@@ -2718,7 +2719,10 @@ sub StatsRun {
             DatabasePw   => $Self->{ConfigObject}->Get('Core::MirrorDB::Password'),
         );
         if ( !$ExtraDatabaseObject ) {
-            $Self->{LayoutObject}->FatalError();
+            return $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => 'There is no MirroDB!',
+            );
         }
         $Self->{DBObject} = $ExtraDatabaseObject;
     }
@@ -3097,13 +3101,13 @@ sub _GetCacheString {
 
     for my $Use (qw(UseAsXvalue UseAsValueSeries UseAsRestriction)) {
         USEREF:
-        for my $UseRef ( @{$Param{$Use}} ) {
+        for my $UseRef ( @{ $Param{$Use} } ) {
             $CacheString .= '__' . $UseRef->{Name} . '_';
             if ( $UseRef->{SelectedValues} ) {
-                $CacheString .= join ('_', sort @{$UseRef->{SelectedValues}})
+                $CacheString .= join( '_', sort @{ $UseRef->{SelectedValues} } )
             }
-            elsif ($UseRef->{TimeStart} && $UseRef->{TimeStop}) {
-                $CacheString .=  $UseRef->{TimeStart} .'-'. $UseRef->{TimeStop};
+            elsif ( $UseRef->{TimeStart} && $UseRef->{TimeStop} ) {
+                $CacheString .= $UseRef->{TimeStart} . '-' . $UseRef->{TimeStop};
             }
         }
     }
@@ -3125,11 +3129,11 @@ sub _GetCacheString {
 This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
-the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+the enclosed file COPYING for license information (AGPL). If you
+did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.56.2.2 $ $Date: 2009-01-26 11:47:07 $
+$Revision: 1.56.2.3 $ $Date: 2009-02-20 12:15:18 $
 
 =cut
