@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.31 2009-02-20 12:04:29 mh Exp $
+# $Id: CustomerTicketZoom.pm,v 1.32 2009-02-20 12:29:36 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -176,7 +176,7 @@ sub Run {
         }
         if ( !%Error ) {
 
-            # set lock if ticket was cloased
+            # set lock if ticket was closed
             if ( $Lock && $State{TypeName} =~ /^close/i && $Ticket{OwnerID} ne '1' ) {
                 $Self->{TicketObject}->LockSet(
                     TicketID => $Self->{TicketID},
