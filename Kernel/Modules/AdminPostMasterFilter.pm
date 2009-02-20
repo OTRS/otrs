@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPostMasterFilter.pm - to add/update/delete filters
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPostMasterFilter.pm,v 1.21 2009-02-17 23:37:11 martin Exp $
+# $Id: AdminPostMasterFilter.pm,v 1.22 2009-02-20 12:04:29 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::PostMaster::Filter;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -218,7 +218,7 @@ sub _MaskUpdate {
     for ( @{ $Self->{ConfigObject}->Get('PostmasterX-Header') } ) {
         $Header{$_} = $_;
     }
-    $Header{''}   = '-';
+    $Header{''} = '-';
     $Header{Body} = 'Body';
 
     # otrs header

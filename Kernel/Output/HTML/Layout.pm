@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.123 2009-02-17 22:43:28 martin Exp $
+# $Id: Layout.pm,v 1.124 2009-02-20 12:05:39 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.123 $) [1];
+$VERSION = qw($Revision: 1.124 $) [1];
 
 =head1 NAME
 
@@ -665,7 +665,7 @@ sub _Output {
 
     # parse/get text blocks
     my @BR = $Self->_BlockTemplatesReplace(
-        Template     => \$TemplateString,
+        Template => \$TemplateString,
         TemplateFile => $Param{TemplateFile} || '',
     );
     my $ID        = 0;
@@ -1182,7 +1182,7 @@ sub Redirect {
     #  o http://bugs.otrs.org/show_bug.cgi?id=2230
     #  o http://support.microsoft.com/default.aspx?scid=kb;en-us;221154
     if ( $ENV{SERVER_SOFTWARE} =~ /^microsoft\-iis/i ) {
-        my $Host     = $ENV{HTTP_HOST} || $Self->{ConfigObject}->Get('FQDN');
+        my $Host = $ENV{HTTP_HOST} || $Self->{ConfigObject}->Get('FQDN');
         my $HttpType = $Self->{ConfigObject}->Get('HttpType');
         $Param{Redirect} = $HttpType . '://' . $Host . '/' . $Param{Redirect};
     }
@@ -1267,7 +1267,7 @@ sub Login {
     $Output .= $Self->Output( TemplateFile => 'Login', Data => \%Param );
 
     # remove the version tag from the header if configured
-    $Self->_DisableBannerCheck(OutputRef => \$Output);
+    $Self->_DisableBannerCheck( OutputRef => \$Output );
 
     return $Output;
 }
@@ -1543,7 +1543,7 @@ sub Header {
     }
 
     # create the user login info (usually visible right on the top of the page)
-    if (!$Self->{UserLoginIdentifier}) {
+    if ( !$Self->{UserLoginIdentifier} ) {
         $Self->{UserLoginIdentifier} = $Self->{UserLogin} ? "($Self->{UserEmail})" : '';
     }
 
@@ -1565,7 +1565,7 @@ sub Header {
     $Output .= $Self->Output( TemplateFile => "Header$Type", Data => \%Param );
 
     # remove the version tag from the header if configured
-    $Self->_DisableBannerCheck(OutputRef => \$Output);
+    $Self->_DisableBannerCheck( OutputRef => \$Output );
 
     return $Output;
 }
@@ -1648,7 +1648,7 @@ sub PrintHeader {
     my $Output = $Self->Output( TemplateFile => 'PrintHeader', Data => \%Param );
 
     # remove the version tag from the header if configured
-    $Self->_DisableBannerCheck(OutputRef => \$Output);
+    $Self->_DisableBannerCheck( OutputRef => \$Output );
 
     # create & return output
     return $Output;
@@ -2737,8 +2737,10 @@ sub _BuildSelectionDataRefCreate {
     # deactivate HTMLQuote
     if ( $OptionRef->{Max} ) {
         for my $Row ( @{$DataRef} ) {
+
             # REMARK: This is the same solution as in Ascii2Html
             $Row->{Value} =~ s/^(.{$OptionRef->{Max}}).+?$/$1\[\.\.\]/gs;
+
             #$Row->{Value} = substr( $Row->{Value}, 0, $OptionRef->{Max} );
         }
     }
@@ -3782,7 +3784,7 @@ sub CustomerLogin {
     $Output .= $Self->Output( TemplateFile => 'CustomerLogin', Data => \%Param );
 
     # remove the version tag from the header if configured
-    $Self->_DisableBannerCheck(OutputRef => \$Output);
+    $Self->_DisableBannerCheck( OutputRef => \$Output );
 
     return $Output;
 }
@@ -3859,7 +3861,7 @@ sub CustomerHeader {
     $Output .= $Self->Output( TemplateFile => "CustomerHeader$Type", Data => \%Param );
 
     # remove the version tag from the header if configured
-    $Self->_DisableBannerCheck(OutputRef => \$Output);
+    $Self->_DisableBannerCheck( OutputRef => \$Output );
 
     return $Output;
 }
@@ -4002,9 +4004,11 @@ sub CustomerNavigationBar {
     }
 
     # create the customer user login info (usually at the right side of the navigation bar)
-    if (!$Self->{UserLoginIdentifier}) {
-        $Param{UserLoginIdentifier} = $Self->{UserEmail} ne $Self->{UserCustomerID} ?
-            "( $Self->{UserEmail} / $Self->{UserCustomerID} )" : $Self->{UserEmail};
+    if ( !$Self->{UserLoginIdentifier} ) {
+        $Param{UserLoginIdentifier} = $Self->{UserEmail} ne $Self->{UserCustomerID}
+            ?
+            "( $Self->{UserEmail} / $Self->{UserCustomerID} )"
+            : $Self->{UserEmail};
     }
     else {
         $Param{UserLoginIdentifier} = $Self->{UserLoginIdentifier};
@@ -4098,10 +4102,10 @@ sub _DisableBannerCheck {
     my ( $Self, %Param ) = @_;
 
     return 1 if !$Self->{ConfigObject}->Get('Secure::DisableBanner');
-    return if !$Param{OutputRef};
+    return   if !$Param{OutputRef};
 
     # remove the version tag from the header
-    ${$Param{OutputRef}} =~ s{
+    ${ $Param{OutputRef} } =~ s{
                 ^ X-Powered-By: .+? Open \s Ticket \s Request \s System \s \(http .+? \)$ \n
             }{}smx;
 
@@ -4121,6 +4125,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.123 $ $Date: 2009-02-17 22:43:28 $
+$Revision: 1.124 $ $Date: 2009-02-20 12:05:39 $
 
 =cut

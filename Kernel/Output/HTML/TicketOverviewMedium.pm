@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewMedium.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewMedium.pm,v 1.9 2009-02-17 00:31:25 martin Exp $
+# $Id: TicketOverviewMedium.pm,v 1.10 2009-02-20 12:05:39 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -110,7 +110,7 @@ sub Run {
     }
 
     # check if bulk feature is enabled
-    if ( $BulkFeature ) {
+    if ($BulkFeature) {
         $Self->{LayoutObject}->Block(
             Name => 'TicketFooter',
             Data => \%Param,

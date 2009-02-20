@@ -2,7 +2,7 @@
 # Package.t - Package tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.t,v 1.20 2009-02-16 12:41:12 tr Exp $
+# $Id: Package.t,v 1.21 2009-02-20 12:05:54 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -66,7 +66,7 @@ my $String = '<?xml version="1.0" encoding="utf-8" ?>
 
 # check if the package is already installed - check by name
 my $PackageIsInstalledByName = $Self->{PackageObject}->PackageIsInstalled(
-    Name   => 'Test',
+    Name => 'Test',
 );
 $Self->True(
     !$PackageIsInstalledByName,
@@ -122,7 +122,7 @@ $Self->True(
 
 # check if the package is already installed - check by name
 $PackageIsInstalledByName = $Self->{PackageObject}->PackageIsInstalled(
-    Name   => 'Test',
+    Name => 'Test',
 );
 $Self->True(
     $PackageIsInstalledByName,
@@ -746,14 +746,17 @@ $Self->True(
 # from the version control system.
 my $DeveloperSystem = 0;
 my $Version         = $Self->{ConfigObject}->Get('Version');
-if (  !-e $Home . '/ARCHIVE'
+if (
+    !-e $Home . '/ARCHIVE'
     && $Version =~ m{CVS}
-) {
+    )
+{
     $DeveloperSystem = 1;
 }
 
 # check #11 doesn't work on developer systems because there is no ARCHIVE file!
-if (!$DeveloperSystem) {
+if ( !$DeveloperSystem ) {
+
     # 11 check "do not remove framework file if no backup exists"
     my $RemoveFile          = $Home . '/' . 'bin/CheckDB.pl.save';
     my $RemoveFileFramework = $Home . '/' . 'bin/CheckDB.pl';
@@ -831,7 +834,8 @@ if (!$DeveloperSystem) {
 }
 
 # check #12 doesn't work on developer systems because there is no ARCHIVE file!
-if (!$DeveloperSystem) {
+if ( !$DeveloperSystem ) {
+
     # 12 check "do create .save file on reinstall if it's a framework file"
     my $SaveFile          = $Home . '/' . 'bin/CheckDB.pl.save';
     my $SaveFileFramework = $Home . '/' . 'bin/CheckDB.pl';

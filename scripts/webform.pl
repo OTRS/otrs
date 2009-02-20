@@ -4,7 +4,7 @@
 # X-OTRS-Queue header for an OTRS system (x-headers for dispatching!).
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: webform.pl,v 1.13 2009-02-16 12:50:07 tr Exp $
+# $Id: webform.pl,v 1.14 2009-02-20 12:05:54 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use CGI::Carp qw(fatalsToBrowser);
 # Simple Common Gateway Interface Class
 use CGI;
 
-my $VERSION = qw($Revision: 1.13 $) [1];
+my $VERSION = qw($Revision: 1.14 $) [1];
 
 # --------------------------
 # web form options
@@ -61,10 +61,10 @@ my %Topics = (
 # --------------------------
 
 sub Header {
-    my %Param = @_;
+    my (%Param) = @_;
 
     # html quote
-    for my $Value ( qw(Title) ) {
+    for my $Value (qw(Title)) {
         $Param{$Value} = _Ascii2Html( $Param{$Value} );
     }
 
@@ -102,10 +102,10 @@ EOF
 # -------------------------
 
 sub Thanks {
-    my %Param = @_;
+    my (%Param) = @_;
 
     # html quote
-    for my $Value ( qw(From) ) {
+    for my $Value (qw(From)) {
         $Param{$Value} = _Ascii2Html( $Param{$Value} );
     }
 
@@ -124,7 +124,7 @@ sub Error {
     my (%Param) = @_;
 
     # html quote
-    for my $Value ( qw(Message) ) {
+    for my $Value (qw(Message)) {
         $Param{$Value} = _Ascii2Html( $Param{$Value} );
     }
 
@@ -165,7 +165,7 @@ sub WebForm {
                 <td>
 ';
     for my $Key ( sort keys %Topics ) {
-        my $HTMLKey   = _Ascii2Html( $Key );
+        my $HTMLKey   = _Ascii2Html($Key);
         my $HTMLValue = _Ascii2Html( $Topics{$Key} );
         print $HTMLKey . '<input type="radio" name="Topic" value="' . $HTMLValue . '">';
     }
@@ -203,7 +203,7 @@ sub WebForm {
 # --------------------------
 
 sub SendMail {
-    my %Param = @_;
+    my (%Param) = @_;
 
     # check needed params
     my $Output = '';
@@ -264,7 +264,7 @@ sub SendMail {
     my $FromEmail = $Param{FromEmail};
     $FromEmail =~ s/"|;|'|<|>|\||\s|\r|\n|\t|`//ig;
     $FromEmail = quotemeta $FromEmail;
-    if ( open my $Mail, '|-', "$Sendmail $FromEmail"  ) {
+    if ( open my $Mail, '|-', "$Sendmail $FromEmail" ) {
         print $Mail @Mail;
         close $Mail;
 

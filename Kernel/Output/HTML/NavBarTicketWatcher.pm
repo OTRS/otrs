@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NavBarTicketWatcher.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: NavBarTicketWatcher.pm,v 1.13 2009-02-17 00:17:05 martin Exp $
+# $Id: NavBarTicketWatcher.pm,v 1.14 2009-02-20 12:05:39 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -68,7 +68,7 @@ sub Run {
         UserID       => 1,
         Permission   => 'ro',
     );
-    my $Text = $Self->{LayoutObject}->{LanguageObject}->Get('Watched Tickets') . " ($Count)";
+    my $Text   = $Self->{LayoutObject}->{LanguageObject}->Get('Watched Tickets') . " ($Count)";
     my %Return = ();
     $Return{'0999978'} = {
         Block       => 'ItemPersonal',

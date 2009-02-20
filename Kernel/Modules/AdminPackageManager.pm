@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.76 2009-02-16 11:20:52 tr Exp $
+# $Id: AdminPackageManager.pm,v 1.77 2009-02-20 12:04:29 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -637,8 +637,8 @@ sub Run {
     # install package
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Install' ) {
-        my $Name             = $Self->{ParamObject}->GetParam( Param => 'Name' )             || '';
-        my $Version          = $Self->{ParamObject}->GetParam( Param => 'Version' )          || '';
+        my $Name    = $Self->{ParamObject}->GetParam( Param => 'Name' )    || '';
+        my $Version = $Self->{ParamObject}->GetParam( Param => 'Version' ) || '';
 
         # get package
         my $Package = $Self->{PackageObject}->RepositoryGet(
@@ -647,7 +647,7 @@ sub Run {
             Result  => 'SCALAR',
         );
 
-        return $Self->_InstallHandling(Package => $Package);
+        return $Self->_InstallHandling( Package => $Package );
     }
 
     # ------------------------------------------------------------ #
@@ -673,7 +673,7 @@ sub Run {
     # upgrade remote package
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'UpgradeRemote' ) {
-        my $File = $Self->{ParamObject}->GetParam( Param => 'File' )             || '';
+        my $File = $Self->{ParamObject}->GetParam( Param => 'File' ) || '';
 
         # download package
         my $Package = $Self->{PackageObject}->PackageOnlineGet(
@@ -959,7 +959,8 @@ sub Run {
                 %UploadStuff,
             );
 
-            # if file got not added to storage (e. g. because of 1 MB max_allowed_packet MySQL problem)
+            # if file got not added to storage
+            # (e. g. because of 1 MB max_allowed_packet MySQL problem)
             if ( !$Added ) {
                 $Self->{LayoutObject}->FatalError();
             }
@@ -977,7 +978,8 @@ sub Run {
                 %UploadStuff = %{ $AttachmentData[0] };
             }
         }
-        my $Feedback = $Self->{PackageObject}->PackageIsInstalled( String => $UploadStuff{Content} );
+        my $Feedback
+            = $Self->{PackageObject}->PackageIsInstalled( String => $UploadStuff{Content} );
 
         if ($Feedback) {
             return $Self->_UpgradeHandling(
@@ -1325,15 +1327,15 @@ sub _DocumentationGet {
 }
 
 sub _InstallHandling {
-    my ($Self, %Param) = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed params
     if ( !$Param{Package} ) {
         return $Self->{LayoutObject}->ErrorScreen( Message => 'No such package!' );
     }
 
-    my $IntroInstallPre    = $Self->{ParamObject}->GetParam( Param => 'IntroInstallPre' )  || '';
-    my $IntroInstallPost   = $Self->{ParamObject}->GetParam( Param => 'IntroInstallPost' ) || '';
+    my $IntroInstallPre    = $Self->{ParamObject}->GetParam( Param => 'IntroInstallPre' )    || '';
+    my $IntroInstallPost   = $Self->{ParamObject}->GetParam( Param => 'IntroInstallPost' )   || '';
     my $IntroInstallVendor = $Self->{ParamObject}->GetParam( Param => 'IntroInstallVendor' ) || '';
 
     # parse package
@@ -1436,7 +1438,7 @@ sub _InstallHandling {
 }
 
 sub _UpgradeHandling {
-    my ($Self, %Param) = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed params
     if ( !$Param{Package} ) {

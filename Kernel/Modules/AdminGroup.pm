@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGroup.pm - to add/update/delete groups
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGroup.pm,v 1.32 2009-02-17 23:37:11 martin Exp $
+# $Id: AdminGroup.pm,v 1.33 2009-02-20 12:04:29 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -146,7 +146,7 @@ sub Run {
         my $GroupID = $Self->{GroupObject}->GroupAdd( %GetParam, UserID => $Self->{UserID} );
 
         # error message if add user is false
-        if (!$GroupID) {
+        if ( !$GroupID ) {
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
@@ -236,7 +236,7 @@ sub _Overview {
     for ( sort { $List{$a} cmp $List{$b} } keys %List ) {
 
         # set output class
-        $CssClass = $CssClass eq 'searchactive' ? 'searchpassive' : 'searchactive' ;
+        $CssClass = $CssClass eq 'searchactive' ? 'searchpassive' : 'searchactive';
 
         my %Data = $Self->{GroupObject}->GroupGet( ID => $_, );
         $Self->{LayoutObject}->Block(

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminCustomerUserService.pm - to add/update/delete customerusers <-> services
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerUserService.pm,v 1.9 2009-02-16 11:20:52 tr Exp $
+# $Id: AdminCustomerUserService.pm,v 1.10 2009-02-20 12:04:29 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Service;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -256,7 +256,8 @@ sub Run {
             $Css = $Css && $Css eq 'searchactive' ? 'searchpassive' : 'searchactive';
 
             # set checked
-            my $Checked = $CustomerUserMemberList{ $CustomerUserKeyList[ $Counter - 1 ] } ? 'checked' : '';
+            my $Checked
+                = $CustomerUserMemberList{ $CustomerUserKeyList[ $Counter - 1 ] } ? 'checked' : '';
 
             # output row block
             $Self->{LayoutObject}->Block(

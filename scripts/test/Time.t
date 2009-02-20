@@ -2,7 +2,7 @@
 # Time.t - Time tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Time.t,v 1.17 2009-02-16 12:40:23 tr Exp $
+# $Id: Time.t,v 1.18 2009-02-20 12:05:54 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -510,8 +510,8 @@ $Self->Is(
 );
 
 # modify calendar 1
-my $TimeVacationDays1        = $Self->{ConfigObject}->Get( 'TimeVacationDays::Calendar1' );
-my $TimeVacationDaysOneTime1 = $Self->{ConfigObject}->Get( 'TimeVacationDaysOneTime::Calendar1' );
+my $TimeVacationDays1        = $Self->{ConfigObject}->Get('TimeVacationDays::Calendar1');
+my $TimeVacationDaysOneTime1 = $Self->{ConfigObject}->Get('TimeVacationDaysOneTime::Calendar1');
 
 # 2005-01-01
 $Vacation = $Self->{TimeObject}->VacationCheck(
@@ -529,9 +529,9 @@ $Self->Is(
 
 # 2005-01-01
 $Vacation = $Self->{TimeObject}->VacationCheck(
-    Year    => 2005,
-    Month   => '01',
-    Day     => '01',
+    Year     => 2005,
+    Month    => '01',
+    Day      => '01',
     Calendar => 1,
 );
 
@@ -561,9 +561,9 @@ $Self->Is(
 
 # 2005-01-01
 $Vacation = $Self->{TimeObject}->VacationCheck(
-    Year    => 2005,
-    Month   => '01',
-    Day     => '01',
+    Year     => 2005,
+    Month    => '01',
+    Day      => '01',
     Calendar => 1,
 );
 
@@ -589,9 +589,9 @@ $Self->Is(
 
 # 2004-01-01
 $Vacation = $Self->{TimeObject}->VacationCheck(
-    Year    => 2004,
-    Month   => '01',
-    Day     => '01',
+    Year     => 2004,
+    Month    => '01',
+    Day      => '01',
     Calendar => 1,
 );
 

@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.43 2009-02-16 12:40:23 tr Exp $
+# $Id: Ticket.t,v 1.44 2009-02-20 12:05:54 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -4598,11 +4598,11 @@ Perl modules provide a range of features to help you avoid reinventing the wheel
 
     # search
     my %TicketIDs = $TicketObject->TicketSearch(
-        Subject      => '%short%',
-        Result       => 'HASH',
-        Limit        => 100,
-        UserID       => 1,
-        Permission   => 'rw',
+        Subject    => '%short%',
+        Result     => 'HASH',
+        Limit      => 100,
+        UserID     => 1,
+        Permission => 'rw',
     );
     $Self->True(
         $TicketIDs{$TicketID},
@@ -4631,11 +4631,11 @@ Perl modules provide a range of features to help you avoid reinventing the wheel
 
     # search
     %TicketIDs = $TicketObject->TicketSearch(
-        Subject      => '%fax agreement%',
-        Result       => 'HASH',
-        Limit        => 100,
-        UserID       => 1,
-        Permission   => 'rw',
+        Subject    => '%fax agreement%',
+        Result     => 'HASH',
+        Limit      => 100,
+        UserID     => 1,
+        Permission => 'rw',
     );
     $Self->True(
         $TicketIDs{$TicketID},
@@ -4644,11 +4644,11 @@ Perl modules provide a range of features to help you avoid reinventing the wheel
 
     # search
     %TicketIDs = $TicketObject->TicketSearch(
-        Body         => '%HELP%',
-        Result       => 'HASH',
-        Limit        => 100,
-        UserID       => 1,
-        Permission   => 'rw',
+        Body       => '%HELP%',
+        Result     => 'HASH',
+        Limit      => 100,
+        UserID     => 1,
+        Permission => 'rw',
     );
     $Self->True(
         $TicketIDs{$TicketID},
@@ -4657,11 +4657,11 @@ Perl modules provide a range of features to help you avoid reinventing the wheel
 
     # search
     %TicketIDs = $TicketObject->TicketSearch(
-        Body         => '%HELP_NOT_FOUND%',
-        Result       => 'HASH',
-        Limit        => 100,
-        UserID       => 1,
-        Permission   => 'rw',
+        Body       => '%HELP_NOT_FOUND%',
+        Result     => 'HASH',
+        Limit      => 100,
+        UserID     => 1,
+        Permission => 'rw',
     );
     $Self->True(
         !$TicketIDs{$TicketID},

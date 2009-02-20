@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesTimeZone.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesTimeZone.pm,v 1.11 2009-02-18 19:24:43 martin Exp $
+# $Id: PreferencesTimeZone.pm,v 1.12 2009-02-20 12:05:39 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -37,7 +37,9 @@ sub Param {
 
     return if !$Self->{ConfigObject}->Get('TimeZoneUser');
     return if $Self->{ConfigObject}->Get('TimeZoneUserBrowserAutoOffset');
-    return if $Self->{ConfigObject}->Get('TimeZoneUserBrowserAutoOffset') && !$Self->{LayoutObject}->{BrowserJavaScriptSupport};
+    return
+        if $Self->{ConfigObject}->Get('TimeZoneUserBrowserAutoOffset')
+            && !$Self->{LayoutObject}->{BrowserJavaScriptSupport};
 
     my @Params = ();
     push(
