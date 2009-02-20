@@ -2,11 +2,11 @@
 # Kernel/System/Group.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.pm,v 1.58.2.1 2009-01-23 08:51:30 tr Exp $
+# $Id: Group.pm,v 1.58.2.2 2009-02-20 11:49:40 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 package Kernel::System::Group;
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.58.2.1 $) [1];
+$VERSION = qw($Revision: 1.58.2.2 $) [1];
 
 =head1 NAME
 
@@ -639,7 +639,7 @@ sub GroupMemberInvolvedList {
     }
 
     # only allow valid system permissions as Type
-    my $TypeString = $Self->_GetTypeString(Type => $Param{Type});
+    my $TypeString = $Self->_GetTypeString( Type => $Param{Type} );
 
     # get valid ids
     my $ValidID = join( ', ', $Self->{ValidObject}->ValidIDsGet() );
@@ -816,7 +816,7 @@ sub GroupGroupMemberList {
     $Param{Type} = $Self->{DBObject}->Quote( $Param{Type} );
 
     # only allow valid system permissions as Type
-    my $TypeString = $Self->_GetTypeString(Type => $Param{Type});
+    my $TypeString = $Self->_GetTypeString( Type => $Param{Type} );
 
     # sql
     my %Data = ();
@@ -986,7 +986,7 @@ sub GroupRoleMemberList {
     $Param{Type} = $Self->{DBObject}->Quote( $Param{Type} );
 
     # only allow valid system permissions as Type
-    my $TypeString = $Self->_GetTypeString(Type => $Param{Type});
+    my $TypeString = $Self->_GetTypeString( Type => $Param{Type} );
 
     # sql
     my %Data = ();
@@ -1529,10 +1529,10 @@ returns a string for a sql IN elements which contains a comma separted list of s
 =cut
 
 sub _GetTypeString {
-    my ($Self, %Param) = @_;
+    my ( $Self, %Param ) = @_;
 
     # only allow valid system permissions as Type; see bug 3499
-    my @Types = grep $_ eq $Param{Type}, @{$Self->{ConfigObject}->Get('System::Permission')};
+    my @Types = grep $_ eq $Param{Type}, @{ $Self->{ConfigObject}->Get('System::Permission') };
     push @Types, 'rw';
     my $TypeString = join ',', map "'$_'", @Types;
 
@@ -1548,13 +1548,13 @@ sub _GetTypeString {
 This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
-the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+the enclosed file COPYING for license information (AGPL). If you
+did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.58.2.1 $ $Date: 2009-01-23 08:51:30 $
+$Revision: 1.58.2.2 $ $Date: 2009-02-20 11:49:40 $
 
 =cut

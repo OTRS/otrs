@@ -2,11 +2,11 @@
 # Kernel/System/Ticket/ArticleSearchIndex/StaticDB.pm - article search index backend static
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.5.2.1 2009-01-22 20:15:02 martin Exp $
+# $Id: StaticDB.pm,v 1.5.2.2 2009-02-20 11:49:40 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 package Kernel::System::Ticket::ArticleSearchIndex::StaticDB;
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5.2.1 $) [1];
+$VERSION = qw($Revision: 1.5.2.2 $) [1];
 
 sub ArticleIndexBuild {
     my ( $Self, %Param ) = @_;
@@ -249,25 +249,25 @@ sub _ArticleIndexStringToWord {
     my $Config = $Self->{ConfigObject}->Get('Ticket::SearchIndex::Attribute');
 
     my %StopWord = (
-        'der'  => 1,
-        'die'  => 1,
-        'und'  => 1,
-        'in'   => 1,
-        'vom'  => 1,
-        'zu'   => 1,
-        'im'   => 1,
-        'den'  => 1,
-        'auf'  => 1,
-        'als'  => 1,
+        'der' => 1,
+        'die' => 1,
+        'und' => 1,
+        'in'  => 1,
+        'vom' => 1,
+        'zu'  => 1,
+        'im'  => 1,
+        'den' => 1,
+        'auf' => 1,
+        'als' => 1,
 
-        'the'  => 1,
-        'of'   => 1,
-        'and'  => 1,
-        'in'   => 1,
-        'to'   => 1,
-        'a'    => 1,
-        'is'   => 1,
-        'for'  => 1,
+        'the' => 1,
+        'of'  => 1,
+        'and' => 1,
+        'in'  => 1,
+        'to'  => 1,
+        'a'   => 1,
+        'is'  => 1,
+        'for' => 1,
     );
 
     # get words
