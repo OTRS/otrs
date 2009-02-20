@@ -2,7 +2,7 @@
 # Kernel/System/AutoResponse.pm - lib for auto responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AutoResponse.pm,v 1.26 2009-02-16 11:58:56 tr Exp $
+# $Id: AutoResponse.pm,v 1.27 2009-02-20 12:11:41 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 =head1 NAME
 
@@ -118,7 +118,7 @@ sub AutoResponseAdd {
     }
 
     # check if a autoresponse with this name already exits
-    return if !$Self->_NameExistsCheck(Name => $Param{Name});
+    return if !$Self->_NameExistsCheck( Name => $Param{Name} );
 
     # insert into database
     return if !$Self->{DBObject}->Do(
@@ -223,7 +223,7 @@ sub AutoResponseUpdate {
     }
 
     # check if a autoresponse with this name already exits
-    return if !$Self->_NameExistsCheck(Name => $Param{Name});
+    return if !$Self->_NameExistsCheck( Name => $Param{Name} );
 
     # update the database
     return $Self->{DBObject}->Do(
@@ -346,10 +346,10 @@ return falls if a autoresponse with this name already exits
 =cut
 
 sub _NameExistsCheck {
-    my ($Self, %Param) = @_;
+    my ( $Self, %Param ) = @_;
 
     return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT id FROM auto_response WHERE name = ?',
+        SQL  => 'SELECT id FROM auto_response WHERE name = ?',
         Bind => [ \$Param{Name} ],
     );
 
@@ -381,6 +381,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.26 $ $Date: 2009-02-16 11:58:56 $
+$Revision: 1.27 $ $Date: 2009-02-20 12:11:41 $
 
 =cut

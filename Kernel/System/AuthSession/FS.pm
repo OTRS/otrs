@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/FS.pm - provides session filesystem backend
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.31 2009-02-17 22:18:22 martin Exp $
+# $Id: FS.pm,v 1.32 2009-02-20 12:11:41 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -90,14 +90,15 @@ sub CheckSessionID {
     }
 
     # check session idle time
-    my $TimeNow = $Self->{TimeObject}->SystemTime();
+    my $TimeNow            = $Self->{TimeObject}->SystemTime();
     my $MaxSessionIdleTime = $Self->{ConfigObject}->Get('SessionMaxIdleTime');
     if ( ( $TimeNow - $MaxSessionIdleTime ) >= $Data{UserLastRequest} ) {
         $Self->{CheckSessionIDMessage} = 'Session has timed out. Please log in again.';
         my $Timeout = int( ( $TimeNow - $Data{UserLastRequest} ) / ( 60 * 60 ) );
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message  => "SessionID ($Param{SessionID}) idle timeout ($Timeout h)! Don't grant access!!!",
+            Message =>
+                "SessionID ($Param{SessionID}) idle timeout ($Timeout h)! Don't grant access!!!",
         );
 
         # delete session id if too old?

@@ -3,7 +3,7 @@
 # otrs.ArticleStorageSwitch.pl - to move stored attachments from one backend to other
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.ArticleStorageSwitch.pl,v 1.4 2009-02-16 12:26:57 tr Exp $
+# $Id: otrs.ArticleStorageSwitch.pl,v 1.5 2009-02-20 12:11:42 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -132,7 +132,7 @@ for my $TicketID (@TicketIDs) {
             );
             push @Attachments, \%Attachment;
             my $Content = $Attachment{Content};
-            my $MD5Sum = $CommonObject{MainObject}->MD5sum(
+            my $MD5Sum  = $CommonObject{MainObject}->MD5sum(
                 String => \$Content,
             );
             $MD5Sums{$MD5Sum} = 1;
@@ -160,7 +160,8 @@ for my $TicketID (@TicketIDs) {
 
         # write destination plain
         if ($Plain) {
-            print "NOTICE: write plain attachment to dest backend: ($ArticleID/$PlainMD5Sum)\n" if $Opts{v};
+            print "NOTICE: write plain attachment to dest backend: ($ArticleID/$PlainMD5Sum)\n"
+                if $Opts{v};
             $TicketObjectDestination->ArticleWritePlain(
                 Email     => $Plain,
                 ArticleID => $ArticleID,
@@ -183,7 +184,8 @@ for my $TicketID (@TicketIDs) {
                 String => \$Attachment{Content},
             );
             if ( !$MD5Sums{$MD5Sum} ) {
-                print "ERROR: Corrupt file: $Attachment{Filename} (TicketID:$TicketID/ArticleID:$ArticleID)\n";
+                print
+                    "ERROR: Corrupt file: $Attachment{Filename} (TicketID:$TicketID/ArticleID:$ArticleID)\n";
             }
             else {
                 print "NOTICE: Ok file: $Attachment{Filename} ($MD5Sum)\n" if $Opts{v};

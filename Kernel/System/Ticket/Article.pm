@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.198 2009-02-17 22:10:33 martin Exp $
+# $Id: Article.pm,v 1.199 2009-02-20 12:11:41 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.198 $) [1];
+$VERSION = qw($Revision: 1.199 $) [1];
 
 =head1 NAME
 
@@ -1860,8 +1860,8 @@ send article via email and create article with attachments
 sub ArticleSend {
     my ( $Self, %Param ) = @_;
 
-    my $ToOrig      = $Param{To} || '';
-    my $Loop        = $Param{Loop} || 0;
+    my $ToOrig      = $Param{To}          || '';
+    my $Loop        = $Param{Loop}        || 0;
     my $HistoryType = $Param{HistoryType} || 'SendAnswer';
 
     # check needed stuff
@@ -1898,8 +1898,8 @@ sub ArticleSend {
     );
 
     # create article
-    my $Time       = $Self->{TimeObject}->SystemTime();
-    my $Random     = rand 999999;
+    my $Time      = $Self->{TimeObject}->SystemTime();
+    my $Random    = rand 999999;
     my $FQDN      = $Self->{ConfigObject}->Get('FQDN');
     my $MessageID = "<$Time.$Random.$Param{TicketID}.$Param{UserID}\@$FQDN>";
     my $ArticleID = $Self->ArticleCreate(
@@ -3314,6 +3314,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.198 $ $Date: 2009-02-17 22:10:33 $
+$Revision: 1.199 $ $Date: 2009-02-20 12:11:41 $
 
 =cut

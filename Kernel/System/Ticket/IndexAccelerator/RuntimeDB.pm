@@ -3,7 +3,7 @@
 # queue ticket index module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: RuntimeDB.pm,v 1.66 2009-02-17 21:36:34 martin Exp $
+# $Id: RuntimeDB.pm,v 1.67 2009-02-20 12:11:41 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 sub TicketAcceleratorUpdate {
     my ( $Self, %Param ) = @_;
@@ -122,6 +122,7 @@ sub TicketAcceleratorIndex {
         . " sq.group_id IN ( ${\(join ', ', @GroupIDs)} ) AND "
         . " suq.user_id = $Param{UserID}";
     $Self->{DBObject}->Prepare( SQL => $SQL );
+
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         my %Hashes;
         $Hashes{QueueID} = 0;

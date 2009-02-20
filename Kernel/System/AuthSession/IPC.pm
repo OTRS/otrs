@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/IPC.pm - provides session IPC/Mem backend
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: IPC.pm,v 1.36 2009-02-17 22:18:22 martin Exp $
+# $Id: IPC.pm,v 1.37 2009-02-20 12:11:41 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use MIME::Base64;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -193,14 +193,15 @@ sub CheckSessionID {
     }
 
     # check session idle time
-    my $TimeNow = $Self->{TimeObject}->SystemTime();
+    my $TimeNow            = $Self->{TimeObject}->SystemTime();
     my $MaxSessionIdleTime = $Self->{ConfigObject}->Get('SessionMaxIdleTime');
     if ( ( $TimeNow - $MaxSessionIdleTime ) >= $Data{UserLastRequest} ) {
         $Self->{CheckSessionIDMessage} = 'Session has timed out. Please log in again.';
         my $Timeout = int( ( $TimeNow - $Data{UserLastRequest} ) / ( 60 * 60 ) );
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message  => "SessionID ($Param{SessionID}) idle timeout ($Timeout h)! Don't grant access!!!",
+            Message =>
+                "SessionID ($Param{SessionID}) idle timeout ($Timeout h)! Don't grant access!!!",
         );
 
         # delete session id if too old?
@@ -272,7 +273,7 @@ sub GetSessionIDData {
                 $Self->{LogObject}->Log(
                     Priority => 'debug',
                     Message  => "GetSessionIDData: '$PaarData[1]:"
-                            . decode_base64( $PaarData[2] ) . "'",
+                        . decode_base64( $PaarData[2] ) . "'",
                 );
             }
         }
@@ -298,7 +299,7 @@ sub CreateSessionID {
     $md5->add(
         ( $TimeNow . int( rand(999999999) ) . $Self->{SystemID} ) . $RemoteAddr . $RemoteUserAgent
     );
-    my $SessionID       = $Self->{SystemID} . $md5->hexdigest;
+    my $SessionID = $Self->{SystemID} . $md5->hexdigest;
     my $SessionIDBase64 = encode_base64( $SessionID, '' );
 
     # create challenge token

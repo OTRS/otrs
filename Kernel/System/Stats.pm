@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.62 2009-02-17 12:40:26 tr Exp $
+# $Id: Stats.pm,v 1.63 2009-02-20 12:11:41 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 =head1 SYNOPSIS
 
@@ -260,31 +260,31 @@ sub StatsGet {
             if ( $Attribute->{Block} eq 'Time' ) {
                 if ( $Key eq 'UseAsValueSeries' ) {
                     if (
-                        $Allowed{ $Element }
-                        && $Allowed{ $Element } == 1
+                        $Allowed{$Element}
+                        && $Allowed{$Element} == 1
                         )
                     {
-                        $Allowed{ $Element }     = 0;
-                        $TimeAllowed{ $Element } = 1;
+                        $Allowed{$Element}     = 0;
+                        $TimeAllowed{$Element} = 1;
                     }
                     else {
-                        $Allowed{ $Element } = 1;
+                        $Allowed{$Element} = 1;
                     }
                 }
                 elsif ( $Key eq 'UseAsRestriction' ) {
                     if (
-                        $TimeAllowed{ $Element }
-                        && $TimeAllowed{ $Element } == 1
+                        $TimeAllowed{$Element}
+                        && $TimeAllowed{$Element} == 1
                         )
                     {
-                        $Allowed{ $Element } = 1;
+                        $Allowed{$Element} = 1;
                     }
                     else {
-                        $Allowed{ $Element } = 0;
+                        $Allowed{$Element} = 0;
                     }
                 }
             }
-            next ATTRIBUTE if $Allowed{ $Element };
+            next ATTRIBUTE if $Allowed{$Element};
 
             if ( $StatXML->{$Key} ) {
                 my @StatAttributes = @{ $StatXML->{$Key} };
@@ -328,7 +328,7 @@ sub StatsGet {
                             $Attribute->{$_} = $Ref->{$_};
                         }
                     }
-                    $Allowed{ $Element } = 1;
+                    $Allowed{$Element} = 1;
                 }
             }
             push @StatAttributesSimplified, $Attribute;
@@ -737,7 +737,7 @@ sub GenerateDynamicStats {
             delete $Element->{Selected};
             delete $Element->{Fixed};
             if ( $Element->{Block} eq 'Time' ) {
-                delete $Element->{TimePeriodFormat} ;
+                delete $Element->{TimePeriodFormat};
                 if ( $Element->{TimeRelativeUnit} ) {
                     my ( $s, $m, $h, $D, $M, $Y )
                         = $Self->{TimeObject}->SystemTime2Date(
@@ -1385,7 +1385,7 @@ sub GenerateDynamicStats {
     }
 
     # create the cache string
-    my $CacheString = $Self->_GetCacheString( %Param );
+    my $CacheString = $Self->_GetCacheString(%Param);
 
     # take the cache value if configured and available
     if ( $Param{Cache} ) {
@@ -1413,23 +1413,23 @@ sub GenerateDynamicStats {
             if ( $Xvalue->{Block} eq 'Time' ) {
                 my $TimeStart = $Xvalue->{Values}{TimeStart};
                 my $TimeStop  = $Xvalue->{Values}{TimeStop};
-                if ( $ValueSeries{$Row}{ $TimeStop } && $ValueSeries{$Row}{ $TimeStart } ) {
+                if ( $ValueSeries{$Row}{$TimeStop} && $ValueSeries{$Row}{$TimeStart} ) {
                     if (
                         $Self->{TimeObject}->TimeStamp2SystemTime( String => $Cell->{TimeStop} )
                         > $Self->{TimeObject}->TimeStamp2SystemTime(
-                            String => $ValueSeries{$Row}{ $TimeStop }
+                            String => $ValueSeries{$Row}{$TimeStop}
                         )
                         || $Self->{TimeObject}->TimeStamp2SystemTime( String => $Cell->{TimeStart} )
                         < $Self->{TimeObject}->TimeStamp2SystemTime(
-                            String => $ValueSeries{$Row}{ $TimeStart }
+                            String => $ValueSeries{$Row}{$TimeStart}
                         )
                         )
                     {
                         next;
                     }
                 }
-                $SearchAttribut{ $TimeStop }  = $Cell->{TimeStop};
-                $SearchAttribut{ $TimeStart } = $Cell->{TimeStart};
+                $SearchAttribut{$TimeStop}  = $Cell->{TimeStop};
+                $SearchAttribut{$TimeStart} = $Cell->{TimeStart};
             }
             elsif ( $Xvalue->{Block} eq 'SelectField' ) {
                 $SearchAttribut{ $Xvalue->{Element} } = $Cell;
@@ -1521,7 +1521,7 @@ sub GenerateGraph {
         pop @StatArray;
     }
     if ( $HeadArrayRef->[-1] eq 'Sum' ) {
-        pop @{$HeadArrayRef} ;
+        pop @{$HeadArrayRef};
         for my $Row (@StatArray) {
             pop @{$Row};
         }
@@ -2139,7 +2139,11 @@ sub _WriteResultCache {
     if ( $GetParam{Year} && $GetParam{Month} ) {
         return if $GetParam{Year} > $Y;
         return if $GetParam{Year} == $Y && $GetParam{Month} > $M;
-        return if $GetParam{Year} == $Y && $GetParam{Month} == $M && $GetParam{Day} && $GetParam{Day} >= $D;
+        return
+            if $GetParam{Year} == $Y
+                && $GetParam{Month} == $M
+                && $GetParam{Day}
+                && $GetParam{Day} >= $D;
     }
 
     # write cache file
@@ -3070,13 +3074,13 @@ sub _GetCacheString {
 
     for my $Use (qw(UseAsXvalue UseAsValueSeries UseAsRestriction)) {
         USEREF:
-        for my $UseRef ( @{$Param{$Use}} ) {
+        for my $UseRef ( @{ $Param{$Use} } ) {
             $CacheString .= '__' . $UseRef->{Name} . '_';
             if ( $UseRef->{SelectedValues} ) {
-                $CacheString .= join ('_', sort @{$UseRef->{SelectedValues}})
+                $CacheString .= join( '_', sort @{ $UseRef->{SelectedValues} } )
             }
-            elsif ($UseRef->{TimeStart} && $UseRef->{TimeStop}) {
-                $CacheString .=  $UseRef->{TimeStart} .'-'. $UseRef->{TimeStop};
+            elsif ( $UseRef->{TimeStart} && $UseRef->{TimeStop} ) {
+                $CacheString .= $UseRef->{TimeStart} . '-' . $UseRef->{TimeStop};
             }
         }
     }
@@ -3103,6 +3107,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.62 $ $Date: 2009-02-17 12:40:26 $
+$Revision: 1.63 $ $Date: 2009-02-20 12:11:41 $
 
 =cut

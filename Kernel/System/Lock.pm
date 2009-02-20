@@ -2,7 +2,7 @@
 # Kernel/System/Lock.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Lock.pm,v 1.25 2009-02-17 21:32:59 martin Exp $
+# $Id: Lock.pm,v 1.26 2009-02-20 12:11:41 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 =head1 NAME
 
@@ -134,8 +134,8 @@ sub LockViewableLock {
     }
 
     # cache result
-    $Self->{ 'LockViewableLock::Name' } = \@Name;
-    $Self->{ 'LockViewableLock::ID' }   = \@ID;
+    $Self->{'LockViewableLock::Name'} = \@Name;
+    $Self->{'LockViewableLock::ID'}   = \@ID;
 
     if ( $Param{Type} eq 'Name' ) {
         return @Name;
@@ -258,6 +258,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2009-02-17 21:32:59 $
+$Revision: 1.26 $ $Date: 2009-02-20 12:11:41 $
 
 =cut

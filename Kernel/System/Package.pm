@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.95 2009-02-16 11:57:40 tr Exp $
+# $Id: Package.pm,v 1.96 2009-02-20 12:11:41 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.95 $) [1];
+$VERSION = qw($Revision: 1.96 $) [1];
 
 =head1 NAME
 
@@ -335,7 +335,7 @@ sub PackageInstall {
     my %Structure = $Self->PackageParse(%Param);
 
     # check if package is already installed
-    if ( $Self->PackageIsInstalled(Name => $Structure{Name}->{Content})) {
+    if ( $Self->PackageIsInstalled( Name => $Structure{Name}->{Content} ) ) {
         if ( !$Param{Force} ) {
             $Self->{LogObject}->Log(
                 Priority => 'notice',
@@ -1665,8 +1665,11 @@ sub PackageIsInstalled {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    if ( !$Param{String} && !$Param{Name}) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need String (PackageString) or Name (Name of the package)!' );
+    if ( !$Param{String} && !$Param{Name} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => 'Need String (PackageString) or Name (Name of the package)!'
+        );
         return;
     }
 
@@ -1676,8 +1679,9 @@ sub PackageIsInstalled {
     }
 
     $Self->{DBObject}->Prepare(
-        SQL => "SELECT name FROM package_repository WHERE name = ? AND install_status = 'installed'",
-        Bind => [\$Param{Name}],
+        SQL =>
+            "SELECT name FROM package_repository WHERE name = ? AND install_status = 'installed'",
+        Bind => [ \$Param{Name} ],
     );
 
     my $Flag = 0;
@@ -2387,6 +2391,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.95 $ $Date: 2009-02-16 11:57:40 $
+$Revision: 1.96 $ $Date: 2009-02-20 12:11:41 $
 
 =cut

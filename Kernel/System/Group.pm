@@ -2,7 +2,7 @@
 # Kernel/System/Group.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.pm,v 1.64 2009-02-16 11:58:56 tr Exp $
+# $Id: Group.pm,v 1.65 2009-02-20 12:11:41 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 =head1 NAME
 
@@ -274,6 +274,7 @@ sub GroupMemberAdd {
             || ( $Value{ $Param{GID} }->{ $Param{UID} }->{$Type} && $Param{Permission}->{$Type} )
             )
         {
+
             # No updated needed!
             next TYPE;
         }
@@ -625,7 +626,7 @@ sub GroupMemberInvolvedList {
     $Param{UserID} = $Self->{DBObject}->Quote( $Param{UserID}, 'Integer' );
 
     # only allow valid system permissions as Type
-    my $TypeString = $Self->_GetTypeString(Type => $Param{Type});
+    my $TypeString = $Self->_GetTypeString( Type => $Param{Type} );
 
     # get valid ids
     my $ValidID = join( ', ', $Self->{ValidObject}->ValidIDsGet() );
@@ -794,7 +795,7 @@ sub GroupGroupMemberList {
     }
 
     # only allow valid system permissions as Type
-    my $TypeString = $Self->_GetTypeString(Type => $Param{Type});
+    my $TypeString = $Self->_GetTypeString( Type => $Param{Type} );
 
     # sql
     my %Data = ();
@@ -957,7 +958,7 @@ sub GroupRoleMemberList {
     }
 
     # only allow valid system permissions as Type
-    my $TypeString = $Self->_GetTypeString(Type => $Param{Type});
+    my $TypeString = $Self->_GetTypeString( Type => $Param{Type} );
 
     # sql
     my %Data = ();
@@ -1099,6 +1100,7 @@ sub GroupRoleMemberAdd {
             || ( $Value{ $Param{GID} }->{ $Param{RID} }->{$Type} && $Param{Permission}->{$Type} )
             )
         {
+
             # No updated needed!
             next TYPE
         }
@@ -1491,10 +1493,10 @@ returns a string for a sql IN elements which contains a comma separted list of s
 =cut
 
 sub _GetTypeString {
-    my ($Self, %Param) = @_;
+    my ( $Self, %Param ) = @_;
 
     # only allow valid system permissions as Type; see bug 3499
-    my @Types = grep $_ eq $Param{Type}, @{$Self->{ConfigObject}->Get('System::Permission')};
+    my @Types = grep $_ eq $Param{Type}, @{ $Self->{ConfigObject}->Get('System::Permission') };
     push @Types, 'rw';
     my $TypeString = join ',', map "'$_'", @Types;
 
@@ -1517,6 +1519,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.64 $ $Date: 2009-02-16 11:58:56 $
+$Revision: 1.65 $ $Date: 2009-02-20 12:11:41 $
 
 =cut

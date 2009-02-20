@@ -2,7 +2,7 @@
 # Kernel/System/DB/db2.pm - db2 database backend
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: db2.pm,v 1.53 2009-02-16 11:48:19 tr Exp $
+# $Id: db2.pm,v 1.54 2009-02-20 12:11:41 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -377,10 +377,6 @@ sub TableAlter {
                 push @SQL, $SQLStart . " DROP COLUMN $Tag->{NameOld}";
                 push @SQL, "CALL SYSPROC.ADMIN_CMD ('REORG TABLE $Table')";
             }
-
-            # normal data type
-            #push @SQL, "ALTER TABLE $Table ALTER COLUMN $Tag->{NameNew} SET DATA TYPE $Tag->{Type}";
-            #push @SQL, "CALL SYSPROC.ADMIN_CMD ('REORG TABLE $Table')";
 
             # investigate the default value
             my $Default = '';

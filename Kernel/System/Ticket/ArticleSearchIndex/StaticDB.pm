@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleSearchIndex/StaticDB.pm - article search index backend static
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.7 2009-02-16 11:46:47 tr Exp $
+# $Id: StaticDB.pm,v 1.8 2009-02-20 12:11:41 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub ArticleIndexBuild {
     my ( $Self, %Param ) = @_;
@@ -204,11 +204,13 @@ sub _ArticleIndexString {
     my $WordCountMax = $Config->{WordCountMax} || 1000;
 
     # get words (use eval to prevend exits on damaged utf8 signs)
-    my $ListOfWords = eval { $Self->_ArticleIndexStringToWord(
-        String        => \$Param{String},
-        WordLengthMin => $Param{WordLengthMin},
-        WordLengthMax => $Param{WordLengthMax},
-    ) };
+    my $ListOfWords = eval {
+        $Self->_ArticleIndexStringToWord(
+            String        => \$Param{String},
+            WordLengthMin => $Param{WordLengthMin},
+            WordLengthMax => $Param{WordLengthMax},
+        );
+    };
     next if !$ListOfWords;
 
     # find ranking of words
@@ -249,25 +251,25 @@ sub _ArticleIndexStringToWord {
     my $Config = $Self->{ConfigObject}->Get('Ticket::SearchIndex::Attribute');
 
     my %StopWord = (
-        'der'  => 1,
-        'die'  => 1,
-        'und'  => 1,
-        'in'   => 1,
-        'vom'  => 1,
-        'zu'   => 1,
-        'im'   => 1,
-        'den'  => 1,
-        'auf'  => 1,
-        'als'  => 1,
+        'der' => 1,
+        'die' => 1,
+        'und' => 1,
+        'in'  => 1,
+        'vom' => 1,
+        'zu'  => 1,
+        'im'  => 1,
+        'den' => 1,
+        'auf' => 1,
+        'als' => 1,
 
-        'the'  => 1,
-        'of'   => 1,
-        'and'  => 1,
-        'in'   => 1,
-        'to'   => 1,
-        'a'    => 1,
-        'is'   => 1,
-        'for'  => 1,
+        'the' => 1,
+        'of'  => 1,
+        'and' => 1,
+        'in'  => 1,
+        'to'  => 1,
+        'a'   => 1,
+        'is'  => 1,
+        'for' => 1,
     );
 
     # get words
