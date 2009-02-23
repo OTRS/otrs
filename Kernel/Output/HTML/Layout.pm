@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.124 2009-02-20 12:05:39 mh Exp $
+# $Id: Layout.pm,v 1.125 2009-02-23 08:38:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.124 $) [1];
+$VERSION = qw($Revision: 1.125 $) [1];
 
 =head1 NAME
 
@@ -44,6 +44,7 @@ create a new object
     use Kernel::System::Time;
     use Kernel::System::Main;
     use Kernel::System::Encode;
+    use Kernel::System::Web::Request;
     use Kernel::Output::HTML::Layout;
 
     my $ConfigObject = Kernel::Config->new();
@@ -61,19 +62,25 @@ create a new object
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
     );
-    my $LayoutObject = Kernel::Output::HTML::Layout->new(
+    my $RequestObject = Kernel::System::Web::Request->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
-        MainObject   => $MainObject,
-        TimeObject   => $TimeObject,
         EncodeObject => $EncodeObject,
-        Lang         => 'de',
+        MainObject   => $MainObject,
+    );
+    my $LayoutObject = Kernel::Output::HTML::Layout->new(
+        ConfigObject  => $ConfigObject,
+        LogObject     => $LogObject,
+        MainObject    => $MainObject,
+        TimeObject    => $TimeObject,
+        RequestObject => $RequestObject,
+        EncodeObject  => $EncodeObject,
+        Lang          => 'de',
     );
 
     in addition for NavigationBar() you need
         DBObject
         SessionObject
-        ParamObject
         UserID
         TicketObject
         GroupObject
@@ -313,7 +320,7 @@ sub SetEnv {
     my ( $Self, %Param ) = @_;
 
     for (qw(Key Value)) {
-        if ( !defined( $Param{$_} ) ) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             $Self->FatalError();
         }
@@ -329,10 +336,10 @@ use a dtl block
     $LayoutObject->Block(
         Name => 'Row',
         Data => {
-            Time => $Row[0],
+            Time     => $Row[0],
             Priority => $Row[1],
             Facility => $Row[2],
-            Message => $Row[3],
+            Message  => $Row[3],
         },
     );
 
@@ -359,7 +366,7 @@ sub _BlockTemplatePreferences {
     my $CurrentLayer   = '';
     my %UsedNames      = ();
     my $TemplateFile   = $Param{TemplateFile} || '';
-    if ( !defined( $Param{Template} ) ) {
+    if ( !defined $Param{Template} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Template!' );
         return;
     }
@@ -525,7 +532,7 @@ sub Output {
 
         # all $Self->{*}
         for ( keys %{$Self} ) {
-            if ( defined( $Self->{$_} ) && !ref( $Self->{$_} ) ) {
+            if ( defined $Self->{$_} && !ref $Self->{$_} ) {
                 $Self->{EnvRef}->{$_} = $Self->{$_};
             }
         }
@@ -562,12 +569,12 @@ sub Output {
     }
 
     # take templates from string/array
-    elsif ( defined( $Param{Template} ) && ref( $Param{Template} ) eq 'ARRAY' ) {
+    elsif ( defined $Param{Template} && ref $Param{Template} eq 'ARRAY' ) {
         for ( @{ $Param{Template} } ) {
             $TemplateString .= $_;
         }
     }
-    elsif ( defined( $Param{Template} ) ) {
+    elsif ( defined $Param{Template} ) {
         $TemplateString = $Param{Template};
     }
     else {
@@ -684,10 +691,10 @@ sub _Output {
         # create current id (1:2:3)
         undef $ID;
         for ( my $i = 1; $i <= $Block->{Layer}; $i++ ) {
-            if ( defined($ID) ) {
+            if ( defined $ID ) {
                 $ID .= ':';
             }
-            if ( defined( $LayerHash{$i} ) ) {
+            if ( defined $LayerHash{$i} ) {
                 $ID .= $LayerHash{$i};
             }
         }
@@ -774,12 +781,12 @@ sub _Output {
                 <dtl\Wif\W\(\$(Env|Data|Text|Config)\{\"(.*)\"\}\W(eq|ne|=~|!~)\W\"(.*)\"\)\W\{\W\$(Data|Env|Text)\{\"(.*)\"\}\W=\W\"(.*)\";\W\}>
             }
             {
-                my $Type = $1 || '';
+                my $Type    = $1 || '';
                 my $TypeKey = $2 || '';
-                my $Con = $3 || '';
-                my $ConVal = defined $4 ? $4 : '';
-                my $IsType = $5 || '';
-                my $IsKey = $6 || '';
+                my $Con     = $3 || '';
+                my $ConVal  = defined $4 ? $4 : '';
+                my $IsType  = $5 || '';
+                my $IsKey   = $6 || '';
                 my $IsValue = $7 || '';
                 # do ne actions
                 if ($Type eq 'Text') {
@@ -792,7 +799,7 @@ sub _Output {
                 }
                 elsif ($Type eq 'Env' || $Type eq 'Data') {
                     my $Tmp = $GlobalRef->{$Type}->{$TypeKey};
-                    if (!defined($Tmp)) {
+                    if ( !defined $Tmp ) {
                         $Tmp = '';
                     }
                     if (eval '($Tmp '.$Con.' $ConVal)') {
@@ -807,7 +814,7 @@ sub _Output {
                 }
                 elsif ($Type eq 'Config') {
                     my $Tmp = $Self->{ConfigObject}->Get($TypeKey);
-                    if (defined($Tmp) && eval '($Tmp '.$Con.' $ConVal)') {
+                    if ( defined $Tmp && eval '($Tmp '.$Con.' $ConVal)') {
                         $GlobalRef->{$IsType}->{$IsKey} = $IsValue;
                         '';
                     }
@@ -823,7 +830,7 @@ sub _Output {
             }
             {
                 if ($1 eq 'Data' || $1 eq 'Env') {
-                    if (defined $GlobalRef->{$1}->{$2}) {
+                    if ( defined $GlobalRef->{$1}->{$2} ) {
                         $GlobalRef->{$1}->{$2};
                     }
                     else {
@@ -833,11 +840,11 @@ sub _Output {
                 }
                 elsif ($1 eq 'QEnv') {
                     my $Text = $2;
-                    if (!defined($Text) || $Text =~ /^","(.+)$/) {
+                    if ( !defined $Text || $Text =~ /^","(.+)$/ ) {
                         '';
                     }
                     elsif ($Text =~ /^(.+?)","(.+)$/) {
-                        if (defined $GlobalRef->{Env}->{$1}) {
+                        if ( defined $GlobalRef->{Env}->{$1} ) {
                             $Self->Ascii2Html(Text => $GlobalRef->{Env}->{$1}, Max => $2);
                         }
                         else {
@@ -846,7 +853,7 @@ sub _Output {
                         }
                     }
                     else {
-                        if (defined $GlobalRef->{Env}->{$Text}) {
+                        if ( defined $GlobalRef->{Env}->{$Text} ) {
                             $Self->Ascii2Html(Text => $GlobalRef->{Env}->{$Text});
                         }
                         else {
@@ -857,11 +864,11 @@ sub _Output {
                 }
                 elsif ($1 eq 'QData') {
                     my $Text = $2;
-                    if (!defined($Text) || $Text =~ /^","(.+)$/) {
+                    if ( !defined $Text || $Text =~ /^","(.+)$/ ) {
                         '';
                     }
                     elsif ($Text =~ /^(.+?)","(.+)$/) {
-                        if (defined $GlobalRef->{Data}->{$1}) {
+                        if ( defined $GlobalRef->{Data}->{$1} ) {
                             $Self->Ascii2Html(Text => $GlobalRef->{Data}->{$1}, Max => $2);
                         }
                         else {
@@ -870,7 +877,7 @@ sub _Output {
                         }
                     }
                     else {
-                        if (defined $GlobalRef->{Data}->{$Text}) {
+                        if ( defined $GlobalRef->{Data}->{$Text} ) {
                             $Self->Ascii2Html(Text => $GlobalRef->{Data}->{$Text});
                         }
                         else {
@@ -881,7 +888,7 @@ sub _Output {
                 }
                 # link encode
                 elsif ($1 eq 'LQData') {
-                    if (defined $GlobalRef->{Data}->{$2}) {
+                    if ( defined $GlobalRef->{Data}->{$2} ) {
                         $Self->LinkEncode($GlobalRef->{Data}->{$2});
                     }
                     else {
@@ -891,7 +898,7 @@ sub _Output {
                 }
                 # replace with
                 elsif ($1 eq 'Config') {
-                    if (defined $Self->{ConfigObject}->Get($2)) {
+                    if ( defined $Self->{ConfigObject}->Get($2) ) {
                         $Self->{ConfigObject}->Get($2);
                     }
                     else {
@@ -916,81 +923,55 @@ sub _Output {
 
     # do time translation (with seconds)
     $Output =~ s{
-        \$TimeLong({"(.+?)"}|{""})
+        \$TimeLong{"(.*?)"}
     }
     {
-        if (defined($2)) {
-            $Self->{LanguageObject}->FormatTimeString($2);
-        }
-        else {
-            '';
-        }
+        $Self->{LanguageObject}->FormatTimeString($1);
     }egx;
 
     # do time translation (without seconds)
     $Output =~ s{
-        \$TimeShort({"(.+?)"}|{""})
+        \$TimeShort{"(.*?)"}
     }
     {
-        if (defined($2)) {
-            $Self->{LanguageObject}->FormatTimeString($2, undef, 'NoSeconds');
-        }
-        else {
-            '';
-        }
+        $Self->{LanguageObject}->FormatTimeString($1, undef, 'NoSeconds');
     }egx;
 
     # do date translation
     $Output =~ s{
-        \$Date({"(.+?)"}|{""})
+        \$Date{"(.*?)"}
     }
     {
-        $Self->{LanguageObject}->FormatTimeString($2, 'DateFormatShort');
+        $Self->{LanguageObject}->FormatTimeString($1, 'DateFormatShort');
     }egx;
 
-    # Remark: regexp like ({"(.+?)"}|{""}) could be replaced with ( {"(.*?)"} )
-    #         defined($2) could be removed if '' is replaced with $2
-
     # do translation
-    for ( 1 .. 2 ) {
-        $Output =~ s{
-            \$Text ( {"(.*?)"} )
-        }
-        {
-            if (defined($2)) {
-                $Self->Ascii2Html(
-                    Text => $Self->{LanguageObject}->Get($2),
-                );
-
-            }
-            else {
-                '';
-            }
-        }egxs;
-    }
-
     $Output =~ s{
-        \$JSText({"(.+?)"}|{""})
+        \$Text{"(.*?)"}
     }
     {
-        if (defined($2)) {
-            $Self->Ascii2Html(
-                Text => $Self->{LanguageObject}->Get($2),
-                Type => 'JSText',
-            );
-        }
-        else {
-            '';
-        }
+        $Self->Ascii2Html(
+            Text => $Self->{LanguageObject}->Get($1),
+        );
+    }egx;
+
+    $Output =~ s{
+        \$JSText{"(.*?)"}
+    }
+    {
+        $Self->Ascii2Html(
+            Text => $Self->{LanguageObject}->Get($1),
+            Type => 'JSText',
+        );
     }egx;
 
     # do html quote
     $Output =~ s{
-        \$Quote({"(.+?)"}|{""})
+        \$Quote{"(.*?)"}
     }
     {
-        my $Text = $2;
-        if (!defined($Text) || $Text =~ /^","(.+)$/) {
+        my $Text = $1;
+        if ( !defined $Text || $Text =~ /^","(.+)$/ ) {
             '';
         }
         elsif ($Text =~ /^(.+?)","(.+)$/) {
@@ -1612,6 +1593,7 @@ sub Print {
         }
     }
     print ${ $Param{Output} };
+    return 1;
 }
 
 sub PrintHeader {
@@ -1821,7 +1803,7 @@ sub LinkQuote {
 
     # check ref
     my $TextScalar;
-    if ( !ref($Text) ) {
+    if ( !ref $Text ) {
         $TextScalar = $Text;
         $Text       = \$TextScalar;
     }
@@ -1873,7 +1855,7 @@ do some url encoding - e. g. replace + with %2B in links
 sub LinkEncode {
     my ( $Self, $Link ) = @_;
 
-    return if !defined($Link);
+    return if !defined $Link;
 
     $Link =~ s/&/%26/g;
     $Link =~ s/=/%3D/g;
@@ -2029,7 +2011,7 @@ sub OptionStrgHashRef {
         );
         $Self->FatalError();
     }
-    elsif ( ref( $Param{Data} ) ne 'HASH' ) {
+    elsif ( ref $Param{Data} ne 'HASH' ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Need HashRef in Param Data! Got: '" . ref( $Param{Data} ) . "'!",
@@ -2078,7 +2060,7 @@ sub OptionStrgHashRef {
 
     # hash cleanup
     for ( keys %Data ) {
-        if ( !defined( $Data{$_} ) ) {
+        if ( !defined $Data{$_} ) {
             delete $Data{$_};
         }
     }
@@ -2095,10 +2077,10 @@ sub OptionStrgHashRef {
         }
     }
     for (@Order) {
-        if ( defined($_) && defined( $Data{$_} ) ) {
+        if ( defined $_ && defined $Data{$_} ) {
 
             # check if SelectedIDRefArray exists
-            if ( $SelectedIDRefArray && ref($SelectedIDRefArray) eq 'ARRAY' ) {
+            if ( $SelectedIDRefArray && ref $SelectedIDRefArray eq 'ARRAY' ) {
                 for my $ID ( @{$SelectedIDRefArray} ) {
                     if ( $ID eq $_ ) {
                         $Param{SelectedIDRefArrayOK}->{$_} = 1;
@@ -2191,7 +2173,7 @@ sub OptionElement {
         );
         $Self->FatalError();
     }
-    elsif ( ref( $Param{Data} ) ne 'HASH' ) {
+    elsif ( ref $Param{Data} ne 'HASH' ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "Need HashRef in Param Data! Got: '" . ref( $Param{Data} ) . "'!",
@@ -2203,7 +2185,7 @@ sub OptionElement {
     # $Param{Data}{Key}{Value}
     my $Hash2 = 0;
     for my $Key ( %{ $Param{Data} } ) {
-        if ( ref( $Param{Data}->{$Key} ) eq 'HASH' ) {
+        if ( ref $Param{Data}->{$Key} eq 'HASH' ) {
             $Hash2 = 1;
             last;
         }
@@ -2400,8 +2382,8 @@ sub _BuildSelectionOptionRefCreate {
     my $OptionRef = {};
 
     # set SelectedID option
-    if ( defined( $Param{SelectedID} ) ) {
-        if ( ref( $Param{SelectedID} ) eq 'ARRAY' ) {
+    if ( defined $Param{SelectedID} ) {
+        if ( ref $Param{SelectedID} eq 'ARRAY' ) {
             for my $Key ( @{ $Param{SelectedID} } ) {
                 $OptionRef->{SelectedID}->{$Key} = 1;
             }
@@ -2412,8 +2394,8 @@ sub _BuildSelectionOptionRefCreate {
     }
 
     # set SelectedValue option
-    if ( defined( $Param{SelectedValue} ) ) {
-        if ( ref( $Param{SelectedValue} ) eq 'ARRAY' ) {
+    if ( defined $Param{SelectedValue} ) {
+        if ( ref $Param{SelectedValue} eq 'ARRAY' ) {
             for my $Value ( @{ $Param{SelectedValue} } ) {
                 $OptionRef->{SelectedValue}->{$Value} = 1;
             }
@@ -2437,7 +2419,7 @@ sub _BuildSelectionOptionRefCreate {
 
     # set Translation option
     $OptionRef->{Translation} = 1;
-    if ( defined( $Param{Translation} ) && $Param{Translation} eq 0 ) {
+    if ( defined $Param{Translation} && $Param{Translation} eq 0 ) {
         $OptionRef->{Translation} = 0;
     }
 
@@ -2471,7 +2453,7 @@ sub _BuildSelectionOptionRefCreate {
 
     # set DisabledBranch option
     if ( $Param{DisabledBranch} ) {
-        if ( ref( $Param{DisabledBranch} ) eq 'ARRAY' ) {
+        if ( ref $Param{DisabledBranch} eq 'ARRAY' ) {
             for my $Branch ( @{ $Param{DisabledBranch} } ) {
                 $OptionRef->{DisabledBranch}->{$Branch} = 1;
             }
@@ -2577,7 +2559,7 @@ sub _BuildSelectionDataRefCreate {
     my $Counter = 0;
 
     # if HashRef was given
-    if ( ref( $Param{Data} ) eq 'HASH' ) {
+    if ( ref $Param{Data} eq 'HASH' ) {
 
         # translate value
         if ( $OptionRef->{Translation} ) {
@@ -2622,11 +2604,11 @@ sub _BuildSelectionDataRefCreate {
     }
 
     # if ArrayHashRef was given
-    elsif ( ref( $Param{Data} ) eq 'ARRAY' && ref( $Param{Data}->[0] ) eq 'HASH' ) {
+    elsif ( ref $Param{Data} eq 'ARRAY' && ref $Param{Data}->[0] eq 'HASH' ) {
 
         # create DataRef
         for my $Row ( @{ $Param{Data} } ) {
-            if ( ref($Row) eq 'HASH' && defined $Row->{Key} ) {
+            if ( ref $Row eq 'HASH' && defined $Row->{Key} ) {
                 $DataRef->[$Counter]->{Key}   = $Row->{Key};
                 $DataRef->[$Counter]->{Value} = $Row->{Value};
 
@@ -2649,7 +2631,7 @@ sub _BuildSelectionDataRefCreate {
     }
 
     # if ArrayRef was given
-    elsif ( ref( $Param{Data} ) eq 'ARRAY' ) {
+    elsif ( ref $Param{Data} eq 'ARRAY' ) {
         my %ReverseHash;
 
         # translate value
@@ -2824,9 +2806,9 @@ sub _BuildSelectionOutput {
     if ( $Param{AttributeRef} && $Param{DataRef} ) {
 
         # generate <select> row
-        $String = "<select";
+        $String = '<select';
         for my $Key ( keys %{ $Param{AttributeRef} } ) {
-            if ( $Key && defined( $Param{AttributeRef}->{$Key} ) ) {
+            if ( $Key && defined $Param{AttributeRef}->{$Key} ) {
                 $String .= " $Key=\"$Param{AttributeRef}->{$Key}\"";
             }
             elsif ($Key) {
@@ -2838,23 +2820,23 @@ sub _BuildSelectionOutput {
         # generate <option> rows
         for my $Row ( @{ $Param{DataRef} } ) {
             my $Key = '';
-            if ( defined( $Row->{Key} ) ) {
+            if ( defined $Row->{Key} ) {
                 $Key = $Row->{Key};
             }
             my $Value = '';
-            if ( defined( $Row->{Value} ) ) {
+            if ( defined $Row->{Value} ) {
                 $Value = $Row->{Value};
             }
             my $SelectedDisabled = '';
             if ( $Row->{Selected} ) {
-                $SelectedDisabled = " selected";
+                $SelectedDisabled = ' selected';
             }
             elsif ( $Row->{Disabled} ) {
-                $SelectedDisabled = " disabled";
+                $SelectedDisabled = ' disabled';
             }
             $String .= "  <option value=\"$Key\"$SelectedDisabled>$Value</option>\n";
         }
-        $String .= "</select>";
+        $String .= '</select>';
     }
     return $String;
 }
@@ -2987,7 +2969,7 @@ sub Attachment {
 
     # check needed objects
     for (qw(Content ContentType)) {
-        if ( !defined( $Param{$_} ) ) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "Got no $_!",
@@ -3016,7 +2998,7 @@ sub Attachment {
     # get attachment size
     {
         use bytes;
-        $Param{Size} = length( $Param{Content} );
+        $Param{Size} = length $Param{Content};
         no bytes;
     }
 
@@ -3044,7 +3026,7 @@ sub Attachment {
     delete $Self->{FilterContent}->{ActiveElementFilter};
 
     # reset binmode, don't use utf8
-    binmode(STDOUT);
+    binmode STDOUT;
 
     return $Output;
 }
@@ -3144,7 +3126,7 @@ sub NavigationBar {
 
     # run notification modules
     my $FrontendNotifyModuleConfig = $Self->{ConfigObject}->Get('Frontend::NotifyModule');
-    if ( ref($FrontendNotifyModuleConfig) eq 'HASH' ) {
+    if ( ref $FrontendNotifyModuleConfig eq 'HASH' ) {
         my %Jobs = %{$FrontendNotifyModuleConfig};
         for my $Job ( sort keys %Jobs ) {
 
@@ -3174,7 +3156,7 @@ sub NavigationBar {
     MODULE:
     for my $Module ( sort keys %{$FrontendModuleConfig} ) {
         my %Hash = %{ $FrontendModuleConfig->{$Module} };
-        next MODULE if !$Hash{NavBar} || ref( $Hash{NavBar} ) ne 'ARRAY';
+        next MODULE if !$Hash{NavBar} || ref $Hash{NavBar} ne 'ARRAY';
 
         my @Items = @{ $Hash{NavBar} };
         for my $Item (@Items) {
@@ -3210,7 +3192,7 @@ sub NavigationBar {
                 for my $Permission (qw(GroupRo Group)) {
 
                     # array access restriction
-                    if ( $Item->{$Permission} && ref( $Item->{$Permission} ) eq 'ARRAY' ) {
+                    if ( $Item->{$Permission} && ref $Item->{$Permission} eq 'ARRAY' ) {
                         for ( @{ $Item->{$Permission} } ) {
                             my $Key = 'UserIs' . $Permission . '[' . $_ . ']';
                             if ( $Self->{$Key} && $Self->{$Key} eq 'Yes' ) {
@@ -3248,7 +3230,7 @@ sub NavigationBar {
     }
 
     # run menu item modules
-    if ( ref( $Self->{ConfigObject}->Get('Frontend::NavBarModule') ) eq 'HASH' ) {
+    if ( ref $Self->{ConfigObject}->Get('Frontend::NavBarModule') eq 'HASH' ) {
         my %Jobs = %{ $Self->{ConfigObject}->Get('Frontend::NavBarModule') };
         for my $Job ( sort keys %Jobs ) {
 
@@ -3314,7 +3296,7 @@ sub NavigationBar {
 sub WindowTabStart {
     my ( $Self, %Param ) = @_;
 
-    if ( !$Param{Tab} || ( $Param{Tab} && ref( $Param{Tab} ) ne 'ARRAY' ) ) {
+    if ( !$Param{Tab} || ( $Param{Tab} && ref $Param{Tab} ne 'ARRAY' ) ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => 'Need Tab as ARRAY ref in WindowTabStart()!',
@@ -3447,7 +3429,7 @@ sub BuildDateSelection {
     # year
     if ( $DateInputStyle eq 'Option' ) {
         my %Year = ();
-        if ( defined( $Param{YearPeriodPast} ) && defined( $Param{YearPeriodFuture} ) ) {
+        if ( defined $Param{YearPeriodPast} && defined $Param{YearPeriodFuture} ) {
             for ( $Y - $Param{YearPeriodPast} .. $Y + $Param{YearPeriodFuture} ) {
                 $Year{$_} = $_;
             }
@@ -3668,7 +3650,7 @@ sub OutputCSV {
 
         # csv quote
         $Entry =~ s/"/""/g if ($Entry);
-        $Entry = '' if ( !defined($Entry) );
+        $Entry = '' if ( !defined $Entry );
         $Output .= "\"$Entry\";";
     }
     $Output .= "\n";
@@ -3677,7 +3659,7 @@ sub OutputCSV {
 
             # csv quote
             $Entry =~ s/"/""/g if ($Entry);
-            $Entry = '' if ( !defined($Entry) );
+            $Entry = '' if ( !defined $Entry );
             $Output .= "\"$Entry\";";
         }
         $Output .= "\n";
@@ -3912,7 +3894,7 @@ sub CustomerNavigationBar {
     my $FrontendModuleConfig = $Self->{ConfigObject}->Get('CustomerFrontend::Module');
     for my $Module ( sort keys %{$FrontendModuleConfig} ) {
         my %Hash = %{ $FrontendModuleConfig->{$Module} };
-        if ( $Hash{NavBar} && ref( $Hash{NavBar} ) eq 'ARRAY' ) {
+        if ( $Hash{NavBar} && ref $Hash{NavBar} eq 'ARRAY' ) {
             my @Items = @{ $Hash{NavBar} };
             for my $Item (@Items) {
                 for ( 1 .. 51 ) {
@@ -3929,7 +3911,7 @@ sub CustomerNavigationBar {
     }
 
     # run menu item modules
-    if ( ref( $Self->{ConfigObject}->Get('CustomerFrontend::NavBarModule') ) eq 'HASH' ) {
+    if ( ref $Self->{ConfigObject}->Get('CustomerFrontend::NavBarModule') eq 'HASH' ) {
         my %Jobs = %{ $Self->{ConfigObject}->Get('CustomerFrontend::NavBarModule') };
         for my $Job ( sort keys %Jobs ) {
 
@@ -3962,7 +3944,7 @@ sub CustomerNavigationBar {
 
     # run notification modules
     my $FrontendNotifyModuleConfig = $Self->{ConfigObject}->Get('CustomerFrontend::NotifyModule');
-    if ( ref($FrontendNotifyModuleConfig) eq 'HASH' ) {
+    if ( ref $FrontendNotifyModuleConfig eq 'HASH' ) {
         my %Jobs = %{$FrontendNotifyModuleConfig};
         for my $Job ( sort keys %Jobs ) {
 
@@ -4125,6 +4107,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.124 $ $Date: 2009-02-20 12:05:39 $
+$Revision: 1.125 $ $Date: 2009-02-23 08:38:28 $
 
 =cut
