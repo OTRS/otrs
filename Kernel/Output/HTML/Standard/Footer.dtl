@@ -2,13 +2,12 @@
 # Footer.dtl - provides global HTML footer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Footer.dtl,v 1.23 2009-02-16 11:07:25 tr Exp $
+# $Id: Footer.dtl,v 1.24 2009-02-23 13:10:16 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-
 <!-- start footer -->
 <table border="0" width="$Data{"Width"}" cellspacing="0" cellpadding="0">
   <tr class="footer">
