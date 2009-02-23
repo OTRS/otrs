@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.125 2009-02-23 08:38:28 martin Exp $
+# $Id: Layout.pm,v 1.126 2009-02-23 13:13:28 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.125 $) [1];
+$VERSION = qw($Revision: 1.126 $) [1];
 
 =head1 NAME
 
@@ -620,6 +620,176 @@ sub Output {
         TemplateFile => $Param{TemplateFile} || '',
     );
 
+    # do time translation (with seconds)
+    $Output =~ s{
+        \$TimeLong{"(.*?)"}
+    }
+    {
+        $Self->{LanguageObject}->FormatTimeString($1);
+    }egx;
+
+    # do time translation (without seconds)
+    $Output =~ s{
+        \$TimeShort{"(.*?)"}
+    }
+    {
+        $Self->{LanguageObject}->FormatTimeString($1, undef, 'NoSeconds');
+    }egx;
+
+    # do date translation
+    $Output =~ s{
+        \$Date{"(.*?)"}
+    }
+    {
+        $Self->{LanguageObject}->FormatTimeString($1, 'DateFormatShort');
+    }egx;
+
+    # do translation
+    $Output =~ s{
+        \$Text{"(.*?)"}
+    }
+    {
+        $Self->Ascii2Html(
+            Text => $Self->{LanguageObject}->Get($1),
+        );
+    }egx;
+
+    $Output =~ s{
+        \$JSText{"(.*?)"}
+    }
+    {
+        $Self->Ascii2Html(
+            Text => $Self->{LanguageObject}->Get($1),
+            Type => 'JSText',
+        );
+    }egx;
+
+    # do html quote
+    $Output =~ s{
+        \$Quote{"(.*?)"}
+    }
+    {
+        my $Text = $1;
+        if ( !defined $Text || $Text =~ /^","(.+)$/ ) {
+            '';
+        }
+        elsif ($Text =~ /^(.+?)","(.+)$/) {
+            $Self->Ascii2Html(Text => $1, Max => $2);
+        }
+        else {
+            $Self->Ascii2Html(Text => $Text);
+        }
+    }egx;
+
+    # rewrite forms, add challenge token : <form action="index.pl" method="get">
+    if ( $Self->{SessionID} ) {
+        my $UserChallengeToken = $Self->Ascii2Html( Text => $Self->{UserChallengeToken} );
+        $Output =~ s{
+            (<form.+?action=")(.+?)(".*?>)
+        }
+        {
+            my $Start  = $1;
+            my $Target = $2;
+            my $End    = $3;
+            if ( lc $Target =~ m{^http s? :}smx ) {
+                $Start.$Target.$End;
+            }
+            else {
+                $Start.$Target.$End."<input type=\"hidden\" name=\"ChallengeToken\" value=\"$UserChallengeToken\"/>";
+            }
+        }iegx;
+    }
+
+    # Check if the browser sends the session id cookie!
+    # If not, add the session id to the links and forms!
+    if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
+
+        # rewrite a hrefs
+        $Output =~ s{
+            (<a.+?href=")(.+?)(\#.+?|)(".*?>)
+        }
+        {
+            my $AHref   = $1;
+            my $Target  = $2;
+            my $End     = $3;
+            my $RealEnd = $4;
+            if ( lc $Target =~ /^(http:|https:|#|ftp:)/ ||
+                $Target !~ /\.(pl|php|cgi|fcg|fcgi|fpl)(\?|$)/ ||
+                $Target =~ /(\?|&)\Q$Self->{SessionName}\E=/) {
+                $AHref.$Target.$End.$RealEnd;
+            }
+            else {
+                $AHref.$Target.'&'.$Self->{SessionName}.'='.$Self->{SessionID}.$End.$RealEnd;
+            }
+        }iegx;
+
+        # rewrite img src
+        $Output =~ s{
+            (<img.+?src=")(.+?)(".*?>)
+        }
+        {
+            my $AHref = $1;
+            my $Target = $2;
+            my $End = $3;
+            if (lc $Target =~ m{^http s? :}smx || !$Self->{SessionID} ||
+                $Target !~ /\.(pl|php|cgi|fcg|fcgi|fpl)(\?|$)/ ||
+                $Target =~ /\Q$Self->{SessionName}\E/) {
+                $AHref.$Target.$End;
+            }
+            else {
+                $AHref.$Target.'&'.$Self->{SessionName}.'='.$Self->{SessionID}.$End;
+            }
+        }iegx;
+
+        # rewrite forms: <form action="index.pl" method="get">
+        my $SessionID = $Self->Ascii2Html( Text => $Self->{SessionID} );
+        $Output =~ s{
+            (<form.+?action=")(.+?)(".*?>)
+        }
+        {
+            my $Start  = $1;
+            my $Target = $2;
+            my $End    = $3;
+            if ( lc $Target =~ m{^http s? :}smx ) {
+                $Start.$Target.$End;
+            }
+            else {
+                $Start.$Target.$End."<input type=\"hidden\" name=\"$Self->{SessionName}\" value=\"$SessionID\"/>";
+            }
+        }iegx;
+    }
+
+    # do correct direction
+    if (
+        $Self->{LanguageObject}->{TextDirection}
+        && $Self->{LanguageObject}->{TextDirection} eq 'rtl'
+        )
+    {
+        $Output =~ s{
+            <(table.+?)>
+        }
+        {
+            my $Table = $1;
+            if ($Table !~ /dir=/) {
+                "<$Table dir=\"".$Self->{LanguageObject}->{TextDirection}."\">";
+            }
+            else {
+                "<$Table>";
+            }
+        }iegx;
+        $Output =~ s{
+            align="(left|right)"
+        }
+        {
+            if ($1 =~ /left/i) {
+                "align=\"right\"";
+            }
+            else {
+                "align=\"left\"";
+            }
+        }iegx;
+    }
+
     # custom post filters
     if ( $Self->{FilterElementPost} ) {
         my %Filters = %{ $Self->{FilterElementPost} };
@@ -702,7 +872,7 @@ sub _Output {
         # add block counter to template blocks
         if ( $Block->{Layer} == 1 ) {
             $TemplateString =~ s{
-                (<!--\s{0,1}dtl:place_block:$Block->{Name})(\s{0,1}-->)
+                ( <!--\s{0,1}dtl:place_block:$Block->{Name})(\s{0,1}-->)
             }
             {
                 "$1:".$LayerHash{$Block->{Layer}}.$2;
@@ -734,9 +904,7 @@ sub _Output {
         $TemplateString =~ s{
             <!--\sdtl:place_block:$Block->{Name}:$ID\s-->
         }
-        {
-            $Block->{Data}<!-- dtl:place_block:$Block->{Name}:$NewID -->
-        }sxm;
+        {$Block->{Data}<!-- dtl:place_block:$Block->{Name}:$NewID -->}sxm;
         $OldLayer = $Block->{Layer};
     }
 
@@ -764,11 +932,9 @@ sub _Output {
                     $Data = $4;
                 }
                 else {
-                    open (SYSTEM, " $4 | ") || print STDERR "Can't open $4: $!";
-                    while (<SYSTEM>) {
-                        $Data .= $_;
-                    }
-                    close (SYSTEM);
+                    open my $System, " $4 | " or print STDERR "Can't open $4: $!";
+                    $Data = do { local $/; <$System> };
+                    close $System;
                 }
 
                 $GlobalRef->{$2}->{$3} = $Data;
@@ -920,176 +1086,6 @@ sub _Output {
         $Output .= $Line . "\n";
     }
     chomp $Output;
-
-    # do time translation (with seconds)
-    $Output =~ s{
-        \$TimeLong{"(.*?)"}
-    }
-    {
-        $Self->{LanguageObject}->FormatTimeString($1);
-    }egx;
-
-    # do time translation (without seconds)
-    $Output =~ s{
-        \$TimeShort{"(.*?)"}
-    }
-    {
-        $Self->{LanguageObject}->FormatTimeString($1, undef, 'NoSeconds');
-    }egx;
-
-    # do date translation
-    $Output =~ s{
-        \$Date{"(.*?)"}
-    }
-    {
-        $Self->{LanguageObject}->FormatTimeString($1, 'DateFormatShort');
-    }egx;
-
-    # do translation
-    $Output =~ s{
-        \$Text{"(.*?)"}
-    }
-    {
-        $Self->Ascii2Html(
-            Text => $Self->{LanguageObject}->Get($1),
-        );
-    }egx;
-
-    $Output =~ s{
-        \$JSText{"(.*?)"}
-    }
-    {
-        $Self->Ascii2Html(
-            Text => $Self->{LanguageObject}->Get($1),
-            Type => 'JSText',
-        );
-    }egx;
-
-    # do html quote
-    $Output =~ s{
-        \$Quote{"(.*?)"}
-    }
-    {
-        my $Text = $1;
-        if ( !defined $Text || $Text =~ /^","(.+)$/ ) {
-            '';
-        }
-        elsif ($Text =~ /^(.+?)","(.+)$/) {
-            $Self->Ascii2Html(Text => $1, Max => $2);
-        }
-        else {
-            $Self->Ascii2Html(Text => $Text);
-        }
-    }egx;
-
-    # rewrite forms, add challenge token : <form action="index.pl" method="get">
-    if ( $Self->{SessionID} ) {
-        my $UserChallengeToken = $Self->Ascii2Html( Text => $Self->{UserChallengeToken} );
-        $Output =~ s{
-            (<form.+?action=")(.+?)(">|".+?>)
-        }
-        {
-            my $Start  = $1;
-            my $Target = $2;
-            my $End    = $3;
-            if ( $Target =~ /^(http:|https:)/i ) {
-                $Start.$Target.$End;
-            }
-            else {
-                $Start.$Target.$End."<input type=\"hidden\" name=\"ChallengeToken\" value=\"$UserChallengeToken\"/>";
-            }
-        }iegx;
-    }
-
-    # Check if the browser sends the session id cookie!
-    # If not, add the session id to the links and forms!
-    if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
-
-        # rewrite a hrefs
-        $Output =~ s{
-            (<a.+?href=")(.+?)(\#.+?|)(">|".+?>)
-        }
-        {
-            my $AHref   = $1;
-            my $Target  = $2;
-            my $End     = $3;
-            my $RealEnd = $4;
-            if ($Target =~ /^(http:|https:|#|ftp:)/i ||
-                $Target !~ /\.(pl|php|cgi|fcg|fcgi|fpl)(\?|$)/ ||
-                $Target =~ /(\?|&)\Q$Self->{SessionName}\E=/) {
-                $AHref.$Target.$End.$RealEnd;
-            }
-            else {
-                $AHref.$Target.'&'.$Self->{SessionName}.'='.$Self->{SessionID}.$End.$RealEnd;
-            }
-        }iegx;
-
-        # rewrite img src
-        $Output =~ s{
-            (<img.+?src=")(.+?)(">|".+?>)
-        }
-        {
-            my $AHref = $1;
-            my $Target = $2;
-            my $End = $3;
-            if ($Target =~ /^(http:|https:)/i || !$Self->{SessionID} ||
-                $Target !~ /\.(pl|php|cgi|fcg|fcgi|fpl)(\?|$)/ ||
-                $Target =~ /\Q$Self->{SessionName}\E/) {
-                $AHref.$Target.$End;
-            }
-            else {
-                $AHref.$Target.'&'.$Self->{SessionName}.'='.$Self->{SessionID}.$End;
-            }
-        }iegx;
-
-        # rewrite forms: <form action="index.pl" method="get">
-        my $SessionID = $Self->Ascii2Html( Text => $Self->{SessionID} );
-        $Output =~ s{
-            (<form.+?action=")(.+?)(">|".+?>)
-        }
-        {
-            my $Start  = $1;
-            my $Target = $2;
-            my $End    = $3;
-            if ( $Target =~ /^(http:|https:)/i ) {
-                $Start.$Target.$End;
-            }
-            else {
-                $Start.$Target.$End."<input type=\"hidden\" name=\"$Self->{SessionName}\" value=\"$SessionID\"/>";
-            }
-        }iegx;
-    }
-
-    # do correct direction
-    if (
-        $Self->{LanguageObject}->{TextDirection}
-        && $Self->{LanguageObject}->{TextDirection} eq 'rtl'
-        )
-    {
-        $Output =~ s{
-            <(table.+?)>
-        }
-        {
-            my $Table = $1;
-            if ($Table !~ /dir=/) {
-                "<$Table dir=\"".$Self->{LanguageObject}->{TextDirection}."\">";
-            }
-            else {
-                "<$Table>";
-            }
-        }iegx;
-        $Output =~ s{
-            align="(left|right)"
-        }
-        {
-            if ($1 =~ /left/i) {
-                "align=\"right\"";
-            }
-            else {
-                "align=\"left\"";
-            }
-        }iegx;
-    }
 
     $Self->{OutputCount} = 0;
 
@@ -4107,6 +4103,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.125 $ $Date: 2009-02-23 08:38:28 $
+$Revision: 1.126 $ $Date: 2009-02-23 13:13:28 $
 
 =cut
