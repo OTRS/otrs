@@ -2,7 +2,7 @@
 # AgentTicketOverviewMedium.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewMedium.dtl,v 1.4 2009-02-16 11:07:25 tr Exp $
+# $Id: AgentTicketOverviewMedium.dtl,v 1.5 2009-02-23 13:11:06 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -201,7 +201,7 @@
 #            </td>
 #          </tr>
 #<!-- dtl:block:TicketFreeText2 -->
-
+#
 # use this if you want to show TicketFreeTime1-6
 <!-- dtl:block:TicketFreeTime -->
         <tr valign="top">
@@ -221,7 +221,6 @@
 #            <td><div title="$TimeShort{"$QData{"TicketFreeTime2"}"}">$TimeShort{"$QData{"TicketFreeTime2"}"}</div></td>
 #          </tr>
 #<!-- dtl:block:TicketFreeTime2 -->
-
       </table>
     </td>
   </tr>
