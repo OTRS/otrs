@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.199 2009-02-20 12:11:41 mh Exp $
+# $Id: Article.pm,v 1.200 2009-02-24 14:00:47 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.199 $) [1];
+$VERSION = qw($Revision: 1.200 $) [1];
 
 =head1 NAME
 
@@ -1892,7 +1892,7 @@ sub ArticleSend {
 
     # rebuild subject
     my %Ticket = $Self->TicketGet( TicketID => $Param{TicketID} );
-    $Param{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
+    $Param{Subject} = $Self->TicketSubjectBuild(
         TicketNumber => $Ticket{TicketNumber},
         Subject      => $Param{Subject},
     );
@@ -3314,6 +3314,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.199 $ $Date: 2009-02-20 12:11:41 $
+$Revision: 1.200 $ $Date: 2009-02-24 14:00:47 $
 
 =cut
