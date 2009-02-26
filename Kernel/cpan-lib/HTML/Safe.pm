@@ -2,7 +2,7 @@
 # HTML::Safe.pm - remove activ html stuff from html strings
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: Safe.pm,v 1.6 2008-04-29 12:52:28 tr Exp $
+# $Id: Safe.pm,v 1.7 2009-02-26 10:01:36 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (GPL). If you
@@ -16,7 +16,7 @@ use strict;
 use vars qw($VERSION);
 $VERSION = "1.0";
 
-=head1 NAME
+=head1 NAME 
 
 HTML::Safe - remove activ html stuff from html strings
 
@@ -100,7 +100,6 @@ sub Filter {
             <scrip.+?>(.+?)</script>
         }
         {
-#            print STDERR "$1 found!";
             if ($Self->{Debug} > 0) {
                 print STDERR "Found <script> tags!\n";
             }
@@ -119,7 +118,6 @@ sub Filter {
             <apple.+?>(.+?)</applet>
         }
         {
-#            print STDERR "$1 found!";
             if ($Self->{Debug} > 0) {
                 print STDERR "Found <applet> tags!\n";
             }
@@ -138,7 +136,6 @@ sub Filter {
             <objec.+?>(.+?)</object>
         }
         {
-#            print STDERR "$1 found!";
             if ($Self->{Debug} > 0) {
                 print STDERR "Found <object> tags!\n";
             }
@@ -157,7 +154,6 @@ sub Filter {
             <style.+?javascript(.+?|)>(.*)</style>
         }
         {
-#            print STDERR "$1 found!";
             if ($Self->{Debug} > 0) {
                 print STDERR "Found <style script> tags!\n";
             }
@@ -277,6 +273,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2008-04-29 12:52:28 $
+$Revision: 1.7 $ $Date: 2009-02-26 10:01:36 $
 
 =cut
