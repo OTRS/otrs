@@ -1,12 +1,12 @@
 # --
 # TODO - todo list OTRS
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TODO,v 1.116 2008-05-28 11:40:27 tr Exp $
+# $Id: TODO,v 1.117 2009-02-26 09:57:22 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 2.2
@@ -125,4 +125,3 @@ ideas (just ideas - nobody is working on it)
 - Agent ticket search escalate from - to  absorb
 - Package Manager: - If a module will be uninstalled check if other modules depends on it and give an error
                    - If there are dependencies try to load the needed package automatically
-

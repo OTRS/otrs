@@ -1,12 +1,12 @@
 # --
 # X-OTRS-Headers.txt - X-headers for use in mail
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: X-OTRS-Headers.txt,v 1.16 2008-04-29 18:39:34 martin Exp $
+# $Id: X-OTRS-Headers.txt,v 1.17 2009-02-26 09:55:58 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 X-OTRS-Priority: (1 very low|2 low|3 normal|4 high|5 very high)
@@ -92,4 +92,3 @@ For FollowUps use X-OTRS-FollowUp-TicketTime.
 X-OTRS-Loop: True
 -----------------
 Send no auto-responses to sender (customer)
-
