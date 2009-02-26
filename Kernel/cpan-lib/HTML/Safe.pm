@@ -1,12 +1,12 @@
 # --
 # HTML::Safe.pm - remove activ html stuff from html strings
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Safe.pm,v 1.7 2009-02-26 10:01:36 tr Exp $
+# $Id: Safe.pm,v 1.8 2009-02-26 10:06:42 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 package HTML::Safe;
@@ -16,7 +16,7 @@ use strict;
 use vars qw($VERSION);
 $VERSION = "1.0";
 
-=head1 NAME 
+=head1 NAME
 
 HTML::Safe - remove activ html stuff from html strings
 
@@ -268,11 +268,11 @@ sub Filter {
 =head1 TERMS AND CONDITIONS
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
-the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+the enclosed file COPYING for license information (AGPL). If you
+did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2009-02-26 10:01:36 $
+$Revision: 1.8 $ $Date: 2009-02-26 10:06:42 $
 
 =cut

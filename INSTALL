@@ -2,11 +2,11 @@
 # INSTALL description of OTRS
 # Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
 # --
-# $Id: INSTALL,v 1.46 2008-09-16 08:38:09 martin Exp $
+# $Id: INSTALL,v 1.47 2009-02-26 10:09:13 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 Software requirements?
@@ -171,7 +171,7 @@ Notes:
 ======
 
 Also you should read the OTRS performance tuning chapter on our homepage:
-http://doc.otrs.org/2.1/en/html/.
+http://doc.otrs.org/2.4/en/html/.
 
 For installation questions ask otrs@otrs.org (http://lists.otrs.org/).
 
@@ -179,6 +179,6 @@ For installation questions ask otrs@otrs.org (http://lists.otrs.org/).
 
  Your OTRS Team
 
-(July 2007 Straubing/Germany)
+(July 2009 Straubing/Germany)
 
 EOF
