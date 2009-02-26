@@ -19,9 +19,9 @@ Authors:
 
   OTRS is an Open source Ticket Request System with many features to manage
   customer telephone calls and e-mails. It is distributed under the GNU
-  General Public License (GPL) and tested on Linux, Solaris, AIX, FreeBSD,
-  OpenBSD and Mac OS 10.x. Do you receive many e-mails and want to answer
-  them with a team of agents? You're going to love the OTRS!
+  AFFERO General Public License (AGPL) and tested on Linux, Solaris, AIX,
+  FreeBSD, OpenBSD and Mac OS 10.x. Do you receive many e-mails and want to
+  answer them with a team of agents? You're going to love the OTRS!
 
   Feature list:
 
@@ -82,4 +82,3 @@ Authors:
     - own package manager (e. g. for application modules like webmail, calendar or
        filemanager)
     - a fast and usefull application
-

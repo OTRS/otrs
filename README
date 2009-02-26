@@ -2,7 +2,7 @@
 # README - readme file of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: README,v 1.31 2009-02-26 10:13:02 tr Exp $
+# $Id: README,v 1.32 2009-02-26 10:22:05 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,9 +14,10 @@ What is OTRS?
 
   OTRS is an Open source Ticket Request System with many features to manage
   customer telephone calls and e-mails. It is distributed under the GNU
-  General Public License (GPL) and tested on Linux, Solaris, AIX, FreeBSD,
-  OpenBSD and Mac OS 10.x. Do you receive many e-mails and want to answer them
-  with a team of agents? You're going to love the OTRS!
+  AFFERO General Public License (AGPL) and tested on Linux, Solaris, AIX,
+  FreeBSD, OpenBSD and Mac OS 10.x. Do you receive many e-mails and want to
+  answer them with a team of agents? You're going to love the OTRS!
+
 
   Feature list:
 
