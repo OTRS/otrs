@@ -1,7 +1,7 @@
 #!/bin/sh
 # --
 # redhat-rcotrs - rc script of otrs for RedHat Linux
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # Copyright (C) 2002 Pablo Ruiz <pruiz@ip6seguridad.com>
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see

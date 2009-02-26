@@ -1,12 +1,12 @@
 # --
 # .mailfilter - mailfilter of the OTRS user
-# Copyright (C) 2003 Wiktor Wodecki <wiktor.wodecki@net-m.de>
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: .mailfilter.dist,v 1.3 2007-02-06 16:01:13 tr Exp $
+# $Id: .mailfilter.dist,v 1.4 2009-02-26 10:31:22 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 #SYS_HOME=/opt/otrs
@@ -75,5 +75,3 @@ to $DEFAULT
 
 
 # end of .mailfilter
-
-
