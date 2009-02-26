@@ -4,9 +4,9 @@
 <!--
 
     XML File for the OTRS database description
-    Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+    Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 
-    $Id: otrs-schema.xml,v 1.98 2008-10-29 18:54:46 martin Exp $
+    $Id: otrs-schema.xml,v 1.99 2009-02-26 11:10:53 tr Exp $
 
 -->
 

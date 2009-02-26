@@ -1,8 +1,8 @@
 -- --
 -- Update an existing OTRS database from 0.5 to 1.0
--- Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+-- Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-1.0.postgresql.sql,v 1.6 2008-04-24 11:47:39 tr Exp $
+-- $Id: DBUpdate-to-1.0.postgresql.sql,v 1.7 2009-02-26 11:10:53 tr Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-1.0.postgresql.sql | psql otrs
@@ -286,4 +286,3 @@ INSERT INTO ticket_history_type
 -- content_type to display the right charset and it is also used
 -- for utf-8 support.
 ALTER TABLE article ADD a_content_type varchar (100);
-

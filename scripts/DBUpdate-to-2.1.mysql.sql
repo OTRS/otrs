@@ -1,8 +1,8 @@
 -- --
 -- Update an existing OTRS database from 2.0 to 2.1
--- Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+-- Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-2.1.mysql.sql,v 1.18 2008-04-24 11:47:39 tr Exp $
+-- $Id: DBUpdate-to-2.1.mysql.sql,v 1.19 2009-02-26 11:10:53 tr Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.1.mysql.sql | mysql -f -u root otrs
@@ -132,5 +132,3 @@ ALTER TABLE faq_attachment CHANGE create_by created_by INTEGER;
 ALTER TABLE faq_attachment CHANGE change_by changed_by INTEGER;
 ALTER TABLE faq_attachment CHANGE create_time created DATETIME;
 ALTER TABLE faq_attachment CHANGE change_time changed DATETIME;
-
-

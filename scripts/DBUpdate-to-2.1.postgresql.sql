@@ -1,8 +1,8 @@
 -- --
 -- Update an existing OTRS database from 2.0 to 2.1
--- Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+-- Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-2.1.postgresql.sql,v 1.16 2008-04-24 11:47:39 tr Exp $
+-- $Id: DBUpdate-to-2.1.postgresql.sql,v 1.17 2009-02-26 11:10:53 tr Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.1.postgresql.sql | psql otrs
@@ -154,6 +154,3 @@ ALTER TABLE faq_attachment RENAME create_time TO created;
 ALTER TABLE faq_attachment RENAME change_time TO changed;
 ALTER TABLE faq_attachment RENAME create_by TO created_by;
 ALTER TABLE faq_attachment RENAME change_by TO changed_by;
-
-
-

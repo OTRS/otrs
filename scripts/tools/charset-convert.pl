@@ -3,7 +3,7 @@
 # scripts/tools/charset-convert.pl - converts a text file from one to an other one charset
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: charset-convert.pl,v 1.8 2009-02-16 12:40:23 tr Exp $
+# $Id: charset-convert.pl,v 1.9 2009-02-26 11:10:53 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -22,7 +22,7 @@
 # --
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 use strict;
 use warnings;
@@ -36,7 +36,7 @@ getopt( 'sdf', \%Opts );
 # usage
 if ( $Opts{h} ) {
     print "charset-convert.pl <Revision $VERSION> - convert a charset of a file\n";
-    print "Copyright (C) 2001-2008 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
     print "usage: charset-convert.pl -s <SOURCE_CHARSET> -d <DEST_CHARSET> -f <FILE>\n";
     print "       charset-convert.pl -s <SOURCE_CHARSET> -d <DEST_CHARSET> < file\n";
     exit 1;

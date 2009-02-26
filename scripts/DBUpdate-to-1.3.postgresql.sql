@@ -1,8 +1,8 @@
 -- --
 -- Update an existing OTRS database from 1.2 to 1.3
--- Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+-- Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-1.3.postgresql.sql,v 1.16 2008-04-24 11:47:39 tr Exp $
+-- $Id: DBUpdate-to-1.3.postgresql.sql,v 1.17 2009-02-26 11:10:53 tr Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-1.1.postgresql.sql | psql otrs
@@ -188,4 +188,3 @@ Dein OTRS Benachrichtigungs-Master
 
 *** NUR EINE INFO ***
 ', current_timestamp, 1, current_timestamp, 1);
-

@@ -3,7 +3,7 @@
 # scripts/auto_build/docbuild.sh - Automated creation of the  OTRS docu
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: docbuild.sh,v 1.10 2009-02-16 12:50:17 tr Exp $
+# $Id: docbuild.sh,v 1.11 2009-02-26 11:10:53 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -22,7 +22,7 @@
 # --
 
 echo "docbuild.sh - Automated creation of the  OTRS docu"
-echo "Copyright (C) 2001-2008 OTRS AG, http://otrs.org/"
+echo "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/"
 
 PATH_TO_CVS_SRC=$1
 PATH_TO_CVS_FRAMEWORK_SRC=$2

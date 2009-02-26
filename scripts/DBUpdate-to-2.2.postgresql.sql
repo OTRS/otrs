@@ -1,8 +1,8 @@
 -- --
 -- Update an existing OTRS database from 2.1 to 2.2
--- Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+-- Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-2.2.postgresql.sql,v 1.19 2008-04-24 11:47:39 tr Exp $
+-- $Id: DBUpdate-to-2.2.postgresql.sql,v 1.20 2009-02-26 11:10:53 tr Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.2.postgresql.sql | psql otrs
@@ -166,4 +166,3 @@ DROP INDEX xml_type;
 DROP INDEX xml_key;
 CREATE INDEX xml_storage_xml_content_key ON xml_storage (xml_content_key);
 CREATE INDEX xml_storage_key_type ON xml_storage (xml_key, xml_type);
-

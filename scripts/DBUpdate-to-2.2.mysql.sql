@@ -1,8 +1,8 @@
 -- --
 -- Update an existing OTRS database from 2.1 to 2.2
--- Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+-- Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-2.2.mysql.sql,v 1.19 2008-04-24 17:32:15 tr Exp $
+-- $Id: DBUpdate-to-2.2.mysql.sql,v 1.20 2009-02-26 11:10:53 tr Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-2.2.mysql.sql | mysql -f -u root otrs
@@ -166,4 +166,3 @@ ALTER TABLE xml_storage DROP INDEX xml_type;
 ALTER TABLE xml_storage DROP INDEX xml_key;
 ALTER TABLE xml_storage ADD INDEX xml_storage_xml_content_key (xml_content_key(100));
 ALTER TABLE xml_storage ADD INDEX xml_storage_key_type (xml_key(10), xml_type(10));
-

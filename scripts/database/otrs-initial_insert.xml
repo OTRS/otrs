@@ -3,9 +3,9 @@
 <!--
 
     XML File for the OTRS database description
-    Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+    Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 
-    $Id: otrs-initial_insert.xml,v 1.23 2008-07-06 22:17:03 martin Exp $
+    $Id: otrs-initial_insert.xml,v 1.24 2009-02-26 11:10:53 tr Exp $
 
 -->
 

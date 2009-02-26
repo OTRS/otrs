@@ -1,8 +1,8 @@
 -- --
 -- Update an existing OTRS database from 1.1 to 1.2
--- Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+-- Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 -- --
--- $Id: DBUpdate-to-1.2.postgresql.sql,v 1.18 2008-04-24 11:47:39 tr Exp $
+-- $Id: DBUpdate-to-1.2.postgresql.sql,v 1.19 2009-02-26 11:10:53 tr Exp $
 -- --
 --
 -- usage: cat DBUpdate-to-1.1.postgresql.sql | psql otrs
@@ -488,4 +488,3 @@ ALTER TABLE auto_response RENAME comment TO comments;
 ALTER TABLE customer_user RENAME comment TO comments;
 ALTER TABLE standard_attachment RENAME comment TO comments;
 ALTER TABLE pop3_account RENAME comment TO comments;
-
