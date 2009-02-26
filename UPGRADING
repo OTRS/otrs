@@ -1,8 +1,8 @@
 # --
 # UPGRADING - upgrading OTRS
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.30 2009-02-26 09:58:03 tr Exp $
+# $Id: UPGRADING,v 1.31 2009-02-26 10:13:02 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
