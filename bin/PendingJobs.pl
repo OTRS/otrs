@@ -3,7 +3,7 @@
 # PendingJobs.pl - check pending tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PendingJobs.pl,v 1.34 2009-02-16 12:26:57 tr Exp $
+# $Id: PendingJobs.pl,v 1.35 2009-02-26 11:01:01 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 use Date::Pcalc qw(Day_of_Week Day_of_Week_Abbreviation);
 use Kernel::Config;
@@ -60,7 +60,7 @@ $CommonObject{StateObject}  = Kernel::System::State->new(%CommonObject);
 # check args
 my $Command = shift || '--help';
 print "PendingJobs.pl <Revision $VERSION> - check pending tickets\n";
-print "Copyright (c) 2001-2008 OTRS AG, http://otrs.org/\n";
+print "Copyright (c) 2001-2009 OTRS AG, http://otrs.org/\n";
 
 # do ticket auto jobs
 my @PendingAutoStateIDs = $CommonObject{StateObject}->StateGetStatesByType(

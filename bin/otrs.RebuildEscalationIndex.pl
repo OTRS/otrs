@@ -3,7 +3,7 @@
 # otrs.RebuildEscalationIndex.pl - the global search indexer handle
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.RebuildEscalationIndex.pl,v 1.2 2009-02-16 12:26:57 tr Exp $
+# $Id: otrs.RebuildEscalationIndex.pl,v 1.3 2009-02-26 11:01:01 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -47,7 +47,7 @@ my %Opts = ();
 getopt( 'h', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.RebuildEscalationIndex.pl <Revision $VERSION> - rebuild escalation index\n";
-    print "Copyright (c) 2001-2008 OTRS AG, http://otrs.org/\n";
+    print "Copyright (c) 2001-2009 OTRS AG, http://otrs.org/\n";
     print "usage: otrs.RebuildEscalationIndex.pl\n";
     exit 1;
 }
@@ -93,4 +93,4 @@ for my $TicketID (@TicketIDs) {
 }
 print "NOTICE: Index creation done.\n";
 
-exit(0);
+exit 0;

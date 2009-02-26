@@ -3,7 +3,7 @@
 # bin/CheckSum.pl - a tool to compare changes in a installation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CheckSum.pl,v 1.15 2009-02-16 12:26:57 tr Exp $
+# $Id: CheckSum.pl,v 1.16 2009-02-26 11:01:01 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION $RealBin);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 use Getopt::Std;
 use Digest::MD5 qw(md5_hex);
@@ -44,21 +44,21 @@ my %Compare = ();
 # get options
 my %Opts = ();
 getopt( 'habd', \%Opts );
-if ( $Opts{'h'} ) {
+if ( $Opts{h} ) {
     print "CheckSum.pl <Revision $VERSION> - OTRS check sum\n";
-    print "Copyright (c) 2001-2008 OTRS AG, http://otrs.org/\n";
+    print "Copyright (c) 2001-2009 OTRS AG, http://otrs.org/\n";
     print "usage: CheckSum.pl -a create|compare [-b /path/to/ARCHIVE] [-d /path/to/framework]\n";
     exit 1;
 }
 
-if ( $Opts{'a'} && $Opts{'a'} eq 'create' ) {
+if ( $Opts{a} && $Opts{'a'} eq 'create' ) {
     $Action = $Opts{'a'};
 }
-if ( $Opts{'d'} ) {
-    $Start = $Opts{'d'};
+if ( $Opts{d} ) {
+    $Start = $Opts{d};
 }
-if ( $Opts{'b'} ) {
-    $Archive = $Opts{'b'};
+if ( $Opts{b} ) {
+    $Archive = $Opts{b};
 }
 else {
     $Archive = $Start . 'ARCHIVE';
@@ -75,7 +75,7 @@ else {
         chomp( $Row[1] );
         $Compare{ $Row[1] } = $Row[0];
     }
-    close(IN);
+    close IN;
 }
 
 my @Dirs = ();
@@ -87,7 +87,7 @@ for my $File ( sort keys %Compare ) {
 }
 if ( $Action eq 'create' ) {
     print " done.\n";
-    close(OUT);
+    close OUT;
 }
 
 sub R {
@@ -119,7 +119,7 @@ sub R {
                 while (<IN>) {
                     $Content .= $_;
                 }
-                close(IN);
+                close IN;
                 my $Digest = md5_hex($Content);
                 if ( $Action eq 'create' ) {
                     print OUT $Digest . '::' . $File . "\n";

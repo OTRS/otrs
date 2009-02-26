@@ -3,7 +3,7 @@
 # mkStats.pl - send stats output via email
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: mkStats.pl,v 1.59 2009-02-16 12:26:57 tr Exp $
+# $Id: mkStats.pl,v 1.60 2009-02-26 11:01:01 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -72,7 +72,7 @@ my %Opts = ();
 getopt( 'nrsmoplf', \%Opts );
 if ( $Opts{h} ) {
     print "mkStats.pl <Revision $VERSION> - OTRS cmd stats\n";
-    print "Copyright (C) 2001-2008 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
     print
         "usage: mkStats.pl -n <StatNumber> [-p <PARAM_STRING>] [-o <DIRECTORY>] [-r <RECIPIENT> -s <SENDER>] [-m <MESSAGE>] [-l <LANGUAGE>] [-f CSV|Print]\n";
     print "       <PARAM_STRING> e. g. 'Year=1977&Month=10' (only for static files)\n";

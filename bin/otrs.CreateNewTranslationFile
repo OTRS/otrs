@@ -3,7 +3,7 @@
 # otrs.CreateNewTranslationFile - create new translation file
 # Copyright (C) 2003-2009 OTRS AG, http://otrs.com/
 # --
-# $Id: otrs.CreateNewTranslationFile,v 1.26 2009-02-16 12:26:57 tr Exp $
+# $Id: otrs.CreateNewTranslationFile,v 1.27 2009-02-26 11:01:01 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION %Opts);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -44,7 +44,7 @@ getopt( 'olst', \%Opts );
 
 # print head
 print "otrs.CreateNewTranslationFile <Revision $VERSION> - create new translation file\n";
-print "Copyright (c) 2001-2008 OTRS AG, http://otrs.org/\n";
+print "Copyright (c) 2001-2009 OTRS AG, http://otrs.org/\n";
 print "usage: otrs.CreateNewTranslationFile -l <Language> -t <dtl_files_or_directory>\n";
 
 # common objects
@@ -57,20 +57,20 @@ $CommonObject{LogObject}    = Kernel::System::Log->new(
 $CommonObject{MainObject} = Kernel::System::Main->new( %CommonObject, );
 
 # check params
-if ( !$Opts{'l'} ) {
+if ( !$Opts{l} ) {
     print "ERROR: -l <Language>!\n";
     exit 1;
 }
 else {
     $Opts{LanguageFile}
-        = $CommonObject{ConfigObject}->Get('Home') . "/Kernel/Language/$Opts{'l'}.pm";
+        = $CommonObject{ConfigObject}->Get('Home') . "/Kernel/Language/$Opts{l}.pm";
     if ( !-f $Opts{LanguageFile} ) {
         print "ERROR: Not translation file: $Opts{LanguageFile}!\n";
         exit 1;
     }
 }
-if ( !$Opts{'t'} ) {
-    $Opts{'t'} = $CommonObject{ConfigObject}->Get('Home')
+if ( !$Opts{t} ) {
+    $Opts{t} = $CommonObject{ConfigObject}->Get('Home')
         . '/Kernel/Output/HTML/'
         . $CommonObject{ConfigObject}->Get('DefaultTheme')
         . '/*.dtl';
@@ -79,21 +79,21 @@ if ( !$Opts{'t'} ) {
     print "INFO: Output: $Opts{LanguageOutFile}!\n";
 }
 else {
-    $Opts{'SubTranslation'} = 1;
-    my $Out = $Opts{'t'};
+    $Opts{SubTranslation} = 1;
+    my $Out = $Opts{t};
     $Out =~ s/^.*\/(.+?)(\.dtl|)$/$1/;
     $Out =~ s/\*//g;
     $Opts{Out} = $Out;
     $Opts{LanguageOutFile}
-        = $CommonObject{ConfigObject}->Get('Home') . "/Kernel/Language/$Opts{'l'}_$Out.pm";
-    print "INFO: Templates from $Opts{'t'}!\n";
+        = $CommonObject{ConfigObject}->Get('Home') . "/Kernel/Language/$Opts{l}_$Out.pm";
+    print "INFO: Templates from $Opts{t}!\n";
     print "INFO: Output: $Opts{LanguageOutFile}!\n";
 }
 
 # common objects
 $CommonObject{LanguageObject} = Kernel::Language->new(
     %CommonObject,
-    UserLanguage    => $Opts{'l'},
+    UserLanguage    => $Opts{l},
     TranslationFile => 1,
 );
 
@@ -103,14 +103,14 @@ my %UsedWords     = ();
 my %UsedWordsMisc = ();
 my @List          = glob("$Opts{t}");
 for my $File (@List) {
-    if ( open( IN, "< $File" ) ) {
+    if ( open my $In, '<', $File ) ) {
         my $Content = '';
-        while ( my $Line = <IN> ) {
+        while ( my $Line = <$In> ) {
             if ( $Line !~ /^#/ ) {
                 $Content .= $Line;
             }
         }
-        close(IN);
+        close $In;
         $File =~ s!^.*/(.+?)\.dtl!$1!;
         print "# Template: $File\n";
         $Data .= "\n        # Template: $File\n";
@@ -202,8 +202,8 @@ for my $Key ( keys %{ $CommonObject{LanguageObject}->{Translation} } ) {
 # open old translation file
 my %MetaData = ();
 my $NewOut   = '';
-open( IN, "< $Opts{LanguageFile}" ) || die "Can't open: $Opts{LanguageFile}\n";
-while (<IN>) {
+open( my $In, '<', $Opts{LanguageFile} ) || die "Can't open: $Opts{LanguageFile}\n";
+while (<$In>) {
     if ( !$MetaData{DataPrinted} ) {
         $NewOut .= $_;
     }
@@ -237,9 +237,9 @@ while (<IN>) {
         $MetaData{DataPrinted} = 0;
     }
 }
-close(IN);
+close $In;
 
-if ( $Opts{'SubTranslation'} ) {
+if ( $Opts{SubTranslation} ) {
     $NewOut = '';
     $NewOut .= "\n";
     $NewOut .= "package Kernel::Language::$Opts{'l'}_$Opts{Out};\n";
@@ -264,7 +264,7 @@ if ( -e $Opts{LanguageOutFile} ) {
 }
 
 print "INFO: Writing $Opts{LanguageOutFile}\n";
-open( OUT, "> $Opts{LanguageOutFile}" ) || die $!;
-print OUT $NewOut;
-close(OUT);
+open( my $Out, '>', $Opts{LanguageOutFile} ) || die $!;
+print $Out $NewOut;
+close $Out;
 

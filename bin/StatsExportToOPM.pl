@@ -3,7 +3,7 @@
 # StatsExportToOPM.pl - export all stats of a system and create a package for the package manager
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: StatsExportToOPM.pl,v 1.12 2009-02-16 12:26:57 tr Exp $
+# $Id: StatsExportToOPM.pl,v 1.13 2009-02-26 11:01:01 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -49,7 +49,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION $Debug);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 # common objects
 my %CommonObject = ();
@@ -82,7 +82,7 @@ getopt( 'dhvn', \%Opts );
 if ( $Opts{'h'} ) {
     print
         "StatsExportToOPM.pl <Revision $VERSION> - export all stats of a system and create a package for the package manager\n";
-    print "Copyright (c) 2001-2008 OTRS AG, http//otrs.org/\n";
+    print "Copyright (c) 2001-2009 OTRS AG, http//otrs.org/\n";
     print "usage: StatsExportToOPM.pl [-n <PACKAGE_NAME>] [-v <PACKAGE_VERSION>]\n";
     print
         "       [-d 'yes' for delete existing stats if the opm will be installed] [-h for help]\n";

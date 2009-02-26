@@ -3,7 +3,7 @@
 # bin/PostMaster.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.pl,v 1.32 2009-02-16 12:26:57 tr Exp $
+# $Id: PostMaster.pl,v 1.33 2009-02-26 11:01:01 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -36,7 +36,7 @@ use lib dirname($RealBin) . "/Kernel/cpan-lib";
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -49,21 +49,21 @@ use Kernel::System::PostMaster;
 # get options
 my %Opts = ();
 getopt( 'hqtd', \%Opts );
-if ( $Opts{'h'} ) {
+if ( $Opts{h} ) {
     print "PostMaster.pl <Revision $VERSION> - OTRS cmd postmaster\n";
-    print "Copyright (c) 2001-2008 OTRS AG, http://otrs.org/\n";
+    print "Copyright (c) 2001-2009 OTRS AG, http://otrs.org/\n";
     print
         "usage: PostMaster.pl -q <QUEUE> -t <TRUSTED> (default is trusted, use '-t 0' to disable trusted mode)\n";
     exit 1;
 }
-if ( !$Opts{'d'} ) {
-    $Opts{'d'} = 0;
+if ( !$Opts{d} ) {
+    $Opts{d} = 0;
 }
-if ( !defined( $Opts{'t'} ) ) {
-    $Opts{'t'} = 1;
+if ( !defined( $Opts{t} ) ) {
+    $Opts{t} = 1;
 }
-if ( !$Opts{'q'} ) {
-    $Opts{'q'} = '';
+if ( !$Opts{q} ) {
+    $Opts{q} = '';
 }
 
 # create common objects
@@ -86,7 +86,7 @@ eval {
     $CommonObject{DBObject} = Kernel::System::DB->new(%CommonObject);
 
     # debug info
-    if ( $Opts{'d'} ) {
+    if ( $Opts{d} ) {
         $CommonObject{LogObject}->Log(
             Priority => 'debug',
             Message  => 'Global OTRS email handle (PostMaster.pl) started...',
@@ -100,7 +100,7 @@ eval {
             Priority => 'error',
             Message  => 'Got not email on STDIN!',
         );
-        exit(1);
+        exit 1;
     }
 
     # common objects
@@ -116,7 +116,7 @@ eval {
     }
 
     # debug info
-    if ( $Opts{'d'} ) {
+    if ( $Opts{d} ) {
         $CommonObject{LogObject}->Log(
             Priority => 'debug',
             Message  => 'Global OTRS email handle (PostMaster.pl) stoped.',
@@ -139,4 +139,4 @@ if ($@) {
     exit 75;
 }
 
-exit(0);
+exit 0;
