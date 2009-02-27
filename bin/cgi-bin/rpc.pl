@@ -3,7 +3,7 @@
 # bin/cgi-bin/rpc.pl - soap handle
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: rpc.pl,v 1.11 2009-02-27 07:30:13 martin Exp $
+# $Id: rpc.pl,v 1.12 2009-02-27 08:41:38 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -43,7 +43,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Ticket;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 SOAP::Transport::HTTP::CGI->dispatch_to('Core')->handle;
 
@@ -61,12 +61,8 @@ sub new {
 sub Dispatch {
     my ( $Self, $User, $Pw, $Object, $Method, %Param ) = @_;
 
-    if ( !$User ) {
-        $User = '';
-    }
-    if ( !$Pw ) {
-        $Pw = '';
-    }
+    $User ||= '';
+    $Pw   ||= '';
 
     # common objects
     my %CommonObject = ();
