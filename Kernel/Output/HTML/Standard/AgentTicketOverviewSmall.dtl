@@ -2,7 +2,7 @@
 # AgentTicketOverviewSmall.dtl - html for ticket overview table
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewSmall.dtl,v 1.13 2009-02-16 11:07:25 tr Exp $
+# $Id: AgentTicketOverviewSmall.dtl,v 1.14 2009-02-27 16:28:01 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -61,7 +61,12 @@ function select_item_check () {
             <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=EscalationTime&OrderBy=Up" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
             </th>
 <!-- dtl:block:RecordEscalationHeader -->
+<!-- dtl:block:RecordLastCustomerSubjectHeader -->
             <th width="25%">$Text{"From"}/$Text{"Subject"}</th>
+<!-- dtl:block:RecordLastCustomerSubjectHeader -->
+<!-- dtl:block:RecordTicketTitleHeader -->
+            <th width="25%">$Text{"From"}/$Text{"Title"}</th>
+<!-- dtl:block:RecordTicketTitleHeader -->
             <th width="5%">$Text{"State"}<br/>
             <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=State&OrderBy=Up" onmouseover="window.status='$JSText{"sort upward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}up-small.png" alt="$Text{"up"}"></a> /
             <a name="OverviewControl" href="$Env{"Baselink"}Action=$Env{"Action"}&$Data{"LinkSort"}&SortBy=State&OrderBy=Down" onmouseover="window.status='$JSText{"sort downward"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}down-small.png" alt="$Text{"down"}"></a>
@@ -117,7 +122,12 @@ function select_item_check () {
             <td>
               $Data{"StartFont"}
               <div title="$QData{"From"}">$QData{"From","30"}</div>
+<!-- dtl:block:RecordLastCustomerSubject -->
               <div title="$QData{"Subject"}">$QData{"Subject","30"}</div>
+<!-- dtl:block:RecordLastCustomerSubject -->
+<!-- dtl:block:RecordTicketTitle -->
+              <div title="$QData{"Title"}">$QData{"Title","30"}</div>
+<!-- dtl:block:RecordTicketTitle -->
               $Data{"StopFont"}
             </td>
             <td>

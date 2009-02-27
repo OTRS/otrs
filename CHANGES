@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.839 2009-02-27 07:30:13 martin Exp $
+# $Id: CHANGES,v 1.840 2009-02-27 16:30:49 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.4.0 beta1 (2009/??/??)
+ - (2009/02/27) Added feature to show the ticket title or the last
+    customer subject in TicketOverviewSmall.
  - (2009/02/27) Added enhancement bug# 3271 Added accessibility of
     Kernel::System::CustomerUser (CustomerUserObject) to bin/cgi-bin/rpc.pl
     (SOAP handle).

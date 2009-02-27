@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.221 2009-02-18 19:23:42 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.222 2009-02-27 16:28:01 ub Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1528,6 +1528,18 @@
                 <Item Key="Image">overviewsmall.png</Item>
                 <Item Key="ImageSelected">overviewsmall-selected.png</Item>
             </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::OverviewSmall###ColumnHeader" Required="0" Valid="1">
+        <Description Lang="en">Show in the small view the subject of the last customer article or the ticket title.</Description>
+        <Description Lang="de">Anzeige des Betreffs des letzten Kundenartikels oder des Ticket-Titels in der Small-Ansicht.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::TicketOverview</SubGroup>
+        <Setting>
+            <Option SelectedID="LastCustomerSubject">
+                <Item Key="LastCustomerSubject">LastCustomerSubject</Item>
+                <Item Key="TicketTitle">TicketTitle</Item>
+            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::Overview###Medium" Required="0" Valid="1">

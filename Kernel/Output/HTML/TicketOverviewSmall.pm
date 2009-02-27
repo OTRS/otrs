@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewSmall.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewSmall.pm,v 1.10 2009-02-20 12:05:39 mh Exp $
+# $Id: TicketOverviewSmall.pm,v 1.11 2009-02-27 16:28:01 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,6 +35,8 @@ sub new {
     }
 
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
+
+    $Self->{SmallViewColumnHeader} = $Self->{ConfigObject}->Get('Ticket::Frontend::OverviewSmall')->{ColumnHeader};
 
     return $Self;
 }
@@ -81,6 +83,20 @@ sub Run {
     if ( $Param{Escalation} ) {
         $Self->{LayoutObject}->Block(
             Name => 'RecordEscalationHeader',
+            Data => \%Param,
+        );
+    }
+
+    # check if last customer subject or ticket title should be shown
+    if ( $Self->{SmallViewColumnHeader} eq 'LastCustomerSubject' ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'RecordLastCustomerSubjectHeader',
+            Data => \%Param,
+        );
+    }
+    elsif ( $Self->{SmallViewColumnHeader} eq 'TicketTitle' ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'RecordTicketTitleHeader',
             Data => \%Param,
         );
     }
@@ -174,6 +190,20 @@ sub Run {
                         Data => { %Article, %UserInfo },
                     );
                 }
+            }
+
+            # check if last customer subject or ticket title should be shown
+            if ( $Self->{SmallViewColumnHeader} eq 'LastCustomerSubject' ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'RecordLastCustomerSubject',
+                    Data => { %Article, %UserInfo },
+                );
+            }
+            elsif ( $Self->{SmallViewColumnHeader} eq 'TicketTitle' ) {
+                $Self->{LayoutObject}->Block(
+                    Name => 'RecordTicketTitle',
+                    Data => { %Article, %UserInfo },
+                );
             }
         }
     }
