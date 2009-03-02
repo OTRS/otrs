@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Config.pm,v 1.83 2009-02-16 11:58:56 tr Exp $
+# $Id: Config.pm,v 1.84 2009-03-02 10:26:59 reb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.83 $) [1];
+$VERSION = qw($Revision: 1.84 $) [1];
 
 =head1 NAME
 
@@ -145,7 +145,7 @@ sub _Init {
                 );
             }
             my $FileCachePart = $File;
-            $FileCachePart =~ s/$Self->{Home}//;
+            $FileCachePart =~ s/\Q$Self->{Home}\E//;
             $FileCachePart =~ s/\/\//\//g;
             $FileCachePart =~ s/\//_/g;
             if ($ConfigFile) {
@@ -1761,6 +1761,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.83 $ $Date: 2009-02-16 11:58:56 $
+$Revision: 1.84 $ $Date: 2009-03-02 10:26:59 $
 
 =cut

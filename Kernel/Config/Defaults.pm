@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.304 2009-02-18 19:19:09 martin Exp $
+# $Id: Defaults.pm,v 1.305 2009-03-02 10:26:59 reb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.304 $) [1];
+$VERSION = qw($Revision: 1.305 $) [1];
 
 sub LoadDefaults {
     my ($Self) = @_;
@@ -2299,7 +2299,7 @@ sub new {
                 }
 
                 # prepare file
-                $File =~ s/$Self->{Home}//g;
+                $File =~ s/\Q$Self->{Home}\E//g;
                 $File =~ s/^\///g;
                 $File =~ s/\/\//\//g;
                 $File =~ s/\//::/g;
@@ -2383,6 +2383,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.304 $ $Date: 2009-02-18 19:19:09 $
+$Revision: 1.305 $ $Date: 2009-03-02 10:26:59 $
 
 =cut
