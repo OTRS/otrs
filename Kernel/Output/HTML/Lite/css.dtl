@@ -2,88 +2,12 @@
 # css.dtl - css file
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: css.dtl,v 1.8 2009-02-16 11:16:22 tr Exp $
+# $Id: css.dtl,v 1.9 2009-03-02 23:46:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-<style type="text/css">
-<!--
-# body
-body { background-color:#ededed;color:black;font-family:Geneva,Helvetica,Arial,sans-serif;font-size:11pt; }
-a { color:#557799;}
-a:hover { color:#002244;text-decoration:none; }
-pre { font-family:Courier,monospace,fixed;font-size:12px; }
-td,th { font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif; }
-# header
-.header { font-size:12px;vertical-align:top; }
-a.headeritem { text-decoration:none; }
-a.headeritem:hover { color:#dedede;text-decoration:underline; }
-# nav bar
-.nav { font-size:10px;vertical-align:top; }
-# nav bar item
-a.navitem { color:#557799;font-size:11px; }
-a.navitem:hover { color:#002244;font-size:11px; }
-# nav bar itemarea
-a.navitemarea { color:#898989;font-size:11px; }
-a.navitemarea:hover { color:#002244;font-size:11px; }
-# nav bar itemareaactive
-a.navitemareaactive { color:#cd9931;font-size:11px; }
-a.navitemareaactive:hover { color:#002244;font-size:11px; }
-# menu bar
-.menu { font-size:12px;vertical-align:top; }
-a.menuitem { color:#557799;font-size:12px; }
-a.menuitem:hover { color:#002244;font-size:12px; }
-# footer
-.footer { font-size:10px; }
-a.footeritem { text-decoration:none; }
-a.footeritem:hover { color:#dddddd;text-decoration:underline; }
-# small
-.small { color:#000000;font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px; }
-a.small { color:#000000;text-decoration:none; }
-a.small:hover { color:#222222;text-decoration:underline; }
-# form
-.required { color:red;font-size:11px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
-.readonly { color:blue;font-size:11px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
-.footnote { color:#000000;font-size:11px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
-form {margin:0px;}
-input {font-family:Geneva,Helvetica,Arial,Helvetica,sans-serif;font-size:12px;}
-.button {color:black;background-color:#dddddd;border-bottom:thin solid #222244;border-right:thin solid #222244;border-top:thin solid #bbbbbb;border-left:thin solid #bbbbbb;font-size:12px;font-family:Verdana,Geneva,Helvetica,Arial,sans-serif;font-weight:normal;}
-# main
-.mainhead { font-size:13px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
-.mainhead2 { font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
-.mainbody { font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
-.mainkey { font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
-.mainvalue { font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
-# content
-.contenthead { font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
-.contentbody { font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
-.contentfooter { font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:normal;vertical-align:top;text-align:right; }
-.contentkey { font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
-.contentvalue { font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
-.searchactive { font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
-.searchpassive { font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
-
-.tablayer0 { background-color:#efefef; }
-# tab window layer 1
-.tablayer1 { background-color:#dedede; }
-# tabs passive
-.tabpassive { background-color:#e5e5e5; border: 0px; }
-# tabs active
-.tabactive { background-color:#dedede; border: 0px; }
-# message
-.message { color:#000000;font-size:12px;font-family:monospace, fixed; }
-# article type color
-.agent-email-external { background-color:#ccffcc; }
-.agent-note-internal { background-color:#ffcccc; }
-.agent-note-external { background-color:#eeeeee; }
-# priority id color
-.PriorityID-1 { background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
-.PriorityID-2 { background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
-.PriorityID-3 { background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
-.PriorityID-4 { background-color:#ffcccc;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
-.PriorityID-5 { background-color:#ffaaaa;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
--->
-</style>
+# include css file
+<link href="$Config{"Frontend::CSSPath"}Lite/agent.css" rel="stylesheet" type="text/css">

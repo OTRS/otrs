@@ -2,7 +2,7 @@
 # AJAX.dtl - provides AJAX functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AJAX.dtl,v 1.16 2009-02-16 11:07:25 tr Exp $
+# $Id: AJAX.dtl,v 1.17 2009-03-02 23:46:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,121 +10,17 @@
 # --
 
 # use prototype lib
-<script src="$Env{"Images"}/../../../prototype.js" type="text/javascript"></script>
+<script src="$Config{"Frontend::JavaScriptPath"}prototype.js" type="text/javascript"></script>
+# use lib
+<script src="$Config{"Frontend::JavaScriptPath"}otrs.js" type="text/javascript"></script>
 
+# fill init/needed config options
 <script language="JavaScript" type="text/javascript">
-<!--
-function AJAXUpdate(Subaction, Changed, Depend, Update) {
-    var url = AJAXURLGet(Subaction, Changed, Depend, Update);
-    new Ajax.Request(url,
-        {
-            method:'get',
-            onLoading: function() {
-               AJAXLoadingImage('Load', Update);
-            },
-            onLoaded: function() {
-               AJAXLoadingImage('Unload', Update);
-            },
-            onSuccess: function(transport) {
-                var Response = transport.responseText;
-                if (!Response) {
-                    alert("ERROR: No content from: " + url);
-                }
-                var ObjectRef= Response.evalJSON();
-                if (ObjectRef) {
-                    AJAXUpdateItems(ObjectRef, Update);
-                }
-                else {
-                    alert("ERROR: Invalid JSON: " + Response);
-                }
-            },
-            onFailure: function() {
-                alert('ERROR: Something went wrong!')
-            }
-        }
-    );
-}
-
-function AJAXURLGet (Subaction, Changed, FieldName, FieldName2) {
-    var ParamPart = '';
-    // check if we need to fill some not used fields for Update
-    for (F2=0;F2<FieldName2.length;F2++) {
-        var Hit = 0;
-        for (F=0;F<FieldName.length;F++) {
-            if ( FieldName[F] == FieldName2[F2] ) {
-                Hit = 1;
-            }
-        }
-        if ( Hit == 0 ) {
-            FieldName.push(FieldName2[F2]);
-        }
-    }
-    // build url based on depends
-    for (F=0;F<FieldName.length;F++) {
-        if (document.compose[FieldName[F]]) {
-            var Param = document.compose[FieldName[F]].value;
-            var ParamEncode = encodeURIComponent(Param);
-            ParamPart = ParamPart + '&' + FieldName[F] + '=' + ParamEncode;
-        }
-    }
-    var url = '$Env{"Baselink"}Action=$Env{"Action"}&Subaction=' + Subaction + '&ElementChanged=' + Changed + ParamPart;
-    // add sessionid if no cookies are used
-    if ( !'$Env{"SessionIDCookie"}' ) {
-        url = url + '&' + '$Config{"SessionName"}=$Env{"SessionID"}' + '&' + '$Config{"CustomerPanelSessionName"}=$Env{"SessionID"}';
-    }
-    return url;
-}
-
-function AJAXUpdateItems (ObjectRef, FieldName) {
-    for (F=0;F<FieldName.length;F++) {
-        if (document.compose[FieldName[F]]) {
-            if ( document.compose[FieldName[F]].options ) {
-                var Length = document.compose[FieldName[F]].length;
-                for(i=0; i<=Length; i++) {
-                    document.compose[FieldName[F]].options[0] = null;
-                }
-                if (ObjectRef) {
-                    var List = ObjectRef[FieldName[F]];
-                    if (List) {
-                        for (var i = 0; i < List.length; i++) {
-                            document.compose[FieldName[F]].options[i] = new Option(List[i][1],List[i][0],List[i][2],List[i][3]);
-                            // overwrite option text, because of wrong html quoting of text content
-                            document.compose[FieldName[F]].options[i].innerHTML = List[i][1];
-                        }
-                    }
-                }
-            }
-            else {
-                if (ObjectRef && ObjectRef[FieldName[F]]) {
-                    document.compose[FieldName[F]].value = ObjectRef[FieldName[F]];
-                }
-            }
-        }
-    }
-    return true;
-}
-
-function AJAXLoadingImage (Type, FieldName) {
-    for (F=0;F<FieldName.length;F++) {
-        if (document.compose[FieldName[F]] && document.getElementById('AJAXImage' + FieldName[F])) {
-            if (Type == 'Load') {
-                document.getElementById('AJAXImage' + FieldName[F]).innerHTML="<img src=\"$Env{"Images"}loading.gif\" border=\"0\">";
-            }
-            else {
-                document.getElementById('AJAXImage' + FieldName[F]).innerHTML="";
-            }
-        }
-    }
-    return true;
-}
-
-function AJAXLoadingImagePreload (FieldName) {
-    for (F=0;F<FieldName.length;F++) {
-        ImagePreload = new Image();
-        ImagePreload.src = FieldName[F];
-    }
-}
-AJAXLoadingImagePreload( ["$Env{"Images"}loading.gif"] );
-
-// -->
+    OTRS.ConfigSet( 'Baselink', '$Env{"Baselink"}' );
+    OTRS.ConfigSet( 'Action', '$Env{"Action"}');
+    OTRS.ConfigSet( 'SessionIDCookie', '$Env{"SessionIDCookie"}' );
+    OTRS.ConfigSet( 'SessionName', '$Config{"SessionName"}' );
+    OTRS.ConfigSet( 'SessionID', '$Env{"SessionID"}' );
+    OTRS.ConfigSet( 'CustomerPanelSessionName', '$Config{"CustomerPanelSessionName"}' );
+    OTRS.ConfigSet( 'Images', '$Config{"Frontend::ImagePath"}' );
 </script>

@@ -1,0 +1,110 @@
+/*
+# --
+# agent.css - css file
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# --
+# $Id: agent.css,v 1.1 2009-03-02 23:45:25 martin Exp $
+# --
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+*/
+
+/* body */
+body { font-family:Geneva,Helvetica,Arial,sans-serif;font-size:11pt;background-color:#bbddff;color:black; }
+a { color:#557799;}
+a:hover { color:#002244;text-decoration:none; }
+pre { font-family:Courier,monospace,fixed;font-size:12px; }
+textarea { font-family:monospace,fixed;font-size:12px; }
+td,th { font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif; }
+/* header */
+.header { color:#ffffff;background-color:#000000;font-size:12px;vertical-align:top; }
+a.headeritem { color:#ffffff;text-decoration:none; }
+a.headeritem:hover { color:#dedede;text-decoration:underline; }
+/* nav bar */
+.nav { color:#000000;background-color:#ffffff;font-size:10px;vertical-align:top; }
+/* nav bar item */
+a.navitem { color:#557799;font-size:11px; }
+a.navitem:hover { color:#002244;font-size:11px; }
+/* nav bar itemarea */
+a.navitemarea { color:#898989;font-size:11px; }
+a.navitemarea:hover { color:#002244;font-size:11px; }
+/* nav bar itemareaactive */
+a.navitemareaactive { color:#cd9931;font-size:11px; }
+a.navitemareaactive:hover { color:#002244;font-size:11px; }
+/* menu bar */
+.menu { color:#000000;background-color:#eeeeee;font-size:12px;vertical-align:top; }
+a.menuitem { color:#557799;font-size:12px; }
+a.menuitem:hover { color:#002244;font-size:12px; }
+/* footer */
+.footer { color:#ffffff;background-color:#000000;font-size:10px; }
+a.footeritem { color:#ffffff;text-decoration:none; }
+a.footeritem:hover { color:#dddddd;text-decoration:underline; }
+/* small */
+.small { color:#000000;font-family:Geneva,Helvetica,Arial,sans-serif;font-size:10px;font-weight:normal;vertical-align:top; }
+a.small { color:#000000;text-decoration:none;font-weight: normal;vertical-align:top; }
+a.small:hover { color:#222222;text-decoration:underline;font-weight: normal;vertical-align:top; }
+/* form */
+.required { color:red;font-size:11px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+.validity { color:red;font-size:11px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; font-weight: bold;}
+.readonly { color:blue;font-size:11px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+.footnote { color:#000000;font-size:11px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+form {margin:0px;}
+input {font-family:Geneva,Helvetica,Arial,Helvetica,sans-serif;font-size:12px;}
+.button {color:black;background-color:#dddddd;border-bottom:thin solid #222244;border-right:thin solid #222244;border-top:thin solid #bbbbbb;border-left:thin solid #bbbbbb;font-size:12px;font-family:Verdana,Geneva,Helvetica,Arial,sans-serif;font-weight:normal;}
+/* main */
+.mainhead { color:#ffffff;background-color:#00000c;font-size:13px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
+.mainhead2 { color:#000000;background-color:#dedede;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
+.mainbody { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+.mainkey { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
+.mainvalue { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+/* content */
+.contenthead { color:#000000;background-color:#dedede;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
+.contentheadpassiv { color:#BBBBBB;background-color:#dedede;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
+.contentbody { color:#000000;background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+.contentfooter { color:#000000;background-color:#dedede;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:normal;vertical-align:top;text-align:right; }
+.contentkey { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
+.contentkeypassiv { color:#BBBBBB;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
+.contentvalue { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+.contentvaluepassiv { color:#BBBBBB;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+.searchactive { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+.searchpassive { color:#000000;background-color:#eeeeee;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+.searchhighlight { color:#000000;background-color:#d3d3d3;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+/* singleboxhead */
+.singleboxhead { color:#ffffff;background-color:#00000c;font-size:13px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:bold;vertical-align:top; }
+.singleboxbody { color:#000000;background-color:#ffffff;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+.singleboxkey { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;font-weight:normal;vertical-align:top; }
+.singleboxvalue { color:#000000;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+/* tab window layer 0 */
+.tablayer0 { background-color:#ffffff; }
+/* tab window layer 1 */
+.tablayer1 { background-color:#e5e5e5; }
+/* tabs passive */
+.tabpassive { background-color:#efefef; border: 0px; }
+/* tabs active */
+.tabactive { background-color:#e5e5e5; border: 0px; }
+/* message */
+.message { color:#000000;font-size:12px;font-family:monospace, fixed; }
+/* article type color */
+.agent-phone { background-color:#ccffcc; }
+.agent-fax { background-color:#ccffcc; }
+.agent-sms { background-color:#ccffcc; }
+.agent-email-external { background-color:#ccffcc; }
+.agent-note-external { background-color:#eeeeee; }
+.system-email-external { background-color:#fffbbb; }
+.agent-email-internal { background-color:#ffcccc; }
+.agent-note-internal { background-color:#ffcccc; }
+.agent-note-report { background-color:#ffcccc; }
+.system-email-internal { background-color:#ffcccc; }
+.system-email-internal { background-color:#ffcccc; }
+.system-note-internal { background-color:#ffcccc; }
+.highlight { background-color:#d1d1d1; }
+/* priority id color */
+.PriorityID-1 { background-color:#cdcdcd;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+.PriorityID-2 { background-color:#cdcdcd;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+.PriorityID-3 { background-color:#cdcdcd;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+.PriorityID-4 { background-color:#ffcccc;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+.PriorityID-5 { background-color:#ffaaaa;font-size:12px;font-family:Geneva,Helvetica,Arial,sans-serif;vertical-align:top; }
+
