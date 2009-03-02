@@ -3,7 +3,7 @@
 # opm.pl - otrs package manager cmd version
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: opm.pl,v 1.30 2009-02-26 11:01:01 tr Exp $
+# $Id: opm.pl,v 1.31 2009-03-02 10:23:15 reb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -26,6 +26,7 @@ use warnings;
 
 # use ../ as lib location
 use File::Basename;
+use File::Spec;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
@@ -40,7 +41,7 @@ use Kernel::System::Package;
 
 # get file version
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 # common objects
 my %CommonObject = ();
@@ -60,7 +61,7 @@ getopt( 'hapofd', \%Opts );
 
 # set defaults
 if ( !$Opts{o} ) {
-    $Opts{o} = '/tmp/';
+    $Opts{o} = File::Spec->tmpdir;
 }
 if ( !$Opts{f} ) {
     $Opts{f} = 0;
@@ -81,7 +82,7 @@ if ( $Opts{a} && $Opts{a} eq 'index' ) {
 # check needed params
 if ( $Opts{h} ) {
     print "opm.pl <Revision $VERSION> - OTRS Package Manager\n";
-    print "Copyright (c) 2001-2009 OTRS AG, http//otrs.org/\n";
+    print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
     print
         "usage: opm.pl -a list|install|upgrade|uninstall|reinstall|list-repository|file|build|index \n";
     print
