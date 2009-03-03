@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.56 2009-03-02 23:50:07 martin Exp $
+# $Id: Header.dtl,v 1.57 2009-03-03 17:05:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,14 +28,14 @@ $Include{"Copyright"}
 <html>
 <head>
 <!-- dtl:block:MetaHttpEquivRefresh -->
-  <meta http-equiv="refresh" content="$QData{"Refresh"}">
+  <meta http-equiv="refresh" content="$QData{"Refresh"}"/>
 <!-- dtl:block:MetaHttpEquivRefresh -->
 <!-- dtl:block:MetaLink -->
-  <link rel="$QData{"Rel"}" type="$QData{"Type"}" title="$Data{"Title"}" href="$Data{"Href"}">
+  <link rel="$QData{"Rel"}" type="$QData{"Type"}" title="$Data{"Title"}" href="$Data{"Href"}"/>
 <!-- dtl:block:MetaLink -->
-  <link rel="shortcut icon" href="$Config{"Frontend::ImagePath"}product.ico" type="image/ico" />
-# include css.dtl  file
-$Include{"css"}
+  <link rel="shortcut icon" href="$Config{"Frontend::ImagePath"}product.ico" type="image/ico"/>
+# include css file
+  <link href="$Config{"Frontend::CSSPath"}Standard/agent.css" rel="stylesheet" type="text/css"/>
   <title>$Config{"ProductName"} $QData{"TitleArea"}</title>
 </head>
 <a name="top"></a>
