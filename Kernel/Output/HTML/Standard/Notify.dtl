@@ -2,7 +2,7 @@
 # Notify.dtl - provides HTML Notify for AgentNotify.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Notify.dtl,v 1.12 2009-02-23 13:10:16 tr Exp $
+# $Id: Notify.dtl,v 1.13 2009-03-02 23:50:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,10 +13,10 @@
   <tr align="left">
     <td width="25" align="right" class="contentbody">
 <!-- dtl:block:Warning -->
-      <img border="0" src="$Env{"Images"}warning.png" alt="$Text{"Info"}">
+      <img border="0" src="$Config{"Frontend::ImagePath"}warning.png" alt="$Text{"Info"}">
 <!-- dtl:block:Warning -->
 <!-- dtl:block:Error -->
-      <img border="0" src="$Env{"Images"}error.png" alt="$Text{"Important"}">
+      <img border="0" src="$Config{"Frontend::ImagePath"}error.png" alt="$Text{"Important"}">
 <!-- dtl:block:Error -->
     </td>
     <td class="contentbody">:

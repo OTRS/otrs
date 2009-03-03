@@ -2,7 +2,7 @@
 # AgentNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentNavigationBar.dtl,v 1.63 2009-02-16 11:07:25 tr Exp $
+# $Id: AgentNavigationBar.dtl,v 1.64 2009-03-02 23:58:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,23 +19,23 @@
 <!-- dtl:block:ItemPre -->
           <td valign="top" align="center" class="nav">
             <div title="$Text{"$QData{"Description"}"}">
-            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitem"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br/>$Text{"$QData{"Name"}"}</a>
+            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitem"><img border="0" src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br/>$Text{"$QData{"Name"}"}</a>
             </div>
           </td>
 <!-- dtl:block:ItemPre -->
 <!-- dtl:block:Item -->
           <td valign="top" align="center" class="nav">
             <div title="$Text{"$QData{"Description"}"}">
-            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitem"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br/>$Text{"$QData{"Name"}"}</a>
+            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitem"><img border="0" src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br/>$Text{"$QData{"Name"}"}</a>
             </div>
           </td>
 <!-- dtl:block:Item -->
-          <td valign="middle">&nbsp;<img border="0" src="$Env{"Images"}h-line.png" alt="-">&nbsp;</td>
+          <td valign="middle">&nbsp;<img border="0" src="$Config{"Frontend::ImagePath"}h-line.png" alt="-">&nbsp;</td>
 #          <td>&nbsp;</td>
 <!-- dtl:block:ItemArea -->
           <td valign="top" align="center" class="nav">
             <div title="$Text{"$QData{"Description"}"}">
-            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitemarea$QData{"ItemAreaCSSSuffix"}"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br/>$Text{"$QData{"Name"}"}</a>
+            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitemarea$QData{"ItemAreaCSSSuffix"}"><img border="0" src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br/>$Text{"$QData{"Name"}"}</a>
             </div>
           </td>
 <!-- dtl:block:ItemArea -->
@@ -62,7 +62,7 @@
 <!-- dtl:block:ItemPersonal -->
           <td valign="top" align="center" class="nav">
             <div title="$Text{"$QData{"Description"}"}">
-            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitem"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br/>$Text{"$QData{"Name"}"}</a>
+            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitem"><img border="0" src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br/>$Text{"$QData{"Name"}"}</a>
             </div>
           </td>
 <!-- dtl:block:ItemPersonal -->
@@ -71,23 +71,23 @@
 <!-- dtl:block:ItemPre -->
           <td valign="top" align="center" class="nav">
             <div title="$Text{"$QData{"Description"}"}">
-            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitem"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br/>$Text{"$QData{"Name"}"}</a>
+            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitem"><img border="0" src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br/>$Text{"$QData{"Name"}"}</a>
             </div>
           </td>
 <!-- dtl:block:ItemPre -->
 <!-- dtl:block:ItemArea -->
           <td valign="top" align="center" class="nav">
             <div title="$Text{"$QData{"Description"}"}">
-            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitemarea$QData{"ItemAreaCSSSuffix"}"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br/>$Text{"$QData{"Name"}"}</a>
+            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitemarea$QData{"ItemAreaCSSSuffix"}"><img border="0" src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br/>$Text{"$QData{"Name"}"}</a>
             </div>
           </td>
 <!-- dtl:block:ItemArea -->
-          <td valign="middle">&nbsp;<img border="0" src="$Env{"Images"}h-line.png" alt="-">&nbsp;</td>
+          <td valign="middle">&nbsp;<img border="0" src="$Config{"Frontend::ImagePath"}h-line.png" alt="-">&nbsp;</td>
 #      <td>&nbsp;</td>
 <!-- dtl:block:Item -->
           <td valign="top" align="center" class="nav">
             <div title="$Text{"$QData{"Description"}"}">
-            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitem"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br/>$Text{"$QData{"Name"}"}</a>
+            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitem"><img border="0" src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br/>$Text{"$QData{"Name"}"}</a>
             </div>
           </td>
 <!-- dtl:block:Item -->
@@ -114,7 +114,7 @@
 <!-- dtl:block:ItemPersonal -->
           <td valign="top" align="center" class="nav">
             <div title="$Text{"$QData{"Description"}"}">
-            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitem"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br/>$Text{"$QData{"Name"}"}</a>
+            <a href="$Env{"Baselink"}$Data{"Link"}" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitem"><img border="0" src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt="$Text{"$QData{"Name"}"}"><br/>$Text{"$QData{"Name"}"}</a>
             </div>
           </td>
 <!-- dtl:block:ItemPersonal -->

@@ -2,7 +2,7 @@
 # Installer.dtl - provides HTML form for Installer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.dtl,v 1.20 2009-02-26 12:00:46 tr Exp $
+# $Id: Installer.dtl,v 1.21 2009-03-02 23:50:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,12 +19,12 @@
   <tr>
     <td class="mainbody" align="center">
 #     <h2>$Text{"Web-Installer"}</h2>
-#     <img border="0" src="$Env{"Images"}$QData{"Image"}" alt="">
+#     <img border="0" src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt="">
 <!-- dtl:block:Message -->
       $Data{"Body"}
 <!-- dtl:block:Message -->
 <!-- dtl:block:Intro -->
-      <img border="0" src="$Env{"Images"}installer-start.png" alt="">
+      <img border="0" src="$Config{"Frontend::ImagePath"}installer-start.png" alt="">
       <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="Installer"/>
         <input type="hidden" name="Subaction" value="License"/>
@@ -75,7 +75,7 @@
       </form>
 <!-- dtl:block:Intro -->
 <!-- dtl:block:License -->
-      <img border="0" src="$Env{"Images"}installer.png" alt="">
+      <img border="0" src="$Config{"Frontend::ImagePath"}installer.png" alt="">
       <table border="0" width="600" align="center" cellspacing="0" cellpadding="4">
         <tr>
           <td colspan="2" class="contenthead">$Text{"$Data{"Item"}"} ($Data{"Step"})</td>
@@ -775,7 +775,7 @@ For more information on this, and how to apply and follow the GNU AGPL, see
 # include AJAX lib
 $Include{"AJAX"}
 
-      <img border="0" src="$Env{"Images"}installer1.png" alt="">
+      <img border="0" src="$Config{"Frontend::ImagePath"}installer1.png" alt="">
       <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action"    value="Installer"/>
         <input type="hidden" name="Subaction" value="DB"/>
@@ -861,7 +861,7 @@ $Include{"AJAX"}
       </form>
 <!-- dtl:block:DatabaseStart -->
 <!-- dtl:block:DatabaseResult -->
-      <img border="0" src="$Env{"Images"}installer1.png" alt="">
+      <img border="0" src="$Config{"Frontend::ImagePath"}installer1.png" alt="">
       <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="Installer"/>
         <table border="0" width="600" align="center" cellspacing="0" cellpadding="4">
@@ -906,7 +906,7 @@ $Include{"AJAX"}
       </form>
 <!-- dtl:block:DatabaseResult -->
 <!-- dtl:block:System-->
-      <img border="0" src="$Env{"Images"}installer2.png" alt="">
+      <img border="0" src="$Config{"Frontend::ImagePath"}installer2.png" alt="">
       <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="Installer"/>
         <input type="hidden" name="Subaction" value="Finish"/>
@@ -987,7 +987,7 @@ $Include{"AJAX"}
       </form>
 <!-- dtl:block:System-->
 <!-- dtl:block:Finish -->
-      <img border="0" src="$Env{"Images"}installer3.png" alt="">
+      <img border="0" src="$Config{"Frontend::ImagePath"}installer3.png" alt="">
       <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action"    value="Installer"/>
         <input type="hidden" name="Subaction" value="Finish"/>

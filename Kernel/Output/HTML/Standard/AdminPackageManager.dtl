@@ -2,7 +2,7 @@
 # AdminPackageManager.dtl - provides global HTML AdminPackageManager
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.dtl,v 1.46 2009-02-16 11:07:25 tr Exp $
+# $Id: AdminPackageManager.dtl,v 1.47 2009-03-02 23:54:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -287,7 +287,7 @@
                 </td>
                 <td class="$QData{"CssClass"}">
 <!-- dtl:block:ShowRemotePackageDocumentation -->
-                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=ViewRemote&Source=$LQData{"Source"}&File=$LQData{"File"}&Name=$QData{"Name"}&Version=$QData{"Version"}&Location=$LQData{"Location"}" title="$Text{"Module documentation"}"><img alt="$Text{"Module documentation"}" border="0" src="$Env{"Images"}pdf.png"></a>
+                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=ViewRemote&Source=$LQData{"Source"}&File=$LQData{"File"}&Name=$QData{"Name"}&Version=$QData{"Version"}&Location=$LQData{"Location"}" title="$Text{"Module documentation"}"><img alt="$Text{"Module documentation"}" border="0" src="$Config{"Frontend::ImagePath"}pdf.png"></a>
 <!-- dtl:block:ShowRemotePackageDocumentation -->
                 </td>
                 <td class="$QData{"CssClass"}">$QData{"Version"}</td>
@@ -336,7 +336,7 @@
                 </td>
                 <td class="$QData{"CssClass"}">
 <!-- dtl:block:ShowLocalPackageDocumentation -->
-                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=View&Name=$QData{"Name"}&Version=$QData{"Version"}&File=$QData{"File"}&Location=$LQData{"Location"}" title="$Text{"Module documentation"}"><img alt="$Text{"Module documentation"}" border="0" src="$Env{"Images"}pdf.png"></a>
+                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=View&Name=$QData{"Name"}&Version=$QData{"Version"}&File=$QData{"File"}&Location=$LQData{"Location"}" title="$Text{"Module documentation"}"><img alt="$Text{"Module documentation"}" border="0" src="$Config{"Frontend::ImagePath"}pdf.png"></a>
 <!-- dtl:block:ShowLocalPackageDocumentation -->
                 </td>
                 <td class="$QData{"CssClass"}">$QData{"Version"}</td>
@@ -461,16 +461,16 @@ $Env{"Box0"}$Text{"Package Manager"}$Env{"Box1"}
                       </td>
 <!-- dtl:block:PackageItemFilelistFileNoteDiff -->
                       <td class="contentvalue">
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=ViewDiff&Name=$QData{"Name"}&Version=$QData{"Version"}&File=$QData{"File"}&Location=$LQData{"Location"}"><img border="0" src="$Env{"Images"}$QData{"Image"}" alt=" " title="$QData{"Message"}"></a>
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=ViewDiff&Name=$QData{"Name"}&Version=$QData{"Version"}&File=$QData{"File"}&Location=$LQData{"Location"}"><img border="0" src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt=" " title="$QData{"Message"}"></a>
                       </td>
 <!-- dtl:block:PackageItemFilelistFileNoteDiff -->
 <!-- dtl:block:PackageItemFilelistFileNote -->
                       <td class="contentvalue">
-                        <img border="0" src="$Env{"Images"}$QData{"Image"}" alt=" " title="$QData{"Message"}">
+                        <img border="0" src="$Config{"Frontend::ImagePath"}$QData{"Image"}" alt=" " title="$QData{"Message"}">
                       </td>
 <!-- dtl:block:PackageItemFilelistFileNote -->
                       <td class="contentvalue">
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$Env{"Subaction"}&Name=$QData{"Name"}&Version=$QData{"Version"}&File=$QData{"File"}&Location=$LQData{"Location"}" title="$Text{"Download file from package!"}"><img alt="$Text{"Download file from package!"}" border="0" src="$Env{"Images"}disk-s.png"></a> $QData{"Size"}
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=$Env{"Subaction"}&Name=$QData{"Name"}&Version=$QData{"Version"}&File=$QData{"File"}&Location=$LQData{"Location"}" title="$Text{"Download file from package!"}"><img alt="$Text{"Download file from package!"}" border="0" src="$Config{"Frontend::ImagePath"}disk-s.png"></a> $QData{"Size"}
                       </td>
                     </tr>
 <!-- dtl:block:PackageItemFilelistFile -->

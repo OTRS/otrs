@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.194 2009-02-04 13:28:53 tr Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.195 2009-03-03 00:00:28 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -164,13 +164,40 @@
             </Hash>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Frontend::WebPath" Required="1" Valid="1">
+        <Description Lang="en">URL base path of icons, CSS and Java Script.</Description>
+        <Description Lang="de">URL Basisverzeichnis für Icons, CSS und Java Script.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Web</SubGroup>
+        <Setting>
+            <String Regex="">/otrs-web/</String>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Frontend::ImagePath" Required="1" Valid="1">
         <Description Lang="en">URL image path of icons for navigation.</Description>
         <Description Lang="de">URL Bildverzeichnis der Icons fuer Navigation.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Web</SubGroup>
         <Setting>
-            <String Regex="">/otrs-web/images/Standard/</String>
+            <String Regex="">&lt;OTRS_CONFIG_Frontend::WebPath&gt;images/Standard/</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::CSSPath" Required="1" Valid="1">
+        <Description Lang="en">URL CSS path.</Description>
+        <Description Lang="de">URL CSS Pfad.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Web</SubGroup>
+        <Setting>
+            <String Regex="">&lt;OTRS_CONFIG_Frontend::WebPath&gt;css/</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::JavaScriptPath" Required="1" Valid="1">
+        <Description Lang="en">URL JavaScript path.</Description>
+        <Description Lang="de">URL JavaScript Pfad.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Web</SubGroup>
+        <Setting>
+            <String Regex="">&lt;OTRS_CONFIG_Frontend::WebPath&gt;js/</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="DefaultViewNewLine" Required="1" Valid="1">
@@ -684,6 +711,18 @@
         <SubGroup>Core::Session</SubGroup>
         <Setting>
             <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="SessionCSRFProtection" Required="1" Valid="1">
+        <Description Lang="en">Protection against CSRF (Cross Site Request Forgery) exploits (for more info see http://en.wikipedia.org/wiki/Cross-site_request_forgery).</Description>
+        <Description Lang="de">Schutz gegen CSRF (Cross Site Request Forgery) Verwundbarkeiten (für mehr Informationen siehe http://de.wikipedia.org/wiki/Cross-Site_Request_Forgery).</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Session</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
                 <Item Key="0">No</Item>
                 <Item Key="1">Yes</Item>
             </Option>
