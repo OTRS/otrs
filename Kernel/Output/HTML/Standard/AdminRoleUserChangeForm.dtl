@@ -2,7 +2,7 @@
 # AdminRoleUserChangeForm.dtl - provides HTML form for AdminInterface
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRoleUserChangeForm.dtl,v 1.16 2009-02-16 11:07:25 tr Exp $
+# $Id: AdminRoleUserChangeForm.dtl,v 1.17 2009-03-04 17:08:50 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -44,10 +44,12 @@ function select_items (Type) {
               <b>$Text{"$QData{"Type"}"}:</b>
               <a href="$Env{"Baselink"}Action=Admin$LQData{"Type"}&Subaction=Change&ID=$LQData{"ID"}">$QData{"Name"}</a>
               (id=$QData{"ID"})<br/>
-              <table>
+              <table cellspacing="0">
                 <tr>
                   <th align="left" valign="top">$Text{"$QData{"NeType"}"}</th>
-                  <th align="center">$Text{"Active"}<br/><input type="checkbox" value="" name="$QData{"Type"}" onclick="select_items('$QData{"Type"}');"></th></th>
+                  <th align="center">$Text{"Active"}<br/>
+                  <input type="checkbox" value="" name="$QData{"Type"}" onclick="select_items('$QData{"Type"}');">
+                  </th>
                 </tr>
 <!-- dtl:block:Row -->
                 <tr class="$QData{"CssClass"}">
