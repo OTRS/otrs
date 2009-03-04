@@ -2,7 +2,7 @@
 # AgentStatsEditXaxis.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsEditXaxis.dtl,v 1.10 2009-02-16 11:07:25 tr Exp $
+# $Id: AgentStatsEditXaxis.dtl,v 1.11 2009-03-04 14:35:18 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,16 +21,9 @@
         $Env{"Box0"}$Text{"Edit"}: $Text{"$Config{"Stats::StatsHook"}"} $QData{"StatNumber"}$Env{"Box1"}
       </td>
     </tr>
-#    <tr>
-#      <td class="menu">
-#        <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=View&StatID=$QData{"StatID"}" class="menuitem">
-#        $Text{"View"}
-#        </a>
-#      </td>
-#    </tr>
     <tr>
       <td class="mainbody" align="center">
-        <img border="0" src="$Env{"Images"}installer1.png" alt="">
+        <img border="0" src="$Config{"Frontend::ImagePath"}installer1.png" alt="">
         <br/>
         <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
           <tr>
@@ -48,7 +41,7 @@
 <!-- dtl:block:MultiSelectField -->
                 <tr>
                   <td class="contentkey">
-                    <input type="radio" name="Select" value="$Data{"Element"}" $Data{"Checked"}/>
+                    <input type="radio" name="Select" value="$QData{"Element"}" $QData{"Checked"}/>
                   </td>
                   <td class="contentkey" width="200">
                     $Text{"$QData{"Name"}"}:
@@ -58,7 +51,7 @@
                 <tr>
                   <td colspan="2"></td>
                   <td class="contentvalue">
-                    <input type="Checkbox" name="Fixed$Data{"Element"}" value="1" $Data{"Fixed"}/>
+                    <input type="Checkbox" name="Fixed$QData{"Element"}" value="1" $QData{"Fixed"}/>
                     $Text{"Fixed"}
                   </td>
                 </tr>
@@ -66,7 +59,7 @@
 <!-- dtl:block:TimeExtended -->
                 <tr>
                   <td>
-                    <input type="radio" name="Select" value="$Data{"Element"}" $Data{"Checked"}/>
+                    <input type="radio" name="Select" value="$QData{"Element"}" $QData{"Checked"}/>
                   </td>
                   <td colspan="2" class="contentkey">$Text{"$Data{"Name"}"}:</td>
                 </tr>
@@ -74,7 +67,7 @@
                   <td></td>
                   <td valign="middle" width="150">
                     &nbsp;&nbsp;
-                    <input type="radio" name="$Data{"Element"}TimeSelect" value="Absolut" $Data{"CheckedAbsolut"}/>
+                    <input type="radio" name="$QData{"Element"}TimeSelect" value="Absolut" $QData{"CheckedAbsolut"}/>
                     $Text{"Absolut Period"}:
                   </td>
                   <td valign="middle">
@@ -85,7 +78,7 @@
                   <td></td>
                   <td valign="middle">
                     &nbsp;&nbsp;
-                    <input type="radio" name="$Data{"Element"}TimeSelect" value="Relativ" $Data{"CheckedRelative"}/>
+                    <input type="radio" name="$QData{"Element"}TimeSelect" value="Relativ" $QData{"CheckedRelative"}/>
                     $Text{"Relative Period"}:
                   </td>
                   <td valign="middle">
@@ -116,7 +109,7 @@
 <!-- dtl:block:Time -->
                 <tr>
                   <td class="contentkey">
-                    <input type="radio"  name="Select" value="$Data{"Element"}" $Data{"Checked"}/>
+                    <input type="radio"  name="Select" value="$QData{"Element"}" $QData{"Checked"}/>
                   </td>
                   <td class="contentkey" colspan="2">$Text{"$Data{"Name"}"}:</td>
                 </tr>
