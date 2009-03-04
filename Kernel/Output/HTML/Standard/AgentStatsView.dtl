@@ -2,7 +2,7 @@
 # AgentStatsView.dtl - provides HTML form for view IDMEF
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsView.dtl,v 1.13 2009-02-16 11:07:25 tr Exp $
+# $Id: AgentStatsView.dtl,v 1.14 2009-03-04 10:43:39 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@
         <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
           <input type="hidden" name="Action"    value="$Env{"Action"}"/>
           <input type="hidden" name="Subaction" value="Run"/>
-          <input type="hidden" name="StatID"    value="$Data{"StatID"}"/>
+          <input type="hidden" name="StatID"    value="$QData{"StatID"}"/>
           <tr>
             <td class="contenthead">$Text{"Information about the Stat"}</td>
           </tr>
@@ -71,7 +71,7 @@
 <!-- dtl:block:Format -->
 <!-- dtl:block:FormatFixed -->
                 <tr>
-                  <input type="hidden" name="Format" value="$Data{"FormatKey"}"/>
+                  <input type="hidden" name="Format" value="$QData{"FormatKey"}"/>
                   <td class="contentkey">$Text{"Format"}:</td>
                   <td class="contentvalue">$Text{"$Data{"Format"}"}</td>
                 </tr>
@@ -84,7 +84,7 @@
 <!-- dtl:block:Graphsize -->
 <!-- dtl:block:GraphsizeFixed -->
                 <tr>
-                  <input type="hidden" name="GraphSize" value="$Data{"GraphSizeKey"}"/>
+                  <input type="hidden" name="GraphSize" value="$QData{"GraphSizeKey"}"/>
                   <td class="contentkey">$Text{"Graphsize"}:</td>
                   <td class="contentvalue">$Data{"GraphSize"}</td>
                 </tr>
