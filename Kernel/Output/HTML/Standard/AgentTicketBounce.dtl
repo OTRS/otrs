@@ -2,7 +2,7 @@
 # AgentTicketBounce.dtl - provides HTML form for bounce mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.dtl,v 1.13 2009-03-02 23:58:12 martin Exp $
+# $Id: AgentTicketBounce.dtl,v 1.14 2009-03-04 14:43:03 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -52,12 +52,12 @@ function submit_bounce() {
     <td class="mainbody">
       <br/>
       <form action="$Env{"CGIHandle"}" method="post" name="bounce">
-        <input type="hidden" name="Action" value="$Env{"Action"}"/>
-        <input type="hidden" name="Subaction" value="Store"/>
-        <input type="hidden" name="QueueID" value="$Data{"QueueID"}"/>
-        <input type="hidden" name="TicketID" value="$Data{"TicketID"}"/>
-        <input type="hidden" name="ArticleID" value="$Data{"ArticleID"}"/>
-        <input type="hidden" name="NextScreen" value="$Data{"NextScreen"}"/>
+        <input type="hidden" name="Action"     value="$Env{"Action"}"/>
+        <input type="hidden" name="Subaction"  value="Store"/>
+        <input type="hidden" name="QueueID"    value="$QData{"QueueID"}"/>
+        <input type="hidden" name="TicketID"   value="$QData{"TicketID"}"/>
+        <input type="hidden" name="ArticleID"  value="$QData{"ArticleID"}"/>
+        <input type="hidden" name="NextScreen" value="$QData{"NextScreen"}"/>
         <table border="0" width="800" align="center" cellspacing="0" cellpadding="4">
           <tr>
             <td colspan="2" class="contenthead">$Text{"Options"}</td>

@@ -2,7 +2,7 @@
 # AgentWindowTab.dtl - provides HTML form for window tabs
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentWindowTab.dtl,v 1.8 2009-03-02 23:58:12 martin Exp $
+# $Id: AgentWindowTab.dtl,v 1.9 2009-03-04 14:43:03 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@
                       <tr>
                         <td class="tab$Data{"Active"}">
                           <p align="center">
-                            <input class="tab$Data{"Active"}" type="submit" value="$Text{"$Data{"Text"}"}" name="$Data{"Name"}"/>
+                            <input class="tab$QData{"Active"}" type="submit" value="$Text{"$QData{"Text"}"}" name="$QData{"Name"}"/>
                             <img border="0" src="$Config{"Frontend::ImagePath"}$Data{"Image"}">
                           </p>
                         </td>
