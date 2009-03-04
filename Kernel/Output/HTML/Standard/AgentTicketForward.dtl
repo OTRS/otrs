@@ -2,7 +2,7 @@
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.dtl,v 1.30 2009-03-04 10:43:39 tr Exp $
+# $Id: AgentTicketForward.dtl,v 1.31 2009-03-04 13:42:23 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -118,9 +118,7 @@ function FAQSubmit() {
 <!-- dtl:block:TicketBack -->
 <!-- dtl:block:PropertiesLock -->
       <img border="0" src="$Config{"Frontend::ImagePath"}warning.png" alt="$Text{"Info"}">: <font color="red">$Text{"Ticket locked!"}</font>
-      (<a href="$Env{"Baselink"}Action=AgentTicketLock&Subaction=Unlock&TicketID=$QData{"TicketID"}" onmouseover="window.status='$JSText{"Ticket unlock!"}'; return true;" onmouseout="window.status=''; ">
-      $Text{"Ticket unlock!"}
-      </a>)
+      (<a href="$Env{"Baselink"}Action=AgentTicketLock&Subaction=Unlock&TicketID=$QData{"TicketID"}" onmouseover="window.status='$JSText{"Ticket unlock!"}'; return true;" onmouseout="window.status=''; ">$Text{"Ticket unlock!"}</a>)
 <!-- dtl:block:PropertiesLock -->
     </td>
   </tr>
