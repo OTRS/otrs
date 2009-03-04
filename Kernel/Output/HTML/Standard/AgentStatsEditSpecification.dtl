@@ -2,7 +2,7 @@
 # AgentStatsEditSpecification.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsEditSpecification.dtl,v 1.6 2009-02-16 11:07:25 tr Exp $
+# $Id: AgentStatsEditSpecification.dtl,v 1.7 2009-03-04 10:17:29 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,16 +21,9 @@
         $Env{"Box0"}$Text{"Edit"}: $Text{"$Config{"Stats::StatsHook"}"} $QData{"StatNumber"}$Env{"Box1"}
       </td>
     </tr>
-#    <tr>
-#      <td class="menu">
-#        <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=View&StatID=$QData{"StatID"}" class="menuitem">
-#        $Text{"View"}
-#        </a>
-#      </td>
-#    </tr>
     <tr>
       <td class="mainbody" align="center">
-        <img border="0" src="$Env{"Images"}installer.png" alt="">
+        <img border="0" src="$Config{"Frontend::ImagePath"}installer.png" alt="">
         <br/>
         <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
           <tr>
@@ -59,11 +52,11 @@
                 <tr>
                   <td class="contentkey">
 <!-- dtl:block:RadioButton -->
-                    <input type="radio" name="StatType" value="$Data{"StateType"}"/>
+                    <input type="radio" name="StatType" value="$QData{"StateType"}"/>
                     $Text{"$QData{"Name"}"}:<span class="footnote">*</span>
 <!-- dtl:block:RadioButton -->
 <!-- dtl:block:NoRadioButton -->
-                    <input type="hidden" name="StatType" value="$Data{"StateType"}"/>
+                    <input type="hidden" name="StatType" value="$QData{"StateType"}"/>
                     $Text{"$QData{"Name"}"}:<span class="required">*</span>
 <!-- dtl:block:NoRadioButton -->
                   </td>
@@ -72,7 +65,7 @@
                     $Data{"SelectField"}
 <!-- dtl:block:SelectField -->
 <!-- dtl:block:Selected -->
-                    <input type="hidden" name="$Data{"SelectedKey"}" value="$Data{"Selected"}"/>
+                    <input type="hidden" name="$Data{"SelectedKey"}" value="$QData{"Selected"}"/>
                     $Data{"Selected"}
 <!-- dtl:block:Selected -->
                   </td>

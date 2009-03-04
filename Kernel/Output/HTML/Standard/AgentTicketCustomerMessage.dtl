@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Standard/AgentTicketCustomerMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomerMessage.dtl,v 1.12 2009-02-16 11:07:25 tr Exp $
+# $Id: AgentTicketCustomerMessage.dtl,v 1.13 2009-03-04 10:17:29 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -50,10 +50,10 @@ function SpellCheckSubmit() {
     <td class="mainbody">
       <br/>
       <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
-        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+        <input type="hidden" name="Action"    value="$Env{"Action"}"/>
         <input type="hidden" name="Subaction" value="Store"/>
-        <input type="hidden" name="TicketID" value="$Data{"TicketID"}"/>
-        <input type="hidden" name="FormID" value="$Data{"FormID"}"/>
+        <input type="hidden" name="TicketID"  value="$QData{"TicketID"}"/>
+        <input type="hidden" name="FormID"    value="$QData{"FormID"}"/>
         <table border="0" width="800" align="center" cellspacing="0" cellpadding="4">
           <tr>
             <td colspan="2" class="contenthead">$Text{"Options"}</td>
@@ -71,9 +71,9 @@ function SpellCheckSubmit() {
                   <td class="contentkey">$Text{"Options"}:</td>
                   <td class="contentvalue">
 <!-- dtl:block:SpellCheck -->
-                    $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$JSText{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
+                    $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$JSText{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
 <!-- dtl:block:SpellCheck -->
-                    $Env{"Box0"}<a href="#attachment" onmouseover="window.status='$JsText{"Attachments"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Env{"Images"}attach.png">$Text{"Attachments"}</a>$Env{"Box1"}
+                    $Env{"Box0"}<a href="#attachment" onmouseover="window.status='$JsText{"Attachments"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}attach.png">$Text{"Attachments"}</a>$Env{"Box1"}
                   </td>
                 </tr>
                 <tr>
