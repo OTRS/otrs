@@ -2,7 +2,7 @@
 # AgentCustomerSearch.dtl - provides autocomplete feature for customer search
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentCustomerSearch.dtl,v 1.6 2009-02-16 11:07:25 tr Exp $
+# $Id: AgentCustomerSearch.dtl,v 1.7 2009-03-04 16:41:37 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,23 +10,23 @@
 # --
 
 <!--CSS file (default YUI Sam Skin) -->
-<link type="text/css" rel="stylesheet" href="$Env{"Images"}../../yui/2.6.0/build/autocomplete/assets/skins/sam/autocomplete.css">
+<link type="text/css" rel="stylesheet" href="$Config{"Frontend::ImagePath"}../../yui/2.6.0/build/autocomplete/assets/skins/sam/autocomplete.css">
 
 <!-- Dependencies -->
-<script type="text/javascript" src="$Env{"Images"}../../yui/2.6.0/build/yahoo-dom-event/yahoo-dom-event.js"></script>
-<script type="text/javascript" src="$Env{"Images"}../../yui/2.6.0/build/datasource/datasource-min.js"></script>
+<script type="text/javascript" src="$Config{"Frontend::ImagePath"}../../yui/2.6.0/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="$Config{"Frontend::ImagePath"}../../yui/2.6.0/build/datasource/datasource-min.js"></script>
 
 <!-- OPTIONAL: Connection (required only if using XHRDataSource) -->
-<script type="text/javascript" src="$Env{"Images"}../../yui/2.6.0/build/connection/connection-min.js"></script>
+<script type="text/javascript" src="$Config{"Frontend::ImagePath"}../../yui/2.6.0/build/connection/connection-min.js"></script>
 
 <!-- OPTIONAL: Animation (required only if enabling animation) -->
-<script type="text/javascript" src="$Env{"Images"}../../yui/2.6.0/build/animation/animation-min.js"></script>
+<script type="text/javascript" src="$Config{"Frontend::ImagePath"}../../yui/2.6.0/build/animation/animation-min.js"></script>
 
 <!-- OPTIONAL: JSON (enables JSON validation) -->
-<script type="text/javascript" src="$Env{"Images"}../../yui/2.6.0/build/json/json-min.js"></script>
+<script type="text/javascript" src="$Config{"Frontend::ImagePath"}../../yui/2.6.0/build/json/json-min.js"></script>
 
 <!-- Source file -->
-<script type="text/javascript" src="$Env{"Images"}../../yui/2.6.0/build/autocomplete/autocomplete-min.js"></script>
+<script type="text/javascript" src="$Config{"Frontend::ImagePath"}../../yui/2.6.0/build/autocomplete/autocomplete-min.js"></script>
 
 <style type="text/css">
 .myAutoComplete {
