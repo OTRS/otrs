@@ -2,7 +2,7 @@
 # AgentStatsEditValueSeries.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsEditValueSeries.dtl,v 1.9 2009-02-16 11:07:25 tr Exp $
+# $Id: AgentStatsEditValueSeries.dtl,v 1.10 2009-03-04 10:54:57 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,7 +30,7 @@
 #    </tr>
     <tr>
       <td class="mainbody" align="center">
-        <img border="0" src="$Env{"Images"}installer2.png" alt="">
+        <img border="0" src="$Config{"Frontend::ImagePath"}installer2.png" alt="">
         <br/>
         <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
           <tr>
