@@ -2,7 +2,7 @@
 # AdminRoleForm.dtl - provides HTML form for AdminRole
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminRoleForm.dtl,v 1.11 2009-02-16 11:07:25 tr Exp $
+# $Id: AdminRoleForm.dtl,v 1.12 2009-03-04 16:34:46 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -75,9 +75,9 @@
 <!-- dtl:block:OverviewResult -->
 <!-- dtl:block:OverviewUpdate -->
       <form action="$Env{"CGIHandle"}" method="post">
-        <input type="hidden" name="Action" value="$Env{"Action"}"/>
+        <input type="hidden" name="Action"    value="$Env{"Action"}"/>
         <input type="hidden" name="Subaction" value="$LQData{"Action"}Action"/>
-        <input type="hidden" name="ID" value="$Data{"ID"}"/>
+        <input type="hidden" name="ID"        value="$QData{"ID"}"/>
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">
