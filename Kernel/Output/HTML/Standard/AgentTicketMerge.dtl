@@ -2,7 +2,7 @@
 # AgentTicketMerge.dtl - provides HTML form for ticket merge mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.dtl,v 1.14 2009-03-02 23:58:12 martin Exp $
+# $Id: AgentTicketMerge.dtl,v 1.15 2009-03-04 09:53:22 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -37,7 +37,10 @@ function submit_compose() {
       <a href="$Env{"Baselink"}$Env{"LastScreenView"}" onmouseover="window.status='$JSText{"Back"}'; return true;" onmouseout="window.status='';" class="menuitem">$Text{"Back"}</a>
 <!-- dtl:block:TicketBack -->
 <!-- dtl:block:PropertiesLock -->
-      <img border="0" src="$Config{"Frontend::ImagePath"}warning.png" alt="$Text{"Info"}">: <font color="red">$Text{"Ticket locked!"}</font> (<a href="$Env{"Baselink"}Action=AgentTicketLock&Subaction=Unlock&TicketID=$Data{"TicketID"}" onmouseover="window.status='$JSText{"Ticket unlock!"}'; return true;" onmouseout="window.status=''; ">$Text{"Ticket unlock!"}</a>)
+      <img border="0" src="$Config{"Frontend::ImagePath"}warning.png" alt="$Text{"Info"}">: <font color="red">$Text{"Ticket locked!"}</font>
+      (<a href="$Env{"Baselink"}Action=AgentTicketLock&Subaction=Unlock&TicketID=$Data{"TicketID"}" onmouseover="window.status='$JSText{"Ticket unlock!"}'; return true;" onmouseout="window.status=''; ">
+      $Text{"Ticket unlock!"}
+      </a>)
 <!-- dtl:block:PropertiesLock -->
     </td>
   </tr>
@@ -45,9 +48,9 @@ function submit_compose() {
     <td class="mainbody">
       <br/>
       <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
-        <input type="hidden" name="Action" value="AgentTicketMerge"/>
+        <input type="hidden" name="Action"    value="AgentTicketMerge"/>
         <input type="hidden" name="Subaction" value="Merge"/>
-        <input type="hidden" name="TicketID" value="$Data{"TicketID"}"/>
+        <input type="hidden" name="TicketID"  value="$QData{"TicketID"}"/>
         <table border="0" width="800" align="center" cellspacing="0" cellpadding="4">
           <tr>
             <td colspan="2" class="contenthead">$Text{"Options"}</td>
