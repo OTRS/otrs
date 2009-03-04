@@ -2,7 +2,7 @@
 # AdminGroupForm.dtl - provides HTML form for AdminGroup
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGroupForm.dtl,v 1.24 2009-02-16 11:07:25 tr Exp $
+# $Id: AdminGroupForm.dtl,v 1.25 2009-03-04 18:51:12 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -102,8 +102,8 @@ function AdminGroupCheck() {
 <!-- dtl:block:OverviewUpdate -->
       <form action="$Env{"CGIHandle"}" method="post" name="GroupUpdate">
         <input type="hidden" name="Action"    value="$Env{"Action"}"/>
-        <input type="hidden" name="Subaction" value="$LQData{"Action"}Action"/>
-        <input type="hidden" name="ID"        value="$Data{"ID"}"/>
+        <input type="hidden" name="Subaction" value="$QData{"Action"}Action"/>
+        <input type="hidden" name="ID"        value="$QData{"ID"}"/>
         <input type="hidden" name="NameOld"   value="$QData{"Name"}"/>
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>

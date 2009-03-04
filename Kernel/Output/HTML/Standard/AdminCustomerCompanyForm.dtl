@@ -2,7 +2,7 @@
 # AdminCustomerCompanyForm.dtl - provides HTML form for AdminCustomerCompany
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminCustomerCompanyForm.dtl,v 1.7 2009-02-16 11:07:25 tr Exp $
+# $Id: AdminCustomerCompanyForm.dtl,v 1.8 2009-03-04 18:51:12 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,6 @@
   </tr>
   <tr>
     <td width="30%" class="mainbody">
-
       <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="$Env{"Action"}"/>
         <input type="hidden" name="Subaction" value=""/>
@@ -43,9 +42,7 @@
           </tr>
         </table>
       </form>
-
       <br/>
-
       <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="$Env{"Action"}"/>
         <input type="hidden" name="Subaction" value="Add"/>
@@ -65,7 +62,6 @@
           </tr>
         </table>
       </form>
-
     </td>
     <td width="70%" class="mainbody">
 <!-- dtl:block:OverviewResult -->
@@ -107,8 +103,8 @@
 <!-- dtl:block:OverviewUpdate -->
       <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="$Env{"Action"}"/>
-        <input type="hidden" name="Subaction" value="$LQData{"Action"}Action"/>
-        <input type="hidden" name="CustomerCompanyID" value="$Data{"CustomerCompanyID"}"/>
+        <input type="hidden" name="Subaction" value="$QData{"Action"}Action"/>
+        <input type="hidden" name="CustomerCompanyID" value="$QData{"CustomerCompanyID"}"/>
         <table width="100%" cellspacing="0" cellpadding="4">
           <tr>
             <td class="contenthead">

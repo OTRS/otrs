@@ -2,7 +2,7 @@
 # Installer.dtl - provides HTML form for Installer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Installer.dtl,v 1.21 2009-03-02 23:50:07 martin Exp $
+# $Id: Installer.dtl,v 1.22 2009-03-04 18:47:58 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -955,7 +955,7 @@ $Include{"AJAX"}
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Default Charset"}:</td>
-                  <td class="contentvalue"><input type="text" name="DefaultCharset" value="$Data{"DefaultCharset"}" size="30"/></td>
+                  <td class="contentvalue"><input type="text" name="DefaultCharset" value="$QData{"DefaultCharset"}" size="30"/></td>
                   <td class="contentvalue">$Text{"Use utf-8 it your database supports it!"}</td>
                 </tr>
                 <tr>
