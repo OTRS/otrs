@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.57 2009-03-03 17:05:49 martin Exp $
+# $Id: Header.dtl,v 1.58 2009-03-04 11:09:22 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -31,7 +31,7 @@ $Include{"Copyright"}
   <meta http-equiv="refresh" content="$QData{"Refresh"}"/>
 <!-- dtl:block:MetaHttpEquivRefresh -->
 <!-- dtl:block:MetaLink -->
-  <link rel="$QData{"Rel"}" type="$QData{"Type"}" title="$Data{"Title"}" href="$Data{"Href"}"/>
+  <link rel="$QData{"Rel"}" type="$QData{"Type"}" title="$QData{"Title"}" href="$Data{"Href"}"/>
 <!-- dtl:block:MetaLink -->
   <link rel="shortcut icon" href="$Config{"Frontend::ImagePath"}product.ico" type="image/ico"/>
 # include css file

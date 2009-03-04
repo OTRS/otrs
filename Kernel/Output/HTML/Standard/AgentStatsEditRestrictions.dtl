@@ -2,7 +2,7 @@
 # AgentStatsEditRestrictions.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsEditRestrictions.dtl,v 1.9 2009-02-16 11:07:25 tr Exp $
+# $Id: AgentStatsEditRestrictions.dtl,v 1.10 2009-03-04 11:09:22 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,16 +21,9 @@
         $Env{"Box0"}$Text{"Edit"}: $Text{"$Config{"Stats::StatsHook"}"} $QData{"StatNumber"}$Env{"Box1"}
       </td>
     </tr>
-#    <tr>
-#      <td class="menu">
-#        <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=View&StatID=$QData{"StatID"}" class="menuitem">
-#        $Text{"View"}
-#        </a>
-#      </td>
-#    </tr>
     <tr>
       <td class="mainbody" align="center">
-        <img border="0" src="$Env{"Images"}installer3.png" alt="">
+        <img border="0" src="$Config{"Frontend::ImagePath"}installer3.png" alt="">
         <br/>
         <table border="0" width="700" align="center" cellspacing="0" cellpadding="4">
           <tr>
@@ -115,7 +108,7 @@
                   <td></td>
                   <td valign="middle">
                     &nbsp;&nbsp;
-                    <input type="radio" name="$Data{"Element"}TimeSelect" value="Absolut" $Data{"CheckedAbsolut"}/>
+                    <input type="radio" name="$QData{"Element"}TimeSelect" value="Absolut" $QData{"CheckedAbsolut"}/>
                     $Text{"Absolut Period"}:
                   </td>
                   <td valign="middle">
@@ -126,7 +119,7 @@
                   <td></td>
                   <td valign="middle">
                     &nbsp;&nbsp;
-                    <input type="radio" name="$Data{"Element"}TimeSelect" value="Relativ" $Data{"CheckedRelative"}/>
+                    <input type="radio" name="$QData{"Element"}TimeSelect" value="Relativ" $QData{"CheckedRelative"}/>
                     $Text{"Relative Period"}:
                   </td>
                   <td valign="middle">
