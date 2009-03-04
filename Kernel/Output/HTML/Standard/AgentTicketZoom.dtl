@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.47 2009-03-02 23:58:12 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.48 2009-03-04 18:38:19 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -89,7 +89,7 @@
       </table>
 <!-- dtl:block:Tree -->
       <hr size="2">
-      <a name="$Data{"ArticleID"}"></a>
+      <a name="$QData{"ArticleID"}"></a>
       <table border="0" width="100%" cellspacing="0" cellpadding="1">
         <tr>
           <td width="98%" valign="top">
