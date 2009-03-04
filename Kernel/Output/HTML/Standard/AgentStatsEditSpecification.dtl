@@ -2,7 +2,7 @@
 # AgentStatsEditSpecification.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsEditSpecification.dtl,v 1.7 2009-03-04 10:17:29 tr Exp $
+# $Id: AgentStatsEditSpecification.dtl,v 1.8 2009-03-04 10:18:58 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -65,7 +65,7 @@
                     $Data{"SelectField"}
 <!-- dtl:block:SelectField -->
 <!-- dtl:block:Selected -->
-                    <input type="hidden" name="$Data{"SelectedKey"}" value="$QData{"Selected"}"/>
+                    <input type="hidden" name="$QData{"SelectedKey"}" value="$QData{"Selected"}"/>
                     $Data{"Selected"}
 <!-- dtl:block:Selected -->
                   </td>
