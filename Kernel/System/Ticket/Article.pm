@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.201 2009-03-05 13:13:02 martin Exp $
+# $Id: Article.pm,v 1.202 2009-03-05 13:14:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.201 $) [1];
+$VERSION = qw($Revision: 1.202 $) [1];
 
 =head1 NAME
 
@@ -953,7 +953,7 @@ sub ArticleTypeList {
             . "valid_id IN (${\(join ', ', $Self->{ValidObject}->ValidIDsGet())})",
     );
     my @Array;
-    my @Hash;
+    my %Hash;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         if ( $Param{Type} && $Param{Type} eq 'Customer' ) {
             if ( $Row[1] !~ /int/i ) {
@@ -3324,6 +3324,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.201 $ $Date: 2009-03-05 13:13:02 $
+$Revision: 1.202 $ $Date: 2009-03-05 13:14:28 $
 
 =cut
