@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.365 2009-02-20 12:11:41 mh Exp $
+# $Id: Ticket.pm,v 1.366 2009-03-05 13:36:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.365 $) [1];
+$VERSION = qw($Revision: 1.366 $) [1];
 
 =head1 NAME
 
@@ -1835,6 +1835,17 @@ sub TicketServiceSet {
     return 1;
 }
 
+=item TicketEscalationPreferences()
+
+get escalation preferences of a ticket (e. g. from SLA or from Queue based settings)
+
+    my %Escalation = $TicketObject->TicketEscalationPreferences(
+        Ticket => $Param{Ticket},
+        UserID => $Param{UserID},
+    );
+
+=cut
+
 sub TicketEscalationPreferences {
     my ( $Self, %Param ) = @_;
 
@@ -1868,6 +1879,25 @@ sub TicketEscalationPreferences {
 
     return %Escalation;
 }
+
+=item TicketEscalationDateCalculation()
+
+get escalation date of a ticket
+
+it returnes
+
+    EscalationDestinationIn (escalation in e. g. 1h 4m)
+    EscalationDestinationTime (date of escalation in unix time, e. g. 72193292)
+    EscalationDestinationDate (date of escalation, e. g. "2009-02-14 18:00:00")
+    EscalationTimeWorkingTime (seconds of working/service time till escalation, e. g. "1800")
+    EscalationTime            (seconds total till escalation, e. g. "3600")
+
+    my %Escalation = $TicketObject->TicketEscalationDateCalculation(
+        Ticket => $Param{Ticket},
+        UserID => $Param{UserID},
+    );
+
+=cut
 
 sub TicketEscalationDateCalculation {
     my ( $Self, %Param ) = @_;
@@ -1983,6 +2013,17 @@ sub TicketEscalationDateCalculation {
 
     return %Data;
 }
+
+=item TicketEscalationIndexBuild()
+
+build escalation index of one ticket with current settings (SLA, Queue, Calendar...)
+
+    my $Success = $TicketObject->TicketEscalationIndexBuild(
+        Ticket => $Param{Ticket},
+        UserID => $Param{UserID},
+    );
+
+=cut
 
 sub TicketEscalationIndexBuild {
     my ( $Self, %Param ) = @_;
@@ -6976,6 +7017,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.365 $ $Date: 2009-02-20 12:11:41 $
+$Revision: 1.366 $ $Date: 2009-03-05 13:36:49 $
 
 =cut
