@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSignature.pm - to add/update/delete system addresses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSignature.pm,v 1.30 2009-02-17 23:37:11 martin Exp $
+# $Id: AdminSignature.pm,v 1.31 2009-03-05 12:46:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Signature;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -205,19 +205,6 @@ sub _Edit {
         Name       => 'ValidID',
         SelectedID => $Param{ValidID},
     );
-    $Param{QueueOption} = $Self->{LayoutObject}->AgentQueueListOption(
-        Data => {
-            $Self->{DBObject}->GetTableData(
-                What  => 'id, name',
-                Table => 'queue',
-                Valid => 1,
-                )
-        },
-        Name           => 'QueueID',
-        SelectedID     => $Param{QueueID},
-        OnChangeSubmit => 0,
-    );
-
     $Self->{LayoutObject}->Block(
         Name => 'OverviewUpdate',
         Data => \%Param,
