@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.22 2009-02-17 23:51:31 martin Exp $
+# $Id: AgentTicketBulk.pm,v 1.23 2009-03-05 13:13:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -334,11 +334,7 @@ sub _Mask {
     # build ArticleTypeID string
     my %DefaultNoteTypes
         = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::AgentTicketNote')->{ArticleTypes} };
-    my %NoteTypes = $Self->{DBObject}->GetTableData(
-        Table => 'article_type',
-        Valid => 1,
-        What  => 'id, name',
-    );
+    my %NoteTypes = $Self->{TicketObject}->ArticleTypeList( Result => 'HASH' );
     for ( keys %NoteTypes ) {
         if ( !$DefaultNoteTypes{ $NoteTypes{$_} } ) {
             delete $NoteTypes{$_};

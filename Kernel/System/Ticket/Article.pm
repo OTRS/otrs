@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.200 2009-02-24 14:00:47 ub Exp $
+# $Id: Article.pm,v 1.201 2009-03-05 13:13:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.200 $) [1];
+$VERSION = qw($Revision: 1.201 $) [1];
 
 =head1 NAME
 
@@ -925,11 +925,14 @@ sub ArticleTypeLookup {
 
 get a article type list
 
-    my @ArticleTypeList = $TicketObject->ArticleTypeList();
+    my @ArticleTypeList = $TicketObject->ArticleTypeList(
+        Result => 'ARRAY', # optional, ARRAY|HASH
+    );
 
     # to get just customer shown article types
-    my @ArticleTypeList = $TicketObject->ArticleTypesList(
-        Type => 'Customer',
+    my @ArticleTypeList = $TicketObject->ArticleTypeList(
+        Result => 'ARRAY',    # optional, ARRAY|HASH
+        Type   => 'Customer', # optional to get only customer viewable article types
     );
 
 =cut
@@ -945,23 +948,28 @@ sub ArticleTypeList {
         }
     }
 
-    my @List = ();
     $Self->{DBObject}->Prepare(
         SQL => "SELECT id, name FROM article_type WHERE "
             . "valid_id IN (${\(join ', ', $Self->{ValidObject}->ValidIDsGet())})",
     );
+    my @Array;
+    my @Hash;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         if ( $Param{Type} && $Param{Type} eq 'Customer' ) {
             if ( $Row[1] !~ /int/i ) {
-                push @List, $Row[1];
+                push @Array, $Row[1];
+                $Hash{ $Row[0] } = $Row[1];
             }
         }
         else {
-            push @List, $Row[1];
+            push @Array, $Row[1];
+            $Hash{ $Row[0] } = $Row[1];
         }
     }
-    return @List;
-
+    if ( $Param{Result} && $Param{Result} eq 'HASH' ) {
+        return %Hash;
+    }
+    return @Array;
 }
 
 =item ArticleFreeTextGet()
@@ -3272,16 +3280,18 @@ get plain message/email
 write an article attachemnt to storage
 
     $TicketObject->ArticleWriteAttachment(
-        Content     => $ContentAsString,
-        ContentType => 'text/html; charset="iso-8859-15"',
-        Filename    => 'lala.html',
-        ArticleID   => 123,
-        UserID      => 123,
+        Content            => $ContentAsString,
+        ContentType        => 'text/html; charset="iso-8859-15"',
+        Filename           => 'lala.html',
+        ContentID          => 'cid-1234', # optional
+        ContentAlternative => 0,          # optional, alternative content to shown as body
+        ArticleID          => 123,
+        UserID             => 123,
     );
 
 =item ArticleAttachmentIndex()
 
-get article attachment index as hash (ID => hashref (Filename, Filesize))
+get article attachment index as hash (ID => hashref (Filename, Filesize, ContentID (if exists), ContentAlternative(if exists) ))
 
     my %Index = $TicketObject->ArticleAttachmentIndex(
         ArticleID => 123,
@@ -3290,7 +3300,7 @@ get article attachment index as hash (ID => hashref (Filename, Filesize))
 
 =item ArticleAttachment()
 
-get article attachment (Content, ContentType, Filename)
+get article attachment (Content, ContentType, Filename and optional ContentID, ContentAlternative)
 
     my %Attachment = $TicketObject->ArticleAttachment(
         ArticleID => 123,
@@ -3314,6 +3324,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.200 $ $Date: 2009-02-24 14:00:47 $
+$Revision: 1.201 $ $Date: 2009-03-05 13:13:02 $
 
 =cut

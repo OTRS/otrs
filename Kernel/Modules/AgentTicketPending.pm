@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPending.pm - set ticket to pending
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPending.pm,v 1.52 2009-02-17 23:51:31 martin Exp $
+# $Id: AgentTicketPending.pm,v 1.53 2009-03-05 13:13:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1097,11 +1097,7 @@ sub _Mask {
 
         # get possible notes
         my %DefaultNoteTypes = %{ $Self->{Config}->{ArticleTypes} };
-        my %NoteTypes        = $Self->{DBObject}->GetTableData(
-            Table => 'article_type',
-            Valid => 1,
-            What  => 'id, name'
-        );
+        my %NoteTypes        = $Self->{TicketObject}->ArticleTypeList( Result => 'HASH' );
         for ( keys %NoteTypes ) {
             if ( !$DefaultNoteTypes{ $NoteTypes{$_} } ) {
                 delete $NoteTypes{$_};
