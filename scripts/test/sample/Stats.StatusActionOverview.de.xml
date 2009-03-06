@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-
+<!--                                                                           -->
+<!-- OTRS: Copyright 2001-2009, OTRS Project. This Software is under the AGPL. -->
+<!--          Web: http://otrs.org/ - Lists: http://lists.otrs.org/            -->
+<!--  GNU AFFERO General Public License: http://www.gnu.org/licenses/agpl.txt  -->
+<!--                                                                           -->
 <otrs_stats>
 <Cache>1</Cache>
 <Description>Monatsauflistung, in der dargestellt wird, welche Statusveraenderung an den jeweiligen Monatstagen geschehen sind.</Description>
