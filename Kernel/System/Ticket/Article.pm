@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.202 2009-03-05 13:14:28 martin Exp $
+# $Id: Article.pm,v 1.203 2009-03-06 16:25:32 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Mail::Internet;
 use Kernel::System::StdAttachment;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.202 $) [1];
+$VERSION = qw($Revision: 1.203 $) [1];
 
 =head1 NAME
 
@@ -769,6 +769,45 @@ sub ArticleGetContentPath {
 
     # return
     return $Self->{$CacheKey};
+}
+
+=item ArticleSenderTypeList()
+
+get a article sender type list
+
+    my @ArticleSenderTypeList = $TicketObject->ArticleSenderTypeList(
+        Result => 'ARRAY', # optional, ARRAY|HASH
+    );
+
+=cut
+
+sub ArticleSenderTypeList {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw()) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    $Self->{DBObject}->Prepare(
+        SQL => "SELECT id, name FROM article_sender_type WHERE "
+            . "valid_id IN (${\(join ', ', $Self->{ValidObject}->ValidIDsGet())})",
+    );
+
+    my @Array = ();
+    my %Hash;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        push @Array, $Row[1];
+        $Hash{ $Row[0] } = $Row[1];
+    }
+    if ( $Param{Result} && $Param{Result} eq 'HASH' ) {
+        return %Hash;
+    }
+    return @Array;
+
 }
 
 =item ArticleSenderTypeLookup()
@@ -3324,6 +3363,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.202 $ $Date: 2009-03-05 13:14:28 $
+$Revision: 1.203 $ $Date: 2009-03-06 16:25:32 $
 
 =cut
