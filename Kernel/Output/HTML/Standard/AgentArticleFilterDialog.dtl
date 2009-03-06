@@ -1,0 +1,162 @@
+# --
+# AgentArticleFilterDialog.dtl - provides a dialog to filter articles
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# --
+# $Id: AgentArticleFilterDialog.dtl,v 1.1 2009-03-06 16:39:51 ub Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<!-- Sam Skin CSS -->
+<link rel="stylesheet" type="text/css" href="$Config{"Frontend::ImagePath"}../../yui/2.6.0/build/container/assets/skins/sam/container.css">
+
+#<!-- OPTIONAL: You only need the YUI Button CSS if you're including YUI Button, mentioned below. -->
+#<link rel="stylesheet" type="text/css" href="$Config{"Frontend::ImagePath"}../../yui/2.6.0/build/button/assets/skins/sam/button.css">
+
+<!-- Dependencies -->
+<script type="text/javascript" src="$Config{"Frontend::ImagePath"}../../yui/2.6.0/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+
+<!-- OPTIONAL: Animation (only required if using ContainerEffect) -->
+<script type="text/javascript" src="$Config{"Frontend::ImagePath"}../../yui/2.6.0/build/animation/animation-min.js"></script>
+
+<!-- OPTIONAL: Connection (only required if using asynchronous form submission) -->
+<script type="text/javascript" src="$Config{"Frontend::ImagePath"}../../yui/2.6.0/build/connection/connection-min.js"></script>
+
+#<!-- OPTIONAL: Drag & Drop (only required if enabling Drag & Drop) -->
+<script type="text/javascript" src="$Config{"Frontend::ImagePath"}../../yui/2.6.0/build/dragdrop/dragdrop-min.js"></script>
+
+<!-- OPTIONAL: YUI Button (these 2 files only required if you want SimpleDialog to use YUI Buttons, instead of HTML Buttons) -->
+#<script type="text/javascript" src="$Config{"Frontend::ImagePath"}../../yui/2.6.0/build/element/element-beta-min.js"></script>
+#<script type="text/javascript" src="$Config{"Frontend::ImagePath"}../../yui/2.6.0/build/button/button-min.js"></script>
+
+<!-- Source file -->
+<script type="text/javascript" src="$Config{"Frontend::ImagePath"}../../yui/2.6.0/build/container/container-min.js"></script>
+
+<!-- filter dialog form-->
+<div id="ArticleFilterDialog" style="visibility:collapse">
+    <div class="hd">$Text{"Article filter settings"}</div>
+    <div class="bd">
+        <form method="POST" name="ArticleFilterDialogForm" action="$Env{"CGIHandle"}">
+            <input type="hidden" value="AgentTicketZoom" name="Action"/>
+            <input type="hidden" value="ArticleFilterSet" name="Subaction"/>
+            <input type="hidden" value="$QData{"TicketID"}" name="TicketID"/>
+            <table>
+              <tr>
+                <td align="left" valign="top">
+                  <label for="ArticleTypeFilter"><b>$Text{"Article"} $Text{"Type"}:</b></label>
+                  $Data{"ArticleTypeFilterString"}
+                </td>
+                <td align="left" valign="top">
+                  <label for="ArticleSenderTypeFilter"><b>$Text{"Article"} $Text{"Sender"} $Text{"Type"}:</b></label>
+                  $Data{"ArticleSenderTypeFilterString"}
+                </td>
+              </tr>
+              <tr>
+                <td align="left" colspan="2">
+                  <br/>
+                  <label for="check">$Text{"Save filter settings as default"}:</label>
+                  <input type="checkbox" name="SaveDefaults" value="1" />
+                </td>
+              </tr>
+            </table>
+        </form>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+(function() {
+
+    var Dom = YAHOO.util.Dom,
+        Event = YAHOO.util.Event;
+
+    Event.onDOMReady(function() {
+
+        // add yui css to body tag
+        document.body.className = "yui-skin-sam";
+
+         // Define various event handlers for Dialog
+        var handleReset = function() {
+            document.ArticleFilterDialogForm.ArticleTypeFilter.selectedIndex = -1;
+            document.ArticleFilterDialogForm.ArticleSenderTypeFilter.selectedIndex = -1;
+        };
+        var handleSubmit = function() {
+            this.submit();
+        };
+        var handleCancel = function() {
+            this.cancel();
+        };
+        var handleSuccess = function(o) {
+
+            // debug
+            // alert("Your data was successfully submitted. The response was: " + o.responseText);
+
+            // get the url from the location bar
+            var url = window.location.href;
+
+            // remove page anchor at the end of the url
+            url = url.replace( /#\d+$/, "" );
+
+            // reload the page
+            window.location.href = url;
+        }
+        var handleFailure = function(o) {
+            // debug
+            // alert("Your submission failed. Status: " + o.status);
+        }
+
+        // Instantiate the Dialog
+        var ArticleFilterDialog = new YAHOO.widget.Dialog("ArticleFilterDialog", {
+            width : "25em",
+            fixedcenter : true,
+            visible : false,
+            constraintoviewport : true,
+            modal : true,
+            draggable : false,
+            postmethod : "async",
+            effect: {
+                effect:YAHOO.widget.ContainerEffect.FADE,
+                duration:0.25
+            },
+            buttons : [
+                { text:"$Text{"Reset"}",  handler:handleReset  },
+                { text:"$Text{"Save"}",   handler:handleSubmit }
+            ]
+        });
+
+        // Wire up the success and failure handlers
+        ArticleFilterDialog.callback = {
+            success: handleSuccess,
+            failure: handleFailure
+        };
+
+        // Render the dialog
+        ArticleFilterDialog.render();
+
+        // Add event listener to show dialog
+        YAHOO.util.Event.addListener("SetArticleFilter", "click", ArticleFilterDialog.show, ArticleFilterDialog, true);
+
+        // function to delete filter settings from session
+        function ResetFilterSettings () {
+
+            var url = "$Env{"CGIHandle"}";
+            var postdata = "Action=AgentTicketZoom"
+                         + "&Subaction=ArticleFilterSet"
+                         + "&TicketID=$QData{"TicketID"}";
+
+            var callback = {
+                success: handleSuccess,
+                failure: handleFailure
+            };
+            var request = YAHOO.util.Connect.asyncRequest( 'POST', url, callback, postdata );
+        }
+
+        // Add event listener to reset filter settings
+        YAHOO.util.Event.addListener("ResetArticleFilter", "click", ResetFilterSettings );
+
+    });
+})();
+</script>

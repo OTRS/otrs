@@ -2,12 +2,16 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.48 2009-03-04 18:38:19 tr Exp $
+# $Id: AgentTicketZoom.dtl,v 1.49 2009-03-06 16:42:04 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
+<!-- dtl:block:ArticleFilterDialog -->
+$Include{"AgentArticleFilterDialog"}
+<!-- dtl:block:ArticleFilterDialog -->
 
 <!-- dtl:block:Header -->
 <!-- start ticket head $Data{"TicketNumber"} -->
@@ -51,9 +55,19 @@
 <!-- dtl:block:Body -->
   <tr>
     <td rowspan="2" valign="top" width="75%" class="mainbody">
-
 <!-- dtl:block:Tree -->
       <table border="0" width="100%" cellspacing="0" cellpadding="1">
+<!-- dtl:block:ArticleFilterDialogLink -->
+        <tr>
+          <td class="$QData{"HighlightStyle"}">
+            $Text{"Article"} $Text{"Filter"}:
+            <a href="" id="SetArticleFilter" onclick="return false;">$Text{"Set"}</a>
+<!-- dtl:block:ArticleFilterResetLink -->
+            <a href="" id="ResetArticleFilter" onclick="return false;">$Text{"Reset"}</a>
+<!-- dtl:block:ArticleFilterResetLink -->
+          </td>
+        </tr>
+<!-- dtl:block:ArticleFilterDialogLink -->
         <tr>
           <td>
             <table border="0" width="100%" cellspacing="0" cellpadding="1">
