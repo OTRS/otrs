@@ -1,8 +1,8 @@
 // --
-// AJAX.dtl - provides AJAX functions
+// otrs.js - provides AJAX functions
 // Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: otrs.js,v 1.1 2009-03-02 23:45:25 martin Exp $
+// $Id: otrs.js,v 1.2 2009-03-06 20:33:20 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -140,5 +140,9 @@ function AJAXLoadingImagePreload (FieldName) {
         ImagePreload.src = FieldName[F];
     }
 }
-AJAXLoadingImagePreload( [OTRS.ConfigGet('Images') + 'loading.gif'] );
+
+// init
+function AJAXInit () {
+    AJAXLoadingImagePreload( [OTRS.ConfigGet('Images') + 'loading.gif'] );
+}
 
