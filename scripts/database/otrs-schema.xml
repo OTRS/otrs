@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <database Name="otrs">
-
-<!--
-
-    XML File for the OTRS database description
-    Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
-
-    $Id: otrs-schema.xml,v 1.99 2009-02-26 11:10:53 tr Exp $
-
--->
+<!--                                                                           -->
+<!-- OTRS: Copyright 2001-2009, OTRS Project. This Software is under the AGPL. -->
+<!--          Web: http://otrs.org/ - Lists: http://lists.otrs.org/            -->
+<!--  GNU AFFERO General Public License: http://www.gnu.org/licenses/agpl.txt  -->
+<!--                                                                           -->
+<!-- $Id: otrs-schema.xml,v 1.100 2009-03-06 13:06:49 tr Exp $          -->
 
 <!-- valid - all valid stats -->
 <Table Name="valid">
