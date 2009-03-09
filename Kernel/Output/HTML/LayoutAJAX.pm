@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutAJAX.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutAJAX.pm,v 1.19 2009-02-16 11:16:22 tr Exp $
+# $Id: LayoutAJAX.pm,v 1.20 2009-03-09 13:14:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 =item JSON()
 
@@ -89,15 +89,15 @@ build a JSON output js witch can be used for e. g. data for pull downs
 
     my $JSON = $LayoutObject->BuildJSON(
         [
-            Data => $ArrayRef,           # use $HashRef, $ArrayRef or $ArrayHashRef (see below)
-            Name => 'TheName',           # name of element
-            SelectedID => [1, 5, 3],     # (optional) use integer or arrayref (unable to use with ArrayHashRef)
-            SelectedValue => 'test',     # (optional) use string or arrayref (unable to use with ArrayHashRef)
-            Sort => 'NumericValue',      # (optional) (AlphanumericValue|NumericValue|AlphanumericKey|NumericKey|TreeView) unable to use with ArrayHashRef
-            SortReverse => 0,            # (optional) reverse the list
-            Translation => 1,            # (optional) default 1 (0|1) translate value
-            PossibleNone => 0,           # (optional) default 0 (0|1) add a leading empty selection
-            Max => 100,                  # (optional) default 100 max size of the shown value
+            Data          => $ArrayRef,      # use $HashRef, $ArrayRef or $ArrayHashRef (see below)
+            Name          => 'TheName',      # name of element
+            SelectedID    => [1, 5, 3],      # (optional) use integer or arrayref (unable to use with ArrayHashRef)
+            SelectedValue => 'test',         # (optional) use string or arrayref (unable to use with ArrayHashRef)
+            Sort          => 'NumericValue', # (optional) (AlphanumericValue|NumericValue|AlphanumericKey|NumericKey|TreeView) unable to use with ArrayHashRef
+            SortReverse   => 0,              # (optional) reverse the list
+            Translation   => 1,              # (optional) default 1 (0|1) translate value
+            PossibleNone  => 0,              # (optional) default 0 (0|1) add a leading empty selection
+            Max => 100,                      # (optional) default 100 max size of the shown value
         ],
         [
             # ...
@@ -173,11 +173,11 @@ sub _BuildJSONOutput {
                 $String .= ',';
             }
             my $Key = '';
-            if ( defined( $Row->{Key} ) ) {
+            if ( defined $Row->{Key} ) {
                 $Key = $Row->{Key};
             }
             my $Value = '';
-            if ( defined( $Row->{Value} ) ) {
+            if ( defined $Row->{Value} ) {
                 $Value = $Row->{Value};
             }
             my $SelectedDisabled = 'false';

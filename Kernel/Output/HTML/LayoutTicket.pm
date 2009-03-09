@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.39 2009-02-16 11:16:22 tr Exp $
+# $Id: LayoutTicket.pm,v 1.40 2009-03-09 13:14:36 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -278,7 +278,7 @@ sub AgentQueueListOption {
         = '<select name="' . $Param{Name} . "\" $Size $Multiple $OnChangeSubmit>\n";
     my %UsedData = ();
     my %Data     = ();
-    if ( $Param{Data} && ref( $Param{Data} ) eq 'HASH' ) {
+    if ( $Param{Data} && ref $Param{Data} eq 'HASH' ) {
         %Data = %{ $Param{Data} };
     }
     else {
@@ -377,7 +377,7 @@ sub AgentFreeText {
     for ( 1 .. 16 ) {
 
         # key
-        if ( ref( $Config{"TicketFreeKey$_"} ) eq 'HASH' && %{ $Config{"TicketFreeKey$_"} } ) {
+        if ( ref $Config{"TicketFreeKey$_"} eq 'HASH' && %{ $Config{"TicketFreeKey$_"} } ) {
             my $Counter = 0;
             my $LastKey = '';
             for ( keys %{ $Config{"TicketFreeKey$_"} } ) {
@@ -412,8 +412,8 @@ sub AgentFreeText {
             }
         }
         else {
-            if ( defined( $Ticket{"TicketFreeKey$_"} ) ) {
-                if ( ref( $Ticket{"TicketFreeKey$_"} ) eq 'ARRAY' ) {
+            if ( defined $Ticket{"TicketFreeKey$_"} ) {
+                if ( ref $Ticket{"TicketFreeKey$_"} eq 'ARRAY' ) {
                     if ( $Ticket{"TicketFreeKey$_"}->[0] ) {
                         $Ticket{"TicketFreeKey$_"} = $Ticket{"TicketFreeKey$_"}->[0];
                     }
@@ -435,7 +435,7 @@ sub AgentFreeText {
         }
 
         # value
-        if ( ref( $Config{"TicketFreeText$_"} ) eq 'HASH' ) {
+        if ( ref $Config{"TicketFreeText$_"} eq 'HASH' ) {
             $Data{"TicketFreeTextField$_"} = $Self->OptionStrgHashRef(
                 Data => { %NullOption, %{ $Config{"TicketFreeText$_"} }, },
                 Name => "TicketFreeText$_",
@@ -447,8 +447,8 @@ sub AgentFreeText {
             );
         }
         else {
-            if ( defined( $Ticket{"TicketFreeText$_"} ) ) {
-                if ( ref( $Ticket{"TicketFreeText$_"} ) eq 'ARRAY' ) {
+            if ( defined $Ticket{"TicketFreeText$_"} ) {
+                if ( ref $Ticket{"TicketFreeText$_"} eq 'ARRAY' ) {
                     if ( $Ticket{"TicketFreeText$_"}->[0] ) {
                         $Ticket{"TicketFreeText$_"} = $Ticket{"TicketFreeText$_"}->[0];
                     }
@@ -533,7 +533,7 @@ sub TicketArticleFreeText {
     for ( 1 .. 3 ) {
 
         # key
-        if ( ref( $Config{"ArticleFreeKey$_"} ) eq 'HASH' && %{ $Config{"ArticleFreeKey$_"} } ) {
+        if ( ref $Config{"ArticleFreeKey$_"} eq 'HASH' && %{ $Config{"ArticleFreeKey$_"} } ) {
             my $Counter = 0;
             my $LastKey = '';
             for ( keys %{ $Config{"ArticleFreeKey$_"} } ) {
@@ -568,8 +568,8 @@ sub TicketArticleFreeText {
             }
         }
         else {
-            if ( defined( $Article{"ArticleFreeKey$_"} ) ) {
-                if ( ref( $Article{"ArticleFreeKey$_"} ) eq 'ARRAY' ) {
+            if ( defined $Article{"ArticleFreeKey$_"} ) {
+                if ( ref $Article{"ArticleFreeKey$_"} eq 'ARRAY' ) {
                     if ( $Article{"ArticleFreeKey$_"}->[0] ) {
                         $Article{"ArticleFreeKey$_"} = $Article{"ArticleFreeKey$_"}->[0];
                     }
@@ -591,7 +591,7 @@ sub TicketArticleFreeText {
         }
 
         # value
-        if ( ref( $Config{"ArticleFreeText$_"} ) eq 'HASH' ) {
+        if ( ref $Config{"ArticleFreeText$_"} eq 'HASH' ) {
             $Data{"ArticleFreeTextField$_"} = $Self->OptionStrgHashRef(
                 Data => { %NullOption, %{ $Config{"ArticleFreeText$_"} }, },
                 Name => "ArticleFreeText$_",
@@ -603,8 +603,8 @@ sub TicketArticleFreeText {
             );
         }
         else {
-            if ( defined( $Article{"ArticleFreeText$_"} ) ) {
-                if ( ref( $Article{"ArticleFreeText$_"} ) eq 'ARRAY' ) {
+            if ( defined $Article{"ArticleFreeText$_"} ) {
+                if ( ref $Article{"ArticleFreeText$_"} eq 'ARRAY' ) {
                     if ( $Article{"ArticleFreeText$_"}->[0] ) {
                         $Article{"ArticleFreeText$_"} = $Article{"ArticleFreeText$_"}->[0];
                     }
@@ -716,7 +716,7 @@ sub TicketListShow {
         $StartHit = ( ( $Pages - 1 ) * $PageShown ) + 1;
     }
 
-    my $Limit = $Param{Limit} || 10_000;
+    my $Limit = $Param{Limit} || 20_000;
     my %PageNav = $Param{Env}->{LayoutObject}->PageNavBar(
         Limit     => $Limit,
         StartHit  => $StartHit,
@@ -800,7 +800,7 @@ sub TicketListShow {
                 %{ $Backends->{$Backend} },
                 Filter => $Param{Filter},
                 View   => $Backend,
-                }
+            },
         );
         if ( $View eq $Backend ) {
             $Param{Env}->{LayoutObject}->Block(
@@ -810,7 +810,7 @@ sub TicketListShow {
                     %{ $Backends->{$Backend} },
                     Filter => $Param{Filter},
                     View   => $Backend,
-                    }
+                },
             );
         }
         else {
@@ -821,7 +821,7 @@ sub TicketListShow {
                     %{ $Backends->{$Backend} },
                     Filter => $Param{Filter},
                     View   => $Backend,
-                    }
+                },
             );
         }
     }
