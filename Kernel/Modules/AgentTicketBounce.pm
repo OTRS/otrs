@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.pm,v 1.21 2009-02-20 12:04:29 mh Exp $
+# $Id: AgentTicketBounce.pm,v 1.22 2009-03-09 13:09:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,10 +17,11 @@ use warnings;
 use Kernel::System::State;
 use Kernel::System::SystemAddress;
 use Kernel::System::CustomerUser;
+use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -140,12 +141,6 @@ sub Run {
         # get article data
         my %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Self->{ArticleID}, );
 
-        # prepare subject ...
-        $Article{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
-            TicketNumber => $Article{TicketNumber},
-            Subject => $Article{Subject} || '',
-        );
-
         # prepare to (ReplyTo!) ...
         if ( $Article{ReplyTo} ) {
             $Article{To} = $Article{ReplyTo};
@@ -154,111 +149,22 @@ sub Run {
             $Article{To} = $Article{From};
         }
 
-        # get customer data
-        my %Customer = ();
-        if ( $Ticket{CustomerUserID} ) {
-            %Customer = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                User => $Ticket{CustomerUserID},
-            );
-        }
-
         # prepare salutation
-        $Param{Salutation} = $Self->{QueueObject}->GetSalutation(%Article);
+        my $TemplateGenerator = Kernel::System::TemplateGenerator->new( %{$Self} );
+        $Param{Salutation} = $TemplateGenerator->Salutation(
+            TicketID   => $Self->{TicketID},
+            ArticleID  => $Self->{ArticleID},
+            Data       => \%Param,
+            UserID     => $Self->{UserID},
+        );
 
         # prepare signature
-        $Param{Signature} = $Self->{QueueObject}->GetSignature(%Article);
-        for (qw(Signature Salutation)) {
-
-            # get and prepare realname
-            if ( $Param{$_} =~ /<OTRS_CUSTOMER_REALNAME>/ ) {
-                my $From = '';
-                if ( $Ticket{CustomerUserID} ) {
-                    $From = $Self->{CustomerUserObject}->CustomerName(
-                        UserLogin => $Ticket{CustomerUserID},
-                    );
-                }
-                if ( !$From ) {
-                    $From = $Article{From} || '';
-                    $From =~ s/<.*>|\(.*\)|\"|;|,//g;
-                    $From =~ s/( $)|(  $)//g;
-                }
-                $Param{$_} =~ s/<OTRS_CUSTOMER_REALNAME>/$From/g;
-            }
-
-            # current user
-            my %User = $Self->{UserObject}->GetUserData(
-                UserID => $Self->{UserID},
-                Cached => 1,
-            );
-            for my $UserKey ( keys %User ) {
-                if ( $User{$UserKey} ) {
-                    $Param{$_} =~ s/<OTRS_Agent_$UserKey>/$User{$UserKey}/gi;
-                    $Param{$_} =~ s/<OTRS_CURRENT_$UserKey>/$User{$UserKey}/gi;
-                }
-            }
-
-            # replace other needed stuff
-            $Param{$_} =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
-            $Param{$_} =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
-
-            # cleanup
-            $Param{$_} =~ s/<OTRS_Agent_.+?>/-/gi;
-            $Param{$_} =~ s/<OTRS_CURRENT_.+?>/-/gi;
-
-            # owner user
-            my %OwnerUser = $Self->{UserObject}->GetUserData(
-                UserID => $Ticket{OwnerID},
-                Cached => 1,
-            );
-            for my $UserKey ( keys %OwnerUser ) {
-                if ( $OwnerUser{$UserKey} ) {
-                    $Param{$_} =~ s/<OTRS_OWNER_$UserKey>/$OwnerUser{$UserKey}/gi;
-                }
-            }
-
-            # cleanup
-            $Param{$_} =~ s/<OTRS_OWNER_.+?>/-/gi;
-
-            # responsible user
-            my %ResponsibleUser = $Self->{UserObject}->GetUserData(
-                UserID => $Ticket{ResponsibleID},
-                Cached => 1,
-            );
-            for my $UserKey ( keys %ResponsibleUser ) {
-                if ( $ResponsibleUser{$UserKey} ) {
-                    $Param{$_} =~ s/<OTRS_RESPONSIBLE_$UserKey>/$ResponsibleUser{$UserKey}/gi;
-                }
-            }
-
-            # cleanup
-            $Param{$_} =~ s/<OTRS_RESPONSIBLE_.+?>/-/gi;
-
-            # replace ticket data
-            for my $Key ( keys %Ticket ) {
-                if ( $Ticket{$Key} ) {
-                    $Param{$_} =~ s/<OTRS_TICKET_$Key>/$Ticket{$Key}/gi;
-                }
-            }
-
-            # cleanup all not needed <OTRS_TICKET_ tags
-            $Param{$_} =~ s/<OTRS_TICKET_.+?>/-/gi;
-
-            # replace customer data
-            for my $CustomerKey ( keys %Customer ) {
-                if ( $Customer{$CustomerKey} ) {
-                    $Param{$_} =~ s/<OTRS_CUSTOMER_$CustomerKey>/$Customer{$CustomerKey}/gi;
-                    $Param{$_} =~ s/<OTRS_CUSTOMER_DATA_$CustomerKey>/$Customer{$CustomerKey}/gi;
-                }
-            }
-
-            # cleanup all not needed <OTRS_CUSTOMER_ tags
-            $Param{$_} =~ s/<OTRS_CUSTOMER_.+?>/-/gi;
-            $Param{$_} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
-
-            # replace config options
-            $Param{$_} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
-            $Param{$_} =~ s/<OTRS_CONFIG_.+?>/-/gi;
-        }
+        $Param{Signature} = $TemplateGenerator->Signature(
+            TicketID   => $Self->{TicketID},
+            ArticleID  => $Self->{ArticleID},
+            Data       => \%Param,
+            UserID     => $Self->{UserID},
+        );
 
         # prepare body ...
         $Article{Body} =~ s/\n/\n> /g;
@@ -269,11 +175,13 @@ sub Run {
             $Article{Body} .= $Body[$_] . "\n" if ( $Body[$_] );
         }
 
-        # prepare from ...
-        my %Address = $Self->{QueueObject}->GetSystemAddress( QueueID => $Article{QueueID}, );
-        $Article{From}     = "$Address{RealName} <$Address{Email}>";
-        $Article{Email}    = $Address{Email};
-        $Article{RealName} = $Address{RealName};
+        # put & get attributes like sender address
+        %Article = $TemplateGenerator->Attributes(
+            TicketID   => $Self->{TicketID},
+            ArticleID  => $Self->{ArticleID},
+            Data       => \%Article,
+            UserID     => $Self->{UserID},
+        );
 
         # get next states
         my %NextStates = $Self->{TicketObject}->StateList(
@@ -318,7 +226,7 @@ sub Run {
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
         # get params
-        for (qw(BounceTo To Subject Body InformSender BounceStateID)) {
+        for (qw(From BounceTo To Subject Body InformSender BounceStateID)) {
             $Param{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
         }
 
@@ -336,16 +244,12 @@ sub Run {
             }
         }
 
-        # prepare from ...
-        my %Address = $Self->{QueueObject}->GetSystemAddress( QueueID => $Ticket{QueueID}, );
-        $Param{From}  = "$Address{RealName} <$Address{Email}>";
-        $Param{Email} = $Address{Email};
         my $Bounce = $Self->{TicketObject}->ArticleBounce(
             TicketID    => $Self->{TicketID},
             ArticleID   => $Self->{ArticleID},
             UserID      => $Self->{UserID},
             To          => $Param{BounceTo},
-            From        => $Param{Email},
+            From        => $Param{From},
             HistoryType => 'Bounce',
         );
 

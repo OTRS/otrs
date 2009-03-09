@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.48 2009-02-16 11:20:53 tr Exp $
+# $Id: AgentTicketCompose.pm,v 1.49 2009-03-09 13:09:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,10 +20,11 @@ use Kernel::System::State;
 use Kernel::System::CustomerUser;
 use Kernel::System::Web::UploadCache;
 use Kernel::System::SystemAddress;
+use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -48,17 +49,6 @@ sub new {
     $Self->{StateObject}         = Kernel::System::State->new(%Param);
     $Self->{UploadCachObject}    = Kernel::System::Web::UploadCache->new(%Param);
     $Self->{SystemAddress}       = Kernel::System::SystemAddress->new(%Param);
-
-    # get response format
-    $Self->{ResponseFormat} = $Self->{ConfigObject}->Get('Ticket::Frontend::ResponseFormat')
-        || '$Data{"Salutation"}
-$Data{"OrigFrom"} $Text{"wrote"}:
-$Data{"Body"}
-
-$Data{"StdResponse"}
-
-$Data{"Signature"}
-';
 
     # get form id
     $Self->{FormID} = $Self->{ParamObject}->GetParam( Param => 'FormID' );
@@ -569,8 +559,9 @@ sub Run {
         }
 
         # get all attachments meta data
-        my @Attachments
-            = $Self->{UploadCachObject}->FormIDGetAllFilesMeta( FormID => $Self->{FormID} );
+        my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
+            FormID => $Self->{FormID},
+        );
 
         # get last customer article or selecte article ...
         my %Data = ();
@@ -616,8 +607,8 @@ sub Run {
         }
 
         # check if original content isn't text/plain or text/html, don't use it
-        if ( $Data{'ContentType'} ) {
-            if ( $Data{'ContentType'} =~ /text\/html/i ) {
+        if ( $Data{ContentType} ) {
+            if ( $Data{ContentType} =~ /text\/html/i ) {
                 $Data{Body} =~ s/\<.+?\>//gs;
             }
             elsif ( $Data{'ContentType'} !~ /text\/plain/i ) {
@@ -648,10 +639,6 @@ sub Run {
                 $Data{Body} .= "\n---- End Message ---\n";
             }
         }
-        $Data{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
-            TicketNumber => $Ticket{TicketNumber},
-            Subject => $Data{Subject} || '',
-        );
 
         # check if Cc recipients should be used
         if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ComposeExcludeCcRecipients') ) {
@@ -737,109 +724,40 @@ sub Run {
             }
         }
 
-        # find queue address
-        my %Address = $Self->{QueueObject}->GetSystemAddress(%Ticket);
-        $Data{From}        = "$Address{RealName} <$Address{Email}>";
-        $Data{Email}       = $Address{Email};
-        $Data{RealName}    = $Address{RealName};
-        $Data{StdResponse} = $Self->{QueueObject}->GetStdResponse( ID => $GetParam{ResponseID} );
+        # get template
+        my $TemplateGenerator = Kernel::System::TemplateGenerator->new( %{$Self} );
+        my %Response = $TemplateGenerator->Response(
+            TicketID   => $Self->{TicketID},
+            ArticleID  => $GetParam{ArticleID},
+            ResponseID => $GetParam{ResponseID},
+            Data       => \%Data,
+            UserID     => $Self->{UserID},
+        );
+        $Data{Salutation}  = $Response{Salutation};
+        $Data{Signature}   = $Response{Signature};
+        $Data{StdResponse} = $Response{StdResponse};
 
-        # prepare salutation & signature
-        $Data{Salutation} = $Self->{QueueObject}->GetSalutation(%Ticket);
-        $Data{Signature}  = $Self->{QueueObject}->GetSignature(%Ticket);
-        for (qw(Signature Salutation StdResponse)) {
+        %Data = $TemplateGenerator->Attributes(
+            TicketID   => $Self->{TicketID},
+            ArticleID  => $GetParam{ArticleID},
+            ResponseID => $GetParam{ResponseID},
+            Data       => \%Data,
+            UserID     => $Self->{UserID},
+        );
 
-            # get and prepare realname
-            if ( $Data{$_} =~ /<OTRS_CUSTOMER_REALNAME>/ ) {
-                my $From = '';
-                if ( $Ticket{CustomerUserID} ) {
-                    $From = $Self->{CustomerUserObject}->CustomerName(
-                        UserLogin => $Ticket{CustomerUserID}
-                    );
-                }
-                if ( !$From ) {
-                    $From = $Data{To} || '';
-                    $From =~ s/<.*>|\(.*\)|\"|;|,//g;
-                    $From =~ s/( $)|(  $)//g;
-                }
-                $Data{$_} =~ s/<OTRS_CUSTOMER_REALNAME>/$From/g;
-            }
+        my $ResponseFormat = $Self->{ConfigObject}->Get('Ticket::Frontend::ResponseFormat')
+            || '$QData{"Salutation"}
+$QData{"OrigFrom"} $Text{"wrote"}:
+$QData{"Body"}
 
-            # current user
-            my %User = $Self->{UserObject}->GetUserData(
-                UserID => $Self->{UserID},
-                Cached => 1,
-            );
-            for my $UserKey ( keys %User ) {
-                if ( $User{$UserKey} ) {
-                    $Data{$_} =~ s/<OTRS_Agent_$UserKey>/$User{$UserKey}/gi;
-                    $Data{$_} =~ s/<OTRS_CURRENT_$UserKey>/$User{$UserKey}/gi;
-                }
-            }
+$QData{"StdResponse"}
 
-            # replace other needed stuff
-            $Data{$_} =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
-            $Data{$_} =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
-
-            # cleanup
-            $Data{$_} =~ s/<OTRS_Agent_.+?>/-/gi;
-            $Data{$_} =~ s/<OTRS_CURRENT_.+?>/-/gi;
-
-            # owner user
-            my %OwnerUser = $Self->{UserObject}->GetUserData(
-                UserID => $Ticket{OwnerID},
-                Cached => 1,
-            );
-            for my $UserKey ( keys %OwnerUser ) {
-                if ( $OwnerUser{$UserKey} ) {
-                    $Data{$_} =~ s/<OTRS_OWNER_$UserKey>/$OwnerUser{$UserKey}/gi;
-                }
-            }
-
-            # cleanup
-            $Data{$_} =~ s/<OTRS_OWNER_.+?>/-/gi;
-
-            # responsible user
-            my %ResponsibleUser = $Self->{UserObject}->GetUserData(
-                UserID => $Ticket{ResponsibleID},
-                Cached => 1,
-            );
-            for my $UserKey ( keys %ResponsibleUser ) {
-                if ( $ResponsibleUser{$UserKey} ) {
-                    $Data{$_} =~ s/<OTRS_RESPONSIBLE_$UserKey>/$ResponsibleUser{$UserKey}/gi;
-                }
-            }
-
-            # cleanup
-            $Data{$_} =~ s/<OTRS_RESPONSIBLE_.+?>/-/gi;
-
-            # replace other needed stuff
-            # replace ticket data
-            for my $TicketKey ( keys %Ticket ) {
-                if ( $Ticket{$TicketKey} ) {
-                    $Data{$_} =~ s/<OTRS_TICKET_$TicketKey>/$Ticket{$TicketKey}/gi;
-                }
-            }
-
-            # cleanup all not needed <OTRS_TICKET_ tags
-            $Data{$_} =~ s/<OTRS_TICKET_.+?>/-/gi;
-
-            # replace customer data
-            for my $CustomerKey ( keys %Customer ) {
-                if ( $Customer{$CustomerKey} ) {
-                    $Data{$_} =~ s/<OTRS_CUSTOMER_$CustomerKey>/$Customer{$CustomerKey}/gi;
-                    $Data{$_} =~ s/<OTRS_CUSTOMER_DATA_$CustomerKey>/$Customer{$CustomerKey}/gi;
-                }
-            }
-
-            # cleanup all not needed <OTRS_CUSTOMER_ tags
-            $Data{$_} =~ s/<OTRS_CUSTOMER_.+?>/-/gi;
-            $Data{$_} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
-
-            # replace config options
-            $Data{$_} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
-            $Data{$_} =~ s/<OTRS_CONFIG_.+?>/-/gi;
-        }
+$QData{"Signature"}
+';
+        $Data{ResponseFormat} = $Self->{LayoutObject}->Output(
+            Template => $ResponseFormat,
+            Data     => { %Param, %Data },
+        );
 
         # check some values
         for (qw(From To Cc Bcc)) {
@@ -876,30 +794,31 @@ sub Run {
         # free time
         my %TicketFreeTime = ();
         for ( 1 .. 6 ) {
-            $TicketFreeTime{ "TicketFreeTime" . $_ . 'Optional' }
+            $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Optional' }
                 = $Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) || 0;
-            $TicketFreeTime{ "TicketFreeTime" . $_ . 'Used' }
+            $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Used' }
                 = $GetParam{ 'TicketFreeTime' . $_ . 'Used' };
 
-            if ( $Ticket{ "TicketFreeTime" . $_ } ) {
+            if ( $Ticket{ 'TicketFreeTime' . $_ } ) {
                 (
-                    $TicketFreeTime{ "TicketFreeTime" . $_ . 'Secunde' },
-                    $TicketFreeTime{ "TicketFreeTime" . $_ . 'Minute' },
-                    $TicketFreeTime{ "TicketFreeTime" . $_ . 'Hour' },
-                    $TicketFreeTime{ "TicketFreeTime" . $_ . 'Day' },
-                    $TicketFreeTime{ "TicketFreeTime" . $_ . 'Month' },
-                    $TicketFreeTime{ "TicketFreeTime" . $_ . 'Year' }
+                    $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Secunde' },
+                    $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Minute' },
+                    $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Hour' },
+                    $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Day' },
+                    $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Month' },
+                    $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Year' }
                     )
                     = $Self->{TimeObject}->SystemTime2Date(
                     SystemTime => $Self->{TimeObject}->TimeStamp2SystemTime(
-                        String => $Ticket{ "TicketFreeTime" . $_ },
+                        String => $Ticket{ 'TicketFreeTime' . $_ },
                     ),
                     );
-                $TicketFreeTime{ "TicketFreeTime" . $_ . 'Used' } = 1;
+                $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Used' } = 1;
             }
         }
-        my %TicketFreeTimeHTML
-            = $Self->{LayoutObject}->AgentFreeDate( Ticket => \%TicketFreeTime, );
+        my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate(
+            Ticket => \%TicketFreeTime,
+        );
 
         # article free text
         my %ArticleFreeText = ();
@@ -926,7 +845,6 @@ sub Run {
         $Output .= $Self->_Mask(
             TicketID       => $Self->{TicketID},
             NextStates     => $Self->_GetNextStates(),
-            ResponseFormat => $Self->{ResponseFormat},
             Attachments    => \@Attachments,
             Errors         => \%Error,
             GetParam       => \%GetParam,
@@ -964,7 +882,7 @@ sub _Mask {
     if ( !$Self->{Config}->{StateDefault} ) {
         $Param{NextStates}->{''} = '-';
     }
-    $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{NextStatesStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data     => $Param{NextStates},
         Name     => 'StateID',
         Selected => $Param{NextState} || $Self->{Config}->{StateDefault},
@@ -1005,31 +923,29 @@ sub _Mask {
         for my $Job ( sort keys %Jobs ) {
 
             # load module
-            if ( $Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
-                my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug}, );
-
-                # get params
-                for ( sort keys %{ $Param{GetParam} } ) {
-                    if ( !$Param{GetParam}->{$_} && $Param{$_} ) {
-                        $Param{GetParam}->{$_} = $Param{$_};
-                    }
-                }
-                for ( $Object->Option( %Param, %{ $Param{GetParam} }, Config => $Jobs{$Job} ) ) {
-                    $Param{GetParam}->{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
-                }
-
-                # run module
-                $Object->Run( %Param, %{ $Param{GetParam} }, Config => $Jobs{$Job} );
-
-                # get errors
-                %{ $Param{Errors} } = (
-                    %{ $Param{Errors} },
-                    $Object->Error( %{ $Param{GetParam} }, Config => $Jobs{$Job} )
-                );
-            }
-            else {
+            if ( !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
                 return $Self->{LayoutObject}->FatalError();
             }
+            my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug}, );
+
+            # get params
+            for ( sort keys %{ $Param{GetParam} } ) {
+                if ( !$Param{GetParam}->{$_} && $Param{$_} ) {
+                    $Param{GetParam}->{$_} = $Param{$_};
+                }
+            }
+            for ( $Object->Option( %Param, %{ $Param{GetParam} }, Config => $Jobs{$Job} ) ) {
+                $Param{GetParam}->{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
+            }
+
+            # run module
+            $Object->Run( %Param, %{ $Param{GetParam} }, Config => $Jobs{$Job} );
+
+            # get errors
+            %{ $Param{Errors} } = (
+                %{ $Param{Errors} },
+                $Object->Error( %{ $Param{GetParam} }, Config => $Jobs{$Job} )
+            );
         }
     }
 

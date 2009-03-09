@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.34 2009-02-17 23:51:31 martin Exp $
+# $Id: AgentTicketForward.pm,v 1.35 2009-03-09 13:09:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,10 +19,11 @@ use Kernel::System::State;
 use Kernel::System::SystemAddress;
 use Kernel::System::CustomerUser;
 use Kernel::System::Web::UploadCache;
+use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -59,7 +60,7 @@ sub new {
         )
     {
         my $Value = $Self->{ParamObject}->GetParam( Param => $_ );
-        if ( defined($Value) ) {
+        if ( defined $Value ) {
             $Self->{GetParam}->{$_} = $Value;
         }
     }
@@ -160,7 +161,7 @@ sub Form {
             if ( !$AccessOk ) {
                 my $Output = $Self->{LayoutObject}->Header();
                 $Output .= $Self->{LayoutObject}->Warning(
-                    Message => "Sorry, you need to be the owner to do this action!",
+                    Message => 'Sorry, you need to be the owner to do this action!',
                     Comment => 'Please change the owner first.',
                 );
                 $Output .= $Self->{LayoutObject}->Footer();
@@ -176,7 +177,7 @@ sub Form {
     }
 
     # get last customer article or selecte article ...
-    my %Data = ();
+    my %Data;
     if ( $GetParam{ArticleID} ) {
         %Data = $Self->{TicketObject}->ArticleGet( ArticleID => $GetParam{ArticleID}, );
     }
@@ -198,121 +199,34 @@ sub Form {
     }
 
     # get all attachments meta data
-    my @Attachments
-        = $Self->{UploadCachObject}->FormIDGetAllFilesMeta( FormID => $GetParam{FormID}, );
-
-    # get customer data
-    my %Customer = ();
-    if ( $Ticket{CustomerUserID} ) {
-        %Customer
-            = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $Ticket{CustomerUserID}, );
-    }
+    my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
+        FormID => $GetParam{FormID},
+    );
 
     # prepare salutation
-    $Data{Salutation} = $Self->{QueueObject}->GetSalutation(%Ticket);
+    my $TemplateGenerator = Kernel::System::TemplateGenerator->new( %{$Self} );
+    $Data{Salutation} = $TemplateGenerator->Salutation(
+        TicketID   => $Self->{TicketID},
+        ArticleID  => $Data{ArticleID},
+        Data       => \%Data,
+        UserID     => $Self->{UserID},
+    );
 
     # prepare signature
-    $Data{Signature} = $Self->{QueueObject}->GetSignature(%Ticket);
-    for (qw(Signature Salutation)) {
-
-        # get and prepare realname
-        if ( $Data{$_} =~ /<OTRS_CUSTOMER_REALNAME>/ ) {
-            my $From = '';
-            if ( $Ticket{CustomerUserID} ) {
-                $From = $Self->{CustomerUserObject}->CustomerName(
-                    UserLogin => $Ticket{CustomerUserID}
-                );
-            }
-            if ( !$From ) {
-                $From = $Data{OrigFrom} || '';
-                $From =~ s/<.*>|\(.*\)|\"|;|,//g;
-                $From =~ s/( $)|(  $)//g;
-            }
-            $Data{$_} =~ s/<OTRS_CUSTOMER_REALNAME>/$From/g;
-        }
-
-        # current user
-        my %User = $Self->{UserObject}->GetUserData(
-            UserID => $Self->{UserID},
-            Cached => 1,
-        );
-        for my $UserKey ( keys %User ) {
-            if ( $User{$UserKey} ) {
-                $Data{$_} =~ s/<OTRS_Agent_$UserKey>/$User{$UserKey}/gi;
-                $Data{$_} =~ s/<OTRS_CURRENT_$UserKey>/$User{$UserKey}/gi;
-            }
-        }
-
-        # replace other needed stuff
-        $Data{$_} =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
-        $Data{$_} =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
-
-        # cleanup
-        $Data{$_} =~ s/<OTRS_Agent_.+?>/-/gi;
-        $Data{$_} =~ s/<OTRS_CURRENT_.+?>/-/gi;
-
-        # owner user
-        my %OwnerUser = $Self->{UserObject}->GetUserData(
-            UserID => $Ticket{OwnerID},
-            Cached => 1,
-        );
-        for my $UserKey ( keys %OwnerUser ) {
-            if ( $OwnerUser{$UserKey} ) {
-                $Data{$_} =~ s/<OTRS_OWNER_$UserKey>/$OwnerUser{$UserKey}/gi;
-            }
-        }
-
-        # cleanup
-        $Data{$_} =~ s/<OTRS_OWNER_.+?>/-/gi;
-
-        # responsible user
-        my %ResponsibleUser = $Self->{UserObject}->GetUserData(
-            UserID => $Ticket{ResponsibleID},
-            Cached => 1,
-        );
-        for my $UserKey ( keys %ResponsibleUser ) {
-            if ( $ResponsibleUser{$UserKey} ) {
-                $Data{$_} =~ s/<OTRS_RESPONSIBLE_$UserKey>/$ResponsibleUser{$UserKey}/gi;
-            }
-        }
-
-        # cleanup
-        $Data{$_} =~ s/<OTRS_RESPONSIBLE_.+?>/-/gi;
-
-        # replace ticket data
-        for my $TicketKey ( keys %Ticket ) {
-            if ( $Ticket{$TicketKey} ) {
-                $Data{$_} =~ s/<OTRS_TICKET_$TicketKey>/$Ticket{$TicketKey}/gi;
-            }
-        }
-
-        # cleanup all not needed <OTRS_TICKET_ tags
-        $Data{$_} =~ s/<OTRS_TICKET_.+?>/-/gi;
-
-        # replace customer data
-        for my $CustomerKey ( keys %Customer ) {
-            if ( $Customer{$CustomerKey} ) {
-                $Data{$_} =~ s/<OTRS_CUSTOMER_$CustomerKey>/$Customer{$CustomerKey}/gi;
-                $Data{$_} =~ s/<OTRS_CUSTOMER_DATA_$CustomerKey>/$Customer{$CustomerKey}/gi;
-            }
-        }
-
-        # cleanup all not needed <OTRS_CUSTOMER_ tags
-        $Data{$_} =~ s/<OTRS_CUSTOMER_.+?>/-/gi;
-        $Data{$_} =~ s/<OTRS_CUSTOMER_DATA.+?>/-/gi;
-
-        # replace config options
-        $Data{$_} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
-        $Data{$_} =~ s/<OTRS_CONFIG_.+?>/-/gi;
-    }
+    $Data{Signature} = $TemplateGenerator->Signature(
+        TicketID   => $Self->{TicketID},
+        ArticleID  => $Data{ArticleID},
+        Data       => \%Data,
+        UserID     => $Self->{UserID},
+    );
 
     # check if original content isn't text/plain or text/html, don't use it
-    if ( $Data{'ContentType'} ) {
-        if ( $Data{'ContentType'} =~ /text\/html/i ) {
+    if ( $Data{ContentType} ) {
+        if ( $Data{ContentType} =~ /text\/html/i ) {
             $Data{Body} =~ s/\<.+?\>//gs;
         }
-        elsif ( $Data{'ContentType'} !~ /text\/plain/i ) {
-            $Data{Body} = "-> no quotable message <-";
+        elsif ( $Data{ContentType} !~ /text\/plain/i ) {
+            $Data{Body} = '-> no quotable message <-';
         }
     }
 
@@ -337,14 +251,6 @@ sub Form {
     $Data{Body} = "\n---- Forwarded message from $Data{From} ---\n\n" . $Data{Body};
     $Data{Body} .= "\n---- End forwarded message ---\n";
     $Data{Body}    = $Data{Signature} . $Data{Body};
-    $Data{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
-        TicketNumber => $Ticket{TicketNumber},
-        Subject => $Data{Subject} || '',
-    );
-    my %Address = $Self->{QueueObject}->GetSystemAddress(%Ticket);
-    $Data{From}     = "$Address{RealName} <$Address{Email}>";
-    $Data{Email}    = $Address{Email};
-    $Data{RealName} = $Address{RealName};
 
     # check some values
     for (qw(To Cc Bcc)) {
@@ -353,29 +259,36 @@ sub Form {
         }
     }
 
+    # put & get attributes like sender address
+    %Data = $TemplateGenerator->Attributes(
+        TicketID   => $Self->{TicketID},
+        ArticleID  => $GetParam{ArticleID},
+        ResponseID => $GetParam{ResponseID},
+        Data       => \%Data,
+        UserID     => $Self->{UserID},
+    );
+
     # run compose modules
     if ( ref( $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') ) eq 'HASH' ) {
         my %Jobs = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::ArticleComposeModule') };
         for my $Job ( sort keys %Jobs ) {
 
             # load module
-            if ( $Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
-                my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug}, );
-
-                # get params
-                for ( $Object->Option( %Data, %GetParam, Config => $Jobs{$Job} ) ) {
-                    $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
-                }
-
-                # run module
-                $Object->Run( %Data, %GetParam, Config => $Jobs{$Job} );
-
-                # get errors
-                %Error = ( %Error, $Object->Error( %GetParam, Config => $Jobs{$Job} ) );
-            }
-            else {
+            if ( !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
                 return $Self->{LayoutObject}->FatalError();
             }
+            my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug}, );
+
+            # get params
+            for ( $Object->Option( %Data, %GetParam, Config => $Jobs{$Job} ) ) {
+                $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
+            }
+
+            # run module
+            $Object->Run( %Data, %GetParam, Config => $Jobs{$Job} );
+
+            # get errors
+            %Error = ( %Error, $Object->Error( %GetParam, Config => $Jobs{$Job} ) );
         }
     }
 
@@ -410,26 +323,26 @@ sub Form {
     # free time
     my %TicketFreeTime = ();
     for ( 1 .. 6 ) {
-        $TicketFreeTime{ "TicketFreeTime" . $_ . 'Optional' }
+        $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Optional' }
             = $Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) || 0;
-        $TicketFreeTime{ "TicketFreeTime" . $_ . 'Used' }
+        $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Used' }
             = $GetParam{ 'TicketFreeTime' . $_ . 'Used' };
 
-        if ( $Ticket{ "TicketFreeTime" . $_ } ) {
+        if ( $Ticket{ 'TicketFreeTime' . $_ } ) {
             (
-                $TicketFreeTime{ "TicketFreeTime" . $_ . 'Secunde' },
-                $TicketFreeTime{ "TicketFreeTime" . $_ . 'Minute' },
-                $TicketFreeTime{ "TicketFreeTime" . $_ . 'Hour' },
-                $TicketFreeTime{ "TicketFreeTime" . $_ . 'Day' },
-                $TicketFreeTime{ "TicketFreeTime" . $_ . 'Month' },
-                $TicketFreeTime{ "TicketFreeTime" . $_ . 'Year' }
+                $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Secunde' },
+                $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Minute' },
+                $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Hour' },
+                $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Day' },
+                $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Month' },
+                $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Year' }
                 )
                 = $Self->{TimeObject}->SystemTime2Date(
                 SystemTime => $Self->{TimeObject}->TimeStamp2SystemTime(
-                    String => $Ticket{ "TicketFreeTime" . $_ },
+                    String => $Ticket{ 'TicketFreeTime' . $_ },
                 ),
                 );
-            $TicketFreeTime{ "TicketFreeTime" . $_ . 'Used' } = 1;
+            $TicketFreeTime{ 'TicketFreeTime' . $_ . 'Used' } = 1;
         }
     }
     my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate( Ticket => \%TicketFreeTime, );
@@ -470,7 +383,7 @@ sub SendEmail {
     # check pending date
     if ( $StateData{TypeName} && $StateData{TypeName} =~ /^pending/i ) {
         if ( !$Self->{TimeObject}->Date2SystemTime( %GetParam, Second => 0 ) ) {
-            $Error{"Date invalid"} = 'invalid';
+            $Error{'Date invalid'} = 'invalid';
         }
     }
 
@@ -489,7 +402,7 @@ sub SendEmail {
     if ( $GetParam{AttachmentUpload} ) {
         $Error{AttachmentUpload} = 1;
         my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-            Param  => "file_upload",
+            Param  => 'file_upload',
             Source => 'string',
         );
         $Self->{UploadCachObject}->FormIDAddFile(
@@ -499,8 +412,9 @@ sub SendEmail {
     }
 
     # get all attachments meta data
-    my @Attachments
-        = $Self->{UploadCachObject}->FormIDGetAllFilesMeta( FormID => $GetParam{FormID}, );
+    my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
+        FormID => $GetParam{FormID},
+    );
 
     # check some values
     for (qw(From To Cc Bcc)) {
@@ -558,8 +472,8 @@ sub SendEmail {
     # get ticket free time params
     for ( 1 .. 6 ) {
         for my $Type (qw(Used Year Month Day Hour Minute)) {
-            $GetParam{ "TicketFreeTime" . $_ . $Type }
-                = $Self->{ParamObject}->GetParam( Param => "TicketFreeTime" . $_ . $Type );
+            $GetParam{ 'TicketFreeTime' . $_ . $Type }
+                = $Self->{ParamObject}->GetParam( Param => 'TicketFreeTime' . $_ . $Type );
         }
         if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) ) {
             $GetParam{ 'TicketFreeTime' . $_ . 'Used' } = 1;
@@ -597,27 +511,24 @@ sub SendEmail {
         for my $Job ( sort keys %Jobs ) {
 
             # load module
-            if ( $Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
-                my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug}, );
-
-                # get params
-                for ( $Object->Option( %GetParam, Config => $Jobs{$Job} ) ) {
-                    $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
-                }
-
-                # run module
-                $Object->Run( %GetParam, Config => $Jobs{$Job} );
-
-                # ticket params
-                %ArticleParam
-                    = ( %ArticleParam, $Object->ArticleOption( %GetParam, Config => $Jobs{$Job} ) );
-
-                # get errors
-                %Error = ( %Error, $Object->Error( %GetParam, Config => $Jobs{$Job} ) );
-            }
-            else {
+            if ( !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
                 return $Self->{LayoutObject}->FatalError();
             }
+            my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug}, );
+
+            # get params
+            for ( $Object->Option( %GetParam, Config => $Jobs{$Job} ) ) {
+                $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
+            }
+
+            # run module
+            $Object->Run( %GetParam, Config => $Jobs{$Job} );
+
+            # ticket params
+            %ArticleParam = ( %ArticleParam, $Object->ArticleOption( %GetParam, Config => $Jobs{$Job} ) );
+
+            # get errors
+            %Error = ( %Error, $Object->Error( %GetParam, Config => $Jobs{$Job} ) );
         }
     }
 
@@ -656,7 +567,7 @@ sub SendEmail {
         Source => 'String',
     );
     if (%UploadStuff) {
-        push( @AttachmentData, \%UploadStuff );
+        push @AttachmentData, \%UploadStuff;
     }
 
     # send email
@@ -714,29 +625,29 @@ sub SendEmail {
     # set ticket free time
     for ( 1 .. 6 ) {
         if (
-            defined( $GetParam{ "TicketFreeTime" . $_ . "Year" } )
-            && defined( $GetParam{ "TicketFreeTime" . $_ . "Month" } )
-            && defined( $GetParam{ "TicketFreeTime" . $_ . "Day" } )
-            && defined( $GetParam{ "TicketFreeTime" . $_ . "Hour" } )
-            && defined( $GetParam{ "TicketFreeTime" . $_ . "Minute" } )
+            defined( $GetParam{ 'TicketFreeTime' . $_ . 'Year' } )
+            && defined( $GetParam{ 'TicketFreeTime' . $_ . 'Month' } )
+            && defined( $GetParam{ 'TicketFreeTime' . $_ . 'Day' } )
+            && defined( $GetParam{ 'TicketFreeTime' . $_ . 'Hour' } )
+            && defined( $GetParam{ 'TicketFreeTime' . $_ . 'Minute' } )
             )
         {
             my %Time;
-            $Time{ "TicketFreeTime" . $_ . "Year" }    = 0;
-            $Time{ "TicketFreeTime" . $_ . "Month" }   = 0;
-            $Time{ "TicketFreeTime" . $_ . "Day" }     = 0;
-            $Time{ "TicketFreeTime" . $_ . "Hour" }    = 0;
-            $Time{ "TicketFreeTime" . $_ . "Minute" }  = 0;
-            $Time{ "TicketFreeTime" . $_ . "Secunde" } = 0;
+            $Time{ 'TicketFreeTime' . $_ . 'Year' }    = 0;
+            $Time{ 'TicketFreeTime' . $_ . 'Month' }   = 0;
+            $Time{ 'TicketFreeTime' . $_ . 'Day' }     = 0;
+            $Time{ 'TicketFreeTime' . $_ . 'Hour' }    = 0;
+            $Time{ 'TicketFreeTime' . $_ . 'Minute' }  = 0;
+            $Time{ 'TicketFreeTime' . $_ . 'Secunde' } = 0;
 
-            if ( $GetParam{ "TicketFreeTime" . $_ . "Used" } ) {
+            if ( $GetParam{ 'TicketFreeTime' . $_ . 'Used' } ) {
                 %Time = $Self->{LayoutObject}->TransfromDateSelection(
-                    %GetParam, Prefix => "TicketFreeTime" . $_,
+                    %GetParam, Prefix => 'TicketFreeTime' . $_,
                 );
             }
             $Self->{TicketObject}->TicketFreeTimeSet(
                 %Time,
-                Prefix   => "TicketFreeTime",
+                Prefix   => 'TicketFreeTime',
                 TicketID => $Self->{TicketID},
                 Counter  => $_,
                 UserID   => $Self->{UserID},
@@ -812,7 +723,7 @@ sub _Mask {
         $State{SelectedID} = $Param{ComposeStateID};
     }
 
-    $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{NextStatesStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => $Param{NextStates},
         Name => 'ComposeStateID',
         %State,
@@ -823,14 +734,14 @@ sub _Mask {
         $ArticleTypes{ $Self->{TicketObject}->ArticleTypeLookup( ArticleType => $_ ) } = $_;
     }
     if ( $Self->{GetParam}->{ArticleTypeID} ) {
-        $Param{'ArticleTypesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{ArticleTypesStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data       => \%ArticleTypes,
             Name       => 'ArticleTypeID',
             SelectedID => $Self->{GetParam}->{ArticleTypeID},
         );
     }
     else {
-        $Param{'ArticleTypesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{ArticleTypesStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data     => \%ArticleTypes,
             Name     => 'ArticleTypeID',
             Selected => $Self->{Config}->{ArticleTypeDefault},

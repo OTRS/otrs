@@ -2,7 +2,7 @@
 # AgentTicketBounce.dtl - provides HTML form for bounce mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.dtl,v 1.14 2009-03-04 14:43:03 tr Exp $
+# $Id: AgentTicketBounce.dtl,v 1.15 2009-03-09 13:11:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -79,7 +79,7 @@ function submit_bounce() {
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"From"}:</td>
-                  <td class="contentvalue">$QData{"From"}</td>
+                  <td class="contentvalue"><input type="hidden" name="From" value="$QData{"From"}"/>$QData{"From"}</td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"To"}:</td>

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.pm,v 1.25 2009-02-17 23:51:31 martin Exp $
+# $Id: AgentTicketMerge.pm,v 1.26 2009-03-09 13:09:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +15,10 @@ use strict;
 use warnings;
 
 use Kernel::System::CustomerUser;
+use Kernel::System::TemplateGenerator;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -228,126 +229,34 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header( Value => $Ticket{TicketNumber} );
         $Output .= $Self->{LayoutObject}->NavigationBar();
 
-        # get customer data
-        my %Customer = ();
-        if ( $Ticket{CustomerUserID} ) {
-            %Customer = $Self->{CustomerUserObject}->CustomerUserDataGet(
-                User => $Ticket{CustomerUserID},
-            );
-        }
-
-        # prepare subject ...
-        $Article{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
-            TicketNumber => $Ticket{TicketNumber},
-            Subject => $Article{Subject} || '',
+        # prepare salutation
+        my $TemplateGenerator = Kernel::System::TemplateGenerator->new( %{$Self} );
+        $Param{Salutation} = $TemplateGenerator->Salutation(
+            TicketID   => $Self->{TicketID},
+            ArticleID  => $Article{ArticleID},
+            Data       => \%Param,
+            UserID     => $Self->{UserID},
         );
 
-        # prepare from ...
-        my %Address = $Self->{QueueObject}->GetSystemAddress( QueueID => $Ticket{QueueID} );
-        $Article{QueueFrom} = "$Address{RealName} <$Address{Email}>";
-        $Article{Email}     = $Address{Email};
-        $Article{RealName}  = $Address{RealName};
-
-        # prepare salutation
-        $Param{Salutation} = $Self->{QueueObject}->GetSalutation(%Article);
-
         # prepare signature
-        $Param{Signature} = $Self->{QueueObject}->GetSignature(%Article);
-        for (qw(Signature Salutation)) {
+        $Param{Signature} = $TemplateGenerator->Signature(
+            TicketID   => $Self->{TicketID},
+            ArticleID  => $Article{ArticleID},
+            Data       => \%Param,
+            UserID     => $Self->{UserID},
+        );
 
-            # get and prepare realname
-            if ( $Param{$_} =~ /<OTRS_CUSTOMER_REALNAME>/ ) {
-                my $From = '';
-                if ( $Ticket{CustomerUserID} ) {
-                    $From = $Self->{CustomerUserObject}->CustomerName(
-                        UserLogin => $Ticket{CustomerUserID},
-                    );
-                }
-                if ( !$From ) {
-                    $From = $Article{From} || '';
-                    $From =~ s/<.*>|\(.*\)|\"|;|,//g;
-                    $From =~ s/( $)|(  $)//g;
-                }
-                $Param{$_} =~ s/<OTRS_CUSTOMER_REALNAME>/$From/g;
-            }
+        # put & get attributes like sender address
+        %Param = $TemplateGenerator->Attributes(
+            TicketID   => $Self->{TicketID},
+            ArticleID  => $Article{ArticleID},
+            Data       => \%Param,
+            UserID     => $Self->{UserID},
+        );
 
-            # current user
-            my %User = $Self->{UserObject}->GetUserData(
-                UserID => $Self->{UserID},
-                Cached => 1,
-            );
-            for my $UserKey ( keys %User ) {
-                if ( $User{$UserKey} ) {
-                    $Param{$_} =~ s/<OTRS_Agent_$UserKey>/$User{$UserKey}/gi;
-                    $Param{$_} =~ s/<OTRS_CURRENT_$UserKey>/$User{$UserKey}/gi;
-                }
-            }
-
-            # replace other needed stuff
-            $Param{$_} =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
-            $Param{$_} =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
-
-            # cleanup
-            $Param{$_} =~ s/<OTRS_Agent_.+?>/-/gi;
-            $Param{$_} =~ s/<OTRS_CURRENT_.+?>/-/gi;
-
-            # owner user
-            my %OwnerUser = $Self->{UserObject}->GetUserData(
-                UserID => $Ticket{OwnerID},
-                Cached => 1,
-            );
-            for my $UserKey ( keys %OwnerUser ) {
-                if ( $OwnerUser{$UserKey} ) {
-                    $Param{$_} =~ s/<OTRS_OWNER_$UserKey>/$OwnerUser{$UserKey}/gi;
-                }
-            }
-
-            # cleanup
-            $Param{$_} =~ s/<OTRS_OWNER_.+?>/-/gi;
-
-            # responsible user
-            my %ResponsibleUser = $Self->{UserObject}->GetUserData(
-                UserID => $Ticket{ResponsibleID},
-                Cached => 1,
-            );
-            for my $UserKey ( keys %ResponsibleUser ) {
-                if ( $ResponsibleUser{$UserKey} ) {
-                    $Param{$_} =~ s/<OTRS_RESPONSIBLE_$UserKey>/$ResponsibleUser{$UserKey}/gi;
-                }
-            }
-
-            # cleanup
-            $Param{$_} =~ s/<OTRS_RESPONSIBLE_.+?>/-/gi;
-
-            # replace ticket data
-            for my $TicketKey ( keys %Ticket ) {
-                if ( $Ticket{$TicketKey} ) {
-                    $Param{$_} =~ s/<OTRS_TICKET_$TicketKey>/$Ticket{$TicketKey}/gi;
-                }
-            }
-
-            # cleanup all not needed <OTRS_TICKET_ tags
-            $Param{$_} =~ s/<OTRS_TICKET_.+?>/-/gi;
-
-            # replace customer data
-            for my $CustomerKey ( keys %Customer ) {
-                if ( $Customer{$CustomerKey} ) {
-                    $Param{$_} =~ s/<OTRS_CUSTOMER_$CustomerKey>/$Customer{$CustomerKey}/gi;
-                    $Param{$_} =~ s/<OTRS_CUSTOMER_DATA_$CustomerKey>/$Customer{$CustomerKey}/gi;
-                }
-            }
-
-            # cleanup all not needed <OTRS_CUSTOMER_ tags
-            $Param{$_} =~ s/<OTRS_CUSTOMER_.+?>/-/gi;
-            $Param{$_} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
-
-            # replace config options
-            $Param{$_} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
-            $Param{$_} =~ s/<OTRS_CONFIG_.+?>/-/gi;
-        }
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentTicketMerge',
-            Data => { %Param, %Ticket, %Article },
+            Data => { %Param, %Ticket },
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;

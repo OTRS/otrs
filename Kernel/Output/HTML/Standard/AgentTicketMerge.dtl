@@ -2,7 +2,7 @@
 # AgentTicketMerge.dtl - provides HTML form for ticket merge mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.dtl,v 1.16 2009-03-04 13:42:23 tr Exp $
+# $Id: AgentTicketMerge.dtl,v 1.17 2009-03-09 13:09:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -66,11 +66,11 @@ function submit_compose() {
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"From"}:</td>
-                  <td class="contentvalue">$QData{"QueueFrom"}<input type="hidden" name="From" value="$QData{"QueueFrom"}" size="60"/></td>
+                  <td class="contentvalue">$QData{"From"}<input type="hidden" name="From" value="$QData{"From"}" size="60"/></td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"To"}:</td>
-                  <td class="contentvalue"><input type="text" name="To" value="$QData{"From"}" size="60"/></td>
+                  <td class="contentvalue"><input type="text" name="To" value="$QData{"To"}" size="60"/></td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Subject"}:</td>
