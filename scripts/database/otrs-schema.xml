@@ -5,7 +5,7 @@
 <!--          Web: http://otrs.org/ - Lists: http://lists.otrs.org/            -->
 <!--  GNU AFFERO General Public License: http://www.gnu.org/licenses/agpl.txt  -->
 <!--                                                                           -->
-<!-- $Id: otrs-schema.xml,v 1.100 2009-03-06 13:06:49 tr Exp $          -->
+<!-- $Id: otrs-schema.xml,v 1.101 2009-03-09 23:34:47 sb Exp $          -->
 
 <!-- valid - all valid stats -->
 <Table Name="valid">
@@ -354,6 +354,7 @@
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
     <Column Name="name" Required="true" Size="100" Type="VARCHAR"/>
     <Column Name="text" Required="true" Size="3000" Type="VARCHAR"/>
+    <Column Name="content_type" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
@@ -377,6 +378,7 @@
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="SMALLINT"/>
     <Column Name="name" Required="true" Size="100" Type="VARCHAR"/>
     <Column Name="text" Required="true" Size="3000" Type="VARCHAR"/>
+    <Column Name="content_type" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="comments" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
@@ -1060,6 +1062,7 @@
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
     <Column Name="name" Required="true" Size="80" Type="VARCHAR"/>
     <Column Name="text" Required="false" Size="10000" Type="VARCHAR"/>
+    <Column Name="content_type" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="comments" Required="false" Size="100" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
@@ -1176,6 +1179,7 @@
     <Column Name="type_id" Required="true" Type="SMALLINT"/>
     <Column Name="system_address_id" Required="true" Type="SMALLINT"/>
     <Column Name="charset" Required="true" Size="80" Type="VARCHAR"/>
+    <Column Name="content_type" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="comments" Required="false" Size="100" Type="VARCHAR"/>
     <Column Name="valid_id" Required="true" Type="SMALLINT"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
@@ -1588,6 +1592,7 @@
     <Column Name="notification_language" Required="true" Size="60" Type="VARCHAR"/>
     <Column Name="subject" Required="true" Size="200" Type="VARCHAR"/>
     <Column Name="text" Required="true" Size="4000" Type="VARCHAR"/>
+    <Column Name="content_type" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>
     <Column Name="change_time" Required="true" Type="DATE"/>

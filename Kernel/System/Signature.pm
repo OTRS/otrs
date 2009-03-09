@@ -2,7 +2,7 @@
 # Kernel/System/Signature.pm - All signature related function should be here eventually
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Signature.pm,v 1.7 2009-02-16 11:57:40 tr Exp $
+# $Id: Signature.pm,v 1.8 2009-03-09 23:34:47 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 =head1 NAME
 
@@ -86,11 +86,12 @@ sub new {
 add new signatures
 
     my $ID = $SignatureObject->SignatureAdd(
-        Name    => 'New Signature',
-        Text    => "--\nSome Signature Infos",
-        Comment => 'some comment',
-        ValidID => 1,
-        UserID  => 123,
+        Name        => 'New Signature',
+        Text        => "--\nSome Signature Infos",
+        ContentType => 'text/plain; charset=utf-8',
+        Comment     => 'some comment',
+        ValidID     => 1,
+        UserID      => 123,
     );
 
 =cut
@@ -99,7 +100,7 @@ sub SignatureAdd {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Name Text ValidID UserID)) {
+    for (qw(Name Text ContentType ValidID UserID)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
@@ -107,12 +108,12 @@ sub SignatureAdd {
     }
 
     return if !$Self->{DBObject}->Do(
-        SQL => 'INSERT INTO signature (name, text, comments, valid_id, '
+        SQL => 'INSERT INTO signature (name, text, content_type, comments, valid_id, '
             . ' create_time, create_by, change_time, change_by)'
-            . ' VALUES (?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+            . ' VALUES (?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{Name}, \$Param{Text}, \$Param{Comment}, \$Param{ValidID},
-            \$Param{UserID}, \$Param{UserID},
+            \$Param{Name}, \$Param{Text}, \$Param{ContentType}, \$Param{Comment},
+            \$Param{ValidID}, \$Param{UserID}, \$Param{UserID},
         ],
     );
 
@@ -154,20 +155,21 @@ sub SignatureGet {
 
     # sql
     return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT id, name, text, comments, valid_id, change_time, create_time '
+        SQL => 'SELECT id, name, text, content_type, comments, valid_id, change_time, create_time '
             . ' FROM signature WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
     my %Data = ();
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         %Data = (
-            ID         => $Data[0],
-            Name       => $Data[1],
-            Text       => $Data[2],
-            Comment    => $Data[3],
-            ValidID    => $Data[4],
-            ChangeTime => $Data[5],
-            CreateTime => $Data[6],
+            ID          => $Data[0],
+            Name        => $Data[1],
+            Text        => $Data[2],
+            ContentType => $Data[3],
+            Comment     => $Data[4],
+            ValidID     => $Data[5],
+            ChangeTime  => $Data[6],
+            CreateTime  => $Data[7],
         );
     }
 
@@ -189,12 +191,13 @@ sub SignatureGet {
 update signature attributes
 
     $SignatureObject->SignatureUpdate(
-        ID      => 123,
-        Name    => 'New Signature',
-        Text    => "--\nSome Signature Infos",
-        Comment => 'some comment',
-        ValidID => 1,
-        UserID  => 123,
+        ID          => 123,
+        Name        => 'New Signature',
+        Text        => "--\nSome Signature Infos",
+        ContentType => 'text/plain; charset=utf-8',
+        Comment     => 'some comment',
+        ValidID     => 1,
+        UserID      => 123,
     );
 
 =cut
@@ -203,7 +206,7 @@ sub SignatureUpdate {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(ID Name Text ValidID UserID)) {
+    for (qw(ID Name Text ContentType ValidID UserID)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
@@ -212,11 +215,11 @@ sub SignatureUpdate {
 
     # sql
     return $Self->{DBObject}->Do(
-        SQL => 'UPDATE signature SET name = ?, text = ?, comments = ?, valid_id = ?, '
-            . ' change_time = current_timestamp, change_by = ? WHERE id = ?',
+        SQL => 'UPDATE signature SET name = ?, text = ?, content_type = ?, comments = ?, '
+            . ' valid_id = ?, change_time = current_timestamp, change_by = ? WHERE id = ?',
         Bind => [
-            \$Param{Name}, \$Param{Text}, \$Param{Comment}, \$Param{ValidID},
-            \$Param{UserID}, \$Param{ID},
+            \$Param{Name}, \$Param{Text}, \$Param{ContentType}, \$Param{Comment},
+            \$Param{ValidID}, \$Param{UserID}, \$Param{ID},
             ]
     );
 }
@@ -268,6 +271,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.7 $ $Date: 2009-02-16 11:57:40 $
+$Revision: 1.8 $ $Date: 2009-03-09 23:34:47 $
 
 =cut

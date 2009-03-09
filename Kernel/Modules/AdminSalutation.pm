@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSalutation.pm - to add/update/delete system addresses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSalutation.pm,v 1.32 2009-03-05 13:39:53 martin Exp $
+# $Id: AdminSalutation.pm,v 1.33 2009-03-09 23:34:47 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Salutation;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -75,6 +75,16 @@ sub Run {
         for (qw(ID Name Text Comment ValidID)) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
         }
+
+        # get composed charset
+        $GetParam{Charset} = $Self->{LayoutObject}->{UserCharset};
+
+        # get composed content type
+        my $TextType = 'plain';
+        if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+            $TextType = 'html';
+        }
+        $GetParam{ContentType} = 'text/' . $TextType . '; charset=' . $GetParam{Charset};
 
         # update group
         if ( $Self->{SalutationObject}->SalutationUpdate( %GetParam, UserID => $Self->{UserID} ) ) {
@@ -141,6 +151,16 @@ sub Run {
         for (qw(ID Name Text Comment ValidID)) {
             $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
         }
+
+        # get composed charset
+        $GetParam{Charset} = $Self->{LayoutObject}->{UserCharset};
+
+        # get composed content type
+        my $TextType = 'plain';
+        if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+            $TextType = 'html';
+        }
+        $GetParam{ContentType} = 'text/' . $TextType . '; charset=' . $GetParam{Charset};
 
         # add user
         if (

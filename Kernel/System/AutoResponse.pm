@@ -2,7 +2,7 @@
 # Kernel/System/AutoResponse.pm - lib for auto responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AutoResponse.pm,v 1.28 2009-03-09 13:10:41 martin Exp $
+# $Id: AutoResponse.pm,v 1.29 2009-03-09 23:34:47 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 =head1 NAME
 
@@ -94,14 +94,15 @@ sub new {
 add auto response with attributes
 
     $AutoResponseObject->AutoResponseAdd(
-        Name      => 'Some::AutoResponse',
-        ValidID   => 1,
-        Subject   => 'Some Subject..',
-        Response  => 'Auto Response Test....',
-        Charset   => 'utf8',
-        AddressID => 1,
-        TypeID    => 1,
-        UserID    => 123,
+        Name        => 'Some::AutoResponse',
+        ValidID     => 1,
+        Subject     => 'Some Subject..',
+        Response    => 'Auto Response Test....',
+        Charset     => 'utf8',
+        ContentType => 'text/plain',
+        AddressID   => 1,
+        TypeID      => 1,
+        UserID      => 123,
     );
 
 =cut
@@ -110,7 +111,7 @@ sub AutoResponseAdd {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Name ValidID Response AddressID TypeID Charset UserID Subject)) {
+    for (qw(Name ValidID Response ContentType AddressID TypeID Charset UserID Subject)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
@@ -124,23 +125,23 @@ sub AutoResponseAdd {
     return if !$Self->{DBObject}->Do(
         SQL => 'INSERT INTO auto_response '
             . '(name, valid_id, comments, text0, text1, type_id, system_address_id, '
-            . 'charset,  create_time, create_by, change_time, change_by)'
+            . 'charset, content_type,  create_time, create_by, change_time, change_by)'
             . 'VALUES '
-            . '(?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+            . '(?, ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
             \$Param{Name},    \$Param{ValidID}, \$Param{Comment},   \$Param{Response},
             \$Param{Subject}, \$Param{TypeID},  \$Param{AddressID}, \$Param{Charset},
-            \$Param{UserID},  \$Param{UserID},
+            \$Param{ContentType}, \$Param{UserID},  \$Param{UserID},
         ],
     );
 
     # get id
     return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT id FROM auto_response WHERE name = ? AND type_id = ? AND'
-            . ' system_address_id = ? AND charset = ? AND create_by = ?',
+            . ' system_address_id = ? AND charset = ? AND content_type = ? AND create_by = ?',
         Bind => [
             \$Param{Name}, \$Param{TypeID}, \$Param{AddressID}, \$Param{Charset},
-            \$Param{UserID},
+            \$Param{ContentType}, \$Param{UserID},
         ],
     );
     my $ID;
@@ -171,7 +172,8 @@ sub AutoResponseGet {
 
     # select
     return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT name, valid_id, comments, text0, text1, type_id, system_address_id, charset'
+        SQL => 'SELECT name, valid_id, comments, text0, text1, type_id, system_address_id, '
+            . ' charset, content_type'
             . ' FROM auto_response WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
@@ -179,15 +181,16 @@ sub AutoResponseGet {
     my %Data;
     if ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         %Data = (
-            ID        => $Param{ID},
-            Name      => $Data[0],
-            Comment   => $Data[2],
-            Response  => $Data[3],
-            ValidID   => $Data[1],
-            Subject   => $Data[4],
-            TypeID    => $Data[5],
-            AddressID => $Data[6],
-            Charset   => $Data[7],
+            ID          => $Param{ID},
+            Name        => $Data[0],
+            Comment     => $Data[2],
+            Response    => $Data[3],
+            ValidID     => $Data[1],
+            Subject     => $Data[4],
+            TypeID      => $Data[5],
+            AddressID   => $Data[6],
+            Charset     => $Data[7],
+            ContentType => $Data[8],
         );
     }
     return %Data;
@@ -198,15 +201,16 @@ sub AutoResponseGet {
 update auto response with attributes
 
     $AutoResponseObject->AutoResponseUpdate(
-        ID        => 123,
-        Name      => 'Some::AutoResponse',
-        ValidID   => 1,
-        Subject   => 'Some Subject..',
-        Response  => 'Auto Response Test....',
-        Charset   => 'utf8',
-        AddressID => 1,
-        TypeID    => 1,
-        UserID    => 123,
+        ID          => 123,
+        Name        => 'Some::AutoResponse',
+        ValidID     => 1,
+        Subject     => 'Some Subject..',
+        Response    => 'Auto Response Test....',
+        Charset     => 'utf8',
+        ContentType => 'text/plain',
+        AddressID   => 1,
+        TypeID      => 1,
+        UserID      => 123,
     );
 
 =cut
@@ -215,7 +219,7 @@ sub AutoResponseUpdate {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(ID Name ValidID Response AddressID Charset UserID Subject)) {
+    for (qw(ID Name ValidID Response AddressID Charset ContentType UserID Subject)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
@@ -223,17 +227,22 @@ sub AutoResponseUpdate {
     }
 
     # check if a autoresponse with this name already exits
-    return if !$Self->_NameExistsCheck( Name => $Param{Name} );
+    return if !$Self->_NameExistsCheck(
+        Name => $Param{Name},
+        ID   => $Param{ID},
+    );
 
     # update the database
     return $Self->{DBObject}->Do(
         SQL => 'UPDATE auto_response SET '
             . 'name = ?, text0 = ?, comments = ?, text1 = ?, type_id = ?, '
-            . 'system_address_id = ?, charset = ?, valid_id = ?, change_time = current_timestamp, '
-            . 'change_by = ? WHERE id = ?',
+            . 'system_address_id = ?, charset = ?, content_type = ?, valid_id = ?, '
+            . 'change_time = current_timestamp, change_by = ? '
+            . 'WHERE id = ?',
         Bind => [
             \$Param{Name}, \$Param{Response}, \$Param{Comment}, \$Param{Subject}, \$Param{TypeID},
-            \$Param{AddressID}, \$Param{Charset}, \$Param{ValidID}, \$Param{UserID}, \$Param{ID},
+            \$Param{AddressID}, \$Param{Charset}, \$Param{ContentType}, \$Param{ValidID},
+            \$Param{UserID}, \$Param{ID},
         ],
     );
 }
@@ -251,7 +260,7 @@ sub AutoResponseGetByTypeQueueID {
 
     # SQL query
     return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT ar.text0, ar.text1, ar.charset, ar.system_address_id FROM '
+        SQL => 'SELECT ar.text0, ar.text1, ar.charset, ar.content_type, ar.system_address_id FROM '
             . 'auto_response_type art, auto_response ar, queue_auto_response qar '
             . 'WHERE qar.queue_id = ? AND art.id = ar.type_id AND '
             . 'qar.auto_response_id = ar.id AND art.name = ?',
@@ -264,7 +273,8 @@ sub AutoResponseGetByTypeQueueID {
         $Data{Text}            = $Row[0];
         $Data{Subject}         = $Row[1];
         $Data{Charset}         = $Row[2];
-        $Data{SystemAddressID} = $Row[3];
+        $Data{ContentType}     = $Row[3];
+        $Data{SystemAddressID} = $Row[4];
     }
 
     # return if no auto response is configured
@@ -335,15 +345,16 @@ sub AutoResponseQueue {
     return 1;
 }
 
-#=item _NameExistsCheck()
-#
-#return falls if a autoresponse with this name already exits
-#
-#    $AutoResponseObject->_NameExistsCheck(
-#        Name => 'Some::AutoResponse',
-#    );
-#
-#=cut
+=item _NameExistsCheck()
+
+return if another autoresponse with this name already exits
+
+    $AutoResponseObject->_NameExistsCheck(
+        Name => 'Some::AutoResponse',
+        ID   => 1, # optional
+    );
+
+=cut
 
 sub _NameExistsCheck {
     my ( $Self, %Param ) = @_;
@@ -354,14 +365,16 @@ sub _NameExistsCheck {
     );
 
     my $Flag;
-    while ( $Self->{DBObject}->FetchrowArray() ) {
-        $Flag = 1;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        if ( !$Param{ID} || $Param{ID} ne $Row[0] ) {
+            $Flag = 1;
+        }
     }
 
     if ($Flag) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "A Auto-Response with name '$Param{Name}' already exists!",
+            Message  => "An Auto-Response with name '$Param{Name}' already exists!",
         );
         return;
     }
@@ -384,6 +397,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.28 $ $Date: 2009-03-09 13:10:41 $
+$Revision: 1.29 $ $Date: 2009-03-09 23:34:47 $
 
 =cut

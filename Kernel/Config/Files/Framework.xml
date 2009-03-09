@@ -5,7 +5,7 @@
 <!--  GNU AFFERO General Public License: http://www.gnu.org/licenses/agpl.txt  -->
 <!--                                                                           -->
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.196 2009-03-06 13:06:49 tr Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.197 2009-03-09 23:34:47 sb Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -5346,6 +5346,18 @@ Your OTRS Notification Master
         <Description Lang="de">Wird diese Option aktiviert, wird die OTRS-Versionsangabe aus den HTML-Headern entfernt.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::RichText" Required="1" Valid="1">
+        <Description Lang="en">Use richtext editor for article, salutation, signature, standard_response, auto_response, notification.</Description>
+        <Description Lang="de">Benutze Richtext-Editor für Artikel, Anrede, Signatur Antwort, Auto Antwort, Benachrichtung.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Web</SubGroup>
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>

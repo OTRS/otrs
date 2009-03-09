@@ -2,7 +2,7 @@
 # Kernel/System/Notification.pm - lib for notifications
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Notification.pm,v 1.21 2009-02-16 11:58:56 tr Exp $
+# $Id: Notification.pm,v 1.22 2009-03-09 23:34:47 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 =head1 NAME
 
@@ -103,7 +103,7 @@ sub NotificationGet {
 
     # sql
     my $SQL = 'SELECT id, notification_type, notification_charset, '
-        . ' notification_language, subject, text '
+        . ' notification_language, subject, text, content_type '
         . ' FROM notifications WHERE ';
 
     if ( $Param{ID} ) {
@@ -142,11 +142,12 @@ sub NotificationGet {
         # fix some bad stuff from some browsers (Opera)!
         $Data[5] =~ s/(\n\r|\r\r\n|\r\n|\r)/\n/g;
         %Data = (
-            Type     => $Data[1],
-            Charset  => $Data[2],
-            Language => $Data[3],
-            Subject  => $Data[4],
-            Body     => $Data[5],
+            Type        => $Data[1],
+            Charset     => $Data[2],
+            Language    => $Data[3],
+            Subject     => $Data[4],
+            Body        => $Data[5],
+            ContentType => $Data[6],
         );
     }
     if ( !%Data && !$Param{Loop} ) {
@@ -221,12 +222,13 @@ sub NotificationList {
 update notification attributes
 
     $NotificationObject->NotificationUpdate(
-        Type     => 'NewTicket',
-        Charset  => 'utf-8',
-        Language => 'en',
-        Subject  => 'Some Subject with <OTRS_TAGS>',
-        Body     => 'Some Body with <OTRS_TAGS>',
-        UserID   => 123,
+        Type        => 'NewTicket',
+        Charset     => 'utf-8',
+        Language    => 'en',
+        Subject     => 'Some Subject with <OTRS_TAGS>',
+        Body        => 'Some Body with <OTRS_TAGS>',
+        ContentType => 'text/plain',
+        UserID      => 123,
     );
 
 =cut
@@ -235,7 +237,7 @@ sub NotificationUpdate {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Type Charset Language Subject Body UserID)) {
+    for (qw(Type Charset Language Subject Body ContentType UserID)) {
         if ( !defined( $Param{$_} ) ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
@@ -258,11 +260,11 @@ sub NotificationUpdate {
     return $Self->{DBObject}->Prepare(
         SQL => 'INSERT INTO notifications '
             . '(notification_type, notification_charset, notification_language, subject, text, '
-            . 'create_time, create_by, change_time, change_by) '
-            . 'VALUES (?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+            . 'content_type, create_time, create_by, change_time, change_by) '
+            . 'VALUES (?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
             \$Param{Type}, \$Param{Charset}, \$Param{Language}, \$Param{Subject},
-            \$Param{Body}, \$Param{UserID}, \$Param{UserID},
+            \$Param{Body}, \$Param{ContentType}, \$Param{UserID}, \$Param{UserID},
         ],
     );
 }
@@ -283,6 +285,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2009-02-16 11:58:56 $
+$Revision: 1.22 $ $Date: 2009-03-09 23:34:47 $
 
 =cut

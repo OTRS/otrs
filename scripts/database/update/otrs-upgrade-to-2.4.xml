@@ -4,7 +4,7 @@
 <!--          Web: http://otrs.org/ - Lists: http://lists.otrs.org/            -->
 <!--  GNU AFFERO General Public License: http://www.gnu.org/licenses/agpl.txt  -->
 <!--                                                                           -->
-<!-- $Id: otrs-upgrade-to-2.4.xml,v 1.2 2009-03-06 13:06:49 tr Exp $          -->
+<!-- $Id: otrs-upgrade-to-2.4.xml,v 1.3 2009-03-09 23:34:47 sb Exp $          -->
 <database Name="otrs">
 
     <TableAlter Name="postmaster_filter">
@@ -48,6 +48,26 @@
         <ColumnAdd Name="zip" Required="false" Size="150" Type="VARCHAR"/>
         <ColumnAdd Name="city" Required="false" Size="150" Type="VARCHAR"/>
         <ColumnAdd Name="country" Required="false" Size="150" Type="VARCHAR"/>
+    </TableAlter>
+
+    <TableAlter Name="salutation">
+        <ColumnAdd Name="content_type" Required="false" Size="250" Type="VARCHAR"/>
+    </TableAlter>
+
+    <TableAlter Name="signature">
+        <ColumnAdd Name="content_type" Required="false" Size="250" Type="VARCHAR"/>
+    </TableAlter>
+
+    <TableAlter Name="standard_response">
+        <ColumnAdd Name="content_type" Required="false" Size="250" Type="VARCHAR"/>
+    </TableAlter>
+
+    <TableAlter Name="auto_response">
+        <ColumnAdd Name="content_type" Required="false" Size="250" Type="VARCHAR"/>
+    </TableAlter>
+
+    <TableAlter Name="notifications">
+        <ColumnAdd Name="content_type" Required="false" Size="250" Type="VARCHAR"/>
     </TableAlter>
 
 </database>

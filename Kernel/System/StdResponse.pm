@@ -2,7 +2,7 @@
 # Kernel/System/StdResponse.pm - lib for std responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: StdResponse.pm,v 1.29 2009-03-09 13:11:23 martin Exp $
+# $Id: StdResponse.pm,v 1.30 2009-03-09 23:34:47 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 =head1 NAME
 
@@ -83,11 +83,25 @@ sub new {
     return $Self;
 }
 
+=item StdResponseAdd()
+
+add new std response
+
+    my $ID = $StdResponseObject->StdResponseAdd(
+        Name        => 'New Standard Response',
+        Response    => 'Thank you for your email.',
+        ContentType => 'text/plain; charset=utf-8',
+        ValidID     => 1,
+        UserID      => 123,
+    );
+
+=cut
+
 sub StdResponseAdd {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Name ValidID Response UserID)) {
+    for (qw(Name ValidID Response ContentType UserID)) {
         if ( !defined( $Param{$_} ) ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
@@ -97,11 +111,11 @@ sub StdResponseAdd {
     # sql
     return if !$Self->{DBObject}->Do(
         SQL => 'INSERT INTO standard_response (name, valid_id, comments, text, '
-            . ' create_time, create_by, change_time, change_by)'
-            . ' VALUES (?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+            . ' content_type, create_time, create_by, change_time, change_by)'
+            . ' VALUES (?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
             \$Param{Name}, \$Param{ValidID}, \$Param{Comment}, \$Param{Response},
-            \$Param{UserID}, \$Param{UserID},
+            \$Param{ContentType}, \$Param{UserID}, \$Param{UserID},
         ],
     );
     my $ID;
@@ -115,6 +129,16 @@ sub StdResponseAdd {
     return $ID;
 }
 
+=item StdResponseGet()
+
+get std response attributes
+
+    my %StdResponse = $StdResponseObject->StdResponseGet(
+        ID => 123,
+    );
+
+=cut
+
 sub StdResponseGet {
     my ( $Self, %Param ) = @_;
 
@@ -126,21 +150,33 @@ sub StdResponseGet {
 
     # sql
     return if !$Self->{DBObject}->Prepare(
-        SQL  => 'SELECT name, valid_id, comments, text FROM standard_response WHERE id = ?',
+        SQL  => 'SELECT name, valid_id, comments, text, content_type '
+                . ' FROM standard_response WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
     my %Data;
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
         %Data = (
-            ID       => $Param{ID},
-            Name     => $Data[0],
-            Comment  => $Data[2],
-            Response => $Data[3],
-            ValidID  => $Data[1],
+            ID          => $Param{ID},
+            Name        => $Data[0],
+            Comment     => $Data[2],
+            Response    => $Data[3],
+            ContentType => $Data[4],
+            ValidID     => $Data[1],
         );
     }
     return %Data;
 }
+
+=item StdResponseDelete()
+
+delete a standard response
+
+    $StdResponseObject->StdResponseDelete(
+        ID => 123,
+    );
+
+=cut
 
 sub StdResponseDelete {
     my ( $Self, %Param ) = @_;
@@ -170,11 +206,26 @@ sub StdResponseDelete {
     );
 }
 
+=item StdResponseUpdate()
+
+update std response attributes
+
+    $StdResponseObject->StdResponseUpdate(
+        ID          => 123,
+        Name        => 'New Standard Response',
+        Response    => 'Thank you for your email.',
+        ContentType => 'text/plain; charset=utf-8',
+        ValidID     => 1,
+        UserID      => 123,
+    );
+
+=cut
+
 sub StdResponseUpdate {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(ID Name ValidID Response UserID)) {
+    for (qw(ID Name ValidID Response ContentType UserID)) {
         if ( !defined( $Param{$_} ) ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
@@ -184,15 +235,31 @@ sub StdResponseUpdate {
     # sql
     return $Self->{DBObject}->Do(
         SQL => 'UPDATE standard_response SET'
-            . ' name = ?, text = ?, comments = ?, valid_id = ?,'
-            . ' change_time = current_timestamp, change_by = ?'
+            . ' name = ?, text = ?, content_type = ?, comments = ?,'
+            . ' valid_id = ?, change_time = current_timestamp, change_by = ?'
             . ' WHERE id = ?',
         Bind => [
-            \$Param{Name}, \$Param{Response}, \$Param{Comment}, \$Param{ValidID},
-            \$Param{UserID}, \$Param{ID},
+            \$Param{Name}, \$Param{Response}, \$Param{ContentType}, \$Param{Comment},
+            \$Param{ValidID}, \$Param{UserID}, \$Param{ID},
         ],
     );
 }
+
+=item StdResponseLookup()
+
+return the name or the std response id
+
+    my $StdResponseName = $StdResponseObject->StdResponseLookup(
+        StdResponseID => 123,
+    );
+
+    or
+
+    my $StdResponseID = $StdResponseObject->StdResponseLookup(
+        StdResponse => 'Std Response Name',
+    );
+
+=cut
 
 sub StdResponseLookup {
     my ( $Self, %Param ) = @_;
@@ -244,6 +311,20 @@ sub StdResponseLookup {
     return $Self->{"StdResponse$Suffix"};
 }
 
+=item GetAllStdResponses()
+
+get all valid std responses
+
+    my %StdResponses = $StdResponseObject->GetAllStdResponses();
+
+get all std responses
+
+    my %StdResponses = $StdResponseObject->GetAllStdResponses(
+        Valid => 0,
+    );
+
+=cut
+
 sub GetAllStdResponses {
     my ( $Self, %Param ) = @_;
 
@@ -275,6 +356,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.29 $ $Date: 2009-03-09 13:11:23 $
+$Revision: 1.30 $ $Date: 2009-03-09 23:34:47 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.1 2009-03-09 13:07:18 martin Exp $
+# $Id: TemplateGenerator.pm,v 1.2 2009-03-09 23:34:47 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Signature;
 use Kernel::System::StdResponse;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -81,7 +81,7 @@ sub new {
 
     $Self->{SalutationObject} = Kernel::System::Salutation->new(%Param);
     $Self->{SignatureObject}  = Kernel::System::Signature->new(%Param);
-    $Self->{ResponseObject}   = Kernel::System::StdResponse->new(%Param);
+    $Self->{StdResponseObject}   = Kernel::System::StdResponse->new(%Param);
 
     return $Self;
 }
@@ -226,7 +226,7 @@ sub Response {
     my %Queue = $Self->{QueueObject}->QueueGet(
         ID => $Ticket{QueueID},
     );
-    my %Response = $Self->{ResponseObject}->StdResponseGet(
+    my %Response = $Self->{StdResponseObject}->StdResponseGet(
         ID => $Param{ResponseID},
     );
 
@@ -658,6 +658,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2009-03-09 13:07:18 $
+$Revision: 1.2 $ $Date: 2009-03-09 23:34:47 $
 
 =cut

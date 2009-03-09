@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminNotification.pm - provides admin notification translations
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotification.pm,v 1.16 2009-02-20 12:04:29 mh Exp $
+# $Id: AdminNotification.pm,v 1.17 2009-03-09 23:34:47 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Notification;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -52,6 +52,13 @@ sub Run {
             $GetParam{Language} = $1;
         }
     }
+
+    # get composed content type
+    my $TextType = 'plain';
+    if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+        $TextType = 'html';
+    }
+    $GetParam{ContentType} = 'text/' . $TextType;
 
     # ------------------------------------------------------------ #
     # get data 2 form

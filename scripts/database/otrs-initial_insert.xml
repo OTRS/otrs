@@ -4,7 +4,7 @@
 <!--          Web: http://otrs.org/ - Lists: http://lists.otrs.org/            -->
 <!--  GNU AFFERO General Public License: http://www.gnu.org/licenses/agpl.txt  -->
 <!--                                                                           -->
-<!-- $Id: otrs-initial_insert.xml,v 1.25 2009-03-06 13:06:49 tr Exp $          -->
+<!-- $Id: otrs-initial_insert.xml,v 1.26 2009-03-09 23:34:47 sb Exp $          -->
 <database Name="otrs">
 
 <!-- framework -->
@@ -333,6 +333,7 @@
 Thank you for your request.
 
 </Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="comments" Type="Quote">Standard Salutation.</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -354,6 +355,7 @@ Your Ticket-Team
  5201 Blue Lagoon Drive - 8th Floor &amp; 9th Floor - Miami, 33126 USA
  Email: hot@example.com - Web: http://www.example.com/
 --</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="comments" Type="Quote">Standard Signature.</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -495,6 +497,7 @@ Your Ticket-Team
         <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="name" Type="Quote">empty answer</Data>
         <Data Key="text" Type="Quote"></Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
@@ -505,6 +508,7 @@ Your Ticket-Team
         <Data Key="id" Type="AutoIncrement">2</Data>
         <Data Key="name" Type="Quote">test answer</Data>
         <Data Key="text" Type="Quote">Some test answer to show how a standard response can be used.</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
@@ -617,6 +621,7 @@ Your OTRS Team
 </Data>
         <Data Key="text1" Type="Quote">RE: &lt;OTRS_CUSTOMER_SUBJECT[24]&gt;</Data>
         <Data Key="charset" Type="Quote">iso-8859-1</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -639,6 +644,7 @@ Your OTRS Team
 </Data>
         <Data Key="text1" Type="Quote">Your email has been rejected! (RE: &lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="charset" Type="Quote">iso-8859-1</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -664,6 +670,7 @@ Your OTRS Team
 </Data>
         <Data Key="text1" Type="Quote">RE: &lt;OTRS_CUSTOMER_SUBJECT[24]&gt;</Data>
         <Data Key="charset" Type="Quote">iso-8859-1</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -691,6 +698,7 @@ Your OTRS Team
 </Data>
         <Data Key="text1" Type="Quote">New ticket has been created! (RE: &lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="charset" Type="Quote">iso-8859-1</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="comments" Type="Quote"></Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -1356,6 +1364,7 @@ there is a new ticket in "&lt;OTRS_TICKET_Queue&gt;"!
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom&amp;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Your OTRS Notification Master</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -1379,6 +1388,7 @@ you got a follow up!
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom&amp;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Your OTRS Notification Master</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -1402,6 +1412,7 @@ unlocked (lock timeout) your locked ticket [&lt;OTRS_TICKET_TicketNumber&gt;].
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom&amp;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Your OTRS Notification Master</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -1423,6 +1434,7 @@ Comment:
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom&amp;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Your OTRS Notification Master</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -1444,6 +1456,7 @@ Comment:
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom&amp;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Your OTRS Notification Master</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -1464,6 +1477,7 @@ Note:
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom&amp;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Your OTRS Notification Master</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -1485,6 +1499,7 @@ Your OTRS Notification Master</Data>
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom&amp;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Your OTRS Notification Master</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -1511,6 +1526,7 @@ Please have a look at:
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom&amp;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Your OTRS Notification Master</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -1540,6 +1556,7 @@ Please have a look at:
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom&amp;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Your OTRS Notification Master</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -1569,6 +1586,7 @@ Please have a look at:
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom&amp;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Your OTRS Notification Master</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -1594,6 +1612,7 @@ es ist ein neues Ticket in "&lt;OTRS_TICKET_Queue&gt;"!
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom&amp;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Ihr OTRS Benachrichtigungs-Master</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -1617,6 +1636,7 @@ Sie haben eine Nachfrage bekommen!
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom&amp;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Ihr OTRS Benachrichtigungs-Master</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -1640,6 +1660,7 @@ Aufhebung der Sperre auf Dein gesperrtes Ticket [&lt;OTRS_TICKET_TicketNumber&gt
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom&amp;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Ihr OTRS Benachrichtigungs-Master</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -1661,6 +1682,7 @@ Kommentar:
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom&amp;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Ihr OTRS Benachrichtigungs-Master</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -1682,6 +1704,7 @@ Kommentar:
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom&amp;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Ihr OTRS Benachrichtigungs-Master</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -1702,6 +1725,7 @@ Notiz:
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom&amp;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Ihr OTRS Benachrichtigungs-Master</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -1723,6 +1747,7 @@ Ihr OTRS Benachrichtigungs-Master</Data>
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom&amp;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Ihr OTRS Benachrichtigungs-Master</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -1749,6 +1774,7 @@ Bitte um weitere Bearbeitung:
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom&amp;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Ihr OTRS Benachrichtigungs-Master</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -1778,6 +1804,7 @@ Bitte um Bearbeitung:
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom&amp;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Ihr OTRS Benachrichtigungs-Master</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -1807,6 +1834,7 @@ Bitte um Bearbeitung:
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;index.pl?Action=AgentZoom&amp;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
 Ihr OTRS Benachrichtigungs-Master</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -1829,6 +1857,7 @@ The queue of your ticket "&lt;OTRS_TICKET_TicketNumber&gt;" has been changed by
 Your OTRS Notification Master
 
 *** THIS IS JUST A NOTE ***</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -1849,6 +1878,7 @@ The owner of your ticket "&lt;OTRS_TICKET_TicketNumber&gt;" has been changed to
 Your OTRS Notification Master
 
 *** THIS IS JUST A NOTE ***</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -1869,6 +1899,7 @@ The state of your ticket "&lt;OTRS_TICKET_TicketNumber&gt;" has been changed by
 Your OTRS Notification Master
 
 *** THIS IS JUST A NOTE ***</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -1891,6 +1922,7 @@ Die Queue Ihres Tickets "&lt;OTRS_TICKET_TicketNumber&gt;" hat
 Ihr OTRS Benachrichtigungs-Master
 
 *** NUR EINE INFO ***</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -1911,6 +1943,7 @@ Der Besitzer des Tickets "&lt;OTRS_TICKET_TicketNumber&gt;" hat sich auf
 Ihr OTRS Benachrichtigungs-Master
 
 *** NUR EINE INFO ***</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
@@ -1931,6 +1964,7 @@ Der Status des Tickets "&lt;OTRS_TICKET_TicketNumber&gt;" hat sich durch
 Ihr OTRS Benachrichtigungs-Master
 
 *** NUR EINE INFO ***</Data>
+        <Data Key="content_type" Type="Quote">text/plain</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
