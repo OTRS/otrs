@@ -2,7 +2,7 @@
 # Kernel/System/AutoResponse.pm - lib for auto responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AutoResponse.pm,v 1.27 2009-02-20 12:11:41 mh Exp $
+# $Id: AutoResponse.pm,v 1.28 2009-03-09 13:10:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 =head1 NAME
 
@@ -335,15 +335,15 @@ sub AutoResponseQueue {
     return 1;
 }
 
-=item _NameExistsCheck()
-
-return falls if a autoresponse with this name already exits
-
-    $AutoResponseObject->_NameExistsCheck(
-        Name => 'Some::AutoResponse',
-    );
-
-=cut
+#=item _NameExistsCheck()
+#
+#return falls if a autoresponse with this name already exits
+#
+#    $AutoResponseObject->_NameExistsCheck(
+#        Name => 'Some::AutoResponse',
+#    );
+#
+#=cut
 
 sub _NameExistsCheck {
     my ( $Self, %Param ) = @_;
@@ -353,13 +353,16 @@ sub _NameExistsCheck {
         Bind => [ \$Param{Name} ],
     );
 
-    my $Flag = 0;
+    my $Flag;
     while ( $Self->{DBObject}->FetchrowArray() ) {
         $Flag = 1;
     }
 
     if ($Flag) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => 'This name already exists!' );
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "A Auto-Response with name '$Param{Name}' already exists!",
+        );
         return;
     }
     return 1;
@@ -381,6 +384,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2009-02-20 12:11:41 $
+$Revision: 1.28 $ $Date: 2009-03-09 13:10:41 $
 
 =cut
