@@ -1,12 +1,12 @@
 # --
 # scripts/test/Layout.t - layout module testscript
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.18 2008-07-23 23:08:34 martin Exp $
+# $Id: Layout.t,v 1.18.2.1 2009-03-10 12:07:19 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 use strict;
@@ -15,6 +15,7 @@ use warnings;
 use Kernel::System::AuthSession;
 use Kernel::System::Web::Request;
 use Kernel::System::Group;
+use Kernel::System::User;
 use Kernel::System::Ticket;
 use Kernel::Output::HTML::Layout;
 
@@ -49,6 +50,14 @@ $Self->{TicketObject} = Kernel::System::Ticket->new(
     DBObject     => $Self->{DBObject},
 );
 
+$Self->{UserObject} = Kernel::System::User->new(
+    ConfigObject => $Self->{ConfigObject},
+    LogObject    => $Self->{LogObject},
+    TimeObject   => $Self->{TimeObject},
+    MainObject   => $Self->{MainObject},
+    DBObject     => $Self->{DBObject},
+);
+
 $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new(
     ConfigObject  => $Self->{ConfigObject},
     LogObject     => $Self->{LogObject},
@@ -59,6 +68,7 @@ $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new(
     DBObject      => $Self->{DBObject},
     ParamObject   => $Self->{ParamObject},
     TicketObject  => $Self->{TicketObject},
+    UserObject    => $Self->{UserObject},
     GroupObject   => $Self->{GroupObject},
     UserID        => 1,
     Lang          => 'de',
@@ -543,6 +553,33 @@ $Self->Is(
     $Box1,
     ' ]',
     "Layout.t - check if a Box1 Env setting is lost.",
+);
+
+#-------------------------------------#
+# test the build selection
+#-------------------------------------#
+
+# zero test for SelectedID attribute
+my $HTMLCode = $Self->{LayoutObject}->BuildSelection(
+    Data        => {
+        0 => 'zero',
+        1 => 'one',
+        2 => 'two',
+    },
+    SelectedID  => 0,
+    Name        => 'test',
+    Translation => 0,
+    Max         => 37,
+);
+my $SelectedTest = 0;
+
+if (  $HTMLCode =~ m{ value="0" \s selected}smx ) {
+    $SelectedTest = 1;
+}
+
+$Self->True(
+    $SelectedTest,
+    "Layout.t - zero test for SelectedID attribute in BuildSelection().",
 );
 
 # this check is only to display how long it had take
