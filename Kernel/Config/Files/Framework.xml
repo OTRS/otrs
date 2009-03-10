@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.198 2009-03-10 13:52:49 tr Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.199 2009-03-10 14:24:08 tr Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -2416,18 +2416,6 @@
                     <Item Key="Module">Kernel::Output::HTML::OutputFilterTextURL</Item>
                 </Hash>
             </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Frontend::Output::FilterContent###ActiveElementFilter" Required="0" Valid="0">
-        <Description Lang="en">A filter for html output of the application. With this filter you can for example filter out javascript or suppress java applets.</Description>
-        <Description Lang="de">Ein Filter für den HTML-Inhalt innerhalb der Applikation. Mit Hilfe des Filters kann z. B. die Anzeige von Javaapplets oder Javascript unterdrückt werden.</Description>
-        <Group>Framework</Group>
-        <SubGroup>Core::Web</SubGroup>
-        <Setting>
-            <Hash>
-                <Item Key="Module">Kernel::Output::HTML::OutputFilterActiveElement</Item>
-                <Item Key="Debug">0</Item>
-            </Hash>
-        </Setting>
     </ConfigItem>
     <ConfigItem Name="LostPassword" Required="1" Valid="1">
         <Description Lang="en">Activate lost password feature for agents?</Description>

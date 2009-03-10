@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.127 2009-03-04 11:14:58 martin Exp $
+# $Id: Layout.pm,v 1.128 2009-03-10 14:24:08 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.127 $) [1];
+$VERSION = qw($Revision: 1.128 $) [1];
 
 =head1 NAME
 
@@ -184,18 +184,8 @@ sub new {
     $Self->{BrowserWrap} = 'physical';
     $Self->{Browser}     = 'Unknown';
 
-    if ( $Self->{FilterElementPre} && $Self->{FilterElementPre}->{ActiveElementFilter} ) {
-        $Self->{BrowserJavaScriptSupport} = 0;
-    }
-    elsif ( $Self->{FilterElementPost} && $Self->{FilterElementPost}->{ActiveElementFilter} ) {
-        $Self->{BrowserJavaScriptSupport} = 0;
-    }
-    elsif ( $Self->{FilterContent} && $Self->{FilterContent}->{ActiveElementFilter} ) {
-        $Self->{BrowserJavaScriptSupport} = 0;
-    }
-    else {
-        $Self->{BrowserJavaScriptSupport} = 1;
-    }
+    $Self->{BrowserJavaScriptSupport} = 1;
+
     if ( !$ENV{HTTP_USER_AGENT} ) {
         $Self->{Browser} = 'Unknown - no $ENV{"HTTP_USER_AGENT"}';
     }
@@ -3016,11 +3006,6 @@ sub Attachment {
         $Output .= $Param{Content};
     }
 
-    # don't use the active element filter for attachements, perhaps you destroy a xml
-    delete $Self->{FilterElementPre}->{ActiveElementFilter};
-    delete $Self->{FilterElementPost}->{ActiveElementFilter};
-    delete $Self->{FilterContent}->{ActiveElementFilter};
-
     # reset binmode, don't use utf8
     binmode STDOUT;
 
@@ -4103,6 +4088,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.127 $ $Date: 2009-03-04 11:14:58 $
+$Revision: 1.128 $ $Date: 2009-03-10 14:24:08 $
 
 =cut

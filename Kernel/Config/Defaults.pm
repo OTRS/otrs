@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.306 2009-03-09 13:12:52 martin Exp $
+# $Id: Defaults.pm,v 1.307 2009-03-10 14:24:08 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.306 $) [1];
+$VERSION = qw($Revision: 1.307 $) [1];
 
 sub LoadDefaults {
     my ($Self) = @_;
@@ -605,17 +605,6 @@ sub LoadDefaults {
 #        Module      => 'Kernel::Output::HTML::NotificationCustomerOnline',
 #        ShowEmail   => 1,
 #        IdleMinutes => 60,
-#    };
-
-    # --------------------------------------------------- #
-    # Frontend::Output::FilterElementPost
-    # --------------------------------------------------- #
-    # Frontend::Output::FilterElementPost
-    # (a output filter for application html output, e. g. to filter
-    # java script, java applets, ...)
-#    $Self->{'Frontend::Output::FilterElementPost'}->{'ActiveElementFilter'} = {
-#        Module => 'Kernel::Output::HTML::OutputFilterActiveElement',
-#        Debug => 0,
 #    };
 
     # --------------------------------------------------- #
@@ -2387,6 +2376,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.306 $ $Date: 2009-03-09 13:12:52 $
+$Revision: 1.307 $ $Date: 2009-03-10 14:24:08 $
 
 =cut
