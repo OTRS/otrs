@@ -1,0 +1,9 @@
+Paginator Release Notes
+
+2.7.0
+    * Code trimming and restructure for better compression
+    * Added support for numeric strings pag.set('totalRecords','100');
+    * Added support for "all" value of RowsPerPageDropdown
+
+2.6.0
+    * Initial standalone realease (extracted from DataTable)

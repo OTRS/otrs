@@ -1,0 +1,15 @@
+Carousel Release Notes
+
+*** version 2.7.0 ***
+
+* Important change - nav elements should be BUTTONS for receiving focus
+        for accessibility.
+* Make the Carousel list element, and item element configurable.
+* Added helper methods like isAutoPlayOn(), isAnimating().
+* Fixed bugs related to computing the container width.
+* Changed the ambiguous "autoPlay" attribute name to "autoPlayInterval".
+* Code cleanup.
+
+*** version 2.6.0 ***
+
+* Initial release.
