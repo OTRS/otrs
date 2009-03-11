@@ -2,7 +2,7 @@
 # StdResponse.t - StdResponse tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: StdResponse.t,v 1.3 2009-02-16 12:40:23 tr Exp $
+# $Id: StdResponse.t,v 1.4 2009-03-11 23:26:05 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,30 +19,34 @@ my @Tests = (
     {
         Name => 'text',
         Add  => {
-            Name     => 'text',
-            ValidID  => 1,
-            Response => 'Response text',
-            Comment  => 'some comment',
-            UserID   => 1,
+            Name        => 'text',
+            ValidID     => 1,
+            Response    => 'Response text',
+            ContentType => 'text/plain; charset=iso-8859-1',
+            Comment     => 'some comment',
+            UserID      => 1,
         },
         AddGet => {
-            Name     => 'text',
-            ValidID  => 1,
-            Response => 'Response text',
-            Comment  => 'some comment',
+            Name        => 'text',
+            ValidID     => 1,
+            Response    => 'Response text',
+            ContentType => 'text/plain; charset=iso-8859-1',
+            Comment     => 'some comment',
         },
         Update => {
-            Name     => 'text2',
-            ValidID  => 1,
-            Response => 'Response text\'2',
-            Comment  => 'some comment2',
-            UserID   => 1,
+            Name        => 'text2',
+            ValidID     => 1,
+            Response    => 'Response text\'2',
+            ContentType => 'text/plain; charset=utf-8',
+            Comment     => 'some comment2',
+            UserID      => 1,
         },
         UpdateGet => {
-            Name     => 'text2',
-            ValidID  => 1,
-            Response => 'Response text\'2',
-            Comment  => 'some comment2',
+            Name        => 'text2',
+            ValidID     => 1,
+            Response    => 'Response text\'2',
+            ContentType => 'text/plain; charset=utf-8',
+            Comment     => 'some comment2',
         },
     },
 );

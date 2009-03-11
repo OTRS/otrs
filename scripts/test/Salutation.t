@@ -2,7 +2,7 @@
 # Salutation.t - Salutation tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Salutation.t,v 1.5 2009-02-16 12:41:12 tr Exp $
+# $Id: Salutation.t,v 1.6 2009-03-11 23:26:05 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,11 +22,12 @@ is \"<OTRS_CUSTOMER_DATA_UserEmail>\".
 ";
 
 my $SalutationID = $Self->{SalutationObject}->SalutationAdd(
-    Name    => $SalutationNameRand0,
-    Text    => $Salutation,
-    Comment => 'some comment',
-    ValidID => 1,
-    UserID  => 1,
+    Name        => $SalutationNameRand0,
+    Text        => $Salutation,
+    ContentType => 'text/plain; charset=iso-8859-1',
+    Comment     => 'some comment',
+    ValidID     => 1,
+    UserID      => 1,
 );
 
 $Self->True(
@@ -44,6 +45,11 @@ $Self->Is(
 $Self->True(
     $Salutation{Text} eq $Salutation,
     'SalutationGet() - Salutation',
+);
+$Self->Is(
+    $Salutation{ContentType} || '',
+    'text/plain; charset=iso-8859-1',
+    'SalutationGet() - Comment',
 );
 $Self->Is(
     $Salutation{Comment} || '',
@@ -71,12 +77,13 @@ $Self->True(
 );
 
 my $SalutationUpdate = $Self->{SalutationObject}->SalutationUpdate(
-    ID      => $SalutationID,
-    Name    => $SalutationNameRand0 . '1',
-    Text    => $Salutation . '1',
-    Comment => 'some comment 1',
-    ValidID => 2,
-    UserID  => 1,
+    ID          => $SalutationID,
+    Name        => $SalutationNameRand0 . '1',
+    Text        => $Salutation . '1',
+    ContentType => 'text/plain; charset=utf-8',
+    Comment     => 'some comment 1',
+    ValidID     => 2,
+    UserID      => 1,
 );
 
 $Self->True(
@@ -94,6 +101,11 @@ $Self->Is(
 $Self->True(
     $Salutation{Text} eq $Salutation . '1',
     'SalutationGet() - Salutation',
+);
+$Self->Is(
+    $Salutation{ContentType} || '',
+    'text/plain; charset=utf-8',
+    'SalutationGet() - Comment',
 );
 $Self->Is(
     $Salutation{Comment} || '',

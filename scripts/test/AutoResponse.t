@@ -2,7 +2,7 @@
 # AutoResponse.t - AutoResponse tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AutoResponse.t,v 1.3 2009-02-16 12:50:17 tr Exp $
+# $Id: AutoResponse.t,v 1.4 2009-03-11 23:26:05 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,15 +34,16 @@ $Self->True(
 my $AutoResponseNameRand0 = 'unittest' . int rand 1000000;
 
 my $AutoResponseID = $Self->{AutoResponseObject}->AutoResponseAdd(
-    Name      => $AutoResponseNameRand0,
-    Subject   => 'Some Subject',
-    Response  => 'Some Response',
-    Comment   => 'Some Comment',
-    AddressID => $SystemAddressID,
-    TypeID    => 1,
-    Charset   => 'iso-8859-1',
-    ValidID   => 1,
-    UserID    => 1,
+    Name        => $AutoResponseNameRand0,
+    Subject     => 'Some Subject',
+    Response    => 'Some Response',
+    Comment     => 'Some Comment',
+    AddressID   => $SystemAddressID,
+    TypeID      => 1,
+    Charset     => 'iso-8859-1',
+    ContentType => 'text/plain',
+    ValidID     => 1,
+    UserID      => 1,
 );
 
 $Self->True(
@@ -80,6 +81,11 @@ $Self->Is(
     'AutoResponseGet() - Charset',
 );
 $Self->Is(
+    $AutoResponse{ContentType} || '',
+    'text/plain',
+    'AutoResponseGet() - Charset',
+);
+$Self->Is(
     $AutoResponse{AddressID} || '',
     $SystemAddressID,
     'AutoResponseGet() - AddressID',
@@ -105,16 +111,17 @@ $Self->True(
 );
 
 my $AutoResponseUpdate = $Self->{AutoResponseObject}->AutoResponseUpdate(
-    ID        => $AutoResponseID,
-    Name      => $AutoResponseNameRand0 . '1',
-    Subject   => 'Some Subject1',
-    Response  => 'Some Response1',
-    Comment   => 'Some Comment1',
-    AddressID => $SystemAddressID,
-    TypeID    => 1,
-    Charset   => 'utf8',
-    ValidID   => 2,
-    UserID    => 1,
+    ID          => $AutoResponseID,
+    Name        => $AutoResponseNameRand0 . '1',
+    Subject     => 'Some Subject1',
+    Response    => 'Some Response1',
+    Comment     => 'Some Comment1',
+    AddressID   => $SystemAddressID,
+    TypeID      => 1,
+    Charset     => 'utf8',
+    ContentType => 'text/html',
+    ValidID     => 2,
+    UserID      => 1,
 );
 
 $Self->True(
@@ -149,6 +156,11 @@ $Self->Is(
 $Self->Is(
     $AutoResponse{Charset} || '',
     'utf8',
+    'AutoResponseGet() - Charset',
+);
+$Self->Is(
+    $AutoResponse{ContentType} || '',
+    'text/html',
     'AutoResponseGet() - Charset',
 );
 $Self->Is(

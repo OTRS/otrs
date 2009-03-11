@@ -2,7 +2,7 @@
 # Signature.t - Signature tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Signature.t,v 1.5 2009-02-16 12:40:23 tr Exp $
+# $Id: Signature.t,v 1.6 2009-03-11 23:26:05 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -26,11 +26,12 @@ Email: hot\@florida.com - Web: http://hot.florida.com/
 --";
 
 my $SignatureID = $Self->{SignatureObject}->SignatureAdd(
-    Name    => $SignatureNameRand0,
-    Text    => $Signature,
-    Comment => 'some comment',
-    ValidID => 1,
-    UserID  => 1,
+    Name        => $SignatureNameRand0,
+    Text        => $Signature,
+    ContentType => 'text/plain; charset=iso-8859-1',
+    Comment     => 'some comment',
+    ValidID     => 1,
+    UserID      => 1,
 );
 
 $Self->True(
@@ -48,6 +49,11 @@ $Self->Is(
 $Self->True(
     $Signature{Text} eq $Signature,
     'SignatureGet() - Signature',
+);
+$Self->Is(
+    $Signature{ContentType} || '',
+    'text/plain; charset=iso-8859-1',
+    'SignatureGet() - Comment',
 );
 $Self->Is(
     $Signature{Comment} || '',
@@ -75,12 +81,13 @@ $Self->True(
 );
 
 my $SignatureUpdate = $Self->{SignatureObject}->SignatureUpdate(
-    ID      => $SignatureID,
-    Name    => $SignatureNameRand0 . '1',
-    Text    => $Signature . '1',
-    Comment => 'some comment 1',
-    ValidID => 2,
-    UserID  => 1,
+    ID          => $SignatureID,
+    Name        => $SignatureNameRand0 . '1',
+    Text        => $Signature . '1',
+    ContentType => 'text/plain; charset=utf-8',
+    Comment     => 'some comment 1',
+    ValidID     => 2,
+    UserID      => 1,
 );
 
 $Self->True(
@@ -98,6 +105,11 @@ $Self->Is(
 $Self->True(
     $Signature{Text} eq $Signature . '1',
     'SignatureGet() - Signature',
+);
+$Self->Is(
+    $Signature{ContentType} || '',
+    'text/plain; charset=utf-8',
+    'SignatureGet() - Comment',
 );
 $Self->Is(
     $Signature{Comment} || '',
