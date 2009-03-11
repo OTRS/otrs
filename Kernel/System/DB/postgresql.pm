@@ -2,7 +2,7 @@
 # Kernel/System/DB/postgresql.pm - postgresql database backend
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: postgresql.pm,v 1.47 2009-02-16 11:48:19 tr Exp $
+# $Id: postgresql.pm,v 1.48 2009-03-11 22:00:57 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.47 $) [1];
+$VERSION = qw($Revision: 1.48 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,7 +35,7 @@ sub LoadPreferences {
     $Self->{'DB::DirectBlob'}         = 0;
     $Self->{'DB::QuoteSingle'}        = '\'';
     $Self->{'DB::QuoteBack'}          = '\\';
-    $Self->{'DB::QuoteSemicolon'}     = '\\';
+    $Self->{'DB::QuoteSemicolon'}     = '';
     $Self->{'DB::NoLowerInLargeText'} = 0;
 
     # dbi attributes

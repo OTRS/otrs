@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2008-10-29 19:48:39
+--  driver: db2, generated: 2009-03-11 22:46:12
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -258,6 +258,7 @@ CREATE TABLE salutation (
     id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     name VARCHAR (100) NOT NULL,
     text VARCHAR (3000) NOT NULL,
+    content_type VARCHAR (250),
     comments VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time TIMESTAMP NOT NULL,
@@ -275,6 +276,7 @@ CREATE TABLE signature (
     id SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     name VARCHAR (100) NOT NULL,
     text VARCHAR (3000) NOT NULL,
+    content_type VARCHAR (250),
     comments VARCHAR (250),
     valid_id SMALLINT NOT NULL,
     create_time TIMESTAMP NOT NULL,
@@ -749,6 +751,7 @@ CREATE TABLE standard_response (
     id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     name VARCHAR (80) NOT NULL,
     text CLOB (78K),
+    content_type VARCHAR (250),
     comments VARCHAR (100),
     valid_id SMALLINT NOT NULL,
     create_time TIMESTAMP NOT NULL,
@@ -832,6 +835,7 @@ CREATE TABLE auto_response (
     type_id SMALLINT NOT NULL,
     system_address_id SMALLINT NOT NULL,
     charset VARCHAR (80) NOT NULL,
+    content_type VARCHAR (250),
     comments VARCHAR (100),
     valid_id SMALLINT NOT NULL,
     create_time TIMESTAMP NOT NULL,
@@ -1174,6 +1178,7 @@ CREATE TABLE notifications (
     notification_language VARCHAR (60) NOT NULL,
     subject VARCHAR (200) NOT NULL,
     text CLOB (31K) NOT NULL,
+    content_type VARCHAR (250),
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
     change_time TIMESTAMP NOT NULL,
@@ -1214,4 +1219,3 @@ CREATE TABLE package_repository (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id)
 );
-

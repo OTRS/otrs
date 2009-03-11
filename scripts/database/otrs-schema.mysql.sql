@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2008-10-29 19:48:40
+#  driver: mysql, generated: 2009-03-11 22:46:15
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -231,6 +231,7 @@ CREATE TABLE salutation (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (100) NOT NULL,
     text TEXT NOT NULL,
+    content_type VARCHAR (250) NULL,
     comments VARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
@@ -247,6 +248,7 @@ CREATE TABLE signature (
     id SMALLINT NOT NULL AUTO_INCREMENT,
     name VARCHAR (100) NOT NULL,
     text TEXT NOT NULL,
+    content_type VARCHAR (250) NULL,
     comments VARCHAR (250) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
@@ -664,6 +666,7 @@ CREATE TABLE standard_response (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR (80) NOT NULL,
     text TEXT NULL,
+    content_type VARCHAR (250) NULL,
     comments VARCHAR (100) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
@@ -742,6 +745,7 @@ CREATE TABLE auto_response (
     type_id SMALLINT NOT NULL,
     system_address_id SMALLINT NOT NULL,
     charset VARCHAR (80) NOT NULL,
+    content_type VARCHAR (250) NULL,
     comments VARCHAR (100) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
@@ -1043,6 +1047,7 @@ CREATE TABLE notifications (
     notification_language VARCHAR (60) NOT NULL,
     subject VARCHAR (200) NOT NULL,
     text TEXT NOT NULL,
+    content_type VARCHAR (250) NULL,
     create_time DATETIME NOT NULL,
     create_by INTEGER NOT NULL,
     change_time DATETIME NOT NULL,

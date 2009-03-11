@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2008-10-29 19:48:41
+--  driver: postgresql, generated: 2009-03-11 22:46:16
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -231,6 +231,7 @@ CREATE TABLE salutation (
     id serial NOT NULL,
     name VARCHAR (100) NOT NULL,
     text VARCHAR (3000) NOT NULL,
+    content_type VARCHAR (250) NULL,
     comments VARCHAR (250) NULL,
     valid_id INTEGER NOT NULL,
     create_time timestamp(0) NOT NULL,
@@ -247,6 +248,7 @@ CREATE TABLE signature (
     id serial NOT NULL,
     name VARCHAR (100) NOT NULL,
     text VARCHAR (3000) NOT NULL,
+    content_type VARCHAR (250) NULL,
     comments VARCHAR (250) NULL,
     valid_id INTEGER NOT NULL,
     create_time timestamp(0) NOT NULL,
@@ -664,6 +666,7 @@ CREATE TABLE standard_response (
     id serial NOT NULL,
     name VARCHAR (80) NOT NULL,
     text VARCHAR NULL,
+    content_type VARCHAR (250) NULL,
     comments VARCHAR (100) NULL,
     valid_id INTEGER NOT NULL,
     create_time timestamp(0) NOT NULL,
@@ -742,6 +745,7 @@ CREATE TABLE auto_response (
     type_id INTEGER NOT NULL,
     system_address_id INTEGER NOT NULL,
     charset VARCHAR (80) NOT NULL,
+    content_type VARCHAR (250) NULL,
     comments VARCHAR (100) NULL,
     valid_id INTEGER NOT NULL,
     create_time timestamp(0) NOT NULL,
@@ -1043,6 +1047,7 @@ CREATE TABLE notifications (
     notification_language VARCHAR (60) NOT NULL,
     subject VARCHAR (200) NOT NULL,
     text VARCHAR (4000) NOT NULL,
+    content_type VARCHAR (250) NULL,
     create_time timestamp(0) NOT NULL,
     create_by INTEGER NOT NULL,
     change_time timestamp(0) NOT NULL,

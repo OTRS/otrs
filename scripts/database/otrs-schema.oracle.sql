@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2008-10-29 19:48:40
+--  driver: oracle, generated: 2009-03-11 22:46:15
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -408,6 +408,7 @@ CREATE TABLE salutation (
     id NUMBER (5, 0) NOT NULL,
     name VARCHAR2 (100) NOT NULL,
     text VARCHAR2 (3000) NOT NULL,
+    content_type VARCHAR2 (250) NULL,
     comments VARCHAR2 (250) NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
@@ -441,6 +442,7 @@ CREATE TABLE signature (
     id NUMBER (5, 0) NOT NULL,
     name VARCHAR2 (100) NOT NULL,
     text VARCHAR2 (3000) NOT NULL,
+    content_type VARCHAR2 (250) NULL,
     comments VARCHAR2 (250) NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
@@ -1120,6 +1122,7 @@ CREATE TABLE standard_response (
     id NUMBER (12, 0) NOT NULL,
     name VARCHAR2 (80) NOT NULL,
     text CLOB NULL,
+    content_type VARCHAR2 (250) NULL,
     comments VARCHAR2 (100) NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
@@ -1271,6 +1274,7 @@ CREATE TABLE auto_response (
     type_id NUMBER (5, 0) NOT NULL,
     system_address_id NUMBER (5, 0) NOT NULL,
     charset VARCHAR2 (80) NOT NULL,
+    content_type VARCHAR2 (250) NULL,
     comments VARCHAR2 (100) NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
@@ -1697,6 +1701,7 @@ CREATE TABLE notifications (
     notification_language VARCHAR2 (60) NOT NULL,
     subject VARCHAR2 (200) NOT NULL,
     text VARCHAR2 (4000) NOT NULL,
+    content_type VARCHAR2 (250) NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,
     change_time DATE NOT NULL,

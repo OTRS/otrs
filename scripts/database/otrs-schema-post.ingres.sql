@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: ingres, generated: 2008-07-21 06:23:15
+--  driver: ingres, generated: 2009-03-11 22:46:13
 -- ----------------------------------------------------------
 ALTER TABLE valid ADD FOREIGN KEY (create_by) REFERENCES users(id);\g
 ALTER TABLE valid ADD FOREIGN KEY (change_by) REFERENCES users(id);\g
@@ -162,10 +162,12 @@ ALTER TABLE ticket_watcher ADD FOREIGN KEY (change_by) REFERENCES users(id);\g
 ALTER TABLE ticket_watcher ADD FOREIGN KEY (ticket_id) REFERENCES ticket(id);\g
 ALTER TABLE service ADD FOREIGN KEY (create_by) REFERENCES users(id);\g
 ALTER TABLE service ADD FOREIGN KEY (change_by) REFERENCES users(id);\g
+ALTER TABLE service_preferences ADD FOREIGN KEY (service_id) REFERENCES service(id);\g
 ALTER TABLE service_customer_user ADD FOREIGN KEY (create_by) REFERENCES users(id);\g
 ALTER TABLE service_customer_user ADD FOREIGN KEY (service_id) REFERENCES service(id);\g
 ALTER TABLE sla ADD FOREIGN KEY (create_by) REFERENCES users(id);\g
 ALTER TABLE sla ADD FOREIGN KEY (change_by) REFERENCES users(id);\g
+ALTER TABLE sla_preferences ADD FOREIGN KEY (sla_id) REFERENCES sla(id);\g
 ALTER TABLE service_sla ADD FOREIGN KEY (service_id) REFERENCES service(id);\g
 ALTER TABLE service_sla ADD FOREIGN KEY (sla_id) REFERENCES sla(id);\g
 ALTER TABLE ticket_index ADD FOREIGN KEY (group_id) REFERENCES groups(id);\g
