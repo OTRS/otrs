@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.64 2009-02-20 15:52:32 tr Exp $
+# $Id: Stats.pm,v 1.65 2009-03-12 09:32:44 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 =head1 SYNOPSIS
 
@@ -675,40 +675,114 @@ sub SumBuild {
     return \@Data;
 }
 
-=item GenerateDynamicStats()
+#=item _GenerateStaticStats()
+#
+#    take the stat configuration and get the stat table
+#
+#    my @StatArray = $StatsObject->_GenerateStaticStats(
+#        ObjectModule     => $Stat->{ObjectModule},
+#        GetParam         => $Param{GetParam},
+#        Title            => $Stat->{Title},
+#        StatID           => $Stat->{StatID},
+#        Cache            => $Stat->{Cache},
+#    );
+#
+#=cut
 
-    take the stat configuration and get the stat table
+sub _GenerateStaticStats {
+    my ( $Self, %Param ) = @_;
 
-    my @StatArray = $StatsObject->GenerateDynamicStats(
-        ObjectModule     => 'Kernel::System::Stats::Dynamic::Ticket',
-        Object           => 'Ticket',
-        UseAsXvalue      => \UseAsXvalueElements,
-        UseAsValueSeries => \UseAsValueSeriesElements,
-        UseAsRestriction => \UseAsRestrictionElements,
-        Title            => 'TicketStat',
-        StatID           => 123,
-        Cache            => 1,      # optional
-    );
+    # check needed params
+    NEED:
+    for my $Need (qw(ObjectModule GetParam Title StatID)) {
+        next NEED if $Param{$Need};
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "_GenerateStaticStats: Need $Need!"
+        );
+        return;
+    }
 
-=cut
+    # load static modul
+    my $ObjectModule = $Param{ObjectModule};
+    $Self->{MainObject}->Require($ObjectModule);
+    my $StatObject = $ObjectModule->new( %{$Self} );
+
+    my @Result = ();
+    my %GetParam = %{$Param{GetParam}};
+
+    # use result cache if configured
+    if ( $Param{Cache} ) {
+        my $Filename = $Self->_CreateStaticResultCacheFilename(
+            GetParam => \%GetParam,
+            StatID   => $Param{StatID},
+        );
+
+        @Result = $Self->_GetResultCache( Filename => $Filename );
+    }
+
+    # try to get data if noting is there
+    if ( !@Result ) {
+
+        # run stats function
+        @Result = $StatObject->Run(
+            %GetParam,
+
+            # these two lines are requirements of me, perhaps this
+            # information is needed for former static stats
+            Format => $Param{Format}[0],
+            Module => $Param{ObjectModule},
+        );
+
+        # write cache if configured
+        if ( $Param{Cache} ) {
+            $Self->_WriteResultCache(
+                GetParam => \%GetParam,
+                StatID   => $Param{StatID},
+                Data     => \@Result,
+            );
+        }
+    }
+    $Result[0][0] = $Param{Title} . " " . $Result[0][0];
+
+    return @Result;
+}
+
+#=item _GenerateDynamicStats()
+#
+#    take the stat configuration and get the stat table
+#
+#    my @StatArray = $StatsObject->_GenerateDynamicStats(
+#        ObjectModule     => 'Kernel::System::Stats::Dynamic::Ticket',
+#        Object           => 'Ticket',
+#        UseAsXvalue      => \UseAsXvalueElements,
+#        UseAsValueSeries => \UseAsValueSeriesElements,
+#        UseAsRestriction => \UseAsRestrictionElements,
+#        Title            => 'TicketStat',
+#        StatID           => 123,
+#        Cache            => 1,      # optional
+#    );
+#
+#=cut
 
 # search for a better way to cache stats (see lines before StatID and Cache)
 
-sub GenerateDynamicStats {
+sub _GenerateDynamicStats {
     my ( $Self, %Param ) = @_;
 
     my @StatArray      = ();
     my @HeaderLine     = ();
     my $TitleTimeStart = '';
     my $TitleTimeStop  = '';
-    for (qw(ObjectModule UseAsXvalue UseAsValueSeries Title Object StatID)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "GenerateDynamicStats: Need $_!"
-            );
-            return;
-        }
+
+    NEED:
+    for my $Need (qw(ObjectModule UseAsXvalue UseAsValueSeries Title Object StatID)) {
+        next NEED if $Param{$Need};
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "_GenerateDynamicStats: Need $Need!"
+        );
+        return;
     }
 
     # include the needed dynamic object
@@ -1706,7 +1780,7 @@ sub CompletenessCheck {
         next NEED if $Param{$Need};
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "GenerateDynamicStats: Need $Need"
+            Message  => "CompletenessCheck: Need $Need"
         );
         return;
     }
@@ -2438,7 +2512,6 @@ sub Import {
     my ( $Self, %Param ) = @_;
 
     my $StatID = 1;
-    my @Keys;
 
     if ( !$Param{Content} ) {
         $Self->{LogObject}->Log(
@@ -2450,11 +2523,11 @@ sub Import {
     my @XMLHash = $Self->{XMLObject}->XMLParse2XMLHash( String => $Param{Content} );
 
     if ( !$XMLHash[0] ) {
-        shift(@XMLHash);
+        shift @XMLHash;
     }
 
     # Get new StatID
-    @Keys = $Self->{XMLObject}->XMLHashSearch( Type => 'Stats', );
+    my @Keys = $Self->{XMLObject}->XMLHashSearch( Type => 'Stats', );
 
     # check if the required elements are available
     for my $Element (
@@ -2566,10 +2639,10 @@ sub Import {
             chmod( oct( $XMLHash[0]->{otrs_stats}[1]{File}[1]{Permission} ), $FileLocation );
             $XMLHash[0]->{otrs_stats}[1]{File}[1]{Content}
                 = $XMLHash[0]->{otrs_stats}[1]{File}[1]{File};
-            delete( $XMLHash[0]->{otrs_stats}[1]{File}[1]{File} );
-            delete( $XMLHash[0]->{otrs_stats}[1]{File}[1]{Location} );
-            delete( $XMLHash[0]->{otrs_stats}[1]{File}[1]{Permission} );
-            delete( $XMLHash[0]->{otrs_stats}[1]{File}[1]{Encode} );
+            delete $XMLHash[0]->{otrs_stats}[1]{File}[1]{File};
+            delete $XMLHash[0]->{otrs_stats}[1]{File}[1]{Location};
+            delete $XMLHash[0]->{otrs_stats}[1]{File}[1]{Permission};
+            delete $XMLHash[0]->{otrs_stats}[1]{File}[1]{Encode};
         }
     }
 
@@ -2661,7 +2734,8 @@ sub GetParams {
 }
 
 =item StatsRun()
-run a stats...
+
+    run a stats...
 
     my $StatArray = $StatsObject->StatsRun(
         StatID => '123',
@@ -2673,15 +2747,15 @@ run a stats...
 sub StatsRun {
     my ( $Self, %Param ) = @_;
 
-    my @Result = ();
-    for (qw(StatID GetParam)) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "StatsRun: Need $_!"
-            );
-            return;
-        }
+    # check needed params
+    NEED:
+    for my $Need (qw(StatID GetParam)) {
+        next NEED if $Param{$Need};
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "StatsRun: Need $Need!"
+        );
+        return;
     }
 
     # use the mirror db if configured
@@ -2706,52 +2780,21 @@ sub StatsRun {
 
     my $Stat = $Self->StatsGet( StatID => $Param{StatID} );
     my %GetParam = %{ $Param{GetParam} };
+    my @Result = ();
 
+    # get data if it is a static stats
     if ( $Stat->{StatType} eq 'static' ) {
-
-        # load static modul
-        my $ObjectModule = $Stat->{ObjectModule};
-        $Self->{MainObject}->Require($ObjectModule);
-        my $StatObject = $ObjectModule->new( %{$Self} );
-
-        # use result cache if configured
-        if ( $Stat->{Cache} ) {
-            my $Filename = $Self->_CreateStaticResultCacheFilename(
-                GetParam => \%GetParam,
-                StatID   => $Param{StatID},
-            );
-
-            @Result = $Self->_GetResultCache(
-                Filename => $Filename,
-            );
-        }
-
-        # try to get data if noting is there
-        if ( !@Result ) {
-
-            # run stats function
-            @Result = $StatObject->Run(
-                %GetParam,
-
-                # these two lines are requirements of me, perhaps this
-                # information is needed for former static stats
-                Format => $Stat->{Format}[0],
-                Module => $Stat->{ObjectModule},
-            );
-
-            # write cache if configured
-            if ( $Stat->{Cache} ) {
-                $Self->_WriteResultCache(
-                    GetParam => \%GetParam,
-                    StatID   => $Param{StatID},
-                    Data     => \@Result,
-                );
-            }
-        }
-        $Result[0][0] = $Stat->{Title} . " " . $Result[0][0];
+        @Result = $Self->_GenerateStaticStats(
+            ObjectModule     => $Stat->{ObjectModule},
+            GetParam         => $Param{GetParam},
+            Title            => $Stat->{Title},
+            StatID           => $Stat->{StatID},
+            Cache            => $Stat->{Cache},
+        );
     }
+    # get data if it is a dynaymic stats
     elsif ( $Stat->{StatType} eq 'dynamic' ) {
-        @Result = $Self->GenerateDynamicStats(
+        @Result = $Self->_GenerateDynamicStats(
             ObjectModule     => $Stat->{ObjectModule},
             Object           => $Stat->{Object},
             UseAsXvalue      => $GetParam{UseAsXvalue},
@@ -2760,7 +2803,6 @@ sub StatsRun {
             Title            => $Stat->{Title},
             StatID           => $Stat->{StatID},
             Cache            => $Stat->{Cache},
-
         );
     }
 
@@ -2850,13 +2892,12 @@ sub StatNumber2StatID {
     if ( @Key && $#Key < 1 ) {
         return $Key[0];
     }
-    else {
-        $Self->{LogObject}->Log(
-            Priority => 'error',
-            Message  => 'StatNumber invalid!',
-        );
-        return 0;
-    }
+
+    $Self->{LogObject}->Log(
+        Priority => 'error',
+        Message  => 'StatNumber invalid!',
+    );
+    return 0;
 }
 
 sub _AutomaticSampleImport {
@@ -3113,6 +3154,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.64 $ $Date: 2009-02-20 15:52:32 $
+$Revision: 1.65 $ $Date: 2009-03-12 09:32:44 $
 
 =cut
