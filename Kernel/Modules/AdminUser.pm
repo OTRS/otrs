@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminUser.pm - to add/update/delete user and preferences
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminUser.pm,v 1.53 2009-02-16 11:20:52 tr Exp $
+# $Id: AdminUser.pm,v 1.54 2009-03-12 07:00:04 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -156,9 +156,7 @@ sub Run {
         if ( $Self->{UserObject}->UserUpdate( %GetParam, ChangeUserID => $Self->{UserID} ) ) {
             my %Preferences = %{ $Self->{ConfigObject}->Get('PreferencesGroups') };
             for my $Group ( keys %Preferences ) {
-                if ( $Group eq 'Password' ) {
-                    next;
-                }
+                next if $Group eq 'Password';
 
                 # get user data
                 my %UserData = $Self->{UserObject}->GetUserData(
@@ -166,30 +164,30 @@ sub Run {
                     NoOutOfOffice => 1,
                 );
                 my $Module = $Preferences{$Group}->{Module};
-                if ( $Self->{MainObject}->Require($Module) ) {
-                    my $Object = $Module->new(
-                        %{$Self},
-                        ConfigItem => $Preferences{$Group},
-                        Debug      => $Self->{Debug},
-                    );
-                    my @Params
-                        = $Object->Param( %{ $Preferences{$Group} }, UserData => \%UserData );
-                    if (@Params) {
-                        my %GetParam = ();
-                        for my $ParamItem (@Params) {
-                            my @Array
-                                = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
-                            $GetParam{ $ParamItem->{Name} } = \@Array;
-                        }
-                        if ( !$Object->Run( GetParam => \%GetParam, UserData => \%UserData ) ) {
-                            $Note .= $Self->{LayoutObject}->Notify( Info => $Object->Error() );
-                        }
-                    }
-                }
-                else {
+                if ( !$Self->{MainObject}->Require($Module) ) {
                     return $Self->{LayoutObject}->FatalError();
                 }
+
+                my $Object = $Module->new(
+                    %{$Self},
+                    ConfigItem => $Preferences{$Group},
+                    Debug      => $Self->{Debug},
+                );
+                my @Params
+                    = $Object->Param( %{ $Preferences{$Group} }, UserData => \%UserData );
+                if (@Params) {
+                    my %GetParam = ();
+                    for my $ParamItem (@Params) {
+                        my @Array
+                            = $Self->{ParamObject}->GetArray( Param => $ParamItem->{Name} );
+                        $GetParam{ $ParamItem->{Name} } = \@Array;
+                    }
+                    if ( !$Object->Run( GetParam => \%GetParam, UserData => \%UserData ) ) {
+                        $Note .= $Self->{LayoutObject}->Notify( Info => $Object->Error() );
+                    }
+                }
             }
+
             if ( !$Note ) {
                 $Self->_Overview( Search => $Search, );
                 my $Output = $Self->{LayoutObject}->Header();
@@ -227,9 +225,9 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'Add' ) {
         my %GetParam = ();
-        for (qw(UserLogin)) {
-            $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
-        }
+
+        $GetParam{UserLogin} = $Self->{ParamObject}->GetParam( Param => 'UserLogin' );
+
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
