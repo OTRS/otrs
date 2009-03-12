@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.66 2009-02-16 11:20:53 tr Exp $
+# $Id: AgentStats.pm,v 1.67 2009-03-12 12:28:57 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -97,11 +97,8 @@ sub Run {
             StartHit  => $Param{StartHit},
             PageShown => $Param{SearchPageShown},
             AllHits   => $#{$Result} + 1,
-            Action    => "Action=AgentStats&Subaction=Overview",
-            Link      => "&Direction="
-                . ( $Param{Direction} || '' )
-                . "&OrderBy="
-                . ( $Param{OrderBy} || '' ) . "&",
+            Action    => 'Action=AgentStats&Subaction=Overview',
+            Link      => "&Direction=$Param{Direction}&OrderBy=$Param{OrderBy}&",
         );
 
         # list result
@@ -207,7 +204,7 @@ sub Run {
         }
         if ( $CounterII > 1 ) {
             my %Frontend = ();
-            $Frontend{SelectFormat} = $Self->{LayoutObject}->OptionStrgHashRef(
+            $Frontend{SelectFormat} = $Self->{LayoutObject}->BuildSelection(
                 Data => \%SelectFormat,
                 Name => 'Format',
             );
@@ -235,10 +232,10 @@ sub Run {
                 $GraphSize{$Value} = $GraphSizeRef->{$Value};
             }
             if ( $#{ $Stat->{GraphSize} } > 0 ) {
-                $Frontend{SelectGraphSize} = $Self->{LayoutObject}->OptionStrgHashRef(
-                    Data                => \%GraphSize,
-                    Name                => 'GraphSize',
-                    LanguageTranslation => 0,
+                $Frontend{SelectGraphSize} = $Self->{LayoutObject}->BuildSelection(
+                    Data        => \%GraphSize,
+                    Name        => 'GraphSize',
+                    Translation => 0,
                 );
                 $Self->{LayoutObject}->Block(
                     Name => 'Graphsize',
@@ -257,7 +254,7 @@ sub Run {
         }
 
         if ( $Self->{ConfigObject}->Get('Stats::ExchangeAxis') ) {
-            my $ExchangeAxis = $Self->{LayoutObject}->OptionStrgHashRef(
+            my $ExchangeAxis = $Self->{LayoutObject}->BuildSelection(
                 Data => {
                     1 => 'Yes',
                     0 => 'No'
@@ -284,7 +281,7 @@ sub Run {
                     Name => 'ItemParam',
                     Data => {
                         Param => $ParamItem->{Frontend},
-                        Field => $Self->{LayoutObject}->OptionStrgHashRef(
+                        Field => $Self->{LayoutObject}->BuildSelection(
                             Data       => $ParamItem->{Data},
                             Name       => $ParamItem->{Name},
                             SelectedID => $ParamItem->{SelectedID} || '',
@@ -401,13 +398,13 @@ sub Run {
                         $BlockData{Value}   = $ObjectAttribute->{SelectedValues}->[0];
 
                         if ( $ObjectAttribute->{Block} eq 'MultiSelectField' ) {
-                            $BlockData{SelectField} = $Self->{LayoutObject}->OptionStrgHashRef(
-                                Data                => \%ValueHash,
-                                Name                => $Use . $ObjectAttribute->{Element},
-                                Multiple            => 1,
-                                Size                => 5,
-                                SelectedIDRefArray  => $ObjectAttribute->{SelectedValues},
-                                LanguageTranslation => $ObjectAttribute->{LanguageTranslation},
+                            $BlockData{SelectField} = $Self->{LayoutObject}->BuildSelection(
+                                Data         => \%ValueHash,
+                                Name        => $Use . $ObjectAttribute->{Element},
+                                Multiple    => 1,
+                                Size        => 5,
+                                SelectedID  => $ObjectAttribute->{SelectedValues},
+                                Translation => $ObjectAttribute->{LanguageTranslation},
                             );
                             $Self->{LayoutObject}->Block(
                                 Name => 'MultiSelectField',
@@ -415,10 +412,10 @@ sub Run {
                             );
                         }
                         elsif ( $ObjectAttribute->{Block} eq 'SelectField' ) {
-                            $BlockData{SelectField} = $Self->{LayoutObject}->OptionStrgHashRef(
-                                Data                => \%ValueHash,
-                                Name                => $Use . $ObjectAttribute->{Element},
-                                LanguageTranslation => $ObjectAttribute->{LanguageTranslation},
+                            $BlockData{SelectField} = $Self->{LayoutObject}->BuildSelection(
+                                Data        => \%ValueHash,
+                                Name        => $Use . $ObjectAttribute->{Element},
+                                Translation => $ObjectAttribute->{LanguageTranslation},
                             );
                             $Self->{LayoutObject}->Block(
                                 Name => 'SelectField',
@@ -460,12 +457,10 @@ sub Run {
                                     my %TimeScaleOption = ();
                                     for (@TimeScaleArray) {
                                         $TimeScaleOption{$_} = $TimeScale->{$_}{Value};
-                                        if ( $ObjectAttribute->{TimeRelativeUnit} eq $_ ) {
-                                            last;
-                                        }
+                                        last if $ObjectAttribute->{TimeRelativeUnit} eq $_;
                                     }
                                     $BlockData{TimeRelativeUnit}
-                                        = $Self->{LayoutObject}->OptionStrgHashRef(
+                                        = $Self->{LayoutObject}->BuildSelection(
                                         Data => \%TimeScaleOption,
                                         Name => $ObjectAttribute->{Element} . 'TimeRelativeUnit',
                                         );
@@ -500,7 +495,7 @@ sub Run {
                                     $BlockData{TimeScaleCountMax}
                                         = $ObjectAttribute->{TimeScaleCount};
                                     $BlockData{TimeScaleUnit}
-                                        = $Self->{LayoutObject}->OptionStrgHashRef(
+                                        = $Self->{LayoutObject}->BuildSelection(
                                         Data => \%TimeScaleOption,
                                         Name => $ObjectAttribute->{Element},
                                         );
@@ -1159,10 +1154,10 @@ sub Run {
 
                 # need a dropdown menue if more dynamic objects available
                 if ( $#DynamicFilesArray > 0 ) {
-                    $Frontend{SelectField} = $Self->{LayoutObject}->OptionStrgHashRef(
-                        Data                => $DynamicFiles,
-                        Name                => 'Object',
-                        LanguageTranslation => 0,
+                    $Frontend{SelectField} = $Self->{LayoutObject}->BuildSelection(
+                        Data        => $DynamicFiles,
+                        Name        => 'Object',
+                        Translation => 0,
                     );
                     $Self->{LayoutObject}->Block(
                         Name => 'SelectField',
@@ -1210,10 +1205,10 @@ sub Run {
 
                 # more static stats available? than make a SelectField
                 if ( $#StaticFilesArray > 0 ) {
-                    $Frontend{SelectField} = $Self->{LayoutObject}->OptionStrgHashRef(
-                        Data                => $StaticFiles,
-                        Name                => 'File',
-                        LanguageTranslation => 0,
+                    $Frontend{SelectField} = $Self->{LayoutObject}->BuildSelection(
+                        Data        => $StaticFiles,
+                        Name        => 'File',
+                        Translation => 0,
                     );
                     $Self->{LayoutObject}->Block(
                         Name => 'SelectField',
@@ -1275,7 +1270,7 @@ sub Run {
 
         # create selectboxes 'Cache', 'SumRow', 'SumCol', and 'Valid'
         for my $Key (qw(Cache SumRow SumCol)) {
-            $Frontend{ 'Select' . $Key } = $Self->{LayoutObject}->OptionStrgHashRef(
+            $Frontend{ 'Select' . $Key } = $Self->{LayoutObject}->BuildSelection(
                 Data => {
                     0 => 'No',
                     1 => 'Yes'
@@ -1285,7 +1280,7 @@ sub Run {
             );
         }
 
-        $Frontend{SelectValid} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Frontend{SelectValid} = $Self->{LayoutObject}->BuildSelection(
             Data => {
                 0 => 'invalid',
                 1 => 'valid'
@@ -1300,30 +1295,30 @@ sub Run {
         $Values{Format}     = $Self->{ConfigObject}->Get('Stats::Format');
         $Values{GraphSize}  = $Self->{ConfigObject}->Get('Stats::GraphSize');
 
-        $Stat->{SelectPermission} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data                => $Values{Permission},
-            Name                => 'Permission',
-            Multiple            => 1,
-            Size                => 5,
-            SelectedIDRefArray  => $Stat->{Permission},
-            LanguageTranslation => 0,
+        $Stat->{SelectPermission} = $Self->{LayoutObject}->BuildSelection(
+            Data        => $Values{Permission},
+            Name        => 'Permission',
+            Multiple    => 1,
+            Size        => 5,
+            SelectedID  => $Stat->{Permission},
+            Translation => 0,
         );
 
-        $Stat->{SelectFormat} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data               => $Values{Format},
-            Name               => 'Format',
-            Multiple           => 1,
-            Size               => 5,
-            SelectedIDRefArray => $Stat->{Format},
+        $Stat->{SelectFormat} = $Self->{LayoutObject}->BuildSelection(
+            Data       => $Values{Format},
+            Name       => 'Format',
+            Multiple   => 1,
+            Size       => 5,
+            SelectedID => $Stat->{Format},
         );
 
-        $Stat->{SelectGraphSize} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data                => $Values{GraphSize},
-            Name                => 'GraphSize',
-            Multiple            => 1,
-            Size                => 5,
-            SelectedIDRefArray  => $Stat->{GraphSize},
-            LanguageTranslation => 0,
+        $Stat->{SelectGraphSize} = $Self->{LayoutObject}->BuildSelection(
+            Data        => $Values{GraphSize},
+            Name        => 'GraphSize',
+            Multiple    => 1,
+            Size        => 5,
+            SelectedID  => $Stat->{GraphSize},
+            Translation => 0,
         );
 
         # presentation
@@ -1373,13 +1368,13 @@ sub Run {
             }
 
             if ( $ObjectAttribute->{Block} eq 'MultiSelectField' ) {
-                $BlockData{SelectField} = $Self->{LayoutObject}->OptionStrgHashRef(
-                    Data                => $ObjectAttribute->{Values},
-                    Name                => $ObjectAttribute->{Element},
-                    Multiple            => 1,
-                    Size                => 5,
-                    SelectedIDRefArray  => $ObjectAttribute->{SelectedValues},
-                    LanguageTranslation => $ObjectAttribute->{LanguageTranslation},
+                $BlockData{SelectField} = $Self->{LayoutObject}->BuildSelection(
+                    Data        => $ObjectAttribute->{Values},
+                    Name        => $ObjectAttribute->{Element},
+                    Multiple    => 1,
+                    Size        => 5,
+                    SelectedID  => $ObjectAttribute->{SelectedValues},
+                    Translation => $ObjectAttribute->{LanguageTranslation},
                 );
             }
 
@@ -1465,13 +1460,13 @@ sub Run {
             }
 
             if ( $ObjectAttribute->{Block} eq 'MultiSelectField' ) {
-                $BlockData{SelectField} = $Self->{LayoutObject}->OptionStrgHashRef(
-                    Data                => $ObjectAttribute->{Values},
-                    Name                => $ObjectAttribute->{Element},
-                    Multiple            => 1,
-                    Size                => 5,
-                    SelectedIDRefArray  => $ObjectAttribute->{SelectedValues},
-                    LanguageTranslation => $ObjectAttribute->{LanguageTranslation},
+                $BlockData{SelectField} = $Self->{LayoutObject}->BuildSelection(
+                    Data        => $ObjectAttribute->{Values},
+                    Name        => $ObjectAttribute->{Element},
+                    Multiple    => 1,
+                    Size        => 5,
+                    SelectedID  => $ObjectAttribute->{SelectedValues},
+                    Translation => $ObjectAttribute->{LanguageTranslation},
                 );
             }
 
@@ -1587,13 +1582,13 @@ sub Run {
                 || $ObjectAttribute->{Block} eq 'SelectField'
                 )
             {
-                $BlockData{SelectField} = $Self->{LayoutObject}->OptionStrgHashRef(
-                    Data                => $ObjectAttribute->{Values},
-                    Name                => $ObjectAttribute->{Element},
-                    Multiple            => 1,
-                    Size                => 5,
-                    SelectedIDRefArray  => $ObjectAttribute->{SelectedValues},
-                    LanguageTranslation => $ObjectAttribute->{LanguageTranslation},
+                $BlockData{SelectField} = $Self->{LayoutObject}->BuildSelection(
+                    Data        => $ObjectAttribute->{Values},
+                    Name        => $ObjectAttribute->{Element},
+                    Multiple    => 1,
+                    Size        => 5,
+                    SelectedID  => $ObjectAttribute->{SelectedValues},
+                    Translation => $ObjectAttribute->{LanguageTranslation},
                 );
             }
 
@@ -1629,11 +1624,13 @@ sub Run {
             Title => 'Restrictions',
         );
         $Output .= $Self->{LayoutObject}->NavigationBar();
+
         $Output .= $Self->_Notify( StatData => $Stat, Section => 'Restrictions' );
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentStatsEditRestrictions',
             Data         => $Stat,
         );
+
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
@@ -2249,7 +2246,7 @@ sub _Timeoutput {
         $TimeLists{TimeScaleCount}{$_}    = sprintf( "%02d", $_ );
     }
     for (qw(TimeRelativeCount TimeScaleCount)) {
-        $Timeoutput{$_} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Timeoutput{$_} = $Self->{LayoutObject}->BuildSelection(
             Data       => $TimeLists{$_},
             Name       => $Element . $_,
             SelectedID => $Param{$_},
