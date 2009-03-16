@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.199 2009-03-10 14:24:08 tr Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.200 2009-03-16 23:58:45 sb Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -5346,6 +5346,15 @@ Your OTRS Notification Master
                 <Item Key="0">No</Item>
                 <Item Key="1">Yes</Item>
             </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::YUIPath" Required="1" Valid="1">
+        <Description Lang="en">URL YUI path.</Description>
+        <Description Lang="de">URL YUI Pfad.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::Web</SubGroup>
+        <Setting>
+            <String Regex="">&lt;OTRS_CONFIG_Frontend::WebPath&gt;yui/2.7.0/</String>
         </Setting>
     </ConfigItem>
 </otrs_config>
