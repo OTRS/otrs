@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.74 2009-02-16 11:58:56 tr Exp $
+# $Id: EmailParser.pm,v 1.75 2009-03-16 09:27:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.74 $) [1];
+$VERSION = qw($Revision: 1.75 $) [1];
 
 =head1 NAME
 
@@ -85,13 +85,13 @@ sub new {
     if ( $Param{Email} ) {
 
         # create Mail::Internet object
-        $Self->{Email} = new Mail::Internet( $Param{Email} );
+        $Self->{Email} = Mail::Internet->new( $Param{Email} );
 
         # create a Mail::Header object with email
         $Self->{HeaderObject} = $Self->{Email}->head();
 
         # create MIME::Parser object and get message body or body of first attachemnt
-        my $Parser = new MIME::Parser;
+        my $Parser = MIME::Parser->new();
         $Parser->output_to_core('ALL');
         $Self->{ParserParts} = $Parser->parse_data( $Self->{Email}->as_string() );
     }
@@ -225,7 +225,7 @@ sub SplitAddressLine {
 
     my @GetParam = ();
     for my $Line ( Mail::Address->parse( $Param{Line} ) ) {
-        push( @GetParam, $Line->format() );
+        push @GetParam, $Line->format();
     }
     return @GetParam;
 }
@@ -241,17 +241,11 @@ Returns the message body (or from the first attachment) "ContentType" header.
 =cut
 
 sub GetContentType {
-    my ( $Self, $ContentType ) = @_;
-    if ( !$ContentType ) {
-        $ContentType = '';
-    }
+    my ( $Self ) = @_;
 
-    if ( $Self->{ContentType} ) {
-        return $Self->{ContentType};
-    }
-    else {
-        return $Self->GetParam( WHAT => 'Content-Type' );
-    }
+    return $Self->{ContentType} if $Self->{ContentType};
+
+    return $Self->GetParam( WHAT => 'Content-Type' );
 }
 
 =item GetCharset()
@@ -265,12 +259,10 @@ Returns the message body (or from the first attachment) "charset".
 =cut
 
 sub GetCharset {
-    my ( $Self, $ContentType ) = @_;
-    if ( !$ContentType ) {
-        $ContentType = '';
-    }
+    my ( $Self ) = @_;
 
-    if ( defined( $Self->{Charset} ) ) {
+    # return charset of already defined
+    if ( defined $Self->{Charset} ) {
 
         # debug
         if ( $Self->{Debug} > 0 ) {
@@ -281,71 +273,69 @@ sub GetCharset {
         }
         return $Self->{Charset};
     }
-    else {
-        $Self->{HeaderObject}->unfold();
-        $Self->{HeaderObject}->combine('Content-Type');
-        my $Line = $Self->{HeaderObject}->get('Content-Type') || '';
-        chomp($Line);
-        my %Data = $Self->GetContentTypeParams( ContentType => $Line );
 
-        # check content type (only do charset decode if no Content-Type or ContentType
-        # with text/* exists) if it's not a text content type (e. g. pdf, png, ...),
-        # return no charset
-        if ( $Data{ContentType} && $Data{ContentType} !~ /text/i ) {
+    # find charset
+    $Self->{HeaderObject}->unfold();
+    $Self->{HeaderObject}->combine('Content-Type');
+    my $Line = $Self->{HeaderObject}->get('Content-Type') || '';
+    chomp $Line;
+    my %Data = $Self->GetContentTypeParams( ContentType => $Line );
 
-            # debug
-            if ( $Self->{Debug} > 0 ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'debug',
-                    Message =>
-                        "Got no charset from email body because of ContentType ($Data{ContentType})!",
-                );
-            }
+    # check content type (only do charset decode if no Content-Type or ContentType
+    # with text/* exists) if it's not a text content type (e. g. pdf, png, ...),
+    # return no charset
+    if ( $Data{ContentType} && $Data{ContentType} !~ /text/i ) {
 
-            # remember to charset
-            $Self->{Charset} = '';
-
-            # return charset
-            return '';
+        # debug
+        if ( $Self->{Debug} > 0 ) {
+            $Self->{LogObject}->Log(
+                Priority => 'debug',
+                Message =>
+                    "Got no charset from email body because of ContentType ($Data{ContentType})!",
+            );
         }
 
-        # return charset if it can be detected
-        elsif ( $Data{Charset} ) {
+        # remember to charset
+        $Self->{Charset} = '';
 
-            # debug
-            if ( $Self->{Debug} > 0 ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'debug',
-                    Message  => "Got charset from email body: $Data{Charset}",
-                );
-            }
-
-            # remember to charset
-            $Self->{Charset} = $Data{Charset};
-
-            # return charset
-            return $Data{Charset};
-        }
-
-        # if there is no available header for charset and content type, use
-        # iso-8859-1 as charset
-        else {
-
-            # debug
-            if ( $Self->{Debug} > 0 ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'debug',
-                    Message  => 'Got no charset from email body! Take iso-8859-1!',
-                );
-            }
-
-            # remember to charset
-            $Self->{Charset} = 'ISO-8859-1';
-
-            # return charset
-            return 'ISO-8859-1';
-        }
+        # return charset
+        return '';
     }
+
+    # return charset if it can be detected
+    if ( $Data{Charset} ) {
+
+        # debug
+        if ( $Self->{Debug} > 0 ) {
+            $Self->{LogObject}->Log(
+                Priority => 'debug',
+                Message  => "Got charset from email body: $Data{Charset}",
+            );
+        }
+
+        # remember to charset
+        $Self->{Charset} = $Data{Charset};
+
+        # return charset
+        return $Data{Charset};
+    }
+
+    # if there is no available header for charset and content type, use
+    # iso-8859-1 as charset
+
+    # debug
+    if ( $Self->{Debug} > 0 ) {
+        $Self->{LogObject}->Log(
+            Priority => 'debug',
+            Message  => 'Got no charset from email body! Take iso-8859-1!',
+        );
+    }
+
+    # remember to charset
+    $Self->{Charset} = 'ISO-8859-1';
+
+    # return charset
+    return 'ISO-8859-1';
 }
 
 =item GetReturnContentType()
@@ -378,17 +368,15 @@ sub GetReturnContentType {
         }
         return $ContentType;
     }
-    else {
 
-        # debug
-        if ( $Self->{Debug} > 0 ) {
-            $Self->{LogObject}->Log(
-                Priority => 'debug',
-                Message  => 'Changed no ContentType',
-            );
-        }
-        return $ContentType;
+    # debug
+    if ( $Self->{Debug} > 0 ) {
+        $Self->{LogObject}->Log(
+            Priority => 'debug',
+            Message  => 'Changed no ContentType',
+        );
     }
+    return $ContentType;
 }
 
 =item GetReturnCharset()
@@ -405,13 +393,11 @@ Returns the charset of the new message body "Charset"
 sub GetReturnCharset {
     my $Self = shift;
 
-    my $ContentType = $Self->GetContentType();
     if ( $Self->{EncodeObject}->EncodeInternalUsed() ) {
         return $Self->{EncodeObject}->EncodeInternalUsed();
     }
-    else {
-        return $Self->GetCharset();
-    }
+
+    return $Self->GetCharset();
 }
 
 =item GetMessageBody()
@@ -426,9 +412,7 @@ sub GetMessageBody {
     my ( $Self, %Param ) = @_;
 
     # check if message body is already there
-    if ( $Self->{MessageBody} ) {
-        return $Self->{MessageBody};
-    }
+    return $Self->{MessageBody} if $Self->{MessageBody};
 
     if ( !$Self->{EntityMode} && $Self->{ParserParts}->parts() == 0 ) {
         $Self->{MimeEmail} = 0;
@@ -544,6 +528,10 @@ Returns an array of the email attachments.
         print $Attachment->{MimeType};
         print $Attachment->{ContentType};
         print $Attachment->{Content};
+
+        # optional
+        print $Attachment->{ContentID};
+        print $Attachment->{ContentAlternative};
     }
 
 =cut
@@ -551,21 +539,20 @@ Returns an array of the email attachments.
 sub GetAttachments {
     my ( $Self, %Param ) = @_;
 
-    if ( !$Self->{MimeEmail} ) {
-        return;
-    }
-    elsif ( $Self->{Attachments} ) {
-        return @{ $Self->{Attachments} };
-    }
-    else {
-        $Self->PartsAttachments( Part => $Self->{ParserParts} );
-        if ( $Self->{Attachments} ) {
-            return @{ $Self->{Attachments} };
-        }
-        else {
-            return;
-        }
-    }
+    # return if it's no mime email
+    return if !$Self->{MimeEmail};
+
+    # return if it got already parsed
+    return @{ $Self->{Attachments} } if $Self->{Attachments};
+
+    # parse email
+    $Self->PartsAttachments( Part => $Self->{ParserParts} );
+
+    # return if no attachments got found
+    return if !$Self->{Attachments};
+
+    # return attachments
+    return @{ $Self->{Attachments} };
 }
 
 # just for internal
@@ -578,108 +565,112 @@ sub PartsAttachments {
     $Self->{PartCounter}++;
     if ( $Part->parts() > 0 ) {
         $PartCounter++;
-        for ( $Part->parts() ) {
+        for my $Part ( $Part->parts() ) {
             $SubPartCounter++;
             if ( $Self->{Debug} > 0 ) {
                 print STDERR "Sub part($PartCounter/$SubPartCounter)!\n";
             }
-            $Self->PartsAttachments( Part => $_, PartCounter => $PartCounter );
+            $Self->PartsAttachments( Part => $Part, PartCounter => $PartCounter );
         }
         return 1;
     }
+
+    # get attachment meta stuff
+    my %PartData = ();
+
+    # get ContentType
+    $Part->head()->unfold();
+    $Part->head()->combine('Content-Type');
+
+    # get Content-Type, use text/plain if no content type is given
+    $PartData{ContentType} = $Part->head()->get('Content-Type') || 'text/plain;';
+    chomp $PartData{ContentType};
+
+    # get mime type
+    $PartData{MimeType} = $Part->head()->mime_type();
+
+    # get charset
+    my %Data = $Self->GetContentTypeParams( ContentType => $PartData{ContentType} );
+    if ( $Data{Charset} ) {
+        $PartData{Charset} = $Data{Charset};
+    }
     else {
+        $PartData{Charset} = '';
+    }
 
-        # get attachment meta stuff
-        my %PartData = ();
+    # get content (if possible)
+    if ( $Part->bodyhandle() ) {
+        $PartData{Content} = $Part->bodyhandle()->as_string();
+        if ( !$PartData{Content} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'notice',
+                Message  => "Totally empty attachment part ($PartCounter)",
+            );
+            return;
+        }
+    }
 
-        # get ContentType
-        $Part->head()->unfold();
-        $Part->head()->combine('Content-Type');
+    # log error if there is an corrupt MIME email
+    else {
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message =>
+                "Was not able to parse corrupt MIME email! Skipped attachment ($PartCounter)",
+        );
+        return;
+    }
 
-        # get Content-Type, use text/plain if no content type is given
-        $PartData{ContentType} = $Part->head()->get('Content-Type') || 'text/plain;';
-        chomp( $PartData{ContentType} );
-
-        # get mime type
-        $PartData{MimeType} = $Part->head()->mime_type();
-
-        # get charset
-        my %Data = $Self->GetContentTypeParams( ContentType => $PartData{ContentType} );
-        if ( $Data{Charset} ) {
-            $PartData{Charset} = $Data{Charset};
+    # check if there is no recommended_filename -> add file-NoFilenamePartCounter
+    if ( !$Part->head()->recommended_filename() ) {
+        $Self->{NoFilenamePartCounter}++;
+        $PartData{Filename} = "file-$Self->{NoFilenamePartCounter}";
+    }
+    else {
+        $PartData{Filename} = decode_mimewords( $Part->head()->recommended_filename() );
+        $PartData{ContentDisposition} = $Part->head()->get('Content-Disposition');
+        if ( $PartData{ContentDisposition} ) {
+            my %Data = $Self->GetContentTypeParams(
+                ContentType => $PartData{ContentDisposition},
+            );
+            if ( $Data{Charset} ) {
+                $PartData{Charset} = $Data{Charset};
+            }
         }
         else {
             $PartData{Charset} = '';
         }
 
-        # get content (if possible)
-        if ( $Part->bodyhandle() ) {
-            $PartData{Content} = $Part->bodyhandle()->as_string();
-            if ( !$PartData{Content} ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'notice',
-                    Message  => "Totally empty attachment part ($PartCounter)",
-                );
-                return;
-            }
-        }
-
-        # log error if there is an corrupt MIME email
-        else {
-            $Self->{LogObject}->Log(
-                Priority => 'notice',
-                Message =>
-                    "Was not able to parse corrupt MIME email! Skipped attachment ($PartCounter)",
+        # convert the file name in utf-8 if utf-8 is used
+        if ( $PartData{Charset} ) {
+            $PartData{Filename} = $Self->{EncodeObject}->Decode(
+                Text  => $PartData{Filename},
+                From  => $PartData{Charset},
+                Check => 1,
             );
-            return;
         }
-
-        # check if there is no recommended_filename -> add file-NoFilenamePartCounter
-        if ( !$Part->head()->recommended_filename() ) {
-            $Self->{NoFilenamePartCounter}++;
-            $PartData{Filename} = "file-$Self->{NoFilenamePartCounter}";
-        }
-        else {
-            $PartData{Filename} = decode_mimewords( $Part->head()->recommended_filename() );
-            $PartData{ContentDisposition} = $Part->head()->get('Content-Disposition');
-            if ( $PartData{ContentDisposition} ) {
-                my %Data = $Self->GetContentTypeParams(
-                    ContentType => $PartData{ContentDisposition},
-                );
-                if ( $Data{Charset} ) {
-                    $PartData{Charset} = $Data{Charset};
-                }
-            }
-            else {
-                $PartData{Charset} = '';
-            }
-
-            # convert the file name in utf-8 if utf-8 is used
-            if ( $PartData{Charset} ) {
-                $PartData{Filename} = $Self->{EncodeObject}->Decode(
-                    Text  => $PartData{Filename},
-                    From  => $PartData{Charset},
-                    Check => 1,
-                );
-            }
-        }
-
-        # debug
-        if ( $Self->{Debug} > 0 ) {
-            print STDERR "->GotArticle::Atm: '$PartData{Filename}' '$PartData{ContentType}'\n";
-        }
-
-        # get attachment size
-        {
-            use bytes;
-            $PartData{Filesize} = length( $PartData{Content} );
-            no bytes;
-        }
-
-        # store data
-        push( @{ $Self->{Attachments} }, \%PartData );
-        return 1;
     }
+
+    # parse/get Content-Id for html email attachments
+    $PartData{ContentID} = $Part->head()->get('Content-Id');
+    if ( $PartData{ContentID} ) {
+        chomp $PartData{ContentID};
+    }
+
+    # debug
+    if ( $Self->{Debug} > 0 ) {
+        print STDERR "->GotArticle::Atm: '$PartData{Filename}' '$PartData{ContentType}'\n";
+    }
+
+    # get attachment size
+    {
+        use bytes;
+        $PartData{Filesize} = length $PartData{Content};
+        no bytes;
+    }
+
+    # store data
+    push @{ $Self->{Attachments} }, \%PartData;
+    return 1;
 }
 
 =item GetReferences()
@@ -695,13 +686,11 @@ This returns an array with ('fasfda@host.de', '4124.2313.1231@host.com').
 sub GetReferences {
     my ( $Self, %Param ) = @_;
 
-    my @ReferencesAll = ();
-    my @References    = ();
-
     # get references ids
+    my @ReferencesAll;
     my $ReferencesString = $Self->GetParam( WHAT => 'References' );
     if ($ReferencesString) {
-        push( @ReferencesAll, ( $ReferencesString =~ /<([^>]+)>/g ) );
+        push @ReferencesAll, ( $ReferencesString =~ /<([^>]+)>/g );
     }
 
     # get in reply to id
@@ -709,14 +698,15 @@ sub GetReferences {
     if ($InReplyToString) {
         chomp $InReplyToString;
         $InReplyToString =~ s/.*?<([^>]+)>.*/$1/;
-        push( @ReferencesAll, $InReplyToString );
+        push @ReferencesAll, $InReplyToString;
     }
-    my %Checked = ();
 
     # get uniq
+    my %Checked;
+    my @References;
     for ( reverse @ReferencesAll ) {
         if ( !$Checked{$_} ) {
-            push( @References, $_ );
+            push @References, $_;
         }
         $Checked{$_} = 1;
     }
@@ -765,14 +755,13 @@ sub CheckMessageBody {
     my ( $Self, %Param ) = @_;
 
     # if already checked, just return
-    if (
-        $Self->{MessageChecked}
-        || !$Self->{ConfigObject}->Get('PostmasterAutoHTML2Text')
-        || $Self->{NoHTMLChecks}
-        )
-    {
-        return;
-    }
+    return if $Self->{MessageChecked};
+
+    # return if no auto convert from html2text is needed
+    return if !$Self->{ConfigObject}->Get('PostmasterAutoHTML2Text');
+
+    # return if no auto convert from html2text is needed
+    return if $Self->{NoHTMLChecks};
 
     # check it it's juat a html email (store it as attachment and add text/plain)
     if ( $Self->GetReturnContentType() =~ /text\/html/i ) {
@@ -1207,6 +1196,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.74 $ $Date: 2009-02-16 11:58:56 $
+$Revision: 1.75 $ $Date: 2009-03-16 09:27:06 $
 
 =cut
