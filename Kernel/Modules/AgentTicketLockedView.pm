@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketLockedView.pm - to view all locked tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketLockedView.pm,v 1.5 2009-02-16 11:20:53 tr Exp $
+# $Id: AgentTicketLockedView.pm,v 1.6 2009-03-16 08:40:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -109,7 +109,7 @@ sub Run {
             },
         },
         Reminder => {
-            Name   => 'Reminder',
+            Name   => 'Pending',
             Prio   => 1002,
             Search => {
                 Result     => 'ARRAY',
@@ -123,7 +123,7 @@ sub Run {
             },
         },
         ReminderReached => {
-            Name   => 'Reminder messages',
+            Name   => 'Reminder Reached',
             Prio   => 1003,
             Search => {
                 Result     => 'ARRAY',
@@ -146,33 +146,36 @@ sub Run {
     my @ViewableTickets = $Self->{TicketObject}->TicketSearch(
         %{ $Filters{ $Self->{Filter} }->{Search} },
         Result => 'ARRAY',
-        Limit  => 1000,
+        Limit  => 1_000,
     );
 
-    # prepare new message tickets
+    # prepare shown tickets for new message tickets
     if ( $Self->{Filter} eq 'New' ) {
         my @ViewableTicketsTmp;
         my %LockedData = $Self->{TicketObject}->GetLockedCount( UserID => $Self->{UserID} );
-        for my $TicketID (@ViewableTickets) {
 
-            # check what tickets are new
-            my $Message = '';
-            if ( $LockedData{NewTicketIDs}->{$TicketID} ) {
+        # check what tickets are new
+        if ( $LockedData{NewTicketIDs} ) {
+            for my $TicketID ( %{ $LockedData{NewTicketIDs} } ) {
+                my $Message = '';
                 $Message = 'New message!';
-                push( @ViewableTicketsTmp, $TicketID );
+                push @ViewableTicketsTmp, $TicketID;
             }
         }
         @ViewableTickets = @ViewableTicketsTmp;
     }
+
+    # prepare shown tickets for reminder tickets
     elsif ( $Self->{Filter} eq 'ReminderReached' ) {
         my @ViewableTicketsTmp;
-        for my $TicketID (@ViewableTickets) {
-            my @Index = $Self->{TicketObject}->ArticleIndex( TicketID => $TicketID );
-            if (@Index) {
-                my %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Index[-1] );
-                if ( $Article{UntilTime} < 1 ) {
-                    push( @ViewableTicketsTmp, $TicketID );
-                }
+        my %LockedData = $Self->{TicketObject}->GetLockedCount( UserID => $Self->{UserID} );
+
+        # check what reminder tickets
+        if ( $LockedData{ReminderTicketIDs} ) {
+            for my $TicketID ( %{ $LockedData{ReminderTicketIDs} } ) {
+                my $Message = '';
+                $Message = 'Reminder reached!';
+                push @ViewableTicketsTmp, $TicketID;
             }
         }
         @ViewableTickets = @ViewableTicketsTmp;
@@ -180,42 +183,25 @@ sub Run {
 
     my %NavBarFilter;
     for my $Filter ( keys %Filters ) {
-        my @ViewableTickets = $Self->{TicketObject}->TicketSearch(
+        my $Count = $Self->{TicketObject}->TicketSearch(
             %{ $Filters{$Filter}->{Search} },
-            Result => 'ARRAY',
-            Limit  => 1000,
+            Result => 'COUNT',
         );
 
+        # prepare count for new message tickets
         if ( $Filter eq 'New' ) {
-            my @ViewableTicketsTmp;
             my %LockedData = $Self->{TicketObject}->GetLockedCount( UserID => $Self->{UserID} );
-
-            # check what tickets are new
-            for my $TicketID (@ViewableTickets) {
-                my $Message = '';
-                if ( $LockedData{NewTicketIDs}->{$TicketID} ) {
-                    $Message = 'New message!';
-                    push( @ViewableTicketsTmp, $TicketID );
-                }
-            }
-            @ViewableTickets = @ViewableTicketsTmp;
+            $Count = $LockedData{New} || 0;
         }
+
+        # prepare count for reminder tickets
         elsif ( $Filter eq 'ReminderReached' ) {
-            my @ViewableTicketsTmp;
-            for my $TicketID (@ViewableTickets) {
-                my @Index = $Self->{TicketObject}->ArticleIndex( TicketID => $TicketID );
-                if (@Index) {
-                    my %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Index[-1] );
-                    if ( $Article{UntilTime} < 1 ) {
-                        push( @ViewableTicketsTmp, $TicketID );
-                    }
-                }
-            }
-            @ViewableTickets = @ViewableTicketsTmp;
+            my %LockedData = $Self->{TicketObject}->GetLockedCount( UserID => $Self->{UserID} );
+            $Count = $LockedData{Reminder} || 0;
         }
 
         $NavBarFilter{ $Filters{$Filter}->{Prio} } = {
-            Count  => scalar @ViewableTickets,
+            Count  => $Count,
             Filter => $Filter,
             %{ $Filters{$Filter} },
         };
