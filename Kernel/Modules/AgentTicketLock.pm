@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketLock.pm - to set or unset a lock for tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketLock.pm,v 1.9 2009-02-16 11:20:53 tr Exp $
+# $Id: AgentTicketLock.pm,v 1.10 2009-03-16 08:24:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -37,29 +37,25 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Output;
-
     # check needed stuff
     if ( !$Self->{TicketID} ) {
 
         # error page
         return $Self->{LayoutObject}->ErrorScreen(
-            Message => "Can't lock Ticket, no TicketID is given!",
+            Message => 'Can\'t lock Ticket, no TicketID is given!',
             Comment => 'Please contact the admin.',
         );
     }
 
     # check permissions
-    if (
-        !$Self->{TicketObject}->Permission(
-            Type     => 'lock',
-            TicketID => $Self->{TicketID},
-            UserID   => $Self->{UserID}
-        )
-        )
-    {
+    my $Access = $Self->{TicketObject}->Permission(
+        Type     => 'lock',
+        TicketID => $Self->{TicketID},
+        UserID   => $Self->{UserID}
+    );
 
-        # error screen, don't show ticket
+    # error screen, don't show ticket
+    if ( !$Access ) {
         return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
     }
 
@@ -67,10 +63,11 @@ sub Run {
     if ( $Self->{Subaction} eq 'Unlock' ) {
 
         # check if I'm the owner
-        my ( $OwnerID, $OwnerLogin )
-            = $Self->{TicketObject}->OwnerCheck( TicketID => $Self->{TicketID}, );
+        my ( $OwnerID, $OwnerLogin ) = $Self->{TicketObject}->OwnerCheck(
+            TicketID => $Self->{TicketID},
+        );
         if ( $OwnerID != $Self->{UserID} ) {
-            $Output .= $Self->{LayoutObject}->Header( Title => 'Error' );
+            my $Output = $Self->{LayoutObject}->Header( Title => 'Error' );
             $Output .= $Self->{LayoutObject}->Warning(
                 Message => "Sorry, the current owner is $OwnerLogin!",
                 Comment => 'Please change the owner first.',
@@ -80,34 +77,32 @@ sub Run {
         }
 
         # set unlock
-        if (
-            $Self->{TicketObject}->LockSet(
-                TicketID => $Self->{TicketID},
-                Lock     => 'unlock',
-                UserID   => $Self->{UserID},
-            )
-            )
-        {
+        my $Lock = $Self->{TicketObject}->LockSet(
+            TicketID => $Self->{TicketID},
+            Lock     => 'unlock',
+            UserID   => $Self->{UserID},
+        );
 
-            # redirekt
-            if ( $Self->{QueueID} ) {
-                return $Self->{LayoutObject}->Redirect( OP => "QueueID=$Self->{QueueID}" );
-            }
-            else {
-                return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenView} );
-            }
+        if ( !$Lock ) {
+            return $Self->{LayoutObject}->ErrorScreen();
+        }
+
+        # redirekt
+        if ( $Self->{QueueID} ) {
+            return $Self->{LayoutObject}->Redirect( OP => "QueueID=$Self->{QueueID}" );
         }
         else {
-            return $Self->{LayoutObject}->ErrorScreen();
+            return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenView} );
         }
     }
     else {
 
         # check if the agent is ablee to lock
         if ( $Self->{TicketObject}->LockIsTicketLocked( TicketID => $Self->{TicketID} ) ) {
-            my ( $OwnerID, $OwnerLogin )
-                = $Self->{TicketObject}->OwnerCheck( TicketID => $Self->{TicketID}, );
-            $Output = $Self->{LayoutObject}->Header( Title => 'Error' );
+            my ( $OwnerID, $OwnerLogin ) = $Self->{TicketObject}->OwnerCheck(
+                TicketID => $Self->{TicketID},
+            );
+            my $Output = $Self->{LayoutObject}->Header( Title => 'Error' );
             $Output .= $Self->{LayoutObject}->Warning(
                 Message => "Ticket (ID=$Self->{TicketID}) is locked for $OwnerLogin!",
                 Comment => "Change the owner!",
@@ -118,32 +113,30 @@ sub Run {
 
         # set lock
         if (
-            $Self->{TicketObject}->LockSet(
+            !$Self->{TicketObject}->LockSet(
                 TicketID => $Self->{TicketID},
                 Lock     => 'lock',
                 UserID   => $Self->{UserID},
             )
-            &&
+            ||
 
             # set user id
-            $Self->{TicketObject}->OwnerSet(
+            !$Self->{TicketObject}->OwnerSet(
                 TicketID  => $Self->{TicketID},
                 UserID    => $Self->{UserID},
                 NewUserID => $Self->{UserID},
             )
             )
         {
+            return $Self->{LayoutObject}->ErrorScreen();
+        }
 
-            # redirekt
-            if ( $Self->{QueueID} ) {
-                return $Self->{LayoutObject}->Redirect( OP => "&QueueID=$Self->{QueueID}" );
-            }
-            else {
-                return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenView} );
-            }
+        # redirekt
+        if ( $Self->{QueueID} ) {
+            return $Self->{LayoutObject}->Redirect( OP => "&QueueID=$Self->{QueueID}" );
         }
         else {
-            return $Self->{LayoutObject}->ErrorScreen();
+            return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenView} );
         }
     }
 }
