@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketLockedView.pm - to view all locked tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketLockedView.pm,v 1.7 2009-03-16 09:03:18 martin Exp $
+# $Id: AgentTicketLockedView.pm,v 1.8 2009-03-16 09:08:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -155,12 +155,11 @@ sub Run {
         my %LockedData = $Self->{TicketObject}->GetLockedCount( UserID => $Self->{UserID} );
 
         # check what tickets are new
-        if ( $LockedData{NewTicketIDs} ) {
-            for my $TicketID ( keys %{ $LockedData{NewTicketIDs} } ) {
-                my $Message = '';
-                $Message = 'New message!';
-                push @ViewableTicketsTmp, $TicketID;
-            }
+        for my $TicketID (@ViewableTickets) {
+            next if !$LockedData{NewTicketIDs}->{$TicketID};
+            my $Message = '';
+            $Message = 'New message!';
+            push @ViewableTicketsTmp, $TicketID;
         }
         @ViewableTickets = @ViewableTicketsTmp;
     }
@@ -171,12 +170,11 @@ sub Run {
         my %LockedData = $Self->{TicketObject}->GetLockedCount( UserID => $Self->{UserID} );
 
         # check what reminder tickets
-        if ( $LockedData{ReminderTicketIDs} ) {
-            for my $TicketID ( keys %{ $LockedData{ReminderTicketIDs} } ) {
-                my $Message = '';
-                $Message = 'Reminder reached!';
-                push @ViewableTicketsTmp, $TicketID;
-            }
+        for my $TicketID (@ViewableTickets) {
+            next if !$LockedData{ReminderTicketIDs}->{$TicketID};
+            my $Message = '';
+            $Message = 'Reminder reached!';
+            push @ViewableTicketsTmp, $TicketID;
         }
         @ViewableTickets = @ViewableTicketsTmp;
     }
