@@ -3,7 +3,7 @@
 # queue ticket index module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: RuntimeDB.pm,v 1.67 2009-02-20 12:11:41 mh Exp $
+# $Id: RuntimeDB.pm,v 1.68 2009-03-16 08:21:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 sub TicketAcceleratorUpdate {
     my ( $Self, %Param ) = @_;
@@ -255,8 +255,6 @@ sub GetLockedCount {
     %TicketIDs = ();
     my $SystemTime = $Self->{TimeObject}->SystemTime();
     for my $Article (@ArticleLocked) {
-        my $SenderType = $Self->ArticleSenderTypeLookup( SenderTypeID => $Article->[1] );
-        my $ArticleType = $Self->ArticleTypeLookup( ArticleTypeID => $Article->[7] );
         if ( !$TicketIDs{ $Article->[2] } ) {
             $Data{All}++;
 
