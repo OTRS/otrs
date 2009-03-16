@@ -327,7 +327,7 @@
 Thank you for your request.
 
 </Data>
-        <Data Key="content_type" Type="Quote">text/plain; charset=utf-8</Data>
+        <Data Key="content_type" Type="Quote">text/plain; charset=iso-8859-1</Data>
         <Data Key="comments" Type="Quote">Standard Salutation.</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -349,7 +349,7 @@ Your Ticket-Team
  5201 Blue Lagoon Drive - 8th Floor &amp; 9th Floor - Miami, 33126 USA
  Email: hot@example.com - Web: http://www.example.com/
 --</Data>
-        <Data Key="content_type" Type="Quote">text/plain; charset=utf-8</Data>
+        <Data Key="content_type" Type="Quote">text/plain; charset=iso-8859-1</Data>
         <Data Key="comments" Type="Quote">Standard Signature.</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -491,7 +491,7 @@ Your Ticket-Team
         <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="name" Type="Quote">empty answer</Data>
         <Data Key="text" Type="Quote"></Data>
-        <Data Key="content_type" Type="Quote">text/plain; charset=utf-8</Data>
+        <Data Key="content_type" Type="Quote">text/plain; charset=iso-8859-1</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
@@ -502,7 +502,7 @@ Your Ticket-Team
         <Data Key="id" Type="AutoIncrement">2</Data>
         <Data Key="name" Type="Quote">test answer</Data>
         <Data Key="text" Type="Quote">Some test answer to show how a standard response can be used.</Data>
-        <Data Key="content_type" Type="Quote">text/plain; charset=utf-8</Data>
+        <Data Key="content_type" Type="Quote">text/plain; charset=iso-8859-1</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>

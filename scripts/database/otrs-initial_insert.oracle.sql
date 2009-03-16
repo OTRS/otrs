@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2009-03-11 22:46:38
+--  driver: oracle, generated: 2009-03-16 22:56:06
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -199,13 +199,13 @@ INSERT INTO ticket_state (name, comments, type_id, valid_id, create_by, create_t
 -- ----------------------------------------------------------
 INSERT INTO salutation (name, text, content_type, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('system standard salutation (en)', 'Dear <OTRS_CUSTOMER_REALNAME>,Thank you for your request.', 'text/plain; charset=utf-8', 'Standard Salutation.', 1, 1, current_timestamp, 1, current_timestamp);
+    ('system standard salutation (en)', 'Dear <OTRS_CUSTOMER_REALNAME>,Thank you for your request.', 'text/plain; charset=iso-8859-1', 'Standard Salutation.', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table signature
 -- ----------------------------------------------------------
 INSERT INTO signature (name, text, content_type, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('system standard signature (en)', 'Your Ticket-Team <OTRS_Agent_UserFirstname> <OTRS_Agent_UserLastname>-- Super Support - Waterford Business Park 5201 Blue Lagoon Drive - 8th Floor & 9th Floor - Miami, 33126 USA Email: hot@example.com - Web: http://www.example.com/--', 'text/plain; charset=utf-8', 'Standard Signature.', 1, 1, current_timestamp, 1, current_timestamp);
+    ('system standard signature (en)', 'Your Ticket-Team <OTRS_Agent_UserFirstname> <OTRS_Agent_UserLastname>-- Super Support - Waterford Business Park 5201 Blue Lagoon Drive - 8th Floor & 9th Floor - Miami, 33126 USA Email: hot@example.com - Web: http://www.example.com/--', 'text/plain; charset=iso-8859-1', 'Standard Signature.', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table system_address
 -- ----------------------------------------------------------
@@ -259,13 +259,13 @@ INSERT INTO queue (name, group_id, system_address_id, salutation_id, signature_i
 -- ----------------------------------------------------------
 INSERT INTO standard_response (name, text, content_type, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('empty answer', '', 'text/plain; charset=utf-8', 1, 1, current_timestamp, 1, current_timestamp);
+    ('empty answer', '', 'text/plain; charset=iso-8859-1', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table standard_response
 -- ----------------------------------------------------------
 INSERT INTO standard_response (name, text, content_type, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('test answer', 'Some test answer to show how a standard response can be used.', 'text/plain; charset=utf-8', 1, 1, current_timestamp, 1, current_timestamp);
+    ('test answer', 'Some test answer to show how a standard response can be used.', 'text/plain; charset=iso-8859-1', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table queue_standard_response
 -- ----------------------------------------------------------
