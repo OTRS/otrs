@@ -1,0 +1,134 @@
+# --
+# YUI.dtl - provides YUI functions
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# --
+# $Id: YUI.dtl,v 1.1 2009-03-16 23:58:18 sb Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+# js
+<script src="$Config{"Frontend::YUIPath"}build/yahoo/yahoo-min.js" type="text/javascript"></script>
+<script src="$Config{"Frontend::YUIPath"}build/dom/dom-min.js" type="text/javascript"></script>
+<script src="$Config{"Frontend::YUIPath"}build/event/event-min.js" type="text/javascript"></script>
+<script src="$Config{"Frontend::YUIPath"}build/container/container-min.js" type="text/javascript"></script>
+<script src="$Config{"Frontend::YUIPath"}build/menu/menu-min.js" type="text/javascript"></script>
+<script src="$Config{"Frontend::YUIPath"}build/element/element-min.js" type="text/javascript"></script>
+<script src="$Config{"Frontend::YUIPath"}build/button/button-min.js" type="text/javascript"></script>
+<script src="$Config{"Frontend::YUIPath"}build/editor/editor-min.js" type="text/javascript"></script>
+
+# css
+<link rel="stylesheet" type="text/css" href="$Config{"Frontend::YUIPath"}build/menu/assets/skins/sam/menu.css">
+<link rel="stylesheet" type="text/css" href="$Config{"Frontend::YUIPath"}build/button/assets/skins/sam/button.css">
+<link rel="stylesheet" type="text/css" href="$Config{"Frontend::YUIPath"}build/editor/assets/skins/sam/editor.css">
+
+# prepare and start editor
+<script language="JavaScript" type="text/javascript">
+(function() {
+    var EditorConfig = {
+        height: '400px',
+        width: '99%',
+        dompath: false,
+        animate: false,
+        focusAtStart: false,
+        toolbar: {
+            titlebar: false,
+            collapse: false,
+            buttons: [
+                { group: 'fontstyle', label: '$JSText{"Font Name and Size"}',
+                    buttons: [
+                        { type: 'select', label: 'Geneva', value: 'fontname', disabled: true,
+                            menu: [
+                                { text: 'Geneva', checked: true },
+                                { text: 'Helvetica' },
+                                { text: 'Arial' },
+                                { text: 'sans-serif' }
+                            ]
+                        },
+                        { type: 'spin', label: '13', value: 'fontsize', range: [ 9, 75 ], disabled: true }
+                    ]
+                },
+                { type: 'separator' },
+                { group: 'textstyle', label: '$JSText{"Font Style"}',
+                    buttons: [
+                        { type: 'push', label: '$JSText{"Bold"} $JSText{"CTRL"} + $JSText{"SHIFT"} + B', value: 'bold' },
+                        { type: 'push', label: '$JSText{"Italic"} $JSText{"CTRL"} + $JSText{"SHIFT"} + I', value: 'italic' },
+                        { type: 'push', label: '$JSText{"Underline"} $JSText{"CTRL"} + $JSText{"SHIFT"} + U', value: 'underline' },
+                        { type: 'separator' },
+                        { type: 'push', label: '$JSText{"Subscript"}', value: 'subscript', disabled: true },
+                        { type: 'push', label: '$JSText{"Superscript"}', value: 'superscript', disabled: true }
+                    ]
+                },
+                { type: 'separator' },
+                { group: 'textstyle2', label: '&nbsp;',
+                    buttons: [
+                        { type: 'color', label: '$JSText{"Font Color"}', value: 'forecolor', disabled: true },
+                        { type: 'color', label: '$JSText{"Background Color"}', value: 'backcolor', disabled: true },
+                        { type: 'separator' },
+                        { type: 'push', label: '$JSText{"Remove Formatting"}', value: 'removeformat', disabled: true },
+                        { type: 'push', label: '$JSText{"Show/Hide Hidden Elements"}', value: 'hiddenelements' }
+                    ]
+                },
+                { type: 'separator' },
+                { group: 'alignment', label: '$JSText{"Alignment"}',
+                    buttons: [
+                        { type: 'push', label: '$JSText{"Align Left"} $JSText{"CTRL"} + $JSText{"SHIFT"} + [', value: 'justifyleft' },
+                        { type: 'push', label: '$JSText{"Align Center"} $JSText{"CTRL"} + $JSText{"SHIFT"} + |', value: 'justifycenter' },
+                        { type: 'push', label: '$JSText{"Align Right"} $JSText{"CTRL"} + $JSText{"SHIFT"} + ]', value: 'justifyright' },
+                        { type: 'push', label: '$JSText{"Justify"}', value: 'justifyfull' }
+                    ]
+                },
+                { type: 'separator' },
+                { group: 'parastyle', label: '$JSText{"Paragraph Style"}',
+                    buttons: [
+                    { type: 'select', label: '$JSText{"Normal"}', value: 'heading', disabled: true,
+                        menu: [
+                            { text: '$JSText{"Normal"}', value: 'none', checked: true },
+                            { text: '$JSText{"Header"} 1', value: 'h1' },
+                            { text: '$JSText{"Header"} 2', value: 'h2' },
+                            { text: '$JSText{"Header"} 3', value: 'h3' },
+                            { text: '$JSText{"Header"} 4', value: 'h4' },
+                            { text: '$JSText{"Header"} 5', value: 'h5' },
+                            { text: '$JSText{"Header"} 6', value: 'h6' }
+                        ]
+                    }
+                    ]
+                },
+                { type: 'separator' },
+                { group: 'indentlist2', label: '$JSText{"Indenting and Lists"}',
+                    buttons: [
+                        { type: 'push', label: '$JSText{"Indent"}', value: 'indent', disabled: true },
+                        { type: 'push', label: '$JSText{"Outdent"}', value: 'outdent', disabled: true },
+                        { type: 'push', label: '$JSText{"Create an Unordered List"}', value: 'insertunorderedlist' },
+                        { type: 'push', label: '$JSText{"Create an Ordered List"}', value: 'insertorderedlist' }
+                    ]
+                },
+                { type: 'separator' },
+                { group: 'insertitem', label: '$JSText{"Insert Item"}',
+                    buttons: [
+                        { type: 'push', label: '$JSText{"HTML Link"} $JSText{"CTRL"} + $JSText{"SHIFT"} + L', value: 'createlink', disabled: true },
+                        { type: 'push', label: '$JSText{"Insert Image"}', value: 'insertimage' }
+                    ]
+                },
+                { type: 'separator' },
+                { group: 'undoredo', label: '$JSText{"Undo"} / $JSText{"Redo"}',
+                    buttons: [
+                        { type: 'push', label: '$JSText{"Undo"}', value: 'undo', disabled: true },
+                        { type: 'push', label: '$JSText{"Redo"}', value: 'redo', disabled: true }
+                    ]
+                }
+            ]
+        }
+    };
+
+    var myEditor = new YAHOO.widget.Editor('RichText', EditorConfig);
+
+    myEditor.render();
+
+    var Event = YAHOO.util.Event;
+    Event.on( 'submitRichText', 'mousedown', function(e) { myEditor.saveHTML(); } );
+
+})();
+</script>
