@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NotificationAgentTicket.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationAgentTicket.pm,v 1.10 2009-02-16 11:16:22 tr Exp $
+# $Id: NotificationAgentTicket.pm,v 1.11 2009-03-16 08:48:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,22 +35,21 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Output = '';
-
     # get user lock data
     my %LockedData = $Self->{TicketObject}->GetLockedCount( UserID => $Self->{UserID} );
 
+    my $Output = '';
     if ( $LockedData{New} ) {
         $Output .= $Self->{LayoutObject}->Notify(
             Priority => 'Notice',
-            Link     => '$Env{"Baselink"}Action=AgentTicketMailbox&Filter=New',
+            Link     => '$Env{"Baselink"}Action=AgentTicketLockedView&Filter=New',
             Data     => '$Text{"You have %s new message(s)!", "' . $LockedData{New} . '"}',
         );
     }
     if ( $LockedData{Reminder} ) {
         $Output .= $Self->{LayoutObject}->Notify(
             Priority => 'Notice',
-            Link     => '$Env{"Baselink"}Action=AgentTicketMailbox&Filter=Reminder',
+            Link     => '$Env{"Baselink"}Action=AgentTicketLockedView&Filter=Reminder',
             Data     => '$Text{"You have %s reminder ticket(s)!", "' . $LockedData{Reminder} . '"}',
         );
     }
