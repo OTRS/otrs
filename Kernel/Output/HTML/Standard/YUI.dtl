@@ -2,7 +2,7 @@
 # YUI.dtl - provides YUI functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: YUI.dtl,v 1.3 2009-03-17 10:06:22 sb Exp $
+# $Id: YUI.dtl,v 1.4 2009-03-17 10:38:10 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,11 @@
 # customize css
 <style type="text/css">
 <!--
-.yui-toolbar-group { padding: .5em 0 0 .25em; }
+.yui-toolbar-group { padding: 0 0 .5em 0; }
+.yui-skin-sam .yui-toolbar-container { background-color: #EEEEEE; }
+.yui-skin-sam .yui-editor-container { border: 0; }
+.yui-editor-editable-container { border: 1px solid #808080; }
+.yui-skin-sam .yui-toolbar-container .yui-toolbar-subcont { border: 0; padding: 0; }
 //-->
 </style>
 
