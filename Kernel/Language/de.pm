@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.178 2009-03-06 16:37:11 ub Exp $
+# $Id: de.pm,v 1.179 2009-03-17 09:14:51 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.178 $) [1];
+$VERSION = qw($Revision: 1.179 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1552,6 +1552,28 @@ sub Data {
         'Module documentation' => 'Moduldokumentation',
         'Added!' => 'Hinzugefügt!',
         'Updated!' => 'Aktualisiert!',
+        'Bold' => 'Fett',
+        'Italic' => 'Kursiv',
+        'Underline' => 'Unterstreichen',
+        'Font Color' => 'Schriftfarbe',
+        'Background Color' => 'Hintergrundfarbe',
+        'Remove Formatting' => 'Entferne Formatierung',
+        'Show/Hide Hidden Elements' => 'Zeige/Verstecke versteckte Elemente',
+        'Align Left' => 'Ausrichtung linksbündig',
+        'Align Center' => 'Ausrichtung zentriert',
+        'Align Right' => 'Ausrichtung rechtsbündig',
+        'Justify' => 'Blocksatz',
+        'Header' => 'Überschrift',
+        'Indent' => 'Einzug erhöhen',
+        'Outdent' => 'Einzug vermindern',
+        'Create an Unordered List' => 'Aufzählungsliste erstellen',
+        'Create an Ordered List' => 'Nummerierte Liste erstellen',
+        'HTML Link' => 'HTML Verknüpfung',
+        'Insert Image' => 'Bild einfügen',
+        'CTRL' => 'STRG',
+        'SHIFT' => 'Umschalt',
+        'Undo' => 'Rückgängig',
+        'Redo' => 'Wiederholen',
     };
     # $$STOP$$
     return;

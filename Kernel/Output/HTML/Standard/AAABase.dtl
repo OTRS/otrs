@@ -2,7 +2,7 @@
 # AAABase.dtl - $Text variable file
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AAABase.dtl,v 1.64 2009-02-16 11:07:25 tr Exp $
+# $Id: AAABase.dtl,v 1.65 2009-03-17 09:14:51 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -269,3 +269,27 @@ $Text{"Sent new password to: %s"}
 $Text{"Invalid Token!"}
 $Text{"For more info see:"}
 $Text{"Package verification failed!"}
+
+# richtext editor
+$Text{"Bold"}
+$Text{"Italic"}
+$Text{"Underline"}
+$Text{"Font Color"}
+$Text{"Background Color"}
+$Text{"Remove Formatting"}
+$Text{"Show/Hide Hidden Elements"}
+$Text{"Align Left"}
+$Text{"Align Center"}
+$Text{"Align Right"}
+$Text{"Justify"}
+$Text{"Header"}
+$Text{"Indent"}
+$Text{"Outdent"}
+$Text{"Create an Unordered List"}
+$Text{"Create an Ordered List"}
+$Text{"HTML Link"}
+$Text{"Insert Image"}
+$Text{"CTRL"}
+$Text{"SHIFT"}
+$Text{"Undo"}
+$Text{"Redo"}
