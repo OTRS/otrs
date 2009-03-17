@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: ingres, generated: 2008-10-29 19:56:34
+--  driver: ingres, generated: 2009-03-17 09:45:44
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table postmaster_filter
@@ -55,5 +55,25 @@ ALTER TABLE customer_user ADD COLUMN city VARCHAR(150);\g
 --  alter table customer_user
 -- ----------------------------------------------------------
 ALTER TABLE customer_user ADD COLUMN country VARCHAR(150);\g
+-- ----------------------------------------------------------
+--  alter table salutation
+-- ----------------------------------------------------------
+ALTER TABLE salutation ADD COLUMN content_type VARCHAR(250);\g
+-- ----------------------------------------------------------
+--  alter table signature
+-- ----------------------------------------------------------
+ALTER TABLE signature ADD COLUMN content_type VARCHAR(250);\g
+-- ----------------------------------------------------------
+--  alter table standard_response
+-- ----------------------------------------------------------
+ALTER TABLE standard_response ADD COLUMN content_type VARCHAR(250);\g
+-- ----------------------------------------------------------
+--  alter table auto_response
+-- ----------------------------------------------------------
+ALTER TABLE auto_response ADD COLUMN content_type VARCHAR(250);\g
+-- ----------------------------------------------------------
+--  alter table notifications
+-- ----------------------------------------------------------
+ALTER TABLE notifications ADD COLUMN content_type VARCHAR(250);\g
 ALTER TABLE service_preferences ADD FOREIGN KEY (service_id) REFERENCES service(id);\g
 ALTER TABLE sla_preferences ADD FOREIGN KEY (sla_id) REFERENCES sla(id);\g

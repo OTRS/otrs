@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2008-10-29 19:56:34
+--  driver: db2, generated: 2009-03-17 09:45:44
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table postmaster_filter
@@ -73,7 +73,31 @@ ALTER TABLE customer_user ADD city VARCHAR (150);
 -- ----------------------------------------------------------
 ALTER TABLE customer_user ADD country VARCHAR (150);
 
+-- ----------------------------------------------------------
+--  alter table salutation
+-- ----------------------------------------------------------
+ALTER TABLE salutation ADD content_type VARCHAR (250);
+
+-- ----------------------------------------------------------
+--  alter table signature
+-- ----------------------------------------------------------
+ALTER TABLE signature ADD content_type VARCHAR (250);
+
+-- ----------------------------------------------------------
+--  alter table standard_response
+-- ----------------------------------------------------------
+ALTER TABLE standard_response ADD content_type VARCHAR (250);
+
+-- ----------------------------------------------------------
+--  alter table auto_response
+-- ----------------------------------------------------------
+ALTER TABLE auto_response ADD content_type VARCHAR (250);
+
+-- ----------------------------------------------------------
+--  alter table notifications
+-- ----------------------------------------------------------
+ALTER TABLE notifications ADD content_type VARCHAR (250);
+
 ALTER TABLE service_preferences ADD CONSTRAINT FK_service_preferences_service_id_id FOREIGN KEY (service_id) REFERENCES service (id);
 
 ALTER TABLE sla_preferences ADD CONSTRAINT FK_sla_preferences_sla_id_id FOREIGN KEY (sla_id) REFERENCES sla (id);
-

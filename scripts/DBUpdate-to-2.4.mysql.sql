@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2008-10-29 19:56:34
+#  driver: mysql, generated: 2009-03-17 09:45:45
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  alter table postmaster_filter
@@ -59,5 +59,25 @@ ALTER TABLE customer_user ADD city VARCHAR (150) NULL;
 #  alter table customer_user
 # ----------------------------------------------------------
 ALTER TABLE customer_user ADD country VARCHAR (150) NULL;
+# ----------------------------------------------------------
+#  alter table salutation
+# ----------------------------------------------------------
+ALTER TABLE salutation ADD content_type VARCHAR (250) NULL;
+# ----------------------------------------------------------
+#  alter table signature
+# ----------------------------------------------------------
+ALTER TABLE signature ADD content_type VARCHAR (250) NULL;
+# ----------------------------------------------------------
+#  alter table standard_response
+# ----------------------------------------------------------
+ALTER TABLE standard_response ADD content_type VARCHAR (250) NULL;
+# ----------------------------------------------------------
+#  alter table auto_response
+# ----------------------------------------------------------
+ALTER TABLE auto_response ADD content_type VARCHAR (250) NULL;
+# ----------------------------------------------------------
+#  alter table notifications
+# ----------------------------------------------------------
+ALTER TABLE notifications ADD content_type VARCHAR (250) NULL;
 ALTER TABLE service_preferences ADD CONSTRAINT FK_service_preferences_service_id_id FOREIGN KEY (service_id) REFERENCES service (id);
 ALTER TABLE sla_preferences ADD CONSTRAINT FK_sla_preferences_sla_id_id FOREIGN KEY (sla_id) REFERENCES sla (id);

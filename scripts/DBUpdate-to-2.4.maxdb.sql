@@ -1,5 +1,5 @@
 // ----------------------------------------------------------
-//  driver: maxdb, generated: 2008-10-29 19:56:34
+//  driver: maxdb, generated: 2009-03-17 09:45:44
 // ----------------------------------------------------------
 // ----------------------------------------------------------
 //  alter table postmaster_filter
@@ -26,7 +26,7 @@ CREATE TABLE service_preferences
     preferences_value VARCHAR (250)
 )
 //
-CREATE INDEX service_preferences_22 ON service_preferences (service_id)
+CREATE INDEX service_preferences_8 ON service_preferences (service_id)
 //
 // ----------------------------------------------------------
 //  create table sla_preferences
@@ -38,7 +38,7 @@ CREATE TABLE sla_preferences
     preferences_value VARCHAR (250)
 )
 //
-CREATE INDEX sla_preferences_sla_2 ON sla_preferences (sla_id)
+CREATE INDEX sla_preferences_sla_17 ON sla_preferences (sla_id)
 //
 // ----------------------------------------------------------
 //  alter table customer_user
@@ -74,6 +74,31 @@ ALTER TABLE customer_user ADD city VARCHAR (150)
 //  alter table customer_user
 // ----------------------------------------------------------
 ALTER TABLE customer_user ADD country VARCHAR (150)
+//
+// ----------------------------------------------------------
+//  alter table salutation
+// ----------------------------------------------------------
+ALTER TABLE salutation ADD content_type VARCHAR (250)
+//
+// ----------------------------------------------------------
+//  alter table signature
+// ----------------------------------------------------------
+ALTER TABLE signature ADD content_type VARCHAR (250)
+//
+// ----------------------------------------------------------
+//  alter table standard_response
+// ----------------------------------------------------------
+ALTER TABLE standard_response ADD content_type VARCHAR (250)
+//
+// ----------------------------------------------------------
+//  alter table auto_response
+// ----------------------------------------------------------
+ALTER TABLE auto_response ADD content_type VARCHAR (250)
+//
+// ----------------------------------------------------------
+//  alter table notifications
+// ----------------------------------------------------------
+ALTER TABLE notifications ADD content_type VARCHAR (250)
 //
 ALTER TABLE service_preferences ADD FOREIGN KEY (service_id) REFERENCES service(id)
 //
