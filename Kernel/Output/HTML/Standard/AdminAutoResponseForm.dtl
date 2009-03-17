@@ -2,13 +2,16 @@
 # AdminAutoResponseForm.dtl - provides HTML form for AdminAutoResponse
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAutoResponseForm.dtl,v 1.31 2009-02-16 11:07:25 tr Exp $
+# $Id: AdminAutoResponseForm.dtl,v 1.32 2009-03-16 23:59:34 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+<!-- dtl:block:RichText -->
+$Include{"YUI"}
+<!-- dtl:block:RichText -->
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
@@ -70,7 +73,11 @@ $Data{"Note"}
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Response"}: </td>
-                  <td class="contentvalue"> <textarea rows="10" cols="60" name="Response">$QData{"Response"}</textarea></td>
+                  <td class="contentvalue">
+                    <div class="yui-skin-sam">
+                      <textarea id="RichText" rows="10" cols="60" name="Response">$QData{"Response"}</textarea>
+                    </div>
+                  </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Type"}: </td>
@@ -93,7 +100,7 @@ $Data{"Note"}
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" type="submit" value="$Text{"$Data{"Headline"}"}"/>
+              <input class="button" id="submitRichText" type="submit" value="$Text{"$Data{"Headline"}"}"/>
             </td>
           </tr>
         </table>
@@ -182,13 +189,13 @@ Super Support Company Inc. - Waterford Business Park
 Email: hot@florida.com - Web: http://hot.florida.com/
 --
                 </textarea>
-                </td>
-              </tr>
-            </table>
-          </form>
-          <hr>
-        </p>
-      </td>
-    </tr>
-  </table>
+                  </td>
+                </tr>
+              </table>
+            </form>
+            <hr>
+          </p>
+        </td>
+      </tr>
+    </table>
 <!-- end note -->

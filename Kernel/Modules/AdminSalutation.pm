@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSalutation.pm - to add/update/delete system addresses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSalutation.pm,v 1.33 2009-03-09 23:34:47 sb Exp $
+# $Id: AdminSalutation.pm,v 1.34 2009-03-16 23:59:34 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Salutation;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -215,6 +215,23 @@ sub Run {
 
 sub _Edit {
     my ( $Self, %Param ) = @_;
+
+    # add YUI editor
+    if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'RichText',
+            Data => \%Param,
+        );
+
+        # reformat salutation if necessary
+        if ( $Param{ContentType} && $Param{ContentType} =~ /^text\/plain/ ) {
+            $Param{Text} = $Self->{LayoutObject}->Ascii2Html(
+                Text           => $Param{Text},
+                NewLine        => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
+                HTMLResultMode => 1,
+            );
+        }
+    }
 
     $Self->{LayoutObject}->Block(
         Name => 'Overview',

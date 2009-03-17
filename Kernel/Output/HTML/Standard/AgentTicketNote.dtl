@@ -2,7 +2,7 @@
 # AgentTicketNote.dtl - provides HTML form for note mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketNote.dtl,v 1.30 2009-03-04 13:42:23 tr Exp $
+# $Id: AgentTicketNote.dtl,v 1.31 2009-03-17 00:00:35 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -173,6 +173,9 @@ function change_selected(sel) {
                 </tr>
 <!-- dtl:block:Responsible -->
 <!-- dtl:block:Note -->
+<!-- dtl:block:RichText -->
+$Include{"YUI"}
+<!-- dtl:block:RichText -->
 <!-- dtl:block:InformAgent -->
                 <tr>
                   <td colspan="2" class="contentkey">$Text{"Inform Agent"}: ($Text{"Optional"})</td>
@@ -204,7 +207,9 @@ function change_selected(sel) {
                 <tr>
                   <td colspan="2" class="contentkey">$Text{"Text"}:</td>
                   <td class="contentvalue">
-                    <textarea name="Body" rows="16" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                    <div class="yui-skin-sam">
+                    <textarea id="RichText" name="Body" rows="16" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                    </div>
                     <font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
                   </td>
                 </tr>
@@ -321,7 +326,7 @@ function change_selected(sel) {
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" accesskey="g" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();"/>
+              <input class="button" id="submitRichText" accesskey="g" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();"/>
             </td>
           </tr>
         </table>

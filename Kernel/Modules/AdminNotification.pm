@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminNotification.pm - provides admin notification translations
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotification.pm,v 1.17 2009-03-09 23:34:47 sb Exp $
+# $Id: AdminNotification.pm,v 1.18 2009-03-16 23:59:34 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Notification;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -141,6 +141,23 @@ sub _MaskNotificationForm {
         SelectedID => $Param{Name},
         HTMLQuote  => 1,
     );
+
+    # add YUI editor
+    if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'RichText',
+            Data => \%Param,
+        );
+
+        # reformat notification if necessary
+        if ( $Param{ContentType} && $Param{ContentType} =~ /^text\/plain/ ) {
+            $Param{Body} = $Self->{LayoutObject}->Ascii2Html(
+                Text           => $Param{Body},
+                NewLine        => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
+                HTMLResultMode => 1,
+            );
+        }
+    }
 
     return $Self->{LayoutObject}->Output(
         TemplateFile => 'AdminNotificationForm',

@@ -2,13 +2,16 @@
 # AdminNotificationForm.dtl - provides HTML form for AdminNotification
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationForm.dtl,v 1.24 2009-02-16 11:07:25 tr Exp $
+# $Id: AdminNotificationForm.dtl,v 1.25 2009-03-16 23:59:34 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+<!-- dtl:block:RichText -->
+$Include{"YUI"}
+<!-- dtl:block:RichText -->
 <!-- start form -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
@@ -40,7 +43,7 @@
     </td>
     <td width="70%" class="mainbody">
 # check subaction
-      <dtl if ($Env{"Subaction"} eq "Change") { $Data{"Botton"} = "<input class="button" type="submit" value="$Text{"Update"}"/>"; }>
+      <dtl if ($Env{"Subaction"} eq "Change") { $Data{"Botton"} = "<input class="button" id="submitRichText" type="submit" value="$Text{"Update"}"/>"; }>
       <form action="$Env{"CGIHandle"}" method="post">
         <input type="hidden" name="Action" value="$Env{"Action"}"/>
         <input type="hidden" name="Subaction" value="$Env{"Subaction"}Action"/>
@@ -68,7 +71,9 @@
                 <tr>
                   <td class="contentkey">$Text{"Text"}: </td>
                   <td class="contentvalue">
-                    <textarea rows="12" cols="75" name="Body" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea>
+                    <div class="yui-skin-sam">
+                      <textarea id="RichText" rows="12" cols="75" name="Body" wrap="$Env{"BrowserWrap"}">$QData{"Body"}</textarea>
+                    </div>
                   </td>
                 </tr>
               </table>

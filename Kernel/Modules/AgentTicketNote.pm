@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketNote.pm - to add notes to a ticket
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketNote.pm,v 1.55 2009-03-05 13:13:02 martin Exp $
+# $Id: AgentTicketNote.pm,v 1.56 2009-03-17 00:00:35 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -235,7 +235,7 @@ sub Run {
     }
 
     # rewrap body if exists
-    if ( $GetParam{Body} ) {
+    if ( $GetParam{Body} && !$Self->{ConfigObject}->{'Frontend::RichText'} ) {
         my $Size = $Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote') || 70;
         $GetParam{Body} =~ s/(^>.+|.{4,$Size})(?:\s|\z)/$1\n/gm;
     }
@@ -485,11 +485,16 @@ sub Run {
         # add note
         my $ArticleID = '';
         if ( $Self->{Config}->{Note} ) {
+            my $TextType = 'plain';
+            if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+                $TextType = 'html';
+            }
+
             $ArticleID = $Self->{TicketObject}->ArticleCreate(
                 TicketID    => $Self->{TicketID},
                 SenderType  => 'agent',
                 From        => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
-                ContentType => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
+                ContentType => "text/$TextType; charset=$Self->{LayoutObject}->{'UserCharset'}",
                 UserID      => $Self->{UserID},
                 HistoryType => $Self->{Config}->{HistoryType},
                 HistoryComment => $Self->{Config}->{HistoryComment},
@@ -1010,6 +1015,14 @@ sub _Mask {
             Name => 'Note',
             Data => {%Param},
         );
+
+        # add YUI editor
+        if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'RichText',
+                Data => \%Param,
+            );
+        }
 
         # agent list
         if ( $Self->{Config}->{InformAgent} ) {
