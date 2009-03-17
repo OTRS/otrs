@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.32 2009-02-20 12:29:36 mh Exp $
+# $Id: CustomerTicketZoom.pm,v 1.33 2009-03-17 11:58:05 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -279,7 +279,7 @@ sub Run {
     # set priority from ticket as fallback
     $GetParam{PriorityID} ||= $Ticket{PriorityID};
 
-    # get all atricle of this ticket
+    # get all article of this ticket
     my @CustomerArticleTypes = $Self->{TicketObject}->ArticleTypeList( Type => 'Customer' );
     my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
         TicketID                   => $Self->{TicketID},
@@ -334,10 +334,16 @@ sub _Mask {
     my $BaseLink          = $Self->{LayoutObject}->{Baselink} . "TicketID=$Self->{TicketID}&";
     my @ArticleBox        = @{ $Param{ArticleBox} };
 
+    if ( !@ArticleBox ) {
+        # error screen, don't show ticket
+        return $Self->{LayoutObject}->CustomerNoPermission( WithHeader => 'no' );
+    }
+
     # get last customer article
     my $CounterArray = 0;
     my $LastCustomerArticleID;
     my $LastCustomerArticle = $#ArticleBox;
+
     my $ArticleID           = '';
     for my $ArticleTmp (@ArticleBox) {
         my %Article = %$ArticleTmp;

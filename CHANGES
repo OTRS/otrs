@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.842 2009-03-06 16:43:05 ub Exp $
+# $Id: CHANGES,v 1.843 2009-03-17 12:01:48 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.4.0 beta1 (2009/??/??)
+ - (2009/03/17) Fixed bug# 3713 - Apache-error if ticket has only internal
+    articles.
  - (2009/03/06) Added article filter feature in TicketZoom.
  - (2009/03/01) Replaced dtl variable for image location "$Env{"Images"}" by
     using config option "$Config{"Frontend::ImagePath"}" to remove not needed
