@@ -2,7 +2,7 @@
 # YUI.dtl - provides YUI functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: YUI.dtl,v 1.1 2009-03-16 23:58:18 sb Exp $
+# $Id: YUI.dtl,v 1.2 2009-03-17 09:15:29 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -37,7 +37,7 @@
             titlebar: false,
             collapse: false,
             buttons: [
-                { group: 'fontstyle', label: '$JSText{"Font Name and Size"}',
+                { group: 'fontstyle', label: '&nbsp;',
                     buttons: [
                         { type: 'select', label: 'Geneva', value: 'fontname', disabled: true,
                             menu: [
@@ -51,14 +51,11 @@
                     ]
                 },
                 { type: 'separator' },
-                { group: 'textstyle', label: '$JSText{"Font Style"}',
+                { group: 'textstyle', label: '&nbsp;',
                     buttons: [
                         { type: 'push', label: '$JSText{"Bold"} $JSText{"CTRL"} + $JSText{"SHIFT"} + B', value: 'bold' },
                         { type: 'push', label: '$JSText{"Italic"} $JSText{"CTRL"} + $JSText{"SHIFT"} + I', value: 'italic' },
                         { type: 'push', label: '$JSText{"Underline"} $JSText{"CTRL"} + $JSText{"SHIFT"} + U', value: 'underline' },
-                        { type: 'separator' },
-                        { type: 'push', label: '$JSText{"Subscript"}', value: 'subscript', disabled: true },
-                        { type: 'push', label: '$JSText{"Superscript"}', value: 'superscript', disabled: true }
                     ]
                 },
                 { type: 'separator' },
@@ -72,7 +69,7 @@
                     ]
                 },
                 { type: 'separator' },
-                { group: 'alignment', label: '$JSText{"Alignment"}',
+                { group: 'alignment', label: '&nbsp;',
                     buttons: [
                         { type: 'push', label: '$JSText{"Align Left"} $JSText{"CTRL"} + $JSText{"SHIFT"} + [', value: 'justifyleft' },
                         { type: 'push', label: '$JSText{"Align Center"} $JSText{"CTRL"} + $JSText{"SHIFT"} + |', value: 'justifycenter' },
@@ -81,7 +78,7 @@
                     ]
                 },
                 { type: 'separator' },
-                { group: 'parastyle', label: '$JSText{"Paragraph Style"}',
+                { group: 'parastyle', label: '&nbsp;',
                     buttons: [
                     { type: 'select', label: '$JSText{"Normal"}', value: 'heading', disabled: true,
                         menu: [
@@ -97,7 +94,7 @@
                     ]
                 },
                 { type: 'separator' },
-                { group: 'indentlist2', label: '$JSText{"Indenting and Lists"}',
+                { group: 'indentlist2', label: '&nbsp;',
                     buttons: [
                         { type: 'push', label: '$JSText{"Indent"}', value: 'indent', disabled: true },
                         { type: 'push', label: '$JSText{"Outdent"}', value: 'outdent', disabled: true },
@@ -106,14 +103,14 @@
                     ]
                 },
                 { type: 'separator' },
-                { group: 'insertitem', label: '$JSText{"Insert Item"}',
+                { group: 'insertitem', label: '&nbsp;',
                     buttons: [
                         { type: 'push', label: '$JSText{"HTML Link"} $JSText{"CTRL"} + $JSText{"SHIFT"} + L', value: 'createlink', disabled: true },
                         { type: 'push', label: '$JSText{"Insert Image"}', value: 'insertimage' }
                     ]
                 },
                 { type: 'separator' },
-                { group: 'undoredo', label: '$JSText{"Undo"} / $JSText{"Redo"}',
+                { group: 'undoredo', label: '&nbsp;',
                     buttons: [
                         { type: 'push', label: '$JSText{"Undo"}', value: 'undo', disabled: true },
                         { type: 'push', label: '$JSText{"Redo"}', value: 'redo', disabled: true }
