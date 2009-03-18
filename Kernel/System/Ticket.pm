@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.366 2009-03-05 13:36:49 martin Exp $
+# $Id: Ticket.pm,v 1.367 2009-03-18 19:11:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.366 $) [1];
+$VERSION = qw($Revision: 1.367 $) [1];
 
 =head1 NAME
 
@@ -4610,10 +4610,10 @@ sub LockSet {
     my ( $Self, %Param ) = @_;
 
     # lookup!
-    if ( ( !$Param{LockID} ) && ( $Param{Lock} ) ) {
+    if ( !$Param{LockID} && $Param{Lock} ) {
         $Param{LockID} = $Self->{LockObject}->LockLookup( Lock => $Param{Lock} );
     }
-    if ( ( $Param{LockID} ) && ( !$Param{Lock} ) ) {
+    if ( $Param{LockID} && !$Param{Lock} ) {
         $Param{Lock} = $Self->{LockObject}->LockLookup( LockID => $Param{LockID} );
     }
 
@@ -4630,18 +4630,8 @@ sub LockSet {
     }
 
     # check if update is needed
-    if (
-        ( $Self->LockIsTicketLocked( TicketID => $Param{TicketID} ) && $Param{Lock} eq 'lock' )
-        || (
-            !$Self->LockIsTicketLocked( TicketID => $Param{TicketID} )
-            && $Param{Lock} eq 'unlock'
-        )
-        )
-    {
-
-        # update not needed
-        return 1;
-    }
+    my %Ticket = $Self->TicketGet(%Param);
+    return 1 if $Ticket{Lock} eq $Param{Lock};
 
     # db update
     return if !$Self->{DBObject}->Do(
@@ -6394,7 +6384,7 @@ sub TicketWatchGet {
             CreateBy   => $Row[2],
             ChangeTime => $Row[3],
             ChangeBy   => $Row[4],
-            }
+        },
     }
 
     if ( $Param{Notify} ) {
@@ -7017,6 +7007,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.366 $ $Date: 2009-03-05 13:36:49 $
+$Revision: 1.367 $ $Date: 2009-03-18 19:11:28 $
 
 =cut
