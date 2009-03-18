@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Language.pm,v 1.61 2009-02-16 12:01:43 tr Exp $
+# $Id: Language.pm,v 1.62 2009-03-18 18:58:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 =head1 NAME
 
@@ -40,11 +40,15 @@ All language functions.
 create a language object
 
     use Kernel::Config;
+    use Kernel::System::Encode;
     use Kernel::System::Log;
     use Kernel::System::Main;
     use Kernel::Language;
 
     my $ConfigObject = Kernel::Config->new();
+    my $EncodeObject = Kernel::System::Encode->new(
+        ConfigObject => $ConfigObject,
+    );
     my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
@@ -57,6 +61,7 @@ create a language object
     my $LanguageObject = Kernel::Language->new(
         MainObject   => $MainObject,
         ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
         LogObject    => $LogObject,
         UserLanguage => 'de',
     );
@@ -71,12 +76,9 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(ConfigObject LogObject MainObject)) {
+    for (qw(ConfigObject LogObject MainObject EncodeObject)) {
         die "Got no $_!" if ( !$Self->{$_} );
     }
-
-    # encode object
-    $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
 
     # time object
     $Self->{TimeObject} = Kernel::System::Time->new(%Param);
@@ -518,6 +520,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.61 $ $Date: 2009-02-16 12:01:43 $
+$Revision: 1.62 $ $Date: 2009-03-18 18:58:33 $
 
 =cut

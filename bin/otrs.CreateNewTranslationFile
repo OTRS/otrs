@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # otrs.CreateNewTranslationFile - create new translation file
-# Copyright (C) 2003-2009 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CreateNewTranslationFile,v 1.27 2009-02-26 11:01:01 tr Exp $
+# $Id: otrs.CreateNewTranslationFile,v 1.28 2009-03-18 18:58:33 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,10 +31,11 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION %Opts);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
+use Kernel::System::Encode;
 use Kernel::System::Log;
 use Kernel::System::Main;
 use Kernel::Language;
@@ -44,7 +45,7 @@ getopt( 'olst', \%Opts );
 
 # print head
 print "otrs.CreateNewTranslationFile <Revision $VERSION> - create new translation file\n";
-print "Copyright (c) 2001-2009 OTRS AG, http://otrs.org/\n";
+print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
 print "usage: otrs.CreateNewTranslationFile -l <Language> -t <dtl_files_or_directory>\n";
 
 # common objects
@@ -54,7 +55,8 @@ $CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-CreateNewTranslationFile',
     %CommonObject,
 );
-$CommonObject{MainObject} = Kernel::System::Main->new( %CommonObject, );
+$CommonObject{EncodeObject} = Kernel::System::Encode->new( %CommonObject, );
+$CommonObject{MainObject}   = Kernel::System::Main->new( %CommonObject, );
 
 # check params
 if ( !$Opts{l} ) {

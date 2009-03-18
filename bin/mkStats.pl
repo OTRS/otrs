@@ -3,7 +3,7 @@
 # mkStats.pl - send stats output via email
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: mkStats.pl,v 1.60 2009-02-26 11:01:01 tr Exp $
+# $Id: mkStats.pl,v 1.61 2009-03-18 18:58:33 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,10 +31,11 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
+use Kernel::System::Encode;
 use Kernel::System::Time;
 use Kernel::System::Main;
 use Kernel::System::DB;
@@ -57,6 +58,7 @@ $CommonObject{LogObject}    = Kernel::System::Log->new(
     %CommonObject,
 );
 $CommonObject{CSVObject}       = Kernel::System::CSV->new(%CommonObject);
+$CommonObject{EncodeObject}    = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{TimeObject}      = Kernel::System::Time->new(%CommonObject);
 $CommonObject{MainObject}      = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject}        = Kernel::System::DB->new(%CommonObject);
@@ -118,6 +120,7 @@ $CommonObject{LanguageObject} = Kernel::Language->new(
     UserLanguage => $Lang,
     LogObject    => $CommonObject{LogObject},
     ConfigObject => $CommonObject{ConfigObject},
+    EncodeObject => $CommonObject{EncodeObject},
     MainObject   => $CommonObject{MainObject},
 );
 
