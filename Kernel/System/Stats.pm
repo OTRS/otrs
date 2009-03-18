@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.65 2009-03-12 09:32:44 tr Exp $
+# $Id: Stats.pm,v 1.66 2009-03-18 19:06:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,10 +17,9 @@ use warnings;
 use MIME::Base64;
 use Date::Pcalc qw(:all);
 use Kernel::System::XML;
-use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.65 $) [1];
+$VERSION = qw($Revision: 1.66 $) [1];
 
 =head1 SYNOPSIS
 
@@ -46,6 +45,9 @@ create an object
 
     my $ConfigObject = Kernel::Config->new();
     my $LogObject = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $EncodeObject = Kernel::System::Encode->new(
         ConfigObject => $ConfigObject,
     );
     my $MainObject = Kernel::System::Main->new(
@@ -78,6 +80,7 @@ create an object
     );
     my $StatsObject = Kernel::System::Stats->new(
         ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
         LogObject    => $LogObject,
         DBObject     => $DBObject,
         MainObject   => $MainObject,
@@ -101,7 +104,7 @@ sub new {
         qw(
         ConfigObject LogObject UserID GroupObject
         UserObject TimeObject MainObject CSVObject
-        DBObject
+        DBObject EncodeObject
         )
         )
     {
@@ -110,7 +113,6 @@ sub new {
 
     # create supplementary objects
     $Self->{XMLObject}    = Kernel::System::XML->new(%Param);
-    $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
 
     # temporary directory
     $Self->{StatsTempDir} = $Self->{ConfigObject}->Get('Home') . '/var/stats/';
@@ -3154,6 +3156,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.65 $ $Date: 2009-03-12 09:32:44 $
+$Revision: 1.66 $ $Date: 2009-03-18 19:06:20 $
 
 =cut
