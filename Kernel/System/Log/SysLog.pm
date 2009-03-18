@@ -2,7 +2,7 @@
 # Kernel/System/Log/SysLog.pm - a wrapper for Sys::Syslog or xyz::Syslog
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: SysLog.pm,v 1.17 2009-02-16 11:48:19 tr Exp $
+# $Id: SysLog.pm,v 1.18 2009-03-18 18:49:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,10 +15,9 @@ use strict;
 use warnings;
 
 use Sys::Syslog qw(:DEFAULT setlogsock);
-use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -27,16 +26,15 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    # get config object
-    if ( !$Param{ConfigObject} ) {
-        die "Got no ConfigObject!";
+    # get needed objects
+    for (qw(ConfigObject EncodeObject)) {
+        if ( $Param{$_} ) {
+            $Self->{$_} = $Param{$_};
+        }
+        else {
+            die "Got no $_!";
+        }
     }
-    else {
-        $Self->{ConfigObject} = $Param{ConfigObject};
-    }
-
-    # create encode object
-    $Self->{EncodeObject} = Kernel::System::Encode->new( %Param, );
 
     # set syslog facility
     $Self->{SysLogFacility} = $Param{ConfigObject}->Get('LogModule::SysLog::Facility') || 'user';
