@@ -2,7 +2,7 @@
 # Kernel/System/AuthSession/DB.pm - provides session db backend
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.38 2009-02-20 12:11:41 mh Exp $
+# $Id: DB.pm,v 1.39 2009-03-18 18:52:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,10 +15,9 @@ use strict;
 use warnings;
 use Digest::MD5;
 use MIME::Base64;
-use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -28,12 +27,9 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(LogObject ConfigObject DBObject TimeObject)) {
+    for (qw(LogObject ConfigObject DBObject TimeObject EncodeObject)) {
         $Self->{$_} = $Param{$_} || die "No $_!";
     }
-
-    # encode object
-    $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
 
     # get more common params
     $Self->{SystemID} = $Self->{ConfigObject}->Get('SystemID');
