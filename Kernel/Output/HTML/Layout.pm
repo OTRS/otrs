@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.128 2009-03-10 14:24:08 tr Exp $
+# $Id: Layout.pm,v 1.129 2009-03-18 14:49:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.128 $) [1];
+$VERSION = qw($Revision: 1.129 $) [1];
 
 =head1 NAME
 
@@ -579,9 +579,7 @@ sub Output {
     if ( $Self->{FilterElementPre} ) {
         my %Filters = %{ $Self->{FilterElementPre} };
         for my $Filter ( sort keys %Filters ) {
-            if ( !$Self->{MainObject}->Require( $Filters{$Filter}->{Module} ) ) {
-                $Self->FatalDie();
-            }
+            next if !$Self->{MainObject}->Require( $Filters{$Filter}->{Module} );
             my $Object = $Filters{$Filter}->{Module}->new(
                 ConfigObject => $Self->{ConfigObject},
                 LogObject    => $Self->{LogObject},
@@ -784,9 +782,7 @@ sub Output {
     if ( $Self->{FilterElementPost} ) {
         my %Filters = %{ $Self->{FilterElementPost} };
         for my $Filter ( sort keys %Filters ) {
-            if ( !$Self->{MainObject}->Require( $Filters{$Filter}->{Module} ) ) {
-                $Self->FatalDie();
-            }
+            next if !$Self->{MainObject}->Require( $Filters{$Filter}->{Module} );
             my $Object = $Filters{$Filter}->{Module}->new(
                 ConfigObject => $Self->{ConfigObject},
                 LogObject    => $Self->{LogObject},
@@ -1556,26 +1552,22 @@ sub Print {
     if ( $Self->{FilterContent} ) {
         my %Filters = %{ $Self->{FilterContent} };
         for my $Filter ( sort keys %Filters ) {
-            if ( $Self->{MainObject}->Require( $Filters{$Filter}->{Module} ) ) {
-                my $Object = $Filters{$Filter}->{Module}->new(
-                    ConfigObject => $Self->{ConfigObject},
-                    LogObject    => $Self->{LogObject},
-                    MainObject   => $Self->{MainObject},
-                    ParamObject  => $Self->{ParamObject},
-                    LayoutObject => $Self,
-                    Debug        => $Self->{Debug},
-                );
+            next if !$Self->{MainObject}->Require( $Filters{$Filter}->{Module} );
+            my $Object = $Filters{$Filter}->{Module}->new(
+                ConfigObject => $Self->{ConfigObject},
+                LogObject    => $Self->{LogObject},
+                MainObject   => $Self->{MainObject},
+                ParamObject  => $Self->{ParamObject},
+                LayoutObject => $Self,
+                Debug        => $Self->{Debug},
+            );
 
-                # run module
-                $Object->Run(
-                    %{ $Filters{$Filter} },
-                    Data         => $Param{Output},
-                    TemplateFile => $Param{TemplateFile},
-                );
-            }
-            else {
-                $Self->FatalDie();
-            }
+            # run module
+            $Object->Run(
+                %{ $Filters{$Filter} },
+                Data         => $Param{Output},
+                TemplateFile => $Param{TemplateFile},
+            );
         }
     }
     print ${ $Param{Output} };
@@ -4088,6 +4080,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.128 $ $Date: 2009-03-10 14:24:08 $
+$Revision: 1.129 $ $Date: 2009-03-18 14:49:07 $
 
 =cut
