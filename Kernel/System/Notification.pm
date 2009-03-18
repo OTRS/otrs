@@ -2,7 +2,7 @@
 # Kernel/System/Notification.pm - lib for notifications
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Notification.pm,v 1.22 2009-03-09 23:34:47 sb Exp $
+# $Id: Notification.pm,v 1.23 2009-03-18 19:10:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,10 +14,8 @@ package Kernel::System::Notification;
 use strict;
 use warnings;
 
-use Kernel::System::Encode;
-
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 =head1 NAME
 
@@ -38,8 +36,10 @@ This module is managing notifications.
 create a notification object
 
     use Kernel::Config;
+    use Kernel::System::Encode;
     use Kernel::System::Log;
     use Kernel::System::DB;
+    use Kernel::System::Notification;
 
     my $ConfigObject = Kernel::Config->new();
 
@@ -47,7 +47,18 @@ create a notification object
         ConfigObject => $ConfigObject,
     );
 
+    my $EncodeObject = Kernel::System::Encode->new(
+        ConfigObject => $ConfigObject,
+    );
+
     my $DBObject = Kernel::System::DB->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+        MainObject   => $MainObject,
+    );
+
+    my $NotificationObject = Kernel::System::Notification->new(
+        EncodeObject => $EncodeObject,
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
         MainObject   => $MainObject,
@@ -63,13 +74,11 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (qw(ConfigObject LogObject DBObject)) {
+    for (qw(ConfigObject LogObject DBObject EncodeObject)) {
         die "Got no $_!" if !$Param{$_};
 
         $Self->{$_} = $Param{$_};
     }
-
-    $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
 
     return $Self;
 }
@@ -285,6 +294,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2009-03-09 23:34:47 $
+$Revision: 1.23 $ $Date: 2009-03-18 19:10:56 $
 
 =cut
