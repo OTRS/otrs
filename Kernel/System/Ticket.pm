@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.367 2009-03-18 19:11:28 martin Exp $
+# $Id: Ticket.pm,v 1.368 2009-03-19 07:15:19 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.367 $) [1];
+$VERSION = qw($Revision: 1.368 $) [1];
 
 =head1 NAME
 
@@ -117,11 +117,9 @@ sub new {
 
     # create common needed module objects
     if ( !$Param{EncodeObject} ) {
-        $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
+        $Param{EncodeObject} = Kernel::System::Encode->new(%Param);
     }
-    else {
-        $Self->{EncodeObject} = $Param{EncodeObject};
-    }
+    $Self->{EncodeObject} = $Param{EncodeObject};
 
     $Self->{UserObject} = Kernel::System::User->new(%Param);
     if ( !$Param{GroupObject} ) {
@@ -7007,6 +7005,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.367 $ $Date: 2009-03-18 19:11:28 $
+$Revision: 1.368 $ $Date: 2009-03-19 07:15:19 $
 
 =cut
