@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.66 2009-03-18 19:06:20 martin Exp $
+# $Id: Stats.pm,v 1.67 2009-03-19 16:57:17 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Date::Pcalc qw(:all);
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 =head1 SYNOPSIS
 
@@ -295,8 +295,8 @@ sub StatsGet {
                 }
                 REF:
                 for my $Ref (@StatAttributes) {
-                    if ( !defined $Attribute->{LanguageTranslation} ) {
-                        $Attribute->{LanguageTranslation} = 1;
+                    if ( !defined $Attribute->{Translation} ) {
+                        $Attribute->{Translation} = 1;
                     }
 
                     next REF
@@ -772,7 +772,6 @@ sub _GenerateStaticStats {
 sub _GenerateDynamicStats {
     my ( $Self, %Param ) = @_;
 
-    my @StatArray      = ();
     my @HeaderLine     = ();
     my $TitleTimeStart = '';
     my $TitleTimeStop  = '';
@@ -990,7 +989,7 @@ sub _GenerateDynamicStats {
             $Day    = 1;
             $Month  = 1;
         }
-
+# FIXME Timeheader zusammenbauen
         while (
             !$TimeStop
             || $Self->{TimeObject}->TimeStamp2SystemTime( String => $TimeStop )
@@ -1118,6 +1117,8 @@ sub _GenerateDynamicStats {
                 { TimeStart => $TimeStart, TimeStop => $TimeStop }
             );
         }
+# FIXME ENDE TimeHeader zusammenbaen
+
         $Xvalue->{Block}  = 'Time';
         $Xvalue->{Values} = $Element->{Values};
     }
@@ -1127,6 +1128,7 @@ sub _GenerateDynamicStats {
         $Xvalue = $Element;
 
         # build the headerline
+
         for my $Valuename ( @{ $Xvalue->{SelectedValues} } ) {
             push @HeaderLine, $Xvalue->{Values}{$Valuename};
         }
@@ -1472,20 +1474,14 @@ sub _GenerateDynamicStats {
         return @StatArray if @StatArray;
     }
 
-    push @StatArray, [$Title];
-    push @StatArray, \@HeaderLine;
-
-    #Get the stat elements
-    for my $Row ( sort keys %ValueSeries ) {    # get each row
-        my @ResultRow      = ();
-        my %SearchAttribut = ();
-
-        # if is needed for stats without valueseries
-        if ( $ValueSeries{$Row} ) {
-            %SearchAttribut = %{ $ValueSeries{$Row} };
-        }
-        push @ResultRow, $Row;
+    # create the table structure
+    my %TableStructure = ();
+    for my $Row ( sort keys %ValueSeries ) {
+        my @Cells = ();
         for my $Cell ( @{ $Xvalue->{SelectedValues} } ) {    # get each cell
+            $ValueSeries{$Row} ||= {};
+            my %Attributes = (%{ $ValueSeries{$Row} }, %RestrictionAttribute);
+            # the following is necessary if as x-axis and as value-series time is selected
             if ( $Xvalue->{Block} eq 'Time' ) {
                 my $TimeStart = $Xvalue->{Values}{TimeStart};
                 my $TimeStop  = $Xvalue->{Values}{TimeStop};
@@ -1504,29 +1500,57 @@ sub _GenerateDynamicStats {
                         next;
                     }
                 }
-                $SearchAttribut{$TimeStop}  = $Cell->{TimeStop};
-                $SearchAttribut{$TimeStart} = $Cell->{TimeStart};
+                $Attributes{$TimeStop}  = $Cell->{TimeStop};
+                $Attributes{$TimeStart} = $Cell->{TimeStart};
             }
             elsif ( $Xvalue->{Block} eq 'SelectField' ) {
-                $SearchAttribut{ $Xvalue->{Element} } = $Cell;
+                $Attributes{ $Xvalue->{Element} } = $Cell;
             }
             else {
-                $SearchAttribut{ $Xvalue->{Element} } = [$Cell];
+                $Attributes{ $Xvalue->{Element} } = [$Cell];
             }
-            my $Quantity = $StatObject->GetStatElement( %SearchAttribut, %RestrictionAttribute );
-            push @ResultRow, $Quantity;
+            push @Cells, \%Attributes;
         }
-        push @StatArray, \@ResultRow;
+        $TableStructure{$Row} = \@Cells;
+    }
+
+    my @DataArray = ();
+    if ( $StatObject->can('GetStatTable')) {
+        # get the whole stats table
+        @DataArray = $StatObject->GetStatTable(
+            ValueSeries  => \%ValueSeries,
+            XValue       => $Xvalue,
+            Restrictions => \%RestrictionAttribute,
+            TableStructure => \%TableStructure,
+        );
+    }
+    else {
+        for my $Row ( sort keys %TableStructure) {
+            my @ResultRow = ( $Row );
+            for my $Cell ( @{$TableStructure{$Row}} ) {
+                my $Quantity = $StatObject->GetStatElement( %{$Cell} );
+                push @ResultRow, $Quantity;
+            }
+            push @DataArray, \@ResultRow;
+        }
     }
 
     # fill up empty array elements, e.g month as value series (February has 28 day and Januar 31)
-    for my $Index1 ( 2 .. $#StatArray ) {
-        for my $Index2 ( 1 .. $#{ $StatArray[1] } ) {
-            if ( !defined $StatArray[$Index1][$Index2] ) {
-                $StatArray[$Index1][$Index2] = '';
+    for my $Row ( @DataArray ) {
+        for my $Index ( 1 .. $#HeaderLine ) {
+            if ( !defined $Row->[$Index] ) {
+                $Row->[$Index] = '';
             }
         }
     }
+
+    if ($StatObject->can('GetHeaderLine')) {
+        @HeaderLine = $StatObject->GetHeaderLine(
+            XValue       => $Xvalue,
+        );
+    }
+
+    my @StatArray = ([$Title], \@HeaderLine, @DataArray);
 
     return @StatArray if !$Param{Cache};
 
@@ -3156,6 +3180,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.66 $ $Date: 2009-03-18 19:06:20 $
+$Revision: 1.67 $ $Date: 2009-03-19 16:57:17 $
 
 =cut
