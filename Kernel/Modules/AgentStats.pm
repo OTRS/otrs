@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.69 2009-03-18 19:06:20 martin Exp $
+# $Id: AgentStats.pm,v 1.70 2009-03-19 16:54:11 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.70 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -169,13 +169,9 @@ sub Run {
         my $Stat = $Self->{StatsObject}->StatsGet( StatID => $StatID );
 
         # object
-        $Stat->{ObjectName} = '';
-        if ( $Stat->{StatType} eq 'static' ) {
-            $Stat->{ObjectName} = $Stat->{File};
-        }
-        elsif ( $Stat->{StatType} eq 'dynamic' ) {
-            $Stat->{ObjectName} = $Stat->{Object};
-        }
+        $Stat->{ObjectName} = $Stat->{StatType} eq 'static'  ? $Stat->{File}
+                            : $Stat->{StatType} eq 'dynamic' ? $Stat->{Object}
+                            :                                  '';
 
         $Stat->{Description} = $Self->{LayoutObject}->Ascii2Html(
             Text           => $Stat->{Description},
@@ -375,7 +371,7 @@ sub Run {
                         else {
                             for ( sort { $ValueHash{$a} cmp $ValueHash{$b} } keys %ValueHash ) {
                                 my $Value = $ValueHash{$_};
-                                if ( $ObjectAttribute->{LanguageTranslation} ) {
+                                if ( $ObjectAttribute->{Translation} ) {
                                     $Value = "\$Text{\"$ValueHash{$_}\"}";
                                 }
                                 $Self->{LayoutObject}->Block(
@@ -400,12 +396,14 @@ sub Run {
 
                         if ( $ObjectAttribute->{Block} eq 'MultiSelectField' ) {
                             $BlockData{SelectField} = $Self->{LayoutObject}->BuildSelection(
-                                Data         => \%ValueHash,
-                                Name        => $Use . $ObjectAttribute->{Element},
-                                Multiple    => 1,
-                                Size        => 5,
-                                SelectedID  => $ObjectAttribute->{SelectedValues},
-                                Translation => $ObjectAttribute->{LanguageTranslation},
+                                Data          => \%ValueHash,
+                                Name          => $Use . $ObjectAttribute->{Element},
+                                Multiple      => 1,
+                                Size          => 5,
+                                SelectedID    => $ObjectAttribute->{SelectedValues},
+                                Translation   => $ObjectAttribute->{Translation},
+                                Sort          => $ObjectAttribute->{Sort} || undef,
+                                SortIndividual=> $ObjectAttribute->{SortIndividual} || undef,
                             );
                             $Self->{LayoutObject}->Block(
                                 Name => 'MultiSelectField',
@@ -413,10 +411,13 @@ sub Run {
                             );
                         }
                         elsif ( $ObjectAttribute->{Block} eq 'SelectField' ) {
+
                             $BlockData{SelectField} = $Self->{LayoutObject}->BuildSelection(
                                 Data        => \%ValueHash,
                                 Name        => $Use . $ObjectAttribute->{Element},
-                                Translation => $ObjectAttribute->{LanguageTranslation},
+                                Translation => $ObjectAttribute->{Translation},
+                                Sort          => $ObjectAttribute->{Sort} || undef,
+                                SortIndividual=> $ObjectAttribute->{SortIndividual} || undef,
                             );
                             $Self->{LayoutObject}->Block(
                                 Name => 'SelectField',
@@ -1276,7 +1277,7 @@ sub Run {
                     0 => 'No',
                     1 => 'Yes'
                 },
-                SelectedID => $Stat->{$Key},
+                SelectedID => $Stat->{$Key} || 0,
                 Name       => $Key,
             );
         }
@@ -1375,7 +1376,9 @@ sub Run {
                     Multiple    => 1,
                     Size        => 5,
                     SelectedID  => $ObjectAttribute->{SelectedValues},
-                    Translation => $ObjectAttribute->{LanguageTranslation},
+                    Translation => $ObjectAttribute->{Translation},
+                    Sort          => $ObjectAttribute->{Sort} || undef,
+                    SortIndividual=> $ObjectAttribute->{SortIndividual} || undef,
                 );
             }
 
@@ -1467,7 +1470,9 @@ sub Run {
                     Multiple    => 1,
                     Size        => 5,
                     SelectedID  => $ObjectAttribute->{SelectedValues},
-                    Translation => $ObjectAttribute->{LanguageTranslation},
+                    Translation => $ObjectAttribute->{Translation},
+                    Sort          => $ObjectAttribute->{Sort} || undef,
+                    SortIndividual=> $ObjectAttribute->{SortIndividual} || undef,
                 );
             }
 
@@ -1589,7 +1594,9 @@ sub Run {
                     Multiple    => 1,
                     Size        => 5,
                     SelectedID  => $ObjectAttribute->{SelectedValues},
-                    Translation => $ObjectAttribute->{LanguageTranslation},
+                    Translation => $ObjectAttribute->{Translation},
+                    Sort          => $ObjectAttribute->{Sort} || undef,
+                    SortIndividual=> $ObjectAttribute->{SortIndividual} || undef,
                 );
             }
 
@@ -1710,7 +1717,10 @@ sub Run {
         }
         else {
             my $TimePeriod = 0;
+
             for my $Use (qw(UseAsRestriction UseAsXvalue UseAsValueSeries)) {
+                $Stat->{$Use} ||= [];
+
                 my @Array   = @{ $Stat->{$Use} };
                 my $Counter = 0;
                 ELEMENT:
@@ -2152,7 +2162,7 @@ sub Run {
 
             # return image to bowser
             return $Self->{LayoutObject}->Attachment(
-                Filename    => $Filename . "." . $Ext,
+                Filename    => $Filename . '.' . $Ext,
                 ContentType => "image/$Ext",
                 Content     => $Graph,
                 Type        => 'attachment',             # not inline because of bug# 2757
@@ -2391,17 +2401,17 @@ sub _ColumnAndRowTranslation {
             for my $Element (@Array) {
                 next ELEMENT if !$Element->{SelectedValues};
 
-                if ( $Element->{LanguageTranslation} && $Element->{Block} eq 'Time' ) {
+                if ( $Element->{Translation} && $Element->{Block} eq 'Time' ) {
                     $Translation{$Use} = 'Time';
                 }
-                elsif ( $Element->{LanguageTranslation} ) {
+                elsif ( $Element->{Translation} ) {
                     $Translation{$Use} = 'Common';
                 }
                 else {
                     $Translation{$Use} = '';
                 }
 
-                if ( $Element->{LanguageTranslation} && $Element->{Block} ne 'Time' ) {
+                if ( $Element->{Translation} && $Element->{Block} ne 'Time' ) {
                     $Sort{$Use} = 1;
                 }
                 last ELEMENT;
