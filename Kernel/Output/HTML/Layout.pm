@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.130 2009-03-18 18:58:33 martin Exp $
+# $Id: Layout.pm,v 1.131 2009-03-19 16:53:06 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.130 $) [1];
+$VERSION = qw($Revision: 1.131 $) [1];
 
 =head1 NAME
 
@@ -2236,7 +2236,8 @@ build a html option element based on given data
         SelectedID    => [1, 5, 3],       # (optional) use integer or arrayref (unable to use with ArrayHashRef)
         SelectedValue => 'test',          # (optional) use string or arrayref (unable to use with ArrayHashRef)
         SelectedValue => ['test', 'test1'], # (optional) use string or arrayref (unable to use with ArrayHashRef)
-        Sort => 'NumericValue',           # (optional) (AlphanumericValue|NumericValue|AlphanumericKey|NumericKey|TreeView) unable to use with ArrayHashRef
+        Sort => 'NumericValue',           # (optional) (AlphanumericValue|NumericValue|AlphanumericKey|NumericKey|TreeView|IndividualKey|IndividualValue) unable to use with ArrayHashRef
+        SortIndividual => ['sec', 'min']  # (optional) only sort is set to IndividualKey or IndividualValue
         SortReverse    => 0,              # (optional) reverse the list
         Translation    => 1,              # (optional) default 1 (0|1) translate value
         PossibleNone   => 0,              # (optional) default 0 (0|1) add a leading empty selection
@@ -2390,6 +2391,11 @@ sub _BuildSelectionOptionRefCreate {
         $OptionRef->{Sort} = $Param{Sort};
     }
 
+    # look if a individual sort is available
+    if ( $Param{SortIndividual} && ref $Param{SortIndividual} eq 'ARRAY' ) {
+        $OptionRef->{SortIndividual} = $Param{SortIndividual};
+    }
+
     # set SortReverse option
     $OptionRef->{SortReverse} = 0;
     if ( $Param{SortReverse} ) {
@@ -2539,6 +2545,18 @@ sub _BuildSelectionDataRefCreate {
 
     # if HashRef was given
     if ( ref $Param{Data} eq 'HASH' ) {
+        # sort hash (before the translation)
+        my @SortKeys;
+        if ( $OptionRef->{Sort} eq 'IndividualValue' && $OptionRef->{SortIndividual} ) {
+            my %List = reverse %{$Param{Data}};
+            for my $Key (@{$OptionRef->{SortIndividual}}) {
+                if ($List{$Key}) {
+                    push @SortKeys, $List{$Key};
+                    delete $List{$Key};
+                }
+            }
+            push @SortKeys, sort { $a cmp $b } ( values %List );
+        }
 
         # translate value
         if ( $OptionRef->{Translation} ) {
@@ -2547,8 +2565,7 @@ sub _BuildSelectionDataRefCreate {
             }
         }
 
-        # sort hash
-        my @SortKeys;
+        # sort hash (after the translation)
         if ( $OptionRef->{Sort} eq 'NumericKey' ) {
             @SortKeys = sort { $a <=> $b } ( keys %{ $Param{Data} } );
         }
@@ -2567,6 +2584,19 @@ sub _BuildSelectionDataRefCreate {
                 $SortHash{$_} = $Param{Data}->{$_} . '::';
             }
             @SortKeys = sort { $SortHash{$a} cmp $SortHash{$b} } ( keys %SortHash );
+        }
+        elsif ( $OptionRef->{Sort} eq 'IndividualKey' && $OptionRef->{SortIndividual} ) {
+            my %List = %{$Param{Data}};
+            for my $Key (@{$OptionRef->{SortIndividual}}) {
+                if ($List{$Key}) {
+                    push @SortKeys, $Key;
+                    delete $List{$Key};
+                }
+            }
+            push @SortKeys, sort { $List{$a} cmp $List{$b} } ( keys %List );
+        }
+        elsif ( $OptionRef->{Sort} eq 'IndividualValue' && $OptionRef->{SortIndividual} ) {
+            # already done before the translation
         }
         else {
             @SortKeys
@@ -2611,8 +2641,20 @@ sub _BuildSelectionDataRefCreate {
 
     # if ArrayRef was given
     elsif ( ref $Param{Data} eq 'ARRAY' ) {
-        my %ReverseHash;
 
+        if ( ( $OptionRef->{Sort} eq 'IndividualValue' || $OptionRef->{Sort} eq 'IndividualValue' )  && $OptionRef->{SortIndividual} ) {
+            my %List = map {$_ => 1} @{ $Param{Data} };
+            $Param{Data} = [];
+            for my $Key (@{$OptionRef->{SortIndividual}}) {
+                if ($List{$Key}) {
+                    push @{ $Param{Data} }, $Key;
+                    delete $List{$Key};
+                }
+            }
+            push @{ $Param{Data} }, sort { $a cmp $b } ( keys %List );
+        }
+
+        my %ReverseHash;
         # translate value
         if ( $OptionRef->{Translation} ) {
             my @TranslateArray;
@@ -4081,6 +4123,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.130 $ $Date: 2009-03-18 18:58:33 $
+$Revision: 1.131 $ $Date: 2009-03-19 16:53:06 $
 
 =cut
