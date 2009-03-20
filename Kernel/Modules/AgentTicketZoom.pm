@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.65 2009-03-06 16:40:41 ub Exp $
+# $Id: AgentTicketZoom.pm,v 1.66 2009-03-20 18:28:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.65 $) [1];
+$VERSION = qw($Revision: 1.66 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -332,14 +332,6 @@ sub MaskAgentZoom {
         Name => 'Header',
         Data => { %Param, %AclAction },
     );
-
-    # ticket title
-    if ( $Self->{ConfigObject}->Get('Ticket::Frontend::Title') ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'Title',
-            Data => { %Param, %AclAction },
-        );
-    }
 
     # run ticket menu modules
     if ( ref( $Self->{ConfigObject}->Get('Ticket::Frontend::MenuModule') ) eq 'HASH' ) {
@@ -871,8 +863,6 @@ sub MaskAgentZoom {
                     && $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplay')
                     )
                 {
-                    my $Title = '';
-
                     # download type
                     my $Type = $Self->{ConfigObject}->Get('AttachmentDownloadType')
                         || 'attachment';
@@ -1038,7 +1028,7 @@ sub MaskAgentZoom {
             ArticleID       => $Article{ArticleID},
         );
 
-        # get attacment string
+        # get attachment string
         my %AtmIndex = ();
         if ( $Article{Atms} ) {
 
