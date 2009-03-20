@@ -2,7 +2,7 @@
 # Kernel/System/Auth/Sync/LDAP.pm - provides the ldap sync
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.4 2009-02-16 11:49:56 tr Exp $
+# $Id: LDAP.pm,v 1.5 2009-03-20 18:20:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,10 +14,9 @@ package Kernel::System::Auth::Sync::LDAP;
 use strict;
 use warnings;
 use Net::LDAP;
-use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -27,12 +26,9 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(LogObject ConfigObject DBObject UserObject GroupObject)) {
+    for (qw(LogObject ConfigObject DBObject UserObject GroupObject EncodeObject)) {
         $Self->{$_} = $Param{$_} || die "No $_!";
     }
-
-    # encode object
-    $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
 
     # Debug 0=off 1=on
     $Self->{Debug} = 0;
