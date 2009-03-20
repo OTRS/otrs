@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.204 2009-03-17 11:58:05 ub Exp $
+# $Id: Article.pm,v 1.205 2009-03-20 18:39:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,8 @@ package Kernel::System::Ticket::Article;
 use strict;
 use warnings;
 
-use MIME::Words qw(:all);
-use MIME::Entity;
-use Mail::Internet;
-use Kernel::System::StdAttachment;
-
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.204 $) [1];
+$VERSION = qw($Revision: 1.205 $) [1];
 
 =head1 NAME
 
@@ -715,14 +710,10 @@ sub ArticleGetTicketIDOfMessageID {
     }
 
     # no reference found
-    if ( $Count == 0 ) {
-        return;
-    }
+    return if $Count == 0;
 
     # one found
-    if ( $Count == 1 ) {
-        return $TicketID;
-    }
+    return $TicketID if $Count == 1;
 
     # more the one found! that should not be, a message_id should be uniq!
     $Self->{LogObject}->Log(
@@ -3366,6 +3357,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.204 $ $Date: 2009-03-17 11:58:05 $
+$Revision: 1.205 $ $Date: 2009-03-20 18:39:02 $
 
 =cut
