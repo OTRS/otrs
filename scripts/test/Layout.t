@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.20 2009-03-10 12:06:25 tr Exp $
+# $Id: Layout.t,v 1.21 2009-03-20 06:27:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,6 +23,7 @@ use Kernel::Output::HTML::Layout;
 use vars qw( $Self %Param );
 
 $Self->{SessionObject} = Kernel::System::AuthSession->new(
+    EncodeObject => $Self->{EncodeObject},
     ConfigObject => $Self->{ConfigObject},
     LogObject    => $Self->{LogObject},
     DBObject     => $Self->{DBObject},
@@ -43,6 +44,7 @@ $Self->{GroupObject} = Kernel::System::Group->new(
 );
 
 $Self->{TicketObject} = Kernel::System::Ticket->new(
+    EncodeObject => $Self->{EncodeObject},
     ConfigObject => $Self->{ConfigObject},
     LogObject    => $Self->{LogObject},
     TimeObject   => $Self->{TimeObject},
