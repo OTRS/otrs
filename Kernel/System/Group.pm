@@ -2,7 +2,7 @@
 # Kernel/System/Group.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.pm,v 1.65 2009-02-20 12:11:41 mh Exp $
+# $Id: Group.pm,v 1.66 2009-03-20 18:33:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.65 $) [1];
+$VERSION = qw($Revision: 1.66 $) [1];
 
 =head1 NAME
 
@@ -378,7 +378,7 @@ sub GroupGet {
 
     # check needed stuff
     if ( !$Param{ID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ID!' );
         return;
     }
 
@@ -461,7 +461,7 @@ sub GroupList {
 returns a list of users/groups with ro/move_into/create/owner/priority/rw permissions
 based on GroupGroupMemberList() and GroupRoleMemberList().
 
-    UserID: user id
+    UserID:  user id
     GroupID: group id
 
     Type: ro|move_into|priority|create|rw
@@ -622,9 +622,6 @@ sub GroupMemberInvolvedList {
         }
     }
 
-    # quote
-    $Param{UserID} = $Self->{DBObject}->Quote( $Param{UserID}, 'Integer' );
-
     # only allow valid system permissions as Type
     my $TypeString = $Self->_GetTypeString( Type => $Param{Type} );
 
@@ -633,24 +630,28 @@ sub GroupMemberInvolvedList {
 
     # get all groups of the given user
     my %Groups;
-    my $SQL = "SELECT DISTINCT(g.id) FROM groups g, group_user gu "
-        . "WHERE g.valid_id IN ($ValidID) AND "
-        . "g.id = gu.group_id AND "
-        . "gu.permission_value = 1 AND "
-        . "gu.permission_key IN ( $TypeString ) AND "
-        . "gu.user_id = $Param{UserID}";
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    return if !$Self->{DBObject}->Prepare(
+        SQL => "SELECT DISTINCT(g.id) FROM groups g, group_user gu WHERE "
+            . "g.valid_id IN ($ValidID) AND "
+            . "g.id = gu.group_id AND gu.permission_value = 1 AND "
+            . "gu.permission_key IN ( $TypeString ) AND gu.user_id = ?",
+        Bind => [
+            \$Param{UserID},
+        ],
+    );
 
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Groups{ $Row[0] } = 1;
     }
 
     # get all roles of the given user
-    $SQL = "SELECT DISTINCT(ru.role_id) FROM role_user ru, roles r "
-        . "WHERE r.valid_id in ($ValidID) AND "
-        . "r.id = ru.role_id AND "
-        . "ru.user_id = $Param{UserID}";
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    return if !$Self->{DBObject}->Prepare(
+        SQL => "SELECT DISTINCT(ru.role_id) FROM role_user ru, roles r WHERE "
+            . "r.valid_id in ($ValidID) AND r.id = ru.role_id AND ru.user_id = ?",
+        Bind => [
+            \$Param{UserID},
+        ],
+    );
     my @Roles;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         push @Roles, $Row[0];
@@ -658,13 +659,12 @@ sub GroupMemberInvolvedList {
 
     # get groups of roles of given user
     if (@Roles) {
-        my $SQL = "SELECT DISTINCT(g.id) FROM groups g, group_role gu "
-            . "WHERE g.valid_id in ($ValidID) AND "
-            . " g.id = gu.group_id AND "
-            . " gu.permission_value = 1 AND "
-            . "gu.permission_key IN ( $TypeString ) AND "
-            . "gu.role_id IN (" . join( ',', @Roles ) . ")";
-        $Self->{DBObject}->Prepare( SQL => $SQL );
+        return if !$Self->{DBObject}->Prepare(
+            SQL => "SELECT DISTINCT(g.id) FROM groups g, group_role gu WHERE "
+                . "g.valid_id in ($ValidID) AND g.id = gu.group_id AND "
+                . "gu.permission_value = 1 AND gu.permission_key IN ( $TypeString ) AND "
+                . "gu.role_id IN (" . join( ',', @Roles ) . ")",
+        );
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             $Groups{ $Row[0] } = 1;
         }
@@ -674,38 +674,35 @@ sub GroupMemberInvolvedList {
     my @ArrayGroups = keys %Groups;
     my %AllUsers;
     if (@ArrayGroups) {
-        my $SQL = "SELECT DISTINCT(gu.user_id) FROM groups g, group_user gu WHERE "
-            . "g.valid_id in ($ValidID) AND "
-            . "g.id = gu.group_id AND "
-            . "gu.permission_value = 1 AND "
-            . "gu.permission_key IN ( $TypeString ) AND "
-            . "gu.group_id IN (" . join( ',', @ArrayGroups ) . ")";
-        $Self->{DBObject}->Prepare( SQL => $SQL );
+        return if !$Self->{DBObject}->Prepare(
+            SQL => "SELECT DISTINCT(gu.user_id) FROM groups g, group_user gu WHERE "
+                . "g.valid_id in ($ValidID) AND g.id = gu.group_id AND "
+                . "gu.permission_value = 1 AND gu.permission_key IN ( $TypeString ) AND "
+                . "gu.group_id IN (" . join( ',', @ArrayGroups ) . ")",
+        );
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             $AllUsers{ $Row[0] } = 1;
         }
 
         # get all roles of the groups
-        $SQL = "SELECT DISTINCT(gu.role_id) FROM groups g, group_role gu WHERE "
-            . "g.valid_id in ($ValidID) AND "
-            . "g.id = gu.group_id AND "
-            . "gu.permission_value = 1 AND "
-            . "gu.permission_key IN ( $TypeString ) AND "
-            . "gu.group_id IN (" . join( ',', @ArrayGroups ) . ")";
-        $Self->{DBObject}->Prepare( SQL => $SQL );
+        return if !$Self->{DBObject}->Prepare(
+            SQL => "SELECT DISTINCT(gu.role_id) FROM groups g, group_role gu WHERE "
+                . "g.valid_id in ($ValidID) AND g.id = gu.group_id AND "
+                . "gu.permission_value = 1 AND gu.permission_key IN ( $TypeString ) AND "
+                . "gu.group_id IN (" . join( ',', @ArrayGroups ) . ")",
+        );
         my @AllRoles;
-
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
             push @AllRoles, $Row[0];
         }
 
         # get all users of the roles
         if (@AllRoles) {
-            $SQL = "SELECT DISTINCT(ru.user_id) FROM role_user ru, roles r WHERE "
-                . "r.valid_id in ($ValidID) AND "
-                . "r.id = ru.role_id AND "
-                . " ru.role_id IN (" . join( ',', @AllRoles ) . ")";
-            $Self->{DBObject}->Prepare( SQL => $SQL );
+            return if !$Self->{DBObject}->Prepare(
+                SQL => "SELECT DISTINCT(ru.user_id) FROM role_user ru, roles r WHERE "
+                    . "r.valid_id in ($ValidID) AND r.id = ru.role_id AND "
+                    . "ru.role_id IN (" . join( ',', @AllRoles ) . ")",
+            );
             while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
                 $AllUsers{ $Row[0] } = 1;
             }
@@ -719,9 +716,9 @@ sub GroupMemberInvolvedList {
 
 returns a list of users/groups with ro/move_into/create/owner/priority/rw permissions
 
-    UserID: user id
-    GroupID: group id
-    UserIDs: user ids (array ref)
+    UserID:   user id
+    GroupID:  group id
+    UserIDs:  user ids (array ref)
     GroupIDs: group ids (array ref)
 
     Type: ro|move_into|priority|create|rw
@@ -751,9 +748,6 @@ returns a list of users/groups with ro/move_into/create/owner/priority/rw permis
 sub GroupGroupMemberList {
     my ( $Self, %Param ) = @_;
 
-    my @UserIDs;
-    my @GroupIDs;
-
     # check needed stuff
     for (qw(Result Type)) {
         if ( !$Param{$_} ) {
@@ -771,6 +765,8 @@ sub GroupGroupMemberList {
 
     # create cache key
     my $CacheKey = 'GroupGroupMemberList::' . $Param{Type} . '::' . $Param{Result} . '::';
+    my @UserIDs;
+    my @GroupIDs;
     if ( $Param{UserID} ) {
         $CacheKey .= 'UserID::' . $Param{UserID};
     }
@@ -802,8 +798,7 @@ sub GroupGroupMemberList {
     my @Name = ();
     my @ID   = ();
     my $SQL  = "SELECT g.id, g.name, gu.permission_key, gu.permission_value, "
-        . " gu.user_id FROM groups g, group_user gu"
-        . " WHERE "
+        . " gu.user_id FROM groups g, group_user gu WHERE "
         . " g.valid_id IN (" . join( ', ', $Self->{ValidObject}->ValidIDsGet() ) . ") AND "
         . " g.id = gu.group_id AND "
         . " gu.permission_value = 1 AND "
@@ -913,9 +908,6 @@ returns a list of role/groups with ro/move_into/create/owner/priority/rw permiss
 sub GroupRoleMemberList {
     my ( $Self, %Param ) = @_;
 
-    my @RoleIDs;
-    my @GroupIDs;
-
     # check needed stuff
     for (qw(Result Type)) {
         if ( !$Param{$_} ) {
@@ -933,6 +925,8 @@ sub GroupRoleMemberList {
 
     # create cache key
     my $CacheKey = 'GroupRoleMemberList::' . $Param{Type} . '::' . $Param{Result} . '::';
+    my @RoleIDs;
+    my @GroupIDs;
     if ( $Param{RoleID} ) {
         $CacheKey .= 'RoleID::' . $Param{RoleID};
     }
@@ -965,8 +959,7 @@ sub GroupRoleMemberList {
     my @Name = ();
     my @ID   = ();
     my $SQL  = "SELECT g.id, g.name, gu.permission_key, gu.permission_value, "
-        . " gu.role_id FROM groups g, group_role gu"
-        . " WHERE "
+        . " gu.role_id FROM groups g, group_role gu WHERE "
         . " g.valid_id IN (" . join( ', ', $Self->{ValidObject}->ValidIDsGet() ) . ") AND "
         . " g.id = gu.group_id AND "
         . " gu.permission_value = 1 AND "
@@ -1220,8 +1213,7 @@ sub GroupUserRoleMemberList {
     my %Data = ();
     my @Name = ();
     my @ID   = ();
-    my $SQL  = "SELECT ru.role_id, ru.user_id, r.name "
-        . " FROM role_user ru, roles r WHERE "
+    my $SQL  = "SELECT ru.role_id, ru.user_id, r.name FROM role_user ru, roles r WHERE "
         . " r.valid_id IN (" . join( ', ', $Self->{ValidObject}->ValidIDsGet() ) . ") AND "
         . " r.id = ru.role_id AND ";
 
@@ -1319,7 +1311,7 @@ sub GroupUserRoleMemberAdd {
 
     # delete existing relation
     return if !$Self->{DBObject}->Do(
-        SQL => 'DELETE FROM role_user WHERE user_id = ? AND role_id = ?',
+        SQL  => 'DELETE FROM role_user WHERE user_id = ? AND role_id = ?',
         Bind => [ \$Param{UID}, \$Param{RID} ],
     );
 
@@ -1397,7 +1389,7 @@ sub RoleAdd {
 
 returns a hash with role data
 
-    %RoleData = $GroupObject->RoleGet(ID => 2);
+    %RoleData = $GroupObject->RoleGet( ID => 2 );
 
 =cut
 
@@ -1412,8 +1404,7 @@ sub RoleGet {
 
     # sql
     return if !$Self->{DBObject}->Prepare(
-        SQL => 'SELECT name, valid_id, comments, change_time, create_time '
-            . 'FROM roles WHERE id = ?',
+        SQL  => 'SELECT name, valid_id, comments, change_time, create_time FROM roles WHERE id = ?',
         Bind => [ \$Param{ID} ],
     );
     my %Role = ();
@@ -1468,7 +1459,7 @@ sub RoleUpdate {
 
 returns a hash of all roles
 
-    my %Roles = $GroupObject->RoleList(Valid => 1);
+    my %Roles = $GroupObject->RoleList( Valid => 1 );
 
 =cut
 
@@ -1484,18 +1475,18 @@ sub RoleList {
     return %Roles;
 }
 
-=item _GetTypeString()
-
-returns a string for a sql IN elements which contains a comma separted list of system permissions.
-
-    my $TypeString = $GroupObject->_GetTypeString(Type => 'close');
-
-=cut
+#=item _GetTypeString()
+#
+#returns a string for a sql IN elements which contains a comma separted list of system permissions.
+#
+#    my $TypeString = $GroupObject->_GetTypeString(Type => 'close');
+#
+#=cut
 
 sub _GetTypeString {
     my ( $Self, %Param ) = @_;
 
-    # only allow valid system permissions as Type; see bug 3499
+    # only allow valid system permissions as Type
     my @Types = grep $_ eq $Param{Type}, @{ $Self->{ConfigObject}->Get('System::Permission') };
     push @Types, 'rw';
     my $TypeString = join ',', map "'$_'", @Types;
@@ -1519,6 +1510,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.65 $ $Date: 2009-02-20 12:11:41 $
+$Revision: 1.66 $ $Date: 2009-03-20 18:33:04 $
 
 =cut
