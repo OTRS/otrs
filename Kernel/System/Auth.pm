@@ -2,7 +2,7 @@
 # Kernel/System/Auth.pm - provides the authentification
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Auth.pm,v 1.33 2009-02-16 11:58:56 tr Exp $
+# $Id: Auth.pm,v 1.34 2009-03-20 18:22:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 =head1 NAME
 
@@ -36,6 +36,7 @@ The autentification module for the agent interface.
 create an object
 
     use Kernel::Config;
+    use Kernel::System::Encode;
     use Kernel::System::Log;
     use Kernel::System::DB;
     use Kernel::System::User;
@@ -43,6 +44,9 @@ create an object
     use Kernel::System::Auth;
 
     my $ConfigObject = Kernel::Config->new();
+    my $EncodeObject = Kernel::System::Encode->new(
+        ConfigObject => $ConfigObject,
+    );
     my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
@@ -64,6 +68,7 @@ create an object
 
     my $AuthObject = Kernel::System::Auth->new(
         ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
         LogObject    => $LogObject,
         UserObject   => $UserObject,
         GroupObject  => $GroupObject,
@@ -80,7 +85,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(LogObject ConfigObject DBObject UserObject GroupObject MainObject)) {
+    for (qw(LogObject ConfigObject DBObject UserObject GroupObject MainObject EncodeObject)) {
         $Self->{$_} = $Param{$_} || die "No $_!";
     }
 
@@ -203,6 +208,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.33 $ $Date: 2009-02-16 11:58:56 $
+$Revision: 1.34 $ $Date: 2009-03-20 18:22:14 $
 
 =cut
