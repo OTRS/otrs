@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.200 2009-03-16 23:58:45 sb Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.201 2009-03-20 16:46:16 tr Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -4699,6 +4699,38 @@ Your OTRS Notification Master
         <SubGroup>Frontend::Agent::Stats</SubGroup>
         <Setting>
             <String Regex="^[0-9]{1,2}$">20</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::DefaultSelectedDynamicObject" Required="1" Valid="1">
+        <Description Lang="en">Default selection at the drop down menu for dynamic objects (Form: Common Specification).</Description>
+        <Description Lang="de">Default-Auswahl im Drop-Down-Menü für dynamische Objekte (Eingabeformular: Allgemeine Angaben).</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::Stats</SubGroup>
+        <Setting>
+            <String Regex="">Ticket</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::DefaultSelectedPermissions" Required="1" Valid="1">
+        <Description Lang="en">Default selection at the drop down menu for permissions (Form: Common Specification).</Description>
+        <Description Lang="de">Default-Auswahl im Drop-Down-Menü für dynamische Objekte (Eingabeformular: Allgemeine Angaben).</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::Stats</SubGroup>
+        <Setting>
+            <Array>
+                <Item>stats</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Stats::DefaultSelectedFormat" Required="1" Valid="1">
+        <Description Lang="en">Default selection at the drop down menu for stats format (Form: Common Specification). Please insert the format key (see Stats::Format).</Description>
+        <Description Lang="de">Default-Auswahl im Drop-Down-Menü für das Statistikausgabeformat (Eingabeformular: Allgemeine Angaben). Bitte den Key-Wert eintragen (siehe Stats::Format).</Description>
+        <Group>Framework</Group>
+        <SubGroup>Frontend::Agent::Stats</SubGroup>
+        <Setting>
+            <Array>
+                <Item>Print</Item>
+                <Item>CSV</Item>
+            </Array>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Stats::SearchLimit" Required="1" Valid="1">
