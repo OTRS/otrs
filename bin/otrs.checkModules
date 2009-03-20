@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.checkModules - to check needed cpan framework modules
-# Copyright (C) 2003-2009 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.checkModules,v 1.26 2009-02-16 12:26:57 tr Exp $
+# $Id: otrs.checkModules,v 1.27 2009-03-20 18:07:40 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,6 +31,7 @@ use lib dirname($RealBin) . "/Kernel/cpan-lib";
 my @NeededModules = (
     {
         Module   => 'CGI',
+        Version  => 3.33,
         Required => 1,
     },
     {
