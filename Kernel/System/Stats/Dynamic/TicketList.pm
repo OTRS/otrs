@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/TicketList.pm - reporting via ticket lists
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketList.pm,v 1.1 2009-03-19 16:59:52 tr Exp $
+# $Id: TicketList.pm,v 1.2 2009-03-20 16:50:33 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -533,6 +533,12 @@ sub GetStatTable {
         %{$Param{Restrictions}},
     );
 
+    # find out if the extended version of TicketGet is needed,
+    my $Extended = $Self->_ExtendetAttributesCheck(
+        TicketAttributes => \%TicketAttributes,
+    );
+
+    # generate the ticket list
     my @StatArray = ();
     my $Counter = 0;
     for my $TicketID ( @TicketIDs ) {
@@ -540,13 +546,17 @@ sub GetStatTable {
         my %Ticket = $Self->{TicketObject}->TicketGet(
             TicketID => $TicketID,
             UserID   => 1,
+            Extended => $Extended,
         );
 
         # add a number for a better readability
-        if ($TicketAttributes{Number} || $Self->{Number} ){
-            push @ResultRow, ++$Counter;
-            $Self->{Number} = 1;
-            delete $TicketAttributes{Number};
+        if ($TicketAttributes{Number}){
+            $Ticket{Number} = ++$Counter;
+        }
+
+        # add the accounted time if needed
+        if ($TicketAttributes{AccountedTime}){
+            $Ticket{AccountedTime} = $Self->{TicketObject}->TicketAccountedTimeGet(TicketID => $TicketID);
         }
 
         ATTRIBUTE:
@@ -565,7 +575,7 @@ sub _TicketAttributes {
 
     my %TicketAttributes = (
         Number         => 'Number',  # only a counter for a better readability
-        TicketNumber   => 'Ticketnumber',
+        TicketNumber   => $Self->{ConfigObject}->Get('Ticket::Hook'),
         Age            => 'Age',
         Title          => 'Title',
         #?CreateTime     => 'Create Time',
@@ -580,12 +590,21 @@ sub _TicketAttributes {
         CustomerUserID => 'CustomerUserID'  ,
         Lock           => 'lock',
         UnlockTimeout  => 'UnlockTimeout',
-        EscalationResponseTime  => 'EscalationResponseTime',
-        RealTillTimeNotUsed     => 'RealTillTimeNotUsed',
-        UntilTime               => 'UntilTime',
-        EscalationUpdateTime    => 'EscalationUpdateTime',
-        StateType               => 'StateType',
-        EscalationSolutionTime  => 'EscalationSolutionTime',
+        AccountedTime  => 'AccountedTime',
+        EscalationResponseTime => 'EscalationResponseTime',
+        RealTillTimeNotUsed    => 'RealTillTimeNotUsed',
+        UntilTime              => 'UntilTime',
+        EscalationUpdateTime   => 'EscalationUpdateTime',
+        StateType              => 'StateType',
+        EscalationSolutionTime => 'EscalationSolutionTime',
+        FirstResponse          => 'FirstResponse',
+        FirstResponseInMin     => 'FirstResponseInMin',
+        FirstResponseDiffInMin => 'FirstResponseDiffInMin',
+        Closed                 => 'Closed',
+        SolutionTime           => 'SolutionTime',
+        SolutionInMin          => 'SolutionInMin',
+        SolutionDiffInMin      => 'SolutionDiffInMin',
+        FirstLock              => 'FirstLock',
         #PriorityID     => 'PriorityID',
         #GroupID        => 'GroupID',
         #StateID        => 'StateID',
@@ -659,6 +678,15 @@ sub _SortedAttributes {
         Type
         Owner
         Responsible
+        AccountedTime
+        FirstResponse
+        FirstResponseInMin
+        FirstResponseDiffInMin
+        Closed
+        SolutionTime
+        SolutionInMin
+        SolutionDiffInMin
+        FirstLock
         Lock
         StateType
         UntilTime
@@ -690,5 +718,27 @@ sub GetHeaderLine {
         push @HeaderLine, $TicketAttributes->{$Attribute};
     }
     return @HeaderLine;
+}
+
+sub _ExtendetAttributesCheck {
+    my ( $Self, %Param ) = @_;
+return 1;
+    my @ExtendedAttributes = qw(
+        FirstResponse
+        FirstResponseInMin
+        FirstResponseDiffInMin
+        Closed
+        SolutionTime
+        SolutionInMin
+        SolutionDiffInMin
+        FirstLock
+    );
+
+    ATTRIBUTE:
+    for my $Attribute ( @ExtendedAttributes ) {
+        return 1 if $Param{TicketAttributes}{$Attribute};
+    }
+
+    return;
 }
 1;
