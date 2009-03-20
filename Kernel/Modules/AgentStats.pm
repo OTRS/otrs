@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.70 2009-03-19 16:54:11 tr Exp $
+# $Id: AgentStats.pm,v 1.71 2009-03-20 16:53:16 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1157,9 +1157,10 @@ sub Run {
                 # need a dropdown menue if more dynamic objects available
                 if ( $#DynamicFilesArray > 0 ) {
                     $Frontend{SelectField} = $Self->{LayoutObject}->BuildSelection(
-                        Data        => $DynamicFiles,
-                        Name        => 'Object',
-                        Translation => 0,
+                        Data          => $DynamicFiles,
+                        Name          => 'Object',
+                        Translation   => 0,
+                        SelectedValue => $Self->{ConfigObject}->Get('Stats::DefaultSelectedDynamicObject'),
                     );
                     $Self->{LayoutObject}->Block(
                         Name => 'SelectField',
@@ -1291,31 +1292,34 @@ sub Run {
             Name       => 'Valid',
         );
 
-        # create multiselectboxes 'permission', 'format'  and 'graphsize'
-        my %Values = ();
-        $Values{Permission} = { $Self->{GroupObject}->GroupList( Valid => 1 ) };
-        $Values{Format}     = $Self->{ConfigObject}->Get('Stats::Format');
-        $Values{GraphSize}  = $Self->{ConfigObject}->Get('Stats::GraphSize');
-
-        $Stat->{SelectPermission} = $Self->{LayoutObject}->BuildSelection(
-            Data        => $Values{Permission},
+        # create multiselectboxes 'permission'
+        my %Permission = (
+            Data        => { $Self->{GroupObject}->GroupList( Valid => 1 ) },
             Name        => 'Permission',
             Multiple    => 1,
             Size        => 5,
-            SelectedID  => $Stat->{Permission},
             Translation => 0,
         );
+        if ( $Stat->{Permission} ) {
+            $Permission{SelectedID}  = $Stat->{Permission};
+        }
+        else {
+            $Permission{SelectedValue}  = $Self->{ConfigObject}->Get('Stats::DefaultSelectedPermissions'),;
+        }
+        $Stat->{SelectPermission} = $Self->{LayoutObject}->BuildSelection(%Permission);
 
+        # create multiselectboxes 'format'
         $Stat->{SelectFormat} = $Self->{LayoutObject}->BuildSelection(
-            Data       => $Values{Format},
+            Data       => $Self->{ConfigObject}->Get('Stats::Format'),
             Name       => 'Format',
             Multiple   => 1,
             Size       => 5,
-            SelectedID => $Stat->{Format},
+            SelectedID => $Stat->{Format} || $Self->{ConfigObject}->Get('Stats::DefaultSelectedFormat'),
         );
 
+        # create multiselectboxes 'graphsize'
         $Stat->{SelectGraphSize} = $Self->{LayoutObject}->BuildSelection(
-            Data        => $Values{GraphSize},
+            Data        => $Self->{ConfigObject}->Get('Stats::GraphSize'),
             Name        => 'GraphSize',
             Multiple    => 1,
             Size        => 5,
@@ -1379,6 +1383,8 @@ sub Run {
                     Translation => $ObjectAttribute->{Translation},
                     Sort          => $ObjectAttribute->{Sort} || undef,
                     SortIndividual=> $ObjectAttribute->{SortIndividual} || undef,
+                    OnChange      => "SelectRadiobutton('$ObjectAttribute->{Element}', 'Select')",
+
                 );
             }
 
@@ -1473,6 +1479,7 @@ sub Run {
                     Translation => $ObjectAttribute->{Translation},
                     Sort          => $ObjectAttribute->{Sort} || undef,
                     SortIndividual=> $ObjectAttribute->{SortIndividual} || undef,
+                    OnChange      => "SelectCheckbox('Select" . $ObjectAttribute->{Element} ."')",
                 );
             }
 
@@ -1597,6 +1604,7 @@ sub Run {
                     Translation => $ObjectAttribute->{Translation},
                     Sort          => $ObjectAttribute->{Sort} || undef,
                     SortIndividual=> $ObjectAttribute->{SortIndividual} || undef,
+                    OnChange      => "SelectCheckbox('Select" . $ObjectAttribute->{Element} ."')",
                 );
             }
 
@@ -2287,8 +2295,10 @@ sub _Timeoutput {
     }
 
     $Timeoutput{TimeRelativeUnit} = $Self->{LayoutObject}->OptionElement(
-        Name => $Element . 'TimeRelativeUnit',
-        Data => $Data,
+        Name     => $Element . 'TimeRelativeUnit',
+        Data     => $Data,
+        #FIXME: onchange only works with build selection
+        OnChange => "SelectRadiobutton('Relativ', '$Element" . "TimeSelect')",
     );
 
     $Data = _TimeScale();

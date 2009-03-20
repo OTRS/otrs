@@ -2,12 +2,23 @@
 # AgentStatsEditValueSeries.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsEditValueSeries.dtl,v 1.10 2009-03-04 10:54:57 tr Exp $
+# $Id: AgentStatsEditValueSeries.dtl,v 1.11 2009-03-20 16:53:17 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
+<script language="JavaScript" type="text/javascript">
+<!--
+// set the checkbox with the given value as being checked
+function SelectCheckbox(Checkbox) {
+    var Object = document.compose.elements[Checkbox];
+    Object.checked = true;
+}
+-->
+</script>
+
 
 <!-- start form -->
 <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
