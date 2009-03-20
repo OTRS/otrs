@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.50 2009-03-06 17:16:20 ub Exp $
+# $Id: AgentTicketZoom.dtl,v 1.51 2009-03-20 18:42:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,9 +19,7 @@ $Include{"AgentTicketZoomArticleFilterDialog"}
   <tr>
     <td width="70%" class="mainhead">
       $Env{"Box0"}$Text{"Zoom"} $Config{"Ticket::Hook"}: $Data{"TicketNumber"} $Env{"Box1"}
-<!-- dtl:block:Title-->
       $QData{"Title","60"}
-<!-- dtl:block:Title-->
     </td>
     <td align="right" width="30%" class="mainhead">
       $Env{"Box0"}$Text{"Age"}: $Data{"Age"}$Env{"Box1"}
