@@ -2,7 +2,7 @@
 # Kernel/System/StdAttachment.pm - lib for std attachemnt
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: StdAttachment.pm,v 1.27 2009-02-16 11:57:40 tr Exp $
+# $Id: StdAttachment.pm,v 1.28 2009-03-20 18:36:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,10 +15,9 @@ use strict;
 use warnings;
 
 use MIME::Base64;
-use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 =head1 NAME
 
@@ -41,10 +40,14 @@ create std. attachment object
     use Kernel::Config;
     use Kernel::System::Log;
     use Kernel::System::DB;
+    use Kernel::System::Encode;
     use Kernel::System::StdAttachment;
 
     my $ConfigObject = Kernel::Config->new();
     my $LogObject    = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+    );
+    my $EncodeObject = Kernel::System::Encode->new(
         ConfigObject => $ConfigObject,
     );
     my $DBObject = Kernel::System::DB->new(
@@ -55,6 +58,7 @@ create std. attachment object
     my $StdAttachmentObject = Kernel::System::StdAttachment->new(
         ConfigObject => $ConfigObject,
         DBObject     => $DBObject,
+        EncodeObject => $EncodeObject,
         LogObject    => $LogObject,
     );
 
@@ -68,7 +72,7 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (qw(ConfigObject LogObject DBObject)) {
+    for (qw(ConfigObject LogObject DBObject EncodeObject)) {
         if ( $Param{$_} ) {
             $Self->{$_} = $Param{$_};
         }
@@ -76,8 +80,6 @@ sub new {
             die "Got no $_!";
         }
     }
-
-    $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
 
     return $Self;
 }
@@ -477,6 +479,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2009-02-16 11:57:40 $
+$Revision: 1.28 $ $Date: 2009-03-20 18:36:20 $
 
 =cut
