@@ -3,7 +3,7 @@
 # bin/CleanUp.pl - to cleanup, remove used tmp data of ipc, database or fs
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CleanUp.pl,v 1.11 2009-02-26 11:01:01 tr Exp $
+# $Id: CleanUp.pl,v 1.12 2009-03-20 18:24:14 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,10 +31,11 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
+use Kernel::System::Encode;
 use Kernel::System::Log;
 use Kernel::System::Main;
 use Kernel::System::DB;
@@ -46,7 +47,7 @@ my %Opts = ();
 getopt( 'h', \%Opts );
 if ( $Opts{'h'} ) {
     print "CleanUp.pl <Revision $VERSION> - OTRS cleanup\n";
-    print "Copyright (c) 2001-2009 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
     print "usage: CleanUp.pl \n";
     exit 1;
 }
@@ -54,6 +55,7 @@ if ( $Opts{'h'} ) {
 # create common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-CleanUp',
     %CommonObject,
