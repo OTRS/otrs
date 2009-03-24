@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2009-03-11 22:46:15
+--  driver: oracle, generated: 2009-03-24 12:44:07
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -1091,6 +1091,8 @@ CREATE TABLE article_attachment (
     filename VARCHAR2 (250) NULL,
     content_size VARCHAR2 (30) NULL,
     content_type VARCHAR2 (250) NULL,
+    content_id VARCHAR2 (250) NULL,
+    content_alternative VARCHAR2 (50) NULL,
     content CLOB NOT NULL,
     create_time DATE NOT NULL,
     create_by NUMBER (12, 0) NOT NULL,

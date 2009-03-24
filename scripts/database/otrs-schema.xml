@@ -1033,6 +1033,8 @@
     <Column Name="filename" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="content_size" Required="false" Size="30" Type="VARCHAR"/>
     <Column Name="content_type" Required="false" Size="250" Type="VARCHAR"/>
+    <Column Name="content_id" Required="false" Size="250" Type="VARCHAR"/>
+    <Column Name="content_alternative" Required="false" Size="50" Type="VARCHAR"/>
     <Column Name="content" Required="true" Type="LONGBLOB"/>
     <Column Name="create_time" Required="true" Type="DATE"/>
     <Column Name="create_by" Required="true" Type="INTEGER"/>

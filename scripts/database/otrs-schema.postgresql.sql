@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2009-03-11 22:46:16
+--  driver: postgresql, generated: 2009-03-24 12:44:08
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -651,6 +651,8 @@ CREATE TABLE article_attachment (
     filename VARCHAR (250) NULL,
     content_size VARCHAR (30) NULL,
     content_type VARCHAR (250) NULL,
+    content_id VARCHAR (250) NULL,
+    content_alternative VARCHAR (50) NULL,
     content TEXT NOT NULL,
     create_time timestamp(0) NOT NULL,
     create_by INTEGER NOT NULL,

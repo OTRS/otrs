@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2009-03-11 22:46:12
+--  driver: db2, generated: 2009-03-24 12:44:04
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -734,6 +734,8 @@ CREATE TABLE article_attachment (
     filename VARCHAR (250),
     content_size VARCHAR (30),
     content_type VARCHAR (250),
+    content_id VARCHAR (250),
+    content_alternative VARCHAR (50),
     content BLOB (30M) NOT NULL,
     create_time TIMESTAMP NOT NULL,
     create_by INTEGER NOT NULL,
