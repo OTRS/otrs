@@ -10,6 +10,11 @@
         <ColumnAdd Name="a_references" Required="false" Size="3800" Type="VARCHAR"/>
     </TableAlter>
 
+    <TableAlter Name="article_attachment">
+        <ColumnAdd Name="content_id" Required="false" Size="250" Type="VARCHAR"/>
+        <ColumnAdd Name="content_alternative" Required="false" Size="50" Type="VARCHAR"/>
+    </TableAlter>
+
     <TableCreate Name="service_preferences">
         <Column Name="service_id" Required="true" Type="INTEGER"/>
         <Column Name="preferences_key" Required="true" Size="150" Type="VARCHAR"/>
