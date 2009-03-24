@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/NewTicket.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: NewTicket.pm,v 1.74 2009-02-16 11:47:35 tr Exp $
+# $Id: NewTicket.pm,v 1.75 2009-03-24 12:14:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.74 $) [1];
+$VERSION = qw($Revision: 1.75 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -321,11 +321,13 @@ sub Run {
     # write attachments to the storage
     for my $Attachment ( $Self->{ParserObject}->GetAttachments() ) {
         $Self->{TicketObject}->ArticleWriteAttachment(
-            Content     => $Attachment->{Content},
-            Filename    => $Attachment->{Filename},
-            ContentType => $Attachment->{ContentType},
-            ArticleID   => $ArticleID,
-            UserID      => $Param{InmailUserID},
+            Filename           => $Attachment->{Filename},
+            Content            => $Attachment->{Content},
+            ContentType        => $Attachment->{ContentType},
+            ContentID          => $Attachment->{ContentID},
+            ContentAlternative => $Attachment->{ContentAlternative},
+            ArticleID          => $ArticleID,
+            UserID             => $Param{InmailUserID},
         );
     }
 
