@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageDB.pm,v 1.62 2009-03-24 09:26:40 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.63 2009-03-24 09:45:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -400,9 +400,9 @@ sub ArticleAttachmentIndex {
         my $FileSizeRaw = $FileSize;
 
         # do not use control file
-        next if $Filename =~ /.content_alternative$/;
-        next if $Filename =~ /.content_id$/;
-        next if $Filename =~ /.content_type$/;
+        next if $Filename =~ /\.content_alternative$/;
+        next if $Filename =~ /\.content_id$/;
+        next if $Filename =~ /\.content_type$/;
         next if $Filename =~ /\/plain.txt$/;
 
         # convert the file name in utf-8 if utf-8 is used
@@ -435,9 +435,7 @@ sub ArticleAttachmentIndex {
             my $Content = $Self->{MainObject}->FileRead(
                 Location => "$Filename.content_type",
             );
-            if ( !$Content ) {
-                return;
-            }
+            return if !$Content;
             $ContentType = ${$Content};
 
             # content id (optional)
@@ -467,9 +465,7 @@ sub ArticleAttachmentIndex {
                 Location => $Filename,
                 Result   => 'ARRAY',
             );
-            if ( !$Content ) {
-                return;
-            }
+            return if !$Content;
             $ContentType = $Content->[0];
         }
 
@@ -540,9 +536,9 @@ sub ArticleAttachment {
     my @List        = glob("$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/*");
     if (@List) {
         for my $Filename (@List) {
-            next if $Filename =~ /.content_alternative$/;
-            next if $Filename =~ /.content_id$/;
-            next if $Filename =~ /.content_type$/;
+            next if $Filename =~ /\.content_alternative$/;
+            next if $Filename =~ /\.content_id$/;
+            next if $Filename =~ /\.content_type$/;
             next if $Filename =~ /\/plain.txt$/;
 
             # add the info the the hash
