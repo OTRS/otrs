@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.104 2009-02-16 11:57:40 tr Exp $
+# $Id: Queue.pm,v 1.105 2009-03-24 06:45:25 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.104 $) [1];
+$VERSION = qw($Revision: 1.105 $) [1];
 
 =head1 NAME
 
@@ -75,7 +75,7 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
-    $Self->{QueueID} = $Param{QueueID} || '';    #die "Got no QueueID!";
+    $Self->{QueueID} = $Param{QueueID} || '';
 
     # check needed objects
     for (qw(DBObject ConfigObject LogObject MainObject)) {
@@ -910,7 +910,7 @@ sub QueueUpdate {
     $Param{DefaultSignKey} = $Param{DefaultSignKey} || '';
 
     # Calendar string  '', '1', '2', '3', '4', '5'  default ''
-    $Param{Calendar} = $Param{Calendar} || '';
+    $Param{Calendar} ||= '';
 
     # notify 0 | 1
     for my $Notify (qw(MoveNotify StateNotify LockNotify OwnerNotify)) {
@@ -962,7 +962,7 @@ sub QueueUpdate {
     );
     my %OldQueue = $Self->QueueGet( ID => $Param{QueueID} );
     for ( keys %AllQueue ) {
-        if ( $AllQueue{$_} =~ /^$Param{Name}$/i && $_ != $Param{QueueID} ) {
+        if ( $AllQueue{$_} =~ /^\Q$Param{Name}\E$/i && $_ != $Param{QueueID} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "Queue '$Param{Name}' exists! Can't updated queue '$OldQueue{Name}'.",
@@ -1122,6 +1122,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.104 $ $Date: 2009-02-16 11:57:40 $
+$Revision: 1.105 $ $Date: 2009-03-24 06:45:25 $
 
 =cut
