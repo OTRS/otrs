@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Queue.pm - lib for queue functions
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.103 2008-09-05 14:59:34 mh Exp $
+# $Id: Queue.pm,v 1.103.2.1 2009-03-24 06:46:18 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 package Kernel::System::Queue;
@@ -20,7 +20,7 @@ use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.103 $) [1];
+$VERSION = qw($Revision: 1.103.2.1 $) [1];
 
 =head1 NAME
 
@@ -962,7 +962,7 @@ sub QueueUpdate {
     );
     my %OldQueue = $Self->QueueGet( ID => $Param{QueueID} );
     for ( keys %AllQueue ) {
-        if ( $AllQueue{$_} =~ /^$Param{Name}$/i && $_ != $Param{QueueID} ) {
+        if ( $AllQueue{$_} =~ /^\Q$Param{Name}\E/i && $_ != $Param{QueueID} ) {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "Queue '$Param{Name}' exists! Can't updated queue '$OldQueue{Name}'.",
@@ -1122,6 +1122,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.103 $ $Date: 2008-09-05 14:59:34 $
+$Revision: 1.103.2.1 $ $Date: 2009-03-24 06:46:18 $
 
 =cut

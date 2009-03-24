@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.pm,v 1.43.2.3 2009-02-20 11:48:05 mh Exp $
+# $Id: AdminQueue.pm,v 1.43.2.4 2009-03-24 06:46:18 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Signature;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43.2.3 $) [1];
+$VERSION = qw($Revision: 1.43.2.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -294,18 +294,18 @@ sub _Mask {
     }
     my %CleanHash = %Data;
     for my $Key ( keys %Data ) {
-        if ( $CleanHash{$Key} eq $QueueName || $CleanHash{$Key} =~ /^$QueueName\:\:/ ) {
-            delete( $CleanHash{$Key} );
+        if ( $CleanHash{$Key} eq $QueueName || $CleanHash{$Key} =~ /^\Q$QueueName\E\:\:/ ) {
+            delete $CleanHash{$Key} ;
         }
     }
-    $Param{'QueueOption'} = $Self->{LayoutObject}->AgentQueueListOption(
+    $Param{QueueOption} = $Self->{LayoutObject}->AgentQueueListOption(
         Data => { %CleanHash, '' => '-', },
         Name => 'ParentQueueID',
         Selected       => $ParentQueue,
         MaxLevel       => 4,
         OnChangeSubmit => 0,
     );
-    $Param{'QueueLongOption'} = $Self->{LayoutObject}->AgentQueueListOption(
+    $Param{QueueLongOption} = $Self->{LayoutObject}->AgentQueueListOption(
         Data => { $Self->{QueueObject}->QueueList( Valid => 0 ), },
         Name => 'QueueID',
         Size => 15,
@@ -341,18 +341,18 @@ sub _Mask {
         SelectedID   => $Param{SolutionNotify},
         PossibleNone => 1,
     );
-    $Param{'SignatureOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{SignatureOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => { $Self->{SignatureObject}->SignatureList( Valid => 1 ), },
         Name => 'SignatureID',
         SelectedID => $Param{SignatureID},
     );
-    $Param{'FollowUpLockYesNoOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{FollowUpLockYesNoOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
         Name       => 'FollowUpLock',
         SelectedID => $Param{FollowUpLock},
     );
 
-    $Param{'SystemAddressOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{SystemAddressOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => { $Self->{SystemAddressObject}->SystemAddressList( Valid => 1 ), },
         Name => 'SystemAddressID',
         SelectedID => $Param{SystemAddressID},

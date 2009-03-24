@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.762.2.51 2009-02-19 14:07:12 ub Exp $
+# $Id: CHANGES,v 1.762.2.52 2009-03-24 06:46:16 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.3.5 (2009/??/??)
+ - (2009/03/24) Fixed bug# 3735 - Queue names should be quoted when editing
+    queues (In this case if you use them in regular expressions).
  - (2009/02/19) Fixed bug# 3636 - Phone call link can be used without adding
     a body the ticket mask.
  - (2009/02/19) Fixed bug# 3671 - Priority in CustomerTicketZoom resets to
