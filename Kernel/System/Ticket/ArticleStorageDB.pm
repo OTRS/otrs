@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageDB.pm,v 1.63 2009-03-24 09:45:24 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.64 2009-03-24 12:05:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -251,7 +251,7 @@ sub ArticleWriteAttachment {
     # get attachment size
     {
         use bytes;
-        $Param{Filesize} = length( $Param{Content} );
+        $Param{Filesize} = length $Param{Content};
         no bytes;
     }
 
@@ -265,11 +265,12 @@ sub ArticleWriteAttachment {
     return $Self->{DBObject}->Do(
         SQL => 'INSERT INTO article_attachment '
             . ' (article_id, filename, content_type, content_size, content, '
-            . ' create_time, create_by, change_time, change_by) '
+            . ' content_id, content_alternative, create_time, create_by, change_time, change_by) '
             . ' VALUES (?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
             \$Param{ArticleID}, \$Param{Filename}, \$Param{ContentType}, \$Param{Filesize},
-            \$Param{Content}, \$Param{UserID}, \$Param{UserID},
+            \$Param{Content}, \$Param{ContentID}, \$Param{ContentAlternative},
+            \$Param{UserID}, \$Param{UserID},
         ],
     );
 }
@@ -357,8 +358,8 @@ sub ArticleAttachmentIndex {
 
     # try database
     $Self->{DBObject}->Prepare(
-        SQL => 'SELECT filename, content_type, content_size FROM article_attachment '
-            . ' WHERE article_id = ? ORDER BY id',
+        SQL => 'SELECT filename, content_type, content_size, content_id, content_alternative'
+            . ' FROM article_attachment WHERE article_id = ? ORDER BY id',
         Bind => [ \$Param{ArticleID} ],
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -380,10 +381,12 @@ sub ArticleAttachmentIndex {
         # add the info the the hash
         $Counter++;
         $Index{$Counter} = {
-            Filename    => $Row[0],
-            ContentType => $Row[1],
-            Filesize    => $Row[2] || '',
-            FilesizeRaw => $FileSizeRaw || 0,
+            Filename           => $Row[0],
+            Filesize           => $Row[2] || '',
+            FilesizeRaw        => $FileSizeRaw || 0,
+            ContentType        => $Row[1],
+            ContentID          => $Row[3] || '',
+            ContentAlternative => $Row[4] || '',
         };
     }
 
@@ -508,11 +511,11 @@ sub ArticleAttachment {
 
     # try database
     $Self->{DBObject}->Prepare(
-        SQL => 'SELECT content_type, content FROM article_attachment '
-            . ' WHERE article_id = ? ORDER BY id',
+        SQL => 'SELECT content_type, content, content_id, content_alternative'
+            . ' FROM article_attachment WHERE article_id = ? ORDER BY id',
         Bind   => [ \$Param{ArticleID} ],
         Limit  => $Param{FileID},
-        Encode => [ 1, 0 ],
+        Encode => [ 1, 0, 0, 0 ],
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ContentType} = $Row[0];
@@ -524,6 +527,8 @@ sub ArticleAttachment {
         else {
             $Data{Content} = $Row[1];
         }
+        $Data{ContentID}          = $Row[2];
+        $Data{ContentAlternative} = $Row[3];
     }
     return %Data if defined $Data{Content};
 
