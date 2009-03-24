@@ -2,7 +2,7 @@
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.dtl,v 1.31 2009-03-04 13:42:23 tr Exp $
+# $Id: AgentTicketForward.dtl,v 1.32 2009-03-24 13:17:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -192,7 +192,6 @@ function FAQSubmit() {
 <!-- dtl:block:AddressBook -->
                     $Env{"Box0"}<a href="" onclick="BookCheckSubmit(); return false;" onmouseover="window.status='$JSText{"Address Book"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}contents.png">$Text{"Address Book"}</a>$Env{"Box1"}
 <!-- dtl:block:AddressBook -->
-                    $Env{"Box0"}<a href="#attachment" onmouseover="window.status='$JSText{"Attachments"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}attach.png">$Text{"Attachments"}</a>$Env{"Box1"}
                   </td>
                 </tr>
                 <tr>
