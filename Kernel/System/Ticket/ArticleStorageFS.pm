@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageFS.pm,v 1.55 2009-03-20 18:11:45 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.56 2009-03-24 09:26:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -323,6 +323,28 @@ sub ArticleWriteAttachment {
     );
     return if !$SuccessContentType;
 
+    # write attachment content id to fs
+    if ( $Param{ContentID} ) {
+        $Self->{MainObject}->FileWrite(
+            Directory  => $Param{Path},
+            Filename   => "$Param{Filename}.content_id",
+            Mode       => 'binmode',
+            Content    => \$Param{ContentID},
+            Permission => '664',
+        );
+    }
+
+    # write attachment content alternativ to fs
+    if ( $Param{ContentAlternative} ) {
+        $Self->{MainObject}->FileWrite(
+            Directory  => $Param{Path},
+            Filename   => "$Param{Filename}.content_alternative",
+            Mode       => 'binmode',
+            Content    => \$Param{ContentAlternative},
+            Permission => '664',
+        );
+    }
+
     # write attachment content to fs
     my $SuccessContent = $Self->{MainObject}->FileWrite(
         Directory  => $Param{Path},
@@ -415,6 +437,8 @@ sub ArticleAttachmentIndex {
         my $FileSizeRaw = $FileSize;
 
         # do not use control file
+        next if $Filename =~ /.content_alternative$/;
+        next if $Filename =~ /.content_id$/;
         next if $Filename =~ /.content_type$/;
         next if $Filename =~ /\/plain.txt$/;
 
@@ -442,14 +466,34 @@ sub ArticleAttachmentIndex {
 
         # read content type
         my $ContentType = '';
+        my $ContentID   = '';
+        my $Alternative = '';
         if ( -e "$Filename.content_type" ) {
             my $Content = $Self->{MainObject}->FileRead(
                 Location => "$Filename.content_type",
             );
-            if ( !$Content ) {
-                return;
-            }
+            return if !$Content;
             $ContentType = ${$Content};
+
+            # content id (optional)
+            if ( -e "$Filename.content_id" ) {
+                my $Content = $Self->{MainObject}->FileRead(
+                    Location => "$Filename.content_id",
+                );
+                if ($Content) {
+                    $ContentID = ${$Content};
+                }
+            }
+
+            # alternativ (optional)
+            if ( -e "$Filename.content_alternative" ) {
+                my $Content = $Self->{MainObject}->FileRead(
+                    Location => "$Filename.content_alternative",
+                );
+                if ($Content) {
+                    $Alternative = ${$Content};
+                }
+            }
         }
 
         # read content type (old style)
@@ -470,10 +514,12 @@ sub ArticleAttachmentIndex {
         # add the info the the hash
         $Counter++;
         $Index{$Counter} = {
-            Filename    => $Filename,
-            Filesize    => $FileSize,
-            FilesizeRaw => $FileSizeRaw,
-            ContentType => $ContentType,
+            Filename           => $Filename,
+            Filesize           => $FileSize,
+            FilesizeRaw        => $FileSizeRaw,
+            ContentType        => $ContentType,
+            ContentID          => $ContentID,
+            ContentAlternative => $Alternative,
         };
     }
 
@@ -542,68 +588,84 @@ sub ArticleAttachment {
     my @List        = glob("$Self->{ArticleDataDir}/$ContentPath/$Param{ArticleID}/*");
     if (@List) {
         for my $Filename (@List) {
-            if ( $Filename !~ /\/plain.txt$/ && $Filename !~ /\.content_type$/ ) {
+            next if $Filename =~ /.content_alternative$/;
+            next if $Filename =~ /.content_id$/;
+            next if $Filename =~ /.content_type$/;
+            next if $Filename =~ /\/plain.txt$/;
 
-                # add the info the the hash
-                $Counter++;
-                if ( $Counter == $Param{FileID} ) {
+            # add the info the the hash
+            $Counter++;
+            if ( $Counter == $Param{FileID} ) {
 
-                    # convert the file name in utf-8 if utf-8 is used
-                    $Filename = $Self->{EncodeObject}->Decode(
-                        Text => $Filename,
-                        From => 'utf-8',
+                # convert the file name in utf-8 if utf-8 is used
+                $Filename = $Self->{EncodeObject}->Decode(
+                    Text => $Filename,
+                    From => 'utf-8',
+                );
+                if ( -e "$Filename.content_type" ) {
+
+                    # read content type
+                    my $Content = $Self->{MainObject}->FileRead(
+                        Location => "$Filename.content_type",
                     );
-                    if ( -e "$Filename.content_type" ) {
+                    return if !$Content;
+                    $Data{ContentType} = ${$Content};
 
-                        # read content type
+                    # read content
+                    $Content = $Self->{MainObject}->FileRead(
+                        Location => $Filename,
+                        Mode     => 'binmode',
+                    );
+                    return if !$Content;
+                    $Data{Content} = ${$Content};
+
+                    # content id (optional)
+                    if ( -e "$Filename.content_id" ) {
                         my $Content = $Self->{MainObject}->FileRead(
-                            Location => "$Filename.content_type",
+                            Location => "$Filename.content_id",
                         );
-                        if ( !$Content ) {
-                            return;
+                        if ($Content) {
+                            $Data{ContentID} = ${$Content};
                         }
-                        $Data{ContentType} = ${$Content};
-
-                        # read content
-                        $Content = $Self->{MainObject}->FileRead(
-                            Location => $Filename,
-                            Mode     => 'binmode',
-                        );
-                        if ( !$Content ) {
-                            return;
-                        }
-                        $Data{Content} = ${$Content};
                     }
-                    else {
 
-                        # read content
+                    # alternativ (optional)
+                    if ( -e "$Filename.content_alternative" ) {
                         my $Content = $Self->{MainObject}->FileRead(
-                            Location => $Filename,
-                            Mode     => 'binmode',
-                            Result   => 'ARRAY',
+                            Location => "$Filename.content_alternative",
                         );
-                        if ( !$Content ) {
-                            return;
-                        }
-                        $Data{ContentType} = $Content->[0];
-                        my $Counter = 0;
-                        for my $Line ( @{$Content} ) {
-                            if ($Counter) {
-                                $Data{Content} .= $Line;
-                            }
-                            $Counter++;
+                        if ($Content) {
+                            $Data{Alternative} = ${$Content};
                         }
                     }
-                    if (
-                        $Data{ContentType} =~ /plain\/text/i
-                        && $Data{ContentType} =~ /(utf\-8|utf8)/i
-                        )
-                    {
-                        $Self->{EncodeObject}->Encode( \$Data{Content} );
-                    }
-                    chomp( $Data{ContentType} );
-                    return %Data;
                 }
+                else {
+
+                    # read content
+                    my $Content = $Self->{MainObject}->FileRead(
+                        Location => $Filename,
+                        Mode     => 'binmode',
+                        Result   => 'ARRAY',
+                    );
+                    return if !$Content;
+                    $Data{ContentType} = $Content->[0];
+                    my $Counter = 0;
+                    for my $Line ( @{$Content} ) {
+                        if ($Counter) {
+                            $Data{Content} .= $Line;
+                        }
+                        $Counter++;
+                    }
+                }
+                if (
+                    $Data{ContentType} =~ /plain\/text/i
+                    && $Data{ContentType} =~ /(utf\-8|utf8)/i
+                )
+                {
+                    $Self->{EncodeObject}->Encode( \$Data{Content} );
+                }
+                chomp $Data{ContentType};
+                return %Data;
             }
         }
     }
