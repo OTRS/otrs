@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2009-03-17 09:45:45
+--  driver: oracle, generated: 2009-03-24 12:54:58
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -14,6 +14,14 @@ ALTER TABLE article ADD a_in_reply_to VARCHAR2 (3800) NULL;
 --  alter table article
 -- ----------------------------------------------------------
 ALTER TABLE article ADD a_references VARCHAR2 (3800) NULL;
+-- ----------------------------------------------------------
+--  alter table article_attachment
+-- ----------------------------------------------------------
+ALTER TABLE article_attachment ADD content_id VARCHAR2 (250) NULL;
+-- ----------------------------------------------------------
+--  alter table article_attachment
+-- ----------------------------------------------------------
+ALTER TABLE article_attachment ADD content_alternative VARCHAR2 (50) NULL;
 -- ----------------------------------------------------------
 --  create table service_preferences
 -- ----------------------------------------------------------

@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2009-03-17 09:45:45
+#  driver: mysql, generated: 2009-03-24 12:54:58
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  alter table postmaster_filter
@@ -13,6 +13,14 @@ ALTER TABLE article ADD a_in_reply_to TEXT NULL;
 #  alter table article
 # ----------------------------------------------------------
 ALTER TABLE article ADD a_references TEXT NULL;
+# ----------------------------------------------------------
+#  alter table article_attachment
+# ----------------------------------------------------------
+ALTER TABLE article_attachment ADD content_id VARCHAR (250) NULL;
+# ----------------------------------------------------------
+#  alter table article_attachment
+# ----------------------------------------------------------
+ALTER TABLE article_attachment ADD content_alternative VARCHAR (50) NULL;
 # ----------------------------------------------------------
 #  create table service_preferences
 # ----------------------------------------------------------

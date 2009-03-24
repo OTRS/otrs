@@ -1,5 +1,5 @@
 // ----------------------------------------------------------
-//  driver: maxdb, generated: 2009-03-17 09:45:44
+//  driver: maxdb, generated: 2009-03-24 12:54:58
 // ----------------------------------------------------------
 // ----------------------------------------------------------
 //  alter table postmaster_filter
@@ -17,6 +17,16 @@ ALTER TABLE article ADD a_in_reply_to VARCHAR (3800)
 ALTER TABLE article ADD a_references VARCHAR (3800)
 //
 // ----------------------------------------------------------
+//  alter table article_attachment
+// ----------------------------------------------------------
+ALTER TABLE article_attachment ADD content_id VARCHAR (250)
+//
+// ----------------------------------------------------------
+//  alter table article_attachment
+// ----------------------------------------------------------
+ALTER TABLE article_attachment ADD content_alternative VARCHAR (50)
+//
+// ----------------------------------------------------------
 //  create table service_preferences
 // ----------------------------------------------------------
 CREATE TABLE service_preferences
@@ -26,7 +36,7 @@ CREATE TABLE service_preferences
     preferences_value VARCHAR (250)
 )
 //
-CREATE INDEX service_preferences_8 ON service_preferences (service_id)
+CREATE INDEX service_preferences_82 ON service_preferences (service_id)
 //
 // ----------------------------------------------------------
 //  create table sla_preferences
@@ -38,7 +48,7 @@ CREATE TABLE sla_preferences
     preferences_value VARCHAR (250)
 )
 //
-CREATE INDEX sla_preferences_sla_17 ON sla_preferences (sla_id)
+CREATE INDEX sla_preferences_sla_75 ON sla_preferences (sla_id)
 //
 // ----------------------------------------------------------
 //  alter table customer_user

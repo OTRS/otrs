@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: ingres, generated: 2009-03-17 09:45:44
+--  driver: ingres, generated: 2009-03-24 12:54:58
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table postmaster_filter
@@ -13,6 +13,14 @@ ALTER TABLE article ADD COLUMN a_in_reply_to VARCHAR(3800);\g
 --  alter table article
 -- ----------------------------------------------------------
 ALTER TABLE article ADD COLUMN a_references VARCHAR(3800);\g
+-- ----------------------------------------------------------
+--  alter table article_attachment
+-- ----------------------------------------------------------
+ALTER TABLE article_attachment ADD COLUMN content_id VARCHAR(250);\g
+-- ----------------------------------------------------------
+--  alter table article_attachment
+-- ----------------------------------------------------------
+ALTER TABLE article_attachment ADD COLUMN content_alternative VARCHAR(50);\g
 CREATE TABLE service_preferences (
     service_id INTEGER NOT NULL,
     preferences_key VARCHAR(150) NOT NULL,
