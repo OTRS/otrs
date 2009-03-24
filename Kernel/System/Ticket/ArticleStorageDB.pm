@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageDB.pm,v 1.64 2009-03-24 12:05:55 martin Exp $
+# $Id: ArticleStorageDB.pm,v 1.65 2009-03-24 16:09:42 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -266,7 +266,7 @@ sub ArticleWriteAttachment {
         SQL => 'INSERT INTO article_attachment '
             . ' (article_id, filename, content_type, content_size, content, '
             . ' content_id, content_alternative, create_time, create_by, change_time, change_by) '
-            . ' VALUES (?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+            . ' VALUES (?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
             \$Param{ArticleID}, \$Param{Filename}, \$Param{ContentType}, \$Param{Filesize},
             \$Param{Content}, \$Param{ContentID}, \$Param{ContentAlternative},
