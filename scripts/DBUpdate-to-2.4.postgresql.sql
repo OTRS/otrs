@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2009-03-24 12:54:58
+--  driver: postgresql, generated: 2009-03-25 02:28:08
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table postmaster_filter
@@ -87,5 +87,9 @@ ALTER TABLE auto_response ADD content_type VARCHAR (250) NULL;
 --  alter table notifications
 -- ----------------------------------------------------------
 ALTER TABLE notifications ADD content_type VARCHAR (250) NULL;
+-- ----------------------------------------------------------
+--  alter table web_upload_cache
+-- ----------------------------------------------------------
+ALTER TABLE web_upload_cache ADD content_id VARCHAR (250) NULL;
 ALTER TABLE service_preferences ADD CONSTRAINT FK_service_preferences_service_id_id FOREIGN KEY (service_id) REFERENCES service (id);
 ALTER TABLE sla_preferences ADD CONSTRAINT FK_sla_preferences_sla_id_id FOREIGN KEY (sla_id) REFERENCES sla (id);

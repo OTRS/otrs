@@ -1573,6 +1573,7 @@
 <Table Name="web_upload_cache">
     <Column Name="form_id" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="filename" Required="false" Size="250" Type="VARCHAR"/>
+    <Column Name="content_id" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="content_size" Required="false" Size="30" Type="VARCHAR"/>
     <Column Name="content_type" Required="false" Size="250" Type="VARCHAR"/>
     <Column Name="content" Required="true" Type="LONGBLOB"/>

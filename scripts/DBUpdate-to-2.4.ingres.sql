@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: ingres, generated: 2009-03-24 12:54:58
+--  driver: ingres, generated: 2009-03-25 02:28:07
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table postmaster_filter
@@ -83,5 +83,9 @@ ALTER TABLE auto_response ADD COLUMN content_type VARCHAR(250);\g
 --  alter table notifications
 -- ----------------------------------------------------------
 ALTER TABLE notifications ADD COLUMN content_type VARCHAR(250);\g
+-- ----------------------------------------------------------
+--  alter table web_upload_cache
+-- ----------------------------------------------------------
+ALTER TABLE web_upload_cache ADD COLUMN content_id VARCHAR(250);\g
 ALTER TABLE service_preferences ADD FOREIGN KEY (service_id) REFERENCES service(id);\g
 ALTER TABLE sla_preferences ADD FOREIGN KEY (sla_id) REFERENCES sla(id);\g

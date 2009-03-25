@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2009-03-24 12:44:04
+--  driver: db2, generated: 2009-03-25 02:23:40
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -1164,6 +1164,7 @@ CREATE TABLE process_id (
 CREATE TABLE web_upload_cache (
     form_id VARCHAR (250),
     filename VARCHAR (250),
+    content_id VARCHAR (250),
     content_size VARCHAR (30),
     content_type VARCHAR (250),
     content BLOB (30M) NOT NULL,

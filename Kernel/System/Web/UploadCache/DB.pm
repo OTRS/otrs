@@ -2,7 +2,7 @@
 # Kernel/System/Web/UploadCache/DB.pm - a db upload cache
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.16 2009-02-16 11:45:13 tr Exp $
+# $Id: DB.pm,v 1.17 2009-03-25 02:35:30 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use MIME::Base64;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -81,15 +81,21 @@ sub FormIDAddFile {
         $Param{Content} = encode_base64( $Param{Content} );
     }
 
+    # create content id
+    my $Random    = rand 999999;
+    my $FQDN      = $Self->{ConfigObject}->Get('FQDN');
+    my $ContentID = "$Random.$Param{FormID}\@$FQDN";
+
     # write attachment to db
     my $Time = time();
     return $Self->{DBObject}->Do(
         SQL => 'INSERT INTO web_upload_cache '
-            . ' (form_id, filename, content_type, content_size, content, create_time_unix)'
-            . ' VALUES  (?, ?, ?, ?, ?, ?)',
+            . ' (form_id, filename, content_type, content_size, content, create_time_unix,'
+            . ' content_id)'
+            . ' VALUES  (?, ?, ?, ?, ?, ?, ?)',
         Bind => [
             \$Param{FormID}, \$Param{Filename}, \$Param{ContentType}, \$Param{Filesize},
-            \$Param{Content}, \$Time,
+            \$Param{Content}, \$Time, \$ContentID
         ],
     );
 }
@@ -125,10 +131,11 @@ sub FormIDGetAllFilesData {
         }
     }
     $Self->{DBObject}->Prepare(
-        SQL => 'SELECT filename, content_type, content_size, content FROM web_upload_cache '
+        SQL => 'SELECT filename, content_type, content_size, content, content_id'
+            . ' FROM web_upload_cache '
             . ' WHERE form_id = ? ORDER BY create_time_unix',
         Bind => [ \$Param{FormID} ],
-        Encode => [ 1, 1, 1, 0 ],
+        Encode => [ 1, 1, 1, 0, 1 ],
     );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Counter++;
@@ -156,6 +163,7 @@ sub FormIDGetAllFilesData {
             @Data,
             {
                 Content     => $Row[3],
+                ContentID   => $Row[4],
                 ContentType => $Row[1],
                 Filename    => $Row[0],
                 Filesize    => $Row[2],
@@ -178,7 +186,8 @@ sub FormIDGetAllFilesMeta {
         }
     }
     $Self->{DBObject}->Prepare(
-        SQL => 'SELECT filename, content_type, content_size FROM web_upload_cache '
+        SQL => 'SELECT filename, content_type, content_size, content_id'
+            . ' FROM web_upload_cache '
             . ' WHERE form_id = ? ORDER BY create_time_unix',
         Bind => [ \$Param{FormID} ],
     );
@@ -202,6 +211,7 @@ sub FormIDGetAllFilesMeta {
         push(
             @Data,
             {
+                ContentID   => $Row[3],
                 ContentType => $Row[1],
                 Filename    => $Row[0],
                 Filesize    => $Row[2],

@@ -2,7 +2,7 @@
 # Kernel/System/Web/UploadCache/FS.pm - a fs upload cache
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: FS.pm,v 1.14 2009-02-16 11:45:13 tr Exp $
+# $Id: FS.pm,v 1.15 2009-03-25 02:35:30 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -74,6 +74,11 @@ sub FormIDAddFile {
         }
     }
 
+    # create content id
+    my $Random    = rand 999999;
+    my $FQDN      = $Self->{ConfigObject}->Get('FQDN');
+    my $ContentID = "$Random.$Param{FormID}\@$FQDN";
+
     # files must readable for creater
     return if !$Self->{MainObject}->FileWrite(
         Directory  => $Self->{TempDir},
@@ -86,6 +91,13 @@ sub FormIDAddFile {
         Directory  => $Self->{TempDir},
         Filename   => "$Param{FormID}.$Param{Filename}.ContentType",
         Content    => \$Param{ContentType},
+        Mode       => 'binmode',
+        Permission => '644',
+    );
+    return if !$Self->{MainObject}->FileWrite(
+        Directory  => $Self->{TempDir},
+        Filename   => "$Param{FormID}.$Param{Filename}.ContentID",
+        Content    => \$ContentID,
         Mode       => 'binmode',
         Permission => '644',
     );
@@ -111,6 +123,10 @@ sub FormIDRemoveFile {
     $Self->{MainObject}->FileDelete(
         Directory => $Self->{TempDir},
         Filename  => "$Param{FormID}.$File{Filename}.ContentType",
+    );
+    $Self->{MainObject}->FileDelete(
+        Directory => $Self->{TempDir},
+        Filename  => "$Param{FormID}.$File{Filename}.ContentID",
     );
     return 1;
 }
@@ -164,12 +180,19 @@ sub FormIDGetAllFilesData {
             );
             next if !$ContentType;
 
+            my $ContentID = $Self->{MainObject}->FileRead(
+                Location => "$File.ContentID",
+                Mode     => 'binmode',             # optional - binmode|utf8
+            );
+            next if !$ContentID;
+
             # strip filename
             $File =~ s/^.*\/$Param{FormID}\.(.+?)$/$1/;
             push(
                 @Data,
                 {
                     Content     => ${$Content},
+                    ContentID   => ${$ContentID},
                     ContentType => ${$ContentType},
                     Filename    => $File,
                     Filesize    => $FileSize,

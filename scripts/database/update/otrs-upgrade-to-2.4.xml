@@ -69,4 +69,8 @@
         <ColumnAdd Name="content_type" Required="false" Size="250" Type="VARCHAR"/>
     </TableAlter>
 
+    <TableAlter Name="web_upload_cache">
+        <ColumnAdd Name="content_id" Required="false" Size="250" Type="VARCHAR"/>
+    </TableAlter>
+
 </database>

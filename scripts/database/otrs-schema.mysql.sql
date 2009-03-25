@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2009-03-24 12:44:07
+#  driver: mysql, generated: 2009-03-25 02:23:43
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -1034,6 +1034,7 @@ CREATE TABLE process_id (
 CREATE TABLE web_upload_cache (
     form_id VARCHAR (250) NULL,
     filename VARCHAR (250) NULL,
+    content_id VARCHAR (250) NULL,
     content_size VARCHAR (30) NULL,
     content_type VARCHAR (250) NULL,
     content LONGBLOB NOT NULL,

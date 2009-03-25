@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2009-03-24 12:54:58
+--  driver: oracle, generated: 2009-03-25 02:28:08
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -88,6 +88,10 @@ ALTER TABLE auto_response ADD content_type VARCHAR2 (250) NULL;
 --  alter table notifications
 -- ----------------------------------------------------------
 ALTER TABLE notifications ADD content_type VARCHAR2 (250) NULL;
+-- ----------------------------------------------------------
+--  alter table web_upload_cache
+-- ----------------------------------------------------------
+ALTER TABLE web_upload_cache ADD content_id VARCHAR2 (250) NULL;
 SET DEFINE OFF;
 ALTER TABLE service_preferences ADD CONSTRAINT FK_service_preferences_servi62 FOREIGN KEY (service_id) REFERENCES service (id);
 ALTER TABLE sla_preferences ADD CONSTRAINT FK_sla_preferences_sla_id_id FOREIGN KEY (sla_id) REFERENCES sla (id);

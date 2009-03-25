@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2009-03-24 12:54:58
+--  driver: db2, generated: 2009-03-25 02:28:07
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  alter table postmaster_filter
@@ -107,6 +107,11 @@ ALTER TABLE auto_response ADD content_type VARCHAR (250);
 --  alter table notifications
 -- ----------------------------------------------------------
 ALTER TABLE notifications ADD content_type VARCHAR (250);
+
+-- ----------------------------------------------------------
+--  alter table web_upload_cache
+-- ----------------------------------------------------------
+ALTER TABLE web_upload_cache ADD content_id VARCHAR (250);
 
 ALTER TABLE service_preferences ADD CONSTRAINT FK_service_preferences_service_id_id FOREIGN KEY (service_id) REFERENCES service (id);
 
