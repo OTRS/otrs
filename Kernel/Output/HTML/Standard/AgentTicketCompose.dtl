@@ -2,7 +2,7 @@
 # AgentTicketCompose.dtl - provides HTML form for AgentTicketCompose
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.dtl,v 1.33 2009-03-25 13:54:31 sb Exp $
+# $Id: AgentTicketCompose.dtl,v 1.34 2009-03-25 13:57:50 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -220,9 +220,9 @@ $Include{"YUI"}
                   <td class="contentkey">$Text{"Text"}:</td>
                   <td class="contentvalue">
                     <div class="yui-skin-sam">
-                      <textarea id="RichText" name="Body" rows="25" cols="$Config{"Ticket::Frontend::TextAreaEmail"}" wrap="$Env{"BrowserWrap"}">
-                        $Data{"ResponseFormat"}
-                      </textarea>
+<textarea id="RichText" name="Body" rows="25" cols="$Config{"Ticket::Frontend::TextAreaEmail"}" wrap="$Env{"BrowserWrap"}">
+$Data{"ResponseFormat"}
+</textarea>
                     </div>
                   </td>
                 </tr>
