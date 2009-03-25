@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.52 2009-03-25 13:51:06 sb Exp $
+# $Id: AgentTicketZoom.dtl,v 1.53 2009-03-25 20:08:43 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -180,7 +180,7 @@ $Data{"Body"}
             <script src="$Config{"Frontend::YUIPath"}build/yahoo/yahoo-min.js" type="text/javascript"></script>
             <script src="$Config{"Frontend::YUIPath"}build/dom/dom-min.js" type="text/javascript"></script>
             <script src="$Config{"Frontend::YUIPath"}build/event/event-min.js" type="text/javascript"></script>
-            <script src="$Config{"Frontend::YUIPath"}build/element/element-min.js" type"text/javascript"></script>
+            <script src="$Config{"Frontend::YUIPath"}build/element/element-min.js" type="text/javascript"></script>
             <script language="JavaScript" type="text/javascript">
 <!--
             function IframeAutoHeight() {
