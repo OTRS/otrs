@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.75 2009-03-16 09:27:06 martin Exp $
+# $Id: EmailParser.pm,v 1.76 2009-03-25 08:50:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.75 $) [1];
+$VERSION = qw($Revision: 1.76 $) [1];
 
 =head1 NAME
 
@@ -67,7 +67,7 @@ sub new {
     bless( $Self, $Type );
 
     # get debug level from parent
-    $Self->{Debug} = $Param{Debug} || 0;
+    $Self->{Debug} = 2; #$Param{Debug} || 0;
 
     # check needed objects
     for (qw(LogObject ConfigObject)) {
@@ -559,24 +559,43 @@ sub GetAttachments {
 sub PartsAttachments {
     my ( $Self, %Param ) = @_;
 
-    my $Part           = $Param{Part}           || $Self->{ParserParts};
-    my $PartCounter    = $Param{PartCounter}    || 0;
-    my $SubPartCounter = $Param{SubPartCounter} || 0;
+    my $Part               = $Param{Part}           || $Self->{ParserParts};
+    my $PartCounter        = $Param{PartCounter}    || 0;
+    my $SubPartCounter     = $Param{SubPartCounter} || 0;
+    my $ContentAlternative = $Param{ContentAlternative} || '';
     $Self->{PartCounter}++;
     if ( $Part->parts() > 0 ) {
+
+        # check if it's an alternative part
+        my $ContentAlternative;
+        $Part->head()->unfold();
+        $Part->head()->combine('Content-Type');
+        my $ContentType = $Part->head()->get('Content-Type');
+        if ( $ContentType && $ContentType =~ /multipart\/alternative;/i ) {
+            $ContentAlternative = 1;
+        }
         $PartCounter++;
         for my $Part ( $Part->parts() ) {
             $SubPartCounter++;
             if ( $Self->{Debug} > 0 ) {
                 print STDERR "Sub part($PartCounter/$SubPartCounter)!\n";
             }
-            $Self->PartsAttachments( Part => $Part, PartCounter => $PartCounter );
+            $Self->PartsAttachments(
+                Part               => $Part,
+                PartCounter        => $PartCounter,
+                ContentAlternative => $ContentAlternative,
+            );
         }
         return 1;
     }
 
     # get attachment meta stuff
     my %PartData = ();
+
+    # get content alternative
+    if ($ContentAlternative) {
+        $PartData{ContentAlternative} = $ContentAlternative;
+    }
 
     # get ContentType
     $Part->head()->unfold();
@@ -1196,6 +1215,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.75 $ $Date: 2009-03-16 09:27:06 $
+$Revision: 1.76 $ $Date: 2009-03-25 08:50:35 $
 
 =cut
