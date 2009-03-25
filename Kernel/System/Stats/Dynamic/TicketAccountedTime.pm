@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/TicketAccountedTime.pm - stats for accounted ticket time
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketAccountedTime.pm,v 1.1 2009-03-19 16:59:52 tr Exp $
+# $Id: TicketAccountedTime.pm,v 1.2 2009-03-25 16:50:47 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -87,13 +87,13 @@ sub GetObjectAttributes {
 
     my @ObjectAttributes = (
         {
-            Name             => 'Art der Auswertung',
+            Name             => 'Evaluation by',
             UseAsXvalue      => 1,
             UseAsValueSeries => 0,
             UseAsRestriction => 1,
             Element          => 'KindsOfReporting',
             Block            => 'MultiSelectField',
-            Translation      => 0, # because of current sorting problems with AgentStats_ColumnAndRowTranslation
+            Translation      => 1,
             Sort             => 'IndividualKey',
             SortIndividual   => $Self->_SortedKindsOfReporting(),
             Values           => $Self->_KindsOfReporting(),
@@ -384,11 +384,11 @@ sub GetObjectAttributes {
 
         my @ObjectAttributeAdd = (
             {
-                Name             => 'Accounted by Agent/Owner',
+                Name             => 'Accounted time by Agent',
                 UseAsXvalue      => 1,
                 UseAsValueSeries => 1,
                 UseAsRestriction => 1,
-                Element          => 'AccountedByOwner',
+                Element          => 'AccountedByAgent',
                 Block            => 'MultiSelectField',
                 Translation      => 0,
                 Values           => \%UserList,
@@ -562,22 +562,15 @@ sub GetStatTable {
                 next KIND if !defined $Reporting{$Kind};
                 push @ResultRow, $Reporting{$Kind};
             }
-
             push @StatArray, \@ResultRow;
         }
     }
     else {
         my $KindsOfReportingRef = $Self->_KindsOfReporting();
-
-        if (!$Param{Restrictions}{KindsOfReporting}) {
-            $Param{Restrictions}{KindsOfReporting} = [];
-        }
-
+        $Param{Restrictions}{KindsOfReporting} ||= ['TotalTime'];
         my $NumberOfReportingKinds = scalar @{$Param{Restrictions}{KindsOfReporting}};
         my $SelectedKindsOfReporting = $Param{Restrictions}{KindsOfReporting};
-        if (!$NumberOfReportingKinds) {
-            push @{$SelectedKindsOfReporting}, 'Total';
-        }
+
         delete $Param{Restrictions}{KindsOfReporting};
 
         # search the total sum of each row
@@ -594,7 +587,7 @@ sub GetStatTable {
 
                 my $CellContent = '';
 
-                if (!$NumberOfReportingKinds || $NumberOfReportingKinds == 1 ) {
+                if ( $NumberOfReportingKinds == 1 ) {
                     my @Values = values %Reporting;
                     $CellContent = $Values[0];
                 }
@@ -650,9 +643,9 @@ sub _ReportingValues {
         push @Where, "ticket_id IN ( $TicketString )";
     }
 
-    if ($SearchAttributes->{AccountedByOwner} ) {
-        my @AccountedByOwner = map {$Self->{DBObject}->Quote( $_, 'Integer' )} @{$SearchAttributes->{AccountedByOwner}};
-        my $String = join ', ', @AccountedByOwner;
+    if ($SearchAttributes->{AccountedByAgent} ) {
+        my @AccountedByAgent = map {$Self->{DBObject}->Quote( $_, 'Integer' )} @{$SearchAttributes->{AccountedByAgent}};
+        my $String = join ', ', @AccountedByAgent;
         push @Where, "create_by IN ( $String )";
     }
 
@@ -670,24 +663,24 @@ sub _ReportingValues {
     my %SelectedKindsOfReporting = map {$_ => 1} @{$Param{SelectedKindsOfReporting}};
     my %Reporting = ();
 
-    if ( $SelectedKindsOfReporting{Total} ) {
+    if ( $SelectedKindsOfReporting{TotalTime} ) {
         # db query
         $Self->{DBObject}->Prepare(
             SQL  => "SELECT SUM(time_unit) FROM time_accounting $WhereString"
         );
 
         while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-            $Reporting{Total} = $Row[0] ? int ($Row[0] * 100) / 100 : 0;
+            $Reporting{TotalTime} = $Row[0] ? int ($Row[0] * 100) / 100 : 0;
         }
     }
-    if (   !$SelectedKindsOfReporting{AveragePerTicket}
-        && !$SelectedKindsOfReporting{MinPerTicket}
-        && !$SelectedKindsOfReporting{MaxPerTicket}
+    if (   !$SelectedKindsOfReporting{TicketAverage}
+        && !$SelectedKindsOfReporting{TicketMinTime}
+        && !$SelectedKindsOfReporting{TicketMaxTime}
         && !$SelectedKindsOfReporting{NumberOfTickets}
-        && !$SelectedKindsOfReporting{AveragePerArticle}
-        && !$SelectedKindsOfReporting{MinPerArticle}
-        && !$SelectedKindsOfReporting{MaxPerArticle}
-        && !$SelectedKindsOfReporting{NumberOfArticle}
+        && !$SelectedKindsOfReporting{ArticleAverage}
+        && !$SelectedKindsOfReporting{ArticleMaxTime}
+        && !$SelectedKindsOfReporting{ArticleMinTime}
+        && !$SelectedKindsOfReporting{NumberOfArticles}
     ) {
         return %Reporting;
     }
@@ -709,33 +702,33 @@ sub _ReportingValues {
     my @TicketTimeLine  = sort { $a <=> $b} values %TicketID;
     my @ArticleTimeLine = sort { $a <=> $b} values %ArticleID;
 
-    if ($SelectedKindsOfReporting{AveragePerTicket} ) {
+    if ($SelectedKindsOfReporting{TicketAverage} ) {
         my $NumberOfTickets = scalar keys %TicketID;
         my $Average = $NumberOfTickets ? $Time / $NumberOfTickets : 0;
-        $Reporting{AveragePerTicket} = sprintf("%.2f", $Average);
+        $Reporting{TicketAverage} = sprintf("%.2f", $Average);
     }
-    if ( $SelectedKindsOfReporting{MinPerTicket} ) {
-        $Reporting{MinPerTicket} = $TicketTimeLine[0] || 0;
+    if ( $SelectedKindsOfReporting{TicketMinTime} ) {
+        $Reporting{TicketMinTime} = $TicketTimeLine[0] || 0;
     }
-    if ( $SelectedKindsOfReporting{MaxPerTicket} ) {
-        $Reporting{MaxPerTicket} = $TicketTimeLine[-1] || 0;
+    if ( $SelectedKindsOfReporting{TicketMaxTime} ) {
+        $Reporting{TicketMaxTime} = $TicketTimeLine[-1] || 0;
     }
     if ( $SelectedKindsOfReporting{NumberOfTickets} ) {
         $Reporting{NumberOfTickets} = scalar keys %TicketID;
     }
-    if ( $SelectedKindsOfReporting{AveragePerArticle} ) {
+    if ( $SelectedKindsOfReporting{ArticleAverage} ) {
         my $NumberOfArticles = scalar keys %ArticleID;
         my $Average = $NumberOfArticles ? $Time / $NumberOfArticles : 0;
-        $Reporting{AveragePerArticle} = sprintf("%.2f", $Average);
+        $Reporting{ArticleAverage} = sprintf("%.2f", $Average);
     }
-    if ( $SelectedKindsOfReporting{MinPerArticle} ) {
-        $Reporting{MinPerArticle} = $ArticleTimeLine[0] || 0;
+    if ( $SelectedKindsOfReporting{ArticleMinTime} ) {
+        $Reporting{ArticleMinTime} = $ArticleTimeLine[0] || 0;
     }
-    if ( $SelectedKindsOfReporting{MaxPerArticle} ) {
-        $Reporting{MaxPerArticle} = $ArticleTimeLine[-1] || 0;
+    if ( $SelectedKindsOfReporting{ArticleMaxTime} ) {
+        $Reporting{ArticleMaxTime} = $ArticleTimeLine[-1] || 0;
     }
-    if ( $SelectedKindsOfReporting{NumberOfArticle} ) {
-        $Reporting{NumberOfArticle} = scalar keys %ArticleID;
+    if ( $SelectedKindsOfReporting{NumberOfArticles} ) {
+        $Reporting{NumberOfArticles} = scalar keys %ArticleID;
     }
 
     return %Reporting;
@@ -744,15 +737,15 @@ sub _ReportingValues {
 sub _KindsOfReporting {
     my $Self = shift;
     my %KindsOfReporting = (
-        Total           => 'Total',
-        AveragePerTicket=> 'Average per Ticket',
-        MinPerTicket    => 'Min per Ticket',
-        MaxPerTicket    => 'Max per Ticket',
-        NumberOfTickets => 'NumberOfTickets',
-        AveragePerArticle => 'Average per Article',
-        MinPerArticle    => 'Min per Article',
-        MaxPerArticle    => 'Max per Article',
-        NumberOfArticle  => 'NumberOfArticle',
+        TotalTime        => 'Total Time',
+        TicketAverage    => 'Ticket Average',
+        TicketMinTime    => 'Ticket Min Time',
+        TicketMaxTime    => 'Ticket Max Time',
+        NumberOfTickets  => 'Number of Tickets',
+        ArticleAverage   => 'Article Average',
+        ArticleMinTime   => 'Article Min Time',
+        ArticleMaxTime   => 'Article Max Time',
+        NumberOfArticles => 'Number of Articles',
     );
     return \%KindsOfReporting;
 }
@@ -760,51 +753,86 @@ sub _KindsOfReporting {
 sub _SortedKindsOfReporting {
     my $Self = shift;
     my @SortedKindsOfReporting = qw(
-        Total
-        AveragePerTicket
-        MinPerTicket
-        MaxPerTicket
+        TotalTime
+        TicketAverage
+        TicketMinTime
+        TicketMaxTime
         NumberOfTickets
-        AveragePerArticle
-        MinPerArticle
-        MaxPerArticle
-        NumberOfArticle
+        ArticleAverage
+        ArticleMinTime
+        ArticleMaxTime
+        NumberOfArticles
     );
     return \@SortedKindsOfReporting;
 }
 
 sub _AllowedTicketSearchAttributes {
     my $Self = shift;
-    my @Attributes = (
-        'QueueIDs',
-        'StateIDs',
-        'State Type',
-        'StateTypeIDs',
-        'PriorityIDs',
-        'CreatedQueueIDs',
-        'CreatedPriorityIDs',
-        'CreatedStateIDs',
-        'LockIDs',
-        'Title',
-        'CustomerUserLogin',
-        'From',
-        'To',
-        'Cc',
-        'Subject',
-        'Body',
-        'CreateTime',
-        'CloseTime',
-        'EscalationTime',
-        'EscalationResponseTime',
-        'EscalationUpdateTime',
-        'EscalationSolutionTime',
-        'ServiceIDs',
-        'SLAIDs',
-        'TypeIDs',
-        'OwnerIDs',
-        'CreatedUserIDs',
-        'ResponsibleIDs',
-        'CustomerID',
+    my @Attributes = qw(
+        TicketNumber
+        Title
+        Queues
+        QueueIDs
+        Types
+        TypeIDs
+        States
+        StateIDs
+        StateType
+        StateTypeIDs
+        Priorities
+        PriorityIDs
+        Services
+        ServiceIDs
+        SLAs
+        SLAIDs
+        Locks
+        LockIDs
+        OwnerIDs
+        ResponsibleIDs
+        WatchUserIDs
+        CustomerID
+        CustomerUserLogin
+        CreatedUserIDs
+        CreatedTypes
+        CreatedTypeIDs
+        CreatedPriorities
+        CreatedPriorityIDs
+        CreatedStates
+        CreatedStateIDs
+        CreatedQueues
+        CreatedQueueIDs
+        From
+        To
+        Subject
+        Body
+        TicketCreateTimeNewerDate
+        TicketCreateTimeOlderDate
+        TicketChangeTimeNewerDate
+        TicketChangeTimeOlderDate
+        TicketCloseTimeNewerDate
+        TicketCloseTimeOlderDate
+        TicketPendingTimeNewerDate
+        TicketPendingTimeOlderDate
+        TicketEscalationTimeNewerDate
+        TicketEscalationTimeOlderDate
+        TicketEscalationUpdateTimeNewerDate
+        TicketEscalationUpdateTimeOlderDate
+        TicketEscalationResponseTimeNewerDate
+        TicketEscalationResponseTimeOlderDate
+        TicketEscalationSolutionTimeNewerDate
+        TicketEscalationSolutionTimeOlderDate
+        TicketFreeTime1NewerDate
+        TicketFreeTime1OlderDate
+        TicketFreeTime2NewerDate
+        TicketFreeTime2OlderDate
+        TicketFreeTime3NewerDate
+        TicketFreeTime3OlderDate
+        TicketFreeTime4NewerDate
+        TicketFreeTime4OlderDate
+        TicketFreeTime5NewerDate
+        TicketFreeTime5OlderDate
+        TicketFreeTime6NewerDate
+        TicketFreeTime6OlderDate
     );
 
     FREEKEY:
@@ -814,4 +842,20 @@ sub _AllowedTicketSearchAttributes {
 
     return \@Attributes;
 }
+
+sub GetHeaderLine {
+    my ( $Self, %Param ) = @_;
+    my %Selected   = map {$_ => 1} @{$Param{XValue}{SelectedValues}};
+    my $Attributes = $Self->_KindsOfReporting();
+    my @HeaderLine = ('Evaluation by');
+    my $SortedRef  = $Self->_SortedKindsOfReporting();
+
+    ATTRIBUTE:
+    for my $Attribute (@{$SortedRef}) {
+        next ATTRIBUTE if !$Selected{$Attribute};
+        push @HeaderLine, $Attributes->{$Attribute};
+    }
+    return @HeaderLine;
+}
+
 1;

@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.67 2009-03-19 16:57:17 tr Exp $
+# $Id: Stats.pm,v 1.68 2009-03-25 16:50:47 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Date::Pcalc qw(:all);
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 =head1 SYNOPSIS
 
@@ -238,8 +238,12 @@ sub StatsGet {
     my %Allowed     = ();
     my %TimeAllowed = ();
     my $TimeElement = $Self->{ConfigObject}->Get('Stats::TimeElement') || 'Time';
-
     return \%Stat if !$Stat{Object};
+
+    $Stat{ObjectName} = $Self->GetObjectName(
+        ObjectModule => $Stat{ObjectModule},
+    );
+
     return \%Stat if $Param{NoObjectAttributes};
 
     KEY:
@@ -1518,7 +1522,7 @@ sub _GenerateDynamicStats {
     if ( $StatObject->can('GetStatTable')) {
         # get the whole stats table
         @DataArray = $StatObject->GetStatTable(
-            ValueSeries  => \%ValueSeries,
+            ValueSeries  => $Param{UseAsValueSeries}, #\%ValueSeries,
             XValue       => $Xvalue,
             Restrictions => \%RestrictionAttribute,
             TableStructure => \%TableStructure,
@@ -1544,6 +1548,8 @@ sub _GenerateDynamicStats {
         }
     }
 
+    # REMARK: it could be also useful to use the indiviual sort if difined
+    # so you don't need this function
     if ($StatObject->can('GetHeaderLine')) {
         @HeaderLine = $StatObject->GetHeaderLine(
             XValue       => $Xvalue,
@@ -2176,20 +2182,49 @@ sub GetDynamicFiles {
     my $Self = shift;
 
     my %Filelist = %{ $Self->{ConfigObject}->Get('Stats::DynamicObjectRegistration') };
-    for ( keys %Filelist ) {
-        if ( $Filelist{$_} ) {
-            my $ObjectModule = $Filelist{$_}{Module};
-            $Self->{MainObject}->Require($ObjectModule);
-            my $StatObject = $ObjectModule->new( %{$Self} );
-            $Filelist{$_} = $StatObject->GetObjectName();
+    OBJECT:
+    for my $Object ( keys %Filelist ) {
+        if ( !$Filelist{$Object} ) {
+            delete $Filelist{$Object};
+            next OBJECT;
         }
-        else {
-            delete( $Filelist{$_} );
-        }
+        $Filelist{$Object} = $Self->GetObjectName(
+            ObjectModule => $Filelist{$Object}{Module},
+        );
     }
     return if !%Filelist;
 
     return \%Filelist;
+}
+
+=item GetObjectName()
+
+Get the name of a dynamic object
+
+    my $ObjectName = $StatsObject->GetObjectName(
+        ObjectModule => 'Kernel::System::Stats::Dynamic::TicketList',
+    );
+
+=cut
+
+sub GetObjectName {
+    my ( $Self, %Param ) = @_;
+    my $Module = $Param{ObjectModule};
+
+    # check if it is cached
+    return $Self->{'Cache::ObjectModule'}{$Module} if $Self->{'Cache::ObjectName'}{$Module};
+
+    # load module
+    $Self->{MainObject}->Require($Module);
+
+    # get name
+    my $StatObject = $Module->new( %{$Self} );
+    my $Name = $StatObject->GetObjectName();
+
+    # cache the result
+    $Self->{'Cache::ObjectModule'}{$Module} = $Name;
+
+    return $Name;
 }
 
 =item ObjectFileCheck()
@@ -3180,6 +3215,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.67 $ $Date: 2009-03-19 16:57:17 $
+$Revision: 1.68 $ $Date: 2009-03-25 16:50:47 $
 
 =cut

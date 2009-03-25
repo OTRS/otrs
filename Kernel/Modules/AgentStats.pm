@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.71 2009-03-20 16:53:16 tr Exp $
+# $Id: AgentStats.pm,v 1.72 2009-03-25 16:50:47 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,11 +13,13 @@ package Kernel::Modules::AgentStats;
 
 use strict;
 use warnings;
+
+use List::Util qw( first );
 use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -106,15 +108,13 @@ sub Run {
         my $Index   = -1;
         my $Counter = 0;
         for ( my $Z = 0; ( $Z < $Param{SearchPageShown} && $Index < $#{$Result} ); $Z++ ) {
-            $Counter++;
             $Index = $Param{StartHit} + $Z - 1;
             my $StatID = $Result->[$Index];
             my $Stat   = $Self->{StatsObject}->StatsGet(
                 StatID             => $StatID,
                 NoObjectAttributes => 1,
             );
-
-            $Stat->{css} = $Counter % 2 ? 'searchactive' : 'searchpassive';
+            $Stat->{css} = ++$Counter % 2 ? 'searchactive' : 'searchpassive';
 
             $Self->{LayoutObject}->Block(
                 Name => 'Result',
@@ -170,7 +170,7 @@ sub Run {
 
         # object
         $Stat->{ObjectName} = $Stat->{StatType} eq 'static'  ? $Stat->{File}
-                            : $Stat->{StatType} eq 'dynamic' ? $Stat->{Object}
+                            : $Stat->{StatType} eq 'dynamic' ? $Stat->{ObjectName}
                             :                                  '';
 
         $Stat->{Description} = $Self->{LayoutObject}->Ascii2Html(
@@ -333,7 +333,7 @@ sub Run {
                     if ( $ObjectAttribute->{Fixed} ) {
                         if ( $ObjectAttribute->{Block} eq 'Time' ) {
                             if ( $Use eq 'UseAsRestriction' ) {
-                                delete( $ObjectAttribute->{SelectedValues} );
+                                delete $ObjectAttribute->{SelectedValues} ;
                             }
                             my $TimeScale = _TimeScale();
                             if ( $ObjectAttribute->{TimeStart} ) {
@@ -369,7 +369,16 @@ sub Run {
                             }
                         }
                         else {
-                            for ( sort { $ValueHash{$a} cmp $ValueHash{$b} } keys %ValueHash ) {
+                            # find out which sort mechanism is used
+                            my @Sorted = ();
+                            if ( $ObjectAttribute->{SortIndividual} ) {
+                                @Sorted = grep{$ValueHash{$_}} @{$ObjectAttribute->{SortIndividual}};
+                            }
+                            else {
+                                @Sorted = sort { $ValueHash{$a} cmp $ValueHash{$b} } keys %ValueHash;
+                            }
+
+                            for ( @Sorted ) {
                                 my $Value = $ValueHash{$_};
                                 if ( $ObjectAttribute->{Translation} ) {
                                     $Value = "\$Text{\"$ValueHash{$_}\"}";
@@ -1159,7 +1168,7 @@ sub Run {
                     $Frontend{SelectField} = $Self->{LayoutObject}->BuildSelection(
                         Data          => $DynamicFiles,
                         Name          => 'Object',
-                        Translation   => 0,
+                        Translation   => 1,
                         SelectedValue => $Self->{ConfigObject}->Get('Stats::DefaultSelectedDynamicObject'),
                     );
                     $Self->{LayoutObject}->Block(
@@ -1247,6 +1256,7 @@ sub Run {
                 Data => {
                     SelectedKey => 'Object',
                     Selected    => $Stat->{Object},
+                    SelectedName => $Stat->{ObjectName},
                 },
             );
         }
@@ -1265,8 +1275,9 @@ sub Run {
             $Self->{LayoutObject}->Block(
                 Name => 'Selected',
                 Data => {
-                    SelectedKey => 'File',
-                    Selected    => $Stat->{File},
+                    SelectedKey  => 'File',
+                    Selected     => $Stat->{File},
+                    SelectedName => $Stat->{File},
                 },
             );
         }
@@ -1304,7 +1315,7 @@ sub Run {
             $Permission{SelectedID}  = $Stat->{Permission};
         }
         else {
-            $Permission{SelectedValue}  = $Self->{ConfigObject}->Get('Stats::DefaultSelectedPermissions'),;
+            $Permission{SelectedValue}  = $Self->{ConfigObject}->Get('Stats::DefaultSelectedPermissions');
         }
         $Stat->{SelectPermission} = $Self->{LayoutObject}->BuildSelection(%Permission);
 
@@ -1315,6 +1326,7 @@ sub Run {
             Multiple   => 1,
             Size       => 5,
             SelectedID => $Stat->{Format} || $Self->{ConfigObject}->Get('Stats::DefaultSelectedFormat'),
+            OnChange   => "FormatGraphSizeRelation()",
         );
 
         # create multiselectboxes 'graphsize'
@@ -1322,9 +1334,10 @@ sub Run {
             Data        => $Self->{ConfigObject}->Get('Stats::GraphSize'),
             Name        => 'GraphSize',
             Multiple    => 1,
-            Size        => 5,
+            Size        => 3,
             SelectedID  => $Stat->{GraphSize},
             Translation => 0,
+            Disabled    => (first {$_ =~ m{^GD::}smx} @{$Stat->{GraphSize}}) ? 0 : 1,
         );
 
         # presentation
@@ -1356,12 +1369,20 @@ sub Run {
         }
 
         my $Stat = $Self->{StatsObject}->StatsGet( StatID => $Param{StatID} );
+
+        # if only one value is available select this value
+        if ( !$Stat->{UseAsXvalue}[0]{Selected} && scalar(@{$Stat->{UseAsXvalue}}) == 1 ) {
+            $Stat->{UseAsXvalue}[0]{Selected} = 1;
+            $Stat->{UseAsXvalue}[0]{Fixed}    = 1;
+        }
+
         my $Flag = 0;
         for my $ObjectAttribute ( @{ $Stat->{UseAsXvalue} } ) {
             my %BlockData = ();
             $BlockData{Fixed}   = 'checked="checked"';
             $BlockData{Checked} = '';
 
+            # things which should be done if this attribute is selected
             if ( $ObjectAttribute->{Selected} ) {
                 $BlockData{Checked} = 'checked="checked"';
                 if ( !$ObjectAttribute->{Fixed} ) {
@@ -2421,7 +2442,7 @@ sub _ColumnAndRowTranslation {
                     $Translation{$Use} = '';
                 }
 
-                if ( $Element->{Translation} && $Element->{Block} ne 'Time' ) {
+                if ( $Element->{Translation} && $Element->{Block} ne 'Time' &&  !$Element->{SortIndividual}) {
                     $Sort{$Use} = 1;
                 }
                 last ELEMENT;
@@ -2442,6 +2463,7 @@ sub _ColumnAndRowTranslation {
 
     # translate the headline
     $Param{HeadArrayRef}->[0] = $Self->{LanguageObject}->Get( $Param{HeadArrayRef}->[0] );
+
     if ( $Translation{UseAsXvalue} && $Translation{UseAsXvalue} eq 'Time' ) {
         for my $Word ( @{ $Param{HeadArrayRef} } ) {
             if ( $Word =~ m{ ^ (\w+?) ( \s \d+ ) $ }smx ) {
@@ -2450,6 +2472,7 @@ sub _ColumnAndRowTranslation {
             }
         }
     }
+
     elsif ( $Translation{UseAsXvalue} ) {
         for my $Word ( @{ $Param{HeadArrayRef} } ) {
             $Word = $Self->{LanguageObject}->Get($Word);

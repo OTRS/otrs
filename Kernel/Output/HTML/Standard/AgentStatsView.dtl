@@ -2,7 +2,7 @@
 # AgentStatsView.dtl - provides HTML form for view IDMEF
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsView.dtl,v 1.14 2009-03-04 10:43:39 tr Exp $
+# $Id: AgentStatsView.dtl,v 1.15 2009-03-25 16:50:47 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -53,7 +53,7 @@
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Object"}:</td>
-                  <td class="contentvalue">$QData{"ObjectName"}</td>
+                  <td class="contentvalue">$Text{"$QData{"ObjectName"}"}</td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Description"}:</td>

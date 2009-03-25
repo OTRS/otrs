@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.179 2009-03-17 09:14:51 sb Exp $
+# $Id: de.pm,v 1.180 2009-03-25 16:50:46 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.179 $) [1];
+$VERSION = qw($Revision: 1.180 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -373,9 +373,30 @@ sub Data {
         'Created by Agent/Owner' => 'Erstellt von Agent/Besitzer',
         'Created Priority' => 'Erstellt mit der Priorität',
         'Created State' => 'Erstellt mit dem Status',
-        'Create Time' => 'Erstellt',
+        'Create Time' => 'Ticket erstellt',
         'CustomerUserLogin' => 'Kundenlogin',
         'Close Time' => 'Ticket geschlossen',
+        'Limit'              => 'Limit',
+        'Order by'           => 'Sortieren nach',
+        'Sort sequence'      => 'Sortierreihenfolge',
+        'Attributes to be printed' => 'Auszugebene Attribute',
+        'Evaluation by'      => 'Auswertung nach',
+        'Total Time'         => 'Gesamtzeit',
+        'Ticket Average'     => 'Durchschnittszeit pro Ticket',
+        'Ticket Min Time'    => 'Ticket Minimalzeit',
+        'Ticket Max Time'    => 'Ticket Maximalzeit',
+        'Number of Tickets'  => 'Anzahl der Tickets',
+        'Article Average'    => 'Durchschnittszeit pro Artikel',
+        'Article Min Time'   => 'Artikel Minimalzeit',
+        'Article Max Time'   => 'Artikel Maximalzeit',
+        'Number of Articles' => 'Anzahl der Artikel',
+        'Accounted time by Agent' => 'Zeit zugewiesen von Agent',
+        'Ticket/Article Accounted Time' => 'Zeit zugewiesen',
+        'Ticketlist'          => 'Ticketliste',
+        'TicketAccountedTime' => 'Ticket-Bearbeitungszeiten',
+        'TicketAccumulation' => 'Ticket-Aufkommen',
+        'Ticket Create Time' => 'Ticket erstellt',
+        'Ticket Close Time' => 'Ticket geschlossen',
 
         # Template: AAATicket
         'Lock' => 'Sperren',

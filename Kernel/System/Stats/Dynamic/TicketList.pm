@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/TicketList.pm - reporting via ticket lists
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketList.pm,v 1.2 2009-03-20 16:50:33 tr Exp $
+# $Id: TicketList.pm,v 1.3 2009-03-25 16:50:47 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,6 +14,7 @@ package Kernel::System::Stats::Dynamic::TicketList;
 use strict;
 use warnings;
 
+use List::Util qw( first );
 use Kernel::System::Queue;
 use Kernel::System::Service;
 use Kernel::System::SLA;
@@ -21,7 +22,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -85,19 +86,69 @@ sub GetObjectAttributes {
         UserID => 1,
     );
 
+    my %Limit = (
+        5         => 5,
+        10        => 10,
+        20        => 20,
+        50        => 50,
+        100       => 100,
+        unlimited => 'unlimited',
+    );
+
+    my %TicketAttributes = %{$Self->_TicketAttributes()};
+    my %OrderBy = map{$_ => $TicketAttributes{$_} }grep{$_ ne 'Number'} keys %TicketAttributes;
+    my %SortSequence = (
+        Up   => 'ascending',
+        Down => 'descending',
+    );
+
     my @ObjectAttributes = (
         {
-            Name             => 'Liste der Ticketattribute die mit ausgegeben werden sollen',
+            Name             => 'Attributes to be printed',
             UseAsXvalue      => 1,
             UseAsValueSeries => 0,
             UseAsRestriction => 0,
             Element          => 'TicketAttributes',
             Block            => 'MultiSelectField',
-            Translation      => 0, # because of current sorting problems with AgentStats_ColumnAndRowTranslation
-            Values           => $Self->_TicketAttributes(),
+            Translation      => 1,
+            Values           => \%TicketAttributes,
             Sort             => 'IndividualKey',
             SortIndividual   => $Self->_SortedAttributes(),
 
+        },
+        {
+            Name             => 'Order by',
+            UseAsXvalue      => 0,
+            UseAsValueSeries => 1,
+            UseAsRestriction => 0,
+            Element          => 'OrderBy',
+            Block            => 'SelectField',
+            Translation      => 1,
+            Values           => \%OrderBy,
+            Sort             => 'IndividualKey',
+            SortIndividual   => $Self->_SortedAttributes(),
+        },
+        {
+            Name             => 'Sort sequence',
+            UseAsXvalue      => 0,
+            UseAsValueSeries => 1,
+            UseAsRestriction => 0,
+            Element          => 'SortSequence',
+            Block            => 'SelectField',
+            Translation      => 1,
+            Values           => \%SortSequence,
+        },
+        {
+            Name             => 'Limit',
+            UseAsXvalue      => 0,
+            UseAsValueSeries => 0,
+            UseAsRestriction => 1,
+            Element          => 'Limit',
+            Block            => 'SelectField',
+            Translation      => 1,
+            Values           => \%Limit,
+            Sort             => 'IndividualKey',
+            SortIndividual   => ['5','10','20','50','100','unlimited',],
         },
         {
             Name             => 'Queue',
@@ -524,17 +575,38 @@ sub GetStatTable {
     my %TicketAttributes = map {$_ => 1} @{$Param{XValue}{SelectedValues}};
     my $SortedAttributesRef = $Self->_SortedAttributes();
 
+    # set default values if no sort or order attribute is given
+    my $OrderRef = first {$_->{Element} eq 'OrderBy'}      @{$Param{ValueSeries}} ;
+    my $OrderBy  = $OrderRef ? $OrderRef->{SelectedValues}[0] : 'Age';
+    my $SortRef  = first {$_->{Element} eq 'SortSequence'} @{$Param{ValueSeries}} ;
+    my $Sort     = $SortRef  ? $SortRef->{SelectedValues}[0]  : 'Down';
+
+    # check if we can use the sort and order function of TicketSearch
+    my $OrderByIsValueOfTicketSearchSort = $Self->_OrderByIsValueOfTicketSearchSort(
+        OrderBy => $OrderBy,
+    );
+
+    if ($OrderByIsValueOfTicketSearchSort) {
+        # don't be irritated of the mixture OrderBy <> Sort and SortBy <> OrderBy
+        # the meaning is in TicketSearch is different as in common handling
+        $Param{Restrictions}{OrderBy} = $Sort;
+        $Param{Restrictions}{SortBy}  = $OrderBy;
+        $Param{Restrictions}{Limit}  =  $Param{Restrictions}{Limit} eq 'unlimited' ? 100_000_000 : $Param{Restrictions}{Limit};
+    }
+    else {
+        $Param{Restrictions}{Limit} = 100_000_000;
+    }
+
     # get the involved tickets
     my @TicketIDs =  $Self->{TicketObject}->TicketSearch(
         UserID                  => 1,
         Result                  => 'ARRAY',
         Permission              => 'ro',
-        Limit                   => 100_000_000,
         %{$Param{Restrictions}},
     );
 
     # find out if the extended version of TicketGet is needed,
-    my $Extended = $Self->_ExtendetAttributesCheck(
+    my $Extended = $Self->_ExtendedAttributesCheck(
         TicketAttributes => \%TicketAttributes,
     );
 
@@ -567,6 +639,31 @@ sub GetStatTable {
         push @StatArray, \@ResultRow;
     }
 
+    # use a individual sort if the sort mechanismn of the TicketSearch is not useable
+    if (!$OrderByIsValueOfTicketSearchSort) {
+        @StatArray = $Self->_IndividualResultOrder(
+            StatArray => \@StatArray,
+            OrderBy   => $OrderBy,
+            Sort      => $Sort,
+        );
+    }
+# Individual sort
+#        AccountedTime
+#        FirstResponse
+#        FirstResponseInMin
+#        FirstResponseDiffInMin
+#        SolutionTime
+#        SolutionInMin
+#        SolutionDiffInMin
+#        FirstLock
+#        StateType
+#        UntilTime
+#        UnlockTimeout
+#        EscalationResponseTime
+#        EscalationSolutionTime
+#        EscalationUpdateTime
+#        RealTillTimeNotUsed
+
     return @StatArray;
 }
 
@@ -578,10 +675,7 @@ sub _TicketAttributes {
         TicketNumber   => $Self->{ConfigObject}->Get('Ticket::Hook'),
         Age            => 'Age',
         Title          => 'Title',
-        #?CreateTime     => 'Create Time',
-        #?CloseTime      => 'Close Time (if available)',
         Queue          => 'Queue',
-        # ? CreatedInQueue => 'Created in Queue',
         State          => 'State',
         Priority       => 'Priority',
         CustomerID     => 'CustomerID',
@@ -653,7 +747,7 @@ sub _TicketAttributes {
         }
     }
 
-# FIXME -    $VAR9 = 'TicketFreeTime4' - 6;
+    # FIXME -    $VAR9 = 'TicketFreeTime4' - 6;
 
     return \%TicketAttributes;
 }
@@ -720,9 +814,9 @@ sub GetHeaderLine {
     return @HeaderLine;
 }
 
-sub _ExtendetAttributesCheck {
+sub _ExtendedAttributesCheck {
     my ( $Self, %Param ) = @_;
-return 1;
+
     my @ExtendedAttributes = qw(
         FirstResponse
         FirstResponseInMin
@@ -740,5 +834,72 @@ return 1;
     }
 
     return;
+}
+
+sub _OrderByIsValueOfTicketSearchSort {
+    my ( $Self, %Param ) = @_;
+
+    my %SortOptions = (
+        Age => 'Age',
+        Created => 'Age',
+        CustomerID => 'CustomerID',
+        EscalationResponseTime => 'EscalationResponseTime',
+        EscalationSolutionTime => 'EscalationSolutionTime',
+        EscalationTime => 'EscalationTime',
+        EscalationUpdateTime => 'EscalationUpdateTime',
+        Lock => 'Lock',
+        Owner => 'Owner',
+        Priority => 'Priority',
+        Queue => 'Queue',
+        Responsible => 'Responsible',
+        SLA => 'SLA',
+        Service => 'Service',
+        State => 'State',
+        TicketNumber => 'Ticket',
+        TicketEscalation => 'TicketEscalation',
+        TicketFreeKey1 => 'TicketFreeKey1',
+        TicketFreeKey10 => 'TicketFreeKey10',
+        TicketFreeKey11 => 'TicketFreeKey11',
+        TicketFreeKey12 => 'TicketFreeKey12',
+        TicketFreeKey13 => 'TicketFreeKey13',
+        TicketFreeKey14 => 'TicketFreeKey14',
+        TicketFreeKey15 => 'TicketFreeKey15',
+        TicketFreeKey16 => 'TicketFreeKey16',
+        TicketFreeKey2 => 'TicketFreeKey2',
+        TicketFreeKey3 => 'TicketFreeKey3',
+        TicketFreeKey4 => 'TicketFreeKey4',
+        TicketFreeKey5 => 'TicketFreeKey5',
+        TicketFreeKey6 => 'TicketFreeKey6',
+        TicketFreeKey7 => 'TicketFreeKey7',
+        TicketFreeKey8 => 'TicketFreeKey8',
+        TicketFreeKey9 => 'TicketFreeKey9',
+        TicketFreeText1 => 'TicketFreeText1',
+        TicketFreeText10 => 'TicketFreeText10',
+        TicketFreeText11 => 'TicketFreeText11',
+        TicketFreeText12 => 'TicketFreeText12',
+        TicketFreeText13 => 'TicketFreeText13',
+        TicketFreeText14 => 'TicketFreeText14',
+        TicketFreeText15 => 'TicketFreeText15',
+        TicketFreeText16 => 'TicketFreeText16',
+        TicketFreeText2 => 'TicketFreeText2',
+        TicketFreeText3 => 'TicketFreeText3',
+        TicketFreeText4 => 'TicketFreeText4',
+        TicketFreeText5 => 'TicketFreeText5',
+        TicketFreeText6 => 'TicketFreeText6',
+        TicketFreeText7 => 'TicketFreeText7',
+        TicketFreeText8 => 'TicketFreeText8',
+        TicketFreeText9 => 'TicketFreeText9',
+        TicketFreeTime1 => 'TicketFreeTime1',
+        TicketFreeTime2 => 'TicketFreeTime2',
+        TicketFreeTime3 => 'TicketFreeTime3',
+        TicketFreeTime4 => 'TicketFreeTime4',
+        TicketFreeTime5 => 'TicketFreeTime5',
+        TicketFreeTime6 => 'TicketFreeTime6',
+        Title => 'Title',
+        Type => 'Type',
+    );
+
+    return $SortOptions{$Param{OrderBy}} if $SortOptions{$Param{OrderBy}};
+    return ;
 }
 1;

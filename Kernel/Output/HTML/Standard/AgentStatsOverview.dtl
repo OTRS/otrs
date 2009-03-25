@@ -2,7 +2,7 @@
 # AgentStatsOverview.dtl - provides HTML form for lists stats
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsOverview.dtl,v 1.6 2009-03-04 10:34:00 tr Exp $
+# $Id: AgentStatsOverview.dtl,v 1.7 2009-03-25 16:50:47 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -48,7 +48,7 @@
             </a>
           </td>
           <td class="contentvalue">$QData{"Title"}</td>
-          <td class="contentvalue">$QData{"Object"}</td>
+          <td class="contentvalue">$Text{"$QData{"ObjectName"}"}</td>
           <td class="contentvalue">$QData{"Description","50"}</td>
         </tr>
 <!-- dtl:block:Result -->

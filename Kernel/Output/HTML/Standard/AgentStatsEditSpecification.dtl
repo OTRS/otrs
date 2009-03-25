@@ -2,15 +2,44 @@
 # AgentStatsEditSpecification.dtl - provides HTML form for stats edit mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStatsEditSpecification.dtl,v 1.8 2009-03-04 10:18:58 tr Exp $
+# $Id: AgentStatsEditSpecification.dtl,v 1.9 2009-03-25 16:50:47 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+<script language="JavaScript" type="text/javascript">
+<!--
+// activate the graph size menu if a GD element is selected
+function FormatGraphSizeRelation() {
+    var Object = document.compose.Format;
+    var Length = Object.length;
+    var Flag = false;
+    var Reg = /^GD::/;
+
+    // find out if a GD element is used
+    for(var i = 0; i < Length; i++) {
+        if (Object[i].selected == true) {
+            if (Reg.test(Object[i].value) == true) {
+                Flag = true;
+            }
+        }
+    }
+
+    // activate or deactivate the Graphsize menu
+    if ( Flag == true ) {
+        document.compose.GraphSize.disabled = false;
+    }
+    else {
+        document.compose.GraphSize.disabled = true;
+    }
+}
+-->
+</script>
+
 <!-- start form -->
-<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+<form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
   <input type="hidden" name="Action"    value="$Env{"Action"}"/>
   <input type="hidden" name="Subaction" value="Action"/>
   <input type="hidden" name="Home"      value="EditSpecification"/>
@@ -66,7 +95,7 @@
 <!-- dtl:block:SelectField -->
 <!-- dtl:block:Selected -->
                     <input type="hidden" name="$QData{"SelectedKey"}" value="$QData{"Selected"}"/>
-                    $Data{"Selected"}
+                    $Text{"$Data{"SelectedName"}"}
 <!-- dtl:block:Selected -->
                   </td>
                 </tr>

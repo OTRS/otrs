@@ -2,7 +2,7 @@
 # AAAStats.dtl - $Text variable file
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AAAStats.dtl,v 1.9 2009-02-16 11:07:25 tr Exp $
+# $Id: AAAStats.dtl,v 1.10 2009-03-25 16:50:47 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -61,3 +61,28 @@ $Text{"Created State"}
 $Text{"Create Time"}
 $Text{"CustomerUserLogin"}
 $Text{"Close Time"}
+$Text{"TicketAccumulation"}
+
+# Dynamic Object Ticketlist
+$Text{"Attributes to be printed"}
+$Text{"Sort sequence"}
+$Text{"Order by"}
+$Text{"Limit"}
+$Text{"Ticketlist"}
+
+# Dynamic Object TicketAccountedTime
+$Text{"Evaluation by"}
+$Text{"Total Time"}
+$Text{"Ticket Average"}
+$Text{"Ticket Min Time"}
+$Text{"Ticket Max Time"}
+$Text{"Number of Tickets"}
+$Text{"Article Average"}
+$Text{"Article Min Time"}
+$Text{"Article Max Time"}
+$Text{"Number of Articles"}
+$Text{"Accounted time by Agent"}
+$Text{"Ticket/Article Accounted Time"}
+$Text{"TicketAccountedTime"}
+$Text{"Ticket Create Time"}
+$Text{"Ticket Close Time"}
