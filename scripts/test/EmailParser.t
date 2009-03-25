@@ -2,7 +2,7 @@
 # EmailParser.t - email parser tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.t,v 1.19 2009-03-25 08:40:33 martin Exp $
+# $Id: EmailParser.t,v 1.20 2009-03-25 08:49:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -219,6 +219,11 @@ $Self->Is(
     $Attachments[1]->{Filename},
     'test-attachment-äöüß-iso-8859-1.txt',
     "#5 GetAttachments()",
+);
+$Self->Is(
+    $Attachments[1]->{ContentAlternative} || '',
+    '',
+    "#5 ContentAlternative check",
 );
 $MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[2]->{Content} ) || '';
 $Self->Is(
@@ -689,7 +694,7 @@ $Self->{EmailParserObject} = Kernel::System::EmailParser->new(
 );
 $Self->Is(
     $Self->{EmailParserObject}->GetCharset(),
-    'utf-8',
+    'ISO-8859-1',
     "#15 GetCharset() - utf8 charset should be found",
 );
 
@@ -697,7 +702,7 @@ $Self->Is(
 $MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[1]->{Content} ) || '';
 $Self->Is(
     $MD5,
-    'ecfbec2030e6bf91cc97ed22f7c6551a',
+    'e86c2c15e59fc1e1695f890ff102b06c',
     "#15 md5 check",
 );
 $Self->Is(
