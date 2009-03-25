@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.23 2009-03-05 13:13:01 martin Exp $
+# $Id: AgentTicketBulk.pm,v 1.24 2009-03-25 18:35:41 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -211,8 +211,12 @@ sub Run {
             }
 
             # merge to
-            my $MergeToSelection = $Self->{ParamObject}->GetParam( Param => 'MergeToSelection' );
-            my $MergeTo          = $Self->{ParamObject}->GetParam( Param => 'MergeTo' );
+            my $MergeToSelection = $Self->{ParamObject}->GetParam(
+                Param => 'MergeToSelection'
+            ) || '';
+            my $MergeTo          = $Self->{ParamObject}->GetParam(
+                Param => 'MergeTo'
+            ) || '';
             if ( $MergeToSelection eq 'MergeTo' && $MergeTo ) {
                 $MergeTo =~ s/\s+$//g;
                 $MergeTo =~ s/^\s+//g;
