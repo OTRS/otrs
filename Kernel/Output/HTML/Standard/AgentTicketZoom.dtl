@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.51 2009-03-20 18:42:58 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.52 2009-03-25 13:51:06 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -169,10 +169,39 @@ $Include{"AgentTicketZoomArticleFilterDialog"}
 <!-- dtl:block:ArticleAttachment -->
             </table>
 
+<!-- dtl:block:BodyPlain -->
 $Data{"BodyNote"}
             <div class="message">
 $Data{"Body"}
             </div>
+<!-- dtl:block:BodyPlain -->
+<!-- dtl:block:BodyHTML -->
+            <div class="message">
+            <script src="$Config{"Frontend::YUIPath"}build/yahoo/yahoo-min.js" type="text/javascript"></script>
+            <script src="$Config{"Frontend::YUIPath"}build/dom/dom-min.js" type="text/javascript"></script>
+            <script src="$Config{"Frontend::YUIPath"}build/event/event-min.js" type="text/javascript"></script>
+            <script src="$Config{"Frontend::YUIPath"}build/element/element-min.js" type"text/javascript"></script>
+            <script language="JavaScript" type="text/javascript">
+<!--
+            function IframeAutoHeight() {
+            var Dom = YAHOO.util.Dom;
+            var iframe = new YAHOO.util.Element('iframe');
+            var newHeight = iframe.get('element').contentWindow.document.body.scrollHeight;
+            if ( !newHeight )  {
+            newHeight = '500';
+            }
+            Dom.setStyle(iframe, 'height', newHeight);
+            }
+            //-->
+            </script>
+            <iframe width="100%" frameborder="0" border="0" marginwidth="0" marginheight="0"
+            leftmargin="0" topmargin="0" style="width: 100%;" id="iframe"
+            onload="IframeAutoHeight();"
+            src="$Env{"Baselink"}Action=AgentTicketAttachment&Subaction=inline&ArticleID=$QData{"ArticleID"}&FileID=$QData{"BodyHTML"}"
+            >
+            </iframe>
+            </div>
+<!-- dtl:block:BodyHTML -->
           </td>
           <td valign="top">
 <!-- dtl:block:Expand -->

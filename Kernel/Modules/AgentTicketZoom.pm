@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.66 2009-03-20 18:28:47 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.67 2009-03-25 13:51:06 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -505,15 +505,17 @@ sub MaskAgentZoom {
         # count shown articles
         $Count++;
 
-        # check if just a only html email
-        if ( my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType( %Param, %Article ) ) {
-            $Article{"BodyNote"} = $MimeTypeText;
-            $Article{"Body"}     = '';
-        }
-        else {
+        $Self->{LayoutObject}->Block(
+            Name => 'Body',
+            Data => { %Param, %Article, %AclAction, },
+        );
+
+        my $BodyType = 'BodyHTML';
+        if ( !$Article{BodyHTML} ) {
+            $BodyType = 'BodyPlain';
 
             # html quoting
-            $Article{"BodyHTML"} = $Self->{LayoutObject}->Ascii2Html(
+            $Article{Body} = $Self->{LayoutObject}->Ascii2Html(
                 NewLine        => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
                 Text           => $Article{Body},
                 VMax           => $Self->{ConfigObject}->Get('DefaultViewLines') || 5000,
@@ -533,9 +535,11 @@ sub MaskAgentZoom {
                 $Article{"BodyNote"} = $CharsetText;
             }
         }
+
+        # show body
         $Self->{LayoutObject}->Block(
-            Name => 'Body',
-            Data => { %Param, %Article, Body => $Article{"BodyHTML"}, %AclAction, },
+            Name => $BodyType,
+            Data => { %Article },
         );
 
         # show article tree
