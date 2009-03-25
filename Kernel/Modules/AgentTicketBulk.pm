@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.24 2009-03-25 18:35:41 sb Exp $
+# $Id: AgentTicketBulk.pm,v 1.25 2009-03-25 18:37:02 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -159,15 +159,21 @@ sub Run {
 
             my $ArticleID;
             if ( $Subject && $Body && ( $ArticleTypeID || $ArticleType ) ) {
+                my $ContentType = "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}";
+                my $Charset     = $Self->{LayoutObject}->{'UserCharset'};
+                if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+                    $ContentType = "text/html; charset=$Self->{LayoutObject}->{'UserCharset'}";
+                }
                 $ArticleID = $Self->{TicketObject}->ArticleCreate(
-                    TicketID      => $TicketID,
-                    ArticleTypeID => $ArticleTypeID,
-                    ArticleType   => $ArticleType,
-                    SenderType    => 'agent',
-                    From    => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
-                    Subject => $Subject,
-                    Body    => $Body,
-                    ContentType    => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
+                    TicketID       => $TicketID,
+                    ArticleTypeID  => $ArticleTypeID,
+                    ArticleType    => $ArticleType,
+                    SenderType     => 'agent',
+                    From           => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
+                    Subject        => $Subject,
+                    Body           => $Body,
+                    ContentType    => $ContentType,
+                    Charset        => $Charset,
                     UserID         => $Self->{UserID},
                     HistoryType    => 'AddNote',
                     HistoryComment => '%%Bulk',
@@ -455,6 +461,23 @@ sub _Mask {
         $Self->{LayoutObject}->Block(
             Name => 'SpellCheck',
             Data => {},
+        );
+    }
+
+    # prepare note text
+    $Param{NoteText} = $Self->{ConfigObject}->Get('Ticket::Frontend::NoteText') || '';
+
+    if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+        $Param{NoteText} = $Self->{LayoutObject}->Ascii2Html(
+            Text           => $Param{NoteText},
+            HTMLResultMode => 1,
+            LinkFeature    => 1,
+        );
+
+        # add YUI editor
+        $Self->{LayoutObject}->Block(
+            Name => 'RichText',
+            Data => \%Param,
         );
     }
 
