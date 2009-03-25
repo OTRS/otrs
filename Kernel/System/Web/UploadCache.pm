@@ -2,7 +2,7 @@
 # Kernel/System/Web/UploadCache.pm - a fs upload cache
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: UploadCache.pm,v 1.15 2009-02-16 11:45:13 tr Exp $
+# $Id: UploadCache.pm,v 1.16 2009-03-25 13:35:24 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 =head1 NAME
 
@@ -129,6 +129,7 @@ add a file to the form id
         Filename => 'somefile.html',
         Content => $FileInSting,
         ContentType => 'text/html',
+        Disposition => 'inline', # optional
     );
 
 =cut
@@ -226,6 +227,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2009-02-16 11:45:13 $
+$Revision: 1.16 $ $Date: 2009-03-25 13:35:24 $
 
 =cut
