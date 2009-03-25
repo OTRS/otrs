@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.205 2009-03-20 18:39:02 martin Exp $
+# $Id: Article.pm,v 1.206 2009-03-25 13:36:53 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.205 $) [1];
+$VERSION = qw($Revision: 1.206 $) [1];
 
 =head1 NAME
 
@@ -1343,16 +1343,17 @@ sub ArticleContentIndex {
                     $AttachmentPlain = $Count;
                 }
                 if (
-                    $File{Filename} eq 'file-2'
+                    $File{Filename} =~ /^file-[12]$/
                     && $File{ContentType} =~ /text\/html/i
                     )
                 {
                     $AttachmentHTML = $Count;
                 }
             }
-            if ( $AttachmentPlain && $AttachmentHTML ) {
+            if ( $AttachmentHTML ) {
                 delete $AtmIndex{$AttachmentPlain};
-                $AtmIndex{$AttachmentHTML}->{Filename} = 'HTML-Attachment';
+                delete $AtmIndex{$AttachmentHTML};
+                $Article->{BodyHTML} = $AttachmentHTML;
             }
 
             # plain body size vs. attched body size check
@@ -3357,6 +3358,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.205 $ $Date: 2009-03-20 18:39:02 $
+$Revision: 1.206 $ $Date: 2009-03-25 13:36:53 $
 
 =cut
