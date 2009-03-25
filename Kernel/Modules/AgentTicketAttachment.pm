@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketAttachment.pm - to get the attachments
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketAttachment.pm,v 1.12 2009-03-25 13:45:52 sb Exp $
+# $Id: AgentTicketAttachment.pm,v 1.13 2009-03-25 17:14:08 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -147,6 +147,11 @@ sub Run {
                 if ( $Data{ContentType} !~ /text\/html/i ) {
                     return $Self->{LayoutObject}->Attachment(%Data);
                 }
+
+                # make sure encoding is correct
+                $Self->{EncodeObject}->Encode(
+                    \$Data{Content},
+                );
 
                 # replace links to inline images if exists
                 my %AtmBox = $Self->{TicketObject}->ArticleAttachmentIndex(
