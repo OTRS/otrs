@@ -2,7 +2,7 @@
 # AgentTicketClose.dtl - provides HTML form for close mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketClose.dtl,v 1.25 2009-03-24 13:17:21 martin Exp $
+# $Id: AgentTicketClose.dtl,v 1.26 2009-03-25 19:07:54 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -115,6 +115,9 @@ function change_selected(sel) {
         <input type="hidden" name="TicketID" value="$QData{"TicketID"}"/>
         <input type="hidden" name="Expand" value=""/>
         <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
+<!-- dtl:block:RichText -->
+$Include{"YUI"}
+<!-- dtl:block:RichText -->
         <table border="0" width="800" align="center" cellspacing="0" cellpadding="4">
           <tr>
             <td colspan="2" class="contenthead">$Text{"Options"}</td>
@@ -202,8 +205,12 @@ function change_selected(sel) {
                 <tr>
                   <td colspan="2" class="contentkey">$Text{"Text"}:</td>
                   <td class="contentvalue">
-                    <textarea name="Body" rows="16" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
+                    <div class="yui-skin-sam">
+<textarea id="RichText" name="Body" rows="16" cols="$Config{"Ticket::Frontend::TextAreaNote"}">
+$QData{"Body"}
+</textarea>
                     <font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
+                    </div>
                   </td>
                 </tr>
                 <tr>
@@ -319,7 +326,7 @@ function change_selected(sel) {
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" accesskey="g" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();"/>
+              <input class="button" id="submitRichText" accesskey="g" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();"/>
             </td>
           </tr>
         </table>

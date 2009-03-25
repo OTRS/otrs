@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketClose.pm - close a ticket
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketClose.pm,v 1.50 2009-03-05 13:13:01 martin Exp $
+# $Id: AgentTicketClose.pm,v 1.51 2009-03-25 19:07:54 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -235,7 +235,7 @@ sub Run {
     }
 
     # rewrap body if exists
-    if ( $GetParam{Body} ) {
+    if ( $GetParam{Body} && !$Self->{ConfigObject}->{'Frontend::RichText'} ) {
         my $Size = $Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote') || 70;
         $GetParam{Body} =~ s/(^>.+|.{4,$Size})(?:\s|\z)/$1\n/gm;
     }
@@ -485,11 +485,39 @@ sub Run {
         # add note
         my $ArticleID = '';
         if ( $Self->{Config}->{Note} ) {
+            my $ContentType = "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}";
+            my $Charset     = $Self->{LayoutObject}->{'UserCharset'};
+            if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+                $ContentType = "text/html; charset=$Self->{LayoutObject}->{'UserCharset'}";
+
+                # set content id for uploaded images
+                $GetParam{Body} =~ s{
+                    ((?:<|&lt;)img.*?src=(?:"|&quot;))(.*?)((?:"|&quot;).*?(?:>|&gt;))
+                }
+                {
+                    my $ImgStart  = $1;
+                    my $ImgStop   = $3;
+                    my $ContentID = $2;
+
+                    # get content id for image
+                    CONTENTID:
+                    for my $TmpAttachment ( @Attachments ) {
+                        next CONTENTID if $ContentID !~ /$TmpAttachment->{ContentID}/;
+                        $ContentID = $TmpAttachment->{ContentID};
+                        last CONTENTID;
+                    }
+
+                    # return data
+                    $ImgStart . "cid:" . $ContentID . $ImgStop;
+                }segxi;
+            }
+
             $ArticleID = $Self->{TicketObject}->ArticleCreate(
                 TicketID    => $Self->{TicketID},
                 SenderType  => 'agent',
                 From        => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
-                ContentType => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
+                ContentType => $ContentType,
+                Charset     => $Charset,
                 UserID      => $Self->{UserID},
                 HistoryType => $Self->{Config}->{HistoryType},
                 HistoryComment => $Self->{Config}->{HistoryComment},
@@ -515,7 +543,12 @@ sub Run {
             # get pre loaded attachment
             my @AttachmentData
                 = $Self->{UploadCachObject}->FormIDGetAllFilesData( FormID => $Self->{FormID} );
+            WRITEATTACHMENT:
             for my $Ref (@AttachmentData) {
+                next WRITEATTACHMENT if
+                    $Ref->{ContentID}
+                    && $Ref->{ContentID} =~ /^inline/
+                    && $GetParam{Body} !~ /$Ref->{ContentID}/;
                 $Self->{TicketObject}->ArticleWriteAttachment(
                     %{$Ref},
                     ArticleID => $ArticleID,
@@ -654,7 +687,14 @@ sub Run {
 
         # fillup vars
         if ( !defined( $GetParam{Body} ) && $Self->{Config}->{Body} ) {
-            $GetParam{Body} = $Self->{LayoutObject}->Output( Template => $Self->{Config}->{Body} );
+            $GetParam{Body} = $Self->{LayoutObject}->Output( Template => $Self->{Config}->{Body} ) || '';
+            if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+                $GetParam{Body} = $Self->{LayoutObject}->Ascii2Html(
+                    Text           => $GetParam{Body},
+                    HTMLResultMode => 1,
+                    LinkFeature    => 1,
+                );
+            }
         }
         if ( !defined( $GetParam{Subject} ) && $Self->{Config}->{Subject} ) {
             $GetParam{Subject}
@@ -1204,6 +1244,14 @@ sub _Mask {
                 },
             );
         }
+    }
+
+    if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+        # add YUI editor
+        $Self->{LayoutObject}->Block(
+            Name => 'RichText',
+            Data => \%Param,
+        );
     }
 
     # get output back
