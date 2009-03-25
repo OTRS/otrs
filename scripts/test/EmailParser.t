@@ -2,7 +2,7 @@
 # EmailParser.t - email parser tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.t,v 1.18 2009-02-16 12:41:12 tr Exp $
+# $Id: EmailParser.t,v 1.19 2009-03-25 08:40:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -675,4 +675,39 @@ $Self->Is(
     "#14 md5 body check",
 );
 
+# test #15
+@Array = ();
+open( IN, "< $Home/scripts/test/sample/PostMaster-Test16.box" );
+while (<IN>) {
+    push( @Array, $_ );
+}
+close(IN);
+
+$Self->{EmailParserObject} = Kernel::System::EmailParser->new(
+    %{$Self},
+    Email => \@Array,
+);
+$Self->Is(
+    $Self->{EmailParserObject}->GetCharset(),
+    'utf-8',
+    "#15 GetCharset() - utf8 charset should be found",
+);
+
+@Attachments = $Self->{EmailParserObject}->GetAttachments();
+$MD5 = $Self->{MainObject}->MD5sum( String => $Attachments[1]->{Content} ) || '';
+$Self->Is(
+    $MD5,
+    'ecfbec2030e6bf91cc97ed22f7c6551a',
+    "#15 md5 check",
+);
+$Self->Is(
+    $Attachments[0]->{ContentAlternative} || '',
+    1,
+    "#15 ContentAlternative check",
+);
+$Self->Is(
+    $Attachments[1]->{ContentAlternative} || '',
+    1,
+    "#15 ContentAlternative check",
+);
 1;
