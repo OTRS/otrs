@@ -2,7 +2,7 @@
 # AgentTicketCompose.dtl - provides HTML form for AgentTicketCompose
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.dtl,v 1.32 2009-03-24 13:17:21 martin Exp $
+# $Id: AgentTicketCompose.dtl,v 1.33 2009-03-25 13:54:31 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -103,6 +103,9 @@ function FAQSubmit() {
 // -->
 </script>
 
+<!-- dtl:block:RichText -->
+$Include{"YUI"}
+<!-- dtl:block:RichText -->
 
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
@@ -216,9 +219,11 @@ function FAQSubmit() {
                 <tr>
                   <td class="contentkey">$Text{"Text"}:</td>
                   <td class="contentvalue">
-<textarea name="Body" rows="25" cols="$Config{"Ticket::Frontend::TextAreaEmail"}" wrap="$Env{"BrowserWrap"}">
-$Data{"ResponseFormat"}
-</textarea>
+                    <div class="yui-skin-sam">
+                      <textarea id="RichText" name="Body" rows="25" cols="$Config{"Ticket::Frontend::TextAreaEmail"}" wrap="$Env{"BrowserWrap"}">
+                        $Data{"ResponseFormat"}
+                      </textarea>
+                    </div>
                   </td>
                 </tr>
                 <tr>
@@ -319,7 +324,7 @@ $Data{"ResponseFormat"}
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" accesskey="g" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();"/>
+              <input class="button" id="submitRichText" accesskey="g" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();"/>
             </td>
           </tr>
         </table>

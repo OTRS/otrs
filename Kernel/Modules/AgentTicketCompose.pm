@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.49 2009-03-09 13:09:35 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.50 2009-03-25 13:54:31 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -360,6 +360,7 @@ sub Run {
         # replace <OTRS_TICKET_STATE> with next ticket state name
         if ( $StateData{Name} ) {
             $GetParam{Body} =~ s/<OTRS_TICKET_STATE>/$StateData{Name}/g;
+            $GetParam{Body} =~ s/&lt;OTRS_TICKET_STATE&gt;/$StateData{Name}/g;
         }
 
         # get pre loaded attachments
@@ -376,6 +377,41 @@ sub Run {
             push( @AttachmentData, \%UploadStuff );
         }
 
+        # set content id for uploaded images
+        if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+            $GetParam{Body} =~ s{
+                ((?:<|&lt;)img.*?src=(?:"|&quot;))(.*?)((?:"|&quot;).*?(?:>|&gt;))
+            }
+            {
+                my $ImgStart  = $1;
+                my $ImgStop   = $3;
+                my $ContentID = $2;
+
+                # get content id for image
+                CONTENTID:
+                for my $TmpAttachment ( @AttachmentData ) {
+                    next CONTENTID if $ContentID !~ /$TmpAttachment->{ContentID}/;
+                    $ContentID = $TmpAttachment->{ContentID};
+                    last CONTENTID;
+                }
+
+                # return data
+                $ImgStart . "cid:" . $ContentID . $ImgStop;
+            }segxi;
+
+            # remove unused inline images
+            my @NewAttachmentData = ();
+            REMOVEINLINE:
+            for my $TmpAttachment ( @AttachmentData )  {
+                next REMOVEINLINE if
+                    $TmpAttachment->{ContentID}
+                    && $TmpAttachment->{ContentID} =~ /^inline/
+                    && $GetParam{Body} !~ /$TmpAttachment->{ContentID}/;
+                push ( @NewAttachmentData, \%{ $TmpAttachment } );
+            }
+            @AttachmentData = @NewAttachmentData;
+        }
+
         # get recipients
         my $Recipients = '';
         for my $Line (qw(To Cc Bcc)) {
@@ -385,6 +421,12 @@ sub Run {
                 }
                 $Recipients .= $GetParam{$Line};
             }
+        }
+
+        # set content type
+        my $ContentType = 'text/plain';
+        if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+            $ContentType = 'text/html';
         }
 
         # send email
@@ -404,7 +446,7 @@ sub Run {
             InReplyTo      => $GetParam{InReplyTo},
             References     => $GetParam{References},
             Charset        => $Self->{LayoutObject}->{UserCharset},
-            Type           => 'text/plain',
+            Type           => $ContentType,
             Attachment     => \@AttachmentData,
             %ArticleParam,
         );
@@ -606,37 +648,152 @@ sub Run {
             );
         }
 
-        # check if original content isn't text/plain or text/html, don't use it
-        if ( $Data{ContentType} ) {
-            if ( $Data{ContentType} =~ /text\/html/i ) {
-                $Data{Body} =~ s/\<.+?\>//gs;
-            }
-            elsif ( $Data{'ContentType'} !~ /text\/plain/i ) {
-                $Data{Body} = "-> no quotable message <-";
-            }
-        }
+        # body preparation for plain text processing
+        if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
 
-        # prepare body, subject, ReplyTo ...
-        # rewrap body if exists
-        if ( $Data{Body} ) {
-            $Data{Body} =~ s/\t/ /g;
-            my $Quote = $Self->{ConfigObject}->Get('Ticket::Frontend::Quote');
-            if ($Quote) {
-                $Data{Body} =~ s/\n/\n$Quote /g;
-                $Data{Body} = "\n$Quote " . $Data{Body};
-            }
-            else {
-                $Data{Body} = "\n" . $Data{Body};
-                if ( $Data{Created} ) {
-                    $Data{Body} = "Date: $Data{Created}\n" . $Data{Body};
+            # check for html body
+            my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
+                TicketID                   => $Self->{TicketID},
+                StripPlainBodyAsAttachment => 1,
+            );
+            ARTICLE:
+            for my $ArticleTmp ( @ArticleBox ) {
+                next ARTICLE if $ArticleTmp->{ArticleID} ne $Data{ArticleID};
+                last ARTICLE if !$ArticleTmp->{BodyHTML};
+                my %AttachmentHTML = $Self->{TicketObject}->ArticleAttachment(
+                    ArticleID => $Data{ArticleID},
+                    FileID    => $ArticleTmp->{BodyHTML},
+                );
+                $Data{BodyHTML}            = $AttachmentHTML{Content} || '';
+                $Data{BodyHTMLContentType} = $AttachmentHTML{ContentType} || 'text/html';
+
+                # display inline images if exists
+                my %Attachments = %{ $ArticleTmp->{Atms} };
+                my $AttachmentLink = $Self->{LayoutObject}->{Baselink}
+                    . 'Action=AgentTicketPictureUpload'
+                    . '&FormID='
+                    . $Self->{FormID}
+                    . '&ContentID=';
+                $Data{BodyHTML} =~ s{
+                    "cid:(.*?)"
                 }
-                for (qw(Subject ReplyTo Reply-To Cc To From)) {
-                    if ( $Data{$_} ) {
-                        $Data{Body} = "$_: $Data{$_}\n" . $Data{Body};
+                {
+                    my $ContentID = $1;
+                    ATMCOUNT:
+                    for my $AtmCount ( keys %Attachments ) {
+                        next ATMCOUNT if $Attachments{$AtmCount}{ContentID} !~ /^<$ContentID>$/;
+                        # add to upload cache
+                        my %AttachmentPicture = $Self->{TicketObject}->ArticleAttachment(
+                            ArticleID => $Data{ArticleID},
+                            FileID    => $AtmCount,
+                        );
+                        $Self->{UploadCachObject}->FormIDAddFile(
+                            FormID      => $Self->{FormID},
+                            Disposition => 'inline',
+                            %{ $Attachments{$AtmCount} },
+                            %AttachmentPicture,
+                        );
+                        my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
+                            FormID => $Self->{FormID},
+                        );
+                        CONTENTIDRETURN:
+                        for my $TmpAttachment ( @Attachments ) {
+                            next CONTENTIDRETURN
+                                if $Attachments{$AtmCount}{Filename} ne $TmpAttachment->{Filename};
+                            $ContentID = $AttachmentLink . $TmpAttachment->{ContentID};
+                            last CONTENTIDRETURN;
+                        }
+                        last ATMCOUNT;
                     }
+
+                    # return link
+                    '"' . $ContentID . '"';
+                }egxi;
+                last ARTICLE;
+            }
+
+            # convert plain body to html if necessary
+            if ( !$Data{BodyHTML} ) {
+
+                # check if original content isn't text/plain or text/html, don't use it
+                if ( !$Data{ContentType} || $Data{ContentType} !~ /text\/(plain|html)/i ) {
+                    $Data{Body} = "-> no quotable message <-";
+                    $Data{ContentType} = 'text/plain';
                 }
-                $Data{Body} = "\n---- Message from $Data{From} ---\n\n" . $Data{Body};
-                $Data{Body} .= "\n---- End Message ---\n";
+                $Data{BodyHTML} = $Self->{LayoutObject}->Ascii2Html(
+                    Text           => $Data{Body} || '',
+                    HTMLResultMode => 1,
+                    LinkFeature    => 1,
+                );
+                $Data{BodyHTMLContentType} = $Data{ContentType} || 'text/plain';
+                $Data{BodyHTMLContentType} =~ s/text\/plain/text\/html/i;
+            }
+
+            # prepare body, subject, ReplyTo ...
+            # rewrap body if exists
+            if ( $Data{BodyHTML} ) {
+                $Data{BodyHTML} =~ s/\t/ /g;
+                my $Quote = $Self->{LayoutObject}->Ascii2Html(
+                    Text           => $Self->{ConfigObject}->Get('Ticket::Frontend::Quote') || '',
+                    HTMLResultMode => 1,
+                );
+                if ($Quote) {
+                    $Data{BodyHTML} =~ s/(<(br|p).*?>)/$1$Quote /ig;
+                    $Data{BodyHTML} = "<br/>$Quote " . $Data{BodyHTML};
+                }
+                else {
+                    $Data{BodyHTML} = "<br/>" . $Data{BodyHTML};
+                    if ( $Data{Created} ) {
+                        $Data{BodyHTML} = "Date: $Data{Created}<br/>" . $Data{BodyHTML};
+                    }
+                    for (qw(Subject ReplyTo Reply-To Cc To From)) {
+                        if ( $Data{$_} ) {
+                            $Data{BodyHTML} = "$_: $Data{$_}<br/>" . $Data{BodyHTML};
+                        }
+                    }
+                    $Data{BodyHTML} = "<br/>---- Message from $Data{From} ---<br/><br/>"
+                        . $Data{BodyHTML};
+                    $Data{BodyHTML} .= "<br/>---- End Message ---<br/>";
+                }
+            }
+
+            $Data{Body}        = $Data{BodyHTML} || '';
+            $Data{ContentType} = $Data{BodyHTMLContentType} || 'text/plain';
+        }
+        else {
+
+            # check if original content isn't text/plain or text/html, don't use it
+            if ( $Data{ContentType} ) {
+                if ( $Data{ContentType} =~ /text\/html/i ) {
+                    $Data{Body} =~ s/\<.+?\>//gs;
+                }
+                elsif ( $Data{ContentType} !~ /text\/plain/i ) {
+                    $Data{Body} = "-> no quotable message <-";
+                }
+            }
+
+            # prepare body, subject, ReplyTo ...
+            # rewrap body if exists
+            if ( $Data{Body} ) {
+                $Data{Body} =~ s/\t/ /g;
+                my $Quote = $Self->{ConfigObject}->Get('Ticket::Frontend::Quote');
+                if ($Quote) {
+                    $Data{Body} =~ s/\n/\n$Quote /g;
+                    $Data{Body} = "\n$Quote " . $Data{Body};
+                }
+                else {
+                    $Data{Body} = "\n" . $Data{Body};
+                    if ( $Data{Created} ) {
+                        $Data{Body} = "Date: $Data{Created}\n" . $Data{Body};
+                    }
+                    for (qw(Subject ReplyTo Reply-To Cc To From)) {
+                        if ( $Data{$_} ) {
+                            $Data{Body} = "$_: $Data{$_}\n" . $Data{Body};
+                        }
+                    }
+                    $Data{Body} = "\n---- Message from $Data{From} ---\n\n" . $Data{Body};
+                    $Data{Body} .= "\n---- End Message ---\n";
+                }
             }
         }
 
@@ -754,6 +911,12 @@ $QData{"StdResponse"}
 
 $QData{"Signature"}
 ';
+
+        if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+            # reformat response format
+            $ResponseFormat =~ s/\n/<br\/>/g;
+        }
+
         $Data{ResponseFormat} = $Self->{LayoutObject}->Output(
             Template => $ResponseFormat,
             Data     => { %Param, %Data },
@@ -1063,6 +1226,14 @@ sub _Mask {
                 },
             );
         }
+    }
+
+    # add YUI editor
+    if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'RichText',
+            Data => \%Param,
+        );
     }
 
     # create & return output
