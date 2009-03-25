@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketAttachment.pm - to get the attachments
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketAttachment.pm,v 1.11 2009-02-16 11:20:53 tr Exp $
+# $Id: AgentTicketAttachment.pm,v 1.12 2009-03-25 13:45:52 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -135,6 +135,47 @@ sub Run {
                     Content     => $Content,
                     Type        => 'inline'
                 );
+            }
+
+            # view attachment inline
+            elsif ( $Self->{Subaction} eq 'inline' ) {
+
+                # unset filename for inline viewing
+                $Data{Filename} = '';
+
+                # just return for non-html attachment
+                if ( $Data{ContentType} !~ /text\/html/i ) {
+                    return $Self->{LayoutObject}->Attachment(%Data);
+                }
+
+                # replace links to inline images if exists
+                my %AtmBox = $Self->{TicketObject}->ArticleAttachmentIndex(
+                    ArticleID => $Self->{ArticleID},
+                );
+                my $AttachmentLink = $Self->{LayoutObject}->{Baselink}
+                    . 'Action=AgentTicketAttachment'
+                    . '&ArticleID='
+                    . $Self->{ArticleID}
+                    . '&FileID=';
+                $Data{Content} =~ s{
+                    "cid:(.*?)"
+                }
+                {
+                    my $ContentID = $1;
+                    ATMCOUNT:
+                    for my $AtmCount ( keys %AtmBox ) {
+                        next ATMCOUNT if $AtmBox{$AtmCount}{ContentID} !~ /^<$ContentID>$/;
+                        $ContentID = $AttachmentLink . $AtmCount;
+                        last ATMCOUNT;
+                    }
+
+                    # return link
+                    '"' . $ContentID . '"';
+                }egxi;
+
+                # return html attachment
+                $Self->{ConfigObject}->Set( Key => 'AttachmentDownloadType', Value => 'inline' );
+                return $Self->{LayoutObject}->Attachment(%Data);
             }
 
             # download it
