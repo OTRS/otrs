@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.pm,v 1.22 2009-03-09 13:09:35 martin Exp $
+# $Id: AgentTicketBounce.pm,v 1.23 2009-03-25 17:57:52 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -166,6 +166,26 @@ sub Run {
             UserID     => $Self->{UserID},
         );
 
+        # prepare information
+        $Param{InformationFormat} = '$QData{"Salutation"}
+
+$QData{"BounceText"}
+
+$QData{"Signature"}';
+
+        # prepare bounce text
+        $Param{BounceText} = $Self->{ConfigObject}->Get('Ticket::Frontend::BounceText') || '';
+
+        # reformat bounce text and information format
+        if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+            $Param{BounceText} = $Self->{LayoutObject}->Ascii2Html(
+                Text           => $Param{BounceText},
+                HTMLResultMode => 1,
+                LinkFeature    => 1,
+            );
+            $Param{InformationFormat} =~ s/\n/<br\/>/g;
+        }
+
         # prepare body ...
         $Article{Body} =~ s/\n/\n> /g;
         $Article{Body} = "\n> " . $Article{Body};
@@ -199,6 +219,14 @@ sub Run {
             Name     => 'BounceStateID',
             Selected => $Self->{Config}->{StateDefault},
         );
+
+        # add YUI editor
+        if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'RichText',
+                Data => \%Param,
+            );
+        }
 
         # print form ...
         my $Output = $Self->{LayoutObject}->Header( Value => $Ticket{TicketNumber} );
@@ -263,8 +291,19 @@ sub Run {
 
         # send customer info?
         if ( $Param{InformSender} ) {
-            $Param{Body} =~ s/<OTRS_TICKET>/$Ticket{TicketNumber}/g;
-            $Param{Body} =~ s/<OTRS_BOUNCE_TO>/$Param{BounceTo}/g;
+
+            # set content type
+            my $ContentType = 'text/plain';
+
+            if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+                $ContentType = 'text/html';
+                $Param{Body} =~ s/&lt;OTRS_TICKET&gt;/$Ticket{TicketNumber}/g;
+                $Param{Body} =~ s/&lt;OTRS_BOUNCE_TO&gt;/$Param{BounceTo}/g;
+            }
+            else {
+                $Param{Body} =~ s/<OTRS_TICKET>/$Ticket{TicketNumber}/g;
+                $Param{Body} =~ s/<OTRS_BOUNCE_TO>/$Param{BounceTo}/g;
+            }
             my $ArticleID = $Self->{TicketObject}->ArticleSend(
                 ArticleType    => 'email-external',
                 SenderType     => 'agent',
@@ -278,7 +317,7 @@ sub Run {
                 UserID         => $Self->{UserID},
                 Body           => $Param{Body},
                 Charset        => $Self->{LayoutObject}->{UserCharset},
-                Type           => 'text/plain',
+                Type           => $ContentType,
             );
 
             # error page

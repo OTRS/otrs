@@ -2,7 +2,7 @@
 # AgentTicketBounce.dtl - provides HTML form for bounce mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.dtl,v 1.15 2009-03-09 13:11:48 martin Exp $
+# $Id: AgentTicketBounce.dtl,v 1.16 2009-03-25 17:57:52 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -58,6 +58,9 @@ function submit_bounce() {
         <input type="hidden" name="TicketID"   value="$QData{"TicketID"}"/>
         <input type="hidden" name="ArticleID"  value="$QData{"ArticleID"}"/>
         <input type="hidden" name="NextScreen" value="$QData{"NextScreen"}"/>
+<!-- dtl:block:RichText -->
+$Include{"YUI"}
+<!-- dtl:block:RichText -->
         <table border="0" width="800" align="center" cellspacing="0" cellpadding="4">
           <tr>
             <td colspan="2" class="contenthead">$Text{"Options"}</td>
@@ -92,14 +95,11 @@ function submit_bounce() {
                 <tr>
                   <td class="contentkey">$Text{"Text"}:</td>
                   <td class="contentvalue">
-<textarea name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaEmail"}" wrap="$Env{"BrowserWrap"}">
-$Data{"Salutation"}
-
-$Text{"$Config{"Ticket::Frontend::BounceText"}"}
-
-$Data{"Signature"}
-
+                    <div class="yui-skin-sam">
+<textarea id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaEmail"}" wrap="$Env{"BrowserWrap"}">
+$Data{"InformationFormat"}
 </textarea>
+                    </div>
                   </td>
                 </tr>
               </table>
@@ -107,7 +107,7 @@ $Data{"Signature"}
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" accesskey="g" type="submit" value="$Text{"Send mail!"}" onclick="return submit_compose();"/>
+              <input class="button" id="submitRichText" accesskey="g" type="submit" value="$Text{"Send mail!"}" onclick="return submit_compose();"/>
             </td>
           </tr>
         </table>
