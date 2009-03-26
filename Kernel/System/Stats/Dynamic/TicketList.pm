@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/TicketList.pm - reporting via ticket lists
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketList.pm,v 1.3 2009-03-25 16:50:47 tr Exp $
+# $Id: TicketList.pm,v 1.4 2009-03-26 16:46:43 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -575,11 +575,19 @@ sub GetStatTable {
     my %TicketAttributes = map {$_ => 1} @{$Param{XValue}{SelectedValues}};
     my $SortedAttributesRef = $Self->_SortedAttributes();
 
+    # check if a enumeration is requested
+    my $AddEnumeration = 0;
+    if ($TicketAttributes{Number}) {
+        $AddEnumeration = 1;
+        delete $TicketAttributes{Number};
+    }
+
     # set default values if no sort or order attribute is given
     my $OrderRef = first {$_->{Element} eq 'OrderBy'}      @{$Param{ValueSeries}} ;
     my $OrderBy  = $OrderRef ? $OrderRef->{SelectedValues}[0] : 'Age';
     my $SortRef  = first {$_->{Element} eq 'SortSequence'} @{$Param{ValueSeries}} ;
     my $Sort     = $SortRef  ? $SortRef->{SelectedValues}[0]  : 'Down';
+    my $Limit    = $Param{Restrictions}{Limit};
 
     # check if we can use the sort and order function of TicketSearch
     my $OrderByIsValueOfTicketSearchSort = $Self->_OrderByIsValueOfTicketSearchSort(
@@ -591,7 +599,7 @@ sub GetStatTable {
         # the meaning is in TicketSearch is different as in common handling
         $Param{Restrictions}{OrderBy} = $Sort;
         $Param{Restrictions}{SortBy}  = $OrderBy;
-        $Param{Restrictions}{Limit}  =  $Param{Restrictions}{Limit} eq 'unlimited' ? 100_000_000 : $Param{Restrictions}{Limit};
+        $Param{Restrictions}{Limit}  =  $Limit eq 'unlimited' ? 100_000_000 : $Limit;
     }
     else {
         $Param{Restrictions}{Limit} = 100_000_000;
@@ -612,7 +620,6 @@ sub GetStatTable {
 
     # generate the ticket list
     my @StatArray = ();
-    my $Counter = 0;
     for my $TicketID ( @TicketIDs ) {
         my @ResultRow = ();
         my %Ticket = $Self->{TicketObject}->TicketGet(
@@ -620,11 +627,6 @@ sub GetStatTable {
             UserID   => 1,
             Extended => $Extended,
         );
-
-        # add a number for a better readability
-        if ($TicketAttributes{Number}){
-            $Ticket{Number} = ++$Counter;
-        }
 
         # add the accounted time if needed
         if ($TicketAttributes{AccountedTime}){
@@ -642,27 +644,21 @@ sub GetStatTable {
     # use a individual sort if the sort mechanismn of the TicketSearch is not useable
     if (!$OrderByIsValueOfTicketSearchSort) {
         @StatArray = $Self->_IndividualResultOrder(
-            StatArray => \@StatArray,
-            OrderBy   => $OrderBy,
-            Sort      => $Sort,
+            StatArray          => \@StatArray,
+            OrderBy            => $OrderBy,
+            Sort               => $Sort,
+            SelectedAttributes => \%TicketAttributes,
+            Limit              => $Limit,
         );
     }
-# Individual sort
-#        AccountedTime
-#        FirstResponse
-#        FirstResponseInMin
-#        FirstResponseDiffInMin
-#        SolutionTime
-#        SolutionInMin
-#        SolutionDiffInMin
-#        FirstLock
-#        StateType
-#        UntilTime
-#        UnlockTimeout
-#        EscalationResponseTime
-#        EscalationSolutionTime
-#        EscalationUpdateTime
-#        RealTillTimeNotUsed
+
+    # add a enumeration in front of each row
+    if ($AddEnumeration) {
+        my $Counter = 0;
+        for my $Row (@StatArray) {
+            unshift @{$Row}, ++$Counter;
+        }
+    }
 
     return @StatArray;
 }
@@ -681,21 +677,21 @@ sub _TicketAttributes {
         CustomerID     => 'CustomerID',
         Changed        => 'Changed'  ,
         Created        => 'Created'  ,
-        CustomerUserID => 'CustomerUserID'  ,
+        CustomerUserID => 'Customer User'  ,
         Lock           => 'lock',
         UnlockTimeout  => 'UnlockTimeout',
-        AccountedTime  => 'AccountedTime',
+        AccountedTime  => 'Accounted time', # the same wording is in AgentTicketPrint.dtl
         EscalationResponseTime => 'EscalationResponseTime',
         RealTillTimeNotUsed    => 'RealTillTimeNotUsed',
         UntilTime              => 'UntilTime',
         EscalationUpdateTime   => 'EscalationUpdateTime',
         StateType              => 'StateType',
         EscalationSolutionTime => 'EscalationSolutionTime',
-        FirstResponse          => 'FirstResponse',
+        FirstResponse          => 'First Response Time', # the same wording is in AgentTicketPrint.dtl
         FirstResponseInMin     => 'FirstResponseInMin',
         FirstResponseDiffInMin => 'FirstResponseDiffInMin',
-        Closed                 => 'Closed',
-        SolutionTime           => 'SolutionTime',
+        Closed                 => 'Close Time',
+        SolutionTime           => 'Solution Time',  # the same wording is in AgentTicketPrint.dtl
         SolutionInMin          => 'SolutionInMin',
         SolutionDiffInMin      => 'SolutionDiffInMin',
         FirstLock              => 'FirstLock',
@@ -902,4 +898,71 @@ sub _OrderByIsValueOfTicketSearchSort {
     return $SortOptions{$Param{OrderBy}} if $SortOptions{$Param{OrderBy}};
     return ;
 }
+
+sub _IndividualResultOrder {
+    my ( $Self, %Param ) = @_;
+    my @Unsorted = @{$Param{StatArray}};
+    my @Sorted = ();
+
+    # find out the positon of the values which should be
+    # used for the order
+    my $Counter = 0;
+    my $SortedAttributes = $Self->_SortedAttributes();
+
+    ATTRIBUTE:
+    for my $Attribute (@{$SortedAttributes}) {
+        next ATTRIBUTE if !$Param{SelectedAttributes}{$Attribute};
+        last ATTRIBUTE if $Attribute eq $Param{OrderBy};
+        $Counter++;
+    }
+
+    # order after a individual attribute
+    if ( $Param{OrderBy} eq 'AccountedTime' ) {
+        @Sorted = sort { $a->[$Counter] <=> $b->[$Counter] } @Unsorted;
+    }
+    elsif ( $Param{OrderBy} eq 'SolutionDiffInMin' ) {
+        @Sorted = sort { $a->[$Counter] <=> $b->[$Counter] } @Unsorted;
+    }
+    elsif ( $Param{OrderBy} eq 'FirstResponseDiffInMin' ) {
+        @Sorted = sort { $a->[$Counter] <=> $b->[$Counter] } @Unsorted;
+    }
+    else {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "There is no possibility to order the stats by $Param{OrderBy}!",
+        );
+        return @Unsorted;
+    }
+
+    # make a reverse sort if needed
+    if ( $Param{Sort} eq 'Down' ) {
+        @Sorted = reverse @Sorted;
+    }
+
+    # take care about the limit
+    if ( $Param{Limit} ne 'unlimited' ) {
+        my $Count = 0;
+        @Sorted = grep { ++$Count <= $Param{Limit} } @Sorted;
+    }
+
+    return @Sorted;
+
+# Individual sort
+#        AccountedTime
+#        FirstResponse
+#        FirstResponseInMin
+#        FirstResponseDiffInMin
+#        SolutionTime
+#        SolutionInMin
+#        SolutionDiffInMin
+#        FirstLock
+#        StateType
+#        UntilTime
+#        UnlockTimeout
+#        EscalationResponseTime
+#        EscalationSolutionTime
+#        EscalationUpdateTime
+#        RealTillTimeNotUsed
+}
+
 1;

@@ -2,7 +2,7 @@
 # AAAStats.dtl - $Text variable file
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AAAStats.dtl,v 1.10 2009-03-25 16:50:47 tr Exp $
+# $Id: AAAStats.dtl,v 1.11 2009-03-26 16:46:42 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -69,6 +69,8 @@ $Text{"Sort sequence"}
 $Text{"Order by"}
 $Text{"Limit"}
 $Text{"Ticketlist"}
+$Text{"ascending"}
+$Text{"descending"}
 
 # Dynamic Object TicketAccountedTime
 $Text{"Evaluation by"}
