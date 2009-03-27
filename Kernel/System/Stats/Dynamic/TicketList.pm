@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/TicketList.pm - reporting via ticket lists
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketList.pm,v 1.4 2009-03-26 16:46:43 tr Exp $
+# $Id: TicketList.pm,v 1.5 2009-03-27 11:00:18 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -633,6 +633,16 @@ sub GetStatTable {
             $Ticket{AccountedTime} = $Self->{TicketObject}->TicketAccountedTimeGet(TicketID => $TicketID);
         }
 
+        $Ticket{SolutionTime}           ||= '';
+        $Ticket{SolutionDiffInMin}      ||= 0;
+        $Ticket{SolutionInMin}          ||= 0;
+        $Ticket{Now2SolutionEscalationInMin} ||= 0;
+        $Ticket{FirstResponse}          ||= '';
+        $Ticket{FirstResponseDiffInMin} ||= 0;
+        $Ticket{FirstResponseInMin}     ||= 0;
+        $Ticket{Now2FirstResponseEscalationInMin} ||= 0;
+        $Ticket{FirstLock}              ||= '';
+
         ATTRIBUTE:
         for my $Attribute (@{$SortedAttributesRef}) {
             next ATTRIBUTE if !$TicketAttributes{$Attribute};
@@ -690,11 +700,13 @@ sub _TicketAttributes {
         FirstResponse          => 'First Response Time', # the same wording is in AgentTicketPrint.dtl
         FirstResponseInMin     => 'FirstResponseInMin',
         FirstResponseDiffInMin => 'FirstResponseDiffInMin',
+        Now2FirstResponseEscalationInMin => 'Now2FirstResponseEscalationInMin',
         Closed                 => 'Close Time',
         SolutionTime           => 'Solution Time',  # the same wording is in AgentTicketPrint.dtl
         SolutionInMin          => 'SolutionInMin',
         SolutionDiffInMin      => 'SolutionDiffInMin',
-        FirstLock              => 'FirstLock',
+        Now2SolutionEscalationInMin => 'Now2SolutionEscalationInMin',
+        FirstLock              => 'First Lock',
         #PriorityID     => 'PriorityID',
         #GroupID        => 'GroupID',
         #StateID        => 'StateID',
@@ -758,6 +770,7 @@ sub _SortedAttributes {
         Title
         Created
         Changed
+        Closed
         Queue
         State
         Priority
@@ -772,10 +785,11 @@ sub _SortedAttributes {
         FirstResponse
         FirstResponseInMin
         FirstResponseDiffInMin
-        Closed
+        Now2FirstResponseEscalationInMin
         SolutionTime
         SolutionInMin
         SolutionDiffInMin
+        Now2SolutionEscalationInMin
         FirstLock
         Lock
         StateType
@@ -817,10 +831,12 @@ sub _ExtendedAttributesCheck {
         FirstResponse
         FirstResponseInMin
         FirstResponseDiffInMin
+        Now2FirstResponseEscalationInMin
         Closed
         SolutionTime
         SolutionInMin
         SolutionDiffInMin
+        Now2SolutionEscalationInMin
         FirstLock
     );
 
@@ -920,10 +936,52 @@ sub _IndividualResultOrder {
     if ( $Param{OrderBy} eq 'AccountedTime' ) {
         @Sorted = sort { $a->[$Counter] <=> $b->[$Counter] } @Unsorted;
     }
+    elsif ( $Param{OrderBy} eq 'SolutionTime' ) {
+        @Sorted = sort { $a->[$Counter] cmp $b->[$Counter] } @Unsorted;
+    }
     elsif ( $Param{OrderBy} eq 'SolutionDiffInMin' ) {
         @Sorted = sort { $a->[$Counter] <=> $b->[$Counter] } @Unsorted;
     }
+    elsif ( $Param{OrderBy} eq 'SolutionInMin' ) {
+        @Sorted = sort { $a->[$Counter] <=> $b->[$Counter] } @Unsorted;
+    }
+    elsif ( $Param{OrderBy} eq 'Now2SolutionEscalationInMin' ) {
+        @Sorted = sort { $a->[$Counter] <=> $b->[$Counter] } @Unsorted;
+    }
+    elsif ( $Param{OrderBy} eq 'FirstResponse' ) {
+        @Sorted = sort { $a->[$Counter] cmp $b->[$Counter] } @Unsorted;
+    }
     elsif ( $Param{OrderBy} eq 'FirstResponseDiffInMin' ) {
+        @Sorted = sort { $a->[$Counter] <=> $b->[$Counter] } @Unsorted;
+    }
+    elsif ( $Param{OrderBy} eq 'Now2FirstResponseEscalationInMin' ) {
+        @Sorted = sort { $a->[$Counter] <=> $b->[$Counter] } @Unsorted;
+    }
+    elsif ( $Param{OrderBy} eq 'FirstResponseInMin' ) {
+        @Sorted = sort { $a->[$Counter] <=> $b->[$Counter] } @Unsorted;
+    }
+    elsif ( $Param{OrderBy} eq 'FirstLock' ) {
+        @Sorted = sort { $a->[$Counter] cmp $b->[$Counter] } @Unsorted;
+    }
+    elsif ( $Param{OrderBy} eq 'StateType' ) {
+        @Sorted = sort { $a->[$Counter] cmp $b->[$Counter] } @Unsorted;
+    }
+    elsif ( $Param{OrderBy} eq 'UntilTime' ) {
+        @Sorted = sort { $a->[$Counter] <=> $b->[$Counter] } @Unsorted;
+    }
+    elsif ( $Param{OrderBy} eq 'UnlockTimeout' ) {
+        @Sorted = sort { $a->[$Counter] <=> $b->[$Counter] } @Unsorted;
+    }
+    elsif ( $Param{OrderBy} eq 'EscalationResponseTime' ) {
+        @Sorted = sort { $a->[$Counter] <=> $b->[$Counter] } @Unsorted;
+    }
+    elsif ( $Param{OrderBy} eq 'EscalationUpdateTime' ) {
+        @Sorted = sort { $a->[$Counter] <=> $b->[$Counter] } @Unsorted;
+    }
+    elsif ( $Param{OrderBy} eq 'EscalationSolutionTime' ) {
+        @Sorted = sort { $a->[$Counter] <=> $b->[$Counter] } @Unsorted;
+    }
+    elsif ( $Param{OrderBy} eq 'RealTillTimeNotUsed' ) {
         @Sorted = sort { $a->[$Counter] <=> $b->[$Counter] } @Unsorted;
     }
     else {
@@ -940,29 +998,12 @@ sub _IndividualResultOrder {
     }
 
     # take care about the limit
-    if ( $Param{Limit} ne 'unlimited' ) {
+    if ( $Param{Limit} && $Param{Limit} ne 'unlimited' ) {
         my $Count = 0;
         @Sorted = grep { ++$Count <= $Param{Limit} } @Sorted;
     }
 
     return @Sorted;
-
-# Individual sort
-#        AccountedTime
-#        FirstResponse
-#        FirstResponseInMin
-#        FirstResponseDiffInMin
-#        SolutionTime
-#        SolutionInMin
-#        SolutionDiffInMin
-#        FirstLock
-#        StateType
-#        UntilTime
-#        UnlockTimeout
-#        EscalationResponseTime
-#        EscalationSolutionTime
-#        EscalationUpdateTime
-#        RealTillTimeNotUsed
 }
 
 1;
