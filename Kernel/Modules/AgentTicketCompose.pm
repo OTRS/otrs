@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.52 2009-03-25 17:14:25 sb Exp $
+# $Id: AgentTicketCompose.pm,v 1.53 2009-03-27 17:35:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -402,12 +402,12 @@ sub Run {
             # remove unused inline images
             my @NewAttachmentData = ();
             REMOVEINLINE:
-            for my $TmpAttachment ( @AttachmentData )  {
+            for my $TmpAttachment (@AttachmentData) {
                 next REMOVEINLINE if
                     $TmpAttachment->{ContentID}
-                    && $TmpAttachment->{ContentID} =~ /^inline/
-                    && $GetParam{Body} !~ /$TmpAttachment->{ContentID}/;
-                push ( @NewAttachmentData, \%{ $TmpAttachment } );
+                        && $TmpAttachment->{ContentID} =~ /^inline/
+                        && $GetParam{Body} !~ /$TmpAttachment->{ContentID}/;
+                push( @NewAttachmentData, \%{$TmpAttachment} );
             }
             @AttachmentData = @NewAttachmentData;
         }
@@ -657,7 +657,7 @@ sub Run {
                 StripPlainBodyAsAttachment => 1,
             );
             ARTICLE:
-            for my $ArticleTmp ( @ArticleBox ) {
+            for my $ArticleTmp (@ArticleBox) {
                 next ARTICLE if $ArticleTmp->{ArticleID} ne $Data{ArticleID};
                 last ARTICLE if !$ArticleTmp->{BodyHTML};
                 my %AttachmentHTML = $Self->{TicketObject}->ArticleAttachment(
@@ -670,11 +670,11 @@ sub Run {
                     \$AttachmentHTML{Content},
                 );
 
-                $Data{BodyHTML}            = $AttachmentHTML{Content} || '';
+                $Data{BodyHTML}            = $AttachmentHTML{Content}     || '';
                 $Data{BodyHTMLContentType} = $AttachmentHTML{ContentType} || 'text/html';
 
                 # display inline images if exists
-                my %Attachments = %{ $ArticleTmp->{Atms} };
+                my %Attachments    = %{ $ArticleTmp->{Atms} };
                 my $AttachmentLink = $Self->{LayoutObject}->{Baselink}
                     . 'Action=AgentTicketPictureUpload'
                     . '&FormID='
@@ -723,11 +723,11 @@ sub Run {
 
                 # check if original content isn't text/plain or text/html, don't use it
                 if ( !$Data{ContentType} || $Data{ContentType} !~ /text\/(plain|html)/i ) {
-                    $Data{Body} = "-> no quotable message <-";
+                    $Data{Body}        = "-> no quotable message <-";
                     $Data{ContentType} = 'text/plain';
                 }
                 $Data{BodyHTML} = $Self->{LayoutObject}->Ascii2Html(
-                    Text           => $Data{Body} || '',
+                    Text => $Data{Body} || '',
                     HTMLResultMode => 1,
                     LinkFeature    => 1,
                 );
@@ -740,7 +740,7 @@ sub Run {
             if ( $Data{BodyHTML} ) {
                 $Data{BodyHTML} =~ s/\t/ /g;
                 my $Quote = $Self->{LayoutObject}->Ascii2Html(
-                    Text           => $Self->{ConfigObject}->Get('Ticket::Frontend::Quote') || '',
+                    Text => $Self->{ConfigObject}->Get('Ticket::Frontend::Quote') || '',
                     HTMLResultMode => 1,
                 );
                 if ($Quote) {
@@ -763,7 +763,7 @@ sub Run {
                 }
             }
 
-            $Data{Body}        = $Data{BodyHTML} || '';
+            $Data{Body}        = $Data{BodyHTML}            || '';
             $Data{ContentType} = $Data{BodyHTMLContentType} || 'text/plain';
         }
         else {
@@ -889,7 +889,7 @@ sub Run {
 
         # get template
         my $TemplateGenerator = Kernel::System::TemplateGenerator->new( %{$Self} );
-        my %Response = $TemplateGenerator->Response(
+        my %Response          = $TemplateGenerator->Response(
             TicketID   => $Self->{TicketID},
             ArticleID  => $GetParam{ArticleID},
             ResponseID => $GetParam{ResponseID},
@@ -919,13 +919,14 @@ $QData{"Signature"}
 ';
 
         if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+
             # reformat response format
             $ResponseFormat =~ s/\n/<br\/>/g;
         }
 
         $Data{ResponseFormat} = $Self->{LayoutObject}->Output(
             Template => $ResponseFormat,
-            Data     => { %Param, %Data },
+            Data => { %Param, %Data },
         );
 
         # check some values

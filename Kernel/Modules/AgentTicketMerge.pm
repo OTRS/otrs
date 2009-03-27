@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.pm,v 1.26 2009-03-09 13:09:35 martin Exp $
+# $Id: AgentTicketMerge.pm,v 1.27 2009-03-27 17:35:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::TemplateGenerator;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -232,26 +232,26 @@ sub Run {
         # prepare salutation
         my $TemplateGenerator = Kernel::System::TemplateGenerator->new( %{$Self} );
         $Param{Salutation} = $TemplateGenerator->Salutation(
-            TicketID   => $Self->{TicketID},
-            ArticleID  => $Article{ArticleID},
-            Data       => \%Param,
-            UserID     => $Self->{UserID},
+            TicketID  => $Self->{TicketID},
+            ArticleID => $Article{ArticleID},
+            Data      => \%Param,
+            UserID    => $Self->{UserID},
         );
 
         # prepare signature
         $Param{Signature} = $TemplateGenerator->Signature(
-            TicketID   => $Self->{TicketID},
-            ArticleID  => $Article{ArticleID},
-            Data       => \%Param,
-            UserID     => $Self->{UserID},
+            TicketID  => $Self->{TicketID},
+            ArticleID => $Article{ArticleID},
+            Data      => \%Param,
+            UserID    => $Self->{UserID},
         );
 
         # put & get attributes like sender address
         %Param = $TemplateGenerator->Attributes(
-            TicketID   => $Self->{TicketID},
-            ArticleID  => $Article{ArticleID},
-            Data       => \%Param,
-            UserID     => $Self->{UserID},
+            TicketID  => $Self->{TicketID},
+            ArticleID => $Article{ArticleID},
+            Data      => \%Param,
+            UserID    => $Self->{UserID},
         );
 
         $Output .= $Self->{LayoutObject}->Output(

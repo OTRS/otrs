@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.78 2009-03-25 13:38:10 sb Exp $
+# $Id: EmailParser.pm,v 1.79 2009-03-27 17:35:32 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Mail::Address;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.78 $) [1];
+$VERSION = qw($Revision: 1.79 $) [1];
 
 =head1 NAME
 
@@ -241,7 +241,7 @@ Returns the message body (or from the first attachment) "ContentType" header.
 =cut
 
 sub GetContentType {
-    my ( $Self ) = @_;
+    my $Self = shift;
 
     return $Self->{ContentType} if $Self->{ContentType};
 
@@ -259,7 +259,7 @@ Returns the message body (or from the first attachment) "charset".
 =cut
 
 sub GetCharset {
-    my ( $Self ) = @_;
+    my $Self = shift;
 
     # return charset of already defined
     if ( defined $Self->{Charset} ) {
@@ -559,9 +559,9 @@ sub GetAttachments {
 sub PartsAttachments {
     my ( $Self, %Param ) = @_;
 
-    my $Part               = $Param{Part}           || $Self->{ParserParts};
-    my $PartCounter        = $Param{PartCounter}    || 0;
-    my $SubPartCounter     = $Param{SubPartCounter} || 0;
+    my $Part               = $Param{Part}               || $Self->{ParserParts};
+    my $PartCounter        = $Param{PartCounter}        || 0;
+    my $SubPartCounter     = $Param{SubPartCounter}     || 0;
     my $ContentAlternative = $Param{ContentAlternative} || '';
     $Self->{PartCounter}++;
     if ( $Part->parts() > 0 ) {
@@ -645,7 +645,7 @@ sub PartsAttachments {
         $PartData{Filename} = "file-$Self->{NoFilenamePartCounter}";
     }
     else {
-        $PartData{Filename} = decode_mimewords( $Part->head()->recommended_filename() );
+        $PartData{Filename}           = decode_mimewords( $Part->head()->recommended_filename() );
         $PartData{ContentDisposition} = $Part->head()->get('Content-Disposition');
         if ( $PartData{ContentDisposition} ) {
             my %Data = $Self->GetContentTypeParams(
@@ -1215,6 +1215,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.78 $ $Date: 2009-03-25 13:38:10 $
+$Revision: 1.79 $ $Date: 2009-03-27 17:35:32 $
 
 =cut

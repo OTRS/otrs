@@ -2,7 +2,7 @@
 # scripts/test/Performance.t - a performance testscript
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Performance.t,v 1.10 2009-03-20 06:27:23 martin Exp $
+# $Id: Performance.t,v 1.11 2009-03-27 17:36:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -116,7 +116,7 @@ $Self->{TicketObject} = Kernel::System::Ticket->new(
 );
 
 $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new(
-    EncodeObject => $Self->{EncodeObject},
+    EncodeObject  => $Self->{EncodeObject},
     ConfigObject  => $Self->{ConfigObject},
     LogObject     => $Self->{LogObject},
     TimeObject    => $Self->{TimeObject},

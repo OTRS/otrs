@@ -2,7 +2,7 @@
 # Kernel/System/Stats/StateAction.pm - stats module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: StateAction.pm,v 1.1 2009-03-19 16:58:34 tr Exp $
+# $Id: StateAction.pm,v 1.2 2009-03-27 17:35:32 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Date::Pcalc qw(Days_in_Month Day_of_Week Day_of_Week_Abbreviation);
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.1 $ ';
+$VERSION = '$Revision: 1.2 $ ';
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -47,7 +47,7 @@ sub Param {
     my $SelectedMonth = $M == 1 ? 12     : $M - 1;
 
     # create possible time selections
-    my %Year  = map { $_ => $_; }                    ( $Y - 10 .. $Y );
+    my %Year = map { $_ => $_; } ( $Y - 10 .. $Y );
     my %Month = map { $_ => sprintf( "%02d", $_ ); } ( 1 .. 12 );
 
     my @Params = (

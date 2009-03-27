@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.2 2009-03-09 23:34:47 sb Exp $
+# $Id: TemplateGenerator.pm,v 1.3 2009-03-27 17:35:32 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Signature;
 use Kernel::System::StdResponse;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -75,13 +75,14 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject TicketObject CustomerUserObject QueueObject UserObject)) {
+    for (qw(DBObject ConfigObject LogObject TicketObject CustomerUserObject QueueObject UserObject))
+    {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
-    $Self->{SalutationObject} = Kernel::System::Salutation->new(%Param);
-    $Self->{SignatureObject}  = Kernel::System::Signature->new(%Param);
-    $Self->{StdResponseObject}   = Kernel::System::StdResponse->new(%Param);
+    $Self->{SalutationObject}  = Kernel::System::Salutation->new(%Param);
+    $Self->{SignatureObject}   = Kernel::System::Signature->new(%Param);
+    $Self->{StdResponseObject} = Kernel::System::StdResponse->new(%Param);
 
     return $Self;
 }
@@ -131,7 +132,7 @@ sub Salutation {
         UserID   => $Param{UserID},
     );
 
-#    $Salutation{ContentType} = 'text/plain';
+    #    $Salutation{ContentType} = 'text/plain';
 
     return $SalutationText;
 }
@@ -173,9 +174,9 @@ sub Signature {
         ID => $Queue{SignatureID},
     );
 
-#    my %Signature = $Self->{QueueObject}->GetSignature(
-#
-#    );
+    #    my %Signature = $Self->{QueueObject}->GetSignature(
+    #
+    #    );
 
     # replace place holder stuff
     my $SignatureText = $Self->_Replace(
@@ -185,7 +186,7 @@ sub Signature {
         UserID   => $Param{UserID},
     );
 
-#    $Signature{ContentType} = 'text/plain';
+    #    $Signature{ContentType} = 'text/plain';
 
     return $SignatureText;
 }
@@ -232,17 +233,17 @@ sub Response {
 
     # replace place holder stuff
     my $ResponseText = $Self->_Replace(
-        Text     => $Response{Response} || '-',
+        Text => $Response{Response} || '-',
         TicketID => $Param{TicketID},
         Data     => $Param{Data},
         UserID   => $Param{UserID},
     );
 
-    my $Salutation = $Self->Salutation( %Param );
+    my $Salutation = $Self->Salutation(%Param);
 
-    my $Signature = $Self->Signature( %Param );
+    my $Signature = $Self->Signature(%Param);
 
-#    $Response{ContentType} = 'text/plain';
+    #    $Response{ContentType} = 'text/plain';
 
     return (
         StdResponse => $ResponseText,
@@ -286,7 +287,7 @@ sub Attributes {
     # prepare subject ...
     $Param{Data}->{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
         TicketNumber => $Ticket{TicketNumber},
-        Subject      => $Param{Data}->{Subject} || '',
+        Subject => $Param{Data}->{Subject} || '',
     );
 
     # get sender attributes
@@ -583,13 +584,13 @@ sub _Replace {
     # cleanup
     $Param{Text} =~ s/<OTRS_CURRENT_.+?>/-/gi;
 
-#    # replace it with given user params
-#    for ( keys %User ) {
-#        if ( $User{$_} ) {
-#            $Notification{Body}    =~ s/<OTRS_$_>/$User{$_}/gi;
-#            $Notification{Subject} =~ s/<OTRS_$_>/$User{$_}/gi;
-#        }
-#    }
+    #    # replace it with given user params
+    #    for ( keys %User ) {
+    #        if ( $User{$_} ) {
+    #            $Notification{Body}    =~ s/<OTRS_$_>/$User{$_}/gi;
+    #            $Notification{Subject} =~ s/<OTRS_$_>/$User{$_}/gi;
+    #        }
+    #    }
 
     # ticket data
     if ( $Param{TicketID} ) {
@@ -658,6 +659,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2009-03-09 23:34:47 $
+$Revision: 1.3 $ $Date: 2009-03-27 17:35:32 $
 
 =cut

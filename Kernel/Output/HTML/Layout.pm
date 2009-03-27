@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.131 2009-03-19 16:53:06 tr Exp $
+# $Id: Layout.pm,v 1.132 2009-03-27 17:38:18 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.131 $) [1];
+$VERSION = qw($Revision: 1.132 $) [1];
 
 =head1 NAME
 
@@ -286,7 +286,8 @@ sub new {
         $Self->FatalDie();
     }
 
-    # FRAMEWORK: define $Env{"Images"} (only for compat till 2.5, use $Config{"Frontend::ImagePath"})
+    # FRAMEWORK: define $Env{"Images"}
+    # (only for compat till 2.5, use $Config{"Frontend::ImagePath"})
     $Self->{Images} = $Self->{ConfigObject}->Get('Frontend::ImagePath');
 
     # load sub layout files
@@ -2545,12 +2546,13 @@ sub _BuildSelectionDataRefCreate {
 
     # if HashRef was given
     if ( ref $Param{Data} eq 'HASH' ) {
+
         # sort hash (before the translation)
         my @SortKeys;
         if ( $OptionRef->{Sort} eq 'IndividualValue' && $OptionRef->{SortIndividual} ) {
-            my %List = reverse %{$Param{Data}};
-            for my $Key (@{$OptionRef->{SortIndividual}}) {
-                if ($List{$Key}) {
+            my %List = reverse %{ $Param{Data} };
+            for my $Key ( @{ $OptionRef->{SortIndividual} } ) {
+                if ( $List{$Key} ) {
                     push @SortKeys, $List{$Key};
                     delete $List{$Key};
                 }
@@ -2586,9 +2588,9 @@ sub _BuildSelectionDataRefCreate {
             @SortKeys = sort { $SortHash{$a} cmp $SortHash{$b} } ( keys %SortHash );
         }
         elsif ( $OptionRef->{Sort} eq 'IndividualKey' && $OptionRef->{SortIndividual} ) {
-            my %List = %{$Param{Data}};
-            for my $Key (@{$OptionRef->{SortIndividual}}) {
-                if ($List{$Key}) {
+            my %List = %{ $Param{Data} };
+            for my $Key ( @{ $OptionRef->{SortIndividual} } ) {
+                if ( $List{$Key} ) {
                     push @SortKeys, $Key;
                     delete $List{$Key};
                 }
@@ -2596,6 +2598,7 @@ sub _BuildSelectionDataRefCreate {
             push @SortKeys, sort { $List{$a} cmp $List{$b} } ( keys %List );
         }
         elsif ( $OptionRef->{Sort} eq 'IndividualValue' && $OptionRef->{SortIndividual} ) {
+
             # already done before the translation
         }
         else {
@@ -2642,11 +2645,15 @@ sub _BuildSelectionDataRefCreate {
     # if ArrayRef was given
     elsif ( ref $Param{Data} eq 'ARRAY' ) {
 
-        if ( ( $OptionRef->{Sort} eq 'IndividualValue' || $OptionRef->{Sort} eq 'IndividualValue' )  && $OptionRef->{SortIndividual} ) {
-            my %List = map {$_ => 1} @{ $Param{Data} };
+        if (
+            ( $OptionRef->{Sort} eq 'IndividualValue' || $OptionRef->{Sort} eq 'IndividualValue' )
+            && $OptionRef->{SortIndividual}
+            )
+        {
+            my %List = map { $_ => 1 } @{ $Param{Data} };
             $Param{Data} = [];
-            for my $Key (@{$OptionRef->{SortIndividual}}) {
-                if ($List{$Key}) {
+            for my $Key ( @{ $OptionRef->{SortIndividual} } ) {
+                if ( $List{$Key} ) {
                     push @{ $Param{Data} }, $Key;
                     delete $List{$Key};
                 }
@@ -2655,6 +2662,7 @@ sub _BuildSelectionDataRefCreate {
         }
 
         my %ReverseHash;
+
         # translate value
         if ( $OptionRef->{Translation} ) {
             my @TranslateArray;
@@ -4123,6 +4131,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.131 $ $Date: 2009-03-19 16:53:06 $
+$Revision: 1.132 $ $Date: 2009-03-27 17:38:18 $
 
 =cut

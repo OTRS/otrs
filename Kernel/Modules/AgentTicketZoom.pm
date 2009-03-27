@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.67 2009-03-25 13:51:06 sb Exp $
+# $Id: AgentTicketZoom.pm,v 1.68 2009-03-27 17:35:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -50,9 +50,10 @@ sub new {
     if ( !defined( $Self->{ZoomExpandSort} ) ) {
         $Self->{ZoomExpandSort} = $Self->{ConfigObject}->Get('Ticket::Frontend::ZoomExpandSort');
     }
-    $Self->{HighlightColor1}     = $Self->{ConfigObject}->Get('HighlightColor1');
-    $Self->{HighlightColor2}     = $Self->{ConfigObject}->Get('HighlightColor2');
-    $Self->{ArticleFilterActive} = $Self->{ConfigObject}->Get('Ticket::Frontend::TicketArticleFilter');
+    $Self->{HighlightColor1} = $Self->{ConfigObject}->Get('HighlightColor1');
+    $Self->{HighlightColor2} = $Self->{ConfigObject}->Get('HighlightColor2');
+    $Self->{ArticleFilterActive}
+        = $Self->{ConfigObject}->Get('Ticket::Frontend::TicketArticleFilter');
 
     # ticket id lookup
     if ( !$Self->{TicketID} && $Self->{ParamObject}->GetParam( Param => 'TicketNumber' ) ) {
@@ -98,19 +99,20 @@ sub Run {
     if ( $Self->{Subaction} eq 'ArticleFilterSet' ) {
 
         # get params
-        my $TicketID                   = $Self->{ParamObject}->GetParam( Param => 'TicketID' );
-        my $SaveDefaults               = $Self->{ParamObject}->GetParam( Param => 'SaveDefaults' );
-        my @ArticleTypeFilterIDs       = $Self->{ParamObject}->GetArray( Param => 'ArticleTypeFilter' );
-        my @ArticleSenderTypeFilterIDs = $Self->{ParamObject}->GetArray( Param => 'ArticleSenderTypeFilter' );
+        my $TicketID     = $Self->{ParamObject}->GetParam( Param => 'TicketID' );
+        my $SaveDefaults = $Self->{ParamObject}->GetParam( Param => 'SaveDefaults' );
+        my @ArticleTypeFilterIDs = $Self->{ParamObject}->GetArray( Param => 'ArticleTypeFilter' );
+        my @ArticleSenderTypeFilterIDs
+            = $Self->{ParamObject}->GetArray( Param => 'ArticleSenderTypeFilter' );
 
         # build session string
         my $SessionString = '';
-        if ( @ArticleTypeFilterIDs ) {
+        if (@ArticleTypeFilterIDs) {
             $SessionString .= 'ArticleTypeFilter<';
             $SessionString .= join ',', @ArticleTypeFilterIDs;
             $SessionString .= '>';
         }
-        if ( @ArticleSenderTypeFilterIDs ) {
+        if (@ArticleSenderTypeFilterIDs) {
             $SessionString .= 'ArticleSenderTypeFilter<';
             $SessionString .= join ',', @ArticleSenderTypeFilterIDs;
             $SessionString .= '>';
@@ -120,7 +122,7 @@ sub Run {
         my $JSON = '';
 
         # save default filter settings to user preferences
-        if ( $SaveDefaults ) {
+        if ($SaveDefaults) {
             $Self->{UserObject}->SetPreferences(
                 UserID => $Self->{UserID},
                 Key    => "ArticleFilterDefault",
@@ -130,7 +132,7 @@ sub Run {
                 SessionID => $Self->{SessionID},
                 Key       => "ArticleFilterDefault",
                 Value     => $SessionString,
-            )
+                )
         }
 
         # turn off filter explicitly for this ticket
@@ -145,7 +147,9 @@ sub Run {
                 Key       => "ArticleFilter$TicketID",
                 Value     => $SessionString,
             )
-        ) {
+            )
+        {
+
             # build JSON output
             $JSON = $Self->{LayoutObject}->JSON(
                 Data => {
@@ -176,28 +180,34 @@ sub Run {
     if ( $Self->{ArticleFilterActive} ) {
 
         # get article filter settings from session string
-        my $ArticleFilterSessionString = $Self->{"ArticleFilter" . $Self->{TicketID} };
+        my $ArticleFilterSessionString = $Self->{ "ArticleFilter" . $Self->{TicketID} };
 
         # set article filter for this ticket from user preferences
         if ( !$ArticleFilterSessionString ) {
             $ArticleFilterSessionString = $Self->{ArticleFilterDefault};
         }
+
         # do not use defaults for this ticket if filter was explicitly turned off
         elsif ( $ArticleFilterSessionString eq 'off' ) {
             $ArticleFilterSessionString = '';
         }
 
         # extract ArticleTypeIDs
-        if ( $ArticleFilterSessionString
+        if (
+            $ArticleFilterSessionString
             && $ArticleFilterSessionString =~ m{ ArticleTypeFilter < ( [^<>]+ ) > }xms
-        ) {
+            )
+        {
             my @IDs = split /,/, $1;
             $Self->{ArticleFilter}->{ArticleTypeID} = { map { $_ => 1 } @IDs };
         }
+
         # extract ArticleSenderTypeIDs
-        if ( $ArticleFilterSessionString
+        if (
+            $ArticleFilterSessionString
             && $ArticleFilterSessionString =~ m{ ArticleSenderTypeFilter < ( [^<>]+ ) > }xms
-        ) {
+            )
+        {
             my @IDs = split /,/, $1;
             $Self->{ArticleFilter}->{SenderTypeID} = { map { $_ => 1 } @IDs };
         }
@@ -408,22 +418,26 @@ sub MaskAgentZoom {
         $Self->{ArticleFilter}->{ShownArticleIDs} = undef;
 
         my $NewArticleID = '';
-        my $Count = 0;
+        my $Count        = 0;
 
         ARTICLE:
-        for my $Article ( @ArticleBox ) {
+        for my $Article (@ArticleBox) {
 
             # article type id does not match
-            if (    $Self->{ArticleFilter}->{ArticleTypeID}
+            if (
+                $Self->{ArticleFilter}->{ArticleTypeID}
                 && !$Self->{ArticleFilter}->{ArticleTypeID}->{ $Article->{ArticleTypeID} }
-            ) {
+                )
+            {
                 next ARTICLE;
             }
 
             # article sender type id does not match
-            if (    $Self->{ArticleFilter}->{SenderTypeID}
+            if (
+                $Self->{ArticleFilter}->{SenderTypeID}
                 && !$Self->{ArticleFilter}->{SenderTypeID}->{ $Article->{SenderTypeID} }
-            ) {
+                )
+            {
                 next ARTICLE;
             }
 
@@ -450,7 +464,7 @@ sub MaskAgentZoom {
         }
 
         # add current article id
-        $Self->{ArticleFilter}->{ShownArticleIDs}->{ $ArticleID } = 1;
+        $Self->{ArticleFilter}->{ShownArticleIDs}->{$ArticleID} = 1;
     }
 
     # build thread string
@@ -492,10 +506,13 @@ sub MaskAgentZoom {
         my %Article = %$ArticleTmp;
 
         # # article filter is activated in sysconfig and there are articles that passed the filter
-        if (   $Self->{ArticleFilterActive}
+        if (
+            $Self->{ArticleFilterActive}
             && $Self->{ArticleFilter}
             && $Self->{ArticleFilter}->{ShownArticleIDs}
-        ) {
+            )
+        {
+
             # do not show article if it does not match the filter
             if ( !$Self->{ArticleFilter}->{ShownArticleIDs}->{ $Article{ArticleID} } ) {
                 next ARTICLE;
@@ -539,7 +556,7 @@ sub MaskAgentZoom {
         # show body
         $Self->{LayoutObject}->Block(
             Name => $BodyType,
-            Data => { %Article },
+            Data => {%Article},
         );
 
         # show article tree
@@ -784,7 +801,7 @@ sub MaskAgentZoom {
                 if ( $Self->{ArticleFilter} ) {
                     $Self->{LayoutObject}->Block(
                         Name => 'ArticleFilterResetLink',
-                        Data => { %Param },
+                        Data => {%Param},
                     );
                 }
             }
@@ -812,11 +829,14 @@ sub MaskAgentZoom {
                 }
                 $LastSenderType = $Article{SenderType};
 
-                # article filter is activated in sysconfig and there are articles that passed the filter
-                if (   $Self->{ArticleFilterActive}
+            # article filter is activated in sysconfig and there are articles that passed the filter
+                if (
+                    $Self->{ArticleFilterActive}
                     && $Self->{ArticleFilter}
                     && $Self->{ArticleFilter}->{ShownArticleIDs}
-                ) {
+                    )
+                {
+
                     # do not show article in tree if it does not match the filter
                     if ( !$Self->{ArticleFilter}->{ShownArticleIDs}->{ $Article{ArticleID} } ) {
                         next TREEARTICLE;
@@ -826,9 +846,9 @@ sub MaskAgentZoom {
                 # if this is the shown article -=> add <i><u> and <b>
                 if ( $ArticleID eq $Article{ArticleID} ) {
                     $Start  = '<i><u>';
-                    $Stop  = '</u></i>';
+                    $Stop   = '</u></i>';
                     $Start2 = '<b>';
-                    $Stop2 = '</b>';
+                    $Stop2  = '</b>';
                 }
 
                 # check if we need to show also expand/collapse icon
@@ -867,6 +887,7 @@ sub MaskAgentZoom {
                     && $Self->{ConfigObject}->Get('Ticket::ZoomAttachmentDisplay')
                     )
                 {
+
                     # download type
                     my $Type = $Self->{ConfigObject}->Get('AttachmentDownloadType')
                         || 'attachment';
@@ -1402,12 +1423,12 @@ sub MaskAgentZoom {
 
         # build article type list for filter dialog
         $Param{'ArticleTypeFilterString'} = $Self->{LayoutObject}->BuildSelection(
-            Data         => \%ArticleTypes,
-            SelectedID   => [ keys %{ $Self->{ArticleFilter}->{ArticleTypeID} } ],
-            Translation  => 1,
-            Multiple     => 1,
-            Sort         => 'AlphanumericValue',
-            Name         => 'ArticleTypeFilter',
+            Data        => \%ArticleTypes,
+            SelectedID  => [ keys %{ $Self->{ArticleFilter}->{ArticleTypeID} } ],
+            Translation => 1,
+            Multiple    => 1,
+            Sort        => 'AlphanumericValue',
+            Name        => 'ArticleTypeFilter',
         );
 
         # get sender types
@@ -1417,17 +1438,17 @@ sub MaskAgentZoom {
 
         # build article sender type list for filter dialog
         $Param{'ArticleSenderTypeFilterString'} = $Self->{LayoutObject}->BuildSelection(
-            Data         => \%ArticleSenderTypes,
-            SelectedID   => [ keys %{ $Self->{ArticleFilter}->{SenderTypeID} } ],
-            Translation  => 1,
-            Multiple     => 1,
-            Sort         => 'AlphanumericValue',
-            Name         => 'ArticleSenderTypeFilter',
+            Data        => \%ArticleSenderTypes,
+            SelectedID  => [ keys %{ $Self->{ArticleFilter}->{SenderTypeID} } ],
+            Translation => 1,
+            Multiple    => 1,
+            Sort        => 'AlphanumericValue',
+            Name        => 'ArticleSenderTypeFilter',
         );
 
         $Self->{LayoutObject}->Block(
             Name => 'ArticleFilterDialog',
-            Data => { %Param },
+            Data => {%Param},
         );
     }
 

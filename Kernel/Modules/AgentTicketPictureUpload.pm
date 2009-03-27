@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPictureUpload.pm - get picture uploads
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPictureUpload.pm,v 1.1 2009-03-25 13:42:42 sb Exp $
+# $Id: AgentTicketPictureUpload.pm,v 1.2 2009-03-27 17:35:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -43,7 +43,8 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Output = "Content-Type: text/html; charset=" . $Self->{ConfigObject}->Get('DefaultCharset') . ";\n\n";
+    my $Output = "Content-Type: text/html; charset="
+        . $Self->{ConfigObject}->Get('DefaultCharset') . ";\n\n";
 
     if ( !$Self->{FormID} ) {
         $Output .= "{status:'Got no FormID!'}";
@@ -54,13 +55,14 @@ sub Run {
         my $ContentID = $Self->{ParamObject}->GetParam( Param => 'ContentID' ) || '';
 
         # return image inline
-        my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData( FormID => $Self->{FormID} );
+        my @AttachmentData
+            = $Self->{UploadCachObject}->FormIDGetAllFilesData( FormID => $Self->{FormID} );
         ATTACHMENTDATA:
         for my $TmpAttachment (@AttachmentData) {
             next ATTACHMENTDATA if $TmpAttachment->{ContentID} ne $ContentID;
             return $Self->{LayoutObject}->Attachment(
                 Type => 'inline',
-                %{ $TmpAttachment },
+                %{$TmpAttachment},
             );
         }
     }
@@ -84,8 +86,8 @@ sub Run {
     my @AttachmentMeta = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
         FormID => $Self->{FormID}
     );
-    my $TmpFilename = $File{Filename};
-    my $TmpSuffix = 0;
+    my $TmpFilename    = $File{Filename};
+    my $TmpSuffix      = 0;
     my $UniqueFilename = '';
     while ( !$UniqueFilename ) {
         $UniqueFilename = $TmpFilename;
@@ -117,7 +119,7 @@ sub Run {
         FormID => $Self->{FormID}
     );
     CONTENTID:
-    for my $TmpAttachment ( @AttachmentMeta ) {
+    for my $TmpAttachment (@AttachmentMeta) {
         next CONTENTID if $TmpFilename ne $TmpAttachment->{Filename};
         $ContentID = $TmpAttachment->{ContentID};
         last CONTENTID;

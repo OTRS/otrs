@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketOwner.pm - set ticket owner
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOwner.pm,v 1.48 2009-03-05 13:13:02 martin Exp $
+# $Id: AgentTicketOwner.pm,v 1.49 2009-03-27 17:35:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1097,7 +1097,7 @@ sub _Mask {
 
         # get possible notes
         my %DefaultNoteTypes = %{ $Self->{Config}->{ArticleTypes} };
-        my %NoteTypes        = $Self->{TicketObject}->ArticleTypeList( Result => 'HASH' );
+        my %NoteTypes = $Self->{TicketObject}->ArticleTypeList( Result => 'HASH' );
         for ( keys %NoteTypes ) {
             if ( !$DefaultNoteTypes{ $NoteTypes{$_} } ) {
                 delete $NoteTypes{$_};

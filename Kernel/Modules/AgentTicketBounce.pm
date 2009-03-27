@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.pm,v 1.23 2009-03-25 17:57:52 sb Exp $
+# $Id: AgentTicketBounce.pm,v 1.24 2009-03-27 17:35:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -152,18 +152,18 @@ sub Run {
         # prepare salutation
         my $TemplateGenerator = Kernel::System::TemplateGenerator->new( %{$Self} );
         $Param{Salutation} = $TemplateGenerator->Salutation(
-            TicketID   => $Self->{TicketID},
-            ArticleID  => $Self->{ArticleID},
-            Data       => \%Param,
-            UserID     => $Self->{UserID},
+            TicketID  => $Self->{TicketID},
+            ArticleID => $Self->{ArticleID},
+            Data      => \%Param,
+            UserID    => $Self->{UserID},
         );
 
         # prepare signature
         $Param{Signature} = $TemplateGenerator->Signature(
-            TicketID   => $Self->{TicketID},
-            ArticleID  => $Self->{ArticleID},
-            Data       => \%Param,
-            UserID     => $Self->{UserID},
+            TicketID  => $Self->{TicketID},
+            ArticleID => $Self->{ArticleID},
+            Data      => \%Param,
+            UserID    => $Self->{UserID},
         );
 
         # prepare information
@@ -197,10 +197,10 @@ $QData{"Signature"}';
 
         # put & get attributes like sender address
         %Article = $TemplateGenerator->Attributes(
-            TicketID   => $Self->{TicketID},
-            ArticleID  => $Self->{ArticleID},
-            Data       => \%Article,
-            UserID     => $Self->{UserID},
+            TicketID  => $Self->{TicketID},
+            ArticleID => $Self->{ArticleID},
+            Data      => \%Article,
+            UserID    => $Self->{UserID},
         );
 
         # get next states

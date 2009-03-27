@@ -2,7 +2,7 @@
 # Kernel/System/Group.pm - All Groups related function should be here eventually
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Group.pm,v 1.66 2009-03-20 18:33:04 martin Exp $
+# $Id: Group.pm,v 1.67 2009-03-27 17:35:32 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 =head1 NAME
 
@@ -1311,7 +1311,7 @@ sub GroupUserRoleMemberAdd {
 
     # delete existing relation
     return if !$Self->{DBObject}->Do(
-        SQL  => 'DELETE FROM role_user WHERE user_id = ? AND role_id = ?',
+        SQL => 'DELETE FROM role_user WHERE user_id = ? AND role_id = ?',
         Bind => [ \$Param{UID}, \$Param{RID} ],
     );
 
@@ -1510,6 +1510,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.66 $ $Date: 2009-03-20 18:33:04 $
+$Revision: 1.67 $ $Date: 2009-03-27 17:35:32 $
 
 =cut

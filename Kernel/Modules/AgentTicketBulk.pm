@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.25 2009-03-25 18:37:02 sb Exp $
+# $Id: AgentTicketBulk.pm,v 1.26 2009-03-27 17:35:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -165,13 +165,13 @@ sub Run {
                     $ContentType = "text/html; charset=$Self->{LayoutObject}->{'UserCharset'}";
                 }
                 $ArticleID = $Self->{TicketObject}->ArticleCreate(
-                    TicketID       => $TicketID,
-                    ArticleTypeID  => $ArticleTypeID,
-                    ArticleType    => $ArticleType,
-                    SenderType     => 'agent',
-                    From           => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
-                    Subject        => $Subject,
-                    Body           => $Body,
+                    TicketID      => $TicketID,
+                    ArticleTypeID => $ArticleTypeID,
+                    ArticleType   => $ArticleType,
+                    SenderType    => 'agent',
+                    From    => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
+                    Subject => $Subject,
+                    Body    => $Body,
                     ContentType    => $ContentType,
                     Charset        => $Charset,
                     UserID         => $Self->{UserID},
@@ -220,7 +220,7 @@ sub Run {
             my $MergeToSelection = $Self->{ParamObject}->GetParam(
                 Param => 'MergeToSelection'
             ) || '';
-            my $MergeTo          = $Self->{ParamObject}->GetParam(
+            my $MergeTo = $Self->{ParamObject}->GetParam(
                 Param => 'MergeTo'
             ) || '';
             if ( $MergeToSelection eq 'MergeTo' && $MergeTo ) {

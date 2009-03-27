@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.21 2009-03-20 06:27:23 martin Exp $
+# $Id: Layout.t,v 1.22 2009-03-27 17:36:33 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -61,21 +61,21 @@ $Self->{UserObject} = Kernel::System::User->new(
 );
 
 $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new(
-    ConfigObject  => $Self->{ConfigObject},
-    LogObject     => $Self->{LogObject},
-    TimeObject    => $Self->{TimeObject},
-    MainObject    => $Self->{MainObject},
-    EncodeObject  => $Self->{EncodeObject},
-    SessionObject => $Self->{SessionObject},
-    DBObject      => $Self->{DBObject},
-    ParamObject   => $Self->{ParamObject},
-    TicketObject  => $Self->{TicketObject},
-    UserObject    => $Self->{UserObject},
-    GroupObject   => $Self->{GroupObject},
+    ConfigObject       => $Self->{ConfigObject},
+    LogObject          => $Self->{LogObject},
+    TimeObject         => $Self->{TimeObject},
+    MainObject         => $Self->{MainObject},
+    EncodeObject       => $Self->{EncodeObject},
+    SessionObject      => $Self->{SessionObject},
+    DBObject           => $Self->{DBObject},
+    ParamObject        => $Self->{ParamObject},
+    TicketObject       => $Self->{TicketObject},
+    UserObject         => $Self->{UserObject},
+    GroupObject        => $Self->{GroupObject},
     UserChallengeToken => 'TestToken',
-    UserID        => 1,
-    Lang          => 'de',
-    SessionID     => 123,
+    UserID             => 1,
+    Lang               => 'de',
+    SessionID          => 123,
 );
 
 # here everyone can insert example data for the tests
@@ -565,7 +565,7 @@ $Self->Is(
 
 # zero test for SelectedID attribute
 my $HTMLCode = $Self->{LayoutObject}->BuildSelection(
-    Data        => {
+    Data => {
         0 => 'zero',
         1 => 'one',
         2 => 'two',
@@ -577,7 +577,7 @@ my $HTMLCode = $Self->{LayoutObject}->BuildSelection(
 );
 my $SelectedTest = 0;
 
-if (  $HTMLCode =~ m{ value="0" \s selected}smx ) {
+if ( $HTMLCode =~ m{ value="0" \s selected}smx ) {
     $SelectedTest = 1;
 }
 

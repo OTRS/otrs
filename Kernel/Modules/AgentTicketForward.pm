@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.35 2009-03-09 13:09:35 martin Exp $
+# $Id: AgentTicketForward.pm,v 1.36 2009-03-27 17:35:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -206,18 +206,18 @@ sub Form {
     # prepare salutation
     my $TemplateGenerator = Kernel::System::TemplateGenerator->new( %{$Self} );
     $Data{Salutation} = $TemplateGenerator->Salutation(
-        TicketID   => $Self->{TicketID},
-        ArticleID  => $Data{ArticleID},
-        Data       => \%Data,
-        UserID     => $Self->{UserID},
+        TicketID  => $Self->{TicketID},
+        ArticleID => $Data{ArticleID},
+        Data      => \%Data,
+        UserID    => $Self->{UserID},
     );
 
     # prepare signature
     $Data{Signature} = $TemplateGenerator->Signature(
-        TicketID   => $Self->{TicketID},
-        ArticleID  => $Data{ArticleID},
-        Data       => \%Data,
-        UserID     => $Self->{UserID},
+        TicketID  => $Self->{TicketID},
+        ArticleID => $Data{ArticleID},
+        Data      => \%Data,
+        UserID    => $Self->{UserID},
     );
 
     # check if original content isn't text/plain or text/html, don't use it
@@ -250,7 +250,7 @@ sub Form {
     }
     $Data{Body} = "\n---- Forwarded message from $Data{From} ---\n\n" . $Data{Body};
     $Data{Body} .= "\n---- End forwarded message ---\n";
-    $Data{Body}    = $Data{Signature} . $Data{Body};
+    $Data{Body} = $Data{Signature} . $Data{Body};
 
     # check some values
     for (qw(To Cc Bcc)) {
@@ -525,7 +525,8 @@ sub SendEmail {
             $Object->Run( %GetParam, Config => $Jobs{$Job} );
 
             # ticket params
-            %ArticleParam = ( %ArticleParam, $Object->ArticleOption( %GetParam, Config => $Jobs{$Job} ) );
+            %ArticleParam
+                = ( %ArticleParam, $Object->ArticleOption( %GetParam, Config => $Jobs{$Job} ) );
 
             # get errors
             %Error = ( %Error, $Object->Error( %GetParam, Config => $Jobs{$Job} ) );

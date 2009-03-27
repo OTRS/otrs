@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.33 2009-03-17 11:58:05 ub Exp $
+# $Id: CustomerTicketZoom.pm,v 1.34 2009-03-27 17:35:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -335,6 +335,7 @@ sub _Mask {
     my @ArticleBox        = @{ $Param{ArticleBox} };
 
     if ( !@ArticleBox ) {
+
         # error screen, don't show ticket
         return $Self->{LayoutObject}->CustomerNoPermission( WithHeader => 'no' );
     }
@@ -344,7 +345,7 @@ sub _Mask {
     my $LastCustomerArticleID;
     my $LastCustomerArticle = $#ArticleBox;
 
-    my $ArticleID           = '';
+    my $ArticleID = '';
     for my $ArticleTmp (@ArticleBox) {
         my %Article = %$ArticleTmp;
 

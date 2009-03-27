@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketClose.pm - close a ticket
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketClose.pm,v 1.51 2009-03-25 19:07:54 sb Exp $
+# $Id: AgentTicketClose.pm,v 1.52 2009-03-27 17:35:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -547,8 +547,8 @@ sub Run {
             for my $Ref (@AttachmentData) {
                 next WRITEATTACHMENT if
                     $Ref->{ContentID}
-                    && $Ref->{ContentID} =~ /^inline/
-                    && $GetParam{Body} !~ /$Ref->{ContentID}/;
+                        && $Ref->{ContentID} =~ /^inline/
+                        && $GetParam{Body} !~ /$Ref->{ContentID}/;
                 $Self->{TicketObject}->ArticleWriteAttachment(
                     %{$Ref},
                     ArticleID => $ArticleID,
@@ -687,7 +687,8 @@ sub Run {
 
         # fillup vars
         if ( !defined( $GetParam{Body} ) && $Self->{Config}->{Body} ) {
-            $GetParam{Body} = $Self->{LayoutObject}->Output( Template => $Self->{Config}->{Body} ) || '';
+            $GetParam{Body} = $Self->{LayoutObject}->Output( Template => $Self->{Config}->{Body} )
+                || '';
             if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
                 $GetParam{Body} = $Self->{LayoutObject}->Ascii2Html(
                     Text           => $GetParam{Body},
@@ -1137,7 +1138,7 @@ sub _Mask {
 
         # get possible notes
         my %DefaultNoteTypes = %{ $Self->{Config}->{ArticleTypes} };
-        my %NoteTypes        = $Self->{TicketObject}->ArticleTypeList( Result => 'HASH' );
+        my %NoteTypes = $Self->{TicketObject}->ArticleTypeList( Result => 'HASH' );
         for ( keys %NoteTypes ) {
             if ( !$DefaultNoteTypes{ $NoteTypes{$_} } ) {
                 delete $NoteTypes{$_};
@@ -1247,6 +1248,7 @@ sub _Mask {
     }
 
     if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+
         # add YUI editor
         $Self->{LayoutObject}->Block(
             Name => 'RichText',

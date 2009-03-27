@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/Ticket.pm - all advice functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.26 2009-03-25 16:50:47 tr Exp $
+# $Id: Ticket.pm,v 1.27 2009-03-27 17:35:32 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -537,7 +537,7 @@ sub ExportWrapper {
                     }
                 }
                 elsif (
-                    $Element->{Element}    eq 'StateIDs'
+                    $Element->{Element} eq 'StateIDs'
                     || $Element->{Element} eq 'CreatedStateIDs'
                     )
                 {
@@ -549,7 +549,7 @@ sub ExportWrapper {
                     }
                 }
                 elsif (
-                    $Element->{Element}    eq 'PriorityIDs'
+                    $Element->{Element} eq 'PriorityIDs'
                     || $Element->{Element} eq 'CreatedPriorityIDs'
                     )
                 {
@@ -608,7 +608,7 @@ sub ImportWrapper {
                     }
                 }
                 elsif (
-                    $Element->{Element}    eq 'StateIDs'
+                    $Element->{Element} eq 'StateIDs'
                     || $Element->{Element} eq 'CreatedStateIDs'
                     )
                 {
@@ -632,7 +632,7 @@ sub ImportWrapper {
                     }
                 }
                 elsif (
-                    $Element->{Element}    eq 'PriorityIDs'
+                    $Element->{Element} eq 'PriorityIDs'
                     || $Element->{Element} eq 'CreatedPriorityIDs'
                     )
                 {

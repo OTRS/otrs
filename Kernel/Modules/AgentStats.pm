@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.72 2009-03-25 16:50:47 tr Exp $
+# $Id: AgentStats.pm,v 1.73 2009-03-27 17:35:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -169,9 +169,10 @@ sub Run {
         my $Stat = $Self->{StatsObject}->StatsGet( StatID => $StatID );
 
         # object
-        $Stat->{ObjectName} = $Stat->{StatType} eq 'static'  ? $Stat->{File}
-                            : $Stat->{StatType} eq 'dynamic' ? $Stat->{ObjectName}
-                            :                                  '';
+        $Stat->{ObjectName} = $Stat->{StatType} eq 'static'
+            ? $Stat->{File}
+            : $Stat->{StatType} eq 'dynamic' ? $Stat->{ObjectName}
+            :                                  '';
 
         $Stat->{Description} = $Self->{LayoutObject}->Ascii2Html(
             Text           => $Stat->{Description},
@@ -333,7 +334,7 @@ sub Run {
                     if ( $ObjectAttribute->{Fixed} ) {
                         if ( $ObjectAttribute->{Block} eq 'Time' ) {
                             if ( $Use eq 'UseAsRestriction' ) {
-                                delete $ObjectAttribute->{SelectedValues} ;
+                                delete $ObjectAttribute->{SelectedValues};
                             }
                             my $TimeScale = _TimeScale();
                             if ( $ObjectAttribute->{TimeStart} ) {
@@ -369,16 +370,19 @@ sub Run {
                             }
                         }
                         else {
+
                             # find out which sort mechanism is used
                             my @Sorted = ();
                             if ( $ObjectAttribute->{SortIndividual} ) {
-                                @Sorted = grep{$ValueHash{$_}} @{$ObjectAttribute->{SortIndividual}};
+                                @Sorted = grep { $ValueHash{$_} }
+                                    @{ $ObjectAttribute->{SortIndividual} };
                             }
                             else {
-                                @Sorted = sort { $ValueHash{$a} cmp $ValueHash{$b} } keys %ValueHash;
+                                @Sorted
+                                    = sort { $ValueHash{$a} cmp $ValueHash{$b} } keys %ValueHash;
                             }
 
-                            for ( @Sorted ) {
+                            for (@Sorted) {
                                 my $Value = $ValueHash{$_};
                                 if ( $ObjectAttribute->{Translation} ) {
                                     $Value = "\$Text{\"$ValueHash{$_}\"}";
@@ -405,14 +409,14 @@ sub Run {
 
                         if ( $ObjectAttribute->{Block} eq 'MultiSelectField' ) {
                             $BlockData{SelectField} = $Self->{LayoutObject}->BuildSelection(
-                                Data          => \%ValueHash,
-                                Name          => $Use . $ObjectAttribute->{Element},
-                                Multiple      => 1,
-                                Size          => 5,
-                                SelectedID    => $ObjectAttribute->{SelectedValues},
-                                Translation   => $ObjectAttribute->{Translation},
-                                Sort          => $ObjectAttribute->{Sort} || undef,
-                                SortIndividual=> $ObjectAttribute->{SortIndividual} || undef,
+                                Data           => \%ValueHash,
+                                Name           => $Use . $ObjectAttribute->{Element},
+                                Multiple       => 1,
+                                Size           => 5,
+                                SelectedID     => $ObjectAttribute->{SelectedValues},
+                                Translation    => $ObjectAttribute->{Translation},
+                                Sort           => $ObjectAttribute->{Sort} || undef,
+                                SortIndividual => $ObjectAttribute->{SortIndividual} || undef,
                             );
                             $Self->{LayoutObject}->Block(
                                 Name => 'MultiSelectField',
@@ -422,11 +426,11 @@ sub Run {
                         elsif ( $ObjectAttribute->{Block} eq 'SelectField' ) {
 
                             $BlockData{SelectField} = $Self->{LayoutObject}->BuildSelection(
-                                Data        => \%ValueHash,
-                                Name        => $Use . $ObjectAttribute->{Element},
-                                Translation => $ObjectAttribute->{Translation},
-                                Sort          => $ObjectAttribute->{Sort} || undef,
-                                SortIndividual=> $ObjectAttribute->{SortIndividual} || undef,
+                                Data           => \%ValueHash,
+                                Name           => $Use . $ObjectAttribute->{Element},
+                                Translation    => $ObjectAttribute->{Translation},
+                                Sort           => $ObjectAttribute->{Sort} || undef,
+                                SortIndividual => $ObjectAttribute->{SortIndividual} || undef,
                             );
                             $Self->{LayoutObject}->Block(
                                 Name => 'SelectField',
@@ -1166,10 +1170,11 @@ sub Run {
                 # need a dropdown menue if more dynamic objects available
                 if ( $#DynamicFilesArray > 0 ) {
                     $Frontend{SelectField} = $Self->{LayoutObject}->BuildSelection(
-                        Data          => $DynamicFiles,
-                        Name          => 'Object',
-                        Translation   => 1,
-                        SelectedValue => $Self->{ConfigObject}->Get('Stats::DefaultSelectedDynamicObject'),
+                        Data        => $DynamicFiles,
+                        Name        => 'Object',
+                        Translation => 1,
+                        SelectedValue =>
+                            $Self->{ConfigObject}->Get('Stats::DefaultSelectedDynamicObject'),
                     );
                     $Self->{LayoutObject}->Block(
                         Name => 'SelectField',
@@ -1254,8 +1259,8 @@ sub Run {
             $Self->{LayoutObject}->Block(
                 Name => 'Selected',
                 Data => {
-                    SelectedKey => 'Object',
-                    Selected    => $Stat->{Object},
+                    SelectedKey  => 'Object',
+                    Selected     => $Stat->{Object},
                     SelectedName => $Stat->{ObjectName},
                 },
             );
@@ -1290,7 +1295,7 @@ sub Run {
                     1 => 'Yes'
                 },
                 SelectedID => $Stat->{$Key} || 0,
-                Name       => $Key,
+                Name => $Key,
             );
         }
 
@@ -1305,17 +1310,18 @@ sub Run {
 
         # create multiselectboxes 'permission'
         my %Permission = (
-            Data        => { $Self->{GroupObject}->GroupList( Valid => 1 ) },
-            Name        => 'Permission',
+            Data => { $Self->{GroupObject}->GroupList( Valid => 1 ) },
+            Name => 'Permission',
             Multiple    => 1,
             Size        => 5,
             Translation => 0,
         );
         if ( $Stat->{Permission} ) {
-            $Permission{SelectedID}  = $Stat->{Permission};
+            $Permission{SelectedID} = $Stat->{Permission};
         }
         else {
-            $Permission{SelectedValue}  = $Self->{ConfigObject}->Get('Stats::DefaultSelectedPermissions');
+            $Permission{SelectedValue}
+                = $Self->{ConfigObject}->Get('Stats::DefaultSelectedPermissions');
         }
         $Stat->{SelectPermission} = $Self->{LayoutObject}->BuildSelection(%Permission);
 
@@ -1325,8 +1331,9 @@ sub Run {
             Name       => 'Format',
             Multiple   => 1,
             Size       => 5,
-            SelectedID => $Stat->{Format} || $Self->{ConfigObject}->Get('Stats::DefaultSelectedFormat'),
-            OnChange   => "FormatGraphSizeRelation()",
+            SelectedID => $Stat->{Format}
+                || $Self->{ConfigObject}->Get('Stats::DefaultSelectedFormat'),
+            OnChange => "FormatGraphSizeRelation()",
         );
 
         # create multiselectboxes 'graphsize'
@@ -1337,7 +1344,7 @@ sub Run {
             Size        => 3,
             SelectedID  => $Stat->{GraphSize},
             Translation => 0,
-            Disabled    => (first {$_ =~ m{^GD::}smx} @{$Stat->{GraphSize}}) ? 0 : 1,
+            Disabled    => ( first { $_ =~ m{^GD::}smx } @{ $Stat->{GraphSize} } ) ? 0 : 1,
         );
 
         # presentation
@@ -1371,7 +1378,7 @@ sub Run {
         my $Stat = $Self->{StatsObject}->StatsGet( StatID => $Param{StatID} );
 
         # if only one value is available select this value
-        if ( !$Stat->{UseAsXvalue}[0]{Selected} && scalar(@{$Stat->{UseAsXvalue}}) == 1 ) {
+        if ( !$Stat->{UseAsXvalue}[0]{Selected} && scalar( @{ $Stat->{UseAsXvalue} } ) == 1 ) {
             $Stat->{UseAsXvalue}[0]{Selected} = 1;
             $Stat->{UseAsXvalue}[0]{Fixed}    = 1;
         }
@@ -1396,15 +1403,15 @@ sub Run {
 
             if ( $ObjectAttribute->{Block} eq 'MultiSelectField' ) {
                 $BlockData{SelectField} = $Self->{LayoutObject}->BuildSelection(
-                    Data        => $ObjectAttribute->{Values},
-                    Name        => $ObjectAttribute->{Element},
-                    Multiple    => 1,
-                    Size        => 5,
-                    SelectedID  => $ObjectAttribute->{SelectedValues},
-                    Translation => $ObjectAttribute->{Translation},
-                    Sort          => $ObjectAttribute->{Sort} || undef,
-                    SortIndividual=> $ObjectAttribute->{SortIndividual} || undef,
-                    OnChange      => "SelectRadiobutton('$ObjectAttribute->{Element}', 'Select')",
+                    Data           => $ObjectAttribute->{Values},
+                    Name           => $ObjectAttribute->{Element},
+                    Multiple       => 1,
+                    Size           => 5,
+                    SelectedID     => $ObjectAttribute->{SelectedValues},
+                    Translation    => $ObjectAttribute->{Translation},
+                    Sort           => $ObjectAttribute->{Sort} || undef,
+                    SortIndividual => $ObjectAttribute->{SortIndividual} || undef,
+                    OnChange       => "SelectRadiobutton('$ObjectAttribute->{Element}', 'Select')",
 
                 );
             }
@@ -1492,15 +1499,15 @@ sub Run {
 
             if ( $ObjectAttribute->{Block} eq 'MultiSelectField' ) {
                 $BlockData{SelectField} = $Self->{LayoutObject}->BuildSelection(
-                    Data        => $ObjectAttribute->{Values},
-                    Name        => $ObjectAttribute->{Element},
-                    Multiple    => 1,
-                    Size        => 5,
-                    SelectedID  => $ObjectAttribute->{SelectedValues},
-                    Translation => $ObjectAttribute->{Translation},
-                    Sort          => $ObjectAttribute->{Sort} || undef,
-                    SortIndividual=> $ObjectAttribute->{SortIndividual} || undef,
-                    OnChange      => "SelectCheckbox('Select" . $ObjectAttribute->{Element} ."')",
+                    Data           => $ObjectAttribute->{Values},
+                    Name           => $ObjectAttribute->{Element},
+                    Multiple       => 1,
+                    Size           => 5,
+                    SelectedID     => $ObjectAttribute->{SelectedValues},
+                    Translation    => $ObjectAttribute->{Translation},
+                    Sort           => $ObjectAttribute->{Sort} || undef,
+                    SortIndividual => $ObjectAttribute->{SortIndividual} || undef,
+                    OnChange       => "SelectCheckbox('Select" . $ObjectAttribute->{Element} . "')",
                 );
             }
 
@@ -1617,15 +1624,15 @@ sub Run {
                 )
             {
                 $BlockData{SelectField} = $Self->{LayoutObject}->BuildSelection(
-                    Data        => $ObjectAttribute->{Values},
-                    Name        => $ObjectAttribute->{Element},
-                    Multiple    => 1,
-                    Size        => 5,
-                    SelectedID  => $ObjectAttribute->{SelectedValues},
-                    Translation => $ObjectAttribute->{Translation},
-                    Sort          => $ObjectAttribute->{Sort} || undef,
-                    SortIndividual=> $ObjectAttribute->{SortIndividual} || undef,
-                    OnChange      => "SelectCheckbox('Select" . $ObjectAttribute->{Element} ."')",
+                    Data           => $ObjectAttribute->{Values},
+                    Name           => $ObjectAttribute->{Element},
+                    Multiple       => 1,
+                    Size           => 5,
+                    SelectedID     => $ObjectAttribute->{SelectedValues},
+                    Translation    => $ObjectAttribute->{Translation},
+                    Sort           => $ObjectAttribute->{Sort} || undef,
+                    SortIndividual => $ObjectAttribute->{SortIndividual} || undef,
+                    OnChange       => "SelectCheckbox('Select" . $ObjectAttribute->{Element} . "')",
                 );
             }
 
@@ -2316,8 +2323,9 @@ sub _Timeoutput {
     }
 
     $Timeoutput{TimeRelativeUnit} = $Self->{LayoutObject}->OptionElement(
-        Name     => $Element . 'TimeRelativeUnit',
-        Data     => $Data,
+        Name => $Element . 'TimeRelativeUnit',
+        Data => $Data,
+
         #FIXME: onchange only works with build selection
         OnChange => "SelectRadiobutton('Relativ', '$Element" . "TimeSelect')",
     );
@@ -2442,7 +2450,12 @@ sub _ColumnAndRowTranslation {
                     $Translation{$Use} = '';
                 }
 
-                if ( $Element->{Translation} && $Element->{Block} ne 'Time' &&  !$Element->{SortIndividual}) {
+                if (
+                    $Element->{Translation}
+                    && $Element->{Block} ne 'Time'
+                    && !$Element->{SortIndividual}
+                    )
+                {
                     $Sort{$Use} = 1;
                 }
                 last ELEMENT;
