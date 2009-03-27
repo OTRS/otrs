@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.181 2009-03-26 16:46:42 tr Exp $
+# $Id: de.pm,v 1.182 2009-03-27 10:53:23 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.181 $) [1];
+$VERSION = qw($Revision: 1.182 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -399,6 +399,7 @@ sub Data {
         'Ticket Close Time'  => 'Ticket geschlossen',
         'ascending'          => 'aufsteigend',
         'descending'         => 'absteigend',
+        'First Lock'         => 'Erstmals gesperrt',
 
         # Template: AAATicket
         'Lock' => 'Sperren',
