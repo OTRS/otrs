@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.845 2009-03-24 06:45:24 tr Exp $
+# $Id: CHANGES,v 1.846 2009-03-30 09:28:30 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,9 @@
 # --
 
 2.4.0 beta1 (2009/??/??)
+ - (2009/03/30) Updated CPAN module Authen::SASL to version 2.12.
+ - (2009/03/30) Updated CPAN module Text::CSV to version 1.11.
+ - (2009/03/30) Updated CPAN module File::Temp to version 0.21.
  - (2009/03/17) Fixed bug# 3729 - Missing translation of "Customer history"
     in AgentTicketCustomer.
  - (2009/03/17) Fixed bug# 3713 - Apache-error if ticket has only internal
