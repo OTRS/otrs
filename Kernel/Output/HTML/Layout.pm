@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.132 2009-03-27 17:38:18 mh Exp $
+# $Id: Layout.pm,v 1.133 2009-03-30 14:52:02 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.132 $) [1];
+$VERSION = qw($Revision: 1.133 $) [1];
 
 =head1 NAME
 
@@ -4117,6 +4117,73 @@ sub _DisableBannerCheck {
 
     return 1
 }
+
+=item ToFromRichText()
+
+convert a string from or to rich text depending on string content and rich text status
+an optional supplied content type will be modified accordingly
+
+    my @NewData = $LayoutObject->ToFromRichText(
+        Content     => 'abc123',
+        ContentType => 'text/plain', # optional
+    );
+
+=cut
+
+sub ToFromRichText {
+    my ( $Self, %Param ) = @_;
+    my $Content     = $Param{Content} || '';
+    my $ContentType = $Param{ContentType} || '';
+
+    return ( '', $ContentType ) if !$Content;
+
+    # check for otrs and html tags
+    my $HaveOTRSTags = 0;
+    my $HaveHTMLTags = 0;
+    my $NoOTRSTags = $Content;
+    if ( $NoOTRSTags =~ s/<OTRS_.*?>//sgi ) {
+        $HaveOTRSTags = 1;
+    }
+    if ( $ContentType =~ /html/i || ( $ContentType !~ /plain/i && $NoOTRSTags =~ /<.*?>/s ) ) {
+        $HaveHTMLTags = 1;
+    }
+
+    if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+        return ( $Content, $ContentType ) if $HaveHTMLTags && !$HaveOTRSTags;
+        if ( !$HaveHTMLTags ) {
+
+            # convert to rich text
+            $ContentType =~ s/plain/html/i;
+            return ( $Self->Ascii2Html(
+                Text           => $Content,
+                HTMLResultMode => 1,
+                LinkFeature    => 1,
+            ), $ContentType );
+        }
+
+        # protect otrs tags
+        $Content =~ s/<(OTRS_.*?)>/&lt;$1&gt;/sgi;
+
+        return ( $Content, $ContentType );
+    }
+    else {
+        return ( $Content, $ContentType ) if !$HaveHTMLTags;
+
+        # protect otrs tags
+        $Content =~ s/<(OTRS_.*?)>/&lt;$1&gt;/sgi;
+
+        # convert to ascii
+        $Content = $Self->{TicketObject}->HTML2Ascii(
+            Body => $Content,
+        );
+
+        # remove otrs tag protection
+        $Content =~ s/&lt;(OTRS_.*?)&gt;/<$1>/sgi;
+
+        $ContentType =~ s/html/plain/i;
+        return ( $Content, $ContentType );
+    }
+}
 1;
 
 =back
@@ -4131,6 +4198,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.132 $ $Date: 2009-03-27 17:38:18 $
+$Revision: 1.133 $ $Date: 2009-03-30 14:52:02 $
 
 =cut
