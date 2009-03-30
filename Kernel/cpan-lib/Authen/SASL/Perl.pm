@@ -8,7 +8,7 @@ use strict;
 use vars qw($VERSION);
 use Carp;
 
-$VERSION = "1.06";
+$VERSION = "1.07";
 
 my %secflags = (
 	noplaintext  => 1,
@@ -218,7 +218,7 @@ sub securesocket {
     # there's not enough; take all we have, read more on next call
     print STDERR "   GOT PARTIAL: avail=$avail; need=$len\n"
       if ($debug & 4);
-    substr($$buf, $offset, $avail) = $self->{readbuf};
+    substr($$buf, $offset || 0, $avail) = $self->{readbuf};
     $self->{readbuf}    = '';
     $self->{readbuflen} = 0;
 
@@ -274,8 +274,6 @@ sub securesocket {
 
     my $fh = $self->{fh};
 
-    $offset |= 0;	# keep substr() happy
-
     # put on wire in peer-sized chunks
     my $bsz = $self->{sndbufsz};
     while ($len > 0) {
@@ -283,7 +281,7 @@ sub securesocket {
         if ($debug & 8);
 
       # call mechanism specific encoding routine
-      my $x = $self->{conn}->encode(substr($_[1], $offset, $bsz));
+      my $x = $self->{conn}->encode(substr($_[1], $offset || 0, $bsz));
       print $fh pack('N', length($x)), $x;
       $len -= $bsz;
       $offset += $bsz;

@@ -11,7 +11,7 @@ use vars qw($VERSION @ISA $CNONCE);
 use Digest::MD5 qw(md5_hex md5);
 use Digest::HMAC_MD5 qw(hmac_md5);
 
-$VERSION = "1.06";
+$VERSION = "1.07";
 @ISA = qw(Authen::SASL::Perl);
 
 my %secflags = (
@@ -25,8 +25,83 @@ my %qdval; @qdval{qw(username authzid realm nonce cnonce digest-uri)} = ();
 my %multi; @multi{qw(realm auth-param)} = ();
 my @required = qw(algorithm nonce);
 
-# we use indices to deal with layer calculations internally
-my @layertypes = (undef, 'auth', 'auth-int', 'auth-conf');
+# available ciphers
+my @ourciphers = (
+  {
+    name  => 'rc4',
+    ssf   => 128,
+    bs    => 1,
+    ks    => 16,
+    pkg   => 'Crypt::RC4',
+    key   => sub { $_[0] },
+    iv    => sub {},
+    fixup => sub {
+      # retrofit the Crypt::RC4 module with standard subs
+      *Crypt::RC4::encrypt   = *Crypt::RC4::decrypt =
+        sub { goto &Crypt::RC4::RC4; };
+      *Crypt::RC4::keysize   =  sub {128};
+      *Crypt::RC4::blocksize =  sub {1};
+    }
+  },
+  {
+    name  => '3des',
+    ssf   => 112,
+    bs    => 8,
+    ks    => 16,
+    pkg   => 'Crypt::DES3',
+    key   => sub {
+      pack('B8' x 16,
+        map { $_ . '0' }
+        map { unpack('a7' x 16, $_); }
+        unpack('B*', substr($_[0], 0, 14)) );
+    },
+    iv => sub { substr($_[0], -8, 8) },
+  },
+  {
+    name  => 'des',
+    ssf   => 56,
+    bs    => 8,
+    ks    => 16,
+    pkg   => 'Crypt::DES',
+    key   => sub {
+      pack('B8' x 8,
+        map { $_ . '0' }
+        map { unpack('a7' x 8, $_); }
+        unpack('B*',substr($_[0], 0, 7)) );
+    },
+    iv => sub { substr($_[0], -8, 8) },
+  },
+  {
+    name  => 'rc4-56',
+    ssf   => 56,
+    bs    => 1,
+    ks    => 7,
+    pkg   => 'Crypt::RC4',
+    key   => sub { $_[0] },
+    iv    => sub {},
+    fixup => sub {
+      *Crypt::RC4::encrypt   = *Crypt::RC4::decrypt =
+        sub { goto &Crypt::RC4::RC4; };
+      *Crypt::RC4::keysize   =  sub {56};
+      *Crypt::RC4::blocksize =  sub {1};
+    }
+  },
+  {
+    name  => 'rc4-40',
+    ssf   => 40,
+    bs    => 1,
+    ks    => 5,
+    pkg   => 'Crypt::RC4',
+    key   => sub { $_[0] },
+    iv    => sub {},
+    fixup => sub {
+      *Crypt::RC4::encrypt   = *Crypt::RC4::decrypt =
+        sub { goto &Crypt::RC4::RC4; };
+      *Crypt::RC4::keysize   =  sub {40};
+      *Crypt::RC4::blocksize =  sub {1};
+    }
+  },
+);
 
 sub _order { 3 }
 sub _secflags {
@@ -53,10 +128,11 @@ sub client_start {
   my $self = shift;
 
   $self->{state}     = 0;
-  $self->{layer}     = undef;
+  $self->{cipher}    = undef;
+  $self->{khc}       = undef;
+  $self->{khs}       = undef;
   $self->{sndseqnum} = 0;
   $self->{rcvseqnum} = 0;
-
   # reset properties for new session
   $self->property(maxout => undef);
   $self->property(ssf    => undef);
@@ -89,7 +165,6 @@ sub client_step {   # $self, $server_sasl_credentials
     if length $challenge;
 
   if ($self->{state} == 1) {
-
     # check server's `rspauth' response
     return $self->set_error("Server did not send rspauth in step 2")
       unless ($sparams{rspauth});
@@ -116,9 +191,7 @@ sub client_step {   # $self, $server_sasl_credentials
 
   # calculate qop
   return $self->set_error("Server qop too weak (qop = $sparams{'qop'})")
-    unless ($self->{layer} = $self->_layer($sparams{qop}));
-
-  $response{qop} = $layertypes[$self->{layer}];
+    unless ($self->_layer(\%sparams,\%response));
 
   # let caller-provided fields override defaults: authorization ID, service name, realm
 
@@ -152,7 +225,6 @@ sub client_step {   # $self, $server_sasl_credentials
     unless defined $password;
 
   $self->property('maxout',$sparams{server_maxbuf} || 65536);
-  $self->property('ssf',$self->{layer}-1) if ($self->{layer});
 
   # Generate the response value
   $self->{state} = 1;
@@ -164,24 +236,36 @@ sub client_step {   # $self, $server_sasl_credentials
   );
 
   # pre-compute MD5(A1) and HEX(MD5(A1)); these are used multiple times below
-  my $hdA1 = unpack("H*",(my $dA1 = md5($A1)));
+  my $hdA1 = unpack("H*", (my $dA1 = md5($A1)) );
 
   # derive keys for layer encryption / integrity
   $self->{kic} = md5($dA1,
-	'Digest session key to client-to-server signing key magic constant');
+    'Digest session key to client-to-server signing key magic constant');
 
   $self->{kis} = md5($dA1,
-	'Digest session key to server-to-client signing key magic constant');
+    'Digest session key to server-to-client signing key magic constant');
 
-# no encryption support yet
-#  $self->{kcc} = md5($dA1,
-#	'Digest H(A1) key to client-to-server signing key magic constant');
-#
-#  $self->{kcs} = md5($dA1,
-#	'Digest H(A1) key to server-to-client signing key magic constant');
+  if (my $cipher = $self->{cipher}) {
+    &{ $cipher->{fixup} || sub{} };
+
+    # compute keys for encryption
+    my $ks = $cipher->{ks};
+    $self->{kcc} = md5(substr($dA1,0,$ks),
+      'Digest H(A1) to client-to-server sealing key magic constant');
+    $self->{kcs} = md5(substr($dA1,0,$ks),
+      'Digest H(A1) to server-to-client sealing key magic constant');
+
+    # get an encryption and decryption handle for the chosen cipher
+    $self->{khc} = $cipher->{pkg}->new($cipher->{key}->($self->{kcc}));
+    $self->{khs} = $cipher->{pkg}->new($cipher->{key}->($self->{kcs}));
+
+    # initialize IVs
+    $self->{ivc} = $cipher->{iv}->($self->{kcc});
+    $self->{ivs} = $cipher->{iv}->($self->{kcs});
+  }
 
   my $A2 = "AUTHENTICATE:" . $response{'digest-uri'};
-  $A2 .= ":00000000000000000000000000000000" if ($self->{layer} > 1);
+  $A2 .= ":00000000000000000000000000000000" if ($response{qop} ne 'auth');
 
   $response{'response'} = md5_hex(
     join (":", $hdA1, @response{qw(nonce nc cnonce qop)}, md5_hex($A2))
@@ -191,7 +275,7 @@ sub client_step {   # $self, $server_sasl_credentials
   # the only difference here is in the A2 string which from which
   # `AUTHENTICATE' is omitted in the calculation of `rspauth'
   $A2 = ":" . $response{'digest-uri'};
-  $A2 .= ":00000000000000000000000000000000" if ($self->{layer} > 1);
+  $A2 .= ":00000000000000000000000000000000" if ($response{qop} ne 'auth');
 
   $self->{rspauth} = md5_hex(
     join (":", $hdA1, @response{qw(nonce nc cnonce qop)}, md5_hex($A2))
@@ -216,66 +300,166 @@ sub _qdval {
 }
 
 sub _layer {
-  my ($self, $sqop) = @_;
+  my ($self, $sparams, $response) = @_;
 
   # construct server qop mask
   # qop in server challenge is optional: if not there "auth" is assumed
   my $smask = 0;
   map {
-    m/^auth$/      and $smask |= 1;
-    m/^auth-int$/  and $smask |= 2;
+    m/^auth$/ and $smask |= 1;
+    m/^auth-int$/ and $smask |= 2;
     m/^auth-conf$/ and $smask |= 4;
-  } split(/,/, $sqop || 'auth');
+  } split(/,/, $sparams->{qop}||'auth');
 
   # construct our qop mask
-  my $cmask  = 0;
+  my $cmask = 0;
   my $maxssf = $self->property('maxssf') - $self->property('externalssf');
   $maxssf = 0 if ($maxssf < 0);
   my $minssf = $self->property('minssf') - $self->property('externalssf');
   $minssf = 0 if ($minssf < 0);
 
-  return undef if ($maxssf < $minssf);    # sanity check
+  return undef if ($maxssf < $minssf); # sanity check
 
-  # ssf values > 1 mean integrity and confidentiality
+  # ssf values > 1 mean integrity and confidentiality 
   # ssf == 1 means integrity but no confidentiality
   # ssf < 1 means neither integrity nor confidentiality
   # no security layer can be had if buffer size is 0
   $cmask |= 1 if ($minssf < 1);
   $cmask |= 2 if ($minssf <= 1 and $maxssf >= 1);
-
-# no encryption support yet
-#	$cmask |= 4 if ($maxssf > 1);
-
+  $cmask |= 4 if ($maxssf > 1);
 
   # find common bits
   $cmask &= $smask;
 
-  return 4 if ($cmask & 4);
-  return 2 if ($cmask & 2);
-  return 1 if ($cmask & 1);
+  if (($cmask & 4) and $self->_select_cipher($minssf,$maxssf,$sparams)) {
+    $response->{qop} = 'auth-conf';
+    $response->{cipher} = $self->{cipher}->{name};
+    $self->property('ssf', $self->{cipher}->{ssf});
+    return 1;
+  }
+  if ($cmask & 2) {
+    $response->{qop} = 'auth-int';
+    $self->property('ssf', 1);
+    return 1;
+  }
+  if ($cmask & 1) {
+    $response->{qop} = 'auth';
+    $self->property('ssf', 0);
+    return 1;
+  }
 
   return undef;
 }
 
+sub _select_cipher
+{
+  my ($self, $minssf, $maxssf, $sparams) = @_;
+
+  # parse server cipher options
+  my @sciphers = split(/,/, $sparams->{'cipher-opts'}||$sparams->{cipher}||'');
+
+  # compose a subset of candidate ciphers based on ssf and peer list
+  my @a = map {
+    my $c = $_;
+    (grep { $c->{name} eq $_ } @sciphers and
+      $c->{ssf} >= $minssf and $c->{ssf} <= $maxssf) ? $_ : ()
+  } @ourciphers;
+
+  # from these, select the first one we can create an instance of
+  for (@a) {
+    next unless eval "require $_->{pkg}";
+    $self->{cipher} = $_;
+    return 1;
+  }
+
+  return 0;
+}
+
+use Digest::HMAC_MD5 qw(hmac_md5);
 
 sub encode {  # input: self, plaintext buffer,length (length not used here)
   my $self   = shift;
   my $seqnum = pack('N', $self->{sndseqnum}++);
   my $mac    = substr(hmac_md5($seqnum . $_[0], $self->{kic}), 0, 10);
-  return $_[0] . $mac . pack('n', 1) . $seqnum;
+
+  # if integrity only, return concatenation of buffer, MAC, TYPE and SEQNUM
+  return $_[0] . $mac.pack('n',1) . $seqnum unless ($self->{khc});
+
+  # must encrypt, block ciphers need padding bytes
+  my $pad = '';
+  my $bs = $self->{cipher}->{bs};
+  if ($bs > 1) {
+    # padding is added in between BUF and MAC
+    my $n = $bs - ((length($_[0]) + 10) & ($bs - 1));
+    $pad = chr($n) x $n;
+  }
+
+  # XXX - for future AES cipher support, the currently used common _crypt()
+  # function probably wont do; we might to switch to per-cipher routines
+  # like so:
+  #  return $self->{khc}->encrypt($_[0] . $pad . $mac) . pack('n', 1) . $seqnum;
+  return $self->_crypt(0, $_[0] . $pad . $mac) . pack('n', 1) . $seqnum;
 }
 
 sub decode {  # input: self, cipher buffer,length
   my ($self, $buf, $len) = @_;
+
   return if ($len <= 16);
 
-  my ($mac, $type, $seqnum) = unpack('a[10]na[4]', substr($buf, -16, 16, ''));
+  # extract TYPE/SEQNUM from end of buffer
+  my ($type,$seqnum) = unpack('na[4]', substr($buf, -6, 6, ''));
+
+  # decrypt remaining buffer, if necessary
+  if ($self->{khs}) {
+    # XXX - see remark above in encode() #$buf = $self->{khs}->decrypt($buf);
+    $buf = $self->_crypt(1, $buf);
+  }
+  return unless ($buf);
+
+  # extract 10-byte MAC from the end of (decrypted) buffer
+  my ($mac) = unpack('a[10]', substr($buf, -10, 10, ''));
+
+  if ($self->{khs} and $self->{cipher}->{bs} > 1) {
+    # remove padding
+    my $n = ord(substr($buf, -1, 1));
+    substr($buf, -$n, $n, '');
+  }
+
+  # check the MAC
   my $check = substr(hmac_md5($seqnum . $buf, $self->{kis}), 0, 10);
   return if ($mac ne $check);
   return if (unpack('N', $seqnum) != $self->{rcvseqnum});
   $self->{rcvseqnum}++;
 
   return $buf;
+}
+
+sub _crypt {  # input: op(decrypting=1/encrypting=0)), buffer
+  my ($self,$d) = (shift,shift);
+  my $bs = $self->{cipher}->{bs};
+
+  if ($bs <= 1) {
+    # stream cipher
+    return $d ? $self->{khs}->decrypt($_[0]) : $self->{khc}->encrypt($_[0])
+  }
+
+  # the remainder of this sub is for block ciphers
+
+  # get current IV
+  my $piv = \$self->{$d ? 'ivs' : 'ivc'};
+  my $iv = $$piv;
+
+  my $result = join '', map {
+    my $x = $d
+      ? $iv ^ $self->{khs}->decrypt($_)
+      : $self->{khc}->encrypt($iv ^ $_);
+    $iv = $d ? $_ : $x;
+    $x;
+  } unpack("a$bs "x(int(length($_[0])/$bs)), $_[0]);
+
+  # store current IV
+  $$piv = $iv;
+  return $result;
 }
 
 1;
