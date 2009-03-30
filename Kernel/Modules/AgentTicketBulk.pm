@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.26 2009-03-27 17:35:11 mh Exp $
+# $Id: AgentTicketBulk.pm,v 1.27 2009-03-30 20:44:00 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -464,17 +464,14 @@ sub _Mask {
         );
     }
 
-    # prepare note text
-    $Param{NoteText} = $Self->{ConfigObject}->Get('Ticket::Frontend::NoteText') || '';
+    # prepare and reformat note text
+    my @NewNoteText = $Self->{LayoutObject}->ToFromRichText(
+        Content => $Self->{ConfigObject}->Get('Ticket::Frontend::NoteText') || '',
+    );
+    $Param{NoteText} = $NewNoteText[0];
 
+    # add YUI editor
     if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
-        $Param{NoteText} = $Self->{LayoutObject}->Ascii2Html(
-            Text           => $Param{NoteText},
-            HTMLResultMode => 1,
-            LinkFeature    => 1,
-        );
-
-        # add YUI editor
         $Self->{LayoutObject}->Block(
             Name => 'RichText',
             Data => \%Param,

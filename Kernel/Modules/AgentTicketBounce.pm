@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.pm,v 1.24 2009-03-27 17:35:11 mh Exp $
+# $Id: AgentTicketBounce.pm,v 1.25 2009-03-30 20:44:00 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -167,24 +167,24 @@ sub Run {
         );
 
         # prepare information
-        $Param{InformationFormat} = '$QData{"Salutation"}
-
-$QData{"BounceText"}
-
+        $Param{InformationFormat} = '$QData{"Salutation"}<br/>
+<br/>
+$QData{"BounceText"}<br/>
+<br/>
 $QData{"Signature"}';
 
         # prepare bounce text
         $Param{BounceText} = $Self->{ConfigObject}->Get('Ticket::Frontend::BounceText') || '';
 
-        # reformat bounce text and information format
-        if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
-            $Param{BounceText} = $Self->{LayoutObject}->Ascii2Html(
-                Text           => $Param{BounceText},
-                HTMLResultMode => 1,
-                LinkFeature    => 1,
-            );
-            $Param{InformationFormat} =~ s/\n/<br\/>/g;
-        }
+        # reformat information format and bounce text
+        my @NewInformationFormat = $Self->{LayoutObject}->ToFromRichText(
+            Content => $Param{InformationFormat},
+        );
+        $Param{InformationFormat} = $NewInformationFormat[0];
+        my @NewBounceText = $Self->{LayoutObject}->ToFromRichText(
+            Content => $Param{BounceText},
+        );
+        $Param{BounceText} = $NewBounceText[0];
 
         # prepare body ...
         $Article{Body} =~ s/\n/\n> /g;

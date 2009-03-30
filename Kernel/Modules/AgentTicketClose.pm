@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketClose.pm - close a ticket
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketClose.pm,v 1.52 2009-03-27 17:35:11 mh Exp $
+# $Id: AgentTicketClose.pm,v 1.53 2009-03-30 20:44:00 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -490,26 +490,8 @@ sub Run {
             if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
                 $ContentType = "text/html; charset=$Self->{LayoutObject}->{'UserCharset'}";
 
-                # set content id for uploaded images
-                $GetParam{Body} =~ s{
-                    ((?:<|&lt;)img.*?src=(?:"|&quot;))(.*?)((?:"|&quot;).*?(?:>|&gt;))
-                }
-                {
-                    my $ImgStart  = $1;
-                    my $ImgStop   = $3;
-                    my $ContentID = $2;
-
-                    # get content id for image
-                    CONTENTID:
-                    for my $TmpAttachment ( @Attachments ) {
-                        next CONTENTID if $ContentID !~ /$TmpAttachment->{ContentID}/;
-                        $ContentID = $TmpAttachment->{ContentID};
-                        last CONTENTID;
-                    }
-
-                    # return data
-                    $ImgStart . "cid:" . $ContentID . $ImgStop;
-                }segxi;
+                # replace link with content id for uploaded images
+                $GetParam{Body} =~ s/((?:<|&lt;)img.*?src=(?:"|&quot;)).*?ContentID=(inline[\w\.]+?@[\w\.-]+).*?((?:"|&quot;).*?(?:>|&gt;))/$1cid:$2$3/gi;
             }
 
             $ArticleID = $Self->{TicketObject}->ArticleCreate(
@@ -689,13 +671,12 @@ sub Run {
         if ( !defined( $GetParam{Body} ) && $Self->{Config}->{Body} ) {
             $GetParam{Body} = $Self->{LayoutObject}->Output( Template => $Self->{Config}->{Body} )
                 || '';
-            if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
-                $GetParam{Body} = $Self->{LayoutObject}->Ascii2Html(
-                    Text           => $GetParam{Body},
-                    HTMLResultMode => 1,
-                    LinkFeature    => 1,
-                );
-            }
+
+            # make sure body has correct format
+            my @NewBody = $Self->{LayoutObject}->ToFromRichText(
+                Content => $GetParam{Body},
+            );
+            $GetParam{Body} = $NewBody[0];
         }
         if ( !defined( $GetParam{Subject} ) && $Self->{Config}->{Subject} ) {
             $GetParam{Subject}
