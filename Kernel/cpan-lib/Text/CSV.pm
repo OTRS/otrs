@@ -5,14 +5,14 @@ use strict;
 use Carp ();
 
 BEGIN {
-    $Text::CSV::VERSION = '1.06';
+    $Text::CSV::VERSION = '1.11';
     $Text::CSV::DEBUG   = 0;
 }
 
 # if use CSV_XS, requires version
 my $Module_XS  = 'Text::CSV_XS';
 my $Module_PP  = 'Text::CSV_PP';
-my $XS_Version = '0.51';
+my $XS_Version = '0.63';
 
 my $Is_Dynamic = 0;
 
@@ -270,9 +270,9 @@ perhaps better called ASV (anything separated values) rather than just CSV.
 
 =head1 VERSION
 
-    1.06
+    1.11
 
-This module is compatible with Text::CSV_XS B<0.51> or later.
+This module is compatible with Text::CSV_XS B<0.63> and later.
 
 =head2 BINARY MODE
 
@@ -292,6 +292,22 @@ are marked binary will also be marked UTF8.
 
 On combining (C<print ()> and C<combine ()>), if any of the combining
 fields was marked UTF8, the resulting string will be marked UTF8.
+
+For complete control over encoding, please use L<Text::CSV::Encoded>:
+
+    use Text::CSV::Encoded;
+    my $csv = Text::CSV::Encoded->new ({
+        encoding_in  => "iso-8859-1", # the encoding comes into   Perl
+        encoding_out => "cp1252",     # the encoding comes out of Perl
+    });
+
+    $csv = Text::CSV::Encoded->new ({ encoding  => "utf8" });
+    # combine () and print () accept *literally* utf8 encoded data
+    # parse () and getline () return *literally* utf8 encoded data
+
+    $csv = Text::CSV::Encoded->new ({ encoding  => undef }); # default
+    # combine () and print () accept UTF8 marked data
+    # parse () and getline () return UTF8 marked data
 
 =head1 SPECIFICATION
 
@@ -321,9 +337,10 @@ Currently the following attributes are available:
 
 =item eol
 
-An end-of-line string to add to rows, usually C<undef> (nothing,
-default), C<"\012"> (Line Feed) or C<"\015\012"> (Carriage Return,
-Line Feed). Cannot be longer than 7 (ASCII) characters.
+An end-of-line string to add to rows. C<undef> is replaced with an
+empty string. The default is C<$\>. Common values for C<eol> are
+C<"\012"> (Line Feed) or C<"\015\012"> (Carriage Return, Line Feed).
+Cannot be longer than 7 (ASCII) characters.
 
 If both C<$/> and C<eol> equal C<"\015">, parsing lines that end on
 only a Carriage Return without Line Feed, will be C<parse>d correct.
@@ -339,15 +356,19 @@ Limited to a single-byte character, usually in the range from 0x20
 The separation character can not be equal to the quote character.
 The separation character can not be equal to the escape character.
 
+See also L<Text::CSV_XS/CAVEATS>
+
 =item allow_whitespace
 
 When this option is set to true, whitespace (TAB's and SPACE's)
-surrounding the separation character is removed when parsing. So
-lines like:
+surrounding the separation character is removed when parsing. If
+either TAB or SPACE is one of the three major characters C<sep_char>,
+C<quote_char>, or C<escape_char> it will not be considered whitespace.
 
   1 , "foo" , bar , 3 , zapp
 
 are now correctly parsed, even though it violates the CSV specs.
+
 Note that B<all> whitespace is stripped from start and end of each
 field. That would make is more a I<feature> than a way to be able
 to parse bad CSV lines, as
@@ -426,7 +447,7 @@ doubling the quote mark in a field escapes it:
   "foo","bar","Escape ""quote mark"" with two ""quote marks""","baz"
 
 If you change the default quote_char without changing the default
-escape_char, the escape_char will still be the quote mark.  If instead 
+escape_char, the escape_char will still be the quote mark.  If instead
 you want to escape the quote_char by doubling it, you will need to change
 the escape_char to be the same as what you changed the quote_char to.
 
@@ -518,7 +539,7 @@ is equivalent to
      quote_char          => '"',
      escape_char         => '"',
      sep_char            => ',',
-     eol                 => '',
+     eol                 => $\,
      always_quote        => 0,
      binary              => 0,
      keep_meta_info      => 0,
@@ -623,7 +644,7 @@ methods are meaningless, again.
 
 The C<getline_hr ()> and C<column_names ()> methods work together to allow
 you to have rows returned as hashrefs. You must call C<column_names ()>
-first to declare your column names. 
+first to declare your column names.
 
  $csv->column_names (qw( code name price description ));
  $hr = $csv->getline_hr ($io);
@@ -640,6 +661,16 @@ C<column_names ()> accepts a list of scalars (the column names) or a
 single array_ref, so you can pass C<getline ()>
 
   $csv->column_names ($csv->getline ($io));
+
+C<column_names ()> does B<no> checking on duplicates at all, which might
+lead to unwanted results. Undefined entries will be replaced with the
+string C<"\cAUNDEF\cA">, so
+
+  $csv->column_names (undef, "", "name", "name");
+  $hr = $csv->getline_hr ($io);
+
+Will set C<$hr->{"\cAUNDEF\cA"}> to the 1st field, C<$hr->{""}> to the
+2nd field, and C<$hr->{name}> to the 4th field, discarding the 2rd field.
 
 C<column_names ()> croaks on invalid arguments.
 
@@ -917,28 +948,6 @@ But how about it - calling worker module object?
  }
 
 
-
-=item Simple option
-
- $csv = Text::CSV->simple;
-
-is equivalent to
-
- $csv = Text::CSV->new ({
-     quote_char          => '"',
-     escape_char         => '"',
-     sep_char            => ',',
-     eol                 => '',
-     binary              => 1,
-     allow_loose_quotes  => 1,
-     allow_loose_escapes => 1,
-     allow_whitespace    => 1,
-     blank_is_undef      => 1,
- });
-
-Is it needless?
-
-
 =back
 
 See to L<Text::CSV_XS/TODO> and L<Text::CSV_PP/TODO>.
@@ -946,7 +955,7 @@ See to L<Text::CSV_XS/TODO> and L<Text::CSV_PP/TODO>.
 
 =head1 SEE ALSO
 
-L<Text::CSV_PP(3)> and L<Text::CSV_XS(3)>.
+L<Text::CSV_PP(3)>, L<Text::CSV_XS(3)> and L<Text::CSV::Encoded(3)>.
 
 
 =head1 AUTHORS and MAINTAINERS
@@ -977,17 +986,17 @@ New Text::CSV (since 0.99) is maintained by Makamaka.
 Text::CSV
 
 Copyright (C) 1997 Alan Citterman. All rights reserved.
-Copyright (C) 2007-2008 Makamaka Hannyaharamitu.
+Copyright (C) 2007-2009 Makamaka Hannyaharamitu.
 
 
 Text::CSV_PP:
 
-Copyright (C) 2005-2008 Makamaka Hannyaharamitu.
+Copyright (C) 2005-2009 Makamaka Hannyaharamitu.
 
 
 Text:CSV_XS:
 
-Copyright (C) 2007-2008 H.Merijn Brand for PROCURA B.V.
+Copyright (C) 2007-2009 H.Merijn Brand for PROCURA B.V.
 Copyright (C) 1998-2001 Jochen Wiedmann. All rights reserved.
 Portions Copyright (C) 1997 Alan Citterman. All rights reserved.
 

@@ -11,7 +11,7 @@ use strict;
 use vars qw($VERSION);
 use Carp ();
 
-$VERSION = '1.14';
+$VERSION = '1.19';
 
 sub PV  { 0 }
 sub IV  { 1 }
@@ -25,6 +25,7 @@ my $ERRORS = {
         # PP and XS
         1000 => "INI - constructor failed",
         1001 => "sep_char is equal to quote_char or escape_char",
+        1002 => "INI - allow_whitespace with escape_char or quote_char SP or TAB",
 
         2010 => "ECR - QUO char inside quotes followed by CR not part of EOL",
         2011 => "ECR - Characters after end of quoted field",
@@ -42,6 +43,8 @@ my $ERRORS = {
         2037 => "EIF - Binary character in unquoted field, binary off",
 
         2110 => "ECB - Binary character in Combine, binary off",
+
+        2200 => "EIO - print to IO failed. See errno",
 
         # PP Only Error
         4002 => "EIQ - Unescaped ESC in quoted field",
@@ -67,7 +70,7 @@ my %def_attr = (
     quote_char          => '"',
     escape_char         => '"',
     sep_char            => ',',
-    eol                 => '',
+    eol                 => defined $\ ? $\ : '',
     always_quote        => 0,
     binary              => 0,
     keep_meta_info      => 0,
@@ -148,13 +151,23 @@ sub new {
         $self->{$prop} = $attr->{$prop};
     }
 
+    if ( $self->{allow_whitespace} and
+           ( defined $self->{quote_char}  && $self->{quote_char}  =~ m/^[ \t]$/ ) 
+           ||
+           ( defined $self->{escape_char} && $self->{escape_char} =~ m/^[ \t]$/ )
+    ) {
+       $last_new_error = "INI - allow_whitespace with escape_char or quote_char SP or TAB";
+       return;
+    }
+
+
     $last_new_error = '';
+
+    defined $\ and $self->{eol} = $\;
 
     bless $self, $class;
 
-    if(exists($self->{types})) {
-        $self->types($self->{types});
-    }
+    $self->types( $self->{types} ) if( exists( $self->{types} ) );
 
     return $self;
 }
@@ -360,6 +373,7 @@ sub _parse {
             else {
                 $self->_set_error_diag(
                       $col =~ /\Q$quot\E(.*)\Q$quot\E\r$/   ? (2010, $pos - 2)
+                    : $col =~ /\n/                          ? (2030, $pos - length $col)
                     : $col =~ /^\r/                         ? (2031, $pos - length $col)
                     : $col =~ /\r([^\r]*)/                  ? (2032, $pos - 1 - length $1)
                     : (2037, $pos - length $col) # Binary character in unquoted field, binary off
@@ -378,6 +392,35 @@ sub _parse {
         if ($col =~ $re_quoted) {
             $flag |= IS_QUOTED if ($keep_meta_info);
             $col = $1;
+
+            my $flga_in_quot_esp;
+            while ( $col =~ /$re_in_quot_esp1/g ) {
+                my $str = $1;
+                $flga_in_quot_esp = 1;
+
+                if ($str !~ $re_in_quot_esp2) {
+                    unless ($self->{allow_loose_escapes}) {
+                        $self->_set_error_diag( 2025, $pos - 2 ); # Needless ESC in quoted field
+                        $palatable = 0;
+                        last;
+                    }
+                    else {
+                        $col =~ s/\Q$esc\E(.)/$1/g;
+                    }
+                }
+
+            }
+
+            last unless ( $palatable );
+
+            unless ( $flga_in_quot_esp ) {
+                if ($col =~ /(?<!\Q$esc\E)\Q$esc\E/) {
+                    $self->_set_error_diag( 4002, $pos - 1 ); # No escaped ESC in quoted field
+                    $palatable = 0;
+                    last;
+                }
+            }
+=pod
 
             if ($col =~ $re_in_quot_esp1) {
                 my $str = $1;
@@ -399,6 +442,8 @@ sub _parse {
                     last;
                 }
             }
+
+=cut
 
             $col =~ s{$re_esc}{$1 eq '0' ? "\0" : $1}eg;
 
@@ -478,7 +523,12 @@ sub _parse {
 
 sub _make_regexp_split_column {
     my ($esc, $quot, $sep) = @_;
-    qr/(
+
+    if ( $quot eq '' ) {
+        return qr/([^\Q$sep\E]*)\Q$sep\E/s;
+    }
+
+   qr/(
         \Q$quot\E
             [^\Q$quot$esc\E]*(?:\Q$esc\E[\Q$quot$esc\E0][^\Q$quot$esc\E]*)*
         \Q$quot\E
@@ -492,7 +542,19 @@ sub _make_regexp_split_column {
 
 sub _make_regexp_split_column_allow_sp {
     my ($esc, $quot, $sep) = @_;
-    qr/[\x20\x09]*
+
+    # if separator is space or tab, don't count that separator
+    # as whitespace  --- patched by Mike O'Sullivan
+    my $ws = $sep eq ' '  ? '[\x09]'
+           : $sep eq "\t" ? '[\x20]'
+           : '[\x20\x09]'
+           ;
+
+    if ( $quot eq '' ) {
+        return qr/$ws*([^\Q$sep\E]?)$ws*\Q$sep\E$ws*/s;
+    }
+
+    qr/$ws*
        (
         \Q$quot\E
             [^\Q$quot$esc\E]*(?:\Q$esc\E[\Q$quot$esc\E0][^\Q$quot$esc\E]*)*
@@ -500,7 +562,7 @@ sub _make_regexp_split_column_allow_sp {
         | # or
         [^\Q$sep\E]*?
        )
-       [\x20\x09]*\Q$sep\E[\x20\x09]*
+       $ws*\Q$sep\E$ws*
     /xs;
 }
 ################################################################################
@@ -517,7 +579,9 @@ sub print {
 
     $self->_combine(@$cols) or return '';
 
-    $io->print( $self->_string );
+    local $\ = '';
+
+    $io->print( $self->_string ) or $self->_set_error_diag(2200);
 }
 ################################################################################
 # getline
@@ -589,25 +653,24 @@ sub getline_hr {
 # column_names
 ################################################################################
 sub column_names {
-    my ( $self, @clumns ) = @_;
+    my ( $self, @columns ) = @_;
 
-    @clumns or return defined $self->{_COLUMN_NAMES} ? @{$self->{_COLUMN_NAMES}} : undef;
-    @clumns == 1 && ! defined $clumns[0] and return $self->{_COLUMN_NAMES} = undef;
+    @columns or return defined $self->{_COLUMN_NAMES} ? @{$self->{_COLUMN_NAMES}} : undef;
+    @columns == 1 && ! defined $columns[0] and return $self->{_COLUMN_NAMES} = undef;
 
-    if ( @clumns == 1 && ref $clumns[0] eq "ARRAY" ) {
-        @clumns = @{ $clumns[0] };
+    if ( @columns == 1 && ref $columns[0] eq "ARRAY" ) {
+        @columns = @{ $columns[0] };
     }
-    elsif ( join "", map { defined $_ ? ref $_ : "UNDEF" } @clumns ) {
+    elsif ( join "", map { defined $_ ? ref $_ : "" } @columns ) {
         $self->SetDiag( 3001 );
     }
 
-    if ( $self->{_is_bound} && @clumns != $self->{_is_bound} ) {
+    if ( $self->{_BOUND_COLUMNS} && @columns != @{$self->{_BOUND_COLUMNS}} ) {
         $self->SetDiag( 3003 );
     }
 
-    $self->{_COLUMN_NAMES} = [ @clumns ];
-
-    @clumns;
+    $self->{_COLUMN_NAMES} = [ map { defined $_ ? $_ : "\cAUNDEF\cA" } @columns ];
+    @{ $self->{_COLUMN_NAMES} };
 }
 ################################################################################
 # bind_columns
@@ -709,11 +772,11 @@ sub _set_error_diag {
 ################################################################################
 
 BEGIN {
-    for my $method (qw/quote_char escape_char sep_char eol always_quote binary allow_whitespace
+    for my $method (qw/sep_char always_quote binary
                         keep_meta_info allow_loose_quotes allow_loose_escapes verbatim blank_is_undef/) {
         eval qq|
             sub $method {
-                \$_[0]->{$method} = \$_[1] if (\@_ > 1);
+                \$_[0]->{$method} = defined \$_[1] ? \$_[1] : 0 if (\@_ > 1);
                 \$_[0]->{$method};
             }
         |;
@@ -721,9 +784,53 @@ BEGIN {
 }
 
 
+sub quote_char {
+    my $self = shift;
+    if ( @_ ) {
+        my $qc = shift;
+        defined $qc && $qc =~ m/^[ \t]$/ && $self->{allow_whitespace} and Carp::croak( $self->SetDiag(1002) );
+        $self->{quote_char} = $qc;
+    }
+    $self->{quote_char};
+}
+
+
+sub escape_char {
+    my $self = shift;
+    if ( @_ ) {
+        my $es = shift;
+        defined $es && $es =~ m/^[ \t]$/ && $self->{allow_whitespace} and Carp::croak( $self->SetDiag(1002) );
+        $self->{escape_char} = $es;
+    }
+    $self->{escape_char};
+}
+
+
+sub allow_whitespace {
+    my $self = shift;
+    if ( @_ ) {
+        my $aw = shift;
+        $aw and
+            (defined $self->{quote_char}  && $self->{quote_char}  =~ m/^[ \t]$/) ||
+            (defined $self->{escape_char} && $self->{escape_char} =~ m/^[ \t]$/)
+                and Carp::croak ($self->SetDiag (1002));
+        $self->{allow_whitespace} = $aw;
+    }
+    $self->{allow_whitespace};
+}
+
+
+sub eol {
+    $_[0]->{eol} = defined $_[1] ? $_[1] : '' if ( @_ > 1 );
+    $_[0]->{eol};
+}
+
+
 sub SetDiag {
     if ( defined $_[1] and $_[1] == 0 ) {
         $_[0]->{_ERROR_DIAG} = undef;
+        $last_new_error = '';
+        return;
     }
 
     $_[0]->_set_error_diag( $_[1] );
@@ -829,9 +936,10 @@ Currently the following attributes are available:
 
 =item eol
 
-An end-of-line string to add to rows, usually C<undef> (nothing,
-default), C<"\012"> (Line Feed) or C<"\015\012"> (Carriage Return,
-Line Feed). Cannot be longer than 7 (ASCII) characters.
+An end-of-line string to add to rows. C<undef> is replaced with an
+empty string. The default is C<$\>. Common values for C<eol> are
+C<"\012"> (Line Feed) or C<"\015\012"> (Carriage Return, Line Feed).
+Cannot be longer than 7 (ASCII) characters.
 
 If both C<$/> and C<eol> equal C<"\015">, parsing lines that end on
 only a Carriage Return without Line Feed, will be C<parse>d correct.
@@ -847,15 +955,21 @@ Limited to a single-byte character, usually in the range from 0x20
 The separation character can not be equal to the quote character.
 The separation character can not be equal to the escape character.
 
+See also L<Text::CSV_XS/CAVEATS>
+
 =item allow_whitespace
 
 When this option is set to true, whitespace (TAB's and SPACE's)
-surrounding the separation character is removed when parsing. So
-lines like:
+surrounding the separation character is removed when parsing. If
+either TAB or SPACE is one of the three major characters C<sep_char>,
+C<quote_char>, or C<escape_char> it will not be considered whitespace.
+
+So lines like:
 
   1 , "foo" , bar , 3 , zapp
 
 are now correctly parsed, even though it violates the CSV specs.
+
 Note that B<all> whitespace is stripped from start and end of each
 field. That would make is more a I<feature> than a way to be able
 to parse bad CSV lines, as
@@ -934,7 +1048,7 @@ doubling the quote mark in a field escapes it:
   "foo","bar","Escape ""quote mark"" with two ""quote marks""","baz"
 
 If you change the default quote_char without changing the default
-escape_char, the escape_char will still be the quote mark.  If instead 
+escape_char, the escape_char will still be the quote mark.  If instead
 you want to escape the quote_char by doubling it, you will need to change
 the escape_char to be the same as what you changed the quote_char to.
 
@@ -1026,7 +1140,7 @@ is equivalent to
      quote_char          => '"',
      escape_char         => '"',
      sep_char            => ',',
-     eol                 => '',
+     eol                 => $\,
      always_quote        => 0,
      binary              => 0,
      keep_meta_info      => 0,
@@ -1131,7 +1245,7 @@ methods are meaningless, again.
 
 The C<getline_hr ()> and C<column_names ()> methods work together to allow
 you to have rows returned as hashrefs. You must call C<column_names ()>
-first to declare your column names. 
+first to declare your column names.
 
  $csv->column_names (qw( code name price description ));
  $hr = $csv->getline_hr ($io);
@@ -1148,6 +1262,16 @@ C<column_names ()> accepts a list of scalars (the column names) or a
 single array_ref, so you can pass C<getline ()>
 
   $csv->column_names ($csv->getline ($io));
+
+C<column_names ()> does B<no> checking on duplicates at all, which might
+lead to unwanted results. Undefined entries will be replaced with the
+string C<"\cAUNDEF\cA">, so
+
+  $csv->column_names (undef, "", "name", "name");
+  $hr = $csv->getline_hr ($io);
+
+Will set C<$hr->{"\cAUNDEF\cA"}> to the 1st field, C<$hr->{""}> to the
+2nd field, and C<$hr->{name}> to the 4th field, discarding the 2rd field.
 
 C<column_names ()> croaks on invalid arguments.
 
@@ -1336,6 +1460,11 @@ Currently these errors are available:
 The separation character cannot be equal to either the quotation character
 or the escape character, as that will invalidate all parsing rules.
 
+=item 1002 "INI - allow_whitespace with escape_char or quote_char SP or TAB"
+
+Using C<allow_whitespace> when either C<escape_char> or C<quote_char> is
+equal to SPACE or TAB is too ambiguous to allow.
+
 =item 2010 "ECR - QUO char inside quotes followed by CR not part of EOL"
 
 =item 2011 "ECR - Characters after end of quoted field"
@@ -1350,7 +1479,7 @@ or the escape character, as that will invalidate all parsing rules.
 
 =item 2027 "EIQ - Quoted field not terminated"
 
-=item 2030 "EIF - NL char inside unquoted verbatim, binary off",
+=item 2030 "EIF - NL char inside unquoted verbatim, binary off"
 
 =item 2031 "EIF - CR char is first char of field, not part of EOL",
 
@@ -1361,6 +1490,8 @@ or the escape character, as that will invalidate all parsing rules.
 =item 2037 "EIF - Binary character in unquoted field, binary off",
 
 =item 2110 "ECB - Binary character in Combine, binary off"
+
+=item 2200 "EIO - print to IO failed. See errno"
 
 =item 4002 "EIQ - Unescaped ESC in quoted field"
 
@@ -1396,7 +1527,7 @@ Text::CSV was written by E<lt>alan[at]mfgrtl.comE<gt>.
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2005-2008 by Makamaka Hannyaharamitu, E<lt>makamaka[at]cpan.orgE<gt>
+Copyright 2005-2009 by Makamaka Hannyaharamitu, E<lt>makamaka[at]cpan.orgE<gt>
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself. 
