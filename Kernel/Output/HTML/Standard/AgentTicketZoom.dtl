@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.53 2009-03-25 20:08:43 sb Exp $
+# $Id: AgentTicketZoom.dtl,v 1.54 2009-03-30 10:00:32 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -187,8 +187,11 @@ $Data{"Body"}
             var Dom = YAHOO.util.Dom;
             var iframe = new YAHOO.util.Element('iframe');
             var newHeight = iframe.get('element').contentWindow.document.body.scrollHeight;
-            if ( !newHeight )  {
-            newHeight = '500';
+            if ( !newHeight || isNaN( newHeight ) ) {
+            newHeight = $Config{"Ticket::Frontend::HTMLArticleHeightDefault"};
+            }
+            else if ( newHeight > $Config{"Ticket::Frontend::HTMLArticleHeightMax"} ) {
+            newHeight = $Config{"Ticket::Frontend::HTMLArticleHeightMax"};
             }
             Dom.setStyle(iframe, 'height', newHeight);
             }
