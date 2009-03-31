@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.70 2009-02-16 11:49:55 tr Exp $
+# $Id: DB.pm,v 1.71 2009-03-31 05:51:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Encode;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -720,7 +720,8 @@ sub CustomerUserUpdate {
 sub SetPassword {
     my ( $Self, %Param ) = @_;
 
-    my $Pw = $Param{PW} || '';
+    my $Login = $Param{UserLogin};
+    my $Pw    = $Param{PW} || '';
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
@@ -752,9 +753,9 @@ sub SetPassword {
 
             # encode output, needed by crypt() only non utf8 signs
             $Self->{EncodeObject}->EncodeOutput( \$Pw );
-            $Self->{EncodeObject}->EncodeOutput( \$Param{UserLogin} );
+            $Self->{EncodeObject}->EncodeOutput( \$Login );
 
-            $CryptedPw = crypt( $Pw, $Param{UserLogin} );
+            $CryptedPw = crypt( $Pw, $UserLogin );
         }
         else {
             $Self->{LogObject}->Log(
@@ -762,7 +763,7 @@ sub SetPassword {
                 Message =>
                     'The crypt() of your mod_perl(2) is not working correctly! Update mod_perl!',
             );
-            my $TempUser = quotemeta( $Param{UserLogin} );
+            my $TempUser = quotemeta( $Login );
             my $TempPw   = quotemeta($Pw);
             my $CMD      = "perl -e \"print crypt('$TempPw', '$TempUser');\"";
             open( IO, " $CMD | " ) || print STDERR "Can't open $CMD: $!";
@@ -779,9 +780,10 @@ sub SetPassword {
 
         # encode output, needed by unix_md5_crypt() only non utf8 signs
         $Self->{EncodeObject}->EncodeOutput( \$Pw );
-        $Self->{EncodeObject}->EncodeOutput( \$Param{UserLogin} );
+        $Self->{EncodeObject}->EncodeOutput( \$Login );
 
-        $CryptedPw = unix_md5_crypt( $Pw, $Param{UserLogin} );
+        $CryptedPw = unix_md5_crypt( $Pw, $UserLogin );
+        $Self->{EncodeObject}->EncodeOutput( \$CryptedPw );
     }
 
     # update db
