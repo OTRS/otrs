@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth/DB.pm - provides the db authentification
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.25 2009-02-16 11:49:56 tr Exp $
+# $Id: DB.pm,v 1.26 2009-03-31 06:05:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -104,10 +104,7 @@ sub Auth {
     my $GetPw      = '';
 
     # sql query
-    my $SQL = "SELECT $Self->{Pw}, $Self->{Key}"
-        . " FROM "
-        . " $Self->{Table} "
-        . " WHERE "
+    my $SQL = "SELECT $Self->{Pw}, $Self->{Key} FROM $Self->{Table} WHERE "
         . " $Self->{Key} = '" . $Self->{DBObject}->Quote($User) . "'";
     $Self->{DBObject}->Prepare( SQL => $SQL );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -155,7 +152,7 @@ sub Auth {
 
         # and do this check only in such case (unfortunately there is a mod_perl2
         # bug on RH8 - check if crypt() is working correctly) :-/
-        if ( ( $Salt =~ /^\$\d\$/ ) || ( crypt( 'root', 'root@localhost' ) eq 'roK20XGbWEsSM' ) ) {
+        if ( $Salt =~ /^\$\d\$/ || ( crypt( 'root', 'root@localhost' ) eq 'roK20XGbWEsSM' ) ) {
             $Self->{EncodeObject}->EncodeOutput( \$Pw );
             $Self->{EncodeObject}->EncodeOutput( \$Salt );
 
@@ -200,7 +197,7 @@ sub Auth {
     }
 
     # login note
-    elsif ( ( ($GetPw) && ($User) && ($UserID) ) && $CryptedPw eq $GetPw ) {
+    elsif ( ( $GetPw && $User && $UserID ) && $CryptedPw eq $GetPw ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message  => "CustomerUser: $User authentification ok (REMOTE_ADDR: $RemoteAddr).",
@@ -209,7 +206,7 @@ sub Auth {
     }
 
     # just a note
-    elsif ( ($UserID) && ($GetPw) ) {
+    elsif ( $UserID && $GetPw ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message =>
