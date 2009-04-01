@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.851 2009-04-01 12:04:45 ub Exp $
+# $Id: CHANGES,v 1.852 2009-04-01 12:20:45 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,10 @@
 # --
 
 2.4.0 beta1 (2009/??/??)
+ - (2009/04/01) Implement enhancement/bug# 3527 - the input fields at the
+   restrictions of the stats module now allow the use of wildcards at the
+   beginning and end of a word (e.g. 'huber*'). This is now the same behavior
+   as in GenericAgent. But not the behavior of the TicketSearch.
  - (2009/03/30) Updated CPAN module Authen::SASL to version 2.12.
  - (2009/03/30) Updated CPAN module Text::CSV to version 1.11.
  - (2009/03/30) Updated CPAN module File::Temp to version 0.21.
