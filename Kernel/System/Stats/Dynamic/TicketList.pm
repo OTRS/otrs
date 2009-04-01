@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/TicketList.pm - reporting via ticket lists
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketList.pm,v 1.6 2009-03-27 17:35:32 mh Exp $
+# $Id: TicketList.pm,v 1.7 2009-04-01 12:17:42 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -600,8 +600,8 @@ sub GetStatTable {
         # don't be irritated of the mixture OrderBy <> Sort and SortBy <> OrderBy
         # the meaning is in TicketSearch is different as in common handling
         $Param{Restrictions}{OrderBy} = $Sort;
-        $Param{Restrictions}{SortBy}  = $OrderBy;
-        $Param{Restrictions}{Limit}   = $Limit eq 'unlimited' ? 100_000_000 : $Limit;
+        $Param{Restrictions}{SortBy}  = $OrderByIsValueOfTicketSearchSort;
+        $Param{Restrictions}{Limit}   = !$Limit || $Limit eq 'unlimited' ? 100_000_000 : $Limit;
     }
     else {
         $Param{Restrictions}{Limit} = 100_000_000;
