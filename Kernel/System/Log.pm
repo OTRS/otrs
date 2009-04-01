@@ -2,7 +2,7 @@
 # Kernel/System/Log.pm - log wapper
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Log.pm,v 1.50 2009-03-18 18:49:09 martin Exp $
+# $Id: Log.pm,v 1.51 2009-04-01 14:11:35 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 =head1 NAME
 
@@ -86,14 +86,18 @@ sub new {
     # create the IPC options
     $Self->{IPC}     = 1;
     $Self->{IPCKey}  = '444423' . $SystemID;
-    $Self->{IPCSize} = $Param{ConfigObject}->Get('LogSystemCacheSize') || 4 * 1024;
+    $Self->{IPCSize} = $Param{ConfigObject}->Get('LogSystemCacheSize') || 160 * 1024;
 
     # init session data mem (at first a dummy for RH8 workaround)
     my $DummyIPCKey = '444424' . $SystemID;
     shmget( $DummyIPCKey, 1, oct(1777) );
 
     # init session data mem (the real one)
-    $Self->{Key} = shmget( $Self->{IPCKey}, $Self->{IPCSize}, oct(1777) ) || die $!;
+    if (!eval {$Self->{Key} = shmget( $Self->{IPCKey}, $Self->{IPCSize}, oct(1777) )}) {
+        $Self->{Key} = shmget( $Self->{IPCKey}, 1, oct(1777) );
+        $Self->CleanUp();
+        $Self->{Key} = shmget( $Self->{IPCKey}, $Self->{IPCSize}, oct(1777) )
+    }
 
     return $Self;
 }
@@ -300,6 +304,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.50 $ $Date: 2009-03-18 18:49:09 $
+$Revision: 1.51 $ $Date: 2009-04-01 14:11:35 $
 
 =cut

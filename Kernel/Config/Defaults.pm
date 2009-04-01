@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.308 2009-03-12 14:29:04 tr Exp $
+# $Id: Defaults.pm,v 1.309 2009-04-01 14:11:35 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.308 $) [1];
+$VERSION = qw($Revision: 1.309 $) [1];
 
 sub LoadDefaults {
     my ($Self) = @_;
@@ -276,10 +276,7 @@ sub LoadDefaults {
 #    $Self->{'LogModule::LogFile::Date'} = 0;
 
     # system log cache size for admin system log (default 4k)
-    # Note: use bin/CleanUp.pl before you change this
-    # Note: this configuration is not useable in SysConfig
-    #       for more information see FAQ# 4200111 and FAQ# 4200110
-#    $Self->{'LogSystemCacheSize'} = 4*1024;
+    # $Self->{'LogSystemCacheSize'} = 160*1024;
 
     # --------------------------------------------------- #
     # SendmailModule
@@ -2374,6 +2371,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.308 $ $Date: 2009-03-12 14:29:04 $
+$Revision: 1.309 $ $Date: 2009-04-01 14:11:35 $
 
 =cut
