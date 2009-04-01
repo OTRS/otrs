@@ -2,7 +2,7 @@
 # Kernel/System/Log/File.pm - file log backend
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: File.pm,v 1.19 2009-04-01 08:57:53 martin Exp $
+# $Id: File.pm,v 1.20 2009-04-01 09:06:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 umask "002";
 
@@ -65,7 +65,7 @@ sub Log {
     my $FH;
 
     # open logfile
-    if ( open $FH, '>>', $Self->{LogFile} ) {
+    if ( !open $FH, '>>', $Self->{LogFile} ) {
 
         # print error screen
         print STDERR "\n";
