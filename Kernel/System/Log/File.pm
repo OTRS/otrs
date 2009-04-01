@@ -2,7 +2,7 @@
 # Kernel/System/Log/File.pm - file log backend
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: File.pm,v 1.18 2009-02-16 11:48:19 tr Exp $
+# $Id: File.pm,v 1.19 2009-04-01 08:57:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 umask "002";
 
@@ -25,6 +25,16 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
+
+    # get needed objects
+    for (qw(ConfigObject EncodeObject)) {
+        if ( $Param{$_} ) {
+            $Self->{$_} = $Param{$_};
+        }
+        else {
+            die "Got no $_!";
+        }
+    }
 
     # get logfile location
     $Self->{LogFile} = $Param{ConfigObject}->Get('LogModule::LogFile')
@@ -56,42 +66,43 @@ sub Log {
 
     # open logfile
     if ( open $FH, '>>', $Self->{LogFile} ) {
-        print $FH '[' . localtime() . ']';
-        if ( $Param{Priority} =~ /debug/i ) {
-            print $FH "[Debug][$Param{Module}][$Param{Line}] $Param{Message}\n";
-        }
-        elsif ( $Param{Priority} =~ /info/i ) {
-            print $FH "[Info][$Param{Module}] $Param{Message}\n";
-        }
-        elsif ( $Param{Priority} =~ /notice/i ) {
-            print $FH "[Notice][$Param{Module}] $Param{Message}\n";
-        }
-        elsif ( $Param{Priority} =~ /error/i ) {
 
-            # print error messages to $FH
-            print $FH "[Error][$Param{Module}][$Param{Line}] $Param{Message}\n";
-        }
-        else {
-
-            # print error messages to STDERR
-            print STDERR
-                "[Error][$Param{Module}] Priority: '$Param{Priority}' not defined! Message: $Param{Message}\n";
-
-            # and of course to logfile
-            print $FH
-                "[Error][$Param{Module}] Priority: '$Param{Priority}' not defined! Message: $Param{Message}\n";
-        }
-
-        # close file handle
-        close $FH;
-        return 1;
+        # print error screen
+        print STDERR "\n";
+        print STDERR " >> Can't write $Self->{LogFile}: $! <<\n";
+        print STDERR "\n";
+        return;
     }
 
-    # print error screen
-    print STDERR "\n";
-    print STDERR " >> Can't write $Self->{LogFile}: $! <<\n";
-    print STDERR "\n";
-    return;
+    # write log file
+    $Self->{EncodeObject}->SetIO( $FH );
+    print $FH '[' . localtime() . ']';
+    if ( $Param{Priority} =~ /^debug/i ) {
+        print $FH "[Debug][$Param{Module}][$Param{Line}] $Param{Message}\n";
+    }
+    elsif ( $Param{Priority} =~ /^info/i ) {
+        print $FH "[Info][$Param{Module}] $Param{Message}\n";
+    }
+    elsif ( $Param{Priority} =~ /^notice/i ) {
+        print $FH "[Notice][$Param{Module}] $Param{Message}\n";
+    }
+    elsif ( $Param{Priority} =~ /^error/i ) {
+        print $FH "[Error][$Param{Module}][$Param{Line}] $Param{Message}\n";
+    }
+    else {
+
+        # print error messages to STDERR
+        print STDERR
+            "[Error][$Param{Module}] Priority: '$Param{Priority}' not defined! Message: $Param{Message}\n";
+
+        # and of course to logfile
+        print $FH
+            "[Error][$Param{Module}] Priority: '$Param{Priority}' not defined! Message: $Param{Message}\n";
+    }
+
+    # close file handle
+    close $FH;
+    return 1;
 }
 
 1;
