@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.376 2009-04-01 15:21:24 mh Exp $
+# $Id: Ticket.pm,v 1.377 2009-04-01 16:13:34 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.376 $) [1];
+$VERSION = qw($Revision: 1.377 $) [1];
 
 =head1 NAME
 
@@ -6259,9 +6259,11 @@ sub HistoryDelete {
     my $ArticleIDString = join q{, }, @ArticleIDs;
 
     # delete article history entries from db
-    return if !$Self->{DBObject}->Do(
-        SQL => "DELETE FROM ticket_history WHERE article_id IN ($ArticleIDString)",
-    );
+    if ($ArticleIDString) {
+        return if !$Self->{DBObject}->Do(
+            SQL => "DELETE FROM ticket_history WHERE article_id IN ($ArticleIDString)",
+        );
+    }
 
     # ticket event
     $Self->TicketEventHandlerPost(
@@ -7155,6 +7157,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.376 $ $Date: 2009-04-01 15:21:24 $
+$Revision: 1.377 $ $Date: 2009-04-01 16:13:34 $
 
 =cut
