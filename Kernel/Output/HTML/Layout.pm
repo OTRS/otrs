@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.133 2009-03-30 14:52:02 sb Exp $
+# $Id: Layout.pm,v 1.134 2009-04-01 11:22:04 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.133 $) [1];
+$VERSION = qw($Revision: 1.134 $) [1];
 
 =head1 NAME
 
@@ -3639,58 +3639,6 @@ sub BuildDateSelection {
     return $Output;
 }
 
-=item OutputCSV()
-
-returns a csv based on a array
-
-    $CSV = $LayoutObject->OutputCSV(
-        Head => ['RowA', 'RowB', ],
-        Data => [
-            [1,4],
-            [7,3],
-            [1,9],
-            [34,4],
-        ],
-    );
-
-=cut
-
-sub OutputCSV {
-    my ( $Self, %Param ) = @_;
-
-    my $Output = '';
-    my @Head   = ('##No Head Data##');
-    if ( $Param{Head} ) {
-        @Head = @{ $Param{Head} };
-    }
-    my @Data = ( ['##No Data##'] );
-    if ( $Param{Data} ) {
-        @Data = @{ $Param{Data} };
-    }
-    for my $Entry (@Head) {
-
-        # header language translation
-        $Entry = $Self->{LanguageObject}->Get($Entry);
-
-        # csv quote
-        $Entry =~ s/"/""/g if ($Entry);
-        $Entry = '' if ( !defined $Entry );
-        $Output .= "\"$Entry\";";
-    }
-    $Output .= "\n";
-    for my $EntryRow (@Data) {
-        for my $Entry ( @{$EntryRow} ) {
-
-            # csv quote
-            $Entry =~ s/"/""/g if ($Entry);
-            $Entry = '' if ( !defined $Entry );
-            $Output .= "\"$Entry\";";
-        }
-        $Output .= "\n";
-    }
-    return $Output;
-}
-
 =item OutputHTMLTable()
 
 returns a html table based on a array
@@ -4198,6 +4146,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.133 $ $Date: 2009-03-30 14:52:02 $
+$Revision: 1.134 $ $Date: 2009-04-01 11:22:04 $
 
 =cut
