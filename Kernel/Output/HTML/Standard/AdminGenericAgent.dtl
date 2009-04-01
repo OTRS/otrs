@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.41 2009-03-20 18:26:41 martin Exp $
+# $Id: AdminGenericAgent.dtl,v 1.42 2009-04-01 09:00:32 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -545,10 +545,7 @@
               </table>
             </td>
             <td class="contentbody">
-              $Text{"Send no notifications"}: $Data{"SendNoNotificationOption"}
-              <br/>
-              $Text{"Yes means, send no agent and customer notifications on changes."}
-              $Text{"No means, send agent and customer notifications on changes."}
+              $Text{"Send agent/customer notifications on changes"}: $Data{"SendNoNotificationOption"}
             </td>
           </tr>
           <tr>

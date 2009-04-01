@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.61 2009-03-20 18:26:41 martin Exp $
+# $Id: AdminGenericAgent.pm,v 1.62 2009-04-01 09:00:32 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -869,8 +869,15 @@ sub Run {
             SelectedID => $Param{NewLockID},
         );
 
+        # REMARK: we changed the wording "Send no notifications" to
+        # "Send agent/customer notifications on changes" in frontend.
+        # But the backend code is still the same (compatiblity).
+        # Because of this case we changed 1=>'Yes' to 1=>'No'
         $Param{SendNoNotificationOption} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
+            Data => {
+                '1' => 'No',
+                '0' => 'Yes'
+            },
             Name       => 'NewSendNoNotification',
             SelectedID => $Param{NewSendNoNotification} || 0,
         );
