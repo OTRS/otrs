@@ -1,12 +1,12 @@
 # --
 # Kernel/Modules/AgentTicketPhoneOutbound.pm - to handle phone calls
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.pm,v 1.18 2008-05-08 09:36:37 mh Exp $
+# $Id: AgentTicketPhoneOutbound.pm,v 1.18.2.1 2009-04-01 12:59:44 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 package Kernel::Modules::AgentTicketPhoneOutbound;
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.18.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -209,6 +209,15 @@ sub Run {
             }
         }
 
+        # get default selections
+        my %TicketFreeDefault = ();
+        for ( 1 .. 16 ) {
+            $TicketFreeDefault{ 'TicketFreeKey' . $_ } = $GetParam{ 'TicketFreeKey' . $_ }
+                || $Self->{ConfigObject}->Get( 'TicketFreeKey' . $_ . '::DefaultSelection' );
+            $TicketFreeDefault{ 'TicketFreeText' . $_ } = $GetParam{ 'TicketFreeText' . $_ }
+                || $Self->{ConfigObject}->Get( 'TicketFreeText' . $_ . '::DefaultSelection' );
+        }
+
         # get free text config options
         my %TicketFreeText = ();
         for ( 1 .. 16 ) {
@@ -226,7 +235,10 @@ sub Run {
             );
         }
         my %TicketFreeTextHTML = $Self->{LayoutObject}->AgentFreeText(
-            Ticket => \%Ticket,
+            Ticket => {
+                %Ticket,
+                %TicketFreeDefault,
+            },
             Config => \%TicketFreeText,
         );
 
