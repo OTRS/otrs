@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.860 2009-04-01 14:48:27 ub Exp $
+# $Id: CHANGES,v 1.861 2009-04-01 15:08:30 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,17 +10,19 @@
 # --
 
 2.4.0 beta1 (2009/??/??)
+ - (2009/04/01) Fixed bug# 2296 - Enable/disable "blinking queue" in QueueView
+    via SysConfig.
  - (2009/04/01) Fixed bug# 3641 - AgentTicketCustomer totally broken in CVS.
  - (2009/04/01) When merging tickets, assign article based ticket history
-   entries to the merged ticket as well.
+    entries to the merged ticket as well.
  - (2009/04/01) Implemented enhancement/bug# 3333 - Increased the memory of
-   the shared memory used for SystemLog.
+    the shared memory used for SystemLog.
  - (2009/04/01) Fixed bug# 3737 - Non-ascii characters in filenames of outbound
-   email attachments are not quoted.
+    email attachments are not quoted.
  - (2009/04/01) Implement enhancement/bug# 3527 - the input fields at the
-   restrictions of the stats module now allow the use of wildcards at the
-   beginning and end of a word (e.g. 'huber*'). This is now the same behavior
-   as in GenericAgent. But not the behavior of the TicketSearch.
+    restrictions of the stats module now allow the use of wildcards at the
+    beginning and end of a word (e.g. 'huber*'). This is now the same behavior
+    as in GenericAgent. But not the behavior of the TicketSearch.
  - (2009/03/30) Updated CPAN module Authen::SASL to version 2.12.
  - (2009/03/30) Updated CPAN module Text::CSV to version 1.11.
  - (2009/03/30) Updated CPAN module File::Temp to version 0.21.

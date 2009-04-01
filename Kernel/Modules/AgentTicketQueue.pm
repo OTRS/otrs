@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.64 2009-02-16 11:20:53 tr Exp $
+# $Id: AgentTicketQueue.pm,v 1.65 2009-04-01 15:08:31 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Lock;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -246,6 +246,7 @@ sub _MaskQueueView {
     $Self->{HighlightAge2}   = $Self->{Config}->{HighlightAge2};
     $Self->{HighlightColor1} = $Self->{Config}->{HighlightColor1};
     $Self->{HighlightColor2} = $Self->{Config}->{HighlightColor2};
+    $Self->{Blink}           = $Self->{Config}->{Blink};
 
     $Param{SelectedQueue} = $AllQueues{$QueueID} || $CustomQueue;
     my @MetaQueue = split( /::/, $Param{SelectedQueue} );
@@ -359,7 +360,7 @@ sub _MaskQueueView {
         }
 
         # the oldest queue
-        if ( $Queue{QueueID} == $QueueIDOfMaxAge ) {
+        if ( $Queue{QueueID} == $QueueIDOfMaxAge && $Self->{Blink} ) {
             $QueueStrg .= "<blink>";
         }
 
@@ -368,7 +369,7 @@ sub _MaskQueueView {
             . " ($Counter{$Queue{Queue}})";
 
         # the oldest queue
-        if ( $Queue{QueueID} == $QueueIDOfMaxAge ) {
+        if ( $Queue{QueueID} == $QueueIDOfMaxAge  && $Self->{Blink} ) {
             $QueueStrg .= "</blink>";
         }
 
