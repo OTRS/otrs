@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.850 2009-04-01 11:58:05 mh Exp $
+# $Id: CHANGES,v 1.851 2009-04-01 12:04:45 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -125,6 +125,8 @@
 2.3.5 (2009/??/??)
  - (2009/04/01) Fixed bug# 3257 - otrs.checkModules incorrectly states DBD:mysql
     is required.
+ - (2009/04/01) Fixed bug# 3739 - Customer can not logon to the Customer
+    Interface if ShowAgentOnline is used.
  - (2009/04/01) Fixed bug# 3404 - PendingJobs.pl doesn't unlock the closed
     tickets.
  - (2009/04/01) Fixed bug# 3745 - German umlaut in customer login_id breaks
