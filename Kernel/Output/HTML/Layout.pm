@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.134 2009-04-01 11:22:04 tr Exp $
+# $Id: Layout.pm,v 1.135 2009-04-01 11:55:14 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.134 $) [1];
+$VERSION = qw($Revision: 1.135 $) [1];
 
 =head1 NAME
 
@@ -3936,10 +3936,12 @@ sub CustomerNavigationBar {
             my $Object = $Jobs{$Job}->{Module}->new(
                 ConfigObject   => $Self->{ConfigObject},
                 LogObject      => $Self->{LogObject},
+                MainObject     => $Self->{MainObject},
                 DBObject       => $Self->{DBObject},
                 TimeObject     => $Self->{TimeObject},
                 UserTimeObject => $Self->{UserTimeObject},
                 LayoutObject   => $Self,
+                EncodeObject   => $Self->{EncodeObject},
                 UserID         => $Self->{UserID},
                 Debug          => $Self->{Debug},
             );
@@ -4146,6 +4148,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.134 $ $Date: 2009-04-01 11:22:04 $
+$Revision: 1.135 $ $Date: 2009-04-01 11:55:14 $
 
 =cut
