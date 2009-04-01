@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.377 2009-04-01 16:13:34 mh Exp $
+# $Id: Ticket.pm,v 1.378 2009-04-01 18:52:38 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.377 $) [1];
+$VERSION = qw($Revision: 1.378 $) [1];
 
 =head1 NAME
 
@@ -3574,6 +3574,41 @@ sub TicketSearch {
         return;
     }
 
+    # check types of given arguments
+    ARGUMENT:
+    for my $Argument ( qw(
+        Types TypeIDs CreatedTypes CreatedTypeIDs States StateIDs CreatedStates CreatedStateIDs StateTypeIDs
+        Locks LockIDs OwnerIDs ResponsibleIDs CreatedUserIDs Queues QueueIDs CreatedQueues CreatedQueueIDs
+        Priorities PriorityIDs CreatedPriorities CreatedPriorityIDs Services ServiceIDs SLAs SLAIDs WatchUserIDs
+    ) ) {
+
+        next ARGUMENT if !$Param{$Argument};
+        next ARGUMENT if ref $Param{$Argument} eq 'ARRAY' && @{ $Param{$Argument} };
+
+        # log error
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "The given param '$Argument' is invalid or an empty array reference!",
+        );
+
+        return;
+    }
+
+    # quote the array elements
+    ARGUMENT:
+    for my $Argument ( qw(
+        TypeIDs CreatedTypeIDs StateIDs CreatedStateIDs StateTypeIDs LockIDs OwnerIDs ResponsibleIDs CreatedUserIDs
+        QueueIDs CreatedQueueIDs PriorityIDs CreatedPriorityIDs ServiceIDs SLAIDs WatchUserIDs
+    ) ) {
+
+        next ARGUMENT if !$Param{$Argument};
+
+        # quote elements
+        for my $Element ( @{$Argument} ) {
+            $Self->{DBObject}->Quote($Element, 'Integer');
+        }
+    }
+
     # check sort/order by options
     my @SortByArray;
     my @OrderByArray;
@@ -3636,7 +3671,7 @@ sub TicketSearch {
     $SQLExt = ' WHERE sq.id = st.queue_id' . $SQLExt;
 
     # current type lookup
-    if ( $Param{Types} && ref $Param{Types} eq 'ARRAY' ) {
+    if ( $Param{Types} ) {
         for ( @{ $Param{Types} } ) {
             if ( $Self->{TypeObject}->TypeLookup( Type => $_ ) ) {
                 push( @{ $Param{TypeIDs} }, $Self->{TypeObject}->TypeLookup( Type => $_ ) );
@@ -3648,21 +3683,21 @@ sub TicketSearch {
     }
 
     # type ids
-    if ( $Param{TypeIDs} && ref $Param{TypeIDs} eq 'ARRAY' ) {
+    if ( $Param{TypeIDs} ) {
         $SQLExt .= ' AND st.type_id IN (';
         my $Exists = 0;
         for ( sort { $a <=> $b } @{ $Param{TypeIDs} } ) {
             if ($Exists) {
                 $SQLExt .= ',';
             }
-            $SQLExt .= $Self->{DBObject}->Quote($_);
+            $SQLExt .= $_;
             $Exists = 1;
         }
         $SQLExt .= ')';
     }
 
     # created types lookup
-    if ( $Param{CreatedTypes} && ref $Param{CreatedTypes} eq 'ARRAY' ) {
+    if ( $Param{CreatedTypes} ) {
         for ( @{ $Param{CreatedTypes} } ) {
             if ( $Self->{TypeObject}->TypeLookup( Type => $_ ) ) {
                 push( @{ $Param{CreatedTypeIDs} }, $Self->{TypeObject}->TypeLookup( Type => $_ ) );
@@ -3674,7 +3709,7 @@ sub TicketSearch {
     }
 
     # created type ids
-    if ( $Param{CreatedTypeIDs} && ref $Param{CreatedTypeIDs} eq 'ARRAY' ) {
+    if ( $Param{CreatedTypeIDs} ) {
         my $ID = $Self->HistoryTypeLookup( Type => 'NewTicket' );
         if ($ID) {
             $SQLExt .= ' AND th.type_id IN (';
@@ -3683,7 +3718,7 @@ sub TicketSearch {
                 if ($Exists) {
                     $SQLExt .= ',';
                 }
-                $SQLExt .= $Self->{DBObject}->Quote($_);
+                $SQLExt .= $_;
                 $Exists = 1;
             }
             $SQLExt .= ") AND th.history_type_id = $ID ";
@@ -3691,7 +3726,7 @@ sub TicketSearch {
     }
 
     # current state lookup
-    if ( $Param{States} && ref $Param{States} eq 'ARRAY' ) {
+    if ( $Param{States} ) {
         for ( @{ $Param{States} } ) {
             my %State = $Self->{StateObject}->StateGet( Name => $_ );
             if ( $State{ID} ) {
@@ -3704,21 +3739,21 @@ sub TicketSearch {
     }
 
     # state ids
-    if ( $Param{StateIDs} && ref $Param{StateIDs} eq 'ARRAY' ) {
+    if ( $Param{StateIDs} ) {
         $SQLExt .= ' AND st.ticket_state_id IN (';
         my $Exists = 0;
         for ( sort { $a <=> $b } @{ $Param{StateIDs} } ) {
             if ($Exists) {
                 $SQLExt .= ',';
             }
-            $SQLExt .= $Self->{DBObject}->Quote($_);
+            $SQLExt .= $_;
             $Exists = 1;
         }
         $SQLExt .= ')';
     }
 
     # created states lookup
-    if ( $Param{CreatedStates} && ref $Param{CreatedStates} eq 'ARRAY' ) {
+    if ( $Param{CreatedStates} ) {
         for ( @{ $Param{CreatedStates} } ) {
             my %State = $Self->{StateObject}->StateGet( Name => $_ );
             if ( $State{ID} ) {
@@ -3731,7 +3766,7 @@ sub TicketSearch {
     }
 
     # create state ids
-    if ( $Param{CreatedStateIDs} && ref $Param{CreatedStateIDs} eq 'ARRAY' ) {
+    if ( $Param{CreatedStateIDs} ) {
         my $ID = $Self->HistoryTypeLookup( Type => 'NewTicket' );
         if ($ID) {
             $SQLExt .= ' AND th.state_id IN (';
@@ -3740,7 +3775,7 @@ sub TicketSearch {
                 if ($Exists) {
                     $SQLExt .= ',';
                 }
-                $SQLExt .= $Self->{DBObject}->Quote($_);
+                $SQLExt .= $_;
                 $Exists = 1;
             }
             $SQLExt .= ") AND th.history_type_id = $ID ";
@@ -3770,7 +3805,7 @@ sub TicketSearch {
         $SQLExt .= " AND st.ticket_state_id IN ( ${\(join ', ', sort {$a <=> $b} @StateIDs)} ) ";
     }
 
-    if ( $Param{StateTypeIDs} && ref $Param{StateTypeIDs} eq 'ARRAY' ) {
+    if ( $Param{StateTypeIDs} ) {
         my %StateTypeList = $Self->{StateObject}->StateTypeList(
             UserID => $Param{UserID} || 1,
         );
@@ -3785,7 +3820,7 @@ sub TicketSearch {
     }
 
     # current lock lookup
-    if ( $Param{Locks} && ref $Param{Locks} eq 'ARRAY' ) {
+    if ( $Param{Locks} ) {
         for ( @{ $Param{Locks} } ) {
             if ( $Self->{LockObject}->LockLookup( Lock => $_ ) ) {
                 push( @{ $Param{LockIDs} }, $Self->{LockObject}->LockLookup( Lock => $_ ) );
@@ -3797,49 +3832,49 @@ sub TicketSearch {
     }
 
     # lock ids
-    if ( $Param{LockIDs} && ref $Param{LockIDs} eq 'ARRAY' ) {
+    if ( $Param{LockIDs} ) {
         $SQLExt .= ' AND st.ticket_lock_id IN (';
         my $Exists = 0;
         for ( sort { $a <=> $b } @{ $Param{LockIDs} } ) {
             if ($Exists) {
                 $SQLExt .= ',';
             }
-            $SQLExt .= $Self->{DBObject}->Quote($_);
+            $SQLExt .= $_;
             $Exists = 1;
         }
         $SQLExt .= ')';
     }
 
     # current owner user ids
-    if ( $Param{OwnerIDs} && ref $Param{OwnerIDs} eq 'ARRAY' ) {
+    if ( $Param{OwnerIDs} ) {
         $SQLExt .= ' AND st.user_id IN (';
         my $Exists = 0;
         for ( sort { $a <=> $b } @{ $Param{OwnerIDs} } ) {
             if ($Exists) {
                 $SQLExt .= ',';
             }
-            $SQLExt .= $Self->{DBObject}->Quote($_);
+            $SQLExt .= $_;
             $Exists = 1;
         }
         $SQLExt .= ')';
     }
 
     # current responsible user ids
-    if ( $Param{ResponsibleIDs} && ref $Param{ResponsibleIDs} eq 'ARRAY' ) {
+    if ( $Param{ResponsibleIDs} ) {
         $SQLExt .= ' AND st.responsible_user_id IN (';
         my $Exists = 0;
         for ( sort { $a <=> $b } @{ $Param{ResponsibleIDs} } ) {
             if ($Exists) {
                 $SQLExt .= ',';
             }
-            $SQLExt .= $Self->{DBObject}->Quote($_);
+            $SQLExt .= $_;
             $Exists = 1;
         }
         $SQLExt .= ')';
     }
 
     # created user ids
-    if ( $Param{CreatedUserIDs} && ref $Param{CreatedUserIDs} eq 'ARRAY' ) {
+    if ( $Param{CreatedUserIDs} ) {
         my $ID = $Self->HistoryTypeLookup( Type => 'NewTicket' );
         if ($ID) {
             $SQLExt .= ' AND th.create_by IN (';
@@ -3848,7 +3883,7 @@ sub TicketSearch {
                 if ($Exists) {
                     $SQLExt .= ',';
                 }
-                $SQLExt .= $Self->{DBObject}->Quote($_);
+                $SQLExt .= $_;
                 $Exists = 1;
             }
             $SQLExt .= ") AND th.history_type_id = $ID ";
@@ -3856,7 +3891,7 @@ sub TicketSearch {
     }
 
     # current queue lookup
-    if ( $Param{Queues} && ref $Param{Queues} eq 'ARRAY' ) {
+    if ( $Param{Queues} ) {
         for ( @{ $Param{Queues} } ) {
             if ( $Self->{QueueObject}->QueueLookup( Queue => $_ ) ) {
                 push( @{ $Param{QueueIDs} }, $Self->{QueueObject}->QueueLookup( Queue => $_ ) );
@@ -3868,7 +3903,7 @@ sub TicketSearch {
     }
 
     # current sub queue ids
-    if ( $Param{UseSubQueues} && $Param{QueueIDs} && ref $Param{QueueIDs} eq 'ARRAY' ) {
+    if ( $Param{UseSubQueues} && $Param{QueueIDs} ) {
         my @SubQueueIDs = ();
         my %Queues      = $Self->{QueueObject}->GetAllQueues();
         for my $QueueID ( @{ $Param{QueueIDs} } ) {
@@ -3883,21 +3918,21 @@ sub TicketSearch {
     }
 
     # current queue ids
-    if ( $Param{QueueIDs} && ref $Param{QueueIDs} eq 'ARRAY' ) {
+    if ( $Param{QueueIDs} ) {
         $SQLExt .= ' AND st.queue_id IN (';
         my $Exists = 0;
         for ( sort { $a <=> $b } @{ $Param{QueueIDs} } ) {
             if ($Exists) {
                 $SQLExt .= ',';
             }
-            $SQLExt .= $Self->{DBObject}->Quote($_);
+            $SQLExt .= $_;
             $Exists = 1;
         }
         $SQLExt .= ')';
     }
 
     # created queue lookup
-    if ( $Param{CreatedQueues} && ref $Param{CreatedQueues} eq 'ARRAY' ) {
+    if ( $Param{CreatedQueues} ) {
         for ( @{ $Param{CreatedQueues} } ) {
             if ( $Self->{QueueObject}->QueueLookup( Queue => $_ ) ) {
                 push(
@@ -3912,7 +3947,7 @@ sub TicketSearch {
     }
 
     # created queue ids
-    if ( $Param{CreatedQueueIDs} && ref $Param{CreatedQueueIDs} eq 'ARRAY' ) {
+    if ( $Param{CreatedQueueIDs} ) {
         my $ID = $Self->HistoryTypeLookup( Type => 'NewTicket' );
         if ($ID) {
             $SQLExt .= ' AND th.queue_id IN (';
@@ -3921,7 +3956,7 @@ sub TicketSearch {
                 if ($Exists) {
                     $SQLExt .= ',';
                 }
-                $SQLExt .= $Self->{DBObject}->Quote($_);
+                $SQLExt .= $_;
                 $Exists = 1;
             }
             $SQLExt .= ") AND th.history_type_id = $ID ";
@@ -3996,7 +4031,7 @@ sub TicketSearch {
     }
 
     # current priority lookup
-    if ( $Param{Priorities} && ref $Param{Priorities} eq 'ARRAY' ) {
+    if ( $Param{Priorities} ) {
         for ( @{ $Param{Priorities} } ) {
             my $ID = $Self->{PriorityObject}->PriorityLookup( Priority => $_ );
             if ($ID) {
@@ -4009,21 +4044,21 @@ sub TicketSearch {
     }
 
     # priority ids
-    if ( $Param{PriorityIDs} && ref $Param{PriorityIDs} eq 'ARRAY' ) {
+    if ( $Param{PriorityIDs} ) {
         $SQLExt .= ' AND st.ticket_priority_id IN (';
         my $Exists = 0;
         for ( sort { $a <=> $b } @{ $Param{PriorityIDs} } ) {
             if ($Exists) {
                 $SQLExt .= ',';
             }
-            $SQLExt .= $Self->{DBObject}->Quote($_);
+            $SQLExt .= $_;
             $Exists = 1;
         }
         $SQLExt .= ')';
     }
 
     # created priority lookup
-    if ( $Param{CreatedPriorities} && ref $Param{CreatedPriorities} eq 'ARRAY' ) {
+    if ( $Param{CreatedPriorities} ) {
         for ( @{ $Param{CreatedPriorities} } ) {
             my $ID = $Self->{PriorityObject}->PriorityLookup( Priority => $_ );
             if ($ID) {
@@ -4036,7 +4071,7 @@ sub TicketSearch {
     }
 
     # created priority ids
-    if ( $Param{CreatedPriorityIDs} && ref $Param{CreatedPriorityIDs} eq 'ARRAY' ) {
+    if ( $Param{CreatedPriorityIDs} ) {
         my $ID = $Self->HistoryTypeLookup( Type => 'NewTicket' );
         if ($ID) {
             $SQLExt .= ' AND th.priority_id IN (';
@@ -4045,7 +4080,7 @@ sub TicketSearch {
                 if ($Exists) {
                     $SQLExt .= ',';
                 }
-                $SQLExt .= $Self->{DBObject}->Quote($_);
+                $SQLExt .= $_;
                 $Exists = 1;
             }
             $SQLExt .= ") AND th.history_type_id = $ID ";
@@ -4053,7 +4088,7 @@ sub TicketSearch {
     }
 
     # current service lookup
-    if ( $Param{Services} && ref $Param{Services} eq 'ARRAY' ) {
+    if ( $Param{Services} ) {
         for ( @{ $Param{Services} } ) {
             my $ID = $Self->{ServiceObject}->ServiceLookup( Name => $_ );
             if ($ID) {
@@ -4066,21 +4101,21 @@ sub TicketSearch {
     }
 
     # service ids
-    if ( $Param{ServiceIDs} && ref $Param{ServiceIDs} eq 'ARRAY' ) {
+    if ( $Param{ServiceIDs} ) {
         $SQLExt .= ' AND st.service_id IN (';
         my $Exists = 0;
         for ( sort { $a <=> $b } @{ $Param{ServiceIDs} } ) {
             if ($Exists) {
                 $SQLExt .= ',';
             }
-            $SQLExt .= $Self->{DBObject}->Quote($_);
+            $SQLExt .= $_;
             $Exists = 1;
         }
         $SQLExt .= ')';
     }
 
     # current sla lookup
-    if ( $Param{SLAs} && ref $Param{SLAs} eq 'ARRAY' ) {
+    if ( $Param{SLAs} ) {
         for ( @{ $Param{SLAs} } ) {
             my $ID = $Self->{SLAObject}->SLALookup( Name => $_ );
             if ($ID) {
@@ -4093,28 +4128,28 @@ sub TicketSearch {
     }
 
     # sla ids
-    if ( $Param{SLAIDs} && ref $Param{SLAIDs} eq 'ARRAY' ) {
+    if ( $Param{SLAIDs} ) {
         $SQLExt .= ' AND st.sla_id IN (';
         my $Exists = 0;
         for ( sort { $a <=> $b } @{ $Param{SLAIDs} } ) {
             if ($Exists) {
                 $SQLExt .= ',';
             }
-            $SQLExt .= $Self->{DBObject}->Quote($_);
+            $SQLExt .= $_;
             $Exists = 1;
         }
         $SQLExt .= ')';
     }
 
     # watch user ids
-    if ( $Param{WatchUserIDs} && ref $Param{WatchUserIDs} eq 'ARRAY' ) {
+    if ( $Param{WatchUserIDs} ) {
         $SQLExt .= ' AND tw.user_id IN (';
         my $Exists = 0;
         for ( sort { $a <=> $b } @{ $Param{WatchUserIDs} } ) {
             if ($Exists) {
                 $SQLExt .= ',';
             }
-            $SQLExt .= $Self->{DBObject}->Quote($_);
+            $SQLExt .= $_;
             $Exists = 1;
         }
         $SQLExt .= ')';
@@ -7157,6 +7192,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.377 $ $Date: 2009-04-01 16:13:34 $
+$Revision: 1.378 $ $Date: 2009-04-01 18:52:38 $
 
 =cut
