@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.67.2.1 2009-04-01 08:55:48 ub Exp $
+# $Id: DB.pm,v 1.67.2.2 2009-04-01 15:56:02 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Encode;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.67.2.1 $) [1];
+$VERSION = qw($Revision: 1.67.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -848,6 +848,8 @@ sub SetPassword {
         my $SQL = "UPDATE $Self->{CustomerTable} SET "
             . " $Param{PasswordCol} = '" . $Self->{DBObject}->Quote($CryptedPw) . "' "
             . " WHERE ";
+
+        $Self->{EncodeObject}->Encode( \$Param{UserLogin} );
 
         # check CustomerKey type
         if ( $Self->{CustomerKeyInteger} ) {
