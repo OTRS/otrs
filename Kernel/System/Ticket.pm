@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.375 2009-04-01 14:44:32 mh Exp $
+# $Id: Ticket.pm,v 1.376 2009-04-01 15:21:24 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.375 $) [1];
+$VERSION = qw($Revision: 1.376 $) [1];
 
 =head1 NAME
 
@@ -235,31 +235,42 @@ sub TicketCheckNumber {
 
     # db query
     return if !$Self->{DBObject}->Prepare(
-        SQL  => 'SELECT id FROM ticket WHERE tn = ?',
-        Bind => [ \$Param{Tn} ],
+        SQL   => 'SELECT id FROM ticket WHERE tn = ?',
+        Bind  => [ \$Param{Tn} ],
+        Limit => 1,
     );
 
-    my $Id;
+    my $TicketID;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
-        $Id = $Row[0];
+        $TicketID = $Row[0];
     }
 
     # get main ticket id if ticket has been merged
-    return if !$Id;
+    return if !$TicketID;
 
-    my %Ticket = $Self->TicketGet( TicketID => $Id );
-    return $Id if $Ticket{StateType} ne 'merged';
+    my %Ticket = $Self->TicketGet(
+        TicketID => $TicketID,
+    );
 
-    my @Lines = $Self->HistoryGet( TicketID => $Ticket{TicketID}, UserID => 1 );
+    return $TicketID if $Ticket{StateType} ne 'merged';
+
+    # get ticket history
+    my @Lines = $Self->HistoryGet(
+        TicketID => $Ticket{TicketID},
+        UserID   => 1,
+    );
+
+    DATA:
     for my $Data ( reverse @Lines ) {
-        if ( $Data->{HistoryType} eq 'Merged' ) {
-            if ( $Data->{Name} =~ /^.*\(\d+?\/(\d+?)\)$/ ) {
-                return $1;
-            }
+
+        next DATA if $Data->{HistoryType} eq 'Merged';
+
+        if ( $Data->{Name} =~ /^.*\(\d+?\/(\d+?)\)$/ ) {
+            return $1;
         }
     }
 
-    return $Id;
+    return $TicketID;
 }
 
 =item TicketCreate()
@@ -302,10 +313,6 @@ creates a new ticket
 sub TicketCreate {
     my ( $Self, %Param ) = @_;
 
-    my $GroupID = $Param{GroupID} || 1;
-    my $ValidID = $Param{ValidID} || 1;
-    my $Age     = $Self->{TimeObject}->SystemTime();
-
     # check needed stuff
     for (qw(OwnerID UserID)) {
         if ( !$Param{$_} ) {
@@ -315,9 +322,12 @@ sub TicketCreate {
     }
 
     # set default values if no values are specified
-    if ( !$Param{ResponsibleID} ) {
-        $Param{ResponsibleID} = 1;
-    }
+    my $GroupID = $Param{GroupID} || 1;
+    my $ValidID = $Param{ValidID} || 1;
+    my $Age     = $Self->{TimeObject}->SystemTime();
+
+    $Param{ResponsibleID} ||= 1;
+
     if ( !$Param{TypeID} && !$Param{Type} ) {
         $Param{TypeID} = 1;
     }
@@ -431,11 +441,8 @@ sub TicketCreate {
     }
 
     # check database undef/NULL (set value to undef/NULL to prevent database errors)
-    for (qw(ServiceID SLAID)) {
-        if ( !$Param{$_} ) {
-            $Param{$_} = undef;
-        }
-    }
+    $Param{ServiceID} ||= undef;
+    $Param{SLAID} ||= undef;
 
     # create db record
     return if !$Self->{DBObject}->Do(
@@ -463,10 +470,10 @@ sub TicketCreate {
 
     # add history entry
     $Self->HistoryAdd(
-        TicketID    => $TicketID,
-        QueueID     => $Param{QueueID},
-        HistoryType => 'NewTicket',
-        Name => "\%\%$Param{TN}\%\%$Param{Queue}\%\%$Param{Priority}\%\%$Param{State}\%\%$TicketID",
+        TicketID     => $TicketID,
+        QueueID      => $Param{QueueID},
+        HistoryType  => 'NewTicket',
+        Name         => "\%\%$Param{TN}\%\%$Param{Queue}\%\%$Param{Priority}\%\%$Param{State}\%\%$TicketID",
         CreateUserID => $Param{UserID},
     );
 
@@ -474,9 +481,9 @@ sub TicketCreate {
     if ( $Param{CustomerNo} || $Param{CustomerID} || $Param{CustomerUser} ) {
         $Self->SetCustomerData(
             TicketID => $TicketID,
-            No => $Param{CustomerNo} || $Param{CustomerID} || '',
-            User => $Param{CustomerUser} || '',
-            UserID => $Param{UserID},
+            No       => $Param{CustomerNo} || $Param{CustomerID} || '',
+            User     => $Param{CustomerUser} || '',
+            UserID   => $Param{UserID},
         );
     }
 
@@ -568,6 +575,7 @@ sub TicketDelete {
         UserID   => $Param{UserID},
         TicketID => $Param{TicketID},
     );
+
     return 1;
 }
 
@@ -593,13 +601,16 @@ sub TicketIDLookup {
 
     # db query
     $Self->{DBObject}->Prepare(
-        SQL  => 'SELECT id FROM ticket WHERE tn = ?',
-        Bind => [ \$Param{TicketNumber} ],
+        SQL   => 'SELECT id FROM ticket WHERE tn = ?',
+        Bind  => [ \$Param{TicketNumber} ],
+        Limit => 1,
     );
+
     my $ID;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $ID = $Row[0];
     }
+
     return $ID;
 }
 
@@ -617,17 +628,17 @@ ticket number lookup by ticket id
 sub TicketNumberLookup {
     my ( $Self, %Param ) = @_;
 
-    my $Tn = '';
-
     # check needed stuff
     if ( !$Param{TicketID} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
         return;
     }
+
+    # get ticket data
     my %Ticket = $Self->TicketGet(%Param);
-    if ( !%Ticket ) {
-        return;
-    }
+
+    return if !%Ticket;
+
     return $Ticket{TicketNumber};
 }
 
@@ -657,8 +668,6 @@ rebuild a new ticket subject
 sub TicketSubjectBuild {
     my ( $Self, %Param ) = @_;
 
-    my $Subject = $Param{Subject} || '';
-
     # check needed stuff
     for (qw(TicketNumber)) {
         if ( !defined $Param{$_} ) {
@@ -666,17 +675,22 @@ sub TicketSubjectBuild {
             return;
         }
     }
+
+    my $Subject = $Param{Subject} || '';
+
     $Subject = $Self->TicketSubjectClean(%Param);
+
     my $TicketHook        = $Self->{ConfigObject}->Get('Ticket::Hook');
     my $TicketHookDivider = $Self->{ConfigObject}->Get('Ticket::HookDivider');
     my $TicketSubjectRe   = $Self->{ConfigObject}->Get('Ticket::SubjectRe');
+
     if ( $Param{Type} && $Param{Type} eq 'New' ) {
         $Subject = "[$TicketHook$TicketHookDivider$Param{TicketNumber}] " . $Subject;
     }
     else {
-        $Subject
-            = "$TicketSubjectRe: [$TicketHook$TicketHookDivider$Param{TicketNumber}] " . $Subject;
+        $Subject = "$TicketSubjectRe: [$TicketHook$TicketHookDivider$Param{TicketNumber}] " . $Subject;
     }
+
     return $Subject;
 }
 
@@ -694,8 +708,6 @@ strip/clean up a ticket subject
 sub TicketSubjectClean {
     my ( $Self, %Param ) = @_;
 
-    my $Subject = $Param{Subject} || '';
-
     # check needed stuff
     for (qw(TicketNumber)) {
         if ( !defined $Param{$_} ) {
@@ -704,26 +716,34 @@ sub TicketSubjectClean {
         }
     }
 
+    my $Subject = $Param{Subject} || '';
+
     # get ticket data
     my $TicketHook        = $Self->{ConfigObject}->Get('Ticket::Hook');
     my $TicketHookDivider = $Self->{ConfigObject}->Get('Ticket::HookDivider');
     my $TicketSubjectSize = $Self->{ConfigObject}->Get('Ticket::SubjectSize') || 120;
     my $TicketSubjectRe   = $Self->{ConfigObject}->Get('Ticket::SubjectRe');
+
     $Subject =~ s/\[$TicketHook: $Param{TicketNumber}\] //g;
     $Subject =~ s/\[$TicketHook:$Param{TicketNumber}\] //g;
     $Subject =~ s/\[$TicketHook$TicketHookDivider$Param{TicketNumber}\] //g;
+
     if ( $Self->{ConfigObject}->Get('Ticket::SubjectCleanAllNumbers') ) {
         $Subject =~ s/\[$TicketHook$TicketHookDivider\d+?\] //g;
     }
+
     $Subject =~ s/$TicketHook: $Param{TicketNumber} //g;
     $Subject =~ s/$TicketHook:$Param{TicketNumber} //g;
     $Subject =~ s/$TicketHook$TicketHookDivider$Param{TicketNumber} //g;
+
     if ( $Self->{ConfigObject}->Get('Ticket::SubjectCleanAllNumbers') ) {
         $Subject =~ s/$TicketHook$TicketHookDivider\d+? //g;
     }
+
     $Subject =~ s/^(..(\[\d+\])?: )+//;
     $Subject =~ s/^($TicketSubjectRe(\[\d+\])?: )+//;
     $Subject =~ s/^(.{$TicketSubjectSize}).*$/$1 [...]/;
+
     return $Subject;
 }
 
@@ -786,7 +806,13 @@ sub TicketGet {
         . ' st.escalation_solution_time, st.escalation_time'
         . ' FROM ticket st, ticket_priority sp, queue sq'
         . ' WHERE sp.id = st.ticket_priority_id AND sq.id = st.queue_id AND st.id = ?';
-    $Self->{DBObject}->Prepare( SQL => $SQL, Bind => [ \$Param{TicketID} ] );
+
+    # fetch the result
+    $Self->{DBObject}->Prepare(
+        SQL   => $SQL,
+        Bind  => [ \$Param{TicketID} ],
+        Limit => 1,
+    );
 
     my %Ticket;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -1094,9 +1120,10 @@ sub _TicketGetClosed {
     $Self->{DBObject}->Prepare(
         SQL => "SELECT create_time FROM ticket_history WHERE ticket_id = ? AND "
             . " state_id IN (${\(join ', ', sort @List)}) ORDER BY create_time DESC",
-        Limit => 1,
         Bind  => [ \$Param{TicketID} ],
+        Limit => 1,
     );
+
     my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{Closed} = $Row[0];
@@ -1211,9 +1238,10 @@ sub _TicketGetFirstLock {
             . ' FROM ticket_history th, ticket_history_type tht '
             . 'WHERE th.history_type_id = tht.id AND th.ticket_id = ? '
             . 'AND tht.name = \'Lock\' ORDER BY th.create_time, th.id ASC',
-        Limit => 100,
         Bind  => [ \$Param{TicketID} ],
+        Limit => 100,
     );
+
     my %Data;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         if ( !$Data{FirstLock} ) {
@@ -1352,11 +1380,13 @@ sub TicketQueueID {
         return;
     }
 
-    my %Ticket = $Self->TicketGet( TicketID => $Param{TicketID}, UserID => 1 );
+    # get ticket data
+    my %Ticket = $Self->TicketGet(
+        TicketID => $Param{TicketID},
+        UserID => 1,
+    );
 
-    if ( !%Ticket ) {
-        return;
-    }
+    return if !%Ticket;
 
     return $Ticket{QueueID};
 }
@@ -1402,7 +1432,8 @@ sub MoveList {
         );
         return;
     }
-    my %Queues = ();
+
+    my %Queues;
     if ( $Param{UserID} && $Param{UserID} eq 1 ) {
         %Queues = $Self->{QueueObject}->GetAllQueues();
     }
@@ -1422,6 +1453,7 @@ sub MoveList {
     {
         return $Self->TicketAclData();
     }
+
     return %Queues;
 }
 
@@ -7123,6 +7155,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.375 $ $Date: 2009-04-01 14:44:32 $
+$Revision: 1.376 $ $Date: 2009-04-01 15:21:24 $
 
 =cut
