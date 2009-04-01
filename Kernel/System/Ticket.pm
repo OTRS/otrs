@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.378 2009-04-01 18:52:38 mh Exp $
+# $Id: Ticket.pm,v 1.379 2009-04-01 19:54:26 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.378 $) [1];
+$VERSION = qw($Revision: 1.379 $) [1];
 
 =head1 NAME
 
@@ -3637,8 +3637,7 @@ sub TicketSearch {
         }
     }
 
-    # sql
-    my $SQLExt = '';
+    # create sql
     my $SQL;
     if ( $Result eq 'COUNT' ) {
         $SQL = 'SELECT DISTINCT count(*)';
@@ -3653,15 +3652,16 @@ sub TicketSearch {
 
     # sql, use also article table if needed
     my ( $ArticleSQL, $ArticleSQLExt ) = $Self->_ArticleIndexQuerySQL( Data => \%Param );
-    $SQL    .= $ArticleSQL;
-    $SQLExt .= $ArticleSQLExt;
+    $SQL .= $ArticleSQL;
 
     # use also history table if required
-    for ( keys %Param ) {
-        if ( $_ =~ /^(Ticket(Close|Change)Time(Newer|Older)(Date|Minutes)|Created.+?)/ ) {
+    my $SQLExt = $ArticleSQLExt;
+    ARGUMENT:
+    for my $Argument ( keys %Param ) {
+        if ( $Argument =~ /^(Ticket(Close|Change)Time(Newer|Older)(Date|Minutes)|Created.+?)/ ) {
             $SQL    .= ', ticket_history th ';
             $SQLExt .= ' AND st.id = th.ticket_id';
-            last;
+            last ARGUMENT;
         }
     }
     if ( $Param{WatchUserIDs} ) {
@@ -3672,113 +3672,121 @@ sub TicketSearch {
 
     # current type lookup
     if ( $Param{Types} ) {
-        for ( @{ $Param{Types} } ) {
-            if ( $Self->{TypeObject}->TypeLookup( Type => $_ ) ) {
-                push( @{ $Param{TypeIDs} }, $Self->{TypeObject}->TypeLookup( Type => $_ ) );
-            }
-            else {
-                return;
-            }
+
+        for my $Type ( @{ $Param{Types} } ) {
+
+            # lookup type id
+            my $TypeID = $Self->{TypeObject}->TypeLookup(
+                Type => $Type,
+            );
+
+            return if !$TypeID;
+
+            push @{ $Param{TypeIDs} }, $TypeID;
         }
     }
 
     # type ids
     if ( $Param{TypeIDs} ) {
-        $SQLExt .= ' AND st.type_id IN (';
-        my $Exists = 0;
-        for ( sort { $a <=> $b } @{ $Param{TypeIDs} } ) {
-            if ($Exists) {
-                $SQLExt .= ',';
-            }
-            $SQLExt .= $_;
-            $Exists = 1;
-        }
-        $SQLExt .= ')';
+        $SQLExt .= $Self->_TicketSearchSqlAndStringCreate(
+            TableColumn => 'st.type_id',
+            IDRef       => $Param{TypeIDs},
+        );
     }
 
     # created types lookup
     if ( $Param{CreatedTypes} ) {
-        for ( @{ $Param{CreatedTypes} } ) {
-            if ( $Self->{TypeObject}->TypeLookup( Type => $_ ) ) {
-                push( @{ $Param{CreatedTypeIDs} }, $Self->{TypeObject}->TypeLookup( Type => $_ ) );
-            }
-            else {
-                return;
-            }
+
+        for my $Type ( @{ $Param{CreatedTypes} } ) {
+
+            # lookup type id
+            my $TypeID = $Self->{TypeObject}->TypeLookup(
+                Type => $Type,
+            );
+
+            return if !$TypeID;
+
+            push @{ $Param{CreatedTypeIDs} }, $TypeID;
         }
     }
 
     # created type ids
     if ( $Param{CreatedTypeIDs} ) {
-        my $ID = $Self->HistoryTypeLookup( Type => 'NewTicket' );
-        if ($ID) {
-            $SQLExt .= ' AND th.type_id IN (';
-            my $Exists = 0;
-            for ( sort { $a <=> $b } @{ $Param{CreatedTypeIDs} } ) {
-                if ($Exists) {
-                    $SQLExt .= ',';
-                }
-                $SQLExt .= $_;
-                $Exists = 1;
-            }
-            $SQLExt .= ") AND th.history_type_id = $ID ";
+
+        # lookup history type id
+        my $HistoryTypeID = $Self->HistoryTypeLookup(
+            Type => 'NewTicket',
+        );
+
+        if ($HistoryTypeID) {
+
+            # create sql part
+            $SQLExt .= $Self->_TicketSearchSqlAndStringCreate(
+                TableColumn => 'th.type_id',
+                IDRef       => $Param{CreatedTypeIDs},
+            );
+
+            $SQLExt .= " AND th.history_type_id = $HistoryTypeID ";
         }
     }
 
     # current state lookup
     if ( $Param{States} ) {
-        for ( @{ $Param{States} } ) {
-            my %State = $Self->{StateObject}->StateGet( Name => $_ );
-            if ( $State{ID} ) {
-                push( @{ $Param{StateIDs} }, $State{ID} );
-            }
-            else {
-                return;
-            }
+
+        for my $State ( @{ $Param{States} } ) {
+
+            # get state data
+            my %StateData = $Self->{StateObject}->StateGet(
+                Name => $State,
+            );
+
+            return if !%StateData;
+
+            push @{ $Param{StateIDs} }, $StateData{ID};
         }
     }
 
     # state ids
     if ( $Param{StateIDs} ) {
-        $SQLExt .= ' AND st.ticket_state_id IN (';
-        my $Exists = 0;
-        for ( sort { $a <=> $b } @{ $Param{StateIDs} } ) {
-            if ($Exists) {
-                $SQLExt .= ',';
-            }
-            $SQLExt .= $_;
-            $Exists = 1;
-        }
-        $SQLExt .= ')';
+        $SQLExt .= $Self->_TicketSearchSqlAndStringCreate(
+            TableColumn => 'st.ticket_state_id',
+            IDRef       => $Param{StateIDs},
+        );
     }
 
     # created states lookup
     if ( $Param{CreatedStates} ) {
-        for ( @{ $Param{CreatedStates} } ) {
-            my %State = $Self->{StateObject}->StateGet( Name => $_ );
-            if ( $State{ID} ) {
-                push( @{ $Param{CreatedStateIDs} }, $State{ID} );
-            }
-            else {
-                return;
-            }
+
+        for my $State ( @{ $Param{CreatedStates} } ) {
+
+            # get state data
+            my %StateData = $Self->{StateObject}->StateGet(
+                Name => $State,
+            );
+
+            return if !%StateData;
+
+            push @{ $Param{CreatedStateIDs} }, $StateData{ID};
         }
     }
 
-    # create state ids
+    # created state ids
     if ( $Param{CreatedStateIDs} ) {
-        my $ID = $Self->HistoryTypeLookup( Type => 'NewTicket' );
-        if ($ID) {
-            $SQLExt .= ' AND th.state_id IN (';
-            my $Exists = 0;
-            for ( sort { $a <=> $b } @{ $Param{CreatedStateIDs} } ) {
-                if ($Exists) {
-                    $SQLExt .= ',';
-                }
-                $SQLExt .= $_;
-                $Exists = 1;
-            }
-            $SQLExt .= ") AND th.history_type_id = $ID ";
+
+        # lookup history type id
+        my $HistoryTypeID = $Self->HistoryTypeLookup(
+            Type => 'NewTicket',
+        );
+
+        if ($HistoryTypeID) {
+
+            # create sql part
+            $SQLExt .= $Self->_TicketSearchSqlAndStringCreate(
+                TableColumn => 'th.state_id',
+                IDRef       => $Param{CreatedStateIDs},
+            );
+
+            $SQLExt .= " AND th.history_type_id = $HistoryTypeID ";
         }
     }
 
@@ -3806,6 +3814,7 @@ sub TicketSearch {
     }
 
     if ( $Param{StateTypeIDs} ) {
+
         my %StateTypeList = $Self->{StateObject}->StateTypeList(
             UserID => $Param{UserID} || 1,
         );
@@ -3821,84 +3830,77 @@ sub TicketSearch {
 
     # current lock lookup
     if ( $Param{Locks} ) {
-        for ( @{ $Param{Locks} } ) {
-            if ( $Self->{LockObject}->LockLookup( Lock => $_ ) ) {
-                push( @{ $Param{LockIDs} }, $Self->{LockObject}->LockLookup( Lock => $_ ) );
-            }
-            else {
-                return;
-            }
+
+        for my $Lock ( @{ $Param{Locks} } ) {
+
+            # lookup lock id
+            my $LockID = $Self->{LockObject}->LockLookup(
+                Lock => $Lock,
+            );
+
+            return if !$LockID;
+
+            push @{ $Param{LockIDs} }, $LockID;
         }
     }
 
     # lock ids
     if ( $Param{LockIDs} ) {
-        $SQLExt .= ' AND st.ticket_lock_id IN (';
-        my $Exists = 0;
-        for ( sort { $a <=> $b } @{ $Param{LockIDs} } ) {
-            if ($Exists) {
-                $SQLExt .= ',';
-            }
-            $SQLExt .= $_;
-            $Exists = 1;
-        }
-        $SQLExt .= ')';
+        $SQLExt .= $Self->_TicketSearchSqlAndStringCreate(
+            TableColumn => 'st.ticket_lock_id',
+            IDRef       => $Param{LockIDs},
+        );
     }
 
     # current owner user ids
     if ( $Param{OwnerIDs} ) {
-        $SQLExt .= ' AND st.user_id IN (';
-        my $Exists = 0;
-        for ( sort { $a <=> $b } @{ $Param{OwnerIDs} } ) {
-            if ($Exists) {
-                $SQLExt .= ',';
-            }
-            $SQLExt .= $_;
-            $Exists = 1;
-        }
-        $SQLExt .= ')';
+        $SQLExt .= $Self->_TicketSearchSqlAndStringCreate(
+            TableColumn => 'st.user_id',
+            IDRef       => $Param{OwnerIDs},
+        );
     }
 
     # current responsible user ids
     if ( $Param{ResponsibleIDs} ) {
-        $SQLExt .= ' AND st.responsible_user_id IN (';
-        my $Exists = 0;
-        for ( sort { $a <=> $b } @{ $Param{ResponsibleIDs} } ) {
-            if ($Exists) {
-                $SQLExt .= ',';
-            }
-            $SQLExt .= $_;
-            $Exists = 1;
-        }
-        $SQLExt .= ')';
+        $SQLExt .= $Self->_TicketSearchSqlAndStringCreate(
+            TableColumn => 'st.responsible_user_id',
+            IDRef       => $Param{ResponsibleIDs},
+        );
     }
 
     # created user ids
     if ( $Param{CreatedUserIDs} ) {
-        my $ID = $Self->HistoryTypeLookup( Type => 'NewTicket' );
-        if ($ID) {
-            $SQLExt .= ' AND th.create_by IN (';
-            my $Exists = 0;
-            for ( sort { $a <=> $b } @{ $Param{CreatedUserIDs} } ) {
-                if ($Exists) {
-                    $SQLExt .= ',';
-                }
-                $SQLExt .= $_;
-                $Exists = 1;
-            }
-            $SQLExt .= ") AND th.history_type_id = $ID ";
+
+        # lookup history type id
+        my $HistoryTypeID = $Self->HistoryTypeLookup(
+            Type => 'NewTicket',
+        );
+
+        if ($HistoryTypeID) {
+
+            # create sql part
+            $SQLExt .= $Self->_TicketSearchSqlAndStringCreate(
+                TableColumn => 'th.create_by',
+                IDRef       => $Param{CreatedUserIDs},
+            );
+
+            $SQLExt .= " AND th.history_type_id = $HistoryTypeID ";
         }
     }
 
     # current queue lookup
     if ( $Param{Queues} ) {
-        for ( @{ $Param{Queues} } ) {
-            if ( $Self->{QueueObject}->QueueLookup( Queue => $_ ) ) {
-                push( @{ $Param{QueueIDs} }, $Self->{QueueObject}->QueueLookup( Queue => $_ ) );
-            }
-            else {
-                return;
-            }
+
+        for my $Queue ( @{ $Param{Queues} } ) {
+
+            # lookup queue id
+            my $QueueID = $Self->{QueueObject}->QueueLookup(
+                Queue => $Queue,
+            );
+
+            return if !$QueueID;
+
+            push @{ $Param{QueueIDs} }, $QueueID;
         }
     }
 
@@ -3919,47 +3921,45 @@ sub TicketSearch {
 
     # current queue ids
     if ( $Param{QueueIDs} ) {
-        $SQLExt .= ' AND st.queue_id IN (';
-        my $Exists = 0;
-        for ( sort { $a <=> $b } @{ $Param{QueueIDs} } ) {
-            if ($Exists) {
-                $SQLExt .= ',';
-            }
-            $SQLExt .= $_;
-            $Exists = 1;
-        }
-        $SQLExt .= ')';
+        $SQLExt .= $Self->_TicketSearchSqlAndStringCreate(
+            TableColumn => 'st.queue_id',
+            IDRef       => $Param{QueueIDs},
+        );
     }
 
     # created queue lookup
     if ( $Param{CreatedQueues} ) {
-        for ( @{ $Param{CreatedQueues} } ) {
-            if ( $Self->{QueueObject}->QueueLookup( Queue => $_ ) ) {
-                push(
-                    @{ $Param{CreatedQueueIDs} },
-                    $Self->{QueueObject}->QueueLookup( Queue => $_ )
-                );
-            }
-            else {
-                return;
-            }
+
+        for my $Queue ( @{ $Param{CreatedQueues} } ) {
+
+            # lookup queue id
+            my $QueueID = $Self->{QueueObject}->QueueLookup(
+                Queue => $Queue,
+            );
+
+            return if !$QueueID;
+
+            push @{ $Param{CreatedQueueIDs} }, $QueueID;
         }
     }
 
     # created queue ids
     if ( $Param{CreatedQueueIDs} ) {
-        my $ID = $Self->HistoryTypeLookup( Type => 'NewTicket' );
-        if ($ID) {
-            $SQLExt .= ' AND th.queue_id IN (';
-            my $Exists = 0;
-            for ( sort { $a <=> $b } @{ $Param{CreatedQueueIDs} } ) {
-                if ($Exists) {
-                    $SQLExt .= ',';
-                }
-                $SQLExt .= $_;
-                $Exists = 1;
-            }
-            $SQLExt .= ") AND th.history_type_id = $ID ";
+
+        # lookup history type id
+        my $HistoryTypeID = $Self->HistoryTypeLookup(
+            Type => 'NewTicket',
+        );
+
+        if ($HistoryTypeID) {
+
+            # create sql part
+            $SQLExt .= $Self->_TicketSearchSqlAndStringCreate(
+                TableColumn => 'th.queue_id',
+                IDRef       => $Param{CreatedQueueIDs},
+            );
+
+            $SQLExt .= " AND th.history_type_id = $HistoryTypeID ";
         }
     }
 
@@ -3977,10 +3977,7 @@ sub TicketSearch {
         );
 
         # return if we have no permissions
-        if ( !@GroupIDs ) {
-            return;
-        }
-
+        return if !@GroupIDs;
     }
 
     # customer groups
@@ -3993,9 +3990,7 @@ sub TicketSearch {
         );
 
         # return if we have no permissions
-        if ( !@GroupIDs ) {
-            return;
-        }
+        return if !@GroupIDs;
 
         # get secondary customer ids
         my @CustomerIDs = $Self->{CustomerUserObject}->CustomerIDs(
@@ -4032,127 +4027,118 @@ sub TicketSearch {
 
     # current priority lookup
     if ( $Param{Priorities} ) {
-        for ( @{ $Param{Priorities} } ) {
-            my $ID = $Self->{PriorityObject}->PriorityLookup( Priority => $_ );
-            if ($ID) {
-                push( @{ $Param{PriorityIDs} }, $ID );
-            }
-            else {
-                return;
-            }
+
+        for my $Priority ( @{ $Param{Priorities} } ) {
+
+            # lookup priority id
+            my $PriorityID = $Self->{PriorityObject}->PriorityLookup(
+                Priority => $Priority,
+            );
+
+            return if !$PriorityID;
+
+            push @{ $Param{PriorityIDs} }, $PriorityID;
         }
     }
 
     # priority ids
     if ( $Param{PriorityIDs} ) {
-        $SQLExt .= ' AND st.ticket_priority_id IN (';
-        my $Exists = 0;
-        for ( sort { $a <=> $b } @{ $Param{PriorityIDs} } ) {
-            if ($Exists) {
-                $SQLExt .= ',';
-            }
-            $SQLExt .= $_;
-            $Exists = 1;
-        }
-        $SQLExt .= ')';
+        $SQLExt .= $Self->_TicketSearchSqlAndStringCreate(
+            TableColumn => 'st.ticket_priority_id',
+            IDRef       => $Param{PriorityIDs},
+        );
     }
 
     # created priority lookup
     if ( $Param{CreatedPriorities} ) {
-        for ( @{ $Param{CreatedPriorities} } ) {
-            my $ID = $Self->{PriorityObject}->PriorityLookup( Priority => $_ );
-            if ($ID) {
-                push( @{ $Param{CreatedPriorityIDs} }, $ID );
-            }
-            else {
-                return;
-            }
+
+        for my $Priority ( @{ $Param{CreatedPriorities} } ) {
+
+            # lookup priority id
+            my $PriorityID = $Self->{PriorityObject}->PriorityLookup(
+                Priority => $Priority,
+            );
+
+            return if !$PriorityID;
+
+            push @{ $Param{CreatedPriorityIDs} }, $PriorityID;
         }
     }
 
     # created priority ids
     if ( $Param{CreatedPriorityIDs} ) {
-        my $ID = $Self->HistoryTypeLookup( Type => 'NewTicket' );
-        if ($ID) {
-            $SQLExt .= ' AND th.priority_id IN (';
-            my $Exists = 0;
-            for ( sort { $a <=> $b } @{ $Param{CreatedPriorityIDs} } ) {
-                if ($Exists) {
-                    $SQLExt .= ',';
-                }
-                $SQLExt .= $_;
-                $Exists = 1;
-            }
-            $SQLExt .= ") AND th.history_type_id = $ID ";
+
+        # lookup history type id
+        my $HistoryTypeID = $Self->HistoryTypeLookup(
+            Type => 'NewTicket',
+        );
+
+        if ($HistoryTypeID) {
+
+            # create sql part
+            $SQLExt .= $Self->_TicketSearchSqlAndStringCreate(
+                TableColumn => 'th.priority_id',
+                IDRef       => $Param{CreatedPriorityIDs},
+            );
+
+            $SQLExt .= " AND th.history_type_id = $HistoryTypeID ";
         }
     }
 
     # current service lookup
     if ( $Param{Services} ) {
-        for ( @{ $Param{Services} } ) {
-            my $ID = $Self->{ServiceObject}->ServiceLookup( Name => $_ );
-            if ($ID) {
-                push( @{ $Param{ServiceIDs} }, $ID );
-            }
-            else {
-                return;
-            }
+
+        for my $Service ( @{ $Param{Services} } ) {
+
+            # lookup service id
+            my $ServiceID = $Self->{ServiceObject}->ServiceLookup(
+                Name => $Service,
+            );
+
+            return if !$ServiceID;
+
+            push @{ $Param{ServiceIDs} }, $ServiceID;
         }
     }
 
     # service ids
     if ( $Param{ServiceIDs} ) {
-        $SQLExt .= ' AND st.service_id IN (';
-        my $Exists = 0;
-        for ( sort { $a <=> $b } @{ $Param{ServiceIDs} } ) {
-            if ($Exists) {
-                $SQLExt .= ',';
-            }
-            $SQLExt .= $_;
-            $Exists = 1;
-        }
-        $SQLExt .= ')';
+        $SQLExt .= $Self->_TicketSearchSqlAndStringCreate(
+            TableColumn => 'st.service_id',
+            IDRef       => $Param{ServiceIDs},
+        );
     }
 
     # current sla lookup
     if ( $Param{SLAs} ) {
-        for ( @{ $Param{SLAs} } ) {
-            my $ID = $Self->{SLAObject}->SLALookup( Name => $_ );
-            if ($ID) {
-                push( @{ $Param{SLAIDs} }, $ID );
-            }
-            else {
-                return;
-            }
+
+        for my $SLA ( @{ $Param{SLAs} } ) {
+
+            # lookup sla id
+            my $SLAID = $Self->{SLAObject}->SLALookup(
+                Name => $SLA,
+            );
+
+            return if !$SLAID;
+
+            push @{ $Param{SLAIDs} }, $SLAID;
         }
     }
 
     # sla ids
     if ( $Param{SLAIDs} ) {
-        $SQLExt .= ' AND st.sla_id IN (';
-        my $Exists = 0;
-        for ( sort { $a <=> $b } @{ $Param{SLAIDs} } ) {
-            if ($Exists) {
-                $SQLExt .= ',';
-            }
-            $SQLExt .= $_;
-            $Exists = 1;
-        }
-        $SQLExt .= ')';
+        $SQLExt .= $Self->_TicketSearchSqlAndStringCreate(
+            TableColumn => 'st.sla_id',
+            IDRef       => $Param{SLAIDs},
+        );
     }
 
     # watch user ids
     if ( $Param{WatchUserIDs} ) {
-        $SQLExt .= ' AND tw.user_id IN (';
-        my $Exists = 0;
-        for ( sort { $a <=> $b } @{ $Param{WatchUserIDs} } ) {
-            if ($Exists) {
-                $SQLExt .= ',';
-            }
-            $SQLExt .= $_;
-            $Exists = 1;
-        }
-        $SQLExt .= ')';
+        $SQLExt .= $Self->_TicketSearchSqlAndStringCreate(
+            TableColumn => 'tw.user_id',
+            IDRef       => $Param{WatchUserIDs},
+        );
     }
 
     # other ticket stuff
@@ -4709,6 +4695,43 @@ sub TicketSearch {
         }
         return @TicketIDs;
     }
+}
+
+=item _TicketSearchSqlAndStringCreate()
+
+internal function to create a sql and string
+
+    my $SQLPart = $TicketObject->_TicketSearchSqlAndStringCreate(
+        TableColumn => '',
+        IDRef       => $ArrayRef,
+    )
+
+=cut
+
+sub _TicketSearchSqlAndStringCreate {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Argument (qw(TableColumn IDRef)) {
+        if ( !$Param{$Argument} ) {
+            $Self->{LogObject}->Log(
+                Priority => 'error',
+                Message  => "Need $Argument!",
+            );
+            return;
+        }
+    }
+
+    # sort ids to cache the SQL query
+    my @SortedIDs = sort { $a <=> $b } @{ $Param{IDRef} };
+
+    # create the id string
+    my $TypeIDString = join q{, }, @SortedIDs;
+
+    # create the sql part
+    my $SQL = " AND $Param{TableColumn} IN ($TypeIDString)";
+
+    return $SQL;
 }
 
 =item LockIsTicketLocked()
@@ -7192,6 +7215,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.378 $ $Date: 2009-04-01 18:52:38 $
+$Revision: 1.379 $ $Date: 2009-04-01 19:54:26 $
 
 =cut
