@@ -2,11 +2,11 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.110.2.6 2009-01-20 15:16:47 mh Exp $
+# $Id: Layout.pm,v 1.110.2.7 2009-04-01 11:36:08 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 package Kernel::Output::HTML::Layout;
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.110.2.6 $) [1];
+$VERSION = qw($Revision: 1.110.2.7 $) [1];
 
 =head1 NAME
 
@@ -3880,6 +3880,7 @@ sub CustomerNavigationBar {
                 my $Object = $Jobs{$Job}->{Module}->new(
                     ConfigObject   => $Self->{ConfigObject},
                     LogObject      => $Self->{LogObject},
+                    MainObject     => $Self->{MainObject},
                     DBObject       => $Self->{DBObject},
                     TimeObject     => $Self->{TimeObject},
                     UserTimeObject => $Self->{UserTimeObject},
@@ -4014,6 +4015,6 @@ did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
 
 =head1 VERSION
 
-$Revision: 1.110.2.6 $ $Date: 2009-01-20 15:16:47 $
+$Revision: 1.110.2.7 $ $Date: 2009-04-01 11:36:08 $
 
 =cut
