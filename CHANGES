@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.848 2009-04-01 09:37:00 mh Exp $
+# $Id: CHANGES,v 1.849 2009-04-01 09:45:49 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -135,6 +135,8 @@
     pre-configured or 3.
  - (2009/02/13) Fixed bug# 3657 - Stats module: The locking attribute doesn't
     work.
+ - (2009/02/11) Fixed ticket# 2009020942001554 - generic agent is logging many
+    debug infos into log file.
  - (2009/02/09) Fixed bug# 3656 - The package manager testscript doesn't work
     on developer installations.
  - (2009/01/30) Fixed bug# 3635 - Was not able to install .opm packages bigger
