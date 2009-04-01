@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.762.2.58 2009-04-01 13:04:39 ub Exp $
+# $Id: CHANGES,v 1.762.2.59 2009-04-01 13:16:36 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,8 +10,6 @@
 # --
 
 2.3.5 (2009/??/??)
- - (2009/04/01) Fixed bug# 3368 - DefaultSelection for ArticleFreeText and
-    TicketFreeText is ignored in AgentTicketPhoneOutbound.
  - (2009/04/01) Fixed bug# 3719 - otrs.checkModules incorrectly parses PDF::API2
     version.
  - (2009/04/01) Fixed bug# 3257 - otrs.checkModules incorrectly states DBD:mysql
