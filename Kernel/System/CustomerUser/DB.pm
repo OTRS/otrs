@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.72 2009-03-31 06:01:15 martin Exp $
+# $Id: DB.pm,v 1.73 2009-04-01 08:51:06 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Encode;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -756,7 +756,7 @@ sub SetPassword {
             $Self->{EncodeObject}->EncodeOutput( \$Login );
 
             $CryptedPw = crypt( $Pw, $Login );
-            $Self->{EncodeObject}->EncodeOutput( \$CryptedPw );
+            $Self->{EncodeObject}->Encode( \$CryptedPw );
         }
         else {
             $Self->{LogObject}->Log(
@@ -784,7 +784,7 @@ sub SetPassword {
         $Self->{EncodeObject}->EncodeOutput( \$Login );
 
         $CryptedPw = unix_md5_crypt( $Pw, $Login );
-        $Self->{EncodeObject}->EncodeOutput( \$CryptedPw );
+        $Self->{EncodeObject}->Encode( \$CryptedPw );
     }
 
     # update db
