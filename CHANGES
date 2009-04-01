@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.762.2.53 2009-04-01 08:55:48 ub Exp $
+# $Id: CHANGES,v 1.762.2.54 2009-04-01 09:47:25 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.3.5 (2009/??/??)
+ - (2009/04/01) Fixed bug# 3404 - PendingJobs.pl doesn't unlock the closed
+    tickets.
  - (2009/04/01) Fixed bug# 3745 - German umlaut in customer login_id breaks
     login.
  - (2009/03/24) Fixed bug# 3735 - Queue names should be quoted when editing
@@ -24,8 +26,6 @@
     debug infos into log file.
  - (2009/02/09) Fixed bug# 3656 - The package manager testscript doesn't work
     on developer installations.
- - (2009/02/09) Fixed bug# 3458 - Length of E-mail adress form in
-    AdminSystemAddressForm is way too short.
  - (2009/01/30) Fixed bug# 3635 - Was not able to install .opm packages bigger
     then 1MB (because of missing MySQL config) but OTRS error message was
     miss leading.
@@ -44,6 +44,8 @@
     the admin group in admin frontend.
 
 2.3.4 (2009/01/21)
+ - (2009/02/09) Fixed bug# 3458 - Length of E-mail adress form in
+    AdminSystemAddressForm is way too short.
  - (2009/01/20) Fixed bug# 3447 - CustomerUser-Renaming to existing UserLogin
     was possible.
  - (2009/01/20) Fixed bug# 3603 - Different Max-Attribute handling in Layout.pm
@@ -56,6 +58,8 @@
     editing.
  - (2009/01/10) Fixed bug# 3575 - Framework file get lost after upgrading OTRS
     and reinstalling or uninstalling e. g. ITSM pakages then.
+ - (2008/12/08) Added feature to install included packages located under
+    var/packages/*.opm on first/initial setup.
  - (2008/12/08) Fixed bug# 3462 - SMIME crypt and sign functions bail out -
      unable to save random state.
  - (2008/12/04) Fixed bug# 3360 - Service list formating broken after AJAX reload.
@@ -105,6 +109,8 @@
  - (2008/10/09) Fixed bug# 3358 - Removed useless error warning in stats module.
 
 2.3.3 (2008/10/02)
+ - (2009/01/13) Fixed bug# 3542 - Static Stats lose associated perlmodule after
+    editing.
  - (2008/09/30) Fixed bug# 3335 - No user name in pdf - print of stats-report
  - (2008/09/29) Updated Italian translation, thanks to Remo Catelotti!
  - (2008/09/29) Fixed bug# 3315 - GenericAgent does not work with pending time
