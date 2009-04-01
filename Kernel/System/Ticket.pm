@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Ticket.pm - all ticket functions
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.346.2.6 2008-12-10 12:49:33 martin Exp $
+# $Id: Ticket.pm,v 1.346.2.7 2009-04-01 16:12:35 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 package Kernel::System::Ticket;
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.346.2.6 $) [1];
+$VERSION = qw($Revision: 1.346.2.7 $) [1];
 
 =head1 NAME
 
@@ -5810,11 +5810,26 @@ sub HistoryDelete {
         }
     }
 
-    # delete from db
+    # delete ticket history entries from db
     return if !$Self->{DBObject}->Do(
-        SQL  => 'DELETE FROM ticket_history WHERE ticket_id = ?',
+        SQL  => 'DELETE FROM ticket_history WHERE ticket_id = ? AND (article_id IS NULL OR article_id = 0)',
         Bind => [ \$Param{TicketID} ],
     );
+
+    # get article index
+    my @ArticleIDs = $Self->ArticleIndex(
+        TicketID => $Param{TicketID},
+    );
+
+    # create article id string
+    my $ArticleIDString = join q{, }, @ArticleIDs;
+
+    # delete article history entries from db
+    if ($ArticleIDString) {
+        return if !$Self->{DBObject}->Do(
+            SQL => "DELETE FROM ticket_history WHERE article_id IN ($ArticleIDString)",
+        );
+    }
 
     # ticket event
     $Self->TicketEventHandlerPost(
@@ -5822,6 +5837,7 @@ sub HistoryDelete {
         UserID   => $Param{UserID},
         TicketID => $Param{TicketID},
     );
+
     return 1;
 }
 
@@ -6655,11 +6671,11 @@ sub TicketEventHandlerPost {
 This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
-the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+the enclosed file COPYING for license information (AGPL). If you
+did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.346.2.6 $ $Date: 2008-12-10 12:49:33 $
+$Revision: 1.346.2.7 $ $Date: 2009-04-01 16:12:35 $
 
 =cut
