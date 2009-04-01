@@ -3,7 +3,7 @@
 # bin/otrs.checkModules - to check needed cpan framework modules
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.checkModules,v 1.28 2009-04-01 11:49:45 mh Exp $
+# $Id: otrs.checkModules,v 1.29 2009-04-01 12:52:30 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -25,7 +25,7 @@
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
-use lib dirname($RealBin) . "/Kernel/cpan-lib";
+use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 # config
 my @NeededModules = (
@@ -90,8 +90,7 @@ my @NeededModules = (
         NotSupported => [
             {
                 Version => 0.60,
-                Comment =>
-                    'This version is broken and not useable, please upgrade to a higher version!',
+                Comment => 'This version is broken and not useable, please upgrade to a higher version!',
             },
         ],
     },
@@ -168,6 +167,24 @@ my @NeededModules = (
         Version  => 0.57,
         Required => 0,
         Comment  => 'for PDF required!',
+        NotSupported => [
+            {
+                Version => '0.71.001',
+                Comment => 'This version is broken and not useable, please upgrade to a higher version!',
+            },
+            {
+                Version => '0.72.001',
+                Comment => 'This version is broken and not useable, please upgrade to a higher version!',
+            },
+            {
+                Version => '0.72.002',
+                Comment => 'This version is broken and not useable, please upgrade to a higher version!',
+            },
+            {
+                Version => '0.72.003',
+                Comment => 'This version is broken and not useable, please upgrade to a higher version!',
+            },
+        ],
         Depends  => [
             {
                 Module   => 'Compress::Zlib',
@@ -210,28 +227,42 @@ sub _Check {
         if ( !$Version ) {
             $Version = eval "\$$Module->{Module}::VERSION";
         }
-        if ( $Module->{Version} ) {
-            if ( $Version >= $Module->{Version} ) {
-                print "ok (v$Version)\n";
-            }
-            else {
-                print
-                    "failed!!! Version $Version installed but $Module->{Version} or higher is required!\n";
-            }
-        }
-        elsif ( $Module->{NotSupported} ) {
+
+        # cleanup version number
+        my $CleanedVersion = _VersionClean(
+            Version => $Version,
+        );
+
+        if ( $Module->{NotSupported} ) {
+
             my $NotSupported = 0;
+            ITEM:
             for my $Item ( @{ $Module->{NotSupported} } ) {
-                if ( $Item->{Version} == $Version ) {
+
+                # cleanup item version number
+                my $ItemVersion = _VersionClean(
+                    Version => $Item->{Version},
+                );
+
+                if ( $CleanedVersion == $ItemVersion ) {
                     $NotSupported = $Item->{Comment};
-                    last;
+                    last ITEM;
                 }
             }
+
             if ($NotSupported) {
                 print "failed!!! Version $Version not supported! $NotSupported\n";
             }
             else {
                 print "ok (v$Version)\n";
+            }
+        }
+        elsif ( $Module->{Version} ) {
+            if ( $CleanedVersion >= $Module->{Version} ) {
+                print "ok (v$Version)\n";
+            }
+            else {
+                print "failed!!! Version $Version installed but $Module->{Version} or higher is required!\n";
             }
         }
         else {
@@ -257,3 +288,23 @@ sub _Check {
     }
 }
 
+sub _VersionClean {
+    my (%Param) = @_;
+
+    return 0 if !$Param{Version};
+
+    # replace all special characters with an dot
+    $Param{Version} =~ s{ [_-] }{.}xmsg;
+
+    my @VersionParts = split q{\.}, $Param{Version};
+
+    my $CleanedVersion = '';
+    for my $Count ( 0 .. 4 ) {
+        $VersionParts[$Count] ||= 0;
+        $CleanedVersion .= sprintf "%04d", $VersionParts[$Count];
+    }
+
+    return int $CleanedVersion;
+}
+
+exit 0;
