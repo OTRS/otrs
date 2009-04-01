@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.66 2009-02-16 11:20:53 tr Exp $
+# $Id: AgentTicketSearch.pm,v 1.67 2009-04-01 10:02:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,9 +21,10 @@ use Kernel::System::Service;
 use Kernel::System::SLA;
 use Kernel::System::State;
 use Kernel::System::Type;
+use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -45,6 +46,7 @@ sub new {
     $Self->{ServiceObject}       = Kernel::System::Service->new(%Param);
     $Self->{SLAObject}           = Kernel::System::SLA->new(%Param);
     $Self->{TypeObject}          = Kernel::System::Type->new(%Param);
+    $Self->{CSVObject}           = Kernel::System::CSV->new(%Param);
 
     # if we need to do a fulltext search on an external mirror database
     if ( $Self->{ConfigObject}->Get('Core::MirrorDB::DSN') ) {
@@ -634,8 +636,10 @@ sub Run {
                 }
 
                 # user info
-                my %UserInfo
-                    = $Self->{UserObject}->GetUserData( User => $Data{Owner}, Cached => 1 );
+                my %UserInfo = $Self->{UserObject}->GetUserData(
+                    User   => $Data{Owner},
+                    Cached => 1,
+                );
 
                 # merge row data
                 my %Info = (
@@ -656,7 +660,7 @@ sub Run {
                 push( @CSVData, \@Data );
             }
 
-            my $CSV = $Self->{LayoutObject}->OutputCSV(
+            my $CSV = $Self->{CSVObject}->Array2CSV(
                 Head => \@CSVHead,
                 Data => \@CSVData,
             );
