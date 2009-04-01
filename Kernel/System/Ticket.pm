@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.374 2009-04-01 14:27:29 ho Exp $
+# $Id: Ticket.pm,v 1.375 2009-04-01 14:44:32 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.374 $) [1];
+$VERSION = qw($Revision: 1.375 $) [1];
 
 =head1 NAME
 
@@ -758,9 +758,8 @@ sub TicketGet {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
         return;
     }
-    if ( !$Param{Extended} ) {
-        $Param{Extended} = '';
-    }
+    $Param{Extended} ||= '';
+
     my $CacheKey = 'Cache::GetTicket' . $Param{TicketID};
 
     # check if result is cached
@@ -942,7 +941,6 @@ sub TicketGet {
     # cache user result
     $Self->{$CacheKey}->{ $Param{Extended} } = \%Ticket;
 
-    # return ticket data
     return %Ticket;
 }
 
@@ -1226,6 +1224,7 @@ sub _TicketGetFirstLock {
             $Data{FirstLock} =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
         }
     }
+
     return %Data;
 }
 
@@ -1257,13 +1256,12 @@ sub TicketTitleUpdate {
         TicketID => $Param{TicketID},
         UserID   => $Param{UserID},
     );
-    if ( defined $Ticket{Title} && $Ticket{Title} eq $Param{Title} ) {
-        return 1;
-    }
+
+    return 1 if defined $Ticket{Title} && $Ticket{Title} eq $Param{Title};
 
     # db access
     return if !$Self->{DBObject}->Do(
-        SQL => 'UPDATE ticket SET title = ? WHERE id = ?',
+        SQL  => 'UPDATE ticket SET title = ? WHERE id = ?',
         Bind => [ \$Param{Title}, \$Param{TicketID} ],
     );
 
@@ -1276,6 +1274,7 @@ sub TicketTitleUpdate {
         UserID   => $Param{UserID},
         TicketID => $Param{TicketID},
     );
+
     return 1;
 }
 
@@ -1304,9 +1303,8 @@ sub TicketUnlockTimeoutUpdate {
 
     # check if update is needed
     my %Ticket = $Self->TicketGet(%Param);
-    if ( $Ticket{UnlockTimeout} eq $Param{UnlockTimeout} ) {
-        return 1;
-    }
+
+    return 1 if $Ticket{UnlockTimeout} eq $Param{UnlockTimeout};
 
     # reset unlock time
     return if !$Self->{DBObject}->Do(
@@ -1331,6 +1329,7 @@ sub TicketUnlockTimeoutUpdate {
         UserID   => $Param{UserID},
         TicketID => $Param{TicketID},
     );
+
     return 1;
 }
 
@@ -1352,10 +1351,13 @@ sub TicketQueueID {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
         return;
     }
+
     my %Ticket = $Self->TicketGet( TicketID => $Param{TicketID}, UserID => 1 );
+
     if ( !%Ticket ) {
         return;
     }
+
     return $Ticket{QueueID};
 }
 
@@ -3243,14 +3245,11 @@ sub TicketPendingTimeSet {
     }
 
     # return if no convert is possible
-    if ( !$Time ) {
-        return;
-    }
+    return if !$Time;
 
     # db update
     return if !$Self->{DBObject}->Do(
-        SQL => 'UPDATE ticket SET '
-            . ' until_time = ?, change_time = current_timestamp, change_by = ? WHERE id = ?',
+        SQL  => 'UPDATE ticket SET until_time = ?, change_time = current_timestamp, change_by = ? WHERE id = ?',
         Bind => [ \$Time, \$Param{UserID}, \$Param{TicketID} ],
     );
 
@@ -3276,6 +3275,7 @@ sub TicketPendingTimeSet {
         UserID   => $Param{UserID},
         TicketID => $Param{TicketID},
     );
+
     return 1;
 }
 
@@ -4527,7 +4527,7 @@ sub TicketSearch {
         my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
             String => $Param{TicketPendingTimeOlderDate},
         );
-        $SQLExt .= " AND st.until_time <= '" . $TimeStamp . "'";
+        $SQLExt .= " AND st.until_time <= $TimeStamp";
     }
 
     # get pending tickets newer than xxxx-xx-xx xx:xx date
@@ -4546,7 +4546,7 @@ sub TicketSearch {
         my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
             String => $Param{TicketPendingTimeNewerDate},
         );
-        $SQLExt .= " AND st.until_time >= '" . $Self->{DBObject}->Quote($TimeStamp) . "'";
+        $SQLExt .= " AND st.until_time >= $Self->{DBObject}->Quote($TimeStamp)";
     }
 
     # database query for sort/order by option
@@ -7123,6 +7123,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.374 $ $Date: 2009-04-01 14:27:29 $
+$Revision: 1.375 $ $Date: 2009-04-01 14:44:32 $
 
 =cut
