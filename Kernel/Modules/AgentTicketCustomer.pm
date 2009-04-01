@@ -1,12 +1,12 @@
 # --
 # Kernel/Modules/AgentTicketCustomer.pm - to set the ticket customer and show the customer history
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCustomer.pm,v 1.17 2008-05-08 09:36:36 mh Exp $
+# $Id: AgentTicketCustomer.pm,v 1.17.2.1 2009-04-01 16:02:06 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 package Kernel::Modules::AgentTicketCustomer;
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.17.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -132,10 +132,8 @@ sub Run {
             }
 
             # if more the one customer user exists, show list
-            # and clean CustomerUserID and CustomerID
+            # and clean CustomerID
             else {
-
-                #                $Param{CustomerUserID} = '';
                 $Param{CustomerID} = '';
                 $Param{"CustomerUserOptions"} = \%CustomerUserList;
             }
