@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.858 2009-04-01 14:30:06 mh Exp $
+# $Id: CHANGES,v 1.859 2009-04-01 14:39:44 ho Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.4.0 beta1 (2009/??/??)
+ - (2009/04/01) When merging tickets, assign article based ticket history
+   entries to the merged ticket as well.
  - (2009/04/01) Implemented enhancement/bug# 3333 - Increased the memory of
    the shared memory used for SystemLog.
  - (2009/04/01) Fixed bug# 3737 - Non-ascii characters in filenames of outbound
