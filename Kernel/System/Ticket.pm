@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.373 2009-04-01 13:40:53 ho Exp $
+# $Id: Ticket.pm,v 1.374 2009-04-01 14:27:29 ho Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.373 $) [1];
+$VERSION = qw($Revision: 1.374 $) [1];
 
 =head1 NAME
 
@@ -6367,6 +6367,13 @@ sub TicketMerge {
         Bind => [ \$Param{MainTicketID}, \$Param{MergeTicketID} ],
     );
 
+    # reassign article history
+    return if !$Self->{DBObject}->Do(
+        SQL => 'UPDATE ticket_history SET ticket_id = ? WHERE ticket_id = ?
+            AND (article_id IS NOT NULL OR article_id != 0)',
+        Bind => [ \$Param{MainTicketID}, \$Param{MergeTicketID} ],
+    );
+
     my %MainTicket  = $Self->TicketGet( TicketID => $Param{MainTicketID} );
     my %MergeTicket = $Self->TicketGet( TicketID => $Param{MergeTicketID} );
 
@@ -7116,6 +7123,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.373 $ $Date: 2009-04-01 13:40:53 $
+$Revision: 1.374 $ $Date: 2009-04-01 14:27:29 $
 
 =cut
