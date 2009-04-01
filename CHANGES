@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.847 2009-04-01 08:52:53 ub Exp $
+# $Id: CHANGES,v 1.848 2009-04-01 09:37:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -123,8 +123,10 @@
     auth support.
 
 2.3.5 (2009/??/??)
+ - (2009/04/01) Fixed bug# 3404 - PendingJobs.pl doesn't unlock the closed
+    tickets.
  - (2009/04/01) Fixed bug# 3745 - German umlaut in customer login_id breaks
-     login.
+    login.
  - (2009/03/24) Fixed bug# 3735 - Queue names should be quoted when editing
     queues (In this case if you use them in regular expressions).
  - (2009/02/19) Fixed bug# 3636 - Phone call link can be used without adding

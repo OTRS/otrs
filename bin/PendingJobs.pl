@@ -3,7 +3,7 @@
 # PendingJobs.pl - check pending tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PendingJobs.pl,v 1.35 2009-02-26 11:01:01 tr Exp $
+# $Id: PendingJobs.pl,v 1.36 2009-04-01 09:37:00 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 use Date::Pcalc qw(Day_of_Week Day_of_Week_Abbreviation);
 use Kernel::Config;
@@ -60,7 +60,7 @@ $CommonObject{StateObject}  = Kernel::System::State->new(%CommonObject);
 # check args
 my $Command = shift || '--help';
 print "PendingJobs.pl <Revision $VERSION> - check pending tickets\n";
-print "Copyright (c) 2001-2009 OTRS AG, http://otrs.org/\n";
+print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
 
 # do ticket auto jobs
 my @PendingAutoStateIDs = $CommonObject{StateObject}->StateGetStatesByType(
@@ -77,16 +77,16 @@ if (@PendingAutoStateIDs) {
     while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {
         push( @TicketIDs, $Row[0] );
     }
-    for (@TicketIDs) {
-        my %Ticket = $CommonObject{TicketObject}->TicketGet( TicketID => $_ );
+    for my $TicketID (@TicketIDs) {
+        my %Ticket = $CommonObject{TicketObject}->TicketGet( TicketID => $TicketID );
         if ( $Ticket{UntilTime} < 1 ) {
             my %States = %{ $CommonObject{ConfigObject}->Get('Ticket::StateAfterPending') };
             if ( $States{ $Ticket{State} } ) {
                 print
-                    " Update ticket state for ticket $Ticket{TicketNumber} ($_) to '$States{$Ticket{State}}'...";
+                    " Update ticket state for ticket $Ticket{TicketNumber} ($TicketID) to '$States{$Ticket{State}}'...";
                 if (
                     $CommonObject{TicketObject}->StateSet(
-                        TicketID => $_,
+                        TicketID => $TicketID,
                         State    => $States{ $Ticket{State} },
                         UserID   => 1,
                     )
@@ -94,7 +94,7 @@ if (@PendingAutoStateIDs) {
                 {
                     if ( $States{ $Ticket{State} } =~ /^close/i ) {
                         $CommonObject{TicketObject}->LockSet(
-                            TicketID     => $_,
+                            TicketID     => $TicketID,
                             Lock         => 'unlock',
                             UserID       => 1,
                             Notification => 0,
@@ -134,8 +134,8 @@ if (@PendingReminderStateIDs) {
     while ( my @RowTmp = $CommonObject{DBObject}->FetchrowArray() ) {
         push( @TicketIDs, $RowTmp[1] );
     }
-    for (@TicketIDs) {
-        my %Ticket = $CommonObject{TicketObject}->TicketGet( TicketID => $_ );
+    for my $TicketID (@TicketIDs) {
+        my %Ticket = $CommonObject{TicketObject}->TicketGet( TicketID => $TicketID );
 
         # check if bussines hours is, then send escalation info
         my $CountedTime = $CommonObject{TimeObject}->WorkingTime(
@@ -172,11 +172,11 @@ if (@PendingReminderStateIDs) {
             }
 
             # send reminder notification
-            print " Send reminder notification (TicketID=$_)\n";
-            for (@UserID) {
+            print " Send reminder notification (TicketID=$TicketID)\n";
+            for my $UserID (@UserID) {
 
                 # get user data
-                my %Preferences = $CommonObject{UserObject}->GetUserData( UserID => $_ );
+                my %Preferences = $CommonObject{UserObject}->GetUserData( UserID => $UserID );
 
                 # check if today a reminder is already sent
                 my ( $Sec, $Min, $Hour, $Day, $Month, $Year )
