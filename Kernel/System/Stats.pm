@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.69 2009-03-27 17:35:32 mh Exp $
+# $Id: Stats.pm,v 1.70 2009-04-01 08:12:18 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Date::Pcalc qw(:all);
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.70 $) [1];
 
 =head1 SYNOPSIS
 
@@ -906,13 +906,12 @@ sub _GenerateDynamicStats {
     # get all restrictions for the search
     my %RestrictionAttribute = ();
     for my $RestrictionPart ( @{ $Param{UseAsRestriction} } ) {
+        my $Element = $RestrictionPart->{Element};
         if ( $RestrictionPart->{Block} eq 'InputField' ) {
-            $RestrictionAttribute{ $RestrictionPart->{Element} }
-                = "%" . $RestrictionPart->{SelectedValues}[0] . "%";
+            $RestrictionAttribute{ $Element } = $RestrictionPart->{SelectedValues}[0];
         }
         elsif ( $RestrictionPart->{Block} eq 'SelectField' ) {
-            $RestrictionAttribute{ $RestrictionPart->{Element} }
-                = $RestrictionPart->{SelectedValues}[0];
+            $RestrictionAttribute{ $Element } = $RestrictionPart->{SelectedValues}[0];
         }
         elsif ( $RestrictionPart->{Block} eq 'Time' ) {
             $RestrictionAttribute{ $RestrictionPart->{Values}{TimeStop} }
@@ -921,8 +920,7 @@ sub _GenerateDynamicStats {
                 = $RestrictionPart->{TimeStart};
         }
         else {
-            $RestrictionAttribute{ $RestrictionPart->{Element} }
-                = $RestrictionPart->{SelectedValues};
+            $RestrictionAttribute{ $Element } = $RestrictionPart->{SelectedValues};
         }
     }
 
@@ -3220,6 +3218,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.69 $ $Date: 2009-03-27 17:35:32 $
+$Revision: 1.70 $ $Date: 2009-04-01 08:12:18 $
 
 =cut
