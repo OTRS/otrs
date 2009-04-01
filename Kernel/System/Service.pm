@@ -2,7 +2,7 @@
 # Kernel/System/Service.pm - all service function
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.31 2009-02-16 11:57:40 tr Exp $
+# $Id: Service.pm,v 1.32 2009-04-01 14:04:43 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 =head1 NAME
 
@@ -585,10 +585,10 @@ sub ServiceSearch {
             return;
         }
     }
-    $Param{Limit} = $Param{Limit} || 1000;
+    $Param{Limit} ||= 1000;
 
-    # FIXME: valid_id = 1
-    my $SQL = 'SELECT id FROM service WHERE valid_id = 1 ';
+    # create sql query
+    my $SQL = "SELECT id FROM service WHERE valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
 
     if ( $Param{Name} ) {
 
@@ -599,10 +599,10 @@ sub ServiceSearch {
         $Param{Name} =~ s{ \*+ }{%}xmsg;
         $Param{Name} =~ s{ %+ }{%}xmsg;
 
-        $SQL .= "AND name LIKE '$Param{Name}' ";
+        $SQL .= " AND name LIKE '$Param{Name}' ";
     }
 
-    $SQL .= 'ORDER BY name';
+    $SQL .= ' ORDER BY name';
 
     # search service in db
     $Self->{DBObject}->Prepare( SQL => $SQL );
@@ -874,6 +874,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.31 $ $Date: 2009-02-16 11:57:40 $
+$Revision: 1.32 $ $Date: 2009-04-01 14:04:43 $
 
 =cut
