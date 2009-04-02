@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.77 2009-02-20 12:04:29 mh Exp $
+# $Id: AdminPackageManager.pm,v 1.78 2009-04-02 17:55:53 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.77 $) [1];
+$VERSION = qw($Revision: 1.78 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1334,8 +1334,12 @@ sub _InstallHandling {
         return $Self->{LayoutObject}->ErrorScreen( Message => 'No such package!' );
     }
 
+    # redirect after finishing installation
+    if ( $Self->{ParamObject}->GetParam( Param => 'IntroInstallPost' )) {
+        return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
+    }
+
     my $IntroInstallPre    = $Self->{ParamObject}->GetParam( Param => 'IntroInstallPre' )    || '';
-    my $IntroInstallPost   = $Self->{ParamObject}->GetParam( Param => 'IntroInstallPost' )   || '';
     my $IntroInstallVendor = $Self->{ParamObject}->GetParam( Param => 'IntroInstallVendor' ) || '';
 
     # parse package
@@ -1349,7 +1353,7 @@ sub _InstallHandling {
     my %VerifyInfo = $Self->{PackageObject}->PackageVerifyInfo();
 
     # vendor screen
-    if ( !$IntroInstallVendor && !$IntroInstallPre && !$IntroInstallPost && !$Verified ) {
+    if ( !$IntroInstallVendor && !$IntroInstallPre && !$Verified ) {
         $Self->{LayoutObject}->Block(
             Name => 'Intro',
             Data => {
@@ -1378,7 +1382,10 @@ sub _InstallHandling {
     if ( $Structure{IntroInstall} ) {
         %Data = $Self->_MessageGet( Info => $Structure{IntroInstall}, Type => 'pre' );
     }
-    if ( %Data && !$IntroInstallPre ) {
+
+    # intro before installation
+    if ( %Data && !$IntroInstallPre  ) {
+
         $Self->{LayoutObject}->Block(
             Name => 'Intro',
             Data => {
@@ -1410,7 +1417,7 @@ sub _InstallHandling {
         if ( $Structure{IntroInstall} ) {
             %Data = $Self->_MessageGet( Info => $Structure{IntroInstall}, Type => 'post' );
         }
-        if ( %Data && !$IntroInstallPost ) {
+        if ( %Data ) {
             $Self->{LayoutObject}->Block(
                 Name => 'Intro',
                 Data => {
@@ -1434,6 +1441,7 @@ sub _InstallHandling {
         # redirect
         return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
     }
+
     return $Self->{LayoutObject}->ErrorScreen();
 }
 
@@ -1445,8 +1453,12 @@ sub _UpgradeHandling {
         return $Self->{LayoutObject}->ErrorScreen( Message => 'No such package!' );
     }
 
+    # redirect after finishing upgrade
+    if ( $Self->{ParamObject}->GetParam( Param => 'IntroUpgradePost' )) {
+        return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
+    }
+
     my $IntroUpgradePre  = $Self->{ParamObject}->GetParam( Param => 'IntroUpgradePre' )  || '';
-    my $IntroUpgradePost = $Self->{ParamObject}->GetParam( Param => 'IntroUpgradePost' ) || '';
 
     # check if we have to show uninstall intro pre
     my %Structure = $Self->{PackageObject}->PackageParse( String => $Param{Package}, );
@@ -1488,7 +1500,7 @@ sub _UpgradeHandling {
         if ( $Structure{IntroUpgrade} ) {
             %Data = $Self->_MessageGet( Info => $Structure{IntroUpgrade}, Type => 'post' );
         }
-        if ( %Data && !$IntroUpgradePost ) {
+        if ( %Data ) {
             $Self->{LayoutObject}->Block(
                 Name => 'Intro',
                 Data => {
