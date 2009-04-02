@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.97 2009-02-16 11:58:56 tr Exp $
+# $Id: DB.pm,v 1.98 2009-04-02 09:02:53 ho Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.97 $) [1];
+$VERSION = qw($Revision: 1.98 $) [1];
 
 =head1 NAME
 
@@ -124,12 +124,6 @@ sub new {
     elsif ( $Self->{DSN} =~ /:oracle/i ) {
         $Self->{'DB::Type'} = 'oracle';
     }
-    elsif ( $Self->{DSN} =~ /:sapdb/i ) {
-        $Self->{'DB::Type'} = 'maxdb';
-    }
-    elsif ( $Self->{DSN} =~ /:maxdb/i ) {
-        $Self->{'DB::Type'} = 'maxdb';
-    }
     elsif ( $Self->{DSN} =~ /:db2/i ) {
         $Self->{'DB::Type'} = 'db2';
     }
@@ -162,7 +156,7 @@ sub new {
         $Self->{LogObject}->Log(
             Priority => 'Error',
             Message  => "Unknown database type! Set option Database::Type in "
-                . "Kernel/Config.pm to (mysql|postgresql|maxdb|oracle|db2|mssql).",
+                . "Kernel/Config.pm to (mysql|postgresql|oracle|db2|mssql).",
         );
         return;
     }
@@ -1146,6 +1140,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.97 $ $Date: 2009-02-16 11:58:56 $
+$Revision: 1.98 $ $Date: 2009-04-02 09:02:53 $
 
 =cut
