@@ -3,7 +3,7 @@
 # PendingJobs.pl - check pending tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PendingJobs.pl,v 1.37 2009-04-01 11:35:42 mh Exp $
+# $Id: PendingJobs.pl,v 1.38 2009-04-02 13:50:01 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 use Date::Pcalc qw(Day_of_Week Day_of_Week_Abbreviation);
 use Kernel::Config;
@@ -97,11 +97,13 @@ if (@PendingAutoStateIDs) {
 
         # error handling
         if ( !$States{ $Ticket{State} } ) {
-            print STDERR "ERROR: No Ticket::StateAfterPending found for '$Ticket{State}' in Kernel/Config.pm!\n";
+            print STDERR
+                "ERROR: No Ticket::StateAfterPending found for '$Ticket{State}' in Kernel/Config.pm!\n";
             next TICKETID;
         }
 
-        print STDOUT " Update ticket state for ticket $Ticket{TicketNumber} ($TicketID) to '$States{$Ticket{State}}'...";
+        print STDOUT
+            " Update ticket state for ticket $Ticket{TicketNumber} ($TicketID) to '$States{$Ticket{State}}'...";
 
         # set new state
         my $Success = $CommonObject{TicketObject}->StateSet(
@@ -111,7 +113,7 @@ if (@PendingAutoStateIDs) {
         );
 
         # error handling
-        if (!$Success) {
+        if ( !$Success ) {
             print STDOUT " failed.\n";
             next TICKETID;
         }
@@ -168,7 +170,7 @@ if (@PendingReminderStateIDs) {
         # check if bussines hours is, then send escalation info
         my $CountedTime = $CommonObject{TimeObject}->WorkingTime(
             StartTime => $CommonObject{TimeObject}->SystemTime() - ( 30 * 60 ),
-            StopTime  => $CommonObject{TimeObject}->SystemTime(),
+            StopTime => $CommonObject{TimeObject}->SystemTime(),
         );
 
         # error handling
@@ -187,7 +189,11 @@ if (@PendingReminderStateIDs) {
 
         # send reminder to ticket onwer if ticket is locked
         my @UserID;
-        if ( $CommonObject{ConfigObject}->Get('Ticket::PendingNotificationOnlyToOwner') || $Ticket{Lock} eq 'lock' ) {
+        if (
+            $CommonObject{ConfigObject}->Get('Ticket::PendingNotificationOnlyToOwner')
+            || $Ticket{Lock} eq 'lock'
+            )
+        {
             @UserID = ( $Ticket{OwnerID} );
         }
 
@@ -210,9 +216,10 @@ if (@PendingReminderStateIDs) {
             );
 
             # check if today a reminder is already sent
-            my ( $Sec, $Min, $Hour, $Day, $Month, $Year ) = $CommonObject{TimeObject}->SystemTime2Date(
+            my ( $Sec, $Min, $Hour, $Day, $Month, $Year )
+                = $CommonObject{TimeObject}->SystemTime2Date(
                 SystemTime => $CommonObject{TimeObject}->SystemTime(),
-            );
+                );
 
             # get ticket history
             my @Lines = $CommonObject{TicketObject}->HistoryGet(

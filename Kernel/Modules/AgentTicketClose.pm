@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketClose.pm - close a ticket
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketClose.pm,v 1.53 2009-03-30 20:44:00 sb Exp $
+# $Id: AgentTicketClose.pm,v 1.54 2009-04-02 13:50:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -491,7 +491,8 @@ sub Run {
                 $ContentType = "text/html; charset=$Self->{LayoutObject}->{'UserCharset'}";
 
                 # replace link with content id for uploaded images
-                $GetParam{Body} =~ s/((?:<|&lt;)img.*?src=(?:"|&quot;)).*?ContentID=(inline[\w\.]+?@[\w\.-]+).*?((?:"|&quot;).*?(?:>|&gt;))/$1cid:$2$3/gi;
+                $GetParam{Body}
+                    =~ s/((?:<|&lt;)img.*?src=(?:"|&quot;)).*?ContentID=(inline[\w\.]+?@[\w\.-]+).*?((?:"|&quot;).*?(?:>|&gt;))/$1cid:$2$3/gi;
             }
 
             $ArticleID = $Self->{TicketObject}->ArticleCreate(

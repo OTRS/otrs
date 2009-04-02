@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.135 2009-04-01 11:55:14 ub Exp $
+# $Id: Layout.pm,v 1.136 2009-04-02 13:50:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.135 $) [1];
+$VERSION = qw($Revision: 1.136 $) [1];
 
 =head1 NAME
 
@@ -4082,7 +4082,7 @@ an optional supplied content type will be modified accordingly
 
 sub ToFromRichText {
     my ( $Self, %Param ) = @_;
-    my $Content     = $Param{Content} || '';
+    my $Content     = $Param{Content}     || '';
     my $ContentType = $Param{ContentType} || '';
 
     return ( '', $ContentType ) if !$Content;
@@ -4090,7 +4090,7 @@ sub ToFromRichText {
     # check for otrs and html tags
     my $HaveOTRSTags = 0;
     my $HaveHTMLTags = 0;
-    my $NoOTRSTags = $Content;
+    my $NoOTRSTags   = $Content;
     if ( $NoOTRSTags =~ s/<OTRS_.*?>//sgi ) {
         $HaveOTRSTags = 1;
     }
@@ -4104,11 +4104,14 @@ sub ToFromRichText {
 
             # convert to rich text
             $ContentType =~ s/plain/html/i;
-            return ( $Self->Ascii2Html(
-                Text           => $Content,
-                HTMLResultMode => 1,
-                LinkFeature    => 1,
-            ), $ContentType );
+            return (
+                $Self->Ascii2Html(
+                    Text           => $Content,
+                    HTMLResultMode => 1,
+                    LinkFeature    => 1,
+                ),
+                $ContentType
+            );
         }
 
         # protect otrs tags
@@ -4148,6 +4151,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.135 $ $Date: 2009-04-01 11:55:14 $
+$Revision: 1.136 $ $Date: 2009-04-02 13:50:00 $
 
 =cut

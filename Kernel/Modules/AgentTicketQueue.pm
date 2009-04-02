@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketQueue.pm - the queue view of all tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketQueue.pm,v 1.65 2009-04-01 15:08:31 tr Exp $
+# $Id: AgentTicketQueue.pm,v 1.66 2009-04-02 13:50:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Lock;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.65 $) [1];
+$VERSION = qw($Revision: 1.66 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -369,7 +369,7 @@ sub _MaskQueueView {
             . " ($Counter{$Queue{Queue}})";
 
         # the oldest queue
-        if ( $Queue{QueueID} == $QueueIDOfMaxAge  && $Self->{Blink} ) {
+        if ( $Queue{QueueID} == $QueueIDOfMaxAge && $Self->{Blink} ) {
             $QueueStrg .= "</blink>";
         }
 

@@ -2,7 +2,7 @@
 # Kernel/System/Log.pm - log wapper
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Log.pm,v 1.51 2009-04-01 14:11:35 tr Exp $
+# $Id: Log.pm,v 1.52 2009-04-02 13:50:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 =head1 NAME
 
@@ -93,7 +93,7 @@ sub new {
     shmget( $DummyIPCKey, 1, oct(1777) );
 
     # init session data mem (the real one)
-    if (!eval {$Self->{Key} = shmget( $Self->{IPCKey}, $Self->{IPCSize}, oct(1777) )}) {
+    if ( !eval { $Self->{Key} = shmget( $Self->{IPCKey}, $Self->{IPCSize}, oct(1777) ) } ) {
         $Self->{Key} = shmget( $Self->{IPCKey}, 1, oct(1777) );
         $Self->CleanUp();
         $Self->{Key} = shmget( $Self->{IPCKey}, $Self->{IPCSize}, oct(1777) )
@@ -304,6 +304,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.51 $ $Date: 2009-04-01 14:11:35 $
+$Revision: 1.52 $ $Date: 2009-04-02 13:50:00 $
 
 =cut

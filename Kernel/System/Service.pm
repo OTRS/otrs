@@ -2,7 +2,7 @@
 # Kernel/System/Service.pm - all service function
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.33 2009-04-01 14:24:24 mh Exp $
+# $Id: Service.pm,v 1.34 2009-04-02 13:50:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 =head1 NAME
 
@@ -146,7 +146,8 @@ sub ServiceList {
 
     my %ServiceInvalidList;
     SERVICEID:
-    for my $ServiceID ( sort { $ServiceListTmp{$a} cmp $ServiceListTmp{$b} } keys %ServiceListTmp ) {
+    for my $ServiceID ( sort { $ServiceListTmp{$a} cmp $ServiceListTmp{$b} } keys %ServiceListTmp )
+    {
 
         my $Valid = scalar grep { $_ eq $ServiceValidList{$ServiceID} } @ValidIDs;
 
@@ -211,7 +212,8 @@ sub ServiceGet {
 
     # get service from db
     $Self->{DBObject}->Prepare(
-        SQL => 'SELECT id, name, valid_id, comments, create_time, create_by, change_time, change_by '
+        SQL =>
+            'SELECT id, name, valid_id, comments, create_time, create_by, change_time, change_by '
             . 'FROM service WHERE id = ?',
         Bind  => [ \$Param{ServiceID} ],
         Limit => 1,
@@ -287,7 +289,7 @@ sub ServiceLookup {
     if ( !$Param{ServiceID} && !$Param{Name} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message => 'Need ServiceID or Name!',
+            Message  => 'Need ServiceID or Name!',
         );
         return;
     }
@@ -610,7 +612,8 @@ sub ServiceSearch {
     $Param{Limit} ||= 1000;
 
     # create sql query
-    my $SQL = "SELECT id FROM service WHERE valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
+    my $SQL
+        = "SELECT id FROM service WHERE valid_id IN ( ${\(join ', ', $Self->{ValidObject}->ValidIDsGet())} )";
 
     if ( $Param{Name} ) {
 
@@ -830,7 +833,7 @@ sub CustomerUserServiceMemberAdd {
 
     # delete existing relation
     return if !$Self->{DBObject}->Do(
-        SQL  => 'DELETE FROM service_customer_user WHERE customer_user_login = ? AND service_id = ?',
+        SQL => 'DELETE FROM service_customer_user WHERE customer_user_login = ? AND service_id = ?',
         Bind => [ \$Param{CustomerUserLogin}, \$Param{ServiceID} ],
     );
 
@@ -898,6 +901,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.33 $ $Date: 2009-04-01 14:24:24 $
+$Revision: 1.34 $ $Date: 2009-04-02 13:50:00 $
 
 =cut

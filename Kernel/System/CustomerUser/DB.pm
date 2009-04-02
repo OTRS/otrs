@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.73 2009-04-01 08:51:06 ub Exp $
+# $Id: DB.pm,v 1.74 2009-04-02 13:50:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Encode;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.73 $) [1];
+$VERSION = qw($Revision: 1.74 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -721,7 +721,7 @@ sub SetPassword {
     my ( $Self, %Param ) = @_;
 
     my $Login = $Param{UserLogin};
-    my $Pw    = $Param{PW} || '';
+    my $Pw = $Param{PW} || '';
 
     # check ro/rw
     if ( $Self->{ReadOnly} ) {
@@ -764,7 +764,7 @@ sub SetPassword {
                 Message =>
                     'The crypt() of your mod_perl(2) is not working correctly! Update mod_perl!',
             );
-            my $TempUser = quotemeta( $Login );
+            my $TempUser = quotemeta($Login);
             my $TempPw   = quotemeta($Pw);
             my $CMD      = "perl -e \"print crypt('$TempPw', '$TempUser');\"";
             open( IO, " $CMD | " ) || print STDERR "Can't open $CMD: $!";

@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.62 2009-04-01 09:00:32 tr Exp $
+# $Id: AdminGenericAgent.pm,v 1.63 2009-04-02 13:50:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -878,7 +878,7 @@ sub Run {
                 '1' => 'No',
                 '0' => 'Yes'
             },
-            Name       => 'NewSendNoNotification',
+            Name => 'NewSendNoNotification',
             SelectedID => $Param{NewSendNoNotification} || 0,
         );
 

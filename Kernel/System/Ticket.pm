@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.381 2009-04-02 12:08:51 mh Exp $
+# $Id: Ticket.pm,v 1.382 2009-04-02 13:50:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.381 $) [1];
+$VERSION = qw($Revision: 1.382 $) [1];
 
 =head1 NAME
 
@@ -442,7 +442,7 @@ sub TicketCreate {
 
     # check database undef/NULL (set value to undef/NULL to prevent database errors)
     $Param{ServiceID} ||= undef;
-    $Param{SLAID} ||= undef;
+    $Param{SLAID}     ||= undef;
 
     # create db record
     return if !$Self->{DBObject}->Do(
@@ -470,10 +470,10 @@ sub TicketCreate {
 
     # add history entry
     $Self->HistoryAdd(
-        TicketID     => $TicketID,
-        QueueID      => $Param{QueueID},
-        HistoryType  => 'NewTicket',
-        Name         => "\%\%$Param{TN}\%\%$Param{Queue}\%\%$Param{Priority}\%\%$Param{State}\%\%$TicketID",
+        TicketID    => $TicketID,
+        QueueID     => $Param{QueueID},
+        HistoryType => 'NewTicket',
+        Name => "\%\%$Param{TN}\%\%$Param{Queue}\%\%$Param{Priority}\%\%$Param{State}\%\%$TicketID",
         CreateUserID => $Param{UserID},
     );
 
@@ -481,9 +481,9 @@ sub TicketCreate {
     if ( $Param{CustomerNo} || $Param{CustomerID} || $Param{CustomerUser} ) {
         $Self->SetCustomerData(
             TicketID => $TicketID,
-            No       => $Param{CustomerNo} || $Param{CustomerID} || '',
-            User     => $Param{CustomerUser} || '',
-            UserID   => $Param{UserID},
+            No => $Param{CustomerNo} || $Param{CustomerID} || '',
+            User => $Param{CustomerUser} || '',
+            UserID => $Param{UserID},
         );
     }
 
@@ -688,7 +688,8 @@ sub TicketSubjectBuild {
         $Subject = "[$TicketHook$TicketHookDivider$Param{TicketNumber}] " . $Subject;
     }
     else {
-        $Subject = "$TicketSubjectRe: [$TicketHook$TicketHookDivider$Param{TicketNumber}] " . $Subject;
+        $Subject
+            = "$TicketSubjectRe: [$TicketHook$TicketHookDivider$Param{TicketNumber}] " . $Subject;
     }
 
     return $Subject;
@@ -1289,7 +1290,7 @@ sub TicketTitleUpdate {
 
     # db access
     return if !$Self->{DBObject}->Do(
-        SQL  => 'UPDATE ticket SET title = ? WHERE id = ?',
+        SQL => 'UPDATE ticket SET title = ? WHERE id = ?',
         Bind => [ \$Param{Title}, \$Param{TicketID} ],
     );
 
@@ -1383,7 +1384,7 @@ sub TicketQueueID {
     # get ticket data
     my %Ticket = $Self->TicketGet(
         TicketID => $Param{TicketID},
-        UserID => 1,
+        UserID   => 1,
     );
 
     return if !%Ticket;
@@ -3281,7 +3282,8 @@ sub TicketPendingTimeSet {
 
     # db update
     return if !$Self->{DBObject}->Do(
-        SQL  => 'UPDATE ticket SET until_time = ?, change_time = current_timestamp, change_by = ? WHERE id = ?',
+        SQL =>
+            'UPDATE ticket SET until_time = ?, change_time = current_timestamp, change_by = ? WHERE id = ?',
         Bind => [ \$Time, \$Param{UserID}, \$Param{TicketID} ],
     );
 
@@ -3576,11 +3578,14 @@ sub TicketSearch {
 
     # check types of given arguments
     ARGUMENT:
-    for my $Argument ( qw(
+    for my $Argument (
+        qw(
         Types TypeIDs CreatedTypes CreatedTypeIDs States StateIDs CreatedStates CreatedStateIDs StateTypeIDs
         Locks LockIDs OwnerIDs ResponsibleIDs CreatedUserIDs Queues QueueIDs CreatedQueues CreatedQueueIDs
         Priorities PriorityIDs CreatedPriorities CreatedPriorityIDs Services ServiceIDs SLAs SLAIDs WatchUserIDs
-    ) ) {
+        )
+        )
+    {
 
         next ARGUMENT if !$Param{$Argument};
         next ARGUMENT if ref $Param{$Argument} eq 'ARRAY' && @{ $Param{$Argument} };
@@ -3596,16 +3601,19 @@ sub TicketSearch {
 
     # quote the array elements
     ARGUMENT:
-    for my $Argument ( qw(
+    for my $Argument (
+        qw(
         TypeIDs CreatedTypeIDs StateIDs CreatedStateIDs StateTypeIDs LockIDs OwnerIDs ResponsibleIDs CreatedUserIDs
         QueueIDs CreatedQueueIDs PriorityIDs CreatedPriorityIDs ServiceIDs SLAIDs WatchUserIDs
-    ) ) {
+        )
+        )
+    {
 
         next ARGUMENT if !$Param{$Argument};
 
         # quote elements
         for my $Element ( @{ $Param{$Argument} } ) {
-            $Self->{DBObject}->Quote($Element, 'Integer');
+            $Self->{DBObject}->Quote( $Element, 'Integer' );
         }
     }
 
@@ -6338,7 +6346,8 @@ sub HistoryDelete {
 
     # delete ticket history entries from db
     return if !$Self->{DBObject}->Do(
-        SQL  => 'DELETE FROM ticket_history WHERE ticket_id = ? AND (article_id IS NULL OR article_id = 0)',
+        SQL =>
+            'DELETE FROM ticket_history WHERE ticket_id = ? AND (article_id IS NULL OR article_id = 0)',
         Bind => [ \$Param{TicketID} ],
     );
 
@@ -7249,6 +7258,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.381 $ $Date: 2009-04-02 12:08:51 $
+$Revision: 1.382 $ $Date: 2009-04-02 13:50:00 $
 
 =cut

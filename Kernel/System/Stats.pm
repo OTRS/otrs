@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.70 2009-04-01 08:12:18 tr Exp $
+# $Id: Stats.pm,v 1.71 2009-04-02 13:50:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Date::Pcalc qw(:all);
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 =head1 SYNOPSIS
 
@@ -908,10 +908,10 @@ sub _GenerateDynamicStats {
     for my $RestrictionPart ( @{ $Param{UseAsRestriction} } ) {
         my $Element = $RestrictionPart->{Element};
         if ( $RestrictionPart->{Block} eq 'InputField' ) {
-            $RestrictionAttribute{ $Element } = $RestrictionPart->{SelectedValues}[0];
+            $RestrictionAttribute{$Element} = $RestrictionPart->{SelectedValues}[0];
         }
         elsif ( $RestrictionPart->{Block} eq 'SelectField' ) {
-            $RestrictionAttribute{ $Element } = $RestrictionPart->{SelectedValues}[0];
+            $RestrictionAttribute{$Element} = $RestrictionPart->{SelectedValues}[0];
         }
         elsif ( $RestrictionPart->{Block} eq 'Time' ) {
             $RestrictionAttribute{ $RestrictionPart->{Values}{TimeStop} }
@@ -920,7 +920,7 @@ sub _GenerateDynamicStats {
                 = $RestrictionPart->{TimeStart};
         }
         else {
-            $RestrictionAttribute{ $Element } = $RestrictionPart->{SelectedValues};
+            $RestrictionAttribute{$Element} = $RestrictionPart->{SelectedValues};
         }
     }
 
@@ -3218,6 +3218,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.70 $ $Date: 2009-04-01 08:12:18 $
+$Revision: 1.71 $ $Date: 2009-04-02 13:50:00 $
 
 =cut

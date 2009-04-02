@@ -2,7 +2,7 @@
 # Kernel/System/Log/File.pm - file log backend
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: File.pm,v 1.20 2009-04-01 09:06:32 martin Exp $
+# $Id: File.pm,v 1.21 2009-04-02 13:50:01 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 umask "002";
 
@@ -75,7 +75,7 @@ sub Log {
     }
 
     # write log file
-    $Self->{EncodeObject}->SetIO( $FH );
+    $Self->{EncodeObject}->SetIO($FH);
     print $FH '[' . localtime() . ']';
     if ( $Param{Priority} =~ /^debug/i ) {
         print $FH "[Debug][$Param{Module}][$Param{Line}] $Param{Message}\n";

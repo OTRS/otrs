@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.54 2009-03-30 20:44:00 sb Exp $
+# $Id: AgentTicketCompose.pm,v 1.55 2009-04-02 13:50:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -380,7 +380,8 @@ sub Run {
         if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
 
             # replace link with content id for uploaded images
-            $GetParam{Body} =~ s/((?:<|&lt;)img.*?src=(?:"|&quot;)).*?ContentID=(inline[\w\.]+?@[\w\.-]+).*?((?:"|&quot;).*?(?:>|&gt;))/$1cid:$2$3/gi;
+            $GetParam{Body}
+                =~ s/((?:<|&lt;)img.*?src=(?:"|&quot;)).*?ContentID=(inline[\w\.]+?@[\w\.-]+).*?((?:"|&quot;).*?(?:>|&gt;))/$1cid:$2$3/gi;
 
             # remove unused inline images
             my @NewAttachmentData = ();
