@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.863 2009-04-02 08:55:02 ho Exp $
+# $Id: CHANGES,v 1.864 2009-04-02 12:10:13 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.4.0 beta1 (2009/??/??)
+ - (2009/04/02) Fixed bug# 3732 - Improved russion translation.
  - (2009/04/02) Dropped MaxDB/SAPDB support due to some limitations.
  - (2009/04/01) Fixed bug# 3295 - SQL error when you have no state of type
     "pending reminder".
