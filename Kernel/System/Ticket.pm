@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.380 2009-04-02 11:32:26 mh Exp $
+# $Id: Ticket.pm,v 1.381 2009-04-02 12:08:51 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.380 $) [1];
+$VERSION = qw($Revision: 1.381 $) [1];
 
 =head1 NAME
 
@@ -4317,26 +4317,34 @@ sub TicketSearch {
     for my $Key ( keys %TicketTime ) {
 
         # get tickets created older than x minutes
-        if ( $Param{ $Key . 'OlderMinutes' } ) {
+        if ( defined $Param{ $Key . 'OlderMinutes' } ) {
+
+            $Param{ $Key . 'OlderMinutes' } ||= 0;
 
             # exclude tickets with no escalation
             if ( $Key =~ m{ \A TicketEscalation }xms ) {
                 $SQLExt .= " AND $TicketTime{$Key} != 0";
             }
 
-            my $Time = $Self->{TimeObject}->SystemTime() - ( $Param{ $Key . 'OlderMinutes' } * 60 );
+            my $Time = $Self->{TimeObject}->SystemTime();
+            $Time -= ( $Param{ $Key . 'OlderMinutes' } * 60 );
+
             $SQLExt .= " AND $TicketTime{$Key} <= $Time";
         }
 
         # get tickets created newer than x minutes
-        if ( $Param{ $Key . 'NewerMinutes' } ) {
+        if ( defined $Param{ $Key . 'NewerMinutes' } ) {
+
+            $Param{ $Key . 'NewerMinutes' } ||= 0;
 
             # exclude tickets with no escalation
             if ( $Key =~ m{ \A TicketEscalation }xms ) {
                 $SQLExt .= " AND $TicketTime{$Key} != 0";
             }
 
-            my $Time = $Self->{TimeObject}->SystemTime() - ( $Param{ $Key . 'NewerMinutes' } * 60 );
+            my $Time = $Self->{TimeObject}->SystemTime();
+            $Time -= ( $Param{ $Key . 'NewerMinutes' } * 60 );
+
             $SQLExt .= " AND $TicketTime{$Key} >= $Time";
         }
     }
@@ -4394,18 +4402,26 @@ sub TicketSearch {
     }
 
     # get tickets changed older than x minutes
-    if ( $Param{TicketChangeTimeOlderMinutes} ) {
-        my $TimeStamp
-            = $Self->{TimeObject}->SystemTime() - ( $Param{TicketChangeTimeOlderMinutes} * 60 );
+    if ( defined $Param{TicketChangeTimeOlderMinutes} ) {
+
+        $Param{TicketChangeTimeOlderMinutes} ||= 0;
+
+        my $TimeStamp = $Self->{TimeObject}->SystemTime();
+        $TimeStamp -= ( $Param{TicketChangeTimeOlderMinutes} * 60 );
+
         $Param{TicketChangeTimeOlderDate} = $Self->{TimeObject}->SystemTime2TimeStamp(
             SystemTime => $TimeStamp,
         );
     }
 
     # get tickets changed newer than x minutes
-    if ( $Param{TicketChangeTimeNewerMinutes} ) {
-        my $TimeStamp
-            = $Self->{TimeObject}->SystemTime() - ( $Param{TicketChangeTimeNewerMinutes} * 60 );
+    if ( defined $Param{TicketChangeTimeNewerMinutes} ) {
+
+        $Param{TicketChangeTimeNewerMinutes} ||= 0;
+
+        my $TimeStamp = $Self->{TimeObject}->SystemTime();
+        $TimeStamp -= ( $Param{TicketChangeTimeNewerMinutes} * 60 );
+
         $Param{TicketChangeTimeNewerDate} = $Self->{TimeObject}->SystemTime2TimeStamp(
             SystemTime => $TimeStamp,
         );
@@ -4450,18 +4466,26 @@ sub TicketSearch {
     }
 
     # get tickets closed older than x minutes
-    if ( $Param{TicketCloseTimeOlderMinutes} ) {
-        my $TimeStamp
-            = $Self->{TimeObject}->SystemTime() - ( $Param{TicketCloseTimeOlderMinutes} * 60 );
+    if ( defined $Param{TicketCloseTimeOlderMinutes} ) {
+
+        $Param{TicketCloseTimeOlderMinutes} ||= 0;
+
+        my $TimeStamp = $Self->{TimeObject}->SystemTime();
+        $TimeStamp -= ( $Param{TicketCloseTimeOlderMinutes} * 60 );
+
         $Param{TicketCloseTimeOlderDate} = $Self->{TimeObject}->SystemTime2TimeStamp(
             SystemTime => $TimeStamp,
         );
     }
 
     # get tickets closed newer than x minutes
-    if ( $Param{TicketCloseTimeNewerMinutes} ) {
-        my $TimeStamp
-            = $Self->{TimeObject}->SystemTime() - ( $Param{TicketCloseTimeNewerMinutes} * 60 );
+    if ( defined $Param{TicketCloseTimeNewerMinutes} ) {
+
+        $Param{TicketCloseTimeNewerMinutes} ||= 0;
+
+        my $TimeStamp = $Self->{TimeObject}->SystemTime();
+        $TimeStamp -= ( $Param{TicketCloseTimeNewerMinutes} * 60 );
+
         $Param{TicketCloseTimeNewerDate} = $Self->{TimeObject}->SystemTime2TimeStamp(
             SystemTime => $TimeStamp,
         );
@@ -4529,8 +4553,8 @@ sub TicketSearch {
 
     # check if only pending states are used
     if (
-        $Param{TicketPendingTimeOlderMinutes}
-        || $Param{TicketPendingTimeNewerMinutes}
+        defined $Param{TicketPendingTimeOlderMinutes}
+        || defined $Param{TicketPendingTimeNewerMinutes}
         || $Param{TicketPendingTimeOlderDate}
         || $Param{TicketPendingTimeNewerDate}
         )
@@ -4547,18 +4571,28 @@ sub TicketSearch {
     }
 
     # get tickets pending older than x minutes
-    if ( $Param{TicketPendingTimeOlderMinutes} ) {
-        my $Time = $Self->{TimeObject}->SystemTime();
+    if ( defined $Param{TicketPendingTimeOlderMinutes} ) {
+
+        $Param{TicketPendingTimeOlderMinutes} ||= 0;
+
+        my $TimeStamp = $Self->{TimeObject}->SystemTime();
+        $TimeStamp -= ( $Param{TicketPendingTimeOlderMinutes} * 60 );
+
         $Param{TicketPendingTimeOlderDate} = $Self->{TimeObject}->SystemTime2TimeStamp(
-            SystemTime => $Time - ( $Param{TicketPendingTimeOlderMinutes} * 60 ),
+            SystemTime => $TimeStamp,
         );
     }
 
     # get tickets pending newer than x minutes
-    if ( $Param{TicketPendingTimeNewerMinutes} ) {
-        my $Time = $Self->{TimeObject}->SystemTime();
+    if ( defined $Param{TicketPendingTimeNewerMinutes} ) {
+
+        $Param{TicketPendingTimeNewerMinutes} ||= 0;
+
+        my $TimeStamp = $Self->{TimeObject}->SystemTime();
+        $TimeStamp -= ( $Param{TicketPendingTimeNewerMinutes} * 60 );
+
         $Param{TicketPendingTimeNewerDate} = $Self->{TimeObject}->SystemTime2TimeStamp(
-            SystemTime => $Time - ( $Param{TicketPendingTimeNewerMinutes} * 60 ),
+            SystemTime => $TimeStamp,
         );
     }
 
@@ -4645,9 +4679,9 @@ sub TicketSearch {
     }
 
     # database query
-    my %Tickets   = ();
-    my @TicketIDs = ();
-    my $Count     = 0;
+    my %Tickets;
+    my @TicketIDs;
+    my $Count;
     $Self->{DBObject}->Prepare( SQL => $SQL . $SQLExt, Limit => $Limit );
 
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
@@ -7215,6 +7249,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.380 $ $Date: 2009-04-02 11:32:26 $
+$Revision: 1.381 $ $Date: 2009-04-02 12:08:51 $
 
 =cut
