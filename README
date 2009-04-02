@@ -2,7 +2,7 @@
 # README - readme file of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: README,v 1.32 2009-02-26 10:22:05 tr Exp $
+# $Id: README,v 1.33 2009-04-02 08:55:02 ho Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -80,7 +80,7 @@ What is OTRS?
     - deadlines for trouble tickets
     - TicketHook free setable like 'Call#', 'MyTicket#', 'Request#' or 'Ticket#'
     - different levels of permissions/access-rights
-    - central database, Support of different SQL databases (e. g. MySQL, PostgeSQL, MaxDB/SAPDB, Oracle and DB2)
+    - central database, Support of different SQL databases (e. g. MySQL, PostgreSQL, Oracle and DB2)
     - user authentication agains database or ldap directory
     - easy to develope you own addon's (OTRS API)
     - easy to write different frontends (e. g. X11, console, ...)
