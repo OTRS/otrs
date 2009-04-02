@@ -3,7 +3,7 @@
 # otrs.CreateNewTranslationFile - create new translation file
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.CreateNewTranslationFile,v 1.29 2009-03-18 19:00:53 martin Exp $
+# $Id: otrs.CreateNewTranslationFile,v 1.30 2009-04-02 15:24:18 sb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION %Opts);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -135,11 +135,11 @@ for my $File (@List) {
 
         # do config
         $Content =~ s{
-            \$Config({"(.+?)"}|{""})
+            \$Config\{"([^\}]+?)?"\}
         }
         {
-            if (defined($2)) {
-                $CommonObject{ConfigObject}->Get($2);
+            if ( defined $1 ) {
+                $CommonObject{ConfigObject}->Get($1);
             }
             else {
                 '';
@@ -148,17 +148,14 @@ for my $File (@List) {
 
         # do translation
         $Content =~ s{
-            \$(Text|JSText)({"(.+?)",.+?}|{"(.+?)"}|{""})
+            \$(?:JS)?Text\{"([^\}]+?)?"(?:,[^\}]+)?\}
         }
         {
-            my $Word;
-            if (defined($3)) {
-                $Word = $3;
+            my $Word = '';
+            if ( defined $1 ) {
+                $Word = $1;
             }
-            if (defined($4)) {
-                $Word = $4;
-            }
-            if ($Word && !defined($UsedWords{$Word})) {
+            if ( $Word && !defined $UsedWords{$Word} ) {
 #                $UsedWords{$Word} = $CommonObject{LanguageObject}->Get($Word);
                 $UsedWordsMisc{$Word} = 1;
                 $UsedWords{$Word} = $CommonObject{LanguageObject}->{Translation}->{$Word};
@@ -188,7 +185,7 @@ for my $File (@List) {
 }
 
 # add misc words
-print "# Misc\n";
+print "\n# Misc\n";
 $Data .= "        # Misc\n";
 for my $Key ( keys %{ $CommonObject{LanguageObject}->{Translation} } ) {
     if ( !$UsedWordsMisc{$Key} ) {
@@ -219,10 +216,10 @@ while (<$In>) {
         $NewOut
             .= "];\n"
             . "    # date formats (\%A=WeekDay;\%B=LongMonth;\%T=Time;\%D=Day;\%M=Month;\%Y=Jear;)\n"
-            . "    \$Self->{DateFormat} = '$CommonObject{LanguageObject}->{DateFormat}';\n"
-            . "    \$Self->{DateFormatLong} = '$CommonObject{LanguageObject}->{DateFormatLong}';\n"
-            . "    \$Self->{DateFormatShort} = '$CommonObject{LanguageObject}->{DateFormatShort}';\n"
-            . "    \$Self->{DateInputFormat} = '$CommonObject{LanguageObject}->{DateInputFormat}';\n"
+            . "    \$Self->{DateFormat}          = '$CommonObject{LanguageObject}->{DateFormat}';\n"
+            . "    \$Self->{DateFormatLong}      = '$CommonObject{LanguageObject}->{DateFormatLong}';\n"
+            . "    \$Self->{DateFormatShort}     = '$CommonObject{LanguageObject}->{DateFormatShort}';\n"
+            . "    \$Self->{DateInputFormat}     = '$CommonObject{LanguageObject}->{DateInputFormat}';\n"
             . "    \$Self->{DateInputFormatLong} = '$CommonObject{LanguageObject}->{DateInputFormatLong}';\n\n";
 
         if ( $CommonObject{LanguageObject}->{TextDirection} ) {
