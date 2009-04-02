@@ -4,11 +4,11 @@
 # Copyright (C) 2007 Andrey Feldman <afeldman at alt-lan.ru>
 # Copyright (C) 2008 Egor Tsilenko <bg8s at symlink.ru>
 # --
-# $Id: ru.pm,v 1.68.2.1 2008-10-16 14:08:47 ub Exp $
+# $Id: ru.pm,v 1.68.2.2 2009-04-02 12:13:37 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 package Kernel::Language::ru;
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.68.2.1 $) [1];
+$VERSION = qw($Revision: 1.68.2.2 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -474,8 +474,8 @@ sub Data {
         'Create new Phone Ticket (Inbound)' => 'Создать новую телефонную заявку',
         'Overview of all open Tickets' => 'Обзор всех заявок',
         'Locked Tickets' => 'Заблокированые заявки',
-        'Watched Tickets' => 'Просмотренные заявки',
-        'Watched' => 'Просмотренные',
+        'Watched Tickets' => 'Отслеживаемые заявки',
+        'Watched' => 'Отслеживаемые',
         'Subscribe' => 'Подписаться',
         'Unsubscribe' => 'Отписаться',
         'Lock it to work on it!' => 'Заблокировать чтобы рассмотреть заявки!',
