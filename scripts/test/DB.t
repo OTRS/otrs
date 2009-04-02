@@ -2,7 +2,7 @@
 # DB.t - database tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.t,v 1.45 2009-02-16 12:41:12 tr Exp $
+# $Id: DB.t,v 1.46 2009-04-02 08:59:05 ho Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -157,25 +157,6 @@ elsif ( $Self->{DBObject}->{'DB::Type'} =~ /mssql/i ) {
     $Self->Is(
         $Self->{DBObject}->Quote( "Block[12]Block[12]", 'Like' ),
         'Block[[]12]Block[[]12]',
-        'Quote() Like-String - Block[12]Block[12]',
-    );
-}
-elsif ( $Self->{DBObject}->{'DB::Type'} =~ /maxdb/i ) {
-    $Self->Is(
-        $Self->{DBObject}->Quote("Test'l"),
-        'Test\'\'l',
-        'Quote() String - Test\'l',
-    );
-
-    $Self->Is(
-        $Self->{DBObject}->Quote("Test'l;"),
-        'Test\'\'l\\\;',
-        'Quote() String - Test\'l;',
-    );
-
-    $Self->Is(
-        $Self->{DBObject}->Quote( "Block[12]Block[12]", 'Like' ),
-        'Block[12]Block[12]',
         'Quote() Like-String - Block[12]Block[12]',
     );
 }
