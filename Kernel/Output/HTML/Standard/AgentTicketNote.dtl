@@ -2,7 +2,7 @@
 # AgentTicketNote.dtl - provides HTML form for note mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketNote.dtl,v 1.32 2009-03-24 13:17:21 martin Exp $
+# $Id: AgentTicketNote.dtl,v 1.33 2009-04-03 11:11:58 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -173,9 +173,6 @@ function change_selected(sel) {
                 </tr>
 <!-- dtl:block:Responsible -->
 <!-- dtl:block:Note -->
-<!-- dtl:block:RichText -->
-$Include{"YUI"}
-<!-- dtl:block:RichText -->
 <!-- dtl:block:InformAgent -->
                 <tr>
                   <td colspan="2" class="contentkey">$Text{"Inform Agent"}: ($Text{"Optional"})</td>
@@ -207,9 +204,14 @@ $Include{"YUI"}
                   <td colspan="2" class="contentkey">$Text{"Text"}:</td>
                   <td class="contentvalue">
                     <div class="yui-skin-sam">
-                    <textarea id="RichText" name="Body" rows="16" cols="$Config{"Ticket::Frontend::TextAreaNote"}">$QData{"Body"}</textarea>
-                    </div>
+<!-- dtl:block:RichText -->
+$Include{"YUI"}
+<!-- dtl:block:RichText -->
+<textarea id="RichText" name="Body" rows="16" cols="$Config{"Ticket::Frontend::TextAreaNote"}">
+$QData{"Body"}
+</textarea>
                     <font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
+                    </div>
                   </td>
                 </tr>
                 <tr>
