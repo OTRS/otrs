@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.52 2009-04-03 11:58:43 sb Exp $
+# $Id: Email.pm,v 1.53 2009-04-03 12:27:12 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 =head1 NAME
 
@@ -114,7 +114,7 @@ To send an email without already created header:
         From        => 'me@example.com',
         To          => 'friend@example.com',
         Subject     => 'Some words!',
-        ContentType => 'text/plain, charset=iso-8859-15',
+        ContentType => 'text/plain; charset=iso-8859-15',
         Charset     => 'iso-8859-15',
         Body        => 'Some nice text',
         InReplyTo   => '<somemessageid-2@example.com>',
@@ -722,6 +722,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.52 $ $Date: 2009-04-03 11:58:43 $
+$Revision: 1.53 $ $Date: 2009-04-03 12:27:12 $
 
 =cut

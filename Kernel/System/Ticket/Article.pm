@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.208 2009-04-03 11:58:43 sb Exp $
+# $Id: Article.pm,v 1.209 2009-04-03 12:30:35 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.208 $) [1];
+$VERSION = qw($Revision: 1.209 $) [1];
 
 =head1 NAME
 
@@ -101,7 +101,7 @@ sub ArticleCreate {
     {
         my $Attach = {
             Content     => $Param{Body},
-            ContentType => "text/html, charset=\"$Param{Charset}\"",
+            ContentType => "text/html; charset=\"$Param{Charset}\"",
             Filename    => 'HTML-Attachment.html',
         };
         push( @{ $Param{Attachment} }, $Attach );
@@ -1863,7 +1863,7 @@ send article via email and create article with attachments
         InReplyTo   => '<asdasdasd.12@example.com>',                           # not required but useful
         References  => '<asdasdasd.1@example.com> <asdasdasd.12@example.com>', # not required but useful
         Charset     => 'iso-8859-15'
-        ContentType => 'text/plain, charset=iso-8859-15',
+        ContentType => 'text/plain; charset=iso-8859-15',
         Loop        => 0, # 1|0 used for bulk emails
         Attachment => [
             {
@@ -1921,7 +1921,7 @@ sub ArticleSend {
 
     # for compatibility
     if ( $Param{ContentType} !~ /charset/i ) {
-        $Param{ContentType} .= ", charset=$Param{Charset}",
+        $Param{ContentType} .= "; charset=$Param{Charset}",
     }
     if ( !$Param{ArticleType} && !$Param{ArticleTypeID} ) {
         $Self->{LogObject}->Log(
@@ -2654,7 +2654,7 @@ sub SendCustomerNotification {
         To             => $Article{From},
         Subject        => $Notification{Subject},
         Body           => $Notification{Body},
-        ContentType    => 'text/plain, charset=' . $Notification{Charset},
+        ContentType    => 'text/plain; charset=' . $Notification{Charset},
         Charset        => $Notification{Charset},
         UserID         => $Param{UserID},
         Loop           => 1,
@@ -2954,7 +2954,7 @@ sub SendAutoResponse {
         Cc             => $Cc,
         RealName       => $Param{Realname},
         Charset        => $Param{Charset},
-        ContentType    => 'text/plain, charset=' . $Param{Charset},
+        ContentType    => 'text/plain; charset=' . $Param{Charset},
         Subject        => $Subject,
         UserID         => $Param{UserID},
         Body           => $Param{Body},
@@ -3367,6 +3367,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.208 $ $Date: 2009-04-03 11:58:43 $
+$Revision: 1.209 $ $Date: 2009-04-03 12:30:35 $
 
 =cut
