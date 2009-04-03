@@ -1,4 +1,26 @@
-#! /usr/bin/perl
+#!/usr/bin/perl -w
+# --
+# scripts/apache-perl-startup.pl - to load the modules if mod_perl is used
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# --
+# $Id: apache-perl-startup.pl,v 1.28 2009-04-03 14:32:50 tr Exp $
+# --
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU AFFERO General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# or see http://www.gnu.org/licenses/agpl.txt.
+# --
+
 use strict;
 use warnings;
 
@@ -92,6 +114,7 @@ use Kernel::System::AutoResponse;
 use Kernel::System::Notification;
 use Kernel::System::Email;
 use Kernel::System::Stats;
+use Kernel::System::Main;
 
 # web agent middle ware modules
 use Kernel::Modules::AgentTicketQueue;

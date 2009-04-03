@@ -3,7 +3,7 @@
 # scripts/apache-perl-startup.pl - to load the modules if mod_perl is used
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: apache2-perl-startup.pl,v 1.34 2009-02-16 12:50:17 tr Exp $
+# $Id: apache2-perl-startup.pl,v 1.35 2009-04-03 14:32:50 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -66,6 +66,7 @@ use Kernel::System::Web::Request;
 use Kernel::System::Web::UploadCache;
 use Kernel::System::DB;
 use Kernel::System::Encode;
+use Kernel::System::Main;
 use Kernel::System::Time;
 use Kernel::System::Auth;
 use Kernel::System::Auth::DB;
