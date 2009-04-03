@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketOwner.pm - set ticket owner
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOwner.pm,v 1.49 2009-03-27 17:35:11 mh Exp $
+# $Id: AgentTicketOwner.pm,v 1.50 2009-04-03 09:55:19 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -235,7 +235,7 @@ sub Run {
     }
 
     # rewrap body if exists
-    if ( $GetParam{Body} ) {
+    if ( $GetParam{Body} && !$Self->{ConfigObject}->{'Frontend::RichText'} ) {
         my $Size = $Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote') || 70;
         $GetParam{Body} =~ s/(^>.+|.{4,$Size})(?:\s|\z)/$1\n/gm;
     }
@@ -485,11 +485,27 @@ sub Run {
         # add note
         my $ArticleID = '';
         if ( $Self->{Config}->{Note} ) {
+            my $ContentType = "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}";
+            if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+                $ContentType =~ s/plain/html/gi;
+
+                # replace image link with content id for uploaded images
+                $GetParam{Body} =~ s{
+                    ((?:<|&lt;)img.*?src=(?:"|&quot;))
+                    .*?ContentID=(inline[\w\.]+?@[\w\.-]+).*?
+                    ((?:"|&quot;).*?(?:>|&gt;))
+                }
+                {
+                    $1 . "cid:" . $2 . $3;
+                }gxi;
+            }
+
             $ArticleID = $Self->{TicketObject}->ArticleCreate(
                 TicketID    => $Self->{TicketID},
                 SenderType  => 'agent',
                 From        => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
-                ContentType => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
+                ContentType => $ContentType,
+                Charset     => $Self->{LayoutObject}->{'UserCharset'},
                 UserID      => $Self->{UserID},
                 HistoryType => $Self->{Config}->{HistoryType},
                 HistoryComment => $Self->{Config}->{HistoryComment},
@@ -515,7 +531,15 @@ sub Run {
             # get pre loaded attachment
             my @AttachmentData
                 = $Self->{UploadCachObject}->FormIDGetAllFilesData( FormID => $Self->{FormID} );
+
+            # write attachments
+            WRITEATTACHMENT:
             for my $Ref (@AttachmentData) {
+
+                # skip deleted inline images
+                next WRITEATTACHMENT if $Ref->{ContentID}
+                    && $Ref->{ContentID} =~ /^inline/
+                    && $GetParam{Body} !~ /$Ref->{ContentID}/;
                 $Self->{TicketObject}->ArticleWriteAttachment(
                     %{$Ref},
                     ArticleID => $ArticleID,
@@ -654,7 +678,14 @@ sub Run {
 
         # fillup vars
         if ( !defined( $GetParam{Body} ) && $Self->{Config}->{Body} ) {
-            $GetParam{Body} = $Self->{LayoutObject}->Output( Template => $Self->{Config}->{Body} );
+            $GetParam{Body} = $Self->{LayoutObject}->Output( Template => $Self->{Config}->{Body} )
+                || '';
+
+            # make sure body has correct format (plain or html)
+            my @NewBody = $Self->{LayoutObject}->ToFromRichText(
+                Content => $GetParam{Body},
+            );
+            $GetParam{Body} = $NewBody[0];
         }
         if ( !defined( $GetParam{Subject} ) && $Self->{Config}->{Subject} ) {
             $GetParam{Subject}
@@ -1010,6 +1041,14 @@ sub _Mask {
             Name => 'Note',
             Data => {%Param},
         );
+
+        # add YUI editor
+        if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'RichText',
+                Data => \%Param,
+            );
+        }
 
         # agent list
         if ( $Self->{Config}->{InformAgent} ) {

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketClose.pm - close a ticket
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketClose.pm,v 1.54 2009-04-02 13:50:00 mh Exp $
+# $Id: AgentTicketClose.pm,v 1.55 2009-04-03 09:55:19 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -486,13 +486,18 @@ sub Run {
         my $ArticleID = '';
         if ( $Self->{Config}->{Note} ) {
             my $ContentType = "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}";
-            my $Charset     = $Self->{LayoutObject}->{'UserCharset'};
             if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
-                $ContentType = "text/html; charset=$Self->{LayoutObject}->{'UserCharset'}";
+                $ContentType =~ s/plain/html/gi;
 
-                # replace link with content id for uploaded images
-                $GetParam{Body}
-                    =~ s/((?:<|&lt;)img.*?src=(?:"|&quot;)).*?ContentID=(inline[\w\.]+?@[\w\.-]+).*?((?:"|&quot;).*?(?:>|&gt;))/$1cid:$2$3/gi;
+                # replace image link with content id for uploaded images
+                $GetParam{Body} =~ s{
+                    ((?:<|&lt;)img.*?src=(?:"|&quot;))
+                    .*?ContentID=(inline[\w\.]+?@[\w\.-]+).*?
+                    ((?:"|&quot;).*?(?:>|&gt;))
+                }
+                {
+                    $1 . "cid:" . $2 . $3;
+                }gxi;
             }
 
             $ArticleID = $Self->{TicketObject}->ArticleCreate(
@@ -500,7 +505,7 @@ sub Run {
                 SenderType  => 'agent',
                 From        => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
                 ContentType => $ContentType,
-                Charset     => $Charset,
+                Charset     => $Self->{LayoutObject}->{'UserCharset'},
                 UserID      => $Self->{UserID},
                 HistoryType => $Self->{Config}->{HistoryType},
                 HistoryComment => $Self->{Config}->{HistoryComment},
@@ -526,12 +531,15 @@ sub Run {
             # get pre loaded attachment
             my @AttachmentData
                 = $Self->{UploadCachObject}->FormIDGetAllFilesData( FormID => $Self->{FormID} );
+
+            # write attachments
             WRITEATTACHMENT:
             for my $Ref (@AttachmentData) {
-                next WRITEATTACHMENT if
-                    $Ref->{ContentID}
-                        && $Ref->{ContentID} =~ /^inline/
-                        && $GetParam{Body} !~ /$Ref->{ContentID}/;
+
+                # skip deleted inline images
+                next WRITEATTACHMENT if $Ref->{ContentID}
+                    && $Ref->{ContentID} =~ /^inline/
+                    && $GetParam{Body} !~ /$Ref->{ContentID}/;
                 $Self->{TicketObject}->ArticleWriteAttachment(
                     %{$Ref},
                     ArticleID => $ArticleID,
@@ -673,7 +681,7 @@ sub Run {
             $GetParam{Body} = $Self->{LayoutObject}->Output( Template => $Self->{Config}->{Body} )
                 || '';
 
-            # make sure body has correct format
+            # make sure body has correct format (plain or html)
             my @NewBody = $Self->{LayoutObject}->ToFromRichText(
                 Content => $GetParam{Body},
             );
@@ -1034,6 +1042,14 @@ sub _Mask {
             Data => {%Param},
         );
 
+        # add YUI editor
+        if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'RichText',
+                Data => \%Param,
+            );
+        }
+
         # agent list
         if ( $Self->{Config}->{InformAgent} ) {
             my %ShownUsers       = ();
@@ -1227,15 +1243,6 @@ sub _Mask {
                 },
             );
         }
-    }
-
-    if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
-
-        # add YUI editor
-        $Self->{LayoutObject}->Block(
-            Name => 'RichText',
-            Data => \%Param,
-        );
     }
 
     # get output back
