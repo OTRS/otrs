@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.78 2009-02-16 11:20:53 tr Exp $
+# $Id: AgentTicketEmail.pm,v 1.79 2009-04-03 11:58:43 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.78 $) [1];
+$VERSION = qw($Revision: 1.79 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -762,7 +762,7 @@ sub Run {
             Subject        => $GetParam{Subject},
             Body           => $GetParam{Body},
             Charset        => $Self->{LayoutObject}->{UserCharset},
-            Type           => 'text/plain',
+            ContentType    => 'text/plain, charset=' . $Self->{LayoutObject}->{UserCharset},
             UserID         => $Self->{UserID},
             HistoryType    => $Self->{Config}->{HistoryType},
             HistoryComment => $Self->{Config}->{HistoryComment}

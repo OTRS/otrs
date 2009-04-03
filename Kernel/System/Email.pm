@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.51 2009-04-01 13:33:46 sb Exp $
+# $Id: Email.pm,v 1.52 2009-04-03 11:58:43 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Encode;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 =head1 NAME
 
@@ -111,21 +111,21 @@ sub new {
 To send an email without already created header:
 
     my $Sent = $SendObject->Send(
-        From       => 'me@example.com',
-        To         => 'friend@example.com',
-        Subject    => 'Some words!',
-        Type       => 'text/plain',
-        Charset    => 'iso-8859-15',
-        Body       => 'Some nice text',
-        InReplyTo  => '<somemessageid-2@example.com>',
-        References => '<somemessageid-1@example.com> <somemessageid-2@example.com>',
-        Loop       => 1, # not required, removes smtp from
-        Attachment => [
+        From        => 'me@example.com',
+        To          => 'friend@example.com',
+        Subject     => 'Some words!',
+        ContentType => 'text/plain, charset=iso-8859-15',
+        Charset     => 'iso-8859-15',
+        Body        => 'Some nice text',
+        InReplyTo   => '<somemessageid-2@example.com>',
+        References  => '<somemessageid-1@example.com> <somemessageid-2@example.com>',
+        Loop        => 1, # not required, removes smtp from
+        Attachment  => [
             {
                 Filename    => "somefile.csv",
                 Content     => $ContentCSV,
                 ContentType => "text/csv",
-            }
+            },
             {
                 Filename    => "somefile.png",
                 Content     => $ContentPNG,
@@ -172,6 +172,11 @@ sub Send {
     if ( !$Param{To} && !$Param{Cc} && !$Param{Bcc} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need To, Cc or Bcc!' );
         return;
+    }
+
+    # for compatibility
+    if ( !defined $Param{ContentType} && defined $Param{Type} ) {
+        $Param{ContentType} = $Param{Type};
     }
 
     # check from
@@ -251,7 +256,7 @@ sub Send {
         . $Self->{ConfigObject}->Get('Version') . ')';
     $Header{'X-Mailer'}     = $XMailer;
     $Header{'X-Powered-By'} = 'OTRS - Open Ticket Request System (http://otrs.org/)';
-    $Header{Type} = $Param{Type} || 'text/plain';
+    $Header{Type} = $Param{ContentType} || 'text/plain';
 
     # define email encoding
     if ( $Param{Charset} && $Param{Charset} =~ /^iso/i ) {
@@ -717,6 +722,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.51 $ $Date: 2009-04-01 13:33:46 $
+$Revision: 1.52 $ $Date: 2009-04-03 11:58:43 $
 
 =cut

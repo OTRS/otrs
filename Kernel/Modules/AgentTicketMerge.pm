@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.pm,v 1.27 2009-03-27 17:35:11 mh Exp $
+# $Id: AgentTicketMerge.pm,v 1.28 2009-04-03 11:58:43 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::TemplateGenerator;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -202,7 +202,7 @@ sub Run {
                     Subject        => $Param{Subject},
                     UserID         => $Self->{UserID},
                     Body           => $Param{Body},
-                    Type           => 'text/plain',
+                    ContentType    => 'text/plain, charset=' . $Self->{LayoutObject}->{UserCharset},
                     Charset        => $Self->{LayoutObject}->{UserCharset},
                 );
                 if ( !$ArticleID ) {

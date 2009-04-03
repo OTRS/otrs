@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.207 2009-03-27 17:35:32 mh Exp $
+# $Id: Article.pm,v 1.208 2009-04-03 11:58:43 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.207 $) [1];
+$VERSION = qw($Revision: 1.208 $) [1];
 
 =head1 NAME
 
@@ -1862,8 +1862,8 @@ send article via email and create article with attachments
         Body        => 'the message text',                                     # required
         InReplyTo   => '<asdasdasd.12@example.com>',                           # not required but useful
         References  => '<asdasdasd.1@example.com> <asdasdasd.12@example.com>', # not required but useful
-        Charset     => 'ISO-8859-15'
-        Type        => 'text/plain',
+        Charset     => 'iso-8859-15'
+        ContentType => 'text/plain, charset=iso-8859-15',
         Loop        => 0, # 1|0 used for bulk emails
         Attachment => [
             {
@@ -1906,12 +1906,22 @@ sub ArticleSend {
     my $Loop        = $Param{Loop}        || 0;
     my $HistoryType = $Param{HistoryType} || 'SendAnswer';
 
+    # for compatibility
+    if ( !defined $Param{ContentType} && defined $Param{Type} ) {
+        $Param{ContentType} = $Param{Type};
+    }
+
     # check needed stuff
-    for (qw(TicketID UserID From Body Type Charset)) {
+    for (qw(TicketID UserID From Body ContentType Charset)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
+    }
+
+    # for compatibility
+    if ( $Param{ContentType} !~ /charset/i ) {
+        $Param{ContentType} .= ", charset=$Param{Charset}",
     }
     if ( !$Param{ArticleType} && !$Param{ArticleTypeID} ) {
         $Self->{LogObject}->Log(
@@ -1946,7 +1956,6 @@ sub ArticleSend {
     my $MessageID = "<$Time.$Random.$Param{TicketID}.$Param{UserID}\@$FQDN>";
     my $ArticleID = $Self->ArticleCreate(
         %Param,
-        ContentType => "$Param{Type}, charset=$Param{Charset}",
         MessageID   => $MessageID,
     );
     return if !$ArticleID;
@@ -2645,7 +2654,7 @@ sub SendCustomerNotification {
         To             => $Article{From},
         Subject        => $Notification{Subject},
         Body           => $Notification{Body},
-        Type           => 'text/plain',
+        ContentType    => 'text/plain, charset=' . $Notification{Charset},
         Charset        => $Notification{Charset},
         UserID         => $Param{UserID},
         Loop           => 1,
@@ -2945,7 +2954,7 @@ sub SendAutoResponse {
         Cc             => $Cc,
         RealName       => $Param{Realname},
         Charset        => $Param{Charset},
-        Type           => 'text/plain',
+        ContentType    => 'text/plain, charset=' . $Param{Charset},
         Subject        => $Subject,
         UserID         => $Param{UserID},
         Body           => $Param{Body},
@@ -3358,6 +3367,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.207 $ $Date: 2009-03-27 17:35:32 $
+$Revision: 1.208 $ $Date: 2009-04-03 11:58:43 $
 
 =cut

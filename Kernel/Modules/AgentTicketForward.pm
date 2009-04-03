@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.36 2009-03-27 17:35:11 mh Exp $
+# $Id: AgentTicketForward.pm,v 1.37 2009-04-03 11:58:43 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -588,7 +588,7 @@ sub SendEmail {
         InReplyTo      => $GetParam{InReplyTo},
         References     => $GetParam{References},
         Charset        => $Self->{LayoutObject}->{UserCharset},
-        Type           => 'text/plain',
+        ContentType    => 'text/plain, charset=' . $Self->{LayoutObject}->{UserCharset},
         Attachment     => \@AttachmentData,
         %ArticleParam,
     );
