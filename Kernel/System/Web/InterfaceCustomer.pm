@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.37 2009-02-17 22:04:59 martin Exp $
+# $Id: InterfaceCustomer.pm,v 1.38 2009-04-03 13:57:50 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -75,8 +75,8 @@ sub new {
         LogPrefix => $Self->{ConfigObject}->Get('CGILogPrefix'),
         %{$Self},
     );
-    $Self->{MainObject}   = Kernel::System::Main->new( %{$Self} );
     $Self->{EncodeObject} = Kernel::System::Encode->new( %{$Self} );
+    $Self->{MainObject}   = Kernel::System::Main->new( %{$Self} );
     $Self->{TimeObject}   = Kernel::System::Time->new( %{$Self} );
     $Self->{ParamObject}  = Kernel::System::Web::Request->new(
         %{$Self},
@@ -90,6 +90,7 @@ sub new {
             Message  => 'Global handle started...',
         );
     }
+
     return $Self;
 }
 
@@ -920,6 +921,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.37 $ $Date: 2009-02-17 22:04:59 $
+$Revision: 1.38 $ $Date: 2009-04-03 13:57:50 $
 
 =cut
