@@ -2,7 +2,7 @@
 # Kernel/System/Auth.pm - provides the authentification
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Auth.pm,v 1.34 2009-03-20 18:22:14 martin Exp $
+# $Id: Auth.pm,v 1.35 2009-04-03 14:13:43 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 =head1 NAME
 
@@ -65,7 +65,6 @@ create an object
         LogObject    => $LogObject,
         DBObject     => $DBObject,
     );
-
     my $AuthObject = Kernel::System::Auth->new(
         ConfigObject => $ConfigObject,
         EncodeObject => $EncodeObject,
@@ -208,6 +207,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.34 $ $Date: 2009-03-20 18:22:14 $
+$Revision: 1.35 $ $Date: 2009-04-03 14:13:43 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.46 2009-02-16 11:48:19 tr Exp $
+# $Id: LDAP.pm,v 1.47 2009-04-03 14:13:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,12 +13,13 @@ package Kernel::System::CustomerUser::LDAP;
 
 use strict;
 use warnings;
+
 use Net::LDAP;
-use Kernel::System::Encode;
+
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.46 $) [1];
+$VERSION = qw($Revision: 1.47 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -28,7 +29,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject PreferencesObject CustomerUserMap MainObject)) {
+    for (qw(DBObject ConfigObject LogObject PreferencesObject CustomerUserMap MainObject EncodeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -148,9 +149,6 @@ sub new {
         return;
     }
 
-    # encode object
-    $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
-
     $Self->{SourceCharset} = $Self->{CustomerUserMap}->{Params}->{SourceCharset} || '';
     $Self->{DestCharset}   = $Self->{CustomerUserMap}->{Params}->{DestCharset}   || '';
     $Self->{ExcludePrimaryCustomerID}
@@ -166,7 +164,7 @@ sub new {
 
     # cache object
     if ( $Self->{CustomerUserMap}->{CacheTTL} ) {
-        $Self->{CacheObject} = Kernel::System::Cache->new(%Param);
+        $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
 
         # set cache type
         $Self->{CacheType} = 'CustomerUser' . $Param{Count};

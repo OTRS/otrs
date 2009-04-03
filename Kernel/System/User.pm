@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.89 2009-02-16 11:49:56 tr Exp $
+# $Id: User.pm,v 1.90 2009-04-03 14:13:43 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ package Kernel::System::User;
 use strict;
 use warnings;
 
-use Kernel::System::CheckItem;
-use Kernel::System::Valid;
-use Kernel::System::Encode;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
+use Kernel::System::CheckItem;
+use Kernel::System::Valid;
+
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.89 $) [1];
+$VERSION = qw($Revision: 1.90 $) [1];
 
 =head1 NAME
 
@@ -83,7 +83,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject TimeObject MainObject)) {
+    for (qw(DBObject ConfigObject LogObject TimeObject MainObject EncodeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -94,15 +94,14 @@ sub new {
     $Self->{UserTableUser}   = $Self->{ConfigObject}->Get('DatabaseUserTableUser')   || 'login';
 
     # create needed object
-    $Self->{ValidObject}     = Kernel::System::Valid->new(%Param);
-    $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
-    $Self->{EncodeObject}    = Kernel::System::Encode->new(%Param);
+    $Self->{ValidObject}     = Kernel::System::Valid->new( %{$Self} );
+    $Self->{CheckItemObject} = Kernel::System::CheckItem->new( %{$Self} );
 
     # load generator preferences module
     my $GeneratorModule = $Self->{ConfigObject}->Get('User::PreferencesModule')
         || 'Kernel::System::User::Preferences::DB';
     if ( $Self->{MainObject}->Require($GeneratorModule) ) {
-        $Self->{PreferencesObject} = $GeneratorModule->new(%Param);
+        $Self->{PreferencesObject} = $GeneratorModule->new( %{$Self} );
     }
 
     return $Self;
@@ -978,6 +977,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.89 $ $Date: 2009-02-16 11:49:56 $
+$Revision: 1.90 $ $Date: 2009-04-03 14:13:43 $
 
 =cut

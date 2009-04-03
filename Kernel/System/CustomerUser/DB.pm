@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/DB.pm - some customer user functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.74 2009-04-02 13:50:00 mh Exp $
+# $Id: DB.pm,v 1.75 2009-04-03 14:13:44 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,15 +13,15 @@ package Kernel::System::CustomerUser::DB;
 
 use strict;
 use warnings;
-use Kernel::System::CheckItem;
-use Kernel::System::Valid;
-use Kernel::System::Cache;
-use Kernel::System::Encode;
 
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
+use Kernel::System::CheckItem;
+use Kernel::System::Valid;
+use Kernel::System::Cache;
+
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.74 $) [1];
+$VERSION = qw($Revision: 1.75 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -31,18 +31,15 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject PreferencesObject CustomerUserMap MainObject)) {
+    for (qw(DBObject ConfigObject LogObject PreferencesObject CustomerUserMap MainObject EncodeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
     # create valid object
-    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
+    $Self->{ValidObject} = Kernel::System::Valid->new( %{$Self} );
 
     # create check item object
-    $Self->{CheckItemObject} = Kernel::System::CheckItem->new(%Param);
-
-    # create encode object
-    $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
+    $Self->{CheckItemObject} = Kernel::System::CheckItem->new( %{$Self} );
 
     # max shown user a search list
     $Self->{UserSearchListLimit} = $Self->{CustomerUserMap}->{CustomerUserSearchListLimit} || 250;
@@ -78,7 +75,7 @@ sub new {
 
     # create cache object
     if ( $Self->{CustomerUserMap}->{CacheTTL} ) {
-        $Self->{CacheObject} = Kernel::System::Cache->new(%Param);
+        $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
 
         # set cache type
         $Self->{CacheType} = 'CustomerUser' . $Param{Count};

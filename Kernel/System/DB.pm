@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.98 2009-04-02 09:02:53 ho Exp $
+# $Id: DB.pm,v 1.99 2009-04-03 14:13:43 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,12 +13,13 @@ package Kernel::System::DB;
 
 use strict;
 use warnings;
+
 use DBI;
+
 use Kernel::System::Time;
-use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.98 $) [1];
+$VERSION = qw($Revision: 1.99 $) [1];
 
 =head1 NAME
 
@@ -81,7 +82,7 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # check needed objects
-    for (qw(ConfigObject LogObject MainObject)) {
+    for (qw(ConfigObject LogObject MainObject EncodeObject)) {
         if ( $Param{$_} ) {
             $Self->{$_} = $Param{$_};
         }
@@ -90,11 +91,8 @@ sub new {
         }
     }
 
-    # encode object
-    $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
-
     # time object
-    $Self->{TimeObject} = Kernel::System::Time->new(%Param);
+    $Self->{TimeObject} = Kernel::System::Time->new( %{$Self} );
 
     # get config data
     $Self->{DSN}  = $Param{DatabaseDSN}  || $Self->{ConfigObject}->Get('DatabaseDSN');
@@ -1140,6 +1138,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.98 $ $Date: 2009-04-02 09:02:53 $
+$Revision: 1.99 $ $Date: 2009-04-03 14:13:43 $
 
 =cut

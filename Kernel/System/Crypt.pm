@@ -2,7 +2,7 @@
 # Kernel/System/Crypt.pm - the main crypt module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Crypt.pm,v 1.14 2009-02-16 11:58:56 tr Exp $
+# $Id: Crypt.pm,v 1.15 2009-04-03 14:13:43 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,10 +15,9 @@ use strict;
 use warnings;
 
 use Kernel::System::FileTemp;
-use Kernel::System::Encode;
 
 use vars qw($VERSION @ISA);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -79,24 +78,19 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # get needed opbjects
-    for (qw(ConfigObject LogObject DBObject CryptType MainObject)) {
+    for (qw(ConfigObject LogObject DBObject CryptType MainObject EncodeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
     # check if module is enabled
-    if ( !$Self->{ConfigObject}->Get( $Param{CryptType} ) ) {
-        return;
-    }
+    return if !$Self->{ConfigObject}->Get( $Param{CryptType} );
 
     # create file template object
-    $Self->{FileTempObject} = Kernel::System::FileTemp->new(%Param);
-    $Self->{EncodeObject}   = Kernel::System::Encode->new(%Param);
+    $Self->{FileTempObject} = Kernel::System::FileTemp->new( %{$Self} );
 
     # load generator crypt module
     $Self->{GenericModule} = "Kernel::System::Crypt::$Param{CryptType}";
-    if ( !$Self->{MainObject}->Require( $Self->{GenericModule} ) ) {
-        return;
-    }
+    return if !$Self->{MainObject}->Require( $Self->{GenericModule} );
 
     # add generator crypt functions
     @ISA = ("$Self->{GenericModule}");
@@ -105,9 +99,7 @@ sub new {
     $Self->_Init();
 
     # check working env
-    if ( $Self->Check() ) {
-        return;
-    }
+    return if $Self->Check();
 
     return $Self;
 }
@@ -128,6 +120,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2009-02-16 11:58:56 $
+$Revision: 1.15 $ $Date: 2009-04-03 14:13:43 $
 
 =cut

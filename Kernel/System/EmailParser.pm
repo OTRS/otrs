@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.79 2009-03-27 17:35:32 mh Exp $
+# $Id: EmailParser.pm,v 1.80 2009-04-03 14:13:43 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,16 +13,16 @@ package Kernel::System::EmailParser;
 
 use strict;
 use warnings;
+
 use Mail::Internet;
 use MIME::Parser;
 use MIME::QuotedPrint;
 use MIME::Base64;
 use MIME::Words qw(:all);
 use Mail::Address;
-use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.79 $) [1];
+$VERSION = qw($Revision: 1.80 $) [1];
 
 =head1 NAME
 
@@ -70,7 +70,7 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # check needed objects
-    for (qw(LogObject ConfigObject)) {
+    for (qw(LogObject ConfigObject EncodeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -78,9 +78,6 @@ sub new {
     if ( !$Param{Email} && !$Param{Entity} ) {
         die "Need Email or Entity!";
     }
-
-    # encode object
-    $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
 
     if ( $Param{Email} ) {
 
@@ -1215,6 +1212,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.79 $ $Date: 2009-03-27 17:35:32 $
+$Revision: 1.80 $ $Date: 2009-04-03 14:13:43 $
 
 =cut

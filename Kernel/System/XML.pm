@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.78 2009-02-16 11:49:56 tr Exp $
+# $Id: XML.pm,v 1.79 2009-04-03 14:13:43 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,11 +14,10 @@ package Kernel::System::XML;
 use strict;
 use warnings;
 
-use Kernel::System::Encode;
 use Kernel::System::Cache;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.78 $) [1];
+$VERSION = qw($Revision: 1.79 $) [1];
 
 =head1 NAME
 
@@ -74,12 +73,11 @@ sub new {
     bless( $Self, $Type );
 
     # check all needed objects
-    for (qw(ConfigObject LogObject DBObject MainObject)) {
+    for (qw(ConfigObject LogObject DBObject MainObject EncodeObject)) {
         die "Got no $_" if !$Self->{$_};
     }
 
-    $Self->{EncodeObject} = Kernel::System::Encode->new(%Param);
-    $Self->{CacheObject}  = Kernel::System::Cache->new(%Param);
+    $Self->{CacheObject}  = Kernel::System::Cache->new( %{$Self} );
 
     # to access object over non object oriented XML::Parser and XML::Parser::Lite
     $S = $Self;
@@ -1434,6 +1432,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.78 $ $Date: 2009-02-16 11:49:56 $
+$Revision: 1.79 $ $Date: 2009-04-03 14:13:43 $
 
 =cut

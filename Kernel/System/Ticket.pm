@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.383 2009-04-03 12:37:03 martin Exp $
+# $Id: Ticket.pm,v 1.384 2009-04-03 14:13:43 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,7 +28,6 @@ use Kernel::System::Group;
 use Kernel::System::Cache;
 use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
-use Kernel::System::Encode;
 use Kernel::System::Email;
 use Kernel::System::AutoResponse;
 use Kernel::System::StdAttachment;
@@ -38,7 +37,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.383 $) [1];
+$VERSION = qw($Revision: 1.384 $) [1];
 
 =head1 NAME
 
@@ -106,7 +105,7 @@ sub new {
     @ISA = ('Kernel::System::Ticket::Article');
 
     # get needed objects
-    for (qw(ConfigObject LogObject TimeObject DBObject MainObject)) {
+    for (qw(ConfigObject LogObject TimeObject DBObject MainObject EncodeObject)) {
         if ( $Param{$_} ) {
             $Self->{$_} = $Param{$_};
         }
@@ -116,47 +115,42 @@ sub new {
     }
 
     # create common needed module objects
-    if ( !$Param{EncodeObject} ) {
-        $Param{EncodeObject} = Kernel::System::Encode->new(%Param);
-    }
-    $Self->{EncodeObject} = $Param{EncodeObject};
-
-    $Self->{UserObject} = Kernel::System::User->new(%Param);
+    $Self->{UserObject} = Kernel::System::User->new( %{$Self} );
     if ( !$Param{GroupObject} ) {
-        $Self->{GroupObject} = Kernel::System::Group->new(%Param);
+        $Self->{GroupObject} = Kernel::System::Group->new( %{$Self} );
     }
     else {
         $Self->{GroupObject} = $Param{GroupObject};
     }
 
-    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
+    $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new( %{$Self} );
     if ( !$Param{CustomerGroupObject} ) {
-        $Self->{CustomerGroupObject} = Kernel::System::CustomerGroup->new(%Param);
+        $Self->{CustomerGroupObject} = Kernel::System::CustomerGroup->new( %{$Self} );
     }
     else {
         $Self->{CustomerGroupObject} = $Param{CustomerGroupObject};
     }
 
     if ( !$Param{QueueObject} ) {
-        $Self->{QueueObject} = Kernel::System::Queue->new(%Param);
+        $Self->{QueueObject} = Kernel::System::Queue->new( %{$Self} );
     }
     else {
         $Self->{QueueObject} = $Param{QueueObject};
     }
 
-    $Self->{SendmailObject}       = Kernel::System::Email->new(%Param);
-    $Self->{AutoResponse}         = Kernel::System::AutoResponse->new(%Param);
-    $Self->{LoopProtectionObject} = Kernel::System::PostMaster::LoopProtection->new(%Param);
-    $Self->{StdAttachmentObject}  = Kernel::System::StdAttachment->new(%Param);
-    $Self->{TypeObject}           = Kernel::System::Type->new(%Param);
-    $Self->{PriorityObject}       = Kernel::System::Priority->new(%Param);
-    $Self->{ServiceObject}        = Kernel::System::Service->new(%Param);
-    $Self->{SLAObject}            = Kernel::System::SLA->new(%Param);
-    $Self->{StateObject}          = Kernel::System::State->new(%Param);
-    $Self->{LockObject}           = Kernel::System::Lock->new(%Param);
-    $Self->{NotificationObject}   = Kernel::System::Notification->new(%Param);
-    $Self->{ValidObject}          = Kernel::System::Valid->new(%Param);
-    $Self->{LinkObject}           = Kernel::System::LinkObject->new(%Param);
+    $Self->{SendmailObject}       = Kernel::System::Email->new( %{$Self} );
+    $Self->{AutoResponse}         = Kernel::System::AutoResponse->new( %{$Self} );
+    $Self->{LoopProtectionObject} = Kernel::System::PostMaster::LoopProtection->new( %{$Self} );
+    $Self->{StdAttachmentObject}  = Kernel::System::StdAttachment->new( %{$Self} );
+    $Self->{TypeObject}           = Kernel::System::Type->new( %{$Self} );
+    $Self->{PriorityObject}       = Kernel::System::Priority->new( %{$Self} );
+    $Self->{ServiceObject}        = Kernel::System::Service->new( %{$Self} );
+    $Self->{SLAObject}            = Kernel::System::SLA->new( %{$Self} );
+    $Self->{StateObject}          = Kernel::System::State->new( %{$Self} );
+    $Self->{LockObject}           = Kernel::System::Lock->new( %{$Self} );
+    $Self->{NotificationObject}   = Kernel::System::Notification->new( %{$Self} );
+    $Self->{ValidObject}          = Kernel::System::Valid->new( %{$Self} );
+    $Self->{LinkObject}           = Kernel::System::LinkObject->new( %{$Self} );
 
     # load ticket number generator
     my $GeneratorModule = $Self->{ConfigObject}->Get('Ticket::NumberGenerator')
@@ -7341,6 +7335,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.383 $ $Date: 2009-04-03 12:37:03 $
+$Revision: 1.384 $ $Date: 2009-04-03 14:13:43 $
 
 =cut

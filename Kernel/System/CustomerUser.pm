@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser.pm - some customer user functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUser.pm,v 1.50 2009-02-20 12:11:41 mh Exp $
+# $Id: CustomerUser.pm,v 1.51 2009-04-03 14:18:35 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,10 +13,11 @@ package Kernel::System::CustomerUser;
 
 use strict;
 use warnings;
+
 use Kernel::System::CustomerCompany;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 =head1 NAME
 
@@ -46,18 +47,15 @@ create an object
     my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
-
     my $MainObject = Kernel::System::Main->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
     );
-
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
         MainObject   => $MainObject,
     );
-
     my $CustomerUserObject = Kernel::System::CustomerUser->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
@@ -75,7 +73,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject MainObject)) {
+    for (qw(DBObject ConfigObject LogObject MainObject EncodeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -596,6 +594,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.50 $ $Date: 2009-02-20 12:11:41 $
+$Revision: 1.51 $ $Date: 2009-04-03 14:18:35 $
 
 =cut
