@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.27 2009-03-30 20:44:00 sb Exp $
+# $Id: AgentTicketBulk.pm,v 1.28 2009-04-03 12:53:53 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -162,16 +162,16 @@ sub Run {
                 my $ContentType = "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}";
                 my $Charset     = $Self->{LayoutObject}->{'UserCharset'};
                 if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
-                    $ContentType = "text/html; charset=$Self->{LayoutObject}->{'UserCharset'}";
+                    $ContentType =~ s/plain/html/gi;
                 }
                 $ArticleID = $Self->{TicketObject}->ArticleCreate(
-                    TicketID      => $TicketID,
-                    ArticleTypeID => $ArticleTypeID,
-                    ArticleType   => $ArticleType,
-                    SenderType    => 'agent',
-                    From    => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
-                    Subject => $Subject,
-                    Body    => $Body,
+                    TicketID       => $TicketID,
+                    ArticleTypeID  => $ArticleTypeID,
+                    ArticleType    => $ArticleType,
+                    SenderType     => 'agent',
+                    From           => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
+                    Subject        => $Subject,
+                    Body           => $Body,
                     ContentType    => $ContentType,
                     Charset        => $Charset,
                     UserID         => $Self->{UserID},

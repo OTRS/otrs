@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.56 2009-04-03 11:58:43 sb Exp $
+# $Id: AgentTicketCompose.pm,v 1.57 2009-04-03 12:53:53 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -377,25 +377,6 @@ sub Run {
             push( @AttachmentData, \%UploadStuff );
         }
 
-        if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
-
-            # replace link with content id for uploaded images
-            $GetParam{Body}
-                =~ s/((?:<|&lt;)img.*?src=(?:"|&quot;)).*?ContentID=(inline[\w\.]+?@[\w\.-]+).*?((?:"|&quot;).*?(?:>|&gt;))/$1cid:$2$3/gi;
-
-            # remove unused inline images
-            my @NewAttachmentData = ();
-            REMOVEINLINE:
-            for my $TmpAttachment (@AttachmentData) {
-                next REMOVEINLINE if
-                    $TmpAttachment->{ContentID}
-                        && $TmpAttachment->{ContentID} =~ /^inline/
-                        && $GetParam{Body} !~ /$TmpAttachment->{ContentID}/;
-                push( @NewAttachmentData, \%{$TmpAttachment} );
-            }
-            @AttachmentData = @NewAttachmentData;
-        }
-
         # get recipients
         my $Recipients = '';
         for my $Line (qw(To Cc Bcc)) {
@@ -407,10 +388,30 @@ sub Run {
             }
         }
 
-        # set content type
-        my $ContentType = 'text/plain';
+        my $ContentType = "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}";
         if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
-            $ContentType = 'text/html';
+            $ContentType =~ s/plain/html/gi;
+
+            # replace link with content id for uploaded images
+            $GetParam{Body} =~ s{
+                ((?:<|&lt;)img.*?src=(?:"|&quot;))
+                .*?ContentID=(inline[\w\.]+?@[\w\.-]+).*?
+                ((?:"|&quot;).*?(?:>|&gt;))
+            }
+            {
+                $1 . "cid:" . $2 . $3;
+            }gxi;
+
+            # remove unused inline images
+            my @NewAttachmentData = ();
+            REMOVEINLINE:
+            for my $TmpAttachment (@AttachmentData) {
+                next REMOVEINLINE if $TmpAttachment->{ContentID}
+                    && $TmpAttachment->{ContentID} =~ /^inline/
+                    && $GetParam{Body} !~ /$TmpAttachment->{ContentID}/;
+                push( @NewAttachmentData, \%{$TmpAttachment} );
+            }
+            @AttachmentData = @NewAttachmentData;
         }
 
         # send email
@@ -716,7 +717,7 @@ sub Run {
                     LinkFeature    => 1,
                 );
                 $Data{BodyHTMLContentType} = $Data{ContentType} || 'text/plain';
-                $Data{BodyHTMLContentType} =~ s/text\/plain/text\/html/i;
+                $Data{BodyHTMLContentType} =~ s/plain/html/i;
             }
 
             # prepare body, subject, ReplyTo ...

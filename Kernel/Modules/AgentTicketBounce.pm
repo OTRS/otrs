@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.pm,v 1.26 2009-04-03 11:58:43 sb Exp $
+# $Id: AgentTicketBounce.pm,v 1.27 2009-04-03 12:53:53 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -293,17 +293,16 @@ $QData{"Signature"}';
         if ( $Param{InformSender} ) {
 
             # set content type
-            my $ContentType = 'text/plain';
-
+            my $ContentType = "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}";
             if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
-                $ContentType = 'text/html';
-                $Param{Body} =~ s/&lt;OTRS_TICKET&gt;/$Ticket{TicketNumber}/g;
-                $Param{Body} =~ s/&lt;OTRS_BOUNCE_TO&gt;/$Param{BounceTo}/g;
+                $ContentType =~ s/plain/html/gi;
             }
-            else {
-                $Param{Body} =~ s/<OTRS_TICKET>/$Ticket{TicketNumber}/g;
-                $Param{Body} =~ s/<OTRS_BOUNCE_TO>/$Param{BounceTo}/g;
-            }
+
+            # replace placeholders
+            $Param{Body} =~ s/(&lt;|<)OTRS_TICKET(&gt;|>)/$Ticket{TicketNumber}/g;
+            $Param{Body} =~ s/(&lt;|<)OTRS_BOUNCE_TO(&gt;|>)/$Param{BounceTo}/g;
+
+            # send
             my $ArticleID = $Self->{TicketObject}->ArticleSend(
                 ArticleType    => 'email-external',
                 SenderType     => 'agent',
