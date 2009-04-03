@@ -2,7 +2,7 @@
 # Kernel/System/Encode.pm - character encodings
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Encode.pm,v 1.39 2009-03-20 18:19:53 martin Exp $
+# $Id: Encode.pm,v 1.40 2009-04-03 13:56:51 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,11 +13,12 @@ package Kernel::System::Encode;
 
 use strict;
 use warnings;
+
 use Encode;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 =head1 NAME
 
@@ -335,6 +336,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.39 $ $Date: 2009-03-20 18:19:53 $
+$Revision: 1.40 $ $Date: 2009-04-03 13:56:51 $
 
 =cut
