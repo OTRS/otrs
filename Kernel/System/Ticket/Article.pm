@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.209 2009-04-03 12:30:35 sb Exp $
+# $Id: Article.pm,v 1.210 2009-04-03 12:37:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.209 $) [1];
+$VERSION = qw($Revision: 1.210 $) [1];
 
 =head1 NAME
 
@@ -236,7 +236,7 @@ sub ArticleCreate {
 
         # check if latest article comes from customer
         my $LastSender = '';
-        $Self->{DBObject}->Prepare(
+        return if !$Self->{DBObject}->Prepare(
             SQL => 'SELECT ast.name FROM article art, article_sender_type ast WHERE '
                 . ' art.ticket_id = ? AND art.id NOT IN (?) AND '
                 . ' art.article_sender_type_id = ast.id ORDER BY art.create_time ASC',
@@ -666,7 +666,7 @@ sub _ArticleGetId {
     push @Bind, \$Param{IncomingTime};
 
     # start query
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL  => $SQL,
         Bind => \@Bind,
     );
@@ -697,7 +697,7 @@ sub ArticleGetTicketIDOfMessageID {
     }
 
     # sql query
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL   => 'SELECT ticket_id FROM article WHERE a_message_id = ?',
         Bind  => [ \$Param{MessageID} ],
         Limit => 10,
@@ -750,7 +750,7 @@ sub ArticleGetContentPath {
     }
 
     # sql query
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL  => 'SELECT content_path FROM article WHERE id = ?',
         Bind => [ \$Param{ArticleID} ],
     );
@@ -775,15 +775,7 @@ get a article sender type list
 sub ArticleSenderTypeList {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw()) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
-
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL => "SELECT id, name FROM article_sender_type WHERE "
             . "valid_id IN (${\(join ', ', $Self->{ValidObject}->ValidIDsGet())})",
     );
@@ -846,13 +838,13 @@ sub ArticleSenderTypeLookup {
 
     # get data
     if ( $Param{SenderType} ) {
-        $Self->{DBObject}->Prepare(
+        return if !$Self->{DBObject}->Prepare(
             SQL  => 'SELECT id FROM article_sender_type WHERE name = ?',
             Bind => [ \$Param{SenderType} ],
         );
     }
     else {
-        $Self->{DBObject}->Prepare(
+        return if !$Self->{DBObject}->Prepare(
             SQL  => 'SELECT name FROM article_sender_type WHERE id = ?',
             Bind => [ \$Param{SenderTypeID} ],
         );
@@ -921,13 +913,13 @@ sub ArticleTypeLookup {
 
     # get data
     if ( $Param{ArticleType} ) {
-        $Self->{DBObject}->Prepare(
+        return if !$Self->{DBObject}->Prepare(
             SQL  => 'SELECT id FROM article_type WHERE name = ?',
             Bind => [ \$Param{ArticleType} ],
         );
     }
     else {
-        $Self->{DBObject}->Prepare(
+        return if !$Self->{DBObject}->Prepare(
             SQL  => 'SELECT name FROM article_type WHERE id = ?',
             Bind => [ \$Param{ArticleTypeID} ],
         );
@@ -970,15 +962,7 @@ get a article type list
 sub ArticleTypeList {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw()) {
-        if ( !$Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
-        }
-    }
-
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL => "SELECT id, name FROM article_type WHERE "
             . "valid_id IN (${\(join ', ', $Self->{ValidObject}->ValidIDsGet())})",
     );
@@ -1221,16 +1205,14 @@ sub ArticleFirstArticle {
     my @Index = $Self->ArticleIndex( TicketID => $Param{TicketID} );
 
     # get article data
-    if (@Index) {
-        return $Self->ArticleGet( ArticleID => $Index[0], Extended => $Param{Extended} );
-    }
-    else {
+    if ( !@Index ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "No article found for TicketID $Param{TicketID}!",
         );
         return;
     }
+    return $Self->ArticleGet( ArticleID => $Index[0], Extended => $Param{Extended} );
 }
 
 =item ArticleIndex()
@@ -1261,7 +1243,7 @@ sub ArticleIndex {
 
     # db query
     if ( $Param{SenderType} ) {
-        $Self->{DBObject}->Prepare(
+        return if !$Self->{DBObject}->Prepare(
             SQL => "SELECT art.id FROM article art, article_sender_type ast WHERE "
                 . " art.ticket_id = ? AND art.article_sender_type_id = ast.id AND "
                 . " ast.name = ? ORDER BY art.id",
@@ -1269,7 +1251,7 @@ sub ArticleIndex {
         );
     }
     else {
-        $Self->{DBObject}->Prepare(
+        return if !$Self->{DBObject}->Prepare(
             SQL  => 'SELECT id FROM article WHERE ticket_id = ? ORDER BY id',
             Bind => [ \$Param{TicketID} ],
         );
@@ -1413,6 +1395,31 @@ returns article data
         UserID    => 123,
     );
 
+Article:
+    ArticleID
+    From
+    To
+    Cc
+    Subject
+    Body
+    ReplyTo
+    MessageID
+    InReplyTo
+    References
+    SenderType
+    SenderTypeID
+    ArticleType
+    ArticleTypeID
+    ContentType
+    ContentCharset
+    MimeType
+    IncomingTime
+    ArticleFreeKey1-3
+    ArticleFreeText-3
+
+Ticket:
+    - see TicketGet() for ticket attributes-
+
 returns articles in array / hash by given ticket id
 
     my @ArticleIndex = $TicketObject->ArticleGet(
@@ -1429,7 +1436,7 @@ only requestet article types
         UserID      => 123,
     );
 
-to get extended ticket attributes, use param Extended
+to get extended ticket attributes, use param Extended - see TicketGet() for extended attributes -
 
     my @ArticleIndex = $TicketObject->ArticleGet(
         TicketID => 123,
@@ -1444,7 +1451,7 @@ sub ArticleGet {
 
     # check needed stuff
     if ( !$Param{ArticleID} && !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need ArticleID or TicketID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ArticleID or TicketID!' );
         return;
     }
 
@@ -1647,7 +1654,7 @@ sub ArticleGet {
             }
         }
 
-        push( @Content, { %Ticket, %Data } );
+        push @Content, { %Ticket, %Data };
     }
 
     # return if content is empty
@@ -3090,8 +3097,6 @@ get article flags
 sub ArticleFlagGet {
     my ( $Self, %Param ) = @_;
 
-    my %Flag = ();
-
     # check needed stuff
     for (qw(ArticleID UserID)) {
         if ( !$Param{$_} ) {
@@ -3101,11 +3106,12 @@ sub ArticleFlagGet {
     }
 
     # sql query
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL   => 'SELECT article_flag FROM article_flag WHERE article_id = ? AND create_by = ?',
         Bind  => [ \$Param{ArticleID}, \$Param{UserID} ],
         Limit => 1500,
     );
+    my %Flag;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Flag{ $Row[0] } = 1;
     }
@@ -3125,8 +3131,6 @@ returns the accounted time of a article.
 sub ArticleAccountedTimeGet {
     my ( $Self, %Param ) = @_;
 
-    my $AccountedTime = 0;
-
     # check needed stuff
     if ( !$Param{ArticleID} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need ArticleID!' );
@@ -3134,10 +3138,11 @@ sub ArticleAccountedTimeGet {
     }
 
     # db query
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL  => 'SELECT time_unit FROM time_accounting WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ],
     );
+    my $AccountedTime = 0;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Row[0] =~ s/,/./g;
         $AccountedTime = $AccountedTime + $Row[0];
@@ -3367,6 +3372,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.209 $ $Date: 2009-04-03 12:30:35 $
+$Revision: 1.210 $ $Date: 2009-04-03 12:37:03 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.382 2009-04-02 13:50:00 mh Exp $
+# $Id: Ticket.pm,v 1.383 2009-04-03 12:37:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.382 $) [1];
+$VERSION = qw($Revision: 1.383 $) [1];
 
 =head1 NAME
 
@@ -260,11 +260,8 @@ sub TicketCheckNumber {
         UserID   => 1,
     );
 
-    DATA:
     for my $Data ( reverse @Lines ) {
-
-        next DATA if $Data->{HistoryType} eq 'Merged';
-
+        next if $Data->{HistoryType} ne 'Merged';
         if ( $Data->{Name} =~ /^.*\(\d+?\/(\d+?)\)$/ ) {
             return $1;
         }
@@ -600,7 +597,7 @@ sub TicketIDLookup {
     }
 
     # db query
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL   => 'SELECT id FROM ticket WHERE tn = ?',
         Bind  => [ \$Param{TicketNumber} ],
         Limit => 1,
@@ -750,16 +747,77 @@ sub TicketSubjectClean {
 
 =item TicketGet()
 
-get ticket info (TicketNumber, TicketID, State, StateID, StateType,
-Priority, PriorityID, Lock, LockID, Queue, QueueID,
-CustomerID, CustomerUserID, Owner, OwnerID, Type, TypeID,
-SLA, SLAID, Service, ServiceID, Responsible, ResponsibleID, Created, Changed,
-TicketFreeKey1-16, TicketFreeText1-16, TicketFreeTime1-6, ...)
+get ticket info
 
     my %Ticket = $TicketObject->TicketGet(
         TicketID => 123,
         UserID   => 123,
     );
+
+returns
+
+    TicketNumber
+    TicketID
+    State
+    StateID
+    StateType
+    Priority
+    PriorityID
+    Lock
+    LockID
+    Queue
+    QueueID
+    CustomerID
+    CustomerUserID
+    Owner
+    OwnerID
+    Type
+    TypeID
+    SLA
+    SLAID
+    Service
+    ServiceID
+    Responsible
+    ResponsibleID
+    Created
+    Changed
+    TicketFreeKey1-16
+    TicketFreeText1-16
+    TicketFreeTime1-6
+
+    (time stampes of expected escalations)
+    EscalationResponseTime           (unix time stamp of response time escalation)
+    EscalationUpdateTime             (unix time stamp of update time escalation)
+    EscalationSolutionTime           (unix time stamp of solution time escalation)
+
+    (general escalation info of neaest escalation type)
+    EscalationDestinationIn          (escalation in e. g. 1h 4m)
+    EscalationDestinationTime        (date of escalation in unix time, e. g. 72193292)
+    EscalationDestinationDate        (date of escalation, e. g. "2009-02-14 18:00:00")
+    EscalationTimeWorkingTime        (seconds of working/service time till escalation, e. g. "1800")
+    EscalationTime                   (seconds total till escalation of neaest escalation time type - response, update or solution time, e. g. "3600")
+
+    (detail escalation info about first response, update and solution time)
+    FirstResponseTimeEscalation      (if true, ticket is escalated)
+    FirstResponseTimeNotification    (if true, notify - x% of escalation has been reached)
+    FirstResponseTimeDestinationTime (date of escalation in unix time, e. g. 72193292)
+    FirstResponseTimeDestinationDate (date of escalation, e. g. "2009-02-14 18:00:00")
+    FirstResponseTimeWorkingTime     (seconds of working/service time till escalation, e. g. "1800")
+    FirstResponseTime                (seconds total till escalation, e. g. "3600")
+
+    UpdateTimeEscalation             (if true, ticket is escalated)
+    UpdateTimeNotification           (if true, notify - x% of escalation has been reached)
+    UpdateTimeDestinationTime        (date of escalation in unix time, e. g. 72193292)
+    UpdateTimeDestinationDate        (date of escalation, e. g. "2009-02-14 18:00:00")
+    UpdateTimeWorkingTime            (seconds of working/service time till escalation, e. g. "1800")
+    UpdateTime                       (seconds total till escalation, e. g. "3600")
+
+    SolutionTimeEscalation           (if true, ticket is escalated)
+    SolutionTimeNotification         (if true, notify - x% of escalation has been reached)
+    SolutionTimeDestinationTime      (date of escalation in unix time, e. g. 72193292)
+    SolutionTimeDestinationDate      (date of escalation, e. g. "2009-02-14 18:00:00")
+    SolutionTimeWorkingTime          (seconds of working/service time till escalation, e. g. "1800")
+    SolutionTime                     (seconds total till escalation, e. g. "3600")
 
 to get extended attributes (Closed, FirstLock and FirstResponse), use param Extended
 
@@ -809,7 +867,7 @@ sub TicketGet {
         . ' WHERE sp.id = st.ticket_priority_id AND sq.id = st.queue_id AND st.id = ?';
 
     # fetch the result
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL   => $SQL,
         Bind  => [ \$Param{TicketID} ],
         Limit => 1,
@@ -1003,7 +1061,7 @@ sub _TicketGetFirstResponse {
     }
 
     # check if first response is already done
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT a.create_time,a.id FROM article a, article_sender_type ast, article_type art'
             . ' WHERE a.article_sender_type_id = ast.id AND a.article_type_id = art.id AND'
             . ' a.ticket_id = ? AND ast.name = \'agent\' AND'
@@ -1118,7 +1176,7 @@ sub _TicketGetClosed {
     );
     return if !@List;
 
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL => "SELECT create_time FROM ticket_history WHERE ticket_id = ? AND "
             . " state_id IN (${\(join ', ', sort @List)}) ORDER BY create_time DESC",
         Bind  => [ \$Param{TicketID} ],
@@ -1234,9 +1292,9 @@ sub _TicketGetFirstLock {
     }
 
     # first lock
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT th.name, tht.name, th.create_time '
-            . ' FROM ticket_history th, ticket_history_type tht '
+            . 'FROM ticket_history th, ticket_history_type tht '
             . 'WHERE th.history_type_id = tht.id AND th.ticket_id = ? '
             . 'AND tht.name = \'Lock\' ORDER BY th.create_time, th.id ASC',
         Bind  => [ \$Param{TicketID} ],
@@ -1631,13 +1689,11 @@ sub MoveQueueList {
     }
 
     # db query
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT sh.name, ht.name, sh.create_by, sh.queue_id FROM '
-            . ' ticket_history sh, ticket_history_type ht WHERE '
-            . ' sh.ticket_id = ? AND '
-            . ' ht.name IN (\'Move\', \'NewTicket\') AND '
-            . ' ht.id = sh.history_type_id'
-            . ' ORDER BY sh.id',
+            . 'ticket_history sh, ticket_history_type ht WHERE '
+            . 'sh.ticket_id = ? AND ht.name IN (\'Move\', \'NewTicket\') AND '
+            . 'ht.id = sh.history_type_id ORDER BY sh.id',
         Bind => [ \$Param{TicketID} ],
     );
     my @QueueID = ();
@@ -1933,7 +1989,7 @@ sub TicketServiceSet {
     }
 
     return if !$Self->{DBObject}->Do(
-        SQL => 'UPDATE ticket SET service_id = ? WHERE id = ?',
+        SQL  => 'UPDATE ticket SET service_id = ? WHERE id = ?',
         Bind => [ \$Param{ServiceID}, \$Param{TicketID} ],
     );
 
@@ -2012,20 +2068,43 @@ sub TicketEscalationPreferences {
 
 =item TicketEscalationDateCalculation()
 
-get escalation date of a ticket
-
-it returnes
-
-    EscalationDestinationIn (escalation in e. g. 1h 4m)
-    EscalationDestinationTime (date of escalation in unix time, e. g. 72193292)
-    EscalationDestinationDate (date of escalation, e. g. "2009-02-14 18:00:00")
-    EscalationTimeWorkingTime (seconds of working/service time till escalation, e. g. "1800")
-    EscalationTime            (seconds total till escalation, e. g. "3600")
+get escalation properties of a ticket
 
     my %Escalation = $TicketObject->TicketEscalationDateCalculation(
         Ticket => $Param{Ticket},
         UserID => $Param{UserID},
     );
+
+it returnes
+
+    (general escalation info)
+    EscalationDestinationIn          (escalation in e. g. 1h 4m)
+    EscalationDestinationTime        (date of escalation in unix time, e. g. 72193292)
+    EscalationDestinationDate        (date of escalation, e. g. "2009-02-14 18:00:00")
+    EscalationTimeWorkingTime        (seconds of working/service time till escalation, e. g. "1800")
+    EscalationTime                   (seconds total till escalation, e. g. "3600")
+
+    (detail escalation info about first response, update and solution time)
+    FirstResponseTimeEscalation      (if true, ticket is escalated)
+    FirstResponseTimeNotification    (if true, notify - x% of escalation has been reached)
+    FirstResponseTimeDestinationTime (date of escalation in unix time, e. g. 72193292)
+    FirstResponseTimeDestinationDate (date of escalation, e. g. "2009-02-14 18:00:00")
+    FirstResponseTimeWorkingTime     (seconds of working/service time till escalation, e. g. "1800")
+    FirstResponseTime                (seconds total till escalation, e. g. "3600")
+
+    UpdateTimeEscalation             (if true, ticket is escalated)
+    UpdateTimeNotification           (if true, notify - x% of escalation has been reached)
+    UpdateTimeDestinationTime        (date of escalation in unix time, e. g. 72193292)
+    UpdateTimeDestinationDate        (date of escalation, e. g. "2009-02-14 18:00:00")
+    UpdateTimeWorkingTime            (seconds of working/service time till escalation, e. g. "1800")
+    UpdateTime                       (seconds total till escalation, e. g. "3600")
+
+    SolutionTimeEscalation           (if true, ticket is escalated)
+    SolutionTimeNotification         (if true, notify - x% of escalation has been reached)
+    SolutionTimeDestinationTime      (date of escalation in unix time, e. g. 72193292)
+    SolutionTimeDestinationDate      (date of escalation, e. g. "2009-02-14 18:00:00")
+    SolutionTimeWorkingTime          (seconds of working/service time till escalation, e. g. "1800")
+    SolutionTime                     (seconds total till escalation, e. g. "3600")
 
 =cut
 
@@ -2189,7 +2268,7 @@ sub TicketEscalationIndexBuild {
 
             # update ticket table
             $Self->{DBObject}->Do(
-                SQL => "UPDATE ticket SET $EscalationTimes{$Key} = ? WHERE id = ?",
+                SQL  => "UPDATE ticket SET $EscalationTimes{$Key} = ? WHERE id = ?",
                 Bind => [ \$Time, \$Ticket{TicketID}, ]
             );
         }
@@ -2209,7 +2288,7 @@ sub TicketEscalationIndexBuild {
     my $FirstResponseTime = 0;
     if ( !$Escalation{FirstResponseTime} ) {
         $Self->{DBObject}->Do(
-            SQL => 'UPDATE ticket SET escalation_response_time = ? WHERE id = ?',
+            SQL  => 'UPDATE ticket SET escalation_response_time = ? WHERE id = ?',
             Bind => [ \$FirstResponseTime, \$Ticket{TicketID}, ]
         );
     }
@@ -2224,7 +2303,7 @@ sub TicketEscalationIndexBuild {
         # update first response time to 0
         if (%FirstResponseDone) {
             $Self->{DBObject}->Do(
-                SQL => 'UPDATE ticket SET escalation_response_time = ? WHERE id = ?',
+                SQL  => 'UPDATE ticket SET escalation_response_time = ? WHERE id = ?',
                 Bind => [ \$FirstResponseTime, \$Ticket{TicketID}, ]
             );
         }
@@ -2241,7 +2320,7 @@ sub TicketEscalationIndexBuild {
 
             # update first response time to $DestinationTime
             $Self->{DBObject}->Do(
-                SQL => 'UPDATE ticket SET escalation_response_time = ? WHERE id = ?',
+                SQL  => 'UPDATE ticket SET escalation_response_time = ? WHERE id = ?',
                 Bind => [ \$DestinationTime, \$Ticket{TicketID}, ]
             );
 
@@ -2254,7 +2333,7 @@ sub TicketEscalationIndexBuild {
     my $UpdateTime = 0;
     if ( !$Escalation{UpdateTime} || $Ticket{StateType} =~ /^(pending)/i ) {
         $Self->{DBObject}->Do(
-            SQL => 'UPDATE ticket SET escalation_update_time = ? WHERE id = ?',
+            SQL  => 'UPDATE ticket SET escalation_update_time = ? WHERE id = ?',
             Bind => [ \$UpdateTime, \$Ticket{TicketID}, ]
         );
     }
@@ -2262,7 +2341,7 @@ sub TicketEscalationIndexBuild {
 
         # check if update escalation should be set
         my @SenderHistory;
-        $Self->{DBObject}->Prepare(
+        return if !$Self->{DBObject}->Prepare(
             SQL => 'SELECT article_sender_type_id, article_type_id, create_time FROM '
                 . 'article WHERE ticket_id = ? ORDER BY create_time ASC',
             Bind => [ \$Param{TicketID} ],
@@ -2338,7 +2417,7 @@ sub TicketEscalationIndexBuild {
 
             # update update time to $DestinationTime
             $Self->{DBObject}->Do(
-                SQL => 'UPDATE ticket SET escalation_update_time = ? WHERE id = ?',
+                SQL  => 'UPDATE ticket SET escalation_update_time = ? WHERE id = ?',
                 Bind => [ \$DestinationTime, \$Ticket{TicketID}, ]
             );
 
@@ -2351,7 +2430,7 @@ sub TicketEscalationIndexBuild {
         # else, no not escalate, because latest sender was agent
         else {
             $Self->{DBObject}->Do(
-                SQL => 'UPDATE ticket SET escalation_update_time = ? WHERE id = ?',
+                SQL  => 'UPDATE ticket SET escalation_update_time = ? WHERE id = ?',
                 Bind => [ \$UpdateTime, \$Ticket{TicketID}, ]
             );
         }
@@ -2361,7 +2440,7 @@ sub TicketEscalationIndexBuild {
     my $SolutionTime = 0;
     if ( !$Escalation{SolutionTime} ) {
         $Self->{DBObject}->Do(
-            SQL => 'UPDATE ticket SET escalation_solution_time = ? WHERE id = ?',
+            SQL  => 'UPDATE ticket SET escalation_solution_time = ? WHERE id = ?',
             Bind => [ \$SolutionTime, \$Ticket{TicketID}, ]
         );
     }
@@ -2376,7 +2455,7 @@ sub TicketEscalationIndexBuild {
         # update solution time to 0
         if (%SolutionDone) {
             $Self->{DBObject}->Do(
-                SQL => 'UPDATE ticket SET escalation_solution_time = ? WHERE id = ?',
+                SQL  => 'UPDATE ticket SET escalation_solution_time = ? WHERE id = ?',
                 Bind => [ \$SolutionTime, \$Ticket{TicketID}, ]
             );
         }
@@ -2391,7 +2470,7 @@ sub TicketEscalationIndexBuild {
 
             # update solution time to $DestinationTime
             $Self->{DBObject}->Do(
-                SQL => 'UPDATE ticket SET escalation_solution_time = ? WHERE id = ?',
+                SQL  => 'UPDATE ticket SET escalation_solution_time = ? WHERE id = ?',
                 Bind => [ \$DestinationTime, \$Ticket{TicketID}, ]
             );
 
@@ -2405,7 +2484,7 @@ sub TicketEscalationIndexBuild {
     # update escalation time (< escalation time)
     if ( defined $EscalationTime ) {
         $Self->{DBObject}->Do(
-            SQL => 'UPDATE ticket SET escalation_time = ? WHERE id = ?',
+            SQL  => 'UPDATE ticket SET escalation_time = ? WHERE id = ?',
             Bind => [ \$EscalationTime, \$Ticket{TicketID}, ]
         );
     }
@@ -2720,7 +2799,9 @@ sub TicketFreeTextGet {
 
         # do database lookup
         elsif ( $Param{Type} =~ /text/i ) {
-            $Self->{DBObject}->Prepare( SQL => "SELECT distinct(freetext$Counter) FROM ticket" );
+            return if !$Self->{DBObject}->Prepare(
+                SQL => "SELECT distinct(freetext$Counter) FROM ticket",
+            );
             while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
                 if ( $Row[0] && !$Data{ $Row[0] } ) {
                     $Data{ $Row[0] } = $Row[0];
@@ -2728,7 +2809,9 @@ sub TicketFreeTextGet {
             }
         }
         else {
-            $Self->{DBObject}->Prepare( SQL => "SELECT distinct(freekey$Counter) FROM ticket" );
+            return if !$Self->{DBObject}->Prepare(
+                SQL => "SELECT distinct(freekey$Counter) FROM ticket",
+            );
             while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
                 if ( $Row[0] && !$Data{ $Row[0] } ) {
                     $Data{ $Row[0] } = $Row[0];
@@ -3198,7 +3281,7 @@ sub GetSubscribedUserIDsByQueueID {
 
     # fetch all queues
     my @UserIDs = ();
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL  => 'SELECT user_id FROM personal_queues WHERE queue_id = ?',
         Bind => [ \$Param{QueueID} ],
     );
@@ -3210,17 +3293,16 @@ sub GetSubscribedUserIDsByQueueID {
     my @CleanUserIDs = ();
     for my $UserID (@UserIDs) {
         my %User = $Self->{UserObject}->GetUserData( UserID => $UserID, Valid => 1 );
-        if (%User) {
+        next if !%User;
 
-            # just send emails to permitted agents
-            my %GroupMember = $Self->{GroupObject}->GroupMemberList(
-                UserID => $UserID,
-                Type   => 'ro',
-                Result => 'HASH',
-            );
-            if ( $GroupMember{ $Queue{GroupID} } ) {
-                push @CleanUserIDs, $UserID;
-            }
+        # just send emails to permitted agents
+        my %GroupMember = $Self->{GroupObject}->GroupMemberList(
+            UserID => $UserID,
+            Type   => 'ro',
+            Result => 'HASH',
+        );
+        if ( $GroupMember{ $Queue{GroupID} } ) {
+            push @CleanUserIDs, $UserID;
         }
     }
     return @CleanUserIDs;
@@ -3334,6 +3416,7 @@ To find tickets in your system.
 
         Queues   => ['system queue', 'other queue'],
         QueueIDs => [1, 42, 512],
+
         # use also sub queues of Queue|Queues in search
         UseSubQueues => 0,
 
@@ -3920,11 +4003,11 @@ sub TicketSearch {
             my $Queue = $Self->{QueueObject}->QueueLookup( QueueID => $QueueID );
             for my $QueuesID ( keys %Queues ) {
                 if ( $Queues{$QueuesID} =~ /^\Q$Queue\E::/i ) {
-                    push( @SubQueueIDs, $QueuesID );
+                    push @SubQueueIDs, $QueuesID;
                 }
             }
         }
-        push( @{ $Param{QueueIDs} }, @SubQueueIDs );
+        push @{ $Param{QueueIDs} }, @SubQueueIDs;
     }
 
     # current queue ids
@@ -4690,7 +4773,7 @@ sub TicketSearch {
     my %Tickets;
     my @TicketIDs;
     my $Count;
-    $Self->{DBObject}->Prepare( SQL => $SQL . $SQLExt, Limit => $Limit );
+    return if !$Self->{DBObject}->Prepare( SQL => $SQL . $SQLExt, Limit => $Limit );
 
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Count = $Row[0];
@@ -4739,16 +4822,16 @@ sub TicketSearch {
     }
 }
 
-=item _TicketSearchSqlAndStringCreate()
-
-internal function to create a sql and string
-
-    my $SQLPart = $TicketObject->_TicketSearchSqlAndStringCreate(
-        TableColumn => '',
-        IDRef       => $ArrayRef,
-    )
-
-=cut
+#=item _TicketSearchSqlAndStringCreate()
+#
+#internal function to create a sql and string
+#
+#    my $SQLPart = $TicketObject->_TicketSearchSqlAndStringCreate(
+#        TableColumn => '',
+#        IDRef       => $ArrayRef,
+#    )
+#
+#=cut
 
 sub _TicketSearchSqlAndStringCreate {
     my ( $Self, %Param ) = @_;
@@ -5211,7 +5294,7 @@ sub OwnerCheck {
             . " st.id = $Param{TicketID} AND "
             . " st.user_id = su.$Self->{ConfigObject}->{DatabaseUserTableUserID}";
     }
-    $Self->{DBObject}->Prepare( SQL => $SQL );
+    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Param{SearchUserID} = $Row[0];
         $Param{SearchUser}   = $Row[1];
@@ -5378,7 +5461,7 @@ sub OwnerList {
     # db query
     my @User      = ();
     my $LastOwner = 1;
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT sh.name, ht.name, sh.create_by FROM '
             . ' ticket_history sh, ticket_history_type ht WHERE '
             . ' sh.ticket_id = ? AND '
@@ -5557,7 +5640,7 @@ sub ResponsibleList {
     # db query
     my @User            = ();
     my $LastResponsible = 1;
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT sh.name, ht.name, sh.create_by FROM '
             . ' ticket_history sh, ticket_history_type ht WHERE '
             . ' sh.ticket_id = ? AND '
@@ -5615,7 +5698,7 @@ sub InvolvedAgents {
     # db query
     my @User      = ();
     my %UsedOwner = ();
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT sh.name, sh.create_by FROM '
             . ' ticket_history sh, ticket_history_type ht WHERE '
             . ' sh.ticket_id = ? AND ht.id = sh.history_type_id'
@@ -5834,7 +5917,7 @@ sub HistoryTicketStatusGet {
     if ($SQLExt) {
         $SQLExt .= ')';
     }
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL => "SELECT DISTINCT(th.ticket_id), th.create_time FROM "
             . "ticket_history th WHERE "
             . "th.create_time <= '$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} 23:59:59' "
@@ -5952,7 +6035,7 @@ sub HistoryTicketGet {
 
     # db access
     my $Time = "$Param{StopYear}-$Param{StopMonth}-$Param{StopDay} 23:59:59";
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT th.name, tht.name, th.create_time, th.create_by, th.ticket_id, '
             . 'th.article_id, th.queue_id, th.state_id, th.priority_id, th.owner_id, th.type_id '
             . ' FROM ticket_history th, ticket_history_type tht WHERE '
@@ -6143,7 +6226,7 @@ sub HistoryTypeLookup {
     }
 
     # db query
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL  => 'SELECT id FROM ticket_history_type WHERE name = ?',
         Bind => [ \$Param{Type} ],
     );
@@ -6293,7 +6376,7 @@ sub HistoryGet {
         }
     }
 
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT sh.name, sh.article_id, sh.create_time, sh.create_by, ht.name '
             . ' FROM ticket_history sh, ticket_history_type ht WHERE '
             . ' sh.ticket_id = ? AND ht.id = sh.history_type_id'
@@ -6394,7 +6477,7 @@ sub TicketAccountedTimeGet {
     }
 
     # db query
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL  => 'SELECT time_unit FROM time_accounting WHERE ticket_id = ?',
         Bind => [ \$Param{TicketID} ],
     );
@@ -6621,7 +6704,7 @@ sub TicketWatchGet {
     return if !$Self->{ConfigObject}->Get('Ticket::Watcher');
 
     # get all attributes of an watched ticket
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT user_id, create_time, create_by, change_time, change_by'
             . ' FROM ticket_watcher WHERE ticket_id = ?',
         Bind => [ \$Param{TicketID} ],
@@ -7258,6 +7341,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.382 $ $Date: 2009-04-02 13:50:00 $
+$Revision: 1.383 $ $Date: 2009-04-03 12:37:03 $
 
 =cut
