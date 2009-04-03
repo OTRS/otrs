@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # otrs.addUser - Add User from CLI
-# Copyright (C) 2002 Atif Ghaffar <aghaffar@developer.ch>
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.addUser,v 1.15 2009-02-26 10:29:56 tr Exp $
+# $Id: otrs.addUser,v 1.16 2009-04-03 14:15:00 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -41,6 +41,7 @@ unless ( $ARGV[0] ) {
 }
 
 use Kernel::Config;
+use Kernel::System::Encode;
 use Kernel::System::Log;
 use Kernel::System::Time;
 use Kernel::System::Main;
@@ -50,11 +51,12 @@ use Kernel::System::User;
 # create common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
-$CommonObject{LogObject}  = Kernel::System::Log->new( %CommonObject, LogPrefix => 'otrs.addUser' );
-$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
-$CommonObject{UserObject} = Kernel::System::User->new(%CommonObject);
+$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
+$CommonObject{LogObject}    = Kernel::System::Log->new( %CommonObject, LogPrefix => 'otrs.addUser' );
+$CommonObject{TimeObject}   = Kernel::System::Time->new(%CommonObject);
+$CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
+$CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);
+$CommonObject{UserObject}   = Kernel::System::User->new(%CommonObject);
 
 my %Param;
 undef %Param;
@@ -65,24 +67,24 @@ $Param{UserID} = '1';
 #Validrecord
 $Param{ValidID} = '1';
 
-$Param{UserFirstname} = $opts{'f'};
-$Param{UserLastname}  = $opts{'l'};
-$Param{UserPw}        = $opts{'p'};
+$Param{UserFirstname} = $opts{f};
+$Param{UserLastname}  = $opts{l};
+$Param{UserPw}        = $opts{p};
 $Param{UserLogin}     = $ARGV[0];
-$Param{UserEmail}     = $opts{'e'};
+$Param{UserEmail}     = $opts{e};
 
 if ( $Param{UID} = $CommonObject{UserObject}->UserAdd( %Param, ChangeUserID => 1 ) ) {
     print "User added. user  id is $Param{UID}\n";
 }
 
-if ( $opts{'g'} ) {
+if ( $opts{g} ) {
 
     # bring in the groups module
     require Kernel::System::Group;
     import Kernel::System::Group;
     $CommonObject{GroupObject} = Kernel::System::Group->new(%CommonObject);
 
-    $Param{Group} = $opts{'g'};
+    $Param{Group} = $opts{g};
 
     if ( $Param{GID} = $CommonObject{GroupObject}->GroupLookup(%Param) ) {
         print "Found Group.. GID is $Param{GID}", "\n";

@@ -3,7 +3,7 @@
 # bin/RebuildTicketIndex.pl - rebuild ticket index for queue view
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: RebuildTicketIndex.pl,v 1.17 2009-02-16 12:26:57 tr Exp $
+# $Id: RebuildTicketIndex.pl,v 1.18 2009-04-03 14:15:00 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,9 +31,10 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 use Kernel::Config;
+use Kernel::System::Encode;
 use Kernel::System::Time;
 use Kernel::System::Log;
 use Kernel::System::Main;
@@ -43,6 +44,7 @@ use Kernel::System::Ticket;
 # common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-RebuildTicketIndex',
     %CommonObject,

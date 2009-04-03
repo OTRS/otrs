@@ -3,7 +3,7 @@
 # bin/xml2sql.pl - a xml 2 sql processor
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: xml2sql.pl,v 1.21 2009-02-26 11:01:01 tr Exp $
+# $Id: xml2sql.pl,v 1.22 2009-04-03 14:15:00 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -33,6 +33,7 @@ use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use Getopt::Std;
 
 use Kernel::Config;
+use Kernel::System::Encode;
 use Kernel::System::Time;
 use Kernel::System::DB;
 use Kernel::System::Log;
@@ -40,13 +41,13 @@ use Kernel::System::Main;
 use Kernel::System::XML;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 my %Opts = ();
 getopt( 'hton', \%Opts );
 if ( $Opts{'h'} ) {
     print "xml2sql.pl <Revision $VERSION> - xml2sql\n";
-    print "Copyright (c) 2001-2009 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
     print "usage: xml2sql.pl -t <DATABASE_TYPE> (or 'all') ";
     print "[-o <OUTPUTDIR> -n <NAME> -s <SPLIT_FILES>]\n";
     exit 1;
@@ -102,7 +103,8 @@ for my $DatabaseType (@DatabaseType) {
         Key   => 'Database::ShellOutput',
         Value => 1,
     );
-    $CommonObject{LogObject} = Kernel::System::Log->new(
+    $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
+    $CommonObject{LogObject}    = Kernel::System::Log->new(
         LogPrefix => 'OTRS-xml2sql',
         %CommonObject,
     );

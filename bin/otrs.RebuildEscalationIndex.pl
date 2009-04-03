@@ -3,7 +3,7 @@
 # otrs.RebuildEscalationIndex.pl - the global search indexer handle
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.RebuildEscalationIndex.pl,v 1.3 2009-02-26 11:01:01 tr Exp $
+# $Id: otrs.RebuildEscalationIndex.pl,v 1.4 2009-04-03 14:15:00 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,13 +31,13 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
+use Kernel::System::Encode;
 use Kernel::System::Log;
 use Kernel::System::Time;
-use Kernel::System::Encode;
 use Kernel::System::DB;
 use Kernel::System::Main;
 use Kernel::System::Ticket;
@@ -47,7 +47,7 @@ my %Opts = ();
 getopt( 'h', \%Opts );
 if ( $Opts{h} ) {
     print "otrs.RebuildEscalationIndex.pl <Revision $VERSION> - rebuild escalation index\n";
-    print "Copyright (c) 2001-2009 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
     print "usage: otrs.RebuildEscalationIndex.pl\n";
     exit 1;
 }
@@ -55,13 +55,13 @@ if ( $Opts{h} ) {
 # create common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-RebuildEscalationIndex',
     %CommonObject,
 );
 $CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{TimeObject}   = Kernel::System::Time->new( %CommonObject, );
+$CommonObject{TimeObject}   = Kernel::System::Time->new(%CommonObject);
 
 # create needed objects
 $CommonObject{DBObject}     = Kernel::System::DB->new(%CommonObject);

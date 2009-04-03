@@ -3,7 +3,7 @@
 # bin/PostMasterDaemon.pl - the daemon for the PostMasterClient.pl client
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMasterDaemon.pl,v 1.17 2009-02-16 12:26:57 tr Exp $
+# $Id: PostMasterDaemon.pl,v 1.18 2009-04-03 14:15:00 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -33,6 +33,7 @@ use lib dirname($RealBin) . "/Kernel/cpan-lib";
 my $Debug = 1;
 
 use Kernel::Config;
+use Kernel::System::Encode;
 use Kernel::System::Time;
 use Kernel::System::Log;
 use Kernel::System::Main;
@@ -139,6 +140,7 @@ sub PipeEmail {
     # create common objects
     my %CommonObject = ();
     $CommonObject{ConfigObject} = Kernel::Config->new();
+    $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
     $CommonObject{TimeObject}   = Kernel::System::Time->new(%CommonObject);
     $CommonObject{LogObject}    = Kernel::System::Log->new(
         LogPrefix => 'OTRS-PMD',

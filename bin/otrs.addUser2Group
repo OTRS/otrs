@@ -1,9 +1,9 @@
 #!/usr/bin/perl -w
 # --
 # bin/otrs.addUser2Group - Add User to a Group
-# Copyright (C) 2003-2009 OTRS AG, http://otrs.com/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.addUser2Group,v 1.19 2009-02-16 12:26:57 tr Exp $
+# $Id: otrs.addUser2Group,v 1.20 2009-04-03 14:15:00 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,6 +30,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use Kernel::Config;
+use Kernel::System::Encode;
 use Kernel::System::Log;
 use Kernel::System::Time;
 use Kernel::System::DB;
@@ -37,9 +38,9 @@ use Kernel::System::Main;
 use Kernel::System::User;
 use Kernel::System::Group;
 
-my %Param        = ();
-my %CommonObject = ();
-my %Opts         = ();
+my %Param;
+my %CommonObject;
+my %Opts;
 
 use Getopt::Std;
 getopt( 'guph', \%Opts );
@@ -64,8 +65,11 @@ if ( !$Opts{p} ) {
 
 # create common objects
 $CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
-$CommonObject{LogObject}
-    = Kernel::System::Log->new( %CommonObject, LogPrefix => 'otrs.addUser2Group' );
+$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
+$CommonObject{LogObject}    = Kernel::System::Log->new(
+    %CommonObject,
+    LogPrefix => 'otrs.addUser2Group',
+);
 $CommonObject{TimeObject}  = Kernel::System::Time->new(%CommonObject);
 $CommonObject{MainObject}  = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject}    = Kernel::System::DB->new(%CommonObject);

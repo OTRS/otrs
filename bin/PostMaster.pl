@@ -3,7 +3,7 @@
 # bin/PostMaster.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.pl,v 1.33 2009-02-26 11:01:01 tr Exp $
+# $Id: PostMaster.pl,v 1.34 2009-04-03 14:15:00 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -36,14 +36,15 @@ use lib dirname($RealBin) . "/Kernel/cpan-lib";
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
+use Kernel::System::Encode;
+use Kernel::System::Main;
 use Kernel::System::Time;
 use Kernel::System::DB;
 use Kernel::System::Log;
-use Kernel::System::Main;
 use Kernel::System::PostMaster;
 
 # get options
@@ -51,7 +52,7 @@ my %Opts = ();
 getopt( 'hqtd', \%Opts );
 if ( $Opts{h} ) {
     print "PostMaster.pl <Revision $VERSION> - OTRS cmd postmaster\n";
-    print "Copyright (c) 2001-2009 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
     print
         "usage: PostMaster.pl -q <QUEUE> -t <TRUSTED> (default is trusted, use '-t 0' to disable trusted mode)\n";
     exit 1;
@@ -69,6 +70,7 @@ if ( !$Opts{q} ) {
 # create common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-PM',
     %CommonObject,

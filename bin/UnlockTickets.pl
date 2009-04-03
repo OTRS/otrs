@@ -3,7 +3,7 @@
 # UnlockTickets.pl - to unlock tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: UnlockTickets.pl,v 1.32 2009-02-26 11:01:01 tr Exp $
+# $Id: UnlockTickets.pl,v 1.33 2009-04-03 14:15:00 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,10 +31,11 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 use Date::Pcalc qw(Delta_Days Add_Delta_Days Day_of_Week Day_of_Week_Abbreviation);
 use Kernel::Config;
+use Kernel::System::Encode;
 use Kernel::System::Time;
 use Kernel::System::Log;
 use Kernel::System::Main;
@@ -49,6 +50,7 @@ my $Debug = 0;
 # common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-UnlockTickets',
     %CommonObject,
@@ -70,7 +72,7 @@ my @ViewableLockIDs = $CommonObject{LockObject}->LockViewableLock( Type => 'ID' 
 # check args
 my $Command = shift || '--help';
 print "UnlockTickets.pl <Revision $VERSION> - unlock tickets\n";
-print "Copyright (c) 2001-2000 OTRS AG, http//otrs.org/\n";
+print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
 
 # unlock all tickets
 if ( $Command eq '--all' ) {

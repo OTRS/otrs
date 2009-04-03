@@ -3,7 +3,7 @@
 # mkStats.pl - send stats output via email
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: mkStats.pl,v 1.61 2009-03-18 18:58:33 martin Exp $
+# $Id: mkStats.pl,v 1.62 2009-04-03 14:15:00 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -53,12 +53,12 @@ use Kernel::Language;
 my %CommonObject = ();
 $CommonObject{UserID}       = 1;
 $CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-SendStats',
     %CommonObject,
 );
 $CommonObject{CSVObject}       = Kernel::System::CSV->new(%CommonObject);
-$CommonObject{EncodeObject}    = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{TimeObject}      = Kernel::System::Time->new(%CommonObject);
 $CommonObject{MainObject}      = Kernel::System::Main->new(%CommonObject);
 $CommonObject{DBObject}        = Kernel::System::DB->new(%CommonObject);

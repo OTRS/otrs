@@ -3,7 +3,7 @@
 # XMLMaster.pl - the global xml handle for xml2db
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: XMLMaster.pl,v 1.12 2009-02-26 11:01:01 tr Exp $
+# $Id: XMLMaster.pl,v 1.13 2009-04-03 14:15:00 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,10 +31,11 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
+use Kernel::System::Encode;
 use Kernel::System::Time;
 use Kernel::System::DB;
 use Kernel::System::Log;
@@ -46,7 +47,7 @@ my %Opts = ();
 getopt( 'hqtd', \%Opts );
 if ( $Opts{'h'} ) {
     print "XMLMaster.pl <Revision $VERSION> - OTRS xml master\n";
-    print "Copyright (c) 2001-2009 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
     print "usage: XMLMaster.pl [-d 1] \n";
     exit 1;
 }
@@ -57,6 +58,7 @@ if ( !$Opts{d} ) {
 # create common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-XMLMaster',
     %CommonObject,
@@ -96,8 +98,10 @@ eval {
     }
 
     # common objects
-    $CommonObject{XMLMaster}
-        = Kernel::System::XMLMaster->new( %CommonObject, Debug => $Opts{d} );
+    $CommonObject{XMLMaster} = Kernel::System::XMLMaster->new(
+        %CommonObject,
+        Debug => $Opts{d},
+    );
     $CommonObject{XMLMaster}->Run( XML => \$String, );
 
     # debug info

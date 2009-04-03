@@ -3,7 +3,7 @@
 # bin/CheckDB.pl - to check the db access
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CheckDB.pl,v 1.21 2009-02-16 12:26:57 tr Exp $
+# $Id: CheckDB.pl,v 1.22 2009-04-03 14:15:00 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -33,9 +33,10 @@ use lib dirname($RealBin) . "/Kernel/cpan-lib";
 use Getopt::Std;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 use Kernel::Config;
+use Kernel::System::Encode;
 use Kernel::System::Log;
 use Kernel::System::Main;
 use Kernel::System::DB;
@@ -43,6 +44,7 @@ use Kernel::System::DB;
 # create common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix    => 'OTRS-CheckDB',
     ConfigObject => $CommonObject{ConfigObject},
