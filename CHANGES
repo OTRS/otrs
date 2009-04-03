@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.865 2009-04-02 12:12:22 mh Exp $
+# $Id: CHANGES,v 1.866 2009-04-03 11:25:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.4.0 beta1 (2009/??/??)
+ - (2009/04/03) Added check for required perl version 5.8.6.
  - (2009/04/02) Added possibility to search tickets with params like
     *OlderMinutes and *NewerMinutes with 0 minutes.
  - (2009/04/02) Fixed bug# 3732 - Improved russion translation.

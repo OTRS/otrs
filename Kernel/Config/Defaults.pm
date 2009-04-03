@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.310 2009-04-02 14:33:22 mh Exp $
+# $Id: Defaults.pm,v 1.311 2009-04-03 11:24:12 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,13 +18,14 @@
 #  Attention:
 #   -->> Ticket Settings are in Kernel/Config/Files/Ticket.pm <<--
 # --
+
 package Kernel::Config::Defaults;
 
 use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.310 $) [1];
+$VERSION = qw($Revision: 1.311 $) [1];
 
 sub LoadDefaults {
     my $Self = shift;
@@ -2167,6 +2168,20 @@ sub Set {
 sub new {
     my ( $Type, %Param ) = @_;
 
+    # check required perl version
+    if ( !eval { require 5.008006 } ) {
+
+        my $RequiredPerl = 'v5.8.6';
+        my $CurrentPerl  = $^V;
+
+        my $Message = "\nERROR:\n"
+            . "Currently you are using Perl $CurrentPerl, but Perl $RequiredPerl is required for technical reasons!\n"
+            . "In order to use this version of OTRS, you need to have Perl $RequiredPerl installed.\n"
+            . "Otherwise you can also use an older version of OTRS.\n\n";
+
+        die $Message;
+    }
+
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
@@ -2371,6 +2386,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.310 $ $Date: 2009-04-02 14:33:22 $
+$Revision: 1.311 $ $Date: 2009-04-03 11:24:12 $
 
 =cut
