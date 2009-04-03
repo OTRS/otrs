@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.37 2009-03-02 23:51:50 martin Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.38 2009-04-03 07:40:08 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -44,7 +44,7 @@ function submit_compose() {
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td width="70%" class="menu">
-      <a href="$Env{"Baselink"}Action=CustomerTicketPrint&TicketID=$QData{"TicketID"}" onmouseover="window.status='$JSText{"Print Ticket"}'; return true;" onmouseout="window.status='';" target="_blank">$Text{"Print"}</a>
+      <a href="$Env{"Baselink"}Action=CustomerTicketPrint&TicketID=$QData{"TicketID"}" onmouseover="window.status='$JSText{"Print"}'; return true;" onmouseout="window.status='';" target="_blank">$Text{"Print"}</a>
     </td>
     <td align="right" width="30%" class="menu">
       <b>$Text{"Created"}:</b> $TimeLong{"$Data{"Created"}"}
