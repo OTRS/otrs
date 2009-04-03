@@ -2,7 +2,7 @@
 # AgentTicketBulk.dtl - provides HTML form for bulk mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.dtl,v 1.16 2009-03-25 18:37:03 sb Exp $
+# $Id: AgentTicketBulk.dtl,v 1.17 2009-04-03 11:22:31 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -65,9 +65,6 @@ function SpellCheckSubmit() {
       <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="compose">
         <input type="hidden" name="Action" value="$Env{"Action"}"/>
         <input type="hidden" name="Subaction" value="Do"/>
-<!-- dtl:block:RichText -->
-$Include{"YUI"}
-<!-- dtl:block:RichText -->
         <table border="0" width="800" align="center" cellspacing="0" cellpadding="4">
           <tr>
             <td colspan="2" class="contenthead">$Text{"Options"}</td>
@@ -94,6 +91,9 @@ $Include{"YUI"}
                   <td class="contentkey">$Text{"Text"}:</td>
                   <td class="contentvalue">
                     <div class="yui-skin-sam">
+<!-- dtl:block:RichText -->
+$Include{"YUI"}
+<!-- dtl:block:RichText -->
 <textarea id="RichText" name="Body" rows="16" cols="$Config{"Ticket::Frontend::TextAreaNote"}" wrap="$Env{"BrowserWrap"}">
 $QData{"NoteText"}
 </textarea>

@@ -2,7 +2,7 @@
 # AgentTicketCompose.dtl - provides HTML form for AgentTicketCompose
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.dtl,v 1.35 2009-03-25 15:10:39 sb Exp $
+# $Id: AgentTicketCompose.dtl,v 1.36 2009-04-03 11:22:31 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -148,9 +148,6 @@ function FAQSubmit() {
         <input type="hidden" name="FormID" value="$QData{"FormID"}"/>
         <input type="hidden" name="ResponseID" value="$QData{"ResponseID"}"/>
         <input type="hidden" name="ReplyArticleID" value="$QData{"ReplyArticleID"}"/>
-<!-- dtl:block:RichText -->
-$Include{"YUI"}
-<!-- dtl:block:RichText -->
         <table border="0" width="800" align="center" cellspacing="0" cellpadding="4">
           <tr>
             <td colspan="2" class="contenthead">$Text{"Options"}</td>
@@ -220,6 +217,9 @@ $Include{"YUI"}
                   <td class="contentkey">$Text{"Text"}:</td>
                   <td class="contentvalue">
                     <div class="yui-skin-sam">
+<!-- dtl:block:RichText -->
+$Include{"YUI"}
+<!-- dtl:block:RichText -->
 <textarea id="RichText" name="Body" rows="25" cols="$Config{"Ticket::Frontend::TextAreaEmail"}" wrap="$Env{"BrowserWrap"}">
 $Data{"ResponseFormat"}
 </textarea>
