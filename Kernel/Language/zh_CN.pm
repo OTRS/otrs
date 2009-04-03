@@ -3,7 +3,7 @@
 # Copyright (C) 2008 Never Min <never at qnofae.org>
 # Copyright (C) 2005 zuowei <j2ee at hirain-sh.com>
 # --
-# $Id: zh_CN.pm,v 1.54 2009-02-16 10:48:40 tr Exp $
+# $Id: zh_CN.pm,v 1.55 2009-04-03 07:42:25 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Fri May 16 14:09:14 2008
+    # Last translation file sync: Fri Apr  3 09:40:48 2009
 
     # possible charsets
     $Self->{Charset} = ['GBK', 'GB2312', ];
@@ -140,6 +140,7 @@ sub Data {
         'update!' => '更新!',
         'update' => '更新',
         'Update' => '更新',
+        'Updated!' => '',
         'submit!' => '提交!',
         'submit' => '提交',
         'Submit' => '提交',
@@ -180,6 +181,7 @@ sub Data {
         'Up' => '上',
         'Down' => '下',
         'Add' => '增加',
+        'Added!' => '',
         'Category' => '目录',
         'Viewer' => '查看器',
         'New message' => '新消息',
@@ -245,10 +247,10 @@ sub Data {
         'Fax' => '传真',
         'Mobile' => '手机',
         'Zip' => '邮编',
-        'Location' => '区',
         'City' => '城市',
         'Street' => '街道',
         'Country' => '国家',
+        'Location' => '区',
         'installed' => '已安装',
         'uninstalled' => '未安装',
         'Security Note: You should activate %s because application is already running!' => '安全提示: 您不能激活的 %s, 因为此应用已经在运行!',
@@ -266,6 +268,30 @@ sub Data {
         'Sent password token to: %s' => '发送密码到: %s',
         'Sent new password to: %s' => '发送新的密码到: %s',
         'Invalid Token!' => '非法的标记',
+        'For more info see:' => '',
+        'Package verification failed!' => '',
+        'Bold' => '',
+        'Italic' => '',
+        'Underline' => '',
+        'Font Color' => '',
+        'Background Color' => '',
+        'Remove Formatting' => '',
+        'Show/Hide Hidden Elements' => '',
+        'Align Left' => '',
+        'Align Center' => '',
+        'Align Right' => '',
+        'Justify' => '',
+        'Header' => '信息头',
+        'Indent' => '',
+        'Outdent' => '',
+        'Create an Unordered List' => '',
+        'Create an Ordered List' => '',
+        'HTML Link' => '',
+        'Insert Image' => '',
+        'CTRL' => '',
+        'SHIFT' => '',
+        'Undo' => '',
+        'Redo' => '',
 
         # Template: AAAMonth
         'Jan' => '一月',
@@ -346,7 +372,6 @@ sub Data {
         'Please select an object!' => '请选择一个对象!',
         'Please select a graph size!' => '请选择图片尺寸!',
         'Please select one element for the X-axis!' => '',
-        'You have to select two or more attributes from the select field!' => '',
         'Please select only one element or turn off the button \'Fixed\' where the select field is marked!' => '',
         'If you use a checkbox you have to select some attributes of the select field!' => '',
         'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!' => '',
@@ -379,6 +404,30 @@ sub Data {
         'Create Time' => '创建时间',
         'CustomerUserLogin' => '客户登陆',
         'Close Time' => '关闭时间',
+        'TicketAccumulation' => '',
+        'Attributes to be printed' => '',
+        'Sort sequence' => '',
+        'Order by' => '',
+        'Limit' => '',
+        'Ticketlist' => '',
+        'ascending' => '',
+        'descending' => '',
+        'First Lock' => '',
+        'Evaluation by' => '',
+        'Total Time' => '',
+        'Ticket Average' => '',
+        'Ticket Min Time' => '',
+        'Ticket Max Time' => '',
+        'Number of Tickets' => '',
+        'Article Average' => '',
+        'Article Min Time' => '',
+        'Article Max Time' => '',
+        'Number of Articles' => '',
+        'Accounted time by Agent' => '',
+        'Ticket/Article Accounted Time' => '',
+        'TicketAccountedTime' => '',
+        'Ticket Create Time' => '',
+        'Ticket Close Time' => '',
 
         # Template: AAATicket
         'Lock' => '锁定',
@@ -427,7 +476,9 @@ sub Data {
         'closed unsuccessful' => '关闭失败',
         'new' => '新建',
         'open' => '开放',
+        'Open' => '',
         'closed' => '关闭',
+        'Closed' => '',
         'removed' => '删除',
         'pending reminder' => '等待提醒',
         'pending auto' => '自动等待',
@@ -519,12 +570,17 @@ sub Data {
         'Closed Tickets' => '关闭 Tickets',
         'Show closed tickets.' => '显示已关闭 Tickets.',
         'Max. shown Tickets a page in QueueView.' => '队列视图每页显示 Ticket 数.',
+        'Watch notification' => '',
+        'Send me a notification of an watched ticket like an owner of an ticket.' => '',
+        'Out Of Office' => '',
+        'Select your out of office time.' => '',
         'CompanyTickets' => '',
         'MyTickets' => '我的 Tickets',
         'New Ticket' => '新的 Ticket',
         'Create new Ticket' => '创建新的 Ticket',
         'Customer called' => '客户致电',
         'phone call' => '电话呼叫',
+        'Reminder Reached' => '',
         'Responses' => '回复',
         'Responses <-> Queue' => '回复 <-> 队列',
         'Auto Responses' => '自动回复功能',
@@ -606,6 +662,8 @@ sub Data {
         'This values are read only.' => '该数据只读.',
 
         # Template: AdminCustomerUserForm
+        'The message being composed has been closed.  Exiting.' => '进行消息撰写的窗口已经被关闭,退出.',
+        'This window must be called from compose window' => '该窗口必须由撰写窗口调用',
         'Customer User Management' => '客户用户管理',
         'Add Customer User' => '增加客人',
         'Source' => '数据源',
@@ -651,6 +709,8 @@ sub Data {
         'Is Job Valid?' => '工作是否有效?',
         'Is Job Valid' => '工作有效',
         'Schedule' => '安排',
+        'Currently this generic agent job will not run automatically.' => '',
+        'To enable automatic execusion select at least one value form minutes, hours and days!' => '',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => '文章全文搜索 (例如: "Mar*in" 或者 "Baue*")',
         '(e. g. 10*5155 or 105658*)' => '  例如: 10*5144 或者 105658*',
         '(e. g. 234321)' => '例如: 234321',
@@ -665,8 +725,8 @@ sub Data {
         'Ticket created' => '创建时间',
         'Ticket created between' => ' 创建时间在',
         'Close Times' => '关闭时间',
-        'No close time settings.' => '没有关闭时间设置',
-        'Ticket closed' => 'Ticket 已关闭',
+        'No close time settings.' => '',
+        'Ticket closed' => '关闭的 Ticket',
         'Ticket closed between' => '',
         'Pending Times' => '待定时间',
         'No pending time settings.' => '没有设置待定时间',
@@ -683,9 +743,10 @@ sub Data {
         'New Ticket Lock' => '新 Ticket 锁',
         'New Type' => '新的类型',
         'New Title' => '新的标题',
-        'New Type' => '新的类型',
         'New TicketFreeFields' => '新的 Ticket 自由区域',
         'Add Note' => '增加注解',
+        'Time units' => '',
+        ' (work units)' => '',
         'CMD' => '',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => '将执行这个命令, 第一个参数是 Ticket 编号，第二个参数是 Ticket 的标识符.',
         'Delete tickets' => '删除 Tickets',
@@ -697,14 +758,12 @@ sub Data {
         'Param 4' => '参数 4',
         'Param 5' => '参数 5',
         'Param 6' => '参数 6',
-        'Send no notifications' => '不发送通知',
-        'Yes means, send no agent and customer notifications on changes.' => '不用, 当有改变时不发送通知给技术人员或客户.',
-        'No means, send agent and customer notifications on changes.' => '需要, 当有改变时发送通知给技术人员或客户.',
+        'Send agent/customer notifications on changes' => '',
         'Save' => '保存',
         '%s Tickets affected! Do you really want to use this job?' => '%s Tickets 受到影响! 您确定要使用这个计划任务?',
-        '"}' => '',
 
         # Template: AdminGroupForm
+        'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' => '',
         'Group Management' => '组管理',
         'Add Group' => '增加新的组',
         'Add a new Group.' => '增加一个新组',
@@ -746,6 +805,8 @@ sub Data {
         'Package' => '软件包',
         'Online Repository' => '在线知识库',
         'Vendor' => '提供者',
+        'Module documentation' => '',
+        'Module documentation' => '',
         'Upgrade' => '升级',
         'Local Repository' => '本地知识库',
         'Status' => '状态',
@@ -766,9 +827,10 @@ sub Data {
         'Performance Log' => '系统监视器',
         'This feature is enabled!' => '该功能已启用',
         'Just use this feature if you want to log each request.' => '如果您想详细记录每个请求, 您可以使用该功能.',
-        'Of couse this feature will take some system performance it self!' => '当然, 该功能会占用一定的系统资源, 加重系统的负担!',
+        'Activating this feature might affect your system performance!' => '',
         'Disable it here!' => '关闭该功能',
         'This feature is disabled!' => '该功能已关闭',
+        'Activating this feature might affect your system performance!' => '',
         'Enable it here!' => '打开该功能',
         'Logfile too large!' => '日志文件过大',
         'Logfile too large, you need to reset it!' => '日志文件过大, 你需要重置它',
@@ -796,16 +858,22 @@ sub Data {
         # Template: AdminPostMasterFilter
         'PostMaster Filter Management' => '邮件过滤管理',
         'Filtername' => '过滤器名称',
+        'Stop after match' => '',
         'Match' => '匹配',
-        'Header' => '信息头',
         'Value' => '值',
         'Set' => '设置',
         'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => '如果您想根据 X-Headers 内容来过滤，可以使用正规则表达式.',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' => '',
         'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => '',
 
+        # Template: AdminPriority
+        'Priority Management' => '优先权管理',
+        'Add Priority' => '添加优先权',
+        'Add a new Priority.' => '增加一个新的优先权',
+
         # Template: AdminQueueAutoResponseForm
         'Queue <-> Auto Responses Management' => '队列 <-> 自动回复管理',
+        'settings' => '',
 
         # Template: AdminQueueForm
         'Queue Management' => '队列管理',
@@ -815,10 +883,8 @@ sub Data {
         'Only business hours are counted.' => '仅以上班时间计算',
         'Escalation - First Response Time' => '任务调升 - 首次回复的时间',
         '0 = no escalation' => '0 = 无限时  ',
-        'Only business hours are counted.' => '仅以上班时间计算',
         'Notify by' => '进度通知',
         'Escalation - Update Time' => '任务调升 - 更新的时间',
-        'Notify by' => '进度通知',
         'Escalation - Solution Time' => '任务调升 - 解决的时间',
         'Follow up Option' => '跟进选项',
         'Ticket lock after a follow up' => '跟进确认以后，Ticket 将被自动上锁',
@@ -889,7 +955,6 @@ sub Data {
 
         # Template: AdminSelectBoxForm
         'SQL Box' => 'SQL查询窗口',
-        'Limit' => '',
         'Go' => '执行',
         'Select Box Result' => '查询结果',
 
@@ -963,6 +1028,7 @@ sub Data {
         'Add System Address' => '增加系统邮件地址',
         'Add a new System Address.' => '增加一个新的系统邮件地址.',
         'Realname' => '真实姓名',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => '所有发送到该收件人的消息将被转到所选择的队列',
 
         # Template: AdminTypeForm
@@ -977,6 +1043,8 @@ sub Data {
         'Login as' => '登录名',
         'Firstname' => '名',
         'Lastname' => '姓',
+        'Start' => '开始',
+        'End' => '',
         'User will be needed to handle tickets.' => '需要用户来处理 Tickets.',
         'Don\'t forget to add a new user to groups and/or roles!' => '不要忘记增加一个用户到组和角色!',
 
@@ -994,18 +1062,20 @@ sub Data {
 
         # Template: AgentCalendarSmallIcon
 
+        # Template: AgentCustomerSearch
+
         # Template: AgentCustomerTableView
 
         # Template: AgentInfo
         'Info' => '详情',
 
         # Template: AgentLinkObject
+        'Link Object: %s' => '连接对象: %s',
+        'Object' => '对象',
         'Link Object' => '链接对象',
+        'with' => '和',
         'Select' => '选择',
-        'Results' => '结果',
-        'Total hits' => '点击数',
-        'Page' => '页',
-        'Detail' => '细节',
+        'Unlink Object: %s' => '未连接对象 %s',
 
         # Template: AgentLookup
         'Lookup' => '',
@@ -1013,6 +1083,7 @@ sub Data {
         # Template: AgentNavigationBar
 
         # Template: AgentPreferencesForm
+        'End' => '',
 
         # Template: AgentSpelling
         'Spell Checker' => '拼写检查',
@@ -1021,9 +1092,11 @@ sub Data {
         'Apply these changes' => '应用这些改变',
 
         # Template: AgentStatsDelete
+        'Stat#' => '',
         'Do you really want to delete this Object?' => '您是否确认删除该对象?',
 
         # Template: AgentStatsEditRestrictions
+        'Stat#' => '',
         'Select the restrictions to characterise the stat' => '',
         'Fixed' => '',
         'Please select only one element or turn off the button \'Fixed\'.' => '',
@@ -1077,7 +1150,7 @@ sub Data {
         'Select the element, which will be used at the X-axis' => '',
         'maximal period' => '',
         'minimal scale' => '',
-        'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
+        'Here you can define the x-axis. You can select one element via the radio button. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
 
         # Template: AgentStatsImport
         'Import' => '导入',
@@ -1085,7 +1158,9 @@ sub Data {
         'No File selected' => '没有文件被选中',
 
         # Template: AgentStatsOverview
-        'Object' => '对象',
+        'Results' => '结果',
+        'Total hits' => '点击数',
+        'Page' => '页',
 
         # Template: AgentStatsPrint
         'Print' => '打印',
@@ -1099,10 +1174,11 @@ sub Data {
         'No element selected.' => '',
         'maximal period from' => '最大周期表',
         'to' => '至',
-        'Start' => '开始',
         'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => '',
 
         # Template: AgentTicketBounce
+        'A message should have a To: recipient!' => '邮件必须有收件人!',
+        'You need a email address (e. g. customer@example.com) in To:!' => '收件人信息必须是邮件地址(例如：customer@example.com)',
         'Bounce ticket' => '回退 Ticket ',
         'Ticket locked!' => 'Ticket 被锁定!',
         'Ticket unlock!' => '解锁 Ticket!',
@@ -1112,23 +1188,33 @@ sub Data {
         'Send mail!' => '发送!',
 
         # Template: AgentTicketBulk
+        'A message should have a subject!' => '邮件必须有标题!',
+        'You need to account time!' => '',
         'Ticket Bulk Action' => 'Ticket 批量处理',
         'Spell Check' => '拼写检查',
         'Note type' => '注释类型',
+        'Next state' => 'Ticket 状态',
+        'Pending date' => '待处理日期',
+        'Merge to' => '合并到',
+        'Merge to oldest' => '',
+        'Link together' => '',
+        'Link to Parent' => '',
         'Unlock Tickets' => '解锁 Tickets',
 
         # Template: AgentTicketClose
+        'Ticket Type is required!' => 'Ticket 的类型是必须的!',
+        'A message should have a body!' => '邮件必须包含内容!',
+        'A required field is:' => '',
+        'A required field is:' => '',
         'Close ticket' => '关闭 Ticket',
         'Previous Owner' => '前一个所有者',
         'Inform Agent' => '通知技术支持人员',
         'Optional' => '选项',
         'Inform involved Agents' => '通知相关技术支持人员',
         'Attach' => '附件',
-        'Next state' => 'Ticket 状态',
-        'Pending date' => '待处理日期',
-        'Time units' => '',
 
         # Template: AgentTicketCompose
+        'A message must be spell checked!' => '消息必须经过拼写检查!',
         'Compose answer for ticket' => '撰写答复,Ticket 编号',
         'Pending Date' => '进入等待状态日期',
         'for pending* states' => '针对等待状态',
@@ -1150,17 +1236,9 @@ sub Data {
         'new ticket' => '新建 Ticket',
         'Refresh' => '刷新',
         'Clear To' => '清空',
+        'All Agents' => '所有技术支持人员',
 
-        # Template: AgentTicketEscalationView
-        'Ticket Escalation View' => '调整查看 Ticket',
-        'Escalation' => '调整',
-        'Today' => '今天',
-        'Tomorrow' => '明天',
-        'Next Week' => '下周',
-        'up' => '上',
-        'down' => '下',
-        'Escalation' => '调整',
-        'Locked' => '锁定状态',
+        # Template: AgentTicketEscalation
 
         # Template: AgentTicketForward
         'Article type' => '文章类型',
@@ -1173,25 +1251,49 @@ sub Data {
 
         # Template: AgentTicketLocked
 
-        # Template: AgentTicketMailbox
-        'Mailbox' => '邮箱',
-        'Tickets' => '',
-        'of' => '',
-        'Filter' => '过滤器',
-        'New messages' => '新消息',
-        'Reminder' => '提醒',
-        'Sort by' => '排序',
-        'Order' => '次序',
-
         # Template: AgentTicketMerge
+        'You need to use a ticket number!' => '您需要使用一个 Ticket 编号!',
         'Ticket Merge' => 'Ticket 合并',
-        'Merge to' => '合并到',
 
         # Template: AgentTicketMove
         'Move Ticket' => '移动 Ticket',
 
         # Template: AgentTicketNote
         'Add note to ticket' => '增加注解到 Ticket',
+
+        # Template: AgentTicketOverviewMedium
+        'First Response Time' => '首次报告时间',
+        'Service Time' => '服务时间',
+        'Update Time' => '更新时间',
+        'Solution Time' => '解决时间',
+
+        # Template: AgentTicketOverviewMediumMeta
+        'You need min. one selected Ticket!' => '您至少需要选择一个 Ticket!',
+        'sort upward' => '正序排序',
+        'up' => '上',
+        'sort downward' => '逆序排序',
+        'down' => '下',
+        'Escalation in' => '限时',
+        'Locked' => '锁定状态',
+
+        # Template: AgentTicketOverviewNavBar
+        'Filter' => '过滤器',
+        'Change search options' => '修改搜索选项',
+        'Tickets' => '',
+        'of' => '',
+
+        # Template: AgentTicketOverviewNavBarSmall
+
+        # Template: AgentTicketOverviewPreview
+        'Your own Ticket' => '您自己的 Ticket',
+        'Compose Follow up' => '撰写跟踪答复',
+        'Compose Answer' => '撰写答复',
+        'Contact customer' => '联系客户',
+        'Change queue' => '改变队列',
+
+        # Template: AgentTicketOverviewPreviewMeta
+
+        # Template: AgentTicketOverviewSmall
 
         # Template: AgentTicketOwner
         'Change owner of ticket' => '修改 Ticket 所有者',
@@ -1211,12 +1313,7 @@ sub Data {
         # Template: AgentTicketPrint
         'Ticket-Info' => 'Ticket信息',
         'Accounted time' => '',
-        'First Response Time' => '首次报告时间',
-        'Update Time' => '更新时间',
-        'Solution Time' => '解决时间',
         'Linked-Object' => '已链接对象',
-        'Parent-Object' => '父对象',
-        'Child-Object' => '子对象',
         'by' => '由',
 
         # Template: AgentTicketPriority
@@ -1229,16 +1326,6 @@ sub Data {
         'Queues' => '队列',
         'Ticket escalation!' => 'Ticket 限时处理!',
 
-        # Template: AgentTicketQueueTicketView
-        'Service Time' => '服务时间',
-        'Your own Ticket' => '您自己的 Ticket',
-        'Compose Follow up' => '撰写跟踪答复',
-        'Compose Answer' => '撰写答复',
-        'Contact customer' => '联系客户',
-        'Change queue' => '改变队列',
-
-        # Template: AgentTicketQueueTicketViewLite
-
         # Template: AgentTicketResponsible
         'Change responsible of ticket' => '更改 Ticket 的负责人',
 
@@ -1248,40 +1335,33 @@ sub Data {
         'Search-Template' => '搜索模板',
         'TicketFreeText' => 'Ticket 额外信息',
         'Created in Queue' => '在队列里建立',
-        'Close Times' => '关闭时间',
-        'No close time settings.' => '',
-        'Ticket closed' => '关闭的 Ticket',
-        'Ticket closed between' => '',
+        'Change Times' => '',
+        'No change time settings.' => '',
+        'Ticket changed' => '',
+        'Ticket changed between' => '',
         'Result Form' => '搜索结果显示为',
         'Save Search-Profile as Template?' => '将搜索条件保存为模板',
         'Yes, save it with name' => '是, 保存为名称',
 
         # Template: AgentTicketSearchOpenSearchDescription
 
-        # Template: AgentTicketSearchResult
-        'Change search options' => '修改搜索选项',
-
         # Template: AgentTicketSearchResultPrint
-
-        # Template: AgentTicketSearchResultShort
-
-        # Template: AgentTicketStatusView
-        'Ticket Status View' => 'Ticket 状态视图',
-        'Open Tickets' => '开放 Tickets',
 
         # Template: AgentTicketZoom
         'Expand View' => '展开',
+        'Expand' => '',
         'Collapse View' => '折叠',
+        'Split' => '分解',
+
+        # Template: AgentTicketZoomArticleFilterDialog
+        'Article filter settings' => '',
+        'Save filter settings as default' => '',
 
         # Template: AgentWindowTab
 
         # Template: AJAX
 
         # Template: Copyright
-
-        # Template: css
-
-        # Template: customer-css
 
         # Template: CustomerAccept
 
@@ -1320,6 +1400,8 @@ sub Data {
         'Times' => '时间',
         'No time settings.' => '无时间约束.',
 
+        # Template: CustomerTicketSearchOpenSearchDescription
+
         # Template: CustomerTicketSearchResultCSV
 
         # Template: CustomerTicketSearchResultPrint
@@ -1339,6 +1421,7 @@ sub Data {
         # Template: FooterSmall
 
         # Template: Header
+        'Home' => '',
 
         # Template: HeaderSmall
 
@@ -1381,6 +1464,8 @@ sub Data {
         'Start page' => '开始页面',
         'Your OTRS Team' => '您的 OTRS 小组.',
 
+        # Template: LinkObject
+
         # Template: Login
 
         # Template: Motd
@@ -1397,6 +1482,8 @@ sub Data {
         # Template: PrintHeader
         'printed by' => '打印于',
 
+        # Template: PublicDefault
+
         # Template: Redirect
 
         # Template: Test
@@ -1404,6 +1491,30 @@ sub Data {
         'Counter' => '计数器',
 
         # Template: Warning
+
+        # Template: YUI
+        'Bold' => '',
+        'CTRL' => '',
+        'SHIFT' => '',
+        'Italic' => '',
+        'Underline' => '',
+        'Font Color' => '',
+        'Background Color' => '',
+        'Remove Formatting' => '',
+        'Show/Hide Hidden Elements' => '',
+        'Align Left' => '',
+        'Align Center' => '',
+        'Align Right' => '',
+        'Justify' => '',
+        'Indent' => '',
+        'Outdent' => '',
+        'Create an Unordered List' => '',
+        'Create an Ordered List' => '',
+        'HTML Link' => '',
+        'Insert Image' => '',
+        'Undo' => '',
+        'Redo' => '',
+
         # Misc
         'Edit Article' => '编辑信件',
         'Create Database' => '创建数据库',
@@ -1412,18 +1523,19 @@ sub Data {
         'Create new Phone Ticket' => '创建新的电话 Ticket',
         'Symptom' => '症状',
         'U' => '升序',
-        'A message should have a To: recipient!' => '邮件必须有收件人!',
         'Site' => '站点',
         'Customer history search (e. g. "ID342425").' => '搜索客户历史 (例如： "ID342425").',
-        'for agent firstname' => '技术支持人员 姓',
+        'Can not delete link with %s!' => '不能删除 %s 的连接',
         'Close!' => '关闭!',
-        'The message being composed has been closed.  Exiting.' => '进行消息撰写的窗口已经被关闭,退出.',
+        'for agent firstname' => '技术支持人员 姓',
+        'No means, send agent and customer notifications on changes.' => '需要, 当有改变时发送通知给技术人员或客户.',
         'A web calendar' => 'Web 日历',
         'to get the realname of the sender (if given)' => '邮件发送人的真实姓名 (如果存在)',
         'OTRS DB Name' => '数据库名称',
         'Notification (Customer)' => '',
         'Select Source (for add)' => '选择数据源(增加功能使用)',
         'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+        'Child-Object' => '子对象',
         'Days' => '天',
         'Queue ID' => '队列编号',
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => '配置选项 (例如:<OTRS_CONFIG_HttpType>)',
@@ -1432,65 +1544,72 @@ sub Data {
         'Pending messages' => '消息转入等待状态',
         'for agent login' => '技术支持人员 登录名',
         'Keyword' => '关键字',
-        'with' => '和',
         'Close type' => '关闭类型',
         'DB Admin User' => '数据库管理员用户名',
         'for agent user id' => '技术支持人员 用户名',
-        'sort upward' => '正序排序',
         'Change user <-> group settings' => '修改 用户 <-> 组 设置',
         'Problem' => '问题',
+        'Escalation' => '调整',
+        '"}' => '',
+        'Order' => '次序',
         'next step' => '下一步',
         'Customer history search' => '客户历史搜索',
+        'PostMaster Mail Account' => '邮件帐号管理',
         'Create new database' => '创建新的数据库',
-        'A message must be spell checked!' => '消息必须经过拼写检查!',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => '您的邮件 编号: "<OTRS_TICKET>" 回退到 "<OTRS_BOUNCE_TO>" . 请联系以下地址获取详细信息.',
-        'A message should have a body!' => '邮件必须包含内容!',
-        'All Agents' => '所有技术支持人员',
         'Keywords' => '关键字',
+        'Ticket Escalation View' => '调整查看 Ticket',
+        'Today' => '今天',
         'No * possible!' => '不可使用通配符 "*" !',
         'Load' => '加载',
+        'PostMaster Filter' => '邮件内容过滤',
         'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
         'Message for new Owner' => '给所有者的消息',
         'to get the first 5 lines of the email' => '邮件正文前5行',
+        'Sort by' => '排序',
         'OTRS DB Password' => 'OTRS 用户密码',
         'Last update' => '最后更新于',
+        'Tomorrow' => '明天',
         'not rated' => '不予评级',
         'to get the first 20 character of the subject' => '邮件标题前20个字符',
         'Select the customeruser:service relations.' => '',
         'DB Admin Password' => '数据系统管理员密码',
         'Drop Database' => '删除数据库',
+        'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
         'FileManager' => '文件管理器',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => '当前客户用户信息 (例如: <OTRS_CUSTOMER_DATA_UserFirstname>)',
         'Pending type' => '待处理类型',
         'Comment (internal)' => '注释 (内部)',
         'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '可用的 Ticket 归属人信息 (例如: &lt;OTRS_OWNER_USERFIRSTNAME&gt;)',
-        'This window must be called from compose window' => '该窗口必须由撰写窗口调用',
-        'You need min. one selected Ticket!' => '您至少需要选择一个 Ticket!',
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '可用的有关 Ticket 信息 (例如: <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         '(Used ticket number format)' => '(使用 Ticket 编号格式)',
+        'Reminder' => '提醒',
         'Fulltext' => '全文',
         'OTRS DB connect host' => 'OTRS 数据库主机',
         'All Agent variables.' => '所有的技术人员变量',
-        ' (work units)' => '',
+        'Next Week' => '下周',
         'All Customer variables like defined in config option CustomerUser.' => '',
         'for agent lastname' => '技术支持人员 名',
         'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => '动作请求者信息 (例如: <OTRS_CURRENT_UserFirstname>)',
         'Reminder messages' => '消息提醒',
-        'A message should have a subject!' => '邮件必须有标题!',
+        'Parent-Object' => '父对象',
+        'Of couse this feature will take some system performance it self!' => '当然, 该功能会占用一定的系统资源, 加重系统的负担!',
+        'Detail' => '细节',
         'TicketZoom' => 'Ticket 展开',
         'Don\'t forget to add a new user to groups!' => '不要忘记增加新的用户到组!',
-        'You need a email address (e. g. customer@example.com) in To:!' => '收件人信息必须是邮件地址(例如：customer@example.com)',
+        'Open Tickets' => '开放 Tickets',
+        'General Catalog' => '总目录',
         'CreateTicket' => '创建 Ticket',
-        'You need to account time!' => '',
+        'You have to select two or more attributes from the select field!' => '',
         'System Settings' => '数据库设置 ',
         'Finished' => '完成',
-        'Split' => '分解',
         'D' => '降序',
         'All messages' => '所有消息',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
+        'Object already linked as %s.' => '对象已连接到 %s.',
         'A article should have a title!' => '文章必须有标题!',
-        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '配置选项 (例如: &lt;OTRS_CONFIG_HttpType&gt;)',
+        'Customer Users <-> Services' => '客户帐号 <-> 服务管理',
         'Event' => '事件',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '配置选项 (例如: &lt;OTRS_CONFIG_HttpType&gt;)',
         'A web mail client' => 'WebMail 客户端',
         'WebMail' => 'WebMail',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Ticket 所有者选项 (例如: <OTRS_OWNER_UserFirstname>)',
@@ -1502,42 +1621,29 @@ sub Data {
         'QueueView' => '队列视图',
         'My Queue' => '我的队列',
         'Select Box' => '选择方框',
+        'New messages' => '新消息',
+        'Can not create link with %s!' => '不能为 %s 创建连接',
+        'Linked as' => '已连接为',
         'modified' => '修改于',
-        'Escalation in' => '限时',
         'Delete old database' => '删除旧数据库',
-        'sort downward' => '逆序排序',
-        'You need to use a ticket number!' => '您需要使用一个 Ticket 编号!',
         'A web file manager' => 'Web 文件管理器',
         'Have a lot of fun!' => '有一堆好玩的东东!',
         'send' => '发送',
+        'QuickSearch' => '快速搜索',
+        'Send no notifications' => '不发送通知',
         'Note Text' => '注解',
         'POP3 Account Management' => 'POP3 帐户管理',
         'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
         'System State Management' => '系统状态管理',
         'OTRS DB User' => 'OTRS 数据库用户名',
+        'Mailbox' => '邮箱',
         'PhoneView' => '电话视图',
         'maximal period form' => '最大周期表',
+        'Yes means, send no agent and customer notifications on changes.' => '不用, 当有改变时不发送通知给技术人员或客户.',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => '您的邮件 编号: "<OTRS_TICKET>" 回退到 "<OTRS_BOUNCE_TO>" . 请联系以下地址获取详细信息.',
+        'Ticket Status View' => 'Ticket 状态视图',
         'Modified' => '修改于',
         'Ticket selected for bulk action!' => '被选中进行批量操作的 Tickets',
-
-        'Link Object: %s' => '连接对象: %s',
-        'Unlink Object: %s' => '未连接对象 %s',
-        'Linked as' => '已连接为',
-        'Can not create link with %s!' => '不能为 %s 创建连接',
-        'Can not delete link with %s!' => '不能删除 %s 的连接',
-        'Object already linked as %s.' => '对象已连接到 %s.',
-        'Priority Management' => '优先权管理',
-        'Add a new Priority.' => '增加一个新的优先权',
-        'Add Priority' => '添加优先权',
-        'Ticket Type is required!' => 'Ticket 的类型是必须的!',
-        'PostMaster Mail Account' => '邮件帐号管理',
-        'PostMaster Filter' => '邮件内容过滤',
-        'Customer Users <-> Services' => '客户帐号 <-> 服务管理',
-        'General Catalog' => '总目录',
-        'QuickSearch' => '快速搜索',
-        'Added!' => '',
-        'Updated!' => '',
-
     };
     # $$STOP$$
     return;

@@ -2,7 +2,7 @@
 # Kernel/Language/ar_SA.pm - provides ar_SA language translation
 # Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
 # --
-# $Id: ar_SA.pm,v 1.27 2009-02-16 10:38:04 tr Exp $
+# $Id: ar_SA.pm,v 1.28 2009-04-03 07:42:24 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Fri May 16 14:07:36 2008
+    # Last translation file sync: Fri Apr  3 09:40:38 2009
 
     # possible charsets
     $Self->{Charset} = ['cp1256', ];
@@ -141,6 +141,7 @@ sub Data {
         'update!' => 'ÊÍÏíË!',
         'update' => 'ÊÍÏíË',
         'Update' => 'ÊÍÏíË',
+        'Updated!' => '',
         'submit!' => 'ÊÓáíã!',
         'submit' => 'ÊÓáíã',
         'Submit' => 'ÊÓáíã',
@@ -181,6 +182,7 @@ sub Data {
         'Up' => 'ÃÚáì',
         'Down' => 'ÃÓİá',
         'Add' => 'ÃÖİ',
+        'Added!' => '',
         'Category' => 'ÊÕäíİ',
         'Viewer' => 'ãÓÊÚÑÖ',
         'New message' => 'ÑÓÇáÉ ÌÏíÏÉ',
@@ -248,8 +250,8 @@ sub Data {
         'Zip' => '',
         'City' => 'ÇáãÏíäÉ',
         'Street' => '',
-        'Location' => '',
         'Country' => 'ÇáÏæáÉ',
+        'Location' => '',
         'installed' => 'Êã ÊÎÒíä ÇáÈÑäÇãÌ',
         'uninstalled' => 'Êã ÍĞİ ÇáÈÑäÇãÌ',
         'Security Note: You should activate %s because application is already running!' => '',
@@ -267,6 +269,30 @@ sub Data {
         'Sent password token to: %s' => '',
         'Sent new password to: %s' => '',
         'Invalid Token!' => '',
+        'For more info see:' => '',
+        'Package verification failed!' => '',
+        'Bold' => '',
+        'Italic' => '',
+        'Underline' => '',
+        'Font Color' => '',
+        'Background Color' => '',
+        'Remove Formatting' => '',
+        'Show/Hide Hidden Elements' => '',
+        'Align Left' => '',
+        'Align Center' => '',
+        'Align Right' => '',
+        'Justify' => '',
+        'Header' => '',
+        'Indent' => '',
+        'Outdent' => '',
+        'Create an Unordered List' => '',
+        'Create an Ordered List' => '',
+        'HTML Link' => '',
+        'Insert Image' => '',
+        'CTRL' => '',
+        'SHIFT' => '',
+        'Undo' => '',
+        'Redo' => '',
 
         # Template: AAAMonth
         'Jan' => 'íäÇíÑ',
@@ -347,7 +373,6 @@ sub Data {
         'Please select an object!' => 'ÑÌÇÁÇğ Şã ÈÊÍÏíÏÇáßÇÆä!',
         'Please select a graph size!' => 'ÑÌÇÁÇğ ÃÎÊÑ ÍÌã ÇáÕæÑÉ',
         'Please select one element for the X-axis!' => 'ÑÌÇÁÇğ Şã ÈÊÍÏíÏ ÚäÕÑ æÇÍÏ áãÍæÑ ÇáÓíäÇÊ!',
-        'You have to select two or more attributes from the select field!' => 'íÌÈ Úáíß ÊÍÏíÏ ÚäÕÑíä Ãæ ÃßËÑ ãä ÇáŞÇÆãÉ ÇáãÍÏÏÉ!',
         'Please select only one element or turn off the button \'Fixed\' where the select field is marked!' => '',
         'If you use a checkbox you have to select some attributes of the select field!' => '',
         'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!' => '',
@@ -380,6 +405,30 @@ sub Data {
         'Create Time' => 'æŞÊ ÇáÅäÔÇÁ',
         'CustomerUserLogin' => 'ÏÎæá ÇáÚãáÇÁ',
         'Close Time' => 'æŞÊ ÅŞİÇá ÇáÈØÇŞÉ',
+        'TicketAccumulation' => '',
+        'Attributes to be printed' => '',
+        'Sort sequence' => '',
+        'Order by' => '',
+        'Limit' => '',
+        'Ticketlist' => '',
+        'ascending' => '',
+        'descending' => '',
+        'First Lock' => '',
+        'Evaluation by' => '',
+        'Total Time' => '',
+        'Ticket Average' => '',
+        'Ticket Min Time' => '',
+        'Ticket Max Time' => '',
+        'Number of Tickets' => '',
+        'Article Average' => '',
+        'Article Min Time' => '',
+        'Article Max Time' => '',
+        'Number of Articles' => '',
+        'Accounted time by Agent' => '',
+        'Ticket/Article Accounted Time' => '',
+        'TicketAccountedTime' => '',
+        'Ticket Create Time' => '',
+        'Ticket Close Time' => '',
 
         # Template: AAATicket
         'Lock' => 'ÅŞİÇá',
@@ -428,7 +477,9 @@ sub Data {
         'closed unsuccessful' => 'ÃÛáŞÊ ÈİÔá',
         'new' => 'ÌÏíÏ',
         'open' => 'İÊÍ',
+        'Open' => '',
         'closed' => 'Êã ÅŞİÇáå',
+        'Closed' => '',
         'removed' => 'Êã ÍĞÛå',
         'pending reminder' => '',
         'pending auto' => '',
@@ -520,12 +571,17 @@ sub Data {
         'Closed Tickets' => 'ÇáÈØÇŞÇÊ ÇáãŞİáÉ',
         'Show closed tickets.' => 'ÃÚÑÖ ÇáÈØÇŞÇÊ ÇáãŞİáÉ',
         'Max. shown Tickets a page in QueueView.' => 'ÃßÈÑ ÚÏÏ ãä ÇáÈØÇŞÇÊ ÇáãÚÑæÖÉ İí ÇáÕİÍÉ ÇáæÇÍÏÉ İí ŞÇÆãÉ ÇáÈØÇŞÇÊ.',
+        'Watch notification' => '',
+        'Send me a notification of an watched ticket like an owner of an ticket.' => '',
+        'Out Of Office' => '',
+        'Select your out of office time.' => '',
         'CompanyTickets' => 'ÈØÇŞÇÊ ÇáÅÏÇÑÉ',
         'MyTickets' => 'ÈØÇŞÇÊí',
         'New Ticket' => 'ÈØÇŞÉ ÌÏíÏÉ',
         'Create new Ticket' => 'ÃäÔíÁ ÈØÇŞÉ ÌÏíÏÉ!',
         'Customer called' => 'ÇáÚãíá ÃÊÕá',
         'phone call' => 'ãßÇáãÉ åÇÊİíÉ',
+        'Reminder Reached' => '',
         'Responses' => 'ÇáÑÏæÏ',
         'Responses <-> Queue' => 'ÇáÑÏæÏ <=> ŞÇÆãÉ ÇáÈØÇŞÇÊ',
         'Auto Responses' => 'ÇáÑÏæÏ ÇáÂáíÉáí',
@@ -607,6 +663,8 @@ sub Data {
         'This values are read only.' => 'åĞå ÇáŞíãÉ ááŞÑÇÁÉ İŞØ',
 
         # Template: AdminCustomerUserForm
+        'The message being composed has been closed.  Exiting.' => '',
+        'This window must be called from compose window' => '',
         'Customer User Management' => 'ÃÏÇÑÉ ÇáÚãáÇÁ',
         'Add Customer User' => '',
         'Source' => 'ÇáãÕÏÑ',
@@ -652,6 +710,8 @@ sub Data {
         'Is Job Valid?' => '',
         'Is Job Valid' => '',
         'Schedule' => 'ÇáÌÏæá',
+        'Currently this generic agent job will not run automatically.' => '',
+        'To enable automatic execusion select at least one value form minutes, hours and days!' => '',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => '',
         '(e. g. 10*5155 or 105658*)' => '',
         '(e. g. 234321)' => '',
@@ -684,9 +744,10 @@ sub Data {
         'New Ticket Lock' => 'ÅŞİÇá ÇáÈØÇŞÉ ÇáÌÏíÏÉ',
         'New Type' => '',
         'New Title' => '',
-        'New Type' => '',
         'New TicketFreeFields' => 'ÎÇäÇÊ ÅÖÇİíÉ ÌÏíÏÉ ááÈØÇŞÉ',
         'Add Note' => 'ÅÖÇİÉ ãáÇÍÙÉ',
+        'Time units' => 'æÍÏÇÊ ÇáæŞÊ',
+        ' (work units)' => ' (æÍÏÇÊ ÇáÚãá) ',
         'CMD' => '',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => '',
         'Delete tickets' => 'ÍĞİ ÈØÇŞÇÊ',
@@ -698,14 +759,12 @@ sub Data {
         'Param 4' => '',
         'Param 5' => '',
         'Param 6' => '',
-        'Send no notifications' => 'áÇ ÊÑÓá Ãí ÊäÈíåÇÊ',
-        'Yes means, send no agent and customer notifications on changes.' => '',
-        'No means, send agent and customer notifications on changes.' => '',
+        'Send agent/customer notifications on changes' => '',
         'Save' => 'ÍİÙ',
         '%s Tickets affected! Do you really want to use this job?' => '',
-        '"}' => '',
 
         # Template: AdminGroupForm
+        'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' => '',
         'Group Management' => 'ÅÏÇÑÉ ÇáãÌãæÚÇÊ',
         'Add Group' => '',
         'Add a new Group.' => '',
@@ -747,6 +806,7 @@ sub Data {
         'Package' => '',
         'Online Repository' => '',
         'Vendor' => '',
+        'Module documentation' => '',
         'Upgrade' => 'ÊØæíÑ',
         'Local Repository' => '',
         'Status' => 'ÇáÍÇáÉ',
@@ -767,9 +827,10 @@ sub Data {
         'Performance Log' => '',
         'This feature is enabled!' => '',
         'Just use this feature if you want to log each request.' => '',
-        'Of couse this feature will take some system performance it self!' => '',
+        'Activating this feature might affect your system performance!' => '',
         'Disable it here!' => '',
         'This feature is disabled!' => '',
+        'Activating this feature might affect your system performance!' => '',
         'Enable it here!' => '',
         'Logfile too large!' => '',
         'Logfile too large, you need to reset it!' => '',
@@ -797,16 +858,22 @@ sub Data {
         # Template: AdminPostMasterFilter
         'PostMaster Filter Management' => '',
         'Filtername' => '',
+        'Stop after match' => '',
         'Match' => '',
-        'Header' => '',
         'Value' => '',
         'Set' => '',
         'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => '',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' => '',
         'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => '',
 
+        # Template: AdminPriority
+        'Priority Management' => '',
+        'Add Priority' => '',
+        'Add a new Priority.' => '',
+
         # Template: AdminQueueAutoResponseForm
         'Queue <-> Auto Responses Management' => 'ŞÇÆãÉ ÇáÈØÇŞÇÊ <=> ÅÏÇÑÉ ÇáÑÏæÏ ÇáÂáíÉ',
+        'settings' => '',
 
         # Template: AdminQueueForm
         'Queue Management' => 'ÅÏÇÑÉ ŞæÇÆã ÇáÈØÇŞÇÊ',
@@ -816,10 +883,8 @@ sub Data {
         'Only business hours are counted.' => '',
         'Escalation - First Response Time' => '',
         '0 = no escalation' => '0 = áÇ íæÌÏ ÊÕÚíÏ',
-        'Only business hours are counted.' => '',
         'Notify by' => '',
         'Escalation - Update Time' => '',
-        'Notify by' => '',
         'Escalation - Solution Time' => '',
         'Follow up Option' => 'ÎíÇÑ ÇáãÊÇÈÚÉ',
         'Ticket lock after a follow up' => 'ÅŞİÇá ÇáÈØÇŞÉ ÈÚÏ ÅÖÇİÉ ãÊÇÈÚÉ',
@@ -890,7 +955,6 @@ sub Data {
 
         # Template: AdminSelectBoxForm
         'SQL Box' => '',
-        'Limit' => '',
         'Go' => '',
         'Select Box Result' => '',
 
@@ -964,6 +1028,7 @@ sub Data {
         'Add System Address' => '',
         'Add a new System Address.' => '',
         'Realname' => 'ÇáÅÓã ÇáÍŞíŞí',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => '',
 
         # Template: AdminTypeForm
@@ -978,6 +1043,8 @@ sub Data {
         'Login as' => 'ÊÓÌíá ÏÎæá ßÜ',
         'Firstname' => 'ÇáÅÓã ÇáÃæá',
         'Lastname' => 'ÇáÅÓã ÇáÃÎíÑ',
+        'Start' => 'ÅÈÏÃ',
+        'End' => '',
         'User will be needed to handle tickets.' => 'ÇáãÓÊÎÏã ãØáæÈ áãÊÇÈÚÉ ÇáÈØÇŞÇÊ.',
         'Don\'t forget to add a new user to groups and/or roles!' => 'áÇÊäÓì ÅÖÇİÉ ÇáãÓÊÎÏã ÇáÌÏíÏ Åáì ãÌãæÚÉ Ãæ ãÌãæÚÉ ÎÕÇÆÕ',
 
@@ -995,18 +1062,20 @@ sub Data {
 
         # Template: AgentCalendarSmallIcon
 
+        # Template: AgentCustomerSearch
+
         # Template: AgentCustomerTableView
 
         # Template: AgentInfo
         'Info' => 'ãÚáæãÇÊ',
 
         # Template: AgentLinkObject
+        'Link Object: %s' => '',
+        'Object' => 'ßÇÆä',
         'Link Object' => 'ÑÈØ ÇáßÇÆä',
+        'with' => 'ãÚ',
         'Select' => 'ÃÎÊÑ',
-        'Results' => 'ÇáäÊíÌÉ',
-        'Total hits' => 'ÚÏÏ ÇáÊŞÇÑíÑ',
-        'Page' => 'ÇáÕİÍÉ',
-        'Detail' => 'ÇáÊİÇÕíá',
+        'Unlink Object: %s' => '',
 
         # Template: AgentLookup
         'Lookup' => 'ÈÍË Úä',
@@ -1014,6 +1083,7 @@ sub Data {
         # Template: AgentNavigationBar
 
         # Template: AgentPreferencesForm
+        'End' => '',
 
         # Template: AgentSpelling
         'Spell Checker' => 'ÇáãÏŞŞ ÇáÅãáÇÆí',
@@ -1022,6 +1092,7 @@ sub Data {
         'Apply these changes' => 'ÊØÈíŞ ÇáÊÛííÑÇÊ',
 
         # Template: AgentStatsDelete
+        'Stat#' => '',
         'Do you really want to delete this Object?' => 'åÇ ÊÑíÏ İÚáÇğ ÍĞİ åĞÇ ÇáßÇÆä¿',
 
         # Template: AgentStatsEditRestrictions
@@ -1078,7 +1149,7 @@ sub Data {
         'Select the element, which will be used at the X-axis' => '',
         'maximal period' => 'ÃØæá ãÏÉ',
         'minimal scale' => '',
-        'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
+        'Here you can define the x-axis. You can select one element via the radio button. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
 
         # Template: AgentStatsImport
         'Import' => 'ÇÓÊíÑÇÏ',
@@ -1086,7 +1157,9 @@ sub Data {
         'No File selected' => 'áã íÊã ÇÎÊíÇÑ Ãí ãáİ',
 
         # Template: AgentStatsOverview
-        'Object' => 'ßÇÆä',
+        'Results' => 'ÇáäÊíÌÉ',
+        'Total hits' => 'ÚÏÏ ÇáÊŞÇÑíÑ',
+        'Page' => 'ÇáÕİÍÉ',
 
         # Template: AgentStatsPrint
         'Print' => 'ØÈÇÚÉ',
@@ -1100,10 +1173,11 @@ sub Data {
         'No element selected.' => 'áã íÊã ÊÍÏíÏ Ãí ÚäÕÑ',
         'maximal period from' => '',
         'to' => 'Åáì',
-        'Start' => 'ÅÈÏÃ',
         'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => '',
 
         # Template: AgentTicketBounce
+        'A message should have a To: recipient!' => 'ÇáÑÓÇáÉ íÌÈ Ãä íßæä áåÇ: ãÊáŞí!',
+        'You need a email address (e. g. customer@example.com) in To:!' => '',
         'Bounce ticket' => '',
         'Ticket locked!' => 'ÅŞİÇá ÇáÈØÇŞÉ',
         'Ticket unlock!' => 'İÊÍ ÇáÈØÇŞÉ',
@@ -1113,23 +1187,33 @@ sub Data {
         'Send mail!' => 'ÅÑÓÇá ÇáÈÑíÏ',
 
         # Template: AgentTicketBulk
+        'A message should have a subject!' => 'ÇáÑÓÇáÉ íÌÈ Ãä íßæä áåÇ ãæÖæÚ!',
+        'You need to account time!' => 'íÌÈ Úáíß ÍÓÇÈ ÇáæŞÊ!',
         'Ticket Bulk Action' => 'ÇáÊäİíĞ ÇáÌãÇÚí ááÈØÇŞÉ',
         'Spell Check' => 'ÇáÊÏŞíŞ ÇáÅãáÇÆí',
         'Note type' => 'äæÚ ÇáãáÇÍÙÉ',
+        'Next state' => 'ÇáÍÇáÉ ÇáÊÇáíÉ',
+        'Pending date' => 'ÊÇÑíÎ ÇáÅäÊÙÇÑ',
+        'Merge to' => 'ÏãÌ Åáì',
+        'Merge to oldest' => '',
+        'Link together' => '',
+        'Link to Parent' => '',
         'Unlock Tickets' => 'İß ÅÑÊÈÇØ ÇáÈØÇŞÇÊ',
 
         # Template: AgentTicketClose
+        'Ticket Type is required!' => '',
+        'A message should have a body!' => 'ÇáÑÓÇáÉ íÌÈ Ãä íßæä áåÇ äÕ',
+        'A required field is:' => '',
+        'A required field is:' => '',
         'Close ticket' => 'ÅŞİÇá ÇáÈØÇŞÉ',
         'Previous Owner' => 'ÇáãÇáß ÇáÓÇÈŞ',
         'Inform Agent' => 'ÃÈáÛ ÇáãÔÛá',
         'Optional' => 'ÅÎÊíÇÑí',
         'Inform involved Agents' => 'ÃÈáÛ ÇáãÔÛáíä ÇáãÔÇÑßíä',
         'Attach' => 'ÅÑİÇŞ',
-        'Next state' => 'ÇáÍÇáÉ ÇáÊÇáíÉ',
-        'Pending date' => 'ÊÇÑíÎ ÇáÅäÊÙÇÑ',
-        'Time units' => 'æÍÏÇÊ ÇáæŞÊ',
 
         # Template: AgentTicketCompose
+        'A message must be spell checked!' => 'ÇáÑÓÇáÉ íÌÈ ÊÏŞíŞåÇ áÛæíÇğ!',
         'Compose answer for ticket' => 'ÃÑÓá ÅÌÇÈÉ Åáì ÇáÈØÇŞÉ',
         'Pending Date' => 'ÊÇÑíÎ ÇáÅäÊÙÇÑ',
         'for pending* states' => 'ÍÇáÉ ÇáÅäÊÙÇÑ*',
@@ -1151,17 +1235,9 @@ sub Data {
         'new ticket' => 'ÈØÇŞÉ ÌÏíÏÉ',
         'Refresh' => 'ÊÍÏíË',
         'Clear To' => 'ãÓÍ Åáì',
+        'All Agents' => 'ÌãíÚ ÇáãÔÛáíä',
 
-        # Template: AgentTicketEscalationView
-        'Ticket Escalation View' => '',
-        'Escalation' => '',
-        'Today' => '',
-        'Tomorrow' => '',
-        'Next Week' => '',
-        'up' => 'ÃÚáì',
-        'down' => 'ÃÓİá',
-        'Escalation' => '',
-        'Locked' => 'ãŞİá',
+        # Template: AgentTicketEscalation
 
         # Template: AgentTicketForward
         'Article type' => 'äæÚ ÇáãŞÇáÉ',
@@ -1174,25 +1250,49 @@ sub Data {
 
         # Template: AgentTicketLocked
 
-        # Template: AgentTicketMailbox
-        'Mailbox' => 'ÕäÏæŞ ÇáÑÓÇÆá',
-        'Tickets' => 'ÇáÈØÇŞÇÊ',
-        'of' => 'ãä',
-        'Filter' => 'ÇáÊÑÔíÍ',
-        'New messages' => 'ÇáÑÓÇÆá ÇáÌÏíÏÉ',
-        'Reminder' => 'ÇáÊĞßíÑ',
-        'Sort by' => 'ÊÑÊíÈ ÈÜ',
-        'Order' => 'ÑÊÈ',
-
         # Template: AgentTicketMerge
+        'You need to use a ticket number!' => 'íÌÈ ÅÓÊÎÏÇã ÑŞã ÇáÈØÇŞÉ!',
         'Ticket Merge' => 'ÏãÌ ÇáÈØÇŞÉ',
-        'Merge to' => 'ÏãÌ Åáì',
 
         # Template: AgentTicketMove
         'Move Ticket' => 'äŞá ÇáÈØÇŞÉ',
 
         # Template: AgentTicketNote
         'Add note to ticket' => 'ÅÖÇİÉ ãáÇÍÙÉ Åáì ÇáÈØÇŞÉ',
+
+        # Template: AgentTicketOverviewMedium
+        'First Response Time' => '',
+        'Service Time' => '',
+        'Update Time' => '',
+        'Solution Time' => '',
+
+        # Template: AgentTicketOverviewMediumMeta
+        'You need min. one selected Ticket!' => 'íÌÈ ÊÍÏíÏ ÈØÇŞÉ æÇÍÏÉ Úáì ÇáÃŞá!',
+        'sort upward' => 'ÊÑÊíÈ ãä ÇáÃÚáì ááÃŞá',
+        'up' => 'ÃÚáì',
+        'sort downward' => 'ÊÑÊíÈ ãä ÇáÃŞá ááÃÚáì',
+        'down' => 'ÃÓİá',
+        'Escalation in' => 'ÊÕÚíÏ ÎáÇá',
+        'Locked' => 'ãŞİá',
+
+        # Template: AgentTicketOverviewNavBar
+        'Filter' => 'ÇáÊÑÔíÍ',
+        'Change search options' => 'ÊÛííÑ ÎÕÇÆÕ ÇáÈÍË',
+        'Tickets' => 'ÇáÈØÇŞÇÊ',
+        'of' => 'ãä',
+
+        # Template: AgentTicketOverviewNavBarSmall
+
+        # Template: AgentTicketOverviewPreview
+        'Your own Ticket' => 'ÈØÇŞÊß ÇáÎÇÕÉ Èß',
+        'Compose Follow up' => 'ÅÑÓÇá ÅÖÇİÉ ÇáãÊÇÈÚÉ',
+        'Compose Answer' => 'ÅÑÓÇá ÇáÅÌÇÈÉ',
+        'Contact customer' => 'ÇÊÕá ÈÇáÚãíá',
+        'Change queue' => 'ÊÛííÑ ÇáŞÇÆãÉ',
+
+        # Template: AgentTicketOverviewPreviewMeta
+
+        # Template: AgentTicketOverviewSmall
 
         # Template: AgentTicketOwner
         'Change owner of ticket' => 'ÊÛííÑ ãÇáß ÇáÈØÇŞÉ',
@@ -1212,12 +1312,7 @@ sub Data {
         # Template: AgentTicketPrint
         'Ticket-Info' => 'ãÚáæãÇÊ-ÇáÈØÇŞÉ',
         'Accounted time' => 'ÇáæŞÊ ÇáãÍÓæÈ',
-        'First Response Time' => '',
-        'Update Time' => '',
-        'Solution Time' => '',
         'Linked-Object' => 'ÇáßÇÆä-ÇáãÑÈæØ',
-        'Parent-Object' => 'ÇáßÇÆä-ÇáÃÓÇÓí',
-        'Child-Object' => 'ÇáßÇÆä-ÇáİÑÚí',
         'by' => 'ÈæÇÓØÉ',
 
         # Template: AgentTicketPriority
@@ -1230,16 +1325,6 @@ sub Data {
         'Queues' => 'ŞæÇÆã ÇáÈØÇŞÇÊ',
         'Ticket escalation!' => 'ÑİÚ ÇáÈØÇŞÉ',
 
-        # Template: AgentTicketQueueTicketView
-        'Service Time' => '',
-        'Your own Ticket' => 'ÈØÇŞÊß ÇáÎÇÕÉ Èß',
-        'Compose Follow up' => 'ÅÑÓÇá ÅÖÇİÉ ÇáãÊÇÈÚÉ',
-        'Compose Answer' => 'ÅÑÓÇá ÇáÅÌÇÈÉ',
-        'Contact customer' => 'ÇÊÕá ÈÇáÚãíá',
-        'Change queue' => 'ÊÛííÑ ÇáŞÇÆãÉ',
-
-        # Template: AgentTicketQueueTicketViewLite
-
         # Template: AgentTicketResponsible
         'Change responsible of ticket' => 'ÊÛííÑ ÇáãÓÄæá Úä ÇáÈØÇŞÉ',
 
@@ -1249,40 +1334,33 @@ sub Data {
         'Search-Template' => '',
         'TicketFreeText' => '',
         'Created in Queue' => 'ÃäÔÆÊ İí ÇáŞÇÆãÉ',
-        'Close Times' => '',
-        'No close time settings.' => '',
-        'Ticket closed' => '',
-        'Ticket closed between' => '',
+        'Change Times' => '',
+        'No change time settings.' => '',
+        'Ticket changed' => '',
+        'Ticket changed between' => '',
         'Result Form' => 'äãæĞÌ ÇáäÊíÌÉ',
         'Save Search-Profile as Template?' => 'ÇÍİÙ ÅÚÏÇÏÇÊ ÇáÈÍË¿',
         'Yes, save it with name' => 'äÚã, ÃÍİÙåÇ ãÚ ÇáÅÓã',
 
         # Template: AgentTicketSearchOpenSearchDescription
 
-        # Template: AgentTicketSearchResult
-        'Change search options' => 'ÊÛííÑ ÎÕÇÆÕ ÇáÈÍË',
-
         # Template: AgentTicketSearchResultPrint
-
-        # Template: AgentTicketSearchResultShort
-
-        # Template: AgentTicketStatusView
-        'Ticket Status View' => 'ÚÑÖ ÍÇáÉ ÇáÈØÇŞÇÊ',
-        'Open Tickets' => 'ÇáÈØÇŞÇÊ ÇáãİÊæÍÉ',
 
         # Template: AgentTicketZoom
         'Expand View' => '',
+        'Expand' => '',
         'Collapse View' => '',
+        'Split' => 'İÕá',
+
+        # Template: AgentTicketZoomArticleFilterDialog
+        'Article filter settings' => '',
+        'Save filter settings as default' => '',
 
         # Template: AgentWindowTab
 
         # Template: AJAX
 
         # Template: Copyright
-
-        # Template: css
-
-        # Template: customer-css
 
         # Template: CustomerAccept
 
@@ -1321,6 +1399,8 @@ sub Data {
         'Times' => 'ÇáÃæŞÇÊ',
         'No time settings.' => 'ÈÏæä ÎíÇÑÇÊ ááæŞÊ',
 
+        # Template: CustomerTicketSearchOpenSearchDescription
+
         # Template: CustomerTicketSearchResultCSV
 
         # Template: CustomerTicketSearchResultPrint
@@ -1340,6 +1420,7 @@ sub Data {
         # Template: FooterSmall
 
         # Template: Header
+        'Home' => 'ÇáÑÆíÓíÉ',
 
         # Template: HeaderSmall
 
@@ -1382,6 +1463,8 @@ sub Data {
         'Start page' => '',
         'Your OTRS Team' => '',
 
+        # Template: LinkObject
+
         # Template: Login
 
         # Template: Motd
@@ -1398,6 +1481,8 @@ sub Data {
         # Template: PrintHeader
         'printed by' => 'ØÈÚ ÈæÇÓØÉ',
 
+        # Template: PublicDefault
+
         # Template: Redirect
 
         # Template: Test
@@ -1405,6 +1490,30 @@ sub Data {
         'Counter' => 'ÇáÚÏÇÏ',
 
         # Template: Warning
+
+        # Template: YUI
+        'Bold' => '',
+        'CTRL' => '',
+        'SHIFT' => '',
+        'Italic' => '',
+        'Underline' => '',
+        'Font Color' => '',
+        'Background Color' => '',
+        'Remove Formatting' => '',
+        'Show/Hide Hidden Elements' => '',
+        'Align Left' => '',
+        'Align Center' => '',
+        'Align Right' => '',
+        'Justify' => '',
+        'Indent' => '',
+        'Outdent' => '',
+        'Create an Unordered List' => '',
+        'Create an Ordered List' => '',
+        'HTML Link' => '',
+        'Insert Image' => '',
+        'Undo' => '',
+        'Redo' => '',
+
         # Misc
         'Edit Article' => '',
         'Create Database' => '',
@@ -1413,18 +1522,18 @@ sub Data {
         'File-Name' => '',
         'Ticket Number Generator' => '',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '',
-        'Create new Phone Ticket' => 'ÃäÔíÁ ÈØÇŞÉ åÇÊİ ÌÏíÏÉ',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
+        'Create new Phone Ticket' => 'ÃäÔíÁ ÈØÇŞÉ åÇÊİ ÌÏíÏÉ',
         'Symptom' => '',
         'U' => 'ÃÚáì',
-        'A message should have a To: recipient!' => 'ÇáÑÓÇáÉ íÌÈ Ãä íßæä áåÇ: ãÊáŞí!',
         'Site' => '',
         'Customer history search (e. g. "ID342425").' => '',
-        'for agent firstname' => '',
+        'Can not delete link with %s!' => '',
         'Close!' => 'ÅŞİÇá!',
+        'for agent firstname' => '',
         'Reporter' => '',
-        'The message being composed has been closed.  Exiting.' => '',
         'Process-Path' => '',
+        'No means, send agent and customer notifications on changes.' => '',
         'to get the realname of the sender (if given)' => '',
         'FAQ Search Result' => 'äÊíÌÉ ÇáÈÍË İí ÇáÃÓÆáÉ ÇáãÊßÑÑÉ',
         'OTRS DB Name' => '',
@@ -1432,9 +1541,9 @@ sub Data {
         'Select Source (for add)' => 'ÃÎÊÑ ÇáãÕÏÑ (ááÅÖÇİÉ)',
         'Node-Name' => '',
         'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+        'Child-Object' => 'ÇáßÇÆä-ÇáİÑÚí',
         'Days' => 'ÃíÇã',
         'Queue ID' => 'ÑŞã ÇáŞÇÆãÉ',
-        'Home' => 'ÇáÑÆíÓíÉ',
         'Workflow Groups' => '',
         'Current Impact Rating' => '',
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => '',
@@ -1447,60 +1556,60 @@ sub Data {
         'for agent login' => '',
         'Keyword' => '',
         'Reference' => '',
-        'with' => 'ãÚ',
         'Close type' => '',
         'DB Admin User' => '',
         'for agent user id' => '',
         'Victim' => '',
-        'sort upward' => 'ÊÑÊíÈ ãä ÇáÃÚáì ááÃŞá',
         'Classification' => '',
         'Change user <-> group settings' => '',
         'Incident detected' => '',
-        'Incident reported' => '',
         'Problem' => '',
+        'Incident reported' => '',
         'Officer' => '',
+        'Escalation' => '',
+        '"}' => '',
+        'Order' => 'ÑÊÈ',
         'next step' => 'ÇáÎØæÉ ÇáÊÇáíÉ',
         'Customer history search' => '',
         'not verified' => '',
-        'Stat#' => '',
         'Create new database' => '',
         'Year' => 'ÇáÓäÉ',
-        'A message must be spell checked!' => 'ÇáÑÓÇáÉ íÌÈ ÊÏŞíŞåÇ áÛæíÇğ!',
         'Service-Port' => '',
         'X-axis' => '',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => '',
         'ArticleID' => '',
-        'A message should have a body!' => 'ÇáÑÓÇáÉ íÌÈ Ãä íßæä áåÇ äÕ',
-        'All Agents' => 'ÌãíÚ ÇáãÔÛáíä',
         'Keywords' => '',
+        'Ticket Escalation View' => '',
+        'Today' => '',
         'No * possible!' => '',
         'Load' => '',
         'Change Time' => 'ÊÛííÑ ÇáæŞÊ',
         'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
         'Message for new Owner' => 'ÑÓÇáÉ Åáì ÇáãÇáß ÇáÌÏíÏ',
         'to get the first 5 lines of the email' => '',
+        'Sort by' => 'ÊÑÊíÈ ÈÜ',
         'OTRS DB Password' => '',
         'Last update' => '',
+        'Tomorrow' => '',
         'not rated' => '',
         'to get the first 20 character of the subject' => '',
         'Select the customeruser:service relations.' => '',
         'DB Admin Password' => '',
         'Drop Database' => '',
+        'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'ÇáÎíÇÑÇÊ áÈíÇäÇÊ ÇáÚãíá ÇáÍÇáí(ãËÇáå <OTRS_CUSTOMER_DATA_UserFirstname>)',
         'Pending type' => '',
         'Comment (internal)' => '',
         'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
-        'This window must be called from compose window' => '',
         'User-Number' => '',
-        'You need min. one selected Ticket!' => 'íÌÈ ÊÍÏíÏ ÈØÇŞÉ æÇÍÏÉ Úáì ÇáÃŞá!',
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         '(Used ticket number format)' => '',
+        'Reminder' => 'ÇáÊĞßíÑ',
         'Fulltext' => 'ßÇãá ÇáäÕ',
         'Month' => 'ÇáÔåÑ',
         'OTRS DB connect host' => '',
         'Node-Address' => '',
         'All Agent variables.' => '',
-        ' (work units)' => ' (æÍÏÇÊ ÇáÚãá) ',
+        'Next Week' => '',
         'You use the DELETE option! Take care, all deleted Tickets are lost!!!' => 'ŞãÊ ÈÅÓÊÎÏÇã "ÍĞİ" ! ÌãíÚ ÇáÈØÇŞÇÊ ÇáãÍĞæİÉ ãÓÍÊ ÈÔßá äåÇÆí!!!!',
         'All Customer variables like defined in config option CustomerUser.' => '',
         'Operation' => '',
@@ -1508,27 +1617,29 @@ sub Data {
         'for agent lastname' => '',
         'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => 'ÇáÎÕÇÆÕ ááãÓÊÎÏã ÇáÍÇáí ÇáĞí ØáÈ åĞå ÇáÚãáíÉ (ãËÇáå <OTRS_CURRENT_UserFirstname>)',
         'Reminder messages' => 'ÑÓÇÆá ÇáÊĞßíÑ',
-        'A message should have a subject!' => 'ÇáÑÓÇáÉ íÌÈ Ãä íßæä áåÇ ãæÖæÚ!',
+        'Parent-Object' => 'ÇáßÇÆä-ÇáÃÓÇÓí',
+        'Of couse this feature will take some system performance it self!' => '',
         'IMAPS' => '',
+        'Detail' => 'ÇáÊİÇÕíá',
         'TicketZoom' => 'ÊßÈíÑ ÇáÈØÇŞÉ',
         'Don\'t forget to add a new user to groups!' => '',
-        'You need a email address (e. g. customer@example.com) in To:!' => '',
+        'Open Tickets' => 'ÇáÈØÇŞÇÊ ÇáãİÊæÍÉ',
         'CreateTicket' => 'ÃäÔíÁ ÈØÇŞÉ',
+        'You have to select two or more attributes from the select field!' => 'íÌÈ Úáíß ÊÍÏíÏ ÚäÕÑíä Ãæ ÃßËÑ ãä ÇáŞÇÆãÉ ÇáãÍÏÏÉ!',
         'unknown' => 'ÛíÑ ãÚÑæİ',
-        'You need to account time!' => 'íÌÈ Úáíß ÍÓÇÈ ÇáæŞÊ!',
         'System Settings' => 'ÅÚÏÇÏÇÊ ÇáäÙÇã',
         'Finished' => 'ÇäÊåì',
         'Imported' => 'Êã ÇáÅÓÊíÑÇÏ',
         'Account Type' => '',
         'unread' => 'ÛíÑ ãŞÑæÁ',
-        'Split' => 'İÕá',
         'D' => 'ÃŞá',
-        'All messages' => 'ÌãíÚ ÇáÑÓÇÆá',
         'System Status' => '',
+        'All messages' => 'ÌãíÚ ÇáÑÓÇÆá',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'ÎíÇÑÇÊ ÈíÇäÇÊ ÇáÈØÇŞÉ (ãËÇáå <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
+        'Object already linked as %s.' => '',
         'A article should have a title!' => 'ÇáÈØÇŞÉ íÌÈ Ãä íßæä áåÇ ÚäæÇä!',
-        'Event' => '',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
+        'Event' => '',
         'don\'t accept license' => '',
         'IMAP' => '',
         'Imported by' => 'Êã ÅÓÊíÑÇÏå ãä ÎáÇá',
@@ -1545,45 +1656,36 @@ sub Data {
         'Select Box' => '',
         'Instance' => 'äÓÎÉ',
         'Day' => 'íæã',
+        'New messages' => 'ÇáÑÓÇÆá ÇáÌÏíÏÉ',
         'Service-Name' => 'ÇÓã ÇáÎÏãÉ',
+        'Can not create link with %s!' => '',
+        'Linked as' => '',
         'Welcome to OTRS' => 'ãÑÍÈÇğ Èß İí OTRS',
         'tmp_lock' => '',
         'modified' => 'Êã ÊÚÏíáå',
         'Calculator' => '',
-        'Escalation in' => 'ÊÕÚíÏ ÎáÇá',
         'Delete old database' => 'ÍĞİ ŞÇÚÏÉ ÇáÈíÇäÇÊ ÇáŞÏíãÉ',
-        'sort downward' => 'ÊÑÊíÈ ãä ÇáÃŞá ááÃÚáì',
-        'You need to use a ticket number!' => 'íÌÈ ÅÓÊÎÏÇã ÑŞã ÇáÈØÇŞÉ!',
         'Have a lot of fun!' => '',
         'send' => 'ÅÑÓÇá',
+        'Send no notifications' => 'áÇ ÊÑÓá Ãí ÊäÈíåÇÊ',
         'Note Text' => 'äÕ ÇáãáÇÍÙÉ',
         'POP3 Account Management' => '',
         'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
         'System State Management' => '',
         'OTRS DB User' => '',
+        'Mailbox' => 'ÕäÏæŞ ÇáÑÓÇÆá',
         'PhoneView' => '',
         'User-Name' => 'ÅÓã-ÇáãÓÊÎÏã',
         'TicketID' => '',
         'Management Summary' => '',
         'File-Path' => '',
+        'Yes means, send no agent and customer notifications on changes.' => '',
         'POP3' => '',
         'POP3S' => '',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => '',
+        'Ticket Status View' => 'ÚÑÖ ÍÇáÉ ÇáÈØÇŞÇÊ',
         'Modified' => 'Êã ÊÚÏíáå',
         'Ticket selected for bulk action!' => 'Êã ÊÍÏíÏ ÇáÈØÇŞÉ ááÊäİíĞ ÇáÌãÇÚí',
-
-        'Link Object: %s' => '',
-        'Unlink Object: %s' => '',
-        'Linked as' => '',
-        'Can not create link with %s!' => '',
-        'Can not delete link with %s!' => '',
-        'Object already linked as %s.' => '',
-        'Priority Management' => '',
-        'Add a new Priority.' => '',
-        'Add Priority' => '',
-        'Ticket Type is required!' => '',
-        'Module documentation' => '',
-        'Added!' => '',
-        'Updated!' => '',
     };
     # $$STOP$$
     return;

@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
 # Copyright (C) 2006 George Thomas <gthomas aegean.gr>
 # --
-# $Id: el.pm,v 1.44 2009-02-16 10:48:40 tr Exp $
+# $Id: el.pm,v 1.45 2009-04-03 07:42:25 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Fri May 16 14:08:15 2008
+    # Last translation file sync: Fri Apr  3 09:40:41 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-7', ];
@@ -140,6 +140,7 @@ sub Data {
         'update!' => 'ενημέρωση!',
         'update' => 'ενημέρωση',
         'Update' => 'Ενημέρωση',
+        'Updated!' => '',
         'submit!' => 'αποστολή!',
         'submit' => 'αποστολή',
         'Submit' => 'Αποστόλή',
@@ -180,6 +181,7 @@ sub Data {
         'Up' => 'Πάνω',
         'Down' => 'Κάτω',
         'Add' => 'Προσθήκη',
+        'Added!' => '',
         'Category' => 'Κατηγορία',
         'Viewer' => 'viewer',
         'New message' => 'Νέο Μήνυμα',
@@ -247,9 +249,9 @@ sub Data {
         'Mobile' => 'Κινητό',
         'Zip' => 'Ταχ Τομέας',
         'City' => 'Πόλη',
-        'Location' => '',
         'Street' => '',
         'Country' => 'Χώρα',
+        'Location' => '',
         'installed' => 'Εγκταστάθηκε',
         'uninstalled' => 'Απεγκαταστάθηκε',
         'Security Note: You should activate %s because application is already running!' => '',
@@ -267,6 +269,30 @@ sub Data {
         'Sent password token to: %s' => '',
         'Sent new password to: %s' => '',
         'Invalid Token!' => '',
+        'For more info see:' => '',
+        'Package verification failed!' => '',
+        'Bold' => '',
+        'Italic' => '',
+        'Underline' => '',
+        'Font Color' => '',
+        'Background Color' => '',
+        'Remove Formatting' => '',
+        'Show/Hide Hidden Elements' => '',
+        'Align Left' => '',
+        'Align Center' => '',
+        'Align Right' => '',
+        'Justify' => '',
+        'Header' => 'Κεφαλίδα',
+        'Indent' => '',
+        'Outdent' => '',
+        'Create an Unordered List' => '',
+        'Create an Ordered List' => '',
+        'HTML Link' => '',
+        'Insert Image' => '',
+        'CTRL' => '',
+        'SHIFT' => '',
+        'Undo' => '',
+        'Redo' => '',
 
         # Template: AAAMonth
         'Jan' => 'Ιαν',
@@ -347,7 +373,6 @@ sub Data {
         'Please select an object!' => 'Παρακαλώ επιλέξτε αντικέιμενο',
         'Please select a graph size!' => 'Παρακαλώ επίλεξτε μέγεθος γραφικού',
         'Please select one element for the X-axis!' => 'Παρακαλώ επιλέξτε ενα στοιχείο του Αξονα X',
-        'You have to select two or more attributes from the select field!' => 'Πρέπει να επιλέξετε δύο η περισσότερες ιδιότητες απο το επιλεγμένο πεδίο',
         'Please select only one element or turn off the button \'Fixed\' where the select field is marked!' => 'Παρακαλώ επιλέξτε μονο ενα στοιχείο η ενεργοποιηστε το κουμπί \'Fixed\' του επιλεγμένου πεδίου !',
         'If you use a checkbox you have to select some attributes of the select field!' => 'Εφόσον χρησιμοποιήσετε κουτί επιλογής πρεπει να επιλέξετε και ιδιότητες του επιλεγμένου πεδίου',
         'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!' => 'Παρακαλώ εισάγετε τιμή στο επιλεγμένο πεδίο η απενεργοποιήστε το \'Fixed\' κουτί !',
@@ -380,6 +405,30 @@ sub Data {
         'Create Time' => 'Χρόνος Δημιουργίας',
         'CustomerUserLogin' => 'Σύνδεση Πελάτη',
         'Close Time' => 'Χρόνος Κλεισίματος',
+        'TicketAccumulation' => '',
+        'Attributes to be printed' => '',
+        'Sort sequence' => '',
+        'Order by' => '',
+        'Limit' => 'Οριο',
+        'Ticketlist' => '',
+        'ascending' => '',
+        'descending' => '',
+        'First Lock' => '',
+        'Evaluation by' => '',
+        'Total Time' => '',
+        'Ticket Average' => '',
+        'Ticket Min Time' => '',
+        'Ticket Max Time' => '',
+        'Number of Tickets' => '',
+        'Article Average' => '',
+        'Article Min Time' => '',
+        'Article Max Time' => '',
+        'Number of Articles' => '',
+        'Accounted time by Agent' => '',
+        'Ticket/Article Accounted Time' => '',
+        'TicketAccountedTime' => '',
+        'Ticket Create Time' => '',
+        'Ticket Close Time' => '',
 
         # Template: AAATicket
         'Lock' => 'Κλείδωμα',
@@ -428,7 +477,9 @@ sub Data {
         'closed unsuccessful' => 'Έκλεισε ανεπιτυχώς',
         'new' => 'Νέο',
         'open' => 'Ανοικτό',
+        'Open' => '',
         'closed' => 'Κλειστό',
+        'Closed' => '',
         'removed' => 'Αποσύρθηκε',
         'pending reminder' => 'Υπενθύμιση Εκρεμότητας',
         'pending auto' => '',
@@ -523,12 +574,17 @@ sub Data {
         'Closed Tickets' => 'Κλειστά δελτία',
         'Show closed tickets.' => 'Προβολή κλειστών δελτίων.',
         'Max. shown Tickets a page in QueueView.' => 'Μέγιστος αριθμός δελτίων που προβάλονται ανα σελίδα σε προβολή ουράς.',
+        'Watch notification' => '',
+        'Send me a notification of an watched ticket like an owner of an ticket.' => '',
+        'Out Of Office' => '',
+        'Select your out of office time.' => '',
         'CompanyTickets' => 'Δελτία Οργανισμού',
         'MyTickets' => 'Τα Δελτία μου',
         'New Ticket' => 'Νέο Δελτίο',
         'Create new Ticket' => 'Δημιουργία Νένου Δελτίου',
         'Customer called' => 'Πελάτης έκανε κλήση',
         'phone call' => 'Τηλεφώνημα',
+        'Reminder Reached' => '',
         'Responses' => 'Απαντήσεις',
         'Responses <-> Queue' => 'Απαντήσεις <-> Ουρές',
         'Auto Responses' => 'Αυτόματες Απαντήσεις',
@@ -610,6 +666,8 @@ sub Data {
         'This values are read only.' => 'Οι τιμές ειναι μονο για ανάγνωση.',
 
         # Template: AdminCustomerUserForm
+        'The message being composed has been closed.  Exiting.' => 'Η δυνατότητα επεξεργασίας του μηνύματος έχει κλείσει.Έξοδος...',
+        'This window must be called from compose window' => 'Αυτό το παράθυρο πρέπει να κληθεί απο το παράθυρο επεξεργασίας',
         'Customer User Management' => 'Διαχείριση χρήστη πελάτη',
         'Add Customer User' => 'Προσθήκη πελάτη χρήστη',
         'Source' => 'Πηγή',
@@ -657,6 +715,8 @@ sub Data {
         'Is Job Valid?' => 'Είναι η εργασία έγκυρη;',
         'Is Job Valid' => 'Είναι η εργασία έγκυρη',
         'Schedule' => 'Πρόγραμμα',
+        'Currently this generic agent job will not run automatically.' => '',
+        'To enable automatic execusion select at least one value form minutes, hours and days!' => '',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Αναζήτηση πλήρους κειμένου στο άρθρο (π.χ. "Mar*in" ή "Baue*")',
         '(e. g. 10*5155 or 105658*)' => 'π.χ. 10*5144 ή 105658*',
         '(e. g. 234321)' => 'π.χ. 234321',
@@ -689,9 +749,10 @@ sub Data {
         'New Ticket Lock' => 'Νέο Κλείδωμα Δελτίου',
         'New Type' => '',
         'New Title' => '',
-        'New Type' => '',
         'New TicketFreeFields' => 'Νέα Ελεύθερα Πεδία',
         'Add Note' => 'Προσθήκη Σημείωσης',
+        'Time units' => 'Μονάδες Χρόνου',
+        ' (work units)' => ' (μονάδες εργασίας)',
         'CMD' => 'Διαταγή',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'Αυτή η εντολή θα εκτελεστεί. ARG[0] θα είναι το
 νούμερο του δελτίου και ARG[1] ο κωδικός του δελτίου .',
@@ -705,14 +766,12 @@ sub Data {
         'Param 4' => 'Παράμετρος 4',
         'Param 5' => 'Παράμετρος 5',
         'Param 6' => 'Παράμετρος 6',
-        'Send no notifications' => 'Μη Αποστολή Ενημερώσεων',
-        'Yes means, send no agent and customer notifications on changes.' => 'Ναι, σημαίνει μη αποστολή ενημερώσεων σε πελάτη μετά απο αλλαγές',
-        'No means, send agent and customer notifications on changes.' => 'Οχι, σημαίνει αποστολή ενημερώσεων πελάτη μετά απο αλλαγές',
+        'Send agent/customer notifications on changes' => '',
         'Save' => 'Αποθήκευση',
         '%s Tickets affected! Do you really want to use this job?' => '%s Δελτία θα επηρεασθούν. Επιβεβαιώστε την εκτέλεση αυτής της εργασίας',
-        '"}' => '',
 
         # Template: AdminGroupForm
+        'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' => '',
         'Group Management' => 'Διαχείριση Ομάδων',
         'Add Group' => 'Πρσθήκη Ομάδας',
         'Add a new Group.' => 'Πρσθήκε Νέας Ομάδας',
@@ -756,6 +815,7 @@ sub Data {
         'Package' => 'Πακέτο',
         'Online Repository' => 'Online αποθηκευτικός χώρος',
         'Vendor' => 'Κατασκευαστής',
+        'Module documentation' => '',
         'Upgrade' => 'Αναβάθμιση',
         'Local Repository' => 'Τοπικός αποθηκευτικός χώρος',
         'Status' => 'Κατάσταση',
@@ -776,9 +836,10 @@ sub Data {
         'Performance Log' => 'Καταγραφικό απόδοσης',
         'This feature is enabled!' => 'Αυτή η δυνατότητα έχει επιλεχθεί',
         'Just use this feature if you want to log each request.' => 'Χρησιμοποιείστε αυτή την δυνατότητα αν θελετε να καταγραψετε κάθε αίτημα',
-        'Of couse this feature will take some system performance it self!' => 'Φυσικά αυτή η δυνατότητα θα καταναλώσει πόρους απο το σύστημα !',
+        'Activating this feature might affect your system performance!' => '',
         'Disable it here!' => 'Απενεργοποίση εδώ !',
         'This feature is disabled!' => 'Αυτη η δυνατότητα εχει απενεργοποιηθεί',
+        'Activating this feature might affect your system performance!' => '',
         'Enable it here!' => 'Ενεργοποιήστε το εδώ !',
         'Logfile too large!' => 'Το αρχείο καταγραφών ειναι πολύ μεγάλο',
         'Logfile too large, you need to reset it!' => 'Το αρχείο καταγραφών ειναι πολύ μεγάλο, πρεπει να το επεναφέρετε στις αρχικές ρυθμίσεις',
@@ -807,16 +868,22 @@ sub Data {
         # Template: AdminPostMasterFilter
         'PostMaster Filter Management' => 'Διαχείριση Φίλτρου PostMaster',
         'Filtername' => 'Όνομα φίλτρου',
+        'Stop after match' => '',
         'Match' => 'Ακριβώς ώς',
-        'Header' => 'Κεφαλίδα',
         'Value' => 'Τιμή',
         'Set' => '',
         'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => 'Αποστολή η φιλτραρισμα εισερχόμενης αλληλογραφίας με βαση τις κεφαλίδες. Μπορείτε να κάνετε χρήση RegExpressions.',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' => '',
         'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => 'Αν κάνετε χρήση RegExp, μπορείτε να βάλετε την τιμή σε () όπως [***] in \'Set\'.',
 
+        # Template: AdminPriority
+        'Priority Management' => '',
+        'Add Priority' => '',
+        'Add a new Priority.' => '',
+
         # Template: AdminQueueAutoResponseForm
         'Queue <-> Auto Responses Management' => 'Ουρές <-> Διαχείριση Αυτόματων Απαντήσεων',
+        'settings' => '',
 
         # Template: AdminQueueForm
         'Queue Management' => 'Διαχείριση Ουρών',
@@ -826,10 +893,8 @@ sub Data {
         'Only business hours are counted.' => '',
         'Escalation - First Response Time' => '',
         '0 = no escalation' => '0 = Χωρίς Αναβάθμιση',
-        'Only business hours are counted.' => '',
         'Notify by' => '',
         'Escalation - Update Time' => 'Κλιμάκωση - ενημέρωση χρόνου',
-        'Notify by' => '',
         'Escalation - Solution Time' => 'Κλιμάκωση - χρόνος ενημέρωσης',
         'Follow up Option' => 'Follow Option',
         'Ticket lock after a follow up' => 'Κλείδωμα Δελτίου μετα το Follow-Up',
@@ -900,7 +965,6 @@ sub Data {
 
         # Template: AdminSelectBoxForm
         'SQL Box' => '',
-        'Limit' => 'Οριο',
         'Go' => 'Εκτέλεση',
         'Select Box Result' => 'Αποτέλεσμα Διαταγών SQL',
 
@@ -975,6 +1039,7 @@ sub Data {
         'Add System Address' => 'Προσθήκη Διεύθυνσης Συστήματος',
         'Add a new System Address.' => 'Προσθήκης νέας διεύθυνσης συστήματος',
         'Realname' => '',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Ολα τα εισερχόμενα μηνύματα με αυτήν διεύθυνση (To:) θα αποστέλονται στην επιλεγμένη ουρά.',
 
         # Template: AdminTypeForm
@@ -989,6 +1054,8 @@ sub Data {
         'Login as' => 'Σύνδεση ως',
         'Firstname' => 'Ονομα',
         'Lastname' => 'Επώνυμο',
+        'Start' => 'Αρχή',
+        'End' => '',
         'User will be needed to handle tickets.' => 'Ο χρήστης θα διαχειρίζεται δελτία.',
         'Don\'t forget to add a new user to groups and/or roles!' => 'Μην ξεχάσετε να προσθέσετε ενα νέο χρήστη σε ομάδα η και ρόλους!',
 
@@ -1006,18 +1073,20 @@ sub Data {
 
         # Template: AgentCalendarSmallIcon
 
+        # Template: AgentCustomerSearch
+
         # Template: AgentCustomerTableView
 
         # Template: AgentInfo
         'Info' => '',
 
         # Template: AgentLinkObject
+        'Link Object: %s' => '',
+        'Object' => 'Αντικείμενο',
         'Link Object' => 'Συνδεόμενο Αντικείμενο',
+        'with' => 'με',
         'Select' => 'Επιλογή',
-        'Results' => 'Αποτελέσματα',
-        'Total hits' => 'Συνολικα hits',
-        'Page' => 'Σελίδα',
-        'Detail' => 'Λεπτομέρεια',
+        'Unlink Object: %s' => '',
 
         # Template: AgentLookup
         'Lookup' => '',
@@ -1025,6 +1094,7 @@ sub Data {
         # Template: AgentNavigationBar
 
         # Template: AgentPreferencesForm
+        'End' => '',
 
         # Template: AgentSpelling
         'Spell Checker' => 'Ορθογράφος',
@@ -1033,9 +1103,11 @@ sub Data {
         'Apply these changes' => 'Εφαρμογή Αλλαγών',
 
         # Template: AgentStatsDelete
+        'Stat#' => '',
         'Do you really want to delete this Object?' => 'Να διαγραφεί αυτό το αντικείμενο ?',
 
         # Template: AgentStatsEditRestrictions
+        'Stat#' => '',
         'Select the restrictions to characterise the stat' => '',
         'Fixed' => 'Διορθώθηκε',
         'Please select only one element or turn off the button \'Fixed\'.' => '',
@@ -1089,7 +1161,7 @@ sub Data {
         'Select the element, which will be used at the X-axis' => '',
         'maximal period' => '',
         'minimal scale' => '',
-        'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
+        'Here you can define the x-axis. You can select one element via the radio button. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
 
         # Template: AgentStatsImport
         'Import' => 'Εισαγωγή',
@@ -1097,7 +1169,9 @@ sub Data {
         'No File selected' => 'Δέν έγινε επιλογή Αρχείου',
 
         # Template: AgentStatsOverview
-        'Object' => 'Αντικείμενο',
+        'Results' => 'Αποτελέσματα',
+        'Total hits' => 'Συνολικα hits',
+        'Page' => 'Σελίδα',
 
         # Template: AgentStatsPrint
         'Print' => 'Εκτύπωση',
@@ -1111,10 +1185,11 @@ sub Data {
         'No element selected.' => '',
         'maximal period from' => '',
         'to' => 'πρός',
-        'Start' => 'Αρχή',
         'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => '',
 
         # Template: AgentTicketBounce
+        'A message should have a To: recipient!' => 'Το μηνυμα πρεπει να έχει αποδέκτη !',
+        'You need a email address (e. g. customer@example.com) in To:!' => 'Απαιτείται email διευθυνση (πχ. customer@example.com) στο To: !',
         'Bounce ticket' => 'Αναπήδηση δελτίου',
         'Ticket locked!' => 'Κλειδωμένο Δελτίο!',
         'Ticket unlock!' => 'Ανοιγμα Δελτίου!',
@@ -1124,23 +1199,33 @@ sub Data {
         'Send mail!' => 'Αποστολή μηνύματος!',
 
         # Template: AgentTicketBulk
+        'A message should have a subject!' => 'Το μήνυμα πρέπει να έχει ενα θέμα!',
+        'You need to account time!' => 'Πρέπει να υπολογιστεί ο χρόνος!',
         'Ticket Bulk Action' => 'Μαζικές ενέργειες δελτιου',
         'Spell Check' => 'Ελεγχος Ορθογραφίας',
         'Note type' => 'Τύπος Σημείωσης',
+        'Next state' => 'Nδchster Status',
+        'Pending date' => 'Ημερομηνία Εκρεμμότητας',
+        'Merge to' => 'Ένωση με',
+        'Merge to oldest' => '',
+        'Link together' => '',
+        'Link to Parent' => '',
         'Unlock Tickets' => 'Ξεκλείδωμα Δελτίων',
 
         # Template: AgentTicketClose
+        'Ticket Type is required!' => '',
+        'A message should have a body!' => 'Το μήνυμα πρέπει να εχει κυρίως κείμενο!',
+        'A required field is:' => '',
+        'A required field is:' => '',
         'Close ticket' => 'Κλείσιμο δελτίου',
         'Previous Owner' => 'Προηγούμενος Ιδιοκτήτης',
         'Inform Agent' => 'Ενημέρωση Συνεργάτη',
         'Optional' => 'Προεραιτικό',
         'Inform involved Agents' => 'Ενημέρωση εμπλεκομμένων συνεργατών',
         'Attach' => 'Συναπτόμενο',
-        'Next state' => 'Nδchster Status',
-        'Pending date' => 'Ημερομηνία Εκρεμμότητας',
-        'Time units' => 'Μονάδες Χρόνου',
 
         # Template: AgentTicketCompose
+        'A message must be spell checked!' => 'Το μήνυμα πρέπει να έχει ελεγχθεί για την ορθογραφία του!',
         'Compose answer for ticket' => 'Σύνθεση απάντησης για το δελτίο',
         'Pending Date' => 'εκκρεμής ημερομηνία',
         'for pending* states' => 'για εκκρεμείς* καταστάσεις',
@@ -1162,17 +1247,9 @@ sub Data {
         'new ticket' => 'νέο δελτίο',
         'Refresh' => '',
         'Clear To' => 'Εκκαθαρίση σε',
+        'All Agents' => 'Ολοι οι Συνεργάτες',
 
-        # Template: AgentTicketEscalationView
-        'Ticket Escalation View' => '',
-        'Escalation' => '',
-        'Today' => '',
-        'Tomorrow' => '',
-        'Next Week' => '',
-        'up' => 'Αύξουσα',
-        'down' => 'Φθίνουσα',
-        'Escalation' => '',
-        'Locked' => 'Κλειδωμένο',
+        # Template: AgentTicketEscalation
 
         # Template: AgentTicketForward
         'Article type' => 'Τύπος Κειμένου',
@@ -1185,25 +1262,49 @@ sub Data {
 
         # Template: AgentTicketLocked
 
-        # Template: AgentTicketMailbox
-        'Mailbox' => 'Γραμματοκιβωτιο',
-        'Tickets' => 'Δελτία',
-        'of' => 'του',
-        'Filter' => 'Φίλτρο',
-        'New messages' => 'Νέα Μηνύματα',
-        'Reminder' => 'Υπενθύμηση',
-        'Sort by' => 'Ταξινόμηση Κατα',
-        'Order' => 'Ταξινόμηση',
-
         # Template: AgentTicketMerge
+        'You need to use a ticket number!' => 'Παρακαλώ χρησιμοποιείστε αριθμό δελτίου!',
         'Ticket Merge' => 'Ένωση μηνυμάτων',
-        'Merge to' => 'Ένωση με',
 
         # Template: AgentTicketMove
         'Move Ticket' => 'Μεταφορά Δελτίου',
 
         # Template: AgentTicketNote
         'Add note to ticket' => 'Προσθήκη σημείωσης στο δελτίο',
+
+        # Template: AgentTicketOverviewMedium
+        'First Response Time' => 'Χρόνος πρώτης απάντησης',
+        'Service Time' => 'Χρόνος συντήρησης',
+        'Update Time' => 'Χρόνος ενημερωσης',
+        'Solution Time' => 'Χρόνος επίλυσης',
+
+        # Template: AgentTicketOverviewMediumMeta
+        'You need min. one selected Ticket!' => 'Απαιτείται τουλάχιστον ενα δελτίο!',
+        'sort upward' => 'Αύξουσα Ταξινόμηση',
+        'up' => 'Αύξουσα',
+        'sort downward' => 'Φθήνουσα Ταξινόμηση',
+        'down' => 'Φθίνουσα',
+        'Escalation in' => 'Αναβάθμιση σε',
+        'Locked' => 'Κλειδωμένο',
+
+        # Template: AgentTicketOverviewNavBar
+        'Filter' => 'Φίλτρο',
+        'Change search options' => 'Αλλαγή Επιλογών Αναζήτησης',
+        'Tickets' => 'Δελτία',
+        'of' => 'του',
+
+        # Template: AgentTicketOverviewNavBarSmall
+
+        # Template: AgentTicketOverviewPreview
+        'Your own Ticket' => 'Το Δελτίο Σου',
+        'Compose Follow up' => 'Δημιουργία Follow up',
+        'Compose Answer' => 'Δημιουργία Απάντησης',
+        'Contact customer' => 'Επικοινωνία με Πέλατη',
+        'Change queue' => 'Αλλαγή Ουράς',
+
+        # Template: AgentTicketOverviewPreviewMeta
+
+        # Template: AgentTicketOverviewSmall
 
         # Template: AgentTicketOwner
         'Change owner of ticket' => 'Αλλαγή Ιδιοκτήτη Δελτίου',
@@ -1223,12 +1324,7 @@ sub Data {
         # Template: AgentTicketPrint
         'Ticket-Info' => '',
         'Accounted time' => 'Χρήση Χρόνου',
-        'First Response Time' => 'Χρόνος πρώτης απάντησης',
-        'Update Time' => 'Χρόνος ενημερωσης',
-        'Solution Time' => 'Χρόνος επίλυσης',
         'Linked-Object' => '',
-        'Parent-Object' => '',
-        'Child-Object' => '',
         'by' => 'από',
 
         # Template: AgentTicketPriority
@@ -1241,16 +1337,6 @@ sub Data {
         'Queues' => 'Ουρές',
         'Ticket escalation!' => 'Αναβάθμιση Δελτίου!',
 
-        # Template: AgentTicketQueueTicketView
-        'Service Time' => 'Χρόνος συντήρησης',
-        'Your own Ticket' => 'Το Δελτίο Σου',
-        'Compose Follow up' => 'Δημιουργία Follow up',
-        'Compose Answer' => 'Δημιουργία Απάντησης',
-        'Contact customer' => 'Επικοινωνία με Πέλατη',
-        'Change queue' => 'Αλλαγή Ουράς',
-
-        # Template: AgentTicketQueueTicketViewLite
-
         # Template: AgentTicketResponsible
         'Change responsible of ticket' => 'Αλλαγή υπεύθυνου δελτίου',
 
@@ -1260,40 +1346,33 @@ sub Data {
         'Search-Template' => 'Αναζήτηση Template',
         'TicketFreeText' => 'Πεδία Ελεύθερου Κειμένου',
         'Created in Queue' => 'Δημιουργία σε ουρά',
-        'Close Times' => '',
-        'No close time settings.' => '',
-        'Ticket closed' => '',
-        'Ticket closed between' => '',
+        'Change Times' => '',
+        'No change time settings.' => '',
+        'Ticket changed' => '',
+        'Ticket changed between' => '',
         'Result Form' => 'Αποτελέσματα',
         'Save Search-Profile as Template?' => 'Αποθήκευση Φόρμας Αναζήτησης ?',
         'Yes, save it with name' => 'Ναι - με όνομα',
 
         # Template: AgentTicketSearchOpenSearchDescription
 
-        # Template: AgentTicketSearchResult
-        'Change search options' => 'Αλλαγή Επιλογών Αναζήτησης',
-
         # Template: AgentTicketSearchResultPrint
-
-        # Template: AgentTicketSearchResultShort
-
-        # Template: AgentTicketStatusView
-        'Ticket Status View' => 'Κατάσταση Δελτίου',
-        'Open Tickets' => 'Ανοικτά Δελτία',
 
         # Template: AgentTicketZoom
         'Expand View' => '',
+        'Expand' => '',
         'Collapse View' => '',
+        'Split' => 'Διαχωρισμός',
+
+        # Template: AgentTicketZoomArticleFilterDialog
+        'Article filter settings' => '',
+        'Save filter settings as default' => '',
 
         # Template: AgentWindowTab
 
         # Template: AJAX
 
         # Template: Copyright
-
-        # Template: css
-
-        # Template: customer-css
 
         # Template: CustomerAccept
 
@@ -1332,6 +1411,8 @@ sub Data {
         'Times' => 'Φορές',
         'No time settings.' => 'Χωρις χρονικες ρυθμίσεις.',
 
+        # Template: CustomerTicketSearchOpenSearchDescription
+
         # Template: CustomerTicketSearchResultCSV
 
         # Template: CustomerTicketSearchResultPrint
@@ -1351,6 +1432,7 @@ sub Data {
         # Template: FooterSmall
 
         # Template: Header
+        'Home' => '',
 
         # Template: HeaderSmall
 
@@ -1393,6 +1475,8 @@ sub Data {
         'Start page' => 'Αρχική Σελίδα',
         'Your OTRS Team' => 'Η ομάδα OTRS',
 
+        # Template: LinkObject
+
         # Template: Login
 
         # Template: Motd
@@ -1409,6 +1493,8 @@ sub Data {
         # Template: PrintHeader
         'printed by' => 'εκτυπώθηκε απο',
 
+        # Template: PublicDefault
+
         # Template: Redirect
 
         # Template: Test
@@ -1416,31 +1502,55 @@ sub Data {
         'Counter' => 'Μετρητής',
 
         # Template: Warning
+
+        # Template: YUI
+        'Bold' => '',
+        'CTRL' => '',
+        'SHIFT' => '',
+        'Italic' => '',
+        'Underline' => '',
+        'Font Color' => '',
+        'Background Color' => '',
+        'Remove Formatting' => '',
+        'Show/Hide Hidden Elements' => '',
+        'Align Left' => '',
+        'Align Center' => '',
+        'Align Right' => '',
+        'Justify' => '',
+        'Indent' => '',
+        'Outdent' => '',
+        'Create an Unordered List' => '',
+        'Create an Ordered List' => '',
+        'HTML Link' => '',
+        'Insert Image' => '',
+        'Undo' => '',
+        'Redo' => '',
+
         # Misc
         'Edit Article' => '',
         'Create Database' => 'Δημιουργία Βάσης',
         'DB Host' => 'DB Διακομιστής',
         'Ticket Number Generator' => 'Γεννήτρια Αριθμού Δελτίου',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Αναγνώριση Δελτίου \'Νο. Δελτίου\', \'Νο. Κλήσης\' η  \'Κλήση#\')',
-        'Create new Phone Ticket' => 'Δημιουργία νέου Δελτίου τηλεφώνου',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
+        'Create new Phone Ticket' => 'Δημιουργία νέου Δελτίου τηλεφώνου',
         'Symptom' => 'Σύμπτωμα',
         'U' => '',
-        'A message should have a To: recipient!' => 'Το μηνυμα πρεπει να έχει αποδέκτη !',
         'Site' => 'Site',
         'Customer history search (e. g. "ID342425").' => 'Αναζήτηση σε ιστορικό πελάτη (π.χ. "ID342425").',
-        'for agent firstname' => 'Για όνομα συνεργάτη',
+        'Can not delete link with %s!' => '',
         'Close!' => 'Κλείσιμο! ',
-        'The message being composed has been closed.  Exiting.' => 'Η δυνατότητα επεξεργασίας του μηνύματος έχει κλείσει.Έξοδος...',
+        'for agent firstname' => 'Για όνομα συνεργάτη',
+        'No means, send agent and customer notifications on changes.' => 'Οχι, σημαίνει αποστολή ενημερώσεων πελάτη μετά απο αλλαγές',
         'A web calendar' => 'Ημερολόγιο',
         'to get the realname of the sender (if given)' => 'Επιλογή του πραγματικού ονόματος του αποστολέα(αν αυτό δίνεται)',
         'OTRS DB Name' => '',
         'Notification (Customer)' => '',
         'Select Source (for add)' => 'Επιλογή πηγής (για προσθήκη)',
         'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+        'Child-Object' => '',
         'Days' => 'Ημέρες',
         'Queue ID' => 'Ουρά ID',
-        'Home' => '',
         'Workflow Groups' => 'Workflow Gruppen',
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'επεξεργασία επιλογών (π.χ. <OTRS_CONFIG_HttpType>)',
         'System History' => 'Ιστορικό Συστήματος',
@@ -1450,49 +1560,49 @@ sub Data {
         'Modules' => 'Κομμάτι',
         'for agent login' => 'Για Login συνεργάτη',
         'Keyword' => 'Λέξη Κλειδί',
-        'with' => 'με',
         'Close type' => 'Τύπος κλεισίματος',
         'DB Admin User' => 'DB Admin Χρήστης',
         'for agent user id' => 'Για UserID συνεργάτη',
-        'sort upward' => 'Αύξουσα Ταξινόμηση',
         'Change user <-> group settings' => 'Αλλαγή χρηστών <-> Ρυθμίσεις Ομάδων',
+        'Escalation' => '',
+        '"}' => '',
+        'Order' => 'Ταξινόμηση',
         'next step' => 'Επόμενο Βήμα',
         'Customer history search' => 'Αναζήτηση σε ιστορικό πελάτη',
         'Δεν υπάρχουν πακέττα για το ζητούμενο Framework σε αυτό το Online αποθηκευτήριο, αλλά υπάρχουν πακέττα για άλλα Frameworks!' => '',
         'Create new database' => 'Δημιουργία νέας βάσης',
-        'A message must be spell checked!' => 'Το μήνυμα πρέπει να έχει ελεγχθεί για την ορθογραφία του!',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'το
-email σας με αριθμο δελτιου "<OTRS_TICKET>" αναπηδησε στο "<OTRS_BOUNCE_TO>".Επισκευθείτε αυτήν την διεύθυνση για περισσότερες πληροφορίες',
         'No entry Found!' => 'Δεν βρέθηκε εγγραφή!',
         'ArticleID' => '',
-        'A message should have a body!' => 'Το μήνυμα πρέπει να εχει κυρίως κείμενο!',
-        'All Agents' => 'Ολοι οι Συνεργάτες',
         'Keywords' => 'Λέξεις Κλειδιά',
+        'Ticket Escalation View' => '',
+        'Today' => '',
         'No * possible!' => 'Δεν είναι δυνατο να κάνετε χρήση του "*" !',
         'Load' => 'Φόρτωμα',
         'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
         'Message for new Owner' => 'Μήνυμα για τον νεό ιδιοκτήτη',
         'to get the first 5 lines of the email' => 'Επιλογή των πρώτων 5 γραμμών του μηνύματος',
+        'Sort by' => 'Ταξινόμηση Κατα',
         'OTRS DB Password' => 'OTRS DB Κωδικός',
         'Last update' => 'Τελευταία Ενημέρωση',
+        'Tomorrow' => '',
         'to get the first 20 character of the subject' => 'Επιλογή 20 πρώτων χαρακτήρων του θέματος',
         'Select the customeruser:service relations.' => '',
         'DB Admin Password' => 'DB Admin Κωδικός',
-        'Advisory' => 'Οδηγία',
         'Drop Database' => 'Διαγραφή Βάσης',
+        'Advisory' => 'Οδηγία',
+        'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
         'FileManager' => 'Διαχειριστής Aρχείων',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Επιλογές για τα δεδομένα του συγκεκριμένου
 χρήστη-πελάτη (π.χ. <OTRS_CUSTOMER_DATA_UserFirstname>)',
         'Pending type' => 'Τύπος Εκρεμμότητας',
         'Comment (internal)' => 'Σχόλιο (Εσωτερικό)',
         'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => '',
-        'This window must be called from compose window' => 'Αυτό το παράθυρο πρέπει να κληθεί απο το παράθυρο επεξεργασίας',
-        'You need min. one selected Ticket!' => 'Απαιτείται τουλάχιστον ενα δελτίο!',
         'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used!PostMaster filter will be used
 anyway.' => 'Αν ο λογαριασμός σας είναι εμπιστευόμενος, θα χρησιμοποιηθεί(κατά προτεραιότητα) η ήδη υπάρχουσα X-OTRS κεφαλίδα στον
 χρόνο άφιξης. Το φίλτρο PostMaster θα χρησιμοποιηθεί έτσι και αλλιώς',
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Optionen von Ticket Daten (z. B. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         '(Used ticket number format)' => '(Μορφή Δελτίου που χρησιμοποιηθηκε)',
+        'Reminder' => 'Υπενθύμηση',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales
 department, ...).' => 'Δημιουργία νέων ομάδων για να διαχειρίζονται τα δικαιώματα απο διάφορες ομάδες συνεργατών(π.χ.τμήμα αγορών,τμήμα
 υποστήριξης,τμήμα πωλήσεων,...).',
@@ -1500,31 +1610,33 @@ department, ...).' => 'Δημιουργία νέων ομάδων για να διαχειρίζονται τα δικαιώματ
         'Incident' => 'Περιστατικό',
         'OTRS DB connect host' => 'OTRS DB σύνδεση διακομιστή',
         'All Agent variables.' => '',
-        ' (work units)' => ' (μονάδες εργασίας)',
+        'Next Week' => '',
         'All Customer variables like defined in config option CustomerUser.' => 'Ολες οι μεταβλητές πελατών είναι στην επιλογή CustomerUser.',
         'accept license' => 'Αποδοχή Αδειας',
         'for agent lastname' => 'Για επώνυμο συνεργάτη',
         'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => 'Επιλογές για τον συγκεκριμένο χρήστη που
 ζήτησε αυτή την ενέργεια (π.χ. <OTRS_CURRENT_UserFirstname>)',
         'Reminder messages' => 'Μηνύματα Υπενθύμισης',
-        'A message should have a subject!' => 'Το μήνυμα πρέπει να έχει ενα θέμα!',
+        'Parent-Object' => '',
+        'Of couse this feature will take some system performance it self!' => 'Φυσικά αυτή η δυνατότητα θα καταναλώσει πόρους απο το σύστημα !',
+        'Detail' => 'Λεπτομέρεια',
         'TicketZoom' => 'Ανοιγμα Δελτίου',
         'Don\'t forget to add a new user to groups!' => 'Μην ξεχάσετε να προσθέσετε ενα νέο χρήστη στις ομάδες!',
-        'You need a email address (e. g. customer@example.com) in To:!' => 'Απαιτείται email διευθυνση (πχ. customer@example.com) στο To: !',
+        'Open Tickets' => 'Ανοικτά Δελτία',
         'CreateTicket' => 'Δημιουργία Δελτίου',
-        'You need to account time!' => 'Πρέπει να υπολογιστεί ο χρόνος!',
+        'You have to select two or more attributes from the select field!' => 'Πρέπει να επιλέξετε δύο η περισσότερες ιδιότητες απο το επιλεγμένο πεδίο',
         'System Settings' => 'Ρυθμίσεις Συστήματος',
         'WebWatcher' => 'Webwatcher',
         'Finished' => 'Τέλος',
-        'Split' => 'Διαχωρισμός',
         'D' => '',
-        'System Status' => '',
         'All messages' => 'Συνολικά Μηνύματα',
+        'System Status' => '',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         'Artefact' => 'Αντικείμενο',
+        'Object already linked as %s.' => '',
         'A article should have a title!' => 'Κάθε θέμα πρεπει να έχει τίτλο !',
-        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
         'Event' => '',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
         'don\'t accept license' => 'Μη Αποδοχή Αδειας',
         'A web mail client' => 'Παραλήπτης ηλεκτρονικού ταχυδρομείου',
         'WebMail' => 'Ταχυδρομείο',
@@ -1537,43 +1649,35 @@ department, ...).' => 'Δημιουργία νέων ομάδων για να διαχειρίζονται τα δικαιώματ
         'QueueView' => 'Ουρές',
         'My Queue' => 'Η ουρά μου',
         'Select Box' => 'Διαταγές SQL',
+        'New messages' => 'Νέα Μηνύματα',
+        'Can not create link with %s!' => '',
+        'Linked as' => '',
         'Welcome to OTRS' => 'Καλώς Ηλθατε στο OTRS',
         'modified' => 'Αλλαξε',
-        'Escalation in' => 'Αναβάθμιση σε',
         'Delete old database' => 'Διαγραφή παλαιας βάσης',
-        'sort downward' => 'Φθήνουσα Ταξινόμηση',
-        'You need to use a ticket number!' => 'Παρακαλώ χρησιμοποιείστε αριθμό δελτίου!',
         'A web file manager' => 'Διαχειριστής αρχείων διαδικτύου',
         'Have a lot of fun!' => 'Καλή Διασκέδαση!',
         'Δεν υπάρχουν πακέττα η δεν επιλεχθηκαν νέα πακέτα στο επιλεγμένο Online αποθηκευτήριο !' => '',
         'send' => 'Αποστολή',
+        'Send no notifications' => 'Μη Αποστολή Ενημερώσεων',
         'Note Text' => 'Κείμενο Σημείωσης',
         'POP3 Account Management' => 'Διαχείρηση Λογαριασμών POP3',
         'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => '',
         'System State Management' => 'Διαχείριση Κατάστασης Συστήματος',
         'OTRS DB User' => 'OTRS DB χρήστης',
+        'Mailbox' => 'Γραμματοκιβωτιο',
         'PhoneView' => 'Ουρές Τηλεφώνου',
         'Σημείωση Ασφάλειας: Πρέπει να ενεργοποιήσετε %s διότι η εφαρμογή ήδη τρέχει !' => '',
         'maximal period form' => '',
         'TicketID' => 'Αναγνωριστίκό (ID) Δελτίου',
+        'Yes means, send no agent and customer notifications on changes.' => 'Ναι, σημαίνει μη αποστολή ενημερώσεων σε πελάτη μετά απο αλλαγές',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'το
+email σας με αριθμο δελτιου "<OTRS_TICKET>" αναπηδησε στο "<OTRS_BOUNCE_TO>".Επισκευθείτε αυτήν την διεύθυνση για περισσότερες πληροφορίες',
+        'Ticket Status View' => 'Κατάσταση Δελτίου',
         'Modified' => 'Ενημερώθηκε',
-        'Ticket selected for bulk action!' => 'Δελτίο Επιλεχθηκε για Μαζική Εργασία',
         'Αδυναμία επεξεργασίας του αρχείου Online Repository index!' => '',
+        'Ticket selected for bulk action!' => 'Δελτίο Επιλεχθηκε για Μαζική Εργασία',
         'History::SystemRequest' => 'System Request (%s).',
-
-        'Link Object: %s' => '',
-        'Unlink Object: %s' => '',
-        'Linked as' => '',
-        'Can not create link with %s!' => '',
-        'Can not delete link with %s!' => '',
-        'Object already linked as %s.' => '',
-        'Priority Management' => '',
-        'Add a new Priority.' => '',
-        'Add Priority' => '',
-        'Ticket Type is required!' => '',
-        'Module documentation' => '',
-        'Added!' => '',
-        'Updated!' => '',
     };
     # $$STOP$$
     return;

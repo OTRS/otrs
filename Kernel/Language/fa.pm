@@ -3,7 +3,7 @@
 # Copyright (C) 2006-2008 Amir Shams Parsa <amir at parsa.name>
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # --
-# $Id: fa.pm,v 1.53 2009-02-16 10:38:04 tr Exp $
+# $Id: fa.pm,v 1.54 2009-04-03 07:42:25 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Tue July 15 15:36:24 2008
+    # Last translation file sync: Fri Apr  3 09:40:42 2009
 
     # possible charsets
     $Self->{Charset} = ['utf-8', 'utf-8', ];
@@ -143,6 +143,7 @@ sub Data {
         'update!' => 'بروزرسانی !',
         'update' => 'بروزرسانی',
         'Update' => 'بروزرسانی',
+        'Updated!' => '',
         'submit!' => 'ارسال !',
         'submit' => 'ارسال',
         'Submit' => 'ارسال',
@@ -183,6 +184,7 @@ sub Data {
         'Up' => 'بالا',
         'Down' => 'پائین',
         'Add' => 'افزودن',
+        'Added!' => '',
         'Category' => 'دسته بندی',
         'Viewer' => 'نمایش دهنده',
         'New message' => 'پیام جدید',
@@ -251,6 +253,7 @@ sub Data {
         'City' => 'شهر',
         'Street' => 'استان',
         'Country' => 'کشور',
+        'Location' => 'موقعیت',
         'installed' => 'نصب شده',
         'uninstalled' => 'نصب نشده',
         'Security Note: You should activate %s because application is already running!' => 'نکته امنیتی:شما باید %s را فعال کنید زیرا نرم افزار در حال اجراست',
@@ -268,6 +271,30 @@ sub Data {
         'Sent password token to: %s' => 'کد بازیابی رمز عبور به آدرس %s ارسال شد.',
         'Sent new password to: %s' => 'رمز عبور جدید به آدرس %s ارسال شد',
         'Invalid Token!' => 'کد بازیابی معتبر نیست',
+        'For more info see:' => '',
+        'Package verification failed!' => '',
+        'Bold' => '',
+        'Italic' => '',
+        'Underline' => '',
+        'Font Color' => '',
+        'Background Color' => '',
+        'Remove Formatting' => '',
+        'Show/Hide Hidden Elements' => '',
+        'Align Left' => '',
+        'Align Center' => '',
+        'Align Right' => '',
+        'Justify' => '',
+        'Header' => 'سرصفحه',
+        'Indent' => '',
+        'Outdent' => '',
+        'Create an Unordered List' => '',
+        'Create an Ordered List' => '',
+        'HTML Link' => '',
+        'Insert Image' => '',
+        'CTRL' => '',
+        'SHIFT' => '',
+        'Undo' => '',
+        'Redo' => '',
 
         # Template: AAAMonth
         'Jan' => 'ژانویه',
@@ -348,7 +375,6 @@ sub Data {
         'Please select an object!' => 'لطفا یک مورد را انتخاب نمائید',
         'Please select a graph size!' => 'لطفا اندازه نمودار را انتخاب نمائید',
         'Please select one element for the X-axis!' => 'لطفا محور افقی را انتخاب نمائید',
-        'You have to select two or more attributes from the select field!' => 'از قسمت انتخاب ستون دست کم 2 مورد را انتخاب نمائید',
         'Please select only one element or turn off the button \'Fixed\' where the select field is marked!' => 'لطفا فقط یک مورد را انتخاب نمائید یا دکمه \'  ثابت شده (Fixed) \'  را جایی که ستون را علامت میزنید خاموش نمائید',
         'If you use a checkbox you have to select some attributes of the select field!' => 'اگر گزینه ای را استفاده میکنید باید بعضی از مشخصات آنرا نیز وارد کنید',
         'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!' => 'مقدار ستون را وارد نمائید و یا گزینه \'ثابت(Fixed)\'  را خاموش کنید.',
@@ -381,6 +407,30 @@ sub Data {
         'Create Time' => 'زمان ایجاد ',
         'CustomerUserLogin' => 'نام کاربری مشترک',
         'Close Time' => 'زمان بسته شدن',
+        'TicketAccumulation' => '',
+        'Attributes to be printed' => '',
+        'Sort sequence' => '',
+        'Order by' => '',
+        'Limit' => 'محدوده',
+        'Ticketlist' => '',
+        'ascending' => '',
+        'descending' => '',
+        'First Lock' => '',
+        'Evaluation by' => '',
+        'Total Time' => '',
+        'Ticket Average' => '',
+        'Ticket Min Time' => '',
+        'Ticket Max Time' => '',
+        'Number of Tickets' => '',
+        'Article Average' => '',
+        'Article Min Time' => '',
+        'Article Max Time' => '',
+        'Number of Articles' => '',
+        'Accounted time by Agent' => '',
+        'Ticket/Article Accounted Time' => '',
+        'TicketAccountedTime' => '',
+        'Ticket Create Time' => '',
+        'Ticket Close Time' => '',
 
         # Template: AAATicket
         'Lock' => 'تحویل گرفته شده',
@@ -429,7 +479,9 @@ sub Data {
         'closed unsuccessful' => 'با موفقیت بسته نشد',
         'new' => 'جدید',
         'open' => 'باز',
+        'Open' => '',
         'closed' => 'بسته شده',
+        'Closed' => '',
         'removed' => 'حذف شده',
         'pending reminder' => 'یادآوری حالت معلق',
         'pending auto' => 'حالت خودکار معلق',
@@ -521,12 +573,17 @@ sub Data {
         'Closed Tickets' => 'درخواست بسته شده',
         'Show closed tickets.' => 'نمایش درخواست های بسته',
         'Max. shown Tickets a page in QueueView.' => 'تعداد درخواست ها در صفحه نمایش',
+        'Watch notification' => '',
+        'Send me a notification of an watched ticket like an owner of an ticket.' => '',
+        'Out Of Office' => '',
+        'Select your out of office time.' => '',
         'CompanyTickets' => 'درخواست های شرکت',
         'MyTickets' => 'درخواست های من',
         'New Ticket' => 'درخواست جدید',
         'Create new Ticket' => 'ایجاد درخواست جدید',
         'Customer called' => 'مشترک تماس گرفته',
         'phone call' => 'تماس تلفنی',
+        'Reminder Reached' => '',
         'Responses' => 'پاسخ ها',
         'Responses <-> Queue' => 'پاسخ <-> لیست درخواست',
         'Auto Responses' => 'پاسخ خودکار',
@@ -608,6 +665,8 @@ sub Data {
         'This values are read only.' => 'این مقادیر فقط قابل خواندن هستند.',
 
         # Template: AdminCustomerUserForm
+        'The message being composed has been closed.  Exiting.' => 'پیامی که ارسال شد بسته شد..',
+        'This window must be called from compose window' => 'این پنجره میبایست از طریق پنجره ارسال فراخوانی شود',
         'Customer User Management' => 'مدیریت مشترکین',
         'Add Customer User' => 'افزودن کاربر مشترک',
         'Source' => 'منبع',
@@ -653,6 +712,8 @@ sub Data {
         'Is Job Valid?' => 'آیا کار معتبر است؟',
         'Is Job Valid' => 'آیا کار معتبر است',
         'Schedule' => 'زمان بندی',
+        'Currently this generic agent job will not run automatically.' => '',
+        'To enable automatic execusion select at least one value form minutes, hours and days!' => '',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'جستجوی متنی در موارد به شکل ( "Mar*in" یا "Baue*")',
         '(e. g. 10*5155 or 105658*)' => '(مثال: 10*5155 یا 105658*)',
         '(e. g. 234321)' => '(مثال: 234321)',
@@ -666,10 +727,10 @@ sub Data {
         'No create time settings.' => 'تنظیمی برای زمان ایجاد درخواست وجود ندارد',
         'Ticket created' => 'زمان ایجاد درخواست',
         'Ticket created between' => 'بازه زمانی ایجاد درخواست',
-        'Close Times' => 'زمان های بسته شدن درخواست',
-        'No close time settings.' => 'تنظیمی برای زمان بستن درخواست وجود ندارد',
-        'Ticket closed' => 'زمان بسته شدن درخواست',
-        'Ticket closed between' => 'بازه زمانی بستن درخواست',
+        'Close Times' => 'زمان بستن',
+        'No close time settings.' => 'زمان بستن تنظیم نشده است',
+        'Ticket closed' => 'درخواست بسته شده',
+        'Ticket closed between' => 'درخواست بسته شده بین',
         'Pending Times' => 'زمان های تعلیق درخواست',
         'No pending time settings.' => ' تنظیمی برای زمان تعلیق درخواست وجود ندارد ',
         'Ticket pending time reached' => 'زمان سررسید تعلیق ',
@@ -685,9 +746,10 @@ sub Data {
         'New Ticket Lock' => 'تحویل گیرنده جدید',
         'New Type' => 'نوع جدید',
         'New Title' => 'عنوان جدید',
-        'New Type' => 'نوع جدید',
         'New TicketFreeFields' => 'ستون آزاد درخواست',
         'Add Note' => 'افزودن یادداشت',
+        'Time units' => 'واحد زمان',
+        ' (work units)' => ' واحد کار',
         'CMD' => 'CMD',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'این دستور اجرا خواهد شد. ARG[0] شماره درخواست و ARG[1] id آن خواهد بود.',
         'Delete tickets' => 'حذف درخواست ها',
@@ -699,14 +761,12 @@ sub Data {
         'Param 4' => 'پارامتر 4',
         'Param 5' => 'پارامتر 5',
         'Param 6' => 'پارامتر 6',
-        'Send no notifications' => 'اعلام ها را ارسال نکن',
-        'Yes means, send no agent and customer notifications on changes.' => 'پاسخ بله به معنی عدم ارسال اعلام به کارشناس و مشترک پس از اعمال تغییرات است',
-        'No means, send agent and customer notifications on changes.' => ' پاسخ خیر به معنی ارسال اعلام به کارشناس و مشترک پس از اعمال تغییرات است ',
+        'Send agent/customer notifications on changes' => '',
         'Save' => 'ذخیره',
         '%s Tickets affected! Do you really want to use this job?' => '%s درخواست مطابقت دارد.آیا واقعا قصد اجرای این کار را دارید؟',
-        '"}' => '{',
 
         # Template: AdminGroupForm
+        'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' => '',
         'Group Management' => 'مدیریت گروه ها',
         'Add Group' => 'ایجاد گروه',
         'Add a new Group.' => 'ایجاد گروه جدید',
@@ -748,6 +808,7 @@ sub Data {
         'Package' => 'بسته',
         'Online Repository' => 'مخزن آن لاین بسته ها',
         'Vendor' => 'فروشنده',
+        'Module documentation' => '',
         'Upgrade' => 'بروزرسانی',
         'Local Repository' => 'مخزن محلی بسته ها',
         'Status' => 'وضعیت',
@@ -768,9 +829,10 @@ sub Data {
         'Performance Log' => 'گزارش عملکرد',
         'This feature is enabled!' => 'این ویژگی فعال است.',
         'Just use this feature if you want to log each request.' => 'این ویژگی امکان ثبت همه درخواست ها را میدهد',
-        'Of couse this feature will take some system performance it self!' => 'این ویژگی خود بعضی از عملکردهای سیستم را میگیرد',
+        'Activating this feature might affect your system performance!' => '',
         'Disable it here!' => 'اینجا غیر فعال نمائید',
         'This feature is disabled!' => 'این ویژگی غیر فعال است',
+        'Activating this feature might affect your system performance!' => '',
         'Enable it here!' => 'اینجا فعال نمائید',
         'Logfile too large!' => 'فایل گزارش بیش از حد بزرگ است',
         'Logfile too large, you need to reset it!' => 'فایل گزارش بیش از حد بزرگ شده است،آن راپاکسازی نمائید',
@@ -798,29 +860,33 @@ sub Data {
         # Template: AdminPostMasterFilter
         'PostMaster Filter Management' => 'مدیریت فیلتر پستی',
         'Filtername' => 'نام فیلتر',
+        'Stop after match' => '',
         'Match' => 'مطابقت',
-        'Header' => 'سرصفحه',
         'Value' => 'مقدار',
         'Set' => 'ثبت',
         'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => 'email ها را از طریق Header یا RegExp فیلتر کن.',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' => 'برای انطباق اختصاصی Email از EMAILADDRESS:info@example.com در فرستنده،گیرنده و رونوشت استفاده نمائید.',
         'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => 'اگر از RegExp استفاده میکنید میتوانید از مقادیر مطابق در () بعنوان[***] در ثبت استفاده نمائید',
 
+        # Template: AdminPriority
+        'Priority Management' => 'مدیریت اولویت ها',
+        'Add Priority' => 'افزودن اولویت',
+        'Add a new Priority.' => 'افزودن اولویت جدید',
+
         # Template: AdminQueueAutoResponseForm
         'Queue <-> Auto Responses Management' => 'مدیریت لیست <-> پاسخ خودکار',
+        'settings' => '',
 
         # Template: AdminQueueForm
         'Queue Management' => 'مدیریت لیست های درخواست',
         'Sub-Queue of' => 'لیست فرعی',
         'Unlock timeout' => 'مهلت آزاد شدن درخواست',
         '0 = no unlock' => '0 = آزاد نشود',
-        'Only business hours are counted.' => 'فقط ساعات اداری محاسبه شده است',
-        'Escalation - First Response Time' =>  'آخرین مهلت برای اولین پاسخگویی',
-        '0 = no escalation' => '0 = بدون افزایش اولویت',
         'Only business hours are counted.' => ' فقط ساعات اداری محاسبه شده است ',
+        'Escalation - First Response Time' => 'آخرین مهلت برای اولین پاسخگویی',
+        '0 = no escalation' => '0 = بدون افزایش اولویت',
         'Notify by' => 'اعلام با',
         'Escalation - Update Time' => ' آخرین مهلت برای رسیدگی به یک درخواست',
-        'Notify by' => 'اعلام با',
         'Escalation - Solution Time' => ' آخرین مهلت برای ارائه راهکار',
         'Follow up Option' => 'پیگیری',
         'Ticket lock after a follow up' => 'درخواست بعد از پیگیری تحویل گرفته شود',
@@ -891,7 +957,6 @@ sub Data {
 
         # Template: AdminSelectBoxForm
         'SQL Box' => 'جعبه SQL',
-        'Limit' => 'محدوده',
         'Go' => 'اجرا ',
         'Select Box Result' => 'نتیجه جعبه انتخاب',
 
@@ -965,6 +1030,7 @@ sub Data {
         'Add System Address' => 'افزودن آدرس سیستم',
         'Add a new System Address.' => ' افزودن آدرس سیستم  جدید',
         'Realname' => 'نام و نام خانوادگی',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'همه نامه ها با گیرنده مشخص شده به لیست انتخاب شده منتقل خواهد شد!',
 
         # Template: AdminTypeForm
@@ -979,6 +1045,8 @@ sub Data {
         'Login as' => 'ورود به عنوان',
         'Firstname' => 'نام',
         'Lastname' => 'نام خانوادگی',
+        'Start' => 'شروع',
+        'End' => '',
         'User will be needed to handle tickets.' => 'کاربر نیاز خواهد داشت که درخواست ها را کنترل کند.',
         'Don\'t forget to add a new user to groups and/or roles!' => 'فراموش نکنید که کاربر میبایست به گروه و وظیفه مربوطه مرتبط شود',
 
@@ -996,18 +1064,20 @@ sub Data {
 
         # Template: AgentCalendarSmallIcon
 
+        # Template: AgentCustomerSearch
+
         # Template: AgentCustomerTableView
 
         # Template: AgentInfo
         'Info' => 'اطلاعات',
 
         # Template: AgentLinkObject
+        'Link Object: %s' => 'مورد مرتبط:%s',
+        'Object' => 'مورد',
         'Link Object' => 'لینک',
+        'with' => '',
         'Select' => 'انتخاب',
-        'Results' => 'نتیجه',
-        'Total hits' => 'مجموع بازدید ها',
-        'Page' => 'صفحه',
-        'Detail' => 'جزئیات',
+        'Unlink Object: %s' => 'مورد نا مرتبط:%s',
 
         # Template: AgentLookup
         'Lookup' => 'مراجعه',
@@ -1015,6 +1085,7 @@ sub Data {
         # Template: AgentNavigationBar
 
         # Template: AgentPreferencesForm
+        'End' => '',
 
         # Template: AgentSpelling
         'Spell Checker' => 'غلط یاب',
@@ -1023,9 +1094,11 @@ sub Data {
         'Apply these changes' => 'این تغییرات را در اعمال کن',
 
         # Template: AgentStatsDelete
+        'Stat#' => '',
         'Do you really want to delete this Object?' => 'آیا واقعا قصد حذف این مورد را دارید؟',
 
         # Template: AgentStatsEditRestrictions
+        'Stat#' => '',
         'Select the restrictions to characterise the stat' => 'برای توصیف این آمار محدودیت ها را انتخاب نمائید ',
         'Fixed' => 'ثابت',
         'Please select only one element or turn off the button \'Fixed\'.' => 'فقط یک گزینه را انتخاب نمائید و یا کلید ثابت را خاموش نمائید',
@@ -1079,7 +1152,7 @@ sub Data {
         'Select the element, which will be used at the X-axis' => 'گزینه ای را برای استفاده در محور افقی انتخاب نمائید',
         'maximal period' => 'کمترین دوره',
         'minimal scale' => 'کمترین مقیاس',
-        'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'در این بخش میتوانید محور افقی نمودار را مشخص نمائید.شما میتوانید یک گزینه را انتخاب نمائید سپس دست کم دو ویژگی را برای گزینه انتخاب شده تعیین کنید.در غیر اینصورت همه ویژگی ها فعال خواهند بود.',
+        'Here you can define the x-axis. You can select one element via the radio button. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
 
         # Template: AgentStatsImport
         'Import' => 'ورود اطلاعات',
@@ -1087,7 +1160,9 @@ sub Data {
         'No File selected' => 'فایلی انتخاب نشده است',
 
         # Template: AgentStatsOverview
-        'Object' => 'مورد',
+        'Results' => 'نتیجه',
+        'Total hits' => 'مجموع بازدید ها',
+        'Page' => 'صفحه',
 
         # Template: AgentStatsPrint
         'Print' => 'چاپ',
@@ -1101,10 +1176,11 @@ sub Data {
         'No element selected.' => 'هیچ گزینه ای انتخاب نشده است',
         'maximal period from' => 'بیشترین دوره از',
         'to' => 'تا',
-        'Start' => 'شروع',
         'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => 'با ورود اطلاعات و انتخاب گزینه ها میتوانید گزارش آماری خود را بسازید.گزینه هایی را میتوانید ویرایش نمائید که مدیر گزارش ها برای شما تنظیم کرده است',
 
         # Template: AgentTicketBounce
+        'A message should have a To: recipient!' => 'آدرس گیرنده پیام مشخص نشده است!',
+        'You need a email address (e. g. customer@example.com) in To:!' => 'آدرس email وارد شده معتبر نیست!',
         'Bounce ticket' => 'درخواست ارجاعی',
         'Ticket locked!' => 'درخواست تحویل گرفته شده !',
         'Ticket unlock!' => 'درخواست آزاد !',
@@ -1114,23 +1190,33 @@ sub Data {
         'Send mail!' => 'ارسال نامه !',
 
         # Template: AgentTicketBulk
+        'A message should have a subject!' => 'یک پیام میبایست دارای عنوان باشد',
+        'You need to account time!' => 'شما نیاز به محاسبه زمان دارید!',
         'Ticket Bulk Action' => 'عملیات کلی روی درخواست',
         'Spell Check' => 'غلط یابی',
         'Note type' => 'نوع یادداشت',
+        'Next state' => 'وضعیت بعدی',
+        'Pending date' => 'تاریخ تعلیق درخواست',
+        'Merge to' => 'ادغام با',
+        'Merge to oldest' => '',
+        'Link together' => '',
+        'Link to Parent' => '',
         'Unlock Tickets' => 'درخواست های آزاد',
 
         # Template: AgentTicketClose
+        'Ticket Type is required!' => '',
+        'A message should have a body!' => 'پیام میبایست دارای متن باشد !',
+        'A required field is:' => '',
+        'A required field is:' => '',
         'Close ticket' => 'بستن درخواست',
         'Previous Owner' => 'صاحب قبلی',
         'Inform Agent' => 'اطلاع به کارشناس پشتیبانی',
         'Optional' => 'اختیاری',
         'Inform involved Agents' => 'اطلاع به کارشناسان مربوطه',
         'Attach' => 'پیوست',
-        'Next state' => 'وضعیت بعدی',
-        'Pending date' => 'تاریخ تعلیق درخواست',
-        'Time units' => 'واحد زمان',
 
         # Template: AgentTicketCompose
+        'A message must be spell checked!' => 'پیام باید غلط یابی شده باشد!',
         'Compose answer for ticket' => 'ارسال پاسخ برای درخواست',
         'Pending Date' => 'مهلت تعلیق',
         'for pending* states' => 'برای حالت تعلیق',
@@ -1152,17 +1238,9 @@ sub Data {
         'new ticket' => 'درخواست جدید',
         'Refresh' => 'بازیابی',
         'Clear To' => 'آزاد کن به',
+        'All Agents' => 'همه کارشناسان',
 
-        # Template: AgentTicketEscalationView
-        'Ticket Escalation View' => 'نمای تغییر اولویت درخواست',
-        'Escalation' => 'بالاترین اولویت را دادن',
-        'Today' => 'امروز',
-        'Tomorrow' => 'فردا',
-        'Next Week' => 'هفته آینده',
-        'up' => 'صعودی',
-        'down' => 'نزولی',
-        'Escalation' => ' بالاترین اولویت را دادن ',
-        'Locked' => 'تحویل گرفته شده',
+        # Template: AgentTicketEscalation
 
         # Template: AgentTicketForward
         'Article type' => 'نوع مورد',
@@ -1175,25 +1253,49 @@ sub Data {
 
         # Template: AgentTicketLocked
 
-        # Template: AgentTicketMailbox
-        'Mailbox' => 'صندوق نامه ها',
-        'Tickets' => 'درخواست ها',
-        'of' => ' ',
-        'Filter' => 'فیلتر',
-        'New messages' => 'پیام جدید',
-        'Reminder' => 'یادآوری',
-        'Sort by' => 'مرتب سازی بر حسب',
-        'Order' => 'ترتیب',
-
         # Template: AgentTicketMerge
+        'You need to use a ticket number!' => 'شما باید از شماره درخواست استفاده نمائید!',
         'Ticket Merge' => 'ادغام درخواست',
-        'Merge to' => 'ادغام با',
 
         # Template: AgentTicketMove
         'Move Ticket' => 'انتقال درخواست',
 
         # Template: AgentTicketNote
         'Add note to ticket' => 'افزودن یادداشت به درخواست',
+
+        # Template: AgentTicketOverviewMedium
+        'First Response Time' => 'زمان اولین پاسخ',
+        'Service Time' => 'زمان خدمات',
+        'Update Time' => 'زمان بروز رسانی',
+        'Solution Time' => 'زمان ارائه راهکار',
+
+        # Template: AgentTicketOverviewMediumMeta
+        'You need min. one selected Ticket!' => 'شما دست کم به یک درخواست انتخاب شده نیاز دارید!',
+        'sort upward' => 'مرتب سازی صعودی',
+        'up' => 'صعودی',
+        'sort downward' => 'مرتب سازی نزولی',
+        'down' => 'نزولی',
+        'Escalation in' => 'بالارفتن اولویت در',
+        'Locked' => 'تحویل گرفته شده',
+
+        # Template: AgentTicketOverviewNavBar
+        'Filter' => 'فیلتر',
+        'Change search options' => 'تغییر گزینه های جستجو',
+        'Tickets' => 'درخواست ها',
+        'of' => ' ',
+
+        # Template: AgentTicketOverviewNavBarSmall
+
+        # Template: AgentTicketOverviewPreview
+        'Your own Ticket' => 'درخواست شما',
+        'Compose Follow up' => 'ارسال پیگیری',
+        'Compose Answer' => 'ارسال پاسخ',
+        'Contact customer' => 'تماس با مشترک',
+        'Change queue' => 'تغییر لیست درخواست',
+
+        # Template: AgentTicketOverviewPreviewMeta
+
+        # Template: AgentTicketOverviewSmall
 
         # Template: AgentTicketOwner
         'Change owner of ticket' => 'تغییر صاحب درخواست',
@@ -1213,12 +1315,7 @@ sub Data {
         # Template: AgentTicketPrint
         'Ticket-Info' => 'اطلاعات درخواست',
         'Accounted time' => 'زمان محاسبه شده',
-        'First Response Time' => 'زمان اولین پاسخ',
-        'Update Time' => 'زمان بروز رسانی',
-        'Solution Time' => 'زمان ارائه راهکار',
         'Linked-Object' => 'مربوط شده',
-        'Parent-Object' => 'اصلی',
-        'Child-Object' => 'فرعی',
         'by' => 'توسط',
 
         # Template: AgentTicketPriority
@@ -1231,16 +1328,6 @@ sub Data {
         'Queues' => 'لیست های درخواست',
         'Ticket escalation!' => 'در اولویت اول قرارگرفتن درخواست !',
 
-        # Template: AgentTicketQueueTicketView
-        'Service Time' => 'زمان خدمات',
-        'Your own Ticket' => 'درخواست شما',
-        'Compose Follow up' => 'ارسال پیگیری',
-        'Compose Answer' => 'ارسال پاسخ',
-        'Contact customer' => 'تماس با مشترک',
-        'Change queue' => 'تغییر لیست درخواست',
-
-        # Template: AgentTicketQueueTicketViewLite
-
         # Template: AgentTicketResponsible
         'Change responsible of ticket' => 'تغییر مسئول درخواست',
 
@@ -1250,40 +1337,33 @@ sub Data {
         'Search-Template' => 'الگوی جستجو',
         'TicketFreeText' => 'متن درخواست',
         'Created in Queue' => 'ایجاد شده در لیست',
-        'Close Times' => 'زمان بستن',
-        'No close time settings.' => 'زمان بستن تنظیم نشده است',
-        'Ticket closed' => 'درخواست بسته شده',
-        'Ticket closed between' => 'درخواست بسته شده بین',
+        'Change Times' => '',
+        'No change time settings.' => '',
+        'Ticket changed' => '',
+        'Ticket changed between' => '',
         'Result Form' => 'نوع نتیجه',
         'Save Search-Profile as Template?' => 'ذخیره بعنوان الگوی جستجو?',
         'Yes, save it with name' => 'بله آنرا ذخیره کن با نام',
 
         # Template: AgentTicketSearchOpenSearchDescription
 
-        # Template: AgentTicketSearchResult
-        'Change search options' => 'تغییر گزینه های جستجو',
-
         # Template: AgentTicketSearchResultPrint
-
-        # Template: AgentTicketSearchResultShort
-
-        # Template: AgentTicketStatusView
-        'Ticket Status View' => 'نمایش وضعیت درخواست',
-        'Open Tickets' => 'درخواست های باز',
 
         # Template: AgentTicketZoom
         'Expand View' => 'باز کردن نما',
+        'Expand' => '',
         'Collapse View' => 'جمع کردن نما',
+        'Split' => 'تقسیم درخواست',
+
+        # Template: AgentTicketZoomArticleFilterDialog
+        'Article filter settings' => '',
+        'Save filter settings as default' => '',
 
         # Template: AgentWindowTab
 
         # Template: AJAX
 
         # Template: Copyright
-
-        # Template: css
-
-        # Template: customer-css
 
         # Template: CustomerAccept
 
@@ -1322,6 +1402,8 @@ sub Data {
         'Times' => 'زمان',
         'No time settings.' => 'بدون تنظیمات زمان',
 
+        # Template: CustomerTicketSearchOpenSearchDescription
+
         # Template: CustomerTicketSearchResultCSV
 
         # Template: CustomerTicketSearchResultPrint
@@ -1341,6 +1423,7 @@ sub Data {
         # Template: FooterSmall
 
         # Template: Header
+        'Home' => 'صفحه اول',
 
         # Template: HeaderSmall
 
@@ -1383,6 +1466,8 @@ sub Data {
         'Start page' => 'صفحه شروع',
         'Your OTRS Team' => 'تیم OTRS شما',
 
+        # Template: LinkObject
+
         # Template: Login
 
         # Template: Motd
@@ -1399,6 +1484,8 @@ sub Data {
         # Template: PrintHeader
         'printed by' => 'چاپ شده توسط  :',
 
+        # Template: PublicDefault
+
         # Template: Redirect
 
         # Template: Test
@@ -1406,6 +1493,30 @@ sub Data {
         'Counter' => 'شمارنده',
 
         # Template: Warning
+
+        # Template: YUI
+        'Bold' => '',
+        'CTRL' => '',
+        'SHIFT' => '',
+        'Italic' => '',
+        'Underline' => '',
+        'Font Color' => '',
+        'Background Color' => '',
+        'Remove Formatting' => '',
+        'Show/Hide Hidden Elements' => '',
+        'Align Left' => '',
+        'Align Center' => '',
+        'Align Right' => '',
+        'Justify' => '',
+        'Indent' => '',
+        'Outdent' => '',
+        'Create an Unordered List' => '',
+        'Create an Ordered List' => '',
+        'HTML Link' => '',
+        'Insert Image' => '',
+        'Undo' => '',
+        'Redo' => '',
+
         # Misc
         'Edit Article' => 'ویرایش مورد',
         'Create Database' => 'ایجاد بانک',
@@ -1413,25 +1524,25 @@ sub Data {
         'Change roles <-> groups settings' => 'تغییر تنظیمات وظیفه <-> گروه',
         'Ticket Number Generator' => 'تولید کننده شماره درخواست ها',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(مشخصه درخواست ها. اکثر کاربران مایلنداز این ترکیب استفاده کنند مثال: \'شماره درخواست\', \'شماره تماس#\' یا \'نام دلخواه #\')',
-        'Create new Phone Ticket' => 'ایجاد درخواست تلفنی',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'تنظیم مستقیم کلید ها در Kernel/Config.pm',
+        'Create new Phone Ticket' => 'ایجاد درخواست تلفنی',
         'Symptom' => 'نشانه',
         'U' => 'Z-A, ی-الف',
-        'A message should have a To: recipient!' => 'آدرس گیرنده پیام مشخص نشده است!',
         'Site' => 'سایت',
         'Customer history search (e. g. "ID342425").' => 'جستجو در سوابق مشترک (مثال: "ID342425")',
-        'for agent firstname' => 'برای نام کارشناس',
+        'Can not delete link with %s!' => ' نمیتوان لینک را با %s حذف نمود ',
         'Close!' => 'بستن!',
-        'The message being composed has been closed.  Exiting.' => 'پیامی که ارسال شد بسته شد..',
+        'for agent firstname' => 'برای نام کارشناس',
+        'No means, send agent and customer notifications on changes.' => ' پاسخ خیر به معنی ارسال اعلام به کارشناس و مشترک پس از اعمال تغییرات است ',
         'A web calendar' => 'یک تقویم تحت وب',
         'to get the realname of the sender (if given)' => 'برای گرفتن نام فرستنده',
         'OTRS DB Name' => 'نام بانک اطلاعاتی سیستم',
         'Notification (Customer)' => 'اعلام(مشترک)',
         'Select Source (for add)' => 'منبع را انتخاب نمائید (برای افزودن)',
         'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'گزینه های اطلاعات درخواست(مانند شماره درخواست، لیست مرتبط، شناسه درخواست و وضعیت درخواست)',
+        'Child-Object' => 'فرعی',
         'Days' => 'روز',
         'Queue ID' => 'شناسه لیست',
-        'Home' => 'صفحه اول',
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'گزینه های تنظیمات ',
         'System History' => 'سوابق سیستم',
         'customer realname' => 'نام و نام خانوادگی مشترک',
@@ -1442,70 +1553,77 @@ sub Data {
         'Close type' => 'نوع بستن',
         'DB Admin User' => 'نام کاربری مدیر بانک اطلاعاتی ',
         'for agent user id' => 'برای شناسه کاربری کارشناس',
-        'sort upward' => 'مرتب سازی صعودی',
         'Change user <-> group settings' => 'تغییر تنظیمات کاربر <-> گروه',
         'Problem' => 'مسئله',
+        'Escalation' => ' بالاترین اولویت را دادن ',
+        '"}' => '{',
+        'Order' => 'ترتیب',
         'next step' => 'قدم بعدی',
         'Customer history search' => 'جستجو در سوابق مشترک',
         'Admin-Email' => 'e-mail مدیر سیستم',
+        'PostMaster Mail Account' => 'حساب Email سیستم',
         'Create new database' => 'ایجاد بانک جدید',
-        'A message must be spell checked!' => 'پیام باید غلط یابی شده باشد!',
         'Ticket#' => 'شماره درخواست',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'پیام شما در درخواست به شماره "<OTRS_TICKET> ارجاع شد به "<OTRS_BOUNCE_TO>".  اطلاعات بیشتر را از این آدرس دریافت نمائید',
         'ArticleID' => 'شماره مورد',
-        'A message should have a body!' => 'پیام میبایست دارای متن باشد !',
-        'All Agents' => 'همه کارشناسان',
         'Keywords' => 'کلید واژه ها',
+        'Ticket Escalation View' => 'نمای تغییر اولویت درخواست',
+        'Today' => 'امروز',
         'No * possible!' => 'هیچ * ممکن نیست !',
+        'PostMaster Filter' => 'فیلتر Email سیستم',
         'Options ' => 'گزینه ها',
         'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'گزینه های تنظیمات صاحب درخواست',
         'Message for new Owner' => 'پیام برای صاحب جدید درخواست',
         'to get the first 5 lines of the email' => 'برای گرفتن 5 خط اول نامه ',
-        'OTRS DB Password' =>  'رمز عبور بانک اطلاعاتی سیستم',
+        'Sort by' => 'مرتب سازی بر حسب',
+        'OTRS DB Password' => 'رمز عبور بانک اطلاعاتی سیستم',
         'Last update' => 'آخرین بروزرسانی',
+        'Tomorrow' => 'فردا',
         'to get the first 20 character of the subject' => 'برای گرفتن 20 کاراکتر اول موضوع',
         'Select the customeruser:service relations.' => 'ارتباط مشترک را با خدمات مشخض نمائید',
         'DB Admin Password' => 'رمز عبور مدیر سیستم',
-        'Advisory' => 'مشورتی',
         'Drop Database' => 'حذف کامل بانک اطلاعاتی',
+        'Advisory' => 'مشورتی',
+        'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'در این بخش میتوانید محور افقی نمودار را مشخص نمائید.شما میتوانید یک گزینه را انتخاب نمائید سپس دست کم دو ویژگی را برای گزینه انتخاب شده تعیین کنید.در غیر اینصورت همه ویژگی ها فعال خواهند بود.',
         'FileManager' => 'میریت فایل',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'گزینه های اطلاعات مشترک فعلی',
         'Pending type' => 'نوع تعلیق',
         'Comment (internal)' => 'توضیح (داخلی)',
         'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => 'گزینه های صاحب درخواست',
-        'This window must be called from compose window' => 'این پنجره میبایست از طریق پنجره ارسال فراخوانی شود',
-        'You need min. one selected Ticket!' => 'شما دست کم به یک درخواست انتخاب شده نیاز دارید!',
-        'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' =>  'گزینه های اطلاعات درخواست(شماره درخواست،شناسه درخواست،لیست مربوطه و وضعیت)',
+        'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'گزینه های اطلاعات درخواست(شماره درخواست،شناسه درخواست،لیست مربوطه و وضعیت)',
         '(Used ticket number format)' => '(فرمت شماره درخواست)',
+        'Reminder' => 'یادآوری',
         'Fulltext' => 'جستجوی متنی',
         'Incident' => 'رویداد',
         'OTRS DB connect host' => 'سرور میزبان بانک اطلاعاتی ',
-        ' (work units)' => ' واحد کار',
+        'Next Week' => 'هفته آینده',
         'All Customer variables like defined in config option CustomerUser.' => 'همه تنظیمات مشترکین در فایل تنظیمات سیستم ذخیره شده است',
         'accept license' => 'تائید مجوز بهره برداری',
         'for agent lastname' => 'برای نام خانوادگی کارشناس',
         'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => 'گزینه های کاربر فعلی که این فعالیت را درخواست نموده',
         'Reminder messages' => 'پیامهای یادآوری',
         'Change users <-> roles settings' => 'تغییر تنظیمات کاربر <-> وظیفه',
-        'A message should have a subject!' => 'یک پیام میبایست دارای عنوان باشد',
+        'Parent-Object' => 'اصلی',
+        'Of couse this feature will take some system performance it self!' => 'این ویژگی خود بعضی از عملکردهای سیستم را میگیرد',
+        'Detail' => 'جزئیات',
         'TicketZoom' => 'نمایش کامل درخواست',
         'Don\'t forget to add a new user to groups!' => 'فراموش نکنید که کاربرجدید را به گروه ها اضافه کنید!',
-        'You need a email address (e. g. customer@example.com) in To:!' => 'آدرس email وارد شده معتبر نیست!',
+        'Open Tickets' => 'درخواست های باز',
         'CreateTicket' => 'ایجاد درخواست',
-        'You need to account time!' => 'شما نیاز به محاسبه زمان دارید!',
+        'You have to select two or more attributes from the select field!' => 'از قسمت انتخاب ستون دست کم 2 مورد را انتخاب نمائید',
         'System Settings' => 'تنظیمات سیستم',
         'WebWatcher' => 'بازرسی وب',
         'Hours' => 'ساعت',
         'Finished' => 'پایان یافت',
-        'Split' => 'تقسیم درخواست',
         'D' => 'A-Z, الف-ی',
-        'System Status' => 'وضعیت سیستم',
         'All messages' => 'همه پیام ها',
+        'System Status' => 'وضعیت سیستم',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'گزینه های اطلاعات درخواست',
         'Artefact' => 'محصول خروجی',
+        'Object already linked as %s.' => 'مورد اکنون به عنوان %s مرتبط شده است',
         'A article should have a title!' => 'یک مورد باید دارای عنوان باشد',
-        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'گزینه های تنظیمات ',
+        'Customer Users <-> Services' => 'مشترک <-> خدمات',
         'Event' => 'رویداد',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'گزینه های تنظیمات ',
         'don\'t accept license' => 'مجوز را تائید نکن',
         'A web mail client' => 'یک محیط پست الکترونیکی',
         'WebMail' => 'پست الکترونیکی',
@@ -1518,43 +1636,30 @@ sub Data {
         'Solution' => 'راهکار',
         'QueueView' => 'نمایش لیست درخواست',
         'Select Box' => 'جعبه انتخاب.',
+        'New messages' => 'پیام جدید',
+        'Can not create link with %s!' => 'نمیتوان لینک را با %s ایجاد نمود',
+        'Linked as' => 'مرتبط شده به عنوان',
         'Welcome to OTRS' => 'به سیستم پشتیبانی سورس باز (OTRS) خوش آمدید',
         'modified' => 'تغییر یافته',
-        'Escalation in' => 'بالارفتن اولویت در',
         'Delete old database' => 'حذف بانک قبلی',
-        'sort downward' => 'مرتب سازی نزولی',
-        'You need to use a ticket number!' => 'شما باید از شماره درخواست استفاده نمائید!',
         'A web file manager' => 'یک محیط مدیریت فایل تحت وب',
         'Have a lot of fun!' => 'موفق و پیروز باشید!',
         'send' => 'ارسال',
+        'Location on Map' => 'موقعیت روی نقشه',
+        'Send no notifications' => 'اعلام ها را ارسال نکن',
         'Note Text' => 'یادداشت',
         'POP3 Account Management' => 'مدیریت حساب POP3',
         'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'گزینه های اطلاعات مشترک کنونی',
         'System State Management' => 'مدیریت وضعیت سیستم',
         'OTRS DB User' => 'نام کاربری بانک اطلاعاتی سیستم',
+        'Mailbox' => 'صندوق نامه ها',
         'PhoneView' => 'نمایش تلفن',
         'TicketID' => 'شناسه درخواست',
+        'Yes means, send no agent and customer notifications on changes.' => 'پاسخ بله به معنی عدم ارسال اعلام به کارشناس و مشترک پس از اعمال تغییرات است',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'پیام شما در درخواست به شماره "<OTRS_TICKET> ارجاع شد به "<OTRS_BOUNCE_TO>".  اطلاعات بیشتر را از این آدرس دریافت نمائید',
+        'Ticket Status View' => 'نمایش وضعیت درخواست',
         'Modified' => 'تغییر یافته',
         'Ticket selected for bulk action!' => 'درخواست برای اعمال عملیات کلی انتخاب شد!',
-
-        'Link Object: %s' => 'مورد مرتبط:%s',
-        'Unlink Object: %s' => 'مورد نا مرتبط:%s',
-        'Linked as' => 'مرتبط شده به عنوان',
-        'Can not create link with %s!' => 'نمیتوان لینک را با %s ایجاد نمود',
-        'Can not delete link with %s!' => ' نمیتوان لینک را با %s حذف نمود ',
-        'Object already linked as %s.' => 'مورد اکنون به عنوان %s مرتبط شده است',
-        'Priority Management' => 'مدیریت اولویت ها',
-        'Add a new Priority.' => 'افزودن اولویت جدید',
-        'Add Priority' => 'افزودن اولویت',
-        'Location' => 'موقعیت',
-        'Location on Map' => 'موقعیت روی نقشه',
-        'Customer Users <-> Services' => 'مشترک <-> خدمات',
-        'PostMaster Mail Account' => 'حساب Email سیستم',
-        'PostMaster Filter' => 'فیلتر Email سیستم',
-        'Ticket Type is required!' => '',
-        'Module documentation' => '',
-        'Added!' => '',
-        'Updated!' => '',
     };
     # $$STOP$$
     return;

@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.83 2009-02-16 10:38:04 tr Exp $
+# $Id: bg.pm,v 1.84 2009-04-03 07:42:25 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.83 $) [1];
+$VERSION = qw($Revision: 1.84 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Fri May 16 14:07:39 2008
+    # Last translation file sync: Fri Apr  3 09:40:38 2009
 
     # possible charsets
     $Self->{Charset} = ['cp1251', 'Windows-1251', ];
@@ -140,6 +140,7 @@ sub Data {
         'update!' => 'обновяване!',
         'update' => 'обновяване',
         'Update' => 'Обновяване',
+        'Updated!' => '',
         'submit!' => 'изпратете!',
         'submit' => 'изпратете',
         'Submit' => 'Изпратете',
@@ -180,6 +181,7 @@ sub Data {
         'Up' => 'Нагоре',
         'Down' => 'Надолу',
         'Add' => 'Добавяне',
+        'Added!' => '',
         'Category' => 'Категория',
         'Viewer' => 'Viewer',
         'New message' => 'Ново съобщение',
@@ -246,9 +248,9 @@ sub Data {
         'Mobile' => 'Мобилен телефон',
         'Zip' => 'Пощенски код',
         'City' => 'Град',
-        'Location' => '',
         'Street' => '',
         'Country' => 'Държава',
+        'Location' => '',
         'installed' => 'инсталирано',
         'uninstalled' => 'деинсталирано',
         'Security Note: You should activate %s because application is already running!' => 'Съобщение: Трябва да активирате %s защото приложението вече работи!',
@@ -266,6 +268,30 @@ sub Data {
         'Sent password token to: %s' => '',
         'Sent new password to: %s' => '',
         'Invalid Token!' => '',
+        'For more info see:' => '',
+        'Package verification failed!' => '',
+        'Bold' => '',
+        'Italic' => '',
+        'Underline' => '',
+        'Font Color' => '',
+        'Background Color' => '',
+        'Remove Formatting' => '',
+        'Show/Hide Hidden Elements' => '',
+        'Align Left' => '',
+        'Align Center' => '',
+        'Align Right' => '',
+        'Justify' => '',
+        'Header' => 'Хедър',
+        'Indent' => '',
+        'Outdent' => '',
+        'Create an Unordered List' => '',
+        'Create an Ordered List' => '',
+        'HTML Link' => '',
+        'Insert Image' => '',
+        'CTRL' => '',
+        'SHIFT' => '',
+        'Undo' => '',
+        'Redo' => '',
 
         # Template: AAAMonth
         'Jan' => 'Яну',
@@ -346,7 +372,6 @@ sub Data {
         'Please select an object!' => 'Моля изберете обект!',
         'Please select a graph size!' => 'Моля изберете размер на графиката!',
         'Please select one element for the X-axis!' => 'Моля изберете един елемент за оста Х',
-        'You have to select two or more attributes from the select field!' => 'Трябва да изберете два или повече атрибути от полето!',
         'Please select only one element or turn off the button \'Fixed\' where the select field is marked!' => 'Моля изберете само един елемент или включете \'Fixed\', където полето е маркирано!',
         'If you use a checkbox you have to select some attributes of the select field!' => 'Ако използвате отметка, трябва да изберете атрибути от полето!',
         'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!' => 'Моля въведете стойност във избраното поле или изключете отметката \'Fixed\'!',
@@ -379,6 +404,30 @@ sub Data {
         'Create Time' => 'Време на създаване',
         'CustomerUserLogin' => 'Логин на клиент-потребител',
         'Close Time' => 'Време на затваряне',
+        'TicketAccumulation' => '',
+        'Attributes to be printed' => '',
+        'Sort sequence' => '',
+        'Order by' => '',
+        'Limit' => 'Лимит',
+        'Ticketlist' => '',
+        'ascending' => '',
+        'descending' => '',
+        'First Lock' => '',
+        'Evaluation by' => '',
+        'Total Time' => '',
+        'Ticket Average' => '',
+        'Ticket Min Time' => '',
+        'Ticket Max Time' => '',
+        'Number of Tickets' => '',
+        'Article Average' => '',
+        'Article Min Time' => '',
+        'Article Max Time' => '',
+        'Number of Articles' => '',
+        'Accounted time by Agent' => '',
+        'Ticket/Article Accounted Time' => '',
+        'TicketAccountedTime' => '',
+        'Ticket Create Time' => '',
+        'Ticket Close Time' => '',
 
         # Template: AAATicket
         'Lock' => 'Заключи',
@@ -427,7 +476,9 @@ sub Data {
         'closed unsuccessful' => 'неуспешно затворен',
         'new' => 'нов',
         'open' => 'отворен',
+        'Open' => '',
         'closed' => 'затворен',
+        'Closed' => '',
         'removed' => 'премахнат',
         'pending reminder' => 'очаква напомняне',
         'pending auto' => 'очаква авроматично',
@@ -519,12 +570,17 @@ sub Data {
         'Closed Tickets' => 'Затворени билети',
         'Show closed tickets.' => 'Покажете затворените билети',
         'Max. shown Tickets a page in QueueView.' => 'Максимален брой показани билети на страница в прегледа на опашката.',
+        'Watch notification' => '',
+        'Send me a notification of an watched ticket like an owner of an ticket.' => '',
+        'Out Of Office' => '',
+        'Select your out of office time.' => '',
         'CompanyTickets' => 'Билети на компанията',
         'MyTickets' => 'Мои билети',
         'New Ticket' => 'Нов билет',
         'Create new Ticket' => 'Създаване на нов билет',
         'Customer called' => 'Обаждане на клиент',
         'phone call' => 'обаждане по телефон',
+        'Reminder Reached' => '',
         'Responses' => 'Отговори',
         'Responses <-> Queue' => 'Отговори <-> Опашки',
         'Auto Responses' => 'Авто отговори',
@@ -606,6 +662,8 @@ sub Data {
         'This values are read only.' => 'Тези стойности са само за преглед. (read only)',
 
         # Template: AdminCustomerUserForm
+        'The message being composed has been closed.  Exiting.' => 'Съобщението, което създавахте е затворено. Изход.',
+        'This window must be called from compose window' => 'Този прозорец трябва да бъде извикан от прозореца за създаване',
         'Customer User Management' => 'Управление на клиент-потребители',
         'Add Customer User' => '',
         'Source' => 'Източник',
@@ -651,6 +709,8 @@ sub Data {
         'Is Job Valid?' => 'Задачата валидна?',
         'Is Job Valid' => 'Задачата валидна',
         'Schedule' => 'Регулярно изпълнение',
+        'Currently this generic agent job will not run automatically.' => '',
+        'To enable automatic execusion select at least one value form minutes, hours and days!' => '',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Пълнотекстово търсене в билета (Пример: Mart*n или Baue*)',
         '(e. g. 10*5155 or 105658*)' => '(Пример: 10*5155 или 105658)',
         '(e. g. 234321)' => '(Пример: 234321)',
@@ -683,9 +743,10 @@ sub Data {
         'New Ticket Lock' => 'Нов тип заключване на билета',
         'New Type' => '',
         'New Title' => '',
-        'New Type' => '',
         'New TicketFreeFields' => 'Нови стойности на полетата на билета',
         'Add Note' => 'Добавяне на бележка',
+        'Time units' => 'Мерни единици за времето',
+        ' (work units)' => ' (работни единици)',
         'CMD' => 'CMD',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'Тази команда ще бъде изпълнена. ARG[0] (първи аргумент) ще бъде номера на билета. ARG[1] (втори аргумент) ще бъде TiketID.',
         'Delete tickets' => 'Изтриване на билета',
@@ -697,14 +758,12 @@ sub Data {
         'Param 4' => 'Параметър 4',
         'Param 5' => 'Параметър 5',
         'Param 6' => 'Параметър 6',
-        'Send no notifications' => 'Да не се изпращат уведомления',
-        'Yes means, send no agent and customer notifications on changes.' => 'Да означава че няма да бъдат изпращани уведомления (тип: агент и тип: клиент) когато има промени.',
-        'No means, send agent and customer notifications on changes.' => 'Не означава че ще бъдат изпращани уведомления (тип: агент и тип: клиент) когато има промени.',
+        'Send agent/customer notifications on changes' => '',
         'Save' => 'Съхраняване',
         '%s Tickets affected! Do you really want to use this job?' => '%s билета бяха засегнати! Сигурни ли сте че искате да използвате тази задача?',
-        '"}' => '"}',
 
         # Template: AdminGroupForm
+        'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' => '',
         'Group Management' => 'Управление на групи',
         'Add Group' => 'Добавяне на група',
         'Add a new Group.' => 'Добавяне на нова група',
@@ -746,6 +805,7 @@ sub Data {
         'Package' => 'Софтуерен пакет',
         'Online Repository' => 'Online Repository',
         'Vendor' => 'Доставчик',
+        'Module documentation' => '',
         'Upgrade' => 'Ъпгрейд',
         'Local Repository' => 'Локално Repository',
         'Status' => 'Статус',
@@ -766,9 +826,10 @@ sub Data {
         'Performance Log' => 'Журнал на производителността',
         'This feature is enabled!' => 'Тази функционалност е пусната!',
         'Just use this feature if you want to log each request.' => 'Използвайте тази функционалност ако искате да се журналира всяка заявка.',
-        'Of couse this feature will take some system performance it self!' => 'Тази фунционалност ще окаже влияние на производителността на системата!',
+        'Activating this feature might affect your system performance!' => '',
         'Disable it here!' => 'Забраняване на фукционалността тук',
         'This feature is disabled!' => 'Тази функционалност е забранена',
+        'Activating this feature might affect your system performance!' => '',
         'Enable it here!' => 'Разрешаване на фунционалността тук',
         'Logfile too large!' => 'Журналния файл е прекалено голям!',
         'Logfile too large, you need to reset it!' => 'Журналния файл е прекалено голям, необходимо е презаписване на файла!',
@@ -796,16 +857,22 @@ sub Data {
         # Template: AdminPostMasterFilter
         'PostMaster Filter Management' => 'Управление филтъра за е-поща',
         'Filtername' => 'Име на филтър',
+        'Stop after match' => '',
         'Match' => 'Съвпадение',
-        'Header' => 'Хедър',
         'Value' => 'Стойност',
         'Set' => 'Поставяне',
         'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => 'Анализ на съобщенията на база на техните X-Хедъри! Регулярен израз е също възможен.',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' => 'Ако искате съвпадение само на e-mail адреса използвайте EMAILADDRESS:info@example.com в From, To или Cc.',
         'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => 'Ако използвате регулярен израз, може да използвате стойността на съвпадението от регулярния израз като [***] в \'Set\'.',
 
+        # Template: AdminPriority
+        'Priority Management' => 'Управление на приоритетите',
+        'Add Priority' => 'Добави приоритет',
+        'Add a new Priority.' => 'Добави нов приоритет.',
+
         # Template: AdminQueueAutoResponseForm
         'Queue <-> Auto Responses Management' => 'Управление на опашка <-> Авто отговори',
+        'settings' => '',
 
         # Template: AdminQueueForm
         'Queue Management' => 'Управление на опашка',
@@ -815,10 +882,8 @@ sub Data {
         'Only business hours are counted.' => '',
         'Escalation - First Response Time' => 'Ескалация - Време за първи отговор',
         '0 = no escalation' => '0 = без ескалация',
-        'Only business hours are counted.' => '',
         'Notify by' => '',
         'Escalation - Update Time' => 'Ескалация - Време за статус ъпдейт',
-        'Notify by' => '',
         'Escalation - Solution Time' => 'Ескалация - Време за решаване',
         'Follow up Option' => 'Параметри за автоматично проследяване',
         'Ticket lock after a follow up' => 'Заключване на билетът след автоматично известяване',
@@ -889,7 +954,6 @@ sub Data {
 
         # Template: AdminSelectBoxForm
         'SQL Box' => '',
-        'Limit' => 'Лимит',
         'Go' => 'Продъпжавай',
         'Select Box Result' => 'Резултат от заявката изпълнена в SelectBox',
 
@@ -963,6 +1027,7 @@ sub Data {
         'Add System Address' => 'Добавяне на системен адрес',
         'Add a new System Address.' => 'Добавяне на нов системен адрес.',
         'Realname' => 'Истинско име',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Всички входящи адреси от този еМейл (До:) ще се разпределят в избраната опашка.',
 
         # Template: AdminTypeForm
@@ -977,6 +1042,8 @@ sub Data {
         'Login as' => 'Логин като',
         'Firstname' => 'Име',
         'Lastname' => 'Фамилия',
+        'Start' => 'Старт',
+        'End' => '',
         'User will be needed to handle tickets.' => 'Ще е необходим агент потребител, за да може билетът да се обработи',
         'Don\'t forget to add a new user to groups and/or roles!' => 'Не забравяйте да добавите новия агент потребител към групи и/или роли!',
 
@@ -994,18 +1061,20 @@ sub Data {
 
         # Template: AgentCalendarSmallIcon
 
+        # Template: AgentCustomerSearch
+
         # Template: AgentCustomerTableView
 
         # Template: AgentInfo
         'Info' => 'Информация',
 
         # Template: AgentLinkObject
+        'Link Object: %s' => '',
+        'Object' => 'Обект',
         'Link Object' => 'Обект за свързване',
+        'with' => '',
         'Select' => 'Избор',
-        'Results' => 'Резултат',
-        'Total hits' => 'Общ брой попадения',
-        'Page' => 'Страница',
-        'Detail' => 'Подробности',
+        'Unlink Object: %s' => '',
 
         # Template: AgentLookup
         'Lookup' => 'Преглед',
@@ -1013,6 +1082,7 @@ sub Data {
         # Template: AgentNavigationBar
 
         # Template: AgentPreferencesForm
+        'End' => '',
 
         # Template: AgentSpelling
         'Spell Checker' => 'Проверка на правописът',
@@ -1021,6 +1091,7 @@ sub Data {
         'Apply these changes' => 'Прилага се към тези промени',
 
         # Template: AgentStatsDelete
+        'Stat#' => 'Статистика#',
         'Do you really want to delete this Object?' => 'Сигурни ли сте че искате да изтриете този обект?',
 
         # Template: AgentStatsEditRestrictions
@@ -1070,7 +1141,6 @@ sub Data {
         'Select the elements for the value series' => 'Изберете елементи за групите от стойности',
         'Scale' => 'Мащаб',
         'minimal' => 'минимален',
-        'Please select only one element or turn off the button \'Fixed\'.' => '',
         'Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' => 'Имайте предвид че мащаба на стойностите трябва да е по-голям от този на оста Х (Пример: X-Axis => Month, ValueSeries => Year).',
         'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Тук може да добавите групи стойности. Тук може да изберете един или два елемента. След това може да изберете атрибути на елементите. Всеки атрибут ще бъде показан като група от единични стойности. Ако не изберете атрибут, всички атрибути на елемента ще бъдат показане по време на генерирането на статистиката, както и всеки нов атрибут добавен при конфигурация на статистиката.',
 
@@ -1078,7 +1148,7 @@ sub Data {
         'Select the element, which will be used at the X-axis' => 'Изберете елемент който ще се използва за стойности на оста Х',
         'maximal period' => 'максимален период',
         'minimal scale' => 'минимален мащаб',
-        'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Тук може да дефинирате оста Х, може да изберете един елемент (посредством радио бутон). Тук може да изберете един или два елемента. След това може да изберете атрибути на елементите. Всеки атрибут ще бъде показан като група от единични стойности. Ако не изберете атрибут, всички атрибути на елемента ще бъдат показане по време на генерирането на статистиката, както и всеки нов атрибут добавен при конфигурация на статистиката.',
+        'Here you can define the x-axis. You can select one element via the radio button. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
 
         # Template: AgentStatsImport
         'Import' => 'Импортиране',
@@ -1086,7 +1156,9 @@ sub Data {
         'No File selected' => 'Не е избран файл',
 
         # Template: AgentStatsOverview
-        'Object' => 'Обект',
+        'Results' => 'Резултат',
+        'Total hits' => 'Общ брой попадения',
+        'Page' => 'Страница',
 
         # Template: AgentStatsPrint
         'Print' => 'Отпечатване',
@@ -1100,10 +1172,11 @@ sub Data {
         'No element selected.' => 'Няма избран елемент',
         'maximal period from' => 'максимален период от',
         'to' => 'до',
-        'Start' => 'Старт',
         'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => 'Със полета за въвеждане или избор може да конфигурирате статистиката според Вашите нужди. Броя на елементите подлежащи на редакция зависи от администратора който е конфигурирал тази статистика.',
 
         # Template: AgentTicketBounce
+        'A message should have a To: recipient!' => 'Съобщението трябва да има ДО: т.е. адресант!',
+        'You need a email address (e. g. customer@example.com) in To:!' => 'Трябва да има валиден адрес в полето ДО: (примерно support@hebros.bg)!',
         'Bounce ticket' => 'Отказан билет',
         'Ticket locked!' => 'Билетът е заключен!',
         'Ticket unlock!' => 'Билетът е отключен!',
@@ -1113,23 +1186,33 @@ sub Data {
         'Send mail!' => 'Изпратете еМейл!',
 
         # Template: AgentTicketBulk
+        'A message should have a subject!' => 'Съобщението трябва да има текст в поле "относно"!',
+        'You need to account time!' => 'Вие се нуждаете от отчет за времето',
         'Ticket Bulk Action' => 'Събирателно действие',
         'Spell Check' => 'Проверка на правописа',
         'Note type' => 'Бележката е от тип',
+        'Next state' => 'Следващо състояние',
+        'Pending date' => 'В очакване - дата',
+        'Merge to' => 'Изравняване с',
+        'Merge to oldest' => '',
+        'Link together' => '',
+        'Link to Parent' => '',
         'Unlock Tickets' => 'Отключване на билети',
 
         # Template: AgentTicketClose
+        'Ticket Type is required!' => '',
+        'A message should have a body!' => 'Съобщението трябва да има текст',
+        'A required field is:' => '',
+        'A required field is:' => '',
         'Close ticket' => 'Затваряне на билета',
         'Previous Owner' => 'Предишен собственик',
         'Inform Agent' => 'Информирай агента',
         'Optional' => 'Опционално',
         'Inform involved Agents' => 'Информирай включените агенти',
         'Attach' => 'Прикачен файл',
-        'Next state' => 'Следващо състояние',
-        'Pending date' => 'В очакване - дата',
-        'Time units' => 'Мерни единици за времето',
 
         # Template: AgentTicketCompose
+        'A message must be spell checked!' => 'Съобщението трябва да бъде проверено за грешки!',
         'Compose answer for ticket' => 'Създаване на отговор за този билет',
         'Pending Date' => 'В очакване-дата',
         'for pending* states' => 'за състояния в очакване* ',
@@ -1151,17 +1234,9 @@ sub Data {
         'new ticket' => 'нов билет',
         'Refresh' => 'Опресняване',
         'Clear To' => 'Изчистване на полето: to',
+        'All Agents' => 'Всички агенти',
 
-        # Template: AgentTicketEscalationView
-        'Ticket Escalation View' => '',
-        'Escalation' => '',
-        'Today' => '',
-        'Tomorrow' => '',
-        'Next Week' => '',
-        'up' => 'нагоре',
-        'down' => 'надолу',
-        'Escalation' => '',
-        'Locked' => 'Заключен',
+        # Template: AgentTicketEscalation
 
         # Template: AgentTicketForward
         'Article type' => 'Тип на съобщението',
@@ -1174,25 +1249,49 @@ sub Data {
 
         # Template: AgentTicketLocked
 
-        # Template: AgentTicketMailbox
-        'Mailbox' => 'Пощенска кутия',
-        'Tickets' => 'Билети',
-        'of' => 'на',
-        'Filter' => 'Филтър',
-        'New messages' => 'Нови съобщения',
-        'Reminder' => 'Напомняне',
-        'Sort by' => 'Сортиране по',
-        'Order' => 'Ред',
-
         # Template: AgentTicketMerge
+        'You need to use a ticket number!' => 'Необходимо е да използвате номер на билета',
         'Ticket Merge' => 'Изравняване на билет',
-        'Merge to' => 'Изравняване с',
 
         # Template: AgentTicketMove
         'Move Ticket' => 'Преместване на билета',
 
         # Template: AgentTicketNote
         'Add note to ticket' => 'Добавяне на бележка към билета',
+
+        # Template: AgentTicketOverviewMedium
+        'First Response Time' => 'Време на първи отговор',
+        'Service Time' => 'Service Time',
+        'Update Time' => 'Време на ъпдейт на статуса',
+        'Solution Time' => 'Време за решаване',
+
+        # Template: AgentTicketOverviewMediumMeta
+        'You need min. one selected Ticket!' => 'Трябва да изберете най-малко един билет!',
+        'sort upward' => 'възходящо сортиране',
+        'up' => 'нагоре',
+        'sort downward' => 'низходящо сортиране',
+        'down' => 'надолу',
+        'Escalation in' => 'Улеличение на приоритета в',
+        'Locked' => 'Заключен',
+
+        # Template: AgentTicketOverviewNavBar
+        'Filter' => 'Филтър',
+        'Change search options' => 'Редакция на търсенето',
+        'Tickets' => 'Билети',
+        'of' => 'на',
+
+        # Template: AgentTicketOverviewNavBarSmall
+
+        # Template: AgentTicketOverviewPreview
+        'Your own Ticket' => 'Вашият собствен билет',
+        'Compose Follow up' => 'Създаване проследяване на билетът',
+        'Compose Answer' => 'Създаване на отговор',
+        'Contact customer' => 'Контакт с клиента',
+        'Change queue' => 'Промяна на опашката',
+
+        # Template: AgentTicketOverviewPreviewMeta
+
+        # Template: AgentTicketOverviewSmall
 
         # Template: AgentTicketOwner
         'Change owner of ticket' => 'Промяна собственикън на билета',
@@ -1212,12 +1311,7 @@ sub Data {
         # Template: AgentTicketPrint
         'Ticket-Info' => 'Информация за билета',
         'Accounted time' => 'Отброено време',
-        'First Response Time' => 'Време на първи отговор',
-        'Update Time' => 'Време на ъпдейт на статуса',
-        'Solution Time' => 'Време за решаване',
         'Linked-Object' => 'Свързан обект',
-        'Parent-Object' => 'Обект-родител',
-        'Child-Object' => 'Обект-дете',
         'by' => 'от',
 
         # Template: AgentTicketPriority
@@ -1230,16 +1324,6 @@ sub Data {
         'Queues' => 'Опашки',
         'Ticket escalation!' => 'Ескалация (увеличаване на приоритета) на билета!',
 
-        # Template: AgentTicketQueueTicketView
-        'Service Time' => 'Service Time',
-        'Your own Ticket' => 'Вашият собствен билет',
-        'Compose Follow up' => 'Създаване проследяване на билетът',
-        'Compose Answer' => 'Създаване на отговор',
-        'Contact customer' => 'Контакт с клиента',
-        'Change queue' => 'Промяна на опашката',
-
-        # Template: AgentTicketQueueTicketViewLite
-
         # Template: AgentTicketResponsible
         'Change responsible of ticket' => 'Промяна на отговорника на билет',
 
@@ -1249,40 +1333,33 @@ sub Data {
         'Search-Template' => 'Шаблон',
         'TicketFreeText' => 'Полета на билета',
         'Created in Queue' => 'Създаден в опашка',
-        'Close Times' => '',
-        'No close time settings.' => '',
-        'Ticket closed' => '',
-        'Ticket closed between' => '',
+        'Change Times' => '',
+        'No change time settings.' => '',
+        'Ticket changed' => '',
+        'Ticket changed between' => '',
         'Result Form' => 'Формат на резултата',
         'Save Search-Profile as Template?' => 'Съхранение на профила като шаблон',
         'Yes, save it with name' => 'Да, съхрани с името',
 
         # Template: AgentTicketSearchOpenSearchDescription
 
-        # Template: AgentTicketSearchResult
-        'Change search options' => 'Редакция на търсенето',
-
         # Template: AgentTicketSearchResultPrint
-
-        # Template: AgentTicketSearchResultShort
-
-        # Template: AgentTicketStatusView
-        'Ticket Status View' => 'Преглед на статуса',
-        'Open Tickets' => 'Отворени билети',
 
         # Template: AgentTicketZoom
         'Expand View' => '',
+        'Expand' => '',
         'Collapse View' => '',
+        'Split' => 'Разцепване',
+
+        # Template: AgentTicketZoomArticleFilterDialog
+        'Article filter settings' => '',
+        'Save filter settings as default' => '',
 
         # Template: AgentWindowTab
 
         # Template: AJAX
 
         # Template: Copyright
-
-        # Template: css
-
-        # Template: customer-css
 
         # Template: CustomerAccept
 
@@ -1321,6 +1398,8 @@ sub Data {
         'Times' => 'Време',
         'No time settings.' => 'Няма времеви интервал',
 
+        # Template: CustomerTicketSearchOpenSearchDescription
+
         # Template: CustomerTicketSearchResultCSV
 
         # Template: CustomerTicketSearchResultPrint
@@ -1340,6 +1419,7 @@ sub Data {
         # Template: FooterSmall
 
         # Template: Header
+        'Home' => 'Начало',
 
         # Template: HeaderSmall
 
@@ -1382,6 +1462,8 @@ sub Data {
         'Start page' => 'Начална страница',
         'Your OTRS Team' => 'Вашият OTRS екип',
 
+        # Template: LinkObject
+
         # Template: Login
 
         # Template: Motd
@@ -1398,6 +1480,8 @@ sub Data {
         # Template: PrintHeader
         'printed by' => 'отпечатано от',
 
+        # Template: PublicDefault
+
         # Template: Redirect
 
         # Template: Test
@@ -1405,22 +1489,46 @@ sub Data {
         'Counter' => 'Брояч',
 
         # Template: Warning
+
+        # Template: YUI
+        'Bold' => '',
+        'CTRL' => '',
+        'SHIFT' => '',
+        'Italic' => '',
+        'Underline' => '',
+        'Font Color' => '',
+        'Background Color' => '',
+        'Remove Formatting' => '',
+        'Show/Hide Hidden Elements' => '',
+        'Align Left' => '',
+        'Align Center' => '',
+        'Align Right' => '',
+        'Justify' => '',
+        'Indent' => '',
+        'Outdent' => '',
+        'Create an Unordered List' => '',
+        'Create an Ordered List' => '',
+        'HTML Link' => '',
+        'Insert Image' => '',
+        'Undo' => '',
+        'Redo' => '',
+
         # Misc
         'Edit Article' => 'Редакция на текст',
         'Create Database' => 'Създаване на база данни',
         'DB Host' => 'Хост на базата данни',
         'Ticket Number Generator' => 'Генератор на номера на билети',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Идентификатор на билета. Примерно: \'Ticket#\', \'Call#\' or \'MyTicket#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'По този начин може да редактирате keyring-а конфигуриран в Kernel/Config.pm.',
         'Create new Phone Ticket' => 'Създаване на нов билет на базата на телефонно обаждане',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'По този начин може да редактирате keyring-а конфигуриран в Kernel/Config.pm.',
         'Symptom' => 'Симптом',
         'U' => 'В',
-        'A message should have a To: recipient!' => 'Съобщението трябва да има ДО: т.е. адресант!',
         'Site' => 'Място',
         'Customer history search (e. g. "ID342425").' => 'Търсене в хрониката на клиента (примерно "ID342425").',
-        'Close!' => 'Затворете!',
+        'Can not delete link with %s!' => '',
         'for agent firstname' => 'за агент име',
-        'The message being composed has been closed.  Exiting.' => 'Съобщението, което създавахте е затворено. Изход.',
+        'Close!' => 'Затворете!',
+        'No means, send agent and customer notifications on changes.' => 'Не означава че ще бъдат изпращани уведомления (тип: агент и тип: клиент) когато има промени.',
         'A web calendar' => 'Календар',
         'to get the realname of the sender (if given)' => 'за да получите истинското име на изпращача (ако е попълнено)',
         'OTRS DB Name' => 'Име свързано към OTRS база данни',
@@ -1428,8 +1536,8 @@ sub Data {
         'Please select only one element or turn of the button \'Fixed\'.' => 'Моля изберете само един елемент или изключете опцията \'Fixed\'.',
         'Select Source (for add)' => 'Изберете източник (за добавяне)',
         'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'Свойства на билета (Пример: <OTRS_TICKET_Number>, <OTRS_TICKET_ID>;, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>).',
+        'Child-Object' => 'Обект-дете',
         'Queue ID' => 'ID на опашка',
-        'Home' => 'Начало',
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'Конфигурационни параметри (Пример: <OTRS_CONFIG_HttpType>)',
         'System History' => 'Системна хроника',
         'customer realname' => 'име на потребителя',
@@ -1441,70 +1549,73 @@ sub Data {
         'Close type' => 'Тип затваряне',
         'DB Admin User' => 'Потребител на базата данни',
         'for agent user id' => 'за агент потребителски ID',
-        'sort upward' => 'възходящо сортиране',
         'Change user <-> group settings' => 'Промяна на потребител <-> Настройки за група',
         'Problem' => 'Проблем',
+        'Escalation' => '',
+        '"}' => '"}',
+        'Order' => 'Ред',
         'next step' => 'следваща стъпка',
         'Customer history search' => 'Търсене в хрониката на клиента',
         'Admin-Email' => 'еМейл от Admin',
-        'Stat#' => 'Статистика#',
         'Create new database' => 'Създаване на нова база данни',
-        'A message must be spell checked!' => 'Съобщението трябва да бъде проверено за грешки!',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Писмото Ви с номер "<OTRS_TICKET>" е отхвърлен към "<OTRS_BOUNCE_TO>". Свържете се с този адрес за повече информация',
         'ArticleID' => 'Идентификатор на клауза',
-        'A message should have a body!' => 'Съобщението трябва да има текст',
-        'All Agents' => 'Всички агенти',
         'Keywords' => 'Ключови думи',
+        'Ticket Escalation View' => '',
+        'Today' => '',
         'No * possible!' => 'Не е възможно използване на символ *!',
         'Options ' => 'Опции',
         'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'Свойства на текущия потребител който е изискал това действие (Пример: <OTRS_CURRENT_USERFIRSTNAME>).',
         'Message for new Owner' => 'Съобщение за нов собственик',
         'to get the first 5 lines of the email' => 'за да получите първите 5 реда от писмото',
+        'Sort by' => 'Сортиране по',
         'OTRS DB Password' => 'Парола на OTRS база данни',
         'Last update' => 'Последно обновление',
+        'Tomorrow' => '',
         'to get the first 20 character of the subject' => 'за да получите първите 20 символа от поле "относно"',
         'Select the customeruser:service relations.' => '',
         'DB Admin Password' => 'Парола на администратора на базата',
-        'Drop Database' => 'Нулиране базата данни',
         'Advisory' => 'Консултация',
+        'Drop Database' => 'Нулиране базата данни',
+        'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Тук може да дефинирате оста Х, може да изберете един елемент (посредством радио бутон). Тук може да изберете един или два елемента. След това може да изберете атрибути на елементите. Всеки атрибут ще бъде показан като група от единични стойности. Ако не изберете атрибут, всички атрибути на елемента ще бъдат показане по време на генерирането на статистиката, както и всеки нов атрибут добавен при конфигурация на статистиката.',
         'FileManager' => 'Файлов менажер',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Свойства на текущия клиент-потребител (Пример: <OTRS_CUSTOMER_DATA_UserFirstname>)',
         'Pending type' => 'В очакване - тип',
         'Comment (internal)' => 'Коментар (вътрешен)',
         'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => 'Свойства на собственика на билета (Пример: <OTRS_OWNER_USERFIRSTNAME>).',
-        'This window must be called from compose window' => 'Този прозорец трябва да бъде извикан от прозореца за създаване',
-        'You need min. one selected Ticket!' => 'Трябва да изберете най-малко един билет!',
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Свойства на билета (Пример: <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         '(Used ticket number format)' => '(Използван формат за номера на билетът)',
+        'Reminder' => 'Напомняне',
         'Fulltext' => 'Пълнотекстово',
         'Incident' => 'Инцидент',
         'OTRS DB connect host' => 'Хост свързан към OTRS база данни',
         'All Agent variables.' => 'Всички променливи свързани с агента',
-        ' (work units)' => ' (работни единици)',
+        'Next Week' => '',
         'All Customer variables like defined in config option CustomerUser.' => 'Всички променливи подобни на тези в конфигурационния параметър CustomerUser',
         'accept license' => 'Приемате лиценза',
         'for agent lastname' => 'за агент фамилия',
         'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => 'Свойства на потребителя който е изискал това действие (Пример: <OTRS_CURRENT_UserFirstname>)',
         'Reminder messages' => 'Напомнящи съобщения',
-        'A message should have a subject!' => 'Съобщението трябва да има текст в поле "относно"!',
+        'Parent-Object' => 'Обект-родител',
+        'Of couse this feature will take some system performance it self!' => 'Тази фунционалност ще окаже влияние на производителността на системата!',
         'Ticket Hook' => 'Прикачване на билетът',
         'IMAPS' => 'IMAPS',
+        'Detail' => 'Подробности',
         'Don\'t forget to add a new user to groups!' => 'Не забравяйте да добавите новият потребител в някаква група!',
-        'You need a email address (e. g. customer@example.com) in To:!' => 'Трябва да има валиден адрес в полето ДО: (примерно support@hebros.bg)!',
-        'You need to account time!' => 'Вие се нуждаете от отчет за времето',
+        'Open Tickets' => 'Отворени билети',
+        'You have to select two or more attributes from the select field!' => 'Трябва да изберете два или повече атрибути от полето!',
         'System Settings' => 'Системни настройки',
         'WebWatcher' => 'WebWatcher',
         'Finished' => 'Приключено',
         'Account Type' => 'Тип на акаунта',
-        'Split' => 'Разцепване',
         'D' => 'Н',
-        'System Status' => 'Системен статус',
         'All messages' => 'Всички съобщения',
+        'System Status' => 'Системен статус',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Свойства на билета (Пример: <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Artefact' => 'Артефакт',
+        'Object already linked as %s.' => '',
         'A article should have a title!' => 'Съобщението трябва да има заглавие',
-        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Конфигурационни параметри (Пример: <OTRS_CONFIG_HttpType>).',
         'Event' => 'Събитие',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Конфигурационни параметри (Пример: <OTRS_CONFIG_HttpType>).',
         'don\'t accept license' => 'Не приемате лиценза',
         'A web mail client' => 'Web-базиран e-mail клиент',
         'IMAP' => 'IMAP',
@@ -1518,43 +1629,34 @@ sub Data {
         'Solution' => 'Решение',
         'QueueView' => 'Преглед на опашката',
         'Select Box' => 'Кутия за SQL заявки',
+        'New messages' => 'Нови съобщения',
+        'Can not create link with %s!' => '',
+        'Linked as' => '',
         'Welcome to OTRS' => 'Добре дошли в OTRS',
         'tmp_lock' => 'временно заключване',
         'modified' => 'редактиран',
-        'Escalation in' => 'Улеличение на приоритета в',
         'Delete old database' => 'Изтриване на стара база данни',
-        'sort downward' => 'низходящо сортиране',
-        'You need to use a ticket number!' => 'Необходимо е да използвате номер на билета',
         'A web file manager' => 'Web-базиран файлов менаджер',
         'Have a lot of fun!' => 'Приятна работа!',
         'send' => 'изпрати',
+        'Send no notifications' => 'Да не се изпращат уведомления',
         'Note Text' => 'Текст на билежката',
         'POP3 Account Management' => 'Управление на POP3 акаунта',
         'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'Свойства на текущия клиент-потребител (Пример: <OTRS_CUSTOMER_DATA_USERFIRSTNAME>).',
         'System State Management' => 'Управление на системно състояние',
         'OTRS DB User' => 'Потребител на OTRS база данни',
+        'Mailbox' => 'Пощенска кутия',
         'PhoneView' => 'Преглед на телефоните',
         'maximal period form' => 'форма за максимален интервал',
         'TicketID' => 'Идентификатор на билет',
         'Management Summary' => 'Обзор за мениджмънта',
+        'Yes means, send no agent and customer notifications on changes.' => 'Да означава че няма да бъдат изпращани уведомления (тип: агент и тип: клиент) когато има промени.',
         'POP3' => 'POP3',
         'POP3S' => 'POP3S',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Писмото Ви с номер "<OTRS_TICKET>" е отхвърлен към "<OTRS_BOUNCE_TO>". Свържете се с този адрес за повече информация',
+        'Ticket Status View' => 'Преглед на статуса',
         'Modified' => 'Редактиран',
         'Ticket selected for bulk action!' => 'Билета е маркиран за събирателно действие',
-
-        'Link Object: %s' => '',
-        'Unlink Object: %s' => '',
-        'Linked as' => '',
-        'Can not create link with %s!' => '',
-        'Can not delete link with %s!' => '',
-        'Object already linked as %s.' => '',
-        'Priority Management' => 'Управление на приоритетите',
-        'Add a new Priority.' => 'Добави нов приоритет.',
-        'Add Priority' => 'Добави приоритет',
-        'Ticket Type is required!' => '',
-        'Module documentation' => '',
-        'Added!' => '',
-        'Updated!' => '',
     };
     # $$STOP$$
     return;

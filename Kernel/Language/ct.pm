@@ -2,7 +2,7 @@
 # Kernel/Language/ct.pm - provides ct language translation
 # Copyright (C) 2008 Sistemes OTIC (ibsalut) - Antonio Linde
 # --
-# $Id: ct.pm,v 1.17 2009-02-16 10:48:40 tr Exp $
+# $Id: ct.pm,v 1.18 2009-04-03 07:42:25 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Fri May 16 14:07:42 2008
+    # Last translation file sync: Fri Apr  3 09:40:39 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -139,6 +139,7 @@ sub Data {
         'update!' => 'Actualitzar!',
         'update' => 'actualitzar',
         'Update' => 'Actualitzar',
+        'Updated!' => '',
         'submit!' => 'enviar!',
         'submit' => 'enviar',
         'Submit' => 'Enviar',
@@ -179,6 +180,7 @@ sub Data {
         'Up' => 'Amunt',
         'Down' => 'Avall',
         'Add' => 'Afegir',
+        'Added!' => '',
         'Category' => 'Categoria',
         'Viewer' => 'Visualitzador',
         'New message' => 'Nou missatge',
@@ -265,6 +267,30 @@ sub Data {
         'Sent password token to: %s' => 'Enviar el \'token\' de la contrasenya a: %s ',
         'Sent new password to: %s' => 'Enviar nova contrasenya a: %s',
         'Invalid Token!' => '\'Token\' invàlid!',
+        'For more info see:' => '',
+        'Package verification failed!' => '',
+        'Bold' => '',
+        'Italic' => '',
+        'Underline' => '',
+        'Font Color' => '',
+        'Background Color' => '',
+        'Remove Formatting' => '',
+        'Show/Hide Hidden Elements' => '',
+        'Align Left' => '',
+        'Align Center' => '',
+        'Align Right' => '',
+        'Justify' => '',
+        'Header' => 'Capçalera',
+        'Indent' => '',
+        'Outdent' => '',
+        'Create an Unordered List' => '',
+        'Create an Ordered List' => '',
+        'HTML Link' => '',
+        'Insert Image' => '',
+        'CTRL' => '',
+        'SHIFT' => '',
+        'Undo' => '',
+        'Redo' => '',
 
         # Template: AAAMonth
         'Jan' => 'Gen',
@@ -345,7 +371,6 @@ sub Data {
         'Please select an object!' => 'Per favor seleccioni un objecte',
         'Please select a graph size!' => 'Per favor, seleccioni una grandària de gràfic',
         'Please select one element for the X-axis!' => 'Per favor, seleccioni un element per a l\'eix X',
-        'You have to select two or more attributes from the select field!' => 'Ha de seleccionar dos o més atributs del camp seleccionat',
         'Please select only one element or turn off the button \'Fixed\' where the select field is marked!' => 'Per favor, seleccioni un sol element o desactivi el botó \'Fix\' on el camp seleccionat està marcat!',
         'If you use a checkbox you have to select some attributes of the select field!' => 'Si usa una casella de selecció, ha de seleccionar alguns atributs del camp seleccionat',
         'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!' => 'Per favor introdueixi un valor en el camp d\'entrada o desactivi la selecció \'Fixa\'',
@@ -378,6 +403,30 @@ sub Data {
         'Create Time' => 'Data de Creació',
         'CustomerUserLogin' => 'Login de Client',
         'Close Time' => 'Data de Tancament',
+        'TicketAccumulation' => '',
+        'Attributes to be printed' => '',
+        'Sort sequence' => '',
+        'Order by' => '',
+        'Limit' => 'Límit',
+        'Ticketlist' => '',
+        'ascending' => '',
+        'descending' => '',
+        'First Lock' => '',
+        'Evaluation by' => '',
+        'Total Time' => '',
+        'Ticket Average' => '',
+        'Ticket Min Time' => '',
+        'Ticket Max Time' => '',
+        'Number of Tickets' => '',
+        'Article Average' => '',
+        'Article Min Time' => '',
+        'Article Max Time' => '',
+        'Number of Articles' => '',
+        'Accounted time by Agent' => '',
+        'Ticket/Article Accounted Time' => '',
+        'TicketAccountedTime' => '',
+        'Ticket Create Time' => '',
+        'Ticket Close Time' => '',
 
         # Template: AAATicket
         'Lock' => 'Bloquejar',
@@ -426,7 +475,9 @@ sub Data {
         'closed unsuccessful' => 'tancat sense èxit ',
         'new' => 'nou',
         'open' => 'obert',
+        'Open' => '',
         'closed' => 'tancat',
+        'Closed' => '',
         'removed' => 'eliminat',
         'pending reminder' => 'recordatori pendent',
         'pending auto' => 'pendent auto',
@@ -518,12 +569,17 @@ sub Data {
         'Closed Tickets' => 'Tiquets tancats',
         'Show closed tickets.' => 'Mostrar tiquets tancats',
         'Max. shown Tickets a page in QueueView.' => 'Quantitat de Tiquets a mostrar en la Vista de Cua',
+        'Watch notification' => '',
+        'Send me a notification of an watched ticket like an owner of an ticket.' => '',
+        'Out Of Office' => '',
+        'Select your out of office time.' => '',
         'CompanyTickets' => 'TiquetsCompanyia',
         'MyTickets' => 'ElsMeusTiquets',
         'New Ticket' => 'NouTiquet',
         'Create new Ticket' => 'Crear un nou tiquet',
         'Customer called' => 'Client cridat ',
         'phone call' => 'Cridada telefònica',
+        'Reminder Reached' => '',
         'Responses' => 'Respostes',
         'Responses <-> Queue' => 'Respostes <-> Cues',
         'Auto Responses' => 'Respostes Automàtiques',
@@ -606,6 +662,8 @@ sub Data {
         'This values are read only.' => 'Aquests valors són només de lectura',
 
         # Template: AdminCustomerUserForm
+        'The message being composed has been closed.  Exiting.' => 'El missatge que s\'estava redactant ha estat tancat.  Sortint.',
+        'This window must be called from compose window' => 'Aquesta finestra ha de ser cridada des de la finestra de redacció',
         'Customer User Management' => 'Gestió de clients',
         'Add Customer User' => 'Agregar Client Usuari',
         'Source' => 'Origen',
@@ -651,6 +709,8 @@ sub Data {
         'Is Job Valid?' => 'És una tasca Vàlida?',
         'Is Job Valid' => 'És una tasca Vàlida',
         'Schedule' => 'Horari',
+        'Currently this generic agent job will not run automatically.' => '',
+        'To enable automatic execusion select at least one value form minutes, hours and days!' => '',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Recerca de text en Article (ex. "Mar*in" or "Baue*") ',
         '(e. g. 10*5155 or 105658*)' => '(ex: 10*5155 o 105658*)',
         '(e. g. 234321)' => '(ex: 234321)',
@@ -665,7 +725,7 @@ sub Data {
         'Ticket created' => 'Tiquet creat',
         'Ticket created between' => 'Tiquet creat entre',
         'Close Times' => 'Temps tancats',
-        'No close time settings.' => 'Sense configuración de temps tancat',
+        'No close time settings.' => 'Sense configuració de temps tancat',
         'Ticket closed' => 'Tiquet tancat',
         'Ticket closed between' => 'Tiquet tancat entre',
         'Pending Times' => 'Temps Pendents',
@@ -683,9 +743,10 @@ sub Data {
         'New Ticket Lock' => 'Nou bloqueig de tiquet',
         'New Type' => 'Nou tipus',
         'New Title' => 'Nou títol',
-        'New Type' => 'Nou tipus',
         'New TicketFreeFields' => 'Nou CampsLliuresDeTiquet',
         'Add Note' => 'Afegir Nota',
+        'Time units' => 'Unitats de temps',
+        ' (work units)' => ' (unitats de treball)',
         'CMD' => 'CMD',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'S\'executarà el comandament. ARG%[0] el nombre del tiquet. ARG%[0] l\'id del tiquet.',
         'Delete tickets' => 'Eliminar tiquets',
@@ -697,14 +758,12 @@ sub Data {
         'Param 4' => 'Paràmetre 4',
         'Param 5' => 'Paràmetre 5',
         'Param 6' => 'Paràmetre 6',
-        'Send no notifications' => 'No enviar notificacions',
-        'Yes means, send no agent and customer notifications on changes.' => 'Si, significa no enviar notificacions als agents i clients al realitzar-se canvis.',
-        'No means, send agent and customer notifications on changes.' => 'No, significa enviar als agents i clients notificacions al realitzar canvis.',
+        'Send agent/customer notifications on changes' => '',
         'Save' => 'Guardar',
         '%s Tickets affected! Do you really want to use this job?' => '%s Tiquets Modificats! Realment desitja utilitzar aquesta tasca?',
-        '"}' => '"}',
 
         # Template: AdminGroupForm
+        'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' => '',
         'Group Management' => 'Administració de grups',
         'Add Group' => 'Afegir Grup',
         'Add a new Group.' => 'Afegir nou grup',
@@ -746,6 +805,7 @@ sub Data {
         'Package' => 'Paquet',
         'Online Repository' => 'Repositori en línia',
         'Vendor' => 'Venedor',
+        'Module documentation' => '',
         'Upgrade' => 'Actualitzer',
         'Local Repository' => 'Repositori Local',
         'Status' => 'Estat',
@@ -766,9 +826,10 @@ sub Data {
         'Performance Log' => 'Registre de rendiment',
         'This feature is enabled!' => 'Aquesta característica està habilitada',
         'Just use this feature if you want to log each request.' => 'Usi aquesta característica només si desitja registrar cada petició.',
-        'Of couse this feature will take some system performance it self!' => 'Evidentment aquesta característica afectarà al rendiment del sistema per si mateixa!',
+        'Activating this feature might affect your system performance!' => '',
         'Disable it here!' => 'Desactivar aquí!',
         'This feature is disabled!' => 'Aquesta característica està desactivada!',
+        'Activating this feature might affect your system performance!' => '',
         'Enable it here!' => 'Activar aquí',
         'Logfile too large!' => 'Registre molt gran',
         'Logfile too large, you need to reset it!' => 'Registre molt gran, necessita reinicialitzar-lo!',
@@ -796,16 +857,22 @@ sub Data {
         # Template: AdminPostMasterFilter
         'PostMaster Filter Management' => 'Gestió del filtre PostMaster',
         'Filtername' => 'NombreFiltre',
+        'Stop after match' => '',
         'Match' => 'Coincidir',
-        'Header' => 'Capçalera',
         'Value' => 'Valor',
         'Set' => 'Ajustar',
         'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => 'Classificar o filtrar correus entrants basat en el camp X-Headers del correu! Pot utilitzar expressions regulars.',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' => 'Si vol fer coincidir només l\'adreça de correu, usi EMAILADDRESS:info@example.com en el camp From, To o Cc.',
         'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => 'Si utilitza una expressió regular, pot també usar el valor trobat en () com [***] en \'Set\'.',
 
+        # Template: AdminPriority
+        'Priority Management' => 'Gestió de prioritat',
+        'Add Priority' => 'Afegir prioritat',
+        'Add a new Priority.' => 'Afegir una nova prioritat',
+
         # Template: AdminQueueAutoResponseForm
         'Queue <-> Auto Responses Management' => 'Cua <-> Gestió de respostes automàtiques',
+        'settings' => '',
 
         # Template: AdminQueueForm
         'Queue Management' => 'Gestió de Cues',
@@ -815,10 +882,8 @@ sub Data {
         'Only business hours are counted.' => 'Només es conta l\'horari laboral',
         'Escalation - First Response Time' => 'Escalat - Temps per a Primera Resposta',
         '0 = no escalation' => '0 = sense escalat',
-        'Only business hours are counted.' => 'Només es conta l\'horari laboral',
         'Notify by' => 'Notificat per',
         'Escalation - Update Time' => 'Escalat - Temps per a Actualització',
-        'Notify by' => 'Notificat per',
         'Escalation - Solution Time' => 'Escalat - Temps per a Solució',
         'Follow up Option' => 'Opció de seguiment',
         'Ticket lock after a follow up' => 'Bloquejar un tiquet després del seguiment',
@@ -889,7 +954,6 @@ sub Data {
 
         # Template: AdminSelectBoxForm
         'SQL Box' => 'SQL',
-        'Limit' => 'Límit',
         'Go' => 'Anar',
         'Select Box Result' => 'Seleccioni tipus de resultat',
 
@@ -963,6 +1027,7 @@ sub Data {
         'Add System Address' => 'Afegir adreça del sistema',
         'Add a new System Address.' => 'Afegir una adreça del sistema nova',
         'Realname' => 'Nom',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Tots els missatges entrants amb aquest "correu" (To:) seran enviats a la cua seleccionada!',
 
         # Template: AdminTypeForm
@@ -977,6 +1042,8 @@ sub Data {
         'Login as' => 'Connectar-se com',
         'Firstname' => 'Nom',
         'Lastname' => 'Cognom',
+        'Start' => 'Començar',
+        'End' => '',
         'User will be needed to handle tickets.' => 'Es necessita un usuari per a manipular els tiquets.',
         'Don\'t forget to add a new user to groups and/or roles!' => 'No oblidi afegir els nous usuaris als grups i/o rols',
 
@@ -994,18 +1061,20 @@ sub Data {
 
         # Template: AgentCalendarSmallIcon
 
+        # Template: AgentCustomerSearch
+
         # Template: AgentCustomerTableView
 
         # Template: AgentInfo
         'Info' => 'Informació',
 
         # Template: AgentLinkObject
+        'Link Object: %s' => 'Enllaçar l\'objecte: %s',
+        'Object' => 'Objecte',
         'Link Object' => 'Enllaçar Objecte',
+        'with' => '',
         'Select' => 'Seleccionar',
-        'Results' => 'Resultats',
-        'Total hits' => 'Total de coincidències',
-        'Page' => 'Pàgina',
-        'Detail' => 'Detall',
+        'Unlink Object: %s' => 'Llevar enllaç de l\'objecte: %s',
 
         # Template: AgentLookup
         'Lookup' => 'Cercar',
@@ -1013,6 +1082,7 @@ sub Data {
         # Template: AgentNavigationBar
 
         # Template: AgentPreferencesForm
+        'End' => '',
 
         # Template: AgentSpelling
         'Spell Checker' => 'Verificació Ortogràfica',
@@ -1021,9 +1091,11 @@ sub Data {
         'Apply these changes' => 'Aplicar aquests canvis',
 
         # Template: AgentStatsDelete
+        'Stat#' => '',
         'Do you really want to delete this Object?' => 'Segur que desitja eliminar aquest objecte?',
 
         # Template: AgentStatsEditRestrictions
+        'Stat#' => '',
         'Select the restrictions to characterise the stat' => 'Seleccioni les restriccions per a caracteritzar l\'estadística',
         'Fixed' => 'Fix',
         'Please select only one element or turn off the button \'Fixed\'.' => 'Per favor seleccioni un element de desactivi el botó \'Fix\'',
@@ -1077,7 +1149,7 @@ sub Data {
         'Select the element, which will be used at the X-axis' => 'Seleccioni l\'element, que serà utilitzat en l\'eix-X',
         'maximal period' => 'període màxim',
         'minimal scale' => 'escala mínima',
-        'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Aquí pot definir l\'eix-x. Pot seleccionar un element usant la casella de selecció. Després ha de seleccionar dos o més atributs de l\'element. Si no selecciona cap, tots els atributs de l\'element s\'utilitzaran per a generar una estadística. Així com un nou atribut és afegit des de l\'última configuració',
+        'Here you can define the x-axis. You can select one element via the radio button. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
 
         # Template: AgentStatsImport
         'Import' => 'Importar',
@@ -1085,7 +1157,9 @@ sub Data {
         'No File selected' => 'No hi ha arxiu seleccionat',
 
         # Template: AgentStatsOverview
-        'Object' => 'Objecte',
+        'Results' => 'Resultats',
+        'Total hits' => 'Total de coincidències',
+        'Page' => 'Pàgina',
 
         # Template: AgentStatsPrint
         'Print' => 'Imprimir',
@@ -1099,10 +1173,11 @@ sub Data {
         'No element selected.' => 'No hi ha element seleccionat',
         'maximal period from' => 'període màxim de',
         'to' => 'a',
-        'Start' => 'Començar',
         'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => 'Amb l\'entrada i camps seleccionats pot configurar les estadístiques a les seves necessitats. Que elements d\'estadístiques pot editar depèn de com hagi estat configurat per l\'administrador.',
 
         # Template: AgentTicketBounce
+        'A message should have a To: recipient!' => 'El missatge ha de tenes el destinatari To: !',
+        'You need a email address (e. g. customer@example.com) in To:!' => 'Necessita una adreça de correu (exemple: client@exemple.com) en To:!',
         'Bounce ticket' => 'Tiquet retornat',
         'Ticket locked!' => 'Tiquet bloquejat!',
         'Ticket unlock!' => 'Tiquet desbloquejat!',
@@ -1112,23 +1187,33 @@ sub Data {
         'Send mail!' => 'Enviar correu!',
 
         # Template: AgentTicketBulk
+        'A message should have a subject!' => 'Els missatges han de tenir assumpte!',
+        'You need to account time!' => 'Necessita comptabilitzar el temps!',
         'Ticket Bulk Action' => 'Acció múltiple amb Tiquets',
         'Spell Check' => 'Verificació ortogràfica',
         'Note type' => 'Tipus de nota',
+        'Next state' => 'Següent estat',
+        'Pending date' => 'Data pendent',
+        'Merge to' => 'Fusionar a',
+        'Merge to oldest' => '',
+        'Link together' => '',
+        'Link to Parent' => '',
         'Unlock Tickets' => 'Desbloquejar Tiquets',
 
         # Template: AgentTicketClose
+        'Ticket Type is required!' => '',
+        'A message should have a body!' => 'Els missatges han de tenir contingut',
+        'A required field is:' => '',
+        'A required field is:' => '',
         'Close ticket' => 'Tancar el tiquet',
         'Previous Owner' => 'Propietari Anterior',
         'Inform Agent' => 'Notificar Agent',
         'Optional' => 'Opcional',
         'Inform involved Agents' => 'Notificar Agents involucrats',
         'Attach' => 'Annex',
-        'Next state' => 'Següent estat',
-        'Pending date' => 'Data pendent',
-        'Time units' => 'Unitats de temps',
 
         # Template: AgentTicketCompose
+        'A message must be spell checked!' => 'El missatge ha de ser verificat ortograficamente!',
         'Compose answer for ticket' => 'Redacti una resposta al tiquet',
         'Pending Date' => 'Data pendent',
         'for pending* states' => 'per a estats pendents*',
@@ -1150,17 +1235,9 @@ sub Data {
         'new ticket' => 'nou tiquet',
         'Refresh' => 'Actualitzar',
         'Clear To' => 'Còpia Oculta a',
+        'All Agents' => 'Tots els Agents',
 
-        # Template: AgentTicketEscalationView
-        'Ticket Escalation View' => 'Vista escalat de tiquet',
-        'Escalation' => 'Escalat',
-        'Today' => 'Avui',
-        'Tomorrow' => 'Demà',
-        'Next Week' => 'Pròxima setmana',
-        'up' => 'amunt',
-        'down' => 'avall',
-        'Escalation' => 'Escalat',
-        'Locked' => 'Bloquejat',
+        # Template: AgentTicketEscalation
 
         # Template: AgentTicketForward
         'Article type' => 'Tipus d\'article',
@@ -1173,25 +1250,49 @@ sub Data {
 
         # Template: AgentTicketLocked
 
-        # Template: AgentTicketMailbox
-        'Mailbox' => 'Bústia',
-        'Tickets' => 'Tiquets',
-        'of' => 'de',
-        'Filter' => 'Filtre',
-        'New messages' => 'Nou missatge',
-        'Reminder' => 'Recordatori',
-        'Sort by' => 'Ordenat per',
-        'Order' => 'Ordenar',
-
         # Template: AgentTicketMerge
+        'You need to use a ticket number!' => 'Necessita usar un nombre de tiquet! ',
         'Ticket Merge' => 'Fusionar tiquet',
-        'Merge to' => 'Fusionar a',
 
         # Template: AgentTicketMove
         'Move Ticket' => 'Moure tiquet',
 
         # Template: AgentTicketNote
         'Add note to ticket' => 'Afegir nota al tiquet',
+
+        # Template: AgentTicketOverviewMedium
+        'First Response Time' => 'Temps de resposta',
+        'Service Time' => 'Temps de servei',
+        'Update Time' => 'Temps d\'actualització',
+        'Solution Time' => 'Temps de resolució',
+
+        # Template: AgentTicketOverviewMediumMeta
+        'You need min. one selected Ticket!' => 'Necessita almenys seleccionar un Tiquet!',
+        'sort upward' => 'ordenar ascendent',
+        'up' => 'amunt',
+        'sort downward' => 'ordenar descendent',
+        'down' => 'avall',
+        'Escalation in' => 'Escalat en',
+        'Locked' => 'Bloquejat',
+
+        # Template: AgentTicketOverviewNavBar
+        'Filter' => 'Filtre',
+        'Change search options' => 'Canviar opcions de recerca',
+        'Tickets' => 'Tiquets',
+        'of' => 'de',
+
+        # Template: AgentTicketOverviewNavBarSmall
+
+        # Template: AgentTicketOverviewPreview
+        'Your own Ticket' => 'Els seus tiquets',
+        'Compose Follow up' => 'Redactar seguiment',
+        'Compose Answer' => 'Respondre',
+        'Contact customer' => 'Contactar amb el client',
+        'Change queue' => 'Canviar cua',
+
+        # Template: AgentTicketOverviewPreviewMeta
+
+        # Template: AgentTicketOverviewSmall
 
         # Template: AgentTicketOwner
         'Change owner of ticket' => 'Canviar el propietari del tiquet',
@@ -1211,12 +1312,7 @@ sub Data {
         # Template: AgentTicketPrint
         'Ticket-Info' => 'Informació-Tiquet',
         'Accounted time' => 'Temps comptabilitzat',
-        'First Response Time' => 'Temps de resposta',
-        'Update Time' => 'Temps d\'actualització',
-        'Solution Time' => 'Temps de resolució',
         'Linked-Object' => 'Objecte-enllaçat',
-        'Parent-Object' => 'Objecte-pare',
-        'Child-Object' => 'Objecte-fill',
         'by' => 'per',
 
         # Template: AgentTicketPriority
@@ -1229,16 +1325,6 @@ sub Data {
         'Queues' => 'Cues',
         'Ticket escalation!' => 'Escalat de tiquet!',
 
-        # Template: AgentTicketQueueTicketView
-        'Service Time' => 'Temps de servei',
-        'Your own Ticket' => 'Els seus tiquets',
-        'Compose Follow up' => 'Redactar seguiment',
-        'Compose Answer' => 'Respondre',
-        'Contact customer' => 'Contactar amb el client',
-        'Change queue' => 'Canviar cua',
-
-        # Template: AgentTicketQueueTicketViewLite
-
         # Template: AgentTicketResponsible
         'Change responsible of ticket' => 'Canviar responsable del tiquet',
 
@@ -1248,40 +1334,33 @@ sub Data {
         'Search-Template' => 'Buscar-Plantilla',
         'TicketFreeText' => 'TextLliureTiquet',
         'Created in Queue' => 'Creat en Cua',
-        'Close Times' => 'Temps tancats',
-        'No close time settings.' => 'Sense configuració de temps tancat',
-        'Ticket closed' => 'Tiquet tancat',
-        'Ticket closed between' => 'Tiquet tancat entre',
+        'Change Times' => '',
+        'No change time settings.' => '',
+        'Ticket changed' => '',
+        'Ticket changed between' => '',
         'Result Form' => 'Formulari de resultats',
         'Save Search-Profile as Template?' => 'Guardar perfil de recerca com plantilla?',
         'Yes, save it with name' => 'Si, guardar-lo amb nom',
 
         # Template: AgentTicketSearchOpenSearchDescription
 
-        # Template: AgentTicketSearchResult
-        'Change search options' => 'Canviar opcions de recerca',
-
         # Template: AgentTicketSearchResultPrint
-
-        # Template: AgentTicketSearchResultShort
-
-        # Template: AgentTicketStatusView
-        'Ticket Status View' => 'Veure l\'estat del tiquet ',
-        'Open Tickets' => 'Tiquets Oberts',
 
         # Template: AgentTicketZoom
         'Expand View' => 'Expandir vista',
+        'Expand' => '',
         'Collapse View' => 'Reduir vista',
+        'Split' => 'Dividir',
+
+        # Template: AgentTicketZoomArticleFilterDialog
+        'Article filter settings' => '',
+        'Save filter settings as default' => '',
 
         # Template: AgentWindowTab
 
         # Template: AJAX
 
         # Template: Copyright
-
-        # Template: css
-
-        # Template: customer-css
 
         # Template: CustomerAccept
 
@@ -1320,6 +1399,8 @@ sub Data {
         'Times' => 'Vegades',
         'No time settings.' => 'Sense especificació de data',
 
+        # Template: CustomerTicketSearchOpenSearchDescription
+
         # Template: CustomerTicketSearchResultCSV
 
         # Template: CustomerTicketSearchResultPrint
@@ -1339,6 +1420,7 @@ sub Data {
         # Template: FooterSmall
 
         # Template: Header
+        'Home' => 'Inici',
 
         # Template: HeaderSmall
 
@@ -1381,6 +1463,8 @@ sub Data {
         'Start page' => 'Pàgina d\'inici',
         'Your OTRS Team' => 'El seu equip OTRS',
 
+        # Template: LinkObject
+
         # Template: Login
 
         # Template: Motd
@@ -1397,6 +1481,8 @@ sub Data {
         # Template: PrintHeader
         'printed by' => 'imprès per',
 
+        # Template: PublicDefault
+
         # Template: Redirect
 
         # Template: Test
@@ -1404,30 +1490,54 @@ sub Data {
         'Counter' => 'Comptador',
 
         # Template: Warning
+
+        # Template: YUI
+        'Bold' => '',
+        'CTRL' => '',
+        'SHIFT' => '',
+        'Italic' => '',
+        'Underline' => '',
+        'Font Color' => '',
+        'Background Color' => '',
+        'Remove Formatting' => '',
+        'Show/Hide Hidden Elements' => '',
+        'Align Left' => '',
+        'Align Center' => '',
+        'Align Right' => '',
+        'Justify' => '',
+        'Indent' => '',
+        'Outdent' => '',
+        'Create an Unordered List' => '',
+        'Create an Ordered List' => '',
+        'HTML Link' => '',
+        'Insert Image' => '',
+        'Undo' => '',
+        'Redo' => '',
+
         # Misc
         'Edit Article' => 'Editar article',
         'Create Database' => 'Crear Base de dades',
         'Ticket Number Generator' => 'Generador de nombres de Tiquets',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identificador de Ticker. Algunes persones agraden d\'usar per exemple \'Tiquet#\', \'Cridada#\' o \'ElMeuTiquet#\')',
-        'Create new Phone Ticket' => 'Crear un nou Tiquet Telefònic',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'D\'aquesta forma pot editar directament les claus configurades en Kernel/Config.pm.',
+        'Create new Phone Ticket' => 'Crear un nou Tiquet Telefònic',
         'Symptom' => 'Símptoma',
         'U' => 'A',
-        'A message should have a To: recipient!' => 'El missatge ha de tenes el destinatari To: !',
         'Site' => 'Ubicació',
         'Customer history search (e. g. "ID342425").' => 'Història de recerques del client (exemple: "ID342425").',
-        'for agent firstname' => 'nom de l\'agent',
+        'Can not delete link with %s!' => 'No es pot suprimir enllaç amb %s! ',
         'Close!' => 'Tancar!',
-        'The message being composed has been closed.  Exiting.' => 'El missatge que s\'estava redactant ha estat tancat.  Sortint.',
+        'for agent firstname' => 'nom de l\'agent',
+        'No means, send agent and customer notifications on changes.' => 'No, significa enviar als agents i clients notificacions al realitzar canvis.',
         'A web calendar' => 'Calendari Web',
         'to get the realname of the sender (if given)' => 'per a obtenir el nom de l\'emissor (si ho va proporcionar)',
         'OTRS DB Name' => 'Nom de la BD OTRS',
         'Notification (Customer)' => 'Notificació (Client)',
         'Select Source (for add)' => 'Seleccionar Font (per a afegir)',
         'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'Opcions de la data del tiquet (ex. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)',
+        'Child-Object' => 'Objecte-fill',
         'Days' => 'Dies',
         'Queue ID' => 'ID de la Cua',
-        'Home' => 'Inici',
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'Opcions de configuració (ej: <OTRS_CONFIG_HttpType>)',
         'System History' => 'Història del Sistema',
         'customer realname' => 'Nom del client',
@@ -1438,71 +1548,75 @@ sub Data {
         'Close type' => 'Tipus de tancament',
         'DB Admin User' => 'Usuari Admin de la BD',
         'for agent user id' => 'id de l\'agent',
-        'sort upward' => 'ordenar ascendent',
         'Problem' => 'Problema',
+        'Escalation' => 'Escalat',
+        '"}' => '"}',
+        'Order' => 'Ordenar',
         'next step' => 'pròxim pas',
         'Customer history search' => 'Història de recerques del client',
         'Admin-Email' => 'Correu-Admin',
         'Incident Management (OTIC)' => 'Gestió D\'Incidències (OTIC)',
         'Create new database' => 'Crear nova base de dades',
-        'A message must be spell checked!' => 'El missatge ha de ser verificat ortograficamente!',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'El seu correu amb el tiquet nombre "<OTRS_TICKET>" va ser retornat a "<OTRS_BOUNCE_TO>". Contacti aquesta adreça para mes informació',
         'ArticleID' => 'Identificador d\'article',
-        'A message should have a body!' => 'Els missatges han de tenir contingut',
-        'All Agents' => 'Tots els Agents',
         'Keywords' => 'Paraules clau',
+        'Ticket Escalation View' => 'Vista escalat de tiquet',
+        'Today' => 'Avui',
         'No * possible!' => 'No * possible!',
         'Options ' => 'Opcions',
         'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'Opcions de l\'usuari actual qui ha sol·licitat aquesta acció (ex.: &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)',
         'Message for new Owner' => 'Missatge per al nou propietari',
         'to get the first 5 lines of the email' => 'per a obtenir les primeres 5 línies del correu',
+        'Sort by' => 'Ordenat per',
         'OTRS DB Password' => 'Contrasenya per a BD de l\'usuari OTRS',
         'Last update' => 'Darrera actualització',
+        'Tomorrow' => 'Demà',
         'to get the first 20 character of the subject' => 'per a obtenir els primers 20 caràcters de l\'assumpte',
         'Select the customeruser:service relations.' => 'Seleccioni el client:relacions de serveis',
         'DB Admin Password' => 'Contrasenya de l\'administrador de la BD',
-        'Advisory' => 'Advertiment',
         'Drop Database' => 'Eliminar Base de dades',
+        'Advisory' => 'Advertiment',
+        'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Aquí pot definir l\'eix-x. Pot seleccionar un element usant la casella de selecció. Després ha de seleccionar dos o més atributs de l\'element. Si no selecciona cap, tots els atributs de l\'element s\'utilitzaran per a generar una estadística. Així com un nou atribut és afegit des de l\'última configuració',
         'FileManager' => 'Administrador d\'Arxius',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Opcions de dades d\'usuari de l\'usuari actual (ex.: <OTRS_CUSTOMER_DATA_UserFirstname>)',
         'Pending type' => 'Tipus pendent',
         'Comment (internal)' => 'Comentari (intern)',
         'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => 'Opcions del propietari del tiquet (ex.: &lt;OTRS_OWNER_USERFIRSTNAME&gt;)',
-        'This window must be called from compose window' => 'Aquesta finestra ha de ser cridada des de la finestra de redacció',
         'Minutes' => 'Minuts',
-        'You need min. one selected Ticket!' => 'Necessita almenys seleccionar un Tiquet!',
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Opcions per a la informació de tiquet (ex.: <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         '(Used ticket number format)' => '(Format de tiquet usat)',
+        'Reminder' => 'Recordatori',
         'Fulltext' => 'Text Complet',
         'Incident' => 'Incident',
         'All Agent variables.' => 'Totes les variables d\'agent',
-        ' (work units)' => ' (unitats de treball)',
+        'Next Week' => 'Pròxima setmana',
         'All Customer variables like defined in config option CustomerUser.' => 'Totes les variables de client com apareixen declarades en l\'opció de configuració del client',
         'accept license' => 'acceptar llicència',
         'for agent lastname' => 'cognom de l\'agent',
         'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => 'Opcions de l\'usuari actiu que sol·licita aquesta acció (ex. <OTRS_CURRENT_UserFirstname>)',
         'Reminder messages' => 'Missatges recordatoris',
         'Change users <-> roles settings' => 'Canviar Usuaris <-> Configuració de Rols',
-        'A message should have a subject!' => 'Els missatges han de tenir assumpte!',
+        'Parent-Object' => 'Objecte-pare',
+        'Of couse this feature will take some system performance it self!' => 'Evidentment aquesta característica afectarà al rendiment del sistema per si mateixa!',
+        'Detail' => 'Detall',
         'TicketZoom' => 'Detall del Tiquet',
         'Don\'t forget to add a new user to groups!' => 'No oblidi incloure l\'usuari en grups!',
-        'You need a email address (e. g. customer@example.com) in To:!' => 'Necessita una adreça de correu (exemple: client@exemple.com) en To:!',
+        'Open Tickets' => 'Tiquets Oberts',
         'CreateTicket' => 'CrearTiquet',
-        'You need to account time!' => 'Necessita comptabilitzar el temps!',
+        'You have to select two or more attributes from the select field!' => 'Ha de seleccionar dos o més atributs del camp seleccionat',
         'System Settings' => 'Configuració del sistema',
         'WebWatcher' => 'ObservadorWeb',
         'Hours' => 'Hores',
         'Finished' => 'Finalitzat',
         'Account Type' => 'Tipus compte',
-        'Split' => 'Dividir',
         'D' => 'D',
-        'System Status' => 'Estat del sistema',
         'All messages' => 'Tots els missatges',
+        'System Status' => 'Estat del sistema',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Opcions per a la informació el tiquet (ex. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Artefact' => 'Artefacte',
+        'Object already linked as %s.' => 'Objecte ja enllaçat com %s.',
         'A article should have a title!' => 'Els articles han de tenir títol',
-        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Opcions de configuració (ex. &lt;OTRS_CONFIG_HttpType&gt;)',
         'Event' => 'Esdeveniment',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Opcions de configuració (ex. &lt;OTRS_CONFIG_HttpType&gt;)',
         'don\'t accept license' => 'no accepto la llicència',
         'A web mail client' => 'Un client de correu web',
         'WebMail' => 'Correu web',
@@ -1515,40 +1629,31 @@ sub Data {
         'Package not correctly deployed, you need to deploy it again!' => 'El paquet no ha estat correctament instal·lat, necessita instal·lar-lo novament!',
         'QueueView' => 'Veure la cua',
         'Select Box' => 'Finestra de selecció ',
+        'New messages' => 'Nou missatge',
+        'Can not create link with %s!' => 'No es pot crear enllaç amb %s! ',
+        'Linked as' => 'Enllaçat com',
         'Welcome to OTRS' => 'Benvingut a OTRS',
         'modified' => 'modificat',
-        'Escalation in' => 'Escalat en',
         'Delete old database' => 'Eliminar la base de dades antiga',
-        'sort downward' => 'ordenar descendent',
-        'You need to use a ticket number!' => 'Necessita usar un nombre de tiquet! ',
         'A web file manager' => 'Administrador web d\'arxius',
         'Have a lot of fun!' => 'Gaudeixi\'l!',
         'send' => 'enviar',
+        'Send no notifications' => 'No enviar notificacions',
         'Note Text' => 'Nota!',
         'POP3 Account Management' => 'Gestió de compte POP3',
         'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'Opcions de dades d\'usuari del client actual (ex. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)',
         'System State Management' => 'Gestió d\'estats del Sistema',
         'OTRS DB User' => 'Usuari de BD OTRS',
+        'Mailbox' => 'Bústia',
         'PhoneView' => 'Vista telefònica',
         'maximal period form' => 'màxim període del formulari',
         'TicketID' => 'Identificador de Tiquet',
         'closed with workaround' => 'tancat amb solució temporal',
+        'Yes means, send no agent and customer notifications on changes.' => 'Si, significa no enviar notificacions als agents i clients al realitzar-se canvis.',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'El seu correu amb el tiquet nombre "<OTRS_TICKET>" va ser retornat a "<OTRS_BOUNCE_TO>". Contacti aquesta adreça para mes informació',
+        'Ticket Status View' => 'Veure l\'estat del tiquet ',
         'Modified' => 'Modificat',
         'Ticket selected for bulk action!' => 'Tiquet seleccionat per a acció múltiple!',
-
-        'Link Object: %s' => 'Enllaçar l\'objecte: %s',
-        'Unlink Object: %s' => 'Llevar enllaç de l\'objecte: %s',
-        'Linked as' => 'Enllaçat com',
-        'Can not create link with %s!' => 'No es pot crear enllaç amb %s! ',
-        'Can not delete link with %s!' => 'No es pot suprimir enllaç amb %s! ',
-        'Object already linked as %s.' => 'Objecte ja enllaçat com %s.',
-        'Priority Management' => 'Gestió de prioritat',
-        'Add a new Priority.' => 'Afegir una nova prioritat',
-        'Add Priority' => 'Afegir prioritat',
-        'Ticket Type is required!' => '',
-        'Module documentation' => '',
-        'Added!' => '',
-        'Updated!' => '',
     };
     # $$STOP$$
     return;

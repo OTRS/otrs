@@ -2,7 +2,7 @@
 # Kernel/Language/tr.pm - provides tr language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: tr.pm,v 1.17 2009-04-02 16:15:18 mh Exp $
+# $Id: tr.pm,v 1.18 2009-04-03 07:42:25 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $)[1];
+$VERSION = qw($Revision: 1.18 $)[1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Fri May 16 14:09:04 2008
+    # Last translation file sync: Fri Apr  3 09:40:47 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-9', ];
@@ -138,6 +138,7 @@ sub Data {
         'update!' => 'güncelle!',
         'update' => 'güncelle',
         'Update' => 'Güncelle',
+        'Updated!' => '',
         'submit!' => 'gönder!',
         'submit' => 'gönder',
         'Submit' => 'Gönder',
@@ -178,6 +179,7 @@ sub Data {
         'Up' => 'Yukarý',
         'Down' => 'Aþaðý',
         'Add' => 'Ekle',
+        'Added!' => '',
         'Category' => 'Kategori',
         'Viewer' => 'Görüntüleyen',
         'New message' => 'Yeni mesaj',
@@ -244,9 +246,9 @@ sub Data {
         'Mobile' => 'Cep',
         'Zip' => 'PK',
         'City' => 'Þehir',
-        'Location' => '',
         'Street' => '',
         'Country' => 'Ülke',
+        'Location' => '',
         'installed' => 'yüklenmiþ',
         'uninstalled' => 'kaldýrýlmýþ',
         'Security Note: You should activate %s because application is already running!' => 'Güvenlik notu: %s etkinleþtirilmeli çünkü uygulama halihazýrda çalýþýyor!',
@@ -264,6 +266,30 @@ sub Data {
         'Sent password token to: %s' => '',
         'Sent new password to: %s' => '',
         'Invalid Token!' => '',
+        'For more info see:' => '',
+        'Package verification failed!' => '',
+        'Bold' => '',
+        'Italic' => '',
+        'Underline' => '',
+        'Font Color' => '',
+        'Background Color' => '',
+        'Remove Formatting' => '',
+        'Show/Hide Hidden Elements' => '',
+        'Align Left' => '',
+        'Align Center' => '',
+        'Align Right' => '',
+        'Justify' => '',
+        'Header' => 'Baþlýk',
+        'Indent' => '',
+        'Outdent' => '',
+        'Create an Unordered List' => '',
+        'Create an Ordered List' => '',
+        'HTML Link' => '',
+        'Insert Image' => '',
+        'CTRL' => '',
+        'SHIFT' => '',
+        'Undo' => '',
+        'Redo' => '',
 
         # Template: AAAMonth
         'Jan' => 'Oca',
@@ -344,7 +370,6 @@ sub Data {
         'Please select an object!' => 'Lütfen bir nesne seçin!',
         'Please select a graph size!' => 'Lütfen bir grafik boyutu seçin!',
         'Please select one element for the X-axis!' => 'Lütfen X ekseni için bir eleman seçin!',
-        'You have to select two or more attributes from the select field!' => 'Seçim alanýndan iki veya daha fazla nitelik seçmelisiniz!',
         'Please select only one element or turn off the button \'Fixed\' where the select field is marked!' => 'Lütfen sadece bir eleman seçin veya seçim alanýnýn iþaretli olduðu yerden \'Sabit\' düðmesini kapatýn!',
         'If you use a checkbox you have to select some attributes of the select field!' => 'Eðer bir iþaretleme kutusu kullanýrsanýz seçim alanýndan bazý nitelikleri seçmelisiniz!',
         'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!' => 'Lütfen seçili giriþ alanýna bir deðer girin veya \'Sabit\' iþaretleme kutusunu kapatýn!',
@@ -377,6 +402,30 @@ sub Data {
         'Create Time' => 'Oluþturulma Zamaný',
         'CustomerUserLogin' => 'Müþteri Kullanýcý Oturumu',
         'Close Time' => 'Kapanma Zamaný',
+        'TicketAccumulation' => '',
+        'Attributes to be printed' => '',
+        'Sort sequence' => '',
+        'Order by' => '',
+        'Limit' => 'Sýnýr',
+        'Ticketlist' => '',
+        'ascending' => '',
+        'descending' => '',
+        'First Lock' => '',
+        'Evaluation by' => '',
+        'Total Time' => '',
+        'Ticket Average' => '',
+        'Ticket Min Time' => '',
+        'Ticket Max Time' => '',
+        'Number of Tickets' => '',
+        'Article Average' => '',
+        'Article Min Time' => '',
+        'Article Max Time' => '',
+        'Number of Articles' => '',
+        'Accounted time by Agent' => '',
+        'Ticket/Article Accounted Time' => '',
+        'TicketAccountedTime' => '',
+        'Ticket Create Time' => '',
+        'Ticket Close Time' => '',
 
         # Template: AAATicket
         'Lock' => 'Kilitle',
@@ -425,7 +474,9 @@ sub Data {
         'closed unsuccessful' => 'kapatma baþarýsýz',
         'new' => 'yeni',
         'open' => 'aç',
+        'Open' => '',
         'closed' => 'kapalý',
+        'Closed' => '',
         'removed' => 'kaldýrýldý',
         'pending reminder' => 'bekleyen hatýrlatýcý',
         'pending auto' => 'bekleyen otomatik',
@@ -517,12 +568,17 @@ sub Data {
         'Closed Tickets' => 'Kapanmýþ Biletler',
         'Show closed tickets.' => 'Kapanmýþ biletleri göster.',
         'Max. shown Tickets a page in QueueView.' => 'Kuyruk Görünümünde bir sayfada gösterilecek en fazla Bilet sayýsý.',
+        'Watch notification' => '',
+        'Send me a notification of an watched ticket like an owner of an ticket.' => '',
+        'Out Of Office' => '',
+        'Select your out of office time.' => '',
         'CompanyTickets' => 'Þirket Biletleri',
         'MyTickets' => 'Biletlerim',
         'New Ticket' => 'Yeni Bilet',
         'Create new Ticket' => 'Yeni Bilet oluþtur',
         'Customer called' => 'Aranan müþteri',
         'phone call' => 'telefon aramasý',
+        'Reminder Reached' => '',
         'Responses' => 'Yanýtlar',
         'Responses <-> Queue' => 'Yanýtlar <-> Kuyruk',
         'Auto Responses' => 'Otomatik Yanýtlar',
@@ -604,6 +660,8 @@ sub Data {
         'This values are read only.' => 'Bu deðerler salt-okunurdur.',
 
         # Template: AdminCustomerUserForm
+        'The message being composed has been closed.  Exiting.' => 'Oluþturulan mesaj kapatýldý. Çýkýlýyor.',
+        'This window must be called from compose window' => 'Bu pencere \'yeni mesaj\' penceresinden açýlmalýdýr',
         'Customer User Management' => 'Müþteri Kullanýcý Yönetimi',
         'Add Customer User' => 'Müþteri Kullanýcý Ekle',
         'Source' => 'Kaynak',
@@ -649,6 +707,8 @@ sub Data {
         'Is Job Valid?' => 'Ýþ geçerli mi?',
         'Is Job Valid' => 'Ýþin geçerli olup olmadýðý',
         'Schedule' => 'Takvim',
+        'Currently this generic agent job will not run automatically.' => '',
+        'To enable automatic execusion select at least one value form minutes, hours and days!' => '',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Mesajda tam metin aramasý (örneðin "Ay*egül" veya "Çak*r")',
         '(e. g. 10*5155 or 105658*)' => '(örneðin 105155 veya 105658*)',
         '(e. g. 234321)' => '(örneðin 234321)',
@@ -681,9 +741,10 @@ sub Data {
         'New Ticket Lock' => 'Yeni Bilet Kilidi',
         'New Type' => '',
         'New Title' => '',
-        'New Type' => '',
         'New TicketFreeFields' => 'Yeni BiletSerbestAlanlarý',
         'Add Note' => 'Not Ekle',
+        'Time units' => 'Zaman birimleri',
+        ' (work units)' => ' (iþ birimi)',
         'CMD' => 'Komut',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'Bu komut çalýþtýrýlacak. Par[0] bilet bilet numarasý olacak. Par[1] bilet kimliði.',
         'Delete tickets' => 'Biletleri sil',
@@ -695,14 +756,12 @@ sub Data {
         'Param 4' => 'Param 4',
         'Param 5' => 'Param 5',
         'Param 6' => 'Param 6',
-        'Send no notifications' => 'Bildirim gönderme',
-        'Yes means, send no agent and customer notifications on changes.' => 'Evet, deðiþiklik durumunda aracýlar ve müþterilere bildirim gönderme demektir.',
-        'No means, send agent and customer notifications on changes.' => 'Hayýr, deðiþikliklerde aracýlara ve müþterilere bildirim gönder demektir.',
+        'Send agent/customer notifications on changes' => '',
         'Save' => 'Kaydet',
         '%s Tickets affected! Do you really want to use this job?' => '%s Bilet etkilendi! Gerçekten bu iþi kullanmak istiyor musunuz?',
-        '"}' => '',
 
         # Template: AdminGroupForm
+        'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' => '',
         'Group Management' => 'Grup Yönetimi',
         'Add Group' => 'Grup Ekle',
         'Add a new Group.' => 'Yeni bir Grup ekle.',
@@ -744,6 +803,7 @@ sub Data {
         'Package' => 'Paket',
         'Online Repository' => 'Çevrimiçi Depo',
         'Vendor' => 'Saðlayýcý',
+        'Module documentation' => '',
         'Upgrade' => 'Yükselt',
         'Local Repository' => 'Yerel Depo',
         'Status' => 'Durum',
@@ -764,9 +824,10 @@ sub Data {
         'Performance Log' => 'Performans Günlüðü',
         'This feature is enabled!' => 'Bu özellik açýk!',
         'Just use this feature if you want to log each request.' => 'Bu özelliði sadece her isteði günlüðe kaydetmek istiyorsanýz kullanýn.',
-        'Of couse this feature will take some system performance it self!' => 'Elbette bu özellik sistem performansýndan biraz alýr.',
+        'Activating this feature might affect your system performance!' => '',
         'Disable it here!' => 'Burada kapat!',
         'This feature is disabled!' => 'Bu özellik kapalý!',
+        'Activating this feature might affect your system performance!' => '',
         'Enable it here!' => 'Burada aç!',
         'Logfile too large!' => 'Günlük dosyasý çok büyük!',
         'Logfile too large, you need to reset it!' => 'Günlük dosyasý çok büyük, boþaltmalýsýnýz!',
@@ -794,16 +855,22 @@ sub Data {
         # Template: AdminPostMasterFilter
         'PostMaster Filter Management' => 'PostMaster Süzgeç Yönetimi',
         'Filtername' => 'Süzgeç adý',
+        'Stop after match' => '',
         'Match' => 'Eþleþen',
-        'Header' => 'Baþlýk',
         'Value' => 'Deðer',
         'Set' => 'Küme',
         'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => 'Gelen elektronik postalarý gönderme veya süzme iþlemini elektronik postadaki X-Baþlýklarýna göre yap! Düzenli ifadeler (RegExp) de kullanýlabilir.',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' => 'Sadece elektronik posta adresine göre eþleþtirmek istiyorsanýz Kimden, Kime veya Karbon Kopya alanlarýnda EMAILADDRESS:bilgi@ornek.com kullanýn.',
         'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => 'Düzenli ifadeler (RegExp) kullanýrsanýz, \'Küme\' kýsmýnda eþleþen deðer için () yerine [***]da kullanabilirsiniz. ',
 
+        # Template: AdminPriority
+        'Priority Management' => '',
+        'Add Priority' => '',
+        'Add a new Priority.' => '',
+
         # Template: AdminQueueAutoResponseForm
         'Queue <-> Auto Responses Management' => 'Kuyruk <-> Otomatik Yanýt Yönetimi',
+        'settings' => '',
 
         # Template: AdminQueueForm
         'Queue Management' => 'Kuyruk Yönetimi',
@@ -813,10 +880,8 @@ sub Data {
         'Only business hours are counted.' => '',
         'Escalation - First Response Time' => 'Yükseltme - ilk Yanýt Zamaný',
         '0 = no escalation' => '0 = yükseltme yok',
-        'Only business hours are counted.' => '',
         'Notify by' => '',
         'Escalation - Update Time' => 'Yükseltme - Güncelleme Zamaný',
-        'Notify by' => '',
         'Escalation - Solution Time' => 'Yükseltme - Çözümleme Zamaný',
         'Follow up Option' => 'Takip eden Seçeneði',
         'Ticket lock after a follow up' => 'Takip eden bir mesajdan sonra bileti kilitle',
@@ -887,7 +952,6 @@ sub Data {
 
         # Template: AdminSelectBoxForm
         'SQL Box' => '',
-        'Limit' => 'Sýnýr',
         'Go' => 'Devam',
         'Select Box Result' => 'Seçin Kutusu Sonucu',
 
@@ -961,6 +1025,7 @@ sub Data {
         'Add System Address' => 'Sistem Adresi Ekle',
         'Add a new System Address.' => 'Yeni bir Sistem Adresi ekle.',
         'Realname' => 'Gerçek ad',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Bu e-posta adresinden gelen tüm e-postalar seçili kuyruða yönlendirilir.',
 
         # Template: AdminTypeForm
@@ -975,6 +1040,8 @@ sub Data {
         'Login as' => 'Oturum açma kimliði',
         'Firstname' => 'Adý',
         'Lastname' => 'Soyadý',
+        'Start' => 'Baþla',
+        'End' => '',
         'User will be needed to handle tickets.' => 'Biletlerle ilgilenmek için kullanýcý gerekir.',
         'Don\'t forget to add a new user to groups and/or roles!' => 'Yeni kullanýcýlarý gruplara ve/veya rollere eklemeyi unutmayýn!',
 
@@ -992,18 +1059,20 @@ sub Data {
 
         # Template: AgentCalendarSmallIcon
 
+        # Template: AgentCustomerSearch
+
         # Template: AgentCustomerTableView
 
         # Template: AgentInfo
         'Info' => 'Bilgi',
 
         # Template: AgentLinkObject
+        'Link Object: %s' => '',
+        'Object' => 'Nesne',
         'Link Object' => 'Bað Nesnesi',
+        'with' => 'ile',
         'Select' => 'Seç',
-        'Results' => 'Sonuçlar',
-        'Total hits' => 'Toplam isabet',
-        'Page' => 'Sayfa',
-        'Detail' => 'Detay',
+        'Unlink Object: %s' => '',
 
         # Template: AgentLookup
         'Lookup' => 'Ara',
@@ -1011,6 +1080,7 @@ sub Data {
         # Template: AgentNavigationBar
 
         # Template: AgentPreferencesForm
+        'End' => '',
 
         # Template: AgentSpelling
         'Spell Checker' => 'Sözdizim Denetleyicisi',
@@ -1019,6 +1089,7 @@ sub Data {
         'Apply these changes' => 'Bu deðiþiklikleri uygula',
 
         # Template: AgentStatsDelete
+        'Stat#' => 'Ýstatistik numarasý',
         'Do you really want to delete this Object?' => 'Gerçekten bu nesneyi silmek istiyor musunuz?',
 
         # Template: AgentStatsEditRestrictions
@@ -1075,7 +1146,7 @@ sub Data {
         'Select the element, which will be used at the X-axis' => 'X-ekseni olarak kullanýlacak öðeyi seçin.',
         'maximal period' => 'en yüksek süre',
         'minimal scale' => 'en düþük ölçek',
-        'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Burada X eksenini belirleyebilirsiniz. Radyo düðmesiyle bir öðe seçebilirsiniz. Sonra öðenin iki veya daha fazla niteliðini seçmelisiniz. Herhangi bir seçim yapmadan bir istatistik oluþturursanýz öðenin tüm nitelikleri kullanýlýr. Son yapýlandýrmadan sonra bir nitelik eklendiðinde de.',
+        'Here you can define the x-axis. You can select one element via the radio button. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
 
         # Template: AgentStatsImport
         'Import' => 'Ýçeri aktar',
@@ -1083,7 +1154,9 @@ sub Data {
         'No File selected' => 'Dosya seçilmedi',
 
         # Template: AgentStatsOverview
-        'Object' => 'Nesne',
+        'Results' => 'Sonuçlar',
+        'Total hits' => 'Toplam isabet',
+        'Page' => 'Sayfa',
 
         # Template: AgentStatsPrint
         'Print' => 'Yazdýr',
@@ -1097,10 +1170,11 @@ sub Data {
         'No element selected.' => 'Öðe seçilmedi.',
         'maximal period from' => 'en yüksek süre þundan:',
         'to' => 'þuna:',
-        'Start' => 'Baþla',
         'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => 'Giriþ ve seçme alanlarýyla istatistiði istediðiniz gibi ayarlayabilirsiniz. Ýstatistiðin hangi öðelerini deðiþtrebileceðiniz istatistiði ayarlayan istatistik yöneticisine baðlýdýr',
 
         # Template: AgentTicketBounce
+        'A message should have a To: recipient!' => 'Bir mesajýn alýcýsý olmalýdýr!',
+        'You need a email address (e. g. customer@example.com) in To:!' => 'Kime kýsmýnda bir e-posta adresi (örn. musteri@ornek.com) olmalýdýr!',
         'Bounce ticket' => 'Bileti ötele',
         'Ticket locked!' => 'Bilet kilitlendi!',
         'Ticket unlock!' => 'Biletin kilidi açýldý!',
@@ -1110,23 +1184,33 @@ sub Data {
         'Send mail!' => 'Postayý gönder!',
 
         # Template: AgentTicketBulk
+        'A message should have a subject!' => 'Bir mesajýn bir konusu olmalýdýr!',
+        'You need to account time!' => 'Zamaný hesaba katmalýsýnýz!',
         'Ticket Bulk Action' => 'Bilet Toplu Ýþlemi',
         'Spell Check' => 'Sözdizim Kontrolü',
         'Note type' => 'Not tipi',
+        'Next state' => 'Sonraki durum',
+        'Pending date' => 'Bekleme tarihi',
+        'Merge to' => 'Þuna birleþtir:',
+        'Merge to oldest' => '',
+        'Link together' => '',
+        'Link to Parent' => '',
         'Unlock Tickets' => 'Biletlerin kilidini aç',
 
         # Template: AgentTicketClose
+        'Ticket Type is required!' => '',
+        'A message should have a body!' => 'Mesajýn bir gövdesi olmalýdýr!',
+        'A required field is:' => '',
+        'A required field is:' => '',
         'Close ticket' => 'Bileti kapat',
         'Previous Owner' => 'Önceki sahip',
         'Inform Agent' => 'Aracýyý bilgilendir',
         'Optional' => 'Seçimlik',
         'Inform involved Agents' => 'Ýlgili aracýlarý bilgilendir',
         'Attach' => 'Ekle',
-        'Next state' => 'Sonraki durum',
-        'Pending date' => 'Bekleme tarihi',
-        'Time units' => 'Zaman birimleri',
 
         # Template: AgentTicketCompose
+        'A message must be spell checked!' => 'Mesajýn sözyazým kontrolünden geçmesi gereki!',
         'Compose answer for ticket' => 'Bilete cevap yaz',
         'Pending Date' => 'Bekleme tarihi',
         'for pending* states' => 'Bekleme* durumlarý için',
@@ -1148,17 +1232,9 @@ sub Data {
         'new ticket' => 'yeni bilet',
         'Refresh' => 'Tazele',
         'Clear To' => 'Kime alanýný temizle',
+        'All Agents' => 'Tüm Aracýlar',
 
-        # Template: AgentTicketEscalationView
-        'Ticket Escalation View' => '',
-        'Escalation' => '',
-        'Today' => '',
-        'Tomorrow' => '',
-        'Next Week' => '',
-        'up' => 'yukarý',
-        'down' => 'aþaðý',
-        'Escalation' => '',
-        'Locked' => 'Kilitli',
+        # Template: AgentTicketEscalation
 
         # Template: AgentTicketForward
         'Article type' => 'Metin tipi',
@@ -1171,25 +1247,49 @@ sub Data {
 
         # Template: AgentTicketLocked
 
-        # Template: AgentTicketMailbox
-        'Mailbox' => 'Posta kutusu',
-        'Tickets' => 'Biletler',
-        'of' => '..nýn',
-        'Filter' => 'Süzgeç',
-        'New messages' => 'Yeni mesajlar',
-        'Reminder' => 'Hatýrlatýcý',
-        'Sort by' => 'Þuna göre sýrala:',
-        'Order' => 'Sýralama',
-
         # Template: AgentTicketMerge
+        'You need to use a ticket number!' => 'Bilet numarasý kullanmalýsýnýz!',
         'Ticket Merge' => 'Bilet Birleþtir',
-        'Merge to' => 'Þuna birleþtir:',
 
         # Template: AgentTicketMove
         'Move Ticket' => 'Bileti Taþý',
 
         # Template: AgentTicketNote
         'Add note to ticket' => 'Bilete not ekle',
+
+        # Template: AgentTicketOverviewMedium
+        'First Response Time' => 'Ýlk Yanýt Zamaný',
+        'Service Time' => 'Servis Zamaný',
+        'Update Time' => 'Güncelleme Zamaný',
+        'Solution Time' => 'Çözüm Zamaný',
+
+        # Template: AgentTicketOverviewMediumMeta
+        'You need min. one selected Ticket!' => 'En az bir Bilet seçili olmalýdýr!',
+        'sort upward' => 'yukarý doðru sýrala',
+        'up' => 'yukarý',
+        'sort downward' => 'aþaðýya doðru sýrala',
+        'down' => 'aþaðý',
+        'Escalation in' => 'Yükselme',
+        'Locked' => 'Kilitli',
+
+        # Template: AgentTicketOverviewNavBar
+        'Filter' => 'Süzgeç',
+        'Change search options' => 'Arama seçeneklerini deðiþtir',
+        'Tickets' => 'Biletler',
+        'of' => '..nýn',
+
+        # Template: AgentTicketOverviewNavBarSmall
+
+        # Template: AgentTicketOverviewPreview
+        'Your own Ticket' => 'Kendi Biletiniz',
+        'Compose Follow up' => 'Takip mesajý yaz',
+        'Compose Answer' => 'Cevap yaz',
+        'Contact customer' => 'Müþteriyle baðlantý kur',
+        'Change queue' => 'Kuyruðu deðiþtir',
+
+        # Template: AgentTicketOverviewPreviewMeta
+
+        # Template: AgentTicketOverviewSmall
 
         # Template: AgentTicketOwner
         'Change owner of ticket' => 'Biletin sahibini deðiþtir',
@@ -1209,12 +1309,7 @@ sub Data {
         # Template: AgentTicketPrint
         'Ticket-Info' => 'Bilet Bilgisi',
         'Accounted time' => 'Hesaplanan zaman',
-        'First Response Time' => 'Ýlk Yanýt Zamaný',
-        'Update Time' => 'Güncelleme Zamaný',
-        'Solution Time' => 'Çözüm Zamaný',
         'Linked-Object' => 'Baðlý Nesne',
-        'Parent-Object' => 'Ebeveyn Nesne',
-        'Child-Object' => 'Alt Nesne',
         'by' => 'tarafýndan',
 
         # Template: AgentTicketPriority
@@ -1227,16 +1322,6 @@ sub Data {
         'Queues' => 'Kuyruklar',
         'Ticket escalation!' => 'Bilet Yükseltme!',
 
-        # Template: AgentTicketQueueTicketView
-        'Service Time' => 'Servis Zamaný',
-        'Your own Ticket' => 'Kendi Biletiniz',
-        'Compose Follow up' => 'Takip mesajý yaz',
-        'Compose Answer' => 'Cevap yaz',
-        'Contact customer' => 'Müþteriyle baðlantý kur',
-        'Change queue' => 'Kuyruðu deðiþtir',
-
-        # Template: AgentTicketQueueTicketViewLite
-
         # Template: AgentTicketResponsible
         'Change responsible of ticket' => 'Biletin sorumlusunu deðiþtir',
 
@@ -1246,41 +1331,33 @@ sub Data {
         'Search-Template' => 'Arama Þablonu',
         'TicketFreeText' => 'BiletSerbestMetni',
         'Created in Queue' => 'Oluþturuldu Kuyruk',
-        'Close Times' => '',
-        'No close time settings.' => '',
-        'Ticket closed' => '',
-        'Ticket closed between' => '',
+        'Change Times' => '',
+        'No change time settings.' => '',
+        'Ticket changed' => '',
+        'Ticket changed between' => '',
         'Result Form' => 'Sonuç Formu',
         'Save Search-Profile as Template?' => 'Arama Profili Þablon olarak kaydedilsin mi?',
         'Yes, save it with name' => 'Evet, þu adla kaydet',
 
         # Template: AgentTicketSearchOpenSearchDescription
 
-        # Template: AgentTicketSearchResult
-        'Change search options' => 'Arama seçeneklerini deðiþtir',
-
         # Template: AgentTicketSearchResultPrint
-        '"}' => '',
-
-        # Template: AgentTicketSearchResultShort
-
-        # Template: AgentTicketStatusView
-        'Ticket Status View' => 'Bilet Durumu Görünümü',
-        'Open Tickets' => 'Açýk Biletler',
 
         # Template: AgentTicketZoom
         'Expand View' => '',
+        'Expand' => '',
         'Collapse View' => '',
+        'Split' => 'Ayýr',
+
+        # Template: AgentTicketZoomArticleFilterDialog
+        'Article filter settings' => '',
+        'Save filter settings as default' => '',
 
         # Template: AgentWindowTab
 
         # Template: AJAX
 
         # Template: Copyright
-
-        # Template: css
-
-        # Template: customer-css
 
         # Template: CustomerAccept
 
@@ -1319,6 +1396,8 @@ sub Data {
         'Times' => 'Zaman',
         'No time settings.' => 'Zaman ayarý yok.',
 
+        # Template: CustomerTicketSearchOpenSearchDescription
+
         # Template: CustomerTicketSearchResultCSV
 
         # Template: CustomerTicketSearchResultPrint
@@ -1338,6 +1417,7 @@ sub Data {
         # Template: FooterSmall
 
         # Template: Header
+        'Home' => 'Ana sayfa',
 
         # Template: HeaderSmall
 
@@ -1380,6 +1460,8 @@ sub Data {
         'Start page' => 'Baþlangýç sayfasý',
         'Your OTRS Team' => 'OTRS Takýmýnýz',
 
+        # Template: LinkObject
+
         # Template: Login
 
         # Template: Motd
@@ -1396,6 +1478,8 @@ sub Data {
         # Template: PrintHeader
         'printed by' => 'yazdýran',
 
+        # Template: PublicDefault
+
         # Template: Redirect
 
         # Template: Test
@@ -1403,24 +1487,48 @@ sub Data {
         'Counter' => 'Sayaç',
 
         # Template: Warning
+
+        # Template: YUI
+        'Bold' => '',
+        'CTRL' => '',
+        'SHIFT' => '',
+        'Italic' => '',
+        'Underline' => '',
+        'Font Color' => '',
+        'Background Color' => '',
+        'Remove Formatting' => '',
+        'Show/Hide Hidden Elements' => '',
+        'Align Left' => '',
+        'Align Center' => '',
+        'Align Right' => '',
+        'Justify' => '',
+        'Indent' => '',
+        'Outdent' => '',
+        'Create an Unordered List' => '',
+        'Create an Ordered List' => '',
+        'HTML Link' => '',
+        'Insert Image' => '',
+        'Undo' => '',
+        'Redo' => '',
+
         # Misc
         'Create Database' => 'Veritabanýný Oluþtur',
         'verified' => 'onaylandý',
         'File-Name' => 'Dosya adý',
         'Ticket Number Generator' => 'Bilet Numarasý Üreteci',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Bilet tanýmlayýcýsý. \'Bilet#\', \'Arama#\' oder \'Biletim#\' gibi olabilir)',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Bu þekilde Kernel/Config.pm dosyasýnda yapýlandýrýlmýþ olan anahtar halkasýný (keyring) deðiþtirebilirsiniz',
         'Create new Phone Ticket' => 'Yeni Telefon Bileti oluþtur',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Bu þekilde Kernel/Config.pm dosyasýnda yapýlandýrýlmýþ olan anahtar halkasýný (keyring) deðiþtirebilirsiniz',
         'U' => 'U',
-        'A message should have a To: recipient!' => 'Bir mesajýn alýcýsý olmalýdýr!',
         'Site' => 'Site',
         'Customer history search (e. g. "ID342425").' => 'Müþteri tarihçe aramasý (örn. "ID342425").',
         'your MySQL DB should have a root password! Default is empty!' => 'MySQL veritabanýnýzýn root kullanýcýsýnýn bir parolasý olmalýdýr. Öntanýmlý olarak boþtur!',
-        'Close!' => 'Kapat!',
+        'Can not delete link with %s!' => '',
         'for agent firstname' => 'aracý adý için',
+        'Close!' => 'Kapat!',
         'Reporter' => 'Bildiren',
-        'The message being composed has been closed.  Exiting.' => 'Oluþturulan mesaj kapatýldý. Çýkýlýyor.',
         'Process-Path' => 'Ýþlem Yolu',
+        'No means, send agent and customer notifications on changes.' => 'Hayýr, deðiþikliklerde aracýlara ve müþterilere bildirim gönder demektir.',
         'to get the realname of the sender (if given)' => 'göndericinin gerçek adýný (eðer verilmiþse) almak için',
         'FAQ Search Result' => 'SSS Arama Sonucu',
         'Notification (Customer)' => 'Bildirim (müþteri)',
@@ -1428,7 +1536,7 @@ sub Data {
         'Select Source (for add)' => 'Kaynaðý Seçin (eklemek için)',
         'Node-Name' => 'Düðüm Adý',
         'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'Bilet verisinin seçenekleri (örn. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)',
-        'Home' => 'Ana sayfa',
+        'Child-Object' => 'Alt Nesne',
         'Workflow Groups' => 'Çalýþma akýþý Gruplarý',
         'Current Impact Rating' => 'Þu Andaki Etki Oraný',
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'Yapýlandýrma seçenekleri (örn. <OTRS_CONFIG_HttpType>)',
@@ -1439,78 +1547,80 @@ sub Data {
         'for agent login' => 'aracý oturumu için',
         'Keyword' => 'Anahtar kelime',
         'Reference' => 'Referans',
-        'with' => 'ile',
         'Close type' => 'Tipi kapat',
         'DB Admin User' => 'Veritabaný Yöneticisi Kullanýcý',
         'for agent user id' => 'aracý kullanýcý kimliði için',
-        'sort upward' => 'yukarý doðru sýrala',
         'Classification' => 'Sýralama',
         'Change user <-> group settings' => 'Kullanýcý <-> grup seçeneklerini deðiþtir',
+        'Escalation' => '',
+        '"}' => '',
+        'Order' => 'Sýralama',
         'next step' => 'sonraki adým',
         'Customer history search' => 'Müþteri tarihçe aramasý',
         'not verified' => 'onaylanmadý',
-        'Stat#' => 'Ýstatistik numarasý',
         'Create new database' => 'Yeni veritabaný oluþtur',
         'Year' => 'Yýl',
-        'A message must be spell checked!' => 'Mesajýn sözyazým kontrolünden geçmesi gereki!',
         'X-axis' => 'X-Ekseni',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => '"<OTRS_TICKET>" bilet numaralý e-postanýz "<OTRS_BOUNCE_TO>" adresine gönderildi. Daha fazla bilgi için bu adresle baðlantýya geçin.',
-        'A message should have a body!' => 'Mesajýn bir gövdesi olmalýdýr!',
-        'All Agents' => 'Tüm Aracýlar',
         'Keywords' => 'Anahtar Kelimeler',
+        'Ticket Escalation View' => '',
+        'Today' => '',
         'No * possible!' => '"*" kullanýlamaz!',
         'Load' => 'Yükle',
         'Change Time' => 'Deðiþiklik Zamaný',
         'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'Bu eylemi isteyen kulanýcýnýn (örn. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;) seçenekleri',
         'Message for new Owner' => 'Yeni Sahibine mesaj',
         'to get the first 5 lines of the email' => 'e-postanýn ilk beþ satýrýný almak için',
+        'Sort by' => 'Þuna göre sýrala:',
         'OTRS DB Password' => 'OTRS Veritabaný Parolasý',
         'Last update' => 'Son güncelleme',
+        'Tomorrow' => '',
         'not rated' => 'puan verilmedi',
         'to get the first 20 character of the subject' => 'konunun ilk 20 karakterini almak için',
         'Select the customeruser:service relations.' => 'Müþterikullanýcý:servis iliþkilerini belirle.',
         'DB Admin Password' => 'Veritabaný Yöneticisi Parolasý',
         'Drop Database' => 'Veritabanýný Sil',
+        'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Burada X eksenini belirleyebilirsiniz. Radyo düðmesiyle bir öðe seçebilirsiniz. Sonra öðenin iki veya daha fazla niteliðini seçmelisiniz. Herhangi bir seçim yapmadan bir istatistik oluþturursanýz öðenin tüm nitelikleri kullanýlýr. Son yapýlandýrmadan sonra bir nitelik eklendiðinde de.',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Mevcut müþteri kullanýcý verileri (örn. <OTRS_CUSTOMER_DATA_UserFirstname>) seçenekleri',
         'Pending type' => 'Bekleme tipi',
         'Comment (internal)' => 'Yorum (iç)',
         'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => 'Bilet sahibi seçenekleri (örn. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)',
-        'This window must be called from compose window' => 'Bu pencere \'yeni mesaj\' penceresinden açýlmalýdýr',
         'User-Number' => 'Kullanýcý Numarasý',
-        'You need min. one selected Ticket!' => 'En az bir Bilet seçili olmalýdýr!',
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Bilet verisi seçenekleri (örn. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         '(Used ticket number format)' => '(Kullanýlan bilet numarasý biçimi)',
+        'Reminder' => 'Hatýrlatýcý',
         'Fulltext' => 'Tümmetin',
         'Month' => 'Ay',
         'Node-Address' => 'Düðüm Adresi',
         'All Agent variables.' => 'Tüm Aracý deðiþkenleri',
-        ' (work units)' => ' (iþ birimi)',
+        'Next Week' => '',
         'You use the DELETE option! Take care, all deleted Tickets are lost!!!' => 'SÝL seçeneðini kullandýnýz! Silinen Biletlerin kurtarýlamayacaðýný unutmayýn!!!',
         'All Customer variables like defined in config option CustomerUser.' => 'Müþteri Kullanýcý yapýlandýrma seçeneðinde tanýmlandýðý þekliyle tüm Müþteri deðiþkenleri.',
         'for agent lastname' => 'aracý soyadý için',
         'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => 'Bu eylem için istekte bulunan kullanýcýnýn seçenekleri (örn. <OTRS_CURRENT_UserFirstname>)',
         'Reminder messages' => 'Hatýrlatýcý mesajlar',
-        'A message should have a subject!' => 'Bir mesajýn bir konusu olmalýdýr!',
+        'Parent-Object' => 'Ebeveyn Nesne',
+        'Of couse this feature will take some system performance it self!' => 'Elbette bu özellik sistem performansýndan biraz alýr.',
+        'Detail' => 'Detay',
         'TicketZoom' => 'Bilet Detaylarý',
         'Don\'t forget to add a new user to groups!' => 'Yeni kullanýcýyý gruplara atamayý unutmayýn!',
-        'You need a email address (e. g. customer@example.com) in To:!' => 'Kime kýsmýnda bir e-posta adresi (örn. musteri@ornek.com) olmalýdýr!',
+        'Open Tickets' => 'Açýk Biletler',
         'CreateTicket' => 'Bilet Oluþtur',
+        'You have to select two or more attributes from the select field!' => 'Seçim alanýndan iki veya daha fazla nitelik seçmelisiniz!',
         'unknown' => 'bilinmiyor',
-        'You need to account time!' => 'Zamaný hesaba katmalýsýnýz!',
         'System Settings' => 'Sistem Ayarlarý',
         'Finished' => 'Tamamlandý',
         'Imported' => 'Ýçeri aktarýldý',
         'unread' => 'okunmadý',
-        'Split' => 'Ayýr',
         'D' => 'D',
-        'System Status' => 'Sistem Durumu',
         'All messages' => 'Tüm mesajlar',
+        'System Status' => 'Sistem Durumu',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Bilet verisi seçenekleri (örn. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
+        'Object already linked as %s.' => '',
         'A article should have a title!' => 'Metnin bir baþlýðý olmalýdýr!',
         'Customer Users <-> Services' => 'Müþteri Kullanýcýlar <-> Servisler',
         'This account exists' => 'Bu hesap zaten var',
-        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Yapýlandýrma seçenekleri (örn. &lt;OTRS_CONFIG_HttpType&gt;)',
         'Event' => 'Olay',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Yapýlandýrma seçenekleri (örn. &lt;OTRS_CONFIG_HttpType&gt;)',
         'Imported by' => 'Ýçeri aktaran',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Bilet sahibi seçenekleri (örn. <OTRS_OWNER_UserFirstname>)',
         'read' => 'okunmuþ',
@@ -1524,40 +1634,31 @@ sub Data {
         'Select Box' => 'Seçim Kutusu',
         'Instance' => 'Kopya',
         'Day' => 'Gün',
+        'New messages' => 'Yeni mesajlar',
         'Service-Name' => 'Servis Adý',
+        'Can not create link with %s!' => '',
+        'Linked as' => '',
         'Welcome to OTRS' => 'OTRS\'ye hoþgeldiniz',
         'tmp_lock' => 'geçici kilit',
         'modified' => 'deðiþtirilmiþ',
-        'Escalation in' => 'Yükselme',
         'Delete old database' => 'Eski veritabanýný sil',
-        'sort downward' => 'aþaðýya doðru sýrala',
-        'You need to use a ticket number!' => 'Bilet numarasý kullanmalýsýnýz!',
         'Watcher' => 'Ýzleyici',
         'Have a lot of fun!' => 'Ýyi eðlenceler!',
         'send' => 'gönder',
+        'Send no notifications' => 'Bildirim gönderme',
         'Note Text' => 'Not Metni',
         'POP3 Account Management' => 'POP3 Hesap Yönetimi',
         'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'Muþteri kullanýcý verisi seçenekleri (örn. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;).',
         'System State Management' => 'Sistem Durumu Yönetimi',
+        'Mailbox' => 'Posta kutusu',
         'PhoneView' => 'Telefon Görünüþü',
         'User-Name' => 'Kullanýcý Adý',
         'File-Path' => 'Dosya Yolu',
+        'Yes means, send no agent and customer notifications on changes.' => 'Evet, deðiþiklik durumunda aracýlar ve müþterilere bildirim gönderme demektir.',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => '"<OTRS_TICKET>" bilet numaralý e-postanýz "<OTRS_BOUNCE_TO>" adresine gönderildi. Daha fazla bilgi için bu adresle baðlantýya geçin.',
+        'Ticket Status View' => 'Bilet Durumu Görünümü',
         'Modified' => 'Deðiþtirildi',
         'Ticket selected for bulk action!' => 'Bilet toplu iþlem için seçildi',
-
-        'Link Object: %s' => '',
-        'Unlink Object: %s' => '',
-        'Linked as' => '',
-        'Can not create link with %s!' => '',
-        'Can not delete link with %s!' => '',
-        'Object already linked as %s.' => '',
-        'Priority Management' => '',
-        'Add a new Priority.' => '',
-        'Add Priority' => '',
-        'Ticket Type is required!' => '',
-        'Module documentation' => '',
-        'Added!' => '',
-        'Updated!' => '',
     };
     # $$STOP$$
     return;

@@ -4,7 +4,7 @@
 # Copyright (C) 2007 Andrey Feldman <afeldman at alt-lan.ru>
 # Copyright (C) 2008 Egor Tsilenko <bg8s at symlink.ru>
 # --
-# $Id: ru.pm,v 1.72 2009-04-02 12:10:12 sb Exp $
+# $Id: ru.pm,v 1.73 2009-04-03 07:42:25 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Fri May 16 14:08:56 2008
+    # Last translation file sync: Fri Apr  3 09:40:47 2009
 
     # possible charsets
     $Self->{Charset} = ['cp1251', 'Windows-1251', ];
@@ -141,6 +141,7 @@ sub Data {
         'update!' => 'обновить!',
         'update' => 'обновить',
         'Update' => 'Обновить',
+        'Updated!' => '',
         'submit!' => 'Ввести!',
         'submit' => 'ввести',
         'Submit' => 'Ввести',
@@ -181,6 +182,7 @@ sub Data {
         'Up' => 'Вверх',
         'Down' => 'Вниз',
         'Add' => 'Добавить',
+        'Added!' => '',
         'Category' => 'Категория',
         'Viewer' => 'Просмотрщик',
         'New message' => 'новое сообщение',
@@ -247,9 +249,9 @@ sub Data {
         'Mobile' => 'Мобильный телефон',
         'Zip' => 'Индекс',
         'City' => 'Город',
-        'Location' => 'Местоположение',
         'Street' => 'Улица',
         'Country' => 'Страна',
+        'Location' => 'Местоположение',
         'installed' => 'Установлено',
         'uninstalled' => 'Деинсталлировано',
         'Security Note: You should activate %s because application is already running!' => 'Заметка о безопасности: Вы должны активировать %s т.к. приложение уже запущено!',
@@ -267,6 +269,30 @@ sub Data {
         'Sent password token to: %s' => '',
         'Sent new password to: %s' => 'Новый пароль отправлен',
         'Invalid Token!' => '',
+        'For more info see:' => '',
+        'Package verification failed!' => '',
+        'Bold' => '',
+        'Italic' => '',
+        'Underline' => '',
+        'Font Color' => '',
+        'Background Color' => '',
+        'Remove Formatting' => '',
+        'Show/Hide Hidden Elements' => '',
+        'Align Left' => '',
+        'Align Center' => '',
+        'Align Right' => '',
+        'Justify' => '',
+        'Header' => 'Заголовок',
+        'Indent' => '',
+        'Outdent' => '',
+        'Create an Unordered List' => '',
+        'Create an Ordered List' => '',
+        'HTML Link' => '',
+        'Insert Image' => '',
+        'CTRL' => '',
+        'SHIFT' => '',
+        'Undo' => '',
+        'Redo' => '',
 
         # Template: AAAMonth
         'Jan' => 'Января',
@@ -347,7 +373,6 @@ sub Data {
         'Please select an object!' => 'Пожалуйста, выбирите объект!',
         'Please select a graph size!' => 'Пожалуйста, выбирите размер графика!',
         'Please select one element for the X-axis!' => 'Пожалуйста, выбирите один элемент для оси X',
-        'You have to select two or more attributes from the select field!' => 'Вам необходимо выбрать два или более пунктов из выбранного поля!',
         'Please select only one element or turn off the button \'Fixed\' where the select field is marked!' => 'Пожалуйста, выбирите только один элемент или снимите флаг \'Fixed\' у выбранного поля!',
         'If you use a checkbox you have to select some attributes of the select field!' => 'Если вы используете чекбокс, вы должны выбрать несколько пунктов из выбранного поля!',
         'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!' => 'Пожалуйста, вставьте значение в выбранное поле или снимите флаг \'Fixed\'!',
@@ -380,6 +405,30 @@ sub Data {
         'Create Time' => 'Время создания',
         'CustomerUserLogin' => 'Логин клиента',
         'Close Time' => 'Время закрытия',
+        'TicketAccumulation' => '',
+        'Attributes to be printed' => '',
+        'Sort sequence' => '',
+        'Order by' => '',
+        'Limit' => 'Лимит',
+        'Ticketlist' => '',
+        'ascending' => '',
+        'descending' => '',
+        'First Lock' => '',
+        'Evaluation by' => '',
+        'Total Time' => '',
+        'Ticket Average' => '',
+        'Ticket Min Time' => '',
+        'Ticket Max Time' => '',
+        'Number of Tickets' => '',
+        'Article Average' => '',
+        'Article Min Time' => '',
+        'Article Max Time' => '',
+        'Number of Articles' => '',
+        'Accounted time by Agent' => '',
+        'Ticket/Article Accounted Time' => '',
+        'TicketAccountedTime' => '',
+        'Ticket Create Time' => '',
+        'Ticket Close Time' => '',
 
         # Template: AAATicket
         'Lock' => 'Блокировка',
@@ -428,7 +477,9 @@ sub Data {
         'closed unsuccessful' => 'Закрыт неуспешно',
         'new' => 'новый',
         'open' => 'открытый',
+        'Open' => '',
         'closed' => 'закрытый',
+        'Closed' => '',
         'removed' => 'удаленный',
         'pending reminder' => 'отложенное напоминание',
         'pending auto' => 'очередь на авто',
@@ -520,12 +571,17 @@ sub Data {
         'Closed Tickets' => 'Закрытые заявки',
         'Show closed tickets.' => 'Показывать закрытые заявки',
         'Max. shown Tickets a page in QueueView.' => 'Макс. кол-во заявок на странице в Просмотре Очереди',
+        'Watch notification' => '',
+        'Send me a notification of an watched ticket like an owner of an ticket.' => '',
+        'Out Of Office' => '',
+        'Select your out of office time.' => '',
         'CompanyTickets' => 'Заявки компании',
         'MyTickets' => 'Мои заявки',
         'New Ticket' => 'Новая заявка',
         'Create new Ticket' => 'Создать новую заявку',
         'Customer called' => 'Звонок клиента',
         'phone call' => 'телефонный звонок',
+        'Reminder Reached' => '',
         'Responses' => 'Ответы',
         'Responses <-> Queue' => 'Ответы <-> Очередь',
         'Auto Responses' => 'Автоответы',
@@ -607,6 +663,8 @@ sub Data {
         'This values are read only.' => 'Данное значение только для чтения',
 
         # Template: AdminCustomerUserForm
+        'The message being composed has been closed.  Exiting.' => 'создаваемое сообщение было закрыто. выход.',
+        'This window must be called from compose window' => 'Это окно должно вызываться из окна ввода',
         'Customer User Management' => 'Управление пользователями (для клиентов)',
         'Add Customer User' => 'Добавить клиента',
         'Source' => 'Источник',
@@ -652,6 +710,8 @@ sub Data {
         'Is Job Valid?' => 'Данная задача действительна?',
         'Is Job Valid' => 'Данная задача действительна',
         'Schedule' => 'Расписание',
+        'Currently this generic agent job will not run automatically.' => '',
+        'To enable automatic execusion select at least one value form minutes, hours and days!' => '',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Полнотекстовый поиск в заявке (например "Mar*in" или "Baue*")',
         '(e. g. 10*5155 or 105658*)' => '(например 10*5155 или 105658*)',
         '(e. g. 234321)' => '(например 234321)',
@@ -667,7 +727,7 @@ sub Data {
         'Ticket created between' => 'Заявка создана между ',
         'Close Times' => '',
         'No close time settings.' => '',
-        'Ticket closed' => 'Заявка закрыт',
+        'Ticket closed' => 'Заявка закрыта',
         'Ticket closed between' => 'Заявка закрыта между',
         'Pending Times' => 'Время, когда запрос был отложен',
         'No pending time settings.' => 'Без учета данного времени',
@@ -684,9 +744,10 @@ sub Data {
         'New Ticket Lock' => 'Новый статус заявки',
         'New Type' => 'Новый тип',
         'New Title' => 'Новый заголовок',
-        'New Type' => 'Новый тип',
         'New TicketFreeFields' => 'Новые свободные поля заявки',
         'Add Note' => 'Добавить заметку',
+        'Time units' => 'Единицы времени',
+        ' (work units)' => ' (рабочие единицы)',
         'CMD' => 'Комманда',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'Эта команда будет выполнена. ARG[0] - номер заявки. ARG[1] - id заявки.',
         'Delete tickets' => 'Удалить заявки',
@@ -698,14 +759,12 @@ sub Data {
         'Param 4' => 'Параметр 4',
         'Param 5' => 'Параметр 5',
         'Param 6' => 'Параметр 6',
-        'Send no notifications' => 'Не отсылать уведомления',
-        'Yes means, send no agent and customer notifications on changes.' => 'Да значит не отсылать уведомления пользователям и клиентам при изменениях',
-        'No means, send agent and customer notifications on changes.' => 'Нет значит отсылать уведомления пользователям и клиентам при изменениях',
+        'Send agent/customer notifications on changes' => '',
         'Save' => 'Сохранить',
         '%s Tickets affected! Do you really want to use this job?' => '%s заявок будет модифицировано! Вы действительно хотите выполнить это задание?',
-        '"}' => '',
 
         # Template: AdminGroupForm
+        'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' => '',
         'Group Management' => 'Управление группами',
         'Add Group' => 'Добавить группу',
         'Add a new Group.' => 'Добавить новую группу',
@@ -747,6 +806,7 @@ sub Data {
         'Package' => 'Пакет',
         'Online Repository' => 'Онлайн репозиторий',
         'Vendor' => 'Изготовитель',
+        'Module documentation' => '',
         'Upgrade' => 'Обновить',
         'Local Repository' => 'Локальный репозиторий',
         'Status' => 'Статус',
@@ -767,9 +827,10 @@ sub Data {
         'Performance Log' => 'Лог производительности',
         'This feature is enabled!' => 'Данная функция задйствована!',
         'Just use this feature if you want to log each request.' => 'Просто используйте эту функцию если вы хотите логгировать каждый запрос',
-        'Of couse this feature will take some system performance it self!' => 'Конечно, данная функция сама съедает немного ресурсов!',
+        'Activating this feature might affect your system performance!' => '',
         'Disable it here!' => 'Отключить ее!',
         'This feature is disabled!' => 'Данная функция отключена!',
+        'Activating this feature might affect your system performance!' => '',
         'Enable it here!' => 'Включить ее!',
         'Logfile too large!' => 'Лог-файл слишком большой!',
         'Logfile too large, you need to reset it!' => 'Лог-файл слишком большой, вам нужно очистить его!',
@@ -797,16 +858,22 @@ sub Data {
         # Template: AdminPostMasterFilter
         'PostMaster Filter Management' => 'Управление фильтром PostMaster-а',
         'Filtername' => 'Имя фильтра',
+        'Stop after match' => '',
         'Match' => 'Соответствует',
-        'Header' => 'Заголовок',
         'Value' => 'Значение',
         'Set' => 'Установить',
         'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => 'Отправлять или фильтровать входящие письма опираясь на X-хедеры!Возможно использование регексопв.',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' => 'Если вы хотите фильтровать только по email-адресам, используйте EMAILADDRESS:info@example.com в From, To или Cc.',
         'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => 'Если вы используете регекспы, вы можете также использовать переменные в () как [***] \'Set\'.',
 
+        # Template: AdminPriority
+        'Priority Management' => 'Управление приоритетами',
+        'Add Priority' => 'Создать приоритет',
+        'Add a new Priority.' => 'Создать новый приоритет.',
+
         # Template: AdminQueueAutoResponseForm
         'Queue <-> Auto Responses Management' => 'Автоответы в очереди',
+        'settings' => '',
 
         # Template: AdminQueueForm
         'Queue Management' => 'Управление очередью',
@@ -816,10 +883,8 @@ sub Data {
         'Only business hours are counted.' => 'С учетом только рабочего времени.',
         'Escalation - First Response Time' => 'Эскалация - Время первого ответа',
         '0 = no escalation' => '0 = без эскалации',
-        'Only business hours are counted.' => 'С учетом только рабочего времени.',
         'Notify by' => '',
         'Escalation - Update Time' => 'Эскалация - Время Изменения',
-        'Notify by' => '',
         'Escalation - Solution Time' => 'Эскалация - Время Решения',
         'Follow up Option' => 'Параметры авто-слежения ?',
         'Ticket lock after a follow up' => 'Блокировка заявки после прихода дополнения',
@@ -890,7 +955,6 @@ sub Data {
 
         # Template: AdminSelectBoxForm
         'SQL Box' => 'SQL запрос',
-        'Limit' => 'Лимит',
         'Go' => 'Выполнить',
         'Select Box Result' => 'Выберите из меню',
 
@@ -964,6 +1028,7 @@ sub Data {
         'Add System Address' => 'Добавить системный адрес',
         'Add a new System Address.' => 'Добавить новый системный адрес',
         'Realname' => 'Реальное Имя',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Все входящие сообщения с этим полем (Для:) будут направлены в выбранную очередь',
 
         # Template: AdminTypeForm
@@ -978,6 +1043,8 @@ sub Data {
         'Login as' => 'Залогиниться данным пользователем',
         'Firstname' => 'Имя',
         'Lastname' => 'Фамилия',
+        'Start' => 'Начало',
+        'End' => 'Окончание',
         'User will be needed to handle tickets.' => 'Для обработки заявок нужен пользователь',
         'Don\'t forget to add a new user to groups and/or roles!' => 'Не забудьте добавить нового пользователя в группы и роли!',
 
@@ -995,18 +1062,20 @@ sub Data {
 
         # Template: AgentCalendarSmallIcon
 
+        # Template: AgentCustomerSearch
+
         # Template: AgentCustomerTableView
 
         # Template: AgentInfo
         'Info' => 'Информация',
 
         # Template: AgentLinkObject
+        'Link Object: %s' => 'Связать объект:',
+        'Object' => 'Объект',
         'Link Object' => 'Связать объект',
+        'with' => '',
         'Select' => 'Выбрать',
-        'Results' => 'Результат',
-        'Total hits' => 'Кумулятивные попадания',
-        'Page' => 'Страница',
-        'Detail' => 'Подробно',
+        'Unlink Object: %s' => 'Отвязать объект:',
 
         # Template: AgentLookup
         'Lookup' => 'Поиск',
@@ -1022,9 +1091,11 @@ sub Data {
         'Apply these changes' => 'Применить эти изменения',
 
         # Template: AgentStatsDelete
+        'Stat#' => '',
         'Do you really want to delete this Object?' => 'Вы действительно хотите удалить этот объект?',
 
         # Template: AgentStatsEditRestrictions
+        'Stat#' => '',
         'Select the restrictions to characterise the stat' => 'Выбирете ограничения для определения статистики',
         'Fixed' => 'Фиксировано',
         'Please select only one element or turn off the button \'Fixed\'.' => 'Пожалуйста, выбирете только один Элемент или уберите флажок \'Fixed\'.',
@@ -1078,7 +1149,7 @@ sub Data {
         'Select the element, which will be used at the X-axis' => 'Выберите элемент, который будет использован на оси Х',
         'maximal period' => 'максимальный период',
         'minimal scale' => 'минимальный масштаб',
-        'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Здесь вы можете определить ось X. Вы можете выбрать один элемент. Затем необходимо выбрать два или более аттрибутов элемента. Если вы совсем не выбирете аттрибутов элемента - все аттрибуты будут использованы для генерации отчета, а также вновь добавленные аттрибуты.',
+        'Here you can define the x-axis. You can select one element via the radio button. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
 
         # Template: AgentStatsImport
         'Import' => 'Импорт',
@@ -1086,7 +1157,9 @@ sub Data {
         'No File selected' => 'Файл не выбран',
 
         # Template: AgentStatsOverview
-        'Object' => 'Объект',
+        'Results' => 'Результат',
+        'Total hits' => 'Кумулятивные попадания',
+        'Page' => 'Страница',
 
         # Template: AgentStatsPrint
         'Print' => 'Печать',
@@ -1100,10 +1173,11 @@ sub Data {
         'No element selected.' => 'Элементы не выбраны',
         'maximal period from' => 'Максимальный период с',
         'to' => 'до',
-        'Start' => 'Начало',
         'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => 'Вводя данные и выбирая поля вы можете конфигурировать отчет как вам необходимо. От администратора , создававшего данный отчет, зависит какие данные вы можете конфигурировать. ',
 
         # Template: AgentTicketBounce
+        'A message should have a To: recipient!' => 'Сообщение должно иметь поле ДЛЯ: адресата!',
+        'You need a email address (e. g. customer@example.com) in To:!' => 'Нужен правильный адрес в поле ДЛЯ: (support@example.ru)!',
         'Bounce ticket' => 'Пересылка заявки',
         'Ticket locked!' => 'Заявка заблокирована!',
         'Ticket unlock!' => 'Заявка разблокирована!',
@@ -1113,23 +1187,33 @@ sub Data {
         'Send mail!' => 'Послать e-mail!',
 
         # Template: AgentTicketBulk
+        'A message should have a subject!' => 'Сообщение должно иметь поле "тема"!',
+        'You need to account time!' => 'Вам необходимо посчитать время!',
         'Ticket Bulk Action' => 'Массовое действие',
         'Spell Check' => 'Проверка правописания',
         'Note type' => 'Тип заметки',
+        'Next state' => 'Следующее состояние',
+        'Pending date' => 'Дата ожидания',
+        'Merge to' => 'Объединить с',
+        'Merge to oldest' => '',
+        'Link together' => '',
+        'Link to Parent' => '',
         'Unlock Tickets' => 'Разблокировать заявки',
 
         # Template: AgentTicketClose
+        'Ticket Type is required!' => '',
+        'A message should have a body!' => 'Тело сообщения не может быть пустым!',
+        'A required field is:' => '',
+        'A required field is:' => '',
         'Close ticket' => 'Закрыть заявку',
         'Previous Owner' => 'Предыдущий владелец',
         'Inform Agent' => 'Оповестить пользователя',
         'Optional' => 'Опционально',
         'Inform involved Agents' => 'Оповестить участвующих пользователей',
         'Attach' => 'Прикрепить файл',
-        'Next state' => 'Следующее состояние',
-        'Pending date' => 'Дата ожидания',
-        'Time units' => 'Единицы времени',
 
         # Template: AgentTicketCompose
+        'A message must be spell checked!' => 'Сообщение должно быть проверено на ошибки!',
         'Compose answer for ticket' => 'Создание ответ на заявку',
         'Pending Date' => 'Следующая дата',
         'for pending* states' => 'для последующих состояний* ',
@@ -1151,17 +1235,10 @@ sub Data {
         'new ticket' => 'Новая Заявка',
         'Refresh' => 'Обновить',
         'Clear To' => 'Очистить',
+        'All Agents' => '',
+        'All Agents' => '',
 
-        # Template: AgentTicketEscalationView
-        'Ticket Escalation View' => 'Вид эскалации заявки',
-        'Escalation' => 'Эскалация',
-        'Today' => 'Сегодня',
-        'Tomorrow' => 'Завтра',
-        'Next Week' => 'На будущей неделе',
-        'up' => 'вверх',
-        'down' => 'вниз',
-        'Escalation' => 'Эскалация',
-        'Locked' => 'Блокировка',
+        # Template: AgentTicketEscalation
 
         # Template: AgentTicketForward
         'Article type' => 'Тип статьи',
@@ -1174,25 +1251,49 @@ sub Data {
 
         # Template: AgentTicketLocked
 
-        # Template: AgentTicketMailbox
-        'Mailbox' => 'Почтовый ящик',
-        'Tickets' => 'Заявки',
-        'of' => 'на',
-        'Filter' => 'Фильтр',
-        'New messages' => 'Новые сообщения',
-        'Reminder' => 'Напоминание',
-        'Sort by' => 'Сортировка по',
-        'Order' => 'Порядок',
-
         # Template: AgentTicketMerge
+        'You need to use a ticket number!' => 'Вам необходимо использовать номер заявки!',
         'Ticket Merge' => 'Объединение заявок',
-        'Merge to' => 'Объединить с',
 
         # Template: AgentTicketMove
         'Move Ticket' => 'Переместить заявку',
 
         # Template: AgentTicketNote
         'Add note to ticket' => 'Добавить заметку к заявке',
+
+        # Template: AgentTicketOverviewMedium
+        'First Response Time' => 'Время до первого ответа',
+        'Service Time' => 'Время обслуживания',
+        'Update Time' => 'Время до изменения заявки',
+        'Solution Time' => 'Время решения заявки',
+
+        # Template: AgentTicketOverviewMediumMeta
+        'You need min. one selected Ticket!' => 'Вам необхоимо выбрать хотябы одну заявку!',
+        'sort upward' => 'сортировка по возрастанию',
+        'up' => 'вверх',
+        'sort downward' => 'сортировка по убыванию',
+        'down' => 'вниз',
+        'Escalation in' => 'Эскалация через',
+        'Locked' => 'Блокировка',
+
+        # Template: AgentTicketOverviewNavBar
+        'Filter' => 'Фильтр',
+        'Change search options' => 'Изменить установки поиска',
+        'Tickets' => 'Заявки',
+        'of' => 'на',
+
+        # Template: AgentTicketOverviewNavBarSmall
+
+        # Template: AgentTicketOverviewPreview
+        'Your own Ticket' => 'Ваша собственная заявка',
+        'Compose Follow up' => 'Создать автоответ(Ваша заявка принята)',
+        'Compose Answer' => 'Создать ответ',
+        'Contact customer' => 'Связаться с клиентом',
+        'Change queue' => 'Переместить в другую очередь',
+
+        # Template: AgentTicketOverviewPreviewMeta
+
+        # Template: AgentTicketOverviewSmall
 
         # Template: AgentTicketOwner
         'Change owner of ticket' => 'Изменить собственика заявки',
@@ -1212,12 +1313,7 @@ sub Data {
         # Template: AgentTicketPrint
         'Ticket-Info' => 'Информация о заявке',
         'Accounted time' => 'Потраченное на заявку время',
-        'First Response Time' => 'Время до первого ответа',
-        'Update Time' => 'Время до изменения заявки',
-        'Solution Time' => 'Время решения заявки',
         'Linked-Object' => 'Слинкованный-Объект',
-        'Parent-Object' => 'Объект-Родитель',
-        'Child-Object' => 'Объект-Потомок',
         'by' => '',
 
         # Template: AgentTicketPriority
@@ -1230,16 +1326,6 @@ sub Data {
         'Queues' => 'очереди',
         'Ticket escalation!' => 'Истекло время до эскалации заявки !',
 
-        # Template: AgentTicketQueueTicketView
-        'Service Time' => 'Время обслуживания',
-        'Your own Ticket' => 'Ваша собственная заявка',
-        'Compose Follow up' => 'Создать автоответ(Ваша заявка принята)',
-        'Compose Answer' => 'Создать ответ',
-        'Contact customer' => 'Связаться с клиентом',
-        'Change queue' => 'Переместить в другую очередь',
-
-        # Template: AgentTicketQueueTicketViewLite
-
         # Template: AgentTicketResponsible
         'Change responsible of ticket' => 'Сменить ответственного за заявку',
 
@@ -1249,40 +1335,33 @@ sub Data {
         'Search-Template' => 'Шаблон поиска',
         'TicketFreeText' => 'Свободные поля заявки',
         'Created in Queue' => 'Создано в очереди',
-        'Close Times' => '',
-        'No close time settings.' => '',
-        'Ticket closed' => 'Заявка закрыта',
-        'Ticket closed between' => 'Заявка закрыта между',
+        'Change Times' => '',
+        'No change time settings.' => '',
+        'Ticket changed' => '',
+        'Ticket changed between' => '',
         'Result Form' => 'Вывод результатов',
         'Save Search-Profile as Template?' => 'Сохранить параметры поиска в качестве шаблона?',
         'Yes, save it with name' => 'Да, сохранить с именем',
 
         # Template: AgentTicketSearchOpenSearchDescription
 
-        # Template: AgentTicketSearchResult
-        'Change search options' => 'Изменить установки поиска',
-
         # Template: AgentTicketSearchResultPrint
-
-        # Template: AgentTicketSearchResultShort
-
-        # Template: AgentTicketStatusView
-        'Ticket Status View' => 'Просмотр статуса заявки',
-        'Open Tickets' => 'Открытые заявки',
 
         # Template: AgentTicketZoom
         'Expand View' => 'Развернутый вид',
+        'Expand' => '',
         'Collapse View' => 'Сжатый вид',
+        'Split' => 'Разделить',
+
+        # Template: AgentTicketZoomArticleFilterDialog
+        'Article filter settings' => '',
+        'Save filter settings as default' => '',
 
         # Template: AgentWindowTab
 
         # Template: AJAX
 
         # Template: Copyright
-
-        # Template: css
-
-        # Template: customer-css
 
         # Template: CustomerAccept
 
@@ -1321,6 +1400,8 @@ sub Data {
         'Times' => 'Время',
         'No time settings.' => 'Нет временных ограничений',
 
+        # Template: CustomerTicketSearchOpenSearchDescription
+
         # Template: CustomerTicketSearchResultCSV
 
         # Template: CustomerTicketSearchResultPrint
@@ -1340,6 +1421,7 @@ sub Data {
         # Template: FooterSmall
 
         # Template: Header
+        'Home' => 'Начало',
 
         # Template: HeaderSmall
 
@@ -1382,6 +1464,8 @@ sub Data {
         'Start page' => 'Стартовая страница',
         'Your OTRS Team' => 'Команда разработчиков OTRS',
 
+        # Template: LinkObject
+
         # Template: Login
 
         # Template: Motd
@@ -1398,6 +1482,8 @@ sub Data {
         # Template: PrintHeader
         'printed by' => 'напечатано',
 
+        # Template: PublicDefault
+
         # Template: Redirect
 
         # Template: Test
@@ -1405,95 +1491,123 @@ sub Data {
         'Counter' => 'счетчик',
 
         # Template: Warning
+
+        # Template: YUI
+        'Bold' => '',
+        'CTRL' => '',
+        'SHIFT' => '',
+        'Italic' => '',
+        'Underline' => '',
+        'Font Color' => '',
+        'Background Color' => '',
+        'Remove Formatting' => '',
+        'Show/Hide Hidden Elements' => '',
+        'Align Left' => '',
+        'Align Center' => '',
+        'Align Right' => '',
+        'Justify' => '',
+        'Indent' => '',
+        'Outdent' => '',
+        'Create an Unordered List' => '',
+        'Create an Ordered List' => '',
+        'HTML Link' => '',
+        'Insert Image' => '',
+        'Undo' => '',
+        'Redo' => '',
+
         # Misc
         'Edit Article' => 'Редактировать заявку',
         'auto responses set!' => 'установленных автоответов',
         'Create Database' => 'Создать базу',
-        'End' => 'Окончание',
         'Ticket Number Generator' => 'Генератор номера Заявки',
         'Create new Phone Ticket' => 'Создать телефонную заявку',
         'Symptom' => 'Признак',
         'U' => 'U',
-        'A message should have a To: recipient!' => 'Сообщение должно иметь поле ДЛЯ: адресата!',
         'Site' => 'Место',
         'Customer history search (e. g. "ID342425").' => 'Поиск истории клиента (напр. "ID342425").',
-        'for agent firstname' => 'для агента - имя',
+        'Can not delete link with %s!' => 'Невозможно удалить связь с %s!',
         'Close!' => 'Закрыть!',
+        'for agent firstname' => 'для агента - имя',
         'Subgroup \'' => 'Подгруппа \'',
-        'The message being composed has been closed.  Exiting.' => 'создаваемое сообщение было закрыто. выход.',
+        'No means, send agent and customer notifications on changes.' => 'Нет значит отсылать уведомления пользователям и клиентам при изменениях',
         'A web calendar' => 'Календарь',
         'to get the realname of the sender (if given)' => 'получить (если есть) имя отправителя',
         'Notification (Customer)' => 'Уведомление (Клиенту)',
-        'Select Source (for add)' => 'Выбрать источник',
         'Involved' => 'Совместно с',
+        'Select Source (for add)' => 'Выбрать источник',
         'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'Опции данных заявки (например  &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)',
+        'Child-Object' => 'Объект-Потомок',
         'Days' => 'Дни',
-        'Locked tickets' => 'Заблокированные заявки',
         'Queue ID' => 'ID очереди',
-        'Home' => 'Начало',
+        'Locked tickets' => 'Заблокированные заявки',
         'System History' => 'История',
         'customer realname' => 'имя клиента',
         'Pending messages' => 'Сообщения в ожидании',
         'Modules' => 'Модули',
         'Keyword' => 'Ключевое слово',
         'Close type' => 'Тип закрытия',
-        'sort upward' => 'сортировка по возрастанию',
         'Change user <-> group settings' => 'Изменить настройки групп пользователей',
         'Problem' => 'Проблема',
         'for ' => 'для',
+        'Escalation' => 'Эскалация',
+        '"}' => '',
+        'Order' => 'Порядок',
         'next step' => 'следующий шаг',
         'Customer history search' => 'Поиск истории клиента',
         '5 Day' => '5 Дней',
         'Admin-Email' => 'e-mail администратора',
         'Create new database' => 'Создать новую БД',
-        'A message must be spell checked!' => 'Сообщение должно быть проверено на ошибки!',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Ваш e-mail с номером заявки "<OTRS_TICKET>" отвергнут и переслан по адресу "<OTRS_BOUNCE_TO>". Пожалуйста, свяжитесь по этому адресу для выяснения причин. ',
         'ArticleID' => 'ID заметки',
-        'A message should have a body!' => 'Тело сообщения не может быть пустым!',
         'Keywords' => 'Ключевые слова',
+        'Ticket Escalation View' => 'Вид эскалации заявки',
+        'Today' => 'Сегодня',
         'Tommorow' => 'Завтра',
         'No * possible!' => 'Нельзя использовать символ * !',
         'Options ' => 'Опции',
         'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'Опции текущего пользователя, который запросил это действие (например &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)',
         'Message for new Owner' => 'сообщение для нового владельца',
         'to get the first 5 lines of the email' => 'получить первые 5 строк письма',
+        'Sort by' => 'Сортировка по',
         'Last update' => 'Последнее изменение',
+        'Tomorrow' => 'Завтра',
         'to get the first 20 character of the subject' => 'получить первые 20 символов поля "тема"',
         'Select the customeruser:service relations.' => 'Выберите связь: клиент-сервис.',
         'Drop Database' => 'Удалить базу',
+        'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Здесь вы можете определить ось X. Вы можете выбрать один элемент. Затем необходимо выбрать два или более аттрибутов элемента. Если вы совсем не выбирете аттрибутов элемента - все аттрибуты будут использованы для генерации отчета, а также вновь добавленные аттрибуты.',
         'FileManager' => 'Файл менеджер',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Опции текущих данных пользователя (например <OTRS_CUSTOMER_DATA_UserFirstname>)',
         'Pending type' => 'Тип ожидания',
         'Comment (internal)' => 'Комментарий (внутренний)',
         'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => 'Опции владельца заявки (например &lt;OTRS_OWNER_USERFIRSTNAME&gt;)',
-        'This window must be called from compose window' => 'Это окно должно вызываться из окна ввода',
         'Minutes' => 'Минуты',
-        'You need min. one selected Ticket!' => 'Вам необхоимо выбрать хотябы одну заявку!',
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Опции данных заявки (например <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         '(Used ticket number format)' => '(Используемый формат номеров Заявок)',
+        'Reminder' => 'Напоминание',
         'Fulltext' => 'Полнотекстовый',
-        ' (work units)' => ' (рабочие единицы)',
+        'Next Week' => 'На будущей неделе',
         'All Customer variables like defined in config option CustomerUser.' => 'Все переменные клиента содержаться в конфигурации клиентского пользователя.',
         'for agent lastname' => 'для агента - фамилия',
         'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => 'Опции для текущего пользователя, который запросил это действие (например <OTRS_CURRENT_UserFirstname>)',
         'Reminder messages' => 'Напоминающие сообщения',
         'Change users <-> roles settings' => 'Изменить настройки пользователи <-> роли',
-        'A message should have a subject!' => 'Сообщение должно иметь поле "тема"!',
+        'Parent-Object' => 'Объект-Родитель',
+        'Of couse this feature will take some system performance it self!' => 'Конечно, данная функция сама съедает немного ресурсов!',
         'Ticket Hook' => 'Зацепить Заявку',
         'Events' => 'События',
+        'Detail' => 'Подробно',
         'TicketZoom' => 'Просмотр заявки',
         'Don\'t forget to add a new user to groups!' => 'Не забудьте добавить новоего пользователя в группы!',
-        'You need a email address (e. g. customer@example.com) in To:!' => 'Нужен правильный адрес в поле ДЛЯ: (support@example.ru)!',
+        'Open Tickets' => 'Открытые заявки',
         'CreateTicket' => 'Создание заявки',
-        'You need to account time!' => 'Вам необходимо посчитать время!',
+        'You have to select two or more attributes from the select field!' => 'Вам необходимо выбрать два или более пунктов из выбранного поля!',
         'System Settings' => 'Системные установки',
         'WebWatcher' => 'Web-наблюдатель',
         'Hours' => 'Часы',
         'Finished' => 'Закончено',
-        'Split' => 'Разделить',
         'D' => 'D',
         'All messages' => 'Все сообщения',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Опции заявки (например <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
+        'Object already linked as %s.' => 'Объект уже связан с %s!',
         '7 Day' => '7 Дней',
         'Ticket Overview' => 'Обзор заявок',
         'Event' => 'Событие',
@@ -1507,41 +1621,32 @@ sub Data {
         'Solution' => 'Решение',
         'QueueView' => 'Просмотр очереди',
         'Select Box' => 'Дать команду SELECT',
+        'New messages' => 'Новые сообщения',
+        'Can not create link with %s!' => 'Невозможно создать связь с %s!',
+        'Linked as' => 'Связан как',
         'Welcome to OTRS' => 'Добро пожаловать в OTRS',
         'modified' => 'Изменено',
-        'Escalation in' => 'Эскалация через',
         'Running' => 'Выполняется',
-        'sort downward' => 'сортировка по убыванию',
-        'You need to use a ticket number!' => 'Вам необходимо использовать номер заявки!',
         'Have a lot of fun!' => 'Развлекайтесь!',
         'send' => 'Отправить',
+        'Send no notifications' => 'Не отсылать уведомления',
         'Note Text' => 'Текст заметки',
-        '3 Month' => '3 Месяца',
         'POP3 Account Management' => 'Управление учетной записью POP3',
+        '3 Month' => '3 Месяца',
         'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'Опции для данных текущего пользователя-клиента (например &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)',
         'Jule' => 'Июля',
         'System State Management' => 'Управление системными состояниями',
+        'Mailbox' => 'Почтовый ящик',
         'PhoneView' => 'Заявка по телефону',
         'maximal period form' => 'Максимальный период с',
         'TicketID' => 'ID заявки',
         'Mart' => 'Марта',
         'Change setting' => 'Изменить настройки',
+        'Yes means, send no agent and customer notifications on changes.' => 'Да значит не отсылать уведомления пользователям и клиентам при изменениях',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Ваш e-mail с номером заявки "<OTRS_TICKET>" отвергнут и переслан по адресу "<OTRS_BOUNCE_TO>". Пожалуйста, свяжитесь по этому адресу для выяснения причин. ',
+        'Ticket Status View' => 'Просмотр статуса заявки',
         'Modified' => 'Изменено',
         'Ticket selected for bulk action!' => 'Заявка выбрана для массового действия!',
-
-        'Link Object: %s' => 'Связать объект:',
-        'Unlink Object: %s' => 'Отвязать объект:',
-        'Linked as' => 'Связан как',
-        'Can not create link with %s!' => 'Невозможно создать связь с %s!',
-        'Can not delete link with %s!' => 'Невозможно удалить связь с %s!',
-        'Object already linked as %s.' => 'Объект уже связан с %s!',
-        'Priority Management' => 'Управление приоритетами',
-        'Add a new Priority.' => 'Создать новый приоритет.',
-        'Add Priority' => 'Создать приоритет',
-        'Ticket Type is required!' => '',
-        'Module documentation' => '',
-        'Added!' => '',
-        'Updated!' => '',
     };
     # $$STOP$$
     return;
