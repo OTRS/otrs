@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.96 2009-02-20 12:11:41 mh Exp $
+# $Id: Package.pm,v 1.97 2009-04-03 14:24:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.96 $) [1];
+$VERSION = qw($Revision: 1.97 $) [1];
 
 =head1 NAME
 
@@ -41,6 +41,7 @@ All functions to manage application packages/modules.
 create an object
 
     use Kernel::Config;
+    use Kernel::System::Encode;
     use Kernel::System::Log;
     use Kernel::System::Main;
     use Kernel::System::DB;
@@ -48,17 +49,21 @@ create an object
     use Kernel::System::Package;
 
     my $ConfigObject = Kernel::Config->new();
+    my $EncodeObject = Kernel::System::Encode->new();
     my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
     );
     my $MainObject = Kernel::System::Main->new(
         LogObject    => $LogObject,
         ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
     );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
         MainObject   => $MainObject,
         LogObject    => $LogObject,
+        EncodeObject => $EncodeObject,
     );
     my $TimeObject = Kernel::System::Time->new(
         ConfigObject => $ConfigObject,
@@ -69,6 +74,7 @@ create an object
         ConfigObject => $ConfigObject,
         TimeObject   => $TimeObject,
         DBObject     => $DBObject,
+        EncodeObject => $EncodeObject,
     );
 
 =cut
@@ -81,7 +87,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for my $Object (qw(DBObject ConfigObject LogObject TimeObject MainObject)) {
+    for my $Object (qw(DBObject ConfigObject LogObject TimeObject MainObject EncodeObject)) {
         $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
     $Self->{XMLObject} = Kernel::System::XML->new( %{$Self} );
@@ -144,12 +150,11 @@ returns a list of repository packages
 sub RepositoryList {
     my ( $Self, %Param ) = @_;
 
-    my @Data = ();
-
     $Self->{DBObject}->Prepare(
         SQL =>
             'SELECT name, version, install_status, content FROM package_repository ORDER BY name, create_time',
     );
+    my @Data = ();
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         my %Package = (
             Name    => $Row[0],
@@ -187,8 +192,6 @@ get a package from local repository
 sub RepositoryGet {
     my ( $Self, %Param ) = @_;
 
-    my $Package = '';
-
     # check needed stuff
     for (qw(Name Version)) {
         if ( !defined $Param{$_} ) {
@@ -202,6 +205,7 @@ sub RepositoryGet {
         SQL => 'SELECT content FROM package_repository WHERE name = ? AND version = ?',
         Bind => [ \$Param{Name}, \$Param{Version} ],
     );
+    my $Package = '';
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Package = $Row[0];
     }
@@ -2391,6 +2395,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.96 $ $Date: 2009-02-20 12:11:41 $
+$Revision: 1.97 $ $Date: 2009-04-03 14:24:08 $
 
 =cut
