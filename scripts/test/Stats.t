@@ -2,7 +2,7 @@
 # scripts/test/Stats.t - stats module testscript
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.t,v 1.17 2009-02-16 12:40:23 tr Exp $
+# $Id: Stats.t,v 1.18 2009-04-05 21:45:35 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -43,8 +43,8 @@ $Self->False(
         StatID => '1111',
         Hash   => {
             Title       => 'TestTitle from UnitTest.pl',
-            Description => 'some Description'
-            }
+            Description => 'some Description',
+        },
     ),
     "StatsUpdate() try to update a invalid stat id (Ignore the Tracebacks on the top)",
 );
@@ -86,7 +86,7 @@ $Self->True(
             SumCol       => '1',
             SumRow       => '1',
             Valid        => '1',
-            }
+        },
     ),
     "StatsUpdate() Update StatID1",
 );
@@ -96,8 +96,8 @@ $Self->False(
         StatID => ( $StatID2 + 2 ),
         Hash   => {
             Title       => 'TestTitle from UnitTest.pl',
-            Description => 'some Description'
-            }
+            Description => 'some Description',
+        },
     ),
     "StatsUpdate() try to update a invalid stat id (Ignore the Tracebacks on the top)",
 );
@@ -110,7 +110,7 @@ my $Stat = $Self->{StatsObject}->StatsGet(
 $Self->Is(
     $Stat->{Title},
     'TestTitle from UnitTest.pl',
-    'StatsGet() check the Title'
+    'StatsGet() check the Title',
 );
 
 # check completenesscheck
@@ -121,7 +121,7 @@ my @Notify = $Self->{StatsObject}->CompletenessCheck(
 $Self->Is(
     $Notify[0]{Priority},
     'Error',
-    'CompletenessCheck() check the checkfunctions'
+    'CompletenessCheck() check the checkfunctions',
 );
 
 # check StatsList
@@ -140,7 +140,7 @@ for ( @{$ArrayRef} ) {
 $Self->Is(
     $Counter,
     '2',
-    'GetStatsList() check if StatID1 and StatID2 available in the statslist'
+    'GetStatsList() check if StatID1 and StatID2 available in the statslist',
 );
 
 # check the available DynamicFiles
@@ -170,7 +170,7 @@ $Counter = $SubStatArray[-1];
 $Self->Is(
     $Counter,
     '30',
-    'GetStatsList() check if StatID1 and StatID2 available in the statslist'
+    'GetStatsList() check if StatID1 and StatID2 available in the statslist',
 );
 
 # export StatID 1
@@ -196,7 +196,7 @@ my $Stat3 = $Self->{StatsObject}->StatsGet(
 $Self->Is(
     $Stat3->{Title},
     'TestTitle from UnitTest.pl',
-    'StatsGet() check importet stat'
+    'StatsGet() check importet stat',
 );
 
 # check delete stat function
@@ -247,7 +247,7 @@ $ExportContent->{Content} =~ s/^<\?xml.*?>.*?<otrs_stats/<otrs_stats/ms;
 $Self->Is(
     $ImportContent,
     $ExportContent->{Content},
-    "Export-Importcheck - check if import file content equal export file content.\n Be careful, if it gives errors if you run OTRS with default charset uft-8,\n because the examplefile is iso-8859-1, but at my test there a no problems to compare a utf-8 string with an iso string?!\n"
+    "Export-Importcheck - check if import file content equal export file content.\n Be careful, if it gives errors if you run OTRS with default charset uft-8,\n because the examplefile is iso-8859-1, but at my test there a no problems to compare a utf-8 string with an iso string?!\n",
 );
 
 # ---
@@ -278,13 +278,13 @@ if (
 
     $Self->True(
         ( $Lines[0] && !$Lines[1] && $Lines[0] =~ /^NOTICE:/ ),
-        "mkStats.pl - Simple mkStats.pl check (check the program message)\n"
+        "mkStats.pl - Simple mkStats.pl check (check the program message)\n",
     );
 }
 else {
     $Self->True(
         0,
-        "mkStats.pl - Simple mkStats.pl check (open the file).\n"
+        "mkStats.pl - Simple mkStats.pl check (open the file).\n",
     );
 }
 
