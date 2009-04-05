@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.22 2009-03-27 17:36:33 mh Exp $
+# $Id: Layout.t,v 1.23 2009-04-05 21:28:26 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -53,6 +53,7 @@ $Self->{TicketObject} = Kernel::System::Ticket->new(
 );
 
 $Self->{UserObject} = Kernel::System::User->new(
+    EncodeObject => $Self->{EncodeObject},
     ConfigObject => $Self->{ConfigObject},
     LogObject    => $Self->{LogObject},
     TimeObject   => $Self->{TimeObject},
