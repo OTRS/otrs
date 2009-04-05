@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Language.pm,v 1.62 2009-03-18 18:58:33 martin Exp $
+# $Id: Language.pm,v 1.63 2009-04-05 21:55:22 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,12 +14,11 @@ package Kernel::Language;
 use strict;
 use warnings;
 
-use Kernel::System::Encode;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 =head1 NAME
 
@@ -52,12 +51,10 @@ create a language object
     my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
-
     my $MainObject = Kernel::System::Main->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
     );
-
     my $LanguageObject = Kernel::Language->new(
         MainObject   => $MainObject,
         ConfigObject => $ConfigObject,
@@ -189,6 +186,7 @@ sub new {
         my @Chatsets = @{ $Self->{Charset} };
         $Self->{TranslationCharset} = $Chatsets[-1];
     }
+
     return $Self;
 }
 
@@ -286,6 +284,7 @@ sub Get {
             }
         }
     }
+
     return $What;
 }
 
@@ -342,6 +341,7 @@ sub FormatTimeString {
         Priority => 'notice',
         Message  => "No FormatTimeString() translation found for '$String' string!",
     );
+
     return $String;
 
 }
@@ -368,6 +368,7 @@ sub GetRecommendedCharset {
         my @Chatsets = @{ $Self->{Charset} };
         return $Chatsets[-1];
     }
+
     return $Self->{ConfigObject}->Get('DefaultCharset') || 'iso-8859-1';
 }
 
@@ -382,9 +383,7 @@ Returns an array of possible charsets (based on translation file).
 sub GetPossibleCharsets {
     my $Self = shift;
 
-    if ( $Self->{Charset} ) {
-        return @{ $Self->{Charset} };
-    }
+    return @{ $Self->{Charset} } if $Self->{Charset};
     return;
 }
 
@@ -471,7 +470,6 @@ sub Time {
         return $ReturnString;
     }
 
-    # return
     return $ReturnString;
 }
 
@@ -520,6 +518,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.62 $ $Date: 2009-03-18 18:58:33 $
+$Revision: 1.63 $ $Date: 2009-04-05 21:55:22 $
 
 =cut
