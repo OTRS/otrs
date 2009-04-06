@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/NavBarTicketSearchProfile.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: NavBarTicketSearchProfile.pm,v 1.2 2009-02-16 11:16:22 tr Exp $
+# $Id: NavBarTicketSearchProfile.pm,v 1.3 2009-04-06 21:19:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -13,10 +13,11 @@ package Kernel::Output::HTML::NavBarTicketSearchProfile;
 
 use strict;
 use warnings;
+
 use Kernel::System::SearchProfile;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -29,14 +30,14 @@ sub new {
     for (qw(ConfigObject LogObject DBObject TicketObject LayoutObject UserID UserObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
+
     $Self->{SearchProfileObject} = Kernel::System::SearchProfile->new(%Param);
+
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
-
-    my %Return = ();
 
     # get user data
     my %User = $Self->{UserObject}->GetUserData(
@@ -56,13 +57,14 @@ sub Run {
         Name       => 'Profile',
         SelectedID => '',
         OnChange   => 'document.Search.submit()',
-        Max        => $Param{Config}{MaxWidth},
+        Max        => $Param{Config}->{MaxWidth},
     );
 
+    my %Return = ();
     $Return{'0990000'} = {
-        Block       => $Param{Config}{Block},
-        Description => $Param{Config}{Description},
-        Name        => $Param{Config}{Name},
+        Block       => $Param{Config}->{Block},
+        Description => $Param{Config}->{Description},
+        Name        => $Param{Config}->{Name},
         Image       => '',
         Link        => $ProfilesStrg,
         AccessKey   => '',
