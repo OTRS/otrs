@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageDB.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageDB.pm,v 1.67 2009-03-27 17:35:32 mh Exp $
+# $Id: ArticleStorageDB.pm,v 1.68 2009-04-06 21:25:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use MIME::Base64;
 use MIME::Words qw(:all);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -294,7 +294,7 @@ sub ArticlePlain {
     $Param{ArticleID} =~ s/\0//g;
 
     # can't open article, try database
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL    => 'SELECT body FROM article_plain WHERE article_id = ?',
         Bind   => [ \$Param{ArticleID} ],
         Encode => [0],
@@ -362,7 +362,7 @@ sub ArticleAttachmentIndex {
     my $Counter = 0;
 
     # try database
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT filename, content_type, content_size, content_id, content_alternative'
             . ' FROM article_attachment WHERE article_id = ? ORDER BY id',
         Bind => [ \$Param{ArticleID} ],
@@ -515,7 +515,7 @@ sub ArticleAttachment {
     my %Data = %{ $Index{ $Param{FileID} } };
 
     # try database
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT content_type, content, content_id, content_alternative'
             . ' FROM article_attachment WHERE article_id = ? ORDER BY id',
         Bind   => [ \$Param{ArticleID} ],

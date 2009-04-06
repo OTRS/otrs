@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageFS.pm,v 1.59 2009-03-27 17:35:32 mh Exp $
+# $Id: ArticleStorageFS.pm,v 1.60 2009-04-06 21:25:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -391,7 +391,7 @@ sub ArticlePlain {
     return if $Param{OnlyMyBackend};
 
     # can't open article, try database
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL  => 'SELECT body FROM article_plain WHERE article_id = ?',
         Bind => [ \$Param{ArticleID} ],
     );
@@ -528,7 +528,7 @@ sub ArticleAttachmentIndex {
     return %Index if $Param{OnlyMyBackend};
 
     # try database (if there is no index in fs)
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT filename, content_type, content_size, content_id, content_alternative'
             . ' FROM article_attachment WHERE article_id = ? ORDER BY id',
         Bind => [ \$Param{ArticleID} ],
@@ -674,7 +674,7 @@ sub ArticleAttachment {
     return if $Param{OnlyMyBackend};
 
     # try database, if no content is found
-    $Self->{DBObject}->Prepare(
+    return if !$Self->{DBObject}->Prepare(
         SQL => 'SELECT content_type, content, content_id, content_alternative'
             . ' FROM article_attachment WHERE article_id = ? ORDER BY id',
         Bind   => [ \$Param{ArticleID} ],
