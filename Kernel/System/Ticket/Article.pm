@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.210 2009-04-03 12:37:03 martin Exp $
+# $Id: Article.pm,v 1.211 2009-04-06 09:16:19 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.210 $) [1];
+$VERSION = qw($Revision: 1.211 $) [1];
 
 =head1 NAME
 
@@ -102,7 +102,7 @@ sub ArticleCreate {
         my $Attach = {
             Content     => $Param{Body},
             ContentType => "text/html; charset=\"$Param{Charset}\"",
-            Filename    => 'HTML-Attachment.html',
+            Filename    => 'file-2',
         };
         push( @{ $Param{Attachment} }, $Attach );
 
@@ -1967,47 +1967,6 @@ sub ArticleSend {
     );
     return if !$ArticleID;
 
-    # add attachments to ticket
-    if ( $Param{Attachment} ) {
-        for my $Tmp ( @{ $Param{Attachment} } ) {
-            my %Upload = %{$Tmp};
-            if ( $Upload{Content} && $Upload{Filename} ) {
-
-                # add attachments to article
-                $Self->ArticleWriteAttachment(
-                    %Upload,
-                    ArticleID => $ArticleID,
-                    UserID    => $Param{UserID},
-                );
-            }
-        }
-    }
-
-    # add std attachments to email
-    if ( $Param{StdAttachmentIDs} ) {
-        for my $ID ( @{ $Param{StdAttachmentIDs} } ) {
-            my %Data = $Self->{StdAttachmentObject}->StdAttachmentGet( ID => $ID );
-            for (qw(Filename ContentType Content)) {
-                if ( !$Data{$_} ) {
-                    $Self->{LogObject}->Log(
-                        Priority => 'error',
-                        Message  => "No $_ found for std. attachment id $ID!",
-                    );
-                }
-            }
-
-            # attach file to email
-            push( @{ $Param{Attachment} }, \%Data );
-
-            # add attachments to article storage
-            $Self->ArticleWriteAttachment(
-                %Data,
-                ArticleID => $ArticleID,
-                UserID    => $Param{UserID},
-            );
-        }
-    }
-
     # send mail
     my ( $HeadRef, $BodyRef ) = $Self->{SendmailObject}->Send(
         'Message-ID' => $MessageID,
@@ -3372,6 +3331,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.210 $ $Date: 2009-04-03 12:37:03 $
+$Revision: 1.211 $ $Date: 2009-04-06 09:16:19 $
 
 =cut
