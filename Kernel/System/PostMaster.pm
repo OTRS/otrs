@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.pm,v 1.76 2009-02-16 11:57:40 tr Exp $
+# $Id: PostMaster.pm,v 1.77 2009-04-06 21:33:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 =head1 NAME
 
@@ -337,9 +337,7 @@ sub Run {
             QueueID          => $Param{QueueID},
             AutoResponseType => 'auto reply',
         );
-        if ( !$TicketID ) {
-            return;
-        }
+        return if !$TicketID;
         @Return = ( 1, $TicketID );
     }
 
@@ -418,11 +416,10 @@ sub CheckFollowUp {
             my $TicketID = $Self->{TicketObject}->ArticleGetTicketIDOfMessageID(
                 MessageID => "<$Reference>",
             );
-            if ($TicketID) {
-                my $Tn = $Self->{TicketObject}->TicketNumberLookup( TicketID => $TicketID, );
-                if ( $TicketID && $Tn ) {
-                    return ( $Tn, $TicketID );
-                }
+            next if !$TicketID;
+            my $Tn = $Self->{TicketObject}->TicketNumberLookup( TicketID => $TicketID, );
+            if ( $TicketID && $Tn ) {
+                return ( $Tn, $TicketID );
             }
         }
     }
@@ -430,60 +427,54 @@ sub CheckFollowUp {
     # do body ticket number lookup
     if ( $Self->{ConfigObject}->Get('PostmasterFollowUpSearchInBody') ) {
         my $Tn = $Self->{TicketObject}->GetTNByString( $Self->{ParserObject}->GetMessageBody() );
-        if ($Tn) {
-            my $TicketID = $Self->{TicketObject}->TicketCheckNumber( Tn => $Tn );
-            if ($TicketID) {
-                my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
-                if ( $Self->{Debug} > 1 ) {
-                    $Self->{LogObject}->Log(
-                        Priority => 'debug',
-                        Message =>
-                            "CheckFollowUp (in body): ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
-                    );
-                }
-                return ( $Ticket{TicketNumber}, $TicketID );
-            }
+        next if !$Tn;
+        my $TicketID = $Self->{TicketObject}->TicketCheckNumber( Tn => $Tn );
+        next if !$TicketID;
+        my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
+        if ( $Self->{Debug} > 1 ) {
+            $Self->{LogObject}->Log(
+                Priority => 'debug',
+                Message =>
+                    "CheckFollowUp (in body): ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
+            );
         }
+        return ( $Ticket{TicketNumber}, $TicketID );
     }
 
     # do attachment ticket number lookup
     if ( $Self->{ConfigObject}->Get('PostmasterFollowUpSearchInAttachment') ) {
         for my $Attachment ( $Self->{ParserObject}->GetAttachments() ) {
             my $Tn = $Self->{TicketObject}->GetTNByString( $Attachment->{Content} );
-            if ($Tn) {
-                my $TicketID = $Self->{TicketObject}->TicketCheckNumber( Tn => $Tn );
-                if ($TicketID) {
-                    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
-                    if ( $Self->{Debug} > 1 ) {
-                        $Self->{LogObject}->Log(
-                            Priority => 'debug',
-                            Message =>
-                                "CheckFollowUp (in attachment): ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
-                        );
-                    }
-                    return ( $Ticket{TicketNumber}, $TicketID );
-                }
+            next if !$Tn;
+            my $TicketID = $Self->{TicketObject}->TicketCheckNumber( Tn => $Tn );
+            next if !$TicketID;
+            my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
+            if ( $Self->{Debug} > 1 ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'debug',
+                    Message =>
+                        "CheckFollowUp (in attachment): ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
+                );
             }
+            return ( $Ticket{TicketNumber}, $TicketID );
         }
     }
 
     # do plain/raw ticket number lookup
     if ( $Self->{ConfigObject}->Get('PostmasterFollowUpSearchInRaw') ) {
         my $Tn = $Self->{TicketObject}->GetTNByString( $Self->{ParserObject}->GetPlainEmail() );
-        if ($Tn) {
-            my $TicketID = $Self->{TicketObject}->TicketCheckNumber( Tn => $Tn );
-            if ($TicketID) {
-                my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
-                if ( $Self->{Debug} > 1 ) {
-                    $Self->{LogObject}->Log(
-                        Priority => 'debug',
-                        Message =>
-                            "CheckFollowUp (in plain/raw): ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
-                    );
-                }
-                return ( $Ticket{TicketNumber}, $TicketID );
-            }
+        next if !$Tn;
+        my $TicketID = $Self->{TicketObject}->TicketCheckNumber( Tn => $Tn );
+        next if !$TicketID;
+        my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
+        if ( $Self->{Debug} > 1 ) {
+            $Self->{LogObject}->Log(
+                Priority => 'debug',
+                Message =>
+                    "CheckFollowUp (in plain/raw): ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
+            );
         }
+        return ( $Ticket{TicketNumber}, $TicketID );
     }
     return;
 }
@@ -613,6 +604,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.76 $ $Date: 2009-02-16 11:57:40 $
+$Revision: 1.77 $ $Date: 2009-04-06 21:33:48 $
 
 =cut
