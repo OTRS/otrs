@@ -2,7 +2,7 @@
 # AgentNavigationBar.dtl - provides global HTML NavigationBar
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentNavigationBar.dtl,v 1.64 2009-03-02 23:58:12 martin Exp $
+# $Id: AgentNavigationBar.dtl,v 1.65 2009-04-06 21:35:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -59,6 +59,20 @@
             </div>
           </td>
 <!-- dtl:block:ItemSearchProfile -->
+<!-- dtl:block:ItemSearchFulltext -->
+          <td valign="top" align="center" class="nav">
+            <div title="$Text{"$QData{"Description"}"}">
+            <form action="$Env{"CGIHandle"}" method="post" name="Search">
+              <input type="hidden" name="Action" value="AgentTicketSearch"/>
+              <input type="hidden" name="Subaction" value="Search"/>
+              <input type="hidden" name="SearchTemplate" value="$Text{"Search"}"/>
+              <input type="text" size="$QData{"Size"}" name="Fulltext" value="$QData{"Fulltext"}"/>
+              <br/>
+              <a href="#" accesskey="$QData{"AccessKey"}" onmouseover="window.status='$JSText{"$QData{"Name"}"}'; return true;" onmouseout="window.status='';" $Data{"LinkOption"} class="navitem" onclick="document.Search.submit()">$Text{"$QData{"Name"}"}</a>
+            </form>
+            </div>
+          </td>
+<!-- dtl:block:ItemSearchFulltext -->
 <!-- dtl:block:ItemPersonal -->
           <td valign="top" align="center" class="nav">
             <div title="$Text{"$QData{"Description"}"}">
