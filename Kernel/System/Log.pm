@@ -2,7 +2,7 @@
 # Kernel/System/Log.pm - log wapper
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Log.pm,v 1.53 2009-04-03 13:57:50 mh Exp $
+# $Id: Log.pm,v 1.54 2009-04-06 21:02:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 =head1 NAME
 
@@ -176,12 +176,12 @@ sub Log {
     }
 
     # remember to info and notice messages
-    elsif ( $Priority =~ /^(info|notice)/i ) {
+    elsif ( lc $Priority eq 'info' ||  lc $Priority eq 'notice' ) {
         $Self->{ lc($Priority) }->{Message} = $Message;
     }
 
     # write shm cache log
-    if ( $Priority !~ /^debug/i && $Self->{IPC} ) {
+    if ( lc $Priority ne 'debug' && $Self->{IPC} ) {
         $Priority = lc($Priority);
         my $Data   = localtime() . ";;$Priority;;$Self->{LogPrefix};;$Message\n";
         my $String = $Self->GetLog();
@@ -305,6 +305,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.53 $ $Date: 2009-04-03 13:57:50 $
+$Revision: 1.54 $ $Date: 2009-04-06 21:02:02 $
 
 =cut

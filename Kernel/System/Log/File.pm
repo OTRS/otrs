@@ -2,7 +2,7 @@
 # Kernel/System/Log/File.pm - file log backend
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: File.pm,v 1.21 2009-04-02 13:50:01 mh Exp $
+# $Id: File.pm,v 1.22 2009-04-06 21:01:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 umask "002";
 
@@ -77,16 +77,16 @@ sub Log {
     # write log file
     $Self->{EncodeObject}->SetIO($FH);
     print $FH '[' . localtime() . ']';
-    if ( $Param{Priority} =~ /^debug/i ) {
+    if ( lc $Param{Priority} eq 'debug' ) {
         print $FH "[Debug][$Param{Module}][$Param{Line}] $Param{Message}\n";
     }
-    elsif ( $Param{Priority} =~ /^info/i ) {
+    elsif ( lc $Param{Priority} eq 'info' ) {
         print $FH "[Info][$Param{Module}] $Param{Message}\n";
     }
-    elsif ( $Param{Priority} =~ /^notice/i ) {
+    elsif ( lc $Param{Priority} eq 'notice' ) {
         print $FH "[Notice][$Param{Module}] $Param{Message}\n";
     }
-    elsif ( $Param{Priority} =~ /^error/i ) {
+    elsif ( lc $Param{Priority} eq 'error' ) {
         print $FH "[Error][$Param{Module}][$Param{Line}] $Param{Message}\n";
     }
     else {

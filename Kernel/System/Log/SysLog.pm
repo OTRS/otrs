@@ -2,7 +2,7 @@
 # Kernel/System/Log/SysLog.pm - a wrapper for Sys::Syslog or xyz::Syslog
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: SysLog.pm,v 1.18 2009-03-18 18:49:09 martin Exp $
+# $Id: SysLog.pm,v 1.19 2009-04-06 21:01:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Sys::Syslog qw(:DEFAULT setlogsock);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -60,16 +60,16 @@ sub Log {
     setlogsock($LogSock);
     openlog( $Param{LogPrefix}, 'cons,pid', $Self->{SysLogFacility} );
 
-    if ( $Param{Priority} =~ /debug/i ) {
+    if ( lc $Param{Priority} eq 'debug' ) {
         syslog( 'debug', "[Debug][$Param{Module}][$Param{Line}] $Param{Message}" );
     }
-    elsif ( $Param{Priority} =~ /info/i ) {
+    elsif ( lc $Param{Priority} eq 'info' ) {
         syslog( 'info', "[Info][$Param{Module}] $Param{Message}" );
     }
-    elsif ( $Param{Priority} =~ /notice/i ) {
+    elsif ( lc $Param{Priority} eq 'notice' ) {
         syslog( 'notice', "[Notice][$Param{Module}] $Param{Message}" );
     }
-    elsif ( $Param{Priority} =~ /error/i ) {
+    elsif ( lc $Param{Priority} eq 'error' ) {
         syslog( 'err', "[Error][$Param{Module}][Line:$Param{Line}]: $Param{Message}" );
     }
     else {
