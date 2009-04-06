@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.67 2009-04-01 10:02:33 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.68 2009-04-06 21:07:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -96,13 +96,25 @@ sub Run {
     $Self->{EraseTemplate}  = $Self->{ParamObject}->GetParam( Param => 'EraseTemplate' )  || '';
 
     # check request
-    if ( $Self->{Subaction} eq 'OpenSearchDescription' ) {
+    if ( $Self->{Subaction} eq 'OpenSearchDescriptionTicketNumber' ) {
         my $Output = $Self->{LayoutObject}->Output(
-            TemplateFile => 'AgentTicketSearchOpenSearchDescription',
-            Data         => {%Param},
+            TemplateFile => 'AgentTicketSearchOpenSearchDescriptionTicketNumber',
+            Data         => \%Param,
         );
         return $Self->{LayoutObject}->Attachment(
-            Filename    => 'OpenSearchDescription.xml',
+            Filename    => 'OpenSearchDescriptionTicketNumber.xml',
+            ContentType => "text/xml",
+            Content     => $Output,
+            Type        => 'inline',
+        );
+    }
+    if ( $Self->{Subaction} eq 'OpenSearchDescriptionFulltext' ) {
+        my $Output = $Self->{LayoutObject}->Output(
+            TemplateFile => 'AgentTicketSearchOpenSearchDescriptionFulltext',
+            Data         => \%Param,
+        );
+        return $Self->{LayoutObject}->Attachment(
+            Filename    => 'OpenSearchDescriptionFulltext.xml',
             ContentType => "text/xml",
             Content     => $Output,
             Type        => 'inline',
@@ -134,6 +146,7 @@ sub Run {
         for (
             qw(TicketNumber Title From To Cc Subject Body CustomerID CustomerUserLogin StateType
             Agent ResultForm TimeSearchType ChangeTimeSearchType CloseTimeSearchType UseSubQueues
+            Fulltext
             TicketFreeTime1
             TicketFreeTime1Start TicketFreeTime1StartDay TicketFreeTime1StartMonth
             TicketFreeTime1StartYear
@@ -576,6 +589,14 @@ sub Run {
                         . $GetParam{ 'TicketFreeTime' . $_ . 'StopDay' }
                         . ' 23:59:59';
                 }
+            }
+        }
+
+        # prepare fulltext search
+        if ( $GetParam{Fulltext} ) {
+            $GetParam{ContentSearch} = 'OR';
+            for (qw(From To Cc Subject Body)) {
+                $GetParam{$_} = $GetParam{Fulltext};
             }
         }
 

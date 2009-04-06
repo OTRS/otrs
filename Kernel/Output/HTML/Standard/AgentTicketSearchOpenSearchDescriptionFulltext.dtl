@@ -1,0 +1,18 @@
+# --
+# AgentTicketSearchOpenSearchDescriptionFulltext.dtl - provides opensearch form for AgentTicketSearch
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# --
+# $Id: AgentTicketSearchOpenSearchDescriptionFulltext.dtl,v 1.1 2009-04-06 21:07:47 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+<?xml version="1.0" encoding="utf-8" ?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+<ShortName>$Quote{"$Config{"ProductName"}"} ($Quote{"$Config{"Ticket::Hook"}"})</ShortName>
+<Description>$Quote{"$Config{"ProductName"}"} ($Quote{"$Config{"Ticket::Hook"}"})</Description>
+<InputEncoding>$Env{"UserCharset"}</InputEncoding>
+<Url type="text/html" template="$Config{"HttpType"}://$Env{"HTTP_HOST"}$Env{"Baselink"}Action=AgentTicketSearch&amp;Subaction=Search&amp;TicketNumber={searchTerms}" />
+<Image height="16" width="16" type="image/x-icon">$Config{"HttpType"}://$Env{"HTTP_HOST"}$Config{"Frontend::ImagePath"}product.ico</Image>
+</OpenSearchDescription>
