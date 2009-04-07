@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.38 2009-04-03 13:57:50 mh Exp $
+# $Id: InterfaceCustomer.pm,v 1.39 2009-04-07 16:03:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.38 $) [1];
+$VERSION = qw($Revision: 1.39 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -744,8 +744,9 @@ sub Run {
         else {
 
             # get session data
-            my %UserData
-                = $Self->{SessionObject}->GetSessionIDData( SessionID => $Param{SessionID}, );
+            my %UserData = $Self->{SessionObject}->GetSessionIDData(
+                SessionID => $Param{SessionID},
+            );
 
             # check needed data
             if ( !$UserData{UserID} || !$UserData{UserLogin} || $UserData{UserType} ne 'Customer' )
@@ -773,8 +774,11 @@ sub Run {
             }
 
             # create new LayoutObject with new '%Param' and '%UserData'
-            $Self->{LayoutObject}
-                = Kernel::Output::HTML::Layout->new( %{$Self}, %Param, %UserData, );
+            $Self->{LayoutObject} = Kernel::Output::HTML::Layout->new(
+                %{$Self},
+                %Param,
+                %UserData,
+            );
 
             # module registry
             my $ModuleReg
@@ -798,8 +802,8 @@ sub Run {
             # pre application module
             my $PreModule = $Self->{ConfigObject}->Get('CustomerPanelPreApplicationModule');
             if ($PreModule) {
-                my %PreModuleList = ();
-                if ( ref($PreModule) eq 'HASH' ) {
+                my %PreModuleList;
+                if ( ref $PreModule eq 'HASH' ) {
                     %PreModuleList = %{$PreModule};
                 }
                 else {
@@ -807,23 +811,23 @@ sub Run {
                 }
                 for my $PreModuleKey ( sort keys %PreModuleList ) {
                     my $PreModule = $PreModuleList{$PreModuleKey};
-                    if ( $PreModule && $Self->{MainObject}->Require($PreModule) ) {
+                    next if !$PreModule;
+                    next if !$Self->{MainObject}->Require($PreModule);
 
-                        # debug info
-                        if ( $Self->{Debug} ) {
-                            $Self->{LogObject}->Log(
-                                Priority => 'debug',
-                                Message => "CustomerPanelPreApplication module $PreModule is used.",
-                            );
-                        }
+                    # debug info
+                    if ( $Self->{Debug} ) {
+                        $Self->{LogObject}->Log(
+                            Priority => 'debug',
+                            Message  => "CustomerPanelPreApplication module $PreModule is used.",
+                        );
+                    }
 
-                        # use module
-                        my $PreModuleObject = $PreModule->new( %{$Self}, %Param, %UserData, );
-                        my $Output = $PreModuleObject->PreRun();
-                        if ($Output) {
-                            $Self->{LayoutObject}->Print( Output => \$Output );
-                            exit 0;
-                        }
+                    # use module
+                    my $PreModuleObject = $PreModule->new( %{$Self}, %Param, %UserData, );
+                    my $Output = $PreModuleObject->PreRun();
+                    if ($Output) {
+                        $Self->{LayoutObject}->Print( Output => \$Output );
+                        exit 0;
                     }
                 }
             }
@@ -837,8 +841,11 @@ sub Run {
             }
 
             # prove of concept! - create $GenericObject
-            my $GenericObject
-                = ( 'Kernel::Modules::' . $Param{Action} )->new( %{$Self}, %Param, %UserData, );
+            my $GenericObject = ( 'Kernel::Modules::' . $Param{Action} )->new(
+                %{$Self},
+                %Param,
+                %UserData,
+            );
 
             # debug info
             if ( $Self->{Debug} ) {
@@ -853,7 +860,7 @@ sub Run {
 
             # log request time
             if ( $Self->{ConfigObject}->Get('PerformanceLog') ) {
-                if ( ( !$QueryString && $Param{Action} ) || ( $QueryString !~ /Action=/ ) ) {
+                if ( ( !$QueryString && $Param{Action} ) || $QueryString !~ /Action=/ ) {
                     $QueryString = 'Action=' . $Param{Action} . '&Subaction=' . $Param{Subaction};
                 }
                 my $File = $Self->{ConfigObject}->Get('PerformanceLog::File');
@@ -921,6 +928,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.38 $ $Date: 2009-04-03 13:57:50 $
+$Revision: 1.39 $ $Date: 2009-04-07 16:03:18 $
 
 =cut

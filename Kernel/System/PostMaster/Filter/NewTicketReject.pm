@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter/NewTicketReject.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: NewTicketReject.pm,v 1.11 2009-02-16 11:47:35 tr Exp $
+# $Id: NewTicketReject.pm,v 1.12 2009-04-07 16:04:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Email;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -97,15 +97,18 @@ sub Run {
         }
 
         # send bounce mail
+        my $Subject = $Self->{ConfigObject}->Get(
+            'PostMaster::PreFilterModule::NewTicketReject::Subject'
+        );
+        my $Body = $Self->{ConfigObject}->Get(
+            'PostMaster::PreFilterModule::NewTicketReject::Body'
+        );
         $Self->{EmailObject}->Send(
-            To      => $Param{GetParam}->{'From'},
-            Subject => $Self->{ConfigObject}->Get(
-                'PostMaster::PreFilterModule::NewTicketReject::Subject'
-            ),
-            Body => $Self->{ConfigObject}->Get(
-                'PostMaster::PreFilterModule::NewTicketReject::Body'
-            ),
+            To         => $Param{GetParam}->{From},
+            Subject    => $Subject,
+            Body       => $Body,
             Charset    => $Self->{ConfigObject}->Get('DefaultCharset'),
+            MimeType   => 'text/plain',
             Loop       => 1,
             Attachment => [
                 {

@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceAgent.pm - the agent interface file (incl. auth)
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceAgent.pm,v 1.40 2009-04-03 13:57:50 mh Exp $
+# $Id: InterfaceAgent.pm,v 1.41 2009-04-07 16:03:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -762,8 +762,8 @@ sub Run {
             # pre application module
             my $PreModule = $Self->{ConfigObject}->Get('PreApplicationModule');
             if ($PreModule) {
-                my %PreModuleList = ();
-                if ( ref($PreModule) eq 'HASH' ) {
+                my %PreModuleList;
+                if ( ref $PreModule eq 'HASH' ) {
                     %PreModuleList = %{$PreModule};
                 }
                 else {
@@ -771,29 +771,29 @@ sub Run {
                 }
                 for my $PreModuleKey ( sort keys %PreModuleList ) {
                     my $PreModule = $PreModuleList{$PreModuleKey};
-                    if ( $PreModule && $Self->{MainObject}->Require($PreModule) ) {
+                    next if !$PreModule;
+                    next if !$Self->{MainObject}->Require($PreModule);
 
-                        # debug info
-                        if ( $Self->{Debug} ) {
-                            $Self->{LogObject}->Log(
-                                Priority => 'debug',
-                                Message  => "PreApplication module $PreModule is used.",
-                            );
-                        }
-
-                        # use module
-                        my $PreModuleObject = $PreModule->new(
-                            %{$Self},
-                            %Param,
-                            %UserData,
-                            ModuleReg => $ModuleReg,
+                    # debug info
+                    if ( $Self->{Debug} ) {
+                        $Self->{LogObject}->Log(
+                            Priority => 'debug',
+                            Message  => "PreApplication module $PreModule is used.",
                         );
-                        my $Output = $PreModuleObject->PreRun();
+                    }
 
-                        if ($Output) {
-                            $Self->{LayoutObject}->Print( Output => \$Output );
-                            exit 0;
-                        }
+                    # use module
+                    my $PreModuleObject = $PreModule->new(
+                        %{$Self},
+                        %Param,
+                        %UserData,
+                        ModuleReg => $ModuleReg,
+                    );
+                    my $Output = $PreModuleObject->PreRun();
+
+                    if ($Output) {
+                        $Self->{LayoutObject}->Print( Output => \$Output );
+                        exit 0;
                     }
                 }
             }
@@ -901,6 +901,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.40 $ $Date: 2009-04-03 13:57:50 $
+$Revision: 1.41 $ $Date: 2009-04-07 16:03:18 $
 
 =cut
