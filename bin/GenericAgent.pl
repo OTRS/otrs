@@ -3,7 +3,7 @@
 # bin/GenericAgent.pl - a generic agent -=> e. g. close ale emails in a specific queue
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pl,v 1.56 2009-04-03 14:15:00 martin Exp $
+# $Id: GenericAgent.pl,v 1.57 2009-04-07 07:07:51 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION %Jobs @ISA);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -68,14 +68,6 @@ if ( !$Opts{d} ) {
 # set limit
 if ( !$Opts{l} ) {
     $Opts{l} = 4000;
-}
-
-# check -b option
-if ( $Opts{c} eq 'db' && $Opts{b} && $Opts{b} !~ /^\d+$/ ) {
-    print STDERR
-        "ERROR: Need -b <BACKGROUND_INTERVAL_IN_MIN>, e. g. -b 10 to execute generic agent";
-    print STDERR " every 10 minutes (note, only 10,20,30,40,50,60,... minutes make sense).\n";
-    exit 1;
 }
 
 # set generic agent uid
@@ -118,6 +110,14 @@ else {
         exit 1;
     }
     eval "import $Opts{c}";
+}
+
+# check -b option
+if ( $Opts{c} eq 'db' && $Opts{b} && $Opts{b} !~ /^\d+$/ ) {
+    print STDERR
+        "ERROR: Need -b <BACKGROUND_INTERVAL_IN_MIN>, e. g. -b 10 to execute generic agent";
+    print STDERR " every 10 minutes (note, only 10,20,30,40,50,60,... minutes make sense).\n";
+    exit 1;
 }
 
 # create pid lock
