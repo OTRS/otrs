@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.384 2009-04-03 14:13:43 mh Exp $
+# $Id: Ticket.pm,v 1.385 2009-04-07 06:54:49 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -37,7 +37,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.384 $) [1];
+$VERSION = qw($Revision: 1.385 $) [1];
 
 =head1 NAME
 
@@ -784,12 +784,12 @@ returns
     EscalationUpdateTime             (unix time stamp of update time escalation)
     EscalationSolutionTime           (unix time stamp of solution time escalation)
 
-    (general escalation info of neaest escalation type)
+    (general escalation info of nearest escalation type)
     EscalationDestinationIn          (escalation in e. g. 1h 4m)
     EscalationDestinationTime        (date of escalation in unix time, e. g. 72193292)
     EscalationDestinationDate        (date of escalation, e. g. "2009-02-14 18:00:00")
     EscalationTimeWorkingTime        (seconds of working/service time till escalation, e. g. "1800")
-    EscalationTime                   (seconds total till escalation of neaest escalation time type - response, update or solution time, e. g. "3600")
+    EscalationTime                   (seconds total till escalation of nearest escalation time type - response, update or solution time, e. g. "3600")
 
     (detail escalation info about first response, update and solution time)
     FirstResponseTimeEscalation      (if true, ticket is escalated)
@@ -1073,38 +1073,7 @@ sub _TicketGetFirstResponse {
         $Data{FirstResponse} =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
     }
 
-#    return if !$Data{FirstResponse};
-#
-# get escalation properties
-#    my %Escalation = $Self->TicketEscalationPreferences(
-#        Ticket => $Param{Ticket},
-#        UserID => $Param{UserID} || 1,
-#    );
-#
-#    if ( $Escalation{FirstResponseTime} ) {
-#
-# get unix time stamps
-#        my $CreateTime = $Self->{TimeObject}->TimeStamp2SystemTime(
-#            String => $Param{Ticket}->{Created},
-#        );
-#        my $FirstResponseTime = $Self->{TimeObject}->TimeStamp2SystemTime(
-#            String => $Data{FirstResponse},
-#        );
-#
-# get time between creation and first response
-#        my $WorkingTime = $Self->{TimeObject}->WorkingTime(
-#            StartTime => $CreateTime,
-#            StopTime  => $FirstResponseTime,
-#            Calendar  => $Escalation{Calendar},
-#        );
-#
-#        $Data{FirstResponseInMin} = int( $WorkingTime / 60 );
-#        my $EscalationFirstResponseTime = $Escalation{FirstResponseTime} * 60;
-#        $Data{FirstResponseDiffInMin} = int( ( $EscalationFirstResponseTime - $WorkingTime ) / 60 );
-#    }
-#    return %Data;
-
-    # Suggestion for a Now2FirstResponseEscalationInMin
+    return if !$Data{FirstResponse};
 
     # get escalation properties
     my %Escalation = $Self->TicketEscalationPreferences(
@@ -1112,44 +1081,75 @@ sub _TicketGetFirstResponse {
         UserID => $Param{UserID} || 1,
     );
 
-    return %Data if !$Escalation{FirstResponseTime};
+    if ( $Escalation{FirstResponseTime} ) {
 
-    # get unix time stamps
-    my $CreateTime = $Self->{TimeObject}->TimeStamp2SystemTime(
-        String => $Param{Ticket}->{Created},
-    );
-    my $EscalationFirstResponseTime = $Escalation{FirstResponseTime} * 60;
-    my $Now                         = $Self->{TimeObject}->TimeStamp2SystemTime(
-        String => $Self->{TimeObject}->CurrentTimestamp(),
-    );
+        # get unix time stamps
+        my $CreateTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $Param{Ticket}->{Created},
+        );
+        my $FirstResponseTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $Data{FirstResponse},
+        );
 
-    # get time between creation and now
-    my $WorkingTimeTillNow = $Self->{TimeObject}->WorkingTime(
-        StartTime => $CreateTime,
-        StopTime  => $Now,
-        Calendar  => $Escalation{Calendar},
-    );
+        # get time between creation and first response
+        my $WorkingTime = $Self->{TimeObject}->WorkingTime(
+            StartTime => $CreateTime,
+            StopTime  => $FirstResponseTime,
+            Calendar  => $Escalation{Calendar},
+        );
 
-    $Data{Now2FirstResponseEscalationInMin}
-        = int( ( $EscalationFirstResponseTime - $WorkingTimeTillNow ) / 60 );
-
-    return %Data if !$Data{FirstResponse};
-
-    my $FirstResponseTime = $Self->{TimeObject}->TimeStamp2SystemTime(
-        String => $Data{FirstResponse},
-    );
-
-    # get time between creation and first response
-    my $WorkingTime = $Self->{TimeObject}->WorkingTime(
-        StartTime => $CreateTime,
-        StopTime  => $FirstResponseTime,
-        Calendar  => $Escalation{Calendar},
-    );
-
-    $Data{FirstResponseInMin} = int( $WorkingTime / 60 );
-    $Data{FirstResponseDiffInMin} = int( ( $EscalationFirstResponseTime - $WorkingTime ) / 60 );
-
+        $Data{FirstResponseInMin} = int( $WorkingTime / 60 );
+        my $EscalationFirstResponseTime = $Escalation{FirstResponseTime} * 60;
+        $Data{FirstResponseDiffInMin} = int( ( $EscalationFirstResponseTime - $WorkingTime ) / 60 );
+    }
     return %Data;
+
+#    # Suggestion for a Now2FirstResponseEscalationInMin
+#
+#    # get escalation properties
+#    my %Escalation = $Self->TicketEscalationPreferences(
+#        Ticket => $Param{Ticket},
+#        UserID => $Param{UserID} || 1,
+#    );
+#
+#    return %Data if !$Escalation{FirstResponseTime};
+#
+#    # get unix time stamps
+#    my $CreateTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+#        String => $Param{Ticket}->{Created},
+#    );
+#    my $EscalationFirstResponseTime = $Escalation{FirstResponseTime} * 60;
+#    my $Now                         = $Self->{TimeObject}->TimeStamp2SystemTime(
+#        String => $Self->{TimeObject}->CurrentTimestamp(),
+#    );
+#
+#    # get time between creation and now
+#    my $WorkingTimeTillNow = $Self->{TimeObject}->WorkingTime(
+#        StartTime => $CreateTime,
+#        StopTime  => $Now,
+#        Calendar  => $Escalation{Calendar},
+#    );
+#
+#    $Data{Now2FirstResponseEscalationInMin}
+#        = int( ( $EscalationFirstResponseTime - $WorkingTimeTillNow ) / 60 );
+#
+#    return %Data if !$Data{FirstResponse};
+#
+#    my $FirstResponseTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+#        String => $Data{FirstResponse},
+#    );
+#
+#    # get time between creation and first response
+#    my $WorkingTime = $Self->{TimeObject}->WorkingTime(
+#        StartTime => $CreateTime,
+#        StopTime  => $FirstResponseTime,
+#        Calendar  => $Escalation{Calendar},
+#    );
+#
+#    $Data{FirstResponseInMin} = int( $WorkingTime / 60 );
+#    $Data{FirstResponseDiffInMin} = int( ( $EscalationFirstResponseTime - $WorkingTime ) / 60 );
+#
+#    return %Data;
 }
 
 sub _TicketGetClosed {
@@ -1186,43 +1186,7 @@ sub _TicketGetClosed {
         $Data{Closed} =~ s/^(\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d)\..+?$/$1/;
     }
 
-    #    return if !$Data{Closed};
-    #
-    # for compat. wording reasons
-    #    $Data{SolutionTime} = $Data{Closed};
-    #
-    # get escalation properties
-    #    my %Escalation = $Self->TicketEscalationPreferences(
-    #        Ticket => $Param{Ticket},
-    #        UserID => $Param{UserID} || 1,
-    #    );
-    #
-    #    if ( $Escalation{SolutionTime} ) {
-    #
-    #        # get unix time stamps
-    #        my $CreateTime = $Self->{TimeObject}->TimeStamp2SystemTime(
-    #            String => $Param{Ticket}->{Created},
-    #        );
-    #        my $SolutionTime = $Self->{TimeObject}->TimeStamp2SystemTime(
-    #            String => $Data{Closed},
-    #        );
-    #
-    #       # get time between creation and solution
-    #        my $WorkingTime = $Self->{TimeObject}->WorkingTime(
-    #            StartTime => $CreateTime,
-    #            StopTime  => $SolutionTime,
-    #            Calendar  => $Escalation{Calendar},
-    #        );
-    #
-    #        $Data{SolutionInMin} = int( $WorkingTime / 60 );
-    #
-    #        my $EscalationSolutionTime = $Escalation{SolutionTime} * 60;
-    #        $Data{SolutionDiffInMin} = int( ( $EscalationSolutionTime - $WorkingTime ) / 60 );
-    #    }
-    #
-    #    return %Data;
-
-    # suggestion for Now2SolutionEscalationInMin
+    return if !$Data{Closed};
 
     # for compat. wording reasons
     $Data{SolutionTime} = $Data{Closed};
@@ -1233,45 +1197,81 @@ sub _TicketGetClosed {
         UserID => $Param{UserID} || 1,
     );
 
-    return %Data if !$Escalation{SolutionTime};
+    if ( $Escalation{SolutionTime} ) {
 
-    # get unix time stamps
-    my $CreateTime = $Self->{TimeObject}->TimeStamp2SystemTime(
-        String => $Param{Ticket}->{Created},
-    );
-    my $Now = $Self->{TimeObject}->TimeStamp2SystemTime(
-        String => $Self->{TimeObject}->CurrentTimestamp(),
-    );
+        # get unix time stamps
+        my $CreateTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $Param{Ticket}->{Created},
+        );
+        my $SolutionTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+            String => $Data{Closed},
+        );
 
-    # get time between creation and now
-    my $WorkingTimeTillNow = $Self->{TimeObject}->WorkingTime(
-        StartTime => $CreateTime,
-        StopTime  => $Now,
-        Calendar  => $Escalation{Calendar},
-    );
+        # get time between creation and solution
+        my $WorkingTime = $Self->{TimeObject}->WorkingTime(
+            StartTime => $CreateTime,
+            StopTime  => $SolutionTime,
+            Calendar  => $Escalation{Calendar},
+        );
 
-    my $EscalationSolutionTime = $Escalation{SolutionTime} * 60;
-    $Data{Now2SolutionEscalationInMin}
-        = int( ( $EscalationSolutionTime - $WorkingTimeTillNow ) / 60 );
+        $Data{SolutionInMin} = int( $WorkingTime / 60 );
 
-    return %Data if !$Data{Closed};
-
-    # get unix time stamp
-    my $SolutionTime = $Self->{TimeObject}->TimeStamp2SystemTime(
-        String => $Data{Closed},
-    );
-
-    # get time between creation and solution
-    my $WorkingTime = $Self->{TimeObject}->WorkingTime(
-        StartTime => $CreateTime,
-        StopTime  => $SolutionTime,
-        Calendar  => $Escalation{Calendar},
-    );
-
-    $Data{SolutionInMin} = int( $WorkingTime / 60 );
-    $Data{SolutionDiffInMin} = int( ( $EscalationSolutionTime - $WorkingTime ) / 60 );
+        my $EscalationSolutionTime = $Escalation{SolutionTime} * 60;
+        $Data{SolutionDiffInMin} = int( ( $EscalationSolutionTime - $WorkingTime ) / 60 );
+    }
 
     return %Data;
+
+#    # suggestion for Now2SolutionEscalationInMin
+#
+#    # for compat. wording reasons
+#    $Data{SolutionTime} = $Data{Closed};
+#
+#    # get escalation properties
+#    my %Escalation = $Self->TicketEscalationPreferences(
+#        Ticket => $Param{Ticket},
+#        UserID => $Param{UserID} || 1,
+#    );
+#
+#    return %Data if !$Escalation{SolutionTime};
+#
+#    # get unix time stamps
+#    my $CreateTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+#        String => $Param{Ticket}->{Created},
+#    );
+#    my $Now = $Self->{TimeObject}->TimeStamp2SystemTime(
+#        String => $Self->{TimeObject}->CurrentTimestamp(),
+#    );
+#
+#    # get time between creation and now
+#    my $WorkingTimeTillNow = $Self->{TimeObject}->WorkingTime(
+#        StartTime => $CreateTime,
+#        StopTime  => $Now,
+#        Calendar  => $Escalation{Calendar},
+#    );
+#
+#    my $EscalationSolutionTime = $Escalation{SolutionTime} * 60;
+#    $Data{Now2SolutionEscalationInMin}
+#        = int( ( $EscalationSolutionTime - $WorkingTimeTillNow ) / 60 );
+#
+#    return %Data if !$Data{Closed};
+#
+#    # get unix time stamp
+#    my $SolutionTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+#        String => $Data{Closed},
+#    );
+#
+#    # get time between creation and solution
+#    my $WorkingTime = $Self->{TimeObject}->WorkingTime(
+#        StartTime => $CreateTime,
+#        StopTime  => $SolutionTime,
+#        Calendar  => $Escalation{Calendar},
+#    );
+#
+#    $Data{SolutionInMin} = int( $WorkingTime / 60 );
+#    $Data{SolutionDiffInMin} = int( ( $EscalationSolutionTime - $WorkingTime ) / 60 );
+#
+#    return %Data;
 }
 
 sub _TicketGetFirstLock {
@@ -7335,6 +7335,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.384 $ $Date: 2009-04-03 14:13:43 $
+$Revision: 1.385 $ $Date: 2009-04-07 06:54:49 $
 
 =cut
