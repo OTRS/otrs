@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.868 2009-04-07 08:13:07 martin Exp $
+# $Id: CHANGES,v 1.869 2009-04-07 12:05:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.4.0 beta1 (2009/??/??)
+ - (2009/04/07) Changed default config size of IPC-Log (LogSystemCacheSize)
+    to 64k (160k is not working on darwin).
  - (2009/04/07) Added SMTPS support for outgoing emails (e. g. for sending
     via gmail smtp server).
  - (2009/04/06) Added fulltext search feature for quick search (OpenSearch
