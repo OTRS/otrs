@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.68 2009-03-27 17:35:11 mh Exp $
+# $Id: AgentTicketZoom.pm,v 1.69 2009-04-07 09:48:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -246,7 +246,7 @@ sub Run {
             Filename => $Self->{ConfigObject}->Get('Ticket::Hook')
                 . "-$Article{TicketNumber}-$Article{TicketID}-$Article{ArticleID}",
             Type        => 'inline',
-            ContentType => "$Article{MimeType}; charset=$Article{ContentCharset}",
+            ContentType => "$Article{MimeType}; charset=$Article{Charset}",
             Content     => $Article{Body},
         );
     }
@@ -541,15 +541,8 @@ sub MaskAgentZoom {
             );
 
             # do charset check
-            if (
-                my $CharsetText = $Self->{LayoutObject}->CheckCharset(
-                    ContentCharset => $Article{ContentCharset},
-                    TicketID       => $Param{TicketID},
-                    ArticleID      => $Article{ArticleID}
-                )
-                )
-            {
-                $Article{"BodyNote"} = $CharsetText;
+            if ( my $CharsetText = $Self->{LayoutObject}->CheckCharset( %Param, %Article ) ) {
+                $Article{BodyNote} = $CharsetText;
             }
         }
 

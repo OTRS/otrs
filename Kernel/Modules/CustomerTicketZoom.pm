@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.34 2009-03-27 17:35:11 mh Exp $
+# $Id: CustomerTicketZoom.pm,v 1.35 2009-04-07 09:48:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -537,20 +537,20 @@ sub _Mask {
             Filename => $Self->{ConfigObject}->Get('Ticket::Hook')
                 . "-$Article{TicketNumber}-$Article{TicketID}-$Article{ArticleID}",
             Type        => 'inline',
-            ContentType => "$Article{MimeType}; charset=$Article{ContentCharset}",
+            ContentType => "$Article{MimeType}; charset=$Article{Charset}",
             Content     => $Article{Body},
         );
     }
 
     # check if just a only html email
     if ( my $MimeTypeText = $Self->{LayoutObject}->CheckMimeType( %Param, %Article ) ) {
-        $Param{"Article::TextNote"} = $MimeTypeText;
-        $Param{"Article::Text"}     = '';
+        $Param{'Article::TextNote'} = $MimeTypeText;
+        $Param{'Article::Text'}     = '';
     }
     else {
 
         # html quoting
-        $Param{"Article::Text"} = $Self->{LayoutObject}->Ascii2Html(
+        $Param{'Article::Text'} = $Self->{LayoutObject}->Ascii2Html(
             NewLine        => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
             Text           => $Article{Body},
             VMax           => $Self->{ConfigObject}->Get('DefaultViewLines') || 5000,
@@ -559,20 +559,13 @@ sub _Mask {
         );
 
         # do charset check
-        if (
-            my $CharsetText = $Self->{LayoutObject}->CheckCharset(
-                ContentCharset => $Article{ContentCharset},
-                TicketID       => $Param{TicketID},
-                ArticleID      => $Article{ArticleID}
-            )
-            )
-        {
-            $Param{"Article::TextNote"} = $CharsetText;
+        if ( my $CharsetText = $Self->{LayoutObject}->CheckCharset( %Param, %Article ) ) {
+            $Param{'Article::TextNote'} = $CharsetText;
         }
     }
 
     # get article id
-    $Param{"Article::ArticleID"} = $Article{ArticleID};
+    $Param{'Article::ArticleID'} = $Article{ArticleID};
 
     # do some strips && quoting
     for (qw(From To Cc Subject)) {

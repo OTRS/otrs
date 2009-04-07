@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketPrint.pm - print layout for customer interface
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketPrint.pm,v 1.23 2009-02-16 11:20:53 tr Exp $
+# $Id: CustomerTicketPrint.pm,v 1.24 2009-04-07 09:48:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::User;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -905,8 +905,8 @@ sub _HTMLMask {
             = $Self->{LayoutObject}->CheckMimeType( %Param, %Article, Action => 'AgentTicketZoom' )
             )
         {
-            $Param{"TextNote"} = $MimeTypeText;
-            $Article{"Body"}   = '';
+            $Param{'TextNote'} = $MimeTypeText;
+            $Article{'Body'}   = '';
         }
         else {
 
@@ -920,14 +920,11 @@ sub _HTMLMask {
             # do charset check
             if (
                 my $CharsetText = $Self->{LayoutObject}->CheckCharset(
-                    Action         => 'AgentTicketZoom',
-                    ContentCharset => $Article{ContentCharset},
-                    TicketID       => $Param{TicketID},
-                    ArticleID      => $Article{ArticleID}
+                    %Param, %Article, Action         => 'AgentTicketZoom',
                 )
                 )
             {
-                $Param{"Article::TextNote"} = $CharsetText;
+                $Param{'Article::TextNote'} = $CharsetText;
             }
         }
         $Self->{LayoutObject}->Block(
@@ -954,7 +951,7 @@ sub _HTMLMask {
                 ArticleID => $Article{ArticleID},
             );
             $Self->{LayoutObject}->Block(
-                Name => "Row",
+                Name => 'Row',
                 Data => {
                     Key   => 'Time',
                     Value => $ArticleTime,

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - print layout for agent interface
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.pm,v 1.59 2009-02-16 11:20:53 tr Exp $
+# $Id: AgentTicketPrint.pm,v 1.60 2009-04-07 09:48:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1210,8 +1210,8 @@ sub _HTMLMask {
             = $Self->{LayoutObject}->CheckMimeType( %Param, %Article, Action => 'AgentTicketZoom' )
             )
         {
-            $Param{"TextNote"} = $MimeTypeText;
-            $Article{"Body"}   = '';
+            $Param{TextNote} = $MimeTypeText;
+            $Article{Body}   = '';
         }
         else {
 
@@ -1223,16 +1223,8 @@ sub _HTMLMask {
             );
 
             # do charset check
-            if (
-                my $CharsetText = $Self->{LayoutObject}->CheckCharset(
-                    Action         => 'AgentTicketZoom',
-                    ContentCharset => $Article{ContentCharset},
-                    TicketID       => $Param{TicketID},
-                    ArticleID      => $Article{ArticleID}
-                )
-                )
-            {
-                $Param{"Article::TextNote"} = $CharsetText;
+            if ( my $CharsetText = $Self->{LayoutObject}->CheckCharset( %Param, %Article, Action => 'AgentTicketZoom' ) ) {
+                $Param{'Article::TextNote'} = $CharsetText;
             }
         }
         $Self->{LayoutObject}->Block(

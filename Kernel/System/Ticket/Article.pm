@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.211 2009-04-06 09:16:19 sb Exp $
+# $Id: Article.pm,v 1.212 2009-04-07 09:48:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.211 $) [1];
+$VERSION = qw($Revision: 1.212 $) [1];
 
 =head1 NAME
 
@@ -1411,7 +1411,7 @@ Article:
     ArticleType
     ArticleTypeID
     ContentType
-    ContentCharset
+    Charset
     MimeType
     IncomingTime
     ArticleFreeKey1-3
@@ -1557,16 +1557,21 @@ sub ArticleGet {
         $Data{SenderTypeID} = $Row[17];
         $Ticket{Changed}    = $Row[81];
 
-        if ( $Row[14] && $Data{ContentType} =~ /charset=/i ) {
-            $Data{ContentCharset} = $Data{ContentType};
-            $Data{ContentCharset} =~ s/.+?charset=("|'|)(\w+)/$2/gi;
-            $Data{ContentCharset} =~ s/"|'//g;
-            $Data{ContentCharset} =~ s/(.+?);.*/$1/g;
+        if ( $Data{ContentType} && $Data{ContentType} =~ /charset=/i ) {
+            $Data{Charset} = $Data{ContentType};
+            $Data{Charset} =~ s/.+?charset=("|'|)(\w+)/$2/gi;
+            $Data{Charset} =~ s/"|'//g;
+            $Data{Charset} =~ s/(.+?);.*/$1/g;
+
         }
         else {
-            $Data{ContentCharset} = '';
+            $Data{Charset} = '';
         }
-        if ( $Row[14] && $Data{ContentType} =~ /^(\w+\/\w+)/i ) {
+
+        # compat.
+        $Data{ContentCharset} = $Data{Charset};
+
+        if ( $Data{ContentType} && $Data{ContentType} =~ /^(\w+\/\w+)/i ) {
             $Data{MimeType} = $1;
             $Data{MimeType} =~ s/"|'//g;
         }
@@ -3331,6 +3336,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.211 $ $Date: 2009-04-06 09:16:19 $
+$Revision: 1.212 $ $Date: 2009-04-07 09:48:55 $
 
 =cut

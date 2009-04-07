@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.136 2009-04-02 13:50:00 mh Exp $
+# $Id: Layout.pm,v 1.137 2009-04-07 09:48:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.136 $) [1];
+$VERSION = qw($Revision: 1.137 $) [1];
 
 =head1 NAME
 
@@ -2898,13 +2898,13 @@ sub CheckCharset {
     if ( $Self->{UserCharset} !~ /^utf-8$/i ) {
 
         # replace ' or "
-        $Param{ContentCharset} && $Param{ContentCharset} =~ s/'|"//gi;
+        $Param{Charset} && $Param{Charset} =~ s/'|"//gi;
 
         # if the content charset is different to the user charset
-        if ( $Param{ContentCharset} && $Self->{UserCharset} !~ /^$Param{ContentCharset}$/i ) {
+        if ( $Param{Charset} && $Self->{UserCharset} !~ /^$Param{Charset}$/i ) {
 
             # if the content charset is us-ascii it is always shown correctly
-            if ( $Param{ContentCharset} !~ /us-ascii/i ) {
+            if ( $Param{Charset} !~ /us-ascii/i ) {
                 $Output = '<p><i class="small">'
                     . '$Text{"This message was written in a character set other than your own."}'
                     . '$Text{"If it is not displayed correctly,"} '
@@ -4151,6 +4151,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.136 $ $Date: 2009-04-02 13:50:00 $
+$Revision: 1.137 $ $Date: 2009-04-07 09:48:55 $
 
 =cut
