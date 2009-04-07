@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.386 2009-04-07 11:54:33 tr Exp $
+# $Id: Ticket.pm,v 1.387 2009-04-07 15:15:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,9 +35,10 @@ use Kernel::System::PostMaster::LoopProtection;
 use Kernel::System::Notification;
 use Kernel::System::LinkObject;
 use Kernel::System::Valid;
+use Kernel::System::HTML2Ascii;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.386 $) [1];
+$VERSION = qw($Revision: 1.387 $) [1];
 
 =head1 NAME
 
@@ -151,6 +152,7 @@ sub new {
     $Self->{NotificationObject}   = Kernel::System::Notification->new( %{$Self} );
     $Self->{ValidObject}          = Kernel::System::Valid->new( %{$Self} );
     $Self->{LinkObject}           = Kernel::System::LinkObject->new( %{$Self} );
+    $Self->{HTML2AsciiObject}     = Kernel::System::HTML2Ascii->new( %{$Self} );
 
     # load ticket number generator
     my $GeneratorModule = $Self->{ConfigObject}->Get('Ticket::NumberGenerator')
@@ -7338,6 +7340,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.386 $ $Date: 2009-04-07 11:54:33 $
+$Revision: 1.387 $ $Date: 2009-04-07 15:15:06 $
 
 =cut
