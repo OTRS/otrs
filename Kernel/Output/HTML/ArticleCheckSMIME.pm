@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleCheckSMIME.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleCheckSMIME.pm,v 1.18 2009-02-16 11:16:22 tr Exp $
+# $Id: ArticleCheckSMIME.pm,v 1.19 2009-04-07 09:28:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -27,7 +27,7 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (qw(ConfigObject LogObject MainObject DBObject LayoutObject UserID TicketObject ArticleID))
+    for (qw(ConfigObject LogObject EncodeObject MainObject DBObject LayoutObject UserID TicketObject ArticleID))
     {
         if ( $Param{$_} ) {
             $Self->{$_} = $Param{$_};
@@ -42,10 +42,10 @@ sub new {
 sub Check {
     my ( $Self, %Param ) = @_;
 
-    my %SignCheck = ();
-    my @Return    = ();
+    my %SignCheck;
+    my @Return;
 
-    # check if pgp is enabled
+    # check if smime is enabled
     return if !$Self->{ConfigObject}->Get('SMIME');
 
     # check if article is an email
