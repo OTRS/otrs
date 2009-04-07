@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.39 2009-04-07 16:03:18 martin Exp $
+# $Id: InterfaceCustomer.pm,v 1.40 2009-04-07 16:04:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -462,11 +462,11 @@ sub Run {
                     $Body =~ s/<OTRS_$_>/$UserData{$_}/gi;
                 }
                 my $Sent = $EmailObject->Send(
-                    To      => $UserData{UserEmail},
-                    Subject => $Subject,
-                    Charset => $Self->{LayoutObject}->{UserCharset},
-                    Type    => 'text/plain',
-                    Body    => $Body
+                    To       => $UserData{UserEmail},
+                    Subject  => $Subject,
+                    Charset  => $Self->{LayoutObject}->{UserCharset},
+                    MimeType => 'text/plain',
+                    Body     => $Body
                 );
                 if ($Sent) {
                     $Self->{LayoutObject}->Print(
@@ -517,11 +517,11 @@ sub Run {
                     $Body =~ s/<OTRS_$_>/$UserData{$_}/gi;
                 }
                 my $Sent = $EmailObject->Send(
-                    To      => $UserData{UserEmail},
-                    Subject => $Subject,
-                    Charset => $Self->{LayoutObject}->{UserCharset},
-                    Type    => 'text/plain',
-                    Body    => $Body
+                    To       => $UserData{UserEmail},
+                    Subject  => $Subject,
+                    Charset  => $Self->{LayoutObject}->{UserCharset},
+                    MimeType => 'text/plain',
+                    Body     => $Body
                 );
                 if ($Sent) {
                     $Self->{LayoutObject}->Print(
@@ -622,11 +622,11 @@ sub Run {
 
             # send account info
             my $Sent = $EmailObject->Send(
-                To      => $GetParams{UserEmail},
-                Subject => $Subject,
-                Charset => $Self->{LayoutObject}->{UserCharset},
-                Type    => 'text/plain',
-                Body    => $Body
+                To       => $GetParams{UserEmail},
+                Subject  => $Subject,
+                Charset  => $Self->{LayoutObject}->{UserCharset},
+                MimeType => 'text/plain',
+                Body     => $Body
             );
             if ( !$Sent ) {
                 my $Output = $Self->{LayoutObject}->CustomerHeader(
@@ -928,6 +928,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.39 $ $Date: 2009-04-07 16:03:18 $
+$Revision: 1.40 $ $Date: 2009-04-07 16:04:32 $
 
 =cut
