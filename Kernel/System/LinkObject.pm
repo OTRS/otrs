@@ -2,7 +2,7 @@
 # Kernel/System/LinkObject.pm - to link objects
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LinkObject.pm,v 1.48 2009-02-16 11:58:56 tr Exp $
+# $Id: LinkObject.pm,v 1.49 2009-04-07 10:34:03 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 =head1 NAME
 
@@ -80,7 +80,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject MainObject TimeObject)) {
+    for (qw(DBObject ConfigObject LogObject MainObject EncodeObject TimeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
     $Self->{CheckItemObject} = Kernel::System::CheckItem->new( %{$Self} );
@@ -2370,6 +2370,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.48 $ $Date: 2009-02-16 11:58:56 $
+$Revision: 1.49 $ $Date: 2009-04-07 10:34:03 $
 
 =cut
