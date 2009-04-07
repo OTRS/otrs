@@ -1,23 +1,23 @@
 # --
-# Kernel/System/Email/SMTP.pm - the global email send module
+# Kernel/System/Email/SMTPS.pm - the global email send module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: SMTP.pm,v 1.25 2009-04-07 07:58:37 martin Exp $
+# $Id: SMTPS.pm,v 1.1 2009-04-07 07:58:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::Email::SMTP;
+package Kernel::System::Email::SMTPS;
 
 use strict;
 use warnings;
 
-use Net::SMTP;
+use Net::SMTP::SSL;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -73,7 +73,7 @@ sub Send {
     for my $Try ( 1 .. 3 ) {
 
         # connect to mail server
-        $SMTP = Net::SMTP->new(
+        $SMTP = Net::SMTP::SSL->new(
             $Self->{MailHost},
             Hello   => $Self->{FQDN},
             Port    => $Self->{SMTPPort},
@@ -103,7 +103,7 @@ sub Send {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message =>
-                    "SMTP authentication failed: $Error! Enable Net::SMTP debug for more info!",
+                    "SMTP authentication failed: $Error! Enable Net::SMTP::SSL debug for more info!",
             );
             $SMTP->quit();
             return;
@@ -116,7 +116,7 @@ sub Send {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message =>
-                "Can't use from '$Param{From}': $Error! Enable Net::SMTP debug for more info!",
+                "Can't use from '$Param{From}': $Error! Enable Net::SMTP::SSL debug for more info!",
         );
         $SMTP->quit;
         return;
@@ -130,7 +130,7 @@ sub Send {
             my $Error = $SMTP->code() . $SMTP->message();
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "Can't send to '$To': $Error! Enable Net::SMTP debug for more info!",
+                Message  => "Can't send to '$To': $Error! Enable Net::SMTP::SSL debug for more info!",
             );
             $SMTP->quit;
             return;
@@ -148,7 +148,7 @@ sub Send {
         my $Error = $SMTP->code() . $SMTP->message();
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "Can't send message: $Error! Enable Net::SMTP debug for more info!"
+            Message  => "Can't send message: $Error! Enable Net::SMTP::SSL debug for more info!"
         );
         $SMTP->quit;
         return;

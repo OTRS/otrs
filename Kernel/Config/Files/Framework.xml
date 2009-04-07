@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.202 2009-04-07 06:57:04 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.203 2009-04-07 07:58:37 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -457,8 +457,8 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SendmailModule" Required="1" Valid="1">
-        <Description Lang="en">Module to send emails. "Sendmail" directly uses the sendmail binary of your operating system. "SMTP" uses a specified (external) mailserver. "DoNotSendEmail" is not sending emails and useful for test systems.</Description>
-        <Description Lang="de">Modul zum Versenden von Emails. "Sendmail" verwendet das sendmail-Binary Ihres Betriebssystems. "SMTP" versendet die Nachrichten über einen externen Mailserver. "DoNotSendEmail" versendet keine Email und ist nützlich um in Test-System den Emailversans zu deaktivieren.</Description>
+        <Description Lang="en">Module to send emails. "Sendmail" directly uses the sendmail binary of your operating system. "SMTP/SMTPS" uses a specified (external) mailserver. "DoNotSendEmail" is not sending emails and useful for test systems.</Description>
+        <Description Lang="de">Modul zum Versenden von Emails. "Sendmail" verwendet das sendmail-Binary Ihres Betriebssystems. "SMTP/SMTPS" versendet die Nachrichten über einen externen Mailserver. "DoNotSendEmail" versendet keine Email und ist nützlich um in Test-System den Emailversans zu deaktivieren.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
         <Setting>
@@ -475,8 +475,8 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SendmailModule::Host" Required="1" Valid="1">
-        <Description Lang="en">If "SMTP" was selected for SendmailModule you have to specify the mailhost that sends out the mails.</Description>
-        <Description Lang="de">Wenn Sie für SendmailModule "SMTP" ausgwählt haben, müssen Sie hier den Mailserver angeben, der zum Versenden von Nachrichten genutzt werden soll.</Description>
+        <Description Lang="en">If "SMTP/SMTPS" was selected for SendmailModule you have to specify the mailhost that sends out the mails.</Description>
+        <Description Lang="de">Wenn Sie für SendmailModule "SMTP/SMTPS" ausgwählt haben, müssen Sie hier den Mailserver angeben, der zum Versenden von Nachrichten genutzt werden soll.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
         <Setting>
@@ -484,8 +484,8 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SendmailModule::Port" Required="0" Valid="0">
-        <Description Lang="en">If "SMTP" was selected for SendmailModule specify the port where your mailserver is listening for incoming connections.</Description>
-        <Description Lang="de">Wenn Sie für SendmailModule den Wert "SMTP" ausgewählt haben, können Sie hier den Port angeben, auf dem Ihr Mailserver Mails entgegennimmt.</Description>
+        <Description Lang="en">If "SMTP/SMTPS" was selected for SendmailModule specify the port where your mailserver is listening for incoming connections.</Description>
+        <Description Lang="de">Wenn Sie für SendmailModule den Wert "SMTP/SMTPS" ausgewählt haben, können Sie hier den Port angeben, auf dem Ihr Mailserver Mails entgegennimmt.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
         <Setting>
@@ -493,8 +493,8 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SendmailModule::AuthUser" Required="0" Valid="0">
-        <Description Lang="en">If "SMTP" was selected for SendmailModule and you need to authenticate to your mailserver, specify the username.</Description>
-        <Description Lang="de">Wenn Sie für SendmailModule den Wert "SMTP" ausgewählt haben und sich an Ihrem Mailserver anmelden müssen, geben Sie hier bitte den Benutzernamen für die Authentifizierung an.</Description>
+        <Description Lang="en">If "SMTP/SMTPS" was selected for SendmailModule and you need to authenticate to your mailserver, specify the username.</Description>
+        <Description Lang="de">Wenn Sie für SendmailModule den Wert "SMTP/SMTPS" ausgewählt haben und sich an Ihrem Mailserver anmelden müssen, geben Sie hier bitte den Benutzernamen für die Authentifizierung an.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
         <Setting>
@@ -502,8 +502,8 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="SendmailModule::AuthPassword" Required="0" Valid="0">
-        <Description Lang="en">If "SMTP" was selected for SendmailModule and you need to authenticate to your mailserver, specify the password.</Description>
-        <Description Lang="de">Wenn Sie für SendmailModule den Wert "SMTP" ausgewählt haben und sich an Ihrem Mailserver anmelden müssen, geben Sie hier das Passwort für die Authentifizierung an.</Description>
+        <Description Lang="en">If "SMTP/SMTPS" was selected for SendmailModule and you need to authenticate to your mailserver, specify the password.</Description>
+        <Description Lang="de">Wenn Sie für SendmailModule den Wert "SMTP/SMTPS" ausgewählt haben und sich an Ihrem Mailserver anmelden müssen, geben Sie hier das Passwort für die Authentifizierung an.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
         <Setting>

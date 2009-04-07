@@ -3,7 +3,7 @@
 # bin/otrs.checkModules - to check needed cpan framework modules
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.checkModules,v 1.31 2009-04-02 13:50:01 mh Exp $
+# $Id: otrs.checkModules,v 1.32 2009-04-07 07:58:37 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -128,6 +128,11 @@ my @NeededModules = (
                 Module   => 'Authen::SASL',
                 Required => 0,
                 Comment  => 'for SMTP backend',
+            },
+            {
+                Module   => 'Net::SMTP::SSL',
+                Required => 0,
+                Comment  => 'for SSL/SMTPS connections',
             },
         ],
     },
