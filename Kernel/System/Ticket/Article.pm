@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.212 2009-04-07 09:48:55 martin Exp $
+# $Id: Article.pm,v 1.213 2009-04-07 11:10:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.212 $) [1];
+$VERSION = qw($Revision: 1.213 $) [1];
 
 =head1 NAME
 
@@ -48,13 +48,30 @@ create an article
         MessageID        => '<asdasdasd.123@example.com>',          # not required but useful
         InReplyTo        => '<asdasdasd.12@example.com>',           # not required but useful
         References       => '<asdasdasd.1@example.com> <asdasdasd.12@example.com>', # not required but useful
-        ContentType      => 'text/plain; charset=ISO-8859-15',
+        ContentType      => 'text/plain; charset=ISO-8859-15',      # or optional Charset & MimeType
         HistoryType      => 'OwnerUpdate',                          # EmailCustomer|Move|AddNote|PriorityUpdate|WebRequestCustomer|...
         HistoryComment   => 'Some free text!',
         UserID           => 123,
         NoAgentNotify    => 0,                                      # if you don't want to send agent notifications
         AutoResponseType => 'auto reply'                            # auto reject|auto follow up|auto follow up|auto remove
         ForceNotificationToUserID => [1,43,56],                     # if you want to force somebody
+    );
+
+example with "Charset & MimeType" and no "ContentType"
+
+    my $ArticleID = $TicketObject->ArticleCreate(
+        TicketID         => 123,
+        ArticleType      => 'note-internal',                        # email-external|email-internal|phone|fax|...
+        SenderType       => 'agent',                                # agent|system|customer
+        From             => 'Some Agent <email@example.com>',       # not required but useful
+        To               => 'Some Customer A <customer-a@example.com>', # not required but useful
+        Subject          => 'some short description',               # required
+        Body             => 'the message text',                     # required
+        Charset          => 'ISO-8859-15',
+        MimeType         => 'text/plain',
+        HistoryType      => 'OwnerUpdate',                          # EmailCustomer|Move|AddNote|PriorityUpdate|WebRequestCustomer|...
+        HistoryComment   => 'Some free text!',
+        UserID           => 123,
     );
 
 =cut
@@ -87,18 +104,47 @@ sub ArticleCreate {
         }
     }
 
+    # check ContentType vs. Charset & MimeType
+    if ( !$Param{ContentType} ) {
+        for (qw(Charset MimeType)) {
+            if ( !$Param{$_} ) {
+                $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+                return;
+            }
+        }
+        $Param{ContentType} = "$Param{MimeType}; charset=$Param{Charset};";
+    }
+    else {
+        for (qw(ContentType)) {
+            if ( !$Param{$_} ) {
+                $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+                return;
+            }
+        }
+        $Param{Charset} = '';
+        if ( $Param{ContentType} =~ /charset=/i ) {
+            $Param{Charset} = $Param{ContentType};
+            $Param{Charset} =~ s/.+?charset=("|'|)(\w+)/$2/gi;
+            $Param{Charset} =~ s/"|'//g;
+            $Param{Charset} =~ s/(.+?);.*/$1/g;
+
+        }
+        $Param{MimeType} = '';
+        if ( $Param{ContentType} =~ /^(\w+\/\w+)/i ) {
+            $Param{MimeType} = $1;
+            $Param{MimeType} =~ s/"|'//g;
+        }
+    }
+
     # add 'no body' if there is no body there!
     if ( !$Param{Body} ) {
         $Param{Body} = 'No body';
     }
 
     # process html article
-    elsif (
-        $Param{Body} =~ /</ &&
-        $Param{ContentType} &&
-        $Param{ContentType} =~ /text\/html/i
-        )
-    {
+    elsif ( $Param{MimeType} =~ /text\/html/i ) {
+
+        # add html article as attachment
         my $Attach = {
             Content     => $Param{Body},
             ContentType => "text/html; charset=\"$Param{Charset}\"",
@@ -106,15 +152,17 @@ sub ArticleCreate {
         };
         push( @{ $Param{Attachment} }, $Attach );
 
-        # set ascii body
-        $Param{ContentType} = 'text/plain';
+        # get ascii body
+        $Param{MimeType} = 'text/plain';
         $Param{Body}        = $Self->HTML2Ascii(
             Body => $Param{Body},
         );
     }
 
     # if body isn't text, attach body as attachment (mostly done by OE) :-/
-    elsif ( $Param{ContentType} && $Param{ContentType} !~ /\btext\b/i ) {
+    elsif ( $Param{MimeType} && $Param{MimeType} !~ /\btext\b/i ) {
+
+        # add non text as attachment
         my $FileName = 'unknown';
         if ( $Param{ContentType} =~ /name="(.+?)"/i ) {
             $FileName = $1;
@@ -129,14 +177,6 @@ sub ArticleCreate {
         # set ascii body
         $Param{ContentType} = 'text/plain';
         $Param{Body}        = '- no text message => see attachment -';
-    }
-
-    # if body isn't text, attach body as attachment (mostly done by OE) :-/
-    elsif ( $Param{ContentType} && $Param{ContentType} !~ /\btext\b/i ) {
-        $Param{AttachContentType} = $Param{ContentType};
-        $Param{AttachBody}        = $Param{Body};
-        $Param{ContentType}       = 'text/plain';
-        $Param{Body}              = "- no text message => see attachment -";
     }
 
     # fix some bad stuff from some browsers (Opera)!
@@ -167,12 +207,11 @@ sub ArticleCreate {
             . 'VALUES '
             . '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{TicketID},  \$Param{ArticleTypeID}, \$Param{SenderTypeID},
-            \$Param{From},      \$Param{ReplyTo},       \$Param{To},
-            \$Param{Cc},        \$Param{Subject},       \$Param{MessageID},
-            \$Param{InReplyTo}, \$Param{References},    \$Param{Body},
-            \$Param{ContentType},
-            \$Self->{ArticleContentPath}, \$ValidID,
+            \$Param{TicketID},    \$Param{ArticleTypeID}, \$Param{SenderTypeID},
+            \$Param{From},        \$Param{ReplyTo},       \$Param{To},
+            \$Param{Cc},          \$Param{Subject},       \$Param{MessageID},
+            \$Param{InReplyTo},   \$Param{References},    \$Param{Body},
+            \$Param{ContentType}, \$Self->{ArticleContentPath}, \$ValidID,
             \$IncomingTime, \$Param{UserID}, \$Param{UserID},
         ],
     );
@@ -1875,7 +1914,7 @@ send article via email and create article with attachments
         InReplyTo   => '<asdasdasd.12@example.com>',                           # not required but useful
         References  => '<asdasdasd.1@example.com> <asdasdasd.12@example.com>', # not required but useful
         Charset     => 'iso-8859-15'
-        ContentType => 'text/plain; charset=iso-8859-15',
+        MimeType    => 'text/plain',
         Loop        => 0, # 1|0 used for bulk emails
         Attachment => [
             {
@@ -1918,23 +1957,14 @@ sub ArticleSend {
     my $Loop        = $Param{Loop}        || 0;
     my $HistoryType = $Param{HistoryType} || 'SendAnswer';
 
-    # for compatibility
-    if ( !defined $Param{ContentType} && defined $Param{Type} ) {
-        $Param{ContentType} = $Param{Type};
-    }
-
     # check needed stuff
-    for (qw(TicketID UserID From Body ContentType Charset)) {
+    for (qw(TicketID UserID From Body Charset MimeType)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
-    # for compatibility
-    if ( $Param{ContentType} !~ /charset/i ) {
-        $Param{ContentType} .= "; charset=$Param{Charset}",
-    }
     if ( !$Param{ArticleType} && !$Param{ArticleTypeID} ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
@@ -2310,12 +2340,12 @@ sub SendAgentNotification {
     $Self->{SendmailObject}->Send(
         From => $Self->{ConfigObject}->Get('NotificationSenderName') . ' <'
             . $Self->{ConfigObject}->Get('NotificationSenderEmail') . '>',
-        To      => $User{UserEmail},
-        Subject => $Notification{Subject},
-        Type    => 'text/plain',
-        Charset => $Notification{Charset},
-        Body    => $Notification{Body},
-        Loop    => 1,
+        To       => $User{UserEmail},
+        Subject  => $Notification{Subject},
+        MimeType => 'text/plain',
+        Charset  => $Notification{Charset},
+        Body     => $Notification{Body},
+        Loop     => 1,
     );
 
     # write history
@@ -2625,7 +2655,7 @@ sub SendCustomerNotification {
         To             => $Article{From},
         Subject        => $Notification{Subject},
         Body           => $Notification{Body},
-        ContentType    => 'text/plain; charset=' . $Notification{Charset},
+        MimeType       => 'text/plain',
         Charset        => $Notification{Charset},
         UserID         => $Param{UserID},
         Loop           => 1,
@@ -2925,7 +2955,7 @@ sub SendAutoResponse {
         Cc             => $Cc,
         RealName       => $Param{Realname},
         Charset        => $Param{Charset},
-        ContentType    => 'text/plain; charset=' . $Param{Charset},
+        MimeType       => 'text/plain',
         Subject        => $Subject,
         UserID         => $Param{UserID},
         Body           => $Param{Body},
@@ -3336,6 +3366,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.212 $ $Date: 2009-04-07 09:48:55 $
+$Revision: 1.213 $ $Date: 2009-04-07 11:10:41 $
 
 =cut

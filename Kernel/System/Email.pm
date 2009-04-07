@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.54 2009-04-03 14:13:43 mh Exp $
+# $Id: Email.pm,v 1.55 2009-04-07 11:10:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Mail::Address;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 =head1 NAME
 
@@ -108,8 +108,8 @@ To send an email without already created header:
         From        => 'me@example.com',
         To          => 'friend@example.com',
         Subject     => 'Some words!',
-        ContentType => 'text/plain; charset=iso-8859-15',
         Charset     => 'iso-8859-15',
+        MimeType    => 'text/plain', # "text/plain" or "text/html"
         Body        => 'Some nice text',
         InReplyTo   => '<somemessageid-2@example.com>',
         References  => '<somemessageid-1@example.com> <somemessageid-2@example.com>',
@@ -166,11 +166,6 @@ sub Send {
     if ( !$Param{To} && !$Param{Cc} && !$Param{Bcc} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need To, Cc or Bcc!' );
         return;
-    }
-
-    # for compatibility
-    if ( !defined $Param{ContentType} && defined $Param{Type} ) {
-        $Param{ContentType} = $Param{Type};
     }
 
     # check from
@@ -245,12 +240,13 @@ sub Send {
             Charset => $Param{Charset},
         );
     }
-    my $XMailer = $Self->{ConfigObject}->Get('Product')
-        . ' Mail Service ('
-        . $Self->{ConfigObject}->Get('Version') . ')';
-    $Header{'X-Mailer'}     = $XMailer;
+
+    my $Product = $Self->{ConfigObject}->Get('Product');
+    my $Version = $Self->{ConfigObject}->Get('Version');
+
+    $Header{'X-Mailer'}     = "$Product Mail Service ($Version)";
     $Header{'X-Powered-By'} = 'OTRS - Open Ticket Request System (http://otrs.org/)';
-    $Header{Type} = $Param{ContentType} || 'text/plain';
+    $Header{Type} = $Param{MimeType} || 'text/plain';
 
     # define email encoding
     if ( $Param{Charset} && $Param{Charset} =~ /^iso/i ) {
@@ -387,7 +383,7 @@ sub Send {
             $EntityCopy->make_multipart( 'mixed;', Force => 1, );
 
             # get header to remember
-            my $head = $EntityCopy->head;
+            my $head = $EntityCopy->head();
             $head->delete('MIME-Version');
             $head->delete('Content-Type');
             $head->delete('Content-Disposition');
@@ -512,8 +508,8 @@ sub Send {
     }
 
     # get header from Entity
-    my $head = $Entity->head;
-    $Param{Header} = $head->as_string();
+    my $Head = $Entity->head;
+    $Param{Header} = $Head->as_string();
 
     # remove not needed folding of email heads, we do have many problems with email clients
     my @Headers = split( /\n/, $Param{Header} );
@@ -532,14 +528,13 @@ sub Send {
     my @ToArray = ();
     my $To      = '';
     for (qw(To Cc Bcc)) {
-        if ( $Param{$_} ) {
-            for my $Email ( Mail::Address->parse( $Param{$_} ) ) {
-                push( @ToArray, $Email->address() );
-                if ($To) {
-                    $To .= ', ';
-                }
-                $To .= $Email->address();
+        next if !$Param{$_};
+        for my $Email ( Mail::Address->parse( $Param{$_} ) ) {
+            push( @ToArray, $Email->address() );
+            if ($To) {
+                $To .= ', ';
             }
+            $To .= $Email->address();
         }
     }
 
@@ -716,6 +711,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.54 $ $Date: 2009-04-03 14:13:43 $
+$Revision: 1.55 $ $Date: 2009-04-07 11:10:41 $
 
 =cut
