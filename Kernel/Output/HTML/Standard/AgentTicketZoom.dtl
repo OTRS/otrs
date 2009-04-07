@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.54 2009-03-30 10:00:32 sb Exp $
+# $Id: AgentTicketZoom.dtl,v 1.55 2009-04-07 06:11:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -209,7 +209,7 @@ $Data{"Body"}
           <td valign="top">
 <!-- dtl:block:Expand -->
             <div title="$Text{"Expand View"}">
-            <a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}&ZoomExpand=1" onmouseover="window.status='$JSText{"Expand"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}expand.png"></a>
+            <a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$QData{"TicketID"}&ArticleID=$QData{"ArticleID"}&ZoomExpand=1" onmouseover="window.status='$JSText{"Expand View"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}expand.png"></a>
             </div>
 <!-- dtl:block:Expand -->
 <!-- dtl:block:Collapse -->

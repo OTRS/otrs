@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.184 2009-04-03 07:42:25 sb Exp $
+# $Id: de.pm,v 1.185 2009-04-07 06:10:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.184 $) [1];
+$VERSION = qw($Revision: 1.185 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -266,8 +266,8 @@ sub Data {
         'Sent password token to: %s' => 'Passwort-Token an %s gesendet.',
         'Sent new password to: %s' => 'Neues Passwort an %s gesendet.',
         'Invalid Token!' => 'Ungültiger Token!',
-        'For more info see:' => '',
-        'Package verification failed!' => '',
+        'For more info see:' => 'Für mehr Informationen hier:',
+        'Package verification failed!' => 'Paket Überprüfung Fehlgeschlagen',
         'Bold' => 'Fett',
         'Italic' => 'Kursiv',
         'Underline' => 'Unterstreichen',
@@ -474,9 +474,9 @@ sub Data {
         'closed unsuccessful' => 'erfolglos geschlossen',
         'new' => 'neu',
         'open' => 'offen',
-        'Open' => '',
+        'Open' => 'Offen',
         'closed' => 'geschlossen',
-        'Closed' => '',
+        'Closed' => 'Geschlossen',
         'removed' => 'entfernt',
         'pending reminder' => 'warten zur Erinnerung',
         'pending auto' => 'warten auto',
@@ -568,17 +568,17 @@ sub Data {
         'Closed Tickets' => 'Geschlossene Tickets',
         'Show closed tickets.' => 'Geschlossene Tickets anzeigen.',
         'Max. shown Tickets a page in QueueView.' => 'Maximale Anzahl angezeigter Tickets pro Seite in der Queue-Ansicht.',
-        'Watch notification' => '',
-        'Send me a notification of an watched ticket like an owner of an ticket.' => '',
-        'Out Of Office' => '',
-        'Select your out of office time.' => '',
+        'Watch notification' => 'Beobachter Benachrichtigung',
+        'Send me a notification of an watched ticket like an owner of an ticket.' => 'Informierte mich über Änderungen an beobachteten Tickets (als ob ich der Besitzer eines Ticket wäre).',
+        'Out Of Office' => 'Abwesenheit',
+        'Select your out of office time.' => 'Bitte die Abwesenheitszeit auswählen.',
         'CompanyTickets' => 'Firmen Ticket',
         'MyTickets' => 'Meine Tickets',
         'New Ticket' => 'Neues Ticket',
         'Create new Ticket' => 'Neues Ticket erstellen',
         'Customer called' => 'Kunden angerufen',
         'phone call' => 'Telefonanruf',
-        'Reminder Reached' => '',
+        'Reminder Reached' => 'Erinnerung erreicht',
         'Responses' => 'Antworten',
         'Responses <-> Queue' => 'Antworten <-> Queues',
         'Auto Responses' => 'Auto Antworten',
@@ -824,10 +824,9 @@ sub Data {
         'Performance Log' => 'Performance Log',
         'This feature is enabled!' => 'Dieses Feature ist aktiv!',
         'Just use this feature if you want to log each request.' => 'Nur aktivieren wenn jede Anfrage protokolliert werden soll.',
-        'Activating this feature might affect your system performance!' => '',
+        'Activating this feature might affect your system performance!' => 'Wenn dieses Feature aktiv ist, ist mit Leistungsdefizit zu rechnen.',
         'Disable it here!' => 'Hier deaktivieren!',
         'This feature is disabled!' => 'Dieses Feature ist inaktiv!',
-        'Activating this feature might affect your system performance!' => '',
         'Enable it here!' => 'Hier aktivieren!',
         'Logfile too large!' => 'Logdatei zu groß!',
         'Logfile too large, you need to reset it!' => 'Die Logdatei ist zu groß, bitte zurücksetzen!',
@@ -855,7 +854,7 @@ sub Data {
         # Template: AdminPostMasterFilter
         'PostMaster Filter Management' => 'PostMaster Filter Verwaltung',
         'Filtername' => 'Filtername',
-        'Stop after match' => '',
+        'Stop after match' => 'Stoppen nach ersten Treffer',
         'Match' => 'Treffer',
         'Value' => 'Wert',
         'Set' => 'Setzen',
@@ -870,7 +869,7 @@ sub Data {
 
         # Template: AdminQueueAutoResponseForm
         'Queue <-> Auto Responses Management' => 'Queue <-> Auto Antworten Verwaltung',
-        'settings' => '',
+        'settings' => 'Einstellungen',
 
         # Template: AdminQueueForm
         'Queue Management' => 'Queue Verwaltung',
@@ -1025,7 +1024,7 @@ sub Data {
         'Add System Address' => 'System Adresse hinzufügen',
         'Add a new System Address.' => 'Eine neue Systemadresse hinzufügen.',
         'Realname' => 'Tatsächlicher Name',
-        'All email addresses get excluded on replaying on composing and email.' => '',
+        'All email addresses get excluded on replaying on composing an email.' => 'Alle Email-Adressen werden beim erstllen einer Antwort exkludiert.',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alle eingehenden E-Mails mit diesem Empfänger (To:) werden in die ausgewählte Queue einsortiert.',
 
         # Template: AdminTypeForm
@@ -1041,7 +1040,7 @@ sub Data {
         'Firstname' => 'Vorname',
         'Lastname' => 'Nachname',
         'Start' => 'Start',
-        'End' => '',
+        'End' => 'Ende',
         'User will be needed to handle tickets.' => 'Benutzer werden benötigt, um Tickets zu bearbeiten.',
         'Don\'t forget to add a new user to groups and/or roles!' => 'Ein neuer Benutzer muss einer Gruppe und/oder Rollen zugewiesen werden!',
 
@@ -1080,7 +1079,7 @@ sub Data {
         # Template: AgentNavigationBar
 
         # Template: AgentPreferencesForm
-        'End' => '',
+        'End' => 'Ende',
 
         # Template: AgentSpelling
         'Spell Checker' => 'Rechtschreibprüfung',
@@ -1192,9 +1191,9 @@ sub Data {
         'Next state' => 'Nächster Status',
         'Pending date' => 'Warten bis',
         'Merge to' => 'Zusammenfassen zu',
-        'Merge to oldest' => '',
-        'Link together' => '',
-        'Link to Parent' => '',
+        'Merge to oldest' => 'Zusammenfassen zu ältesten',
+        'Link together' => 'Zusammen verlinken',
+        'Link to Parent' => 'Verlinken mit ältesten',
         'Unlock Tickets' => 'Freigeben der Tickets',
 
         # Template: AgentTicketClose
@@ -1330,10 +1329,10 @@ sub Data {
         'Search-Template' => 'Such-Vorlage',
         'TicketFreeText' => 'TicketFreeText',
         'Created in Queue' => 'Erstellt in Queue',
-        'Change Times' => '',
-        'No change time settings.' => '',
-        'Ticket changed' => '',
-        'Ticket changed between' => '',
+        'Change Times' => 'Änderungs-Zeiten',
+        'No change time settings.' => 'Keine Änderungs-Zeiten',
+        'Ticket changed' => 'Ticket geändert',
+        'Ticket changed between' => 'Ticket geändert zwischen',
         'Result Form' => 'Ergebnis-Ansicht',
         'Save Search-Profile as Template?' => 'Speichere Such-Profil als Vorlage?',
         'Yes, save it with name' => 'Ja, speichere unter dem Namen',
@@ -1344,7 +1343,7 @@ sub Data {
 
         # Template: AgentTicketZoom
         'Expand View' => 'Ausklappen Ansicht',
-        'Expand' => '',
+        'Expand' => 'Ausklappen',
         'Collapse View' => 'Zugeklappte Ansicht',
         'Split' => 'Teilen',
 
