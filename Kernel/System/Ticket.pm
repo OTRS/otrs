@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.385 2009-04-07 06:54:49 tr Exp $
+# $Id: Ticket.pm,v 1.386 2009-04-07 11:54:33 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -37,7 +37,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.385 $) [1];
+$VERSION = qw($Revision: 1.386 $) [1];
 
 =head1 NAME
 
@@ -761,6 +761,7 @@ returns
     LockID
     Queue
     QueueID
+    GroupID
     CustomerID
     CustomerUserID
     Owner
@@ -774,6 +775,7 @@ returns
     Responsible
     ResponsibleID
     Created
+    CreateTimeUnix
     Changed
     TicketFreeKey1-16
     TicketFreeText1-16
@@ -1002,6 +1004,7 @@ sub TicketGet {
         Ticket => \%Ticket,
         UserID => $Param{UserID} || 1,
     );
+
     for my $Key ( keys %Escalation ) {
         $Ticket{$Key} = $Escalation{$Key};
     }
@@ -7335,6 +7338,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.385 $ $Date: 2009-04-07 06:54:49 $
+$Revision: 1.386 $ $Date: 2009-04-07 11:54:33 $
 
 =cut
