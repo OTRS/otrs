@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.55 2009-04-07 11:10:41 martin Exp $
+# $Id: Email.pm,v 1.56 2009-04-07 15:15:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,9 +18,10 @@ use MIME::Entity;
 use Mail::Address;
 
 use Kernel::System::Crypt;
+use Kernel::System::HTML2Ascii;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 =head1 NAME
 
@@ -96,6 +97,8 @@ sub new {
 
     # create backend object
     $Self->{Backend} = $GenericModule->new(%Param);
+
+    $Self->{HTML2AsciiObject} = Kernel::System::HTML2Ascii->new( %Param );
 
     return $Self;
 }
@@ -241,6 +244,27 @@ sub Send {
         );
     }
 
+    # check if it's html, add text attachment
+    my $HTMLEmail = 0;
+    if ( $Param{MimeType} && $Param{MimeType} =~ /html/i ) {
+        $HTMLEmail = 1;
+
+        # add html as attachment (as first one)
+        my $Attach = {
+            Content     => $Param{Body},
+            ContentType => "text/html; charset=\"$Param{Charset}\"",
+            Filename    => '',
+        };
+        @{ $Param{Attachment} } = ( $Attach, @{ $Param{Attachment} } );
+
+        # add ascii body
+        $Param{MimeType} = 'text/plain';
+        $Param{Body}     = $Self->{HTML2AsciiObject}->ToAscii(
+            String => $Param{Body},
+        );
+
+    }
+
     my $Product = $Self->{ConfigObject}->Get('Product');
     my $Version = $Self->{ConfigObject}->Get('Version');
 
@@ -302,8 +326,9 @@ sub Send {
 
     # add attachments to email
     if ( $Param{Attachment} ) {
+        my $Count = 0;
         for my $Upload ( @{ $Param{Attachment} } ) {
-            if ( $Upload->{Content} && $Upload->{Filename} ) {
+            if ( defined $Upload->{Content} && defined $Upload->{Filename} ) {
 
                 # content encode
                 $Self->{EncodeObject}->EncodeOutput( \$Upload->{Content} );
@@ -314,6 +339,18 @@ sub Send {
                     Line    => $Upload->{Filename},
                     Charset => $Param{Charset},
                 );
+
+                # if it's a html email, add the first attachment as alternative (to show it
+                # as alternative content) and all the rest of attachments as multipart mixed
+                if ($HTMLEmail) {
+                    $Count++;
+                    if ( $Count == 1 ) {
+                        $Entity->make_multipart( 'alternative;' );
+                    }
+                    else {
+                        $Entity->make_multipart( 'mixed;', Force => 1, );
+                    }
+                }
 
                 # attach file to email
                 $Entity->attach(
@@ -695,6 +732,7 @@ sub _MessageIDCreate {
     my $FQDN = $Self->{ConfigObject}->Get('FQDN');
     return 'Message-ID: <' . time() . '.' . rand(999999) . '@' . $FQDN . '>';
 }
+
 1;
 
 =back
@@ -711,6 +749,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.55 $ $Date: 2009-04-07 11:10:41 $
+$Revision: 1.56 $ $Date: 2009-04-07 15:15:51 $
 
 =cut
