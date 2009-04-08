@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.71 2009-04-02 13:50:00 mh Exp $
+# $Id: Stats.pm,v 1.72 2009-04-08 07:20:45 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Date::Pcalc qw(:all);
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 =head1 SYNOPSIS
 
@@ -1553,9 +1553,13 @@ sub _GenerateDynamicStats {
     # REMARK: it could be also useful to use the indiviual sort if difined
     # so you don't need this function
     if ( $StatObject->can('GetHeaderLine') ) {
-        @HeaderLine = $StatObject->GetHeaderLine(
+        my $HeaderRef = $StatObject->GetHeaderLine(
             XValue => $Xvalue,
         );
+
+        if ($HeaderRef) {
+            @HeaderLine = @{$HeaderRef};
+        }
     }
 
     my @StatArray = ( [$Title], \@HeaderLine, @DataArray );
@@ -3218,6 +3222,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.71 $ $Date: 2009-04-02 13:50:00 $
+$Revision: 1.72 $ $Date: 2009-04-08 07:20:45 $
 
 =cut
