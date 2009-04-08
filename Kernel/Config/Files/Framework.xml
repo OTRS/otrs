@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.205 2009-04-08 07:31:14 tr Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.206 2009-04-08 14:16:05 tr Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -5126,7 +5126,7 @@ Your OTRS Notification Master
             </Option>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Stats::CustomerIDAsMultiSelect" Required="0" Valid="0">
+    <ConfigItem Name="Stats::CustomerIDAsMultiSelect" Required="0" Valid="1">
         <Description Lang="en">If you activate this option all CustomerIDs will be shown in a multi-select field (Not useful if you have a lot of CustomerIDs).</Description>
         <Description Lang="de">Wenn diese Option aktiviert wird, werden die Kunden# in einem MultiSelectFeld dargestellt. Dadurch werden die Kunden# für die X-Achse und Wertereihen zugänglich (Nur bei einer begrenzten Anzahl von Kunden# sinnvoll).</Description>
         <Group>Framework</Group>
