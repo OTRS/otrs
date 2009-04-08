@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/TicketList.pm - reporting via ticket lists
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketList.pm,v 1.8 2009-04-05 21:44:42 mh Exp $
+# $Id: TicketList.pm,v 1.9 2009-04-08 07:18:58 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -639,12 +639,14 @@ sub GetStatTable {
         $Ticket{SolutionTime}                     ||= '';
         $Ticket{SolutionDiffInMin}                ||= 0;
         $Ticket{SolutionInMin}                    ||= 0;
-        $Ticket{Now2SolutionEscalationInMin}      ||= 0;
         $Ticket{FirstResponse}                    ||= '';
         $Ticket{FirstResponseDiffInMin}           ||= 0;
         $Ticket{FirstResponseInMin}               ||= 0;
-        $Ticket{Now2FirstResponseEscalationInMin} ||= 0;
         $Ticket{FirstLock}                        ||= '';
+        $Ticket{SolutionTimeDestinationDate}      ||= '';
+        $Ticket{EscalationDestinationIn}          ||= '';
+        $Ticket{EscalationDestinationDate}        ||= '';
+        $Ticket{EscalationTimeWorkingTime}        ||= 0;
 
         ATTRIBUTE:
         for my $Attribute ( @{$SortedAttributesRef} ) {
@@ -682,42 +684,67 @@ sub _TicketAttributes {
     my %TicketAttributes = (
         Number => 'Number',    # only a counter for a better readability
         TicketNumber   => $Self->{ConfigObject}->Get('Ticket::Hook'),
+        #TicketID       => 'TicketID',
         Age            => 'Age',
         Title          => 'Title',
         Queue          => 'Queue',
+        #QueueID        => 'QueueID',
         State          => 'State',
+        #StateID        => 'StateID',
         Priority       => 'Priority',
+        #PriorityID     => 'PriorityID',
         CustomerID     => 'CustomerID',
         Changed        => 'Changed',
         Created        => 'Created',
+        #CreateTimeUnix => 'CreateTimeUnix',
         CustomerUserID => 'Customer User',
         Lock           => 'lock',
+        #LockID         => 'LockID',
         UnlockTimeout  => 'UnlockTimeout',
         AccountedTime => 'Accounted time',    # the same wording is in AgentTicketPrint.dtl
-        EscalationResponseTime => 'EscalationResponseTime',
         RealTillTimeNotUsed    => 'RealTillTimeNotUsed',
-        UntilTime              => 'UntilTime',
-        EscalationUpdateTime   => 'EscalationUpdateTime',
-        StateType              => 'StateType',
-        EscalationSolutionTime => 'EscalationSolutionTime',
-        FirstResponse      => 'First Response Time',   # the same wording is in AgentTicketPrint.dtl
-        FirstResponseInMin => 'FirstResponseInMin',
-        FirstResponseDiffInMin           => 'FirstResponseDiffInMin',
-        Now2FirstResponseEscalationInMin => 'Now2FirstResponseEscalationInMin',
-        Closed                           => 'Close Time',
-        SolutionTime      => 'Solution Time',          # the same wording is in AgentTicketPrint.dtl
-        SolutionInMin     => 'SolutionInMin',
-        SolutionDiffInMin => 'SolutionDiffInMin',
-        Now2SolutionEscalationInMin => 'Now2SolutionEscalationInMin',
-        FirstLock                   => 'First Lock',
-
-        #PriorityID     => 'PriorityID',
         #GroupID        => 'GroupID',
-        #StateID        => 'StateID',
-        #QueueID        => 'QueueID',
-        #TicketID       => 'TicketID',
-        #LockID         => 'LockID',
-        #CreateTimeUnix => 'CreateTimeUnix',
+        StateType              => 'StateType',
+        UntilTime              => 'UntilTime',
+        Closed                 => 'Close Time',
+        FirstLock              => 'First Lock',
+
+        EscalationResponseTime => 'EscalationResponseTime',
+        EscalationUpdateTime   => 'EscalationUpdateTime',
+        EscalationSolutionTime => 'EscalationSolutionTime',
+
+        EscalationDestinationIn     => 'EscalationDestinationIn',
+        # EscalationDestinationTime => 'EscalationDestinationTime',
+        EscalationDestinationDate   => 'EscalationDestinationDate',
+        EscalationTimeWorkingTime   => 'EscalationTimeWorkingTime',
+        EscalationTime              => 'EscalationTime',
+
+        FirstResponse                    => 'FirstResponse',
+        FirstResponseInMin               => 'FirstResponseInMin',
+        FirstResponseDiffInMin           => 'FirstResponseDiffInMin',
+        FirstResponseTimeWorkingTime     => 'FirstResponseTimeWorkingTime',
+        FirstResponseTimeEscalation      => 'FirstResponseTimeEscalation',
+        FirstResponseTimeNotification    => 'FirstResponseTimeNotification',
+        FirstResponseTimeDestinationTime => 'FirstResponseTimeDestinationTime',
+        FirstResponseTimeDestinationDate => 'FirstResponseTimeDestinationDate',
+        FirstResponseTime                => 'FirstResponseTime',
+
+        UpdateTimeEscalation             => 'UpdateTimeEscalation',
+        UpdateTimeNotification           => 'UpdateTimeNotification',
+        UpdateTimeDestinationTime        => 'UpdateTimeDestinationTime',
+        UpdateTimeDestinationDate        => 'UpdateTimeDestinationDate',
+        UpdateTimeWorkingTime            => 'UpdateTimeWorkingTime',
+        UpdateTime                       => 'UpdateTime',
+
+        SolutionTime                     => 'SolutionTime',
+        SolutionInMin                    => 'SolutionInMin',
+        SolutionDiffInMin                => 'SolutionDiffInMin',
+        SolutionTimeWorkingTime          => 'SolutionTimeWorkingTime',
+        SolutionTimeEscalation           => 'SolutionTimeEscalation',
+        SolutionTimeNotification         => 'SolutionTimeNotification',
+        SolutionTimeDestinationTime      => 'SolutionTimeDestinationTime',
+        SolutionTimeDestinationDate      => 'SolutionTimeDestinationDate',
+        SolutionTimeWorkingTime          => 'SolutionTimeWorkingTime',
     );
 
     if ( $Self->{ConfigObject}->Get('Ticket::Service') ) {
@@ -744,6 +771,7 @@ sub _TicketAttributes {
         #$TicketAttributes{ResponsibleID}  = 'ResponsibleID';
     }
 
+    # get free text fields
     FREEKEY:
     for my $FreeKey ( 1 .. 16 ) {
 
@@ -763,7 +791,12 @@ sub _TicketAttributes {
         }
     }
 
-    # FIXME -    $VAR9 = 'TicketFreeTime4' - 6;
+    # get free time fields
+    FREETIME:
+    for my $FreeTime (1 .. 6) {
+        my $TicketFreeTimeKey = $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $FreeTime );
+        $TicketAttributes{ 'TicketFreeTime' . $FreeTime } = $TicketFreeTimeKey;
+    }
 
     return \%TicketAttributes;
 }
@@ -790,14 +823,39 @@ sub _SortedAttributes {
         Owner
         Responsible
         AccountedTime
+        EscalationDestinationIn
+        EscalationDestinationTime
+        EscalationDestinationDate
+        EscalationTimeWorkingTime
+        EscalationTime
+
         FirstResponse
         FirstResponseInMin
         FirstResponseDiffInMin
-        Now2FirstResponseEscalationInMin
+        FirstResponseTimeWorkingTime
+        FirstResponseTimeEscalation
+        FirstResponseTimeNotification
+        FirstResponseTimeDestinationTime
+        FirstResponseTimeDestinationDate
+        FirstResponseTime
+
+        UpdateTimeEscalation
+        UpdateTimeNotification
+        UpdateTimeDestinationTime
+        UpdateTimeDestinationDate
+        UpdateTimeWorkingTime
+        UpdateTime
+
         SolutionTime
         SolutionInMin
         SolutionDiffInMin
-        Now2SolutionEscalationInMin
+        SolutionTimeWorkingTime
+        SolutionTimeEscalation
+        SolutionTimeNotification
+        SolutionTimeDestinationTime
+        SolutionTimeDestinationDate
+        SolutionTimeWorkingTime
+
         FirstLock
         Lock
         StateType
@@ -809,9 +867,12 @@ sub _SortedAttributes {
         RealTillTimeNotUsed
     );
 
-    FREEKEY:
     for my $FreeKey ( 1 .. 16 ) {
         push @SortedAttributes, 'TicketFreeKey' . $FreeKey, 'TicketFreeText' . $FreeKey;
+    }
+
+    for my $FreeTime ( 1 .. 6 ) {
+        push @SortedAttributes, 'TicketFreeTime' . $FreeTime,
     }
 
     return \@SortedAttributes;
@@ -820,6 +881,7 @@ sub _SortedAttributes {
 sub GetHeaderLine {
     my ( $Self, %Param ) = @_;
     my %SelectedAttributes  = map { $_ => 1 } @{ $Param{XValue}{SelectedValues} };
+
     my $TicketAttributes    = $Self->_TicketAttributes();
     my @HeaderLine          = ();
     my $SortedAttributesRef = $Self->_SortedAttributes();
@@ -829,7 +891,7 @@ sub GetHeaderLine {
         next ATTRIBUTE if !$SelectedAttributes{$Attribute};
         push @HeaderLine, $TicketAttributes->{$Attribute};
     }
-    return @HeaderLine;
+    return \@HeaderLine;
 }
 
 sub _ExtendedAttributesCheck {
@@ -839,12 +901,12 @@ sub _ExtendedAttributesCheck {
         FirstResponse
         FirstResponseInMin
         FirstResponseDiffInMin
-        Now2FirstResponseEscalationInMin
+        FirstResponseTimeWorkingTime
         Closed
         SolutionTime
         SolutionInMin
         SolutionDiffInMin
-        Now2SolutionEscalationInMin
+        SolutionTimeWorkingTime
         FirstLock
     );
 
@@ -953,7 +1015,7 @@ sub _IndividualResultOrder {
     elsif ( $Param{OrderBy} eq 'SolutionInMin' ) {
         @Sorted = sort { $a->[$Counter] <=> $b->[$Counter] } @Unsorted;
     }
-    elsif ( $Param{OrderBy} eq 'Now2SolutionEscalationInMin' ) {
+    elsif ( $Param{OrderBy} eq 'SolutionTimeWorkingTime' ) {
         @Sorted = sort { $a->[$Counter] <=> $b->[$Counter] } @Unsorted;
     }
     elsif ( $Param{OrderBy} eq 'FirstResponse' ) {
@@ -962,10 +1024,10 @@ sub _IndividualResultOrder {
     elsif ( $Param{OrderBy} eq 'FirstResponseDiffInMin' ) {
         @Sorted = sort { $a->[$Counter] <=> $b->[$Counter] } @Unsorted;
     }
-    elsif ( $Param{OrderBy} eq 'Now2FirstResponseEscalationInMin' ) {
+    elsif ( $Param{OrderBy} eq 'FirstResponseInMin' ) {
         @Sorted = sort { $a->[$Counter] <=> $b->[$Counter] } @Unsorted;
     }
-    elsif ( $Param{OrderBy} eq 'FirstResponseInMin' ) {
+    elsif ( $Param{OrderBy} eq 'FirstResponseTimeWorkingTime' ) {
         @Sorted = sort { $a->[$Counter] <=> $b->[$Counter] } @Unsorted;
     }
     elsif ( $Param{OrderBy} eq 'FirstLock' ) {
@@ -992,12 +1054,15 @@ sub _IndividualResultOrder {
     elsif ( $Param{OrderBy} eq 'RealTillTimeNotUsed' ) {
         @Sorted = sort { $a->[$Counter] <=> $b->[$Counter] } @Unsorted;
     }
+    elsif ( $Param{OrderBy} eq 'EscalationTimeWorkingTime' ) {
+        @Sorted = sort { $a->[$Counter] <=> $b->[$Counter] } @Unsorted;
+    }
     else {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "There is no possibility to order the stats by $Param{OrderBy}!",
+            Message  => "There is no possibility to order the stats by $Param{OrderBy}! Sort it alpha numerical",
         );
-        return @Unsorted;
+        @Sorted = sort { $a->[$Counter] cmp $b->[$Counter] } @Unsorted;
     }
 
     # make a reverse sort if needed
