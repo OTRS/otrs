@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/TicketList.pm - reporting via ticket lists
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketList.pm,v 1.9 2009-04-08 07:18:58 tr Exp $
+# $Id: TicketList.pm,v 1.10 2009-04-08 12:32:56 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1077,6 +1077,155 @@ sub _IndividualResultOrder {
     }
 
     return @Sorted;
+}
+
+sub ExportWrapper {
+    my ( $Self, %Param ) = @_;
+
+    # wrap ids to used spelling
+    for my $Use (qw(UseAsValueSeries UseAsRestriction UseAsXvalue)) {
+        ELEMENT:
+        for my $Element ( @{ $Param{$Use} } ) {
+            next ELEMENT if !$Element || !$Element->{SelectedValues};
+            my $ElementName = $Element->{Element};
+            my $Values      = $Element->{SelectedValues};
+
+            if ( $ElementName eq 'QueueIDs' || $ElementName eq 'CreatedQueueIDs' ) {
+                ID:
+                for my $ID ( @{ $Values } ) {
+                    next ID if !$ID;
+                    $ID->{Content} = $Self->{QueueObject}->QueueLookup( QueueID => $ID->{Content} );
+                }
+            }
+            elsif ( $ElementName eq 'StateIDs' || $ElementName eq 'CreatedStateIDs' ) {
+                my %StateList = $Self->{StateObject}->StateList( UserID => 1 );
+                ID:
+                for my $ID ( @{ $Values } ) {
+                    next ID if !$ID;
+                    $ID->{Content} = $StateList{ $ID->{Content} };
+                }
+            }
+            elsif ( $ElementName eq 'PriorityIDs' || $ElementName eq 'CreatedPriorityIDs' ) {
+                my %PriorityList = $Self->{PriorityObject}->PriorityList( UserID => 1 );
+                ID:
+                for my $ID ( @{ $Values } ) {
+                    next ID if !$ID;
+                    $ID->{Content} = $PriorityList{ $ID->{Content} };
+                }
+            }
+            elsif ( $ElementName eq 'OwnerIDs' || $ElementName eq 'CreatedUserIDs' || $ElementName eq 'ResponsibleIDs' ) {
+                ID:
+                for my $ID ( @{ $Values } ) {
+                    next ID if !$ID;
+                    $ID->{Content} = $Self->{UserObject}->UserLookup( UserID => $ID->{Content} );
+                }
+            }
+
+            # Locks and statustype don't have to wrap because they are never different
+        }
+    }
+    return \%Param;
+}
+
+sub ImportWrapper {
+    my ( $Self, %Param ) = @_;
+
+    # wrap used spelling to ids
+    for my $Use (qw(UseAsValueSeries UseAsRestriction UseAsXvalue)) {
+        ELEMENT:
+        for my $Element ( @{ $Param{$Use} } ) {
+            next ELEMENT if !$Element || !$Element->{SelectedValues};
+            my $ElementName = $Element->{Element};
+            my $Values      = $Element->{SelectedValues};
+
+            if ( $ElementName eq 'QueueIDs' || $ElementName eq 'CreatedQueueIDs' ) {
+                ID:
+                for my $ID ( @{ $Values } ) {
+                    next ID if !$ID;
+                    if ( $Self->{QueueObject}->QueueLookup( Queue => $ID->{Content} ) ) {
+                        $ID->{Content}
+                            = $Self->{QueueObject}->QueueLookup( Queue => $ID->{Content} );
+                    }
+                    else {
+                        $Self->{LogObject}->Log(
+                            Priority => 'error',
+                            Message  => "Import: Can' find the queue $ID->{Content}!"
+                        );
+                        $ID = undef;
+                    }
+                }
+            }
+            elsif ( $ElementName eq 'StateIDs' || $ElementName eq 'CreatedStateIDs' ) {
+                ID:
+                for my $ID ( @{ $Values } ) {
+                    next ID if !$ID;
+
+                    my %State = $Self->{StateObject}->StateGet(
+                        Name  => $ID->{Content},
+                        Cache => 1,
+                    );
+                    if ( $State{ID} ) {
+                        $ID->{Content} = $State{ID};
+                    }
+                    else {
+                        $Self->{LogObject}->Log(
+                            Priority => 'error',
+                            Message  => "Import: Can' find state $ID->{Content}!"
+                        );
+                        $ID = undef;
+                    }
+                }
+            }
+            elsif ( $ElementName eq 'PriorityIDs' || $ElementName eq 'CreatedPriorityIDs' ) {
+                my %PriorityList = $Self->{PriorityObject}->PriorityList( UserID => 1 );
+                my %PriorityIDs = ();
+                for my $Key ( keys %PriorityList ) {
+                    $PriorityIDs{ $PriorityList{$Key} } = $Key;
+                }
+                ID:
+                for my $ID ( @{ $Values } ) {
+                    next ID if !$ID;
+
+                    if ( $PriorityIDs{ $ID->{Content} } ) {
+                        $ID->{Content} = $PriorityIDs{ $ID->{Content} };
+                    }
+                    else {
+                        $Self->{LogObject}->Log(
+                            Priority => 'error',
+                            Message  => "Import: Can' find priority $ID->{Content}!"
+                        );
+                        $ID = undef;
+                    }
+                }
+            }
+            elsif (
+                $ElementName    eq 'OwnerIDs'
+                || $ElementName eq 'CreatedUserIDs'
+                || $ElementName eq 'ResponsibleIDs'
+                )
+            {
+                ID:
+                for my $ID ( @{ $Values } ) {
+                    next ID if !$ID;
+
+                    if ( $Self->{UserObject}->UserLookup( UserLogin => $ID->{Content} ) ) {
+                        $ID->{Content} = $Self->{UserObject}->UserLookup(
+                            UserLogin => $ID->{Content}
+                        );
+                    }
+                    else {
+                        $Self->{LogObject}->Log(
+                            Priority => 'error',
+                            Message  => "Import: Can' find user $ID->{Content}!"
+                        );
+                        $ID = undef;
+                    }
+                }
+            }
+            # Locks and statustype don't have to wrap because they are never different
+        }
+    }
+    return \%Param;
 }
 
 1;
