@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/TicketAccountedTime.pm - stats for accounted ticket time
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketAccountedTime.pm,v 1.4 2009-04-05 21:44:42 mh Exp $
+# $Id: TicketAccountedTime.pm,v 1.5 2009-04-08 07:19:56 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -547,7 +547,6 @@ sub GetStatTable {
     my @StatArray = ();
     if ( $Param{XValue}{Element} && $Param{XValue}{Element} eq 'KindsOfReporting' ) {
 
-        # search the total sum of each row
         for my $Row ( sort keys %{ $Param{TableStructure} } ) {
             my @ResultRow        = ($Row);
             my %SearchAttributes = ( %{ $Param{TableStructure}{$Row}[0] } );
@@ -572,14 +571,11 @@ sub GetStatTable {
         my $SelectedKindsOfReporting = $Param{Restrictions}{KindsOfReporting};
 
         delete $Param{Restrictions}{KindsOfReporting};
-
-        # search the total sum of each row
         for my $Row ( sort keys %{ $Param{TableStructure} } ) {
             my @ResultRow = ($Row);
 
             for my $Cell ( @{ $Param{TableStructure}{$Row} } ) {
                 my %SearchAttributes = %{$Cell};
-
                 my %Reporting = $Self->_ReportingValues(
                     SearchAttributes         => \%SearchAttributes,
                     SelectedKindsOfReporting => $SelectedKindsOfReporting,
@@ -606,6 +602,7 @@ sub GetStatTable {
         }
     }
     return @StatArray;
+
 }
 
 sub _ReportingValues {
@@ -857,18 +854,26 @@ sub _AllowedTicketSearchAttributes {
 }
 
 sub GetHeaderLine {
+
     my ( $Self, %Param ) = @_;
-    my %Selected   = map { $_ => 1 } @{ $Param{XValue}{SelectedValues} };
-    my $Attributes = $Self->_KindsOfReporting();
-    my @HeaderLine = ('Evaluation by');
-    my $SortedRef  = $Self->_SortedKindsOfReporting();
 
-    ATTRIBUTE:
-    for my $Attribute ( @{$SortedRef} ) {
-        next ATTRIBUTE if !$Selected{$Attribute};
-        push @HeaderLine, $Attributes->{$Attribute};
+    if ($Param{XValue}{Element} eq 'KindsOfReporting') {
+
+        my %Selected   = map { $_ => 1 } @{ $Param{XValue}{SelectedValues} };
+
+        my $Attributes = $Self->_KindsOfReporting();
+        my @HeaderLine = ('Evaluation by');
+        my $SortedRef  = $Self->_SortedKindsOfReporting();
+
+        ATTRIBUTE:
+        for my $Attribute ( @{$SortedRef} ) {
+            next ATTRIBUTE if !$Selected{$Attribute};
+            push @HeaderLine, $Attributes->{$Attribute};
+        }
+        return \@HeaderLine;
+
     }
-    return @HeaderLine;
-}
+    return;
 
+}
 1;
