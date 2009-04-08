@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentStats.pm - stats module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentStats.pm,v 1.73 2009-03-27 17:35:11 mh Exp $
+# $Id: AgentStats.pm,v 1.74 2009-04-08 07:16:30 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Stats;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.73 $) [1];
+$VERSION = qw($Revision: 1.74 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -2153,7 +2153,7 @@ sub Run {
 
             # HTML Output
             else {
-                $Stat->{Table} = $Self->{LayoutObject}->OutputHTMLTable(
+                $Stat->{Table} = $Self->_OutputHTMLTable(
                     Head => $HeadArrayRef,
                     Data => \@StatArray,
                 );
@@ -2598,4 +2598,49 @@ sub _TimeInSeconds {
     return $TimeInSeconds{ $Param{TimeUnit} };
 }
 
+#=item _OutputHTMLTable()
+#
+#returns a html table based on a array
+#
+#    $HTML = $LayoutObject->_OutputHTMLTable(
+#        Head => ['RowA', 'RowB', ],
+#        Data => [
+#            [1,4],
+#            [7,3],
+#            [1,9],
+#            [34,4],
+#        ],
+#    );
+#
+#=cut
+
+sub _OutputHTMLTable {
+    my ( $Self, %Param ) = @_;
+
+    my $Output = '';
+    my @Head   = ('##No Head Data##');
+    if ( $Param{Head} ) {
+        @Head = @{ $Param{Head} };
+    }
+    my @Data = ( ['##No Data##'] );
+    if ( $Param{Data} ) {
+        @Data = @{ $Param{Data} };
+    }
+
+    $Output .= '<table border="0" width="100%" cellspacing="0" cellpadding="3">';
+    $Output .= "<tr>\n";
+    for my $Entry (@Head) {
+        $Output .= "<td class=\"contentvalue\">$Entry</td>\n";
+    }
+    $Output .= "</tr>\n";
+    for my $EntryRow (@Data) {
+        $Output .= "<tr>\n";
+        for my $Entry ( @{$EntryRow} ) {
+            $Output .= "<td class=\"small\">$Entry</td>\n";
+        }
+        $Output .= "</tr>\n";
+    }
+    $Output .= "</table>\n";
+    return $Output;
+}
 1;
