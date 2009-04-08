@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.56 2009-04-07 15:15:51 martin Exp $
+# $Id: Email.pm,v 1.57 2009-04-08 23:57:49 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Crypt;
 use Kernel::System::HTML2Ascii;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 =head1 NAME
 
@@ -249,13 +249,16 @@ sub Send {
     if ( $Param{MimeType} && $Param{MimeType} =~ /html/i ) {
         $HTMLEmail = 1;
 
-        # add html as attachment (as first one)
+        # add html as first attachment
         my $Attach = {
             Content     => $Param{Body},
             ContentType => "text/html; charset=\"$Param{Charset}\"",
             Filename    => '',
         };
         @{ $Param{Attachment} } = ( $Attach, @{ $Param{Attachment} } );
+
+        # remember html body for later comparison
+        $Param{HTMLBody} = $Param{Body};
 
         # add ascii body
         $Param{MimeType} = 'text/plain';
@@ -327,8 +330,44 @@ sub Send {
     # add attachments to email
     if ( $Param{Attachment} ) {
         my $Count = 0;
+        my $PartType = '';
+        my @NewAttachments = ();
+        ATTACHMENTS:
         for my $Upload ( @{ $Param{Attachment} } ) {
             if ( defined $Upload->{Content} && defined $Upload->{Filename} ) {
+
+                # if it's a html email, add the first attachment as alternative (to show it
+                # as alternative content)
+                if ($HTMLEmail) {
+                    $Count++;
+                    if ( $Count == 1 ) {
+                        $Entity->make_multipart( 'alternative;' );
+                        $PartType = 'alternative';
+                    }
+                    else {
+
+                        # don't attach duplicate html attachment (aka file-2)
+                        next ATTACHMENTS if
+                            $Upload->{Filename} eq 'file-2'
+                            && $Upload->{ContentType} =~ /html/i
+                            && $Upload->{Content} eq $Param{HTMLBody};
+
+                        # skip, but remember all attachments except inline images
+                        if (
+                            !defined $Upload->{ContentID}
+                            || $Upload->{ContentID} !~ /^inline/
+                        ) {
+                            push ( @NewAttachments, \%{ $Upload } );
+                            next ATTACHMENTS;
+                        }
+
+                        # add inline images as related
+                        if ( $PartType ne 'related' ) {
+                            $Entity->make_multipart( 'related;', Force => 1, );
+                            $PartType = 'related';
+                        }
+                    }
+                }
 
                 # content encode
                 $Self->{EncodeObject}->EncodeOutput( \$Upload->{Content} );
@@ -340,16 +379,10 @@ sub Send {
                     Charset => $Param{Charset},
                 );
 
-                # if it's a html email, add the first attachment as alternative (to show it
-                # as alternative content) and all the rest of attachments as multipart mixed
-                if ($HTMLEmail) {
-                    $Count++;
-                    if ( $Count == 1 ) {
-                        $Entity->make_multipart( 'alternative;' );
-                    }
-                    else {
-                        $Entity->make_multipart( 'mixed;', Force => 1, );
-                    }
+                # format content id, leave undefined if no value
+                my $ContentID;
+                if ( $Upload->{ContentID} ) {
+                    $ContentID = '<' . $Upload->{ContentID} . '>';
                 }
 
                 # attach file to email
@@ -357,11 +390,40 @@ sub Send {
                     Filename    => $Filename,
                     Data        => $Upload->{Content},
                     Type        => $Upload->{ContentType},
-                    Id          => $Upload->{ContentID} || '',
+                    Id          => $ContentID,
                     Disposition => $Upload->{Disposition} || 'inline',
                     Encoding    => $Upload->{Encoding} || '-SUGGEST',
                 );
             }
+        }
+
+        # add all other attachments as multipart mixed (if we had html body)
+        for my $Upload ( @NewAttachments ) {
+
+            # make multipart mixed
+            if ( $PartType ne 'mixed' ) {
+                $Entity->make_multipart( 'mixed;', Force => 1, );
+                $PartType = 'mixed';
+            }
+
+            # content encode
+            $Self->{EncodeObject}->EncodeOutput( \$Upload->{Content} );
+
+            # filename encode
+            my $Filename = $Self->_EncodeMIMEWords(
+                Field   => 'filename',
+                Line    => $Upload->{Filename},
+                Charset => $Param{Charset},
+            );
+
+            # attach file to email (no content id needed)
+            $Entity->attach(
+                Filename    => $Filename,
+                Data        => $Upload->{Content},
+                Type        => $Upload->{ContentType},
+                Disposition => $Upload->{Disposition} || 'inline',
+                Encoding    => $Upload->{Encoding} || '-SUGGEST',
+            );
         }
     }
 
@@ -749,6 +811,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.56 $ $Date: 2009-04-07 15:15:51 $
+$Revision: 1.57 $ $Date: 2009-04-08 23:57:49 $
 
 =cut
