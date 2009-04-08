@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter/CMD.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CMD.pm,v 1.12 2009-02-16 11:47:35 tr Exp $
+# $Id: CMD.pm,v 1.13 2009-04-08 12:29:40 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -26,7 +26,7 @@ sub new {
 
     $Self->{Debug} = $Param{Debug} || 0;
 
-    # get needed opbjects
+    # get needed objects
     for (qw(ConfigObject LogObject DBObject ParserObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
