@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.3 2009-03-27 17:35:32 mh Exp $
+# $Id: TemplateGenerator.pm,v 1.4 2009-04-08 17:54:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,12 +14,13 @@ package Kernel::System::TemplateGenerator;
 use strict;
 use warnings;
 
+use Kernel::System::HTML2Ascii;
 use Kernel::System::Salutation;
 use Kernel::System::Signature;
 use Kernel::System::StdResponse;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -80,6 +81,9 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
+    $Self->{RichText} = $Self->{ConfigObject}->Get('Frontend::RichText');
+
+    $Self->{HTML2AsciiObject}  = Kernel::System::HTML2Ascii->new(%Param);
     $Self->{SalutationObject}  = Kernel::System::Salutation->new(%Param);
     $Self->{SignatureObject}   = Kernel::System::Signature->new(%Param);
     $Self->{StdResponseObject} = Kernel::System::StdResponse->new(%Param);
@@ -123,6 +127,22 @@ sub Salutation {
     my %Salutation = $Self->{SalutationObject}->SalutationGet(
         ID => $Queue{SalutationID},
     );
+
+    # do text/plain to text/html convert
+    if ( $Self->{RichText} && $Salutation{ContentType} =~ /text\/plain/i ) {
+        $Salutation{ContentType} = 'text/html';
+        $Salutation{Text}        = $Self->{HTML2AsciiObject}->ToHTML(
+            String => $Salutation{Text},
+        );
+    }
+
+    # do text/html to text/plain convert
+    if ( !$Self->{RichText} && $Salutation{ContentType} =~ /text\/html/i ) {
+        $Salutation{ContentType} = 'text/plain';
+        $Salutation{Text}        = $Self->{HTML2AsciiObject}->ToAscii(
+            String => $Salutation{Text},
+        );
+    }
 
     # replace place holder stuff
     my $SalutationText = $Self->_Replace(
@@ -174,9 +194,21 @@ sub Signature {
         ID => $Queue{SignatureID},
     );
 
-    #    my %Signature = $Self->{QueueObject}->GetSignature(
-    #
-    #    );
+    # do text/plain to text/html convert
+    if ( $Self->{RichText} && $Signature{ContentType} =~ /text\/plain/i ) {
+        $Signature{ContentType} = 'text/html';
+        $Signature{Text}        = $Self->{HTML2AsciiObject}->ToHTML(
+            String => $Signature{Text},
+        );
+    }
+
+    # do text/html to text/plain convert
+    if ( !$Self->{RichText} && $Signature{ContentType} =~ /text\/html/i ) {
+        $Signature{ContentType} = 'text/plain';
+        $Signature{Text}        = $Self->{HTML2AsciiObject}->ToAscii(
+            String => $Signature{Text},
+        );
+    }
 
     # replace place holder stuff
     my $SignatureText = $Self->_Replace(
@@ -231,9 +263,25 @@ sub Response {
         ID => $Param{ResponseID},
     );
 
+    # do text/plain to text/html convert
+    if ( $Self->{RichText} && $Response{ContentType} =~ /text\/plain/i ) {
+        $Response{ContentType} = 'text/html';
+        $Response{Response}    = $Self->{HTML2AsciiObject}->ToHTML(
+            String => $Response{Response},
+        );
+    }
+
+    # do text/html to text/plain convert
+    if ( !$Self->{RichText} && $Response{ContentType} =~ /text\/html/i ) {
+        $Response{ContentType} = 'text/plain';
+        $Response{Response}    = $Self->{HTML2AsciiObject}->ToAscii(
+            String => $Response{Response},
+        );
+    }
+
     # replace place holder stuff
     my $ResponseText = $Self->_Replace(
-        Text => $Response{Response} || '-',
+        Text     => $Response{Response} || '-',
         TicketID => $Param{TicketID},
         Data     => $Param{Data},
         UserID   => $Param{UserID},
@@ -242,8 +290,6 @@ sub Response {
     my $Salutation = $Self->Salutation(%Param);
 
     my $Signature = $Self->Signature(%Param);
-
-    #    $Response{ContentType} = 'text/plain';
 
     return (
         StdResponse => $ResponseText,
@@ -528,61 +574,74 @@ sub _Replace {
         }
     }
 
+    my $Start = '<';
+    my $End   = '>';
+    if ( $Self->{RichText} ) {
+        $Start = '&lt;';
+        $End   = '&gt;';
+    }
+
     my %Ticket;
     if ( $Param{TicketID} ) {
         %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
     }
 
     # replace config options
-    $Param{Text} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
+    my $Tag = $Start . 'OTRS_CONFIG_';
+    $Param{Text} =~ s{$Tag(.+?)$End}{$Self->{ConfigObject}->Get($1)}egx;
 
     # cleanup
-    $Param{Text} =~ s/<OTRS_CONFIG_.+?>/-/gi;
+    $Param{Text} =~ s/$Tag.+?$End/-/gi;
 
     # get owner data and replace it with <OTRS_OWNER_...
+    $Tag  = $Start . 'OTRS_OWNER_';
     if ( $Ticket{OwnerID} ) {
         my %Owner = $Self->{UserObject}->GetUserData(
             UserID => $Ticket{OwnerID},
         );
         for ( keys %Owner ) {
             if ( $Owner{$_} ) {
-                $Param{Text} =~ s/<OTRS_OWNER_$_>/$Owner{$_}/gi;
+                $Param{Text} =~ s/$Tag$_$End/$Owner{$_}/gi;
             }
         }
     }
 
     # cleanup
-    $Param{Text} =~ s/<OTRS_OWNER_.+?>/-/gi;
+    $Param{Text} =~ s/$Tag.+?$End/-/gi;
 
     # get owner data and replace it with <OTRS_RESPONSIBLE_...
+    $Tag  = $Start . 'OTRS_RESPONSIBLE_';
     if ( $Ticket{ResponsibleID} ) {
         my %Responsible = $Self->{UserObject}->GetUserData(
             UserID => $Ticket{ResponsibleID},
         );
         for ( keys %Responsible ) {
             if ( $Responsible{$_} ) {
-                $Param{Text} =~ s/<OTRS_RESPONSIBLE_$_>/$Responsible{$_}/gi;
+                $Param{Text} =~ s/$Tag$_$End/$Responsible{$_}/gi;
             }
         }
     }
 
     # cleanup
-    $Param{Text} =~ s/<OTRS_RESPONSIBLE_.+?>/-/gi;
+    $Param{Text} =~ s/$Tag.+?$End/-/gi;
 
+    $Tag  = $Start . 'OTRS_Agent_';
+    my $Tag2 = $Start . 'OTRS_CURRENT_';
     my %CurrentUser = $Self->{UserObject}->GetUserData( UserID => $Param{UserID} );
     for ( keys %CurrentUser ) {
         if ( $CurrentUser{$_} ) {
-            $Param{Text} =~ s/<OTRS_Agent_$_>/$CurrentUser{$_}/gi;
-            $Param{Text} =~ s/<OTRS_CURRENT_$_>/$CurrentUser{$_}/gi;
+            $Param{Text} =~ s/$Tag$_$End/$CurrentUser{$_}/gi;
+            $Param{Text} =~ s/$Tag2$_$End/$CurrentUser{$_}/gi;
         }
     }
 
     # replace other needed stuff
-    $Param{Text} =~ s/<OTRS_FIRST_NAME>/$CurrentUser{UserFirstname}/g;
+    $Param{Text} =~ s/OTRS_FIRST_NAME>/$CurrentUser{UserFirstname}/g;
     $Param{Text} =~ s/<OTRS_LAST_NAME>/$CurrentUser{UserLastname}/g;
 
     # cleanup
-    $Param{Text} =~ s/<OTRS_CURRENT_.+?>/-/gi;
+    $Param{Text} =~ s/$Tag.+?$End/-/gi;
+    $Param{Text} =~ s/$Tag2.+?$End/-/gi;
 
     #    # replace it with given user params
     #    for ( keys %User ) {
@@ -593,19 +652,22 @@ sub _Replace {
     #    }
 
     # ticket data
+    $Tag  = $Start . 'OTRS_TICKET_';
     if ( $Param{TicketID} ) {
         my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
         for ( keys %Ticket ) {
             if ( defined $Ticket{$_} ) {
-                $Param{Text} =~ s/<OTRS_TICKET_$_>/$Ticket{$_}/gi;
+                $Param{Text} =~ s/$Tag$_$End/$Ticket{$_}/gi;
             }
         }
     }
 
     # cleanup
-    $Param{Text} =~ s/<OTRS_TICKET_.+?>/-/gi;
+    $Param{Text} =~ s/$Tag.+?$End/-/gi;
 
     # get customer data and replace it with <OTRS_CUSTOMER_DATA_...
+    $Tag  = $Start . 'OTRS_CUSTOMER_';
+    $Tag2  = $Start . 'OTRS_CUSTOMER_DATA';
     if ( $Ticket{CustomerUserID} ) {
         my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
             User => $Ticket{CustomerUserID},
@@ -614,14 +676,19 @@ sub _Replace {
         # replace customer stuff with tags
         for ( keys %CustomerUser ) {
             if ( $CustomerUser{$_} ) {
-                $Param{Text} =~ s/<OTRS_CUSTOMER_$_>/$CustomerUser{$_}/gi;
-                $Param{Text} =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
+                $Param{Text} =~ s/$Tag$_$End/$CustomerUser{$_}/gi;
+                $Param{Text} =~ s/$Tag2$_$End/$CustomerUser{$_}/gi;
             }
         }
     }
 
+    # cleanup all not needed <OTRS_CUSTOMER_DATA_ tags
+    $Param{Text} =~ s/$Tag.+?$End/-/gi;
+    $Param{Text} =~ s/$Tag2.+?$End/-/gi;
+
     # get and prepare realname
-    if ( $Param{Text} =~ /<OTRS_CUSTOMER_REALNAME>/ ) {
+    $Tag  = $Start . 'OTRS_CUSTOMER_REALNAME';
+    if ( $Param{Text} =~ /$Tag$End/i ) {
         my $From = '';
         if ( $Ticket{CustomerUserID} ) {
             $From = $Self->{CustomerUserObject}->CustomerName(
@@ -633,12 +700,8 @@ sub _Replace {
             $From =~ s/<.*>|\(.*\)|\"|;|,//g;
             $From =~ s/( $)|(  $)//g;
         }
-        $Param{Text} =~ s/<OTRS_CUSTOMER_REALNAME>/$From/g;
+        $Param{Text} =~ s/$Tag$End/$From/g;
     }
-
-    # cleanup all not needed <OTRS_CUSTOMER_DATA_ tags
-    $Param{Text} =~ s/<OTRS_CUSTOMER_.+?>/-/gi;
-    $Param{Text} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
 
     return $Param{Text};
 }
@@ -659,6 +722,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2009-03-27 17:35:32 $
+$Revision: 1.4 $ $Date: 2009-04-08 17:54:55 $
 
 =cut
