@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.pm,v 1.77 2009-04-06 21:33:48 martin Exp $
+# $Id: PostMaster.pm,v 1.78 2009-04-08 11:27:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.77 $) [1];
+$VERSION = qw($Revision: 1.78 $) [1];
 
 =head1 NAME
 
@@ -46,6 +46,7 @@ All postmaster functions. E. g. to process emails.
 create an object
 
     use Kernel::Config;
+    use Kernel::System::Encode;
     use Kernel::System::Time;
     use Kernel::System::Log;
     use Kernel::System::Main;
@@ -56,14 +57,20 @@ create an object
     my $TimeObject   = Kernel::System::Time->new(
         ConfigObject => $ConfigObject,
     );
+    my $EncodeObject   = Kernel::System::Encode->new(
+        ConfigObject => $ConfigObject,
+    );
     my $LogObject = Kernel::System::Log->new(
+        EncodeObject => $EncodeObject,
         ConfigObject => $ConfigObject,
     );
     my $MainObject = Kernel::System::Main->new(
+        EncodeObject => $EncodeObject,
         LogObject    => $LogObject,
         ConfigObject => $ConfigObject,
     );
     my $DBObject = Kernel::System::DB->new(
+        EncodeObject => $EncodeObject,
         ConfigObject => $ConfigObject,
         MainObject   => $MainObject,
         LogObject    => $LogObject,
@@ -72,6 +79,7 @@ create an object
         DBObject     => DBObject,
         TimeObject   => TimeObject,
         ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
         MainObject   => $MainObject,
         LogObject    => $LogObject,
         Email        => \@ArrayOfEmailContent,
@@ -88,8 +96,8 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject LogObject ConfigObject TimeObject MainObject Email)) {
-        die "Got no $_" if ( !$Param{$_} );
+    for (qw(DBObject LogObject ConfigObject TimeObject MainObject EncodeObject Email)) {
+        die "Got no $_" if !$Param{$_};
     }
 
     # check needed config objects
@@ -177,6 +185,7 @@ sub Run {
             return if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
 
             my $FilterObject = $Jobs{$Job}->{Module}->new(
+                EncodeObject => $Self->{EncodeObject},
                 ConfigObject => $Self->{ConfigObject},
                 MainObject   => $Self->{MainObject},
                 LogObject    => $Self->{LogObject},
@@ -348,6 +357,7 @@ sub Run {
             return if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
 
             my $FilterObject = $Jobs{$Job}->{Module}->new(
+                EncodeObject => $Self->{EncodeObject},
                 ConfigObject => $Self->{ConfigObject},
                 MainObject   => $Self->{MainObject},
                 LogObject    => $Self->{LogObject},
@@ -427,54 +437,60 @@ sub CheckFollowUp {
     # do body ticket number lookup
     if ( $Self->{ConfigObject}->Get('PostmasterFollowUpSearchInBody') ) {
         my $Tn = $Self->{TicketObject}->GetTNByString( $Self->{ParserObject}->GetMessageBody() );
-        next if !$Tn;
-        my $TicketID = $Self->{TicketObject}->TicketCheckNumber( Tn => $Tn );
-        next if !$TicketID;
-        my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
-        if ( $Self->{Debug} > 1 ) {
-            $Self->{LogObject}->Log(
-                Priority => 'debug',
-                Message =>
-                    "CheckFollowUp (in body): ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
-            );
+        if ($Tn) {
+            my $TicketID = $Self->{TicketObject}->TicketCheckNumber( Tn => $Tn );
+            if ($TicketID) {
+                my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
+                if ( $Self->{Debug} > 1 ) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'debug',
+                        Message =>
+                            "CheckFollowUp (in body): ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
+                    );
+                }
+                return ( $Ticket{TicketNumber}, $TicketID );
+            }
         }
-        return ( $Ticket{TicketNumber}, $TicketID );
     }
 
     # do attachment ticket number lookup
     if ( $Self->{ConfigObject}->Get('PostmasterFollowUpSearchInAttachment') ) {
         for my $Attachment ( $Self->{ParserObject}->GetAttachments() ) {
             my $Tn = $Self->{TicketObject}->GetTNByString( $Attachment->{Content} );
-            next if !$Tn;
-            my $TicketID = $Self->{TicketObject}->TicketCheckNumber( Tn => $Tn );
-            next if !$TicketID;
-            my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
-            if ( $Self->{Debug} > 1 ) {
-                $Self->{LogObject}->Log(
-                    Priority => 'debug',
-                    Message =>
-                        "CheckFollowUp (in attachment): ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
-                );
+            if ($Tn) {
+                my $TicketID = $Self->{TicketObject}->TicketCheckNumber( Tn => $Tn );
+                if ($TicketID) {
+                    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
+                    if ( $Self->{Debug} > 1 ) {
+                        $Self->{LogObject}->Log(
+                            Priority => 'debug',
+                            Message =>
+                                "CheckFollowUp (in attachment): ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
+                        );
+                    }
+                    return ( $Ticket{TicketNumber}, $TicketID );
+                }
             }
-            return ( $Ticket{TicketNumber}, $TicketID );
         }
     }
 
     # do plain/raw ticket number lookup
     if ( $Self->{ConfigObject}->Get('PostmasterFollowUpSearchInRaw') ) {
         my $Tn = $Self->{TicketObject}->GetTNByString( $Self->{ParserObject}->GetPlainEmail() );
-        next if !$Tn;
-        my $TicketID = $Self->{TicketObject}->TicketCheckNumber( Tn => $Tn );
-        next if !$TicketID;
-        my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
-        if ( $Self->{Debug} > 1 ) {
-            $Self->{LogObject}->Log(
-                Priority => 'debug',
-                Message =>
-                    "CheckFollowUp (in plain/raw): ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
-            );
+        if ($Tn) {
+            my $TicketID = $Self->{TicketObject}->TicketCheckNumber( Tn => $Tn );
+            if ($TicketID) {
+                my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
+                if ( $Self->{Debug} > 1 ) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'debug',
+                        Message =>
+                            "CheckFollowUp (in plain/raw): ja, it's a follow up ($Ticket{TicketNumber}/$TicketID)",
+                    );
+                }
+                return ( $Ticket{TicketNumber}, $TicketID );
+            }
         }
-        return ( $Ticket{TicketNumber}, $TicketID );
     }
     return;
 }
@@ -604,6 +620,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.77 $ $Date: 2009-04-06 21:33:48 $
+$Revision: 1.78 $ $Date: 2009-04-08 11:27:50 $
 
 =cut
