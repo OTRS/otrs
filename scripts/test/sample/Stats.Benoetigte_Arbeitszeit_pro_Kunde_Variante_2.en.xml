@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<otrs_stats>
+<Cache>0</Cache>
+<Description>Benötigte Arbeitszeit pro in Abhängigkeit der Queue im letzten Monat.</Description>
+<File></File>
+<Format>Print</Format>
+<GraphSize></GraphSize>
+<Object>TicketAccountedTime</Object>
+<ObjectModule>Kernel::System::Stats::Dynamic::TicketAccountedTime</ObjectModule>
+<ObjectName>TicketAccountedTime</ObjectName>
+<Permission>stats</Permission>
+<StatType>dynamic</StatType>
+<SumCol>0</SumCol>
+<SumRow>0</SumRow>
+<Title>Benötigte Arbeitszeit pro Kunde Variante 2</Title>
+<UseAsRestriction Element="ArticleAccountedTime" Fixed="1" TimeRelativeCount="1" TimeRelativeUnit="Month">
+</UseAsRestriction>
+<UseAsValueSeries Element="QueueIDs" Fixed="1">
+</UseAsValueSeries>
+<UseAsXvalue Element="CustomerID" Fixed="1">
+</UseAsXvalue>
+<Valid>1</Valid>
+</otrs_stats>
