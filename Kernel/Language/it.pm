@@ -4,7 +4,7 @@
 # Copyright (C) 2003 Gabriele Santilli <gsantilli at omnibus.net>
 # Copyright (C) 2005 Giordano Bianchi <giordano.bianchi at gmail.com>
 # --
-# $Id: it.pm,v 1.74 2009-04-03 07:42:25 sb Exp $
+# $Id: it.pm,v 1.75 2009-04-09 08:19:53 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.74 $) [1];
+$VERSION = qw($Revision: 1.75 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Fri Apr  3 09:40:44 2009
+    # Last translation file sync: Thu Apr  9 10:12:53 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -185,6 +185,7 @@ sub Data {
         'Added!' => '',
         'Category' => 'Categoria',
         'Viewer' => 'Visualizzatore',
+        'Expand' => '',
         'New message' => 'Nuovo messaggio',
         'New message!' => 'Nuovo messaggio!',
         'Please answer this ticket(s) to get back to the normal queue view!' => 'Per favore rispondi a queste richieste prima di tornare alla lista!',
@@ -830,7 +831,6 @@ sub Data {
         'Activating this feature might affect your system performance!' => '',
         'Disable it here!' => 'Disabilita funzione qui',
         'This feature is disabled!' => 'Questa funzione e disabilitata',
-        'Activating this feature might affect your system performance!' => '',
         'Enable it here!' => 'Abilita funzione qui',
         'Logfile too large!' => 'Log File troppo grande ',
         'Logfile too large, you need to reset it!' => 'Il log file e troppo grande serve svuotarlo',
@@ -1028,7 +1028,7 @@ sub Data {
         'Add System Address' => 'Inserisci Email di sistema',
         'Add a new System Address.' => 'Inserisci nuova Email di sistema',
         'Realname' => 'Nome',
-        'All email addresses get excluded on replaying on composing and email.' => '',
+        'All email addresses get excluded on replaying on composing an email.' => '',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Tutte le email in arrivo indirizzate a questo indirizzo (campo To:) saranno smistate nella coda selezionata!',
 
         # Template: AdminTypeForm
@@ -1083,7 +1083,6 @@ sub Data {
         # Template: AgentNavigationBar
 
         # Template: AgentPreferencesForm
-        'End' => '',
 
         # Template: AgentSpelling
         'Spell Checker' => 'Verifica ortografica',
@@ -1096,7 +1095,6 @@ sub Data {
         'Do you really want to delete this Object?' => 'Vuoi davvero cancellare questo oggetto?',
 
         # Template: AgentStatsEditRestrictions
-        'Stat#' => '',
         'Select the restrictions to characterise the stat' => 'Seleziona le regole filtro per le stat',
         'Fixed' => 'Fissa',
         'Please select only one element or turn off the button \'Fixed\'.' => 'Seleziona solo un elemento e togli  \'Fissa\' . ',
@@ -1205,7 +1203,6 @@ sub Data {
         'Ticket Type is required!' => '',
         'A message should have a body!' => 'Un messaggio deve avere un contenuto!',
         'A required field is:' => '',
-        'A required field is:' => '',
         'Close ticket' => 'Chiudi richiesta',
         'Previous Owner' => 'Gestore precedente',
         'Inform Agent' => 'Informa Operatore',
@@ -1269,12 +1266,6 @@ sub Data {
 
         # Template: AgentTicketOverviewMediumMeta
         'You need min. one selected Ticket!' => 'Devi selezionare almeno una richiesta!',
-        'sort upward' => 'ordine crescente',
-        'up' => 'crescente',
-        'sort downward' => 'ordine decrescente',
-        'down' => 'decrescente',
-        'Escalation in' => '',
-        'Locked' => 'In gestione',
 
         # Template: AgentTicketOverviewNavBar
         'Filter' => 'Filtro',
@@ -1294,6 +1285,12 @@ sub Data {
         # Template: AgentTicketOverviewPreviewMeta
 
         # Template: AgentTicketOverviewSmall
+        'sort upward' => 'ordine crescente',
+        'up' => 'crescente',
+        'sort downward' => 'ordine decrescente',
+        'down' => 'decrescente',
+        'Escalation in' => '',
+        'Locked' => 'In gestione',
 
         # Template: AgentTicketOwner
         'Change owner of ticket' => 'Assegna la richiesta ad un altro operatore',
@@ -1335,6 +1332,9 @@ sub Data {
         'Search-Template' => 'Modello di ricerca',
         'TicketFreeText' => 'Ricerca a testo libero nella richiesta',
         'Created in Queue' => 'Creata nella Coda',
+        'Article Create Times' => '',
+        'Article created' => '',
+        'Article created between' => '',
         'Change Times' => '',
         'No change time settings.' => '',
         'Ticket changed' => '',
@@ -1343,13 +1343,14 @@ sub Data {
         'Save Search-Profile as Template?' => 'Salvare il profilo di ricerca come modello',
         'Yes, save it with name' => 'Sì, salva con nome',
 
-        # Template: AgentTicketSearchOpenSearchDescription
+        # Template: AgentTicketSearchOpenSearchDescriptionFulltext
+
+        # Template: AgentTicketSearchOpenSearchDescriptionTicketNumber
 
         # Template: AgentTicketSearchResultPrint
 
         # Template: AgentTicketZoom
         'Expand View' => 'espandi report',
-        'Expand' => '',
         'Collapse View' => 'riduci report',
         'Split' => 'Spezza',
 
@@ -1493,42 +1494,21 @@ sub Data {
         # Template: Warning
 
         # Template: YUI
-        'Bold' => '',
-        'CTRL' => '',
-        'SHIFT' => '',
-        'Italic' => '',
-        'Underline' => '',
-        'Font Color' => '',
-        'Background Color' => '',
-        'Remove Formatting' => '',
-        'Show/Hide Hidden Elements' => '',
-        'Align Left' => '',
-        'Align Center' => '',
-        'Align Right' => '',
-        'Justify' => '',
-        'Indent' => '',
-        'Outdent' => '',
-        'Create an Unordered List' => '',
-        'Create an Ordered List' => '',
-        'HTML Link' => '',
-        'Insert Image' => '',
-        'Undo' => '',
-        'Redo' => '',
 
         # Misc
         'Edit Article' => '',
         'Create Database' => 'Crea database ',
         'Ticket Number Generator' => 'Generatore numero ticket',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Prefisso per il numero di ticket --- es. "N.ro Ticket:" o "Ticket#" ecc.)',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'In questo modo puoi modificare direttamente il \'keyring\' configurato nel file Kernel/Config.pm',
         'Create new Phone Ticket' => 'Crea una nuova richiesta in seguito ad una chiamata telefonica',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'In questo modo puoi modificare direttamente il \'keyring\' configurato nel file Kernel/Config.pm',
         'Symptom' => 'Sintomi',
         'U' => 'C',
         'Site' => 'Pagina',
         'Customer history search (e. g. "ID342425").' => 'Ricerca storico cliente (per es. "ID342425")',
         'Can not delete link with %s!' => '',
-        'Close!' => 'Chiuso!',
         'for agent firstname' => 'per il nome dell\'operatore',
+        'Close!' => 'Chiuso!',
         'No means, send agent and customer notifications on changes.' => 'No- significa , invia notifiche ad agenti e utenti dopo modifiche ',
         'A web calendar' => 'Calendario web',
         'to get the realname of the sender (if given)' => 'per avere il nome completo del mittente (se indicato)',
@@ -1572,8 +1552,8 @@ sub Data {
         'to get the first 20 character of the subject' => 'per avere i primi 20 caratteri dell\'oggetto',
         'Select the customeruser:service relations.' => '',
         'DB Admin Password' => 'Password del DB Admin',
-        'Drop Database' => 'Cancella database',
         'Advisory' => 'Avviso',
+        'Drop Database' => 'Cancella database',
         'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
         'FileManager' => '',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Per ottenere i dati del cliente (per es. <OTRS_CUSTOMER_DATA_UserFirstname>)',
@@ -1598,8 +1578,8 @@ sub Data {
         'Ticket Hook' => 'Prefisso richieste',
         'Detail' => 'Dettaglio',
         'TicketZoom' => 'DettagliRichiesta',
-        'Don\'t forget to add a new user to groups!' => 'Non dimenticare di aggiungere i nuovi operatori ad un gruppo!',
         'Open Tickets' => 'Richieste Aperte',
+        'Don\'t forget to add a new user to groups!' => 'Non dimenticare di aggiungere i nuovi operatori ad un gruppo!',
         'CreateTicket' => 'CreaRichiesta',
         'You have to select two or more attributes from the select field!' => '',
         'System Settings' => 'Impostazioni di sistema',
@@ -1607,15 +1587,16 @@ sub Data {
         'Hours' => 'Ore',
         'Finished' => 'Operazione terminata',
         'D' => '',
-        'All messages' => 'Tutti i messaggi',
         'System Status' => '',
+        'All messages' => 'Tutti i messaggi',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         'Artefact' => 'Artefatto',
         'Object already linked as %s.' => '',
         'A article should have a title!' => 'Manca il titolo!',
-        'Event' => '',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
+        'Event' => '',
         'don\'t accept license' => 'non accetto la licenza',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'A web mail client' => 'Un client di web mail',
         'WebMail' => '',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',

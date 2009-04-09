@@ -2,7 +2,7 @@
 # Kernel/Language/ar_SA.pm - provides ar_SA language translation
 # Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
 # --
-# $Id: ar_SA.pm,v 1.28 2009-04-03 07:42:24 sb Exp $
+# $Id: ar_SA.pm,v 1.29 2009-04-09 08:19:53 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Fri Apr  3 09:40:38 2009
+    # Last translation file sync: Thu Apr  9 10:12:47 2009
 
     # possible charsets
     $Self->{Charset} = ['cp1256', ];
@@ -185,6 +185,7 @@ sub Data {
         'Added!' => '',
         'Category' => ' ’‰Ì›',
         'Viewer' => '„” ⁄—÷',
+        'Expand' => '',
         'New message' => '—”«·… ÃœÌœ…',
         'New message!' => '—”«·… ÃœÌœ…!',
         'Please answer this ticket(s) to get back to the normal queue view!' => '«·—Ã«¡ «·≈Ã«»… ⁄·Ï Â–Â «·»ÿ«ﬁ«  ··⁄Êœ… ≈·Ï ‘«‘… «·»ÿ«ﬁ«  «·—∆Ì”Ì…!',
@@ -830,7 +831,6 @@ sub Data {
         'Activating this feature might affect your system performance!' => '',
         'Disable it here!' => '',
         'This feature is disabled!' => '',
-        'Activating this feature might affect your system performance!' => '',
         'Enable it here!' => '',
         'Logfile too large!' => '',
         'Logfile too large, you need to reset it!' => '',
@@ -1028,7 +1028,7 @@ sub Data {
         'Add System Address' => '',
         'Add a new System Address.' => '',
         'Realname' => '«·≈”„ «·ÕﬁÌﬁÌ',
-        'All email addresses get excluded on replaying on composing and email.' => '',
+        'All email addresses get excluded on replaying on composing an email.' => '',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => '',
 
         # Template: AdminTypeForm
@@ -1083,7 +1083,6 @@ sub Data {
         # Template: AgentNavigationBar
 
         # Template: AgentPreferencesForm
-        'End' => '',
 
         # Template: AgentSpelling
         'Spell Checker' => '«·„œﬁﬁ «·≈„·«∆Ì',
@@ -1204,7 +1203,6 @@ sub Data {
         'Ticket Type is required!' => '',
         'A message should have a body!' => '«·—”«·… ÌÃ» √‰ ÌﬂÊ‰ ·Â« ‰’',
         'A required field is:' => '',
-        'A required field is:' => '',
         'Close ticket' => '≈ﬁ›«· «·»ÿ«ﬁ…',
         'Previous Owner' => '«·„«·ﬂ «·”«»ﬁ',
         'Inform Agent' => '√»·€ «·„‘€·',
@@ -1268,12 +1266,6 @@ sub Data {
 
         # Template: AgentTicketOverviewMediumMeta
         'You need min. one selected Ticket!' => 'ÌÃ»  ÕœÌœ »ÿ«ﬁ… Ê«Õœ… ⁄·Ï «·√ﬁ·!',
-        'sort upward' => ' — Ì» „‰ «·√⁄·Ï ··√ﬁ·',
-        'up' => '√⁄·Ï',
-        'sort downward' => ' — Ì» „‰ «·√ﬁ· ··√⁄·Ï',
-        'down' => '√”›·',
-        'Escalation in' => ' ’⁄Ìœ Œ·«·',
-        'Locked' => '„ﬁ›·',
 
         # Template: AgentTicketOverviewNavBar
         'Filter' => '«· —‘ÌÕ',
@@ -1293,6 +1285,12 @@ sub Data {
         # Template: AgentTicketOverviewPreviewMeta
 
         # Template: AgentTicketOverviewSmall
+        'sort upward' => ' — Ì» „‰ «·√⁄·Ï ··√ﬁ·',
+        'up' => '√⁄·Ï',
+        'sort downward' => ' — Ì» „‰ «·√ﬁ· ··√⁄·Ï',
+        'down' => '√”›·',
+        'Escalation in' => ' ’⁄Ìœ Œ·«·',
+        'Locked' => '„ﬁ›·',
 
         # Template: AgentTicketOwner
         'Change owner of ticket' => ' €ÌÌ— „«·ﬂ «·»ÿ«ﬁ…',
@@ -1334,6 +1332,9 @@ sub Data {
         'Search-Template' => '',
         'TicketFreeText' => '',
         'Created in Queue' => '√‰‘∆  ›Ì «·ﬁ«∆„…',
+        'Article Create Times' => '',
+        'Article created' => '',
+        'Article created between' => '',
         'Change Times' => '',
         'No change time settings.' => '',
         'Ticket changed' => '',
@@ -1342,13 +1343,14 @@ sub Data {
         'Save Search-Profile as Template?' => '«Õ›Ÿ ≈⁄œ«œ«  «·»ÕÀø',
         'Yes, save it with name' => '‰⁄„, √Õ›ŸÂ« „⁄ «·≈”„',
 
-        # Template: AgentTicketSearchOpenSearchDescription
+        # Template: AgentTicketSearchOpenSearchDescriptionFulltext
+
+        # Template: AgentTicketSearchOpenSearchDescriptionTicketNumber
 
         # Template: AgentTicketSearchResultPrint
 
         # Template: AgentTicketZoom
         'Expand View' => '',
-        'Expand' => '',
         'Collapse View' => '',
         'Split' => '›’·',
 
@@ -1492,27 +1494,6 @@ sub Data {
         # Template: Warning
 
         # Template: YUI
-        'Bold' => '',
-        'CTRL' => '',
-        'SHIFT' => '',
-        'Italic' => '',
-        'Underline' => '',
-        'Font Color' => '',
-        'Background Color' => '',
-        'Remove Formatting' => '',
-        'Show/Hide Hidden Elements' => '',
-        'Align Left' => '',
-        'Align Center' => '',
-        'Align Right' => '',
-        'Justify' => '',
-        'Indent' => '',
-        'Outdent' => '',
-        'Create an Unordered List' => '',
-        'Create an Ordered List' => '',
-        'HTML Link' => '',
-        'Insert Image' => '',
-        'Undo' => '',
-        'Redo' => '',
 
         # Misc
         'Edit Article' => '',
@@ -1522,15 +1503,15 @@ sub Data {
         'File-Name' => '',
         'Ticket Number Generator' => '',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Create new Phone Ticket' => '√‰‘Ì¡ »ÿ«ﬁ… Â« › ÃœÌœ…',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Symptom' => '',
         'U' => '√⁄·Ï',
         'Site' => '',
         'Customer history search (e. g. "ID342425").' => '',
         'Can not delete link with %s!' => '',
-        'Close!' => '≈ﬁ›«·!',
         'for agent firstname' => '',
+        'Close!' => '≈ﬁ›«·!',
         'Reporter' => '',
         'Process-Path' => '',
         'No means, send agent and customer notifications on changes.' => '',
@@ -1563,10 +1544,10 @@ sub Data {
         'Classification' => '',
         'Change user <-> group settings' => '',
         'Incident detected' => '',
-        'Problem' => '',
         'Incident reported' => '',
-        'Officer' => '',
+        'Problem' => '',
         'Escalation' => '',
+        'Officer' => '',
         '"}' => '',
         'Order' => '— »',
         'next step' => '«·ŒÿÊ… «· «·Ì…',
@@ -1622,8 +1603,8 @@ sub Data {
         'IMAPS' => '',
         'Detail' => '«· ›«’Ì·',
         'TicketZoom' => ' ﬂ»Ì— «·»ÿ«ﬁ…',
-        'Don\'t forget to add a new user to groups!' => '',
         'Open Tickets' => '«·»ÿ«ﬁ«  «·„› ÊÕ…',
+        'Don\'t forget to add a new user to groups!' => '',
         'CreateTicket' => '√‰‘Ì¡ »ÿ«ﬁ…',
         'You have to select two or more attributes from the select field!' => 'ÌÃ» ⁄·Ìﬂ  ÕœÌœ ⁄‰’—Ì‰ √Ê √ﬂÀ— „‰ «·ﬁ«∆„… «·„Õœœ…!',
         'unknown' => '€Ì— „⁄—Ê›',
@@ -1633,14 +1614,15 @@ sub Data {
         'Account Type' => '',
         'unread' => '€Ì— „ﬁ—Ê¡',
         'D' => '√ﬁ·',
-        'System Status' => '',
         'All messages' => 'Ã„Ì⁄ «·—”«∆·',
+        'System Status' => '',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'ŒÌ«—«  »Ì«‰«  «·»ÿ«ﬁ… („À«·Â <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => '',
         'A article should have a title!' => '«·»ÿ«ﬁ… ÌÃ» √‰ ÌﬂÊ‰ ·Â« ⁄‰Ê«‰!',
-        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
         'Event' => '',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
         'don\'t accept license' => '',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'IMAP' => '',
         'Imported by' => ' „ ≈” Ì—«œÂ „‰ Œ·«·',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'ŒÌ«—«  „«·ﬂ «·»ÿ«ﬁ… („À«·Â <OTRS_OWNER_UserFirstname>)',

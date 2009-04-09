@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.84 2009-04-03 07:42:25 sb Exp $
+# $Id: bg.pm,v 1.85 2009-04-09 08:19:53 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.84 $) [1];
+$VERSION = qw($Revision: 1.85 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Fri Apr  3 09:40:38 2009
+    # Last translation file sync: Thu Apr  9 10:12:47 2009
 
     # possible charsets
     $Self->{Charset} = ['cp1251', 'Windows-1251', ];
@@ -184,6 +184,7 @@ sub Data {
         'Added!' => '',
         'Category' => 'Категория',
         'Viewer' => 'Viewer',
+        'Expand' => '',
         'New message' => 'Ново съобщение',
         'New message!' => 'Ново съобщение!',
         'Please answer this ticket(s) to get back to the normal queue view!' => 'Моля, отговорете на този билет(и) за да се върнете в нормалния изглед на опашката!',
@@ -829,7 +830,6 @@ sub Data {
         'Activating this feature might affect your system performance!' => '',
         'Disable it here!' => 'Забраняване на фукционалността тук',
         'This feature is disabled!' => 'Тази функционалност е забранена',
-        'Activating this feature might affect your system performance!' => '',
         'Enable it here!' => 'Разрешаване на фунционалността тук',
         'Logfile too large!' => 'Журналния файл е прекалено голям!',
         'Logfile too large, you need to reset it!' => 'Журналния файл е прекалено голям, необходимо е презаписване на файла!',
@@ -1027,7 +1027,7 @@ sub Data {
         'Add System Address' => 'Добавяне на системен адрес',
         'Add a new System Address.' => 'Добавяне на нов системен адрес.',
         'Realname' => 'Истинско име',
-        'All email addresses get excluded on replaying on composing and email.' => '',
+        'All email addresses get excluded on replaying on composing an email.' => '',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Всички входящи адреси от този еМейл (До:) ще се разпределят в избраната опашка.',
 
         # Template: AdminTypeForm
@@ -1082,7 +1082,6 @@ sub Data {
         # Template: AgentNavigationBar
 
         # Template: AgentPreferencesForm
-        'End' => '',
 
         # Template: AgentSpelling
         'Spell Checker' => 'Проверка на правописът',
@@ -1203,7 +1202,6 @@ sub Data {
         'Ticket Type is required!' => '',
         'A message should have a body!' => 'Съобщението трябва да има текст',
         'A required field is:' => '',
-        'A required field is:' => '',
         'Close ticket' => 'Затваряне на билета',
         'Previous Owner' => 'Предишен собственик',
         'Inform Agent' => 'Информирай агента',
@@ -1267,12 +1265,6 @@ sub Data {
 
         # Template: AgentTicketOverviewMediumMeta
         'You need min. one selected Ticket!' => 'Трябва да изберете най-малко един билет!',
-        'sort upward' => 'възходящо сортиране',
-        'up' => 'нагоре',
-        'sort downward' => 'низходящо сортиране',
-        'down' => 'надолу',
-        'Escalation in' => 'Улеличение на приоритета в',
-        'Locked' => 'Заключен',
 
         # Template: AgentTicketOverviewNavBar
         'Filter' => 'Филтър',
@@ -1292,6 +1284,12 @@ sub Data {
         # Template: AgentTicketOverviewPreviewMeta
 
         # Template: AgentTicketOverviewSmall
+        'sort upward' => 'възходящо сортиране',
+        'up' => 'нагоре',
+        'sort downward' => 'низходящо сортиране',
+        'down' => 'надолу',
+        'Escalation in' => 'Улеличение на приоритета в',
+        'Locked' => 'Заключен',
 
         # Template: AgentTicketOwner
         'Change owner of ticket' => 'Промяна собственикън на билета',
@@ -1333,6 +1331,9 @@ sub Data {
         'Search-Template' => 'Шаблон',
         'TicketFreeText' => 'Полета на билета',
         'Created in Queue' => 'Създаден в опашка',
+        'Article Create Times' => '',
+        'Article created' => '',
+        'Article created between' => '',
         'Change Times' => '',
         'No change time settings.' => '',
         'Ticket changed' => '',
@@ -1341,13 +1342,14 @@ sub Data {
         'Save Search-Profile as Template?' => 'Съхранение на профила като шаблон',
         'Yes, save it with name' => 'Да, съхрани с името',
 
-        # Template: AgentTicketSearchOpenSearchDescription
+        # Template: AgentTicketSearchOpenSearchDescriptionFulltext
+
+        # Template: AgentTicketSearchOpenSearchDescriptionTicketNumber
 
         # Template: AgentTicketSearchResultPrint
 
         # Template: AgentTicketZoom
         'Expand View' => '',
-        'Expand' => '',
         'Collapse View' => '',
         'Split' => 'Разцепване',
 
@@ -1491,27 +1493,6 @@ sub Data {
         # Template: Warning
 
         # Template: YUI
-        'Bold' => '',
-        'CTRL' => '',
-        'SHIFT' => '',
-        'Italic' => '',
-        'Underline' => '',
-        'Font Color' => '',
-        'Background Color' => '',
-        'Remove Formatting' => '',
-        'Show/Hide Hidden Elements' => '',
-        'Align Left' => '',
-        'Align Center' => '',
-        'Align Right' => '',
-        'Justify' => '',
-        'Indent' => '',
-        'Outdent' => '',
-        'Create an Unordered List' => '',
-        'Create an Ordered List' => '',
-        'HTML Link' => '',
-        'Insert Image' => '',
-        'Undo' => '',
-        'Redo' => '',
 
         # Misc
         'Edit Article' => 'Редакция на текст',
@@ -1519,15 +1500,15 @@ sub Data {
         'DB Host' => 'Хост на базата данни',
         'Ticket Number Generator' => 'Генератор на номера на билети',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Идентификатор на билета. Примерно: \'Ticket#\', \'Call#\' or \'MyTicket#\')',
-        'Create new Phone Ticket' => 'Създаване на нов билет на базата на телефонно обаждане',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'По този начин може да редактирате keyring-а конфигуриран в Kernel/Config.pm.',
+        'Create new Phone Ticket' => 'Създаване на нов билет на базата на телефонно обаждане',
         'Symptom' => 'Симптом',
         'U' => 'В',
         'Site' => 'Място',
         'Customer history search (e. g. "ID342425").' => 'Търсене в хрониката на клиента (примерно "ID342425").',
         'Can not delete link with %s!' => '',
-        'for agent firstname' => 'за агент име',
         'Close!' => 'Затворете!',
+        'for agent firstname' => 'за агент име',
         'No means, send agent and customer notifications on changes.' => 'Не означава че ще бъдат изпращани уведомления (тип: агент и тип: клиент) когато има промени.',
         'A web calendar' => 'Календар',
         'to get the realname of the sender (if given)' => 'за да получите истинското име на изпращача (ако е попълнено)',
@@ -1574,8 +1555,8 @@ sub Data {
         'to get the first 20 character of the subject' => 'за да получите първите 20 символа от поле "относно"',
         'Select the customeruser:service relations.' => '',
         'DB Admin Password' => 'Парола на администратора на базата',
-        'Advisory' => 'Консултация',
         'Drop Database' => 'Нулиране базата данни',
+        'Advisory' => 'Консултация',
         'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Тук може да дефинирате оста Х, може да изберете един елемент (посредством радио бутон). Тук може да изберете един или два елемента. След това може да изберете атрибути на елементите. Всеки атрибут ще бъде показан като група от единични стойности. Ако не изберете атрибут, всички атрибути на елемента ще бъдат показане по време на генерирането на статистиката, както и всеки нов атрибут добавен при конфигурация на статистиката.',
         'FileManager' => 'Файлов менажер',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Свойства на текущия клиент-потребител (Пример: <OTRS_CUSTOMER_DATA_UserFirstname>)',
@@ -1600,23 +1581,24 @@ sub Data {
         'Ticket Hook' => 'Прикачване на билетът',
         'IMAPS' => 'IMAPS',
         'Detail' => 'Подробности',
-        'Don\'t forget to add a new user to groups!' => 'Не забравяйте да добавите новият потребител в някаква група!',
         'Open Tickets' => 'Отворени билети',
+        'Don\'t forget to add a new user to groups!' => 'Не забравяйте да добавите новият потребител в някаква група!',
         'You have to select two or more attributes from the select field!' => 'Трябва да изберете два или повече атрибути от полето!',
         'System Settings' => 'Системни настройки',
         'WebWatcher' => 'WebWatcher',
         'Finished' => 'Приключено',
         'Account Type' => 'Тип на акаунта',
         'D' => 'Н',
-        'All messages' => 'Всички съобщения',
         'System Status' => 'Системен статус',
+        'All messages' => 'Всички съобщения',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Свойства на билета (Пример: <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Artefact' => 'Артефакт',
         'Object already linked as %s.' => '',
         'A article should have a title!' => 'Съобщението трябва да има заглавие',
-        'Event' => 'Събитие',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Конфигурационни параметри (Пример: <OTRS_CONFIG_HttpType>).',
+        'Event' => 'Събитие',
         'don\'t accept license' => 'Не приемате лиценза',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'A web mail client' => 'Web-базиран e-mail клиент',
         'IMAP' => 'IMAP',
         'WebMail' => 'WebMail',

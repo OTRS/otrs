@@ -6,7 +6,7 @@
 # Copyright (C) 2005-2007 Jurgen Rutgers <jurgen 'at' besite.nl>
 # Copyright (C) 2005-2007 Richard Hinkamp <richard 'at' besite.nl>
 # --
-# $Id: nl.pm,v 1.87 2009-04-03 07:42:25 sb Exp $
+# $Id: nl.pm,v 1.88 2009-04-09 08:19:53 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,13 +29,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.87 $) [1];
+$VERSION = qw($Revision: 1.88 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Fri Apr  3 09:40:45 2009
+    # Last translation file sync: Thu Apr  9 10:12:54 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -197,6 +197,7 @@ sub Data {
         'Added!' => '',
         'Category' => 'Categorie',
         'Viewer' => '',
+        'Expand' => '',
         'New message' => 'Nieuw bericht',
         'New message!' => 'Nieuw bericht!',
         'Please answer this ticket(s) to get back to the normal queue view!' => 'Onderstaande geëscaleerde Tickets dient u eerst te beantwoorden om terug te kunnen komen in de normale wachtrij',
@@ -842,7 +843,6 @@ sub Data {
         'Activating this feature might affect your system performance!' => '',
         'Disable it here!' => '',
         'This feature is disabled!' => '',
-        'Activating this feature might affect your system performance!' => '',
         'Enable it here!' => '',
         'Logfile too large!' => '',
         'Logfile too large, you need to reset it!' => '',
@@ -1040,7 +1040,7 @@ sub Data {
         'Add System Address' => 'Systeem e-mailadres toevoegen',
         'Add a new System Address.' => 'Voeg nieuw systeem e-mailadres toe.',
         'Realname' => 'Echte naam',
-        'All email addresses get excluded on replaying on composing and email.' => '',
+        'All email addresses get excluded on replaying on composing an email.' => '',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alle binnenkomende emails met deze "To:" worden in de gekozen wachtrij geplaatst.',
 
         # Template: AdminTypeForm
@@ -1095,7 +1095,6 @@ sub Data {
         # Template: AgentNavigationBar
 
         # Template: AgentPreferencesForm
-        'End' => '',
 
         # Template: AgentSpelling
         'Spell Checker' => 'Spellingcontrole',
@@ -1108,7 +1107,6 @@ sub Data {
         'Do you really want to delete this Object?' => 'Weet u zeker dat u dit item wilt verwijderen?',
 
         # Template: AgentStatsEditRestrictions
-        'Stat#' => '',
         'Select the restrictions to characterise the stat' => '',
         'Fixed' => 'Opgelost',
         'Please select only one element or turn off the button \'Fixed\'.' => '',
@@ -1217,7 +1215,6 @@ sub Data {
         'Ticket Type is required!' => '',
         'A message should have a body!' => 'Een bericht moet een berichttekst hebben!',
         'A required field is:' => '',
-        'A required field is:' => '',
         'Close ticket' => 'Sluit ticket',
         'Previous Owner' => 'Vorige eigenaar',
         'Inform Agent' => 'Informeer agent',
@@ -1281,12 +1278,6 @@ sub Data {
 
         # Template: AgentTicketOverviewMediumMeta
         'You need min. one selected Ticket!' => 'U heeft tenminste 1 geselecteerd Ticket nodig.',
-        'sort upward' => 'sorteer oplopend',
-        'up' => 'naar boven',
-        'sort downward' => 'sorteer aflopend',
-        'down' => 'naar beneden',
-        'Escalation in' => 'Escalatie om',
-        'Locked' => 'Vergrendeld',
 
         # Template: AgentTicketOverviewNavBar
         'Filter' => '',
@@ -1306,6 +1297,12 @@ sub Data {
         # Template: AgentTicketOverviewPreviewMeta
 
         # Template: AgentTicketOverviewSmall
+        'sort upward' => 'sorteer oplopend',
+        'up' => 'naar boven',
+        'sort downward' => 'sorteer aflopend',
+        'down' => 'naar beneden',
+        'Escalation in' => 'Escalatie om',
+        'Locked' => 'Vergrendeld',
 
         # Template: AgentTicketOwner
         'Change owner of ticket' => 'Wijzig eigenaar van Ticket',
@@ -1347,6 +1344,9 @@ sub Data {
         'Search-Template' => 'Zoek template',
         'TicketFreeText' => 'Vrije invulvelden van het Ticket',
         'Created in Queue' => 'Aangemaakt in wachtrij',
+        'Article Create Times' => '',
+        'Article created' => '',
+        'Article created between' => '',
         'Change Times' => '',
         'No change time settings.' => '',
         'Ticket changed' => '',
@@ -1355,13 +1355,14 @@ sub Data {
         'Save Search-Profile as Template?' => 'Zoekprofiel als template bewaren ?',
         'Yes, save it with name' => 'Ja, sla op met naam',
 
-        # Template: AgentTicketSearchOpenSearchDescription
+        # Template: AgentTicketSearchOpenSearchDescriptionFulltext
+
+        # Template: AgentTicketSearchOpenSearchDescriptionTicketNumber
 
         # Template: AgentTicketSearchResultPrint
 
         # Template: AgentTicketZoom
         'Expand View' => '',
-        'Expand' => '',
         'Collapse View' => '',
         'Split' => 'Splitsing',
 
@@ -1505,27 +1506,6 @@ sub Data {
         # Template: Warning
 
         # Template: YUI
-        'Bold' => '',
-        'CTRL' => '',
-        'SHIFT' => '',
-        'Italic' => '',
-        'Underline' => '',
-        'Font Color' => '',
-        'Background Color' => '',
-        'Remove Formatting' => '',
-        'Show/Hide Hidden Elements' => '',
-        'Align Left' => '',
-        'Align Center' => '',
-        'Align Right' => '',
-        'Justify' => '',
-        'Indent' => '',
-        'Outdent' => '',
-        'Create an Unordered List' => '',
-        'Create an Ordered List' => '',
-        'HTML Link' => '',
-        'Insert Image' => '',
-        'Undo' => '',
-        'Redo' => '',
 
         # Misc
         'Edit Article' => 'Bewerk artikel',
@@ -1534,8 +1514,8 @@ sub Data {
         'U' => 'U',
         'Customer history search (e. g. "ID342425").' => 'Klantgeschiedenis zoeken (bijv. "ID342425").',
         'Can not delete link with %s!' => '',
-        'Close!' => 'Sluit!',
         'for agent firstname' => 'voornaam van agent',
+        'Close!' => 'Sluit!',
         'No means, send agent and customer notifications on changes.' => 'Nee betekent dat er wel notificaties worden gestuurd naar eigenaren en klanten bij wijzigingen.',
         'A web calendar' => 'Kalender',
         'to get the realname of the sender (if given)' => 'voor de echte naam van de afzender (indien beschikbaar)',
@@ -1594,8 +1574,8 @@ sub Data {
         'Of couse this feature will take some system performance it self!' => '',
         'Detail' => 'Detail',
         'TicketZoom' => 'Inhoud ticket',
-        'Don\'t forget to add a new user to groups!' => 'Vergeet niet om groepen aan deze gebruiker toe te kennen!',
         'Open Tickets' => 'Openstaande tickets',
+        'Don\'t forget to add a new user to groups!' => 'Vergeet niet om groepen aan deze gebruiker toe te kennen!',
         'CreateTicket' => 'Ticket aanmaken',
         'You have to select two or more attributes from the select field!' => '',
         'WebWatcher' => '',
@@ -1605,8 +1585,9 @@ sub Data {
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Mogelijkheden van de ticket gegevens (bijv. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => '',
         'A article should have a title!' => 'Een artikel moet een titel hebben!',
-        'Event' => '',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Configuratie mogelijkheden (bijv. &lt;OTRS_CONFIG_HttpType&gt;)',
+        'Event' => '',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'A web mail client' => 'Webmail gebruiker',
         'WebMail' => 'Webmail',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Mogelijkheden van de ticket gegevens (bijv. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',

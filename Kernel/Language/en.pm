@@ -2,7 +2,7 @@
 # Kernel/Language/en.pm - provides en languag translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: en.pm,v 1.27 2009-04-03 07:42:25 sb Exp $
+# $Id: en.pm,v 1.28 2009-04-09 08:19:53 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Fri Apr  3 09:40:41 2009
+    # Last translation file sync: Thu Apr  9 10:12:50 2009
 
     # possible charsets
     $Self->{Charset} = ['us-ascii', 'UTF-8', 'iso-8859-1', 'iso-8859-15', ];
@@ -183,6 +183,7 @@ sub Data {
         'Added!' => '',
         'Category' => '',
         'Viewer' => '',
+        'Expand' => '',
         'New message' => '',
         'New message!' => '',
         'Please answer this ticket(s) to get back to the normal queue view!' => '',
@@ -224,7 +225,6 @@ sub Data {
         'To: (%s) replaced with database email!' => '',
         'Cc: (%s) added database email!' => '',
         '(Click here to add)' => '',
-        'Normal' => '',
         'Preview' => '',
         'Package not correctly deployed! You should reinstall the Package again!' => '',
         'Added User "%s"' => '',
@@ -310,7 +310,6 @@ sub Data {
         'February' => '',
         'March' => '',
         'April' => '',
-        'May' => '',
         'June' => '',
         'July' => '',
         'August' => '',
@@ -329,8 +328,6 @@ sub Data {
         'Agent Mailbox' => '',
         'Stats' => '',
         'Stats-Area' => '',
-        'Stats' => '',
-        'Admin-Area' => '',
         'Admin' => '',
         'Customer Users' => '',
         'Customer Users <-> Groups' => '',
@@ -361,8 +358,6 @@ sub Data {
         'Spelling Dictionary' => '',
         'Select your default spelling dictionary.' => '',
         'Max. shown Tickets a page in Overview.' => '',
-        'Password is already used! Please use an other password!' => '',
-        'Password is already in use! Please use an other password!' => '',
         'Can\'t update password, passwords doesn\'t match! Please try it again!' => '',
         'Can\'t update password, invalid characters!' => '',
         'Can\'t update password, need min. 8 characters!' => '',
@@ -462,8 +457,6 @@ sub Data {
         'Article' => '',
         'Ticket' => '',
         'Createtime' => '',
-        'Created' => '',
-        'View' => '',
         'plain' => '',
         'Email' => '',
         'email' => '',
@@ -518,13 +511,10 @@ sub Data {
         'Don\'t show closed Tickets' => '',
         'Show closed Tickets' => '',
         'New Article' => '',
-        'Don\'t show closed Tickets' => '',
-        'Show closed Tickets' => '',
         'Email-Ticket' => '',
         'Create new Email Ticket' => '',
         'Phone-Ticket' => '',
         'Search Tickets' => '',
-        'Customer' => '',
         'Edit Customer Users' => '',
         'Edit Customer Company' => '',
         'Bulk Action' => '',
@@ -538,7 +528,6 @@ sub Data {
         'Watched' => '',
         'Subscribe' => '',
         'Unsubscribe' => '',
-        'New message' => '',
         'Lock it to work on it!' => '',
         'Unlock to give it back to the queue!' => '',
         'Shows the ticket history!' => '',
@@ -576,7 +565,6 @@ sub Data {
         'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => '',
         'Custom Queue' => '',
         'QueueView refresh time' => '',
-        'Select your QueueView refresh time.' => '',
         'Screen after new ticket' => '',
         'Select your screen after creating a new ticket.' => '',
         'Closed Tickets' => '',
@@ -597,7 +585,6 @@ sub Data {
         'Responses <-> Queue' => '',
         'Auto Responses' => '',
         'Auto Responses <-> Queue' => '',
-        'Attachments' => '',
         'Attachments <-> Responses' => '',
         'History::Move' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
         'History::TypeUpdate' => 'Updated Type to %s (ID=%s).',
@@ -647,17 +634,10 @@ sub Data {
 
         # Template: AdminAttachmentForm
         'Attachment Management' => '',
-        'Change' => '',
-        'Name' => '',
-        'Attachment' => '',
-        'Valid' => '',
-        'Comment' => '',
 
         # Template: AdminAutoResponseForm
         'Auto Response Management' => '',
-        'Subject' => '',
         'Response' => '',
-        'Type' => '',
         'Auto Response From' => '',
         'Note' => '',
         'Useable options' => '',
@@ -671,40 +651,23 @@ sub Data {
         'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>).' => '',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>).' => '',
         'Config options (e. g. <OTRS_CONFIG_HttpType>).' => '',
-        'Example' => '',
-        'Response' => '',
 
         # Template: AdminCustomerCompanyForm
         'Customer Company Management' => '',
-        'Search' => '',
         'Search for' => '',
         'Add Customer Company' => '',
         'Add a new Customer Company.' => '',
-        'Add' => '',
         'List' => '',
-        'CustomerID' => '',
-        'valid' => '',
-        'invalid' => '',
-        'Changed' => '',
-        'Edit' => '',
         'This values are required.' => '',
         'This values are read only.' => '',
-        'This values are required.' => '',
-        'This values are read only.' => '',
-        'Submit' => '',
 
         # Template: AdminCustomerUserForm
         'The message being composed has been closed.  Exiting.' => '',
         'This window must be called from compose window' => '',
         'Customer User Management' => '',
-        'Search for' => '',
         'Add Customer User' => '',
         'Source' => '',
         'Create' => '',
-        'List' => '',
-        'Username' => '',
-        'Email' => '',
-        'Note' => '',
         'Customer user will be needed to have a customer history and to login via customer panel.' => '',
 
         # Template: AdminCustomerUserGroupChangeForm
@@ -713,16 +676,12 @@ sub Data {
         'Select the user:group permissions.' => '',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the user).' => '',
         'Permission' => '',
-        'Description' => '',
         'ro' => '',
         'Read only access to the ticket in this group/queue.' => '',
         'rw' => '',
         'Full read and write access to the tickets in this group/queue.' => '',
 
         # Template: AdminCustomerUserGroupForm
-        'Customer Users <-> Groups Management' => '',
-        'User' => '',
-        'Group' => '',
 
         # Template: AdminCustomerUserService
         'Customer Users <-> Services Management' => '',
@@ -730,20 +689,13 @@ sub Data {
         'Service' => '',
         'Edit default services.' => '',
         'Search Result' => '',
-        'CustomerUser' => '',
-        'Service' => '',
         'Allocate services to CustomerUser' => '',
         'Active' => '',
         'Allocate CustomerUser to service' => '',
-        'Active' => '',
 
         # Template: AdminEmail
-        'Admin Notification' => '',
-        'Options' => '',
         'Message sent to' => '',
-        'From' => '',
         'Recipents' => '',
-        'Permission' => '',
         'Body' => '',
         'Send' => '',
 
@@ -751,36 +703,21 @@ sub Data {
         'GenericAgent' => '',
         'Job-List' => '',
         'Last run' => '',
-        'Delete' => '',
         'Run Now!' => '',
         'x' => '',
-        'x' => '',
-        'Job-List' => '',
         'Save Job as?' => '',
         'Is Job Valid?' => '',
         'Is Job Valid' => '',
         'Schedule' => '',
-        'minutes' => '',
-        'hours' => '',
-        'days' => '',
         'Currently this generic agent job will not run automatically.' => '',
         'To enable automatic execusion select at least one value form minutes, hours and days!' => '',
-        'and' => '',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => '',
         '(e. g. 10*5155 or 105658*)' => '',
-        'Title' => '',
         '(e. g. 234321)' => '',
         'Customer User Login' => '',
         '(e. g. U5150)' => '',
-        'To' => '',
-        'Cc' => '',
-        'Text' => '',
         'SLA' => '',
-        'Priority' => '',
-        'Queue' => '',
-        'State' => '',
         'Agent' => '',
-        'Owner' => '',
         'Ticket Lock' => '',
         'TicketFreeFields' => '',
         'Create Times' => '',
@@ -805,9 +742,7 @@ sub Data {
         'New Customer' => '',
         'New Ticket Lock' => '',
         'New Type' => '',
-        'New Ticket Lock' => '',
         'New Title' => '',
-        'New Type' => '',
         'New TicketFreeFields' => '',
         'Add Note' => '',
         'Time units' => '',
@@ -816,7 +751,6 @@ sub Data {
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => '',
         'Delete tickets' => '',
         'Warning! This tickets will be removed from the database! This tickets are lost!' => '',
-        'Module' => '',
         'Send Notification' => '',
         'Param 1' => '',
         'Param 2' => '',
@@ -826,9 +760,7 @@ sub Data {
         'Param 6' => '',
         'Send agent/customer notifications on changes' => '',
         'Save' => '',
-        'Run Now!' => '',
         '%s Tickets affected! Do you really want to use this job?' => '',
-        'Age' => '',
 
         # Template: AdminGroupForm
         'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' => '',
@@ -842,93 +774,49 @@ sub Data {
         # Template: AdminLog
         'System Log' => '',
         'Time' => '',
-        'Facility' => '',
-        'Message' => '',
 
         # Template: AdminMailAccount
         'Mail Account Management' => '',
-        'Password' => '',
-        'Host' => '',
         'Host' => '',
         'Trusted' => '',
         'Dispatching' => '',
         'All incoming emails with one account will be dispatched in the selected queue!' => '',
         'If your account is trusted, the already existing X-OTRS header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => '',
-        'Trusted' => '',
-        'No' => '',
-        'Yes' => '',
-        'Dispatching' => '',
-        'Dispatching by email To: field.' => '',
-        'Dispatching by selected Queue.' => '',
-        'invalid-temporarily' => '',
 
         # Template: AdminNavigationBar
         'Users' => '',
         'Groups' => '',
-        'Roles' => '',
-        'Responses' => '',
-        'System' => '',
         'Misc' => '',
 
         # Template: AdminNotificationForm
         'Notification Management' => '',
         'Notification' => '',
         'Notifications are sent to an agent or a customer.' => '',
-        'Useable options' => '',
-        'To get the first 20 character of the subject.' => '',
-        'To get the first 5 lines of the email.' => '',
-        'To get the realname of the sender (if given).' => '',
-        'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => '',
-        'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>).' => '',
-        'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>).' => '',
-        'Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>).' => '',
-        'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>).' => '',
-        'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>).' => '',
-        'Config options (e. g. <OTRS_CONFIG_HttpType>).' => '',
 
         # Template: AdminPackageManager
         'Package Manager' => '',
-        'Back' => '',
         'Uninstall' => '',
         'Version' => '',
         'Do you really want to uninstall this package?' => '',
-        'Package Manager' => '',
         'Reinstall' => '',
-        'Version' => '',
         'Do you really want to reinstall this package (all manual changes get lost)?' => '',
-        'Cancel' => '',
         'Continue' => '',
         'Install' => '',
         'Package' => '',
-        'Install' => '',
-        'Online Repository' => '',
-        'Source' => '',
-        'Update' => '',
         'Online Repository' => '',
         'Vendor' => '',
-        'Action' => '',
-        'Module documentation' => '',
         'Module documentation' => '',
         'Upgrade' => '',
         'Local Repository' => '',
-        'Vendor' => '',
         'Status' => '',
-        'Uninstall' => '',
-        'Package not correctly deployed! You should reinstall the Package again!' => '',
-        'Reinstall' => '',
         'Overview' => '',
-        'Download' => '',
         'Download' => '',
         'Rebuild' => '',
         'ChangeLog' => '',
         'Date' => '',
         'Filelist' => '',
-        'Filename' => '',
-        'Status' => '',
-        'Download file from package!' => '',
         'Download file from package!' => '',
         'Required' => '',
-        'Size' => '',
         'PrimaryKey' => '',
         'AutoIncrement' => '',
         'SQL' => '',
@@ -941,31 +829,22 @@ sub Data {
         'Activating this feature might affect your system performance!' => '',
         'Disable it here!' => '',
         'This feature is disabled!' => '',
-        'Just use this feature if you want to log each request.' => '',
-        'Activating this feature might affect your system performance!' => '',
         'Enable it here!' => '',
         'Logfile too large!' => '',
         'Logfile too large, you need to reset it!' => '',
-        'Reset' => '',
         'Range' => '',
-        'last' => '',
         'Interface' => '',
         'Requests' => '',
         'Min Response' => '',
         'Max Response' => '',
         'Average Response' => '',
-        'Range' => '',
-        'Interface' => '',
         'Period' => '',
-        'Date' => '',
-        'Requests' => '',
         'Min' => '',
         'Max' => '',
         'Average' => '',
 
         # Template: AdminPGPForm
         'PGP Management' => '',
-        'File' => '',
         'Result' => '',
         'Identifier' => '',
         'Bit' => '',
@@ -979,15 +858,11 @@ sub Data {
         'Filtername' => '',
         'Stop after match' => '',
         'Match' => '',
-        'Header' => '',
-        'Value' => '',
         'Value' => '',
         'Set' => '',
         'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => '',
         'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' => '',
         'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => '',
-        'Match' => '',
-        'Set' => '',
 
         # Template: AdminPriority
         'Priority Management' => '',
@@ -995,9 +870,6 @@ sub Data {
         'Add a new Priority.' => '',
 
         # Template: AdminQueueAutoResponseForm
-        'Queue <-> Auto Responses Management' => '',
-        'Auto Responses' => '',
-        'none' => '',
         'Queue <-> Auto Responses Management' => '',
         'settings' => '',
 
@@ -1009,58 +881,40 @@ sub Data {
         'Only business hours are counted.' => '',
         'Escalation - First Response Time' => '',
         '0 = no escalation' => '',
-        'Only business hours are counted.' => '',
         'Notify by' => '',
         'Escalation - Update Time' => '',
-        '0 = no escalation' => '',
-        'Notify by' => '',
         'Escalation - Solution Time' => '',
         'Follow up Option' => '',
         'Ticket lock after a follow up' => '',
         'Systemaddress' => '',
-        'Salutation' => '',
-        'Signature' => '',
         'Customer Move Notify' => '',
         'Customer State Notify' => '',
         'Customer Owner Notify' => '',
-        'Calendar' => '',
-        'Key' => '',
-        'Unlock timeout' => '',
         'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => '',
         'Escalation time' => '',
         'If a ticket will not be answered in this time, just only this ticket will be shown.' => '',
-        'Ticket lock after a follow up' => '',
         'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => '',
-        'Systemaddress' => '',
         'Will be the sender address of this queue for email answers.' => '',
         'The salutation for email answers.' => '',
         'The signature for email answers.' => '',
-        'Customer Move Notify' => '',
         'OTRS sends an notification email to the customer if the ticket is moved.' => '',
-        'Customer State Notify' => '',
         'OTRS sends an notification email to the customer if the ticket state has changed.' => '',
-        'Customer Owner Notify' => '',
         'OTRS sends an notification email to the customer if the ticket owner has changed.' => '',
 
         # Template: AdminQueueResponsesChangeForm
         'Responses <-> Queue Management' => '',
-        'Change %s settings' => '',
 
         # Template: AdminQueueResponsesForm
-        'Responses <-> Queue Management' => '',
-        'Answer' => '',
         'Answer' => '',
 
         # Template: AdminResponseAttachmentChangeForm
         'Responses <-> Attachments Management' => '',
 
         # Template: AdminResponseAttachmentForm
-        'Responses <-> Attachments Management' => '',
 
         # Template: AdminResponseForm
         'Response Management' => '',
         'A response is default text to write faster answer (with default text) to customers.' => '',
-        'Attention' => '',
         'Don\'t forget to add a new response a queue!' => '',
         'The current ticket state is' => '',
         'Your email address is new' => '',
@@ -1074,10 +928,6 @@ sub Data {
 
         # Template: AdminRoleGroupChangeForm
         'Roles <-> Groups Management' => '',
-        'Select the user:group permissions.' => '',
-        'If nothing is selected, then there are no permissions in this group (tickets will not be available for the user).' => '',
-        'ro' => '',
-        'Read only access to the ticket in this group/queue.' => '',
         'move_into' => '',
         'Permissions to move tickets into this group/queue.' => '',
         'create' => '',
@@ -1086,12 +936,8 @@ sub Data {
         'Permissions to change the ticket owner in this group/queue.' => '',
         'priority' => '',
         'Permissions to change the ticket priority in this group/queue.' => '',
-        'rw' => '',
-        'Full read and write access to the tickets in this group/queue.' => '',
 
         # Template: AdminRoleGroupForm
-        'Roles <-> Groups Management' => '',
-        'Role' => '',
         'Role' => '',
 
         # Template: AdminRoleUserChangeForm
@@ -1099,7 +945,6 @@ sub Data {
         'Select the role:user relations.' => '',
 
         # Template: AdminRoleUserForm
-        'Roles <-> Users Management' => '',
 
         # Template: AdminSalutationForm
         'Salutation Management' => '',
@@ -1108,8 +953,6 @@ sub Data {
 
         # Template: AdminSelectBoxForm
         'SQL Box' => '',
-        'SQL' => '',
-        'Limit' => '',
         'Go' => '',
         'Select Box Result' => '',
 
@@ -1121,12 +964,7 @@ sub Data {
 
         # Template: AdminSession
         'Session Management' => '',
-        'Overview' => '',
-        'All' => '',
         'Sessions' => '',
-        'Agent' => '',
-        'Sessions' => '',
-        'Uniq' => '',
         'Uniq' => '',
         'Kill all sessions' => '',
         'Session' => '',
@@ -1142,20 +980,13 @@ sub Data {
         'SLA Management' => '',
         'Add SLA' => '',
         'Add a new SLA.' => '',
-        'SLA' => '',
-        'Escalation - First Response Time' => '',
-        'Escalation - Update Time' => '',
-        'Escalation - Solution Time' => '',
 
         # Template: AdminSMIMEForm
         'S/MIME Management' => '',
         'Add Certificate' => '',
         'Add Private Key' => '',
         'Secret' => '',
-        'Result' => '',
         'Hash' => '',
-        'Fingerprint' => '',
-        'Expires' => '',
         'In this way you can directly edit the certification and private keys in file system.' => '',
 
         # Template: AdminStateForm
@@ -1173,45 +1004,29 @@ sub Data {
         'Download Settings' => '',
         'Download all system config changes.' => '',
         'Load Settings' => '',
-        'Upload' => '',
         'Subgroup' => '',
         'Elements' => '',
 
         # Template: AdminSysConfigEdit
-        'SysConfig' => '',
         'Config Options' => '',
         'Default' => '',
-        'Default' => '',
-        'Content' => '',
-        'New' => '',
         'New' => '',
         'New Group' => '',
         'Group Ro' => '',
         'New Group Ro' => '',
         'NavBarName' => '',
         'NavBar' => '',
-        'New Group' => '',
-        'Group Ro' => '',
-        'New Group Ro' => '',
         'Image' => '',
-        'Link' => '',
         'Prio' => '',
         'Block' => '',
-        'NavBar' => '',
         'AccessKey' => '',
-        'Block' => '',
-        'Prio' => '',
-        'year' => '',
-        'month' => '',
-        'day' => '',
 
         # Template: AdminSystemAddressForm
         'System Email Addresses Management' => '',
         'Add System Address' => '',
         'Add a new System Address.' => '',
         'Realname' => '',
-        'Realname' => '',
-        'All email addresses get excluded on replaying on composing and email.' => '',
+        'All email addresses get excluded on replaying on composing an email.' => '',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => '',
 
         # Template: AdminTypeForm
@@ -1226,8 +1041,6 @@ sub Data {
         'Login as' => '',
         'Firstname' => '',
         'Lastname' => '',
-        'On' => '',
-        'Off' => '',
         'Start' => '',
         'End' => '',
         'User will be needed to handle tickets.' => '',
@@ -1235,31 +1048,15 @@ sub Data {
 
         # Template: AdminUserGroupChangeForm
         'Users <-> Groups Management' => '',
-        'Permissions to move tickets into this group/queue.' => '',
-        'Permissions to create tickets in this group/queue.' => '',
-        'Permissions to change the ticket owner in this group/queue.' => '',
-        'Permissions to change the ticket priority in this group/queue.' => '',
 
         # Template: AdminUserGroupForm
-        'Users <-> Groups Management' => '',
 
         # Template: AgentBook
-        'The message being composed has been closed.  Exiting.' => '',
-        'This window must be called from compose window' => '',
         'Address Book' => '',
-        'Bcc' => '',
-        'Done' => '',
         'Return to the compose screen' => '',
         'Discard all changes and return to the compose screen' => '',
 
         # Template: AgentCalendarSmall
-        'Mon' => '',
-        'Tue' => '',
-        'Wed' => '',
-        'Thu' => '',
-        'Fri' => '',
-        'Sat' => '',
-        'Sun' => '',
 
         # Template: AgentCalendarSmallIcon
 
@@ -1284,38 +1081,25 @@ sub Data {
         # Template: AgentNavigationBar
 
         # Template: AgentPreferencesForm
-        'Start' => '',
-        'End' => '',
 
         # Template: AgentSpelling
         'Spell Checker' => '',
         'spelling error(s)' => '',
-        'Line' => '',
-        'Word' => '',
-        'replace with' => '',
-        'Ignore' => '',
         'or' => '',
         'Apply these changes' => '',
-        'Language' => '',
-        'Return to the compose screen' => '',
-        'Discard all changes and return to the compose screen' => '',
 
         # Template: AgentStatsDelete
         'Stat#' => '',
         'Do you really want to delete this Object?' => '',
 
         # Template: AgentStatsEditRestrictions
-        'Stat#' => '',
         'Select the restrictions to characterise the stat' => '',
         'Fixed' => '',
         'Please select only one element or turn off the button \'Fixed\'.' => '',
-        'Fixed' => '',
         'Absolut Period' => '',
         'Between' => '',
         'Relative Period' => '',
         'The last' => '',
-        'Between' => '',
-        '...Back' => '',
         'Finish' => '',
         'Here you can make restrictions to your stat.' => '',
         'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributes of the corresponding element.' => '',
@@ -1328,7 +1112,6 @@ sub Data {
         'Sum rows' => '',
         'Sum columns' => '',
         'Cache' => '',
-        'Next...' => '',
         'Required Field' => '',
         'Selection needed' => '',
         'Explanation' => '',
@@ -1343,15 +1126,10 @@ sub Data {
         'For very complex stats it is possible to include a hardcoded file.' => '',
         'If a new hardcoded file is available this attribute will be shown and you can select one.' => '',
         'Permission settings. You can select one or more groups to make the configurated stat visible for different agents.' => '',
-        'Format' => '',
         'Multiple selection of the output format.' => '',
-        'Graphsize' => '',
         'If you use a graph as output format you have to select at least one graph size.' => '',
-        'Sum rows' => '',
         'If you need the sum of every row select yes' => '',
-        'Sum columns' => '',
         'If you need the sum of every column select yes.' => '',
-        'Cache' => '',
         'Most of the stats can be cached. This will speed up the presentation of this stat.' => '',
         '(Note: Useful for big databases and low performance server)' => '',
         'With an invalid stat it isn\'t feasible to generate a stat.' => '',
@@ -1361,24 +1139,16 @@ sub Data {
         'Select the elements for the value series' => '',
         'Scale' => '',
         'minimal' => '',
-        'Scale' => '',
-        'Please select only one element or turn off the button \'Fixed\'.' => '',
         'Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' => '',
         'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
-        'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributes of the corresponding element.' => '',
 
         # Template: AgentStatsEditXaxis
         'Select the element, which will be used at the X-axis' => '',
-        'Absolut Period' => '',
-        'Relative Period' => '',
-        'The last' => '',
         'maximal period' => '',
-        'minimal' => '',
         'minimal scale' => '',
         'Here you can define the x-axis. You can select one element via the radio button. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
 
         # Template: AgentStatsImport
-        'Import' => '',
         'Import' => '',
         'File is not a Stats config' => '',
         'No File selected' => '',
@@ -1387,7 +1157,6 @@ sub Data {
         'Results' => '',
         'Total hits' => '',
         'Page' => '',
-        'Object' => '',
 
         # Template: AgentStatsPrint
         'Print' => '',
@@ -1399,21 +1168,15 @@ sub Data {
         'Exchange Axis' => '',
         'Configurable params of static stat' => '',
         'No element selected.' => '',
-        'minimal scale' => '',
         'maximal period from' => '',
         'to' => '',
-        'maximal period' => '',
-        'Created by' => '',
-        'Changed by' => '',
         'With the input and select fields you can configurate the stat at your needs. Which elements of a stat you can edit depends on your stats administrator who configurated the stat.' => '',
 
         # Template: AgentTicketBounce
         'A message should have a To: recipient!' => '',
         'You need a email address (e. g. customer@example.com) in To:!' => '',
         'Bounce ticket' => '',
-        'Info' => '',
         'Ticket locked!' => '',
-        'Ticket unlock!' => '',
         'Ticket unlock!' => '',
         'Bounce to' => '',
         'Next ticket state' => '',
@@ -1422,53 +1185,32 @@ sub Data {
 
         # Template: AgentTicketBulk
         'A message should have a subject!' => '',
-        'Invalid time!' => '',
         'You need to account time!' => '',
         'Ticket Bulk Action' => '',
-        'Spell Check' => '',
         'Spell Check' => '',
         'Note type' => '',
         'Next state' => '',
         'Pending date' => '',
-        'Merge' => '',
         'Merge to' => '',
         'Merge to oldest' => '',
         'Link together' => '',
         'Link to Parent' => '',
         'Unlock Tickets' => '',
-        'Time units' => '',
-        ' (work units)' => '',
 
         # Template: AgentTicketClose
         'Ticket Type is required!' => '',
-        'A message should have a subject!' => '',
         'A message should have a body!' => '',
         'A required field is:' => '',
-        'A required field is:' => '',
-        'You need to account time!' => '',
         'Close ticket' => '',
-        'Ticket locked!' => '',
-        'New Owner' => '',
         'Previous Owner' => '',
-        'Responsible' => '',
         'Inform Agent' => '',
         'Optional' => '',
         'Inform involved Agents' => '',
         'Attach' => '',
-        'Note type' => '',
-        'Next state' => '',
-        'Pending date' => '',
 
         # Template: AgentTicketCompose
-        'A message should have a To: recipient!' => '',
         'A message must be spell checked!' => '',
-        'Invalid date!' => '',
         'Compose answer for ticket' => '',
-        'To: (%s) replaced with database email!' => '',
-        'Cc: (%s) added database email!' => '',
-        'Address Book' => '',
-        'Attach' => '',
-        'Next ticket state' => '',
         'Pending Date' => '',
         'for pending* states' => '',
 
@@ -1476,66 +1218,39 @@ sub Data {
         'Change customer of ticket' => '',
         'Set customer user and customer id of a ticket' => '',
         'Customer User' => '',
-        'Take this Customer' => '',
         'Search Customer' => '',
         'Customer Data' => '',
         'Customer history' => '',
         'All customer tickets.' => '',
 
         # Template: AgentTicketCustomerMessage
-        'A message should have a body!' => '',
         'Follow up' => '',
 
         # Template: AgentTicketEmail
-        'Ticket Type is required!' => '',
         'Compose Email' => '',
         'new ticket' => '',
         'Refresh' => '',
-        'Customer Info' => '',
-        'Search Customer' => '',
         'Clear To' => '',
         'All Agents' => '',
-        'All Agents' => '',
-        'Pending Date' => '',
-        'for pending* states' => '',
-        'Send mail!' => '',
 
         # Template: AgentTicketEscalation
-        'Ticket %s: first response time is over (%s)!' => '',
-        'Ticket %s: first response time will be over in %s!' => '',
-        'Ticket %s: update time is over (%s)!' => '',
-        'Ticket %s: update time will be over in %s!' => '',
-        'Ticket %s: solution time is over (%s)!' => '',
-        'Ticket %s: solution time will be over in %s!' => '',
 
         # Template: AgentTicketForward
-        'A message must be spell checked!' => '',
-        'Forward' => '',
         'Article type' => '',
 
         # Template: AgentTicketFreeText
         'Change free text of ticket' => '',
-        'Previous Owner' => '',
-        'Inform Agent' => '',
-        'Optional' => '',
-        'Inform involved Agents' => '',
 
         # Template: AgentTicketHistory
         'History of' => '',
-        'Zoom' => '',
-        'Createtime' => '',
 
         # Template: AgentTicketLocked
 
         # Template: AgentTicketMerge
         'You need to use a ticket number!' => '',
         'Ticket Merge' => '',
-        'Merge to' => '',
-        'Inform sender' => '',
-        'Your email with ticket number "<OTRS_TICKET>" is merged to "<OTRS_MERGE_TO_TICKET>".' => '',
 
         # Template: AgentTicketMove
-        'New Queue' => '',
         'Move Ticket' => '',
 
         # Template: AgentTicketNote
@@ -1545,56 +1260,35 @@ sub Data {
         'First Response Time' => '',
         'Service Time' => '',
         'Update Time' => '',
-        'Service Time' => '',
         'Solution Time' => '',
 
         # Template: AgentTicketOverviewMediumMeta
         'You need min. one selected Ticket!' => '',
-        'sort upward' => '',
-        'up' => '',
-        'sort downward' => '',
-        'down' => '',
-        'sort upward' => '',
-        'up' => '',
-        'sort downward' => '',
-        'down' => '',
-        'Escalation in' => '',
-        'Locked' => '',
-        'Bulk Action' => '',
 
         # Template: AgentTicketOverviewNavBar
         'Filter' => '',
         'Change search options' => '',
         'Tickets' => '',
         'of' => '',
-        'Page' => '',
 
         # Template: AgentTicketOverviewNavBarSmall
-        'Tickets' => '',
-        'of' => '',
-        'Filter' => '',
 
         # Template: AgentTicketOverviewPreview
-        'First Response Time' => '',
-        'Update Time' => '',
-        'Solution Time' => '',
         'Your own Ticket' => '',
         'Compose Follow up' => '',
-        'Compose Follow up' => '',
         'Compose Answer' => '',
-        'email' => '',
         'Contact customer' => '',
-        'phone' => '',
         'Change queue' => '',
-        'Move' => '',
 
         # Template: AgentTicketOverviewPreviewMeta
-        'You need min. one selected Ticket!' => '',
-        'Escalation in' => '',
-        'Locked' => '',
 
         # Template: AgentTicketOverviewSmall
-        'Customer history' => '',
+        'sort upward' => '',
+        'up' => '',
+        'sort downward' => '',
+        'down' => '',
+        'Escalation in' => '',
+        'Locked' => '',
 
         # Template: AgentTicketOwner
         'Change owner of ticket' => '',
@@ -1604,22 +1298,16 @@ sub Data {
 
         # Template: AgentTicketPhone
         'Phone call' => '',
-        'new ticket' => '',
         'Clear From' => '',
-        'Refresh' => '',
-        'Create' => '',
 
         # Template: AgentTicketPhoneOutbound
-        'Phone call' => '',
 
         # Template: AgentTicketPlain
         'Plain' => '',
 
         # Template: AgentTicketPrint
         'Ticket-Info' => '',
-        'Lock' => '',
         'Accounted time' => '',
-        'Pending till' => '',
         'Linked-Object' => '',
         'by' => '',
 
@@ -1640,55 +1328,33 @@ sub Data {
         'Ticket Search' => '',
         'Profile' => '',
         'Search-Template' => '',
-        'Select' => '',
-        '(e. g. 10*5155 or 105658*)' => '',
-        '(e. g. 234321)' => '',
-        'Customer User Login' => '',
-        '(e. g. U5150)' => '',
-        'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => '',
         'TicketFreeText' => '',
         'Created in Queue' => '',
-        'Create Times' => '',
-        'No create time settings.' => '',
-        'Ticket created' => '',
-        'Ticket created between' => '',
+        'Article Create Times' => '',
+        'Article created' => '',
+        'Article created between' => '',
         'Change Times' => '',
         'No change time settings.' => '',
         'Ticket changed' => '',
         'Ticket changed between' => '',
-        'Close Times' => '',
-        'No close time settings.' => '',
-        'Ticket closed' => '',
-        'Ticket closed between' => '',
         'Result Form' => '',
         'Save Search-Profile as Template?' => '',
         'Yes, save it with name' => '',
 
-        # Template: AgentTicketSearchOpenSearchDescription
+        # Template: AgentTicketSearchOpenSearchDescriptionFulltext
+
+        # Template: AgentTicketSearchOpenSearchDescriptionTicketNumber
 
         # Template: AgentTicketSearchResultPrint
 
         # Template: AgentTicketZoom
-        'Article' => '',
-        'plain' => '',
         'Expand View' => '',
-        'Expand' => '',
         'Collapse View' => '',
-        'Collapse View' => '',
-        'Accounted time' => '',
-        'Your own Ticket' => '',
-        'Compose Answer' => '',
-        'Contact customer' => '',
-        'Print' => '',
-        'Bounce' => '',
         'Split' => '',
-        'Change queue' => '',
 
         # Template: AgentTicketZoomArticleFilterDialog
         'Article filter settings' => '',
-        'Sender' => '',
         'Save filter settings as default' => '',
-        'Save' => '',
 
         # Template: AgentWindowTab
 
@@ -1701,7 +1367,6 @@ sub Data {
         # Template: CustomerCalendarSmallIcon
 
         # Template: CustomerError
-        'Error' => '',
         'Traceback' => '',
 
         # Template: CustomerFooter
@@ -1715,12 +1380,9 @@ sub Data {
 
         # Template: CustomerLogin
         'Login' => '',
-        'Login' => '',
         'Lost your password?' => '',
         'Request new password' => '',
         'Create Account' => '',
-        'Firstname' => '',
-        'Lastname' => '',
 
         # Template: CustomerNavigationBar
         'Welcome %s' => '',
@@ -1728,19 +1390,14 @@ sub Data {
         # Template: CustomerPreferencesForm
 
         # Template: CustomerStatusView
-        'Ticket' => '',
 
         # Template: CustomerTicketMessage
 
         # Template: CustomerTicketPrint
-        'Ticket-Info' => '',
-        'by' => '',
 
         # Template: CustomerTicketSearch
-        'Ticket Search' => '',
         'Times' => '',
         'No time settings.' => '',
-        'Result Form' => '',
 
         # Template: CustomerTicketSearchOpenSearchDescription
 
@@ -1749,25 +1406,16 @@ sub Data {
         # Template: CustomerTicketSearchResultPrint
 
         # Template: CustomerTicketSearchResultShort
-        'Search Result' => '',
-        'Change search options' => '',
-        'Results' => '',
-        'Total hits' => '',
 
         # Template: CustomerTicketZoom
 
         # Template: CustomerWarning
-        'Warning' => '',
 
         # Template: Error
-        'Bug Report' => '',
         'Click here to report a bug!' => '',
-        'Traceback' => '',
 
         # Template: Footer
         'Top of Page' => '',
-        'Top of Page' => '',
-        'Powered by' => '',
 
         # Template: FooterSmall
 
@@ -1804,7 +1452,6 @@ sub Data {
         'Logfile' => '',
         '(Logfile just needed for File-LogModule!)' => '',
         'Webfrontend' => '',
-        'Default Charset' => '',
         'Use utf-8 it your database supports it!' => '',
         'Default Language' => '',
         '(Used default language)' => '',
@@ -1817,12 +1464,8 @@ sub Data {
         'Your OTRS Team' => '',
 
         # Template: LinkObject
-        'Linked' => '',
 
         # Template: Login
-        'Welcome to %s' => '',
-        'Lost your password?' => '',
-        'Request new password' => '',
 
         # Template: Motd
 
@@ -1844,36 +1487,14 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => '',
-        'Unlock' => '',
-        'Welcome %s' => '',
         'Counter' => '',
 
         # Template: Warning
 
         # Template: YUI
-        'Bold' => '',
-        'CTRL' => '',
-        'SHIFT' => '',
-        'Italic' => '',
-        'Underline' => '',
-        'Font Color' => '',
-        'Background Color' => '',
-        'Remove Formatting' => '',
-        'Show/Hide Hidden Elements' => '',
-        'Align Left' => '',
-        'Align Center' => '',
-        'Align Right' => '',
-        'Justify' => '',
-        'Indent' => '',
-        'Outdent' => '',
-        'Create an Unordered List' => '',
-        'Create an Ordered List' => '',
-        'HTML Link' => '',
-        'Insert Image' => '',
-        'Undo' => '',
-        'Redo' => '',
 
         # Misc
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'History::SystemRequest' => 'System Request (%s).',
     };
     # $$STOP$$

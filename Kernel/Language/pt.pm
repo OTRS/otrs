@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004-2007 CAT - Filipe Henriques <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.72 2009-04-03 07:42:25 sb Exp $
+# $Id: pt.pm,v 1.73 2009-04-09 08:19:53 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Fri Apr  3 09:40:46 2009
+    # Last translation file sync: Thu Apr  9 10:12:55 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -183,6 +183,7 @@ sub Data {
         'Added!' => '',
         'Category' => 'Categoria',
         'Viewer' => 'Visualizador',
+        'Expand' => '',
         'New message' => 'Nova mensagem',
         'New message!' => 'Nova mensagem!',
         'Please answer this ticket(s) to get back to the normal queue view!' => 'Por favor, responda a este(s) ticket(s) para regressar à visualização de filas!',
@@ -828,7 +829,6 @@ sub Data {
         'Activating this feature might affect your system performance!' => '',
         'Disable it here!' => 'Desactivar aqui',
         'This feature is disabled!' => 'Esta opção está desactivada',
-        'Activating this feature might affect your system performance!' => '',
         'Enable it here!' => 'Activar aqui',
         'Logfile too large!' => 'Ficheiro de log demasiado grande',
         'Logfile too large, you need to reset it!' => 'Ficheiro de log demasiado grande, precisa de fazer reset',
@@ -1026,7 +1026,7 @@ sub Data {
         'Add System Address' => 'Adicionar endereço de sistema',
         'Add a new System Address.' => 'Adicionar novo endereço de sistema',
         'Realname' => 'Nome',
-        'All email addresses get excluded on replaying on composing and email.' => '',
+        'All email addresses get excluded on replaying on composing an email.' => '',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Todas mensagens recebidas com este destinatário (Para:) serão despachados para a fila selecionada!',
 
         # Template: AdminTypeForm
@@ -1093,7 +1093,6 @@ sub Data {
         'Do you really want to delete this Object?' => 'Deseja realmente remover este Objecto?',
 
         # Template: AgentStatsEditRestrictions
-        'Stat#' => '',
         'Select the restrictions to characterise the stat' => 'Selecionar as restricções para caracterizar o estado',
         'Fixed' => 'Fixo',
         'Please select only one element or turn off the button \'Fixed\'.' => 'Selecione apenas um elemento ou desligue o botao "fixo"',
@@ -1202,7 +1201,6 @@ sub Data {
         'Ticket Type is required!' => '',
         'A message should have a body!' => 'A mensagem deve conter um texto!',
         'A required field is:' => '',
-        'A required field is:' => '',
         'Close ticket' => 'Fechar ticket',
         'Previous Owner' => 'Proprietário Anterior',
         'Inform Agent' => 'Informar agente',
@@ -1266,12 +1264,6 @@ sub Data {
 
         # Template: AgentTicketOverviewMediumMeta
         'You need min. one selected Ticket!' => 'Precisa de seleccionar pelo menos um Ticket!',
-        'sort upward' => 'ordenar crescentemente',
-        'up' => 'crescente',
-        'sort downward' => 'ordenar decrescentemente',
-        'down' => 'decrescente',
-        'Escalation in' => 'Escalado em',
-        'Locked' => 'Bloqueado',
 
         # Template: AgentTicketOverviewNavBar
         'Filter' => 'Filtro',
@@ -1291,6 +1283,12 @@ sub Data {
         # Template: AgentTicketOverviewPreviewMeta
 
         # Template: AgentTicketOverviewSmall
+        'sort upward' => 'ordenar crescentemente',
+        'up' => 'crescente',
+        'sort downward' => 'ordenar decrescentemente',
+        'down' => 'decrescente',
+        'Escalation in' => 'Escalado em',
+        'Locked' => 'Bloqueado',
 
         # Template: AgentTicketOwner
         'Change owner of ticket' => 'Modificar o proprietário do ticket',
@@ -1332,6 +1330,9 @@ sub Data {
         'Search-Template' => 'Modelo de procura',
         'TicketFreeText' => 'Texto Livre do Ticket',
         'Created in Queue' => 'Criado na Fila',
+        'Article Create Times' => '',
+        'Article created' => '',
+        'Article created between' => '',
         'Change Times' => '',
         'No change time settings.' => '',
         'Ticket changed' => '',
@@ -1340,13 +1341,14 @@ sub Data {
         'Save Search-Profile as Template?' => 'Guardar Perfil de Procura como Modelo?',
         'Yes, save it with name' => 'Sim, guardar com o nome',
 
-        # Template: AgentTicketSearchOpenSearchDescription
+        # Template: AgentTicketSearchOpenSearchDescriptionFulltext
+
+        # Template: AgentTicketSearchOpenSearchDescriptionTicketNumber
 
         # Template: AgentTicketSearchResultPrint
 
         # Template: AgentTicketZoom
         'Expand View' => '',
-        'Expand' => '',
         'Collapse View' => '',
         'Split' => 'Dividir',
 
@@ -1490,27 +1492,6 @@ sub Data {
         # Template: Warning
 
         # Template: YUI
-        'Bold' => '',
-        'CTRL' => '',
-        'SHIFT' => '',
-        'Italic' => '',
-        'Underline' => '',
-        'Font Color' => '',
-        'Background Color' => '',
-        'Remove Formatting' => '',
-        'Show/Hide Hidden Elements' => '',
-        'Align Left' => '',
-        'Align Center' => '',
-        'Align Right' => '',
-        'Justify' => '',
-        'Indent' => '',
-        'Outdent' => '',
-        'Create an Unordered List' => '',
-        'Create an Ordered List' => '',
-        'HTML Link' => '',
-        'Insert Image' => '',
-        'Undo' => '',
-        'Redo' => '',
 
         # Misc
         'Edit Article' => 'Editar Artigo',
@@ -1519,21 +1500,21 @@ sub Data {
         'Multiplier:' => 'Multiplicador:',
         'Ticket Number Generator' => 'Gerador de Números de Tickets',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identificação do ticket. Algumas pessoas usam \'Ticket#\', \'Chamada#\' or \'MeuTicket#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Desta forma pode alterar directamente o keyring configurado no Kernel/Config.pm',
         'Create new Phone Ticket' => 'Criar novo Ticket via Telefone',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Desta forma pode alterar directamente o keyring configurado no Kernel/Config.pm',
         'Symptom' => 'Sintoma',
         'U' => 'C',
         'Site' => 'Página',
         'Customer history search (e. g. "ID342425").' => 'Procura no histórico do cliente (e.g., "ID342425")',
         'Can not delete link with %s!' => '',
-        'Close!' => 'Fechar!',
         'for agent firstname' => 'para o nome próprio do agente',
+        'Close!' => 'Fechar!',
         'No means, send agent and customer notifications on changes.' => 'Nao significa, enviar ao agent e cliente notificaçoes quando houver alterações',
         'A web calendar' => 'Um calendário na Web',
         'to get the realname of the sender (if given)' => 'para obter o nome do remetente (se indicado na mensagem)',
         'OTRS DB Name' => 'Nome da Base de Dados OTRS',
-        'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
         'Notification (Customer)' => 'Notificaçao (cliente)',
+        'Options of the ticket data (e. g. &lt;OTRS_TICKET_TicketNumber&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
         'PGP Key' => 'Chave PGP',
         'Select Source (for add)' => 'Seleccionar fonte (para a adição)',
         'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'Opções dos dados do ticket (e.g., &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)',
@@ -1570,8 +1551,8 @@ sub Data {
         'Select:' => 'Seleccionar:',
         'No * possible!' => 'Não são possíveis *!',
         'PostMaster Filter' => 'Filtros do Chefe do Correio',
-        'PostMaster POP3 Account' => 'Conta do Chefe do Correio',
         'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'Opçoes do user actual que pediu esta acção',
+        'PostMaster POP3 Account' => 'Conta do Chefe do Correio',
         'Message for new Owner' => 'Mensagem para o novo Proprietário',
         'to get the first 5 lines of the email' => 'para obter as 5 primeiras linhas da mensagem de correio electrónico',
         'Sort by' => 'Ordenado pela',
@@ -1582,8 +1563,8 @@ sub Data {
         'to get the first 20 character of the subject' => 'para obter os 20 primeiros caracteres do assunto',
         'Select the customeruser:service relations.' => '',
         'DB Admin Password' => 'Palavra-passe de Administrador da Base de Dados',
-        'Drop Database' => 'Apagar Base de Dados',
         'Advisory' => 'Recomendação',
+        'Drop Database' => 'Apagar Base de Dados',
         'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
         'FileManager' => 'Gestor de Ficheiros',
         'Pending type' => 'Tipo de pendência',
@@ -1608,23 +1589,24 @@ sub Data {
         'Ticket Hook' => 'Identificador do Ticket',
         'Detail' => 'Pormenor',
         'TicketZoom' => 'DetalhesDoTicket',
-        'Don\'t forget to add a new user to groups!' => 'Não esqueça de adicionar um novo user nos grupos!',
         'Open Tickets' => 'Tickets Abertos',
+        'Don\'t forget to add a new user to groups!' => 'Não esqueça de adicionar um novo user nos grupos!',
         'You have to select two or more attributes from the select field!' => 'Deverá selecionar dois ou mais atributos dos campos slectionaveis',
         'System Settings' => 'Propriedades de Sistema',
         'WebWatcher' => 'Observador da Web',
         'Finished' => 'Terminado',
         'D' => '',
-        'All messages' => 'Todas as mensagens',
         'System Status' => 'Estado do Sistema',
+        'All messages' => 'Todas as mensagens',
         'Artefact' => 'Artefacto',
         'Object already linked as %s.' => '',
         'A article should have a title!' => 'Um artigo tem de ter um título!',
         'Benchmark' => 'Desempenho',
-        'Event' => 'Evento',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Opções de Configuração (Ex. &lt;OTRS_CONFIG_HttpType&gt;)',
+        'Event' => 'Evento',
         'Update:' => 'Actualizar:',
         'don\'t accept license' => 'não aceitar licença',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'A web mail client' => 'Um cliente de correio electrónico na Web',
         'WebMail' => 'Correio electrónico na Web',
         'Name is required!' => 'É necessário um nome!',

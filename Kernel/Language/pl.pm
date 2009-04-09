@@ -2,7 +2,7 @@
 # Kernel/Language/pl.pm - provides pl language translation
 # Copyright (C) 2007 Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.71 2009-04-03 07:42:25 sb Exp $
+# $Id: pl.pm,v 1.72 2009-04-09 08:19:53 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Fri Apr  3 09:40:46 2009
+    # Last translation file sync: Thu Apr  9 10:12:55 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', ];
@@ -183,6 +183,7 @@ sub Data {
         'Added!' => '',
         'Category' => 'Kategoria',
         'Viewer' => '',
+        'Expand' => '',
         'New message' => 'Nowa wiadomo¶æ',
         'New message!' => 'Nowa wiadomo¶æ!',
         'Please answer this ticket(s) to get back to the normal queue view!' => 'Proszê odpowiedz na to zg³oszenie, by móc powrociæ do zwyk³ego widoku kolejki zg³oszeñ!',
@@ -828,7 +829,6 @@ sub Data {
         'Activating this feature might affect your system performance!' => '',
         'Disable it here!' => '',
         'This feature is disabled!' => '',
-        'Activating this feature might affect your system performance!' => '',
         'Enable it here!' => '',
         'Logfile too large!' => '',
         'Logfile too large, you need to reset it!' => '',
@@ -1026,7 +1026,7 @@ sub Data {
         'Add System Address' => '',
         'Add a new System Address.' => '',
         'Realname' => 'Prawdziwe Imiê i Nazwisko',
-        'All email addresses get excluded on replaying on composing and email.' => '',
+        'All email addresses get excluded on replaying on composing an email.' => '',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Wszystkie wiadomo¶ci przys³ane na ten adres w polu (Do:) zostan± umieszczone w tej kolejce.',
 
         # Template: AdminTypeForm
@@ -1081,7 +1081,6 @@ sub Data {
         # Template: AgentNavigationBar
 
         # Template: AgentPreferencesForm
-        'End' => '',
 
         # Template: AgentSpelling
         'Spell Checker' => 'S³ownik',
@@ -1094,7 +1093,6 @@ sub Data {
         'Do you really want to delete this Object?' => '',
 
         # Template: AgentStatsEditRestrictions
-        'Stat#' => '',
         'Select the restrictions to characterise the stat' => '',
         'Fixed' => '',
         'Please select only one element or turn off the button \'Fixed\'.' => '',
@@ -1203,7 +1201,6 @@ sub Data {
         'Ticket Type is required!' => '',
         'A message should have a body!' => 'Wiadomo¶æ powinna zawieraæ jak±¶ tre¶æ!',
         'A required field is:' => '',
-        'A required field is:' => '',
         'Close ticket' => 'Zamknij zg³oszenie',
         'Previous Owner' => 'Poprzedni w³a¶ciciel',
         'Inform Agent' => '',
@@ -1267,12 +1264,6 @@ sub Data {
 
         # Template: AgentTicketOverviewMediumMeta
         'You need min. one selected Ticket!' => '',
-        'sort upward' => 'sortuj rosn±co',
-        'up' => 'góra',
-        'sort downward' => 'sortuj malej±co',
-        'down' => 'dó³',
-        'Escalation in' => 'Eskalowane w',
-        'Locked' => '',
 
         # Template: AgentTicketOverviewNavBar
         'Filter' => '',
@@ -1292,6 +1283,12 @@ sub Data {
         # Template: AgentTicketOverviewPreviewMeta
 
         # Template: AgentTicketOverviewSmall
+        'sort upward' => 'sortuj rosn±co',
+        'up' => 'góra',
+        'sort downward' => 'sortuj malej±co',
+        'down' => 'dó³',
+        'Escalation in' => 'Eskalowane w',
+        'Locked' => '',
 
         # Template: AgentTicketOwner
         'Change owner of ticket' => 'Zmieñ w³a¶ciciela zg³oszenia',
@@ -1333,6 +1330,9 @@ sub Data {
         'Search-Template' => 'Szablon wyszukiwania',
         'TicketFreeText' => 'Dodatkowe informacje o zg³oszeniu',
         'Created in Queue' => '',
+        'Article Create Times' => '',
+        'Article created' => '',
+        'Article created between' => '',
         'Change Times' => '',
         'No change time settings.' => '',
         'Ticket changed' => '',
@@ -1341,13 +1341,14 @@ sub Data {
         'Save Search-Profile as Template?' => 'Zachowaj profil wyszukiwania jako szablon',
         'Yes, save it with name' => 'Tak, zapisz to pod nazw±',
 
-        # Template: AgentTicketSearchOpenSearchDescription
+        # Template: AgentTicketSearchOpenSearchDescriptionFulltext
+
+        # Template: AgentTicketSearchOpenSearchDescriptionTicketNumber
 
         # Template: AgentTicketSearchResultPrint
 
         # Template: AgentTicketZoom
         'Expand View' => '',
-        'Expand' => '',
         'Collapse View' => '',
         'Split' => 'Podziel',
 
@@ -1491,27 +1492,6 @@ sub Data {
         # Template: Warning
 
         # Template: YUI
-        'Bold' => '',
-        'CTRL' => '',
-        'SHIFT' => '',
-        'Italic' => '',
-        'Underline' => '',
-        'Font Color' => '',
-        'Background Color' => '',
-        'Remove Formatting' => '',
-        'Show/Hide Hidden Elements' => '',
-        'Align Left' => '',
-        'Align Center' => '',
-        'Align Right' => '',
-        'Justify' => '',
-        'Indent' => '',
-        'Outdent' => '',
-        'Create an Unordered List' => '',
-        'Create an Ordered List' => '',
-        'HTML Link' => '',
-        'Insert Image' => '',
-        'Undo' => '',
-        'Redo' => '',
 
         # Misc
         'Edit Article' => '',
@@ -1519,15 +1499,15 @@ sub Data {
         'DB Host' => 'Host bazy danych',
         'Ticket Number Generator' => 'Generator numerów zg³oszeñ',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identyfikator zg³oszenia. np. \'Ticket#\', \'Call#\' lub \'MyTicket#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Create new Phone Ticket' => '',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Symptom' => 'Objawy',
         'U' => 'G',
         'Site' => 'Witryna',
         'Customer history search (e. g. "ID342425").' => 'Przeszukiwanie historii klienta (np. "ID342425").',
         'Can not delete link with %s!' => '',
-        'Close!' => 'Zamknij!',
         'for agent firstname' => 'dla imienia agenta',
+        'Close!' => 'Zamknij!',
         'No means, send agent and customer notifications on changes.' => '',
         'A web calendar' => '',
         'to get the realname of the sender (if given)' => 'by wstawiæ prawdziwe imiê i nazwisko klienta (je¶li podano)',
@@ -1592,8 +1572,8 @@ sub Data {
         'Ticket Hook' => 'Identyfikator zg³oszenia',
         'Detail' => '',
         'TicketZoom' => 'Podgl±d zg³oszenia',
-        'Don\'t forget to add a new user to groups!' => 'Nie zapomnij dodaæ u¿ytkownika do grup!',
         'Open Tickets' => '',
+        'Don\'t forget to add a new user to groups!' => 'Nie zapomnij dodaæ u¿ytkownika do grup!',
         'You have to select two or more attributes from the select field!' => '',
         'System Settings' => 'Ustawienia systemu',
         'WebWatcher' => '',
@@ -1603,9 +1583,10 @@ sub Data {
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         'Object already linked as %s.' => '',
         'A article should have a title!' => '',
-        'Event' => '',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
+        'Event' => '',
         'don\'t accept license' => 'nie akceptujê Licencji',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'A web mail client' => '',
         'WebMail' => '',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Opcje dotycz±ce w³a¶ciciela zg³oszenia (np. <OTRS_OWNER_UserFirstname>)',

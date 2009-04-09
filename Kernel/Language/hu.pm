@@ -5,7 +5,7 @@
 # Copyright (C) 2006 Flora Szabo /szaboflora@magicnet.hu/
 # Copyright (C) 2007 Aron Ujvari <ujvari@hungary.com>
 # --
-# $Id: hu.pm,v 1.61 2009-04-03 07:42:25 sb Exp $
+# $Id: hu.pm,v 1.62 2009-04-09 08:19:53 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,13 +18,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Fri Apr  3 09:40:44 2009
+    # Last translation file sync: Thu Apr  9 10:12:53 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', ];
@@ -186,6 +186,7 @@ sub Data {
         'Added!' => '',
         'Category' => 'Kategória',
         'Viewer' => '',
+        'Expand' => '',
         'New message' => 'Új üzenet',
         'New message!' => 'Új üzenet!',
         'Please answer this ticket(s) to get back to the normal queue view!' => 'Kérjük válaszoljon erre(ezekre) a jegy(ek)re hogy visszatérhessen a normál várólista nézethez!',
@@ -831,7 +832,6 @@ sub Data {
         'Activating this feature might affect your system performance!' => '',
         'Disable it here!' => 'Inaktiválja itt!',
         'This feature is disabled!' => 'Ez a képesség inaktív!',
-        'Activating this feature might affect your system performance!' => '',
         'Enable it here!' => 'Aktiválja itt!',
         'Logfile too large!' => 'A naplófájl túl nagy!',
         'Logfile too large, you need to reset it!' => 'A naplófájl túl nagy, kitörlése szükséges!',
@@ -1029,7 +1029,7 @@ sub Data {
         'Add System Address' => 'Rendszer cím hozzáadása',
         'Add a new System Address.' => 'Új rendszer cím hozzáadása',
         'Realname' => 'Valódi név',
-        'All email addresses get excluded on replaying on composing and email.' => '',
+        'All email addresses get excluded on replaying on composing an email.' => '',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Az összes bejövõ e-mail ezzel az címzettel a kiválasztott várólistához lesz rendelve!',
 
         # Template: AdminTypeForm
@@ -1084,7 +1084,6 @@ sub Data {
         # Template: AgentNavigationBar
 
         # Template: AgentPreferencesForm
-        'End' => '',
 
         # Template: AgentSpelling
         'Spell Checker' => 'Helyesírásellenõrzõ',
@@ -1205,7 +1204,6 @@ sub Data {
         'Ticket Type is required!' => '',
         'A message should have a body!' => 'Egy üzenetnek kell legyen törzse!',
         'A required field is:' => '',
-        'A required field is:' => '',
         'Close ticket' => 'Jegy lezárása',
         'Previous Owner' => 'Korábbi tulajdonos',
         'Inform Agent' => 'Ügyintézõ értsítése',
@@ -1269,12 +1267,6 @@ sub Data {
 
         # Template: AgentTicketOverviewMediumMeta
         'You need min. one selected Ticket!' => 'Legalább egy jegyet ki kell választani!',
-        'sort upward' => 'rendezés felfelé',
-        'up' => 'fel',
-        'sort downward' => 'rendezés lefelé',
-        'down' => 'le',
-        'Escalation in' => 'Kiemelés ebben',
-        'Locked' => 'Zárolás',
 
         # Template: AgentTicketOverviewNavBar
         'Filter' => 'Szûrõ',
@@ -1294,6 +1286,12 @@ sub Data {
         # Template: AgentTicketOverviewPreviewMeta
 
         # Template: AgentTicketOverviewSmall
+        'sort upward' => 'rendezés felfelé',
+        'up' => 'fel',
+        'sort downward' => 'rendezés lefelé',
+        'down' => 'le',
+        'Escalation in' => 'Kiemelés ebben',
+        'Locked' => 'Zárolás',
 
         # Template: AgentTicketOwner
         'Change owner of ticket' => 'Jegy tulajdonosának módosítása',
@@ -1335,6 +1333,9 @@ sub Data {
         'Search-Template' => 'Keresõ sablon',
         'TicketFreeText' => 'Jegy szabadszöveg',
         'Created in Queue' => 'Létrehozáskori várólista',
+        'Article Create Times' => '',
+        'Article created' => '',
+        'Article created between' => '',
         'Change Times' => '',
         'No change time settings.' => '',
         'Ticket changed' => '',
@@ -1343,13 +1344,14 @@ sub Data {
         'Save Search-Profile as Template?' => 'Elmenti a keresõ profilt sablonként?',
         'Yes, save it with name' => 'Igen, elmentve ezen a néven',
 
-        # Template: AgentTicketSearchOpenSearchDescription
+        # Template: AgentTicketSearchOpenSearchDescriptionFulltext
+
+        # Template: AgentTicketSearchOpenSearchDescriptionTicketNumber
 
         # Template: AgentTicketSearchResultPrint
 
         # Template: AgentTicketZoom
         'Expand View' => '',
-        'Expand' => '',
         'Collapse View' => '',
         'Split' => 'Felosztás',
 
@@ -1493,27 +1495,6 @@ sub Data {
         # Template: Warning
 
         # Template: YUI
-        'Bold' => '',
-        'CTRL' => '',
-        'SHIFT' => '',
-        'Italic' => '',
-        'Underline' => '',
-        'Font Color' => '',
-        'Background Color' => '',
-        'Remove Formatting' => '',
-        'Show/Hide Hidden Elements' => '',
-        'Align Left' => '',
-        'Align Center' => '',
-        'Align Right' => '',
-        'Justify' => '',
-        'Indent' => '',
-        'Outdent' => '',
-        'Create an Unordered List' => '',
-        'Create an Ordered List' => '',
-        'HTML Link' => '',
-        'Insert Image' => '',
-        'Undo' => '',
-        'Redo' => '',
 
         # Misc
         'auto follow up' => 'automatikus válasz',
@@ -1522,15 +1503,15 @@ sub Data {
         'File-Name' => '',
         'Ticket Number Generator' => 'Jegy sorszám generátor',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Jegy azonosítás. pl. \'Jegy#\', \'Hívó#\' vagy \'Jegyem#\')',
-        'Create new Phone Ticket' => 'Új telefon jegy létrehozása',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Íly módon közvetlenül szerkesztheti a Kernel/Config.pm-ben beállított kulcskarikát.',
+        'Create new Phone Ticket' => 'Új telefon jegy létrehozása',
         'U' => 'A',
         'Site' => 'Gép',
         'Reset of unlock time.' => 'Feloldási idõ nullázása.',
         'Customer history search (e. g. "ID342425").' => 'Keresés az ügyfél történetében (pl. "ID342425").',
         'Can not delete link with %s!' => '',
-        'for agent firstname' => 'ügyintézõ keresztnévhez',
         'Close!' => 'Lezár!',
+        'for agent firstname' => 'ügyintézõ keresztnévhez',
         'Reporter' => '',
         'Process-Path' => '',
         'No means, send agent and customer notifications on changes.' => 'Nem esetén mind az ügyintézõnek, mind az ügyfélnek küld értesítéseket a változásokról.',
@@ -1575,8 +1556,8 @@ sub Data {
         'Load' => 'Betöltés',
         'Change Time' => 'Idõ megváltoztatása',
         'PostMaster Filter' => 'Levelezési szûrõk',
-        'PostMaster POP3 Account' => 'Levelezési fiókok (POP3)',
         'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
+        'PostMaster POP3 Account' => 'Levelezési fiókok (POP3)',
         'Message for new Owner' => 'Üzenet az új tulajdonosnak',
         'to get the first 5 lines of the email' => 'hogy megkapja az elsõ 5 sort az e-mailbõl',
         'Sort by' => 'Rendezés így',
@@ -1615,8 +1596,8 @@ sub Data {
         'Of couse this feature will take some system performance it self!' => 'Természetesen ez a képesség maga is befolyásolja a rendszer teljesítményét!',
         'Detail' => 'Részletek',
         'TicketZoom' => 'JegyRészletek',
-        'Don\'t forget to add a new user to groups!' => 'Ne felejtsen el új felhasználót hozzáadni a csoportokhoz!',
         'Open Tickets' => 'Jegyek megnyitása',
+        'Don\'t forget to add a new user to groups!' => 'Ne felejtsen el új felhasználót hozzáadni a csoportokhoz!',
         'CreateTicket' => 'JegyLétrehozás',
         'You have to select two or more attributes from the select field!' => 'Legalább két értéket válasszon ki a mezõben!',
         'unknown' => 'ismeretlen',
@@ -1625,14 +1606,15 @@ sub Data {
         'Imported' => '',
         'unread' => 'olvasatlan',
         'D' => 'Z',
-        'All messages' => 'Minden üzenet',
         'System Status' => 'Rendszer állapota',
+        'All messages' => 'Minden üzenet',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'A jegy adatai (pl.  <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => '',
         'A article should have a title!' => 'Egy bejegyzésnek kell legyen címe!',
         'Customer Users <-> Services' => 'Ügyfél felhasználók <-> Szolgáltatások',
-        'Event' => 'Esemény',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Konfigurációs értékek (pl. &lt;OTRS_CONFIG_HttpType&gt;)',
+        'Event' => 'Esemény',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'Imported by' => '',
         'S/MIME' => 'S/MIME',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Jegy tulajdonos opciók (pl. <OTRS_OWNER_UserFirstname>)',

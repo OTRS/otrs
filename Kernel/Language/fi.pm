@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Antti K‰m‰r‰inen <antti at seu.net>
 # Copyright (C) 2007-2008 Mikko Hynninen <first.last at tietokartano.fi>
 # --
-# $Id: fi.pm,v 1.84 2009-04-03 07:42:25 sb Exp $
+# $Id: fi.pm,v 1.85 2009-04-09 08:19:53 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.84 $) [1];
+$VERSION = qw($Revision: 1.85 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Fri Apr  3 09:40:43 2009
+    # Last translation file sync: Thu Apr  9 10:12:52 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -184,6 +184,7 @@ sub Data {
         'Added!' => '',
         'Category' => 'Kategoria',
         'Viewer' => 'Katselija',
+        'Expand' => '',
         'New message' => 'Uusi viesti',
         'New message!' => 'Uusi viesti!',
         'Please answer this ticket(s) to get back to the normal queue view!' => 'Vastaa t‰h‰n viestiin saadaksesi se takaisin normaalille jonotuslistalle',
@@ -829,7 +830,6 @@ sub Data {
         'Activating this feature might affect your system performance!' => '',
         'Disable it here!' => 'Poista k‰ytˆst‰ t‰st‰!',
         'This feature is disabled!' => 'T‰m‰ ominaisuus on poissa k‰ytˆst‰!',
-        'Activating this feature might affect your system performance!' => '',
         'Enable it here!' => 'Ota k‰yttˆˆn t‰st‰!',
         'Logfile too large!' => 'Lokitiedosto liian iso!',
         'Logfile too large, you need to reset it!' => 'Lokitiedosto on liian iso, sinun tulee puhdistaa se!',
@@ -1027,7 +1027,7 @@ sub Data {
         'Add System Address' => 'Lis‰‰ j‰rjestelm‰osoite',
         'Add a new System Address.' => 'Lis‰‰ uusi j‰rjestelm‰osoite.',
         'Realname' => 'Nimi',
-        'All email addresses get excluded on replaying on composing and email.' => '',
+        'All email addresses get excluded on replaying on composing an email.' => '',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Kaikki viestit joissa t‰m‰ "Email" (To:)-kentt‰ osoitetaan valittuu jonoon!',
 
         # Template: AdminTypeForm
@@ -1082,7 +1082,6 @@ sub Data {
         # Template: AgentNavigationBar
 
         # Template: AgentPreferencesForm
-        'End' => '',
 
         # Template: AgentSpelling
         'Spell Checker' => 'Oikeinkirjoituksen tarkistus',
@@ -1095,7 +1094,6 @@ sub Data {
         'Do you really want to delete this Object?' => 'Haluatko varmasti poistaa t‰m‰n kohteen?',
 
         # Template: AgentStatsEditRestrictions
-        'Stat#' => '',
         'Select the restrictions to characterise the stat' => 'Valitse tilastoa koskevat rajaukset',
         'Fixed' => 'Kiinte‰',
         'Please select only one element or turn off the button \'Fixed\'.' => 'Valitse vain yksi elementti tai poista valinta kohdasta \'Kiinte‰\'.',
@@ -1204,7 +1202,6 @@ sub Data {
         'Ticket Type is required!' => '',
         'A message should have a body!' => 'Viestiin tulee lis‰t‰ tietoja',
         'A required field is:' => '',
-        'A required field is:' => '',
         'Close ticket' => 'Sulje tiketti',
         'Previous Owner' => 'Edellinen omistaja',
         'Inform Agent' => 'Ilmoita agentille',
@@ -1268,12 +1265,6 @@ sub Data {
 
         # Template: AgentTicketOverviewMediumMeta
         'You need min. one selected Ticket!' => 'Sinun tulee valita v‰hint‰‰n yksi tiketti!',
-        'sort upward' => 'J‰rjest‰ nousevasti',
-        'up' => 'alkuun',
-        'sort downward' => 'J‰rjest‰ laskevasti',
-        'down' => 'loppuun',
-        'Escalation in' => 'Vanhenee',
-        'Locked' => 'Lukitut',
 
         # Template: AgentTicketOverviewNavBar
         'Filter' => 'Suodatin',
@@ -1293,6 +1284,12 @@ sub Data {
         # Template: AgentTicketOverviewPreviewMeta
 
         # Template: AgentTicketOverviewSmall
+        'sort upward' => 'J‰rjest‰ nousevasti',
+        'up' => 'alkuun',
+        'sort downward' => 'J‰rjest‰ laskevasti',
+        'down' => 'loppuun',
+        'Escalation in' => 'Vanhenee',
+        'Locked' => 'Lukitut',
 
         # Template: AgentTicketOwner
         'Change owner of ticket' => 'Muuta t‰m‰n tiketin omistajaa',
@@ -1334,6 +1331,9 @@ sub Data {
         'Search-Template' => 'Hakupohja',
         'TicketFreeText' => 'Vapaakentt‰',
         'Created in Queue' => 'Luotu jonossa',
+        'Article Create Times' => '',
+        'Article created' => '',
+        'Article created between' => '',
         'Change Times' => '',
         'No change time settings.' => '',
         'Ticket changed' => '',
@@ -1342,13 +1342,14 @@ sub Data {
         'Save Search-Profile as Template?' => 'Tallenna haku pohjaksi?',
         'Yes, save it with name' => 'Kyll‰, tallenna nimell‰',
 
-        # Template: AgentTicketSearchOpenSearchDescription
+        # Template: AgentTicketSearchOpenSearchDescriptionFulltext
+
+        # Template: AgentTicketSearchOpenSearchDescriptionTicketNumber
 
         # Template: AgentTicketSearchResultPrint
 
         # Template: AgentTicketZoom
         'Expand View' => 'Laajenna n‰kym‰',
-        'Expand' => '',
         'Collapse View' => 'Supista n‰kym‰',
         'Split' => 'Jaa',
 
@@ -1492,42 +1493,21 @@ sub Data {
         # Template: Warning
 
         # Template: YUI
-        'Bold' => '',
-        'CTRL' => '',
-        'SHIFT' => '',
-        'Italic' => '',
-        'Underline' => '',
-        'Font Color' => '',
-        'Background Color' => '',
-        'Remove Formatting' => '',
-        'Show/Hide Hidden Elements' => '',
-        'Align Left' => '',
-        'Align Center' => '',
-        'Align Right' => '',
-        'Justify' => '',
-        'Indent' => '',
-        'Outdent' => '',
-        'Create an Unordered List' => '',
-        'Create an Ordered List' => '',
-        'HTML Link' => '',
-        'Insert Image' => '',
-        'Undo' => '',
-        'Redo' => '',
 
         # Misc
         'Edit Article' => 'Muokkaa artikkelia',
         'Create Database' => 'Luo tietokanta',
         'Ticket Number Generator' => 'Tikettinumeroiden generoija',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Tiketin tunniste. Voit asettaa esim. \'Tiketti#\', \'Puhelu#\' tai \'OmaTiketti#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'T‰ll‰ tavalla voit muokata suoraan Kernel/Config.pm:ss‰ m‰‰ritelty‰ avainrengasta.',
         'Create new Phone Ticket' => 'Luo uusi puhelintiketti',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'T‰ll‰ tavalla voit muokata suoraan Kernel/Config.pm:ss‰ m‰‰ritelty‰ avainrengasta.',
         'Symptom' => 'Oire',
         'U' => 'Y',
         'Site' => 'Palvelin',
         'Customer history search (e. g. "ID342425").' => 'Asiakashistoriahaku (Esim. "ID342425").',
         'Can not delete link with %s!' => 'Linkityksen poisto ep‰onnistui kohteeseen %s!',
-        'Close!' => 'Sulje!',
         'for agent firstname' => 'k‰sittelij‰n etunimi',
+        'Close!' => 'Sulje!',
         'No means, send agent and customer notifications on changes.' => 'Ei tarkoittaa, l‰het‰ agentille ja asiakkaalle ilmoitus muutoksista.',
         'A web calendar' => 'Web-kalenteri',
         'to get the realname of the sender (if given)' => 'n‰hd‰ksesi k‰ytt‰j‰n nimen',
@@ -1586,8 +1566,8 @@ sub Data {
         'Of couse this feature will take some system performance it self!' => 'T‰m‰ ominaisuus vaatii j‰rjestelm‰n resursseja!',
         'IMAPS' => 'IMAPS',
         'Detail' => 'Tiedot',
-        'Don\'t forget to add a new user to groups!' => 'ƒl‰ unohda lis‰t‰ uutta k‰ytt‰j‰‰ ryhmiin!',
         'Open Tickets' => 'Avoimet tiketit',
+        'Don\'t forget to add a new user to groups!' => 'ƒl‰ unohda lis‰t‰ uutta k‰ytt‰j‰‰ ryhmiin!',
         'You have to select two or more attributes from the select field!' => 'Sinun tulee valita yksi tai useampi arvo valintakent‰ss‰!',
         'System Settings' => 'J‰rjestelm‰asetukset',
         'WebWatcher' => 'WebSeuranta',
@@ -1597,9 +1577,10 @@ sub Data {
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Tikettitiedon asetukset (esim. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => 'Objekti linkitetty jo kohteeseen %s.',
         'A article should have a title!' => 'Artikkelilla tulee olla otsikko!',
-        'Event' => 'Tapahtyma',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'M‰‰ritysasetukset (esim. <OTRS_CONFIG_HttpType>)',
+        'Event' => 'Tapahtyma',
         'don\'t accept license' => 'En hyv‰ksy lisenssi‰',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'A web mail client' => 'Webpostiohjelma',
         'WebMail' => 'WebMail',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Tiketin omistajan asetukset (esim. <OTRS_OWNER_UserFirstName>)',

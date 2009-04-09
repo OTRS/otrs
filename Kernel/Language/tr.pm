@@ -2,7 +2,7 @@
 # Kernel/Language/tr.pm - provides tr language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: tr.pm,v 1.18 2009-04-03 07:42:25 sb Exp $
+# $Id: tr.pm,v 1.19 2009-04-09 08:23:31 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $)[1];
+$VERSION = qw($Revision: 1.19 $)[1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Fri Apr  3 09:40:47 2009
+    # Last translation file sync: Thu Apr  9 10:12:57 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-9', ];
@@ -182,6 +182,7 @@ sub Data {
         'Added!' => '',
         'Category' => 'Kategori',
         'Viewer' => 'Görüntüleyen',
+        'Expand' => '',
         'New message' => 'Yeni mesaj',
         'New message!' => 'Yeni mesaj!',
         'Please answer this ticket(s) to get back to the normal queue view!' => 'Lütfen normal kuyruk görünümüne dönmek için bu bilet(ler)i cevaplayýn!',
@@ -827,7 +828,6 @@ sub Data {
         'Activating this feature might affect your system performance!' => '',
         'Disable it here!' => 'Burada kapat!',
         'This feature is disabled!' => 'Bu özellik kapalý!',
-        'Activating this feature might affect your system performance!' => '',
         'Enable it here!' => 'Burada aç!',
         'Logfile too large!' => 'Günlük dosyasý çok büyük!',
         'Logfile too large, you need to reset it!' => 'Günlük dosyasý çok büyük, boþaltmalýsýnýz!',
@@ -1025,7 +1025,7 @@ sub Data {
         'Add System Address' => 'Sistem Adresi Ekle',
         'Add a new System Address.' => 'Yeni bir Sistem Adresi ekle.',
         'Realname' => 'Gerçek ad',
-        'All email addresses get excluded on replaying on composing and email.' => '',
+        'All email addresses get excluded on replaying on composing an email.' => '',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Bu e-posta adresinden gelen tüm e-postalar seçili kuyruða yönlendirilir.',
 
         # Template: AdminTypeForm
@@ -1080,7 +1080,6 @@ sub Data {
         # Template: AgentNavigationBar
 
         # Template: AgentPreferencesForm
-        'End' => '',
 
         # Template: AgentSpelling
         'Spell Checker' => 'Sözdizim Denetleyicisi',
@@ -1201,7 +1200,6 @@ sub Data {
         'Ticket Type is required!' => '',
         'A message should have a body!' => 'Mesajýn bir gövdesi olmalýdýr!',
         'A required field is:' => '',
-        'A required field is:' => '',
         'Close ticket' => 'Bileti kapat',
         'Previous Owner' => 'Önceki sahip',
         'Inform Agent' => 'Aracýyý bilgilendir',
@@ -1265,12 +1263,6 @@ sub Data {
 
         # Template: AgentTicketOverviewMediumMeta
         'You need min. one selected Ticket!' => 'En az bir Bilet seçili olmalýdýr!',
-        'sort upward' => 'yukarý doðru sýrala',
-        'up' => 'yukarý',
-        'sort downward' => 'aþaðýya doðru sýrala',
-        'down' => 'aþaðý',
-        'Escalation in' => 'Yükselme',
-        'Locked' => 'Kilitli',
 
         # Template: AgentTicketOverviewNavBar
         'Filter' => 'Süzgeç',
@@ -1290,6 +1282,12 @@ sub Data {
         # Template: AgentTicketOverviewPreviewMeta
 
         # Template: AgentTicketOverviewSmall
+        'sort upward' => 'yukarý doðru sýrala',
+        'up' => 'yukarý',
+        'sort downward' => 'aþaðýya doðru sýrala',
+        'down' => 'aþaðý',
+        'Escalation in' => 'Yükselme',
+        'Locked' => 'Kilitli',
 
         # Template: AgentTicketOwner
         'Change owner of ticket' => 'Biletin sahibini deðiþtir',
@@ -1331,6 +1329,9 @@ sub Data {
         'Search-Template' => 'Arama Þablonu',
         'TicketFreeText' => 'BiletSerbestMetni',
         'Created in Queue' => 'Oluþturuldu Kuyruk',
+        'Article Create Times' => '',
+        'Article created' => '',
+        'Article created between' => '',
         'Change Times' => '',
         'No change time settings.' => '',
         'Ticket changed' => '',
@@ -1339,13 +1340,14 @@ sub Data {
         'Save Search-Profile as Template?' => 'Arama Profili Þablon olarak kaydedilsin mi?',
         'Yes, save it with name' => 'Evet, þu adla kaydet',
 
-        # Template: AgentTicketSearchOpenSearchDescription
+        # Template: AgentTicketSearchOpenSearchDescriptionFulltext
+
+        # Template: AgentTicketSearchOpenSearchDescriptionTicketNumber
 
         # Template: AgentTicketSearchResultPrint
 
         # Template: AgentTicketZoom
         'Expand View' => '',
-        'Expand' => '',
         'Collapse View' => '',
         'Split' => 'Ayýr',
 
@@ -1489,27 +1491,6 @@ sub Data {
         # Template: Warning
 
         # Template: YUI
-        'Bold' => '',
-        'CTRL' => '',
-        'SHIFT' => '',
-        'Italic' => '',
-        'Underline' => '',
-        'Font Color' => '',
-        'Background Color' => '',
-        'Remove Formatting' => '',
-        'Show/Hide Hidden Elements' => '',
-        'Align Left' => '',
-        'Align Center' => '',
-        'Align Right' => '',
-        'Justify' => '',
-        'Indent' => '',
-        'Outdent' => '',
-        'Create an Unordered List' => '',
-        'Create an Ordered List' => '',
-        'HTML Link' => '',
-        'Insert Image' => '',
-        'Undo' => '',
-        'Redo' => '',
 
         # Misc
         'Create Database' => 'Veritabanýný Oluþtur',
@@ -1517,15 +1498,15 @@ sub Data {
         'File-Name' => 'Dosya adý',
         'Ticket Number Generator' => 'Bilet Numarasý Üreteci',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Bilet tanýmlayýcýsý. \'Bilet#\', \'Arama#\' oder \'Biletim#\' gibi olabilir)',
-        'Create new Phone Ticket' => 'Yeni Telefon Bileti oluþtur',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Bu þekilde Kernel/Config.pm dosyasýnda yapýlandýrýlmýþ olan anahtar halkasýný (keyring) deðiþtirebilirsiniz',
+        'Create new Phone Ticket' => 'Yeni Telefon Bileti oluþtur',
         'U' => 'U',
         'Site' => 'Site',
         'Customer history search (e. g. "ID342425").' => 'Müþteri tarihçe aramasý (örn. "ID342425").',
         'your MySQL DB should have a root password! Default is empty!' => 'MySQL veritabanýnýzýn root kullanýcýsýnýn bir parolasý olmalýdýr. Öntanýmlý olarak boþtur!',
         'Can not delete link with %s!' => '',
-        'for agent firstname' => 'aracý adý için',
         'Close!' => 'Kapat!',
+        'for agent firstname' => 'aracý adý için',
         'Reporter' => 'Bildiren',
         'Process-Path' => 'Ýþlem Yolu',
         'No means, send agent and customer notifications on changes.' => 'Hayýr, deðiþikliklerde aracýlara ve müþterilere bildirim gönder demektir.',
@@ -1602,8 +1583,8 @@ sub Data {
         'Of couse this feature will take some system performance it self!' => 'Elbette bu özellik sistem performansýndan biraz alýr.',
         'Detail' => 'Detay',
         'TicketZoom' => 'Bilet Detaylarý',
-        'Don\'t forget to add a new user to groups!' => 'Yeni kullanýcýyý gruplara atamayý unutmayýn!',
         'Open Tickets' => 'Açýk Biletler',
+        'Don\'t forget to add a new user to groups!' => 'Yeni kullanýcýyý gruplara atamayý unutmayýn!',
         'CreateTicket' => 'Bilet Oluþtur',
         'You have to select two or more attributes from the select field!' => 'Seçim alanýndan iki veya daha fazla nitelik seçmelisiniz!',
         'unknown' => 'bilinmiyor',
@@ -1612,15 +1593,16 @@ sub Data {
         'Imported' => 'Ýçeri aktarýldý',
         'unread' => 'okunmadý',
         'D' => 'D',
-        'All messages' => 'Tüm mesajlar',
         'System Status' => 'Sistem Durumu',
+        'All messages' => 'Tüm mesajlar',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Bilet verisi seçenekleri (örn. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => '',
         'A article should have a title!' => 'Metnin bir baþlýðý olmalýdýr!',
         'Customer Users <-> Services' => 'Müþteri Kullanýcýlar <-> Servisler',
         'This account exists' => 'Bu hesap zaten var',
-        'Event' => 'Olay',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Yapýlandýrma seçenekleri (örn. &lt;OTRS_CONFIG_HttpType&gt;)',
+        'Event' => 'Olay',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'Imported by' => 'Ýçeri aktaran',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Bilet sahibi seçenekleri (örn. <OTRS_OWNER_UserFirstname>)',
         'read' => 'okunmuþ',

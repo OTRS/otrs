@@ -4,7 +4,7 @@
 # Copyright (C) 2007 Andrey Feldman <afeldman at alt-lan.ru>
 # Copyright (C) 2008 Egor Tsilenko <bg8s at symlink.ru>
 # --
-# $Id: ru.pm,v 1.73 2009-04-03 07:42:25 sb Exp $
+# $Id: ru.pm,v 1.74 2009-04-09 08:19:53 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.73 $) [1];
+$VERSION = qw($Revision: 1.74 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Fri Apr  3 09:40:47 2009
+    # Last translation file sync: Thu Apr  9 10:12:56 2009
 
     # possible charsets
     $Self->{Charset} = ['cp1251', 'Windows-1251', ];
@@ -185,6 +185,7 @@ sub Data {
         'Added!' => '',
         'Category' => 'Категория',
         'Viewer' => 'Просмотрщик',
+        'Expand' => '',
         'New message' => 'новое сообщение',
         'New message!' => 'новое сообщение!',
         'Please answer this ticket(s) to get back to the normal queue view!' => 'Ответьте на эти заявки для перехода к обычному просмотру очереди !',
@@ -830,7 +831,6 @@ sub Data {
         'Activating this feature might affect your system performance!' => '',
         'Disable it here!' => 'Отключить ее!',
         'This feature is disabled!' => 'Данная функция отключена!',
-        'Activating this feature might affect your system performance!' => '',
         'Enable it here!' => 'Включить ее!',
         'Logfile too large!' => 'Лог-файл слишком большой!',
         'Logfile too large, you need to reset it!' => 'Лог-файл слишком большой, вам нужно очистить его!',
@@ -1028,7 +1028,7 @@ sub Data {
         'Add System Address' => 'Добавить системный адрес',
         'Add a new System Address.' => 'Добавить новый системный адрес',
         'Realname' => 'Реальное Имя',
-        'All email addresses get excluded on replaying on composing and email.' => '',
+        'All email addresses get excluded on replaying on composing an email.' => '',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Все входящие сообщения с этим полем (Для:) будут направлены в выбранную очередь',
 
         # Template: AdminTypeForm
@@ -1095,7 +1095,6 @@ sub Data {
         'Do you really want to delete this Object?' => 'Вы действительно хотите удалить этот объект?',
 
         # Template: AgentStatsEditRestrictions
-        'Stat#' => '',
         'Select the restrictions to characterise the stat' => 'Выбирете ограничения для определения статистики',
         'Fixed' => 'Фиксировано',
         'Please select only one element or turn off the button \'Fixed\'.' => 'Пожалуйста, выбирете только один Элемент или уберите флажок \'Fixed\'.',
@@ -1204,7 +1203,6 @@ sub Data {
         'Ticket Type is required!' => '',
         'A message should have a body!' => 'Тело сообщения не может быть пустым!',
         'A required field is:' => '',
-        'A required field is:' => '',
         'Close ticket' => 'Закрыть заявку',
         'Previous Owner' => 'Предыдущий владелец',
         'Inform Agent' => 'Оповестить пользователя',
@@ -1235,7 +1233,6 @@ sub Data {
         'new ticket' => 'Новая Заявка',
         'Refresh' => 'Обновить',
         'Clear To' => 'Очистить',
-        'All Agents' => '',
         'All Agents' => '',
 
         # Template: AgentTicketEscalation
@@ -1269,12 +1266,6 @@ sub Data {
 
         # Template: AgentTicketOverviewMediumMeta
         'You need min. one selected Ticket!' => 'Вам необхоимо выбрать хотябы одну заявку!',
-        'sort upward' => 'сортировка по возрастанию',
-        'up' => 'вверх',
-        'sort downward' => 'сортировка по убыванию',
-        'down' => 'вниз',
-        'Escalation in' => 'Эскалация через',
-        'Locked' => 'Блокировка',
 
         # Template: AgentTicketOverviewNavBar
         'Filter' => 'Фильтр',
@@ -1294,6 +1285,12 @@ sub Data {
         # Template: AgentTicketOverviewPreviewMeta
 
         # Template: AgentTicketOverviewSmall
+        'sort upward' => 'сортировка по возрастанию',
+        'up' => 'вверх',
+        'sort downward' => 'сортировка по убыванию',
+        'down' => 'вниз',
+        'Escalation in' => 'Эскалация через',
+        'Locked' => 'Блокировка',
 
         # Template: AgentTicketOwner
         'Change owner of ticket' => 'Изменить собственика заявки',
@@ -1335,6 +1332,9 @@ sub Data {
         'Search-Template' => 'Шаблон поиска',
         'TicketFreeText' => 'Свободные поля заявки',
         'Created in Queue' => 'Создано в очереди',
+        'Article Create Times' => '',
+        'Article created' => '',
+        'Article created between' => '',
         'Change Times' => '',
         'No change time settings.' => '',
         'Ticket changed' => '',
@@ -1343,13 +1343,14 @@ sub Data {
         'Save Search-Profile as Template?' => 'Сохранить параметры поиска в качестве шаблона?',
         'Yes, save it with name' => 'Да, сохранить с именем',
 
-        # Template: AgentTicketSearchOpenSearchDescription
+        # Template: AgentTicketSearchOpenSearchDescriptionFulltext
+
+        # Template: AgentTicketSearchOpenSearchDescriptionTicketNumber
 
         # Template: AgentTicketSearchResultPrint
 
         # Template: AgentTicketZoom
         'Expand View' => 'Развернутый вид',
-        'Expand' => '',
         'Collapse View' => 'Сжатый вид',
         'Split' => 'Разделить',
 
@@ -1493,27 +1494,6 @@ sub Data {
         # Template: Warning
 
         # Template: YUI
-        'Bold' => '',
-        'CTRL' => '',
-        'SHIFT' => '',
-        'Italic' => '',
-        'Underline' => '',
-        'Font Color' => '',
-        'Background Color' => '',
-        'Remove Formatting' => '',
-        'Show/Hide Hidden Elements' => '',
-        'Align Left' => '',
-        'Align Center' => '',
-        'Align Right' => '',
-        'Justify' => '',
-        'Indent' => '',
-        'Outdent' => '',
-        'Create an Unordered List' => '',
-        'Create an Ordered List' => '',
-        'HTML Link' => '',
-        'Insert Image' => '',
-        'Undo' => '',
-        'Redo' => '',
 
         # Misc
         'Edit Article' => 'Редактировать заявку',
@@ -1526,20 +1506,20 @@ sub Data {
         'Site' => 'Место',
         'Customer history search (e. g. "ID342425").' => 'Поиск истории клиента (напр. "ID342425").',
         'Can not delete link with %s!' => 'Невозможно удалить связь с %s!',
-        'Close!' => 'Закрыть!',
         'for agent firstname' => 'для агента - имя',
+        'Close!' => 'Закрыть!',
         'Subgroup \'' => 'Подгруппа \'',
         'No means, send agent and customer notifications on changes.' => 'Нет значит отсылать уведомления пользователям и клиентам при изменениях',
         'A web calendar' => 'Календарь',
         'to get the realname of the sender (if given)' => 'получить (если есть) имя отправителя',
         'Notification (Customer)' => 'Уведомление (Клиенту)',
-        'Involved' => 'Совместно с',
         'Select Source (for add)' => 'Выбрать источник',
+        'Involved' => 'Совместно с',
         'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'Опции данных заявки (например  &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)',
         'Child-Object' => 'Объект-Потомок',
         'Days' => 'Дни',
-        'Queue ID' => 'ID очереди',
         'Locked tickets' => 'Заблокированные заявки',
+        'Queue ID' => 'ID очереди',
         'System History' => 'История',
         'customer realname' => 'имя клиента',
         'Pending messages' => 'Сообщения в ожидании',
@@ -1596,8 +1576,8 @@ sub Data {
         'Events' => 'События',
         'Detail' => 'Подробно',
         'TicketZoom' => 'Просмотр заявки',
-        'Don\'t forget to add a new user to groups!' => 'Не забудьте добавить новоего пользователя в группы!',
         'Open Tickets' => 'Открытые заявки',
+        'Don\'t forget to add a new user to groups!' => 'Не забудьте добавить новоего пользователя в группы!',
         'CreateTicket' => 'Создание заявки',
         'You have to select two or more attributes from the select field!' => 'Вам необходимо выбрать два или более пунктов из выбранного поля!',
         'System Settings' => 'Системные установки',
@@ -1611,6 +1591,7 @@ sub Data {
         '7 Day' => '7 Дней',
         'Ticket Overview' => 'Обзор заявок',
         'Event' => 'Событие',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'A web mail client' => 'Почтовый Веб-клиент',
         'WebMail' => 'Почта',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Опции заявки (например <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
@@ -1631,8 +1612,8 @@ sub Data {
         'send' => 'Отправить',
         'Send no notifications' => 'Не отсылать уведомления',
         'Note Text' => 'Текст заметки',
-        'POP3 Account Management' => 'Управление учетной записью POP3',
         '3 Month' => '3 Месяца',
+        'POP3 Account Management' => 'Управление учетной записью POP3',
         'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'Опции для данных текущего пользователя-клиента (например &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)',
         'Jule' => 'Июля',
         'System State Management' => 'Управление системными состояниями',
@@ -1641,8 +1622,8 @@ sub Data {
         'maximal period form' => 'Максимальный период с',
         'TicketID' => 'ID заявки',
         'Mart' => 'Марта',
-        'Change setting' => 'Изменить настройки',
         'Yes means, send no agent and customer notifications on changes.' => 'Да значит не отсылать уведомления пользователям и клиентам при изменениях',
+        'Change setting' => 'Изменить настройки',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Ваш e-mail с номером заявки "<OTRS_TICKET>" отвергнут и переслан по адресу "<OTRS_BOUNCE_TO>". Пожалуйста, свяжитесь по этому адресу для выяснения причин. ',
         'Ticket Status View' => 'Просмотр статуса заявки',
         'Modified' => 'Изменено',

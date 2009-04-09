@@ -2,7 +2,7 @@
 # Kernel/Language/sv.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats@synergy.se>
 # --
-# $Id: sv.pm,v 1.61 2009-04-03 07:42:25 sb Exp $
+# $Id: sv.pm,v 1.62 2009-04-09 08:23:31 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.61 $;
+$VERSION = q$Revision: 1.62 $;
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Fri Apr  3 09:40:47 2009
+    # Last translation file sync: Thu Apr  9 10:12:57 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -183,6 +183,7 @@ sub Data {
         'Added!' => '',
         'Category' => 'Kategori',
         'Viewer' => '',
+        'Expand' => '',
         'New message' => 'Nytt meddelande',
         'New message!' => 'Nytt meddelande!',
         'Please answer this ticket(s) to get back to the normal queue view!' => 'Vänligen besvara denna/dessa ärenden för att komma tillbaka till den normala kö-visningsbilden!',
@@ -828,7 +829,6 @@ sub Data {
         'Activating this feature might affect your system performance!' => '',
         'Disable it here!' => '',
         'This feature is disabled!' => '',
-        'Activating this feature might affect your system performance!' => '',
         'Enable it here!' => '',
         'Logfile too large!' => '',
         'Logfile too large, you need to reset it!' => '',
@@ -1026,7 +1026,7 @@ sub Data {
         'Add System Address' => '',
         'Add a new System Address.' => '',
         'Realname' => 'Fullständigt namn',
-        'All email addresses get excluded on replaying on composing and email.' => '',
+        'All email addresses get excluded on replaying on composing an email.' => '',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alla inkommande mail till denna adressat (To:) delas ut till vald kö.',
 
         # Template: AdminTypeForm
@@ -1081,7 +1081,6 @@ sub Data {
         # Template: AgentNavigationBar
 
         # Template: AgentPreferencesForm
-        'End' => '',
 
         # Template: AgentSpelling
         'Spell Checker' => 'Stavningskontroll',
@@ -1202,7 +1201,6 @@ sub Data {
         'Ticket Type is required!' => '',
         'A message should have a body!' => 'Ett meddelande måste innehålla en meddelandetext!',
         'A required field is:' => '',
-        'A required field is:' => '',
         'Close ticket' => 'Stäng ärende',
         'Previous Owner' => 'Tidigare ägare',
         'Inform Agent' => '',
@@ -1266,12 +1264,6 @@ sub Data {
 
         # Template: AgentTicketOverviewMediumMeta
         'You need min. one selected Ticket!' => '',
-        'sort upward' => 'Sortera stigande',
-        'up' => 'stigande',
-        'sort downward' => 'Sortera sjunkande',
-        'down' => 'sjunkande',
-        'Escalation in' => 'Upptrappning om',
-        'Locked' => '',
 
         # Template: AgentTicketOverviewNavBar
         'Filter' => '',
@@ -1291,6 +1283,12 @@ sub Data {
         # Template: AgentTicketOverviewPreviewMeta
 
         # Template: AgentTicketOverviewSmall
+        'sort upward' => 'Sortera stigande',
+        'up' => 'stigande',
+        'sort downward' => 'Sortera sjunkande',
+        'down' => 'sjunkande',
+        'Escalation in' => 'Upptrappning om',
+        'Locked' => '',
 
         # Template: AgentTicketOwner
         'Change owner of ticket' => 'Ändra ett ärendes ägare',
@@ -1332,6 +1330,9 @@ sub Data {
         'Search-Template' => 'Sökmall',
         'TicketFreeText' => '',
         'Created in Queue' => '',
+        'Article Create Times' => '',
+        'Article created' => '',
+        'Article created between' => '',
         'Change Times' => '',
         'No change time settings.' => '',
         'Ticket changed' => '',
@@ -1340,13 +1341,14 @@ sub Data {
         'Save Search-Profile as Template?' => 'Spara sökkriterier som mall?',
         'Yes, save it with name' => 'Ja, spara med namn',
 
-        # Template: AgentTicketSearchOpenSearchDescription
+        # Template: AgentTicketSearchOpenSearchDescriptionFulltext
+
+        # Template: AgentTicketSearchOpenSearchDescriptionTicketNumber
 
         # Template: AgentTicketSearchResultPrint
 
         # Template: AgentTicketZoom
         'Expand View' => '',
-        'Expand' => '',
         'Collapse View' => '',
         'Split' => 'Dela',
 
@@ -1490,27 +1492,6 @@ sub Data {
         # Template: Warning
 
         # Template: YUI
-        'Bold' => '',
-        'CTRL' => '',
-        'SHIFT' => '',
-        'Italic' => '',
-        'Underline' => '',
-        'Font Color' => '',
-        'Background Color' => '',
-        'Remove Formatting' => '',
-        'Show/Hide Hidden Elements' => '',
-        'Align Left' => '',
-        'Align Center' => '',
-        'Align Right' => '',
-        'Justify' => '',
-        'Indent' => '',
-        'Outdent' => '',
-        'Create an Unordered List' => '',
-        'Create an Ordered List' => '',
-        'HTML Link' => '',
-        'Insert Image' => '',
-        'Undo' => '',
-        'Redo' => '',
 
         # Misc
         'Edit Article' => '',
@@ -1522,8 +1503,8 @@ sub Data {
         'Site' => 'plats',
         'Customer history search (e. g. "ID342425").' => 'Sök efter kundhistorik (t.ex. "ID342425").',
         'Can not delete link with %s!' => '',
-        'for agent firstname' => 'för agents förnamn',
         'Close!' => 'Stäng!',
+        'for agent firstname' => 'för agents förnamn',
         'Subgroup \'' => '',
         'No means, send agent and customer notifications on changes.' => '',
         'A web calendar' => '',
@@ -1593,8 +1574,8 @@ sub Data {
         'IMAPS' => '',
         'Detail' => '',
         'TicketZoom' => 'Ärende Zoom',
-        'Don\'t forget to add a new user to groups!' => 'Glöm inte att lägga in en ny användare i en grupp!',
         'Open Tickets' => '',
+        'Don\'t forget to add a new user to groups!' => 'Glöm inte att lägga in en ny användare i en grupp!',
         'CreateTicket' => 'Skapa Ärende',
         'You have to select two or more attributes from the select field!' => '',
         'System Settings' => 'Systeminställningar',
@@ -1603,14 +1584,15 @@ sub Data {
         'Finished' => 'Klar',
         'Account Type' => '',
         'D' => 'N',
-        'System Status' => '',
         'All messages' => 'Alla meddelanden',
+        'System Status' => '',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         'Object already linked as %s.' => '',
         'A article should have a title!' => '',
-        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
         'Event' => '',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
         'don\'t accept license' => 'godkänn inte licens',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'A web mail client' => '',
         'IMAP' => '',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',

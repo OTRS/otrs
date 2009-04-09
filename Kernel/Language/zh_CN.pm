@@ -3,7 +3,7 @@
 # Copyright (C) 2008 Never Min <never at qnofae.org>
 # Copyright (C) 2005 zuowei <j2ee at hirain-sh.com>
 # --
-# $Id: zh_CN.pm,v 1.55 2009-04-03 07:42:25 sb Exp $
+# $Id: zh_CN.pm,v 1.56 2009-04-09 08:23:31 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Fri Apr  3 09:40:48 2009
+    # Last translation file sync: Thu Apr  9 10:12:58 2009
 
     # possible charsets
     $Self->{Charset} = ['GBK', 'GB2312', ];
@@ -184,6 +184,7 @@ sub Data {
         'Added!' => '',
         'Category' => '目录',
         'Viewer' => '查看器',
+        'Expand' => '',
         'New message' => '新消息',
         'New message!' => '新消息!',
         'Please answer this ticket(s) to get back to the normal queue view!' => '请先回复该 Ticket，然后回到正常队列视图!',
@@ -806,7 +807,6 @@ sub Data {
         'Online Repository' => '在线知识库',
         'Vendor' => '提供者',
         'Module documentation' => '',
-        'Module documentation' => '',
         'Upgrade' => '升级',
         'Local Repository' => '本地知识库',
         'Status' => '状态',
@@ -830,7 +830,6 @@ sub Data {
         'Activating this feature might affect your system performance!' => '',
         'Disable it here!' => '关闭该功能',
         'This feature is disabled!' => '该功能已关闭',
-        'Activating this feature might affect your system performance!' => '',
         'Enable it here!' => '打开该功能',
         'Logfile too large!' => '日志文件过大',
         'Logfile too large, you need to reset it!' => '日志文件过大, 你需要重置它',
@@ -1028,7 +1027,7 @@ sub Data {
         'Add System Address' => '增加系统邮件地址',
         'Add a new System Address.' => '增加一个新的系统邮件地址.',
         'Realname' => '真实姓名',
-        'All email addresses get excluded on replaying on composing and email.' => '',
+        'All email addresses get excluded on replaying on composing an email.' => '',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => '所有发送到该收件人的消息将被转到所选择的队列',
 
         # Template: AdminTypeForm
@@ -1083,7 +1082,6 @@ sub Data {
         # Template: AgentNavigationBar
 
         # Template: AgentPreferencesForm
-        'End' => '',
 
         # Template: AgentSpelling
         'Spell Checker' => '拼写检查',
@@ -1096,7 +1094,6 @@ sub Data {
         'Do you really want to delete this Object?' => '您是否确认删除该对象?',
 
         # Template: AgentStatsEditRestrictions
-        'Stat#' => '',
         'Select the restrictions to characterise the stat' => '',
         'Fixed' => '',
         'Please select only one element or turn off the button \'Fixed\'.' => '',
@@ -1205,7 +1202,6 @@ sub Data {
         'Ticket Type is required!' => 'Ticket 的类型是必须的!',
         'A message should have a body!' => '邮件必须包含内容!',
         'A required field is:' => '',
-        'A required field is:' => '',
         'Close ticket' => '关闭 Ticket',
         'Previous Owner' => '前一个所有者',
         'Inform Agent' => '通知技术支持人员',
@@ -1269,12 +1265,6 @@ sub Data {
 
         # Template: AgentTicketOverviewMediumMeta
         'You need min. one selected Ticket!' => '您至少需要选择一个 Ticket!',
-        'sort upward' => '正序排序',
-        'up' => '上',
-        'sort downward' => '逆序排序',
-        'down' => '下',
-        'Escalation in' => '限时',
-        'Locked' => '锁定状态',
 
         # Template: AgentTicketOverviewNavBar
         'Filter' => '过滤器',
@@ -1294,6 +1284,12 @@ sub Data {
         # Template: AgentTicketOverviewPreviewMeta
 
         # Template: AgentTicketOverviewSmall
+        'sort upward' => '正序排序',
+        'up' => '上',
+        'sort downward' => '逆序排序',
+        'down' => '下',
+        'Escalation in' => '限时',
+        'Locked' => '锁定状态',
 
         # Template: AgentTicketOwner
         'Change owner of ticket' => '修改 Ticket 所有者',
@@ -1335,6 +1331,9 @@ sub Data {
         'Search-Template' => '搜索模板',
         'TicketFreeText' => 'Ticket 额外信息',
         'Created in Queue' => '在队列里建立',
+        'Article Create Times' => '',
+        'Article created' => '',
+        'Article created between' => '',
         'Change Times' => '',
         'No change time settings.' => '',
         'Ticket changed' => '',
@@ -1343,13 +1342,14 @@ sub Data {
         'Save Search-Profile as Template?' => '将搜索条件保存为模板',
         'Yes, save it with name' => '是, 保存为名称',
 
-        # Template: AgentTicketSearchOpenSearchDescription
+        # Template: AgentTicketSearchOpenSearchDescriptionFulltext
+
+        # Template: AgentTicketSearchOpenSearchDescriptionTicketNumber
 
         # Template: AgentTicketSearchResultPrint
 
         # Template: AgentTicketZoom
         'Expand View' => '展开',
-        'Expand' => '',
         'Collapse View' => '折叠',
         'Split' => '分解',
 
@@ -1493,27 +1493,6 @@ sub Data {
         # Template: Warning
 
         # Template: YUI
-        'Bold' => '',
-        'CTRL' => '',
-        'SHIFT' => '',
-        'Italic' => '',
-        'Underline' => '',
-        'Font Color' => '',
-        'Background Color' => '',
-        'Remove Formatting' => '',
-        'Show/Hide Hidden Elements' => '',
-        'Align Left' => '',
-        'Align Center' => '',
-        'Align Right' => '',
-        'Justify' => '',
-        'Indent' => '',
-        'Outdent' => '',
-        'Create an Unordered List' => '',
-        'Create an Ordered List' => '',
-        'HTML Link' => '',
-        'Insert Image' => '',
-        'Undo' => '',
-        'Redo' => '',
 
         # Misc
         'Edit Article' => '编辑信件',
@@ -1526,8 +1505,8 @@ sub Data {
         'Site' => '站点',
         'Customer history search (e. g. "ID342425").' => '搜索客户历史 (例如： "ID342425").',
         'Can not delete link with %s!' => '不能删除 %s 的连接',
-        'Close!' => '关闭!',
         'for agent firstname' => '技术支持人员 姓',
+        'Close!' => '关闭!',
         'No means, send agent and customer notifications on changes.' => '需要, 当有改变时发送通知给技术人员或客户.',
         'A web calendar' => 'Web 日历',
         'to get the realname of the sender (if given)' => '邮件发送人的真实姓名 (如果存在)',
@@ -1595,8 +1574,8 @@ sub Data {
         'Of couse this feature will take some system performance it self!' => '当然, 该功能会占用一定的系统资源, 加重系统的负担!',
         'Detail' => '细节',
         'TicketZoom' => 'Ticket 展开',
-        'Don\'t forget to add a new user to groups!' => '不要忘记增加新的用户到组!',
         'Open Tickets' => '开放 Tickets',
+        'Don\'t forget to add a new user to groups!' => '不要忘记增加新的用户到组!',
         'General Catalog' => '总目录',
         'CreateTicket' => '创建 Ticket',
         'You have to select two or more attributes from the select field!' => '',
@@ -1608,8 +1587,9 @@ sub Data {
         'Object already linked as %s.' => '对象已连接到 %s.',
         'A article should have a title!' => '文章必须有标题!',
         'Customer Users <-> Services' => '客户帐号 <-> 服务管理',
-        'Event' => '事件',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '配置选项 (例如: &lt;OTRS_CONFIG_HttpType&gt;)',
+        'Event' => '事件',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'A web mail client' => 'WebMail 客户端',
         'WebMail' => 'WebMail',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Ticket 所有者选项 (例如: <OTRS_OWNER_UserFirstname>)',

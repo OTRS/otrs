@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.185 2009-04-07 06:10:22 martin Exp $
+# $Id: de.pm,v 1.186 2009-04-09 08:19:53 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.185 $) [1];
+$VERSION = qw($Revision: 1.186 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Fri Apr  3 09:40:40 2009
+    # Last translation file sync: Thu Apr  9 10:12:49 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -182,6 +182,7 @@ sub Data {
         'Added!' => 'Hinzugefügt!',
         'Category' => 'Kategorie',
         'Viewer' => 'Betrachter',
+        'Expand' => 'Ausklappen',
         'New message' => 'Neue Nachricht',
         'New message!' => 'Neue Nachricht!',
         'Please answer this ticket(s) to get back to the normal queue view!' => 'Bitte beantworten Sie dieses Ticket, um in die normale Queue-Ansicht zurück zu kommen!',
@@ -1079,7 +1080,6 @@ sub Data {
         # Template: AgentNavigationBar
 
         # Template: AgentPreferencesForm
-        'End' => 'Ende',
 
         # Template: AgentSpelling
         'Spell Checker' => 'Rechtschreibprüfung',
@@ -1263,12 +1263,6 @@ sub Data {
 
         # Template: AgentTicketOverviewMediumMeta
         'You need min. one selected Ticket!' => 'Benötigt min. ein ausgewähltes Ticket!',
-        'sort upward' => 'aufwärts sortieren',
-        'up' => 'aufwärts',
-        'sort downward' => 'abwärts sortieren',
-        'down' => 'abwärts',
-        'Escalation in' => 'Eskalation in',
-        'Locked' => 'Sperre',
 
         # Template: AgentTicketOverviewNavBar
         'Filter' => 'Filter',
@@ -1288,6 +1282,12 @@ sub Data {
         # Template: AgentTicketOverviewPreviewMeta
 
         # Template: AgentTicketOverviewSmall
+        'sort upward' => 'aufwärts sortieren',
+        'up' => 'aufwärts',
+        'sort downward' => 'abwärts sortieren',
+        'down' => 'abwärts',
+        'Escalation in' => 'Eskalation in',
+        'Locked' => 'Sperre',
 
         # Template: AgentTicketOwner
         'Change owner of ticket' => 'Ticket-Besitzer ändern',
@@ -1329,6 +1329,9 @@ sub Data {
         'Search-Template' => 'Such-Vorlage',
         'TicketFreeText' => 'TicketFreeText',
         'Created in Queue' => 'Erstellt in Queue',
+        'Article Create Times' => 'Artikel Erstell-Zeiten',
+        'Article created' => 'Artikel erstellt',
+        'Article created between' => 'Artikel erstellt zwischen',
         'Change Times' => 'Änderungs-Zeiten',
         'No change time settings.' => 'Keine Änderungs-Zeiten',
         'Ticket changed' => 'Ticket geändert',
@@ -1337,13 +1340,14 @@ sub Data {
         'Save Search-Profile as Template?' => 'Speichere Such-Profil als Vorlage?',
         'Yes, save it with name' => 'Ja, speichere unter dem Namen',
 
-        # Template: AgentTicketSearchOpenSearchDescription
+        # Template: AgentTicketSearchOpenSearchDescriptionFulltext
+
+        # Template: AgentTicketSearchOpenSearchDescriptionTicketNumber
 
         # Template: AgentTicketSearchResultPrint
 
         # Template: AgentTicketZoom
         'Expand View' => 'Ausklappen Ansicht',
-        'Expand' => 'Ausklappen',
         'Collapse View' => 'Zugeklappte Ansicht',
         'Split' => 'Teilen',
 

@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.387 2009-04-07 15:15:06 martin Exp $
+# $Id: Ticket.pm,v 1.388 2009-04-09 08:19:50 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTML2Ascii;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.387 $) [1];
+$VERSION = qw($Revision: 1.388 $) [1];
 
 =head1 NAME
 
@@ -3502,12 +3502,22 @@ To find tickets in your system.
         # Title,CustomerID and CustomerUserLogin (all optional)
         ConditionInline => 1,
 
+        # articles created after 60 minutes (article newer than 60 minutes)  (optional)
+        ArticleCreateTimeOlderMinutes => 60,
+        # articles created before 120 minutes (article older than 120 minutes) (optional)
+        ArticleCreateTimeNewerMinutes => 120,
+
+        # articles with create time after ... (article newer than this date) (optional)
+        ArticleCreateTimeNewerDate => '2006-01-09 00:00:01',
+        # articles with created time before ... (article older than this date) (optional)
+        ArticleCreateTimeOlderDate => '2006-01-19 23:59:59',
+
         # tickets created after 60 minutes (ticket newer than 60 minutes)  (optional)
         TicketCreateTimeOlderMinutes => 60,
-        # tickets created before 120 minutes (ticket older 120 minutes) (optional)
+        # tickets created before 120 minutes (ticket older than 120 minutes) (optional)
         TicketCreateTimeNewerMinutes => 120,
 
-        # tickets with created time after ... (ticket newer than this date) (optional)
+        # tickets with create time after ... (ticket newer than this date) (optional)
         TicketCreateTimeNewerDate => '2006-01-09 00:00:01',
         # tickets with created time before ... (ticket older than this date) (optional)
         TicketCreateTimeOlderDate => '2006-01-19 23:59:59',
@@ -4393,6 +4403,73 @@ sub TicketSearch {
             $SQLExt .= " AND st.freetime$_ >= '"
                 . $Self->{DBObject}->Quote( $Param{ 'TicketFreeTime' . $_ . 'NewerDate' } )
                 . "'";
+        }
+    }
+
+    # get articles created older/newer than x minutes
+    my %ArticleTime = (
+        ArticleCreateTime             => 'art.create_time',
+    );
+    for my $Key ( keys %ArticleTime ) {
+
+        # get articles created older than x minutes
+        if ( defined $Param{ $Key . 'OlderMinutes' } ) {
+
+            $Param{ $Key . 'OlderMinutes' } ||= 0;
+
+            my $Time = $Self->{TimeObject}->SystemTime2TimeStamp(
+                SystemTime => $Self->{TimeObject}->SystemTime()
+                    - ( $Param{ $Key . 'OlderMinutes' } * 60 ),
+            );
+
+            $SQLExt .= " AND $ArticleTime{$Key} <= '$Time'";
+        }
+
+        # get articles created newer than x minutes
+        if ( defined $Param{ $Key . 'NewerMinutes' } ) {
+
+            $Param{ $Key . 'NewerMinutes' } ||= 0;
+
+            my $Time = $Self->{TimeObject}->SystemTime2TimeStamp(
+                SystemTime => $Self->{TimeObject}->SystemTime()
+                    - ( $Param{ $Key . 'NewerMinutes' } * 60 ),
+            );
+
+            $SQLExt .= " AND $ArticleTime{$Key} >= '$Time'";
+        }
+
+        # get articles created newer than xxxx-xx-xx xx:xx date
+        if ( $Param{ $Key . 'OlderDate' } ) {
+            if (
+                $Param{ $Key . 'OlderDate' }
+                !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
+                )
+            {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "No valid time format '" . $Param{ $Key . 'OlderDate' } . "'!",
+                );
+                return;
+            }
+
+            $SQLExt .= " AND $ArticleTime{$Key} <= '" .$Param{ $Key . 'OlderDate' } . "'";
+        }
+
+        # get articles created newer than xxxx-xx-xx xx:xx date
+        if ( $Param{ $Key . 'NewerDate' } ) {
+            if (
+                $Param{ $Key . 'NewerDate' }
+                !~ /\d\d\d\d-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/
+                )
+            {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "No valid time format '" . $Param{ $Key . 'NewerDate' } . "'!",
+                );
+                return;
+            }
+
+            $SQLExt .= " AND $ArticleTime{$Key} >= '" . $Param{ $Key . 'NewerDate' } . "'";
         }
     }
 
@@ -7340,6 +7417,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.387 $ $Date: 2009-04-07 15:15:06 $
+$Revision: 1.388 $ $Date: 2009-04-09 08:19:50 $
 
 =cut

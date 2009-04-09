@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.68 2009-04-06 21:07:01 martin Exp $
+# $Id: AgentTicketSearch.pm,v 1.69 2009-04-09 08:19:51 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -146,6 +146,7 @@ sub Run {
         for (
             qw(TicketNumber Title From To Cc Subject Body CustomerID CustomerUserLogin StateType
             Agent ResultForm TimeSearchType ChangeTimeSearchType CloseTimeSearchType UseSubQueues
+            ArticleTimeSearchType
             Fulltext
             TicketFreeTime1
             TicketFreeTime1Start TicketFreeTime1StartDay TicketFreeTime1StartMonth
@@ -187,6 +188,12 @@ sub Run {
             TicketFreeTime8StartYear
             TicketFreeTime8Stop TicketFreeTime8StopDay TicketFreeTime8StopMonth
             TicketFreeTime8StopYear
+            ArticleCreateTimePointFormat ArticleCreateTimePoint
+            ArticleCreateTimePointStart
+            ArticleCreateTimeStart ArticleCreateTimeStartDay ArticleCreateTimeStartMonth
+            ArticleCreateTimeStartYear
+            ArticleCreateTimeStop ArticleCreateTimeStopDay ArticleCreateTimeStopMonth
+            ArticleCreateTimeStopYear
             TicketCreateTimePointFormat TicketCreateTimePoint
             TicketCreateTimePointStart
             TicketCreateTimeStart TicketCreateTimeStartDay TicketCreateTimeStartMonth
@@ -241,6 +248,17 @@ sub Run {
                 $GetParam{$_} = \@Array;
             }
         }
+    }
+
+    # get article create time option
+    if ( !$GetParam{ArticleTimeSearchType} ) {
+        $GetParam{'ArticleTimeSearchType::None'} = 'checked';
+    }
+    elsif ( $GetParam{ArticleTimeSearchType} eq 'TimePoint' ) {
+        $GetParam{'ArticleTimeSearchType::TimePoint'} = 'checked';
+    }
+    elsif ( $GetParam{ArticleTimeSearchType} eq 'TimeSlot' ) {
+        $GetParam{'ArticleTimeSearchType::TimeSlot'} = 'checked';
     }
 
     # get create time option
@@ -327,6 +345,80 @@ sub Run {
                         Value     => $GetParam{$Key},
                         UserLogin => $Self->{UserLogin},
                     );
+                }
+            }
+        }
+
+        # get create time settings
+        if ( !$GetParam{ArticleTimeSearchType} ) {
+
+            # do nothing on time stuff
+        }
+        elsif ( $GetParam{ArticleTimeSearchType} eq 'TimeSlot' ) {
+            for (qw(Month Day)) {
+                $GetParam{"ArticleCreateTimeStart$_"}
+                    = sprintf( "%02d", $GetParam{"ArticleCreateTimeStart$_"} );
+            }
+            for (qw(Month Day)) {
+                $GetParam{"ArticleCreateTimeStop$_"}
+                    = sprintf( "%02d", $GetParam{"ArticleCreateTimeStop$_"} );
+            }
+            if (
+                $GetParam{ArticleCreateTimeStartDay}
+                && $GetParam{ArticleCreateTimeStartMonth}
+                && $GetParam{ArticleCreateTimeStartYear}
+                )
+            {
+                $GetParam{ArticleCreateTimeNewerDate}
+                    = $GetParam{ArticleCreateTimeStartYear} . '-'
+                    . $GetParam{ArticleCreateTimeStartMonth} . '-'
+                    . $GetParam{ArticleCreateTimeStartDay}
+                    . ' 00:00:01';
+            }
+            if (
+                $GetParam{ArticleCreateTimeStopDay}
+                && $GetParam{ArticleCreateTimeStopMonth}
+                && $GetParam{ArticleCreateTimeStopYear}
+                )
+            {
+                $GetParam{ArticleCreateTimeOlderDate}
+                    = $GetParam{ArticleCreateTimeStopYear} . '-'
+                    . $GetParam{ArticleCreateTimeStopMonth} . '-'
+                    . $GetParam{ArticleCreateTimeStopDay}
+                    . ' 23:59:59';
+            }
+        }
+        elsif ( $GetParam{ArticleTimeSearchType} eq 'TimePoint' ) {
+            if (
+                $GetParam{ArticleCreateTimePoint}
+                && $GetParam{ArticleCreateTimePointStart}
+                && $GetParam{ArticleCreateTimePointFormat}
+                )
+            {
+                my $Time = 0;
+                if ( $GetParam{ArticleCreateTimePointFormat} eq 'minute' ) {
+                    $Time = $GetParam{ArticleCreateTimePoint};
+                }
+                elsif ( $GetParam{ArticleCreateTimePointFormat} eq 'hour' ) {
+                    $Time = $GetParam{ArticleCreateTimePoint} * 60;
+                }
+                elsif ( $GetParam{ArticleCreateTimePointFormat} eq 'day' ) {
+                    $Time = $GetParam{ArticleCreateTimePoint} * 60 * 24;
+                }
+                elsif ( $GetParam{ArticleCreateTimePointFormat} eq 'week' ) {
+                    $Time = $GetParam{ArticleCreateTimePoint} * 60 * 24 * 7;
+                }
+                elsif ( $GetParam{ArticleCreateTimePointFormat} eq 'month' ) {
+                    $Time = $GetParam{ArticleCreateTimePoint} * 60 * 24 * 30;
+                }
+                elsif ( $GetParam{ArticleCreateTimePointFormat} eq 'year' ) {
+                    $Time = $GetParam{ArticleCreateTimePoint} * 60 * 24 * 365;
+                }
+                if ( $GetParam{ArticleCreateTimePointStart} eq 'Before' ) {
+                    $GetParam{ArticleCreateTimeOlderMinutes} = $Time;
+                }
+                else {
+                    $GetParam{ArticleCreateTimeNewerMinutes} = $Time;
                 }
             }
         }
@@ -1141,6 +1233,102 @@ sub MaskForm {
         SelectedIDRefArray => $Param{PriorityIDs},
     );
 
+    $Param{'ArticleCreateTimePoint'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => {
+            1  => ' 1',
+            2  => ' 2',
+            3  => ' 3',
+            4  => ' 4',
+            5  => ' 5',
+            6  => ' 6',
+            7  => ' 7',
+            8  => ' 8',
+            9  => ' 9',
+            10 => '10',
+            11 => '11',
+            12 => '12',
+            13 => '13',
+            14 => '14',
+            15 => '15',
+            16 => '16',
+            17 => '17',
+            18 => '18',
+            19 => '19',
+            20 => '20',
+            21 => '21',
+            22 => '22',
+            23 => '23',
+            24 => '24',
+            25 => '25',
+            26 => '26',
+            27 => '27',
+            28 => '28',
+            29 => '29',
+            30 => '30',
+            31 => '31',
+            32 => '32',
+            33 => '33',
+            34 => '34',
+            35 => '35',
+            36 => '36',
+            37 => '37',
+            38 => '38',
+            39 => '39',
+            40 => '40',
+            41 => '41',
+            42 => '42',
+            43 => '43',
+            44 => '44',
+            45 => '45',
+            46 => '46',
+            47 => '47',
+            48 => '48',
+            49 => '49',
+            50 => '50',
+            51 => '51',
+            52 => '52',
+            53 => '53',
+            54 => '54',
+            55 => '55',
+            56 => '56',
+            57 => '57',
+            58 => '58',
+            59 => '59',
+        },
+        Name       => 'ArticleCreateTimePoint',
+        SelectedID => $Param{ArticleCreateTimePoint},
+    );
+    $Param{'ArticleCreateTimePointStart'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => {
+            'Last'   => 'last',
+            'Before' => 'before',
+        },
+        Name => 'ArticleCreateTimePointStart',
+        SelectedID => $Param{ArticleCreateTimePointStart} || 'Last',
+    );
+    $Param{'ArticleCreateTimePointFormat'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data => {
+            minute => 'minute(s)',
+            hour   => 'hour(s)',
+            day    => 'day(s)',
+            week   => 'week(s)',
+            month  => 'month(s)',
+            year   => 'year(s)',
+        },
+        Name       => 'ArticleCreateTimePointFormat',
+        SelectedID => $Param{ArticleCreateTimePointFormat},
+    );
+    $Param{ArticleCreateTimeStart} = $Self->{LayoutObject}->BuildDateSelection(
+        %Param,
+        Prefix   => 'ArticleCreateTimeStart',
+        Format   => 'DateInputFormat',
+        DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
+    );
+    $Param{ArticleCreateTimeStop} = $Self->{LayoutObject}->BuildDateSelection(
+        %Param,
+        Prefix => 'ArticleCreateTimeStop',
+        Format => 'DateInputFormat',
+    );
     $Param{'TicketCreateTimePoint'} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => {
             1  => ' 1',
@@ -1608,6 +1796,12 @@ sub MaskForm {
                 Data => { %Param, Count => $Count, },
             );
         }
+    }
+    if ( $Self->{Config}->{'ArticleCreateTime'} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'ArticleCreateTime',
+            Data => {%Param},
+        );
     }
     my $Output = $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentTicketSearch',

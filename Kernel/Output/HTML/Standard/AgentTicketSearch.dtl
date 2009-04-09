@@ -2,7 +2,7 @@
 # AgentTicketSearch.dtl - provides HTML form for AgentTicketSearch
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.dtl,v 1.26 2009-02-16 11:07:25 tr Exp $
+# $Id: AgentTicketSearch.dtl,v 1.27 2009-04-09 08:19:51 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -228,6 +228,29 @@
 <!-- dtl:block:TicketResponsibleWatcherBodyOff -->
           </tr>
 <!-- dtl:block:TicketResponsibleWatcher -->
+<!-- dtl:block:ArticleCreateTime -->
+          <tr>
+            <td colspan="2" class="contenthead">$Text{"Article Create Times"}</td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contentbody">
+              <input type="radio" name="ArticleTimeSearchType" value="" $Data{"ArticleTimeSearchType::None"}/>
+              $Text{"No create time settings."}
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contentbody">
+              <input type="radio" name="ArticleTimeSearchType" value="TimePoint" $Data{"ArticleTimeSearchType::TimePoint"}/>
+              $Text{"Article created"} $Data{"ArticleCreateTimePointStart"} $Data{"ArticleCreateTimePoint"} $Data{"ArticleCreateTimePointFormat"}
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contentbody">
+              <input type="radio" name="ArticleTimeSearchType" value="TimeSlot" $Data{"ArticleTimeSearchType::TimeSlot"}/>
+              $Text{"Article created between"} $Data{"ArticleCreateTimeStart"} $Text{"and"} $Data{"ArticleCreateTimeStop"}
+            </td>
+          </tr>
+<!-- dtl:block:ArticleCreateTime -->
           <tr>
             <td colspan="2" class="contenthead">$Text{"Create Times"}</td>
           </tr>
