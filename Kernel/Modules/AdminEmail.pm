@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminEmail.pm - to send a email to all agents
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminEmail.pm,v 1.30 2009-02-16 11:20:52 tr Exp $
+# $Id: AdminEmail.pm,v 1.31 2009-04-09 09:57:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Email;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -87,7 +87,7 @@ sub Run {
             }
         }
         for ( sort keys %Bcc ) {
-            $Param{Bcc} .= "$Bcc{$_}, ";
+            $Param{Bcc} .= $Bcc{$_} . ', ';
         }
 
         # check needed stuff
@@ -108,44 +108,43 @@ sub Run {
         $Param{Body} =~ s/\r/\n/g;
 
         # send mail
-        if (
-            $Self->{SendmailObject}->Send(
-                From    => $Param{From},
-                Bcc     => $Param{Bcc},
-                Subject => $Param{Subject},
-                Type    => 'text/plain',
-                Charset => $Self->{LayoutObject}->{UserCharset},
-                Body    => $Param{Body},
-            )
-            )
-        {
-            $Self->{LayoutObject}->Block(
-                Name => 'Sent',
-                Data => {%Param},
-            );
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output
-                .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminEmail', Data => \%Param );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
-        }
-        else {
+        my $Sent = $Self->{SendmailObject}->Send(
+            From     => $Param{From},
+            Bcc      => $Param{Bcc},
+            Subject  => $Param{Subject},
+            Charset  => $Self->{LayoutObject}->{UserCharset},
+            MimeType => 'text/plain',
+            Body     => $Param{Body},
+        );
+        if ( !$Sent ) {
             return $Self->{LayoutObject}->ErrorScreen();
         }
+
+        $Self->{LayoutObject}->Block(
+            Name => 'Sent',
+            Data => \%Param,
+        );
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminEmail',
+            Data         => \%Param,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
 
     # ------------------------------------------------------------ #
     # show mask
     # ------------------------------------------------------------ #
     else {
-        $Param{'UserOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{UserOption} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => { $Self->{UserObject}->UserList( Valid => 1 ) },
             Name => 'UserIDs',
             Size => 8,
             Multiple => 1,
         );
-        $Param{'GroupOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{GroupOption} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => { $Self->{GroupObject}->GroupList( Valid => 1 ) },
             Size => 6,
             Name => 'GroupIDs',
@@ -153,11 +152,14 @@ sub Run {
         );
         $Self->{LayoutObject}->Block(
             Name => 'Form',
-            Data => {%Param},
+            Data => \%Param,
         );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminEmail', Data => \%Param );
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminEmail',
+            Data         => \%Param,
+        );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
