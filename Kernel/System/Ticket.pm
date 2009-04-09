@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.388 2009-04-09 08:19:50 sb Exp $
+# $Id: Ticket.pm,v 1.389 2009-04-09 08:35:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTML2Ascii;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.388 $) [1];
+$VERSION = qw($Revision: 1.389 $) [1];
 
 =head1 NAME
 
@@ -6978,22 +6978,16 @@ sub TicketAcl {
         }
     }
 
-    # check if workflows are configured, if not, just return
-    if (
-        (
-            !$Self->{ConfigObject}->Get('TicketAcl')
-            && !$Self->{ConfigObject}->Get('Ticket::Acl::Module')
-            && !$Self->{ConfigObject}->Get('Ticket::EventModulePost')
-        )
-        || ( $Param{UserID} && $Param{UserID} == 1 )
-        )
-    {
-        return;
-    }
+    # do not execute acls it userid 1 is used
+    return if $Param{UserID} && $Param{UserID} == 1;
 
-    my %Checks = ();
+    # only execute acls if ACL or ACL module is configured or event module is used
+    return if !$Self->{ConfigObject}->Get('TicketAcl')
+        && !$Self->{ConfigObject}->Get('Ticket::Acl::Module')
+        && !$Self->{ConfigObject}->Get('Ticket::EventModulePost');
 
     # match also frontend options
+    my %Checks = ();
     if ( $Param{Action} ) {
         undef $Self->{TicketAclActionData};
         $Checks{Frontend} = { Action => $Param{Action}, };
@@ -7052,17 +7046,22 @@ sub TicketAcl {
 
     # use queue data (if given)
     if ( $Param{ServiceID} ) {
-        my %Service
-            = $Self->{ServiceObject}->ServiceGet( ServiceID => $Param{ServiceID}, UserID => 1 );
+        my %Service = $Self->{ServiceObject}->ServiceGet(
+            ServiceID => $Param{ServiceID},
+            UserID    => 1,
+        );
         $Checks{Service} = \%Service;
     }
     elsif ( $Param{Service} ) {
-        my %Service = $Self->{ServiceObject}->ServiceGet( Name => $Param{Service}, UserID => 1 );
+        my %Service = $Self->{ServiceObject}->ServiceGet(
+            Name   => $Param{Service},
+            UserID => 1,
+        );
         $Checks{Service} = \%Service;
     }
 
     # check acl config
-    my %Acls = ();
+    my %Acls;
     if ( $Self->{ConfigObject}->Get('TicketAcl') ) {
         %Acls = %{ $Self->{ConfigObject}->Get('TicketAcl') };
     }
@@ -7087,13 +7086,13 @@ sub TicketAcl {
     }
 
     # get used data
-    my %Data = ();
+    my %Data;
     if ( ref $Param{Data} ) {
         undef $Self->{TicketAclActionData};
         %Data = %{ $Param{Data} };
     }
 
-    my %NewData            = ();
+    my %NewData;
     my $UseNewMasterParams = 0;
     for my $Acl ( sort keys %Acls ) {
         my %Step = %{ $Acls{$Acl} };
@@ -7111,10 +7110,32 @@ sub TicketAcl {
         for my $Key ( keys %{ $Step{Properties} } ) {
             for my $Data ( keys %{ $Step{Properties}->{$Key} } ) {
                 my $Match2 = 0;
-                for ( @{ $Step{Properties}->{$Key}->{$Data} } ) {
+                for my $Item ( @{ $Step{Properties}->{$Key}->{$Data} } ) {
                     if ( ref $Checks{$Key}->{$Data} eq 'ARRAY' ) {
+                        my $Match4 = 0;
                         for my $Array ( @{ $Checks{$Key}->{$Data} } ) {
-                            if ( $_ eq $Array ) {
+
+                            # eq match
+                            if ( $Item eq $Array ) {
+                                $Match4 = 1;
+                            }
+
+                            # regexp match case-sensitive
+                            elsif ( substr($Item, 0, 8 ) eq '[RegExp]' ) {
+                                my $RegExp = substr $Item, 8;
+                                if ( $Array =~ /$RegExp/ ) {
+                                    $Match4 = 1;
+                                }
+                            }
+
+                            # regexp match case-insensitive
+                            elsif ( substr($Item, 0, 8 ) eq '[regexp]' ) {
+                                my $RegExp = substr $Item, 8;
+                                if ( $Array =~ /$RegExp/i ) {
+                                    $Match4 = 1;
+                                }
+                            }
+                            if ($Match4) {
                                 $Match2 = 1;
 
                                 # debug log
@@ -7122,14 +7143,37 @@ sub TicketAcl {
                                     $Self->{LogObject}->Log(
                                         Priority => 'debug',
                                         Message =>
-                                            "Workflow '$Acl/$Key/$Data' MatchedARRAY ($_ eq $Array)",
+                                            "Workflow '$Acl/$Key/$Data' MatchedARRAY ($Item eq $Array)",
                                     );
                                 }
                             }
                         }
                     }
                     elsif ( defined $Checks{$Key}->{$Data} ) {
-                        if ( $_ eq $Checks{$Key}->{$Data} ) {
+                        my $Match4 = 0;
+
+                        # eq match
+                        if ( $Item eq $Checks{$Key}->{$Data} ) {
+                            $Match4 = 1;
+                        }
+
+                        # regexp match case-sensitive
+                        elsif ( substr($Item, 0, 8 ) eq '[RegExp]' ) {
+                            my $RegExp = substr $Item, 8;
+                            if ( $Checks{$Key}->{$Data} =~ /$RegExp/ ) {
+                                $Match4 = 1;
+                            }
+                        }
+
+                        # regexp match case-insensitive
+                        elsif ( substr($Item, 0, 8 ) eq '[regexp]' ) {
+                            my $RegExp = substr $Item, 8;
+                            if ( $Checks{$Key}->{$Data} =~ /$RegExp/i ) {
+                                $Match4 = 1;
+                            }
+                        }
+
+                        if ($Match4) {
                             $Match2 = 1;
 
                             # debug
@@ -7137,7 +7181,7 @@ sub TicketAcl {
                                 $Self->{LogObject}->Log(
                                     Priority => 'debug',
                                     Message =>
-                                        "Workflow '$Acl/$Key/$Data' Matched ($_ eq $Checks{$Key}->{$Data})",
+                                        "Workflow '$Acl/$Key/$Data' Matched ($Item eq $Checks{$Key}->{$Data})",
                                 );
                             }
                         }
@@ -7198,8 +7242,31 @@ sub TicketAcl {
 
             # possible list
             for my $ID ( keys %Data ) {
+                my $Match = 0;
                 for my $New ( @{ $Step{Possible}->{Ticket}->{ $Param{ReturnSubType} } } ) {
+
+                    # eq match
                     if ( $Data{$ID} eq $New ) {
+                        $Match = 1;
+                    }
+
+                    # regexp match case-sensitive
+                    elsif ( substr($New, 0, 8 ) eq '[RegExp]' ) {
+                        my $RegExp = substr $New, 8;
+                        if ( $Data{$ID} =~ /$RegExp/ ) {
+                            $Match = 1;
+                        }
+                    }
+
+                    # regexp match case-insensitive
+                    elsif ( substr($New, 0, 8 ) eq '[regexp]' ) {
+                        my $RegExp = substr $New, 8;
+                        if ( $Data{$ID} =~ /$RegExp/i ) {
+                            $Match = 1;
+                        }
+                    }
+
+                    if ($Match) {
                         $NewTmpData{$ID} = $Data{$ID};
                         if ( $Self->{Debug} > 4 ) {
                             $Self->{LogObject}->Log(
@@ -7234,8 +7301,26 @@ sub TicketAcl {
             for my $ID ( keys %Data ) {
                 my $Match = 1;
                 for my $New ( @{ $Step{PossibleNot}->{Ticket}->{ $Param{ReturnSubType} } } ) {
+
+                    # eq match
                     if ( $Data{$ID} eq $New ) {
                         $Match = 0;
+                    }
+
+                    # regexp match case-sensitive
+                    elsif ( substr($New, 0, 8 ) eq '[RegExp]' ) {
+                        my $RegExp = substr $New, 8;
+                        if ( $Data{$ID} =~ /$RegExp/ ) {
+                            $Match = 0;
+                        }
+                    }
+
+                    # regexp match case-insensitive
+                    elsif ( substr($New, 0, 8 ) eq '[regexp]' ) {
+                        my $RegExp = substr $New, 8;
+                        if ( $Data{$ID} =~ /$RegExp/i ) {
+                            $Match = 0;
+                        }
                     }
                 }
                 if ($Match) {
@@ -7263,11 +7348,12 @@ sub TicketAcl {
             return 1;
         }
     }
-    if ($UseNewMasterParams) {
-        $Self->{TicketAclData} = \%NewData;
-        return 1;
-    }
-    return;
+
+    # return if no new param exists
+    return if !$UseNewMasterParams;
+
+    $Self->{TicketAclData} = \%NewData;
+    return 1;
 }
 
 =item TicketAclData()
@@ -7417,6 +7503,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.388 $ $Date: 2009-04-09 08:19:50 $
+$Revision: 1.389 $ $Date: 2009-04-09 08:35:07 $
 
 =cut

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.870 2009-04-08 08:06:36 mh Exp $
+# $Id: CHANGES,v 1.871 2009-04-09 08:35:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,36 @@
 # --
 
 2.4.0 beta1 (2009/??/??)
+ - (2009/04/09) Added enhancement bug# 3514 - RegExp support in ACLs. Now you
+    can use RegExp in ACLs like the followin example:
+
+    $Self->{TicketAcl}->{'ACL-Name-1'} = {
+       # match properties
+       Properties => {
+           Queue => {
+               Name => ['[RegExp]^Misc'],
+           },
+       },
+       # return possible options (white list)
+       Possible => {
+           # possible ticket options (white list)
+           Ticket => {
+               Service  => ['[RegExp]^t1', '[RegExp]^t2'],
+               Priority => [ '4 high' ],
+           },
+       },
+    };
+
+    Starting with "[RegExp]" in value area means the following will be a regexp
+    content.
+
+    This ACL will match all Queues with starting "Misc" and all services with
+    starting "t1" and "t2". So you do not longer need to write every full queue
+    names to the arrey list.
+
+    o Usage of [RegExp] results in case-sensitive matching.
+    o Usage of [regexp] results in case-insensitive matching.
+
  - (2009/04/08) Updated CPAN module CGI to version 3.43.
  - (2009/04/07) Changed default config size of IPC-Log (LogSystemCacheSize)
     to 64k (160k is not working on darwin).
