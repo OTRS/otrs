@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketAttachment.pm - to get the attachments
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketAttachment.pm,v 1.13 2009-03-25 17:14:08 sb Exp $
+# $Id: AgentTicketAttachment.pm,v 1.14 2009-04-09 09:26:18 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -157,10 +157,15 @@ sub Run {
                 my %AtmBox = $Self->{TicketObject}->ArticleAttachmentIndex(
                     ArticleID => $Self->{ArticleID},
                 );
+                my $SessionID = '';
+                if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
+                    $SessionID = "&Session=" . $Self->{SessionID};
+                }
                 my $AttachmentLink = $Self->{LayoutObject}->{Baselink}
                     . 'Action=AgentTicketAttachment'
                     . '&ArticleID='
                     . $Self->{ArticleID}
+                    . $SessionID
                     . '&FileID=';
                 $Data{Content} =~ s{
                     "cid:(.*?)"

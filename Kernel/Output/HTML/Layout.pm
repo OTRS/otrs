@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.138 2009-04-08 07:21:28 tr Exp $
+# $Id: Layout.pm,v 1.139 2009-04-09 09:26:18 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.138 $) [1];
+$VERSION = qw($Revision: 1.139 $) [1];
 
 =head1 NAME
 
@@ -711,11 +711,11 @@ sub Output {
             else {
                 $AHref.$Target.'&'.$Self->{SessionName}.'='.$Self->{SessionID}.$End.$RealEnd;
             }
-        }iegx;
+        }iegxs;
 
-        # rewrite img src
+        # rewrite img and iframe src
         $Output =~ s{
-            (<img.+?src=")(.+?)(".*?>)
+            (<(?:img|iframe).+?src=")(.+?)(".*?>)
         }
         {
             my $AHref = $1;
@@ -729,7 +729,7 @@ sub Output {
             else {
                 $AHref.$Target.'&'.$Self->{SessionName}.'='.$Self->{SessionID}.$End;
             }
-        }iegx;
+        }iegxs;
 
         # rewrite forms: <form action="index.pl" method="get">
         my $SessionID = $Self->Ascii2Html( Text => $Self->{SessionID} );
@@ -4105,6 +4105,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.138 $ $Date: 2009-04-08 07:21:28 $
+$Revision: 1.139 $ $Date: 2009-04-09 09:26:18 $
 
 =cut

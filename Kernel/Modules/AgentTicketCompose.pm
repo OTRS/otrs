@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.60 2009-04-09 08:32:02 sb Exp $
+# $Id: AgentTicketCompose.pm,v 1.61 2009-04-09 09:26:18 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -660,10 +660,15 @@ sub Run {
 
                 # display inline images if exists
                 my %Attachments    = %{ $ArticleTmp->{Atms} };
+                my $SessionID = '';
+                if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
+                    $SessionID = "&Session=" . $Self->{SessionID};
+                }
                 my $AttachmentLink = $Self->{LayoutObject}->{Baselink}
                     . 'Action=AgentTicketPictureUpload'
                     . '&FormID='
                     . $Self->{FormID}
+                    . $SessionID
                     . '&ContentID=';
                 $Data{BodyHTML} =~ s{
                     "cid:(.*?)"
