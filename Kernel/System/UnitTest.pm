@@ -2,7 +2,7 @@
 # Kernel/System/UnitTest.pm - the global test wrapper
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.21 2009-02-16 11:49:56 tr Exp $
+# $Id: UnitTest.pm,v 1.22 2009-04-09 10:11:32 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 =head1 NAME
 
@@ -36,29 +36,37 @@ All test functions
 create test object
 
     use Kernel::Config;
+    use Kernel::System::Encode;
     use Kernel::System::Log;
     use Kernel::System::Main;
     use Kernel::System::DB;
     use Kernel::System::Test;
 
     my $ConfigObject = Kernel::Config->new();
+    my $EncodeObject    = Kernel::System::Encode->new(
+        ConfigObject => $ConfigObject,
+    );
     my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
     );
     my $MainObject = Kernel::System::Main->new(
         LogObject    => $LogObject,
         ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
     );
     my $TimeObject = Kernel::System::Time->new(
         ConfigObject => $ConfigObject,
     );
     my $DBObject = Kernel::System::DB->new(
+        EncodeObject => $EncodeObject,
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
         MainObject   => $MainObject,
         TimeObject   => $TimeObject,
     );
     my $UnitTestObject = Kernel::System::UnitTest->new(
+        EncodeObject => $EncodeObject,
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
         MainObject   => $MainObject,
@@ -543,6 +551,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2009-02-16 11:49:56 $
+$Revision: 1.22 $ $Date: 2009-04-09 10:11:32 $
 
 =cut
