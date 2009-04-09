@@ -3,7 +3,7 @@
 # the global ticket handle
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: GroupCheck.pm,v 1.13 2009-02-16 11:45:13 tr Exp $
+# $Id: GroupCheck.pm,v 1.14 2009-04-09 10:08:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -58,11 +58,12 @@ sub Run {
         Cached => 1,
     );
 
-    # search the group id
+    # looking for group id, return access if user is in group
     for my $GroupID (@GroupIDs) {
         return 1 if $GroupID eq $QueueGroupID;
     }
 
+    # return no access
     return;
 }
 
