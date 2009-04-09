@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.213 2009-04-07 11:10:41 martin Exp $
+# $Id: Article.pm,v 1.214 2009-04-09 10:07:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.213 $) [1];
+$VERSION = qw($Revision: 1.214 $) [1];
 
 =head1 NAME
 
@@ -137,6 +137,7 @@ sub ArticleCreate {
     }
 
     # add 'no body' if there is no body there!
+    my @AttachmentConvert;
     if ( !$Param{Body} ) {
         $Param{Body} = 'No body';
     }
@@ -150,12 +151,12 @@ sub ArticleCreate {
             ContentType => "text/html; charset=\"$Param{Charset}\"",
             Filename    => 'file-2',
         };
-        push( @{ $Param{Attachment} }, $Attach );
+        push @AttachmentConvert, $Attach;
 
         # get ascii body
         $Param{MimeType} = 'text/plain';
-        $Param{Body}        = $Self->HTML2Ascii(
-            Body => $Param{Body},
+        $Param{Body}     = $Self->{HTML2AsciiObject}->ToAscii(
+            String => $Param{Body},
         );
     }
 
@@ -172,7 +173,7 @@ sub ArticleCreate {
             ContentType => $Param{ContentType},
             Filename    => $FileName,
         };
-        push( @{ $Param{Attachment} }, $Attach );
+        push @{ $Param{Attachment} }, $Attach;
 
         # set ascii body
         $Param{ContentType} = 'text/plain';
@@ -232,6 +233,15 @@ sub ArticleCreate {
             Message  => 'Can\'t get ArticleID from INSERT!',
         );
         return;
+    }
+
+    # add converted attachments
+    for my $Attachment (@AttachmentConvert) {
+        $Self->ArticleWriteAttachment(
+            %{$Attachment},
+            ArticleID => $ArticleID,
+            UserID    => $Param{UserID},
+        );
     }
 
     # add attachments
@@ -3170,103 +3180,6 @@ sub ArticleAccountedTimeDelete {
     );
 }
 
-sub HTML2Ascii {
-    my ( $Self, %Param ) = @_;
-    my $Body = $Param{Body} || return $Param{Body};
-
-    # html2text filter for message body
-    my $LinkList = '';
-    my $Counter  = 0;
-
-    # find <a href=....> and replace it with [x]
-    $Body =~ s{
-            <a\Whref=("|')(.+?)("|')(|.+?)>
-        }
-        {
-            my $Link = $2;
-            if ($Link !~ /^(......|.....|....|...):/i) {
-                $Link = $Param{URL}.$Link;
-            }
-            $Counter++;
-            $LinkList .= "[$Counter] $Link\n";
-            "[$Counter]";
-        }egxi;
-
-    # remove empty lines
-    $Body =~ s/^\s*//mg;
-    $Body =~ s/\n//gs;
-
-    # remove style tags
-    $Body =~ s/\<style.+?\>.*\<\/style\>//gsi;
-
-    # remove br tags and replace it with \n
-    $Body =~ s/\<br(\/|)\>/\n/gsi;
-
-    # remove hr tags and replace it with \n
-    $Body =~ s/\<(hr|hr.+?)\>/\n\n/gsi;
-
-    # remove pre, p, table, code tags and replace it with \n
-    $Body =~ s/\<(\/|)(pre|pre.+?|p|p.+?|table|table.+?|code|code.+?)\>/\n\n/gsi;
-
-    # remove tr, th tags and replace it with \n
-    $Body =~ s/\<(tr|tr.+?|th|th.+?)\>/\n\n/gsi;
-
-    # remove td tags and replace it with \n
-    $Body =~ s/\.+?<\/(td|td.+?)\>/ /gsi;
-
-    # strip all other tags
-    $Body =~ s/\<.+?\>//gs;
-
-    # replace "  " with " " space
-    $Body =~ s/  / /mg;
-
-    # encode html entities like "&#8211;"
-    $Body =~ s{
-            (&\#(\d+);?)
-        }
-        {
-            my $Chr = chr( $2 );
-            if ( $Chr ) {
-                $Chr;
-            }
-            else {
-                $1;
-            };
-        }egx;
-
-    # encode html entities like "&#3d;"
-    $Body =~ s{
-            (&\#[xX]([0-9a-fA-F]+);?)
-        }
-        {
-            my $ChrOrig = $1;
-            my $Hex = hex( $2 );
-            if ( $Hex ) {
-                my $Chr = chr( $Hex );
-                if ( $Chr ) {
-                    $Chr;
-                }
-                else {
-                    $ChrOrig;
-                }
-            }
-            else {
-                $ChrOrig;
-            }
-        }egx;
-
-    # remove empty lines
-    $Body =~ s/^\s*\n\s*\n/\n/mg;
-
-    # force line bracking
-    $Body =~ s/(.{4,78})(?:\s|\z)/$1\n/gm;
-
-    # add extracted links
-    $Body .= "\n\n" . $LinkList;
-
-    return $Body;
-}
-
 1;
 
 # the following is the pod for Kernel/System/Ticket/ArticleStorage*.pm
@@ -3366,6 +3279,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.213 $ $Date: 2009-04-07 11:10:41 $
+$Revision: 1.214 $ $Date: 2009-04-09 10:07:07 $
 
 =cut
