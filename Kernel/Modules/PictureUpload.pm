@@ -1,15 +1,15 @@
 # --
-# Kernel/Modules/TicketPictureUpload.pm - get picture uploads
+# Kernel/Modules/PictureUpload.pm - get picture uploads
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PictureUpload.pm,v 1.1 2009-04-15 13:58:08 sb Exp $
+# $Id: PictureUpload.pm,v 1.2 2009-04-15 22:23:16 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Modules::TicketPictureUpload;
+package Kernel::Modules::PictureUpload;
 
 use strict;
 use warnings;
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -27,7 +27,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(ParamObject DBObject TicketObject LayoutObject LogObject ConfigObject)) {
+    for (qw(ParamObject DBObject LayoutObject LogObject ConfigObject)) {
         if ( !$Self->{$_} ) {
             $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
         }
@@ -131,7 +131,7 @@ sub Run {
     }
     $Output .= "{status:'UPLOADED', image_url:'"
         . $Self->{LayoutObject}->{Baselink}
-        . "Action=TicketPictureUpload"
+        . "Action=PictureUpload"
         . "&FormID="
         . $Self->{FormID}
         . "&ContentID="
