@@ -1,12 +1,12 @@
 # --
 # CSV.t - CSV tests
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CSV.t,v 1.11 2008-05-08 09:35:57 mh Exp $
+# $Id: CSV.t,v 1.11.2.1 2009-04-15 14:34:01 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 use Kernel::System::CSV;
@@ -23,14 +23,15 @@ my $CSV = $Self->{CSVObject}->Array2CSV(
     ],
 );
 
+my $CSVReference = qq{"RowA";"RowB"\n}
+    . qq{"1";"4"\n}
+    . qq{"7";"3"\n}
+    . qq{"1";"9"\n}
+    . qq{"34";"4"\n};
+
 $Self->Is(
     $CSV || '',
-    '"RowA";"RowB"
-"1";"4"
-"7";"3"
-"1";"9"
-"34";"4"
-',
+    $CSVReference,
     '#0 Array2CSV()',
 );
 
@@ -191,14 +192,15 @@ $CSV = $Self->{CSVObject}->Array2CSV(
     Data => \@TableData,
 );
 
+$CSVReference = qq{"RowA";"RowB"\n}
+    . qq{"<a href=""/sirios-cvs-utf8/index.pl?Action=AgentStats&Subaction=Overview"" class=""navitem"">Übersicht</a>";""""\n}
+    . qq{"4""""4";"asdf""SDF"\n}
+    . qq{"""a""";"xxx"\n}
+    . qq{"34";"} . $TextWithNewLine . qq{"\n};
+
 $Self->Is(
     $CSV || '',
-    '"RowA";"RowB"
-"<a href=""/sirios-cvs-utf8/index.pl?Action=AgentStats&Subaction=Overview"" class=""navitem"">Übersicht</a>";""""
-"4""""4";"asdf""SDF"
-"""a""";"xxx"
-"34";"' . $TextWithNewLine . '"
-',
+    $CSVReference,
     'Array2CSV() with ""',
 );
 
