@@ -2,7 +2,7 @@
 // yui-image-uploader.js - provides image upload functionality for yui rich text editor
 // Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: yui-image-uploader.js,v 1.2 2009-04-15 13:49:17 sb Exp $
+// $Id: yui-image-uploader.js,v 1.3 2009-04-15 13:58:08 sb Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -63,7 +63,7 @@ function yuiImgUploader(rte, editor_name, upload_url, upload_image_name) {
                                YAHOO.util.Event.stopEvent(ev); // no default click action
                                // remember action, set new action to upload picture
                                var OrgAction = img_elem.form.Action.value;
-                               img_elem.form.Action.value = 'TicketPictureUpload';
+                               img_elem.form.Action.value = 'PictureUpload';
                                YAHOO.util.Connect.setForm ( img_elem.form, true, true );
                                var c=YAHOO.util.Connect.asyncRequest(
                                'POST', upload_url, {

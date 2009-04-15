@@ -2,7 +2,7 @@
 # Kernel/Modules/TicketPictureUpload.pm - get picture uploads
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketPictureUpload.pm,v 1.1 2009-04-15 13:49:17 sb Exp $
+# $Id: PictureUpload.pm,v 1.1 2009-04-15 13:58:08 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
