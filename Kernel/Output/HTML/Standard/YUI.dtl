@@ -2,7 +2,7 @@
 # YUI.dtl - provides YUI functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: YUI.dtl,v 1.5 2009-03-25 13:42:42 sb Exp $
+# $Id: YUI.dtl,v 1.6 2009-04-15 13:06:49 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,7 +34,7 @@
 .yui-skin-sam .yui-editor-container { border: 0; }
 .yui-editor-editable-container { border: 1px solid #808080; }
 .yui-skin-sam .yui-toolbar-container .yui-toolbar-subcont { border: 0; padding: 0; }
-//-->
+-->
 </style>
 
 # prepare and start editor
@@ -135,8 +135,8 @@
     };
 
     var myEditor = new YAHOO.widget.Editor('RichText', EditorConfig);
-# enable image uploader for regular article compose only
-    if ( document.compose ) {
+# enable image uploader only for actions with regular attachment upload handling
+    if ( document.compose && document.compose.FormID ) {
         yuiImgUploader(myEditor, 'RichText', '$Env{"CGIHandle"}', 'param_name');
     }
     myEditor.render();
