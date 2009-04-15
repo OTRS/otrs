@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.214 2009-04-09 10:07:07 martin Exp $
+# $Id: Article.pm,v 1.215 2009-04-15 13:18:11 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.214 $) [1];
+$VERSION = qw($Revision: 1.215 $) [1];
 
 =head1 NAME
 
@@ -112,7 +112,7 @@ sub ArticleCreate {
                 return;
             }
         }
-        $Param{ContentType} = "$Param{MimeType}; charset=$Param{Charset};";
+        $Param{ContentType} = "$Param{MimeType}; charset=$Param{Charset}";
     }
     else {
         for (qw(ContentType)) {
@@ -154,8 +154,9 @@ sub ArticleCreate {
         push @AttachmentConvert, $Attach;
 
         # get ascii body
-        $Param{MimeType} = 'text/plain';
-        $Param{Body}     = $Self->{HTML2AsciiObject}->ToAscii(
+        $Param{MimeType}    = 'text/plain';
+        $Param{ContentType} =~ s/html/plain/i;
+        $Param{Body}        = $Self->{HTML2AsciiObject}->ToAscii(
             String => $Param{Body},
         );
     }
@@ -176,6 +177,7 @@ sub ArticleCreate {
         push @{ $Param{Attachment} }, $Attach;
 
         # set ascii body
+        $Param{MimeType}    = 'text/plain';
         $Param{ContentType} = 'text/plain';
         $Param{Body}        = '- no text message => see attachment -';
     }
@@ -3279,6 +3281,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.214 $ $Date: 2009-04-09 10:07:07 $
+$Revision: 1.215 $ $Date: 2009-04-15 13:18:11 $
 
 =cut
