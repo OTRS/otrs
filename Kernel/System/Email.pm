@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.57 2009-04-08 23:57:49 sb Exp $
+# $Id: Email.pm,v 1.58 2009-04-15 13:08:34 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Crypt;
 use Kernel::System::HTML2Ascii;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 =head1 NAME
 
@@ -255,7 +255,12 @@ sub Send {
             ContentType => "text/html; charset=\"$Param{Charset}\"",
             Filename    => '',
         };
-        @{ $Param{Attachment} } = ( $Attach, @{ $Param{Attachment} } );
+        if ( !$Param{Attachment} ) {
+            @{ $Param{Attachment} } = ( $Attach );
+        }
+        else {
+            @{ $Param{Attachment} } = ( $Attach, @{ $Param{Attachment} } );
+        }
 
         # remember html body for later comparison
         $Param{HTMLBody} = $Param{Body};
@@ -811,6 +816,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.57 $ $Date: 2009-04-08 23:57:49 $
+$Revision: 1.58 $ $Date: 2009-04-15 13:08:34 $
 
 =cut
