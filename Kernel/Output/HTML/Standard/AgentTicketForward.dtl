@@ -2,7 +2,7 @@
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.dtl,v 1.32 2009-03-24 13:17:21 martin Exp $
+# $Id: AgentTicketForward.dtl,v 1.33 2009-04-15 12:54:55 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -197,11 +197,15 @@ function FAQSubmit() {
                 <tr>
                   <td class="contentkey">$Text{"Text"}:</td>
                   <td class="contentvalue">
-                    <pre>
-<textarea name="Body" rows="25" cols="$Config{"Ticket::Frontend::TextAreaEmail"}" wrap="$Env{"BrowserWrap"}">
+                    <div class="yui-skin-sam">
+<!-- dtl:block:RichText -->
+$Include{"YUI"}
+<!-- dtl:block:RichText -->
+<textarea id="RichText" name="Body" rows="25" cols="$Config{"Ticket::Frontend::TextAreaEmail"}">
 $QData{"Body"}
 </textarea>
-                    </pre>
+                    <font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
+                    </div>
                   </td>
                 </tr>
                 <tr>
@@ -290,7 +294,7 @@ $QData{"Body"}
           </tr>
           <tr>
             <td class="contentfooter">
-              <input class="button" accesskey="g" type="submit" value="$Text{"Send mail!"}" onclick="return submit_compose();"/>
+              <input class="button" id="submitRichText" accesskey="g" type="submit" value="$Text{"Send mail!"}" onclick="return submit_compose();"/>
             </td>
           </tr>
         </table>

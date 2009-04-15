@@ -2,7 +2,7 @@
 # AgentTicketEmail.dtl - provides HTML form for agent email
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.dtl,v 1.46 2009-03-24 13:17:21 martin Exp $
+# $Id: AgentTicketEmail.dtl,v 1.47 2009-04-15 12:54:55 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -296,7 +296,20 @@ function clear_field() {
             <tr>
               <td class="contentkey">$Text{"Text"}:</td>
               <td class="contentvalue">
-                <textarea name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaEmail"}" wrap="$Env{"BrowserWrap"}">$Data{"Body"}</textarea>
+                <div class="yui-skin-sam">
+<!-- dtl:block:RichText -->
+$Include{"YUI"}
+# set white background for buttons
+<style type="text/css">
+<!--
+                .yui-skin-sam .yui-toolbar-container { background-color: #FFFFFF; }
+                -->
+                </style>
+<!-- dtl:block:RichText -->
+<textarea id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaEmail"}" wrap="$Env{"BrowserWrap"}">
+$Data{"Body"}
+</textarea>
+                </div>
               </td>
             </tr>
             <tr>
@@ -408,7 +421,7 @@ function clear_field() {
 <!-- dtl:block:TimeUnits -->
           </table>
           <br/>
-          <input class="button" accesskey="g" type="submit" value="$Text{"Send mail!"}" onclick="return submit_compose();"/>
+          <input class="button" id="submitRichText" accesskey="g" type="submit" value="$Text{"Send mail!"}" onclick="return submit_compose();"/>
         </form>
         <form action="$Env{"CGIHandle"}" method="post" name="spelling" target="spelling">
           <input type="hidden" name="Action" value="AgentSpelling"/>

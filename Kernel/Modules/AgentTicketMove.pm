@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.26 2009-02-16 11:20:53 tr Exp $
+# $Id: AgentTicketMove.pm,v 1.27 2009-04-15 12:54:55 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -544,32 +544,13 @@ sub Run {
         # add note
         my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
         my $ArticleID;
+
         if ( $GetParam{Body} ) {
-            $ArticleID = $Self->{TicketObject}->ArticleCreate(
-                TicketID    => $Self->{TicketID},
-                ArticleType => 'note-internal',
-                SenderType  => 'agent',
-                From        => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
-                Subject     => $GetParam{Subject},
-                Body        => $GetParam{Body},
-                ContentType => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
-                UserID      => $Self->{UserID},
-                HistoryType => 'AddNote',
-                HistoryComment => '%%Move',
-                NoAgentNotify  => 1,
-            );
 
             # get pre loaded attachment
             my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
                 FormID => $Self->{FormID},
             );
-            for my $Ref (@AttachmentData) {
-                $Self->{TicketObject}->ArticleWriteAttachment(
-                    %{$Ref},
-                    ArticleID => $ArticleID,
-                    UserID    => $Self->{UserID},
-                );
-            }
 
             # get submit attachment
             my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
@@ -577,8 +558,55 @@ sub Run {
                 Source => 'String',
             );
             if (%UploadStuff) {
+                push( @AttachmentData, \%UploadStuff );
+            }
+
+            my $MimeType = 'text/plain';
+            if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+                $MimeType = 'text/html';
+
+                # replace link with content id for uploaded images
+                $GetParam{Body} =~ s{
+                    ((?:<|&lt;)img.*?src=(?:"|&quot;))
+                    .*?ContentID=(inline[\w\.]+?@[\w\.-]+).*?
+                    ((?:"|&quot;).*?(?:>|&gt;))
+                }
+                {
+                    $1 . "cid:" . $2 . $3;
+                }esgxi;
+
+                # remove unused inline images
+                my @NewAttachmentData = ();
+                REMOVEINLINE:
+                for my $TmpAttachment (@AttachmentData) {
+                    next REMOVEINLINE if $TmpAttachment->{ContentID}
+                        && $TmpAttachment->{ContentID} =~ /^inline/
+                        && $GetParam{Body} !~ /$TmpAttachment->{ContentID}/;
+                    push( @NewAttachmentData, \%{$TmpAttachment} );
+                }
+                @AttachmentData = @NewAttachmentData;
+            }
+
+            $ArticleID = $Self->{TicketObject}->ArticleCreate(
+                TicketID       => $Self->{TicketID},
+                ArticleType    => 'note-internal',
+                SenderType     => 'agent',
+                From           =>
+                    "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
+                Subject        => $GetParam{Subject},
+                Body           => $GetParam{Body},
+                MimeType       => $MimeType,
+                Charset        => $Self->{LayoutObject}->{UserCharset},
+                UserID         => $Self->{UserID},
+                HistoryType    => 'AddNote',
+                HistoryComment => '%%Move',
+                NoAgentNotify  => 1,
+            );
+
+            # write attachments
+            for my $Ref (@AttachmentData) {
                 $Self->{TicketObject}->ArticleWriteAttachment(
-                    %UploadStuff,
+                    %{$Ref},
                     ArticleID => $ArticleID,
                     UserID    => $Self->{UserID},
                 );
@@ -902,6 +930,14 @@ sub AgentMove {
                 },
             );
         }
+    }
+
+    # add YUI editor
+    if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'RichText',
+            Data => \%Param,
+        );
     }
 
     return $Self->{LayoutObject}->Output( TemplateFile => 'AgentTicketMove', Data => \%Param );

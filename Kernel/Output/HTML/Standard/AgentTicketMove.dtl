@@ -2,7 +2,7 @@
 # AgentTicketMove.dtl - provides HTML form for move mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.dtl,v 1.18 2009-03-24 13:17:21 martin Exp $
+# $Id: AgentTicketMove.dtl,v 1.19 2009-04-15 12:54:55 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -162,7 +162,15 @@ function SpellCheckSubmit() {
                   <td class="contentkey">$Text{"Text"}:</td>
                   <td class="contentvalue"></td>
                   <td class="contentvalue">
-                    <textarea name="Body" rows="14" cols="$Config{"Ticket::Frontend::TextAreaNote"}" wrap="$Env{"BrowserWrap"}">$Data{"Body"}</textarea>
+                    <div class="yui-skin-sam">
+<!-- dtl:block:RichText -->
+$Include{"YUI"}
+<!-- dtl:block:RichText -->
+<textarea id="RichText" name="Body" rows="14" cols="$Config{"Ticket::Frontend::TextAreaNote"}">
+$QData{"Body"}
+</textarea>
+                    <font color="red" size="-2">$Text{"$Data{"Body invalid"}"}</font>
+                    </div>
                   </td>
                 </tr>
                 <tr>
@@ -175,7 +183,7 @@ function SpellCheckSubmit() {
                         <td>$QData{"Filename"}</td>
                         <td>$QData{"Filesize"}</td>
                         <td align="right">
-                            <input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"/>
+                          <input class="button" type="submit" name="AttachmentDelete$QData{"FileID"}" value="$Text{"Delete"}"/>
                         </td>
                       </tr>
 <!-- dtl:block:Attachment -->
@@ -250,7 +258,7 @@ function SpellCheckSubmit() {
               </table>
               <tr>
                 <td class="contentfooter">
-                  <input class="button" accesskey="g" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();"/>
+                  <input class="button" id="submitRichText" accesskey="g" type="submit" value="$Text{"Submit"}" onclick="return submit_compose();"/>
                 </td>
               </tr>
             </form>

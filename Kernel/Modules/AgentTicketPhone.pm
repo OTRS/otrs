@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.90 2009-02-20 12:04:29 mh Exp $
+# $Id: AgentTicketPhone.pm,v 1.91 2009-04-15 12:54:55 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.90 $) [1];
+$VERSION = qw($Revision: 1.91 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -180,31 +180,140 @@ sub Run {
                 }
             }
 
+            # body preparation for plain text processing
+            if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+
+                # check for html body
+                my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
+                    TicketID                   => $Self->{TicketID},
+                    StripPlainBodyAsAttachment => 1,
+                );
+                ARTICLE:
+                for my $ArticleTmp (@ArticleBox) {
+                    next ARTICLE if $ArticleTmp->{ArticleID} ne $Article{ArticleID};
+                    last ARTICLE if !$ArticleTmp->{BodyHTML};
+                    my %AttachmentHTML = $Self->{TicketObject}->ArticleAttachment(
+                        ArticleID => $Article{ArticleID},
+                        FileID    => $ArticleTmp->{BodyHTML},
+                    );
+
+                    # make sure encoding is correct
+                    $Self->{EncodeObject}->Encode(
+                        \$AttachmentHTML{Content},
+                    );
+
+                    $Article{BodyHTML}            = $AttachmentHTML{Content}     || '';
+                    $Article{BodyHTMLContentType} = $AttachmentHTML{ContentType} || 'text/html';
+
+                    # display inline images if exists
+                    my %Attachments    = %{ $ArticleTmp->{Atms} };
+                    my $SessionID = '';
+                    if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
+                        $SessionID = "&" . $Self->{SessionName} . "=" . $Self->{SessionID};
+                    }
+                    my $AttachmentLink = $Self->{LayoutObject}->{Baselink}
+                        . 'Action=AgentTicketPictureUpload'
+                        . '&FormID='
+                        . $Self->{FormID}
+                        . $SessionID
+                        . '&ContentID=';
+                    $Article{BodyHTML} =~ s{
+                        "cid:(.*?)"
+                    }
+                    {
+                        my $ContentID = $1;
+                        ATMCOUNT:
+                        for my $AtmCount ( keys %Attachments ) {
+                            next ATMCOUNT if $Attachments{$AtmCount}{ContentID} !~ /^<$ContentID>$/;
+                            # add to upload cache
+                            my %AttachmentPicture = $Self->{TicketObject}->ArticleAttachment(
+                                ArticleID => $Article{ArticleID},
+                                FileID    => $AtmCount,
+                            );
+                            $Self->{UploadCachObject}->FormIDAddFile(
+                                FormID      => $Self->{FormID},
+                                Disposition => 'inline',
+                                %{ $Attachments{$AtmCount} },
+                                %AttachmentPicture,
+                            );
+                            my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
+                                FormID => $Self->{FormID},
+                            );
+                            CONTENTIDRETURN:
+                            for my $TmpAttachment ( @Attachments ) {
+                                next CONTENTIDRETURN
+                                    if $Attachments{$AtmCount}{Filename} ne $TmpAttachment->{Filename};
+                                $ContentID = $AttachmentLink . $TmpAttachment->{ContentID};
+                                last CONTENTIDRETURN;
+                            }
+                            last ATMCOUNT;
+                        }
+
+                        # return link
+                        '"' . $ContentID . '"';
+                    }egxi;
+                    last ARTICLE;
+                }
+
+                # convert plain body to html if necessary
+                if ( !$Article{BodyHTML} ) {
+
+                    # check if original content isn't text/plain or text/html, don't use it
+                    if ( !$Article{ContentType} || $Article{ContentType} !~ /text\/(plain|html)/i ) {
+                        $Article{Body}        = "-> no quotable message <-";
+                        $Article{ContentType} = 'text/plain';
+                    }
+                    $Article{BodyHTML} = $Self->{LayoutObject}->Ascii2Html(
+                        Text => $Article{Body} || '',
+                        HTMLResultMode => 1,
+                        LinkFeature    => 1,
+                    );
+                    $Article{BodyHTMLContentType} = $Article{ContentType} || 'text/plain';
+                    $Article{BodyHTMLContentType} =~ s/plain/html/i;
+                }
+
+                $Article{Body}        = $Article{BodyHTML}            || '';
+                $Article{ContentType} = $Article{BodyHTMLContentType} || 'text/plain';
+            }
+            else {
+
+                # check if original content isn't text/plain or text/html, don't use it
+                if ( $Article{ContentType} ) {
+                    if ( $Article{ContentType} =~ /text\/html/i ) {
+                        $Article{Body} =~ s/\<.+?\>//gs;
+                    }
+                    elsif ( $Article{ContentType} !~ /text\/plain/i ) {
+                        $Article{Body} = "-> no quotable message <-";
+                    }
+                }
+            }
+
             # get attachments
             my %ArticleIndex = $Self->{TicketObject}->ArticleAttachmentIndex(
                 ArticleID => $GetParam{ArticleID},
                 UserID    => $Self->{UserID},
             );
+            ARTICLEINDEX:
             for my $Index ( keys %ArticleIndex ) {
                 my %Attachment = $Self->{TicketObject}->ArticleAttachment(
                     ArticleID => $GetParam{ArticleID},
                     FileID    => $Index,
                     UserID    => $Self->{UserID},
                 );
+
+                # don't add html-body attachment and inline images (again)
+                if ( $Article{BodyHTML} ) {
+                    next ARTICLEINDEX if
+                        $Attachment{ContentID}
+                        && $Attachment{ContentID} =~ /^<?inline/;
+                    next ARTICLEINDEX if $Attachment{Filename} eq 'file-2';
+                }
+
+                # add attachment
                 $Self->{UploadCachObject}->FormIDAddFile(
                     FormID => $Self->{FormID},
                     %Attachment,
                 );
-            }
-
-            # check if original content isn't text/plain or text/html, don't use it
-            if ( $Article{'ContentType'} ) {
-                if ( $Article{'ContentType'} =~ /text\/html/i ) {
-                    $Article{Body} =~ s/\<.+?\>//gs;
-                }
-                elsif ( $Article{'ContentType'} !~ /text\/plain/i ) {
-                    $Article{Body} = '-> no quotable message <-';
-                }
             }
 
             # show customer info
@@ -310,6 +419,26 @@ sub Run {
         my @Attachments
             = $Self->{UploadCachObject}->FormIDGetAllFilesMeta( FormID => $Self->{FormID} );
 
+        # get and format default subject and body
+        my $Subject = $Article{Subject} ||
+            $Self->{LayoutObject}->Output(
+                Template => $Self->{Config}->{Subject} || '',
+            );
+        my $Body = $Article{Body} || '';
+        if ( $Body ) {
+            my @ArticleBody = $Self->{LayoutObject}->ToFromRichText(
+                Content     => $Body,
+                ContentType => $Article{ContentType},
+            );
+            $Body = $ArticleBody[0];
+        }
+        else {
+            my @DefaultBody = $Self->{LayoutObject}->ToFromRichText(
+                Content => $Self->{Config}->{Body} || '',
+            );
+            $Body = $Self->{LayoutObject}->Output( Template => $DefaultBody[0] );
+        }
+
         # html output
         $Output .= $Self->_MaskPhoneNew(
             QueueID    => $Self->{QueueID},
@@ -345,11 +474,9 @@ sub Run {
                 CustomerUserID => $CustomerData{CustomerUserLogin} || '',
                 QueueID => $Self->{QueueID},
             ),
-            From    => $Article{From},
-            Subject => $Article{Subject}
-                || $Self->{LayoutObject}->Output( Template => $Self->{Config}->{Subject} ),
-            Body => $Article{Body}
-                || $Self->{LayoutObject}->Output( Template => $Self->{Config}->{Body} ),
+            From         => $Article{From},
+            Subject      => $Subject,
+            Body         => $Body,
             CustomerID   => $Article{CustomerID},
             CustomerUser => $Article{CustomerUserID},
             CustomerData => \%CustomerData,
@@ -410,7 +537,7 @@ sub Run {
         }
 
         # rewrap body if exists
-        if ( $GetParam{Body} ) {
+        if ( $Self->{ConfigObject}->{'Frontend::RichText'} && $GetParam{Body} ) {
             $GetParam{Body}
                 =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote')})(?:\s|\z)/$1\n/gm;
         }
@@ -767,6 +894,46 @@ sub Run {
             }
         }
 
+        # get pre loaded attachment
+        my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
+            FormID => $Self->{FormID},
+        );
+
+        # get submit attachment
+        my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+            Param  => 'file_upload',
+            Source => 'String',
+        );
+        if (%UploadStuff) {
+            push( @AttachmentData, \%UploadStuff );
+        }
+
+        my $MimeType = 'text/plain';
+        if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+            $MimeType = 'text/html';
+
+            # replace link with content id for uploaded images
+            $GetParam{Body} =~ s{
+                ((?:<|&lt;)img.*?src=(?:"|&quot;))
+                .*?ContentID=(inline[\w\.]+?@[\w\.-]+).*?
+                ((?:"|&quot;).*?(?:>|&gt;))
+            }
+            {
+                $1 . "cid:" . $2 . $3;
+            }esgxi;
+
+            # remove unused inline images
+            my @NewAttachmentData = ();
+            REMOVEINLINE:
+            for my $TmpAttachment (@AttachmentData) {
+                next REMOVEINLINE if $TmpAttachment->{ContentID}
+                    && $TmpAttachment->{ContentID} =~ /^inline/
+                    && $GetParam{Body} !~ /$TmpAttachment->{ContentID}/;
+                push( @NewAttachmentData, \%{$TmpAttachment} );
+            }
+            @AttachmentData = @NewAttachmentData;
+        }
+
         # check if new owner is given (then send no agent notify)
         my $NoAgentNotify = 0;
         if ( $GetParam{NewUserID} ) {
@@ -782,7 +949,8 @@ sub Run {
                 To               => $To,
                 Subject          => $GetParam{Subject},
                 Body             => $GetParam{Body},
-                ContentType      => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
+                MimeType         => $MimeType,
+                Charset          => $Self->{LayoutObject}->{UserCharset},
                 UserID           => $Self->{UserID},
                 HistoryType      => $Self->{Config}->{HistoryType},
                 HistoryComment   => $Self->{Config}->{HistoryComment} || '%%',
@@ -857,26 +1025,10 @@ sub Run {
                 );
             }
 
-            # get pre loaded attachment
-            my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
-                FormID => $Self->{FormID},
-            );
+            # write attachments
             for my $Ref (@AttachmentData) {
                 $Self->{TicketObject}->ArticleWriteAttachment(
                     %{$Ref},
-                    ArticleID => $ArticleID,
-                    UserID    => $Self->{UserID},
-                );
-            }
-
-            # get submit attachment
-            my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-                Param  => 'file_upload',
-                Source => 'String',
-            );
-            if (%UploadStuff) {
-                $Self->{TicketObject}->ArticleWriteAttachment(
-                    %UploadStuff,
                     ArticleID => $ArticleID,
                     UserID    => $Self->{UserID},
                 );
@@ -1915,6 +2067,14 @@ sub _MaskPhoneNew {
                 },
             );
         }
+    }
+
+    # add YUI editor
+    if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'RichText',
+            Data => \%Param,
+        );
     }
 
     # get output back

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhoneOutbound.pm - to handle phone calls
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.pm,v 1.21 2009-04-01 13:24:38 ub Exp $
+# $Id: AgentTicketPhoneOutbound.pm,v 1.22 2009-04-15 12:54:55 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -279,6 +279,15 @@ sub Run {
             Article => \%GetParam,
         );
 
+        # get and format default subject and body
+        my $Subject = $Self->{LayoutObject}->Output(
+            Template => $Self->{Config}->{Subject} || '',
+        );
+        my @ArticleBody = $Self->{LayoutObject}->ToFromRichText(
+            Content => $Self->{Config}->{Body} || '',
+        );
+        my $Body = $ArticleBody[0];
+
         # print form ...
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
@@ -288,8 +297,8 @@ sub Run {
             TicketNumber => $Ticket{TicketNumber},
             NextStates   => $Self->_GetNextStates(),
             CustomerData => \%CustomerData,
-            Subject      => $Self->{LayoutObject}->Output( Template => $Self->{Config}->{Subject} ),
-            Body         => $Self->{LayoutObject}->Output( Template => $Self->{Config}->{Body} ),
+            Subject      => $Subject,
+            Body         => $Body,
             %TicketFreeTextHTML,
             %TicketFreeTimeHTML,
             %ArticleFreeTextHTML,
@@ -303,7 +312,7 @@ sub Run {
         my %Error = ();
 
         # rewrap body if exists
-        if ( $GetParam{Body} ) {
+        if ( $Self->{ConfigObject}->{'Frontend::RichText'} && $GetParam{Body} ) {
             $GetParam{Body}
                 =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote')})(?:\s|\z)/$1\n/gm;
         }
@@ -466,15 +475,58 @@ sub Run {
             return $Output;
         }
         else {
+
+            # get pre loaded attachment
+            my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
+                FormID => $Self->{FormID},
+            );
+
+            # get submit attachment
+            my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+                Param  => 'file_upload',
+                Source => 'String',
+            );
+            if (%UploadStuff) {
+                push( @AttachmentData, \%UploadStuff );
+            }
+
+            my $MimeType = 'text/plain';
+            if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+                $MimeType = 'text/html';
+
+                # replace link with content id for uploaded images
+                $GetParam{Body} =~ s{
+                    ((?:<|&lt;)img.*?src=(?:"|&quot;))
+                    .*?ContentID=(inline[\w\.]+?@[\w\.-]+).*?
+                    ((?:"|&quot;).*?(?:>|&gt;))
+                }
+                {
+                    $1 . "cid:" . $2 . $3;
+                }esgxi;
+
+                # remove unused inline images
+                my @NewAttachmentData = ();
+                REMOVEINLINE:
+                for my $TmpAttachment (@AttachmentData) {
+                    next REMOVEINLINE if $TmpAttachment->{ContentID}
+                        && $TmpAttachment->{ContentID} =~ /^inline/
+                        && $GetParam{Body} !~ /$TmpAttachment->{ContentID}/;
+                    push( @NewAttachmentData, \%{$TmpAttachment} );
+                }
+                @AttachmentData = @NewAttachmentData;
+            }
+
             if (
                 my $ArticleID = $Self->{TicketObject}->ArticleCreate(
-                    TicketID    => $Self->{TicketID},
-                    ArticleType => $Self->{Config}->{ArticleType},
-                    SenderType  => $Self->{Config}->{SenderType},
-                    From    => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
-                    Subject => $GetParam{Subject},
-                    Body    => $GetParam{Body},
-                    ContentType    => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
+                    TicketID       => $Self->{TicketID},
+                    ArticleType    => $Self->{Config}->{ArticleType},
+                    SenderType     => $Self->{Config}->{SenderType},
+                    From           =>
+                        "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
+                    Subject        => $GetParam{Subject},
+                    Body           => $GetParam{Body},
+                    MimeType       => $MimeType,
+                    Charset        => $Self->{LayoutObject}->{UserCharset},
                     UserID         => $Self->{UserID},
                     HistoryType    => $Self->{Config}->{HistoryType},
                     HistoryComment => $Self->{Config}->{HistoryComment} || '%%',
@@ -492,26 +544,10 @@ sub Run {
                     );
                 }
 
-                # get pre loaded attachment
-                my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
-                    FormID => $Self->{FormID},
-                );
+                # write attachments
                 for my $Ref (@AttachmentData) {
                     $Self->{TicketObject}->ArticleWriteAttachment(
                         %{$Ref},
-                        ArticleID => $ArticleID,
-                        UserID    => $Self->{UserID},
-                    );
-                }
-
-                # get submit attachment
-                my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-                    Param  => 'file_upload',
-                    Source => 'String',
-                );
-                if (%UploadStuff) {
-                    $Self->{TicketObject}->ArticleWriteAttachment(
-                        %UploadStuff,
                         ArticleID => $ArticleID,
                         UserID    => $Self->{UserID},
                     );
@@ -914,6 +950,14 @@ sub _MaskPhone {
                 },
             );
         }
+    }
+
+    # add YUI editor
+    if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'RichText',
+            Data => \%Param,
+        );
     }
 
     # get output back

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.80 2009-04-07 11:10:41 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.81 2009-04-15 12:54:55 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,11 +18,13 @@ use Kernel::System::SystemAddress;
 use Kernel::System::CustomerUser;
 use Kernel::System::CheckItem;
 use Kernel::System::Web::UploadCache;
+use Kernel::System::HTML2Ascii;
+use Kernel::System::TemplateGenerator;
 use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.80 $) [1];
+$VERSION = qw($Revision: 1.81 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -46,6 +48,7 @@ sub new {
     $Self->{CheckItemObject}    = Kernel::System::CheckItem->new(%Param);
     $Self->{StateObject}        = Kernel::System::State->new(%Param);
     $Self->{UploadCachObject}   = Kernel::System::Web::UploadCache->new(%Param);
+    $Self->{HTML2AsciiObject}   = Kernel::System::HTML2Ascii->new(%Param);
 
     # get form id
     $Self->{FormID} = $Self->{ParamObject}->GetParam( Param => 'FormID' );
@@ -242,19 +245,28 @@ sub Run {
                 }
             }
 
+            # get and format default subject and body
+            my $Subject = $Self->{LayoutObject}->Output(
+                Template => $Self->{Config}->{Subject} || '',
+            );
+            my @DefaultBody = $Self->{LayoutObject}->ToFromRichText(
+                Content => $Self->{Config}->{Body} || '',
+            );
+            my $Body = $Self->{LayoutObject}->Output( Template => $DefaultBody[0] );
+
             # html output
             $Output .= $Self->_MaskEmailNew(
-                QueueID    => $Self->{QueueID},
-                NextStates => $Self->_GetNextStates( QueueID => 1 ),
-                Priorities => $Self->_GetPriorities( QueueID => 1 ),
-                Types      => $Self->_GetTypes( QueueID => 1 ),
-                Services   => $Self->_GetServices( QueueID => 1, ),
-                SLAs       => $Self->_GetSLAs( QueueID => 1, %GetParam ),
-                Users      => $Self->_GetUsers(),
-                FromList   => $Self->_GetTos(),
-                To         => '',
-                Subject => $Self->{LayoutObject}->Output( Template => $Self->{Config}->{Subject} ),
-                Body    => $Self->{LayoutObject}->Output( Template => $Self->{Config}->{Body} ),
+                QueueID      => $Self->{QueueID},
+                NextStates   => $Self->_GetNextStates( QueueID => 1 ),
+                Priorities   => $Self->_GetPriorities( QueueID => 1 ),
+                Types        => $Self->_GetTypes( QueueID => 1 ),
+                Services     => $Self->_GetServices( QueueID => 1, ),
+                SLAs         => $Self->_GetSLAs( QueueID => 1, %GetParam ),
+                Users        => $Self->_GetUsers(),
+                FromList     => $Self->_GetTos(),
+                To           => '',
+                Subject      => $Subject,
+                Body         => $Body,
                 CustomerID   => '',
                 CustomerUser => '',
                 CustomerData => {},
@@ -642,7 +654,7 @@ sub Run {
                 Body         => $Self->{LayoutObject}->Ascii2Html( Text => $GetParam{Body} ),
                 Errors       => \%Error,
                 Attachments  => \@Attachments,
-                Signature    => $Signature,
+                Signature    => $Self->{HTML2AsciiObject}->ToAscii( String => $Signature, ),
                 %GetParam,
                 %TicketFreeTextHTML,
                 %TicketFreeTimeHTML,
@@ -738,12 +750,41 @@ sub Run {
             Subject      => $GetParam{Subject} || '',
             Type         => 'New',
         );
-        $GetParam{Body} .= "\n\n" . $Signature;
 
         # check if new owner is given (then send no agent notify)
         my $NoAgentNotify = 0;
         if ($NewUserID) {
             $NoAgentNotify = 1;
+        }
+
+        my $MimeType = 'text/plain';
+        if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+            $MimeType = 'text/html';
+            $GetParam{Body} .= "<br/><br/>" . $Signature;
+
+            # replace link with content id for uploaded images
+            $GetParam{Body} =~ s{
+                ((?:<|&lt;)img.*?src=(?:"|&quot;))
+                .*?ContentID=(inline[\w\.]+?@[\w\.-]+).*?
+                ((?:"|&quot;).*?(?:>|&gt;))
+            }
+            {
+                $1 . "cid:" . $2 . $3;
+            }esgxi;
+
+            # remove unused inline images
+            my @NewAttachments = ();
+            REMOVEINLINE:
+            for my $TmpAttachment (@Attachments) {
+                next REMOVEINLINE if $TmpAttachment->{ContentID}
+                    && $TmpAttachment->{ContentID} =~ /^inline/
+                    && $GetParam{Body} !~ /$TmpAttachment->{ContentID}/;
+                push( @NewAttachments, \%{$TmpAttachment} );
+            }
+            @Attachments = @NewAttachments;
+        }
+        else {
+            $GetParam{Body} .= "\n\n" . $Signature;
         }
 
         # send email
@@ -762,7 +803,7 @@ sub Run {
             Subject        => $GetParam{Subject},
             Body           => $GetParam{Body},
             Charset        => $Self->{LayoutObject}->{UserCharset},
-            MimeType       => 'text/plain',
+            MimeType       => $MimeType,
             UserID         => $Self->{UserID},
             HistoryType    => $Self->{Config}->{HistoryType},
             HistoryComment => $Self->{Config}->{HistoryComment}
@@ -959,7 +1000,7 @@ sub Run {
             [
                 {
                     Name         => 'Signature',
-                    Data         => $Signature,
+                    Data         => $Self->{HTML2AsciiObject}->ToAscii( String => $Signature, ),
                     Translation  => 1,
                     PossibleNone => 1,
                     Max          => 100,
@@ -1223,37 +1264,14 @@ sub _GetTos {
 sub _GetSignature {
     my ( $Self, %Param ) = @_;
 
-    my $Signature = '';
-    my %Queue = $Self->{QueueObject}->GetSystemAddress( QueueID => $Param{QueueID} );
-
     # prepare signature
-    $Signature = $Self->{QueueObject}->GetSignature( QueueID => $Param{QueueID} );
-    $Signature =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
-    $Signature =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
-
-    # current user
-    my %User = $Self->{UserObject}->GetUserData(
-        UserID => $Self->{UserID},
-        Cached => 1,
+    my $TemplateGenerator = Kernel::System::TemplateGenerator->new( %{$Self} );
+    my $Signature = $TemplateGenerator->Signature(
+        QueueID => $Param{QueueID},
+        Data    => \%Param,
+        UserID  => $Self->{UserID},
     );
-    for my $UserKey ( keys %User ) {
-        if ( $User{$UserKey} ) {
-            $Signature =~ s/<OTRS_Agent_$UserKey>/$User{$UserKey}/gi;
-            $Signature =~ s/<OTRS_CURRENT_$UserKey>/$User{$UserKey}/gi;
-        }
-    }
 
-    # replace other needed stuff
-    $Signature =~ s/<OTRS_FIRST_NAME>/$Self->{UserFirstname}/g;
-    $Signature =~ s/<OTRS_LAST_NAME>/$Self->{UserLastname}/g;
-
-    # cleanup
-    $Signature =~ s/<OTRS_Agent_.+?>/-/gi;
-    $Signature =~ s/<OTRS_CURRENT_.+?>/-/gi;
-
-    # replace config options
-    $Signature =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
-    $Signature =~ s/<OTRS_CONFIG_.+?>/-/gi;
     return $Signature;
 }
 
@@ -1880,6 +1898,14 @@ sub _MaskEmailNew {
                 },
             );
         }
+    }
+
+    # add YUI editor
+    if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'RichText',
+            Data => \%Param,
+        );
     }
 
     # get output back

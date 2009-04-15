@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.pm,v 1.29 2009-04-07 11:10:41 martin Exp $
+# $Id: AgentTicketMerge.pm,v 1.30 2009-04-15 12:54:55 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::TemplateGenerator;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -187,9 +187,13 @@ sub Run {
 
             # send customer info?
             if ( $Param{InformSender} ) {
+                my $MimeType = 'text/plain';
+                if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+                    $MimeType = 'text/html';
+                }
                 my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
-                $Param{Body} =~ s/<OTRS_TICKET>/$Ticket{TicketNumber}/g;
-                $Param{Body} =~ s/<OTRS_MERGE_TO_TICKET>/$MainTicketNumber/g;
+                $Param{Body} =~ s/(&lt;|<)OTRS_TICKET(&gt;|>)/$Ticket{TicketNumber}/g;
+                $Param{Body} =~ s/(&lt;|<)OTRS_MERGE_TO_TICKET(&gt;|>)/$MainTicketNumber/g;
                 my $ArticleID = $Self->{TicketObject}->ArticleSend(
                     ArticleType    => 'email-external',
                     SenderType     => 'agent',
@@ -203,7 +207,7 @@ sub Run {
                     UserID         => $Self->{UserID},
                     Body           => $Param{Body},
                     Charset        => $Self->{LayoutObject}->{UserCharset},
-                    MimeType       => 'text/plain',
+                    MimeType       => $MimeType,
                 );
                 if ( !$ArticleID ) {
 
@@ -253,6 +257,36 @@ sub Run {
             Data      => \%Param,
             UserID    => $Self->{UserID},
         );
+
+        # get and format default body
+        my @DefaultBody = $Self->{LayoutObject}->ToFromRichText(
+            Content => $Self->{ConfigObject}->{'Ticket::Frontend::MergeText'} || '',
+        );
+        $Param{Body} = $DefaultBody[0];
+
+        # add salutation and signature to body
+        if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+            $Param{Body} = $Param{Salutation}
+                . '<br/><br/>'
+                . $Param{Body}
+                . '<br/><br/>'
+                . $Param{Signature};
+        }
+        else {
+            $Param{Body} = $Param{Salutation}
+                . "\n\n"
+                . $Param{Body}
+                . "\n\n"
+                . $Param{Signature};
+        }
+
+        # add YUI editor
+        if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'RichText',
+                Data => \%Param,
+            );
+        }
 
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentTicketMerge',
