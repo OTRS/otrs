@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.37 2009-02-16 11:20:53 tr Exp $
+# $Id: CustomerTicketMessage.pm,v 1.38 2009-04-15 14:42:18 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -216,7 +216,7 @@ sub Run {
         );
 
         # rewrap body if exists
-        if ( $GetParam{Body} ) {
+        if ( $Self->{ConfigObject}->{'Frontend::RichText'} && $GetParam{Body} ) {
             $GetParam{Body}
                 =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote')})(?:\s|\z)/$1\n/gm;
         }
@@ -356,6 +356,21 @@ sub Run {
             }
         }
 
+        my $MimeType = 'text/plain';
+        if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+            $MimeType = 'text/html';
+
+            # replace image link with content id for uploaded images
+            $GetParam{Body} =~ s{
+                ((?:<|&lt;)img.*?src=(?:"|&quot;))
+                .*?ContentID=(inline[\w\.]+?@[\w\.-]+).*?
+                ((?:"|&quot;).*?(?:>|&gt;))
+            }
+            {
+                $1 . "cid:" . $2 . $3;
+            }esgxi;
+        }
+
         # create article
         my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>";
         if (
@@ -367,7 +382,8 @@ sub Run {
                 To               => $To,
                 Subject          => $GetParam{Subject},
                 Body             => $GetParam{Body},
-                ContentType      => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
+                MimeType         => $MimeType,
+                Charset          => $Self->{LayoutObject}->{UserCharset},
                 UserID           => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
                 HistoryType      => $Self->{Config}->{HistoryType},
                 HistoryComment   => $Self->{Config}->{HistoryComment} || '%%',
@@ -384,15 +400,9 @@ sub Run {
         {
 
             # get pre loaded attachment
-            my @AttachmentData
-                = $Self->{UploadCachObject}->FormIDGetAllFilesData( FormID => $Self->{FormID}, );
-            for my $Ref (@AttachmentData) {
-                $Self->{TicketObject}->ArticleWriteAttachment(
-                    %{$Ref},
-                    ArticleID => $ArticleID,
-                    UserID    => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
-                );
-            }
+            my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
+                FormID => $Self->{FormID},
+            );
 
             # get submit attachment
             my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
@@ -400,14 +410,25 @@ sub Run {
                 Source => 'String',
             );
             if (%UploadStuff) {
+                push( @AttachmentData, \%UploadStuff );
+            }
+
+            # write attachments
+            WRITEATTACHMENT:
+            for my $Ref (@AttachmentData) {
+
+                # skip deleted inline images
+                next WRITEATTACHMENT if $Ref->{ContentID}
+                    && $Ref->{ContentID} =~ /^inline/
+                    && $GetParam{Body} !~ /$Ref->{ContentID}/;
                 $Self->{TicketObject}->ArticleWriteAttachment(
-                    %UploadStuff,
+                    %{$Ref},
                     ArticleID => $ArticleID,
                     UserID    => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
                 );
             }
 
-            # remove pre submited attachments
+            # remove pre submitted attachments
             $Self->{UploadCachObject}->FormIDRemove( FormID => $Self->{FormID} );
 
             # redirect
@@ -655,6 +676,14 @@ sub _MaskNew {
                 },
             );
         }
+    }
+
+    # add YUI editor
+    if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'RichText',
+            Data => \%Param,
+        );
     }
 
     # get output back
