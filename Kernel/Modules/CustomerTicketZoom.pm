@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.35 2009-04-07 09:48:55 martin Exp $
+# $Id: CustomerTicketZoom.pm,v 1.36 2009-04-15 22:54:27 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -185,6 +185,22 @@ sub Run {
                 );
             }
             my $From = "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>";
+
+            my $MimeType = 'text/plain';
+            if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+                $MimeType = 'text/html';
+
+                # replace image link with content id for uploaded images
+                $GetParam{Body} =~ s{
+                    ((?:<|&lt;)img.*?src=(?:"|&quot;))
+                    .*?ContentID=(inline[\w\.]+?@[\w\.-]+).*?
+                    ((?:"|&quot;).*?(?:>|&gt;))
+                }
+                {
+                    $1 . "cid:" . $2 . $3;
+                }esgxi;
+            }
+
             if (
                 my $ArticleID = $Self->{TicketObject}->ArticleCreate(
                     TicketID    => $Self->{TicketID},
@@ -193,7 +209,8 @@ sub Run {
                     From        => $From,
                     Subject     => $GetParam{Subject},
                     Body        => $GetParam{Body},
-                    ContentType => "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}",
+                    MimeType    => $MimeType,
+                    Charset     => $Self->{LayoutObject}->{UserCharset},
                     UserID      => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
                     OrigHeader  => {
                         From    => $From,
@@ -230,16 +247,9 @@ sub Run {
                 }
 
                 # get pre loaded attachment
-                my @Attachment = $Self->{UploadCachObject}->FormIDGetAllFilesData(
+                my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
                     FormID => $Self->{FormID}
                 );
-                for my $Ref (@Attachment) {
-                    $Self->{TicketObject}->ArticleWriteAttachment(
-                        %{$Ref},
-                        ArticleID => $ArticleID,
-                        UserID    => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
-                    );
-                }
 
                 # get submit attachment
                 my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
@@ -247,8 +257,19 @@ sub Run {
                     Source => 'String',
                 );
                 if (%UploadStuff) {
+                    push( @AttachmentData, \%UploadStuff );
+                }
+
+                # write attachments
+                WRITEATTACHMENT:
+                for my $Ref (@AttachmentData) {
+
+                    # skip deleted inline images
+                    next WRITEATTACHMENT if $Ref->{ContentID}
+                        && $Ref->{ContentID} =~ /^inline/
+                        && $GetParam{Body} !~ /$Ref->{ContentID}/;
                     $Self->{TicketObject}->ArticleWriteAttachment(
-                        %UploadStuff,
+                        %{$Ref},
                         ArticleID => $ArticleID,
                         UserID    => $Self->{ConfigObject}->Get('CustomerPanelUserID'),
                     );
@@ -287,7 +308,7 @@ sub Run {
         StripPlainBodyAsAttachment => 1,
     );
 
-    # genterate output
+    # generate output
     my $Output = $Self->{LayoutObject}->CustomerHeader( Value => $Ticket{TicketNumber} );
     $Output .= $Self->{LayoutObject}->CustomerNavigationBar();
 
@@ -564,6 +585,19 @@ sub _Mask {
         }
     }
 
+    # show plain or html body
+    my $TextType = 'Plain';
+    if ( $Article{BodyHTML} ) {
+        $TextType = 'HTML';
+    }
+    $Self->{LayoutObject}->Block(
+        Name => 'Body' . $TextType,
+        Data => {
+            %Param,
+            %Article,
+        },
+    );
+
     # get article id
     $Param{'Article::ArticleID'} = $Article{ArticleID};
 
@@ -601,6 +635,14 @@ sub _Mask {
             Name => 'FollowUp',
             Data => { %Param, },
         );
+
+        # add YUI editor
+        if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'RichText',
+                Data => \%Param,
+            );
+        }
 
         # build next states string
         if ( $Self->{Config}->{State} ) {

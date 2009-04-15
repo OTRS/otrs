@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketAttachment.pm - to get the attachments
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketAttachment.pm,v 1.10 2009-02-16 11:20:53 tr Exp $
+# $Id: CustomerTicketAttachment.pm,v 1.11 2009-04-15 22:54:27 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -88,7 +88,7 @@ sub Run {
         return $Self->{LayoutObject}->CustomerNoPermission( WithHeader => 'yes' );
     }
 
-    # geta attachment
+    # get attachment
     if (
         my %Data = $Self->{TicketObject}->ArticleAttachment(
             ArticleID => $Self->{ArticleID},
@@ -96,6 +96,56 @@ sub Run {
         )
         )
     {
+
+        # regular output
+        return $Self->{LayoutObject}->Attachment(%Data) if
+            !$Self->{Subaction}
+            || $Self->{Subaction} ne 'inline';
+
+        # non-html attachment
+        return $Self->{LayoutObject}->Attachment(%Data) if
+            $Data{ContentType} !~ /html/i;
+
+        # inline attachment view
+        $Data{Filename} = '';
+
+        # make sure encoding is correct
+        $Self->{EncodeObject}->Encode(
+            \$Data{Content},
+        );
+
+        # replace links to inline images if exists
+        my %AtmBox = $Self->{TicketObject}->ArticleAttachmentIndex(
+            ArticleID => $Self->{ArticleID},
+        );
+        my $SessionID = '';
+        if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
+            $SessionID = "&" . $Self->{SessionName} . "=" . $Self->{SessionID};
+        }
+        my $AttachmentLink = $Self->{LayoutObject}->{Baselink}
+            . 'Action=CustomerTicketAttachment'
+            . '&ArticleID='
+            . $Self->{ArticleID}
+            . $SessionID
+            . '&FileID=';
+        $Data{Content} =~ s{
+            "cid:(.*?)"
+        }
+        {
+            my $ContentID = $1;
+            ATMCOUNT:
+            for my $AtmCount ( keys %AtmBox ) {
+                next ATMCOUNT if $AtmBox{$AtmCount}{ContentID} !~ /^<$ContentID>$/;
+                $ContentID = $AttachmentLink . $AtmCount;
+                last ATMCOUNT;
+            }
+
+            # return link
+            '"' . $ContentID . '"';
+        }egxi;
+
+        # return html attachment
+        $Self->{ConfigObject}->Set( Key => 'AttachmentDownloadType', Value => 'inline' );
         return $Self->{LayoutObject}->Attachment(%Data);
     }
     else {
