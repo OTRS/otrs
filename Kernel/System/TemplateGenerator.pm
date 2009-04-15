@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.4 2009-04-08 17:54:55 martin Exp $
+# $Id: TemplateGenerator.pm,v 1.5 2009-04-15 13:15:23 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Signature;
 use Kernel::System::StdResponse;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -166,6 +166,13 @@ generate salutation
         UserID   => 123,
     );
 
+or
+
+    my $Signature = $TemplateGeneratorObject->Signature(
+        QueueID => 123,
+        UserID  => 123,
+    );
+
 returns
     Text
     ContentType
@@ -176,20 +183,37 @@ sub Signature {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(TicketID Data UserID)) {
+    for (qw(Data UserID)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
-    # get  queue
-    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
+    # need ticket id or queue id
+    if ( !$Param{TicketID} && !$Param{QueueID} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => "Need TicketID or QueueID!" );
+        return;
+    }
 
-    # get salutation
-    my %Queue = $Self->{QueueObject}->QueueGet(
-        ID => $Ticket{QueueID},
-    );
+    my %Queue;
+    if ( $Param{TicketID} ) {
+
+        # get  queue
+        my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
+
+        # get salutation
+        %Queue = $Self->{QueueObject}->QueueGet(
+            ID => $Ticket{QueueID},
+        );
+    }
+    else {
+
+        # get salutation
+        %Queue = $Self->{QueueObject}->QueueGet(
+            ID => $Param{QueueID},
+        );
+    }
     my %Signature = $Self->{SignatureObject}->SignatureGet(
         ID => $Queue{SignatureID},
     );
@@ -213,7 +237,7 @@ sub Signature {
     # replace place holder stuff
     my $SignatureText = $Self->_Replace(
         Text     => $Signature{Text},
-        TicketID => $Param{TicketID},
+        TicketID => $Param{TicketID} || '',
         Data     => $Param{Data},
         UserID   => $Param{UserID},
     );
@@ -567,7 +591,7 @@ sub _Replace {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Text TicketID Data UserID)) {
+    for (qw(Text Data UserID)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
@@ -653,12 +677,9 @@ sub _Replace {
 
     # ticket data
     $Tag  = $Start . 'OTRS_TICKET_';
-    if ( $Param{TicketID} ) {
-        my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
-        for ( keys %Ticket ) {
-            if ( defined $Ticket{$_} ) {
-                $Param{Text} =~ s/$Tag$_$End/$Ticket{$_}/gi;
-            }
+    for ( keys %Ticket ) {
+        if ( defined $Ticket{$_} ) {
+            $Param{Text} =~ s/$Tag$_$End/$Ticket{$_}/gi;
         }
     }
 
@@ -722,6 +743,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2009-04-08 17:54:55 $
+$Revision: 1.5 $ $Date: 2009-04-15 13:15:23 $
 
 =cut
