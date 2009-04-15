@@ -2,7 +2,7 @@
 # AgentTicketOverviewPreview.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreview.dtl,v 1.4 2009-02-16 11:07:25 tr Exp $
+# $Id: AgentTicketOverviewPreview.dtl,v 1.5 2009-04-15 14:14:59 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -249,21 +249,6 @@ $Data{"Body"}
           <tr>
             <td>
 # show compose links
-<!-- dtl:block:AgentIsCustomer -->
-              <p>
-                <b>$Text{"Your own Ticket"}:</b>
-                <br/>
-                <table border="0">
-                  <tr align="left">
-                    <td>
-                      <li>
-                      <a href="$Env{"Baselink"}Action=AgentTicketCustomerFollowUp&TicketID=$Data{"TicketID"}" onmouseover="window.status='$JSText{"Compose Follow up"}'; return true;" onmouseout="window.status='';">$Text{"Compose Follow up"}</a>
-                      </li>
-                    </td>
-                  </tr>
-                </table>
-              </p>
-<!-- dtl:block:AgentIsCustomer -->
 <!-- dtl:block:AgentAnswer -->
 <!-- dtl:block:AgentAnswerCompose -->
               <p>

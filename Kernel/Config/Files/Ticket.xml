@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.235 2009-04-15 13:58:07 sb Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.236 2009-04-15 14:14:59 sb Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -2086,18 +2086,6 @@
         <Description Lang="de">Müssen neu erstellte Nachrichten auf Rechtschreibfehler geprüft werden?</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
-        <Setting>
-            <Option SelectedID="0">
-                <Item Key="0">No</Item>
-                <Item Key="1">Yes</Item>
-            </Option>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::AgentCanBeCustomer" Required="1" Valid="1">
-        <Description Lang="en">Can an agent also be a customer via the agent interface?</Description>
-        <Description Lang="de">Kann ein Agent auch ein Kunde im Agent-Interface sein?</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Core::Ticket</SubGroup>
         <Setting>
             <Option SelectedID="0">
                 <Item Key="0">No</Item>
@@ -5623,28 +5611,6 @@ $QData{"Signature"}
             </Option>
         </Setting>
     </ConfigItem>
-
-    <ConfigItem Name="Ticket::Frontend::AgentTicketCustomerFollowUp###StateType" Required="1" Valid="1">
-        <Description Lang="en">Default next states after adding a agent-customer follow up.</Description>
-        <Description Lang="de">Nächstmögliche Status nach dem Hinzufügen bei Agent-Kunden FollowUp.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewCustomerFollowUp</SubGroup>
-        <Setting>
-            <Array>
-                <Item>open</Item>
-                <Item>closed</Item>
-            </Array>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Ticket::Frontend::AgentTicketCustomerFollowUp###StateDefault" Required="0" Valid="0">
-        <Description Lang="en">Default next state.</Description>
-        <Description Lang="de">Standardmäßig ausgewählter nächster Status.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::Ticket::ViewCustomerFollowUp</SubGroup>
-        <Setting>
-            <String Regex="">open</String>
-        </Setting>
-    </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::MergeText" Required="1" Valid="1">
         <Description Lang="en">When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.</Description>
         <Description Lang="de">Wenn Tickets zusammengefasst werden, kann der Sender ("Sender informieren"-Checkbox) darüber informiert werden. In diesem Textfeld kann die zugehörige Textvorlage definiert werden.</Description>
@@ -7659,19 +7625,6 @@ $QData{"Signature"}
             <FrontendModuleReg>
                 <Description>Ticket Compose email Answer</Description>
                 <Title>Compose</Title>
-                <NavBarName>Ticket</NavBarName>
-            </FrontendModuleReg>
-        </Setting>
-    </ConfigItem>
-    <ConfigItem Name="Frontend::Module###AgentTicketCustomerFollowUp" Required="0" Valid="1">
-        <Description Lang="en">Frontend module registration for the AgentTicketCustomerFollowup object in the agent interface.</Description>
-        <Description Lang="de">Frontendmodul-Registration des AgentTicketCustomerFollow-up-Objekts im Agent-Interface.</Description>
-        <Group>Ticket</Group>
-        <SubGroup>Frontend::Agent::ModuleRegistration</SubGroup>
-        <Setting>
-            <FrontendModuleReg>
-                <Description>Used if a agent can also be a customer</Description>
-                <Title>Compose Follow up</Title>
                 <NavBarName>Ticket</NavBarName>
             </FrontendModuleReg>
         </Setting>

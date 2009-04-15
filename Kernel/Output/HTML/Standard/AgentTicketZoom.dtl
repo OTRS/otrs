@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.55 2009-04-07 06:11:04 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.56 2009-04-15 14:14:59 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -459,21 +459,6 @@ $Data{"Body"}
         <tr>
           <td>
 # show compose links
-<!-- dtl:block:AgentIsCustomer -->
-            <p>
-              <b>$Text{"Your own Ticket"}:</b>
-              <br/>
-              <table border="0">
-                <tr>
-                  <td>
-                    <li>
-                    <a href="$Env{"Baselink"}Action=AgentTicketCustomerFollowUp&TicketID=$Data{"TicketID"}" onmouseover="window.status='$JSText{"Compose Follow up"}'; return true;" onmouseout="window.status='';">$Text{"Compose Follow up"}</a>
-                    </li>
-                  </td>
-                </tr>
-              </table>
-            </p>
-<!-- dtl:block:AgentIsCustomer -->
 <!-- dtl:block:AgentAnswer -->
 <!-- dtl:block:AgentAnswerCompose -->
             <p>

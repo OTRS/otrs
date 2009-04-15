@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhoneOutbound.pm - to handle phone calls
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.pm,v 1.22 2009-04-15 12:54:55 sb Exp $
+# $Id: AgentTicketPhoneOutbound.pm,v 1.23 2009-04-15 14:14:58 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -179,20 +179,6 @@ sub Run {
     }
 
     if ( !$Self->{Subaction} ) {
-
-        # check it it's a agent-customer ticket
-        if (
-            $Self->{ConfigObject}->Get('Ticket::AgentCanBeCustomer')
-            && $Ticket{CustomerUserID}
-            && $Ticket{CustomerUserID} eq $Self->{UserLogin}
-            )
-        {
-
-            # redirect for agent follow up screen
-            return $Self->{LayoutObject}->Redirect(
-                OP => "Action=AgentTicketCustomerFollowUp&TicketID=$Self->{TicketID}",
-            );
-        }
 
         # get ticket info
         my %CustomerData = ();

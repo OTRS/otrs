@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.pm,v 1.69 2009-04-07 09:48:55 martin Exp $
+# $Id: AgentTicketZoom.pm,v 1.70 2009-04-15 14:14:58 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.70 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1108,17 +1108,6 @@ sub MaskAgentZoom {
         if ( $Article{ArticleType} =~ /^note/i ) {
 
             # without compose links!
-            if (
-                $Param{CustomerUserID}
-                && $Param{CustomerUserID} =~ /^$Self->{UserLogin}$/i
-                && $Self->{ConfigObject}->Get('Ticket::AgentCanBeCustomer')
-                )
-            {
-                $Self->{LayoutObject}->Block(
-                    Name => 'AgentIsCustomer',
-                    Data => { %Param, %Article, %AclAction },
-                );
-            }
             $Self->{LayoutObject}->Block(
                 Name => 'AgentArticleCom',
                 Data => { %Param, %Article, %AclAction },
@@ -1148,114 +1137,101 @@ sub MaskAgentZoom {
         else {
 
             # without all!
+            $Self->{LayoutObject}->Block(
+                Name => 'AgentAnswer',
+                Data => { %Param, %Article, %AclAction },
+            );
+
+            # check if compose link should be shown
             if (
-                $Param{CustomerUserID}
-                && $Param{CustomerUserID} =~ /^$Self->{UserLogin}$/i
-                && $Self->{ConfigObject}->Get('Ticket::AgentCanBeCustomer')
+                $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketCompose}
+                && (
+                    !defined( $AclAction{AgentTicketCompose} )
+                    || $AclAction{AgentTicketCompose}
+                )
                 )
             {
-                $Self->{LayoutObject}->Block(
-                    Name => 'AgentIsCustomer',
-                    Data => { %Param, %Article, %AclAction },
-                );
-            }
-            else {
-                $Self->{LayoutObject}->Block(
-                    Name => 'AgentAnswer',
-                    Data => { %Param, %Article, %AclAction },
-                );
-
-                # check if compose link should be shown
-                if (
-                    $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketCompose}
-                    && (
-                        !defined( $AclAction{AgentTicketCompose} )
-                        || $AclAction{AgentTicketCompose}
-                    )
-                    )
-                {
-                    my $Access = 1;
-                    my $Config = $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketCompose");
-                    if ( $Config->{Permission} ) {
-                        my $Ok = $Self->{TicketObject}->Permission(
-                            Type     => $Config->{Permission},
-                            TicketID => $Param{TicketID},
-                            UserID   => $Self->{UserID},
-                            LogNo    => 1,
-                        );
-                        if ( !$Ok ) {
-                            $Access = 0;
-                        }
-                    }
-                    if ( $Config->{RequiredLock} ) {
-                        if (
-                            $Self->{TicketObject}->LockIsTicketLocked(
-                                TicketID => $Param{TicketID}
-                            )
-                            )
-                        {
-                            my $AccessOk = $Self->{TicketObject}->OwnerCheck(
-                                TicketID => $Param{TicketID},
-                                OwnerID  => $Self->{UserID},
-                            );
-                            if ( !$AccessOk ) {
-                                $Access = 0;
-                            }
-                        }
-                    }
-                    if ($Access) {
-                        $Self->{LayoutObject}->Block(
-                            Name => 'AgentAnswerCompose',
-                            Data => { %Param, %Article, %AclAction },
-                        );
+                my $Access = 1;
+                my $Config = $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketCompose");
+                if ( $Config->{Permission} ) {
+                    my $Ok = $Self->{TicketObject}->Permission(
+                        Type     => $Config->{Permission},
+                        TicketID => $Param{TicketID},
+                        UserID   => $Self->{UserID},
+                        LogNo    => 1,
+                    );
+                    if ( !$Ok ) {
+                        $Access = 0;
                     }
                 }
-
-                # check if phone link should be shown
-                if (
-                    $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketPhoneOutbound}
-                    && (
-                        !defined( $AclAction{AgentTicketPhoneOutbound} )
-                        || $AclAction{AgentTicketPhoneOutbound}
-                    )
-                    )
-                {
-                    my $Access = 1;
-                    my $Config
-                        = $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketPhoneOutbound");
-                    if ( $Config->{Permission} ) {
-                        my $OK = $Self->{TicketObject}->Permission(
-                            Type     => $Config->{Permission},
+                if ( $Config->{RequiredLock} ) {
+                    if (
+                        $Self->{TicketObject}->LockIsTicketLocked(
+                            TicketID => $Param{TicketID}
+                        )
+                        )
+                    {
+                        my $AccessOk = $Self->{TicketObject}->OwnerCheck(
                             TicketID => $Param{TicketID},
-                            UserID   => $Self->{UserID},
-                            LogNo    => 1,
+                            OwnerID  => $Self->{UserID},
                         );
-                        if ( !$OK ) {
+                        if ( !$AccessOk ) {
                             $Access = 0;
                         }
                     }
-                    if ( $Config->{RequiredLock} ) {
-                        if (
-                            $Self->{TicketObject}->LockIsTicketLocked(
-                                TicketID => $Param{TicketID}
-                            )
-                            )
-                        {
-                            my $AccessOk = $Self->{TicketObject}->OwnerCheck(
-                                TicketID => $Param{TicketID},
-                                OwnerID  => $Self->{UserID},
-                            );
-                            if ( !$AccessOk ) {
-                                $Access = 0;
-                            }
+                }
+                if ($Access) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'AgentAnswerCompose',
+                        Data => { %Param, %Article, %AclAction },
+                    );
+                }
+            }
+
+            # check if phone link should be shown
+            if (
+                $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketPhoneOutbound}
+                && (
+                    !defined( $AclAction{AgentTicketPhoneOutbound} )
+                    || $AclAction{AgentTicketPhoneOutbound}
+                )
+                )
+            {
+                my $Access = 1;
+                my $Config
+                    = $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketPhoneOutbound");
+                if ( $Config->{Permission} ) {
+                    my $OK = $Self->{TicketObject}->Permission(
+                        Type     => $Config->{Permission},
+                        TicketID => $Param{TicketID},
+                        UserID   => $Self->{UserID},
+                        LogNo    => 1,
+                    );
+                    if ( !$OK ) {
+                        $Access = 0;
+                    }
+                }
+                if ( $Config->{RequiredLock} ) {
+                    if (
+                        $Self->{TicketObject}->LockIsTicketLocked(
+                            TicketID => $Param{TicketID}
+                        )
+                        )
+                    {
+                        my $AccessOk = $Self->{TicketObject}->OwnerCheck(
+                            TicketID => $Param{TicketID},
+                            OwnerID  => $Self->{UserID},
+                        );
+                        if ( !$AccessOk ) {
+                            $Access = 0;
                         }
                     }
-                    if ($Access) {
-                        $Self->{LayoutObject}->Block(
-                            Name => 'AgentAnswerPhoneOutbound',
-                            Data => { %Param, %Article, %AclAction },
-                        );
-                    }
+                }
+                if ($Access) {
+                    $Self->{LayoutObject}->Block(
+                        Name => 'AgentAnswerPhoneOutbound',
+                        Data => { %Param, %Article, %AclAction },
+                    );
                 }
             }
             $Self->{LayoutObject}->Block(

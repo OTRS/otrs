@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewMedium.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewMedium.pm,v 1.12 2009-04-07 09:48:55 martin Exp $
+# $Id: TicketOverviewMedium.pm,v 1.13 2009-04-15 14:14:59 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -394,74 +394,61 @@ sub _Show {
     }
 
     # create output
+    $Self->{LayoutObject}->Block(
+        Name => 'AgentAnswer',
+        Data => { %Param, %Article, %AclAction },
+    );
     if (
-        $Self->{ConfigObject}->Get('Ticket::AgentCanBeCustomer')
-        && $Article{CustomerUserID}
-        && $Article{CustomerUserID} =~ /^$Self->{UserLogin}$/i
+        $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketCompose}
+        && ( !defined( $AclAction{AgentTicketCompose} ) || $AclAction{AgentTicketCompose} )
         )
     {
-        $Self->{LayoutObject}->Block(
-            Name => 'AgentIsCustomer',
-            Data => { %Param, %Article, %AclAction },
-        );
-    }
-    else {
-        $Self->{LayoutObject}->Block(
-            Name => 'AgentAnswer',
-            Data => { %Param, %Article, %AclAction },
-        );
-        if (
-            $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketCompose}
-            && ( !defined( $AclAction{AgentTicketCompose} ) || $AclAction{AgentTicketCompose} )
-            )
-        {
-            my $Access = 1;
-            my $Config = $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketCompose");
-            if ( $Config->{Permission} ) {
-                my $Ok = $Self->{TicketObject}->Permission(
-                    Type     => $Config->{Permission},
-                    TicketID => $Param{TicketID},
-                    UserID   => $Self->{UserID},
-                    LogNo    => 1,
-                );
-                if ( !$Ok ) {
-                    $Access = 0;
-                }
-                if ($Access) {
-                    $Self->{LayoutObject}->Block(
-                        Name => 'AgentAnswerCompose',
-                        Data => { %Param, %Article, %AclAction },
-                    );
-                }
-            }
-        }
-        if (
-            $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketPhoneOutbound}
-            && (
-                !defined( $AclAction{AgentTicketPhoneOutbound} )
-                || $AclAction{AgentTicketPhoneOutbound}
-            )
-            )
-        {
-            my $Access = 1;
-            my $Config = $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketPhoneOutbound");
-            if ( $Config->{Permission} ) {
-                my $OK = $Self->{TicketObject}->Permission(
-                    Type     => $Config->{Permission},
-                    TicketID => $Param{TicketID},
-                    UserID   => $Self->{UserID},
-                    LogNo    => 1,
-                );
-                if ( !$OK ) {
-                    $Access = 0;
-                }
+        my $Access = 1;
+        my $Config = $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketCompose");
+        if ( $Config->{Permission} ) {
+            my $Ok = $Self->{TicketObject}->Permission(
+                Type     => $Config->{Permission},
+                TicketID => $Param{TicketID},
+                UserID   => $Self->{UserID},
+                LogNo    => 1,
+            );
+            if ( !$Ok ) {
+                $Access = 0;
             }
             if ($Access) {
                 $Self->{LayoutObject}->Block(
-                    Name => 'AgentAnswerPhoneOutbound',
+                    Name => 'AgentAnswerCompose',
                     Data => { %Param, %Article, %AclAction },
                 );
             }
+        }
+    }
+    if (
+        $Self->{ConfigObject}->Get('Frontend::Module')->{AgentTicketPhoneOutbound}
+        && (
+            !defined( $AclAction{AgentTicketPhoneOutbound} )
+            || $AclAction{AgentTicketPhoneOutbound}
+        )
+        )
+    {
+        my $Access = 1;
+        my $Config = $Self->{ConfigObject}->Get("Ticket::Frontend::AgentTicketPhoneOutbound");
+        if ( $Config->{Permission} ) {
+            my $OK = $Self->{TicketObject}->Permission(
+                Type     => $Config->{Permission},
+                TicketID => $Param{TicketID},
+                UserID   => $Self->{UserID},
+                LogNo    => 1,
+            );
+            if ( !$OK ) {
+                $Access = 0;
+            }
+        }
+        if ($Access) {
+            $Self->{LayoutObject}->Block(
+                Name => 'AgentAnswerPhoneOutbound',
+                Data => { %Param, %Article, %AclAction },
+            );
         }
     }
 
