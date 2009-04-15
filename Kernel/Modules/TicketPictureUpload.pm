@@ -1,15 +1,15 @@
 # --
-# Kernel/Modules/AgentTicketPictureUpload.pm - get picture uploads
+# Kernel/Modules/TicketPictureUpload.pm - get picture uploads
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPictureUpload.pm,v 1.4 2009-04-09 09:33:30 sb Exp $
+# $Id: TicketPictureUpload.pm,v 1.1 2009-04-15 13:49:17 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Modules::AgentTicketPictureUpload;
+package Kernel::Modules::TicketPictureUpload;
 
 use strict;
 use warnings;
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -131,7 +131,7 @@ sub Run {
     }
     $Output .= "{status:'UPLOADED', image_url:'"
         . $Self->{LayoutObject}->{Baselink}
-        . "Action=AgentTicketPictureUpload"
+        . "Action=TicketPictureUpload"
         . "&FormID="
         . $Self->{FormID}
         . "&ContentID="
