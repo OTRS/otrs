@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.28 2009-04-03 12:53:53 sb Exp $
+# $Id: AgentTicketBulk.pm,v 1.29 2009-04-15 12:54:39 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -159,10 +159,9 @@ sub Run {
 
             my $ArticleID;
             if ( $Subject && $Body && ( $ArticleTypeID || $ArticleType ) ) {
-                my $ContentType = "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}";
-                my $Charset     = $Self->{LayoutObject}->{'UserCharset'};
+                my $MimeType = 'text/plain';
                 if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
-                    $ContentType =~ s/plain/html/gi;
+                    $MimeType = 'text/html';
                 }
                 $ArticleID = $Self->{TicketObject}->ArticleCreate(
                     TicketID       => $TicketID,
@@ -172,8 +171,8 @@ sub Run {
                     From           => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
                     Subject        => $Subject,
                     Body           => $Body,
-                    ContentType    => $ContentType,
-                    Charset        => $Charset,
+                    MimeType       => $MimeType,
+                    Charset        => $Self->{LayoutObject}->{UserCharset},
                     UserID         => $Self->{UserID},
                     HistoryType    => 'AddNote',
                     HistoryComment => '%%Bulk',

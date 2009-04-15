@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketOwner.pm - set ticket owner
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOwner.pm,v 1.52 2009-04-09 08:32:02 sb Exp $
+# $Id: AgentTicketOwner.pm,v 1.53 2009-04-15 12:54:39 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -485,9 +485,9 @@ sub Run {
         # add note
         my $ArticleID = '';
         if ( $Self->{Config}->{Note} ) {
-            my $ContentType = "text/plain; charset=$Self->{LayoutObject}->{'UserCharset'}";
+            my $MimeType = 'text/plain';
             if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
-                $ContentType =~ s/plain/html/gi;
+                $MimeType = 'text/html';
 
                 # replace image link with content id for uploaded images
                 $GetParam{Body} =~ s{
@@ -504,8 +504,8 @@ sub Run {
                 TicketID    => $Self->{TicketID},
                 SenderType  => 'agent',
                 From        => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
-                ContentType => $ContentType,
-                Charset     => $Self->{LayoutObject}->{'UserCharset'},
+                MimeType    => $MimeType,
+                Charset     => $Self->{LayoutObject}->{UserCharset},
                 UserID      => $Self->{UserID},
                 HistoryType => $Self->{Config}->{HistoryType},
                 HistoryComment => $Self->{Config}->{HistoryComment},
@@ -529,8 +529,18 @@ sub Run {
             }
 
             # get pre loaded attachment
-            my @AttachmentData
-                = $Self->{UploadCachObject}->FormIDGetAllFilesData( FormID => $Self->{FormID} );
+            my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
+                FormID => $Self->{FormID},
+            );
+
+            # get submit attachment
+            my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+                Param  => 'file_upload',
+                Source => 'String',
+            );
+            if (%UploadStuff) {
+                push( @AttachmentData, \%UploadStuff );
+            }
 
             # write attachments
             WRITEATTACHMENT:
@@ -542,19 +552,6 @@ sub Run {
                     && $GetParam{Body} !~ /$Ref->{ContentID}/;
                 $Self->{TicketObject}->ArticleWriteAttachment(
                     %{$Ref},
-                    ArticleID => $ArticleID,
-                    UserID    => $Self->{UserID},
-                );
-            }
-
-            # get submit attachment
-            my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-                Param  => 'file_upload',
-                Source => 'String',
-            );
-            if (%UploadStuff) {
-                $Self->{TicketObject}->ArticleWriteAttachment(
-                    %UploadStuff,
                     ArticleID => $ArticleID,
                     UserID    => $Self->{UserID},
                 );
