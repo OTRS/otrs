@@ -3,7 +3,7 @@
 # scripts/tools/convert_db_to_utf8.pl - convert a database into utf-8 strings
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: convert_db_to_utf8.pl,v 1.7 2009-02-16 12:40:23 tr Exp $
+# $Id: convert_db_to_utf8.pl,v 1.8 2009-04-16 11:20:40 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,10 +31,11 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 use Encode;
 use Kernel::Config;
+use Kernel::System::Encode;
 use Kernel::System::Log;
 use Kernel::System::Main;
 use Kernel::System::DB;
@@ -44,6 +45,7 @@ use Kernel::System::DB;
 # ---
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-DB2utf8',
     %CommonObject,

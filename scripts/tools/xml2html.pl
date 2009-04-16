@@ -3,7 +3,7 @@
 # xml2html.pl - a "_simple_" xml2html viewer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: xml2html.pl,v 1.16 2009-02-16 12:40:23 tr Exp $
+# $Id: xml2html.pl,v 1.17 2009-04-16 11:20:40 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,6 +30,7 @@ use strict;
 use warnings;
 
 use Kernel::Config;
+use Kernel::System::Encode;
 use Kernel::System::Log;
 use Kernel::System::Main;
 use Kernel::System::Time;
@@ -37,21 +38,30 @@ use Kernel::System::DB;
 use Kernel::System::XML;
 
 my $ConfigObject = Kernel::Config->new();
-my $LogObject    = Kernel::System::Log->new( ConfigObject => $ConfigObject, );
+my $EncodeObject = Kernel::System::Encode->new(
+    ConfigObject => $ConfigObject,
+);
+my $LogObject    = Kernel::System::Log->new(
+    ConfigObject => $ConfigObject,
+    EncodeObject => $EncodeObject,
+);
 my $MainObject   = Kernel::System::Main->new(
     ConfigObject => $ConfigObject,
     LogObject    => $LogObject,
+    EncodeObject => $EncodeObject,
 );
 my $DBObject = Kernel::System::DB->new(
     MainObject   => $MainObject,
     ConfigObject => $ConfigObject,
     LogObject    => $LogObject,
+    EncodeObject => $EncodeObject,
 );
 my $XMLObject = Kernel::System::XML->new(
     MainObject   => $MainObject,
     ConfigObject => $ConfigObject,
     LogObject    => $LogObject,
     DBObject     => $DBObject,
+    EncodeObject => $EncodeObject,
 );
 
 my $Title       = 'xml2html: ';

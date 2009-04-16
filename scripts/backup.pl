@@ -3,7 +3,7 @@
 # scripts/backup.pl - the backup script
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: backup.pl,v 1.16 2009-02-26 11:10:53 tr Exp $
+# $Id: backup.pl,v 1.17 2009-04-16 11:20:40 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,10 +31,11 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
+use Kernel::System::Encode;
 use Kernel::System::Log;
 use Kernel::System::Main;
 use Kernel::System::Time;
@@ -51,24 +52,24 @@ my $DBDump      = '';
 getopt( 'hcrtd', \%Opts );
 if ( $Opts{'h'} ) {
     print "backup.pl <Revision $VERSION> - backup script\n";
-    print "Copyright (c) 2001-2009 OTRS AG, http//otrs.org/\n";
+    print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
     print
         "usage: backup.pl -d /data_backup_dir/ [-c gzip|bzip2] [-r 30] [-t fullbackup|nofullbackup]\n";
     exit 1;
 }
 
 # check backup dir
-if ( !$Opts{'d'} ) {
+if ( !$Opts{d} ) {
     print STDERR "ERROR: Need -d for backup directory\n";
-    exit(1);
+    exit 1;
 }
-elsif ( !-d $Opts{'d'} ) {
-    print STDERR "ERROR: No such directory: $Opts{'d'}\n";
-    exit(1);
+elsif ( !-d $Opts{d} ) {
+    print STDERR "ERROR: No such directory: $Opts{d}\n";
+    exit 1;
 }
 
 # check compress mode
-if ( $Opts{'c'} && $Opts{'c'} =~ /bzip2/i ) {
+if ( $Opts{c} && $Opts{c} =~ /bzip2/i ) {
     $Compress    = 'j';
     $CompressCMD = 'bzip2';
 }
@@ -78,7 +79,7 @@ else {
 }
 
 # check backup type
-if ( $Opts{'t'} && $Opts{'t'} =~ /no/i ) {
+if ( $Opts{t} && $Opts{t} =~ /no/i ) {
     $FullBackup = 0;
 }
 else {
@@ -88,6 +89,7 @@ else {
 # create common objects
 my %CommonObject = ();
 $CommonObject{ConfigObject} = Kernel::Config->new();
+$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-Backup',
     %CommonObject,
@@ -129,29 +131,29 @@ else {
 # check needed programs
 for my $CMD ( 'cp', 'tar', $DBDump, $CompressCMD ) {
     my $Installed = 0;
-    open( IN, "which $CMD | " );
-    while (<IN>) {
+    open my $In, "which $CMD | ";
+    while (<$In>) {
         $Installed = 1;
     }
-    close(IN);
+    close $In;
     if ( !$Installed ) {
         print STDERR "ERROR: Can't locate $CMD!\n";
-        exit(1);
+        exit 1;
     }
 }
 
 # remove old backups
-if ( $Opts{'r'} ) {
+if ( $Opts{r} ) {
     my %LeaveBackups = ();
     my ( $Year, $Month, $Day ) = Today_and_Now();
-    for ( 0 .. $Opts{'r'} ) {
+    for ( 0 .. $Opts{r} ) {
         my ( $DYear, $DMonth, $DDay ) = Add_Delta_Days( $Year, $Month, $Day, -$_ );
         $LeaveBackups{ sprintf( "%04d-%01d-%01d", $DYear, $DMonth, $DDay ) } = 1;
         $LeaveBackups{ sprintf( "%04d-%02d-%01d", $DYear, $DMonth, $DDay ) } = 1;
         $LeaveBackups{ sprintf( "%04d-%01d-%02d", $DYear, $DMonth, $DDay ) } = 1;
         $LeaveBackups{ sprintf( "%04d-%02d-%02d", $DYear, $DMonth, $DDay ) } = 1;
     }
-    my @Direcroties = glob( $Opts{'d'} . "/*" );
+    my @Direcroties = glob( $Opts{d} . "/*" );
     for my $Directory (@Direcroties) {
         my $Leave = 0;
         for my $Data ( keys %LeaveBackups ) {
@@ -190,7 +192,7 @@ my ( $s, $m, $h, $D, $M, $Y ) = $CommonObject{TimeObject}->SystemTime2Date(
 my $Directory = "$Opts{'d'}/$Y-$M-$D" . "_" . "$h-$m";
 if ( !mkdir($Directory) ) {
     print STDERR "ERROR: Can't create directory: $Directory: $!\n";
-    exit(1);
+    exit 1;
 }
 
 # backup Kernel/Config.pm
