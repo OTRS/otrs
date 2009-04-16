@@ -2,7 +2,7 @@
 # Kernel/System/SLA.pm - all sla function
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: SLA.pm,v 1.32 2009-02-16 11:57:40 tr Exp $
+# $Id: SLA.pm,v 1.33 2009-04-16 10:09:18 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 =head1 NAME
 
@@ -42,7 +42,7 @@ create an object
     use Kernel::System::Log;
     use Kernel::System::Main;
     use Kernel::System::DB;
-    use Kernel::System::Service;
+    use Kernel::System::SLA;
 
     my $ConfigObject = Kernel::Config->new();
     my $LogObject    = Kernel::System::Log->new(
@@ -677,6 +677,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.32 $ $Date: 2009-02-16 11:57:40 $
+$Revision: 1.33 $ $Date: 2009-04-16 10:09:18 $
 
 =cut

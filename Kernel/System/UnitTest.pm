@@ -2,7 +2,7 @@
 # Kernel/System/UnitTest.pm - the global test wrapper
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: UnitTest.pm,v 1.22 2009-04-09 10:11:32 martin Exp $
+# $Id: UnitTest.pm,v 1.23 2009-04-16 10:09:18 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 =head1 NAME
 
@@ -33,17 +33,18 @@ All test functions
 
 =item new()
 
-create test object
+create unit test object
 
     use Kernel::Config;
     use Kernel::System::Encode;
     use Kernel::System::Log;
     use Kernel::System::Main;
     use Kernel::System::DB;
-    use Kernel::System::Test;
+    use Kernel::System::Time;
+    use Kernel::System::UnitTest;
 
     my $ConfigObject = Kernel::Config->new();
-    my $EncodeObject    = Kernel::System::Encode->new(
+    my $EncodeObject = Kernel::System::Encode->new(
         ConfigObject => $ConfigObject,
     );
     my $LogObject    = Kernel::System::Log->new(
@@ -551,6 +552,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2009-04-09 10:11:32 $
+$Revision: 1.23 $ $Date: 2009-04-16 10:09:18 $
 
 =cut
