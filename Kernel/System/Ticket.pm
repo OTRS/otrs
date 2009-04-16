@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.389 2009-04-09 08:35:07 martin Exp $
+# $Id: Ticket.pm,v 1.390 2009-04-16 13:57:10 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTML2Ascii;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.389 $) [1];
+$VERSION = qw($Revision: 1.390 $) [1];
 
 =head1 NAME
 
@@ -88,6 +88,10 @@ create an object
         DBObject     => $DBObject,
         MainObject   => $MainObject,
         TimeObject   => $TimeObject,
+        EncodeObject => $EncodeObject,
+        GroupObject  => $GroupObject,              # if given
+        CustomerUserObject => $CustomerUserObject, # if given
+        QueueObject        => $QueueObject,        # if given
     );
 
 =cut
@@ -7503,6 +7507,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.389 $ $Date: 2009-04-09 08:35:07 $
+$Revision: 1.390 $ $Date: 2009-04-16 13:57:10 $
 
 =cut

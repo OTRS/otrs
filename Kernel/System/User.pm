@@ -2,7 +2,7 @@
 # Kernel/System/User.pm - some user functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: User.pm,v 1.90 2009-04-03 14:13:43 mh Exp $
+# $Id: User.pm,v 1.91 2009-04-16 13:57:10 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.90 $) [1];
+$VERSION = qw($Revision: 1.91 $) [1];
 
 =head1 NAME
 
@@ -71,6 +71,7 @@ create an object
         MainObject   => $MainObject,
         TimeObject   => $TimeObject,
         DBObject     => $DBObject,
+        EncodeObject => $EncodeObject,
     );
 
 =cut
@@ -977,6 +978,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.90 $ $Date: 2009-04-03 14:13:43 $
+$Revision: 1.91 $ $Date: 2009-04-16 13:57:10 $
 
 =cut

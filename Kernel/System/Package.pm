@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.97 2009-04-03 14:24:08 martin Exp $
+# $Id: Package.pm,v 1.98 2009-04-16 13:57:10 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.97 $) [1];
+$VERSION = qw($Revision: 1.98 $) [1];
 
 =head1 NAME
 
@@ -75,6 +75,7 @@ create an object
         TimeObject   => $TimeObject,
         DBObject     => $DBObject,
         EncodeObject => $EncodeObject,
+        MainObject   => $MainObject,
     );
 
 =cut
@@ -2395,6 +2396,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.97 $ $Date: 2009-04-03 14:24:08 $
+$Revision: 1.98 $ $Date: 2009-04-16 13:57:10 $
 
 =cut

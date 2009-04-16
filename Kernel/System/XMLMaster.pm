@@ -2,7 +2,7 @@
 # Kernel/System/XMLMaster.pm - the global XMLMaster module for OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: XMLMaster.pm,v 1.13 2009-04-16 10:14:50 tr Exp $
+# $Id: XMLMaster.pm,v 1.14 2009-04-16 13:57:10 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 =head1 NAME
 
@@ -57,22 +57,23 @@ create a xml master object
     );
 
     my $TimeObject = Kernel::System::Time->new(
-        MainObject => $MainObject,
+        MainObject   => $MainObject,
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
     );
 
     my $DBObject = Kernel::System::DB->new(
-        MainObject => $MainObject,
+        MainObject   => $MainObject,
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
     );
 
     my $XMLMasterObject = Kernel::System::XMLMaster->new(
-        DBObject => $DBObject,
-        MainObject => $MainObject,
+        DBObject     => $DBObject,
+        MainObject   => $MainObject,
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
+        LogObject    => $LogObject,
+        TimeObject   => $TimeObject,
     );
 
 =cut
@@ -170,6 +171,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2009-04-16 10:14:50 $
+$Revision: 1.14 $ $Date: 2009-04-16 13:57:10 $
 
 =cut

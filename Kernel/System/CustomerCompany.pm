@@ -2,7 +2,7 @@
 # Kernel/System/CustomerCompany.pm - All customer company related function should be here eventually
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerCompany.pm,v 1.14 2009-02-16 11:58:56 tr Exp $
+# $Id: CustomerCompany.pm,v 1.15 2009-04-16 13:57:10 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -38,8 +38,10 @@ All project functions.
 create an object
 
     use Kernel::Config;
-    use Kernel::System::Time;
+    use Kernel::System::Encode;
     use Kernel::System::Log;
+    use Kernel::System::Main;
+    use Kernel::System::Time;
     use Kernel::System::DB;
     use Kernel::System::CustomerCompany;
 
@@ -58,9 +60,10 @@ create an object
 
     my $CustomerCompanyObject = Kernel::System::CustomerCompany->new(
         ConfigObject => $ConfigObject,
-        LogObject => $LogObject,
-        DBObject => $DBObject,
-        TimeObject => $TimeObject,
+        LogObject    => $LogObject,
+        DBObject     => $DBObject,
+        TimeObject   => $TimeObject,
+        MainObject   => $MainObject,
     );
 
 =cut
@@ -423,6 +426,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2009-02-16 11:58:56 $
+$Revision: 1.15 $ $Date: 2009-04-16 13:57:10 $
 
 =cut

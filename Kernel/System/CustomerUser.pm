@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser.pm - some customer user functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUser.pm,v 1.51 2009-04-03 14:18:35 mh Exp $
+# $Id: CustomerUser.pm,v 1.52 2009-04-16 13:57:10 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerCompany;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 =head1 NAME
 
@@ -61,6 +61,7 @@ create an object
         LogObject    => $LogObject,
         DBObject     => $DBObject,
         MainObject   => $MainObject,
+        EncodeObject => $EncodeObject,
     );
 
 =cut
@@ -594,6 +595,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.51 $ $Date: 2009-04-03 14:18:35 $
+$Revision: 1.52 $ $Date: 2009-04-16 13:57:10 $
 
 =cut
