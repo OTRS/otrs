@@ -2,7 +2,7 @@
 # Kernel/System/Crypt.pm - the main crypt module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Crypt.pm,v 1.16 2009-04-08 12:29:40 tr Exp $
+# $Id: Crypt.pm,v 1.17 2009-04-16 11:53:36 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION @ISA);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 =head1 NAME
 
@@ -49,7 +49,7 @@ create new object
     my $LogObject = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
-    my $MainObject = Kernel::System::DB->new(
+    my $MainObject = Kernel::System::Main->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
     );
@@ -120,6 +120,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2009-04-08 12:29:40 $
+$Revision: 1.17 $ $Date: 2009-04-16 11:53:36 $
 
 =cut
