@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.29 2009-04-15 12:54:39 sb Exp $
+# $Id: AgentTicketBulk.pm,v 1.30 2009-04-17 12:53:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,10 +15,11 @@ use strict;
 use warnings;
 
 use Kernel::System::State;
+use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -34,8 +35,11 @@ sub new {
         }
     }
 
-    $Self->{StateObject} = Kernel::System::State->new(%Param);
-    $Self->{LinkObject}  = Kernel::System::LinkObject->new(%Param);
+    $Self->{StateObject}    = Kernel::System::State->new(%Param);
+    $Self->{PriorityObject} = Kernel::System::Priority->new(%Param);
+    $Self->{LinkObject}     = Kernel::System::LinkObject->new(%Param);
+
+    $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
 
     return $Self;
 }
@@ -136,6 +140,30 @@ sub Run {
                     UserID    => $Self->{UserID},
                     NewUser   => $Owner,
                     NewUserID => $OwnerID,
+                );
+            }
+
+            # set responsible
+            my $ResponsibleID = $Self->{ParamObject}->GetParam( Param => 'ResponsibleID' ) || '';
+            my $Responsible   = $Self->{ParamObject}->GetParam( Param => 'Responsible' )   || '';
+            if ( $ResponsibleID || $Responsible ) {
+                $Self->{TicketObject}->ResponsibleSet(
+                    TicketID  => $TicketID,
+                    UserID    => $Self->{UserID},
+                    NewUser   => $Responsible,
+                    NewUserID => $ResponsibleID,
+                );
+            }
+
+            # set priority
+            my $PriorityID = $Self->{ParamObject}->GetParam( Param => 'PriorityID' ) || '';
+            my $Priority   = $Self->{ParamObject}->GetParam( Param => 'Priority' )   || '';
+            if ( $PriorityID || $Priority ) {
+                $Self->{TicketObject}->PrioritySet(
+                    TicketID   => $TicketID,
+                    UserID     => $Self->{UserID},
+                    Priority   => $Priority,
+                    PriorityID => $PriorityID,
                 );
             }
 
@@ -341,75 +369,133 @@ sub _Mask {
     );
 
     # build ArticleTypeID string
-    my %DefaultNoteTypes
-        = %{ $Self->{ConfigObject}->Get('Ticket::Frontend::AgentTicketNote')->{ArticleTypes} };
+    my %DefaultNoteTypes = %{ $Self->{Config}->{ArticleTypes} };
     my %NoteTypes = $Self->{TicketObject}->ArticleTypeList( Result => 'HASH' );
     for ( keys %NoteTypes ) {
         if ( !$DefaultNoteTypes{ $NoteTypes{$_} } ) {
             delete $NoteTypes{$_};
         }
     }
-    $Param{'NoteStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{NoteStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data => \%NoteTypes,
         Name => 'ArticleTypeID',
-        Selected =>
-            $Self->{ConfigObject}->Get('Ticket::Frontend::AgentTicketNote')->{ArticleTypeDefault},
+        Selected => $Self->{Config}->{ArticleTypeDefault},
     );
 
     # build next states string
-    my %NextStates = $Self->{StateObject}->StateList(
-        Type   => 'DefaultNextNote',
-        Action => $Self->{Action},
-        UserID => $Self->{UserID},
-    );
-    $NextStates{''}          = '-';
-    $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => \%NextStates,
-        Name => 'StateID',
-    );
-    for my $StateID ( sort keys %NextStates ) {
-        next if !$StateID;
-        my %StateData = $Self->{TicketObject}->{StateObject}->StateGet( ID => $StateID );
-        next if $StateData{TypeName} !~ /pending/i;
-        $Param{DateString} = $Self->{LayoutObject}->BuildDateSelection(
-            Format => 'DateInputFormatLong',
-            DiffTime => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
-            %Param,
+    if ( $Self->{Config}->{State} ) {
+        my %State;
+        my %StateList = $Self->{StateObject}->StateGetStatesByType(
+            StateType => $Self->{Config}->{StateType},
+            Result    => 'HASH',
+            Action    => $Self->{Action},
+            UserID    => $Self->{UserID},
+        );
+        if ( !$Self->{Config}->{StateDefault} ) {
+            $StateList{''} = '-';
+        }
+        if ( !$Param{StateID} ) {
+            if ( $Self->{Config}->{StateDefault} ) {
+                $State{Selected} = $Self->{Config}->{StateDefault};
+            }
+        }
+        else {
+            $State{SelectedID} = $Param{StateID};
+        }
+
+        $Param{NextStatesStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => \%StateList,
+            Name => 'StateID',
+            %State,
         );
         $Self->{LayoutObject}->Block(
-            Name => 'StatePending',
+            Name => 'State',
             Data => \%Param,
         );
-        last;
+        for my $StateID ( sort keys %StateList ) {
+            next if !$StateID;
+            my %StateData = $Self->{TicketObject}->{StateObject}->StateGet( ID => $StateID );
+            next if $StateData{TypeName} !~ /pending/i;
+            $Param{DateString} = $Self->{LayoutObject}->BuildDateSelection(
+                Format => 'DateInputFormatLong',
+                DiffTime => $Self->{ConfigObject}->Get('Ticket::Frontend::PendingDiffTime') || 0,
+                %Param,
+            );
+            $Self->{LayoutObject}->Block(
+                Name => 'StatePending',
+                Data => \%Param,
+            );
+            last;
+        }
     }
 
     # owner list
-    my %AllGroupsMembers = $Self->{UserObject}->UserList( Type => 'Long', Valid => 1 );
+    if ( $Self->{Config}->{Owner} ) {
+        my %AllGroupsMembers = $Self->{UserObject}->UserList( Type => 'Long', Valid => 1 );
 
-    # only put possible rw agents to possible owner list
-    if ( !$Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone') ) {
-        my %AllGroupsMembersNew;
-        for my $TicketID ( @{ $Param{TicketIDs} } ) {
-            my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
-            my $GroupID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
-            my %GroupMember = $Self->{GroupObject}->GroupMemberList(
-                GroupID => $GroupID,
-                Type    => 'rw',
-                Result  => 'HASH',
-                Cached  => 1,
-            );
-            for my $UserID ( sort keys %GroupMember ) {
-                next if !$AllGroupsMembers{$UserID};
-                $AllGroupsMembersNew{$UserID} = $AllGroupsMembers{$UserID};
+        # only put possible rw agents to possible owner list
+        if ( !$Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone') ) {
+            my %AllGroupsMembersNew;
+            for my $TicketID ( @{ $Param{TicketIDs} } ) {
+                my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
+                my $GroupID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
+                my %GroupMember = $Self->{GroupObject}->GroupMemberList(
+                    GroupID => $GroupID,
+                    Type    => 'rw',
+                    Result  => 'HASH',
+                    Cached  => 1,
+                );
+                for my $UserID ( sort keys %GroupMember ) {
+                    next if !$AllGroupsMembers{$UserID};
+                    $AllGroupsMembersNew{$UserID} = $AllGroupsMembers{$UserID};
+                }
+                %AllGroupsMembers = %AllGroupsMembersNew;
             }
-            %AllGroupsMembers = %AllGroupsMembersNew;
         }
+        $Param{OwnerStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => { '' => '-', %AllGroupsMembers },
+            Name => 'OwnerID',
+            LanguageTranslation => 0,
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'Owner',
+            Data => \%Param,
+        );
     }
-    $Param{OwnerStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => { '' => '-', %AllGroupsMembers },
-        Name => 'OwnerID',
-        LanguageTranslation => 0,
-    );
+
+    # owner list
+    if ( $Self->{Config}->{Responsible} ) {
+        my %AllGroupsMembers = $Self->{UserObject}->UserList( Type => 'Long', Valid => 1 );
+
+        # only put possible rw agents to possible owner list
+        if ( !$Self->{ConfigObject}->Get('Ticket::ChangeOwnerToEveryone') ) {
+            my %AllGroupsMembersNew;
+            for my $TicketID ( @{ $Param{TicketIDs} } ) {
+                my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $TicketID );
+                my $GroupID = $Self->{QueueObject}->GetQueueGroupID( QueueID => $Ticket{QueueID} );
+                my %GroupMember = $Self->{GroupObject}->GroupMemberList(
+                    GroupID => $GroupID,
+                    Type    => 'rw',
+                    Result  => 'HASH',
+                    Cached  => 1,
+                );
+                for my $UserID ( sort keys %GroupMember ) {
+                    next if !$AllGroupsMembers{$UserID};
+                    $AllGroupsMembersNew{$UserID} = $AllGroupsMembers{$UserID};
+                }
+                %AllGroupsMembers = %AllGroupsMembersNew;
+            }
+        }
+        $Param{ResponsibleStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => { '' => '-', %AllGroupsMembers },
+            Name => 'ResponsibleID',
+            LanguageTranslation => 0,
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'Responsible',
+            Data => \%Param,
+        );
+    }
 
     # build move queue string
     my %MoveQueues = $Self->{TicketObject}->MoveList(
@@ -427,6 +513,35 @@ sub _Mask {
         OnChangeSubmit => 0,
     );
 
+    # get priority
+    if ( $Self->{Config}->{Priority} ) {
+        my %Priority;
+        my %PriorityList = $Self->{PriorityObject}->PriorityList(
+            Valid    => 1,
+            UserID   => $Self->{UserID},
+        );
+        if ( !$Self->{Config}->{PriorityDefault} ) {
+            $PriorityList{''} = '-';
+        }
+        if ( !$Param{PriorityID} ) {
+            if ( $Self->{Config}->{PriorityDefault} ) {
+                $Priority{Selected} = $Self->{Config}->{PriorityDefault};
+            }
+        }
+        else {
+            $Priority{SelectedID} = $Param{PriorityID};
+        }
+        $Param{PriorityStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+            Data => \%PriorityList,
+            Name => 'PriorityID',
+            %Priority,
+        );
+        $Self->{LayoutObject}->Block(
+            Name => 'Priority',
+            Data => \%Param,
+        );
+    }
+
     # show time accounting box
     if ( $Self->{ConfigObject}->Get('Ticket::Frontend::AccountTime') ) {
         $Self->{LayoutObject}->Block(
@@ -439,13 +554,13 @@ sub _Mask {
         );
     }
 
-    $Param{'LinkTogetherYesNoOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{LinkTogetherYesNoOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
         Name       => 'LinkTogether',
         SelectedID => 0,
     );
 
-    $Param{'UnlockYesNoOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{UnlockYesNoOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
         Name       => 'Unlock',
         SelectedID => 1,

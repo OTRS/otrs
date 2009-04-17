@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.873 2009-04-15 14:14:59 sb Exp $
+# $Id: CHANGES,v 1.874 2009-04-17 12:53:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.4.0 beta1 (2009/??/??)
+ - (2009/04/17) Added own SysConfig settings for bulk action (
+    Ticket // Frontend::Agent::Ticket::ViewBulk).
  - (2009/04/15) Removed AgentCanBeCustomer option from agent frontend.
     Customer followup messages can only be created from the customer frontend.
  - (2009/04/09) Added search for article create times in ticket search.
@@ -40,7 +42,7 @@
 
     This ACL will match all Queues with starting "Misc" and all services with
     starting "t1" and "t2". So you do not longer need to write every full queue
-    names to the arrey list.
+    names to the array list.
 
     o Usage of [RegExp] results in case-sensitive matching.
     o Usage of [regexp] results in case-insensitive matching.

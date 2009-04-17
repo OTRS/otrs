@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.236 2009-04-15 14:14:59 sb Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.237 2009-04-17 12:53:16 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -5171,6 +5171,87 @@
             <String Regex="">%%Responsible</String>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketBulk###Owner" Required="0" Valid="1">
+        <Description Lang="en">If you want to set the owner.</Description>
+        <Description Lang="de">Wenn der Besitzer gesetzt werden soll.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewBulk</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketBulk###Responsible" Required="0" Valid="1">
+        <Description Lang="en">If you want to set the responsible.</Description>
+        <Description Lang="de">Wenn der Verantwortliche gesetzt werden soll.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewBulk</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketBulk###State" Required="0" Valid="1">
+        <Description Lang="en">Would you like to set the state of a ticket if a note is created by an agent?</Description>
+        <Description Lang="de">Soll der Status eines Tickets gesetzt werden können, wenn eine Notiz durch einen Agent angelegt wird?</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewBulk</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketBulk###StateType" Required="1" Valid="1">
+        <Description Lang="en">Default next states after adding a note.</Description>
+        <Description Lang="de">Nächstmögliche Status nach dem Hinzufügen einer Notiz.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewBulk</SubGroup>
+        <Setting>
+            <Array>
+                <Item>open</Item>
+                <Item>closed</Item>
+                <Item>pending reminder</Item>
+                <Item>pending auto</Item>
+            </Array>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketBulk###StateDefault" Required="0" Valid="0">
+        <Description Lang="en">Default next state.</Description>
+        <Description Lang="de">Standardmäßig ausgewählter nächster Status.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewBulk</SubGroup>
+        <Setting>
+            <String Regex="">open</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketBulk###ArticleTypeDefault" Required="0" Valid="1">
+        <Description Lang="en">Default note type.</Description>
+        <Description Lang="de">Voreingestellter Notiztyp.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewBulk</SubGroup>
+        <Setting>
+            <String Regex="">note-internal</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketBulk###ArticleTypes" Required="0" Valid="1">
+        <Description Lang="en">Specify the different note types, that you want to use in your system.</Description>
+        <Description Lang="de">Hier können die verschiedenen Notiz-Typen festgelegt werden, die innerhalb des Systems verwendet werden sollen.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewBulk</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="note-internal">1</Item>
+                <Item Key="note-external">1</Item>
+                <Item Key="note-report">0</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
 
     <ConfigItem Name="Ticket::Frontend::MoveType" Required="1" Valid="1">
         <Description Lang="en">The queue selection can be shown in a dropdown list or in a new window. If "New Window" is set you can add a move note to the ticket.</Description>
@@ -5382,6 +5463,18 @@ $QData{"Signature"}
         <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
         <Setting>
             <String Regex="">&gt;</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::ComposeAddCustomerAddress" Required="1" Valid="1">
+        <Description Lang="en">Always add customers email address to recipients on compose answer screen.</Description>
+        <Description Lang="de">Kunden Email-Adresse  erstellen einer Antwort immer zu Empfänger-Liste hinzufügen.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewCompose</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::ComposeReplaceSenderAddress" Required="1" Valid="1">

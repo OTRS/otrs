@@ -2,7 +2,7 @@
 # AgentTicketBulk.dtl - provides HTML form for bulk mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.dtl,v 1.17 2009-04-03 11:22:31 sb Exp $
+# $Id: AgentTicketBulk.dtl,v 1.18 2009-04-17 12:53:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -104,6 +104,7 @@ $QData{"NoteText"}
                   <td class="contentkey">$Text{"Note type"}:</td>
                   <td class="contentvalue">$Data{"NoteStrg"}</td>
                 </tr>
+<!-- dtl:block:State -->
                 <tr>
                   <td width="20%" class="contentkey">$Text{"Next state"}:</td>
                   <td width="80%" class="contentvalue">$Data{"NextStatesStrg"}</td>
@@ -114,17 +115,26 @@ $QData{"NoteText"}
                   <td class="contentvalue">$Data{"DateString"} <font color="red" size="-2">$Text{"$Data{"Date invalid"}"}</font></td>
                 </tr>
 <!-- dtl:block:StatePending -->
+<!-- dtl:block:State -->
+<!-- dtl:block:Owner -->
                 <tr>
                   <td class="contentkey">$Text{"Owner"}:</td>
                   <td class="contentvalue">$Data{"OwnerStrg"}</td>
                 </tr>
+<!-- dtl:block:Owner -->
+<!-- dtl:block:Responsible -->
+                <tr>
+                  <td class="contentkey">$Text{"Responsible"}:</td>
+                  <td class="contentvalue">$Data{"ResponsibleStrg"}</td>
+                </tr>
+<!-- dtl:block:Responsible -->
                 <tr>
                   <td class="contentkey">$Text{"Queue"}:</td>
                   <td class="contentvalue">$Data{"MoveQueuesStrg"}</td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Merge"}:</td>
-                  <td class="contentvalue"> <input type="radio" name="MergeToSelection" value="MergeTo"/> $Text{"Merge to"} <input type="text" size="30" name="MergeTo" value="$QData{"MergeTo"}"/> / <input type="radio" name="MergeToSelection" value="MergeToOldest"/> $Text{"Merge to oldest"} </td>
+                  <td class="contentvalue"> <input type="radio" name="MergeToSelection" value="MergeTo"/> $Text{"Merge to"} <input type="text" size="30" name="MergeTo" value="$QData{"MergeTo"}"/> <input type="radio" name="MergeToSelection" value="MergeToOldest"/> $Text{"Merge to oldest"} </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Link together"}:</td>
@@ -138,6 +148,12 @@ $QData{"NoteText"}
                   <td class="contentkey">$Text{"Unlock Tickets"}:</td>
                   <td class="contentvalue">$Data{"UnlockYesNoOption"}</td>
                 </tr>
+<!-- dtl:block:Priority -->
+                <tr>
+                  <td class="contentkey">$Text{"Priority"}:</td>
+                  <td class="contentvalue">$Data{"PriorityStrg"}</td>
+                </tr>
+<!-- dtl:block:Priority -->
 <!-- dtl:block:TimeUnits -->
                 <tr>
                   <td class="contentkey">$Text{"Time units"}$Text{"$Config{"Ticket::Frontend::TimeUnits"}"}:</td>
