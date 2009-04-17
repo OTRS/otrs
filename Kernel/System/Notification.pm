@@ -2,7 +2,7 @@
 # Kernel/System/Notification.pm - lib for notifications
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Notification.pm,v 1.26 2009-04-17 06:17:47 tr Exp $
+# $Id: Notification.pm,v 1.27 2009-04-17 06:43:20 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 =head1 NAME
 
@@ -43,13 +43,12 @@ create a notification object
     use Kernel::System::Notification;
 
     my $ConfigObject = Kernel::Config->new();
-
-    my $LogObject = Kernel::System::Log->new(
-        ConfigObject => $ConfigObject,
-    );
-
     my $EncodeObject = Kernel::System::Encode->new(
         ConfigObject => $ConfigObject,
+    );
+    my $LogObject    = Kernel::System::Log->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
     );
     my $MainObject = Kernel::System::Main->new(
         ConfigObject => $ConfigObject,
@@ -60,7 +59,6 @@ create a notification object
         LogObject    => $LogObject,
         MainObject   => $MainObject,
     );
-
     my $NotificationObject = Kernel::System::Notification->new(
         EncodeObject => $EncodeObject,
         ConfigObject => $ConfigObject,
@@ -299,6 +297,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.26 $ $Date: 2009-04-17 06:17:47 $
+$Revision: 1.27 $ $Date: 2009-04-17 06:43:20 $
 
 =cut

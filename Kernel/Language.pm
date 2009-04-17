@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Language.pm,v 1.63 2009-04-05 21:55:22 mh Exp $
+# $Id: Language.pm,v 1.64 2009-04-17 06:43:19 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 =head1 NAME
 
@@ -50,6 +50,7 @@ create a language object
     );
     my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
     );
     my $MainObject = Kernel::System::Main->new(
         ConfigObject => $ConfigObject,
@@ -518,6 +519,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.63 $ $Date: 2009-04-05 21:55:22 $
+$Revision: 1.64 $ $Date: 2009-04-17 06:43:19 $
 
 =cut

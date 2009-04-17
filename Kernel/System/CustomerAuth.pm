@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth.pm - provides the authentification
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerAuth.pm,v 1.25 2009-04-17 06:17:47 tr Exp $
+# $Id: CustomerAuth.pm,v 1.26 2009-04-17 06:43:19 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 =head1 NAME
 
@@ -49,6 +49,7 @@ create an object
     );
     my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
     );
     my $MainObject = Kernel::System::Main->new(
         ConfigObject => $ConfigObject,
@@ -59,7 +60,6 @@ create an object
         LogObject    => $LogObject,
         MainObject   => $MainObject,
     );
-
     my $AuthObject = Kernel::System::CustomerAuth->new(
         EncodeObject => $EncodeObject,
         ConfigObject => $ConfigObject,
@@ -186,6 +186,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.25 $ $Date: 2009-04-17 06:17:47 $
+$Revision: 1.26 $ $Date: 2009-04-17 06:43:19 $
 
 =cut

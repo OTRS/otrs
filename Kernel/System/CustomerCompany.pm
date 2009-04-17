@@ -2,7 +2,7 @@
 # Kernel/System/CustomerCompany.pm - All customer company related function should be here eventually
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerCompany.pm,v 1.16 2009-04-17 06:17:47 tr Exp $
+# $Id: CustomerCompany.pm,v 1.17 2009-04-17 06:43:19 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 =head1 NAME
 
@@ -49,10 +49,11 @@ create an object
     my $EncodeObject = Kernel::System::Encode->new(
         ConfigObject => $ConfigObject,
     );
-    my $TimeObject = Kernel::System::Time->new(
+    my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
     );
-    my $LogObject = Kernel::System::Log->new(
+    my $TimeObject = Kernel::System::Time->new(
         ConfigObject => $ConfigObject,
     );
     my $MainObject = Kernel::System::Main->new(
@@ -433,6 +434,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2009-04-17 06:17:47 $
+$Revision: 1.17 $ $Date: 2009-04-17 06:43:19 $
 
 =cut

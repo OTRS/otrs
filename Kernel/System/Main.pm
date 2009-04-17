@@ -2,7 +2,7 @@
 # Kernel/System/Main.pm - main core components
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Main.pm,v 1.31 2009-04-16 10:02:22 tr Exp $
+# $Id: Main.pm,v 1.32 2009-04-17 06:43:20 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Data::Dumper;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 =head1 NAME
 
@@ -760,6 +760,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.31 $ $Date: 2009-04-16 10:02:22 $
+$Revision: 1.32 $ $Date: 2009-04-17 06:43:20 $
 
 =cut
