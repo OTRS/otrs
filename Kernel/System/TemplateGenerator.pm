@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.6 2009-04-16 13:57:10 tr Exp $
+# $Id: TemplateGenerator.pm,v 1.7 2009-04-17 06:17:47 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Signature;
 use Kernel::System::StdResponse;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -43,7 +43,12 @@ create an object
     use Kernel::Config;
     use Kernel::System::Time;
     use Kernel::System::Log;
+    use Kernel::System::Main;
     use Kernel::System::DB;
+    use Kernel::System::User;
+    use Kernel::System::Ticket;
+    use Kernel::System::CustomerUser;
+    use Kernel::System::Queue;
     use Kernel::System::TemplateGenerator;
 
     my $ConfigObject = Kernel::Config->new();
@@ -53,12 +58,49 @@ create an object
     my $LogObject = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
     );
+    my $MainObject = Kernel::System::Main->new(
+        LogObject    => $LogObject,
+        ConfigObject => $ConfigObject,
+    );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
         MainObject   => $MainObject,
     );
-
+    my $UserObject = Kernel::System::User->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+        MainObject   => $MainObject,
+        TimeObject   => $TimeObject,
+        DBObject     => $DBObject,
+        EncodeObject => $EncodeObject,
+    );
+    my $TicketObject = Kernel::System::Ticket->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+        DBObject     => $DBObject,
+        MainObject   => $MainObject,
+        TimeObject   => $TimeObject,
+        EncodeObject => $EncodeObject,
+        GroupObject  => $GroupObject,              # if given
+        CustomerUserObject => $CustomerUserObject, # if given
+        QueueObject        => $QueueObject,        # if given
+    );
+    my $CustomerUserObject = Kernel::System::CustomerUser->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+        DBObject     => $DBObject,
+        MainObject   => $MainObject,
+        EncodeObject => $EncodeObject,
+    );
+    my $QueueObject = Kernel::System::Queue->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
+        DBObject     => $DBObject,
+        MainObject   => $MainObject,
+        GroupObject  => $GroupObject, # if given
+        CustomerGroupObject => $CustomerGroupObject, # if given
+    );
     my $TemplateGeneratorObject = Kernel::System::TemplateGenerator->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
@@ -747,6 +789,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2009-04-16 13:57:10 $
+$Revision: 1.7 $ $Date: 2009-04-17 06:17:47 $
 
 =cut

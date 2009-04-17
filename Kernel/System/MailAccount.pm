@@ -2,7 +2,7 @@
 # Kernel/System/MailAccount.pm - lib for mail accounts
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: MailAccount.pm,v 1.6 2009-02-16 11:58:56 tr Exp $
+# $Id: MailAccount.pm,v 1.7 2009-04-17 06:17:47 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -37,12 +37,17 @@ create an object
 
     use Kernel::Config;
     use Kernel::System::Log;
+    use Kernel::System::Main;
     use Kernel::System::DB;
     use Kernel::System::MailAccount;
 
     my $ConfigObject = Kernel::Config->new();
     my $LogObject    = Kernel::System::Log->new(
         ConfigObject => $ConfigObject,
+    );
+    my $MainObject = Kernel::System::Main->new(
+        ConfigObject => $ConfigObject,
+        LogObject    => $LogObject,
     );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
@@ -385,6 +390,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2009-02-16 11:58:56 $
+$Revision: 1.7 $ $Date: 2009-04-17 06:17:47 $
 
 =cut

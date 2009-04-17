@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.106 2009-04-16 13:57:10 tr Exp $
+# $Id: Queue.pm,v 1.107 2009-04-17 06:17:47 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.106 $) [1];
+$VERSION = qw($Revision: 1.107 $) [1];
 
 =head1 NAME
 
@@ -64,7 +64,8 @@ create an object
         LogObject    => $LogObject,
         DBObject     => $DBObject,
         MainObject   => $MainObject,
-        GroupObject  => $GroupObject,
+        GroupObject  => $GroupObject, # if given
+        CustomerGroupObject => $CustomerGroupObject, # if given
     );
 
 =cut
@@ -1123,6 +1124,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.106 $ $Date: 2009-04-16 13:57:10 $
+$Revision: 1.107 $ $Date: 2009-04-17 06:17:47 $
 
 =cut
