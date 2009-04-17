@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.30 2009-04-17 12:53:16 martin Exp $
+# $Id: AgentTicketBulk.pm,v 1.31 2009-04-17 13:25:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -134,7 +134,7 @@ sub Run {
             # set owner
             my $OwnerID = $Self->{ParamObject}->GetParam( Param => 'OwnerID' ) || '';
             my $Owner   = $Self->{ParamObject}->GetParam( Param => 'Owner' )   || '';
-            if ( $OwnerID || $Owner ) {
+            if ( $Self->{Config}->{Owner} && ( $OwnerID || $Owner ) ) {
                 $Self->{TicketObject}->OwnerSet(
                     TicketID  => $TicketID,
                     UserID    => $Self->{UserID},
@@ -146,7 +146,7 @@ sub Run {
             # set responsible
             my $ResponsibleID = $Self->{ParamObject}->GetParam( Param => 'ResponsibleID' ) || '';
             my $Responsible   = $Self->{ParamObject}->GetParam( Param => 'Responsible' )   || '';
-            if ( $ResponsibleID || $Responsible ) {
+            if ( $Self->{Config}->{Responsible} && ( $ResponsibleID || $Responsible ) ) {
                 $Self->{TicketObject}->ResponsibleSet(
                     TicketID  => $TicketID,
                     UserID    => $Self->{UserID},
@@ -158,7 +158,7 @@ sub Run {
             # set priority
             my $PriorityID = $Self->{ParamObject}->GetParam( Param => 'PriorityID' ) || '';
             my $Priority   = $Self->{ParamObject}->GetParam( Param => 'Priority' )   || '';
-            if ( $PriorityID || $Priority ) {
+            if ( $Self->{Config}->{Priority} && ($PriorityID || $Priority ) ) {
                 $Self->{TicketObject}->PrioritySet(
                     TicketID   => $TicketID,
                     UserID     => $Self->{UserID},
@@ -210,7 +210,7 @@ sub Run {
             # set state
             my $StateID = $Self->{ParamObject}->GetParam( Param => 'StateID' ) || '';
             my $State   = $Self->{ParamObject}->GetParam( Param => 'State' )   || '';
-            if ( $StateID || $State ) {
+            if ( $Self->{Config}->{Priority} && ( $StateID || $State ) ) {
                 $Self->{TicketObject}->StateSet(
                     TicketID => $TicketID,
                     StateID  => $StateID,
@@ -464,7 +464,7 @@ sub _Mask {
     }
 
     # owner list
-    if ( $Self->{Config}->{Responsible} ) {
+    if ( $Self->{ConfigObject}->Get('Ticket::Responsible') && $Self->{Config}->{Responsible} ) {
         my %AllGroupsMembers = $Self->{UserObject}->UserList( Type => 'Long', Valid => 1 );
 
         # only put possible rw agents to possible owner list

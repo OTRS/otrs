@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.237 2009-04-17 12:53:16 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.238 2009-04-17 13:25:38 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -2450,6 +2450,10 @@
                 <Item>TicketFreeTime5</Item>
                 <Item>TicketFreeTime6</Item>
                 <Item>ArticleTree</Item>
+                <Item>SolutionInMin</Item>
+                <Item>SolutionDiffInMin</Item>
+                <Item>FirstResponseInMin</Item>
+                <Item>FirstResponseDiffInMin</Item>
             </Array>
         </Setting>
     </ConfigItem>
@@ -5177,7 +5181,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewBulk</SubGroup>
         <Setting>
-            <Option SelectedID="0">
+            <Option SelectedID="1">
                 <Item Key="0">No</Item>
                 <Item Key="1">Yes</Item>
             </Option>
@@ -5189,7 +5193,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewBulk</SubGroup>
         <Setting>
-            <Option SelectedID="0">
+            <Option SelectedID="1">
                 <Item Key="0">No</Item>
                 <Item Key="1">Yes</Item>
             </Option>
@@ -5201,7 +5205,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewBulk</SubGroup>
         <Setting>
-            <Option SelectedID="0">
+            <Option SelectedID="1">
                 <Item Key="0">No</Item>
                 <Item Key="1">Yes</Item>
             </Option>
@@ -5228,6 +5232,27 @@
         <SubGroup>Frontend::Agent::Ticket::ViewBulk</SubGroup>
         <Setting>
             <String Regex="">open</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketBulk###Priority" Required="0" Valid="1">
+        <Description Lang="en">Show priority options.</Description>
+        <Description Lang="de">Möglichkeit der Auswahl für die Priorität.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewBulk</SubGroup>
+        <Setting>
+            <Option SelectedID="1">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::Frontend::AgentTicketBulk###PriorityDefault" Required="0" Valid="0">
+        <Description Lang="en">Default priority options.</Description>
+        <Description Lang="de">Default Auswahl der Priorität.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Ticket::ViewBulk</SubGroup>
+        <Setting>
+            <String Regex="">3 normal</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketBulk###ArticleTypeDefault" Required="0" Valid="1">
