@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.876 2009-04-20 06:51:49 martin Exp $
+# $Id: CHANGES,v 1.877 2009-04-20 08:17:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,10 @@
 # --
 
 2.4.0 beta1 (2009/04/20)
+ - (2009/04/20) Moved from bin/SetPermissions.sh to bin/SetPermissions.pl
+    for a better maintanance.
+ - (2009/04/20) Added warning screen to AdminSysConfig, AdminPackageManager,
+    AdminGenericAgent to block to use it till SecureMode is activated.
  - (2009/04/18) Added SysConfig setting to (not) include custmers email address
     on composing an answer "Ticket::Frontend::ComposeAddCustomerAddress".
     Default is set to true.
