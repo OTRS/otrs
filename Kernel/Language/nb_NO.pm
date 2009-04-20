@@ -5,7 +5,7 @@
 # Copyright (C) 2006 Knut Haugen <knuthaug at linpro.no>
 # Copyright (C) 2007-2008 Fredrik Andersen <fredrik.andersen at husbanken.no>
 # --
-# $Id: nb_NO.pm,v 1.71 2009-04-09 08:19:53 sb Exp $
+# $Id: nb_NO.pm,v 1.72 2009-04-20 08:35:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,13 +18,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.71 $;
+$VERSION = q$Revision: 1.72 $;
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Thu Apr  9 10:12:54 2009
+    # Last translation file sync: Mon Apr 20 10:29:06 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -749,7 +749,6 @@ sub Data {
         'New TicketFreeFields' => 'Ny SakTilgjengeligFelter',
         'Add Note' => 'Legg til notis',
         'Time units' => 'Tidsenheter',
-        ' (work units)' => ' (arbeidsenheter)',
         'CMD' => 'Kommando',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'Denne kommandoen vil bli kjørt. ARG[0] vil være saksnummer. ARG[1] saks-id.',
         'Delete tickets' => 'Slett saker',
@@ -954,6 +953,12 @@ sub Data {
         'Add Salutation' => 'Legg til hilsning',
         'Add a new Salutation.' => 'Legg til en ny hilsning.',
 
+        # Template: AdminSecureMode
+        'Secure Mode need to be enabled!' => '',
+        'Secure mode will (normally) be set after the initial installation is completed.' => '',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' => '',
+        'If Secure Mode is not activated, activate it via SysConfig because your application is already running.' => '',
+
         # Template: AdminSelectBoxForm
         'SQL Box' => 'SQL boks',
         'Go' => 'Kjør',
@@ -1092,7 +1097,6 @@ sub Data {
         'Apply these changes' => 'Iverksett endringer',
 
         # Template: AgentStatsDelete
-        'Stat#' => 'Stat#',
         'Do you really want to delete this Object?' => 'Vil du virkelig slette dette objektet?',
 
         # Template: AgentStatsEditRestrictions
@@ -1226,9 +1230,6 @@ sub Data {
         'Customer history' => 'Kunde-historikk',
         'All customer tickets.' => 'Alle saker for kunde.',
 
-        # Template: AgentTicketCustomerMessage
-        'Follow up' => 'Oppfølging',
-
         # Template: AgentTicketEmail
         'Compose Email' => 'Skriv e-post',
         'new ticket' => 'Ny sak',
@@ -1277,8 +1278,6 @@ sub Data {
         # Template: AgentTicketOverviewNavBarSmall
 
         # Template: AgentTicketOverviewPreview
-        'Your own Ticket' => 'Din egen sak',
-        'Compose Follow up' => 'Skriv oppfølgingssvar',
         'Compose Answer' => 'Skriv svar',
         'Contact customer' => 'Kontakt kunde',
         'Change queue' => 'Endre mappe',
@@ -1502,15 +1501,15 @@ sub Data {
         'DB Host' => 'Databasemaskin',
         'Ticket Number Generator' => 'Saksnummer-generator',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Sakskjennetegn, f.eks. \'Ticket#\', \'Call#\' eller \'MyTicket#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'På denne måten kan du direkte redigere nøkkelringen som er konfigurert i Kernel/Config.pm',
         'Create new Phone Ticket' => 'Opprett ny henvendelse',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'På denne måten kan du direkte redigere nøkkelringen som er konfigurert i Kernel/Config.pm',
         'Symptom' => 'Symptom',
         'U' => 'O',
         'Site' => 'side',
         'Customer history search (e. g. "ID342425").' => 'Søk etter kunde for historikk (f.eks. "ID342425").',
         'Can not delete link with %s!' => 'Kan ikke fjerne kobling mot %s',
-        'Close!' => 'Lukk!',
         'for agent firstname' => 'gir agents fornavn',
+        'Close!' => 'Lukk!',
         'No means, send agent and customer notifications on changes.' => 'Nei betyr at man sender saksbehandler og kunde endringsnotiser.',
         'A web calendar' => 'EN web-kalender',
         'to get the realname of the sender (if given)' => 'gir avsenders fulle navn (hvis mulig)',
@@ -1538,8 +1537,10 @@ sub Data {
         '"}' => '"}',
         'Order' => 'Sortering',
         'next step' => 'neste steg',
+        'Follow up' => 'Oppfølging',
         'Customer history search' => 'Historikk for kunde',
         'Admin-Email' => 'Admin e-post',
+        'Stat#' => 'Stat#',
         'Create new database' => 'Opprett ny database',
         'ArticleID' => 'Artikkel-ID',
         'Keywords' => 'Nøkkelord',
@@ -1556,8 +1557,8 @@ sub Data {
         'to get the first 20 character of the subject' => 'gir de første 20 bokstavene av emnebeskrivelsen',
         'Select the customeruser:service relations.' => 'Velg kundebruker:tjeneste relasjoner',
         'DB Admin Password' => 'DB administratorpassord',
-        'Drop Database' => 'Slett database',
         'Advisory' => 'Råd',
+        'Drop Database' => 'Slett database',
         'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Her kan du definere x-aksen. Du kan velge ett element, og deretter må du velge to eller flere attributter til dette elementet. Dersom du ikke gjør et valg, vil alle attributtene til elementet bli benyttet om du genererer statistikken, i tillegg til eventuelle nye attributter som blir lagt til siden siste konfigurasjon.',
         'FileManager' => 'Filhåndterer',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'gir tilgang til data for gjeldende kunde (f.eks. <OTRS_CUSTOMER_DATA_UserFirstname>)',
@@ -1570,6 +1571,7 @@ sub Data {
         'Fulltext' => 'Fritekst',
         'Incident' => 'Hendelse',
         'All Agent variables.' => 'Alle agent variabler.',
+        ' (work units)' => ' (arbeidsenheter)',
         'Next Week' => 'Neste Uke',
         'All Customer variables like defined in config option CustomerUser.' => 'Alle "kunde-variabler" som er definert i konfigurasjonen CustomerUser',
         'accept license' => 'aksepter lisens',
@@ -1579,8 +1581,9 @@ sub Data {
         'Parent-Object' => 'Foreldre-objekt',
         'Of couse this feature will take some system performance it self!' => 'Selvfølgelig vil denne funksjonen kreve litt systemressurser selv også!',
         'Detail' => 'Detalj',
-        'Open Tickets' => 'Åpne saker',
+        'Your own Ticket' => 'Din egen sak',
         'Don\'t forget to add a new user to groups!' => 'Ikke glem å gi nye brukere en gruppe!',
+        'Open Tickets' => 'Åpne saker',
         'CreateTicket' => 'Opprettet sak',
         'You have to select two or more attributes from the select field!' => 'Du må velge to eller flere attributter fra valg feltet!',
         'System Settings' => 'Systeminnstillinger',
@@ -1589,19 +1592,20 @@ sub Data {
         'Explorer' => 'Utforsker',
         'Account Type' => 'Konto type',
         'D' => 'N',
-        'All messages' => 'Alle meldinger',
         'System Status' => 'System status',
+        'All messages' => 'Alle meldinger',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Valg for saks-data (f.eks. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Artefact' => 'Artefakt',
         'Object already linked as %s.' => 'Objekt er allerede koblet som %s.',
         'A article should have a title!' => 'En artikkel bør ha en tittel',
         'Here you can define the x-axis. You can select one element via the radio button. Than you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Her kan man definere X-aksen. Man kan først velge ett element, og deretter to eller fler attributter for elementet. Dersom du ikke velger noen attributter vil alle attributtene til elementet velges, i tillegg til eventuelle nye elementer som legges til senere.',
-        'Event' => 'Hendelse',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Konfigurasjonsinnstillinger (f.eks. &lt;OTRS_CONFIG_HttpType&gt;)',
-        'don\'t accept license' => 'ikke aksepter lisens',
+        'Event' => 'Hendelse',
         'All email addresses get excluded on replaying on composing and email.' => '',
+        'don\'t accept license' => 'ikke aksepter lisens',
         'A web mail client' => 'En webmail-klient',
         'Please select only one Element or turn of the button \'Fixed\'.' => 'Vennligst velg kun ett element, eller deaktiver \'Fast\' knappen.',
+        'Compose Follow up' => 'Skriv oppfølgingssvar',
         'WebMail' => 'Webmail',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Valg for saksdata (f.eks. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'gir tilgang til data for agenten som står som eier av saken (f.eks. <OTRS_OWNER_UserFirstname>)',
@@ -1613,8 +1617,8 @@ sub Data {
         'Solution' => 'Løsning',
         'QueueView' => 'Mapper',
         'Select Box' => 'SQL-tilgang',
-        'New messages' => 'Ny melding',
         'Please select only one element or turn of the button \'Fixed\' where the select field is marked!' => 'Vennligst velg kun ett element, eller skru av \'Fast\' knappen der valgt felt er markert!',
+        'New messages' => 'Ny melding',
         'Can not create link with %s!' => 'Kan ikke opprette kobling mot %s!',
         'Linked as' => 'Koblet som',
         'Welcome to OTRS' => 'Velkommen til OTRS',

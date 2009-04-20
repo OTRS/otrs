@@ -2,7 +2,7 @@
 # Kernel/Language/sv.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats@synergy.se>
 # --
-# $Id: sv.pm,v 1.62 2009-04-09 08:23:31 sb Exp $
+# $Id: sv.pm,v 1.63 2009-04-20 08:35:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.62 $;
+$VERSION = q$Revision: 1.63 $;
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Thu Apr  9 10:12:57 2009
+    # Last translation file sync: Mon Apr 20 10:29:28 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -746,7 +746,6 @@ sub Data {
         'New TicketFreeFields' => '',
         'Add Note' => 'Lägg till anteckning',
         'Time units' => 'Tidsenheter',
-        ' (work units)' => ' (arbetsenheter)',
         'CMD' => '',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => '',
         'Delete tickets' => '',
@@ -951,6 +950,12 @@ sub Data {
         'Add Salutation' => '',
         'Add a new Salutation.' => '',
 
+        # Template: AdminSecureMode
+        'Secure Mode need to be enabled!' => '',
+        'Secure mode will (normally) be set after the initial installation is completed.' => '',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' => '',
+        'If Secure Mode is not activated, activate it via SysConfig because your application is already running.' => '',
+
         # Template: AdminSelectBoxForm
         'SQL Box' => '',
         'Go' => '',
@@ -1089,7 +1094,6 @@ sub Data {
         'Apply these changes' => 'Verkställ ändringar',
 
         # Template: AgentStatsDelete
-        'Stat#' => '',
         'Do you really want to delete this Object?' => '',
 
         # Template: AgentStatsEditRestrictions
@@ -1223,9 +1227,6 @@ sub Data {
         'Customer history' => 'Kundhistorik',
         'All customer tickets.' => 'Alla kundärenden.',
 
-        # Template: AgentTicketCustomerMessage
-        'Follow up' => 'Uppföljning',
-
         # Template: AgentTicketEmail
         'Compose Email' => 'Skriv email',
         'new ticket' => 'Nytt ärende',
@@ -1274,8 +1275,6 @@ sub Data {
         # Template: AgentTicketOverviewNavBarSmall
 
         # Template: AgentTicketOverviewPreview
-        'Your own Ticket' => 'Ditt eget ärende',
-        'Compose Follow up' => 'Skriv uppföljningssvar',
         'Compose Answer' => 'Skriv svar',
         'Contact customer' => 'Kontakta kund',
         'Change queue' => 'Ändra kö',
@@ -1503,8 +1502,8 @@ sub Data {
         'Site' => 'plats',
         'Customer history search (e. g. "ID342425").' => 'Sök efter kundhistorik (t.ex. "ID342425").',
         'Can not delete link with %s!' => '',
-        'Close!' => 'Stäng!',
         'for agent firstname' => 'för agents förnamn',
+        'Close!' => 'Stäng!',
         'Subgroup \'' => '',
         'No means, send agent and customer notifications on changes.' => '',
         'A web calendar' => '',
@@ -1533,8 +1532,10 @@ sub Data {
         '"}' => '',
         'Order' => 'Sortering',
         'next step' => 'nästa steg',
+        'Follow up' => 'Uppföljning',
         'Customer history search' => 'Kundhistorik',
         'Admin-Email' => 'Admin-email',
+        'Stat#' => '',
         'Create new database' => 'Skapa ny databas',
         'Keywords' => 'Nyckelord',
         'Ticket Escalation View' => '',
@@ -1563,6 +1564,7 @@ sub Data {
         '(Used ticket number format)' => '(Valt format för ärendenummer)',
         'Reminder' => 'Påminnelse',
         'Fulltext' => 'Fritext',
+        ' (work units)' => ' (arbetsenheter)',
         'Next Week' => '',
         'Operation' => '',
         'accept license' => 'godkänn licens',
@@ -1573,9 +1575,10 @@ sub Data {
         'Of couse this feature will take some system performance it self!' => '',
         'IMAPS' => '',
         'Detail' => '',
+        'Your own Ticket' => 'Ditt eget ärende',
         'TicketZoom' => 'Ärende Zoom',
-        'Open Tickets' => '',
         'Don\'t forget to add a new user to groups!' => 'Glöm inte att lägga in en ny användare i en grupp!',
+        'Open Tickets' => '',
         'CreateTicket' => 'Skapa Ärende',
         'You have to select two or more attributes from the select field!' => '',
         'System Settings' => 'Systeminställningar',
@@ -1584,17 +1587,18 @@ sub Data {
         'Finished' => 'Klar',
         'Account Type' => '',
         'D' => 'N',
-        'All messages' => 'Alla meddelanden',
         'System Status' => '',
+        'All messages' => 'Alla meddelanden',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         'Object already linked as %s.' => '',
         'A article should have a title!' => '',
-        'Event' => '',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
-        'don\'t accept license' => 'godkänn inte licens',
+        'Event' => '',
         'All email addresses get excluded on replaying on composing and email.' => '',
+        'don\'t accept license' => 'godkänn inte licens',
         'A web mail client' => '',
         'IMAP' => '',
+        'Compose Follow up' => 'Skriv uppföljningssvar',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         'Article time' => '',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'ger tillgang till data för agenten som står som ägare till ärendet (t.ex. <OTRS_OWNER_UserFirstname>)',

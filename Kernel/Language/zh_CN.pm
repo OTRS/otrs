@@ -3,7 +3,7 @@
 # Copyright (C) 2008 Never Min <never at qnofae.org>
 # Copyright (C) 2005 zuowei <j2ee at hirain-sh.com>
 # --
-# $Id: zh_CN.pm,v 1.56 2009-04-09 08:23:31 sb Exp $
+# $Id: zh_CN.pm,v 1.57 2009-04-20 08:35:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Thu Apr  9 10:12:58 2009
+    # Last translation file sync: Mon Apr 20 10:29:41 2009
 
     # possible charsets
     $Self->{Charset} = ['GBK', 'GB2312', ];
@@ -747,7 +747,6 @@ sub Data {
         'New TicketFreeFields' => '新的 Ticket 自由区域',
         'Add Note' => '增加注解',
         'Time units' => '',
-        ' (work units)' => '',
         'CMD' => '',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => '将执行这个命令, 第一个参数是 Ticket 编号，第二个参数是 Ticket 的标识符.',
         'Delete tickets' => '删除 Tickets',
@@ -952,6 +951,12 @@ sub Data {
         'Add Salutation' => '增加称呼语',
         'Add a new Salutation.' => '增加一个新的称呼语',
 
+        # Template: AdminSecureMode
+        'Secure Mode need to be enabled!' => '',
+        'Secure mode will (normally) be set after the initial installation is completed.' => '',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' => '',
+        'If Secure Mode is not activated, activate it via SysConfig because your application is already running.' => '',
+
         # Template: AdminSelectBoxForm
         'SQL Box' => 'SQL查询窗口',
         'Go' => '执行',
@@ -1090,7 +1095,6 @@ sub Data {
         'Apply these changes' => '应用这些改变',
 
         # Template: AgentStatsDelete
-        'Stat#' => '',
         'Do you really want to delete this Object?' => '您是否确认删除该对象?',
 
         # Template: AgentStatsEditRestrictions
@@ -1224,9 +1228,6 @@ sub Data {
         'Customer history' => '客户历史情况',
         'All customer tickets.' => '该客户所有 Tickets 记录.',
 
-        # Template: AgentTicketCustomerMessage
-        'Follow up' => '跟进',
-
         # Template: AgentTicketEmail
         'Compose Email' => '撰写 Email',
         'new ticket' => '新建 Ticket',
@@ -1275,8 +1276,6 @@ sub Data {
         # Template: AgentTicketOverviewNavBarSmall
 
         # Template: AgentTicketOverviewPreview
-        'Your own Ticket' => '您自己的 Ticket',
-        'Compose Follow up' => '撰写跟踪答复',
         'Compose Answer' => '撰写答复',
         'Contact customer' => '联系客户',
         'Change queue' => '改变队列',
@@ -1505,8 +1504,8 @@ sub Data {
         'Site' => '站点',
         'Customer history search (e. g. "ID342425").' => '搜索客户历史 (例如： "ID342425").',
         'Can not delete link with %s!' => '不能删除 %s 的连接',
-        'for agent firstname' => '技术支持人员 姓',
         'Close!' => '关闭!',
+        'for agent firstname' => '技术支持人员 姓',
         'No means, send agent and customer notifications on changes.' => '需要, 当有改变时发送通知给技术人员或客户.',
         'A web calendar' => 'Web 日历',
         'to get the realname of the sender (if given)' => '邮件发送人的真实姓名 (如果存在)',
@@ -1532,8 +1531,10 @@ sub Data {
         '"}' => '',
         'Order' => '次序',
         'next step' => '下一步',
+        'Follow up' => '跟进',
         'Customer history search' => '客户历史搜索',
         'PostMaster Mail Account' => '邮件帐号管理',
+        'Stat#' => '',
         'Create new database' => '创建新的数据库',
         'Keywords' => '关键字',
         'Ticket Escalation View' => '调整查看 Ticket',
@@ -1565,6 +1566,7 @@ sub Data {
         'Fulltext' => '全文',
         'OTRS DB connect host' => 'OTRS 数据库主机',
         'All Agent variables.' => '所有的技术人员变量',
+        ' (work units)' => '',
         'Next Week' => '下周',
         'All Customer variables like defined in config option CustomerUser.' => '',
         'for agent lastname' => '技术支持人员 名',
@@ -1573,9 +1575,10 @@ sub Data {
         'Parent-Object' => '父对象',
         'Of couse this feature will take some system performance it self!' => '当然, 该功能会占用一定的系统资源, 加重系统的负担!',
         'Detail' => '细节',
+        'Your own Ticket' => '您自己的 Ticket',
         'TicketZoom' => 'Ticket 展开',
-        'Open Tickets' => '开放 Tickets',
         'Don\'t forget to add a new user to groups!' => '不要忘记增加新的用户到组!',
+        'Open Tickets' => '开放 Tickets',
         'General Catalog' => '总目录',
         'CreateTicket' => '创建 Ticket',
         'You have to select two or more attributes from the select field!' => '',
@@ -1587,10 +1590,11 @@ sub Data {
         'Object already linked as %s.' => '对象已连接到 %s.',
         'A article should have a title!' => '文章必须有标题!',
         'Customer Users <-> Services' => '客户帐号 <-> 服务管理',
-        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '配置选项 (例如: &lt;OTRS_CONFIG_HttpType&gt;)',
         'Event' => '事件',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '配置选项 (例如: &lt;OTRS_CONFIG_HttpType&gt;)',
         'All email addresses get excluded on replaying on composing and email.' => '',
         'A web mail client' => 'WebMail 客户端',
+        'Compose Follow up' => '撰写跟踪答复',
         'WebMail' => 'WebMail',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Ticket 所有者选项 (例如: <OTRS_OWNER_UserFirstname>)',
         'Name is required!' => '需要名称!',

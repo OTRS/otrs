@@ -2,7 +2,7 @@
 # Kernel/Language/tr.pm - provides tr language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: tr.pm,v 1.19 2009-04-09 08:23:31 sb Exp $
+# $Id: tr.pm,v 1.20 2009-04-20 08:35:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $)[1];
+$VERSION = qw($Revision: 1.20 $)[1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Thu Apr  9 10:12:57 2009
+    # Last translation file sync: Mon Apr 20 10:29:30 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-9', ];
@@ -745,7 +745,6 @@ sub Data {
         'New TicketFreeFields' => 'Yeni BiletSerbestAlanlarý',
         'Add Note' => 'Not Ekle',
         'Time units' => 'Zaman birimleri',
-        ' (work units)' => ' (iþ birimi)',
         'CMD' => 'Komut',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'Bu komut çalýþtýrýlacak. Par[0] bilet bilet numarasý olacak. Par[1] bilet kimliði.',
         'Delete tickets' => 'Biletleri sil',
@@ -950,6 +949,12 @@ sub Data {
         'Add Salutation' => 'Selamlama Ekle',
         'Add a new Salutation.' => 'Yeni bir Selamlama ekle.',
 
+        # Template: AdminSecureMode
+        'Secure Mode need to be enabled!' => '',
+        'Secure mode will (normally) be set after the initial installation is completed.' => '',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' => '',
+        'If Secure Mode is not activated, activate it via SysConfig because your application is already running.' => '',
+
         # Template: AdminSelectBoxForm
         'SQL Box' => '',
         'Go' => 'Devam',
@@ -1088,7 +1093,6 @@ sub Data {
         'Apply these changes' => 'Bu deðiþiklikleri uygula',
 
         # Template: AgentStatsDelete
-        'Stat#' => 'Ýstatistik numarasý',
         'Do you really want to delete this Object?' => 'Gerçekten bu nesneyi silmek istiyor musunuz?',
 
         # Template: AgentStatsEditRestrictions
@@ -1222,9 +1226,6 @@ sub Data {
         'Customer history' => 'Müþteri tarihçesi',
         'All customer tickets.' => 'Tüm müþteri biletleri.',
 
-        # Template: AgentTicketCustomerMessage
-        'Follow up' => 'Takip',
-
         # Template: AgentTicketEmail
         'Compose Email' => 'E-Posta Yaz',
         'new ticket' => 'yeni bilet',
@@ -1273,8 +1274,6 @@ sub Data {
         # Template: AgentTicketOverviewNavBarSmall
 
         # Template: AgentTicketOverviewPreview
-        'Your own Ticket' => 'Kendi Biletiniz',
-        'Compose Follow up' => 'Takip mesajý yaz',
         'Compose Answer' => 'Cevap yaz',
         'Contact customer' => 'Müþteriyle baðlantý kur',
         'Change queue' => 'Kuyruðu deðiþtir',
@@ -1498,15 +1497,15 @@ sub Data {
         'File-Name' => 'Dosya adý',
         'Ticket Number Generator' => 'Bilet Numarasý Üreteci',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Bilet tanýmlayýcýsý. \'Bilet#\', \'Arama#\' oder \'Biletim#\' gibi olabilir)',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Bu þekilde Kernel/Config.pm dosyasýnda yapýlandýrýlmýþ olan anahtar halkasýný (keyring) deðiþtirebilirsiniz',
         'Create new Phone Ticket' => 'Yeni Telefon Bileti oluþtur',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Bu þekilde Kernel/Config.pm dosyasýnda yapýlandýrýlmýþ olan anahtar halkasýný (keyring) deðiþtirebilirsiniz',
         'U' => 'U',
         'Site' => 'Site',
         'Customer history search (e. g. "ID342425").' => 'Müþteri tarihçe aramasý (örn. "ID342425").',
         'your MySQL DB should have a root password! Default is empty!' => 'MySQL veritabanýnýzýn root kullanýcýsýnýn bir parolasý olmalýdýr. Öntanýmlý olarak boþtur!',
         'Can not delete link with %s!' => '',
-        'Close!' => 'Kapat!',
         'for agent firstname' => 'aracý adý için',
+        'Close!' => 'Kapat!',
         'Reporter' => 'Bildiren',
         'Process-Path' => 'Ýþlem Yolu',
         'No means, send agent and customer notifications on changes.' => 'Hayýr, deðiþikliklerde aracýlara ve müþterilere bildirim gönder demektir.',
@@ -1537,8 +1536,10 @@ sub Data {
         '"}' => '',
         'Order' => 'Sýralama',
         'next step' => 'sonraki adým',
+        'Follow up' => 'Takip',
         'Customer history search' => 'Müþteri tarihçe aramasý',
         'not verified' => 'onaylanmadý',
+        'Stat#' => 'Ýstatistik numarasý',
         'Create new database' => 'Yeni veritabaný oluþtur',
         'Year' => 'Yýl',
         'X-axis' => 'X-Ekseni',
@@ -1573,6 +1574,7 @@ sub Data {
         'Month' => 'Ay',
         'Node-Address' => 'Düðüm Adresi',
         'All Agent variables.' => 'Tüm Aracý deðiþkenleri',
+        ' (work units)' => ' (iþ birimi)',
         'Next Week' => '',
         'You use the DELETE option! Take care, all deleted Tickets are lost!!!' => 'SÝL seçeneðini kullandýnýz! Silinen Biletlerin kurtarýlamayacaðýný unutmayýn!!!',
         'All Customer variables like defined in config option CustomerUser.' => 'Müþteri Kullanýcý yapýlandýrma seçeneðinde tanýmlandýðý þekliyle tüm Müþteri deðiþkenleri.',
@@ -1582,9 +1584,10 @@ sub Data {
         'Parent-Object' => 'Ebeveyn Nesne',
         'Of couse this feature will take some system performance it self!' => 'Elbette bu özellik sistem performansýndan biraz alýr.',
         'Detail' => 'Detay',
+        'Your own Ticket' => 'Kendi Biletiniz',
         'TicketZoom' => 'Bilet Detaylarý',
-        'Open Tickets' => 'Açýk Biletler',
         'Don\'t forget to add a new user to groups!' => 'Yeni kullanýcýyý gruplara atamayý unutmayýn!',
+        'Open Tickets' => 'Açýk Biletler',
         'CreateTicket' => 'Bilet Oluþtur',
         'You have to select two or more attributes from the select field!' => 'Seçim alanýndan iki veya daha fazla nitelik seçmelisiniz!',
         'unknown' => 'bilinmiyor',
@@ -1593,16 +1596,17 @@ sub Data {
         'Imported' => 'Ýçeri aktarýldý',
         'unread' => 'okunmadý',
         'D' => 'D',
-        'System Status' => 'Sistem Durumu',
         'All messages' => 'Tüm mesajlar',
+        'System Status' => 'Sistem Durumu',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Bilet verisi seçenekleri (örn. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => '',
         'A article should have a title!' => 'Metnin bir baþlýðý olmalýdýr!',
         'Customer Users <-> Services' => 'Müþteri Kullanýcýlar <-> Servisler',
         'This account exists' => 'Bu hesap zaten var',
-        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Yapýlandýrma seçenekleri (örn. &lt;OTRS_CONFIG_HttpType&gt;)',
         'Event' => 'Olay',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Yapýlandýrma seçenekleri (örn. &lt;OTRS_CONFIG_HttpType&gt;)',
         'All email addresses get excluded on replaying on composing and email.' => '',
+        'Compose Follow up' => 'Takip mesajý yaz',
         'Imported by' => 'Ýçeri aktaran',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Bilet sahibi seçenekleri (örn. <OTRS_OWNER_UserFirstname>)',
         'read' => 'okunmuþ',

@@ -2,7 +2,7 @@
 # Kernel/Language/pl.pm - provides pl language translation
 # Copyright (C) 2007 Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.72 2009-04-09 08:19:53 sb Exp $
+# $Id: pl.pm,v 1.73 2009-04-20 08:35:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Thu Apr  9 10:12:55 2009
+    # Last translation file sync: Mon Apr 20 10:29:10 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', ];
@@ -746,7 +746,6 @@ sub Data {
         'New TicketFreeFields' => '',
         'Add Note' => 'Dodaj notatkê',
         'Time units' => 'Jednostek czasu',
-        ' (work units)' => ' (jednostek roboczych)',
         'CMD' => '',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => '',
         'Delete tickets' => '',
@@ -951,6 +950,12 @@ sub Data {
         'Add Salutation' => '',
         'Add a new Salutation.' => '',
 
+        # Template: AdminSecureMode
+        'Secure Mode need to be enabled!' => '',
+        'Secure mode will (normally) be set after the initial installation is completed.' => '',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' => '',
+        'If Secure Mode is not activated, activate it via SysConfig because your application is already running.' => '',
+
         # Template: AdminSelectBoxForm
         'SQL Box' => '',
         'Go' => '',
@@ -1089,7 +1094,6 @@ sub Data {
         'Apply these changes' => 'Zastosuj te zmiany',
 
         # Template: AgentStatsDelete
-        'Stat#' => '',
         'Do you really want to delete this Object?' => '',
 
         # Template: AgentStatsEditRestrictions
@@ -1223,9 +1227,6 @@ sub Data {
         'Customer history' => 'Historia klienta',
         'All customer tickets.' => 'Wszystkie zg³oszenia klienta',
 
-        # Template: AgentTicketCustomerMessage
-        'Follow up' => 'Odpowiedz',
-
         # Template: AgentTicketEmail
         'Compose Email' => 'Nowa wiadomo¶æ',
         'new ticket' => 'Nowe zg³oszenie',
@@ -1274,8 +1275,6 @@ sub Data {
         # Template: AgentTicketOverviewNavBarSmall
 
         # Template: AgentTicketOverviewPreview
-        'Your own Ticket' => 'Twoje w³asne zg³oszenie',
-        'Compose Follow up' => 'Napisz Odpowied¼ (Follow Up)',
         'Compose Answer' => 'Napisz odpowied¼',
         'Contact customer' => 'Skontaktuj siê z klientem',
         'Change queue' => 'Zmieñ kolejkê',
@@ -1499,15 +1498,15 @@ sub Data {
         'DB Host' => 'Host bazy danych',
         'Ticket Number Generator' => 'Generator numerów zg³oszeñ',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identyfikator zg³oszenia. np. \'Ticket#\', \'Call#\' lub \'MyTicket#\')',
-        'Create new Phone Ticket' => '',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
+        'Create new Phone Ticket' => '',
         'Symptom' => 'Objawy',
         'U' => 'G',
         'Site' => 'Witryna',
         'Customer history search (e. g. "ID342425").' => 'Przeszukiwanie historii klienta (np. "ID342425").',
         'Can not delete link with %s!' => '',
-        'for agent firstname' => 'dla imienia agenta',
         'Close!' => 'Zamknij!',
+        'for agent firstname' => 'dla imienia agenta',
         'No means, send agent and customer notifications on changes.' => '',
         'A web calendar' => '',
         'to get the realname of the sender (if given)' => 'by wstawiæ prawdziwe imiê i nazwisko klienta (je¶li podano)',
@@ -1531,8 +1530,10 @@ sub Data {
         '"}' => '',
         'Order' => 'Porz±dek',
         'next step' => 'Nastêpny krok',
+        'Follow up' => 'Odpowiedz',
         'Customer history search' => 'Przeszukiwanie historii klienta',
         'Admin-Email' => 'Wiadomo¶æ od Administratora',
+        'Stat#' => '',
         'Create new database' => 'Stwórz now± bazê danych',
         'ArticleID' => 'ID Artyku³u',
         'Keywords' => 'S³owa kluczowe',
@@ -1561,6 +1562,7 @@ sub Data {
         'Reminder' => 'Przypomnienie',
         'Fulltext' => 'Pe³notekstowe',
         'OTRS DB connect host' => 'Host bazy danych',
+        ' (work units)' => ' (jednostek roboczych)',
         'Next Week' => '',
         'All Customer variables like defined in config option CustomerUser.' => '',
         'accept license' => 'akceptujê Licencjê',
@@ -1571,9 +1573,10 @@ sub Data {
         'Of couse this feature will take some system performance it self!' => '',
         'Ticket Hook' => 'Identyfikator zg³oszenia',
         'Detail' => '',
+        'Your own Ticket' => 'Twoje w³asne zg³oszenie',
         'TicketZoom' => 'Podgl±d zg³oszenia',
-        'Open Tickets' => '',
         'Don\'t forget to add a new user to groups!' => 'Nie zapomnij dodaæ u¿ytkownika do grup!',
+        'Open Tickets' => '',
         'You have to select two or more attributes from the select field!' => '',
         'System Settings' => 'Ustawienia systemu',
         'WebWatcher' => '',
@@ -1583,11 +1586,12 @@ sub Data {
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         'Object already linked as %s.' => '',
         'A article should have a title!' => '',
-        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
         'Event' => '',
-        'don\'t accept license' => 'nie akceptujê Licencji',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
         'All email addresses get excluded on replaying on composing and email.' => '',
+        'don\'t accept license' => 'nie akceptujê Licencji',
         'A web mail client' => '',
+        'Compose Follow up' => 'Napisz Odpowied¼ (Follow Up)',
         'WebMail' => '',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Opcje dotycz±ce w³a¶ciciela zg³oszenia (np. <OTRS_OWNER_UserFirstname>)',
         'Name is required!' => '',

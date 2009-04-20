@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.85 2009-04-09 08:19:53 sb Exp $
+# $Id: bg.pm,v 1.86 2009-04-20 08:35:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.85 $) [1];
+$VERSION = qw($Revision: 1.86 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Thu Apr  9 10:12:47 2009
+    # Last translation file sync: Mon Apr 20 10:28:29 2009
 
     # possible charsets
     $Self->{Charset} = ['cp1251', 'Windows-1251', ];
@@ -747,7 +747,6 @@ sub Data {
         'New TicketFreeFields' => 'Нови стойности на полетата на билета',
         'Add Note' => 'Добавяне на бележка',
         'Time units' => 'Мерни единици за времето',
-        ' (work units)' => ' (работни единици)',
         'CMD' => 'CMD',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'Тази команда ще бъде изпълнена. ARG[0] (първи аргумент) ще бъде номера на билета. ARG[1] (втори аргумент) ще бъде TiketID.',
         'Delete tickets' => 'Изтриване на билета',
@@ -952,6 +951,12 @@ sub Data {
         'Add Salutation' => 'Добавяне на обръщение',
         'Add a new Salutation.' => 'Добавяне на ново обръщение',
 
+        # Template: AdminSecureMode
+        'Secure Mode need to be enabled!' => '',
+        'Secure mode will (normally) be set after the initial installation is completed.' => '',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' => '',
+        'If Secure Mode is not activated, activate it via SysConfig because your application is already running.' => '',
+
         # Template: AdminSelectBoxForm
         'SQL Box' => '',
         'Go' => 'Продъпжавай',
@@ -1090,7 +1095,6 @@ sub Data {
         'Apply these changes' => 'Прилага се към тези промени',
 
         # Template: AgentStatsDelete
-        'Stat#' => 'Статистика#',
         'Do you really want to delete this Object?' => 'Сигурни ли сте че искате да изтриете този обект?',
 
         # Template: AgentStatsEditRestrictions
@@ -1224,9 +1228,6 @@ sub Data {
         'Customer history' => 'Хроника на потребителят',
         'All customer tickets.' => 'Всички билети на този потребител',
 
-        # Template: AgentTicketCustomerMessage
-        'Follow up' => 'Заявка за отговор',
-
         # Template: AgentTicketEmail
         'Compose Email' => 'Създаване на e-mail',
         'new ticket' => 'нов билет',
@@ -1275,8 +1276,6 @@ sub Data {
         # Template: AgentTicketOverviewNavBarSmall
 
         # Template: AgentTicketOverviewPreview
-        'Your own Ticket' => 'Вашият собствен билет',
-        'Compose Follow up' => 'Създаване проследяване на билетът',
         'Compose Answer' => 'Създаване на отговор',
         'Contact customer' => 'Контакт с клиента',
         'Change queue' => 'Промяна на опашката',
@@ -1500,15 +1499,15 @@ sub Data {
         'DB Host' => 'Хост на базата данни',
         'Ticket Number Generator' => 'Генератор на номера на билети',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Идентификатор на билета. Примерно: \'Ticket#\', \'Call#\' or \'MyTicket#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'По този начин може да редактирате keyring-а конфигуриран в Kernel/Config.pm.',
         'Create new Phone Ticket' => 'Създаване на нов билет на базата на телефонно обаждане',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'По този начин може да редактирате keyring-а конфигуриран в Kernel/Config.pm.',
         'Symptom' => 'Симптом',
         'U' => 'В',
         'Site' => 'Място',
         'Customer history search (e. g. "ID342425").' => 'Търсене в хрониката на клиента (примерно "ID342425").',
         'Can not delete link with %s!' => '',
-        'Close!' => 'Затворете!',
         'for agent firstname' => 'за агент име',
+        'Close!' => 'Затворете!',
         'No means, send agent and customer notifications on changes.' => 'Не означава че ще бъдат изпращани уведомления (тип: агент и тип: клиент) когато има промени.',
         'A web calendar' => 'Календар',
         'to get the realname of the sender (if given)' => 'за да получите истинското име на изпращача (ако е попълнено)',
@@ -1536,8 +1535,10 @@ sub Data {
         '"}' => '"}',
         'Order' => 'Ред',
         'next step' => 'следваща стъпка',
+        'Follow up' => 'Заявка за отговор',
         'Customer history search' => 'Търсене в хрониката на клиента',
         'Admin-Email' => 'еМейл от Admin',
+        'Stat#' => 'Статистика#',
         'Create new database' => 'Създаване на нова база данни',
         'ArticleID' => 'Идентификатор на клауза',
         'Keywords' => 'Ключови думи',
@@ -1555,8 +1556,8 @@ sub Data {
         'to get the first 20 character of the subject' => 'за да получите първите 20 символа от поле "относно"',
         'Select the customeruser:service relations.' => '',
         'DB Admin Password' => 'Парола на администратора на базата',
-        'Drop Database' => 'Нулиране базата данни',
         'Advisory' => 'Консултация',
+        'Drop Database' => 'Нулиране базата данни',
         'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Тук може да дефинирате оста Х, може да изберете един елемент (посредством радио бутон). Тук може да изберете един или два елемента. След това може да изберете атрибути на елементите. Всеки атрибут ще бъде показан като група от единични стойности. Ако не изберете атрибут, всички атрибути на елемента ще бъдат показане по време на генерирането на статистиката, както и всеки нов атрибут добавен при конфигурация на статистиката.',
         'FileManager' => 'Файлов менажер',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Свойства на текущия клиент-потребител (Пример: <OTRS_CUSTOMER_DATA_UserFirstname>)',
@@ -1570,6 +1571,7 @@ sub Data {
         'Incident' => 'Инцидент',
         'OTRS DB connect host' => 'Хост свързан към OTRS база данни',
         'All Agent variables.' => 'Всички променливи свързани с агента',
+        ' (work units)' => ' (работни единици)',
         'Next Week' => '',
         'All Customer variables like defined in config option CustomerUser.' => 'Всички променливи подобни на тези в конфигурационния параметър CustomerUser',
         'accept license' => 'Приемате лиценза',
@@ -1581,26 +1583,28 @@ sub Data {
         'Ticket Hook' => 'Прикачване на билетът',
         'IMAPS' => 'IMAPS',
         'Detail' => 'Подробности',
-        'Open Tickets' => 'Отворени билети',
+        'Your own Ticket' => 'Вашият собствен билет',
         'Don\'t forget to add a new user to groups!' => 'Не забравяйте да добавите новият потребител в някаква група!',
+        'Open Tickets' => 'Отворени билети',
         'You have to select two or more attributes from the select field!' => 'Трябва да изберете два или повече атрибути от полето!',
         'System Settings' => 'Системни настройки',
         'WebWatcher' => 'WebWatcher',
         'Finished' => 'Приключено',
         'Account Type' => 'Тип на акаунта',
         'D' => 'Н',
-        'System Status' => 'Системен статус',
         'All messages' => 'Всички съобщения',
+        'System Status' => 'Системен статус',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Свойства на билета (Пример: <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Artefact' => 'Артефакт',
         'Object already linked as %s.' => '',
         'A article should have a title!' => 'Съобщението трябва да има заглавие',
-        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Конфигурационни параметри (Пример: <OTRS_CONFIG_HttpType>).',
         'Event' => 'Събитие',
-        'don\'t accept license' => 'Не приемате лиценза',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Конфигурационни параметри (Пример: <OTRS_CONFIG_HttpType>).',
         'All email addresses get excluded on replaying on composing and email.' => '',
+        'don\'t accept license' => 'Не приемате лиценза',
         'A web mail client' => 'Web-базиран e-mail клиент',
         'IMAP' => 'IMAP',
+        'Compose Follow up' => 'Създаване проследяване на билетът',
         'WebMail' => 'WebMail',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Свойства на собственика на билета (Пример: <OTRS_OWNER_UserFirstname>)',
         'Name is required!' => 'Името е задължително',

@@ -2,7 +2,7 @@
 # Kernel/Language/vi_VN.pm - provides vi_VN language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: vi_VN.pm,v 1.20 2009-04-09 08:23:31 sb Exp $
+# $Id: vi_VN.pm,v 1.21 2009-04-20 08:35:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Thu Apr  9 10:12:58 2009
+    # Last translation file sync: Mon Apr 20 10:29:36 2009
 
     # possible charsets
     $Self->{Charset} = ['viscii', ];
@@ -745,7 +745,6 @@ sub Data {
         'New TicketFreeFields' => 'Các trß¶ng không thë m¾i',
         'Add Note' => 'Thêm lßu ý',
         'Time units' => 'Các ð½n v¸ th¶i gian',
-        ' (work units)' => ' (các ð½n v¸ làm vi®c)',
         'CMD' => 'CMD',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'L®nh này s¨ ðßþc chÕy. ARG[0] s¨ là s¯ thë. ARG[1] là mã thë.',
         'Delete tickets' => 'Xóa thë',
@@ -950,6 +949,12 @@ sub Data {
         'Add Salutation' => 'Thêm l¶i chào',
         'Add a new Salutation.' => 'Thêm l¶i chào m¾i.',
 
+        # Template: AdminSecureMode
+        'Secure Mode need to be enabled!' => '',
+        'Secure mode will (normally) be set after the initial installation is completed.' => '',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' => '',
+        'If Secure Mode is not activated, activate it via SysConfig because your application is already running.' => '',
+
         # Template: AdminSelectBoxForm
         'SQL Box' => '',
         'Go' => 'T¾i',
@@ -1088,7 +1093,6 @@ sub Data {
         'Apply these changes' => 'Áp døng nhæng thay ð±i này',
 
         # Template: AgentStatsDelete
-        'Stat#' => 'Th¯ng kê s¯',
         'Do you really want to delete this Object?' => 'BÕn có thñc sñ mu¯n xóa ð¯i tßþng này không?',
 
         # Template: AgentStatsEditRestrictions
@@ -1222,9 +1226,6 @@ sub Data {
         'Customer history' => 'L¸ch sØ khách hàng',
         'All customer tickets.' => 'T¤t cä các thë khách hàng.',
 
-        # Template: AgentTicketCustomerMessage
-        'Follow up' => 'Theo dõi',
-
         # Template: AgentTicketEmail
         'Compose Email' => 'SoÕn email',
         'new ticket' => 'thë m¾i',
@@ -1273,8 +1274,6 @@ sub Data {
         # Template: AgentTicketOverviewNavBarSmall
 
         # Template: AgentTicketOverviewPreview
-        'Your own Ticket' => 'Thë cüa bÕn',
-        'Compose Follow up' => 'SoÕn theo dõi',
         'Compose Answer' => 'SoÕn trä l¶i',
         'Contact customer' => 'Liên h® khách hàng',
         'Change queue' => 'Thay ð±i hàng ðþi',
@@ -1498,15 +1497,15 @@ sub Data {
         'File-Name' => 'Tên file',
         'Ticket Number Generator' => 'H® sinh s¯ thë',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Nh§n dÕng thë. Mµt s¯ ngß¶i mu¯n thiªt ð£t ði«u này thành ví dø nhß \'Ticket#\', \'Call#\' ho£c \'MyTicket#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Theo cách này bÕn có th¬ sØa trñc tiªp c¤u hình khóa trong Kernel/Config.pm',
         'Create new Phone Ticket' => 'TÕo thë cuµc g÷i m¾i',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Theo cách này bÕn có th¬ sØa trñc tiªp c¤u hình khóa trong Kernel/Config.pm',
         'U' => 'U',
         'Site' => 'Site',
         'Customer history search (e. g. "ID342425").' => 'Tìm kiªm l¸ch sØ khách hàng (ví dø: "ID342425").',
         'your MySQL DB should have a root password! Default is empty!' => 'C½ s· dæ li®u MySQL cüa bÕn nên có m§t kh¦u g¯c! M£c ð¸nh là ð¬ tr¯ng!',
         'Can not delete link with %s!' => '',
-        'Close!' => 'Ðóng!',
         'for agent firstname' => 'cho h÷ (tên) cüa nhân viên',
+        'Close!' => 'Ðóng!',
         'Reporter' => 'Ngß¶i báo cáo',
         'Process-Path' => 'Ðß¶ng dçn quy trình',
         'No means, send agent and customer notifications on changes.' => 'Không, nghîa là, gØi thông báo cho nhân viên và khách hàng v« các thay ð±i.',
@@ -1537,8 +1536,10 @@ sub Data {
         '"}' => '',
         'Order' => 'Tr§t tñ',
         'next step' => 'bß¾c tiªp theo',
+        'Follow up' => 'Theo dõi',
         'Customer history search' => 'Tìm kiªm l¸ch sØ khách hàng',
         'not verified' => 'chßa ðßþc xác nh§n',
+        'Stat#' => 'Th¯ng kê s¯',
         'Create new database' => 'TÕo c½ s· dæ li®u m¾i',
         'Year' => 'Nåm',
         'X-axis' => 'trøc X',
@@ -1574,6 +1575,7 @@ sub Data {
         'Month' => 'Tháng',
         'Node-Address' => 'Ð¸a chï nút',
         'All Agent variables.' => 'T¤t cä các biªn s¯ nhân viên',
+        ' (work units)' => ' (các ð½n v¸ làm vi®c)',
         'Next Week' => '',
         'You use the DELETE option! Take care, all deleted Tickets are lost!!!' => 'BÕn sØ døng tùy ch÷n Xóa! Hãy c¦n th§n, t¤t cä các thë xóa s¨ b¸ m¤t!',
         'All Customer variables like defined in config option CustomerUser.' => 'T¤t cä các biªn s¯ khách hàng ðã ð¸nh nghîa trong c¤u hình tùy ch÷n ngß¶i dùng khách hàng.',
@@ -1583,9 +1585,10 @@ sub Data {
         'Parent-Object' => 'Ð¯i tßþng cha',
         'Of couse this feature will take some system performance it self!' => 'T¤t nhiên tính nång này s¨ tñ thñc thi h® th¯ng.',
         'Detail' => 'Chi tiªt',
+        'Your own Ticket' => 'Thë cüa bÕn',
         'TicketZoom' => 'Phóng ðÕi thë',
-        'Open Tickets' => 'M· thë',
         'Don\'t forget to add a new user to groups!' => 'Ð×ng quên b± sung mµt ngß¶i dùng m¾i vào nhóm!',
+        'Open Tickets' => 'M· thë',
         'CreateTicket' => 'TÕo thë',
         'You have to select two or more attributes from the select field!' => 'BÕn phäi ch÷n 2 hay nhi«u thuµc tính t× trß¶ng ðã ch÷n!',
         'unknown' => 'chßa xác ð¸nh',
@@ -1594,15 +1597,16 @@ sub Data {
         'Imported' => 'Nh§p',
         'unread' => 'chßa ð÷c',
         'D' => 'D',
-        'System Status' => 'TrÕng thái h® th¯ng',
         'All messages' => 'T¤t cä tin nh¡n',
+        'System Status' => 'TrÕng thái h® th¯ng',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Các tùy ch÷n cüa dæ li®u thë (ví dø: <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => '',
         'A article should have a title!' => 'Bài viªt nên có tiêu ð«!',
         'Customer Users <-> Services' => 'Ngß¶i dùng khách hàng <-> D¸ch vø',
-        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Các tùy ch÷n c¤u hình (ví dø: &lt;OTRS_CONFIG_HttpType&gt;)',
         'Event' => 'Sñ ki®n',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Các tùy ch÷n c¤u hình (ví dø: &lt;OTRS_CONFIG_HttpType&gt;)',
         'All email addresses get excluded on replaying on composing and email.' => '',
+        'Compose Follow up' => 'SoÕn theo dõi',
         'Imported by' => 'Nh§p b·i',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Các tùy ch÷n chü thë (ví dø <OTRS_OWNER_UserFirstname>)',
         'read' => 'ð÷c',

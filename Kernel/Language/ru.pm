@@ -4,7 +4,7 @@
 # Copyright (C) 2007 Andrey Feldman <afeldman at alt-lan.ru>
 # Copyright (C) 2008 Egor Tsilenko <bg8s at symlink.ru>
 # --
-# $Id: ru.pm,v 1.74 2009-04-09 08:19:53 sb Exp $
+# $Id: ru.pm,v 1.75 2009-04-20 08:35:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.74 $) [1];
+$VERSION = qw($Revision: 1.75 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Thu Apr  9 10:12:56 2009
+    # Last translation file sync: Mon Apr 20 10:29:21 2009
 
     # possible charsets
     $Self->{Charset} = ['cp1251', 'Windows-1251', ];
@@ -748,7 +748,6 @@ sub Data {
         'New TicketFreeFields' => 'Новые свободные поля заявки',
         'Add Note' => 'Добавить заметку',
         'Time units' => 'Единицы времени',
-        ' (work units)' => ' (рабочие единицы)',
         'CMD' => 'Комманда',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'Эта команда будет выполнена. ARG[0] - номер заявки. ARG[1] - id заявки.',
         'Delete tickets' => 'Удалить заявки',
@@ -953,6 +952,12 @@ sub Data {
         'Add Salutation' => 'Добавить приветствие',
         'Add a new Salutation.' => 'Добавить новое приветствие',
 
+        # Template: AdminSecureMode
+        'Secure Mode need to be enabled!' => '',
+        'Secure mode will (normally) be set after the initial installation is completed.' => '',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' => '',
+        'If Secure Mode is not activated, activate it via SysConfig because your application is already running.' => '',
+
         # Template: AdminSelectBoxForm
         'SQL Box' => 'SQL запрос',
         'Go' => 'Выполнить',
@@ -1091,7 +1096,6 @@ sub Data {
         'Apply these changes' => 'Применить эти изменения',
 
         # Template: AgentStatsDelete
-        'Stat#' => '',
         'Do you really want to delete this Object?' => 'Вы действительно хотите удалить этот объект?',
 
         # Template: AgentStatsEditRestrictions
@@ -1225,9 +1229,6 @@ sub Data {
         'Customer history' => 'История клиента',
         'All customer tickets.' => 'Все заявки клиента.',
 
-        # Template: AgentTicketCustomerMessage
-        'Follow up' => 'Дополнение к заявке',
-
         # Template: AgentTicketEmail
         'Compose Email' => 'Написать письмо',
         'new ticket' => 'Новая Заявка',
@@ -1276,8 +1277,6 @@ sub Data {
         # Template: AgentTicketOverviewNavBarSmall
 
         # Template: AgentTicketOverviewPreview
-        'Your own Ticket' => 'Ваша собственная заявка',
-        'Compose Follow up' => 'Создать автоответ(Ваша заявка принята)',
         'Compose Answer' => 'Создать ответ',
         'Contact customer' => 'Связаться с клиентом',
         'Change queue' => 'Переместить в другую очередь',
@@ -1506,20 +1505,20 @@ sub Data {
         'Site' => 'Место',
         'Customer history search (e. g. "ID342425").' => 'Поиск истории клиента (напр. "ID342425").',
         'Can not delete link with %s!' => 'Невозможно удалить связь с %s!',
-        'for agent firstname' => 'для агента - имя',
         'Close!' => 'Закрыть!',
+        'for agent firstname' => 'для агента - имя',
         'Subgroup \'' => 'Подгруппа \'',
         'No means, send agent and customer notifications on changes.' => 'Нет значит отсылать уведомления пользователям и клиентам при изменениях',
         'A web calendar' => 'Календарь',
         'to get the realname of the sender (if given)' => 'получить (если есть) имя отправителя',
         'Notification (Customer)' => 'Уведомление (Клиенту)',
-        'Select Source (for add)' => 'Выбрать источник',
         'Involved' => 'Совместно с',
+        'Select Source (for add)' => 'Выбрать источник',
         'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'Опции данных заявки (например  &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)',
         'Child-Object' => 'Объект-Потомок',
         'Days' => 'Дни',
-        'Locked tickets' => 'Заблокированные заявки',
         'Queue ID' => 'ID очереди',
+        'Locked tickets' => 'Заблокированные заявки',
         'System History' => 'История',
         'customer realname' => 'имя клиента',
         'Pending messages' => 'Сообщения в ожидании',
@@ -1533,9 +1532,11 @@ sub Data {
         '"}' => '',
         'Order' => 'Порядок',
         'next step' => 'следующий шаг',
+        'Follow up' => 'Дополнение к заявке',
         'Customer history search' => 'Поиск истории клиента',
         '5 Day' => '5 Дней',
         'Admin-Email' => 'e-mail администратора',
+        'Stat#' => '',
         'Create new database' => 'Создать новую БД',
         'ArticleID' => 'ID заметки',
         'Keywords' => 'Ключевые слова',
@@ -1564,6 +1565,7 @@ sub Data {
         '(Used ticket number format)' => '(Используемый формат номеров Заявок)',
         'Reminder' => 'Напоминание',
         'Fulltext' => 'Полнотекстовый',
+        ' (work units)' => ' (рабочие единицы)',
         'Next Week' => 'На будущей неделе',
         'All Customer variables like defined in config option CustomerUser.' => 'Все переменные клиента содержаться в конфигурации клиентского пользователя.',
         'for agent lastname' => 'для агента - фамилия',
@@ -1575,9 +1577,10 @@ sub Data {
         'Ticket Hook' => 'Зацепить Заявку',
         'Events' => 'События',
         'Detail' => 'Подробно',
+        'Your own Ticket' => 'Ваша собственная заявка',
         'TicketZoom' => 'Просмотр заявки',
-        'Open Tickets' => 'Открытые заявки',
         'Don\'t forget to add a new user to groups!' => 'Не забудьте добавить новоего пользователя в группы!',
+        'Open Tickets' => 'Открытые заявки',
         'CreateTicket' => 'Создание заявки',
         'You have to select two or more attributes from the select field!' => 'Вам необходимо выбрать два или более пунктов из выбранного поля!',
         'System Settings' => 'Системные установки',
@@ -1593,6 +1596,7 @@ sub Data {
         'Event' => 'Событие',
         'All email addresses get excluded on replaying on composing and email.' => '',
         'A web mail client' => 'Почтовый Веб-клиент',
+        'Compose Follow up' => 'Создать автоответ(Ваша заявка принята)',
         'WebMail' => 'Почта',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Опции заявки (например <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Опции владельца заявки (например <OTRS_OWNER_UserFirstname>)',
@@ -1612,8 +1616,8 @@ sub Data {
         'send' => 'Отправить',
         'Send no notifications' => 'Не отсылать уведомления',
         'Note Text' => 'Текст заметки',
-        '3 Month' => '3 Месяца',
         'POP3 Account Management' => 'Управление учетной записью POP3',
+        '3 Month' => '3 Месяца',
         'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'Опции для данных текущего пользователя-клиента (например &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)',
         'Jule' => 'Июля',
         'System State Management' => 'Управление системными состояниями',
@@ -1622,8 +1626,8 @@ sub Data {
         'maximal period form' => 'Максимальный период с',
         'TicketID' => 'ID заявки',
         'Mart' => 'Марта',
-        'Yes means, send no agent and customer notifications on changes.' => 'Да значит не отсылать уведомления пользователям и клиентам при изменениях',
         'Change setting' => 'Изменить настройки',
+        'Yes means, send no agent and customer notifications on changes.' => 'Да значит не отсылать уведомления пользователям и клиентам при изменениях',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Ваш e-mail с номером заявки "<OTRS_TICKET>" отвергнут и переслан по адресу "<OTRS_BOUNCE_TO>". Пожалуйста, свяжитесь по этому адресу для выяснения причин. ',
         'Ticket Status View' => 'Просмотр статуса заявки',
         'Modified' => 'Изменено',

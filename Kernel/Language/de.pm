@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.186 2009-04-09 08:19:53 sb Exp $
+# $Id: de.pm,v 1.187 2009-04-20 08:35:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.186 $) [1];
+$VERSION = qw($Revision: 1.187 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Thu Apr  9 10:12:49 2009
+    # Last translation file sync: Mon Apr 20 10:27:28 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -745,7 +745,6 @@ sub Data {
         'New TicketFreeFields' => 'Neue TicketFreiFelder',
         'Add Note' => 'Notiz hinzufügen',
         'Time units' => 'Zeiteinheiten',
-        ' (work units)' => ' (Arbeitseinheiten)',
         'CMD' => 'CMD',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'Dieses Kommando wird mit ARG[0] (die Ticket Nummer) und ARG[1] die TicketID ausgeführt.',
         'Delete tickets' => 'Tickets Löschen',
@@ -950,6 +949,12 @@ sub Data {
         'Add Salutation' => 'Anrede hinzufügen',
         'Add a new Salutation.' => 'Eine neue Anrede hinzufügen.',
 
+        # Template: AdminSecureMode
+        'Secure Mode need to be enabled!' => '',
+        'Secure mode will (normally) be set after the initial installation is completed.' => '',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' => '',
+        'If Secure Mode is not activated, activate it via SysConfig because your application is already running.' => '',
+
         # Template: AdminSelectBoxForm
         'SQL Box' => 'SQL Box',
         'Go' => 'Go',
@@ -1088,7 +1093,6 @@ sub Data {
         'Apply these changes' => 'Änderungen übernehmen',
 
         # Template: AgentStatsDelete
-        'Stat#' => 'Statistik Nr.',
         'Do you really want to delete this Object?' => 'Soll das Objekt wirklich gelöscht werden?',
 
         # Template: AgentStatsEditRestrictions
@@ -1222,9 +1226,6 @@ sub Data {
         'Customer history' => 'Kunden-Historie',
         'All customer tickets.' => 'Alle Tickets des Kunden.',
 
-        # Template: AgentTicketCustomerMessage
-        'Follow up' => 'Nachfrage',
-
         # Template: AgentTicketEmail
         'Compose Email' => 'E-Mail erstellen',
         'new ticket' => 'Neues Ticket',
@@ -1273,8 +1274,6 @@ sub Data {
         # Template: AgentTicketOverviewNavBarSmall
 
         # Template: AgentTicketOverviewPreview
-        'Your own Ticket' => 'Ihr eigenes Ticket',
-        'Compose Follow up' => 'Ergänzung schreiben',
         'Compose Answer' => 'Antwort erstellen',
         'Contact customer' => 'Kunden kontaktieren',
         'Change queue' => 'Queue wechseln',
@@ -1534,8 +1533,10 @@ sub Data {
         'Escalation' => 'Eskalation',
         'Order' => 'Sortierung',
         'next step' => 'Nächster Schritt',
+        'Follow up' => 'Nachfrage',
         'Customer history search' => 'Kunden-Historie-Suche',
         'not verified' => 'nicht verifiziert',
+        'Stat#' => 'Statistik Nr.',
         'Create new database' => 'Neue Datenbank erstellen',
         'Year' => 'Jahr',
         'X-axis' => 'X-Achse',
@@ -1570,6 +1571,7 @@ sub Data {
         'Month' => 'Monat',
         'Node-Address' => 'Node-Adresse',
         'All Agent variables.' => 'Alle Agentenvariabln',
+        ' (work units)' => ' (Arbeitseinheiten)',
         'Next Week' => 'Nächste Woche',
         'You use the DELETE option! Take care, all deleted Tickets are lost!!!' => 'Sie benutzen die LÖSCHEN Option! Bitte bedenken Sie, dass dann diese Tickets verloren sind!',
         'All Customer variables like defined in config option CustomerUser.' => 'Alle Kundenvariablen wie definiert im den Konfigoptionen CustomerUser.',
@@ -1578,6 +1580,7 @@ sub Data {
         'Reminder messages' => 'Nachrichten zur Erinnerung',
         'Parent-Object' => 'Eltern-Objekte',
         'Of couse this feature will take some system performance it self!' => 'Wenn dieses Feature aktiv ist, ist mit Leistungsdefizit zu rechnen.',
+        'Your own Ticket' => 'Ihr eigenes Ticket',
         'Detail' => 'Detail',
         'TicketZoom' => 'Ticket Inhalt',
         'Don\'t forget to add a new user to groups!' => 'Ein neuer Benutzer muss einer Gruppe zugewiesen werden!',
@@ -1597,6 +1600,7 @@ sub Data {
         'Customer Users <-> Services' => 'Kunden Benutzer <-> Services',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Einstellungen (z. B.&lt;OTRS_CONFIG_HttpType&gt;)',
         'Event' => 'Ereignis',
+        'Compose Follow up' => 'Ergänzung schreiben',
         'Imported by' => 'Importiert von',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Informationen über den Besitzer des Tickets (z. B. <OTRS_OWNER_UserFirstname>)',
         'read' => 'gelesen',

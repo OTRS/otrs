@@ -2,7 +2,7 @@
 # Kernel/Language/ar_SA.pm - provides ar_SA language translation
 # Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
 # --
-# $Id: ar_SA.pm,v 1.29 2009-04-09 08:19:53 sb Exp $
+# $Id: ar_SA.pm,v 1.30 2009-04-20 08:35:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Thu Apr  9 10:12:47 2009
+    # Last translation file sync: Mon Apr 20 10:28:22 2009
 
     # possible charsets
     $Self->{Charset} = ['cp1256', ];
@@ -748,7 +748,6 @@ sub Data {
         'New TicketFreeFields' => 'Œ«‰«  ≈÷«›Ì… ÃœÌœ… ··»ÿ«ﬁ…',
         'Add Note' => '≈÷«›… „·«ÕŸ…',
         'Time units' => 'ÊÕœ«  «·Êﬁ ',
-        ' (work units)' => ' (ÊÕœ«  «·⁄„·) ',
         'CMD' => '',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => '',
         'Delete tickets' => 'Õ–› »ÿ«ﬁ« ',
@@ -953,6 +952,12 @@ sub Data {
         'Add Salutation' => '',
         'Add a new Salutation.' => '',
 
+        # Template: AdminSecureMode
+        'Secure Mode need to be enabled!' => '',
+        'Secure mode will (normally) be set after the initial installation is completed.' => '',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' => '',
+        'If Secure Mode is not activated, activate it via SysConfig because your application is already running.' => '',
+
         # Template: AdminSelectBoxForm
         'SQL Box' => '',
         'Go' => '',
@@ -1091,7 +1096,6 @@ sub Data {
         'Apply these changes' => ' ÿ»Ìﬁ «· €ÌÌ—« ',
 
         # Template: AgentStatsDelete
-        'Stat#' => '',
         'Do you really want to delete this Object?' => 'Â«  —Ìœ ›⁄·« Õ–› Â–« «·ﬂ«∆‰ø',
 
         # Template: AgentStatsEditRestrictions
@@ -1225,9 +1229,6 @@ sub Data {
         'Customer history' => ' «—ÌŒ «·⁄„Ì·',
         'All customer tickets.' => 'Ã„Ì⁄ »ÿ«ﬁ«  «·⁄„Ì·',
 
-        # Template: AgentTicketCustomerMessage
-        'Follow up' => '«·„ «»⁄…',
-
         # Template: AgentTicketEmail
         'Compose Email' => '≈—”«· »—Ìœ',
         'new ticket' => '»ÿ«ﬁ… ÃœÌœ…',
@@ -1276,8 +1277,6 @@ sub Data {
         # Template: AgentTicketOverviewNavBarSmall
 
         # Template: AgentTicketOverviewPreview
-        'Your own Ticket' => '»ÿ«ﬁ ﬂ «·Œ«’… »ﬂ',
-        'Compose Follow up' => '≈—”«· ≈÷«›… «·„ «»⁄…',
         'Compose Answer' => '≈—”«· «·≈Ã«»…',
         'Contact customer' => '« ’· »«·⁄„Ì·',
         'Change queue' => ' €ÌÌ— «·ﬁ«∆„…',
@@ -1503,15 +1502,15 @@ sub Data {
         'File-Name' => '',
         'Ticket Number Generator' => '',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '',
-        'Create new Phone Ticket' => '√‰‘Ì¡ »ÿ«ﬁ… Â« › ÃœÌœ…',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
+        'Create new Phone Ticket' => '√‰‘Ì¡ »ÿ«ﬁ… Â« › ÃœÌœ…',
         'Symptom' => '',
         'U' => '√⁄·Ï',
         'Site' => '',
         'Customer history search (e. g. "ID342425").' => '',
         'Can not delete link with %s!' => '',
-        'for agent firstname' => '',
         'Close!' => '≈ﬁ›«·!',
+        'for agent firstname' => '',
         'Reporter' => '',
         'Process-Path' => '',
         'No means, send agent and customer notifications on changes.' => '',
@@ -1544,15 +1543,17 @@ sub Data {
         'Classification' => '',
         'Change user <-> group settings' => '',
         'Incident detected' => '',
-        'Incident reported' => '',
         'Problem' => '',
-        'Escalation' => '',
+        'Incident reported' => '',
         'Officer' => '',
+        'Escalation' => '',
         '"}' => '',
         'Order' => '— »',
         'next step' => '«·ŒÿÊ… «· «·Ì…',
+        'Follow up' => '«·„ «»⁄…',
         'Customer history search' => '',
         'not verified' => '',
+        'Stat#' => '',
         'Create new database' => '',
         'Year' => '«·”‰…',
         'Service-Port' => '',
@@ -1590,6 +1591,7 @@ sub Data {
         'OTRS DB connect host' => '',
         'Node-Address' => '',
         'All Agent variables.' => '',
+        ' (work units)' => ' (ÊÕœ«  «·⁄„·) ',
         'Next Week' => '',
         'You use the DELETE option! Take care, all deleted Tickets are lost!!!' => 'ﬁ„  »≈” Œœ«„ "Õ–›" ! Ã„Ì⁄ «·»ÿ«ﬁ«  «·„Õ–Ê›… „”Õ  »‘ﬂ· ‰Â«∆Ì!!!!',
         'All Customer variables like defined in config option CustomerUser.' => '',
@@ -1602,9 +1604,10 @@ sub Data {
         'Of couse this feature will take some system performance it self!' => '',
         'IMAPS' => '',
         'Detail' => '«· ›«’Ì·',
+        'Your own Ticket' => '»ÿ«ﬁ ﬂ «·Œ«’… »ﬂ',
         'TicketZoom' => ' ﬂ»Ì— «·»ÿ«ﬁ…',
-        'Open Tickets' => '«·»ÿ«ﬁ«  «·„› ÊÕ…',
         'Don\'t forget to add a new user to groups!' => '',
+        'Open Tickets' => '«·»ÿ«ﬁ«  «·„› ÊÕ…',
         'CreateTicket' => '√‰‘Ì¡ »ÿ«ﬁ…',
         'You have to select two or more attributes from the select field!' => 'ÌÃ» ⁄·Ìﬂ  ÕœÌœ ⁄‰’—Ì‰ √Ê √ﬂÀ— „‰ «·ﬁ«∆„… «·„Õœœ…!',
         'unknown' => '€Ì— „⁄—Ê›',
@@ -1614,16 +1617,17 @@ sub Data {
         'Account Type' => '',
         'unread' => '€Ì— „ﬁ—Ê¡',
         'D' => '√ﬁ·',
-        'All messages' => 'Ã„Ì⁄ «·—”«∆·',
         'System Status' => '',
+        'All messages' => 'Ã„Ì⁄ «·—”«∆·',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'ŒÌ«—«  »Ì«‰«  «·»ÿ«ﬁ… („À«·Â <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => '',
         'A article should have a title!' => '«·»ÿ«ﬁ… ÌÃ» √‰ ÌﬂÊ‰ ·Â« ⁄‰Ê«‰!',
-        'Event' => '',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
-        'don\'t accept license' => '',
+        'Event' => '',
         'All email addresses get excluded on replaying on composing and email.' => '',
+        'don\'t accept license' => '',
         'IMAP' => '',
+        'Compose Follow up' => '≈—”«· ≈÷«›… «·„ «»⁄…',
         'Imported by' => ' „ ≈” Ì—«œÂ „‰ Œ·«·',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'ŒÌ«—«  „«·ﬂ «·»ÿ«ﬁ… („À«·Â <OTRS_OWNER_UserFirstname>)',
         'read' => '≈ﬁ—√',

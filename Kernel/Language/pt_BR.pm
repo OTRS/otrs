@@ -4,7 +4,7 @@
 # Copyright (C) 2005 Alterado por Glaucia C. Messina (glauglauu@yahoo.com)
 # Copyright (C) 2007 Fabricio Luiz Machado <soprobr gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.80 2009-04-09 08:19:53 sb Exp $
+# $Id: pt_BR.pm,v 1.81 2009-04-20 08:35:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.80 $) [1];
+$VERSION = qw($Revision: 1.81 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Thu Apr  9 10:12:55 2009
+    # Last translation file sync: Mon Apr 20 10:29:17 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -748,7 +748,6 @@ sub Data {
         'New TicketFreeFields' => 'Novos campos livres do Chamado',
         'Add Note' => 'Adicionar Nota',
         'Time units' => 'Unidades de tempo',
-        ' (work units)' => ' (unidades de trabalho)',
         'CMD' => 'Comando',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'Este comando será executado. ARG[0] será o número do chamado. ARG[1] o id do chamado.',
         'Delete tickets' => 'Excluir Chamados',
@@ -953,6 +952,12 @@ sub Data {
         'Add Salutation' => '',
         'Add a new Salutation.' => '',
 
+        # Template: AdminSecureMode
+        'Secure Mode need to be enabled!' => '',
+        'Secure mode will (normally) be set after the initial installation is completed.' => '',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' => '',
+        'If Secure Mode is not activated, activate it via SysConfig because your application is already running.' => '',
+
         # Template: AdminSelectBoxForm
         'SQL Box' => '',
         'Go' => '',
@@ -1091,7 +1096,6 @@ sub Data {
         'Apply these changes' => 'Aplicar estas modificações',
 
         # Template: AgentStatsDelete
-        'Stat#' => '',
         'Do you really want to delete this Object?' => 'Você quer realmente remover este objeto?',
 
         # Template: AgentStatsEditRestrictions
@@ -1225,9 +1229,6 @@ sub Data {
         'Customer history' => 'Histórico do cliente',
         'All customer tickets.' => 'Todos os chamados do cliente',
 
-        # Template: AgentTicketCustomerMessage
-        'Follow up' => 'Continuação',
-
         # Template: AgentTicketEmail
         'Compose Email' => 'Compor Email',
         'new ticket' => 'Novo Chamado',
@@ -1276,8 +1277,6 @@ sub Data {
         # Template: AgentTicketOverviewNavBarSmall
 
         # Template: AgentTicketOverviewPreview
-        'Your own Ticket' => 'Seu próprio Chamado',
-        'Compose Follow up' => 'Compor Continuação',
         'Compose Answer' => 'Compôr resposta',
         'Contact customer' => 'Contatar cliente',
         'Change queue' => 'Modificar Fila',
@@ -1500,15 +1499,15 @@ sub Data {
         'Change roles <-> groups settings' => 'Alterar configurações Regras <-> Grupos',
         'Ticket Number Generator' => 'Gerador de Números de Chamados',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identificador Chamado. Algumas pessoas gostam de usar por exemplo \'Chamado#\, \'Chamado#\' ou \'MeuChamado#\')',
-        'Create new Phone Ticket' => 'Criar novo Fone Chamado',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Neste caso, você pode editar diretamente a "keyring" configurada no Kernel/Config.pm.',
+        'Create new Phone Ticket' => 'Criar novo Fone Chamado',
         'Symptom' => 'Sintoma',
         'U' => 'C',
         'Options of the current user who requested this action (e. g. OTRS_CURRENT_USERFIRSTNAME)' => 'Opções do usuário atual que requisitou esta ação (ex.: OTRS_CURRENT_USERFIRSTNAME)',
         'Customer history search (e. g. "ID342425").' => 'Busca no Histórico do cliente (exemplo: "ID342425")',
         'Can not delete link with %s!' => '',
-        'for agent firstname' => 'Nome do Atendente',
         'Close!' => 'Fechar!',
+        'for agent firstname' => 'Nome do Atendente',
         'No means, send agent and customer notifications on changes.' => 'Não siginifica \'envie notificações ao atendente e ao cliente nas alterações\'.',
         'A web calendar' => 'Calendário',
         'to get the realname of the sender (if given)' => 'para obter o nome do remetente (se possuir no email)',
@@ -1517,8 +1516,8 @@ sub Data {
         'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
         'Child-Object' => 'Objeto Filho',
         'Config options (e. g. OTRS_CONFIG_HttpType)' => 'Opções de configuração (ex.: OTRS_CONFIG_HttpType)',
-        'Locked tickets' => 'Chamados Bloqueados',
         'Queue ID' => 'ID da Fila',
+        'Locked tickets' => 'Chamados Bloqueados',
         'System History' => 'Histórico do Sistema',
         'customer realname' => 'Nome do cliente',
         'Pending messages' => 'Mensagens pendentes',
@@ -1533,9 +1532,11 @@ sub Data {
         '"}' => '',
         'Order' => 'Ordem',
         'next step' => 'próximo passo',
+        'Follow up' => 'Continuação',
         'Customer history search' => 'Busca no Histórico do cliente',
         'Options of the ticket data (e. g. OTRS_TICKET_TicketNumber, OTRS_TICKET_TicketID, OTRS_TICKET_Queue, OTRS_TICKET_State)' => 'Opções de dados do Chamado (e. g. OTRS_TICKET_TicketNumber, OTRS_TICKET_TicketID, OTRS_TICKET_Queue, OTRS_TICKET_State)',
         'Admin-Email' => 'Email Admin.',
+        'Stat#' => '',
         'Options of the ticket data (e. g. OTRS_TICKET_Number, OTRS_TICKET_ID, OTRS_TICKET_Queue, OTRS_TICKET_State)' => 'Opções de dados do chamado (ex.: OTRS_TICKET_Number, OTRS_TICKET_ID, OTRS_TICKET_Queue, OTRS_TICKET_State;)',
         'Options of the current customer user data (e. g. OTRS_CUSTOMER_DATA_USERFIRSTNAME)' => 'Opções de dados do usuário do cliente atual (ex.: OTRS_CUSTOMER_DATA_USERFIRSTNAME)',
         'ArticleID' => 'Id.do artigo',
@@ -1563,6 +1564,7 @@ sub Data {
         'Fulltext' => 'Texto Completo',
         'Incident' => 'Incidente',
         'All Agent variables.' => 'Todas as variáveis do Atendente',
+        ' (work units)' => ' (unidades de trabalho)',
         'Next Week' => '',
         'All Customer variables like defined in config option CustomerUser.' => 'Todas as variáveis do cliente como foram definidas nas opções de configuração de "usuário"',
         'accept license' => 'aceitar licença',
@@ -1571,8 +1573,9 @@ sub Data {
         'Parent-Object' => 'Objeto Pai',
         'Of couse this feature will take some system performance it self!' => '',
         'Detail' => 'Detalhe',
-        'Open Tickets' => 'Chamados Abertos',
+        'Your own Ticket' => 'Seu próprio Chamado',
         'Don\'t forget to add a new user to groups!' => 'Não esqueça de adicionar um novo usuário nos grupos!',
+        'Open Tickets' => 'Chamados Abertos',
         'You have to select two or more attributes from the select field!' => 'Você deve selecionar dois ou mais atributos no campo \'selecionar\'!',
         'System Settings' => 'Configurações Sistema',
         'WebWatcher' => 'Visitante',
@@ -1583,9 +1586,10 @@ sub Data {
         'Object already linked as %s.' => '',
         'A article should have a title!' => 'O Artigo deverá ter um Título!',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
-        'don\'t accept license' => 'não acentiar a licença',
         'All email addresses get excluded on replaying on composing and email.' => '',
+        'don\'t accept license' => 'não acentiar a licença',
         'A web mail client' => 'Webmail Cliente',
+        'Compose Follow up' => 'Compor Continuação',
         'WebMail' => '',
         'Name is required!' => 'O Nome é requerido',
         'kill all sessions' => 'Finalizar todas as sessões',

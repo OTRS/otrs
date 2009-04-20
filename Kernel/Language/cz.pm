@@ -3,7 +3,7 @@
 # Copyright (C) 2003 Lukas Vicanek alias networ <lulka at centrum dot cz>
 # Copyright (C) 2004 BENETA.cz, s.r.o. (Marta Macalkova, Vadim Buzek, Petr Ocasek) <info at beneta dot cz>
 # --
-# $Id: cz.pm,v 1.70 2009-04-09 08:19:53 sb Exp $
+# $Id: cz.pm,v 1.71 2009-04-20 08:35:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.70 $) [1];
+$VERSION = qw($Revision: 1.71 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Thu Apr  9 10:12:48 2009
+    # Last translation file sync: Mon Apr 20 10:28:35 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', ];
@@ -747,7 +747,6 @@ sub Data {
         'New TicketFreeFields' => '',
         'Add Note' => 'Pøidat poznámku',
         'Time units' => 'Jednotky èasu',
-        ' (work units)' => '(jednotky práce)',
         'CMD' => '',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => '',
         'Delete tickets' => '',
@@ -952,6 +951,12 @@ sub Data {
         'Add Salutation' => '',
         'Add a new Salutation.' => '',
 
+        # Template: AdminSecureMode
+        'Secure Mode need to be enabled!' => '',
+        'Secure mode will (normally) be set after the initial installation is completed.' => '',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' => '',
+        'If Secure Mode is not activated, activate it via SysConfig because your application is already running.' => '',
+
         # Template: AdminSelectBoxForm
         'SQL Box' => '',
         'Go' => '',
@@ -1090,7 +1095,6 @@ sub Data {
         'Apply these changes' => 'Aplikovat tyto zmìny',
 
         # Template: AgentStatsDelete
-        'Stat#' => '',
         'Do you really want to delete this Object?' => '',
 
         # Template: AgentStatsEditRestrictions
@@ -1224,9 +1228,6 @@ sub Data {
         'Customer history' => 'Historie klienta',
         'All customer tickets.' => 'V¹echny tikety klienta',
 
-        # Template: AgentTicketCustomerMessage
-        'Follow up' => 'Následující',
-
         # Template: AgentTicketEmail
         'Compose Email' => '',
         'new ticket' => 'nový tiket',
@@ -1275,8 +1276,6 @@ sub Data {
         # Template: AgentTicketOverviewNavBarSmall
 
         # Template: AgentTicketOverviewPreview
-        'Your own Ticket' => 'Vá¹ vlastní tiket',
-        'Compose Follow up' => 'Sestavit následující',
         'Compose Answer' => 'Odpovìdìt',
         'Contact customer' => 'Kontaktovat klienta',
         'Change queue' => 'Zmìnit frontu',
@@ -1500,15 +1499,15 @@ sub Data {
         'Change roles <-> groups settings' => '',
         'Ticket Number Generator' => 'Generátor èísel tiketù',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identifikátor tiketù. Nekteøí lidé chtìjí nastavit napø. \'Tiket#\',  \'Hovor#\' nebo \'MujTiket#\')',
-        'Create new Phone Ticket' => '',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
+        'Create new Phone Ticket' => '',
         'Symptom' => 'Pøíznak',
         'U' => 'Z-A',
         'Site' => 'Umístìní',
         'Customer history search (e. g. "ID342425").' => 'Vyhledávání historie klienta (napø. "ID342425")',
         'Can not delete link with %s!' => '',
-        'for agent firstname' => 'pro køestní jméno agenta',
         'Close!' => 'Zavøít!',
+        'for agent firstname' => 'pro køestní jméno agenta',
         'No means, send agent and customer notifications on changes.' => '',
         'A web calendar' => '',
         'to get the realname of the sender (if given)' => 'pro získaní skuteèného jména odesílatele (pokud je zadáno)',
@@ -1535,8 +1534,10 @@ sub Data {
         '"}' => '',
         'Order' => 'Seøadit',
         'next step' => 'dal¹í krok',
+        'Follow up' => 'Následující',
         'Customer history search' => 'Vyhledávání historie klienta',
         'Admin-Email' => 'Email administrátora',
+        'Stat#' => '',
         'ArticleID' => 'ID polo¾ky',
         'Keywords' => 'Klíèová slova',
         'Ticket Escalation View' => '',
@@ -1553,8 +1554,8 @@ sub Data {
         'to get the first 20 character of the subject' => 'pro získáni prvních 20 znakù z pøedmìtu',
         'Select the customeruser:service relations.' => '',
         'DB Admin Password' => 'Heslo administrátora databáze',
-        'Advisory' => '',
         'Drop Database' => 'Odstranit databazi',
+        'Advisory' => '',
         'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
         'FileManager' => '',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => '',
@@ -1568,6 +1569,7 @@ sub Data {
         'OTRS DB connect host' => 'Hostitel OTRS databáze (server)',
         'If a ticket will not be answered in thos time, just only this ticket will be shown.' => 'Nebude-li tiket odpovìzen v daném èase, bude zobrazen pouze tento Tiket.',
         'All Agent variables.' => '',
+        ' (work units)' => '(jednotky práce)',
         'Next Week' => '',
         'All Customer variables like defined in config option CustomerUser.' => '',
         'accept license' => 'souhlasím s licencí',
@@ -1578,9 +1580,10 @@ sub Data {
         'Of couse this feature will take some system performance it self!' => '',
         'Ticket Hook' => 'Oznaèení tiketu',
         'Detail' => '',
+        'Your own Ticket' => 'Vá¹ vlastní tiket',
         'TicketZoom' => 'Zobrazení tiketu',
-        'Open Tickets' => '',
         'Don\'t forget to add a new user to groups!' => 'Nezapomeòte pøidat nového u¾ivatele do skupin!',
+        'Open Tickets' => '',
         'CreateTicket' => 'Vytvoøeno Tiketu',
         'You have to select two or more attributes from the select field!' => '',
         'System Settings' => 'Nastavení systému',
@@ -1588,16 +1591,17 @@ sub Data {
         'Finished' => 'Dokonèeno',
         'Account Type' => '',
         'D' => 'A-Z',
-        'System Status' => '',
         'All messages' => 'V¹echny zprávy',
+        'System Status' => '',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         'Object already linked as %s.' => '',
         'A article should have a title!' => '',
-        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
         'Event' => '',
-        'don\'t accept license' => 'nesouhlasím s licencí',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
         'All email addresses get excluded on replaying on composing and email.' => '',
+        'don\'t accept license' => 'nesouhlasím s licencí',
         'A web mail client' => '',
+        'Compose Follow up' => 'Sestavit následující',
         'WebMail' => '',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => '',
         'Name is required!' => '',

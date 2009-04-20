@@ -2,7 +2,7 @@
 # Kernel/Language/ct.pm - provides ct language translation
 # Copyright (C) 2008 Sistemes OTIC (ibsalut) - Antonio Linde
 # --
-# $Id: ct.pm,v 1.19 2009-04-09 08:19:53 sb Exp $
+# $Id: ct.pm,v 1.20 2009-04-20 08:35:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Thu Apr  9 10:12:48 2009
+    # Last translation file sync: Mon Apr 20 10:28:32 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -747,7 +747,6 @@ sub Data {
         'New TicketFreeFields' => 'Nou CampsLliuresDeTiquet',
         'Add Note' => 'Afegir Nota',
         'Time units' => 'Unitats de temps',
-        ' (work units)' => ' (unitats de treball)',
         'CMD' => 'CMD',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'S\'executarà el comandament. ARG%[0] el nombre del tiquet. ARG%[0] l\'id del tiquet.',
         'Delete tickets' => 'Eliminar tiquets',
@@ -952,6 +951,12 @@ sub Data {
         'Add Salutation' => 'Afegir salutació',
         'Add a new Salutation.' => 'Afegir una salutació nova',
 
+        # Template: AdminSecureMode
+        'Secure Mode need to be enabled!' => '',
+        'Secure mode will (normally) be set after the initial installation is completed.' => '',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' => '',
+        'If Secure Mode is not activated, activate it via SysConfig because your application is already running.' => '',
+
         # Template: AdminSelectBoxForm
         'SQL Box' => 'SQL',
         'Go' => 'Anar',
@@ -1090,7 +1095,6 @@ sub Data {
         'Apply these changes' => 'Aplicar aquests canvis',
 
         # Template: AgentStatsDelete
-        'Stat#' => '',
         'Do you really want to delete this Object?' => 'Segur que desitja eliminar aquest objecte?',
 
         # Template: AgentStatsEditRestrictions
@@ -1224,9 +1228,6 @@ sub Data {
         'Customer history' => 'Història del client',
         'All customer tickets.' => 'Tots els tiquets d\'un client',
 
-        # Template: AgentTicketCustomerMessage
-        'Follow up' => 'Seguiment',
-
         # Template: AgentTicketEmail
         'Compose Email' => 'Redactar Correu',
         'new ticket' => 'nou tiquet',
@@ -1275,8 +1276,6 @@ sub Data {
         # Template: AgentTicketOverviewNavBarSmall
 
         # Template: AgentTicketOverviewPreview
-        'Your own Ticket' => 'Els seus tiquets',
-        'Compose Follow up' => 'Redactar seguiment',
         'Compose Answer' => 'Respondre',
         'Contact customer' => 'Contactar amb el client',
         'Change queue' => 'Canviar cua',
@@ -1499,15 +1498,15 @@ sub Data {
         'Create Database' => 'Crear Base de dades',
         'Ticket Number Generator' => 'Generador de nombres de Tiquets',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identificador de Ticker. Algunes persones agraden d\'usar per exemple \'Tiquet#\', \'Cridada#\' o \'ElMeuTiquet#\')',
-        'Create new Phone Ticket' => 'Crear un nou Tiquet Telefònic',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'D\'aquesta forma pot editar directament les claus configurades en Kernel/Config.pm.',
+        'Create new Phone Ticket' => 'Crear un nou Tiquet Telefònic',
         'Symptom' => 'Símptoma',
         'U' => 'A',
         'Site' => 'Ubicació',
         'Customer history search (e. g. "ID342425").' => 'Història de recerques del client (exemple: "ID342425").',
         'Can not delete link with %s!' => 'No es pot suprimir enllaç amb %s! ',
-        'for agent firstname' => 'nom de l\'agent',
         'Close!' => 'Tancar!',
+        'for agent firstname' => 'nom de l\'agent',
         'No means, send agent and customer notifications on changes.' => 'No, significa enviar als agents i clients notificacions al realitzar canvis.',
         'A web calendar' => 'Calendari Web',
         'to get the realname of the sender (if given)' => 'per a obtenir el nom de l\'emissor (si ho va proporcionar)',
@@ -1533,8 +1532,10 @@ sub Data {
         '"}' => '"}',
         'Order' => 'Ordenar',
         'next step' => 'pròxim pas',
+        'Follow up' => 'Seguiment',
         'Customer history search' => 'Història de recerques del client',
         'Admin-Email' => 'Correu-Admin',
+        'Stat#' => '',
         'Incident Management (OTIC)' => 'Gestió D\'Incidències (OTIC)',
         'Create new database' => 'Crear nova base de dades',
         'ArticleID' => 'Identificador d\'article',
@@ -1553,8 +1554,8 @@ sub Data {
         'to get the first 20 character of the subject' => 'per a obtenir els primers 20 caràcters de l\'assumpte',
         'Select the customeruser:service relations.' => 'Seleccioni el client:relacions de serveis',
         'DB Admin Password' => 'Contrasenya de l\'administrador de la BD',
-        'Advisory' => 'Advertiment',
         'Drop Database' => 'Eliminar Base de dades',
+        'Advisory' => 'Advertiment',
         'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Aquí pot definir l\'eix-x. Pot seleccionar un element usant la casella de selecció. Després ha de seleccionar dos o més atributs de l\'element. Si no selecciona cap, tots els atributs de l\'element s\'utilitzaran per a generar una estadística. Així com un nou atribut és afegit des de l\'última configuració',
         'FileManager' => 'Administrador d\'Arxius',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Opcions de dades d\'usuari de l\'usuari actual (ex.: <OTRS_CUSTOMER_DATA_UserFirstname>)',
@@ -1568,6 +1569,7 @@ sub Data {
         'Fulltext' => 'Text Complet',
         'Incident' => 'Incident',
         'All Agent variables.' => 'Totes les variables d\'agent',
+        ' (work units)' => ' (unitats de treball)',
         'Next Week' => 'Pròxima setmana',
         'All Customer variables like defined in config option CustomerUser.' => 'Totes les variables de client com apareixen declarades en l\'opció de configuració del client',
         'accept license' => 'acceptar llicència',
@@ -1578,9 +1580,10 @@ sub Data {
         'Parent-Object' => 'Objecte-pare',
         'Of couse this feature will take some system performance it self!' => 'Evidentment aquesta característica afectarà al rendiment del sistema per si mateixa!',
         'Detail' => 'Detall',
+        'Your own Ticket' => 'Els seus tiquets',
         'TicketZoom' => 'Detall del Tiquet',
-        'Open Tickets' => 'Tiquets Oberts',
         'Don\'t forget to add a new user to groups!' => 'No oblidi incloure l\'usuari en grups!',
+        'Open Tickets' => 'Tiquets Oberts',
         'CreateTicket' => 'CrearTiquet',
         'You have to select two or more attributes from the select field!' => 'Ha de seleccionar dos o més atributs del camp seleccionat',
         'System Settings' => 'Configuració del sistema',
@@ -1589,17 +1592,18 @@ sub Data {
         'Finished' => 'Finalitzat',
         'Account Type' => 'Tipus compte',
         'D' => 'D',
-        'System Status' => 'Estat del sistema',
         'All messages' => 'Tots els missatges',
+        'System Status' => 'Estat del sistema',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Opcions per a la informació el tiquet (ex. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Artefact' => 'Artefacte',
         'Object already linked as %s.' => 'Objecte ja enllaçat com %s.',
         'A article should have a title!' => 'Els articles han de tenir títol',
-        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Opcions de configuració (ex. &lt;OTRS_CONFIG_HttpType&gt;)',
         'Event' => 'Esdeveniment',
-        'don\'t accept license' => 'no accepto la llicència',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Opcions de configuració (ex. &lt;OTRS_CONFIG_HttpType&gt;)',
         'All email addresses get excluded on replaying on composing and email.' => '',
+        'don\'t accept license' => 'no accepto la llicència',
         'A web mail client' => 'Un client de correu web',
+        'Compose Follow up' => 'Redactar seguiment',
         'WebMail' => 'Correu web',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Opcions del propietari del tiquet (ex. <OTRS_OWNER_UserFirstname>)',
         'Name is required!' => 'Ha d\'especificar nom!',

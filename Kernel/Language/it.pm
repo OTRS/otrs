@@ -4,7 +4,7 @@
 # Copyright (C) 2003 Gabriele Santilli <gsantilli at omnibus.net>
 # Copyright (C) 2005 Giordano Bianchi <giordano.bianchi at gmail.com>
 # --
-# $Id: it.pm,v 1.75 2009-04-09 08:19:53 sb Exp $
+# $Id: it.pm,v 1.76 2009-04-20 08:35:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.75 $) [1];
+$VERSION = qw($Revision: 1.76 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Thu Apr  9 10:12:53 2009
+    # Last translation file sync: Mon Apr 20 10:28:58 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -748,7 +748,6 @@ sub Data {
         'New TicketFreeFields' => '',
         'Add Note' => 'Aggiungi nota',
         'Time units' => 'Tempo',
-        ' (work units)' => ' (unità di lavoro)',
         'CMD' => 'comando',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'Questo comando verrà eseguito. ARG[0] sarà il numero della richiesta. ARG[1] sarà l\'identificativo della richiesta.',
         'Delete tickets' => 'Elimina richieste',
@@ -953,6 +952,12 @@ sub Data {
         'Add Salutation' => 'Aggiungi il template di saluti',
         'Add a new Salutation.' => 'aggiungi un nuovo modello di saluti ',
 
+        # Template: AdminSecureMode
+        'Secure Mode need to be enabled!' => '',
+        'Secure mode will (normally) be set after the initial installation is completed.' => '',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' => '',
+        'If Secure Mode is not activated, activate it via SysConfig because your application is already running.' => '',
+
         # Template: AdminSelectBoxForm
         'SQL Box' => 'script SQL ',
         'Go' => 'Esegui SQL script',
@@ -1091,7 +1096,6 @@ sub Data {
         'Apply these changes' => 'Applica le modifiche',
 
         # Template: AgentStatsDelete
-        'Stat#' => '',
         'Do you really want to delete this Object?' => 'Vuoi davvero cancellare questo oggetto?',
 
         # Template: AgentStatsEditRestrictions
@@ -1225,9 +1229,6 @@ sub Data {
         'Customer history' => 'Storico del cliente',
         'All customer tickets.' => 'Tutte le richieste del cliente.',
 
-        # Template: AgentTicketCustomerMessage
-        'Follow up' => 'Risposta',
-
         # Template: AgentTicketEmail
         'Compose Email' => 'Componi email',
         'new ticket' => 'nuova richiesta',
@@ -1276,8 +1277,6 @@ sub Data {
         # Template: AgentTicketOverviewNavBarSmall
 
         # Template: AgentTicketOverviewPreview
-        'Your own Ticket' => 'Le tue richieste',
-        'Compose Follow up' => 'Componi risposta',
         'Compose Answer' => 'Componi risposta',
         'Contact customer' => 'Contatta il cliente',
         'Change queue' => 'Cambia coda',
@@ -1500,15 +1499,15 @@ sub Data {
         'Create Database' => 'Crea database ',
         'Ticket Number Generator' => 'Generatore numero ticket',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Prefisso per il numero di ticket --- es. "N.ro Ticket:" o "Ticket#" ecc.)',
-        'Create new Phone Ticket' => 'Crea una nuova richiesta in seguito ad una chiamata telefonica',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'In questo modo puoi modificare direttamente il \'keyring\' configurato nel file Kernel/Config.pm',
+        'Create new Phone Ticket' => 'Crea una nuova richiesta in seguito ad una chiamata telefonica',
         'Symptom' => 'Sintomi',
         'U' => 'C',
         'Site' => 'Pagina',
         'Customer history search (e. g. "ID342425").' => 'Ricerca storico cliente (per es. "ID342425")',
         'Can not delete link with %s!' => '',
-        'for agent firstname' => 'per il nome dell\'operatore',
         'Close!' => 'Chiuso!',
+        'for agent firstname' => 'per il nome dell\'operatore',
         'No means, send agent and customer notifications on changes.' => 'No- significa , invia notifiche ad agenti e utenti dopo modifiche ',
         'A web calendar' => 'Calendario web',
         'to get the realname of the sender (if given)' => 'per avere il nome completo del mittente (se indicato)',
@@ -1534,8 +1533,10 @@ sub Data {
         '"}' => '',
         'Order' => 'Ordine',
         'next step' => 'Fase successiva',
+        'Follow up' => 'Risposta',
         'Customer history search' => 'Ricerca storico cliente',
         'Admin-Email' => 'Invia messaggio agli operatori',
+        'Stat#' => '',
         'Create new database' => 'Crea un nuovo database',
         'ArticleID' => 'Codice articolo',
         'Keywords' => 'Parole chiave',
@@ -1552,8 +1553,8 @@ sub Data {
         'to get the first 20 character of the subject' => 'per avere i primi 20 caratteri dell\'oggetto',
         'Select the customeruser:service relations.' => '',
         'DB Admin Password' => 'Password del DB Admin',
-        'Advisory' => 'Avviso',
         'Drop Database' => 'Cancella database',
+        'Advisory' => 'Avviso',
         'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
         'FileManager' => '',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Per ottenere i dati del cliente (per es. <OTRS_CUSTOMER_DATA_UserFirstname>)',
@@ -1567,6 +1568,7 @@ sub Data {
         'Here you can the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
         'Fulltext' => 'Testo libero',
         'Incident' => 'Incidente',
+        ' (work units)' => ' (unità di lavoro)',
         'Next Week' => '',
         'All Customer variables like defined in config option CustomerUser.' => 'Tutte le variabili del cliente come definite nella configurazione',
         'accept license' => 'accetto la licenza',
@@ -1577,9 +1579,10 @@ sub Data {
         'Of couse this feature will take some system performance it self!' => 'attenzione questa funzionalita usa risorse di sistema',
         'Ticket Hook' => 'Prefisso richieste',
         'Detail' => 'Dettaglio',
+        'Your own Ticket' => 'Le tue richieste',
         'TicketZoom' => 'DettagliRichiesta',
-        'Open Tickets' => 'Richieste Aperte',
         'Don\'t forget to add a new user to groups!' => 'Non dimenticare di aggiungere i nuovi operatori ad un gruppo!',
+        'Open Tickets' => 'Richieste Aperte',
         'CreateTicket' => 'CreaRichiesta',
         'You have to select two or more attributes from the select field!' => '',
         'System Settings' => 'Impostazioni di sistema',
@@ -1587,17 +1590,18 @@ sub Data {
         'Hours' => 'Ore',
         'Finished' => 'Operazione terminata',
         'D' => '',
-        'System Status' => '',
         'All messages' => 'Tutti i messaggi',
+        'System Status' => '',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         'Artefact' => 'Artefatto',
         'Object already linked as %s.' => '',
         'A article should have a title!' => 'Manca il titolo!',
-        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
         'Event' => '',
-        'don\'t accept license' => 'non accetto la licenza',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
         'All email addresses get excluded on replaying on composing and email.' => '',
+        'don\'t accept license' => 'non accetto la licenza',
         'A web mail client' => 'Un client di web mail',
+        'Compose Follow up' => 'Componi risposta',
         'WebMail' => '',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Per ottenere il gestore della richiesta (per es. <OTRS_OWNER_UserFirstname>)',

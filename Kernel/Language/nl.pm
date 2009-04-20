@@ -6,7 +6,7 @@
 # Copyright (C) 2005-2007 Jurgen Rutgers <jurgen 'at' besite.nl>
 # Copyright (C) 2005-2007 Richard Hinkamp <richard 'at' besite.nl>
 # --
-# $Id: nl.pm,v 1.88 2009-04-09 08:19:53 sb Exp $
+# $Id: nl.pm,v 1.89 2009-04-20 08:35:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,13 +29,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.88 $) [1];
+$VERSION = qw($Revision: 1.89 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Thu Apr  9 10:12:54 2009
+    # Last translation file sync: Mon Apr 20 10:29:07 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -760,7 +760,6 @@ sub Data {
         'New TicketFreeFields' => '',
         'Add Note' => 'Notitie toevoegen',
         'Time units' => 'Gewerkte tijd',
-        ' (work units)' => '(in minuten)',
         'CMD' => 'Commando',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'Dit commando zal worden uitgevoerd. ARG[0] is het nieuwe ticketnummer. ARG[1] is het nieuwe ticket id.',
         'Delete tickets' => 'Verwijder tickets.',
@@ -965,6 +964,12 @@ sub Data {
         'Add Salutation' => 'Aanhef toevoegen',
         'Add a new Salutation.' => 'Een nieuwe aanhef toevoegen',
 
+        # Template: AdminSecureMode
+        'Secure Mode need to be enabled!' => '',
+        'Secure mode will (normally) be set after the initial installation is completed.' => '',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' => '',
+        'If Secure Mode is not activated, activate it via SysConfig because your application is already running.' => '',
+
         # Template: AdminSelectBoxForm
         'SQL Box' => '',
         'Go' => 'Uitvoeren',
@@ -1103,7 +1108,6 @@ sub Data {
         'Apply these changes' => 'Pas deze wijzigingen toe',
 
         # Template: AgentStatsDelete
-        'Stat#' => '',
         'Do you really want to delete this Object?' => 'Weet u zeker dat u dit item wilt verwijderen?',
 
         # Template: AgentStatsEditRestrictions
@@ -1237,9 +1241,6 @@ sub Data {
         'Customer history' => 'Klantgeschiedenis',
         'All customer tickets.' => 'Alle klant Tickets',
 
-        # Template: AgentTicketCustomerMessage
-        'Follow up' => '',
-
         # Template: AgentTicketEmail
         'Compose Email' => 'E-mail opstellen',
         'new ticket' => 'nieuw ticket',
@@ -1288,8 +1289,6 @@ sub Data {
         # Template: AgentTicketOverviewNavBarSmall
 
         # Template: AgentTicketOverviewPreview
-        'Your own Ticket' => 'Je eigen Ticket',
-        'Compose Follow up' => 'Follow up aanmaken',
         'Compose Answer' => 'Antwoord opstellen',
         'Contact customer' => 'Klant contacteren',
         'Change queue' => 'Wachtrij wisselen',
@@ -1514,8 +1513,8 @@ sub Data {
         'U' => 'U',
         'Customer history search (e. g. "ID342425").' => 'Klantgeschiedenis zoeken (bijv. "ID342425").',
         'Can not delete link with %s!' => '',
-        'for agent firstname' => 'voornaam van agent',
         'Close!' => 'Sluit!',
+        'for agent firstname' => 'voornaam van agent',
         'No means, send agent and customer notifications on changes.' => 'Nee betekent dat er wel notificaties worden gestuurd naar eigenaren en klanten bij wijzigingen.',
         'A web calendar' => 'Kalender',
         'to get the realname of the sender (if given)' => 'voor de echte naam van de afzender (indien beschikbaar)',
@@ -1540,8 +1539,10 @@ sub Data {
         '"}' => '"}',
         'Order' => 'Volgorde',
         'next step' => 'volgende stap',
+        'Follow up' => '',
         'Customer history search' => 'Zoeken in klantgeschiednis',
         'Admin-Email' => 'Admin e-mail adres',
+        'Stat#' => '',
         'ArticleID' => 'Artikel ID',
         'Keywords' => 'Steekwoorden',
         'Ticket Escalation View' => '',
@@ -1564,6 +1565,7 @@ sub Data {
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Mogelijkheden van Ticket gegevens (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Reminder' => 'Herinnering',
         'Fulltext' => 'Volledig',
+        ' (work units)' => '(in minuten)',
         'Next Week' => '',
         'All Customer variables like defined in config option CustomerUser.' => 'Alle klantvariabelen zoals vastgelegd in de configuratieoptie Klantgebruiker.',
         'for agent lastname' => 'achternaam van agent',
@@ -1573,9 +1575,10 @@ sub Data {
         'If your account is trusted, the already existing x-otrs header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => 'Wanneer het account vertrouwd is, zullen de x-otrs headers gebruikt worden! PostMaster filters zullen ook nog steeds gebruikt worden.',
         'Of couse this feature will take some system performance it self!' => '',
         'Detail' => 'Detail',
+        'Your own Ticket' => 'Je eigen Ticket',
         'TicketZoom' => 'Inhoud ticket',
-        'Open Tickets' => 'Openstaande tickets',
         'Don\'t forget to add a new user to groups!' => 'Vergeet niet om groepen aan deze gebruiker toe te kennen!',
+        'Open Tickets' => 'Openstaande tickets',
         'CreateTicket' => 'Ticket aanmaken',
         'You have to select two or more attributes from the select field!' => '',
         'WebWatcher' => '',
@@ -1585,10 +1588,11 @@ sub Data {
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Mogelijkheden van de ticket gegevens (bijv. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => '',
         'A article should have a title!' => 'Een artikel moet een titel hebben!',
-        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Configuratie mogelijkheden (bijv. &lt;OTRS_CONFIG_HttpType&gt;)',
         'Event' => '',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Configuratie mogelijkheden (bijv. &lt;OTRS_CONFIG_HttpType&gt;)',
         'All email addresses get excluded on replaying on composing and email.' => '',
         'A web mail client' => 'Webmail gebruiker',
+        'Compose Follow up' => 'Follow up aanmaken',
         'WebMail' => 'Webmail',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Mogelijkheden van de ticket gegevens (bijv. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Opties voor de Ticket eigenaar (b.v. <OTRS_OWNER_UserFirstname>)',

@@ -3,7 +3,7 @@
 # Copyright (C) 2006-2008 Amir Shams Parsa <amir at parsa.name>
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # --
-# $Id: fa.pm,v 1.55 2009-04-09 08:19:53 sb Exp $
+# $Id: fa.pm,v 1.56 2009-04-20 08:35:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Thu Apr  9 10:12:51 2009
+    # Last translation file sync: Mon Apr 20 10:28:48 2009
 
     # possible charsets
     $Self->{Charset} = ['utf-8', 'utf-8', ];
@@ -750,7 +750,6 @@ sub Data {
         'New TicketFreeFields' => 'ستون آزاد درخواست',
         'Add Note' => 'افزودن یادداشت',
         'Time units' => 'واحد زمان',
-        ' (work units)' => ' واحد کار',
         'CMD' => 'CMD',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'این دستور اجرا خواهد شد. ARG[0] شماره درخواست و ARG[1] id آن خواهد بود.',
         'Delete tickets' => 'حذف درخواست ها',
@@ -955,6 +954,12 @@ sub Data {
         'Add Salutation' => 'افزودن عنوان',
         'Add a new Salutation.' => 'افزودن عنوان جدید',
 
+        # Template: AdminSecureMode
+        'Secure Mode need to be enabled!' => '',
+        'Secure mode will (normally) be set after the initial installation is completed.' => '',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' => '',
+        'If Secure Mode is not activated, activate it via SysConfig because your application is already running.' => '',
+
         # Template: AdminSelectBoxForm
         'SQL Box' => 'جعبه SQL',
         'Go' => 'اجرا ',
@@ -1093,7 +1098,6 @@ sub Data {
         'Apply these changes' => 'این تغییرات را در اعمال کن',
 
         # Template: AgentStatsDelete
-        'Stat#' => '',
         'Do you really want to delete this Object?' => 'آیا واقعا قصد حذف این مورد را دارید؟',
 
         # Template: AgentStatsEditRestrictions
@@ -1227,9 +1231,6 @@ sub Data {
         'Customer history' => 'سوابق مشترک',
         'All customer tickets.' => 'همه درخواست های مشترک',
 
-        # Template: AgentTicketCustomerMessage
-        'Follow up' => 'پیگیری',
-
         # Template: AgentTicketEmail
         'Compose Email' => 'ارسال Email',
         'new ticket' => 'درخواست جدید',
@@ -1278,8 +1279,6 @@ sub Data {
         # Template: AgentTicketOverviewNavBarSmall
 
         # Template: AgentTicketOverviewPreview
-        'Your own Ticket' => 'درخواست شما',
-        'Compose Follow up' => 'ارسال پیگیری',
         'Compose Answer' => 'ارسال پاسخ',
         'Contact customer' => 'تماس با مشترک',
         'Change queue' => 'تغییر لیست درخواست',
@@ -1504,15 +1503,15 @@ sub Data {
         'Change roles <-> groups settings' => 'تغییر تنظیمات وظیفه <-> گروه',
         'Ticket Number Generator' => 'تولید کننده شماره درخواست ها',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(مشخصه درخواست ها. اکثر کاربران مایلنداز این ترکیب استفاده کنند مثال: \'شماره درخواست\', \'شماره تماس#\' یا \'نام دلخواه #\')',
-        'Create new Phone Ticket' => 'ایجاد درخواست تلفنی',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'تنظیم مستقیم کلید ها در Kernel/Config.pm',
+        'Create new Phone Ticket' => 'ایجاد درخواست تلفنی',
         'Symptom' => 'نشانه',
         'U' => 'Z-A, ی-الف',
         'Site' => 'سایت',
         'Customer history search (e. g. "ID342425").' => 'جستجو در سوابق مشترک (مثال: "ID342425")',
         'Can not delete link with %s!' => ' نمیتوان لینک را با %s حذف نمود ',
-        'for agent firstname' => 'برای نام کارشناس',
         'Close!' => 'بستن!',
+        'for agent firstname' => 'برای نام کارشناس',
         'No means, send agent and customer notifications on changes.' => ' پاسخ خیر به معنی ارسال اعلام به کارشناس و مشترک پس از اعمال تغییرات است ',
         'A web calendar' => 'یک تقویم تحت وب',
         'to get the realname of the sender (if given)' => 'برای گرفتن نام فرستنده',
@@ -1539,9 +1538,11 @@ sub Data {
         '"}' => '{',
         'Order' => 'ترتیب',
         'next step' => 'قدم بعدی',
+        'Follow up' => 'پیگیری',
         'Customer history search' => 'جستجو در سوابق مشترک',
         'Admin-Email' => 'e-mail مدیر سیستم',
         'PostMaster Mail Account' => 'حساب Email سیستم',
+        'Stat#' => '',
         'Create new database' => 'ایجاد بانک جدید',
         'Ticket#' => 'شماره درخواست',
         'ArticleID' => 'شماره مورد',
@@ -1561,8 +1562,8 @@ sub Data {
         'to get the first 20 character of the subject' => 'برای گرفتن 20 کاراکتر اول موضوع',
         'Select the customeruser:service relations.' => 'ارتباط مشترک را با خدمات مشخض نمائید',
         'DB Admin Password' => 'رمز عبور مدیر سیستم',
-        'Advisory' => 'مشورتی',
         'Drop Database' => 'حذف کامل بانک اطلاعاتی',
+        'Advisory' => 'مشورتی',
         'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'در این بخش میتوانید محور افقی نمودار را مشخص نمائید.شما میتوانید یک گزینه را انتخاب نمائید سپس دست کم دو ویژگی را برای گزینه انتخاب شده تعیین کنید.در غیر اینصورت همه ویژگی ها فعال خواهند بود.',
         'FileManager' => 'میریت فایل',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'گزینه های اطلاعات مشترک فعلی',
@@ -1575,6 +1576,7 @@ sub Data {
         'Fulltext' => 'جستجوی متنی',
         'Incident' => 'رویداد',
         'OTRS DB connect host' => 'سرور میزبان بانک اطلاعاتی ',
+        ' (work units)' => ' واحد کار',
         'Next Week' => 'هفته آینده',
         'All Customer variables like defined in config option CustomerUser.' => 'همه تنظیمات مشترکین در فایل تنظیمات سیستم ذخیره شده است',
         'accept license' => 'تائید مجوز بهره برداری',
@@ -1585,9 +1587,10 @@ sub Data {
         'Parent-Object' => 'اصلی',
         'Of couse this feature will take some system performance it self!' => 'این ویژگی خود بعضی از عملکردهای سیستم را میگیرد',
         'Detail' => 'جزئیات',
+        'Your own Ticket' => 'درخواست شما',
         'TicketZoom' => 'نمایش کامل درخواست',
-        'Open Tickets' => 'درخواست های باز',
         'Don\'t forget to add a new user to groups!' => 'فراموش نکنید که کاربرجدید را به گروه ها اضافه کنید!',
+        'Open Tickets' => 'درخواست های باز',
         'CreateTicket' => 'ایجاد درخواست',
         'You have to select two or more attributes from the select field!' => 'از قسمت انتخاب ستون دست کم 2 مورد را انتخاب نمائید',
         'System Settings' => 'تنظیمات سیستم',
@@ -1595,18 +1598,19 @@ sub Data {
         'Hours' => 'ساعت',
         'Finished' => 'پایان یافت',
         'D' => 'A-Z, الف-ی',
-        'System Status' => 'وضعیت سیستم',
         'All messages' => 'همه پیام ها',
+        'System Status' => 'وضعیت سیستم',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'گزینه های اطلاعات درخواست',
         'Artefact' => 'محصول خروجی',
         'Object already linked as %s.' => 'مورد اکنون به عنوان %s مرتبط شده است',
         'A article should have a title!' => 'یک مورد باید دارای عنوان باشد',
         'Customer Users <-> Services' => 'مشترک <-> خدمات',
-        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'گزینه های تنظیمات ',
         'Event' => 'رویداد',
-        'don\'t accept license' => 'مجوز را تائید نکن',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'گزینه های تنظیمات ',
         'All email addresses get excluded on replaying on composing and email.' => '',
+        'don\'t accept license' => 'مجوز را تائید نکن',
         'A web mail client' => 'یک محیط پست الکترونیکی',
+        'Compose Follow up' => 'ارسال پیگیری',
         'WebMail' => 'پست الکترونیکی',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'گزینه های اطلاعات درخواست ها',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'گزینه های صاحب درخواست (مثال: <OTRS_OWNER_UserFirstname>)',
@@ -1626,8 +1630,8 @@ sub Data {
         'A web file manager' => 'یک محیط مدیریت فایل تحت وب',
         'Have a lot of fun!' => 'موفق و پیروز باشید!',
         'send' => 'ارسال',
-        'Send no notifications' => 'اعلام ها را ارسال نکن',
         'Location on Map' => 'موقعیت روی نقشه',
+        'Send no notifications' => 'اعلام ها را ارسال نکن',
         'Note Text' => 'یادداشت',
         'POP3 Account Management' => 'مدیریت حساب POP3',
         'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'گزینه های اطلاعات مشترک کنونی',

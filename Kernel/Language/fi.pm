@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Antti K‰m‰r‰inen <antti at seu.net>
 # Copyright (C) 2007-2008 Mikko Hynninen <first.last at tietokartano.fi>
 # --
-# $Id: fi.pm,v 1.85 2009-04-09 08:19:53 sb Exp $
+# $Id: fi.pm,v 1.86 2009-04-20 08:35:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.85 $) [1];
+$VERSION = qw($Revision: 1.86 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Thu Apr  9 10:12:52 2009
+    # Last translation file sync: Mon Apr 20 10:28:51 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -747,7 +747,6 @@ sub Data {
         'New TicketFreeFields' => 'Uusi vapaakentt‰',
         'Add Note' => 'Lis‰‰ huomautus',
         'Time units' => 'Tyˆaika',
-        ' (work units)' => ' (esim. minuutteina)',
         'CMD' => 'CMD',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'T‰m‰ komento suoritetaan. ARG[0] tulee olemaan tiketin numero ja ARG[1] tiketin id.',
         'Delete tickets' => 'Poista tiketit',
@@ -952,6 +951,12 @@ sub Data {
         'Add Salutation' => 'Lis‰‰ tervehdys',
         'Add a new Salutation.' => 'Lis‰‰ uusi tervehdys.',
 
+        # Template: AdminSecureMode
+        'Secure Mode need to be enabled!' => '',
+        'Secure mode will (normally) be set after the initial installation is completed.' => '',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' => '',
+        'If Secure Mode is not activated, activate it via SysConfig because your application is already running.' => '',
+
         # Template: AdminSelectBoxForm
         'SQL Box' => 'SQL laatikko',
         'Go' => 'SUORITA',
@@ -1090,7 +1095,6 @@ sub Data {
         'Apply these changes' => 'Hyv‰ksy muutokset',
 
         # Template: AgentStatsDelete
-        'Stat#' => '',
         'Do you really want to delete this Object?' => 'Haluatko varmasti poistaa t‰m‰n kohteen?',
 
         # Template: AgentStatsEditRestrictions
@@ -1224,9 +1228,6 @@ sub Data {
         'Customer history' => 'Asiakkaan historiatiedot',
         'All customer tickets.' => 'Kaikki asiakastiketit.',
 
-        # Template: AgentTicketCustomerMessage
-        'Follow up' => 'Vastaukset',
-
         # Template: AgentTicketEmail
         'Compose Email' => 'Luo s‰hkˆposti',
         'new ticket' => 'Uusi tiketti',
@@ -1275,8 +1276,6 @@ sub Data {
         # Template: AgentTicketOverviewNavBarSmall
 
         # Template: AgentTicketOverviewPreview
-        'Your own Ticket' => 'Oma tiketti',
-        'Compose Follow up' => 'L‰het‰ vastaus',
         'Compose Answer' => 'Vastaa',
         'Contact customer' => 'Ota yhteytt‰ asiakkaaseen',
         'Change queue' => 'Vaihda jonotuslistaa',
@@ -1499,15 +1498,15 @@ sub Data {
         'Create Database' => 'Luo tietokanta',
         'Ticket Number Generator' => 'Tikettinumeroiden generoija',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Tiketin tunniste. Voit asettaa esim. \'Tiketti#\', \'Puhelu#\' tai \'OmaTiketti#\')',
-        'Create new Phone Ticket' => 'Luo uusi puhelintiketti',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'T‰ll‰ tavalla voit muokata suoraan Kernel/Config.pm:ss‰ m‰‰ritelty‰ avainrengasta.',
+        'Create new Phone Ticket' => 'Luo uusi puhelintiketti',
         'Symptom' => 'Oire',
         'U' => 'Y',
         'Site' => 'Palvelin',
         'Customer history search (e. g. "ID342425").' => 'Asiakashistoriahaku (Esim. "ID342425").',
         'Can not delete link with %s!' => 'Linkityksen poisto ep‰onnistui kohteeseen %s!',
-        'for agent firstname' => 'k‰sittelij‰n etunimi',
         'Close!' => 'Sulje!',
+        'for agent firstname' => 'k‰sittelij‰n etunimi',
         'No means, send agent and customer notifications on changes.' => 'Ei tarkoittaa, l‰het‰ agentille ja asiakkaalle ilmoitus muutoksista.',
         'A web calendar' => 'Web-kalenteri',
         'to get the realname of the sender (if given)' => 'n‰hd‰ksesi k‰ytt‰j‰n nimen',
@@ -1529,8 +1528,10 @@ sub Data {
         '"}' => '"}',
         'Order' => 'J‰rjestys',
         'next step' => 'Seuraava',
+        'Follow up' => 'Vastaukset',
         'Customer history search' => 'Asiakashistoriahaku',
         'Admin-Email' => 'Yll‰pidon s‰hkˆposti',
+        'Stat#' => '',
         'ArticleID' => 'ArtikkeliID',
         'Keywords' => 'Avainsanat',
         'Ticket Escalation View' => 'Tiketin k‰sittelyn‰kym‰',
@@ -1556,6 +1557,7 @@ sub Data {
         '(Used ticket number format)' => 'Tikettinumeroiden oletusformaatti',
         'Reminder' => 'Muistuttaja',
         'Fulltext' => 'Kokosana',
+        ' (work units)' => ' (esim. minuutteina)',
         'Next Week' => 'Seuraavalla viikolla',
         'All Customer variables like defined in config option CustomerUser.' => 'Kaikki asiakkaan muuttujat kuten m‰‰ritetty Asiakask‰ytt‰j‰n asetuksissa.',
         'accept license' => 'Hyv‰ksy lisenssi',
@@ -1566,8 +1568,9 @@ sub Data {
         'Of couse this feature will take some system performance it self!' => 'T‰m‰ ominaisuus vaatii j‰rjestelm‰n resursseja!',
         'IMAPS' => 'IMAPS',
         'Detail' => 'Tiedot',
-        'Open Tickets' => 'Avoimet tiketit',
+        'Your own Ticket' => 'Oma tiketti',
         'Don\'t forget to add a new user to groups!' => 'ƒl‰ unohda lis‰t‰ uutta k‰ytt‰j‰‰ ryhmiin!',
+        'Open Tickets' => 'Avoimet tiketit',
         'You have to select two or more attributes from the select field!' => 'Sinun tulee valita yksi tai useampi arvo valintakent‰ss‰!',
         'System Settings' => 'J‰rjestelm‰asetukset',
         'WebWatcher' => 'WebSeuranta',
@@ -1577,11 +1580,12 @@ sub Data {
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Tikettitiedon asetukset (esim. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => 'Objekti linkitetty jo kohteeseen %s.',
         'A article should have a title!' => 'Artikkelilla tulee olla otsikko!',
-        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'M‰‰ritysasetukset (esim. <OTRS_CONFIG_HttpType>)',
         'Event' => 'Tapahtyma',
-        'don\'t accept license' => 'En hyv‰ksy lisenssi‰',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'M‰‰ritysasetukset (esim. <OTRS_CONFIG_HttpType>)',
         'All email addresses get excluded on replaying on composing and email.' => '',
+        'don\'t accept license' => 'En hyv‰ksy lisenssi‰',
         'A web mail client' => 'Webpostiohjelma',
+        'Compose Follow up' => 'L‰het‰ vastaus',
         'WebMail' => 'WebMail',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Tiketin omistajan asetukset (esim. <OTRS_OWNER_UserFirstName>)',
         'Name is required!' => 'Nimi on vaadittu!',

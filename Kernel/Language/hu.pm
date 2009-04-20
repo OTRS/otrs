@@ -5,7 +5,7 @@
 # Copyright (C) 2006 Flora Szabo /szaboflora@magicnet.hu/
 # Copyright (C) 2007 Aron Ujvari <ujvari@hungary.com>
 # --
-# $Id: hu.pm,v 1.62 2009-04-09 08:19:53 sb Exp $
+# $Id: hu.pm,v 1.63 2009-04-20 08:35:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,13 +18,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Thu Apr  9 10:12:53 2009
+    # Last translation file sync: Mon Apr 20 10:28:55 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', ];
@@ -749,7 +749,6 @@ sub Data {
         'New TicketFreeFields' => 'Új jegy szabad mezõk',
         'Add Note' => 'Megjegyzés hozzáadása',
         'Time units' => 'Idõ egységek',
-        ' (work units)' => ' (munkaegység)',
         'CMD' => 'PARANCS',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'Ez a parancs lesz végrehajtva. Az ARG[0] lesz a jegy száma. Az ARG[1] lesz a jegy azonosítója.',
         'Delete tickets' => 'Jegyek törlése',
@@ -954,6 +953,12 @@ sub Data {
         'Add Salutation' => 'Megszólítás hozzáadása',
         'Add a new Salutation.' => 'Új megszólítás hozzáadása',
 
+        # Template: AdminSecureMode
+        'Secure Mode need to be enabled!' => '',
+        'Secure mode will (normally) be set after the initial installation is completed.' => '',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' => '',
+        'If Secure Mode is not activated, activate it via SysConfig because your application is already running.' => '',
+
         # Template: AdminSelectBoxForm
         'SQL Box' => 'SQL parancsok',
         'Go' => 'Indítás',
@@ -1092,7 +1097,6 @@ sub Data {
         'Apply these changes' => 'Módosítások érvényesítése',
 
         # Template: AgentStatsDelete
-        'Stat#' => 'Stat#',
         'Do you really want to delete this Object?' => 'Valóban törölni szertné ezt az objektumot?',
 
         # Template: AgentStatsEditRestrictions
@@ -1226,9 +1230,6 @@ sub Data {
         'Customer history' => 'Ügyfél történet',
         'All customer tickets.' => 'Összes ügyfél jegy.',
 
-        # Template: AgentTicketCustomerMessage
-        'Follow up' => 'Válasz',
-
         # Template: AgentTicketEmail
         'Compose Email' => 'Új e-mail írása',
         'new ticket' => 'új jegy',
@@ -1277,8 +1278,6 @@ sub Data {
         # Template: AgentTicketOverviewNavBarSmall
 
         # Template: AgentTicketOverviewPreview
-        'Your own Ticket' => 'Az ön saját jegye',
-        'Compose Follow up' => 'Válasz írása',
         'Compose Answer' => 'Válasz írása',
         'Contact customer' => 'Kapcsolatbalépés az ügyféllel',
         'Change queue' => 'Várólista megváltoztatása',
@@ -1503,15 +1502,15 @@ sub Data {
         'File-Name' => '',
         'Ticket Number Generator' => 'Jegy sorszám generátor',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Jegy azonosítás. pl. \'Jegy#\', \'Hívó#\' vagy \'Jegyem#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Íly módon közvetlenül szerkesztheti a Kernel/Config.pm-ben beállított kulcskarikát.',
         'Create new Phone Ticket' => 'Új telefon jegy létrehozása',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Íly módon közvetlenül szerkesztheti a Kernel/Config.pm-ben beállított kulcskarikát.',
         'U' => 'A',
         'Site' => 'Gép',
         'Reset of unlock time.' => 'Feloldási idõ nullázása.',
         'Customer history search (e. g. "ID342425").' => 'Keresés az ügyfél történetében (pl. "ID342425").',
         'Can not delete link with %s!' => '',
-        'Close!' => 'Lezár!',
         'for agent firstname' => 'ügyintézõ keresztnévhez',
+        'Close!' => 'Lezár!',
         'Reporter' => '',
         'Process-Path' => '',
         'No means, send agent and customer notifications on changes.' => 'Nem esetén mind az ügyintézõnek, mind az ügyfélnek küld értesítéseket a változásokról.',
@@ -1543,8 +1542,10 @@ sub Data {
         '"}' => '',
         'Order' => 'Sorrend',
         'next step' => 'következõ lépés',
+        'Follow up' => 'Válasz',
         'Customer history search' => 'Keresés az ügyfél történetében',
         'not verified' => 'nem ellenõrzött',
+        'Stat#' => 'Stat#',
         'Create new database' => 'Új adatbázis létrehozása',
         'auto reject' => 'automatikus visszautasítás',
         'Year' => 'Év',
@@ -1556,8 +1557,8 @@ sub Data {
         'Load' => 'Betöltés',
         'Change Time' => 'Idõ megváltoztatása',
         'PostMaster Filter' => 'Levelezési szûrõk',
-        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
         'PostMaster POP3 Account' => 'Levelezési fiókok (POP3)',
+        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
         'Message for new Owner' => 'Üzenet az új tulajdonosnak',
         'to get the first 5 lines of the email' => 'hogy megkapja az elsõ 5 sort az e-mailbõl',
         'Sort by' => 'Rendezés így',
@@ -1586,6 +1587,7 @@ sub Data {
         'SessionID invalid! Need user data!' => 'Hibás folyamat azonosító! Felhasználói adatok megadása szükséges!',
         'Node-Address' => '',
         'All Agent variables.' => '',
+        ' (work units)' => ' (munkaegység)',
         'Next Week' => '',
         'You use the DELETE option! Take care, all deleted Tickets are lost!!!' => 'A TÖRLÉS opciót használja! Legyen óvatos, az összes törölt jegy elveszik!!!',
         'All Customer variables like defined in config option CustomerUser.' => 'Az összes ügyfél változó ahogyan az Ügyfél felhasználó opcióknál lett beállítva.',
@@ -1595,9 +1597,10 @@ sub Data {
         'Parent-Object' => 'Szülõ objektum',
         'Of couse this feature will take some system performance it self!' => 'Természetesen ez a képesség maga is befolyásolja a rendszer teljesítményét!',
         'Detail' => 'Részletek',
+        'Your own Ticket' => 'Az ön saját jegye',
         'TicketZoom' => 'JegyRészletek',
-        'Open Tickets' => 'Jegyek megnyitása',
         'Don\'t forget to add a new user to groups!' => 'Ne felejtsen el új felhasználót hozzáadni a csoportokhoz!',
+        'Open Tickets' => 'Jegyek megnyitása',
         'CreateTicket' => 'JegyLétrehozás',
         'You have to select two or more attributes from the select field!' => 'Legalább két értéket válasszon ki a mezõben!',
         'unknown' => 'ismeretlen',
@@ -1606,15 +1609,16 @@ sub Data {
         'Imported' => '',
         'unread' => 'olvasatlan',
         'D' => 'Z',
-        'System Status' => 'Rendszer állapota',
         'All messages' => 'Minden üzenet',
+        'System Status' => 'Rendszer állapota',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'A jegy adatai (pl.  <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => '',
         'A article should have a title!' => 'Egy bejegyzésnek kell legyen címe!',
         'Customer Users <-> Services' => 'Ügyfél felhasználók <-> Szolgáltatások',
-        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Konfigurációs értékek (pl. &lt;OTRS_CONFIG_HttpType&gt;)',
         'Event' => 'Esemény',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Konfigurációs értékek (pl. &lt;OTRS_CONFIG_HttpType&gt;)',
         'All email addresses get excluded on replaying on composing and email.' => '',
+        'Compose Follow up' => 'Válasz írása',
         'Imported by' => '',
         'S/MIME' => 'S/MIME',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Jegy tulajdonos opciók (pl. <OTRS_OWNER_UserFirstname>)',

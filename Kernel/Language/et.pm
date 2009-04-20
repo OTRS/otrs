@@ -2,7 +2,7 @@
 # Kernel/Language/et.pm - provides et language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: et.pm,v 1.18 2009-04-09 08:19:53 sb Exp $
+# $Id: et.pm,v 1.19 2009-04-20 08:35:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Thu Apr  9 10:12:51 2009
+    # Last translation file sync: Mon Apr 20 10:28:46 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -745,7 +745,6 @@ sub Data {
         'New TicketFreeFields' => 'Uued intsidendi väljad',
         'Add Note' => 'Lisa märkus',
         'Time units' => 'tööühikuid',
-        ' (work units)' => ' (tööühikud)',
         'CMD' => 'CMD',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' => 'See käsk käivitatakse. ARG[0] on intsidendi number, ARG[1] on intsidendi ID..',
         'Delete tickets' => 'Kustuta intsidendid',
@@ -950,6 +949,12 @@ sub Data {
         'Add Salutation' => 'Lisa tervitus',
         'Add a new Salutation.' => 'Lisa uus tervitus.',
 
+        # Template: AdminSecureMode
+        'Secure Mode need to be enabled!' => '',
+        'Secure mode will (normally) be set after the initial installation is completed.' => '',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' => '',
+        'If Secure Mode is not activated, activate it via SysConfig because your application is already running.' => '',
+
         # Template: AdminSelectBoxForm
         'SQL Box' => '',
         'Go' => 'Edasi',
@@ -1088,7 +1093,6 @@ sub Data {
         'Apply these changes' => 'Muuda',
 
         # Template: AgentStatsDelete
-        'Stat#' => 'Statistika nr.',
         'Do you really want to delete this Object?' => 'Oled kindel, et soovid selle objekti kustutada?',
 
         # Template: AgentStatsEditRestrictions
@@ -1222,9 +1226,6 @@ sub Data {
         'Customer history' => 'Kliendi ajalugu',
         'All customer tickets.' => 'Kõik selle kliendi intsidendid.',
 
-        # Template: AgentTicketCustomerMessage
-        'Follow up' => 'Täiendav info',
-
         # Template: AgentTicketEmail
         'Compose Email' => 'Kirjuta ekiri',
         'new ticket' => 'uus intsident',
@@ -1273,8 +1274,6 @@ sub Data {
         # Template: AgentTicketOverviewNavBarSmall
 
         # Template: AgentTicketOverviewPreview
-        'Your own Ticket' => 'Sinu intsident',
-        'Compose Follow up' => 'Kirjuta täiendus',
         'Compose Answer' => 'Kirjuta vastus',
         'Contact customer' => 'Kotakteeru kliendiga',
         'Change queue' => 'Muuda järjekorda',
@@ -1498,14 +1497,14 @@ sub Data {
         'File-Name' => 'Failinimi',
         'Ticket Number Generator' => 'Intsidendinumbri generaator',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Intsidendi identifikaator. Mõned inimesed tahavad seda muuta näiteks. \'Ticket#\', \'Call#\' või \'MyTicket#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Nii saad otse muuta võtmeid mis on seadistatud Kernel/Config.pm failis.',
         'Create new Phone Ticket' => 'Tee uus telefonitsi laekunud intsident',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Nii saad otse muuta võtmeid mis on seadistatud Kernel/Config.pm failis.',
         'U' => 'U',
         'Site' => 'Sait',
         'Customer history search (e. g. "ID342425").' => 'Kliendiajaloo otsing (näiteks "ID342425").',
         'Can not delete link with %s!' => '',
-        'Close!' => 'Sulge!',
         'for agent firstname' => 'Kasutaja eesnimeks',
+        'Close!' => 'Sulge!',
         'Reporter' => 'Raporteerija',
         'Process-Path' => 'Protsessi tee',
         'No means, send agent and customer notifications on changes.' => 'Ei tähendab, et klientidele ja töötajatele saadetakse infot muudatustest.',
@@ -1536,8 +1535,10 @@ sub Data {
         '"}' => '',
         'Order' => 'Järjekord',
         'next step' => 'järgmine samm',
+        'Follow up' => 'Täiendav info',
         'Customer history search' => 'Kliendiajaloo otsing',
         'not verified' => 'kontrollimata',
+        'Stat#' => 'Statistika nr.',
         'Create new database' => 'Tekita uus andmebaas',
         'Year' => 'Aasta',
         'X-axis' => 'X-telg',
@@ -1573,6 +1574,7 @@ sub Data {
         'Month' => 'Kuu',
         'Node-Address' => 'Node-Address',
         'All Agent variables.' => 'Kõik töötaja andmed',
+        ' (work units)' => ' (tööühikud)',
         'Next Week' => '',
         'You use the DELETE option! Take care, all deleted Tickets are lost!!!' => 'Kasutad kustutamise valikut! Tähelepanu, kõik kustutatud intsidendid kaovad!',
         'All Customer variables like defined in config option CustomerUser.' => 'Kõik kliendi muutujad nii nagu on defineeritud CustomerUser-is.',
@@ -1582,9 +1584,10 @@ sub Data {
         'Parent-Object' => 'Ülemobjekt',
         'Of couse this feature will take some system performance it self!' => 'See kahandab süsteemi üldist jõudlust.',
         'Detail' => 'Täpsemalt',
+        'Your own Ticket' => 'Sinu intsident',
         'TicketZoom' => 'Vaata täpsemalt',
-        'Open Tickets' => 'Avatud intsidendid',
         'Don\'t forget to add a new user to groups!' => 'Ära unusta kasutajat gruppidesse lisamast!',
+        'Open Tickets' => 'Avatud intsidendid',
         'CreateTicket' => 'Tekita intsident',
         'You have to select two or more attributes from the select field!' => 'Pead valima vähemalt 2 atribuuti!',
         'unknown' => 'teadmata',
@@ -1593,15 +1596,16 @@ sub Data {
         'Imported' => 'Imporditud',
         'unread' => 'lugemata',
         'D' => 'D',
-        'System Status' => 'Süsteemi olek',
         'All messages' => 'Kõik teated',
+        'System Status' => 'Süsteemi olek',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Intsidentide andmed  (näiteks <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => '',
         'A article should have a title!' => 'Artiklil peaks olema pealkiri!',
         'Customer Users <-> Services' => 'Kliendikasutajad <-> teenused',
-        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Seadistused (näiteks .&lt;OTRS_CONFIG_HttpType&gt;)',
         'Event' => 'Sündmus',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Seadistused (näiteks .&lt;OTRS_CONFIG_HttpType&gt;)',
         'All email addresses get excluded on replaying on composing and email.' => '',
+        'Compose Follow up' => 'Kirjuta täiendus',
         'Imported by' => 'Importija',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Intsidendi omaniku andmed (näiteks <OTRS_OWNER_UserFirstname>)',
         'read' => 'loetud',
