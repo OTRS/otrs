@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.75 2009-04-20 08:11:40 martin Exp $
+# $Id: AdminSysConfig.pm,v 1.76 2009-04-20 15:10:21 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.75 $) [1];
+$VERSION = qw($Revision: 1.76 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1003,6 +1003,7 @@ sub ListConfigItem {
             }
 
             #SubOption
+            # REMARK: The SubOptionHandling does not work any more
             elsif ( defined( $ItemHash{Setting}[1]{Hash}[1]{Item}[$Index]{Option} ) ) {
 
                 # Pulldownmenue
