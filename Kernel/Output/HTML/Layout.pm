@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.141 2009-04-17 08:36:44 tr Exp $
+# $Id: Layout.pm,v 1.142 2009-04-20 08:11:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.141 $) [1];
+$VERSION = qw($Revision: 1.142 $) [1];
 
 =head1 NAME
 
@@ -288,8 +288,7 @@ sub new {
         $Self->FatalDie();
     }
 
-    # FRAMEWORK: define $Env{"Images"}
-    # (only for compat till 2.5, use $Config{"Frontend::ImagePath"})
+    # FRAMEWORK-2.5: define $Env{"Images"} (only for compat till 2.5, use $Config{"Frontend::ImagePath"})
     $Self->{Images} = $Self->{ConfigObject}->Get('Frontend::ImagePath');
 
     # load sub layout files
@@ -1267,6 +1266,16 @@ sub FatalError {
     }
     my $Output = $Self->Header( Area => 'Frontend', Title => 'Fatal Error' );
     $Output .= $Self->Error(%Param);
+    $Output .= $Self->Footer();
+    $Self->Print( Output => \$Output );
+    exit;
+}
+
+sub SecureMode {
+    my ( $Self, %Param ) = @_;
+
+    my $Output = $Self->Header( Area => 'Frontend', Title => 'Secure Mode' );
+    $Output .= $Self->Output( TemplateFile => 'AdminSecureMode', Data => \%Param );
     $Output .= $Self->Footer();
     $Self->Print( Output => \$Output );
     exit;
@@ -4107,6 +4116,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.141 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.142 $ $Date: 2009-04-20 08:11:39 $
 
 =cut

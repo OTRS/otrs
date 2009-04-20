@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.74 2009-02-17 23:37:11 martin Exp $
+# $Id: AdminSysConfig.pm,v 1.75 2009-04-20 08:11:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.74 $) [1];
+$VERSION = qw($Revision: 1.75 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -753,15 +753,6 @@ sub Run {
         $Data{Group}    = $Group;
         my $Output .= $Self->{LayoutObject}->Header( Value => "$Group -> $SubGroup" );
         $Output .= $Self->{LayoutObject}->NavigationBar();
-        if ( !$Self->{ConfigObject}->Get('SecureMode') ) {
-            $Output .= $Self->{LayoutObject}->Notify(
-                Priority => 'Error',
-                Data =>
-                    '$Text{"Security Note: You should activate %s because application is already running!", "SecureMode"}',
-                Link =>
-                    '$Env{"Baselink"}Action=AdminSysConfig&Subaction=Edit&SysConfigGroup=Framework&SysConfigSubGroup=Core',
-            );
-        }
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminSysConfigEdit',
             Data         => \%Data
@@ -800,6 +791,11 @@ sub Run {
         }
     }
 
+    # secure mode message (don't allow this action till secure mode is enabled)
+    if ( !$Self->{ConfigObject}->Get('SecureMode') ) {
+        $Self->{LayoutObject}->SecureMode();
+    }
+
     # list Groups
     my %List = $Self->{SysConfigObject}->ConfigGroupList();
 
@@ -821,15 +817,6 @@ sub Run {
 
     my $Output .= $Self->{LayoutObject}->Header( Value => $Group );
     $Output .= $Self->{LayoutObject}->NavigationBar();
-    if ( !$Self->{ConfigObject}->Get('SecureMode') ) {
-        $Output .= $Self->{LayoutObject}->Notify(
-            Priority => 'Error',
-            Data =>
-                '$Text{"Security Note: You should activate %s because application is already running!", "SecureMode"}',
-            Link =>
-                '$Env{"Baselink"}Action=AdminSysConfig&Subaction=Edit&SysConfigGroup=Framework&SysConfigSubGroup=Core',
-        );
-    }
     $Output .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AdminSysConfig',
         Data => { %Data, ConfigCounter => $Self->{SysConfigObject}->{ConfigCounter}, }

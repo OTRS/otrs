@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.63 2009-04-02 13:50:00 mh Exp $
+# $Id: AdminGenericAgent.pm,v 1.64 2009-04-20 08:11:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -52,6 +52,11 @@ sub new {
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
+    # secure mode message (don't allow this action till secure mode is enabled)
+    if ( !$Self->{ConfigObject}->Get('SecureMode') ) {
+        $Self->{LayoutObject}->SecureMode();
+    }
 
     # get confid data
     $Self->{Profile}    = $Self->{ParamObject}->GetParam( Param => 'Profile' )    || '';

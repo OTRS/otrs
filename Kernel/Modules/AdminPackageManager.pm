@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.78 2009-04-02 17:55:53 tr Exp $
+# $Id: AdminPackageManager.pm,v 1.79 2009-04-20 08:11:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.78 $) [1];
+$VERSION = qw($Revision: 1.79 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -77,6 +77,11 @@ sub Run {
                 );
             }
         }
+    }
+
+    # secure mode message (don't allow this action till secure mode is enabled)
+    if ( !$Self->{ConfigObject}->Get('SecureMode') ) {
+        $Self->{LayoutObject}->SecureMode();
     }
 
     # ------------------------------------------------------------ #
