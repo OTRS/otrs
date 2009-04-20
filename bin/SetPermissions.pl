@@ -3,7 +3,7 @@
 # SetPermissions.pl - to set the otrs permissions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: SetPermissions.pl,v 1.1 2009-04-20 08:16:21 martin Exp $
+# $Id: SetPermissions.pl,v 1.2 2009-04-20 08:56:34 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 print "bin/SetPermissions.pl <$VERSION> - set OTRS file permissions\n";
 print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
@@ -43,7 +43,7 @@ my $WebUser            = 'otrs';
 my $AdminUser          = 'root';
 my $OtrsGroup          = 'nogroup';
 my $WebGroup           = 'nogroup';
-my $AdminGroup         = 'adm';
+my $AdminGroup         = 'root';
 
 GetOptions(
     'secure'               => \$Secure,
