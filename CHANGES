@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.877 2009-04-20 08:17:04 martin Exp $
+# $Id: CHANGES,v 1.878 2009-04-20 08:27:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.4.0 beta1 (2009/04/20)
+ - (2009/04/20) Changed default config size of IPC-Log (LogSystemCacheSize)
+    to 32k (64k is not working on darwin).
  - (2009/04/20) Moved from bin/SetPermissions.sh to bin/SetPermissions.pl
     for a better maintanance.
  - (2009/04/20) Added warning screen to AdminSysConfig, AdminPackageManager,
