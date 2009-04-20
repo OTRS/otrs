@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageFS.pm,v 1.60 2009-04-06 21:25:05 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.61 2009-04-20 08:16:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -54,10 +54,10 @@ sub ArticleStorageInit {
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message  => "Can't create $Self->{ArticleDataDir}/check_permissions_$$: $Error, "
-                . "Try: \$OTRS_HOME/bin/SetPermissions.sh !",
+                . "Try: \$OTRS_HOME/bin/SetPermissions.pl !",
         );
         die "Error: Can't create $Self->{ArticleDataDir}/check_permissions_$$: $Error \n\n "
-            . "Try: \$OTRS_HOME/bin/SetPermissions.sh !!!\n";
+            . "Try: \$OTRS_HOME/bin/SetPermissions.pl !!!\n";
     }
     return 1;
 }

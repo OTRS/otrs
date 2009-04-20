@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.313 2009-04-07 12:05:03 martin Exp $
+# $Id: Defaults.pm,v 1.314 2009-04-20 08:16:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.313 $) [1];
+$VERSION = qw($Revision: 1.314 $) [1];
 
 sub LoadDefaults {
     my $Self = shift;
@@ -34,7 +34,10 @@ sub LoadDefaults {
     # system data                                         #
     # --------------------------------------------------- #
     # SecureMode
-    # (Enable this so you can't use the installer.pl)
+    # Disables the use of web-installer (installer.pl). Also disables if not
+    # active, the GenericAgent, PackageManager and SQL Box, since it's possible
+    # to use it for destructive write queries such as DROP DATABASE, and also to
+    # steal user passwords.
     $Self->{SecureMode} = 0;
 
     # SystemID
@@ -2386,6 +2389,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.313 $ $Date: 2009-04-07 12:05:03 $
+$Revision: 1.314 $ $Date: 2009-04-20 08:16:21 $
 
 =cut

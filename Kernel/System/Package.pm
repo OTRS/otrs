@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.100 2009-04-17 08:36:44 tr Exp $
+# $Id: Package.pm,v 1.101 2009-04-20 08:16:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.100 $) [1];
+$VERSION = qw($Revision: 1.101 $) [1];
 
 =head1 NAME
 
@@ -136,7 +136,7 @@ sub new {
     # permission check
     if ( !$Self->_FileSystemCheck() ) {
         die "ERROR: Need write permission in OTRS home\n"
-            . "Try: \$OTRS_HOME/bin/SetPermissions.sh !!!\n";
+            . "Try: \$OTRS_HOME/bin/SetPermissions.pl !!!\n";
     }
 
     return $Self;
@@ -490,7 +490,6 @@ sub PackageReinstall {
         for my $File ( @{ $Structure{Filelist} } ) {
 
             # install file
-            #print STDERR "Notice: Reinstall $File->{Location}!\n";
             $Self->_FileInstall( File => $File, Reinstall => 1 );
         }
     }
@@ -1130,14 +1129,22 @@ sub DeployCheck {
                 $Hit = 1;
             }
             elsif ( -e $LocalFile ) {
-                my $MD5File = $Self->{MainObject}->MD5sum(
-                    Filename => $LocalFile,
+
+# md5 alternative for file deploy check (may will have better performance?)
+#                my $MD5File = $Self->{MainObject}->MD5sum(
+#                    Filename => $LocalFile,
+#                );
+#                if ($MD5File) {
+#                    my $MD5Package = $Self->{MainObject}->MD5sum(
+#                        String => \$File->{Content},
+#                    );
+#                    if ( $MD5File ne $MD5Package ) {
+                my $Content = $Self->{MainObject}->FileRead(
+                    Location => $Self->{Home} . '/' . $File->{Location},
+                    Mode     => 'binmode',
                 );
-                if ($MD5File) {
-                    my $MD5Package = $Self->{MainObject}->MD5sum(
-                        String => $File->{Content},
-                    );
-                    if ( $MD5File ne $MD5Package ) {
+                if ($Content) {
+                    if ( ${$Content} ne $File->{Content} ) {
                         $Self->{LogObject}->Log(
                             Priority => 'error',
                             Message  => "$Param{Name}-$Param{Version}: $LocalFile is different!",
@@ -1204,7 +1211,7 @@ sub PackageVerify {
     # diable verifying
     return 1;
 
-    # check input type
+    # check input type (not used at this moment)
     if ( ref $Param{Package} ) {
         $Param{Package} = ${ $Param{Package} };
     }
@@ -2354,7 +2361,6 @@ sub _FileSystemCheck {
     # create test files in following directories
     for (qw(/bin/ /Kernel/ /Kernel/System/ /Kernel/Output/ /Kernel/Output/HTML/ /Kernel/Modules/)) {
         my $Location = "$Home/$_/check_permissons.$$";
-        my $FH;
         my $Content = 'test';
 
         # create test file
@@ -2398,6 +2404,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.100 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.101 $ $Date: 2009-04-20 08:16:21 $
 
 =cut
