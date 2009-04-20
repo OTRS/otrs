@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.315 2009-04-20 08:27:18 martin Exp $
+# $Id: Defaults.pm,v 1.316 2009-04-20 10:55:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.315 $) [1];
+$VERSION = qw($Revision: 1.316 $) [1];
 
 sub LoadDefaults {
     my $Self = shift;
@@ -191,12 +191,24 @@ sub LoadDefaults {
 #    };
 
     # Frontend::WebPath
-    # (Define base URL of images, css, js)
+    # (URL base path of icons, CSS and Java Script.)
     $Self->{'Frontend::WebPath'} = '/otrs-web/';
 
+    # Frontend::JavaScriptPath
+    # (URL JavaScript path.)
+    $Self->{'Frontend::JavaScriptPath'} =  '<OTRS_CONFIG_Frontend::WebPath>js/';
+
+    # Frontend::CSSPath
+    # (URL CSS path.)
+    $Self->{'Frontend::CSSPath'} =  '<OTRS_CONFIG_Frontend::WebPath>css/';
+
     # Frontend::ImagePath
-    # (Define URL of images)
-    $Self->{'Frontend::ImagePath'} = '/otrs-web/images/Standard/';
+    # (URL image path of icons for navigation.)
+    $Self->{'Frontend::ImagePath'} = '<OTRS_CONFIG_Frontend::WebPath>images/Standard/';
+
+    # Frontend::YUIPath
+    # (URL YUI path.)
+    $Self->{'Frontend::YUIPath'} =  '<OTRS_CONFIG_Frontend::WebPath>yui/2.7.0/';
 
     # DefaultViewNewLine
     # (insert new line in text messages after max x chars and
@@ -2389,6 +2401,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.315 $ $Date: 2009-04-20 08:27:18 $
+$Revision: 1.316 $ $Date: 2009-04-20 10:55:22 $
 
 =cut
