@@ -2,7 +2,7 @@
 # scripts/test/Stats.t - stats module testscript
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.t,v 1.18 2009-04-05 21:45:35 mh Exp $
+# $Id: Stats.t,v 1.19 2009-04-21 09:30:45 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -261,12 +261,26 @@ my $Stat4 = $Self->{StatsObject}->StatsGet(
 
 # get OTRS home
 my $Home = $Self->{ConfigObject}->Get('Home');
+my $Perl = 'perl';
 
-if (
-    open my $Filehandle,
-    '-|', "perl $Home/bin/mkStats.pl -n $Stat4->{StatNumber} -o $Home/var/tmp/"
-    )
-{
+# check if perl is available
+if ( !qx(perl -v) ) {
+    if ( $^O =~ m{ win }smxi) {
+        $Perl = $Home;
+        $Perl =~ s{OTRS \/? $}{}smx;
+        $Perl .= 'StrawberryPerl\perl\bin\perl.exe'
+    }
+    else {
+        $Self->True(
+            0,
+            "mkStats.pl - can't call perl via command line.\n",
+        );
+    }
+}
+
+my $Command = "$Perl $Home/bin/mkStats.pl -n $Stat4->{StatNumber} -o $Home/var/tmp/";
+
+if (open my $Filehandle, '-|', $Command ) {
     @Lines = <$Filehandle>;
     close $Filehandle;
 
@@ -278,7 +292,7 @@ if (
 
     $Self->True(
         ( $Lines[0] && !$Lines[1] && $Lines[0] =~ /^NOTICE:/ ),
-        "mkStats.pl - Simple mkStats.pl check (check the program message)\n",
+        "mkStats.pl - Simple mkStats.pl check (check the program message)(Command: $Command ; OS: $^O )\n",
     );
 }
 else {
