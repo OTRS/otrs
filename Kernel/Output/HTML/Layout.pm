@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.142 2009-04-20 08:11:39 martin Exp $
+# $Id: Layout.pm,v 1.143 2009-04-22 14:42:51 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.142 $) [1];
+$VERSION = qw($Revision: 1.143 $) [1];
 
 =head1 NAME
 
@@ -2791,16 +2791,19 @@ sub _BuildSelectionDataRefCreate {
 
     # TreeView option
     if ( $OptionRef->{TreeView} ) {
+
+        ROW:
         for my $Row ( @{$DataRef} ) {
-            if ( $Row->{Value} ) {
-                my @Fragment = split( '::', $Row->{Value} );
-                $Row->{Value} = pop(@Fragment);
-                my $Space = '';
-                for (@Fragment) {
-                    $Space .= '&nbsp;&nbsp;';
-                }
-                $Row->{Value} = $Space . $Row->{Value};
-            }
+
+            next ROW if !$Row->{Value};
+
+            my @Fragment = split '::', $Row->{Value};
+            $Row->{Value} = pop @Fragment;
+
+            my $Space = '&nbsp;&nbsp;' x scalar @Fragment;
+            $Space ||= '';
+
+            $Row->{Value} = $Space . $Row->{Value};
         }
     }
 
@@ -4116,6 +4119,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.142 $ $Date: 2009-04-20 08:11:39 $
+$Revision: 1.143 $ $Date: 2009-04-22 14:42:51 $
 
 =cut
