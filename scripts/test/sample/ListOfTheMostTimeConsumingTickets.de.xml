@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<otrs_stats>
+<Cache>0</Cache>
+<Description>Ticketliste mit den geschlossenen Tickets des letztes Monats welche am meisten Zeit beanspruchten.
+
+HINWEIS: Bitte prüfen Sie den Output der Statistik und deren
+Konfiguration sorgfältig, ob diese die von Ihnen erwarteten Werte liefert! Ändern Sie die Konfiguration der Statistik ggf. ab, bevor Sie diese produktiv einsetzen!</Description>
+<File></File>
+<Format>CSV</Format>
+<Format>Print</Format>
+<GraphSize></GraphSize>
+<Object>TicketList</Object>
+<ObjectModule>Kernel::System::Stats::Dynamic::TicketList</ObjectModule>
+<ObjectName>Ticketlist</ObjectName>
+<Permission>stats</Permission>
+<StatType>dynamic</StatType>
+<SumCol>0</SumCol>
+<SumRow>0</SumRow>
+<Title>Ticketliste mit den zeitaufwendigsten Tickets</Title>
+<UseAsRestriction Element="Limit" Fixed="1">
+<SelectedValues>5</SelectedValues>
+</UseAsRestriction>
+<UseAsRestriction Element="CloseTime" Fixed="1" TimeRelativeCount="1" TimeRelativeUnit="Month">
+</UseAsRestriction>
+<UseAsValueSeries Element="OrderBy" Fixed="1">
+<SelectedValues>AccountedTime</SelectedValues>
+</UseAsValueSeries>
+<UseAsValueSeries Element="SortSequence" Fixed="1">
+<SelectedValues>Down</SelectedValues>
+</UseAsValueSeries>
+<UseAsXvalue Element="TicketAttributes" Fixed="1">
+</UseAsXvalue>
+<Valid>1</Valid>
+</otrs_stats>

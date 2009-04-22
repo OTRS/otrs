@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<otrs_stats>
+<Cache>0</Cache>
+<Description>Accounted working units per customer over a given twelve-month period, representing the individual months.
+
+NOTE: Please check the output and configuration of the statistics carefully to make sure that it produces the results you expect. If necessary, change the configuration before using the statistics productively.</Description>
+<File></File>
+<Format>CSV</Format>
+<Format>Print</Format>
+<GraphSize></GraphSize>
+<Object>TicketAccountedTime</Object>
+<ObjectModule>Kernel::System::Stats::Dynamic::TicketAccountedTime</ObjectModule>
+<ObjectName>TicketAccountedTime</ObjectName>
+<Permission>stats</Permission>
+<StatType>dynamic</StatType>
+<SumCol>0</SumCol>
+<SumRow>0</SumRow>
+<Title>Accounted working units per customer over a given twelve-month period</Title>
+<UseAsValueSeries Element="CustomerID" Fixed="1">
+</UseAsValueSeries>
+<UseAsXvalue Element="ArticleAccountedTime" Fixed="1" TimeRelativeCount="12" TimeRelativeUnit="Month" TimeScaleCount="1">
+<SelectedValues>Month</SelectedValues>
+</UseAsXvalue>
+<Valid>1</Valid>
+</otrs_stats>

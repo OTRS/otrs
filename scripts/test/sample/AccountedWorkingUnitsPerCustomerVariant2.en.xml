@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<otrs_stats>
+<Cache>0</Cache>
+<Description>Accounted working units per customer last month, selected by queue.
+
+NOTE: Please check the output and configuration of the statistics carefully to make sure that it produces the results you expect. If necessary, change the configuration before using the statistics productively.</Description>
+<File></File>
+<Format>Print</Format>
+<GraphSize></GraphSize>
+<Object>TicketAccountedTime</Object>
+<ObjectModule>Kernel::System::Stats::Dynamic::TicketAccountedTime</ObjectModule>
+<ObjectName>TicketAccountedTime</ObjectName>
+<Permission>stats</Permission>
+<StatType>dynamic</StatType>
+<SumCol>0</SumCol>
+<SumRow>0</SumRow>
+<Title>Accounted working units per customer - variant 2</Title>
+<UseAsRestriction Element="ArticleAccountedTime" Fixed="1" TimeRelativeCount="1" TimeRelativeUnit="Month">
+</UseAsRestriction>
+<UseAsValueSeries Element="QueueIDs" Fixed="1">
+</UseAsValueSeries>
+<UseAsXvalue Element="CustomerID" Fixed="1">
+</UseAsXvalue>
+<Valid>1</Valid>
+</otrs_stats>

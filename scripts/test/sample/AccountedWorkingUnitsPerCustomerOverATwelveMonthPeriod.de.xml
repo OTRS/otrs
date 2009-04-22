@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<otrs_stats>
+<Cache>0</Cache>
+<Description>Arbeitsaufwände pro Kunde im Jahresverlauf monatlich zusammenfasst.
+
+HINWEIS: Bitte prüfen Sie den Output der Statistik und deren
+Konfiguration sorgfältig, ob diese die von Ihnen erwarteten Werte liefert! Ändern Sie die Konfiguration der Statistik ggf. ab, bevor Sie diese produktiv einsetzen!</Description>
+<File></File>
+<Format>CSV</Format>
+<Format>Print</Format>
+<GraphSize></GraphSize>
+<Object>TicketAccountedTime</Object>
+<ObjectModule>Kernel::System::Stats::Dynamic::TicketAccountedTime</ObjectModule>
+<ObjectName>TicketAccountedTime</ObjectName>
+<Permission>stats</Permission>
+<StatType>dynamic</StatType>
+<SumCol>0</SumCol>
+<SumRow>0</SumRow>
+<Title>Arbeitsaufwände pro Kunde im Jahresverlauf</Title>
+<UseAsValueSeries Element="CustomerID" Fixed="1">
+</UseAsValueSeries>
+<UseAsXvalue Element="ArticleAccountedTime" Fixed="1" TimeRelativeCount="12" TimeRelativeUnit="Month" TimeScaleCount="1">
+<SelectedValues>Month</SelectedValues>
+</UseAsXvalue>
+<Valid>1</Valid>
+</otrs_stats>

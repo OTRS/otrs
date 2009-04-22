@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<otrs_stats>
+<Cache>0</Cache>
+<Description>Auswertung der Lösungs- und Reaktionszeiten der im letzten Monat geschlossenen Tickets pro Kunde.
+
+HINWEIS: Bitte prüfen Sie den Output der Statistik und deren Konfiguration sorgfältig, ob diese die von Ihnen erwarteten Werte liefert! Ändern Sie die Konfiguration der Statistik ggf. ab, bevor Sie diese produktiv einsetzen!</Description>
+<File></File>
+<Format>CSV</Format>
+<Format>Print</Format>
+<GraphSize></GraphSize>
+<Object>TicketSolutionResponseTime</Object>
+<ObjectModule>Kernel::System::Stats::Dynamic::TicketSolutionResponseTime</ObjectModule>
+<ObjectName>TicketSolutionResponseTime</ObjectName>
+<Permission>stats</Permission>
+<StatType>dynamic</StatType>
+<SumCol>0</SumCol>
+<SumRow>0</SumRow>
+<Title>Auswertung der Lösungs- und Reaktionszeiten pro Kunde</Title>
+<UseAsRestriction Element="CloseTime2" Fixed="1" TimeRelativeCount="1" TimeRelativeUnit="Month">
+</UseAsRestriction>
+<UseAsValueSeries Element="CustomerID" Fixed="1">
+</UseAsValueSeries>
+<UseAsXvalue Element="KindsOfReporting" Fixed="1">
+</UseAsXvalue>
+<Valid>1</Valid>
+</otrs_stats>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<otrs_stats>
+<Cache>0</Cache>
+<Description>Ticketliste aller geschlossenen Tickets des letzten Monats geordnet nach der Lösungszeit. Es werden dabei die Tickets zuerst gelistet bei denen die vereinbarte Reaktionszeit überschritten wurde, bzw. beinahe überschritten wurde.
+
+HINWEIS: Bitte prüfen Sie den Output der Statistik und deren Konfiguration sorgfältig, ob diese die von Ihnen erwarteten Werte liefert! Ändern Sie die Konfiguration der Statistik ggf. ab, bevor Sie diese produktiv einsetzen!</Description>
+<File></File>
+<Format>CSV</Format>
+<Format>Print</Format>
+<GraphSize></GraphSize>
+<Object>TicketList</Object>
+<ObjectModule>Kernel::System::Stats::Dynamic::TicketList</ObjectModule>
+<ObjectName>Ticketlist</ObjectName>
+<Permission>stats</Permission>
+<StatType>dynamic</StatType>
+<SumCol>0</SumCol>
+<SumRow>0</SumRow>
+<Title>Ticketliste aller geschlossenen Tickets geordnet nach der Lösungszeit</Title>
+<UseAsRestriction Element="CloseTime" Fixed="1" TimeRelativeCount="1" TimeRelativeUnit="Month">
+</UseAsRestriction>
+<UseAsValueSeries Element="OrderBy" Fixed="1">
+<SelectedValues>SolutionDiffInMin</SelectedValues>
+</UseAsValueSeries>
+<UseAsValueSeries Element="SortSequence" Fixed="1">
+<SelectedValues>Up</SelectedValues>
+</UseAsValueSeries>
+<UseAsXvalue Element="TicketAttributes" Fixed="1">
+</UseAsXvalue>
+<Valid>1</Valid>
+</otrs_stats>
