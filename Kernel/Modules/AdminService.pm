@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminService.pm - admin frontend to manage services
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminService.pm,v 1.16 2009-02-17 23:37:11 martin Exp $
+# $Id: AdminService.pm,v 1.17 2009-04-22 14:42:02 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Service;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -297,22 +297,27 @@ sub Run {
 
             # output row
             if ( $Self->{ConfigObject}->Get('Ticket::Frontend::ListType') eq 'tree' ) {
+
+                # calculate level space
+                my @Fragment   = split '::', $ServiceData{Name};
+                my $Level      = scalar @Fragment - 1;
+                my $LevelSpace = '&nbsp;&nbsp;&nbsp;&nbsp;' x $Level;
+
+                # output row
                 $Self->{LayoutObject}->Block(
                     Name => 'OverviewListRow',
                     Data => {
                         %ServiceData,
-                        Name     => $ServiceData{NameShort},
-                        CssClass => $CssClass,
-                        Valid    => $ValidList{ $ServiceData{ValidID} },
+                        LevelSpace => $LevelSpace,
+                        Name       => $ServiceData{NameShort},
+                        CssClass   => $CssClass,
+                        Valid      => $ValidList{ $ServiceData{ValidID} },
                     },
                 );
-                my @Fragment = split( '::', $ServiceData{Name} );
-                pop(@Fragment);
-                for (@Fragment) {
-                    $Self->{LayoutObject}->Block( Name => 'OverviewListRowSpace', );
-                }
             }
             else {
+
+                # output row
                 $Self->{LayoutObject}->Block(
                     Name => 'OverviewListRow',
                     Data => {
