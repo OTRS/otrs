@@ -2,7 +2,7 @@
 # UPGRADING - upgrading OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: UPGRADING,v 1.32 2009-04-20 08:16:21 martin Exp $
+# $Id: UPGRADING,v 1.33 2009-04-23 08:23:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -31,17 +31,11 @@ to 2.4 first (1.1->1.2->1.3->2.0->2.1->2.2->2.3->2.4 ...).
     a) the OTRS themes between 2.3 and 2.4 are _not_ compatible
        (don't use the old themes)!
 
-*) Update the database changes with (part 1):
+*) Update the database changes with:
     MySQL:
       cat $OTRS_HOME/scripts/DBUpdate-to-2.4.mysql.sql | mysql -p -f -u root otrs
     PostgreSQL:
       cat $OTRS_HOME/scripts/DBUpdate-to-2.4.postgresql.sql | psql otrs
-
-*) Update the database changes with (part 2):
-    MySQL:
-      cat $OTRS_HOME/scripts/DBUpdate-to-2.4-post.mysql.sql | mysql -p -f -u root otrs
-    PostgreSQL:
-      cat $OTRS_HOME/scripts/DBUpdate-to-2.4-post.postgresql.sql | psql otrs
 
 *) If _no_ RPM is used, execute $OTRS_HOME/bin/SetPermissions.pl!
 

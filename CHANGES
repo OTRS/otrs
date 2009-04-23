@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.880 2009-04-20 14:14:45 martin Exp $
+# $Id: CHANGES,v 1.881 2009-04-23 08:25:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,9 @@
 # --
 
 2.4.0 beta2 (2009/??/??)
- - (2009/04/29) Updated nb_NO translation - thanks to Fredrik Andersen!
+ - (2009/04/23) Fixed bug# 3799 - The UPGRADING refrences a file not included
+    in the source code.
+ - (2009/04/20) Updated nb_NO translation - thanks to Fredrik Andersen!
  - (2009/04/20) Fixed bug# 3786 - No CSS get found at installation time (no
     colors are visable).
 
