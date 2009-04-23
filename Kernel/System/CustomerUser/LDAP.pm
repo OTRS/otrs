@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.42.2.2 2009-04-23 11:35:27 tt Exp $
+# $Id: LDAP.pm,v 1.42.2.3 2009-04-23 15:03:12 tt Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Encode;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.42.2.2 $) [1];
+$VERSION = qw($Revision: 1.42.2.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -145,6 +145,7 @@ sub new {
             Priority => 'error',
             Message  => "First bind failed! " . $Result->error(),
         );
+        $Self->{LDAP}->disconnect;
         return;
     }
 

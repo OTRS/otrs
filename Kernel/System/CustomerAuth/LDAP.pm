@@ -1,12 +1,12 @@
 # --
 # Kernel/System/CustomerAuth/LDAP.pm - provides the ldap authentification
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.28 2008-09-24 23:46:39 martin Exp $
+# $Id: LDAP.pm,v 1.28.2.1 2009-04-23 15:03:12 tt Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 package Kernel::System::CustomerAuth::LDAP;
@@ -18,7 +18,7 @@ use Net::LDAP;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.28.2.1 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -200,6 +200,7 @@ sub Auth {
             Priority => 'error',
             Message  => "First bind failed! " . $Result->error(),
         );
+        $LDAP->disconnect;
         return;
     }
 
@@ -227,6 +228,8 @@ sub Auth {
             Priority => 'error',
             Message  => "Search failed! " . $Result->error,
         );
+        $LDAP->unbind;
+        $LDAP->disconnect;
         return;
     }
 
@@ -248,6 +251,7 @@ sub Auth {
 
         # take down session
         $LDAP->unbind;
+        $LDAP->disconnect;
         return;
     }
 
@@ -289,6 +293,8 @@ sub Auth {
                     . $Filter2 . "', "
                     . $Result->error,
             );
+            $LDAP->unbind;
+            $LDAP->disconnect;
             return;
         }
 
@@ -311,6 +317,7 @@ sub Auth {
 
             # take down session
             $LDAP->unbind;
+            $LDAP->disconnect;
             return;
         }
     }
@@ -328,6 +335,7 @@ sub Auth {
 
         # take down session
         $LDAP->unbind;
+        $LDAP->disconnect;
         return;
     }
     else {
@@ -341,6 +349,7 @@ sub Auth {
 
         # take down session
         $LDAP->unbind;
+        $LDAP->disconnect;
         return $Param{User};
     }
 }
