@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.392 2009-04-17 08:36:44 tr Exp $
+# $Id: Ticket.pm,v 1.393 2009-04-23 14:11:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTML2Ascii;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.392 $) [1];
+$VERSION = qw($Revision: 1.393 $) [1];
 
 =head1 NAME
 
@@ -1120,52 +1120,52 @@ sub _TicketGetFirstResponse {
     }
     return %Data;
 
-#    # Suggestion for a Now2FirstResponseEscalationInMin
-#
-#    # get escalation properties
-#    my %Escalation = $Self->TicketEscalationPreferences(
-#        Ticket => $Param{Ticket},
-#        UserID => $Param{UserID} || 1,
-#    );
-#
-#    return %Data if !$Escalation{FirstResponseTime};
-#
-#    # get unix time stamps
-#    my $CreateTime = $Self->{TimeObject}->TimeStamp2SystemTime(
-#        String => $Param{Ticket}->{Created},
-#    );
-#    my $EscalationFirstResponseTime = $Escalation{FirstResponseTime} * 60;
-#    my $Now                         = $Self->{TimeObject}->TimeStamp2SystemTime(
-#        String => $Self->{TimeObject}->CurrentTimestamp(),
-#    );
-#
-#    # get time between creation and now
-#    my $WorkingTimeTillNow = $Self->{TimeObject}->WorkingTime(
-#        StartTime => $CreateTime,
-#        StopTime  => $Now,
-#        Calendar  => $Escalation{Calendar},
-#    );
-#
-#    $Data{Now2FirstResponseEscalationInMin}
-#        = int( ( $EscalationFirstResponseTime - $WorkingTimeTillNow ) / 60 );
-#
-#    return %Data if !$Data{FirstResponse};
-#
-#    my $FirstResponseTime = $Self->{TimeObject}->TimeStamp2SystemTime(
-#        String => $Data{FirstResponse},
-#    );
-#
-#    # get time between creation and first response
-#    my $WorkingTime = $Self->{TimeObject}->WorkingTime(
-#        StartTime => $CreateTime,
-#        StopTime  => $FirstResponseTime,
-#        Calendar  => $Escalation{Calendar},
-#    );
-#
-#    $Data{FirstResponseInMin} = int( $WorkingTime / 60 );
-#    $Data{FirstResponseDiffInMin} = int( ( $EscalationFirstResponseTime - $WorkingTime ) / 60 );
-#
-#    return %Data;
+    # # Suggestion for a Now2FirstResponseEscalationInMin
+    #
+    # # get escalation properties
+    #my %Escalation = $Self->TicketEscalationPreferences(
+    #    Ticket => $Param{Ticket},
+    #    UserID => $Param{UserID} || 1,
+    #);
+    #
+    #return %Data if !$Escalation{FirstResponseTime};
+    #
+    # # get unix time stamps
+    #my $CreateTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+    #    String => $Param{Ticket}->{Created},
+    #);
+    #my $EscalationFirstResponseTime = $Escalation{FirstResponseTime} * 60;
+    #my $Now                         = $Self->{TimeObject}->TimeStamp2SystemTime(
+    #    String => $Self->{TimeObject}->CurrentTimestamp(),
+    #);
+    #
+    # # get time between creation and now
+    #my $WorkingTimeTillNow = $Self->{TimeObject}->WorkingTime(
+    #    StartTime => $CreateTime,
+    #    StopTime  => $Now,
+    #    Calendar  => $Escalation{Calendar},
+    #);
+    #
+    #$Data{Now2FirstResponseEscalationInMin}
+    #    = int( ( $EscalationFirstResponseTime - $WorkingTimeTillNow ) / 60 );
+    #
+    #return %Data if !$Data{FirstResponse};
+    #
+    #my $FirstResponseTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+    #    String => $Data{FirstResponse},
+    #);
+    #
+    # # get time between creation and first response
+    #my $WorkingTime = $Self->{TimeObject}->WorkingTime(
+    #    StartTime => $CreateTime,
+    #    StopTime  => $FirstResponseTime,
+    #    Calendar  => $Escalation{Calendar},
+    #);
+    #
+    #$Data{FirstResponseInMin} = int( $WorkingTime / 60 );
+    #$Data{FirstResponseDiffInMin} = int( ( $EscalationFirstResponseTime - $WorkingTime ) / 60 );
+    #
+    #return %Data;
 }
 
 sub _TicketGetClosed {
@@ -1238,56 +1238,56 @@ sub _TicketGetClosed {
 
     return %Data;
 
-#    # suggestion for Now2SolutionEscalationInMin
-#
-#    # for compat. wording reasons
-#    $Data{SolutionTime} = $Data{Closed};
-#
-#    # get escalation properties
-#    my %Escalation = $Self->TicketEscalationPreferences(
-#        Ticket => $Param{Ticket},
-#        UserID => $Param{UserID} || 1,
-#    );
-#
-#    return %Data if !$Escalation{SolutionTime};
-#
-#    # get unix time stamps
-#    my $CreateTime = $Self->{TimeObject}->TimeStamp2SystemTime(
-#        String => $Param{Ticket}->{Created},
-#    );
-#    my $Now = $Self->{TimeObject}->TimeStamp2SystemTime(
-#        String => $Self->{TimeObject}->CurrentTimestamp(),
-#    );
-#
-#    # get time between creation and now
-#    my $WorkingTimeTillNow = $Self->{TimeObject}->WorkingTime(
-#        StartTime => $CreateTime,
-#        StopTime  => $Now,
-#        Calendar  => $Escalation{Calendar},
-#    );
-#
-#    my $EscalationSolutionTime = $Escalation{SolutionTime} * 60;
-#    $Data{Now2SolutionEscalationInMin}
-#        = int( ( $EscalationSolutionTime - $WorkingTimeTillNow ) / 60 );
-#
-#    return %Data if !$Data{Closed};
-#
-#    # get unix time stamp
-#    my $SolutionTime = $Self->{TimeObject}->TimeStamp2SystemTime(
-#        String => $Data{Closed},
-#    );
-#
-#    # get time between creation and solution
-#    my $WorkingTime = $Self->{TimeObject}->WorkingTime(
-#        StartTime => $CreateTime,
-#        StopTime  => $SolutionTime,
-#        Calendar  => $Escalation{Calendar},
-#    );
-#
-#    $Data{SolutionInMin} = int( $WorkingTime / 60 );
-#    $Data{SolutionDiffInMin} = int( ( $EscalationSolutionTime - $WorkingTime ) / 60 );
-#
-#    return %Data;
+    #    # suggestion for Now2SolutionEscalationInMin
+    #
+    #    # for compat. wording reasons
+    #    $Data{SolutionTime} = $Data{Closed};
+    #
+    #    # get escalation properties
+    #    my %Escalation = $Self->TicketEscalationPreferences(
+    #        Ticket => $Param{Ticket},
+    #        UserID => $Param{UserID} || 1,
+    #    );
+    #
+    #    return %Data if !$Escalation{SolutionTime};
+    #
+    #    # get unix time stamps
+    #    my $CreateTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+    #        String => $Param{Ticket}->{Created},
+    #    );
+    #    my $Now = $Self->{TimeObject}->TimeStamp2SystemTime(
+    #        String => $Self->{TimeObject}->CurrentTimestamp(),
+    #    );
+    #
+    #    # get time between creation and now
+    #    my $WorkingTimeTillNow = $Self->{TimeObject}->WorkingTime(
+    #        StartTime => $CreateTime,
+    #        StopTime  => $Now,
+    #        Calendar  => $Escalation{Calendar},
+    #    );
+    #
+    #    my $EscalationSolutionTime = $Escalation{SolutionTime} * 60;
+    #    $Data{Now2SolutionEscalationInMin}
+    #        = int( ( $EscalationSolutionTime - $WorkingTimeTillNow ) / 60 );
+    #
+    #    return %Data if !$Data{Closed};
+    #
+    #    # get unix time stamp
+    #    my $SolutionTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+    #        String => $Data{Closed},
+    #    );
+    #
+    #    # get time between creation and solution
+    #    my $WorkingTime = $Self->{TimeObject}->WorkingTime(
+    #        StartTime => $CreateTime,
+    #        StopTime  => $SolutionTime,
+    #        Calendar  => $Escalation{Calendar},
+    #    );
+    #
+    #    $Data{SolutionInMin} = int( $WorkingTime / 60 );
+    #    $Data{SolutionDiffInMin} = int( ( $EscalationSolutionTime - $WorkingTime ) / 60 );
+    #
+    #    return %Data;
 }
 
 sub _TicketGetFirstLock {
@@ -1999,7 +1999,7 @@ sub TicketServiceSet {
     }
 
     return if !$Self->{DBObject}->Do(
-        SQL  => 'UPDATE ticket SET service_id = ? WHERE id = ?',
+        SQL => 'UPDATE ticket SET service_id = ? WHERE id = ?',
         Bind => [ \$Param{ServiceID}, \$Param{TicketID} ],
     );
 
@@ -2278,7 +2278,7 @@ sub TicketEscalationIndexBuild {
 
             # update ticket table
             $Self->{DBObject}->Do(
-                SQL  => "UPDATE ticket SET $EscalationTimes{$Key} = ? WHERE id = ?",
+                SQL => "UPDATE ticket SET $EscalationTimes{$Key} = ? WHERE id = ?",
                 Bind => [ \$Time, \$Ticket{TicketID}, ]
             );
         }
@@ -2298,7 +2298,7 @@ sub TicketEscalationIndexBuild {
     my $FirstResponseTime = 0;
     if ( !$Escalation{FirstResponseTime} ) {
         $Self->{DBObject}->Do(
-            SQL  => 'UPDATE ticket SET escalation_response_time = ? WHERE id = ?',
+            SQL => 'UPDATE ticket SET escalation_response_time = ? WHERE id = ?',
             Bind => [ \$FirstResponseTime, \$Ticket{TicketID}, ]
         );
     }
@@ -2313,7 +2313,7 @@ sub TicketEscalationIndexBuild {
         # update first response time to 0
         if (%FirstResponseDone) {
             $Self->{DBObject}->Do(
-                SQL  => 'UPDATE ticket SET escalation_response_time = ? WHERE id = ?',
+                SQL => 'UPDATE ticket SET escalation_response_time = ? WHERE id = ?',
                 Bind => [ \$FirstResponseTime, \$Ticket{TicketID}, ]
             );
         }
@@ -2330,7 +2330,7 @@ sub TicketEscalationIndexBuild {
 
             # update first response time to $DestinationTime
             $Self->{DBObject}->Do(
-                SQL  => 'UPDATE ticket SET escalation_response_time = ? WHERE id = ?',
+                SQL => 'UPDATE ticket SET escalation_response_time = ? WHERE id = ?',
                 Bind => [ \$DestinationTime, \$Ticket{TicketID}, ]
             );
 
@@ -2343,7 +2343,7 @@ sub TicketEscalationIndexBuild {
     my $UpdateTime = 0;
     if ( !$Escalation{UpdateTime} || $Ticket{StateType} =~ /^(pending)/i ) {
         $Self->{DBObject}->Do(
-            SQL  => 'UPDATE ticket SET escalation_update_time = ? WHERE id = ?',
+            SQL => 'UPDATE ticket SET escalation_update_time = ? WHERE id = ?',
             Bind => [ \$UpdateTime, \$Ticket{TicketID}, ]
         );
     }
@@ -2427,7 +2427,7 @@ sub TicketEscalationIndexBuild {
 
             # update update time to $DestinationTime
             $Self->{DBObject}->Do(
-                SQL  => 'UPDATE ticket SET escalation_update_time = ? WHERE id = ?',
+                SQL => 'UPDATE ticket SET escalation_update_time = ? WHERE id = ?',
                 Bind => [ \$DestinationTime, \$Ticket{TicketID}, ]
             );
 
@@ -2440,7 +2440,7 @@ sub TicketEscalationIndexBuild {
         # else, no not escalate, because latest sender was agent
         else {
             $Self->{DBObject}->Do(
-                SQL  => 'UPDATE ticket SET escalation_update_time = ? WHERE id = ?',
+                SQL => 'UPDATE ticket SET escalation_update_time = ? WHERE id = ?',
                 Bind => [ \$UpdateTime, \$Ticket{TicketID}, ]
             );
         }
@@ -2450,7 +2450,7 @@ sub TicketEscalationIndexBuild {
     my $SolutionTime = 0;
     if ( !$Escalation{SolutionTime} ) {
         $Self->{DBObject}->Do(
-            SQL  => 'UPDATE ticket SET escalation_solution_time = ? WHERE id = ?',
+            SQL => 'UPDATE ticket SET escalation_solution_time = ? WHERE id = ?',
             Bind => [ \$SolutionTime, \$Ticket{TicketID}, ]
         );
     }
@@ -2465,7 +2465,7 @@ sub TicketEscalationIndexBuild {
         # update solution time to 0
         if (%SolutionDone) {
             $Self->{DBObject}->Do(
-                SQL  => 'UPDATE ticket SET escalation_solution_time = ? WHERE id = ?',
+                SQL => 'UPDATE ticket SET escalation_solution_time = ? WHERE id = ?',
                 Bind => [ \$SolutionTime, \$Ticket{TicketID}, ]
             );
         }
@@ -2480,7 +2480,7 @@ sub TicketEscalationIndexBuild {
 
             # update solution time to $DestinationTime
             $Self->{DBObject}->Do(
-                SQL  => 'UPDATE ticket SET escalation_solution_time = ? WHERE id = ?',
+                SQL => 'UPDATE ticket SET escalation_solution_time = ? WHERE id = ?',
                 Bind => [ \$DestinationTime, \$Ticket{TicketID}, ]
             );
 
@@ -2494,7 +2494,7 @@ sub TicketEscalationIndexBuild {
     # update escalation time (< escalation time)
     if ( defined $EscalationTime ) {
         $Self->{DBObject}->Do(
-            SQL  => 'UPDATE ticket SET escalation_time = ? WHERE id = ?',
+            SQL => 'UPDATE ticket SET escalation_time = ? WHERE id = ?',
             Bind => [ \$EscalationTime, \$Ticket{TicketID}, ]
         );
     }
@@ -4419,7 +4419,7 @@ sub TicketSearch {
 
     # get articles created older/newer than x minutes
     my %ArticleTime = (
-        ArticleCreateTime             => 'art.create_time',
+        ArticleCreateTime => 'art.create_time',
     );
     for my $Key ( keys %ArticleTime ) {
 
@@ -4463,7 +4463,7 @@ sub TicketSearch {
                 return;
             }
 
-            $SQLExt .= " AND $ArticleTime{$Key} <= '" .$Param{ $Key . 'OlderDate' } . "'";
+            $SQLExt .= " AND $ArticleTime{$Key} <= '" . $Param{ $Key . 'OlderDate' } . "'";
         }
 
         # get articles created newer than xxxx-xx-xx xx:xx date
@@ -6994,8 +6994,8 @@ sub TicketAcl {
 
     # only execute acls if ACL or ACL module is configured or event module is used
     return if !$Self->{ConfigObject}->Get('TicketAcl')
-        && !$Self->{ConfigObject}->Get('Ticket::Acl::Module')
-        && !$Self->{ConfigObject}->Get('Ticket::EventModulePost');
+            && !$Self->{ConfigObject}->Get('Ticket::Acl::Module')
+            && !$Self->{ConfigObject}->Get('Ticket::EventModulePost');
 
     # match also frontend options
     my %Checks = ();
@@ -7132,7 +7132,7 @@ sub TicketAcl {
                             }
 
                             # regexp match case-sensitive
-                            elsif ( substr($Item, 0, 8 ) eq '[RegExp]' ) {
+                            elsif ( substr( $Item, 0, 8 ) eq '[RegExp]' ) {
                                 my $RegExp = substr $Item, 8;
                                 if ( $Array =~ /$RegExp/ ) {
                                     $Match4 = 1;
@@ -7140,7 +7140,7 @@ sub TicketAcl {
                             }
 
                             # regexp match case-insensitive
-                            elsif ( substr($Item, 0, 8 ) eq '[regexp]' ) {
+                            elsif ( substr( $Item, 0, 8 ) eq '[regexp]' ) {
                                 my $RegExp = substr $Item, 8;
                                 if ( $Array =~ /$RegExp/i ) {
                                     $Match4 = 1;
@@ -7169,7 +7169,7 @@ sub TicketAcl {
                         }
 
                         # regexp match case-sensitive
-                        elsif ( substr($Item, 0, 8 ) eq '[RegExp]' ) {
+                        elsif ( substr( $Item, 0, 8 ) eq '[RegExp]' ) {
                             my $RegExp = substr $Item, 8;
                             if ( $Checks{$Key}->{$Data} =~ /$RegExp/ ) {
                                 $Match4 = 1;
@@ -7177,7 +7177,7 @@ sub TicketAcl {
                         }
 
                         # regexp match case-insensitive
-                        elsif ( substr($Item, 0, 8 ) eq '[regexp]' ) {
+                        elsif ( substr( $Item, 0, 8 ) eq '[regexp]' ) {
                             my $RegExp = substr $Item, 8;
                             if ( $Checks{$Key}->{$Data} =~ /$RegExp/i ) {
                                 $Match4 = 1;
@@ -7262,7 +7262,7 @@ sub TicketAcl {
                     }
 
                     # regexp match case-sensitive
-                    elsif ( substr($New, 0, 8 ) eq '[RegExp]' ) {
+                    elsif ( substr( $New, 0, 8 ) eq '[RegExp]' ) {
                         my $RegExp = substr $New, 8;
                         if ( $Data{$ID} =~ /$RegExp/ ) {
                             $Match = 1;
@@ -7270,7 +7270,7 @@ sub TicketAcl {
                     }
 
                     # regexp match case-insensitive
-                    elsif ( substr($New, 0, 8 ) eq '[regexp]' ) {
+                    elsif ( substr( $New, 0, 8 ) eq '[regexp]' ) {
                         my $RegExp = substr $New, 8;
                         if ( $Data{$ID} =~ /$RegExp/i ) {
                             $Match = 1;
@@ -7319,7 +7319,7 @@ sub TicketAcl {
                     }
 
                     # regexp match case-sensitive
-                    elsif ( substr($New, 0, 8 ) eq '[RegExp]' ) {
+                    elsif ( substr( $New, 0, 8 ) eq '[RegExp]' ) {
                         my $RegExp = substr $New, 8;
                         if ( $Data{$ID} =~ /$RegExp/ ) {
                             $Match = 0;
@@ -7327,7 +7327,7 @@ sub TicketAcl {
                     }
 
                     # regexp match case-insensitive
-                    elsif ( substr($New, 0, 8 ) eq '[regexp]' ) {
+                    elsif ( substr( $New, 0, 8 ) eq '[regexp]' ) {
                         my $RegExp = substr $New, 8;
                         if ( $Data{$ID} =~ /$RegExp/i ) {
                             $Match = 0;
@@ -7514,6 +7514,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.392 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.393 $ $Date: 2009-04-23 14:11:27 $
 
 =cut
