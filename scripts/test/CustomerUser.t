@@ -2,7 +2,7 @@
 # CustomerUser.t - CustomerUser tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUser.t,v 1.8.2.1 2009-03-31 06:35:46 martin Exp $
+# $Id: CustomerUser.t,v 1.8.2.2 2009-04-23 14:54:23 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -358,7 +358,7 @@ for my $Key ( 1 .. 3, 'ä', 'カス' ) {
                 PW        => $Password,
             );
             $Self->True(
-                $Set|| 0,
+                $Set || 0,
                 "SetPassword() - $Config - $UserID - $Password",
             );
 

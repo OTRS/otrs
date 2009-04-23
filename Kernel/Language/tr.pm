@@ -1,20 +1,20 @@
 # --
 # Kernel/Language/tr.pm - provides tr language translation
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: tr.pm,v 1.13.2.1 2008-10-16 14:08:47 ub Exp $
+# $Id: tr.pm,v 1.13.2.2 2009-04-23 14:54:22 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 package Kernel::Language::tr;
 
 use strict;
+use warnings;
 
 use vars qw($VERSION);
-$VERSION = '$Revision: 1.13.2.1 $';
-$VERSION =~ s/^\$.*:\W(.*)\W.+?$/$1/;
+$VERSION = '$Revision: 1.13.2.2 $';
 
 sub Data {
     my $Self = shift;
