@@ -1,12 +1,12 @@
 # --
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.299.2.2 2008-10-29 18:57:46 tt Exp $
+# $Id: Defaults.pm,v 1.299.2.3 2009-04-23 12:54:46 tt Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 #
 #  Note:
@@ -24,7 +24,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.299.2.2 $) [1];
+$VERSION = qw($Revision: 1.299.2.3 $) [1];
 
 sub LoadDefaults {
     my ($Self) = @_;
@@ -1176,7 +1176,7 @@ Your OTRS Notification Master
 
 #        CustomerUserListFields => ['login', 'first_name', 'last_name', 'customer_id', 'email'],
         CustomerUserSearchFields           => [ 'login', 'first_name', 'last_name', 'customer_id' ],
-        CustomerUserSearchPrefix           => '',
+        CustomerUserSearchPrefix           => '*',
         CustomerUserSearchSuffix           => '*',
         CustomerUserSearchListLimit        => 250,
         CustomerUserPostMasterSearchFields => ['email'],
@@ -2320,13 +2320,13 @@ sub new {
 This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
-the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+the enclosed file COPYING for license information (AGPL). If you
+did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.299.2.2 $ $Date: 2008-10-29 18:57:46 $
+$Revision: 1.299.2.3 $ $Date: 2009-04-23 12:54:46 $
 
 =cut
