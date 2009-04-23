@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.79 2009-04-20 08:11:40 martin Exp $
+# $Id: AdminPackageManager.pm,v 1.80 2009-04-23 13:47:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.79 $) [1];
+$VERSION = qw($Revision: 1.80 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1340,7 +1340,7 @@ sub _InstallHandling {
     }
 
     # redirect after finishing installation
-    if ( $Self->{ParamObject}->GetParam( Param => 'IntroInstallPost' )) {
+    if ( $Self->{ParamObject}->GetParam( Param => 'IntroInstallPost' ) ) {
         return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
     }
 
@@ -1389,7 +1389,7 @@ sub _InstallHandling {
     }
 
     # intro before installation
-    if ( %Data && !$IntroInstallPre  ) {
+    if ( %Data && !$IntroInstallPre ) {
 
         $Self->{LayoutObject}->Block(
             Name => 'Intro',
@@ -1422,7 +1422,7 @@ sub _InstallHandling {
         if ( $Structure{IntroInstall} ) {
             %Data = $Self->_MessageGet( Info => $Structure{IntroInstall}, Type => 'post' );
         }
-        if ( %Data ) {
+        if (%Data) {
             $Self->{LayoutObject}->Block(
                 Name => 'Intro',
                 Data => {
@@ -1459,11 +1459,11 @@ sub _UpgradeHandling {
     }
 
     # redirect after finishing upgrade
-    if ( $Self->{ParamObject}->GetParam( Param => 'IntroUpgradePost' )) {
+    if ( $Self->{ParamObject}->GetParam( Param => 'IntroUpgradePost' ) ) {
         return $Self->{LayoutObject}->Redirect( OP => "Action=$Self->{Action}" );
     }
 
-    my $IntroUpgradePre  = $Self->{ParamObject}->GetParam( Param => 'IntroUpgradePre' )  || '';
+    my $IntroUpgradePre = $Self->{ParamObject}->GetParam( Param => 'IntroUpgradePre' ) || '';
 
     # check if we have to show uninstall intro pre
     my %Structure = $Self->{PackageObject}->PackageParse( String => $Param{Package}, );
@@ -1505,7 +1505,7 @@ sub _UpgradeHandling {
         if ( $Structure{IntroUpgrade} ) {
             %Data = $Self->_MessageGet( Info => $Structure{IntroUpgrade}, Type => 'post' );
         }
-        if ( %Data ) {
+        if (%Data) {
             $Self->{LayoutObject}->Block(
                 Name => 'Intro',
                 Data => {

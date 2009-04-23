@@ -2,7 +2,7 @@
 # Kernel/System/XML.pm - lib xml
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.pm,v 1.82 2009-04-17 08:36:44 tr Exp $
+# $Id: XML.pm,v 1.83 2009-04-23 13:47:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.82 $) [1];
+$VERSION = qw($Revision: 1.83 $) [1];
 
 =head1 NAME
 
@@ -85,7 +85,7 @@ sub new {
         die "Got no $_" if !$Self->{$_};
     }
 
-    $Self->{CacheObject}  = Kernel::System::Cache->new( %{$Self} );
+    $Self->{CacheObject} = Kernel::System::Cache->new( %{$Self} );
 
     # to access object over non object oriented XML::Parser and XML::Parser::Lite
     $S = $Self;
@@ -1440,6 +1440,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.82 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.83 $ $Date: 2009-04-23 13:47:08 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.143 2009-04-22 14:42:51 mh Exp $
+# $Id: Layout.pm,v 1.144 2009-04-23 13:47:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.143 $) [1];
+$VERSION = qw($Revision: 1.144 $) [1];
 
 =head1 NAME
 
@@ -288,7 +288,7 @@ sub new {
         $Self->FatalDie();
     }
 
-    # FRAMEWORK-2.5: define $Env{"Images"} (only for compat till 2.5, use $Config{"Frontend::ImagePath"})
+# FRAMEWORK-2.5: define $Env{"Images"} (only for compat till 2.5, use $Config{"Frontend::ImagePath"})
     $Self->{Images} = $Self->{ConfigObject}->Get('Frontend::ImagePath');
 
     # load sub layout files
@@ -4119,6 +4119,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.143 $ $Date: 2009-04-22 14:42:51 $
+$Revision: 1.144 $ $Date: 2009-04-23 13:47:27 $
 
 =cut

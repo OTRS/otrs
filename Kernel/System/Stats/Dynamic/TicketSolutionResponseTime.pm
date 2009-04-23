@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm - stats about ticket solution and response time
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketSolutionResponseTime.pm,v 1.2 2009-04-08 12:32:56 tr Exp $
+# $Id: TicketSolutionResponseTime.pm,v 1.3 2009-04-23 13:47:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -31,7 +31,10 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for my $Object (qw(DBObject ConfigObject LogObject UserObject TimeObject MainObject EncodeObject)) {
+    for my $Object (
+        qw(DBObject ConfigObject LogObject UserObject TimeObject MainObject EncodeObject)
+        )
+    {
         $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
     $Self->{QueueObject}    = Kernel::System::Queue->new( %{$Self} );
@@ -555,7 +558,7 @@ sub GetStatTable {
 
             for my $Cell ( @{ $Param{TableStructure}{$Row} } ) {
                 my %SearchAttributes = %{$Cell};
-                my %Reporting = $Self->_ReportingValues(
+                my %Reporting        = $Self->_ReportingValues(
                     SearchAttributes         => \%SearchAttributes,
                     SelectedKindsOfReporting => $SelectedKindsOfReporting,
                 );
@@ -596,7 +599,7 @@ sub _ReportingValues {
     }
 
     # do nothing, if there are no search attributes
-    return map {$_ => 0} @{ $Param{SelectedKindsOfReporting} } if !%TicketSearch;
+    return map { $_ => 0 } @{ $Param{SelectedKindsOfReporting} } if !%TicketSearch;
 
     # get the involved tickets
     my @TicketIDs = $Self->{TicketObject}->TicketSearch(
@@ -604,20 +607,20 @@ sub _ReportingValues {
         Result     => 'ARRAY',
         Permission => 'ro',
         Limit      => 100_000_000,
-        StateType => 'Closed',
+        StateType  => 'Closed',
         %TicketSearch,
     );
 
     # do nothing, if there are no tickets
-    return map {$_ => 0} @{ $Param{SelectedKindsOfReporting} } if !@TicketIDs;
+    return map { $_ => 0 } @{ $Param{SelectedKindsOfReporting} } if !@TicketIDs;
 
-    my $Counter = 0;
+    my $Counter        = 0;
     my $CounterAllOver = 0;
 
-    my %SolutionAllOver = ();
-    my %Solution = ();
+    my %SolutionAllOver     = ();
+    my %Solution            = ();
     my %SolutionWorkingTime = ();
-    my %Response = ();
+    my %Response            = ();
     my %ResponseWorkingTime = ();
 
     for my $TicketID (@TicketIDs) {
@@ -642,7 +645,7 @@ sub _ReportingValues {
         $Solution{$TicketID}            = $SolutionAllOver{$TicketID};
         $SolutionWorkingTime{$TicketID} = $Ticket{SolutionInMin};
 
-        if ($Ticket{FirstResponse}) {
+        if ( $Ticket{FirstResponse} ) {
             my $FirstResponse = $Self->{TimeObject}->TimeStamp2SystemTime(
                 String => $Ticket{FirstResponse},
             );
@@ -660,51 +663,51 @@ sub _ReportingValues {
     my %SelectedKindsOfReporting = map { $_ => 1 } @{ $Param{SelectedKindsOfReporting} };
 
     # different solution averages
-    if ($SelectedKindsOfReporting{SolutionAverageAllOver}) {
+    if ( $SelectedKindsOfReporting{SolutionAverageAllOver} ) {
         $Reporting{SolutionAverageAllOver} = $Self->_GetAverage(
-            Count => $CounterAllOver,
+            Count   => $CounterAllOver,
             Content => \%SolutionAllOver,
         );
     }
-    if ($SelectedKindsOfReporting{SolutionAverage}) {
+    if ( $SelectedKindsOfReporting{SolutionAverage} ) {
         $Reporting{SolutionAverage} = $Self->_GetAverage(
-            Count => $Counter,
+            Count   => $Counter,
             Content => \%Solution,
         );
     }
-    if ($SelectedKindsOfReporting{SolutionWorkingTimeAverage}) {
+    if ( $SelectedKindsOfReporting{SolutionWorkingTimeAverage} ) {
         $Reporting{SolutionWorkingTimeAverage} = $Self->_GetAverage(
-            Count => $Counter,
+            Count   => $Counter,
             Content => \%SolutionWorkingTime,
         );
     }
 
     # response average
-    if ($SelectedKindsOfReporting{ResponseAverage}) {
+    if ( $SelectedKindsOfReporting{ResponseAverage} ) {
         $Reporting{ResponseAverage} = $Self->_GetAverage(
-            Count => $Counter,
+            Count   => $Counter,
             Content => \%Response,
         );
     }
-    if ($SelectedKindsOfReporting{ResponseWorkingTimeAverage}) {
+    if ( $SelectedKindsOfReporting{ResponseWorkingTimeAverage} ) {
         $Reporting{ResponseWorkingTimeAverage} = $Self->_GetAverage(
-            Count => $Counter,
+            Count   => $Counter,
             Content => \%ResponseWorkingTime,
         );
     }
 
     # min max for standard solution
-    if ($SelectedKindsOfReporting{SolutionMinTimeAllOver}) {
+    if ( $SelectedKindsOfReporting{SolutionMinTimeAllOver} ) {
         if (%SolutionAllOver) {
-            $Reporting{SolutionMinTimeAllOver} = (sort {$a <=> $b} values %SolutionAllOver)[0];
+            $Reporting{SolutionMinTimeAllOver} = ( sort { $a <=> $b } values %SolutionAllOver )[0];
         }
         else {
             $Reporting{SolutionMinTimeAllOver} = 0;
         }
     }
-    if ($SelectedKindsOfReporting{SolutionMaxTimeAllOver}) {
+    if ( $SelectedKindsOfReporting{SolutionMaxTimeAllOver} ) {
         if (%SolutionAllOver) {
-            $Reporting{SolutionMaxTimeAllOver} = (sort {$b <=> $a} values %SolutionAllOver)[0];
+            $Reporting{SolutionMaxTimeAllOver} = ( sort { $b <=> $a } values %SolutionAllOver )[0];
         }
         else {
             $Reporting{SolutionMaxTimeAllOver} = 0;
@@ -712,17 +715,17 @@ sub _ReportingValues {
     }
 
     # min max for solution time with configured escalation
-    if ($SelectedKindsOfReporting{SolutionMinTime}) {
+    if ( $SelectedKindsOfReporting{SolutionMinTime} ) {
         if (%Solution) {
-            $Reporting{SolutionMinTime} = (sort {$a <=> $b} values %Solution)[0];
+            $Reporting{SolutionMinTime} = ( sort { $a <=> $b } values %Solution )[0];
         }
         else {
             $Reporting{SolutionMinTime} = 0;
         }
     }
-    if ($SelectedKindsOfReporting{SolutionMaxTime}) {
+    if ( $SelectedKindsOfReporting{SolutionMaxTime} ) {
         if (%Solution) {
-            $Reporting{SolutionMaxTime} = (sort {$b <=> $a} values %Solution)[0];
+            $Reporting{SolutionMaxTime} = ( sort { $b <=> $a } values %Solution )[0];
         }
         else {
             $Reporting{SolutionMaxTime} = 0;
@@ -730,17 +733,19 @@ sub _ReportingValues {
     }
 
     # min max for solution working time
-    if ($SelectedKindsOfReporting{SolutionMinWorkingTime}) {
+    if ( $SelectedKindsOfReporting{SolutionMinWorkingTime} ) {
         if (%SolutionWorkingTime) {
-            $Reporting{SolutionMinWorkingTime} = (sort {$a <=> $b} values %SolutionWorkingTime)[0];
+            $Reporting{SolutionMinWorkingTime}
+                = ( sort { $a <=> $b } values %SolutionWorkingTime )[0];
         }
         else {
             $Reporting{SolutionMinWorkingTime} = 0;
         }
     }
-    if ($SelectedKindsOfReporting{SolutionMaxWorkingTime}) {
+    if ( $SelectedKindsOfReporting{SolutionMaxWorkingTime} ) {
         if (%SolutionWorkingTime) {
-            $Reporting{SolutionMaxWorkingTime} = (sort {$b <=> $a} values %SolutionWorkingTime)[0];
+            $Reporting{SolutionMaxWorkingTime}
+                = ( sort { $b <=> $a } values %SolutionWorkingTime )[0];
         }
         else {
             $Reporting{SolutionMaxWorkingTime} = 0;
@@ -748,17 +753,17 @@ sub _ReportingValues {
     }
 
     # min max for response time
-    if ($SelectedKindsOfReporting{ResponseMinTime}) {
+    if ( $SelectedKindsOfReporting{ResponseMinTime} ) {
         if (%Response) {
-            $Reporting{ResponseMinTime} = (sort {$a <=> $b} values %Response)[0];
+            $Reporting{ResponseMinTime} = ( sort { $a <=> $b } values %Response )[0];
         }
         else {
             $Reporting{ResponseMinTime} = 0;
         }
     }
-    if ($SelectedKindsOfReporting{ResponseMaxTime}) {
+    if ( $SelectedKindsOfReporting{ResponseMaxTime} ) {
         if (%Response) {
-            $Reporting{ResponseMaxTime} = (sort {$b <=> $a} values %Response)[0];
+            $Reporting{ResponseMaxTime} = ( sort { $b <=> $a } values %Response )[0];
         }
         else {
             $Reporting{ResponseMaxTime} = 0;
@@ -766,17 +771,19 @@ sub _ReportingValues {
     }
 
     # min max for response working time
-    if ($SelectedKindsOfReporting{ResponseMinWorkingTime}) {
+    if ( $SelectedKindsOfReporting{ResponseMinWorkingTime} ) {
         if (%ResponseWorkingTime) {
-            $Reporting{ResponseMinWorkingTime} = (sort {$a <=> $b} values %ResponseWorkingTime)[0];
+            $Reporting{ResponseMinWorkingTime}
+                = ( sort { $a <=> $b } values %ResponseWorkingTime )[0];
         }
         else {
             $Reporting{ResponseMinWorkingTime} = 0;
         }
     }
-    if ($SelectedKindsOfReporting{ResponseMaxWorkingTime}) {
+    if ( $SelectedKindsOfReporting{ResponseMaxWorkingTime} ) {
         if (%ResponseWorkingTime) {
-            $Reporting{ResponseMaxWorkingTime} = (sort {$b <=> $a} values %ResponseWorkingTime)[0];
+            $Reporting{ResponseMaxWorkingTime}
+                = ( sort { $b <=> $a } values %ResponseWorkingTime )[0];
         }
         else {
             $Reporting{ResponseMaxWorkingTime} = 0;
@@ -784,28 +791,31 @@ sub _ReportingValues {
     }
 
     # add the number of values
-    if ($SelectedKindsOfReporting{NumberOfTickets}) {
+    if ( $SelectedKindsOfReporting{NumberOfTickets} ) {
         $Reporting{NumberOfTickets} = $Counter;
     }
-    if ($SelectedKindsOfReporting{NumberOfTicketsAllOver}) {
+    if ( $SelectedKindsOfReporting{NumberOfTicketsAllOver} ) {
         $Reporting{NumberOfTicketsAllOver} = $CounterAllOver;
     }
 
     # get the correct data format
     # convert seconds in minutes
 
-    for my $Key (qw(ResponseMaxTime ResponseMinTime SolutionMaxTime SolutionMinTime SolutionMaxTimeAllOver
+    for my $Key (
+        qw(ResponseMaxTime ResponseMinTime SolutionMaxTime SolutionMinTime SolutionMaxTimeAllOver
         SolutionMinTimeAllOver SolutionAverageAllOver SolutionAverage ResponseAverage
-    )) {
-        $Reporting{$Key} = int($Reporting{$Key} / 60 + 0.5 );
+        )
+        )
+    {
+        $Reporting{$Key} = int( $Reporting{$Key} / 60 + 0.5 );
     }
 
     # convert min in hh:mm
     KEY:
-    for my $Key (keys %Reporting) {
+    for my $Key ( keys %Reporting ) {
         next KEY if $Key eq 'NumberOfTickets' || $Key eq 'NumberOfTicketsAllOver';
-        my $Hours = int($Reporting{$Key} / 60);
-        my $Minutes= int ($Reporting{$Key} % 60);
+        my $Hours   = int( $Reporting{$Key} / 60 );
+        my $Minutes = int( $Reporting{$Key} % 60 );
         $Reporting{$Key} = $Hours . 'h ' . $Minutes . 'm';
     }
 
@@ -817,7 +827,7 @@ sub _GetAverage {
     return 0 if !$Param{Count};
 
     my $Sum = 0;
-    for my $Value (values %{$Param{Content}}) {
+    for my $Value ( values %{ $Param{Content} } ) {
         $Sum += $Value;
     }
     return $Sum / $Param{Count};
@@ -831,18 +841,24 @@ sub _KindsOfReporting {
         SolutionMinTimeAllOver => 'Solution Min Time',
         SolutionMaxTimeAllOver => 'Solution Max Time',
         NumberOfTicketsAllOver => 'Number of Tickets',
-        SolutionAverage => 'Solution Average (affected by escalation configuration)',
-        SolutionMinTime => 'Solution Min Time (affected by escalation configuration)',
-        SolutionMaxTime => 'Solution Max Time (affected by escalation configuration)',
-        SolutionWorkingTimeAverage => 'Solution Working Time Average (affected by escalation configuration)',
-        SolutionMinWorkingTime => 'Solution Min Working Time (affected by escalation configuration)',
-        SolutionMaxWorkingTime => 'Solution Max Working Time (affected by escalation configuration)',
+        SolutionAverage        => 'Solution Average (affected by escalation configuration)',
+        SolutionMinTime        => 'Solution Min Time (affected by escalation configuration)',
+        SolutionMaxTime        => 'Solution Max Time (affected by escalation configuration)',
+        SolutionWorkingTimeAverage =>
+            'Solution Working Time Average (affected by escalation configuration)',
+        SolutionMinWorkingTime =>
+            'Solution Min Working Time (affected by escalation configuration)',
+        SolutionMaxWorkingTime =>
+            'Solution Max Working Time (affected by escalation configuration)',
         ResponseAverage => 'Response Average (affected by escalation configuration)',
         ResponseMinTime => 'Response Min Time (affected by escalation configuration)',
         ResponseMaxTime => 'Response Max Time (affected by escalation configuration)',
-        ResponseWorkingTimeAverage => 'Response Working Time Average (affected by escalation configuration)',
-        ResponseMinWorkingTime => 'Response Min Working Time (affected by escalation configuration)',
-        ResponseMaxWorkingTime => 'Response Max Working Time (affected by escalation configuration)',
+        ResponseWorkingTimeAverage =>
+            'Response Working Time Average (affected by escalation configuration)',
+        ResponseMinWorkingTime =>
+            'Response Min Working Time (affected by escalation configuration)',
+        ResponseMaxWorkingTime =>
+            'Response Max Working Time (affected by escalation configuration)',
         NumberOfTickets => 'Number of Tickets (affected by escalation configuration)',
     );
     return \%KindsOfReporting;
@@ -955,9 +971,9 @@ sub GetHeaderLine {
 
     my ( $Self, %Param ) = @_;
 
-    if ($Param{XValue}{Element} eq 'KindsOfReporting') {
+    if ( $Param{XValue}{Element} eq 'KindsOfReporting' ) {
 
-        my %Selected   = map { $_ => 1 } @{ $Param{XValue}{SelectedValues} };
+        my %Selected = map { $_ => 1 } @{ $Param{XValue}{SelectedValues} };
 
         my $Attributes = $Self->_KindsOfReporting();
         my @HeaderLine = ('Evaluation by');
@@ -987,7 +1003,7 @@ sub ExportWrapper {
 
             if ( $ElementName eq 'QueueIDs' || $ElementName eq 'CreatedQueueIDs' ) {
                 ID:
-                for my $ID ( @{ $Values } ) {
+                for my $ID ( @{$Values} ) {
                     next ID if !$ID;
                     $ID->{Content} = $Self->{QueueObject}->QueueLookup( QueueID => $ID->{Content} );
                 }
@@ -995,7 +1011,7 @@ sub ExportWrapper {
             elsif ( $ElementName eq 'StateIDs' || $ElementName eq 'CreatedStateIDs' ) {
                 my %StateList = $Self->{StateObject}->StateList( UserID => 1 );
                 ID:
-                for my $ID ( @{ $Values } ) {
+                for my $ID ( @{$Values} ) {
                     next ID if !$ID;
                     $ID->{Content} = $StateList{ $ID->{Content} };
                 }
@@ -1003,14 +1019,19 @@ sub ExportWrapper {
             elsif ( $ElementName eq 'PriorityIDs' || $ElementName eq 'CreatedPriorityIDs' ) {
                 my %PriorityList = $Self->{PriorityObject}->PriorityList( UserID => 1 );
                 ID:
-                for my $ID ( @{ $Values } ) {
+                for my $ID ( @{$Values} ) {
                     next ID if !$ID;
                     $ID->{Content} = $PriorityList{ $ID->{Content} };
                 }
             }
-            elsif ( $ElementName eq 'OwnerIDs' || $ElementName eq 'CreatedUserIDs' || $ElementName eq 'ResponsibleIDs' ) {
+            elsif (
+                $ElementName    eq 'OwnerIDs'
+                || $ElementName eq 'CreatedUserIDs'
+                || $ElementName eq 'ResponsibleIDs'
+                )
+            {
                 ID:
-                for my $ID ( @{ $Values } ) {
+                for my $ID ( @{$Values} ) {
                     next ID if !$ID;
                     $ID->{Content} = $Self->{UserObject}->UserLookup( UserID => $ID->{Content} );
                 }
@@ -1035,7 +1056,7 @@ sub ImportWrapper {
 
             if ( $ElementName eq 'QueueIDs' || $ElementName eq 'CreatedQueueIDs' ) {
                 ID:
-                for my $ID ( @{ $Values } ) {
+                for my $ID ( @{$Values} ) {
                     next ID if !$ID;
                     if ( $Self->{QueueObject}->QueueLookup( Queue => $ID->{Content} ) ) {
                         $ID->{Content}
@@ -1052,7 +1073,7 @@ sub ImportWrapper {
             }
             elsif ( $ElementName eq 'StateIDs' || $ElementName eq 'CreatedStateIDs' ) {
                 ID:
-                for my $ID ( @{ $Values } ) {
+                for my $ID ( @{$Values} ) {
                     next ID if !$ID;
 
                     my %State = $Self->{StateObject}->StateGet(
@@ -1078,7 +1099,7 @@ sub ImportWrapper {
                     $PriorityIDs{ $PriorityList{$Key} } = $Key;
                 }
                 ID:
-                for my $ID ( @{ $Values } ) {
+                for my $ID ( @{$Values} ) {
                     next ID if !$ID;
 
                     if ( $PriorityIDs{ $ID->{Content} } ) {
@@ -1100,7 +1121,7 @@ sub ImportWrapper {
                 )
             {
                 ID:
-                for my $ID ( @{ $Values } ) {
+                for my $ID ( @{$Values} ) {
                     next ID if !$ID;
 
                     if ( $Self->{UserObject}->UserLookup( UserLogin => $ID->{Content} ) ) {
@@ -1117,6 +1138,7 @@ sub ImportWrapper {
                     }
                 }
             }
+
             # Locks and statustype don't have to wrap because they are never different
         }
     }

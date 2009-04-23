@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhoneOutbound.pm - to handle phone calls
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.pm,v 1.23 2009-04-15 14:14:58 sb Exp $
+# $Id: AgentTicketPhoneOutbound.pm,v 1.24 2009-04-23 13:47:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -495,8 +495,8 @@ sub Run {
                 REMOVEINLINE:
                 for my $TmpAttachment (@AttachmentData) {
                     next REMOVEINLINE if $TmpAttachment->{ContentID}
-                        && $TmpAttachment->{ContentID} =~ /^inline/
-                        && $GetParam{Body} !~ /$TmpAttachment->{ContentID}/;
+                            && $TmpAttachment->{ContentID} =~ /^inline/
+                            && $GetParam{Body} !~ /$TmpAttachment->{ContentID}/;
                     push( @NewAttachmentData, \%{$TmpAttachment} );
                 }
                 @AttachmentData = @NewAttachmentData;
@@ -504,10 +504,10 @@ sub Run {
 
             if (
                 my $ArticleID = $Self->{TicketObject}->ArticleCreate(
-                    TicketID       => $Self->{TicketID},
-                    ArticleType    => $Self->{Config}->{ArticleType},
-                    SenderType     => $Self->{Config}->{SenderType},
-                    From           =>
+                    TicketID    => $Self->{TicketID},
+                    ArticleType => $Self->{Config}->{ArticleType},
+                    SenderType  => $Self->{Config}->{SenderType},
+                    From =>
                         "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
                     Subject        => $GetParam{Subject},
                     Body           => $GetParam{Body},

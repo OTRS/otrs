@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.9 2009-04-17 08:36:44 tr Exp $
+# $Id: TemplateGenerator.pm,v 1.10 2009-04-23 13:47:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Signature;
 use Kernel::System::StdResponse;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -359,7 +359,7 @@ sub Response {
 
     # replace place holder stuff
     my $ResponseText = $Self->_Replace(
-        Text     => $Response{Response} || '-',
+        Text => $Response{Response} || '-',
         TicketID => $Param{TicketID},
         Data     => $Param{Data},
         UserID   => $Param{UserID},
@@ -672,7 +672,7 @@ sub _Replace {
     $Param{Text} =~ s/$Tag.+?$End/-/gi;
 
     # get owner data and replace it with <OTRS_OWNER_...
-    $Tag  = $Start . 'OTRS_OWNER_';
+    $Tag = $Start . 'OTRS_OWNER_';
     if ( $Ticket{OwnerID} ) {
         my %Owner = $Self->{UserObject}->GetUserData(
             UserID => $Ticket{OwnerID},
@@ -688,7 +688,7 @@ sub _Replace {
     $Param{Text} =~ s/$Tag.+?$End/-/gi;
 
     # get owner data and replace it with <OTRS_RESPONSIBLE_...
-    $Tag  = $Start . 'OTRS_RESPONSIBLE_';
+    $Tag = $Start . 'OTRS_RESPONSIBLE_';
     if ( $Ticket{ResponsibleID} ) {
         my %Responsible = $Self->{UserObject}->GetUserData(
             UserID => $Ticket{ResponsibleID},
@@ -703,7 +703,7 @@ sub _Replace {
     # cleanup
     $Param{Text} =~ s/$Tag.+?$End/-/gi;
 
-    $Tag  = $Start . 'OTRS_Agent_';
+    $Tag = $Start . 'OTRS_Agent_';
     my $Tag2 = $Start . 'OTRS_CURRENT_';
     my %CurrentUser = $Self->{UserObject}->GetUserData( UserID => $Param{UserID} );
     for ( keys %CurrentUser ) {
@@ -730,7 +730,7 @@ sub _Replace {
     #    }
 
     # ticket data
-    $Tag  = $Start . 'OTRS_TICKET_';
+    $Tag = $Start . 'OTRS_TICKET_';
     for ( keys %Ticket ) {
         if ( defined $Ticket{$_} ) {
             $Param{Text} =~ s/$Tag$_$End/$Ticket{$_}/gi;
@@ -742,7 +742,7 @@ sub _Replace {
 
     # get customer data and replace it with <OTRS_CUSTOMER_DATA_...
     $Tag  = $Start . 'OTRS_CUSTOMER_';
-    $Tag2  = $Start . 'OTRS_CUSTOMER_DATA';
+    $Tag2 = $Start . 'OTRS_CUSTOMER_DATA';
     if ( $Ticket{CustomerUserID} ) {
         my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
             User => $Ticket{CustomerUserID},
@@ -762,7 +762,7 @@ sub _Replace {
     $Param{Text} =~ s/$Tag2.+?$End/-/gi;
 
     # get and prepare realname
-    $Tag  = $Start . 'OTRS_CUSTOMER_REALNAME';
+    $Tag = $Start . 'OTRS_CUSTOMER_REALNAME';
     if ( $Param{Text} =~ /$Tag$End/i ) {
         my $From = '';
         if ( $Ticket{CustomerUserID} ) {
@@ -797,6 +797,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.10 $ $Date: 2009-04-23 13:47:08 $
 
 =cut

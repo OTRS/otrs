@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - print layout for agent interface
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.pm,v 1.60 2009-04-07 09:48:55 martin Exp $
+# $Id: AgentTicketPrint.pm,v 1.61 2009-04-23 13:47:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1223,7 +1223,12 @@ sub _HTMLMask {
             );
 
             # do charset check
-            if ( my $CharsetText = $Self->{LayoutObject}->CheckCharset( %Param, %Article, Action => 'AgentTicketZoom' ) ) {
+            if (
+                my $CharsetText
+                = $Self->{LayoutObject}
+                ->CheckCharset( %Param, %Article, Action => 'AgentTicketZoom' )
+                )
+            {
                 $Param{'Article::TextNote'} = $CharsetText;
             }
         }

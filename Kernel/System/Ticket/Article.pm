@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.215 2009-04-15 13:18:11 sb Exp $
+# $Id: Article.pm,v 1.216 2009-04-23 13:47:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.215 $) [1];
+$VERSION = qw($Revision: 1.216 $) [1];
 
 =head1 NAME
 
@@ -154,9 +154,9 @@ sub ArticleCreate {
         push @AttachmentConvert, $Attach;
 
         # get ascii body
-        $Param{MimeType}    = 'text/plain';
+        $Param{MimeType} = 'text/plain';
         $Param{ContentType} =~ s/html/plain/i;
-        $Param{Body}        = $Self->{HTML2AsciiObject}->ToAscii(
+        $Param{Body} = $Self->{HTML2AsciiObject}->ToAscii(
             String => $Param{Body},
         );
     }
@@ -210,10 +210,10 @@ sub ArticleCreate {
             . 'VALUES '
             . '(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{TicketID},    \$Param{ArticleTypeID}, \$Param{SenderTypeID},
-            \$Param{From},        \$Param{ReplyTo},       \$Param{To},
-            \$Param{Cc},          \$Param{Subject},       \$Param{MessageID},
-            \$Param{InReplyTo},   \$Param{References},    \$Param{Body},
+            \$Param{TicketID},  \$Param{ArticleTypeID}, \$Param{SenderTypeID},
+            \$Param{From},      \$Param{ReplyTo},       \$Param{To},
+            \$Param{Cc},        \$Param{Subject},       \$Param{MessageID},
+            \$Param{InReplyTo}, \$Param{References},    \$Param{Body},
             \$Param{ContentType}, \$Self->{ArticleContentPath}, \$ValidID,
             \$IncomingTime, \$Param{UserID}, \$Param{UserID},
         ],
@@ -2010,7 +2010,7 @@ sub ArticleSend {
     my $MessageID = "<$Time.$Random.$Param{TicketID}.$Param{UserID}\@$FQDN>";
     my $ArticleID = $Self->ArticleCreate(
         %Param,
-        MessageID   => $MessageID,
+        MessageID => $MessageID,
     );
     return if !$ArticleID;
 
@@ -3281,6 +3281,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.215 $ $Date: 2009-04-15 13:18:11 $
+$Revision: 1.216 $ $Date: 2009-04-23 13:47:08 $
 
 =cut

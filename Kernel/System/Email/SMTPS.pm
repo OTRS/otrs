@@ -2,7 +2,7 @@
 # Kernel/System/Email/SMTPS.pm - the global email send module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: SMTPS.pm,v 1.1 2009-04-07 07:58:37 martin Exp $
+# $Id: SMTPS.pm,v 1.2 2009-04-23 13:47:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Net::SMTP::SSL;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -130,7 +130,8 @@ sub Send {
             my $Error = $SMTP->code() . $SMTP->message();
             $Self->{LogObject}->Log(
                 Priority => 'error',
-                Message  => "Can't send to '$To': $Error! Enable Net::SMTP::SSL debug for more info!",
+                Message =>
+                    "Can't send to '$To': $Error! Enable Net::SMTP::SSL debug for more info!",
             );
             $SMTP->quit;
             return;

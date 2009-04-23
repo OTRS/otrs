@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/TicketList.pm - reporting via ticket lists
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketList.pm,v 1.10 2009-04-08 12:32:56 tr Exp $
+# $Id: TicketList.pm,v 1.11 2009-04-23 13:47:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -32,7 +32,10 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for my $Object (qw(DBObject ConfigObject LogObject UserObject TimeObject MainObject EncodeObject)) {
+    for my $Object (
+        qw(DBObject ConfigObject LogObject UserObject TimeObject MainObject EncodeObject)
+        )
+    {
         $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
     $Self->{QueueObject}    = Kernel::System::Queue->new( %{$Self} );
@@ -636,17 +639,17 @@ sub GetStatTable {
                 = $Self->{TicketObject}->TicketAccountedTimeGet( TicketID => $TicketID );
         }
 
-        $Ticket{SolutionTime}                     ||= '';
-        $Ticket{SolutionDiffInMin}                ||= 0;
-        $Ticket{SolutionInMin}                    ||= 0;
-        $Ticket{FirstResponse}                    ||= '';
-        $Ticket{FirstResponseDiffInMin}           ||= 0;
-        $Ticket{FirstResponseInMin}               ||= 0;
-        $Ticket{FirstLock}                        ||= '';
-        $Ticket{SolutionTimeDestinationDate}      ||= '';
-        $Ticket{EscalationDestinationIn}          ||= '';
-        $Ticket{EscalationDestinationDate}        ||= '';
-        $Ticket{EscalationTimeWorkingTime}        ||= 0;
+        $Ticket{SolutionTime}                ||= '';
+        $Ticket{SolutionDiffInMin}           ||= 0;
+        $Ticket{SolutionInMin}               ||= 0;
+        $Ticket{FirstResponse}               ||= '';
+        $Ticket{FirstResponseDiffInMin}      ||= 0;
+        $Ticket{FirstResponseInMin}          ||= 0;
+        $Ticket{FirstLock}                   ||= '';
+        $Ticket{SolutionTimeDestinationDate} ||= '';
+        $Ticket{EscalationDestinationIn}     ||= '';
+        $Ticket{EscalationDestinationDate}   ||= '';
+        $Ticket{EscalationTimeWorkingTime}   ||= 0;
 
         ATTRIBUTE:
         for my $Attribute ( @{$SortedAttributesRef} ) {
@@ -683,41 +686,49 @@ sub _TicketAttributes {
 
     my %TicketAttributes = (
         Number => 'Number',    # only a counter for a better readability
-        TicketNumber   => $Self->{ConfigObject}->Get('Ticket::Hook'),
+        TicketNumber => $Self->{ConfigObject}->Get('Ticket::Hook'),
+
         #TicketID       => 'TicketID',
-        Age            => 'Age',
-        Title          => 'Title',
-        Queue          => 'Queue',
+        Age   => 'Age',
+        Title => 'Title',
+        Queue => 'Queue',
+
         #QueueID        => 'QueueID',
-        State          => 'State',
+        State => 'State',
+
         #StateID        => 'StateID',
-        Priority       => 'Priority',
+        Priority => 'Priority',
+
         #PriorityID     => 'PriorityID',
-        CustomerID     => 'CustomerID',
-        Changed        => 'Changed',
-        Created        => 'Created',
+        CustomerID => 'CustomerID',
+        Changed    => 'Changed',
+        Created    => 'Created',
+
         #CreateTimeUnix => 'CreateTimeUnix',
         CustomerUserID => 'Customer User',
         Lock           => 'lock',
+
         #LockID         => 'LockID',
-        UnlockTimeout  => 'UnlockTimeout',
-        AccountedTime => 'Accounted time',    # the same wording is in AgentTicketPrint.dtl
-        RealTillTimeNotUsed    => 'RealTillTimeNotUsed',
+        UnlockTimeout       => 'UnlockTimeout',
+        AccountedTime       => 'Accounted time',       # the same wording is in AgentTicketPrint.dtl
+        RealTillTimeNotUsed => 'RealTillTimeNotUsed',
+
         #GroupID        => 'GroupID',
-        StateType              => 'StateType',
-        UntilTime              => 'UntilTime',
-        Closed                 => 'Close Time',
-        FirstLock              => 'First Lock',
+        StateType => 'StateType',
+        UntilTime => 'UntilTime',
+        Closed    => 'Close Time',
+        FirstLock => 'First Lock',
 
         EscalationResponseTime => 'EscalationResponseTime',
         EscalationUpdateTime   => 'EscalationUpdateTime',
         EscalationSolutionTime => 'EscalationSolutionTime',
 
-        EscalationDestinationIn     => 'EscalationDestinationIn',
+        EscalationDestinationIn => 'EscalationDestinationIn',
+
         # EscalationDestinationTime => 'EscalationDestinationTime',
-        EscalationDestinationDate   => 'EscalationDestinationDate',
-        EscalationTimeWorkingTime   => 'EscalationTimeWorkingTime',
-        EscalationTime              => 'EscalationTime',
+        EscalationDestinationDate => 'EscalationDestinationDate',
+        EscalationTimeWorkingTime => 'EscalationTimeWorkingTime',
+        EscalationTime            => 'EscalationTime',
 
         FirstResponse                    => 'FirstResponse',
         FirstResponseInMin               => 'FirstResponseInMin',
@@ -729,22 +740,22 @@ sub _TicketAttributes {
         FirstResponseTimeDestinationDate => 'FirstResponseTimeDestinationDate',
         FirstResponseTime                => 'FirstResponseTime',
 
-        UpdateTimeEscalation             => 'UpdateTimeEscalation',
-        UpdateTimeNotification           => 'UpdateTimeNotification',
-        UpdateTimeDestinationTime        => 'UpdateTimeDestinationTime',
-        UpdateTimeDestinationDate        => 'UpdateTimeDestinationDate',
-        UpdateTimeWorkingTime            => 'UpdateTimeWorkingTime',
-        UpdateTime                       => 'UpdateTime',
+        UpdateTimeEscalation      => 'UpdateTimeEscalation',
+        UpdateTimeNotification    => 'UpdateTimeNotification',
+        UpdateTimeDestinationTime => 'UpdateTimeDestinationTime',
+        UpdateTimeDestinationDate => 'UpdateTimeDestinationDate',
+        UpdateTimeWorkingTime     => 'UpdateTimeWorkingTime',
+        UpdateTime                => 'UpdateTime',
 
-        SolutionTime                     => 'SolutionTime',
-        SolutionInMin                    => 'SolutionInMin',
-        SolutionDiffInMin                => 'SolutionDiffInMin',
-        SolutionTimeWorkingTime          => 'SolutionTimeWorkingTime',
-        SolutionTimeEscalation           => 'SolutionTimeEscalation',
-        SolutionTimeNotification         => 'SolutionTimeNotification',
-        SolutionTimeDestinationTime      => 'SolutionTimeDestinationTime',
-        SolutionTimeDestinationDate      => 'SolutionTimeDestinationDate',
-        SolutionTimeWorkingTime          => 'SolutionTimeWorkingTime',
+        SolutionTime                => 'SolutionTime',
+        SolutionInMin               => 'SolutionInMin',
+        SolutionDiffInMin           => 'SolutionDiffInMin',
+        SolutionTimeWorkingTime     => 'SolutionTimeWorkingTime',
+        SolutionTimeEscalation      => 'SolutionTimeEscalation',
+        SolutionTimeNotification    => 'SolutionTimeNotification',
+        SolutionTimeDestinationTime => 'SolutionTimeDestinationTime',
+        SolutionTimeDestinationDate => 'SolutionTimeDestinationDate',
+        SolutionTimeWorkingTime     => 'SolutionTimeWorkingTime',
     );
 
     if ( $Self->{ConfigObject}->Get('Ticket::Service') ) {
@@ -793,7 +804,7 @@ sub _TicketAttributes {
 
     # get free time fields
     FREETIME:
-    for my $FreeTime (1 .. 6) {
+    for my $FreeTime ( 1 .. 6 ) {
         my $TicketFreeTimeKey = $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $FreeTime );
         $TicketAttributes{ 'TicketFreeTime' . $FreeTime } = $TicketFreeTimeKey;
     }
@@ -880,7 +891,7 @@ sub _SortedAttributes {
 
 sub GetHeaderLine {
     my ( $Self, %Param ) = @_;
-    my %SelectedAttributes  = map { $_ => 1 } @{ $Param{XValue}{SelectedValues} };
+    my %SelectedAttributes = map { $_ => 1 } @{ $Param{XValue}{SelectedValues} };
 
     my $TicketAttributes    = $Self->_TicketAttributes();
     my @HeaderLine          = ();
@@ -1060,7 +1071,8 @@ sub _IndividualResultOrder {
     else {
         $Self->{LogObject}->Log(
             Priority => 'error',
-            Message  => "There is no possibility to order the stats by $Param{OrderBy}! Sort it alpha numerical",
+            Message =>
+                "There is no possibility to order the stats by $Param{OrderBy}! Sort it alpha numerical",
         );
         @Sorted = sort { $a->[$Counter] cmp $b->[$Counter] } @Unsorted;
     }
@@ -1092,7 +1104,7 @@ sub ExportWrapper {
 
             if ( $ElementName eq 'QueueIDs' || $ElementName eq 'CreatedQueueIDs' ) {
                 ID:
-                for my $ID ( @{ $Values } ) {
+                for my $ID ( @{$Values} ) {
                     next ID if !$ID;
                     $ID->{Content} = $Self->{QueueObject}->QueueLookup( QueueID => $ID->{Content} );
                 }
@@ -1100,7 +1112,7 @@ sub ExportWrapper {
             elsif ( $ElementName eq 'StateIDs' || $ElementName eq 'CreatedStateIDs' ) {
                 my %StateList = $Self->{StateObject}->StateList( UserID => 1 );
                 ID:
-                for my $ID ( @{ $Values } ) {
+                for my $ID ( @{$Values} ) {
                     next ID if !$ID;
                     $ID->{Content} = $StateList{ $ID->{Content} };
                 }
@@ -1108,14 +1120,19 @@ sub ExportWrapper {
             elsif ( $ElementName eq 'PriorityIDs' || $ElementName eq 'CreatedPriorityIDs' ) {
                 my %PriorityList = $Self->{PriorityObject}->PriorityList( UserID => 1 );
                 ID:
-                for my $ID ( @{ $Values } ) {
+                for my $ID ( @{$Values} ) {
                     next ID if !$ID;
                     $ID->{Content} = $PriorityList{ $ID->{Content} };
                 }
             }
-            elsif ( $ElementName eq 'OwnerIDs' || $ElementName eq 'CreatedUserIDs' || $ElementName eq 'ResponsibleIDs' ) {
+            elsif (
+                $ElementName    eq 'OwnerIDs'
+                || $ElementName eq 'CreatedUserIDs'
+                || $ElementName eq 'ResponsibleIDs'
+                )
+            {
                 ID:
-                for my $ID ( @{ $Values } ) {
+                for my $ID ( @{$Values} ) {
                     next ID if !$ID;
                     $ID->{Content} = $Self->{UserObject}->UserLookup( UserID => $ID->{Content} );
                 }
@@ -1140,7 +1157,7 @@ sub ImportWrapper {
 
             if ( $ElementName eq 'QueueIDs' || $ElementName eq 'CreatedQueueIDs' ) {
                 ID:
-                for my $ID ( @{ $Values } ) {
+                for my $ID ( @{$Values} ) {
                     next ID if !$ID;
                     if ( $Self->{QueueObject}->QueueLookup( Queue => $ID->{Content} ) ) {
                         $ID->{Content}
@@ -1157,7 +1174,7 @@ sub ImportWrapper {
             }
             elsif ( $ElementName eq 'StateIDs' || $ElementName eq 'CreatedStateIDs' ) {
                 ID:
-                for my $ID ( @{ $Values } ) {
+                for my $ID ( @{$Values} ) {
                     next ID if !$ID;
 
                     my %State = $Self->{StateObject}->StateGet(
@@ -1183,7 +1200,7 @@ sub ImportWrapper {
                     $PriorityIDs{ $PriorityList{$Key} } = $Key;
                 }
                 ID:
-                for my $ID ( @{ $Values } ) {
+                for my $ID ( @{$Values} ) {
                     next ID if !$ID;
 
                     if ( $PriorityIDs{ $ID->{Content} } ) {
@@ -1205,7 +1222,7 @@ sub ImportWrapper {
                 )
             {
                 ID:
-                for my $ID ( @{ $Values } ) {
+                for my $ID ( @{$Values} ) {
                     next ID if !$ID;
 
                     if ( $Self->{UserObject}->UserLookup( UserLogin => $ID->{Content} ) ) {
@@ -1222,6 +1239,7 @@ sub ImportWrapper {
                     }
                 }
             }
+
             # Locks and statustype don't have to wrap because they are never different
         }
     }

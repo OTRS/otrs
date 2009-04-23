@@ -3,7 +3,7 @@
 # xml2docbook.pl - config xml to docbook
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: xml2docbook.pl,v 1.20 2009-04-08 14:08:56 ho Exp $
+# $Id: xml2docbook.pl,v 1.21 2009-04-23 13:47:27 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -33,7 +33,7 @@ use warnings;
 use Getopt::Std;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 use Kernel::Config;
 use Kernel::System::Log;
@@ -51,7 +51,7 @@ $CommonObject{LogObject}    = Kernel::System::Log->new(
 );
 $CommonObject{MainObject}      = Kernel::System::Main->new(%CommonObject);
 $CommonObject{TimeObject}      = Kernel::System::Time->new(%CommonObject);
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
+$CommonObject{EncodeObject}    = Kernel::System::Encode->new(%CommonObject);
 $CommonObject{DBObject}        = Kernel::System::DB->new(%CommonObject);
 $CommonObject{SysConfigObject} = Kernel::System::Config->new(%CommonObject);
 

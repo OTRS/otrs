@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewPreview.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewPreview.pm,v 1.13 2009-04-15 14:14:59 sb Exp $
+# $Id: TicketOverviewPreview.pm,v 1.14 2009-04-23 13:47:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -280,7 +280,7 @@ sub _Show {
         # do charset check
         my $CharsetText = $Self->{LayoutObject}->CheckCharset(
             %Article,
-            Action         => 'AgentTicketZoom',
+            Action => 'AgentTicketZoom',
         );
         if ($CharsetText) {
             $Article{BodyNote} = $CharsetText;

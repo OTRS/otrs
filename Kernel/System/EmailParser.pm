@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.85 2009-04-17 08:36:44 tr Exp $
+# $Id: EmailParser.pm,v 1.86 2009-04-23 13:47:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use MIME::Words qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.85 $) [1];
+$VERSION = qw($Revision: 1.86 $) [1];
 
 =head1 NAME
 
@@ -82,7 +82,7 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
-    $Self->{HTML2AsciiObject} = Kernel::System::HTML2Ascii->new( %Param );
+    $Self->{HTML2AsciiObject} = Kernel::System::HTML2Ascii->new(%Param);
 
     # check needed objects
     if ( !$Param{Email} && !$Param{Entity} ) {
@@ -849,6 +849,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.85 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.86 $ $Date: 2009-04-23 13:47:08 $
 
 =cut

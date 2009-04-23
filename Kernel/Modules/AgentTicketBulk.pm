@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBulk.pm - to do bulk actions on tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBulk.pm,v 1.31 2009-04-17 13:25:38 martin Exp $
+# $Id: AgentTicketBulk.pm,v 1.32 2009-04-23 13:47:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Priority;
 use Kernel::System::LinkObject;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -158,7 +158,7 @@ sub Run {
             # set priority
             my $PriorityID = $Self->{ParamObject}->GetParam( Param => 'PriorityID' ) || '';
             my $Priority   = $Self->{ParamObject}->GetParam( Param => 'Priority' )   || '';
-            if ( $Self->{Config}->{Priority} && ($PriorityID || $Priority ) ) {
+            if ( $Self->{Config}->{Priority} && ( $PriorityID || $Priority ) ) {
                 $Self->{TicketObject}->PrioritySet(
                     TicketID   => $TicketID,
                     UserID     => $Self->{UserID},
@@ -192,16 +192,16 @@ sub Run {
                     $MimeType = 'text/html';
                 }
                 $ArticleID = $Self->{TicketObject}->ArticleCreate(
-                    TicketID       => $TicketID,
-                    ArticleTypeID  => $ArticleTypeID,
-                    ArticleType    => $ArticleType,
-                    SenderType     => 'agent',
-                    From           => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
-                    Subject        => $Subject,
-                    Body           => $Body,
-                    MimeType       => $MimeType,
-                    Charset        => $Self->{LayoutObject}->{UserCharset},
-                    UserID         => $Self->{UserID},
+                    TicketID      => $TicketID,
+                    ArticleTypeID => $ArticleTypeID,
+                    ArticleType   => $ArticleType,
+                    SenderType    => 'agent',
+                    From     => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
+                    Subject  => $Subject,
+                    Body     => $Body,
+                    MimeType => $MimeType,
+                    Charset  => $Self->{LayoutObject}->{UserCharset},
+                    UserID   => $Self->{UserID},
                     HistoryType    => 'AddNote',
                     HistoryComment => '%%Bulk',
                 );
@@ -377,8 +377,8 @@ sub _Mask {
         }
     }
     $Param{NoteStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data => \%NoteTypes,
-        Name => 'ArticleTypeID',
+        Data     => \%NoteTypes,
+        Name     => 'ArticleTypeID',
         Selected => $Self->{Config}->{ArticleTypeDefault},
     );
 
@@ -517,8 +517,8 @@ sub _Mask {
     if ( $Self->{Config}->{Priority} ) {
         my %Priority;
         my %PriorityList = $Self->{PriorityObject}->PriorityList(
-            Valid    => 1,
-            UserID   => $Self->{UserID},
+            Valid  => 1,
+            UserID => $Self->{UserID},
         );
         if ( !$Self->{Config}->{PriorityDefault} ) {
             $PriorityList{''} = '-';

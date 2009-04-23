@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleSearchIndex/StaticDB.pm - article search index backend static
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: StaticDB.pm,v 1.9 2009-04-09 08:19:51 sb Exp $
+# $Id: StaticDB.pm,v 1.10 2009-04-23 13:47:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub ArticleIndexBuild {
     my ( $Self, %Param ) = @_;
@@ -109,11 +109,14 @@ sub _ArticleIndexQuerySQL {
     # use also article table if required
     my $SQL    = '';
     my $SQLExt = '';
-    for ( qw(
+    for (
+        qw(
         From To Cc Subject Body
         ArticleCreateTimeOlderMinutes ArticleCreateTimeNewerMinutes
         ArticleCreateTimeOlderDate ArticleCreateTimeNewerDate
-    ) ) {
+        )
+        )
+    {
         if ( $Param{Data}->{$_} ) {
             $SQL    = ', article_search art ';
             $SQLExt = ' AND st.id = art.ticket_id';

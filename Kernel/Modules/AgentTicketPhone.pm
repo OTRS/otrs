@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.93 2009-04-15 13:58:08 sb Exp $
+# $Id: AgentTicketPhone.pm,v 1.94 2009-04-23 13:47:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.93 $) [1];
+$VERSION = qw($Revision: 1.94 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -206,8 +206,8 @@ sub Run {
                     $Article{BodyHTMLContentType} = $AttachmentHTML{ContentType} || 'text/html';
 
                     # display inline images if exists
-                    my %Attachments    = %{ $ArticleTmp->{Atms} };
-                    my $SessionID = '';
+                    my %Attachments = %{ $ArticleTmp->{Atms} };
+                    my $SessionID   = '';
                     if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
                         $SessionID = "&" . $Self->{SessionName} . "=" . $Self->{SessionID};
                     }
@@ -259,7 +259,8 @@ sub Run {
                 if ( !$Article{BodyHTML} ) {
 
                     # check if original content isn't text/plain or text/html, don't use it
-                    if ( !$Article{ContentType} || $Article{ContentType} !~ /text\/(plain|html)/i ) {
+                    if ( !$Article{ContentType} || $Article{ContentType} !~ /text\/(plain|html)/i )
+                    {
                         $Article{Body}        = "-> no quotable message <-";
                         $Article{ContentType} = 'text/plain';
                     }
@@ -305,7 +306,7 @@ sub Run {
                 if ( $Article{BodyHTML} ) {
                     next ARTICLEINDEX if
                         $Attachment{ContentID}
-                        && $Attachment{ContentID} =~ /^<?inline/;
+                            && $Attachment{ContentID} =~ /^<?inline/;
                     next ARTICLEINDEX if $Attachment{Filename} eq 'file-2';
                 }
 
@@ -422,10 +423,10 @@ sub Run {
         # get and format default subject and body
         my $Subject = $Article{Subject} ||
             $Self->{LayoutObject}->Output(
-                Template => $Self->{Config}->{Subject} || '',
+            Template => $Self->{Config}->{Subject} || '',
             );
         my $Body = $Article{Body} || '';
-        if ( $Body ) {
+        if ($Body) {
             my @ArticleBody = $Self->{LayoutObject}->ToFromRichText(
                 Content     => $Body,
                 ContentType => $Article{ContentType},
@@ -927,8 +928,8 @@ sub Run {
             REMOVEINLINE:
             for my $TmpAttachment (@AttachmentData) {
                 next REMOVEINLINE if $TmpAttachment->{ContentID}
-                    && $TmpAttachment->{ContentID} =~ /^inline/
-                    && $GetParam{Body} !~ /$TmpAttachment->{ContentID}/;
+                        && $TmpAttachment->{ContentID} =~ /^inline/
+                        && $GetParam{Body} !~ /$TmpAttachment->{ContentID}/;
                 push( @NewAttachmentData, \%{$TmpAttachment} );
             }
             @AttachmentData = @NewAttachmentData;

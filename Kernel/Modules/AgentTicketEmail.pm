@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.81 2009-04-15 12:54:55 sb Exp $
+# $Id: AgentTicketEmail.pm,v 1.82 2009-04-23 13:47:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.81 $) [1];
+$VERSION = qw($Revision: 1.82 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -777,8 +777,8 @@ sub Run {
             REMOVEINLINE:
             for my $TmpAttachment (@Attachments) {
                 next REMOVEINLINE if $TmpAttachment->{ContentID}
-                    && $TmpAttachment->{ContentID} =~ /^inline/
-                    && $GetParam{Body} !~ /$TmpAttachment->{ContentID}/;
+                        && $TmpAttachment->{ContentID} =~ /^inline/
+                        && $GetParam{Body} !~ /$TmpAttachment->{ContentID}/;
                 push( @NewAttachments, \%{$TmpAttachment} );
             }
             @Attachments = @NewAttachments;
@@ -1266,7 +1266,7 @@ sub _GetSignature {
 
     # prepare signature
     my $TemplateGenerator = Kernel::System::TemplateGenerator->new( %{$Self} );
-    my $Signature = $TemplateGenerator->Signature(
+    my $Signature         = $TemplateGenerator->Signature(
         QueueID => $Param{QueueID},
         Data    => \%Param,
         UserID  => $Self->{UserID},

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.66 2009-04-20 06:48:51 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.67 2009-04-23 13:47:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -407,8 +407,8 @@ sub Run {
             REMOVEINLINE:
             for my $TmpAttachment (@AttachmentData) {
                 next REMOVEINLINE if $TmpAttachment->{ContentID}
-                    && $TmpAttachment->{ContentID} =~ /^inline/
-                    && $GetParam{Body} !~ /$TmpAttachment->{ContentID}/;
+                        && $TmpAttachment->{ContentID} =~ /^inline/
+                        && $GetParam{Body} !~ /$TmpAttachment->{ContentID}/;
                 push( @NewAttachmentData, \%{$TmpAttachment} );
             }
             @AttachmentData = @NewAttachmentData;
@@ -659,8 +659,8 @@ sub Run {
                 $Data{BodyHTMLContentType} = $AttachmentHTML{ContentType} || 'text/html';
 
                 # display inline images if exists
-                my %Attachments    = %{ $ArticleTmp->{Atms} };
-                my $SessionID = '';
+                my %Attachments = %{ $ArticleTmp->{Atms} };
+                my $SessionID   = '';
                 if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
                     $SessionID = "&" . $Self->{SessionName} . "=" . $Self->{SessionID};
                 }

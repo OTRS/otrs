@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketAttachment.pm - to get the attachments
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketAttachment.pm,v 1.11 2009-04-15 22:54:27 sb Exp $
+# $Id: CustomerTicketAttachment.pm,v 1.12 2009-04-23 13:47:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -100,7 +100,7 @@ sub Run {
         # regular output
         return $Self->{LayoutObject}->Attachment(%Data) if
             !$Self->{Subaction}
-            || $Self->{Subaction} ne 'inline';
+                || $Self->{Subaction} ne 'inline';
 
         # non-html attachment
         return $Self->{LayoutObject}->Attachment(%Data) if

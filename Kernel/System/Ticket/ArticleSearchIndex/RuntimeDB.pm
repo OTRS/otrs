@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleSearchIndex/RuntimeDB.pm - article search index backend runtime
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: RuntimeDB.pm,v 1.6 2009-04-09 08:19:51 sb Exp $
+# $Id: RuntimeDB.pm,v 1.7 2009-04-23 13:47:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub ArticleIndexBuild {
     my ( $Self, %Param ) = @_;
@@ -59,11 +59,14 @@ sub _ArticleIndexQuerySQL {
     # use also article table if required
     my $SQL    = '';
     my $SQLExt = '';
-    for ( qw(
+    for (
+        qw(
         From To Cc Subject Body
         ArticleCreateTimeOlderMinutes ArticleCreateTimeNewerMinutes
         ArticleCreateTimeOlderDate ArticleCreateTimeNewerDate
-    ) ) {
+        )
+        )
+    {
 
         if ( $Param{Data}->{$_} ) {
             $SQL    = ', article art ';

@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.101 2009-04-20 08:16:21 martin Exp $
+# $Id: Package.pm,v 1.102 2009-04-23 13:47:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::XML;
 use Kernel::System::Config;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.101 $) [1];
+$VERSION = qw($Revision: 1.102 $) [1];
 
 =head1 NAME
 
@@ -1130,15 +1130,15 @@ sub DeployCheck {
             }
             elsif ( -e $LocalFile ) {
 
-# md5 alternative for file deploy check (may will have better performance?)
-#                my $MD5File = $Self->{MainObject}->MD5sum(
-#                    Filename => $LocalFile,
-#                );
-#                if ($MD5File) {
-#                    my $MD5Package = $Self->{MainObject}->MD5sum(
-#                        String => \$File->{Content},
-#                    );
-#                    if ( $MD5File ne $MD5Package ) {
+                # md5 alternative for file deploy check (may will have better performance?)
+                #                my $MD5File = $Self->{MainObject}->MD5sum(
+                #                    Filename => $LocalFile,
+                #                );
+                #                if ($MD5File) {
+                #                    my $MD5Package = $Self->{MainObject}->MD5sum(
+                #                        String => \$File->{Content},
+                #                    );
+                #                    if ( $MD5File ne $MD5Package ) {
                 my $Content = $Self->{MainObject}->FileRead(
                     Location => $Self->{Home} . '/' . $File->{Location},
                     Mode     => 'binmode',
@@ -2361,7 +2361,7 @@ sub _FileSystemCheck {
     # create test files in following directories
     for (qw(/bin/ /Kernel/ /Kernel/System/ /Kernel/Output/ /Kernel/Output/HTML/ /Kernel/Modules/)) {
         my $Location = "$Home/$_/check_permissons.$$";
-        my $Content = 'test';
+        my $Content  = 'test';
 
         # create test file
         my $Write = $Self->{MainObject}->FileWrite(
@@ -2404,6 +2404,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.101 $ $Date: 2009-04-20 08:16:21 $
+$Revision: 1.102 $ $Date: 2009-04-23 13:47:08 $
 
 =cut

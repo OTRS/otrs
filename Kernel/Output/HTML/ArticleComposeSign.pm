@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleComposeSign.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleComposeSign.pm,v 1.15 2009-04-07 09:24:16 martin Exp $
+# $Id: ArticleComposeSign.pm,v 1.16 2009-04-23 13:47:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Crypt;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -86,11 +86,15 @@ sub Run {
     $KeyList{''} = '-none-';
 
     # add singing options
-    if ( !defined $Param{SignKeyID} || ( $Param{ExpandCustomerName} && $Param{ExpandCustomerName} == 3 ) ) {
+    if (
+        !defined $Param{SignKeyID}
+        || ( $Param{ExpandCustomerName} && $Param{ExpandCustomerName} == 3 )
+        )
+    {
 
         # get default signing key
         if ( $Param{QueueID} ) {
-            my $QueueObject = Kernel::System::Queue->new( %{ $Self } );
+            my $QueueObject = Kernel::System::Queue->new( %{$Self} );
             my %Queue = $QueueObject->QueueGet( ID => $Param{QueueID} );
             $Param{SignKeyID} = $Queue{DefaultSignKey} || '';
         }

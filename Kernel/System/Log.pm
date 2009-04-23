@@ -2,7 +2,7 @@
 # Kernel/System/Log.pm - log wapper
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Log.pm,v 1.59 2009-04-20 08:27:18 martin Exp $
+# $Id: Log.pm,v 1.60 2009-04-23 13:47:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Encode;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 =head1 NAME
 
@@ -181,7 +181,7 @@ sub Log {
     }
 
     # remember to info and notice messages
-    elsif ( lc $Priority eq 'info' ||  lc $Priority eq 'notice' ) {
+    elsif ( lc $Priority eq 'info' || lc $Priority eq 'notice' ) {
         $Self->{ lc($Priority) }->{Message} = $Message;
     }
 
@@ -310,6 +310,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.59 $ $Date: 2009-04-20 08:27:18 $
+$Revision: 1.60 $ $Date: 2009-04-23 13:47:08 $
 
 =cut

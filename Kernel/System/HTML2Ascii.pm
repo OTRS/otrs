@@ -2,7 +2,7 @@
 # Kernel/System/HTML2Ascii.pm - the global html <-> ascii tools
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: HTML2Ascii.pm,v 1.4 2009-04-17 08:36:44 tr Exp $
+# $Id: HTML2Ascii.pm,v 1.5 2009-04-23 13:47:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -400,7 +400,7 @@ sub ToAscii {
                 diams    => chr(9830),
                 )
             : ()
-        )
+            )
     );
 
     # encode html entities like "&#8211;"
@@ -498,6 +498,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.5 $ $Date: 2009-04-23 13:47:08 $
 
 =cut

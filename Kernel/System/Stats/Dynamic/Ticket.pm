@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/Ticket.pm - all advice functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.29 2009-04-08 12:32:55 tr Exp $
+# $Id: Ticket.pm,v 1.30 2009-04-23 13:47:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -31,7 +31,10 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for my $Object (qw(DBObject ConfigObject LogObject UserObject TimeObject MainObject EncodeObject)) {
+    for my $Object (
+        qw(DBObject ConfigObject LogObject UserObject TimeObject MainObject EncodeObject)
+        )
+    {
         $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
     $Self->{QueueObject}    = Kernel::System::Queue->new( %{$Self} );
@@ -533,7 +536,7 @@ sub ExportWrapper {
 
             if ( $ElementName eq 'QueueIDs' || $ElementName eq 'CreatedQueueIDs' ) {
                 ID:
-                for my $ID ( @{ $Values } ) {
+                for my $ID ( @{$Values} ) {
                     next ID if !$ID;
                     $ID->{Content} = $Self->{QueueObject}->QueueLookup( QueueID => $ID->{Content} );
                 }
@@ -541,7 +544,7 @@ sub ExportWrapper {
             elsif ( $ElementName eq 'StateIDs' || $ElementName eq 'CreatedStateIDs' ) {
                 my %StateList = $Self->{StateObject}->StateList( UserID => 1 );
                 ID:
-                for my $ID ( @{ $Values } ) {
+                for my $ID ( @{$Values} ) {
                     next ID if !$ID;
                     $ID->{Content} = $StateList{ $ID->{Content} };
                 }
@@ -549,14 +552,19 @@ sub ExportWrapper {
             elsif ( $ElementName eq 'PriorityIDs' || $ElementName eq 'CreatedPriorityIDs' ) {
                 my %PriorityList = $Self->{PriorityObject}->PriorityList( UserID => 1 );
                 ID:
-                for my $ID ( @{ $Values } ) {
+                for my $ID ( @{$Values} ) {
                     next ID if !$ID;
                     $ID->{Content} = $PriorityList{ $ID->{Content} };
                 }
             }
-            elsif ( $ElementName eq 'OwnerIDs' || $ElementName eq 'CreatedUserIDs' || $ElementName eq 'ResponsibleIDs' ) {
+            elsif (
+                $ElementName    eq 'OwnerIDs'
+                || $ElementName eq 'CreatedUserIDs'
+                || $ElementName eq 'ResponsibleIDs'
+                )
+            {
                 ID:
-                for my $ID ( @{ $Values } ) {
+                for my $ID ( @{$Values} ) {
                     next ID if !$ID;
                     $ID->{Content} = $Self->{UserObject}->UserLookup( UserID => $ID->{Content} );
                 }
@@ -581,7 +589,7 @@ sub ImportWrapper {
 
             if ( $ElementName eq 'QueueIDs' || $ElementName eq 'CreatedQueueIDs' ) {
                 ID:
-                for my $ID ( @{ $Values } ) {
+                for my $ID ( @{$Values} ) {
                     next ID if !$ID;
                     if ( $Self->{QueueObject}->QueueLookup( Queue => $ID->{Content} ) ) {
                         $ID->{Content}
@@ -598,7 +606,7 @@ sub ImportWrapper {
             }
             elsif ( $ElementName eq 'StateIDs' || $ElementName eq 'CreatedStateIDs' ) {
                 ID:
-                for my $ID ( @{ $Values } ) {
+                for my $ID ( @{$Values} ) {
                     next ID if !$ID;
 
                     my %State = $Self->{StateObject}->StateGet(
@@ -624,7 +632,7 @@ sub ImportWrapper {
                     $PriorityIDs{ $PriorityList{$Key} } = $Key;
                 }
                 ID:
-                for my $ID ( @{ $Values } ) {
+                for my $ID ( @{$Values} ) {
                     next ID if !$ID;
 
                     if ( $PriorityIDs{ $ID->{Content} } ) {
@@ -646,7 +654,7 @@ sub ImportWrapper {
                 )
             {
                 ID:
-                for my $ID ( @{ $Values } ) {
+                for my $ID ( @{$Values} ) {
                     next ID if !$ID;
 
                     if ( $Self->{UserObject}->UserLookup( UserLogin => $ID->{Content} ) ) {
@@ -663,6 +671,7 @@ sub ImportWrapper {
                     }
                 }
             }
+
             # Locks and statustype don't have to wrap because they are never different
         }
     }

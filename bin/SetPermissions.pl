@@ -3,7 +3,7 @@
 # SetPermissions.pl - to set the otrs permissions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: SetPermissions.pl,v 1.3 2009-04-20 09:04:53 martin Exp $
+# $Id: SetPermissions.pl,v 1.4 2009-04-23 13:47:27 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 print "bin/SetPermissions.pl <$VERSION> - set OTRS file permissions\n";
 print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
@@ -59,8 +59,8 @@ GetOptions(
     'admin-group=s'        => \$AdminGroup
 );
 
-if ( $Version ) {
-    exit( 0 );
+if ($Version) {
+    exit(0);
 }
 if ( $Help || $#ARGV < 0 ) {
     print <<EOF;
@@ -97,12 +97,13 @@ if ( !$NotRoot ) {
 # Check that the groups exist
 my ( $WebGroupId, $OtrsGroupId, $AdminGroupId );
 if ( !$NotRoot ) {
-    ( $WebGroupId, $OtrsGroupId, $AdminGroupId ) = getGroupIDs( $WebGroup, $OtrsGroup, $AdminGroup );
+    ( $WebGroupId, $OtrsGroupId, $AdminGroupId )
+        = getGroupIDs( $WebGroup, $OtrsGroup, $AdminGroup );
 }
 
 # set permissions
 print "Setting permissions on $DestDir\n";
-if ( $Secure ) {
+if ($Secure) {
 
     # In secure mode, make files read-only by default
     find( \&makeReadOnly, $DestDir );
@@ -131,8 +132,8 @@ my @Dirs = (
     "$DestDir/var/stats",
     "$DestDir/var/sessions"
 );
-for my $Dir ( @Dirs ) {
-    if ( ! -e $Dir ) {
+for my $Dir (@Dirs) {
+    if ( !-e $Dir ) {
         mkdir $Dir;
     }
 }
@@ -143,7 +144,7 @@ my @EmptyFiles = (
     "$DestDir/var/log/TicketCounter.log",
 );
 for my $File (@EmptyFiles) {
-    open ( my $Fh, '>>', $File );
+    open( my $Fh, '>>', $File );
     print $Fh '';
     close $Fh;
 }
@@ -161,7 +162,7 @@ if ( !$Secure ) {
     makeWritable();
 }
 
-exit( 0 );
+exit(0);
 
 sub makeReadOnly {
     my $File = $_;
@@ -188,7 +189,7 @@ sub makeWritable {
     else {
         $Mode = 0664;
     }
-    if ( $NotRoot ) {
+    if ($NotRoot) {
         $Mode |= 2;
         safeChmod( $Mode, $File );
     }
@@ -208,7 +209,7 @@ sub makeWritableSetGid {
     else {
         $Mode = 0664;
     }
-    if ( $NotRoot ) {
+    if ($NotRoot) {
         $Mode |= 2;
         safeChmod( $Mode, $File );
     }
@@ -220,7 +221,7 @@ sub makeWritableSetGid {
 
 sub makeExecutable {
     my $File = $_;
-    my $Mode = (lstat($File))[2];
+    my $Mode = ( lstat($File) )[2];
     if ( defined $Mode ) {
         $Mode |= 0111;
         safeChmod( $Mode, $File );
@@ -230,11 +231,11 @@ sub makeExecutable {
 sub getUserIDs {
     my @Ids;
     my @args = @_;
-    for my $User ( @args ) {
+    for my $User (@args) {
         my $Id = getpwnam $User;
         if ( !defined $Id ) {
             print "User \"$User\" does not exist!\n";
-            exit( 1 );
+            exit(1);
         }
         push @Ids, $Id;
     }
@@ -243,11 +244,11 @@ sub getUserIDs {
 
 sub getGroupIDs {
     my @Ids;
-    for my $Group ( @_ ) {
+    for my $Group (@_) {
         my $Id = getgrnam $Group;
         if ( !defined $Id ) {
             print "Group \"$Group\" does not exist!\n";
-            exit( 1 );
+            exit(1);
         }
         push @Ids, $Id;
     }
@@ -257,13 +258,13 @@ sub getGroupIDs {
 sub safeChown {
     my ( $User, $Group, $File ) = @_;
     if ( !chown( $User, $Group, $File ) ) {
-        die( "Error in chown $User $Group $File: $!\n" );
+        die("Error in chown $User $Group $File: $!\n");
     }
 }
 
 sub safeChmod {
     my ( $Mode, $File ) = @_;
     if ( !chmod( $Mode, $File ) ) {
-        die( "Error in chmod $Mode $File: $!\n" );
+        die("Error in chmod $Mode $File: $!\n");
     }
 }

@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.61 2009-04-17 08:36:44 tr Exp $
+# $Id: Email.pm,v 1.62 2009-04-23 13:47:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Crypt;
 use Kernel::System::HTML2Ascii;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 =head1 NAME
 
@@ -107,7 +107,7 @@ sub new {
     # create backend object
     $Self->{Backend} = $GenericModule->new(%Param);
 
-    $Self->{HTML2AsciiObject} = Kernel::System::HTML2Ascii->new( %Param );
+    $Self->{HTML2AsciiObject} = Kernel::System::HTML2Ascii->new(%Param);
 
     return $Self;
 }
@@ -265,7 +265,7 @@ sub Send {
             Filename    => '',
         };
         if ( !$Param{Attachment} ) {
-            @{ $Param{Attachment} } = ( $Attach );
+            @{ $Param{Attachment} } = ($Attach);
         }
         else {
             @{ $Param{Attachment} } = ( $Attach, @{ $Param{Attachment} } );
@@ -343,8 +343,8 @@ sub Send {
 
     # add attachments to email
     if ( $Param{Attachment} ) {
-        my $Count = 0;
-        my $PartType = '';
+        my $Count          = 0;
+        my $PartType       = '';
         my @NewAttachments = ();
         ATTACHMENTS:
         for my $Upload ( @{ $Param{Attachment} } ) {
@@ -355,7 +355,7 @@ sub Send {
                 if ($HTMLEmail) {
                     $Count++;
                     if ( $Count == 1 ) {
-                        $Entity->make_multipart( 'alternative;' );
+                        $Entity->make_multipart('alternative;');
                         $PartType = 'alternative';
                     }
                     else {
@@ -363,15 +363,16 @@ sub Send {
                         # don't attach duplicate html attachment (aka file-2)
                         next ATTACHMENTS if
                             $Upload->{Filename} eq 'file-2'
-                            && $Upload->{ContentType} =~ /html/i
-                            && $Upload->{Content} eq $Param{HTMLBody};
+                                && $Upload->{ContentType} =~ /html/i
+                                && $Upload->{Content} eq $Param{HTMLBody};
 
                         # skip, but remember all attachments except inline images
                         if (
                             !defined $Upload->{ContentID}
                             || $Upload->{ContentID} !~ /^inline/
-                        ) {
-                            push ( @NewAttachments, \%{ $Upload } );
+                            )
+                        {
+                            push( @NewAttachments, \%{$Upload} );
                             next ATTACHMENTS;
                         }
 
@@ -412,7 +413,7 @@ sub Send {
         }
 
         # add all other attachments as multipart mixed (if we had html body)
-        for my $Upload ( @NewAttachments ) {
+        for my $Upload (@NewAttachments) {
 
             # make multipart mixed
             if ( $PartType ne 'mixed' ) {
@@ -825,6 +826,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.61 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.62 $ $Date: 2009-04-23 13:47:08 $
 
 =cut

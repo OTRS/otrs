@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSysConfig.pm - to change ConfigParameter
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSysConfig.pm,v 1.76 2009-04-20 15:10:21 tr Exp $
+# $Id: AdminSysConfig.pm,v 1.77 2009-04-23 13:47:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Config;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -752,8 +752,8 @@ sub Run {
         $Data{SubGroup} = $SubGroup;
         $Data{Group}    = $Group;
         my $Output .= $Self->{LayoutObject}->Header( Value => "$Group -> $SubGroup" );
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output(
+        $Output    .= $Self->{LayoutObject}->NavigationBar();
+        $Output    .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AdminSysConfigEdit',
             Data         => \%Data
         );
@@ -816,8 +816,8 @@ sub Run {
     }
 
     my $Output .= $Self->{LayoutObject}->Header( Value => $Group );
-    $Output .= $Self->{LayoutObject}->NavigationBar();
-    $Output .= $Self->{LayoutObject}->Output(
+    $Output    .= $Self->{LayoutObject}->NavigationBar();
+    $Output    .= $Self->{LayoutObject}->Output(
         TemplateFile => 'AdminSysConfig',
         Data => { %Data, ConfigCounter => $Self->{SysConfigObject}->{ConfigCounter}, }
     );

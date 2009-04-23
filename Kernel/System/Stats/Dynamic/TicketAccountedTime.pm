@@ -2,7 +2,7 @@
 # Kernel/System/Stats/Dynamic/TicketAccountedTime.pm - stats for accounted ticket time
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketAccountedTime.pm,v 1.6 2009-04-08 12:32:56 tr Exp $
+# $Id: TicketAccountedTime.pm,v 1.7 2009-04-23 13:47:08 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Ticket;
 use Kernel::System::Type;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -31,7 +31,10 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for my $Object (qw(DBObject ConfigObject LogObject UserObject TimeObject MainObject EncodeObject)) {
+    for my $Object (
+        qw(DBObject ConfigObject LogObject UserObject TimeObject MainObject EncodeObject)
+        )
+    {
         $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
     }
     $Self->{QueueObject}    = Kernel::System::Queue->new( %{$Self} );
@@ -576,7 +579,7 @@ sub GetStatTable {
 
             for my $Cell ( @{ $Param{TableStructure}{$Row} } ) {
                 my %SearchAttributes = %{$Cell};
-                my %Reporting = $Self->_ReportingValues(
+                my %Reporting        = $Self->_ReportingValues(
                     SearchAttributes         => \%SearchAttributes,
                     SelectedKindsOfReporting => $SelectedKindsOfReporting,
                 );
@@ -857,9 +860,9 @@ sub GetHeaderLine {
 
     my ( $Self, %Param ) = @_;
 
-    if ($Param{XValue}{Element} eq 'KindsOfReporting') {
+    if ( $Param{XValue}{Element} eq 'KindsOfReporting' ) {
 
-        my %Selected   = map { $_ => 1 } @{ $Param{XValue}{SelectedValues} };
+        my %Selected = map { $_ => 1 } @{ $Param{XValue}{SelectedValues} };
 
         my $Attributes = $Self->_KindsOfReporting();
         my @HeaderLine = ('Evaluation by');
@@ -890,7 +893,7 @@ sub ExportWrapper {
 
             if ( $ElementName eq 'QueueIDs' || $ElementName eq 'CreatedQueueIDs' ) {
                 ID:
-                for my $ID ( @{ $Values } ) {
+                for my $ID ( @{$Values} ) {
                     next ID if !$ID;
                     $ID->{Content} = $Self->{QueueObject}->QueueLookup( QueueID => $ID->{Content} );
                 }
@@ -898,7 +901,7 @@ sub ExportWrapper {
             elsif ( $ElementName eq 'StateIDs' || $ElementName eq 'CreatedStateIDs' ) {
                 my %StateList = $Self->{StateObject}->StateList( UserID => 1 );
                 ID:
-                for my $ID ( @{ $Values } ) {
+                for my $ID ( @{$Values} ) {
                     next ID if !$ID;
                     $ID->{Content} = $StateList{ $ID->{Content} };
                 }
@@ -906,14 +909,19 @@ sub ExportWrapper {
             elsif ( $ElementName eq 'PriorityIDs' || $ElementName eq 'CreatedPriorityIDs' ) {
                 my %PriorityList = $Self->{PriorityObject}->PriorityList( UserID => 1 );
                 ID:
-                for my $ID ( @{ $Values } ) {
+                for my $ID ( @{$Values} ) {
                     next ID if !$ID;
                     $ID->{Content} = $PriorityList{ $ID->{Content} };
                 }
             }
-            elsif ( $ElementName eq 'OwnerIDs' || $ElementName eq 'CreatedUserIDs' || $ElementName eq 'ResponsibleIDs' ) {
+            elsif (
+                $ElementName    eq 'OwnerIDs'
+                || $ElementName eq 'CreatedUserIDs'
+                || $ElementName eq 'ResponsibleIDs'
+                )
+            {
                 ID:
-                for my $ID ( @{ $Values } ) {
+                for my $ID ( @{$Values} ) {
                     next ID if !$ID;
                     $ID->{Content} = $Self->{UserObject}->UserLookup( UserID => $ID->{Content} );
                 }
@@ -938,7 +946,7 @@ sub ImportWrapper {
 
             if ( $ElementName eq 'QueueIDs' || $ElementName eq 'CreatedQueueIDs' ) {
                 ID:
-                for my $ID ( @{ $Values } ) {
+                for my $ID ( @{$Values} ) {
                     next ID if !$ID;
                     if ( $Self->{QueueObject}->QueueLookup( Queue => $ID->{Content} ) ) {
                         $ID->{Content}
@@ -955,7 +963,7 @@ sub ImportWrapper {
             }
             elsif ( $ElementName eq 'StateIDs' || $ElementName eq 'CreatedStateIDs' ) {
                 ID:
-                for my $ID ( @{ $Values } ) {
+                for my $ID ( @{$Values} ) {
                     next ID if !$ID;
 
                     my %State = $Self->{StateObject}->StateGet(
@@ -981,7 +989,7 @@ sub ImportWrapper {
                     $PriorityIDs{ $PriorityList{$Key} } = $Key;
                 }
                 ID:
-                for my $ID ( @{ $Values } ) {
+                for my $ID ( @{$Values} ) {
                     next ID if !$ID;
 
                     if ( $PriorityIDs{ $ID->{Content} } ) {
@@ -1003,7 +1011,7 @@ sub ImportWrapper {
                 )
             {
                 ID:
-                for my $ID ( @{ $Values } ) {
+                for my $ID ( @{$Values} ) {
                     next ID if !$ID;
 
                     if ( $Self->{UserObject}->UserLookup( UserLogin => $ID->{Content} ) ) {
@@ -1020,6 +1028,7 @@ sub ImportWrapper {
                     }
                 }
             }
+
             # Locks and statustype don't have to wrap because they are never different
         }
     }

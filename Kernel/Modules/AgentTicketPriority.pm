@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPriority.pm - set ticket priority
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPriority.pm,v 1.48 2009-04-15 12:54:39 sb Exp $
+# $Id: AgentTicketPriority.pm,v 1.49 2009-04-23 13:47:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -548,8 +548,8 @@ sub Run {
 
                 # skip deleted inline images
                 next WRITEATTACHMENT if $Ref->{ContentID}
-                    && $Ref->{ContentID} =~ /^inline/
-                    && $GetParam{Body} !~ /$Ref->{ContentID}/;
+                        && $Ref->{ContentID} =~ /^inline/
+                        && $GetParam{Body} !~ /$Ref->{ContentID}/;
                 $Self->{TicketObject}->ArticleWriteAttachment(
                     %{$Ref},
                     ArticleID => $ArticleID,

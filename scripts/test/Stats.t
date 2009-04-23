@@ -2,7 +2,7 @@
 # scripts/test/Stats.t - stats module testscript
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.t,v 1.19 2009-04-21 09:30:45 tr Exp $
+# $Id: Stats.t,v 1.20 2009-04-23 13:47:27 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -265,7 +265,7 @@ my $Perl = 'perl';
 
 # check if perl is available
 if ( !qx(perl -v) ) {
-    if ( $^O =~ m{ win }smxi) {
+    if ( $^O =~ m{ win }smxi ) {
         $Perl = $Home;
         $Perl =~ s{OTRS \/? $}{}smx;
         $Perl .= 'StrawberryPerl\perl\bin\perl.exe'
@@ -280,7 +280,7 @@ if ( !qx(perl -v) ) {
 
 my $Command = "$Perl $Home/bin/mkStats.pl -n $Stat4->{StatNumber} -o $Home/var/tmp/";
 
-if (open my $Filehandle, '-|', $Command ) {
+if ( open my $Filehandle, '-|', $Command ) {
     @Lines = <$Filehandle>;
     close $Filehandle;
 
