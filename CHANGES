@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.883 2009-04-23 11:35:04 tt Exp $
+# $Id: CHANGES,v 1.884 2009-04-23 11:59:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,6 @@
 # --
 
 2.4.0 beta2 (2009/??/??)
- - (2009/04/23) Fixed bug# 3684 - No search for * in LDAP-CustomerBackend
  - (2009/04/23) Fixed bug# 3799 - The UPGRADING refrences a file not included
     in the source code.
  - (2009/04/20) Updated nb_NO translation - thanks to Fredrik Andersen!
@@ -204,6 +203,7 @@
     auth support.
 
 2.3.5 (2009/??/??)
+ - (2009/04/23) Fixed bug# 3684 - No search for * in LDAP-CustomerBackend
  - (2009/04/02) Fixed bug# 3732 - Improved russion translation.
  - (2009/04/01) Fixed bug# 3573 - Deleting tickets on PostgreSQL 8.3.0 failes.
  - (2009/04/01) Fixed bug# 3719 - otrs.checkModules incorrectly parses PDF::API2
