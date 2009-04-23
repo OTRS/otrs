@@ -1,12 +1,12 @@
 # --
 # Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.42.2.1 2008-12-02 09:51:00 tt Exp $
+# $Id: LDAP.pm,v 1.42.2.2 2009-04-23 11:35:27 tt Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 package Kernel::System::CustomerUser::LDAP;
@@ -18,7 +18,7 @@ use Kernel::System::Encode;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.42.2.1 $) [1];
+$VERSION = qw($Revision: 1.42.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -272,8 +272,8 @@ sub CustomerSearch {
         my @Parts = split( /\+/, $Param{Search}, 6 );
         for my $Part (@Parts) {
             $Part = $Self->{SearchPrefix} . $Part . $Self->{SearchSuffix};
-            $Part =~ s/%%/%/g;
-            $Part =~ s/\*\*/*/g;
+            $Part =~ s/(\%+)/\%/g;
+            $Part =~ s/(\*+)\*/*/g;
             $Count++;
 
             if ( $Self->{CustomerUserMap}->{CustomerUserSearchFields} ) {
