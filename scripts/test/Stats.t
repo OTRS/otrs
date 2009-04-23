@@ -1,12 +1,12 @@
 # --
 # scripts/test/Stats.t - stats module testscript
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.t,v 1.16 2008-07-17 14:30:39 tr Exp $
+# $Id: Stats.t,v 1.16.2.1 2009-04-23 09:12:37 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 use strict;
@@ -261,12 +261,26 @@ my $Stat4 = $Self->{StatsObject}->StatsGet(
 
 # get OTRS home
 my $Home = $Self->{ConfigObject}->Get('Home');
+my $Perl = 'perl';
 
-if (
-    open my $Filehandle,
-    '-|', "perl $Home/bin/mkStats.pl -n $Stat4->{StatNumber} -o $Home/var/tmp/"
-    )
-{
+# check if perl is available
+if ( !qx(perl -v) ) {
+    if ( $^O =~ m{ win }smxi) {
+        $Perl = $Home;
+        $Perl =~ s{OTRS \/? $}{}smx;
+        $Perl .= 'StrawberryPerl\perl\bin\perl.exe'
+    }
+    else {
+        $Self->True(
+            0,
+            "mkStats.pl - can't call perl via command line.\n",
+        );
+    }
+}
+
+my $Command = "$Perl $Home/bin/mkStats.pl -n $Stat4->{StatNumber} -o $Home/var/tmp/";
+
+if (open my $Filehandle, '-|', $Command ) {
     @Lines = <$Filehandle>;
     close $Filehandle;
 
@@ -278,15 +292,17 @@ if (
 
     $Self->True(
         ( $Lines[0] && !$Lines[1] && $Lines[0] =~ /^NOTICE:/ ),
-        "mkStats.pl - Simple mkStats.pl check (check the program message)\n"
+        "mkStats.pl - Simple mkStats.pl check (check the program message)(Command: $Command ; OS: $^O )\n",
     );
 }
 else {
     $Self->True(
         0,
-        "mkStats.pl - Simple mkStats.pl check (open the file).\n"
+        "mkStats.pl - Simple mkStats.pl check (open the file).\n",
     );
 }
+
+# delete the test stats
 
 $Self->True(
     $Self->{StatsObject}->StatsDelete( StatID => $StatID ),
