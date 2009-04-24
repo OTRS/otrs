@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.886 2009-04-23 15:21:14 tt Exp $
+# $Id: CHANGES,v 1.887 2009-04-24 06:25:00 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,11 +10,6 @@
 # --
 
 2.4.0 beta2 (2009/??/??)
- - (2009/04/23) Fixed bug# 3495 - missing ldap disconnects leaves CLOSE_WAIT tcp
-   sessions
- - (2009/04/23) Fixed bug# 3674 - CustomerSearch() doesn't match non-single
-    words if they are in the same DB field
- - (2009/04/23) Fixed bug# 3684 - No search for * in LDAP-CustomerBackend.
  - (2009/04/23) Fixed bug# 3799 - The UPGRADING refrences a file not included
     in the source code.
  - (2009/04/20) Updated nb_NO translation - thanks to Fredrik Andersen!
@@ -208,7 +203,11 @@
     auth support.
 
 2.3.5 (2009/??/??)
- - (2009/04/23) Fixed bug# 3684 - No search for * in LDAP-CustomerBackend
+ - (2009/04/23) Fixed bug# 3495 - Missing ldap disconnects leaves CLOSE_WAIT tcp
+    sessions.
+ - (2009/04/23) Fixed bug# 3674 - CustomerSearch() doesn't match non-single
+    words if they are in the same DB field.
+ - (2009/04/23) Fixed bug# 3684 - No search for * in LDAP-CustomerBackend.
  - (2009/04/02) Fixed bug# 3732 - Improved russion translation.
  - (2009/04/01) Fixed bug# 3573 - Deleting tickets on PostgreSQL 8.3.0 failes.
  - (2009/04/01) Fixed bug# 3719 - otrs.checkModules incorrectly parses PDF::API2
