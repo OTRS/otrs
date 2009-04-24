@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.50 2009-04-23 15:21:13 tt Exp $
+# $Id: LDAP.pm,v 1.51 2009-04-24 08:07:03 tt Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Net::LDAP;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -86,6 +86,9 @@ sub new {
     # search user
     $Self->{SearchUserDN} = $Self->{CustomerUserMap}->{Params}->{UserDN} || '';
     $Self->{SearchUserPw} = $Self->{CustomerUserMap}->{Params}->{UserPw} || '';
+
+    # group dn
+    $Self->{GroupDN} = $Self->{CustomerUserMap}->{Params}->{GroupDN} || '';
 
     # customer key
     if ( $Self->{CustomerUserMap}->{CustomerKey} ) {
@@ -355,6 +358,21 @@ sub CustomerSearch {
         }
     }
 
+    # check if user need to be in a group!
+    if ( $Self->{GroupDN} ) {
+        for my $Filter2 (keys %Users) {
+            my $Result2 = $Self->{LDAP}->search(
+                base      => $Self->{GroupDN},
+                scope     => $Self->{SScope},
+                filter    => 'memberUid='.$Filter2,
+                sizelimit => $Self->{UserSearchListLimit},
+            );
+            if (!$Result2->all_entries) {
+                delete $Users{$Filter2};
+            }
+        }
+    }
+
     # cache request
     if ( $Self->{CacheObject} ) {
         $Self->{CacheObject}->Set(
@@ -417,6 +435,21 @@ sub CustomerUserList {
                 .= $Self->_Convert( $entry->get_value( $Self->{CustomerUserMap}->{$Field} ) ) . ' ';
         }
         $Users{ $Self->_Convert( $entry->get_value( $Self->{CustomerKey} ) ) } = $CustomerString;
+    }
+
+    # check if user need to be in a group!
+    if ( $Self->{GroupDN} ) {
+        for my $Filter2 (keys %Users) {
+            my $Result2 = $Self->{LDAP}->search(
+                base      => $Self->{GroupDN},
+                scope     => $Self->{SScope},
+                filter    => 'memberUid='.$Filter2,
+                sizelimit => $Self->{UserSearchListLimit},
+            );
+            if (!$Result2->all_entries) {
+                delete $Users{$Filter2};
+            }
+        }
     }
 
     # cache request

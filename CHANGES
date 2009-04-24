@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.887 2009-04-24 06:25:00 mh Exp $
+# $Id: CHANGES,v 1.888 2009-04-24 08:07:03 tt Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.4.0 beta2 (2009/??/??)
+ - (2009/04/24) Fixed bug# 3691 - CustomerUser::LDAP does support GroupDN now.
  - (2009/04/23) Fixed bug# 3799 - The UPGRADING refrences a file not included
     in the source code.
  - (2009/04/20) Updated nb_NO translation - thanks to Fredrik Andersen!
