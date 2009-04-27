@@ -3,7 +3,7 @@
 # bin/otrs.checkModules - to check needed cpan framework modules
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: otrs.checkModules,v 1.32 2009-04-07 07:58:37 martin Exp $
+# $Id: otrs.checkModules,v 1.33 2009-04-27 10:48:28 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -49,7 +49,7 @@ my @NeededModules = (
     {
         Module   => 'DBD::mysql',
         Required => 0,
-        Comment  => 'for database MySQL required!',
+        Comment  => 'Required to cennect to a MySQL database.',
     },
     {
         Module   => 'Digest::MD5',
@@ -62,6 +62,11 @@ my @NeededModules = (
     {
         Module   => 'LWP::UserAgent',
         Required => 1,
+    },
+    {
+        Module   => 'Encode::HanExtra',
+        Required => 0,
+        Comment  => 'Required to handle mails from several Chinese character sets.',
     },
     {
         Module   => 'IO::Scalar',
@@ -103,7 +108,7 @@ my @NeededModules = (
             {
                 Module   => 'Net::POP3::SSLWrapper',
                 Required => 0,
-                Comment  => 'for SSL connections',
+                Comment  => 'Required for SSL connections.',
             },
         ],
     },
@@ -115,31 +120,31 @@ my @NeededModules = (
             {
                 Module   => 'Net::IMAP::Simple::SSL',
                 Required => 0,
-                Comment  => 'for SSL connections',
+                Comment  => 'Required for SSL connections.',
             },
         ],
     },
     {
         Module   => 'Net::SMTP',
         Required => 0,
-        Comment  => 'for SMTP connections',
+        Comment  => 'Required for SMTP connections.',
         Depends  => [
             {
                 Module   => 'Authen::SASL',
                 Required => 0,
-                Comment  => 'for SMTP backend',
+                Comment  => 'Required for SMTP backend.',
             },
             {
                 Module   => 'Net::SMTP::SSL',
                 Required => 0,
-                Comment  => 'for SSL/SMTPS connections',
+                Comment  => 'Required for SSL/SMTPS connections.',
             },
         ],
     },
     {
         Module   => 'Net::LDAP',
         Required => 0,
-        Comment  => 'for directory authentication',
+        Comment  => 'Required for directory authentication.',
     },
     {
         Module   => 'GD',
@@ -149,22 +154,22 @@ my @NeededModules = (
             {
                 Module   => 'GD::Text',
                 Required => 0,
-                Comment  => 'for stats',
+                Comment  => 'Required for stats.',
             },
             {
                 Module   => 'GD::Graph',
                 Required => 0,
-                Comment  => 'for stats',
+                Comment  => 'Required for stats.',
             },
             {
                 Module   => 'GD::Graph::lines',
                 Required => 0,
-                Comment  => 'for stats',
+                Comment  => 'Required for stats.',
             },
             {
                 Module   => 'GD::Text::Align',
                 Required => 0,
-                Comment  => 'for stats',
+                Comment  => 'Required for stats.',
             },
         ],
     },
@@ -172,7 +177,7 @@ my @NeededModules = (
         Module       => 'PDF::API2',
         Version      => 0.57,
         Required     => 0,
-        Comment      => 'for PDF required!',
+        Comment      => 'Required for PDF output.',
         NotSupported => [
             {
                 Version => '0.71.001',
@@ -199,14 +204,14 @@ my @NeededModules = (
             {
                 Module   => 'Compress::Zlib',
                 Required => 0,
-                Comment  => 'for PDF required!',
+                Comment  => 'Required for PDF output.',
             },
         ],
     },
     {
         Module   => 'XML::Parser',
         Required => 0,
-        Comment  => 'for faster xml speed'
+        Comment  => 'Required for faster xml handling.'
     },
 );
 
