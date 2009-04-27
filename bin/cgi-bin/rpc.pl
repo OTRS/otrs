@@ -3,7 +3,7 @@
 # bin/cgi-bin/rpc.pl - soap handle
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: rpc.pl,v 1.12 2009-02-27 08:41:38 tr Exp $
+# $Id: rpc.pl,v 1.13 2009-04-27 08:07:35 tr Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,6 +31,7 @@ use lib "$Bin/../../Kernel/cpan-lib";
 
 use SOAP::Transport::HTTP;
 use Kernel::Config;
+use Kernel::System::Encode;
 use Kernel::System::Log;
 use Kernel::System::DB;
 use Kernel::System::PID;
@@ -43,7 +44,7 @@ use Kernel::System::CustomerUser;
 use Kernel::System::Ticket;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 SOAP::Transport::HTTP::CGI->dispatch_to('Core')->handle;
 
@@ -67,6 +68,7 @@ sub Dispatch {
     # common objects
     my %CommonObject = ();
     $CommonObject{ConfigObject} = Kernel::Config->new();
+    $CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
     $CommonObject{LogObject}    = Kernel::System::Log->new(
         LogPrefix => 'OTRS-RPC',
         %CommonObject,
