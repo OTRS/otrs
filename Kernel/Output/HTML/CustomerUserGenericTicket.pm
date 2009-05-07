@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/CustomerUserGenericTicket.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUserGenericTicket.pm,v 1.2.2.3 2009-05-07 13:43:12 ub Exp $
+# $Id: CustomerUserGenericTicket.pm,v 1.2.2.4 2009-05-07 14:22:52 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2.2.3 $) [1];
+$VERSION = qw($Revision: 1.2.2.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,7 +41,7 @@ sub Run {
             Object => 'Kernel::System::Type',
             Return => 'TypeIDs',
             Input  => 'Type',
-            Method => 'Lookup',
+            Method => 'TypeLookup',
         },
         Queues => {
             Object => 'Kernel::System::Queue',
@@ -53,31 +53,31 @@ sub Run {
             Object => 'Kernel::System::State',
             Return => 'StateIDs',
             Input  => '',
-            Method => 'Lookup',
+            Method => '',
         },
         Priorities => {
             Object => 'Kernel::System::Priority',
             Return => 'PriorityIDs',
             Input  => 'Priority',
-            Method => 'Lookup',
+            Method => 'PriorityLookup',
         },
         Locks => {
             Object => 'Kernel::System::Lock',
             Return => 'LockIDs',
             Input  => 'Lock',
-            Method => 'Lookup',
+            Method => 'LockLookup',
         },
         Services => {
             Object => 'Kernel::System::Service',
             Return => 'ServiceIDs',
             Input  => 'Name',
-            Method => 'Lookup',
+            Method => 'ServiceLookup',
         },
         SLAs => {
             Object => 'Kernel::System::SLA',
             Return => 'SLAIDs',
             Input  => 'Name',
-            Method => 'Lookup',
+            Method => 'SLALookup',
         },
     );
 
