@@ -1,12 +1,12 @@
 # --
 # Kernel/Output/HTML/CustomerUserGenericTicket.pm
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUserGenericTicket.pm,v 1.2.2.2 2008-10-06 15:37:23 mh Exp $
+# $Id: CustomerUserGenericTicket.pm,v 1.2.2.3 2009-05-07 13:43:12 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 package Kernel::Output::HTML::CustomerUserGenericTicket;
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2.2.2 $) [1];
+$VERSION = qw($Revision: 1.2.2.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -61,9 +61,9 @@ sub Run {
             Input  => 'Priority',
             Method => 'Lookup',
         },
-        Looks => {
-            Object => 'Kernel::System::Look',
-            Return => 'LookIDs',
+        Locks => {
+            Object => 'Kernel::System::Lock',
+            Return => 'LockIDs',
             Input  => 'Lock',
             Method => 'Lookup',
         },
