@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/CustomerUserGenericTicket.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUserGenericTicket.pm,v 1.5 2009-02-16 11:16:22 tr Exp $
+# $Id: CustomerUserGenericTicket.pm,v 1.6 2009-05-07 13:43:53 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -61,9 +61,9 @@ sub Run {
             Input  => 'Priority',
             Method => 'Lookup',
         },
-        Looks => {
-            Object => 'Kernel::System::Look',
-            Return => 'LookIDs',
+        Locks => {
+            Object => 'Kernel::System::Lock',
+            Return => 'LockIDs',
             Input  => 'Lock',
             Method => 'Lookup',
         },
