@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.393 2009-04-23 14:11:27 mh Exp $
+# $Id: Ticket.pm,v 1.394 2009-05-07 21:03:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTML2Ascii;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.393 $) [1];
+$VERSION = qw($Revision: 1.394 $) [1];
 
 =head1 NAME
 
@@ -1606,9 +1606,6 @@ sub MoveTicket {
 
     # clear ticket cache
     delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
-
-    # update ticket view index
-    $Self->TicketAcceleratorUpdate( TicketID => $Param{TicketID} );
 
     # history insert
     $Self->HistoryAdd(
@@ -5040,9 +5037,6 @@ sub LockSet {
     # clear ticket cache
     delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
-    # update ticket view index
-    $Self->TicketAcceleratorUpdate( TicketID => $Param{TicketID} );
-
     # add history
     my $HistoryType = '';
     if ( $Param{Lock} =~ /^unlock$/i ) {
@@ -5200,9 +5194,6 @@ sub StateSet {
     # clear ticket cache
     delete $Self->{ 'Cache::GetTicket' . $Param{TicketID} };
 
-    # update ticket view index
-    $Self->TicketAcceleratorUpdate( TicketID => $Param{TicketID} );
-
     # add history
     $Self->HistoryAdd(
         TicketID     => $Param{TicketID},
@@ -5212,16 +5203,6 @@ sub StateSet {
         HistoryType  => 'StateUpdate',
         CreateUserID => $Param{UserID},
     );
-
-    # reset escalation time if ticket will be reopend
-    if ( $State{TypeName} ne 'closed' && $Ticket{StateType} eq 'closed' ) {
-
-        #        $Self->TicketEscalationStartUpdate(
-        #            EscalationStartTime => $Self->{TimeObject}->SystemTime(),
-        #            TicketID            => $Param{TicketID},
-        #            UserID              => $Param{UserID},
-        #        );
-    }
 
     # send customer notification email
     if ( !$Param{SendNoNotification} ) {
@@ -7514,6 +7495,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.393 $ $Date: 2009-04-23 14:11:27 $
+$Revision: 1.394 $ $Date: 2009-05-07 21:03:26 $
 
 =cut
