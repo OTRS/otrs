@@ -2,7 +2,7 @@
 # Kernel/System/CustomerUser/LDAP.pm - some customer user functions in LDAP
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LDAP.pm,v 1.51 2009-04-24 08:07:03 tt Exp $
+# $Id: LDAP.pm,v 1.52 2009-05-08 12:16:13 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Net::LDAP;
 use Kernel::System::Cache;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -360,14 +360,14 @@ sub CustomerSearch {
 
     # check if user need to be in a group!
     if ( $Self->{GroupDN} ) {
-        for my $Filter2 (keys %Users) {
+        for my $Filter2 ( keys %Users ) {
             my $Result2 = $Self->{LDAP}->search(
                 base      => $Self->{GroupDN},
                 scope     => $Self->{SScope},
-                filter    => 'memberUid='.$Filter2,
+                filter    => 'memberUid=' . $Filter2,
                 sizelimit => $Self->{UserSearchListLimit},
             );
-            if (!$Result2->all_entries) {
+            if ( !$Result2->all_entries ) {
                 delete $Users{$Filter2};
             }
         }
@@ -439,14 +439,14 @@ sub CustomerUserList {
 
     # check if user need to be in a group!
     if ( $Self->{GroupDN} ) {
-        for my $Filter2 (keys %Users) {
+        for my $Filter2 ( keys %Users ) {
             my $Result2 = $Self->{LDAP}->search(
                 base      => $Self->{GroupDN},
                 scope     => $Self->{SScope},
-                filter    => 'memberUid='.$Filter2,
+                filter    => 'memberUid=' . $Filter2,
                 sizelimit => $Self->{UserSearchListLimit},
             );
-            if (!$Result2->all_entries) {
+            if ( !$Result2->all_entries ) {
                 delete $Users{$Filter2};
             }
         }
