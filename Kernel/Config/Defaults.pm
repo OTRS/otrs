@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.317 2009-04-23 12:56:41 tt Exp $
+# $Id: Defaults.pm,v 1.318 2009-05-11 11:05:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.317 $) [1];
+$VERSION = qw($Revision: 1.318 $) [1];
 
 sub LoadDefaults {
     my $Self = shift;
@@ -133,10 +133,11 @@ sub LoadDefaults {
     # default charset
     # (default frontend charset - "utf-8" is a multi chatset for all possible
     # charsets - e. g. "iso-8859-1" is also possible for single charset)
-    # [default: iso-8859-1]
-    $Self->{DefaultCharset} = 'iso-8859-1';
+    # [default: utf-8]
+    $Self->{DefaultCharset} = 'utf-8';
 
-    #    $Self->{DefaultCharset} = 'utf-8';
+#    $Self->{DefaultCharset} = 'iso-8859-1';
+
     # default language
     # (the default frontend language) [default: en]
     $Self->{DefaultLanguage} = 'en';
@@ -2401,6 +2402,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.317 $ $Date: 2009-04-23 12:56:41 $
+$Revision: 1.318 $ $Date: 2009-05-11 11:05:06 $
 
 =cut
