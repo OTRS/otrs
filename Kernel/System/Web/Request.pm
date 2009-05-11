@@ -2,7 +2,7 @@
 # Kernel/System/Web/Request.pm - a wrapper for CGI.pm or Apache::Request.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Request.pm,v 1.30 2009-04-17 08:36:45 tr Exp $
+# $Id: Request.pm,v 1.31 2009-05-11 18:20:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CheckItem;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 =head1 NAME
 
@@ -97,8 +97,8 @@ sub new {
 
 to get the error back
 
-    if ($ParamObject->Error()) {
-        print STDERR $ParamObject->Error()."\n";
+    if ( $ParamObject->Error() ) {
+        print STDERR $ParamObject->Error() . "\n";
     }
 
 =cut
@@ -153,7 +153,7 @@ sub GetParam {
 
 to get array params
 
-    my @Param = $ParamObject->GetArray(Param => 'ID');
+    my @Param = $ParamObject->GetArray( Param => 'ID' );
 
 =cut
 
@@ -220,7 +220,7 @@ to get file upload
     to get file upload without uft-8 encoding
 
     my %File = $ParamObject->GetUploadAll(
-        Param => 'FileParam',
+        Param  => 'FileParam',
         Source => 'string',
     );
 
@@ -301,7 +301,7 @@ sub GetUploadAll {
 set a cookie
 
     $ParamObject->SetCookie(
-        Key => ID,
+        Key   => ID,
         Value => 123456,
     );
 
@@ -349,6 +349,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.30 $ $Date: 2009-04-17 08:36:45 $
+$Revision: 1.31 $ $Date: 2009-05-11 18:20:55 $
 
 =cut
