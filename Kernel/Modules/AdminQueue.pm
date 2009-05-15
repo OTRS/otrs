@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminQueue.pm - to add/update/delete queues
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueue.pm,v 1.52 2009-03-27 17:35:11 mh Exp $
+# $Id: AdminQueue.pm,v 1.53 2009-05-15 06:14:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Signature;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -57,7 +57,6 @@ sub Run {
             DefaultSignKey    SalutationID        SignatureID     FollowUpID
             FirstResponseTime FirstResponseNotify UpdateTime      UpdateNotify
             SolutionTime      SolutionNotify
-            MoveNotify        StateNotify         LockNotify      OwnerNotify
             Comment           ValidID
             )
     );
@@ -394,26 +393,6 @@ sub _Mask {
         SelectedID => $Param{FollowUpID}
             || $Self->{ConfigObject}->Get('AdminDefaultFollowUpID')
             || 1,
-    );
-    $Param{MoveOption} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
-        Name       => 'MoveNotify',
-        SelectedID => $Param{MoveNotify},
-    );
-    $Param{StateOption} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
-        Name       => 'StateNotify',
-        SelectedID => $Param{StateNotify},
-    );
-    $Param{OwnerOption} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
-        Name       => 'OwnerNotify',
-        SelectedID => $Param{OwnerNotify},
-    );
-    $Param{LockOption} = $Self->{LayoutObject}->OptionStrgHashRef(
-        Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
-        Name       => 'LockNotify',
-        SelectedID => $Param{LockNotify},
     );
     my %Calendar = ( '' => '-' );
 

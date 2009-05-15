@@ -2,7 +2,7 @@
 # Queue.t - Queue tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.t,v 1.9 2009-02-16 12:41:12 tr Exp $
+# $Id: Queue.t,v 1.10 2009-05-15 06:14:45 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -28,10 +28,6 @@ my $QueueID   = $Self->{QueueObject}->QueueAdd(
     SalutationID        => 1,
     SignatureID         => 1,
     UserID              => 1,
-    MoveNotify          => 0,
-    StateNotify         => 0,
-    LockNotify          => 0,
-    OwnerNotify         => 0,
     Comment             => 'Some Comment',
 );
 
@@ -120,10 +116,6 @@ my $QueueUpdate2 = $Self->{QueueObject}->QueueUpdate(
     SignatureID         => 1,
     FollowUpID          => 1,
     UserID              => 1,
-    MoveNotify          => '',
-    StateNotify         => '',
-    LockNotify          => '',
-    OwnerNotify         => '',
     Comment             => 'Some Comment2',
     DefaultSignKey      => '',
     UnlockTimeOut       => '',
@@ -153,10 +145,6 @@ my $QueueUpdate1 = $Self->{QueueObject}->QueueUpdate(
     SignatureID         => 1,
     FollowUpID          => 1,
     UserID              => 1,
-    MoveNotify          => 0,
-    StateNotify         => 0,
-    LockNotify          => 0,
-    OwnerNotify         => 0,
     Comment             => 'Some Comment1',
 );
 

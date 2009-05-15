@@ -2,7 +2,7 @@
 # Kernel/System/Queue.pm - lib for queue functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Queue.pm,v 1.109 2009-04-17 08:36:44 tr Exp $
+# $Id: Queue.pm,v 1.110 2009-05-15 06:14:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::CustomerGroup;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.109 $) [1];
+$VERSION = qw($Revision: 1.110 $) [1];
 
 =head1 NAME
 
@@ -133,9 +133,6 @@ sub new {
         SignatureID         => 1,
         FollowUpID          => 1,
         FollowUpLock        => 0,
-        MoveNotify          => 0,
-        LockNotify          => 0,
-        StateNotify         => 0,
     };
 
     return $Self;
@@ -613,24 +610,20 @@ sub GetQueueGroupID {
 add queue with attributes
 
     $QueueObject->QueueAdd(
-        Name              => 'Some::Queue',
-        ValidID           => 1,
-        GroupID           => 1,
-        Calendar          => 'Calendar1', # (optional)
-        FirstResponseTime   => 120,       # (optional)
-        FirstResponseNotify => 60, # (optional, notify agent if first response escalation is 60% reached)
-        UpdateTime        => 180,  # (optional)
-        UpdateNotify      => 80,   # (optional, notify agent if update escalation is 80% reached)
-        SolutionTime      => 580,  # (optional)
-        SolutionNotify    => 80,   # (optional, notify agent if solution escalation is 80% reached)
-        SystemAddressID   => 1,
-        SalutationID      => 1,
-        SignatureID       => 1,
-        UserID            => 123,
-        MoveNotify        => 0,
-        StateNotify       => 0,
-        LockNotify        => 0,
-        OwnerNotify       => 0,
+        Name                => 'Some::Queue',
+        ValidID             => 1,
+        GroupID             => 1,
+        Calendar            => 'Calendar1', # (optional)
+        FirstResponseTime   => 120,         # (optional)
+        FirstResponseNotify => 60,   # (optional, notify agent if first response escalation is 60% reached)
+        UpdateTime          => 180,  # (optional)
+        UpdateNotify        => 80,   # (optional, notify agent if update escalation is 80% reached)
+        SolutionTime        => 580,  # (optional)
+        SolutionNotify      => 80,   # (optional, notify agent if solution escalation is 80% reached)
+        SystemAddressID     => 1,
+        SalutationID        => 1,
+        SignatureID         => 1,
+        UserID              => 123,
     );
 
 =cut
@@ -641,21 +634,13 @@ sub QueueAdd {
     for (
         qw(UnlockTimeout FirstResponseTime FirstResponseNotify UpdateTime UpdateNotify SolutionTime SolutionNotify
         FollowUpLock SystemAddressID SalutationID SignatureID
-        FollowUpID FollowUpLock MoveNotify StateNotify LockNotify OwnerNotify DefaultSignKey Calendar)
+        FollowUpID FollowUpLock DefaultSignKey Calendar)
         )
     {
 
         # I added default values in the Load Routine
         if ( !$Param{$_} ) {
             $Param{$_} = $Self->{QueueDefaults}->{$_} || 0;
-        }
-    }
-
-    # check needed stuff
-    for (qw(MoveNotify StateNotify LockNotify OwnerNotify)) {
-        if ( !defined $Param{$_} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
-            return;
         }
     }
 
@@ -684,23 +669,21 @@ sub QueueAdd {
             . ' calendar_name, default_sign_key, salutation_id, signature_id, '
             . ' first_response_time, first_response_notify, update_time, '
             . ' update_notify, solution_time, solution_notify, follow_up_id, '
-            . ' follow_up_lock, state_notify, move_notify, lock_notify, '
-            . ' owner_notify, valid_id, comments, create_time, create_by, '
+            . ' follow_up_lock, valid_id, comments, create_time, create_by, '
             . ' change_time, change_by) VALUES '
             . ' (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '
-            . ' ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
+            . ' ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
             \$Param{Name}, \$Param{GroupID}, \$Param{UnlockTimeout}, \$Param{SystemAddressID},
             \$Param{Calendar}, \$Param{DefaultSignKey}, \$Param{SalutationID}, \$Param{SignatureID},
             \$Param{FirstResponseTime}, \$Param{FirstResponseNotify}, \$Param{UpdateTime},
             \$Param{UpdateNotify},      \$Param{SolutionTime},        \$Param{SolutionNotify},
-            \$Param{FollowUpID},        \$Param{FollowUpLock},        \$Param{StateNotify},
-            \$Param{MoveNotify},        \$Param{LockNotify},          \$Param{OwnerNotify},
-            \$Param{ValidID}, \$Param{Comment}, \$Param{UserID}, \$Param{UserID},
+            \$Param{FollowUpID},        \$Param{FollowUpLock},        \$Param{ValidID},
+            \$Param{Comment},           \$Param{UserID},              \$Param{UserID},
         ],
     );
 
-    # get new queue id
+    # get new id
     $Self->{DBObject}->Prepare(
         SQL  => 'SELECT id FROM queue WHERE name = ?',
         Bind => [ \$Param{Name} ],
@@ -794,9 +777,7 @@ sub QueueGet {
         . 'q.first_response_time, q.first_response_notify, '
         . 'q.update_time, q.update_notify, q.solution_time, q.solution_notify, '
         . 'q.follow_up_id, q.follow_up_lock, sa.value0, sa.value1, q.id, '
-        . 'q.move_notify, q.state_notify, q.lock_notify, q.owner_notify, q.default_sign_key, '
-        . 'q.calendar_name '
-        . 'FROM queue q, system_address sa '
+        . 'q.default_sign_key, q.calendar_name FROM queue q, system_address sa '
         . 'WHERE q.system_address_id = sa.id AND ';
 
     if ( $Param{ID} ) {
@@ -830,12 +811,8 @@ sub QueueGet {
             ValidID             => $Data[7],
             Email               => $Data[16],
             RealName            => $Data[17],
-            StateNotify         => $Data[20],
-            MoveNotify          => $Data[19],
-            LockNotify          => $Data[21],
-            OwnerNotify         => $Data[22],
-            DefaultSignKey      => $Data[23],
-            Calendar            => $Data[24] || '',
+            DefaultSignKey      => $Data[19],
+            Calendar            => $Data[20] || '',
         );
     }
 
@@ -868,31 +845,27 @@ sub QueueGet {
 update queue attributes
 
     $QueueObject->QueueUpdate(
-        QueueID           => 123,
-        Name              => 'Some::Queue',
-        ValidID           => 1,
-        GroupID           => 1,
-        Calendar          => '1', # (optional) default ''
+        QueueID             => 123,
+        Name                => 'Some::Queue',
+        ValidID             => 1,
+        GroupID             => 1,
+        Calendar            => '1', # (optional) default ''
         FirstResponseTime   => 120, # (optional)
         FirstResponseNotify => 60,  # (optional, notify agent if first response escalation is 60% reached)
-        UpdateTime        => 180,   # (optional)
-        UpdateNotify      => 80,    # (optional, notify agent if update escalation is 80% reached)
-        SolutionTime      => 580,   # (optional)
-        SolutionNotify    => 80,    # (optional, notify agent if solution escalation is 80% reached)
-        SystemAddressID   => 1,
-        SalutationID      => 1,
-        SignatureID       => 1,
-        UserID            => 123,
-        MoveNotify        => 0,
-        StateNotify       => 0,
-        LockNotify        => 0,
-        OwnerNotify       => 0,
-        FollowUpID        => 1,
-        Comment           => 'Some Comment2',
-        DefaultSignKey    => ''
-        UnlockTimeOut     => ''
-        FollowUpLock      => 1,
-        ParentQueueID     => '',
+        UpdateTime          => 180, # (optional)
+        UpdateNotify        => 80,  # (optional, notify agent if update escalation is 80% reached)
+        SolutionTime        => 580, # (optional)
+        SolutionNotify      => 80,  # (optional, notify agent if solution escalation is 80% reached)
+        SystemAddressID     => 1,
+        SalutationID        => 1,
+        SignatureID         => 1,
+        UserID              => 123,
+        FollowUpID          => 1,
+        Comment             => 'Some Comment2',
+        DefaultSignKey      => ''
+        UnlockTimeOut       => ''
+        FollowUpLock        => 1,
+        ParentQueueID       => '',
     );
 
 =cut
@@ -920,15 +893,6 @@ sub QueueUpdate {
 
     # Calendar string  '', '1', '2', '3', '4', '5'  default ''
     $Param{Calendar} ||= '';
-
-    # notify 0 | 1
-    for my $Notify (qw(MoveNotify StateNotify LockNotify OwnerNotify)) {
-        if ( !defined $Param{$Notify} ) {
-            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $Notify!" );
-            return;
-        }
-        $Param{$Notify} = $Param{$Notify} || 0;
-    }
 
     # content -> time in seconds
     for my $Time (qw( UnlockTimeout FirstResponseTime UpdateTime SolutionTime )) {
@@ -987,8 +951,7 @@ sub QueueUpdate {
             . ' update_time = ?, update_notify = ?, solution_time = ?, '
             . ' solution_notify = ?, follow_up_id = ?, follow_up_lock = ?, '
             . ' system_address_id = ?, calendar_name = ?, default_sign_key = ?, '
-            . ' salutation_id = ?, signature_id = ?, move_notify = ?, '
-            . ' state_notify = ?, lock_notify = ?, owner_notify = ?, '
+            . ' salutation_id = ?, signature_id = ?, '
             . ' valid_id = ?, change_time = current_timestamp, change_by = ? '
             . ' WHERE id = ?',
         Bind => [
@@ -997,9 +960,8 @@ sub QueueUpdate {
             \$Param{UpdateNotify},      \$Param{SolutionTime},        \$Param{SolutionNotify},
             \$Param{FollowUpID},        \$Param{FollowUpLock},        \$Param{SystemAddressID},
             \$Param{Calendar},          \$Param{DefaultSignKey},      \$Param{SalutationID},
-            \$Param{SignatureID},       \$Param{MoveNotify},          \$Param{StateNotify},
-            \$Param{LockNotify},        \$Param{OwnerNotify},         \$Param{ValidID},
-            \$Param{UserID},            \$Param{QueueID},
+            \$Param{SignatureID},       \$Param{ValidID},             \$Param{UserID},
+            \$Param{QueueID},
         ],
     );
 
@@ -1131,6 +1093,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.109 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.110 $ $Date: 2009-05-15 06:14:46 $
 
 =cut

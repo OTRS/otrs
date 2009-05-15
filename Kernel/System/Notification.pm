@@ -2,7 +2,7 @@
 # Kernel/System/Notification.pm - lib for notifications
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Notification.pm,v 1.28 2009-04-17 08:36:44 tr Exp $
+# $Id: Notification.pm,v 1.29 2009-05-15 06:14:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 =head1 NAME
 
@@ -205,6 +205,9 @@ sub NotificationList {
     # get possible notification types
     my %Types = ();
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+
+        # do not use customer notifications this way anymore (done by notification event now)
+        next if $Data[1] =~ /Customer::(Owner|Queue|State)Update/;
         $Types{ $Data[1] } = 1;
     }
     for (qw(NewTicket FollowUp LockTimeout OwnerUpdate AddNote Move PendingReminder Escalation)) {
@@ -299,6 +302,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.28 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.29 $ $Date: 2009-05-15 06:14:46 $
 
 =cut
