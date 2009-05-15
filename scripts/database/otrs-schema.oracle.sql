@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2009-03-25 02:23:43
+--  driver: oracle, generated: 2009-05-15 11:38:12
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -557,10 +557,6 @@ CREATE TABLE queue (
     signature_id NUMBER (5, 0) NOT NULL,
     follow_up_id NUMBER (5, 0) NOT NULL,
     follow_up_lock NUMBER (5, 0) NOT NULL,
-    move_notify NUMBER (5, 0) NOT NULL,
-    state_notify NUMBER (5, 0) NOT NULL,
-    lock_notify NUMBER (5, 0) NOT NULL,
-    owner_notify NUMBER (5, 0) NOT NULL,
     comments VARCHAR2 (200) NULL,
     valid_id NUMBER (5, 0) NOT NULL,
     create_time DATE NOT NULL,
@@ -1727,6 +1723,52 @@ end;
 --;
 CREATE INDEX FK_notifications_change_by ON notifications (change_by);
 CREATE INDEX FK_notifications_create_by ON notifications (create_by);
+-- ----------------------------------------------------------
+--  create table notification_event
+-- ----------------------------------------------------------
+CREATE TABLE notification_event (
+    id NUMBER (12, 0) NOT NULL,
+    name VARCHAR2 (200) NOT NULL,
+    subject VARCHAR2 (200) NOT NULL,
+    text VARCHAR2 (4000) NOT NULL,
+    content_type VARCHAR2 (100) NOT NULL,
+    charset VARCHAR2 (100) NOT NULL,
+    valid_id NUMBER (5, 0) NOT NULL,
+    create_time DATE NOT NULL,
+    create_by NUMBER (12, 0) NOT NULL,
+    change_time DATE NOT NULL,
+    change_by NUMBER (12, 0) NOT NULL,
+    CONSTRAINT notification_event_name UNIQUE (name)
+);
+ALTER TABLE notification_event ADD CONSTRAINT PK_notification_event PRIMARY KEY (id);
+DROP SEQUENCE SE_notification_event;
+CREATE SEQUENCE SE_notification_event;
+CREATE OR REPLACE TRIGGER SE_notification_event_t
+before insert on notification_event
+for each row
+begin
+  if :new.id IS NULL then
+    select SE_notification_event.nextval
+    into :new.id
+    from dual;
+  end if;
+end;
+/
+--;
+CREATE INDEX FK_notification_event_changeaf ON notification_event (change_by);
+CREATE INDEX FK_notification_event_create9d ON notification_event (create_by);
+CREATE INDEX FK_notification_event_valid_id ON notification_event (valid_id);
+-- ----------------------------------------------------------
+--  create table notification_event_item
+-- ----------------------------------------------------------
+CREATE TABLE notification_event_item (
+    notification_id NUMBER (12, 0) NOT NULL,
+    event_key VARCHAR2 (200) NOT NULL,
+    event_value VARCHAR2 (200) NOT NULL
+);
+CREATE INDEX notification_event_item_even64 ON notification_event_item (event_key);
+CREATE INDEX notification_event_item_evene4 ON notification_event_item (event_value);
+CREATE INDEX notification_event_item_notidc ON notification_event_item (notification_id);
 -- ----------------------------------------------------------
 --  create table xml_storage
 -- ----------------------------------------------------------

@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2009-03-25 02:23:43
+#  driver: mysql, generated: 2009-05-15 11:38:12
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -312,10 +312,6 @@ CREATE TABLE queue (
     signature_id SMALLINT NOT NULL,
     follow_up_id SMALLINT NOT NULL,
     follow_up_lock SMALLINT NOT NULL,
-    move_notify SMALLINT NOT NULL,
-    state_notify SMALLINT NOT NULL,
-    lock_notify SMALLINT NOT NULL,
-    owner_notify SMALLINT NOT NULL,
     comments VARCHAR (200) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
@@ -1056,6 +1052,35 @@ CREATE TABLE notifications (
     change_time DATETIME NOT NULL,
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id)
+);
+# ----------------------------------------------------------
+#  create table notification_event
+# ----------------------------------------------------------
+CREATE TABLE notification_event (
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    name VARCHAR (200) NOT NULL,
+    subject VARCHAR (200) NOT NULL,
+    text TEXT NOT NULL,
+    content_type VARCHAR (100) NOT NULL,
+    charset VARCHAR (100) NOT NULL,
+    valid_id SMALLINT NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    UNIQUE INDEX notification_event_name (name)
+);
+# ----------------------------------------------------------
+#  create table notification_event_item
+# ----------------------------------------------------------
+CREATE TABLE notification_event_item (
+    notification_id INTEGER NOT NULL,
+    event_key VARCHAR (200) NOT NULL,
+    event_value VARCHAR (200) NOT NULL,
+    INDEX notification_event_item_event_key (event_key),
+    INDEX notification_event_item_event_value (event_value),
+    INDEX notification_event_item_notification_id (notification_id)
 );
 # ----------------------------------------------------------
 #  create table xml_storage

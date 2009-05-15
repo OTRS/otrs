@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2009-03-11 22:46:15
+--  driver: oracle, generated: 2009-05-15 11:38:12
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 ALTER TABLE valid ADD CONSTRAINT FK_valid_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
@@ -183,5 +183,9 @@ ALTER TABLE mail_account ADD CONSTRAINT FK_mail_account_change_by_id FOREIGN KEY
 ALTER TABLE mail_account ADD CONSTRAINT FK_mail_account_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
 ALTER TABLE notifications ADD CONSTRAINT FK_notifications_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE notifications ADD CONSTRAINT FK_notifications_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE notification_event ADD CONSTRAINT FK_notification_event_create23 FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE notification_event ADD CONSTRAINT FK_notification_event_changefb FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE notification_event ADD CONSTRAINT FK_notification_event_valid_51 FOREIGN KEY (valid_id) REFERENCES valid (id);
+ALTER TABLE notification_event_item ADD CONSTRAINT FK_notification_event_item_nf6 FOREIGN KEY (notification_id) REFERENCES notification_event (id);
 ALTER TABLE package_repository ADD CONSTRAINT FK_package_repository_createa6 FOREIGN KEY (create_by) REFERENCES users (id);
 ALTER TABLE package_repository ADD CONSTRAINT FK_package_repository_changea2 FOREIGN KEY (change_by) REFERENCES users (id);

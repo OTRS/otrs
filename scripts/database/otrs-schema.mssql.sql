@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2009-03-25 02:23:42
+--  driver: mssql, generated: 2009-05-15 11:38:11
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -312,10 +312,6 @@ CREATE TABLE queue (
     signature_id SMALLINT NOT NULL,
     follow_up_id SMALLINT NOT NULL,
     follow_up_lock SMALLINT NOT NULL,
-    move_notify SMALLINT NOT NULL,
-    state_notify SMALLINT NOT NULL,
-    lock_notify SMALLINT NOT NULL,
-    owner_notify SMALLINT NOT NULL,
     comments VARCHAR (200) NULL,
     valid_id SMALLINT NOT NULL,
     create_time DATETIME NOT NULL,
@@ -1057,6 +1053,35 @@ CREATE TABLE notifications (
     change_by INTEGER NOT NULL,
     PRIMARY KEY(id)
 );
+-- ----------------------------------------------------------
+--  create table notification_event
+-- ----------------------------------------------------------
+CREATE TABLE notification_event (
+    id INTEGER NOT NULL IDENTITY(1,1) ,
+    name VARCHAR (200) NOT NULL,
+    subject VARCHAR (200) NOT NULL,
+    text VARCHAR (4000) NOT NULL,
+    content_type VARCHAR (100) NOT NULL,
+    charset VARCHAR (100) NOT NULL,
+    valid_id SMALLINT NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT notification_event_name UNIQUE (name)
+);
+-- ----------------------------------------------------------
+--  create table notification_event_item
+-- ----------------------------------------------------------
+CREATE TABLE notification_event_item (
+    notification_id INTEGER NOT NULL,
+    event_key VARCHAR (200) NOT NULL,
+    event_value VARCHAR (200) NOT NULL
+);
+CREATE INDEX notification_event_item_event_key ON notification_event_item (event_key);
+CREATE INDEX notification_event_item_event_value ON notification_event_item (event_value);
+CREATE INDEX notification_event_item_notification_id ON notification_event_item (notification_id);
 -- ----------------------------------------------------------
 --  create table xml_storage
 -- ----------------------------------------------------------
