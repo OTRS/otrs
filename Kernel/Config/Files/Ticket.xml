@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.239 2009-05-07 21:03:26 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.240 2009-05-15 07:26:06 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -1456,6 +1456,18 @@
             <Hash>
                 <Item Key="Module">Kernel::System::Ticket::Event::ResponsibleAutoSet</Item>
                 <Item Key="Event">TicketOwnerUpdate</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::EventModulePost###5-NotificationEvent" Required="0" Valid="1">
+        <Description Lang="en">Ticket event module to send notifications.</Description>
+        <Description Lang="de">Ticket Event Modul um Benachrichtigungen zu versenden.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::System::Ticket::Event::NotificationEvent</Item>
+                <Item Key="Event"></Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -8065,6 +8077,26 @@ $QData{"Signature"}
                 <NavBarModule>
                     <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
                     <Name>Notification</Name>
+                    <Block>Block3</Block>
+                    <Prio>400</Prio>
+                </NavBarModule>
+            </FrontendModuleReg>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Frontend::Module###AdminNotificationEvent" Required="0" Valid="1">
+        <Description Lang="en">Frontend module registration for the AdminNotificationEvent object in the admin area.</Description>
+        <Description Lang="de">Frontendmodul-Registration des AdminNotificationEvent-Objekts im Admin-Bereich.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Admin::ModuleRegistration</SubGroup>
+        <Setting>
+            <FrontendModuleReg>
+                <Group>admin</Group>
+                <Description>Admin</Description>
+                <Title>Notification</Title>
+                <NavBarName>Admin</NavBarName>
+                <NavBarModule>
+                    <Module>Kernel::Output::HTML::NavBarModuleAdmin</Module>
+                    <Name>Notification (Event)</Name>
                     <Block>Block3</Block>
                     <Prio>400</Prio>
                 </NavBarModule>
