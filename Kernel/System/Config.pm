@@ -2,7 +2,7 @@
 # Kernel/System/Config.pm - all system config tool functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Config.pm,v 1.84 2009-03-02 10:26:59 reb Exp $
+# $Id: Config.pm,v 1.85 2009-05-15 09:56:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,15 +18,15 @@ use Kernel::System::XML;
 use Kernel::Config;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.84 $) [1];
+$VERSION = qw($Revision: 1.85 $) [1];
 
 =head1 NAME
 
-Kernel::System::Config - to manage config settings
+Kernel::System::Config - to manage sys config settings
 
 =head1 SYNOPSIS
 
-All functions to manage config settings.
+All functions to manage sys config settings.
 
 =head1 PUBLIC INTERFACE
 
@@ -62,7 +62,7 @@ create an object
         LogObject    => $LogObject,
         MainObject   => $MainObject,
     );
-    my $ConfigToolObject = Kernel::System::Config->new(
+    my $SysConfigObject = Kernel::System::Config->new(
         LogObject    => $LogObject,
         ConfigObject => $ConfigObject,
         DBObject     => $DBObject,
@@ -238,6 +238,7 @@ sub _Init {
     my %Used;
     my @XMLConfig;
     for my $ConfigItem ( reverse @{ $Self->{XMLConfig} } ) {
+        next if !$ConfigItem;
         next if !$ConfigItem->{Name};
         next if $Used{ $ConfigItem->{Name} };
         $Used{ $ConfigItem->{Name} } = 1;
@@ -302,40 +303,38 @@ sub WriteDefault {
         );
         return;
     }
-    else {
-        print $Out "# OTRS config file (automaticaly generated!)\n";
-        print $Out "# VERSION:1.1\n";
-        print $Out "package Kernel::Config::Files::ZZZAAuto;\n";
-        if ( $Self->{utf8} ) {
-            print $Out "use utf8;\n";
-        }
-        print $Out "sub Load {\n";
-        print $Out "    my (\$File, \$Self) = \@_;\n";
-        print $Out $File;
-        print $Out "}\n";
-        print $Out "1;\n";
-        close($Out);
-        return 1;
+
+    print $Out "# OTRS config file (automaticaly generated!)\n";
+    print $Out "# VERSION:1.1\n";
+    print $Out "package Kernel::Config::Files::ZZZAAuto;\n";
+    if ( $Self->{utf8} ) {
+        print $Out "use utf8;\n";
     }
+    print $Out "sub Load {\n";
+    print $Out "    my (\$File, \$Self) = \@_;\n";
+    print $Out $File;
+    print $Out "}\n";
+    print $Out "1;\n";
+    close($Out);
+    return 1;
 }
 
 =item Download()
 
 download config changes
 
-    $ConfigToolObject->Download();
+    $SysConfigObject->Download();
 
 or if you want to check if it exists (returns true or false)
 
-    $ConfigToolObject->Download(Type => 'Check');
+    $SysConfigObject->Download( Type => 'Check' );
 
 =cut
 
 sub Download {
     my ( $Self, %Param ) = @_;
 
-    my $File = '';
-    my $Home = $Self->{'Home'};
+    my $Home = $Self->{Home};
 
     # check needed stuff
     for (qw()) {
@@ -346,45 +345,43 @@ sub Download {
     }
     my $In;
     if ( !-e "$Home/Kernel/Config/Files/ZZZAuto.pm" ) {
-        return $File;
+        return '';
     }
     elsif ( !open( $In, "<$Self->{FileMode}", "$Home/Kernel/Config/Files/ZZZAuto.pm" ) ) {
-        if ( $Param{Type} ) {
-            return;
-        }
-        else {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "Can't open $Home/Kernel/Config/Files/ZZZAuto.pm: $!"
-            );
-            return '';
-        }
+        return if $Param{Type};
+
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "Can't open $Home/Kernel/Config/Files/ZZZAuto.pm: $!"
+        );
+        return '';
     }
-    else {
-        while (<$In>) {
-            $File .= $_;
-        }
-        close($In);
-        if ( $Param{Type} ) {
-            my $Length = length($File);
-            if ( $Length > 25 ) {
-                return 1;
-            }
-            else {
-                return;
-            }
-        }
-        else {
-            return $File;
-        }
+
+    # read file
+    my $File = '';
+    while (<$In>) {
+        $File .= $_;
     }
+    close($In);
+
+    # return true/false on check
+    if ( $Param{Type} ) {
+        my $Length = length($File);
+        if ( $Length > 25 ) {
+            return 1;
+        }
+        return;
+    }
+
+    # return file
+    return $File;
 }
 
 =item Upload()
 
 upload of config changes
 
-    $ConfigToolObject->Upload(
+    $SysConfigObject->Upload(
         Content => $Content,
     );
 
@@ -393,8 +390,7 @@ upload of config changes
 sub Upload {
     my ( $Self, %Param ) = @_;
 
-    my $File = '';
-    my $Home = $Self->{'Home'};
+    my $Home = $Self->{Home};
 
     # check needed stuff
     for (qw(Content)) {
@@ -421,7 +417,7 @@ sub Upload {
 
 submit config settings to application
 
-    $ConfigToolObject->CreateConfig();
+    $SysConfigObject->CreateConfig();
 
 =cut
 
@@ -430,7 +426,7 @@ sub CreateConfig {
 
     my $File     = '';
     my %UsedKeys = ();
-    my $Home     = $Self->{'Home'};
+    my $Home     = $Self->{Home};
 
     # remember to update ZZZAAuto.pm and ZZZAuto.pm
     $Self->{Update} = 1;
@@ -522,7 +518,7 @@ sub CreateConfig {
 
 submit config settings and save it
 
-    $ConfigToolObject->ConfigItemUpdate(
+    $SysConfigObject->ConfigItemUpdate(
         Valid => 1,
         Key   => 'WebUploadCacheModule',
         Value => 'Kernel::System::Web::UploadCache::DB',
@@ -533,7 +529,7 @@ submit config settings and save it
 sub ConfigItemUpdate {
     my ( $Self, %Param ) = @_;
 
-    my $Home = $Self->{'Home'};
+    my $Home = $Self->{Home};
 
     # remember to update ZZZAAuto.pm and ZZZAuto.pm
     $Self->{Update} = 1;
@@ -634,13 +630,13 @@ sub ConfigItemUpdate {
 
 get the current config setting
 
-    my %Config = $ConfigToolObject->ConfigItemGet(
+    my %Config = $SysConfigObject->ConfigItemGet(
         Name => 'Ticket::NumberGenerator',
     );
 
 get the default config setting
 
-    my %Config = $ConfigToolObject->ConfigItemGet(
+    my %Config = $SysConfigObject->ConfigItemGet(
         Name    => 'Ticket::NumberGenerator',
         Default => 1,
     );
@@ -1050,7 +1046,7 @@ sub ConfigItemReset {
 
 get a list of config groups
 
-    my %ConfigGroupList = $ConfigToolObject->ConfigGroupList();
+    my %ConfigGroupList = $SysConfigObject->ConfigGroupList();
 
 =cut
 
@@ -1083,7 +1079,7 @@ sub ConfigGroupList {
 
 get a list of config sub groups
 
-    my %ConfigGroupList = $ConfigToolObject->ConfigSubGroupList(
+    my %ConfigGroupList = $SysConfigObject->ConfigSubGroupList(
         Name => 'Framework'
     );
 
@@ -1130,7 +1126,7 @@ sub ConfigSubGroupList {
 
 get a list of config items of a sub group
 
-    my @ConfigItemList = $ConfigToolObject->ConfigSubGroupConfigItemList(
+    my @ConfigItemList = $SysConfigObject->ConfigSubGroupConfigItemList(
         Group    => 'Framework',
         SubGroup => 'Web',
     );
@@ -1197,7 +1193,7 @@ sub ConfigSubGroupConfigItemList {
 
 search sub groups of config items
 
-    my @List = $ConfigToolObject->ConfigItemSearch(
+    my @List = $SysConfigObject->ConfigItemSearch(
         Search => 'some topic'
     );
 
@@ -1761,6 +1757,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.84 $ $Date: 2009-03-02 10:26:59 $
+$Revision: 1.85 $ $Date: 2009-05-15 09:56:40 $
 
 =cut
