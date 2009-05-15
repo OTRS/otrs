@@ -2,7 +2,7 @@
 # Ticket/Number/AutoIncrement.pm - a ticket number auto increment generator
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AutoIncrement.pm,v 1.28 2009-02-16 11:46:10 tr Exp $
+# $Id: AutoIncrement.pm,v 1.29 2009-05-15 10:12:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub TicketCreateNumber {
     my ( $Self, $JumpCounter ) = @_;
@@ -88,7 +88,7 @@ sub TicketCreateNumber {
             $Self->{LogObject}->Log(
                 Priority => 'error',
                 Message  => "CounterLoopProtection is now $Self->{LoopProtectionCounter}!"
-                    . " Stoped TicketCreateNumber()!",
+                    . " Stopped TicketCreateNumber()!",
             );
             return;
         }

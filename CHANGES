@@ -2,14 +2,22 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.890 2009-04-27 11:30:02 mh Exp $
+# $Id: CHANGES,v 1.891 2009-05-15 10:12:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-2.4.0 beta2 (2009/??/??)
+2.4.0 beta2 (2009/05/15)
+ - (2009/05/15) Fixed bug# 3816 - Typo in some bin/*.pl files like
+    bin/PostMasterMailbox.pl.
+ - (2009/05/15) Added escalation time selection in admin generic agent
+    interface.
+ - (2009/05/15) Added notification event feature (be able to create custom
+    notifications based on ticket events). Old notifications get migrated
+    by scripts/DBUpdate-to-2.4.pl. Removed queue attributes for customer
+    notification options.
  - (2009/04/27) Fixed bug# 3805 - Error: Module
     Kernel/Output/HTML/NavBarTicketBulkAction.pm not found!'
  - (2009/04/27) Fixed bug# 3802 - Errormessage: "Got no EncodeObject!" if

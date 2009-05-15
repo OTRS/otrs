@@ -3,7 +3,7 @@
 # bin/PostMasterMailbox.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMasterMailbox.pl,v 1.6 2009-04-03 14:15:00 martin Exp $
+# $Id: PostMasterMailbox.pl,v 1.7 2009-05-15 10:12:02 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -185,7 +185,7 @@ sub Fetch {
     if ( $Opts{d} > 1 ) {
         $CommonObject{LogObject}->Log(
             Priority => 'debug',
-            Message  => 'Global OTRS email handle (PostMasterMailbox.pl) stoped.',
+            Message  => 'Global OTRS email handle (PostMasterMailbox.pl) stopped.',
         );
     }
 }

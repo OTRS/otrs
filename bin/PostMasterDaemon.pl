@@ -3,7 +3,7 @@
 # bin/PostMasterDaemon.pl - the daemon for the PostMasterClient.pl client
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMasterDaemon.pl,v 1.18 2009-04-03 14:15:00 martin Exp $
+# $Id: PostMasterDaemon.pl,v 1.19 2009-05-15 10:12:02 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -172,7 +172,7 @@ sub PipeEmail {
     if ($Debug) {
         $CommonObject{LogObject}->Log(
             Priority => 'debug',
-            Message  => 'Email handle (PostMasterDaemon.pl) stoped.',
+            Message  => 'Email handle (PostMasterDaemon.pl) stopped.',
         );
     }
     return 1;
