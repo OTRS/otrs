@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.394 2009-05-07 21:03:26 martin Exp $
+# $Id: Ticket.pm,v 1.395 2009-05-15 09:54:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTML2Ascii;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.394 $) [1];
+$VERSION = qw($Revision: 1.395 $) [1];
 
 =head1 NAME
 
@@ -1647,16 +1647,6 @@ sub MoveTicket {
                 }
             }
         }
-
-        # send customer notification email
-        my %Preferences = $Self->{UserObject}->GetUserData( UserID => $Param{UserID} );
-        $Self->SendCustomerNotification(
-            Type                  => 'QueueUpdate',
-            CustomerMessageParams => { %Preferences, Queue => $Queue },
-            TicketID              => $Param{TicketID},
-            UserID                => $Param{UserID},
-        );
-
     }
 
     # ticket event
@@ -1825,7 +1815,7 @@ sub TicketTypeSet {
     my %Ticket = $Self->TicketGet(%Param);
 
     # update needed?
-    return 1 if ( $Param{TypeID} == $Ticket{TypeID} );
+    return 1 if $Param{TypeID} == $Ticket{TypeID};
 
     # permission check
     my %TypeList = $Self->TicketTypeList(%Param);
@@ -1976,7 +1966,7 @@ sub TicketServiceSet {
     my %Ticket = $Self->TicketGet(%Param);
 
     # update needed?
-    return 1 if ( $Param{ServiceID} eq $Ticket{ServiceID} );
+    return 1 if $Param{ServiceID} eq $Ticket{ServiceID};
 
     # permission check
     my %ServiceList = $Self->TicketServiceList(%Param);
@@ -5204,16 +5194,6 @@ sub StateSet {
         CreateUserID => $Param{UserID},
     );
 
-    # send customer notification email
-    if ( !$Param{SendNoNotification} ) {
-        $Self->SendCustomerNotification(
-            Type                  => 'StateUpdate',
-            CustomerMessageParams => \%Param,
-            TicketID              => $Param{TicketID},
-            UserID                => $Param{UserID},
-        );
-    }
-
     # ticket event
     $Self->TicketEventHandlerPost(
         Event    => 'TicketStateUpdate',
@@ -5483,15 +5463,6 @@ sub OwnerSet {
                 UserID                => $Param{UserID},
             );
         }
-
-        # send customer notification email
-        my %Preferences = $Self->{UserObject}->GetUserData( UserID => $Param{NewUserID} );
-        $Self->SendCustomerNotification(
-            Type                  => 'OwnerUpdate',
-            CustomerMessageParams => \%Preferences,
-            TicketID              => $Param{TicketID},
-            UserID                => $Param{UserID},
-        );
     }
 
     # ticket event
@@ -5663,15 +5634,6 @@ sub ResponsibleSet {
                 UserID                => $Param{UserID},
             );
         }
-
-        #        # send customer notification email
-        #        my %Preferences = $Self->{UserObject}->GetUserData(UserID => $Param{NewUserID});
-        #        $Self->SendCustomerNotification(
-        #            Type => 'ResponsibleUpdate',
-        #            CustomerMessageParams => \%Preferences,
-        #            TicketID => $Param{TicketID},
-        #            UserID => $Param{UserID},
-        #        );
     }
 
     # ticket event
@@ -7495,6 +7457,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.394 $ $Date: 2009-05-07 21:03:26 $
+$Revision: 1.395 $ $Date: 2009-05-15 09:54:54 $
 
 =cut
