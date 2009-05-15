@@ -3,7 +3,7 @@
 # DBUpdate-to-2.4.pl - update script to migrate OTRS 2.3.x to 2.4.x
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-2.4.pl,v 1.1 2009-04-27 11:28:51 mh Exp $
+# $Id: DBUpdate-to-2.4.pl,v 1.2 2009-05-15 09:47:17 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -42,7 +42,8 @@ use Kernel::System::Encode;
 use Kernel::System::DB;
 use Kernel::System::Main;
 use Kernel::System::Config;
-use Kernel::System::Ticket;
+use Kernel::System::Queue;
+use Kernel::System::NotificationEvent;
 
 # get options
 my %Opts;
@@ -67,6 +68,9 @@ $CommonObject{MainObject}      = Kernel::System::Main->new(%CommonObject);
 $CommonObject{TimeObject}      = Kernel::System::Time->new(%CommonObject);
 $CommonObject{DBObject}        = Kernel::System::DB->new(%CommonObject);
 $CommonObject{SysConfigObject} = Kernel::System::Config->new(%CommonObject);
+$CommonObject{QueueObject}     = Kernel::System::Queue->new(%CommonObject);
+
+$CommonObject{NotificationEventObject}     = Kernel::System::NotificationEvent->new(%CommonObject);
 
 # define config dir
 my $ConfigDir = $CommonObject{ConfigObject}->Get('Home') . '/Kernel/Config/Files/';
@@ -91,6 +95,7 @@ $CommonObject{ConfigObject} = Kernel::Config->new();
 
 # start migration process
 CleanUpCacheDir();
+MigrateCustomerNotification();
 
 # removed ZZZ files to fix permission problem
 ZZZFILE:
@@ -147,6 +152,33 @@ sub CleanUpCacheDir {
         next if ( !-f $CacheFile );
         unlink $CacheFile;
     }
+    print STDOUT " done.\n";
+
+    return 1;
+}
+
+=item MigrateCustomerNotification()
+
+migrate all queue based customer notifications to new event notifications
+
+    MigrateCustomerNotification();
+
+=cut
+
+sub MigrateCustomerNotification {
+
+    print STDOUT "NOTICE: Migrate queue based customer notifications... ";
+
+    # get all queues
+    my %Queues = $CommonObject{QueueObject}->GetAllQueues();
+
+    # move enabled notification to new event notitfication
+    for my $QueueID ( keys %Queues ) {
+#        "SELECT state_notify, queue_notify, owner_notify FROM queue WHERE id =  ?"
+#        $CommonObject{NotificationEvent}->NotificationAdd(
+#        );
+    }
+
     print STDOUT " done.\n";
 
     return 1;

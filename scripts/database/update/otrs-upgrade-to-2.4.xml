@@ -1,6 +1,48 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <database Name="otrs">
 
+    <TableCreate Name="notification_event">
+        <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="INTEGER"/>
+        <Column Name="name" Required="true" Size="200" Type="VARCHAR"/>
+        <Column Name="subject" Required="true" Size="200" Type="VARCHAR"/>
+        <Column Name="text" Required="true" Size="4000" Type="VARCHAR"/>
+        <Column Name="content_type" Required="true" Size="100" Type="VARCHAR"/>
+        <Column Name="charset" Required="true" Size="100" Type="VARCHAR"/>
+        <Column Name="valid_id" Required="true" Type="SMALLINT"/>
+        <Column Name="create_time" Required="true" Type="DATE"/>
+        <Column Name="create_by" Required="true" Type="INTEGER"/>
+        <Column Name="change_time" Required="true" Type="DATE"/>
+        <Column Name="change_by" Required="true" Type="INTEGER"/>
+        <Unique Name="notification_event_name">
+            <UniqueColumn Name="name"/>
+        </Unique>
+        <ForeignKey ForeignTable="users">
+            <Reference Local="create_by" Foreign="id"/>
+            <Reference Local="change_by" Foreign="id"/>
+        </ForeignKey>
+        <ForeignKey ForeignTable="valid">
+            <Reference Local="valid_id" Foreign="id"/>
+        </ForeignKey>
+    </TableCreate>
+
+    <TableCreate Name="notification_event_item">
+        <Column Name="notification_id" Required="true" Type="INTEGER"/>
+        <Column Name="event_key" Required="true" Size="200" Type="VARCHAR"/>
+        <Column Name="event_value" Required="true" Size="200" Type="VARCHAR"/>
+        <ForeignKey ForeignTable="notification_event">
+            <Reference Foreign="id" Local="notification_id"/>
+        </ForeignKey>
+        <Index Name="notification_event_item_notification_id">
+            <IndexColumn Name="notification_id"/>
+        </Index>
+        <Index Name="notification_event_item_event_key">
+            <IndexColumn Name="event_key"/>
+        </Index>
+        <Index Name="notification_event_item_event_value">
+            <IndexColumn Name="event_value"/>
+        </Index>
+    </TableCreate>
+
     <TableAlter Name="postmaster_filter">
         <ColumnAdd Name="f_stop" Required="false" Type="SMALLINT"/>
     </TableAlter>

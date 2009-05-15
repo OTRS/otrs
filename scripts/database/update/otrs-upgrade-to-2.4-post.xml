@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<database Name="otrs">
+
+    <TableAlter Name="queue">
+        <ColumnDrop Name="move_notify"/>
+        <ColumnDrop Name="state_notify"/>
+        <ColumnDrop Name="lock_notify"/>
+        <ColumnDrop Name="owner_notify"/>
+    </TableAlter>
+
+</database>

@@ -1,6 +1,35 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2009-03-25 02:28:07
+--  driver: mssql, generated: 2009-05-15 11:45:14
 -- ----------------------------------------------------------
+-- ----------------------------------------------------------
+--  create table notification_event
+-- ----------------------------------------------------------
+CREATE TABLE notification_event (
+    id INTEGER NOT NULL IDENTITY(1,1) ,
+    name VARCHAR (200) NOT NULL,
+    subject VARCHAR (200) NOT NULL,
+    text VARCHAR (4000) NOT NULL,
+    content_type VARCHAR (100) NOT NULL,
+    charset VARCHAR (100) NOT NULL,
+    valid_id SMALLINT NOT NULL,
+    create_time DATETIME NOT NULL,
+    create_by INTEGER NOT NULL,
+    change_time DATETIME NOT NULL,
+    change_by INTEGER NOT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT notification_event_name UNIQUE (name)
+);
+-- ----------------------------------------------------------
+--  create table notification_event_item
+-- ----------------------------------------------------------
+CREATE TABLE notification_event_item (
+    notification_id INTEGER NOT NULL,
+    event_key VARCHAR (200) NOT NULL,
+    event_value VARCHAR (200) NOT NULL
+);
+CREATE INDEX notification_event_item_event_key ON notification_event_item (event_key);
+CREATE INDEX notification_event_item_event_value ON notification_event_item (event_value);
+CREATE INDEX notification_event_item_notification_id ON notification_event_item (notification_id);
 -- ----------------------------------------------------------
 --  alter table postmaster_filter
 -- ----------------------------------------------------------
@@ -91,5 +120,9 @@ ALTER TABLE notifications ADD content_type VARCHAR (250) NULL;
 --  alter table web_upload_cache
 -- ----------------------------------------------------------
 ALTER TABLE web_upload_cache ADD content_id VARCHAR (250) NULL;
+ALTER TABLE notification_event ADD CONSTRAINT FK_notification_event_create_by_id FOREIGN KEY (create_by) REFERENCES users (id);
+ALTER TABLE notification_event ADD CONSTRAINT FK_notification_event_change_by_id FOREIGN KEY (change_by) REFERENCES users (id);
+ALTER TABLE notification_event ADD CONSTRAINT FK_notification_event_valid_id_id FOREIGN KEY (valid_id) REFERENCES valid (id);
+ALTER TABLE notification_event_item ADD CONSTRAINT FK_notification_event_item_notification_id_id FOREIGN KEY (notification_id) REFERENCES notification_event (id);
 ALTER TABLE service_preferences ADD CONSTRAINT FK_service_preferences_service_id_id FOREIGN KEY (service_id) REFERENCES service (id);
 ALTER TABLE sla_preferences ADD CONSTRAINT FK_sla_preferences_sla_id_id FOREIGN KEY (sla_id) REFERENCES sla (id);
