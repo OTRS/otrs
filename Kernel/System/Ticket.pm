@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.395 2009-05-15 09:54:54 martin Exp $
+# $Id: Ticket.pm,v 1.396 2009-05-15 10:36:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTML2Ascii;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.395 $) [1];
+$VERSION = qw($Revision: 1.396 $) [1];
 
 =head1 NAME
 
@@ -1610,7 +1610,7 @@ sub MoveTicket {
     # history insert
     $Self->HistoryAdd(
         TicketID     => $Param{TicketID},
-        QueueID      => $Ticket{QueueID},
+        QueueID      => $Param{QueueID},
         HistoryType  => 'Move',
         Name         => "\%\%$Queue\%\%$Param{QueueID}\%\%$Ticket{Queue}\%\%$Ticket{QueueID}",
         CreateUserID => $Param{UserID},
@@ -7457,6 +7457,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.395 $ $Date: 2009-05-15 09:54:54 $
+$Revision: 1.396 $ $Date: 2009-05-15 10:36:19 $
 
 =cut

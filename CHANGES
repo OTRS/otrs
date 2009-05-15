@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.891 2009-05-15 10:12:02 martin Exp $
+# $Id: CHANGES,v 1.892 2009-05-15 10:36:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,13 @@
 # --
 
 2.4.0 beta2 (2009/05/15)
+ - (2009/05/15) Fixed bug# 3618 - Ticket history info (ticket_history.queue_id)
+    on TicketMove-Event is saving the old queue_id instead of the new queue_id.
+ - (2009/05/15) Fixed bug# 3598 - Attachments are incorrectly displayed in
+    ticket zoom view when attachments are located in file system (done by
+    AttachmentFS) and now AttachmentDB backned is used.
+ - (2009/05/15) Fixed bug# 3583 - Watched tickets do not follow queue rights.
+    Can't read watched tickets with no permissions in new queue.
  - (2009/05/15) Fixed bug# 3816 - Typo in some bin/*.pl files like
     bin/PostMasterMailbox.pl.
  - (2009/05/15) Added escalation time selection in admin generic agent
