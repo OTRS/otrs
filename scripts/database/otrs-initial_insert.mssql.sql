@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2009-03-16 22:56:04
+--  driver: mssql, generated: 2009-05-15 15:51:09
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  insert into table valid
@@ -232,27 +232,27 @@ INSERT INTO follow_up_possible (name, comments, valid_id, create_by, create_time
 -- ----------------------------------------------------------
 --  insert into table queue
 -- ----------------------------------------------------------
-INSERT INTO queue (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comments, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO queue (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, unlock_timeout, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('Postmaster', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 'Post master queue.', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Postmaster', 1, 1, 1, 1, 1, 1, 0, 'Post master queue.', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table queue
 -- ----------------------------------------------------------
-INSERT INTO queue (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comments, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO queue (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, unlock_timeout, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('Raw', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 'All default incoming ticket.', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Raw', 1, 1, 1, 1, 1, 1, 0, 'All default incoming ticket.', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table queue
 -- ----------------------------------------------------------
-INSERT INTO queue (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comments, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO queue (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, unlock_timeout, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('Junk', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 'All junk tickets.', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Junk', 1, 1, 1, 1, 1, 1, 0, 'All junk tickets.', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table queue
 -- ----------------------------------------------------------
-INSERT INTO queue (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, unlock_timeout, move_notify, lock_notify, state_notify, owner_notify, comments, valid_id, create_by, create_time, change_by, change_time)
+INSERT INTO queue (name, group_id, system_address_id, salutation_id, signature_id, follow_up_id, follow_up_lock, unlock_timeout, comments, valid_id, create_by, create_time, change_by, change_time)
     VALUES
-    ('Misc', 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 'All misc tickets.', 1, 1, current_timestamp, 1, current_timestamp);
+    ('Misc', 1, 1, 1, 1, 1, 1, 0, 'All misc tickets.', 1, 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table standard_response
 -- ----------------------------------------------------------

@@ -412,10 +412,6 @@ Your Ticket-Team
         <Data Key="follow_up_id">1</Data>
         <Data Key="follow_up_lock">1</Data>
         <Data Key="unlock_timeout">0</Data>
-        <Data Key="move_notify">0</Data>
-        <Data Key="lock_notify">0</Data>
-        <Data Key="state_notify">0</Data>
-        <Data Key="owner_notify">0</Data>
         <Data Key="comments" Type="Quote">Post master queue.</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -433,10 +429,6 @@ Your Ticket-Team
         <Data Key="follow_up_id">1</Data>
         <Data Key="follow_up_lock">1</Data>
         <Data Key="unlock_timeout">0</Data>
-        <Data Key="move_notify">0</Data>
-        <Data Key="lock_notify">0</Data>
-        <Data Key="state_notify">0</Data>
-        <Data Key="owner_notify">0</Data>
         <Data Key="comments" Type="Quote">All default incoming ticket.</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -454,10 +446,6 @@ Your Ticket-Team
         <Data Key="follow_up_id">1</Data>
         <Data Key="follow_up_lock">1</Data>
         <Data Key="unlock_timeout">0</Data>
-        <Data Key="move_notify">0</Data>
-        <Data Key="lock_notify">0</Data>
-        <Data Key="state_notify">0</Data>
-        <Data Key="owner_notify">0</Data>
         <Data Key="comments" Type="Quote">All junk tickets.</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
@@ -475,10 +463,6 @@ Your Ticket-Team
         <Data Key="follow_up_id">1</Data>
         <Data Key="follow_up_lock">1</Data>
         <Data Key="unlock_timeout">0</Data>
-        <Data Key="move_notify">0</Data>
-        <Data Key="lock_notify">0</Data>
-        <Data Key="state_notify">0</Data>
-        <Data Key="owner_notify">0</Data>
         <Data Key="comments" Type="Quote">All misc tickets.</Data>
         <Data Key="valid_id">1</Data>
         <Data Key="create_by">1</Data>
