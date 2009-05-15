@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.42 2009-04-01 09:00:32 tr Exp $
+# $Id: AdminGenericAgent.dtl,v 1.43 2009-05-15 09:32:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -75,14 +75,10 @@
                   $Text{"$QData{"ShownValid"}"}
                 </td>
                 <td align="center" class="$QData{"cssValid"}">
-                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&&Subaction=Delete&Profile=$LQData{"Name"}">
-                  $Text{"x"}
-                  </a>
+                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&&Subaction=Delete&Profile=$LQData{"Name"}">$Text{"x"}</a>
                 </td>
                 <td align="center" class="$QData{"cssValid"}">
-                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=RunNow&Profile=$LQData{"Name"}">
-                  $Text{"x"}
-                  </a>
+                  <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=RunNow&Profile=$LQData{"Name"}">$Text{"x"}</a>
                 </td>
               </tr>
 <!-- dtl:block:Row -->
@@ -338,6 +334,90 @@
             <td colspan="2" class="contentbody">
               <input type="radio" name="TimePendingSearchType" value="TimeSlot" $Data{"TimePendingSearchType::TimeSlot"}/>
               $Text{"Ticket pending time reached between"} $Data{"TicketPendingTimeStart"} $Text{"and"} $Data{"TicketPendingTimeStop"}.
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contenthead">$Text{"Escalation Times"}</td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contentbody">
+              <input type="radio" name="EscalationTimeSearchType" value="" $Data{"EscalationTimeSearchType::None"}/>
+              $Text{"No escalation time settings."}
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contentbody">
+              <input type="radio" name="EscalationTimeSearchType" value="TimePoint" $Data{"EscalationTimeSearchType::TimePoint"}/>
+              $Text{"Ticket escalation time reached"} $Data{"TicketEscalationTimePointStart"} $Data{"TicketEscalationTimePoint"} $Data{"TicketEscalationTimePointFormat"}.
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contentbody">
+              <input type="radio" name="EscalationTimeSearchType" value="TimeSlot" $Data{"EscalationTimeSearchType::TimeSlot"}/>
+              $Text{"Ticket escalation time reached between"} $Data{"TicketEscalationTimeStart"} $Text{"and"} $Data{"TicketEscalationTimeStop"}.
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contenthead">$Text{"Escalation - First Response Time"}</td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contentbody">
+              <input type="radio" name="EscalationResponseTimeSearchType" value="" $Data{"EscalationResponseTimeSearchType::None"}/>
+              $Text{"No escalation time settings."}
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contentbody">
+              <input type="radio" name="EscalationResponseTimeSearchType" value="TimePoint" $Data{"EscalationResponseTimeSearchType::TimePoint"}/>
+              $Text{"Ticket first response time reached"} $Data{"TicketEscalationResponseTimePointStart"} $Data{"TicketEscalationResponseTimePoint"} $Data{"TicketEscalationResponseTimePointFormat"}.
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contentbody">
+              <input type="radio" name="EscalationResponseTimeSearchType" value="TimeSlot" $Data{"EscalationResponseTimeSearchType::TimeSlot"}/>
+              $Text{"Ticket first response time reached between"} $Data{"TicketEscalationResponseTimeStart"} $Text{"and"} $Data{"TicketEscalationResponseTimeStop"}.
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contenthead">$Text{"Escalation - Update Time"}</td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contentbody">
+              <input type="radio" name="EscalationUpdateTimeSearchType" value="" $Data{"EscalationUpdateTimeSearchType::None"}/>
+              $Text{"No escalation time settings."}
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contentbody">
+              <input type="radio" name="EscalationUpdateTimeSearchType" value="TimePoint" $Data{"EscalationUpdateTimeSearchType::TimePoint"}/>
+              $Text{"Ticket update time reached"} $Data{"TicketEscalationUpdateTimePointStart"} $Data{"TicketEscalationUpdateTimePoint"} $Data{"TicketEscalationUpdateTimePointFormat"}.
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contentbody">
+              <input type="radio" name="EscalationUpdateTimeSearchType" value="TimeSlot" $Data{"EscalationUpdateTimeSearchType::TimeSlot"}/>
+              $Text{"Ticket update time reached between"} $Data{"TicketEscalationUpdateTimeStart"} $Text{"and"} $Data{"TicketEscalationUpdateTimeStop"}.
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contenthead">$Text{"Escalation - Solution Time"}</td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contentbody">
+              <input type="radio" name="EscalationSolutionTimeSearchType" value="" $Data{"EscalationSolutionTimeSearchType::None"}/>
+              $Text{"No escalation time settings."}
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contentbody">
+              <input type="radio" name="EscalationSolutionTimeSearchType" value="TimePoint" $Data{"EscalationSolutionTimeSearchType::TimePoint"}/>
+              $Text{"Ticket solution time reached"} $Data{"TicketEscalationSolutionTimePointStart"} $Data{"TicketEscalationSolutionTimePoint"} $Data{"TicketEscalationSolutionTimePointFormat"}.
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="contentbody">
+              <input type="radio" name="EscalationSolutionTimeSearchType" value="TimeSlot" $Data{"EscalationSolutionTimeSearchType::TimeSlot"}/>
+              $Text{"Ticket solution time reached between"} $Data{"TicketEscalationSolutionTimeStart"} $Text{"and"} $Data{"TicketEscalationSolutionTimeStop"}.
             </td>
           </tr>
 <!-- new options -->

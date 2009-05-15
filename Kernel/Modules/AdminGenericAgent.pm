@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.64 2009-04-20 08:11:39 martin Exp $
+# $Id: AdminGenericAgent.pm,v 1.65 2009-05-15 09:32:25 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -120,24 +120,6 @@ sub Run {
         my %GetParam = ();
         for (
             qw(TicketNumber Title From To Cc Subject Body CustomerID CustomerUserLogin Agent
-            TimeSearchType TicketCreateTimePointFormat TicketCreateTimePoint
-            TicketCreateTimePointStart
-            TicketCreateTimeStart TicketCreateTimeStartDay TicketCreateTimeStartMonth
-            TicketCreateTimeStartYear
-            TicketCreateTimeStop TicketCreateTimeStopDay TicketCreateTimeStopMonth
-            TicketCreateTimeStopYear
-            CloseTimeSearchType TicketCloseTimePointFormat TicketCloseTimePoint
-            TicketCloseTimePointStart
-            TicketCloseTimeStart TicketCloseTimeStartDay TicketCloseTimeStartMonth
-            TicketCloseTimeStartYear
-            TicketCloseTimeStop TicketCloseTimeStopDay TicketCloseTimeStopMonth
-            TicketCloseTimeStopYear
-            TimePendingSearchType TicketPendingTimePointFormat TicketPendingTimePoint
-            TicketPendingTimePointStart
-            TicketPendingTimeStart TicketPendingTimeStartDay TicketPendingTimeStartMonth
-            TicketPendingTimeStartYear
-            TicketPendingTimeStop TicketPendingTimeStopDay TicketPendingTimeStopMonth
-            TicketPendingTimeStopYear
             NewTitle
             NewCustomerID NewCustomerUserLogin
             NewStateID NewQueueID NewPriorityID NewOwnerID
@@ -158,6 +140,21 @@ sub Run {
             if ( $GetParam{$_} ) {
                 $GetParam{$_} =~ s/\s+$//g;
                 $GetParam{$_} =~ s/^\s+//g;
+            }
+        }
+
+        for my $Type (qw(Time CloseTime TimePending EscalationTime EscalationResponseTime EscalationUpdateTime EscalationSolutionTime) ) {
+            my $Key = $Type . 'SearchType';
+            $GetParam{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
+        }
+        for my $Type (qw(TicketClose TicketPending TicketEscalation TicketEscalationResponse TicketEscalationUpdate TicketEscalationSolution) ) {
+            for my $Attribut ( qw(
+                TimePoint TimePointFormat TimePointStart
+                TimeStart TimeStartDay TimeStartMonth TimeStopMonth
+                TimeStop TimeStopDay TimeStopYear TimeStartYear
+                )) {
+                my $Key = $Type . $Attribut;
+                $GetParam{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
             }
         }
 
@@ -253,273 +250,139 @@ sub Run {
             UserID => $Self->{UserID},
         );
 
-        # get create time settings
-        if ( !$GetParam{TimeSearchType} || $GetParam{TimeSearchType} eq 'None' ) {
-
-            # do noting on time stuff
-        }
-        elsif ( $GetParam{TimeSearchType} eq 'TimeSlot' ) {
-            for (qw(Month Day)) {
-                if ( $GetParam{"TicketCreateTimeStart$_"} <= 9 ) {
-                    $GetParam{"TicketCreateTimeStart$_"}
-                        = '0' . $GetParam{"TicketCreateTimeStart$_"};
-                }
-            }
-            for (qw(Month Day)) {
-                if ( $GetParam{"TicketCreateTimeStop$_"} <= 9 ) {
-                    $GetParam{"TicketCreateTimeStop$_"} = '0' . $GetParam{"TicketCreateTimeStop$_"};
-                }
-            }
-            if (
-                $GetParam{TicketCreateTimeStartDay}
-                && $GetParam{TicketCreateTimeStartMonth}
-                && $GetParam{TicketCreateTimeStartYear}
-                )
-            {
-                $GetParam{TicketCreateTimeNewerDate}
-                    = $GetParam{TicketCreateTimeStartYear} . '-'
-                    . $GetParam{TicketCreateTimeStartMonth} . '-'
-                    . $GetParam{TicketCreateTimeStartDay}
-                    . ' 00:00:01';
-            }
-            if (
-                $GetParam{TicketCreateTimeStopDay}
-                && $GetParam{TicketCreateTimeStopMonth}
-                && $GetParam{TicketCreateTimeStopYear}
-                )
-            {
-                $GetParam{TicketCreateTimeOlderDate}
-                    = $GetParam{TicketCreateTimeStopYear} . '-'
-                    . $GetParam{TicketCreateTimeStopMonth} . '-'
-                    . $GetParam{TicketCreateTimeStopDay}
-                    . ' 23:59:59';
-            }
-        }
-        elsif ( $GetParam{TimeSearchType} eq 'TimePoint' ) {
-            if (
-                $GetParam{TicketCreateTimePoint}
-                && $GetParam{TicketCreateTimePointStart}
-                && $GetParam{TicketCreateTimePointFormat}
-                )
-            {
-                my $Time = 0;
-                if ( $GetParam{TicketCreateTimePointFormat} eq 'minute' ) {
-                    $Time = $GetParam{TicketCreateTimePoint};
-                }
-                elsif ( $GetParam{TicketCreateTimePointFormat} eq 'hour' ) {
-                    $Time = $GetParam{TicketCreateTimePoint} * 60;
-                }
-                elsif ( $GetParam{TicketCreateTimePointFormat} eq 'day' ) {
-                    $Time = $GetParam{TicketCreateTimePoint} * 60 * 24;
-                }
-                elsif ( $GetParam{TicketCreateTimePointFormat} eq 'week' ) {
-                    $Time = $GetParam{TicketCreateTimePoint} * 60 * 24 * 7;
-                }
-                elsif ( $GetParam{TicketCreateTimePointFormat} eq 'month' ) {
-                    $Time = $GetParam{TicketCreateTimePoint} * 60 * 24 * 30;
-                }
-                elsif ( $GetParam{TicketCreateTimePointFormat} eq 'year' ) {
-                    $Time = $GetParam{TicketCreateTimePoint} * 60 * 24 * 365;
-                }
-                if ( $GetParam{TicketCreateTimePointStart} eq 'Before' ) {
-                    $GetParam{TicketCreateTimeOlderMinutes} = $Time;
-                }
-                else {
-                    $GetParam{TicketCreateTimeNewerMinutes} = $Time;
-                }
-            }
-        }
-
-        # get create time settings
-        if ( !$GetParam{CloseTimeSearchType} || $GetParam{CloseTimeSearchType} eq 'None' ) {
-
-            # do noting on time stuff
-        }
-        elsif ( $GetParam{CloseTimeSearchType} eq 'TimeSlot' ) {
-            for (qw(Month Day)) {
-                if ( $GetParam{"TicketCloseTimeStart$_"} <= 9 ) {
-                    $GetParam{"TicketCloseTimeStart$_"}
-                        = '0' . $GetParam{"TicketCloseTimeStart$_"};
-                }
-            }
-            for (qw(Month Day)) {
-                if ( $GetParam{"TicketCloseTimeStop$_"} <= 9 ) {
-                    $GetParam{"TicketCloseTimeStop$_"} = '0' . $GetParam{"TicketCloseTimeStop$_"};
-                }
-            }
-            if (
-                $GetParam{TicketCloseTimeStartDay}
-                && $GetParam{TicketCloseTimeStartMonth}
-                && $GetParam{TicketCloseTimeStartYear}
-                )
-            {
-                $GetParam{TicketCloseTimeNewerDate}
-                    = $GetParam{TicketCloseTimeStartYear} . '-'
-                    . $GetParam{TicketCloseTimeStartMonth} . '-'
-                    . $GetParam{TicketCloseTimeStartDay}
-                    . ' 00:00:01';
-            }
-            if (
-                $GetParam{TicketCloseTimeStopDay}
-                && $GetParam{TicketCloseTimeStopMonth}
-                && $GetParam{TicketCloseTimeStopYear}
-                )
-            {
-                $GetParam{TicketCloseTimeOlderDate}
-                    = $GetParam{TicketCloseTimeStopYear} . '-'
-                    . $GetParam{TicketCloseTimeStopMonth} . '-'
-                    . $GetParam{TicketCloseTimeStopDay}
-                    . ' 23:59:59';
-            }
-        }
-        elsif ( $GetParam{CloseTimeSearchType} eq 'TimePoint' ) {
-            if (
-                $GetParam{TicketCloseTimePoint}
-                && $GetParam{TicketCloseTimePointStart}
-                && $GetParam{TicketCloseTimePointFormat}
-                )
-            {
-                my $Time = 0;
-                if ( $GetParam{TicketCloseTimePointFormat} eq 'minute' ) {
-                    $Time = $GetParam{TicketCloseTimePoint};
-                }
-                elsif ( $GetParam{TicketCloseTimePointFormat} eq 'hour' ) {
-                    $Time = $GetParam{TicketCloseTimePoint} * 60;
-                }
-                elsif ( $GetParam{TicketCloseTimePointFormat} eq 'day' ) {
-                    $Time = $GetParam{TicketCloseTimePoint} * 60 * 24;
-                }
-                elsif ( $GetParam{TicketCloseTimePointFormat} eq 'week' ) {
-                    $Time = $GetParam{TicketCloseTimePoint} * 60 * 24 * 7;
-                }
-                elsif ( $GetParam{TicketCloseTimePointFormat} eq 'month' ) {
-                    $Time = $GetParam{TicketCloseTimePoint} * 60 * 24 * 30;
-                }
-                elsif ( $GetParam{TicketCloseTimePointFormat} eq 'year' ) {
-                    $Time = $GetParam{TicketCloseTimePoint} * 60 * 24 * 365;
-                }
-                if ( $GetParam{TicketCloseTimePointStart} eq 'Before' ) {
-                    $GetParam{TicketCloseTimeOlderMinutes} = $Time;
-                }
-                else {
-                    $GetParam{TicketCloseTimeNewerMinutes} = $Time;
-                }
-            }
-        }
-
         # get time settings
-        if ( !$GetParam{TimePendingSearchType} || $GetParam{TimePendingSearchType} eq 'None' ) {
+        my %Map = (
+            TicketCreate             => 'Time',
+            TicketClose              => 'CloseTime',
+            TicketPending            => 'TimePending',
+            TicketEscalation         => 'EscalationTime',
+            TicketEscalationResponse => 'EscalationResponseTime',
+            TicketEscalationUpdate   => 'EscalationUpdateTime',
+            TicketEscalationSolution => 'EscalationSolutionTime',
+        );
+        for my $Type (qw(TicketClose TicketPending TicketEscalation TicketEscalationResponse TicketEscalationUpdate TicketEscalationSolution) ) {
+            my $SearchType = $Map{$Type} . 'SearchType';
+            if ( !$GetParam{$SearchType} || $GetParam{$SearchType} eq 'None' ) {
 
-            # do noting on time stuff
-        }
-        elsif ( $GetParam{TimePendingSearchType} eq 'TimeSlot' ) {
-            for (qw(Month Day)) {
-                if ( $GetParam{"TicketPendingTimeStart$_"} <= 9 ) {
-                    $GetParam{"TicketPendingTimeStart$_"}
-                        = '0' . $GetParam{"TicketPendingTimeStart$_"};
+                # do noting on time stuff
+            }
+            elsif ( $GetParam{$SearchType} eq 'TimeSlot' ) {
+                for (qw(Month Day)) {
+                    if ( $GetParam{ $Type . "TimeStart$_" } <= 9 ) {
+                        $GetParam{ $Type . "TimeStart$_" } = '0' . $GetParam{ $Type . "TimeStart$_" };
+                    }
+                }
+                for (qw(Month Day)) {
+                    if ( $GetParam{ $Type . "TimeStop$_" } <= 9 ) {
+                        $GetParam{ $Type . "TimeStop$_" } = '0' . $GetParam{ $Type . "TimeStop$_" };
+                    }
+                }
+                if (
+                    $GetParam{ $Type . 'TimeStartDay' }
+                    && $GetParam{ $Type . 'TimeStartMonth' }
+                    && $GetParam{ $Type . 'TimeStartYear' }
+                    )
+                {
+                    $GetParam{ $Type . 'TimeNewerDate' }
+                        = $GetParam{ $Type . 'TimeStartYear' } . '-'
+                        . $GetParam{ $Type . 'TimeStartMonth' } . '-'
+                        . $GetParam{ $Type . 'TimeStartDay' }
+                        . ' 00:00:01';
+                }
+                if (
+                    $GetParam{ $Type . 'TimeStopDay' }
+                    && $GetParam{ $Type . 'TimeStopMonth' }
+                    && $GetParam{ $Type . 'TimeStopYear' }
+                    )
+                {
+                    $GetParam{ $Type . 'TimeOlderDate' }
+                        = $GetParam{ $Type . 'TimeStopYear' } . '-'
+                        . $GetParam{ $Type . 'TimeStopMonth' } . '-'
+                        . $GetParam{ $Type . 'TimeStopDay' }
+                        . ' 23:59:59';
                 }
             }
-            for (qw(Month Day)) {
-                if ( $GetParam{"TicketPendingTimeStop$_"} <= 9 ) {
-                    $GetParam{"TicketPendingTimeStop$_"}
-                        = '0' . $GetParam{"TicketPendingTimeStop$_"};
-                }
-            }
-            if (
-                $GetParam{TicketPendingTimeStartDay}
-                && $GetParam{TicketPendingTimeStartMonth}
-                && $GetParam{TicketPendingTimeStartYear}
-                )
-            {
-                $GetParam{TicketPendingTimeNewerDate}
-                    = $GetParam{TicketPendingTimeStartYear} . '-'
-                    . $GetParam{TicketPendingTimeStartMonth} . '-'
-                    . $GetParam{TicketPendingTimeStartDay}
-                    . ' 00:00:01';
-            }
-            if (
-                $GetParam{TicketPendingTimeStopDay}
-                && $GetParam{TicketPendingTimeStopMonth}
-                && $GetParam{TicketPendingTimeStopYear}
-                )
-            {
-                $GetParam{TicketPendingTimeOlderDate}
-                    = $GetParam{TicketPendingTimeStopYear} . '-'
-                    . $GetParam{TicketPendingTimeStopMonth} . '-'
-                    . $GetParam{TicketPendingTimeStopDay}
-                    . ' 23:59:59';
-            }
-        }
-        elsif ( $GetParam{TimePendingSearchType} eq 'TimePoint' ) {
-            if (
-                $GetParam{TicketPendingTimePoint}
-                && $GetParam{TicketPendingTimePointStart}
-                && $GetParam{TicketPendingTimePointFormat}
-                )
-            {
-                my $Time = 0;
-                if ( $GetParam{TicketPendingTimePointFormat} eq 'minute' ) {
-                    $Time = $GetParam{TicketPendingTimePoint};
-                }
-                elsif ( $GetParam{TicketPendingTimePointFormat} eq 'hour' ) {
-                    $Time = $GetParam{TicketPendingTimePoint} * 60;
-                }
-                elsif ( $GetParam{TicketPendingTimePointFormat} eq 'day' ) {
-                    $Time = $GetParam{TicketPendingTimePoint} * 60 * 24;
-                }
-                elsif ( $GetParam{TicketPendingTimePointFormat} eq 'week' ) {
-                    $Time = $GetParam{TicketPendingTimePoint} * 60 * 24 * 7;
-                }
-                elsif ( $GetParam{TicketPendingTimePointFormat} eq 'month' ) {
-                    $Time = $GetParam{TicketPendingTimePoint} * 60 * 24 * 30;
-                }
-                elsif ( $GetParam{TicketPendingTimePointFormat} eq 'year' ) {
-                    $Time = $GetParam{TicketPendingTimePoint} * 60 * 24 * 365;
-                }
-                if ( $GetParam{TicketPendingTimePointStart} eq 'Before' ) {
-                    $GetParam{TicketPendingTimeOlderMinutes} = $Time;
-                }
-                else {
-                    $GetParam{TicketPendingTimeNewerMinutes} = $Time;
+            elsif ( $GetParam{$SearchType} eq 'TimePoint' ) {
+                if (
+                    $GetParam{ $Type . 'TimePoint' }
+                    && $GetParam{ $Type . 'TimePointStart' }
+                    && $GetParam{ $Type . 'TimePointFormat' }
+                    )
+                {
+                    my $Time = 0;
+                    if ( $GetParam{ $Type . 'TimePointFormat' } eq 'minute' ) {
+                        $Time = $GetParam{ $Type . 'TimePoint' };
+                    }
+                    elsif ( $GetParam{ $Type . 'TimePointFormat' } eq 'hour' ) {
+                        $Time = $GetParam{ $Type . 'TimePoint' } * 60;
+                    }
+                    elsif ( $GetParam{ $Type . 'TimePointFormat' } eq 'day' ) {
+                        $Time = $GetParam{ $Type . 'TimePoint' } * 60 * 24;
+                    }
+                    elsif ( $GetParam{ $Type . 'TimePointFormat' } eq 'week' ) {
+                        $Time = $GetParam{ $Type . 'TimePoint' } * 60 * 24 * 7;
+                    }
+                    elsif ( $GetParam{ $Type . 'TimePointFormat' } eq 'month' ) {
+                        $Time = $GetParam{ $Type . 'TimePoint' } * 60 * 24 * 30;
+                    }
+                    elsif ( $GetParam{ $Type . 'TimePointFormat' } eq 'year' ) {
+                        $Time = $GetParam{ $Type . 'TimePoint' } * 60 * 24 * 365;
+                    }
+                    if ( $GetParam{ $Type . 'TimePointStart' } eq 'Before' ) {
+                        $GetParam{ $Type . 'TimeOlderMinutes' } = $Time;
+                    }
+                    else {
+                        $GetParam{ $Type . 'TimeNewerMinutes' } = $Time;
+                    }
                 }
             }
         }
 
         # focus of "From To Cc Subject Body"
         for (qw(From To Cc Subject Body)) {
-            if ( defined( $GetParam{$_} ) && $GetParam{$_} ne '' ) {
-                $GetParam{$_} = "$GetParam{$_}";
+            if ( defined $GetParam{$_} && $GetParam{$_} ne '' ) {
+                $GetParam{$_} = $GetParam{$_};
             }
         }
 
         # perform ticket search
-        my $Counter     = 0;
-        my @ViewableIDs = $Self->{TicketObject}->TicketSearch(
-            Result  => 'ARRAY',
+        my $Counter = $Self->{TicketObject}->TicketSearch(
+            Result  => 'COUNT',
             SortBy  => 'Age',
             OrderBy => 'Down',
             UserID  => 1,
             Limit   => 60_000,
             %GetParam,
-        );
+        ) || 0;
+        my @TicketIDs = $Self->{TicketObject}->TicketSearch(
+            Result  => 'ARRAY',
+            SortBy  => 'Age',
+            OrderBy => 'Down',
+            UserID  => 1,
+            Limit   => 30,
+            %GetParam,
+        ) || 0;
         if ( $GetParam{NewDelete} ) {
             $Param{DeleteMessage}
                 = 'You use the DELETE option! Take care, all deleted Tickets are lost!!!';
         }
 
-        $Param{AffectedIDs} = @ViewableIDs ? scalar @ViewableIDs : 0;
-
         $Self->{LayoutObject}->Block(
             Name => 'Result',
-            Data => { %Param, Name => $Self->{Profile}, },
+            Data => {
+                %Param,
+                Name        => $Self->{Profile},
+                AffectedIDs => $Counter,
+            },
         );
-        if ( $ViewableIDs[0] ) {
-            $Self->{LayoutObject}->Block( Name => 'ResultBlock', );
-            for ( 0 .. $#ViewableIDs ) {
+        if (@TicketIDs) {
+            $Self->{LayoutObject}->Block( Name => 'ResultBlock' );
+            for my $TicketID (@TicketIDs) {
 
                 # get first article data
-                my %Data
-                    = $Self->{TicketObject}->ArticleFirstArticle( TicketID => $ViewableIDs[$_] );
+                my %Data = $Self->{TicketObject}->ArticleFirstArticle(
+                    TicketID => $TicketID,
+                );
                 $Data{Age} = $Self->{LayoutObject}->CustomerAge( Age => $Data{Age}, Space => ' ' );
                 $Data{css} = "PriorityID-$Data{PriorityID}";
 
@@ -535,9 +398,6 @@ sub Run {
                     Name => 'Ticket',
                     Data => \%Data,
                 );
-
-                # just show 25 tickts
-                last if $_ > 25;
             }
         }
 
@@ -688,157 +548,72 @@ sub Run {
             SelectedID => $Param{NewPriorityID},
         );
 
-        # get create time option
-        if ( !$Param{TimeSearchType} ) {
-            $Param{'TimeSearchType::None'} = 'checked';
-        }
-        elsif ( $Param{TimeSearchType} eq 'TimePoint' ) {
-            $Param{'TimeSearchType::TimePoint'} = 'checked';
-        }
-        elsif ( $Param{TimeSearchType} eq 'TimeSlot' ) {
-            $Param{'TimeSearchType::TimeSlot'} = 'checked';
+        # get time option
+        my %Map = (
+            TicketCreate             => 'Time',
+            TicketClose              => 'CloseTime',
+            TicketPending            => 'TimePending',
+            TicketEscalation         => 'EscalationTime',
+            TicketEscalationResponse => 'EscalationResponseTime',
+            TicketEscalationUpdate   => 'EscalationUpdateTime',
+            TicketEscalationSolution => 'EscalationSolutionTime',
+        );
+        for my $Type (qw(TicketClose TicketPending TicketEscalation TicketEscalationResponse TicketEscalationUpdate TicketEscalationSolution) ) {
+            my $SearchType = $Map{$Type} . 'SearchType';
+            if ( !$Param{$SearchType} ) {
+                $Param{ $SearchType . '::None' } = 'checked';
+            }
+            elsif ( $Param{$SearchType} eq 'TimePoint' ) {
+                $Param{ $SearchType . '::TimePoint' } = 'checked';
+            }
+            elsif ( $Param{$SearchType} eq 'TimeSlot' ) {
+                $Param{ $SearchType . '::TimeSlot' } = 'checked';
+            }
+
+            my %Counter = ();
+            for ( 1 .. 60 ) {
+                $Counter{$_} = sprintf( "%02d", $_ );
+            }
+
+            # time
+            $Param{ $Type . 'TimePoint' } = $Self->{LayoutObject}->OptionStrgHashRef(
+                Data       => \%Counter,
+                Name       => $Type . 'TimePoint',
+                SelectedID => $Param{ $Type . 'TimePoint' },
+            );
+            $Param{ $Type . 'TimePointStart' } = $Self->{LayoutObject}->OptionStrgHashRef(
+                Data => {
+                    Last   => 'last',
+                    Before => 'before',
+                },
+                Name => $Type . 'TimePointStart',
+                SelectedID => $Param{ $Type . 'TimePointStart' } || 'Last',
+            );
+            $Param{ $Type . 'TimePointFormat' } = $Self->{LayoutObject}->OptionStrgHashRef(
+                Data => {
+                    minute => 'minute(s)',
+                    hour   => 'hour(s)',
+                    day    => 'day(s)',
+                    week   => 'week(s)',
+                    month  => 'month(s)',
+                    year   => 'year(s)',
+                },
+                Name       => $Type . 'TimePointFormat',
+                SelectedID => $Param{ $Type . 'TimePointFormat' },
+            );
+            $Param{ $Type . 'TimeStart' } = $Self->{LayoutObject}->BuildDateSelection(
+                %Param,
+                Prefix   => $Type . 'TimeStart',
+                Format   => 'DateInputFormat',
+                DiffTime => - (60 * 60 * 24) * 30,
+            );
+            $Param{ $Type . 'TimeStop' } = $Self->{LayoutObject}->BuildDateSelection(
+                %Param,
+                Prefix => $Type . 'TimeStop',
+                Format => 'DateInputFormat',
+            );
         }
 
-        # get close time option
-        if ( !$Param{CloseTimeSearchType} ) {
-            $Param{'CloseTimeSearchType::None'} = 'checked';
-        }
-        elsif ( $Param{CloseTimeSearchType} eq 'TimePoint' ) {
-            $Param{'CloseTimeSearchType::TimePoint'} = 'checked';
-        }
-        elsif ( $Param{CloseTimeSearchType} eq 'TimeSlot' ) {
-            $Param{'CloseTimeSearchType::TimeSlot'} = 'checked';
-        }
-
-        # get pending time option
-        if ( !$Param{TimePendingSearchType} ) {
-            $Param{'TimePendingSearchType::None'} = 'checked';
-        }
-        elsif ( $Param{TimePendingSearchType} eq 'TimePoint' ) {
-            $Param{'TimePendingSearchType::TimePoint'} = 'checked';
-        }
-        elsif ( $Param{TimePendingSearchType} eq 'TimeSlot' ) {
-            $Param{'TimePendingSearchType::TimeSlot'} = 'checked';
-        }
-
-        my %Counter = ();
-        for ( 1 .. 60 ) {
-            $Counter{$_} = sprintf( "%02d", $_ );
-        }
-
-        # create time
-        $Param{TicketCreateTimePoint} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data       => \%Counter,
-            Name       => 'TicketCreateTimePoint',
-            SelectedID => $Param{TicketCreateTimePoint},
-        );
-        $Param{TicketCreateTimePointStart} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data => {
-                'Last'   => 'last',
-                'Before' => 'before',
-            },
-            Name => 'TicketCreateTimePointStart',
-            SelectedID => $Param{TicketCreateTimePointStart} || 'Last',
-        );
-        $Param{TicketCreateTimePointFormat} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data => {
-                minute => 'minute(s)',
-                hour   => 'hour(s)',
-                day    => 'day(s)',
-                week   => 'week(s)',
-                month  => 'month(s)',
-                year   => 'year(s)',
-            },
-            Name       => 'TicketCreateTimePointFormat',
-            SelectedID => $Param{TicketCreateTimePointFormat},
-        );
-        $Param{TicketCreateTimeStart} = $Self->{LayoutObject}->BuildDateSelection(
-            %Param,
-            Prefix   => 'TicketCreateTimeStart',
-            Format   => 'DateInputFormat',
-            DiffTime => -( ( 60 * 60 * 24 ) * 30 ),
-        );
-        $Param{TicketCreateTimeStop} = $Self->{LayoutObject}->BuildDateSelection(
-            %Param,
-            Prefix => 'TicketCreateTimeStop',
-            Format => 'DateInputFormat',
-        );
-
-        # close time
-        $Param{TicketCloseTimePoint} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data       => \%Counter,
-            Name       => 'TicketCloseTimePoint',
-            SelectedID => $Param{TicketCloseTimePoint},
-        );
-        $Param{TicketCloseTimePointStart} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data => {
-                'Last'   => 'last',
-                'Before' => 'before',
-            },
-            Name => 'TicketCloseTimePointStart',
-            SelectedID => $Param{TicketCloseTimePointStart} || 'Last',
-        );
-        $Param{TicketCloseTimePointFormat} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data => {
-                minute => 'minute(s)',
-                hour   => 'hour(s)',
-                day    => 'day(s)',
-                week   => 'week(s)',
-                month  => 'month(s)',
-                year   => 'year(s)',
-            },
-            Name       => 'TicketCloseTimePointFormat',
-            SelectedID => $Param{TicketCloseTimePointFormat},
-        );
-        $Param{TicketCloseTimeStart} = $Self->{LayoutObject}->BuildDateSelection(
-            %Param,
-            Prefix   => 'TicketCloseTimeStart',
-            Format   => 'DateInputFormat',
-            DiffTime => -60 * 60 * 24 * 30,
-        );
-        $Param{TicketCloseTimeStop} = $Self->{LayoutObject}->BuildDateSelection(
-            %Param,
-            Prefix => 'TicketCloseTimeStop',
-            Format => 'DateInputFormat',
-        );
-
-        # pending time
-        $Param{TicketPendingTimePoint} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data       => \%Counter,
-            Name       => 'TicketPendingTimePoint',
-            SelectedID => $Param{TicketPendingTimePoint},
-        );
-        $Param{TicketPendingTimePointStart} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data => {
-                'Last'   => 'last',
-                'Before' => 'before',
-            },
-            Name => 'TicketPendingTimePointStart',
-            SelectedID => $Param{TicketPendingTimePointStart} || 'Last',
-        );
-        $Param{TicketPendingTimePointFormat} = $Self->{LayoutObject}->OptionStrgHashRef(
-            Data => {
-                minute => 'minute(s)',
-                hour   => 'hour(s)',
-                day    => 'day(s)',
-                week   => 'week(s)',
-                month  => 'month(s)',
-                year   => 'year(s)',
-            },
-            Name       => 'TicketPendingTimePointFormat',
-            SelectedID => $Param{TicketPendingTimePointFormat},
-        );
-        $Param{TicketPendingTimeStart} = $Self->{LayoutObject}->BuildDateSelection(
-            %Param,
-            Prefix   => 'TicketPendingTimeStart',
-            Format   => 'DateInputFormat',
-            DiffTime => -60 * 60 * 24 * 30,
-        );
-        $Param{TicketPendingTimeStop} = $Self->{LayoutObject}->BuildDateSelection(
-            %Param,
-            Prefix => 'TicketPendingTimeStop',
-            Format => 'DateInputFormat',
-        );
         $Param{DeleteOption} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data       => $Self->{ConfigObject}->Get('YesNoOptions'),
             Name       => 'NewDelete',
@@ -918,7 +693,7 @@ sub Run {
             );
             $Self->{LayoutObject}->Block(
                 Name => 'TicketType',
-                Data => {%Param},
+                Data => \%Param,
             );
             $Param{NewTypesStrg} = $Self->{LayoutObject}->BuildSelection(
                 Data        => \%Type,
@@ -931,7 +706,7 @@ sub Run {
             );
             $Self->{LayoutObject}->Block(
                 Name => 'NewTicketType',
-                Data => {%Param},
+                Data => \%Param,
             );
         }
 
