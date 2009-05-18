@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent.pm - generic agent system module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.pm,v 1.51 2009-05-15 09:32:25 martin Exp $
+# $Id: GenericAgent.pm,v 1.52 2009-05-18 12:04:48 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 =head1 NAME
 
@@ -108,59 +108,68 @@ sub new {
     $Self->{NoticeSTDOUT} = $Param{NoticeSTDOUT} || 0;
 
     my %Map = (
-        TicketNumber                 => 'SCALAR',
-        Title                        => 'SCALAR',
-        From                         => 'SCALAR',
-        To                           => 'SCALAR',
-        Cc                           => 'SCALAR',
-        Subject                      => 'SCALAR',
-        Body                         => 'SCALAR',
-        TimeUnit                     => 'SCALAR',
-        CustomerID                   => 'SCALAR',
-        CustomerUserLogin            => 'SCALAR',
-        Agent                        => 'SCALAR',
-        StateIDs                     => 'ARRAY',
-        StateTypeIDs                 => 'ARRAY',
-        QueueIDs                     => 'ARRAY',
-        PriorityIDs                  => 'ARRAY',
-        OwnerIDs                     => 'ARRAY',
-        LockIDs                      => 'ARRAY',
-        TypeIDs                      => 'ARRAY',
-        ServiceIDs                   => 'ARRAY',
-        SLAIDs                       => 'ARRAY',
-        NewTitle                     => 'SCALAR',
-        NewCustomerID                => 'SCALAR',
-        NewCustomerUserLogin         => 'SCALAR',
-        NewStateID                   => 'SCALAR',
-        NewQueueID                   => 'SCALAR',
-        NewPriorityID                => 'SCALAR',
-        NewOwnerID                   => 'SCALAR',
-        NewLockID                    => 'SCALAR',
-        NewTypeID                    => 'SCALAR',
-        NewServiceID                 => 'SCALAR',
-        NewSLAID                     => 'SCALAR',
-        ScheduleLastRun              => 'SCALAR',
-        ScheduleLastRunUnixTime      => 'SCALAR',
-        Valid                        => 'SCALAR',
-        ScheduleDays                 => 'ARRAY',
-        ScheduleMinutes              => 'ARRAY',
-        ScheduleHours                => 'ARRAY',
+        TicketNumber            => 'SCALAR',
+        Title                   => 'SCALAR',
+        From                    => 'SCALAR',
+        To                      => 'SCALAR',
+        Cc                      => 'SCALAR',
+        Subject                 => 'SCALAR',
+        Body                    => 'SCALAR',
+        TimeUnit                => 'SCALAR',
+        CustomerID              => 'SCALAR',
+        CustomerUserLogin       => 'SCALAR',
+        Agent                   => 'SCALAR',
+        StateIDs                => 'ARRAY',
+        StateTypeIDs            => 'ARRAY',
+        QueueIDs                => 'ARRAY',
+        PriorityIDs             => 'ARRAY',
+        OwnerIDs                => 'ARRAY',
+        LockIDs                 => 'ARRAY',
+        TypeIDs                 => 'ARRAY',
+        ServiceIDs              => 'ARRAY',
+        SLAIDs                  => 'ARRAY',
+        NewTitle                => 'SCALAR',
+        NewCustomerID           => 'SCALAR',
+        NewCustomerUserLogin    => 'SCALAR',
+        NewStateID              => 'SCALAR',
+        NewQueueID              => 'SCALAR',
+        NewPriorityID           => 'SCALAR',
+        NewOwnerID              => 'SCALAR',
+        NewLockID               => 'SCALAR',
+        NewTypeID               => 'SCALAR',
+        NewServiceID            => 'SCALAR',
+        NewSLAID                => 'SCALAR',
+        ScheduleLastRun         => 'SCALAR',
+        ScheduleLastRunUnixTime => 'SCALAR',
+        Valid                   => 'SCALAR',
+        ScheduleDays            => 'ARRAY',
+        ScheduleMinutes         => 'ARRAY',
+        ScheduleHours           => 'ARRAY',
     );
 
     # add time attributes
-    for my $Type (qw(Time CloseTime TimePending EscalationTime EscalationResponseTime EscalationUpdateTime EscalationSolutionTime) ) {
+    for my $Type (
+        qw(Time CloseTime TimePending EscalationTime EscalationResponseTime EscalationUpdateTime EscalationSolutionTime)
+        )
+    {
         my $Key = $Type . 'SearchType';
         $Map{$Key} = 'SCALAR';
     }
-    for my $Type (qw(TicketCreate TicketClose TicketPending TicketEscalation TicketEscalationResponse TicketEscalationUpdate TicketEscalationSolution) ) {
-        for my $Attribute (qw(PointFormat Point PointStart Start StartDay StartMonth StartYear Stop StopDay StopMonth StopYear)) {
+    for my $Type (
+        qw(TicketCreate TicketClose TicketPending TicketEscalation TicketEscalationResponse TicketEscalationUpdate TicketEscalationSolution)
+        )
+    {
+        for my $Attribute (
+            qw(PointFormat Point PointStart Start StartDay StartMonth StartYear Stop StopDay StopMonth StopYear)
+            )
+        {
             my $Key = $Type . 'Time' . $Attribute;
             $Map{$Key} = 'SCALAR';
         }
     }
 
     # add free text attributes
-    for my $Type (1..16) {
+    for my $Type ( 1 .. 16 ) {
         my $Key   = 'TicketFreeKey' . $Type;
         my $Value = 'TicketFreeText' . $Type;
 
@@ -855,7 +864,10 @@ sub JobGet {
         TicketEscalationUpdate   => 'EscalationUpdateTime',
         TicketEscalationSolution => 'EscalationSolutionTime',
     );
-    for my $Type (qw(TicketClose TicketPending TicketEscalation TicketEscalationResponse TicketEscalationUpdate TicketEscalationSolution) ) {
+    for my $Type (
+        qw(TicketClose TicketPending TicketEscalation TicketEscalationResponse TicketEscalationUpdate TicketEscalationSolution)
+        )
+    {
         my $SearchType = $Map{$Type} . 'SearchType';
 
         if ( !$Data{$SearchType} || $Data{$SearchType} eq 'None' ) {
@@ -867,8 +879,8 @@ sub JobGet {
                 TimeStartYear TimePointFormat TimePointStart)
                 )
             {
-            delete $Data{ $Type . $_ };
-        }
+                delete $Data{ $Type . $_ };
+            }
         }
         elsif ( $Data{$SearchType} && $Data{$SearchType} eq 'TimeSlot' ) {
             for (qw(TimePoint TimePointFormat TimePointStart)) {
@@ -909,7 +921,7 @@ sub JobGet {
                     . ' 23:59:59';
             }
         }
-        elsif ( $Data{ $SearchType } && $Data{ $SearchType } eq 'TimePoint' ) {
+        elsif ( $Data{$SearchType} && $Data{$SearchType} eq 'TimePoint' ) {
             for (
                 qw(TimeStartMonth TimeStopMonth TimeStopDay
                 TimeStartDay TimeStopYear TimeStartYear)
@@ -1125,6 +1137,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.51 $ $Date: 2009-05-15 09:32:25 $
+$Revision: 1.52 $ $Date: 2009-05-18 12:04:48 $
 
 =cut

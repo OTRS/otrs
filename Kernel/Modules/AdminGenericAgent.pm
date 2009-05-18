@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.65 2009-05-15 09:32:25 martin Exp $
+# $Id: AdminGenericAgent.pm,v 1.66 2009-05-18 12:04:48 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.65 $) [1];
+$VERSION = qw($Revision: 1.66 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -143,16 +143,25 @@ sub Run {
             }
         }
 
-        for my $Type (qw(Time CloseTime TimePending EscalationTime EscalationResponseTime EscalationUpdateTime EscalationSolutionTime) ) {
+        for my $Type (
+            qw(Time CloseTime TimePending EscalationTime EscalationResponseTime EscalationUpdateTime EscalationSolutionTime)
+            )
+        {
             my $Key = $Type . 'SearchType';
             $GetParam{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
         }
-        for my $Type (qw(TicketClose TicketPending TicketEscalation TicketEscalationResponse TicketEscalationUpdate TicketEscalationSolution) ) {
-            for my $Attribut ( qw(
+        for my $Type (
+            qw(TicketClose TicketPending TicketEscalation TicketEscalationResponse TicketEscalationUpdate TicketEscalationSolution)
+            )
+        {
+            for my $Attribut (
+                qw(
                 TimePoint TimePointFormat TimePointStart
                 TimeStart TimeStartDay TimeStartMonth TimeStopMonth
                 TimeStop TimeStopDay TimeStopYear TimeStartYear
-                )) {
+                )
+                )
+            {
                 my $Key = $Type . $Attribut;
                 $GetParam{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
             }
@@ -260,7 +269,10 @@ sub Run {
             TicketEscalationUpdate   => 'EscalationUpdateTime',
             TicketEscalationSolution => 'EscalationSolutionTime',
         );
-        for my $Type (qw(TicketClose TicketPending TicketEscalation TicketEscalationResponse TicketEscalationUpdate TicketEscalationSolution) ) {
+        for my $Type (
+            qw(TicketClose TicketPending TicketEscalation TicketEscalationResponse TicketEscalationUpdate TicketEscalationSolution)
+            )
+        {
             my $SearchType = $Map{$Type} . 'SearchType';
             if ( !$GetParam{$SearchType} || $GetParam{$SearchType} eq 'None' ) {
 
@@ -269,7 +281,8 @@ sub Run {
             elsif ( $GetParam{$SearchType} eq 'TimeSlot' ) {
                 for (qw(Month Day)) {
                     if ( $GetParam{ $Type . "TimeStart$_" } <= 9 ) {
-                        $GetParam{ $Type . "TimeStart$_" } = '0' . $GetParam{ $Type . "TimeStart$_" };
+                        $GetParam{ $Type . "TimeStart$_" }
+                            = '0' . $GetParam{ $Type . "TimeStart$_" };
                     }
                 }
                 for (qw(Month Day)) {
@@ -558,7 +571,10 @@ sub Run {
             TicketEscalationUpdate   => 'EscalationUpdateTime',
             TicketEscalationSolution => 'EscalationSolutionTime',
         );
-        for my $Type (qw(TicketClose TicketPending TicketEscalation TicketEscalationResponse TicketEscalationUpdate TicketEscalationSolution) ) {
+        for my $Type (
+            qw(TicketClose TicketPending TicketEscalation TicketEscalationResponse TicketEscalationUpdate TicketEscalationSolution)
+            )
+        {
             my $SearchType = $Map{$Type} . 'SearchType';
             if ( !$Param{$SearchType} ) {
                 $Param{ $SearchType . '::None' } = 'checked';
@@ -605,7 +621,7 @@ sub Run {
                 %Param,
                 Prefix   => $Type . 'TimeStart',
                 Format   => 'DateInputFormat',
-                DiffTime => - (60 * 60 * 24) * 30,
+                DiffTime => -( 60 * 60 * 24 ) * 30,
             );
             $Param{ $Type . 'TimeStop' } = $Self->{LayoutObject}->BuildDateSelection(
                 %Param,
