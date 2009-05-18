@@ -11,7 +11,7 @@ use strict;
 use vars qw($VERSION);
 use Carp ();
 
-$VERSION = '1.19';
+$VERSION = '1.20';
 
 sub PV  { 0 }
 sub IV  { 1 }
@@ -65,6 +65,7 @@ my $ERRORS = {
 
 
 my $last_new_error = '';
+my $last_new_err_num;
 
 my %def_attr = (
     quote_char          => '"',
@@ -145,7 +146,7 @@ sub new {
 
     for my $prop (keys %$attr) { # if invalid attr, return undef
         unless ($prop =~ /^[a-z]/ && exists $def_attr{$prop}) {
-            $last_new_error = "Unknown attribute '$prop'";
+            $last_new_error = "INI - Unknown attribute '$prop'";
             return;
         }
         $self->{$prop} = $attr->{$prop};
@@ -157,9 +158,9 @@ sub new {
            ( defined $self->{escape_char} && $self->{escape_char} =~ m/^[ \t]$/ )
     ) {
        $last_new_error = "INI - allow_whitespace with escape_char or quote_char SP or TAB";
+       $last_new_err_num = 1002;
        return;
     }
-
 
     $last_new_error = '';
 
@@ -191,7 +192,7 @@ sub error_diag {
     my @diag = (0, $last_new_error, 0);
 
     unless ($self and ref $self) {	# Class method or direct call
-        $last_new_error and $diag[0] = 1000;
+        $last_new_error and $diag[0] = defined $last_new_err_num ? $last_new_err_num : 1000;
     }
     elsif ( $self->isa (__PACKAGE__) and defined $self->{_ERROR_DIAG} ) {
         @diag = ( 0 + $self->{_ERROR_DIAG}, $ERRORS->{ $self->{_ERROR_DIAG} } );
@@ -285,7 +286,8 @@ sub _combine {
         }
     }
 
-    $self->{_STRING} = \do { join($sep, @part) . $self->{eol} };
+#    $self->{_STRING} = \do { join($sep, @part) . $self->{eol} };
+    $self->{_STRING} = \do { join($sep, @part) . ( defined $self->{eol} ? $self->{eol} : '' ) };
     $self->{_STATUS} = 1;
 
     return $self->{_STATUS};
@@ -300,7 +302,7 @@ my %allow_eol = ("\r" => 1, "\r\n" => 1, "\n" => 1, "" => 1);
 sub _parse {
     my ($self, $line) = @_;
 
-    @{$self}{qw/_STRING _FIELDS _STATUS _ERROR_INPUT/} = ($line, undef, 0, $line);
+    @{$self}{qw/_STRING _FIELDS _STATUS _ERROR_INPUT/} = ( \do{ defined $line ? "$line" : undef }, undef, 0, $line );
 
     return 0 if(!defined $line);
 
@@ -353,7 +355,7 @@ sub _parse {
 
     my $utf8 = 1 if utf8::is_utf8( $line ); # if UTF8 marked, flag on.
 
-    for my $col ($line =~ /$re_split/g) {
+    for my $col ( $line =~ /$re_split/g ) {
 
         if ($keep_meta_info) {
             $flag = 0x0000;
@@ -420,30 +422,6 @@ sub _parse {
                     last;
                 }
             }
-=pod
-
-            if ($col =~ $re_in_quot_esp1) {
-                my $str = $1;
-                if ($str !~ $re_in_quot_esp2) {
-                    unless ($self->{allow_loose_escapes}) {
-                        $self->_set_error_diag( 2025, $pos - 2 ); # Needless ESC in quoted field
-                        $palatable = 0;
-                        last;
-                    }
-                    else {
-                        $col =~ s/\Q$esc\E(.)/$1/g;
-                    }
-                }
-            }
-            else {
-                if ($col =~ /(?<!\Q$esc\E)\Q$esc\E/) {
-                    $self->_set_error_diag( 4002, $pos - 1 ); # No escaped ESC in quoted field
-                    $palatable = 0;
-                    last;
-                }
-            }
-
-=cut
 
             $col =~ s{$re_esc}{$1 eq '0' ? "\0" : $1}eg;
 
@@ -595,7 +573,7 @@ sub getline {
 
     my $line = $io->getline();
     my $quot = $self->{quote_char};
-    my $re   = qr/(?:\Q$quot\E)/;
+    my $re   = $self->binary ? qr/(?:\Q$quot\E)(?!0)/ : qr/(?:\Q$quot\E)/;
 
     $line .= $io->getline() while ( defined $line and scalar(my @list = $line =~ /$re/g) % 2 and !eof($io) );
 
@@ -1170,7 +1148,7 @@ the fail reason available through the C<error_diag ()> method.
 
 C<error_diag ()> will return a string like
 
- "Unknown attribute 'ecs_char'"
+ "INI - Unknown attribute 'ecs_char'"
 
 =head2 combine
 
