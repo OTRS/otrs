@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminNotificationEvent.pm - to add/update/delete state
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.pm,v 1.1 2009-05-15 07:26:06 martin Exp $
+# $Id: AdminNotificationEvent.pm,v 1.2 2009-05-19 11:08:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -89,7 +89,7 @@ sub Run {
             $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
         }
         for (
-            qw(Recipients Events StateIDs QueueIDs PriorityIDs LockIDs TypeIDs ServiceIDs SLAIDs CustomerID CustomerUserID)
+            qw(Recipients RecipientAgents RecipientEmail Events StateID QueueID PriorityID LockID TypeID ServiceID SLAID CustomerID CustomerUserID ArticleTypeID ArticleSubjectMatch ArticleBodyMatch)
             )
         {
             my @Data = $Self->{ParamObject}->GetArray( Param => $_ );
@@ -182,7 +182,7 @@ sub Run {
             $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
         }
         for (
-            qw(Recipients Events StateIDs QueueIDs PriorityIDs LockIDs TypeIDs ServiceIDs SLAIDs CustomerID CustomerUserID)
+            qw(Recipients RecipientAgents RecipientEmail Events StateID QueueID PriorityID LockID TypeID ServiceID SLAID CustomerID CustomerUserID ArticleTypeID ArticleSubjectMatch ArticleBodyMatch)
             )
         {
             my @Data = $Self->{ParamObject}->GetArray( Param => $_ );
@@ -298,6 +298,18 @@ sub _Edit {
         Multiple           => 1,
         Size               => 4,
         SelectedIDRefArray => $Param{Data}->{Recipients},
+    );
+
+    my %AllAgents = $Self->{UserObject}->UserList(
+        Type  => 'Long',
+        Valid => 1,
+    );
+    $Param{RecipientAgentsStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
+        Data               => \%AllAgents,
+        Name               => 'RecipientAgents',
+        Multiple           => 1,
+        Size               => 4,
+        SelectedIDRefArray => $Param{Data}->{RecipientAgents},
     );
 
     $Param{EventsStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
@@ -485,6 +497,23 @@ sub _Edit {
                 TicketFreeText => $TicketFreeTextHTML{ 'TicketFreeTextField' . $Count },
             },
         );
+    }
+
+    $Param{ArticleTypesStrg} = $Self->{LayoutObject}->BuildSelection(
+        Data        => { $Self->{TicketObject}->ArticleTypeList( Result => 'HASH' ), },
+        Name        => 'ArticleTypeID',
+        SelectedID  => $Param{Data}->{ArticleTypeID},
+        Size        => 5,
+        Multiple    => 1,
+        Translation => 1,
+        Max         => 200,
+    );
+
+    # take over data fields
+    for my $Key ( qw(RecipientEmail CustomerID CustomerUserID ArticleSubjectMatch ArticleBodyMatch) ) {
+        next if !$Param{Data}->{$Key};
+        next if ! defined $Param{Data}->{$Key}->[0];
+        $Param{$Key} = $Param{Data}->{$Key}->[0];
     }
 
     return 1;

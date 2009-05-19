@@ -2,7 +2,7 @@
 # AdminNotificationEventForm.dtl - provides HTML form for AdminNotificationEvent
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEventForm.dtl,v 1.1 2009-05-15 07:26:05 martin Exp $
+# $Id: AdminNotificationEventForm.dtl,v 1.2 2009-05-19 11:08:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -127,12 +127,35 @@ function submit_compose() {
                   </td>
                 </tr>
                 <tr>
-                  <td class="contentkey">$Text{"Recipient"}: </td>
+                  <td colspan="2">
+                    <hr/>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Recipient"}:<br/><i class="small">($Text{"Group based"})</i></td>
                   <td class="contentvalue"> $Data{"RecipientsStrg"}</td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Recipient"}:<br/><i class="small">($Text{"Agent based"})</i> </td>
+                  <td class="contentvalue"> $Data{"RecipientAgentsStrg"}</td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Recipient"}:<br/><i class="small">($Text{"Email based"})</i> </td>
+                  <td class="contentvalue"> <input type="text" name="RecipientEmail" size="50" value="$QData{"RecipientEmail"}"/></td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <hr/>
+                  </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Event"}: </td>
                   <td class="contentvalue"> $Data{"EventsStrg"}</td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <hr/>
+                  </td>
                 </tr>
 <!-- dtl:block:OverviewUpdateType -->
                 <tr>
@@ -180,6 +203,23 @@ function submit_compose() {
                   <td class="contentvalue">$Data{"TicketFreeText"}</td>
                 </tr>
 <!-- dtl:block:OverviewUpdateTicketFreeFieldElement -->
+                <tr>
+                  <td colspan="2">
+                    <hr/>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Article Type"}:<br/><i class="small">($Text{"Only for ArticleCreate Event."})</i></td>
+                  <td class="contentvalue"> $Data{"ArticleTypesStrg"}</td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Subject match"}:<br/><i class="small">($Text{"Only for ArticleCreate Event."})</i></td>
+                  <td class="contentvalue"> <input type="text" name="ArticleSubjectMatch" size="50" value="$QData{"ArticleSubjectMatch"}"/></td>
+                </tr>
+                <tr>
+                  <td class="contentkey">$Text{"Body match"}:<br/><i class="small">($Text{"Only for ArticleCreate Event."})</i></td>
+                  <td class="contentvalue"> <input type="text" name="ArticleBodyMatch" size="50" value="$QData{"ArticleSubjectMatch"}"/></td>
+                </tr>
                 <tr>
                   <td colspan="2">
                     <hr/>
@@ -242,12 +282,20 @@ function submit_compose() {
         $Text{"Useable options"}:
         <table>
           <tr>
-            <td class="contentkey">&lt;OTRS_CUSTOMER_SUBJECT[20]&gt;</td>
-            <td class="contentvalue">$Text{"To get the first 20 character of the subject."}</td>
+            <td class="contentkey">&lt;OTRS_AGENT_SUBJECT[20]&gt;</td>
+            <td class="contentvalue">$Text{"To get the first 20 character of the subject (of the latest agent article)."}</td>
           </tr>
           <tr>
-            <td class="contentkey">&lt;OTRS_CUSTOMER_EMAIL[5]&gt;</td>
-            <td class="contentvalue">$Text{"To get the first 5 lines of the email."}</td>
+            <td class="contentkey">&lt;OTRS_AGENT_BODY[5]&gt;</td>
+            <td class="contentvalue">$Text{"To get the first 5 lines of the body (of the latest agent article)."}</td>
+          </tr>
+          <tr>
+            <td class="contentkey">&lt;OTRS_CUSTOMER_SUBJECT[20]&gt;</td>
+            <td class="contentvalue">$Text{"To get the first 20 character of the subject (of the latest customer article)."}</td>
+          </tr>
+          <tr>
+            <td class="contentkey">&lt;OTRS_CUSTOMER_BODY[5]&gt;</td>
+            <td class="contentvalue">$Text{"To get the first 5 lines of the body (of the latest customer article)."}</td>
           </tr>
           <tr>
             <td class="contentkey">&lt;OTRS_CUSTOMER_REALNAME&gt;</td>
