@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.762.2.66 2009-04-24 08:06:56 tt Exp $
+# $Id: CHANGES,v 1.762.2.67 2009-05-19 08:10:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.3.5 (2009/??/??)
+ - (2009/05/19) Fixed bug# 3844 - SLA get's not removed on reload if servics was
+    selected before (in agent interface).
  - (2009/04/24) Fixed bug# 3691 - CustomerUser::LDAP does support GroupDN now.
  - (2009/04/23) Fixed bug# 3495 - Missing ldap disconnects leaves CLOSE_WAIT tcp
     sessions.

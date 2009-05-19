@@ -1,12 +1,12 @@
 # --
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.78.2.1 2008-12-04 12:49:09 mh Exp $
+# $Id: AgentTicketPhone.pm,v 1.78.2.2 2009-05-19 08:10:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 package Kernel::Modules::AgentTicketPhone;
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.78.2.1 $) [1];
+$VERSION = qw($Revision: 1.78.2.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -307,16 +307,22 @@ sub Run {
             = $Self->{UploadCachObject}->FormIDGetAllFilesMeta( FormID => $Self->{FormID} );
 
         # html output
+        my $Services = $Self->_GetServices(
+            CustomerUserID => $CustomerData{CustomerUserLogin} || '',
+            QueueID        => $Self->{QueueID} || 1,
+        );
+        my $SLAs = $Self->_GetSLAs(
+            QueueID  => $Self->{QueueID} || 1,
+            Services => $Services,
+            %GetParam,
+        );
         $Output .= $Self->_MaskPhoneNew(
             QueueID    => $Self->{QueueID},
             NextStates => $Self->_GetNextStates( QueueID => $Self->{QueueID} || 1 ),
             Priorities => $Self->_GetPriorities( QueueID => $Self->{QueueID} || 1 ),
             Types      => $Self->_GetTypes( QueueID => $Self->{QueueID} || 1 ),
-            Services   => $Self->_GetServices(
-                CustomerUserID => $CustomerData{CustomerUserLogin} || '',
-                QueueID => $Self->{QueueID} || 1,
-            ),
-            SLAs => $Self->_GetSLAs( QueueID => $Self->{QueueID} || 1, %GetParam ),
+            Services   => $Services,
+            SLAs       => $SLAs,
             Users            => $Self->_GetUsers( QueueID => $Self->{QueueID} ),
             ResponsibleUsers => $Self->_GetUsers( QueueID => $Self->{QueueID} ),
             To => $Self->_GetTos( QueueID => $Self->{QueueID} ),
@@ -622,6 +628,12 @@ sub Run {
                 $GetParam{ServiceID} = '';
             }
 
+            my $SLAs = $Self->_GetSLAs(
+                QueueID  => $NewQueueID || 1,
+                Services => $Services,
+                %GetParam,
+            );
+
             # header
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
@@ -642,7 +654,8 @@ sub Run {
                 Priorities              => $Self->_GetPriorities( QueueID => $NewQueueID || 1 ),
                 Types                   => $Self->_GetTypes( QueueID => $NewQueueID || 1 ),
                 Services                => $Services,
-                SLAs => $Self->_GetSLAs( QueueID => $NewQueueID || 1, %GetParam ),
+                Services   => $Services,
+                SLAs       => $SLAs,
                 CustomerID => $Self->{LayoutObject}->Ascii2Html( Text => $CustomerID ),
                 CustomerUser => $CustomerUser,
                 CustomerData => \%CustomerData,
@@ -1048,7 +1061,11 @@ sub Run {
             CustomerUserID => $CustomerUser || '',
             QueueID        => $QueueID      || 1,
         );
-        my $SLAs = $Self->_GetSLAs( QueueID => $QueueID || 1, %GetParam );
+        my $SLAs = $Self->_GetSLAs(
+            QueueID  => $QueueID || 1,
+            Services => $Services,
+            %GetParam
+        );
 
         # get free text config options
         my @TicketFreeTextConfig = ();
@@ -1276,7 +1293,7 @@ sub _GetSLAs {
     my %SLA = ();
 
     # get sla
-    if ( $Param{ServiceID} ) {
+    if ( $Param{ServiceID} && $Param{Services} && %{ $Param{Services} } ) {
         %SLA = $Self->{TicketObject}->TicketSLAList(
             %Param,
             Action => $Self->{Action},
