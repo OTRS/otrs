@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.95.2.1 2009-04-23 12:54:28 tt Exp $
+# $Id: DB.pm,v 1.95.2.2 2009-05-22 08:34:18 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Time;
 use Kernel::System::Encode;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.95.2.1 $) [1];
+$VERSION = qw($Revision: 1.95.2.2 $) [1];
 
 =head1 NAME
 
@@ -645,6 +645,40 @@ sub FetchrowArray {
     return @Row;
 }
 
+# FetchrowHashref()
+#
+# !! DONT USE THIS FUNCTION !!
+#
+# Due to compatibility reason this function will be removed in a further release.
+#
+# *** _should_ not used because of database incompat., it will not work on any database ***
+#
+
+sub FetchrowHashref {
+    my $Self = shift;
+
+    # work with cursors if database don't support limit
+    if ( !$Self->{Backend}->{'DB::Limit'} && $Self->{Limit} ) {
+        if ( $Self->{Limit} <= $Self->{LimitCounter} ) {
+            $Self->{Cursor}->finish();
+            $Self->{LimitCounter}++;
+            return;
+        }
+        $Self->{LimitCounter}++;
+    }
+
+    # fetch first not used rows
+    if ( $Self->{LimitStart} ) {
+        for ( 1 .. $Self->{LimitStart} ) {
+            $Self->{Cursor}->fetchrow_array();
+        }
+        $Self->{LimitStart} = 0;
+    }
+
+    # return
+    return $Self->{Cursor}->fetchrow_hashref();
+}
+
 =item GetDatabaseFunction()
 
 to get database functions like
@@ -1146,6 +1180,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.95.2.1 $ $Date: 2009-04-23 12:54:28 $
+$Revision: 1.95.2.2 $ $Date: 2009-05-22 08:34:18 $
 
 =cut
