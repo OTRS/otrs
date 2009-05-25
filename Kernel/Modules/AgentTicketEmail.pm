@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.82 2009-04-23 13:47:27 mh Exp $
+# $Id: AgentTicketEmail.pm,v 1.83 2009-05-25 07:26:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.82 $) [1];
+$VERSION = qw($Revision: 1.83 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -255,21 +255,30 @@ sub Run {
             my $Body = $Self->{LayoutObject}->Output( Template => $DefaultBody[0] );
 
             # html output
+            my $Services = $Self->_GetServices(
+                QueueID => $Self->{QueueID} || 1,
+            );
+            my $SLAs = $Self->_GetSLAs(
+                QueueID  => $Self->{QueueID} || 1,
+                Services => $Services,
+                %GetParam,
+            );
             $Output .= $Self->_MaskEmailNew(
-                QueueID      => $Self->{QueueID},
-                NextStates   => $Self->_GetNextStates( QueueID => 1 ),
-                Priorities   => $Self->_GetPriorities( QueueID => 1 ),
-                Types        => $Self->_GetTypes( QueueID => 1 ),
-                Services     => $Self->_GetServices( QueueID => 1, ),
-                SLAs         => $Self->_GetSLAs( QueueID => 1, %GetParam ),
-                Users        => $Self->_GetUsers(),
-                FromList     => $Self->_GetTos(),
-                To           => '',
-                Subject      => $Subject,
-                Body         => $Body,
-                CustomerID   => '',
-                CustomerUser => '',
-                CustomerData => {},
+                QueueID          => $Self->{QueueID},
+                NextStates       => $Self->_GetNextStates( QueueID => $Self->{QueueID} || 1 ),
+                Priorities       => $Self->_GetPriorities( QueueID => $Self->{QueueID} || 1 ),
+                Types            => $Self->_GetTypes( QueueID => $Self->{QueueID} || 1 ),
+                Services         => $Services,
+                SLAs             => $SLAs,
+                Users            => $Self->_GetUsers( QueueID => $Self->{QueueID} ),
+                ResponsibleUsers => $Self->_GetUsers( QueueID => $Self->{QueueID} ),
+                FromList         => $Self->_GetTos( QueueID => $Self->{QueueID} ),
+                To               => '',
+                Subject          => $Subject,
+                Body             => $Body,
+                CustomerID       => '',
+                CustomerUser     => '',
+                CustomerData     => {},
                 %TicketFreeTextHTML,
                 %TicketFreeTimeHTML,
                 %ArticleFreeTextHTML,
@@ -599,6 +608,11 @@ sub Run {
                 CustomerUserID => $CustomerUser || '',
                 QueueID        => $NewQueueID   || 1,
             );
+            my $SLAs = $Self->_GetSLAs(
+                QueueID  => $NewQueueID || 1,
+                Services => $Services,
+                %GetParam,
+            );
 
             # reset previous ServiceID to reset SLA-List if no service is selected
             if ( !$GetParam{ServiceID} || !$Services->{ $GetParam{ServiceID} } ) {
@@ -638,13 +652,9 @@ sub Run {
                     CustomerUserID => $CustomerUser || '',
                     QueueID        => $NewQueueID   || 1,
                 ),
-                Services => $Services,
-                SLAs     => $Self->_GetSLAs(
-                    %GetParam,
-                    CustomerUserID => $CustomerUser || '',
-                    QueueID => $NewQueueID || 1, %GetParam,
-                ),
-                CustomerID => $Self->{LayoutObject}->Ascii2Html( Text => $CustomerID ),
+                Services     => $Services,
+                SLAs         => $SLAs,
+                CustomerID   => $Self->{LayoutObject}->Ascii2Html( Text => $CustomerID ),
                 CustomerUser => $CustomerUser,
                 CustomerData => \%CustomerData,
                 FromList     => $Self->_GetTos(),
@@ -1187,12 +1197,14 @@ sub _GetSLAs {
     my %SLA = ();
 
     # get sla
-    if ( $Param{ServiceID} ) {
-        %SLA = $Self->{TicketObject}->TicketSLAList(
-            %Param,
-            Action => $Self->{Action},
-            UserID => $Self->{UserID},
-        );
+    if ( $Param{ServiceID} && $Param{Services} && %{ $Param{Services} } ) {
+        if ( $Param{Services}->{ $Param{ServiceID} } ) {
+            %SLA = $Self->{TicketObject}->TicketSLAList(
+                %Param,
+                Action => $Self->{Action},
+                UserID => $Self->{UserID},
+            );
+        }
     }
     return \%SLA;
 }
