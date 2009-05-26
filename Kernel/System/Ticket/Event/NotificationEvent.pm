@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.2 2009-05-19 11:08:22 martin Exp $
+# $Id: NotificationEvent.pm,v 1.3 2009-05-26 10:42:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Kernel::System::NotificationEvent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -27,7 +27,7 @@ sub new {
 
     # get needed objects
     for (
-        qw(ConfigObject TicketObject LogObject UserObject CustomerUserObject SendmailObject QueueObject)
+        qw(ConfigObject TicketObject LogObject UserObject CustomerUserObject SendmailObject QueueObject GroupObject)
         )
     {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
@@ -159,84 +159,177 @@ sub SendCustomerNotification {
     # get old article for quoteing
     my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle( TicketID => $Param{TicketID} );
 
-    # check if customer notifications should be send
-    if (
-        $Self->{ConfigObject}->Get('CustomerNotifyJustToRealCustomer')
-        && !$Article{CustomerUserID}
-        )
-    {
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message  => 'Send no customer notification because no customer is set!',
-        );
-        return;
+    # get recipients by Recipients
+    my @Recipients;
+    if ( $Param{Notification}->{Data}->{Recipients} ) {
+        RECIPIENT:
+        for my $Recipient ( @{ $Param{Notification}->{Data}->{Recipients} } ) {
+            if ( $Recipient =~ /^Agent(Owner|Responsible|WritePermissions)$/ ) {
+                if ( $Recipient eq 'AgentOwner' ) {
+                    push @{ $Param{Notification}->{Data}->{RecipientAgents} }, $Article{OwnerID};
+                }
+                elsif ( $Recipient eq 'AgentResponsible' ) {
+                    push @{ $Param{Notification}->{Data}->{RecipientAgents} }, $Article{ResponsibleID};
+                }
+                elsif ( $Recipient eq 'AgentWritePermissions' ) {
+                    my $GroupID = $Self->{QueueObject}->GetQueueGroupID(
+                        QueueID => $Article{QueueID},
+                    );
+                    my @UserIDs = $Self->{GroupObject}->GroupMemberList(
+                        GroupID => $GroupID,
+                        Type    => 'rw',
+                        Result  => 'ARRAY',
+                    );
+                    push @{ $Param{Notification}->{Data}->{RecipientAgents} }, @UserIDs;
+                }
+            }
+            elsif ( $Recipient eq 'Customer' ) {
+                my %Recipient;
+
+                $Recipient{Email} = $Article{From};
+                $Recipient{Type}  = 'Customer';
+
+                # check if customer notifications should be send
+                if (
+                    $Self->{ConfigObject}->Get('CustomerNotifyJustToRealCustomer')
+                    && !$Article{CustomerUserID}
+                    )
+                {
+                    $Self->{LogObject}->Log(
+                        Priority => 'notice',
+                        Message  => 'Send no customer notification because no customer is set!',
+                    );
+                    next RECIPIENT;
+                }
+
+                # check customer email
+                elsif ( $Self->{ConfigObject}->Get('CustomerNotifyJustToRealCustomer') ) {
+                    my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                        User => $Article{CustomerUserID},
+                    );
+                    if ( !$CustomerUser{UserEmail} ) {
+                        $Self->{LogObject}->Log(
+                            Priority => 'notice',
+                            Message  => "Send no customer notification because of missing "
+                                . "customer email (CustomerUserID=$CustomerUser{CustomerUserID})!",
+                        );
+                        next RECIPIENT;
+                    }
+                }
+
+                # get language and send recipient
+                $Recipient{Language} = $Self->{ConfigObject}->Get('DefaultLanguage') || 'en';
+                if ( $Article{CustomerUserID} ) {
+                    my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
+                        User => $Article{CustomerUserID},
+                    );
+                    if ( $CustomerUser{UserEmail} ) {
+                        $Recipient{Email} = $CustomerUser{UserEmail};
+                    }
+
+                    # get user language
+                    if ( $CustomerUser{UserLanguage} ) {
+                        $Recipient{Language} = $CustomerUser{UserLanguage};
+                    }
+                }
+
+                # check recipients
+                if ( !$Recipient{Email} || $Recipient{Email} !~ /@/ ) {
+                    next RECIPIENT;
+                }
+
+                # get realname
+                if ( $Article{CustomerUserID} ) {
+                    $Recipient{Realname} = $Self->{CustomerUserObject}->CustomerName(
+                        UserLogin => $Article{CustomerUserID},
+                    );
+                }
+                if ( !$Recipient{Realname} ) {
+                    $Recipient{Realname} = $Article{From} || '';
+                    $Recipient{Realname} =~ s/<.*>|\(.*\)|\"|;|,//g;
+                    $Recipient{Realname} =~ s/( $)|(  $)//g;
+                }
+
+                push @Recipients, \%Recipient;
+            }
+        }
     }
 
-    # check customer email
-    elsif ( $Self->{ConfigObject}->Get('CustomerNotifyJustToRealCustomer') ) {
-        my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
-            User => $Article{CustomerUserID},
-        );
-        if ( !$CustomerUser{UserEmail} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'notice',
-                Message  => "Send no customer notification because of missing "
-                    . "customer email (CustomerUserID=$CustomerUser{CustomerUserID})!",
+    # get recipients by RecipientAgents
+    if ( $Param{Notification}->{Data}->{RecipientAgents} ) {
+        my %AgentUsed;
+        RECIPIENT:
+        for my $Recipient ( @{ $Param{Notification}->{Data}->{RecipientAgents} } ) {
+            next if $Recipient == 1;
+            next if $AgentUsed{$Recipient};
+            $AgentUsed{$Recipient} = 1;
+
+            my %User = $Self->{UserObject}->GetUserData(
+                UserID => $Recipient,
+                Valid  => 1,
             );
-            return;
+            next RECIPIENT if !%User;
+
+            my %Recipient;
+
+            $Recipient{Email} = $User{UserEmail};
+            $Recipient{Type}  = 'Agent';
+
+            push @Recipients, \%Recipient;
         }
     }
 
-    # get language and send recipient
-    my $Language = $Self->{ConfigObject}->Get('DefaultLanguage') || 'en';
-    if ( $Article{CustomerUserID} ) {
-        my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
-            User => $Article{CustomerUserID},
+    # get recipients by RecipientEmail
+    if ( $Param{Notification}->{Data}->{RecipientEmail} ) {
+        if ( $Param{Notification}->{Data}->{RecipientEmail}->[0] ) {
+            my %Recipient;
+            $Recipient{Realname} = '';
+            $Recipient{Type}     = 'Customer';
+            $Recipient{Email}    = $Param{Notification}->{Data}->{RecipientEmail}->[0];
+
+            # check recipients
+            if ( $Recipient{Email} && $Recipient{Email} =~ /@/ ) {
+                push @Recipients, \%Recipient;
+            }
+        }
+    }
+
+    for my $Recipient ( @Recipients ) {
+        $Self->_SendCustomerNotification(
+            TicketID              => $Param{TicketID},
+            UserID                => $Param{UserID},
+            Notification          => $Param{Notification},
+            CustomerMessageParams => {},
+            Recipient             => $Recipient,
         );
-        if ( $CustomerUser{UserEmail} ) {
-            $Article{From} = $CustomerUser{UserEmail};
-        }
-
-        # get user language
-        if ( $CustomerUser{UserLanguage} ) {
-            $Language = $CustomerUser{UserLanguage};
-        }
     }
+    return 1;
+}
 
-    # check recipients
-    if ( !$Article{From} || $Article{From} !~ /@/ ) {
-        return;
-    }
+sub _SendCustomerNotification {
+    my ( $Self, %Param ) = @_;
 
     # get notification data
     #    my %Notification = $Self->{NotificationObject}->NotificationGet(
     #        Name => $Language . '::Customer::' . $Param{Type},
     #    );
     my %Notification = %{ $Param{Notification} };
+    my %Recipient    = %{ $Param{Recipient} };
+
+    # get old article for quoteing
+    my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
+        TicketID => $Param{TicketID},
+    );
 
     # get notify texts
     for (qw(Subject Body)) {
-        if ( !$Notification{$_} ) {
-            $Notification{$_} = "No CustomerNotification $_ for $Param{Type} found!";
-        }
+        next if $Notification{$_};
+        $Notification{$_} = "No CustomerNotification $_ for $Param{Type} found!";
     }
 
     # prepare customer realname
     if ( $Notification{Body} =~ /<OTRS_CUSTOMER_REALNAME>/ ) {
-
-        # get realname
-        my $From = '';
-        if ( $Article{CustomerUserID} ) {
-            $From = $Self->{CustomerUserObject}->CustomerName(
-                UserLogin => $Article{CustomerUserID},
-            );
-        }
-        if ( !$From ) {
-            $From = $Notification{From} || '';
-            $From =~ s/<.*>|\(.*\)|\"|;|,//g;
-            $From =~ s/( $)|(  $)//g;
-        }
-        $Notification{Body} =~ s/<OTRS_CUSTOMER_REALNAME>/$From/g;
+        $Notification{Body} =~ s/<OTRS_CUSTOMER_REALNAME>/$Recipient{Realname}/g;
     }
 
     # replace config options
@@ -250,15 +343,13 @@ sub SendCustomerNotification {
     # COMPAT
     $Notification{Body} =~ s/<OTRS_TICKET_ID>/$Param{TicketID}/gi;
     $Notification{Body} =~ s/<OTRS_TICKET_NUMBER>/$Article{TicketNumber}/gi;
-    $Notification{Body} =~ s/<OTRS_QUEUE>/$Param{Queue}/gi if ( $Param{Queue} );
 
     # ticket data
     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
     for ( keys %Ticket ) {
-        if ( defined $Ticket{$_} ) {
-            $Notification{Body}    =~ s/<OTRS_TICKET_$_>/$Ticket{$_}/gi;
-            $Notification{Subject} =~ s/<OTRS_TICKET_$_>/$Ticket{$_}/gi;
-        }
+        next if ! defined $Ticket{$_};
+        $Notification{Body}    =~ s/<OTRS_TICKET_$_>/$Ticket{$_}/gi;
+        $Notification{Subject} =~ s/<OTRS_TICKET_$_>/$Ticket{$_}/gi;
     }
 
     # cleanup
@@ -268,10 +359,9 @@ sub SendCustomerNotification {
     # get current user data
     my %CurrentPreferences = $Self->{UserObject}->GetUserData( UserID => $Param{UserID} );
     for ( keys %CurrentPreferences ) {
-        if ( $CurrentPreferences{$_} ) {
-            $Notification{Body}    =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
-            $Notification{Subject} =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
-        }
+        next if ! defined $CurrentPreferences{$_};
+        $Notification{Body}    =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
+        $Notification{Subject} =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
     }
 
     # cleanup
@@ -281,10 +371,9 @@ sub SendCustomerNotification {
     # get owner data
     my %OwnerPreferences = $Self->{UserObject}->GetUserData( UserID => $Article{OwnerID}, );
     for ( keys %OwnerPreferences ) {
-        if ( $OwnerPreferences{$_} ) {
-            $Notification{Body}    =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
-            $Notification{Subject} =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
-        }
+        next if ! $OwnerPreferences{$_};
+        $Notification{Body}    =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
+        $Notification{Subject} =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
     }
 
     # cleanup
@@ -296,10 +385,9 @@ sub SendCustomerNotification {
         UserID => $Article{ResponsibleID},
     );
     for ( keys %ResponsiblePreferences ) {
-        if ( $ResponsiblePreferences{$_} ) {
-            $Notification{Body}    =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
-            $Notification{Subject} =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
-        }
+        next if ! $ResponsiblePreferences{$_};
+        $Notification{Body}    =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
+        $Notification{Subject} =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
     }
 
     # cleanup
@@ -309,10 +397,9 @@ sub SendCustomerNotification {
     # get ref of email params
     my %GetParam = %{ $Param{CustomerMessageParams} };
     for ( keys %GetParam ) {
-        if ( $GetParam{$_} ) {
-            $Notification{Body}    =~ s/<OTRS_CUSTOMER_DATA_$_>/$GetParam{$_}/gi;
-            $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_$_>/$GetParam{$_}/gi;
-        }
+        next if ! $GetParam{$_};
+        $Notification{Body}    =~ s/<OTRS_CUSTOMER_DATA_$_>/$GetParam{$_}/gi;
+        $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_$_>/$GetParam{$_}/gi;
     }
 
     # get customer data and replace it with <OTRS_CUSTOMER_DATA_...
@@ -323,10 +410,9 @@ sub SendCustomerNotification {
 
         # replace customer stuff with tags
         for ( keys %CustomerUser ) {
-            if ( $CustomerUser{$_} ) {
-                $Notification{Body}    =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
-                $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
-            }
+            next if ! $CustomerUser{$_};
+            $Notification{Body}    =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
+            $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
         }
     }
 
@@ -375,7 +461,8 @@ sub SendCustomerNotification {
         }
         $Notification{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
             TicketNumber => $Article{TicketNumber},
-            Subject => $Notification{Subject} || '',
+            Subject      => $Notification{Subject} || '',
+            Type         => 'New',
         );
 
         # prepare body (insert old email)
@@ -401,36 +488,75 @@ sub SendCustomerNotification {
     }
 
     # send notify
-    my %Address = $Self->{QueueObject}->GetSystemAddress( QueueID => $Article{QueueID} );
-    $Self->{TicketObject}->ArticleSend(
-        ArticleType    => 'email-notification-ext',
-        SenderType     => 'system',
-        TicketID       => $Param{TicketID},
-        HistoryType    => 'SendCustomerNotification',
-        HistoryComment => "\%\%$Article{From}",
-        From           => "$Address{RealName} <$Address{Email}>",
-        To             => $Article{From},
-        Subject        => $Notification{Subject},
-        Body           => $Notification{Body},
-        MimeType       => 'text/plain',
-        Type           => 'text/plain',
-        Charset        => $Notification{Charset},
-        UserID         => $Param{UserID},
-        Loop           => 1,
-    );
+    if ( $Recipient{Type} eq 'Agent' ) {
 
-    # log event
-    $Self->{LogObject}->Log(
-        Priority => 'notice',
-        Message  => "Sent customer '$Param{Type}' notification to '$Article{From}'.",
-    );
+        # send notify
+        my $From = $Self->{ConfigObject}->Get('NotificationSenderName') . ' <'
+            . $Self->{ConfigObject}->Get('NotificationSenderEmail') . '>';
+        $Self->{SendmailObject}->Send(
+            From     => $From,
+            To       => $Recipient{Email},
+            Subject  => $Notification{Subject},
+            MimeType => 'text/plain',
+            Type     => 'text/plain',
+            Charset  => $Notification{Charset},
+            Body     => $Notification{Body},
+            Loop     => 1,
+        );
 
-    # ticket event
-    $Self->{TicketObject}->TicketEventHandlerPost(
-        Event    => 'ArticleCustomerNotification',
-        TicketID => $Param{TicketID},
-        UserID   => $Param{UserID},
-    );
+        # write history
+        $Self->{TicketObject}->HistoryAdd(
+            TicketID     => $Param{TicketID},
+            HistoryType  => 'SendAgentNotification',
+            Name         => "\%\%$Notification{Name}\%\%$Recipient{Email}",
+            CreateUserID => $Param{UserID},
+        );
+
+        # log event
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message  => "Sent agent '$Notification{Name}' notification to '$Recipient{Email}'.",
+        );
+
+        # ticket event
+        $Self->{TicketObject}->TicketEventHandlerPost(
+            Event    => 'ArticleAgentNotification',
+            TicketID => $Param{TicketID},
+            UserID   => $Param{UserID},
+        );
+    }
+    else {
+        my %Address = $Self->{QueueObject}->GetSystemAddress( QueueID => $Article{QueueID} );
+        $Self->{TicketObject}->ArticleSend(
+            ArticleType    => 'email-notification-ext',
+            SenderType     => 'system',
+            TicketID       => $Param{TicketID},
+            HistoryType    => 'SendCustomerNotification',
+            HistoryComment => "\%\%$Recipient{Email}",
+            From           => "$Address{RealName} <$Address{Email}>",
+            To             => $Recipient{Email},
+            Subject        => $Notification{Subject},
+            Body           => $Notification{Body},
+            MimeType       => 'text/plain',
+            Type           => 'text/plain',
+            Charset        => $Notification{Charset},
+            UserID         => $Param{UserID},
+            Loop           => 1,
+        );
+
+        # log event
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message  => "Sent customer '$Notification{Name}' notification to '$Recipient{Email}'.",
+        );
+
+        # ticket event
+        $Self->{TicketObject}->TicketEventHandlerPost(
+            Event    => 'ArticleCustomerNotification',
+            TicketID => $Param{TicketID},
+            UserID   => $Param{UserID},
+        );
+    }
 
     return 1;
 }
