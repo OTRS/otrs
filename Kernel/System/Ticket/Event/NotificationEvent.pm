@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.3 2009-05-26 10:42:27 martin Exp $
+# $Id: NotificationEvent.pm,v 1.4 2009-05-26 11:12:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Kernel::System::NotificationEvent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -139,6 +139,7 @@ sub Run {
             UserID                => $Param{UserID},
             Notification          => \%Notification,
             CustomerMessageParams => {},
+            Event                 => $Param{Event},
         );
     }
 
@@ -157,7 +158,17 @@ sub SendCustomerNotification {
     }
 
     # get old article for quoteing
-    my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle( TicketID => $Param{TicketID} );
+    my %Article;
+    if ( $Param{Event} ne 'TicketCreate' ) {
+        %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
+            TicketID => $Param{TicketID},
+        );
+    }
+    else {
+        %Article = $Self->{TicketObject}->TicketGet(
+            TicketID => $Param{TicketID},
+        );
+    }
 
     # get recipients by Recipients
     my @Recipients;
@@ -301,6 +312,7 @@ sub SendCustomerNotification {
             Notification          => $Param{Notification},
             CustomerMessageParams => {},
             Recipient             => $Recipient,
+            Event                 => $Param{Event},
         );
     }
     return 1;
@@ -317,9 +329,17 @@ sub _SendCustomerNotification {
     my %Recipient    = %{ $Param{Recipient} };
 
     # get old article for quoteing
-    my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
-        TicketID => $Param{TicketID},
-    );
+    my %Article;
+    if ( $Param{Event} ne 'TicketCreate' ) {
+        %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
+            TicketID => $Param{TicketID},
+        );
+    }
+    else {
+        %Article = $Self->{TicketObject}->TicketGet(
+            TicketID => $Param{TicketID},
+        );
+    }
 
     # get notify texts
     for (qw(Subject Body)) {
@@ -421,10 +441,13 @@ sub _SendCustomerNotification {
     $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
 
     # latest customer and agent article
-    my @ArticleBoxAgent = $Self->{TicketObject}->ArticleGet(
-        TicketID => $Param{TicketID},
-        UserID         => $Param{UserID},
-    );
+    my @ArticleBoxAgent;
+    if ( $Param{Event} ne 'TicketCreate' ) {
+        @ArticleBoxAgent = $Self->{TicketObject}->ArticleGet(
+            TicketID => $Param{TicketID},
+            UserID         => $Param{UserID},
+        );
+    }
     my %ArticleAgent;
     for my $Article ( reverse @ArticleBoxAgent ) {
         next if $Article->{SenderType} ne 'agent';
@@ -439,6 +462,7 @@ sub _SendCustomerNotification {
 
     for my $ArticleItem ( sort keys %ArticleContent ) {
         my %Article = %{ $ArticleContent{$ArticleItem} };
+        next if !%Article;
 
         if ( $Article{Body} ) {
             $Article{Body} =~ s/(^>.+|.{4,72})(?:\s|\z)/$1\n/gm;
@@ -452,7 +476,7 @@ sub _SendCustomerNotification {
         # prepare subject (insert old subject)
         $Article{Subject} = $Self->{TicketObject}->TicketSubjectClean(
             TicketNumber => $Article{TicketNumber},
-            Subject => $Article{Subject} || '',
+            Subject      => $Article{Subject} || '',
         );
         if ( $Notification{Subject} =~ /<$ArticleItem(SUBJECT)\[(.+?)\]>/ ) {
             my $SubjectChar = $2;
