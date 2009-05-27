@@ -1,12 +1,12 @@
 # --
 # Kernel/System/Crypt/PGP.pm - the main crypt module
-# Copyright (C) 2001-2008 OTRS AG, http://otrs.org/
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PGP.pm,v 1.26 2008-05-08 09:36:20 mh Exp $
+# $Id: PGP.pm,v 1.26.2.1 2009-05-27 13:06:53 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
 package Kernel::System::Crypt::PGP;
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.26.2.1 $) [1];
 
 =head1 NAME
 
@@ -169,6 +169,7 @@ sub Decrypt {
 
     my %PasswordHash = %{ $Self->{ConfigObject}->Get('PGP::Key::Password') };
     my @Keys = $Self->_CryptedWithKey( File => $Filename );
+
     KEY:
     for my $Key (@Keys) {
         my $Password = $Param{Password} || $PasswordHash{$Key} || '';
@@ -182,7 +183,7 @@ sub Decrypt {
     if ( !%Return ) {
         return (
             Successful => 0,
-            Message    => 'gpg: No privat key found to decrypt this message!',
+            Message    => 'gpg: No private key found to decrypt this message!',
         );
     }
     return %Return;
@@ -499,9 +500,9 @@ sub _ParseGPGKeyList {
             $Key{Created} = $Fields[5];
         }
         elsif ( $Type eq 'sub' ) {
-            $Key{KeyPrivate} = substr( $Fields[4], -8, 8 );    # only use last 8 chars of key-ID
-                                                               # in order to be compatible with
-                                                               # previous parser
+            $Key{KeyPrivate} = substr( $Fields[4], -8, 8 );     # only use last 8 chars of key-ID
+                                                                # in order to be compatible with
+                                                                # previous parser
         }
         elsif ( $Type eq 'fpr' ) {
             $Key{FingerprintShort} = $Fields[9];
@@ -748,13 +749,13 @@ sub _CryptedWithKey {
 This software is part of the OTRS project (http://otrs.org/).
 
 This software comes with ABSOLUTELY NO WARRANTY. For details, see
-the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see http://www.gnu.org/licenses/gpl-2.0.txt.
+the enclosed file COPYING for license information (AGPL). If you
+did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =cut
 
 =head1 VERSION
 
-$Revision: 1.26 $ $Date: 2008-05-08 09:36:20 $
+$Revision: 1.26.2.1 $ $Date: 2009-05-27 13:06:53 $
 
 =cut
