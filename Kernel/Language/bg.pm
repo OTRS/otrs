@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.86 2009-04-20 08:35:54 martin Exp $
+# $Id: bg.pm,v 1.87 2009-05-27 07:56:53 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.86 $) [1];
+$VERSION = qw($Revision: 1.87 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -711,7 +711,7 @@ sub Data {
         'Is Job Valid' => 'Задачата валидна',
         'Schedule' => 'Регулярно изпълнение',
         'Currently this generic agent job will not run automatically.' => '',
-        'To enable automatic execusion select at least one value form minutes, hours and days!' => '',
+        'To enable automatic execution select at least one value from minutes, hours and days!' => '',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Пълнотекстово търсене в билета (Пример: Mart*n или Baue*)',
         '(e. g. 10*5155 or 105658*)' => '(Пример: 10*5155 или 105658)',
         '(e. g. 234321)' => '(Пример: 234321)',

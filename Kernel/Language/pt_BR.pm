@@ -4,7 +4,7 @@
 # Copyright (C) 2005 Alterado por Glaucia C. Messina (glauglauu@yahoo.com)
 # Copyright (C) 2007 Fabricio Luiz Machado <soprobr gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.81 2009-04-20 08:35:54 martin Exp $
+# $Id: pt_BR.pm,v 1.82 2009-05-27 07:56:54 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.81 $) [1];
+$VERSION = qw($Revision: 1.82 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -712,7 +712,7 @@ sub Data {
         'Is Job Valid' => 'O job é válido.',
         'Schedule' => 'Agenda',
         'Currently this generic agent job will not run automatically.' => '',
-        'To enable automatic execusion select at least one value form minutes, hours and days!' => '',
+        'To enable automatic execution select at least one value from minutes, hours and days!' => '',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Busca por texto completo no Artigo (ex.: "Mar*in" or "Baue*")',
         '(e. g. 10*5155 or 105658*)' => '(ex.: 10*5155 or 105658*)',
         '(e. g. 234321)' => '(ex.: 234321)',

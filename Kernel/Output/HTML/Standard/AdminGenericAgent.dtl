@@ -2,7 +2,7 @@
 # AdminGenericAgent.dtl - provides HTML form for AdminGenericAgent.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.dtl,v 1.43 2009-05-15 09:32:25 martin Exp $
+# $Id: AdminGenericAgent.dtl,v 1.44 2009-05-27 08:01:54 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -133,7 +133,7 @@
               <br/>
               <span class="validity">
               $Text{"Currently this generic agent job will not run automatically."}
-              $Text{"To enable automatic execusion select at least one value form minutes, hours and days!"}
+              $Text{"To enable automatic execution select at least one value from minutes, hours and days!"}
               </span>
 <!-- dtl:block:JobScheduleWarning-->
             </td>

@@ -7,7 +7,7 @@
 # Copyright (C) 2007 Massimiliano Franco <max-lists at ycom.ch>
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # --
-# $Id: fr.pm,v 1.106 2009-04-20 08:35:54 martin Exp $
+# $Id: fr.pm,v 1.107 2009-05-27 07:56:54 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.106 $) [1];
+$VERSION = qw($Revision: 1.107 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -715,7 +715,7 @@ sub Data {
         'Is Job Valid' => 'Cette tâche est-elle valide',
         'Schedule' => 'Planifier',
         'Currently this generic agent job will not run automatically.' => '',
-        'To enable automatic execusion select at least one value form minutes, hours and days!' => '',
+        'To enable automatic execution select at least one value from minutes, hours and days!' => '',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Recherche sur le texte d\'un article (ex: "Mar*in" or "Baue*")',
         '(e. g. 10*5155 or 105658*)' => '(ex: 10*5155 or 105658*)',
         '(e. g. 234321)' => '(ex: 234321)',

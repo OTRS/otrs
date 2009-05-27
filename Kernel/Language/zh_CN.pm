@@ -3,7 +3,7 @@
 # Copyright (C) 2008 Never Min <never at qnofae.org>
 # Copyright (C) 2005 zuowei <j2ee at hirain-sh.com>
 # --
-# $Id: zh_CN.pm,v 1.57 2009-04-20 08:35:54 martin Exp $
+# $Id: zh_CN.pm,v 1.58 2009-05-27 07:56:54 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -711,7 +711,7 @@ sub Data {
         'Is Job Valid' => '工作有效',
         'Schedule' => '安排',
         'Currently this generic agent job will not run automatically.' => '',
-        'To enable automatic execusion select at least one value form minutes, hours and days!' => '',
+        'To enable automatic execution select at least one value from minutes, hours and days!' => '',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => '文章全文搜索 (例如: "Mar*in" 或者 "Baue*")',
         '(e. g. 10*5155 or 105658*)' => '  例如: 10*5144 或者 105658*',
         '(e. g. 234321)' => '例如: 234321',

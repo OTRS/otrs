@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # Copyright (C) 2007-2008 Mikko Hynninen <first.last at tietokartano.fi>
 # --
-# $Id: fi.pm,v 1.86 2009-04-20 08:35:54 martin Exp $
+# $Id: fi.pm,v 1.87 2009-05-27 07:56:54 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.86 $) [1];
+$VERSION = qw($Revision: 1.87 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -711,7 +711,7 @@ sub Data {
         'Is Job Valid' => 'Onko työ voimassa',
         'Schedule' => 'Aikataulu',
         'Currently this generic agent job will not run automatically.' => '',
-        'To enable automatic execusion select at least one value form minutes, hours and days!' => '',
+        'To enable automatic execution select at least one value from minutes, hours and days!' => '',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Kokosanahaku artikkeleista (esim. "Mar*ku tai "Penti*")',
         '(e. g. 10*5155 or 105658*)' => '(esim. 10*5155 tai 105658*)',
         '(e. g. 234321)' => '(esim. 234321)',

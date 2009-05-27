@@ -3,7 +3,7 @@
 # Copyright (C) 2003 Lukas Vicanek alias networ <lulka at centrum dot cz>
 # Copyright (C) 2004 BENETA.cz, s.r.o. (Marta Macalkova, Vadim Buzek, Petr Ocasek) <info at beneta dot cz>
 # --
-# $Id: cz.pm,v 1.71 2009-04-20 08:35:54 martin Exp $
+# $Id: cz.pm,v 1.72 2009-05-27 07:56:53 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -711,7 +711,7 @@ sub Data {
         'Is Job Valid' => '',
         'Schedule' => '',
         'Currently this generic agent job will not run automatically.' => '',
-        'To enable automatic execusion select at least one value form minutes, hours and days!' => '',
+        'To enable automatic execution select at least one value from minutes, hours and days!' => '',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Fulltextové vyhledávání v polo¾ce (napø. "Mar*in" or "Baue*")',
         '(e. g. 10*5155 or 105658*)' => '(napø. 10*5155 or 105658*)',
         '(e. g. 234321)' => '(napø. 234321)',

@@ -2,7 +2,7 @@
 # Kernel/Language/ct.pm - provides ct language translation
 # Copyright (C) 2008 Sistemes OTIC (ibsalut) - Antonio Linde
 # --
-# $Id: ct.pm,v 1.20 2009-04-20 08:35:54 martin Exp $
+# $Id: ct.pm,v 1.21 2009-05-27 07:56:53 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -711,7 +711,7 @@ sub Data {
         'Is Job Valid' => 'És una tasca Vàlida',
         'Schedule' => 'Horari',
         'Currently this generic agent job will not run automatically.' => '',
-        'To enable automatic execusion select at least one value form minutes, hours and days!' => '',
+        'To enable automatic execution select at least one value from minutes, hours and days!' => '',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Recerca de text en Article (ex. "Mar*in" or "Baue*") ',
         '(e. g. 10*5155 or 105658*)' => '(ex: 10*5155 o 105658*)',
         '(e. g. 234321)' => '(ex: 234321)',

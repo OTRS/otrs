@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Thorsten Rossner <thorsten.rossner[at]stepstone.de>
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # --
-# $Id: da.pm,v 1.51 2009-04-20 08:35:54 martin Exp $
+# $Id: da.pm,v 1.52 2009-05-27 07:56:53 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -711,7 +711,7 @@ sub Data {
         'Is Job Valid' => 'Er jobbet gyldigt',
         'Schedule' => 'Tidsplan',
         'Currently this generic agent job will not run automatically.' => '',
-        'To enable automatic execusion select at least one value form minutes, hours and days!' => '',
+        'To enable automatic execution select at least one value from minutes, hours and days!' => '',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Fritekstsøgning i artikel (f.eks. "Mar*in" eller "Baue*")',
         '(e. g. 10*5155 or 105658*)' => '(f.eks. 10*5155 eller 105658*)',
         '(e. g. 234321)' => '(f.eks. 234321)',

@@ -2,7 +2,7 @@
 # Kernel/Language/vi_VN.pm - provides vi_VN language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: vi_VN.pm,v 1.21 2009-04-20 08:35:54 martin Exp $
+# $Id: vi_VN.pm,v 1.22 2009-05-27 07:56:54 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -709,7 +709,7 @@ sub Data {
         'Is Job Valid' => 'Công vi®c có hþp l®',
         'Schedule' => 'Kª hoÕch',
         'Currently this generic agent job will not run automatically.' => '',
-        'To enable automatic execusion select at least one value form minutes, hours and days!' => '',
+        'To enable automatic execution select at least one value from minutes, hours and days!' => '',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Tìm kiªm trong bài viªt (ví dø: "Mar*in" ho£c "Baue*")',
         '(e. g. 10*5155 or 105658*)' => 'ví dø: 10*5144 ho£c 105658*',
         '(e. g. 234321)' => 'ví dø: 234321',

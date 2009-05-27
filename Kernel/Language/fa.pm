@@ -3,7 +3,7 @@
 # Copyright (C) 2006-2008 Amir Shams Parsa <amir at parsa.name>
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # --
-# $Id: fa.pm,v 1.56 2009-04-20 08:35:54 martin Exp $
+# $Id: fa.pm,v 1.57 2009-05-27 07:56:54 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.56 $) [1];
+$VERSION = qw($Revision: 1.57 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -714,7 +714,7 @@ sub Data {
         'Is Job Valid' => 'آیا کار معتبر است',
         'Schedule' => 'زمان بندی',
         'Currently this generic agent job will not run automatically.' => '',
-        'To enable automatic execusion select at least one value form minutes, hours and days!' => '',
+        'To enable automatic execution select at least one value from minutes, hours and days!' => '',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'جستجوی متنی در موارد به شکل ( "Mar*in" یا "Baue*")',
         '(e. g. 10*5155 or 105658*)' => '(مثال: 10*5155 یا 105658*)',
         '(e. g. 234321)' => '(مثال: 234321)',

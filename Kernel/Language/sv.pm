@@ -2,7 +2,7 @@
 # Kernel/Language/sv.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats@synergy.se>
 # --
-# $Id: sv.pm,v 1.63 2009-04-20 08:35:54 martin Exp $
+# $Id: sv.pm,v 1.64 2009-05-27 07:56:54 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.63 $;
+$VERSION = q$Revision: 1.64 $;
 
 sub Data {
     my $Self = shift;
@@ -710,7 +710,7 @@ sub Data {
         'Is Job Valid' => '',
         'Schedule' => '',
         'Currently this generic agent job will not run automatically.' => '',
-        'To enable automatic execusion select at least one value form minutes, hours and days!' => '',
+        'To enable automatic execution select at least one value from minutes, hours and days!' => '',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Fritextsök i artiklar (t.ex. "Mar*in" eller "Baue*")',
         '(e. g. 10*5155 or 105658*)' => 't.ex. 10*5144 eller 105658*',
         '(e. g. 234321)' => 't.ex. 234321',

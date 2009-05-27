@@ -4,7 +4,7 @@
 # Copyright (C) 2007 Carlos Oyarzabal <carlos.oyarzabal at grupocash.com.mx>
 # Copyright (C) 2008 Pelayo Romero Martín <pelayo.romero at gmail.com>
 # --
-# $Id: es.pm,v 1.87 2009-04-20 08:35:54 martin Exp $
+# $Id: es.pm,v 1.88 2009-05-27 07:56:54 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.87 $) [1];
+$VERSION = qw($Revision: 1.88 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -712,7 +712,7 @@ sub Data {
         'Is Job Valid' => 'Es una tarea válida',
         'Schedule' => 'Horario',
         'Currently this generic agent job will not run automatically.' => '',
-        'To enable automatic execusion select at least one value form minutes, hours and days!' => '',
+        'To enable automatic execution select at least one value from minutes, hours and days!' => '',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Búsqueda de texto en Artículo (ej. "Mar*in" o "Baue*")',
         '(e. g. 10*5155 or 105658*)' => '(ej: 10*5155 o 105658*)',
         '(e. g. 234321)' => '(ej: 234321)',

@@ -4,7 +4,7 @@
 # Copyright (C) 2003 Gabriele Santilli <gsantilli at omnibus.net>
 # Copyright (C) 2005 Giordano Bianchi <giordano.bianchi at gmail.com>
 # --
-# $Id: it.pm,v 1.76 2009-04-20 08:35:54 martin Exp $
+# $Id: it.pm,v 1.77 2009-05-27 07:56:54 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -712,7 +712,7 @@ sub Data {
         'Is Job Valid' => 'L\' attività è normale',
         'Schedule' => 'Programma',
         'Currently this generic agent job will not run automatically.' => '',
-        'To enable automatic execusion select at least one value form minutes, hours and days!' => '',
+        'To enable automatic execution select at least one value from minutes, hours and days!' => '',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Ricerca a testo libero nel testo dell\'articolo (per esempio \'Ro*si\' o \'Ma*io\')',
         '(e. g. 10*5155 or 105658*)' => '(per esempio \'10*5155\' o \'105658*\')',
         '(e. g. 234321)' => '(per esempio \'234321\')',

@@ -5,7 +5,7 @@
 # Copyright (C) 2006 Knut Haugen <knuthaug at linpro.no>
 # Copyright (C) 2007-2009 Fredrik Andersen <fredrik.andersen at husbanken.no>
 # --
-# $Id: nb_NO.pm,v 1.73 2009-04-20 14:14:45 martin Exp $
+# $Id: nb_NO.pm,v 1.74 2009-05-27 07:56:54 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.73 $;
+$VERSION = q$Revision: 1.74 $;
 
 sub Data {
     my $Self = shift;
@@ -713,7 +713,7 @@ sub Data {
         'Is Job Valid' => 'Er jobben gyldig',
         'Schedule' => 'Plan',
         'Currently this generic agent job will not run automatically.' => 'Føreløpig vil ikke denne generiske agent jobben kjøres automatisk.',
-        'To enable automatic execusion select at least one value form minutes, hours and days!' => 'For å skru på automatisk utførelse velg minst en verdi i form av minutter, timer og dager!',
+        'To enable automatic execution select at least one value from minutes, hours and days!' => 'For å skru på automatisk utførelse velg minst en verdi i form av minutter, timer og dager!',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Fritekstsøk i artikler (f.eks. "Mar*in" eller "Baue*")',
         '(e. g. 10*5155 or 105658*)' => 'f.eks. 10*5144 eller 105658*',
         '(e. g. 234321)' => 'f.eks. 234321',

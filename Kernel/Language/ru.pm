@@ -4,7 +4,7 @@
 # Copyright (C) 2007 Andrey Feldman <afeldman at alt-lan.ru>
 # Copyright (C) 2008 Egor Tsilenko <bg8s at symlink.ru>
 # --
-# $Id: ru.pm,v 1.75 2009-04-20 08:35:54 martin Exp $
+# $Id: ru.pm,v 1.76 2009-05-27 07:56:54 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.75 $) [1];
+$VERSION = qw($Revision: 1.76 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -712,7 +712,7 @@ sub Data {
         'Is Job Valid' => 'Данная задача действительна',
         'Schedule' => 'Расписание',
         'Currently this generic agent job will not run automatically.' => '',
-        'To enable automatic execusion select at least one value form minutes, hours and days!' => '',
+        'To enable automatic execution select at least one value from minutes, hours and days!' => '',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Полнотекстовый поиск в заявке (например "Mar*in" или "Baue*")',
         '(e. g. 10*5155 or 105658*)' => '(например 10*5155 или 105658*)',
         '(e. g. 234321)' => '(например 234321)',
