@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.83 2009-05-25 07:26:10 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.84 2009-05-28 13:57:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.83 $) [1];
+$VERSION = qw($Revision: 1.84 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -259,26 +259,26 @@ sub Run {
                 QueueID => $Self->{QueueID} || 1,
             );
             my $SLAs = $Self->_GetSLAs(
-                QueueID  => $Self->{QueueID} || 1,
+                QueueID => $Self->{QueueID} || 1,
                 Services => $Services,
                 %GetParam,
             );
             $Output .= $Self->_MaskEmailNew(
-                QueueID          => $Self->{QueueID},
-                NextStates       => $Self->_GetNextStates( QueueID => $Self->{QueueID} || 1 ),
-                Priorities       => $Self->_GetPriorities( QueueID => $Self->{QueueID} || 1 ),
-                Types            => $Self->_GetTypes( QueueID => $Self->{QueueID} || 1 ),
-                Services         => $Services,
-                SLAs             => $SLAs,
+                QueueID    => $Self->{QueueID},
+                NextStates => $Self->_GetNextStates( QueueID => $Self->{QueueID} || 1 ),
+                Priorities => $Self->_GetPriorities( QueueID => $Self->{QueueID} || 1 ),
+                Types      => $Self->_GetTypes( QueueID => $Self->{QueueID} || 1 ),
+                Services   => $Services,
+                SLAs       => $SLAs,
                 Users            => $Self->_GetUsers( QueueID => $Self->{QueueID} ),
                 ResponsibleUsers => $Self->_GetUsers( QueueID => $Self->{QueueID} ),
-                FromList         => $Self->_GetTos( QueueID => $Self->{QueueID} ),
-                To               => '',
-                Subject          => $Subject,
-                Body             => $Body,
-                CustomerID       => '',
-                CustomerUser     => '',
-                CustomerData     => {},
+                FromList => $Self->_GetTos( QueueID => $Self->{QueueID} ),
+                To       => '',
+                Subject  => $Subject,
+                Body     => $Body,
+                CustomerID   => '',
+                CustomerUser => '',
+                CustomerData => {},
                 %TicketFreeTextHTML,
                 %TicketFreeTimeHTML,
                 %ArticleFreeTextHTML,
@@ -609,7 +609,7 @@ sub Run {
                 QueueID        => $NewQueueID   || 1,
             );
             my $SLAs = $Self->_GetSLAs(
-                QueueID  => $NewQueueID || 1,
+                QueueID => $NewQueueID || 1,
                 Services => $Services,
                 %GetParam,
             );

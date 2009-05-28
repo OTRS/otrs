@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminNotificationEvent.pm - to add/update/delete state
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationEvent.pm,v 1.3 2009-05-26 10:42:27 martin Exp $
+# $Id: AdminNotificationEvent.pm,v 1.4 2009-05-28 13:57:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -500,8 +500,8 @@ sub _Edit {
     }
 
     $Param{ArticleTypesStrg} = $Self->{LayoutObject}->BuildSelection(
-        Data        => { $Self->{TicketObject}->ArticleTypeList( Result => 'HASH' ), },
-        Name        => 'ArticleTypeID',
+        Data => { $Self->{TicketObject}->ArticleTypeList( Result => 'HASH' ), },
+        Name => 'ArticleTypeID',
         SelectedID  => $Param{Data}->{ArticleTypeID},
         Size        => 5,
         Multiple    => 1,
@@ -510,9 +510,10 @@ sub _Edit {
     );
 
     # take over data fields
-    for my $Key ( qw(RecipientEmail CustomerID CustomerUserID ArticleSubjectMatch ArticleBodyMatch) ) {
+    for my $Key (qw(RecipientEmail CustomerID CustomerUserID ArticleSubjectMatch ArticleBodyMatch))
+    {
         next if !$Param{Data}->{$Key};
-        next if ! defined $Param{Data}->{$Key}->[0];
+        next if !defined $Param{Data}->{$Key}->[0];
         $Param{$Key} = $Param{Data}->{$Key}->[0];
     }
 

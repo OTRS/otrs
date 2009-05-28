@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.96 2009-05-25 07:26:10 martin Exp $
+# $Id: AgentTicketPhone.pm,v 1.97 2009-05-28 13:57:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.96 $) [1];
+$VERSION = qw($Revision: 1.97 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -449,7 +449,7 @@ sub Run {
         my $SLAs = $Self->_GetSLAs(
             %GetParam,
             CustomerUserID => $CustomerData{CustomerUserLogin} || '',
-            QueueID        => $Self->{QueueID} || 1,
+            QueueID        => $Self->{QueueID}                 || 1,
             Services       => $Services,
         );
         $Output .= $Self->_MaskPhoneNew(
@@ -785,7 +785,7 @@ sub Run {
             my $SLAs = $Self->_GetSLAs(
                 %GetParam,
                 CustomerUserID => $CustomerUser || $SelectedCustomerUser || '',
-                QueueID        => $NewQueueID || 1,
+                QueueID        => $NewQueueID   || 1,
                 Services       => $Services,
             );
 

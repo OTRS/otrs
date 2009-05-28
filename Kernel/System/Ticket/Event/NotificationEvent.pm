@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.4 2009-05-26 11:12:07 martin Exp $
+# $Id: NotificationEvent.pm,v 1.5 2009-05-28 13:57:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Kernel::System::NotificationEvent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -118,7 +118,7 @@ sub Run {
             }
 
             # check subject & body
-            for my $Key ( qw( Subject Body ) ) {
+            for my $Key (qw( Subject Body )) {
                 next if !$Notification{Data}->{ 'Article' . $Key . 'Match' };
                 my $Match = 0;
                 VALUE:
@@ -180,7 +180,8 @@ sub SendCustomerNotification {
                     push @{ $Param{Notification}->{Data}->{RecipientAgents} }, $Article{OwnerID};
                 }
                 elsif ( $Recipient eq 'AgentResponsible' ) {
-                    push @{ $Param{Notification}->{Data}->{RecipientAgents} }, $Article{ResponsibleID};
+                    push @{ $Param{Notification}->{Data}->{RecipientAgents} },
+                        $Article{ResponsibleID};
                 }
                 elsif ( $Recipient eq 'AgentWritePermissions' ) {
                     my $GroupID = $Self->{QueueObject}->GetQueueGroupID(
@@ -305,7 +306,7 @@ sub SendCustomerNotification {
         }
     }
 
-    for my $Recipient ( @Recipients ) {
+    for my $Recipient (@Recipients) {
         $Self->_SendCustomerNotification(
             TicketID              => $Param{TicketID},
             UserID                => $Param{UserID},
@@ -367,7 +368,7 @@ sub _SendCustomerNotification {
     # ticket data
     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
     for ( keys %Ticket ) {
-        next if ! defined $Ticket{$_};
+        next if !defined $Ticket{$_};
         $Notification{Body}    =~ s/<OTRS_TICKET_$_>/$Ticket{$_}/gi;
         $Notification{Subject} =~ s/<OTRS_TICKET_$_>/$Ticket{$_}/gi;
     }
@@ -379,7 +380,7 @@ sub _SendCustomerNotification {
     # get current user data
     my %CurrentPreferences = $Self->{UserObject}->GetUserData( UserID => $Param{UserID} );
     for ( keys %CurrentPreferences ) {
-        next if ! defined $CurrentPreferences{$_};
+        next if !defined $CurrentPreferences{$_};
         $Notification{Body}    =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
         $Notification{Subject} =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
     }
@@ -391,7 +392,7 @@ sub _SendCustomerNotification {
     # get owner data
     my %OwnerPreferences = $Self->{UserObject}->GetUserData( UserID => $Article{OwnerID}, );
     for ( keys %OwnerPreferences ) {
-        next if ! $OwnerPreferences{$_};
+        next if !$OwnerPreferences{$_};
         $Notification{Body}    =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
         $Notification{Subject} =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
     }
@@ -405,7 +406,7 @@ sub _SendCustomerNotification {
         UserID => $Article{ResponsibleID},
     );
     for ( keys %ResponsiblePreferences ) {
-        next if ! $ResponsiblePreferences{$_};
+        next if !$ResponsiblePreferences{$_};
         $Notification{Body}    =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
         $Notification{Subject} =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
     }
@@ -417,7 +418,7 @@ sub _SendCustomerNotification {
     # get ref of email params
     my %GetParam = %{ $Param{CustomerMessageParams} };
     for ( keys %GetParam ) {
-        next if ! $GetParam{$_};
+        next if !$GetParam{$_};
         $Notification{Body}    =~ s/<OTRS_CUSTOMER_DATA_$_>/$GetParam{$_}/gi;
         $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_$_>/$GetParam{$_}/gi;
     }
@@ -430,7 +431,7 @@ sub _SendCustomerNotification {
 
         # replace customer stuff with tags
         for ( keys %CustomerUser ) {
-            next if ! $CustomerUser{$_};
+            next if !$CustomerUser{$_};
             $Notification{Body}    =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
             $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
         }
@@ -445,13 +446,13 @@ sub _SendCustomerNotification {
     if ( $Param{Event} ne 'TicketCreate' ) {
         @ArticleBoxAgent = $Self->{TicketObject}->ArticleGet(
             TicketID => $Param{TicketID},
-            UserID         => $Param{UserID},
+            UserID   => $Param{UserID},
         );
     }
     my %ArticleAgent;
     for my $Article ( reverse @ArticleBoxAgent ) {
         next if $Article->{SenderType} ne 'agent';
-        %ArticleAgent = %{ $Article };
+        %ArticleAgent = %{$Article};
         last;
     }
 
@@ -476,7 +477,7 @@ sub _SendCustomerNotification {
         # prepare subject (insert old subject)
         $Article{Subject} = $Self->{TicketObject}->TicketSubjectClean(
             TicketNumber => $Article{TicketNumber},
-            Subject      => $Article{Subject} || '',
+            Subject => $Article{Subject} || '',
         );
         if ( $Notification{Subject} =~ /<$ArticleItem(SUBJECT)\[(.+?)\]>/ ) {
             my $SubjectChar = $2;

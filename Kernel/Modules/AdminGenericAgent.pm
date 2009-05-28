@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.67 2009-05-28 07:12:43 tr Exp $
+# $Id: AdminGenericAgent.pm,v 1.68 2009-05-28 13:57:57 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -152,10 +152,10 @@ sub Run {
         }
         for my $Type (
             qw(
-                TicketCreate           TicketClose              TicketPending
-                TicketEscalation       TicketEscalationResponse
-                TicketEscalationUpdate TicketEscalationSolution
-                )
+            TicketCreate           TicketClose              TicketPending
+            TicketEscalation       TicketEscalationResponse
+            TicketEscalationUpdate TicketEscalationSolution
+            )
             )
         {
             for my $Attribut (
@@ -275,10 +275,10 @@ sub Run {
         );
         for my $Type (
             qw(
-                TicketCreate           TicketClose                  TicketPending
-                TicketEscalation       TicketEscalationResponse
-                TicketEscalationUpdate TicketEscalationSolution
-                )
+            TicketCreate           TicketClose                  TicketPending
+            TicketEscalation       TicketEscalationResponse
+            TicketEscalationUpdate TicketEscalationSolution
+            )
             )
         {
             my $SearchType = $Map{$Type} . 'SearchType';
@@ -583,9 +583,9 @@ sub Run {
         );
         for my $Type (
             qw( TicketCreate           TicketClose              TicketPending
-                TicketEscalation       TicketEscalationResponse
-                TicketEscalationUpdate TicketEscalationSolution
-                )
+            TicketEscalation       TicketEscalationResponse
+            TicketEscalationUpdate TicketEscalationSolution
+            )
             )
         {
             my $SearchType = $Map{$Type} . 'SearchType';
