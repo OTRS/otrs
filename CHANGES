@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.895 2009-05-27 08:01:54 tr Exp $
+# $Id: CHANGES,v 1.896 2009-05-28 07:09:50 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,9 +10,14 @@
 # --
 
 2.4.0 beta3 (2009/??/??)
- - (2009/05/18) Updated CPAN module Text::CSV to version 1.12.
+ - (2009/05/28) Fixed bug# 3868 - the replacement of %s in $Text{} content
+    doesn't work if the content is 0.
+ - (2009/05/28) Fixed bug# 3846 - Generic Agents - cant set "Create Times"
+    settings.
  - (2009/05/27) Fixed bug# 3862 - typos in english warning message of
     GenericAgent setup.
+ - (2009/05/18) Updated CPAN module Text::CSV to version 1.12.
+
 
 2.4.0 beta2 (2009/05/15)
  - (2009/05/15) Fixed bug# 3618 - Ticket history info (ticket_history.queue_id)
