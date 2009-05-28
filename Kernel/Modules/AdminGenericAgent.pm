@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.66 2009-05-18 12:04:48 mh Exp $
+# $Id: AdminGenericAgent.pm,v 1.67 2009-05-28 07:12:43 tr Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -151,7 +151,11 @@ sub Run {
             $GetParam{$Key} = $Self->{ParamObject}->GetParam( Param => $Key );
         }
         for my $Type (
-            qw(TicketClose TicketPending TicketEscalation TicketEscalationResponse TicketEscalationUpdate TicketEscalationSolution)
+            qw(
+                TicketCreate           TicketClose              TicketPending
+                TicketEscalation       TicketEscalationResponse
+                TicketEscalationUpdate TicketEscalationSolution
+                )
             )
         {
             for my $Attribut (
@@ -270,7 +274,11 @@ sub Run {
             TicketEscalationSolution => 'EscalationSolutionTime',
         );
         for my $Type (
-            qw(TicketClose TicketPending TicketEscalation TicketEscalationResponse TicketEscalationUpdate TicketEscalationSolution)
+            qw(
+                TicketCreate           TicketClose                  TicketPending
+                TicketEscalation       TicketEscalationResponse
+                TicketEscalationUpdate TicketEscalationSolution
+                )
             )
         {
             my $SearchType = $Map{$Type} . 'SearchType';
@@ -374,7 +382,8 @@ sub Run {
             UserID  => 1,
             Limit   => 30,
             %GetParam,
-        ) || 0;
+        );
+
         if ( $GetParam{NewDelete} ) {
             $Param{DeleteMessage}
                 = 'You use the DELETE option! Take care, all deleted Tickets are lost!!!';
@@ -388,6 +397,7 @@ sub Run {
                 AffectedIDs => $Counter,
             },
         );
+
         if (@TicketIDs) {
             $Self->{LayoutObject}->Block( Name => 'ResultBlock' );
             for my $TicketID (@TicketIDs) {
@@ -572,7 +582,10 @@ sub Run {
             TicketEscalationSolution => 'EscalationSolutionTime',
         );
         for my $Type (
-            qw(TicketClose TicketPending TicketEscalation TicketEscalationResponse TicketEscalationUpdate TicketEscalationSolution)
+            qw( TicketCreate           TicketClose              TicketPending
+                TicketEscalation       TicketEscalationResponse
+                TicketEscalationUpdate TicketEscalationSolution
+                )
             )
         {
             my $SearchType = $Map{$Type} . 'SearchType';
