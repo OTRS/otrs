@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PGP.pm,v 1.26.2.1 2009-05-27 13:06:53 ub Exp $
+# $Id: PGP.pm,v 1.26.2.2 2009-05-28 10:37:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26.2.1 $) [1];
+$VERSION = qw($Revision: 1.26.2.2 $) [1];
 
 =head1 NAME
 
@@ -494,15 +494,16 @@ sub _ParseGPGKeyList {
         }
         elsif ( $Type eq 'ssb' ) {
             $Key{Bit}     = $Fields[2];
-            $Key{Key}     = substr( $Fields[4], -8, 8 );    # only use last 8 chars of key-ID
-                                                            # in order to be compatible with
-                                                            # previous parser
+
+            # only use last 8 chars of key-ID in order to be compatible with previous parser
+            $Key{Key}     = substr( $Fields[4], -8, 8 );
+
             $Key{Created} = $Fields[5];
         }
         elsif ( $Type eq 'sub' ) {
-            $Key{KeyPrivate} = substr( $Fields[4], -8, 8 );     # only use last 8 chars of key-ID
-                                                                # in order to be compatible with
-                                                                # previous parser
+
+            # only use last 8 chars of key-ID in order to be compatible with previous parser
+            $Key{KeyPrivate} = substr( $Fields[4], -8, 8 );
         }
         elsif ( $Type eq 'fpr' ) {
             $Key{FingerprintShort} = $Fields[9];
@@ -756,6 +757,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.26.2.1 $ $Date: 2009-05-27 13:06:53 $
+$Revision: 1.26.2.2 $ $Date: 2009-05-28 10:37:21 $
 
 =cut

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.68.2.2 2009-05-19 08:10:42 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.68.2.3 2009-05-28 10:37:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.68.2.2 $) [1];
+$VERSION = qw($Revision: 1.68.2.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -244,7 +244,7 @@ sub Run {
 
             # html output
             my $Services = $Self->_GetServices( QueueID => 1, );
-            my $SLAs     = $Self->_GetSLAs(
+            my $SLAs = $Self->_GetSLAs(
                 QueueID  => 1,
                 Services => $Services,
                 %GetParam,
@@ -260,7 +260,7 @@ sub Run {
                 FromList   => $Self->_GetTos(),
                 To         => '',
                 Subject => $Self->{LayoutObject}->Output( Template => $Self->{Config}->{Subject} ),
-                Body    => $Self->{LayoutObject}->Output( Template => $Self->{Config}->{Body} ),
+                Body => $Self->{LayoutObject}->Output( Template => $Self->{Config}->{Body} ),
                 CustomerID   => '',
                 CustomerUser => '',
                 CustomerData => {},
@@ -594,7 +594,7 @@ sub Run {
             );
 
             my $SLAs = $Self->_GetSLAs(
-                QueueID  => $NewQueueID || 1,
+                QueueID => $NewQueueID || 1,
                 Services => $Services,
                 %GetParam,
             );
@@ -1008,7 +1008,7 @@ sub Run {
             QueueID        => $QueueID      || 1,
         );
         my $SLAs = $Self->_GetSLAs(
-            QueueID  => $QueueID || 1,
+            QueueID => $QueueID || 1,
             Services => $Services,
             %GetParam,
         );

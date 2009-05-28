@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.78.2.2 2009-05-19 08:10:42 martin Exp $
+# $Id: AgentTicketPhone.pm,v 1.78.2.3 2009-05-28 10:37:21 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.78.2.2 $) [1];
+$VERSION = qw($Revision: 1.78.2.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -309,10 +309,10 @@ sub Run {
         # html output
         my $Services = $Self->_GetServices(
             CustomerUserID => $CustomerData{CustomerUserLogin} || '',
-            QueueID        => $Self->{QueueID} || 1,
+            QueueID => $Self->{QueueID} || 1,
         );
         my $SLAs = $Self->_GetSLAs(
-            QueueID  => $Self->{QueueID} || 1,
+            QueueID => $Self->{QueueID} || 1,
             Services => $Services,
             %GetParam,
         );
@@ -629,7 +629,7 @@ sub Run {
             }
 
             my $SLAs = $Self->_GetSLAs(
-                QueueID  => $NewQueueID || 1,
+                QueueID => $NewQueueID || 1,
                 Services => $Services,
                 %GetParam,
             );
@@ -654,8 +654,7 @@ sub Run {
                 Priorities              => $Self->_GetPriorities( QueueID => $NewQueueID || 1 ),
                 Types                   => $Self->_GetTypes( QueueID => $NewQueueID || 1 ),
                 Services                => $Services,
-                Services   => $Services,
-                SLAs       => $SLAs,
+                SLAs                    => $SLAs,
                 CustomerID => $Self->{LayoutObject}->Ascii2Html( Text => $CustomerID ),
                 CustomerUser => $CustomerUser,
                 CustomerData => \%CustomerData,
@@ -1062,7 +1061,7 @@ sub Run {
             QueueID        => $QueueID      || 1,
         );
         my $SLAs = $Self->_GetSLAs(
-            QueueID  => $QueueID || 1,
+            QueueID => $QueueID || 1,
             Services => $Services,
             %GetParam
         );
