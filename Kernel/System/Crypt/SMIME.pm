@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/SMIME.pm - the main crypt module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: SMIME.pm,v 1.30 2009-02-16 11:49:56 tr Exp $
+# $Id: SMIME.pm,v 1.31 2009-06-03 09:28:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 =head1 NAME
 
@@ -135,7 +135,7 @@ crypt a message
 
     my $Message = $CryptObject->Crypt(
         Message => $Message,
-        Hash => $CertificateHash,
+        Hash    => $CertificateHash,
     );
 
 =cut
@@ -179,7 +179,7 @@ decrypt a message and returns a hash (Successful, Message, Data)
 
     my %Message = $CryptObject->Decrypt(
         Message => $CryptedMessage,
-        Hash => $PrivateKeyHash,
+        Hash    => $PrivateKeyHash,
     );
 
 =cut
@@ -239,7 +239,7 @@ sign a message
 
     my $Sign = $CryptObject->Sign(
         Message => $Message,
-        Hash => $PrivateKeyHash,
+        Hash    => $PrivateKeyHash,
     );
 
 =cut
@@ -608,7 +608,7 @@ add private key
 
     my $Message = $CryptObject->PrivateAdd(
         Private => $PrivateKeyString,
-        Secret => 'Password',
+        Secret  => 'Password',
     );
 
 =cut
@@ -918,6 +918,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.30 $ $Date: 2009-02-16 11:49:56 $
+$Revision: 1.31 $ $Date: 2009-06-03 09:28:23 $
 
 =cut
