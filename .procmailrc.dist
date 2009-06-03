@@ -2,7 +2,7 @@
 # .procmailrc - procmailrc of the OTRS user
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: .procmailrc.dist,v 1.5 2009-02-16 12:54:21 tr Exp $
+# $Id: .procmailrc.dist,v 1.6 2009-06-03 09:28:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ VERBOSE=on
 * !^From.*@example.com
 | grep -vi '^X-OTRS-'
 
-# or just not emails with "X-OTRS-Ident: ahfiw2Fw32r230dddl2foeo3r" header!
+# or just no emails with "X-OTRS-Ident: ahfiw2Fw32r230dddl2foeo3r" header!
 #:0 fhw :
 #* !^X-OTRS-Ident: ahfiw2Fw32r230dddl2foeo3r
 #| grep -vi '^X-OTRS-'

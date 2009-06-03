@@ -3,7 +3,7 @@
 # bin/PostMaster.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.pl,v 1.35 2009-05-15 10:12:02 martin Exp $
+# $Id: PostMaster.pl,v 1.36 2009-06-03 09:28:52 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -36,7 +36,7 @@ use lib dirname($RealBin) . "/Kernel/cpan-lib";
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -100,7 +100,7 @@ eval {
     if ( !@Email ) {
         $CommonObject{LogObject}->Log(
             Priority => 'error',
-            Message  => 'Got not email on STDIN!',
+            Message  => 'Got no email on STDIN!',
         );
         exit 1;
     }

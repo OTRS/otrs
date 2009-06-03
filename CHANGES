@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.896 2009-05-28 07:09:50 tr Exp $
+# $Id: CHANGES,v 1.897 2009-06-03 09:28:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -2090,7 +2090,7 @@
  - (2006/01/23) fixed bug #1069 - Problem when the name of a GenericAgent
     job was updated
  - (2006/01/08) fixed PostMaster filter admin interface if wrong syntax
-    regexp is used (don't save invalid regexp because not email can be
+    regexp is used (don't save invalid regexp because no email can be
     received)
  - (2006/01/07) added bin/CheckSum.pl and also ARCHIVE file to include
     md5 sum archive of current distribution

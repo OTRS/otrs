@@ -2,7 +2,7 @@
 # .mailfilter - mailfilter of the OTRS user
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: .mailfilter.dist,v 1.4 2009-02-26 10:31:22 tr Exp $
+# $Id: .mailfilter.dist,v 1.5 2009-06-03 09:28:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -27,7 +27,7 @@ if (/^To:.*@example.com/)
     xfilter "grep -vi '^X-OTRS-'"
 }
 
-# or just not emails with "X-OTRS-Ident: ahfiw2Fw32r230dddl2foeo3r" header!
+# or just no emails with "X-OTRS-Ident: ahfiw2Fw32r230dddl2foeo3r" header!
 #if (/^X-OTRS-Ident: ahfiw2Fw32r230dddl2foeo3r/)
 #{
 #    xfilter "grep -vi '^X-OTRS-'"
