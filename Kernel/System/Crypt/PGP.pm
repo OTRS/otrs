@@ -2,7 +2,7 @@
 # Kernel/System/Crypt/PGP.pm - the main crypt module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PGP.pm,v 1.26.2.2 2009-05-28 10:37:21 mh Exp $
+# $Id: PGP.pm,v 1.26.2.3 2009-06-04 14:49:05 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26.2.2 $) [1];
+$VERSION = qw($Revision: 1.26.2.3 $) [1];
 
 =head1 NAME
 
@@ -101,12 +101,6 @@ sub Crypt {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $ParamName!" );
             return;
         }
-    }
-
-    # since the following write would auto-convert utf8-characters into iso-characters, we
-    # avoid that by explicitly encoding utf8-strings:
-    if ( utf8::is_utf8( $Param{Message} ) ) {
-        utf8::encode( $Param{Message} );
     }
 
     my ( $FH, $Filename ) = $Self->{FileTempObject}->TempFile();
@@ -757,6 +751,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.26.2.2 $ $Date: 2009-05-28 10:37:21 $
+$Revision: 1.26.2.3 $ $Date: 2009-06-04 14:49:05 $
 
 =cut
