@@ -2,7 +2,7 @@
 # Kernel/System/Time.pm - time functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Time.pm,v 1.49 2009-04-17 08:36:44 tr Exp $
+# $Id: Time.pm,v 1.50 2009-06-04 23:17:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 =head1 NAME
 
@@ -160,9 +160,11 @@ sub CurrentTimestamp {
 
 returns a array of time params.
 
-    my ($Sec, $Min, $Hour, $Day, $Month, $Year) = $TimeObject->SystemTime2Date(
+    my ($Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay) = $TimeObject->SystemTime2Date(
         SystemTime => $TimeObject->SystemTime(),
     );
+
+$WeekDay is the day of the week, with 0 indicating Sunday and 3 indicating Wednesday.
 
 =cut
 
@@ -821,6 +823,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.49 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.50 $ $Date: 2009-06-04 23:17:08 $
 
 =cut
