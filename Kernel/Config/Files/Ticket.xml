@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.240 2009-05-15 07:26:06 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.241 2009-06-04 23:22:49 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -6535,6 +6535,105 @@ $QData{"Signature"}
                 <Item Key="Module">Kernel::System::Ticket::CustomerPermission::CustomerIDCheck</Item>
                 <Item Key="Required">0</Item>
                 <Item Key="Granted">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="DashboardBackend###0001-TicketReminder" Required="0" Valid="1">
+        <Description Lang="en">Parameters for the dashboard backend.</Description>
+        <Description Lang="de">Parameter für das Dashboard Backend.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Dashboard</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::DashboardTicketReminder</Item>
+                <Item Key="Title">Reminder Tickets</Item>
+                <Item Key="Permission">rw</Item>
+                <Item Key="Default">1</Item>
+                <Item Key="Active">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="DashboardBackend###0002-TicketEscalation" Required="0" Valid="1">
+        <Description Lang="en">Parameters for the dashboard backend.</Description>
+        <Description Lang="de">Parameter für das Dashboard Backend.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Dashboard</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::DashboardTicketGeneric</Item>
+                <Item Key="Title">Escaladed Tickets</Item>
+                <Item Key="Attributes">TicketEscalationTimeOlderMinutes=1;</Item>
+                <Item Key="Limit">10</Item>
+                <Item Key="Permission">rw</Item>
+                <Item Key="Default">1</Item>
+                <Item Key="Active">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="DashboardBackend###0003-TicketNew" Required="0" Valid="1">
+        <Description Lang="en">Parameters for the dashboard backend.</Description>
+        <Description Lang="de">Parameter für das Dashboard Backend.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Dashboard</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::DashboardTicketGeneric</Item>
+                <Item Key="Title">New Tickets</Item>
+                <Item Key="Attributes">StateType=New;</Item>
+                <Item Key="Limit">10</Item>
+                <Item Key="Permission">rw</Item>
+                <Item Key="Default">1</Item>
+                <Item Key="Active">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="DashboardBackend###0004-TicketOpen" Required="0" Valid="1">
+        <Description Lang="en">Parameters for the dashboard backend.</Description>
+        <Description Lang="de">Parameter für das Dashboard Backend.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Dashboard</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::DashboardTicketGeneric</Item>
+                <Item Key="Title">Open Tickets / Need to be answered</Item>
+                <Item Key="Attributes">StateType=Open;</Item>
+                <Item Key="Limit">10</Item>
+                <Item Key="Permission">rw</Item>
+                <Item Key="Default">0</Item>
+                <Item Key="Active">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="DashboardBackend###0005-TicketStats" Required="0" Valid="1">
+        <Description Lang="en">Parameters for the dashboard backend.</Description>
+        <Description Lang="de">Parameter für das Dashboard Backend.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Dashboard</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::DashboardTicketStatsGeneric</Item>
+                <Item Key="Title">7 Day Stats</Item>
+                <Item Key="Created">1</Item>
+                <Item Key="Closed">1</Item>
+                <Item Key="Permission">rw</Item>
+                <Item Key="Default">1</Item>
+                <Item Key="Active">1</Item>
+            </Hash>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="DashboardBackend###0006-TicketCalendar" Required="0" Valid="1">
+        <Description Lang="en">Parameters for the dashboard backend.</Description>
+        <Description Lang="de">Parameter für das Dashboard Backend.</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Frontend::Agent::Dashboard</SubGroup>
+        <Setting>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::DashboardCalendar</Item>
+                <Item Key="Title">Upcoming Events</Item>
+                <Item Key="Default">1</Item>
+                <Item Key="Permission">rw</Item>
+                <Item Key="Limit">10</Item>
+                <Item Key="Active">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
