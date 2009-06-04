@@ -1,0 +1,130 @@
+# --
+# AgentDashboard.dtl - provides HTML for global dashboard
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# --
+# $Id: AgentDashboard.dtl,v 1.1 2009-06-04 23:27:22 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<!-- dtl:block:Content -->
+<table border="0" width="100%" cellspacing="0" cellpadding="3">
+  <tr>
+    <td class="mainhead">
+      $Env{"Box0"}$Text{"Dashboard"}$Env{"Box1"}
+    </td>
+  </tr>
+  <tr>
+    <td class="mainbody">
+
+      <table width="100%" border="0">
+        <tr>
+          <td valign="top">
+<!-- dtl:block:ContentLarge -->
+
+            <table border="0" width="100%" align="center" cellspacing="2" cellpadding="0">
+              <tr>
+                <td>
+
+                  <table border="0" width="100%" align="center" cellspacing="0" cellpadding="4">
+                    <tr>
+                      <td class="contenthead">$Text{"$QData{"Title"}"}</td>
+                    </tr>
+                    <tr>
+                      <td class="contentbody">
+                        $Data{"Content"}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="contentfooter">
+                        &nbsp;
+                      </td>
+                    </tr>
+                  </table>
+
+                </td>
+              </tr>
+            </table>
+
+<!-- dtl:block:ContentLarge -->
+          </td>
+          <td width="320" valign="top">
+
+<script src="$Config{"Frontend::YUIPath"}/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script src="$Config{"Frontend::YUIPath"}/build/animation/animation-min.js"></script>
+<script src="$Config{"Frontend::JavaScriptPath"}accordion.js" type="text/javascript"></script>
+
+        <table border="0" width="100%" align="center" cellspacing="2" cellpadding="4">
+          <tr>
+            <td class="contenthead">
+
+              <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                <input type="hidden" name="Subaction" value="Update"/>
+
+                <div class="accordion">
+                    <div class="accordionhead">$Text{"Settings"}</div>
+
+                    <table border="0" width="100%" cellspacing="4" cellpadding="4" class="">
+<!-- dtl:block:ContentSettings -->
+                    <tr>
+                      <td>
+                        <input type="checkbox" name="Backend" value="$QData{"Name"}" $QData{"Checked"}/>
+                        $Text{"$QData{"Title"}"}
+                      </td>
+                    </tr>
+<!-- dtl:block:ContentSettings -->
+                    <tr>
+                      <td>
+                        <input class="button" accesskey="g" type="submit" value="$Text{"Save"}"/>
+                      </td>
+                    </tr>
+                  </table>
+               </div>
+
+              </form>
+
+            </td>
+          </tr>
+        </table>
+
+       <hr/>
+
+<!-- dtl:block:ContentSmall -->
+
+              <table border="0" width="100%" align="center" cellspacing="2" cellpadding="0">
+                <tr>
+                  <td>
+
+        <table border="0" width="100%" align="center" cellspacing="0" cellpadding="4">
+          <tr>
+            <td class="contenthead">$Text{"$QData{"Title"}"}</td>
+          </tr>
+          <tr>
+            <td class="contentbody">
+
+              $Data{"Content"}
+
+            </td>
+          </tr>
+          <tr>
+            <td class="contentfooter">
+              &nbsp;
+            </td>
+          </tr>
+        </table>
+
+            </td>
+          </tr>
+        </table>
+<!-- dtl:block:ContentSmall -->
+            </td>
+          </tr>
+        </table>
+
+    </td>
+  </tr>
+</table>
+<!-- dtl:block:Content -->

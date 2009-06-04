@@ -1,0 +1,27 @@
+# --
+# AgentDashboardCalendarOverview.dtl - provides HTML for global dashboard
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# --
+# $Id: AgentDashboardCalendarOverview.dtl,v 1.1 2009-06-04 23:27:22 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<table border="0" width="100%" cellspacing="0" cellpadding="2">
+<!-- dtl:block:ContentSmallCalendarOverviewRow -->
+  <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchpassive"; }>
+  <tr class="$Env{"Color"}" onmouseover="this.className='searchhighlight';" onmouseout="this.className='$Env{"Color"}';">
+
+    <td>
+      $Text{"$QData{"Text"}"} $Text{"in"} $QData{"In"}
+      <br/>
+      <a href="$Env{"Baselink"}$Data{"Link"}" onmouseover="window.status='$JSText{"Zoom"}'; return true;" onmouseout="window.status='';" title="$QData{"Title"}">$Data{"ObjectNumber"}</a>
+      $QData{"Title","60"}
+    </td>
+  </tr>
+  <dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = ""; }>
+  <dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = "searchactive"; }>
+<!-- dtl:block:ContentSmallCalendarOverviewRow -->
+</table>

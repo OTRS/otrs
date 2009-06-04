@@ -1,0 +1,77 @@
+# --
+# AgentDashboardTicketStats.dtl - provides HTML for global dashboard
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# --
+# $Id: AgentDashboardTicketStats.dtl,v 1.1 2009-06-04 23:27:22 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<link rel="stylesheet" type="text/css" href="$Config{"Frontend::YUIPath"}/build/fonts/fonts-min.css" />
+<script type="text/javascript" src="$Config{"Frontend::YUIPath"}/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="$Config{"Frontend::YUIPath"}/build/json/json-min.js"></script>
+<script type="text/javascript" src="$Config{"Frontend::YUIPath"}/build/element/element-min.js"></script>
+<script type="text/javascript" src="$Config{"Frontend::YUIPath"}/build/datasource/datasource-min.js"></script>
+<script type="text/javascript" src="$Config{"Frontend::YUIPath"}/build/charts/charts-min.js"></script>
+
+
+<div id="$QData{"Key"}"><p>Unable to load Flash content. The YUI Charts Control requires Flash Player 9.0.45 or higher. You can download the latest version of Flash Player from the <a href="http://www.adobe.com/go/getflashplayer">Adobe Flash Player Download Center</a>.</p></div>
+
+<script type="text/javascript">
+
+    YAHOO.widget.Chart.SWFURL = "$Config{"Frontend::YUIPath"}/build/charts/assets/charts.swf";
+
+//--- data
+
+    YAHOO.example.DaylyExpenses = $Data{"Source"};
+
+    var myDataSource = new YAHOO.util.DataSource( YAHOO.example.DaylyExpenses );
+    myDataSource.responseType = YAHOO.util.DataSource.TYPE_JSARRAY;
+    myDataSource.responseSchema =
+    {
+        fields: [ "Day", "Created", "Closed" ]
+    };
+
+//--- chart
+
+    var seriesDef =
+    [
+        { displayName: "$JSText{"Created"}", yField: "Created" },
+        { displayName: "$JSText{"Closed"}", yField: "Closed" }
+    ];
+
+
+    YAHOO.example.getDataTipText = function( item, index, series )
+    {
+        var toolTipText = series.displayName + " on " + item.Day;
+        toolTipText += ": " + YAHOO.example.formatCurrencyAxisLabel( item[series.yField] );
+        return toolTipText;
+    }
+
+    YAHOO.example.formatCurrencyAxisLabel = function( value )
+    {
+        return YAHOO.util.Number.format( value,
+        {
+            prefix: "",
+            thousandsSeparator: ",",
+            decimalPlaces: 0
+        });
+    }
+
+    var currencyAxis = new YAHOO.widget.NumericAxis();
+    currencyAxis.minimum = $LQData{"Max"};
+    currencyAxis.labelFunction = YAHOO.example.formatCurrencyAxisLabel;
+
+    var mychart = new YAHOO.widget.LineChart( "$QData{"Key"}", myDataSource,
+    {
+        series: seriesDef,
+        xField: "Day",
+        yAxis: currencyAxis,
+        dataTipFunction: YAHOO.example.getDataTipText,
+        //only needed for flash player express install
+        expressInstall: "assets/expressinstall.swf"
+    });
+
+</script>
