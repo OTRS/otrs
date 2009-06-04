@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.396 2009-05-15 10:36:19 martin Exp $
+# $Id: Ticket.pm,v 1.397 2009-06-04 23:16:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTML2Ascii;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.396 $) [1];
+$VERSION = qw($Revision: 1.397 $) [1];
 
 =head1 NAME
 
@@ -2937,6 +2937,7 @@ sub TicketFreeTextSet {
     # ticket event
     $Self->TicketEventHandlerPost(
         Event    => 'TicketFreeTextUpdate',
+        Counter  => $Param{Counter},
         UserID   => $Param{UserID},
         TicketID => $Param{TicketID},
     );
@@ -3033,6 +3034,7 @@ sub TicketFreeTimeSet {
     # ticket event
     $Self->TicketEventHandlerPost(
         Event    => 'TicketFreeTimeUpdate',
+        Counter  => $Param{Counter},
         UserID   => $Param{UserID},
         TicketID => $Param{TicketID},
     );
@@ -4798,7 +4800,7 @@ sub TicketSearch {
         my $TimeStamp = $Self->{TimeObject}->TimeStamp2SystemTime(
             String => $Param{TicketPendingTimeNewerDate},
         );
-        $SQLExt .= " AND st.until_time >= $Self->{DBObject}->Quote($TimeStamp)";
+        $SQLExt .= " AND st.until_time >= $TimeStamp";
     }
 
     # database query for sort/order by option
@@ -7457,6 +7459,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.396 $ $Date: 2009-05-15 10:36:19 $
+$Revision: 1.397 $ $Date: 2009-06-04 23:16:33 $
 
 =cut
