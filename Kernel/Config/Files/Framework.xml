@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.208 2009-04-20 08:16:21 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.209 2009-06-04 12:55:54 ub Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script. Also disables if not active, the GenericAgent, PackageManager and SQL Box, since it's possible to use it for destructive write queries such as DROP DATABASE, and also to steal user passwords.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden. Auch deaktiviert sind der GenericAgent, der PackageManager und die SQL Box im Admin-Interface, bis diese Einstellung aktiviert wurde.</Description>
@@ -458,7 +458,7 @@
     </ConfigItem>
     <ConfigItem Name="SendmailModule" Required="1" Valid="1">
         <Description Lang="en">Module to send emails. "Sendmail" directly uses the sendmail binary of your operating system. "SMTP/SMTPS" uses a specified (external) mailserver. "DoNotSendEmail" is not sending emails and useful for test systems.</Description>
-        <Description Lang="de">Modul zum Versenden von Emails. "Sendmail" verwendet das sendmail-Binary Ihres Betriebssystems. "SMTP/SMTPS" versendet die Nachrichten über einen externen Mailserver. "DoNotSendEmail" versendet keine Email und ist nützlich um in Test-System den Emailversans zu deaktivieren.</Description>
+        <Description Lang="de">Modul zum Versenden von Emails. "Sendmail" verwendet das sendmail-Binary Ihres Betriebssystems. "SMTP/SMTPS" versendet die Nachrichten über einen externen Mailserver. "DoNotSendEmail" versendet keine Email und ist nützlich um in Test-System den Emailversand zu deaktivieren.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
         <Setting>
