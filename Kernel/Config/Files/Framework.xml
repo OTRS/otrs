@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.185.2.1 2008-10-29 14:37:19 ub Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.185.2.2 2009-06-04 12:53:27 ub Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the webinstaller (installer.pl) can't be used.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden.</Description>
@@ -410,7 +410,7 @@
     </ConfigItem>
     <ConfigItem Name="SendmailModule" Required="1" Valid="1">
         <Description Lang="en">Module to send emails. "Sendmail" directly uses the sendmail binary of your operating system. "SMTP" uses a specified (external) mailserver. "DoNotSendEmail" is not sending emails and useful for test systems.</Description>
-        <Description Lang="de">Modul zum Versenden von Emails. "Sendmail" verwendet das sendmail-Binary Ihres Betriebssystems. "SMTP" versendet die Nachrichten über einen externen Mailserver. "DoNotSendEmail" versendet keine Email und ist nützlich um in Test-System den Emailversans zu deaktivieren.</Description>
+        <Description Lang="de">Modul zum Versenden von Emails. "Sendmail" verwendet das sendmail-Binary Ihres Betriebssystems. "SMTP" versendet die Nachrichten über einen externen Mailserver. "DoNotSendEmail" versendet keine Email und ist nützlich um in Test-System den Emailversand zu deaktivieren.</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Sendmail</SubGroup>
         <Setting>
