@@ -2,7 +2,7 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.1 2009-06-04 23:27:22 martin Exp $
+# $Id: AgentDashboard.dtl,v 1.2 2009-06-05 16:26:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -50,7 +50,7 @@
 
 <!-- dtl:block:ContentLarge -->
           </td>
-          <td width="320" valign="top">
+          <td width="340" valign="top">
 
 <script src="$Config{"Frontend::YUIPath"}/build/yahoo-dom-event/yahoo-dom-event.js"></script>
 <script src="$Config{"Frontend::YUIPath"}/build/animation/animation-min.js"></script>
