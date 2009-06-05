@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardRSS.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardRSS.pm,v 1.1 2009-06-05 15:35:27 martin Exp $
+# $Id: DashboardRSS.pm,v 1.2 2009-06-05 17:51:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +15,10 @@ use strict;
 use warnings;
 
 use XML::FeedPP;
+use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -31,48 +32,67 @@ sub new {
         die "Got no $_!" if ( !$Self->{$_} );
     }
 
+    $Self->{CacheObject} = Kernel::System::Cache->new(%Param);
+
     return $Self;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Feed = XML::FeedPP->new( $Self->{Config}->{URL} );
+    # check cache
+    my $Content = $Self->{CacheObject}->Get(
+        Type => 'DashboardRSS',
+        Key  => $Self->{Config}->{URL} . '::' . $Self->{UserID},
+    );
 
-    my $Count = 0;
-    for my $Item ( $Feed->get_item() ) {
-        $Count++;
-        last if $Count > $Self->{Config}->{Limit};
-        my $Time = $Item->pubDate();
-        my $Ago;
-        if ($Time) {
-            my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
-                String => $Time,
-            );
-            $Ago = $Self->{TimeObject}->SystemTime() - $SystemTime;
-            $Ago = $Self->{LayoutObject}->CustomerAge(
-                Age   => $Ago,
-                Space => ' ',
-            );
+    # get content
+    if ( !$Content ) {
+        my $Feed = XML::FeedPP->new( $Self->{Config}->{URL} );
 
+        my $Count = 0;
+        for my $Item ( $Feed->get_item() ) {
+            $Count++;
+            last if $Count > $Self->{Config}->{Limit};
+            my $Time = $Item->pubDate();
+            my $Ago;
+            if ($Time) {
+                my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+                    String => $Time,
+                );
+                $Ago = $Self->{TimeObject}->SystemTime() - $SystemTime;
+                $Ago = $Self->{LayoutObject}->CustomerAge(
+                    Age   => $Ago,
+                    Space => ' ',
+                );
+            }
+
+            $Self->{LayoutObject}->Block(
+                Name => 'ContentSmallRSSOverviewRow',
+                Data => {
+                    Title => $Item->title(),
+                    Link  => $Item->link(),
+                    Ago   => $Ago,
+                },
+            );
         }
 
-        $Self->{LayoutObject}->Block(
-            Name => 'ContentSmallRSSOverviewRow',
-            Data => {
-                Title => $Item->title(),
-                Link  => $Item->link(),
-                Ago   => $Ago,
+        $Content = $Self->{LayoutObject}->Output(
+            TemplateFile => 'AgentDashboardRSSOverview',
+            Data         => {
+                %{ $Self->{Config} },
             },
         );
-    }
 
-    my $Content = $Self->{LayoutObject}->Output(
-        TemplateFile => 'AgentDashboardRSSOverview',
-        Data         => {
-            %{ $Self->{Config} },
-        },
-    );
+        # cache
+        $Self->{CacheObject}->Set(
+            Type  => 'DashboardRSS',
+            Key   => $Self->{Config}->{URL} . '::' . $Self->{UserID},
+            Value => $Content,
+            TTL   => $Self->{Config}->{CacheTTL} * 60,
+        );
+
+    }
 
     $Self->{LayoutObject}->Block(
         Name => 'ContentSmall',
