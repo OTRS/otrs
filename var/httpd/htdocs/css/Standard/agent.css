@@ -3,7 +3,7 @@
 # agent.css - css file
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: agent.css,v 1.2 2009-06-04 23:14:41 martin Exp $
+# $Id: agent.css,v 1.3 2009-06-05 23:46:44 martin Exp $
 # --
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
@@ -441,7 +441,13 @@ input {
 }
 
 /* accordion */
-.accordion table {
+.accordionhead {
+    text-align:right;
+}
+.accordion-collapse-up {
+    display: none;
+}
+.accordionbody {
     display: none;
     overflow: hidden;
     color:#000000;
@@ -451,10 +457,10 @@ input {
     vertical-align:top;
     font-weight:normal;
 }
-.accordion table.open {
+.accordionbody.open {
     display: block;
 }
-.accordion table.getHeight {
+.accordionbody.getHeight {
     display: block;
 }
 

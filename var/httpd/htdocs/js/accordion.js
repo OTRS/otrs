@@ -41,19 +41,21 @@ YAHOO.lutsr.accordion = {
         if(accordionObjects.length > 0) {
 
             for(var i=0; i<accordionObjects.length; i++) {
-                if(accordionObjects[i].nodeName == "DIV") {
+//                if(accordionObjects[i].nodeName == "DIV") {
                     var headers = accordionObjects[i].getElementsByClassName("accordionhead");
-                    var bodies = headers[i].parentNode.getElementsByTagName("table");
-                }
-                this.attachEvents(headers,i);
+//                    var bodies = headers[i].parentNode.getElementsByClassName("accordionbody");
+                    var bodies = accordionObjects[i].getElementsByClassName("accordionbody");
+//                }
+                this.attachEvents(headers,bodies,i);
             }
         }
     },
 
-    attachEvents : function(headers,nr) {
+    attachEvents : function(headers,bodies,nr) {
         for(var i=0; i<headers.length; i++) {
             var headerProperties = {
                 objRef : headers[i],
+                objRefBody : bodies[i],
                 nr : i,
                 jsObj : this
             }
@@ -63,13 +65,21 @@ YAHOO.lutsr.accordion = {
     },
 
     clickHeader : function(e,headerProperties) {
-        var parentObj = headerProperties.objRef.parentNode;
-        var headers = parentObj.getElementsByTagName("table");
+        var parentObj = headerProperties.objRefBody.parentNode;
+        var headers = parentObj.getElementsByClassName("accordionbody");
         var header = headers[headerProperties.nr];
 
         if(Dom.hasClass(header,"open")) {
+            var icon = headerProperties.objRef.getElementsByClassName("accordion-expand-down")[0];
+            icon.style.display = "block";
+            var icon2 = headerProperties.objRef.getElementsByClassName("accordion-collapse-up")[0];
+            icon2.style.display = "none";
             headerProperties.jsObj.collapse(header);
         } else {
+            var icon = headerProperties.objRef.getElementsByClassName("accordion-expand-down")[0];
+            icon.style.display = "none";
+            var icon2 = headerProperties.objRef.getElementsByClassName("accordion-collapse-up")[0];
+            icon2.style.display = "block";
             if(headerProperties.jsObj.properties.multipleOpen) {
                 headerProperties.jsObj.expand(header);
             } else {
