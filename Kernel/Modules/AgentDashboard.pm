@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentDashboard.pm - a global dashbard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.pm,v 1.1 2009-06-04 23:42:34 martin Exp $
+# $Id: AgentDashboard.pm,v 1.2 2009-06-05 22:12:42 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -43,6 +43,37 @@ sub Run {
         return $Self->{LayoutObject}->ErrorScreen(
             Message => 'No such config for Dashboard',
         );
+    }
+
+    # update/close item
+    if ( $Self->{Subaction} eq 'UpdateRemove' ) {
+        my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' );
+        my @Backends = split /;/, $Self->{AgentDashboardBackend};
+        my $Data = '';
+        for my $Backend (@Backends) {
+            next if $Name eq $Backend;
+            $Data .= $Backend . ';';
+        }
+
+        # update ssession
+        $Self->{SessionObject}->UpdateSessionID(
+            SessionID => $Self->{SessionID},
+            Key       => 'AgentDashboardBackend',
+            Value     => $Data,
+        );
+
+        # update preferences
+        $Self->{UserObject}->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => 'AgentDashboardBackend',
+            Value  => $Data,
+        );
+
+        # redirect
+        return $Self->{LayoutObject}->Redirect(
+            OP => "Action=$Self->{Action}"
+        );
+
     }
 
     # update settings
@@ -119,6 +150,7 @@ sub Run {
         my $Object = $Module->new(
             %{$Self},
             Config => $Config->{$Name},
+            Name   => $Name,
         );
         $Object->Run();
     }
