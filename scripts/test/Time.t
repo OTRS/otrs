@@ -2,7 +2,7 @@
 # Time.t - Time tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Time.t,v 1.18 2009-02-20 12:05:54 mh Exp $
+# $Id: Time.t,v 1.19 2009-06-05 18:18:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,6 +14,24 @@ use Kernel::System::Time;
 $Self->{TimeObject} = Kernel::System::Time->new( %{$Self} );
 
 my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+    String => '2005-10-20T10:00:00+00:00',
+);
+$Self->Is(
+    $SystemTime,
+    1129795200,
+    'TimeStamp2SystemTime()',
+);
+
+$SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+    String => '20-10-2005 10:00:00',
+);
+$Self->Is(
+    $SystemTime,
+    1129795200,
+    'TimeStamp2SystemTime()',
+);
+
+$SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
     String => '2005-10-20 10:00:00',
 );
 $Self->Is(

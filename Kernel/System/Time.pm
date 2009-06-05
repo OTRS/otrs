@@ -2,7 +2,7 @@
 # Kernel/System/Time.pm - time functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Time.pm,v 1.50 2009-06-04 23:17:08 martin Exp $
+# $Id: Time.pm,v 1.51 2009-06-05 18:18:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Time::Local;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 =head1 NAME
 
@@ -214,7 +214,7 @@ sub TimeStamp2SystemTime {
     my $SytemTime = 0;
 
     # match iso date format
-    if ( $Param{String} =~ /(\d\d\d\d)-(\d\d|\d)-(\d\d|\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/ ) {
+    if ( $Param{String} =~ /(\d\d\d\d)-(\d\d|\d)-(\d\d|\d)\s(\d\d|\d):(\d\d|\d):(\d\d|\d)/ ) {
         $SytemTime = $Self->Date2SystemTime(
             Year   => $1,
             Month  => $2,
@@ -225,12 +225,36 @@ sub TimeStamp2SystemTime {
         );
     }
 
-    # match euro time format
-    elsif ( $Param{String} =~ /(\d\d|\d)\.(\d\d|\d)\.(\d\d\d\d) (\d\d|\d):(\d\d|\d):(\d\d|\d)/ ) {
+    # match iso date format (wrong format)
+    elsif ( $Param{String} =~ /(\d\d|\d)-(\d\d|\d)-(\d\d\d\d)\s(\d\d|\d):(\d\d|\d):(\d\d|\d)/ ) {
         $SytemTime = $Self->Date2SystemTime(
             Year   => $3,
             Month  => $2,
             Day    => $1,
+            Hour   => $4,
+            Minute => $5,
+            Second => $6,
+        );
+    }
+
+    # match euro time format
+    elsif ( $Param{String} =~ /(\d\d|\d)\.(\d\d|\d)\.(\d\d\d\d)\s(\d\d|\d):(\d\d|\d):(\d\d|\d)/ ) {
+        $SytemTime = $Self->Date2SystemTime(
+            Year   => $3,
+            Month  => $2,
+            Day    => $1,
+            Hour   => $4,
+            Minute => $5,
+            Second => $6,
+        );
+    }
+
+    # match yyyy-mm-ddThh:mm:ss+tt:zz time format
+    elsif ( $Param{String} =~ /(\d\d\d\d)-(\d\d|\d)-(\d\d|\d)T(\d\d|\d):(\d\d|\d):(\d\d|\d)(\+|\-)((\d\d|\d):(\d\d|\d))/i ) {
+        $SytemTime = $Self->Date2SystemTime(
+            Year   => $1,
+            Month  => $2,
+            Day    => $3,
             Hour   => $4,
             Minute => $5,
             Second => $6,
@@ -823,6 +847,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.50 $ $Date: 2009-06-04 23:17:08 $
+$Revision: 1.51 $ $Date: 2009-06-05 18:18:56 $
 
 =cut
