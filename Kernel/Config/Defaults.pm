@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.318 2009-05-11 11:05:06 martin Exp $
+# $Id: Defaults.pm,v 1.319 2009-06-05 09:31:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.318 $) [1];
+$VERSION = qw($Revision: 1.319 $) [1];
 
 sub LoadDefaults {
     my $Self = shift;
@@ -374,9 +374,9 @@ sub LoadDefaults {
 
     # Net::LDAP new params (if needed - for more info see perldoc Net::LDAP)
 #    $Self->{'AuthModule::LDAP::Params'} = {
-#        port => 389,
+#        port    => 389,
 #        timeout => 120,
-#        async => 0,
+#        async   => 0,
 #        version => 3,
 #    };
 
@@ -931,7 +931,7 @@ sub LoadDefaults {
 
             # dict => frontend (aspell)
 #            'english' => 'English',
-#            'german' => 'Deutsch',
+#            'german'  => 'Deutsch',
         },
         PrefKey => 'UserSpellDict',
         Prio    => 5000,
@@ -1166,9 +1166,9 @@ Your OTRS Notification Master
 
     # Net::LDAP new params (if needed - for more info see perldoc Net::LDAP)
 #    $Self->{'Customer::AuthModule::LDAP::Params'} = {
-#        port => 389,
+#        port    => 389,
 #        timeout => 120,
-#        async => 0,
+#        async   => 0,
 #        version => 3,
 #    };
 
@@ -1313,9 +1313,9 @@ Your OTRS Notification Master
 #            Die => 1,
 #            # Net::LDAP new params (if needed - for more info see perldoc Net::LDAP)
 #            Params => {
-#                port => 389,
+#                port    => 389,
 #                timeout => 120,
-#                async => 0,
+#                async   => 0,
 #                version => 3,
 #            },
 #        },
@@ -2402,6 +2402,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.318 $ $Date: 2009-05-11 11:05:06 $
+$Revision: 1.319 $ $Date: 2009-06-05 09:31:46 $
 
 =cut
