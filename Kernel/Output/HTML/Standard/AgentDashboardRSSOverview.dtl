@@ -1,0 +1,26 @@
+# --
+# AgentDashboardRSSOverview.dtl - provides HTML for global dashboard
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# --
+# $Id: AgentDashboardRSSOverview.dtl,v 1.1 2009-06-05 15:35:27 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<table border="0" width="100%" cellspacing="0" cellpadding="2">
+<!-- dtl:block:ContentSmallRSSOverviewRow -->
+  <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchpassive"; }>
+  <tr class="$Env{"Color"}" onmouseover="this.className='searchhighlight';" onmouseout="this.className='$Env{"Color"}';">
+
+    <td>
+      <a href="$Data{"Link"}" title="$QData{"Title"}">$QData{"Title","45"}</a>
+      <br/>
+      <i class="small">($Text{"Posted"} $QData{"Ago"} $Text{"ago"}.)</i>
+    </td>
+  </tr>
+  <dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = ""; }>
+  <dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = "searchactive"; }>
+<!-- dtl:block:ContentSmallRSSOverviewRow -->
+</table>
