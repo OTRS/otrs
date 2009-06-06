@@ -21,7 +21,7 @@ YAHOO.namespace("lutsr");
 YAHOO.lutsr.accordion = {
     properties : {
         animation : true,
-        animationDuration : 10,
+        animationDuration : 20,
         multipleOpen : false
     },
 
