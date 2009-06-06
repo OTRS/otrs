@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardCalendar.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardCalendar.pm,v 1.2 2009-06-05 22:12:42 martin Exp $
+# $Id: DashboardCalendar.pm,v 1.3 2009-06-06 12:00:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -49,7 +49,7 @@ sub Run {
             # ticket escalations over 60 minutes (optional)
 #            $Map{ $Type }->[0] . 'TimeOlderMinutes' => -30,
             # ticket escalations in 120 minutes (optional)
-            $Map{ $Type }->[0] . 'TimeNewerMinutes' => ( 60 * 6 ),
+            $Map{ $Type }->[0] . 'TimeNewerMinutes' => ( 60 * 18 ),
 
             Result     => 'ARRAY',
             Permission => $Self->{Config}->{Permission} || 'ro',
