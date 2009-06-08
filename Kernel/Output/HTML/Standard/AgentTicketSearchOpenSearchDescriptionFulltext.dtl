@@ -2,7 +2,7 @@
 # AgentTicketSearchOpenSearchDescriptionFulltext.dtl - provides opensearch form for AgentTicketSearch
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearchOpenSearchDescriptionFulltext.dtl,v 1.1 2009-04-06 21:07:47 martin Exp $
+# $Id: AgentTicketSearchOpenSearchDescriptionFulltext.dtl,v 1.2 2009-06-08 15:01:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,9 +10,9 @@
 # --
 <?xml version="1.0" encoding="utf-8" ?>
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
-<ShortName>$Quote{"$Config{"ProductName"}"} ($Quote{"$Config{"Ticket::Hook"}"})</ShortName>
-<Description>$Quote{"$Config{"ProductName"}"} ($Quote{"$Config{"Ticket::Hook"}"})</Description>
+<ShortName>$Quote{"$Config{"ProductName"}"} ($Text{"Fulltext"})</ShortName>
+<Description>$Quote{"$Config{"ProductName"}"} ($Text{"Fulltext"})</Description>
 <InputEncoding>$Env{"UserCharset"}</InputEncoding>
-<Url type="text/html" template="$Config{"HttpType"}://$Env{"HTTP_HOST"}$Env{"Baselink"}Action=AgentTicketSearch&amp;Subaction=Search&amp;TicketNumber={searchTerms}" />
+<Url type="text/html" template="$Config{"HttpType"}://$Env{"HTTP_HOST"}$Env{"Baselink"}Action=AgentTicketSearch&amp;Subaction=Search&amp;Fullext={searchTerms}" />
 <Image height="16" width="16" type="image/x-icon">$Config{"HttpType"}://$Env{"HTTP_HOST"}$Config{"Frontend::ImagePath"}product.ico</Image>
 </OpenSearchDescription>
