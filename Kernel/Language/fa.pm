@@ -3,7 +3,7 @@
 # Copyright (C) 2006-2008 Amir Shams Parsa <amir at parsa.name>
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # --
-# $Id: fa.pm,v 1.57 2009-05-27 07:56:54 tr Exp $
+# $Id: fa.pm,v 1.58 2009-06-08 05:44:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.57 $) [1];
+$VERSION = qw($Revision: 1.58 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Apr 20 10:28:48 2009
+    # Last translation file sync: Mon Jun  8 07:33:46 2009
 
     # possible charsets
     $Self->{Charset} = ['utf-8', 'utf-8', ];
@@ -83,6 +83,8 @@ sub Data {
         'Modulefile' => 'فایل ماژول',
         'Subfunction' => 'زیر تابع',
         'Line' => 'خط',
+        'Setting' => '',
+        'Settings' => '',
         'Example' => 'مثال',
         'Examples' => 'مثال',
         'valid' => 'معتبر',
@@ -585,6 +587,10 @@ sub Data {
         'Customer called' => 'مشترک تماس گرفته',
         'phone call' => 'تماس تلفنی',
         'Reminder Reached' => '',
+        'Reminder Tickets' => '',
+        'Escaladed Tickets' => '',
+        'New Tickets' => '',
+        'Open Tickets / Need to be answered' => '',
         'Responses' => 'پاسخ ها',
         'Responses <-> Queue' => 'پاسخ <-> لیست درخواست',
         'Auto Responses' => 'پاسخ خودکار',
@@ -736,6 +742,20 @@ sub Data {
         'No pending time settings.' => ' تنظیمی برای زمان تعلیق درخواست وجود ندارد ',
         'Ticket pending time reached' => 'زمان سررسید تعلیق ',
         'Ticket pending time reached between' => 'بازه زمانی سررسید تعلیق',
+        'Escalation Times' => '',
+        'No escalation time settings.' => '',
+        'Ticket escalation time reached' => '',
+        'Ticket escalation time reached between' => '',
+        'Escalation - First Response Time' => 'آخرین مهلت برای اولین پاسخگویی',
+        'No escalation time settings.' => '',
+        'Ticket first response time reached' => '',
+        'Ticket first response time reached between' => '',
+        'Escalation - Update Time' => ' آخرین مهلت برای رسیدگی به یک درخواست',
+        'Ticket update time reached' => '',
+        'Ticket update time reached between' => '',
+        'Escalation - Solution Time' => ' آخرین مهلت برای ارائه راهکار',
+        'Ticket solution time reached' => '',
+        'Ticket solution time reached between' => '',
         'New Service' => 'خدمات جدید',
         'New SLA' => ' موافقت نامه مطلوبیت ارائه خدمات (SLA) جدید',
         'New Priority' => 'اولویت جدید',
@@ -791,10 +811,34 @@ sub Data {
         'Groups' => 'گروه ها',
         'Misc' => 'سایر',
 
-        # Template: AdminNotificationForm
+        # Template: AdminNotificationEventForm
         'Notification Management' => 'مدیریت اعلام ها',
-        'Notification' => 'اعلام',
+        'Add Notification' => '',
+        'Add a new Notification.' => '',
+        'Name is required!' => 'نام الزامی است!',
+        'Event is required!' => '',
+        'A message should have a subject!' => 'یک پیام میبایست دارای عنوان باشد',
+        'A message should have a body!' => 'پیام میبایست دارای متن باشد !',
+        'Recipient' => '',
+        'Group based' => '',
+        'Recipient' => '',
+        'Agent based' => '',
+        'Email based' => '',
+        'Event' => 'رویداد',
+        'Article Type' => '',
+        'Only for ArticleCreate Event.' => '',
+        'Subject match' => '',
+        'Only for ArticleCreate Event.' => '',
+        'Body match' => '',
         'Notifications are sent to an agent or a customer.' => 'اعلام به یک کارشناس پشتیبانی یا مشترک ارسال شد.',
+        'To get the first 20 character of the subject (of the latest agent article).' => '',
+        'To get the first 5 lines of the body (of the latest agent article).' => '',
+        'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' => '',
+        'To get the first 20 character of the subject (of the latest customer article).' => '',
+        'To get the first 5 lines of the body (of the latest customer article).' => '',
+
+        # Template: AdminNotificationForm
+        'Notification' => 'اعلام',
 
         # Template: AdminPackageManager
         'Package Manager' => 'مدیریت بسته ها',
@@ -882,17 +926,11 @@ sub Data {
         'Unlock timeout' => 'مهلت آزاد شدن درخواست',
         '0 = no unlock' => '0 = آزاد نشود',
         'Only business hours are counted.' => ' فقط ساعات اداری محاسبه شده است ',
-        'Escalation - First Response Time' => 'آخرین مهلت برای اولین پاسخگویی',
         '0 = no escalation' => '0 = بدون افزایش اولویت',
         'Notify by' => 'اعلام با',
-        'Escalation - Update Time' => ' آخرین مهلت برای رسیدگی به یک درخواست',
-        'Escalation - Solution Time' => ' آخرین مهلت برای ارائه راهکار',
         'Follow up Option' => 'پیگیری',
         'Ticket lock after a follow up' => 'درخواست بعد از پیگیری تحویل گرفته شود',
         'Systemaddress' => 'آدرس سیستمی',
-        'Customer Move Notify' => 'اعلام انتقال به مشترک',
-        'Customer State Notify' => 'اعلام وضعیت به مشترک',
-        'Customer Owner Notify' => 'اعلام تعیین صاحب به مشترک',
         'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'اگر یک کارشناس درخواست را تحویل بگیرد و در این مدت زمان نتواند به آن پاسخ دهد درخواست آزاد شده و به لیست باز میگردد و قابل دسترس برای سایر کارشناسان خواهد شد',
         'Escalation time' => 'زمان در اولویت اول قرارگرفتن درخواست',
         'If a ticket will not be answered in this time, just only this ticket will be shown.' => 'اگر به یک درخواست در این زمان پاسخ داده نشد بجای نمایش لیست فقط این درخواست نمایش داده شود',
@@ -900,8 +938,11 @@ sub Data {
         'Will be the sender address of this queue for email answers.' => 'آدرس ارسال کننده این لیست برای پاسخ به نامه استفاده خواهد شد.',
         'The salutation for email answers.' => 'عنوان برای پاسخ email',
         'The signature for email answers.' => 'امضاء email ',
+        'Customer Move Notify' => 'اعلام انتقال به مشترک',
         'OTRS sends an notification email to the customer if the ticket is moved.' => 'اگر درخواست به شخص دیگری منتقل شد سیستم با Email اطلاع خواهد داد.',
+        'Customer State Notify' => 'اعلام وضعیت به مشترک',
         'OTRS sends an notification email to the customer if the ticket state has changed.' => 'اگر وضعیت درخواست تغییر کرد سیستم با Email اطلاع خواهد داد',
+        'Customer Owner Notify' => 'اعلام تعیین صاحب به مشترک',
         'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'اگر صاحب درخواست تغییر کرد سیستم با Email اطلاع خواهد داد.',
 
         # Template: AdminQueueResponsesChangeForm
@@ -1073,6 +1114,20 @@ sub Data {
 
         # Template: AgentCustomerTableView
 
+        # Template: AgentDashboard
+        'Dashboard' => '',
+        'Settings' => '',
+
+        # Template: AgentDashboardCalendarOverview
+        'in' => '',
+
+        # Template: AgentDashboardRSSOverview
+        'Posted %s ago.' => '',
+
+        # Template: AgentDashboardTicketOverview
+
+        # Template: AgentDashboardTicketStats
+
         # Template: AgentInfo
         'Info' => 'اطلاعات',
 
@@ -1192,7 +1247,6 @@ sub Data {
         'Send mail!' => 'ارسال نامه !',
 
         # Template: AgentTicketBulk
-        'A message should have a subject!' => 'یک پیام میبایست دارای عنوان باشد',
         'You need to account time!' => 'شما نیاز به محاسبه زمان دارید!',
         'Ticket Bulk Action' => 'عملیات کلی روی درخواست',
         'Spell Check' => 'غلط یابی',
@@ -1207,7 +1261,6 @@ sub Data {
 
         # Template: AgentTicketClose
         'Ticket Type is required!' => '',
-        'A message should have a body!' => 'پیام میبایست دارای متن باشد !',
         'A required field is:' => '',
         'Close ticket' => 'بستن درخواست',
         'Previous Owner' => 'صاحب قبلی',
@@ -1503,15 +1556,15 @@ sub Data {
         'Change roles <-> groups settings' => 'تغییر تنظیمات وظیفه <-> گروه',
         'Ticket Number Generator' => 'تولید کننده شماره درخواست ها',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(مشخصه درخواست ها. اکثر کاربران مایلنداز این ترکیب استفاده کنند مثال: \'شماره درخواست\', \'شماره تماس#\' یا \'نام دلخواه #\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'تنظیم مستقیم کلید ها در Kernel/Config.pm',
         'Create new Phone Ticket' => 'ایجاد درخواست تلفنی',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'تنظیم مستقیم کلید ها در Kernel/Config.pm',
         'Symptom' => 'نشانه',
         'U' => 'Z-A, ی-الف',
         'Site' => 'سایت',
         'Customer history search (e. g. "ID342425").' => 'جستجو در سوابق مشترک (مثال: "ID342425")',
         'Can not delete link with %s!' => ' نمیتوان لینک را با %s حذف نمود ',
-        'Close!' => 'بستن!',
         'for agent firstname' => 'برای نام کارشناس',
+        'Close!' => 'بستن!',
         'No means, send agent and customer notifications on changes.' => ' پاسخ خیر به معنی ارسال اعلام به کارشناس و مشترک پس از اعمال تغییرات است ',
         'A web calendar' => 'یک تقویم تحت وب',
         'to get the realname of the sender (if given)' => 'برای گرفتن نام فرستنده',
@@ -1562,8 +1615,8 @@ sub Data {
         'to get the first 20 character of the subject' => 'برای گرفتن 20 کاراکتر اول موضوع',
         'Select the customeruser:service relations.' => 'ارتباط مشترک را با خدمات مشخض نمائید',
         'DB Admin Password' => 'رمز عبور مدیر سیستم',
-        'Drop Database' => 'حذف کامل بانک اطلاعاتی',
         'Advisory' => 'مشورتی',
+        'Drop Database' => 'حذف کامل بانک اطلاعاتی',
         'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'در این بخش میتوانید محور افقی نمودار را مشخص نمائید.شما میتوانید یک گزینه را انتخاب نمائید سپس دست کم دو ویژگی را برای گزینه انتخاب شده تعیین کنید.در غیر اینصورت همه ویژگی ها فعال خواهند بود.',
         'FileManager' => 'میریت فایل',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'گزینه های اطلاعات مشترک فعلی',
@@ -1586,11 +1639,11 @@ sub Data {
         'Change users <-> roles settings' => 'تغییر تنظیمات کاربر <-> وظیفه',
         'Parent-Object' => 'اصلی',
         'Of couse this feature will take some system performance it self!' => 'این ویژگی خود بعضی از عملکردهای سیستم را میگیرد',
-        'Detail' => 'جزئیات',
         'Your own Ticket' => 'درخواست شما',
+        'Detail' => 'جزئیات',
         'TicketZoom' => 'نمایش کامل درخواست',
-        'Don\'t forget to add a new user to groups!' => 'فراموش نکنید که کاربرجدید را به گروه ها اضافه کنید!',
         'Open Tickets' => 'درخواست های باز',
+        'Don\'t forget to add a new user to groups!' => 'فراموش نکنید که کاربرجدید را به گروه ها اضافه کنید!',
         'CreateTicket' => 'ایجاد درخواست',
         'You have to select two or more attributes from the select field!' => 'از قسمت انتخاب ستون دست کم 2 مورد را انتخاب نمائید',
         'System Settings' => 'تنظیمات سیستم',
@@ -1598,23 +1651,21 @@ sub Data {
         'Hours' => 'ساعت',
         'Finished' => 'پایان یافت',
         'D' => 'A-Z, الف-ی',
-        'All messages' => 'همه پیام ها',
         'System Status' => 'وضعیت سیستم',
+        'All messages' => 'همه پیام ها',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'گزینه های اطلاعات درخواست',
         'Artefact' => 'محصول خروجی',
         'Object already linked as %s.' => 'مورد اکنون به عنوان %s مرتبط شده است',
         'A article should have a title!' => 'یک مورد باید دارای عنوان باشد',
         'Customer Users <-> Services' => 'مشترک <-> خدمات',
-        'Event' => 'رویداد',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'گزینه های تنظیمات ',
-        'All email addresses get excluded on replaying on composing and email.' => '',
         'don\'t accept license' => 'مجوز را تائید نکن',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'A web mail client' => 'یک محیط پست الکترونیکی',
         'Compose Follow up' => 'ارسال پیگیری',
         'WebMail' => 'پست الکترونیکی',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'گزینه های اطلاعات درخواست ها',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'گزینه های صاحب درخواست (مثال: <OTRS_OWNER_UserFirstname>)',
-        'Name is required!' => 'نام الزامی است!',
         'DB Type' => 'نوع بانک اطلاعاتی سیستم',
         'kill all sessions' => 'همه Session ها را از بین ببر',
         'to get the from line of the email' => 'برای گرفتن خط (از) email',
@@ -1630,8 +1681,8 @@ sub Data {
         'A web file manager' => 'یک محیط مدیریت فایل تحت وب',
         'Have a lot of fun!' => 'موفق و پیروز باشید!',
         'send' => 'ارسال',
-        'Location on Map' => 'موقعیت روی نقشه',
         'Send no notifications' => 'اعلام ها را ارسال نکن',
+        'Location on Map' => 'موقعیت روی نقشه',
         'Note Text' => 'یادداشت',
         'POP3 Account Management' => 'مدیریت حساب POP3',
         'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'گزینه های اطلاعات مشترک کنونی',

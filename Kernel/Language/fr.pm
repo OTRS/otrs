@@ -7,7 +7,7 @@
 # Copyright (C) 2007 Massimiliano Franco <max-lists at ycom.ch>
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # --
-# $Id: fr.pm,v 1.107 2009-05-27 07:56:54 tr Exp $
+# $Id: fr.pm,v 1.108 2009-06-08 05:44:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,13 +20,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.107 $) [1];
+$VERSION = qw($Revision: 1.108 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Apr 20 10:28:52 2009
+    # Last translation file sync: Mon Jun  8 07:33:52 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -84,6 +84,8 @@ sub Data {
         'Modulefile' => 'Fichier de module',
         'Subfunction' => 'sous-fonction',
         'Line' => 'Ligne',
+        'Setting' => '',
+        'Settings' => '',
         'Example' => 'Exemple',
         'Examples' => 'Exemples',
         'valid' => 'valide',
@@ -586,6 +588,10 @@ sub Data {
         'Customer called' => 'Client appellé',
         'phone call' => 'Appel téléphonique',
         'Reminder Reached' => '',
+        'Reminder Tickets' => '',
+        'Escaladed Tickets' => '',
+        'New Tickets' => '',
+        'Open Tickets / Need to be answered' => '',
         'Responses' => 'Réponses',
         'Responses <-> Queue' => 'Réponses <-> Files',
         'Auto Responses' => 'Réponses automatiques',
@@ -737,6 +743,20 @@ sub Data {
         'No pending time settings.' => 'pas de critère de date d\'échéance',
         'Ticket pending time reached' => 'Date d\'échéance atteinte le',
         'Ticket pending time reached between' => 'Date d\'échéance atteinte entre le',
+        'Escalation Times' => '',
+        'No escalation time settings.' => '',
+        'Ticket escalation time reached' => '',
+        'Ticket escalation time reached between' => '',
+        'Escalation - First Response Time' => 'Rémontée du ticket - Premier temps de réponse',
+        'No escalation time settings.' => '',
+        'Ticket first response time reached' => '',
+        'Ticket first response time reached between' => '',
+        'Escalation - Update Time' => 'Escalade - échéance pour le suivi',
+        'Ticket update time reached' => '',
+        'Ticket update time reached between' => '',
+        'Escalation - Solution Time' => 'Escalade - échéance pour la solution',
+        'Ticket solution time reached' => '',
+        'Ticket solution time reached between' => '',
         'New Service' => 'Nouveau Service',
         'New SLA' => 'Nouveau SLA',
         'New Priority' => 'Nouvelle Priorité',
@@ -792,10 +812,34 @@ sub Data {
         'Groups' => 'Groupes',
         'Misc' => 'Divers',
 
-        # Template: AdminNotificationForm
+        # Template: AdminNotificationEventForm
         'Notification Management' => 'Gestion des notifications',
-        'Notification' => 'Notification',
+        'Add Notification' => '',
+        'Add a new Notification.' => '',
+        'Name is required!' => 'Un nom est requis!',
+        'Event is required!' => '',
+        'A message should have a subject!' => 'Un message doit avoir un sujet !',
+        'A message should have a body!' => 'Un message doit avoir un corps !',
+        'Recipient' => '',
+        'Group based' => '',
+        'Recipient' => '',
+        'Agent based' => '',
+        'Email based' => '',
+        'Event' => 'Évènement',
+        'Article Type' => '',
+        'Only for ArticleCreate Event.' => '',
+        'Subject match' => '',
+        'Only for ArticleCreate Event.' => '',
+        'Body match' => '',
         'Notifications are sent to an agent or a customer.' => 'Des notifications sont envoyées à un technicien ou à un client.',
+        'To get the first 20 character of the subject (of the latest agent article).' => '',
+        'To get the first 5 lines of the body (of the latest agent article).' => '',
+        'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' => '',
+        'To get the first 20 character of the subject (of the latest customer article).' => '',
+        'To get the first 5 lines of the body (of the latest customer article).' => '',
+
+        # Template: AdminNotificationForm
+        'Notification' => 'Notification',
 
         # Template: AdminPackageManager
         'Package Manager' => 'Gestionnaire de paquet',
@@ -883,17 +927,11 @@ sub Data {
         'Unlock timeout' => 'Délai du déverrouillage',
         '0 = no unlock' => '0 = pas de verrouillage',
         'Only business hours are counted.' => 'Seuls les plages horaires de bureau sont comptés',
-        'Escalation - First Response Time' => 'Rémontée du ticket - Premier temps de réponse',
         '0 = no escalation' => '0 = pas de remontée du ticket',
         'Notify by' => 'Notification par',
-        'Escalation - Update Time' => 'Escalade - échéance pour le suivi',
-        'Escalation - Solution Time' => 'Escalade - échéance pour la solution',
         'Follow up Option' => 'Option des suivis',
         'Ticket lock after a follow up' => 'Ticket verrouillé après un suivi',
         'Systemaddress' => 'Adresse du Système',
-        'Customer Move Notify' => 'Notification lors d\'un changement de file',
-        'Customer State Notify' => 'Notification lors d\'un changement d\'état',
-        'Customer Owner Notify' => 'Notification lors d\'un changement de propriétaire',
         'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Si un technicien verrouille un ticket et qu\'il/elle n\'envoie pas une réponse dans le temps imparti, le ticket sera déverrouillé automatiquement. Le ticket sera alors visible de tous les autres techniciens',
         'Escalation time' => 'Délai de remontée du ticket',
         'If a ticket will not be answered in this time, just only this ticket will be shown.' => 'Si une réponse n\'est pas apportée au ticket dans le temps imparti, seul ce ticket sera affiché',
@@ -901,8 +939,11 @@ sub Data {
         'Will be the sender address of this queue for email answers.' => 'Sera l\'adresse d\'expédition pour les réponses par courriel pour cette file.',
         'The salutation for email answers.' => 'La formule de politesse pour les réponses par mail',
         'The signature for email answers.' => 'La signature pour les réponses par courriel',
+        'Customer Move Notify' => 'Notification lors d\'un changement de file',
         'OTRS sends an notification email to the customer if the ticket is moved.' => 'OTRS envoi un courriel au client lorsque le ticket change de file.',
+        'Customer State Notify' => 'Notification lors d\'un changement d\'état',
         'OTRS sends an notification email to the customer if the ticket state has changed.' => 'OTRS envoi un courriel au client lorsque le ticket change d\'état.',
+        'Customer Owner Notify' => 'Notification lors d\'un changement de propriétaire',
         'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'OTRS envoi un courriel au client lorsque le ticket change de propriétaire.',
 
         # Template: AdminQueueResponsesChangeForm
@@ -1074,6 +1115,20 @@ sub Data {
 
         # Template: AgentCustomerTableView
 
+        # Template: AgentDashboard
+        'Dashboard' => '',
+        'Settings' => '',
+
+        # Template: AgentDashboardCalendarOverview
+        'in' => '',
+
+        # Template: AgentDashboardRSSOverview
+        'Posted %s ago.' => '',
+
+        # Template: AgentDashboardTicketOverview
+
+        # Template: AgentDashboardTicketStats
+
         # Template: AgentInfo
         'Info' => 'Information',
 
@@ -1193,7 +1248,6 @@ sub Data {
         'Send mail!' => 'Envoyer le courriel !',
 
         # Template: AgentTicketBulk
-        'A message should have a subject!' => 'Un message doit avoir un sujet !',
         'You need to account time!' => 'Vous devez comptabiliser le temps;!',
         'Ticket Bulk Action' => 'Ticket en action groupée',
         'Spell Check' => 'Vérification orthographique',
@@ -1208,7 +1262,6 @@ sub Data {
 
         # Template: AgentTicketClose
         'Ticket Type is required!' => '',
-        'A message should have a body!' => 'Un message doit avoir un corps !',
         'A required field is:' => '',
         'Close ticket' => 'Ticket clos',
         'Previous Owner' => 'Propriétaire Précédent',
@@ -1504,15 +1557,15 @@ sub Data {
         'Change roles <-> groups settings' => 'Changer les rôles <-> paramètres des groupes',
         'Ticket Number Generator' => 'Générateur de numéro pour les tickets',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identifiant des tickets. Certaines personnes veulent le configurer avec par ex: \'Ticket#\', \'Appel#\' ou \'MonTicket#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Dans ce cas vous pouvez directement éditer le trousseau de clé dans Kernel/Config.pm',
         'Create new Phone Ticket' => 'Saisie d\'une demande téléphonique',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Dans ce cas vous pouvez directement éditer le trousseau de clé dans Kernel/Config.pm',
         'Symptom' => 'Symptôme',
         'U' => 'A-Z',
         'Site' => 'Site',
         'Customer history search (e. g. "ID342425").' => 'Recherche dans l\'historique client (ex: "ID342425")',
         'Can not delete link with %s!' => 'Impossible d\'effacer le lien avec %s !',
-        'Close!' => 'Clôture!',
         'for agent firstname' => 'pour le prénom du technicien',
+        'Close!' => 'Clôture!',
         'No means, send agent and customer notifications on changes.' => 'Non signifie : Envoyer un mail au technicien et au client sur changement.',
         'A web calendar' => 'Un calendrier Web',
         'to get the realname of the sender (if given)' => 'pour avoir le nom réel de l\'utilisateur (s\il est donné)',
@@ -1567,8 +1620,8 @@ sub Data {
         'to get the first 20 character of the subject' => 'pour avoir les 20 premiers caractères du sujet ',
         'Select the customeruser:service relations.' => '',
         'DB Admin Password' => 'Mot de passe administrateur base de données',
-        'Drop Database' => 'Effacer la base de données',
         'Advisory' => 'Avertissement',
+        'Drop Database' => 'Effacer la base de données',
         'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
         'FileManager' => 'Gestionnaire de fichiers',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Options concernant les données du client actuel (ex: <OTRS_CUSTOMER_DATA_UserFirstname>)',
@@ -1591,11 +1644,11 @@ sub Data {
         'Change users <-> roles settings' => 'Changement d\'utilisateur <-> parramèttres des rôles',
         'Parent-Object' => 'Objet Parent',
         'Of couse this feature will take some system performance it self!' => 'Bien évidemment, cette fonction consomme des ressources système',
-        'Detail' => 'Détail',
         'Your own Ticket' => 'Votre propre ticket',
+        'Detail' => 'Détail',
         'TicketZoom' => 'Vue en détails',
-        'Don\'t forget to add a new user to groups!' => 'Ne pas oublier d\'ajouter un nouvel utilisateur aux groupes !',
         'Open Tickets' => 'Tickets ouverts',
+        'Don\'t forget to add a new user to groups!' => 'Ne pas oublier d\'ajouter un nouvel utilisateur aux groupes !',
         'CreateTicket' => 'Créer Ticket',
         'You have to select two or more attributes from the select field!' => 'Vous avez sélectionné deux attributs ou plus !',
         'System Settings' => 'Paramètres Système',
@@ -1604,16 +1657,15 @@ sub Data {
         'Finished' => 'Fini',
         'Account Type' => 'Type de compte',
         'D' => 'Z-A',
-        'All messages' => 'Tous les messages',
         'System Status' => 'État du système',
+        'All messages' => 'Tous les messages',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Options des données du ticket (ex: <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => 'Objet déjà lié en tant que %s',
         'A article should have a title!' => 'Un article doit avoir un titre',
-        'FAQ Overview' => 'Vue d\'ensemble de la FAQ',
-        'Event' => 'Évènement',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Options de configuration (ex: &lt;OTRS_CONFIG_HttpType&gt;)',
-        'All email addresses get excluded on replaying on composing and email.' => '',
+        'FAQ Overview' => 'Vue d\'ensemble de la FAQ',
         'don\'t accept license' => 'Ne pas accepter la licence',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'A web mail client' => 'Un logiciel de messagerie via le web',
         'Compose Follow up' => 'Fermer le suivi',
         'FAQ-State' => 'État FAQ',
@@ -1621,7 +1673,6 @@ sub Data {
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Options des données du ticket (ex:  <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Options du propriétaire d\'un ticket (ex: <OTRS_OWNER_UserFirstname>)',
         'FAQ Search' => 'Chercher dans la FAQ',
-        'Name is required!' => 'Un nom est requis!',
         'DB Type' => 'Type de SGBD',
         'Termin1' => 'Termin1',
         'kill all sessions' => 'Terminer toutes les sessions',

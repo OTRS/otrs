@@ -2,7 +2,7 @@
 # Kernel/Language/sv.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats@synergy.se>
 # --
-# $Id: sv.pm,v 1.64 2009-05-27 07:56:54 tr Exp $
+# $Id: sv.pm,v 1.65 2009-06-08 05:44:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.64 $;
+$VERSION = q$Revision: 1.65 $;
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Apr 20 10:29:28 2009
+    # Last translation file sync: Mon Jun  8 07:34:53 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -79,6 +79,8 @@ sub Data {
         'Modulefile' => 'Modulfil',
         'Subfunction' => 'Underfunktion',
         'Line' => 'Rad',
+        'Setting' => '',
+        'Settings' => '',
         'Example' => 'Exempel',
         'Examples' => 'Exempel',
         'valid' => 'giltig',
@@ -581,6 +583,10 @@ sub Data {
         'Customer called' => '',
         'phone call' => '',
         'Reminder Reached' => '',
+        'Reminder Tickets' => '',
+        'Escaladed Tickets' => '',
+        'New Tickets' => '',
+        'Open Tickets / Need to be answered' => '',
         'Responses' => 'Svar',
         'Responses <-> Queue' => '',
         'Auto Responses' => '',
@@ -732,6 +738,20 @@ sub Data {
         'No pending time settings.' => '',
         'Ticket pending time reached' => '',
         'Ticket pending time reached between' => '',
+        'Escalation Times' => '',
+        'No escalation time settings.' => '',
+        'Ticket escalation time reached' => '',
+        'Ticket escalation time reached between' => '',
+        'Escalation - First Response Time' => '',
+        'No escalation time settings.' => '',
+        'Ticket first response time reached' => '',
+        'Ticket first response time reached between' => '',
+        'Escalation - Update Time' => '',
+        'Ticket update time reached' => '',
+        'Ticket update time reached between' => '',
+        'Escalation - Solution Time' => '',
+        'Ticket solution time reached' => '',
+        'Ticket solution time reached between' => '',
         'New Service' => '',
         'New SLA' => '',
         'New Priority' => '',
@@ -787,10 +807,34 @@ sub Data {
         'Groups' => 'grupper',
         'Misc' => 'Div',
 
-        # Template: AdminNotificationForm
+        # Template: AdminNotificationEventForm
         'Notification Management' => 'Meddelandehantering',
-        'Notification' => '',
+        'Add Notification' => '',
+        'Add a new Notification.' => '',
+        'Name is required!' => '',
+        'Event is required!' => '',
+        'A message should have a subject!' => 'Ett meddelande måste ha en Ämnesrad!',
+        'A message should have a body!' => 'Ett meddelande måste innehålla en meddelandetext!',
+        'Recipient' => '',
+        'Group based' => '',
+        'Recipient' => '',
+        'Agent based' => '',
+        'Email based' => '',
+        'Event' => '',
+        'Article Type' => '',
+        'Only for ArticleCreate Event.' => '',
+        'Subject match' => '',
+        'Only for ArticleCreate Event.' => '',
+        'Body match' => '',
         'Notifications are sent to an agent or a customer.' => 'Meddelanden skickats till agenter eller kunder.',
+        'To get the first 20 character of the subject (of the latest agent article).' => '',
+        'To get the first 5 lines of the body (of the latest agent article).' => '',
+        'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' => '',
+        'To get the first 20 character of the subject (of the latest customer article).' => '',
+        'To get the first 5 lines of the body (of the latest customer article).' => '',
+
+        # Template: AdminNotificationForm
+        'Notification' => '',
 
         # Template: AdminPackageManager
         'Package Manager' => '',
@@ -878,17 +922,11 @@ sub Data {
         'Unlock timeout' => 'Tidsintervall för borttagning av lås',
         '0 = no unlock' => '0 = ingen upplåsning',
         'Only business hours are counted.' => '',
-        'Escalation - First Response Time' => '',
         '0 = no escalation' => '0 = ingen upptrappning',
         'Notify by' => '',
-        'Escalation - Update Time' => '',
-        'Escalation - Solution Time' => '',
         'Follow up Option' => 'Korrespondens på låst ärende',
         'Ticket lock after a follow up' => 'Ärendet låses efter uppföljningsmail',
         'Systemaddress' => 'Systemadress',
-        'Customer Move Notify' => 'Meddelande om flytt av kund',
-        'Customer State Notify' => 'Meddelande om statusändring för Kund',
-        'Customer Owner Notify' => 'Meddelande om byte av ägare av Kund',
         'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Ifall ett ärende som är låst av en agent men ändå inte blir besvarat inom denna tid, kommer låset automatiskt att tas bort.',
         'Escalation time' => 'Upptrappningstid',
         'If a ticket will not be answered in this time, just only this ticket will be shown.' => 'Ifall ett ärende inte blir besvarat inom denna tid, visas enbart detta ärende.',
@@ -896,8 +934,11 @@ sub Data {
         'Will be the sender address of this queue for email answers.' => 'Avsändaradress för email i denna Kö.',
         'The salutation for email answers.' => 'Hälsningsfras för email-svar.',
         'The signature for email answers.' => 'Signatur för email-svar.',
+        'Customer Move Notify' => 'Meddelande om flytt av kund',
         'OTRS sends an notification email to the customer if the ticket is moved.' => 'OTRS skickar ett meddelande till kunden ifall ärendet flyttas.',
+        'Customer State Notify' => 'Meddelande om statusändring för Kund',
         'OTRS sends an notification email to the customer if the ticket state has changed.' => 'OTRS skickar ett meddelande till kunden vid statusuppdatering.',
+        'Customer Owner Notify' => 'Meddelande om byte av ägare av Kund',
         'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'OTRS skickar ett meddelande till kunden vid ägarbyte.',
 
         # Template: AdminQueueResponsesChangeForm
@@ -1069,6 +1110,20 @@ sub Data {
 
         # Template: AgentCustomerTableView
 
+        # Template: AgentDashboard
+        'Dashboard' => '',
+        'Settings' => '',
+
+        # Template: AgentDashboardCalendarOverview
+        'in' => '',
+
+        # Template: AgentDashboardRSSOverview
+        'Posted %s ago.' => '',
+
+        # Template: AgentDashboardTicketOverview
+
+        # Template: AgentDashboardTicketStats
+
         # Template: AgentInfo
         'Info' => '',
 
@@ -1188,7 +1243,6 @@ sub Data {
         'Send mail!' => 'Skicka mail!',
 
         # Template: AgentTicketBulk
-        'A message should have a subject!' => 'Ett meddelande måste ha en Ämnesrad!',
         'You need to account time!' => 'Du måste redovisa tiden!',
         'Ticket Bulk Action' => '',
         'Spell Check' => 'Stavningskontroll',
@@ -1203,7 +1257,6 @@ sub Data {
 
         # Template: AgentTicketClose
         'Ticket Type is required!' => '',
-        'A message should have a body!' => 'Ett meddelande måste innehålla en meddelandetext!',
         'A required field is:' => '',
         'Close ticket' => 'Stäng ärende',
         'Previous Owner' => 'Tidigare ägare',
@@ -1502,8 +1555,8 @@ sub Data {
         'Site' => 'plats',
         'Customer history search (e. g. "ID342425").' => 'Sök efter kundhistorik (t.ex. "ID342425").',
         'Can not delete link with %s!' => '',
-        'for agent firstname' => 'för agents förnamn',
         'Close!' => 'Stäng!',
+        'for agent firstname' => 'för agents förnamn',
         'Subgroup \'' => '',
         'No means, send agent and customer notifications on changes.' => '',
         'A web calendar' => '',
@@ -1574,11 +1627,11 @@ sub Data {
         'Parent-Object' => '',
         'Of couse this feature will take some system performance it self!' => '',
         'IMAPS' => '',
-        'Detail' => '',
         'Your own Ticket' => 'Ditt eget ärende',
+        'Detail' => '',
         'TicketZoom' => 'Ärende Zoom',
-        'Don\'t forget to add a new user to groups!' => 'Glöm inte att lägga in en ny användare i en grupp!',
         'Open Tickets' => '',
+        'Don\'t forget to add a new user to groups!' => 'Glöm inte att lägga in en ny användare i en grupp!',
         'CreateTicket' => 'Skapa Ärende',
         'You have to select two or more attributes from the select field!' => '',
         'System Settings' => 'Systeminställningar',
@@ -1587,22 +1640,20 @@ sub Data {
         'Finished' => 'Klar',
         'Account Type' => '',
         'D' => 'N',
-        'System Status' => '',
         'All messages' => 'Alla meddelanden',
+        'System Status' => '',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         'Object already linked as %s.' => '',
         'A article should have a title!' => '',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
-        'Event' => '',
-        'All email addresses get excluded on replaying on composing and email.' => '',
         'don\'t accept license' => 'godkänn inte licens',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'A web mail client' => '',
         'IMAP' => '',
         'Compose Follow up' => 'Skriv uppföljningssvar',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         'Article time' => '',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'ger tillgang till data för agenten som står som ägare till ärendet (t.ex. <OTRS_OWNER_UserFirstname>)',
-        'Name is required!' => '',
         'DB Type' => 'DB typ',
         'kill all sessions' => 'Terminera alla sessioner',
         'to get the from line of the email' => 'för att få fram avsändarraden i emailen',

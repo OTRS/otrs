@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # Copyright (C) 2007-2008 Mikko Hynninen <first.last at tietokartano.fi>
 # --
-# $Id: fi.pm,v 1.87 2009-05-27 07:56:54 tr Exp $
+# $Id: fi.pm,v 1.88 2009-06-08 05:44:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.87 $) [1];
+$VERSION = qw($Revision: 1.88 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Apr 20 10:28:51 2009
+    # Last translation file sync: Mon Jun  8 07:33:48 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -80,6 +80,8 @@ sub Data {
         'Modulefile' => 'Moduulitiedosto',
         'Subfunction' => 'Alifunktio',
         'Line' => 'Rivi',
+        'Setting' => '',
+        'Settings' => '',
         'Example' => 'Esimerkki',
         'Examples' => 'Esimerkit',
         'valid' => 'Kelvollinen',
@@ -582,6 +584,10 @@ sub Data {
         'Customer called' => 'Asiakas otti yhteyttä',
         'phone call' => 'puhelu',
         'Reminder Reached' => '',
+        'Reminder Tickets' => '',
+        'Escaladed Tickets' => '',
+        'New Tickets' => '',
+        'Open Tickets / Need to be answered' => '',
         'Responses' => 'Vastaukset',
         'Responses <-> Queue' => 'Vastaukset <-> Jono',
         'Auto Responses' => 'Autom. vastaukset',
@@ -733,6 +739,20 @@ sub Data {
         'No pending time settings.' => 'Ei odotusaika-asetusta.',
         'Ticket pending time reached' => 'Tiketin odotusaika saavutettu',
         'Ticket pending time reached between' => 'Tiketin odotusaika saavutettu välillä',
+        'Escalation Times' => '',
+        'No escalation time settings.' => '',
+        'Ticket escalation time reached' => '',
+        'Ticket escalation time reached between' => '',
+        'Escalation - First Response Time' => 'Käsittely - ensimmäinen vastaus',
+        'No escalation time settings.' => '',
+        'Ticket first response time reached' => '',
+        'Ticket first response time reached between' => '',
+        'Escalation - Update Time' => 'Käsittely - Päivitysaika',
+        'Ticket update time reached' => '',
+        'Ticket update time reached between' => '',
+        'Escalation - Solution Time' => 'Käsittely - Ratkaisuaika',
+        'Ticket solution time reached' => '',
+        'Ticket solution time reached between' => '',
         'New Service' => 'Uusi palvelu',
         'New SLA' => 'Uusi SLA',
         'New Priority' => 'Uusi prioriteetti',
@@ -788,10 +808,34 @@ sub Data {
         'Groups' => 'Ryhmät',
         'Misc' => 'Muut',
 
-        # Template: AdminNotificationForm
+        # Template: AdminNotificationEventForm
         'Notification Management' => 'Huomautusten hallinta',
-        'Notification' => 'Huomautus',
+        'Add Notification' => '',
+        'Add a new Notification.' => '',
+        'Name is required!' => 'Nimi on vaadittu!',
+        'Event is required!' => '',
+        'A message should have a subject!' => 'Viestissä pitää olla otsikko!',
+        'A message should have a body!' => 'Viestiin tulee lisätä tietoja',
+        'Recipient' => '',
+        'Group based' => '',
+        'Recipient' => '',
+        'Agent based' => '',
+        'Email based' => '',
+        'Event' => 'Tapahtyma',
+        'Article Type' => '',
+        'Only for ArticleCreate Event.' => '',
+        'Subject match' => '',
+        'Only for ArticleCreate Event.' => '',
+        'Body match' => '',
         'Notifications are sent to an agent or a customer.' => 'Huomautukset lähetetään joko agentille tai asiakkaalle.',
+        'To get the first 20 character of the subject (of the latest agent article).' => '',
+        'To get the first 5 lines of the body (of the latest agent article).' => '',
+        'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' => '',
+        'To get the first 20 character of the subject (of the latest customer article).' => '',
+        'To get the first 5 lines of the body (of the latest customer article).' => '',
+
+        # Template: AdminNotificationForm
+        'Notification' => 'Huomautus',
 
         # Template: AdminPackageManager
         'Package Manager' => 'Pakettien hallinta',
@@ -879,17 +923,11 @@ sub Data {
         'Unlock timeout' => 'Aika lukituksen poistumiseen',
         '0 = no unlock' => '0 = ei lukituksen poistumista',
         'Only business hours are counted.' => 'Vain työaika huomioidaan',
-        'Escalation - First Response Time' => 'Käsittely - ensimmäinen vastaus',
         '0 = no escalation' => '0 = ei vanhentumisaikaa',
         'Notify by' => 'Huomauksen lähettäjä',
-        'Escalation - Update Time' => 'Käsittely - Päivitysaika',
-        'Escalation - Solution Time' => 'Käsittely - Ratkaisuaika',
         'Follow up Option' => 'Seuranta-asetukset',
         'Ticket lock after a follow up' => 'Tiketti lukitaan vastatessa',
         'Systemaddress' => 'Järjestelmän osoite',
-        'Customer Move Notify' => 'Siirto ilmoitukset asiakkaalle',
-        'Customer State Notify' => 'Tilailmoitukset asiakkaalle',
-        'Customer Owner Notify' => 'Omistajan muutokset asiakkaalle',
         'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Jos agentti lukitsee tiketin eikä vastaa siihen tässä ajassa avautuu lukitus automaattisesti. Tämän jälkeen tiketti on taas muiden nähtävillä.',
         'Escalation time' => 'Maksimi käsittelyaika',
         'If a ticket will not be answered in this time, just only this ticket will be shown.' => 'Jos tikettiin ei vastattu tässä ajassa, vain tämä tiketti näytetään.',
@@ -897,8 +935,11 @@ sub Data {
         'Will be the sender address of this queue for email answers.' => 'Lähettäjäosoite jonosta lähetetyille sähköposteille.',
         'The salutation for email answers.' => 'Tervehdys sähköpostiviesteissä.',
         'The signature for email answers.' => 'Allekirjoitus sähköpostiviesteissä',
+        'Customer Move Notify' => 'Siirto ilmoitukset asiakkaalle',
         'OTRS sends an notification email to the customer if the ticket is moved.' => 'OTRS lähettää huomautuspostin asiakkaalle jos tiketti siirretään.',
+        'Customer State Notify' => 'Tilailmoitukset asiakkaalle',
         'OTRS sends an notification email to the customer if the ticket state has changed.' => 'OTRS lähettää huomautuspostin asiakkaalle jos tiketin tila muuttuu.',
+        'Customer Owner Notify' => 'Omistajan muutokset asiakkaalle',
         'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'OTRS lähettää huomautuspostin asiakkaalle jos tiketin omistaja muuttuu.',
 
         # Template: AdminQueueResponsesChangeForm
@@ -1070,6 +1111,20 @@ sub Data {
 
         # Template: AgentCustomerTableView
 
+        # Template: AgentDashboard
+        'Dashboard' => '',
+        'Settings' => '',
+
+        # Template: AgentDashboardCalendarOverview
+        'in' => '',
+
+        # Template: AgentDashboardRSSOverview
+        'Posted %s ago.' => '',
+
+        # Template: AgentDashboardTicketOverview
+
+        # Template: AgentDashboardTicketStats
+
         # Template: AgentInfo
         'Info' => 'Info',
 
@@ -1189,7 +1244,6 @@ sub Data {
         'Send mail!' => 'Lähetä sähköposti!',
 
         # Template: AgentTicketBulk
-        'A message should have a subject!' => 'Viestissä pitää olla otsikko!',
         'You need to account time!' => 'Käsittelyaika',
         'Ticket Bulk Action' => 'Tikettien massatoimenpide',
         'Spell Check' => 'Oikeinkirjoituksen tarkistus',
@@ -1204,7 +1258,6 @@ sub Data {
 
         # Template: AgentTicketClose
         'Ticket Type is required!' => '',
-        'A message should have a body!' => 'Viestiin tulee lisätä tietoja',
         'A required field is:' => '',
         'Close ticket' => 'Sulje tiketti',
         'Previous Owner' => 'Edellinen omistaja',
@@ -1498,15 +1551,15 @@ sub Data {
         'Create Database' => 'Luo tietokanta',
         'Ticket Number Generator' => 'Tikettinumeroiden generoija',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Tiketin tunniste. Voit asettaa esim. \'Tiketti#\', \'Puhelu#\' tai \'OmaTiketti#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Tällä tavalla voit muokata suoraan Kernel/Config.pm:ssä määriteltyä avainrengasta.',
         'Create new Phone Ticket' => 'Luo uusi puhelintiketti',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Tällä tavalla voit muokata suoraan Kernel/Config.pm:ssä määriteltyä avainrengasta.',
         'Symptom' => 'Oire',
         'U' => 'Y',
         'Site' => 'Palvelin',
         'Customer history search (e. g. "ID342425").' => 'Asiakashistoriahaku (Esim. "ID342425").',
         'Can not delete link with %s!' => 'Linkityksen poisto epäonnistui kohteeseen %s!',
-        'Close!' => 'Sulje!',
         'for agent firstname' => 'käsittelijän etunimi',
+        'Close!' => 'Sulje!',
         'No means, send agent and customer notifications on changes.' => 'Ei tarkoittaa, lähetä agentille ja asiakkaalle ilmoitus muutoksista.',
         'A web calendar' => 'Web-kalenteri',
         'to get the realname of the sender (if given)' => 'nähdäksesi käyttäjän nimen',
@@ -1567,10 +1620,10 @@ sub Data {
         'Parent-Object' => 'Ylempi',
         'Of couse this feature will take some system performance it self!' => 'Tämä ominaisuus vaatii järjestelmän resursseja!',
         'IMAPS' => 'IMAPS',
-        'Detail' => 'Tiedot',
         'Your own Ticket' => 'Oma tiketti',
-        'Don\'t forget to add a new user to groups!' => 'Älä unohda lisätä uutta käyttäjää ryhmiin!',
+        'Detail' => 'Tiedot',
         'Open Tickets' => 'Avoimet tiketit',
+        'Don\'t forget to add a new user to groups!' => 'Älä unohda lisätä uutta käyttäjää ryhmiin!',
         'You have to select two or more attributes from the select field!' => 'Sinun tulee valita yksi tai useampi arvo valintakentässä!',
         'System Settings' => 'Järjestelmäasetukset',
         'WebWatcher' => 'WebSeuranta',
@@ -1580,15 +1633,13 @@ sub Data {
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Tikettitiedon asetukset (esim. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => 'Objekti linkitetty jo kohteeseen %s.',
         'A article should have a title!' => 'Artikkelilla tulee olla otsikko!',
-        'Event' => 'Tapahtyma',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Määritysasetukset (esim. <OTRS_CONFIG_HttpType>)',
-        'All email addresses get excluded on replaying on composing and email.' => '',
         'don\'t accept license' => 'En hyväksy lisenssiä',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'A web mail client' => 'Webpostiohjelma',
         'Compose Follow up' => 'Lähetä vastaus',
         'WebMail' => 'WebMail',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Tiketin omistajan asetukset (esim. <OTRS_OWNER_UserFirstName>)',
-        'Name is required!' => 'Nimi on vaadittu!',
         'Termin1' => '',
         'kill all sessions' => 'Lopeta kaikki istunnot',
         'to get the from line of the email' => 'nähdäksesi yhden rivin sähköpostista',

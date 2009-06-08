@@ -3,7 +3,7 @@
 # Copyright (C) 2003 Lukas Vicanek alias networ <lulka at centrum dot cz>
 # Copyright (C) 2004 BENETA.cz, s.r.o. (Marta Macalkova, Vadim Buzek, Petr Ocasek) <info at beneta dot cz>
 # --
-# $Id: cz.pm,v 1.72 2009-05-27 07:56:53 tr Exp $
+# $Id: cz.pm,v 1.73 2009-06-08 05:44:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Apr 20 10:28:35 2009
+    # Last translation file sync: Mon Jun  8 07:33:25 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', ];
@@ -80,6 +80,8 @@ sub Data {
         'Modulefile' => 'Modulový soubor',
         'Subfunction' => 'Podfunkce',
         'Line' => 'Linka',
+        'Setting' => '',
+        'Settings' => '',
         'Example' => 'Pøíklad',
         'Examples' => 'Pøíklady',
         'valid' => 'platný',
@@ -582,6 +584,10 @@ sub Data {
         'Customer called' => '',
         'phone call' => '',
         'Reminder Reached' => '',
+        'Reminder Tickets' => '',
+        'Escaladed Tickets' => '',
+        'New Tickets' => '',
+        'Open Tickets / Need to be answered' => '',
         'Responses' => 'Odpovìdi',
         'Responses <-> Queue' => '',
         'Auto Responses' => '',
@@ -733,6 +739,20 @@ sub Data {
         'No pending time settings.' => '',
         'Ticket pending time reached' => '',
         'Ticket pending time reached between' => '',
+        'Escalation Times' => '',
+        'No escalation time settings.' => '',
+        'Ticket escalation time reached' => '',
+        'Ticket escalation time reached between' => '',
+        'Escalation - First Response Time' => '',
+        'No escalation time settings.' => '',
+        'Ticket first response time reached' => '',
+        'Ticket first response time reached between' => '',
+        'Escalation - Update Time' => '',
+        'Ticket update time reached' => '',
+        'Ticket update time reached between' => '',
+        'Escalation - Solution Time' => '',
+        'Ticket solution time reached' => '',
+        'Ticket solution time reached between' => '',
         'New Service' => '',
         'New SLA' => '',
         'New Priority' => '',
@@ -788,10 +808,34 @@ sub Data {
         'Groups' => 'Skupiny',
         'Misc' => 'Rùzné',
 
-        # Template: AdminNotificationForm
+        # Template: AdminNotificationEventForm
         'Notification Management' => 'Správa oznámení',
-        'Notification' => '',
+        'Add Notification' => '',
+        'Add a new Notification.' => '',
+        'Name is required!' => '',
+        'Event is required!' => '',
+        'A message should have a subject!' => 'Zpráva by mìla mít pøedmìt!',
+        'A message should have a body!' => 'Zpráva by mìla mít tìlo!',
+        'Recipient' => '',
+        'Group based' => '',
+        'Recipient' => '',
+        'Agent based' => '',
+        'Email based' => '',
+        'Event' => '',
+        'Article Type' => '',
+        'Only for ArticleCreate Event.' => '',
+        'Subject match' => '',
+        'Only for ArticleCreate Event.' => '',
+        'Body match' => '',
         'Notifications are sent to an agent or a customer.' => 'Oznámení jsou odeslána agentovi èi klientovi',
+        'To get the first 20 character of the subject (of the latest agent article).' => '',
+        'To get the first 5 lines of the body (of the latest agent article).' => '',
+        'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' => '',
+        'To get the first 20 character of the subject (of the latest customer article).' => '',
+        'To get the first 5 lines of the body (of the latest customer article).' => '',
+
+        # Template: AdminNotificationForm
+        'Notification' => '',
 
         # Template: AdminPackageManager
         'Package Manager' => '',
@@ -879,17 +923,11 @@ sub Data {
         'Unlock timeout' => 'Èas do odemknutí',
         '0 = no unlock' => '0 = ¾ádné odemknutí',
         'Only business hours are counted.' => '',
-        'Escalation - First Response Time' => '',
         '0 = no escalation' => '0 = ¾ádné stupòování',
         'Notify by' => '',
-        'Escalation - Update Time' => '',
-        'Escalation - Solution Time' => '',
         'Follow up Option' => 'Následující volba',
         'Ticket lock after a follow up' => 'Zamknout tiket po následujícím',
         'Systemaddress' => 'Systémová adresa',
-        'Customer Move Notify' => 'Oznámení Klientovi o zmìnì fronty',
-        'Customer State Notify' => 'Oznámení Klientovi o zmìnì stavu',
-        'Customer Owner Notify' => 'Oznámení Klientovi o zmìnì vlastníka',
         'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Pokud agent uzamkne tiket a neode¹le v této dobì odpovìï, tiket bude automaticky odemknut. Tak se stane tiket viditelný pro v¹echny ostatní agenty.',
         'Escalation time' => 'Doba stupòování',
         'If a ticket will not be answered in this time, just only this ticket will be shown.' => '',
@@ -897,8 +935,11 @@ sub Data {
         'Will be the sender address of this queue for email answers.' => 'Bude adresou odesílatele z této fronty pro emailové odpovìdi.',
         'The salutation for email answers.' => 'Oslovení pro emailové odpovìdi.',
         'The signature for email answers.' => 'Podpis pro emailové odpovìdi.',
+        'Customer Move Notify' => 'Oznámení Klientovi o zmìnì fronty',
         'OTRS sends an notification email to the customer if the ticket is moved.' => 'OTRS po¹le klientovi emailem oznámení, pokud bude tiket pøesunut.',
+        'Customer State Notify' => 'Oznámení Klientovi o zmìnì stavu',
         'OTRS sends an notification email to the customer if the ticket state has changed.' => 'OTRS po¹le klientovi emailem oznámení, pokud se zmìní stav tiketu.',
+        'Customer Owner Notify' => 'Oznámení Klientovi o zmìnì vlastníka',
         'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'OTRS po¹le klientovi emailem oznámení, pokud se zmìní vlastník tiketu.',
 
         # Template: AdminQueueResponsesChangeForm
@@ -1070,6 +1111,20 @@ sub Data {
 
         # Template: AgentCustomerTableView
 
+        # Template: AgentDashboard
+        'Dashboard' => '',
+        'Settings' => '',
+
+        # Template: AgentDashboardCalendarOverview
+        'in' => '',
+
+        # Template: AgentDashboardRSSOverview
+        'Posted %s ago.' => '',
+
+        # Template: AgentDashboardTicketOverview
+
+        # Template: AgentDashboardTicketStats
+
         # Template: AgentInfo
         'Info' => '',
 
@@ -1189,7 +1244,6 @@ sub Data {
         'Send mail!' => 'Poslat mail!',
 
         # Template: AgentTicketBulk
-        'A message should have a subject!' => 'Zpráva by mìla mít pøedmìt!',
         'You need to account time!' => 'Potøebujete úètovat dobu!',
         'Ticket Bulk Action' => '',
         'Spell Check' => 'Kontrola pravopisu',
@@ -1204,7 +1258,6 @@ sub Data {
 
         # Template: AgentTicketClose
         'Ticket Type is required!' => '',
-        'A message should have a body!' => 'Zpráva by mìla mít tìlo!',
         'A required field is:' => '',
         'Close ticket' => 'Zavøít tiket',
         'Previous Owner' => 'Pøedchozí vlastník',
@@ -1499,15 +1552,15 @@ sub Data {
         'Change roles <-> groups settings' => '',
         'Ticket Number Generator' => 'Generátor èísel tiketù',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identifikátor tiketù. Nekteøí lidé chtìjí nastavit napø. \'Tiket#\',  \'Hovor#\' nebo \'MujTiket#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Create new Phone Ticket' => '',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Symptom' => 'Pøíznak',
         'U' => 'Z-A',
         'Site' => 'Umístìní',
         'Customer history search (e. g. "ID342425").' => 'Vyhledávání historie klienta (napø. "ID342425")',
         'Can not delete link with %s!' => '',
-        'Close!' => 'Zavøít!',
         'for agent firstname' => 'pro køestní jméno agenta',
+        'Close!' => 'Zavøít!',
         'No means, send agent and customer notifications on changes.' => '',
         'A web calendar' => '',
         'to get the realname of the sender (if given)' => 'pro získaní skuteèného jména odesílatele (pokud je zadáno)',
@@ -1554,8 +1607,8 @@ sub Data {
         'to get the first 20 character of the subject' => 'pro získáni prvních 20 znakù z pøedmìtu',
         'Select the customeruser:service relations.' => '',
         'DB Admin Password' => 'Heslo administrátora databáze',
-        'Drop Database' => 'Odstranit databazi',
         'Advisory' => '',
+        'Drop Database' => 'Odstranit databazi',
         'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
         'FileManager' => '',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => '',
@@ -1579,11 +1632,11 @@ sub Data {
         'Parent-Object' => '',
         'Of couse this feature will take some system performance it self!' => '',
         'Ticket Hook' => 'Oznaèení tiketu',
-        'Detail' => '',
         'Your own Ticket' => 'Vá¹ vlastní tiket',
+        'Detail' => '',
         'TicketZoom' => 'Zobrazení tiketu',
-        'Don\'t forget to add a new user to groups!' => 'Nezapomeòte pøidat nového u¾ivatele do skupin!',
         'Open Tickets' => '',
+        'Don\'t forget to add a new user to groups!' => 'Nezapomeòte pøidat nového u¾ivatele do skupin!',
         'CreateTicket' => 'Vytvoøeno Tiketu',
         'You have to select two or more attributes from the select field!' => '',
         'System Settings' => 'Nastavení systému',
@@ -1591,20 +1644,18 @@ sub Data {
         'Finished' => 'Dokonèeno',
         'Account Type' => '',
         'D' => 'A-Z',
-        'All messages' => 'V¹echny zprávy',
         'System Status' => '',
+        'All messages' => 'V¹echny zprávy',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         'Object already linked as %s.' => '',
         'A article should have a title!' => '',
-        'Event' => '',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
-        'All email addresses get excluded on replaying on composing and email.' => '',
         'don\'t accept license' => 'nesouhlasím s licencí',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'A web mail client' => '',
         'Compose Follow up' => 'Sestavit následující',
         'WebMail' => '',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => '',
-        'Name is required!' => '',
         'DB Type' => 'Typ databáze',
         'kill all sessions' => 'Zru¹it v¹echny relace',
         'to get the from line of the email' => 'pro získaní øádku Od z emailu',

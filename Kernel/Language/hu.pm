@@ -5,7 +5,7 @@
 # Copyright (C) 2006 Flora Szabo /szaboflora@magicnet.hu/
 # Copyright (C) 2007 Aron Ujvari <ujvari@hungary.com>
 # --
-# $Id: hu.pm,v 1.64 2009-05-27 07:56:54 tr Exp $
+# $Id: hu.pm,v 1.65 2009-06-08 05:44:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,13 +18,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Apr 20 10:28:55 2009
+    # Last translation file sync: Mon Jun  8 07:33:56 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', ];
@@ -82,6 +82,8 @@ sub Data {
         'Modulefile' => 'Modulfile',
         'Subfunction' => 'Alfunkció',
         'Line' => 'Vonal',
+        'Setting' => '',
+        'Settings' => '',
         'Example' => 'Példa',
         'Examples' => 'Példa',
         'valid' => 'érvényes',
@@ -584,6 +586,10 @@ sub Data {
         'Customer called' => 'Ügyfél telefonált',
         'phone call' => 'telefonhívás',
         'Reminder Reached' => '',
+        'Reminder Tickets' => '',
+        'Escaladed Tickets' => '',
+        'New Tickets' => '',
+        'Open Tickets / Need to be answered' => '',
         'Responses' => 'Válaszok',
         'Responses <-> Queue' => 'Válaszok <-> Várólista',
         'Auto Responses' => 'Automatikus válaszok',
@@ -735,6 +741,20 @@ sub Data {
         'No pending time settings.' => 'Nincsenek várakozási idõ beállítások.',
         'Ticket pending time reached' => 'Várakozási idõ letelt',
         'Ticket pending time reached between' => 'Várakozási idõ letelt idõpontok között:',
+        'Escalation Times' => '',
+        'No escalation time settings.' => '',
+        'Ticket escalation time reached' => '',
+        'Ticket escalation time reached between' => '',
+        'Escalation - First Response Time' => 'Kiemelés - Elsõ válasz ideje',
+        'No escalation time settings.' => '',
+        'Ticket first response time reached' => '',
+        'Ticket first response time reached between' => '',
+        'Escalation - Update Time' => 'Kiemelés - Frissítés ideje',
+        'Ticket update time reached' => '',
+        'Ticket update time reached between' => '',
+        'Escalation - Solution Time' => 'Kiemelés - Megoldás ideje',
+        'Ticket solution time reached' => '',
+        'Ticket solution time reached between' => '',
         'New Service' => '',
         'New SLA' => '',
         'New Priority' => 'Új prioritás',
@@ -790,10 +810,34 @@ sub Data {
         'Groups' => 'Csoportok',
         'Misc' => 'Egyéb',
 
-        # Template: AdminNotificationForm
+        # Template: AdminNotificationEventForm
         'Notification Management' => 'Értesítéskezelés',
-        'Notification' => 'Értesítés',
+        'Add Notification' => '',
+        'Add a new Notification.' => '',
+        'Name is required!' => 'A nevet meg kell adni!',
+        'Event is required!' => '',
+        'A message should have a subject!' => 'Egy üzenetnek kell legyen tárgya!',
+        'A message should have a body!' => 'Egy üzenetnek kell legyen törzse!',
+        'Recipient' => '',
+        'Group based' => '',
+        'Recipient' => '',
+        'Agent based' => '',
+        'Email based' => '',
+        'Event' => 'Esemény',
+        'Article Type' => '',
+        'Only for ArticleCreate Event.' => '',
+        'Subject match' => '',
+        'Only for ArticleCreate Event.' => '',
+        'Body match' => '',
         'Notifications are sent to an agent or a customer.' => 'Az értesítések ügyintézõnek vagy ügyfélnek kerülnek elküldésre.',
+        'To get the first 20 character of the subject (of the latest agent article).' => '',
+        'To get the first 5 lines of the body (of the latest agent article).' => '',
+        'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' => '',
+        'To get the first 20 character of the subject (of the latest customer article).' => '',
+        'To get the first 5 lines of the body (of the latest customer article).' => '',
+
+        # Template: AdminNotificationForm
+        'Notification' => 'Értesítés',
 
         # Template: AdminPackageManager
         'Package Manager' => 'Csomagkezelõ',
@@ -881,17 +925,11 @@ sub Data {
         'Unlock timeout' => 'Feloldási idõtúllépés',
         '0 = no unlock' => '0 = nincs feloldás',
         'Only business hours are counted.' => '',
-        'Escalation - First Response Time' => 'Kiemelés - Elsõ válasz ideje',
         '0 = no escalation' => '0 = nincs kiemelés',
         'Notify by' => '',
-        'Escalation - Update Time' => 'Kiemelés - Frissítés ideje',
-        'Escalation - Solution Time' => 'Kiemelés - Megoldás ideje',
         'Follow up Option' => 'Válasz kezelése',
         'Ticket lock after a follow up' => 'Jegy zárolása válasz érkezése után.',
         'Systemaddress' => 'Rendszercím',
-        'Customer Move Notify' => 'Ügyfél értesítése mozgatáskor',
-        'Customer State Notify' => 'Ügyfél értesítése állapotváltozáskor',
-        'Customer Owner Notify' => 'Ügyfél értesítése tulajdonosváltáskor',
         'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Ha az ügyintézõ zárolja a jegyet és nem küld választ ezen idõn belül, a jegy zárolása megszûnik. Így a jegy látható lesz minden ügyintézõnek.',
         'Escalation time' => 'Kiemelési idõ',
         'If a ticket will not be answered in this time, just only this ticket will be shown.' => 'Ha a jegy nem kerül megválaszolásra a megadott idõn belül, csak ez a jegy lesz megjelenítve.',
@@ -899,8 +937,11 @@ sub Data {
         'Will be the sender address of this queue for email answers.' => 'Ennél a várólistánál ez lesz a feladó e-mail válaszokhoz.',
         'The salutation for email answers.' => 'A megszólítás az e-mail válaszokhoz.',
         'The signature for email answers.' => 'Az aláírás a válasz e-mailekhez.',
+        'Customer Move Notify' => 'Ügyfél értesítése mozgatáskor',
         'OTRS sends an notification email to the customer if the ticket is moved.' => 'Az OTRS értesítõ levelet küld az ügyfélnek ha a jegy áthelyezésre került.',
+        'Customer State Notify' => 'Ügyfél értesítése állapotváltozáskor',
         'OTRS sends an notification email to the customer if the ticket state has changed.' => 'Az OTRS értesítõ levelet küld az ügyfélnek ha a jegy állapota megváltozott.',
+        'Customer Owner Notify' => 'Ügyfél értesítése tulajdonosváltáskor',
         'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'Az OTRS értesítõ levelet küld az ügyfélnek ha a jegy tulajdonosa megváltozott.',
 
         # Template: AdminQueueResponsesChangeForm
@@ -1072,6 +1113,20 @@ sub Data {
 
         # Template: AgentCustomerTableView
 
+        # Template: AgentDashboard
+        'Dashboard' => '',
+        'Settings' => '',
+
+        # Template: AgentDashboardCalendarOverview
+        'in' => '',
+
+        # Template: AgentDashboardRSSOverview
+        'Posted %s ago.' => '',
+
+        # Template: AgentDashboardTicketOverview
+
+        # Template: AgentDashboardTicketStats
+
         # Template: AgentInfo
         'Info' => 'Info',
 
@@ -1191,7 +1246,6 @@ sub Data {
         'Send mail!' => 'E-mail küldése!',
 
         # Template: AgentTicketBulk
-        'A message should have a subject!' => 'Egy üzenetnek kell legyen tárgya!',
         'You need to account time!' => 'El kell számolnia az idõvel!',
         'Ticket Bulk Action' => 'Csoportos jegy-mûvelet',
         'Spell Check' => 'Helyesírásellenõrzés',
@@ -1206,7 +1260,6 @@ sub Data {
 
         # Template: AgentTicketClose
         'Ticket Type is required!' => '',
-        'A message should have a body!' => 'Egy üzenetnek kell legyen törzse!',
         'A required field is:' => '',
         'Close ticket' => 'Jegy lezárása',
         'Previous Owner' => 'Korábbi tulajdonos',
@@ -1502,15 +1555,15 @@ sub Data {
         'File-Name' => '',
         'Ticket Number Generator' => 'Jegy sorszám generátor',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Jegy azonosítás. pl. \'Jegy#\', \'Hívó#\' vagy \'Jegyem#\')',
-        'Create new Phone Ticket' => 'Új telefon jegy létrehozása',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Íly módon közvetlenül szerkesztheti a Kernel/Config.pm-ben beállított kulcskarikát.',
+        'Create new Phone Ticket' => 'Új telefon jegy létrehozása',
         'U' => 'A',
         'Site' => 'Gép',
         'Reset of unlock time.' => 'Feloldási idõ nullázása.',
         'Customer history search (e. g. "ID342425").' => 'Keresés az ügyfél történetében (pl. "ID342425").',
         'Can not delete link with %s!' => '',
-        'for agent firstname' => 'ügyintézõ keresztnévhez',
         'Close!' => 'Lezár!',
+        'for agent firstname' => 'ügyintézõ keresztnévhez',
         'Reporter' => '',
         'Process-Path' => '',
         'No means, send agent and customer notifications on changes.' => 'Nem esetén mind az ügyintézõnek, mind az ügyfélnek küld értesítéseket a változásokról.',
@@ -1557,8 +1610,8 @@ sub Data {
         'Load' => 'Betöltés',
         'Change Time' => 'Idõ megváltoztatása',
         'PostMaster Filter' => 'Levelezési szûrõk',
-        'PostMaster POP3 Account' => 'Levelezési fiókok (POP3)',
         'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
+        'PostMaster POP3 Account' => 'Levelezési fiókok (POP3)',
         'Message for new Owner' => 'Üzenet az új tulajdonosnak',
         'to get the first 5 lines of the email' => 'hogy megkapja az elsõ 5 sort az e-mailbõl',
         'Sort by' => 'Rendezés így',
@@ -1596,11 +1649,11 @@ sub Data {
         'Reminder messages' => 'Emlékeztetõ üzenetek',
         'Parent-Object' => 'Szülõ objektum',
         'Of couse this feature will take some system performance it self!' => 'Természetesen ez a képesség maga is befolyásolja a rendszer teljesítményét!',
-        'Detail' => 'Részletek',
         'Your own Ticket' => 'Az ön saját jegye',
+        'Detail' => 'Részletek',
         'TicketZoom' => 'JegyRészletek',
-        'Don\'t forget to add a new user to groups!' => 'Ne felejtsen el új felhasználót hozzáadni a csoportokhoz!',
         'Open Tickets' => 'Jegyek megnyitása',
+        'Don\'t forget to add a new user to groups!' => 'Ne felejtsen el új felhasználót hozzáadni a csoportokhoz!',
         'CreateTicket' => 'JegyLétrehozás',
         'You have to select two or more attributes from the select field!' => 'Legalább két értéket válasszon ki a mezõben!',
         'unknown' => 'ismeretlen',
@@ -1609,13 +1662,12 @@ sub Data {
         'Imported' => '',
         'unread' => 'olvasatlan',
         'D' => 'Z',
-        'All messages' => 'Minden üzenet',
         'System Status' => 'Rendszer állapota',
+        'All messages' => 'Minden üzenet',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'A jegy adatai (pl.  <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => '',
         'A article should have a title!' => 'Egy bejegyzésnek kell legyen címe!',
         'Customer Users <-> Services' => 'Ügyfél felhasználók <-> Szolgáltatások',
-        'Event' => 'Esemény',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Konfigurációs értékek (pl. &lt;OTRS_CONFIG_HttpType&gt;)',
         'All email addresses get excluded on replaying on composing and email.' => '',
         'Compose Follow up' => 'Válasz írása',
@@ -1624,7 +1676,6 @@ sub Data {
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Jegy tulajdonos opciók (pl. <OTRS_OWNER_UserFirstname>)',
         'read' => 'olvasott',
         'Product' => 'Termék',
-        'Name is required!' => 'A nevet meg kell adni!',
         'kill all sessions' => 'Minden eljárás kilövése',
         'to get the from line of the email' => 'hogy megkapja a feladót az e-mailbõl',
         'Solution' => 'Megoldás',

@@ -2,7 +2,7 @@
 # Kernel/Language/vi_VN.pm - provides vi_VN language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: vi_VN.pm,v 1.22 2009-05-27 07:56:54 tr Exp $
+# $Id: vi_VN.pm,v 1.23 2009-06-08 05:44:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Apr 20 10:29:36 2009
+    # Last translation file sync: Mon Jun  8 07:35:03 2009
 
     # possible charsets
     $Self->{Charset} = ['viscii', ];
@@ -78,6 +78,8 @@ sub Data {
         'Modulefile' => 'File mô ðun',
         'Subfunction' => 'ChÑc nång con',
         'Line' => 'Dòng',
+        'Setting' => '',
+        'Settings' => '',
         'Example' => 'Ví dø',
         'Examples' => 'Các ví dø',
         'valid' => 'Hþp l®',
@@ -580,6 +582,10 @@ sub Data {
         'Customer called' => 'Khách hàng ðßþc g÷i',
         'phone call' => 'cuµc g÷i',
         'Reminder Reached' => '',
+        'Reminder Tickets' => '',
+        'Escaladed Tickets' => '',
+        'New Tickets' => '',
+        'Open Tickets / Need to be answered' => '',
         'Responses' => 'Các trä l¶i',
         'Responses <-> Queue' => 'Các trä l¶i <-> Hàng ðþi',
         'Auto Responses' => 'Các trä l¶i tñ ðµng',
@@ -731,6 +737,20 @@ sub Data {
         'No pending time settings.' => 'Không có thiªt ð£t l¥n treo',
         'Ticket pending time reached' => 'L¥n treo thë ðã ðÕt t¾i',
         'Ticket pending time reached between' => 'L¥n treo thë ðã ðÕt t¾i giæa',
+        'Escalation Times' => '',
+        'No escalation time settings.' => '',
+        'Ticket escalation time reached' => '',
+        'Ticket escalation time reached between' => '',
+        'Escalation - First Response Time' => 'Tiªp tøc - Th¶i gian phän h°i ð¥u tiên',
+        'No escalation time settings.' => '',
+        'Ticket first response time reached' => '',
+        'Ticket first response time reached between' => '',
+        'Escalation - Update Time' => 'Tiªp tøc - Th¶i gian c§p nh§t',
+        'Ticket update time reached' => '',
+        'Ticket update time reached between' => '',
+        'Escalation - Solution Time' => 'Tiªp tøc - Th¶i gian giäi pháp',
+        'Ticket solution time reached' => '',
+        'Ticket solution time reached between' => '',
         'New Service' => '',
         'New SLA' => '',
         'New Priority' => '¿u tiên m¾i',
@@ -786,10 +806,34 @@ sub Data {
         'Groups' => 'Nhóm',
         'Misc' => 'Khác',
 
-        # Template: AdminNotificationForm
+        # Template: AdminNotificationEventForm
         'Notification Management' => 'Quän tr¸ thông báo',
-        'Notification' => 'Thông báo',
+        'Add Notification' => '',
+        'Add a new Notification.' => '',
+        'Name is required!' => 'Tên ðßþc yêu c¥u!',
+        'Event is required!' => '',
+        'A message should have a subject!' => 'Thß nên có tiêu ð«!',
+        'A message should have a body!' => 'Tin nh¡n nên có nµi dung!',
+        'Recipient' => '',
+        'Group based' => '',
+        'Recipient' => '',
+        'Agent based' => '',
+        'Email based' => '',
+        'Event' => 'Sñ ki®n',
+        'Article Type' => '',
+        'Only for ArticleCreate Event.' => '',
+        'Subject match' => '',
+        'Only for ArticleCreate Event.' => '',
+        'Body match' => '',
         'Notifications are sent to an agent or a customer.' => 'Các thông báo ðã ðßþc gØi t¾i 1 nhân viên ho£c khách hàng.',
+        'To get the first 20 character of the subject (of the latest agent article).' => '',
+        'To get the first 5 lines of the body (of the latest agent article).' => '',
+        'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' => '',
+        'To get the first 20 character of the subject (of the latest customer article).' => '',
+        'To get the first 5 lines of the body (of the latest customer article).' => '',
+
+        # Template: AdminNotificationForm
+        'Notification' => 'Thông báo',
 
         # Template: AdminPackageManager
         'Package Manager' => 'Quän tr¸ gói',
@@ -877,17 +921,11 @@ sub Data {
         'Unlock timeout' => 'Th¶i gian ch¶ m· khóa',
         '0 = no unlock' => '0 = không m· khóa',
         'Only business hours are counted.' => '',
-        'Escalation - First Response Time' => 'Tiªp tøc - Th¶i gian phän h°i ð¥u tiên',
         '0 = no escalation' => '0 = không tiªp tøc',
         'Notify by' => '',
-        'Escalation - Update Time' => 'Tiªp tøc - Th¶i gian c§p nh§t',
-        'Escalation - Solution Time' => 'Tiªp tøc - Th¶i gian giäi pháp',
         'Follow up Option' => 'Theo dõi tùy ch÷n',
         'Ticket lock after a follow up' => 'Khóa thë sau khi theo dõi',
         'Systemaddress' => 'Ð¸a chï h® th¯ng',
-        'Customer Move Notify' => 'Thông báo chuy¬n khách hàng',
-        'Customer State Notify' => 'Thông báo trÕng thái khách hàng',
-        'Customer Owner Notify' => 'Thông báo phø trách khách hàng',
         'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Nªu 1 nhân viên khóa thë và h÷ không gØi trä l¶i trong th¶i gian này, thë s¨ ðßþc tñ ðµng m· khóa. Do v§y t¤t cä các nhân viên khác ð«u có th¬ nhìn th¤y thë ðó.',
         'Escalation time' => 'Th¶i gian tiªp tøc',
         'If a ticket will not be answered in this time, just only this ticket will be shown.' => 'Nªu mµt thë không ðßþc trä l¶i trong th¶i gian này, chï duy nh¤t thë này s¨ ðßþc hi¬n th¸.',
@@ -895,8 +933,11 @@ sub Data {
         'Will be the sender address of this queue for email answers.' => 'S¨ là ð¸a chï ngß¶i gØi cüa hàng ðþi này cho các email trä l¶i.',
         'The salutation for email answers.' => 'L¶i chào cho các email trä l¶i.',
         'The signature for email answers.' => 'Chæ ký cho các email trä l¶i.',
+        'Customer Move Notify' => 'Thông báo chuy¬n khách hàng',
         'OTRS sends an notification email to the customer if the ticket is moved.' => 'OTRS gØi mµt email thông báo t¾i khách hàng nªu thë ðßþc chuy¬n.',
+        'Customer State Notify' => 'Thông báo trÕng thái khách hàng',
         'OTRS sends an notification email to the customer if the ticket state has changed.' => 'OTRS gØi mµt email thông báo t¾i khách hàng nªu trÕng thái thë thay ð±i.',
+        'Customer Owner Notify' => 'Thông báo phø trách khách hàng',
         'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'OTRS gØi mµt email thông báo t¾i khách hàng nªu phø trách thë thay ð±i.',
 
         # Template: AdminQueueResponsesChangeForm
@@ -1068,6 +1109,20 @@ sub Data {
 
         # Template: AgentCustomerTableView
 
+        # Template: AgentDashboard
+        'Dashboard' => '',
+        'Settings' => '',
+
+        # Template: AgentDashboardCalendarOverview
+        'in' => '',
+
+        # Template: AgentDashboardRSSOverview
+        'Posted %s ago.' => '',
+
+        # Template: AgentDashboardTicketOverview
+
+        # Template: AgentDashboardTicketStats
+
         # Template: AgentInfo
         'Info' => 'Thông tin',
 
@@ -1187,7 +1242,6 @@ sub Data {
         'Send mail!' => 'GØi mail!',
 
         # Template: AgentTicketBulk
-        'A message should have a subject!' => 'Thß nên có tiêu ð«!',
         'You need to account time!' => 'BÕn c¥n t¾i th¶i gian tài khoän!',
         'Ticket Bulk Action' => 'L®nh lô trên thë',
         'Spell Check' => 'Ki¬m tra chính tä',
@@ -1202,7 +1256,6 @@ sub Data {
 
         # Template: AgentTicketClose
         'Ticket Type is required!' => '',
-        'A message should have a body!' => 'Tin nh¡n nên có nµi dung!',
         'A required field is:' => '',
         'Close ticket' => 'Ðóng thë',
         'Previous Owner' => 'Phø trách trß¾c',
@@ -1497,15 +1550,15 @@ sub Data {
         'File-Name' => 'Tên file',
         'Ticket Number Generator' => 'H® sinh s¯ thë',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Nh§n dÕng thë. Mµt s¯ ngß¶i mu¯n thiªt ð£t ði«u này thành ví dø nhß \'Ticket#\', \'Call#\' ho£c \'MyTicket#\')',
-        'Create new Phone Ticket' => 'TÕo thë cuµc g÷i m¾i',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Theo cách này bÕn có th¬ sØa trñc tiªp c¤u hình khóa trong Kernel/Config.pm',
+        'Create new Phone Ticket' => 'TÕo thë cuµc g÷i m¾i',
         'U' => 'U',
         'Site' => 'Site',
         'Customer history search (e. g. "ID342425").' => 'Tìm kiªm l¸ch sØ khách hàng (ví dø: "ID342425").',
         'your MySQL DB should have a root password! Default is empty!' => 'C½ s· dæ li®u MySQL cüa bÕn nên có m§t kh¦u g¯c! M£c ð¸nh là ð¬ tr¯ng!',
         'Can not delete link with %s!' => '',
-        'for agent firstname' => 'cho h÷ (tên) cüa nhân viên',
         'Close!' => 'Ðóng!',
+        'for agent firstname' => 'cho h÷ (tên) cüa nhân viên',
         'Reporter' => 'Ngß¶i báo cáo',
         'Process-Path' => 'Ðß¶ng dçn quy trình',
         'No means, send agent and customer notifications on changes.' => 'Không, nghîa là, gØi thông báo cho nhân viên và khách hàng v« các thay ð±i.',
@@ -1584,11 +1637,11 @@ sub Data {
         'Reminder messages' => 'Tin nh¡n nh¡c nh·',
         'Parent-Object' => 'Ð¯i tßþng cha',
         'Of couse this feature will take some system performance it self!' => 'T¤t nhiên tính nång này s¨ tñ thñc thi h® th¯ng.',
-        'Detail' => 'Chi tiªt',
         'Your own Ticket' => 'Thë cüa bÕn',
+        'Detail' => 'Chi tiªt',
         'TicketZoom' => 'Phóng ðÕi thë',
-        'Don\'t forget to add a new user to groups!' => 'Ð×ng quên b± sung mµt ngß¶i dùng m¾i vào nhóm!',
         'Open Tickets' => 'M· thë',
+        'Don\'t forget to add a new user to groups!' => 'Ð×ng quên b± sung mµt ngß¶i dùng m¾i vào nhóm!',
         'CreateTicket' => 'TÕo thë',
         'You have to select two or more attributes from the select field!' => 'BÕn phäi ch÷n 2 hay nhi«u thuµc tính t× trß¶ng ðã ch÷n!',
         'unknown' => 'chßa xác ð¸nh',
@@ -1597,13 +1650,12 @@ sub Data {
         'Imported' => 'Nh§p',
         'unread' => 'chßa ð÷c',
         'D' => 'D',
-        'All messages' => 'T¤t cä tin nh¡n',
         'System Status' => 'TrÕng thái h® th¯ng',
+        'All messages' => 'T¤t cä tin nh¡n',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Các tùy ch÷n cüa dæ li®u thë (ví dø: <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => '',
         'A article should have a title!' => 'Bài viªt nên có tiêu ð«!',
         'Customer Users <-> Services' => 'Ngß¶i dùng khách hàng <-> D¸ch vø',
-        'Event' => 'Sñ ki®n',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Các tùy ch÷n c¤u hình (ví dø: &lt;OTRS_CONFIG_HttpType&gt;)',
         'All email addresses get excluded on replaying on composing and email.' => '',
         'Compose Follow up' => 'SoÕn theo dõi',
@@ -1611,7 +1663,6 @@ sub Data {
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Các tùy ch÷n chü thë (ví dø <OTRS_OWNER_UserFirstname>)',
         'read' => 'ð÷c',
         'Product' => 'Sän ph¦m',
-        'Name is required!' => 'Tên ðßþc yêu c¥u!',
         'kill all sessions' => 'xóa t¤t cä các phiên',
         'to get the from line of the email' => 'ð¬ l¤y t× dòng email',
         'Solution' => 'Giäi pháp',

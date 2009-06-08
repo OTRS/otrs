@@ -2,7 +2,7 @@
 # Kernel/Language/pl.pm - provides pl language translation
 # Copyright (C) 2007 Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.74 2009-05-27 07:56:54 tr Exp $
+# $Id: pl.pm,v 1.75 2009-06-08 05:44:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.74 $) [1];
+$VERSION = qw($Revision: 1.75 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Apr 20 10:29:10 2009
+    # Last translation file sync: Mon Jun  8 07:34:32 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', ];
@@ -79,6 +79,8 @@ sub Data {
         'Modulefile' => 'Plik Modu³u',
         'Subfunction' => 'Funkcja podrzêdna',
         'Line' => 'Linia',
+        'Setting' => '',
+        'Settings' => '',
         'Example' => 'Przyk³ad',
         'Examples' => 'Przyk³ady',
         'valid' => 'poprawne',
@@ -581,6 +583,10 @@ sub Data {
         'Customer called' => '',
         'phone call' => '',
         'Reminder Reached' => '',
+        'Reminder Tickets' => '',
+        'Escaladed Tickets' => '',
+        'New Tickets' => '',
+        'Open Tickets / Need to be answered' => '',
         'Responses' => 'Odpowiedzi',
         'Responses <-> Queue' => '',
         'Auto Responses' => '',
@@ -732,6 +738,20 @@ sub Data {
         'No pending time settings.' => '',
         'Ticket pending time reached' => '',
         'Ticket pending time reached between' => '',
+        'Escalation Times' => '',
+        'No escalation time settings.' => '',
+        'Ticket escalation time reached' => '',
+        'Ticket escalation time reached between' => '',
+        'Escalation - First Response Time' => '',
+        'No escalation time settings.' => '',
+        'Ticket first response time reached' => '',
+        'Ticket first response time reached between' => '',
+        'Escalation - Update Time' => '',
+        'Ticket update time reached' => '',
+        'Ticket update time reached between' => '',
+        'Escalation - Solution Time' => '',
+        'Ticket solution time reached' => '',
+        'Ticket solution time reached between' => '',
         'New Service' => '',
         'New SLA' => '',
         'New Priority' => '',
@@ -787,10 +807,34 @@ sub Data {
         'Groups' => 'Grupy',
         'Misc' => 'Ró¿ne',
 
-        # Template: AdminNotificationForm
+        # Template: AdminNotificationEventForm
         'Notification Management' => 'Konfiguracja Powiadomieñ',
-        'Notification' => '',
+        'Add Notification' => '',
+        'Add a new Notification.' => '',
+        'Name is required!' => '',
+        'Event is required!' => '',
+        'A message should have a subject!' => 'Wiadomosc powinna posiadaæ temat!',
+        'A message should have a body!' => 'Wiadomo¶æ powinna zawieraæ jak±¶ tre¶æ!',
+        'Recipient' => '',
+        'Group based' => '',
+        'Recipient' => '',
+        'Agent based' => '',
+        'Email based' => '',
+        'Event' => '',
+        'Article Type' => '',
+        'Only for ArticleCreate Event.' => '',
+        'Subject match' => '',
+        'Only for ArticleCreate Event.' => '',
+        'Body match' => '',
         'Notifications are sent to an agent or a customer.' => 'Powiadomienia s± wysy³ane do agenta obs³ugi lub klienta',
+        'To get the first 20 character of the subject (of the latest agent article).' => '',
+        'To get the first 5 lines of the body (of the latest agent article).' => '',
+        'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' => '',
+        'To get the first 20 character of the subject (of the latest customer article).' => '',
+        'To get the first 5 lines of the body (of the latest customer article).' => '',
+
+        # Template: AdminNotificationForm
+        'Notification' => '',
 
         # Template: AdminPackageManager
         'Package Manager' => '',
@@ -878,17 +922,11 @@ sub Data {
         'Unlock timeout' => 'Limit czasowy odblokowania',
         '0 = no unlock' => '0 = bez odblokowania',
         'Only business hours are counted.' => '',
-        'Escalation - First Response Time' => '',
         '0 = no escalation' => '0 = brak eskalacji',
         'Notify by' => '',
-        'Escalation - Update Time' => '',
-        'Escalation - Solution Time' => '',
         'Follow up Option' => 'Opcja Follow Up',
         'Ticket lock after a follow up' => 'Zg³oszenie zablokowane po odpowiedzi (Follow Up)',
         'Systemaddress' => 'Adres systemowy',
-        'Customer Move Notify' => 'Powiadomienie klienta o przesuniêciu',
-        'Customer State Notify' => 'Powiadomienie klienta o zmianie statusu',
-        'Customer Owner Notify' => 'Powiadomienie klienta o zmianie w³a¶ciciela',
         'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Je¶li agent zablokuje zg³oszenie, a nastêpnie nie odpowie na nie w ci±gu wskazanego czasu, wtedy zg³oszenie zostanie automatycznie odblokowane. Dziêki temu pozostali agenci bêd± mogli je zobaczyæ.',
         'Escalation time' => 'Czas eskalacji',
         'If a ticket will not be answered in this time, just only this ticket will be shown.' => 'Je¶li, w podanym czasie, nie zostanie udzielona odpowied¼ na zg³oszenie, wtedy tylko to zg³oszenie bêdzie widoczne w kolejce.',
@@ -896,8 +934,11 @@ sub Data {
         'Will be the sender address of this queue for email answers.' => 'Bêdzie adresem nadawcy odpowiedzi emailowych wysy³anych z tej kolejki.',
         'The salutation for email answers.' => 'Zwrot grzeczno¶ciowy dla odpowiedzi emailowych.',
         'The signature for email answers.' => 'Podpis dla odpowiedzi emailowych.',
+        'Customer Move Notify' => 'Powiadomienie klienta o przesuniêciu',
         'OTRS sends an notification email to the customer if the ticket is moved.' => 'System wy¶le powiadomienie do klienta, gdy zg³oszenie zostanie przesuniête do innej kolejki.',
+        'Customer State Notify' => 'Powiadomienie klienta o zmianie statusu',
         'OTRS sends an notification email to the customer if the ticket state has changed.' => 'System wy¶le powiadomienie do klienta, gdy zmieni sie status zg³oszenia.',
+        'Customer Owner Notify' => 'Powiadomienie klienta o zmianie w³a¶ciciela',
         'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'System wy¶le powiadomienie do klienta, gdy zmieni sie w³a¶ciciel zg³oszenia.',
 
         # Template: AdminQueueResponsesChangeForm
@@ -1069,6 +1110,20 @@ sub Data {
 
         # Template: AgentCustomerTableView
 
+        # Template: AgentDashboard
+        'Dashboard' => '',
+        'Settings' => '',
+
+        # Template: AgentDashboardCalendarOverview
+        'in' => '',
+
+        # Template: AgentDashboardRSSOverview
+        'Posted %s ago.' => '',
+
+        # Template: AgentDashboardTicketOverview
+
+        # Template: AgentDashboardTicketStats
+
         # Template: AgentInfo
         'Info' => '',
 
@@ -1188,7 +1243,6 @@ sub Data {
         'Send mail!' => 'Wy¶lij wiadomo¶æ!',
 
         # Template: AgentTicketBulk
-        'A message should have a subject!' => 'Wiadomosc powinna posiadaæ temat!',
         'You need to account time!' => 'Musisz zaraportowaæ czas!',
         'Ticket Bulk Action' => '',
         'Spell Check' => 'Sprawd¼ poprawno¶æ',
@@ -1203,7 +1257,6 @@ sub Data {
 
         # Template: AgentTicketClose
         'Ticket Type is required!' => '',
-        'A message should have a body!' => 'Wiadomo¶æ powinna zawieraæ jak±¶ tre¶æ!',
         'A required field is:' => '',
         'Close ticket' => 'Zamknij zg³oszenie',
         'Previous Owner' => 'Poprzedni w³a¶ciciel',
@@ -1498,15 +1551,15 @@ sub Data {
         'DB Host' => 'Host bazy danych',
         'Ticket Number Generator' => 'Generator numerów zg³oszeñ',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identyfikator zg³oszenia. np. \'Ticket#\', \'Call#\' lub \'MyTicket#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Create new Phone Ticket' => '',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Symptom' => 'Objawy',
         'U' => 'G',
         'Site' => 'Witryna',
         'Customer history search (e. g. "ID342425").' => 'Przeszukiwanie historii klienta (np. "ID342425").',
         'Can not delete link with %s!' => '',
-        'Close!' => 'Zamknij!',
         'for agent firstname' => 'dla imienia agenta',
+        'Close!' => 'Zamknij!',
         'No means, send agent and customer notifications on changes.' => '',
         'A web calendar' => '',
         'to get the realname of the sender (if given)' => 'by wstawiæ prawdziwe imiê i nazwisko klienta (je¶li podano)',
@@ -1572,11 +1625,11 @@ sub Data {
         'Parent-Object' => '',
         'Of couse this feature will take some system performance it self!' => '',
         'Ticket Hook' => 'Identyfikator zg³oszenia',
-        'Detail' => '',
         'Your own Ticket' => 'Twoje w³asne zg³oszenie',
+        'Detail' => '',
         'TicketZoom' => 'Podgl±d zg³oszenia',
-        'Don\'t forget to add a new user to groups!' => 'Nie zapomnij dodaæ u¿ytkownika do grup!',
         'Open Tickets' => '',
+        'Don\'t forget to add a new user to groups!' => 'Nie zapomnij dodaæ u¿ytkownika do grup!',
         'You have to select two or more attributes from the select field!' => '',
         'System Settings' => 'Ustawienia systemu',
         'WebWatcher' => '',
@@ -1586,15 +1639,13 @@ sub Data {
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         'Object already linked as %s.' => '',
         'A article should have a title!' => '',
-        'Event' => '',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
-        'All email addresses get excluded on replaying on composing and email.' => '',
         'don\'t accept license' => 'nie akceptujê Licencji',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'A web mail client' => '',
         'Compose Follow up' => 'Napisz Odpowied¼ (Follow Up)',
         'WebMail' => '',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Opcje dotycz±ce w³a¶ciciela zg³oszenia (np. <OTRS_OWNER_UserFirstname>)',
-        'Name is required!' => '',
         'DB Type' => 'Typ bazy danych',
         'kill all sessions' => 'Zamknij wszystkie sesje',
         'to get the from line of the email' => 'by wstawiæ pole Od wiadomo¶ci',

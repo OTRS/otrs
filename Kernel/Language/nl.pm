@@ -6,7 +6,7 @@
 # Copyright (C) 2005-2007 Jurgen Rutgers <jurgen 'at' besite.nl>
 # Copyright (C) 2005-2007 Richard Hinkamp <richard 'at' besite.nl>
 # --
-# $Id: nl.pm,v 1.90 2009-05-27 07:56:54 tr Exp $
+# $Id: nl.pm,v 1.91 2009-06-08 05:44:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,13 +29,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.90 $) [1];
+$VERSION = qw($Revision: 1.91 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Apr 20 10:29:07 2009
+    # Last translation file sync: Mon Jun  8 07:34:15 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -93,6 +93,8 @@ sub Data {
         'Modulefile' => 'Modulebestand',
         'Subfunction' => 'Sub-functie',
         'Line' => 'Regel',
+        'Setting' => '',
+        'Settings' => '',
         'Example' => 'Voorbeeld',
         'Examples' => 'Voorbeelden',
         'valid' => 'geldig',
@@ -595,6 +597,10 @@ sub Data {
         'Customer called' => 'Klant gebeld',
         'phone call' => 'telefoongesprek',
         'Reminder Reached' => '',
+        'Reminder Tickets' => '',
+        'Escaladed Tickets' => '',
+        'New Tickets' => '',
+        'Open Tickets / Need to be answered' => '',
         'Responses' => 'Antwoorden.',
         'Responses <-> Queue' => 'Antwoorden <-> Wachtrijen',
         'Auto Responses' => 'Automatische beantwoordingen',
@@ -746,6 +752,20 @@ sub Data {
         'No pending time settings.' => 'Geen wachtende tijd instellingen',
         'Ticket pending time reached' => 'Ticket wachtende tijd bereikt',
         'Ticket pending time reached between' => 'Ticket wachtende tijd tussen',
+        'Escalation Times' => '',
+        'No escalation time settings.' => '',
+        'Ticket escalation time reached' => '',
+        'Ticket escalation time reached between' => '',
+        'Escalation - First Response Time' => '',
+        'No escalation time settings.' => '',
+        'Ticket first response time reached' => '',
+        'Ticket first response time reached between' => '',
+        'Escalation - Update Time' => '',
+        'Ticket update time reached' => '',
+        'Ticket update time reached between' => '',
+        'Escalation - Solution Time' => '',
+        'Ticket solution time reached' => '',
+        'Ticket solution time reached between' => '',
         'New Service' => '',
         'New SLA' => '',
         'New Priority' => 'Nieuwe prioriteit',
@@ -801,10 +821,34 @@ sub Data {
         'Groups' => 'Groepen',
         'Misc' => 'Overige',
 
-        # Template: AdminNotificationForm
+        # Template: AdminNotificationEventForm
         'Notification Management' => 'Meldingen beheer',
-        'Notification' => 'Melding',
+        'Add Notification' => '',
+        'Add a new Notification.' => '',
+        'Name is required!' => 'Naam is verplicht!',
+        'Event is required!' => '',
+        'A message should have a subject!' => 'Een bericht moet een onderwerp hebben!',
+        'A message should have a body!' => 'Een bericht moet een berichttekst hebben!',
+        'Recipient' => '',
+        'Group based' => '',
+        'Recipient' => '',
+        'Agent based' => '',
+        'Email based' => '',
+        'Event' => '',
+        'Article Type' => '',
+        'Only for ArticleCreate Event.' => '',
+        'Subject match' => '',
+        'Only for ArticleCreate Event.' => '',
+        'Body match' => '',
         'Notifications are sent to an agent or a customer.' => 'Meldingen worden verstuurd naar een agent of een klant',
+        'To get the first 20 character of the subject (of the latest agent article).' => '',
+        'To get the first 5 lines of the body (of the latest agent article).' => '',
+        'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' => '',
+        'To get the first 20 character of the subject (of the latest customer article).' => '',
+        'To get the first 5 lines of the body (of the latest customer article).' => '',
+
+        # Template: AdminNotificationForm
+        'Notification' => 'Melding',
 
         # Template: AdminPackageManager
         'Package Manager' => '',
@@ -892,17 +936,11 @@ sub Data {
         'Unlock timeout' => 'Ontgrendel tijdsoverschrijding',
         '0 = no unlock' => '0 = geen ontgrendeling',
         'Only business hours are counted.' => '',
-        'Escalation - First Response Time' => '',
         '0 = no escalation' => '0 = geen escalatie',
         'Notify by' => '',
-        'Escalation - Update Time' => '',
-        'Escalation - Solution Time' => '',
         'Follow up Option' => 'Follow up optie',
         'Ticket lock after a follow up' => 'Ticket-vergrendeling na een follow up',
         'Systemaddress' => 'Systeem-adres',
-        'Customer Move Notify' => 'Klant notificatie bij verplaatsen',
-        'Customer State Notify' => 'Klant notificatie andere status',
-        'Customer Owner Notify' => 'Klant notificatie andere eigenaar',
         'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Wanneer een agent een ticket vergrendelt en hij/zij stuurt geen antwoord binnen de vergrendel tijd dan zal het ticket automatisch ontgrendeld worden. Het ticket kan dan door andere agenten worden ingezien.',
         'Escalation time' => 'Escalatietijd',
         'If a ticket will not be answered in this time, just only this ticket will be shown.' => 'Als een ticket niet binnen deze tijd is beantwoord zal alleen dit ticket worden getoond.',
@@ -910,8 +948,11 @@ sub Data {
         'Will be the sender address of this queue for email answers.' => 'is het afzenderadres van deze wachtrij voor antwoorden per e-mail',
         'The salutation for email answers.' => 'De aanhef voor beantwoording van berichten per e-mail.',
         'The signature for email answers.' => 'De handtekening voor beantwoording van berichten per e-mail.',
+        'Customer Move Notify' => 'Klant notificatie bij verplaatsen',
         'OTRS sends an notification email to the customer if the ticket is moved.' => 'Het systeem stuurt een notificatie e-mail naar de klant wanneer het ticket wordt verplaatst.',
+        'Customer State Notify' => 'Klant notificatie andere status',
         'OTRS sends an notification email to the customer if the ticket state has changed.' => 'Het systeem stuurt een notificatie e-mail naar de klant wanneer de status is veranderd',
+        'Customer Owner Notify' => 'Klant notificatie andere eigenaar',
         'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'Het systeem stuurt een notificatie e-mail naar de klant wanneer de eigenaar is veranderd',
 
         # Template: AdminQueueResponsesChangeForm
@@ -1083,6 +1124,20 @@ sub Data {
 
         # Template: AgentCustomerTableView
 
+        # Template: AgentDashboard
+        'Dashboard' => '',
+        'Settings' => '',
+
+        # Template: AgentDashboardCalendarOverview
+        'in' => '',
+
+        # Template: AgentDashboardRSSOverview
+        'Posted %s ago.' => '',
+
+        # Template: AgentDashboardTicketOverview
+
+        # Template: AgentDashboardTicketStats
+
         # Template: AgentInfo
         'Info' => 'Informatie',
 
@@ -1202,7 +1257,6 @@ sub Data {
         'Send mail!' => 'Bericht versturen!',
 
         # Template: AgentTicketBulk
-        'A message should have a subject!' => 'Een bericht moet een onderwerp hebben!',
         'You need to account time!' => 'Het is verplicht tijd te verantwoorden!',
         'Ticket Bulk Action' => 'Ticket Bulk Aktie',
         'Spell Check' => 'Spellingscontrole',
@@ -1217,7 +1271,6 @@ sub Data {
 
         # Template: AgentTicketClose
         'Ticket Type is required!' => '',
-        'A message should have a body!' => 'Een bericht moet een berichttekst hebben!',
         'A required field is:' => '',
         'Close ticket' => 'Sluit ticket',
         'Previous Owner' => 'Vorige eigenaar',
@@ -1513,8 +1566,8 @@ sub Data {
         'U' => 'U',
         'Customer history search (e. g. "ID342425").' => 'Klantgeschiedenis zoeken (bijv. "ID342425").',
         'Can not delete link with %s!' => '',
-        'Close!' => 'Sluit!',
         'for agent firstname' => 'voornaam van agent',
+        'Close!' => 'Sluit!',
         'No means, send agent and customer notifications on changes.' => 'Nee betekent dat er wel notificaties worden gestuurd naar eigenaren en klanten bij wijzigingen.',
         'A web calendar' => 'Kalender',
         'to get the realname of the sender (if given)' => 'voor de echte naam van de afzender (indien beschikbaar)',
@@ -1574,11 +1627,11 @@ sub Data {
         'Parent-Object' => 'Hoofd item',
         'If your account is trusted, the already existing x-otrs header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => 'Wanneer het account vertrouwd is, zullen de x-otrs headers gebruikt worden! PostMaster filters zullen ook nog steeds gebruikt worden.',
         'Of couse this feature will take some system performance it self!' => '',
-        'Detail' => 'Detail',
         'Your own Ticket' => 'Je eigen Ticket',
+        'Detail' => 'Detail',
         'TicketZoom' => 'Inhoud ticket',
-        'Don\'t forget to add a new user to groups!' => 'Vergeet niet om groepen aan deze gebruiker toe te kennen!',
         'Open Tickets' => 'Openstaande tickets',
+        'Don\'t forget to add a new user to groups!' => 'Vergeet niet om groepen aan deze gebruiker toe te kennen!',
         'CreateTicket' => 'Ticket aanmaken',
         'You have to select two or more attributes from the select field!' => '',
         'WebWatcher' => '',
@@ -1588,7 +1641,6 @@ sub Data {
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Mogelijkheden van de ticket gegevens (bijv. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => '',
         'A article should have a title!' => 'Een artikel moet een titel hebben!',
-        'Event' => '',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Configuratie mogelijkheden (bijv. &lt;OTRS_CONFIG_HttpType&gt;)',
         'All email addresses get excluded on replaying on composing and email.' => '',
         'A web mail client' => 'Webmail gebruiker',
@@ -1596,7 +1648,6 @@ sub Data {
         'WebMail' => 'Webmail',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Mogelijkheden van de ticket gegevens (bijv. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Opties voor de Ticket eigenaar (b.v. <OTRS_OWNER_UserFirstname>)',
-        'Name is required!' => 'Naam is verplicht!',
         'kill all sessions' => 'alle sessies afsluiten',
         'to get the from line of the email' => 'voor het e-mailadres waar vandaan de e-mail komt',
         'Solution' => 'Oplossing',

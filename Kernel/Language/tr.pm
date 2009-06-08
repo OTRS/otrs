@@ -2,7 +2,7 @@
 # Kernel/Language/tr.pm - provides tr language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: tr.pm,v 1.21 2009-05-27 07:56:54 tr Exp $
+# $Id: tr.pm,v 1.22 2009-06-08 05:44:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $)[1];
+$VERSION = qw($Revision: 1.22 $)[1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Apr 20 10:29:30 2009
+    # Last translation file sync: Mon Jun  8 07:34:55 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-9', ];
@@ -78,6 +78,8 @@ sub Data {
         'Modulefile' => 'modül dosyasý',
         'Subfunction' => 'Altfonksiyon',
         'Line' => 'Hat',
+        'Setting' => '',
+        'Settings' => '',
         'Example' => 'Örnek',
         'Examples' => 'Beispiele',
         'valid' => 'geçerli',
@@ -580,6 +582,10 @@ sub Data {
         'Customer called' => 'Aranan müþteri',
         'phone call' => 'telefon aramasý',
         'Reminder Reached' => '',
+        'Reminder Tickets' => '',
+        'Escaladed Tickets' => '',
+        'New Tickets' => '',
+        'Open Tickets / Need to be answered' => '',
         'Responses' => 'Yanýtlar',
         'Responses <-> Queue' => 'Yanýtlar <-> Kuyruk',
         'Auto Responses' => 'Otomatik Yanýtlar',
@@ -731,6 +737,20 @@ sub Data {
         'No pending time settings.' => 'Bekleme zamaný ayarý yok.',
         'Ticket pending time reached' => 'Bilet bekleme zamanýna ulaþýldý',
         'Ticket pending time reached between' => 'Bilet bekleme zamanýna ikisi arasýnda ulaþýldý:',
+        'Escalation Times' => '',
+        'No escalation time settings.' => '',
+        'Ticket escalation time reached' => '',
+        'Ticket escalation time reached between' => '',
+        'Escalation - First Response Time' => 'Yükseltme - ilk Yanýt Zamaný',
+        'No escalation time settings.' => '',
+        'Ticket first response time reached' => '',
+        'Ticket first response time reached between' => '',
+        'Escalation - Update Time' => 'Yükseltme - Güncelleme Zamaný',
+        'Ticket update time reached' => '',
+        'Ticket update time reached between' => '',
+        'Escalation - Solution Time' => 'Yükseltme - Çözümleme Zamaný',
+        'Ticket solution time reached' => '',
+        'Ticket solution time reached between' => '',
         'New Service' => '',
         'New SLA' => '',
         'New Priority' => 'Yeni Öncelik',
@@ -786,10 +806,34 @@ sub Data {
         'Groups' => 'Gruplar',
         'Misc' => 'Çeþitli',
 
-        # Template: AdminNotificationForm
+        # Template: AdminNotificationEventForm
         'Notification Management' => 'Bildirim Yönetimi',
-        'Notification' => 'Bildirimler',
+        'Add Notification' => '',
+        'Add a new Notification.' => '',
+        'Name is required!' => 'Ad gerekli!',
+        'Event is required!' => '',
+        'A message should have a subject!' => 'Bir mesajýn bir konusu olmalýdýr!',
+        'A message should have a body!' => 'Mesajýn bir gövdesi olmalýdýr!',
+        'Recipient' => '',
+        'Group based' => '',
+        'Recipient' => '',
+        'Agent based' => '',
+        'Email based' => '',
+        'Event' => 'Olay',
+        'Article Type' => '',
+        'Only for ArticleCreate Event.' => '',
+        'Subject match' => '',
+        'Only for ArticleCreate Event.' => '',
+        'Body match' => '',
         'Notifications are sent to an agent or a customer.' => 'Bildirimler bir aracýya veya müþteriye gönderilirler.',
+        'To get the first 20 character of the subject (of the latest agent article).' => '',
+        'To get the first 5 lines of the body (of the latest agent article).' => '',
+        'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' => '',
+        'To get the first 20 character of the subject (of the latest customer article).' => '',
+        'To get the first 5 lines of the body (of the latest customer article).' => '',
+
+        # Template: AdminNotificationForm
+        'Notification' => 'Bildirimler',
 
         # Template: AdminPackageManager
         'Package Manager' => 'Paket Yöneticisi',
@@ -877,17 +921,11 @@ sub Data {
         'Unlock timeout' => 'Kilidi kaldýrmak için zaman aþýmý',
         '0 = no unlock' => '0 = kilit kaldýrma yok',
         'Only business hours are counted.' => '',
-        'Escalation - First Response Time' => 'Yükseltme - ilk Yanýt Zamaný',
         '0 = no escalation' => '0 = yükseltme yok',
         'Notify by' => '',
-        'Escalation - Update Time' => 'Yükseltme - Güncelleme Zamaný',
-        'Escalation - Solution Time' => 'Yükseltme - Çözümleme Zamaný',
         'Follow up Option' => 'Takip eden Seçeneði',
         'Ticket lock after a follow up' => 'Takip eden bir mesajdan sonra bileti kilitle',
         'Systemaddress' => 'Sistem adresi',
-        'Customer Move Notify' => 'Müþteri Taþýma Bildirimi',
-        'Customer State Notify' => 'Müþteri Durum Bildirimi',
-        'Customer Owner Notify' => 'Müþteri Sahip Bildirimi',
         'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Eðer bir aracý bir bileti kilitler ve bu sürede bir yanýt göndermezse, biletin kilidi otomatik olarak kaldýrýlýr. Dolayýsýyla bilet diðer tüm aracýlara görünür hale gelir.',
         'Escalation time' => 'Yükseltme zamaný',
         'If a ticket will not be answered in this time, just only this ticket will be shown.' => 'Eðer bir bilet bu süre zarfýnda yanýtlanmazsa, sadece bu bilet gösterilir.',
@@ -895,8 +933,11 @@ sub Data {
         'Will be the sender address of this queue for email answers.' => 'Elektronik posta yanýtlarý için bu kuyruðun gönderen adresi olur.',
         'The salutation for email answers.' => 'Elektronik posta yanýtlarý için selamlama.',
         'The signature for email answers.' => 'Elektronik posta yanýtlarý için imza.',
+        'Customer Move Notify' => 'Müþteri Taþýma Bildirimi',
         'OTRS sends an notification email to the customer if the ticket is moved.' => 'Eðer bilet taþýnýrsa OTRS müþteriye bir bildirim e-postasý gönderir.',
+        'Customer State Notify' => 'Müþteri Durum Bildirimi',
         'OTRS sends an notification email to the customer if the ticket state has changed.' => 'Eðer bilet durumu deðiþirse OTRS müþteriye bir bildirim e-postasý gönderir.',
+        'Customer Owner Notify' => 'Müþteri Sahip Bildirimi',
         'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'Eðer bilet sahibi deðiþirse OTRS müþteriye bir bildirim e-postasý gönderir.',
 
         # Template: AdminQueueResponsesChangeForm
@@ -1068,6 +1109,20 @@ sub Data {
 
         # Template: AgentCustomerTableView
 
+        # Template: AgentDashboard
+        'Dashboard' => '',
+        'Settings' => '',
+
+        # Template: AgentDashboardCalendarOverview
+        'in' => '',
+
+        # Template: AgentDashboardRSSOverview
+        'Posted %s ago.' => '',
+
+        # Template: AgentDashboardTicketOverview
+
+        # Template: AgentDashboardTicketStats
+
         # Template: AgentInfo
         'Info' => 'Bilgi',
 
@@ -1187,7 +1242,6 @@ sub Data {
         'Send mail!' => 'Postayý gönder!',
 
         # Template: AgentTicketBulk
-        'A message should have a subject!' => 'Bir mesajýn bir konusu olmalýdýr!',
         'You need to account time!' => 'Zamaný hesaba katmalýsýnýz!',
         'Ticket Bulk Action' => 'Bilet Toplu Ýþlemi',
         'Spell Check' => 'Sözdizim Kontrolü',
@@ -1202,7 +1256,6 @@ sub Data {
 
         # Template: AgentTicketClose
         'Ticket Type is required!' => '',
-        'A message should have a body!' => 'Mesajýn bir gövdesi olmalýdýr!',
         'A required field is:' => '',
         'Close ticket' => 'Bileti kapat',
         'Previous Owner' => 'Önceki sahip',
@@ -1497,15 +1550,15 @@ sub Data {
         'File-Name' => 'Dosya adý',
         'Ticket Number Generator' => 'Bilet Numarasý Üreteci',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Bilet tanýmlayýcýsý. \'Bilet#\', \'Arama#\' oder \'Biletim#\' gibi olabilir)',
-        'Create new Phone Ticket' => 'Yeni Telefon Bileti oluþtur',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Bu þekilde Kernel/Config.pm dosyasýnda yapýlandýrýlmýþ olan anahtar halkasýný (keyring) deðiþtirebilirsiniz',
+        'Create new Phone Ticket' => 'Yeni Telefon Bileti oluþtur',
         'U' => 'U',
         'Site' => 'Site',
         'Customer history search (e. g. "ID342425").' => 'Müþteri tarihçe aramasý (örn. "ID342425").',
         'your MySQL DB should have a root password! Default is empty!' => 'MySQL veritabanýnýzýn root kullanýcýsýnýn bir parolasý olmalýdýr. Öntanýmlý olarak boþtur!',
         'Can not delete link with %s!' => '',
-        'for agent firstname' => 'aracý adý için',
         'Close!' => 'Kapat!',
+        'for agent firstname' => 'aracý adý için',
         'Reporter' => 'Bildiren',
         'Process-Path' => 'Ýþlem Yolu',
         'No means, send agent and customer notifications on changes.' => 'Hayýr, deðiþikliklerde aracýlara ve müþterilere bildirim gönder demektir.',
@@ -1583,11 +1636,11 @@ sub Data {
         'Reminder messages' => 'Hatýrlatýcý mesajlar',
         'Parent-Object' => 'Ebeveyn Nesne',
         'Of couse this feature will take some system performance it self!' => 'Elbette bu özellik sistem performansýndan biraz alýr.',
-        'Detail' => 'Detay',
         'Your own Ticket' => 'Kendi Biletiniz',
+        'Detail' => 'Detay',
         'TicketZoom' => 'Bilet Detaylarý',
-        'Don\'t forget to add a new user to groups!' => 'Yeni kullanýcýyý gruplara atamayý unutmayýn!',
         'Open Tickets' => 'Açýk Biletler',
+        'Don\'t forget to add a new user to groups!' => 'Yeni kullanýcýyý gruplara atamayý unutmayýn!',
         'CreateTicket' => 'Bilet Oluþtur',
         'You have to select two or more attributes from the select field!' => 'Seçim alanýndan iki veya daha fazla nitelik seçmelisiniz!',
         'unknown' => 'bilinmiyor',
@@ -1596,14 +1649,13 @@ sub Data {
         'Imported' => 'Ýçeri aktarýldý',
         'unread' => 'okunmadý',
         'D' => 'D',
-        'All messages' => 'Tüm mesajlar',
         'System Status' => 'Sistem Durumu',
+        'All messages' => 'Tüm mesajlar',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Bilet verisi seçenekleri (örn. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => '',
         'A article should have a title!' => 'Metnin bir baþlýðý olmalýdýr!',
         'Customer Users <-> Services' => 'Müþteri Kullanýcýlar <-> Servisler',
         'This account exists' => 'Bu hesap zaten var',
-        'Event' => 'Olay',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Yapýlandýrma seçenekleri (örn. &lt;OTRS_CONFIG_HttpType&gt;)',
         'All email addresses get excluded on replaying on composing and email.' => '',
         'Compose Follow up' => 'Takip mesajý yaz',
@@ -1611,7 +1663,6 @@ sub Data {
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Bilet sahibi seçenekleri (örn. <OTRS_OWNER_UserFirstname>)',
         'read' => 'okunmuþ',
         'Product' => 'Ürün',
-        'Name is required!' => 'Ad gerekli!',
         'kill all sessions' => 'tüm oturumlarý sonlandýr',
         'to get the from line of the email' => 'e-postanýn \'kime\' alanýný almak için',
         'Solution' => 'Çözüm',

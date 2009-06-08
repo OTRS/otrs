@@ -4,7 +4,7 @@
 # Copyright (C) 2007 Andrey Feldman <afeldman at alt-lan.ru>
 # Copyright (C) 2008 Egor Tsilenko <bg8s at symlink.ru>
 # --
-# $Id: ru.pm,v 1.76 2009-05-27 07:56:54 tr Exp $
+# $Id: ru.pm,v 1.77 2009-06-08 05:44:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Apr 20 10:29:21 2009
+    # Last translation file sync: Mon Jun  8 07:34:43 2009
 
     # possible charsets
     $Self->{Charset} = ['cp1251', 'Windows-1251', ];
@@ -81,6 +81,8 @@ sub Data {
         'Modulefile' => 'Файл-модуль',
         'Subfunction' => 'Подфункция',
         'Line' => 'Линия',
+        'Setting' => '',
+        'Settings' => '',
         'Example' => 'Пример',
         'Examples' => 'Примеры',
         'valid' => 'действительный',
@@ -583,6 +585,10 @@ sub Data {
         'Customer called' => 'Звонок клиента',
         'phone call' => 'телефонный звонок',
         'Reminder Reached' => '',
+        'Reminder Tickets' => '',
+        'Escaladed Tickets' => '',
+        'New Tickets' => '',
+        'Open Tickets / Need to be answered' => '',
         'Responses' => 'Ответы',
         'Responses <-> Queue' => 'Ответы <-> Очередь',
         'Auto Responses' => 'Автоответы',
@@ -734,6 +740,20 @@ sub Data {
         'No pending time settings.' => 'Без учета данного времени',
         'Ticket pending time reached' => 'Запрос был отложен',
         'Ticket pending time reached between' => 'Запрос был отложен между',
+        'Escalation Times' => '',
+        'No escalation time settings.' => '',
+        'Ticket escalation time reached' => '',
+        'Ticket escalation time reached between' => '',
+        'Escalation - First Response Time' => 'Эскалация - Время первого ответа',
+        'No escalation time settings.' => '',
+        'Ticket first response time reached' => '',
+        'Ticket first response time reached between' => '',
+        'Escalation - Update Time' => 'Эскалация - Время Изменения',
+        'Ticket update time reached' => '',
+        'Ticket update time reached between' => '',
+        'Escalation - Solution Time' => 'Эскалация - Время Решения',
+        'Ticket solution time reached' => '',
+        'Ticket solution time reached between' => '',
         'New Service' => 'Новый сервис',
         'New SLA' => 'Новый SLA',
         'New Priority' => 'Новый приоритет',
@@ -789,10 +809,34 @@ sub Data {
         'Groups' => 'Группы',
         'Misc' => 'Дополнительно',
 
-        # Template: AdminNotificationForm
+        # Template: AdminNotificationEventForm
         'Notification Management' => 'Управления уведомлениями',
-        'Notification' => 'Уведомление',
+        'Add Notification' => '',
+        'Add a new Notification.' => '',
+        'Name is required!' => 'Заголовок обязателен!',
+        'Event is required!' => '',
+        'A message should have a subject!' => 'Сообщение должно иметь поле "тема"!',
+        'A message should have a body!' => 'Тело сообщения не может быть пустым!',
+        'Recipient' => '',
+        'Group based' => '',
+        'Recipient' => '',
+        'Agent based' => '',
+        'Email based' => '',
+        'Event' => 'Событие',
+        'Article Type' => '',
+        'Only for ArticleCreate Event.' => '',
+        'Subject match' => '',
+        'Only for ArticleCreate Event.' => '',
+        'Body match' => '',
         'Notifications are sent to an agent or a customer.' => 'Уведомления посланы пользовтелю или клиенту',
+        'To get the first 20 character of the subject (of the latest agent article).' => '',
+        'To get the first 5 lines of the body (of the latest agent article).' => '',
+        'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' => '',
+        'To get the first 20 character of the subject (of the latest customer article).' => '',
+        'To get the first 5 lines of the body (of the latest customer article).' => '',
+
+        # Template: AdminNotificationForm
+        'Notification' => 'Уведомление',
 
         # Template: AdminPackageManager
         'Package Manager' => 'Управление пакетами',
@@ -880,17 +924,11 @@ sub Data {
         'Unlock timeout' => 'Срок блокировки',
         '0 = no unlock' => '0 = без блокировки',
         'Only business hours are counted.' => 'С учетом только рабочего времени.',
-        'Escalation - First Response Time' => 'Эскалация - Время первого ответа',
         '0 = no escalation' => '0 = без эскалации',
         'Notify by' => '',
-        'Escalation - Update Time' => 'Эскалация - Время Изменения',
-        'Escalation - Solution Time' => 'Эскалация - Время Решения',
         'Follow up Option' => 'Параметры авто-слежения ?',
         'Ticket lock after a follow up' => 'Блокировка заявки после прихода дополнения',
         'Systemaddress' => 'Системный адрес',
-        'Customer Move Notify' => 'Извещать клиента о перемещении',
-        'Customer State Notify' => 'Извещать клиента о смене состояния',
-        'Customer Owner Notify' => 'Извещать клиента о смене владельца',
         'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Если агент заблокировал заявку и не послал ответ клиенту в течение установленного времени, то заявка автоматически разблокируется и станет доступной для остальных агентов',
         'Escalation time' => 'Время до эскалации заявки (увеличение приоритета)',
         'If a ticket will not be answered in this time, just only this ticket will be shown.' => 'Если заявка не будет обслужена в установленное время, показывать только эту заявку',
@@ -898,8 +936,11 @@ sub Data {
         'Will be the sender address of this queue for email answers.' => 'Установка адреса отправителя для ответов в этой очереди',
         'The salutation for email answers.' => 'Приветствие для почтовых сообщений',
         'The signature for email answers.' => 'Подпись для почтовых сообщений',
+        'Customer Move Notify' => 'Извещать клиента о перемещении',
         'OTRS sends an notification email to the customer if the ticket is moved.' => 'OTRS отправит уведомление клиенту при перемещении заявки',
+        'Customer State Notify' => 'Извещать клиента о смене состояния',
         'OTRS sends an notification email to the customer if the ticket state has changed.' => 'OTRS отправит уведомление клиенту при изменении статуса заявки',
+        'Customer Owner Notify' => 'Извещать клиента о смене владельца',
         'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'OTRS отправит уведомление клиенту при смене владельца заявки',
 
         # Template: AdminQueueResponsesChangeForm
@@ -1071,6 +1112,20 @@ sub Data {
 
         # Template: AgentCustomerTableView
 
+        # Template: AgentDashboard
+        'Dashboard' => '',
+        'Settings' => '',
+
+        # Template: AgentDashboardCalendarOverview
+        'in' => '',
+
+        # Template: AgentDashboardRSSOverview
+        'Posted %s ago.' => '',
+
+        # Template: AgentDashboardTicketOverview
+
+        # Template: AgentDashboardTicketStats
+
         # Template: AgentInfo
         'Info' => 'Информация',
 
@@ -1190,7 +1245,6 @@ sub Data {
         'Send mail!' => 'Послать e-mail!',
 
         # Template: AgentTicketBulk
-        'A message should have a subject!' => 'Сообщение должно иметь поле "тема"!',
         'You need to account time!' => 'Вам необходимо посчитать время!',
         'Ticket Bulk Action' => 'Массовое действие',
         'Spell Check' => 'Проверка правописания',
@@ -1205,7 +1259,6 @@ sub Data {
 
         # Template: AgentTicketClose
         'Ticket Type is required!' => '',
-        'A message should have a body!' => 'Тело сообщения не может быть пустым!',
         'A required field is:' => '',
         'Close ticket' => 'Закрыть заявку',
         'Previous Owner' => 'Предыдущий владелец',
@@ -1505,20 +1558,20 @@ sub Data {
         'Site' => 'Место',
         'Customer history search (e. g. "ID342425").' => 'Поиск истории клиента (напр. "ID342425").',
         'Can not delete link with %s!' => 'Невозможно удалить связь с %s!',
-        'Close!' => 'Закрыть!',
         'for agent firstname' => 'для агента - имя',
+        'Close!' => 'Закрыть!',
         'Subgroup \'' => 'Подгруппа \'',
         'No means, send agent and customer notifications on changes.' => 'Нет значит отсылать уведомления пользователям и клиентам при изменениях',
         'A web calendar' => 'Календарь',
         'to get the realname of the sender (if given)' => 'получить (если есть) имя отправителя',
         'Notification (Customer)' => 'Уведомление (Клиенту)',
-        'Involved' => 'Совместно с',
         'Select Source (for add)' => 'Выбрать источник',
+        'Involved' => 'Совместно с',
         'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'Опции данных заявки (например  &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)',
         'Child-Object' => 'Объект-Потомок',
         'Days' => 'Дни',
-        'Queue ID' => 'ID очереди',
         'Locked tickets' => 'Заблокированные заявки',
+        'Queue ID' => 'ID очереди',
         'System History' => 'История',
         'customer realname' => 'имя клиента',
         'Pending messages' => 'Сообщения в ожидании',
@@ -1576,11 +1629,11 @@ sub Data {
         'Of couse this feature will take some system performance it self!' => 'Конечно, данная функция сама съедает немного ресурсов!',
         'Ticket Hook' => 'Зацепить Заявку',
         'Events' => 'События',
-        'Detail' => 'Подробно',
         'Your own Ticket' => 'Ваша собственная заявка',
+        'Detail' => 'Подробно',
         'TicketZoom' => 'Просмотр заявки',
-        'Don\'t forget to add a new user to groups!' => 'Не забудьте добавить новоего пользователя в группы!',
         'Open Tickets' => 'Открытые заявки',
+        'Don\'t forget to add a new user to groups!' => 'Не забудьте добавить новоего пользователя в группы!',
         'CreateTicket' => 'Создание заявки',
         'You have to select two or more attributes from the select field!' => 'Вам необходимо выбрать два или более пунктов из выбранного поля!',
         'System Settings' => 'Системные установки',
@@ -1593,14 +1646,12 @@ sub Data {
         'Object already linked as %s.' => 'Объект уже связан с %s!',
         '7 Day' => '7 Дней',
         'Ticket Overview' => 'Обзор заявок',
-        'Event' => 'Событие',
         'All email addresses get excluded on replaying on composing and email.' => '',
         'A web mail client' => 'Почтовый Веб-клиент',
         'Compose Follow up' => 'Создать автоответ(Ваша заявка принята)',
         'WebMail' => 'Почта',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Опции заявки (например <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Опции владельца заявки (например <OTRS_OWNER_UserFirstname>)',
-        'Name is required!' => 'Заголовок обязателен!',
         'kill all sessions' => 'Закрыть все текущие сессии',
         'to get the from line of the email' => 'получить поле "от" письма',
         'Solution' => 'Решение',
@@ -1616,8 +1667,8 @@ sub Data {
         'send' => 'Отправить',
         'Send no notifications' => 'Не отсылать уведомления',
         'Note Text' => 'Текст заметки',
-        'POP3 Account Management' => 'Управление учетной записью POP3',
         '3 Month' => '3 Месяца',
+        'POP3 Account Management' => 'Управление учетной записью POP3',
         'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'Опции для данных текущего пользователя-клиента (например &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)',
         'Jule' => 'Июля',
         'System State Management' => 'Управление системными состояниями',
@@ -1626,8 +1677,8 @@ sub Data {
         'maximal period form' => 'Максимальный период с',
         'TicketID' => 'ID заявки',
         'Mart' => 'Марта',
-        'Change setting' => 'Изменить настройки',
         'Yes means, send no agent and customer notifications on changes.' => 'Да значит не отсылать уведомления пользователям и клиентам при изменениях',
+        'Change setting' => 'Изменить настройки',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Ваш e-mail с номером заявки "<OTRS_TICKET>" отвергнут и переслан по адресу "<OTRS_BOUNCE_TO>". Пожалуйста, свяжитесь по этому адресу для выяснения причин. ',
         'Ticket Status View' => 'Просмотр статуса заявки',
         'Modified' => 'Изменено',

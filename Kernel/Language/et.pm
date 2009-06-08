@@ -2,7 +2,7 @@
 # Kernel/Language/et.pm - provides et language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: et.pm,v 1.20 2009-05-27 07:56:54 tr Exp $
+# $Id: et.pm,v 1.21 2009-06-08 05:44:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Apr 20 10:28:46 2009
+    # Last translation file sync: Mon Jun  8 07:33:42 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -78,6 +78,8 @@ sub Data {
         'Modulefile' => 'Moodulifail',
         'Subfunction' => 'Alamfunktsioon',
         'Line' => 'Rida',
+        'Setting' => '',
+        'Settings' => '',
         'Example' => 'Näide',
         'Examples' => 'Näited',
         'valid' => 'kehtiv',
@@ -580,6 +582,10 @@ sub Data {
         'Customer called' => 'Klient helistas',
         'phone call' => 'telefonikõne',
         'Reminder Reached' => '',
+        'Reminder Tickets' => '',
+        'Escaladed Tickets' => '',
+        'New Tickets' => '',
+        'Open Tickets / Need to be answered' => '',
         'Responses' => 'Vastused',
         'Responses <-> Queue' => 'Vastused <-> järjekorrad',
         'Auto Responses' => 'Automaatvastused',
@@ -731,6 +737,20 @@ sub Data {
         'No pending time settings.' => 'Ooteaegade seadeid ei ole',
         'Ticket pending time reached' => 'Intsidendi ooteaeg on kätte jõudnud',
         'Ticket pending time reached between' => 'Intsidendi ooteaeg jõudis kätte vahemikus',
+        'Escalation Times' => '',
+        'No escalation time settings.' => '',
+        'Ticket escalation time reached' => '',
+        'Ticket escalation time reached between' => '',
+        'Escalation - First Response Time' => 'Eskaleerimine - esimese vastuse aeg',
+        'No escalation time settings.' => '',
+        'Ticket first response time reached' => '',
+        'Ticket first response time reached between' => '',
+        'Escalation - Update Time' => 'Eskaleerimine - muutmise aeg',
+        'Ticket update time reached' => '',
+        'Ticket update time reached between' => '',
+        'Escalation - Solution Time' => 'Eskaleerimine - lahendusaeg',
+        'Ticket solution time reached' => '',
+        'Ticket solution time reached between' => '',
         'New Service' => '',
         'New SLA' => '',
         'New Priority' => 'Uus prioriteet',
@@ -786,10 +806,34 @@ sub Data {
         'Groups' => 'Grupid',
         'Misc' => 'Muud',
 
-        # Template: AdminNotificationForm
+        # Template: AdminNotificationEventForm
         'Notification Management' => 'Teavituste haldus',
-        'Notification' => 'Teavitus',
+        'Add Notification' => '',
+        'Add a new Notification.' => '',
+        'Name is required!' => 'Nimi on vajalik!',
+        'Event is required!' => '',
+        'A message should have a subject!' => 'Sõnumil peaks olema teema!',
+        'A message should have a body!' => 'Kirjal peab olema sisu!',
+        'Recipient' => '',
+        'Group based' => '',
+        'Recipient' => '',
+        'Agent based' => '',
+        'Email based' => '',
+        'Event' => 'Sündmus',
+        'Article Type' => '',
+        'Only for ArticleCreate Event.' => '',
+        'Subject match' => '',
+        'Only for ArticleCreate Event.' => '',
+        'Body match' => '',
         'Notifications are sent to an agent or a customer.' => 'Teavitused saadetakse kliendile või töötajale.',
+        'To get the first 20 character of the subject (of the latest agent article).' => '',
+        'To get the first 5 lines of the body (of the latest agent article).' => '',
+        'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' => '',
+        'To get the first 20 character of the subject (of the latest customer article).' => '',
+        'To get the first 5 lines of the body (of the latest customer article).' => '',
+
+        # Template: AdminNotificationForm
+        'Notification' => 'Teavitus',
 
         # Template: AdminPackageManager
         'Package Manager' => 'Paketihaldus',
@@ -877,17 +921,11 @@ sub Data {
         'Unlock timeout' => 'Luku aegumine',
         '0 = no unlock' => '0 = Lukk ei aegu',
         'Only business hours are counted.' => '',
-        'Escalation - First Response Time' => 'Eskaleerimine - esimese vastuse aeg',
         '0 = no escalation' => '0 = ei eskaleerita',
         'Notify by' => '',
-        'Escalation - Update Time' => 'Eskaleerimine - muutmise aeg',
-        'Escalation - Solution Time' => 'Eskaleerimine - lahendusaeg',
         'Follow up Option' => 'Klient saadab täiendusi',
         'Ticket lock after a follow up' => 'Lukk peale klienditäiendusi',
         'Systemaddress' => 'Systemaddress',
-        'Customer Move Notify' => 'Kliendi teavitamine liigutamisest',
-        'Customer State Notify' => 'Kliendi teavitamine olekutest',
-        'Customer Owner Notify' => 'Klienti teavitamine töötajast',
         'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Kui töötaja lukustab intsidendi ja ei vasta märgitud aja jooksul, siis indtsidendi lukk eemaldatakse automaatselt. Nii on intsident taas saadaval teistele töötajatele.',
         'Escalation time' => 'Eskaleerimisaeg',
         'If a ticket will not be answered in this time, just only this ticket will be shown.' => 'Kui intsidendile ei ole selle aja jooksul vastatud, näidatakse ainult seda intsidenti.',
@@ -895,8 +933,11 @@ sub Data {
         'Will be the sender address of this queue for email answers.' => 'Aadress, millelt selle järjekorra kirjad tulevad.',
         'The salutation for email answers.' => 'Tervitus e-posti vastustes.',
         'The signature for email answers.' => 'Signatuur e-posti vastustes.',
+        'Customer Move Notify' => 'Kliendi teavitamine liigutamisest',
         'OTRS sends an notification email to the customer if the ticket is moved.' => 'OTRS saadab kliendile teavituskirja kui intsident on teise järjekorda tõstetud.',
+        'Customer State Notify' => 'Kliendi teavitamine olekutest',
         'OTRS sends an notification email to the customer if the ticket state has changed.' => 'OTRS saadab kliendile teavituskirja kui intsidendi olek on muutunud.',
+        'Customer Owner Notify' => 'Klienti teavitamine töötajast',
         'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'OTRS saadab kliendile kirja kui intsidendi omanik on muutunud.',
 
         # Template: AdminQueueResponsesChangeForm
@@ -1068,6 +1109,20 @@ sub Data {
 
         # Template: AgentCustomerTableView
 
+        # Template: AgentDashboard
+        'Dashboard' => '',
+        'Settings' => '',
+
+        # Template: AgentDashboardCalendarOverview
+        'in' => '',
+
+        # Template: AgentDashboardRSSOverview
+        'Posted %s ago.' => '',
+
+        # Template: AgentDashboardTicketOverview
+
+        # Template: AgentDashboardTicketStats
+
         # Template: AgentInfo
         'Info' => 'Info',
 
@@ -1187,7 +1242,6 @@ sub Data {
         'Send mail!' => 'Saada kiri!',
 
         # Template: AgentTicketBulk
-        'A message should have a subject!' => 'Sõnumil peaks olema teema!',
         'You need to account time!' => 'Pead kirja panema tööaja!',
         'Ticket Bulk Action' => 'Hulgitegevused intsidentidega',
         'Spell Check' => 'Õigekirjakontroll',
@@ -1202,7 +1256,6 @@ sub Data {
 
         # Template: AgentTicketClose
         'Ticket Type is required!' => '',
-        'A message should have a body!' => 'Kirjal peab olema sisu!',
         'A required field is:' => '',
         'Close ticket' => 'Sulge intsident',
         'Previous Owner' => 'Eelmine omanik',
@@ -1497,14 +1550,14 @@ sub Data {
         'File-Name' => 'Failinimi',
         'Ticket Number Generator' => 'Intsidendinumbri generaator',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Intsidendi identifikaator. Mõned inimesed tahavad seda muuta näiteks. \'Ticket#\', \'Call#\' või \'MyTicket#\')',
-        'Create new Phone Ticket' => 'Tee uus telefonitsi laekunud intsident',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Nii saad otse muuta võtmeid mis on seadistatud Kernel/Config.pm failis.',
+        'Create new Phone Ticket' => 'Tee uus telefonitsi laekunud intsident',
         'U' => 'U',
         'Site' => 'Sait',
         'Customer history search (e. g. "ID342425").' => 'Kliendiajaloo otsing (näiteks "ID342425").',
         'Can not delete link with %s!' => '',
-        'for agent firstname' => 'Kasutaja eesnimeks',
         'Close!' => 'Sulge!',
+        'for agent firstname' => 'Kasutaja eesnimeks',
         'Reporter' => 'Raporteerija',
         'Process-Path' => 'Protsessi tee',
         'No means, send agent and customer notifications on changes.' => 'Ei tähendab, et klientidele ja töötajatele saadetakse infot muudatustest.',
@@ -1583,11 +1636,11 @@ sub Data {
         'Reminder messages' => 'Meeldetuletusteated',
         'Parent-Object' => 'Ülemobjekt',
         'Of couse this feature will take some system performance it self!' => 'See kahandab süsteemi üldist jõudlust.',
-        'Detail' => 'Täpsemalt',
         'Your own Ticket' => 'Sinu intsident',
+        'Detail' => 'Täpsemalt',
         'TicketZoom' => 'Vaata täpsemalt',
-        'Don\'t forget to add a new user to groups!' => 'Ära unusta kasutajat gruppidesse lisamast!',
         'Open Tickets' => 'Avatud intsidendid',
+        'Don\'t forget to add a new user to groups!' => 'Ära unusta kasutajat gruppidesse lisamast!',
         'CreateTicket' => 'Tekita intsident',
         'You have to select two or more attributes from the select field!' => 'Pead valima vähemalt 2 atribuuti!',
         'unknown' => 'teadmata',
@@ -1596,13 +1649,12 @@ sub Data {
         'Imported' => 'Imporditud',
         'unread' => 'lugemata',
         'D' => 'D',
-        'All messages' => 'Kõik teated',
         'System Status' => 'Süsteemi olek',
+        'All messages' => 'Kõik teated',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Intsidentide andmed  (näiteks <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => '',
         'A article should have a title!' => 'Artiklil peaks olema pealkiri!',
         'Customer Users <-> Services' => 'Kliendikasutajad <-> teenused',
-        'Event' => 'Sündmus',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Seadistused (näiteks .&lt;OTRS_CONFIG_HttpType&gt;)',
         'All email addresses get excluded on replaying on composing and email.' => '',
         'Compose Follow up' => 'Kirjuta täiendus',
@@ -1610,7 +1662,6 @@ sub Data {
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Intsidendi omaniku andmed (näiteks <OTRS_OWNER_UserFirstname>)',
         'read' => 'loetud',
         'Product' => 'Toode',
-        'Name is required!' => 'Nimi on vajalik!',
         'kill all sessions' => 'hävita kõik sessioonid',
         'to get the from line of the email' => 'saamaks kirja saatjat',
         'Solution' => 'Lahendus',

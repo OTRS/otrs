@@ -3,7 +3,7 @@
 # Copyright (C) 2008 Never Min <never at qnofae.org>
 # Copyright (C) 2005 zuowei <j2ee at hirain-sh.com>
 # --
-# $Id: zh_CN.pm,v 1.58 2009-05-27 07:56:54 tr Exp $
+# $Id: zh_CN.pm,v 1.59 2009-06-08 05:44:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Apr 20 10:29:41 2009
+    # Last translation file sync: Mon Jun  8 07:35:10 2009
 
     # possible charsets
     $Self->{Charset} = ['GBK', 'GB2312', ];
@@ -80,6 +80,8 @@ sub Data {
         'Modulefile' => '模块文件',
         'Subfunction' => '子功能',
         'Line' => '行',
+        'Setting' => '',
+        'Settings' => '',
         'Example' => '示例',
         'Examples' => '示例',
         'valid' => '有效',
@@ -582,6 +584,10 @@ sub Data {
         'Customer called' => '客户致电',
         'phone call' => '电话呼叫',
         'Reminder Reached' => '',
+        'Reminder Tickets' => '',
+        'Escaladed Tickets' => '',
+        'New Tickets' => '',
+        'Open Tickets / Need to be answered' => '',
         'Responses' => '回复',
         'Responses <-> Queue' => '回复 <-> 队列',
         'Auto Responses' => '自动回复功能',
@@ -733,6 +739,20 @@ sub Data {
         'No pending time settings.' => '没有设置待定时间',
         'Ticket pending time reached' => '',
         'Ticket pending time reached between' => '',
+        'Escalation Times' => '',
+        'No escalation time settings.' => '',
+        'Ticket escalation time reached' => '',
+        'Ticket escalation time reached between' => '',
+        'Escalation - First Response Time' => '任务调升 - 首次回复的时间',
+        'No escalation time settings.' => '',
+        'Ticket first response time reached' => '',
+        'Ticket first response time reached between' => '',
+        'Escalation - Update Time' => '任务调升 - 更新的时间',
+        'Ticket update time reached' => '',
+        'Ticket update time reached between' => '',
+        'Escalation - Solution Time' => '任务调升 - 解决的时间',
+        'Ticket solution time reached' => '',
+        'Ticket solution time reached between' => '',
         'New Service' => '新的服务级别',
         'New SLA' => '新的服务级别协议(SLA)',
         'New Priority' => '新优先级',
@@ -788,10 +808,34 @@ sub Data {
         'Groups' => '组',
         'Misc' => '综合',
 
-        # Template: AdminNotificationForm
+        # Template: AdminNotificationEventForm
         'Notification Management' => '通知管理',
-        'Notification' => '系统通知',
+        'Add Notification' => '',
+        'Add a new Notification.' => '',
+        'Name is required!' => '需要名称!',
+        'Event is required!' => '',
+        'A message should have a subject!' => '邮件必须有标题!',
+        'A message should have a body!' => '邮件必须包含内容!',
+        'Recipient' => '',
+        'Group based' => '',
+        'Recipient' => '',
+        'Agent based' => '',
+        'Email based' => '',
+        'Event' => '事件',
+        'Article Type' => '',
+        'Only for ArticleCreate Event.' => '',
+        'Subject match' => '',
+        'Only for ArticleCreate Event.' => '',
+        'Body match' => '',
         'Notifications are sent to an agent or a customer.' => '通知被发送到技术支持人员或者客户.',
+        'To get the first 20 character of the subject (of the latest agent article).' => '',
+        'To get the first 5 lines of the body (of the latest agent article).' => '',
+        'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' => '',
+        'To get the first 20 character of the subject (of the latest customer article).' => '',
+        'To get the first 5 lines of the body (of the latest customer article).' => '',
+
+        # Template: AdminNotificationForm
+        'Notification' => '系统通知',
 
         # Template: AdminPackageManager
         'Package Manager' => '软件包管理',
@@ -879,17 +923,11 @@ sub Data {
         'Unlock timeout' => '自动解锁超时期限',
         '0 = no unlock' => '0 = 不自动解锁  ',
         'Only business hours are counted.' => '仅以上班时间计算',
-        'Escalation - First Response Time' => '任务调升 - 首次回复的时间',
         '0 = no escalation' => '0 = 无限时  ',
         'Notify by' => '进度通知',
-        'Escalation - Update Time' => '任务调升 - 更新的时间',
-        'Escalation - Solution Time' => '任务调升 - 解决的时间',
         'Follow up Option' => '跟进选项',
         'Ticket lock after a follow up' => '跟进确认以后，Ticket 将被自动上锁',
         'Systemaddress' => '系统邮件地址',
-        'Customer Move Notify' => 'Ticket 移动客户通知',
-        'Customer State Notify' => 'Ticket 状态客户通知',
-        'Customer Owner Notify' => '客户所有者通告',
         'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => '如果技术支持人员锁定了 Ticket,但是在一定的时间内没有回复，该 Ticket 将会被自动解锁，而对所有的技术支持人员可视.',
         'Escalation time' => '限时答复时间',
         'If a ticket will not be answered in this time, just only this ticket will be shown.' => '该队列只显示规定时间内没有被处理的 Ticket',
@@ -897,8 +935,11 @@ sub Data {
         'Will be the sender address of this queue for email answers.' => '回复邮件所用的发送者地址',
         'The salutation for email answers.' => '回复邮件所用称谓.',
         'The signature for email answers.' => '回复邮件所用签名.',
+        'Customer Move Notify' => 'Ticket 移动客户通知',
         'OTRS sends an notification email to the customer if the ticket is moved.' => '如果 Ticket 被移动，系统将会发送一个通知邮件给客户',
+        'Customer State Notify' => 'Ticket 状态客户通知',
         'OTRS sends an notification email to the customer if the ticket state has changed.' => '如果 Ticket 状态改变，系统将会发送通知邮件给客户',
+        'Customer Owner Notify' => '客户所有者通告',
         'OTRS sends an notification email to the customer if the ticket owner has changed.' => '如果 Ticket 所有者改变，系统将会发送通知邮件给客户.',
 
         # Template: AdminQueueResponsesChangeForm
@@ -1070,6 +1111,20 @@ sub Data {
 
         # Template: AgentCustomerTableView
 
+        # Template: AgentDashboard
+        'Dashboard' => '',
+        'Settings' => '',
+
+        # Template: AgentDashboardCalendarOverview
+        'in' => '',
+
+        # Template: AgentDashboardRSSOverview
+        'Posted %s ago.' => '',
+
+        # Template: AgentDashboardTicketOverview
+
+        # Template: AgentDashboardTicketStats
+
         # Template: AgentInfo
         'Info' => '详情',
 
@@ -1189,7 +1244,6 @@ sub Data {
         'Send mail!' => '发送!',
 
         # Template: AgentTicketBulk
-        'A message should have a subject!' => '邮件必须有标题!',
         'You need to account time!' => '',
         'Ticket Bulk Action' => 'Ticket 批量处理',
         'Spell Check' => '拼写检查',
@@ -1204,7 +1258,6 @@ sub Data {
 
         # Template: AgentTicketClose
         'Ticket Type is required!' => 'Ticket 的类型是必须的!',
-        'A message should have a body!' => '邮件必须包含内容!',
         'A required field is:' => '',
         'Close ticket' => '关闭 Ticket',
         'Previous Owner' => '前一个所有者',
@@ -1504,8 +1557,8 @@ sub Data {
         'Site' => '站点',
         'Customer history search (e. g. "ID342425").' => '搜索客户历史 (例如： "ID342425").',
         'Can not delete link with %s!' => '不能删除 %s 的连接',
-        'Close!' => '关闭!',
         'for agent firstname' => '技术支持人员 姓',
+        'Close!' => '关闭!',
         'No means, send agent and customer notifications on changes.' => '需要, 当有改变时发送通知给技术人员或客户.',
         'A web calendar' => 'Web 日历',
         'to get the realname of the sender (if given)' => '邮件发送人的真实姓名 (如果存在)',
@@ -1574,11 +1627,11 @@ sub Data {
         'Reminder messages' => '消息提醒',
         'Parent-Object' => '父对象',
         'Of couse this feature will take some system performance it self!' => '当然, 该功能会占用一定的系统资源, 加重系统的负担!',
-        'Detail' => '细节',
         'Your own Ticket' => '您自己的 Ticket',
+        'Detail' => '细节',
         'TicketZoom' => 'Ticket 展开',
-        'Don\'t forget to add a new user to groups!' => '不要忘记增加新的用户到组!',
         'Open Tickets' => '开放 Tickets',
+        'Don\'t forget to add a new user to groups!' => '不要忘记增加新的用户到组!',
         'General Catalog' => '总目录',
         'CreateTicket' => '创建 Ticket',
         'You have to select two or more attributes from the select field!' => '',
@@ -1590,14 +1643,12 @@ sub Data {
         'Object already linked as %s.' => '对象已连接到 %s.',
         'A article should have a title!' => '文章必须有标题!',
         'Customer Users <-> Services' => '客户帐号 <-> 服务管理',
-        'Event' => '事件',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '配置选项 (例如: &lt;OTRS_CONFIG_HttpType&gt;)',
         'All email addresses get excluded on replaying on composing and email.' => '',
         'A web mail client' => 'WebMail 客户端',
         'Compose Follow up' => '撰写跟踪答复',
         'WebMail' => 'WebMail',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Ticket 所有者选项 (例如: <OTRS_OWNER_UserFirstname>)',
-        'Name is required!' => '需要名称!',
         'DB Type' => '数据库类型',
         'kill all sessions' => '中止所有会话',
         'to get the from line of the email' => '邮件来自',

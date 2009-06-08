@@ -2,7 +2,7 @@
 # Kernel/Language/ar_SA.pm - provides ar_SA language translation
 # Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
 # --
-# $Id: ar_SA.pm,v 1.31 2009-05-27 07:56:53 tr Exp $
+# $Id: ar_SA.pm,v 1.32 2009-06-08 05:44:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Apr 20 10:28:22 2009
+    # Last translation file sync: Mon Jun  8 07:33:11 2009
 
     # possible charsets
     $Self->{Charset} = ['cp1256', ];
@@ -81,6 +81,8 @@ sub Data {
         'Modulefile' => '„·› „ÊœÌÊ·',
         'Subfunction' => '⁄„·Ì… ›—⁄Ì…',
         'Line' => 'Œÿ',
+        'Setting' => '',
+        'Settings' => '',
         'Example' => '„À«·',
         'Examples' => '√„À·…',
         'valid' => '›⁄«·',
@@ -583,6 +585,10 @@ sub Data {
         'Customer called' => '«·⁄„Ì· √ ’·',
         'phone call' => '„ﬂ«·„… Â« ›Ì…',
         'Reminder Reached' => '',
+        'Reminder Tickets' => '',
+        'Escaladed Tickets' => '',
+        'New Tickets' => '',
+        'Open Tickets / Need to be answered' => '',
         'Responses' => '«·—œÊœ',
         'Responses <-> Queue' => '«·—œÊœ <=> ﬁ«∆„… «·»ÿ«ﬁ« ',
         'Auto Responses' => '«·—œÊœ «·¬·Ì…·Ì',
@@ -734,6 +740,20 @@ sub Data {
         'No pending time settings.' => '',
         'Ticket pending time reached' => '',
         'Ticket pending time reached between' => '',
+        'Escalation Times' => '',
+        'No escalation time settings.' => '',
+        'Ticket escalation time reached' => '',
+        'Ticket escalation time reached between' => '',
+        'Escalation - First Response Time' => '',
+        'No escalation time settings.' => '',
+        'Ticket first response time reached' => '',
+        'Ticket first response time reached between' => '',
+        'Escalation - Update Time' => '',
+        'Ticket update time reached' => '',
+        'Ticket update time reached between' => '',
+        'Escalation - Solution Time' => '',
+        'Ticket solution time reached' => '',
+        'Ticket solution time reached between' => '',
         'New Service' => '',
         'New SLA' => '',
         'New Priority' => '√Ê·ÊÌ… ÃœÌœ…',
@@ -789,10 +809,34 @@ sub Data {
         'Groups' => '«·„Ã„Ê⁄« ',
         'Misc' => '„‰Ê⁄',
 
-        # Template: AdminNotificationForm
+        # Template: AdminNotificationEventForm
         'Notification Management' => '≈œ«—… «· ‰»ÌÂ« ',
-        'Notification' => '«· ‰»ÌÂ« ',
+        'Add Notification' => '',
+        'Add a new Notification.' => '',
+        'Name is required!' => '«·≈”„ „ﬁ—Ê¡',
+        'Event is required!' => '',
+        'A message should have a subject!' => '«·—”«·… ÌÃ» √‰ ÌﬂÊ‰ ·Â« „Ê÷Ê⁄!',
+        'A message should have a body!' => '«·—”«·… ÌÃ» √‰ ÌﬂÊ‰ ·Â« ‰’',
+        'Recipient' => '',
+        'Group based' => '',
+        'Recipient' => '',
+        'Agent based' => '',
+        'Email based' => '',
+        'Event' => '',
+        'Article Type' => '',
+        'Only for ArticleCreate Event.' => '',
+        'Subject match' => '',
+        'Only for ArticleCreate Event.' => '',
+        'Body match' => '',
         'Notifications are sent to an agent or a customer.' => '«· ‰»ÌÂ √—”· ≈·Ï „‘€· √Ê ⁄„Ì·.',
+        'To get the first 20 character of the subject (of the latest agent article).' => '',
+        'To get the first 5 lines of the body (of the latest agent article).' => '',
+        'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' => '',
+        'To get the first 20 character of the subject (of the latest customer article).' => '',
+        'To get the first 5 lines of the body (of the latest customer article).' => '',
+
+        # Template: AdminNotificationForm
+        'Notification' => '«· ‰»ÌÂ« ',
 
         # Template: AdminPackageManager
         'Package Manager' => '',
@@ -880,17 +924,11 @@ sub Data {
         'Unlock timeout' => '',
         '0 = no unlock' => '',
         'Only business hours are counted.' => '',
-        'Escalation - First Response Time' => '',
         '0 = no escalation' => '0 = ·« ÌÊÃœ  ’⁄Ìœ',
         'Notify by' => '',
-        'Escalation - Update Time' => '',
-        'Escalation - Solution Time' => '',
         'Follow up Option' => 'ŒÌ«— «·„ «»⁄…',
         'Ticket lock after a follow up' => '≈ﬁ›«· «·»ÿ«ﬁ… »⁄œ ≈÷«›… „ «»⁄…',
         'Systemaddress' => '⁄‰Ê«‰ «·‰Ÿ«„',
-        'Customer Move Notify' => ' ‰»ÌÂ «·⁄„Ì· ⁄‰œ ‰ﬁ· «·»ÿ«ﬁ…',
-        'Customer State Notify' => '',
-        'Customer Owner Notify' => '',
         'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => '',
         'Escalation time' => 'ﬁ  «· ’⁄Ìœ',
         'If a ticket will not be answered in this time, just only this ticket will be shown.' => '',
@@ -898,8 +936,11 @@ sub Data {
         'Will be the sender address of this queue for email answers.' => '',
         'The salutation for email answers.' => '',
         'The signature for email answers.' => '',
+        'Customer Move Notify' => ' ‰»ÌÂ «·⁄„Ì· ⁄‰œ ‰ﬁ· «·»ÿ«ﬁ…',
         'OTRS sends an notification email to the customer if the ticket is moved.' => '',
+        'Customer State Notify' => '',
         'OTRS sends an notification email to the customer if the ticket state has changed.' => '',
+        'Customer Owner Notify' => '',
         'OTRS sends an notification email to the customer if the ticket owner has changed.' => '',
 
         # Template: AdminQueueResponsesChangeForm
@@ -1071,6 +1112,20 @@ sub Data {
 
         # Template: AgentCustomerTableView
 
+        # Template: AgentDashboard
+        'Dashboard' => '',
+        'Settings' => '',
+
+        # Template: AgentDashboardCalendarOverview
+        'in' => '',
+
+        # Template: AgentDashboardRSSOverview
+        'Posted %s ago.' => '',
+
+        # Template: AgentDashboardTicketOverview
+
+        # Template: AgentDashboardTicketStats
+
         # Template: AgentInfo
         'Info' => '„⁄·Ê„« ',
 
@@ -1190,7 +1245,6 @@ sub Data {
         'Send mail!' => '≈—”«· «·»—Ìœ',
 
         # Template: AgentTicketBulk
-        'A message should have a subject!' => '«·—”«·… ÌÃ» √‰ ÌﬂÊ‰ ·Â« „Ê÷Ê⁄!',
         'You need to account time!' => 'ÌÃ» ⁄·Ìﬂ Õ”«» «·Êﬁ !',
         'Ticket Bulk Action' => '«· ‰›Ì– «·Ã„«⁄Ì ··»ÿ«ﬁ…',
         'Spell Check' => '«· œﬁÌﬁ «·≈„·«∆Ì',
@@ -1205,7 +1259,6 @@ sub Data {
 
         # Template: AgentTicketClose
         'Ticket Type is required!' => '',
-        'A message should have a body!' => '«·—”«·… ÌÃ» √‰ ÌﬂÊ‰ ·Â« ‰’',
         'A required field is:' => '',
         'Close ticket' => '≈ﬁ›«· «·»ÿ«ﬁ…',
         'Previous Owner' => '«·„«·ﬂ «·”«»ﬁ',
@@ -1502,15 +1555,15 @@ sub Data {
         'File-Name' => '',
         'Ticket Number Generator' => '',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Create new Phone Ticket' => '√‰‘Ì¡ »ÿ«ﬁ… Â« › ÃœÌœ…',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Symptom' => '',
         'U' => '√⁄·Ï',
         'Site' => '',
         'Customer history search (e. g. "ID342425").' => '',
         'Can not delete link with %s!' => '',
-        'Close!' => '≈ﬁ›«·!',
         'for agent firstname' => '',
+        'Close!' => '≈ﬁ›«·!',
         'Reporter' => '',
         'Process-Path' => '',
         'No means, send agent and customer notifications on changes.' => '',
@@ -1543,10 +1596,10 @@ sub Data {
         'Classification' => '',
         'Change user <-> group settings' => '',
         'Incident detected' => '',
-        'Problem' => '',
         'Incident reported' => '',
-        'Officer' => '',
+        'Problem' => '',
         'Escalation' => '',
+        'Officer' => '',
         '"}' => '',
         'Order' => '— »',
         'next step' => '«·ŒÿÊ… «· «·Ì…',
@@ -1603,11 +1656,11 @@ sub Data {
         'Parent-Object' => '«·ﬂ«∆‰-«·√”«”Ì',
         'Of couse this feature will take some system performance it self!' => '',
         'IMAPS' => '',
-        'Detail' => '«· ›«’Ì·',
         'Your own Ticket' => '»ÿ«ﬁ ﬂ «·Œ«’… »ﬂ',
+        'Detail' => '«· ›«’Ì·',
         'TicketZoom' => ' ﬂ»Ì— «·»ÿ«ﬁ…',
-        'Don\'t forget to add a new user to groups!' => '',
         'Open Tickets' => '«·»ÿ«ﬁ«  «·„› ÊÕ…',
+        'Don\'t forget to add a new user to groups!' => '',
         'CreateTicket' => '√‰‘Ì¡ »ÿ«ﬁ…',
         'You have to select two or more attributes from the select field!' => 'ÌÃ» ⁄·Ìﬂ  ÕœÌœ ⁄‰’—Ì‰ √Ê √ﬂÀ— „‰ «·ﬁ«∆„… «·„Õœœ…!',
         'unknown' => '€Ì— „⁄—Ê›',
@@ -1617,22 +1670,20 @@ sub Data {
         'Account Type' => '',
         'unread' => '€Ì— „ﬁ—Ê¡',
         'D' => '√ﬁ·',
-        'System Status' => '',
         'All messages' => 'Ã„Ì⁄ «·—”«∆·',
+        'System Status' => '',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'ŒÌ«—«  »Ì«‰«  «·»ÿ«ﬁ… („À«·Â <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => '',
         'A article should have a title!' => '«·»ÿ«ﬁ… ÌÃ» √‰ ÌﬂÊ‰ ·Â« ⁄‰Ê«‰!',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
-        'Event' => '',
-        'All email addresses get excluded on replaying on composing and email.' => '',
         'don\'t accept license' => '',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'IMAP' => '',
         'Compose Follow up' => '≈—”«· ≈÷«›… «·„ «»⁄…',
         'Imported by' => ' „ ≈” Ì—«œÂ „‰ Œ·«·',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'ŒÌ«—«  „«·ﬂ «·»ÿ«ﬁ… („À«·Â <OTRS_OWNER_UserFirstname>)',
         'read' => '≈ﬁ—√',
         'Product' => '',
-        'Name is required!' => '«·≈”„ „ﬁ—Ê¡',
         'DB Type' => '',
         'kill all sessions' => '',
         'to get the from line of the email' => '',

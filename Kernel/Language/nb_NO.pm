@@ -5,7 +5,7 @@
 # Copyright (C) 2006 Knut Haugen <knuthaug at linpro.no>
 # Copyright (C) 2007-2009 Fredrik Andersen <fredrik.andersen at husbanken.no>
 # --
-# $Id: nb_NO.pm,v 1.74 2009-05-27 07:56:54 tr Exp $
+# $Id: nb_NO.pm,v 1.75 2009-06-08 05:44:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,13 +18,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.74 $;
+$VERSION = q$Revision: 1.75 $;
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Apr 20 10:29:06 2009
+    # Last translation file sync: Mon Jun  8 07:34:10 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -82,6 +82,8 @@ sub Data {
         'Modulefile' => 'Modulfil',
         'Subfunction' => 'Underfunksjon',
         'Line' => 'Linje',
+        'Setting' => '',
+        'Settings' => '',
         'Example' => 'Eksempel',
         'Examples' => 'Eksempler',
         'valid' => 'gyldig',
@@ -584,6 +586,10 @@ sub Data {
         'Customer called' => 'Kunde oppringt',
         'phone call' => 'telefonsamtale',
         'Reminder Reached' => 'Påminnelse Nådd',
+        'Reminder Tickets' => '',
+        'Escaladed Tickets' => '',
+        'New Tickets' => '',
+        'Open Tickets / Need to be answered' => '',
         'Responses' => 'Ferdigsvar',
         'Responses <-> Queue' => 'Ferdigsvar <-> Mapper',
         'Auto Responses' => 'Autosvar',
@@ -735,6 +741,20 @@ sub Data {
         'No pending time settings.' => 'Ingen innstillinger for ventetid.',
         'Ticket pending time reached' => 'Ventetiden er nådd',
         'Ticket pending time reached between' => 'Ventetiden er nådd mellom',
+        'Escalation Times' => '',
+        'No escalation time settings.' => '',
+        'Ticket escalation time reached' => '',
+        'Ticket escalation time reached between' => '',
+        'Escalation - First Response Time' => 'Eskalering - første responstid',
+        'No escalation time settings.' => '',
+        'Ticket first response time reached' => '',
+        'Ticket first response time reached between' => '',
+        'Escalation - Update Time' => 'Eskalering - oppdateringstid',
+        'Ticket update time reached' => '',
+        'Ticket update time reached between' => '',
+        'Escalation - Solution Time' => 'Eskalering - løsningstid',
+        'Ticket solution time reached' => '',
+        'Ticket solution time reached between' => '',
         'New Service' => 'Ny Tjeneste',
         'New SLA' => 'Ny SLA',
         'New Priority' => 'Ny prioritet',
@@ -790,10 +810,34 @@ sub Data {
         'Groups' => 'Grupper',
         'Misc' => 'Diverse',
 
-        # Template: AdminNotificationForm
+        # Template: AdminNotificationEventForm
         'Notification Management' => 'Administrasjon: Meldinger i e-poster',
-        'Notification' => 'Melding',
+        'Add Notification' => '',
+        'Add a new Notification.' => '',
+        'Name is required!' => 'Navn er påkrevd',
+        'Event is required!' => '',
+        'A message should have a subject!' => 'En melding må ha en emnebeskrivelse!',
+        'A message should have a body!' => 'En melding må inneholde en meldingstekst!',
+        'Recipient' => '',
+        'Group based' => '',
+        'Recipient' => '',
+        'Agent based' => '',
+        'Email based' => '',
+        'Event' => 'Hendelse',
+        'Article Type' => '',
+        'Only for ArticleCreate Event.' => '',
+        'Subject match' => '',
+        'Only for ArticleCreate Event.' => '',
+        'Body match' => '',
         'Notifications are sent to an agent or a customer.' => 'Meldinger som sendes til agenter eller kunder.',
+        'To get the first 20 character of the subject (of the latest agent article).' => '',
+        'To get the first 5 lines of the body (of the latest agent article).' => '',
+        'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' => '',
+        'To get the first 20 character of the subject (of the latest customer article).' => '',
+        'To get the first 5 lines of the body (of the latest customer article).' => '',
+
+        # Template: AdminNotificationForm
+        'Notification' => 'Melding',
 
         # Template: AdminPackageManager
         'Package Manager' => 'Pakkehåndterer',
@@ -881,17 +925,11 @@ sub Data {
         'Unlock timeout' => 'Tidsintervall for å sette sak tilgjengelig for andre',
         '0 = no unlock' => '0 = ikke gjør saker tilgjengelig',
         'Only business hours are counted.' => 'Kun timene i åpningstiden telles',
-        'Escalation - First Response Time' => 'Eskalering - første responstid',
         '0 = no escalation' => '0 = ingen eskalering',
         'Notify by' => 'Varsle med',
-        'Escalation - Update Time' => 'Eskalering - oppdateringstid',
-        'Escalation - Solution Time' => 'Eskalering - løsningstid',
         'Follow up Option' => 'Korrespondanse på avsluttet sak',
         'Ticket lock after a follow up' => 'Saken settes som privat etter oppfølgnings e-post',
         'Systemaddress' => 'Systemadresse',
-        'Customer Move Notify' => 'Kundenotifikasjon ved flytting',
-        'Customer State Notify' => 'Kundenotifikasjon ved statusendring',
-        'Customer Owner Notify' => 'Kundenotifikasjon ved skifte av saksbehandler',
         'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Hvis en sak er satt som privat, men likevel ikke blir besvart innen denne tiden, vil saken bli gjort tilgjengelig for andre.',
         'Escalation time' => 'Eskalasjonstid',
         'If a ticket will not be answered in this time, just only this ticket will be shown.' => 'Hvis en sak ikke blir besvart innen denne tiden, blir kun denne saken vist.',
@@ -899,8 +937,11 @@ sub Data {
         'Will be the sender address of this queue for email answers.' => 'Avsenderadresse for e-post i denne mappen.',
         'The salutation for email answers.' => 'Hilsning for e-postsvar.',
         'The signature for email answers.' => 'Signatur for e-postsvar.',
+        'Customer Move Notify' => 'Kundenotifikasjon ved flytting',
         'OTRS sends an notification email to the customer if the ticket is moved.' => 'OTRS sender en merknad til kunden dersom saken flyttes.',
+        'Customer State Notify' => 'Kundenotifikasjon ved statusendring',
         'OTRS sends an notification email to the customer if the ticket state has changed.' => 'OTRS sender en merknad til kunden ved statusoppdatering.',
+        'Customer Owner Notify' => 'Kundenotifikasjon ved skifte av saksbehandler',
         'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'OTRS sender en merknad til kunden ved skifte av saksbehandler.',
 
         # Template: AdminQueueResponsesChangeForm
@@ -1072,6 +1113,20 @@ sub Data {
 
         # Template: AgentCustomerTableView
 
+        # Template: AgentDashboard
+        'Dashboard' => '',
+        'Settings' => '',
+
+        # Template: AgentDashboardCalendarOverview
+        'in' => '',
+
+        # Template: AgentDashboardRSSOverview
+        'Posted %s ago.' => '',
+
+        # Template: AgentDashboardTicketOverview
+
+        # Template: AgentDashboardTicketStats
+
         # Template: AgentInfo
         'Info' => 'Informasjon',
 
@@ -1191,7 +1246,6 @@ sub Data {
         'Send mail!' => 'Send e-posten!',
 
         # Template: AgentTicketBulk
-        'A message should have a subject!' => 'En melding må ha en emnebeskrivelse!',
         'You need to account time!' => 'Du har ikke ført tidsregnskap!',
         'Ticket Bulk Action' => 'Masseredigering av saker',
         'Spell Check' => 'Stavekontroll',
@@ -1206,7 +1260,6 @@ sub Data {
 
         # Template: AgentTicketClose
         'Ticket Type is required!' => 'Sakstype er påkrevd!',
-        'A message should have a body!' => 'En melding må inneholde en meldingstekst!',
         'A required field is:' => 'Et påkrevd felt er:',
         'Close ticket' => 'Avslutt sak',
         'Previous Owner' => 'Forrige saksbehandler',
@@ -1501,15 +1554,15 @@ sub Data {
         'DB Host' => 'Databasemaskin',
         'Ticket Number Generator' => 'Saksnummer-generator',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Sakskjennetegn, f.eks. \'Ticket#\', \'Call#\' eller \'MyTicket#\')',
-        'Create new Phone Ticket' => 'Opprett ny henvendelse',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'På denne måten kan du direkte redigere nøkkelringen som er konfigurert i Kernel/Config.pm',
+        'Create new Phone Ticket' => 'Opprett ny henvendelse',
         'Symptom' => 'Symptom',
         'U' => 'O',
         'Site' => 'side',
         'Customer history search (e. g. "ID342425").' => 'Søk etter kunde for historikk (f.eks. "ID342425").',
         'Can not delete link with %s!' => 'Kan ikke fjerne kobling mot %s',
-        'for agent firstname' => 'gir agents fornavn',
         'Close!' => 'Lukk!',
+        'for agent firstname' => 'gir agents fornavn',
         'No means, send agent and customer notifications on changes.' => 'Nei betyr at man sender saksbehandler og kunde endringsnotiser.',
         'A web calendar' => 'EN web-kalender',
         'to get the realname of the sender (if given)' => 'gir avsenders fulle navn (hvis mulig)',
@@ -1557,8 +1610,8 @@ sub Data {
         'to get the first 20 character of the subject' => 'gir de første 20 bokstavene av emnebeskrivelsen',
         'Select the customeruser:service relations.' => 'Velg kundebruker:tjeneste relasjoner',
         'DB Admin Password' => 'DB administratorpassord',
-        'Advisory' => 'Råd',
         'Drop Database' => 'Slett database',
+        'Advisory' => 'Råd',
         'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Her kan du definere x-aksen. Du kan velge ett element, og deretter må du velge to eller flere attributter til dette elementet. Dersom du ikke gjør et valg, vil alle attributtene til elementet bli benyttet om du genererer statistikken, i tillegg til eventuelle nye attributter som blir lagt til siden siste konfigurasjon.',
         'FileManager' => 'Filhåndterer',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'gir tilgang til data for gjeldende kunde (f.eks. <OTRS_CUSTOMER_DATA_UserFirstname>)',
@@ -1580,10 +1633,10 @@ sub Data {
         'Reminder messages' => 'Påminnelses-meldinger',
         'Parent-Object' => 'Foreldre-objekt',
         'Of couse this feature will take some system performance it self!' => 'Selvfølgelig vil denne funksjonen kreve litt systemressurser selv også!',
-        'Detail' => 'Detalj',
         'Your own Ticket' => 'Din egen sak',
-        'Don\'t forget to add a new user to groups!' => 'Ikke glem å gi nye brukere en gruppe!',
+        'Detail' => 'Detalj',
         'Open Tickets' => 'Åpne saker',
+        'Don\'t forget to add a new user to groups!' => 'Ikke glem å gi nye brukere en gruppe!',
         'CreateTicket' => 'Opprettet sak',
         'You have to select two or more attributes from the select field!' => 'Du må velge to eller flere attributter fra valg feltet!',
         'System Settings' => 'Systeminnstillinger',
@@ -1592,24 +1645,22 @@ sub Data {
         'Explorer' => 'Utforsker',
         'Account Type' => 'Konto type',
         'D' => 'N',
-        'System Status' => 'System status',
         'All messages' => 'Alle meldinger',
+        'System Status' => 'System status',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Valg for saks-data (f.eks. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Artefact' => 'Artefakt',
         'Object already linked as %s.' => 'Objekt er allerede koblet som %s.',
         'A article should have a title!' => 'En artikkel bør ha en tittel',
         'Here you can define the x-axis. You can select one element via the radio button. Than you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Her kan man definere X-aksen. Man kan først velge ett element, og deretter to eller fler attributter for elementet. Dersom du ikke velger noen attributter vil alle attributtene til elementet velges, i tillegg til eventuelle nye elementer som legges til senere.',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Konfigurasjonsinnstillinger (f.eks. &lt;OTRS_CONFIG_HttpType&gt;)',
-        'Event' => 'Hendelse',
-        'All email addresses get excluded on replaying on composing and email.' => 'Alle epost adresser blir ekskludert ved besvarelser til nyopprettede eposter',
         'don\'t accept license' => 'ikke aksepter lisens',
+        'All email addresses get excluded on replaying on composing and email.' => 'Alle epost adresser blir ekskludert ved besvarelser til nyopprettede eposter',
         'A web mail client' => 'En webmail-klient',
         'Please select only one Element or turn of the button \'Fixed\'.' => 'Vennligst velg kun ett element, eller deaktiver \'Fast\' knappen.',
         'Compose Follow up' => 'Skriv oppfølgingssvar',
         'WebMail' => 'Webmail',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Valg for saksdata (f.eks. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'gir tilgang til data for agenten som står som eier av saken (f.eks. <OTRS_OWNER_UserFirstname>)',
-        'Name is required!' => 'Navn er påkrevd',
         'DB Type' => 'DB type',
         'Termin1' => 'Termin1',
         'kill all sessions' => 'Terminér alle sesjoner',
@@ -1617,8 +1668,8 @@ sub Data {
         'Solution' => 'Løsning',
         'QueueView' => 'Mapper',
         'Select Box' => 'SQL-tilgang',
-        'Please select only one element or turn of the button \'Fixed\' where the select field is marked!' => 'Vennligst velg kun ett element, eller skru av \'Fast\' knappen der valgt felt er markert!',
         'New messages' => 'Ny melding',
+        'Please select only one element or turn of the button \'Fixed\' where the select field is marked!' => 'Vennligst velg kun ett element, eller skru av \'Fast\' knappen der valgt felt er markert!',
         'Can not create link with %s!' => 'Kan ikke opprette kobling mot %s!',
         'Linked as' => 'Koblet som',
         'Welcome to OTRS' => 'Velkommen til OTRS',
