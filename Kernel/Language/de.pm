@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.189 2009-06-08 05:44:12 martin Exp $
+# $Id: de.pm,v 1.190 2009-06-09 08:39:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.189 $) [1];
+$VERSION = qw($Revision: 1.190 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -78,8 +78,8 @@ sub Data {
         'Modulefile' => 'Moduldatei',
         'Subfunction' => 'Unterfunktion',
         'Line' => 'Zeile',
-        'Setting' => '',
-        'Settings' => '',
+        'Setting' => 'Einstellung',
+        'Settings' => 'Einstellungen',
         'Example' => 'Beispiel',
         'Examples' => 'Beispiele',
         'valid' => 'gültig',
@@ -582,10 +582,11 @@ sub Data {
         'Customer called' => 'Kunden angerufen',
         'phone call' => 'Telefonanruf',
         'Reminder Reached' => 'Erinnerung erreicht',
-        'Reminder Tickets' => '',
-        'Escaladed Tickets' => '',
-        'New Tickets' => '',
-        'Open Tickets / Need to be answered' => '',
+        'Reminder Tickets' => 'Erinnerungs Tickets',
+        'Escalated Tickets' => 'Eskalierte Tickets',
+        'Upcoming Events' => 'Anstehende Ereignisse',
+        'New Tickets' => 'Neue Tickets',
+        'Open Tickets / Need to be answered' => 'Offene Tickets / Zur Beantwortung',
         'Responses' => 'Antworten',
         'Responses <-> Queue' => 'Antworten <-> Queues',
         'Auto Responses' => 'Auto Antworten',
@@ -737,20 +738,20 @@ sub Data {
         'No pending time settings.' => 'Keine Warten-Zeiten',
         'Ticket pending time reached' => 'Ticket Warten-Zeit erreicht',
         'Ticket pending time reached between' => 'Ticket Warten-Zeit erreicht zwischen',
-        'Escalation Times' => '',
-        'No escalation time settings.' => '',
-        'Ticket escalation time reached' => '',
-        'Ticket escalation time reached between' => '',
+        'Escalation Times' => 'Eskalations-Zeiten',
+        'No escalation time settings.' => 'Keine Eskalations-Zeiten',
+        'Ticket escalation time reached' => 'Ticket Eskalations-Zeit erreicht',
+        'Ticket escalation time reached between' => 'Ticket Eskalations-Zeit erreicht zwischen',
         'Escalation - First Response Time' => 'Eskalation - Reaktionszeit',
-        'No escalation time settings.' => '',
-        'Ticket first response time reached' => '',
-        'Ticket first response time reached between' => '',
+        'No escalation time settings.' => 'Keine Eskalations-Zeiten',
+        'Ticket first response time reached' => 'Ticket Reaktionszeit erreicht',
+        'Ticket first response time reached between' => 'Ticket Reaktionszeit erreicht zwischen',
         'Escalation - Update Time' => 'Eskalation - Aktualisierungszeit',
-        'Ticket update time reached' => '',
-        'Ticket update time reached between' => '',
+        'Ticket update time reached' => 'Ticket Aktuallisierungszeit erreicht',
+        'Ticket update time reached between' => 'Ticket Aktuallisierungszeit erreicht zwischen',
         'Escalation - Solution Time' => 'Eskalation - Lösungszeit',
-        'Ticket solution time reached' => '',
-        'Ticket solution time reached between' => '',
+        'Ticket solution time reached' => 'Ticket Lösungszeit erreicht',
+        'Ticket solution time reached between' => 'Ticket Lösungszeit erreicht zwischen',
         'New Service' => 'Neuer Service',
         'New SLA' => 'Neuer SLA',
         'New Priority' => 'Neue Priorität',
@@ -808,23 +809,21 @@ sub Data {
 
         # Template: AdminNotificationEventForm
         'Notification Management' => 'Benachrichtigungs Verwaltung',
-        'Add Notification' => '',
-        'Add a new Notification.' => '',
+        'Add Notification' => 'Benachrichtigung hinzufügen',
+        'Add a new Notification.' => 'Eine neue Benachrichtigung hinzufügen',
         'Name is required!' => 'Name wird benötigt!',
-        'Event is required!' => '',
+        'Event is required!' => 'Ereignis ist benötigt!',
         'A message should have a subject!' => 'Eine Nachricht sollte einen Betreff haben!',
         'A message should have a body!' => 'Eine Nachricht sollte einen Body haben!',
-        'Recipient' => '',
-        'Group based' => '',
-        'Recipient' => '',
-        'Agent based' => '',
-        'Email based' => '',
+        'Recipient' => 'Empfänger',
+        'Group based' => 'Gruppen basierend',
+        'Agent based' => 'Agenten basierend',
+        'Email based' => 'Email basierend',
         'Event' => 'Ereignis',
-        'Article Type' => '',
-        'Only for ArticleCreate Event.' => '',
-        'Subject match' => '',
-        'Only for ArticleCreate Event.' => '',
-        'Body match' => '',
+        'Article Type' => 'Artikel Typ',
+        'Subject match' => 'Betreff treffer',
+        'Only for ArticleCreate Event.' => 'Nur für Ereignis ArticleCreate.',
+        'Body match' => 'Body treffer',
         'Notifications are sent to an agent or a customer.' => 'Benachrichtigungen werden an Agenten und Kunden gesendet.',
         'To get the first 20 character of the subject (of the latest agent article).' => '',
         'To get the first 5 lines of the body (of the latest agent article).' => '',
@@ -898,7 +897,7 @@ sub Data {
         # Template: AdminPostMasterFilter
         'PostMaster Filter Management' => 'PostMaster Filter Verwaltung',
         'Filtername' => 'Filtername',
-        'Stop after match' => 'Stoppen nach ersten Treffer',
+        'Stop after match' => 'Stoppen nach Treffer',
         'Match' => 'Treffer',
         'Value' => 'Wert',
         'Set' => 'Setzen',
@@ -991,7 +990,7 @@ sub Data {
         'Add a new Salutation.' => 'Eine neue Anrede hinzufügen.',
 
         # Template: AdminSecureMode
-        'Secure Mode need to be enabled!' => '',
+        'Secure Mode need to be enabled!' => 'Secure Mode muss aktiviert werden!',
         'Secure mode will (normally) be set after the initial installation is completed.' => '',
         'Secure mode must be disabled in order to reinstall using the web-installer.' => '',
         'If Secure Mode is not activated, activate it via SysConfig because your application is already running.' => '',
@@ -1110,14 +1109,13 @@ sub Data {
         # Template: AgentCustomerTableView
 
         # Template: AgentDashboard
-        'Dashboard' => '',
-        'Settings' => '',
+        'Dashboard' => 'Dashboard',
 
         # Template: AgentDashboardCalendarOverview
-        'in' => '',
+        'in' => 'in',
 
         # Template: AgentDashboardRSSOverview
-        'Posted %s ago.' => '',
+        'Posted %s ago.' => 'Veröffentlicht vor %s.',
 
         # Template: AgentDashboardTicketOverview
 
