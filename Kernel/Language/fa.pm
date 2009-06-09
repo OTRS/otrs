@@ -3,7 +3,7 @@
 # Copyright (C) 2006-2008 Amir Shams Parsa <amir at parsa.name>
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # --
-# $Id: fa.pm,v 1.58 2009-06-08 05:44:12 martin Exp $
+# $Id: fa.pm,v 1.59 2009-06-09 08:46:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.58 $) [1];
+$VERSION = qw($Revision: 1.59 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Jun  8 07:33:46 2009
+    # Last translation file sync: Tue Jun  9 10:43:02 2009
 
     # possible charsets
     $Self->{Charset} = ['utf-8', 'utf-8', ];
@@ -273,6 +273,9 @@ sub Data {
         'Please press Back and try again.' => 'کلید بازگشت را بزنید و دوباره سعی کنید',
         'Sent password token to: %s' => 'کد بازیابی رمز عبور به آدرس %s ارسال شد.',
         'Sent new password to: %s' => 'رمز عبور جدید به آدرس %s ارسال شد',
+        'Upcoming Events' => '',
+        'Event' => 'رویداد',
+        'Events' => '',
         'Invalid Token!' => 'کد بازیابی معتبر نیست',
         'For more info see:' => '',
         'Package verification failed!' => '',
@@ -588,7 +591,7 @@ sub Data {
         'phone call' => 'تماس تلفنی',
         'Reminder Reached' => '',
         'Reminder Tickets' => '',
-        'Escaladed Tickets' => '',
+        'Escalated Tickets' => '',
         'New Tickets' => '',
         'Open Tickets / Need to be answered' => '',
         'Responses' => 'پاسخ ها',
@@ -747,7 +750,6 @@ sub Data {
         'Ticket escalation time reached' => '',
         'Ticket escalation time reached between' => '',
         'Escalation - First Response Time' => 'آخرین مهلت برای اولین پاسخگویی',
-        'No escalation time settings.' => '',
         'Ticket first response time reached' => '',
         'Ticket first response time reached between' => '',
         'Escalation - Update Time' => ' آخرین مهلت برای رسیدگی به یک درخواست',
@@ -821,14 +823,11 @@ sub Data {
         'A message should have a body!' => 'پیام میبایست دارای متن باشد !',
         'Recipient' => '',
         'Group based' => '',
-        'Recipient' => '',
         'Agent based' => '',
         'Email based' => '',
-        'Event' => 'رویداد',
         'Article Type' => '',
         'Only for ArticleCreate Event.' => '',
         'Subject match' => '',
-        'Only for ArticleCreate Event.' => '',
         'Body match' => '',
         'Notifications are sent to an agent or a customer.' => 'اعلام به یک کارشناس پشتیبانی یا مشترک ارسال شد.',
         'To get the first 20 character of the subject (of the latest agent article).' => '',
@@ -1116,7 +1115,6 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
-        'Settings' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
@@ -1398,6 +1396,7 @@ sub Data {
         'Yes, save it with name' => 'بله آنرا ذخیره کن با نام',
 
         # Template: AgentTicketSearchOpenSearchDescriptionFulltext
+        'Fulltext' => 'جستجوی متنی',
 
         # Template: AgentTicketSearchOpenSearchDescriptionTicketNumber
 
@@ -1626,7 +1625,6 @@ sub Data {
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'گزینه های اطلاعات درخواست(شماره درخواست،شناسه درخواست،لیست مربوطه و وضعیت)',
         '(Used ticket number format)' => '(فرمت شماره درخواست)',
         'Reminder' => 'یادآوری',
-        'Fulltext' => 'جستجوی متنی',
         'Incident' => 'رویداد',
         'OTRS DB connect host' => 'سرور میزبان بانک اطلاعاتی ',
         ' (work units)' => ' واحد کار',
@@ -1691,6 +1689,7 @@ sub Data {
         'Mailbox' => 'صندوق نامه ها',
         'PhoneView' => 'نمایش تلفن',
         'TicketID' => 'شناسه درخواست',
+        'Escaladed Tickets' => '',
         'Yes means, send no agent and customer notifications on changes.' => 'پاسخ بله به معنی عدم ارسال اعلام به کارشناس و مشترک پس از اعمال تغییرات است',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'پیام شما در درخواست به شماره "<OTRS_TICKET> ارجاع شد به "<OTRS_BOUNCE_TO>".  اطلاعات بیشتر را از این آدرس دریافت نمائید',
         'Ticket Status View' => 'نمایش وضعیت درخواست',

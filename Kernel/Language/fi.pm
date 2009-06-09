@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # Copyright (C) 2007-2008 Mikko Hynninen <first.last at tietokartano.fi>
 # --
-# $Id: fi.pm,v 1.88 2009-06-08 05:44:12 martin Exp $
+# $Id: fi.pm,v 1.89 2009-06-09 08:46:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.88 $) [1];
+$VERSION = qw($Revision: 1.89 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Jun  8 07:33:48 2009
+    # Last translation file sync: Tue Jun  9 10:43:03 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -270,6 +270,9 @@ sub Data {
         'Please press Back and try again.' => 'Klikkaa Takaisin ja yritä uudestaan.',
         'Sent password token to: %s' => 'Lähetä valtuutusavain osoitteeseen: %s',
         'Sent new password to: %s' => 'Lähetä uusi salasana osoitteeseen: %s',
+        'Upcoming Events' => '',
+        'Event' => 'Tapahtyma',
+        'Events' => '',
         'Invalid Token!' => 'Virheellinen valtuutusavain!',
         'For more info see:' => '',
         'Package verification failed!' => '',
@@ -585,7 +588,7 @@ sub Data {
         'phone call' => 'puhelu',
         'Reminder Reached' => '',
         'Reminder Tickets' => '',
-        'Escaladed Tickets' => '',
+        'Escalated Tickets' => '',
         'New Tickets' => '',
         'Open Tickets / Need to be answered' => '',
         'Responses' => 'Vastaukset',
@@ -744,7 +747,6 @@ sub Data {
         'Ticket escalation time reached' => '',
         'Ticket escalation time reached between' => '',
         'Escalation - First Response Time' => 'Käsittely - ensimmäinen vastaus',
-        'No escalation time settings.' => '',
         'Ticket first response time reached' => '',
         'Ticket first response time reached between' => '',
         'Escalation - Update Time' => 'Käsittely - Päivitysaika',
@@ -818,14 +820,11 @@ sub Data {
         'A message should have a body!' => 'Viestiin tulee lisätä tietoja',
         'Recipient' => '',
         'Group based' => '',
-        'Recipient' => '',
         'Agent based' => '',
         'Email based' => '',
-        'Event' => 'Tapahtyma',
         'Article Type' => '',
         'Only for ArticleCreate Event.' => '',
         'Subject match' => '',
-        'Only for ArticleCreate Event.' => '',
         'Body match' => '',
         'Notifications are sent to an agent or a customer.' => 'Huomautukset lähetetään joko agentille tai asiakkaalle.',
         'To get the first 20 character of the subject (of the latest agent article).' => '',
@@ -1113,7 +1112,6 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
-        'Settings' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
@@ -1395,6 +1393,7 @@ sub Data {
         'Yes, save it with name' => 'Kyllä, tallenna nimellä',
 
         # Template: AgentTicketSearchOpenSearchDescriptionFulltext
+        'Fulltext' => 'Kokosana',
 
         # Template: AgentTicketSearchOpenSearchDescriptionTicketNumber
 
@@ -1609,7 +1608,6 @@ sub Data {
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Tikettitiedon asetukset (esim. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         '(Used ticket number format)' => 'Tikettinumeroiden oletusformaatti',
         'Reminder' => 'Muistuttaja',
-        'Fulltext' => 'Kokosana',
         ' (work units)' => ' (esim. minuutteina)',
         'Next Week' => 'Seuraavalla viikolla',
         'All Customer variables like defined in config option CustomerUser.' => 'Kaikki asiakkaan muuttujat kuten määritetty Asiakaskäyttäjän asetuksissa.',
@@ -1665,6 +1663,7 @@ sub Data {
         'Verion' => 'Versio',
         'TicketID' => 'TikettiID',
         'Management Summary' => 'Hallinnan yhteenveto',
+        'Escaladed Tickets' => '',
         'Yes means, send no agent and customer notifications on changes.' => 'Kyllä tarkoittaa, älä lähetä agentille ja asiakkaalle ilmoitusta muutoksista.',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Sähköposti, tikettinumero "<OTRS_TICKET>" on välitetty osoitteeseen: "<OTRS_BOUNCE_TO>" . Ota yhteyttä kyseiseen osoitteeseen saadaksesi lisätietoja',
         'Ticket Status View' => 'Tikettien tilanäkymä',

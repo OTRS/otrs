@@ -4,7 +4,7 @@
 # Copyright (C) 2007 Carlos Oyarzabal <carlos.oyarzabal at grupocash.com.mx>
 # Copyright (C) 2008 Pelayo Romero Martín <pelayo.romero at gmail.com>
 # --
-# $Id: es.pm,v 1.89 2009-06-08 05:44:12 martin Exp $
+# $Id: es.pm,v 1.90 2009-06-09 08:46:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.89 $) [1];
+$VERSION = qw($Revision: 1.90 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Jun  8 07:33:40 2009
+    # Last translation file sync: Tue Jun  9 10:41:48 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -271,6 +271,9 @@ sub Data {
         'Please press Back and try again.' => 'Por favor, presione Atrás e inténtelo de nuevo.',
         'Sent password token to: %s' => 'Enviado recordatorio de clave a: %s',
         'Sent new password to: %s' => 'Enviada nueva clave a: %s',
+        'Upcoming Events' => '',
+        'Event' => 'Evento',
+        'Events' => '',
         'Invalid Token!' => 'Recordatorio no válido!',
         'For more info see:' => '',
         'Package verification failed!' => '',
@@ -586,7 +589,7 @@ sub Data {
         'phone call' => 'llamada telefónica',
         'Reminder Reached' => '',
         'Reminder Tickets' => '',
-        'Escaladed Tickets' => '',
+        'Escalated Tickets' => '',
         'New Tickets' => '',
         'Open Tickets / Need to be answered' => '',
         'Responses' => 'Respuestas',
@@ -745,7 +748,6 @@ sub Data {
         'Ticket escalation time reached' => '',
         'Ticket escalation time reached between' => '',
         'Escalation - First Response Time' => 'Escalado - Tiempo para Primera Respuesta',
-        'No escalation time settings.' => '',
         'Ticket first response time reached' => '',
         'Ticket first response time reached between' => '',
         'Escalation - Update Time' => 'Escalado - Tiempo para Actualización',
@@ -819,14 +821,11 @@ sub Data {
         'A message should have a body!' => 'Los mensajes deben tener contenido',
         'Recipient' => '',
         'Group based' => '',
-        'Recipient' => '',
         'Agent based' => '',
         'Email based' => '',
-        'Event' => 'Evento',
         'Article Type' => '',
         'Only for ArticleCreate Event.' => '',
         'Subject match' => '',
-        'Only for ArticleCreate Event.' => '',
         'Body match' => '',
         'Notifications are sent to an agent or a customer.' => 'Las notificaciones se envían a un agente o cliente',
         'To get the first 20 character of the subject (of the latest agent article).' => '',
@@ -1114,7 +1113,6 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
-        'Settings' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
@@ -1396,6 +1394,7 @@ sub Data {
         'Yes, save it with name' => 'Sí, guardarlo con nombre',
 
         # Template: AgentTicketSearchOpenSearchDescriptionFulltext
+        'Fulltext' => 'Texto Completo',
 
         # Template: AgentTicketSearchOpenSearchDescriptionTicketNumber
 
@@ -1552,15 +1551,15 @@ sub Data {
         'Create Database' => 'Crear Base de Datos',
         'Ticket Number Generator' => 'Generador de números de Tickets',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identificador de Ticket. Algunas personas quieren usar por ejemplo \'Ticket#\', \'Call#\' o \'MyTicket#\')',
-        'Create new Phone Ticket' => 'Crear un nuevo Ticket Telefónico',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'De esta forma, Ud. puede editar directamente las claves configuradas en Kernel/Config.pm.',
+        'Create new Phone Ticket' => 'Crear un nuevo Ticket Telefónico',
         'Symptom' => 'Síntoma',
         'U' => 'A',
         'Site' => 'Sitio',
         'Customer history search (e. g. "ID342425").' => 'Historia de búsquedas del cliente (ej: "ID342425")',
         'Can not delete link with %s!' => 'No se puede eliminar vínculo con %s!',
-        'for agent firstname' => 'nombre del agente',
         'Close!' => 'Cerrar!',
+        'for agent firstname' => 'nombre del agente',
         'No means, send agent and customer notifications on changes.' => '"No" significa enviar a los agentes y clientes notificaciones al realizar cambios.',
         'A web calendar' => 'Calendario Web',
         'to get the realname of the sender (if given)' => 'para obtener el nombre del emisor (si lo proporcionó)',
@@ -1607,8 +1606,8 @@ sub Data {
         'to get the first 20 character of the subject' => 'para obtener los primeros 20 caracteres del asunto ',
         'Select the customeruser:service relations.' => 'Seleccione las relaciones cliente:servicio.',
         'DB Admin Password' => 'Contraseña del Administrador de la BD',
-        'Advisory' => 'Advertencia',
         'Drop Database' => 'Eliminar Base de Datos',
+        'Advisory' => 'Advertencia',
         'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Aqui puede definir el eje-x. Puede seleccionar un elemento usando la casilla de selección. Luego debe seleccionar dos o más atributos del elemento. Si Ud. no selecciona ninguno, todos los atributos del elemento se utilizarán para generar una estadística. Asimismo un nuevo atributo es añadido desde la última configuración.',
         'FileManager' => 'Administrador de Archivos',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Opciones del usuario activo  (ej. <OTRS_CUSTOMER_DATA_UserFirstname>)',
@@ -1619,7 +1618,6 @@ sub Data {
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Opciones de la información del ticket (ej: <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         '(Used ticket number format)' => '(Formato de número de ticket utilizado)',
         'Reminder' => 'Recordatorio',
-        'Fulltext' => 'Texto Completo',
         'Incident' => 'Incidente',
         'All Agent variables.' => 'Todas las variables de Agente',
         ' (work units)' => ' (unidades de trabajo)',
@@ -1632,11 +1630,11 @@ sub Data {
         'Change users <-> roles settings' => 'Modificar Configuración de Usuarios <-> Roles',
         'Parent-Object' => 'Objeto-Padre',
         'Of couse this feature will take some system performance it self!' => 'De acuerdo a esta característica se efectuarán ciertas mejoras en el sistema por sí mismo.',
-        'Your own Ticket' => 'Sus tickets',
         'Detail' => 'Detalle',
+        'Your own Ticket' => 'Sus tickets',
         'TicketZoom' => 'Detalle del Ticket',
-        'Open Tickets' => 'Tickets Abiertos',
         'Don\'t forget to add a new user to groups!' => 'No olvide incluir el nuevo usuario en grupos!',
+        'Open Tickets' => 'Tickets Abiertos',
         'CreateTicket' => 'CrearTicket',
         'You have to select two or more attributes from the select field!' => 'Debe seleccionar dos o más atributos del campo seleccionado',
         'System Settings' => 'Configuración del sistema',
@@ -1645,15 +1643,15 @@ sub Data {
         'Finished' => 'Finalizado',
         'Account Type' => 'Tipo de cuenta',
         'D' => '',
-        'System Status' => 'Estado del Sistema',
         'All messages' => 'Todos los mensajes',
+        'System Status' => 'Estado del Sistema',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Opciones de la información del ticket (ej. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Artefact' => 'Artefacto',
         'Object already linked as %s.' => 'Objecto ya vinculado como %s.',
         'A article should have a title!' => 'Los artículos deben tener título',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Opciones de configuración (ej. &lt;OTRS_CONFIG_HttpType&gt;)',
-        'don\'t accept license' => 'no aceptar la licencia',
         'All email addresses get excluded on replaying on composing and email.' => '',
+        'don\'t accept license' => 'no aceptar la licencia',
         'A web mail client' => 'Un cliente de correo Web',
         'Compose Follow up' => 'Redactar seguimiento',
         'WebMail' => 'CorreoWeb',
@@ -1684,6 +1682,7 @@ sub Data {
         'PhoneView' => 'Vista telefónica',
         'maximal period form' => 'periodo máximo del formulario',
         'TicketID' => 'Identificador de Ticket',
+        'Escaladed Tickets' => '',
         'Yes means, send no agent and customer notifications on changes.' => '"Sí" significa no enviar notificación a los agentes y clientes al realizarse cambios.',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Su correo con número de ticket "<OTRS_TICKET>"  fue rebotado a "<OTRS_BOUNCE_TO>". Contacte con dicha dirección para más información.',
         'Ticket Status View' => 'Ver Estado del Ticket',

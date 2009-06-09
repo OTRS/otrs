@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.190 2009-06-09 08:39:01 martin Exp $
+# $Id: de.pm,v 1.191 2009-06-09 08:46:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.190 $) [1];
+$VERSION = qw($Revision: 1.191 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Jun  8 07:32:04 2009
+    # Last translation file sync: Tue Jun  9 10:41:39 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -268,6 +268,9 @@ sub Data {
         'Please press Back and try again.' => 'Bitte auf Zurück klicken und erneut versuchen.',
         'Sent password token to: %s' => 'Passwort-Token an %s gesendet.',
         'Sent new password to: %s' => 'Neues Passwort an %s gesendet.',
+        'Upcoming Events' => 'Anstehende Ereignisse',
+        'Event' => 'Ereignis',
+        'Events' => '',
         'Invalid Token!' => 'Ungültiger Token!',
         'For more info see:' => 'Für mehr Informationen hier:',
         'Package verification failed!' => 'Paket Überprüfung Fehlgeschlagen',
@@ -584,7 +587,6 @@ sub Data {
         'Reminder Reached' => 'Erinnerung erreicht',
         'Reminder Tickets' => 'Erinnerungs Tickets',
         'Escalated Tickets' => 'Eskalierte Tickets',
-        'Upcoming Events' => 'Anstehende Ereignisse',
         'New Tickets' => 'Neue Tickets',
         'Open Tickets / Need to be answered' => 'Offene Tickets / Zur Beantwortung',
         'Responses' => 'Antworten',
@@ -743,7 +745,6 @@ sub Data {
         'Ticket escalation time reached' => 'Ticket Eskalations-Zeit erreicht',
         'Ticket escalation time reached between' => 'Ticket Eskalations-Zeit erreicht zwischen',
         'Escalation - First Response Time' => 'Eskalation - Reaktionszeit',
-        'No escalation time settings.' => 'Keine Eskalations-Zeiten',
         'Ticket first response time reached' => 'Ticket Reaktionszeit erreicht',
         'Ticket first response time reached between' => 'Ticket Reaktionszeit erreicht zwischen',
         'Escalation - Update Time' => 'Eskalation - Aktualisierungszeit',
@@ -819,10 +820,9 @@ sub Data {
         'Group based' => 'Gruppen basierend',
         'Agent based' => 'Agenten basierend',
         'Email based' => 'Email basierend',
-        'Event' => 'Ereignis',
         'Article Type' => 'Artikel Typ',
-        'Subject match' => 'Betreff treffer',
         'Only for ArticleCreate Event.' => 'Nur für Ereignis ArticleCreate.',
+        'Subject match' => 'Betreff treffer',
         'Body match' => 'Body treffer',
         'Notifications are sent to an agent or a customer.' => 'Benachrichtigungen werden an Agenten und Kunden gesendet.',
         'To get the first 20 character of the subject (of the latest agent article).' => '',
@@ -1391,6 +1391,7 @@ sub Data {
         'Yes, save it with name' => 'Ja, speichere unter dem Namen',
 
         # Template: AgentTicketSearchOpenSearchDescriptionFulltext
+        'Fulltext' => 'Volltext',
 
         # Template: AgentTicketSearchOpenSearchDescriptionTicketNumber
 
@@ -1548,14 +1549,14 @@ sub Data {
         'File-Name' => 'Datei-Dateiname',
         'Ticket Number Generator' => 'Ticketnummer Generator',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Ticket Kennzeichnen. Z.B. \'Ticket#\', \'Call#\' oder \'MyTicket#\')',
-        'Create new Phone Ticket' => 'Neues Telefon-Ticket erstellen',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Auf diesem Wege können Sie den Keyring in Kernel/Config.pm direkt verändern',
+        'Create new Phone Ticket' => 'Neues Telefon-Ticket erstellen',
         'U' => 'U',
         'Site' => 'Seite',
         'Customer history search (e. g. "ID342425").' => 'Kunden-Historie-Suche (z. B. "ID342425").',
         'Can not delete link with %s!' => 'Link zu %s konnte nicht gelöscht werden!',
-        'for agent firstname' => 'für Vorname des Agents',
         'Close!' => 'Schließen!',
+        'for agent firstname' => 'für Vorname des Agents',
         'Reporter' => 'Melder',
         'Process-Path' => 'Prozess-Path',
         'to get the realname of the sender (if given)' => 'Um den Realnamen des Senders zu erhalten (wenn möglich)',
@@ -1618,7 +1619,6 @@ sub Data {
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Optionen von Ticket Daten (z. B. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         '(Used ticket number format)' => '(Benutztes Format für die Ticketnummer)',
         'Reminder' => 'Erinnernd',
-        'Fulltext' => 'Volltext',
         'Month' => 'Monat',
         'Node-Address' => 'Node-Adresse',
         'All Agent variables.' => 'Alle Agentenvariabln',
@@ -1631,11 +1631,11 @@ sub Data {
         'Reminder messages' => 'Nachrichten zur Erinnerung',
         'Parent-Object' => 'Eltern-Objekte',
         'Of couse this feature will take some system performance it self!' => 'Wenn dieses Feature aktiv ist, ist mit Leistungsdefizit zu rechnen.',
-        'Detail' => 'Detail',
         'Your own Ticket' => 'Ihr eigenes Ticket',
+        'Detail' => 'Detail',
         'TicketZoom' => 'Ticket Inhalt',
-        'Open Tickets' => 'Offene Tickets',
         'Don\'t forget to add a new user to groups!' => 'Ein neuer Benutzer muss einer Gruppe zugewiesen werden!',
+        'Open Tickets' => 'Offene Tickets',
         'CreateTicket' => 'Ticket Erstellen',
         'unknown' => 'unbekannt',
         'System Settings' => 'System Einstellungen',
@@ -1643,8 +1643,8 @@ sub Data {
         'Imported' => 'Importiert',
         'unread' => 'ungelesen',
         'D' => 'D',
-        'All messages' => 'Alle Nachrichten',
         'System Status' => 'System Status',
+        'All messages' => 'Alle Nachrichten',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Optionen des Tickets (z. B. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => 'Objekt bereits verlinkt als %s.',
         'A article should have a title!' => 'Ein Artikel sollte einen Titel haben!',

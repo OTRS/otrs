@@ -2,7 +2,7 @@
 # Kernel/Language/sv.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats@synergy.se>
 # --
-# $Id: sv.pm,v 1.65 2009-06-08 05:44:13 martin Exp $
+# $Id: sv.pm,v 1.66 2009-06-09 08:46:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.65 $;
+$VERSION = q$Revision: 1.66 $;
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Jun  8 07:34:53 2009
+    # Last translation file sync: Tue Jun  9 10:43:39 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -269,6 +269,9 @@ sub Data {
         'Please press Back and try again.' => '',
         'Sent password token to: %s' => '',
         'Sent new password to: %s' => '',
+        'Upcoming Events' => '',
+        'Event' => '',
+        'Events' => '',
         'Invalid Token!' => '',
         'For more info see:' => '',
         'Package verification failed!' => '',
@@ -584,7 +587,7 @@ sub Data {
         'phone call' => '',
         'Reminder Reached' => '',
         'Reminder Tickets' => '',
-        'Escaladed Tickets' => '',
+        'Escalated Tickets' => '',
         'New Tickets' => '',
         'Open Tickets / Need to be answered' => '',
         'Responses' => 'Svar',
@@ -743,7 +746,6 @@ sub Data {
         'Ticket escalation time reached' => '',
         'Ticket escalation time reached between' => '',
         'Escalation - First Response Time' => '',
-        'No escalation time settings.' => '',
         'Ticket first response time reached' => '',
         'Ticket first response time reached between' => '',
         'Escalation - Update Time' => '',
@@ -817,14 +819,11 @@ sub Data {
         'A message should have a body!' => 'Ett meddelande måste innehålla en meddelandetext!',
         'Recipient' => '',
         'Group based' => '',
-        'Recipient' => '',
         'Agent based' => '',
         'Email based' => '',
-        'Event' => '',
         'Article Type' => '',
         'Only for ArticleCreate Event.' => '',
         'Subject match' => '',
-        'Only for ArticleCreate Event.' => '',
         'Body match' => '',
         'Notifications are sent to an agent or a customer.' => 'Meddelanden skickats till agenter eller kunder.',
         'To get the first 20 character of the subject (of the latest agent article).' => '',
@@ -1112,7 +1111,6 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
-        'Settings' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
@@ -1394,6 +1392,7 @@ sub Data {
         'Yes, save it with name' => 'Ja, spara med namn',
 
         # Template: AgentTicketSearchOpenSearchDescriptionFulltext
+        'Fulltext' => 'Fritext',
 
         # Template: AgentTicketSearchOpenSearchDescriptionTicketNumber
 
@@ -1555,8 +1554,8 @@ sub Data {
         'Site' => 'plats',
         'Customer history search (e. g. "ID342425").' => 'Sök efter kundhistorik (t.ex. "ID342425").',
         'Can not delete link with %s!' => '',
-        'Close!' => 'Stäng!',
         'for agent firstname' => 'för agents förnamn',
+        'Close!' => 'Stäng!',
         'Subgroup \'' => '',
         'No means, send agent and customer notifications on changes.' => '',
         'A web calendar' => '',
@@ -1616,7 +1615,6 @@ sub Data {
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         '(Used ticket number format)' => '(Valt format för ärendenummer)',
         'Reminder' => 'Påminnelse',
-        'Fulltext' => 'Fritext',
         ' (work units)' => ' (arbetsenheter)',
         'Next Week' => '',
         'Operation' => '',
@@ -1627,11 +1625,11 @@ sub Data {
         'Parent-Object' => '',
         'Of couse this feature will take some system performance it self!' => '',
         'IMAPS' => '',
-        'Your own Ticket' => 'Ditt eget ärende',
         'Detail' => '',
+        'Your own Ticket' => 'Ditt eget ärende',
         'TicketZoom' => 'Ärende Zoom',
-        'Open Tickets' => '',
         'Don\'t forget to add a new user to groups!' => 'Glöm inte att lägga in en ny användare i en grupp!',
+        'Open Tickets' => '',
         'CreateTicket' => 'Skapa Ärende',
         'You have to select two or more attributes from the select field!' => '',
         'System Settings' => 'Systeminställningar',
@@ -1640,14 +1638,14 @@ sub Data {
         'Finished' => 'Klar',
         'Account Type' => '',
         'D' => 'N',
-        'All messages' => 'Alla meddelanden',
         'System Status' => '',
+        'All messages' => 'Alla meddelanden',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         'Object already linked as %s.' => '',
         'A article should have a title!' => '',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
-        'don\'t accept license' => 'godkänn inte licens',
         'All email addresses get excluded on replaying on composing and email.' => '',
+        'don\'t accept license' => 'godkänn inte licens',
         'A web mail client' => '',
         'IMAP' => '',
         'Compose Follow up' => 'Skriv uppföljningssvar',
@@ -1679,6 +1677,7 @@ sub Data {
         'PhoneView' => 'Tel.samtal',
         'maximal period form' => '',
         'Management Summary' => '',
+        'Escaladed Tickets' => '',
         'Yes means, send no agent and customer notifications on changes.' => '',
         'POP3' => '',
         'POP3S' => '',

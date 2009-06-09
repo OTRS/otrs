@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.88 2009-06-08 05:44:12 martin Exp $
+# $Id: bg.pm,v 1.89 2009-06-09 08:46:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.88 $) [1];
+$VERSION = qw($Revision: 1.89 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Jun  8 07:33:17 2009
+    # Last translation file sync: Tue Jun  9 10:41:31 2009
 
     # possible charsets
     $Self->{Charset} = ['cp1251', 'Windows-1251', ];
@@ -270,6 +270,9 @@ sub Data {
         'Please press Back and try again.' => '',
         'Sent password token to: %s' => '',
         'Sent new password to: %s' => '',
+        'Upcoming Events' => '',
+        'Event' => 'Събитие',
+        'Events' => '',
         'Invalid Token!' => '',
         'For more info see:' => '',
         'Package verification failed!' => '',
@@ -585,7 +588,7 @@ sub Data {
         'phone call' => 'обаждане по телефон',
         'Reminder Reached' => '',
         'Reminder Tickets' => '',
-        'Escaladed Tickets' => '',
+        'Escalated Tickets' => '',
         'New Tickets' => '',
         'Open Tickets / Need to be answered' => '',
         'Responses' => 'Отговори',
@@ -744,7 +747,6 @@ sub Data {
         'Ticket escalation time reached' => '',
         'Ticket escalation time reached between' => '',
         'Escalation - First Response Time' => 'Ескалация - Време за първи отговор',
-        'No escalation time settings.' => '',
         'Ticket first response time reached' => '',
         'Ticket first response time reached between' => '',
         'Escalation - Update Time' => 'Ескалация - Време за статус ъпдейт',
@@ -818,14 +820,11 @@ sub Data {
         'A message should have a body!' => 'Съобщението трябва да има текст',
         'Recipient' => '',
         'Group based' => '',
-        'Recipient' => '',
         'Agent based' => '',
         'Email based' => '',
-        'Event' => 'Събитие',
         'Article Type' => '',
         'Only for ArticleCreate Event.' => '',
         'Subject match' => '',
-        'Only for ArticleCreate Event.' => '',
         'Body match' => '',
         'Notifications are sent to an agent or a customer.' => 'Уведомления се изпращат на агент или клиент-потребител',
         'To get the first 20 character of the subject (of the latest agent article).' => '',
@@ -1113,7 +1112,6 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
-        'Settings' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
@@ -1395,6 +1393,7 @@ sub Data {
         'Yes, save it with name' => 'Да, съхрани с името',
 
         # Template: AgentTicketSearchOpenSearchDescriptionFulltext
+        'Fulltext' => 'Пълнотекстово',
 
         # Template: AgentTicketSearchOpenSearchDescriptionTicketNumber
 
@@ -1552,15 +1551,15 @@ sub Data {
         'DB Host' => 'Хост на базата данни',
         'Ticket Number Generator' => 'Генератор на номера на билети',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Идентификатор на билета. Примерно: \'Ticket#\', \'Call#\' or \'MyTicket#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'По този начин може да редактирате keyring-а конфигуриран в Kernel/Config.pm.',
         'Create new Phone Ticket' => 'Създаване на нов билет на базата на телефонно обаждане',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'По този начин може да редактирате keyring-а конфигуриран в Kernel/Config.pm.',
         'Symptom' => 'Симптом',
         'U' => 'В',
         'Site' => 'Място',
         'Customer history search (e. g. "ID342425").' => 'Търсене в хрониката на клиента (примерно "ID342425").',
         'Can not delete link with %s!' => '',
-        'Close!' => 'Затворете!',
         'for agent firstname' => 'за агент име',
+        'Close!' => 'Затворете!',
         'No means, send agent and customer notifications on changes.' => 'Не означава че ще бъдат изпращани уведомления (тип: агент и тип: клиент) когато има промени.',
         'A web calendar' => 'Календар',
         'to get the realname of the sender (if given)' => 'за да получите истинското име на изпращача (ако е попълнено)',
@@ -1609,8 +1608,8 @@ sub Data {
         'to get the first 20 character of the subject' => 'за да получите първите 20 символа от поле "относно"',
         'Select the customeruser:service relations.' => '',
         'DB Admin Password' => 'Парола на администратора на базата',
-        'Drop Database' => 'Нулиране базата данни',
         'Advisory' => 'Консултация',
+        'Drop Database' => 'Нулиране базата данни',
         'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Тук може да дефинирате оста Х, може да изберете един елемент (посредством радио бутон). Тук може да изберете един или два елемента. След това може да изберете атрибути на елементите. Всеки атрибут ще бъде показан като група от единични стойности. Ако не изберете атрибут, всички атрибути на елемента ще бъдат показане по време на генерирането на статистиката, както и всеки нов атрибут добавен при конфигурация на статистиката.',
         'FileManager' => 'Файлов менажер',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Свойства на текущия клиент-потребител (Пример: <OTRS_CUSTOMER_DATA_UserFirstname>)',
@@ -1620,7 +1619,6 @@ sub Data {
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Свойства на билета (Пример: <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         '(Used ticket number format)' => '(Използван формат за номера на билетът)',
         'Reminder' => 'Напомняне',
-        'Fulltext' => 'Пълнотекстово',
         'Incident' => 'Инцидент',
         'OTRS DB connect host' => 'Хост свързан към OTRS база данни',
         'All Agent variables.' => 'Всички променливи свързани с агента',
@@ -1635,25 +1633,25 @@ sub Data {
         'Of couse this feature will take some system performance it self!' => 'Тази фунционалност ще окаже влияние на производителността на системата!',
         'Ticket Hook' => 'Прикачване на билетът',
         'IMAPS' => 'IMAPS',
-        'Your own Ticket' => 'Вашият собствен билет',
         'Detail' => 'Подробности',
-        'Open Tickets' => 'Отворени билети',
+        'Your own Ticket' => 'Вашият собствен билет',
         'Don\'t forget to add a new user to groups!' => 'Не забравяйте да добавите новият потребител в някаква група!',
+        'Open Tickets' => 'Отворени билети',
         'You have to select two or more attributes from the select field!' => 'Трябва да изберете два или повече атрибути от полето!',
         'System Settings' => 'Системни настройки',
         'WebWatcher' => 'WebWatcher',
         'Finished' => 'Приключено',
         'Account Type' => 'Тип на акаунта',
         'D' => 'Н',
-        'System Status' => 'Системен статус',
         'All messages' => 'Всички съобщения',
+        'System Status' => 'Системен статус',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Свойства на билета (Пример: <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Artefact' => 'Артефакт',
         'Object already linked as %s.' => '',
         'A article should have a title!' => 'Съобщението трябва да има заглавие',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Конфигурационни параметри (Пример: <OTRS_CONFIG_HttpType>).',
-        'don\'t accept license' => 'Не приемате лиценза',
         'All email addresses get excluded on replaying on composing and email.' => '',
+        'don\'t accept license' => 'Не приемате лиценза',
         'A web mail client' => 'Web-базиран e-mail клиент',
         'IMAP' => 'IMAP',
         'Compose Follow up' => 'Създаване проследяване на билетът',
@@ -1687,6 +1685,7 @@ sub Data {
         'maximal period form' => 'форма за максимален интервал',
         'TicketID' => 'Идентификатор на билет',
         'Management Summary' => 'Обзор за мениджмънта',
+        'Escaladed Tickets' => '',
         'Yes means, send no agent and customer notifications on changes.' => 'Да означава че няма да бъдат изпращани уведомления (тип: агент и тип: клиент) когато има промени.',
         'POP3' => 'POP3',
         'POP3S' => 'POP3S',

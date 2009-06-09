@@ -2,7 +2,7 @@
 # Kernel/Language/vi_VN.pm - provides vi_VN language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: vi_VN.pm,v 1.23 2009-06-08 05:44:13 martin Exp $
+# $Id: vi_VN.pm,v 1.24 2009-06-09 08:46:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Jun  8 07:35:03 2009
+    # Last translation file sync: Tue Jun  9 10:43:46 2009
 
     # possible charsets
     $Self->{Charset} = ['viscii', ];
@@ -268,6 +268,9 @@ sub Data {
         'Please press Back and try again.' => 'Xin hãy nh¤n Tr· lÕi và thØ lÕi l¥n næa.',
         'Sent password token to: %s' => '',
         'Sent new password to: %s' => '',
+        'Upcoming Events' => '',
+        'Event' => 'Sñ ki®n',
+        'Events' => '',
         'Invalid Token!' => '',
         'For more info see:' => '',
         'Package verification failed!' => '',
@@ -583,7 +586,7 @@ sub Data {
         'phone call' => 'cuµc g÷i',
         'Reminder Reached' => '',
         'Reminder Tickets' => '',
-        'Escaladed Tickets' => '',
+        'Escalated Tickets' => '',
         'New Tickets' => '',
         'Open Tickets / Need to be answered' => '',
         'Responses' => 'Các trä l¶i',
@@ -742,7 +745,6 @@ sub Data {
         'Ticket escalation time reached' => '',
         'Ticket escalation time reached between' => '',
         'Escalation - First Response Time' => 'Tiªp tøc - Th¶i gian phän h°i ð¥u tiên',
-        'No escalation time settings.' => '',
         'Ticket first response time reached' => '',
         'Ticket first response time reached between' => '',
         'Escalation - Update Time' => 'Tiªp tøc - Th¶i gian c§p nh§t',
@@ -816,14 +818,11 @@ sub Data {
         'A message should have a body!' => 'Tin nh¡n nên có nµi dung!',
         'Recipient' => '',
         'Group based' => '',
-        'Recipient' => '',
         'Agent based' => '',
         'Email based' => '',
-        'Event' => 'Sñ ki®n',
         'Article Type' => '',
         'Only for ArticleCreate Event.' => '',
         'Subject match' => '',
-        'Only for ArticleCreate Event.' => '',
         'Body match' => '',
         'Notifications are sent to an agent or a customer.' => 'Các thông báo ðã ðßþc gØi t¾i 1 nhân viên ho£c khách hàng.',
         'To get the first 20 character of the subject (of the latest agent article).' => '',
@@ -1111,7 +1110,6 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
-        'Settings' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
@@ -1393,6 +1391,7 @@ sub Data {
         'Yes, save it with name' => 'Có, lßu v¾i cùng mµt tên',
 
         # Template: AgentTicketSearchOpenSearchDescriptionFulltext
+        'Fulltext' => 'Toàn bµ vån bän',
 
         # Template: AgentTicketSearchOpenSearchDescriptionTicketNumber
 
@@ -1550,15 +1549,15 @@ sub Data {
         'File-Name' => 'Tên file',
         'Ticket Number Generator' => 'H® sinh s¯ thë',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Nh§n dÕng thë. Mµt s¯ ngß¶i mu¯n thiªt ð£t ði«u này thành ví dø nhß \'Ticket#\', \'Call#\' ho£c \'MyTicket#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Theo cách này bÕn có th¬ sØa trñc tiªp c¤u hình khóa trong Kernel/Config.pm',
         'Create new Phone Ticket' => 'TÕo thë cuµc g÷i m¾i',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Theo cách này bÕn có th¬ sØa trñc tiªp c¤u hình khóa trong Kernel/Config.pm',
         'U' => 'U',
         'Site' => 'Site',
         'Customer history search (e. g. "ID342425").' => 'Tìm kiªm l¸ch sØ khách hàng (ví dø: "ID342425").',
         'your MySQL DB should have a root password! Default is empty!' => 'C½ s· dæ li®u MySQL cüa bÕn nên có m§t kh¦u g¯c! M£c ð¸nh là ð¬ tr¯ng!',
         'Can not delete link with %s!' => '',
-        'Close!' => 'Ðóng!',
         'for agent firstname' => 'cho h÷ (tên) cüa nhân viên',
+        'Close!' => 'Ðóng!',
         'Reporter' => 'Ngß¶i báo cáo',
         'Process-Path' => 'Ðß¶ng dçn quy trình',
         'No means, send agent and customer notifications on changes.' => 'Không, nghîa là, gØi thông báo cho nhân viên và khách hàng v« các thay ð±i.',
@@ -1624,7 +1623,6 @@ sub Data {
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Các tùy ch÷n cüa dæ li®u thë (ví dø: <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         '(Used ticket number format)' => '(Ð¸nh dÕng s¯ thë sØ døng)',
         'Reminder' => 'Nh¡c nh·',
-        'Fulltext' => 'Toàn bµ vån bän',
         'Month' => 'Tháng',
         'Node-Address' => 'Ð¸a chï nút',
         'All Agent variables.' => 'T¤t cä các biªn s¯ nhân viên',
@@ -1637,11 +1635,11 @@ sub Data {
         'Reminder messages' => 'Tin nh¡n nh¡c nh·',
         'Parent-Object' => 'Ð¯i tßþng cha',
         'Of couse this feature will take some system performance it self!' => 'T¤t nhiên tính nång này s¨ tñ thñc thi h® th¯ng.',
-        'Your own Ticket' => 'Thë cüa bÕn',
         'Detail' => 'Chi tiªt',
+        'Your own Ticket' => 'Thë cüa bÕn',
         'TicketZoom' => 'Phóng ðÕi thë',
-        'Open Tickets' => 'M· thë',
         'Don\'t forget to add a new user to groups!' => 'Ð×ng quên b± sung mµt ngß¶i dùng m¾i vào nhóm!',
+        'Open Tickets' => 'M· thë',
         'CreateTicket' => 'TÕo thë',
         'You have to select two or more attributes from the select field!' => 'BÕn phäi ch÷n 2 hay nhi«u thuµc tính t× trß¶ng ðã ch÷n!',
         'unknown' => 'chßa xác ð¸nh',
@@ -1650,8 +1648,8 @@ sub Data {
         'Imported' => 'Nh§p',
         'unread' => 'chßa ð÷c',
         'D' => 'D',
-        'System Status' => 'TrÕng thái h® th¯ng',
         'All messages' => 'T¤t cä tin nh¡n',
+        'System Status' => 'TrÕng thái h® th¯ng',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Các tùy ch÷n cüa dæ li®u thë (ví dø: <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => '',
         'A article should have a title!' => 'Bài viªt nên có tiêu ð«!',
@@ -1691,6 +1689,7 @@ sub Data {
         'PhoneView' => 'Xem s¯ ði®n thoÕi',
         'User-Name' => 'Tên ðång nh§p',
         'File-Path' => 'Ðß¶ng dçn file',
+        'Escaladed Tickets' => '',
         'Yes means, send no agent and customer notifications on changes.' => 'Có, nghîa là, không gØi thông báo cho nhân viên và khách hàng nào v« các thay ð±i.',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Email cüa bÕn v¾i s¯ thë "<OTRS_TICKET>" ðßþc chuy¬n t¾i "<OTRS_BOUNCE_TO>". Hãy liên h® v¾i ð¸a chï này ð¬ có thêm thông tin.',
         'Ticket Status View' => 'Xem trÕng thái thë',

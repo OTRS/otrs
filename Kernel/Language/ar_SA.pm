@@ -2,7 +2,7 @@
 # Kernel/Language/ar_SA.pm - provides ar_SA language translation
 # Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
 # --
-# $Id: ar_SA.pm,v 1.32 2009-06-08 05:44:11 martin Exp $
+# $Id: ar_SA.pm,v 1.33 2009-06-09 08:46:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Jun  8 07:33:11 2009
+    # Last translation file sync: Tue Jun  9 10:41:28 2009
 
     # possible charsets
     $Self->{Charset} = ['cp1256', ];
@@ -271,6 +271,9 @@ sub Data {
         'Please press Back and try again.' => '',
         'Sent password token to: %s' => '',
         'Sent new password to: %s' => '',
+        'Upcoming Events' => '',
+        'Event' => '',
+        'Events' => '',
         'Invalid Token!' => '',
         'For more info see:' => '',
         'Package verification failed!' => '',
@@ -586,7 +589,7 @@ sub Data {
         'phone call' => '„ﬂ«·„… Â« ›Ì…',
         'Reminder Reached' => '',
         'Reminder Tickets' => '',
-        'Escaladed Tickets' => '',
+        'Escalated Tickets' => '',
         'New Tickets' => '',
         'Open Tickets / Need to be answered' => '',
         'Responses' => '«·—œÊœ',
@@ -745,7 +748,6 @@ sub Data {
         'Ticket escalation time reached' => '',
         'Ticket escalation time reached between' => '',
         'Escalation - First Response Time' => '',
-        'No escalation time settings.' => '',
         'Ticket first response time reached' => '',
         'Ticket first response time reached between' => '',
         'Escalation - Update Time' => '',
@@ -819,14 +821,11 @@ sub Data {
         'A message should have a body!' => '«·—”«·… ÌÃ» √‰ ÌﬂÊ‰ ·Â« ‰’',
         'Recipient' => '',
         'Group based' => '',
-        'Recipient' => '',
         'Agent based' => '',
         'Email based' => '',
-        'Event' => '',
         'Article Type' => '',
         'Only for ArticleCreate Event.' => '',
         'Subject match' => '',
-        'Only for ArticleCreate Event.' => '',
         'Body match' => '',
         'Notifications are sent to an agent or a customer.' => '«· ‰»ÌÂ √—”· ≈·Ï „‘€· √Ê ⁄„Ì·.',
         'To get the first 20 character of the subject (of the latest agent article).' => '',
@@ -1114,7 +1113,6 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
-        'Settings' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
@@ -1396,6 +1394,7 @@ sub Data {
         'Yes, save it with name' => '‰⁄„, √Õ›ŸÂ« „⁄ «·≈”„',
 
         # Template: AgentTicketSearchOpenSearchDescriptionFulltext
+        'Fulltext' => 'ﬂ«„· «·‰’',
 
         # Template: AgentTicketSearchOpenSearchDescriptionTicketNumber
 
@@ -1555,15 +1554,15 @@ sub Data {
         'File-Name' => '',
         'Ticket Number Generator' => '',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '',
-        'Create new Phone Ticket' => '√‰‘Ì¡ »ÿ«ﬁ… Â« › ÃœÌœ…',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
+        'Create new Phone Ticket' => '√‰‘Ì¡ »ÿ«ﬁ… Â« › ÃœÌœ…',
         'Symptom' => '',
         'U' => '√⁄·Ï',
         'Site' => '',
         'Customer history search (e. g. "ID342425").' => '',
         'Can not delete link with %s!' => '',
-        'for agent firstname' => '',
         'Close!' => '≈ﬁ›«·!',
+        'for agent firstname' => '',
         'Reporter' => '',
         'Process-Path' => '',
         'No means, send agent and customer notifications on changes.' => '',
@@ -1596,10 +1595,10 @@ sub Data {
         'Classification' => '',
         'Change user <-> group settings' => '',
         'Incident detected' => '',
-        'Incident reported' => '',
         'Problem' => '',
-        'Escalation' => '',
+        'Incident reported' => '',
         'Officer' => '',
+        'Escalation' => '',
         '"}' => '',
         'Order' => '— »',
         'next step' => '«·ŒÿÊ… «· «·Ì…',
@@ -1639,7 +1638,6 @@ sub Data {
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         '(Used ticket number format)' => '',
         'Reminder' => '«· –ﬂÌ—',
-        'Fulltext' => 'ﬂ«„· «·‰’',
         'Month' => '«·‘Â—',
         'OTRS DB connect host' => '',
         'Node-Address' => '',
@@ -1656,11 +1654,11 @@ sub Data {
         'Parent-Object' => '«·ﬂ«∆‰-«·√”«”Ì',
         'Of couse this feature will take some system performance it self!' => '',
         'IMAPS' => '',
-        'Your own Ticket' => '»ÿ«ﬁ ﬂ «·Œ«’… »ﬂ',
         'Detail' => '«· ›«’Ì·',
+        'Your own Ticket' => '»ÿ«ﬁ ﬂ «·Œ«’… »ﬂ',
         'TicketZoom' => ' ﬂ»Ì— «·»ÿ«ﬁ…',
-        'Open Tickets' => '«·»ÿ«ﬁ«  «·„› ÊÕ…',
         'Don\'t forget to add a new user to groups!' => '',
+        'Open Tickets' => '«·»ÿ«ﬁ«  «·„› ÊÕ…',
         'CreateTicket' => '√‰‘Ì¡ »ÿ«ﬁ…',
         'You have to select two or more attributes from the select field!' => 'ÌÃ» ⁄·Ìﬂ  ÕœÌœ ⁄‰’—Ì‰ √Ê √ﬂÀ— „‰ «·ﬁ«∆„… «·„Õœœ…!',
         'unknown' => '€Ì— „⁄—Ê›',
@@ -1670,14 +1668,14 @@ sub Data {
         'Account Type' => '',
         'unread' => '€Ì— „ﬁ—Ê¡',
         'D' => '√ﬁ·',
-        'All messages' => 'Ã„Ì⁄ «·—”«∆·',
         'System Status' => '',
+        'All messages' => 'Ã„Ì⁄ «·—”«∆·',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'ŒÌ«—«  »Ì«‰«  «·»ÿ«ﬁ… („À«·Â <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => '',
         'A article should have a title!' => '«·»ÿ«ﬁ… ÌÃ» √‰ ÌﬂÊ‰ ·Â« ⁄‰Ê«‰!',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
-        'don\'t accept license' => '',
         'All email addresses get excluded on replaying on composing and email.' => '',
+        'don\'t accept license' => '',
         'IMAP' => '',
         'Compose Follow up' => '≈—”«· ≈÷«›… «·„ «»⁄…',
         'Imported by' => ' „ ≈” Ì—«œÂ „‰ Œ·«·',
@@ -1716,6 +1714,7 @@ sub Data {
         'TicketID' => '',
         'Management Summary' => '',
         'File-Path' => '',
+        'Escaladed Tickets' => '',
         'Yes means, send no agent and customer notifications on changes.' => '',
         'POP3' => '',
         'POP3S' => '',

@@ -2,7 +2,7 @@
 # Kernel/Language/et.pm - provides et language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: et.pm,v 1.21 2009-06-08 05:44:12 martin Exp $
+# $Id: et.pm,v 1.22 2009-06-09 08:46:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Jun  8 07:33:42 2009
+    # Last translation file sync: Tue Jun  9 10:41:51 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -268,6 +268,9 @@ sub Data {
         'Please press Back and try again.' => 'Palun vajuta tagasi-nuppu ja proovi uuesti.',
         'Sent password token to: %s' => 'Saada parool saajale: %s .',
         'Sent new password to: %s' => 'Saada parool kasutajale:.',
+        'Upcoming Events' => '',
+        'Event' => 'Sündmus',
+        'Events' => '',
         'Invalid Token!' => 'Vigane!',
         'For more info see:' => '',
         'Package verification failed!' => '',
@@ -583,7 +586,7 @@ sub Data {
         'phone call' => 'telefonikõne',
         'Reminder Reached' => '',
         'Reminder Tickets' => '',
-        'Escaladed Tickets' => '',
+        'Escalated Tickets' => '',
         'New Tickets' => '',
         'Open Tickets / Need to be answered' => '',
         'Responses' => 'Vastused',
@@ -742,7 +745,6 @@ sub Data {
         'Ticket escalation time reached' => '',
         'Ticket escalation time reached between' => '',
         'Escalation - First Response Time' => 'Eskaleerimine - esimese vastuse aeg',
-        'No escalation time settings.' => '',
         'Ticket first response time reached' => '',
         'Ticket first response time reached between' => '',
         'Escalation - Update Time' => 'Eskaleerimine - muutmise aeg',
@@ -816,14 +818,11 @@ sub Data {
         'A message should have a body!' => 'Kirjal peab olema sisu!',
         'Recipient' => '',
         'Group based' => '',
-        'Recipient' => '',
         'Agent based' => '',
         'Email based' => '',
-        'Event' => 'Sündmus',
         'Article Type' => '',
         'Only for ArticleCreate Event.' => '',
         'Subject match' => '',
-        'Only for ArticleCreate Event.' => '',
         'Body match' => '',
         'Notifications are sent to an agent or a customer.' => 'Teavitused saadetakse kliendile või töötajale.',
         'To get the first 20 character of the subject (of the latest agent article).' => '',
@@ -1111,7 +1110,6 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
-        'Settings' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
@@ -1393,6 +1391,7 @@ sub Data {
         'Yes, save it with name' => 'Jah, salvesta nimega',
 
         # Template: AgentTicketSearchOpenSearchDescriptionFulltext
+        'Fulltext' => 'Täistekst',
 
         # Template: AgentTicketSearchOpenSearchDescriptionTicketNumber
 
@@ -1550,14 +1549,14 @@ sub Data {
         'File-Name' => 'Failinimi',
         'Ticket Number Generator' => 'Intsidendinumbri generaator',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Intsidendi identifikaator. Mõned inimesed tahavad seda muuta näiteks. \'Ticket#\', \'Call#\' või \'MyTicket#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Nii saad otse muuta võtmeid mis on seadistatud Kernel/Config.pm failis.',
         'Create new Phone Ticket' => 'Tee uus telefonitsi laekunud intsident',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Nii saad otse muuta võtmeid mis on seadistatud Kernel/Config.pm failis.',
         'U' => 'U',
         'Site' => 'Sait',
         'Customer history search (e. g. "ID342425").' => 'Kliendiajaloo otsing (näiteks "ID342425").',
         'Can not delete link with %s!' => '',
-        'Close!' => 'Sulge!',
         'for agent firstname' => 'Kasutaja eesnimeks',
+        'Close!' => 'Sulge!',
         'Reporter' => 'Raporteerija',
         'Process-Path' => 'Protsessi tee',
         'No means, send agent and customer notifications on changes.' => 'Ei tähendab, et klientidele ja töötajatele saadetakse infot muudatustest.',
@@ -1623,7 +1622,6 @@ sub Data {
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Intsidendi andmed (näiteks <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         '(Used ticket number format)' => '(intsidendinumbri formaat)',
         'Reminder' => 'Meeldetuletus',
-        'Fulltext' => 'Täistekst',
         'Month' => 'Kuu',
         'Node-Address' => 'Node-Address',
         'All Agent variables.' => 'Kõik töötaja andmed',
@@ -1636,11 +1634,11 @@ sub Data {
         'Reminder messages' => 'Meeldetuletusteated',
         'Parent-Object' => 'Ülemobjekt',
         'Of couse this feature will take some system performance it self!' => 'See kahandab süsteemi üldist jõudlust.',
-        'Your own Ticket' => 'Sinu intsident',
         'Detail' => 'Täpsemalt',
+        'Your own Ticket' => 'Sinu intsident',
         'TicketZoom' => 'Vaata täpsemalt',
-        'Open Tickets' => 'Avatud intsidendid',
         'Don\'t forget to add a new user to groups!' => 'Ära unusta kasutajat gruppidesse lisamast!',
+        'Open Tickets' => 'Avatud intsidendid',
         'CreateTicket' => 'Tekita intsident',
         'You have to select two or more attributes from the select field!' => 'Pead valima vähemalt 2 atribuuti!',
         'unknown' => 'teadmata',
@@ -1649,8 +1647,8 @@ sub Data {
         'Imported' => 'Imporditud',
         'unread' => 'lugemata',
         'D' => 'D',
-        'System Status' => 'Süsteemi olek',
         'All messages' => 'Kõik teated',
+        'System Status' => 'Süsteemi olek',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Intsidentide andmed  (näiteks <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => '',
         'A article should have a title!' => 'Artiklil peaks olema pealkiri!',
@@ -1690,6 +1688,7 @@ sub Data {
         'PhoneView' => 'Telefonivaade',
         'User-Name' => 'Kasutajanimi',
         'File-Path' => 'Failitee',
+        'Escaladed Tickets' => '',
         'closed with workaround' => 'suletud ajutise lahendusega',
         'Yes means, send no agent and customer notifications on changes.' => 'Jah tähendab, et töötajatele ja kasutajatele ei saadeta teavitusi.',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Sinu kiri intsidendiga nr "<OTRS_TICKET>" põrgatati "<OTRS_BOUNCE_TO>". Täpsema info saamiseks kirjuta sellel aadressil.',

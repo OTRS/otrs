@@ -6,7 +6,7 @@
 # Copyright (C) 2005-2007 Jurgen Rutgers <jurgen 'at' besite.nl>
 # Copyright (C) 2005-2007 Richard Hinkamp <richard 'at' besite.nl>
 # --
-# $Id: nl.pm,v 1.91 2009-06-08 05:44:12 martin Exp $
+# $Id: nl.pm,v 1.92 2009-06-09 08:46:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,13 +29,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.91 $) [1];
+$VERSION = qw($Revision: 1.92 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Jun  8 07:34:15 2009
+    # Last translation file sync: Tue Jun  9 10:43:21 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -283,6 +283,9 @@ sub Data {
         'Please press Back and try again.' => '',
         'Sent password token to: %s' => '',
         'Sent new password to: %s' => '',
+        'Upcoming Events' => '',
+        'Event' => '',
+        'Events' => '',
         'Invalid Token!' => '',
         'For more info see:' => '',
         'Package verification failed!' => '',
@@ -598,7 +601,7 @@ sub Data {
         'phone call' => 'telefoongesprek',
         'Reminder Reached' => '',
         'Reminder Tickets' => '',
-        'Escaladed Tickets' => '',
+        'Escalated Tickets' => '',
         'New Tickets' => '',
         'Open Tickets / Need to be answered' => '',
         'Responses' => 'Antwoorden.',
@@ -757,7 +760,6 @@ sub Data {
         'Ticket escalation time reached' => '',
         'Ticket escalation time reached between' => '',
         'Escalation - First Response Time' => '',
-        'No escalation time settings.' => '',
         'Ticket first response time reached' => '',
         'Ticket first response time reached between' => '',
         'Escalation - Update Time' => '',
@@ -831,14 +833,11 @@ sub Data {
         'A message should have a body!' => 'Een bericht moet een berichttekst hebben!',
         'Recipient' => '',
         'Group based' => '',
-        'Recipient' => '',
         'Agent based' => '',
         'Email based' => '',
-        'Event' => '',
         'Article Type' => '',
         'Only for ArticleCreate Event.' => '',
         'Subject match' => '',
-        'Only for ArticleCreate Event.' => '',
         'Body match' => '',
         'Notifications are sent to an agent or a customer.' => 'Meldingen worden verstuurd naar een agent of een klant',
         'To get the first 20 character of the subject (of the latest agent article).' => '',
@@ -1126,7 +1125,6 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
-        'Settings' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
@@ -1408,6 +1406,7 @@ sub Data {
         'Yes, save it with name' => 'Ja, sla op met naam',
 
         # Template: AgentTicketSearchOpenSearchDescriptionFulltext
+        'Fulltext' => 'Volledig',
 
         # Template: AgentTicketSearchOpenSearchDescriptionTicketNumber
 
@@ -1566,8 +1565,8 @@ sub Data {
         'U' => 'U',
         'Customer history search (e. g. "ID342425").' => 'Klantgeschiedenis zoeken (bijv. "ID342425").',
         'Can not delete link with %s!' => '',
-        'for agent firstname' => 'voornaam van agent',
         'Close!' => 'Sluit!',
+        'for agent firstname' => 'voornaam van agent',
         'No means, send agent and customer notifications on changes.' => 'Nee betekent dat er wel notificaties worden gestuurd naar eigenaren en klanten bij wijzigingen.',
         'A web calendar' => 'Kalender',
         'to get the realname of the sender (if given)' => 'voor de echte naam van de afzender (indien beschikbaar)',
@@ -1617,7 +1616,6 @@ sub Data {
         'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => 'Ticket eigenaar mogelijkheden (bijv. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)',
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Mogelijkheden van Ticket gegevens (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Reminder' => 'Herinnering',
-        'Fulltext' => 'Volledig',
         ' (work units)' => '(in minuten)',
         'Next Week' => '',
         'All Customer variables like defined in config option CustomerUser.' => 'Alle klantvariabelen zoals vastgelegd in de configuratieoptie Klantgebruiker.',
@@ -1627,11 +1625,11 @@ sub Data {
         'Parent-Object' => 'Hoofd item',
         'If your account is trusted, the already existing x-otrs header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => 'Wanneer het account vertrouwd is, zullen de x-otrs headers gebruikt worden! PostMaster filters zullen ook nog steeds gebruikt worden.',
         'Of couse this feature will take some system performance it self!' => '',
-        'Your own Ticket' => 'Je eigen Ticket',
         'Detail' => 'Detail',
+        'Your own Ticket' => 'Je eigen Ticket',
         'TicketZoom' => 'Inhoud ticket',
-        'Open Tickets' => 'Openstaande tickets',
         'Don\'t forget to add a new user to groups!' => 'Vergeet niet om groepen aan deze gebruiker toe te kennen!',
+        'Open Tickets' => 'Openstaande tickets',
         'CreateTicket' => 'Ticket aanmaken',
         'You have to select two or more attributes from the select field!' => '',
         'WebWatcher' => '',
@@ -1671,6 +1669,7 @@ sub Data {
         'PhoneView' => 'Telefoonscherm',
         'maximal period form' => '',
         'TicketID' => 'Ticket ID',
+        'Escaladed Tickets' => '',
         'Yes means, send no agent and customer notifications on changes.' => 'Ja betekent dat er geen notificaties worden gestuurd naar eigenaren en klanten bij wijzigingen.',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Uw e-mail met Ticket nummer "<OTRS_TICKET>" is gebounced naar "<OTRS_BOUNCE_TO>". Neem contact op met dit adres voor meer informatie.',
         'Ticket Status View' => '',

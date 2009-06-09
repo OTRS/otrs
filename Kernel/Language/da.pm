@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Thorsten Rossner <thorsten.rossner[at]stepstone.de>
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # --
-# $Id: da.pm,v 1.53 2009-06-08 05:44:12 martin Exp $
+# $Id: da.pm,v 1.54 2009-06-09 08:46:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Jun  8 07:33:31 2009
+    # Last translation file sync: Tue Jun  9 10:41:37 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -270,6 +270,9 @@ sub Data {
         'Please press Back and try again.' => 'Tryk venligst tilbage og prøv igen.',
         'Sent password token to: %s' => 'Kodeords kendetegn er sendt til: %s',
         'Sent new password to: %s' => 'Nyt kodeord er sendt til: %s',
+        'Upcoming Events' => '',
+        'Event' => 'Handling',
+        'Events' => '',
         'Invalid Token!' => 'Ugyldigt kendetegn!',
         'For more info see:' => 'For mere information se:',
         'Package verification failed!' => 'Pakke godkendelse fejlede!',
@@ -585,7 +588,7 @@ sub Data {
         'phone call' => 'opringning',
         'Reminder Reached' => '',
         'Reminder Tickets' => '',
-        'Escaladed Tickets' => '',
+        'Escalated Tickets' => '',
         'New Tickets' => '',
         'Open Tickets / Need to be answered' => '',
         'Responses' => 'Svar',
@@ -744,7 +747,6 @@ sub Data {
         'Ticket escalation time reached' => '',
         'Ticket escalation time reached between' => '',
         'Escalation - First Response Time' => 'Eskalation - Første svar tid',
-        'No escalation time settings.' => '',
         'Ticket first response time reached' => '',
         'Ticket first response time reached between' => '',
         'Escalation - Update Time' => 'Eskalation - Opdaterings tid',
@@ -818,14 +820,11 @@ sub Data {
         'A message should have a body!' => 'En meddelelse skal have en tekst!',
         'Recipient' => '',
         'Group based' => '',
-        'Recipient' => '',
         'Agent based' => '',
         'Email based' => '',
-        'Event' => 'Handling',
         'Article Type' => '',
         'Only for ArticleCreate Event.' => '',
         'Subject match' => '',
-        'Only for ArticleCreate Event.' => '',
         'Body match' => '',
         'Notifications are sent to an agent or a customer.' => 'Beskeder sendes til en repræsentant eller kunde.',
         'To get the first 20 character of the subject (of the latest agent article).' => '',
@@ -1113,7 +1112,6 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
-        'Settings' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
@@ -1395,6 +1393,7 @@ sub Data {
         'Yes, save it with name' => 'Ja, gem den med navn',
 
         # Template: AgentTicketSearchOpenSearchDescriptionFulltext
+        'Fulltext' => 'Fritekst',
 
         # Template: AgentTicketSearchOpenSearchDescriptionTicketNumber
 
@@ -1552,15 +1551,15 @@ sub Data {
         'DB Host' => 'DB værtscomputer',
         'Ticket Number Generator' => 'Sagsnummergenerator',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Sagidentifikator. Nogle personer ønsker at indstille dette til f.eks. \Ticket#\, \Call#\ eller \MyTicket#\)',
-        'Create new Phone Ticket' => 'Opret ny telefonsag',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Du kan på denne måde direkte redigere den nøglering, der er konfigureret i Kernel/Config.pm.',
+        'Create new Phone Ticket' => 'Opret ny telefonsag',
         'Symptom' => 'Symptom',
         'U' => 'O',
         'Site' => 'Websted',
         'Customer history search (e. g. "ID342425").' => 'Kundehistoriksøgning (f.eks. "ID342425").',
         'your MySQL DB should have a root password! Default is empty!' => 'din MySQL DB skat have en rod-adgangskode! Standarden er tom!',
-        'for agent firstname' => 'til repræsentantens fornavn',
         'Close!' => 'Luk!',
+        'for agent firstname' => 'til repræsentantens fornavn',
         ' (minutes)' => ' (minutter)',
         'No means, send agent and customer notifications on changes.' => 'Nej betyder, send meddelser til Repræsentant eller Kunde ved ændringer.',
         'A web calendar' => 'En webkalender',
@@ -1609,8 +1608,8 @@ sub Data {
         'to get the first 20 character of the subject' => 'for at få emnets første 20 tegn',
         'Select the customeruser:service relations.' => 'Udvælg Kundebruger service relationer.',
         'DB Admin Password' => 'DB-admins adgangskode',
-        'Drop Database' => 'Udelad database',
         'Advisory' => 'Bekendtgørelse',
+        'Drop Database' => 'Udelad database',
         'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Her kan du definere X-aksen. Du kan vælge et element med radio button. Derefter skal du vælge et eller flere attributter til elementet. Hvis du ikke vælger nogle attributter, vil alle attributter blive brugt, ligesom et nyt attribut vil blive gemt, siden sidste konfiguration.',
         'FileManager' => 'FilManager',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Valgmuligheder for de aktuelle kundebrugerdata (f.eks. <OTRS_CUSTOMER_DATA_UserFirstname>)',
@@ -1620,7 +1619,6 @@ sub Data {
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Valgmuligheder for sagens data (f.eks. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         '(Used ticket number format)' => '(Anvendt sagsnummerformat)',
         'Reminder' => 'Påmindelse',
-        'Fulltext' => 'Fritekst',
         'Incident' => 'Hændelse',
         'All Agent variables.' => 'Alle repræsentant variabler',
         ' (work units)' => '(arbejdsenheder)',
@@ -1633,10 +1631,10 @@ sub Data {
         'Reminder messages' => 'Påmindelsesmeddelelser',
         'Parent-Object' => 'Forældre-Objekt',
         'Of couse this feature will take some system performance it self!' => 'Selvfølgelig vil denne mulighed tage noget af system kræften.',
-        'Your own Ticket' => 'Din egen sag',
         'Detail' => 'Oplysning',
-        'Open Tickets' => 'Åbne sager',
+        'Your own Ticket' => 'Din egen sag',
         'Don\'t forget to add a new user to groups!' => 'Glem ikke at tilføje en ny bruger til grupper!',
+        'Open Tickets' => 'Åbne sager',
         'CreateTicket' => 'Opret sag',
         'You have to select two or more attributes from the select field!' => 'Du skal vælge to eller flere attributter fra feltet!',
         'System Settings' => 'Systemindstillinger',
@@ -1644,14 +1642,14 @@ sub Data {
         'Finished' => 'Færdig',
         'Account Type' => 'Konto type',
         'D' => 'N',
-        'System Status' => 'System status',
         'All messages' => 'Alle meddelelser',
+        'System Status' => 'System status',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Valgmuligheder for de aktuelle sagsdata (f.eks. lt;OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Artefact' => 'Artefakt',
         'A article should have a title!' => 'En artikel skal have en titel!',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Konfigurations muligheder (f.eks. &lt;OTRS_CONFIG_HttpType&gt;)',
-        'don\'t accept license' => 'accepter ikke licens',
         'All email addresses get excluded on replaying on composing and email.' => 'Alle email adresser er ekskluderet når du besvarer eller laver en ny email.',
+        'don\'t accept license' => 'accepter ikke licens',
         'A web mail client' => 'En webmailklient',
         'Compose Follow up' => 'Formuler opfølgning',
         'WebMail' => 'WebMail',
@@ -1682,6 +1680,7 @@ sub Data {
         'PhoneView' => 'TelefonVisning',
         'maximal period form' => 'maksimal periode form',
         'TicketID' => 'Sag-ID',
+        'Escaladed Tickets' => '',
         'Yes means, send no agent and customer notifications on changes.' => 'Ja betyder, send ingen meddelser til Repræsentant eller Kunde ved ændringer.',
         'SMIME Management' => 'SMIME-styring',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Din e-mail med sagnummer "<OTRS_TICKET>" er sendt retur til afsender til "<OTRS_BOUNCE_TO>". Kontakt denne adresse for at få flere oplysninger.',

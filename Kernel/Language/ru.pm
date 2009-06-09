@@ -4,7 +4,7 @@
 # Copyright (C) 2007 Andrey Feldman <afeldman at alt-lan.ru>
 # Copyright (C) 2008 Egor Tsilenko <bg8s at symlink.ru>
 # --
-# $Id: ru.pm,v 1.77 2009-06-08 05:44:13 martin Exp $
+# $Id: ru.pm,v 1.78 2009-06-09 08:46:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.77 $) [1];
+$VERSION = qw($Revision: 1.78 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Jun  8 07:34:43 2009
+    # Last translation file sync: Tue Jun  9 10:43:33 2009
 
     # possible charsets
     $Self->{Charset} = ['cp1251', 'Windows-1251', ];
@@ -271,6 +271,9 @@ sub Data {
         'Please press Back and try again.' => 'Пожалуйста нажмите Назад и попробуйте еще раз',
         'Sent password token to: %s' => '',
         'Sent new password to: %s' => 'Новый пароль отправлен',
+        'Upcoming Events' => '',
+        'Event' => 'Событие',
+        'Events' => 'События',
         'Invalid Token!' => '',
         'For more info see:' => '',
         'Package verification failed!' => '',
@@ -586,7 +589,7 @@ sub Data {
         'phone call' => 'телефонный звонок',
         'Reminder Reached' => '',
         'Reminder Tickets' => '',
-        'Escaladed Tickets' => '',
+        'Escalated Tickets' => '',
         'New Tickets' => '',
         'Open Tickets / Need to be answered' => '',
         'Responses' => 'Ответы',
@@ -745,7 +748,6 @@ sub Data {
         'Ticket escalation time reached' => '',
         'Ticket escalation time reached between' => '',
         'Escalation - First Response Time' => 'Эскалация - Время первого ответа',
-        'No escalation time settings.' => '',
         'Ticket first response time reached' => '',
         'Ticket first response time reached between' => '',
         'Escalation - Update Time' => 'Эскалация - Время Изменения',
@@ -819,14 +821,11 @@ sub Data {
         'A message should have a body!' => 'Тело сообщения не может быть пустым!',
         'Recipient' => '',
         'Group based' => '',
-        'Recipient' => '',
         'Agent based' => '',
         'Email based' => '',
-        'Event' => 'Событие',
         'Article Type' => '',
         'Only for ArticleCreate Event.' => '',
         'Subject match' => '',
-        'Only for ArticleCreate Event.' => '',
         'Body match' => '',
         'Notifications are sent to an agent or a customer.' => 'Уведомления посланы пользовтелю или клиенту',
         'To get the first 20 character of the subject (of the latest agent article).' => '',
@@ -1114,7 +1113,6 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
-        'Settings' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
@@ -1396,6 +1394,7 @@ sub Data {
         'Yes, save it with name' => 'Да, сохранить с именем',
 
         # Template: AgentTicketSearchOpenSearchDescriptionFulltext
+        'Fulltext' => 'Полнотекстовый',
 
         # Template: AgentTicketSearchOpenSearchDescriptionTicketNumber
 
@@ -1558,20 +1557,20 @@ sub Data {
         'Site' => 'Место',
         'Customer history search (e. g. "ID342425").' => 'Поиск истории клиента (напр. "ID342425").',
         'Can not delete link with %s!' => 'Невозможно удалить связь с %s!',
-        'for agent firstname' => 'для агента - имя',
         'Close!' => 'Закрыть!',
+        'for agent firstname' => 'для агента - имя',
         'Subgroup \'' => 'Подгруппа \'',
         'No means, send agent and customer notifications on changes.' => 'Нет значит отсылать уведомления пользователям и клиентам при изменениях',
         'A web calendar' => 'Календарь',
         'to get the realname of the sender (if given)' => 'получить (если есть) имя отправителя',
         'Notification (Customer)' => 'Уведомление (Клиенту)',
-        'Select Source (for add)' => 'Выбрать источник',
         'Involved' => 'Совместно с',
+        'Select Source (for add)' => 'Выбрать источник',
         'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'Опции данных заявки (например  &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)',
         'Child-Object' => 'Объект-Потомок',
         'Days' => 'Дни',
-        'Locked tickets' => 'Заблокированные заявки',
         'Queue ID' => 'ID очереди',
+        'Locked tickets' => 'Заблокированные заявки',
         'System History' => 'История',
         'customer realname' => 'имя клиента',
         'Pending messages' => 'Сообщения в ожидании',
@@ -1617,7 +1616,6 @@ sub Data {
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Опции данных заявки (например <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         '(Used ticket number format)' => '(Используемый формат номеров Заявок)',
         'Reminder' => 'Напоминание',
-        'Fulltext' => 'Полнотекстовый',
         ' (work units)' => ' (рабочие единицы)',
         'Next Week' => 'На будущей неделе',
         'All Customer variables like defined in config option CustomerUser.' => 'Все переменные клиента содержаться в конфигурации клиентского пользователя.',
@@ -1628,12 +1626,11 @@ sub Data {
         'Parent-Object' => 'Объект-Родитель',
         'Of couse this feature will take some system performance it self!' => 'Конечно, данная функция сама съедает немного ресурсов!',
         'Ticket Hook' => 'Зацепить Заявку',
-        'Events' => 'События',
-        'Your own Ticket' => 'Ваша собственная заявка',
         'Detail' => 'Подробно',
+        'Your own Ticket' => 'Ваша собственная заявка',
         'TicketZoom' => 'Просмотр заявки',
-        'Open Tickets' => 'Открытые заявки',
         'Don\'t forget to add a new user to groups!' => 'Не забудьте добавить новоего пользователя в группы!',
+        'Open Tickets' => 'Открытые заявки',
         'CreateTicket' => 'Создание заявки',
         'You have to select two or more attributes from the select field!' => 'Вам необходимо выбрать два или более пунктов из выбранного поля!',
         'System Settings' => 'Системные установки',
@@ -1667,8 +1664,8 @@ sub Data {
         'send' => 'Отправить',
         'Send no notifications' => 'Не отсылать уведомления',
         'Note Text' => 'Текст заметки',
-        '3 Month' => '3 Месяца',
         'POP3 Account Management' => 'Управление учетной записью POP3',
+        '3 Month' => '3 Месяца',
         'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'Опции для данных текущего пользователя-клиента (например &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)',
         'Jule' => 'Июля',
         'System State Management' => 'Управление системными состояниями',
@@ -1677,8 +1674,9 @@ sub Data {
         'maximal period form' => 'Максимальный период с',
         'TicketID' => 'ID заявки',
         'Mart' => 'Марта',
-        'Yes means, send no agent and customer notifications on changes.' => 'Да значит не отсылать уведомления пользователям и клиентам при изменениях',
+        'Escaladed Tickets' => '',
         'Change setting' => 'Изменить настройки',
+        'Yes means, send no agent and customer notifications on changes.' => 'Да значит не отсылать уведомления пользователям и клиентам при изменениях',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Ваш e-mail с номером заявки "<OTRS_TICKET>" отвергнут и переслан по адресу "<OTRS_BOUNCE_TO>". Пожалуйста, свяжитесь по этому адресу для выяснения причин. ',
         'Ticket Status View' => 'Просмотр статуса заявки',
         'Modified' => 'Изменено',

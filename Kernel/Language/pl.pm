@@ -2,7 +2,7 @@
 # Kernel/Language/pl.pm - provides pl language translation
 # Copyright (C) 2007 Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.75 2009-06-08 05:44:12 martin Exp $
+# $Id: pl.pm,v 1.76 2009-06-09 08:46:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.75 $) [1];
+$VERSION = qw($Revision: 1.76 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Jun  8 07:34:32 2009
+    # Last translation file sync: Tue Jun  9 10:43:24 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', ];
@@ -269,6 +269,9 @@ sub Data {
         'Please press Back and try again.' => '',
         'Sent password token to: %s' => '',
         'Sent new password to: %s' => '',
+        'Upcoming Events' => '',
+        'Event' => '',
+        'Events' => '',
         'Invalid Token!' => '',
         'For more info see:' => '',
         'Package verification failed!' => '',
@@ -584,7 +587,7 @@ sub Data {
         'phone call' => '',
         'Reminder Reached' => '',
         'Reminder Tickets' => '',
-        'Escaladed Tickets' => '',
+        'Escalated Tickets' => '',
         'New Tickets' => '',
         'Open Tickets / Need to be answered' => '',
         'Responses' => 'Odpowiedzi',
@@ -743,7 +746,6 @@ sub Data {
         'Ticket escalation time reached' => '',
         'Ticket escalation time reached between' => '',
         'Escalation - First Response Time' => '',
-        'No escalation time settings.' => '',
         'Ticket first response time reached' => '',
         'Ticket first response time reached between' => '',
         'Escalation - Update Time' => '',
@@ -817,14 +819,11 @@ sub Data {
         'A message should have a body!' => 'Wiadomo¶æ powinna zawieraæ jak±¶ tre¶æ!',
         'Recipient' => '',
         'Group based' => '',
-        'Recipient' => '',
         'Agent based' => '',
         'Email based' => '',
-        'Event' => '',
         'Article Type' => '',
         'Only for ArticleCreate Event.' => '',
         'Subject match' => '',
-        'Only for ArticleCreate Event.' => '',
         'Body match' => '',
         'Notifications are sent to an agent or a customer.' => 'Powiadomienia s± wysy³ane do agenta obs³ugi lub klienta',
         'To get the first 20 character of the subject (of the latest agent article).' => '',
@@ -1112,7 +1111,6 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
-        'Settings' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
@@ -1394,6 +1392,7 @@ sub Data {
         'Yes, save it with name' => 'Tak, zapisz to pod nazw±',
 
         # Template: AgentTicketSearchOpenSearchDescriptionFulltext
+        'Fulltext' => 'Pe³notekstowe',
 
         # Template: AgentTicketSearchOpenSearchDescriptionTicketNumber
 
@@ -1551,15 +1550,15 @@ sub Data {
         'DB Host' => 'Host bazy danych',
         'Ticket Number Generator' => 'Generator numerów zg³oszeñ',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identyfikator zg³oszenia. np. \'Ticket#\', \'Call#\' lub \'MyTicket#\')',
-        'Create new Phone Ticket' => '',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
+        'Create new Phone Ticket' => '',
         'Symptom' => 'Objawy',
         'U' => 'G',
         'Site' => 'Witryna',
         'Customer history search (e. g. "ID342425").' => 'Przeszukiwanie historii klienta (np. "ID342425").',
         'Can not delete link with %s!' => '',
-        'for agent firstname' => 'dla imienia agenta',
         'Close!' => 'Zamknij!',
+        'for agent firstname' => 'dla imienia agenta',
         'No means, send agent and customer notifications on changes.' => '',
         'A web calendar' => '',
         'to get the realname of the sender (if given)' => 'by wstawiæ prawdziwe imiê i nazwisko klienta (je¶li podano)',
@@ -1613,7 +1612,6 @@ sub Data {
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         '(Used ticket number format)' => '(U¿ywany format numerowania zg³oszeñ)',
         'Reminder' => 'Przypomnienie',
-        'Fulltext' => 'Pe³notekstowe',
         'OTRS DB connect host' => 'Host bazy danych',
         ' (work units)' => ' (jednostek roboczych)',
         'Next Week' => '',
@@ -1625,11 +1623,11 @@ sub Data {
         'Parent-Object' => '',
         'Of couse this feature will take some system performance it self!' => '',
         'Ticket Hook' => 'Identyfikator zg³oszenia',
-        'Your own Ticket' => 'Twoje w³asne zg³oszenie',
         'Detail' => '',
+        'Your own Ticket' => 'Twoje w³asne zg³oszenie',
         'TicketZoom' => 'Podgl±d zg³oszenia',
-        'Open Tickets' => '',
         'Don\'t forget to add a new user to groups!' => 'Nie zapomnij dodaæ u¿ytkownika do grup!',
+        'Open Tickets' => '',
         'You have to select two or more attributes from the select field!' => '',
         'System Settings' => 'Ustawienia systemu',
         'WebWatcher' => '',
@@ -1640,8 +1638,8 @@ sub Data {
         'Object already linked as %s.' => '',
         'A article should have a title!' => '',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
-        'don\'t accept license' => 'nie akceptujê Licencji',
         'All email addresses get excluded on replaying on composing and email.' => '',
+        'don\'t accept license' => 'nie akceptujê Licencji',
         'A web mail client' => '',
         'Compose Follow up' => 'Napisz Odpowied¼ (Follow Up)',
         'WebMail' => '',
@@ -1671,6 +1669,7 @@ sub Data {
         'PhoneView' => 'Nowy telefon',
         'maximal period form' => '',
         'TicketID' => 'ID Zg³oszenia',
+        'Escaladed Tickets' => '',
         'Yes means, send no agent and customer notifications on changes.' => '',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Twoja wiadomo¶æ o numerze zg³oszenia: "<OTRS_TICKET>" zosta³a przekazana na adres "<OTRS_BOUNCE_TO>" . Prosimy kontaktowaæ siê pod tym adresem we wszystkich sprawach dotycz±cych tego zg³oszenia.',
         'Ticket Status View' => '',

@@ -4,7 +4,7 @@
 # Copyright (C) 2005 Alterado por Glaucia C. Messina (glauglauu@yahoo.com)
 # Copyright (C) 2007 Fabricio Luiz Machado <soprobr gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.83 2009-06-08 05:44:12 martin Exp $
+# $Id: pt_BR.pm,v 1.84 2009-06-09 08:46:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.83 $) [1];
+$VERSION = qw($Revision: 1.84 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Jun  8 07:34:39 2009
+    # Last translation file sync: Tue Jun  9 10:43:31 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -271,6 +271,9 @@ sub Data {
         'Please press Back and try again.' => '',
         'Sent password token to: %s' => '',
         'Sent new password to: %s' => '',
+        'Upcoming Events' => '',
+        'Event' => '',
+        'Events' => '',
         'Invalid Token!' => '',
         'For more info see:' => '',
         'Package verification failed!' => '',
@@ -586,7 +589,7 @@ sub Data {
         'phone call' => 'Chamada Telefônica',
         'Reminder Reached' => '',
         'Reminder Tickets' => '',
-        'Escaladed Tickets' => '',
+        'Escalated Tickets' => '',
         'New Tickets' => '',
         'Open Tickets / Need to be answered' => '',
         'Responses' => 'Respostas',
@@ -745,7 +748,6 @@ sub Data {
         'Ticket escalation time reached' => '',
         'Ticket escalation time reached between' => '',
         'Escalation - First Response Time' => '',
-        'No escalation time settings.' => '',
         'Ticket first response time reached' => '',
         'Ticket first response time reached between' => '',
         'Escalation - Update Time' => '',
@@ -819,14 +821,11 @@ sub Data {
         'A message should have a body!' => 'A mensagem deve conter um texto!',
         'Recipient' => '',
         'Group based' => '',
-        'Recipient' => '',
         'Agent based' => '',
         'Email based' => '',
-        'Event' => '',
         'Article Type' => '',
         'Only for ArticleCreate Event.' => '',
         'Subject match' => '',
-        'Only for ArticleCreate Event.' => '',
         'Body match' => '',
         'Notifications are sent to an agent or a customer.' => 'Notificações serão enviadas a um Agent ou a um Cliente.',
         'To get the first 20 character of the subject (of the latest agent article).' => '',
@@ -1114,7 +1113,6 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
-        'Settings' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
@@ -1396,6 +1394,7 @@ sub Data {
         'Yes, save it with name' => 'Sim, salve-o com o nome',
 
         # Template: AgentTicketSearchOpenSearchDescriptionFulltext
+        'Fulltext' => 'Texto Completo',
 
         # Template: AgentTicketSearchOpenSearchDescriptionTicketNumber
 
@@ -1552,15 +1551,15 @@ sub Data {
         'Change roles <-> groups settings' => 'Alterar configurações Regras <-> Grupos',
         'Ticket Number Generator' => 'Gerador de Números de Chamados',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identificador Chamado. Algumas pessoas gostam de usar por exemplo \'Chamado#\, \'Chamado#\' ou \'MeuChamado#\')',
-        'Create new Phone Ticket' => 'Criar novo Fone Chamado',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Neste caso, você pode editar diretamente a "keyring" configurada no Kernel/Config.pm.',
+        'Create new Phone Ticket' => 'Criar novo Fone Chamado',
         'Symptom' => 'Sintoma',
         'U' => 'C',
         'Options of the current user who requested this action (e. g. OTRS_CURRENT_USERFIRSTNAME)' => 'Opções do usuário atual que requisitou esta ação (ex.: OTRS_CURRENT_USERFIRSTNAME)',
         'Customer history search (e. g. "ID342425").' => 'Busca no Histórico do cliente (exemplo: "ID342425")',
         'Can not delete link with %s!' => '',
-        'for agent firstname' => 'Nome do Atendente',
         'Close!' => 'Fechar!',
+        'for agent firstname' => 'Nome do Atendente',
         'No means, send agent and customer notifications on changes.' => 'Não siginifica \'envie notificações ao atendente e ao cliente nas alterações\'.',
         'A web calendar' => 'Calendário',
         'to get the realname of the sender (if given)' => 'para obter o nome do remetente (se possuir no email)',
@@ -1569,8 +1568,8 @@ sub Data {
         'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
         'Child-Object' => 'Objeto Filho',
         'Config options (e. g. OTRS_CONFIG_HttpType)' => 'Opções de configuração (ex.: OTRS_CONFIG_HttpType)',
-        'Locked tickets' => 'Chamados Bloqueados',
         'Queue ID' => 'ID da Fila',
+        'Locked tickets' => 'Chamados Bloqueados',
         'System History' => 'Histórico do Sistema',
         'customer realname' => 'Nome do cliente',
         'Pending messages' => 'Mensagens pendentes',
@@ -1614,7 +1613,6 @@ sub Data {
         'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => 'Opções de dono do chamado (ex.: &lt;OTRS_OWNER_USERFIRSTNAME&gt;)',
         '(Used ticket number format)' => '(Formato de Chamado utilizado)',
         'Reminder' => 'Lembretes',
-        'Fulltext' => 'Texto Completo',
         'Incident' => 'Incidente',
         'All Agent variables.' => 'Todas as variáveis do Atendente',
         ' (work units)' => ' (unidades de trabalho)',
@@ -1625,10 +1623,10 @@ sub Data {
         'Reminder messages' => 'Mensagens com lembretes',
         'Parent-Object' => 'Objeto Pai',
         'Of couse this feature will take some system performance it self!' => '',
-        'Your own Ticket' => 'Seu próprio Chamado',
         'Detail' => 'Detalhe',
-        'Open Tickets' => 'Chamados Abertos',
+        'Your own Ticket' => 'Seu próprio Chamado',
         'Don\'t forget to add a new user to groups!' => 'Não esqueça de adicionar um novo usuário nos grupos!',
+        'Open Tickets' => 'Chamados Abertos',
         'You have to select two or more attributes from the select field!' => 'Você deve selecionar dois ou mais atributos no campo \'selecionar\'!',
         'System Settings' => 'Configurações Sistema',
         'WebWatcher' => 'Visitante',
@@ -1639,8 +1637,8 @@ sub Data {
         'Object already linked as %s.' => '',
         'A article should have a title!' => 'O Artigo deverá ter um Título!',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
-        'don\'t accept license' => 'não acentiar a licença',
         'All email addresses get excluded on replaying on composing and email.' => '',
+        'don\'t accept license' => 'não acentiar a licença',
         'A web mail client' => 'Webmail Cliente',
         'Compose Follow up' => 'Compor Continuação',
         'WebMail' => '',
@@ -1667,6 +1665,7 @@ sub Data {
         'PhoneView' => 'Chamada',
         'maximal period form' => 'formulário de período máximo',
         'TicketID' => 'Id.do Chamado',
+        'Escaladed Tickets' => '',
         'Yes means, send no agent and customer notifications on changes.' => 'Sim significa \'não envie notificações ao atendente e ao cliente nas alterações\'.',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Seu email com o número de chamado "<OTRS_TICKET>" foi devolvido para "<OTRS_BOUNCE_TO>". Contate este endereço para mais informações.',
         'Ticket Status View' => 'Visualização do Status do Chamado',

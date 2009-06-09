@@ -2,7 +2,7 @@
 # Kernel/Language/ct.pm - provides ct language translation
 # Copyright (C) 2008 Sistemes OTIC (ibsalut) - Antonio Linde
 # --
-# $Id: ct.pm,v 1.22 2009-06-08 05:44:12 martin Exp $
+# $Id: ct.pm,v 1.23 2009-06-09 08:46:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Jun  8 07:33:21 2009
+    # Last translation file sync: Tue Jun  9 10:41:33 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -269,6 +269,9 @@ sub Data {
         'Please press Back and try again.' => 'Per favor premi Tornar i provi de nou.',
         'Sent password token to: %s' => 'Enviar el \'token\' de la contrasenya a: %s ',
         'Sent new password to: %s' => 'Enviar nova contrasenya a: %s',
+        'Upcoming Events' => '',
+        'Event' => 'Esdeveniment',
+        'Events' => '',
         'Invalid Token!' => '\'Token\' invàlid!',
         'For more info see:' => '',
         'Package verification failed!' => '',
@@ -584,7 +587,7 @@ sub Data {
         'phone call' => 'Cridada telefònica',
         'Reminder Reached' => '',
         'Reminder Tickets' => '',
-        'Escaladed Tickets' => '',
+        'Escalated Tickets' => '',
         'New Tickets' => '',
         'Open Tickets / Need to be answered' => '',
         'Responses' => 'Respostes',
@@ -744,7 +747,6 @@ sub Data {
         'Ticket escalation time reached' => '',
         'Ticket escalation time reached between' => '',
         'Escalation - First Response Time' => 'Escalat - Temps per a Primera Resposta',
-        'No escalation time settings.' => '',
         'Ticket first response time reached' => '',
         'Ticket first response time reached between' => '',
         'Escalation - Update Time' => 'Escalat - Temps per a Actualització',
@@ -818,14 +820,11 @@ sub Data {
         'A message should have a body!' => 'Els missatges han de tenir contingut',
         'Recipient' => '',
         'Group based' => '',
-        'Recipient' => '',
         'Agent based' => '',
         'Email based' => '',
-        'Event' => 'Esdeveniment',
         'Article Type' => '',
         'Only for ArticleCreate Event.' => '',
         'Subject match' => '',
-        'Only for ArticleCreate Event.' => '',
         'Body match' => '',
         'Notifications are sent to an agent or a customer.' => 'Les notificacions se li envian a un agent o client',
         'To get the first 20 character of the subject (of the latest agent article).' => '',
@@ -1113,7 +1112,6 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
-        'Settings' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
@@ -1395,6 +1393,7 @@ sub Data {
         'Yes, save it with name' => 'Si, guardar-lo amb nom',
 
         # Template: AgentTicketSearchOpenSearchDescriptionFulltext
+        'Fulltext' => 'Text Complet',
 
         # Template: AgentTicketSearchOpenSearchDescriptionTicketNumber
 
@@ -1551,15 +1550,15 @@ sub Data {
         'Create Database' => 'Crear Base de dades',
         'Ticket Number Generator' => 'Generador de nombres de Tiquets',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identificador de Ticker. Algunes persones agraden d\'usar per exemple \'Tiquet#\', \'Cridada#\' o \'ElMeuTiquet#\')',
-        'Create new Phone Ticket' => 'Crear un nou Tiquet Telefònic',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'D\'aquesta forma pot editar directament les claus configurades en Kernel/Config.pm.',
+        'Create new Phone Ticket' => 'Crear un nou Tiquet Telefònic',
         'Symptom' => 'Símptoma',
         'U' => 'A',
         'Site' => 'Ubicació',
         'Customer history search (e. g. "ID342425").' => 'Història de recerques del client (exemple: "ID342425").',
         'Can not delete link with %s!' => 'No es pot suprimir enllaç amb %s! ',
-        'for agent firstname' => 'nom de l\'agent',
         'Close!' => 'Tancar!',
+        'for agent firstname' => 'nom de l\'agent',
         'No means, send agent and customer notifications on changes.' => 'No, significa enviar als agents i clients notificacions al realitzar canvis.',
         'A web calendar' => 'Calendari Web',
         'to get the realname of the sender (if given)' => 'per a obtenir el nom de l\'emissor (si ho va proporcionar)',
@@ -1607,8 +1606,8 @@ sub Data {
         'to get the first 20 character of the subject' => 'per a obtenir els primers 20 caràcters de l\'assumpte',
         'Select the customeruser:service relations.' => 'Seleccioni el client:relacions de serveis',
         'DB Admin Password' => 'Contrasenya de l\'administrador de la BD',
-        'Advisory' => 'Advertiment',
         'Drop Database' => 'Eliminar Base de dades',
+        'Advisory' => 'Advertiment',
         'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Aquí pot definir l\'eix-x. Pot seleccionar un element usant la casella de selecció. Després ha de seleccionar dos o més atributs de l\'element. Si no selecciona cap, tots els atributs de l\'element s\'utilitzaran per a generar una estadística. Així com un nou atribut és afegit des de l\'última configuració',
         'FileManager' => 'Administrador d\'Arxius',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Opcions de dades d\'usuari de l\'usuari actual (ex.: <OTRS_CUSTOMER_DATA_UserFirstname>)',
@@ -1619,7 +1618,6 @@ sub Data {
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Opcions per a la informació de tiquet (ex.: <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         '(Used ticket number format)' => '(Format de tiquet usat)',
         'Reminder' => 'Recordatori',
-        'Fulltext' => 'Text Complet',
         'Incident' => 'Incident',
         'All Agent variables.' => 'Totes les variables d\'agent',
         ' (work units)' => ' (unitats de treball)',
@@ -1632,11 +1630,11 @@ sub Data {
         'Change users <-> roles settings' => 'Canviar Usuaris <-> Configuració de Rols',
         'Parent-Object' => 'Objecte-pare',
         'Of couse this feature will take some system performance it self!' => 'Evidentment aquesta característica afectarà al rendiment del sistema per si mateixa!',
-        'Your own Ticket' => 'Els seus tiquets',
         'Detail' => 'Detall',
+        'Your own Ticket' => 'Els seus tiquets',
         'TicketZoom' => 'Detall del Tiquet',
-        'Open Tickets' => 'Tiquets Oberts',
         'Don\'t forget to add a new user to groups!' => 'No oblidi incloure l\'usuari en grups!',
+        'Open Tickets' => 'Tiquets Oberts',
         'CreateTicket' => 'CrearTiquet',
         'You have to select two or more attributes from the select field!' => 'Ha de seleccionar dos o més atributs del camp seleccionat',
         'System Settings' => 'Configuració del sistema',
@@ -1645,15 +1643,15 @@ sub Data {
         'Finished' => 'Finalitzat',
         'Account Type' => 'Tipus compte',
         'D' => 'D',
-        'System Status' => 'Estat del sistema',
         'All messages' => 'Tots els missatges',
+        'System Status' => 'Estat del sistema',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Opcions per a la informació el tiquet (ex. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Artefact' => 'Artefacte',
         'Object already linked as %s.' => 'Objecte ja enllaçat com %s.',
         'A article should have a title!' => 'Els articles han de tenir títol',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Opcions de configuració (ex. &lt;OTRS_CONFIG_HttpType&gt;)',
-        'don\'t accept license' => 'no accepto la llicència',
         'All email addresses get excluded on replaying on composing and email.' => '',
+        'don\'t accept license' => 'no accepto la llicència',
         'A web mail client' => 'Un client de correu web',
         'Compose Follow up' => 'Redactar seguiment',
         'WebMail' => 'Correu web',
@@ -1684,6 +1682,7 @@ sub Data {
         'PhoneView' => 'Vista telefònica',
         'maximal period form' => 'màxim període del formulari',
         'TicketID' => 'Identificador de Tiquet',
+        'Escaladed Tickets' => '',
         'closed with workaround' => 'tancat amb solució temporal',
         'Yes means, send no agent and customer notifications on changes.' => 'Si, significa no enviar notificacions als agents i clients al realitzar-se canvis.',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'El seu correu amb el tiquet nombre "<OTRS_TICKET>" va ser retornat a "<OTRS_BOUNCE_TO>". Contacti aquesta adreça para mes informació',

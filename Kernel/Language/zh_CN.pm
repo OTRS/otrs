@@ -3,7 +3,7 @@
 # Copyright (C) 2008 Never Min <never at qnofae.org>
 # Copyright (C) 2005 zuowei <j2ee at hirain-sh.com>
 # --
-# $Id: zh_CN.pm,v 1.59 2009-06-08 05:44:13 martin Exp $
+# $Id: zh_CN.pm,v 1.60 2009-06-09 08:46:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.59 $) [1];
+$VERSION = qw($Revision: 1.60 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Jun  8 07:35:10 2009
+    # Last translation file sync: Tue Jun  9 10:43:51 2009
 
     # possible charsets
     $Self->{Charset} = ['GBK', 'GB2312', ];
@@ -270,6 +270,9 @@ sub Data {
         'Please press Back and try again.' => '请返回再试一次.',
         'Sent password token to: %s' => '发送密码到: %s',
         'Sent new password to: %s' => '发送新的密码到: %s',
+        'Upcoming Events' => '',
+        'Event' => '事件',
+        'Events' => '',
         'Invalid Token!' => '非法的标记',
         'For more info see:' => '',
         'Package verification failed!' => '',
@@ -585,7 +588,7 @@ sub Data {
         'phone call' => '电话呼叫',
         'Reminder Reached' => '',
         'Reminder Tickets' => '',
-        'Escaladed Tickets' => '',
+        'Escalated Tickets' => '',
         'New Tickets' => '',
         'Open Tickets / Need to be answered' => '',
         'Responses' => '回复',
@@ -744,7 +747,6 @@ sub Data {
         'Ticket escalation time reached' => '',
         'Ticket escalation time reached between' => '',
         'Escalation - First Response Time' => '任务调升 - 首次回复的时间',
-        'No escalation time settings.' => '',
         'Ticket first response time reached' => '',
         'Ticket first response time reached between' => '',
         'Escalation - Update Time' => '任务调升 - 更新的时间',
@@ -818,14 +820,11 @@ sub Data {
         'A message should have a body!' => '邮件必须包含内容!',
         'Recipient' => '',
         'Group based' => '',
-        'Recipient' => '',
         'Agent based' => '',
         'Email based' => '',
-        'Event' => '事件',
         'Article Type' => '',
         'Only for ArticleCreate Event.' => '',
         'Subject match' => '',
-        'Only for ArticleCreate Event.' => '',
         'Body match' => '',
         'Notifications are sent to an agent or a customer.' => '通知被发送到技术支持人员或者客户.',
         'To get the first 20 character of the subject (of the latest agent article).' => '',
@@ -1113,7 +1112,6 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
-        'Settings' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
@@ -1395,6 +1393,7 @@ sub Data {
         'Yes, save it with name' => '是, 保存为名称',
 
         # Template: AgentTicketSearchOpenSearchDescriptionFulltext
+        'Fulltext' => '全文',
 
         # Template: AgentTicketSearchOpenSearchDescriptionTicketNumber
 
@@ -1557,8 +1556,8 @@ sub Data {
         'Site' => '站点',
         'Customer history search (e. g. "ID342425").' => '搜索客户历史 (例如： "ID342425").',
         'Can not delete link with %s!' => '不能删除 %s 的连接',
-        'for agent firstname' => '技术支持人员 姓',
         'Close!' => '关闭!',
+        'for agent firstname' => '技术支持人员 姓',
         'No means, send agent and customer notifications on changes.' => '需要, 当有改变时发送通知给技术人员或客户.',
         'A web calendar' => 'Web 日历',
         'to get the realname of the sender (if given)' => '邮件发送人的真实姓名 (如果存在)',
@@ -1616,7 +1615,6 @@ sub Data {
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '可用的有关 Ticket 信息 (例如: <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         '(Used ticket number format)' => '(使用 Ticket 编号格式)',
         'Reminder' => '提醒',
-        'Fulltext' => '全文',
         'OTRS DB connect host' => 'OTRS 数据库主机',
         'All Agent variables.' => '所有的技术人员变量',
         ' (work units)' => '',
@@ -1627,11 +1625,11 @@ sub Data {
         'Reminder messages' => '消息提醒',
         'Parent-Object' => '父对象',
         'Of couse this feature will take some system performance it self!' => '当然, 该功能会占用一定的系统资源, 加重系统的负担!',
-        'Your own Ticket' => '您自己的 Ticket',
         'Detail' => '细节',
+        'Your own Ticket' => '您自己的 Ticket',
         'TicketZoom' => 'Ticket 展开',
-        'Open Tickets' => '开放 Tickets',
         'Don\'t forget to add a new user to groups!' => '不要忘记增加新的用户到组!',
+        'Open Tickets' => '开放 Tickets',
         'General Catalog' => '总目录',
         'CreateTicket' => '创建 Ticket',
         'You have to select two or more attributes from the select field!' => '',
@@ -1674,6 +1672,7 @@ sub Data {
         'Mailbox' => '邮箱',
         'PhoneView' => '电话视图',
         'maximal period form' => '最大周期表',
+        'Escaladed Tickets' => '',
         'Yes means, send no agent and customer notifications on changes.' => '不用, 当有改变时不发送通知给技术人员或客户.',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => '您的邮件 编号: "<OTRS_TICKET>" 回退到 "<OTRS_BOUNCE_TO>" . 请联系以下地址获取详细信息.',
         'Ticket Status View' => 'Ticket 状态视图',
