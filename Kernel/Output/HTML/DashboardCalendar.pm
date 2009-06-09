@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardCalendar.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardCalendar.pm,v 1.3 2009-06-06 12:00:49 martin Exp $
+# $Id: DashboardCalendar.pm,v 1.4 2009-06-09 11:45:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -86,7 +86,7 @@ sub Run {
                 ObjectID     => $Ticket{TicketID},
                 ObjectNumber => $Ticket{TicketNumber},
                 Title        => $Ticket{Title},
-                Link         => "Agent=AgentTicketZoom&TicketID=$Ticket{TicketID}",
+                Link         => "Action=AgentTicketZoom&TicketID=$Ticket{TicketID}",
                 TimeStamp    => $TimeStamp,
                 TimeTill     => $TimeTill,
                 In           => $Self->{LayoutObject}->CustomerAge(
