@@ -2,7 +2,7 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.4 2009-06-05 23:46:44 martin Exp $
+# $Id: AgentDashboard.dtl,v 1.5 2009-06-09 23:32:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -75,8 +75,8 @@
                         </td>
                         <td>
                           <div class="accordionhead">
-                          <div class="accordion-expand-down"><img border="0" src="$Config{"Frontend::ImagePath"}expand-down.png" alt="$Text{"Close"}"></div>
-                          <div class="accordion-collapse-up"><img border="0" src="$Config{"Frontend::ImagePath"}collapse-up.png" alt="$Text{"Close"}"></div>
+                          <div class="accordion-expand-down"><a href="javascript: return false;" title="$Text{"Expand"}"><img border="0" src="$Config{"Frontend::ImagePath"}expand-down.png" alt="$Text{"Expand"}"></a></div>
+                          <div class="accordion-collapse-up"><a href="javascript: return false;" title="$Text{"Collapse"}"><img border="0" src="$Config{"Frontend::ImagePath"}collapse-up.png" alt="$Text{"Collapse"}"></a></div>
                           </div>
                         </td>
                       </tr>

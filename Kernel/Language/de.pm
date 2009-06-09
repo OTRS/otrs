@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.191 2009-06-09 08:46:54 martin Exp $
+# $Id: de.pm,v 1.192 2009-06-09 23:32:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.191 $) [1];
+$VERSION = qw($Revision: 1.192 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1400,6 +1400,7 @@ sub Data {
         # Template: AgentTicketZoom
         'Expand View' => 'Ausklappen Ansicht',
         'Collapse View' => 'Zugeklappte Ansicht',
+        'Collapse' => 'Zugeklappte',
         'Split' => 'Teilen',
 
         # Template: AgentTicketZoomArticleFilterDialog
