@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.102 2009-04-23 13:47:08 mh Exp $
+# $Id: Package.pm,v 1.103 2009-06-10 19:20:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,12 +15,12 @@ use strict;
 use warnings;
 use MIME::Base64;
 use File::Copy;
-use LWP::UserAgent;
 use Kernel::System::XML;
 use Kernel::System::Config;
+use Kernel::System::WebUserAgent;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.102 $) [1];
+$VERSION = qw($Revision: 1.103 $) [1];
 
 =head1 NAME
 
@@ -1715,33 +1715,22 @@ sub _Download {
         return;
     }
 
-    # init agent
-    my $UserAgent = LWP::UserAgent->new();
-
-    # set timeout
-    $UserAgent->timeout( $Self->{ConfigObject}->Get('Package::Timeout') || 15 );
-
-    # set user agent
-    $UserAgent->agent(
-        $Self->{ConfigObject}->Get('Product') . ' ' . $Self->{ConfigObject}->Get('Version')
+    my $WebUserAgentObject = Kernel::System::WebUserAgent->new(
+        DBObject     => $Self->{DBObject},
+        ConfigObject => $Self->{ConfigObject},
+        LogObject    => $Self->{LogObject},
+        MainObject   => $Self->{MainObject},
+        Timeout      => $Self->{ConfigObject}->Get('Package::Timeout'),
+        Proxy        => $Self->{ConfigObject}->Get('Package::Proxy'),
     );
 
-    # set proxy
-    if ( $Self->{ConfigObject}->Get('Package::Proxy') ) {
-        $UserAgent->proxy( [ 'http', 'ftp' ], $Self->{ConfigObject}->Get('Package::Proxy') );
-    }
-
-    # get file
-    my $Response = $UserAgent->get( $Param{URL} );
-    if ( $Response->is_success() ) {
-        return $Response->content();
-    }
-
-    $Self->{LogObject}->Log(
-        Priority => 'error',
-        Message  => "Can't get file from $Param{URL}: " . $Response->status_line(),
+    my %Response = $WebUserAgentObject->Request(
+        URL => $Param{URL},
     );
-    return;
+
+    return if !$Response{Content};
+
+    return ${ $Response{Content} };
 }
 
 sub _Database {
@@ -2404,6 +2393,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.102 $ $Date: 2009-04-23 13:47:08 $
+$Revision: 1.103 $ $Date: 2009-06-10 19:20:24 $
 
 =cut

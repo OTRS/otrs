@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.211 2009-06-05 17:55:03 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.212 2009-06-10 19:20:25 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script. Also disables if not active, the GenericAgent, PackageManager and SQL Box, since it's possible to use it for destructive write queries such as DROP DATABASE, and also to steal user passwords.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden. Auch deaktiviert sind der GenericAgent, der PackageManager und die SQL Box im Admin-Interface, bis diese Einstellung aktiviert wurde.</Description>
@@ -2568,6 +2568,24 @@
             </Array>
         </Setting>
     </ConfigItem>
+    <ConfigItem Name="WebUserAgent::Timeout" Required="1" Valid="1">
+        <Description Lang="en">Timeout for http/ftp downloads (in seconds).</Description>
+        <Description Lang="de">Timeout für das Herunterladen via http/ftp (in Sekunden).</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::WebUserAgent</SubGroup>
+        <Setting>
+            <String Regex="">15</String>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="WebUserAgent::Proxy" Required="0" Valid="0">
+        <Description Lang="en">Connections for http/ftp via a proxy.</Description>
+        <Description Lang="de">Verbindungen für http/ftp über einen Proxyserver.</Description>
+        <Group>Framework</Group>
+        <SubGroup>Core::WebUserAgent</SubGroup>
+        <Setting>
+            <String Regex="">http://proxy.sn.no:8001/</String>
+        </Setting>
+    </ConfigItem>
     <ConfigItem Name="Package::FileUpload" Required="1" Valid="1">
         <Description Lang="en">Enable file upload in package manager frontend?</Description>
         <Description Lang="de">File Upload im WebFrontend der Paket-Verwaltung aktivieren?</Description>
@@ -2613,8 +2631,8 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Package::Timeout" Required="1" Valid="1">
-        <Description Lang="en">Timeout for package downloads (in seconds).</Description>
-        <Description Lang="de">Timeout für das Herunterladen von zusätzlichen Paketen (in Sekunden).</Description>
+        <Description Lang="en">Timeout for package downloads (in seconds). Overwrites "WebUserAgent::Timeout".</Description>
+        <Description Lang="de">Timeout für das Herunterladen von zusätzlichen Paketen (in Sekunden). Überschreibt "WebUserAgent::Timeout".</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Package</SubGroup>
         <Setting>
@@ -2622,8 +2640,8 @@
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Package::Proxy" Required="0" Valid="0">
-        <Description Lang="en">Fetch packages via proxy.</Description>
-        <Description Lang="de">Laden von zusätzlichen Paketen über einen Proxyserver.</Description>
+        <Description Lang="en">Fetch packages via proxy. Overwrites "WebUserAgent::Proxy".</Description>
+        <Description Lang="de">Laden von zusätzlichen Paketen über einen Proxyserver. Überschreibt "WebUserAgent::Proxy".</Description>
         <Group>Framework</Group>
         <SubGroup>Core::Package</SubGroup>
         <Setting>
@@ -4150,15 +4168,15 @@ Your OTRS Notification Master
                 <Group>users</Group>
                 <Description>Edit Customer Users</Description>
                 <Title>Customer User</Title>
-                <NavBarName></NavBarName>
+                <NavBarName>Customer</NavBarName>
                 <NavBar>
                     <Description>Edit Customer Users</Description>
                     <Name>Customer</Name>
                     <Image>folder_yellow.png</Image>
                     <Link>Action=AdminCustomerUser&amp;Nav=Agent</Link>
-                    <NavBar>Ticket</NavBar>
-                    <Type></Type>
-                    <Block></Block>
+                    <NavBar>Customer</NavBar>
+                    <Type>Menu</Type>
+                    <Block>ItemArea</Block>
                     <AccessKey>c</AccessKey>
                     <Prio>9000</Prio>
                 </NavBar>
@@ -4595,7 +4613,7 @@ Your OTRS Notification Master
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
-            <Option SelectedID="Classic">
+            <Option SelectedID="Modern">
                 <Item Key="Classic">Classic</Item>
                 <Item Key="Modern">Modern</Item>
             </Option>
@@ -4607,7 +4625,7 @@ Your OTRS Notification Master
         <Group>Framework</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
-            <Option SelectedID="0">
+            <Option SelectedID="1">
                 <Item Key="0">No</Item>
                 <Item Key="1">Yes</Item>
             </Option>
