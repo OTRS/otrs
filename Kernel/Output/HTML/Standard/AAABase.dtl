@@ -2,7 +2,7 @@
 # AAABase.dtl - $Text variable file
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AAABase.dtl,v 1.69 2009-06-09 23:32:55 martin Exp $
+# $Id: AAABase.dtl,v 1.70 2009-06-10 23:42:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -273,6 +273,7 @@ $Text{"Upcoming Events"}
 $Text{"Event"}
 $Text{"Events"}
 $Text{"Invalid Token!"}
+$Text{"more"}
 $Text{"For more info see:"}
 $Text{"Package verification failed!"}
 $Text{"Collapse"}
