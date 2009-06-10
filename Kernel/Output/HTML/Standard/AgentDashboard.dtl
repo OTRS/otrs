@@ -2,7 +2,7 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.5 2009-06-09 23:32:55 martin Exp $
+# $Id: AgentDashboard.dtl,v 1.6 2009-06-10 23:28:29 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -43,6 +43,9 @@
                     <tr>
                       <td colspan="2" class="contentfooter">
                         &nbsp;
+<!-- dtl:block:ContentLargeMore -->
+                        <a href="$Data{"Link"}" title="$Text{"$Data{"Title"}"}" class="small">$Text{"more"} &#187;</a>
+<!-- dtl:block:ContentLargeMore -->
                       </td>
                     </tr>
                   </table>
