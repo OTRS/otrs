@@ -2,7 +2,7 @@
 # Header.dtl - provides global HTML header
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Header.dtl,v 1.58 2009-03-04 11:09:22 tr Exp $
+# $Id: Header.dtl,v 1.59 2009-06-11 00:44:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,8 +38,8 @@ $Include{"Copyright"}
   <link href="$Config{"Frontend::CSSPath"}Standard/agent.css" rel="stylesheet" type="text/css"/>
   <title>$Config{"ProductName"} $QData{"TitleArea"}</title>
 </head>
-<a name="top"></a>
 <body>
+<a name="top"></a>
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td align="left" width="20%" class="header">
