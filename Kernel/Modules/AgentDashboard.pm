@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentDashboard.pm - a global dashbard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.pm,v 1.3 2009-06-09 11:46:52 martin Exp $
+# $Id: AgentDashboard.pm,v 1.4 2009-06-11 00:00:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -48,25 +48,20 @@ sub Run {
     # update/close item
     if ( $Self->{Subaction} eq 'UpdateRemove' ) {
         my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' );
-        my @Backends = split /;/, $Self->{AgentDashboardBackend};
-        my $Data = '';
-        for my $Backend (@Backends) {
-            next if $Name eq $Backend;
-            $Data .= $Backend . ';';
-        }
+        my $Key = 'Dashboard' . $Name;
 
         # update ssession
         $Self->{SessionObject}->UpdateSessionID(
             SessionID => $Self->{SessionID},
-            Key       => 'AgentDashboardBackend',
-            Value     => $Data,
+            Key       => $Key,
+            Value     => 0,
         );
 
         # update preferences
         $Self->{UserObject}->SetPreferences(
             UserID => $Self->{UserID},
-            Key    => 'AgentDashboardBackend',
-            Value  => $Data,
+            Key    => $Key,
+            Value  => 0,
         );
 
         # redirect
@@ -80,24 +75,29 @@ sub Run {
     if ( $Self->{Subaction} eq 'Update' ) {
 
         my @Backends = $Self->{ParamObject}->GetArray( Param => 'Backend' );
-        my $Data = '';
-        for my $Backend (@Backends) {
-            $Data .= $Backend . ';';
+        for my $Name ( sort keys %{$Config} ) {
+            my $Active = 0;
+            for my $Backend (@Backends) {
+                next if $Backend ne $Name;
+                $Active = 1;
+                last;
+            }
+            my $Key = 'Dashboard' . $Name;
+
+            # update ssession
+            $Self->{SessionObject}->UpdateSessionID(
+                SessionID => $Self->{SessionID},
+                Key       => $Key,
+                Value     => $Active,
+            );
+
+            # update preferences
+            $Self->{UserObject}->SetPreferences(
+                UserID => $Self->{UserID},
+                Key    => $Key,
+                Value  => $Active,
+            );
         }
-
-        # update ssession
-        $Self->{SessionObject}->UpdateSessionID(
-            SessionID => $Self->{SessionID},
-            Key       => 'AgentDashboardBackend',
-            Value     => $Data,
-        );
-
-        # update preferences
-        $Self->{UserObject}->SetPreferences(
-            UserID => $Self->{UserID},
-            Key    => 'AgentDashboardBackend',
-            Value  => $Data,
-        );
 
         # redirect
         return $Self->{LayoutObject}->Redirect(
@@ -127,16 +127,13 @@ sub Run {
 
     # load settings
     my %Backends;
-    if ( $Self->{AgentDashboardBackend} ) {
-        my @Backend = split /;/, $Self->{AgentDashboardBackend};
-        for my $Key (@Backend) {
-            $Backends{$Key} = 1;
+    for my $Name ( sort keys %{$Config} ) {
+        my $Key = 'Dashboard' . $Name;
+        if ( defined $Self->{$Key} ) {
+            $Backends{$Name} = $Self->{$Key};
         }
-    }
-    else {
-        for my $Name ( sort keys %{$Config} ) {
-            next if !$Config->{$Name}->{Default};
-            $Backends{$Name} = 1;
+        else {
+            $Backends{$Name} = $Config->{$Name}->{Default};
         }
     }
 
