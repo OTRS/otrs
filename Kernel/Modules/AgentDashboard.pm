@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentDashboard.pm - a global dashbard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.pm,v 1.4 2009-06-11 00:00:34 martin Exp $
+# $Id: AgentDashboard.pm,v 1.5 2009-06-12 21:26:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -127,7 +127,19 @@ sub Run {
 
     # load settings
     my %Backends;
+    BACKEND:
     for my $Name ( sort keys %{$Config} ) {
+
+        # check permissions
+        if ( $Config->{$Name}->{Group} ) {
+            my @Groups = split /;/, $Config->{$Name}->{Group};
+            for my $Group (@Groups) {
+                my $Name = 'UserIsGroup[' . $Group . ']';
+                next BACKEND if !$Self->{$Name};
+                next BACKEND if $Self->{$Name} ne 'Yes';
+            }
+        }
+
         my $Key = 'Dashboard' . $Name;
         if ( defined $Self->{$Key} ) {
             $Backends{$Name} = $Self->{$Key};
