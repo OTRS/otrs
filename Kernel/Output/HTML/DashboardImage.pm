@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardImage.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardImage.pm,v 1.1 2009-06-12 19:51:05 jb Exp $
+# $Id: DashboardImage.pm,v 1.2 2009-06-12 21:06:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -28,8 +28,6 @@ sub new {
     for (qw(Config Name ConfigObject LogObject DBObject LayoutObject ParamObject TicketObject UserID)) {
         die "Got no $_!" if ( !$Self->{$_} );
     }
-
-    $Self->{CacheObject} = Kernel::System::Cache->new(%Param);
 
     return $Self;
 }
@@ -52,6 +50,16 @@ sub Run {
             Content => $Content,
         },
     );
+
+    if ( $Self->{Config}->{Link} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'ContentLargeMore',
+            Data => {
+                %{ $Self->{Config} },
+                Name    => $Self->{Name},
+            },
+        );
+    }
 
     return 1;
 }
