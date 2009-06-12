@@ -1,0 +1,27 @@
+# --
+# AgentDashboardProductNotify.dtl - provides HTML for global dashboard
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# --
+# $Id: AgentDashboardProductNotify.dtl,v 1.1 2009-06-12 23:02:37 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<table border="0" width="100%" cellspacing="0" cellpadding="2">
+<!-- dtl:block:ContentProductMessage -->
+  <tr>
+    <td>
+      $Data{"Message"}
+    </td>
+  </tr>
+<!-- dtl:block:ContentProductMessage -->
+<!-- dtl:block:ContentProductRelease -->
+  <tr>
+    <td>
+      $Text{"%s %s is available!", "$QData{"Name"}", "$QData{"Version"}"} $Text{"Please update now."} (<a href="$Data{"Link"}" target="_blank">$Text{"Release Note"} - $Text{"Level"}: $Text{"$QData{"Severity"}"}</a>)
+    </td>
+  </tr>
+<!-- dtl:block:ContentProductRelease -->
+</table>
