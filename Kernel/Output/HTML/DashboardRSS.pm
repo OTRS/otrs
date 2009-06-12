@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardRSS.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardRSS.pm,v 1.6 2009-06-12 21:30:37 martin Exp $
+# $Id: DashboardRSS.pm,v 1.7 2009-06-12 23:24:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use XML::FeedPP;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -52,41 +52,45 @@ sub Run {
 
     # get content
     if ( !$Content ) {
-        my $Feed = XML::FeedPP->new( $Self->{Config}->{URL} );
+        my $Feed = eval { XML::FeedPP->new( $Self->{Config}->{URL} ) };
 
-        my $Count = 0;
-        for my $Item ( $Feed->get_item() ) {
-            $Count++;
-            last if $Count > $Self->{Config}->{Limit};
-            my $Time = $Item->pubDate();
-            my $Ago;
-            if ($Time) {
-                my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
-                    String => $Time,
-                );
-                $Ago = $Self->{TimeObject}->SystemTime() - $SystemTime;
-                $Ago = $Self->{LayoutObject}->CustomerAge(
-                    Age   => $Ago,
-                    Space => ' ',
+        if (!$Feed) {
+            $Content = "Can't connect to " . $Self->{Config}->{URL};
+        }
+        else {
+            my $Count = 0;
+            for my $Item ( $Feed->get_item() ) {
+                $Count++;
+                last if $Count > $Self->{Config}->{Limit};
+                my $Time = $Item->pubDate();
+                my $Ago;
+                if ($Time) {
+                    my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+                        String => $Time,
+                    );
+                    $Ago = $Self->{TimeObject}->SystemTime() - $SystemTime;
+                    $Ago = $Self->{LayoutObject}->CustomerAge(
+                        Age   => $Ago,
+                        Space => ' ',
+                    );
+                }
+
+                $Self->{LayoutObject}->Block(
+                    Name => 'ContentSmallRSSOverviewRow',
+                    Data => {
+                        Title => $Item->title(),
+                        Link  => $Item->link(),
+                        Ago   => $Ago,
+                    },
                 );
             }
-
-            $Self->{LayoutObject}->Block(
-                Name => 'ContentSmallRSSOverviewRow',
-                Data => {
-                    Title => $Item->title(),
-                    Link  => $Item->link(),
-                    Ago   => $Ago,
+            $Content = $Self->{LayoutObject}->Output(
+                TemplateFile => 'AgentDashboardRSSOverview',
+                Data         => {
+                    %{ $Self->{Config} },
                 },
             );
         }
-
-        $Content = $Self->{LayoutObject}->Output(
-            TemplateFile => 'AgentDashboardRSSOverview',
-            Data         => {
-                %{ $Self->{Config} },
-            },
-        );
 
         # cache
         if ( $Self->{Config}->{CacheTTL} ) {
