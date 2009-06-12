@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.244 2009-06-05 17:55:03 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.245 2009-06-12 23:22:57 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -5929,7 +5929,7 @@ $QData{"Signature"}
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::NotifyModule###4-Ticket::TicketNotify" Required="0" Valid="1">
+    <ConfigItem Name="Frontend::NotifyModule###4-Ticket::TicketNotify" Required="0" Valid="0">
         <Description Lang="en">Module to show agents important tickets via the agent interface.</Description>
         <Description Lang="de">Modul, das den Agents auf wichtige Tickets aufmerksam macht.</Description>
         <Group>Ticket</Group>
@@ -5940,7 +5940,7 @@ $QData{"Signature"}
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Frontend::NotifyModule###5-Ticket::TicketEscalation" Required="0" Valid="1">
+    <ConfigItem Name="Frontend::NotifyModule###5-Ticket::TicketEscalation" Required="0" Valid="0">
         <Description Lang="en">Module to show notifications and escalations (ShownMax: max. shown escalations, EscalationInMinutes: Show ticket which will escalation in, CacheTime: Cache of calculated escalations in seconds).</Description>
         <Description Lang="de">Modul, welches auf Benachrichtigungen und Eskalationen aufmerksam macht (ShownMax: maximal gezeigte Eskalationen, EscalationInMinutes: Zeigt Tickets welche in dieser Zeit eskallieren werden, CacheTime: Cache der Berechnung in Sekunden).</Description>
         <Group>Ticket</Group>
@@ -6547,10 +6547,12 @@ $QData{"Signature"}
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::DashboardTicketReminder</Item>
                 <Item Key="Title">Reminder Tickets</Item>
+                <Item Key="Description">All tickets where the reminder date has neen reached!</Item>
+                <Item Key="Link">$Env{"Baselink"}Action=AgentTicketLockedView</Item>
                 <Item Key="Limit">10</Item>
                 <Item Key="Permission">rw</Item>
+                <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
-                <Item Key="Active">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6563,11 +6565,12 @@ $QData{"Signature"}
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::DashboardTicketGeneric</Item>
                 <Item Key="Title">Escalated Tickets</Item>
+                <Item Key="Description">All tickets which are escalated!</Item>
                 <Item Key="Attributes">TicketEscalationTimeOlderMinutes=1;</Item>
                 <Item Key="Limit">10</Item>
                 <Item Key="Permission">rw</Item>
+                <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
-                <Item Key="Active">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6580,11 +6583,12 @@ $QData{"Signature"}
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::DashboardTicketGeneric</Item>
                 <Item Key="Title">New Tickets</Item>
+                <Item Key="Description">All new tickets!</Item>
                 <Item Key="Attributes">StateType=New;</Item>
                 <Item Key="Limit">10</Item>
                 <Item Key="Permission">rw</Item>
+                <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
-                <Item Key="Active">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6597,11 +6601,12 @@ $QData{"Signature"}
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::DashboardTicketGeneric</Item>
                 <Item Key="Title">Open Tickets / Need to be answered</Item>
+                <Item Key="Description">Tickets which need to be answered!</Item>
                 <Item Key="Attributes">StateType=Open;</Item>
                 <Item Key="Limit">10</Item>
                 <Item Key="Permission">rw</Item>
+                <Item Key="Group"></Item>
                 <Item Key="Default">0</Item>
-                <Item Key="Active">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6617,8 +6622,8 @@ $QData{"Signature"}
                 <Item Key="Created">1</Item>
                 <Item Key="Closed">1</Item>
                 <Item Key="Permission">rw</Item>
+                <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
-                <Item Key="Active">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
