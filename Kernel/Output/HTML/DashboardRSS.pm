@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardRSS.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardRSS.pm,v 1.4 2009-06-06 11:59:14 martin Exp $
+# $Id: DashboardRSS.pm,v 1.5 2009-06-12 20:25:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use XML::FeedPP;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,10 +41,13 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # check cache
-    my $Content = $Self->{CacheObject}->Get(
-        Type => 'DashboardRSS',
-        Key  => $Self->{Config}->{URL},
-    );
+    my $Content = '';
+    if ( $Self->{Config}->{CacheTTL} ) {
+        $Content = $Self->{CacheObject}->Get(
+            Type => 'DashboardRSS',
+            Key  => $Self->{Config}->{URL},
+        );
+    }
 
     # get content
     if ( !$Content ) {
@@ -85,13 +88,14 @@ sub Run {
         );
 
         # cache
-        $Self->{CacheObject}->Set(
-            Type  => 'DashboardRSS',
-            Key   => $Self->{Config}->{URL},
-            Value => $Content,
-            TTL   => $Self->{Config}->{CacheTTL} * 60,
-        );
-
+        if ( $Self->{Config}->{CacheTTL} ) {
+            $Self->{CacheObject}->Set(
+                Type  => 'DashboardRSS',
+                Key   => $Self->{Config}->{URL},
+                Value => $Content,
+                TTL   => $Self->{Config}->{CacheTTL} * 60,
+            );
+        }
     }
 
     $Self->{LayoutObject}->Block(
