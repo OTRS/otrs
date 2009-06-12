@@ -2,7 +2,7 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.6 2009-06-10 23:28:29 martin Exp $
+# $Id: AgentDashboard.dtl,v 1.7 2009-06-12 21:59:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -30,7 +30,7 @@
 
                   <table border="0" width="100%" align="center" cellspacing="0" cellpadding="4">
                     <tr>
-                      <td class="contenthead">$Text{"$QData{"Title"}"}</td>
+                      <td class="contenthead" title="$Text{"$QData{"Description"}"}">$Text{"$QData{"Title"}"}</td>
                       <td class="contenthead" align="right">
                         <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=UpdateRemove&Name=$LQData{"Name"}" title="$Text{"Close"}"><img border="0" src="$Config{"Frontend::ImagePath"}close.png" alt="$Text{"Close"}"></a>
                       </td>
@@ -120,7 +120,7 @@
 
                   <table border="0" width="100%" align="center" cellspacing="0" cellpadding="4">
                     <tr>
-                      <td class="contenthead">$Text{"$QData{"Title"}"}</td>
+                      <td class="contenthead" title="$Text{"$QData{"Description"}"}">$Text{"$QData{"Title"}"}</td>
                       <td class="contenthead" align="right">
                         <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=UpdateRemove&Name=$LQData{"Name"}" title="$Text{"Close"}"><img border="0" src="$Config{"Frontend::ImagePath"}close.png" alt="$Text{"Close"}"></a>
                       </td>
@@ -131,7 +131,12 @@
                       </td>
                     </tr>
                     <tr>
-                      <td colspan="2" class="contentfooter">&nbsp;</td>
+                      <td colspan="2" class="contentfooter">
+                        &nbsp;
+<!-- dtl:block:ContentSmallMore -->
+                        <a href="$Data{"Link"}" title="$Text{"$Data{"Title"}"}" class="small">$Text{"more"} &#187;</a>
+<!-- dtl:block:ContentSmallMore -->
+                      </td>
                     </tr>
                   </table>
 
