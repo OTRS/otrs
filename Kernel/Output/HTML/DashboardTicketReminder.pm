@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketReminder.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketReminder.pm,v 1.2 2009-06-05 22:12:42 martin Exp $
+# $Id: DashboardTicketReminder.pm,v 1.3 2009-06-13 16:21:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -25,7 +25,10 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (qw(Config Name ConfigObject LogObject DBObject LayoutObject ParamObject TicketObject UserID)) {
+    for (
+        qw(Config Name ConfigObject LogObject DBObject LayoutObject ParamObject TicketObject UserID)
+        )
+    {
         die "Got no $_!" if ( !$Self->{$_} );
     }
 
@@ -37,12 +40,13 @@ sub Run {
 
     my @TicketIDs = $Self->{TicketObject}->TicketSearch(
 
-        Result     => 'ARRAY',
-        Limit      => 1000,
-        StateType  => [ 'pending reminder', 'pending auto' ],
-        OwnerIDs   => [ $Self->{UserID} ],
-#        OrderBy    => $OrderBy,
-#        SortBy     => $SortByS,
+        Result    => 'ARRAY',
+        Limit     => 1000,
+        StateType => [ 'pending reminder', 'pending auto' ],
+        OwnerIDs  => [ $Self->{UserID} ],
+
+        #        OrderBy    => $OrderBy,
+        #        SortBy     => $SortByS,
         Permission => $Self->{Config}->{Permission} || 'ro',
         UserID     => $Self->{UserID},
         Limit      => 1_000,

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardProductNotify.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardProductNotify.pm,v 1.1 2009-06-12 23:02:37 martin Exp $
+# $Id: DashboardProductNotify.pm,v 1.2 2009-06-13 16:21:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Cache;
 use Kernel::System::XML;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -29,7 +29,10 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (qw(Config Name ConfigObject LogObject DBObject LayoutObject ParamObject TicketObject UserID)) {
+    for (
+        qw(Config Name ConfigObject LogObject DBObject LayoutObject ParamObject TicketObject UserID)
+        )
+    {
         die "Got no $_!" if ( !$Self->{$_} );
     }
 
@@ -53,11 +56,11 @@ sub Run {
     if ( !$Content ) {
         my $Product = $Self->{ConfigObject}->Get('Product');
         my $Version = $Self->{ConfigObject}->Get('Version');
-        my $Data = $Self->{WebUserAgentObject}->Request(
+        my $Data    = $Self->{WebUserAgentObject}->Request(
             URL => $Self->{Config}->{URL} . '?Product=' . $Product . '-' . $Version,
         );
 
-        if (!$Data) {
+        if ( !$Data ) {
             $Content = "Can't connect to: " . $Self->{Config}->{URL};
         }
         else {

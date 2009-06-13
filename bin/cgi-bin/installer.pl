@@ -3,7 +3,7 @@
 # bin/cgi-bin/installer.pl - the web Installer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: installer.pl,v 1.30 2009-06-08 05:09:22 martin Exp $
+# $Id: installer.pl,v 1.31 2009-06-13 16:21:06 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -30,7 +30,7 @@ use lib "$Bin/../..";
 use lib "$Bin/../../Kernel/cpan-lib";
 
 use vars qw($VERSION $Debug);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 # check @INC for mod_perl (add lib path for "require module"!)
 push( @INC, "$Bin/../..", "$Bin/../../Kernel/cpan-lib" );
@@ -54,8 +54,8 @@ $CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-Installer',
     %CommonObject,
 );
-$CommonObject{MainObject}   = Kernel::System::Main->new(%CommonObject);
-$CommonObject{TimeObject}   = Kernel::System::Time->new(%CommonObject);
+$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
+$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
 
 # debug info
 if ($Debug) {

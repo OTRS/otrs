@@ -2,7 +2,7 @@
 # Kernel/System/WebUserAgent.pm - a web user agent
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: WebUserAgent.pm,v 1.1 2009-06-10 19:20:24 martin Exp $
+# $Id: WebUserAgent.pm,v 1.2 2009-06-13 16:21:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use LWP::UserAgent;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 =head1 NAME
 
@@ -80,7 +80,7 @@ sub new {
     }
 
     $Self->{Timeout} = $Param{Timeout} || $Self->{ConfigObject}->Get('WebUserAgent::Timeout') || 15;
-    $Self->{Proxy}   = $Param{Proxy}   || $Self->{ConfigObject}->Get('WebUserAgent::Proxy');
+    $Self->{Proxy} = $Param{Proxy} || $Self->{ConfigObject}->Get('WebUserAgent::Proxy');
 
     return $Self;
 }
@@ -156,6 +156,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.1 $ $Date: 2009-06-10 19:20:24 $
+$Revision: 1.2 $ $Date: 2009-06-13 16:21:06 $
 
 =cut

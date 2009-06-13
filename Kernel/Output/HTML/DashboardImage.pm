@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardImage.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardImage.pm,v 1.4 2009-06-12 22:03:39 martin Exp $
+# $Id: DashboardImage.pm,v 1.5 2009-06-13 16:21:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -25,7 +25,10 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (qw(Config Name ConfigObject LogObject DBObject LayoutObject ParamObject TicketObject UserID)) {
+    for (
+        qw(Config Name ConfigObject LogObject DBObject LayoutObject ParamObject TicketObject UserID)
+        )
+    {
         die "Got no $_!" if ( !$Self->{$_} );
     }
 
@@ -56,7 +59,7 @@ sub Run {
             Name => $Self->{Config}->{Block} . 'More',
             Data => {
                 %{ $Self->{Config} },
-                Name    => $Self->{Name},
+                Name => $Self->{Name},
             },
         );
     }

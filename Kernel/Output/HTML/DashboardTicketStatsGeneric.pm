@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketStatsGeneric.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketStatsGeneric.pm,v 1.2 2009-06-05 22:12:42 martin Exp $
+# $Id: DashboardTicketStatsGeneric.pm,v 1.3 2009-06-13 16:21:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -25,7 +25,10 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (qw(Config Name ConfigObject LogObject DBObject LayoutObject ParamObject TicketObject UserID)) {
+    for (
+        qw(Config Name ConfigObject LogObject DBObject LayoutObject ParamObject TicketObject UserID)
+        )
+    {
         die "Got no $_!" if ( !$Self->{$_} );
     }
 
@@ -48,21 +51,22 @@ sub Run {
     );
 
     my $TimeNow = $Self->{TimeObject}->SystemTime();
-    my ($Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay) = $Self->{TimeObject}->SystemTime2Date(
+    my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay ) = $Self->{TimeObject}->SystemTime2Date(
         SystemTime => $TimeNow,
     );
 
     my @Data;
     my $Max = 1;
-    for my $Key ( 0..6 ) {
+    for my $Key ( 0 .. 6 ) {
 
         my $TimeNow = $Self->{TimeObject}->SystemTime();
         if ($Key) {
-            $TimeNow = $TimeNow - ( 60 * 60 * 24 * $Key);
+            $TimeNow = $TimeNow - ( 60 * 60 * 24 * $Key );
         }
-        my ($Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay) = $Self->{TimeObject}->SystemTime2Date(
+        my ( $Sec, $Min, $Hour, $Day, $Month, $Year, $WeekDay )
+            = $Self->{TimeObject}->SystemTime2Date(
             SystemTime => $TimeNow,
-        );
+            );
 
         $Data[$Key]->{Day} = $Axis{'7Day'}->{$WeekDay}->{Day};
 
@@ -101,7 +105,7 @@ sub Run {
         if ( $CountClosed > $Max ) {
             $Max = $CountClosed;
         }
-}
+    }
 
     @Data = reverse @Data;
     my $Source = $Self->{LayoutObject}->JSON(

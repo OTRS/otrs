@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardCalendar.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardCalendar.pm,v 1.4 2009-06-09 11:45:34 martin Exp $
+# $Id: DashboardCalendar.pm,v 1.5 2009-06-13 16:21:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -25,7 +25,10 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (qw(Config Name ConfigObject LogObject DBObject LayoutObject ParamObject TicketObject UserID)) {
+    for (
+        qw(Config Name ConfigObject LogObject DBObject LayoutObject ParamObject TicketObject UserID)
+        )
+    {
         die "Got no $_!" if ( !$Self->{$_} );
     }
 
@@ -37,7 +40,7 @@ sub Run {
 
     my %Map = (
         Escalation => [ 'TicketEscalation', 'Escalation', ],
-        Pending    => [ 'TicketPending', 'Reminder Reached', ],
+        Pending    => [ 'TicketPending',    'Reminder Reached', ],
     );
 
     my %Date;
@@ -47,9 +50,9 @@ sub Run {
         my @TicketIDs = $Self->{TicketObject}->TicketSearch(
 
             # ticket escalations over 60 minutes (optional)
-#            $Map{ $Type }->[0] . 'TimeOlderMinutes' => -30,
+            #            $Map{ $Type }->[0] . 'TimeOlderMinutes' => -30,
             # ticket escalations in 120 minutes (optional)
-            $Map{ $Type }->[0] . 'TimeNewerMinutes' => ( 60 * 18 ),
+            $Map{$Type}->[0] . 'TimeNewerMinutes' => ( 60 * 18 ),
 
             Result     => 'ARRAY',
             Permission => $Self->{Config}->{Permission} || 'ro',
@@ -66,14 +69,14 @@ sub Run {
             my $TimeTill;
             if ( $Type eq 'Escalation' ) {
                 my $DestDate = $Ticket{EscalationTime};
-                $TimeTill = $Self->{TimeObject}->SystemTime() - $Ticket{EscalationTime};
+                $TimeTill  = $Self->{TimeObject}->SystemTime() - $Ticket{EscalationTime};
                 $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
                     SystemTime => $DestDate,
                 );
             }
             elsif ( $Type eq 'Pending' ) {
                 my $DestDate = $Self->{TimeObject}->SystemTime() + $Ticket{UntilTime};
-                $TimeTill = $Ticket{UntilTime};
+                $TimeTill  = $Ticket{UntilTime};
                 $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
                     SystemTime => $DestDate,
                 );
@@ -81,7 +84,7 @@ sub Run {
 
             $Date{$TimeStamp} = {
                 Type         => $Type,
-                Text         => $Map{ $Type }->[1],
+                Text         => $Map{$Type}->[1],
                 Object       => 'Ticket',
                 ObjectID     => $Ticket{TicketID},
                 ObjectNumber => $Ticket{TicketNumber},

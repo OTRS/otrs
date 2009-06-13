@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardRSS.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardRSS.pm,v 1.7 2009-06-12 23:24:57 martin Exp $
+# $Id: DashboardRSS.pm,v 1.8 2009-06-13 16:21:06 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use XML::FeedPP;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -28,7 +28,10 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (qw(Config Name ConfigObject LogObject DBObject LayoutObject ParamObject TicketObject UserID)) {
+    for (
+        qw(Config Name ConfigObject LogObject DBObject LayoutObject ParamObject TicketObject UserID)
+        )
+    {
         die "Got no $_!" if ( !$Self->{$_} );
     }
 
@@ -42,7 +45,7 @@ sub Run {
 
     # check cache
     my $CacheKey = $Self->{Config}->{URL} . '-' . $Self->{LayoutObject}->{UserLanguage};
-    my $Content = '';
+    my $Content  = '';
     if ( $Self->{Config}->{CacheTTL} ) {
         $Content = $Self->{CacheObject}->Get(
             Type => 'DashboardRSS',
@@ -54,7 +57,7 @@ sub Run {
     if ( !$Content ) {
         my $Feed = eval { XML::FeedPP->new( $Self->{Config}->{URL} ) };
 
-        if (!$Feed) {
+        if ( !$Feed ) {
             $Content = "Can't connect to " . $Self->{Config}->{URL};
         }
         else {
