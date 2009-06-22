@@ -2,7 +2,7 @@
 # Kernel/System/Web/InterfaceCustomer.pm - the customer interface file (incl. auth)
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: InterfaceCustomer.pm,v 1.40 2009-04-07 16:04:32 martin Exp $
+# $Id: InterfaceCustomer.pm,v 1.41 2009-06-22 23:41:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION @INC);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 # all framework needed modules
 use Kernel::Config;
@@ -221,13 +221,6 @@ sub Run {
                     exit 0;
                 }
             }
-
-            # last login preferences update
-            $Self->{UserObject}->SetPreferences(
-                UserID => $UserData{UserID},
-                Key    => 'UserLastLogin',
-                Value  => $Self->{TimeObject}->SystemTime(),
-            );
 
             # create new session id
             my $NewSessionID = $Self->{SessionObject}->CreateSessionID(
@@ -928,6 +921,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.40 $ $Date: 2009-04-07 16:04:32 $
+$Revision: 1.41 $ $Date: 2009-06-22 23:41:51 $
 
 =cut

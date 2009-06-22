@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.903 2009-06-22 19:46:43 martin Exp $
+# $Id: CHANGES,v 1.904 2009-06-22 23:41:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.4.0 beta4 (2009/06/??)
+ - (2009/06/22) Added PasswordMaxLoginFailed as password preferences to define
+    max login till user get gets disabled (invalid-temporarily).
  - (2009/06/22) Fixed bug# 3775 - Translation error in Kernel/Language/de.pm.
  - (2009/06/22) Fixed bug# 3879 - Typing mistakes in the notification texts
     (scripts/database/otrs-initial_insert.xml).

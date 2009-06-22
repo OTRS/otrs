@@ -2,7 +2,7 @@
 # Kernel/System/Auth.pm - provides the authentification
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Auth.pm,v 1.39 2009-04-17 08:36:44 tr Exp $
+# $Id: Auth.pm,v 1.40 2009-06-22 23:41:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,8 +14,10 @@ package Kernel::System::Auth;
 use strict;
 use warnings;
 
+use Kernel::System::Valid;
+
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 =head1 NAME
 
@@ -101,9 +103,11 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(LogObject ConfigObject DBObject UserObject GroupObject MainObject EncodeObject)) {
+    for (qw(LogObject ConfigObject DBObject UserObject GroupObject MainObject EncodeObject TimeObject)) {
         $Self->{$_} = $Param{$_} || die "No $_!";
     }
+
+    $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
 
     # load auth module
     for my $Count ( '', 1 .. 10 ) {
@@ -202,7 +206,71 @@ sub Auth {
     }
 
     # return if no auth user
-    return if !$User;
+    if ( !$User ) {
+
+        # remember failed logins
+        my $UserID = $Self->{UserObject}->UserLookup(
+            UserLogin => $Param{User},
+        );
+        if ($UserID) {
+            my %User = $Self->{UserObject}->GetUserData(
+                UserID => $UserID,
+                Valid  => 1,
+                Cached => 1,
+            );
+            my $Count = $User{UserLoginFailed} || 0;
+            $Count++;
+            $Self->{UserObject}->SetPreferences(
+                Key    => 'UserLoginFailed',
+                Value  => $Count,
+                UserID => $UserID,
+            );
+
+            # set agent to invalid-temporarily if max failed logins reached
+            my $Config = $Self->{ConfigObject}->Get('PreferencesGroups');
+            my $PasswordMaxLoginFailed;
+            if ( $Config && $Config->{Password} && $Config->{Password}->{PasswordMaxLoginFailed} ) {
+                $PasswordMaxLoginFailed = $Config->{Password}->{PasswordMaxLoginFailed};
+            }
+            if ( %User && $PasswordMaxLoginFailed && $Count >= $PasswordMaxLoginFailed ) {
+                my $ValidID = $Self->{ValidObject}->ValidLookup( Valid => 'invalid-temporarily' );
+                my $Update = $Self->{UserObject}->UserUpdate(
+                    %User,
+                    ValidID      => $ValidID,
+                    ChangeUserID => 1,
+                );
+                if ($Update) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'notice',
+                        Message  => "Login failed $Count times. Set $User{UserLogin} to "
+                            . "'invalid-temporarily'.",
+                    );
+                }
+            }
+        }
+        return;
+    }
+
+    # remember login attributes
+    my $UserID = $Self->{UserObject}->UserLookup(
+        UserLogin => $Param{User},
+    );
+    if ($UserID) {
+
+        # reset failed logins
+        $Self->{UserObject}->SetPreferences(
+            Key    => 'UserLoginFailed',
+            Value  => 0,
+            UserID => $UserID,
+        );
+
+        # last login preferences update
+        $Self->{UserObject}->SetPreferences(
+            Key    => 'UserLastLogin',
+            Value  => $Self->{TimeObject}->SystemTime(),
+            UserID => $UserID,
+        );
+    }
 
     # return auth user
     return $User;
@@ -224,6 +292,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.39 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.40 $ $Date: 2009-06-22 23:41:50 $
 
 =cut

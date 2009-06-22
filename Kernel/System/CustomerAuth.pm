@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth.pm - provides the authentification
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerAuth.pm,v 1.27 2009-04-17 08:36:44 tr Exp $
+# $Id: CustomerAuth.pm,v 1.28 2009-06-22 23:41:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 =head1 NAME
 
@@ -40,6 +40,7 @@ create an object
     use Kernel::System::Encode;
     use Kernel::System::Log;
     use Kernel::System::Main;
+    use Kernel::System::Time;
     use Kernel::System::DB;
     use Kernel::System::CustomerAuth;
 
@@ -56,6 +57,11 @@ create an object
         EncodeObject => $EncodeObject,
         LogObject    => $LogObject,
     );
+    my $TimeObject = Kernel::System::Time->new(
+        ConfigObject => $ConfigObject,
+        EncodeObject => $EncodeObject,
+        LogObject    => $LogObject,
+    );
     my $DBObject = Kernel::System::DB->new(
         ConfigObject => $ConfigObject,
         EncodeObject => $EncodeObject,
@@ -67,6 +73,7 @@ create an object
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
         DBObject     => $DBObject,
+        TimeObject   => $TimeObject,
         MainObject   => $MainObject,
         EncodeObject => $EncodeObject,
     );
@@ -81,7 +88,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(LogObject ConfigObject DBObject MainObject EncodeObject)) {
+    for (qw(LogObject ConfigObject DBObject MainObject EncodeObject TimeObject)) {
         $Self->{$_} = $Param{$_} || die "No $_!";
     }
 
@@ -156,16 +163,46 @@ sub Auth {
     }
 
     # check if recorde exists
-    return if !$User;
+    if ( !$User ) {
+        my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $Param{User} );
+        if (%CustomerData) {
+            my $Count = $CustomerData{UserLoginFailed} || 0;
+            $Count++;
+            $Self->{CustomerUserObject}->SetPreferences(
+                Key    => 'UserLoginFailed',
+                Value  => $Count,
+                UserID => $CustomerData{UserLogin},
+            );
+        }
+        return;
+    }
 
     # check if user is vaild
     my %CustomerData = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $User );
-    if ( defined( $CustomerData{ValidID} ) && $CustomerData{ValidID} ne 1 ) {
+    if ( defined $CustomerData{ValidID} && $CustomerData{ValidID} ne 1 ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message  => "CustomerUser: '$User' is set to invalid, can't login!",
         );
         return;
+    }
+
+    # remember login attributes
+    if (%CustomerData) {
+
+        # reset failed logins
+        $Self->{CustomerUserObject}->SetPreferences(
+            Key    => 'UserLoginFailed',
+            Value  => 0,
+            UserID => $CustomerData{UserLogin},
+        );
+
+        # last login preferences update
+        $Self->{CustomerUserObject}->SetPreferences(
+            Key    => 'UserLastLogin',
+            Value  => $Self->{TimeObject}->SystemTime(),
+            UserID => $CustomerData{UserLogin},
+        );
     }
 
     # return user
@@ -188,6 +225,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.27 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.28 $ $Date: 2009-06-22 23:41:50 $
 
 =cut

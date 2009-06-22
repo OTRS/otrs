@@ -2,7 +2,7 @@
 # Kernel/System/Valid.pm - all valid functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Valid.pm,v 1.12 2009-04-17 08:36:44 tr Exp $
+# $Id: Valid.pm,v 1.13 2009-06-22 23:41:50 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 =head1 NAME
 
@@ -113,6 +113,70 @@ sub ValidList {
     return %Data;
 }
 
+=item ValidLookup()
+
+returns the id or the name of a valid
+
+    my $ValidID = $ValidObject->ValidLookup(
+        Valid => '3 normal',
+    );
+
+    my $Valid = $ValidObject->ValidLookup(
+        ValidID => 1,
+    );
+
+=cut
+
+sub ValidLookup {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    if ( !$Param{Valid} && !$Param{ValidID} ) {
+        $Self->{LogObject}->Log( Valid => 'error', Message => 'Need Valid or ValidID!' );
+        return;
+    }
+
+    # check if we ask the same request?
+    my $CacheKey;
+    my $Key;
+    my $Value;
+    if ( $Param{Valid} ) {
+        $Key      = 'Valid';
+        $Value    = $Param{Valid};
+        $CacheKey = 'ValidLookup::' . $Param{Valid};
+        return $Self->{$CacheKey} if defined $Self->{$CacheKey};
+    }
+    else {
+        $Key      = 'ValidID';
+        $Value    = $Param{ValidID};
+        $CacheKey = 'ValidIDLookup::' . $Param{ValidID};
+        return $Self->{$CacheKey} if defined $Self->{$CacheKey};
+    }
+
+    my %List = $Self->ValidList();
+    if ( $Param{Valid} ) {
+        for my $ID ( keys %List ) {
+            next if $List{$ID} ne $Param{Valid};
+            $Self->{$CacheKey} = $ID;
+            last;
+        }
+    }
+    else {
+        $Self->{$CacheKey} = $List{ $Param{ValidID} };
+    }
+
+    # check if data exists
+    if ( !defined $Self->{$CacheKey} ) {
+        $Self->{LogObject}->Log(
+            Priority => 'error',
+            Message  => "No $Key for $Value found!",
+        );
+        return;
+    }
+
+    return $Self->{$CacheKey};
+}
+
 =item ValidIDsGet()
 
 return all valid ids as array
@@ -158,6 +222,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.12 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.13 $ $Date: 2009-06-22 23:41:50 $
 
 =cut
