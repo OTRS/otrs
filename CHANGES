@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.901 2009-06-22 16:29:37 sb Exp $
+# $Id: CHANGES,v 1.902 2009-06-22 19:43:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,11 +10,15 @@
 # --
 
 2.4.0 beta4 (2009/06/??)
+ - (2009/06/22) Fixed bug# 3879 - Typing mistakes in the notification texts
+    (scripts/database/otrs-initial_insert.xml).
  - (2009/06/22) Fixed bug# 3907 - Sum rows/columns in stats only adds integers.
+ - (2009/06/16) Fixed bug# 3881 - Dashboard - Error message when
+    http://otrs.org/rss/ is not reachable.
  - (2009/06/13) Fixed bug# 3791 - Safari v3+4 cannot work with WYSIWYG Editor.
  - (2009/06/10) Fixed bug# 3882 - Dashboard does not set LastScreenOverview.
  - (2009/06/10) Added own web user agent, Kernel::System::WebUserAgent. Removed
-   http/ftp access from Kernel::System::Package, moved to new core module.
+    http/ftp access from Kernel::System::Package, moved to new core module.
  - (2009/06/10) Moved default menu type form "Classic" to "Modern".
 
 2.4.0 beta3 (2009/06/08)

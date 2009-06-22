@@ -1447,7 +1447,7 @@ Your OTRS Notification Master</Data>
         <Data Key="subject" Type="Quote">New note! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
 
-&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;" added a new note to ticket [&lt;OTRS_TICKET_TicketNumber&gt;].
+"&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;" added a new note to ticket [&lt;OTRS_TICKET_TicketNumber&gt;].
 
 Note:
 &lt;OTRS_CUSTOMER_BODY&gt;
@@ -1468,7 +1468,7 @@ Your OTRS Notification Master</Data>
         <Data Key="subject" Type="Quote">Moved ticket in "&lt;OTRS_CUSTOMER_QUEUE&gt;" queue! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
 
-&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;" moved a ticket [&lt;OTRS_TICKET_TicketNumber&gt;] into "&lt;OTRS_CUSTOMER_QUEUE&gt;".
+"&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;" moved a ticket [&lt;OTRS_TICKET_TicketNumber&gt;] into "&lt;OTRS_CUSTOMER_QUEUE&gt;".
 
 &lt;snip&gt;
 &lt;OTRS_CUSTOMER_EMAIL[30]&gt;
@@ -1487,10 +1487,10 @@ Your OTRS Notification Master</Data>
         <Data Key="notification_type" Type="Quote">Agent::PendingReminder</Data>
         <Data Key="notification_charset" Type="Quote">iso-8859-1</Data>
         <Data Key="notification_language" Type="Quote">en</Data>
-        <Data Key="subject" Type="Quote">Ticket reminder has been reached! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
+        <Data Key="subject" Type="Quote">Ticket reminder has reached! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
 
-the ticket "&lt;OTRS_TICKET_TicketNumber&gt;" has been reached the reminder time!
+the ticket "&lt;OTRS_TICKET_TicketNumber&gt;" has reached its reminder time!
 
 &lt;OTRS_CUSTOMER_FROM&gt;
 
@@ -1695,7 +1695,7 @@ Ihr OTRS Benachrichtigungs-Master</Data>
         <Data Key="subject" Type="Quote">Neue Notiz! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
 
-&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;" fuegte eine Notiz an Ticket [&lt;OTRS_TICKET_TicketNumber&gt;].
+"&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;" fuegte eine Notiz an Ticket [&lt;OTRS_TICKET_TicketNumber&gt;].
 
 Notiz:
 &lt;OTRS_CUSTOMER_BODY&gt;
@@ -1716,7 +1716,7 @@ Ihr OTRS Benachrichtigungs-Master</Data>
         <Data Key="subject" Type="Quote">Ticket verschoben in "&lt;OTRS_CUSTOMER_QUEUE&gt;" Queue! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hallo &lt;OTRS_UserFirstname&gt; &lt;OTRS_UserLastname&gt;,
 
-&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;" verschob Ticket [&lt;OTRS_TICKET_TicketNumber&gt;] nach "&lt;OTRS_CUSTOMER_QUEUE&gt;".
+"&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;" verschob Ticket [&lt;OTRS_TICKET_TicketNumber&gt;] nach "&lt;OTRS_CUSTOMER_QUEUE&gt;".
 
 &lt;snip&gt;
 &lt;OTRS_CUSTOMER_EMAIL[30]&gt;
@@ -1849,7 +1849,7 @@ Your OTRS Notification Master
         <Data Key="text" Type="Quote">*** THIS IS JUST A NOTE ***
 
 The owner of your ticket "&lt;OTRS_TICKET_TicketNumber&gt;" has been changed to
-"&lt;OTRS_OWNER_UserFirstname&gt; &lt;OTRS_OWNER_UserLastname&gt;.
+"&lt;OTRS_OWNER_UserFirstname&gt; &lt;OTRS_OWNER_UserLastname&gt;".
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;customer.pl?Action=CustomerZoom&amp;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
@@ -1914,7 +1914,7 @@ Ihr OTRS Benachrichtigungs-Master
         <Data Key="text" Type="Quote">*** NUR EINE INFO ***
 
 Der Besitzer des Tickets "&lt;OTRS_TICKET_TicketNumber&gt;" hat sich auf
-"&lt;OTRS_OWNER_UserFirstname&gt; &lt;OTRS_OWNER_UserLastname&gt; geaendert.
+"&lt;OTRS_OWNER_UserFirstname&gt; &lt;OTRS_OWNER_UserLastname&gt;" geaendert.
 
 &lt;OTRS_CONFIG_HttpType&gt;://&lt;OTRS_CONFIG_FQDN&gt;/&lt;OTRS_CONFIG_ScriptAlias&gt;customer.pl?Action=CustomerZoom&amp;TicketID=&lt;OTRS_TICKET_TicketID&gt;
 
