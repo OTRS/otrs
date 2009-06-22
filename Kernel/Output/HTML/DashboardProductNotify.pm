@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardProductNotify.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardProductNotify.pm,v 1.3 2009-06-22 22:24:52 martin Exp $
+# $Id: DashboardProductNotify.pm,v 1.4 2009-06-22 22:37:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Cache;
 use Kernel::System::XML;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -100,6 +100,12 @@ sub Run {
                     );
                 }
             }
+
+            # check if we need to set CacheTTL based on product.xml
+            my $CacheTTL = $Data[1]->{otrs_product}->[1]->{CacheTTL};
+            if ( $CacheTTL && $CacheTTL->[1]->{Content} ) {
+                $Self->{Config}->{CacheTTL} = $CacheTTL->[1]->{Content};
+            }
         }
 
         $Content = $Self->{LayoutObject}->Output(
@@ -108,12 +114,6 @@ sub Run {
                 %{ $Self->{Config} },
             },
         );
-
-        # check if we need to set CacheTTL based on product.xml
-        my $CacheTTL = $Data[1]->{otrs_product}->[1]->{CacheTTL};
-        if ( $CacheTTL && $CacheTTL->[1]->{Content} ) {
-            $Self->{Config}->{CacheTTL} = $CacheTTL->[1]->{Content};
-        }
 
         # cache
         $Self->{CacheObject}->Set(
