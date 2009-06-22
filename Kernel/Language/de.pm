@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.193 2009-06-10 23:42:49 martin Exp $
+# $Id: de.pm,v 1.194 2009-06-22 19:46:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.193 $) [1];
+$VERSION = qw($Revision: 1.194 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -558,7 +558,7 @@ sub Data {
         'Ticket %s: update time will be over in %s!' => 'Ticket %s: Aktualisierungszeit wird ablaufen in %s!',
         'Ticket %s: solution time is over (%s)!' => 'Ticket %s: Lösungszeit ist abgelaufen (%s)!',
         'Ticket %s: solution time will be over in %s!' => 'Ticket %s: Lösungszeit wird ablaufen in %s!',
-        'There are more escalated tickets!' => 'Mehr eskalierte Tickets!',
+        'There are more escalated tickets!' => 'Mehrere eskalierte Tickets vorhanden!',
         'New ticket notification' => 'Mitteilung bei neuem Ticket',
         'Send me a notification if there is a new ticket in "My Queues".' => 'Zusenden einer Mitteilung bei neuem Ticket in "Meine Queues".',
         'Follow up notification' => 'Mitteilung bei Nachfragen',
