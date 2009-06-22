@@ -2,7 +2,7 @@
 # Kernel/System/Priority.pm - all ticket priority function
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Priority.pm,v 1.20 2009-04-17 08:36:44 tr Exp $
+# $Id: Priority.pm,v 1.21 2009-06-22 22:54:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 =head1 NAME
 
@@ -257,17 +257,13 @@ sub PriorityLookup {
         $Key      = 'Priority';
         $Value    = $Param{Priority};
         $CacheKey = 'Ticket::Priority::PriorityLookup::' . $Param{Priority};
-        if ( defined $Self->{$CacheKey} ) {
-            return $Self->{$CacheKey};
-        }
+        return $Self->{$CacheKey} if defined $Self->{$CacheKey};
     }
     else {
         $Key      = 'PriorityID';
         $Value    = $Param{PriorityID};
         $CacheKey = 'Ticket::Priority::PriorityIDLookup::' . $Param{PriorityID};
-        if ( defined $Self->{$CacheKey} ) {
-            return $Self->{$CacheKey};
-        }
+        return $Self->{$CacheKey} if defined $Self->{$CacheKey};
     }
 
     # db query
@@ -314,6 +310,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.21 $ $Date: 2009-06-22 22:54:08 $
 
 =cut
