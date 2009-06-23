@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.245 2009-06-12 23:22:57 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.246 2009-06-23 00:05:05 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -6538,7 +6538,7 @@ $QData{"Signature"}
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="DashboardBackend###0001-TicketReminder" Required="0" Valid="1">
+    <ConfigItem Name="DashboardBackend###0100-TicketReminder" Required="0" Valid="1">
         <Description Lang="en">Parameters for the dashboard backend.</Description>
         <Description Lang="de">Parameter für das Dashboard Backend.</Description>
         <Group>Ticket</Group>
@@ -6556,7 +6556,7 @@ $QData{"Signature"}
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="DashboardBackend###0002-TicketEscalation" Required="0" Valid="1">
+    <ConfigItem Name="DashboardBackend###0110-TicketEscalation" Required="0" Valid="1">
         <Description Lang="en">Parameters for the dashboard backend.</Description>
         <Description Lang="de">Parameter für das Dashboard Backend.</Description>
         <Group>Ticket</Group>
@@ -6574,7 +6574,7 @@ $QData{"Signature"}
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="DashboardBackend###0003-TicketNew" Required="0" Valid="1">
+    <ConfigItem Name="DashboardBackend###0120-TicketNew" Required="0" Valid="1">
         <Description Lang="en">Parameters for the dashboard backend.</Description>
         <Description Lang="de">Parameter für das Dashboard Backend.</Description>
         <Group>Ticket</Group>
@@ -6592,7 +6592,7 @@ $QData{"Signature"}
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="DashboardBackend###0004-TicketOpen" Required="0" Valid="1">
+    <ConfigItem Name="DashboardBackend###0130-TicketOpen" Required="0" Valid="1">
         <Description Lang="en">Parameters for the dashboard backend.</Description>
         <Description Lang="de">Parameter für das Dashboard Backend.</Description>
         <Group>Ticket</Group>
@@ -7392,7 +7392,7 @@ $QData{"Signature"}
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent</SubGroup>
         <Setting>
-            <String Regex="">AgentTicketQueue</String>
+            <String Regex="">AgentDashboard</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Frontend::CommonParam###QueueID" Required="1" Valid="1">
