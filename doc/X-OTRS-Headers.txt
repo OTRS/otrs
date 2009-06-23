@@ -2,7 +2,7 @@
 # X-OTRS-Headers.txt - X-headers for use in mail
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: X-OTRS-Headers.txt,v 1.17 2009-02-26 09:55:58 tr Exp $
+# $Id: X-OTRS-Headers.txt,v 1.18 2009-06-23 00:01:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,8 +21,8 @@ X-OTRS-Lock: [ticket lock state]
 --------------------------------
 Set lock of ticket. For FollowUps use X-OTRS-FollowUp-Lock.
 
-X-OTRS-Ignore: [yes]
----------------------
+X-OTRS-Ignore: [yes|true]
+-------------------------
 Ignore this email.
 
 X-OTRS-State: (new|open|closed successful|closed unsuccessful|...)

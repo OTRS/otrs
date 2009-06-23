@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster.pm - the global PostMaster module for OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMaster.pm,v 1.81 2009-04-17 08:36:44 tr Exp $
+# $Id: PostMaster.pm,v 1.82 2009-06-23 00:01:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use Kernel::System::PostMaster::DestQueue;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.81 $) [1];
+$VERSION = qw($Revision: 1.82 $) [1];
 
 =head1 NAME
 
@@ -214,7 +214,7 @@ sub Run {
     }
 
     # should I ignore the incoming mail?
-    if ( $GetParam->{'X-OTRS-Ignore'} && $GetParam->{'X-OTRS-Ignore'} =~ /yes/i ) {
+    if ( $GetParam->{'X-OTRS-Ignore'} && $GetParam->{'X-OTRS-Ignore'} =~ /(yes|true)/i ) {
         $Self->{LogObject}->Log(
             Priority => 'notice',
             Message =>
@@ -621,6 +621,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.81 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.82 $ $Date: 2009-06-23 00:01:37 $
 
 =cut
