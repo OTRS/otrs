@@ -1,5 +1,5 @@
 # --
-# $Id: CREDITS,v 1.15 2008-06-20 08:04:16 martin Exp $
+# $Id: CREDITS,v 1.16 2009-06-23 11:25:40 martin Exp $
 # --
 
 This is at least a partial credits-file of people that have
@@ -30,7 +30,6 @@ S: Finland
 --
 N: Carsten Gross
 E: carsten at siski.de
-W: http://www.siski.de/~carsten/
 D: special inspiration (bash)
 S: Germany
 --
@@ -77,7 +76,6 @@ S: Denmark
 --
 N: Martin Scherbaum
 E: maddin at scherbaum.org
-W: http://www.scherbaum.org
 D: German and initial French translation - RPM-Tips
 S: Germany
 --
@@ -88,7 +86,6 @@ S: Germany
 --
 N: Nicolas Goralski
 E: ngoralski at oceanet-technology.com
-W: http://www.goralski.info/
 D: Maintainer of French translation
 S: France
 --
@@ -100,6 +97,11 @@ S: Italy
 N: Thomas Raith
 E: thomas.raith at otrs.org
 D: Module development, creation of coding style guide, dtl block feature.
+S: Germany
+--
+N: Torsten Thau
+E: torsten.thau at web.de
+D: Patches and bugfixing.
 S: Germany
 --
 N: Vladimir Gerdjikov
@@ -114,7 +116,6 @@ S: France
 --
 N: Martin Edenhofer
 E: martin at otrs.org
-W: http://martin.edenhofer.de/
 D: Fonder and Coder
 S: Germany
 --
