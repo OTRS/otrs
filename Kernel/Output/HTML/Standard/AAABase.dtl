@@ -2,7 +2,7 @@
 # AAABase.dtl - $Text variable file
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AAABase.dtl,v 1.70 2009-06-10 23:42:50 martin Exp $
+# $Id: AAABase.dtl,v 1.71 2009-06-23 00:17:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -277,6 +277,8 @@ $Text{"more"}
 $Text{"For more info see:"}
 $Text{"Package verification failed!"}
 $Text{"Collapse"}
+$Text{"News"}
+$Text{"Product News"}
 
 # richtext editor
 $Text{"Bold"}
