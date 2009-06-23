@@ -3,7 +3,7 @@
 # SetPermissions.pl - to set the otrs permissions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: SetPermissions.pl,v 1.4 2009-04-23 13:47:27 mh Exp $
+# $Id: SetPermissions.pl,v 1.5 2009-06-23 00:47:52 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 print "bin/SetPermissions.pl <$VERSION> - set OTRS file permissions\n";
 print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
@@ -161,6 +161,19 @@ if ( !$Secure ) {
     $_ = "$DestDir/Kernel/Config.pm";
     makeWritable();
 }
+
+# set owner rw and group ro
+@Dirs = (
+    "$DestDir/",
+    "$DestDir/.procmailrc",
+    "$DestDir/.fetchmailrc",
+);
+for my $Dir (@Dirs) {
+    print "Setting owner rw and group ro permissions on $Dir\n";
+    $_ = $Dir;
+    makeReadOnly();
+}
+find( \&makeWritableSetGid, @Dirs );
 
 exit(0);
 
