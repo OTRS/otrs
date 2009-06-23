@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.398 2009-06-12 14:02:15 martin Exp $
+# $Id: Ticket.pm,v 1.399 2009-06-23 00:19:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -38,7 +38,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTML2Ascii;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.398 $) [1];
+$VERSION = qw($Revision: 1.399 $) [1];
 
 =head1 NAME
 
@@ -808,21 +808,21 @@ returns
 
     (detail escalation info about first response, update and solution time)
     FirstResponseTimeEscalation      (if true, ticket is escalated)
-    FirstResponseTimeNotification    (if true, notify - x% of escalation has been reached)
+    FirstResponseTimeNotification    (if true, notify - x% of escalation has reached)
     FirstResponseTimeDestinationTime (date of escalation in unix time, e. g. 72193292)
     FirstResponseTimeDestinationDate (date of escalation, e. g. "2009-02-14 18:00:00")
     FirstResponseTimeWorkingTime     (seconds of working/service time till escalation, e. g. "1800")
     FirstResponseTime                (seconds total till escalation, e. g. "3600")
 
     UpdateTimeEscalation             (if true, ticket is escalated)
-    UpdateTimeNotification           (if true, notify - x% of escalation has been reached)
+    UpdateTimeNotification           (if true, notify - x% of escalation has reached)
     UpdateTimeDestinationTime        (date of escalation in unix time, e. g. 72193292)
     UpdateTimeDestinationDate        (date of escalation, e. g. "2009-02-14 18:00:00")
     UpdateTimeWorkingTime            (seconds of working/service time till escalation, e. g. "1800")
     UpdateTime                       (seconds total till escalation, e. g. "3600")
 
     SolutionTimeEscalation           (if true, ticket is escalated)
-    SolutionTimeNotification         (if true, notify - x% of escalation has been reached)
+    SolutionTimeNotification         (if true, notify - x% of escalation has reached)
     SolutionTimeDestinationTime      (date of escalation in unix time, e. g. 72193292)
     SolutionTimeDestinationDate      (date of escalation, e. g. "2009-02-14 18:00:00")
     SolutionTimeWorkingTime          (seconds of working/service time till escalation, e. g. "1800")
@@ -1997,21 +1997,21 @@ it returnes
 
     (detail escalation info about first response, update and solution time)
     FirstResponseTimeEscalation      (if true, ticket is escalated)
-    FirstResponseTimeNotification    (if true, notify - x% of escalation has been reached)
+    FirstResponseTimeNotification    (if true, notify - x% of escalation has reached)
     FirstResponseTimeDestinationTime (date of escalation in unix time, e. g. 72193292)
     FirstResponseTimeDestinationDate (date of escalation, e. g. "2009-02-14 18:00:00")
     FirstResponseTimeWorkingTime     (seconds of working/service time till escalation, e. g. "1800")
     FirstResponseTime                (seconds total till escalation, e. g. "3600")
 
     UpdateTimeEscalation             (if true, ticket is escalated)
-    UpdateTimeNotification           (if true, notify - x% of escalation has been reached)
+    UpdateTimeNotification           (if true, notify - x% of escalation has reached)
     UpdateTimeDestinationTime        (date of escalation in unix time, e. g. 72193292)
     UpdateTimeDestinationDate        (date of escalation, e. g. "2009-02-14 18:00:00")
     UpdateTimeWorkingTime            (seconds of working/service time till escalation, e. g. "1800")
     UpdateTime                       (seconds total till escalation, e. g. "3600")
 
     SolutionTimeEscalation           (if true, ticket is escalated)
-    SolutionTimeNotification         (if true, notify - x% of escalation has been reached)
+    SolutionTimeNotification         (if true, notify - x% of escalation has reached)
     SolutionTimeDestinationTime      (date of escalation in unix time, e. g. 72193292)
     SolutionTimeDestinationDate      (date of escalation, e. g. "2009-02-14 18:00:00")
     SolutionTimeWorkingTime          (seconds of working/service time till escalation, e. g. "1800")
@@ -7373,6 +7373,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.398 $ $Date: 2009-06-12 14:02:15 $
+$Revision: 1.399 $ $Date: 2009-06-23 00:19:02 $
 
 =cut
