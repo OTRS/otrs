@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketReminder.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketReminder.pm,v 1.3 2009-06-13 16:21:06 mh Exp $
+# $Id: DashboardTicketReminder.pm,v 1.4 2009-06-23 00:16:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -102,6 +102,16 @@ sub Run {
             Content => $Content,
         },
     );
+
+    if ( $Self->{Config}->{Link} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'ContentLargeMore',
+            Data => {
+                %{ $Self->{Config} },
+                Name    => $Self->{Name},
+            },
+        );
+    }
 
     return 1;
 }
