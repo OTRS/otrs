@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.220 2009-06-22 23:41:50 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.221 2009-06-23 00:15:09 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script. Also disables if not active, the GenericAgent, PackageManager and SQL Box, since it's possible to use it for destructive write queries such as DROP DATABASE, and also to steal user passwords.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden. Auch deaktiviert sind der GenericAgent, der PackageManager und die SQL Box im Admin-Interface, bis diese Einstellung aktiviert wurde.</Description>
@@ -5239,6 +5239,7 @@ Your OTRS Notification Master
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::DashboardProductNotify</Item>
                 <Item Key="Title">Product News</Item>
+                <Item Key="Description">News about OTRS releases!</Item>
                 <Item Key="URL">http://otrs.org/product.xml</Item>
                 <Item Key="Group">admin</Item>
                 <Item Key="Default">1</Item>
@@ -5255,6 +5256,7 @@ Your OTRS Notification Master
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::DashboardRSS</Item>
                 <Item Key="Title">OTRS News</Item>
+                <Item Key="Description"></Item>
                 <Item Key="URL">http://otrs.org/rss/</Item>
                 <Item Key="Default">1</Item>
                 <Item Key="Group"></Item>
@@ -5263,7 +5265,7 @@ Your OTRS Notification Master
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="DashboardBackend###0200-Image" Required="0" Valid="1">
+    <ConfigItem Name="DashboardBackend###0200-Image" Required="0" Valid="0">
         <Description Lang="en">Parameters for the dashboard backend.</Description>
         <Description Lang="de">Parameter für das Dashboard Backend.</Description>
         <Group>Framework</Group>
@@ -5272,6 +5274,7 @@ Your OTRS Notification Master
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::DashboardImage</Item>
                 <Item Key="Title">A picture</Item>
+                <Item Key="Description">Some picture description!</Item>
                 <Item Key="Block">ContentLarge</Item>
                 <Item Key="URL">http://www.otrs.com/uploads/pics/jointhecommunity_02.jpg</Item>
                 <Item Key="Default">1</Item>
