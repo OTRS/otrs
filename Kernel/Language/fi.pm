@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Antti K‰m‰r‰inen <antti at seu.net>
 # Copyright (C) 2007-2008 Mikko Hynninen <first.last at tietokartano.fi>
 # --
-# $Id: fi.pm,v 1.89 2009-06-09 08:46:54 martin Exp $
+# $Id: fi.pm,v 1.90 2009-06-23 00:26:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.89 $) [1];
+$VERSION = qw($Revision: 1.90 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Tue Jun  9 10:43:03 2009
+    # Last translation file sync: Tue Jun 23 02:22:24 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -274,8 +274,12 @@ sub Data {
         'Event' => 'Tapahtyma',
         'Events' => '',
         'Invalid Token!' => 'Virheellinen valtuutusavain!',
+        'more' => '',
         'For more info see:' => '',
         'Package verification failed!' => '',
+        'Collapse' => '',
+        'News' => '',
+        'Product News' => '',
         'Bold' => '',
         'Italic' => '',
         'Underline' => '',
@@ -591,6 +595,10 @@ sub Data {
         'Escalated Tickets' => '',
         'New Tickets' => '',
         'Open Tickets / Need to be answered' => '',
+        'Tickets which need to be answered!' => '',
+        'All new tickets!' => '',
+        'All tickets which are escalated!' => '',
+        'All tickets where the reminder date has reached!' => '',
         'Responses' => 'Vastaukset',
         'Responses <-> Queue' => 'Vastaukset <-> Jono',
         'Auto Responses' => 'Autom. vastaukset',
@@ -1112,9 +1120,19 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
+        'more' => '',
+        'Collapse' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
+
+        # Template: AgentDashboardImage
+
+        # Template: AgentDashboardProductNotify
+        '%s %s is available!' => '',
+        'Please update now.' => '',
+        'Release Note' => '',
+        'Level' => '',
 
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => '',
@@ -1550,15 +1568,15 @@ sub Data {
         'Create Database' => 'Luo tietokanta',
         'Ticket Number Generator' => 'Tikettinumeroiden generoija',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Tiketin tunniste. Voit asettaa esim. \'Tiketti#\', \'Puhelu#\' tai \'OmaTiketti#\')',
-        'Create new Phone Ticket' => 'Luo uusi puhelintiketti',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'T‰ll‰ tavalla voit muokata suoraan Kernel/Config.pm:ss‰ m‰‰ritelty‰ avainrengasta.',
+        'Create new Phone Ticket' => 'Luo uusi puhelintiketti',
         'Symptom' => 'Oire',
         'U' => 'Y',
         'Site' => 'Palvelin',
         'Customer history search (e. g. "ID342425").' => 'Asiakashistoriahaku (Esim. "ID342425").',
         'Can not delete link with %s!' => 'Linkityksen poisto ep‰onnistui kohteeseen %s!',
-        'for agent firstname' => 'k‰sittelij‰n etunimi',
         'Close!' => 'Sulje!',
+        'for agent firstname' => 'k‰sittelij‰n etunimi',
         'No means, send agent and customer notifications on changes.' => 'Ei tarkoittaa, l‰het‰ agentille ja asiakkaalle ilmoitus muutoksista.',
         'A web calendar' => 'Web-kalenteri',
         'to get the realname of the sender (if given)' => 'n‰hd‰ksesi k‰ytt‰j‰n nimen',
@@ -1618,10 +1636,10 @@ sub Data {
         'Parent-Object' => 'Ylempi',
         'Of couse this feature will take some system performance it self!' => 'T‰m‰ ominaisuus vaatii j‰rjestelm‰n resursseja!',
         'IMAPS' => 'IMAPS',
-        'Your own Ticket' => 'Oma tiketti',
         'Detail' => 'Tiedot',
-        'Open Tickets' => 'Avoimet tiketit',
+        'Your own Ticket' => 'Oma tiketti',
         'Don\'t forget to add a new user to groups!' => 'ƒl‰ unohda lis‰t‰ uutta k‰ytt‰j‰‰ ryhmiin!',
+        'Open Tickets' => 'Avoimet tiketit',
         'You have to select two or more attributes from the select field!' => 'Sinun tulee valita yksi tai useampi arvo valintakent‰ss‰!',
         'System Settings' => 'J‰rjestelm‰asetukset',
         'WebWatcher' => 'WebSeuranta',
@@ -1632,8 +1650,8 @@ sub Data {
         'Object already linked as %s.' => 'Objekti linkitetty jo kohteeseen %s.',
         'A article should have a title!' => 'Artikkelilla tulee olla otsikko!',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'M‰‰ritysasetukset (esim. <OTRS_CONFIG_HttpType>)',
-        'don\'t accept license' => 'En hyv‰ksy lisenssi‰',
         'All email addresses get excluded on replaying on composing and email.' => '',
+        'don\'t accept license' => 'En hyv‰ksy lisenssi‰',
         'A web mail client' => 'Webpostiohjelma',
         'Compose Follow up' => 'L‰het‰ vastaus',
         'WebMail' => 'WebMail',

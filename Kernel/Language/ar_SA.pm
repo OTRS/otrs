@@ -2,7 +2,7 @@
 # Kernel/Language/ar_SA.pm - provides ar_SA language translation
 # Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
 # --
-# $Id: ar_SA.pm,v 1.33 2009-06-09 08:46:54 martin Exp $
+# $Id: ar_SA.pm,v 1.34 2009-06-23 00:26:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Tue Jun  9 10:41:28 2009
+    # Last translation file sync: Tue Jun 23 02:22:03 2009
 
     # possible charsets
     $Self->{Charset} = ['cp1256', ];
@@ -275,8 +275,12 @@ sub Data {
         'Event' => '',
         'Events' => '',
         'Invalid Token!' => '',
+        'more' => '',
         'For more info see:' => '',
         'Package verification failed!' => '',
+        'Collapse' => '',
+        'News' => '',
+        'Product News' => '',
         'Bold' => '',
         'Italic' => '',
         'Underline' => '',
@@ -592,6 +596,10 @@ sub Data {
         'Escalated Tickets' => '',
         'New Tickets' => '',
         'Open Tickets / Need to be answered' => '',
+        'Tickets which need to be answered!' => '',
+        'All new tickets!' => '',
+        'All tickets which are escalated!' => '',
+        'All tickets where the reminder date has reached!' => '',
         'Responses' => 'ÇáÑÏæÏ',
         'Responses <-> Queue' => 'ÇáÑÏæÏ <=> ŞÇÆãÉ ÇáÈØÇŞÇÊ',
         'Auto Responses' => 'ÇáÑÏæÏ ÇáÂáíÉáí',
@@ -1113,9 +1121,19 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
+        'more' => '',
+        'Collapse' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
+
+        # Template: AgentDashboardImage
+
+        # Template: AgentDashboardProductNotify
+        '%s %s is available!' => '',
+        'Please update now.' => '',
+        'Release Note' => '',
+        'Level' => '',
 
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => '',
@@ -1554,15 +1572,15 @@ sub Data {
         'File-Name' => '',
         'Ticket Number Generator' => '',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Create new Phone Ticket' => 'ÃäÔíÁ ÈØÇŞÉ åÇÊİ ÌÏíÏÉ',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Symptom' => '',
         'U' => 'ÃÚáì',
         'Site' => '',
         'Customer history search (e. g. "ID342425").' => '',
         'Can not delete link with %s!' => '',
-        'Close!' => 'ÅŞİÇá!',
         'for agent firstname' => '',
+        'Close!' => 'ÅŞİÇá!',
         'Reporter' => '',
         'Process-Path' => '',
         'No means, send agent and customer notifications on changes.' => '',
@@ -1595,10 +1613,10 @@ sub Data {
         'Classification' => '',
         'Change user <-> group settings' => '',
         'Incident detected' => '',
-        'Problem' => '',
         'Incident reported' => '',
-        'Officer' => '',
+        'Problem' => '',
         'Escalation' => '',
+        'Officer' => '',
         '"}' => '',
         'Order' => 'ÑÊÈ',
         'next step' => 'ÇáÎØæÉ ÇáÊÇáíÉ',
@@ -1654,11 +1672,11 @@ sub Data {
         'Parent-Object' => 'ÇáßÇÆä-ÇáÃÓÇÓí',
         'Of couse this feature will take some system performance it self!' => '',
         'IMAPS' => '',
-        'Detail' => 'ÇáÊİÇÕíá',
         'Your own Ticket' => 'ÈØÇŞÊß ÇáÎÇÕÉ Èß',
+        'Detail' => 'ÇáÊİÇÕíá',
         'TicketZoom' => 'ÊßÈíÑ ÇáÈØÇŞÉ',
-        'Don\'t forget to add a new user to groups!' => '',
         'Open Tickets' => 'ÇáÈØÇŞÇÊ ÇáãİÊæÍÉ',
+        'Don\'t forget to add a new user to groups!' => '',
         'CreateTicket' => 'ÃäÔíÁ ÈØÇŞÉ',
         'You have to select two or more attributes from the select field!' => 'íÌÈ Úáíß ÊÍÏíÏ ÚäÕÑíä Ãæ ÃßËÑ ãä ÇáŞÇÆãÉ ÇáãÍÏÏÉ!',
         'unknown' => 'ÛíÑ ãÚÑæİ',
@@ -1668,14 +1686,14 @@ sub Data {
         'Account Type' => '',
         'unread' => 'ÛíÑ ãŞÑæÁ',
         'D' => 'ÃŞá',
-        'System Status' => '',
         'All messages' => 'ÌãíÚ ÇáÑÓÇÆá',
+        'System Status' => '',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'ÎíÇÑÇÊ ÈíÇäÇÊ ÇáÈØÇŞÉ (ãËÇáå <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => '',
         'A article should have a title!' => 'ÇáÈØÇŞÉ íÌÈ Ãä íßæä áåÇ ÚäæÇä!',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
-        'All email addresses get excluded on replaying on composing and email.' => '',
         'don\'t accept license' => '',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'IMAP' => '',
         'Compose Follow up' => 'ÅÑÓÇá ÅÖÇİÉ ÇáãÊÇÈÚÉ',
         'Imported by' => 'Êã ÅÓÊíÑÇÏå ãä ÎáÇá',

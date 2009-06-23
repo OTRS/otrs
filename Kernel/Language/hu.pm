@@ -5,7 +5,7 @@
 # Copyright (C) 2006 Flora Szabo /szaboflora@magicnet.hu/
 # Copyright (C) 2007 Aron Ujvari <ujvari@hungary.com>
 # --
-# $Id: hu.pm,v 1.66 2009-06-09 08:46:54 martin Exp $
+# $Id: hu.pm,v 1.67 2009-06-23 00:26:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,13 +18,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Tue Jun  9 10:43:07 2009
+    # Last translation file sync: Tue Jun 23 02:22:30 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', ];
@@ -276,8 +276,12 @@ sub Data {
         'Event' => 'Esemény',
         'Events' => '',
         'Invalid Token!' => '',
+        'more' => '',
         'For more info see:' => '',
         'Package verification failed!' => '',
+        'Collapse' => '',
+        'News' => '',
+        'Product News' => '',
         'Bold' => '',
         'Italic' => '',
         'Underline' => '',
@@ -593,6 +597,10 @@ sub Data {
         'Escalated Tickets' => '',
         'New Tickets' => '',
         'Open Tickets / Need to be answered' => '',
+        'Tickets which need to be answered!' => '',
+        'All new tickets!' => '',
+        'All tickets which are escalated!' => '',
+        'All tickets where the reminder date has reached!' => '',
         'Responses' => 'Válaszok',
         'Responses <-> Queue' => 'Válaszok <-> Várólista',
         'Auto Responses' => 'Automatikus válaszok',
@@ -1114,9 +1122,19 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
+        'more' => '',
+        'Collapse' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
+
+        # Template: AgentDashboardImage
+
+        # Template: AgentDashboardProductNotify
+        '%s %s is available!' => '',
+        'Please update now.' => '',
+        'Release Note' => '',
+        'Level' => '',
 
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => '',
@@ -1554,15 +1572,15 @@ sub Data {
         'File-Name' => '',
         'Ticket Number Generator' => 'Jegy sorszám generátor',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Jegy azonosítás. pl. \'Jegy#\', \'Hívó#\' vagy \'Jegyem#\')',
-        'Create new Phone Ticket' => 'Új telefon jegy létrehozása',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Íly módon közvetlenül szerkesztheti a Kernel/Config.pm-ben beállított kulcskarikát.',
+        'Create new Phone Ticket' => 'Új telefon jegy létrehozása',
         'U' => 'A',
         'Site' => 'Gép',
         'Reset of unlock time.' => 'Feloldási idõ nullázása.',
         'Customer history search (e. g. "ID342425").' => 'Keresés az ügyfél történetében (pl. "ID342425").',
         'Can not delete link with %s!' => '',
-        'for agent firstname' => 'ügyintézõ keresztnévhez',
         'Close!' => 'Lezár!',
+        'for agent firstname' => 'ügyintézõ keresztnévhez',
         'Reporter' => '',
         'Process-Path' => '',
         'No means, send agent and customer notifications on changes.' => 'Nem esetén mind az ügyintézõnek, mind az ügyfélnek küld értesítéseket a változásokról.',
@@ -1609,8 +1627,8 @@ sub Data {
         'Load' => 'Betöltés',
         'Change Time' => 'Idõ megváltoztatása',
         'PostMaster Filter' => 'Levelezési szûrõk',
-        'PostMaster POP3 Account' => 'Levelezési fiókok (POP3)',
         'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
+        'PostMaster POP3 Account' => 'Levelezési fiókok (POP3)',
         'Message for new Owner' => 'Üzenet az új tulajdonosnak',
         'to get the first 5 lines of the email' => 'hogy megkapja az elsõ 5 sort az e-mailbõl',
         'Sort by' => 'Rendezés így',
@@ -1647,11 +1665,11 @@ sub Data {
         'Reminder messages' => 'Emlékeztetõ üzenetek',
         'Parent-Object' => 'Szülõ objektum',
         'Of couse this feature will take some system performance it self!' => 'Természetesen ez a képesség maga is befolyásolja a rendszer teljesítményét!',
-        'Detail' => 'Részletek',
         'Your own Ticket' => 'Az ön saját jegye',
+        'Detail' => 'Részletek',
         'TicketZoom' => 'JegyRészletek',
-        'Don\'t forget to add a new user to groups!' => 'Ne felejtsen el új felhasználót hozzáadni a csoportokhoz!',
         'Open Tickets' => 'Jegyek megnyitása',
+        'Don\'t forget to add a new user to groups!' => 'Ne felejtsen el új felhasználót hozzáadni a csoportokhoz!',
         'CreateTicket' => 'JegyLétrehozás',
         'You have to select two or more attributes from the select field!' => 'Legalább két értéket válasszon ki a mezõben!',
         'unknown' => 'ismeretlen',
@@ -1660,8 +1678,8 @@ sub Data {
         'Imported' => '',
         'unread' => 'olvasatlan',
         'D' => 'Z',
-        'All messages' => 'Minden üzenet',
         'System Status' => 'Rendszer állapota',
+        'All messages' => 'Minden üzenet',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'A jegy adatai (pl.  <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => '',
         'A article should have a title!' => 'Egy bejegyzésnek kell legyen címe!',

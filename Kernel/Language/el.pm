@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
 # Copyright (C) 2006 George Thomas <gthomas aegean.gr>
 # --
-# $Id: el.pm,v 1.50 2009-06-09 08:46:54 martin Exp $
+# $Id: el.pm,v 1.51 2009-06-23 00:26:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.50 $) [1];
+$VERSION = qw($Revision: 1.51 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Tue Jun  9 10:41:44 2009
+    # Last translation file sync: Tue Jun 23 02:22:15 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-7', ];
@@ -275,8 +275,12 @@ sub Data {
         'Event' => '',
         'Events' => '',
         'Invalid Token!' => '',
+        'more' => '',
         'For more info see:' => '',
         'Package verification failed!' => '',
+        'Collapse' => '',
+        'News' => '',
+        'Product News' => '',
         'Bold' => '',
         'Italic' => '',
         'Underline' => '',
@@ -595,6 +599,10 @@ sub Data {
         'Escalated Tickets' => '',
         'New Tickets' => '',
         'Open Tickets / Need to be answered' => '',
+        'Tickets which need to be answered!' => '',
+        'All new tickets!' => '',
+        'All tickets which are escalated!' => '',
+        'All tickets where the reminder date has reached!' => '',
         'Responses' => 'Απαντήσεις',
         'Responses <-> Queue' => 'Απαντήσεις <-> Ουρές',
         'Auto Responses' => 'Αυτόματες Απαντήσεις',
@@ -1124,9 +1132,19 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
+        'more' => '',
+        'Collapse' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
+
+        # Template: AgentDashboardImage
+
+        # Template: AgentDashboardProductNotify
+        '%s %s is available!' => '',
+        'Please update now.' => '',
+        'Release Note' => '',
+        'Level' => '',
 
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => '',
@@ -1563,15 +1581,15 @@ sub Data {
         'DB Host' => 'DB Διακομιστής',
         'Ticket Number Generator' => 'Γεννήτρια Αριθμού Δελτίου',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Αναγνώριση Δελτίου \'Νο. Δελτίου\', \'Νο. Κλήσης\' η  \'Κλήση#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Create new Phone Ticket' => 'Δημιουργία νέου Δελτίου τηλεφώνου',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Symptom' => 'Σύμπτωμα',
         'U' => '',
         'Site' => 'Site',
         'Customer history search (e. g. "ID342425").' => 'Αναζήτηση σε ιστορικό πελάτη (π.χ. "ID342425").',
         'Can not delete link with %s!' => '',
-        'Close!' => 'Κλείσιμο! ',
         'for agent firstname' => 'Για όνομα συνεργάτη',
+        'Close!' => 'Κλείσιμο! ',
         'No means, send agent and customer notifications on changes.' => 'Οχι, σημαίνει αποστολή ενημερώσεων πελάτη μετά απο αλλαγές',
         'A web calendar' => 'Ημερολόγιο',
         'to get the realname of the sender (if given)' => 'Επιλογή του πραγματικού ονόματος του αποστολέα(αν αυτό δίνεται)',
@@ -1621,8 +1639,8 @@ sub Data {
         'to get the first 20 character of the subject' => 'Επιλογή 20 πρώτων χαρακτήρων του θέματος',
         'Select the customeruser:service relations.' => '',
         'DB Admin Password' => 'DB Admin Κωδικός',
-        'Drop Database' => 'Διαγραφή Βάσης',
         'Advisory' => 'Οδηγία',
+        'Drop Database' => 'Διαγραφή Βάσης',
         'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
         'FileManager' => 'Διαχειριστής Aρχείων',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Επιλογές για τα δεδομένα του συγκεκριμένου
@@ -1652,26 +1670,26 @@ department, ...).' => 'Δημιουργία νέων ομάδων για να διαχειρίζονται τα δικαιώματ
         'Reminder messages' => 'Μηνύματα Υπενθύμισης',
         'Parent-Object' => '',
         'Of couse this feature will take some system performance it self!' => 'Φυσικά αυτή η δυνατότητα θα καταναλώσει πόρους απο το σύστημα !',
-        'Detail' => 'Λεπτομέρεια',
         'Your own Ticket' => 'Το Δελτίο Σου',
+        'Detail' => 'Λεπτομέρεια',
         'TicketZoom' => 'Ανοιγμα Δελτίου',
-        'Don\'t forget to add a new user to groups!' => 'Μην ξεχάσετε να προσθέσετε ενα νέο χρήστη στις ομάδες!',
         'Open Tickets' => 'Ανοικτά Δελτία',
+        'Don\'t forget to add a new user to groups!' => 'Μην ξεχάσετε να προσθέσετε ενα νέο χρήστη στις ομάδες!',
         'CreateTicket' => 'Δημιουργία Δελτίου',
         'You have to select two or more attributes from the select field!' => 'Πρέπει να επιλέξετε δύο η περισσότερες ιδιότητες απο το επιλεγμένο πεδίο',
         'System Settings' => 'Ρυθμίσεις Συστήματος',
         'WebWatcher' => 'Webwatcher',
         'Finished' => 'Τέλος',
         'D' => '',
-        'All messages' => 'Συνολικά Μηνύματα',
         'System Status' => '',
+        'All messages' => 'Συνολικά Μηνύματα',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         'Artefact' => 'Αντικείμενο',
         'Object already linked as %s.' => '',
         'A article should have a title!' => 'Κάθε θέμα πρεπει να έχει τίτλο !',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
-        'All email addresses get excluded on replaying on composing and email.' => '',
         'don\'t accept license' => 'Μη Αποδοχή Αδειας',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'A web mail client' => 'Παραλήπτης ηλεκτρονικού ταχυδρομείου',
         'Compose Follow up' => 'Δημιουργία Follow up',
         'WebMail' => 'Ταχυδρομείο',
@@ -1710,8 +1728,8 @@ department, ...).' => 'Δημιουργία νέων ομάδων για να διαχειρίζονται τα δικαιώματ
 email σας με αριθμο δελτιου "<OTRS_TICKET>" αναπηδησε στο "<OTRS_BOUNCE_TO>".Επισκευθείτε αυτήν την διεύθυνση για περισσότερες πληροφορίες',
         'Ticket Status View' => 'Κατάσταση Δελτίου',
         'Modified' => 'Ενημερώθηκε',
-        'Αδυναμία επεξεργασίας του αρχείου Online Repository index!' => '',
         'Ticket selected for bulk action!' => 'Δελτίο Επιλεχθηκε για Μαζική Εργασία',
+        'Αδυναμία επεξεργασίας του αρχείου Online Repository index!' => '',
         'History::SystemRequest' => 'System Request (%s).',
     };
     # $$STOP$$

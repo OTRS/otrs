@@ -6,7 +6,7 @@
 # Copyright (C) 2005-2007 Jurgen Rutgers <jurgen 'at' besite.nl>
 # Copyright (C) 2005-2007 Richard Hinkamp <richard 'at' besite.nl>
 # --
-# $Id: nl.pm,v 1.92 2009-06-09 08:46:55 martin Exp $
+# $Id: nl.pm,v 1.93 2009-06-23 00:26:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,13 +29,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.92 $) [1];
+$VERSION = qw($Revision: 1.93 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Tue Jun  9 10:43:21 2009
+    # Last translation file sync: Tue Jun 23 02:22:41 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -287,8 +287,12 @@ sub Data {
         'Event' => '',
         'Events' => '',
         'Invalid Token!' => '',
+        'more' => '',
         'For more info see:' => '',
         'Package verification failed!' => '',
+        'Collapse' => '',
+        'News' => '',
+        'Product News' => '',
         'Bold' => '',
         'Italic' => '',
         'Underline' => '',
@@ -604,6 +608,10 @@ sub Data {
         'Escalated Tickets' => '',
         'New Tickets' => '',
         'Open Tickets / Need to be answered' => '',
+        'Tickets which need to be answered!' => '',
+        'All new tickets!' => '',
+        'All tickets which are escalated!' => '',
+        'All tickets where the reminder date has reached!' => '',
         'Responses' => 'Antwoorden.',
         'Responses <-> Queue' => 'Antwoorden <-> Wachtrijen',
         'Auto Responses' => 'Automatische beantwoordingen',
@@ -1125,9 +1133,19 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
+        'more' => '',
+        'Collapse' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
+
+        # Template: AgentDashboardImage
+
+        # Template: AgentDashboardProductNotify
+        '%s %s is available!' => '',
+        'Please update now.' => '',
+        'Release Note' => '',
+        'Level' => '',
 
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => '',
@@ -1565,8 +1583,8 @@ sub Data {
         'U' => 'U',
         'Customer history search (e. g. "ID342425").' => 'Klantgeschiedenis zoeken (bijv. "ID342425").',
         'Can not delete link with %s!' => '',
-        'Close!' => 'Sluit!',
         'for agent firstname' => 'voornaam van agent',
+        'Close!' => 'Sluit!',
         'No means, send agent and customer notifications on changes.' => 'Nee betekent dat er wel notificaties worden gestuurd naar eigenaren en klanten bij wijzigingen.',
         'A web calendar' => 'Kalender',
         'to get the realname of the sender (if given)' => 'voor de echte naam van de afzender (indien beschikbaar)',
@@ -1625,11 +1643,11 @@ sub Data {
         'Parent-Object' => 'Hoofd item',
         'If your account is trusted, the already existing x-otrs header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => 'Wanneer het account vertrouwd is, zullen de x-otrs headers gebruikt worden! PostMaster filters zullen ook nog steeds gebruikt worden.',
         'Of couse this feature will take some system performance it self!' => '',
-        'Detail' => 'Detail',
         'Your own Ticket' => 'Je eigen Ticket',
+        'Detail' => 'Detail',
         'TicketZoom' => 'Inhoud ticket',
-        'Don\'t forget to add a new user to groups!' => 'Vergeet niet om groepen aan deze gebruiker toe te kennen!',
         'Open Tickets' => 'Openstaande tickets',
+        'Don\'t forget to add a new user to groups!' => 'Vergeet niet om groepen aan deze gebruiker toe te kennen!',
         'CreateTicket' => 'Ticket aanmaken',
         'You have to select two or more attributes from the select field!' => '',
         'WebWatcher' => '',

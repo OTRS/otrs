@@ -2,7 +2,7 @@
 # Kernel/Language/et.pm - provides et language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: et.pm,v 1.22 2009-06-09 08:46:54 martin Exp $
+# $Id: et.pm,v 1.23 2009-06-23 00:26:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Tue Jun  9 10:41:51 2009
+    # Last translation file sync: Tue Jun 23 02:22:20 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -272,8 +272,12 @@ sub Data {
         'Event' => 'Sündmus',
         'Events' => '',
         'Invalid Token!' => 'Vigane!',
+        'more' => '',
         'For more info see:' => '',
         'Package verification failed!' => '',
+        'Collapse' => '',
+        'News' => '',
+        'Product News' => '',
         'Bold' => '',
         'Italic' => '',
         'Underline' => '',
@@ -589,6 +593,10 @@ sub Data {
         'Escalated Tickets' => '',
         'New Tickets' => '',
         'Open Tickets / Need to be answered' => '',
+        'Tickets which need to be answered!' => '',
+        'All new tickets!' => '',
+        'All tickets which are escalated!' => '',
+        'All tickets where the reminder date has reached!' => '',
         'Responses' => 'Vastused',
         'Responses <-> Queue' => 'Vastused <-> järjekorrad',
         'Auto Responses' => 'Automaatvastused',
@@ -1110,9 +1118,19 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
+        'more' => '',
+        'Collapse' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
+
+        # Template: AgentDashboardImage
+
+        # Template: AgentDashboardProductNotify
+        '%s %s is available!' => '',
+        'Please update now.' => '',
+        'Release Note' => '',
+        'Level' => '',
 
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => '',
@@ -1549,14 +1567,14 @@ sub Data {
         'File-Name' => 'Failinimi',
         'Ticket Number Generator' => 'Intsidendinumbri generaator',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Intsidendi identifikaator. Mõned inimesed tahavad seda muuta näiteks. \'Ticket#\', \'Call#\' või \'MyTicket#\')',
-        'Create new Phone Ticket' => 'Tee uus telefonitsi laekunud intsident',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Nii saad otse muuta võtmeid mis on seadistatud Kernel/Config.pm failis.',
+        'Create new Phone Ticket' => 'Tee uus telefonitsi laekunud intsident',
         'U' => 'U',
         'Site' => 'Sait',
         'Customer history search (e. g. "ID342425").' => 'Kliendiajaloo otsing (näiteks "ID342425").',
         'Can not delete link with %s!' => '',
-        'for agent firstname' => 'Kasutaja eesnimeks',
         'Close!' => 'Sulge!',
+        'for agent firstname' => 'Kasutaja eesnimeks',
         'Reporter' => 'Raporteerija',
         'Process-Path' => 'Protsessi tee',
         'No means, send agent and customer notifications on changes.' => 'Ei tähendab, et klientidele ja töötajatele saadetakse infot muudatustest.',
@@ -1634,11 +1652,11 @@ sub Data {
         'Reminder messages' => 'Meeldetuletusteated',
         'Parent-Object' => 'Ülemobjekt',
         'Of couse this feature will take some system performance it self!' => 'See kahandab süsteemi üldist jõudlust.',
-        'Detail' => 'Täpsemalt',
         'Your own Ticket' => 'Sinu intsident',
+        'Detail' => 'Täpsemalt',
         'TicketZoom' => 'Vaata täpsemalt',
-        'Don\'t forget to add a new user to groups!' => 'Ära unusta kasutajat gruppidesse lisamast!',
         'Open Tickets' => 'Avatud intsidendid',
+        'Don\'t forget to add a new user to groups!' => 'Ära unusta kasutajat gruppidesse lisamast!',
         'CreateTicket' => 'Tekita intsident',
         'You have to select two or more attributes from the select field!' => 'Pead valima vähemalt 2 atribuuti!',
         'unknown' => 'teadmata',
@@ -1647,8 +1665,8 @@ sub Data {
         'Imported' => 'Imporditud',
         'unread' => 'lugemata',
         'D' => 'D',
-        'All messages' => 'Kõik teated',
         'System Status' => 'Süsteemi olek',
+        'All messages' => 'Kõik teated',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Intsidentide andmed  (näiteks <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => '',
         'A article should have a title!' => 'Artiklil peaks olema pealkiri!',

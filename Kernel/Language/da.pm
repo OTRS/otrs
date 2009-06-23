@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Thorsten Rossner <thorsten.rossner[at]stepstone.de>
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # --
-# $Id: da.pm,v 1.54 2009-06-09 08:46:54 martin Exp $
+# $Id: da.pm,v 1.55 2009-06-23 00:26:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.54 $) [1];
+$VERSION = qw($Revision: 1.55 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Tue Jun  9 10:41:37 2009
+    # Last translation file sync: Tue Jun 23 02:22:13 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -274,8 +274,12 @@ sub Data {
         'Event' => 'Handling',
         'Events' => '',
         'Invalid Token!' => 'Ugyldigt kendetegn!',
+        'more' => '',
         'For more info see:' => 'For mere information se:',
         'Package verification failed!' => 'Pakke godkendelse fejlede!',
+        'Collapse' => '',
+        'News' => '',
+        'Product News' => '',
         'Bold' => '',
         'Italic' => '',
         'Underline' => '',
@@ -591,6 +595,10 @@ sub Data {
         'Escalated Tickets' => '',
         'New Tickets' => '',
         'Open Tickets / Need to be answered' => '',
+        'Tickets which need to be answered!' => '',
+        'All new tickets!' => '',
+        'All tickets which are escalated!' => '',
+        'All tickets where the reminder date has reached!' => '',
         'Responses' => 'Svar',
         'Responses <-> Queue' => 'Svar <-> Kø',
         'Auto Responses' => 'Autosvar',
@@ -1112,9 +1120,19 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
+        'more' => '',
+        'Collapse' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
+
+        # Template: AgentDashboardImage
+
+        # Template: AgentDashboardProductNotify
+        '%s %s is available!' => '',
+        'Please update now.' => '',
+        'Release Note' => '',
+        'Level' => '',
 
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => '',
@@ -1551,15 +1569,15 @@ sub Data {
         'DB Host' => 'DB værtscomputer',
         'Ticket Number Generator' => 'Sagsnummergenerator',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Sagidentifikator. Nogle personer ønsker at indstille dette til f.eks. \Ticket#\, \Call#\ eller \MyTicket#\)',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Du kan på denne måde direkte redigere den nøglering, der er konfigureret i Kernel/Config.pm.',
         'Create new Phone Ticket' => 'Opret ny telefonsag',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Du kan på denne måde direkte redigere den nøglering, der er konfigureret i Kernel/Config.pm.',
         'Symptom' => 'Symptom',
         'U' => 'O',
         'Site' => 'Websted',
         'Customer history search (e. g. "ID342425").' => 'Kundehistoriksøgning (f.eks. "ID342425").',
         'your MySQL DB should have a root password! Default is empty!' => 'din MySQL DB skat have en rod-adgangskode! Standarden er tom!',
-        'Close!' => 'Luk!',
         'for agent firstname' => 'til repræsentantens fornavn',
+        'Close!' => 'Luk!',
         ' (minutes)' => ' (minutter)',
         'No means, send agent and customer notifications on changes.' => 'Nej betyder, send meddelser til Repræsentant eller Kunde ved ændringer.',
         'A web calendar' => 'En webkalender',
@@ -1608,8 +1626,8 @@ sub Data {
         'to get the first 20 character of the subject' => 'for at få emnets første 20 tegn',
         'Select the customeruser:service relations.' => 'Udvælg Kundebruger service relationer.',
         'DB Admin Password' => 'DB-admins adgangskode',
-        'Advisory' => 'Bekendtgørelse',
         'Drop Database' => 'Udelad database',
+        'Advisory' => 'Bekendtgørelse',
         'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Her kan du definere X-aksen. Du kan vælge et element med radio button. Derefter skal du vælge et eller flere attributter til elementet. Hvis du ikke vælger nogle attributter, vil alle attributter blive brugt, ligesom et nyt attribut vil blive gemt, siden sidste konfiguration.',
         'FileManager' => 'FilManager',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Valgmuligheder for de aktuelle kundebrugerdata (f.eks. <OTRS_CUSTOMER_DATA_UserFirstname>)',
@@ -1631,10 +1649,10 @@ sub Data {
         'Reminder messages' => 'Påmindelsesmeddelelser',
         'Parent-Object' => 'Forældre-Objekt',
         'Of couse this feature will take some system performance it self!' => 'Selvfølgelig vil denne mulighed tage noget af system kræften.',
-        'Detail' => 'Oplysning',
         'Your own Ticket' => 'Din egen sag',
-        'Don\'t forget to add a new user to groups!' => 'Glem ikke at tilføje en ny bruger til grupper!',
+        'Detail' => 'Oplysning',
         'Open Tickets' => 'Åbne sager',
+        'Don\'t forget to add a new user to groups!' => 'Glem ikke at tilføje en ny bruger til grupper!',
         'CreateTicket' => 'Opret sag',
         'You have to select two or more attributes from the select field!' => 'Du skal vælge to eller flere attributter fra feltet!',
         'System Settings' => 'Systemindstillinger',
@@ -1642,14 +1660,14 @@ sub Data {
         'Finished' => 'Færdig',
         'Account Type' => 'Konto type',
         'D' => 'N',
-        'All messages' => 'Alle meddelelser',
         'System Status' => 'System status',
+        'All messages' => 'Alle meddelelser',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Valgmuligheder for de aktuelle sagsdata (f.eks. lt;OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Artefact' => 'Artefakt',
         'A article should have a title!' => 'En artikel skal have en titel!',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Konfigurations muligheder (f.eks. &lt;OTRS_CONFIG_HttpType&gt;)',
-        'All email addresses get excluded on replaying on composing and email.' => 'Alle email adresser er ekskluderet når du besvarer eller laver en ny email.',
         'don\'t accept license' => 'accepter ikke licens',
+        'All email addresses get excluded on replaying on composing and email.' => 'Alle email adresser er ekskluderet når du besvarer eller laver en ny email.',
         'A web mail client' => 'En webmailklient',
         'Compose Follow up' => 'Formuler opfølgning',
         'WebMail' => 'WebMail',

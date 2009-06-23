@@ -3,7 +3,7 @@
 # Copyright (C) 2003 Lukas Vicanek alias networ <lulka at centrum dot cz>
 # Copyright (C) 2004 BENETA.cz, s.r.o. (Marta Macalkova, Vadim Buzek, Petr Ocasek) <info at beneta dot cz>
 # --
-# $Id: cz.pm,v 1.73 2009-06-08 05:44:12 martin Exp $
+# $Id: cz.pm,v 1.74 2009-06-23 00:26:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.73 $) [1];
+$VERSION = qw($Revision: 1.74 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Jun  8 07:33:25 2009
+    # Last translation file sync: Tue Jun 23 02:22:10 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', ];
@@ -270,9 +270,16 @@ sub Data {
         'Please press Back and try again.' => '',
         'Sent password token to: %s' => '',
         'Sent new password to: %s' => '',
+        'Upcoming Events' => '',
+        'Event' => '',
+        'Events' => '',
         'Invalid Token!' => '',
+        'more' => '',
         'For more info see:' => '',
         'Package verification failed!' => '',
+        'Collapse' => '',
+        'News' => '',
+        'Product News' => '',
         'Bold' => '',
         'Italic' => '',
         'Underline' => '',
@@ -585,9 +592,13 @@ sub Data {
         'phone call' => '',
         'Reminder Reached' => '',
         'Reminder Tickets' => '',
-        'Escaladed Tickets' => '',
+        'Escalated Tickets' => '',
         'New Tickets' => '',
         'Open Tickets / Need to be answered' => '',
+        'Tickets which need to be answered!' => '',
+        'All new tickets!' => '',
+        'All tickets which are escalated!' => '',
+        'All tickets where the reminder date has reached!' => '',
         'Responses' => 'Odpovìdi',
         'Responses <-> Queue' => '',
         'Auto Responses' => '',
@@ -744,7 +755,6 @@ sub Data {
         'Ticket escalation time reached' => '',
         'Ticket escalation time reached between' => '',
         'Escalation - First Response Time' => '',
-        'No escalation time settings.' => '',
         'Ticket first response time reached' => '',
         'Ticket first response time reached between' => '',
         'Escalation - Update Time' => '',
@@ -818,14 +828,11 @@ sub Data {
         'A message should have a body!' => 'Zpráva by mìla mít tìlo!',
         'Recipient' => '',
         'Group based' => '',
-        'Recipient' => '',
         'Agent based' => '',
         'Email based' => '',
-        'Event' => '',
         'Article Type' => '',
         'Only for ArticleCreate Event.' => '',
         'Subject match' => '',
-        'Only for ArticleCreate Event.' => '',
         'Body match' => '',
         'Notifications are sent to an agent or a customer.' => 'Oznámení jsou odeslána agentovi èi klientovi',
         'To get the first 20 character of the subject (of the latest agent article).' => '',
@@ -1113,10 +1120,19 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
-        'Settings' => '',
+        'more' => '',
+        'Collapse' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
+
+        # Template: AgentDashboardImage
+
+        # Template: AgentDashboardProductNotify
+        '%s %s is available!' => '',
+        'Please update now.' => '',
+        'Release Note' => '',
+        'Level' => '',
 
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => '',
@@ -1395,6 +1411,7 @@ sub Data {
         'Yes, save it with name' => 'Ano, ulo¾it pod názvem',
 
         # Template: AgentTicketSearchOpenSearchDescriptionFulltext
+        'Fulltext' => '',
 
         # Template: AgentTicketSearchOpenSearchDescriptionTicketNumber
 
@@ -1552,15 +1569,15 @@ sub Data {
         'Change roles <-> groups settings' => '',
         'Ticket Number Generator' => 'Generátor èísel tiketù',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identifikátor tiketù. Nekteøí lidé chtìjí nastavit napø. \'Tiket#\',  \'Hovor#\' nebo \'MujTiket#\')',
-        'Create new Phone Ticket' => '',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
+        'Create new Phone Ticket' => '',
         'Symptom' => 'Pøíznak',
         'U' => 'Z-A',
         'Site' => 'Umístìní',
         'Customer history search (e. g. "ID342425").' => 'Vyhledávání historie klienta (napø. "ID342425")',
         'Can not delete link with %s!' => '',
-        'for agent firstname' => 'pro køestní jméno agenta',
         'Close!' => 'Zavøít!',
+        'for agent firstname' => 'pro køestní jméno agenta',
         'No means, send agent and customer notifications on changes.' => '',
         'A web calendar' => '',
         'to get the realname of the sender (if given)' => 'pro získaní skuteèného jména odesílatele (pokud je zadáno)',
@@ -1607,8 +1624,8 @@ sub Data {
         'to get the first 20 character of the subject' => 'pro získáni prvních 20 znakù z pøedmìtu',
         'Select the customeruser:service relations.' => '',
         'DB Admin Password' => 'Heslo administrátora databáze',
-        'Advisory' => '',
         'Drop Database' => 'Odstranit databazi',
+        'Advisory' => '',
         'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
         'FileManager' => '',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => '',
@@ -1618,7 +1635,6 @@ sub Data {
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         '(Used ticket number format)' => '(Pou¾itý formát èísel tiketù)',
         'Reminder' => 'Upomínka',
-        'Fulltext' => '',
         'OTRS DB connect host' => 'Hostitel OTRS databáze (server)',
         'If a ticket will not be answered in thos time, just only this ticket will be shown.' => 'Nebude-li tiket odpovìzen v daném èase, bude zobrazen pouze tento Tiket.',
         'All Agent variables.' => '',
@@ -1632,11 +1648,11 @@ sub Data {
         'Parent-Object' => '',
         'Of couse this feature will take some system performance it self!' => '',
         'Ticket Hook' => 'Oznaèení tiketu',
-        'Your own Ticket' => 'Vá¹ vlastní tiket',
         'Detail' => '',
+        'Your own Ticket' => 'Vá¹ vlastní tiket',
         'TicketZoom' => 'Zobrazení tiketu',
-        'Open Tickets' => '',
         'Don\'t forget to add a new user to groups!' => 'Nezapomeòte pøidat nového u¾ivatele do skupin!',
+        'Open Tickets' => '',
         'CreateTicket' => 'Vytvoøeno Tiketu',
         'You have to select two or more attributes from the select field!' => '',
         'System Settings' => 'Nastavení systému',
@@ -1644,14 +1660,14 @@ sub Data {
         'Finished' => 'Dokonèeno',
         'Account Type' => '',
         'D' => 'A-Z',
-        'System Status' => '',
         'All messages' => 'V¹echny zprávy',
+        'System Status' => '',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         'Object already linked as %s.' => '',
         'A article should have a title!' => '',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
-        'don\'t accept license' => 'nesouhlasím s licencí',
         'All email addresses get excluded on replaying on composing and email.' => '',
+        'don\'t accept license' => 'nesouhlasím s licencí',
         'A web mail client' => '',
         'Compose Follow up' => 'Sestavit následující',
         'WebMail' => '',
@@ -1681,6 +1697,7 @@ sub Data {
         'PhoneView' => 'Nový tiket / hovor',
         'maximal period form' => '',
         'TicketID' => 'ID tiketu',
+        'Escaladed Tickets' => '',
         'Yes means, send no agent and customer notifications on changes.' => '',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Vá¹ email s èíslem ticketu "<OTRS_TICKET>" je odeslán zpìt na "<OTRS_BOUNCE_TO>". Kontaktujte tuto adresu pro dal¹í infromace.',
         'Ticket Status View' => '',

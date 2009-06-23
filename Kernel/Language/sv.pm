@@ -2,7 +2,7 @@
 # Kernel/Language/sv.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats@synergy.se>
 # --
-# $Id: sv.pm,v 1.66 2009-06-09 08:46:55 martin Exp $
+# $Id: sv.pm,v 1.67 2009-06-23 00:26:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.66 $;
+$VERSION = q$Revision: 1.67 $;
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Tue Jun  9 10:43:39 2009
+    # Last translation file sync: Tue Jun 23 02:22:57 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -273,8 +273,12 @@ sub Data {
         'Event' => '',
         'Events' => '',
         'Invalid Token!' => '',
+        'more' => '',
         'For more info see:' => '',
         'Package verification failed!' => '',
+        'Collapse' => '',
+        'News' => '',
+        'Product News' => '',
         'Bold' => '',
         'Italic' => '',
         'Underline' => '',
@@ -590,6 +594,10 @@ sub Data {
         'Escalated Tickets' => '',
         'New Tickets' => '',
         'Open Tickets / Need to be answered' => '',
+        'Tickets which need to be answered!' => '',
+        'All new tickets!' => '',
+        'All tickets which are escalated!' => '',
+        'All tickets where the reminder date has reached!' => '',
         'Responses' => 'Svar',
         'Responses <-> Queue' => '',
         'Auto Responses' => '',
@@ -1111,9 +1119,19 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
+        'more' => '',
+        'Collapse' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
+
+        # Template: AgentDashboardImage
+
+        # Template: AgentDashboardProductNotify
+        '%s %s is available!' => '',
+        'Please update now.' => '',
+        'Release Note' => '',
+        'Level' => '',
 
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => '',
@@ -1554,8 +1572,8 @@ sub Data {
         'Site' => 'plats',
         'Customer history search (e. g. "ID342425").' => 'Sök efter kundhistorik (t.ex. "ID342425").',
         'Can not delete link with %s!' => '',
-        'for agent firstname' => 'för agents förnamn',
         'Close!' => 'Stäng!',
+        'for agent firstname' => 'för agents förnamn',
         'Subgroup \'' => '',
         'No means, send agent and customer notifications on changes.' => '',
         'A web calendar' => '',
@@ -1625,11 +1643,11 @@ sub Data {
         'Parent-Object' => '',
         'Of couse this feature will take some system performance it self!' => '',
         'IMAPS' => '',
-        'Detail' => '',
         'Your own Ticket' => 'Ditt eget ärende',
+        'Detail' => '',
         'TicketZoom' => 'Ärende Zoom',
-        'Don\'t forget to add a new user to groups!' => 'Glöm inte att lägga in en ny användare i en grupp!',
         'Open Tickets' => '',
+        'Don\'t forget to add a new user to groups!' => 'Glöm inte att lägga in en ny användare i en grupp!',
         'CreateTicket' => 'Skapa Ärende',
         'You have to select two or more attributes from the select field!' => '',
         'System Settings' => 'Systeminställningar',
@@ -1638,14 +1656,14 @@ sub Data {
         'Finished' => 'Klar',
         'Account Type' => '',
         'D' => 'N',
-        'System Status' => '',
         'All messages' => 'Alla meddelanden',
+        'System Status' => '',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         'Object already linked as %s.' => '',
         'A article should have a title!' => '',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
-        'All email addresses get excluded on replaying on composing and email.' => '',
         'don\'t accept license' => 'godkänn inte licens',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'A web mail client' => '',
         'IMAP' => '',
         'Compose Follow up' => 'Skriv uppföljningssvar',

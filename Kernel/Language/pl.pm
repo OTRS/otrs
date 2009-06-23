@@ -2,7 +2,7 @@
 # Kernel/Language/pl.pm - provides pl language translation
 # Copyright (C) 2007 Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.76 2009-06-09 08:46:55 martin Exp $
+# $Id: pl.pm,v 1.77 2009-06-23 00:26:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Tue Jun  9 10:43:24 2009
+    # Last translation file sync: Tue Jun 23 02:22:43 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', ];
@@ -273,8 +273,12 @@ sub Data {
         'Event' => '',
         'Events' => '',
         'Invalid Token!' => '',
+        'more' => '',
         'For more info see:' => '',
         'Package verification failed!' => '',
+        'Collapse' => '',
+        'News' => '',
+        'Product News' => '',
         'Bold' => '',
         'Italic' => '',
         'Underline' => '',
@@ -590,6 +594,10 @@ sub Data {
         'Escalated Tickets' => '',
         'New Tickets' => '',
         'Open Tickets / Need to be answered' => '',
+        'Tickets which need to be answered!' => '',
+        'All new tickets!' => '',
+        'All tickets which are escalated!' => '',
+        'All tickets where the reminder date has reached!' => '',
         'Responses' => 'Odpowiedzi',
         'Responses <-> Queue' => '',
         'Auto Responses' => '',
@@ -1111,9 +1119,19 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
+        'more' => '',
+        'Collapse' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
+
+        # Template: AgentDashboardImage
+
+        # Template: AgentDashboardProductNotify
+        '%s %s is available!' => '',
+        'Please update now.' => '',
+        'Release Note' => '',
+        'Level' => '',
 
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => '',
@@ -1550,15 +1568,15 @@ sub Data {
         'DB Host' => 'Host bazy danych',
         'Ticket Number Generator' => 'Generator numerów zg³oszeñ',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identyfikator zg³oszenia. np. \'Ticket#\', \'Call#\' lub \'MyTicket#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Create new Phone Ticket' => '',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Symptom' => 'Objawy',
         'U' => 'G',
         'Site' => 'Witryna',
         'Customer history search (e. g. "ID342425").' => 'Przeszukiwanie historii klienta (np. "ID342425").',
         'Can not delete link with %s!' => '',
-        'Close!' => 'Zamknij!',
         'for agent firstname' => 'dla imienia agenta',
+        'Close!' => 'Zamknij!',
         'No means, send agent and customer notifications on changes.' => '',
         'A web calendar' => '',
         'to get the realname of the sender (if given)' => 'by wstawiæ prawdziwe imiê i nazwisko klienta (je¶li podano)',
@@ -1623,11 +1641,11 @@ sub Data {
         'Parent-Object' => '',
         'Of couse this feature will take some system performance it self!' => '',
         'Ticket Hook' => 'Identyfikator zg³oszenia',
-        'Detail' => '',
         'Your own Ticket' => 'Twoje w³asne zg³oszenie',
+        'Detail' => '',
         'TicketZoom' => 'Podgl±d zg³oszenia',
-        'Don\'t forget to add a new user to groups!' => 'Nie zapomnij dodaæ u¿ytkownika do grup!',
         'Open Tickets' => '',
+        'Don\'t forget to add a new user to groups!' => 'Nie zapomnij dodaæ u¿ytkownika do grup!',
         'You have to select two or more attributes from the select field!' => '',
         'System Settings' => 'Ustawienia systemu',
         'WebWatcher' => '',
@@ -1638,8 +1656,8 @@ sub Data {
         'Object already linked as %s.' => '',
         'A article should have a title!' => '',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
-        'All email addresses get excluded on replaying on composing and email.' => '',
         'don\'t accept license' => 'nie akceptujê Licencji',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'A web mail client' => '',
         'Compose Follow up' => 'Napisz Odpowied¼ (Follow Up)',
         'WebMail' => '',

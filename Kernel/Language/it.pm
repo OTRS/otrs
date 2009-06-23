@@ -4,7 +4,7 @@
 # Copyright (C) 2003 Gabriele Santilli <gsantilli at omnibus.net>
 # Copyright (C) 2005 Giordano Bianchi <giordano.bianchi at gmail.com>
 # --
-# $Id: it.pm,v 1.79 2009-06-09 08:46:55 martin Exp $
+# $Id: it.pm,v 1.80 2009-06-23 00:26:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.79 $) [1];
+$VERSION = qw($Revision: 1.80 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Tue Jun  9 10:43:09 2009
+    # Last translation file sync: Tue Jun 23 02:22:33 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -275,8 +275,12 @@ sub Data {
         'Event' => '',
         'Events' => '',
         'Invalid Token!' => '',
+        'more' => '',
         'For more info see:' => '',
         'Package verification failed!' => '',
+        'Collapse' => '',
+        'News' => '',
+        'Product News' => '',
         'Bold' => '',
         'Italic' => '',
         'Underline' => '',
@@ -592,6 +596,10 @@ sub Data {
         'Escalated Tickets' => '',
         'New Tickets' => '',
         'Open Tickets / Need to be answered' => '',
+        'Tickets which need to be answered!' => '',
+        'All new tickets!' => '',
+        'All tickets which are escalated!' => '',
+        'All tickets where the reminder date has reached!' => '',
         'Responses' => 'Risposte',
         'Responses <-> Queue' => '',
         'Auto Responses' => 'Risposte Automatiche',
@@ -1113,9 +1121,19 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
+        'more' => '',
+        'Collapse' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
+
+        # Template: AgentDashboardImage
+
+        # Template: AgentDashboardProductNotify
+        '%s %s is available!' => '',
+        'Please update now.' => '',
+        'Release Note' => '',
+        'Level' => '',
 
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => '',
@@ -1551,15 +1569,15 @@ sub Data {
         'Create Database' => 'Crea database ',
         'Ticket Number Generator' => 'Generatore numero ticket',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Prefisso per il numero di ticket --- es. "N.ro Ticket:" o "Ticket#" ecc.)',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'In questo modo puoi modificare direttamente il \'keyring\' configurato nel file Kernel/Config.pm',
         'Create new Phone Ticket' => 'Crea una nuova richiesta in seguito ad una chiamata telefonica',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'In questo modo puoi modificare direttamente il \'keyring\' configurato nel file Kernel/Config.pm',
         'Symptom' => 'Sintomi',
         'U' => 'C',
         'Site' => 'Pagina',
         'Customer history search (e. g. "ID342425").' => 'Ricerca storico cliente (per es. "ID342425")',
         'Can not delete link with %s!' => '',
-        'Close!' => 'Chiuso!',
         'for agent firstname' => 'per il nome dell\'operatore',
+        'Close!' => 'Chiuso!',
         'No means, send agent and customer notifications on changes.' => 'No- significa , invia notifiche ad agenti e utenti dopo modifiche ',
         'A web calendar' => 'Calendario web',
         'to get the realname of the sender (if given)' => 'per avere il nome completo del mittente (se indicato)',
@@ -1605,8 +1623,8 @@ sub Data {
         'to get the first 20 character of the subject' => 'per avere i primi 20 caratteri dell\'oggetto',
         'Select the customeruser:service relations.' => '',
         'DB Admin Password' => 'Password del DB Admin',
-        'Drop Database' => 'Cancella database',
         'Advisory' => 'Avviso',
+        'Drop Database' => 'Cancella database',
         'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
         'FileManager' => '',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Per ottenere i dati del cliente (per es. <OTRS_CUSTOMER_DATA_UserFirstname>)',
@@ -1629,11 +1647,11 @@ sub Data {
         'Parent-Object' => 'Oggetto Genitore',
         'Of couse this feature will take some system performance it self!' => 'attenzione questa funzionalita usa risorse di sistema',
         'Ticket Hook' => 'Prefisso richieste',
-        'Detail' => 'Dettaglio',
         'Your own Ticket' => 'Le tue richieste',
+        'Detail' => 'Dettaglio',
         'TicketZoom' => 'DettagliRichiesta',
-        'Don\'t forget to add a new user to groups!' => 'Non dimenticare di aggiungere i nuovi operatori ad un gruppo!',
         'Open Tickets' => 'Richieste Aperte',
+        'Don\'t forget to add a new user to groups!' => 'Non dimenticare di aggiungere i nuovi operatori ad un gruppo!',
         'CreateTicket' => 'CreaRichiesta',
         'You have to select two or more attributes from the select field!' => '',
         'System Settings' => 'Impostazioni di sistema',
@@ -1641,15 +1659,15 @@ sub Data {
         'Hours' => 'Ore',
         'Finished' => 'Operazione terminata',
         'D' => '',
-        'All messages' => 'Tutti i messaggi',
         'System Status' => '',
+        'All messages' => 'Tutti i messaggi',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         'Artefact' => 'Artefatto',
         'Object already linked as %s.' => '',
         'A article should have a title!' => 'Manca il titolo!',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
-        'All email addresses get excluded on replaying on composing and email.' => '',
         'don\'t accept license' => 'non accetto la licenza',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'A web mail client' => 'Un client di web mail',
         'Compose Follow up' => 'Componi risposta',
         'WebMail' => '',

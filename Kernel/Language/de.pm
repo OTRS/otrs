@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.194 2009-06-22 19:46:43 martin Exp $
+# $Id: de.pm,v 1.195 2009-06-23 00:26:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.194 $) [1];
+$VERSION = qw($Revision: 1.195 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Tue Jun  9 10:41:39 2009
+    # Last translation file sync: Tue Jun 23 02:21:40 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -270,11 +270,14 @@ sub Data {
         'Sent new password to: %s' => 'Neues Passwort an %s gesendet.',
         'Upcoming Events' => 'Anstehende Ereignisse',
         'Event' => 'Ereignis',
-        'Events' => '',
+        'Events' => 'Ereignisse',
         'Invalid Token!' => 'Ungültiger Token!',
-        'For more info see:' => 'Für mehr Informationen hier:',
         'more' => 'mehr',
+        'For more info see:' => 'Für mehr Informationen hier:',
         'Package verification failed!' => 'Paket Überprüfung Fehlgeschlagen',
+        'Collapse' => 'Zugeklappte',
+        'News' => 'Neues',
+        'Product News' => 'Produkt Neuigkeiten',
         'Bold' => 'Fett',
         'Italic' => 'Kursiv',
         'Underline' => 'Unterstreichen',
@@ -590,6 +593,10 @@ sub Data {
         'Escalated Tickets' => 'Eskalierte Tickets',
         'New Tickets' => 'Neue Tickets',
         'Open Tickets / Need to be answered' => 'Offene Tickets / Zur Beantwortung',
+        'Tickets which need to be answered!' => 'Tickets welche beantwortet werden müssen!',
+        'All new tickets!' => 'Alle neuen Tickets!',
+        'All tickets which are escalated!' => 'Alle eskalierten Tickets!',
+        'All tickets where the reminder date has reached!' => 'Alle Tickets welche die Wiedervorlage erreicht haben!',
         'Responses' => 'Antworten',
         'Responses <-> Queue' => 'Antworten <-> Queues',
         'Auto Responses' => 'Auto Antworten',
@@ -1115,6 +1122,14 @@ sub Data {
         # Template: AgentDashboardCalendarOverview
         'in' => 'in',
 
+        # Template: AgentDashboardImage
+
+        # Template: AgentDashboardProductNotify
+        '%s %s is available!' => '%s %s ist nun verfügbar!',
+        'Please update now.' => 'Bitte nun aktuallisieren.',
+        'Release Note' => 'Versionsbeschreibung',
+        'Level' => 'Level',
+
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => 'Veröffentlicht vor %s.',
 
@@ -1401,7 +1416,6 @@ sub Data {
         # Template: AgentTicketZoom
         'Expand View' => 'Ausklappen Ansicht',
         'Collapse View' => 'Zugeklappte Ansicht',
-        'Collapse' => 'Zugeklappte',
         'Split' => 'Teilen',
 
         # Template: AgentTicketZoomArticleFilterDialog
@@ -1551,14 +1565,14 @@ sub Data {
         'File-Name' => 'Datei-Dateiname',
         'Ticket Number Generator' => 'Ticketnummer Generator',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Ticket Kennzeichnen. Z.B. \'Ticket#\', \'Call#\' oder \'MyTicket#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Auf diesem Wege können Sie den Keyring in Kernel/Config.pm direkt verändern',
         'Create new Phone Ticket' => 'Neues Telefon-Ticket erstellen',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Auf diesem Wege können Sie den Keyring in Kernel/Config.pm direkt verändern',
         'U' => 'U',
         'Site' => 'Seite',
         'Customer history search (e. g. "ID342425").' => 'Kunden-Historie-Suche (z. B. "ID342425").',
         'Can not delete link with %s!' => 'Link zu %s konnte nicht gelöscht werden!',
-        'Close!' => 'Schließen!',
         'for agent firstname' => 'für Vorname des Agents',
+        'Close!' => 'Schließen!',
         'Reporter' => 'Melder',
         'Process-Path' => 'Prozess-Path',
         'to get the realname of the sender (if given)' => 'Um den Realnamen des Senders zu erhalten (wenn möglich)',
@@ -1633,11 +1647,11 @@ sub Data {
         'Reminder messages' => 'Nachrichten zur Erinnerung',
         'Parent-Object' => 'Eltern-Objekte',
         'Of couse this feature will take some system performance it self!' => 'Wenn dieses Feature aktiv ist, ist mit Leistungsdefizit zu rechnen.',
-        'Your own Ticket' => 'Ihr eigenes Ticket',
         'Detail' => 'Detail',
+        'Your own Ticket' => 'Ihr eigenes Ticket',
         'TicketZoom' => 'Ticket Inhalt',
-        'Don\'t forget to add a new user to groups!' => 'Ein neuer Benutzer muss einer Gruppe zugewiesen werden!',
         'Open Tickets' => 'Offene Tickets',
+        'Don\'t forget to add a new user to groups!' => 'Ein neuer Benutzer muss einer Gruppe zugewiesen werden!',
         'CreateTicket' => 'Ticket Erstellen',
         'unknown' => 'unbekannt',
         'System Settings' => 'System Einstellungen',
@@ -1645,8 +1659,8 @@ sub Data {
         'Imported' => 'Importiert',
         'unread' => 'ungelesen',
         'D' => 'D',
-        'System Status' => 'System Status',
         'All messages' => 'Alle Nachrichten',
+        'System Status' => 'System Status',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Optionen des Tickets (z. B. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => 'Objekt bereits verlinkt als %s.',
         'A article should have a title!' => 'Ein Artikel sollte einen Titel haben!',

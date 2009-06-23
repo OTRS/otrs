@@ -2,7 +2,7 @@
 # Kernel/Language/ct.pm - provides ct language translation
 # Copyright (C) 2008 Sistemes OTIC (ibsalut) - Antonio Linde
 # --
-# $Id: ct.pm,v 1.23 2009-06-09 08:46:54 martin Exp $
+# $Id: ct.pm,v 1.24 2009-06-23 00:26:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Tue Jun  9 10:41:33 2009
+    # Last translation file sync: Tue Jun 23 02:22:09 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -273,8 +273,12 @@ sub Data {
         'Event' => 'Esdeveniment',
         'Events' => '',
         'Invalid Token!' => '\'Token\' invàlid!',
+        'more' => '',
         'For more info see:' => '',
         'Package verification failed!' => '',
+        'Collapse' => '',
+        'News' => '',
+        'Product News' => '',
         'Bold' => '',
         'Italic' => '',
         'Underline' => '',
@@ -590,6 +594,10 @@ sub Data {
         'Escalated Tickets' => '',
         'New Tickets' => '',
         'Open Tickets / Need to be answered' => '',
+        'Tickets which need to be answered!' => '',
+        'All new tickets!' => '',
+        'All tickets which are escalated!' => '',
+        'All tickets where the reminder date has reached!' => '',
         'Responses' => 'Respostes',
         'Responses <-> Queue' => 'Respostes <-> Cues',
         'Auto Responses' => 'Respostes Automàtiques',
@@ -1112,9 +1120,19 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
+        'more' => '',
+        'Collapse' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
+
+        # Template: AgentDashboardImage
+
+        # Template: AgentDashboardProductNotify
+        '%s %s is available!' => '',
+        'Please update now.' => '',
+        'Release Note' => '',
+        'Level' => '',
 
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => '',
@@ -1550,15 +1568,15 @@ sub Data {
         'Create Database' => 'Crear Base de dades',
         'Ticket Number Generator' => 'Generador de nombres de Tiquets',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identificador de Ticker. Algunes persones agraden d\'usar per exemple \'Tiquet#\', \'Cridada#\' o \'ElMeuTiquet#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'D\'aquesta forma pot editar directament les claus configurades en Kernel/Config.pm.',
         'Create new Phone Ticket' => 'Crear un nou Tiquet Telefònic',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'D\'aquesta forma pot editar directament les claus configurades en Kernel/Config.pm.',
         'Symptom' => 'Símptoma',
         'U' => 'A',
         'Site' => 'Ubicació',
         'Customer history search (e. g. "ID342425").' => 'Història de recerques del client (exemple: "ID342425").',
         'Can not delete link with %s!' => 'No es pot suprimir enllaç amb %s! ',
-        'Close!' => 'Tancar!',
         'for agent firstname' => 'nom de l\'agent',
+        'Close!' => 'Tancar!',
         'No means, send agent and customer notifications on changes.' => 'No, significa enviar als agents i clients notificacions al realitzar canvis.',
         'A web calendar' => 'Calendari Web',
         'to get the realname of the sender (if given)' => 'per a obtenir el nom de l\'emissor (si ho va proporcionar)',
@@ -1606,8 +1624,8 @@ sub Data {
         'to get the first 20 character of the subject' => 'per a obtenir els primers 20 caràcters de l\'assumpte',
         'Select the customeruser:service relations.' => 'Seleccioni el client:relacions de serveis',
         'DB Admin Password' => 'Contrasenya de l\'administrador de la BD',
-        'Drop Database' => 'Eliminar Base de dades',
         'Advisory' => 'Advertiment',
+        'Drop Database' => 'Eliminar Base de dades',
         'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Aquí pot definir l\'eix-x. Pot seleccionar un element usant la casella de selecció. Després ha de seleccionar dos o més atributs de l\'element. Si no selecciona cap, tots els atributs de l\'element s\'utilitzaran per a generar una estadística. Així com un nou atribut és afegit des de l\'última configuració',
         'FileManager' => 'Administrador d\'Arxius',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Opcions de dades d\'usuari de l\'usuari actual (ex.: <OTRS_CUSTOMER_DATA_UserFirstname>)',
@@ -1630,11 +1648,11 @@ sub Data {
         'Change users <-> roles settings' => 'Canviar Usuaris <-> Configuració de Rols',
         'Parent-Object' => 'Objecte-pare',
         'Of couse this feature will take some system performance it self!' => 'Evidentment aquesta característica afectarà al rendiment del sistema per si mateixa!',
-        'Detail' => 'Detall',
         'Your own Ticket' => 'Els seus tiquets',
+        'Detail' => 'Detall',
         'TicketZoom' => 'Detall del Tiquet',
-        'Don\'t forget to add a new user to groups!' => 'No oblidi incloure l\'usuari en grups!',
         'Open Tickets' => 'Tiquets Oberts',
+        'Don\'t forget to add a new user to groups!' => 'No oblidi incloure l\'usuari en grups!',
         'CreateTicket' => 'CrearTiquet',
         'You have to select two or more attributes from the select field!' => 'Ha de seleccionar dos o més atributs del camp seleccionat',
         'System Settings' => 'Configuració del sistema',
@@ -1643,15 +1661,15 @@ sub Data {
         'Finished' => 'Finalitzat',
         'Account Type' => 'Tipus compte',
         'D' => 'D',
-        'All messages' => 'Tots els missatges',
         'System Status' => 'Estat del sistema',
+        'All messages' => 'Tots els missatges',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Opcions per a la informació el tiquet (ex. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Artefact' => 'Artefacte',
         'Object already linked as %s.' => 'Objecte ja enllaçat com %s.',
         'A article should have a title!' => 'Els articles han de tenir títol',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Opcions de configuració (ex. &lt;OTRS_CONFIG_HttpType&gt;)',
-        'All email addresses get excluded on replaying on composing and email.' => '',
         'don\'t accept license' => 'no accepto la llicència',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'A web mail client' => 'Un client de correu web',
         'Compose Follow up' => 'Redactar seguiment',
         'WebMail' => 'Correu web',

@@ -3,7 +3,7 @@
 # Copyright (C) 2008 Never Min <never at qnofae.org>
 # Copyright (C) 2005 zuowei <j2ee at hirain-sh.com>
 # --
-# $Id: zh_CN.pm,v 1.60 2009-06-09 08:46:55 martin Exp $
+# $Id: zh_CN.pm,v 1.61 2009-06-23 00:26:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Tue Jun  9 10:43:51 2009
+    # Last translation file sync: Tue Jun 23 02:23:07 2009
 
     # possible charsets
     $Self->{Charset} = ['GBK', 'GB2312', ];
@@ -274,8 +274,12 @@ sub Data {
         'Event' => '事件',
         'Events' => '',
         'Invalid Token!' => '非法的标记',
+        'more' => '',
         'For more info see:' => '',
         'Package verification failed!' => '',
+        'Collapse' => '',
+        'News' => '',
+        'Product News' => '',
         'Bold' => '',
         'Italic' => '',
         'Underline' => '',
@@ -591,6 +595,10 @@ sub Data {
         'Escalated Tickets' => '',
         'New Tickets' => '',
         'Open Tickets / Need to be answered' => '',
+        'Tickets which need to be answered!' => '',
+        'All new tickets!' => '',
+        'All tickets which are escalated!' => '',
+        'All tickets where the reminder date has reached!' => '',
         'Responses' => '回复',
         'Responses <-> Queue' => '回复 <-> 队列',
         'Auto Responses' => '自动回复功能',
@@ -1112,9 +1120,19 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
+        'more' => '',
+        'Collapse' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
+
+        # Template: AgentDashboardImage
+
+        # Template: AgentDashboardProductNotify
+        '%s %s is available!' => '',
+        'Please update now.' => '',
+        'Release Note' => '',
+        'Level' => '',
 
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => '',
@@ -1556,8 +1574,8 @@ sub Data {
         'Site' => '站点',
         'Customer history search (e. g. "ID342425").' => '搜索客户历史 (例如： "ID342425").',
         'Can not delete link with %s!' => '不能删除 %s 的连接',
-        'Close!' => '关闭!',
         'for agent firstname' => '技术支持人员 姓',
+        'Close!' => '关闭!',
         'No means, send agent and customer notifications on changes.' => '需要, 当有改变时发送通知给技术人员或客户.',
         'A web calendar' => 'Web 日历',
         'to get the realname of the sender (if given)' => '邮件发送人的真实姓名 (如果存在)',
@@ -1625,11 +1643,11 @@ sub Data {
         'Reminder messages' => '消息提醒',
         'Parent-Object' => '父对象',
         'Of couse this feature will take some system performance it self!' => '当然, 该功能会占用一定的系统资源, 加重系统的负担!',
-        'Detail' => '细节',
         'Your own Ticket' => '您自己的 Ticket',
+        'Detail' => '细节',
         'TicketZoom' => 'Ticket 展开',
-        'Don\'t forget to add a new user to groups!' => '不要忘记增加新的用户到组!',
         'Open Tickets' => '开放 Tickets',
+        'Don\'t forget to add a new user to groups!' => '不要忘记增加新的用户到组!',
         'General Catalog' => '总目录',
         'CreateTicket' => '创建 Ticket',
         'You have to select two or more attributes from the select field!' => '',
