@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSignature.pm - to add/update/delete system addresses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSignature.pm,v 1.33 2009-03-16 23:59:34 sb Exp $
+# $Id: AdminSignature.pm,v 1.34 2009-06-24 23:01:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +16,10 @@ use warnings;
 
 use Kernel::System::Signature;
 use Kernel::System::Valid;
+use Kernel::System::HTML2Ascii;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -33,8 +34,9 @@ sub new {
             $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
         }
     }
-    $Self->{SignatureObject} = Kernel::System::Signature->new(%Param);
-    $Self->{ValidObject}     = Kernel::System::Valid->new(%Param);
+    $Self->{SignatureObject}   = Kernel::System::Signature->new(%Param);
+    $Self->{ValidObject}       = Kernel::System::Valid->new(%Param);
+    $Self->{HTML2AsciiObject}  = Kernel::System::HTML2Ascii->new(%Param);
 
     return $Self;
 }
@@ -76,35 +78,24 @@ sub Run {
             $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
         }
 
-        # get composed charset
-        $GetParam{Charset} = $Self->{LayoutObject}->{UserCharset};
-
-        # get composed content type
-        my $TextType = 'plain';
-        if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
-            $TextType = 'html';
+        # get content type
+        my $ContentType = 'text/plain';
+        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+            $ContentType = 'text/html';
         }
-        $GetParam{ContentType} = 'text/' . $TextType . '; charset=' . $GetParam{Charset};
 
-        # update group
-        if ( $Self->{SignatureObject}->SignatureUpdate( %GetParam, UserID => $Self->{UserID} ) ) {
-            $Self->_Overview();
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify( Info => 'Updated!' );
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminSignatureForm',
-                Data         => \%Param,
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
-        }
-        else {
+        # update
+        my $Update = $Self->{SignatureObject}->SignatureUpdate(
+            %GetParam,
+            ContentType => $ContentType,
+            UserID      => $Self->{UserID},
+        );
+        if ( !$Update ) {
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
             $Self->_Edit(
-                Action => "Change",
+                Action => 'Change',
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
@@ -114,6 +105,17 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
+
+        $Self->_Overview();
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Notify( Info => 'Updated!' );
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminSignatureForm',
+            Data         => \%Param,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
 
     # ------------------------------------------------------------ #
@@ -127,7 +129,7 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Self->_Edit(
-            Action => "Add",
+            Action => 'Add',
             %GetParam,
         );
         $Output .= $Self->{LayoutObject}->Output(
@@ -152,39 +154,25 @@ sub Run {
             $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
         }
 
-        # get composed charset
-        $GetParam{Charset} = $Self->{LayoutObject}->{UserCharset};
-
-        # get composed content type
-        my $TextType = 'plain';
-        if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
-            $TextType = 'html';
+        # get content type
+        my $ContentType = 'text/plain';
+        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+            $ContentType = 'text/html';
         }
-        $GetParam{ContentType} = 'text/' . $TextType . '; charset=' . $GetParam{Charset};
 
-        # add user
-        if (
-            my $AddressID
-            = $Self->{SignatureObject}->SignatureAdd( %GetParam, UserID => $Self->{UserID} )
-            )
-        {
-            $Self->_Overview();
-            my $Output = $Self->{LayoutObject}->Header();
-            $Output .= $Self->{LayoutObject}->NavigationBar();
-            $Output .= $Self->{LayoutObject}->Notify( Info => 'Added!' );
-            $Output .= $Self->{LayoutObject}->Output(
-                TemplateFile => 'AdminSignatureForm',
-                Data         => \%Param,
-            );
-            $Output .= $Self->{LayoutObject}->Footer();
-            return $Output;
-        }
-        else {
+        # add
+        my $AddressID = $Self->{SignatureObject}->SignatureAdd(
+            %GetParam,
+            ContentType => $ContentType,
+            UserID      => $Self->{UserID},
+        );
+
+        if ( !$AddressID ) {
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Notify( Priority => 'Error' );
             $Self->_Edit(
-                Action => "Add",
+                Action => 'Add',
                 %GetParam,
             );
             $Output .= $Self->{LayoutObject}->Output(
@@ -194,6 +182,17 @@ sub Run {
             $Output .= $Self->{LayoutObject}->Footer();
             return $Output;
         }
+
+        $Self->_Overview();
+        my $Output = $Self->{LayoutObject}->Header();
+        $Output .= $Self->{LayoutObject}->NavigationBar();
+        $Output .= $Self->{LayoutObject}->Notify( Info => 'Added!' );
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminSignatureForm',
+            Data         => \%Param,
+        );
+        $Output .= $Self->{LayoutObject}->Footer();
+        return $Output;
     }
 
     # ------------------------------------------------------------
@@ -223,12 +222,19 @@ sub _Edit {
             Data => \%Param,
         );
 
-        # reformat signature if necessary
-        if ( $Param{ContentType} && $Param{ContentType} =~ /^text\/plain/ ) {
-            $Param{Text} = $Self->{LayoutObject}->Ascii2Html(
-                Text           => $Param{Text},
-                NewLine        => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
-                HTMLResultMode => 1,
+        # reformat from plain to html
+        if ( $Param{ContentType} && $Param{ContentType} =~ /text\/plain/i ) {
+            $Param{Text} = $Self->{HTML2AsciiObject}->ToHTML(
+                String => $Param{Text},
+            );
+        }
+    }
+    else {
+
+        # reformat from html to plain
+        if ( $Param{ContentType} && $Param{ContentType} =~ /text\/html/i ) {
+            $Param{Text} = $Self->{HTML2AsciiObject}->ToAscii(
+                String => $Param{Text},
             );
         }
     }
@@ -251,8 +257,6 @@ sub _Edit {
 
 sub _Overview {
     my ( $Self, %Param ) = @_;
-
-    my $Output = '';
 
     $Self->{LayoutObject}->Block(
         Name => 'Overview',

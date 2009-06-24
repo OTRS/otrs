@@ -2,7 +2,7 @@
 # Kernel/System/Notification.pm - lib for notifications
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Notification.pm,v 1.29 2009-05-15 06:14:46 martin Exp $
+# $Id: Notification.pm,v 1.30 2009-06-24 23:01:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 =head1 NAME
 
@@ -161,7 +161,7 @@ sub NotificationGet {
             Language    => $Data[3],
             Subject     => $Data[4],
             Body        => $Data[5],
-            ContentType => $Data[6],
+            ContentType => $Data[6] || 'text/plain',
         );
     }
     if ( !%Data && !$Param{Loop} ) {
@@ -302,6 +302,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.29 $ $Date: 2009-05-15 06:14:46 $
+$Revision: 1.30 $ $Date: 2009-06-24 23:01:57 $
 
 =cut

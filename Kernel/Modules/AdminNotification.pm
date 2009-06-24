@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminNotification.pm - provides admin notification translations
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotification.pm,v 1.18 2009-03-16 23:59:34 sb Exp $
+# $Id: AdminNotification.pm,v 1.19 2009-06-24 23:01:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,9 +15,10 @@ use strict;
 use warnings;
 
 use Kernel::System::Notification;
+use Kernel::System::HTML2Ascii;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -33,8 +34,8 @@ sub new {
         }
     }
 
-    # lib object
     $Self->{NotificationObject} = Kernel::System::Notification->new(%Param);
+    $Self->{HTML2AsciiObject}   = Kernel::System::HTML2Ascii->new(%Param);
 
     return $Self;
 }
@@ -53,19 +54,19 @@ sub Run {
         }
     }
 
-    # get composed content type
-    my $TextType = 'plain';
-    if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
-        $TextType = 'html';
+    # get content type
+    my $ContentType = 'text/plain';
+    if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+        $ContentType = 'text/html';
     }
-    $GetParam{ContentType} = 'text/' . $TextType;
 
     # ------------------------------------------------------------ #
     # get data 2 form
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Change' ) {
         my %Notification = $Self->{NotificationObject}->NotificationGet(%GetParam);
-        my $Output       = $Self->{LayoutObject}->Header();
+
+        my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->_MaskNotificationForm( %GetParam, %Param, %Notification, );
         $Output .= $Self->{LayoutObject}->Footer();
@@ -82,7 +83,8 @@ sub Run {
 
         my $Update = $Self->{NotificationObject}->NotificationUpdate(
             %GetParam,
-            UserID => $Self->{UserID},
+            ContentType => $ContentType,
+            UserID      => $Self->{UserID},
         );
         if ( !$Update ) {
             return $Self->{LayoutObject}->Error();
@@ -98,11 +100,12 @@ sub Run {
         # challenge token check for write action
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
-        my $Id = $Self->{StdNotificationObject}->StdNotificationAdd(
+        my $ID = $Self->{StdNotificationObject}->StdNotificationAdd(
             %GetParam,
-            UserID => $Self->{UserID}
+            ContentType => $ContentType,
+            UserID      => $Self->{UserID}
         );
-        if ( !$Id ) {
+        if ( !$ID ) {
             return $Self->{LayoutObject}->Error();
         }
 
@@ -110,7 +113,7 @@ sub Run {
         my @NewIDs = $Self->{ParamObject}->GetArray( Param => 'IDs' );
         $Self->{StdAttachmentObject}->SetStdAttachmentsOfNotificationID(
             AttachmentIDsRef => \@NewIDs,
-            ID               => $Id,
+            ID               => $ID,
             UserID           => $Self->{UserID},
         );
 
@@ -134,7 +137,7 @@ sub _MaskNotificationForm {
     my ( $Self, %Param ) = @_;
 
     # build NotificationOption string
-    $Param{'NotificationOption'} = $Self->{LayoutObject}->OptionStrgHashRef(
+    $Param{NotificationOption} = $Self->{LayoutObject}->OptionStrgHashRef(
         Data       => { $Self->{NotificationObject}->NotificationList() },
         Name       => 'Name',
         Size       => 15,
@@ -143,18 +146,25 @@ sub _MaskNotificationForm {
     );
 
     # add YUI editor
-    if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+    if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
         $Self->{LayoutObject}->Block(
             Name => 'RichText',
             Data => \%Param,
         );
 
-        # reformat notification if necessary
-        if ( $Param{ContentType} && $Param{ContentType} =~ /^text\/plain/ ) {
-            $Param{Body} = $Self->{LayoutObject}->Ascii2Html(
-                Text           => $Param{Body},
-                NewLine        => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
-                HTMLResultMode => 1,
+        # reformat from plain to html
+        if ( $Param{ContentType} && $Param{ContentType} =~ /text\/plain/i ) {
+            $Param{Body} = $Self->{HTML2AsciiObject}->ToHTML(
+                String => $Param{Body},
+            );
+        }
+    }
+    else {
+
+        # reformat from html to plain
+        if ( $Param{ContentType} && $Param{ContentType} =~ /text\/html/i ) {
+            $Param{Body} = $Self->{HTML2AsciiObject}->ToAscii(
+                String => $Param{Body},
             );
         }
     }

@@ -2,7 +2,7 @@
 # Kernel/System/HTML2Ascii.pm - the global html <-> ascii tools
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: HTML2Ascii.pm,v 1.5 2009-04-23 13:47:08 mh Exp $
+# $Id: HTML2Ascii.pm,v 1.6 2009-06-24 23:01:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -474,11 +474,14 @@ convert an ascii string to a html string
 sub ToHTML {
     my ( $Self, %Param ) = @_;
 
+    # fix some bad stuff from opera and others
+    $Param{String} =~ s/(\n\r|\r\r\n|\r\n)/\n/gs;
+
     $Param{String} =~ s/&/&amp;/g;
     $Param{String} =~ s/</&lt;/g;
     $Param{String} =~ s/>/&gt;/g;
     $Param{String} =~ s/"/&quot;/g;
-    $Param{String} =~ s/\n/<br\/>\n/g;
+    $Param{String} =~ s/(\n|\r)/<br\/>\n/g;
     $Param{String} =~ s/  /&nbsp;&nbsp;/g;
 
     return $Param{String};
@@ -498,6 +501,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2009-04-23 13:47:08 $
+$Revision: 1.6 $ $Date: 2009-06-24 23:01:57 $
 
 =cut

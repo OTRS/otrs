@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminEmail.pm - to send a email to all agents
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminEmail.pm,v 1.32 2009-06-24 15:37:57 sb Exp $
+# $Id: AdminEmail.pm,v 1.33 2009-06-24 23:01:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Email;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -107,13 +107,19 @@ sub Run {
         $Param{Body} =~ s/(\r\n|\n\r)/\n/g;
         $Param{Body} =~ s/\r/\n/g;
 
+        # get content type
+        my $ContentType = 'text/plain';
+        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+            $ContentType = 'text/html';
+        }
+
         # send mail
         my $Sent = $Self->{SendmailObject}->Send(
             From     => $Param{From},
             Bcc      => $Param{Bcc},
             Subject  => $Param{Subject},
             Charset  => $Self->{LayoutObject}->{UserCharset},
-            MimeType => 'text/plain',
+            MimeType => $ContentType,
             Body     => $Param{Body},
         );
         if ( !$Sent ) {
@@ -138,6 +144,15 @@ sub Run {
     # show mask
     # ------------------------------------------------------------ #
     else {
+
+        # add YUI editor
+        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'RichText',
+                Data => \%Param,
+            );
+        }
+
         $Param{UserOption} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data => { $Self->{UserObject}->UserList( Valid => 1 ) },
             Name => 'UserIDs',
@@ -150,9 +165,7 @@ sub Run {
             Name => 'GroupIDs',
             Multiple => 1,
         );
-        if ( !$Param{Subject} ) {
-            $Param{Subject} = 'OTRS-Admin Info!';
-        }
+
         $Self->{LayoutObject}->Block(
             Name => 'Form',
             Data => \%Param,

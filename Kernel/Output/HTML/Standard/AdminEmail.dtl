@@ -2,7 +2,7 @@
 # AdminEmail.dtl - provides global HTML AdminEmail
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminEmail.dtl,v 1.16 2009-06-24 15:37:58 sb Exp $
+# $Id: AdminEmail.dtl,v 1.17 2009-06-24 23:01:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,9 @@
 # --
 
 <!-- start -->
+<!-- dtl:block:RichText -->
+$Include{"YUI"}
+<!-- dtl:block:RichText -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>
     <td class="mainhead">
@@ -31,11 +34,26 @@
             </p>
           </td>
         </tr>
+        <tr>
+          <td class="contentfooter">&nbsp;</td>
+        </tr>
       </table>
-      <br/>
 <!-- dtl:block:Sent -->
 <!-- dtl:block:Form -->
-      <form action="$Env{"CGIHandle"}" method="post">
+<script language="JavaScript" type="text/javascript">
+<!--
+function submit_compose() {
+    if (document.compose.Subject.value == "") {
+        alert('$JSText{"A message should have a subject!"}');
+        document.compose.Subject.focus();
+        return false;
+    }
+    return true;
+}
+//-->
+</script>
+
+      <form action="$Env{"CGIHandle"}" method="post" name="compose">
         <input type="hidden" name="Action" value="$Env{"Action"}"/>
         <input type="hidden" name="Subaction" value="Send"/>
         <table border="0" width="700" cellspacing="0" cellpadding="4">
@@ -67,17 +85,23 @@
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Subject"}:</td>
-                  <td class="contentvalue"><input type="Text" name="Subject" value="$Text{"$QData{"Subject"}"}" size="76"/></td>
+                  <td class="contentvalue">
+                    <input type="Text" name="Subject" value="$QData{"Subject"}" size="76"/>
+                  </td>
                 </tr>
                 <tr>
                   <td class="contentkey">$Text{"Body"}:</td>
-                  <td class="contentvalue"><textarea name="Body" rows="10" cols="76">$QData{"Body"}</textarea></td>
+                  <td class="contentvalue">
+                    <div class="yui-skin-sam">
+                      <textarea id="RichText" name="Body" rows="16" cols="76">$QData{"Body"}</textarea>
+                    </div>
+                  </td>
                 </tr>
               </table>
             </td>
           </tr>
           <tr>
-            <td class="contentfooter"><input class="button" type="submit" value="$Text{"Send"}"/></td>
+            <td class="contentfooter"><input class="button" id="submitRichText" type="submit" value="$Text{"Send"}" onclick="return submit_compose();"/></td>
           </tr>
         </table>
       </form>

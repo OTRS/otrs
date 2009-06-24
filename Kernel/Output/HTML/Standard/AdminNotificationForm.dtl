@@ -2,7 +2,7 @@
 # AdminNotificationForm.dtl - provides HTML form for AdminNotification
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotificationForm.dtl,v 1.25 2009-03-16 23:59:34 sb Exp $
+# $Id: AdminNotificationForm.dtl,v 1.26 2009-06-24 23:01:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -150,7 +150,7 @@ $Include{"YUI"}
       </p>
         <p>
           $Text{"Example"}:
-          <hr>
+          <hr/>
           <form action="/">
             <table>
               <tr>
@@ -180,7 +180,7 @@ Your OTRS Notification Master
                 </tr>
               </table>
             </form>
-            <hr>
+            <hr/>
           </p>
         </td>
       </tr>
