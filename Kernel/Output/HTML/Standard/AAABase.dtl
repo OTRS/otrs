@@ -2,7 +2,7 @@
 # AAABase.dtl - $Text variable file
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AAABase.dtl,v 1.71 2009-06-23 00:17:37 martin Exp $
+# $Id: AAABase.dtl,v 1.72 2009-06-24 23:15:19 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -197,6 +197,7 @@ $Text{"Invalid SessionID!"}
 $Text{"Feature not active!"}
 
 # misc
+$Text{"Notification (Event)"}
 $Text{"Login is needed!"}
 $Text{"Password is needed!"}
 $Text{"License"}
