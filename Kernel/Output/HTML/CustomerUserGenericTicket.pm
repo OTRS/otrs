@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/CustomerUserGenericTicket.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerUserGenericTicket.pm,v 1.8 2009-06-04 23:23:45 martin Exp $
+# $Id: CustomerUserGenericTicket.pm,v 1.9 2009-06-25 16:26:40 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -122,19 +122,19 @@ sub Run {
     my $Action    = $Param{Config}->{Action};
     my $Subaction = $Param{Config}->{Subaction};
     my $URL       = $Self->{LayoutObject}->{Baselink} . "Action=$Action&Subaction=$Subaction";
-    $URL .= "&CustomerID=" . $Self->{LayoutObject}->LinkQuote(
+    $URL .= "&CustomerID=" . $Self->{LayoutObject}->LinkEncode(
         Text => $Param{Data}->{UserCustomerID},
     );
     for my $Key ( sort keys %TicketSearch ) {
         if ( ref $TicketSearch{$Key} eq 'ARRAY' ) {
             for my $Value ( @{ $TicketSearch{$Key} } ) {
-                $URL .= '&' . $Key . '=' . $Self->{LayoutObject}->LinkQuote(
+                $URL .= '&' . $Key . '=' . $Self->{LayoutObject}->LinkEncode(
                     Text => $Value,
                 );
             }
         }
         else {
-            $URL .= '&' . $Key . '=' . $Self->{LayoutObject}->LinkQuote(
+            $URL .= '&' . $Key . '=' . $Self->{LayoutObject}->LinkEncode(
                 Text => $TicketSearch{$Key},
             );
         }
