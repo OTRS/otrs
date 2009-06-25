@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.908 2009-06-25 23:30:40 martin Exp $
+# $Id: CHANGES,v 1.909 2009-06-25 23:54:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,9 @@
 # --
 
 2.4.0 beta4 (2009/06/??)
+ - (2009/06/25) Fixed bug# 3925 - Frontend::NavBarModule in agent navigation
+    bar "Ticket::TicketSearchFulltext" and "Ticket::TicketSearchProfile" not
+    working together.
  - (2009/06/25) Fixed bug# 3924 - Upcoming Events -> wrong displayed Escalation
     time.
  - (2009/06/25) Fixed bug# 3917 - Dashboard will crash when no Internet
