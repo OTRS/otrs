@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.218 2009-06-25 01:00:17 martin Exp $
+# $Id: Article.pm,v 1.219 2009-06-25 23:02:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.218 $) [1];
+$VERSION = qw($Revision: 1.219 $) [1];
 
 =head1 NAME
 
@@ -321,117 +321,19 @@ sub ArticleCreate {
     }
 
     # send auto response
-    my %Ticket = $Self->TicketGet( TicketID => $Param{TicketID} );
-    my %State = $Self->{StateObject}->StateGet( ID => $Ticket{StateID} );
-
-    # send if notification should be sent (not for closed tickets)!?
-    if (
-        $Param{AutoResponseType}
-        && $Param{AutoResponseType} eq 'auto reply'
-        && ( $State{TypeName} eq 'closed' || $State{TypeName} eq 'removed' )
-        )
-    {
-
-        # add history row
-        $Self->HistoryAdd(
-            TicketID    => $Param{TicketID},
-            HistoryType => 'Misc',
-            Name =>
-                "Sent no auto response or agent notification because ticket is state-type '$State{TypeName}'!",
-            CreateUserID => $Param{UserID},
+    if ( $Param{AutoResponseType} ) {
+        $Self->SendAutoResponse(
+            OrigHeader       => $Param{OrigHeader},
+            TicketID         => $Param{TicketID},
+            UserID           => $Param{UserID},
+            AutoResponseType => $Param{AutoResponseType},
         );
-
-        # return ArticleID
-        return $ArticleID;
-    }
-    if ( $Param{AutoResponseType} && $Param{OrigHeader} ) {
-
-        # get auto default responses
-        my %Data = $Self->{AutoResponse}->AutoResponseGetByTypeQueueID(
-            QueueID => $Ticket{QueueID},
-            Type    => $Param{AutoResponseType},
-        );
-        my %OrigHeader = %{ $Param{OrigHeader} };
-        if ( $Data{Text} && $Data{Realname} && $Data{Address} && !$OrigHeader{'X-OTRS-Loop'} ) {
-
-            # check / loop protection!
-            if ( !$Self->{LoopProtectionObject}->Check( To => $OrigHeader{From} ) ) {
-
-                # add history row
-                $Self->HistoryAdd(
-                    TicketID     => $Param{TicketID},
-                    HistoryType  => 'LoopProtection',
-                    Name         => "\%\%$OrigHeader{From}",
-                    CreateUserID => $Param{UserID},
-                );
-
-                # do log
-                $Self->{LogObject}->Log(
-                    Priority => 'notice',
-                    Message  => "Sent no '$Param{AutoResponseType}' for Ticket ["
-                        . "$Ticket{TicketNumber}] ($OrigHeader{From}) "
-                );
-            }
-            else {
-
-                # write log
-                if (
-                    $Param{UserID} ne $Self->{ConfigObject}->Get('PostmasterUserID')
-                    || $Self->{LoopProtectionObject}->SendEmail( To => $OrigHeader{From} )
-                    )
-                {
-
-                    # get history type
-                    my %SendInfo = ();
-                    if ( $Param{AutoResponseType} =~ /^auto follow up$/i ) {
-                        $SendInfo{AutoResponseHistoryType} = 'SendAutoFollowUp';
-                    }
-                    elsif ( $Param{AutoResponseType} =~ /^auto reply$/i ) {
-                        $SendInfo{AutoResponseHistoryType} = 'SendAutoReply';
-                    }
-                    elsif ( $Param{AutoResponseType} =~ /^auto reply\/new ticket$/i ) {
-                        $SendInfo{AutoResponseHistoryType} = 'SendAutoReply';
-                    }
-                    elsif ( $Param{AutoResponseType} =~ /^auto reject$/i ) {
-                        $SendInfo{AutoResponseHistoryType} = 'SendAutoReject';
-                    }
-                    else {
-                        $SendInfo{AutoResponseHistoryType} = 'Misc';
-                    }
-                    $Self->SendAutoResponse(
-                        %Data,
-                        CustomerMessageParams => \%OrigHeader,
-                        TicketNumber          => $Ticket{TicketNumber},
-                        TicketID              => $Param{TicketID},
-                        UserID                => $Param{UserID},
-                        HistoryType           => $SendInfo{AutoResponseHistoryType},
-                    );
-                }
-            }
-        }
-
-        # log that no auto response was sent!
-        elsif ( $Data{Text} && $Data{Realname} && $Data{Address} && $OrigHeader{'X-OTRS-Loop'} ) {
-
-            # add history row
-            $Self->HistoryAdd(
-                TicketID    => $Param{TicketID},
-                HistoryType => 'Misc',
-                Name        => "Sent no auto-response because the sender doesn't want "
-                    . "a auto-response (e. g. loop or precedence header)",
-                CreateUserID => $Param{UserID},
-            );
-            $Self->{LogObject}->Log(
-                Priority => 'notice',
-                Message  => "Sent no '$Param{AutoResponseType}' for Ticket ["
-                    . "$Ticket{TicketNumber}] ($OrigHeader{From}) because the "
-                    . "sender doesn't want a auto-response (e. g. loop or precedence header)"
-            );
-        }
     }
 
     # send no agent notification!?
     return $ArticleID if $Param{NoAgentNotify};
+
+    my %Ticket = $Self->TicketGet( TicketID => $Param{TicketID} );
 
     # send agent notification!?
     my $To          = '';
@@ -2514,14 +2416,11 @@ sub SendCustomerNotification {
 send an auto response to a customer via email
 
     my $ArticleID = $TicketObject->SendAutoResponse(
-        TicketID        => 123,
-        TicketNumber    => '123123123',
-        Text            => 'Quote Message',
-        Realname        => 'Support Team',
-        Address         => 'support@example.com',
-        HistoryType     => 'SendAutoReply', # SendAutoReply|SendAutoReject|SendAutoFollowUp|...
-        CustomerMessageParams => {
-            SomeParams => 'For the message!',
+        TicketID         => 123,
+        AutoResponseType => 'auto reply',
+        OrigHeader       => {
+            From    => 'some@example.com',
+            Subject => 'For the message!',
         },
         UserID          => 123,
     );
@@ -2532,31 +2431,99 @@ sub SendAutoResponse {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Text Realname Address CustomerMessageParams TicketID UserID HistoryType)) {
+    for (qw(TicketID UserID OrigHeader AutoResponseType)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
-    $Param{Body} = $Param{Text} || 'No Std. Body found!';
-    my %GetParam = %{ $Param{CustomerMessageParams} };
 
-    # get old article for quoteing
-    my %Article = $Self->ArticleLastCustomerArticle( TicketID => $Param{TicketID} );
-    for (qw(From To Cc Subject Body)) {
-        if ( !$GetParam{$_} ) {
-            $GetParam{$_} = $Article{$_} || '';
-        }
-        chomp $GetParam{$_};
+    my %Ticket = $Self->TicketGet( TicketID => $Param{TicketID} );
+
+    # get auto default responses
+    my %AutoResponse = $Self->{TemplateGeneratorObject}->AutoResponse(
+        TicketID         => $Param{TicketID},
+        AutoResponseType => $Param{AutoResponseType},
+        OrigHeader       => $Param{OrigHeader},
+        UserID           => $Param{UserID},
+    );
+
+    return if !$AutoResponse{Text} || !$AutoResponse{SenderRealname} || !$AutoResponse{SenderAddress};
+
+    # send if notification should be sent (not for closed tickets)!?
+    my %State = $Self->{StateObject}->StateGet( ID => $Ticket{StateID} );
+    if (
+        $Param{AutoResponseType} eq 'auto reply'
+        && ( $State{TypeName} eq 'closed' || $State{TypeName} eq 'removed' )
+        )
+    {
+
+        # add history row
+        $Self->HistoryAdd(
+            TicketID    => $Param{TicketID},
+            HistoryType => 'Misc',
+            Name        => "Sent no auto response or agent notification because ticket is "
+                . "state-type '$State{TypeName}'!",
+            CreateUserID => $Param{UserID},
+        );
+
+        # return
+        return;
     }
 
+    # get orig email header
+    my %OrigHeader = %{ $Param{OrigHeader} };
+
+    # log that no auto response was sent!
+    if ( $OrigHeader{'X-OTRS-Loop'} ) {
+
+        # add history row
+        $Self->HistoryAdd(
+            TicketID    => $Param{TicketID},
+            HistoryType => 'Misc',
+            Name        => "Sent no auto-response because the sender doesn't want "
+                . "a auto-response (e. g. loop or precedence header)",
+            CreateUserID => $Param{UserID},
+        );
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message  => "Sent no '$Param{AutoResponseType}' for Ticket ["
+                . "$Ticket{TicketNumber}] ($OrigHeader{From}) because the "
+                . "sender doesn't want a auto-response (e. g. loop or precedence header)"
+        );
+        return;
+    }
+
+    # check / loop protection!
+    if ( !$Self->{LoopProtectionObject}->Check( To => $OrigHeader{From} ) ) {
+
+        # add history row
+        $Self->HistoryAdd(
+            TicketID     => $Param{TicketID},
+            HistoryType  => 'LoopProtection',
+            Name         => "\%\%$OrigHeader{From}",
+            CreateUserID => $Param{UserID},
+        );
+
+        # do log
+        $Self->{LogObject}->Log(
+            Priority => 'notice',
+            Message  => "Sent no '$Param{AutoResponseType}' for Ticket ["
+                . "$Ticket{TicketNumber}] ($OrigHeader{From}) "
+        );
+        return;
+    }
+
+    # return if loop count has reached
+    return if !$Self->{LoopProtectionObject}->SendEmail( To => $OrigHeader{From} );
+
     # check reply to for auto response recipient
-    if ( $GetParam{ReplyTo} ) {
-        $GetParam{From} = $GetParam{ReplyTo};
+    if ( $OrigHeader{ReplyTo} ) {
+        $OrigHeader{From} = $OrigHeader{ReplyTo};
     }
 
     # check if sender has an valid email address
-    if ( $GetParam{From} !~ /@/ ) {
+    if ( $OrigHeader{From} !~ /@/ ) {
 
         # add it to ticket history
         $Self->HistoryAdd(
@@ -2569,7 +2536,7 @@ sub SendAutoResponse {
         # log
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message  => "Sent not auto response to '$GetParam{From}' because of"
+            Message  => "Sent not auto response to '$OrigHeader{From}' because of"
                 . " invalid From address",
         );
         return 1;
@@ -2577,7 +2544,7 @@ sub SendAutoResponse {
 
     # check if sender is e. g. MAILDER-DAEMON or Postmaster
     my $NoAutoRegExp = $Self->{ConfigObject}->Get('SendNoAutoResponseRegExp');
-    if ( $GetParam{From} =~ /$NoAutoRegExp/i ) {
+    if ( $OrigHeader{From} =~ /$NoAutoRegExp/i ) {
 
         # add it to ticket history
         $Self->HistoryAdd(
@@ -2590,189 +2557,41 @@ sub SendAutoResponse {
         # log
         $Self->{LogObject}->Log(
             Priority => 'notice',
-            Message  => "Sent not auto response to '$GetParam{From}' because config"
+            Message  => "Sent not auto response to '$OrigHeader{From}' because config"
                 . " option SendNoAutoResponseRegExp (/$NoAutoRegExp/i) is matching!",
         );
         return 1;
     }
 
-    # check if original content isn't text/plain, don't use it
-    if ( $GetParam{'Content-Type'} && $GetParam{'Content-Type'} !~ /(text\/plain|\btext\b)/i ) {
-        $GetParam{Body} = '-> no quotable message <-';
-    }
-
-    # replace all scaned email x-headers with <OTRS_CUSTOMER_X-HEADER>
-    for ( keys %GetParam ) {
-        if ( defined $GetParam{$_} ) {
-            $Param{Body} =~ s/<OTRS_CUSTOMER_$_>/$GetParam{$_}/gi;
-        }
-    }
-
-    # get current user data
-    my %CurrentPreferences = $Self->{UserObject}->GetUserData( UserID => $Param{UserID} );
-    for ( keys %CurrentPreferences ) {
-        if ( $CurrentPreferences{$_} ) {
-            $Param{Body}    =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
-            $Param{Subject} =~ s/<OTRS_CURRENT_$_>/$CurrentPreferences{$_}/gi;
-        }
-    }
-
-    # cleanup
-    $Param{Subject} =~ s/<OTRS_CURRENT_.+?>/-/gi;
-    $Param{Body}    =~ s/<OTRS_CURRENT_.+?>/-/gi;
-
-    # get owner data
-    my %OwnerPreferences = $Self->{UserObject}->GetUserData(
-        UserID => $Article{OwnerID},
-    );
-    for ( keys %OwnerPreferences ) {
-        if ( $OwnerPreferences{$_} ) {
-            $Param{Body}    =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
-            $Param{Subject} =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
-        }
-    }
-
-    # cleanup
-    $Param{Subject} =~ s/<OTRS_OWNER_.+?>/-/gi;
-    $Param{Body}    =~ s/<OTRS_OWNER_.+?>/-/gi;
-
-    # get responsible data
-    my %ResponsiblePreferences = $Self->{UserObject}->GetUserData(
-        UserID => $Article{ResponsibleID},
-    );
-    for ( keys %ResponsiblePreferences ) {
-        if ( $ResponsiblePreferences{$_} ) {
-            $Param{Body}    =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
-            $Param{Subject} =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
-        }
-    }
-
-    # cleanup
-    $Param{Subject} =~ s/<OTRS_RESPONSIBLE_.+?>/-/gi;
-    $Param{Body}    =~ s/<OTRS_RESPONSIBLE_.+?>/-/gi;
-
-    # ticket data
-    my %Ticket = $Self->TicketGet( TicketID => $Param{TicketID} );
-    for ( keys %Ticket ) {
-        if ( defined $Ticket{$_} ) {
-            $Param{Body}    =~ s/<OTRS_TICKET_$_>/$Ticket{$_}/gi;
-            $Param{Subject} =~ s/<OTRS_TICKET_$_>/$Ticket{$_}/gi;
-        }
-    }
-
-    # replace some special stuff
-    $Param{Body} =~ s/<OTRS_TICKET_NUMBER>/$Article{TicketNumber}/gi;
-    $Param{Body} =~ s/<OTRS_TICKET_ID>/$Param{TicketID}/gi;
-
-    # cleanup
-    $Param{Subject} =~ s/<OTRS_TICKET_.+?>/-/gi;
-    $Param{Body}    =~ s/<OTRS_TICKET_.+?>/-/gi;
-
-    # get customer data and replace it with <OTRS_CUSTOMER_DATA_...
-    if ( $Article{CustomerUserID} ) {
-        my %CustomerUser
-            = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $Article{CustomerUserID}, );
-
-        # replace customer stuff with tags
-        for ( keys %CustomerUser ) {
-            if ( $CustomerUser{$_} ) {
-                $Param{Body}    =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
-                $Param{Subject} =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
-            }
-        }
-    }
-
-    # cleanup all not needed <OTRS_CUSTOMER_DATA_ tags
-    $Param{Body}    =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
-    $Param{Subject} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
-
-    # replace config options
-    $Param{Body}    =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
-    $Param{Subject} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
-
-    # prepare customer realname
-    if ( $Param{Body} =~ /<OTRS_CUSTOMER_REALNAME>/ ) {
-
-        # get realname
-        my $From = '';
-        if ( $Article{CustomerUserID} ) {
-            $From = $Self->{CustomerUserObject}->CustomerName(
-                UserLogin => $Article{CustomerUserID},
-            );
-        }
-        if ( !$From ) {
-            $From = $GetParam{From} || '';
-            $From =~ s/<.*>|\(.*\)|\"|;|,//g;
-            $From =~ s/( $)|(  $)//g;
-        }
-        $Param{Body} =~ s/<OTRS_CUSTOMER_REALNAME>/$From/g;
-    }
-
-    # Arnold Ligtvoet - otrs@ligtvoet.org
-    # get OTRS_CUSTOMER_SUBJECT from body
-    if ( $Param{Body} =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/ ) {
-        my $TicketHook2 = $Self->{ConfigObject}->Get('Ticket::Hook');
-        my $SubRep      = $GetParam{Subject} || 'No Std. Subject found!';
-        my $SubjectChar = $1;
-        $SubRep      =~ s/\[$TicketHook2: $Article{TicketNumber}\] //g;
-        $SubRep      =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
-        $Param{Body} =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$SubRep/g;
-    }
-
-    # Arnold Ligtvoet - otrs@ligtvoet.org
-    # get OTRS_EMAIL_DATE from body and replace with received date
-    use POSIX qw(strftime);
-    if ( $Param{Body} =~ /<OTRS_EMAIL_DATE\[(.*)\]>/ ) {
-        my $EmailDate = strftime( '%A, %B %e, %Y at %T ', localtime );
-        my $TimeZone = $1;
-        $EmailDate .= "($TimeZone)";
-        $Param{Body} =~ s/<OTRS_EMAIL_DATE\[.*\]>/$EmailDate/g;
-    }
-
-    # prepare subject (insert old subject)
-    my $Subject = $Param{Subject} || 'No Std. Subject found!';
-    if ( $Subject =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/ ) {
-        my $SubjectChar = $1;
-        $GetParam{Subject} =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
-        $Subject =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$GetParam{Subject}/g;
-    }
-    $Subject = $Self->TicketSubjectBuild(
-        TicketNumber => $Article{TicketNumber},
-        Subject      => $Subject || '',
-        Type         => 'New',
-    );
-
-    # prepare body (insert old email)
-    if ( $Param{Body} =~ /<OTRS_CUSTOMER_EMAIL\[(.+?)\]>/g ) {
-        my $Line       = $1;
-        my @Body       = split( /\n/, $GetParam{Body} );
-        my $NewOldBody = '';
-        for ( my $i = 0; $i < $Line; $i++ ) {
-
-            # 2002-06-14 patch of Pablo Ruiz Garcia
-            # http://lists.otrs.org/pipermail/dev/2002-June/000012.html
-            if ( $#Body >= $i ) {
-                $NewOldBody .= "> $Body[$i]\n";
-            }
-        }
-        chomp $NewOldBody;
-        $Param{Body} =~ s/<OTRS_CUSTOMER_EMAIL\[.+?\]>/$NewOldBody/g;
-    }
-
-    # cleanup all not needed <OTRS_CUSTOMER_ tags
-    $Param{Body}    =~ s/<OTRS_CUSTOMER_.+?>/-/gi;
-    $Param{Subject} =~ s/<OTRS_CUSTOMER_.+?>/-/gi;
-
     # set new To address if customer user id is used
     my $Cc    = '';
-    my $ToAll = $GetParam{From};
-    if ( $Article{CustomerUserID} ) {
-        my %CustomerUser
-            = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $Article{CustomerUserID}, );
-        if ( $CustomerUser{UserEmail} && $GetParam{From} !~ /\Q$CustomerUser{UserEmail}\E/i ) {
+    my $ToAll = $OrigHeader{From};
+    if ( $Ticket{CustomerUserID} ) {
+        my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
+            User => $Ticket{CustomerUserID},
+        );
+        if ( $CustomerUser{UserEmail} && $OrigHeader{From} !~ /\Q$CustomerUser{UserEmail}\E/i ) {
             $Cc = $CustomerUser{UserEmail};
             $ToAll .= ', ' . $Cc;
         }
+    }
+
+    # get history type
+    my $HistoryType;
+    if ( $Param{AutoResponseType} =~ /^auto follow up$/i ) {
+        $HistoryType = 'SendAutoFollowUp';
+    }
+    elsif ( $Param{AutoResponseType} =~ /^auto reply$/i ) {
+        $HistoryType = 'SendAutoReply';
+    }
+    elsif ( $Param{AutoResponseType} =~ /^auto reply\/new ticket$/i ) {
+        $HistoryType = 'SendAutoReply';
+    }
+    elsif ( $Param{AutoResponseType} =~ /^auto reject$/i ) {
+        $HistoryType = 'SendAutoReject';
+    }
+    else {
+        $HistoryType = 'Misc';
     }
 
     # send email
@@ -2780,25 +2599,24 @@ sub SendAutoResponse {
         ArticleType    => 'email-external',
         SenderType     => 'system',
         TicketID       => $Param{TicketID},
-        HistoryType    => $Param{HistoryType},
+        HistoryType    => $HistoryType,
         HistoryComment => "\%\%$ToAll",
-        From           => "$Param{Realname} <$Param{Address}>",
-        To             => $GetParam{From},
+        From           => "$AutoResponse{SenderRealname} <$AutoResponse{SenderAddress}>",
+        To             => $OrigHeader{From},
         Cc             => $Cc,
-        RealName       => $Param{Realname},
-        Charset        => $Param{Charset},
-        MimeType       => 'text/plain',
-        Subject        => $Subject,
-        UserID         => $Param{UserID},
-        Body           => $Param{Body},
-        InReplyTo      => $GetParam{'Message-ID'},
+        Charset        => $AutoResponse{Charset},
+        MimeType       => $AutoResponse{ContentType},
+        Subject        => $AutoResponse{Subject},
+        Body           => $AutoResponse{Text},
+        InReplyTo      => $OrigHeader{'Message-ID'},
         Loop           => 1,
+        UserID         => $Param{UserID},
     );
 
     # log
     $Self->{LogObject}->Log(
         Priority => 'notice',
-        Message  => "Sent auto response ($Param{HistoryType}) for Ticket [$Article{TicketNumber}]"
+        Message  => "Sent auto response ($HistoryType) for Ticket [$Ticket{TicketNumber}]"
             . " (TicketID=$Param{TicketID}, ArticleID=$ArticleID) to '$ToAll'."
     );
 
@@ -3101,6 +2919,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.218 $ $Date: 2009-06-25 01:00:17 $
+$Revision: 1.219 $ $Date: 2009-06-25 23:02:11 $
 
 =cut

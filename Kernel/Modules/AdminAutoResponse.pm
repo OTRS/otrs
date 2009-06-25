@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAutoResponse.pm - provides AdminAutoResponse HTML
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAutoResponse.pm,v 1.29 2009-03-16 23:59:34 sb Exp $
+# $Id: AdminAutoResponse.pm,v 1.30 2009-06-25 23:02:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,9 +17,10 @@ use warnings;
 use Kernel::System::AutoResponse;
 use Kernel::System::SystemAddress;
 use Kernel::System::Valid;
+use Kernel::System::HTML2Ascii;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -37,6 +38,7 @@ sub new {
     $Self->{AutoResponseObject}  = Kernel::System::AutoResponse->new(%Param);
     $Self->{SystemAddressObject} = Kernel::System::SystemAddress->new(%Param);
     $Self->{ValidObject}         = Kernel::System::Valid->new(%Param);
+    $Self->{HTML2AsciiObject}    = Kernel::System::HTML2Ascii->new(%Param);
 
     return $Self;
 }
@@ -56,21 +58,20 @@ sub Run {
         $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
     }
 
-    # get composed charset
+    # get charset
     $GetParam{Charset} = $Self->{LayoutObject}->{UserCharset};
 
-    # get composed content type
-    my $TextType = 'plain';
-    if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
-        $TextType = 'html';
+    # get content type
+    my $ContentType = 'text/plain';
+    if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+        $ContentType = 'text/html';
     }
-    $GetParam{ContentType} = 'text/' . $TextType;
 
     # ------------------------------------------------------------ #
     # get data
     # ------------------------------------------------------------ #
     if ( $Param{Subaction} eq 'Change' ) {
-        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' ) || '';
+        my $ID = $Self->{ParamObject}->GetParam( Param => 'ID' );
         my %Data = $Self->{AutoResponseObject}->AutoResponseGet( ID => $ID );
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
@@ -89,7 +90,8 @@ sub Run {
 
         my $Update = $Self->{AutoResponseObject}->AutoResponseUpdate(
             %GetParam,
-            UserID => $Self->{UserID},
+            ContentType => $ContentType,
+            UserID      => $Self->{UserID},
         );
         if ( !$Update ) {
             return $Self->{LayoutObject}->ErrorScreen();
@@ -107,7 +109,8 @@ sub Run {
 
         my $Add = $Self->{AutoResponseObject}->AutoResponseAdd(
             %GetParam,
-            UserID => $Self->{UserID},
+            ContentType => $ContentType,
+            UserID      => $Self->{UserID},
         );
         if ( !$Add ) {
             return $Self->{LayoutObject}->ErrorScreen();
@@ -169,12 +172,19 @@ sub _Mask {
             Data => \%Param,
         );
 
-        # reformat response if necessary
-        if ( $Param{ContentType} && $Param{ContentType} =~ /^text\/plain/ ) {
-            $Param{Response} = $Self->{LayoutObject}->Ascii2Html(
-                Text           => $Param{Response},
-                NewLine        => $Self->{ConfigObject}->Get('DefaultViewNewLine'),
-                HTMLResultMode => 1,
+        # reformat from plain to html
+        if ( $Param{ContentType} && $Param{ContentType} =~ /text\/plain/i ) {
+            $Param{Response} = $Self->{HTML2AsciiObject}->ToHTML(
+                String => $Param{Response},
+            );
+        }
+    }
+    else {
+
+        # reformat from html to plain
+        if ( $Param{ContentType} && $Param{ContentType} =~ /text\/html/i ) {
+            $Param{Response} = $Self->{HTML2AsciiObject}->ToAscii(
+                String => $Param{Response},
             );
         }
     }

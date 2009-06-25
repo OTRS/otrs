@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.11 2009-06-25 01:00:15 martin Exp $
+# $Id: TemplateGenerator.pm,v 1.12 2009-06-25 23:02:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,9 +19,10 @@ use Kernel::System::Salutation;
 use Kernel::System::Signature;
 use Kernel::System::StdResponse;
 use Kernel::System::Notification;
+use Kernel::System::AutoResponse;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -111,14 +112,14 @@ create an object
         CustomerGroupObject => $CustomerGroupObject, # if given
     );
     my $TemplateGeneratorObject = Kernel::System::TemplateGenerator->new(
-        ConfigObject => $ConfigObject,
-        LogObject    => $LogObject,
-        DBObject     => $DBObject,
-        TimeObject   => $TimeObject,
-        UserObject   => $UserObject,
+        ConfigObject       => $ConfigObject,
+        LogObject          => $LogObject,
+        DBObject           => $DBObject,
+        TimeObject         => $TimeObject,
+        UserObject         => $UserObject,
         CustomerUserObject => $CustomerUserObject,
-        QueueObject  => $QueueObject,
-        TicketObject => $TicketObject,
+        QueueObject        => $QueueObject,
+        TicketObject       => $TicketObject,
     );
 
 =cut
@@ -143,6 +144,7 @@ sub new {
     $Self->{SignatureObject}    = Kernel::System::Signature->new(%Param);
     $Self->{StdResponseObject}  = Kernel::System::StdResponse->new(%Param);
     $Self->{NotificationObject} = Kernel::System::Notification->new(%Param);
+    $Self->{AutoResponseObject} = Kernel::System::AutoResponse->new(%Param);
 
     return $Self;
 }
@@ -449,10 +451,10 @@ AutoResponse
     ContentType
 
     my %AutoResponse = $TemplateGeneratorObject->AutoResponse(
-        TicketID   => 123,
-        ArticleID  => 123,
-        AutoResponseType => '',
-        UserID     => 123,
+        TicketID         => 123,
+        OrigHeader       => {},
+        AutoResponseType => 'auto reply',
+        UserID           => 123,
     );
 
 =cut
@@ -461,7 +463,7 @@ sub AutoResponse {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(TicketID AutoResponseType UserID)) {
+    for (qw(TicketID AutoResponseType OrigHeader UserID)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
@@ -471,36 +473,73 @@ sub AutoResponse {
     # get ticket
     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
 
+    # get auto default responses
+    my %AutoResponse = $Self->{AutoResponseObject}->AutoResponseGetByTypeQueueID(
+        QueueID => $Ticket{QueueID},
+        Type    => $Param{AutoResponseType},
+    );
+
     # get old article for quoteing
-    my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle( TicketID => $Param{TicketID} );
+    my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
+        TicketID => $Param{TicketID},
+    );
 
     # format body
     $Article{Body} =~ s/(^>.+|.{4,72})(?:\s|\z)/$1\n/gm;
 
     for (qw(From To Cc Subject Body)) {
-        if ( !$Param{CustomerMessageParams}->{$_} ) {
-            $Param{CustomerMessageParams}->{$_} = $Article{$_} || '';
+        if ( !$Param{OrigHeader}->{$_} ) {
+            $Param{OrigHeader}->{$_} = $Article{$_} || '';
         }
-        chomp $Param{CustomerMessageParams}->{$_};
+        chomp $Param{OrigHeader}->{$_};
     }
 
     # fill up required attributes
     for (qw(Subject Body)) {
-        if ( !$Param{CustomerMessageParams}->{$_} ) {
-            $Param{CustomerMessageParams}->{$_} = "No $_";
+        if ( !$Param{OrigHeader}->{$_} ) {
+            $Param{OrigHeader}->{$_} = "No $_";
         }
     }
 
-    # get auto default responses
-    my %AutoResponse = $Self->{AutoResponse}->AutoResponseGetByTypeQueueID(
-        QueueID => $Ticket{QueueID},
-        Type    => $Param{AutoResponseType},
+    # replace place holder stuff
+    $AutoResponse{Text} = $Self->_Replace(
+        Text => $AutoResponse{Text},
+        Data => {
+            %{ $Param{OrigHeader} },
+            From => $Param{OrigHeader}->{To},
+            To   => $Param{OrigHeader}->{From},
+        },
+        TicketID              => $Param{TicketID},
+        UserID                => $Param{UserID},
     );
 
-    # replace place holder stuff
-    $AutoResponse{Text} = $Self->_Replace( Text => $AutoResponse{AutoResponse} );
+    # do text/plain to text/html convert
+    if ( $Self->{RichText} && $AutoResponse{ContentType} =~ /text\/plain/i ) {
+        $AutoResponse{ContentType} = 'text/html';
+        $AutoResponse{Text}    = $Self->{HTML2AsciiObject}->ToHTML(
+            String => $AutoResponse{Text},
+        );
+    }
 
-    $AutoResponse{ContentType} = 'text/plain';
+    # do text/html to text/plain convert
+    if ( !$Self->{RichText} && $AutoResponse{ContentType} =~ /text\/html/i ) {
+        $AutoResponse{ContentType} = 'text/plain';
+        $AutoResponse{Text}    = $Self->{HTML2AsciiObject}->ToAscii(
+            String => $AutoResponse{Text},
+        );
+    }
+
+    # prepare subject (insert old subject)
+    if ( $AutoResponse{Subject} =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/ ) {
+        my $SubjectChar = $1;
+        $Param{OrigHeader}->{Subject} =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
+        $AutoResponse{Subject} =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$Param{OrigHeader}->{Subject}/g;
+    }
+    $AutoResponse{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
+        TicketNumber => $Ticket{TicketNumber},
+        Subject      => $AutoResponse{Subject} || '',
+        Type         => 'New',
+    );
 
     # get sender attributes
     my %Address = $Self->{QueueObject}->GetSystemAddress( QueueID => $Ticket{QueueID} );
@@ -617,12 +656,11 @@ sub NotificationAgent {
     # replace place holder stuff
     for (qw(Subject Body)) {
         $Notification{$_} = $Self->_Replace(
-            Text                  => $Notification{$_},
-            RecipientID           => $Param{RecipientID},
-            Data                  => {},
-            CustomerMessageParams => $Param{CustomerMessageParams},
-            TicketID              => $Param{TicketID},
-            UserID                => $Param{UserID},
+            Text        => $Notification{$_},
+            RecipientID => $Param{RecipientID},
+            Data        => $Param{CustomerMessageParams},
+            TicketID    => $Param{TicketID},
+            UserID      => $Param{UserID},
         );
     }
 
@@ -735,11 +773,13 @@ sub _Replace {
         }
     }
 
-    my $Start = '<';
-    my $End   = '>';
+    my $Start   = '<';
+    my $End     = '>';
+    my $NewLine = "\n";
     if ( $Self->{RichText} ) {
-        $Start = '&lt;';
-        $End   = '&gt;';
+        $Start   = '&lt;';
+        $End     = '&gt;';
+        $NewLine = "<br\/>\n";
     }
 
     my %Ticket;
@@ -767,9 +807,6 @@ sub _Replace {
             }
         }
     }
-
-#    # cleanup
-#    $Param{Text} =~ s/$Tag.+?$End/-/gi;
 
     # get owner data and replace it with <OTRS_OWNER_...
     $Tag = $Start . 'OTRS_OWNER_';
@@ -839,28 +876,78 @@ sub _Replace {
 
     # get customer params and replace it with <OTRS_CUSTOMER_...
     $Tag  = $Start . 'OTRS_CUSTOMER_';
-    if ( $Param{CustomerMessageParams} ) {
-        for ( keys %{ $Param{CustomerMessageParams} } ) {
-            if ( $Param{CustomerMessageParams}->{$_} ) {
-                $Param{Text} =~ s/$Tag$_$End/$Param{CustomerMessageParams}->{$_}/gi;
+    if ( $Param{Data} ) {
+        for ( keys %{ $Param{Data} } ) {
+            if ( defined $Param{Data}->{$_} ) {
+                $Param{Text} =~ s/$Tag$_$End/$Param{Data}->{$_}/gi;
             }
         }
+
+        # check if original content isn't text/plain, don't use it
+        if ( $Param{Data}->{'Content-Type'} && $Param{Data}->{'Content-Type'} !~ /(text\/plain|\btext\b)/i ) {
+            $Param{Data}->{Body} = '-> no quotable message <-';
+        }
+
+        # replace <OTRS_CUSTOMER_EMAIL[]> tags
         my $Tag = $Start . 'OTRS_CUSTOMER_EMAIL';
         if ( $Param{Text} =~ /$Tag\[(.+?)\]$End/g ) {
             my $Line       = $1;
-            my @Body       = split( /\n/, $Param{CustomerMessageParams}->{Body} );
+            my @Body       = split( /\n/, $Param{Data}->{Body} );
             my $NewOldBody = '';
             for ( my $i = 0; $i < $Line; $i++ ) {
 
                 # 2002-06-14 patch of Pablo Ruiz Garcia
                 # http://lists.otrs.org/pipermail/dev/2002-June/000012.html
                 if ( $#Body >= $i ) {
-                    $NewOldBody .= "> $Body[$i]\n";
+                    $NewOldBody .= "$End $Body[$i]";
+                    if ( $i < ( $Line - 1 ) ) {
+                        $NewOldBody .= $NewLine;
+                    }
                 }
             }
             chomp $NewOldBody;
             $Param{Text} =~ s/$Tag\[.+?\]$End/$NewOldBody/g;
         }
+
+        # replace <OTRS_CUSTOMER_SUBJECT[]> tags
+        $Tag = $Start . 'OTRS_CUSTOMER_SUBJECT';
+        if ( $Param{Text} =~ /$Tag\[(.+?)\]$End/g ) {
+            my $SubjectChar = $1;
+            my $Subject = $Self->{TicketObject}->TicketSubjectClean(
+                TicketNumber => $Ticket{TicketNumber},
+                Subject      => $Param{Data}->{Subject},
+            );
+            $Subject     =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
+            $Param{Text} =~ s/$Tag\[.+?\]$End/$Subject/g;
+        }
+
+        # Arnold Ligtvoet - otrs@ligtvoet.org
+        # get <OTRS_EMAIL_DATE[]> from body and replace with received date
+        use POSIX qw(strftime);
+        $Tag = $Start . 'OTRS_EMAIL_DATE';
+        if ( $Param{Text} =~ /$Tag\[(.+?)\]$End/g ) {
+            my $TimeZone = $1;
+            my $EmailDate = strftime( '%A, %B %e, %Y at %T ', localtime );
+            $EmailDate .= "($TimeZone)";
+            $Param{Text} =~ s/$Tag\[.+?\]$End/$EmailDate/g;
+        }
+    }
+
+    # get and prepare realname
+    $Tag = $Start . 'OTRS_CUSTOMER_REALNAME';
+    if ( $Param{Text} =~ /$Tag$End/i ) {
+        my $From = '';
+        if ( $Ticket{CustomerUserID} ) {
+            $From = $Self->{CustomerUserObject}->CustomerName(
+                UserLogin => $Ticket{CustomerUserID}
+            );
+        }
+        if ( !$From ) {
+            $From = $Param{Data}->{To} || '';
+            $From =~ s/<.*>|\(.*\)|\"|;|,//g;
+            $From =~ s/( $)|(  $)//g;
+        }
+        $Param{Text} =~ s/$Tag$End/$From/g;
     }
 
     # get customer data and replace it with <OTRS_CUSTOMER_DATA_...
@@ -884,23 +971,6 @@ sub _Replace {
     $Param{Text} =~ s/$Tag.+?$End/-/gi;
     $Param{Text} =~ s/$Tag2.+?$End/-/gi;
 
-    # get and prepare realname
-    $Tag = $Start . 'OTRS_CUSTOMER_REALNAME';
-    if ( $Param{Text} =~ /$Tag$End/i ) {
-        my $From = '';
-        if ( $Ticket{CustomerUserID} ) {
-            $From = $Self->{CustomerUserObject}->CustomerName(
-                UserLogin => $Ticket{CustomerUserID}
-            );
-        }
-        if ( !$From ) {
-            $From = $Param{Data}->{To} || '';
-            $From =~ s/<.*>|\(.*\)|\"|;|,//g;
-            $From =~ s/( $)|(  $)//g;
-        }
-        $Param{Text} =~ s/$Tag$End/$From/g;
-    }
-
     return $Param{Text};
 }
 
@@ -920,6 +990,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2009-06-25 01:00:15 $
+$Revision: 1.12 $ $Date: 2009-06-25 23:02:11 $
 
 =cut

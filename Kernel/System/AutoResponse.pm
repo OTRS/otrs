@@ -2,7 +2,7 @@
 # Kernel/System/AutoResponse.pm - lib for auto responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AutoResponse.pm,v 1.32 2009-04-17 08:36:44 tr Exp $
+# $Id: AutoResponse.pm,v 1.33 2009-06-25 23:02:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 =head1 NAME
 
@@ -197,7 +197,7 @@ sub AutoResponseGet {
             TypeID      => $Data[5],
             AddressID   => $Data[6],
             Charset     => $Data[7],
-            ContentType => $Data[8],
+            ContentType => $Data[8] || 'text/plain',
         );
     }
     return %Data;
@@ -280,7 +280,7 @@ sub AutoResponseGetByTypeQueueID {
         $Data{Text}            = $Row[0];
         $Data{Subject}         = $Row[1];
         $Data{Charset}         = $Row[2];
-        $Data{ContentType}     = $Row[3];
+        $Data{ContentType}     = $Row[3] || 'text/plain';
         $Data{SystemAddressID} = $Row[4];
     }
 
@@ -404,6 +404,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.32 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.33 $ $Date: 2009-06-25 23:02:11 $
 
 =cut

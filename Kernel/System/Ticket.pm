@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.400 2009-06-25 01:00:16 martin Exp $
+# $Id: Ticket.pm,v 1.401 2009-06-25 23:02:11 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,17 +29,14 @@ use Kernel::System::Cache;
 use Kernel::System::CustomerUser;
 use Kernel::System::CustomerGroup;
 use Kernel::System::Email;
-use Kernel::System::AutoResponse;
-use Kernel::System::StdAttachment;
 use Kernel::System::PostMaster::LoopProtection;
-use Kernel::System::Notification;
 use Kernel::System::TemplateGenerator;
 use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 use Kernel::System::HTML2Ascii;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.400 $) [1];
+$VERSION = qw($Revision: 1.401 $) [1];
 
 =head1 NAME
 
@@ -151,21 +148,21 @@ sub new {
         $Self->{QueueObject} = $Param{QueueObject};
     }
 
-    $Self->{SendmailObject}       = Kernel::System::Email->new( %{$Self} );
-    $Self->{AutoResponse}         = Kernel::System::AutoResponse->new( %{$Self} );
-    $Self->{LoopProtectionObject} = Kernel::System::PostMaster::LoopProtection->new( %{$Self} );
-    $Self->{StdAttachmentObject}  = Kernel::System::StdAttachment->new( %{$Self} );
-    $Self->{TypeObject}           = Kernel::System::Type->new( %{$Self} );
-    $Self->{PriorityObject}       = Kernel::System::Priority->new( %{$Self} );
-    $Self->{ServiceObject}        = Kernel::System::Service->new( %{$Self} );
-    $Self->{SLAObject}            = Kernel::System::SLA->new( %{$Self} );
-    $Self->{StateObject}          = Kernel::System::State->new( %{$Self} );
-    $Self->{LockObject}           = Kernel::System::Lock->new( %{$Self} );
-    $Self->{NotificationObject}   = Kernel::System::Notification->new( %{$Self} );
-    $Self->{ValidObject}          = Kernel::System::Valid->new( %{$Self} );
-    $Self->{LinkObject}           = Kernel::System::LinkObject->new( %{$Self} );
-    $Self->{HTML2AsciiObject}     = Kernel::System::HTML2Ascii->new( %{$Self} );
-    $Self->{TemplateGeneratorObject}   = Kernel::System::TemplateGenerator->new( %{$Self}, TicketObject => $Self );
+    $Self->{SendmailObject}          = Kernel::System::Email->new( %{$Self} );
+    $Self->{LoopProtectionObject}    = Kernel::System::PostMaster::LoopProtection->new( %{$Self} );
+    $Self->{TypeObject}              = Kernel::System::Type->new( %{$Self} );
+    $Self->{PriorityObject}          = Kernel::System::Priority->new( %{$Self} );
+    $Self->{ServiceObject}           = Kernel::System::Service->new( %{$Self} );
+    $Self->{SLAObject}               = Kernel::System::SLA->new( %{$Self} );
+    $Self->{StateObject}             = Kernel::System::State->new( %{$Self} );
+    $Self->{LockObject}              = Kernel::System::Lock->new( %{$Self} );
+    $Self->{ValidObject}             = Kernel::System::Valid->new( %{$Self} );
+    $Self->{LinkObject}              = Kernel::System::LinkObject->new( %{$Self} );
+    $Self->{HTML2AsciiObject}        = Kernel::System::HTML2Ascii->new( %{$Self} );
+    $Self->{TemplateGeneratorObject} = Kernel::System::TemplateGenerator->new(
+        %{$Self},
+        TicketObject => $Self,
+    );
 
     # load ticket number generator
     my $GeneratorModule = $Self->{ConfigObject}->Get('Ticket::NumberGenerator')
@@ -7367,6 +7364,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.400 $ $Date: 2009-06-25 01:00:16 $
+$Revision: 1.401 $ $Date: 2009-06-25 23:02:11 $
 
 =cut
