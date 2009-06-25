@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardProductNotify.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardProductNotify.pm,v 1.4 2009-06-22 22:37:34 martin Exp $
+# $Id: DashboardProductNotify.pm,v 1.5 2009-06-25 12:42:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Cache;
 use Kernel::System::XML;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -56,17 +56,16 @@ sub Run {
     if ( !$Content ) {
         my $Product = $Self->{ConfigObject}->Get('Product');
         my $Version = $Self->{ConfigObject}->Get('Version');
-        my $Data    = $Self->{WebUserAgentObject}->Request(
+        my %Response = $Self->{WebUserAgentObject}->Request(
             URL => $Self->{Config}->{URL} . '?Product=' . $Product . '-' . $Version,
         );
 
-        if ( !$Data ) {
-            $Content = "Can't connect to: " . $Self->{Config}->{URL};
+        if ( $Response{Status} !~ /200/ ) {
+            $Content = "Can't connect to: " . $Self->{Config}->{URL} . " ($Response{Status})";
         }
         else {
             my $XMLObject = Kernel::System::XML->new( %{$Self} );
-
-            my @Data = $XMLObject->XMLParse2XMLHash( String => $Data );
+            my @Data = $XMLObject->XMLParse2XMLHash( String => ${ $Response{Content} } );
 
             if ( !@Data ) {
                 $Content = "Can't parse xml of: " . $Self->{Config}->{URL};
@@ -100,6 +99,12 @@ sub Run {
                     );
                 }
             }
+            $Content = $Self->{LayoutObject}->Output(
+                TemplateFile => 'AgentDashboardProductNotify',
+                Data         => {
+                    %{ $Self->{Config} },
+                },
+            );
 
             # check if we need to set CacheTTL based on product.xml
             my $CacheTTL = $Data[1]->{otrs_product}->[1]->{CacheTTL};
@@ -107,13 +112,6 @@ sub Run {
                 $Self->{Config}->{CacheTTL} = $CacheTTL->[1]->{Content};
             }
         }
-
-        $Content = $Self->{LayoutObject}->Output(
-            TemplateFile => 'AgentDashboardProductNotify',
-            Data         => {
-                %{ $Self->{Config} },
-            },
-        );
 
         # cache
         $Self->{CacheObject}->Set(
