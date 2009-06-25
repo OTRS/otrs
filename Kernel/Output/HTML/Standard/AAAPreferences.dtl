@@ -2,7 +2,7 @@
 # AAAPreferences.dtl - $Text variable file
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AAAPreferences.dtl,v 1.17 2009-02-16 11:07:25 tr Exp $
+# $Id: AAAPreferences.dtl,v 1.18 2009-06-25 18:17:05 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,9 +32,9 @@ $Text{"Max. shown Tickets a page in Overview."}
 
 $Text{"Password is already used! Please use an other password!"}
 $Text{"Password is already in use! Please use an other password!"}
-$Text{"Can't update password, passwords doesn't match! Please try it again!"}
+$Text{"Can't update password, your new passwords do not match! Please try again!"}
 $Text{"Can't update password, invalid characters!"}
-$Text{"Can't update password, need min. 8 characters!"}
-$Text{"Can't update password, need 2 lower and 2 upper characters!"}
-$Text{"Can't update password, need min. 1 digit!"}
-$Text{"Can't update password, need min. 2 characters!"}
+$Text{"Can't update password, must be at least %s characters!"}
+$Text{"Can't update password, must contain 2 lower and 2 upper characters!"}
+$Text{"Can't update password, needs at least 1 digit!"}
+$Text{"Can't update password, needs at least 2 characters!"}

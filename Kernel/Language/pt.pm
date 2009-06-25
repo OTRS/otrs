@@ -2,7 +2,7 @@
 # Kernel/Language/pt.pm - provides pt language translation
 # Copyright (C) 2004-2007 CAT - Filipe Henriques <filipehenriques at ip.pt>
 # --
-# $Id: pt.pm,v 1.78 2009-06-23 00:26:31 martin Exp $
+# $Id: pt.pm,v 1.79 2009-06-25 18:18:15 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.78 $) [1];
+$VERSION = qw($Revision: 1.79 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -367,12 +367,12 @@ sub Data {
         'Spelling Dictionary' => 'Dicionário Ortográfico',
         'Select your default spelling dictionary.' => 'Seleccione o dicionário ortográfico por omissão.',
         'Max. shown Tickets a page in Overview.' => 'Número máximo de tickets por página em Visão Geral.',
-        'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'Impossível actualizar a palavra-passe: as palavras-passe não correspondem! Tente de novo!',
+        'Can\'t update password, your new passwords do not match! Please try again!' => 'Impossível actualizar a palavra-passe: as palavras-passe não correspondem! Tente de novo!',
         'Can\'t update password, invalid characters!' => 'Impossível actualizar palavra-passe: caracteres inválidos!',
-        'Can\'t update password, need min. 8 characters!' => 'Impossível actualizar palavra-passe: necessários pelo menos oito caracteres!',
-        'Can\'t update password, need 2 lower and 2 upper characters!' => 'Impossível actualizar palavra-passe: pelo menos duas minúsculas e duas maiúsculas!',
-        'Can\'t update password, need min. 1 digit!' => 'Impossível actualizar palavra-passe: pelo menos um dígito!',
-        'Can\'t update password, need min. 2 characters!' => 'Impossível actualizar palavra-passe: pelo menos um caractere!',
+        'Can\'t update password, must be at least %s characters!' => 'Impossível actualizar palavra-passe: necessários pelo menos %s caracteres!',
+        'Can\'t update password, must contain 2 lower and 2 upper characters!' => 'Impossível actualizar palavra-passe: pelo menos duas minúsculas e duas maiúsculas!',
+        'Can\'t update password, needs at least 1 digit!' => 'Impossível actualizar palavra-passe: pelo menos um dígito!',
+        'Can\'t update password, needs at least 2 characters!' => 'Impossível actualizar palavra-passe: pelo menos um caractere!',
 
         # Template: AAAStats
         'Stat' => 'Relatorios',

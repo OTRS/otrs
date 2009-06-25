@@ -5,7 +5,7 @@
 # Copyright (C) 2006 Knut Haugen <knuthaug at linpro.no>
 # Copyright (C) 2007-2009 Fredrik Andersen <fredrik.andersen at husbanken.no>
 # --
-# $Id: nb_NO.pm,v 1.77 2009-06-23 00:26:31 martin Exp $
+# $Id: nb_NO.pm,v 1.78 2009-06-25 18:18:14 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.77 $;
+$VERSION = q$Revision: 1.78 $;
 
 sub Data {
     my $Self = shift;
@@ -370,12 +370,12 @@ sub Data {
         'Spelling Dictionary' => 'Ordbok for stavekontroll',
         'Select your default spelling dictionary.' => 'Velg standard ordbok for stavekontroll.',
         'Max. shown Tickets a page in Overview.' => 'Maks. viste saker per side i oversikten.',
-        'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'Kan ikke oppdatere passord. Passordene er ikke like, vennligst forsøk igjen!',
+        'Can\'t update password, your new passwords do not match! Please try again!' => 'Kan ikke oppdatere passord. Passordene er ikke like, vennligst forsøk igjen!',
         'Can\'t update password, invalid characters!' => 'Kan ikke oppdatere passord: ugyldige tegn!',
-        'Can\'t update password, need min. 8 characters!' => 'Kan ikke oppdatere passord: trenger minst 8 tegn!',
-        'Can\'t update password, need 2 lower and 2 upper characters!' => 'Kan ikke oppdatere passord: trenger minst 2 små og 2 store bokstaver!',
-        'Can\'t update password, need min. 1 digit!' => 'Kan ikke oppdatere passord: trenger minst ett tall!',
-        'Can\'t update password, need min. 2 characters!' => 'Kan ikke oppdatere passord: trenger minst 2 bokstaver',
+        'Can\'t update password, must be at least %s characters!' => 'Kan ikke oppdatere passord: trenger minst %s tegn!',
+        'Can\'t update password, must contain 2 lower and 2 upper characters!' => 'Kan ikke oppdatere passord: trenger minst 2 små og 2 store bokstaver!',
+        'Can\'t update password, needs at least 1 digit!' => 'Kan ikke oppdatere passord: trenger minst ett tall!',
+        'Can\'t update password, needs at least 2 characters!' => 'Kan ikke oppdatere passord: trenger minst 2 bokstaver',
 
         # Template: AAAStats
         'Stat' => 'Statistikk',

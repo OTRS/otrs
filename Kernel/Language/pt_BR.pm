@@ -4,7 +4,7 @@
 # Copyright (C) 2005 Alterado por Glaucia C. Messina (glauglauu@yahoo.com)
 # Copyright (C) 2007 Fabricio Luiz Machado <soprobr gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.85 2009-06-23 00:26:31 martin Exp $
+# $Id: pt_BR.pm,v 1.86 2009-06-25 18:18:15 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.85 $) [1];
+$VERSION = qw($Revision: 1.86 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -369,12 +369,12 @@ sub Data {
         'Spelling Dictionary' => 'Dicionário (Língua)',
         'Select your default spelling dictionary.' => 'Escolha o seu corretor ortográfico padrão.',
         'Max. shown Tickets a page in Overview.' => 'Max. Chamados em uma tela.',
-        'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'Senha não atualizada, por que estão diferentes! Tente novamente!',
+        'Can\'t update password, your new passwords do not match! Please try again!' => 'Senha não atualizada, por que estão diferentes! Tente novamente!',
         'Can\'t update password, invalid characters!' => 'Senha não atualizada, caracteres inválidos!',
-        'Can\'t update password, need min. 8 characters!' => 'Senha não atualizada, digite no mínimo 8 caracteres!',
-        'Can\'t update password, need 2 lower and 2 upper characters!' => 'Senha não atualizada, digite no mínimo 2 caracteres minúsculos e 2 maiúsculos',
-        'Can\'t update password, need min. 1 digit!' => 'Senha não atualizada, digite no mínimo 1 número',
-        'Can\'t update password, need min. 2 characters!' => 'Senha não atualizada, digite no mínimo 2 caracteres',
+        'Can\'t update password, must be at least %s characters!' => 'Senha não atualizada, digite no mínimo %s caracteres!',
+        'Can\'t update password, must contain 2 lower and 2 upper characters!' => 'Senha não atualizada, digite no mínimo 2 caracteres minúsculos e 2 maiúsculos',
+        'Can\'t update password, needs at least 1 digit!' => 'Senha não atualizada, digite no mínimo 1 número',
+        'Can\'t update password, needs at least 2 characters!' => 'Senha não atualizada, digite no mínimo 2 caracteres',
 
         # Template: AAAStats
         'Stat' => 'Status',

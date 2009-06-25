@@ -5,7 +5,7 @@
 # Copyright (C) 2006 Flora Szabo /szaboflora@magicnet.hu/
 # Copyright (C) 2007 Aron Ujvari <ujvari@hungary.com>
 # --
-# $Id: hu.pm,v 1.67 2009-06-23 00:26:31 martin Exp $
+# $Id: hu.pm,v 1.68 2009-06-25 18:18:14 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -370,12 +370,12 @@ sub Data {
         'Spelling Dictionary' => 'Helyesírás-ellenõrzõ szótár',
         'Select your default spelling dictionary.' => 'Válassza ki az alapértelmezett helyesírásellenõrzõ szótárat.',
         'Max. shown Tickets a page in Overview.' => 'Max. megjelenített jegy az áttekintésnél.',
-        'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'Nem sikerült modosítani a jelszót, a jelszavak nem egyeznek! Kérem próbálja újra!',
+        'Can\'t update password, your new passwords do not match! Please try again!' => 'Nem sikerült modosítani a jelszót, a jelszavak nem egyeznek! Kérem próbálja újra!',
         'Can\'t update password, invalid characters!' => 'Nem sikerült modosítani a jelszót, érvénytelen karakterek!',
-        'Can\'t update password, need min. 8 characters!' => 'Nem sikerült modosítani a jelszót, legalább 8 karakter megadása szükséges!',
-        'Can\'t update password, need 2 lower and 2 upper characters!' => 'Nem sikerült modosítani a jelszót, legalább 2 kisbetûnek és 2 nagybetûnek kell benne szerepelnie!',
-        'Can\'t update password, need min. 1 digit!' => 'Nem sikerült modosítani a jelszót, legalább egy számjegynek kell benne szerepelnie!',
-        'Can\'t update password, need min. 2 characters!' => 'Nem sikerült modosítani a jelszót, legalább 2 karakter megadása szükséges!',
+        'Can\'t update password, must be at least %s characters!' => 'Nem sikerült modosítani a jelszót, legalább %s karakter megadása szükséges!',
+        'Can\'t update password, must contain 2 lower and 2 upper characters!' => 'Nem sikerült modosítani a jelszót, legalább 2 kisbetûnek és 2 nagybetûnek kell benne szerepelnie!',
+        'Can\'t update password, needs at least 1 digit!' => 'Nem sikerült modosítani a jelszót, legalább egy számjegynek kell benne szerepelnie!',
+        'Can\'t update password, needs at least 2 characters!' => 'Nem sikerült modosítani a jelszót, legalább 2 karakter megadása szükséges!',
 
         # Template: AAAStats
         'Stat' => 'Statisztika',

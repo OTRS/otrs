@@ -4,7 +4,7 @@
 # Copyright (C) 2007 Andrey Feldman <afeldman at alt-lan.ru>
 # Copyright (C) 2008 Egor Tsilenko <bg8s at symlink.ru>
 # --
-# $Id: ru.pm,v 1.79 2009-06-23 00:26:31 martin Exp $
+# $Id: ru.pm,v 1.80 2009-06-25 18:18:15 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.79 $) [1];
+$VERSION = qw($Revision: 1.80 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -369,12 +369,12 @@ sub Data {
         'Spelling Dictionary' => 'Словарь',
         'Select your default spelling dictionary.' => 'Выбирете основной словарь',
         'Max. shown Tickets a page in Overview.' => 'Макс. кол-во Заявок на странице при отображении очереди',
-        'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'Невозможно сменить пароль, пароли несоответствуют!',
+        'Can\'t update password, your new passwords do not match! Please try again!' => 'Невозможно сменить пароль, пароли несоответствуют!',
         'Can\'t update password, invalid characters!' => 'Невозможно сменить пароль, неверная кодировка!',
-        'Can\'t update password, need min. 8 characters!' => 'Невозможно сменить пароль, необходимо не менее 8 символов!',
-        'Can\'t update password, need 2 lower and 2 upper characters!' => 'Невозможно сменить пароль, необходимо 2 символа в нижнем и 2 в верхнем регистрах!',
-        'Can\'t update password, need min. 1 digit!' => 'Невозможно сменить пароль, должна писутствовать как минимум 1 цифра!',
-        'Can\'t update password, need min. 2 characters!' => 'Невозможно сменить пароль, необходимо минимум 2 символа!',
+        'Can\'t update password, must be at least %s characters!' => 'Невозможно сменить пароль, необходимо не менее %s символов!',
+        'Can\'t update password, must contain 2 lower and 2 upper characters!' => 'Невозможно сменить пароль, необходимо 2 символа в нижнем и 2 в верхнем регистрах!',
+        'Can\'t update password, needs at least 1 digit!' => 'Невозможно сменить пароль, должна писутствовать как минимум 1 цифра!',
+        'Can\'t update password, needs at least 2 characters!' => 'Невозможно сменить пароль, необходимо минимум 2 символа!',
 
         # Template: AAAStats
         'Stat' => 'Статистика',

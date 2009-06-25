@@ -7,7 +7,7 @@
 # Copyright (C) 2007 Massimiliano Franco <max-lists at ycom.ch>
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # --
-# $Id: fr.pm,v 1.110 2009-06-23 00:26:31 martin Exp $
+# $Id: fr.pm,v 1.111 2009-06-25 18:18:14 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.110 $) [1];
+$VERSION = qw($Revision: 1.111 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -372,12 +372,12 @@ sub Data {
         'Spelling Dictionary' => 'Correcteur orthographique',
         'Select your default spelling dictionary.' => 'Sélectionnez votre correcteur orthographique par défaut',
         'Max. shown Tickets a page in Overview.' => 'Nombre de tickets maximum sur la page d\'aperçu des tickets',
-        'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'Mise à jour du mot de passe impossible, les mots de passe diffèrent! Essayez à nouveau svp!',
+        'Can\'t update password, your new passwords do not match! Please try again!' => 'Mise à jour du mot de passe impossible, les mots de passe diffèrent! Essayez à nouveau svp!',
         'Can\'t update password, invalid characters!' => 'Mise à jour du mot de passe impossible, caractères invalides!',
-        'Can\'t update password, need min. 8 characters!' => 'Mise à jour du mot de passe impossible, Le mot de passe doit avoir au moins 8 caractères!',
-        'Can\'t update password, need 2 lower and 2 upper characters!' => 'Mise à jour du mot de passe impossible, Le mot de passe doit comporter 2 majuscules et 2 minuscules!',
-        'Can\'t update password, need min. 1 digit!' => 'Mise à jour du mot de passe impossible, Le mot de passe doit comporter un chiffre minimum!',
-        'Can\'t update password, need min. 2 characters!' => 'Mise à jour du mot de passe impossible, Le mot de passe doit comporter 2 caractères minimum!',
+        'Can\'t update password, must be at least %s characters!' => 'Mise à jour du mot de passe impossible, Le mot de passe doit avoir au moins %s caractères!',
+        'Can\'t update password, must contain 2 lower and 2 upper characters!' => 'Mise à jour du mot de passe impossible, Le mot de passe doit comporter 2 majuscules et 2 minuscules!',
+        'Can\'t update password, needs at least 1 digit!' => 'Mise à jour du mot de passe impossible, Le mot de passe doit comporter un chiffre minimum!',
+        'Can\'t update password, needs at least 2 characters!' => 'Mise à jour du mot de passe impossible, Le mot de passe doit comporter 2 caractères minimum!',
 
         # Template: AAAStats
         'Stat' => 'Stat',

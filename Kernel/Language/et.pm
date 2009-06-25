@@ -2,7 +2,7 @@
 # Kernel/Language/et.pm - provides et language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: et.pm,v 1.23 2009-06-23 00:26:30 martin Exp $
+# $Id: et.pm,v 1.24 2009-06-25 18:18:14 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.23 $) [1];
+$VERSION = qw($Revision: 1.24 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -366,12 +366,12 @@ sub Data {
         'Spelling Dictionary' => 'Sõnastik',
         'Select your default spelling dictionary.' => 'Vali vaikimisi sõnastik.',
         'Max. shown Tickets a page in Overview.' => 'Ülevaates korraga nähtavate intsidentide ülempiir.',
-        'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'Ei saa uuendada parooli, paroolid ei ole samad. Palun proovi uuesti!',
+        'Can\'t update password, your new passwords do not match! Please try again!' => 'Ei saa uuendada parooli, paroolid ei ole samad. Palun proovi uuesti!',
         'Can\'t update password, invalid characters!' => 'Ei saa uuendada parooli, paroolis on keelatud märke.',
-        'Can\'t update password, need min. 8 characters!' => 'Ei saa uuendada parooli, paroolis peab olema vähemalt 8 märki.',
-        'Can\'t update password, need 2 lower and 2 upper characters!' => 'Ei saa uuendada parooli, paroolis peab olema vähemalt 2 väiketähte ja 2 suurtähte.',
-        'Can\'t update password, need min. 1 digit!' => 'Ei saa uuendada parooli, paroolis peab olema vähemalt 1 number!',
-        'Can\'t update password, need min. 2 characters!' => 'Ei saa uuendada parooli, paroolis peab olema vähemalt 2 tähte!',
+        'Can\'t update password, must be at least %s characters!' => 'Ei saa uuendada parooli, paroolis peab olema vähemalt %s märki.',
+        'Can\'t update password, must contain 2 lower and 2 upper characters!' => 'Ei saa uuendada parooli, paroolis peab olema vähemalt 2 väiketähte ja 2 suurtähte.',
+        'Can\'t update password, needs at least 1 digit!' => 'Ei saa uuendada parooli, paroolis peab olema vähemalt 1 number!',
+        'Can\'t update password, needs at least 2 characters!' => 'Ei saa uuendada parooli, paroolis peab olema vähemalt 2 tähte!',
 
         # Template: AAAStats
         'Stat' => 'Statistika',

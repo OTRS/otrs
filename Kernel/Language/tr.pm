@@ -2,7 +2,7 @@
 # Kernel/Language/tr.pm - provides tr language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: tr.pm,v 1.24 2009-06-23 00:26:31 martin Exp $
+# $Id: tr.pm,v 1.25 2009-06-25 18:18:15 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $)[1];
+$VERSION = qw($Revision: 1.25 $)[1];
 
 sub Data {
     my $Self = shift;
@@ -366,12 +366,12 @@ sub Data {
         'Spelling Dictionary' => 'Sözdizim Sözlüğü',
         'Select your default spelling dictionary.' => 'Öntanımlı sözdizim sözlüğünüzü seçin.',
         'Max. shown Tickets a page in Overview.' => 'Genel bakışta bir sayfada gösterilecek en fazla Bilet sayısı.',
-        'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'Parola güncellenemiyor, parolalar birbirleriyle uyuşmuyor! Lütfen tekrar deneyin!',
+        'Can\'t update password, your new passwords do not match! Please try again!' => 'Parola güncellenemiyor, parolalar birbirleriyle uyuşmuyor! Lütfen tekrar deneyin!',
         'Can\'t update password, invalid characters!' => 'Parola güncellenemiyor, geçersiz karakterler var!',
-        'Can\'t update password, need min. 8 characters!' => 'Parola güncellenemiyor, en az 8 karakter girmelisiniz!',
-        'Can\'t update password, need 2 lower and 2 upper characters!' => 'Parola güncellenemiyor, 2 küçük harf ve 2 büyük harf girmelisiniz!',
-        'Can\'t update password, need min. 1 digit!' => 'Parola güncellenemiyor, en az 1 sayı girmelisiniz!',
-        'Can\'t update password, need min. 2 characters!' => 'Parola güncellenemiyor, en az 2 karakter girmelisiniz!',
+        'Can\'t update password, must be at least %s characters!' => 'Parola güncellenemiyor, en az %s karakter girmelisiniz!',
+        'Can\'t update password, must contain 2 lower and 2 upper characters!' => 'Parola güncellenemiyor, 2 küçük harf ve 2 büyük harf girmelisiniz!',
+        'Can\'t update password, needs at least 1 digit!' => 'Parola güncellenemiyor, en az 1 sayı girmelisiniz!',
+        'Can\'t update password, needs at least 2 characters!' => 'Parola güncellenemiyor, en az 2 karakter girmelisiniz!',
 
         # Template: AAAStats
         'Stat' => 'İstatistikler',

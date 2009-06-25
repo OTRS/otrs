@@ -2,7 +2,7 @@
 # Kernel/Language/ct.pm - provides ct language translation
 # Copyright (C) 2008 Sistemes OTIC (ibsalut) - Antonio Linde
 # --
-# $Id: ct.pm,v 1.24 2009-06-23 00:26:30 martin Exp $
+# $Id: ct.pm,v 1.25 2009-06-25 18:18:14 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -367,12 +367,12 @@ sub Data {
         'Spelling Dictionary' => 'Diccionari Ortogràfic',
         'Select your default spelling dictionary.' => 'Seleccioni el seu diccionari per defecte',
         'Max. shown Tickets a page in Overview.' => 'Quantitat de Tiquets a mostrar en Resum',
-        'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'No es pot actualitzar la contrasenya, no coincideixen! Per favor intenti\'l de nou!',
+        'Can\'t update password, your new passwords do not match! Please try again!' => 'No es pot actualitzar la contrasenya, no coincideixen! Per favor intenti\'l de nou!',
         'Can\'t update password, invalid characters!' => 'No es pot actualitzar la contrasenya, caràcters invàlids!',
-        'Can\'t update password, need min. 8 characters!' => 'No es pot actualitzar la contrasenya, es necessiten almenys 8 caràcters',
-        'Can\'t update password, need 2 lower and 2 upper characters!' => 'No es pot actualitzar la contrasenya, es necessiten almenys 2 en minúscula i 2 en majúscula!',
-        'Can\'t update password, need min. 1 digit!' => 'No es pot actualitzar la contrasenya, es necessita almenys 1 dígit!',
-        'Can\'t update password, need min. 2 characters!' => 'No es pot actualitzar la contrasenya, es necessiten almenys 2 caràcters!',
+        'Can\'t update password, must be at least %s characters!' => 'No es pot actualitzar la contrasenya, es necessiten almenys %s caràcters',
+        'Can\'t update password, must contain 2 lower and 2 upper characters!' => 'No es pot actualitzar la contrasenya, es necessiten almenys 2 en minúscula i 2 en majúscula!',
+        'Can\'t update password, needs at least 1 digit!' => 'No es pot actualitzar la contrasenya, es necessita almenys 1 dígit!',
+        'Can\'t update password, needs at least 2 characters!' => 'No es pot actualitzar la contrasenya, es necessiten almenys 2 caràcters!',
 
         # Template: AAAStats
         'Stat' => 'Estadístiques',

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesPassword.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesPassword.pm,v 1.20 2009-02-16 11:16:22 tr Exp $
+# $Id: PreferencesPassword.pm,v 1.21 2009-06-25 18:17:05 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -103,13 +103,13 @@ sub Run {
 
     # compare pws
     if ( $Pw ne $Pw1 ) {
-        $Self->{Error} = "Can\'t update password, passwords dosn\'t match! Please try it again!";
+        $Self->{Error} = 'Can\'t update password, your new passwords do not match! Please try again!';
         return;
     }
 
     # check if pw is true
     if ( !$Pw || !$Pw1 ) {
-        $Self->{Error} = "Password is needed!";
+        $Self->{Error} = "Please supply your new password!";
         return;
     }
 
@@ -120,10 +120,11 @@ sub Run {
     }
     if (
         $Self->{ConfigItem}->{PasswordMinSize}
-        && $Pw !~ /^.{$Self->{ConfigItem}->{PasswordMinSize}}/
+        && length $Pw < $Self->{ConfigItem}->{PasswordMinSize}
         )
     {
-        $Self->{Error} = 'Can\'t update password, need min. 8 characters!';
+        $Self->{Error} = ( 'Can\'t update password, must be at least %s characters!", "'
+            . $Self->{ConfigItem}->{PasswordMinSize} );
         return;
     }
     if (
@@ -131,15 +132,15 @@ sub Run {
         && ( $Pw !~ /[A-Z]/ || $Pw !~ /[a-z]/ )
         )
     {
-        $Self->{Error} = 'Can\'t update password, need 2 lower and 2 upper characters!';
+        $Self->{Error} = 'Can\'t update password, must contain 2 lower and 2 upper characters!';
         return;
     }
     if ( $Self->{ConfigItem}->{PasswordNeedDigit} && $Pw !~ /\d/ ) {
-        $Self->{Error} = 'Can\'t update password, need min. 1 digit!';
+        $Self->{Error} = 'Can\'t update password, needs at least 1 digit!';
         return;
     }
     if ( $Self->{ConfigItem}->{PasswordMin2Characters} && $Pw !~ /[A-z][A-z]/ ) {
-        $Self->{Error} = 'Can\'t update password, need min. 2 characters!';
+        $Self->{Error} = 'Can\'t update password, needs at least 2 characters!';
         return;
     }
 

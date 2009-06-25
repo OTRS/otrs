@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.195 2009-06-23 00:26:30 martin Exp $
+# $Id: de.pm,v 1.196 2009-06-25 18:18:14 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.195 $) [1];
+$VERSION = qw($Revision: 1.196 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -366,12 +366,12 @@ sub Data {
         'Spelling Dictionary' => 'Rechtschreib-Wörterbuch',
         'Select your default spelling dictionary.' => 'Standard Rechtschreib-Wörterbuch auswählen.',
         'Max. shown Tickets a page in Overview.' => 'Maximale Anzahl angezeigter Tickets pro Seite in der Übersicht.',
-        'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'Passwörter sind nicht identisch! Bitte erneut versuchen!',
+        'Can\'t update password, your new passwords do not match! Please try again!' => 'Passwörter sind nicht identisch! Bitte erneut versuchen!',
         'Can\'t update password, invalid characters!' => 'Passwort konnte nicht aktualisiert werden, Zeichen ungülig.',
-        'Can\'t update password, need min. 8 characters!' => 'Passwort konnte nicht aktualisiert werden, benötige min. 8 Zeichen.',
-        'Can\'t update password, need 2 lower and 2 upper characters!' => 'Passwort konnte nicht aktualisiert werden, benötige min. einen großgeschriebener und einen kleingeschriebener Buchstaben.',
-        'Can\'t update password, need min. 1 digit!' => 'Passwort konnte nicht aktualisiert werden, Passwort muss mit eine Zahl enthalten!',
-        'Can\'t update password, need min. 2 characters!' => 'Passwort konnte nicht aktualisiert werden, Passwort muss zwei Buchstaben enthalten!',
+        'Can\'t update password, must be at least %s characters!' => 'Passwort konnte nicht aktualisiert werden, benötige min. %s Zeichen.',
+        'Can\'t update password, must contain 2 lower and 2 upper characters!' => 'Passwort konnte nicht aktualisiert werden, benötige min. einen großgeschriebener und einen kleingeschriebener Buchstaben.',
+        'Can\'t update password, needs at least 1 digit!' => 'Passwort konnte nicht aktualisiert werden, Passwort muss mind. eine Zahl enthalten!',
+        'Can\'t update password, needs at least 2 characters!' => 'Passwort konnte nicht aktualisiert werden, Passwort muss mind. zwei Buchstaben enthalten!',
 
         # Template: AAAStats
         'Stat' => 'Statistik',

@@ -3,7 +3,7 @@
 # Copyright (C) 2004 Vladimir Gerdjikov <gerdjikov at gerdjikovs.net>
 # Copyright (C) 2007 Alex Kantchev <ak at otrs.org>
 # --
-# $Id: bg.pm,v 1.90 2009-06-23 00:26:30 martin Exp $
+# $Id: bg.pm,v 1.91 2009-06-25 18:18:14 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.90 $) [1];
+$VERSION = qw($Revision: 1.91 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -368,12 +368,12 @@ sub Data {
         'Spelling Dictionary' => 'Речик за проверка на правописа',
         'Select your default spelling dictionary.' => 'Изберете Вашият речник за проверка на правописът',
         'Max. shown Tickets a page in Overview.' => 'Максимален брой Билети на страница (при преглед)',
-        'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'Невъзможно актуализиране на паролата! Паролите не съвпадат! Моля опитайте отново!',
+        'Can\'t update password, your new passwords do not match! Please try again!' => 'Невъзможно актуализиране на паролата! Паролите не съвпадат! Моля опитайте отново!',
         'Can\'t update password, invalid characters!' => 'Невъзможно актуализиране на паролата! Невалидни символи!',
-        'Can\'t update password, need min. 8 characters!' => 'Невъзможно актуализиране на паролата! Необходимо минимум 8 символа!',
-        'Can\'t update password, need 2 lower and 2 upper characters!' => 'Невъзможно актуализиране на паролата! Необходими са 2 малки и 2 големи букви!',
-        'Can\'t update password, need min. 1 digit!' => 'Невъзможно актуализиране на паролата! Необходимо е минимум 1 цифра!',
-        'Can\'t update password, need min. 2 characters!' => 'Невъзможно актуализиране на паролата! Необходими са минимум 2 символа!',
+        'Can\'t update password, must be at least %s characters!' => 'Невъзможно актуализиране на паролата! Необходимо минимум %s символа!',
+        'Can\'t update password, must contain 2 lower and 2 upper characters!' => 'Невъзможно актуализиране на паролата! Необходими са 2 малки и 2 големи букви!',
+        'Can\'t update password, needs at least 1 digit!' => 'Невъзможно актуализиране на паролата! Необходимо е минимум 1 цифра!',
+        'Can\'t update password, needs at least 2 characters!' => 'Невъзможно актуализиране на паролата! Необходими са минимум 2 символа!',
 
         # Template: AAAStats
         'Stat' => 'Статистика',

@@ -2,7 +2,7 @@
 # Kernel/Language/pl.pm - provides pl language translation
 # Copyright (C) 2007 Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.77 2009-06-23 00:26:31 martin Exp $
+# $Id: pl.pm,v 1.78 2009-06-25 18:18:15 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.77 $) [1];
+$VERSION = qw($Revision: 1.78 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -367,12 +367,12 @@ sub Data {
         'Spelling Dictionary' => 'S³ownik pisowni',
         'Select your default spelling dictionary.' => 'Wybierz domy¶lny s³ownik.',
         'Max. shown Tickets a page in Overview.' => 'Limit pokazywanych zg³oszeñ na stronie Podsumowania',
-        'Can\'t update password, passwords doesn\'t match! Please try it again!' => '',
+        'Can\'t update password, your new passwords do not match! Please try again!' => '',
         'Can\'t update password, invalid characters!' => '',
-        'Can\'t update password, need min. 8 characters!' => '',
-        'Can\'t update password, need 2 lower and 2 upper characters!' => '',
-        'Can\'t update password, need min. 1 digit!' => '',
-        'Can\'t update password, need min. 2 characters!' => '',
+        'Can\'t update password, must be at least %s characters!' => '',
+        'Can\'t update password, must contain 2 lower and 2 upper characters!' => '',
+        'Can\'t update password, needs at least 1 digit!' => '',
+        'Can\'t update password, needs at least 2 characters!' => '',
 
         # Template: AAAStats
         'Stat' => '',

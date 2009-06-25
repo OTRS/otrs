@@ -6,7 +6,7 @@
 # Copyright (C) 2005-2007 Jurgen Rutgers <jurgen 'at' besite.nl>
 # Copyright (C) 2005-2007 Richard Hinkamp <richard 'at' besite.nl>
 # --
-# $Id: nl.pm,v 1.93 2009-06-23 00:26:31 martin Exp $
+# $Id: nl.pm,v 1.94 2009-06-25 18:18:15 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.93 $) [1];
+$VERSION = qw($Revision: 1.94 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -381,12 +381,12 @@ sub Data {
         'Spelling Dictionary' => 'Spelling bibliotheek',
         'Select your default spelling dictionary.' => 'Selecteer uw standaard spellingsbibliotheek.',
         'Max. shown Tickets a page in Overview.' => 'Max. getoonde Tickets per pagina in overzichtsscherm.',
-        'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'Uw wachtwoord kan niet worden gewijzigd, de wachtwoorden komen niet overeen. Probeer het opnieuw.',
+        'Can\'t update password, your new passwords do not match! Please try again!' => 'Uw wachtwoord kan niet worden gewijzigd, de wachtwoorden komen niet overeen. Probeer het opnieuw.',
         'Can\'t update password, invalid characters!' => 'Uw wachtwoord kan niet worden gewijzigd, er zijn ongeldige karakters gevonden.',
-        'Can\'t update password, need min. 8 characters!' => 'Uw wachtwoord kan niet worden gewijzigd, er zijn minimaal 8 karakters noodzakelijk.',
-        'Can\'t update password, need 2 lower and 2 upper characters!' => 'Uw wachtwoord kan niet worden gewijzigd, er zijn minimaal 2 normale en 2 hoofdletters noodzakelijk.',
-        'Can\'t update password, need min. 1 digit!' => 'Uw wachtwoord kan niet worden gewijzigd, er is minimaal 1 cijfer noodzakelijk.',
-        'Can\'t update password, need min. 2 characters!' => 'Uw wachtwoord kan niet worden gewijzigd, er zijn minimaal 2 letters noodzakelijk.',
+        'Can\'t update password, must be at least %s characters!' => 'Uw wachtwoord kan niet worden gewijzigd, er zijn minimaal %s karakters noodzakelijk.',
+        'Can\'t update password, must contain 2 lower and 2 upper characters!' => 'Uw wachtwoord kan niet worden gewijzigd, er zijn minimaal 2 normale en 2 hoofdletters noodzakelijk.',
+        'Can\'t update password, needs at least 1 digit!' => 'Uw wachtwoord kan niet worden gewijzigd, er is minimaal 1 cijfer noodzakelijk.',
+        'Can\'t update password, needs at least 2 characters!' => 'Uw wachtwoord kan niet worden gewijzigd, er zijn minimaal 2 letters noodzakelijk.',
 
         # Template: AAAStats
         'Stat' => '',

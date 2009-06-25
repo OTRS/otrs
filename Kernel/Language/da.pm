@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Thorsten Rossner <thorsten.rossner[at]stepstone.de>
 # Copyright (C) 2007-2008 Mads N. Vestergaard <mnv[at]timmy.dk>
 # --
-# $Id: da.pm,v 1.55 2009-06-23 00:26:30 martin Exp $
+# $Id: da.pm,v 1.56 2009-06-25 18:18:14 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 
 use vars qw($VERSION);
 
-$VERSION = qw($Revision: 1.55 $) [1];
+$VERSION = qw($Revision: 1.56 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -368,12 +368,12 @@ sub Data {
         'Spelling Dictionary' => 'Ordbog til stavekontrol',
         'Select your default spelling dictionary.' => 'Vælg din standardordbog til stavekontrol.',
         'Max. shown Tickets a page in Overview.' => 'Max. viste sagter pr. side i oversigten.',
-        'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'Kan ikke opdatere adgangskode, adgangskoderne er ikke ens! Prøv igen!',
+        'Can\'t update password, your new passwords do not match! Please try again!' => 'Kan ikke opdatere adgangskode, adgangskoderne er ikke ens! Prøv igen!',
         'Can\'t update password, invalid characters!' => 'Kan ikke opdatere adgangskode, ugyldige tegn!',
-        'Can\'t update password, need min. 8 characters!' => 'Kan ikke opdatere adgangskode, der skal være mindst 8 tegn!',
-        'Can\'t update password, need 2 lower and 2 upper characters!' => 'Kan ikke opdatere adgangskode, der skal være 2 små og 2 store bogstaver!',
-        'Can\'t update password, need min. 1 digit!' => 'Kan ikke opdatere adgangskode, mindst 1 tal mangler!',
-        'Can\'t update password, need min. 2 characters!' => 'Kan ikke opdatere adgangskode, mindst 2 tegn mangler!',
+        'Can\'t update password, must be at least %s characters!' => 'Kan ikke opdatere adgangskode, der skal være mindst %s tegn!',
+        'Can\'t update password, must contain 2 lower and 2 upper characters!' => 'Kan ikke opdatere adgangskode, der skal være 2 små og 2 store bogstaver!',
+        'Can\'t update password, needs at least 1 digit!' => 'Kan ikke opdatere adgangskode, mindst 1 tal mangler!',
+        'Can\'t update password, needs at least 2 characters!' => 'Kan ikke opdatere adgangskode, mindst 2 tegn mangler!',
 
         # Template: AAAStats
         'Stat' => 'Statistik',

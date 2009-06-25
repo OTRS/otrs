@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Antti Kämäräinen <antti at seu.net>
 # Copyright (C) 2007-2008 Mikko Hynninen <first.last at tietokartano.fi>
 # --
-# $Id: fi.pm,v 1.90 2009-06-23 00:26:31 martin Exp $
+# $Id: fi.pm,v 1.91 2009-06-25 18:18:14 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.90 $) [1];
+$VERSION = qw($Revision: 1.91 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -368,12 +368,12 @@ sub Data {
         'Spelling Dictionary' => 'Oikolukusanasto',
         'Select your default spelling dictionary.' => 'Valitse oikeinkirjoitustarkastuksen oletusasetus.',
         'Max. shown Tickets a page in Overview.' => 'Näytä maks. tikettiä yleisnäkymässä',
-        'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'Salasanan päivitys ei onnistunut, salasanat eivät täsmää. Yritä uudestaan.',
+        'Can\'t update password, your new passwords do not match! Please try again!' => 'Salasanan päivitys ei onnistunut, salasanat eivät täsmää. Yritä uudestaan.',
         'Can\'t update password, invalid characters!' => 'Salasanan päivitys ei onnistunut, virheellisiä merkkejä.',
-        'Can\'t update password, need min. 8 characters!' => 'Salasanan päivitys ei onnistunut, minimi 8 merkkiä.',
-        'Can\'t update password, need 2 lower and 2 upper characters!' => 'Salasanan päivitys ei onnistunut, vähintään 2 isoa ja 2 pientä kirjainta.',
-        'Can\'t update password, need min. 1 digit!' => 'Salasanan päivitys ei onnistunut, vähintään 1 numero.',
-        'Can\'t update password, need min. 2 characters!' => 'Salasanan päivitys ei onnistunut, vähintään 2 kirjainta.',
+        'Can\'t update password, must be at least %s characters!' => 'Salasanan päivitys ei onnistunut, minimi %s merkkiä.',
+        'Can\'t update password, must contain 2 lower and 2 upper characters!' => 'Salasanan päivitys ei onnistunut, vähintään 2 isoa ja 2 pientä kirjainta.',
+        'Can\'t update password, needs at least 1 digit!' => 'Salasanan päivitys ei onnistunut, vähintään 1 numero.',
+        'Can\'t update password, needs at least 2 characters!' => 'Salasanan päivitys ei onnistunut, vähintään 2 kirjainta.',
 
         # Template: AAAStats
         'Stat' => 'Tilasto',

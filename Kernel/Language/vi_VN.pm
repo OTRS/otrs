@@ -2,7 +2,7 @@
 # Kernel/Language/vi_VN.pm - provides vi_VN language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: vi_VN.pm,v 1.25 2009-06-23 00:26:31 martin Exp $
+# $Id: vi_VN.pm,v 1.26 2009-06-25 18:18:15 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -366,12 +366,12 @@ sub Data {
         'Spelling Dictionary' => 'T× ði¬n chính tä',
         'Select your default spelling dictionary.' => 'Hãy ch÷n t× ði¬n chính tä m£c ð¸nh cüa bÕn.',
         'Max. shown Tickets a page in Overview.' => 'S¯ thë hi¬n th¸ t¯i ða trên mµt trang trong ph¥n T±ng quan.',
-        'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'Không th¬ c§p nh§t m§t kh¦u, các m§t kh¦u không kh¾p nhau! Hãy thØ lÕi l¥n næa!',
+        'Can\'t update password, your new passwords do not match! Please try again!' => 'Không th¬ c§p nh§t m§t kh¦u, các m§t kh¦u không kh¾p nhau! Hãy thØ lÕi l¥n næa!',
         'Can\'t update password, invalid characters!' => 'Không th¬ c§p nh§t m§t kh¦u, các ký tñ không hþp l®.',
-        'Can\'t update password, need min. 8 characters!' => 'Không th¬ c§p nh§t m§t kh¦u, m§t kh¦u phäi ít nh¤t 8 ký tñ.',
-        'Can\'t update password, need 2 lower and 2 upper characters!' => 'Không th¬ c§p nh§t m§t kh¦u, c¥n có 2 ký tñ dß¾i và 2 ký tñ trên.',
-        'Can\'t update password, need min. 1 digit!' => 'Không th¬ c§p nh§t m§t kh¦u, m§t kh¦u c¥n có ít nh¤t 1 con s¯!',
-        'Can\'t update password, need min. 2 characters!' => 'Không th¬ c§p nh§t m§t kh¦u, m§t kh¦u c¥n có ít nh¤t 2 ký tñ!',
+        'Can\'t update password, must be at least %s characters!' => 'Không th¬ c§p nh§t m§t kh¦u, m§t kh¦u phäi ít nh¤t %s ký tñ.',
+        'Can\'t update password, must contain 2 lower and 2 upper characters!' => 'Không th¬ c§p nh§t m§t kh¦u, c¥n có 2 ký tñ dß¾i và 2 ký tñ trên.',
+        'Can\'t update password, needs at least 1 digit!' => 'Không th¬ c§p nh§t m§t kh¦u, m§t kh¦u c¥n có ít nh¤t 1 con s¯!',
+        'Can\'t update password, needs at least 2 characters!' => 'Không th¬ c§p nh§t m§t kh¦u, m§t kh¦u c¥n có ít nh¤t 2 ký tñ!',
 
         # Template: AAAStats
         'Stat' => 'Th¯ng kê',

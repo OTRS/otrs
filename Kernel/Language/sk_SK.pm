@@ -2,7 +2,7 @@
 # Kernel/Language/sk_SK.pm - provides sk_SK language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: sk_SK.pm,v 1.51 2009-06-23 00:26:31 martin Exp $
+# $Id: sk_SK.pm,v 1.52 2009-06-25 18:18:15 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -367,12 +367,12 @@ sub Data {
         'Spelling Dictionary' => 'Slovník pravopisu.',
         'Select your default spelling dictionary.' => 'Vyberte si slovník na kontrolu pravopisu.',
         'Max. shown Tickets a page in Overview.' => 'Maximálny poèet po¾iadaviek zobrazovaných v prehµade.',
-        'Can\'t update password, passwords doesn\'t match! Please try it again!' => '',
+        'Can\'t update password, your new passwords do not match! Please try again!' => '',
         'Can\'t update password, invalid characters!' => '',
-        'Can\'t update password, need min. 8 characters!' => '',
-        'Can\'t update password, need 2 lower and 2 upper characters!' => '',
-        'Can\'t update password, need min. 1 digit!' => '',
-        'Can\'t update password, need min. 2 characters!' => '',
+        'Can\'t update password, must be at least %s characters!' => '',
+        'Can\'t update password, must contain 2 lower and 2 upper characters!' => '',
+        'Can\'t update password, needs at least 1 digit!' => '',
+        'Can\'t update password, needs at least 2 characters!' => '',
 
         # Template: AAAStats
         'Stat' => '',

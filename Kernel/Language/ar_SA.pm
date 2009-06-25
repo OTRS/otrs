@@ -2,7 +2,7 @@
 # Kernel/Language/ar_SA.pm - provides ar_SA language translation
 # Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
 # --
-# $Id: ar_SA.pm,v 1.34 2009-06-23 00:26:30 martin Exp $
+# $Id: ar_SA.pm,v 1.35 2009-06-25 18:18:14 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -369,12 +369,12 @@ sub Data {
         'Spelling Dictionary' => '«·„œﬁﬁ «··€ÊÌ',
         'Select your default spelling dictionary.' => '√Œ — «·„œﬁﬁ «··€ÊÌ «·Œ«’ »ﬂ',
         'Max. shown Tickets a page in Overview.' => '√ﬂ»— ⁄œœ „‰ «·»ÿ«ﬁ«  «·„⁄—Ê÷… ›Ì ﬂ· ’›Õ…',
-        'Can\'t update password, passwords doesn\'t match! Please try it again!' => '·« Ì„ﬂ‰  ÕœÌÀ ﬂ·„… «·„—Ê—, ﬂ·„ Ì «·„—Ê— €Ì— „ ÿ«»ﬁ «‰! «·—Ã«¡ «· Ã—»… „—… √Œ—Ï',
+        'Can\'t update password, your new passwords do not match! Please try again!' => '·« Ì„ﬂ‰  ÕœÌÀ ﬂ·„… «·„—Ê—, ﬂ·„ Ì «·„—Ê— €Ì— „ ÿ«»ﬁ «‰! «·—Ã«¡ «· Ã—»… „—… √Œ—Ï',
         'Can\'t update password, invalid characters!' => '·« Ì„ﬂ‰  ÕœÌÀ ﬂ·„… «·„—Ê—, «·Õ—Ê› €Ì— ’ÕÌÕ…!',
-        'Can\'t update password, need min. 8 characters!' => '·« Ì„ﬂ‰  €ÌÌ— ﬂ·„… «·„—Ê—, ⁄·Ï «·√ﬁ· ÌÃ» ﬂ «»… 8 Œ«‰« !',
-        'Can\'t update password, need 2 lower and 2 upper characters!' => '',
-        'Can\'t update password, need min. 1 digit!' => '·« Ì„ﬂ‰  ÕœÌÀ ﬂ·„… «·„—Ê—, ÌÃ» ﬂ «»… Œ«‰… Ê«Õœ… ⁄·Ï «·√ﬁ·',
-        'Can\'t update password, need min. 2 characters!' => '·« Ì„ﬂ‰  ÕœÌÀ ﬂ·„… «·„—Ê—, ÌÃ» ﬂ «»… Œ«‰ Ì‰ ⁄·Ï «·√√ﬁ·',
+        'Can\'t update password, must be at least %s characters!' => '·« Ì„ﬂ‰  €ÌÌ— ﬂ·„… «·„—Ê—, ⁄·Ï «·√ﬁ· ÌÃ» ﬂ «»… %s Œ«‰« !',
+        'Can\'t update password, must contain 2 lower and 2 upper characters!' => '',
+        'Can\'t update password, needs at least 1 digit!' => '·« Ì„ﬂ‰  ÕœÌÀ ﬂ·„… «·„—Ê—, ÌÃ» ﬂ «»… Œ«‰… Ê«Õœ… ⁄·Ï «·√ﬁ·',
+        'Can\'t update password, needs at least 2 characters!' => '·« Ì„ﬂ‰  ÕœÌÀ ﬂ·„… «·„—Ê—, ÌÃ» ﬂ «»… Œ«‰ Ì‰ ⁄·Ï «·√√ﬁ·',
 
         # Template: AAAStats
         'Stat' => '≈Õ’«¡« ',

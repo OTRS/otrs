@@ -4,7 +4,7 @@
 # Copyright (C) 2007 Carlos Oyarzabal <carlos.oyarzabal at grupocash.com.mx>
 # Copyright (C) 2008 Pelayo Romero Martín <pelayo.romero at gmail.com>
 # --
-# $Id: es.pm,v 1.91 2009-06-23 00:26:30 martin Exp $
+# $Id: es.pm,v 1.92 2009-06-25 18:18:14 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.91 $) [1];
+$VERSION = qw($Revision: 1.92 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -369,12 +369,12 @@ sub Data {
         'Spelling Dictionary' => 'Diccionario Ortográfico',
         'Select your default spelling dictionary.' => 'Seleccione su diccionario por defecto',
         'Max. shown Tickets a page in Overview.' => 'Cantidad de Tickets a mostrar en Resumen',
-        'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'No se puede actualizar la contraseña, no coinciden! Por favor, reinténtelo!',
+        'Can\'t update password, your new passwords do not match! Please try again!' => 'No se puede actualizar la contraseña, no coinciden! Por favor, reinténtelo!',
         'Can\'t update password, invalid characters!' => 'No se puede actualizar la contraseña, caracteres no válidos!',
-        'Can\'t update password, need min. 8 characters!' => 'No se puede actualizar la contraseña, se necesitan al menos 8 caracteres',
-        'Can\'t update password, need 2 lower and 2 upper characters!' => 'No se puede actualizar la contraseña, se necesitan al menos 2 en minúscula y 2 en mayúscula!',
-        'Can\'t update password, need min. 1 digit!' => 'No se puede actualizar la contraseña, se necesita al menos 1 dígito!',
-        'Can\'t update password, need min. 2 characters!' => 'No se puede actualizar la contraseña, se necesitan al menos 2 caracteres!',
+        'Can\'t update password, must be at least %s characters!' => 'No se puede actualizar la contraseña, se necesitan al menos %s caracteres',
+        'Can\'t update password, must contain 2 lower and 2 upper characters!' => 'No se puede actualizar la contraseña, se necesitan al menos 2 en minúscula y 2 en mayúscula!',
+        'Can\'t update password, needs at least 1 digit!' => 'No se puede actualizar la contraseña, se necesita al menos 1 dígito!',
+        'Can\'t update password, needs at least 2 characters!' => 'No se puede actualizar la contraseña, se necesitan al menos 2 caracteres!',
 
         # Template: AAAStats
         'Stat' => 'Estadísticas',

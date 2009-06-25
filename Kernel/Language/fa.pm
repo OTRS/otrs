@@ -3,7 +3,7 @@
 # Copyright (C) 2006-2008 Amir Shams Parsa <amir at parsa.name>
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # --
-# $Id: fa.pm,v 1.60 2009-06-23 00:26:30 martin Exp $
+# $Id: fa.pm,v 1.61 2009-06-25 18:18:14 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.60 $) [1];
+$VERSION = qw($Revision: 1.61 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -371,12 +371,12 @@ sub Data {
         'Spelling Dictionary' => 'لغت نامه غلط یابی',
         'Select your default spelling dictionary.' => ' لغت نامه غلط یابی خود را انتخاب نمائید',
         'Max. shown Tickets a page in Overview.' => 'تعداد نمایش درخواست ها در نمای خلاصه',
-        'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'رمز های عبور وارد شده یکسان نیست!',
+        'Can\'t update password, your new passwords do not match! Please try again!' => 'رمز های عبور وارد شده یکسان نیست!',
         'Can\'t update password, invalid characters!' => 'کاراکتر غیر مجاز !',
-        'Can\'t update password, need min. 8 characters!' => 'طول رمز عبور معتبر 8 رقم است!',
-        'Can\'t update password, need 2 lower and 2 upper characters!' => 'دست کم 2 حرف کوچک و 2 حرف بزرگ در رمز عبور خود استفاده نمائید!',
-        'Can\'t update password, need min. 1 digit!' => 'دست کم 1 عدد در رمز عبور خود استفاده نمائید.!',
-        'Can\'t update password, need min. 2 characters!' => 'دست کم 2 کاراکتر در رمز عبور خود استفاده نمائید.!',
+        'Can\'t update password, must be at least %s characters!' => 'طول رمز عبور معتبر %s رقم است!',
+        'Can\'t update password, must contain 2 lower and 2 upper characters!' => 'دست کم 2 حرف کوچک و 2 حرف بزرگ در رمز عبور خود استفاده نمائید!',
+        'Can\'t update password, needs at least 1 digit!' => 'دست کم 1 عدد در رمز عبور خود استفاده نمائید.!',
+        'Can\'t update password, needs at least 2 characters!' => 'دست کم 2 کاراکتر در رمز عبور خود استفاده نمائید.!',
 
         # Template: AAAStats
         'Stat' => 'آمار',

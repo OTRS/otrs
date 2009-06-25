@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
 # Copyright (C) 2006 George Thomas <gthomas aegean.gr>
 # --
-# $Id: el.pm,v 1.51 2009-06-23 00:26:30 martin Exp $
+# $Id: el.pm,v 1.52 2009-06-25 18:18:14 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -369,12 +369,12 @@ sub Data {
         'Spelling Dictionary' => 'Ορθογραφικό Λεξικό',
         'Select your default spelling dictionary.' => 'Επιλέξτε το προεπιλεγμενο ορθογραφικό λεξικό.',
         'Max. shown Tickets a page in Overview.' => 'Μεγιστος αριθμος δελτιων σε μια σελιδα.',
-        'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'Δεν μπορεί να γίνει αλλαγή κωδικού,οι κωδικοί δεν ταιριάζουν!',
+        'Can\'t update password, your new passwords do not match! Please try again!' => 'Δεν μπορεί να γίνει αλλαγή κωδικού,οι κωδικοί δεν ταιριάζουν!',
         'Can\'t update password, invalid characters!' => 'Δεν μπορεί να γίνει αλλαγή κωδικού,μη έγκυροι χαρακτήρες.',
-        'Can\'t update password, need min. 8 characters!' => 'Δεν μπορεί να γίνει αλλαγή κωδικού,ελάχιστο επιτρεπόμενο μήκος κωδικού 8 χαρακτήρες.',
-        'Can\'t update password, need 2 lower and 2 upper characters!' => 'Δεν μπορεί να γίνει αλλαγή κωδικού,χρειάζονται τουλάχιστον 2 μικροί και 2 κεφαλαίοι χαρακτήρες.',
-        'Can\'t update password, need min. 1 digit!' => 'Δεν μπορεί να γίνει αλλαγή κωδικού, χρειάζεται τουλάχιστον 1 αριθμός!',
-        'Can\'t update password, need min. 2 characters!' => 'Δεν μπορεί να γίνει αλλαγή κωδικού, ελαχιστο μηκος 2 χαρακτηρες!',
+        'Can\'t update password, must be at least %s characters!' => 'Δεν μπορεί να γίνει αλλαγή κωδικού,ελάχιστο επιτρεπόμενο μήκος κωδικού %s χαρακτήρες.',
+        'Can\'t update password, must contain 2 lower and 2 upper characters!' => 'Δεν μπορεί να γίνει αλλαγή κωδικού,χρειάζονται τουλάχιστον 2 μικροί και 2 κεφαλαίοι χαρακτήρες.',
+        'Can\'t update password, needs at least 1 digit!' => 'Δεν μπορεί να γίνει αλλαγή κωδικού, χρειάζεται τουλάχιστον 1 αριθμός!',
+        'Can\'t update password, needs at least 2 characters!' => 'Δεν μπορεί να γίνει αλλαγή κωδικού, ελαχιστο μηκος 2 χαρακτηρες!',
 
         # Template: AAAStats
         'Stat' => '',
