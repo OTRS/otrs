@@ -3,7 +3,7 @@
 # Copyright (C) 2008 Never Min <never at qnofae.org>
 # Copyright (C) 2005 zuowei <j2ee at hirain-sh.com>
 # --
-# $Id: zh_CN.pm,v 1.61 2009-06-23 00:26:31 martin Exp $
+# $Id: zh_CN.pm,v 1.62 2009-06-25 18:26:18 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -368,12 +368,12 @@ sub Data {
         'Spelling Dictionary' => '拼写检查字典',
         'Select your default spelling dictionary.' => '缺省拼写检查字典.',
         'Max. shown Tickets a page in Overview.' => '每一页显示的最大 Tickets 数目.',
-        'Can\'t update password, passwords doesn\'t match! Please try it again!' => '密码两次不符，无法更新，请重新输入',
+        'Can\'t update password, your new passwords do not match! Please try again!' => '密码两次不符，无法更新，请重新输入',
         'Can\'t update password, invalid characters!' => '无法更新密码，包含无效字符.',
-        'Can\'t update password, need min. 8 characters!' => '无法更新密码，密码长度至少8位.',
-        'Can\'t update password, need 2 lower and 2 upper characters!' => '无法更新密码，至少包含2个大写字符和2个小写字符.',
-        'Can\'t update password, need min. 1 digit!' => '无法更新密码，至少包含1位数字',
-        'Can\'t update password, need min. 2 characters!' => '无法更新密码，至少包含2个字母!',
+        'Can\'t update password, must be at least %s characters!' => '无法更新密码，密码长度至少%s位.',
+        'Can\'t update password, must contain 2 lower and 2 upper characters!' => '无法更新密码，至少包含2个大写字符和2个小写字符.',
+        'Can\'t update password, needs at least 1 digit!' => '无法更新密码，至少包含1位数字',
+        'Can\'t update password, needs at least 2 characters!' => '无法更新密码，至少包含2个字母!',
 
         # Template: AAAStats
         'Stat' => '',
