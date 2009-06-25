@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardCalendar.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardCalendar.pm,v 1.5 2009-06-13 16:21:06 mh Exp $
+# $Id: DashboardCalendar.pm,v 1.6 2009-06-25 23:30:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -68,11 +68,8 @@ sub Run {
             my $TimeStamp;
             my $TimeTill;
             if ( $Type eq 'Escalation' ) {
-                my $DestDate = $Ticket{EscalationTime};
-                $TimeTill  = $Self->{TimeObject}->SystemTime() - $Ticket{EscalationTime};
-                $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(
-                    SystemTime => $DestDate,
-                );
+                $TimeTill  = $Ticket{EscalationTime};
+                $TimeStamp = $Ticket{EscalationDestinationDate};
             }
             elsif ( $Type eq 'Pending' ) {
                 my $DestDate = $Self->{TimeObject}->SystemTime() + $Ticket{UntilTime};

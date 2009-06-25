@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.907 2009-06-25 01:00:17 martin Exp $
+# $Id: CHANGES,v 1.908 2009-06-25 23:30:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,15 @@
 # --
 
 2.4.0 beta4 (2009/06/??)
- - (2009/06/24) Fixed bug# 3826 - In sent auto responses, WYSIWYG is not working.
+ - (2009/06/25) Fixed bug# 3924 - Upcoming Events -> wrong displayed Escalation
+    time.
+ - (2009/06/25) Fixed bug# 3917 - Dashboard will crash when no Internet
+    connection available - Module: ProductNotify.
+ - (2009/06/25) Fixed bug# 3913 - Missing Modules in 2.4.0 beta1-beta3:
+    Kernel/Output/HTML/ServicePreferencesGeneric.pm and
+    Kernel/Output/HTML/SLAPreferencesGeneric.pm.
+ - (2009/06/24) Fixed bug# 3826 - In auto responses and agent notifications,
+    WYSIWYG is not working.
  - (2009/06/24) Fixed bug# 3796 - Admin notification edit screen is not coming
     proper in WYSIWYG editor.
  - (2009/06/22) Added PasswordMaxLoginFailed as password preferences to define
