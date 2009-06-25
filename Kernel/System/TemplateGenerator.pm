@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.10 2009-04-23 13:47:08 mh Exp $
+# $Id: TemplateGenerator.pm,v 1.11 2009-06-25 01:00:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,9 +18,10 @@ use Kernel::System::HTML2Ascii;
 use Kernel::System::Salutation;
 use Kernel::System::Signature;
 use Kernel::System::StdResponse;
+use Kernel::System::Notification;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 =head1 NAME
 
@@ -137,10 +138,11 @@ sub new {
 
     $Self->{RichText} = $Self->{ConfigObject}->Get('Frontend::RichText');
 
-    $Self->{HTML2AsciiObject}  = Kernel::System::HTML2Ascii->new(%Param);
-    $Self->{SalutationObject}  = Kernel::System::Salutation->new(%Param);
-    $Self->{SignatureObject}   = Kernel::System::Signature->new(%Param);
-    $Self->{StdResponseObject} = Kernel::System::StdResponse->new(%Param);
+    $Self->{HTML2AsciiObject}   = Kernel::System::HTML2Ascii->new(%Param);
+    $Self->{SalutationObject}   = Kernel::System::Salutation->new(%Param);
+    $Self->{SignatureObject}    = Kernel::System::Signature->new(%Param);
+    $Self->{StdResponseObject}  = Kernel::System::StdResponse->new(%Param);
+    $Self->{NotificationObject} = Kernel::System::Notification->new(%Param);
 
     return $Self;
 }
@@ -205,8 +207,6 @@ sub Salutation {
         Data     => $Param{Data},
         UserID   => $Param{UserID},
     );
-
-    #    $Salutation{ContentType} = 'text/plain';
 
     return $SalutationText;
 }
@@ -295,8 +295,6 @@ sub Signature {
         Data     => $Param{Data},
         UserID   => $Param{UserID},
     );
-
-    #    $Signature{ContentType} = 'text/plain';
 
     return $SignatureText;
 }
@@ -470,8 +468,28 @@ sub AutoResponse {
         }
     }
 
-    # get  queue
+    # get ticket
     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
+
+    # get old article for quoteing
+    my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle( TicketID => $Param{TicketID} );
+
+    # format body
+    $Article{Body} =~ s/(^>.+|.{4,72})(?:\s|\z)/$1\n/gm;
+
+    for (qw(From To Cc Subject Body)) {
+        if ( !$Param{CustomerMessageParams}->{$_} ) {
+            $Param{CustomerMessageParams}->{$_} = $Article{$_} || '';
+        }
+        chomp $Param{CustomerMessageParams}->{$_};
+    }
+
+    # fill up required attributes
+    for (qw(Subject Body)) {
+        if ( !$Param{CustomerMessageParams}->{$_} ) {
+            $Param{CustomerMessageParams}->{$_} = "No $_";
+        }
+    }
 
     # get auto default responses
     my %AutoResponse = $Self->{AutoResponse}->AutoResponseGetByTypeQueueID(
@@ -518,7 +536,6 @@ NotifcationAgent
     my %NotificationAgent = $TemplateGeneratorObject->NotificationAgent(
         Type        => 'Move', # notification types, see database
         TicketID    => 123,
-        ArticleID   => 123,
         RecipientID => 123,
         UserID      => 123,
     );
@@ -529,14 +546,42 @@ sub NotificationAgent {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(TicketID Type UserID)) {
+    for (qw(TicketID Type RecipientID UserID)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
     }
 
-    my %User = ();
+    # get ticket
+    my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Param{TicketID} );
+
+    # get old article for quoteing
+    my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle( TicketID => $Param{TicketID} );
+
+    # format body
+    $Article{Body} =~ s/(^>.+|.{4,72})(?:\s|\z)/$1\n/gm;
+
+    for (qw(From To Cc Subject Body)) {
+        if ( !$Param{CustomerMessageParams}->{$_} ) {
+            $Param{CustomerMessageParams}->{$_} = $Article{$_} || '';
+        }
+        chomp $Param{CustomerMessageParams}->{$_};
+    }
+
+    # fill up required attributes
+    for (qw(Subject Body)) {
+        if ( !$Param{CustomerMessageParams}->{$_} ) {
+            $Param{CustomerMessageParams}->{$_} = "No $_";
+        }
+    }
+
+    # get recipient
+    my %User = $Self->{UserObject}->GetUserData(
+        UserID => $Param{RecipientID},
+        Cached => 1,
+        Valid  => 1,
+    );
 
     # get user language
     my $Language = $User{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage') || 'en';
@@ -545,6 +590,22 @@ sub NotificationAgent {
     my %Notification = $Self->{NotificationObject}->NotificationGet(
         Name => $Language . '::Agent::' . $Param{Type},
     );
+
+    # do text/plain to text/html convert
+    if ( $Self->{RichText} && $Notification{ContentType} =~ /text\/plain/i ) {
+        $Notification{ContentType} = 'text/html';
+        $Notification{Body}        = $Self->{HTML2AsciiObject}->ToHTML(
+            String => $Notification{Body},
+        );
+    }
+
+    # do text/html to text/plain convert
+    if ( !$Self->{RichText} && $Notification{ContentType} =~ /text\/html/i ) {
+        $Notification{ContentType} = 'text/plain';
+        $Notification{Body}        = $Self->{HTML2AsciiObject}->ToAscii(
+            String => $Notification{Body},
+        );
+    }
 
     # get notify texts
     for (qw(Subject Body)) {
@@ -555,10 +616,32 @@ sub NotificationAgent {
 
     # replace place holder stuff
     for (qw(Subject Body)) {
-        $Notification{$_} = $Self->_Replace( Text => $Notification{$_} );
+        $Notification{$_} = $Self->_Replace(
+            Text                  => $Notification{$_},
+            RecipientID           => $Param{RecipientID},
+            Data                  => {},
+            CustomerMessageParams => $Param{CustomerMessageParams},
+            TicketID              => $Param{TicketID},
+            UserID                => $Param{UserID},
+        );
     }
 
-    $Notification{ContentType} = 'text/plain';
+    # prepare subject (insert old subject)
+    $Param{CustomerMessageParams}->{Subject} = $Self->{TicketObject}->TicketSubjectClean(
+        TicketNumber => $Ticket{TicketNumber},
+        Subject      => $Param{CustomerMessageParams}->{Subject} || '',
+    );
+    if ( $Notification{Subject} =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/ ) {
+        my $SubjectChar = $1;
+        $Param{CustomerMessageParams}->{Subject} =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
+
+        $Notification{Subject} =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$Param{CustomerMessageParams}->{Subject}/g;
+    }
+    $Notification{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
+        TicketNumber => $Ticket{TicketNumber},
+        Subject      => $Notification{Subject} || '',
+        Type         => 'New',
+    );
 
     return %Notification;
 }
@@ -671,6 +754,23 @@ sub _Replace {
     # cleanup
     $Param{Text} =~ s/$Tag.+?$End/-/gi;
 
+    # get recipient data and replace it with <OTRS_...
+    $Tag = $Start . 'OTRS_';
+    if ( $Param{RecipientID} ) {
+        my %Recipient = $Self->{UserObject}->GetUserData(
+            UserID => $Param{RecipientID},
+            Cached => 1,
+        );
+        for ( keys %Recipient ) {
+            if ( $Recipient{$_} ) {
+                $Param{Text} =~ s/$Tag$_$End/$Recipient{$_}/gi;
+            }
+        }
+    }
+
+#    # cleanup
+#    $Param{Text} =~ s/$Tag.+?$End/-/gi;
+
     # get owner data and replace it with <OTRS_OWNER_...
     $Tag = $Start . 'OTRS_OWNER_';
     if ( $Ticket{OwnerID} ) {
@@ -721,14 +821,6 @@ sub _Replace {
     $Param{Text} =~ s/$Tag.+?$End/-/gi;
     $Param{Text} =~ s/$Tag2.+?$End/-/gi;
 
-    #    # replace it with given user params
-    #    for ( keys %User ) {
-    #        if ( $User{$_} ) {
-    #            $Notification{Body}    =~ s/<OTRS_$_>/$User{$_}/gi;
-    #            $Notification{Subject} =~ s/<OTRS_$_>/$User{$_}/gi;
-    #        }
-    #    }
-
     # ticket data
     $Tag = $Start . 'OTRS_TICKET_';
     for ( keys %Ticket ) {
@@ -737,8 +829,39 @@ sub _Replace {
         }
     }
 
+    # COMPAT
+    $Param{Text} =~ s/<OTRS_TICKET_ID>/$Ticket{TicketID}/gi;
+    $Param{Text} =~ s/<OTRS_TICKET_NUMBER>/$Ticket{TicketNumber}/gi;
+    $Param{Text} =~ s/<OTRS_QUEUE>/$Ticket{Queue}/gi;
+
     # cleanup
     $Param{Text} =~ s/$Tag.+?$End/-/gi;
+
+    # get customer params and replace it with <OTRS_CUSTOMER_...
+    $Tag  = $Start . 'OTRS_CUSTOMER_';
+    if ( $Param{CustomerMessageParams} ) {
+        for ( keys %{ $Param{CustomerMessageParams} } ) {
+            if ( $Param{CustomerMessageParams}->{$_} ) {
+                $Param{Text} =~ s/$Tag$_$End/$Param{CustomerMessageParams}->{$_}/gi;
+            }
+        }
+        my $Tag = $Start . 'OTRS_CUSTOMER_EMAIL';
+        if ( $Param{Text} =~ /$Tag\[(.+?)\]$End/g ) {
+            my $Line       = $1;
+            my @Body       = split( /\n/, $Param{CustomerMessageParams}->{Body} );
+            my $NewOldBody = '';
+            for ( my $i = 0; $i < $Line; $i++ ) {
+
+                # 2002-06-14 patch of Pablo Ruiz Garcia
+                # http://lists.otrs.org/pipermail/dev/2002-June/000012.html
+                if ( $#Body >= $i ) {
+                    $NewOldBody .= "> $Body[$i]\n";
+                }
+            }
+            chomp $NewOldBody;
+            $Param{Text} =~ s/$Tag\[.+?\]$End/$NewOldBody/g;
+        }
+    }
 
     # get customer data and replace it with <OTRS_CUSTOMER_DATA_...
     $Tag  = $Start . 'OTRS_CUSTOMER_';
@@ -797,6 +920,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.10 $ $Date: 2009-04-23 13:47:08 $
+$Revision: 1.11 $ $Date: 2009-06-25 01:00:15 $
 
 =cut

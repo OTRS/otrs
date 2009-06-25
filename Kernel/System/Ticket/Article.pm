@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.217 2009-06-04 23:30:01 martin Exp $
+# $Id: Article.pm,v 1.218 2009-06-25 01:00:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.217 $) [1];
+$VERSION = qw($Revision: 1.218 $) [1];
 
 =head1 NAME
 
@@ -443,11 +443,11 @@ sub ArticleCreate {
         =~ /^(EmailAgent|EmailCustomer|PhoneCallCustomer|WebRequestCustomer|SystemRequest)$/i
         )
     {
-        for ( $Self->GetSubscribedUserIDsByQueueID( QueueID => $Ticket{QueueID} ) ) {
-            next if $AlreadySent{$_};
-            $AlreadySent{$_} = 1;
+        for my $UserID ( $Self->GetSubscribedUserIDsByQueueID( QueueID => $Ticket{QueueID} ) ) {
+            next if $AlreadySent{$UserID};
+            $AlreadySent{$UserID} = 1;
             my %UserData = $Self->{UserObject}->GetUserData(
-                UserID => $_,
+                UserID => $UserID,
                 Cached => 1,
                 Valid  => 1,
             );
@@ -456,7 +456,7 @@ sub ArticleCreate {
             # send notification
             $Self->SendAgentNotification(
                 Type                  => $Param{HistoryType},
-                UserData              => \%UserData,
+                RecipientID           => $UserID,
                 CustomerMessageParams => \%Param,
                 TicketID              => $Param{TicketID},
                 Queue                 => $Param{Queue},
@@ -487,16 +487,10 @@ sub ArticleCreate {
             next if $AlreadySent{$UserID};
             $AlreadySent{$UserID} = 1;
 
-            my %UserData = $Self->{UserObject}->GetUserData(
-                UserID => $UserID,
-                Cached => 1,
-                Valid  => 1,
-            );
-
             # send notification
             $Self->SendAgentNotification(
                 Type                  => $Param{HistoryType},
-                UserData              => \%UserData,
+                RecipientID           => $UserID,
                 CustomerMessageParams => \%Param,
                 TicketID              => $Param{TicketID},
                 Queue                 => $Param{Queue},
@@ -541,7 +535,7 @@ sub ArticleCreate {
                 # send notification
                 $Self->SendAgentNotification(
                     Type                  => $Param{HistoryType},
-                    UserData              => \%UserData,
+                    RecipientID           => $UserID,
                     CustomerMessageParams => \%Param,
                     TicketID              => $Param{TicketID},
                     Queue                 => $Param{Queue},
@@ -580,7 +574,7 @@ sub ArticleCreate {
                 # send notification
                 $Self->SendAgentNotification(
                     Type                  => $Param{HistoryType},
-                    UserData              => \%UserData,
+                    RecipientID           => $UserID,
                     CustomerMessageParams => \%Param,
                     TicketID              => $Param{TicketID},
                     Queue                 => $Param{Queue},
@@ -616,7 +610,7 @@ sub ArticleCreate {
                     # send notification
                     $Self->SendAgentNotification(
                         Type                  => $Param{HistoryType},
-                        UserData              => \%UserData,
+                        RecipientID           => $UserID,
                         CustomerMessageParams => \%Param,
                         TicketID              => $Param{TicketID},
                         Queue                 => $Param{Queue},
@@ -645,7 +639,7 @@ sub ArticleCreate {
             # send notification
             $Self->SendAgentNotification(
                 Type                  => $Param{HistoryType},
-                UserData              => \%Preferences,
+                RecipientID           => $UserID,
                 CustomerMessageParams => \%Param,
                 TicketID              => $Param{TicketID},
                 UserID                => $Param{UserID},
@@ -2124,13 +2118,13 @@ sub ArticleBounce {
 send an agent notification via email
 
     $TicketObject->SendAgentNotification(
-        TicketID => 123,
+        TicketID    => 123,
         CustomerMessageParams => {
             SomeParams => 'For the message!',
         },
-        Type     => 'Move', # notification types, see database
-        UserData => { $UserObject->GetUserData(UserID => 3123)}
-        UserID   => 123,
+        Type        => 'Move', # notification types, see database
+        RecipientID => $UserID,
+        UserID      => 123,
     );
 
 =cut
@@ -2139,7 +2133,7 @@ sub SendAgentNotification {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(CustomerMessageParams TicketID UserID Type UserData)) {
+    for (qw(CustomerMessageParams TicketID Type RecipientID UserID)) {
         if ( !$Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
@@ -2155,199 +2149,24 @@ sub SendAgentNotification {
         $Param{Type} = 'NewTicket';
     }
 
-    # get ref of email params
-    my %GetParam = %{ $Param{CustomerMessageParams} };
-
-    # get old article for quoteing
-    my %Article = $Self->ArticleLastCustomerArticle( TicketID => $Param{TicketID} );
-
-    # format body
-    $Article{Body} =~ s/(^>.+|.{4,72})(?:\s|\z)/$1\n/gm if ( $Article{Body} );
-
-    # replace article stuff with tags
-    for (qw(From To Cc Subject Body)) {
-        if ( !$GetParam{$_} ) {
-            $GetParam{$_} = $Article{$_} || '';
-        }
-        chomp $GetParam{$_};
-    }
-
-    # fill up required attributes
-    for (qw(Subject Body)) {
-        if ( !$GetParam{$_} ) {
-            $GetParam{$_} = "No $_";
-        }
-    }
-
-    # format body
-    $GetParam{Body} =~ s/(^>.+|.{4,72})(?:\s|\z)/$1\n/gm if ( $GetParam{Body} );
-
-    my %User = %{ $Param{UserData} };
+    # get recipient
+    my %User = $Self->{UserObject}->GetUserData(
+        UserID => $Param{RecipientID},
+        Cached => 1,
+        Valid  => 1,
+    );
 
     # check recipients
-    if ( !$User{UserEmail} || $User{UserEmail} !~ /@/ ) {
-        return;
-    }
+    return if !$User{UserEmail};
+    return if $User{UserEmail} !~ /@/;
 
-    # get user language
-    my $Language = $User{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage') || 'en';
-
-    # get notification data
-    my %Notification = $Self->{NotificationObject}->NotificationGet(
-        Name => $Language . '::Agent::' . $Param{Type},
+    my %Notification = $Self->{TemplateGeneratorObject}->NotificationAgent(
+        Type                  => $Param{Type},
+        TicketID              => $Param{TicketID},
+        CustomerMessageParams => $Param{CustomerMessageParams},
+        RecipientID           => $Param{RecipientID},
+        UserID                => $Param{UserID},
     );
-
-    # get notify texts
-    for (qw(Subject Body)) {
-        if ( !$Notification{$_} ) {
-            $Notification{$_} = "No Notification $_ for $Param{Type} found!";
-        }
-    }
-
-    # replace config options
-    $Notification{Body}    =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
-    $Notification{Subject} =~ s{<OTRS_CONFIG_(.+?)>}{$Self->{ConfigObject}->Get($1)}egx;
-
-    # cleanup
-    $Notification{Subject} =~ s/<OTRS_CONFIG_.+?>/-/gi;
-    $Notification{Body}    =~ s/<OTRS_CONFIG_.+?>/-/gi;
-
-    # get owner data and replace it with <OTRS_OWNER_...
-    my %OwnerPreferences = $Self->{UserObject}->GetUserData(
-        UserID => $Article{OwnerID},
-    );
-    for ( keys %OwnerPreferences ) {
-        if ( $OwnerPreferences{$_} ) {
-            $Notification{Body}    =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
-            $Notification{Subject} =~ s/<OTRS_OWNER_$_>/$OwnerPreferences{$_}/gi;
-        }
-    }
-
-    # cleanup
-    $Notification{Subject} =~ s/<OTRS_OWNER_.+?>/-/gi;
-    $Notification{Body}    =~ s/<OTRS_OWNER_.+?>/-/gi;
-
-    # get owner data and replace it with <OTRS_RESPONSIBLE_...
-    my %ResponsiblePreferences = $Self->{UserObject}->GetUserData(
-        UserID => $Article{ResponsibleID},
-    );
-    for ( keys %ResponsiblePreferences ) {
-        if ( $ResponsiblePreferences{$_} ) {
-            $Notification{Body}    =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
-            $Notification{Subject} =~ s/<OTRS_RESPONSIBLE_$_>/$ResponsiblePreferences{$_}/gi;
-        }
-    }
-
-    # cleanup
-    $Notification{Subject} =~ s/<OTRS_RESPONSIBLE_.+?>/-/gi;
-    $Notification{Body}    =~ s/<OTRS_RESPONSIBLE_.+?>/-/gi;
-
-    # get current user data
-    my %CurrentUser = $Self->{UserObject}->GetUserData( UserID => $Param{UserID} );
-    for ( keys %CurrentUser ) {
-        if ( $CurrentUser{$_} ) {
-            $Notification{Body}    =~ s/<OTRS_CURRENT_$_>/$CurrentUser{$_}/gi;
-            $Notification{Subject} =~ s/<OTRS_CURRENT_$_>/$CurrentUser{$_}/gi;
-        }
-    }
-
-    # cleanup
-    $Notification{Subject} =~ s/<OTRS_CURRENT_.+?>/-/gi;
-    $Notification{Body}    =~ s/<OTRS_CURRENT_.+?>/-/gi;
-
-    # replace it with given user params
-    for ( keys %User ) {
-        if ( $User{$_} ) {
-            $Notification{Body}    =~ s/<OTRS_$_>/$User{$_}/gi;
-            $Notification{Subject} =~ s/<OTRS_$_>/$User{$_}/gi;
-        }
-    }
-
-    # ticket data
-    my %Ticket = $Self->TicketGet( TicketID => $Param{TicketID} );
-    for ( keys %Ticket ) {
-        if ( defined $Ticket{$_} ) {
-            $Notification{Body}    =~ s/<OTRS_TICKET_$_>/$Ticket{$_}/gi;
-            $Notification{Subject} =~ s/<OTRS_TICKET_$_>/$Ticket{$_}/gi;
-        }
-    }
-
-    # COMPAT
-    $Notification{Body} =~ s/<OTRS_TICKET_ID>/$Param{TicketID}/gi;
-    $Notification{Body} =~ s/<OTRS_TICKET_NUMBER>/$Article{TicketNumber}/gi;
-    $Notification{Body} =~ s/<OTRS_QUEUE>/$Article{Queue}/gi;
-    $Notification{Body} =~ s/<OTRS_COMMENT>/$GetParam{Comment}/gi if ( defined $GetParam{Comment} );
-
-    # cleanup
-    $Notification{Subject} =~ s/<OTRS_TICKET_.+?>/-/gi;
-    $Notification{Body}    =~ s/<OTRS_TICKET_.+?>/-/gi;
-
-    # prepare subject (insert old subject)
-    $GetParam{Subject} = $Self->TicketSubjectClean(
-        TicketNumber => $Article{TicketNumber},
-        Subject => $GetParam{Subject} || '',
-    );
-    if ( $Notification{Subject} =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/ ) {
-        my $SubjectChar = $1;
-        $GetParam{Subject}     =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
-        $Notification{Subject} =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$GetParam{Subject}/g;
-    }
-    $Notification{Subject} = $Self->TicketSubjectBuild(
-        TicketNumber => $Article{TicketNumber},
-        Subject      => $Notification{Subject} || '',
-        Type         => 'New',
-    );
-
-    # get customer data and replace it with <OTRS_CUSTOMER_DATA_...
-    if ( $Article{CustomerUserID} ) {
-        my %CustomerUser
-            = $Self->{CustomerUserObject}->CustomerUserDataGet( User => $Article{CustomerUserID}, );
-
-        # replace customer stuff with tags
-        for ( keys %CustomerUser ) {
-            if ( $CustomerUser{$_} ) {
-                $Notification{Body}    =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
-                $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_$_>/$CustomerUser{$_}/gi;
-            }
-        }
-    }
-
-    # cleanup all not needed <OTRS_CUSTOMER_DATA_ tags
-    $Notification{Body}    =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
-    $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
-
-    # replace it with article data
-    for ( keys %Article ) {
-        if ( defined $Article{$_} ) {
-            $Notification{Subject} =~ s/<OTRS_$_>/$Article{$_}/gi;
-            $Notification{Body}    =~ s/<OTRS_$_>/$Article{$_}/gi;
-        }
-    }
-    for ( keys %GetParam ) {
-        if ( $GetParam{$_} ) {
-            $Notification{Body}    =~ s/<OTRS_CUSTOMER_$_>/$GetParam{$_}/gi;
-            $Notification{Subject} =~ s/<OTRS_CUSTOMER_$_>/$GetParam{$_}/gi;
-        }
-    }
-    if ( $Notification{Body} =~ /<OTRS_CUSTOMER_EMAIL\[(.+?)\]>/g ) {
-        my $Line       = $1;
-        my @Body       = split( /\n/, $GetParam{Body} );
-        my $NewOldBody = '';
-        for ( my $i = 0; $i < $Line; $i++ ) {
-
-            # 2002-06-14 patch of Pablo Ruiz Garcia
-            # http://lists.otrs.org/pipermail/dev/2002-June/000012.html
-            if ( $#Body >= $i ) {
-                $NewOldBody .= "> $Body[$i]\n";
-            }
-        }
-        chomp $NewOldBody;
-        $Notification{Body} =~ s/<OTRS_CUSTOMER_EMAIL\[.+?\]>/$NewOldBody/g;
-    }
-
-    # cleanup all not needed <OTRS_CUSTOMER_ tags
-    $Notification{Body}    =~ s/<OTRS_CUSTOMER_.+?>/-/gi;
-    $Notification{Subject} =~ s/<OTRS_CUSTOMER_.+?>/-/gi;
 
     # send notify
     $Self->{SendmailObject}->Send(
@@ -2355,7 +2174,7 @@ sub SendAgentNotification {
             . $Self->{ConfigObject}->Get('NotificationSenderEmail') . '>',
         To       => $User{UserEmail},
         Subject  => $Notification{Subject},
-        MimeType => 'text/plain',
+        MimeType => $Notification{ContentType} || 'text/plain',
         Charset  => $Notification{Charset},
         Body     => $Notification{Body},
         Loop     => 1,
@@ -3282,6 +3101,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.217 $ $Date: 2009-06-04 23:30:01 $
+$Revision: 1.218 $ $Date: 2009-06-25 01:00:17 $
 
 =cut

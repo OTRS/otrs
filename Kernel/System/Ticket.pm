@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.399 2009-06-23 00:19:02 martin Exp $
+# $Id: Ticket.pm,v 1.400 2009-06-25 01:00:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,12 +33,13 @@ use Kernel::System::AutoResponse;
 use Kernel::System::StdAttachment;
 use Kernel::System::PostMaster::LoopProtection;
 use Kernel::System::Notification;
+use Kernel::System::TemplateGenerator;
 use Kernel::System::LinkObject;
 use Kernel::System::Valid;
 use Kernel::System::HTML2Ascii;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.399 $) [1];
+$VERSION = qw($Revision: 1.400 $) [1];
 
 =head1 NAME
 
@@ -164,6 +165,7 @@ sub new {
     $Self->{ValidObject}          = Kernel::System::Valid->new( %{$Self} );
     $Self->{LinkObject}           = Kernel::System::LinkObject->new( %{$Self} );
     $Self->{HTML2AsciiObject}     = Kernel::System::HTML2Ascii->new( %{$Self} );
+    $Self->{TemplateGeneratorObject}   = Kernel::System::TemplateGenerator->new( %{$Self}, TicketObject => $Self );
 
     # load ticket number generator
     my $GeneratorModule = $Self->{ConfigObject}->Get('Ticket::NumberGenerator')
@@ -1545,20 +1547,19 @@ sub MoveTicket {
                     Cached => 1,
                     Valid  => 1,
                 );
-                if ( $UserData{UserSendMoveNotification} ) {
+                next if !$UserData{UserSendMoveNotification};
 
-                    # send agent notification
-                    $Self->SendAgentNotification(
-                        Type                  => 'Move',
-                        UserData              => \%UserData,
-                        CustomerMessageParams => {
-                            Queue => $Queue,
-                            Body => $Param{Comment} || '',
-                        },
-                        TicketID => $Param{TicketID},
-                        UserID   => $Param{UserID},
-                    );
-                }
+                # send agent notification
+                $Self->SendAgentNotification(
+                    Type                  => 'Move',
+                    RecipientID           => $UserID,
+                    CustomerMessageParams => {
+                        Queue => $Queue,
+                        Body => $Param{Comment} || '',
+                    },
+                    TicketID => $Param{TicketID},
+                    UserID   => $Param{UserID},
+                );
             }
         }
     }
@@ -4991,17 +4992,16 @@ sub LockSet {
                 UserID => $Ticket{OwnerID},
                 Valid  => 1,
             );
-            if ( $Preferences{UserSendLockTimeoutNotification} ) {
+            next if !$Preferences{UserSendLockTimeoutNotification};
 
-                # send
-                $Self->SendAgentNotification(
-                    Type                  => 'LockTimeout',
-                    UserData              => \%Preferences,
-                    CustomerMessageParams => {},
-                    TicketID              => $Param{TicketID},
-                    UserID                => $Param{UserID},
-                );
-            }
+            # send
+            $Self->SendAgentNotification(
+                Type                  => 'LockTimeout',
+                RecipientID           => $Ticket{OwnerID},
+                CustomerMessageParams => {},
+                TicketID              => $Param{TicketID},
+                UserID                => $Param{UserID},
+            );
         }
     }
 
@@ -5367,13 +5367,10 @@ sub OwnerSet {
                 $Param{Comment} = '';
             }
 
-            # get user data
-            my %Preferences = $Self->{UserObject}->GetUserData( UserID => $Param{NewUserID} );
-
             # send agent notification
             $Self->SendAgentNotification(
                 Type                  => 'OwnerUpdate',
-                UserData              => \%Preferences,
+                RecipientID           => $Param{NewUserID},
                 CustomerMessageParams => \%Param,
                 TicketID              => $Param{TicketID},
                 UserID                => $Param{UserID},
@@ -5538,13 +5535,10 @@ sub ResponsibleSet {
                 $Param{Comment} = '';
             }
 
-            # get user data
-            my %Preferences = $Self->{UserObject}->GetUserData( UserID => $Param{NewUserID} );
-
             # send agent notification
             $Self->SendAgentNotification(
                 Type                  => 'ResponsibleUpdate',
-                UserData              => \%Preferences,
+                RecipientID           => $Param{NewUserID},
                 CustomerMessageParams => \%Param,
                 TicketID              => $Param{TicketID},
                 UserID                => $Param{UserID},
@@ -7373,6 +7367,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.399 $ $Date: 2009-06-23 00:19:02 $
+$Revision: 1.400 $ $Date: 2009-06-25 01:00:16 $
 
 =cut
