@@ -2,7 +2,7 @@
 # AgentDashboardTicketStats.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardTicketStats.dtl,v 1.2 2009-06-05 22:12:42 martin Exp $
+# $Id: AgentDashboardTicketStats.dtl,v 1.3 2009-06-26 00:59:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,8 +16,17 @@
 <script type="text/javascript" src="$Config{"Frontend::YUIPath"}/build/datasource/datasource-min.js"></script>
 <script type="text/javascript" src="$Config{"Frontend::YUIPath"}/build/charts/charts-min.js"></script>
 
+<style type="text/css">
+    #chart$QData{"Key"}
+    {
+        width: 320px;
+        height: 200px;
+    }
+</style>
 
-<div id="$QData{"Key"}"><p>Unable to load Flash content. The Charts Control requires Flash Player 9.0.45 or higher. You can download the latest version of Flash Player from the <a href="http://www.adobe.com/go/getflashplayer">Adobe Flash Player Download Center</a>.</p></div>
+<center>
+<div id="chart$QData{"Key"}"><p>Unable to load Flash content. The Charts Control requires Flash Player 9.0.45 or higher. You can download the latest version of Flash Player from the <a href="http://www.adobe.com/go/getflashplayer">Adobe Flash Player Download Center</a>.</p></div>
+</center>
 
 <script type="text/javascript">
 
@@ -64,7 +73,7 @@
     currencyAxis.minimum = $LQData{"Max"};
     currencyAxis.labelFunction = YAHOO.example.formatCurrencyAxisLabel;
 
-    var mychart = new YAHOO.widget.LineChart( "$QData{"Key"}", myDataSource,
+    var mychart = new YAHOO.widget.LineChart( "chart$QData{"Key"}", myDataSource,
     {
         series: seriesDef,
         xField: "Day",
