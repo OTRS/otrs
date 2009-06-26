@@ -2,7 +2,7 @@
 # Kernel/System/Stats.pm - all stats core functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Stats.pm,v 1.77 2009-06-22 16:29:37 sb Exp $
+# $Id: Stats.pm,v 1.78 2009-06-26 14:39:40 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Date::Pcalc qw(:all);
 use Kernel::System::XML;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.77 $) [1];
+$VERSION = qw($Revision: 1.78 $) [1];
 
 =head1 SYNOPSIS
 
@@ -663,7 +663,7 @@ sub SumBuild {
         for my $Index1 ( 2 .. $#Data ) {
             my $Sum = 0;
             for my $Index2 ( 1 .. $#{ $Data[$Index1] } ) {
-                if ( $Data[$Index1][$Index2] =~ m{^\d{1,7}(\.\d{1,2})?$}x ) {
+                if ( $Data[$Index1][$Index2] =~ m{^-?\d+(\.\d+)?$} ) {
                     $Sum += $Data[$Index1][$Index2];
                 }
             }
@@ -677,7 +677,7 @@ sub SumBuild {
         $SumRow[0] = 'Sum';
         for my $Index1 ( 2 .. $#Data ) {
             for my $Index2 ( 1 .. $#{ $Data[$Index1] } ) {
-                if ( $Data[$Index1][$Index2] =~ m{^\d{1,7}(\.\d{1,2})?$}x ) {
+                if ( $Data[$Index1][$Index2] =~ m{^-?\d+(\.\d+)?$} ) {
                     $SumRow[$Index2] += $Data[$Index1][$Index2];
                 }
             }
@@ -3228,6 +3228,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.77 $ $Date: 2009-06-22 16:29:37 $
+$Revision: 1.78 $ $Date: 2009-06-26 14:39:40 $
 
 =cut
