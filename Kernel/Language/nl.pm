@@ -6,7 +6,7 @@
 # Copyright (C) 2005-2007 Jurgen Rutgers <jurgen 'at' besite.nl>
 # Copyright (C) 2005-2007 Richard Hinkamp <richard 'at' besite.nl>
 # --
-# $Id: nl.pm,v 1.94 2009-06-25 18:18:15 ub Exp $
+# $Id: nl.pm,v 1.95 2009-06-27 12:12:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,13 +29,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.94 $) [1];
+$VERSION = qw($Revision: 1.95 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Tue Jun 23 02:22:41 2009
+    # Last translation file sync: Sat Jun 27 13:55:29 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -221,6 +221,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Afgemeld! Wij danken u voor het gebruiken van OTRS!',
         'Invalid SessionID!' => 'Ongeldige SessieID',
         'Feature not active!' => 'Deze functie is niet actief!',
+        'Notification (Event)' => 'Melding (Event)',
         'Login is needed!' => '',
         'Password is needed!' => 'Een wachtwoord is vereist.',
         'License' => 'Licentie',
@@ -726,6 +727,7 @@ sub Data {
 
         # Template: AdminEmail
         'Message sent to' => 'Bericht verstuurd naar',
+        'A message should have a subject!' => 'Een bericht moet een onderwerp hebben!',
         'Recipents' => 'Ontvangers',
         'Body' => 'Bericht tekst',
         'Send' => 'Verstuur',
@@ -837,7 +839,6 @@ sub Data {
         'Add a new Notification.' => '',
         'Name is required!' => 'Naam is verplicht!',
         'Event is required!' => '',
-        'A message should have a subject!' => 'Een bericht moet een onderwerp hebben!',
         'A message should have a body!' => 'Een bericht moet een berichttekst hebben!',
         'Recipient' => '',
         'Group based' => '',
@@ -1133,8 +1134,6 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
-        'more' => '',
-        'Collapse' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
@@ -1583,8 +1582,8 @@ sub Data {
         'U' => 'U',
         'Customer history search (e. g. "ID342425").' => 'Klantgeschiedenis zoeken (bijv. "ID342425").',
         'Can not delete link with %s!' => '',
-        'for agent firstname' => 'voornaam van agent',
         'Close!' => 'Sluit!',
+        'for agent firstname' => 'voornaam van agent',
         'No means, send agent and customer notifications on changes.' => 'Nee betekent dat er wel notificaties worden gestuurd naar eigenaren en klanten bij wijzigingen.',
         'A web calendar' => 'Kalender',
         'to get the realname of the sender (if given)' => 'voor de echte naam van de afzender (indien beschikbaar)',
@@ -1643,11 +1642,11 @@ sub Data {
         'Parent-Object' => 'Hoofd item',
         'If your account is trusted, the already existing x-otrs header at arrival time (for priority, ...) will be used! PostMaster filter will be used anyway.' => 'Wanneer het account vertrouwd is, zullen de x-otrs headers gebruikt worden! PostMaster filters zullen ook nog steeds gebruikt worden.',
         'Of couse this feature will take some system performance it self!' => '',
-        'Your own Ticket' => 'Je eigen Ticket',
         'Detail' => 'Detail',
+        'Your own Ticket' => 'Je eigen Ticket',
         'TicketZoom' => 'Inhoud ticket',
-        'Open Tickets' => 'Openstaande tickets',
         'Don\'t forget to add a new user to groups!' => 'Vergeet niet om groepen aan deze gebruiker toe te kennen!',
+        'Open Tickets' => 'Openstaande tickets',
         'CreateTicket' => 'Ticket aanmaken',
         'You have to select two or more attributes from the select field!' => '',
         'WebWatcher' => '',

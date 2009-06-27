@@ -7,7 +7,7 @@
 # Copyright (C) 2007 Massimiliano Franco <max-lists at ycom.ch>
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # --
-# $Id: fr.pm,v 1.111 2009-06-25 18:18:14 ub Exp $
+# $Id: fr.pm,v 1.112 2009-06-27 12:12:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,13 +20,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.111 $) [1];
+$VERSION = qw($Revision: 1.112 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Tue Jun 23 02:22:27 2009
+    # Last translation file sync: Sat Jun 27 13:55:16 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -212,6 +212,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Déconnexion réussie. Merci d\'avoir utilisé OTRS!',
         'Invalid SessionID!' => 'ID de Session Invalide !',
         'Feature not active!' => 'Cette fonctionnalité n\'est pas activée !',
+        'Notification (Event)' => '',
         'Login is needed!' => 'Authentification requise !',
         'Password is needed!' => 'Le mot de passe est requis !',
         'License' => 'Licence',
@@ -717,6 +718,7 @@ sub Data {
 
         # Template: AdminEmail
         'Message sent to' => 'Message envoyé à',
+        'A message should have a subject!' => 'Un message doit avoir un sujet !',
         'Recipents' => 'Récipients',
         'Body' => 'Corps',
         'Send' => 'Envoyer',
@@ -828,7 +830,6 @@ sub Data {
         'Add a new Notification.' => '',
         'Name is required!' => 'Un nom est requis!',
         'Event is required!' => '',
-        'A message should have a subject!' => 'Un message doit avoir un sujet !',
         'A message should have a body!' => 'Un message doit avoir un corps !',
         'Recipient' => '',
         'Group based' => '',
@@ -1124,8 +1125,6 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
-        'more' => '',
-        'Collapse' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
@@ -1574,15 +1573,15 @@ sub Data {
         'Change roles <-> groups settings' => 'Changer les rôles <-> paramètres des groupes',
         'Ticket Number Generator' => 'Générateur de numéro pour les tickets',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identifiant des tickets. Certaines personnes veulent le configurer avec par ex: \'Ticket#\', \'Appel#\' ou \'MonTicket#\')',
-        'Create new Phone Ticket' => 'Saisie d\'une demande téléphonique',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Dans ce cas vous pouvez directement éditer le trousseau de clé dans Kernel/Config.pm',
+        'Create new Phone Ticket' => 'Saisie d\'une demande téléphonique',
         'Symptom' => 'Symptôme',
         'U' => 'A-Z',
         'Site' => 'Site',
         'Customer history search (e. g. "ID342425").' => 'Recherche dans l\'historique client (ex: "ID342425")',
         'Can not delete link with %s!' => 'Impossible d\'effacer le lien avec %s !',
-        'for agent firstname' => 'pour le prénom du technicien',
         'Close!' => 'Clôture!',
+        'for agent firstname' => 'pour le prénom du technicien',
         'No means, send agent and customer notifications on changes.' => 'Non signifie : Envoyer un mail au technicien et au client sur changement.',
         'A web calendar' => 'Un calendrier Web',
         'to get the realname of the sender (if given)' => 'pour avoir le nom réel de l\'utilisateur (s\il est donné)',
@@ -1637,8 +1636,8 @@ sub Data {
         'to get the first 20 character of the subject' => 'pour avoir les 20 premiers caractères du sujet ',
         'Select the customeruser:service relations.' => '',
         'DB Admin Password' => 'Mot de passe administrateur base de données',
-        'Advisory' => 'Avertissement',
         'Drop Database' => 'Effacer la base de données',
+        'Advisory' => 'Avertissement',
         'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
         'FileManager' => 'Gestionnaire de fichiers',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Options concernant les données du client actuel (ex: <OTRS_CUSTOMER_DATA_UserFirstname>)',
@@ -1660,11 +1659,11 @@ sub Data {
         'Change users <-> roles settings' => 'Changement d\'utilisateur <-> parramèttres des rôles',
         'Parent-Object' => 'Objet Parent',
         'Of couse this feature will take some system performance it self!' => 'Bien évidemment, cette fonction consomme des ressources système',
-        'Your own Ticket' => 'Votre propre ticket',
         'Detail' => 'Détail',
+        'Your own Ticket' => 'Votre propre ticket',
         'TicketZoom' => 'Vue en détails',
-        'Open Tickets' => 'Tickets ouverts',
         'Don\'t forget to add a new user to groups!' => 'Ne pas oublier d\'ajouter un nouvel utilisateur aux groupes !',
+        'Open Tickets' => 'Tickets ouverts',
         'CreateTicket' => 'Créer Ticket',
         'You have to select two or more attributes from the select field!' => 'Vous avez sélectionné deux attributs ou plus !',
         'System Settings' => 'Paramètres Système',
@@ -1673,15 +1672,15 @@ sub Data {
         'Finished' => 'Fini',
         'Account Type' => 'Type de compte',
         'D' => 'Z-A',
-        'System Status' => 'État du système',
         'All messages' => 'Tous les messages',
+        'System Status' => 'État du système',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Options des données du ticket (ex: <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => 'Objet déjà lié en tant que %s',
         'A article should have a title!' => 'Un article doit avoir un titre',
-        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Options de configuration (ex: &lt;OTRS_CONFIG_HttpType&gt;)',
         'FAQ Overview' => 'Vue d\'ensemble de la FAQ',
-        'don\'t accept license' => 'Ne pas accepter la licence',
+        'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Options de configuration (ex: &lt;OTRS_CONFIG_HttpType&gt;)',
         'All email addresses get excluded on replaying on composing and email.' => '',
+        'don\'t accept license' => 'Ne pas accepter la licence',
         'A web mail client' => 'Un logiciel de messagerie via le web',
         'Compose Follow up' => 'Fermer le suivi',
         'FAQ-State' => 'État FAQ',

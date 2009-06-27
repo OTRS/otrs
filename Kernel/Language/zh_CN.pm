@@ -3,7 +3,7 @@
 # Copyright (C) 2008 Never Min <never at qnofae.org>
 # Copyright (C) 2005 zuowei <j2ee at hirain-sh.com>
 # --
-# $Id: zh_CN.pm,v 1.62 2009-06-25 18:26:18 ub Exp $
+# $Id: zh_CN.pm,v 1.63 2009-06-27 12:12:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Tue Jun 23 02:23:07 2009
+    # Last translation file sync: Sat Jun 27 13:56:58 2009
 
     # possible charsets
     $Self->{Charset} = ['GBK', 'GB2312', ];
@@ -208,6 +208,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => '成功注销，谢谢使用!',
         'Invalid SessionID!' => '无效的会话标识符!',
         'Feature not active!' => '该特性尚未激活!',
+        'Notification (Event)' => '',
         'Login is needed!' => '需要先登录!',
         'Password is needed!' => '需要密码!',
         'License' => '许可证',
@@ -713,6 +714,7 @@ sub Data {
 
         # Template: AdminEmail
         'Message sent to' => '消息发送给',
+        'A message should have a subject!' => '邮件必须有标题!',
         'Recipents' => '收件人',
         'Body' => '内容',
         'Send' => '发送',
@@ -824,7 +826,6 @@ sub Data {
         'Add a new Notification.' => '',
         'Name is required!' => '需要名称!',
         'Event is required!' => '',
-        'A message should have a subject!' => '邮件必须有标题!',
         'A message should have a body!' => '邮件必须包含内容!',
         'Recipient' => '',
         'Group based' => '',
@@ -1120,8 +1121,6 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
-        'more' => '',
-        'Collapse' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
@@ -1574,8 +1573,8 @@ sub Data {
         'Site' => '站点',
         'Customer history search (e. g. "ID342425").' => '搜索客户历史 (例如： "ID342425").',
         'Can not delete link with %s!' => '不能删除 %s 的连接',
-        'for agent firstname' => '技术支持人员 姓',
         'Close!' => '关闭!',
+        'for agent firstname' => '技术支持人员 姓',
         'No means, send agent and customer notifications on changes.' => '需要, 当有改变时发送通知给技术人员或客户.',
         'A web calendar' => 'Web 日历',
         'to get the realname of the sender (if given)' => '邮件发送人的真实姓名 (如果存在)',
@@ -1643,11 +1642,11 @@ sub Data {
         'Reminder messages' => '消息提醒',
         'Parent-Object' => '父对象',
         'Of couse this feature will take some system performance it self!' => '当然, 该功能会占用一定的系统资源, 加重系统的负担!',
-        'Your own Ticket' => '您自己的 Ticket',
         'Detail' => '细节',
+        'Your own Ticket' => '您自己的 Ticket',
         'TicketZoom' => 'Ticket 展开',
-        'Open Tickets' => '开放 Tickets',
         'Don\'t forget to add a new user to groups!' => '不要忘记增加新的用户到组!',
+        'Open Tickets' => '开放 Tickets',
         'General Catalog' => '总目录',
         'CreateTicket' => '创建 Ticket',
         'You have to select two or more attributes from the select field!' => '',

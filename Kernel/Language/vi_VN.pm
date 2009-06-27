@@ -2,7 +2,7 @@
 # Kernel/Language/vi_VN.pm - provides vi_VN language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: vi_VN.pm,v 1.26 2009-06-25 18:18:15 ub Exp $
+# $Id: vi_VN.pm,v 1.27 2009-06-27 12:12:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Tue Jun 23 02:23:03 2009
+    # Last translation file sync: Sat Jun 27 13:56:50 2009
 
     # possible charsets
     $Self->{Charset} = ['viscii', ];
@@ -206,6 +206,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Ðång xu¤t thành công! Cäm ½n bÕn ðã sØ døng OTRS!',
         'Invalid SessionID!' => 'Mã phiên không hþp l®!',
         'Feature not active!' => 'Tính nång không hoÕt ðµng!',
+        'Notification (Event)' => '',
         'Login is needed!' => 'C¥n ðång nh§p!',
         'Password is needed!' => 'C¥n m§t kh¦u!',
         'License' => 'Gi¤y phép',
@@ -711,6 +712,7 @@ sub Data {
 
         # Template: AdminEmail
         'Message sent to' => 'Tin nh¡n ðßþc gØi t¾i',
+        'A message should have a subject!' => 'Thß nên có tiêu ð«!',
         'Recipents' => 'Ngß¶i nh§n',
         'Body' => 'Nµi dung',
         'Send' => 'GØi',
@@ -822,7 +824,6 @@ sub Data {
         'Add a new Notification.' => '',
         'Name is required!' => 'Tên ðßþc yêu c¥u!',
         'Event is required!' => '',
-        'A message should have a subject!' => 'Thß nên có tiêu ð«!',
         'A message should have a body!' => 'Tin nh¡n nên có nµi dung!',
         'Recipient' => '',
         'Group based' => '',
@@ -1118,8 +1119,6 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
-        'more' => '',
-        'Collapse' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
@@ -1567,15 +1566,15 @@ sub Data {
         'File-Name' => 'Tên file',
         'Ticket Number Generator' => 'H® sinh s¯ thë',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Nh§n dÕng thë. Mµt s¯ ngß¶i mu¯n thiªt ð£t ði«u này thành ví dø nhß \'Ticket#\', \'Call#\' ho£c \'MyTicket#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Theo cách này bÕn có th¬ sØa trñc tiªp c¤u hình khóa trong Kernel/Config.pm',
         'Create new Phone Ticket' => 'TÕo thë cuµc g÷i m¾i',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Theo cách này bÕn có th¬ sØa trñc tiªp c¤u hình khóa trong Kernel/Config.pm',
         'U' => 'U',
         'Site' => 'Site',
         'Customer history search (e. g. "ID342425").' => 'Tìm kiªm l¸ch sØ khách hàng (ví dø: "ID342425").',
         'your MySQL DB should have a root password! Default is empty!' => 'C½ s· dæ li®u MySQL cüa bÕn nên có m§t kh¦u g¯c! M£c ð¸nh là ð¬ tr¯ng!',
         'Can not delete link with %s!' => '',
-        'Close!' => 'Ðóng!',
         'for agent firstname' => 'cho h÷ (tên) cüa nhân viên',
+        'Close!' => 'Ðóng!',
         'Reporter' => 'Ngß¶i báo cáo',
         'Process-Path' => 'Ðß¶ng dçn quy trình',
         'No means, send agent and customer notifications on changes.' => 'Không, nghîa là, gØi thông báo cho nhân viên và khách hàng v« các thay ð±i.',
@@ -1653,11 +1652,11 @@ sub Data {
         'Reminder messages' => 'Tin nh¡n nh¡c nh·',
         'Parent-Object' => 'Ð¯i tßþng cha',
         'Of couse this feature will take some system performance it self!' => 'T¤t nhiên tính nång này s¨ tñ thñc thi h® th¯ng.',
-        'Your own Ticket' => 'Thë cüa bÕn',
         'Detail' => 'Chi tiªt',
+        'Your own Ticket' => 'Thë cüa bÕn',
         'TicketZoom' => 'Phóng ðÕi thë',
-        'Open Tickets' => 'M· thë',
         'Don\'t forget to add a new user to groups!' => 'Ð×ng quên b± sung mµt ngß¶i dùng m¾i vào nhóm!',
+        'Open Tickets' => 'M· thë',
         'CreateTicket' => 'TÕo thë',
         'You have to select two or more attributes from the select field!' => 'BÕn phäi ch÷n 2 hay nhi«u thuµc tính t× trß¶ng ðã ch÷n!',
         'unknown' => 'chßa xác ð¸nh',
@@ -1666,8 +1665,8 @@ sub Data {
         'Imported' => 'Nh§p',
         'unread' => 'chßa ð÷c',
         'D' => 'D',
-        'System Status' => 'TrÕng thái h® th¯ng',
         'All messages' => 'T¤t cä tin nh¡n',
+        'System Status' => 'TrÕng thái h® th¯ng',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Các tùy ch÷n cüa dæ li®u thë (ví dø: <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => '',
         'A article should have a title!' => 'Bài viªt nên có tiêu ð«!',

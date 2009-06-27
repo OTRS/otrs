@@ -2,7 +2,7 @@
 # Kernel/Language/pl.pm - provides pl language translation
 # Copyright (C) 2007 Tomasz Melissa <janek at rumianek.com>
 # --
-# $Id: pl.pm,v 1.78 2009-06-25 18:18:15 ub Exp $
+# $Id: pl.pm,v 1.79 2009-06-27 12:12:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.78 $) [1];
+$VERSION = qw($Revision: 1.79 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Tue Jun 23 02:22:43 2009
+    # Last translation file sync: Sat Jun 27 13:55:30 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', ];
@@ -207,6 +207,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Wylogowanie zakoñczone! Dziêkujemy za u¿ywanie OTRS!',
         'Invalid SessionID!' => 'Niepoprawne ID Sesji!',
         'Feature not active!' => 'Funkcja nie aktywna!',
+        'Notification (Event)' => '',
         'Login is needed!' => '',
         'Password is needed!' => '',
         'License' => 'Licencja',
@@ -712,6 +713,7 @@ sub Data {
 
         # Template: AdminEmail
         'Message sent to' => 'Wiadomo¶æ wys³ana do',
+        'A message should have a subject!' => 'Wiadomosc powinna posiadaæ temat!',
         'Recipents' => 'Adresaci',
         'Body' => 'Tre¶æ',
         'Send' => '',
@@ -823,7 +825,6 @@ sub Data {
         'Add a new Notification.' => '',
         'Name is required!' => '',
         'Event is required!' => '',
-        'A message should have a subject!' => 'Wiadomosc powinna posiadaæ temat!',
         'A message should have a body!' => 'Wiadomo¶æ powinna zawieraæ jak±¶ tre¶æ!',
         'Recipient' => '',
         'Group based' => '',
@@ -1119,8 +1120,6 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
-        'more' => '',
-        'Collapse' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
@@ -1568,15 +1567,15 @@ sub Data {
         'DB Host' => 'Host bazy danych',
         'Ticket Number Generator' => 'Generator numerów zg³oszeñ',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identyfikator zg³oszenia. np. \'Ticket#\', \'Call#\' lub \'MyTicket#\')',
-        'Create new Phone Ticket' => '',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
+        'Create new Phone Ticket' => '',
         'Symptom' => 'Objawy',
         'U' => 'G',
         'Site' => 'Witryna',
         'Customer history search (e. g. "ID342425").' => 'Przeszukiwanie historii klienta (np. "ID342425").',
         'Can not delete link with %s!' => '',
-        'for agent firstname' => 'dla imienia agenta',
         'Close!' => 'Zamknij!',
+        'for agent firstname' => 'dla imienia agenta',
         'No means, send agent and customer notifications on changes.' => '',
         'A web calendar' => '',
         'to get the realname of the sender (if given)' => 'by wstawiæ prawdziwe imiê i nazwisko klienta (je¶li podano)',
@@ -1641,11 +1640,11 @@ sub Data {
         'Parent-Object' => '',
         'Of couse this feature will take some system performance it self!' => '',
         'Ticket Hook' => 'Identyfikator zg³oszenia',
-        'Your own Ticket' => 'Twoje w³asne zg³oszenie',
         'Detail' => '',
+        'Your own Ticket' => 'Twoje w³asne zg³oszenie',
         'TicketZoom' => 'Podgl±d zg³oszenia',
-        'Open Tickets' => '',
         'Don\'t forget to add a new user to groups!' => 'Nie zapomnij dodaæ u¿ytkownika do grup!',
+        'Open Tickets' => '',
         'You have to select two or more attributes from the select field!' => '',
         'System Settings' => 'Ustawienia systemu',
         'WebWatcher' => '',
@@ -1656,8 +1655,8 @@ sub Data {
         'Object already linked as %s.' => '',
         'A article should have a title!' => '',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
-        'don\'t accept license' => 'nie akceptujê Licencji',
         'All email addresses get excluded on replaying on composing and email.' => '',
+        'don\'t accept license' => 'nie akceptujê Licencji',
         'A web mail client' => '',
         'Compose Follow up' => 'Napisz Odpowied¼ (Follow Up)',
         'WebMail' => '',

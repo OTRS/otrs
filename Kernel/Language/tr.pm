@@ -2,7 +2,7 @@
 # Kernel/Language/tr.pm - provides tr language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: tr.pm,v 1.25 2009-06-25 18:18:15 ub Exp $
+# $Id: tr.pm,v 1.26 2009-06-27 12:12:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $)[1];
+$VERSION = qw($Revision: 1.26 $)[1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Tue Jun 23 02:22:59 2009
+    # Last translation file sync: Sat Jun 27 13:55:45 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-9', ];
@@ -206,6 +206,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Oturum kapatma baþarýlý! OTRS\'yi kullandýðýnýz için teþekkür ederiz!',
         'Invalid SessionID!' => 'Geçersiz oturum kimliði!',
         'Feature not active!' => 'Özellik etkin deðil!',
+        'Notification (Event)' => '',
         'Login is needed!' => 'Oturum açmanýz gerekli!',
         'Password is needed!' => 'Parola gerekli!',
         'License' => 'Lisans',
@@ -711,6 +712,7 @@ sub Data {
 
         # Template: AdminEmail
         'Message sent to' => 'Mesaj gönderildi',
+        'A message should have a subject!' => 'Bir mesajýn bir konusu olmalýdýr!',
         'Recipents' => 'Alýcýlar',
         'Body' => 'Gövde',
         'Send' => 'Gönder',
@@ -822,7 +824,6 @@ sub Data {
         'Add a new Notification.' => '',
         'Name is required!' => 'Ad gerekli!',
         'Event is required!' => '',
-        'A message should have a subject!' => 'Bir mesajýn bir konusu olmalýdýr!',
         'A message should have a body!' => 'Mesajýn bir gövdesi olmalýdýr!',
         'Recipient' => '',
         'Group based' => '',
@@ -1118,8 +1119,6 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
-        'more' => '',
-        'Collapse' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
@@ -1567,15 +1566,15 @@ sub Data {
         'File-Name' => 'Dosya adý',
         'Ticket Number Generator' => 'Bilet Numarasý Üreteci',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Bilet tanýmlayýcýsý. \'Bilet#\', \'Arama#\' oder \'Biletim#\' gibi olabilir)',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Bu þekilde Kernel/Config.pm dosyasýnda yapýlandýrýlmýþ olan anahtar halkasýný (keyring) deðiþtirebilirsiniz',
         'Create new Phone Ticket' => 'Yeni Telefon Bileti oluþtur',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Bu þekilde Kernel/Config.pm dosyasýnda yapýlandýrýlmýþ olan anahtar halkasýný (keyring) deðiþtirebilirsiniz',
         'U' => 'U',
         'Site' => 'Site',
         'Customer history search (e. g. "ID342425").' => 'Müþteri tarihçe aramasý (örn. "ID342425").',
         'your MySQL DB should have a root password! Default is empty!' => 'MySQL veritabanýnýzýn root kullanýcýsýnýn bir parolasý olmalýdýr. Öntanýmlý olarak boþtur!',
         'Can not delete link with %s!' => '',
-        'Close!' => 'Kapat!',
         'for agent firstname' => 'aracý adý için',
+        'Close!' => 'Kapat!',
         'Reporter' => 'Bildiren',
         'Process-Path' => 'Ýþlem Yolu',
         'No means, send agent and customer notifications on changes.' => 'Hayýr, deðiþikliklerde aracýlara ve müþterilere bildirim gönder demektir.',
@@ -1652,11 +1651,11 @@ sub Data {
         'Reminder messages' => 'Hatýrlatýcý mesajlar',
         'Parent-Object' => 'Ebeveyn Nesne',
         'Of couse this feature will take some system performance it self!' => 'Elbette bu özellik sistem performansýndan biraz alýr.',
-        'Your own Ticket' => 'Kendi Biletiniz',
         'Detail' => 'Detay',
+        'Your own Ticket' => 'Kendi Biletiniz',
         'TicketZoom' => 'Bilet Detaylarý',
-        'Open Tickets' => 'Açýk Biletler',
         'Don\'t forget to add a new user to groups!' => 'Yeni kullanýcýyý gruplara atamayý unutmayýn!',
+        'Open Tickets' => 'Açýk Biletler',
         'CreateTicket' => 'Bilet Oluþtur',
         'You have to select two or more attributes from the select field!' => 'Seçim alanýndan iki veya daha fazla nitelik seçmelisiniz!',
         'unknown' => 'bilinmiyor',
@@ -1665,8 +1664,8 @@ sub Data {
         'Imported' => 'Ýçeri aktarýldý',
         'unread' => 'okunmadý',
         'D' => 'D',
-        'System Status' => 'Sistem Durumu',
         'All messages' => 'Tüm mesajlar',
+        'System Status' => 'Sistem Durumu',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Bilet verisi seçenekleri (örn. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => '',
         'A article should have a title!' => 'Metnin bir baþlýðý olmalýdýr!',

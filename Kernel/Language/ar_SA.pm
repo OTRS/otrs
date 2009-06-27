@@ -2,7 +2,7 @@
 # Kernel/Language/ar_SA.pm - provides ar_SA language translation
 # Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
 # --
-# $Id: ar_SA.pm,v 1.35 2009-06-25 18:18:14 ub Exp $
+# $Id: ar_SA.pm,v 1.36 2009-06-27 12:12:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.35 $) [1];
+$VERSION = qw($Revision: 1.36 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Tue Jun 23 02:22:03 2009
+    # Last translation file sync: Sat Jun 27 13:54:47 2009
 
     # possible charsets
     $Self->{Charset} = ['cp1256', ];
@@ -209,6 +209,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => ' „ «·Œ—ÊÃ „‰ «·‰Ÿ«„ »‰Ã«Õ. ‘ﬂ—« ·≈” Œœ«„ﬂ OTRS!',
         'Invalid SessionID!' => '',
         'Feature not active!' => '«·Œ«’Ì… €Ì— „›⁄·…!',
+        'Notification (Event)' => '«· ‰»ÌÂ«  (Event)',
         'Login is needed!' => '',
         'Password is needed!' => 'ﬂ·„… «·„—Ê— „ÿ·Ê»…!',
         'License' => '«·—Œ’…',
@@ -714,6 +715,7 @@ sub Data {
 
         # Template: AdminEmail
         'Message sent to' => '«·—”«·… √—”·  ≈·Ï',
+        'A message should have a subject!' => '«·—”«·… ÌÃ» √‰ ÌﬂÊ‰ ·Â« „Ê÷Ê⁄!',
         'Recipents' => '«·„” ﬁ»·Ì‰',
         'Body' => '‰’ «·—”«·…',
         'Send' => '',
@@ -825,7 +827,6 @@ sub Data {
         'Add a new Notification.' => '',
         'Name is required!' => '«·≈”„ „ﬁ—Ê¡',
         'Event is required!' => '',
-        'A message should have a subject!' => '«·—”«·… ÌÃ» √‰ ÌﬂÊ‰ ·Â« „Ê÷Ê⁄!',
         'A message should have a body!' => '«·—”«·… ÌÃ» √‰ ÌﬂÊ‰ ·Â« ‰’',
         'Recipient' => '',
         'Group based' => '',
@@ -1121,8 +1122,6 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
-        'more' => '',
-        'Collapse' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
@@ -1572,15 +1571,15 @@ sub Data {
         'File-Name' => '',
         'Ticket Number Generator' => '',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '',
-        'Create new Phone Ticket' => '√‰‘Ì¡ »ÿ«ﬁ… Â« › ÃœÌœ…',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
+        'Create new Phone Ticket' => '√‰‘Ì¡ »ÿ«ﬁ… Â« › ÃœÌœ…',
         'Symptom' => '',
         'U' => '√⁄·Ï',
         'Site' => '',
         'Customer history search (e. g. "ID342425").' => '',
         'Can not delete link with %s!' => '',
-        'for agent firstname' => '',
         'Close!' => '≈ﬁ›«·!',
+        'for agent firstname' => '',
         'Reporter' => '',
         'Process-Path' => '',
         'No means, send agent and customer notifications on changes.' => '',
@@ -1613,10 +1612,10 @@ sub Data {
         'Classification' => '',
         'Change user <-> group settings' => '',
         'Incident detected' => '',
-        'Incident reported' => '',
         'Problem' => '',
-        'Escalation' => '',
+        'Incident reported' => '',
         'Officer' => '',
+        'Escalation' => '',
         '"}' => '',
         'Order' => '— »',
         'next step' => '«·ŒÿÊ… «· «·Ì…',
@@ -1672,11 +1671,11 @@ sub Data {
         'Parent-Object' => '«·ﬂ«∆‰-«·√”«”Ì',
         'Of couse this feature will take some system performance it self!' => '',
         'IMAPS' => '',
-        'Your own Ticket' => '»ÿ«ﬁ ﬂ «·Œ«’… »ﬂ',
         'Detail' => '«· ›«’Ì·',
+        'Your own Ticket' => '»ÿ«ﬁ ﬂ «·Œ«’… »ﬂ',
         'TicketZoom' => ' ﬂ»Ì— «·»ÿ«ﬁ…',
-        'Open Tickets' => '«·»ÿ«ﬁ«  «·„› ÊÕ…',
         'Don\'t forget to add a new user to groups!' => '',
+        'Open Tickets' => '«·»ÿ«ﬁ«  «·„› ÊÕ…',
         'CreateTicket' => '√‰‘Ì¡ »ÿ«ﬁ…',
         'You have to select two or more attributes from the select field!' => 'ÌÃ» ⁄·Ìﬂ  ÕœÌœ ⁄‰’—Ì‰ √Ê √ﬂÀ— „‰ «·ﬁ«∆„… «·„Õœœ…!',
         'unknown' => '€Ì— „⁄—Ê›',
@@ -1686,14 +1685,14 @@ sub Data {
         'Account Type' => '',
         'unread' => '€Ì— „ﬁ—Ê¡',
         'D' => '√ﬁ·',
-        'All messages' => 'Ã„Ì⁄ «·—”«∆·',
         'System Status' => '',
+        'All messages' => 'Ã„Ì⁄ «·—”«∆·',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'ŒÌ«—«  »Ì«‰«  «·»ÿ«ﬁ… („À«·Â <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => '',
         'A article should have a title!' => '«·»ÿ«ﬁ… ÌÃ» √‰ ÌﬂÊ‰ ·Â« ⁄‰Ê«‰!',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
-        'don\'t accept license' => '',
         'All email addresses get excluded on replaying on composing and email.' => '',
+        'don\'t accept license' => '',
         'IMAP' => '',
         'Compose Follow up' => '≈—”«· ≈÷«›… «·„ «»⁄…',
         'Imported by' => ' „ ≈” Ì—«œÂ „‰ Œ·«·',

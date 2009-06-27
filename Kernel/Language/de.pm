@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.196 2009-06-25 18:18:14 ub Exp $
+# $Id: de.pm,v 1.197 2009-06-27 12:12:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.196 $) [1];
+$VERSION = qw($Revision: 1.197 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Tue Jun 23 02:21:40 2009
+    # Last translation file sync: Sat Jun 27 13:55:00 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -206,6 +206,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Abmeldung erfolgreich! Danke für die Benutzung von  OTRS!',
         'Invalid SessionID!' => 'Ungültige SessionID!',
         'Feature not active!' => 'Funktion nicht aktiviert!',
+        'Notification (Event)' => 'Benachrichtigung (Ereignis)',
         'Login is needed!' => 'Login wird benötigt!',
         'Password is needed!' => 'Passwort wird benötigt!',
         'License' => 'Lizenz',
@@ -711,6 +712,7 @@ sub Data {
 
         # Template: AdminEmail
         'Message sent to' => 'Nachricht gesendet an',
+        'A message should have a subject!' => 'Eine Nachricht sollte einen Betreff haben!',
         'Recipents' => 'Empfänger',
         'Body' => 'Text',
         'Send' => 'Senden',
@@ -822,7 +824,6 @@ sub Data {
         'Add a new Notification.' => 'Eine neue Benachrichtigung hinzufügen',
         'Name is required!' => 'Name wird benötigt!',
         'Event is required!' => 'Ereignis ist benötigt!',
-        'A message should have a subject!' => 'Eine Nachricht sollte einen Betreff haben!',
         'A message should have a body!' => 'Eine Nachricht sollte einen Body haben!',
         'Recipient' => 'Empfänger',
         'Group based' => 'Gruppen basierend',
@@ -1565,14 +1566,14 @@ sub Data {
         'File-Name' => 'Datei-Dateiname',
         'Ticket Number Generator' => 'Ticketnummer Generator',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Ticket Kennzeichnen. Z.B. \'Ticket#\', \'Call#\' oder \'MyTicket#\')',
-        'Create new Phone Ticket' => 'Neues Telefon-Ticket erstellen',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Auf diesem Wege können Sie den Keyring in Kernel/Config.pm direkt verändern',
+        'Create new Phone Ticket' => 'Neues Telefon-Ticket erstellen',
         'U' => 'U',
         'Site' => 'Seite',
         'Customer history search (e. g. "ID342425").' => 'Kunden-Historie-Suche (z. B. "ID342425").',
         'Can not delete link with %s!' => 'Link zu %s konnte nicht gelöscht werden!',
-        'for agent firstname' => 'für Vorname des Agents',
         'Close!' => 'Schließen!',
+        'for agent firstname' => 'für Vorname des Agents',
         'Reporter' => 'Melder',
         'Process-Path' => 'Prozess-Path',
         'to get the realname of the sender (if given)' => 'Um den Realnamen des Senders zu erhalten (wenn möglich)',
@@ -1647,11 +1648,11 @@ sub Data {
         'Reminder messages' => 'Nachrichten zur Erinnerung',
         'Parent-Object' => 'Eltern-Objekte',
         'Of couse this feature will take some system performance it self!' => 'Wenn dieses Feature aktiv ist, ist mit Leistungsdefizit zu rechnen.',
-        'Detail' => 'Detail',
         'Your own Ticket' => 'Ihr eigenes Ticket',
+        'Detail' => 'Detail',
         'TicketZoom' => 'Ticket Inhalt',
-        'Open Tickets' => 'Offene Tickets',
         'Don\'t forget to add a new user to groups!' => 'Ein neuer Benutzer muss einer Gruppe zugewiesen werden!',
+        'Open Tickets' => 'Offene Tickets',
         'CreateTicket' => 'Ticket Erstellen',
         'unknown' => 'unbekannt',
         'System Settings' => 'System Einstellungen',
@@ -1659,8 +1660,8 @@ sub Data {
         'Imported' => 'Importiert',
         'unread' => 'ungelesen',
         'D' => 'D',
-        'All messages' => 'Alle Nachrichten',
         'System Status' => 'System Status',
+        'All messages' => 'Alle Nachrichten',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Optionen des Tickets (z. B. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => 'Objekt bereits verlinkt als %s.',
         'A article should have a title!' => 'Ein Artikel sollte einen Titel haben!',

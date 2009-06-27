@@ -3,7 +3,7 @@
 # Copyright (C) 2003 Lukas Vicanek alias networ <lulka at centrum dot cz>
 # Copyright (C) 2004 BENETA.cz, s.r.o. (Marta Macalkova, Vadim Buzek, Petr Ocasek) <info at beneta dot cz>
 # --
-# $Id: cz.pm,v 1.75 2009-06-25 18:18:14 ub Exp $
+# $Id: cz.pm,v 1.76 2009-06-27 12:12:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.75 $) [1];
+$VERSION = qw($Revision: 1.76 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Tue Jun 23 02:22:10 2009
+    # Last translation file sync: Sat Jun 27 13:54:56 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', ];
@@ -208,6 +208,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Odhlá¹ení bylo úspìsné. Dìkujeme Vám za pou¾ívání OTRS!',
         'Invalid SessionID!' => 'Neplatné ID relace!',
         'Feature not active!' => 'Funkce je neaktivní!',
+        'Notification (Event)' => '',
         'Login is needed!' => '',
         'Password is needed!' => '',
         'License' => 'Licence',
@@ -713,6 +714,7 @@ sub Data {
 
         # Template: AdminEmail
         'Message sent to' => 'Zpráva odeslána',
+        'A message should have a subject!' => 'Zpráva by mìla mít pøedmìt!',
         'Recipents' => 'Adresáti',
         'Body' => 'Tìlo',
         'Send' => '',
@@ -824,7 +826,6 @@ sub Data {
         'Add a new Notification.' => '',
         'Name is required!' => '',
         'Event is required!' => '',
-        'A message should have a subject!' => 'Zpráva by mìla mít pøedmìt!',
         'A message should have a body!' => 'Zpráva by mìla mít tìlo!',
         'Recipient' => '',
         'Group based' => '',
@@ -1120,8 +1121,6 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
-        'more' => '',
-        'Collapse' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
@@ -1569,15 +1568,15 @@ sub Data {
         'Change roles <-> groups settings' => '',
         'Ticket Number Generator' => 'Generátor èísel tiketù',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identifikátor tiketù. Nekteøí lidé chtìjí nastavit napø. \'Tiket#\',  \'Hovor#\' nebo \'MujTiket#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Create new Phone Ticket' => '',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => '',
         'Symptom' => 'Pøíznak',
         'U' => 'Z-A',
         'Site' => 'Umístìní',
         'Customer history search (e. g. "ID342425").' => 'Vyhledávání historie klienta (napø. "ID342425")',
         'Can not delete link with %s!' => '',
-        'Close!' => 'Zavøít!',
         'for agent firstname' => 'pro køestní jméno agenta',
+        'Close!' => 'Zavøít!',
         'No means, send agent and customer notifications on changes.' => '',
         'A web calendar' => '',
         'to get the realname of the sender (if given)' => 'pro získaní skuteèného jména odesílatele (pokud je zadáno)',
@@ -1624,8 +1623,8 @@ sub Data {
         'to get the first 20 character of the subject' => 'pro získáni prvních 20 znakù z pøedmìtu',
         'Select the customeruser:service relations.' => '',
         'DB Admin Password' => 'Heslo administrátora databáze',
-        'Drop Database' => 'Odstranit databazi',
         'Advisory' => '',
+        'Drop Database' => 'Odstranit databazi',
         'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
         'FileManager' => '',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => '',
@@ -1648,11 +1647,11 @@ sub Data {
         'Parent-Object' => '',
         'Of couse this feature will take some system performance it self!' => '',
         'Ticket Hook' => 'Oznaèení tiketu',
-        'Detail' => '',
         'Your own Ticket' => 'Vá¹ vlastní tiket',
+        'Detail' => '',
         'TicketZoom' => 'Zobrazení tiketu',
-        'Don\'t forget to add a new user to groups!' => 'Nezapomeòte pøidat nového u¾ivatele do skupin!',
         'Open Tickets' => '',
+        'Don\'t forget to add a new user to groups!' => 'Nezapomeòte pøidat nového u¾ivatele do skupin!',
         'CreateTicket' => 'Vytvoøeno Tiketu',
         'You have to select two or more attributes from the select field!' => '',
         'System Settings' => 'Nastavení systému',
@@ -1660,14 +1659,14 @@ sub Data {
         'Finished' => 'Dokonèeno',
         'Account Type' => '',
         'D' => 'A-Z',
-        'All messages' => 'V¹echny zprávy',
         'System Status' => '',
+        'All messages' => 'V¹echny zprávy',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         'Object already linked as %s.' => '',
         'A article should have a title!' => '',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
-        'All email addresses get excluded on replaying on composing and email.' => '',
         'don\'t accept license' => 'nesouhlasím s licencí',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'A web mail client' => '',
         'Compose Follow up' => 'Sestavit následující',
         'WebMail' => '',

@@ -3,7 +3,7 @@
 # Copyright (C) 2002 Antti K‰m‰r‰inen <antti at seu.net>
 # Copyright (C) 2007-2008 Mikko Hynninen <first.last at tietokartano.fi>
 # --
-# $Id: fi.pm,v 1.91 2009-06-25 18:18:14 ub Exp $
+# $Id: fi.pm,v 1.92 2009-06-27 12:12:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.91 $) [1];
+$VERSION = qw($Revision: 1.92 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Tue Jun 23 02:22:24 2009
+    # Last translation file sync: Sat Jun 27 13:55:12 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -208,6 +208,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Uloskirjautuminen onnistui. Kiitos kun k‰ytit OTRS-j‰rjestelm‰‰',
         'Invalid SessionID!' => 'Virheellinen istuntotunnus',
         'Feature not active!' => 'Ominaisuus ei k‰ytˆss‰!',
+        'Notification (Event)' => 'Huomautus (Event)',
         'Login is needed!' => 'K‰ytt‰j‰tunnus on pakollinen!',
         'Password is needed!' => 'Salasana on pakollinen!',
         'License' => 'Lisenssi',
@@ -713,6 +714,7 @@ sub Data {
 
         # Template: AdminEmail
         'Message sent to' => 'Viesti l‰hetetty, vastaanottaja: ',
+        'A message should have a subject!' => 'Viestiss‰ pit‰‰ olla otsikko!',
         'Recipents' => 'Vastaanottajat',
         'Body' => 'Runko-osa',
         'Send' => 'L‰het‰',
@@ -824,7 +826,6 @@ sub Data {
         'Add a new Notification.' => '',
         'Name is required!' => 'Nimi on vaadittu!',
         'Event is required!' => '',
-        'A message should have a subject!' => 'Viestiss‰ pit‰‰ olla otsikko!',
         'A message should have a body!' => 'Viestiin tulee lis‰t‰ tietoja',
         'Recipient' => '',
         'Group based' => '',
@@ -1120,8 +1121,6 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
-        'more' => '',
-        'Collapse' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
@@ -1568,15 +1567,15 @@ sub Data {
         'Create Database' => 'Luo tietokanta',
         'Ticket Number Generator' => 'Tikettinumeroiden generoija',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Tiketin tunniste. Voit asettaa esim. \'Tiketti#\', \'Puhelu#\' tai \'OmaTiketti#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'T‰ll‰ tavalla voit muokata suoraan Kernel/Config.pm:ss‰ m‰‰ritelty‰ avainrengasta.',
         'Create new Phone Ticket' => 'Luo uusi puhelintiketti',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'T‰ll‰ tavalla voit muokata suoraan Kernel/Config.pm:ss‰ m‰‰ritelty‰ avainrengasta.',
         'Symptom' => 'Oire',
         'U' => 'Y',
         'Site' => 'Palvelin',
         'Customer history search (e. g. "ID342425").' => 'Asiakashistoriahaku (Esim. "ID342425").',
         'Can not delete link with %s!' => 'Linkityksen poisto ep‰onnistui kohteeseen %s!',
-        'Close!' => 'Sulje!',
         'for agent firstname' => 'k‰sittelij‰n etunimi',
+        'Close!' => 'Sulje!',
         'No means, send agent and customer notifications on changes.' => 'Ei tarkoittaa, l‰het‰ agentille ja asiakkaalle ilmoitus muutoksista.',
         'A web calendar' => 'Web-kalenteri',
         'to get the realname of the sender (if given)' => 'n‰hd‰ksesi k‰ytt‰j‰n nimen',
@@ -1636,10 +1635,10 @@ sub Data {
         'Parent-Object' => 'Ylempi',
         'Of couse this feature will take some system performance it self!' => 'T‰m‰ ominaisuus vaatii j‰rjestelm‰n resursseja!',
         'IMAPS' => 'IMAPS',
-        'Detail' => 'Tiedot',
         'Your own Ticket' => 'Oma tiketti',
-        'Don\'t forget to add a new user to groups!' => 'ƒl‰ unohda lis‰t‰ uutta k‰ytt‰j‰‰ ryhmiin!',
+        'Detail' => 'Tiedot',
         'Open Tickets' => 'Avoimet tiketit',
+        'Don\'t forget to add a new user to groups!' => 'ƒl‰ unohda lis‰t‰ uutta k‰ytt‰j‰‰ ryhmiin!',
         'You have to select two or more attributes from the select field!' => 'Sinun tulee valita yksi tai useampi arvo valintakent‰ss‰!',
         'System Settings' => 'J‰rjestelm‰asetukset',
         'WebWatcher' => 'WebSeuranta',
@@ -1650,8 +1649,8 @@ sub Data {
         'Object already linked as %s.' => 'Objekti linkitetty jo kohteeseen %s.',
         'A article should have a title!' => 'Artikkelilla tulee olla otsikko!',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'M‰‰ritysasetukset (esim. <OTRS_CONFIG_HttpType>)',
-        'All email addresses get excluded on replaying on composing and email.' => '',
         'don\'t accept license' => 'En hyv‰ksy lisenssi‰',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'A web mail client' => 'Webpostiohjelma',
         'Compose Follow up' => 'L‰het‰ vastaus',
         'WebMail' => 'WebMail',

@@ -2,7 +2,7 @@
 # Kernel/Language/sv.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats@synergy.se>
 # --
-# $Id: sv.pm,v 1.68 2009-06-25 18:18:15 ub Exp $
+# $Id: sv.pm,v 1.69 2009-06-27 12:12:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,13 +15,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.68 $;
+$VERSION = q$Revision: 1.69 $;
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Tue Jun 23 02:22:57 2009
+    # Last translation file sync: Sat Jun 27 13:55:43 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -207,6 +207,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Utloggningen lyckades.  Tack för att du använde OTRS!',
         'Invalid SessionID!' => 'Ogiltigt SessionID!',
         'Feature not active!' => 'Funktion inte aktiverad!',
+        'Notification (Event)' => '',
         'Login is needed!' => '',
         'Password is needed!' => '',
         'License' => 'Licens',
@@ -712,6 +713,7 @@ sub Data {
 
         # Template: AdminEmail
         'Message sent to' => 'Meddelande skicakt till',
+        'A message should have a subject!' => 'Ett meddelande måste ha en Ämnesrad!',
         'Recipents' => 'Mottagare',
         'Body' => 'Meddelandetext',
         'Send' => '',
@@ -823,7 +825,6 @@ sub Data {
         'Add a new Notification.' => '',
         'Name is required!' => '',
         'Event is required!' => '',
-        'A message should have a subject!' => 'Ett meddelande måste ha en Ämnesrad!',
         'A message should have a body!' => 'Ett meddelande måste innehålla en meddelandetext!',
         'Recipient' => '',
         'Group based' => '',
@@ -1119,8 +1120,6 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => '',
-        'more' => '',
-        'Collapse' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
@@ -1572,8 +1571,8 @@ sub Data {
         'Site' => 'plats',
         'Customer history search (e. g. "ID342425").' => 'Sök efter kundhistorik (t.ex. "ID342425").',
         'Can not delete link with %s!' => '',
-        'Close!' => 'Stäng!',
         'for agent firstname' => 'för agents förnamn',
+        'Close!' => 'Stäng!',
         'Subgroup \'' => '',
         'No means, send agent and customer notifications on changes.' => '',
         'A web calendar' => '',
@@ -1643,11 +1642,11 @@ sub Data {
         'Parent-Object' => '',
         'Of couse this feature will take some system performance it self!' => '',
         'IMAPS' => '',
-        'Your own Ticket' => 'Ditt eget ärende',
         'Detail' => '',
+        'Your own Ticket' => 'Ditt eget ärende',
         'TicketZoom' => 'Ärende Zoom',
-        'Open Tickets' => '',
         'Don\'t forget to add a new user to groups!' => 'Glöm inte att lägga in en ny användare i en grupp!',
+        'Open Tickets' => '',
         'CreateTicket' => 'Skapa Ärende',
         'You have to select two or more attributes from the select field!' => '',
         'System Settings' => 'Systeminställningar',
@@ -1656,14 +1655,14 @@ sub Data {
         'Finished' => 'Klar',
         'Account Type' => '',
         'D' => 'N',
-        'All messages' => 'Alla meddelanden',
         'System Status' => '',
+        'All messages' => 'Alla meddelanden',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         'Object already linked as %s.' => '',
         'A article should have a title!' => '',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => '',
-        'don\'t accept license' => 'godkänn inte licens',
         'All email addresses get excluded on replaying on composing and email.' => '',
+        'don\'t accept license' => 'godkänn inte licens',
         'A web mail client' => '',
         'IMAP' => '',
         'Compose Follow up' => 'Skriv uppföljningssvar',
