@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketStatsGeneric.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketStatsGeneric.pm,v 1.4 2009-06-26 00:59:23 martin Exp $
+# $Id: DashboardTicketStatsGeneric.pm,v 1.5 2009-06-29 12:23:37 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -68,7 +68,9 @@ sub Run {
             SystemTime => $TimeNow,
             );
 
-        $Data[$Key]->{Day} = $Axis{'7Day'}->{$WeekDay}->{Day};
+        $Data[$Key]->{Day} = $Self->{LayoutObject}->{LanguageObject}->Get(
+            $Axis{'7Day'}->{$WeekDay}->{Day}
+        );
 
         my $CountCreated = $Self->{TicketObject}->TicketSearch(
 
