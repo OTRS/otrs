@@ -5,7 +5,7 @@
 # Copyright (C) 2006 Knut Haugen <knuthaug at linpro.no>
 # Copyright (C) 2007-2009 Fredrik Andersen <fredrik.andersen at husbanken.no>
 # --
-# $Id: nb_NO.pm,v 1.79 2009-06-27 12:12:14 martin Exp $
+# $Id: nb_NO.pm,v 1.80 2009-06-29 10:30:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,13 +18,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.79 $;
+$VERSION = q$Revision: 1.80 $;
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Sat Jun 27 13:55:27 2009
+    # Last translation file sync: Mon Jun 29 12:16:21 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -1570,15 +1570,15 @@ sub Data {
         'DB Host' => 'Databasemaskin',
         'Ticket Number Generator' => 'Saksnummer-generator',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Sakskjennetegn, f.eks. \'Ticket#\', \'Call#\' eller \'MyTicket#\')',
-        'Create new Phone Ticket' => 'Opprett ny henvendelse',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'På denne måten kan du direkte redigere nøkkelringen som er konfigurert i Kernel/Config.pm',
+        'Create new Phone Ticket' => 'Opprett ny henvendelse',
         'Symptom' => 'Symptom',
         'U' => 'O',
         'Site' => 'side',
         'Customer history search (e. g. "ID342425").' => 'Søk etter kunde for historikk (f.eks. "ID342425").',
         'Can not delete link with %s!' => 'Kan ikke fjerne kobling mot %s',
-        'for agent firstname' => 'gir agents fornavn',
         'Close!' => 'Lukk!',
+        'for agent firstname' => 'gir agents fornavn',
         'No means, send agent and customer notifications on changes.' => 'Nei betyr at man sender saksbehandler og kunde endringsnotiser.',
         'A web calendar' => 'EN web-kalender',
         'to get the realname of the sender (if given)' => 'gir avsenders fulle navn (hvis mulig)',
@@ -1626,8 +1626,8 @@ sub Data {
         'to get the first 20 character of the subject' => 'gir de første 20 bokstavene av emnebeskrivelsen',
         'Select the customeruser:service relations.' => 'Velg kundebruker:tjeneste relasjoner',
         'DB Admin Password' => 'DB administratorpassord',
-        'Advisory' => 'Råd',
         'Drop Database' => 'Slett database',
+        'Advisory' => 'Råd',
         'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Her kan du definere x-aksen. Du kan velge ett element, og deretter må du velge to eller flere attributter til dette elementet. Dersom du ikke gjør et valg, vil alle attributtene til elementet bli benyttet om du genererer statistikken, i tillegg til eventuelle nye attributter som blir lagt til siden siste konfigurasjon.',
         'FileManager' => 'Filhåndterer',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'gir tilgang til data for gjeldende kunde (f.eks. <OTRS_CUSTOMER_DATA_UserFirstname>)',
@@ -1648,10 +1648,10 @@ sub Data {
         'Reminder messages' => 'Påminnelses-meldinger',
         'Parent-Object' => 'Foreldre-objekt',
         'Of couse this feature will take some system performance it self!' => 'Selvfølgelig vil denne funksjonen kreve litt systemressurser selv også!',
-        'Detail' => 'Detalj',
         'Your own Ticket' => 'Din egen sak',
-        'Don\'t forget to add a new user to groups!' => 'Ikke glem å gi nye brukere en gruppe!',
+        'Detail' => 'Detalj',
         'Open Tickets' => 'Åpne saker',
+        'Don\'t forget to add a new user to groups!' => 'Ikke glem å gi nye brukere en gruppe!',
         'CreateTicket' => 'Opprettet sak',
         'You have to select two or more attributes from the select field!' => 'Du må velge to eller flere attributter fra valg feltet!',
         'System Settings' => 'Systeminnstillinger',
@@ -1660,16 +1660,16 @@ sub Data {
         'Explorer' => 'Utforsker',
         'Account Type' => 'Konto type',
         'D' => 'N',
-        'System Status' => 'System status',
         'All messages' => 'Alle meldinger',
+        'System Status' => 'System status',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Valg for saks-data (f.eks. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Artefact' => 'Artefakt',
         'Object already linked as %s.' => 'Objekt er allerede koblet som %s.',
         'A article should have a title!' => 'En artikkel bør ha en tittel',
         'Here you can define the x-axis. You can select one element via the radio button. Than you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Her kan man definere X-aksen. Man kan først velge ett element, og deretter to eller fler attributter for elementet. Dersom du ikke velger noen attributter vil alle attributtene til elementet velges, i tillegg til eventuelle nye elementer som legges til senere.',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Konfigurasjonsinnstillinger (f.eks. &lt;OTRS_CONFIG_HttpType&gt;)',
-        'All email addresses get excluded on replaying on composing and email.' => 'Alle epost adresser blir ekskludert ved besvarelser til nyopprettede eposter',
         'don\'t accept license' => 'ikke aksepter lisens',
+        'All email addresses get excluded on replaying on composing and email.' => 'Alle epost adresser blir ekskludert ved besvarelser til nyopprettede eposter',
         'A web mail client' => 'En webmail-klient',
         'Please select only one Element or turn of the button \'Fixed\'.' => 'Vennligst velg kun ett element, eller deaktiver \'Fast\' knappen.',
         'Compose Follow up' => 'Skriv oppfølgingssvar',
@@ -1683,8 +1683,8 @@ sub Data {
         'Solution' => 'Løsning',
         'QueueView' => 'Mapper',
         'Select Box' => 'SQL-tilgang',
-        'Please select only one element or turn of the button \'Fixed\' where the select field is marked!' => 'Vennligst velg kun ett element, eller skru av \'Fast\' knappen der valgt felt er markert!',
         'New messages' => 'Ny melding',
+        'Please select only one element or turn of the button \'Fixed\' where the select field is marked!' => 'Vennligst velg kun ett element, eller skru av \'Fast\' knappen der valgt felt er markert!',
         'Can not create link with %s!' => 'Kan ikke opprette kobling mot %s!',
         'Linked as' => 'Koblet som',
         'Welcome to OTRS' => 'Velkommen til OTRS',
