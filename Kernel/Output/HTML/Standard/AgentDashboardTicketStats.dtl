@@ -2,7 +2,7 @@
 # AgentDashboardTicketStats.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardTicketStats.dtl,v 1.3 2009-06-26 00:59:23 martin Exp $
+# $Id: AgentDashboardTicketStats.dtl,v 1.4 2009-06-29 11:36:41 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -34,51 +34,47 @@
 
 //--- data
 
-    YAHOO.example.DaylyExpenses = $Data{"Source"};
+    YAHOO.namespace("OTRS.Dashboard");
 
-    var myDataSource = new YAHOO.util.DataSource( YAHOO.example.DaylyExpenses );
+    YAHOO.OTRS.Dashboard.TicketStats = $Data{"Source"};
+
+    var myDataSource = new YAHOO.util.DataSource( YAHOO.OTRS.Dashboard.TicketStats );
     myDataSource.responseType = YAHOO.util.DataSource.TYPE_JSARRAY;
-    myDataSource.responseSchema =
-    {
+    myDataSource.responseSchema = {
         fields: [ "Day", "Created", "Closed" ]
     };
 
 //--- chart
 
-    var seriesDef =
-    [
+    var seriesDef = [
         { displayName: "$JSText{"Created"}", yField: "Created" },
         { displayName: "$JSText{"Closed"}", yField: "Closed" }
     ];
 
 
-    YAHOO.example.getDataTipText = function( item, index, series )
-    {
+    YAHOO.OTRS.Dashboard.getDataTipText = function( item, index, series ) {
         var toolTipText = series.displayName + " on " + item.Day;
-        toolTipText += ": " + YAHOO.example.formatCurrencyAxisLabel( item[series.yField] );
+        toolTipText += ": " + YAHOO.OTRS.Dashboard.formatYAxisLabel( item[series.yField] );
         return toolTipText;
     }
 
-    YAHOO.example.formatCurrencyAxisLabel = function( value )
-    {
-        return YAHOO.util.Number.format( value,
-        {
+    YAHOO.OTRS.Dashboard.formatYAxisLabel = function( value ) {
+        return YAHOO.util.Number.format( value, {
             prefix: "",
             thousandsSeparator: ",",
             decimalPlaces: 0
         });
     }
 
-    var currencyAxis = new YAHOO.widget.NumericAxis();
-    currencyAxis.minimum = $LQData{"Max"};
-    currencyAxis.labelFunction = YAHOO.example.formatCurrencyAxisLabel;
+    var YAxis = new YAHOO.widget.NumericAxis();
+    YAxis.minimum = $LQData{"Max"};
+    YAxis.labelFunction = YAHOO.OTRS.Dashboard.formatYAxisLabel;
 
-    var mychart = new YAHOO.widget.LineChart( "chart$QData{"Key"}", myDataSource,
-    {
+    var mychart = new YAHOO.widget.LineChart( "chart$QData{"Key"}", myDataSource, {
         series: seriesDef,
         xField: "Day",
-        yAxis: currencyAxis,
-        dataTipFunction: YAHOO.example.getDataTipText,
+        yAxis: YAxis,
+        dataTipFunction: YAHOO.OTRS.Dashboard.getDataTipText,
         //only needed for flash player express install
         expressInstall: "assets/expressinstall.swf"
     });
