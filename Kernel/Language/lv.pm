@@ -2,7 +2,7 @@
 # Kernel/Language/lv.pm - provides de language translation
 # Copyright (C) 2009 Ivars Strazdins - ivars.strazdins at gmail.com
 # --
-# $Id: lv.pm,v 1.1 2009-06-29 09:56:21 martin Exp $
+# $Id: lv.pm,v 1.2 2009-06-29 09:58:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,16 +14,16 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Apr 20 10:27:28 2009
+    # Last translation file sync: Mon Jun 29 11:57:10 2009
 
     # possible charsets
-    $Self->{Charset} = [ 'UTF-8' ];
+    $Self->{Charset} = ['UTF-8', ];
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
     $Self->{DateFormat}          = '%D.%M.%Y %T';
     $Self->{DateFormatLong}      = '%T - %D.%M.%Y';
@@ -78,6 +78,8 @@ sub Data {
         'Modulefile' => 'moduļa fails',
         'Subfunction' => 'apakšfunkcija',
         'Line' => 'līnija',
+        'Setting' => '',
+        'Settings' => '',
         'Example' => 'piemērs',
         'Examples' => 'piemēri',
         'valid' => 'derīgs',
@@ -114,7 +116,6 @@ sub Data {
         'Hits' => 'Trāpījumi',
         'Text' => 'Teksts',
         'Lite' => 'Vieglā',
-        'Standard' => 'Standarta',
         'User' => 'Lietotājs',
         'Username' => 'Lietotājvārds',
         'Language' => 'Valoda',
@@ -205,6 +206,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Atteikšanās veiksmīga! Paldies, ka izmantojāt VDEĀVK problēmu pieteikumu sistēmu!',
         'Invalid SessionID!' => 'Nederīgs sesijas ID!',
         'Feature not active!' => 'Papildiespēja nav aktivizēta!',
+        'Notification (Event)' => '',
         'Login is needed!' => 'Vispirms jāpiesakās sistēmā!',
         'Password is needed!' => 'Parole ir obligāta!',
         'License' => 'Licence',
@@ -267,9 +269,16 @@ sub Data {
         'Please press Back and try again.' => 'Lūdzu, klikšķiniet uz Atpakaļ un mēģiniet vēlreiz.',
         'Sent password token to: %s' => 'Paroles maiņas piekļuves pilnvara nosūtīta uz %s.',
         'Sent new password to: %s' => 'Jaunā parole nosūtīta uz %s.',
+        'Upcoming Events' => '',
+        'Event' => 'Notikums',
+        'Events' => '',
         'Invalid Token!' => 'Nederīga piekļuves pilnvara!',
+        'more' => '',
         'For more info see:' => 'Papildus informācijai, lūdzu, skatīt:',
         'Package verification failed!' => 'Pākotnes pārbaude neizdevās!',
+        'Collapse' => '',
+        'News' => '',
+        'Product News' => '',
         'Bold' => 'Treknraksts',
         'Italic' => 'Kursīvs',
         'Underline' => 'Pasvītrots',
@@ -298,7 +307,7 @@ sub Data {
         'Feb' => 'Feb',
         'Mar' => 'Mar',
         'Apr' => 'Apr',
-        'May' => 'Mai',
+        'May' => 'Maijs',
         'Jun' => 'Jūn',
         'Jul' => 'Jūl',
         'Aug' => 'Aug',
@@ -310,7 +319,6 @@ sub Data {
         'February' => 'Februāris',
         'March' => 'Marts',
         'April' => 'Aprīlis',
-        'May' => 'Maijs',
         'June' => 'Jūnijs',
         'July' => 'Jūlijs',
         'August' => 'Augusts',
@@ -359,12 +367,12 @@ sub Data {
         'Spelling Dictionary' => 'Pareizrakstības vārdnīca',
         'Select your default spelling dictionary.' => 'Izvēlieties noklusēto pareizrakstības pārbaudes vārdnīcu.',
         'Max. shown Tickets a page in Overview.' => 'Maksimālais problēmu pieteikumu skaits pārskata lapā.',
-        'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'Nav iespējams mainīt paroli, jaunās paroles nesakrīt savā starpā!',
+        'Can\'t update password, your new passwords do not match! Please try again!' => '',
         'Can\'t update password, invalid characters!' => 'Nav iespējams mainīt paroli, tā satur nederīgas rakstzīmes.',
-        'Can\'t update password, need min. 8 characters!' => 'Nav iespējams mainīt paroli, nepieciešamas vismaz 8 rakstzīmes.',
-        'Can\'t update password, need 2 lower and 2 upper characters!' => 'Nav iespējams mainīt paroli, parolei jāsatur vismaz 2 lielo un 2 mazo burtu rakstzīmes.',
-        'Can\'t update password, need min. 1 digit!' => 'Nav iespējams mainīt paroli, parolei jāsatur vismaz 1 ciparu rakstzīme!',
-        'Can\'t update password, need min. 2 characters!' => 'Nav iespējams mainīt paroli, parolei jāsatur vismaz 2 rakstzīmes!',
+        'Can\'t update password, must be at least %s characters!' => '',
+        'Can\'t update password, must contain 2 lower and 2 upper characters!' => '',
+        'Can\'t update password, needs at least 1 digit!' => '',
+        'Can\'t update password, needs at least 2 characters!' => '',
 
         # Template: AAAStats
         'Stat' => 'Statistika',
@@ -518,7 +526,7 @@ sub Data {
         'Search Tickets' => 'Meklēt pieteikumos',
         'Edit Customer Users' => 'Labot klientu lietotāju datus',
         'Edit Customer Company' => 'Labot klientu organizāciju/uzņēmumu datus',
-        'Bulk-Action' => 'Labot vairākus',
+        'Bulk Action' => '',
         'Bulk Actions on Tickets' => 'Veikt darbības ar vairākiem pieteikumiem uzreiz',
         'Send Email and create a new Ticket' => 'Nosūtīt e-pastu un izveidot jaunu problēmas pieteikumu',
         'Create new Email Ticket and send this out (Outbound)' => 'Izveidot jaunu problēmas pieteikumu ar e-pastu un to izsūtīt (izejošs)',
@@ -582,6 +590,14 @@ sub Data {
         'Customer called' => 'Klienta zvans',
         'phone call' => 'telefona zvans',
         'Reminder Reached' => 'Sasniegts atgādinājuma laiks',
+        'Reminder Tickets' => '',
+        'Escalated Tickets' => '',
+        'New Tickets' => '',
+        'Open Tickets / Need to be answered' => '',
+        'Tickets which need to be answered!' => '',
+        'All new tickets!' => '',
+        'All tickets which are escalated!' => '',
+        'All tickets where the reminder date has reached!' => '',
         'Responses' => 'Atbildes',
         'Responses <-> Queue' => 'Atbildes <-> Rindas',
         'Auto Responses' => 'Automātiskas atbildes',
@@ -623,7 +639,6 @@ sub Data {
         'History::TicketLinkDelete' => 'Dzēsta saite uz problēmas ziņojumu "%s".',
         'History::Subscribe' => 'Pievienota sekošana lietotājam "%s".',
         'History::Unsubscribe' => 'Noņemta sekošana lietotājam "%s".',
-        'History::SystemRequest' => 'Sistēmas pieprasījums (%s).',
 
         # Template: AAAWeekDay
         'Sun' => 'Sv',
@@ -697,7 +712,8 @@ sub Data {
 
         # Template: AdminEmail
         'Message sent to' => 'Ziņojums nosūtīts',
-        'Recipients' => 'Saņēmēji',
+        'A message should have a subject!' => 'Ziņojumam jābūt tēmai!',
+        'Recipents' => '',
         'Body' => 'Saturs',
         'Send' => 'Nosūtīt',
 
@@ -712,7 +728,7 @@ sub Data {
         'Is Job Valid' => 'Vai uzdevums ir derīgs',
         'Schedule' => 'Grafiks',
         'Currently this generic agent job will not run automatically.' => 'Pašlaik šis vispārīgais aģenta uzdevums neizpildīsies automātiski.',
-        'To enable automatic execusion select at least one value form minutes, hours and days!' => 'Lai iestatītu automātisku izpildi, izvēlieties vismaz vienu vērtību no minūtēm, stundām un dienām!',
+        'To enable automatic execution select at least one value from minutes, hours and days!' => '',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Meklēšana visā raksta tekstā (piem. "Mar*in" vai "Neva*")',
         '(e. g. 10*5155 or 105658*)' => 'piem. 10*5144 vai 105658*',
         '(e. g. 234321)' => 'piem. 234321',
@@ -734,6 +750,20 @@ sub Data {
         'No pending time settings.' => 'Nav izlemšanas laika iestatījumu',
         'Ticket pending time reached' => 'Pienācis pieteikuma izlemšanas laiks',
         'Ticket pending time reached between' => 'Pieteikuma izlemšanas laiks sasniegts starp',
+        'Escalation Times' => '',
+        'No escalation time settings.' => '',
+        'Ticket escalation time reached' => '',
+        'Ticket escalation time reached between' => '',
+        'Escalation - First Response Time' => 'Eskalācija - pirmās atbildes laiks',
+        'No escalation time settings.' => '',
+        'Ticket first response time reached' => '',
+        'Ticket first response time reached between' => '',
+        'Escalation - Update Time' => 'Eskalācija - atjaunošanas laiks',
+        'Ticket update time reached' => '',
+        'Ticket update time reached between' => '',
+        'Escalation - Solution Time' => 'Eskalācija - atrisināšanas laiks',
+        'Ticket solution time reached' => '',
+        'Ticket solution time reached between' => '',
         'New Service' => 'Jauns serviss',
         'New SLA' => 'Jauns servisa līmeņa līgums',
         'New Priority' => 'Jauna prioritāte',
@@ -789,10 +819,32 @@ sub Data {
         'Groups' => 'Grupas',
         'Misc' => 'Dažādi',
 
-        # Template: AdminNotificationForm
+        # Template: AdminNotificationEventForm
         'Notification Management' => 'Paziņojumu pārvaldība',
-        'Notification' => 'Paziņojumi',
+        'Add Notification' => '',
+        'Add a new Notification.' => '',
+        'Name is required!' => 'Vārds ir obligāts!',
+        'Event is required!' => '',
+        'A message should have a body!' => 'Ziņojumam jābūt saturam!',
+        'Recipient' => '',
+        'Group based' => '',
+        'Recipient' => '',
+        'Agent based' => '',
+        'Email based' => '',
+        'Article Type' => '',
+        'Only for ArticleCreate Event.' => '',
+        'Subject match' => '',
+        'Only for ArticleCreate Event.' => '',
+        'Body match' => '',
         'Notifications are sent to an agent or a customer.' => 'Paziņojumi tiek nosūtīti aģentam vai klientam.',
+        'To get the first 20 character of the subject (of the latest agent article).' => '',
+        'To get the first 5 lines of the body (of the latest agent article).' => '',
+        'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' => '',
+        'To get the first 20 character of the subject (of the latest customer article).' => '',
+        'To get the first 5 lines of the body (of the latest customer article).' => '',
+
+        # Template: AdminNotificationForm
+        'Notification' => 'Paziņojumi',
 
         # Template: AdminPackageManager
         'Package Manager' => 'Pakotņu pārvaldība',
@@ -880,17 +932,11 @@ sub Data {
         'Unlock timeout' => 'Atslēgšanas noilgums',
         '0 = no unlock' => '0 = neatslēgt',
         'Only business hours are counted.' => 'Tiek uzskaititas tikai darbalaika stundas.',
-        'Escalation - First Response Time' => 'Eskalācija - pirmās atbildes laiks',
         '0 = no escalation' => '0 = netiek eskalēts',
         'Notify by' => 'Paziņot ar',
-        'Escalation - Update Time' => 'Eskalācija - atjaunošanas laiks',
-        'Escalation - Solution Time' => 'Eskalācija - atrisināšanas laiks',
         'Follow up Option' => 'Sekošanas iespēja',
         'Ticket lock after a follow up' => 'Pieteikuma slēgšana pēc sekošanas',
         'Systemaddress' => 'Sistēmas adrese',
-        'Customer Move Notify' => 'Paziņojums klientam par pieteikuma pārvietošanu',
-        'Customer State Notify' => 'Paziņojums klientam par statusa maiņu',
-        'Customer Owner Notify' => 'Paziņojums klientam par pieteikuma īpašnieka maiņu',
         'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Ja aģents slēdz pieteikumu un neatbild līdz šī laika beigām, pieteikums tiks automātiski atslēgts. Tātad pieteikums būs atkal redzams visiem aģentiem.',
         'Escalation time' => 'Eskalācijas laiks',
         'If a ticket will not be answered in this time, just only this ticket will be shown.' => 'Ja uz pieteikumu netiks atbildēts līdz ši laika beigām, tiks parādīts tikai šis pieteikums.',
@@ -898,8 +944,11 @@ sub Data {
         'Will be the sender address of this queue for email answers.' => 'E-pasta atbildēm izmantos šīs rindas nosūtītāja adresi.',
         'The salutation for email answers.' => 'Uzruna e-pasta atbildēm.',
         'The signature for email answers.' => 'Paraksts e-pasta atbildēm.',
+        'Customer Move Notify' => 'Paziņojums klientam par pieteikuma pārvietošanu',
         'OTRS sends an notification email to the customer if the ticket is moved.' => 'Ja pieteikums tiks pārvietots, VDEĀVK problēmu pieteikumu sistēma nosūtīs klientam e-pasta paziņojumu.',
+        'Customer State Notify' => 'Paziņojums klientam par statusa maiņu',
         'OTRS sends an notification email to the customer if the ticket state has changed.' => 'Ja tiks mainīts pieteikuma statuss, VDEĀVK problēmu pieteikumu sistēma nosūtīs klientam e-pasta paziņojumu.',
+        'Customer Owner Notify' => 'Paziņojums klientam par pieteikuma īpašnieka maiņu',
         'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'Ja  tiks mainīts pieteikuma īpašnieks, VDEĀVK problēmu pieteikumu sistēma nosūtīs klientam e-pasta paziņojumu.',
 
         # Template: AdminQueueResponsesChangeForm
@@ -1071,6 +1120,30 @@ sub Data {
 
         # Template: AgentCustomerTableView
 
+        # Template: AgentDashboard
+        'Dashboard' => '',
+        'more' => '',
+        'Settings' => '',
+        'Collapse' => '',
+
+        # Template: AgentDashboardCalendarOverview
+        'in' => '',
+
+        # Template: AgentDashboardImage
+
+        # Template: AgentDashboardProductNotify
+        '%s %s is available!' => '',
+        'Please update now.' => '',
+        'Release Note' => '',
+        'Level' => '',
+
+        # Template: AgentDashboardRSSOverview
+        'Posted %s ago.' => '',
+
+        # Template: AgentDashboardTicketOverview
+
+        # Template: AgentDashboardTicketStats
+
         # Template: AgentInfo
         'Info' => 'Informācija',
 
@@ -1190,7 +1263,6 @@ sub Data {
         'Send mail!' => 'Nosūtīt ziņojumu!',
 
         # Template: AgentTicketBulk
-        'A message should have a subject!' => 'Ziņojumam jābūt tēmai!',
         'You need to account time!' => 'Nepieciešams uzskaitīt laiku!',
         'Ticket Bulk Action' => 'Labot vairākus pieteikumus',
         'Spell Check' => 'Pareizrakstības pārbaude',
@@ -1205,7 +1277,6 @@ sub Data {
 
         # Template: AgentTicketClose
         'Ticket Type is required!' => 'Pieteikuma tips ir obligāts!',
-        'A message should have a body!' => 'Ziņojumam jābūt saturam!',
         'A required field is:' => 'Obligātais lauks ir:',
         'Close ticket' => 'Aizvērt pieteikumu',
         'Previous Owner' => 'Iepriekšējais īpašnieks',
@@ -1267,6 +1338,7 @@ sub Data {
 
         # Template: AgentTicketOverviewMediumMeta
         'You need min. one selected Ticket!' => 'Jāizvēlas vismaz viens pieteikums!',
+        'Bulk Action' => '',
 
         # Template: AgentTicketOverviewNavBar
         'Filter' => 'Filtrs',
@@ -1343,6 +1415,7 @@ sub Data {
         'Yes, save it with name' => 'Jā, saglabāt ar nosaukumu',
 
         # Template: AgentTicketSearchOpenSearchDescriptionFulltext
+        'Fulltext' => 'Pilnais teksts',
 
         # Template: AgentTicketSearchOpenSearchDescriptionTicketNumber
 
@@ -1500,18 +1573,19 @@ sub Data {
         'File-Name' => 'Faila (datnes) nosaukums',
         'Ticket Number Generator' => 'Pieteikumu identifikatoru ģenerators',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => 'Pieteikuma identifikators. Iespējams iestatīt identifikātora nosaukumu, piem. \'Pieteikums#\', \'Zvans#\' vai \'MansPieteikums#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Šādi iespējams tieši labot atslēgu saišķi failā Kernel/Config.pm',
         'Create new Phone Ticket' => 'Izveidot jaunu telefonisku pieteikumu',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Šādi iespējams tieši labot atslēgu saišķi failā Kernel/Config.pm',
         'U' => 'U',
         'Site' => 'Vieta',
         'Customer history search (e. g. "ID342425").' => 'Meklēšana klienta vēstures datos (piem. "ID342425").',
         'Can not delete link with %s!' => 'Nevar nodzēst saiti ar %s !',
-        'Close!' => 'Aizvērt!',
         'for agent firstname' => 'aģenta vārdam',
+        'Close!' => 'Aizvērt!',
         'Reporter' => 'Ziņotājs',
         'Process-Path' => 'Procesa ceļš',
         'to get the realname of the sender (if given)' => 'lai izmantotu nosūtītāja īsto vārdu (ja ir norādīts)',
         'FAQ Search Result' => 'BUJ (FAQ) meklēšanas rezultāti',
+        'To enable automatic execusion select at least one value form minutes, hours and days!' => 'Lai iestatītu automātisku izpildi, izvēlieties vismaz vienu vērtību no minūtēm, stundām un dienām!',
         'Notification (Customer)' => 'Paziņojums (klienta)',
         'CSV' => 'CSV',
         'Select Source (for add)' => 'Izvēlēties avotu (pievienošanai)',
@@ -1529,6 +1603,7 @@ sub Data {
         'Keyword' => 'Atslēgvārds',
         'Reference' => 'Atsauce (en)',
         'Close type' => 'Aizvēršanas tips',
+        'Can\'t update password, need min. 2 characters!' => 'Nav iespējams mainīt paroli, parolei jāsatur vismaz 2 rakstzīmes!',
         'DB Admin User' => 'Datubāzes administratora lietotājvārds',
         'for agent user id' => 'aģenta lietotāja identifikatoram',
         'Classification' => 'Klasifikācija',
@@ -1543,6 +1618,7 @@ sub Data {
         'Create new database' => 'Izveidot jaunu datubāzi',
         'Year' => 'Gads',
         'X-axis' => 'X-ass',
+        'Can\'t update password, need min. 1 digit!' => 'Nav iespējams mainīt paroli, parolei jāsatur vismaz 1 ciparu rakstzīme!',
         'Keywords' => 'Atslēgvārdi',
         'Ticket Escalation View' => 'Pieteikumu eskalācijas skats',
         'Today' => 'Šodien',
@@ -1561,6 +1637,7 @@ sub Data {
         'to get the first 20 character of the subject' => 'lai parādītu ziņojuma tēmas pirmos 20 simbolus',
         'Select the customeruser:service relations.' => 'Iestatīt klienta lietotājvārda:servisa attiecības.',
         'DB Admin Password' => 'Datubāzes administratora parole',
+        'Bulk-Action' => 'Labot vairākus',
         'Drop Database' => 'Dzēst datubāzi',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Tekošā klienta lietotāja datu iestatījumi (piem. <OTRS_CUSTOMER_DATA_UserFirstname>)',
         'Pending type' => 'Neizlemts: tips',
@@ -1570,8 +1647,9 @@ sub Data {
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Pieteikuma iestatījumi(piem. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         '(Used ticket number format)' => '(Izmantotais pieteikuma identifikatora formāts)',
         'Reminder' => 'Atgādinājumi',
-        'Fulltext' => 'Pilnais teksts',
         'Month' => 'Mēnesis',
+        'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'Nav iespējams mainīt paroli, jaunās paroles nesakrīt savā starpā!',
+        'Recipients' => 'Saņēmēji',
         'Node-Address' => 'Mezgla adrese',
         'All Agent variables.' => 'Visi aģenta mainīgie dati',
         ' (work units)' => ' (darba laika vienības)',
@@ -1583,11 +1661,11 @@ sub Data {
         'Reminder messages' => 'Atgādinājuma paziņojumi',
         'Parent-Object' => '\'Vecāku\' objekts',
         'Of couse this feature will take some system performance it self!' => 'Protams, šis iestatījums prasīs sistēmas resursus.',
-        'Your own Ticket' => 'Jūsu pieteikums',
         'Detail' => 'Detaļas',
+        'Your own Ticket' => 'Jūsu pieteikums',
         'TicketZoom' => 'Atvērt pieteikumu',
-        'Don\'t forget to add a new user to groups!' => 'Neaizmirstiet pievienot jauno lietotāju grupām!',
         'Open Tickets' => 'Atvērtie pieteikumi',
+        'Don\'t forget to add a new user to groups!' => 'Neaizmirstiet pievienot jauno lietotāju grupām!',
         'CreateTicket' => 'Izveidot vēl vienu',
         'unknown' => 'nezināms',
         'System Settings' => 'Sistēmas iestatījumi',
@@ -1595,20 +1673,19 @@ sub Data {
         'Imported' => 'Importēts',
         'unread' => 'nelasīts(i)',
         'D' => 'D',
-        'System Status' => 'Systēmas statuss',
         'All messages' => 'Visi ziņojumi',
+        'System Status' => 'Systēmas statuss',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Pieteikuma datu iestatījumi (piem. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => 'Objekts jau piesaistīts kā %s.',
         'A article should have a title!' => 'Rakstam jābūt arī virsrakstam!',
         'Customer Users <-> Services' => 'Klientu lietotāji <-> Servisi',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Konfigurācijas iestatījumi (piem.&lt;OTRS_CONFIG_HttpType&gt;)',
-        'Event' => 'Notikums',
         'Compose Follow up' => 'Sastādīt sekošanas ziņojumu',
         'Imported by' => 'Importējis',
+        'Can\'t update password, need min. 8 characters!' => 'Nav iespējams mainīt paroli, nepieciešamas vismaz 8 rakstzīmes.',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Pieteikuma īpašnieka datu iestatījumi (piem. <OTRS_OWNER_UserFirstname>)',
         'read' => 'lasīts(i)',
         'Product' => 'Produkts(i)',
-        'Name is required!' => 'Vārds ir obligāts!',
         'kill all sessions' => 'apturēt visas sesijas',
         'to get the from line of the email' => 'lai parādītu e-pasta No: rindiņu',
         'Solution' => 'Risinājums',
@@ -1636,10 +1713,13 @@ sub Data {
         'PhoneView' => 'Telefonu saraksts',
         'User-Name' => 'Lietotājvārds',
         'File-Path' => 'Faila (datnes) ceļa vārds',
+        'Standard' => 'Standarta',
+        'Can\'t update password, need 2 lower and 2 upper characters!' => 'Nav iespējams mainīt paroli, parolei jāsatur vismaz 2 lielo un 2 mazo burtu rakstzīmes.',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Jūsu e-pasts ar pieteikuma numuru "<OTRS_TICKET>" ir atlecis pie "<OTRS_BOUNCE_TO>". Papildinformāciju, lūdzu, jautājiet "<OTRS_BOUNCE_TO>".',
         'Ticket Status View' => 'Pieteikuma statusa skats',
         'Modified' => 'Mainīts',
         'Ticket selected for bulk action!' => 'Pieteikums izvēlēts kopīgai darbībai!',
+        'History::SystemRequest' => 'Sistēmas pieprasījums (%s).',
     };
     # $$STOP$$
     return;
