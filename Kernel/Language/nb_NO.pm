@@ -5,7 +5,7 @@
 # Copyright (C) 2006 Knut Haugen <knuthaug at linpro.no>
 # Copyright (C) 2007-2009 Fredrik Andersen <fredrik.andersen at husbanken.no>
 # --
-# $Id: nb_NO.pm,v 1.80 2009-06-29 10:30:14 martin Exp $
+# $Id: nb_NO.pm,v 1.81 2009-06-29 15:13:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.80 $;
+$VERSION = q$Revision: 1.81 $;
 
 sub Data {
     my $Self = shift;
@@ -82,8 +82,8 @@ sub Data {
         'Modulefile' => 'Modulfil',
         'Subfunction' => 'Underfunksjon',
         'Line' => 'Linje',
-        'Setting' => '',
-        'Settings' => '',
+        'Setting' => 'Innstilling',
+        'Settings' => 'Innstillinger',
         'Example' => 'Eksempel',
         'Examples' => 'Eksempler',
         'valid' => 'gyldig',
@@ -273,16 +273,16 @@ sub Data {
         'Please press Back and try again.' => 'Vennligst gå tilbake og prøv på nytt',
         'Sent password token to: %s' => 'Passord-bevis sendt til: %s',
         'Sent new password to: %s' => 'Sendt nytt passord til: %s',
-        'Upcoming Events' => '',
+        'Upcoming Events' => 'Kommende Hendelser',
         'Event' => 'Hendelse',
-        'Events' => '',
+        'Events' => 'Hendelser',
         'Invalid Token!' => 'Ugyldig bevis!',
-        'more' => '',
+        'more' => 'mer',
         'For more info see:' => 'For mer info se:',
         'Package verification failed!' => 'Pakkevalidering feilet!',
-        'Collapse' => '',
-        'News' => '',
-        'Product News' => '',
+        'Collapse' => 'Minimer',
+        'News' => 'Nyheter',
+        'Product News' => 'Produktnyheter',
         'Bold' => 'Fet',
         'Italic' => 'Kursiv',
         'Underline' => 'Understrek',
@@ -594,14 +594,14 @@ sub Data {
         'Customer called' => 'Kunde oppringt',
         'phone call' => 'telefonsamtale',
         'Reminder Reached' => 'Påminnelse Nådd',
-        'Reminder Tickets' => '',
-        'Escalated Tickets' => '',
-        'New Tickets' => '',
-        'Open Tickets / Need to be answered' => '',
-        'Tickets which need to be answered!' => '',
-        'All new tickets!' => '',
-        'All tickets which are escalated!' => '',
-        'All tickets where the reminder date has reached!' => '',
+        'Reminder Tickets' => 'Saker med påminnelse',
+        'Escalated Tickets' => 'Eskalerte saker',
+        'New Tickets' => 'Nye saker',
+        'Open Tickets / Need to be answered' => 'Åpne saker / Må besvares',
+        'Tickets which need to be answered!' => 'Saker som må å besvares',
+        'All new tickets!' => 'Alle nye saker!',
+        'All tickets which are escalated!' => 'Alle saker som er eskalert!',
+        'All tickets where the reminder date has reached!' => 'Alle saker hvor påminnelsetiden er nådd',
         'Responses' => 'Ferdigsvar',
         'Responses <-> Queue' => 'Ferdigsvar <-> Mapper',
         'Auto Responses' => 'Autosvar',
@@ -754,19 +754,19 @@ sub Data {
         'No pending time settings.' => 'Ingen innstillinger for ventetid.',
         'Ticket pending time reached' => 'Ventetiden er nådd',
         'Ticket pending time reached between' => 'Ventetiden er nådd mellom',
-        'Escalation Times' => '',
-        'No escalation time settings.' => '',
-        'Ticket escalation time reached' => '',
-        'Ticket escalation time reached between' => '',
+        'Escalation Times' => 'Eskaleringstider',
+        'No escalation time settings.' => 'Ingen eskaleringsinnstillinger',
+        'Ticket escalation time reached' => 'Sakens eskaleringstid nådd',
+        'Ticket escalation time reached between' => 'Sakens eskaleringstid nådd mellom',
         'Escalation - First Response Time' => 'Eskalering - første responstid',
-        'Ticket first response time reached' => '',
-        'Ticket first response time reached between' => '',
+        'Ticket first response time reached' => 'Sakens første responstid nådd',
+        'Ticket first response time reached between' => 'Sakens første responstid nådd mellom',
         'Escalation - Update Time' => 'Eskalering - oppdateringstid',
-        'Ticket update time reached' => '',
-        'Ticket update time reached between' => '',
+        'Ticket update time reached' => 'Sakens oppdateringstidspunkt nådd',
+        'Ticket update time reached between' => 'Sakens oppdateringstid nådd mellom',
         'Escalation - Solution Time' => 'Eskalering - løsningstid',
-        'Ticket solution time reached' => '',
-        'Ticket solution time reached between' => '',
+        'Ticket solution time reached' => 'Sakens løsningstid nådd',
+        'Ticket solution time reached between' => 'Sakens løsningstid nådd mellom',
         'New Service' => 'Ny Tjeneste',
         'New SLA' => 'Ny SLA',
         'New Priority' => 'Ny prioritet',
@@ -824,25 +824,25 @@ sub Data {
 
         # Template: AdminNotificationEventForm
         'Notification Management' => 'Administrasjon: Meldinger i e-poster',
-        'Add Notification' => '',
-        'Add a new Notification.' => '',
+        'Add Notification' => 'Legg til melding',
+        'Add a new Notification.' => 'Legg til en ny melding',
         'Name is required!' => 'Navn er påkrevd',
-        'Event is required!' => '',
+        'Event is required!' => 'Hendelse er påkrevd',
         'A message should have a body!' => 'En melding må inneholde en meldingstekst!',
-        'Recipient' => '',
-        'Group based' => '',
-        'Agent based' => '',
-        'Email based' => '',
-        'Article Type' => '',
-        'Only for ArticleCreate Event.' => '',
-        'Subject match' => '',
-        'Body match' => '',
+        'Recipient' => 'Mottaker',
+        'Group based' => 'Gruppebasert',
+        'Agent based' => 'Saksbehandlerbasert',
+        'Email based' => 'E-post basert',
+        'Article Type' => 'Sakstype',
+        'Only for ArticleCreate Event.' => 'Kun for ArticleCreate hendelse',
+        'Subject match' => 'Emnetreff',
+        'Body match' => 'Meldingstreff',
         'Notifications are sent to an agent or a customer.' => 'Meldinger som sendes til agenter eller kunder.',
-        'To get the first 20 character of the subject (of the latest agent article).' => '',
-        'To get the first 5 lines of the body (of the latest agent article).' => '',
-        'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' => '',
-        'To get the first 20 character of the subject (of the latest customer article).' => '',
-        'To get the first 5 lines of the body (of the latest customer article).' => '',
+        'To get the first 20 character of the subject (of the latest agent article).' => 'For å få de første 20 tegn av emnefeltet (fra den siste saksbehandler saken).',
+        'To get the first 5 lines of the body (of the latest agent article).' => 'For å få de første 5 linjene av meldingen (fra den siste saksbehandler saken).',
+        'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' => 'For å få saksattributten (f.eks. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> og <OTRS_AGENT_Body>).',
+        'To get the first 20 character of the subject (of the latest customer article).' => 'For å få de første 20 tegn av emnefeltet (fra den siste kundesaken).',
+        'To get the first 5 lines of the body (of the latest customer article).' => 'For å få de første 5 linjene av meldingen (fra den siste kundesaken).',
 
         # Template: AdminNotificationForm
         'Notification' => 'Melding',
@@ -1122,21 +1122,21 @@ sub Data {
         # Template: AgentCustomerTableView
 
         # Template: AgentDashboard
-        'Dashboard' => '',
+        'Dashboard' => 'Dashboard',
 
         # Template: AgentDashboardCalendarOverview
-        'in' => '',
+        'in' => 'i',
 
         # Template: AgentDashboardImage
 
         # Template: AgentDashboardProductNotify
-        '%s %s is available!' => '',
-        'Please update now.' => '',
-        'Release Note' => '',
-        'Level' => '',
+        '%s %s is available!' => '%s %s er tilgjengelig!',
+        'Please update now.' => 'Vennligst oppdater nå',
+        'Release Note' => 'Versjonsnotis',
+        'Level' => 'Nivå',
 
         # Template: AgentDashboardRSSOverview
-        'Posted %s ago.' => '',
+        'Posted %s ago.' => 'Postet for %s siden',
 
         # Template: AgentDashboardTicketOverview
 
@@ -1704,7 +1704,7 @@ sub Data {
         'maximal period form' => 'maksimal periode form',
         'TicketID' => 'Sak-ID',
         'SubCategoryOf' => 'Underkategori',
-        'Escaladed Tickets' => '',
+        'Escaladed Tickets' => 'Eskalerte Saker',
         'Yes means, send no agent and customer notifications on changes.' => 'Ja betyr at man ikke sender saksbehandler eller kunde endringsnotiser.',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'E-posten med saksnummer "<OTRS_TICKET>" er oversendt "<OTRS_BOUNCE_TO>". Vennligst ta kontakt på denne adressen for videre henvendelser.',
         'Ticket Status View' => 'Sakstatus-visning',
