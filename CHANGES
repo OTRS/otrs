@@ -2,17 +2,21 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.912 2009-06-29 21:25:56 martin Exp $
+# $Id: CHANGES,v 1.913 2009-06-30 11:02:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
+2.4.0 beta5 (2009/07/??)
+ - (2009/06/30) Fixed bug# 3934 - Error mesage on email processing - without
+    any effect.
+
 2.4.0 beta4 (2009/06/30)
  - (2009/06/29) Fixed bug# 3933 - Kernel::System::LinkObject should be usable
     in rpc.pl.
- - (2009/06/20) Updated nb_NO translation - thanks to Fredrik Andersen!
+ - (2009/06/20) Updated nb_NO translation - Thanks to Fredrik Andersen!
  - (2009/06/29) Added Latvian translation. Thanks to Ivars Strazdins!
  - (2009/06/25) Fixed bug# 3911 - Not all Dashboard Functions e. g. charts
     available in Internet Explorer 6.
