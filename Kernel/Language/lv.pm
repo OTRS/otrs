@@ -1,8 +1,8 @@
 # --
 # Kernel/Language/lv.pm - provides de language translation
-# Copyright (C) 2009 Ivars Strazdins - ivars.strazdins at gmail.com
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: lv.pm,v 1.2 2009-06-29 09:58:03 martin Exp $
+# $Id: lv.pm,v 1.3 2009-06-30 15:52:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,13 +14,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Jun 29 11:57:10 2009
+    # Last translation file sync: Tue Jun 30 17:48:59 2009
 
     # possible charsets
     $Self->{Charset} = ['UTF-8', ];
@@ -185,7 +185,7 @@ sub Data {
         'Category' => 'Kategorija',
         'Viewer' => 'Aplūkotājs',
         'Expand' => 'Izvērst',
-        'New message' => 'Jauns ziņojums',
+        'New message' => 'Jauni ziņojumi',
         'New message!' => 'Jauns ziņojums!',
         'Please answer this ticket(s) to get back to the normal queue view!' => 'Lai varētu atgriezties uz parasto rindas apskati, lūdzu atbildiet uz šo problēmas pieteikumu!',
         'You got new message!' => 'Jums ir jauns ziņojums!',
@@ -203,7 +203,7 @@ sub Data {
         'There is no account with that login name.' => 'Nav lietāja konta ar tādu lietotāja vārdu.',
         'Login failed! Your username or password was entered incorrectly.' => 'Neizdevās pieteikties! Lietotājvārds vai parole tika ievadīti nepareizi.',
         'Please contact your admin' => 'Lūdzu sazinieties ar sistēmas administratoru',
-        'Logout successful. Thank you for using OTRS!' => 'Atteikšanās veiksmīga! Paldies, ka izmantojāt VDEĀVK problēmu pieteikumu sistēmu!',
+        'Logout successful. Thank you for using OTRS!' => 'Atteikšanās veiksmīga! Paldies, ka izmantojāt OTRS problēmu pieteikumu sistēmu!',
         'Invalid SessionID!' => 'Nederīgs sesijas ID!',
         'Feature not active!' => 'Papildiespēja nav aktivizēta!',
         'Notification (Event)' => '',
@@ -279,6 +279,8 @@ sub Data {
         'Collapse' => '',
         'News' => '',
         'Product News' => '',
+        'OTRS News' => '',
+        '7 Day Stats' => '',
         'Bold' => 'Treknraksts',
         'Italic' => 'Kursīvs',
         'Underline' => 'Pasvītrots',
@@ -338,8 +340,8 @@ sub Data {
         'Stats' => 'Statistika',
         'Stats-Area' => 'Statistikas sadaļa',
         'Admin' => 'Administrēšana',
-        'Customer Users' => 'Klienti (lietotāji)',
-        'Customer Users <-> Groups' => 'Klienti (lietotāji) <-> Grupas',
+        'Customer Users' => 'Klienti',
+        'Customer Users <-> Groups' => 'Klienti <-> Grupas',
         'Users <-> Groups' => 'Lietotāji <-> Grupas',
         'Roles' => 'Lomas',
         'Roles <-> Users' => 'Lomas <-> Lietotāji',
@@ -428,12 +430,12 @@ sub Data {
         'Ticket Min Time' => 'Minimālais pieteikuma ilgums',
         'Ticket Max Time' => 'Maksimālais pieteikuma ilgums',
         'Number of Tickets' => 'Pieteikumu skaits',
-        'Article Average' => 'Raksta vidējais pieteikuma ilgums',
-        'Article Min Time' => 'Raksta minimālais ilgums',
-        'Article Max Time' => 'Raksta maksimālais ilgums',
-        'Number of Articles' => 'Rakstu skaits',
+        'Article Average' => 'Vidējais pieteikuma ilgums',
+        'Article Min Time' => 'Minimālais pieteikuma ilgums',
+        'Article Max Time' => 'Maksimālais pieteikuma ilgums',
+        'Number of Articles' => 'Pieteikumu skaits',
         'Accounted time by Agent' => 'Uzskaitītais laiks aģentam',
-        'Ticket/Article Accounted Time' => 'Pieteikuma/raksta uzskaitītais laiks',
+        'Ticket/Article Accounted Time' => 'Uzskaitītais laiks pieteikumam/ziņojumam',
         'TicketAccountedTime' => 'Pieteikumu uzskaitītais laiks',
         'Ticket Create Time' => 'Pieteikuma izveidošanas laiks',
         'Ticket Close Time' => 'Pieteikuma aizvēršanas laiks',
@@ -444,7 +446,7 @@ sub Data {
         'History' => 'Vēsture',
         'Zoom' => 'Atvērt vaļā',
         'Age' => 'Atvērts jau',
-        'Bounce' => 'Atlekt',
+        'Bounce' => 'Pārcelt',
         'Forward' => 'Pārsūtīt',
         'From' => 'No',
         'To' => 'Kam',
@@ -463,7 +465,7 @@ sub Data {
         'Responsible' => 'Atbildīgais',
         'Responsible Update' => 'Atbildīgais mainīts',
         'Sender' => 'Nosūtītājs',
-        'Article' => 'Raksts',
+        'Article' => 'Ziņojums',
         'Ticket' => 'Pieteikumi',
         'Createtime' => 'Izveidošanas laiks',
         'plain' => 'vienkāršs teksts',
@@ -498,7 +500,7 @@ sub Data {
         'note-external' => 'ārēja piezīme',
         'note-internal' => 'iekšēja piezīme',
         'note-report' => 'piezīmju pārskats',
-        'phone' => 'telefons',
+        'phone' => 'telefona zvans',
         'sms' => 'sms',
         'webrequest' => 'no pārlūkprogrammas veidots pieteikums',
         'lock' => 'aizslēgt',
@@ -519,12 +521,12 @@ sub Data {
         'No such Ticket Number "%s"! Can\'t link it!' => 'Nevar atrast šādu problēmas pieteikuma numuru "%s"! Nav iespējams to piesaistīt!',
         'Don\'t show closed Tickets' => 'Nerādīt atvērtos problēmu pieteikumus',
         'Show closed Tickets' => 'Rādīt atvērtos problēmu pieteikumus',
-        'New Article' => 'Jauns raksts',
+        'New Article' => 'Jauns ziņojums',
         'Email-Ticket' => 'Pieteikums ar e-pastu',
         'Create new Email Ticket' => 'Izveidot jaunu problēmas pieteikumu ar e-pastu',
         'Phone-Ticket' => 'Telefonisks pieteikums',
         'Search Tickets' => 'Meklēt pieteikumos',
-        'Edit Customer Users' => 'Labot klientu lietotāju datus',
+        'Edit Customer Users' => 'Labot klientu datus',
         'Edit Customer Company' => 'Labot klientu organizāciju/uzņēmumu datus',
         'Bulk Action' => '',
         'Bulk Actions on Tickets' => 'Veikt darbības ar vairākiem pieteikumiem uzreiz',
@@ -613,14 +615,14 @@ sub Data {
         'History::SendAutoReply' => 'Uz "%s" nosūtīta automātiska atbilde.',
         'History::SendAutoFollowUp' => 'Uz "%s" nosūtīta automātiska sekošanas atbilde.',
         'History::Forward' => 'Pārsūtīts uz "%s".',
-        'History::Bounce' => 'Ziņojums atlecis uz "%s".',
+        'History::Bounce' => 'Ziņojums pārcelts pie "%s".',
         'History::SendAnswer' => 'Uz "%s" nosūtīts e-pasts.',
         'History::SendAgentNotification' => '"%s"-paziņojums nosūtīts uz "%s".',
         'History::SendCustomerNotification' => 'Uz "%s" nosūtīts paziņojums.',
         'History::EmailAgent' => 'Klientam nosūtīts e-pasts.',
         'History::EmailCustomer' => 'E-pasts pievienots. %s',
-        'History::PhoneCallAgent' => 'Darbinieks piezvanīja klientam.',
-        'History::PhoneCallCustomer' => 'Klients piezvanīja mums.',
+        'History::PhoneCallAgent' => 'Darbinieka zvans klientam.',
+        'History::PhoneCallCustomer' => 'Klienta zvans mums.',
         'History::AddNote' => 'Pievienota piezīme (%s)',
         'History::Lock' => 'Problēmas pieteikums aizslēgts.',
         'History::Unlock' => 'Problēmas pieteikums atslēgts.',
@@ -662,10 +664,10 @@ sub Data {
         'To get the first 5 lines of the email.' => 'Lai saņemtu pirmās 5 rindiņas no e-pasta',
         'To get the realname of the sender (if given).' => 'Lai saņemtu nosūtītāja īsto vārdu (ja norādīts).',
         'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => 'Lai saņemtu pieteikuma atribūtus (piem. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> un <OTRS_CUSTOMER_Body>).',
-        'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>).' => 'Pašreizējā klienta lietotāja dati (piem. <OTRS_CUSTOMER_DATA_UserFirstname>)',
+        'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>).' => 'Tekošā klienta dati (piem. <OTRS_CUSTOMER_DATA_UserFirstname>)',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>).' => 'Pieteikuma īpašnieka dati (piem. <OTRS_OWNER_UserFirstname>).',
         'Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>).' => 'Pieteikuma atbildes dati (piem. <OTRS_RESPONSIBLE_UserFirstname>).',
-        'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>).' => 'Tā lietotāja dati, kurš pieprasījis šo darbību (piem. <OTRS_CURRENT_UserFirstname).',
+        'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>).' => 'Darbības pieprasītāja lietotāja dati (piem. <OTRS_CURRENT_UserFirstname).',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>).' => 'Pieteikuma īpašību dati (piem. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>).',
         'Config options (e. g. <OTRS_CONFIG_HttpType>).' => 'Konfigurācijas dati (piem. <OTRS_CONFIG_HttpType).',
 
@@ -682,7 +684,7 @@ sub Data {
         'The message being composed has been closed.  Exiting.' => 'Aktīvais ziņojums ir ticis aizvērts. Izejam.',
         'This window must be called from compose window' => 'Šis logs jāizsauc no ziņojuma sastādīšanas loga',
         'Customer User Management' => 'Klientu datu pārvaldība',
-        'Add Customer User' => 'Pievienot klienta lietotāja datus',
+        'Add Customer User' => 'Pievienot klienta datus',
         'Source' => 'Dati no',
         'Create' => 'Izveidot',
         'Customer user will be needed to have a customer history and to login via customer panel.' => 'Klienta lietotājvārds ir nepieciešams lai saglabātu klienta vēstures datus un lai pieteiktos sistēmā.',
@@ -701,14 +703,14 @@ sub Data {
         # Template: AdminCustomerUserGroupForm
 
         # Template: AdminCustomerUserService
-        'Customer Users <-> Services Management' => 'Klientu lietotāju <-> Servisu pārvaldība',
-        'CustomerUser' => 'Klientu lietotāji',
+        'Customer Users <-> Services Management' => 'Klientu <-> Servisu pārvaldība',
+        'CustomerUser' => 'Klienti',
         'Service' => 'Servisi',
         'Edit default services.' => 'Labot noklusētos servisus.',
         'Search Result' => 'Meklēšanas rezultāti',
-        'Allocate services to CustomerUser' => 'Pievienot klienta lietotājam servisus',
+        'Allocate services to CustomerUser' => 'Pievienot klientam servisus',
         'Active' => 'Aktīvs',
-        'Allocate CustomerUser to service' => 'Pievienot klienta lietotājus servisam',
+        'Allocate CustomerUser to service' => 'Pievienot klientus servisam',
 
         # Template: AdminEmail
         'Message sent to' => 'Ziņojums nosūtīts',
@@ -729,10 +731,10 @@ sub Data {
         'Schedule' => 'Grafiks',
         'Currently this generic agent job will not run automatically.' => 'Pašlaik šis vispārīgais aģenta uzdevums neizpildīsies automātiski.',
         'To enable automatic execution select at least one value from minutes, hours and days!' => '',
-        'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Meklēšana visā raksta tekstā (piem. "Mar*in" vai "Neva*")',
+        'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Meklēšana visā ziņojuma tekstā (piem. "Mar*in" vai "Neva*")',
         '(e. g. 10*5155 or 105658*)' => 'piem. 10*5144 vai 105658*',
         '(e. g. 234321)' => 'piem. 234321',
-        'Customer User Login' => 'Klienta lietotāja pieteikšanās',
+        'Customer User Login' => 'Klienta pieteikšanās sistēmā',
         '(e. g. U5150)' => 'piem. U5150',
         'SLA' => 'Servisa līmeņa līgums',
         'Agent' => 'Aģents (pieteikumu apstrādātājs)',
@@ -945,11 +947,11 @@ sub Data {
         'The salutation for email answers.' => 'Uzruna e-pasta atbildēm.',
         'The signature for email answers.' => 'Paraksts e-pasta atbildēm.',
         'Customer Move Notify' => 'Paziņojums klientam par pieteikuma pārvietošanu',
-        'OTRS sends an notification email to the customer if the ticket is moved.' => 'Ja pieteikums tiks pārvietots, VDEĀVK problēmu pieteikumu sistēma nosūtīs klientam e-pasta paziņojumu.',
+        'OTRS sends an notification email to the customer if the ticket is moved.' => 'Ja pieteikums tiks pārvietots, OTRS problēmu pieteikumu sistēma nosūtīs klientam e-pasta paziņojumu.',
         'Customer State Notify' => 'Paziņojums klientam par statusa maiņu',
-        'OTRS sends an notification email to the customer if the ticket state has changed.' => 'Ja tiks mainīts pieteikuma statuss, VDEĀVK problēmu pieteikumu sistēma nosūtīs klientam e-pasta paziņojumu.',
+        'OTRS sends an notification email to the customer if the ticket state has changed.' => 'Ja tiks mainīts pieteikuma statuss, OTRS problēmu pieteikumu sistēma nosūtīs klientam e-pasta paziņojumu.',
         'Customer Owner Notify' => 'Paziņojums klientam par pieteikuma īpašnieka maiņu',
-        'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'Ja  tiks mainīts pieteikuma īpašnieks, VDEĀVK problēmu pieteikumu sistēma nosūtīs klientam e-pasta paziņojumu.',
+        'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'Ja  tiks mainīts pieteikuma īpašnieks, OTRS problēmu pieteikumu sistēma nosūtīs klientam e-pasta paziņojumu.',
 
         # Template: AdminQueueResponsesChangeForm
         'Responses <-> Queue Management' => 'Atbilžu <-> Rindu pārvaldība',
@@ -964,7 +966,7 @@ sub Data {
 
         # Template: AdminResponseForm
         'Response Management' => 'Atbilžu pārvaldība',
-        'A response is default text to write faster answer (with default text) to customers.' => 'Atbilde ir noklusētais teksts lai varētu ātri uzrakstīt (ar noklusēto tekstu) atbildi klientam.',
+        'A response is default text to write faster answer (with default text) to customers.' => 'Atbilde ir noklusētais teksts lai varētu ātri sastādīt atbildi klientam ar jau gatavu tekstu.',
         'Don\'t forget to add a new response a queue!' => 'Neaizmirstiet rindai pievienot jaunu atbildi!',
         'The current ticket state is' => 'Aktuālais pieteikuma statuss ir',
         'Your email address is new' => 'Jūsu e-pasta adrese ir jauna',
@@ -1082,7 +1084,7 @@ sub Data {
         'Add System Address' => 'Pievienot sistēmas e-pasta adresi',
         'Add a new System Address.' => 'Pievienot jaunu sistēmas e-pasta adresi.',
         'Realname' => 'Īstais vārds',
-        'All email addresses get excluded on replaying on composing an email.' => 'Sastādot atbildes e-pasta ziņojumu, visas e-pasta adreses tiks izlaistas.',
+        'All email addresses get excluded on replaying on composing an email.' => 'Rakstot atbildes e-pasta ziņojumu, visas e-pasta adreses tiks izlaistas.',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Visi ienākošie e-pasta ziņojumi ar šo adresi (Kam:) tiks pārsūtīti uz izvēlēto rindu!',
 
         # Template: AdminTypeForm
@@ -1184,7 +1186,7 @@ sub Data {
         'If you remove the hook in the "Fixed" checkbox, the agent generating the stat can change the attributes of the corresponding element.' => 'Ja "Fixed" izvēles rūtiņu nav iezīmēta, tad aģents, kurš veido pārskatu, var mainīt attiecīgā elementa atribūtus.',
 
         # Template: AgentStatsEditSpecification
-        'Insert of the common specifications' => 'Ievadiet kopīgās pazīmes',
+        'Insert of the common specifications' => 'Ievadiet kopējas pazīmes',
         'Permissions' => 'Tiesības',
         'Format' => 'Formāts',
         'Graphsize' => 'Diagrammas izmērs',
@@ -1254,7 +1256,7 @@ sub Data {
         # Template: AgentTicketBounce
         'A message should have a To: recipient!' => 'Ziņojumam jābūt saņēmējam (Kam:)!',
         'You need a email address (e. g. customer@example.com) in To:!' => 'Kam: laukā nepieciešama e-pasta adrese (piem. klients@piemeram.lv)!',
-        'Bounce ticket' => 'Pieteikums varēs atlekt',
+        'Bounce ticket' => 'Pieteikumu varēs pārcelt',
         'Ticket locked!' => 'Pieteikums aizslēgts!',
         'Ticket unlock!' => 'Pieteikums atslēgts!',
         'Bounce to' => 'Atleks uz',
@@ -1287,21 +1289,21 @@ sub Data {
 
         # Template: AgentTicketCompose
         'A message must be spell checked!' => 'Ziņojumam jāpārbauda pareizrakstība!',
-        'Compose answer for ticket' => 'Sastādiet atbildi pieteikumam',
+        'Compose answer for ticket' => 'Rakstīt atbildi pieteikumam',
         'Pending Date' => 'Izlemt līdz (datumam)',
         'for pending* states' => 'izlemšanas* stāvokļiem',
 
         # Template: AgentTicketCustomer
         'Change customer of ticket' => 'Mainīt pieteikuma klientu',
         'Set customer user and customer id of a ticket' => 'Izvēlēties pieteikuma klientu un klienta identifikatoru',
-        'Customer User' => 'KLients',
+        'Customer User' => 'Knients',
         'Search Customer' => 'Meklēt klientu',
         'Customer Data' => 'Klienta dati',
         'Customer history' => 'Klienta vēstures dati',
         'All customer tickets.' => 'Visi klienta pieteikumi.',
 
         # Template: AgentTicketEmail
-        'Compose Email' => 'Sastādīt ziņojumu',
+        'Compose Email' => 'Izveidot e-pasta ziņojumu',
         'new ticket' => 'jauns pieteikums',
         'Refresh' => 'Atjaunot',
         'Clear To' => 'Nodzēst Kam:',
@@ -1310,7 +1312,7 @@ sub Data {
         # Template: AgentTicketEscalation
 
         # Template: AgentTicketForward
-        'Article type' => 'Raksta tips',
+        'Article type' => 'Ziņojuma tips',
 
         # Template: AgentTicketFreeText
         'Change free text of ticket' => 'Mainīt pieteikuma brīvo tekstu',
@@ -1349,8 +1351,8 @@ sub Data {
         # Template: AgentTicketOverviewNavBarSmall
 
         # Template: AgentTicketOverviewPreview
-        'Compose Answer' => 'Sastādīt atbildi',
-        'Contact customer' => 'Kontaktēties ar klientu',
+        'Compose Answer' => 'Rakstīt atbildi',
+        'Contact customer' => 'Kontaktēties (zvanīt) klientam',
         'Change queue' => 'Mainīt rindu',
 
         # Template: AgentTicketOverviewPreviewMeta
@@ -1403,9 +1405,9 @@ sub Data {
         'Search-Template' => 'Meklēšanas sagatave',
         'TicketFreeText' => 'Pieteikuma brīvais teksts',
         'Created in Queue' => 'Izveidots rindā',
-        'Article Create Times' => 'Raksta izveidošanas laiki',
-        'Article created' => 'Raksts izveidots',
-        'Article created between' => 'Raksts izveidots starp',
+        'Article Create Times' => 'Ziņojuma izveidošanas laiki',
+        'Article created' => 'Ziņojums izveidots',
+        'Article created between' => 'Ziņojums izveidots laikā starp',
         'Change Times' => 'Mainīt laikus',
         'No change time settings.' => 'Nemainīt laika iestatījumus',
         'Ticket changed' => 'Pieteikums izmainīts',
@@ -1427,7 +1429,7 @@ sub Data {
         'Split' => 'Sadalīt',
 
         # Template: AgentTicketZoomArticleFilterDialog
-        'Article filter settings' => 'Raksta filtra iestatījumi',
+        'Article filter settings' => 'Ziņojuma filtra iestatījumi',
         'Save filter settings as default' => 'Saglabāt filtra iestatījumus kā noklusētos',
 
         # Template: AgentWindowTab
@@ -1526,11 +1528,11 @@ sub Data {
         'Logfile' => 'Žurnāla fails) datne',
         '(Logfile just needed for File-LogModule!)' => '(Žurnāla fails. Tiek izmantots tikai failu žurnālam!)',
         'Webfrontend' => 'Pārlūka priekšpuse',
-        'Use utf-8 it your database supports it!' => 'Izmantojiet utf-8 kodējumu, ja datubāze to uztur!',
-        'Default Language' => 'Valoda pēc noklusējuma',
-        '(Used default language)' => '(Izmantotā valoda pēc noklusējuma)',
+        'Use utf-8 it your database supports it!' => 'Izmantojiet utf-8 kodējumu, ja to uztur datubāze!',
+        'Default Language' => 'Noklusētā valoda',
+        '(Used default language)' => '(Izmantotā noklusētā valoda)',
         'CheckMXRecord' => 'Pārbaudīt MX ierakstu',
-        '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Sastādot atbildes ziņojumu, pārbauda izmantoto e-pasta adrešu MX ierakstus. Nelietojiet, ja OTRS sistēma izmanto iezvanpieeju!)',
+        '(Checks MX recordes of used email addresses by composing an answer. Don\'t use CheckMXRecord if your OTRS machine is behinde a dial-up line $!)' => '(Nosūtot atbildes ziņojumu, OTRS pārbauda izmantoto e-pasta adrešu MX ierakstus. Nelietojiet, ja OTRS sistēma izmanto iezvanpieeju!)',
         'To be able to use OTRS you have to enter the following line in your command line (Terminal/Shell) as root.' => 'Lai varētu izmantot OTRS, sekojošā komanda jāizpilda terminālī/čaulā.',
         'Restart your webserver' => 'Pārstartējiet tīmekļa serveri (webserver).',
         'After doing so your OTRS is up and running.' => 'Pēc tam OTRS būs darba kārtībā un palaists.',
@@ -1560,7 +1562,7 @@ sub Data {
         # Template: Redirect
 
         # Template: Test
-        'OTRS Test Page' => 'VDEĀVK problēmu pieteikumu sistēmas testa lapa',
+        'OTRS Test Page' => 'OTRS problēmu pieteikumu sistēmas testa lapa',
         'Counter' => 'Skaitītājs',
 
         # Template: Warning
@@ -1583,6 +1585,7 @@ sub Data {
         'Close!' => 'Aizvērt!',
         'Reporter' => 'Ziņotājs',
         'Process-Path' => 'Procesa ceļš',
+        'A web calendar' => 'Kalendārs',
         'to get the realname of the sender (if given)' => 'lai izmantotu nosūtītāja īsto vārdu (ja ir norādīts)',
         'FAQ Search Result' => 'BUJ (FAQ) meklēšanas rezultāti',
         'To enable automatic execusion select at least one value form minutes, hours and days!' => 'Lai iestatītu automātisku izpildi, izvēlieties vismaz vienu vērtību no minūtēm, stundām un dienām!',
@@ -1596,7 +1599,7 @@ sub Data {
         'Current Impact Rating' => 'Tekošais ietekmes novērtējums',
         'Config options (e. g. <OTRS_CONFIG_HttpType>)' => 'Konfigurācijas iestatījumi (piem. <OTRS_CONFIG_HttpType>)',
         'FAQ System History' => 'BUJ (FAQ) sistēmas vēstures dati',
-        'customer realname' => 'klienta īstais vārds',
+        'customer realname' => 'klienta vārds',
         'Pending messages' => 'Neizlemtie pieteikumi',
         'Modules' => 'Moduļi',
         'for agent login' => 'aģenta pieteikumam sistēmā',
@@ -1625,7 +1628,7 @@ sub Data {
         'No * possible!' => '"*" nav iespējama!',
         'Load' => 'Ielādēt',
         'Change Time' => 'Mainīt laiku',
-        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'Tekošā lietotāja iestatījumi, kurš pieprasījis šo darbību (piem. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)',
+        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => 'Darbības pieprasītāja lietotāja iestatījumi (piem. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)',
         'Message for new Owner' => 'Ziņojums jaunajam īpašniekam',
         'to get the first 5 lines of the email' => 'lai parādītu pirmās piecas e-pasta ziņojuma rindiņas',
         'Sent new password to: ' => 'Nosutīt jauno paroli uz: ',
@@ -1639,7 +1642,7 @@ sub Data {
         'DB Admin Password' => 'Datubāzes administratora parole',
         'Bulk-Action' => 'Labot vairākus',
         'Drop Database' => 'Dzēst datubāzi',
-        'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Tekošā klienta lietotāja datu iestatījumi (piem. <OTRS_CUSTOMER_DATA_UserFirstname>)',
+        'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Tekošā klienta datu iestatījumi (piem. <OTRS_CUSTOMER_DATA_UserFirstname>)',
         'Pending type' => 'Neizlemts: tips',
         'Comment (internal)' => 'Komentārs (iekšējais)',
         'Ticket owner options (e. g. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)' => 'Pieteikuma īpašnieka iestatījumi (piem. &lt;OTRS_OWNER_USERFIRSTNAME&gt;)',
@@ -1657,7 +1660,7 @@ sub Data {
         'You use the DELETE option! Take care, all deleted Tickets are lost!!!' => 'Šis iestatījums DZĒŠ datus! Esiet uzmanīgi, visi nodzēstie pieteikumi tiks neatgriezeniski zaudēti!',
         'All Customer variables like defined in config option CustomerUser.' => 'Visi klienta mainīgie dati kā noteikts \'CustomerUser\' konfigurācijas iestatījumā.',
         'for agent lastname' => 'aģenta uzvārdam',
-        'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => 'Tekošā lietotāja iestatījumi, kurš pieprasījis šo darbību (piem. <OTRS_CURRENT_UserFirstname>)',
+        'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>)' => 'Darbības pieprasītāja lietotāja iestatījumi (piem. <OTRS_CURRENT_UserFirstname>)',
         'Reminder messages' => 'Atgādinājuma paziņojumi',
         'Parent-Object' => '\'Vecāku\' objekts',
         'Of couse this feature will take some system performance it self!' => 'Protams, šis iestatījums prasīs sistēmas resursus.',
@@ -1677,10 +1680,10 @@ sub Data {
         'System Status' => 'Systēmas statuss',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Pieteikuma datu iestatījumi (piem. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => 'Objekts jau piesaistīts kā %s.',
-        'A article should have a title!' => 'Rakstam jābūt arī virsrakstam!',
-        'Customer Users <-> Services' => 'Klientu lietotāji <-> Servisi',
+        'A article should have a title!' => 'Ziņojumam jābūt arī virsrakstam!',
+        'Customer Users <-> Services' => 'Klienti <-> Servisi',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Konfigurācijas iestatījumi (piem.&lt;OTRS_CONFIG_HttpType&gt;)',
-        'Compose Follow up' => 'Sastādīt sekošanas ziņojumu',
+        'Compose Follow up' => 'Rakstīt sekošanas ziņojumu',
         'Imported by' => 'Importējis',
         'Can\'t update password, need min. 8 characters!' => 'Nav iespējams mainīt paroli, nepieciešamas vismaz 8 rakstzīmes.',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Pieteikuma īpašnieka datu iestatījumi (piem. <OTRS_OWNER_UserFirstname>)',
@@ -1698,7 +1701,7 @@ sub Data {
         'Service-Name' => 'Servisa nosaukums',
         'Can not create link with %s!' => 'Nevar izveidot saiti ar %s!',
         'Linked as' => 'Sasaistīts kā',
-        'Welcome to OTRS' => 'Lūdzam VDEĀVK problēmu pieteikumu sistēmā',
+        'Welcome to OTRS' => 'Lūdzam OTRS problēmu pieteikumu sistēmā',
         'tmp_lock' => 'pagaidu slēgšana',
         'modified' => 'mainīts',
         'Delete old database' => 'Dzēst veco datubāzi',
@@ -1707,7 +1710,7 @@ sub Data {
         'send' => 'nosutīt',
         'Note Text' => 'Piezīmes teksts',
         'POP3 Account Management' => 'POP3 kontu pārvaldība',
-        'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'Tekošā klienta lietotāja datu iestatījumi (piem. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;).',
+        'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'Tekošā klienta datu iestatījumi (piem. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;).',
         'System State Management' => 'Sistēmas statusa pārvaldība',
         'Mailbox' => 'Pastkaste',
         'PhoneView' => 'Telefonu saraksts',
@@ -1715,10 +1718,10 @@ sub Data {
         'File-Path' => 'Faila (datnes) ceļa vārds',
         'Standard' => 'Standarta',
         'Can\'t update password, need 2 lower and 2 upper characters!' => 'Nav iespējams mainīt paroli, parolei jāsatur vismaz 2 lielo un 2 mazo burtu rakstzīmes.',
-        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Jūsu e-pasts ar pieteikuma numuru "<OTRS_TICKET>" ir atlecis pie "<OTRS_BOUNCE_TO>". Papildinformāciju, lūdzu, jautājiet "<OTRS_BOUNCE_TO>".',
+        'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Jūsu e-pasts ar pieteikuma numuru "<OTRS_TICKET>" ir pārcelts pie "<OTRS_BOUNCE_TO>". Papildinformāciju, lūdzu, jautājiet norādītajā adresē.',
         'Ticket Status View' => 'Pieteikuma statusa skats',
         'Modified' => 'Mainīts',
-        'Ticket selected for bulk action!' => 'Pieteikums izvēlēts kopīgai darbībai!',
+        'Ticket selected for bulk action!' => 'Pieteikums izvēlēts kopīgai apstrādei!',
         'History::SystemRequest' => 'Sistēmas pieprasījums (%s).',
     };
     # $$STOP$$
