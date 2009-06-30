@@ -2,7 +2,7 @@
 # Kernel/System/Service.pm - all service function
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Service.pm,v 1.36 2009-04-17 08:36:44 tr Exp $
+# $Id: Service.pm,v 1.37 2009-06-30 12:15:44 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::CheckItem;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 =head1 NAME
 
@@ -164,7 +164,7 @@ sub ServiceList {
         delete $ServiceList{$ServiceID};
     }
 
-    # delete invalid services an childs
+    # delete invalid services and childs
     for my $ServiceID ( keys %ServiceList ) {
 
         INVALIDNAME:
@@ -908,6 +908,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.36 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.37 $ $Date: 2009-06-30 12:15:44 $
 
 =cut
