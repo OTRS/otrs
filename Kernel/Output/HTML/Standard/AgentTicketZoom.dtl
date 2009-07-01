@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.56 2009-04-15 14:14:59 sb Exp $
+# $Id: AgentTicketZoom.dtl,v 1.57 2009-07-01 09:19:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -499,7 +499,7 @@ $Data{"AgentPhoneStrg"}
                   <td>
 # check if print should be shown
 <!-- dtl:block:AgentArticleComPrint -->
-                    <a href="$Env{"Baselink"}Action=AgentTicketPrint&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}" onmouseover="window.status='$JSText{"Print"}'; return true;" onmouseout="window.status='';">$Text{"Print"}</a>
+                    <a href="$Env{"Baselink"}Action=AgentTicketPrint&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}" onmouseover="window.status='$JSText{"Print"}'; return true;" onmouseout="window.status='';" target="print">$Text{"Print"}</a>
 <!-- dtl:block:AgentArticleComPrint -->
 # check if forward should be shown
 <!-- dtl:block:AgentArticleComForward -->
