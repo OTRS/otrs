@@ -2,7 +2,7 @@
 # Kernel/System/CustomerCompany.pm - All customer company related function should be here eventually
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerCompany.pm,v 1.18 2009-04-17 08:36:44 tr Exp $
+# $Id: CustomerCompany.pm,v 1.19 2009-07-01 20:36:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Valid;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -73,6 +73,7 @@ create an object
         LogObject    => $LogObject,
         DBObject     => $DBObject,
         TimeObject   => $TimeObject,
+        EncodeObject => $EncodeObject,
         MainObject   => $MainObject,
     );
 
@@ -86,7 +87,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject MainObject)) {
+    for (qw(DBObject ConfigObject LogObject MainObject EncodeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
     $Self->{ValidObject} = Kernel::System::Valid->new(%Param);
@@ -122,6 +123,7 @@ sub new {
             LogObject    => $Param{LogObject},
             ConfigObject => $Param{ConfigObject},
             MainObject   => $Param{MainObject},
+            EncodeObject => $Param{EncodeObject},
             DatabaseDSN  => $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{DSN},
             DatabaseUser => $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{User},
             DatabasePw   => $Self->{ConfigObject}->Get('CustomerCompany')->{Params}->{Password},
@@ -436,6 +438,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2009-04-17 08:36:44 $
+$Revision: 1.19 $ $Date: 2009-07-01 20:36:44 $
 
 =cut

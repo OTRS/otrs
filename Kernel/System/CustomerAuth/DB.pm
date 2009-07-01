@@ -2,7 +2,7 @@
 # Kernel/System/CustomerAuth/DB.pm - provides the db authentification
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.27 2009-04-01 08:51:06 ub Exp $
+# $Id: DB.pm,v 1.28 2009-07-01 20:36:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Crypt::PasswdMD5 qw(unix_md5_crypt);
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.27 $) [1];
+$VERSION = qw($Revision: 1.28 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -52,6 +52,7 @@ sub new {
             LogObject    => $Param{LogObject},
             ConfigObject => $Param{ConfigObject},
             MainObject   => $Param{MainObject},
+            EncodeObject => $Param{EncodeObject},
             DatabaseDSN =>
                 $Self->{ConfigObject}->Get( 'Customer::AuthModule::DB::DSN' . $Param{Count} ),
             DatabaseUser =>

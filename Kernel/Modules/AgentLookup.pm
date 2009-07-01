@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentLookup.pm - a generic lookup module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentLookup.pm,v 1.19 2009-02-16 11:20:53 tr Exp $
+# $Id: AgentLookup.pm,v 1.20 2009-07-01 20:36:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -25,7 +25,7 @@ sub new {
     bless( $Self, $Type );
 
     # check all needed objects
-    for (qw(TicketObject ParamObject DBObject LayoutObject ConfigObject LogObject)) {
+    for (qw(TicketObject ParamObject DBObject LayoutObject ConfigObject LogObject EncodeObject)) {
         if ( !$Self->{$_} ) {
             $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
         }
@@ -88,6 +88,7 @@ sub Run {
             LogObject    => $Self->{LogObject},
             ConfigObject => $Self->{ConfigObject},
             MainObject   => $Self->{MainObject},
+            EncodeObject => $Self->{EncodeObject},
             DatabaseDSN  => $Self->{Map}->{ $Param{Source} }->{Params}->{DSN},
             DatabaseUser => $Self->{Map}->{ $Param{Source} }->{Params}->{User},
             DatabasePw   => $Self->{Map}->{ $Param{Source} }->{Params}->{Password},
