@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/TicketOverviewSmall.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TicketOverviewSmall.pm,v 1.12 2009-03-27 17:36:03 mh Exp $
+# $Id: TicketOverviewSmall.pm,v 1.13 2009-07-01 19:18:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::CustomerUser;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -216,10 +216,14 @@ sub Run {
             Data => \%Param,
         );
     }
-    $Self->{LayoutObject}->Block(
-        Name => 'EscalationFooter',
-        Data => \%Param,
-    );
+
+    # increase footer size on escalation view
+    if ( $Param{Escalation} ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'EscalationFooter',
+            Data => \%Param,
+        );
+    }
 
     # use template
     $Output .= $Self->{LayoutObject}->Output(

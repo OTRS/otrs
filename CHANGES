@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.913 2009-06-30 11:02:41 martin Exp $
+# $Id: CHANGES,v 1.914 2009-07-01 19:18:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,9 @@
 # --
 
 2.4.0 beta5 (2009/07/??)
+ - (2009/07/01) Fixed bug# 3936 - "select all" in bulk action is not working
+    on only one ticket in overview.
+ - (2009/06/30) Updated Italian translation, Thanks to Remo Catelotti!
  - (2009/06/30) Fixed bug# 3934 - Error mesage on email processing - without
     any effect.
 

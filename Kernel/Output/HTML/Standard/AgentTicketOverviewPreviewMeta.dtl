@@ -2,7 +2,7 @@
 # AgentTicketOverviewPreviewMeta.dtl - provides HTML Ticket Overview
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketOverviewPreviewMeta.dtl,v 1.12 2009-04-07 06:51:48 martin Exp $
+# $Id: AgentTicketOverviewPreviewMeta.dtl,v 1.13 2009-07-01 19:18:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -88,6 +88,9 @@ function select_item_check () {
 <!-- dtl:block:TicketHeader -->
 
 <!-- dtl:block:TicketFooter -->
+<form name="bulk">
+  <input type="hidden" name="TicketID" value=""/>
+</form>
 <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="matrix">
   <input type="hidden" name="Action" value="AgentTicketBulk"/>
 <!-- dtl:block:TicketFooterBulkItem -->
