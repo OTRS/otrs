@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.222 2009-06-29 09:56:21 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.223 2009-07-02 23:06:20 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script. Also disables if not active, the GenericAgent, PackageManager and SQL Box, since it's possible to use it for destructive write queries such as DROP DATABASE, and also to steal user passwords.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden. Auch deaktiviert sind der GenericAgent, der PackageManager und die SQL Box im Admin-Interface, bis diese Einstellung aktiviert wurde.</Description>
@@ -100,7 +100,7 @@
     </ConfigItem>
     <ConfigItem Name="DefaultLanguage" Required="1" Valid="1">
         <Description Lang="en">The default front-end language. Possible values that can be used are determined by the available language files on your system. Please see the next setting to determine which values can be used.</Description>
-        <Description Lang="de">Standard Frontend Sprache. Mögliche Werte sind ar_SA, bg, ct, cz, da, de, en, el, es, et, fi, fr, hu, it, nb_NO, nl, pl, pt, pt_BR ru, th, sk_SK, sv, tr, vi_VN und zh_CN.</Description>
+        <Description Lang="de">Standard Frontend Sprache. Mögliche Werte sind ar_SA, bg, ct, cz, da, de, en, en_CA, en_GB, el, es, et, fi, fr, hu, it, nb_NO, nl, pl, pt, pt_BR ru, th, sk_SK, sv, tr, vi_VN und zh_CN.</Description>
         <Group>Framework</Group>
         <SubGroup>Core</SubGroup>
         <Setting>
@@ -120,7 +120,9 @@
                 <Item Key="cz">Czech (&amp;#x010c;esky)</Item>
                 <Item Key="da">Dansk</Item>
                 <Item Key="de">Deutsch</Item>
-                <Item Key="en">English</Item>
+                <Item Key="en">English (United States)</Item>
+                <Item Key="en_CA">English (Canada)</Item>
+                <Item Key="en_GB">English (United Kingdom)</Item>
                 <Item Key="es">Espa&amp;ntilde;ol</Item>
                 <Item Key="et">Eesti</Item>
                 <Item Key="el">Greek (&amp;#x0395;&amp;#x03bb;&amp;#x03bb;&amp;#x03b7;&amp;#x03bd;&amp;#x03b9;&amp;#x03ba;&amp;#x03ac;)</Item>

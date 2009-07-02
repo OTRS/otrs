@@ -1,27 +1,27 @@
 # --
-# Kernel/Language/en.pm - provides en_US languag translation
+# Kernel/Language/en_GB.pm - provides en_GB languag translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: en.pm,v 1.30 2009-07-02 23:06:20 martin Exp $
+# $Id: en_GB.pm,v 1.1 2009-07-02 23:06:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::Language::en;
+package Kernel::Language::en_GB;
 
 use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 sub Data {
     my $Self = shift;
 
-    # http://en.wikipedia.org/wiki/Date_and_time_notation_by_country#United_States
-    # month-day-year (e.g., "12/31/99")
+    # http://en.wikipedia.org/wiki/Date_and_time_notation_by_country#United_Kingdom
+    # day-month-year (e.g., "31/12/99")
 
     # $$START$$
     # Last translation file sync: Thu Apr  9 10:12:50 2009
@@ -30,11 +30,11 @@ sub Data {
     $Self->{Charset} = ['us-ascii', 'UTF-8', 'iso-8859-1', 'iso-8859-15', ];
 
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
-    $Self->{DateFormat}          = '%M/%D/%Y %T';
-    $Self->{DateFormatLong}      = '%T - %M/%D/%Y';
-    $Self->{DateFormatShort}     = '%M/%D/%Y';
-    $Self->{DateInputFormat}     = '%M/%D/%Y';
-    $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
+    $Self->{DateFormat}          = '%D/%M/%Y %T';
+    $Self->{DateFormatLong}      = '%T - %D/%M/%Y';
+    $Self->{DateFormatShort}     = '%D/%M/%Y';
+    $Self->{DateInputFormat}     = '%D/%M/%Y';
+    $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
 
     # maybe nothing ... or help texts
     $Self->{Translation} = {

@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.915 2009-07-02 16:42:51 ub Exp $
+# $Id: CHANGES,v 1.916 2009-07-02 23:06:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,12 +10,17 @@
 # --
 
 2.4.0 beta5 (2009/07/??)
+ - (2009/07/01) Added Kernel/Language/en_CA.pm and Kernel/Language/en_GB.pm
+    to have different date formats for US, CA and GB.
+ - (2009/07/01) Fixed bug# 3939 - Not able to configure an external
+    customer dastabase source // Got no EncodeObject! at Kernel/System/DB.pm
+    line 96.
  - (2009/07/01) Fixed bug# 3935 - Frontend::CustomerUser::Item###9-OpenTickets
     does not work anymore.
  - (2009/07/01) Fixed bug# 3936 - "select all" in bulk action is not working
     on only one ticket in overview.
  - (2009/06/30) Updated Italian translation, Thanks to Remo Catelotti!
- - (2009/06/30) Fixed bug# 3934 - Error mesage on email processing - without
+ - (2009/06/30) Fixed bug# 3934 - Error message on email processing - without
     any effect.
 
 2.4.0 beta4 (2009/06/30)

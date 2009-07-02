@@ -1,43 +1,52 @@
 # --
-# Kernel/Language/en.pm - provides en_US languag translation
+# Kernel/Language/en_CA.pm - provides en_CA language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: en.pm,v 1.30 2009-07-02 23:06:20 martin Exp $
+# $Id: en_CA.pm,v 1.1 2009-07-02 23:06:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
-
-package Kernel::Language::en;
+package Kernel::Language::en_CA;
 
 use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 sub Data {
     my $Self = shift;
 
-    # http://en.wikipedia.org/wiki/Date_and_time_notation_by_country#United_States
-    # month-day-year (e.g., "12/31/99")
+    # Hit should be "%y-%m-%d". This is the standard date format in Canada (as specified by
+    # the Canadian Standards Association in CSA Z234.5:1989, which adopts the ISO 8601 standard)
+    #
+    # http://en.wikipedia.org/wiki/Date_and_time_notation_by_country#Canada
+    # year(2009)-month(06)-day(09),
 
     # $$START$$
-    # Last translation file sync: Thu Apr  9 10:12:50 2009
+    # Last translation file sync: Mon Jun  8 07:32:04 2009
 
     # possible charsets
     $Self->{Charset} = ['us-ascii', 'UTF-8', 'iso-8859-1', 'iso-8859-15', ];
 
     # date formats (%A=WeekDay;%B=LongMonth;%T=Time;%D=Day;%M=Month;%Y=Jear;)
-    $Self->{DateFormat}          = '%M/%D/%Y %T';
-    $Self->{DateFormatLong}      = '%T - %M/%D/%Y';
-    $Self->{DateFormatShort}     = '%M/%D/%Y';
-    $Self->{DateInputFormat}     = '%M/%D/%Y';
-    $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
+    $Self->{DateFormat}          = '%Y-%M-%D %T';
+    $Self->{DateFormatLong}      = '%T - %Y-%M-%D';
+    $Self->{DateFormatShort}     = '%Y-%M-%D';
+    $Self->{DateInputFormat}     = '%Y-%M-%D';
+    $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
 
-    # maybe nothing ... or help texts
     $Self->{Translation} = {
+
+        # we call it cell in canada
+        'Mobile' => 'Cell',
+
+        # Zip is american reference, postal code is canadian
+        'Zip' => 'Postal Code',
+
+        # history translation
         'History::Move' => 'Ticket moved into Queue "%s" (%s) from Queue "%s" (%s).',
         'History::TypeUpdate' => 'Updated Type to %s (ID=%s).',
         'History::ServiceUpdate' => 'Updated Service to %s (ID=%s).',
