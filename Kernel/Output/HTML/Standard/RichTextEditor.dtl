@@ -1,8 +1,8 @@
 # --
-# YUI.dtl - provides YUI functions
+# RichTextEditor.dtl - provides the YUI Rich Text Editor
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: YUI.dtl,v 1.7 2009-06-13 00:43:28 martin Exp $
+# $Id: RichTextEditor.dtl,v 1.1 2009-07-02 12:45:40 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -135,6 +135,7 @@
     };
 
     var myEditor = new YAHOO.widget.Editor('RichText', EditorConfig);
+
 # enable image uploader only for actions with regular attachment upload handling
     if ( document.compose && document.compose.FormID ) {
         yuiImgUploader(myEditor, 'RichText', '$Env{"CGIHandle"}', 'param_name');

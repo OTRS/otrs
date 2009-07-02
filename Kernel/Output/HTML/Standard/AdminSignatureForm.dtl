@@ -2,7 +2,7 @@
 # AdminSignatureForm.dtl - provides HTML form for AdminSignature
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSignatureForm.dtl,v 1.32 2009-03-16 23:59:34 sb Exp $
+# $Id: AdminSignatureForm.dtl,v 1.33 2009-07-02 12:48:45 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,7 @@
 # --
 
 <!-- dtl:block:RichText -->
-$Include{"YUI"}
+$Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
 <!-- dtl:block:Overview -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">

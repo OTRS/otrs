@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.39 2009-04-15 22:54:27 sb Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.40 2009-07-02 12:50:22 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -179,7 +179,7 @@ $Data{"Article::Text"}
             <td class="contentvalue">
               <div class="yui-skin-sam">
 <!-- dtl:block:RichText -->
-$Include{"YUI"}
+$Include{"RichTextEditor"}
 # set white background for buttons
 <style type="text/css">
 <!--

@@ -2,7 +2,7 @@
 # CustomerTicketMessage.dtl - provides HTML form for customer message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.dtl,v 1.17 2009-04-15 14:42:18 sb Exp $
+# $Id: CustomerTicketMessage.dtl,v 1.18 2009-07-02 12:50:22 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -107,7 +107,7 @@ function submit_compose() {
                   <td class="contentvalue">
                     <div class="yui-skin-sam">
 <!-- dtl:block:RichText -->
-$Include{"YUI"}
+$Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
 <textarea id="RichText" name="Body" rows="15" cols="$Config{"Ticket::Frontend::TextAreaNote"}">
 $QData{"Body"}

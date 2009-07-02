@@ -2,7 +2,7 @@
 # AdminEmail.dtl - provides global HTML AdminEmail
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminEmail.dtl,v 1.17 2009-06-24 23:01:57 martin Exp $
+# $Id: AdminEmail.dtl,v 1.18 2009-07-02 12:47:43 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,7 +11,7 @@
 
 <!-- start -->
 <!-- dtl:block:RichText -->
-$Include{"YUI"}
+$Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
   <tr>

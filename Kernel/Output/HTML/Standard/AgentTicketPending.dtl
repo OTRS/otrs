@@ -2,7 +2,7 @@
 # AgentTicketPending.dtl - provides HTML form for pending mask
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPending.dtl,v 1.31 2009-04-03 11:11:59 sb Exp $
+# $Id: AgentTicketPending.dtl,v 1.32 2009-07-02 12:49:41 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -204,7 +204,7 @@ function change_selected(sel) {
                   <td class="contentvalue">
                     <div class="yui-skin-sam">
 <!-- dtl:block:RichText -->
-$Include{"YUI"}
+$Include{"RichTextEditor"}
 <!-- dtl:block:RichText -->
 <textarea id="RichText" name="Body" rows="16" cols="$Config{"Ticket::Frontend::TextAreaNote"}">
 $QData{"Body"}
