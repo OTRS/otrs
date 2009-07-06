@@ -5,7 +5,7 @@
 # Copyright (C) 2005 Giordano Bianchi <giordano.bianchi at gmail.com>
 # Copyright (C) 2009 Remo Catelotti <Remo.Catelotti at agilesistemi.com>
 # --
-# $Id: it.pm,v 1.83 2009-06-30 15:40:09 martin Exp $
+# $Id: it.pm,v 1.84 2009-07-06 21:50:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.83 $) [1];
+$VERSION = qw($Revision: 1.84 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -88,7 +88,7 @@ sub Data {
         'Examples' => 'Esempi',
         'valid' => 'valido',
         'invalid' => 'non valido',
-        '* invalid' => '',
+        '* invalid' => ' * non valido',
         'invalid-temporarily' => 'non valido-temporaneamente',
         ' 2 minutes' => ' 2 minuti',
         ' 5 minutes' => ' 5 minuti',
@@ -104,7 +104,7 @@ sub Data {
         '-none-' => '',
         'none' => 'nessuno',
         'none!' => 'nessuno!',
-        'none - answered' => 'nessuno - risposto',
+        'none - answered' => 'nessuna - risposta',
         'please do not edit!' => 'per favore non modificare!',
         'AddLink' => 'Aggiungi link',
         'Link' => 'Collega',
@@ -229,7 +229,7 @@ sub Data {
         'Session has timed out. Please log in again.' => 'Sessione scaduta. Per favore, effettua di nuovo l\'accesso.',
         'No Permission!' => 'Permessi insufficienti',
         'To: (%s) replaced with database email!' => 'A: (%s) sostituito con l\'indirizzo presente nel database',
-        'Cc: (%s) added database email!' => '',
+        'Cc: (%s) added database email!' => 'Cc: (%s) aggiunto nel db email!',
         '(Click here to add)' => '(clicca per aggiungere)',
         'Preview' => 'Anteprima',
         'Package not correctly deployed! You should reinstall the Package again!' => 'Errore ! si deve reinstallare il Pacchetto! ',
@@ -264,10 +264,10 @@ sub Data {
         'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' => 'Nessun Packages richiesto in linea ,esistono altri Packages non richiesti ',
         'No Packages or no new Packages in selected Online Repository!' => 'No Packages o nussun  Packages disponibile OnLine ',
         'printed at' => 'Stampato il ',
-        'Dear Mr. %s,' => '',
-        'Dear Mrs. %s,' => '',
-        'Dear %s,' => '',
-        'Hello %s,' => '',
+        'Dear Mr. %s,' => 'Spettabile  sig. %s',
+        'Dear Mrs. %s,' => 'Spettabile sig.ra %s',
+        'Dear %s,' => 'Spettabile %s',
+        'Hello %s,' => 'Salve %s , ',
         'This account exists.' => 'Questo account esiste ',
         'New account created. Sent Login-Account to %s.' => 'Nuove Credenziali create . Inviato Login-Account a %s .',
         'Please press Back and try again.' => 'Prego tornare in dietro a riprovare .',
@@ -287,20 +287,20 @@ sub Data {
         '7 Day Stats' => '',
         'Bold' => '',
         'Italic' => '',
-        'Underline' => '',
-        'Font Color' => '',
-        'Background Color' => '',
+        'Underline' => 'Sottolinea',
+        'Font Color' => 'Colore Carattere',
+        'Background Color' => 'Colore sfondo',
         'Remove Formatting' => '',
-        'Show/Hide Hidden Elements' => '',
-        'Align Left' => '',
-        'Align Center' => '',
-        'Align Right' => '',
+        'Show/Hide Hidden Elements' => 'Mostra/Nascondi Elementi nascosti',
+        'Align Left' => 'Allinea a sinistra',
+        'Align Center' => 'Allinea in centro',
+        'Align Right' => 'Allinea a destra',
         'Justify' => '',
         'Header' => 'Intestazione (header)',
-        'Indent' => '',
-        'Outdent' => '',
-        'Create an Unordered List' => '',
-        'Create an Ordered List' => '',
+        'Indent' => 'Indentazione',
+        'Outdent' => 'Non Indentazione ',
+        'Create an Unordered List' => 'Crea una lista Disordinata',
+        'Create an Ordered List' => 'Crea una lista Ordinata',
         'HTML Link' => '',
         'Insert Image' => '',
         'CTRL' => '',
@@ -403,7 +403,7 @@ sub Data {
         'Common Specification' => '',
         'Xaxis' => '',
         'Value Series' => '',
-        'Restrictions' => '',
+        'Restrictions' => 'Restrizioni-filtro',
         'graph-lines' => '',
         'graph-bars' => '',
         'graph-hbars' => '',
@@ -414,26 +414,26 @@ sub Data {
         'extended' => '',
         'Agent/Owner' => '',
         'Created by Agent/Owner' => '',
-        'Created Priority' => '',
-        'Created State' => '',
-        'Create Time' => '',
+        'Created Priority' => 'Priorita ',
+        'Created State' => 'Stato ticket',
+        'Create Time' => 'Tempo di Creazione',
         'CustomerUserLogin' => '',
-        'Close Time' => '',
+        'Close Time' => 'Tempo di Chiusura',
         'TicketAccumulation' => '',
-        'Attributes to be printed' => '',
-        'Sort sequence' => '',
-        'Order by' => '',
+        'Attributes to be printed' => 'Attributi sa stampare',
+        'Sort sequence' => 'Sequeza di ordinamento',
+        'Order by' => 'Ordinati per ',
         'Limit' => 'Limite',
-        'Ticketlist' => '',
-        'ascending' => '',
-        'descending' => '',
+        'Ticketlist' => 'Lista Tickets',
+        'ascending' => 'Crescente',
+        'descending' => 'Decrescente',
         'First Lock' => '',
         'Evaluation by' => '',
-        'Total Time' => '',
+        'Total Time' => 'Tempo totale',
         'Ticket Average' => '',
         'Ticket Min Time' => '',
         'Ticket Max Time' => '',
-        'Number of Tickets' => '',
+        'Number of Tickets' => 'Numero dei Tickets',
         'Article Average' => '',
         'Article Min Time' => '',
         'Article Max Time' => '',
@@ -441,8 +441,8 @@ sub Data {
         'Accounted time by Agent' => '',
         'Ticket/Article Accounted Time' => '',
         'TicketAccountedTime' => '',
-        'Ticket Create Time' => '',
-        'Ticket Close Time' => '',
+        'Ticket Create Time' => 'Tempo di creazione Tickets',
+        'Ticket Close Time' => 'Tempo di chiusura Tickets',
 
         # Template: AAATicket
         'Lock' => 'Prendi in gestione',
@@ -590,22 +590,22 @@ sub Data {
         'Out Of Office' => 'Assente',
         'Select your out of office time.' => 'Seleziona il tempo di assenza.',
         'CompanyTickets' => '',
-        'MyTickets' => '',
-        'New Ticket' => '',
-        'Create new Ticket' => '',
-        'Customer called' => '',
-        'phone call' => '',
+        'MyTickets' => 'I miei Tickets',
+        'New Ticket' => 'Nuovo Ticket',
+        'Create new Ticket' => 'Crea un nuovo Ticket',
+        'Customer called' => 'Utente chiamato',
+        'phone call' => 'Telefono',
         'Reminder Reached' => '',
         'Reminder Tickets' => '',
         'Escalated Tickets' => '',
-        'New Tickets' => '',
+        'New Tickets' => 'Nuovo Ticket',
         'Open Tickets / Need to be answered' => 'Tickets Aperti/ Serve una risposta',
         'Tickets which need to be answered!' => 'Tickets che richiedono una risposta!',
         'All new tickets!' => 'Tutti nuovi tickets!',
         'All tickets which are escalated!' => 'Tutti i tickets in gestione!',
         'All tickets where the reminder date has reached!' => 'tickets con data di avviso superata!',
         'Responses' => 'Risposte',
-        'Responses <-> Queue' => '',
+        'Responses <-> Queue' => 'Risposte <-> Code',
         'Auto Responses' => 'Risposte Automatiche',
         'Auto Responses <-> Queue' => 'Risposte Automatiche <-> Code',
         'Attachments <-> Responses' => 'Allegati <-> Risposte',
@@ -668,10 +668,10 @@ sub Data {
         'To get the first 5 lines of the email.' => 'Usa le prime 5 linee della Email .',
         'To get the realname of the sender (if given).' => 'Usa il realname dello user (se presente).',
         'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => 'Usa gli attributi presenti nel testo ( esempio  (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).',
-        'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>).' => '',
-        'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>).' => '',
-        'Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>).' => '',
-        'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>).' => '',
+        'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>).' => 'Opzioni per dati utente corrente (es: <OTRS_CUSTOMER_DATA_UserFirstname>).',
+        'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>).' => 'Opzioni proprietario Ticket ( es. <OTRS_OWNER_UserFirstname>).',
+        'Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>).' => 'Opzioni di risposta Ticket (es: <OTRS_RESPONSIBLE_UserFirstname>).',
+        'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>).' => 'Opzioni dell\' utente correte e richiedente  (es. <OTRS_CURRENT_UserFirstname>).',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>).' => 'Opzioni per i dati nel ticket (es. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>).',
         'Config options (e. g. <OTRS_CONFIG_HttpType>).' => 'Opzioni di Config (es. <OTRS_CONFIG_HttpType>).',
 
@@ -680,7 +680,7 @@ sub Data {
         'Search for' => 'Cerca',
         'Add Customer Company' => '',
         'Add a new Customer Company.' => '',
-        'List' => '',
+        'List' => 'Lista',
         'This values are required.' => 'Questi valori sono richiesti',
         'This values are read only.' => 'Questi valori non sono modificabili',
 
@@ -694,7 +694,7 @@ sub Data {
         'Customer user will be needed to have a customer history and to login via customer panel.' => 'Il cliente sarà necessario per permettere il collegamento via web e avere la tracciatura ',
 
         # Template: AdminCustomerUserGroupChangeForm
-        'Customer Users <-> Groups Management' => '',
+        'Customer Users <-> Groups Management' => 'Utente <-> Gruppi',
         'Change %s settings' => 'Modifica impostazioni di %s',
         'Select the user:group permissions.' => 'Seleziona i permessi della coppia utente:gruppo.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the user).' => 'Se non viene selezionata nessuna opzione, non verranno dati permessi a questo gruppo (le richieste non saranno disponibili).',
@@ -707,7 +707,7 @@ sub Data {
         # Template: AdminCustomerUserGroupForm
 
         # Template: AdminCustomerUserService
-        'Customer Users <-> Services Management' => '',
+        'Customer Users <-> Services Management' => 'Utenti <-> Servizi',
         'CustomerUser' => 'Cliente',
         'Service' => 'Servizio',
         'Edit default services.' => 'Edita il servizio di default',
@@ -796,7 +796,7 @@ sub Data {
         'Param 6' => 'Parametro 6',
         'Send agent/customer notifications on changes' => 'Invia a un agente/utente una notifica se cambia',
         'Save' => 'Salva',
-        '%s Tickets affected! Do you really want to use this job?' => '',
+        '%s Tickets affected! Do you really want to use this job?' => '%s Tickets affetti! Vuoi veramente usare questo ? ',
 
         # Template: AdminGroupForm
         'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' => 'WARNING: Quando cambi il nome del gruppo di \'admin\', prima del cambiamento in SysConfig, vieni bloccato sul pannello administrations! Se questo accade rimentti il nome precedente .',
@@ -812,7 +812,7 @@ sub Data {
         'Time' => 'Tempo',
 
         # Template: AdminMailAccount
-        'Mail Account Management' => '',
+        'Mail Account Management' => 'Gestione Credenziali Mail ',
         'Host' => '',
         'Trusted' => 'Fidato',
         'Dispatching' => 'Smistamento',
@@ -827,22 +827,22 @@ sub Data {
         # Template: AdminNotificationEventForm
         'Notification Management' => 'Gestione delle notifiche',
         'Add Notification' => 'Aggiungi notifica',
-        'Add a new Notification.' => '',
+        'Add a new Notification.' => 'Aggiungi nuova Notifica.',
         'Name is required!' => 'Manca il nome!',
-        'Event is required!' => '',
+        'Event is required!' => 'Evento e\' richiesto !',
         'A message should have a body!' => 'Un messaggio deve avere un contenuto!',
         'Recipient' => '',
         'Group based' => '',
         'Agent based' => '',
         'Email based' => '',
-        'Article Type' => '',
+        'Article Type' => 'Tipo Articolo',
         'Only for ArticleCreate Event.' => '',
-        'Subject match' => '',
-        'Body match' => '',
+        'Subject match' => 'Match nell\' oggetto mail',
+        'Body match' => 'Match nel corpo mail ',
         'Notifications are sent to an agent or a customer.' => 'Le notifiche sono inviate ad un operatore o a un cliente',
         'To get the first 20 character of the subject (of the latest agent article).' => 'Per avere i primi 20 caratteri mail - subject (agent) ',
         'To get the first 5 lines of the body (of the latest agent article).' => 'Per avere le prime 5 righe corpo mail (agent).',
-        'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' => '',
+        'To get the article attribute (e. g. <OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' => 'Per avere gli attributi Articolo ( es: <OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).',
         'To get the first 20 character of the subject (of the latest customer article).' => 'Per avere i primi 20 caratteri mail - subject (customer).',
         'To get the first 5 lines of the body (of the latest customer article).' => 'Per avere le prime 5 righe corpo mail (customer).',
 
@@ -855,8 +855,8 @@ sub Data {
         'Version' => 'Versione',
         'Do you really want to uninstall this package?' => 'Vuoi davvero disinstallare questo pacchetto?',
         'Reinstall' => 'Re-installa',
-        'Do you really want to reinstall this package (all manual changes get lost)?' => '',
-        'Continue' => '',
+        'Do you really want to reinstall this package (all manual changes get lost)?' => 'Vuoi veramente Re-installere questo Package (tutte le modifiche saranno perse ) ? ',
+        'Continue' => 'Continua',
         'Install' => 'Installa',
         'Package' => 'Pacchetto',
         'Online Repository' => 'Archivio Online',
@@ -869,7 +869,7 @@ sub Data {
         'Download' => 'Scarica',
         'Rebuild' => 'Ricrea',
         'ChangeLog' => '',
-        'Date' => '',
+        'Date' => 'Data',
         'Filelist' => '',
         'Download file from package!' => '',
         'Required' => '',
@@ -879,7 +879,7 @@ sub Data {
         'Diff' => '',
 
         # Template: AdminPerformanceLog
-        'Performance Log' => '',
+        'Performance Log' => 'Log delle Performance',
         'This feature is enabled!' => 'Funzione abilitata',
         'Just use this feature if you want to log each request.' => 'usa questa funzionalita per tracciare ogni richiesta',
         'Activating this feature might affect your system performance!' => 'L\' attivazione di questa funzionalita\' puo\' ridurre le prestazioni del sistema .',
@@ -891,12 +891,12 @@ sub Data {
         'Range' => 'intervallo',
         'Interface' => 'interfaccia',
         'Requests' => 'Richiesta',
-        'Min Response' => '',
-        'Max Response' => '',
-        'Average Response' => '',
+        'Min Response' => 'Minimo per Risposta',
+        'Max Response' => 'Massimo per Risposta',
+        'Average Response' => 'Media per Risposta',
         'Period' => 'Periodo',
-        'Min' => '',
-        'Max' => '',
+        'Min' => 'Minimo',
+        'Max' => 'Massimo',
         'Average' => 'Media',
 
         # Template: AdminPGPForm
@@ -912,22 +912,22 @@ sub Data {
         # Template: AdminPostMasterFilter
         'PostMaster Filter Management' => 'Gestione filtri posta in ingresso',
         'Filtername' => 'Nome del filtro',
-        'Stop after match' => '',
+        'Stop after match' => 'Ferma dopo trovato',
         'Match' => 'Corrispondenza',
         'Value' => 'Valore',
         'Set' => 'Impostazione',
         'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => 'Effettua lo smistamento o filtra la posta in ingresso in base all\'X-Header! Sono accettate anche espressioni regolari.',
-        'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' => '',
+        'If you want to match only the email address, use EMAILADDRESS:info@example.com in From, To or Cc.' => 'Se vuoi che corrispond solo negli indirizzi di email , usa EMAILADDRESS:info@example.com in From, To or Cc.',
         'If you use RegExp, you also can use the matched value in () as [***] in \'Set\'.' => 'Se usi espressioni regolari, puoi anche utilizzare il valore corrispondente a () come [***] negli insiemi',
 
         # Template: AdminPriority
-        'Priority Management' => '',
-        'Add Priority' => '',
-        'Add a new Priority.' => '',
+        'Priority Management' => 'Gestione Priorita\' ',
+        'Add Priority' => 'Aggiungi Priorita\' ',
+        'Add a new Priority.' => 'Aggiungi nuova Priorita\' ',
 
         # Template: AdminQueueAutoResponseForm
         'Queue <-> Auto Responses Management' => 'Code <-> Risposta automatica ',
-        'settings' => '',
+        'settings' => 'Configura',
 
         # Template: AdminQueueForm
         'Queue Management' => 'Gestione delle code',
@@ -936,7 +936,7 @@ sub Data {
         '0 = no unlock' => '0 = nessuno sblocco automatico',
         'Only business hours are counted.' => '',
         '0 = no escalation' => '0 = nessuna escalation',
-        'Notify by' => '',
+        'Notify by' => 'Notificato da',
         'Follow up Option' => 'Opzioni per le prosecuzioni',
         'Ticket lock after a follow up' => 'Presa in gestione della richiesta dopo una prosecuzione',
         'Systemaddress' => 'Indirizzo di sistema',
@@ -1060,9 +1060,9 @@ sub Data {
         'SysConfig' => '',
         'Group selection' => 'Selezione del gruppo',
         'Show' => 'Mostra',
-        'Download Settings' => '',
-        'Download all system config changes.' => '',
-        'Load Settings' => '',
+        'Download Settings' => 'Scarica config.',
+        'Download all system config changes.' => 'Scarica tutte le modifiche config. di sistema.',
+        'Load Settings' => 'Carica config.',
         'Subgroup' => '',
         'Elements' => '',
 
@@ -1085,13 +1085,13 @@ sub Data {
         'Add System Address' => 'Inserisci Email di sistema',
         'Add a new System Address.' => 'Inserisci nuova Email di sistema',
         'Realname' => 'Nome',
-        'All email addresses get excluded on replaying on composing an email.' => '',
+        'All email addresses get excluded on replaying on composing an email.' => 'Tutte gli indirizzi di Email sono esclusi se in risposta a una mail ',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Tutte le email in arrivo indirizzate a questo indirizzo (campo To:) saranno smistate nella coda selezionata!',
 
         # Template: AdminTypeForm
-        'Type Management' => '',
-        'Add Type' => '',
-        'Add a new Type.' => '',
+        'Type Management' => 'Gestione tipologie',
+        'Add Type' => 'Aggiungi tipo',
+        'Add a new Type.' => 'Aggiungi nuovo tipo',
 
         # Template: AdminUserForm
         'User Management' => 'Gestione operatori',
@@ -1124,7 +1124,7 @@ sub Data {
         # Template: AgentCustomerTableView
 
         # Template: AgentDashboard
-        'Dashboard' => '',
+        'Dashboard' => 'Cruscotto',
 
         # Template: AgentDashboardCalendarOverview
         'in' => '',
@@ -1132,10 +1132,10 @@ sub Data {
         # Template: AgentDashboardImage
 
         # Template: AgentDashboardProductNotify
-        '%s %s is available!' => '',
-        'Please update now.' => '',
+        '%s %s is available!' => '%s %s e\' disponibile!',
+        'Please update now.' => 'Prego aggiornare ora',
         'Release Note' => '',
-        'Level' => '',
+        'Level' => 'Livello',
 
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => 'Inviato il %s .',
@@ -1173,8 +1173,8 @@ sub Data {
 
         # Template: AgentStatsEditRestrictions
         'Select the restrictions to characterise the stat' => 'Seleziona le regole filtro per le stat',
-        'Fixed' => 'Fissa',
-        'Please select only one element or turn off the button \'Fixed\'.' => 'Seleziona solo un elemento e togli  \'Fissa\' . ',
+        'Fixed' => 'Fisso',
+        'Please select only one element or turn off the button \'Fixed\'.' => 'Seleziona solo un elemento e togli  \'Fisso\' . ',
         'Absolut Period' => ' Periodo assoluto',
         'Between' => 'fra',
         'Relative Period' => 'Periodo relativo',
@@ -1303,7 +1303,7 @@ sub Data {
         # Template: AgentTicketEmail
         'Compose Email' => 'Componi email',
         'new ticket' => 'nuova richiesta',
-        'Refresh' => '',
+        'Refresh' => 'Aggiorna',
         'Clear To' => 'Cancella destinatario',
         'All Agents' => 'Tutti gli operatori',
 
@@ -1369,7 +1369,7 @@ sub Data {
         'Set Pending' => 'Imposta attesa',
 
         # Template: AgentTicketPhone
-        'Phone call' => 'Chiamata telefonica',
+        'Phone call' => 'Chiamata telefonica ',
         'Clear From' => 'Cancella il campo mittente',
 
         # Template: AgentTicketPhoneOutbound
@@ -1394,7 +1394,7 @@ sub Data {
         'Ticket escalation!' => 'Richiesta escalation!',
 
         # Template: AgentTicketResponsible
-        'Change responsible of ticket' => '',
+        'Change responsible of ticket' => 'Cambia responsabile del Ticket',
 
         # Template: AgentTicketSearch
         'Ticket Search' => 'Ricerca richiesta',
@@ -1402,13 +1402,13 @@ sub Data {
         'Search-Template' => 'Modello di ricerca',
         'TicketFreeText' => 'Ricerca a testo libero nella richiesta',
         'Created in Queue' => 'Creata nella Coda',
-        'Article Create Times' => '',
-        'Article created' => '',
-        'Article created between' => '',
-        'Change Times' => '',
-        'No change time settings.' => '',
-        'Ticket changed' => '',
-        'Ticket changed between' => '',
+        'Article Create Times' => 'Tempo di creazione Articolo',
+        'Article created' => 'Articolo creato',
+        'Article created between' => 'Articolo creato fra',
+        'Change Times' => 'modifiche tempo ',
+        'No change time settings.' => 'Nessuna modifica tempo.',
+        'Ticket changed' => 'Ticket cambiato',
+        'Ticket changed between' => 'Ticket cambiato fra ',
         'Result Form' => 'Tipo di risultato',
         'Save Search-Profile as Template?' => 'Salvare il profilo di ricerca come modello',
         'Yes, save it with name' => 'Sì, salva con nome',
@@ -1427,7 +1427,7 @@ sub Data {
 
         # Template: AgentTicketZoomArticleFilterDialog
         'Article filter settings' => '',
-        'Save filter settings as default' => '',
+        'Save filter settings as default' => 'Salva config filtri come default',
 
         # Template: AgentWindowTab
 
@@ -1504,10 +1504,10 @@ sub Data {
         'Don\'t accept license' => 'non accetto ',
         'Admin-User' => 'Utente amministratore',
         'If you have set a root password for your database, it must be entered here. If not, leave this field empty. For security reasons we do recommend setting a root password. For more information please refer to your database documentation.' => 'Se hei una passwd per accesso al db , devi inserirla qui. Se no lascia il campo vuoto. Per maggiori info sulla sicurezza sul db consulta il manuale ',
-        'Admin-Password' => '',
-        'Database-User' => '',
+        'Admin-Password' => 'Password Amministratore',
+        'Database-User' => 'Utente DB',
         'default \'hot\'' => '\'hot\' predefinito',
-        'DB connect host' => '',
+        'DB connect host' => 'Host per connessione al DB',
         'Database' => '',
         'Default Charset' => 'Set di caratteri predefinito',
         'utf8' => '',
@@ -1560,14 +1560,14 @@ sub Data {
 
         # Template: Test
         'OTRS Test Page' => 'Pagina di test OTRS',
-        'Counter' => '',
+        'Counter' => 'Contatore',
 
         # Template: Warning
 
         # Template: YUI
 
         # Misc
-        'Edit Article' => '',
+        'Edit Article' => 'Modifica Articolo',
         'Create Database' => 'Crea database ',
         'Ticket Number Generator' => 'Generatore numero ticket',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Prefisso per il numero di ticket --- es. "N.ro Ticket:" o "Ticket#" ecc.)',
@@ -1583,7 +1583,7 @@ sub Data {
         'No means, send agent and customer notifications on changes.' => 'No- significa , invia notifiche ad agenti e utenti dopo modifiche ',
         'A web calendar' => 'Calendario web',
         'to get the realname of the sender (if given)' => 'per avere il nome completo del mittente (se indicato)',
-        'Notification (Customer)' => '',
+        'Notification (Customer)' => 'Nofitifica ( utente )',
         'Select Source (for add)' => 'Seleziona sorgente (da aggiungere)',
         'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'Opzioni per i dati nel ticket (es.  &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)',
         'Child-Object' => 'Oggetto Figlio',
@@ -1612,7 +1612,7 @@ sub Data {
         'Create new database' => 'Crea un nuovo database',
         'ArticleID' => 'Codice articolo',
         'Keywords' => 'Parole chiave',
-        'Ticket Escalation View' => '',
+        'Ticket Escalation View' => 'Vista gestione Ticket',
         'Today' => 'Oggi',
         'No * possible!' => 'Qui non è possibile usare l\'asterisco (*)!',
         'Options ' => 'Opzioni',
@@ -1639,7 +1639,7 @@ sub Data {
         'Here you can the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Qui puoi definire i valori della serie .E\' posibile definire attributi agli elementi.Ogni attributo e\' rappresentato singolarmente . Se manca la selezione tutti gli attributi di questo elemento verranno utilizzati nel generare le stat.Un nuovo attributo viene aggiunto alla precedente configurazione .',
         'Incident' => 'Incidente',
         ' (work units)' => ' (unità di lavoro)',
-        'Next Week' => '',
+        'Next Week' => 'Prossima settimana',
         'All Customer variables like defined in config option CustomerUser.' => 'Tutte le variabili del cliente come definite nella configurazione',
         'accept license' => 'accetto la licenza',
         'for agent lastname' => 'per il cognome dell\'operatore',
