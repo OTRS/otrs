@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.14 2009-07-06 16:45:44 ub Exp $
+# $Id: TemplateGenerator.pm,v 1.15 2009-07-06 19:51:59 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Notification;
 use Kernel::System::AutoResponse;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 =head1 NAME
 
@@ -853,8 +853,8 @@ sub _Replace {
     }
 
     # replace other needed stuff
-    $Param{Text} =~ s/<OTRS_FIRST_NAME>/$CurrentUser{UserFirstname}/g;
-    $Param{Text} =~ s/<OTRS_LAST_NAME>/$CurrentUser{UserLastname}/g;
+    $Param{Text} =~ s/$Start OTRS_FIRST_NAME $End/$CurrentUser{UserFirstname}/gxms;
+    $Param{Text} =~ s/$Start OTRS_LAST_NAME $End/$CurrentUser{UserLastname}/gxms;
 
     # cleanup
     $Param{Text} =~ s/$Tag.+?$End/-/gi;
@@ -869,9 +869,9 @@ sub _Replace {
     }
 
     # COMPAT
-    $Param{Text} =~ s/<OTRS_TICKET_ID>/$Ticket{TicketID}/gi;
-    $Param{Text} =~ s/<OTRS_TICKET_NUMBER>/$Ticket{TicketNumber}/gi;
-    $Param{Text} =~ s/<OTRS_QUEUE>/$Ticket{Queue}/gi;
+    $Param{Text} =~ s/$Start OTRS_TICKET_ID $End/$Ticket{TicketID}/gixms;
+    $Param{Text} =~ s/$Start OTRS_TICKET_NUMBER $End/$Ticket{TicketNumber}/gixms;
+    $Param{Text} =~ s/$Start OTRS_QUEUE $End/$Ticket{Queue}/gixms;
 
     # cleanup
     $Param{Text} =~ s/$Tag.+?$End/-/gi;
@@ -992,6 +992,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.14 $ $Date: 2009-07-06 16:45:44 $
+$Revision: 1.15 $ $Date: 2009-07-06 19:51:59 $
 
 =cut
