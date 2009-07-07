@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSignature.pm - to add/update/delete system addresses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSignature.pm,v 1.34 2009-06-24 23:01:57 martin Exp $
+# $Id: AdminSignature.pm,v 1.35 2009-07-07 15:45:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTML2Ascii;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -34,9 +34,9 @@ sub new {
             $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
         }
     }
-    $Self->{SignatureObject}   = Kernel::System::Signature->new(%Param);
-    $Self->{ValidObject}       = Kernel::System::Valid->new(%Param);
-    $Self->{HTML2AsciiObject}  = Kernel::System::HTML2Ascii->new(%Param);
+    $Self->{SignatureObject}  = Kernel::System::Signature->new(%Param);
+    $Self->{ValidObject}      = Kernel::System::Valid->new(%Param);
+    $Self->{HTML2AsciiObject} = Kernel::System::HTML2Ascii->new(%Param);
 
     return $Self;
 }

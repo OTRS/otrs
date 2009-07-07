@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.220 2009-07-01 08:34:01 martin Exp $
+# $Id: Article.pm,v 1.221 2009-07-07 15:45:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.220 $) [1];
+$VERSION = qw($Revision: 1.221 $) [1];
 
 =head1 NAME
 
@@ -2462,7 +2462,8 @@ sub SendAutoResponse {
         UserID           => $Param{UserID},
     );
 
-    return if !$AutoResponse{Text} || !$AutoResponse{SenderRealname} || !$AutoResponse{SenderAddress};
+    return
+        if !$AutoResponse{Text} || !$AutoResponse{SenderRealname} || !$AutoResponse{SenderAddress};
 
     # send if notification should be sent (not for closed tickets)!?
     my %State = $Self->{StateObject}->StateGet( ID => $Ticket{StateID} );
@@ -2933,6 +2934,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.220 $ $Date: 2009-07-01 08:34:01 $
+$Revision: 1.221 $ $Date: 2009-07-07 15:45:19 $
 
 =cut

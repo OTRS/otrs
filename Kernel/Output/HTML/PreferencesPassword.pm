@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesPassword.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesPassword.pm,v 1.21 2009-06-25 18:17:05 ub Exp $
+# $Id: PreferencesPassword.pm,v 1.22 2009-07-07 15:45:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -103,7 +103,8 @@ sub Run {
 
     # compare pws
     if ( $Pw ne $Pw1 ) {
-        $Self->{Error} = 'Can\'t update password, your new passwords do not match! Please try again!';
+        $Self->{Error}
+            = 'Can\'t update password, your new passwords do not match! Please try again!';
         return;
     }
 
@@ -123,8 +124,10 @@ sub Run {
         && length $Pw < $Self->{ConfigItem}->{PasswordMinSize}
         )
     {
-        $Self->{Error} = ( 'Can\'t update password, must be at least %s characters!", "'
-            . $Self->{ConfigItem}->{PasswordMinSize} );
+        $Self->{Error} = (
+            'Can\'t update password, must be at least %s characters!", "'
+                . $Self->{ConfigItem}->{PasswordMinSize}
+        );
         return;
     }
     if (

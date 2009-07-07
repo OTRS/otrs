@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardProductNotify.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardProductNotify.pm,v 1.5 2009-06-25 12:42:53 martin Exp $
+# $Id: DashboardProductNotify.pm,v 1.6 2009-07-07 15:45:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Cache;
 use Kernel::System::XML;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -54,8 +54,8 @@ sub Run {
 
     # get content
     if ( !$Content ) {
-        my $Product = $Self->{ConfigObject}->Get('Product');
-        my $Version = $Self->{ConfigObject}->Get('Version');
+        my $Product  = $Self->{ConfigObject}->Get('Product');
+        my $Version  = $Self->{ConfigObject}->Get('Version');
         my %Response = $Self->{WebUserAgentObject}->Request(
             URL => $Self->{Config}->{URL} . '?Product=' . $Product . '-' . $Version,
         );

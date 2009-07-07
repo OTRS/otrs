@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.15 2009-07-06 19:51:59 ub Exp $
+# $Id: TemplateGenerator.pm,v 1.16 2009-07-07 15:45:19 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Notification;
 use Kernel::System::AutoResponse;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 =head1 NAME
 
@@ -511,14 +511,14 @@ sub AutoResponse {
             From => $Param{OrigHeader}->{To},
             To   => $Param{OrigHeader}->{From},
         },
-        TicketID              => $Param{TicketID},
-        UserID                => $Param{UserID},
+        TicketID => $Param{TicketID},
+        UserID   => $Param{UserID},
     );
 
     # do text/plain to text/html convert
     if ( $Self->{RichText} && $AutoResponse{ContentType} =~ /text\/plain/i ) {
         $AutoResponse{ContentType} = 'text/html';
-        $AutoResponse{Text}    = $Self->{HTML2AsciiObject}->ToHTML(
+        $AutoResponse{Text}        = $Self->{HTML2AsciiObject}->ToHTML(
             String => $AutoResponse{Text},
         );
     }
@@ -526,7 +526,7 @@ sub AutoResponse {
     # do text/html to text/plain convert
     if ( !$Self->{RichText} && $AutoResponse{ContentType} =~ /text\/html/i ) {
         $AutoResponse{ContentType} = 'text/plain';
-        $AutoResponse{Text}    = $Self->{HTML2AsciiObject}->ToAscii(
+        $AutoResponse{Text}        = $Self->{HTML2AsciiObject}->ToAscii(
             String => $AutoResponse{Text},
         );
     }
@@ -669,13 +669,14 @@ sub NotificationAgent {
     # prepare subject (insert old subject)
     $Param{CustomerMessageParams}->{Subject} = $Self->{TicketObject}->TicketSubjectClean(
         TicketNumber => $Ticket{TicketNumber},
-        Subject      => $Param{CustomerMessageParams}->{Subject} || '',
+        Subject => $Param{CustomerMessageParams}->{Subject} || '',
     );
     if ( $Notification{Subject} =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/ ) {
         my $SubjectChar = $1;
         $Param{CustomerMessageParams}->{Subject} =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
 
-        $Notification{Subject} =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$Param{CustomerMessageParams}->{Subject}/g;
+        $Notification{Subject}
+            =~ s/<OTRS_CUSTOMER_SUBJECT\[.+?\]>/$Param{CustomerMessageParams}->{Subject}/g;
     }
     $Notification{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
         TicketNumber => $Ticket{TicketNumber},
@@ -877,7 +878,7 @@ sub _Replace {
     $Param{Text} =~ s/$Tag.+?$End/-/gi;
 
     # get customer params and replace it with <OTRS_CUSTOMER_...
-    $Tag  = $Start . 'OTRS_CUSTOMER_';
+    $Tag = $Start . 'OTRS_CUSTOMER_';
     if ( $Param{Data} ) {
         for ( keys %{ $Param{Data} } ) {
             if ( defined $Param{Data}->{$_} ) {
@@ -886,7 +887,11 @@ sub _Replace {
         }
 
         # check if original content isn't text/plain, don't use it
-        if ( $Param{Data}->{'Content-Type'} && $Param{Data}->{'Content-Type'} !~ /(text\/plain|\btext\b)/i ) {
+        if (
+            $Param{Data}->{'Content-Type'}
+            && $Param{Data}->{'Content-Type'} !~ /(text\/plain|\btext\b)/i
+            )
+        {
             $Param{Data}->{Body} = '-> no quotable message <-';
         }
 
@@ -915,11 +920,11 @@ sub _Replace {
         $Tag = $Start . 'OTRS_CUSTOMER_SUBJECT';
         if ( $Param{Text} =~ /$Tag\[(.+?)\]$End/g ) {
             my $SubjectChar = $1;
-            my $Subject = $Self->{TicketObject}->TicketSubjectClean(
+            my $Subject     = $Self->{TicketObject}->TicketSubjectClean(
                 TicketNumber => $Ticket{TicketNumber},
                 Subject      => $Param{Data}->{Subject},
             );
-            $Subject     =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
+            $Subject =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
             $Param{Text} =~ s/$Tag\[.+?\]$End/$Subject/g;
         }
 
@@ -992,6 +997,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.15 $ $Date: 2009-07-06 19:51:59 $
+$Revision: 1.16 $ $Date: 2009-07-07 15:45:19 $
 
 =cut
