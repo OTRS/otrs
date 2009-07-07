@@ -3,7 +3,7 @@
 # DBUpdate-to-2.4.pl - update script to migrate OTRS 2.3.x to 2.4.x
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-2.4.pl,v 1.3 2009-05-18 12:04:48 mh Exp $
+# $Id: DBUpdate-to-2.4.pl,v 1.4 2009-07-07 21:15:15 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -43,6 +43,7 @@ use Kernel::System::DB;
 use Kernel::System::Main;
 use Kernel::System::Config;
 use Kernel::System::Queue;
+use Kernel::System::Ticket;
 use Kernel::System::NotificationEvent;
 
 # get options
@@ -63,13 +64,13 @@ $CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-DBUpdate-to-2.4',
     %CommonObject,
 );
-$CommonObject{EncodeObject}    = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{MainObject}      = Kernel::System::Main->new(%CommonObject);
-$CommonObject{TimeObject}      = Kernel::System::Time->new(%CommonObject);
-$CommonObject{DBObject}        = Kernel::System::DB->new(%CommonObject);
-$CommonObject{SysConfigObject} = Kernel::System::Config->new(%CommonObject);
-$CommonObject{QueueObject}     = Kernel::System::Queue->new(%CommonObject);
-
+$CommonObject{EncodeObject}            = Kernel::System::Encode->new(%CommonObject);
+$CommonObject{MainObject}              = Kernel::System::Main->new(%CommonObject);
+$CommonObject{TimeObject}              = Kernel::System::Time->new(%CommonObject);
+$CommonObject{DBObject}                = Kernel::System::DB->new(%CommonObject);
+$CommonObject{SysConfigObject}         = Kernel::System::Config->new(%CommonObject);
+$CommonObject{QueueObject}             = Kernel::System::Queue->new(%CommonObject);
+$CommonObject{TicketObject}            = Kernel::System::Ticket->new(%CommonObject);
 $CommonObject{NotificationEventObject} = Kernel::System::NotificationEvent->new(%CommonObject);
 
 # define config dir
@@ -174,10 +175,57 @@ sub MigrateCustomerNotification {
 
     # move enabled notification to new event notitfication
     for my $QueueID ( keys %Queues ) {
-
-#        "SELECT state_notify, queue_notify, owner_notify FROM queue WHERE id =  ?"
-#        $CommonObject{NotificationEvent}->NotificationAdd(
-#        );
+        $CommonObject{DBObject}->Prepare(
+            SQL  => 'SELECT state_notify, move_notify, owner_notify FROM queue WHERE id =  ?',
+            Bind => [ \$QueueID ],
+        );
+        my %Events;
+        while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {
+            if ( $Row[0] ) {
+                push @{ $Events{TicketStateUpdate} }, $QueueID,
+            }
+            if ( $Row[1] ) {
+                push @{ $Events{TicketQueueUpdate} }, $QueueID,
+            }
+            if ( $Row[2] ) {
+                push @{ $Events{TicketOwnerUpdate} }, $QueueID,
+            }
+        }
+        if (%Events) {
+            my %Map = (
+                TicketStateUpdate => 'Customer::StateUpdate',
+                TicketQueueUpdate => 'Customer::QueueUpdate',
+                TicketOwnerUpdate => 'Customer::OwnerUpdate',
+            );
+            for my $Type ( sort keys %Map ) {
+                next if !$Events{$Type};
+                $CommonObject{DBObject}->Prepare(
+                    SQL  => 'SELECT notification_charset, subject, text, content_type '
+                        . 'FROM notifications WHERE '
+                        . 'notification_type = ? AND notification_language = \'en\'',
+                    Bind => [ \$Map{$Type} ],
+                );
+                my %Notification;
+                while ( my @Row = $CommonObject{DBObject}->FetchrowArray() ) {
+                    %Notification = (
+                        Subject => $Row[1],
+                        Body    => $Row[2],
+                        Type    => $Row[3],
+                        Charset => $Row[0],
+                    );
+                }
+                $CommonObject{NotificationEvent}->NotificationAdd(
+                    Name    => "customer-$Type",
+                    %Notification,
+                    Data => {
+                        Events  => [ $Type ],
+                        QueueID => $Events{$Type},
+                    },
+                    VaildID => 1,
+                    UserID  => 1,
+                );
+            }
+        }
     }
 
     print STDOUT " done.\n";
