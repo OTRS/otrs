@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSelectBox.pm - provides a SelectBox for admins
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSelectBox.pm,v 1.28 2009-02-17 23:37:11 martin Exp $
+# $Id: AdminSelectBox.pm,v 1.29 2009-07-08 23:55:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -44,20 +44,36 @@ sub Run {
         $Self->{LayoutObject}->ChallengeTokenCheck();
 
         # get params
-        for (qw(SQL Max)) {
-            $Param{SQL} = $Self->{ParamObject}->GetParam( Param => 'SQL' ) || '';
-            $Param{Max} = $Self->{ParamObject}->GetParam( Param => 'Max' ) || '';
+        for (qw(SQL Max HTML CSV)) {
+            $Param{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
         }
 
         # add result block
         $Self->{LayoutObject}->Block(
             Name => 'Result',
-            Data => {%Param},
+            Data => \%Param,
         );
 
         # fetch database and add row blocks
         if ( $Self->{DBObject}->Prepare( SQL => $Param{SQL}, Limit => $Param{Max} ) ) {
+            my $Count = 0;
+            my @Head;
+            my @Data;
             while ( my @Row = $Self->{DBObject}->FetchrowArray( RowNames => 1 ) ) {
+
+                # get csv data
+                if ( $Param{CSV} ) {
+                    $Count++;
+                    if ( $Count == 1 ) {
+                        @Head = @Row;
+                        next;
+                    }
+                    push @Data, \@Row;
+                    next;
+                    last if $Count > 2000;
+                }
+
+                # get html data
                 my $Row = '';
                 for my $Item (@Row) {
                     my $Item1 = '';
@@ -87,7 +103,21 @@ sub Run {
                 );
             }
 
-            # generate output
+            # generate csv output
+            if ( $Param{CSV} ) {
+                my $CSV = $Self->{LayoutObject}->OutputCSV(
+                    Head => \@Head,
+                    Data => \@Data,
+                );
+                return $Self->{LayoutObject}->Attachment(
+                    Filename    => 'admin-select.csv',
+                    ContentType => 'text/csv',
+                    Content     => $CSV,
+                    Type        => 'attachment'
+                );
+            }
+
+            # generate html output
             my $Output = $Self->{LayoutObject}->Header();
             $Output .= $Self->{LayoutObject}->NavigationBar();
             $Output .= $Self->{LayoutObject}->Output(

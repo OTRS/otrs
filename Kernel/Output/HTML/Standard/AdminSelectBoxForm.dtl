@@ -2,7 +2,7 @@
 # AdminSelectBoxForm.dtl - provides HTML form for SelectBox
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSelectBoxForm.dtl,v 1.21 2009-02-16 11:07:25 tr Exp $
+# $Id: AdminSelectBoxForm.dtl,v 1.22 2009-07-08 23:55:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -35,7 +35,10 @@
             <td class="contentvalue"><input type="text" name="Max" value="$QData{"Max"}" size="2"/></td>
           </tr>
           <tr class="contentfooter">
-            <td colspan="2" class="contentkey"><input class="button" type="submit" value="$Text{"Go"}"/></td>
+            <td colspan="2" class="contentkey">
+                <input class="button" type="submit" name="CSV" value="$Text{"CVS"}"/>
+                <input class="button" type="submit" name="HTML" value="$Text{"HTML"}"/>
+            </td>
           </tr>
         </table>
       </form>
