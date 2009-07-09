@@ -2,7 +2,7 @@
 # AdminSelectBoxForm.dtl - provides HTML form for SelectBox
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSelectBoxForm.dtl,v 1.22 2009-07-08 23:55:30 martin Exp $
+# $Id: AdminSelectBoxForm.dtl,v 1.23 2009-07-09 02:30:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@
           </tr>
           <tr class="contentfooter">
             <td colspan="2" class="contentkey">
-                <input class="button" type="submit" name="CSV" value="$Text{"CVS"}"/>
+                <input class="button" type="submit" name="CSV" value="$Text{"CSV"}"/>
                 <input class="button" type="submit" name="HTML" value="$Text{"HTML"}"/>
             </td>
           </tr>
@@ -58,10 +58,12 @@
     <td class="mainbody">
       <table width="100%" cellspacing="0" cellpadding="3" border="0">
 <!-- dtl:block:Row -->
-        <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "active"; }>
-        <tr class="search$Env{"Color"}">$Data{"Result"}</tr>
-        <dtl if ($Env{"Color"} eq "passive") { $Env{"Color"} = ""; }>
-        <dtl if ($Env{"Color"} eq "active") { $Env{"Color"} = "passive"; }>
+        <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchactive"; }>
+        <tr class="$Env{"Color"}" onmouseover="this.className='searchhighlight';" onmouseout="this.className='$Env{"Color"}';">
+            $Data{"Result"}
+        </tr>
+        <dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = ""; }>
+        <dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = "searchpassive"; }>
 <!-- dtl:block:Row -->
       </table>
     </td>
