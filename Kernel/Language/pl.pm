@@ -3,7 +3,7 @@
 # Copyright (C) 2007 Tomasz Melissa <janek at rumianek.com>
 # Copyright (C) 2009 Artur Skalski <skal.ar at wp.pl>
 # --
-# $Id: pl.pm,v 1.80 2009-07-09 01:57:10 martin Exp $
+# $Id: pl.pm,v 1.81 2009-07-09 01:58:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.80 $) [1];
+$VERSION = qw($Revision: 1.81 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Mon Apr 20 10:29:10 2009
+    # Last translation file sync: Thu Jul  9 03:58:03 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-2', ];
@@ -80,6 +80,8 @@ sub Data {
         'Modulefile' => 'Plik Modu³u',
         'Subfunction' => 'Funkcja podrzêdna',
         'Line' => 'Linia',
+        'Setting' => '',
+        'Settings' => '',
         'Example' => 'Przyk³ad',
         'Examples' => 'Przyk³ady',
         'valid' => 'Poprawne',
@@ -184,6 +186,7 @@ sub Data {
         'Added!' => 'Dodano!',
         'Category' => 'Kategoria',
         'Viewer' => 'Przegl±darka',
+        'Expand' => '',
         'New message' => 'Nowa wiadomo¶æ',
         'New message!' => 'Nowa wiadomo¶æ!',
         'Please answer this ticket(s) to get back to the normal queue view!' => 'Proszê odpowiedz na to zg³oszenie, by móc powrociæ do zwyk³ego widoku kolejki zg³oszeñ!',
@@ -205,6 +208,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Wylogowanie zakoñczone! Dziêkujemy za u¿ywanie OTRS!',
         'Invalid SessionID!' => 'Niepoprawne ID Sesji!',
         'Feature not active!' => 'Funkcja nie aktywna!',
+        'Notification (Event)' => '',
         'Login is needed!' => 'Wymagane zalogowanie!',
         'Password is needed!' => 'Has³o jest wymagane!',
         'License' => 'Licencja',
@@ -248,9 +252,9 @@ sub Data {
         'Mobile' => 'Tel. komórkowy',
         'Zip' => 'Kod',
         'City' => 'Miasto',
-        'Location' => 'Miejsce',
         'Street' => 'Ulica',
         'Country' => 'Kraj',
+        'Location' => 'Miejsce',
         'installed' => 'zainstalowany',
         'uninstalled' => 'odinstalowany',
         'Security Note: You should activate %s because application is already running!' => 'Nota bezpieczeñstwa: Nale¿y aktywowaæ %s poniewa¿ aplikacja jest uruchomiona!',
@@ -267,7 +271,40 @@ sub Data {
         'Please press Back and try again.' => 'Prosze wybrac Cofnij i spróbowac ponownie.',
         'Sent password token to: %s' => 'Wys³ano token has³a do: %s',
         'Sent new password to: %s' => 'Wys³ano nowe has³o do: %s',
+        'Upcoming Events' => '',
+        'Event' => 'Zdarzenie',
+        'Events' => '',
         'Invalid Token!' => 'B³êdny token!',
+        'more' => '',
+        'For more info see:' => '',
+        'Package verification failed!' => '',
+        'Collapse' => '',
+        'News' => '',
+        'Product News' => '',
+        'OTRS News' => '',
+        '7 Day Stats' => '',
+        'Bold' => '',
+        'Italic' => '',
+        'Underline' => '',
+        'Font Color' => '',
+        'Background Color' => '',
+        'Remove Formatting' => '',
+        'Show/Hide Hidden Elements' => '',
+        'Align Left' => '',
+        'Align Center' => '',
+        'Align Right' => '',
+        'Justify' => '',
+        'Header' => '',
+        'Indent' => '',
+        'Outdent' => '',
+        'Create an Unordered List' => '',
+        'Create an Ordered List' => '',
+        'HTML Link' => '',
+        'Insert Image' => '',
+        'CTRL' => '',
+        'SHIFT' => '',
+        'Undo' => '',
+        'Redo' => '',
 
         # Template: AAAMonth
         'Jan' => 'Sty',
@@ -308,7 +345,6 @@ sub Data {
         'Customer Users' => 'Klienci',
         'Customer Users <-> Groups' => 'Klienci <-> Grupy',
         'Users <-> Groups' => 'U¿ytkownicy <-> Grupy',
-        'Customer Users <-> Services' => 'Klienci <-> Us³ugi',
         'Roles' => 'Role',
         'Roles <-> Users' => 'Role <-> U¿ytkownicy',
         'Roles <-> Groups' => 'Role <-> Grupy',
@@ -335,12 +371,12 @@ sub Data {
         'Spelling Dictionary' => 'S³ownik pisowni',
         'Select your default spelling dictionary.' => 'Wybierz domy¶lny s³ownik.',
         'Max. shown Tickets a page in Overview.' => 'Limit pokazywanych zg³oszeñ na stronie Podsumowania',
-        'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'Nie mo¿na zmieniæ has³a, podano ró¿ne has³a! Spróbuj ponownie!',
+        'Can\'t update password, your new passwords do not match! Please try again!' => '',
         'Can\'t update password, invalid characters!' => 'Nie mo¿na zmieniæ has³a, niedozwolone znaki!',
-        'Can\'t update password, need min. 8 characters!' => 'Nie mo¿na zmieniæ has³a, wymagane conajmniej 8 znaków!',
-        'Can\'t update password, need 2 lower and 2 upper characters!' => 'Nie mo¿na zmieniæ has³a, wymagane 2 ma³e i 2 wielkie litery!',
-        'Can\'t update password, need min. 1 digit!' => 'Nie mo¿na zmieniæ has³a, wymagana conajmniej 1 cyfra!',
-        'Can\'t update password, need min. 2 characters!' => 'Nie mo¿na zmieniæ has³a, wymagane conajmniej 2 znaki!',
+        'Can\'t update password, must be at least %s characters!' => '',
+        'Can\'t update password, must contain 2 lower and 2 upper characters!' => '',
+        'Can\'t update password, needs at least 1 digit!' => '',
+        'Can\'t update password, needs at least 2 characters!' => '',
 
         # Template: AAAStats
         'Stat' => 'Statystyki',
@@ -349,7 +385,6 @@ sub Data {
         'Please select an object!' => 'Wybierz obiekt!',
         'Please select a graph size!' => 'Wybierz rozmiar wykresu!',
         'Please select one element for the X-axis!' => 'Wybierz element dla osi X!',
-        'You have to select two or more attributes from the select field!' => 'Musisz wybraæ dwa lub wiêcej atrybuty z pola!',
         'Please select only one element or turn off the button \'Fixed\' where the select field is marked!' => 'Wybierz tylko jeden element lyb wy³±cz klawisz\'Sta³e\' przy zaznaczonym polu!',
         'If you use a checkbox you have to select some attributes of the select field!' => 'Po zaznaczeniu pola wyboru musisz wskazaæ atrybuty wybranego pola!',
         'Please insert a value in the selected input field or turn off the \'Fixed\' checkbox!' => 'Wprowad¼ warto¶æ w wybrane pole lub odznacz pole \'Sta³y\'!',
@@ -382,6 +417,30 @@ sub Data {
         'Create Time' => 'Czas utworzenia',
         'CustomerUserLogin' => 'Login klienta',
         'Close Time' => 'Czas zamkniêcia',
+        'TicketAccumulation' => '',
+        'Attributes to be printed' => '',
+        'Sort sequence' => '',
+        'Order by' => '',
+        'Limit' => '',
+        'Ticketlist' => '',
+        'ascending' => '',
+        'descending' => '',
+        'First Lock' => '',
+        'Evaluation by' => '',
+        'Total Time' => '',
+        'Ticket Average' => '',
+        'Ticket Min Time' => '',
+        'Ticket Max Time' => '',
+        'Number of Tickets' => '',
+        'Article Average' => '',
+        'Article Min Time' => '',
+        'Article Max Time' => '',
+        'Number of Articles' => '',
+        'Accounted time by Agent' => '',
+        'Ticket/Article Accounted Time' => '',
+        'TicketAccountedTime' => '',
+        'Ticket Create Time' => '',
+        'Ticket Close Time' => '',
 
         # Template: AAATicket
         'Lock' => 'Zablokuj',
@@ -430,7 +489,9 @@ sub Data {
         'closed unsuccessful' => 'zamkniête bez powodzenia',
         'new' => 'nowe',
         'open' => 'otwarte',
+        'Open' => '',
         'closed' => 'zamkniête',
+        'Closed' => '',
         'removed' => 'usuniête',
         'pending reminder' => 'oczekuj±ce przypomnienie',
         'pending auto' => 'oczekuj±ce auto',
@@ -469,7 +530,7 @@ sub Data {
         'Search Tickets' => 'Szukaj zg³oszeñ',
         'Edit Customer Users' => 'Edycja klientów',
         'Edit Customer Company' => 'Edycja firm',
-        'Bulk-Action' => 'Akcja grupowa',
+        'Bulk Action' => '',
         'Bulk Actions on Tickets' => 'Akcja grupowa na zg³oszeniach',
         'Send Email and create a new Ticket' => 'Wylij e-mail i utwórz nowe zg³oszenie',
         'Create new Email Ticket and send this out (Outbound)' => 'Utwórz nowe zg³oszenie e-mail i wy¶lij (wychodz±ce)',
@@ -522,17 +583,25 @@ sub Data {
         'Closed Tickets' => 'Zamkniête zg³oszenia',
         'Show closed tickets.' => 'Poka¿ zamkniête zg³oszenia.',
         'Max. shown Tickets a page in QueueView.' => 'Limit pokazywanych zg³oszeñ na stronie Podgl±du Kolejki',
+        'Watch notification' => 'Obserwuj powiadomienia',
+        'Send me a notification of an watched ticket like an owner of an ticket.' => 'Wy¶lij mi powiadomienie obserwowaych zg³oszeñ tak jak w³a¶cicielowi zg³oszenia.',
+        'Out Of Office' => 'Poza biurem',
+        'Select your out of office time.' => 'Wybierz czas nieobecnosci',
         'CompanyTickets' => 'Zg³oszenia firmy',
         'MyTickets' => 'Moje zg³oszenia',
         'New Ticket' => 'Nowe zg³oszenie',
         'Create new Ticket' => 'Utwórz nowe zg³oszenie',
         'Customer called' => 'Telefon od klienta',
         'phone call' => 'rozmowa telefoniczna',
-        'Watch notification' => 'Obserwuj powiadomienia',
-        'Send me a notification of an watched ticket like an owner of an ticket.' => 'Wy¶lij mi powiadomienie obserwowaych zg³oszeñ tak jak w³a¶cicielowi zg³oszenia.',
-        'Out Of Office' => 'Poza biurem',
-        'Select your out of office time.' => 'Wybierz czas nieobecnosci',
         'Reminder Reached' => 'Przypomnienie osi±gniêto',
+        'Reminder Tickets' => '',
+        'Escalated Tickets' => '',
+        'New Tickets' => '',
+        'Open Tickets / Need to be answered' => '',
+        'Tickets which need to be answered!' => '',
+        'All new tickets!' => '',
+        'All tickets which are escalated!' => '',
+        'All tickets where the reminder date has reached!' => '',
         'Responses' => 'Odpowiedzi',
         'Responses <-> Queue' => 'Odpowied¼ <-> Kolejka',
         'Auto Responses' => 'Automatyczna odpowied¼',
@@ -647,6 +716,7 @@ sub Data {
 
         # Template: AdminEmail
         'Message sent to' => 'Wiadomo¶æ wys³ana do',
+        'A message should have a subject!' => 'Wiadomosc powinna posiadaæ temat!',
         'Recipents' => 'Adresaci',
         'Body' => 'Tre¶æ',
         'Send' => 'Wy¶lij',
@@ -662,7 +732,7 @@ sub Data {
         'Is Job Valid' => 'Zadanie jest wa¿ne',
         'Schedule' => 'Harmonogram',
         'Currently this generic agent job will not run automatically.' => 'Zadanie nie zostanie uruchomione automatycznie.',
-        'To enable automatic execusion select at least one value form minutes, hours and days!' => 'Aby w³±czyæ automatyczne wykonywanie ustaw dni, godziny i minuty!',
+        'To enable automatic execution select at least one value from minutes, hours and days!' => '',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Przeszukiwanie pe³notekstowe w artykule (np. "Ja*k" lub "Rumia*)',
         '(e. g. 10*5155 or 105658*)' => '(np. 10*5155 lub 105658*)',
         '(e. g. 234321)' => '(np. 3242442)',
@@ -684,6 +754,20 @@ sub Data {
         'No pending time settings.' => 'Bez czasów oczekiwania.',
         'Ticket pending time reached' => 'Oczekiwanie zakoñczone',
         'Ticket pending time reached between' => 'Oczekiwanie zakoñczone miêdzy',
+        'Escalation Times' => '',
+        'No escalation time settings.' => '',
+        'Ticket escalation time reached' => '',
+        'Ticket escalation time reached between' => '',
+        'Escalation - First Response Time' => 'Eskalacja - czas pierwszej odpowiedzi',
+        'No escalation time settings.' => '',
+        'Ticket first response time reached' => '',
+        'Ticket first response time reached between' => '',
+        'Escalation - Update Time' => 'Eskalacja - czas aktualizacji',
+        'Ticket update time reached' => '',
+        'Ticket update time reached between' => '',
+        'Escalation - Solution Time' => 'Eskalacja - czas rozwi±zania',
+        'Ticket solution time reached' => '',
+        'Ticket solution time reached between' => '',
         'New Service' => 'Nowa us³uga',
         'New SLA' => 'Nowa SLA',
         'New Priority' => 'Nowy priorytet',
@@ -739,10 +823,32 @@ sub Data {
         'Groups' => 'Grupy',
         'Misc' => 'Ró¿ne',
 
-        # Template: AdminNotificationForm
+        # Template: AdminNotificationEventForm
         'Notification Management' => 'Konfiguracja Powiadomieñ',
-        'Notification' => 'Powiadomienie',
+        'Add Notification' => '',
+        'Add a new Notification.' => '',
+        'Name is required!' => 'Nazwa jest wymagana!',
+        'Event is required!' => '',
+        'A message should have a body!' => 'Wiadomo¶æ powinna zawieraæ jak±¶ tre¶æ!',
+        'Recipient' => '',
+        'Group based' => '',
+        'Recipient' => '',
+        'Agent based' => '',
+        'Email based' => '',
+        'Article Type' => '',
+        'Only for ArticleCreate Event.' => '',
+        'Subject match' => '',
+        'Only for ArticleCreate Event.' => '',
+        'Body match' => '',
         'Notifications are sent to an agent or a customer.' => 'Powiadomienia s± wysy³ane do agenta obs³ugi lub klienta',
+        'To get the first 20 character of the subject (of the latest agent article).' => '',
+        'To get the first 5 lines of the body (of the latest agent article).' => '',
+        'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' => '',
+        'To get the first 20 character of the subject (of the latest customer article).' => '',
+        'To get the first 5 lines of the body (of the latest customer article).' => '',
+
+        # Template: AdminNotificationForm
+        'Notification' => 'Powiadomienie',
 
         # Template: AdminPackageManager
         'Package Manager' => 'Mened¿er pakietów',
@@ -777,9 +883,10 @@ sub Data {
         'Performance Log' => 'Log wydajnosci',
         'This feature is enabled!' => 'Ta funkcja jest w³±czona!',
         'Just use this feature if you want to log each request.' => 'Wybierz t± opcjê jezeli chcesz logowaæ ka¿de ¿±danie.',
-        'Of couse this feature will take some system performance it self!' => 'Ta opcja obni¿a wydajno¶æ systemu!',
+        'Activating this feature might affect your system performance!' => '',
         'Disable it here!' => 'Wy³±cz tutaj!',
         'This feature is disabled!' => 'Ta funkcja jest wy³±czona!',
+        'Activating this feature might affect your system performance!' => '',
         'Enable it here!' => 'W³±cz tutaj!',
         'Logfile too large!' => 'Plik log jest za du¿y!',
         'Logfile too large, you need to reset it!' => 'Plik log jest za du¿y, nale¿y go usun±æ!',
@@ -809,6 +916,7 @@ sub Data {
         'Filtername' => 'Nazwa filtra',
         'Stop after match' => 'Zatrzymaj po dopasowaniu',
         'Match' => 'Odpowiada',
+        'Header' => '',
         'Value' => 'Warto¶æ',
         'Set' => 'Ustaw',
         'Do dispatch or filter incoming emails based on email X-Headers! RegExp is also possible.' => 'Dostarcz lub filtruj przychodz±ce wiadomo¶ci w oparciu o nag³ówki X-Headers! Wyra¿enia regularne (RegExp) tak¿e mog± byæ u¿yte.',
@@ -830,17 +938,11 @@ sub Data {
         'Unlock timeout' => 'Limit czasowy odblokowania',
         '0 = no unlock' => '0 = bez odblokowania',
         'Only business hours are counted.' => 'Tylko godziny pracy s± liczone.',
-        'Escalation - First Response Time' => 'Eskalacja - czas pierwszej odpowiedzi',
         '0 = no escalation' => '0 = brak eskalacji',
         'Notify by' => 'Powiadom przez',
-        'Escalation - Update Time' => 'Eskalacja - czas aktualizacji',
-        'Escalation - Solution Time' => 'Eskalacja - czas rozwi±zania',
         'Follow up Option' => 'Opcja Follow Up',
         'Ticket lock after a follow up' => 'Zg³oszenie zablokowane po odpowiedzi (Follow Up)',
         'Systemaddress' => 'Adres systemowy',
-        'Customer Move Notify' => 'Powiadomienie klienta o przesuniêciu',
-        'Customer State Notify' => 'Powiadomienie klienta o zmianie statusu',
-        'Customer Owner Notify' => 'Powiadomienie klienta o zmianie w³a¶ciciela',
         'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'Je¶li agent zablokuje zg³oszenie, a nastêpnie nie odpowie na nie w ci±gu wskazanego czasu, wtedy zg³oszenie zostanie automatycznie odblokowane. Dziêki temu pozostali agenci bêd± mogli je zobaczyæ.',
         'Escalation time' => 'Czas eskalacji',
         'If a ticket will not be answered in this time, just only this ticket will be shown.' => 'Je¶li, w podanym czasie, nie zostanie udzielona odpowied¼ na zg³oszenie, wtedy tylko to zg³oszenie bêdzie widoczne w kolejce.',
@@ -848,8 +950,11 @@ sub Data {
         'Will be the sender address of this queue for email answers.' => 'Bêdzie adresem nadawcy odpowiedzi emailowych wysy³anych z tej kolejki.',
         'The salutation for email answers.' => 'Zwrot grzeczno¶ciowy dla odpowiedzi emailowych.',
         'The signature for email answers.' => 'Podpis dla odpowiedzi emailowych.',
+        'Customer Move Notify' => 'Powiadomienie klienta o przesuniêciu',
         'OTRS sends an notification email to the customer if the ticket is moved.' => 'System wy¶le powiadomienie do klienta, gdy zg³oszenie zostanie przesuniête do innej kolejki.',
+        'Customer State Notify' => 'Powiadomienie klienta o zmianie statusu',
         'OTRS sends an notification email to the customer if the ticket state has changed.' => 'System wy¶le powiadomienie do klienta, gdy zmieni sie status zg³oszenia.',
+        'Customer Owner Notify' => 'Powiadomienie klienta o zmianie w³a¶ciciela',
         'OTRS sends an notification email to the customer if the ticket owner has changed.' => 'System wy¶le powiadomienie do klienta, gdy zmieni sie w³a¶ciciel zg³oszenia.',
 
         # Template: AdminQueueResponsesChangeForm
@@ -902,9 +1007,17 @@ sub Data {
         'Add Salutation' => 'Dodaj zwrot grzeczno¶ciowy',
         'Add a new Salutation.' => 'Dodaj nowy zwrot grzeczno¶ciowy',
 
+        # Template: AdminSecureMode
+        'Secure Mode need to be enabled!' => '',
+        'Secure mode will (normally) be set after the initial installation is completed.' => '',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' => '',
+        'If Secure Mode is not activated, activate it via SysConfig because your application is already running.' => '',
+
         # Template: AdminSelectBoxForm
         'SQL Box' => 'Konsola SQL',
-        'Go' => 'Start',
+        'Limit' => '',
+        'CVS' => '',
+        'HTML' => '',
         'Select Box Result' => 'Wyniki Zapytania',
 
         # Template: AdminService
@@ -1015,6 +1128,32 @@ sub Data {
 
         # Template: AgentCustomerTableView
 
+        # Template: AgentDashboard
+        'Dashboard' => '',
+        'more' => '',
+        'Settings' => '',
+        'Expand' => '',
+        'Collapse' => '',
+
+        # Template: AgentDashboardCalendarOverview
+        'in' => '',
+
+        # Template: AgentDashboardImage
+
+        # Template: AgentDashboardProductNotify
+        '%s %s is available!' => '',
+        'Please update now.' => '',
+        'Release Note' => '',
+        'Level' => '',
+
+        # Template: AgentDashboardRSSOverview
+        'Posted %s ago.' => '',
+
+        # Template: AgentDashboardTicketOverview
+
+        # Template: AgentDashboardTicketStats
+        'Closed' => '',
+
         # Template: AgentInfo
         'Info' => 'Info',
 
@@ -1096,7 +1235,7 @@ sub Data {
         'Select the element, which will be used at the X-axis' => 'Wybierz element który bêdzie uzyty jako o¶ X',
         'maximal period' => 'maksymalny przedzia³',
         'minimal scale' => 'minimalna skala',
-        'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Tu mo¿esz zdefiniowaæ o¶ X. Mo¿esz wybraæ element spo¶ród dostêpnych. Wybierz dwa lub wiêcej atrybutów obiektu. Przy braku wyboru, wszystkie atrybuty zostana u¿yte. Tak samo jak nowe atrybuty dodane po ostatniej konfiguracji szablonu.',
+        'Here you can define the x-axis. You can select one element via the radio button. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
 
         # Template: AgentStatsImport
         'Import' => 'Import',
@@ -1134,7 +1273,6 @@ sub Data {
         'Send mail!' => 'Wy¶lij wiadomo¶æ!',
 
         # Template: AgentTicketBulk
-        'A message should have a subject!' => 'Wiadomosc powinna posiadaæ temat!',
         'You need to account time!' => 'Musisz zaraportowaæ czas!',
         'Ticket Bulk Action' => 'Akcja grupowa',
         'Spell Check' => 'Sprawd¼ poprawno¶æ',
@@ -1149,7 +1287,6 @@ sub Data {
 
         # Template: AgentTicketClose
         'Ticket Type is required!' => 'Typ zg³oszenia jest wymagany!',
-        'A message should have a body!' => 'Wiadomo¶æ powinna zawieraæ jak±¶ tre¶æ!',
         'A required field is:' => 'Wymagane pole to:',
         'Close ticket' => 'Zamknij zg³oszenie',
         'Previous Owner' => 'Poprzedni w³a¶ciciel',
@@ -1211,6 +1348,7 @@ sub Data {
 
         # Template: AgentTicketOverviewMediumMeta
         'You need min. one selected Ticket!' => 'Musisz wybraæ conajmniej jedno zg³oszenie!',
+        'Bulk Action' => '',
 
         # Template: AgentTicketOverviewNavBar
         'Filter' => 'Filtr',
@@ -1287,6 +1425,7 @@ sub Data {
         'Yes, save it with name' => 'Tak, zapisz to pod nazw±',
 
         # Template: AgentTicketSearchOpenSearchDescriptionFulltext
+        'Fulltext' => 'Pe³notekstowe',
 
         # Template: AgentTicketSearchOpenSearchDescriptionTicketNumber
 
@@ -1430,13 +1569,34 @@ sub Data {
 
         # Template: Redirect
 
+        # Template: RichTextEditor
+        'Bold' => '',
+        'CTRL' => '',
+        'SHIFT' => '',
+        'Italic' => '',
+        'Underline' => '',
+        'Font Color' => '',
+        'Background Color' => '',
+        'Remove Formatting' => '',
+        'Show/Hide Hidden Elements' => '',
+        'Align Left' => '',
+        'Align Center' => '',
+        'Align Right' => '',
+        'Justify' => '',
+        'Indent' => '',
+        'Outdent' => '',
+        'Create an Unordered List' => '',
+        'Create an Ordered List' => '',
+        'HTML Link' => '',
+        'Insert Image' => '',
+        'Undo' => '',
+        'Redo' => '',
+
         # Template: Test
         'OTRS Test Page' => 'OTRS Strona testowa',
         'Counter' => 'Licznik',
 
         # Template: Warning
-
-        # Template: YUI
 
         # Misc
         'Edit Article' => 'Edytuj artyku³',
@@ -1444,19 +1604,20 @@ sub Data {
         'DB Host' => 'Host bazy danych',
         'Ticket Number Generator' => 'Generator numerów zg³oszeñ',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identyfikator zg³oszenia. np. \'Ticket#\', \'Call#\' lub \'MyTicket#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'W ten sposób mo¿na edytowaæ pêk kluczy skofigurowany w Kernel/Config.pm',
         'Create new Phone Ticket' => 'Utwórz zg³oszenie telefoniczne',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'W ten sposób mo¿na edytowaæ pêk kluczy skofigurowany w Kernel/Config.pm',
         'Symptom' => 'Objawy',
         'U' => 'G',
         'Site' => 'Witryna',
         'Customer history search (e. g. "ID342425").' => 'Przeszukiwanie historii klienta (np. "ID342425").',
         'Can not delete link with %s!' => 'Nie mo¿na usun±æ powi±zania z %s',
-        'Close!' => 'Zamknij!',
         'for agent firstname' => 'dla imienia agenta',
+        'Close!' => 'Zamknij!',
         'No means, send agent and customer notifications on changes.' => '\'Nie\' oznacza - wy¶lij agentowi i klientowi powiadomienia o zmianach.',
         'A web calendar' => 'Kalendarz',
         'to get the realname of the sender (if given)' => 'by wstawiæ prawdziwe imiê i nazwisko klienta (je¶li podano)',
         'OTRS DB Name' => 'Nazwa bazy danych OTRS',
+        'To enable automatic execusion select at least one value form minutes, hours and days!' => 'Aby w³±czyæ automatyczne wykonywanie ustaw dni, godziny i minuty!',
         'Notification (Customer)' => 'Powiadomienie (Klient)',
         'Select Source (for add)' => 'Wybierz ¼ród³o (dla dodania)',
         'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'Opcjonalne dane (np. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)',
@@ -1468,6 +1629,7 @@ sub Data {
         'for agent login' => 'dla loginu agenta',
         'Keyword' => 'S³owo kluczowe',
         'Close type' => 'Typ zamkniêcia',
+        'Can\'t update password, need min. 2 characters!' => 'Nie mo¿na zmieniæ has³a, wymagane conajmniej 2 znaki!',
         'DB Admin User' => 'U¿ytkownik administruj±cy baz± danych',
         'for agent user id' => 'dla ID agenta',
         'Change user <-> group settings' => 'Zmieñ u¿ytkownika <-> Ustawienia grupy',
@@ -1481,7 +1643,9 @@ sub Data {
         'Admin-Email' => 'Wiadomo¶æ od Administratora',
         'Stat#' => 'Statystyka',
         'Create new database' => 'Stwórz now± bazê danych',
+        'Can\'t update password, need min. 1 digit!' => 'Nie mo¿na zmieniæ has³a, wymagana conajmniej 1 cyfra!',
         'ArticleID' => 'ID Artyku³u',
+        'Go' => 'Start',
         'Keywords' => 'S³owa kluczowe',
         'Ticket Escalation View' => 'Widok eskalowanych zg³oszeñ',
         'Today' => 'Dzi¶',
@@ -1496,6 +1660,7 @@ sub Data {
         'to get the first 20 character of the subject' => 'by wstawiæ pierwsze 20 znaków tematu',
         'Select the customeruser:service relations.' => 'Wybierz relacjê klient:us³uga.',
         'DB Admin Password' => 'Has³o Administratora bazy danych',
+        'Bulk-Action' => 'Akcja grupowa',
         'Drop Database' => 'Usuñ bazê danych',
         'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Tu mo¿esz zdefiniowac o¶ X. Mo¿esz wybraæ jeden element ze zdefiniowanych. Nastêpnie musisz wybraæ dwa lub wiêcej atrybutów wskazanego elementu. Je¿eli nie wybra³e¶ wszystkich atrybutów elementu u¿yte one zostan± przy generowaniu raportu. Tak samo jak nowe atrybuty dodane od ostatniej konfiguracji.',
         'FileManager' => 'Mened¿er plików',
@@ -1506,7 +1671,7 @@ sub Data {
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Opcje zg³oszenia (np. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         '(Used ticket number format)' => '(U¿ywany format numerowania zg³oszeñ)',
         'Reminder' => 'Przypomnienie',
-        'Fulltext' => 'Pe³notekstowe',
+        'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'Nie mo¿na zmieniæ has³a, podano ró¿ne has³a! Spróbuj ponownie!',
         'OTRS DB connect host' => 'Host bazy danych',
         ' (work units)' => ' (jednostek roboczych)',
         'Next Week' => 'Nastêpny tydzieñ',
@@ -1518,11 +1683,11 @@ sub Data {
         'Parent-Object' => 'Obiekt macierzysty',
         'Of couse this feature will take some system performance it self!' => 'Oczywi¶cie ta funkcja zabiera czê¶æ wydajno¶ci do obs³ugi samej siebie!',
         'Ticket Hook' => 'Identyfikator zg³oszenia',
-        'Detail' => 'Szczegó³',
         'Your own Ticket' => 'Twoje w³asne zg³oszenie',
+        'Detail' => 'Szczegó³',
         'TicketZoom' => 'Podgl±d zg³oszenia',
-        'Don\'t forget to add a new user to groups!' => 'Nie zapomnij dodaæ u¿ytkownika do grup!',
         'Open Tickets' => 'Otwarte zg³oszenia',
+        'Don\'t forget to add a new user to groups!' => 'Nie zapomnij dodaæ u¿ytkownika do grup!',
         'You have to select two or more attributes from the select field!' => 'Musisz wybraæ dwa lub wiêcej atrybutów z pola wyboru!',
         'System Settings' => 'Ustawienia systemu',
         'WebWatcher' => 'Obserwator Web',
@@ -1532,15 +1697,15 @@ sub Data {
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'W³asno¶ci zg³oszenia (np. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => 'Obiekt ju¿ przypisany jako %s',
         'A article should have a title!' => 'Artyku³ musi miec tytu³!',
-        'Event' => 'Zdarzenie',
+        'Customer Users <-> Services' => 'Klienci <-> Us³ugi',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Parametry konfiguracyjne (np. &lt;OTRS_CONFIG_HttpType&gt;)',
-        'All email addresses get excluded on replaying on composing and email.' => 'Wszystkie adresy zostan± pominiête przy odpowiedzi, tworzeniu i wysy³aniu wiadomo¶ci.',
         'don\'t accept license' => 'nie akceptujê Licencji',
+        'All email addresses get excluded on replaying on composing and email.' => 'Wszystkie adresy zostan± pominiête przy odpowiedzi, tworzeniu i wysy³aniu wiadomo¶ci.',
         'A web mail client' => 'Klient poczty przez www',
         'Compose Follow up' => 'Napisz Odpowied¼ (Follow Up)',
+        'Can\'t update password, need min. 8 characters!' => 'Nie mo¿na zmieniæ has³a, wymagane conajmniej 8 znaków!',
         'WebMail' => 'Poczta przez www',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'Opcje dotycz±ce w³a¶ciciela zg³oszenia (np. <OTRS_OWNER_UserFirstname>)',
-        'Name is required!' => 'Nazwa jest wymagana!',
         'DB Type' => 'Typ bazy danych',
         'kill all sessions' => 'Zamknij wszystkie sesje',
         'to get the from line of the email' => 'by wstawiæ pole Od wiadomo¶ci',
@@ -1567,6 +1732,7 @@ sub Data {
         'maximal period form' => 'maksymalny okres formularza',
         'TicketID' => 'ID Zg³oszenia',
         'Yes means, send no agent and customer notifications on changes.' => '\'Tak\' oznacza - nie wysy³aj powiadomieñ agentowi i klientowpi przy zmianach.',
+        'Can\'t update password, need 2 lower and 2 upper characters!' => 'Nie mo¿na zmieniæ has³a, wymagane 2 ma³e i 2 wielkie litery!',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Twoja wiadomo¶æ o numerze zg³oszenia: "<OTRS_TICKET>" zosta³a przekazana na adres "<OTRS_BOUNCE_TO>" . Prosimy kontaktowaæ siê pod tym adresem we wszystkich sprawach dotycz±cych tego zg³oszenia.',
         'Ticket Status View' => 'Status zg³oszenia',
         'Modified' => 'Zmodyfikowany',
