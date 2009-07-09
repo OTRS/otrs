@@ -2,15 +2,24 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.919 2009-07-08 13:43:56 ub Exp $
+# $Id: CHANGES,v 1.920 2009-07-09 02:32:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-2.4.0 beta5 (2009/07/??)
+2.4.0 beta5 (2009/07/09)
+ - (2009/07/09) Updated Polish translation, thanks to Artur Skalski!
+ - (2009/07/09) Updated French translation, thanks to Olivier Sallou!
+ - (2009/07/09) Updated Persian translation, thanks to Afshar Mohebbi!
+    See also at
+    http://afsharm.blogspot.com/2009/06/localizing-otrs-into-persian-farsi.html
+ - (2009/07/09) Added CSV/HTML export for Admin-SQL-Box feature.
+ - (2009/07/09) Fixed bug# 3956 - New OpenSearch feature for fulltext search
+    is not working.
  - (2009/07/08) Fixed bug# 3954 - Lite Theme is not working.
+ - (2009/07/07) Updated Italian translation - Thanks to Remo Catelotti!
  - (2009/07/06) Fixed bug# 3948 - Some <OTRS> variables are not replaced in
     responses and auto responses.
  - (2009/07/06) Fixed bug# 3946 - Incomplete substitution of tag
@@ -35,7 +44,7 @@
     password.
  - (2009/06/29) Fixed bug# 3933 - Kernel::System::LinkObject should be usable
     in rpc.pl.
- - (2009/06/20) Updated nb_NO translation - Thanks to Fredrik Andersen!
+ - (2009/06/20) Updated Norwegian translation - Thanks to Fredrik Andersen!
  - (2009/06/29) Added Latvian translation. Thanks to Ivars Strazdins!
  - (2009/06/25) Fixed bug# 3911 - Not all Dashboard Functions e. g. charts
     available in Internet Explorer 6.
