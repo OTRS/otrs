@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent/NotifyAgentGroupWithWritePermission.pm - generic agent notifications
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: NotifyAgentGroupWithWritePermission.pm,v 1.8 2009-02-16 11:48:19 tr Exp $
+# $Id: NotifyAgentGroupWithWritePermission.pm,v 1.9 2009-07-09 04:09:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Email;
 use Kernel::System::Queue;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -30,7 +30,7 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(DBObject ConfigObject LogObject TicketObject TimeObject)) {
+    for (qw(DBObject ConfigObject LogObject TicketObject TimeObject EncodeObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -140,10 +140,10 @@ sub Run {
 
             # send agent notification
             $Self->{TicketObject}->SendAgentNotification(
-                Type                  => $EscalationType,
-                UserData              => \%User,
-                CustomerMessageParams => \%Param,
                 TicketID              => $Param{TicketID},
+                CustomerMessageParams => \%Param,
+                Type                  => $EscalationType,
+                RecipientID           => $UserID,
                 UserID                => 1,
             );
         }
