@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSelectBox.pm - provides a SelectBox for admins
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSelectBox.pm,v 1.29 2009-07-08 23:55:30 martin Exp $
+# $Id: AdminSelectBox.pm,v 1.30 2009-07-09 02:29:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,8 +14,10 @@ package Kernel::Modules::AdminSelectBox;
 use strict;
 use warnings;
 
+use Kernel::System::CSV;
+
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -28,6 +30,8 @@ sub new {
     for (qw(ParamObject DBObject LayoutObject LogObject ConfigObject)) {
         $Self->{LayoutObject}->FatalError( Message => "Got no $_!" ) if !$Self->{$_};
     }
+
+    $Self->{CSVObject} = Kernel::System::CSV->new(%Param);
 
     return $Self;
 }
@@ -105,7 +109,7 @@ sub Run {
 
             # generate csv output
             if ( $Param{CSV} ) {
-                my $CSV = $Self->{LayoutObject}->OutputCSV(
+                my $CSV = $Self->{CSVObject}->Array2CSV(
                     Head => \@Head,
                     Data => \@Data,
                 );
