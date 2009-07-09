@@ -4,7 +4,7 @@
 # Copyright (C) 2006-2008 Amir Shams Parsa <amir at parsa.name>
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # --
-# $Id: fa.pm,v 1.63 2009-07-09 00:23:57 martin Exp $
+# $Id: fa.pm,v 1.64 2009-07-09 00:29:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,13 +17,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Tue Jun  9 10:43:02 2009
+    # Last translation file sync: Thu Jul  9 02:29:17 2009
 
     # possible charsets
     $Self->{Charset} = ['utf-8', 'utf-8', ];
@@ -212,6 +212,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'خروج از سیستم با موفقیت انجام شد . از همراهی شما متشکریم.',
         'Invalid SessionID!' => 'شناسه Session  نا معتبر!',
         'Feature not active!' => 'این ویژگی فعال نیست.',
+        'Notification (Event)' => '',
         'Login is needed!' => 'نیاز است به سیستم وارد شوید',
         'Password is needed!' => 'ورود رمز عبور الزامی است',
         'License' => 'مجوز بهره برداری سیستم',
@@ -278,8 +279,14 @@ sub Data {
         'Event' => 'رویداد',
         'Events' => 'رویدادها',
         'Invalid Token!' => 'کد بازیابی معتبر نیست',
+        'more' => '',
         'For more info see:' => 'برای کسب اطلاع بیشتر:',
         'Package verification failed!' => 'وارسی بسته ناموفق بود',
+        'Collapse' => '',
+        'News' => '',
+        'Product News' => '',
+        'OTRS News' => '',
+        '7 Day Stats' => '',
         'Bold' => 'تو پر',
         'Italic' => 'کج',
         'Underline' => 'زیرخط',
@@ -368,12 +375,12 @@ sub Data {
         'Spelling Dictionary' => 'لغت نامه غلط یابی',
         'Select your default spelling dictionary.' => ' لغت نامه غلط یابی خود را انتخاب نمائید',
         'Max. shown Tickets a page in Overview.' => 'تعداد نمایش درخواست‌ها در نمای خلاصه',
-        'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'رمز‌های عبور وارد شده یکسان نیست!',
+        'Can\'t update password, your new passwords do not match! Please try again!' => '',
         'Can\'t update password, invalid characters!' => 'کاراکتر غیر مجاز !',
-        'Can\'t update password, need min. 8 characters!' => 'طول رمز عبور معتبر ۸ رقم است!',
-        'Can\'t update password, need 2 lower and 2 upper characters!' => 'دست کم ۲ حرف کوچک و ۲ حرف بزرگ در رمز عبور خود استفاده نمائید!',
-        'Can\'t update password, need min. 1 digit!' => 'دست کم ۱ عدد در رمز عبور خود استفاده نمائید.!',
-        'Can\'t update password, need min. 2 characters!' => 'دست کم ۲ کاراکتر در رمز عبور خود استفاده نمائید.!',
+        'Can\'t update password, must be at least %s characters!' => '',
+        'Can\'t update password, must contain 2 lower and 2 upper characters!' => '',
+        'Can\'t update password, needs at least 1 digit!' => '',
+        'Can\'t update password, needs at least 2 characters!' => '',
 
         # Template: AAAStats
         'Stat' => 'گزارش',
@@ -595,6 +602,10 @@ sub Data {
         'Escalated Tickets' => 'درخواست‌های گیر افتاده',
         'New Tickets' => 'درخواست‌های جدید',
         'Open Tickets / Need to be answered' => 'درخواست‌های باز / درخواست‌های نیازمند به پاسخ',
+        'Tickets which need to be answered!' => '',
+        'All new tickets!' => '',
+        'All tickets which are escalated!' => '',
+        'All tickets where the reminder date has reached!' => '',
         'Responses' => 'پاسخ‌ها',
         'Responses <-> Queue' => 'پاسخ <-> لیست درخواست',
         'Auto Responses' => 'پاسخ خودکار',
@@ -709,6 +720,7 @@ sub Data {
 
         # Template: AdminEmail
         'Message sent to' => 'پیام ارسال شد به',
+        'A message should have a subject!' => 'یک پیام میبایست دارای عنوان باشد',
         'Recipents' => 'گیرنده‌ها',
         'Body' => 'متن نامه',
         'Send' => 'ارسال',
@@ -820,7 +832,6 @@ sub Data {
         'Add a new Notification.' => 'اضافه کردن یک هشدارنامه جدید',
         'Name is required!' => 'نام الزامی است!',
         'Event is required!' => 'رویداد مورد نیاز است!',
-        'A message should have a subject!' => 'یک پیام میبایست دارای عنوان باشد',
         'A message should have a body!' => 'پیام میبایست دارای متن باشد !',
         'Recipient' => 'گیرنده',
         'Group based' => 'مبتنی بر گروه',
@@ -1003,7 +1014,8 @@ sub Data {
 
         # Template: AdminSelectBoxForm
         'SQL Box' => 'جعبه SQL',
-        'Go' => 'اجرا ',
+        'CVS' => '',
+        'HTML' => '',
         'Select Box Result' => 'نتیجه جعبه انتخاب',
 
         # Template: AdminService
@@ -1116,9 +1128,19 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => 'داشبورد',
+        'more' => '',
+        'Collapse' => '',
 
         # Template: AgentDashboardCalendarOverview
         'in' => 'در',
+
+        # Template: AgentDashboardImage
+
+        # Template: AgentDashboardProductNotify
+        '%s %s is available!' => '',
+        'Please update now.' => '',
+        'Release Note' => '',
+        'Level' => '',
 
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => '%s وقت پیش ارسال شد',
@@ -1541,13 +1563,13 @@ sub Data {
 
         # Template: Redirect
 
+        # Template: RichTextEditor
+
         # Template: Test
         'OTRS Test Page' => 'صفحه آزمایش OTRS',
         'Counter' => 'شمارنده',
 
         # Template: Warning
-
-        # Template: YUI
 
         # Misc
         'Edit Article' => 'ویرایش مورد',
@@ -1556,15 +1578,15 @@ sub Data {
         'Change roles <-> groups settings' => 'تغییر تنظیمات نقش <-> گروه',
         'Ticket Number Generator' => 'تولید کننده شماره درخواست‌ها',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(مشخصه درخواست‌ها. اکثر کاربران مایلنداز این ترکیب استفاده کنند مثال: \'شماره درخواست\', \'شماره تماس#\' یا \'نام دلخواه #\')',
-        'Create new Phone Ticket' => 'ایجاد درخواست تلفنی',
         'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'تنظیم مستقیم کلید‌ها در Kernel/Config.pm',
+        'Create new Phone Ticket' => 'ایجاد درخواست تلفنی',
         'Symptom' => 'نشانه',
         'U' => 'Z-A, ی-الف',
         'Site' => 'سایت',
         'Customer history search (e. g. "ID342425").' => 'جستجو در سوابق مشترک (مثال: "ID342425")',
         'Can not delete link with %s!' => ' نمیتوان لینک را با %s حذف نمود ',
-        'for agent firstname' => 'برای نام کارشناس',
         'Close!' => 'بستن!',
+        'for agent firstname' => 'برای نام کارشناس',
         'No means, send agent and customer notifications on changes.' => ' پاسخ خیر به معنی ارسال اعلام به کارشناس و مشترک پس از اعمال تغییرات است ',
         'A web calendar' => 'یک تقویم تحت وب',
         'to get the realname of the sender (if given)' => 'برای گرفتن نام فرستنده',
@@ -1583,6 +1605,7 @@ sub Data {
         'for agent login' => 'برای ورود کارشناس به سیستم',
         'Keyword' => 'کلید واژه',
         'Close type' => 'نوع بستن',
+        'Can\'t update password, need min. 2 characters!' => 'دست کم ۲ کاراکتر در رمز عبور خود استفاده نمائید.!',
         'DB Admin User' => 'نام کاربری مدیر بانک اطلاعاتی ',
         'for agent user id' => 'برای شناسه کاربری کارشناس',
         'Change user <-> group settings' => 'تغییر تنظیمات کاربر <-> گروه',
@@ -1598,7 +1621,9 @@ sub Data {
         'Stat#' => 'گزارش شماره',
         'Create new database' => 'ایجاد بانک جدید',
         'Ticket#' => 'شماره درخواست',
+        'Can\'t update password, need min. 1 digit!' => 'دست کم ۱ عدد در رمز عبور خود استفاده نمائید.!',
         'ArticleID' => 'شماره مورد',
+        'Go' => 'اجرا ',
         'Keywords' => 'کلید واژه‌ها',
         'Ticket Escalation View' => 'نمای تغییر اولویت درخواست',
         'Today' => 'امروز',
@@ -1615,8 +1640,8 @@ sub Data {
         'to get the first 20 character of the subject' => 'برای گرفتن ۲۰ کاراکتر اول موضوع',
         'Select the customeruser:service relations.' => 'ارتباط مشترک را با خدمات مشخض نمائید',
         'DB Admin Password' => 'رمز عبور مدیر سیستم',
-        'Advisory' => 'مشورتی',
         'Drop Database' => 'حذف کامل بانک اطلاعاتی',
+        'Advisory' => 'مشورتی',
         'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'در این بخش میتوانید محور افقی نمودار را مشخص نمائید.شما میتوانید یک گزینه را انتخاب نمائید سپس دست کم دو ویژگی را برای گزینه انتخاب شده تعیین کنید.در غیر اینصورت همه ویژگی‌ها فعال خواهند بود.',
         'FileManager' => 'میریت فایل',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'گزینه‌های اطلاعات مشترک فعلی',
@@ -1627,6 +1652,7 @@ sub Data {
         '(Used ticket number format)' => '(فرمت شماره درخواست)',
         'Reminder' => 'یادآوری',
         'Incident' => 'رویداد',
+        'Can\'t update password, passwords doesn\'t match! Please try it again!' => 'رمز‌های عبور وارد شده یکسان نیست!',
         'OTRS DB connect host' => 'سرور میزبان بانک اطلاعاتی ',
         ' (work units)' => ' واحد کار',
         'Next Week' => 'هفته آینده',
@@ -1638,11 +1664,11 @@ sub Data {
         'Change users <-> roles settings' => 'تغییر تنظیمات کاربر <-> نقش',
         'Parent-Object' => 'اصلی',
         'Of couse this feature will take some system performance it self!' => 'این ویژگی خود بعضی از عملکردهای سیستم را میگیرد',
-        'Your own Ticket' => 'درخواست شما',
         'Detail' => 'جزئیات',
+        'Your own Ticket' => 'درخواست شما',
         'TicketZoom' => 'نمایش کامل درخواست',
-        'Open Tickets' => 'درخواست‌های باز',
         'Don\'t forget to add a new user to groups!' => 'فراموش نکنید که کاربرجدید را به گروه‌ها اضافه کنید!',
+        'Open Tickets' => 'درخواست‌های باز',
         'CreateTicket' => 'ایجاد درخواست',
         'You have to select two or more attributes from the select field!' => 'از قسمت انتخاب ستون دست کم ۲ مورد را انتخاب نمائید',
         'System Settings' => 'تنظیمات سیستم',
@@ -1650,18 +1676,19 @@ sub Data {
         'Hours' => 'ساعت',
         'Finished' => 'پایان یافت',
         'D' => 'A-Z, الف-ی',
-        'System Status' => 'وضعیت سیستم',
         'All messages' => 'همه پیام‌ها',
+        'System Status' => 'وضعیت سیستم',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'گزینه‌های اطلاعات درخواست',
         'Artefact' => 'محصول خروجی',
         'Object already linked as %s.' => 'مورد اکنون به عنوان %s مرتبط شده است',
         'A article should have a title!' => 'یک مورد باید دارای عنوان باشد',
         'Customer Users <-> Services' => 'مشترک <-> خدمات',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'گزینه‌های تنظیمات ',
-        'don\'t accept license' => 'مجوز را تائید نکن',
         'All email addresses get excluded on replaying on composing and email.' => 'به هنگام پاسخگویی یا نوشتن یک ایمیل جدید هیچ کدام از آدرس ایمیل‌ها در نظر گرفته نمی‌شوند.',
+        'don\'t accept license' => 'مجوز را تائید نکن',
         'A web mail client' => 'یک محیط پست الکترونیکی',
         'Compose Follow up' => 'ارسال پیگیری',
+        'Can\'t update password, need min. 8 characters!' => 'طول رمز عبور معتبر ۸ رقم است!',
         'WebMail' => 'پست الکترونیکی',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'گزینه‌های اطلاعات درخواست‌ها',
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>)' => 'گزینه‌های صاحب درخواست (مثال: <OTRS_OWNER_UserFirstname>)',
@@ -1680,8 +1707,8 @@ sub Data {
         'A web file manager' => 'یک محیط مدیریت فایل تحت وب',
         'Have a lot of fun!' => 'موفق و پیروز باشید!',
         'send' => 'ارسال',
-        'Send no notifications' => 'اعلام‌ها را ارسال نکن',
         'Location on Map' => 'موقعیت روی نقشه',
+        'Send no notifications' => 'اعلام‌ها را ارسال نکن',
         'Note Text' => 'یادداشت',
         'POP3 Account Management' => 'مدیریت حساب POP3',
         'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'گزینه‌های اطلاعات مشترک کنونی',
@@ -1692,6 +1719,7 @@ sub Data {
         'TicketID' => 'شناسه درخواست',
         'Escaladed Tickets' => 'درخواست‌های قفل کننده صف',
         'Yes means, send no agent and customer notifications on changes.' => 'پاسخ بله به معنی عدم ارسال اعلام به کارشناس و مشترک پس از اعمال تغییرات است',
+        'Can\'t update password, need 2 lower and 2 upper characters!' => 'دست کم ۲ حرف کوچک و ۲ حرف بزرگ در رمز عبور خود استفاده نمائید!',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'پیام شما در درخواست به شماره "<OTRS_TICKET> ارجاع شد به "<OTRS_BOUNCE_TO>".  اطلاعات بیشتر را از این آدرس دریافت نمائید',
         'Ticket Status View' => 'نمایش وضعیت درخواست',
         'Modified' => 'تغییر یافته',
