@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.40 2009-03-09 13:14:36 martin Exp $
+# $Id: LayoutTicket.pm,v 1.41 2009-07-10 22:17:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -668,8 +668,8 @@ sub TicketListShow {
     my ( $Self, %Param ) = @_;
 
     # lookup latest used view mode
-    if ( !$Param{View} && $Self->{ 'TicketOverview' . $Param{Env}->{Action} } ) {
-        $Param{View} = $Self->{ 'TicketOverview' . $Param{Env}->{Action} };
+    if ( !$Param{View} && $Self->{ 'UserTicketOverview' . $Param{Env}->{Action} } ) {
+        $Param{View} = $Self->{ 'UserTicketOverview' . $Param{Env}->{Action} };
     }
 
     # set defaut view mode to 'small'
@@ -683,9 +683,18 @@ sub TicketListShow {
     # store latest view mode
     $Self->{SessionObject}->UpdateSessionID(
         SessionID => $Self->{SessionID},
-        Key       => 'TicketOverview' . $Param{Env}->{Action},
+        Key       => 'UserTicketOverview' . $Param{Env}->{Action},
         Value     => $View,
     );
+
+    # update preferences
+    if ( !$Self->{ConfigObject}->Get('DemoSystem') ) {
+        $Self->{UserObject}->SetPreferences(
+            UserID => $Self->{UserID},
+            Key    => 'UserTicketOverview' . $Param{Env}->{Action},
+            Value  => $View,
+        );
+    }
 
     # check backends
     my $Backends = $Self->{ConfigObject}->Get('Ticket::Frontend::Overview');
