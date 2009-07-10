@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.146 2009-07-10 22:32:21 martin Exp $
+# $Id: Layout.pm,v 1.147 2009-07-10 22:53:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use warnings;
 use Kernel::Language;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.146 $) [1];
+$VERSION = qw($Revision: 1.147 $) [1];
 
 =head1 NAME
 
@@ -131,17 +131,12 @@ sub new {
         my $BrowserLang = $Self->{Lang} || $ENV{HTTP_ACCEPT_LANGUAGE} || '';
         my %Data = %{ $Self->{ConfigObject}->Get('DefaultUsedLanguages') };
         LANGUAGE:
-        for my $Language ( keys %Data ) {
+        for my $Language ( reverse sort keys %Data ) {
 
             # check xx_XX and xx-XX type
             my $LanguageOtherType = $Language;
             $LanguageOtherType =~ s/_/-/;
             if ( $BrowserLang =~ /^($Language|$LanguageOtherType)/i ) {
-                $Self->{UserLanguage} = $Language;
-                last LANGUAGE;
-            }
-
-            if ( $BrowserLang =~ /^$Language/i ) {
                 $Self->{UserLanguage} = $Language;
                 last LANGUAGE;
             }
@@ -4128,6 +4123,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.146 $ $Date: 2009-07-10 22:32:21 $
+$Revision: 1.147 $ $Date: 2009-07-10 22:53:23 $
 
 =cut
