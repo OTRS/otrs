@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentDashboard.pm - a global dashbard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.pm,v 1.6 2009-06-13 16:21:06 mh Exp $
+# $Id: AgentDashboard.pm,v 1.7 2009-07-10 22:47:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -58,11 +58,13 @@ sub Run {
         );
 
         # update preferences
-        $Self->{UserObject}->SetPreferences(
-            UserID => $Self->{UserID},
-            Key    => $Key,
-            Value  => 0,
-        );
+        if ( !$Self->{ConfigObject}->Get('DemoSystem') ) {
+            $Self->{UserObject}->SetPreferences(
+                UserID => $Self->{UserID},
+                Key    => $Key,
+                Value  => 0,
+            );
+        }
 
         # redirect
         return $Self->{LayoutObject}->Redirect(
@@ -92,11 +94,13 @@ sub Run {
             );
 
             # update preferences
-            $Self->{UserObject}->SetPreferences(
-                UserID => $Self->{UserID},
-                Key    => $Key,
-                Value  => $Active,
-            );
+            if ( !$Self->{ConfigObject}->Get('DemoSystem') ) {
+                $Self->{UserObject}->SetPreferences(
+                    UserID => $Self->{UserID},
+                    Key    => $Key,
+                    Value  => $Active,
+                );
+            }
         }
 
         # redirect
@@ -150,7 +154,18 @@ sub Run {
     }
 
     # try every backend
+    BACKEND:
     for my $Name ( sort keys %{$Config} ) {
+
+        # check permissions
+        if ( $Config->{$Name}->{Group} ) {
+            my @Groups = split /;/, $Config->{$Name}->{Group};
+            for my $Group (@Groups) {
+                my $Name = 'UserIsGroup[' . $Group . ']';
+                next BACKEND if !$Self->{$Name};
+                next BACKEND if $Self->{$Name} ne 'Yes';
+            }
+        }
 
         # add backend to settings selection
         my $Checked = '';
@@ -165,11 +180,11 @@ sub Run {
                 Checked => $Checked,
             },
         );
-        next if !$Backends{$Name};
+        next BACKEND if !$Backends{$Name};
 
         # execute backends
         my $Module = $Config->{$Name}->{Module};
-        next if !$Self->{MainObject}->Require($Module);
+        next BACKEND if !$Self->{MainObject}->Require($Module);
         my $Object = $Module->new(
             %{$Self},
             Config => $Config->{$Name},
