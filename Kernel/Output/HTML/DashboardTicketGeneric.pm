@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketGeneric.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketGeneric.pm,v 1.7 2009-07-11 01:23:21 martin Exp $
+# $Id: DashboardTicketGeneric.pm,v 1.8 2009-07-11 02:52:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -54,8 +54,39 @@ sub Preferences {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # get current filter
+    my $Name           = $Self->{ParamObject}->GetParam( Param => 'Name' ) || '';
+    my $PreferencesKey = 'UserDashboard-' . $Self->{Name};
+    my $Filter;
+    if ( $Self->{Name} eq $Name ) {
+        $Filter = $Self->{ParamObject}->GetParam( Param => 'Filter' ) || '';
+    }
+
+    # remember filter
+    if ($Filter) {
+        # update ssession
+        $Self->{SessionObject}->UpdateSessionID(
+            SessionID => $Self->{SessionID},
+            Key       => $PreferencesKey,
+            Value     => $Filter,
+        );
+
+        # update preferences
+        if ( !$Self->{ConfigObject}->Get('DemoSystem') ) {
+            $Self->{UserObject}->SetPreferences(
+                UserID => $Self->{UserID},
+                Key       => $PreferencesKey,
+                Value     => $Filter,
+            );
+        }
+    }
+
+    if ( !$Filter ) {
+        $Filter = $Self->{$PreferencesKey} || 'All';
+    }
+
     # get all attributes
-    my %TicketSearch = ();
+    my %TicketSearch;
     my @Params = split /;/, $Self->{Config}->{Attributes};
     for my $String (@Params) {
         next if !$String;
@@ -75,15 +106,50 @@ sub Run {
             push @{ $TicketSearch{$Key} }, $Value;
         }
     }
-
-    my @TicketIDs = $Self->{TicketObject}->TicketSearch(
-
-        # result (required)
+    %TicketSearch = (
         %TicketSearch,
-        Result     => 'ARRAY',
         Permission => $Self->{Config}->{Permission} || 'ro',
         UserID     => $Self->{UserID},
-        Limit      => 1_000,
+        Limit      => 100,
+    );
+    my %TicketSearchSummary = (
+        Locked => {
+            OwnerIDs => [ $Self->{UserID}, ],
+            Locks    => ['lock'],
+        },
+        All => {
+            OwnerIDs => undef,
+            Locks    => undef,
+        },
+    );
+    $Self->{LayoutObject}->SetEnv(
+        Key   => 'Color',
+        Value => 'searchactive',
+    );
+    my %Summary;
+    for my $Type ( sort keys %TicketSearchSummary ) {
+        if ( $Filter eq $Type ) {
+            $Summary{ $Filter . '::Style' } = 'text-decoration:none';
+        }
+        $Summary{$Type} = $Self->{TicketObject}->TicketSearch(
+            Result     => 'COUNT',
+            %TicketSearch,
+            %{ $TicketSearchSummary{$Type} },
+        );
+    }
+    $Self->{LayoutObject}->Block(
+        Name => 'ContentLargeTicketOverviewFilter',
+        Data         => {
+            %{ $Self->{Config} },
+            Name => $Self->{Name},
+            %Summary,
+        },
+    );
+
+    my @TicketIDs = $Self->{TicketObject}->TicketSearch(
+        Result     => 'ARRAY',
+        %TicketSearch,
+        %{ $TicketSearchSummary{$Filter} },
     );
 
     my $Count = 0;
@@ -115,16 +181,21 @@ sub Run {
         );
     }
 
+    if ( !@TicketIDs ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'ContentLargeTicketOverviewNone',
+            Data => {},
+        );
+    }
+
     my $Content = $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentDashboardTicketOverview',
         Data         => {
             %{ $Self->{Config} },
+            Name => $Self->{Name},
+            %Summary,
         },
     );
-
-    if ( !@TicketIDs ) {
-        $Content = '$Text{"none"}';
-    }
 
     return $Content;
 }

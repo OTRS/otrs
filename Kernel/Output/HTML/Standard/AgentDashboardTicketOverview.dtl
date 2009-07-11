@@ -2,7 +2,7 @@
 # AgentDashboardTicketOverview.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardTicketOverview.dtl,v 1.1 2009-06-04 23:27:22 martin Exp $
+# $Id: AgentDashboardTicketOverview.dtl,v 1.2 2009-07-11 02:52:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,19 +10,39 @@
 # --
 
 <table border="0" width="100%" cellspacing="0" cellpadding="2">
-<!-- dtl:block:ContentLargeTicketOverviewRow -->
-  <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchpassive"; }>
-  <tr class="$Env{"Color"}" onmouseover="this.className='searchhighlight';" onmouseout="this.className='$Env{"Color"}';">
-
-    <td width="10%">
-      <a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Zoom"}'; return true;" onmouseout="window.status='';" title="$QData{"Title"}">$Data{"TicketNumber"}</a>
+<!-- dtl:block:ContentLargeTicketOverviewFilter -->
+  <tr>
+    <td class="small">
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Name=$QData{"Name"}&Filter=Locked" style="$QData{"Locked::Style"}">$Text{"Locked Tickets"} ($QData{"Locked"})</a> | <a href="$Env{"Baselink"}Action=$Env{"Action"}&Name=$QData{"Name"}&Filter=All" style="$QData{"All::Style"}">$Text{"All tickets"} ($QData{"All"})</a>
     </td>
-    <td width="60%">
-      <div title="$QData{"Title"}">$QData{"Title","70"}</div>
-    </td>
-    <td>$QData{"Age"}</td>
   </tr>
-  <dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = ""; }>
-  <dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = "searchactive"; }>
+<!-- dtl:block:ContentLargeTicketOverviewFilter -->
+  <tr>
+    <td>
+      <table border="0" width="100%" cellspacing="0" cellpadding="2">
 <!-- dtl:block:ContentLargeTicketOverviewRow -->
+        <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchactive"; }>
+        <tr class="$Env{"Color"}" onmouseover="this.className='searchhighlight';" onmouseout="this.className='$Env{"Color"}';">
+
+          <td width="10%">
+            <a href="$Env{"Baselink"}Action=AgentTicketZoom&TicketID=$Data{"TicketID"}&ArticleID=$Data{"ArticleID"}&QueueID=$Data{"QueueID"}" onmouseover="window.status='$JSText{"Zoom"}'; return true;" onmouseout="window.status='';" title="$QData{"Title"}">$Data{"TicketNumber"}</a>
+          </td>
+          <td width="60%">
+            <div title="$QData{"Title"}">$QData{"Title","70"}</div>
+          </td>
+          <td>$QData{"Time"}</td>
+        </tr>
+        <dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = ""; }>
+        <dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = "searchpassive"; }>
+<!-- dtl:block:ContentLargeTicketOverviewRow -->
+<!-- dtl:block:ContentLargeTicketOverviewNone -->
+        <tr class="searchactive" onmouseover="this.className='searchhighlight';" onmouseout="this.className='$Env{"Color"}';">
+          <td colspan="3">
+            $Text{"none"}
+          </td>
+        </tr>
+<!-- dtl:block:ContentLargeTicketOverviewNone -->
+      </table>
+    </td>
+  </tr>
 </table>
