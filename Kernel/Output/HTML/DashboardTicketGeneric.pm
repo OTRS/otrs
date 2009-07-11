@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketGeneric.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketGeneric.pm,v 1.6 2009-07-11 00:08:13 martin Exp $
+# $Id: DashboardTicketGeneric.pm,v 1.7 2009-07-11 01:23:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -37,6 +37,14 @@ sub new {
 
 sub Preferences {
     my ( $Self, %Param ) = @_;
+
+    # check if frontend module of link is used
+    if ( $Self->{Config}->{Link} && $Self->{Config}->{Link} =~ /Action=(.+?)(&.+?|)$/ ) {
+        my $Action = $1;
+        if ( !$Self->{ConfigObject}->Get('Frontend::Module')->{$Action} ) {
+            $Self->{Config}->{Link} = '';
+        }
+    }
 
     return (
         %{ $Self->{Config} }
@@ -88,10 +96,18 @@ sub Run {
         );
 
         # create human age
-        $Ticket{Age} = $Self->{LayoutObject}->CustomerAge(
-            Age   => $Ticket{Age},
-            Space => ' ',
-        );
+        if ( $Self->{Config}->{Time} ne 'Age' ) {
+            $Ticket{Time} = $Self->{LayoutObject}->CustomerAgeInHours(
+                Age   => $Ticket{ $Self->{Config}->{Time} },
+                Space => ' ',
+            );
+        }
+        else {
+            $Ticket{Time} = $Self->{LayoutObject}->CustomerAge(
+                Age   => $Ticket{ $Self->{Config}->{Time} },
+                Space => ' ',
+            );
+        }
 
         $Self->{LayoutObject}->Block(
             Name => 'ContentLargeTicketOverviewRow',
