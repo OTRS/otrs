@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardProductNotify.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardProductNotify.pm,v 1.6 2009-07-07 15:45:19 mh Exp $
+# $Id: DashboardProductNotify.pm,v 1.7 2009-07-11 00:08:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,11 +15,10 @@ use strict;
 use warnings;
 
 use Kernel::System::WebUserAgent;
-use Kernel::System::Cache;
 use Kernel::System::XML;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -30,16 +29,23 @@ sub new {
 
     # get needed objects
     for (
-        qw(Config Name ConfigObject LogObject DBObject LayoutObject ParamObject TicketObject UserID)
+        qw(Config Name ConfigObject LogObject DBObject LayoutObject ParamObject TicketObject CacheObject UserID)
         )
     {
         die "Got no $_!" if ( !$Self->{$_} );
     }
 
     $Self->{WebUserAgentObject} = Kernel::System::WebUserAgent->new(%Param);
-    $Self->{CacheObject}        = Kernel::System::Cache->new(%Param);
 
     return $Self;
+}
+
+sub Preferences {
+    my ( $Self, %Param ) = @_;
+
+    return (
+        %{ $Self->{Config} },
+    );
 }
 
 sub Run {
@@ -109,7 +115,7 @@ sub Run {
             # check if we need to set CacheTTL based on product.xml
             my $CacheTTL = $Data[1]->{otrs_product}->[1]->{CacheTTL};
             if ( $CacheTTL && $CacheTTL->[1]->{Content} ) {
-                $Self->{Config}->{CacheTTL} = $CacheTTL->[1]->{Content};
+                $Self->{Config}->{CacheTTLLocal} = $CacheTTL->[1]->{Content};
             }
         }
 
@@ -118,20 +124,11 @@ sub Run {
             Type  => 'DashboardProductNotify',
             Key   => $CacheKey,
             Value => $Content,
-            TTL   => $Self->{Config}->{CacheTTL} * 60,
+            TTL   => $Self->{Config}->{CacheTTLLocal} * 60,
         );
     }
 
-    $Self->{LayoutObject}->Block(
-        Name => 'ContentLarge',
-        Data => {
-            %{ $Self->{Config} },
-            Name    => $Self->{Name},
-            Content => $Content,
-        },
-    );
-
-    return 1;
+    return $Content;
 }
 
 sub _CheckVersion {

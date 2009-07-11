@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketStatsGeneric.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketStatsGeneric.pm,v 1.5 2009-06-29 12:23:37 ub Exp $
+# $Id: DashboardTicketStatsGeneric.pm,v 1.6 2009-07-11 00:08:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -33,6 +33,14 @@ sub new {
     }
 
     return $Self;
+}
+
+sub Preferences {
+    my ( $Self, %Param ) = @_;
+
+    return (
+        %{ $Self->{Config} }
+    );
 }
 
 sub Run {
@@ -124,16 +132,7 @@ sub Run {
         },
     );
 
-    $Self->{LayoutObject}->Block(
-        Name => 'ContentSmall',
-        Data => {
-            %{ $Self->{Config} },
-            Name    => $Self->{Name},
-            Content => $Content,
-        },
-    );
-
-    return 1;
+    return $Content;
 }
 
 1;

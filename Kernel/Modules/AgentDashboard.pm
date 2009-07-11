@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentDashboard.pm - a global dashbard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.pm,v 1.7 2009-07-10 22:47:44 martin Exp $
+# $Id: AgentDashboard.pm,v 1.8 2009-07-11 00:08:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,8 +14,10 @@ package Kernel::Modules::AgentDashboard;
 use strict;
 use warnings;
 
+use Kernel::System::Cache;
+
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -30,6 +32,8 @@ sub new {
             $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
         }
     }
+
+    $Self->{CacheObject} = Kernel::System::Cache->new(%Param);
 
     return $Self;
 }
@@ -167,6 +171,16 @@ sub Run {
             }
         }
 
+        # load backends
+        my $Module = $Config->{$Name}->{Module};
+        next BACKEND if !$Self->{MainObject}->Require($Module);
+        my $Object = $Module->new(
+            %{$Self},
+            Config => $Config->{$Name},
+            Name   => $Name,
+        );
+        my %Preferences = $Object->Preferences();
+
         # add backend to settings selection
         my $Checked = '';
         if ( $Backends{$Name} ) {
@@ -176,21 +190,65 @@ sub Run {
             Name => 'ContentSettings',
             Data => {
                 %{ $Config->{$Name} },
+                %Preferences,
                 Name    => $Name,
                 Checked => $Checked,
             },
         );
         next BACKEND if !$Backends{$Name};
 
+        # check backends cache
+        my $Content;
+        my $CacheKey = $Preferences{CacheKey};
+        if (!$CacheKey) {
+            $CacheKey = $Name . '-' . $Self->{LayoutObject}->{UserLanguage};
+        }
+        if ( $Preferences{CacheTTL} ) {
+            $Content = $Self->{CacheObject}->Get(
+                Type => 'Dashboard',
+                Key  => $CacheKey,
+            );
+        }
+
         # execute backends
-        my $Module = $Config->{$Name}->{Module};
-        next BACKEND if !$Self->{MainObject}->Require($Module);
-        my $Object = $Module->new(
-            %{$Self},
-            Config => $Config->{$Name},
-            Name   => $Name,
+        if ( !defined $Content ) {
+            $Content = $Object->Run();
+        }
+
+        # check if content should be shown
+        next BACKEND if !$Content;
+
+        # set cache
+        if ( $Preferences{CacheTTL} ) {
+            $Self->{CacheObject}->Set(
+                Type  => 'Dashboard',
+                Key   => $CacheKey,
+                Value => $Content,
+                TTL   => $Preferences{CacheTTL} * 60,
+            );
+        }
+
+        # rendering
+        $Self->{LayoutObject}->Block(
+            Name => $Preferences{Block},
+            Data => {
+                %{ $Config->{$Name} },
+                %Preferences,
+                Name    => $Name,
+                Content => $Content,
+            },
         );
-        $Object->Run();
+
+        # more link
+        if ( $Preferences{Link} ) {
+            $Self->{LayoutObject}->Block(
+                Name => $Preferences{Block} . 'More',
+                Data => {
+                    %{ $Config->{$Name} },
+                    %Preferences,
+                },
+            );
+        }
     }
 
     # get output back

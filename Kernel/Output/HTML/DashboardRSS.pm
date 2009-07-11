@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardRSS.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardRSS.pm,v 1.8 2009-06-13 16:21:06 mh Exp $
+# $Id: DashboardRSS.pm,v 1.9 2009-07-11 00:08:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,10 +15,9 @@ use strict;
 use warnings;
 
 use XML::FeedPP;
-use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,87 +34,63 @@ sub new {
         die "Got no $_!" if ( !$Self->{$_} );
     }
 
-    $Self->{CacheObject} = Kernel::System::Cache->new(%Param);
-
     return $Self;
+}
+
+sub Preferences {
+    my ( $Self, %Param ) = @_;
+
+    return (
+        %{ $Self->{Config} },
+        CacheKey => 'RSS' . $Self->{Config}->{URL} . '-' . $Self->{LayoutObject}->{UserLanguage},
+    );
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # check cache
-    my $CacheKey = $Self->{Config}->{URL} . '-' . $Self->{LayoutObject}->{UserLanguage};
-    my $Content  = '';
-    if ( $Self->{Config}->{CacheTTL} ) {
-        $Content = $Self->{CacheObject}->Get(
-            Type => 'DashboardRSS',
-            Key  => $CacheKey,
+    # get content
+    my $Feed = eval { XML::FeedPP->new( $Self->{Config}->{URL} ) };
+
+    if ( !$Feed ) {
+        my $Content = "Can't connect to " . $Self->{Config}->{URL};
+        return $Content;
+    }
+
+    my $Count = 0;
+    for my $Item ( $Feed->get_item() ) {
+        $Count++;
+        last if $Count > $Self->{Config}->{Limit};
+        my $Time = $Item->pubDate();
+        my $Ago;
+        if ($Time) {
+            my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
+                String => $Time,
+            );
+            $Ago = $Self->{TimeObject}->SystemTime() - $SystemTime;
+            $Ago = $Self->{LayoutObject}->CustomerAge(
+                Age   => $Ago,
+                Space => ' ',
+            );
+        }
+
+        $Self->{LayoutObject}->Block(
+            Name => 'ContentSmallRSSOverviewRow',
+            Data => {
+                Title => $Item->title(),
+                Link  => $Item->link(),
+                Ago   => $Ago,
+            },
         );
     }
-
-    # get content
-    if ( !$Content ) {
-        my $Feed = eval { XML::FeedPP->new( $Self->{Config}->{URL} ) };
-
-        if ( !$Feed ) {
-            $Content = "Can't connect to " . $Self->{Config}->{URL};
-        }
-        else {
-            my $Count = 0;
-            for my $Item ( $Feed->get_item() ) {
-                $Count++;
-                last if $Count > $Self->{Config}->{Limit};
-                my $Time = $Item->pubDate();
-                my $Ago;
-                if ($Time) {
-                    my $SystemTime = $Self->{TimeObject}->TimeStamp2SystemTime(
-                        String => $Time,
-                    );
-                    $Ago = $Self->{TimeObject}->SystemTime() - $SystemTime;
-                    $Ago = $Self->{LayoutObject}->CustomerAge(
-                        Age   => $Ago,
-                        Space => ' ',
-                    );
-                }
-
-                $Self->{LayoutObject}->Block(
-                    Name => 'ContentSmallRSSOverviewRow',
-                    Data => {
-                        Title => $Item->title(),
-                        Link  => $Item->link(),
-                        Ago   => $Ago,
-                    },
-                );
-            }
-            $Content = $Self->{LayoutObject}->Output(
-                TemplateFile => 'AgentDashboardRSSOverview',
-                Data         => {
-                    %{ $Self->{Config} },
-                },
-            );
-        }
-
-        # cache
-        if ( $Self->{Config}->{CacheTTL} ) {
-            $Self->{CacheObject}->Set(
-                Type  => 'DashboardRSS',
-                Key   => $CacheKey,
-                Value => $Content,
-                TTL   => $Self->{Config}->{CacheTTL} * 60,
-            );
-        }
-    }
-
-    $Self->{LayoutObject}->Block(
-        Name => 'ContentSmall',
-        Data => {
+    my $Content = $Self->{LayoutObject}->Output(
+        TemplateFile => 'AgentDashboardRSSOverview',
+        Data         => {
             %{ $Self->{Config} },
-            Name    => $Self->{Name},
-            Content => $Content,
         },
     );
 
-    return 1;
+    return $Content;
 }
 
 1;
