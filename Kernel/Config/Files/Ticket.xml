@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.251 2009-07-11 09:26:48 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.252 2009-07-11 11:30:22 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -6556,6 +6556,7 @@ $QData{"Signature"}
                 <Item Key="Block">ContentLarge</Item>
                 <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
+                <Item Key="CacheTTL">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6577,6 +6578,7 @@ $QData{"Signature"}
                 <Item Key="Block">ContentLarge</Item>
                 <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
+                <Item Key="CacheTTL">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6598,6 +6600,7 @@ $QData{"Signature"}
                 <Item Key="Block">ContentLarge</Item>
                 <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
+                <Item Key="CacheTTL">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6619,6 +6622,7 @@ $QData{"Signature"}
                 <Item Key="Block">ContentLarge</Item>
                 <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
+                <Item Key="CacheTTL">1</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6635,9 +6639,9 @@ $QData{"Signature"}
                 <Item Key="Closed">1</Item>
                 <Item Key="Permission">rw</Item>
                 <Item Key="Block">ContentSmall</Item>
-                <Item Key="CacheTTL">4</Item>
                 <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
+                <Item Key="CacheTTL">4</Item>
             </Hash>
         </Setting>
     </ConfigItem>
@@ -6654,8 +6658,9 @@ $QData{"Signature"}
                 <Item Key="Permission">rw</Item>
                 <Item Key="Block">ContentSmall</Item>
                 <Item Key="Limit">6</Item>
-                <Item Key="CacheTTL">2</Item>
+                <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
+                <Item Key="CacheTTL">2</Item>
             </Hash>
         </Setting>
     </ConfigItem>
