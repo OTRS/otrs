@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.247 2009-06-23 00:21:16 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.248 2009-07-11 00:33:38 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -2285,7 +2285,7 @@
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Ticket::ViewSearch</SubGroup>
         <Setting>
-            <String Regex="^[0-9]{1,10}$">2000</String>
+            <String Regex="^[0-9]{1,8}$">2000</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::Frontend::AgentTicketSearch###SearchPageShown" Required="1" Valid="1">
@@ -6548,9 +6548,10 @@ $QData{"Signature"}
                 <Item Key="Module">Kernel::Output::HTML::DashboardTicketReminder</Item>
                 <Item Key="Title">Reminder Tickets</Item>
                 <Item Key="Description">All tickets where the reminder date has reached!</Item>
-                <Item Key="Link">$Env{"Baselink"}Action=AgentTicketLockedView</Item>
+                <Item Key="Link">$Env{"Baselink"}Action=AgentTicketLockedView&amp;Filter=ReminderReached</Item>
                 <Item Key="Limit">10</Item>
                 <Item Key="Permission">rw</Item>
+                <Item Key="Block">ContentLarge</Item>
                 <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
             </Hash>
@@ -6569,6 +6570,7 @@ $QData{"Signature"}
                 <Item Key="Attributes">TicketEscalationTimeOlderMinutes=1;</Item>
                 <Item Key="Limit">10</Item>
                 <Item Key="Permission">rw</Item>
+                <Item Key="Block">ContentLarge</Item>
                 <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
             </Hash>
@@ -6587,6 +6589,7 @@ $QData{"Signature"}
                 <Item Key="Attributes">StateType=New;</Item>
                 <Item Key="Limit">10</Item>
                 <Item Key="Permission">rw</Item>
+                <Item Key="Block">ContentLarge</Item>
                 <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
             </Hash>
@@ -6605,6 +6608,7 @@ $QData{"Signature"}
                 <Item Key="Attributes">StateType=Open;</Item>
                 <Item Key="Limit">10</Item>
                 <Item Key="Permission">rw</Item>
+                <Item Key="Block">ContentLarge</Item>
                 <Item Key="Group"></Item>
                 <Item Key="Default">0</Item>
             </Hash>
@@ -6622,6 +6626,8 @@ $QData{"Signature"}
                 <Item Key="Created">1</Item>
                 <Item Key="Closed">1</Item>
                 <Item Key="Permission">rw</Item>
+                <Item Key="Block">ContentSmall</Item>
+                <Item Key="CacheTTL">4</Item>
                 <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
             </Hash>
@@ -6638,7 +6644,9 @@ $QData{"Signature"}
                 <Item Key="Title">Upcoming Events</Item>
                 <Item Key="Default">1</Item>
                 <Item Key="Permission">rw</Item>
-                <Item Key="Limit">5</Item>
+                <Item Key="Block">ContentSmall</Item>
+                <Item Key="Limit">6</Item>
+                <Item Key="CacheTTL">2</Item>
                 <Item Key="Active">1</Item>
             </Hash>
         </Setting>
@@ -7159,7 +7167,7 @@ $QData{"Signature"}
         <Group>Ticket</Group>
         <SubGroup>Frontend::Customer::Ticket::ViewSearch</SubGroup>
         <Setting>
-            <String Regex="^[0-9]{1,6}$">5000</String>
+            <String Regex="^[0-9]{1,8}$">5000</String>
         </Setting>
     </ConfigItem>
     <ConfigItem Name="Ticket::CustomerTicketSearch::SearchPageShown" Required="1" Valid="1">
