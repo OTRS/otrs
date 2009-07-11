@@ -1,0 +1,47 @@
+# --
+# AgentDashboardUserOnline.dtl - provides HTML for global dashboard
+# Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
+# --
+# $Id: AgentDashboardUserOnline.dtl,v 1.1 2009-07-11 11:33:38 martin Exp $
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (AGPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
+# --
+
+<table border="0" width="100%" cellspacing="0" cellpadding="2">
+<!-- dtl:block:ContentSmallUserOnlineFilter -->
+  <tr>
+    <td class="small">
+      <a href="$Env{"Baselink"}Action=$Env{"Action"}&Name=$QData{"Name"}&Filter=Agent" style="$QData{"Agent::Style"}">$Text{"Agent"} ($QData{"Agent"})</a> | <a href="$Env{"Baselink"}Action=$Env{"Action"}&Name=$QData{"Name"}&Filter=Customer" style="$QData{"Customer::Style"}">$Text{"Customer"} ($QData{"Customer"})</a>
+    </td>
+  </tr>
+<!-- dtl:block:ContentSmallUserOnlineFilter -->
+<!-- dtl:block:ContentSmallUserOnlineRow -->
+  <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchpassive"; }>
+  <tr class="$Env{"Color"}" onmouseover="this.className='searchhighlight';" onmouseout="this.className='$Env{"Color"}';">
+    <td>
+      $QData{"UserLastname"} $QData{"UserFirstname"}
+<!-- dtl:block:ContentSmallUserOnlineRowEmail -->
+      ($QData{"UserEmail","50"})
+<!-- dtl:block:ContentSmallUserOnlineRowEmail -->
+    </td>
+  </tr>
+  <dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = ""; }>
+  <dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = "searchactive"; }>
+<!-- dtl:block:ContentSmallUserOnlineRow -->
+<!-- dtl:block:ContentSmallUserOnlineMore -->
+  <tr>
+    <td>
+      [...]
+    </td>
+  </tr>
+<!-- dtl:block:ContentSmallUserOnlineMore -->
+<!-- dtl:block:ContentSmallUserOnlineNone -->
+  <tr class="searchactive" onmouseover="this.className='searchhighlight';" onmouseout="this.className='$Env{"Color"}';">
+    <td colspan="3">
+      $Text{"none"}
+    </td>
+  </tr>
+<!-- dtl:block:ContentSmallUserOnlineNone -->
+</table>
