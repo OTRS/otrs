@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.224 2009-07-11 00:33:39 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.225 2009-07-11 09:26:48 martin Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script. Also disables if not active, the GenericAgent, PackageManager and SQL Box, since it's possible to use it for destructive write queries such as DROP DATABASE, and also to steal user passwords.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden. Auch deaktiviert sind der GenericAgent, der PackageManager und die SQL Box im Admin-Interface, bis diese Einstellung aktiviert wurde.</Description>
@@ -5266,6 +5266,8 @@ Your OTRS Notification Master
                 <Item Key="Block">ContentSmall</Item>
                 <Item Key="Group"></Item>
                 <Item Key="Limit">5</Item>
+                <Item Key="Group"></Item>
+                <Item Key="Default">1</Item>
                 <Item Key="CacheTTL">360</Item>
             </Hash>
         </Setting>
@@ -5282,6 +5284,7 @@ Your OTRS Notification Master
                 <Item Key="Description">Some picture description!</Item>
                 <Item Key="Block">ContentLarge</Item>
                 <Item Key="URL">http://www.otrs.com/uploads/pics/jointhecommunity_02.jpg</Item>
+                <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
                 <Item Key="Link">http://otrs.org/</Item>
                 <Item Key="LinkTitle">http://otrs.org/</Item>
