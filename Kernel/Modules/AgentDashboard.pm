@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentDashboard.pm - a global dashbard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.pm,v 1.8 2009-07-11 00:08:13 martin Exp $
+# $Id: AgentDashboard.pm,v 1.9 2009-07-11 08:14:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -52,7 +52,7 @@ sub Run {
     # update/close item
     if ( $Self->{Subaction} eq 'UpdateRemove' ) {
         my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' );
-        my $Key = 'Dashboard' . $Name;
+        my $Key = 'UserDashboard' . $Name;
 
         # update ssession
         $Self->{SessionObject}->UpdateSessionID(
@@ -88,7 +88,7 @@ sub Run {
                 $Active = 1;
                 last;
             }
-            my $Key = 'Dashboard' . $Name;
+            my $Key = 'UserDashboard' . $Name;
 
             # update ssession
             $Self->{SessionObject}->UpdateSessionID(
@@ -148,7 +148,7 @@ sub Run {
             }
         }
 
-        my $Key = 'Dashboard' . $Name;
+        my $Key = 'UserDashboard' . $Name;
         if ( defined $Self->{$Key} ) {
             $Backends{$Name} = $Self->{$Key};
         }

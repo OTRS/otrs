@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketGeneric.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketGeneric.pm,v 1.9 2009-07-11 08:06:37 martin Exp $
+# $Id: DashboardTicketGeneric.pm,v 1.10 2009-07-11 08:17:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -56,7 +56,7 @@ sub Run {
 
     # get current filter
     my $Name           = $Self->{ParamObject}->GetParam( Param => 'Name' ) || '';
-    my $PreferencesKey = 'UserDashboard-' . $Self->{Name};
+    my $PreferencesKey = 'UserDashboardTicketGenericFilter' . $Self->{Name};
     my $Filter;
     if ( $Self->{Name} eq $Name ) {
         $Filter = $Self->{ParamObject}->GetParam( Param => 'Filter' ) || '';
