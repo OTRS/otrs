@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketGeneric.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketGeneric.pm,v 1.8 2009-07-11 02:52:35 martin Exp $
+# $Id: DashboardTicketGeneric.pm,v 1.9 2009-07-11 08:06:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -82,10 +82,10 @@ sub Run {
     }
 
     if ( !$Filter ) {
-        $Filter = $Self->{$PreferencesKey} || 'All';
+        $Filter = $Self->{$PreferencesKey} || $Self->{Config}->{Filter} || 'All';
     }
 
-    # get all attributes
+    # get all search base attributes
     my %TicketSearch;
     my @Params = split /;/, $Self->{Config}->{Attributes};
     for my $String (@Params) {
@@ -112,6 +112,8 @@ sub Run {
         UserID     => $Self->{UserID},
         Limit      => 100,
     );
+
+    # define filter attributes
     my %TicketSearchSummary = (
         Locked => {
             OwnerIDs => [ $Self->{UserID}, ],
@@ -122,12 +124,16 @@ sub Run {
             Locks    => undef,
         },
     );
+
+    # get filter ticket counts
     $Self->{LayoutObject}->SetEnv(
         Key   => 'Color',
         Value => 'searchactive',
     );
     my %Summary;
     for my $Type ( sort keys %TicketSearchSummary ) {
+        next if !$TicketSearchSummary{$Type};
+
         if ( $Filter eq $Type ) {
             $Summary{ $Filter . '::Style' } = 'text-decoration:none';
         }
@@ -146,6 +152,7 @@ sub Run {
         },
     );
 
+    # find and show searched tickets
     my @TicketIDs = $Self->{TicketObject}->TicketSearch(
         Result     => 'ARRAY',
         %TicketSearch,

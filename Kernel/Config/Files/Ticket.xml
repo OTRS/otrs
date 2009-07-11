@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.249 2009-07-11 01:23:21 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.250 2009-07-11 08:06:37 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -6538,18 +6538,20 @@ $QData{"Signature"}
             </Hash>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="DashboardBackend###0100-TicketReminder" Required="0" Valid="1">
+    <ConfigItem Name="DashboardBackend###0100-TicketPendingReminder" Required="0" Valid="1">
         <Description Lang="en">Parameters for the dashboard backend.</Description>
         <Description Lang="de">Parameter für das Dashboard Backend.</Description>
         <Group>Ticket</Group>
         <SubGroup>Frontend::Agent::Dashboard</SubGroup>
         <Setting>
             <Hash>
-                <Item Key="Module">Kernel::Output::HTML::DashboardTicketReminder</Item>
+                <Item Key="Module">Kernel::Output::HTML::DashboardTicketGeneric</Item>
                 <Item Key="Title">Reminder Tickets</Item>
                 <Item Key="Description">All tickets where the reminder date has reached!</Item>
-                <Item Key="Link">$Env{"Baselink"}Action=AgentTicketLockedView&amp;Filter=ReminderReached</Item>
-                <Item Key="Limit">10</Item>
+                <Item Key="Attributes">TicketPendingTimeOlderMinutes=1;StateType=pending reminder</Item>
+                <Item Key="Filter">Locked</Item>
+                <Item Key="Time">UntilTime</Item>
+                <Item Key="Limit">14</Item>
                 <Item Key="Permission">rw</Item>
                 <Item Key="Block">ContentLarge</Item>
                 <Item Key="Group"></Item>
@@ -6568,9 +6570,9 @@ $QData{"Signature"}
                 <Item Key="Title">Escalated Tickets</Item>
                 <Item Key="Description">All tickets which are escalated!</Item>
                 <Item Key="Attributes">TicketEscalationTimeOlderMinutes=1;</Item>
+                <Item Key="Filter">All</Item>
                 <Item Key="Time">EscalationTime</Item>
-                <Item Key="Limit">10</Item>
-                <Item Key="Link">$Env{"Baselink"}Action=AgentTicketSearch</Item>
+                <Item Key="Limit">14</Item>
                 <Item Key="Permission">rw</Item>
                 <Item Key="Block">ContentLarge</Item>
                 <Item Key="Group"></Item>
@@ -6589,8 +6591,9 @@ $QData{"Signature"}
                 <Item Key="Title">New Tickets</Item>
                 <Item Key="Description">All new tickets!</Item>
                 <Item Key="Attributes">StateType=New;</Item>
+                <Item Key="Filter">All</Item>
                 <Item Key="Time">Age</Item>
-                <Item Key="Limit">10</Item>
+                <Item Key="Limit">14</Item>
                 <Item Key="Permission">rw</Item>
                 <Item Key="Block">ContentLarge</Item>
                 <Item Key="Group"></Item>
@@ -6609,8 +6612,9 @@ $QData{"Signature"}
                 <Item Key="Title">Open Tickets / Need to be answered</Item>
                 <Item Key="Description">Tickets which need to be answered!</Item>
                 <Item Key="Attributes">StateType=Open;</Item>
+                <Item Key="Filter">All</Item>
                 <Item Key="Time">Age</Item>
-                <Item Key="Limit">10</Item>
+                <Item Key="Limit">14</Item>
                 <Item Key="Permission">rw</Item>
                 <Item Key="Block">ContentLarge</Item>
                 <Item Key="Group"></Item>
