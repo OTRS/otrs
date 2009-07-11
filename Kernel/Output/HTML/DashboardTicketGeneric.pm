@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketGeneric.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketGeneric.pm,v 1.10 2009-07-11 08:17:06 martin Exp $
+# $Id: DashboardTicketGeneric.pm,v 1.11 2009-07-11 11:31:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -32,6 +32,36 @@ sub new {
         die "Got no $_!" if ( !$Self->{$_} );
     }
 
+    # get current filter
+    my $Name           = $Self->{ParamObject}->GetParam( Param => 'Name' ) || '';
+    my $PreferencesKey = 'UserDashboardTicketGenericFilter' . $Self->{Name};
+    if ( $Self->{Name} eq $Name ) {
+        $Self->{Filter} = $Self->{ParamObject}->GetParam( Param => 'Filter' ) || '';
+    }
+
+    # remember filter
+    if ($Self->{Filter}) {
+        # update ssession
+        $Self->{SessionObject}->UpdateSessionID(
+            SessionID => $Self->{SessionID},
+            Key       => $PreferencesKey,
+            Value     => $Self->{Filter},
+        );
+
+        # update preferences
+        if ( !$Self->{ConfigObject}->Get('DemoSystem') ) {
+            $Self->{UserObject}->SetPreferences(
+                UserID => $Self->{UserID},
+                Key       => $PreferencesKey,
+                Value     => $Self->{Filter},
+            );
+        }
+    }
+
+    if ( !$Self->{Filter} ) {
+        $Self->{Filter} = $Self->{$PreferencesKey} || $Self->{Config}->{Filter} || 'All';
+    }
+
     return $Self;
 }
 
@@ -46,44 +76,15 @@ sub Preferences {
         }
     }
 
+    my $Key = $Self->{LayoutObject}->{UserLanguage} . '-' . $Self->{Filter} . '-' . $Self->{Name};
     return (
-        %{ $Self->{Config} }
+        %{ $Self->{Config} },
+        CacheKey => 'TicketGeneric' . '-' . $Self->{UserID} . '-' . $Key,
     );
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
-
-    # get current filter
-    my $Name           = $Self->{ParamObject}->GetParam( Param => 'Name' ) || '';
-    my $PreferencesKey = 'UserDashboardTicketGenericFilter' . $Self->{Name};
-    my $Filter;
-    if ( $Self->{Name} eq $Name ) {
-        $Filter = $Self->{ParamObject}->GetParam( Param => 'Filter' ) || '';
-    }
-
-    # remember filter
-    if ($Filter) {
-        # update ssession
-        $Self->{SessionObject}->UpdateSessionID(
-            SessionID => $Self->{SessionID},
-            Key       => $PreferencesKey,
-            Value     => $Filter,
-        );
-
-        # update preferences
-        if ( !$Self->{ConfigObject}->Get('DemoSystem') ) {
-            $Self->{UserObject}->SetPreferences(
-                UserID => $Self->{UserID},
-                Key       => $PreferencesKey,
-                Value     => $Filter,
-            );
-        }
-    }
-
-    if ( !$Filter ) {
-        $Filter = $Self->{$PreferencesKey} || $Self->{Config}->{Filter} || 'All';
-    }
 
     # get all search base attributes
     my %TicketSearch;
@@ -133,18 +134,21 @@ sub Run {
     my %Summary;
     for my $Type ( sort keys %TicketSearchSummary ) {
         next if !$TicketSearchSummary{$Type};
-
-        if ( $Filter eq $Type ) {
-            $Summary{ $Filter . '::Style' } = 'text-decoration:none';
-        }
         $Summary{$Type} = $Self->{TicketObject}->TicketSearch(
             Result     => 'COUNT',
             %TicketSearch,
             %{ $TicketSearchSummary{$Type} },
         );
     }
+    for my $Type ( sort keys %TicketSearchSummary ) {
+        next if $Self->{Filter} ne $Type;
+        for my $Type ( sort keys %TicketSearchSummary ) {
+            next if $Type eq $Self->{Filter};
+            $Summary{ $Self->{Filter} . '::Style' } = 'text-decoration:none';
+        }
+    }
     $Self->{LayoutObject}->Block(
-        Name => 'ContentLargeTicketOverviewFilter',
+        Name => 'ContentLargeTicketGenericFilter',
         Data         => {
             %{ $Self->{Config} },
             Name => $Self->{Name},
@@ -156,7 +160,7 @@ sub Run {
     my @TicketIDs = $Self->{TicketObject}->TicketSearch(
         Result     => 'ARRAY',
         %TicketSearch,
-        %{ $TicketSearchSummary{$Filter} },
+        %{ $TicketSearchSummary{ $Self->{Filter} } },
     );
 
     my $Count = 0;
@@ -183,20 +187,20 @@ sub Run {
         }
 
         $Self->{LayoutObject}->Block(
-            Name => 'ContentLargeTicketOverviewRow',
+            Name => 'ContentLargeTicketGenericRow',
             Data => \%Ticket,
         );
     }
 
     if ( !@TicketIDs ) {
         $Self->{LayoutObject}->Block(
-            Name => 'ContentLargeTicketOverviewNone',
+            Name => 'ContentLargeTicketGenericNone',
             Data => {},
         );
     }
 
     my $Content = $Self->{LayoutObject}->Output(
-        TemplateFile => 'AgentDashboardTicketOverview',
+        TemplateFile => 'AgentDashboardTicketGeneric',
         Data         => {
             %{ $Self->{Config} },
             Name => $Self->{Name},

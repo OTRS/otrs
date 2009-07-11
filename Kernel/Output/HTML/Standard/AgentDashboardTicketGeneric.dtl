@@ -1,8 +1,8 @@
 # --
-# AgentDashboardTicketOverview.dtl - provides HTML for global dashboard
+# AgentDashboardTicketGeneric.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardTicketOverview.dtl,v 1.2 2009-07-11 02:52:35 martin Exp $
+# $Id: AgentDashboardTicketGeneric.dtl,v 1.1 2009-07-11 11:31:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,17 +10,17 @@
 # --
 
 <table border="0" width="100%" cellspacing="0" cellpadding="2">
-<!-- dtl:block:ContentLargeTicketOverviewFilter -->
+<!-- dtl:block:ContentLargeTicketGenericFilter -->
   <tr>
     <td class="small">
       <a href="$Env{"Baselink"}Action=$Env{"Action"}&Name=$QData{"Name"}&Filter=Locked" style="$QData{"Locked::Style"}">$Text{"Locked Tickets"} ($QData{"Locked"})</a> | <a href="$Env{"Baselink"}Action=$Env{"Action"}&Name=$QData{"Name"}&Filter=All" style="$QData{"All::Style"}">$Text{"All tickets"} ($QData{"All"})</a>
     </td>
   </tr>
-<!-- dtl:block:ContentLargeTicketOverviewFilter -->
+<!-- dtl:block:ContentLargeTicketGenericFilter -->
   <tr>
     <td>
       <table border="0" width="100%" cellspacing="0" cellpadding="2">
-<!-- dtl:block:ContentLargeTicketOverviewRow -->
+<!-- dtl:block:ContentLargeTicketGenericRow -->
         <dtl if ($Env{"Color"} eq "") { $Env{"Color"} = "searchactive"; }>
         <tr class="$Env{"Color"}" onmouseover="this.className='searchhighlight';" onmouseout="this.className='$Env{"Color"}';">
 
@@ -34,14 +34,14 @@
         </tr>
         <dtl if ($Env{"Color"} eq "searchpassive") { $Env{"Color"} = ""; }>
         <dtl if ($Env{"Color"} eq "searchactive") { $Env{"Color"} = "searchpassive"; }>
-<!-- dtl:block:ContentLargeTicketOverviewRow -->
-<!-- dtl:block:ContentLargeTicketOverviewNone -->
+<!-- dtl:block:ContentLargeTicketGenericRow -->
+<!-- dtl:block:ContentLargeTicketGenericNone -->
         <tr class="searchactive" onmouseover="this.className='searchhighlight';" onmouseout="this.className='$Env{"Color"}';">
           <td colspan="3">
             $Text{"none"}
           </td>
         </tr>
-<!-- dtl:block:ContentLargeTicketOverviewNone -->
+<!-- dtl:block:ContentLargeTicketGenericNone -->
       </table>
     </td>
   </tr>
