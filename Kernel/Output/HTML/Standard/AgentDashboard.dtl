@@ -2,12 +2,17 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.10 2009-07-13 05:09:46 martin Exp $
+# $Id: AgentDashboard.dtl,v 1.11 2009-07-13 05:48:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
+# include accordion
+<script src="$Config{"Frontend::YUIPath"}/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script src="$Config{"Frontend::YUIPath"}/build/animation/animation-min.js"></script>
+<script src="$Config{"Frontend::JavaScriptPath"}accordion.js" type="text/javascript"></script>
 
 # include AJAX lib
 $Include{"AJAX"}
@@ -62,10 +67,6 @@ $Include{"AJAX"}
 <!-- dtl:block:ContentLarge -->
           </td>
           <td width="340" valign="top">
-
-            <script src="$Config{"Frontend::YUIPath"}/build/yahoo-dom-event/yahoo-dom-event.js"></script>
-            <script src="$Config{"Frontend::YUIPath"}/build/animation/animation-min.js"></script>
-            <script src="$Config{"Frontend::JavaScriptPath"}accordion.js" type="text/javascript"></script>
 
             <table border="0" width="100%" align="center" cellspacing="2" cellpadding="4">
               <tr>
