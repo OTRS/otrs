@@ -2,12 +2,15 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.9 2009-07-11 00:08:13 martin Exp $
+# $Id: AgentDashboard.dtl,v 1.10 2009-07-13 05:09:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
+# include AJAX lib
+$Include{"AJAX"}
 
 <!-- dtl:block:Content -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
@@ -37,7 +40,9 @@
                     </tr>
                     <tr>
                       <td colspan="2" class="contentbody">
+                        <div id="$QData{"Name"}">
                         $Data{"Content"}
+                        </div>
                       </td>
                     </tr>
                     <tr>
@@ -129,7 +134,9 @@
                     </tr>
                     <tr>
                       <td colspan="2" class="contentbody">
+                        <div id="$QData{"Name"}">
                         $Data{"Content"}
+                        </div>
                       </td>
                     </tr>
                     <tr>

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentDashboard.pm - a global dashbard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.pm,v 1.9 2009-07-11 08:14:17 martin Exp $
+# $Id: AgentDashboard.pm,v 1.10 2009-07-13 05:09:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -78,7 +78,7 @@ sub Run {
     }
 
     # update settings
-    if ( $Self->{Subaction} eq 'Update' ) {
+    elsif ( $Self->{Subaction} eq 'Update' ) {
 
         my @Backends = $Self->{ParamObject}->GetArray( Param => 'Backend' );
         for my $Name ( sort keys %{$Config} ) {
@@ -110,6 +110,24 @@ sub Run {
         # redirect
         return $Self->{LayoutObject}->Redirect(
             OP => "Action=$Self->{Action}"
+        );
+    }
+
+    # deliver element
+    elsif ( $Self->{Subaction} eq 'Element' ) {
+
+        my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' );
+
+        my %Element = $Self->_Element( Name => $Name, Config => $Config );
+        if ( !%Element ) {
+            $Self->{LayoutObject}->FatalError(
+                Message => "Can't get element data of $Name!",
+            );
+        }
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'text/html',
+            Content     => ${ $Element{Content} },
+            Type        => 'inline'
         );
     }
 
@@ -158,97 +176,38 @@ sub Run {
     }
 
     # try every backend
-    BACKEND:
     for my $Name ( sort keys %{$Config} ) {
 
-        # check permissions
-        if ( $Config->{$Name}->{Group} ) {
-            my @Groups = split /;/, $Config->{$Name}->{Group};
-            for my $Group (@Groups) {
-                my $Name = 'UserIsGroup[' . $Group . ']';
-                next BACKEND if !$Self->{$Name};
-                next BACKEND if $Self->{$Name} ne 'Yes';
-            }
-        }
-
-        # load backends
-        my $Module = $Config->{$Name}->{Module};
-        next BACKEND if !$Self->{MainObject}->Require($Module);
-        my $Object = $Module->new(
-            %{$Self},
-            Config => $Config->{$Name},
-            Name   => $Name,
+        # get element data
+        my %Element = $Self->_Element(
+            Name     => $Name,
+            Config   => $Config,
+            Backends => \%Backends,
         );
-        my %Preferences = $Object->Preferences();
-
-        # add backend to settings selection
-        my $Checked = '';
-        if ( $Backends{$Name} ) {
-            $Checked = 'checked';
-        }
-        $Self->{LayoutObject}->Block(
-            Name => 'ContentSettings',
-            Data => {
-                %{ $Config->{$Name} },
-                %Preferences,
-                Name    => $Name,
-                Checked => $Checked,
-            },
-        );
-        next BACKEND if !$Backends{$Name};
-
-        # check backends cache
-        my $Content;
-        my $CacheKey = $Preferences{CacheKey};
-        if (!$CacheKey) {
-            $CacheKey = $Name . '-' . $Self->{LayoutObject}->{UserLanguage};
-        }
-        if ( $Preferences{CacheTTL} ) {
-            $Content = $Self->{CacheObject}->Get(
-                Type => 'Dashboard',
-                Key  => $CacheKey,
-            );
-        }
-
-        # execute backends
-        if ( !defined $Content ) {
-            $Content = $Object->Run();
-        }
-
-        # check if content should be shown
-        next BACKEND if !$Content;
-
-        # set cache
-        if ( $Preferences{CacheTTL} ) {
-            $Self->{CacheObject}->Set(
-                Type  => 'Dashboard',
-                Key   => $CacheKey,
-                Value => $Content,
-                TTL   => $Preferences{CacheTTL} * 60,
-            );
-        }
+        next if !%Element;
 
         # rendering
         $Self->{LayoutObject}->Block(
-            Name => $Preferences{Block},
+            Name => $Element{Preferences}->{Block},
             Data => {
                 %{ $Config->{$Name} },
-                %Preferences,
+                %{ $Element{Preferences} },
                 Name    => $Name,
-                Content => $Content,
+                Content => ${ $Element{Content} },
             },
         );
 
         # more link
-        if ( $Preferences{Link} ) {
+        if ( $Element{Preferences}->{Link} ) {
             $Self->{LayoutObject}->Block(
-                Name => $Preferences{Block} . 'More',
+                Name => $Element{Preferences}->{Block} . 'More',
                 Data => {
                     %{ $Config->{$Name} },
-                    %Preferences,
+                    %{ $Element{Preferences} },
                 },
             );
         }
+
     }
 
     # get output back
@@ -260,6 +219,91 @@ sub Run {
     );
     $Output .= $Self->{LayoutObject}->Footer();
     return $Output;
+}
+
+sub _Element {
+    my ( $Self, %Param ) = @_;
+
+    my $Name     = $Param{Name};
+    my $Config   = $Param{Config};
+    my $Backends = $Param{Backends};
+
+    # check permissions
+    if ( $Config->{$Name}->{Group} ) {
+        my @Groups = split /;/, $Config->{$Name}->{Group};
+        for my $Group (@Groups) {
+            my $Name = 'UserIsGroup[' . $Group . ']';
+            return if !$Self->{$Name};
+            return if $Self->{$Name} ne 'Yes';
+        }
+    }
+
+    # load backends
+    my $Module = $Config->{$Name}->{Module};
+    return if !$Self->{MainObject}->Require($Module);
+    my $Object = $Module->new(
+        %{$Self},
+        Config => $Config->{$Name},
+        Name   => $Name,
+    );
+
+    # get module preferences
+    my %Preferences = $Object->Preferences();
+
+    # add backend to settings selection
+    if ( $Backends ) {
+        my $Checked = '';
+        if ( $Backends->{$Name} ) {
+            $Checked = 'checked';
+        }
+        $Self->{LayoutObject}->Block(
+            Name => 'ContentSettings',
+            Data => {
+                %{ $Config->{$Name} },
+                %Preferences,
+                Name    => $Name,
+                Checked => $Checked,
+            },
+        );
+        return if !$Backends->{$Name};
+    }
+
+    # check backends cache
+    my $Content;
+    my $CacheKey = $Preferences{CacheKey};
+    if (!$CacheKey) {
+        $CacheKey = $Name . '-' . $Self->{LayoutObject}->{UserLanguage};
+    }
+    if ( $Preferences{CacheTTL} ) {
+        $Content = $Self->{CacheObject}->Get(
+            Type => 'Dashboard',
+            Key  => $CacheKey,
+        );
+    }
+
+    # execute backends
+    if ( !defined $Content ) {
+        $Content = $Object->Run();
+    }
+
+    # check if content should be shown
+    return if !$Content;
+
+    # set cache
+    if ( $Preferences{CacheTTL} ) {
+        $Self->{CacheObject}->Set(
+            Type  => 'Dashboard',
+            Key   => $CacheKey,
+            Value => $Content,
+            TTL   => $Preferences{CacheTTL} * 60,
+        );
+    }
+
+    # return result
+    return (
+        Content     => \$Content,
+        Preferences => \%Preferences,
+    );
 }
 
 1;
