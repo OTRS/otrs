@@ -47,6 +47,17 @@
         <ColumnAdd Name="f_stop" Required="false" Type="SMALLINT"/>
     </TableAlter>
 
+    <TableAlter Name="ticket">
+        <ColumnChange NameOld="until_time" NameNew="until_time" Required="true" Type="INTEGER"/>
+        <IndexCreate Name="ticket_until_time">
+            <IndexColumn Name="until_time"/>
+        </IndexCreate>
+        <ColumnChange NameOld="timeout" NameNew="timeout" Required="true" Type="INTEGER"/>
+        <IndexCreate Name="ticket_timeout">
+            <IndexColumn Name="timeout"/>
+        </IndexCreate>
+    </TableAlter>
+
     <TableAlter Name="article">
         <ColumnAdd Name="a_in_reply_to" Required="false" Size="3800" Type="VARCHAR"/>
         <ColumnAdd Name="a_references" Required="false" Size="3800" Type="VARCHAR"/>
