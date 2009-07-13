@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardUserOnline.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardUserOnline.pm,v 1.1 2009-07-11 11:33:38 martin Exp $
+# $Id: DashboardUserOnline.pm,v 1.2 2009-07-13 06:09:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::AuthSession;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -127,12 +127,7 @@ sub Run {
         Value => 'searchactive',
     );
     my %Summary;
-    if ( $Self->{Filter} eq 'Agent' ) {
-        $Summary{ 'Customer::Style' } = 'text-decoration:none';
-    }
-    else {
-        $Summary{ 'Agent::Style' } = 'text-decoration:none';
-    }
+    $Summary{ $Self->{Filter} . '::Style' } = 'text-decoration:none';
 
     $Self->{LayoutObject}->Block(
         Name => 'ContentSmallUserOnlineFilter',
