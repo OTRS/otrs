@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.401 2009-06-25 23:02:11 martin Exp $
+# $Id: Ticket.pm,v 1.402 2009-07-13 11:37:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTML2Ascii;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.401 $) [1];
+$VERSION = qw($Revision: 1.402 $) [1];
 
 =head1 NAME
 
@@ -5230,56 +5230,53 @@ sub OwnerCheck {
         return;
     }
 
-    # db quote
-    for (qw(TicketID OwnerID)) {
-        $Param{$_} = $Self->{DBObject}->Quote( $Param{$_}, 'Integer' );
-    }
-
     # db query
     if ( $Param{OwnerID} ) {
 
+        # create cache key
+        my $CacheKey = $Param{TicketID} . '::' . $Param{OwnerID};
+
         # check cache
-        if ( defined $Self->{OwnerCheck}->{ $Param{OwnerID} } ) {
-            return $Self->{OwnerCheck}->{ $Param{OwnerID} };
+        if ( defined $Self->{OwnerCheck}->{$CacheKey} ) {
+            return if !$Self->{OwnerCheck}->{$CacheKey};
+            return 1 if $Self->{OwnerCheck}->{$CacheKey};
         }
-        $SQL = "SELECT user_id FROM ticket "
-            . " WHERE "
-            . " id = $Param{TicketID} AND "
-            . " (user_id = $Param{OwnerID} OR responsible_user_id = $Param{OwnerID})";
+
+        # check if user has access
+        return if !$Self->{DBObject}->Prepare(
+            SQL => 'SELECT user_id FROM ticket WHERE '
+                . ' id = ? AND (user_id = ? OR responsible_user_id = ?)',
+            Bind => [ \$Param{TicketID}, \$Param{OwnerID}, \$Param{OwnerID}, ],
+        );
+        my $Access = 0;
+        while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+            $Access = 1;
+        }
+
+        # fill cache
+        $Self->{OwnerCheck}->{$CacheKey} = $Access;
+        return if !$Access;
+        return 1 if $Access;
     }
-    else {
-        $SQL = "SELECT st.user_id, su.$Self->{ConfigObject}->{DatabaseUserTableUser} "
-            . " FROM "
-            . " ticket st, $Self->{ConfigObject}->{DatabaseUserTable} su "
-            . " WHERE "
-            . " st.id = $Param{TicketID} AND "
-            . " st.user_id = su.$Self->{ConfigObject}->{DatabaseUserTableUserID}";
-    }
-    return if !$Self->{DBObject}->Prepare( SQL => $SQL );
+
+    # search for owner_id and owner
+    return if !$Self->{DBObject}->Prepare(
+        SQL => "SELECT st.user_id, su.$Self->{ConfigObject}->{DatabaseUserTableUser} "
+            . " FROM ticket st, $Self->{ConfigObject}->{DatabaseUserTable} su "
+            . " WHERE st.id = ? AND "
+            . " st.user_id = su.$Self->{ConfigObject}->{DatabaseUserTableUserID}",
+        Bind => [ \$Param{TicketID}, ],
+    );
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Param{SearchUserID} = $Row[0];
         $Param{SearchUser}   = $Row[1];
     }
-    if ( $Param{OwnerID} ) {
-        if ( $Param{SearchUserID} ) {
 
-            # fill cache
-            $Self->{OwnerCheck}->{ $Param{OwnerID} } = 1;
-            return 1;
-        }
-        else {
+    # return if no owner as been found
+    return if !$Param{SearchUserID};
 
-            # fill cache
-            $Self->{OwnerCheck}->{ $Param{OwnerID} } = 0;
-            return;
-        }
-    }
-    if ( $Param{SearchUserID} ) {
-        return $Param{SearchUserID}, $Param{SearchUser};
-    }
-    else {
-        return;
-    }
+    # return owner id and owner
+    return $Param{SearchUserID}, $Param{SearchUser};
 }
 
 =item OwnerSet()
@@ -7364,6 +7361,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.401 $ $Date: 2009-06-25 23:02:11 $
+$Revision: 1.402 $ $Date: 2009-07-13 11:37:55 $
 
 =cut
