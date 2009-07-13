@@ -2,7 +2,7 @@
 # AgentTicketForward.dtl - provides HTML form for AgentTicketForward
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.dtl,v 1.34 2009-07-02 12:48:45 ub Exp $
+# $Id: AgentTicketForward.dtl,v 1.35 2009-07-13 16:50:41 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -92,15 +92,6 @@ function BookCheckSubmit() {
     window.open('', 'book', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
     document.book.submit()
     document.book.was_spell_checked=true;
-}
-// -->
-</script>
-
-<script language="JavaScript" type="text/javascript">
-<!--
-function FAQSubmit() {
-    window.open('', 'faq', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
-    document.faq.submit()
 }
 // -->
 </script>
@@ -309,13 +300,6 @@ $QData{"Body"}
         <input type="hidden" name="To" value=""/>
         <input type="hidden" name="Cc" value=""/>
         <input type="hidden" name="Bcc" value=""/>
-      </form>
-      <form action="$Env{"CGIHandle"}" method="post" name="faq" target="faq">
-        <input type="hidden" name="Action" value="AgentFAQ"/>
-        <input type="hidden" name="Nav" value="None"/>
-        <input type="hidden" name="Body" value=""/>
-        <input type="hidden" name="Subject" value=""/>
-        <input type="hidden" name="What" value=""/>
       </form>
       <br/>
     </td>

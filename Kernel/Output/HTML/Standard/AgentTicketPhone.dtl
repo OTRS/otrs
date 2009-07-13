@@ -2,7 +2,7 @@
 # AgentTicketPhone.dtl - provides HTML form for phone
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.dtl,v 1.48 2009-07-02 12:49:41 ub Exp $
+# $Id: AgentTicketPhone.dtl,v 1.49 2009-07-13 16:50:15 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -83,15 +83,6 @@ function SpellCheckSubmit() {
     document.spelling.Body.value = document.compose.Body.value;
     window.open('', 'spelling', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
     document.spelling.submit()
-}
-// -->
-</script>
-
-<script language="JavaScript" type="text/javascript">
-<!--
-function FAQSubmit() {
-    window.open('', 'faq', 'toolbar=no,location=no,status=yes,scrollbars=yes,resizable=yes,width=700,height=550,left=100,top=100');
-    document.faq.submit()
 }
 // -->
 </script>
@@ -185,8 +176,6 @@ function clear_field() {
                 </div>
               </p>
 <!-- dtl:block:CustomerTable -->
-#              $Text{"FAQ-Search"}: $Env{"Box0"}<a href="" onclick="FAQSubmit(); return false;" onmouseout="window.status='';" onmouseover="window.status='$JSText{"Insert"}'; return true;">$Text{"Insert"}</a>$Env{"Box1"}
-#              <input type="text" name="FAQ" value="" onSubmit="document.compose.ExpandCustomerName.value='4';"/>
             </td>
           </tr>
           <tr>
@@ -256,11 +245,6 @@ function clear_field() {
 <!-- dtl:block:SpellCheck -->
               $Env{"Box0"}<a href="" onclick="SpellCheckSubmit(); return false;" onmouseover="window.status='$JSText{"Spell Check"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}spell.png">$Text{"Spell Check"}</a>$Env{"Box1"}
 <!-- dtl:block:SpellCheck -->
-# --
-# check if the faq link should be shown
-# --
-              <dtl if ($Env{"UserIsGroupRo[faq]"} eq "Yes") { $Data{"FAQLink"} = "$Env{"Box0"}<a href="" onclick="FAQSubmit(); return false;" onmouseover="window.status='$JSText{"FAQ"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}help-small.png">$Text{"FAQ"}</a>$Env{"Box1"}"; }>
-              $Data{"FAQLink"}
               $Env{"Box0"}<a href="" onclick="CustomerSubmit(); return false;" onmouseover="window.status='$JSText{"Customer"}'; return true;" onmouseout="window.status='';"><img border="0" src="$Config{"Frontend::ImagePath"}group-small.png">$Text{"Customer"}</a>$Env{"Box1"}
             </td>
           </tr>
@@ -393,13 +377,6 @@ $Data{"Body"}
         <input type="hidden" name="Action" value="AgentSpelling"/>
         <input type="hidden" name="Body" value=""/>
         <input type="hidden" name="spell_lang" value=""/>
-      </form>
-      <form action="$Env{"CGIHandle"}" method="post" name="faq" target="faq">
-        <input type="hidden" name="Action" value="AgentFAQ"/>
-        <input type="hidden" name="Nav" value="None"/>
-        <input type="hidden" name="Body" value=""/>
-        <input type="hidden" name="Subject" value=""/>
-        <input type="hidden" name="What" value=""/>
       </form>
       <form action="$Env{"CGIHandle"}" method="post" name="customer" target="customer">
         <input type="hidden" name="Action" value="AdminCustomerUser"/>
