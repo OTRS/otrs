@@ -5,7 +5,7 @@
 # Copyright (C) 2006 Flora Szabo /szaboflora@magicnet.hu/
 # Copyright (C) 2007 Aron Ujvari <ujvari@hungary.com>
 # --
-# $Id: hu.pm,v 1.69 2009-06-27 12:12:14 martin Exp $
+# $Id: hu.pm,v 1.70 2009-07-13 09:49:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.69 $) [1];
+$VERSION = qw($Revision: 1.70 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -718,6 +718,7 @@ sub Data {
         'Message sent to' => 'Üzenet elküldve',
         'A message should have a subject!' => 'Egy üzenetnek kell legyen tárgya!',
         'Recipents' => 'Címzettek',
+        'Recipients' => 'Címzettek',
         'Body' => 'Törzs',
         'Send' => 'Küldés',
 

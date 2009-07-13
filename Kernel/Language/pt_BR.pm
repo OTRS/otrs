@@ -4,7 +4,7 @@
 # Copyright (C) 2005 Alterado por Glaucia C. Messina (glauglauu@yahoo.com)
 # Copyright (C) 2007 Fabricio Luiz Machado <soprobr gmail.com>
 # --
-# $Id: pt_BR.pm,v 1.87 2009-06-27 12:12:14 martin Exp $
+# $Id: pt_BR.pm,v 1.88 2009-07-13 09:49:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.87 $) [1];
+$VERSION = qw($Revision: 1.88 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -717,6 +717,7 @@ sub Data {
         'Message sent to' => 'Mensagem enviada para',
         'A message should have a subject!' => 'Uma mensagem deve conter um assunto!',
         'Recipents' => 'Destinatários',
+        'Recipients' => 'Destinatários',
         'Body' => 'Corpo',
         'Send' => '',
 

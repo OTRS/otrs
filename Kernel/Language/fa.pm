@@ -4,7 +4,7 @@
 # Copyright (C) 2006-2008 Amir Shams Parsa <amir at parsa.name>
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
 # --
-# $Id: fa.pm,v 1.64 2009-07-09 00:29:49 martin Exp $
+# $Id: fa.pm,v 1.65 2009-07-13 09:49:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.64 $) [1];
+$VERSION = qw($Revision: 1.65 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -722,6 +722,7 @@ sub Data {
         'Message sent to' => 'پیام ارسال شد به',
         'A message should have a subject!' => 'یک پیام میبایست دارای عنوان باشد',
         'Recipents' => 'گیرنده‌ها',
+        'Recipients' => 'گیرنده‌ها',
         'Body' => 'متن نامه',
         'Send' => 'ارسال',
 

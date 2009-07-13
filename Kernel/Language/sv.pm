@@ -2,7 +2,7 @@
 # Kernel/Language/sv.pm - Swedish language translation
 # Copyright (C) 2004 Mats Eric Olausson <mats@synergy.se>
 # --
-# $Id: sv.pm,v 1.69 2009-06-27 12:12:14 martin Exp $
+# $Id: sv.pm,v 1.70 2009-07-13 09:49:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = q$Revision: 1.69 $;
+$VERSION = q$Revision: 1.70 $;
 
 sub Data {
     my $Self = shift;
@@ -715,6 +715,7 @@ sub Data {
         'Message sent to' => 'Meddelande skicakt till',
         'A message should have a subject!' => 'Ett meddelande måste ha en Ämnesrad!',
         'Recipents' => 'Mottagare',
+        'Recipients' => 'Mottagare',
         'Body' => 'Meddelandetext',
         'Send' => '',
 

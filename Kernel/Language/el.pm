@@ -3,7 +3,7 @@
 # Copyright (C) 2006 Stelios Maistros <smaistros aegean.gr>
 # Copyright (C) 2006 George Thomas <gthomas aegean.gr>
 # --
-# $Id: el.pm,v 1.53 2009-06-27 12:12:13 martin Exp $
+# $Id: el.pm,v 1.54 2009-07-13 09:49:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -722,6 +722,7 @@ sub Data {
         'Message sent to' => 'Το μήνυμα εστάλει προς',
         'A message should have a subject!' => 'Το μήνυμα πρέπει να έχει ενα θέμα!',
         'Recipents' => 'Αποδέκτες',
+        'Recipients' => 'Αποδέκτες',
         'Body' => 'Κύριο μέρος',
         'Send' => 'Αποστολή',
 

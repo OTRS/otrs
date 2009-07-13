@@ -2,7 +2,7 @@
 # AdminEmail.dtl - provides global HTML AdminEmail
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminEmail.dtl,v 1.18 2009-07-02 12:47:43 ub Exp $
+# $Id: AdminEmail.dtl,v 1.19 2009-07-13 09:49:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -68,7 +68,7 @@ function submit_compose() {
                   <td class="contentvalue"><input type="Text" name="From" value="$Config{"AdminEmail"}" size="40"/></td>
                 </tr>
                 <tr>
-                  <td class="contentkey">$Text{"Recipents"}:</td>
+                  <td class="contentkey">$Text{"Recipients"}:</td>
                   <td class="contentvalue">
                     <table border="0" cellspacing="0" cellpadding="1" width="70%">
                       <tr>

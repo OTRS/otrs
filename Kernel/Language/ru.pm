@@ -4,7 +4,7 @@
 # Copyright (C) 2007 Andrey Feldman <afeldman at alt-lan.ru>
 # Copyright (C) 2008 Egor Tsilenko <bg8s at symlink.ru>
 # --
-# $Id: ru.pm,v 1.81 2009-06-27 12:12:14 martin Exp $
+# $Id: ru.pm,v 1.82 2009-07-13 09:49:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.81 $) [1];
+$VERSION = qw($Revision: 1.82 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -717,6 +717,7 @@ sub Data {
         'Message sent to' => 'Сообщение отправлено для',
         'A message should have a subject!' => 'Сообщение должно иметь поле "тема"!',
         'Recipents' => 'Получатели',
+        'Recipients' => 'Получатели',
         'Body' => 'Тело письма',
         'Send' => 'Отправить',
 

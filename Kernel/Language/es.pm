@@ -4,7 +4,7 @@
 # Copyright (C) 2007 Carlos Oyarzabal <carlos.oyarzabal at grupocash.com.mx>
 # Copyright (C) 2008 Pelayo Romero Martín <pelayo.romero at gmail.com>
 # --
-# $Id: es.pm,v 1.93 2009-06-27 12:12:13 martin Exp $
+# $Id: es.pm,v 1.94 2009-07-13 09:49:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.93 $) [1];
+$VERSION = qw($Revision: 1.94 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -717,6 +717,7 @@ sub Data {
         'Message sent to' => 'Mensaje enviado a',
         'A message should have a subject!' => 'Los mensajes deben tener asunto!',
         'Recipents' => 'Destinatarios',
+        'Recipients' => 'Destinatarios',
         'Body' => 'Cuerpo',
         'Send' => 'Enviar',
 

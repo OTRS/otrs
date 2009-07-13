@@ -5,7 +5,7 @@
 # Copyright (C) 2005 Giordano Bianchi <giordano.bianchi at gmail.com>
 # Copyright (C) 2009 Remo Catelotti <Remo.Catelotti at agilesistemi.com>
 # --
-# $Id: it.pm,v 1.84 2009-07-06 21:50:00 martin Exp $
+# $Id: it.pm,v 1.85 2009-07-13 09:49:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.84 $) [1];
+$VERSION = qw($Revision: 1.85 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -720,6 +720,7 @@ sub Data {
         'Message sent to' => 'Messaggio inviato a',
         'A message should have a subject!' => 'Il messaggio deve avere un oggetto!',
         'Recipents' => 'Destinatari',
+        'Recipients' => 'Destinatari',
         'Body' => 'Testo',
         'Send' => 'Invia',
 

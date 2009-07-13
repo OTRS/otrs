@@ -3,7 +3,7 @@
 # Copyright (C) 2008 Never Min <never at qnofae.org>
 # Copyright (C) 2005 zuowei <j2ee at hirain-sh.com>
 # --
-# $Id: zh_CN.pm,v 1.63 2009-06-27 12:12:14 martin Exp $
+# $Id: zh_CN.pm,v 1.64 2009-07-13 09:49:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -716,6 +716,7 @@ sub Data {
         'Message sent to' => '消息发送给',
         'A message should have a subject!' => '邮件必须有标题!',
         'Recipents' => '收件人',
+        'Recipients' => '收件人',
         'Body' => '内容',
         'Send' => '发送',
 

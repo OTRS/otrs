@@ -2,7 +2,7 @@
 # Kernel/Language/ct.pm - provides ct language translation
 # Copyright (C) 2008 Sistemes OTIC (ibsalut) - Antonio Linde
 # --
-# $Id: ct.pm,v 1.26 2009-06-27 12:12:13 martin Exp $
+# $Id: ct.pm,v 1.27 2009-07-13 09:49:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -716,6 +716,7 @@ sub Data {
         'Message sent to' => 'Missatge enviat a',
         'A message should have a subject!' => 'Els missatges han de tenir assumpte!',
         'Recipents' => 'Destinataris',
+        'Recipients' => 'Destinataris',
         'Body' => 'Cos',
         'Send' => 'Enviar',
 

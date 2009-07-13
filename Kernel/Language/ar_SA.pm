@@ -2,7 +2,7 @@
 # Kernel/Language/ar_SA.pm - provides ar_SA language translation
 # Copyright (C) 2007 Mohammad Saleh <maoaf at yahoo.com>
 # --
-# $Id: ar_SA.pm,v 1.36 2009-06-27 12:12:13 martin Exp $
+# $Id: ar_SA.pm,v 1.37 2009-07-13 09:49:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -717,6 +717,7 @@ sub Data {
         'Message sent to' => 'ÇáÑÓÇáÉ ÃÑÓáÊ Åáì',
         'A message should have a subject!' => 'ÇáÑÓÇáÉ íÌÈ Ãä íßæä áåÇ ãæÖæÚ!',
         'Recipents' => 'ÇáãÓÊÞÈáíä',
+        'Recipients' => 'ÇáãÓÊÞÈáíä',
         'Body' => 'äÕ ÇáÑÓÇáÉ',
         'Send' => '',
 

@@ -2,7 +2,7 @@
 # Kernel/Language/et.pm - provides et language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: et.pm,v 1.25 2009-06-27 12:12:13 martin Exp $
+# $Id: et.pm,v 1.26 2009-07-13 09:49:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -714,6 +714,7 @@ sub Data {
         'Message sent to' => 'Kiri saadetud',
         'A message should have a subject!' => 'Sõnumil peaks olema teema!',
         'Recipents' => 'Saajad',
+        'Recipients' => 'Saajad',
         'Body' => 'Text',
         'Send' => 'Saada',
 

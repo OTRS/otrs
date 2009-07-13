@@ -2,7 +2,7 @@
 # Kernel/Language/tr.pm - provides tr language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: tr.pm,v 1.26 2009-06-27 12:12:14 martin Exp $
+# $Id: tr.pm,v 1.27 2009-07-13 09:49:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.26 $)[1];
+$VERSION = qw($Revision: 1.27 $)[1];
 
 sub Data {
     my $Self = shift;
@@ -714,6 +714,7 @@ sub Data {
         'Message sent to' => 'Mesaj gönderildi',
         'A message should have a subject!' => 'Bir mesajýn bir konusu olmalýdýr!',
         'Recipents' => 'Alýcýlar',
+        'Recipients' => 'Alýcýlar',
         'Body' => 'Gövde',
         'Send' => 'Gönder',
 

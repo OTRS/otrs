@@ -2,7 +2,7 @@
 # Kernel/Language/sk_SK.pm - provides sk_SK language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: sk_SK.pm,v 1.53 2009-06-27 12:12:14 martin Exp $
+# $Id: sk_SK.pm,v 1.54 2009-07-13 09:49:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.53 $) [1];
+$VERSION = qw($Revision: 1.54 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -714,7 +714,7 @@ sub Data {
         # Template: AdminEmail
         'Message sent to' => '',
         'A message should have a subject!' => '',
-        'Recipents' => '',
+        'Recipients' => '',
         'Body' => '',
         'Send' => '',
 
