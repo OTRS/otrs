@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.402 2009-07-13 11:37:55 martin Exp $
+# $Id: Ticket.pm,v 1.403 2009-07-13 23:14:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTML2Ascii;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.402 $) [1];
+$VERSION = qw($Revision: 1.403 $) [1];
 
 =head1 NAME
 
@@ -453,9 +453,9 @@ sub TicketCreate {
             'INSERT INTO ticket (tn, title, create_time_unix, type_id, queue_id, ticket_lock_id,'
             . ' user_id, responsible_user_id, group_id, ticket_priority_id, ticket_state_id,'
             . ' ticket_answered, escalation_time, escalation_update_time, escalation_response_time,'
-            . ' escalation_solution_time, timeout, service_id, sla_id,'
+            . ' escalation_solution_time, timeout, service_id, sla_id, until_time,'
             . ' valid_id, create_time, create_by, change_time, change_by)'
-            . ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, 0, 0, 0, 0, ?, ?, ?,'
+            . ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, 0, 0, 0, 0, ?, ?, 0, ?,'
             . ' current_timestamp, ?, current_timestamp, ?)',
         Bind => [
             \$Param{TN}, \$Param{Title}, \$Age, \$Param{TypeID}, \$Param{QueueID},
@@ -7361,6 +7361,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.402 $ $Date: 2009-07-13 11:37:55 $
+$Revision: 1.403 $ $Date: 2009-07-13 23:14:02 $
 
 =cut
