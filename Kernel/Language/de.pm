@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.200 2009-07-13 09:49:46 martin Exp $
+# $Id: de.pm,v 1.201 2009-07-13 13:03:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.200 $) [1];
+$VERSION = qw($Revision: 1.201 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -665,7 +665,7 @@ sub Data {
         'To get the realname of the sender (if given).' => 'Der Name des Benutzers (soweit bekannt)',
         'To get the article attribute (e. g. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).' => 'Die Artikel Attribute (z. B. (<OTRS_CUSTOMER_From>, <OTRS_CUSTOMER_To>, <OTRS_CUSTOMER_Cc>, <OTRS_CUSTOMER_Subject> and <OTRS_CUSTOMER_Body>).',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>).' => 'Details zum aktuellen Kunden (z. B. <OTRS_CUSTOMER_DATA_UserFirstname>)',
-        'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>).' => 'Details zum Ticket-Besizter (z. B. <OTRS_OWNER_UserFirstname>).',
+        'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>).' => 'Details zum Ticket-Besitzer (z. B. <OTRS_OWNER_UserFirstname>).',
         'Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>).' => 'Details zum Ticket-Verantwortlichen (z. B.<OTRS_RESPONSIBLE_UserFirstname>).',
         'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>).' => 'Details zum aktuellen Benutzer, der diese Aktion veranlasst hat (z. B. <OTRS_CURRENT_UserFirstname).',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>).' => 'Detailinformation zum Ticket (z. B. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>).',
@@ -715,7 +715,6 @@ sub Data {
         # Template: AdminEmail
         'Message sent to' => 'Nachricht gesendet an',
         'A message should have a subject!' => 'Eine Nachricht sollte einen Betreff haben!',
-        'Recipents' => 'Empfänger',
         'Recipients' => 'Empfänger',
         'Body' => 'Text',
         'Send' => 'Senden',
