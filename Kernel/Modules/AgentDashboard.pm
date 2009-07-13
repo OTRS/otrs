@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentDashboard.pm - a global dashbard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.pm,v 1.11 2009-07-13 08:08:02 martin Exp $
+# $Id: AgentDashboard.pm,v 1.12 2009-07-13 23:23:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -77,8 +77,54 @@ sub Run {
 
     }
 
+    # update preferences
+    elsif ( $Self->{Subaction} eq 'UpdatePreferences' ) {
+
+        my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' );
+
+        my %Element = $Self->_Element( Name => $Name, Configs => $Config );
+        if ( !%Element ) {
+            $Self->{LayoutObject}->FatalError(
+                Message => "No such $Name!",
+            );
+        }
+        if ( !$Element{Preferences} || !@{ $Element{Preferences} } ) {
+            $Self->{LayoutObject}->FatalError(
+                Message => "No preferences for $Name!",
+            );
+        }
+
+        # remember preferences
+        for my $Param ( @{ $Element{Preferences} } ) {
+
+            # get params
+            my $Value = $Self->{ParamObject}->GetParam( Param => $Param->{Name} ) ;
+
+            # update ssession
+            $Self->{SessionObject}->UpdateSessionID(
+                SessionID => $Self->{SessionID},
+                Key       => $Param->{Name},
+                Value     => $Value,
+            );
+
+            # update preferences
+            if ( !$Self->{ConfigObject}->Get('DemoSystem') ) {
+                $Self->{UserObject}->SetPreferences(
+                    UserID => $Self->{UserID},
+                    Key    => $Param->{Name},
+                    Value  => $Value,
+                );
+            }
+        }
+
+        # redirect
+        return $Self->{LayoutObject}->Redirect(
+            OP => "Action=$Self->{Action}"
+        );
+    }
+
     # update settings
-    elsif ( $Self->{Subaction} eq 'Update' ) {
+    elsif ( $Self->{Subaction} eq 'UpdateSettings' ) {
 
         my @Backends = $Self->{ParamObject}->GetArray( Param => 'Backend' );
         for my $Name ( sort keys %{$Config} ) {
@@ -118,7 +164,7 @@ sub Run {
 
         my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' );
 
-        my %Element = $Self->_Element( Name => $Name, Config => $Config );
+        my %Element = $Self->_Element( Name => $Name, Configs => $Config );
         if ( !%Element ) {
             $Self->{LayoutObject}->FatalError(
                 Message => "Can't get element data of $Name!",
@@ -181,33 +227,65 @@ sub Run {
         # get element data
         my %Element = $Self->_Element(
             Name     => $Name,
-            Config   => $Config,
+            Configs  => $Config,
             Backends => \%Backends,
         );
         next if !%Element;
 
         # rendering
         $Self->{LayoutObject}->Block(
-            Name => $Element{Preferences}->{Block},
+            Name => $Element{Config}->{Block},
             Data => {
-                %{ $Config->{$Name} },
-                %{ $Element{Preferences} },
+                %{ $Element{Config} },
                 Name    => $Name,
                 Content => ${ $Element{Content} },
             },
         );
 
-        # more link
-        if ( $Element{Preferences}->{Link} ) {
+        # settings link
+        if ( $Element{Preferences} && @{ $Element{Preferences} } ) {
             $Self->{LayoutObject}->Block(
-                Name => $Element{Preferences}->{Block} . 'More',
+                Name => $Element{Config}->{Block} . 'Preferences',
                 Data => {
-                    %{ $Config->{$Name} },
-                    %{ $Element{Preferences} },
+                    %{ $Element{Config} },
+                    Name    => $Name,
+                },
+            );
+            for my $Param ( @{ $Element{Preferences} } ) {
+                $Self->{LayoutObject}->Block(
+                    Name => $Element{Config}->{Block} . 'PreferencesItem',
+                    Data => {
+                        %{ $Element{Config} },
+                        Name    => $Name,
+                    },
+                );
+                if ( $Param->{Block} eq 'Option' ) {
+                    $Param->{Option} = $Self->{LayoutObject}->OptionStrgHashRef(
+                        Data       => $Param->{Data},
+                        Name       => $Param->{Name},
+                        SelectedID => $Param->{SelectedID},
+                    );
+                }
+                $Self->{LayoutObject}->Block(
+                    Name => $Element{Config}->{Block} . 'PreferencesItem' . $Param->{Block},
+                    Data => {
+                        %{ $Element{Config} },
+                        %{ $Param },
+                        Name    => $Name,
+                    },
+                );
+            }
+        }
+
+        # more link
+        if ( $Element{Config}->{Link} ) {
+            $Self->{LayoutObject}->Block(
+                Name => $Element{Config}->{Block} . 'More',
+                Data => {
+                    %{ $Element{Config} },
                 },
             );
         }
-
     }
 
     # get output back
@@ -225,12 +303,12 @@ sub _Element {
     my ( $Self, %Param ) = @_;
 
     my $Name     = $Param{Name};
-    my $Config   = $Param{Config};
+    my $Configs  = $Param{Configs};
     my $Backends = $Param{Backends};
 
     # check permissions
-    if ( $Config->{$Name}->{Group} ) {
-        my @Groups = split /;/, $Config->{$Name}->{Group};
+    if ( $Configs->{$Name}->{Group} ) {
+        my @Groups = split /;/, $Configs->{$Name}->{Group};
         for my $Group (@Groups) {
             my $Name = 'UserIsGroup[' . $Group . ']';
             return if !$Self->{$Name};
@@ -239,16 +317,19 @@ sub _Element {
     }
 
     # load backends
-    my $Module = $Config->{$Name}->{Module};
+    my $Module = $Configs->{$Name}->{Module};
     return if !$Self->{MainObject}->Require($Module);
     my $Object = $Module->new(
         %{$Self},
-        Config => $Config->{$Name},
+        Config => $Configs->{$Name},
         Name   => $Name,
     );
 
+    # get module config
+    my %Config = $Object->Config();
+
     # get module preferences
-    my %Preferences = $Object->Preferences();
+    my @Preferences = $Object->Preferences();
 
     # add backend to settings selection
     if ( $Backends ) {
@@ -259,8 +340,7 @@ sub _Element {
         $Self->{LayoutObject}->Block(
             Name => 'ContentSettings',
             Data => {
-                %{ $Config->{$Name} },
-                %Preferences,
+                %Config,
                 Name    => $Name,
                 Checked => $Checked,
             },
@@ -270,15 +350,15 @@ sub _Element {
 
     # check backends cache
     my $Content;
-    my $CacheKey = $Preferences{CacheKey};
+    my $CacheKey = $Config{CacheKey};
     if (!$CacheKey) {
         $CacheKey = $Name . '-' . $Self->{LayoutObject}->{UserLanguage};
     }
-    if ( $Preferences{CacheTTL} ) {
-        $Content = $Self->{CacheObject}->Get(
-            Type => 'Dashboard',
-            Key  => $CacheKey,
-        );
+    if ( $Config{CacheTTL} ) {
+#        $Content = $Self->{CacheObject}->Get(
+#            Type => 'Dashboard',
+#            Key  => $CacheKey,
+#        );
     }
 
     # execute backends
@@ -290,19 +370,20 @@ sub _Element {
     return if !$Content;
 
     # set cache
-    if ( $Preferences{CacheTTL} ) {
-        $Self->{CacheObject}->Set(
-            Type  => 'Dashboard',
-            Key   => $CacheKey,
-            Value => $Content,
-            TTL   => $Preferences{CacheTTL} * 60,
-        );
+    if ( $Config{CacheTTL} ) {
+#        $Self->{CacheObject}->Set(
+#            Type  => 'Dashboard',
+#            Key   => $CacheKey,
+#            Value => $Content,
+#            TTL   => $Config{CacheTTL} * 60,
+#        );
     }
 
     # return result
     return (
         Content     => \$Content,
-        Preferences => \%Preferences,
+        Config      => \%Config,
+        Preferences => \@Preferences,
     );
 }
 

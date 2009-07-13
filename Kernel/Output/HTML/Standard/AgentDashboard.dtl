@@ -2,7 +2,7 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.11 2009-07-13 05:48:47 martin Exp $
+# $Id: AgentDashboard.dtl,v 1.12 2009-07-13 23:23:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,6 +16,26 @@
 
 # include AJAX lib
 $Include{"AJAX"}
+
+<script language="JavaScript" type="text/javascript">
+function Settings (Element1, Element2) {
+    var Icon1 = document.getElementById(Element1);
+    if ( !Icon1.style.display ) {
+       Icon1.style.display = "none";
+    }
+    else {
+        Icon1.style.display = "";
+    }
+    var Icon2 = document.getElementById(Element2);
+    if ( !Icon2.style.display ) {
+       Icon2.style.display = "none";
+    }
+    else {
+        Icon2.style.display = "";
+    }
+    return true;
+}
+</script>
 
 <!-- dtl:block:Content -->
 <table border="0" width="100%" cellspacing="0" cellpadding="3">
@@ -40,21 +60,56 @@ $Include{"AJAX"}
                     <tr>
                       <td class="contenthead" title="$Text{"$QData{"Description"}"}">$Text{"$QData{"Title"}"}</td>
                       <td class="contenthead" align="right">
-                        <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=UpdateRemove&Name=$LQData{"Name"}" title="$Text{"Close"}"><img border="0" src="$Config{"Frontend::ImagePath"}close.png" alt="$Text{"Close"}"></a>
+<!-- dtl:block:ContentLargePreferences -->
+                        <a href="#" onclick="Settings('$QData{"Name"}-setting', '$QData{"Name"}'); return false;" title="$Text{"Settings"}"><img border="0" src="$Config{"Frontend::ImagePath"}edit-setting.png" alt="$Text{"Settings"}"/></a>
+<!-- dtl:block:ContentLargePreferences -->
+                        <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=UpdateRemove&Name=$LQData{"Name"}" title="$Text{"Close"}"><img border="0" src="$Config{"Frontend::ImagePath"}close.png" alt="$Text{"Close"}"/></a>
                       </td>
                     </tr>
                     <tr>
                       <td colspan="2" class="contentbody">
+
+                        <div id="$QData{"Name"}-setting" style="display:none;">
+
+                        <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+                          <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                          <input type="hidden" name="Subaction" value="UpdatePreferences"/>
+                          <input type="hidden" name="Name" value="$QData{"Name"}"/>
+                          <table>
+<!-- dtl:block:ContentLargePreferencesItem -->
+                            <tr>
+<!-- dtl:block:ContentLargePreferencesItemOption -->
+                              <td>$Text{"$QData{"Desc"}"}:</td>
+                              <td>$Data{"Option"}</td>
+<!-- dtl:block:ContentLargePreferencesItemOption -->
+<!-- dtl:block:ContentLargePreferencesItemInput -->
+                              <td>$Text{"$QData{"Desc"}"}:</td>
+                              <td><input type="text" size="50" value="$QData{"Data"}"/></td>
+<!-- dtl:block:ContentLargePreferencesItemInput -->
+                            </tr>
+<!-- dtl:block:ContentLargePreferencesItem -->
+                            <tr>
+                              <td colspan="2">
+                                <input class="button" type="submit" value="$Text{"Submit"}"/>
+                                <input class="button" type="submit" value="$Text{"Cancel"}" onclick="Settings('$QData{"Name"}-setting', '$QData{"Name"}'); return false;"/>
+                              </td>
+                            </tr>
+                          </table>
+                        </form>
+
+                        </div>
+
                         <div id="$QData{"Name"}">
                         $Data{"Content"}
                         </div>
+
                       </td>
                     </tr>
                     <tr>
                       <td colspan="2" class="contentfooter">
                         &nbsp;
 <!-- dtl:block:ContentLargeMore -->
-                        <a href="$Data{"Link"}" title="$Text{"$Data{"Title"}"}" class="small">$Text{"more"} &#187;</a>
+                        <a href="$Data{"Link"}" title="$Text{"$Data{"LinkTitle"}"}" class="small">$Text{"more"} &#187;</a>
 <!-- dtl:block:ContentLargeMore -->
                       </td>
                     </tr>
@@ -74,7 +129,7 @@ $Include{"AJAX"}
 
                   <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                    <input type="hidden" name="Subaction" value="Update"/>
+                    <input type="hidden" name="Subaction" value="UpdateSettings"/>
 
                     <div class="accordion">
                     <table border="0" width="100%" cellspacing="0" cellpadding="0">
@@ -84,8 +139,8 @@ $Include{"AJAX"}
                         </td>
                         <td>
                           <div class="accordionhead">
-                          <div class="accordion-expand-down"><a href="#" title="$Text{"Expand"}"><img border="0" src="$Config{"Frontend::ImagePath"}expand-down.png" alt="$Text{"Expand"}"></a></div>
-                          <div class="accordion-collapse-up"><a href="#" title="$Text{"Collapse"}"><img border="0" src="$Config{"Frontend::ImagePath"}collapse-up.png" alt="$Text{"Collapse"}"></a></div>
+                          <div class="accordion-expand-down"><a href="#" title="$Text{"Expand"}"><img border="0" src="$Config{"Frontend::ImagePath"}expand-down.png" alt="$Text{"Expand"}"/></a></div>
+                          <div class="accordion-collapse-up"><a href="#" title="$Text{"Collapse"}"><img border="0" src="$Config{"Frontend::ImagePath"}collapse-up.png" alt="$Text{"Collapse"}"/></a></div>
                           </div>
                         </td>
                       </tr>
@@ -130,21 +185,56 @@ $Include{"AJAX"}
                     <tr>
                       <td class="contenthead" title="$Text{"$QData{"Description"}"}">$Text{"$QData{"Title"}"}</td>
                       <td class="contenthead" align="right">
+<!-- dtl:block:ContentSmallPreferences -->
+                        <a href="#" onclick="Settings('$QData{"Name"}-setting', '$QData{"Name"}'); return false;" title="$Text{"Settings"}"><img border="0" src="$Config{"Frontend::ImagePath"}edit-setting.png" alt="$Text{"Settings"}"/></a>
+<!-- dtl:block:ContentSmallPreferences -->
                         <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=UpdateRemove&Name=$LQData{"Name"}" title="$Text{"Close"}"><img border="0" src="$Config{"Frontend::ImagePath"}close.png" alt="$Text{"Close"}"></a>
                       </td>
                     </tr>
                     <tr>
                       <td colspan="2" class="contentbody">
+
+                        <div id="$QData{"Name"}-setting" style="display:none;">
+
+                        <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+                          <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                          <input type="hidden" name="Subaction" value="UpdatePreferences"/>
+                          <input type="hidden" name="Name" value="$QData{"Name"}"/>
+                          <table>
+<!-- dtl:block:ContentSmallPreferencesItem -->
+                            <tr>
+<!-- dtl:block:ContentSmallPreferencesItemOption -->
+                              <td>$Text{"$QData{"Desc"}"}:</td>
+                              <td>$Data{"Option"}</td>
+<!-- dtl:block:ContentSmallPreferencesItemOption -->
+<!-- dtl:block:ContentSmallPreferencesItemInput -->
+                              <td>$Text{"$QData{"Desc"}"}:</td>
+                              <td><input type="text" size="50" value="$QData{"Data"}"/></td>
+<!-- dtl:block:ContentSmallPreferencesItemInput -->
+                            </tr>
+<!-- dtl:block:ContentSmallPreferencesItem -->
+                            <tr>
+                              <td colspan="2">
+                                <input class="button" type="submit" value="$Text{"Submit"}"/>
+                                <input class="button" type="submit" value="$Text{"Cancel"}" onclick="Settings('$QData{"Name"}-setting', '$QData{"Name"}'); return false;"/>
+                              </td>
+                            </tr>
+                          </table>
+                        </form>
+
+                        </div>
+
                         <div id="$QData{"Name"}">
                         $Data{"Content"}
                         </div>
+
                       </td>
                     </tr>
                     <tr>
                       <td colspan="2" class="contentfooter">
                         &nbsp;
 <!-- dtl:block:ContentSmallMore -->
-                        <a href="$Data{"Link"}" title="$Text{"$Data{"Title"}"}" class="small">$Text{"more"} &#187;</a>
+                        <a href="$Data{"Link"}" title="$Text{"$Data{"LinkTitle"}"}" class="small">$Text{"more"} &#187;</a>
 <!-- dtl:block:ContentSmallMore -->
                       </td>
                     </tr>

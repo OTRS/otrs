@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardUserOnline.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardUserOnline.pm,v 1.2 2009-07-13 06:09:02 martin Exp $
+# $Id: DashboardUserOnline.pm,v 1.3 2009-07-13 23:23:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::AuthSession;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -67,58 +67,103 @@ sub new {
         $Self->{Filter} = $Self->{$PreferencesKey} || $Self->{Config}->{Filter} || 'Agent';
     }
 
+    $Self->{PrefKey} = 'UserDashboardPref' . $Self->{Name} . '-Shown';
+
     return $Self;
 }
 
 sub Preferences {
     my ( $Self, %Param ) = @_;
 
-    my $Key = $Self->{LayoutObject}->{UserLanguage} . '-' . $Self->{Filter} . '-' . $Self->{Name};
+    my @Params = (
+        {
+            Desc  => 'Shown',
+            Name  => $Self->{PrefKey},
+            Block => 'Option',
+#            Block => 'Input',
+            Data  => {
+                5  => ' 5',
+                10 => '10',
+                15 => '15',
+                20 => '20',
+                25 => '25',
+            },
+            SelectedID => $Self->{LayoutObject}->{ $Self->{PrefKey} } || $Self->{Config}->{Limit},
+        },
+    );
+
+    return @Params;
+}
+
+sub Config {
+    my ( $Self, %Param ) = @_;
 
     return (
         %{ $Self->{Config} },
-        CacheKey => 'UserOnline' . '-' . $Key,
+        CacheKey => undef,
     );
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # get session info
-    my %OnlineUser = (
-        Agent    => {},
-        Customer => {},
-    );
-    my %OnlineUserCount = (
-        Agent    => 0,
-        Customer => 0,
-    );
-    my %OnlineUserData = (
-        Agent    => {},
-        Customer => {},
-    );
+    # get config settings
     my $IdleMinutes = $Self->{Config}->{IdleMinutes} || 60;
     my $SortBy      = $Self->{Config}->{SortBy} || 'UserLastname';
-    my @Sessions    = $Self->{SessionObject}->GetAllSessionIDs();
-    for (@Sessions) {
-        my %Data = $Self->{SessionObject}->GetSessionIDData( SessionID => $_ );
 
-        # use agent instand of user
-        if ( $Data{UserType} eq 'User' ) {
-            $Data{UserType} = 'Agent';
+    # check cache
+    my $Online = $Self->{CacheObject}->Get(
+        Type => 'Dashboard',
+        Key  => $Self->{Name},
+    );
+
+    # get session info
+    if ( !$Online ) {
+        $Online = {
+            User => {
+                Agent    => {},
+                Customer => {},
+            },
+            UserCount => {
+                Agent    => 0,
+                Customer => 0,
+            },
+            UserData => {
+                Agent    => {},
+                Customer => {},
+            },
+        };
+        my @Sessions = $Self->{SessionObject}->GetAllSessionIDs();
+        for (@Sessions) {
+            my %Data = $Self->{SessionObject}->GetSessionIDData( SessionID => $_ );
+
+            # use agent instand of user
+            if ( $Data{UserType} eq 'User' ) {
+                $Data{UserType} = 'Agent';
+            }
+
+            # only show if not already shown
+            next if $Online->{User}->{ $Data{UserType} }->{ $Data{UserID} };
+
+            # check last request time / idle time out
+            next if !$Data{UserLastRequest};
+            next if $Data{UserLastRequest} + ( $IdleMinutes * 60 ) < $Self->{TimeObject}->SystemTime();
+
+            # remember user and data
+            $Online->{User}->{ $Data{UserType} }->{ $Data{UserID} } = $Data{$SortBy};
+            $Online->{UserCount}->{ $Data{UserType} }++;
+            $Online->{UserData}->{ $Data{UserType} }->{ $Data{UserID} } = \%Data;
         }
+    }
 
-        # only show if not already shown
-        next if $OnlineUser{ $Data{UserType} }->{ $Data{UserID} };
-
-        # check last request time / idle time out
-        next if !$Data{UserLastRequest};
-        next if $Data{UserLastRequest} + ( $IdleMinutes * 60 ) < $Self->{TimeObject}->SystemTime();
-
-        # remember user and data
-        $OnlineUser{ $Data{UserType} }->{ $Data{UserID} }     = $Data{$SortBy};
-        $OnlineUserCount{ $Data{UserType} }++;
-        $OnlineUserData{ $Data{UserType} }->{ $Data{UserID} } = \%Data;
+    # set cache
+    if ( $Self->{Config}->{CacheTTL} ) {
+        $Self->{CacheObject}->Set(
+            Type  => 'Dashboard',
+            Key   => $Self->{Name},
+            Value => $Online,
+            TTL   => $Self->{Config}->{CacheTTL} * 60,
+        );
     }
 
     # filter bar
@@ -134,19 +179,21 @@ sub Run {
         Data => {
             %{ $Self->{Config} },
             Name => $Self->{Name},
-            %OnlineUserCount,
+            %{ $Online->{UserCount} },
             %Summary,
         },
     );
 
     # show agent/customer
-    my %Online     = %{ $OnlineUser{ $Self->{Filter} } };
-    my %OnlineData = %{ $OnlineUserData{ $Self->{Filter} } };
+    my %OnlineUser = %{ $Online->{User}->{ $Self->{Filter} } };
+    my %OnlineData = %{ $Online->{UserData}->{ $Self->{Filter} } };
     my $Count      = 0;
-    for my $UserID ( sort { $Online{$a} cmp $Online{$b} } keys %Online ) {
+    my $Limit      = $Self->{LayoutObject}->{ $Self->{PrefKey} } || $Self->{Config}->{Limit};
+
+    for my $UserID ( sort { $OnlineUser{$a} cmp $OnlineUser{$b} } keys %OnlineUser ) {
 
         $Count++;
-        if ( $Count > $Self->{Config}->{Limit} ) {
+        if ( $Count > $Limit ) {
             $Self->{LayoutObject}->Block(
                 Name => 'ContentSmallUserOnlineRowMore',
                 Data => $OnlineData{$UserID},
@@ -165,7 +212,7 @@ sub Run {
         }
     }
 
-    if ( !%Online ) {
+    if ( !%OnlineUser ) {
         $Self->{LayoutObject}->Block(
             Name => 'ContentSmallUserOnlineNone',
             Data => {},
