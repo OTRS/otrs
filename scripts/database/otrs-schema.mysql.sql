@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-#  driver: mysql, generated: 2009-05-15 11:38:12
+#  driver: mysql, generated: 2009-07-13 14:37:00
 # ----------------------------------------------------------
 # ----------------------------------------------------------
 #  create table valid
@@ -355,8 +355,8 @@ CREATE TABLE ticket (
     other_write SMALLINT NULL,
     customer_id VARCHAR (150) NULL,
     customer_user_id VARCHAR (250) NULL,
-    timeout INTEGER NULL,
-    until_time INTEGER NULL,
+    timeout INTEGER NOT NULL,
+    until_time INTEGER NOT NULL,
     escalation_time INTEGER NOT NULL,
     escalation_update_time INTEGER NOT NULL,
     escalation_response_time INTEGER NOT NULL,
@@ -420,8 +420,10 @@ CREATE TABLE ticket (
     INDEX ticket_ticket_lock_id (ticket_lock_id),
     INDEX ticket_ticket_priority_id (ticket_priority_id),
     INDEX ticket_ticket_state_id (ticket_state_id),
+    INDEX ticket_timeout (timeout),
     INDEX ticket_title (title),
     INDEX ticket_type_id (type_id),
+    INDEX ticket_until_time (until_time),
     INDEX ticket_user_id (user_id)
 );
 # ----------------------------------------------------------

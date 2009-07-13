@@ -1262,6 +1262,8 @@ Your OTRS Team
         <Data Key="ticket_state_id">1</Data>
         <Data Key="title" Type="Quote">Welcome to OTRS!</Data>
         <Data Key="create_time_unix">1173345999</Data>
+        <Data Key="timeout">0</Data>
+        <Data Key="until_time">0</Data>
         <Data Key="escalation_time">0</Data>
         <Data Key="escalation_response_time">0</Data>
         <Data Key="escalation_update_time">0</Data>

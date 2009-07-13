@@ -1,9 +1,9 @@
 -- ----------------------------------------------------------
---  driver: ingres, generated: 2009-05-15 11:45:14
+--  driver: ingres, generated: 2009-07-13 14:35:40
 -- ----------------------------------------------------------
-CREATE SEQUENCE notification_event_741;\g
+CREATE SEQUENCE notification_event_231;\g
 CREATE TABLE notification_event (
-    id INTEGER NOT NULL DEFAULT notification_event_741.NEXTVAL,
+    id INTEGER NOT NULL DEFAULT notification_event_231.NEXTVAL,
     name VARCHAR(200) NOT NULL,
     subject VARCHAR(200) NOT NULL,
     text VARCHAR(4000) NOT NULL,
@@ -31,6 +31,14 @@ CREATE INDEX notification_event_item_notification_id ON notification_event_item 
 --  alter table postmaster_filter
 -- ----------------------------------------------------------
 ALTER TABLE postmaster_filter ADD COLUMN f_stop SMALLINT;\g
+-- ----------------------------------------------------------
+--  alter table ticket
+-- ----------------------------------------------------------
+ALTER TABLE ticket ALTER COLUMN until_time INTEGER;\g
+-- ----------------------------------------------------------
+--  alter table ticket
+-- ----------------------------------------------------------
+ALTER TABLE ticket ALTER COLUMN timeout INTEGER;\g
 -- ----------------------------------------------------------
 --  alter table article
 -- ----------------------------------------------------------

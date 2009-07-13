@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: postgresql, generated: 2009-05-15 11:45:14
+--  driver: postgresql, generated: 2009-07-13 14:35:40
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table notification_event
@@ -34,6 +34,22 @@ CREATE INDEX notification_event_item_notification_id ON notification_event_item 
 --  alter table postmaster_filter
 -- ----------------------------------------------------------
 ALTER TABLE postmaster_filter ADD f_stop INTEGER NULL;
+-- ----------------------------------------------------------
+--  alter table ticket
+-- ----------------------------------------------------------
+ALTER TABLE ticket ALTER until_time TYPE INTEGER;
+ALTER TABLE ticket ALTER until_time DROP DEFAULT;
+UPDATE ticket SET until_time = 0 WHERE until_time IS NULL;
+ALTER TABLE ticket ALTER until_time SET NOT NULL;
+CREATE INDEX ticket_until_time ON ticket (until_time);
+-- ----------------------------------------------------------
+--  alter table ticket
+-- ----------------------------------------------------------
+ALTER TABLE ticket ALTER timeout TYPE INTEGER;
+ALTER TABLE ticket ALTER timeout DROP DEFAULT;
+UPDATE ticket SET timeout = 0 WHERE timeout IS NULL;
+ALTER TABLE ticket ALTER timeout SET NOT NULL;
+CREATE INDEX ticket_timeout ON ticket (timeout);
 -- ----------------------------------------------------------
 --  alter table article
 -- ----------------------------------------------------------

@@ -527,8 +527,8 @@
     <Column Name="other_write" Required="false" Type="SMALLINT"/>
     <Column Name="customer_id" Required="false" Size="150" Type="VARCHAR"/>
     <Column Name="customer_user_id" Required="false" Size="250" Type="VARCHAR"/>
-    <Column Name="timeout" Required="false" Type="INTEGER"/>
-    <Column Name="until_time" Required="false" Type="INTEGER"/>
+    <Column Name="timeout" Required="true" Type="INTEGER"/>
+    <Column Name="until_time" Required="true" Type="INTEGER"/>
     <Column Name="escalation_time" Required="true" Type="INTEGER"/>
     <Column Name="escalation_update_time" Required="true" Type="INTEGER"/>
     <Column Name="escalation_response_time" Required="true" Type="INTEGER"/>
@@ -629,6 +629,12 @@
     </Index>
     <Index Name="ticket_escalation_solution_time">
         <IndexColumn Name="escalation_solution_time"/>
+    </Index>
+    <Index Name="ticket_until_time">
+        <IndexColumn Name="until_time"/>
+    </Index>
+    <Index Name="ticket_timeout">
+        <IndexColumn Name="timeout"/>
     </Index>
     <ForeignKey ForeignTable="valid">
         <Reference Local="valid_id" Foreign="id"/>

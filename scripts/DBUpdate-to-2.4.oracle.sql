@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: oracle, generated: 2009-05-15 11:45:14
+--  driver: oracle, generated: 2009-07-13 14:35:40
 -- ----------------------------------------------------------
 SET DEFINE OFF;
 -- ----------------------------------------------------------
@@ -52,6 +52,14 @@ CREATE INDEX notification_event_item_notidc ON notification_event_item (notifica
 --  alter table postmaster_filter
 -- ----------------------------------------------------------
 ALTER TABLE postmaster_filter ADD f_stop NUMBER (5, 0) NULL;
+ALTER TABLE ticket MODIFY until_time NUMBER (12, 0) DEFAULT NULL;
+UPDATE ticket SET until_time = 0 WHERE until_time IS NULL;
+ALTER TABLE ticket MODIFY until_time NUMBER (12, 0) NOT NULL;
+CREATE INDEX ticket_until_time ON ticket (until_time);
+ALTER TABLE ticket MODIFY timeout NUMBER (12, 0) DEFAULT NULL;
+UPDATE ticket SET timeout = 0 WHERE timeout IS NULL;
+ALTER TABLE ticket MODIFY timeout NUMBER (12, 0) NOT NULL;
+CREATE INDEX ticket_timeout ON ticket (timeout);
 -- ----------------------------------------------------------
 --  alter table article
 -- ----------------------------------------------------------

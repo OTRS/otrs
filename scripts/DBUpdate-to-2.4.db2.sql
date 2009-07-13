@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: db2, generated: 2009-05-15 11:45:14
+--  driver: db2, generated: 2009-07-13 14:35:40
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table notification_event
@@ -39,6 +39,38 @@ CREATE INDEX notification_event_item_notifidc ON notification_event_item (notifi
 --  alter table postmaster_filter
 -- ----------------------------------------------------------
 ALTER TABLE postmaster_filter ADD f_stop SMALLINT;
+
+ALTER TABLE ticket ALTER COLUMN until_time SET DEFAULT 0;
+
+CALL SYSPROC.ADMIN_CMD ('REORG TABLE ticket');
+
+ALTER TABLE ticket ALTER COLUMN until_time DROP DEFAULT;
+
+CALL SYSPROC.ADMIN_CMD ('REORG TABLE ticket');
+
+UPDATE ticket SET until_time = 0 WHERE until_time IS NULL;
+
+ALTER TABLE ticket ALTER COLUMN until_time SET NOT NULL;
+
+CALL SYSPROC.ADMIN_CMD ('REORG TABLE ticket');
+
+CREATE INDEX ticket_until_time ON ticket (until_time);
+
+ALTER TABLE ticket ALTER COLUMN timeout SET DEFAULT 0;
+
+CALL SYSPROC.ADMIN_CMD ('REORG TABLE ticket');
+
+ALTER TABLE ticket ALTER COLUMN timeout DROP DEFAULT;
+
+CALL SYSPROC.ADMIN_CMD ('REORG TABLE ticket');
+
+UPDATE ticket SET timeout = 0 WHERE timeout IS NULL;
+
+ALTER TABLE ticket ALTER COLUMN timeout SET NOT NULL;
+
+CALL SYSPROC.ADMIN_CMD ('REORG TABLE ticket');
+
+CREATE INDEX ticket_timeout ON ticket (timeout);
 
 -- ----------------------------------------------------------
 --  alter table article

@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2009-05-15 11:38:11
+--  driver: mssql, generated: 2009-07-13 14:36:59
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  create table valid
@@ -355,8 +355,8 @@ CREATE TABLE ticket (
     other_write SMALLINT NULL,
     customer_id VARCHAR (150) NULL,
     customer_user_id VARCHAR (250) NULL,
-    timeout INTEGER NULL,
-    until_time INTEGER NULL,
+    timeout INTEGER NOT NULL,
+    until_time INTEGER NOT NULL,
     escalation_time INTEGER NOT NULL,
     escalation_update_time INTEGER NOT NULL,
     escalation_response_time INTEGER NOT NULL,
@@ -421,8 +421,10 @@ CREATE INDEX ticket_responsible_user_id ON ticket (responsible_user_id);
 CREATE INDEX ticket_ticket_lock_id ON ticket (ticket_lock_id);
 CREATE INDEX ticket_ticket_priority_id ON ticket (ticket_priority_id);
 CREATE INDEX ticket_ticket_state_id ON ticket (ticket_state_id);
+CREATE INDEX ticket_timeout ON ticket (timeout);
 CREATE INDEX ticket_title ON ticket (title);
 CREATE INDEX ticket_type_id ON ticket (type_id);
+CREATE INDEX ticket_until_time ON ticket (until_time);
 CREATE INDEX ticket_user_id ON ticket (user_id);
 -- ----------------------------------------------------------
 --  create table link_type
