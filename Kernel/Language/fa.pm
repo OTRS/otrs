@@ -1,10 +1,10 @@
 # --
 # Kernel/Language/fa.pm - provides fa language translation
-# Translated/Updated into Persian (Farsi) by Afshar Mohebbi <afshar.mohebbi at gmail.com>
-# Copyright (C) 2006-2008 Amir Shams Parsa <amir at parsa.name>
+# Copyright (C) 2006-2009 Amir Shams Parsa <a.parsa at gmail.com>
 # Copyright (C) 2008 Hooman Mesgary <info at mesgary.com>
+# Copyright (C) 2009 Afshar Mohebbi <afshar.mohebbi at gmail.com>
 # --
-# $Id: fa.pm,v 1.65 2009-07-13 09:49:47 martin Exp $
+# $Id: fa.pm,v 1.66 2009-07-13 10:11:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.65 $) [1];
+$VERSION = qw($Revision: 1.66 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -133,7 +133,7 @@ sub Data {
         'CustomerID' => 'کد اشتراک',
         'CustomerIDs' => 'کد اشتراک',
         'customer' => 'مشترک',
-        'agent' => 'کارشناس پشتیبانی',
+        'agent' => 'کارشناس',
         'system' => 'سیستم',
         'Customer Info' => 'اطلاعات مشترک',
         'Customer Company' => 'شرکت/سازمان مشترک',
@@ -212,7 +212,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'خروج از سیستم با موفقیت انجام شد . از همراهی شما متشکریم.',
         'Invalid SessionID!' => 'شناسه Session  نا معتبر!',
         'Feature not active!' => 'این ویژگی فعال نیست.',
-        'Notification (Event)' => '',
+        'Notification (Event)' => 'اعلام -رویداد',
         'Login is needed!' => 'نیاز است به سیستم وارد شوید',
         'Password is needed!' => 'ورود رمز عبور الزامی است',
         'License' => 'مجوز بهره برداری سیستم',
@@ -238,7 +238,7 @@ sub Data {
         'Added User "%s"' => 'کاربر اضافه شده "%s"',
         'Contract' => 'قرارداد',
         'Online Customer: %s' => 'مشترک فعال: %s',
-        'Online Agent: %s' => 'کارشناس پشتیبانی فعال: %s',
+        'Online Agent: %s' => 'کارشناس فعال: %s',
         'Calendar' => 'تقویم',
         'File' => 'فایل',
         'Filename' => 'نام فایل',
@@ -279,14 +279,14 @@ sub Data {
         'Event' => 'رویداد',
         'Events' => 'رویدادها',
         'Invalid Token!' => 'کد بازیابی معتبر نیست',
-        'more' => '',
+        'more' => 'بیشتر',
         'For more info see:' => 'برای کسب اطلاع بیشتر:',
         'Package verification failed!' => 'وارسی بسته ناموفق بود',
-        'Collapse' => '',
-        'News' => '',
-        'Product News' => '',
-        'OTRS News' => '',
-        '7 Day Stats' => '',
+        'Collapse' => 'باز کردن',
+        'News' => 'اخبار',
+        'Product News' => 'اخبار محصولات',
+        'OTRS News' => 'اخبار سامانه پشتیبانی',
+        '7 Day Stats' => 'گزارش 7 روز',
         'Bold' => 'تو پر',
         'Italic' => 'کج',
         'Underline' => 'زیرخط',
@@ -342,7 +342,7 @@ sub Data {
         'Logout' => 'خروج ',
         'Agent Preferences' => 'تنظیمات بخش پشتیبانی',
         'Preferences' => 'تنظیمات',
-        'Agent Mailbox' => 'صندوق پستی کارشناس پشتیبانی',
+        'Agent Mailbox' => 'صندوق پستی کارشناس',
         'Stats' => 'گزارشات',
         'Stats-Area' => 'بخش گزارشات ',
         'Admin' => 'مدیریت سیستم',
@@ -375,12 +375,12 @@ sub Data {
         'Spelling Dictionary' => 'لغت نامه غلط یابی',
         'Select your default spelling dictionary.' => ' لغت نامه غلط یابی خود را انتخاب نمائید',
         'Max. shown Tickets a page in Overview.' => 'تعداد نمایش درخواست‌ها در نمای خلاصه',
-        'Can\'t update password, your new passwords do not match! Please try again!' => '',
+        'Can\'t update password, your new passwords do not match! Please try again!' => 'رمز عبور جدید مطابقت ندارد. مجددا تلاش نمائید.',
         'Can\'t update password, invalid characters!' => 'کاراکتر غیر مجاز !',
-        'Can\'t update password, must be at least %s characters!' => '',
-        'Can\'t update password, must contain 2 lower and 2 upper characters!' => '',
-        'Can\'t update password, needs at least 1 digit!' => '',
-        'Can\'t update password, needs at least 2 characters!' => '',
+        'Can\'t update password, must be at least %s characters!' => 'رمز عبور باید دست کم از %s تشکیل شده باشد.',
+        'Can\'t update password, must contain 2 lower and 2 upper characters!' => 'رمز عبور باید دست کم شامل دو کاراکتر کوچک و 2 کاراکتر بزرگ باشد.',
+        'Can\'t update password, needs at least 1 digit!' => 'رمز عبور باید دست کم شامل 1 عدد باشد.',
+        'Can\'t update password, needs at least 2 characters!' => 'رمز عبور باید دست کم شامل 1 کاراکتر باشد.',
 
         # Template: AAAStats
         'Stat' => 'گزارش',
@@ -447,8 +447,8 @@ sub Data {
         'Ticket Close Time' => 'زمان بسته شدن درخواست',
 
         # Template: AAATicket
-        'Lock' => 'تحویل گرفته شود',
-        'Unlock' => 'آزاد',
+        'Lock' => 'تحویل گرفتن',
+        'Unlock' => 'تحویل دادن',
         'History' => 'سابقه',
         'Zoom' => 'نمایش کامل',
         'Age' => 'مدت اعتبار',
@@ -471,7 +471,7 @@ sub Data {
         'Responsible' => 'مسئول',
         'Responsible Update' => 'بروزرسانی توسط مسئول',
         'Sender' => 'فرستنده',
-        'Article' => 'مورد',
+        'Article' => 'نوشته',
         'Ticket' => 'درخواست‌ها',
         'Createtime' => 'زمان ایجاد ',
         'plain' => 'ساده',
@@ -510,7 +510,7 @@ sub Data {
         'sms' => 'پیامک-SMS',
         'webrequest' => 'درخواست از طریق وب',
         'lock' => 'تحویل گرفته شده',
-        'unlock' => 'آزاد',
+        'unlock' => 'تحویل داده شده',
         'very low' => 'خیلی پائین',
         'low' => 'پائین',
         'normal' => 'عادی',
@@ -527,7 +527,7 @@ sub Data {
         'No such Ticket Number "%s"! Can\'t link it!' => 'این شماره درخواست وجود ندارد "%s"! نمایش امکانپذیر نیست',
         'Don\'t show closed Tickets' => 'درخواست‌های بسته شده را نمایش نده',
         'Show closed Tickets' => 'نمایش درخواست‌های بسته',
-        'New Article' => 'مورد جدید',
+        'New Article' => 'نوشته جدید',
         'Email-Ticket' => 'درخواست با Email',
         'Create new Email Ticket' => 'ایجاد درخواست با Email',
         'Phone-Ticket' => 'درخواست تلفنی',
@@ -546,7 +546,7 @@ sub Data {
         'Subscribe' => 'عضویت',
         'Unsubscribe' => 'لغو عضویت',
         'Lock it to work on it!' => 'برای کار روی درخواست آن را تحویل بگیرید',
-        'Unlock to give it back to the queue!' => 'برای بازگرداندن درخواست به لیست آن را آزاد کنید',
+        'Unlock to give it back to the queue!' => 'برای بازگرداندن درخواست به لیست آن را تحویل دادن کنید',
         'Shows the ticket history!' => 'نمایش سابقه درخواست',
         'Print this ticket!' => 'این درخواست را چاپ کن',
         'Change the ticket priority!' => 'ویرایش اولویت درخواست',
@@ -570,13 +570,13 @@ sub Data {
         'Ticket %s: update time will be over in %s!' => 'زمان بروزرسانی درخواست %s ، %s خواهد بود',
         'Ticket %s: solution time is over (%s)!' => 'زمان ارائه راهکار برای درخواست %s : %s ',
         'Ticket %s: solution time will be over in %s!' => ' زمان ارائه راهکار برای درخواست %s ، %s خواهد بود ',
-        'There are more escalated tickets!' => 'درخواست‌های مهم بیشتری وجود دارد',
+        'There are more escalated tickets!' => 'درخواست‌های اولویت داده شده بیشتری وجود دارد',
         'New ticket notification' => 'اعلام درخواست جدید',
         'Send me a notification if there is a new ticket in "My Queues".' => 'دریافت درخواست جدید را به من اطلاع بده.',
         'Follow up notification' => 'اعلام پیگیری درخواست',
         'Send me a notification if a customer sends a follow up and I\'m the owner of this ticket.' => 'در صورت ارسال یک پیگیری از طرف مشترک به من اطلاع بده.',
         'Ticket lock timeout notification' => 'پایان مهلت تحویل گرفتن درخواست را به من اطلاع بده',
-        'Send me a notification if a ticket is unlocked by the system.' => 'اگر درخواست توسط سیستم آزاد شد به من اطلاع بده',
+        'Send me a notification if a ticket is unlocked by the system.' => 'اگر درخواست توسط سیستم تحویل داده شد به من اطلاع بده',
         'Move notification' => 'اعلام انتقال',
         'Send me a notification if a ticket is moved into one of "My Queues".' => 'انتقال یک درخواست به لیست درخواست‌های من را اطلاع بده.',
         'Your queue selection of your favourite queues. You also get notified about those queues via email if enabled.' => 'شما از طریق email از وضعیت لیست خود مطلع خواهید شد - در صورتیکه این گزینه در سیستم فعال باشد',
@@ -599,13 +599,13 @@ sub Data {
         'phone call' => 'تماس تلفنی',
         'Reminder Reached' => 'زمان اعلام یک یادآوری است',
         'Reminder Tickets' => 'درخواست‌های یادآورانه',
-        'Escalated Tickets' => 'درخواست‌های گیر افتاده',
+        'Escalated Tickets' => 'درخواست های با اولویت بالا',
         'New Tickets' => 'درخواست‌های جدید',
         'Open Tickets / Need to be answered' => 'درخواست‌های باز / درخواست‌های نیازمند به پاسخ',
-        'Tickets which need to be answered!' => '',
-        'All new tickets!' => '',
-        'All tickets which are escalated!' => '',
-        'All tickets where the reminder date has reached!' => '',
+        'Tickets which need to be answered!' => 'درخواست‌هایی که لازم است پاسخ داده شوند',
+        'All new tickets!' => 'همه درخواست های جدید',
+        'All tickets which are escalated!' => 'همه درخواستهایی که اولویت آنها ارتقاء داده شده',
+        'All tickets where the reminder date has reached!' => 'همه درخواست‌هایی که تاریخ یادآوری آنها فرا رسیده',
         'Responses' => 'پاسخ‌ها',
         'Responses <-> Queue' => 'پاسخ <-> لیست درخواست',
         'Auto Responses' => 'پاسخ خودکار',
@@ -631,7 +631,7 @@ sub Data {
         'History::PhoneCallCustomer' => 'سابقه:: تماسهای تلفنی مشترک',
         'History::AddNote' => 'سابقه::افزودن یادداشت',
         'History::Lock' => 'سابقه::تحویل گرفتن درخواست',
-        'History::Unlock' => 'سابقه::آزاد کردن درخواست',
+        'History::Unlock' => 'سابقه::تحویل دادن درخواست',
         'History::TimeAccounting' => 'سابقه::حساب زمان',
         'History::Remove' => 'سابقه::حذف درخواست',
         'History::CustomerUpdate' => 'سابقه::بروزرسانی مشترک',
@@ -721,7 +721,6 @@ sub Data {
         # Template: AdminEmail
         'Message sent to' => 'پیام ارسال شد به',
         'A message should have a subject!' => 'یک پیام میبایست دارای عنوان باشد',
-        'Recipents' => 'گیرنده‌ها',
         'Recipients' => 'گیرنده‌ها',
         'Body' => 'متن نامه',
         'Send' => 'ارسال',
@@ -744,7 +743,7 @@ sub Data {
         'Customer User Login' => 'ورود مشترکین به سیستم',
         '(e. g. U5150)' => '(مثال: U5150)',
         'SLA' => 'موافقت نامه مطلوبیت ارائه خدمات (SLA)',
-        'Agent' => 'کارشناس پشتیبانی',
+        'Agent' => 'کارشناس',
         'Ticket Lock' => 'تحویل گیرنده درخواست',
         'TicketFreeFields' => 'ستون‌های آزاد درخواست',
         'Create Times' => 'زمان‌های ایجاد درخواست',
@@ -759,10 +758,10 @@ sub Data {
         'No pending time settings.' => ' تنظیمی برای زمان تعلیق درخواست وجود ندارد ',
         'Ticket pending time reached' => 'زمان سررسید تعلیق ',
         'Ticket pending time reached between' => 'بازه زمانی سررسید تعلیق',
-        'Escalation Times' => 'زمان‌های قفل صف',
-        'No escalation time settings.' => 'بدون هر گونه تنظیم برای زمان قفل صف',
-        'Ticket escalation time reached' => 'زمان قفل شدن صف فرا رسیده است',
-        'Ticket escalation time reached between' => 'زمان قفل شدن صف بین',
+        'Escalation Times' => 'زمانهای ارتقای اولویت',
+        'No escalation time settings.' => 'بدون هر گونه تنظیم برای زمان ارتقای اولویت در صف',
+        'Ticket escalation time reached' => 'زمان ارتقای اولویت درخواست در صف فرا رسیده است',
+        'Ticket escalation time reached between' => 'زمان ارتقای اولویت در صف بین',
         'Escalation - First Response Time' => 'آخرین مهلت برای اولین پاسخگویی',
         'Ticket first response time reached' => 'زمان اولین پاسخگویی به درخواست فرا رسیده است',
         'Ticket first response time reached between' => 'زمان اولین پاسخگویی به درخواست بین',
@@ -777,7 +776,7 @@ sub Data {
         'New Priority' => 'اولویت جدید',
         'New Queue' => 'لیست درخواست جدید',
         'New State' => 'وضعیت جدید',
-        'New Agent' => 'کارشناس پشتیبانی جدید',
+        'New Agent' => 'کارشناس جدید',
         'New Owner' => 'صاحب جدید',
         'New Customer' => 'مشترک جدید',
         'New Ticket Lock' => 'تحویل گیرنده جدید',
@@ -834,7 +833,7 @@ sub Data {
         'Name is required!' => 'نام الزامی است!',
         'Event is required!' => 'رویداد مورد نیاز است!',
         'A message should have a body!' => 'پیام میبایست دارای متن باشد !',
-        'Recipient' => 'گیرنده',
+        'Recipients' => 'گیرنده',
         'Group based' => 'مبتنی بر گروه',
         'Agent based' => 'مبتنی بر کارشناس',
         'Email based' => 'مبتنی بر ایمیل',
@@ -842,7 +841,7 @@ sub Data {
         'Only for ArticleCreate Event.' => 'فقط برای رویداد ArticleCreate',
         'Subject match' => 'تطبیق موضوع',
         'Body match' => 'تطبیق بدنه',
-        'Notifications are sent to an agent or a customer.' => 'اعلام به یک کارشناس پشتیبانی یا مشترک ارسال شد.',
+        'Notifications are sent to an agent or a customer.' => 'اعلام به یک کارشناس یا مشترک ارسال شد.',
         'To get the first 20 character of the subject (of the latest agent article).' => 'برای گرفتن ۲۰ کاراکتر اول موضوع (از آخرین نوشته کارشناس).',
         'To get the first 5 lines of the body (of the latest agent article).' => 'برای گرفتن اولین ۵ خط بدنه (از آخرین نوشته کارشناس).',
         'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' => 'برای گرفتن خاصیت نوشته (برای مثال <OTRS_AGENT_From>، <OTRS_AGENT_To>، <OTRS_AGENT_Cc>، <OTRS_AGENT_Subject> و <OTRS_AGENT_Body>).',
@@ -935,16 +934,16 @@ sub Data {
         # Template: AdminQueueForm
         'Queue Management' => 'مدیریت لیست‌های درخواست',
         'Sub-Queue of' => 'لیست فرعی',
-        'Unlock timeout' => 'مهلت آزاد شدن درخواست',
-        '0 = no unlock' => '۰ = آزاد نشود',
+        'Unlock timeout' => 'مهلت تحویل دادن درخواست',
+        '0 = no unlock' => '۰ = تحویل داده نشود',
         'Only business hours are counted.' => ' فقط ساعات اداری محاسبه شده است ',
-        '0 = no escalation' => '۰ = بدون افزایش اولویت',
+        '0 = no escalation' => '۰ = بدون ارتقای اولویت',
         'Notify by' => 'اعلام با',
         'Follow up Option' => 'پیگیری',
         'Ticket lock after a follow up' => 'درخواست بعد از پیگیری تحویل گرفته شود',
         'Systemaddress' => 'آدرس سیستمی',
-        'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'اگر یک کارشناس درخواست را تحویل بگیرد و در این مدت زمان نتواند به آن پاسخ دهد درخواست آزاد شده و به لیست باز میگردد و قابل دسترس برای سایر کارشناسان خواهد شد',
-        'Escalation time' => 'زمان در اولویت اول قرارگرفتن درخواست',
+        'If an agent locks a ticket and he/she will not send an answer within this time, the ticket will be unlock automatically. So the ticket is viewable for all other agents.' => 'اگر یک کارشناس درخواست را تحویل بگیرد و در این مدت زمان نتواند به آن پاسخ دهد درخواست تحویل دااده شده و به لیست باز میگردد و قابل دسترس برای سایر کارشناسان خواهد شد',
+        'Escalation time' => 'زمان در اولویت قرارگرفتن درخواست',
         'If a ticket will not be answered in this time, just only this ticket will be shown.' => 'اگر به یک درخواست در این زمان پاسخ داده نشد بجای نمایش لیست فقط این درخواست نمایش داده شود',
         'If a ticket is closed and the customer sends a follow up the ticket will be locked for the old owner.' => 'اگر یک درخواست بسته شود و مشترک دوباره آنرا پیگیری کند بطور خودکار به صاحب  قبلی آن تحویل داده خواهد شد',
         'Will be the sender address of this queue for email answers.' => 'آدرس ارسال کننده این لیست برای پاسخ به نامه استفاده خواهد شد.',
@@ -1015,8 +1014,8 @@ sub Data {
 
         # Template: AdminSelectBoxForm
         'SQL Box' => 'جعبه SQL',
-        'CVS' => '',
-        'HTML' => '',
+        'CVS' => 'CVS',
+        'HTML' => 'HTML',
         'Select Box Result' => 'نتیجه جعبه انتخاب',
 
         # Template: AdminService
@@ -1129,8 +1128,8 @@ sub Data {
 
         # Template: AgentDashboard
         'Dashboard' => 'داشبورد',
-        'more' => '',
-        'Collapse' => '',
+        'more' => 'بیشتر',
+        'Collapse' => 'باز کردن',
 
         # Template: AgentDashboardCalendarOverview
         'in' => 'در',
@@ -1138,10 +1137,10 @@ sub Data {
         # Template: AgentDashboardImage
 
         # Template: AgentDashboardProductNotify
-        '%s %s is available!' => '',
-        'Please update now.' => '',
-        'Release Note' => '',
-        'Level' => '',
+        '%s %s is available!' => '%s %s موجود است.',
+        'Please update now.' => 'لطفا بروزرسانی کنید.',
+        'Release Note' => 'لطفا توجه ',
+        'Level' => 'سطح',
 
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => '%s وقت پیش ارسال شد',
@@ -1262,7 +1261,7 @@ sub Data {
         'You need a email address (e. g. customer@example.com) in To:!' => 'آدرس email وارد شده معتبر نیست!',
         'Bounce ticket' => 'درخواست ارجاعی',
         'Ticket locked!' => 'درخواست تحویل گرفته شده !',
-        'Ticket unlock!' => 'درخواست آزاد !',
+        'Ticket unlock!' => 'درخواست تحویل داده شده !',
         'Bounce to' => 'ارجاع شده به',
         'Next ticket state' => 'وضعیت بعدی درخواست',
         'Inform sender' => 'به ارسال کننده اطلاع بده',
@@ -1279,14 +1278,14 @@ sub Data {
         'Merge to oldest' => 'ترکیب با قدیمی‌ترین',
         'Link together' => 'ارتباط با همدیگر',
         'Link to Parent' => 'ارتباط با والد',
-        'Unlock Tickets' => 'درخواست‌های آزاد',
+        'Unlock Tickets' => 'درخواست‌های تحویل داده شده',
 
         # Template: AgentTicketClose
         'Ticket Type is required!' => 'تعیین نوع درخواست ضروری اس!',
         'A required field is:' => 'یک فیلد مورد نیاز:',
         'Close ticket' => 'بستن درخواست',
         'Previous Owner' => 'صاحب قبلی',
-        'Inform Agent' => 'اطلاع به کارشناس پشتیبانی',
+        'Inform Agent' => 'اطلاع به کارشناس',
         'Optional' => 'اختیاری',
         'Inform involved Agents' => 'اطلاع به کارشناسان مربوطه',
         'Attach' => 'پیوست',
@@ -1310,13 +1309,13 @@ sub Data {
         'Compose Email' => 'ارسال Email',
         'new ticket' => 'درخواست جدید',
         'Refresh' => 'بازیابی',
-        'Clear To' => 'آزاد کن به',
+        'Clear To' => 'تحویل بده به',
         'All Agents' => 'همه کارشناسان',
 
         # Template: AgentTicketEscalation
 
         # Template: AgentTicketForward
-        'Article type' => 'نوع مورد',
+        'Article type' => 'نوع نوشته',
 
         # Template: AgentTicketFreeText
         'Change free text of ticket' => 'تغییر متن درخواست',
@@ -1376,7 +1375,7 @@ sub Data {
 
         # Template: AgentTicketPhone
         'Phone call' => 'تماس تلفنی',
-        'Clear From' => 'آزاد کن از',
+        'Clear From' => 'تحویل شده از',
 
         # Template: AgentTicketPhoneOutbound
 
@@ -1397,7 +1396,7 @@ sub Data {
         'Tickets available' => 'درخواست‌های موجود',
         'All tickets' => 'همه درخواست‌ها',
         'Queues' => 'لیست‌های درخواست',
-        'Ticket escalation!' => 'در اولویت اول قرارگرفتن درخواست !',
+        'Ticket escalation!' => 'در اولویت قرارگرفتن درخواست !',
 
         # Template: AgentTicketResponsible
         'Change responsible of ticket' => 'تغییر مسئول درخواست',
@@ -1573,7 +1572,7 @@ sub Data {
         # Template: Warning
 
         # Misc
-        'Edit Article' => 'ویرایش مورد',
+        'Edit Article' => 'ویرایش نوشته',
         'Create Database' => 'ایجاد بانک',
         'DB Host' => 'سرور بانک اطلاعاتی',
         'Change roles <-> groups settings' => 'تغییر تنظیمات نقش <-> گروه',
@@ -1611,7 +1610,7 @@ sub Data {
         'for agent user id' => 'برای شناسه کاربری کارشناس',
         'Change user <-> group settings' => 'تغییر تنظیمات کاربر <-> گروه',
         'Problem' => 'مسئله',
-        'Escalation' => ' بالاترین اولویت را دادن ',
+        'Escalation' => 'اولویت بالاتر دادن ',
         '"}' => '{',
         'Order' => 'ترتیب',
         'next step' => 'قدم بعدی',
@@ -1623,7 +1622,7 @@ sub Data {
         'Create new database' => 'ایجاد بانک جدید',
         'Ticket#' => 'شماره درخواست',
         'Can\'t update password, need min. 1 digit!' => 'دست کم ۱ عدد در رمز عبور خود استفاده نمائید.!',
-        'ArticleID' => 'شماره مورد',
+        'ArticleID' => 'شناسه نوشته',
         'Go' => 'اجرا ',
         'Keywords' => 'کلید واژه‌ها',
         'Ticket Escalation View' => 'نمای تغییر اولویت درخواست',
@@ -1682,7 +1681,7 @@ sub Data {
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'گزینه‌های اطلاعات درخواست',
         'Artefact' => 'محصول خروجی',
         'Object already linked as %s.' => 'مورد اکنون به عنوان %s مرتبط شده است',
-        'A article should have a title!' => 'یک مورد باید دارای عنوان باشد',
+        'A article should have a title!' => 'یک نوشته باید دارای عنوان باشد',
         'Customer Users <-> Services' => 'مشترک <-> خدمات',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'گزینه‌های تنظیمات ',
         'All email addresses get excluded on replaying on composing and email.' => 'به هنگام پاسخگویی یا نوشتن یک ایمیل جدید هیچ کدام از آدرس ایمیل‌ها در نظر گرفته نمی‌شوند.',
@@ -1718,7 +1717,7 @@ sub Data {
         'Mailbox' => 'صندوق نامه‌ها',
         'PhoneView' => 'نمایش تلفن',
         'TicketID' => 'شناسه درخواست',
-        'Escaladed Tickets' => 'درخواست‌های قفل کننده صف',
+        'Escaladed Tickets' => 'درخواست‌های اولویت داده شده در صف',
         'Yes means, send no agent and customer notifications on changes.' => 'پاسخ بله به معنی عدم ارسال اعلام به کارشناس و مشترک پس از اعمال تغییرات است',
         'Can\'t update password, need 2 lower and 2 upper characters!' => 'دست کم ۲ حرف کوچک و ۲ حرف بزرگ در رمز عبور خود استفاده نمائید!',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'پیام شما در درخواست به شماره "<OTRS_TICKET> ارجاع شد به "<OTRS_BOUNCE_TO>".  اطلاعات بیشتر را از این آدرس دریافت نمائید',

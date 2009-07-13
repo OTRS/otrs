@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.924 2009-07-13 08:32:19 martin Exp $
+# $Id: CHANGES,v 1.925 2009-07-13 10:11:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,7 @@
 # --
 
 2.4.0 beta6 (2009/07/??)
+ - (2009/07/13) Updated Persian translation, thanks to Amir Shams Parsa!
  - (2009/07/13) Updated Dutch translation, thanks to Michiel Beijen!
  - (2009/07/13) Fixed bug#3790 - POP3S doesn't fail when IO::Socket::SSL is not
     installed or mail server address is wrong.
@@ -3054,7 +3055,7 @@
     Agent notification config options.
  - (2003/12/23) added lock/unlock option to phone view / create
     ticket.
- - (2003/12/15) changed recipents of customer notifications
+ - (2003/12/15) changed recipients of customer notifications
     (change queue, update owner, update state, ...) to current
     customer user, based on customer user source.
  - (2003/12/15) added customer user cc by creating a new ticket
