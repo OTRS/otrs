@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.147 2009-07-10 22:53:23 martin Exp $
+# $Id: Layout.pm,v 1.148 2009-07-14 11:25:03 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,9 +17,10 @@ use strict;
 use warnings;
 
 use Kernel::Language;
+use Kernel::System::HTML2Ascii;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.147 $) [1];
+$VERSION = qw($Revision: 1.148 $) [1];
 
 =head1 NAME
 
@@ -110,6 +111,8 @@ sub new {
             $Self->FatalError();
         }
     }
+
+    $Self->{HTML2AsciiObject} = Kernel::System::HTML2Ascii->new( %{$Self} );
 
     # reset block data
     delete $Self->{BlockData};
@@ -4098,8 +4101,8 @@ sub ToFromRichText {
         $Content =~ s/<(OTRS_.*?)>/&lt;$1&gt;/sgi;
 
         # convert to ascii
-        $Content = $Self->{TicketObject}->HTML2Ascii(
-            Body => $Content,
+        $Content = $Self->{HTML2AsciiObject}->ToAscii(
+            String => $Content,
         );
 
         # remove otrs tag protection
@@ -4123,6 +4126,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.147 $ $Date: 2009-07-10 22:53:23 $
+$Revision: 1.148 $ $Date: 2009-07-14 11:25:03 $
 
 =cut
