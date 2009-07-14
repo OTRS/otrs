@@ -3,7 +3,7 @@
 # PendingJobs.pl - check pending tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PendingJobs.pl,v 1.39 2009-04-03 14:15:00 martin Exp $
+# $Id: PendingJobs.pl,v 1.40 2009-07-14 09:48:38 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.39 $) [1];
+$VERSION = qw($Revision: 1.40 $) [1];
 
 use Date::Pcalc qw(Day_of_Week Day_of_Week_Abbreviation);
 use Kernel::Config;
@@ -245,15 +245,15 @@ if (@PendingReminderStateIDs) {
 
             # send agent notification
             $CommonObject{TicketObject}->SendAgentNotification(
-                UserData              => \%Preferences,
+                TicketID              => $Ticket{TicketID},
                 Type                  => 'PendingReminder',
-                To                    => $Preferences{UserEmail},
-                CustomerMessageParams => {},
-                TicketNumber          => $CommonObject{TicketObject}->TicketNumberLookup(
-                    TicketID => $Ticket{TicketID}
-                ),
-                TicketID => $Ticket{TicketID},
-                UserID   => 1,
+                RecipientID           => $UserID,
+                CustomerMessageParams => {
+                    TicketNumber          => $CommonObject{TicketObject}->TicketNumberLookup(
+                        TicketID => $Ticket{TicketID}
+                    ),
+                },
+                UserID => 1,
             );
         }
     }
