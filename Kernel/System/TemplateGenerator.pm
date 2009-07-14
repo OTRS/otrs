@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.16 2009-07-07 15:45:19 mh Exp $
+# $Id: TemplateGenerator.pm,v 1.17 2009-07-14 05:56:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Notification;
 use Kernel::System::AutoResponse;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 =head1 NAME
 
@@ -503,18 +503,6 @@ sub AutoResponse {
         }
     }
 
-    # replace place holder stuff
-    $AutoResponse{Text} = $Self->_Replace(
-        Text => $AutoResponse{Text},
-        Data => {
-            %{ $Param{OrigHeader} },
-            From => $Param{OrigHeader}->{To},
-            To   => $Param{OrigHeader}->{From},
-        },
-        TicketID => $Param{TicketID},
-        UserID   => $Param{UserID},
-    );
-
     # do text/plain to text/html convert
     if ( $Self->{RichText} && $AutoResponse{ContentType} =~ /text\/plain/i ) {
         $AutoResponse{ContentType} = 'text/html';
@@ -530,6 +518,18 @@ sub AutoResponse {
             String => $AutoResponse{Text},
         );
     }
+
+    # replace place holder stuff
+    $AutoResponse{Text} = $Self->_Replace(
+        Text => $AutoResponse{Text},
+        Data => {
+            %{ $Param{OrigHeader} },
+            From => $Param{OrigHeader}->{To},
+            To   => $Param{OrigHeader}->{From},
+        },
+        TicketID => $Param{TicketID},
+        UserID   => $Param{UserID},
+    );
 
     # prepare subject (insert old subject)
     if ( $AutoResponse{Subject} =~ /<OTRS_CUSTOMER_SUBJECT\[(.+?)\]>/ ) {
@@ -750,12 +750,12 @@ sub NotificationCustomer {
         }
     }
 
+    $Notification{ContentType} = 'text/plain';
+
     # replace place holder stuff
     for (qw(Subject Body)) {
         $Notification{$_} = $Self->_Replace( Text => $Notification{$_} );
     }
-
-    $Notification{ContentType} = 'text/plain';
 
     # get sender attributes
     my %Address = $Self->{QueueObject}->GetSystemAddress( QueueID => $Ticket{QueueID} );
@@ -997,6 +997,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.16 $ $Date: 2009-07-07 15:45:19 $
+$Revision: 1.17 $ $Date: 2009-07-14 05:56:26 $
 
 =cut
