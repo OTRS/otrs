@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.17 2009-07-14 05:56:26 martin Exp $
+# $Id: TemplateGenerator.pm,v 1.18 2009-07-14 13:36:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Notification;
 use Kernel::System::AutoResponse;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 =head1 NAME
 
@@ -204,6 +204,7 @@ sub Salutation {
 
     # replace place holder stuff
     my $SalutationText = $Self->_Replace(
+        RichText => $Self->{RichText},
         Text     => $Salutation{Text},
         TicketID => $Param{TicketID},
         Data     => $Param{Data},
@@ -292,6 +293,7 @@ sub Signature {
 
     # replace place holder stuff
     my $SignatureText = $Self->_Replace(
+        RichText => $Self->{RichText},
         Text     => $Signature{Text},
         TicketID => $Param{TicketID} || '',
         Data     => $Param{Data},
@@ -359,7 +361,8 @@ sub Response {
 
     # replace place holder stuff
     my $ResponseText = $Self->_Replace(
-        Text => $Response{Response} || '-',
+        RichText => $Self->{RichText},
+        Text     => $Response{Response} || '-',
         TicketID => $Param{TicketID},
         Data     => $Param{Data},
         UserID   => $Param{UserID},
@@ -521,8 +524,9 @@ sub AutoResponse {
 
     # replace place holder stuff
     $AutoResponse{Text} = $Self->_Replace(
-        Text => $AutoResponse{Text},
-        Data => {
+        RichText => $Self->{RichText},
+        Text     => $AutoResponse{Text},
+        Data     => {
             %{ $Param{OrigHeader} },
             From => $Param{OrigHeader}->{To},
             To   => $Param{OrigHeader}->{From},
@@ -656,15 +660,22 @@ sub NotificationAgent {
     }
 
     # replace place holder stuff
-    for (qw(Subject Body)) {
-        $Notification{$_} = $Self->_Replace(
-            Text        => $Notification{$_},
-            RecipientID => $Param{RecipientID},
-            Data        => $Param{CustomerMessageParams},
-            TicketID    => $Param{TicketID},
-            UserID      => $Param{UserID},
-        );
-    }
+    $Notification{Body} = $Self->_Replace(
+        RichText    => $Self->{RichText},
+        Text        => $Notification{Body},
+        RecipientID => $Param{RecipientID},
+        Data        => $Param{CustomerMessageParams},
+        TicketID    => $Param{TicketID},
+        UserID      => $Param{UserID},
+    );
+    $Notification{Subject} = $Self->_Replace(
+        RichText    => 0,
+        Text        => $Notification{Subject},
+        RecipientID => $Param{RecipientID},
+        Data        => $Param{CustomerMessageParams},
+        TicketID    => $Param{TicketID},
+        UserID      => $Param{UserID},
+    );
 
     # prepare subject (insert old subject)
     $Param{CustomerMessageParams}->{Subject} = $Self->{TicketObject}->TicketSubjectClean(
@@ -754,7 +765,12 @@ sub NotificationCustomer {
 
     # replace place holder stuff
     for (qw(Subject Body)) {
-        $Notification{$_} = $Self->_Replace( Text => $Notification{$_} );
+        $Notification{$_} = $Self->_Replace(
+            RichText => 0,
+            Text     => $Notification{$_},
+            TicketID => $Param{TicketID},
+            UserID   => $Param{UserID},
+        );
     }
 
     # get sender attributes
@@ -769,8 +785,8 @@ sub _Replace {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(Text Data UserID)) {
-        if ( !$Param{$_} ) {
+    for (qw(Text RichText Data UserID)) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
@@ -779,10 +795,11 @@ sub _Replace {
     my $Start   = '<';
     my $End     = '>';
     my $NewLine = "\n";
-    if ( $Self->{RichText} ) {
+    if ( $Param{RichText} ) {
         $Start   = '&lt;';
         $End     = '&gt;';
         $NewLine = "<br\/>\n";
+        $Param{Text} =~ s/(\n|\r)//g;
     }
 
     my %Ticket;
@@ -959,17 +976,17 @@ sub _Replace {
 
     # get customer data and replace it with <OTRS_CUSTOMER_DATA_...
     $Tag  = $Start . 'OTRS_CUSTOMER_';
-    $Tag2 = $Start . 'OTRS_CUSTOMER_DATA';
+    $Tag2 = $Start . 'OTRS_CUSTOMER_DATA_';
     if ( $Ticket{CustomerUserID} ) {
         my %CustomerUser = $Self->{CustomerUserObject}->CustomerUserDataGet(
             User => $Ticket{CustomerUserID},
         );
 
         # replace customer stuff with tags
-        for ( keys %CustomerUser ) {
-            if ( $CustomerUser{$_} ) {
-                $Param{Text} =~ s/$Tag$_$End/$CustomerUser{$_}/gi;
-                $Param{Text} =~ s/$Tag2$_$End/$CustomerUser{$_}/gi;
+        for my $Key ( keys %CustomerUser ) {
+            if ( defined $CustomerUser{$Key} ) {
+                $Param{Text} =~ s/$Tag$Key$End/$CustomerUser{$Key}/gi;
+                $Param{Text} =~ s/$Tag2$Key$End/$CustomerUser{$Key}/gi;
             }
         }
     }
@@ -997,6 +1014,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.17 $ $Date: 2009-07-14 05:56:26 $
+$Revision: 1.18 $ $Date: 2009-07-14 13:36:23 $
 
 =cut
