@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.928 2009-07-14 11:25:03 sb Exp $
+# $Id: CHANGES,v 1.929 2009-07-14 16:22:19 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.4.0 beta6 (2009/07/??)
+ - (2009/07/14) Fixed bug#3960 - Split function does not use RichText content
+    from original article for new article.
  - (2009/07/14) Fixed bug#3976 - AgentTicketBounce does not work when
     Frontend::RichText is disabled.
  - (2009/07/13) Updated Russian translation, thanks to Mike Lykov!

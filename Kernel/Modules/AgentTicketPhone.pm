@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.97 2009-05-28 13:57:57 mh Exp $
+# $Id: AgentTicketPhone.pm,v 1.98 2009-07-14 16:22:19 sb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.97 $) [1];
+$VERSION = qw($Revision: 1.98 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -185,7 +185,7 @@ sub Run {
 
                 # check for html body
                 my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
-                    TicketID                   => $Self->{TicketID},
+                    TicketID                   => $Article{TicketID},
                     StripPlainBodyAsAttachment => 1,
                 );
                 ARTICLE:
