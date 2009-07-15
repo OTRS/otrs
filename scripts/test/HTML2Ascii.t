@@ -2,7 +2,7 @@
 # HTML2Ascii.t - HTML2Ascii tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: HTML2Ascii.t,v 1.1 2009-07-15 14:45:47 martin Exp $
+# $Id: HTML2Ascii.t,v 1.2 2009-07-15 14:48:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,6 +22,15 @@ my @Tests = (
     {
         Input  => '<b>Some Text</b>',
         Result => 'Some Text',
+        Name   => 'ToAscii - simple'
+    },
+    {
+        Input  => '<b>Some Text</b><br/><a href="http://example.com">Some URL</a>',
+        Result => 'Some Text
+[1]Some URL
+
+[1] http://example.com
+',
         Name   => 'ToAscii - simple'
     },
     {
