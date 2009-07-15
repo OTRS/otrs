@@ -2,7 +2,7 @@
 # RichTextEditor.dtl - provides the YUI Rich Text Editor
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: RichTextEditor.dtl,v 1.4 2009-07-15 16:11:14 martin Exp $
+# $Id: RichTextEditor.dtl,v 1.5 2009-07-15 17:54:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -41,7 +41,7 @@
 <script language="JavaScript" type="text/javascript">
 (function() {
     var EditorConfig = {
-        css: YAHOO.widget.SimpleEditor.prototype._defaultCSS + '$Config{"Frontend::RichText::DefaultCSS"}',
+        css: YAHOO.widget.SimpleEditor.prototype._defaultCSS + 'body { $Config{"Frontend::RichText::DefaultCSS"} }',
         height: '400px',
         width: '99%',
         dompath: false,
