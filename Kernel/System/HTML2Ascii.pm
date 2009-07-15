@@ -2,7 +2,7 @@
 # Kernel/System/HTML2Ascii.pm - the global html <-> ascii tools
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: HTML2Ascii.pm,v 1.9 2009-07-15 16:11:14 martin Exp $
+# $Id: HTML2Ascii.pm,v 1.10 2009-07-15 20:03:48 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -111,7 +111,7 @@ sub ToAscii {
     # fix some bad stuff from opera and others
     $Param{String} =~ s/(\n\r|\r\r\n|\r\n)/\n/gs;
 
-    # repalce new lines with one space
+    # replace new lines with one space
     $Param{String} =~ s/\n/ /gs;
     $Param{String} =~ s/\r/ /gs;
 
@@ -129,6 +129,12 @@ sub ToAscii {
 
     # remove tr, th tags and replace it with \n
     $Param{String} =~ s/\<(tr|tr.+?|th|th.+?)\>/\n\n/gsi;
+
+    # convert li tags to \n -
+    $Param{String} =~ s/\<li\>/\n - /gsi;
+
+    # convert </ul> and </ol> tags to \n\n
+    $Param{String} =~ s/\<\/(ul|ol)\>/\n\n/gsi;
 
     # remove td tags and replace it with \n
     $Param{String} =~ s/\.+?<\/(td|td.+?)\>/ /gsi;
@@ -462,7 +468,7 @@ sub ToAscii {
     # remove empty lines
     $Param{String} =~ s/^\s*\n\s*\n/\n/mg;
 
-    # force line bracking
+    # force line braking
     if ( length $Param{String} > 78 ) {
         $Param{String} =~ s/(.{4,78})(?:\s|\z)/$1\n/gm;
     }
@@ -554,6 +560,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2009-07-15 16:11:14 $
+$Revision: 1.10 $ $Date: 2009-07-15 20:03:48 $
 
 =cut
