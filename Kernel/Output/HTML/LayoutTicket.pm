@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.41 2009-07-10 22:17:26 martin Exp $
+# $Id: LayoutTicket.pm,v 1.42 2009-07-15 09:21:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -662,6 +662,127 @@ sub CustomerFreeDate {
         );
     }
     return %Data;
+}
+
+sub ArticleQuote {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(TicketID ArticleID FormID)) {
+        if ( !$Param{$_} ) {
+            $Self->FatalError( Message => "Need $_!" );
+        }
+    }
+
+    my $Body = '';
+
+    # body preparation for plain text processing
+    if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+
+        # check for html body
+        my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
+            TicketID                   => $Param{TicketID},
+            StripPlainBodyAsAttachment => 1,
+        );
+        ARTICLE:
+        for my $ArticleTmp (@ArticleBox) {
+            next ARTICLE if $ArticleTmp->{ArticleID} ne $Param{ArticleID};
+            last ARTICLE if !$ArticleTmp->{BodyHTML};
+
+            my %AttachmentHTML = $Self->{TicketObject}->ArticleAttachment(
+                ArticleID => $ArticleTmp->{ArticleID},
+                FileID    => $ArticleTmp->{BodyHTML},
+            );
+            my $Charset = $AttachmentHTML{ContentType};
+            $Charset =~ s/.+?charset=("|'|)(\w+)/$2/gi;
+            $Charset =~ s/"|'//g;
+            $Charset =~ s/(.+?);.*/$1/g;
+            $Body = $Self->{EncodeObject}->Convert(
+                Text => $AttachmentHTML{Content},
+                From => $Charset,
+                To   => $Self->{LayoutObject}->{UserCharset},
+            );
+
+            # display inline images if exists
+            my %Attachments = %{ $ArticleTmp->{Atms} };
+            my $SessionID   = '';
+            if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
+                $SessionID = "&" . $Self->{SessionName} . "=" . $Self->{SessionID};
+            }
+            my $AttachmentLink = $Self->{LayoutObject}->{Baselink}
+                . 'Action=PictureUpload'
+                . '&FormID='
+                . $Param{FormID}
+                . $SessionID
+                . '&ContentID=';
+            $Body =~ s{
+                "cid:(.*?)"
+            }
+            {
+                my $ContentID = $1;
+                ATMCOUNT:
+                for my $AtmCount ( keys %Attachments ) {
+                    next ATMCOUNT if $Attachments{$AtmCount}{ContentID} !~ /^<$ContentID>$/;
+
+                    # add to upload cache
+                    my %AttachmentPicture = $Self->{TicketObject}->ArticleAttachment(
+                        ArticleID => $Param{ArticleID},
+                        FileID    => $AtmCount,
+                    );
+                    $Self->{UploadCachObject}->FormIDAddFile(
+                        FormID      => $Param{FormID},
+                        Disposition => 'inline',
+                        %{ $Attachments{$AtmCount} },
+                        %AttachmentPicture,
+                    );
+                    my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
+                        FormID => $Param{FormID},
+                    );
+                    CONTENTIDRETURN:
+                    for my $TmpAttachment ( @Attachments ) {
+                        next CONTENTIDRETURN
+                            if $Attachments{$AtmCount}{Filename} ne $TmpAttachment->{Filename};
+                        $ContentID = $AttachmentLink . $TmpAttachment->{ContentID};
+                        last CONTENTIDRETURN;
+                    }
+                    last ATMCOUNT;
+                }
+
+                # return link
+                '"' . $ContentID . '"';
+            }egxi;
+            last ARTICLE;
+        }
+        return $Body if $Body;
+    }
+
+    # as fallback use text body for quote
+    my %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Param{ArticleID} );
+
+    # check if original content isn't text/plain or text/html, don't use it
+    if ( !$Article{ContentType} || $Article{ContentType} !~ /text\/(plain|html)/i ) {
+        $Article{Body}        = "-> no quotable message <-";
+        $Article{ContentType} = 'text/plain';
+    }
+    else {
+        my $Size = $Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote') || 70;
+        $Article{Body} =~ s/(^>.+|.{4,$Size})(?:\s|\z)/$1\n/gm;
+    }
+
+    # return body as html
+    if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+
+        my $Body = $Self->{LayoutObject}->Ascii2Html(
+            Text => $Article{Body},
+            HTMLResultMode => 1,
+            LinkFeature    => 1,
+        );
+        return $Body;
+    }
+
+    # return body as plain text
+    return $Article{Body};
+
 }
 
 sub TicketListShow {

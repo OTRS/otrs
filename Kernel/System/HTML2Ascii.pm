@@ -2,7 +2,7 @@
 # Kernel/System/HTML2Ascii.pm - the global html <-> ascii tools
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: HTML2Ascii.pm,v 1.6 2009-06-24 23:01:57 martin Exp $
+# $Id: HTML2Ascii.pm,v 1.7 2009-07-15 09:21:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 =head1 NAME
 
@@ -77,12 +77,20 @@ sub new {
 
 convert a html string to an ascii string
 
-    my $Ascii = $HTML2AsciiObject->ToAscii( String => $Param{String} );
+    my $Ascii = $HTML2AsciiObject->ToAscii( String => $String );
 
 =cut
 
 sub ToAscii {
     my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(String)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
 
     # find <a href=....> and replace it with [x]
     my $LinkList = '';
@@ -467,12 +475,20 @@ sub ToAscii {
 
 convert an ascii string to a html string
 
-    my $Ascii = $HTML2AsciiObject->ToHTML( String => $Param{String} );
+    my $Ascii = $HTML2AsciiObject->ToHTML( String => $String );
 
 =cut
 
 sub ToHTML {
     my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(String)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
 
     # fix some bad stuff from opera and others
     $Param{String} =~ s/(\n\r|\r\r\n|\r\n)/\n/gs;
@@ -485,6 +501,38 @@ sub ToHTML {
     $Param{String} =~ s/  /&nbsp;&nbsp;/g;
 
     return $Param{String};
+}
+
+=item DocumentComplete ()
+
+check and e. g. add <html> and <body> tags to given html string
+
+    my $HTMLDocument = $HTML2AsciiObject->DocumentComplete(
+        String  => $String,
+        Charset => $Charset,
+    );
+
+=cut
+
+sub DocumentComplete {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(String Charset)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    return $Param{String} if $Param{String} =~ /<html>/i;
+
+    my $Css = 'font-size: 12px; font-family:Courier,monospace,fixed;';
+
+    my $Body = '<html><head>';
+    $Body .= '<meta http-equiv="Content-Type content=text/html; charset=' . $Param{Charset} . '"/>';
+    $Body .= '</head><body style="' . $Css . '">' . $Param{String} . '</body></html>';
+    return $Body;
 }
 
 1;
@@ -501,6 +549,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.6 $ $Date: 2009-06-24 23:01:57 $
+$Revision: 1.7 $ $Date: 2009-07-15 09:21:27 $
 
 =cut
