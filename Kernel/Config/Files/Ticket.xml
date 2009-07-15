@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <otrs_config version="1.0" init="Application">
-    <CVS>$Id: Ticket.xml,v 1.255 2009-07-15 22:24:38 martin Exp $</CVS>
+    <CVS>$Id: Ticket.xml,v 1.256 2009-07-15 23:15:29 martin Exp $</CVS>
     <ConfigItem Name="Ticket::Hook" Required="1" Valid="1">
         <Description Lang="en">The identifier for a ticket, e.g. Ticket#, Call#, MyTicket#. The default is Ticket#.</Description>
         <Description Lang="de">Ticket-Identifikator, z. B. Ticket#,Call#, MyTicket#. Als Standard wird Ticket# verwendet.</Description>
@@ -5823,6 +5823,18 @@ $QData{"Signature"}
     <ConfigItem Name="Ticket::PendingNotificationOnlyToOwner" Required="1" Valid="1">
         <Description Lang="en">Reminder notifications of unlocked ticket after reaching the reminder date only sent to ticket owner (not to whole agents of queue).</Description>
         <Description Lang="de">Erinnerungs-Nachrichten von entsperrten Tickets nach dem Erreichen des Termins nur an den Besitzer senden (nicht an alle Agenten der Queue).</Description>
+        <Group>Ticket</Group>
+        <SubGroup>Core::Ticket</SubGroup>
+        <Setting>
+            <Option SelectedID="0">
+                <Item Key="0">No</Item>
+                <Item Key="1">Yes</Item>
+            </Option>
+        </Setting>
+    </ConfigItem>
+    <ConfigItem Name="Ticket::PendingNotificationNotToResponsible" Required="1" Valid="1">
+        <Description Lang="en">Disable sending reminder notifications to responsible (Ticket::Responsible need to be activatedi for responsible support first).</Description>
+        <Description Lang="de">Benachrichtigung des Verantwortlichen beim versenden von Erinnerungs-Nachrichten deaktivieren (Ticket::Responsible muss aktiviert sein um Verantwortlichen-Unterstützung zu unterstützen).</Description>
         <Group>Ticket</Group>
         <SubGroup>Core::Ticket</SubGroup>
         <Setting>
