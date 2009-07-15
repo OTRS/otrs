@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.67 2009-04-23 13:47:27 mh Exp $
+# $Id: AgentTicketCompose.pm,v 1.68 2009-07-15 09:33:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -412,6 +412,12 @@ sub Run {
                 push( @NewAttachmentData, \%{$TmpAttachment} );
             }
             @AttachmentData = @NewAttachmentData;
+
+            # verify html document
+            $GetParam{Body} = $Self->{LayoutObject}->{HTML2AsciiObject}->DocumentComplete(
+                String  => $GetParam{Body},
+                Charset => $Self->{LayoutObject}->{UserCharset},
+            );
         }
 
         # send email
@@ -435,136 +441,132 @@ sub Run {
             Attachment     => \@AttachmentData,
             %ArticleParam,
         );
-        if ($ArticleID) {
-
-            # time accounting
-            if ( $GetParam{TimeUnits} ) {
-                $Self->{TicketObject}->TicketAccountTime(
-                    TicketID  => $Self->{TicketID},
-                    ArticleID => $ArticleID,
-                    TimeUnit  => $GetParam{TimeUnits},
-                    UserID    => $Self->{UserID},
-                );
-            }
-
-            # set ticket free text
-            for ( 1 .. 16 ) {
-                if ( defined( $GetParam{"TicketFreeKey$_"} ) ) {
-                    $Self->{TicketObject}->TicketFreeTextSet(
-                        Key      => $GetParam{"TicketFreeKey$_"},
-                        Value    => $GetParam{"TicketFreeText$_"},
-                        Counter  => $_,
-                        TicketID => $Self->{TicketID},
-                        UserID   => $Self->{UserID},
-                    );
-                }
-            }
-
-            # set ticket free time
-            for ( 1 .. 6 ) {
-                if (
-                    defined( $GetParam{ "TicketFreeTime" . $_ . "Year" } )
-                    && defined( $GetParam{ "TicketFreeTime" . $_ . "Month" } )
-                    && defined( $GetParam{ "TicketFreeTime" . $_ . "Day" } )
-                    && defined( $GetParam{ "TicketFreeTime" . $_ . "Hour" } )
-                    && defined( $GetParam{ "TicketFreeTime" . $_ . "Minute" } )
-                    )
-                {
-                    my %Time;
-                    $Time{ "TicketFreeTime" . $_ . "Year" }    = 0;
-                    $Time{ "TicketFreeTime" . $_ . "Month" }   = 0;
-                    $Time{ "TicketFreeTime" . $_ . "Day" }     = 0;
-                    $Time{ "TicketFreeTime" . $_ . "Hour" }    = 0;
-                    $Time{ "TicketFreeTime" . $_ . "Minute" }  = 0;
-                    $Time{ "TicketFreeTime" . $_ . "Secunde" } = 0;
-
-                    if ( $GetParam{ "TicketFreeTime" . $_ . "Used" } ) {
-                        %Time = $Self->{LayoutObject}->TransfromDateSelection(
-                            %GetParam,
-                            Prefix => "TicketFreeTime" . $_,
-                        );
-                    }
-                    $Self->{TicketObject}->TicketFreeTimeSet(
-                        %Time,
-                        Prefix   => "TicketFreeTime",
-                        TicketID => $Self->{TicketID},
-                        Counter  => $_,
-                        UserID   => $Self->{UserID},
-                    );
-                }
-            }
-
-            # set article free text
-            for ( 1 .. 3 ) {
-                if ( defined( $GetParam{"ArticleFreeKey$_"} ) ) {
-                    $Self->{TicketObject}->ArticleFreeTextSet(
-                        TicketID  => $Self->{TicketID},
-                        ArticleID => $ArticleID,
-                        Key       => $GetParam{"ArticleFreeKey$_"},
-                        Value     => $GetParam{"ArticleFreeText$_"},
-                        Counter   => $_,
-                        UserID    => $Self->{UserID},
-                    );
-                }
-            }
-
-            # set state
-            $Self->{TicketObject}->StateSet(
-                TicketID  => $Self->{TicketID},
-                ArticleID => $ArticleID,
-                StateID   => $GetParam{StateID},
-                UserID    => $Self->{UserID},
-            );
-
-            # should I set an unlock?
-            if ( $StateData{TypeName} =~ /^close/i ) {
-                $Self->{TicketObject}->LockSet(
-                    TicketID => $Self->{TicketID},
-                    Lock     => 'unlock',
-                    UserID   => $Self->{UserID},
-                );
-            }
-
-            # set pending time
-            elsif ( $StateData{TypeName} =~ /^pending/i ) {
-                $Self->{TicketObject}->TicketPendingTimeSet(
-                    UserID   => $Self->{UserID},
-                    TicketID => $Self->{TicketID},
-                    Year     => $GetParam{Year},
-                    Month    => $GetParam{Month},
-                    Day      => $GetParam{Day},
-                    Hour     => $GetParam{Hour},
-                    Minute   => $GetParam{Minute},
-                );
-            }
-
-            # log use response id and reply article id (useful for response diagnostics)
-            $Self->{TicketObject}->HistoryAdd(
-                Name =>
-                    "ResponseTemplate ($GetParam{ResponseID}/$GetParam{ReplyArticleID}/$ArticleID)",
-                HistoryType  => 'Misc',
-                TicketID     => $Self->{TicketID},
-                CreateUserID => $Self->{UserID},
-            );
-
-            # remove pre submited attachments
-            $Self->{UploadCachObject}->FormIDRemove( FormID => $GetParam{FormID} );
-
-            # redirect
-            if ( $StateData{TypeName} =~ /^close/i ) {
-                return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenOverview} );
-            }
-            else {
-                return $Self->{LayoutObject}->Redirect(
-                    OP =>
-                        "Action=AgentTicketZoom&TicketID=$Self->{TicketID}&ArticleID=$ArticleID"
-                );
-            }
-        }
-        else {
+        if ( !$ArticleID ) {
 
             # error page
             return $Self->{LayoutObject}->ErrorScreen();
+        }
+
+        # time accounting
+        if ( $GetParam{TimeUnits} ) {
+            $Self->{TicketObject}->TicketAccountTime(
+                TicketID  => $Self->{TicketID},
+                ArticleID => $ArticleID,
+                TimeUnit  => $GetParam{TimeUnits},
+                UserID    => $Self->{UserID},
+            );
+        }
+
+        # set ticket free text
+        for ( 1 .. 16 ) {
+            if ( defined( $GetParam{"TicketFreeKey$_"} ) ) {
+                $Self->{TicketObject}->TicketFreeTextSet(
+                    Key      => $GetParam{"TicketFreeKey$_"},
+                    Value    => $GetParam{"TicketFreeText$_"},
+                    Counter  => $_,
+                    TicketID => $Self->{TicketID},
+                    UserID   => $Self->{UserID},
+                );
+            }
+        }
+
+        # set ticket free time
+        for ( 1 .. 6 ) {
+            if (
+                defined( $GetParam{ "TicketFreeTime" . $_ . "Year" } )
+                && defined( $GetParam{ "TicketFreeTime" . $_ . "Month" } )
+                && defined( $GetParam{ "TicketFreeTime" . $_ . "Day" } )
+                && defined( $GetParam{ "TicketFreeTime" . $_ . "Hour" } )
+                && defined( $GetParam{ "TicketFreeTime" . $_ . "Minute" } )
+            )
+            {
+                my %Time;
+                $Time{ "TicketFreeTime" . $_ . "Year" }    = 0;
+                $Time{ "TicketFreeTime" . $_ . "Month" }   = 0;
+                $Time{ "TicketFreeTime" . $_ . "Day" }     = 0;
+                $Time{ "TicketFreeTime" . $_ . "Hour" }    = 0;
+                $Time{ "TicketFreeTime" . $_ . "Minute" }  = 0;
+                $Time{ "TicketFreeTime" . $_ . "Secunde" } = 0;
+
+                if ( $GetParam{ "TicketFreeTime" . $_ . "Used" } ) {
+                    %Time = $Self->{LayoutObject}->TransfromDateSelection(
+                        %GetParam,
+                        Prefix => "TicketFreeTime" . $_,
+                    );
+                }
+                $Self->{TicketObject}->TicketFreeTimeSet(
+                    %Time,
+                    Prefix   => "TicketFreeTime",
+                    TicketID => $Self->{TicketID},
+                    Counter  => $_,
+                    UserID   => $Self->{UserID},
+                );
+            }
+        }
+
+        # set article free text
+        for ( 1 .. 3 ) {
+            if ( defined( $GetParam{"ArticleFreeKey$_"} ) ) {
+                $Self->{TicketObject}->ArticleFreeTextSet(
+                    TicketID  => $Self->{TicketID},
+                    ArticleID => $ArticleID,
+                    Key       => $GetParam{"ArticleFreeKey$_"},
+                    Value     => $GetParam{"ArticleFreeText$_"},
+                    Counter   => $_,
+                    UserID    => $Self->{UserID},
+                );
+            }
+        }
+
+        # set state
+        $Self->{TicketObject}->StateSet(
+            TicketID  => $Self->{TicketID},
+            ArticleID => $ArticleID,
+            StateID   => $GetParam{StateID},
+            UserID    => $Self->{UserID},
+        );
+
+        # should I set an unlock?
+        if ( $StateData{TypeName} =~ /^close/i ) {
+            $Self->{TicketObject}->LockSet(
+                TicketID => $Self->{TicketID},
+                Lock     => 'unlock',
+                UserID   => $Self->{UserID},
+            );
+        }
+
+        # set pending time
+        elsif ( $StateData{TypeName} =~ /^pending/i ) {
+            $Self->{TicketObject}->TicketPendingTimeSet(
+                UserID   => $Self->{UserID},
+                TicketID => $Self->{TicketID},
+                Year     => $GetParam{Year},
+                Month    => $GetParam{Month},
+                Day      => $GetParam{Day},
+                Hour     => $GetParam{Hour},
+                Minute   => $GetParam{Minute},
+            );
+        }
+
+        # log use response id and reply article id (useful for response diagnostics)
+        $Self->{TicketObject}->HistoryAdd(
+            Name => "ResponseTemplate ($GetParam{ResponseID}/$GetParam{ReplyArticleID}/$ArticleID)",
+            HistoryType  => 'Misc',
+            TicketID     => $Self->{TicketID},
+            CreateUserID => $Self->{UserID},
+        );
+
+        # remove pre submited attachments
+        $Self->{UploadCachObject}->FormIDRemove( FormID => $GetParam{FormID} );
+
+        # redirect
+        if ( $StateData{TypeName} =~ /^close/i ) {
+            return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenOverview} );
+        }
+        else {
+            return $Self->{LayoutObject}->Redirect(
+                OP => "Action=AgentTicketZoom&TicketID=$Self->{TicketID}&ArticleID=$ArticleID"
+            );
         }
     }
     else {
@@ -633,140 +635,42 @@ sub Run {
             );
         }
 
-        # body preparation for plain text processing
+        $Data{Body} = $Self->{LayoutObject}->ArticleQuote(
+            TicketID  => $Self->{TicketID},
+            ArticleID => $Data{ArticleID},
+            FormID    => $Self->{FormID},
+        );
+
         if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
-
-            # check for html body
-            my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
-                TicketID                   => $Self->{TicketID},
-                StripPlainBodyAsAttachment => 1,
-            );
-            ARTICLE:
-            for my $ArticleTmp (@ArticleBox) {
-                next ARTICLE if $ArticleTmp->{ArticleID} ne $Data{ArticleID};
-                last ARTICLE if !$ArticleTmp->{BodyHTML};
-                my %AttachmentHTML = $Self->{TicketObject}->ArticleAttachment(
-                    ArticleID => $Data{ArticleID},
-                    FileID    => $ArticleTmp->{BodyHTML},
-                );
-
-                # make sure encoding is correct
-                $Self->{EncodeObject}->Encode(
-                    \$AttachmentHTML{Content},
-                );
-
-                $Data{BodyHTML}            = $AttachmentHTML{Content}     || '';
-                $Data{BodyHTMLContentType} = $AttachmentHTML{ContentType} || 'text/html';
-
-                # display inline images if exists
-                my %Attachments = %{ $ArticleTmp->{Atms} };
-                my $SessionID   = '';
-                if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
-                    $SessionID = "&" . $Self->{SessionName} . "=" . $Self->{SessionID};
-                }
-                my $AttachmentLink = $Self->{LayoutObject}->{Baselink}
-                    . 'Action=PictureUpload'
-                    . '&FormID='
-                    . $Self->{FormID}
-                    . $SessionID
-                    . '&ContentID=';
-                $Data{BodyHTML} =~ s{
-                    "cid:(.*?)"
-                }
-                {
-                    my $ContentID = $1;
-                    ATMCOUNT:
-                    for my $AtmCount ( keys %Attachments ) {
-                        next ATMCOUNT if $Attachments{$AtmCount}{ContentID} !~ /^<$ContentID>$/;
-                        # add to upload cache
-                        my %AttachmentPicture = $Self->{TicketObject}->ArticleAttachment(
-                            ArticleID => $Data{ArticleID},
-                            FileID    => $AtmCount,
-                        );
-                        $Self->{UploadCachObject}->FormIDAddFile(
-                            FormID      => $Self->{FormID},
-                            Disposition => 'inline',
-                            %{ $Attachments{$AtmCount} },
-                            %AttachmentPicture,
-                        );
-                        my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
-                            FormID => $Self->{FormID},
-                        );
-                        CONTENTIDRETURN:
-                        for my $TmpAttachment ( @Attachments ) {
-                            next CONTENTIDRETURN
-                                if $Attachments{$AtmCount}{Filename} ne $TmpAttachment->{Filename};
-                            $ContentID = $AttachmentLink . $TmpAttachment->{ContentID};
-                            last CONTENTIDRETURN;
-                        }
-                        last ATMCOUNT;
-                    }
-
-                    # return link
-                    '"' . $ContentID . '"';
-                }egxi;
-                last ARTICLE;
-            }
-
-            # convert plain body to html if necessary
-            if ( !$Data{BodyHTML} ) {
-
-                # check if original content isn't text/plain or text/html, don't use it
-                if ( !$Data{ContentType} || $Data{ContentType} !~ /text\/(plain|html)/i ) {
-                    $Data{Body}        = "-> no quotable message <-";
-                    $Data{ContentType} = 'text/plain';
-                }
-                $Data{BodyHTML} = $Self->{LayoutObject}->Ascii2Html(
-                    Text => $Data{Body} || '',
-                    HTMLResultMode => 1,
-                    LinkFeature    => 1,
-                );
-                $Data{BodyHTMLContentType} = $Data{ContentType} || 'text/plain';
-                $Data{BodyHTMLContentType} =~ s/plain/html/i;
-            }
 
             # prepare body, subject, ReplyTo ...
             # rewrap body if exists
-            if ( $Data{BodyHTML} ) {
-                $Data{BodyHTML} =~ s/\t/ /g;
+            if ( $Data{Body} ) {
+                $Data{Body} =~ s/\t/ /g;
                 my $Quote = $Self->{LayoutObject}->Ascii2Html(
                     Text => $Self->{ConfigObject}->Get('Ticket::Frontend::Quote') || '',
                     HTMLResultMode => 1,
                 );
                 if ($Quote) {
-                    $Data{BodyHTML} =~ s/(<(br|p|div).*?>)/$1$Quote /ig;
-                    $Data{BodyHTML} = "<br/>$Quote " . $Data{BodyHTML};
+                    $Data{Body} =~ s/(<(br|p|div).*?>)/$1$Quote /ig;
+                    $Data{Body} = "<br/>$Quote " . $Data{Body};
                 }
                 else {
-                    $Data{BodyHTML} = "<br/>" . $Data{BodyHTML};
+                    $Data{Body} = "<br/>" . $Data{Body};
                     if ( $Data{Created} ) {
-                        $Data{BodyHTML} = "Date: $Data{Created}<br/>" . $Data{BodyHTML};
+                        $Data{Body} = "Date: $Data{Created}<br/>" . $Data{Body};
                     }
                     for (qw(Subject ReplyTo Reply-To Cc To From)) {
                         if ( $Data{$_} ) {
-                            $Data{BodyHTML} = "$_: $Data{$_}<br/>" . $Data{BodyHTML};
+                            $Data{Body} = "$_: $Data{$_}<br/>" . $Data{Body};
                         }
                     }
-                    $Data{BodyHTML} = "<br/>---- Message from $Data{From} ---<br/><br/>"
-                        . $Data{BodyHTML};
-                    $Data{BodyHTML} .= "<br/>---- End Message ---<br/>";
+                    $Data{Body} = "<br/>---- Message from $Data{From} ---<br/><br/>" . $Data{Body};
+                    $Data{Body} .= "<br/>---- End Message ---<br/>";
                 }
             }
-
-            $Data{Body}        = $Data{BodyHTML}            || '';
-            $Data{ContentType} = $Data{BodyHTMLContentType} || 'text/plain';
         }
         else {
-
-            # check if original content isn't text/plain or text/html, don't use it
-            if ( $Data{ContentType} ) {
-                if ( $Data{ContentType} =~ /text\/html/i ) {
-                    $Data{Body} =~ s/\<.+?\>//gs;
-                }
-                elsif ( $Data{ContentType} !~ /text\/plain/i ) {
-                    $Data{Body} = "-> no quotable message <-";
-                }
-            }
 
             # prepare body, subject, ReplyTo ...
             # rewrap body if exists

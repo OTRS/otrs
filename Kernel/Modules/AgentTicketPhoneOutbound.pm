@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhoneOutbound.pm - to handle phone calls
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhoneOutbound.pm,v 1.25 2009-07-15 09:20:28 martin Exp $
+# $Id: AgentTicketPhoneOutbound.pm,v 1.26 2009-07-15 09:33:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -503,7 +503,7 @@ sub Run {
 
                 # verify html document
                 $GetParam{Body} = $Self->{LayoutObject}->{HTML2AsciiObject}->DocumentComplete(
-                    Body    => $GetParam{Body},
+                    String  => $GetParam{Body},
                     Charset => $Self->{LayoutObject}->{UserCharset},
                 );
             }

@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.pm,v 1.29 2009-07-15 09:18:43 martin Exp $
+# $Id: AgentTicketBounce.pm,v 1.30 2009-07-15 09:33:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.29 $) [1];
+$VERSION = qw($Revision: 1.30 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -299,7 +299,7 @@ $QData{"Signature"}';
 
                 # verify html document
                 $GetParam{Body} = $Self->{LayoutObject}->{HTML2AsciiObject}->DocumentComplete(
-                    Body    => $GetParam{Body},
+                    String  => $GetParam{Body},
                     Charset => $Self->{LayoutObject}->{UserCharset},
                 );
             }

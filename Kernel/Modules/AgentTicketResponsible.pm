@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketResponsible.pm - set ticket responsible
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketResponsible.pm,v 1.49 2009-04-23 13:47:27 mh Exp $
+# $Id: AgentTicketResponsible.pm,v 1.50 2009-07-15 09:33:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -498,6 +498,12 @@ sub Run {
                 {
                     $1 . "cid:" . $2 . $3;
                 }esgxi;
+
+                # verify html document
+                $GetParam{Body} = $Self->{LayoutObject}->{HTML2AsciiObject}->DocumentComplete(
+                    String  => $GetParam{Body},
+                    Charset => $Self->{LayoutObject}->{UserCharset},
+                );
             }
 
             $ArticleID = $Self->{TicketObject}->ArticleCreate(
