@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.pm,v 1.32 2009-07-15 09:33:31 martin Exp $
+# $Id: AgentTicketMerge.pm,v 1.33 2009-07-16 09:41:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,9 +16,11 @@ use warnings;
 
 use Kernel::System::CustomerUser;
 use Kernel::System::TemplateGenerator;
+use Kernel::System::SystemAddress;
+use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,6 +37,7 @@ sub new {
     }
 
     $Self->{CustomerUserObject} = Kernel::System::CustomerUser->new(%Param);
+    $Self->{SystemAddress}      = Kernel::System::SystemAddress->new(%Param);
 
     $Self->{Config} = $Self->{ConfigObject}->Get("Ticket::Frontend::$Self->{Action}");
 
@@ -167,26 +170,29 @@ sub Run {
         else {
 
             # get params
+            my %GetParam;
             for (qw(From To Subject Body InformSender)) {
-                $Param{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
+                $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
             }
 
             # check forward email address
-            for my $Email ( Mail::Address->parse( $Param{BounceTo} ) ) {
-                my $Address = $Email->address();
-                if ( $Self->{SystemAddress}->SystemAddressIsLocalAddress( Address => $Address ) ) {
+            if ( $GetParam{To} ) {
+                for my $Email ( Mail::Address->parse( $GetParam{To} ) ) {
+                    my $Address = $Email->address();
+                    if ( $Self->{SystemAddress}->SystemAddressIsLocalAddress( Address => $Address ) ) {
 
-                    # error page
-                    return $Self->{LayoutObject}->ErrorScreen(
-                        Message => "Can't forward ticket to $Address! It's a local "
-                            . "address! You need to move it!",
-                        Comment => 'Please contact the admin.',
-                    );
+                        # error page
+                        return $Self->{LayoutObject}->ErrorScreen(
+                            Message => "Can't forward ticket to $Address! It's a local "
+                                . "address! You need to move it!",
+                            Comment => 'Please contact the admin.',
+                        );
+                    }
                 }
             }
 
             # send customer info?
-            if ( $Param{InformSender} ) {
+            if ( $GetParam{InformSender} ) {
                 my $MimeType = 'text/plain';
                 if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
                     $MimeType = 'text/html';
@@ -198,20 +204,20 @@ sub Run {
                     );
                 }
                 my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
-                $Param{Body} =~ s/(&lt;|<)OTRS_TICKET(&gt;|>)/$Ticket{TicketNumber}/g;
-                $Param{Body} =~ s/(&lt;|<)OTRS_MERGE_TO_TICKET(&gt;|>)/$MainTicketNumber/g;
+                $GetParam{Body} =~ s/(&lt;|<)OTRS_TICKET(&gt;|>)/$Ticket{TicketNumber}/g;
+                $GetParam{Body} =~ s/(&lt;|<)OTRS_MERGE_TO_TICKET(&gt;|>)/$MainTicketNumber/g;
                 my $ArticleID = $Self->{TicketObject}->ArticleSend(
                     ArticleType    => 'email-external',
                     SenderType     => 'agent',
                     TicketID       => $Self->{TicketID},
                     HistoryType    => 'SendAnswer',
-                    HistoryComment => "Merge info to '$Param{To}'.",
-                    From           => $Param{From},
-                    Email          => $Param{Email},
-                    To             => $Param{To},
-                    Subject        => $Param{Subject},
+                    HistoryComment => "Merge info to '$GetParam{To}'.",
+                    From           => $GetParam{From},
+                    Email          => $GetParam{Email},
+                    To             => $GetParam{To},
+                    Subject        => $GetParam{Subject},
                     UserID         => $Self->{UserID},
-                    Body           => $Param{Body},
+                    Body           => $GetParam{Body},
                     Charset        => $Self->{LayoutObject}->{UserCharset},
                     MimeType       => $MimeType,
                 );
@@ -241,49 +247,52 @@ sub Run {
 
         # prepare salutation
         my $TemplateGenerator = Kernel::System::TemplateGenerator->new( %{$Self} );
-        $Param{Salutation} = $TemplateGenerator->Salutation(
+        my $Salutation = $TemplateGenerator->Salutation(
             TicketID  => $Self->{TicketID},
             ArticleID => $Article{ArticleID},
-            Data      => \%Param,
+            Data      => { %Article },
             UserID    => $Self->{UserID},
         );
 
         # prepare signature
-        $Param{Signature} = $TemplateGenerator->Signature(
+        my $Signature = $TemplateGenerator->Signature(
             TicketID  => $Self->{TicketID},
             ArticleID => $Article{ArticleID},
-            Data      => \%Param,
+            Data      => { %Article },
             UserID    => $Self->{UserID},
         );
 
-        # put & get attributes like sender address
-        %Param = $TemplateGenerator->Attributes(
-            TicketID  => $Self->{TicketID},
-            ArticleID => $Article{ArticleID},
-            Data      => \%Param,
-            UserID    => $Self->{UserID},
+        # prepare subject ...
+        $Article{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
+            TicketNumber => $Article{TicketNumber},
+            Subject      => $Article{Subject} || '',
         );
+
+        # prepare from ...
+        $Article{To} = $Article{From};
+        my %Address = $Self->{QueueObject}->GetSystemAddress( QueueID => $Ticket{QueueID} );
+        $Article{From} = "$Address{RealName} <$Address{Email}>";
 
         # get and format default body
         my @DefaultBody = $Self->{LayoutObject}->ToFromRichText(
             Content => $Self->{ConfigObject}->{'Ticket::Frontend::MergeText'} || '',
         );
-        $Param{Body} = $DefaultBody[0];
+        $Article{Body} = $DefaultBody[0];
 
         # add salutation and signature to body
         if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
-            $Param{Body} = $Param{Salutation}
+            $Article{Body} = $Salutation
                 . '<br/><br/>'
-                . $Param{Body}
+                . $Article{Body}
                 . '<br/><br/>'
-                . $Param{Signature};
+                . $Signature;
         }
         else {
-            $Param{Body} = $Param{Salutation}
+            $Article{Body} = $Salutation
                 . "\n\n"
-                . $Param{Body}
+                . $Article{Body}
                 . "\n\n"
-                . $Param{Signature};
+                . $Signature;
         }
 
         # add YUI editor
@@ -296,7 +305,7 @@ sub Run {
 
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentTicketMerge',
-            Data => { %Param, %Ticket },
+            Data => { %Param, %Ticket, %Article, }
         );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
