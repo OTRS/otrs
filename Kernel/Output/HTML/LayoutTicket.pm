@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.42 2009-07-15 09:21:27 martin Exp $
+# $Id: LayoutTicket.pm,v 1.43 2009-07-16 22:47:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -407,7 +407,7 @@ sub AgentFreeText {
                         . '<input type="hidden" name="TicketFreeKey'
                         . $_
                         . '" value="'
-                        . $Self->{LayoutObject}->Ascii2Html( Text => $LastKey ) . '"/>';
+                        . $Self->Ascii2Html( Text => $LastKey ) . '"/>';
                 }
             }
         }
@@ -425,7 +425,7 @@ sub AgentFreeText {
                     = '<input type="text" name="TicketFreeKey'
                     . $_
                     . '" value="'
-                    . $Self->{LayoutObject}->Ascii2Html( Text => $Ticket{"TicketFreeKey$_"} )
+                    . $Self->Ascii2Html( Text => $Ticket{"TicketFreeKey$_"} )
                     . '" size="18"/>';
             }
             else {
@@ -460,7 +460,7 @@ sub AgentFreeText {
                     = '<input type="text" name="TicketFreeText'
                     . $_
                     . '" value="'
-                    . $Self->{LayoutObject}->Ascii2Html( Text => $Ticket{"TicketFreeText$_"} )
+                    . $Self->Ascii2Html( Text => $Ticket{"TicketFreeText$_"} )
                     . '" size="30"/>';
             }
             else {
@@ -563,7 +563,7 @@ sub TicketArticleFreeText {
                         . '<input type="hidden" name="ArticleFreeKey'
                         . $_
                         . '" value="'
-                        . $Self->{LayoutObject}->Ascii2Html( Text => $LastKey ) . '"/>';
+                        . $Self->Ascii2Html( Text => $LastKey ) . '"/>';
                 }
             }
         }
@@ -581,7 +581,7 @@ sub TicketArticleFreeText {
                     = '<input type="text" name="ArticleFreeKey'
                     . $_
                     . '" value="'
-                    . $Self->{LayoutObject}->Ascii2Html( Text => $Article{"ArticleFreeKey$_"} )
+                    . $Self->Ascii2Html( Text => $Article{"ArticleFreeKey$_"} )
                     . '" size="18"/>';
             }
             else {
@@ -616,7 +616,7 @@ sub TicketArticleFreeText {
                     = '<input type="text" name="ArticleFreeText'
                     . $_
                     . '" value="'
-                    . $Self->{LayoutObject}->Ascii2Html( Text => $Article{"ArticleFreeText$_"} )
+                    . $Self->Ascii2Html( Text => $Article{"ArticleFreeText$_"} )
                     . '" size="30"/>';
             }
             else {
@@ -668,7 +668,7 @@ sub ArticleQuote {
     my ( $Self, %Param ) = @_;
 
     # check needed stuff
-    for (qw(TicketID ArticleID FormID)) {
+    for (qw(TicketID ArticleID FormID UploadCachObject)) {
         if ( !$Param{$_} ) {
             $Self->FatalError( Message => "Need $_!" );
         }
@@ -700,7 +700,7 @@ sub ArticleQuote {
             $Body = $Self->{EncodeObject}->Convert(
                 Text => $AttachmentHTML{Content},
                 From => $Charset,
-                To   => $Self->{LayoutObject}->{UserCharset},
+                To   => $Self->{UserCharset},
             );
 
             # display inline images if exists
@@ -709,7 +709,7 @@ sub ArticleQuote {
             if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
                 $SessionID = "&" . $Self->{SessionName} . "=" . $Self->{SessionID};
             }
-            my $AttachmentLink = $Self->{LayoutObject}->{Baselink}
+            my $AttachmentLink = $Self->{Baselink}
                 . 'Action=PictureUpload'
                 . '&FormID='
                 . $Param{FormID}
@@ -729,13 +729,13 @@ sub ArticleQuote {
                         ArticleID => $Param{ArticleID},
                         FileID    => $AtmCount,
                     );
-                    $Self->{UploadCachObject}->FormIDAddFile(
+                    $Param{UploadCachObject}->FormIDAddFile(
                         FormID      => $Param{FormID},
                         Disposition => 'inline',
                         %{ $Attachments{$AtmCount} },
                         %AttachmentPicture,
                     );
-                    my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
+                    my @Attachments = $Param{UploadCachObject}->FormIDGetAllFilesMeta(
                         FormID => $Param{FormID},
                     );
                     CONTENTIDRETURN:
@@ -772,7 +772,7 @@ sub ArticleQuote {
     # return body as html
     if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
 
-        my $Body = $Self->{LayoutObject}->Ascii2Html(
+        my $Body = $Self->Ascii2Html(
             Text => $Article{Body},
             HTMLResultMode => 1,
             LinkFeature    => 1,
@@ -820,12 +820,12 @@ sub TicketListShow {
     # check backends
     my $Backends = $Self->{ConfigObject}->Get('Ticket::Frontend::Overview');
     if ( !$Backends ) {
-        return $Self->{LayoutObject}->FatalError(
+        return $Param{Env}->{LayoutObject}->FatalError(
             Message => 'Need config option Ticket::Frontend::Overview',
         );
     }
     if ( ref $Backends ne 'HASH' ) {
-        return $Self->{LayoutObject}->FatalError(
+        return $Param{Env}->{LayoutObject}->FatalError(
             Message => 'Config option Ticket::Frontend::Overview need to be HASH ref!',
         );
     }
