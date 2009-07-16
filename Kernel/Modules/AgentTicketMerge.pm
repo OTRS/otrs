@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.pm,v 1.33 2009-07-16 09:41:39 martin Exp $
+# $Id: AgentTicketMerge.pm,v 1.34 2009-07-16 13:36:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -175,24 +175,25 @@ sub Run {
                 $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ ) || '';
             }
 
-            # check forward email address
-            if ( $GetParam{To} ) {
-                for my $Email ( Mail::Address->parse( $GetParam{To} ) ) {
-                    my $Address = $Email->address();
-                    if ( $Self->{SystemAddress}->SystemAddressIsLocalAddress( Address => $Address ) ) {
-
-                        # error page
-                        return $Self->{LayoutObject}->ErrorScreen(
-                            Message => "Can't forward ticket to $Address! It's a local "
-                                . "address! You need to move it!",
-                            Comment => 'Please contact the admin.',
-                        );
-                    }
-                }
-            }
-
             # send customer info?
             if ( $GetParam{InformSender} ) {
+
+                # check notify email address
+                if ( $GetParam{To} ) {
+                    for my $Email ( Mail::Address->parse( $GetParam{To} ) ) {
+                        my $Address = $Email->address();
+                        if ( $Self->{SystemAddress}->SystemAddressIsLocalAddress( Address => $Address ) ) {
+
+                            # error page
+                            return $Self->{LayoutObject}->ErrorScreen(
+                                Message => "Can't send notification to $Address! It's a local "
+                                    . "address! You need to move it!",
+                                Comment => 'Please contact the admin.',
+                            );
+                        }
+                    }
+                }
+
                 my $MimeType = 'text/plain';
                 if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
                     $MimeType = 'text/html';
