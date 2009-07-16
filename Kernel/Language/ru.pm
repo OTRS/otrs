@@ -4,8 +4,9 @@
 # Copyright (C) 2007 Andrey Feldman <afeldman at alt-lan.ru>
 # Copyright (C) 2008 Egor Tsilenko <bg8s at symlink.ru>
 # Copyright (C) 2009 Mike Lykov <combrs at gmail.com>
+# Copyright (C) 2009 Egor Tsilenko <bg8s at symlink.ru>
 # --
-# $Id: ru.pm,v 1.83 2009-07-13 16:16:19 martin Exp $
+# $Id: ru.pm,v 1.84 2009-07-16 22:00:38 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.83 $) [1];
+$VERSION = qw($Revision: 1.84 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -82,8 +83,8 @@ sub Data {
         'Modulefile' => 'Файл-модуль',
         'Subfunction' => 'Подфункция',
         'Line' => 'Линия',
-        'Setting' => '',
-        'Settings' => '',
+        'Setting' => 'Настройка',
+        'Settings' => 'Настройки',
         'Example' => 'Пример',
         'Examples' => 'Примеры',
         'valid' => 'действительный',
@@ -144,7 +145,7 @@ sub Data {
         'update!' => 'обновить!',
         'update' => 'обновить',
         'Update' => 'Обновить',
-        'Updated!' => '',
+        'Updated!' => 'Обновлено!',
         'submit!' => 'Ввести!',
         'submit' => 'ввести',
         'Submit' => 'Ввести',
@@ -185,7 +186,7 @@ sub Data {
         'Up' => 'Вверх',
         'Down' => 'Вниз',
         'Add' => 'Добавить',
-        'Added!' => '',
+        'Added!' => 'Добавлено!',
         'Category' => 'Категория',
         'Viewer' => 'Просмотрщик',
         'Expand' => 'Развернуть',
@@ -210,7 +211,7 @@ sub Data {
         'Logout successful. Thank you for using OTRS!' => 'Выход успешен. Благодарим за пользование системой OTRS',
         'Invalid SessionID!' => 'Неверный идентификатор сессии!',
         'Feature not active!' => 'Функция не активирована!',
-        'Notification (Event)' => '',
+        'Notification (Event)' => 'Уведомление (Событие)',
         'Login is needed!' => 'Необходимо ввести логин',
         'Password is needed!' => 'Необходимо ввести пароль',
         'License' => 'Лицензия',
@@ -417,13 +418,13 @@ sub Data {
         'Create Time' => 'Время создания',
         'CustomerUserLogin' => 'Логин клиента',
         'Close Time' => 'Время закрытия',
-        'TicketAccumulation' => '',
+        'TicketAccumulation' => 'Скопление заявок',
         'Attributes to be printed' => 'Атрибуты для печати',
         'Sort sequence' => 'Порядок сортировки',
 
         'Order by' => 'Сортировать по',
         'Limit' => 'Лимит',
-        'Ticketlist' => '',
+        'Ticketlist' => 'Список тикетов',
         'ascending' => 'убыванию',
         'descending' => 'возрастанию',
         'First Lock' => 'Первая блокировка',
@@ -437,9 +438,9 @@ sub Data {
         'Article Min Time' => 'Минимальное время на статью',
         'Article Max Time' => 'Максимальное время на статью',
         'Number of Articles' => 'Количество статей',
-        'Accounted time by Agent' => '',
-        'Ticket/Article Accounted Time' => '',
-        'TicketAccountedTime' => '',
+        'Accounted time by Agent' => 'Потраченное время',
+        'Ticket/Article Accounted Time' => 'Потраченное на заявку время',
+        'TicketAccountedTime' => 'Потраченное на заявку время',
         'Ticket Create Time' => 'Время создания заявки',
         'Ticket Close Time' => 'Время закрытия заявки',
 
@@ -585,7 +586,7 @@ sub Data {
         'Show closed tickets.' => 'Показывать закрытые заявки',
         'Max. shown Tickets a page in QueueView.' => 'Макс. кол-во заявок на странице в Просмотре Очереди',
         'Watch notification' => 'Отслеживание уведомления',
-        'Send me a notification of an watched ticket like an owner of an ticket.' => '',
+        'Send me a notification of an watched ticket like an owner of an ticket.' => 'Отправлять мне уведомления об отслеживаемых заявках так же как и владельцу заявки.',
         'Out Of Office' => 'Вне офиса',
         'Select your out of office time.' => 'Выберите время вашего отсутствия в офисе',
         'CompanyTickets' => 'Заявки компании',
@@ -732,14 +733,14 @@ sub Data {
         'Is Job Valid?' => 'Данная задача действительна?',
         'Is Job Valid' => 'Данная задача действительна',
         'Schedule' => 'Расписание',
-        'Currently this generic agent job will not run automatically.' => '',
-        'To enable automatic execution select at least one value from minutes, hours and days!' => '',
+        'Currently this generic agent job will not run automatically.' => 'Теперь эта задача не будет запускаться автоматически.',
+        'To enable automatic execution select at least one value from minutes, hours and days!' => 'Для того чтобы включить автоматичческое выполнение выберите хотя бы одно значение из минут, часов и дней',
         'Fulltext-Search in Article (e. g. "Mar*in" or "Baue*")' => 'Полнотекстовый поиск в заявке (например "Mar*in" или "Baue*")',
         '(e. g. 10*5155 or 105658*)' => '(например 10*5155 или 105658*)',
         '(e. g. 234321)' => '(например 234321)',
         'Customer User Login' => 'Логин клиента',
         '(e. g. U5150)' => '(например U5150)',
-        'SLA' => 'SLA',
+        'SLA' => 'Уровень обслуживания',
         'Agent' => 'Пользователь',
         'Ticket Lock' => 'Состояни заявки',
         'TicketFreeFields' => 'Свободные поля заявки',
@@ -747,8 +748,8 @@ sub Data {
         'No create time settings.' => 'Без учета данного времени',
         'Ticket created' => 'Заявка создана',
         'Ticket created between' => 'Заявка создана между ',
-        'Close Times' => '',
-        'No close time settings.' => '',
+        'Close Times' => 'Время закрытия',
+        'No close time settings.' => 'Без учета времени закрытия',
         'Ticket closed' => 'Заявка закрыта',
         'Ticket closed between' => 'Заявка закрыта между',
         'Pending Times' => 'Время, когда запрос был отложен',
@@ -793,12 +794,12 @@ sub Data {
         'Param 4' => 'Параметр 4',
         'Param 5' => 'Параметр 5',
         'Param 6' => 'Параметр 6',
-        'Send agent/customer notifications on changes' => '',
+        'Send agent/customer notifications on changes' => 'Отправлять уведомления об изменениях',
         'Save' => 'Сохранить',
         '%s Tickets affected! Do you really want to use this job?' => '%s заявок будет модифицировано! Вы действительно хотите выполнить это задание?',
 
         # Template: AdminGroupForm
-        'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' => '',
+        'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' => 'ПРЕДОСТЕРЕЖЕНИЕ: Если вы измените имя группы \'admin\' до того, как внесете соответствующие изменения в Системные настройки, вы не сможете попасть в панель администрирования! Если этого случится, переименуйте группу обратно в admin используюя SQL запрос.',
         'Group Management' => 'Управление группами',
         'Add Group' => 'Добавить группу',
         'Add a new Group.' => 'Добавить новую группу',
@@ -860,7 +861,7 @@ sub Data {
         'Package' => 'Пакет',
         'Online Repository' => 'Онлайн репозиторий',
         'Vendor' => 'Изготовитель',
-        'Module documentation' => '',
+        'Module documentation' => 'Документация модуля',
         'Upgrade' => 'Обновить',
         'Local Repository' => 'Локальный репозиторий',
         'Status' => 'Статус',
@@ -881,7 +882,7 @@ sub Data {
         'Performance Log' => 'Лог производительности',
         'This feature is enabled!' => 'Данная функция задйствована!',
         'Just use this feature if you want to log each request.' => 'Просто используйте эту функцию если вы хотите логгировать каждый запрос',
-        'Activating this feature might affect your system performance!' => '',
+        'Activating this feature might affect your system performance!' => 'Включение этой функции может сказаться на производительности вашей системы',
         'Disable it here!' => 'Отключить ее!',
         'This feature is disabled!' => 'Данная функция отключена!',
         'Enable it here!' => 'Включить ее!',
@@ -911,7 +912,7 @@ sub Data {
         # Template: AdminPostMasterFilter
         'PostMaster Filter Management' => 'Управление фильтром PostMaster-а',
         'Filtername' => 'Имя фильтра',
-        'Stop after match' => '',
+        'Stop after match' => 'Прекратить после совпадения',
         'Match' => 'Соответствует',
         'Value' => 'Значение',
         'Set' => 'Установить',
@@ -926,7 +927,7 @@ sub Data {
 
         # Template: AdminQueueAutoResponseForm
         'Queue <-> Auto Responses Management' => 'Автоответы в очереди',
-        'settings' => '',
+        'settings' => 'настройки',
 
         # Template: AdminQueueForm
         'Queue Management' => 'Управление очередью',
@@ -935,7 +936,7 @@ sub Data {
         '0 = no unlock' => '0 = без блокировки',
         'Only business hours are counted.' => 'С учетом только рабочего времени.',
         '0 = no escalation' => '0 = без эскалации',
-        'Notify by' => '',
+        'Notify by' => 'Уведомить через',
         'Follow up Option' => 'Параметры авто-слежения ?',
         'Ticket lock after a follow up' => 'Блокировка заявки после прихода дополнения',
         'Systemaddress' => 'Системный адрес',
@@ -1004,10 +1005,10 @@ sub Data {
         'Add a new Salutation.' => 'Добавить новое приветствие',
 
         # Template: AdminSecureMode
-        'Secure Mode need to be enabled!' => '',
-        'Secure mode will (normally) be set after the initial installation is completed.' => '',
-        'Secure mode must be disabled in order to reinstall using the web-installer.' => '',
-        'If Secure Mode is not activated, activate it via SysConfig because your application is already running.' => '',
+        'Secure Mode need to be enabled!' => 'Необходимо включить режим шифрования!',
+        'Secure mode will (normally) be set after the initial installation is completed.' => 'Режим шифрования включится после завершения начальной установки.',
+        'Secure mode must be disabled in order to reinstall using the web-installer.' => 'Режим шифрования необходимо выключить для того чтобы переустановить систему через веб-инсталятор',
+        'If Secure Mode is not activated, activate it via SysConfig because your application is already running.' => 'Если режим шифрования выключен, активируйте его в Системных настройках, т.к. приложение уже используется.',
 
         # Template: AdminSelectBoxForm
         'SQL Box' => 'SQL запрос',
@@ -1075,7 +1076,7 @@ sub Data {
         'NavBarName' => 'Имя в навигационном меню',
         'NavBar' => 'Навигационное меню',
         'Image' => 'Картинка',
-        'Prio' => '',
+        'Prio' => 'Расположение',
         'Block' => 'Раздел',
         'AccessKey' => 'Клавиша доступа',
 
@@ -1224,7 +1225,7 @@ sub Data {
         'Select the element, which will be used at the X-axis' => 'Выберите элемент, который будет использован на оси Х',
         'maximal period' => 'максимальный период',
         'minimal scale' => 'минимальный масштаб',
-        'Here you can define the x-axis. You can select one element via the radio button. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
+        'Here you can define the x-axis. You can select one element via the radio button. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Здесь вы можете определить ось X. Вы можете выбрать один элемент. Если вы не выберите ни одного элемента, все атрибуты будут использованы для генерации отчета.',
 
         # Template: AgentStatsImport
         'Import' => 'Импорт',
@@ -1269,14 +1270,14 @@ sub Data {
         'Next state' => 'Следующее состояние',
         'Pending date' => 'Дата ожидания',
         'Merge to' => 'Объединить с',
-        'Merge to oldest' => '',
-        'Link together' => '',
-        'Link to Parent' => '',
+        'Merge to oldest' => 'Объединить с ',
+        'Link together' => 'Связать вместе',
+        'Link to Parent' => 'Связать с родителем',
         'Unlock Tickets' => 'Разблокировать заявки',
 
         # Template: AgentTicketClose
-        'Ticket Type is required!' => '',
-        'A required field is:' => '',
+        'Ticket Type is required!' => 'Необходимо ввести тип заявки',
+        'A required field is:' => 'Поля обязательные к заполнению:',
         'Close ticket' => 'Закрыть заявку',
         'Previous Owner' => 'Предыдущий владелец',
         'Inform Agent' => 'Оповестить пользователя',
@@ -1304,7 +1305,7 @@ sub Data {
         'new ticket' => 'Новая Заявка',
         'Refresh' => 'Обновить',
         'Clear To' => 'Очистить',
-        'All Agents' => '',
+        'All Agents' => 'Все',
 
         # Template: AgentTicketEscalation
 
@@ -1401,13 +1402,13 @@ sub Data {
         'Search-Template' => 'Шаблон поиска',
         'TicketFreeText' => 'Свободные поля заявки',
         'Created in Queue' => 'Создано в очереди',
-        'Article Create Times' => '',
-        'Article created' => '',
-        'Article created between' => '',
-        'Change Times' => '',
-        'No change time settings.' => '',
-        'Ticket changed' => '',
-        'Ticket changed between' => '',
+        'Article Create Times' => 'Время создания',
+        'Article created' => 'Заявка создана',
+        'Article created between' => 'Заявка создана между',
+        'Change Times' => 'Время изменения',
+        'No change time settings.' => 'Без учета времени изменения',
+        'Ticket changed' => 'Заявка изменена',
+        'Ticket changed between' => 'Заявка изменена между',
         'Result Form' => 'Вывод результатов',
         'Save Search-Profile as Template?' => 'Сохранить параметры поиска в качестве шаблона?',
         'Yes, save it with name' => 'Да, сохранить с именем',
@@ -1425,8 +1426,8 @@ sub Data {
         'Split' => 'Разделить',
 
         # Template: AgentTicketZoomArticleFilterDialog
-        'Article filter settings' => '',
-        'Save filter settings as default' => '',
+        'Article filter settings' => 'Настройки фильтра',
+        'Save filter settings as default' => 'Сохранить настройки фильтра по умолчанию',
 
         # Template: AgentWindowTab
 
@@ -1510,7 +1511,7 @@ sub Data {
         'Database' => 'Имя БД',
         'Default Charset' => 'Кодировка по умолчанию',
         'utf8' => 'utf8',
-        'false' => '',
+        'false' => 'ложь',
         'SystemID' => 'Системный ID',
         '(The identify of the system. Each ticket number and each http session id starts with this number)' => '(ID системы. Каждый номер Заявки и каждая http сессия будет начинаться с этого числа)',
         'System FQDN' => 'Системное FQDN',
