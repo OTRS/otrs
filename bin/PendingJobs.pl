@@ -3,7 +3,7 @@
 # PendingJobs.pl - check pending tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PendingJobs.pl,v 1.41 2009-07-15 23:15:29 martin Exp $
+# $Id: PendingJobs.pl,v 1.42 2009-07-16 06:49:08 shb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.41 $) [1];
+$VERSION = qw($Revision: 1.42 $) [1];
 
 use Date::Pcalc qw(Day_of_Week Day_of_Week_Abbreviation);
 use Kernel::Config;
@@ -168,7 +168,7 @@ if (@PendingReminderStateIDs) {
             UserID   => 1,
         );
 
-        # check if bussines hours is, then send escalation info
+        # check if it is during bussines hours, then send escalation info
         my $CountedTime = $CommonObject{TimeObject}->WorkingTime(
             StartTime => $CommonObject{TimeObject}->SystemTime() - ( 30 * 60 ),
             StopTime => $CommonObject{TimeObject}->SystemTime(),
@@ -188,7 +188,7 @@ if (@PendingReminderStateIDs) {
 
         next TICKETID if $Ticket{UntilTime} >= 1;
 
-        # send reminder to ticket onwer if ticket is locked
+        # send the reminder to the ticket owner, if ticket is locked
         my @UserID;
         if (
             $CommonObject{ConfigObject}->Get('Ticket::PendingNotificationOnlyToOwner')
@@ -198,14 +198,14 @@ if (@PendingReminderStateIDs) {
             @UserID = ( $Ticket{OwnerID} );
         }
 
-        # send reminder to queue subscriber if ticket is unlocked
+        # send the reminder to all queue subscribers, if ticket is unlocked
         else {
             @UserID = $CommonObject{TicketObject}->GetSubscribedUserIDsByQueueID(
                 QueueID => $Ticket{QueueID},
             );
         }
 
-        # add responsible to notification list
+        # add the responsible agent to the notification list
         if ( !$CommonObject{ConfigObject}->Get('Ticket::PendingNotificationNotToResponsible' ) ) {
             if ( $CommonObject{ConfigObject}->Get('Ticket::Responsible') ) {
                 if ( $Ticket{ResponsibleID} ne 1 ) {
@@ -214,7 +214,7 @@ if (@PendingReminderStateIDs) {
             }
         }
 
-        # send reminder notification
+        # send the reminder notification
         print STDOUT " Send reminder notification (TicketID=$TicketID)\n";
 
         USERID:
@@ -225,7 +225,7 @@ if (@PendingReminderStateIDs) {
                 UserID => $UserID,
             );
 
-            # check if today a reminder is already sent
+            # check if a reminder has already been sent today
             my ( $Sec, $Min, $Hour, $Day, $Month, $Year )
                 = $CommonObject{TimeObject}->SystemTime2Date(
                 SystemTime => $CommonObject{TimeObject}->SystemTime(),
