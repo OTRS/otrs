@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.87 2009-07-16 06:10:53 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.88 2009-07-16 13:02:48 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.87 $) [1];
+$VERSION = qw($Revision: 1.88 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -540,7 +540,7 @@ sub Run {
                     $Error{"$Line invalid"}
                         .= "Can't send email ticket to "
                         . $Email->address()
-                        . "! It's a local address! Create a phone Tickets!";
+                        . "! It's a local address! Create a phone Ticket!";
                 }
             }
         }
@@ -1515,6 +1515,14 @@ sub _MaskEmailNew {
     if ( $Param{Errors} ) {
         for ( keys %{ $Param{Errors} } ) {
             $Param{$_} = '* ' . $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$_} );
+        }
+
+        # handle 'To invalid' error if AutoComlete is enabled
+        if ( $Param{'To invalid'} ) {
+            $Self->{LayoutObject}->Block(
+                Name => 'CustomerSearchAutoCompleteToInvalid',
+                Data => {%Param},
+            );
         }
     }
 

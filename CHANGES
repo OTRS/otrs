@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.930 2009-07-16 06:23:21 martin Exp $
+# $Id: CHANGES,v 1.931 2009-07-16 13:04:15 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,9 +10,12 @@
 # --
 
 2.4.0 beta6 (2009/07/??)
- - (2009/07/16) Fixed bug#3994 - It's possible to create an email ticket
+ - (2009/07/16) Fixed bug# 3993 - Error message about wrong email adress
+    not visible in AgentTicketPhone and AgentTicketEmail if AutoComplete
+    is enabled.
+ - (2009/07/16) Fixed bug# 3994 - It's possible to create an email ticket
     for internal queues.
- - (2009/07/15) Fixed bug#3663 - Responsible Notification does not happen
+ - (2009/07/15) Fixed bug# 3663 - Responsible Notification does not happen
     for pending reached.
     Added config optio to be compat. to old OTRS versions.
 
@@ -21,38 +24,38 @@
 
  - (2009/07/15) Updated Italian translation, thanks to Giordano Bianchi,
     Emiliano Coletti and Alessandro Faraldi!
- - (2009/07/14) Fixed bug#3983 - bin/PendingJobs.pl is not sendign reminder
+ - (2009/07/14) Fixed bug# 3983 - bin/PendingJobs.pl is not sendign reminder
     email (Error Message: Message: Need RecipientID!).
- - (2009/07/14) Fixed bug#3977 - Tags of auto responses get not replaced.
- - (2009/07/14) Fixed bug#3960 - Split function does not use RichText content
+ - (2009/07/14) Fixed bug# 3977 - Tags of auto responses get not replaced.
+ - (2009/07/14) Fixed bug# 3960 - Split function does not use RichText content
     from original article for new article.
- - (2009/07/14) Fixed bug#3976 - AgentTicketBounce does not work when
+ - (2009/07/14) Fixed bug# 3976 - AgentTicketBounce does not work when
     Frontend::RichText is disabled.
  - (2009/07/13) Updated Russian translation, thanks to Mike Lykov!
  - (2009/07/13) Updated Italian translation, thanks to Remo Catelotti!
- - (2009/07/13) Fixed bug#3975 - New Dashboard Featrue: SQL of Upcoming Events
+ - (2009/07/13) Fixed bug# 3975 - New Dashboard Featrue: SQL of Upcoming Events
     (for pending remidner time) is not using database index, index on
     until_time is missing. Use scripts/DBUpdate-to-2.4.*.sql for upgrading.
- - (2009/07/13) Fixed bug#3972 - Sub Kernel::System::TicketOwnerCheck() gives
+ - (2009/07/13) Fixed bug# 3972 - Sub Kernel::System::TicketOwnerCheck() gives
     wrong result if asked for different TicketIDs in one TicketObject.
  - (2009/07/13) Updated Persian translation, thanks to Amir Shams Parsa!
  - (2009/07/13) Updated Dutch translation, thanks to Michiel Beijen!
- - (2009/07/13) Fixed bug#3790 - POP3S doesn't fail when IO::Socket::SSL is not
+ - (2009/07/13) Fixed bug# 3790 - POP3S doesn't fail when IO::Socket::SSL is not
     installed or mail server address is wrong.
  - (2009/07/13) Improved dashboard api / module layer to load content changes
     via AJAX / no compiled dashboard reload is needed.
  - (2009/07/11) Added new dashboard backend to show online agent and customers.
  - (2009/07/11) Improved dashboard api / module layer (added Preferences() to
     API to get/modify config settings of backend at runtime).
- - (2009/07/11) Fixed bug#3967 - Unable to create notes by using GenericAgent
+ - (2009/07/11) Fixed bug# 3967 - Unable to create notes by using GenericAgent
     (Error: Need Charset!).
- - (2009/07/11) Fixed bug#3965 - New TicketOverview S/M/L feature: Last used
+ - (2009/07/11) Fixed bug# 3965 - New TicketOverview S/M/L feature: Last used
     ticket view mode get't only stored in current session but get lost after
     new relogin.
- - (2009/07/11) Fixed bug#3964 - Update script is not working correctly (Can't
+ - (2009/07/11) Fixed bug# 3964 - Update script is not working correctly (Can't
     call method "NotificationAdd" on an undefined value at
     scripts/DBUpdate-to-2.4.pl line 218).
- - (2009/07/11) Fixed bug#3963 - Upgrade script is not executable
+ - (2009/07/11) Fixed bug# 3963 - Upgrade script is not executable
     scripts/DBUpdate-to-2.4.pl.
 
 2.4.0 beta5 (2009/07/09)
