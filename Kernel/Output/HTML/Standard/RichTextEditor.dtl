@@ -2,7 +2,7 @@
 # RichTextEditor.dtl - provides the YUI Rich Text Editor
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: RichTextEditor.dtl,v 1.6 2009-07-16 06:21:19 martin Exp $
+# $Id: RichTextEditor.dtl,v 1.7 2009-07-16 08:19:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -60,7 +60,7 @@
                                 { text: 'Helvetica' },
                                 { text: 'Courier New' },
                                 { text: 'Lucida Console' },
-                                { text: 'Times New Roman' },
+                                { text: 'Times New Roman' }
                             ]
                         },
                         { type: 'spin', label: '13', value: 'fontsize', range: [ 9, 75 ], disabled: true }
