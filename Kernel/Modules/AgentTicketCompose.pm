@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.68 2009-07-15 09:33:31 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.69 2009-07-16 06:11:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -240,12 +240,11 @@ sub Run {
         );
 
         # check some values
-        for (qw(From To Cc Bcc)) {
-            if ( $GetParam{$_} ) {
-                for my $Email ( Mail::Address->parse( $GetParam{$_} ) ) {
-                    if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
-                        $Error{"$_ invalid"} .= $Self->{CheckItemObject}->CheckError();
-                    }
+        for my $Line (qw(From To Cc Bcc)) {
+            next if !$GetParam{$Line};
+            for my $Email ( Mail::Address->parse( $GetParam{$Line} ) ) {
+                if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
+                    $Error{"$Line invalid"} .= $Self->{CheckItemObject}->CheckError();
                 }
             }
         }
@@ -835,12 +834,11 @@ $QData{"Signature"}<br/>
         );
 
         # check some values
-        for (qw(From To Cc Bcc)) {
-            if ( $Data{$_} ) {
-                for my $Email ( Mail::Address->parse( $Data{$_} ) ) {
-                    if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
-                        $Error{"$_ invalid"} .= $Self->{CheckItemObject}->CheckError();
-                    }
+        for my $Line (qw(From To Cc Bcc)) {
+            next if !$Data{$Line};
+            for my $Email ( Mail::Address->parse( $Data{$Line} ) ) {
+                if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
+                    $Error{"$Line invalid"} .= $Self->{CheckItemObject}->CheckError();
                 }
             }
         }

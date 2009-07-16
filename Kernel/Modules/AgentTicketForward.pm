@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.44 2009-07-15 09:33:31 martin Exp $
+# $Id: AgentTicketForward.pm,v 1.45 2009-07-16 06:11:20 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -544,12 +544,11 @@ sub SendEmail {
     );
 
     # check some values
-    for (qw(From To Cc Bcc)) {
-        if ( $GetParam{$_} ) {
-            for my $Email ( Mail::Address->parse( $GetParam{$_} ) ) {
-                if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
-                    $Error{"$_ invalid"} .= $Self->{CheckItemObject}->CheckError();
-                }
+    for my $Line (qw(From To Cc Bcc)) {
+        next if !$GetParam{$Line};
+        for my $Email ( Mail::Address->parse( $GetParam{$Line} ) ) {
+            if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
+                $Error{"$Line invalid"} .= $Self->{CheckItemObject}->CheckError();
             }
         }
     }
@@ -609,23 +608,20 @@ sub SendEmail {
     my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate( Ticket => \%GetParam, );
 
     # check some values
-    for (qw(To Cc Bcc)) {
-        if ( $GetParam{$_} ) {
-            for my $Email ( Mail::Address->parse( $GetParam{$_} ) ) {
-                if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
-                    $Error{"$_ invalid"} .= $Self->{CheckItemObject}->CheckError();
-                }
-                if (
-                    $Self->{SystemAddress}->SystemAddressIsLocalAddress(
-                        Address => $Email->address()
-                    )
-                    )
-                {
-                    $Error{"$_ invalid"}
-                        .= "Can't forward ticket to "
-                        . $Email->address()
-                        . "! It's a local address! Move it Tickets!";
-                }
+    for my $Line (qw(To Cc Bcc)) {
+        next if !$GetParam{$Line};
+        for my $Email ( Mail::Address->parse( $GetParam{$Line} ) ) {
+            if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
+                $Error{"$Line invalid"} .= $Self->{CheckItemObject}->CheckError();
+            }
+            my $IsLocal = $Self->{SystemAddress}->SystemAddressIsLocalAddress(
+                Address => $Email->address()
+            );
+            if ($IsLocal) {
+                $Error{"$Line invalid"}
+                    .= "Can't forward ticket to "
+                    . $Email->address()
+                    . "! It's a local address! Move this Tickets!";
             }
         }
     }
