@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.86 2009-07-15 09:33:31 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.87 2009-07-16 06:10:53 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.86 $) [1];
+$VERSION = qw($Revision: 1.87 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -527,12 +527,20 @@ sub Run {
         }
 
         # check some values
-        for (qw(To Cc Bcc)) {
-            if ( $GetParam{$_} ) {
-                for my $Email ( Mail::Address->parse( $GetParam{$_} ) ) {
-                    if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
-                        $Error{"$_ invalid"} .= $Self->{CheckItemObject}->CheckError();
-                    }
+        for my $Line (qw(To Cc Bcc)) {
+            next if !$GetParam{$Line};
+            for my $Email ( Mail::Address->parse( $GetParam{$Line} ) ) {
+                if ( !$Self->{CheckItemObject}->CheckEmail( Address => $Email->address() ) ) {
+                    $Error{"$Line invalid"} .= $Self->{CheckItemObject}->CheckError();
+                }
+                my $IsLocal = $Self->{SystemAddress}->SystemAddressIsLocalAddress(
+                    Address => $Email->address()
+                );
+                if ($IsLocal) {
+                    $Error{"$Line invalid"}
+                        .= "Can't send email ticket to "
+                        . $Email->address()
+                        . "! It's a local address! Create a phone Tickets!";
                 }
             }
         }
