@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.18 2009-07-14 13:36:23 martin Exp $
+# $Id: TemplateGenerator.pm,v 1.19 2009-07-17 09:09:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Notification;
 use Kernel::System::AutoResponse;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 =head1 NAME
 
@@ -552,6 +552,14 @@ sub AutoResponse {
     $AutoResponse{SenderAddress}  = $Address{Email};
     $AutoResponse{SenderRealname} = $Address{RealName};
 
+    # verify to be full html document
+    if ( $Self->{RichText} ) {
+        $AutoResponse{Text} = $Self->{HTML2AsciiObject}->DocumentComplete(
+            Charset => $AutoResponse{Charset},
+            String  => $AutoResponse{Text},
+        );
+    }
+
     return %AutoResponse;
 }
 
@@ -694,6 +702,14 @@ sub NotificationAgent {
         Subject      => $Notification{Subject} || '',
         Type         => 'New',
     );
+
+    # verify to be full html document
+    if ( $Self->{RichText} ) {
+        $Notification{Body} = $Self->{HTML2AsciiObject}->DocumentComplete(
+            Charset => $Notification{Charset},
+            String  => $Notification{Body},
+        );
+    }
 
     return %Notification;
 }
@@ -1014,6 +1030,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.18 $ $Date: 2009-07-14 13:36:23 $
+$Revision: 1.19 $ $Date: 2009-07-17 09:09:39 $
 
 =cut
