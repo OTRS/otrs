@@ -2,7 +2,7 @@
 # HTML2Ascii.t - HTML2Ascii tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: HTML2Ascii.t,v 1.5 2009-07-17 08:48:13 martin Exp $
+# $Id: HTML2Ascii.t,v 1.6 2009-07-17 12:29:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -41,9 +41,31 @@ More Text',
         Name   => 'ToAscii - simple'
     },
     {
+        Input  => '<b>Some Text</b><br  type="_moz" />More Text',
+        Result => 'Some Text
+More Text',
+        Name   => 'ToAscii - simple'
+    },
+    {
         Input  => '<b>Some Text</b><br />More <i>Text</i>',
         Result => 'Some Text
 More Text',
+        Name   => 'ToAscii - simple'
+    },
+    {
+        Input  => '<div>Martin,</div>
+<div>&nbsp;</div>
+<div>I am lost. <b>Martin</b> says that...</div>
+<div>&nbsp;</div>
+<div>--Shawn</div>
+<div>&nbsp;</div>',
+        Result => 'Martin,
+ ' . chr(160) . '
+ I am lost. Martin says that...
+ ' . chr(160) . '
+ --Shawn
+ ' . chr(160) . '
+',
         Name   => 'ToAscii - simple'
     },
     {
@@ -111,10 +133,10 @@ for my $Test (@Tests) {
 <BODY style="FONT-SIZE: 12px; FONT-FAMILY: Courier New,monospace,fixed">
 <DIV><SPAN class=678193704-17072009><FONT size=3><SPAN class=monospace>hm there is something
 wrong....</SPAN></FONT></SPAN></DIV></BODY></HTML>',
-        Result => '
-
+        Result => "
+\n
 <DIV><SPAN class=678193704-17072009><FONT size=3><SPAN class=monospace>hm there is something
-wrong....</SPAN></FONT></SPAN></DIV>',
+wrong....</SPAN></FONT></SPAN></DIV>",
         Name   => 'DocumentStrip - MSHTML'
     },
     {
@@ -173,17 +195,17 @@ style=\'font-size:12.0pt;font-family:"Courier New"\'>Hello, <br>
 
 </html>
 ',
-        Result => '
-
+        Result => "
+\n\n\n\n
 <div class=Section1>
 
-<p class=MsoNormal><font size=3 face="Courier New"><span lang=EN-GB
-style=\'font-size:12.0pt;font-family:"Courier New"\'>Hello, <br>
+<p class=MsoNormal><font size=3 face=\"Courier New\"><span lang=EN-GB
+style='font-size:12.0pt;font-family:\"Courier New\"'>Hello, <br>
 </span></font></p>
 
 </div>
-
-',
+\n\n\n
+",
         Name   => 'DocumentStrip - Generator - Microsoft Word 10 (filtered)'
     },
 );
