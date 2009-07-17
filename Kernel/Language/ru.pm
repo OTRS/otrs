@@ -5,7 +5,7 @@
 # Copyright (C) 2008-2009 Egor Tsilenko <bg8s at symlink.ru>
 # Copyright (C) 2009 Andrey Cherepanov <cas at altlinux.ru>
 # --
-# $Id: ru.pm,v 1.85 2009-07-17 15:54:57 martin Exp $
+# $Id: ru.pm,v 1.86 2009-07-17 16:04:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,13 +18,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.85 $) [1];
+$VERSION = qw($Revision: 1.86 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Sat Jun 27 13:55:38 2009
+    # Last translation file sync: Fri Jul 17 17:59:25 2009
 
     # possible charsets
     $Self->{Charset} = ['cp1251', 'Windows-1251', ];
@@ -119,6 +119,7 @@ sub Data {
         'Hit' => 'Попадание',
         'Hits' => 'Попадания',
         'Text' => 'Текст',
+        'Standard' => '',
         'Lite' => 'Облегченный',
         'User' => 'Пользователь',
         'Username' => 'Имя пользователя',
@@ -281,8 +282,11 @@ sub Data {
         'For more info see:' => 'Дополнительная информация находится по адресу:',
         'Package verification failed!' => 'Ошибка проверки целостности пакета',
         'Collapse' => 'Свернуть',
+        'Shown' => '',
         'News' => 'Новости',
         'Product News' => 'Новости о продукте',
+        'OTRS News' => '',
+        '7 Day Stats' => '',
         'Bold' => 'Полужирный',
         'Italic' => 'Курсив',
         'Underline' => 'Подчеркнутый',
@@ -1010,7 +1014,8 @@ sub Data {
 
         # Template: AdminSelectBoxForm
         'SQL Box' => 'Запрос SQL',
-        'Go' => 'Выполнить',
+        'CSV' => '',
+        'HTML' => '',
         'Select Box Result' => 'Выберите из меню',
 
         # Template: AdminService
@@ -1138,9 +1143,11 @@ sub Data {
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => 'Опубликовано %s',
 
-        # Template: AgentDashboardTicketOverview
+        # Template: AgentDashboardTicketGeneric
 
         # Template: AgentDashboardTicketStats
+
+        # Template: AgentDashboardUserOnline
 
         # Template: AgentInfo
         'Info' => 'Информация',
@@ -1556,13 +1563,13 @@ sub Data {
 
         # Template: Redirect
 
+        # Template: RichTextEditor
+
         # Template: Test
         'OTRS Test Page' => 'Тестовая страница OTRS',
         'Counter' => 'Счетчик',
 
         # Template: Warning
-
-        # Template: YUI
 
         # Misc
         'Edit Article' => 'Редактировать заявку',
@@ -1575,20 +1582,20 @@ sub Data {
         'Site' => 'Место',
         'Customer history search (e. g. "ID342425").' => 'Поиск по клиенту (например, «ID342425»).',
         'Can not delete link with %s!' => 'Невозможно удалить связь с «%s»!',
-        'Close!' => 'Закрыть!',
         'for agent firstname' => 'для агента — имя',
+        'Close!' => 'Закрыть!',
         'Subgroup \'' => 'Подгруппа \'',
         'No means, send agent and customer notifications on changes.' => '«Нет» — отправлять уведомления агентам и клиентам при изменениях',
         'A web calendar' => 'Календарь',
         'to get the realname of the sender (if given)' => 'получить (если есть) имя отправителя',
         'Notification (Customer)' => 'Уведомление клиенту',
-        'Involved' => 'Привлечение',
         'Select Source (for add)' => 'Выбор источника',
+        'Involved' => 'Привлечение',
         'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => 'Поля заявки (например, &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)',
         'Child-Object' => 'Объект-потомок',
         'Days' => 'Дни',
-        'Queue ID' => 'ID очереди',
         'Locked tickets' => 'Заблокированные заявки',
+        'Queue ID' => 'ID очереди',
         'System History' => 'История',
         'customer realname' => 'Имя клиента',
         'Pending messages' => 'Сообщения в ожидании',
@@ -1609,6 +1616,7 @@ sub Data {
         'Stat#' => 'Отчет№',
         'Create new database' => 'Создать новую базы данных',
         'ArticleID' => 'ID заметки',
+        'Go' => 'Выполнить',
         'Keywords' => 'Ключевые слова',
         'Ticket Escalation View' => 'Вид эскалации заявки',
         'Today' => 'Сегодня',
@@ -1644,11 +1652,11 @@ sub Data {
         'Parent-Object' => 'Объект-родитель',
         'Of couse this feature will take some system performance it self!' => 'Данная функция использует системные ресурсы!',
         'Ticket Hook' => 'Выбор заявки',
-        'Detail' => 'Подробно',
         'Your own Ticket' => 'Ваша собственная заявка',
+        'Detail' => 'Подробно',
         'TicketZoom' => 'Просмотр заявки',
-        'Don\'t forget to add a new user to groups!' => 'Не забудьте добавить нового пользователя в группы!',
         'Open Tickets' => 'Открытые заявки',
+        'Don\'t forget to add a new user to groups!' => 'Не забудьте добавить нового пользователя в группы!',
         'CreateTicket' => 'Создание заявки',
         'You have to select two or more attributes from the select field!' => 'Вам необходимо выбрать два или более пунктов из выбранного поля!',
         'System Settings' => 'Системные параметры',
@@ -1682,8 +1690,8 @@ sub Data {
         'send' => 'Отправить',
         'Send no notifications' => 'Не отправлять уведомления',
         'Note Text' => 'Текст заметки',
-        'POP3 Account Management' => 'Управление учетной записью POP3',
         '3 Month' => '3 месяца',
+        'POP3 Account Management' => 'Управление учетной записью POP3',
         'Options of the current customer user data (e. g. &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)' => 'Поля информации о клиенте (например, &lt;OTRS_CUSTOMER_DATA_USERFIRSTNAME&gt;)',
         'Jule' => 'Июль',
         'System State Management' => 'Управление системными состояниями',
@@ -1693,8 +1701,8 @@ sub Data {
         'TicketID' => 'ID заявки',
         'Mart' => 'Март',
         'Escaladed Tickets' => 'Эскалированные заявки',
-        'Change setting' => 'Изменить параметры',
         'Yes means, send no agent and customer notifications on changes.' => '«Да» — не отправлять уведомления агентам и клиентам при изменениях.',
+        'Change setting' => 'Изменить параметры',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => 'Ваше письмо с номером заявки "<OTRS_TICKET>" отвергнут и переслан по адресу "<OTRS_BOUNCE_TO>". Пожалуйста, свяжитесь по этому адресу для выяснения причин. ',
         'Ticket Status View' => 'Просмотр статуса заявки',
         'Modified' => 'Изменено',
