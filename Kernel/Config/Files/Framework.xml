@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1" ?>
 <otrs_config version="1.0" init="Framework">
-    <CVS>$Id: Framework.xml,v 1.230 2009-07-15 22:24:38 martin Exp $</CVS>
+    <CVS>$Id: Framework.xml,v 1.231 2009-07-17 15:02:09 shb Exp $</CVS>
     <ConfigItem Name="SecureMode" Required="1" Valid="1">
         <Description Lang="en">If enabled, the web installer (http://yourhost.example.com/otrs/installer.pl) can't be used. This setting should be set to "Yes" to prevent your system from being hijacked. If set to "No", you can reinstall your system. Your current basic configuration will be used to pre-populate the questions within the installer script. Also disables if not active, the GenericAgent, PackageManager and SQL Box, since it's possible to use it for destructive write queries such as DROP DATABASE, and also to steal user passwords.</Description>
         <Description Lang="de">Wird diese Option aktiviert, kann der Web-Installer (installer.pl) nicht genutzt werden. Auch deaktiviert sind der GenericAgent, der PackageManager und die SQL Box im Admin-Interface, bis diese Einstellung aktiviert wurde.</Description>
@@ -3786,7 +3786,7 @@ Your OTRS Notification Master
             <String Regex="">radiussecret</String>
         </Setting>
     </ConfigItem>
-    <ConfigItem Name="Customer::AuthModule::Radios::Die" Required="0" Valid="1">
+    <ConfigItem Name="Customer::AuthModule::Radius::Die" Required="0" Valid="1">
         <Description Lang="en">If "Radius" was selected for Customer::AuthModule, you can specify if the applications will stop if e. g. a server can't connected (e. g. network problems).</Description>
         <Description Lang="de">Wenn "Radius" als Customer::AuthModule ausgewählt wurde, kann hier definiert werden ob die Anwendung abbricht wenn z. B. ein Server nicht erreichbar ist (z. B. Netzwerk-Probleme).</Description>
         <Group>Framework</Group>
