@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardRSS.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardRSS.pm,v 1.10 2009-07-13 23:23:53 martin Exp $
+# $Id: DashboardRSS.pm,v 1.11 2009-07-17 15:51:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use XML::FeedPP;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -54,6 +54,13 @@ sub Config {
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
+    # set proxy settings can't use Kernel::System::WebAgent because of used
+    # XML::FeedPP to get RSS files
+    my $Proxy = $Self->{ConfigObject}->Get('WebUserAgent::Proxy');
+    if ($Proxy) {
+        $ENV{CGI_HTTP_PROXY} = $Proxy;
+    }
 
     # get content
     my $Feed = eval { XML::FeedPP->new( $Self->{Config}->{URL} ) };
