@@ -2,7 +2,7 @@
 # Kernel/System/AutoResponse.pm - lib for auto responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AutoResponse.pm,v 1.33 2009-06-25 23:02:11 martin Exp $
+# $Id: AutoResponse.pm,v 1.34 2009-07-17 07:56:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::SystemAddress;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 =head1 NAME
 
@@ -80,7 +80,7 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    for (qw(ConfigObject LogObject DBObject)) {
+    for (qw(ConfigObject LogObject DBObject EncodeObject)) {
         if ( $Param{$_} ) {
             $Self->{$_} = $Param{$_};
         }
@@ -187,6 +187,30 @@ sub AutoResponseGet {
 
     my %Data;
     if ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+
+        # convert to internal charset e. g. utf8
+        if ( $Self->{EncodeObject}->EncodeInternalUsed() ) {
+
+            # convert body
+            $Data[3] = $Self->{EncodeObject}->Convert(
+                Text  => $Data[3],
+                From  => $Data[7],
+                To    => $Self->{EncodeObject}->EncodeInternalUsed(),
+                Force => 1,
+            );
+
+            # convert subject
+            $Data[4] = $Self->{EncodeObject}->Convert(
+                Text  => $Data[4],
+                From  => $Data[7],
+                To    => $Self->{EncodeObject}->EncodeInternalUsed(),
+                Force => 1,
+            );
+
+            # set new charset
+            $Data[7] = $Self->{EncodeObject}->EncodeInternalUsed();
+        }
+
         %Data = (
             ID          => $Param{ID},
             Name        => $Data[0],
@@ -404,6 +428,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.33 $ $Date: 2009-06-25 23:02:11 $
+$Revision: 1.34 $ $Date: 2009-07-17 07:56:56 $
 
 =cut

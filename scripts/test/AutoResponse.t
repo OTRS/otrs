@@ -2,7 +2,7 @@
 # AutoResponse.t - AutoResponse tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AutoResponse.t,v 1.4 2009-03-11 23:26:05 sb Exp $
+# $Id: AutoResponse.t,v 1.5 2009-07-17 07:56:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -75,11 +75,22 @@ $Self->Is(
     'Some Comment',
     'AutoResponseGet() - Comment',
 );
-$Self->Is(
-    $AutoResponse{Charset} || '',
-    'iso-8859-1',
-    'AutoResponseGet() - Charset',
-);
+
+# check return charset based on system wide utf8 or not
+if ( $Self->{EncodeObject}->EncodeInternalUsed() ) {
+    $Self->Is(
+        $AutoResponse{Charset} || '',
+        'utf-8',
+        'AutoResponseGet() - Charset',
+    );
+}
+else {
+    $Self->Is(
+        $AutoResponse{Charset} || '',
+        'iso-8859-1',
+        'AutoResponseGet() - Charset',
+    );
+}
 $Self->Is(
     $AutoResponse{ContentType} || '',
     'text/plain',
@@ -153,11 +164,22 @@ $Self->Is(
     'Some Comment1',
     'AutoResponseGet() - Comment',
 );
-$Self->Is(
-    $AutoResponse{Charset} || '',
-    'utf8',
-    'AutoResponseGet() - Charset',
-);
+
+# check return charset based on system wide utf8 or not
+if ( $Self->{EncodeObject}->EncodeInternalUsed() ) {
+    $Self->Is(
+        $AutoResponse{Charset} || '',
+        'utf-8',
+        'AutoResponseGet() - Charset',
+    );
+}
+else {
+    $Self->Is(
+        $AutoResponse{Charset} || '',
+        'utf8',
+        'AutoResponseGet() - Charset',
+    );
+}
 $Self->Is(
     $AutoResponse{ContentType} || '',
     'text/html',
