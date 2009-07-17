@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.20 2009-07-17 10:07:48 martin Exp $
+# $Id: TemplateGenerator.pm,v 1.21 2009-07-17 12:34:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Notification;
 use Kernel::System::AutoResponse;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 =head1 NAME
 
@@ -496,10 +496,10 @@ sub AutoResponse {
         chomp $Param{OrigHeader}->{$_};
     }
 
-    # format body
+    # format body (only if longer the 90 chars)
     if ( $Param{OrigHeader}->{Body} ) {
-        if ( length $Param{OrigHeader}->{Body} > 72 ) {
-            $Param{OrigHeader}->{Body} =~ s/(^>.+|.{4,72})(?:\s|\z)/$1\n/gm;
+        if ( length $Param{OrigHeader}->{Body} > 90 ) {
+            $Param{OrigHeader}->{Body} =~ s/(^>.+|.{4,90})(?:\s|\z)/$1\n/gm;
         }
     }
 
@@ -623,10 +623,10 @@ sub NotificationAgent {
         chomp $Param{CustomerMessageParams}->{$_};
     }
 
-    # format body
+    # format body (only if longer the 90 chars)
     if ( $Param{CustomerMessageParams}->{Body} ) {
-        if ( length $Param{CustomerMessageParams}->{Body} > 72 ) {
-            $Param{CustomerMessageParams}->{Body} =~ s/(^>.+|.{4,72})(?:\s|\z)/$1\n/gm;
+        if ( length $Param{CustomerMessageParams}->{Body} > 90 ) {
+            $Param{CustomerMessageParams}->{Body} =~ s/(^>.+|.{4,90})(?:\s|\z)/$1\n/gm;
         }
     }
 
@@ -921,6 +921,27 @@ sub _Replace {
     # get customer params and replace it with <OTRS_CUSTOMER_...
     $Tag = $Start . 'OTRS_CUSTOMER_';
     if ( $Param{Data} ) {
+
+        # replace <OTRS_CUSTOMER_BODY> tags
+        my $Tag = $Start . 'OTRS_CUSTOMER_BODY';
+        if ( $Param{Text} =~ /$Tag$End/g ) {
+            my $Line       = 2000;
+            my @Body       = split( /\n/, $Param{Data}->{Body} );
+            my $NewOldBody = '';
+            for ( my $i = 0; $i < $Line; $i++ ) {
+
+                if ( $#Body >= $i ) {
+                    $NewOldBody .= "$End $Body[$i]";
+                    if ( $i < ( $Line - 1 ) ) {
+                        $NewOldBody .= $NewLine;
+                    }
+                }
+            }
+            chomp $NewOldBody;
+            $Param{Text} =~ s/$Tag$End/$NewOldBody/g;
+        }
+
+        # replace <OTRS_CUSTOMER_*> tags
         for ( keys %{ $Param{Data} } ) {
             if ( defined $Param{Data}->{$_} ) {
                 $Param{Text} =~ s/$Tag$_$End/$Param{Data}->{$_}/gi;
@@ -937,7 +958,7 @@ sub _Replace {
         }
 
         # replace <OTRS_CUSTOMER_EMAIL[]> tags
-        my $Tag = $Start . 'OTRS_CUSTOMER_EMAIL';
+        $Tag = $Start . 'OTRS_CUSTOMER_EMAIL';
         if ( $Param{Text} =~ /$Tag\[(.+?)\]$End/g ) {
             my $Line       = $1;
             my @Body       = split( /\n/, $Param{Data}->{Body} );
@@ -1038,6 +1059,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.20 $ $Date: 2009-07-17 10:07:48 $
+$Revision: 1.21 $ $Date: 2009-07-17 12:34:33 $
 
 =cut
