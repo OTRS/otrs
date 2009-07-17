@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.19 2009-07-17 09:09:39 martin Exp $
+# $Id: TemplateGenerator.pm,v 1.20 2009-07-17 10:07:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Notification;
 use Kernel::System::AutoResponse;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 =head1 NAME
 
@@ -489,14 +489,18 @@ sub AutoResponse {
         TicketID => $Param{TicketID},
     );
 
-    # format body
-    $Article{Body} =~ s/(^>.+|.{4,72})(?:\s|\z)/$1\n/gm;
-
     for (qw(From To Cc Subject Body)) {
         if ( !$Param{OrigHeader}->{$_} ) {
             $Param{OrigHeader}->{$_} = $Article{$_} || '';
         }
         chomp $Param{OrigHeader}->{$_};
+    }
+
+    # format body
+    if ( $Param{OrigHeader}->{Body} ) {
+        if ( length $Param{OrigHeader}->{Body} > 72 ) {
+            $Param{OrigHeader}->{Body} =~ s/(^>.+|.{4,72})(?:\s|\z)/$1\n/gm;
+        }
     }
 
     # fill up required attributes
@@ -612,14 +616,18 @@ sub NotificationAgent {
     # get old article for quoteing
     my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle( TicketID => $Param{TicketID} );
 
-    # format body
-    $Article{Body} =~ s/(^>.+|.{4,72})(?:\s|\z)/$1\n/gm;
-
     for (qw(From To Cc Subject Body)) {
         if ( !$Param{CustomerMessageParams}->{$_} ) {
             $Param{CustomerMessageParams}->{$_} = $Article{$_} || '';
         }
         chomp $Param{CustomerMessageParams}->{$_};
+    }
+
+    # format body
+    if ( $Param{CustomerMessageParams}->{Body} ) {
+        if ( length $Param{CustomerMessageParams}->{Body} > 72 ) {
+            $Param{CustomerMessageParams}->{Body} =~ s/(^>.+|.{4,72})(?:\s|\z)/$1\n/gm;
+        }
     }
 
     # fill up required attributes
@@ -1030,6 +1038,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.19 $ $Date: 2009-07-17 09:09:39 $
+$Revision: 1.20 $ $Date: 2009-07-17 10:07:48 $
 
 =cut
