@@ -2,7 +2,7 @@
 # AgentDashboard.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.dtl,v 1.12 2009-07-13 23:23:53 martin Exp $
+# $Id: AgentDashboard.dtl,v 1.13 2009-07-17 23:02:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,8 @@
 $Include{"AJAX"}
 
 <script language="JavaScript" type="text/javascript">
-function Settings (Element1, Element2) {
+var OTRSDashboard = {};
+OTRSDashboard.Settings = function( Element1, Element2 ) {
     var Icon1 = document.getElementById(Element1);
     if ( !Icon1.style.display ) {
        Icon1.style.display = "none";
@@ -33,6 +34,24 @@ function Settings (Element1, Element2) {
     else {
         Icon2.style.display = "";
     }
+    return true;
+}
+
+OTRSDashboard.PreferencesUpdate = function( Name, FormName ) {
+    var ParamPart = '';
+    var Form      = document.forms[FormName];
+    for ( F = 0; F < Form.length; F++ ) {
+        if ( Form[F] ) {
+            var Param = Form[F].value;
+            var ParamEncode = encodeURIComponent(Param);
+            ParamPart = ParamPart + '&' + Form[F].name + '=' + ParamEncode;
+        }
+    }
+    var url = OTRS.ConfigGet('Baselink') + ParamPart;
+    var onLoaded = function() {
+        OTRSDashboard.Settings( Name + '-setting', Name );
+    };
+    AJAXContentUpdate( Name, url, false, onLoaded );
     return true;
 }
 </script>
@@ -61,7 +80,7 @@ function Settings (Element1, Element2) {
                       <td class="contenthead" title="$Text{"$QData{"Description"}"}">$Text{"$QData{"Title"}"}</td>
                       <td class="contenthead" align="right">
 <!-- dtl:block:ContentLargePreferences -->
-                        <a href="#" onclick="Settings('$QData{"Name"}-setting', '$QData{"Name"}'); return false;" title="$Text{"Settings"}"><img border="0" src="$Config{"Frontend::ImagePath"}edit-setting.png" alt="$Text{"Settings"}"/></a>
+                        <a href="#" onclick="OTRSDashboard.Settings('$QData{"Name"}-setting', '$QData{"Name"}'); return false;" title="$Text{"Settings"}"><img border="0" src="$Config{"Frontend::ImagePath"}edit-setting.png" alt="$Text{"Settings"}"/></a>
 <!-- dtl:block:ContentLargePreferences -->
                         <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=UpdateRemove&Name=$LQData{"Name"}" title="$Text{"Close"}"><img border="0" src="$Config{"Frontend::ImagePath"}close.png" alt="$Text{"Close"}"/></a>
                       </td>
@@ -71,7 +90,7 @@ function Settings (Element1, Element2) {
 
                         <div id="$QData{"Name"}-setting" style="display:none;">
 
-                        <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+                        <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="$QData{"NameForm"}_setting_form">
                           <input type="hidden" name="Action" value="$Env{"Action"}"/>
                           <input type="hidden" name="Subaction" value="UpdatePreferences"/>
                           <input type="hidden" name="Name" value="$QData{"Name"}"/>
@@ -90,8 +109,8 @@ function Settings (Element1, Element2) {
 <!-- dtl:block:ContentLargePreferencesItem -->
                             <tr>
                               <td colspan="2">
-                                <input class="button" type="submit" value="$Text{"Submit"}"/>
-                                <input class="button" type="submit" value="$Text{"Cancel"}" onclick="Settings('$QData{"Name"}-setting', '$QData{"Name"}'); return false;"/>
+                                <input class="button" type="submit" value="$Text{"Submit"}" onclick="OTRSDashboard.PreferencesUpdate('$QData{"Name"}','$QData{"NameForm"}_setting_form'); return false;"/>
+                                <input class="button" type="submit" value="$Text{"Cancel"}" onclick="OTRSDashboard.Settings('$QData{"Name"}-setting', '$QData{"NameForm"}'); return false;"/>
                               </td>
                             </tr>
                           </table>
@@ -186,7 +205,7 @@ function Settings (Element1, Element2) {
                       <td class="contenthead" title="$Text{"$QData{"Description"}"}">$Text{"$QData{"Title"}"}</td>
                       <td class="contenthead" align="right">
 <!-- dtl:block:ContentSmallPreferences -->
-                        <a href="#" onclick="Settings('$QData{"Name"}-setting', '$QData{"Name"}'); return false;" title="$Text{"Settings"}"><img border="0" src="$Config{"Frontend::ImagePath"}edit-setting.png" alt="$Text{"Settings"}"/></a>
+                        <a href="#" onclick="OTRSDashboard.Settings('$QData{"Name"}-setting', '$QData{"Name"}'); return false;" title="$Text{"Settings"}"><img border="0" src="$Config{"Frontend::ImagePath"}edit-setting.png" alt="$Text{"Settings"}"/></a>
 <!-- dtl:block:ContentSmallPreferences -->
                         <a href="$Env{"Baselink"}Action=$Env{"Action"}&Subaction=UpdateRemove&Name=$LQData{"Name"}" title="$Text{"Close"}"><img border="0" src="$Config{"Frontend::ImagePath"}close.png" alt="$Text{"Close"}"></a>
                       </td>
@@ -196,7 +215,7 @@ function Settings (Element1, Element2) {
 
                         <div id="$QData{"Name"}-setting" style="display:none;">
 
-                        <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
+                        <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data" name="$QData{"NameForm"}_setting_form">
                           <input type="hidden" name="Action" value="$Env{"Action"}"/>
                           <input type="hidden" name="Subaction" value="UpdatePreferences"/>
                           <input type="hidden" name="Name" value="$QData{"Name"}"/>
@@ -215,8 +234,8 @@ function Settings (Element1, Element2) {
 <!-- dtl:block:ContentSmallPreferencesItem -->
                             <tr>
                               <td colspan="2">
-                                <input class="button" type="submit" value="$Text{"Submit"}"/>
-                                <input class="button" type="submit" value="$Text{"Cancel"}" onclick="Settings('$QData{"Name"}-setting', '$QData{"Name"}'); return false;"/>
+                                <input class="button" type="submit" value="$Text{"Submit"}" onclick="OTRSDashboard.PreferencesUpdate('$QData{"Name"}','$QData{"NameForm"}_setting_form'); return false;"/>
+                                <input class="button" type="submit" value="$Text{"Cancel"}" onclick="OTRSDashboard.Settings('$QData{"Name"}-setting', '$QData{"NameForm"}'); return false;"/>
                               </td>
                             </tr>
                           </table>

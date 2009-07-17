@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentDashboard.pm - a global dashbard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.pm,v 1.12 2009-07-13 23:23:52 martin Exp $
+# $Id: AgentDashboard.pm,v 1.13 2009-07-17 23:02:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.12 $) [1];
+$VERSION = qw($Revision: 1.13 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -82,23 +82,26 @@ sub Run {
 
         my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' );
 
-        my %Element = $Self->_Element( Name => $Name, Configs => $Config );
-        if ( !%Element ) {
-            $Self->{LayoutObject}->FatalError(
-                Message => "No such $Name!",
-            );
-        }
-        if ( !$Element{Preferences} || !@{ $Element{Preferences} } ) {
+        # get preferences settings
+        my @PreferencesOnly = $Self->_Element(
+            Name            => $Name,
+            Configs         => $Config,
+            PreferencesOnly => 1,
+        );
+        if ( !@PreferencesOnly ) {
             $Self->{LayoutObject}->FatalError(
                 Message => "No preferences for $Name!",
             );
         }
 
         # remember preferences
-        for my $Param ( @{ $Element{Preferences} } ) {
+        for my $Param (@PreferencesOnly) {
 
             # get params
             my $Value = $Self->{ParamObject}->GetParam( Param => $Param->{Name} ) ;
+
+            # update runtime vars
+            $Self->{LayoutObject}->{ $Param->{Name} } = $Value;
 
             # update ssession
             $Self->{SessionObject}->UpdateSessionID(
@@ -117,9 +120,18 @@ sub Run {
             }
         }
 
-        # redirect
-        return $Self->{LayoutObject}->Redirect(
-            OP => "Action=$Self->{Action}"
+        # deliver new content page
+        my %ElementReload = $Self->_Element( Name => $Name, Configs => $Config );
+        if ( !%ElementReload ) {
+            $Self->{LayoutObject}->FatalError(
+                Message => "Can't get element data of $Name!",
+            );
+        }
+        return $Self->{LayoutObject}->Attachment(
+            ContentType => 'text/html',
+            Content     => ${ $ElementReload{Content} },
+            Type        => 'inline',
+            NoCache     => 1,
         );
     }
 
@@ -173,7 +185,8 @@ sub Run {
         return $Self->{LayoutObject}->Attachment(
             ContentType => 'text/html',
             Content     => ${ $Element{Content} },
-            Type        => 'inline'
+            Type        => 'inline',
+            NoCache     => 1,
         );
     }
 
@@ -197,7 +210,7 @@ sub Run {
         Data => {},
     );
 
-    # load settings
+    # get shown backends
     my %Backends;
     BACKEND:
     for my $Name ( sort keys %{$Config} ) {
@@ -221,8 +234,12 @@ sub Run {
         }
     }
 
-    # try every backend
+    # try every backend to load and execute it
     for my $Name ( sort keys %{$Config} ) {
+
+        # NameForm (to support IE, is not working with "-" in form names)
+        my $NameForm = $Name;
+        $NameForm =~ s/-//g;
 
         # get element data
         my %Element = $Self->_Element(
@@ -237,18 +254,20 @@ sub Run {
             Name => $Element{Config}->{Block},
             Data => {
                 %{ $Element{Config} },
-                Name    => $Name,
-                Content => ${ $Element{Content} },
+                Name     => $Name,
+                NameForm => $NameForm,
+                Content  => ${ $Element{Content} },
             },
         );
 
-        # settings link
+        # show settings link if preferences are available
         if ( $Element{Preferences} && @{ $Element{Preferences} } ) {
             $Self->{LayoutObject}->Block(
                 Name => $Element{Config}->{Block} . 'Preferences',
                 Data => {
                     %{ $Element{Config} },
-                    Name    => $Name,
+                    Name     => $Name,
+                    NameForm => $NameForm,
                 },
             );
             for my $Param ( @{ $Element{Preferences} } ) {
@@ -256,7 +275,8 @@ sub Run {
                     Name => $Element{Config}->{Block} . 'PreferencesItem',
                     Data => {
                         %{ $Element{Config} },
-                        Name    => $Name,
+                        Name     => $Name,
+                        NameForm => $NameForm,
                     },
                 );
                 if ( $Param->{Block} eq 'Option' ) {
@@ -271,7 +291,8 @@ sub Run {
                     Data => {
                         %{ $Element{Config} },
                         %{ $Param },
-                        Name    => $Name,
+                        Name     => $Name,
+                        NameForm => $NameForm,
                     },
                 );
             }
@@ -330,6 +351,7 @@ sub _Element {
 
     # get module preferences
     my @Preferences = $Object->Preferences();
+    return @Preferences if $Param{PreferencesOnly};
 
     # add backend to settings selection
     if ( $Backends ) {
@@ -348,35 +370,37 @@ sub _Element {
         return if !$Backends->{$Name};
     }
 
-    # check backends cache
+    # check backends cache (html page cache)
     my $Content;
     my $CacheKey = $Config{CacheKey};
-    if (!$CacheKey) {
+    if ( !$CacheKey ) {
         $CacheKey = $Name . '-' . $Self->{LayoutObject}->{UserLanguage};
     }
     if ( $Config{CacheTTL} ) {
-#        $Content = $Self->{CacheObject}->Get(
-#            Type => 'Dashboard',
-#            Key  => $CacheKey,
-#        );
+        $Content = $Self->{CacheObject}->Get(
+            Type => 'Dashboard',
+            Key  => $CacheKey,
+        );
     }
 
     # execute backends
+    my $CacheUsed = 1;
     if ( !defined $Content ) {
+        $CacheUsed = 0;
         $Content = $Object->Run();
     }
 
     # check if content should be shown
     return if !$Content;
 
-    # set cache
-    if ( $Config{CacheTTL} ) {
-#        $Self->{CacheObject}->Set(
-#            Type  => 'Dashboard',
-#            Key   => $CacheKey,
-#            Value => $Content,
-#            TTL   => $Config{CacheTTL} * 60,
-#        );
+    # set cache (html page cache)
+    if ( !$CacheUsed && $Config{CacheTTL} ) {
+        $Self->{CacheObject}->Set(
+            Type  => 'Dashboard',
+            Key   => $CacheKey,
+            Value => $Content,
+            TTL   => $Config{CacheTTL} * 60,
+        );
     }
 
     # return result

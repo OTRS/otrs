@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardUserOnline.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardUserOnline.pm,v 1.3 2009-07-13 23:23:53 martin Exp $
+# $Id: DashboardUserOnline.pm,v 1.4 2009-07-17 23:02:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::AuthSession;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -100,7 +100,11 @@ sub Config {
 
     return (
         %{ $Self->{Config} },
+
+        # remember, do not allow to use page cache
+        # (it's not working because of internal filter)
         CacheKey => undef,
+        CacheTTL => undef,
     );
 }
 
@@ -118,7 +122,9 @@ sub Run {
     );
 
     # get session info
+    my $CacheUsed = 1;
     if ( !$Online ) {
+        $CacheUsed = 0;
         $Online = {
             User => {
                 Agent    => {},
@@ -157,12 +163,12 @@ sub Run {
     }
 
     # set cache
-    if ( $Self->{Config}->{CacheTTL} ) {
+    if ( !$CacheUsed && $Self->{Config}->{CacheTTLLocal} ) {
         $Self->{CacheObject}->Set(
             Type  => 'Dashboard',
             Key   => $Self->{Name},
             Value => $Online,
-            TTL   => $Self->{Config}->{CacheTTL} * 60,
+            TTL   => $Self->{Config}->{CacheTTLLocal} * 60,
         );
     }
 
