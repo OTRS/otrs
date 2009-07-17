@@ -2,7 +2,7 @@
 # Kernel/System/HTML2Ascii.pm - the global html <-> ascii tools
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: HTML2Ascii.pm,v 1.11 2009-07-15 21:18:40 martin Exp $
+# $Id: HTML2Ascii.pm,v 1.12 2009-07-17 08:48:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.11 $) [1];
+$VERSION = qw($Revision: 1.12 $) [1];
 
 =head1 NAME
 
@@ -513,7 +513,7 @@ sub ToHTML {
     return $Param{String};
 }
 
-=item DocumentComplete ()
+=item DocumentComplete()
 
 check and e. g. add <html> and <body> tags to given html string
 
@@ -546,6 +546,35 @@ sub DocumentComplete {
     return $Body;
 }
 
+=item DocumentStrip()
+
+remove html document tags from sting
+
+    my $HTMLString = $HTML2AsciiObject->DocumentStrip(
+        String  => $String,
+    );
+
+=cut
+
+sub DocumentStrip {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(String)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    $Param{String} =~ s/^<\!DOCTYPE\sHTML\sPUBLIC.+?>//gi;
+    $Param{String} =~ s/<head>.+?<\/head>//gsi;
+    $Param{String} =~ s/<(html|body)(.+?|)>//gi;
+    $Param{String} =~ s/<\/(html|body)>//gi;
+
+    return $Param{String};
+}
+
 1;
 
 =back
@@ -560,6 +589,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.11 $ $Date: 2009-07-15 21:18:40 $
+$Revision: 1.12 $ $Date: 2009-07-17 08:48:13 $
 
 =cut
