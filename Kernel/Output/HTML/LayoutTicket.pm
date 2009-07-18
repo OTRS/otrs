@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.44 2009-07-18 09:19:07 martin Exp $
+# $Id: LayoutTicket.pm,v 1.45 2009-07-18 15:37:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.44 $) [1];
+$VERSION = qw($Revision: 1.45 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -686,23 +686,30 @@ sub ArticleQuote {
         );
         ARTICLE:
         for my $ArticleTmp (@ArticleBox) {
+
+            # search for article to answer
             next ARTICLE if $ArticleTmp->{ArticleID} ne $Param{ArticleID};
-            last ARTICLE if !$ArticleTmp->{BodyHTML};
+
+            # check if no html body exists
+            last ARTICLE if !$ArticleTmp->{AttachmentIDOfHTMLBody};
 
             my %AttachmentHTML = $Self->{TicketObject}->ArticleAttachment(
                 ArticleID => $ArticleTmp->{ArticleID},
-                FileID    => $ArticleTmp->{BodyHTML},
+                FileID    => $ArticleTmp->{AttachmentIDOfHTMLBody},
             );
             my $Charset = $AttachmentHTML{ContentType};
             $Charset =~ s/.+?charset=("|'|)(\w+)/$2/gi;
             $Charset =~ s/"|'//g;
             $Charset =~ s/(.+?);.*/$1/g;
+
+            # convert html body to correct charset
             $Body = $Self->{EncodeObject}->Convert(
                 Text => $AttachmentHTML{Content},
                 From => $Charset,
                 To   => $Self->{UserCharset},
             );
 
+            # strip head, body and meta elements
             $Body = $Self->{HTMLUtilsObject}->DocumentStrip(
                 String => $Body,
             );
