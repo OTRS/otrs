@@ -2,7 +2,7 @@
 // otrs.js - provides AJAX functions
 // Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: otrs.js,v 1.3 2009-07-13 05:09:46 martin Exp $
+// $Id: otrs.js,v 1.4 2009-07-18 00:19:16 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -22,16 +22,12 @@ OTRS.ConfigSet = function (Key, Value) {
 };
 
 // update content element
-function AJAXContentUpdate(Element, url) {
+function AJAXContentUpdate(Element, url, OnLoad, OnLoaded ) {
     new Ajax.Request(url,
         {
             method:'get',
-            onLoading: function() {
-//               AJAXLoadingImage('Load', Update);
-            },
-            onLoaded: function() {
-//               AJAXLoadingImage('Unload', Update);
-            },
+            onLoading: OnLoad,
+            onLoaded:  OnLoaded,
             onSuccess: function(transport) {
                 var Response = transport.responseText;
                 if (!Response) {
