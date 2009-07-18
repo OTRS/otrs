@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketAttachment.pm - to get the attachments
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketAttachment.pm,v 1.13 2009-07-18 15:19:33 martin Exp $
+# $Id: CustomerTicketAttachment.pm,v 1.14 2009-07-18 15:23:03 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -119,6 +119,11 @@ sub Run {
         # it was a binary attachment)
         $Self->{EncodeObject}->Encode( \$Data{Content} );
 
+        # add html links
+        $Data{Content} = $Self->{LayoutObject}->HTMLLinkQuote(
+            Text => $Data{Content},
+        );
+
         # replace links to inline images in html content
         my %AtmBox = $Self->{TicketObject}->ArticleAttachmentIndex(
             ArticleID => $Self->{ArticleID},
@@ -130,7 +135,7 @@ sub Run {
             $SessionID = '&' . $Self->{SessionName} . '=' . $Self->{SessionID};
         }
         my $AttachmentLink = $Self->{LayoutObject}->{Baselink}
-            . 'Action=CustomerTicketAttachment'
+            . 'Action=CustomerTicketAttachment&Subaction=HTMLView'
             . '&ArticleID='
             . $Self->{ArticleID}
             . $SessionID

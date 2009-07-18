@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.149 2009-07-18 09:19:07 martin Exp $
+# $Id: Layout.pm,v 1.150 2009-07-18 15:19:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.149 $) [1];
+$VERSION = qw($Revision: 1.150 $) [1];
 
 =head1 NAME
 
@@ -1659,6 +1659,12 @@ convert ascii to html string
         LinkFeature     => 0,        # do some URL detections
     );
 
+also string ref is possible
+
+    my $HTMLStringRef = $LayoutObject->Ascii2Html(
+        Text            => \$Sting,
+    );
+
 =cut
 
 sub Ascii2Html {
@@ -1684,7 +1690,7 @@ sub Ascii2Html {
         $Text = $Param{Text};
     }
 
-    my @Filters = ();
+    my @Filters;
     if ( $Param{LinkFeature} && $Self->{FilterText} ) {
         my %Filters = %{ $Self->{FilterText} };
         for my $Filter ( sort keys %Filters ) {
@@ -1791,6 +1797,12 @@ so some URL link detections
         Text => $HTMLWithOutLinks,
     );
 
+also string ref is possible
+
+    my $HTMLWithLinksRef = $LayoutObject->LinkQuote(
+        Text => \$HTMLWithOutLinksRef,
+    );
+
 =cut
 
 sub LinkQuote {
@@ -1806,7 +1818,7 @@ sub LinkQuote {
         $Text       = \$TextScalar;
     }
 
-    my @Filters = ();
+    my @Filters;
     if ( $Self->{FilterText} ) {
         my %Filters = %{ $Self->{FilterText} };
         for my $Filter ( sort keys %Filters ) {
@@ -1815,7 +1827,7 @@ sub LinkQuote {
 
                 # run module
                 if ($Object) {
-                    push( @Filters, { Object => $Object, Filter => $Filters{$Filter} } );
+                    push @Filters, { Object => $Object, Filter => $Filters{$Filter} };
                 }
             }
             else {
@@ -1832,6 +1844,64 @@ sub LinkQuote {
 
     # do mail to quote
     ${$Text} =~ s/(mailto:.*?)(\.\s|\s|\)|\"|]|')/<a href=\"$1\">$1<\/a>$2/gi;
+
+    # check ref && return result like called
+    if ($TextScalar) {
+        return ${$Text};
+    }
+    else {
+        return $Text;
+    }
+}
+
+=item HTMLLinkQuote()
+
+so some URL link detections in HTML code
+
+    my $HTMLWithLinks = $LayoutObject->HTMLLinkQuote(
+        Text => $HTMLWithOutLinks,
+    );
+
+also string ref is possible
+
+    my $HTMLWithLinksRef = $LayoutObject->HTMLLinkQuote(
+        Text => \$HTMLWithOutLinksRef,
+    );
+
+=cut
+
+sub HTMLLinkQuote {
+    my ( $Self, %Param ) = @_;
+
+    my $Text   = $Param{Text}   || '';
+    my $Target = $Param{Target} || 'NewPage' . int( rand(199) );
+
+    # check ref
+    my $TextScalar;
+    if ( !ref $Text ) {
+        $TextScalar = $Text;
+        $Text       = \$TextScalar;
+    }
+
+    # add target to already existing url of html string
+    ${ $Text }  =~ s{
+        (<a\s{1,5})(.+?)>
+    }
+    {
+        my $Start = $1;
+        my $Value = $2;
+        if ( $Value !~ /href=/i || $Value =~ /target=/i ) {
+            "$Start$Value>";
+        }
+        else {
+            "$Start$Value target=\"$Target\">";
+        }
+    }egx;
+
+    # add <a href="" to not already linked url's in html
+#    ${ $Text } = $Self->LinkQuote(
+#        Text => ${ $Text },
+#    );
 
     # check ref && return result like called
     if ($TextScalar) {
@@ -4126,6 +4196,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.149 $ $Date: 2009-07-18 09:19:07 $
+$Revision: 1.150 $ $Date: 2009-07-18 15:19:33 $
 
 =cut

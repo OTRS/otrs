@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.23 2009-04-05 21:28:26 mh Exp $
+# $Id: Layout.t,v 1.24 2009-07-18 15:19:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -55,9 +55,11 @@ $Self->{TicketObject} = Kernel::System::Ticket->new(
 $Self->{UserObject} = Kernel::System::User->new(
     EncodeObject => $Self->{EncodeObject},
     ConfigObject => $Self->{ConfigObject},
+    EncodeObject => $Self->{EncodeObject},
     LogObject    => $Self->{LogObject},
     TimeObject   => $Self->{TimeObject},
     MainObject   => $Self->{MainObject},
+    DBObject     => $Self->{DBObject},
     DBObject     => $Self->{DBObject},
 );
 
@@ -529,6 +531,54 @@ for my $Test (@Tests) {
     my $HTML = $Self->{LayoutObject}->Ascii2Html(
         Text => $Test->{String},
         Max  => $Test->{Max},
+    );
+    $Self->Is(
+        $HTML || '',
+        $Test->{Result},
+        $Test->{Name},
+    );
+}
+
+# html link quoting of html
+@Tests = (
+    {
+        Name   => 'HTMLLinkQuote() - simple',
+        String => 'some Text',
+        Result => 'some Text',
+    },
+    {
+        Name   => 'HTMLLinkQuote() - simple',
+        String => 'some <a name="top">Text',
+        Result => 'some <a name="top">Text',
+    },
+    {
+        Name   => 'HTMLLinkQuote() - extended',
+        String => 'some <a href="http://example.com">Text</a>',
+        Result => 'some <a href="http://example.com" target="_blank">Text</a>',
+    },
+    {
+        Name   => 'HTMLLinkQuote() - extended',
+        String => 'some <a
+ href="http://example.com">Text</a>',
+        Result => 'some <a
+ href="http://example.com" target="_blank">Text</a>',
+    },
+    {
+        Name   => 'HTMLLinkQuote() - extended',
+        String => 'some <a href="http://example.com" target="somewhere">Text</a>',
+        Result => 'some <a href="http://example.com" target="somewhere">Text</a>',
+    },
+    {
+        Name   => 'HTMLLinkQuote() - extended',
+        String => 'some <a href="http://example.com" target="somewhere">http://example.com</a>',
+        Result => 'some <a href="http://example.com" target="somewhere">http://example.com</a>',
+    },
+);
+
+for my $Test (@Tests) {
+    my $HTML = $Self->{LayoutObject}->HTMLLinkQuote(
+        Text   => $Test->{String},
+        Target => '_blank',
     );
     $Self->Is(
         $HTML || '',

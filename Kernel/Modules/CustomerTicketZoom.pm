@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketZoom.pm - to get a closer view
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.pm,v 1.40 2009-07-18 09:19:07 martin Exp $
+# $Id: CustomerTicketZoom.pm,v 1.41 2009-07-18 15:19:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Web::UploadCache;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -592,12 +592,12 @@ sub _Mask {
     }
 
     # show plain or html body
-    my $TextType = 'Plain';
-    if ( $Article{BodyHTML} ) {
-        $TextType = 'HTML';
+    my $ViewType = 'Plain';
+    if ( $Article{AttachmentIDOfHTMLBody} ) {
+        $ViewType = 'HTML';
     }
     $Self->{LayoutObject}->Block(
-        Name => 'Body' . $TextType,
+        Name => 'Body' . $ViewType,
         Data => {
             %Param,
             %Article,

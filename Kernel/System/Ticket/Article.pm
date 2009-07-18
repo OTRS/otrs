@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.222 2009-07-14 14:02:20 martin Exp $
+# $Id: Article.pm,v 1.223 2009-07-18 15:19:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.222 $) [1];
+$VERSION = qw($Revision: 1.223 $) [1];
 
 =head1 NAME
 
@@ -156,7 +156,7 @@ sub ArticleCreate {
         # get ascii body
         $Param{MimeType} = 'text/plain';
         $Param{ContentType} =~ s/html/plain/i;
-        $Param{Body} = $Self->{HTML2AsciiObject}->ToAscii(
+        $Param{Body} = $Self->{HTMLUtilsObject}->ToAscii(
             String => $Param{Body},
         );
     }
@@ -1213,26 +1213,36 @@ sub ArticleIndex {
 
 =item ArticleContentIndex()
 
-returns an array with hash ref
+returns an array with hash ref (hash contains result of ArticleGet())
 
-    my @ArticleIDs = $TicketObject->ArticleContentIndex(
+    my @ArticleBox = $TicketObject->ArticleContentIndex(
         TicketID => 123,
     );
 
 or with StripPlainBodyAsAttachment feature to not include
 first attachment / body as attachment
 
-    my @ArticleIDs = $TicketObject->ArticleContentIndex(
+    my @ArticleBox = $TicketObject->ArticleContentIndex(
         TicketID                   => 123,
         StripPlainBodyAsAttachment => 1,
     );
 
-returns an array with hash ref only with given article types
+returns an array with hash ref (hash contains result of ArticleGet())
+only with given article types
 
-    my @ArticleIDs = $TicketObject->ArticleContentIndex(
+    my @ArticleBox = $TicketObject->ArticleContentIndex(
         TicketID    => 123,
         ArticleType => [ $ArticleType1, $ArticleType2 ],
     );
+
+examplie how to access the hash ref
+
+    for my $Article (@ArticleBox) {
+        print "From: $Article->{From}\n";
+    }
+
+Note: If a attachment with html body content is available, the attachment id
+it's given as 'AttachmentIDOfHTMLBody' in hash ref.
 
 =cut
 
@@ -1245,52 +1255,56 @@ sub ArticleContentIndex {
         return;
     }
     my @ArticleBox = $Self->ArticleGet(
-        TicketID => $Param{TicketID},
-        ArticleType => $Param{ArticleType} || '',
+        TicketID    => $Param{TicketID},
+        ArticleType => $Param{ArticleType},
     );
 
-    # article attachments
+    # article attachments of each article
     for my $Article (@ArticleBox) {
+
+        # get attachment index (without attachments)
         my %AtmIndex = $Self->ArticleAttachmentIndex(
             ContentPath => $Article->{ContentPath},
             ArticleID   => $Article->{ArticleID},
         );
+
+        # stript plain attachments and e. g. html attachments
         if ( $Param{StripPlainBodyAsAttachment} ) {
 
             # plain attachment mime type vs. html attachment mime type check
             # remove plain body, rename html attachment
-            my $AttachmentPlain = 0;
-            my $AttachmentHTML  = 0;
-            for my $Count ( keys %AtmIndex ) {
-                my %File = %{ $AtmIndex{$Count} };
+            my $AttachmentIDPlain = 0;
+            my $AttachmentIDHTML  = 0;
+            for my $AttachmentID ( keys %AtmIndex ) {
+                my %File = %{ $AtmIndex{$AttachmentID} };
                 if (
                     $File{Filename} eq 'file-1'
                     && $File{ContentType} =~ /text\/plain/i
                     )
                 {
-                    $AttachmentPlain = $Count;
+                    $AttachmentIDPlain = $AttachmentID;
                 }
                 if (
                     $File{Filename} =~ /^file-[12]$/
                     && $File{ContentType} =~ /text\/html/i
                     )
                 {
-                    $AttachmentHTML = $Count;
+                    $AttachmentIDHTML = $AttachmentID;
                 }
             }
-            if ($AttachmentHTML) {
-                delete $AtmIndex{$AttachmentPlain};
-                delete $AtmIndex{$AttachmentHTML};
-                $Article->{BodyHTML} = $AttachmentHTML;
+            if ($AttachmentIDHTML) {
+                delete $AtmIndex{$AttachmentIDPlain};
+                delete $AtmIndex{$AttachmentIDHTML};
+                $Article->{AttachmentIDOfHTMLBody} = $AttachmentIDHTML;
             }
 
             # plain body size vs. attched body size check
             # and remove attachment if it's email body
-            if ( !$AttachmentHTML ) {
-                my $AttachmentCount = 0;
-                my %AttachmentFile  = ();
-                for my $Count ( keys %AtmIndex ) {
-                    my %File = %{ $AtmIndex{$Count} };
+            if ( !$AttachmentIDHTML ) {
+                my $AttachmentIDPlain = 0;
+                my %AttachmentFilePlain;
+                for my $AttachmentID ( keys %AtmIndex ) {
+                    my %File = %{ $AtmIndex{$AttachmentID} };
 
                     # remember, file-1 got defined by parsing if no filename was given
                     if (
@@ -1298,30 +1312,30 @@ sub ArticleContentIndex {
                         && $File{ContentType} =~ /text\/plain/i
                         )
                     {
-                        $AttachmentCount = $Count;
-                        %AttachmentFile  = %File;
+                        $AttachmentIDPlain   = $AttachmentID;
+                        %AttachmentFilePlain = %File;
                         last;
                     }
                 }
 
-                # plain attachment detected
-                if (%AttachmentFile) {
+                # plain attachment detected and remove it from attachment index
+                if (%AttachmentFilePlain) {
 
                     # check body size vs. attachment size to be sure
                     my $BodySize = 0;
                     {
                         use bytes;
-                        $BodySize = length( $Article->{Body} );
+                        $BodySize = length $Article->{Body};
                         no bytes;
                     }
 
                     # check size by tolerance of 1.1 factor (because of charset difs)
                     if (
-                        $BodySize / 1.1 < $AttachmentFile{FilesizeRaw}
-                        && $BodySize * 1.1 > $AttachmentFile{FilesizeRaw}
+                        $BodySize / 1.1 < $AttachmentFilePlain{FilesizeRaw}
+                        && $BodySize * 1.1 > $AttachmentFilePlain{FilesizeRaw}
                         )
                     {
-                        delete $AtmIndex{$AttachmentCount};
+                        delete $AtmIndex{$AttachmentIDPlain};
                     }
                 }
             }
@@ -2933,6 +2947,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.222 $ $Date: 2009-07-14 14:02:20 $
+$Revision: 1.223 $ $Date: 2009-07-18 15:19:33 $
 
 =cut
