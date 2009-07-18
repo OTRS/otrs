@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.90 2009-07-18 09:19:07 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.91 2009-07-18 18:19:38 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.90 $) [1];
+$VERSION = qw($Revision: 1.91 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1517,7 +1517,7 @@ sub _MaskEmailNew {
             $Param{$_} = '* ' . $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$_} );
         }
 
-        # handle 'To invalid' error if AutoComlete is enabled
+        # handle 'To invalid' error if AutoComplete is enabled
         if ( $AutoCompleteConfig->{Active} && $Param{'To invalid'} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'CustomerSearchAutoCompleteToInvalid',

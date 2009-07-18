@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.104 2009-07-18 15:37:56 martin Exp $
+# $Id: AgentTicketPhone.pm,v 1.105 2009-07-18 18:19:38 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.104 $) [1];
+$VERSION = qw($Revision: 1.105 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1685,7 +1685,7 @@ sub _MaskPhoneNew {
             $Param{$_} = '* ' . $Self->{LayoutObject}->Ascii2Html( Text => $Param{Errors}->{$_} );
         }
 
-        # handle 'From invalid' error if AutoComlete is enabled
+        # handle 'From invalid' error if AutoComplete is enabled
         if ( $AutoCompleteConfig->{Active} && $Param{'From invalid'} ) {
             $Self->{LayoutObject}->Block(
                 Name => 'CustomerSearchAutoCompleteFromInvalid',
