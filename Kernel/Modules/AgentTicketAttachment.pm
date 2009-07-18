@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketAttachment.pm - to get the attachments
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketAttachment.pm,v 1.15 2009-04-09 09:33:30 sb Exp $
+# $Id: AgentTicketAttachment.pm,v 1.16 2009-07-18 15:19:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -66,146 +66,147 @@ sub Run {
         );
         return $Self->{LayoutObject}->ErrorScreen();
     }
-    elsif (
-        $Self->{TicketObject}->Permission(
-            Type     => 'ro',
-            TicketID => $ArticleData{TicketID},
-            UserID   => $Self->{UserID}
-        )
-        )
-    {
 
-        # geta attachment
-        if (
-            my %Data = $Self->{TicketObject}->ArticleAttachment(
-                ArticleID => $Self->{ArticleID},
-                FileID    => $Self->{FileID},
-            )
-            )
-        {
+    # check permissions
+    my $Access = $Self->{TicketObject}->Permission(
+        Type     => 'ro',
+        TicketID => $ArticleData{TicketID},
+        UserID   => $Self->{UserID}
+    );
+    if ( !$Access ) {
+        return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
+    }
 
-            # check viewer
-            my $Viewer = '';
-            if ( $Self->{ConfigObject}->Get('MIME-Viewer') ) {
-                for ( keys %{ $Self->{ConfigObject}->Get('MIME-Viewer') } ) {
-                    if ( $Data{ContentType} =~ /^$_/i ) {
-                        $Viewer = $Self->{ConfigObject}->Get('MIME-Viewer')->{$_};
-                        $Viewer =~ s/\<OTRS_CONFIG_(.+?)\>/$Self->{ConfigObject}->{$1}/g;
-                    }
-                }
-            }
+    # get a attachment
+    my %Data = $Self->{TicketObject}->ArticleAttachment(
+        ArticleID => $Self->{ArticleID},
+        FileID    => $Self->{FileID},
+    );
+    if ( !%Data ) {
+        $Self->{LogObject}->Log(
+            Message  => "No such attacment ($Self->{FileID})! May be an attack!!!",
+            Priority => 'error',
+        );
+        return $Self->{LayoutObject}->ErrorScreen();
+    }
 
-            # show with viewer
-            if ( $Self->{Viewer} && $Viewer ) {
-
-                # write tmp file
-                my ( $FH, $Filename ) = $Self->{FileTempObject}->TempFile();
-                if ( open( DATA, "> $Filename" ) ) {
-                    print DATA $Data{Content};
-                    close(DATA);
-                }
-                else {
-
-                    # log error
-                    $Self->{LogObject}->Log(
-                        Priority => 'error',
-                        Message  => "Cant write $Filename: $!",
-                    );
-                    return $Self->{LayoutObject}->ErrorScreen();
-                }
-
-                # use viewer
-                my $Content = '';
-                if ( open( DATA, "$Viewer $Filename |" ) ) {
-                    while (<DATA>) {
-                        $Content .= $_;
-                    }
-                    close(DATA);
-                }
-                else {
-                    return $Self->{LayoutObject}->FatalError(
-                        Message => "Can't open: $Viewer $Filename: $!",
-                    );
-                }
-
-                # return new page
-                return $Self->{LayoutObject}->Attachment(
-                    %Data,
-                    ContentType => 'text/html',
-                    Content     => $Content,
-                    Type        => 'inline'
-                );
-            }
-
-            # view attachment inline
-            elsif ( $Self->{Subaction} eq 'inline' ) {
-
-                # unset filename for inline viewing
-                $Data{Filename} = '';
-
-                # just return for non-html attachment
-                if ( $Data{ContentType} !~ /text\/html/i ) {
-                    return $Self->{LayoutObject}->Attachment(%Data);
-                }
-
-                # make sure encoding is correct
-                $Self->{EncodeObject}->Encode(
-                    \$Data{Content},
-                );
-
-                # replace links to inline images if exists
-                my %AtmBox = $Self->{TicketObject}->ArticleAttachmentIndex(
-                    ArticleID => $Self->{ArticleID},
-                );
-                my $SessionID = '';
-                if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
-                    $SessionID = "&" . $Self->{SessionName} . "=" . $Self->{SessionID};
-                }
-                my $AttachmentLink = $Self->{LayoutObject}->{Baselink}
-                    . 'Action=AgentTicketAttachment'
-                    . '&ArticleID='
-                    . $Self->{ArticleID}
-                    . $SessionID
-                    . '&FileID=';
-                $Data{Content} =~ s{
-                    "cid:(.*?)"
-                }
-                {
-                    my $ContentID = $1;
-                    ATMCOUNT:
-                    for my $AtmCount ( keys %AtmBox ) {
-                        next ATMCOUNT if $AtmBox{$AtmCount}{ContentID} !~ /^<$ContentID>$/;
-                        $ContentID = $AttachmentLink . $AtmCount;
-                        last ATMCOUNT;
-                    }
-
-                    # return link
-                    '"' . $ContentID . '"';
-                }egxi;
-
-                # return html attachment
-                $Self->{ConfigObject}->Set( Key => 'AttachmentDownloadType', Value => 'inline' );
-                return $Self->{LayoutObject}->Attachment(%Data);
-            }
-
-            # download it
-            else {
-                return $Self->{LayoutObject}->Attachment(%Data);
+    # find viewer for ContentType
+    my $Viewer = '';
+    if (  $Self->{Viewer} && $Self->{ConfigObject}->Get('MIME-Viewer') ) {
+        for ( keys %{ $Self->{ConfigObject}->Get('MIME-Viewer') } ) {
+            if ( $Data{ContentType} =~ /^$_/i ) {
+                $Viewer = $Self->{ConfigObject}->Get('MIME-Viewer')->{$_};
+                $Viewer =~ s/\<OTRS_CONFIG_(.+?)\>/$Self->{ConfigObject}->{$1}/g;
             }
         }
+    }
+
+    # show with viewer
+    if ( $Self->{Viewer} && $Viewer ) {
+
+        # write tmp file
+        my ( $FH, $Filename ) = $Self->{FileTempObject}->TempFile();
+        if ( open( DATA, '>', $Filename ) ) {
+            print DATA $Data{Content};
+            close(DATA);
+        }
         else {
+
+            # log error
             $Self->{LogObject}->Log(
-                Message  => "No such attacment ($Self->{FileID})! May be an attack!!!",
                 Priority => 'error',
+                Message  => "Cant write $Filename: $!",
             );
             return $Self->{LayoutObject}->ErrorScreen();
         }
-    }
-    else {
 
-        # error screen
-        return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
+        # use viewer
+        my $Content = '';
+        if ( open( DATA, "$Viewer $Filename |" ) ) {
+            while (<DATA>) {
+                $Content .= $_;
+            }
+            close(DATA);
+        }
+        else {
+            return $Self->{LayoutObject}->FatalError(
+                Message => "Can't open: $Viewer $Filename: $!",
+            );
+        }
+
+        # return new page
+        return $Self->{LayoutObject}->Attachment(
+            %Data,
+            ContentType => 'text/html',
+            Content     => $Content,
+            Type        => 'inline'
+        );
     }
+
+    # view attachment for html email
+    if ( $Self->{Subaction} eq 'HTMLView' ) {
+
+        # set download type to inline
+        $Self->{ConfigObject}->Set( Key => 'AttachmentDownloadType', Value => 'inline' );
+
+        # just return for non-html attachment (e. g. images)
+        if ( $Data{ContentType} !~ /text\/html/i ) {
+            return $Self->{LayoutObject}->Attachment(%Data);
+        }
+
+        # unset filename for inline viewing
+        $Data{Filename} = '';
+
+        # make sure encoding is correct (add utf8 flag, because
+        # it was a binary attachment)
+        $Self->{EncodeObject}->Encode( \$Data{Content} );
+
+        # add html links
+        $Data{Content} = $Self->{LayoutObject}->HTMLLinkQuote(
+            Text => $Data{Content},
+        );
+
+        # replace links to inline images in html content
+        my %AtmBox = $Self->{TicketObject}->ArticleAttachmentIndex(
+            ArticleID => $Self->{ArticleID},
+        );
+
+        # build base url for inline images
+        my $SessionID = '';
+        if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
+            $SessionID = '&' . $Self->{SessionName} . '=' . $Self->{SessionID};
+        }
+        my $AttachmentLink = $Self->{LayoutObject}->{Baselink}
+            . 'Action=AgentTicketAttachment&Subaction=HTMLView'
+            . '&ArticleID='
+            . $Self->{ArticleID}
+            . $SessionID
+            . '&FileID=';
+
+        # replace inline images in content with runtime url to images
+        $Data{Content} =~ s{
+            "cid:(.*?)"
+        }
+        {
+            my $ContentID = $1;
+
+            # find matching attachment and replace it with runtlime url to image
+            for my $AttachmentID ( keys %AtmBox ) {
+                next if $AtmBox{$AttachmentID}->{ContentID} !~ /^<$ContentID>$/i;
+                $ContentID = $AttachmentLink . $AttachmentID;
+                last;
+            }
+
+            # return new runtime url
+            '"' . $ContentID . '"';
+        }egxi;
+
+        # return html attachment
+        return $Self->{LayoutObject}->Attachment(%Data);
+    }
+
+    # download it AttachmentDownloadType is configured
+    return $Self->{LayoutObject}->Attachment(%Data);
 }
 
 1;
