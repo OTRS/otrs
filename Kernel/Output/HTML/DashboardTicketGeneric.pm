@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketGeneric.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketGeneric.pm,v 1.14 2009-07-15 23:26:14 martin Exp $
+# $Id: DashboardTicketGeneric.pm,v 1.15 2009-07-18 00:07:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -40,7 +40,8 @@ sub new {
     }
 
     # remember filter
-    if ($Self->{Filter}) {
+    if ( $Self->{Filter} ) {
+
         # update ssession
         $Self->{SessionObject}->UpdateSessionID(
             SessionID => $Self->{SessionID},
@@ -64,7 +65,9 @@ sub new {
 
     $Self->{PrefKey} = 'UserDashboardPref' . $Self->{Name} . '-Shown';
 
-    $Self->{CacheKey} =  $Self->{Name} . '-' . $Self->{UserID};
+    $Self->{Limit} = $Self->{LayoutObject}->{ $Self->{PrefKey} } || $Self->{Config}->{Limit};
+
+    $Self->{CacheKey} =  $Self->{Name} . '-' . $Self->{Limit} . '-' . $Self->{UserID};
 
     return $Self;
 }
@@ -85,7 +88,7 @@ sub Preferences {
                 20 => '20',
                 25 => '25',
             },
-            SelectedID => $Self->{LayoutObject}->{ $Self->{PrefKey} } || $Self->{Config}->{Limit},
+            SelectedID => $Self->{Limit},
         },
     );
 
@@ -105,6 +108,10 @@ sub Config {
 
     return (
         %{ $Self->{Config} },
+
+        # remember, do not allow to use page cache
+        # (it's not working because of internal filter)
+        CacheTTL => undef,
         CacheKey => undef,
     );
 }
@@ -162,14 +169,14 @@ sub Run {
     );
 
     # find and show ticket list
-    my $TicketIDsCache = 1;
+    my $CacheUsed = 1;
     if ( !$TicketIDs ) {
-        $TicketIDsCache = 0;
+        $CacheUsed = 0;
         my @TicketIDsArray = $Self->{TicketObject}->TicketSearch(
             Result => 'ARRAY',
             %TicketSearch,
             %{ $TicketSearchSummary{ $Self->{Filter} } },
-            Limit => $Self->{LayoutObject}->{ $Self->{PrefKey} } || $Self->{Config}->{Limit},
+            Limit => $Self->{Limit},
         );
         $TicketIDs = \@TicketIDsArray;
     }
@@ -181,7 +188,7 @@ sub Run {
     );
 
     # if no cache ot new list result, do count lookup
-    if ( !$Summary || !$TicketIDsCache ) {
+    if ( !$Summary || !$CacheUsed ) {
         for my $Type ( sort keys %TicketSearchSummary ) {
             next if !$TicketSearchSummary{$Type};
             $Summary->{$Type} = $Self->{TicketObject}->TicketSearch(
@@ -193,18 +200,18 @@ sub Run {
     }
 
     # set cache
-    if ( $Self->{Config}->{CacheTTL} ) {
+    if ( !$CacheUsed && $Self->{Config}->{CacheTTLLocal} ) {
         $Self->{CacheObject}->Set(
             Type  => 'Dashboard',
             Key   => $Self->{CacheKey} . '-Summary',
             Value => $Summary,
-            TTL   => $Self->{Config}->{CacheTTL} * 60,
+            TTL   => $Self->{Config}->{CacheTTLLocal} * 60,
         );
         $Self->{CacheObject}->Set(
             Type  => 'Dashboard',
             Key   => $Self->{CacheKey} . '-' . $Self->{Filter} . '-List',
             Value => $TicketIDs,
-            TTL   => $Self->{Config}->{CacheTTL} * 60,
+            TTL   => $Self->{Config}->{CacheTTLLocal} * 60,
         );
     }
 
@@ -222,6 +229,8 @@ sub Run {
             %{ $Summary },
         },
     );
+
+    # show also responsible if feature is enabled
     if ( $Self->{ConfigObject}->Get('Ticket::Responsible') ) {
         $Self->{LayoutObject}->Block(
             Name => 'ContentLargeTicketGenericFilterResponsible',
@@ -233,6 +242,7 @@ sub Run {
         );
     }
 
+    # show tickets
     for my $TicketID ( @{ $TicketIDs } ) {
         my %Ticket = $Self->{TicketObject}->TicketGet(
             TicketID => $TicketID,
@@ -259,6 +269,7 @@ sub Run {
         );
     }
 
+    # show "none" if no ticket is available
     if ( !$TicketIDs || !@{ $TicketIDs } ) {
         $Self->{LayoutObject}->Block(
             Name => 'ContentLargeTicketGenericNone',
