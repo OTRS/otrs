@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.22 2009-07-18 09:19:06 martin Exp $
+# $Id: TemplateGenerator.pm,v 1.23 2009-07-18 17:35:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Notification;
 use Kernel::System::AutoResponse;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 =head1 NAME
 
@@ -818,11 +818,9 @@ sub _Replace {
 
     my $Start   = '<';
     my $End     = '>';
-    my $NewLine = "\n";
     if ( $Param{RichText} ) {
         $Start   = '&lt;';
         $End     = '&gt;';
-        $NewLine = "<br\/>\n";
         $Param{Text} =~ s/(\n|\r)//g;
     }
 
@@ -845,10 +843,21 @@ sub _Replace {
             UserID => $Param{RecipientID},
             Cached => 1,
         );
-        for ( keys %Recipient ) {
-            if ( $Recipient{$_} ) {
-                $Param{Text} =~ s/$Tag$_$End/$Recipient{$_}/gi;
+
+        # html quoteing of content
+        if ( $Param{RichText} ) {
+            for ( keys %Recipient ) {
+                next if !$Recipient{$_};
+                $Recipient{$_} = $Self->{HTMLUtilsObject}->ToHTML(
+                    String => $Recipient{$_},
+                );
             }
+        }
+
+        # replace it
+        for ( keys %Recipient ) {
+            next if !defined $Recipient{$_};
+            $Param{Text} =~ s/$Tag$_$End/$Recipient{$_}/gi;
         }
     }
 
@@ -858,10 +867,21 @@ sub _Replace {
         my %Owner = $Self->{UserObject}->GetUserData(
             UserID => $Ticket{OwnerID},
         );
-        for ( keys %Owner ) {
-            if ( $Owner{$_} ) {
-                $Param{Text} =~ s/$Tag$_$End/$Owner{$_}/gi;
+
+        # html quoteing of content
+        if ( $Param{RichText} ) {
+            for ( keys %Owner ) {
+                next if !$Owner{$_};
+                $Owner{$_} = $Self->{HTMLUtilsObject}->ToHTML(
+                    String => $Owner{$_},
+                );
             }
+        }
+
+        # replace it
+        for ( keys %Owner ) {
+            next if !defined $Owner{$_};
+            $Param{Text} =~ s/$Tag$_$End/$Owner{$_}/gi;
         }
     }
 
@@ -874,10 +894,21 @@ sub _Replace {
         my %Responsible = $Self->{UserObject}->GetUserData(
             UserID => $Ticket{ResponsibleID},
         );
-        for ( keys %Responsible ) {
-            if ( $Responsible{$_} ) {
-                $Param{Text} =~ s/$Tag$_$End/$Responsible{$_}/gi;
+
+        # html quoteing of content
+        if ( $Param{RichText} ) {
+            for ( keys %Responsible ) {
+                next if !$Responsible{$_};
+                $Responsible{$_} = $Self->{HTMLUtilsObject}->ToHTML(
+                    String => $Responsible{$_},
+                );
             }
+        }
+
+        # replace it
+        for ( keys %Responsible ) {
+            next if !defined $Responsible{$_};
+            $Param{Text} =~ s/$Tag$_$End/$Responsible{$_}/gi;
         }
     }
 
@@ -887,11 +918,22 @@ sub _Replace {
     $Tag = $Start . 'OTRS_Agent_';
     my $Tag2 = $Start . 'OTRS_CURRENT_';
     my %CurrentUser = $Self->{UserObject}->GetUserData( UserID => $Param{UserID} );
-    for ( keys %CurrentUser ) {
-        if ( $CurrentUser{$_} ) {
-            $Param{Text} =~ s/$Tag$_$End/$CurrentUser{$_}/gi;
-            $Param{Text} =~ s/$Tag2$_$End/$CurrentUser{$_}/gi;
+
+    # html quoteing of content
+    if ( $Param{RichText} ) {
+        for ( keys %CurrentUser ) {
+            next if !$CurrentUser{$_};
+            $CurrentUser{$_} = $Self->{HTMLUtilsObject}->ToHTML(
+                String => $CurrentUser{$_},
+            );
         }
+    }
+
+    # replace it
+    for ( keys %CurrentUser ) {
+        next if !defined $CurrentUser{$_};
+        $Param{Text} =~ s/$Tag$_$End/$CurrentUser{$_}/gi;
+        $Param{Text} =~ s/$Tag2$_$End/$CurrentUser{$_}/gi;
     }
 
     # replace other needed stuff
@@ -904,10 +946,21 @@ sub _Replace {
 
     # ticket data
     $Tag = $Start . 'OTRS_TICKET_';
-    for ( keys %Ticket ) {
-        if ( defined $Ticket{$_} ) {
-            $Param{Text} =~ s/$Tag$_$End/$Ticket{$_}/gi;
+
+    # html quoteing of content
+    if ( $Param{RichText} ) {
+        for ( keys %Ticket ) {
+            next if !$Ticket{$_};
+            $Ticket{$_} = $Self->{HTMLUtilsObject}->ToHTML(
+                String => $Ticket{$_},
+            );
         }
+    }
+
+    # replace it
+    for ( keys %Ticket ) {
+        next if !defined $Ticket{$_};
+        $Param{Text} =~ s/$Tag$_$End/$Ticket{$_}/gi;
     }
 
     # COMPAT
@@ -919,49 +972,57 @@ sub _Replace {
     $Param{Text} =~ s/$Tag.+?$End/-/gi;
 
     # get customer params and replace it with <OTRS_CUSTOMER_...
-    $Tag = $Start . 'OTRS_CUSTOMER_';
-    if ( $Param{Data} ) {
+    my %Data = %{ $Param{Data} };
+
+    # html quoteing of content
+    if ( $Param{RichText} ) {
+        for ( keys %Data ) {
+            next if !$Data{$_};
+            $Data{$_} = $Self->{HTMLUtilsObject}->ToHTML(
+                String => $Data{$_},
+            );
+        }
+    }
+    if ( %Data ) {
+
+        # check if original content isn't text/plain, don't use it
+        if ( $Data{'Content-Type'} && $Data{'Content-Type'} !~ /(text\/plain|\btext\b)/i ) {
+            $Data{Body} = '-> no quotable message <-';
+        }
+
+        # replace <OTRS_CUSTOMER_*> tags
+        $Tag = $Start . 'OTRS_CUSTOMER_';
+        for ( keys %Data ) {
+            next if !defined $Data{$_};
+            $Param{Text} =~ s/$Tag$_$End/$Data{$_}/gi;
+        }
 
         # replace <OTRS_CUSTOMER_BODY> tags
-        my $Tag = $Start . 'OTRS_CUSTOMER_BODY';
-        if ( $Param{Text} =~ /$Tag$End/g ) {
+        $Tag = $Start . 'OTRS_CUSTOMER_BODY';
+        if ( $Param{Text} =~ /$Tag$End(\n|\r|)/g ) {
             my $Line       = 2000;
-            my @Body       = split( /\n/, $Param{Data}->{Body} );
+            my @Body       = split( /\n/, $Data{Body} );
             my $NewOldBody = '';
             for ( my $i = 0; $i < $Line; $i++ ) {
-
                 if ( $#Body >= $i ) {
                     $NewOldBody .= "$End $Body[$i]";
                     if ( $i < ( $Line - 1 ) ) {
-                        $NewOldBody .= $NewLine;
+                        $NewOldBody .= "\n";
                     }
+                }
+                else {
+                    last;
                 }
             }
             chomp $NewOldBody;
             $Param{Text} =~ s/$Tag$End/$NewOldBody/g;
         }
 
-        # replace <OTRS_CUSTOMER_*> tags
-        for ( keys %{ $Param{Data} } ) {
-            if ( defined $Param{Data}->{$_} ) {
-                $Param{Text} =~ s/$Tag$_$End/$Param{Data}->{$_}/gi;
-            }
-        }
-
-        # check if original content isn't text/plain, don't use it
-        if (
-            $Param{Data}->{'Content-Type'}
-            && $Param{Data}->{'Content-Type'} !~ /(text\/plain|\btext\b)/i
-            )
-        {
-            $Param{Data}->{Body} = '-> no quotable message <-';
-        }
-
         # replace <OTRS_CUSTOMER_EMAIL[]> tags
         $Tag = $Start . 'OTRS_CUSTOMER_EMAIL';
         if ( $Param{Text} =~ /$Tag\[(.+?)\]$End/g ) {
             my $Line       = $1;
-            my @Body       = split( /\n/, $Param{Data}->{Body} );
+            my @Body       = split( /\n/, $Data{Body} );
             my $NewOldBody = '';
             for ( my $i = 0; $i < $Line; $i++ ) {
 
@@ -970,7 +1031,7 @@ sub _Replace {
                 if ( $#Body >= $i ) {
                     $NewOldBody .= "$End $Body[$i]";
                     if ( $i < ( $Line - 1 ) ) {
-                        $NewOldBody .= $NewLine;
+                        $NewOldBody .= "\n";
                     }
                 }
             }
@@ -984,7 +1045,7 @@ sub _Replace {
             my $SubjectChar = $1;
             my $Subject     = $Self->{TicketObject}->TicketSubjectClean(
                 TicketNumber => $Ticket{TicketNumber},
-                Subject      => $Param{Data}->{Subject},
+                Subject      => $Data{Subject},
             );
             $Subject =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
             $Param{Text} =~ s/$Tag\[.+?\]$End/$Subject/g;
@@ -1012,7 +1073,7 @@ sub _Replace {
             );
         }
         if ( !$From ) {
-            $From = $Param{Data}->{To} || '';
+            $From = $Data{To} || '';
             $From =~ s/<.*>|\(.*\)|\"|;|,//g;
             $From =~ s/( $)|(  $)//g;
         }
@@ -1027,12 +1088,21 @@ sub _Replace {
             User => $Ticket{CustomerUserID},
         );
 
-        # replace customer stuff with tags
-        for my $Key ( keys %CustomerUser ) {
-            if ( defined $CustomerUser{$Key} ) {
-                $Param{Text} =~ s/$Tag$Key$End/$CustomerUser{$Key}/gi;
-                $Param{Text} =~ s/$Tag2$Key$End/$CustomerUser{$Key}/gi;
+        # html quoteing of content
+        if ( $Param{RichText} ) {
+            for ( keys %CustomerUser ) {
+                next if !$CustomerUser{$_};
+                $CustomerUser{$_} = $Self->{HTMLUtilsObject}->ToHTML(
+                    String => $CustomerUser{$_},
+                );
             }
+        }
+
+        # replace it
+        for my $Key ( keys %CustomerUser ) {
+            next if !defined $CustomerUser{$Key};
+            $Param{Text} =~ s/$Tag$Key$End/$CustomerUser{$Key}/gi;
+            $Param{Text} =~ s/$Tag2$Key$End/$CustomerUser{$Key}/gi;
         }
     }
 
@@ -1059,6 +1129,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.22 $ $Date: 2009-07-18 09:19:06 $
+$Revision: 1.23 $ $Date: 2009-07-18 17:35:49 $
 
 =cut
