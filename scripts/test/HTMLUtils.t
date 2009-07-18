@@ -1,17 +1,17 @@
 # --
-# HTML2Ascii.t - HTML2Ascii tests
+# HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: HTML2Ascii.t,v 1.6 2009-07-17 12:29:49 martin Exp $
+# $Id: HTMLUtils.t,v 1.1 2009-07-18 09:13:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-use Kernel::System::HTML2Ascii;
+use Kernel::System::HTMLUtils;
 
-$Self->{HTML2AsciiObject} = Kernel::System::HTML2Ascii->new( %{$Self} );
+$Self->{HTMLUtilsObject} = Kernel::System::HTMLUtils->new( %{$Self} );
 
 # ToAscii tests
 my @Tests = (
@@ -85,7 +85,7 @@ More Text',
 );
 
 for my $Test (@Tests) {
-    my $Ascii = $Self->{HTML2AsciiObject}->ToAscii(
+    my $Ascii = $Self->{HTMLUtilsObject}->ToAscii(
         String => $Test->{Input},
     );
     $Self->Is(
@@ -110,7 +110,7 @@ for my $Test (@Tests) {
 );
 
 for my $Test (@Tests) {
-    my $Ascii = $Self->{HTML2AsciiObject}->DocumentComplete(
+    my $Ascii = $Self->{HTMLUtilsObject}->DocumentComplete(
         Charset => 'iso-8859-1',
         String  => $Test->{Input},
     );
@@ -211,7 +211,7 @@ style='font-size:12.0pt;font-family:\"Courier New\"'>Hello, <br>
 );
 
 for my $Test (@Tests) {
-    my $Ascii = $Self->{HTML2AsciiObject}->DocumentStrip(
+    my $Ascii = $Self->{HTMLUtilsObject}->DocumentStrip(
         String => $Test->{Input},
     );
     $Self->Is(

@@ -1,29 +1,29 @@
 # --
-# Kernel/System/HTML2Ascii.pm - the global html <-> ascii tools
+# Kernel/System/HTMLUtils.pm - creating and modifying html strings
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: HTML2Ascii.pm,v 1.13 2009-07-17 12:29:50 martin Exp $
+# $Id: HTMLUtils.pm,v 1.1 2009-07-18 09:13:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-package Kernel::System::HTML2Ascii;
+package Kernel::System::HTMLUtils;
 
 use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.1 $) [1];
 
 =head1 NAME
 
-Kernel::System::HTML2Ascii - html <-> ascii converter
+Kernel::System::HTMLUtils - creating and modifying html strings
 
 =head1 SYNOPSIS
 
-A module to convert html <-> ascii strings.
+A module to for creating and modifying html strings.
 
 =head1 PUBLIC INTERFACE
 
@@ -38,7 +38,7 @@ create an object
     use Kernel::Config;
     use Kernel::System::Encode;
     use Kernel::System::Log;
-    use Kernel::System::HTML2Ascii;
+    use Kernel::System::HTMLUtils;
 
     my $ConfigObject = Kernel::Config->new();
     my $EncodeObject = Kernel::System::Encode->new(
@@ -48,7 +48,7 @@ create an object
         ConfigObject => $ConfigObject,
         EncodeObject => $EncodeObject,
     );
-    my $HTML2AsciiObject = Kernel::System::HTML2Ascii->new(
+    my $HTMLUtilsObject = Kernel::System::HTMLUtils->new(
         ConfigObject => $ConfigObject,
         LogObject    => $LogObject,
     );
@@ -77,7 +77,7 @@ sub new {
 
 convert a html string to an ascii string
 
-    my $Ascii = $HTML2AsciiObject->ToAscii( String => $String );
+    my $Ascii = $HTMLUtilsObject->ToAscii( String => $String );
 
 =cut
 
@@ -118,7 +118,7 @@ sub ToAscii {
     # remove style tags
     $Param{String} =~ s/\<style.+?\>.*\<\/style\>//gsi;
 
-    # remove <br>,<br/>,<br />, <br class="name">, tags and replace it with \n
+    # remove <br>,<br/>,<br />, <br class="name"/>, tags and replace it with \n
     $Param{String} =~ s/\<br(\s{0,3}|\s{1,3}.+?)(\/|)\>/\n/gsi;
 
     # remove </div> tags and replace it with \n
@@ -488,7 +488,7 @@ sub ToAscii {
 
 convert an ascii string to a html string
 
-    my $Ascii = $HTML2AsciiObject->ToHTML( String => $String );
+    my $Ascii = $HTMLUtilsObject->ToHTML( String => $String );
 
 =cut
 
@@ -520,7 +520,7 @@ sub ToHTML {
 
 check and e. g. add <html> and <body> tags to given html string
 
-    my $HTMLDocument = $HTML2AsciiObject->DocumentComplete(
+    my $HTMLDocument = $HTMLUtilsObject->DocumentComplete(
         String  => $String,
         Charset => $Charset,
     );
@@ -553,7 +553,7 @@ sub DocumentComplete {
 
 remove html document tags from sting
 
-    my $HTMLString = $HTML2AsciiObject->DocumentStrip(
+    my $HTMLString = $HTMLUtilsObject->DocumentStrip(
         String  => $String,
     );
 
@@ -592,6 +592,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.13 $ $Date: 2009-07-17 12:29:50 $
+$Revision: 1.1 $ $Date: 2009-07-18 09:13:18 $
 
 =cut
