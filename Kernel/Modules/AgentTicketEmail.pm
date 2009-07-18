@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.89 2009-07-16 13:12:52 ub Exp $
+# $Id: AgentTicketEmail.pm,v 1.90 2009-07-18 09:19:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,13 +18,13 @@ use Kernel::System::SystemAddress;
 use Kernel::System::CustomerUser;
 use Kernel::System::CheckItem;
 use Kernel::System::Web::UploadCache;
-use Kernel::System::HTML2Ascii;
+use Kernel::System::HTMLUtils;
 use Kernel::System::TemplateGenerator;
 use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.89 $) [1];
+$VERSION = qw($Revision: 1.90 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -48,7 +48,7 @@ sub new {
     $Self->{CheckItemObject}    = Kernel::System::CheckItem->new(%Param);
     $Self->{StateObject}        = Kernel::System::State->new(%Param);
     $Self->{UploadCachObject}   = Kernel::System::Web::UploadCache->new(%Param);
-    $Self->{HTML2AsciiObject}   = Kernel::System::HTML2Ascii->new(%Param);
+    $Self->{HTMLUtilsObject}    = Kernel::System::HTMLUtils->new(%Param);
 
     # get form id
     $Self->{FormID} = $Self->{ParamObject}->GetParam( Param => 'FormID' );
@@ -672,7 +672,7 @@ sub Run {
                 Body         => $Self->{LayoutObject}->Ascii2Html( Text => $GetParam{Body} ),
                 Errors       => \%Error,
                 Attachments  => \@Attachments,
-                Signature    => $Self->{HTML2AsciiObject}->ToAscii( String => $Signature, ),
+                Signature    => $Self->{HTMLUtilsObject}->ToAscii( String => $Signature, ),
                 %GetParam,
                 %TicketFreeTextHTML,
                 %TicketFreeTimeHTML,
@@ -802,7 +802,7 @@ sub Run {
             @Attachments = @NewAttachments;
 
             # verify html document
-            $GetParam{Body} = $Self->{LayoutObject}->{HTML2AsciiObject}->DocumentComplete(
+            $GetParam{Body} = $Self->{LayoutObject}->{HTMLUtilsObject}->DocumentComplete(
                 String  => $GetParam{Body},
                 Charset => $Self->{LayoutObject}->{UserCharset},
             );
@@ -1024,7 +1024,7 @@ sub Run {
             [
                 {
                     Name         => 'Signature',
-                    Data         => $Self->{HTML2AsciiObject}->ToAscii( String => $Signature, ),
+                    Data         => $Self->{HTMLUtilsObject}->ToAscii( String => $Signature, ),
                     Translation  => 1,
                     PossibleNone => 1,
                     Max          => 100,

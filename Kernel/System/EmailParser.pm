@@ -2,7 +2,7 @@
 # Kernel/System/EmailParser.pm - the global email parser module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: EmailParser.pm,v 1.86 2009-04-23 13:47:08 mh Exp $
+# $Id: EmailParser.pm,v 1.87 2009-07-18 09:19:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::EmailParser;
 use strict;
 use warnings;
 
-use Kernel::System::HTML2Ascii;
+use Kernel::System::HTMLUtils;
 
 use Mail::Internet;
 use MIME::Parser;
@@ -24,7 +24,7 @@ use MIME::Words qw(:all);
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.86 $) [1];
+$VERSION = qw($Revision: 1.87 $) [1];
 
 =head1 NAME
 
@@ -82,7 +82,7 @@ sub new {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
-    $Self->{HTML2AsciiObject} = Kernel::System::HTML2Ascii->new(%Param);
+    $Self->{HTMLUtilsObject} = Kernel::System::HTMLUtils->new(%Param);
 
     # check needed objects
     if ( !$Param{Email} && !$Param{Entity} ) {
@@ -819,7 +819,7 @@ sub CheckMessageBody {
         $Self->{MimeEmail} = 1;
 
         # convert from html to ascii
-        $Self->{MessageBody} = $Self->{HTML2AsciiObject}->ToAscii(
+        $Self->{MessageBody} = $Self->{HTMLUtilsObject}->ToAscii(
             String => $Self->{MessageBody},
         );
 
@@ -849,6 +849,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.86 $ $Date: 2009-04-23 13:47:08 $
+$Revision: 1.87 $ $Date: 2009-07-18 09:19:06 $
 
 =cut

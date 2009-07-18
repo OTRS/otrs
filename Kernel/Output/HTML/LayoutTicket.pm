@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.43 2009-07-16 22:47:21 martin Exp $
+# $Id: LayoutTicket.pm,v 1.44 2009-07-18 09:19:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -701,6 +701,10 @@ sub ArticleQuote {
                 Text => $AttachmentHTML{Content},
                 From => $Charset,
                 To   => $Self->{UserCharset},
+            );
+
+            $Body = $Self->{HTMLUtilsObject}->DocumentStrip(
+                String => $Body,
             );
 
             # display inline images if exists

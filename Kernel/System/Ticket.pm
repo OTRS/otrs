@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.403 2009-07-13 23:14:02 martin Exp $
+# $Id: Ticket.pm,v 1.404 2009-07-18 09:19:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -33,10 +33,10 @@ use Kernel::System::PostMaster::LoopProtection;
 use Kernel::System::TemplateGenerator;
 use Kernel::System::LinkObject;
 use Kernel::System::Valid;
-use Kernel::System::HTML2Ascii;
+use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.403 $) [1];
+$VERSION = qw($Revision: 1.404 $) [1];
 
 =head1 NAME
 
@@ -158,7 +158,7 @@ sub new {
     $Self->{LockObject}              = Kernel::System::Lock->new( %{$Self} );
     $Self->{ValidObject}             = Kernel::System::Valid->new( %{$Self} );
     $Self->{LinkObject}              = Kernel::System::LinkObject->new( %{$Self} );
-    $Self->{HTML2AsciiObject}        = Kernel::System::HTML2Ascii->new( %{$Self} );
+    $Self->{HTMLUtilsObject}         = Kernel::System::HTMLUtils->new( %{$Self} );
     $Self->{TemplateGeneratorObject} = Kernel::System::TemplateGenerator->new(
         %{$Self},
         TicketObject => $Self,
@@ -7361,6 +7361,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.403 $ $Date: 2009-07-13 23:14:02 $
+$Revision: 1.404 $ $Date: 2009-07-18 09:19:06 $
 
 =cut

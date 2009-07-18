@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.62 2009-04-23 13:47:08 mh Exp $
+# $Id: Email.pm,v 1.63 2009-07-18 09:19:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,10 +18,10 @@ use MIME::Entity;
 use Mail::Address;
 
 use Kernel::System::Crypt;
-use Kernel::System::HTML2Ascii;
+use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 =head1 NAME
 
@@ -107,7 +107,7 @@ sub new {
     # create backend object
     $Self->{Backend} = $GenericModule->new(%Param);
 
-    $Self->{HTML2AsciiObject} = Kernel::System::HTML2Ascii->new(%Param);
+    $Self->{HTMLUtilsObject} = Kernel::System::HTMLUtils->new(%Param);
 
     return $Self;
 }
@@ -276,7 +276,7 @@ sub Send {
 
         # add ascii body
         $Param{MimeType} = 'text/plain';
-        $Param{Body}     = $Self->{HTML2AsciiObject}->ToAscii(
+        $Param{Body}     = $Self->{HTMLUtilsObject}->ToAscii(
             String => $Param{Body},
         );
 
@@ -826,6 +826,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.62 $ $Date: 2009-04-23 13:47:08 $
+$Revision: 1.63 $ $Date: 2009-07-18 09:19:06 $
 
 =cut

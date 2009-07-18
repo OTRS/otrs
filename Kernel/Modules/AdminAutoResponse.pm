@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAutoResponse.pm - provides AdminAutoResponse HTML
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAutoResponse.pm,v 1.30 2009-06-25 23:02:11 martin Exp $
+# $Id: AdminAutoResponse.pm,v 1.31 2009-07-18 09:19:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,10 +17,10 @@ use warnings;
 use Kernel::System::AutoResponse;
 use Kernel::System::SystemAddress;
 use Kernel::System::Valid;
-use Kernel::System::HTML2Ascii;
+use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -38,7 +38,7 @@ sub new {
     $Self->{AutoResponseObject}  = Kernel::System::AutoResponse->new(%Param);
     $Self->{SystemAddressObject} = Kernel::System::SystemAddress->new(%Param);
     $Self->{ValidObject}         = Kernel::System::Valid->new(%Param);
-    $Self->{HTML2AsciiObject}    = Kernel::System::HTML2Ascii->new(%Param);
+    $Self->{HTMLUtilsObject}    = Kernel::System::HTMLUtils->new(%Param);
 
     return $Self;
 }
@@ -174,7 +174,7 @@ sub _Mask {
 
         # reformat from plain to html
         if ( $Param{ContentType} && $Param{ContentType} =~ /text\/plain/i ) {
-            $Param{Response} = $Self->{HTML2AsciiObject}->ToHTML(
+            $Param{Response} = $Self->{HTMLUtilsObject}->ToHTML(
                 String => $Param{Response},
             );
         }
@@ -183,7 +183,7 @@ sub _Mask {
 
         # reformat from html to plain
         if ( $Param{ContentType} && $Param{ContentType} =~ /text\/html/i ) {
-            $Param{Response} = $Self->{HTML2AsciiObject}->ToAscii(
+            $Param{Response} = $Self->{HTMLUtilsObject}->ToAscii(
                 String => $Param{Response},
             );
         }

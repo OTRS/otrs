@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminSalutation.pm - to add/update/delete system addresses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSalutation.pm,v 1.36 2009-07-07 15:45:19 mh Exp $
+# $Id: AdminSalutation.pm,v 1.37 2009-07-18 09:19:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,10 +16,10 @@ use warnings;
 
 use Kernel::System::Salutation;
 use Kernel::System::Valid;
-use Kernel::System::HTML2Ascii;
+use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -36,7 +36,7 @@ sub new {
     }
     $Self->{SalutationObject} = Kernel::System::Salutation->new(%Param);
     $Self->{ValidObject}      = Kernel::System::Valid->new(%Param);
-    $Self->{HTML2AsciiObject} = Kernel::System::HTML2Ascii->new(%Param);
+    $Self->{HTMLUtilsObject} = Kernel::System::HTMLUtils->new(%Param);
 
     return $Self;
 }
@@ -224,7 +224,7 @@ sub _Edit {
 
         # reformat from plain to html
         if ( $Param{ContentType} && $Param{ContentType} =~ /text\/plain/i ) {
-            $Param{Text} = $Self->{HTML2AsciiObject}->ToHTML(
+            $Param{Text} = $Self->{HTMLUtilsObject}->ToHTML(
                 String => $Param{Text},
             );
         }
@@ -233,7 +233,7 @@ sub _Edit {
 
         # reformat from html to plain
         if ( $Param{ContentType} && $Param{ContentType} =~ /text\/html/i ) {
-            $Param{Text} = $Self->{HTML2AsciiObject}->ToAscii(
+            $Param{Text} = $Self->{HTMLUtilsObject}->ToAscii(
                 String => $Param{Text},
             );
         }

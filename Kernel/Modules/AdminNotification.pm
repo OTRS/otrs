@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminNotification.pm - provides admin notification translations
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminNotification.pm,v 1.19 2009-06-24 23:01:57 martin Exp $
+# $Id: AdminNotification.pm,v 1.20 2009-07-18 09:19:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,10 +15,10 @@ use strict;
 use warnings;
 
 use Kernel::System::Notification;
-use Kernel::System::HTML2Ascii;
+use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.19 $) [1];
+$VERSION = qw($Revision: 1.20 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -35,7 +35,7 @@ sub new {
     }
 
     $Self->{NotificationObject} = Kernel::System::Notification->new(%Param);
-    $Self->{HTML2AsciiObject}   = Kernel::System::HTML2Ascii->new(%Param);
+    $Self->{HTMLUtilsObject}   = Kernel::System::HTMLUtils->new(%Param);
 
     return $Self;
 }
@@ -154,7 +154,7 @@ sub _MaskNotificationForm {
 
         # reformat from plain to html
         if ( $Param{ContentType} && $Param{ContentType} =~ /text\/plain/i ) {
-            $Param{Body} = $Self->{HTML2AsciiObject}->ToHTML(
+            $Param{Body} = $Self->{HTMLUtilsObject}->ToHTML(
                 String => $Param{Body},
             );
         }
@@ -163,7 +163,7 @@ sub _MaskNotificationForm {
 
         # reformat from html to plain
         if ( $Param{ContentType} && $Param{ContentType} =~ /text\/html/i ) {
-            $Param{Body} = $Self->{HTML2AsciiObject}->ToAscii(
+            $Param{Body} = $Self->{HTMLUtilsObject}->ToAscii(
                 String => $Param{Body},
             );
         }

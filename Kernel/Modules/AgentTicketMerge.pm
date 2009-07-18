@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.pm,v 1.34 2009-07-16 13:36:15 martin Exp $
+# $Id: AgentTicketMerge.pm,v 1.35 2009-07-18 09:19:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -199,7 +199,7 @@ sub Run {
                     $MimeType = 'text/html';
 
                     # verify html document
-                    $GetParam{Body} = $Self->{LayoutObject}->{HTML2AsciiObject}->DocumentComplete(
+                    $GetParam{Body} = $Self->{LayoutObject}->{HTMLUtilsObject}->DocumentComplete(
                         String  => $GetParam{Body},
                         Charset => $Self->{LayoutObject}->{UserCharset},
                     );

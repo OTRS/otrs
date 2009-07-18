@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.21 2009-07-17 12:34:33 martin Exp $
+# $Id: TemplateGenerator.pm,v 1.22 2009-07-18 09:19:06 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ package Kernel::System::TemplateGenerator;
 use strict;
 use warnings;
 
-use Kernel::System::HTML2Ascii;
+use Kernel::System::HTMLUtils;
 use Kernel::System::Salutation;
 use Kernel::System::Signature;
 use Kernel::System::StdResponse;
@@ -22,7 +22,7 @@ use Kernel::System::Notification;
 use Kernel::System::AutoResponse;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 =head1 NAME
 
@@ -139,7 +139,7 @@ sub new {
 
     $Self->{RichText} = $Self->{ConfigObject}->Get('Frontend::RichText');
 
-    $Self->{HTML2AsciiObject}   = Kernel::System::HTML2Ascii->new(%Param);
+    $Self->{HTMLUtilsObject}    = Kernel::System::HTMLUtils->new(%Param);
     $Self->{SalutationObject}   = Kernel::System::Salutation->new(%Param);
     $Self->{SignatureObject}    = Kernel::System::Signature->new(%Param);
     $Self->{StdResponseObject}  = Kernel::System::StdResponse->new(%Param);
@@ -189,7 +189,7 @@ sub Salutation {
     # do text/plain to text/html convert
     if ( $Self->{RichText} && $Salutation{ContentType} =~ /text\/plain/i ) {
         $Salutation{ContentType} = 'text/html';
-        $Salutation{Text}        = $Self->{HTML2AsciiObject}->ToHTML(
+        $Salutation{Text}        = $Self->{HTMLUtilsObject}->ToHTML(
             String => $Salutation{Text},
         );
     }
@@ -197,7 +197,7 @@ sub Salutation {
     # do text/html to text/plain convert
     if ( !$Self->{RichText} && $Salutation{ContentType} =~ /text\/html/i ) {
         $Salutation{ContentType} = 'text/plain';
-        $Salutation{Text}        = $Self->{HTML2AsciiObject}->ToAscii(
+        $Salutation{Text}        = $Self->{HTMLUtilsObject}->ToAscii(
             String => $Salutation{Text},
         );
     }
@@ -278,7 +278,7 @@ sub Signature {
     # do text/plain to text/html convert
     if ( $Self->{RichText} && $Signature{ContentType} =~ /text\/plain/i ) {
         $Signature{ContentType} = 'text/html';
-        $Signature{Text}        = $Self->{HTML2AsciiObject}->ToHTML(
+        $Signature{Text}        = $Self->{HTMLUtilsObject}->ToHTML(
             String => $Signature{Text},
         );
     }
@@ -286,7 +286,7 @@ sub Signature {
     # do text/html to text/plain convert
     if ( !$Self->{RichText} && $Signature{ContentType} =~ /text\/html/i ) {
         $Signature{ContentType} = 'text/plain';
-        $Signature{Text}        = $Self->{HTML2AsciiObject}->ToAscii(
+        $Signature{Text}        = $Self->{HTMLUtilsObject}->ToAscii(
             String => $Signature{Text},
         );
     }
@@ -346,7 +346,7 @@ sub Response {
     # do text/plain to text/html convert
     if ( $Self->{RichText} && $Response{ContentType} =~ /text\/plain/i ) {
         $Response{ContentType} = 'text/html';
-        $Response{Response}    = $Self->{HTML2AsciiObject}->ToHTML(
+        $Response{Response}    = $Self->{HTMLUtilsObject}->ToHTML(
             String => $Response{Response},
         );
     }
@@ -354,7 +354,7 @@ sub Response {
     # do text/html to text/plain convert
     if ( !$Self->{RichText} && $Response{ContentType} =~ /text\/html/i ) {
         $Response{ContentType} = 'text/plain';
-        $Response{Response}    = $Self->{HTML2AsciiObject}->ToAscii(
+        $Response{Response}    = $Self->{HTMLUtilsObject}->ToAscii(
             String => $Response{Response},
         );
     }
@@ -496,10 +496,10 @@ sub AutoResponse {
         chomp $Param{OrigHeader}->{$_};
     }
 
-    # format body (only if longer the 90 chars)
+    # format body (only if longer the 86 chars)
     if ( $Param{OrigHeader}->{Body} ) {
-        if ( length $Param{OrigHeader}->{Body} > 90 ) {
-            $Param{OrigHeader}->{Body} =~ s/(^>.+|.{4,90})(?:\s|\z)/$1\n/gm;
+        if ( length $Param{OrigHeader}->{Body} > 86 ) {
+            $Param{OrigHeader}->{Body} =~ s/(^>.+|.{4,86})(?:\s|\z)/$1\n/gm;
         }
     }
 
@@ -513,7 +513,7 @@ sub AutoResponse {
     # do text/plain to text/html convert
     if ( $Self->{RichText} && $AutoResponse{ContentType} =~ /text\/plain/i ) {
         $AutoResponse{ContentType} = 'text/html';
-        $AutoResponse{Text}        = $Self->{HTML2AsciiObject}->ToHTML(
+        $AutoResponse{Text}        = $Self->{HTMLUtilsObject}->ToHTML(
             String => $AutoResponse{Text},
         );
     }
@@ -521,7 +521,7 @@ sub AutoResponse {
     # do text/html to text/plain convert
     if ( !$Self->{RichText} && $AutoResponse{ContentType} =~ /text\/html/i ) {
         $AutoResponse{ContentType} = 'text/plain';
-        $AutoResponse{Text}        = $Self->{HTML2AsciiObject}->ToAscii(
+        $AutoResponse{Text}        = $Self->{HTMLUtilsObject}->ToAscii(
             String => $AutoResponse{Text},
         );
     }
@@ -558,7 +558,7 @@ sub AutoResponse {
 
     # verify to be full html document
     if ( $Self->{RichText} ) {
-        $AutoResponse{Text} = $Self->{HTML2AsciiObject}->DocumentComplete(
+        $AutoResponse{Text} = $Self->{HTMLUtilsObject}->DocumentComplete(
             Charset => $AutoResponse{Charset},
             String  => $AutoResponse{Text},
         );
@@ -623,10 +623,10 @@ sub NotificationAgent {
         chomp $Param{CustomerMessageParams}->{$_};
     }
 
-    # format body (only if longer the 90 chars)
+    # format body (only if longer the 86 chars)
     if ( $Param{CustomerMessageParams}->{Body} ) {
-        if ( length $Param{CustomerMessageParams}->{Body} > 90 ) {
-            $Param{CustomerMessageParams}->{Body} =~ s/(^>.+|.{4,90})(?:\s|\z)/$1\n/gm;
+        if ( length $Param{CustomerMessageParams}->{Body} > 86 ) {
+            $Param{CustomerMessageParams}->{Body} =~ s/(^>.+|.{4,86})(?:\s|\z)/$1\n/gm;
         }
     }
 
@@ -655,7 +655,7 @@ sub NotificationAgent {
     # do text/plain to text/html convert
     if ( $Self->{RichText} && $Notification{ContentType} =~ /text\/plain/i ) {
         $Notification{ContentType} = 'text/html';
-        $Notification{Body}        = $Self->{HTML2AsciiObject}->ToHTML(
+        $Notification{Body}        = $Self->{HTMLUtilsObject}->ToHTML(
             String => $Notification{Body},
         );
     }
@@ -663,7 +663,7 @@ sub NotificationAgent {
     # do text/html to text/plain convert
     if ( !$Self->{RichText} && $Notification{ContentType} =~ /text\/html/i ) {
         $Notification{ContentType} = 'text/plain';
-        $Notification{Body}        = $Self->{HTML2AsciiObject}->ToAscii(
+        $Notification{Body}        = $Self->{HTMLUtilsObject}->ToAscii(
             String => $Notification{Body},
         );
     }
@@ -713,7 +713,7 @@ sub NotificationAgent {
 
     # verify to be full html document
     if ( $Self->{RichText} ) {
-        $Notification{Body} = $Self->{HTML2AsciiObject}->DocumentComplete(
+        $Notification{Body} = $Self->{HTMLUtilsObject}->DocumentComplete(
             Charset => $Notification{Charset},
             String  => $Notification{Body},
         );
@@ -1059,6 +1059,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.21 $ $Date: 2009-07-17 12:34:33 $
+$Revision: 1.22 $ $Date: 2009-07-18 09:19:06 $
 
 =cut
