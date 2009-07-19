@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.31 2009-07-18 09:19:07 martin Exp $
+# $Id: AgentTicketMove.pm,v 1.32 2009-07-19 23:00:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -565,16 +565,6 @@ sub Run {
             if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
                 $MimeType = 'text/html';
 
-                # replace link with content id for uploaded images
-                $GetParam{Body} =~ s{
-                    ((?:<|&lt;)img.*?src=(?:"|&quot;))
-                    .*?ContentID=(inline[\w\.]+?@[\w\.-]+).*?
-                    ((?:"|&quot;).*?(?:>|&gt;))
-                }
-                {
-                    $1 . "cid:" . $2 . $3;
-                }esgxi;
-
                 # remove unused inline images
                 my @NewAttachmentData = ();
                 REMOVEINLINE:
@@ -582,14 +572,13 @@ sub Run {
                     next REMOVEINLINE if $TmpAttachment->{ContentID}
                             && $TmpAttachment->{ContentID} =~ /^inline/
                             && $GetParam{Body} !~ /$TmpAttachment->{ContentID}/;
-                    push( @NewAttachmentData, \%{$TmpAttachment} );
+                    push @NewAttachmentData, \%{$TmpAttachment};
                 }
                 @AttachmentData = @NewAttachmentData;
 
                 # verify html document
-                $GetParam{Body} = $Self->{LayoutObject}->{HTMLUtilsObject}->DocumentComplete(
+                $GetParam{Body} = $Self->{LayoutObject}->RichTextDocumentComplete(
                     String  => $GetParam{Body},
-                    Charset => $Self->{LayoutObject}->{UserCharset},
                 );
             }
 

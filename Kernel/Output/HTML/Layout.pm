@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.150 2009-07-18 15:19:33 martin Exp $
+# $Id: Layout.pm,v 1.151 2009-07-19 23:00:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.150 $) [1];
+$VERSION = qw($Revision: 1.151 $) [1];
 
 =head1 NAME
 
@@ -4087,11 +4087,10 @@ sub CustomerNoPermission {
     my ( $Self, %Param ) = @_;
 
     my $WithHeader = $Param{WithHeader} || 'yes';
-    my $Output = '';
     $Param{Message} ||= 'No Permission!';
 
     # create output
-    $Output = $Self->CustomerHeader( Title => 'No Permission' ) if ( $WithHeader eq 'yes' );
+    my $Output = $Self->CustomerHeader( Title => 'No Permission' ) if ( $WithHeader eq 'yes' );
     $Output .= $Self->Output( TemplateFile => 'NoPermission', Data => \%Param );
     $Output .= $Self->CustomerFooter() if ( $WithHeader eq 'yes' );
 
@@ -4182,6 +4181,77 @@ sub ToFromRichText {
         return ( $Content, $ContentType );
     }
 }
+
+=item RichTextDocumentComplete()
+
+1) add html, body, ... tags to be a valid html document
+2) replace links of inline content e. g. images
+
+    $HTMLBody = $LayoutObject->RichTextDocumentComplete(
+        String => $HTMLBody,
+    );
+
+=cut
+
+sub RichTextDocumentComplete {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(String)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # replace image link with content id for uploaded images
+    $Param{String} = $Self->_RichTextReplaceLinkOfInlineContent(
+        String => $Param{String},
+    );
+
+    # verify html document
+    $Param{String} = $Self->{HTMLUtilsObject}->DocumentComplete(
+        String  => $Param{String},
+        Charset => $Self->{UserCharset},
+    );
+
+    return $Param{String};
+}
+
+#=item _RichTextReplaceLinkOfInlineContent()
+#
+#replace links of inline content e. g. images
+#
+#
+#    $HTMLBody = $LayoutObject->_RichTextReplaceLinkOfInlineContent(
+#        String => $HTMLBody,
+#    );
+#
+#=cut
+
+sub _RichTextReplaceLinkOfInlineContent {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(String)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # replace image link with content id for uploaded images
+    $Param{String} =~ s{
+        ((?:<|&lt;)img.*?src=(?:"|&quot;))
+        .*?ContentID=(inline[\w\.]+?@[\w\.-]+).*?
+        ((?:"|&quot;).*?(?:>|&gt;))
+    }
+    {
+        $1 . "cid:" . $2 . $3;
+    }esgxi;
+
+    return $Param{String};
+}
 1;
 
 =back
@@ -4196,6 +4266,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.150 $ $Date: 2009-07-18 15:19:33 $
+$Revision: 1.151 $ $Date: 2009-07-19 23:00:31 $
 
 =cut

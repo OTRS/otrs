@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.91 2009-07-18 18:19:38 ub Exp $
+# $Id: AgentTicketEmail.pm,v 1.92 2009-07-19 23:00:31 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.91 $) [1];
+$VERSION = qw($Revision: 1.92 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -780,16 +780,6 @@ sub Run {
             $MimeType = 'text/html';
             $GetParam{Body} .= "<br/><br/>" . $Signature;
 
-            # replace link with content id for uploaded images
-            $GetParam{Body} =~ s{
-                ((?:<|&lt;)img.*?src=(?:"|&quot;))
-                .*?ContentID=(inline[\w\.]+?@[\w\.-]+).*?
-                ((?:"|&quot;).*?(?:>|&gt;))
-            }
-            {
-                $1 . "cid:" . $2 . $3;
-            }esgxi;
-
             # remove unused inline images
             my @NewAttachments = ();
             REMOVEINLINE:
@@ -797,14 +787,13 @@ sub Run {
                 next REMOVEINLINE if $TmpAttachment->{ContentID}
                         && $TmpAttachment->{ContentID} =~ /^inline/
                         && $GetParam{Body} !~ /$TmpAttachment->{ContentID}/;
-                push( @NewAttachments, \%{$TmpAttachment} );
+                push @NewAttachments, \%{$TmpAttachment};
             }
             @Attachments = @NewAttachments;
 
             # verify html document
-            $GetParam{Body} = $Self->{LayoutObject}->{HTMLUtilsObject}->DocumentComplete(
+            $GetParam{Body} = $Self->{LayoutObject}->RichTextDocumentComplete(
                 String  => $GetParam{Body},
-                Charset => $Self->{LayoutObject}->{UserCharset},
             );
         }
         else {
