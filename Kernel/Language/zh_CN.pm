@@ -6,7 +6,7 @@
 # Copyright (C) 2009 Yiye Huang <yiyehuang at gmail.com>
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # --
-# $Id: zh_CN.pm,v 1.65 2009-07-19 10:10:04 martin Exp $
+# $Id: zh_CN.pm,v 1.66 2009-07-19 10:25:55 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,13 +19,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.65 $) [1];
+$VERSION = qw($Revision: 1.66 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Thurs July16 13:56:58 2009
+    # Last translation file sync: Sun Jul 19 12:24:20 2009
 
     # possible charsets
     $Self->{Charset} = ['GBK', 'GB2312', ];
@@ -120,6 +120,7 @@ sub Data {
         'Hit' => '点击',
         'Hits' => '点击数',
         'Text' => '正文',
+        'Standard' => '',
         'Lite' => '简洁',
         'User' => '用户',
         'Username' => '用户名称',
@@ -265,6 +266,7 @@ sub Data {
         'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' => '在线资源中没有软件包对应需要的框架，但有其他的框架所需软件包',
         'No Packages or no new Packages in selected Online Repository!' => '在所选的在线资源中，没有现存或新的软件包',
         'printed at' => '打印日期',
+        'Loading...' => '',
         'Dear Mr. %s,' => '尊敬的 %s 先生:',
         'Dear Mrs. %s,' => '尊敬的 %s 女士:',
         'Dear %s,' => '尊敬的 %s:',
@@ -282,8 +284,11 @@ sub Data {
         'For more info see:' => '更多信息请看',
         'Package verification failed!' => '软件包验证失败',
         'Collapse' => '收',
+        'Shown' => '',
         'News' => '新闻',
         'Product News' => '产品新闻',
+        'OTRS News' => '',
+        '7 Day Stats' => '',
         'Bold' => '黑体',
         'Italic' => '斜体',
         'Underline' => '底线',
@@ -1011,7 +1016,8 @@ sub Data {
 
         # Template: AdminSelectBoxForm
         'SQL Box' => 'SQL查询窗口',
-        'Go' => '执行',
+        'CSV' => '',
+        'HTML' => '',
         'Select Box Result' => '查询结果',
 
         # Template: AdminService
@@ -1139,9 +1145,11 @@ sub Data {
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => '',
 
-        # Template: AgentDashboardTicketOverview
+        # Template: AgentDashboardTicketGeneric
 
         # Template: AgentDashboardTicketStats
+
+        # Template: AgentDashboardUserOnline
 
         # Template: AgentInfo
         'Info' => '详情',
@@ -1557,13 +1565,13 @@ sub Data {
 
         # Template: Redirect
 
+        # Template: RichTextEditor
+
         # Template: Test
         'OTRS Test Page' => 'OTRS 测试页',
         'Counter' => '计数器',
 
         # Template: Warning
-
-        # Template: YUI
 
         # Misc
         'Edit Article' => '编辑信件',
@@ -1576,8 +1584,8 @@ sub Data {
         'Site' => '站点',
         'Customer history search (e. g. "ID342425").' => '搜索客户历史 (例如： "ID342425").',
         'Can not delete link with %s!' => '不能删除 %s 的连接',
-        'Close!' => '关闭!',
         'for agent firstname' => '技术支持人员 名',
+        'Close!' => '关闭!',
         'No means, send agent and customer notifications on changes.' => '当有改变时不发送通知给技术人员或客户.',
         'A web calendar' => 'Web 日历',
         'to get the realname of the sender (if given)' => '邮件发送人的真实姓名 (如果存在)',
@@ -1608,6 +1616,7 @@ sub Data {
         'PostMaster Mail Account' => '邮件帐号管理',
         'Stat#' => '',
         'Create new database' => '创建新的数据库',
+        'Go' => '执行',
         'Keywords' => '关键字',
         'Ticket Escalation View' => '调整查看 Ticket',
         'Today' => '今天',
@@ -1645,11 +1654,11 @@ sub Data {
         'Reminder messages' => '消息提醒',
         'Parent-Object' => '父对象',
         'Of couse this feature will take some system performance it self!' => '当然, 该功能会占用一定的系统资源, 加重系统的负担!',
-        'Detail' => '细节',
         'Your own Ticket' => '您自己的 Ticket',
+        'Detail' => '细节',
         'TicketZoom' => 'Ticket 展开',
-        'Don\'t forget to add a new user to groups!' => '不要忘记增加新的用户到组!',
         'Open Tickets' => '开放 Tickets',
+        'Don\'t forget to add a new user to groups!' => '不要忘记增加新的用户到组!',
         'General Catalog' => '总目录',
         'CreateTicket' => '创建 Ticket',
         'You have to select two or more attributes from the select field!' => '你必须从所选字段中选择两个或两个以上的属性',

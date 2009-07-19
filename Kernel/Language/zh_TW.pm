@@ -16,13 +16,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+$VERSION = qw($Revision: 1.2 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Thurs July 16 13:56:58 2009
+    # Last translation file sync: Sun Jul 19 12:24:09 2009
 
     # possible charsets
     $Self->{Charset} = ['GBK', 'Big5', ];
@@ -117,6 +117,7 @@ sub Data {
         'Hit' => '點擊',
         'Hits' => '點擊數',
         'Text' => '正文',
+        'Standard' => '',
         'Lite' => '簡潔',
         'User' => '用戶',
         'Username' => '用戶名稱',
@@ -262,6 +263,7 @@ sub Data {
         'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' => '在線資源中沒有軟件包對應需要的框架，但有其他的框架所需軟件包',
         'No Packages or no new Packages in selected Online Repository!' => '在所選的在線資源中，沒有現存或新的軟件包',
         'printed at' => '打印日期',
+        'Loading...' => '',
         'Dear Mr. %s,' => '尊敬的 %s 先生:',
         'Dear Mrs. %s,' => '尊敬的 %s 女士:',
         'Dear %s,' => '尊敬的 %s:',
@@ -279,8 +281,11 @@ sub Data {
         'For more info see:' => '更多信息請看',
         'Package verification failed!' => '軟件包驗証失敗',
         'Collapse' => '收',
+        'Shown' => '',
         'News' => '新聞',
         'Product News' => '產品新聞',
+        'OTRS News' => '',
+        '7 Day Stats' => '',
         'Bold' => '黑體',
         'Italic' => '斜體',
         'Underline' => '底線',
@@ -1008,7 +1013,8 @@ sub Data {
 
         # Template: AdminSelectBoxForm
         'SQL Box' => 'SQL查詢窗口',
-        'Go' => '執行',
+        'CSV' => '',
+        'HTML' => '',
         'Select Box Result' => '查詢結果',
 
         # Template: AdminService
@@ -1136,9 +1142,11 @@ sub Data {
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => '',
 
-        # Template: AgentDashboardTicketOverview
+        # Template: AgentDashboardTicketGeneric
 
         # Template: AgentDashboardTicketStats
+
+        # Template: AgentDashboardUserOnline
 
         # Template: AgentInfo
         'Info' => '詳情',
@@ -1554,13 +1562,13 @@ sub Data {
 
         # Template: Redirect
 
+        # Template: RichTextEditor
+
         # Template: Test
         'OTRS Test Page' => 'OTRS 測試頁',
         'Counter' => '計數器',
 
         # Template: Warning
-
-        # Template: YUI
 
         # Misc
         'Edit Article' => '編輯信件',
@@ -1571,21 +1579,21 @@ sub Data {
         'Symptom' => '症狀',
         'U' => '升序',
         'Site' => '站點',
+        'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_USERFIRSTNAME>)' => '',
         'Customer history search (e. g. "ID342425").' => '搜索客戶歷史 (例如： "ID342425").',
         'Can not delete link with %s!' => '不能刪除 %s 的連接',
-        'Close!' => '關閉!',
         'for agent firstname' => '技術支持人員 名',
+        'Close!' => '關閉!',
         'No means, send agent and customer notifications on changes.' => '當有改變時不發送通知給技術人員或客戶.',
         'A web calendar' => 'Web 日歷',
         'to get the realname of the sender (if given)' => '郵件發送人的真實姓名 (如果存在)',
         'OTRS DB Name' => '數據庫名稱',
         'Notification (Customer)' => '',
         'Select Source (for add)' => '選擇數據源(增加功能使用)',
-        'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
         'Child-Object' => '子對象',
         'Days' => '天',
         'Queue ID' => '隊列編號',
-        'Config options (e. g. <OTRS_CONFIG_HttpType>)' => '配置選項 (例如:<OTRS_CONFIG_HttpType>)',
+        'Config options (e. g. <OTRS_CONFIG_HttpType>)' => '配置選項 (例如: <OTRS_CONFIG_HttpType>)',
         'System History' => '系統歷史',
         'customer realname' => '客戶真實姓名',
         'Pending messages' => '消息轉入等待狀態',
@@ -1605,13 +1613,13 @@ sub Data {
         'PostMaster Mail Account' => '郵件帳號管理',
         'Stat#' => '',
         'Create new database' => '創建新的數據庫',
+        'Go' => '執行',
         'Keywords' => '關鍵字',
         'Ticket Escalation View' => '調整查看 Ticket',
         'Today' => '今天',
         'No * possible!' => '不可使用通配符 "*" !',
         'Load' => '加載',
         'PostMaster Filter' => '郵件內容過濾',
-        'Options of the current user who requested this action (e. g. <OTRS_CURRENT_USERFIRSTNAME>)' => '',
         'Message for new Owner' => '給所有者的消息',
         'to get the first 5 lines of the email' => '郵件正文前5行',
         'Sort by' => '排序',
@@ -1628,7 +1636,6 @@ sub Data {
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => '當前客戶用戶信息 (例如: <OTRS_CUSTOMER_DATA_UserFirstname>)',
         'Pending type' => '待處理類型',
         'Comment (internal)' => '注釋 (內部)',
-        'Ticket owner options (e. g. <OTRS_OWNER_USERFIRSTNAME>)' => '可用的 Ticket 歸屬人信息 (例如: <OTRS_OWNER_USERFIRSTNAME>)',
         'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '可用的有關 Ticket 信息 (例如: <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         '(Used ticket number format)' => '(使用 Ticket 編號格式)',
         'Reminder' => '提醒',
@@ -1642,11 +1649,11 @@ sub Data {
         'Reminder messages' => '消息提醒',
         'Parent-Object' => '父對象',
         'Of couse this feature will take some system performance it self!' => '當然, 該功能會佔用一定的系統資源, 加重系統的負擔!',
-        'Detail' => '細節',
         'Your own Ticket' => '您自己的 Ticket',
+        'Detail' => '細節',
         'TicketZoom' => 'Ticket 展開',
-        'Don\'t forget to add a new user to groups!' => '不要忘記增加新的用戶到組!',
         'Open Tickets' => '開放 Tickets',
+        'Don\'t forget to add a new user to groups!' => '不要忘記增加新的用戶到組!',
         'General Catalog' => '總目錄',
         'CreateTicket' => '創建 Ticket',
         'You have to select two or more attributes from the select field!' => '你必須從所選字段中選擇兩個或兩個以上的屬性',
@@ -1658,7 +1665,6 @@ sub Data {
         'Object already linked as %s.' => '對象已連接到 %s.',
         'A article should have a title!' => '文章必須有標題!',
         'Customer Users <-> Services' => '客戶帳號 <-> 服務管理',
-        'Config options (e. g. <OTRS_CONFIG_HttpType>)' => '配置選項 (例如: <OTRS_CONFIG_HttpType>)',
         'All email addresses get excluded on replaying on composing and email.' => '所有被取消撰寫郵件功能的郵件地址',
         'A web mail client' => 'WebMail 客戶端',
         'Compose Follow up' => '撰寫跟蹤答復',
@@ -1672,6 +1678,7 @@ sub Data {
         'My Queue' => '我的隊列',
         'Select Box' => '選擇方框',
         'New messages' => '新消息',
+        'Ticket owner options (e. g. <OTRS_OWNER_USERFIRSTNAME>)' => '可用的 Ticket 歸屬人信息 (例如: <OTRS_OWNER_USERFIRSTNAME>)',
         'Can not create link with %s!' => '不能為 %s 創建連接',
         'Linked as' => '已連接為',
         'modified' => '修改於',
@@ -1683,13 +1690,13 @@ sub Data {
         'Send no notifications' => '不發送通知',
         'Note Text' => '注解',
         'POP3 Account Management' => 'POP3 帳戶管理',
-        'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_USERFIRSTNAME>)' => '',
         'System State Management' => '系統狀態管理',
         'OTRS DB User' => 'OTRS 數據庫用戶名',
         'Mailbox' => '郵箱',
         'PhoneView' => '電話視圖',
         'maximal period form' => '最大周期表',
         'Escaladed Tickets' => '',
+        'Options of the current user who requested this action (e. g. <OTRS_CURRENT_USERFIRSTNAME>)' => '',
         'Yes means, send no agent and customer notifications on changes.' => '當有改變時不發送通知給技術人員或客戶.',
         'Your email with ticket number "<OTRS_TICKET>" is bounced to "<OTRS_BOUNCE_TO>". Contact this address for further information.' => '您的郵件 編號: "<OTRS_TICKET>" 回退到 "<OTRS_BOUNCE_TO>" . 請聯系以下地址獲取詳細信息.',
         'Ticket Status View' => 'Ticket 狀態視圖',
