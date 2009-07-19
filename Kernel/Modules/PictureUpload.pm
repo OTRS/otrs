@@ -2,7 +2,7 @@
 # Kernel/Modules/PictureUpload.pm - get picture uploads
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PictureUpload.pm,v 1.2 2009-04-15 22:23:16 sb Exp $
+# $Id: PictureUpload.pm,v 1.3 2009-07-19 21:47:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -45,9 +45,16 @@ sub Run {
 
     my $Output = "Content-Type: text/html; charset="
         . $Self->{ConfigObject}->Get('DefaultCharset') . ";\n\n";
+    $Output .= "
+<script type=\"text/javascript\">
+(function(){var d=document.domain;while (true){try{var A=window.parent.document.domain;break;}catch(e
+) {};d=d.replace(/.*?(?:\.|\$)/,'');if (d.length==0) break;try{document.domain=d;}catch (e){break;}}}
+)();
+
+";
 
     if ( !$Self->{FormID} ) {
-        $Output .= "{status:'Got no FormID!'}";
+        $Output .= "window.parent.OnUploadCompleted(404,\"\",\"\",\"\") ;</script>";
         return $Output;
     }
 
@@ -69,17 +76,17 @@ sub Run {
 
     # upload new picture
     my %File = $Self->{ParamObject}->GetUploadAll(
-        Param  => 'param_name',
+        Param  => 'NewFile',
         Source => 'string',
     );
 
     if ( !%File ) {
-        $Output .= "{status:'Got no File!'}";
+        $Output .= "window.parent.OnUploadCompleted(404,\"-\",\"-\",\"\") ;</script>";
         return $Output;
     }
 
     if ( $File{Filename} !~ /\.(png|gif|jpg|jpeg)$/i ) {
-        $Output .= "{status:'Only gif, jp(e)g and png images allowed!'}";
+        $Output .= "window.parent.OnUploadCompleted(202,\"-\",\"-\",\"\") ;</script>";
         return $Output;
     }
 
@@ -129,15 +136,15 @@ sub Run {
     if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
         $SessionID = "&" . $Self->{SessionName} . "=" . $Self->{SessionID};
     }
-    $Output .= "{status:'UPLOADED', image_url:'"
-        . $Self->{LayoutObject}->{Baselink}
+    my $URL = $Self->{LayoutObject}->{Baselink}
         . "Action=PictureUpload"
         . "&FormID="
         . $Self->{FormID}
         . "&ContentID="
         . $ContentID
-        . $SessionID
-        . "'}";
+        . $SessionID;
+    $Output .= "window.parent.OnUploadCompleted(0,\"$URL\",\"$URL\",\"\") ;</script>";
+
     return $Output;
 }
 
