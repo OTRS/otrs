@@ -1,12 +1,12 @@
 # --
 # Kernel/Language/zh_CN.pm -  provides Chinese Simple language translation
 # Copyright (C) 2005 zuowei <j2ee at hirain-sh.com>
-# Copyright (C) 2008 Never Min <never at qnofae.org>
+# Copyright (C) 2008-2009 Never Min <never at qnofae.org>
 # Copyright (C) 2009 Bin Du <bindu2008 at gmail.com>,
 # Copyright (C) 2009 Yiye Huang <yiyehuang at gmail.com>
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # --
-# $Id: zh_CN.pm,v 1.66 2009-07-19 10:25:55 martin Exp $
+# $Id: zh_CN.pm,v 1.67 2009-07-19 18:38:28 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.66 $) [1];
+$VERSION = qw($Revision: 1.67 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -146,7 +146,7 @@ sub Data {
         'update!' => '更新!',
         'update' => '更新',
         'Update' => '更新',
-        'Updated!' => '',
+        'Updated!' => '已更新',
         'submit!' => '提交!',
         'submit' => '提交',
         'Submit' => '提交',
@@ -187,7 +187,7 @@ sub Data {
         'Up' => '上',
         'Down' => '下',
         'Add' => '增加',
-        'Added!' => '',
+        'Added!' => '已增加!',
         'Category' => '目录',
         'Viewer' => '查看器',
         'Expand' => '扩展',
@@ -676,7 +676,8 @@ sub Data {
         'Ticket owner options (e. g. <OTRS_OWNER_UserFirstname>).' => 'Ticket拥有者的可选项 e. g. <OTRS_OWNER_UserFirstname>).',
         'Ticket responsible options (e. g. <OTRS_RESPONSIBLE_UserFirstname>).' => 'Ticket责任选项 (e. g. <OTRS_RESPONSIBLE_UserFirstname>).',
         'Options of the current user who requested this action (e. g. <OTRS_CURRENT_UserFirstname>).' => '',
-        'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>).' => '',
+        'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>).' => '可选的 ticket 数据 (例如: <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_TicketID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
+
         'Config options (e. g. <OTRS_CONFIG_HttpType>).' => '',
 
         # Template: AdminCustomerCompanyForm
@@ -732,7 +733,7 @@ sub Data {
         'Job-List' => '工作列表',
         'Last run' => '最后运行',
         'Run Now!' => '现在运行!',
-        'x' => '',
+        'x' => 'x',
         'Save Job as?' => '保存工作为?',
         'Is Job Valid?' => '工作是否有效?',
         'Is Job Valid' => '工作有效',
@@ -753,9 +754,9 @@ sub Data {
         'Ticket created' => '创建时间',
         'Ticket created between' => ' 创建时间在',
         'Close Times' => '关闭时间',
-        'No close time settings.' => '',
+        'No close time settings.' => '没有设定关闭时间.',
         'Ticket closed' => '关闭的 Ticket',
-        'Ticket closed between' => '',
+        'Ticket closed between' => 'Ticket 关闭时间在',
         'Pending Times' => '待定时间',
         'No pending time settings.' => '没有设置待定时间',
         'Ticket pending time reached' => '待定时间已到的Ticket',
@@ -831,7 +832,7 @@ sub Data {
         # Template: AdminNotificationEventForm
         'Notification Management' => '通知管理',
         'Add Notification' => '增加通知',
-        'Add a new Notification.' => '',
+        'Add a new Notification.' => '新增一个通知.',
         'Name is required!' => '需要名称!',
         'Event is required!' => '需要事件',
         'A message should have a body!' => '邮件必须包含内容!',
@@ -840,15 +841,15 @@ sub Data {
         'Agent based' => '基于技术支持代表的',
         'Email based' => '基于电邮的',
         'Article Type' => 'Article类别 ',
-        'Only for ArticleCreate Event.' => '',
+        'Only for ArticleCreate Event.' => '仅适用于 ArticleCreate 事件',
         'Subject match' => '标题匹配',
         'Body match' => '内容匹配',
         'Notifications are sent to an agent or a customer.' => '通知被发送到技术支持人员或者客户.',
-        'To get the first 20 character of the subject (of the latest agent article).' => '',
-        'To get the first 5 lines of the body (of the latest agent article).' => '',
-        'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' => '',
-        'To get the first 20 character of the subject (of the latest customer article).' => '',
-        'To get the first 5 lines of the body (of the latest customer article).' => '',
+        'To get the first 20 character of the subject (of the latest agent article).' => '截取服务人员新邮件主题的前 20 个字符.',
+        'To get the first 5 lines of the body (of the latest agent article).' => '截取服务人员新邮件正文内容前 5 行.',
+        'To get the article attribute (e. g. (<OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).' => '取得信件的属性 (例如: <OTRS_AGENT_From>, <OTRS_AGENT_To>, <OTRS_AGENT_Cc>, <OTRS_AGENT_Subject> and <OTRS_AGENT_Body>).',
+        'To get the first 20 character of the subject (of the latest customer article).' => '截取客户最新邮件主题的前 20 个字符.',
+        'To get the first 5 lines of the body (of the latest customer article).' => '截取客人最新邮件正文内容前 5 行.',
 
         # Template: AdminNotificationForm
         'Notification' => '系统通知',
@@ -1180,7 +1181,7 @@ sub Data {
 
         # Template: AgentStatsEditRestrictions
         'Select the restrictions to characterise the stat' => '选择限制参数，使统计特征化',
-        'Fixed' => '',
+        'Fixed' => '修正',
         'Please select only one element or turn off the button \'Fixed\'.' => '请只选择一个元素或关闭被选域的\'Fixed\'按钮',
         'Absolut Period' => '绝对周期',
         'Between' => '',
@@ -1500,7 +1501,7 @@ sub Data {
         # Template: FooterSmall
 
         # Template: Header
-        'Home' => '',
+        'Home' => '首页',
 
         # Template: HeaderSmall
 
@@ -1590,9 +1591,9 @@ sub Data {
         'A web calendar' => 'Web 日历',
         'to get the realname of the sender (if given)' => '邮件发送人的真实姓名 (如果存在)',
         'OTRS DB Name' => '数据库名称',
-        'Notification (Customer)' => '',
+        'Notification (Customer)' => '通知(客户)',
         'Select Source (for add)' => '选择数据源(增加功能使用)',
-        'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '',
+        'Options of the ticket data (e. g. &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)' => '可选的 ticket 数据 (例如: &lt;OTRS_TICKET_Number&gt;, &lt;OTRS_TICKET_ID&gt;, &lt;OTRS_TICKET_Queue&gt;, &lt;OTRS_TICKET_State&gt;)',
         'Child-Object' => '子对象',
         'Days' => '天',
         'Queue ID' => '队列编号',
@@ -1614,7 +1615,7 @@ sub Data {
         'Follow up' => '跟进',
         'Customer history search' => '客户历史搜索',
         'PostMaster Mail Account' => '邮件帐号管理',
-        'Stat#' => '',
+        'Stat#' => '统计号',
         'Create new database' => '创建新的数据库',
         'Go' => '执行',
         'Keywords' => '关键字',
@@ -1623,7 +1624,7 @@ sub Data {
         'No * possible!' => '不可使用通配符 "*" !',
         'Load' => '加载',
         'PostMaster Filter' => '邮件内容过滤',
-        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '',
+        'Options of the current user who requested this action (e. g. &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)' => '选择当前用户谁需要这个动作 (例如: &lt;OTRS_CURRENT_USERFIRSTNAME&gt;)',
         'Message for new Owner' => '给所有者的消息',
         'to get the first 5 lines of the email' => '邮件正文前5行',
         'Sort by' => '排序',
@@ -1632,7 +1633,7 @@ sub Data {
         'Tomorrow' => '明天',
         'not rated' => '不予评级',
         'to get the first 20 character of the subject' => '邮件标题前20个字符',
-        'Select the customeruser:service relations.' => '',
+        'Select the customeruser:service relations.' => '选择客户和服务关系.',
         'DB Admin Password' => '数据系统管理员密码',
         'Drop Database' => '删除数据库',
         'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '在这里，您可以定义x轴。您可以选择的一个因素通过单选按钮。然后，你必须选择该元素两个或两个以上的属性。如果您不选择任何属性, 那么当您生成一个统计的时候所有元素的属性将被使用。并且一个新的属性被更新到上次配置中',
@@ -1666,7 +1667,7 @@ sub Data {
         'Finished' => '完成',
         'D' => '降序',
         'All messages' => '所有消息',
-        'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '',
+        'Options of the ticket data (e. g. <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => '可选的 ticket 数据 (例如: <OTRS_TICKET_Number>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => '对象已连接到 %s.',
         'A article should have a title!' => '文章必须有标题!',
         'Customer Users <-> Services' => '客户帐号 <-> 服务管理',
