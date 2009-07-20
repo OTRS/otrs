@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/LayoutTicket.pm - provides generic ticket HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: LayoutTicket.pm,v 1.45 2009-07-18 15:37:57 martin Exp $
+# $Id: LayoutTicket.pm,v 1.46 2009-07-20 02:04:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 sub TicketStdResponseString {
     my ( $Self, %Param ) = @_;
@@ -664,6 +664,36 @@ sub CustomerFreeDate {
     return %Data;
 }
 
+=item ArticleQuote()
+
+get body and attach e. g. inline documents and/or attach all attachments to
+upload cache
+
+for forward or split, get body and attach all attachments
+
+    my $HTMLBody = $LayoutObject->ArticleQuote(
+        TicketID           => 123,
+        ArticleID          => 123,
+        FormID             => $Self->{FormID},
+        UploadCachObject   => $Self->{UploadCachObject},
+        AttachmentsInclude => 1,
+    );
+
+of just for including inline documents to upload cache
+
+    my $HTMLBody = $LayoutObject->ArticleQuote(
+        TicketID           => 123,
+        ArticleID          => 123,
+        FormID             => $Self->{FormID},
+        UploadCachObject   => $Self->{UploadCachObject},
+        AttachmentsInclude => 0,
+    );
+
+Both will also work without rich text (if $ConfigObject->Get('Frontend::RichText')
+is false), return param will be text/plain instead.
+
+=cut
+
 sub ArticleQuote {
     my ( $Self, %Param ) = @_;
 
@@ -677,13 +707,15 @@ sub ArticleQuote {
     my $Body = '';
 
     # body preparation for plain text processing
-    if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+    if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
 
         # check for html body
         my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
             TicketID                   => $Param{TicketID},
             StripPlainBodyAsAttachment => 1,
         );
+
+        my @NotInlineAttachments;
         ARTICLE:
         for my $ArticleTmp (@ArticleBox) {
 
@@ -726,34 +758,43 @@ sub ArticleQuote {
                 . $Param{FormID}
                 . $SessionID
                 . '&ContentID=';
+
+            # search inline documents in body
             $Body =~ s{
                 "cid:(.*?)"
             }
             {
+
+                # find attachment to include
                 my $ContentID = $1;
                 ATMCOUNT:
-                for my $AtmCount ( keys %Attachments ) {
-                    next ATMCOUNT if $Attachments{$AtmCount}{ContentID} !~ /^<$ContentID>$/;
+                for my $AttachmentID ( keys %Attachments ) {
+
+                    # remember not included attachments
+                    if ( $Attachments{$AttachmentID}->{ContentID} !~ /^<$ContentID>$/i ) {
+                        push @NotInlineAttachments, $AttachmentID;
+                        next ATMCOUNT;
+                    }
 
                     # add to upload cache
                     my %AttachmentPicture = $Self->{TicketObject}->ArticleAttachment(
                         ArticleID => $Param{ArticleID},
-                        FileID    => $AtmCount,
+                        FileID    => $AttachmentID,
                     );
                     $Param{UploadCachObject}->FormIDAddFile(
                         FormID      => $Param{FormID},
                         Disposition => 'inline',
-                        %{ $Attachments{$AtmCount} },
+                        %{ $Attachments{$AttachmentID} },
                         %AttachmentPicture,
                     );
                     my @Attachments = $Param{UploadCachObject}->FormIDGetAllFilesMeta(
                         FormID => $Param{FormID},
                     );
                     CONTENTIDRETURN:
-                    for my $TmpAttachment ( @Attachments ) {
+                    for my $Attachment (@Attachments) {
                         next CONTENTIDRETURN
-                            if $Attachments{$AtmCount}{Filename} ne $TmpAttachment->{Filename};
-                        $ContentID = $AttachmentLink . $TmpAttachment->{ContentID};
+                            if $Attachments{$AttachmentID}->{Filename} ne $Attachment->{Filename};
+                        $ContentID = $AttachmentLink . $Attachment->{ContentID};
                         last CONTENTIDRETURN;
                     }
                     last ATMCOUNT;
@@ -764,6 +805,24 @@ sub ArticleQuote {
             }egxi;
             last ARTICLE;
         }
+
+        # attach also other attachments
+        if ( $Body && $Param{AttachmentsInclude} ) {
+            for my $AttachmentID ( @NotInlineAttachments ) {
+                my %Attachment = $Self->{TicketObject}->ArticleAttachment(
+                    ArticleID => $Param{ArticleID},
+                    FileID    => $AttachmentID,
+                    UserID    => $Self->{UserID},
+                );
+
+                # add attachment
+                $Param{UploadCachObject}->FormIDAddFile(
+                    FormID => $Param{FormID},
+                    %Attachment,
+                );
+            }
+        }
+
         return $Body if $Body;
     }
 
@@ -780,8 +839,29 @@ sub ArticleQuote {
         $Article{Body} =~ s/(^>.+|.{4,$Size})(?:\s|\z)/$1\n/gm;
     }
 
+    # attach attachments
+    if ( $Param{AttachmentsInclude} ) {
+        my %ArticleIndex = $Self->{TicketObject}->ArticleAttachmentIndex(
+            ArticleID => $Param{ArticleID},
+            UserID    => $Self->{UserID},
+        );
+        for my $Index ( keys %ArticleIndex ) {
+            my %Attachment = $Self->{TicketObject}->ArticleAttachment(
+                ArticleID => $Param{ArticleID},
+                FileID    => $Index,
+                UserID    => $Self->{UserID},
+            );
+
+            # add attachment
+            $Param{UploadCachObject}->FormIDAddFile(
+                FormID => $Param{FormID},
+                %Attachment,
+            );
+        }
+    }
+
     # return body as html
-    if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+    if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
 
         my $Body = $Self->Ascii2Html(
             Text => $Article{Body},
