@@ -2,14 +2,30 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.933 2009-07-17 15:51:22 martin Exp $
+# $Id: CHANGES,v 1.934 2009-07-20 02:08:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-2.4.0 beta6 (2009/07/??)
+2.4.0 beta6 (2009/07/19)
+ - (2009/07/19) Moved to fckeditor (http://www.fckeditor.net/) as rich text
+    editor because of several problems regaring text formating with YUI rich
+    text editor.
+ - (2009/07/19) Updated CPAN File::Temp to verion 0.22.
+ - (2009/07/19) Updated Chinese Simple translation, thanks to Never Min!
+ - (2009/07/19) Added new Chinese Traditional translation, thanks to Bin Du,
+    Yiye Huang and Qingjiu Jia!
+ - (2009/07/19) Updated Chinese Simple translation, thanks to Bin Du,
+    Yiye Huang and Qingjiu Jia!
+ - (2009/07/18) Fixed bug#4004 - Can not search for customer strings like
+    "St. Peters", I always get the result of "St.+Peters" which is much
+     more then I want. Please make it working like in OTRS 2.3.
+ - (2009/07/18) Fixed bug#3991 - Link in HTML Articel opens in iframe.
+ - (2009/07/18) Renamed Kernel/System/HTML2Ascii.pm to
+    Kernel/System/HTMLUtils.pm, because of better naming.
+ - (2009/07/17) Updated Russian translation, thanks to Andrey Cherepanov!
  - (2009/07/16) Fixed bug#4001 - proxy usage - rss get's not loaded via
     proxy settings.
  - (2009/07/16) Updated Russian translation, thanks to Egor Tsilenko!
