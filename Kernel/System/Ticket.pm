@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.404 2009-07-18 09:19:06 martin Exp $
+# $Id: Ticket.pm,v 1.405 2009-07-20 08:46:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.404 $) [1];
+$VERSION = qw($Revision: 1.405 $) [1];
 
 =head1 NAME
 
@@ -5357,15 +5357,14 @@ sub OwnerSet {
             && $Param{NewUserID} ne $Self->{ConfigObject}->Get('PostmasterUserID')
             )
         {
-            if ( !$Param{Comment} ) {
-                $Param{Comment} = '';
-            }
-
             # send agent notification
             $Self->SendAgentNotification(
                 Type                  => 'OwnerUpdate',
                 RecipientID           => $Param{NewUserID},
-                CustomerMessageParams => \%Param,
+                CustomerMessageParams => {
+                    %Param,
+                    Body => $Param{Comment} || '',
+                },
                 TicketID              => $Param{TicketID},
                 UserID                => $Param{UserID},
             );
@@ -7361,6 +7360,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.404 $ $Date: 2009-07-18 09:19:06 $
+$Revision: 1.405 $ $Date: 2009-07-20 08:46:37 $
 
 =cut

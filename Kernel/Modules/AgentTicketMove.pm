@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.33 2009-07-20 01:01:59 martin Exp $
+# $Id: AgentTicketMove.pm,v 1.34 2009-07-20 08:46:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -384,8 +384,9 @@ sub Run {
             }
         }
         else {
-            my ( $OwnerID, $OwnerLogin )
-                = $Self->{TicketObject}->OwnerCheck( TicketID => $Self->{TicketID} );
+            my ( $OwnerID, $OwnerLogin ) = $Self->{TicketObject}->OwnerCheck(
+                TicketID => $Self->{TicketID},
+            );
             if ( $OwnerID != $Self->{UserID} ) {
                 $Output .= $Self->{LayoutObject}->Warning(
                     Message => "Sorry, the current owner is $OwnerLogin!",
@@ -468,228 +469,227 @@ sub Run {
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
-    elsif (
-        $Self->{TicketObject}->MoveTicket(
-            QueueID            => $GetParam{DestQueueID},
-            UserID             => $Self->{UserID},
-            TicketID           => $Self->{TicketID},
-            SendNoNotification => $GetParam{NewUserID},
-            Comment            => $GetParam{Body} || '',
-        )
-        )
-    {
 
-        # set priority
-        if ( $Self->{Config}->{Priority} && $GetParam{NewPriorityID} ) {
-            $Self->{TicketObject}->PrioritySet(
-                TicketID   => $Self->{TicketID},
-                PriorityID => $GetParam{NewPriorityID},
-                UserID     => $Self->{UserID},
-            );
-        }
-
-        # set state
-        if ( $Self->{Config}->{State} && $GetParam{NewStateID} ) {
-            $Self->{TicketObject}->StateSet(
-                TicketID => $Self->{TicketID},
-                StateID  => $GetParam{NewStateID},
-                UserID   => $Self->{UserID},
-            );
-
-            # unlock the ticket after close
-            my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
-                ID => $GetParam{NewStateID},
-            );
-
-            # set unlock on close
-            if ( $StateData{TypeName} =~ /^close/i ) {
-                $Self->{TicketObject}->LockSet(
-                    TicketID => $Self->{TicketID},
-                    Lock     => 'unlock',
-                    UserID   => $Self->{UserID},
-                );
-            }
-        }
-
-        # check if new user is given
-        if ( $GetParam{NewUserID} ) {
-
-            # lock
-            $Self->{TicketObject}->LockSet(
-                TicketID => $Self->{TicketID},
-                Lock     => 'lock',
-                UserID   => $Self->{UserID},
-            );
-
-            # set owner
-            $Self->{TicketObject}->OwnerSet(
-                TicketID  => $Self->{TicketID},
-                UserID    => $Self->{UserID},
-                NewUserID => $GetParam{NewUserID},
-                Comment   => $GetParam{Comment} || '',
-            );
-        }
-        else {
-
-            # unlock
-            if ( $Self->{TicketUnlock} ) {
-                $Self->{TicketObject}->LockSet(
-                    TicketID => $Self->{TicketID},
-                    Lock     => 'unlock',
-                    UserID   => $Self->{UserID},
-                );
-            }
-        }
-
-        # add note
-        my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
-        my $ArticleID;
-
-        if ( $GetParam{Body} ) {
-
-            # get pre loaded attachment
-            my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
-                FormID => $Self->{FormID},
-            );
-
-            # get submit attachment
-            my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
-                Param  => 'file_upload',
-                Source => 'String',
-            );
-            if (%UploadStuff) {
-                push( @AttachmentData, \%UploadStuff );
-            }
-
-            my $MimeType = 'text/plain';
-            if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
-                $MimeType = 'text/html';
-
-                # remove unused inline images
-                my @NewAttachmentData = ();
-                REMOVEINLINE:
-                for my $TmpAttachment (@AttachmentData) {
-                    next REMOVEINLINE if $TmpAttachment->{ContentID}
-                            && $TmpAttachment->{ContentID} =~ /^inline/
-                            && $GetParam{Body} !~ /$TmpAttachment->{ContentID}/;
-                    push @NewAttachmentData, \%{$TmpAttachment};
-                }
-                @AttachmentData = @NewAttachmentData;
-
-                # verify html document
-                $GetParam{Body} = $Self->{LayoutObject}->RichTextDocumentComplete(
-                    String  => $GetParam{Body},
-                );
-            }
-
-            $ArticleID = $Self->{TicketObject}->ArticleCreate(
-                TicketID    => $Self->{TicketID},
-                ArticleType => 'note-internal',
-                SenderType  => 'agent',
-                From =>
-                    "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
-                Subject        => $GetParam{Subject},
-                Body           => $GetParam{Body},
-                MimeType       => $MimeType,
-                Charset        => $Self->{LayoutObject}->{UserCharset},
-                UserID         => $Self->{UserID},
-                HistoryType    => 'AddNote',
-                HistoryComment => '%%Move',
-                NoAgentNotify  => 1,
-            );
-
-            # write attachments
-            for my $Ref (@AttachmentData) {
-                $Self->{TicketObject}->ArticleWriteAttachment(
-                    %{$Ref},
-                    ArticleID => $ArticleID,
-                    UserID    => $Self->{UserID},
-                );
-            }
-
-            # remove pre submited attachments
-            $Self->{UploadCachObject}->FormIDRemove( FormID => $Self->{FormID} );
-        }
-
-        # set ticket free text
-        for ( 1 .. 16 ) {
-            if ( defined( $GetParam{"TicketFreeKey$_"} ) ) {
-                $Self->{TicketObject}->TicketFreeTextSet(
-                    TicketID => $Self->{TicketID},
-                    Key      => $GetParam{"TicketFreeKey$_"},
-                    Value    => $GetParam{"TicketFreeText$_"},
-                    Counter  => $_,
-                    UserID   => $Self->{UserID},
-                );
-            }
-        }
-
-        # set ticket free time
-        for ( 1 .. 6 ) {
-            if (
-                defined( $GetParam{ "TicketFreeTime" . $_ . "Year" } )
-                && defined( $GetParam{ "TicketFreeTime" . $_ . "Month" } )
-                && defined( $GetParam{ "TicketFreeTime" . $_ . "Day" } )
-                && defined( $GetParam{ "TicketFreeTime" . $_ . "Hour" } )
-                && defined( $GetParam{ "TicketFreeTime" . $_ . "Minute" } )
-                )
-            {
-                my %Time;
-                $Time{ "TicketFreeTime" . $_ . "Year" }    = 0;
-                $Time{ "TicketFreeTime" . $_ . "Month" }   = 0;
-                $Time{ "TicketFreeTime" . $_ . "Day" }     = 0;
-                $Time{ "TicketFreeTime" . $_ . "Hour" }    = 0;
-                $Time{ "TicketFreeTime" . $_ . "Minute" }  = 0;
-                $Time{ "TicketFreeTime" . $_ . "Secunde" } = 0;
-
-                if ( $GetParam{ "TicketFreeTime" . $_ . "Used" } ) {
-                    %Time = $Self->{LayoutObject}->TransfromDateSelection(
-                        %GetParam, Prefix => "TicketFreeTime" . $_
-                    );
-                }
-                $Self->{TicketObject}->TicketFreeTimeSet(
-                    %Time,
-                    Prefix   => "TicketFreeTime",
-                    TicketID => $Self->{TicketID},
-                    Counter  => $_,
-                    UserID   => $Self->{UserID},
-                );
-            }
-        }
-
-        # time accounting
-        if ( $GetParam{TimeUnits} ) {
-            $Self->{TicketObject}->TicketAccountTime(
-                TicketID  => $Self->{TicketID},
-                ArticleID => $ArticleID || '',
-                TimeUnit  => $GetParam{TimeUnits},
-                UserID    => $Self->{UserID},
-            );
-        }
-
-        # check permission for redirect
-        my $Access = $Self->{TicketObject}->Permission(
-            Type     => 'ro',
-            TicketID => $Self->{TicketID},
-            UserID   => $Self->{UserID}
+    # move ticket (send notification of no new owner is selected)
+    my $BodyAsText = '';
+    if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+        $BodyAsText = $Self->{LayoutObject}->RichText2Ascii(
+            String => $GetParam{Body} || 0,
         );
-
-        # redirect to last overview if we do not have ro permissions anymore
-        if ( !$Access ) {
-            return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenOverview} );
-        }
-        return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenView} );
     }
     else {
-
-        # error?!
-        my $Output = $Self->{LayoutObject}->Header( Title => 'Warning' );
-        $Output .= $Self->{LayoutObject}->Warning(
-            Comment => 'Please contact your admin',
-        );
-        $Output .= $Self->{LayoutObject}->Footer();
-        return $Output;
+        $BodyAsText = $GetParam{Body} || 0;
     }
+    my $Move = $Self->{TicketObject}->MoveTicket(
+        QueueID            => $GetParam{DestQueueID},
+        UserID             => $Self->{UserID},
+        TicketID           => $Self->{TicketID},
+        SendNoNotification => $GetParam{NewUserID},
+        Comment            => $BodyAsText,
+    );
+    if ( !$Move ) {
+        return $Self->{LayoutObject}->ErrorScreen();
+    }
+
+    # set priority
+    if ( $Self->{Config}->{Priority} && $GetParam{NewPriorityID} ) {
+        $Self->{TicketObject}->PrioritySet(
+            TicketID   => $Self->{TicketID},
+            PriorityID => $GetParam{NewPriorityID},
+            UserID     => $Self->{UserID},
+        );
+    }
+
+    # set state
+    if ( $Self->{Config}->{State} && $GetParam{NewStateID} ) {
+        $Self->{TicketObject}->StateSet(
+            TicketID => $Self->{TicketID},
+            StateID  => $GetParam{NewStateID},
+            UserID   => $Self->{UserID},
+        );
+
+        # unlock the ticket after close
+        my %StateData = $Self->{TicketObject}->{StateObject}->StateGet(
+            ID => $GetParam{NewStateID},
+        );
+
+        # set unlock on close
+        if ( $StateData{TypeName} =~ /^close/i ) {
+            $Self->{TicketObject}->LockSet(
+                TicketID => $Self->{TicketID},
+                Lock     => 'unlock',
+                UserID   => $Self->{UserID},
+            );
+        }
+    }
+
+    # check if new user is given and send notification
+    if ( $GetParam{NewUserID} ) {
+
+        # lock
+        $Self->{TicketObject}->LockSet(
+            TicketID => $Self->{TicketID},
+            Lock     => 'lock',
+            UserID   => $Self->{UserID},
+        );
+
+        # set owner
+        $Self->{TicketObject}->OwnerSet(
+            TicketID  => $Self->{TicketID},
+            UserID    => $Self->{UserID},
+            NewUserID => $GetParam{NewUserID},
+            Comment   => $BodyAsText,
+        );
+    }
+
+    # force unlock if no new owner is set and tickert was unlocked
+    else {
+        if ( $Self->{TicketUnlock} ) {
+            $Self->{TicketObject}->LockSet(
+                TicketID => $Self->{TicketID},
+                Lock     => 'unlock',
+                UserID   => $Self->{UserID},
+            );
+        }
+    }
+
+    # add note (send no notification)
+    my $ArticleID;
+
+    if ( $GetParam{Body} ) {
+
+        # get pre loaded attachment
+        my @AttachmentData = $Self->{UploadCachObject}->FormIDGetAllFilesData(
+            FormID => $Self->{FormID},
+        );
+
+        # get submit attachment
+        my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+            Param  => 'file_upload',
+            Source => 'String',
+        );
+        if (%UploadStuff) {
+            push @AttachmentData, \%UploadStuff;
+        }
+
+        my $MimeType = 'text/plain';
+        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+            $MimeType = 'text/html';
+
+            # remove unused inline images
+            my @NewAttachmentData = ();
+            REMOVEINLINE:
+            for my $TmpAttachment (@AttachmentData) {
+                next REMOVEINLINE if $TmpAttachment->{ContentID}
+                    && $TmpAttachment->{ContentID} =~ /^inline/
+                    && $GetParam{Body} !~ /$TmpAttachment->{ContentID}/;
+                push @NewAttachmentData, \%{$TmpAttachment};
+            }
+            @AttachmentData = @NewAttachmentData;
+
+            # verify html document
+            $GetParam{Body} = $Self->{LayoutObject}->RichTextDocumentComplete(
+                String  => $GetParam{Body},
+            );
+        }
+
+        $ArticleID = $Self->{TicketObject}->ArticleCreate(
+            TicketID       => $Self->{TicketID},
+            ArticleType    => 'note-internal',
+            SenderType     => 'agent',
+            From           => "$Self->{UserFirstname} $Self->{UserLastname} <$Self->{UserEmail}>",
+            Subject        => $GetParam{Subject},
+            Body           => $GetParam{Body},
+            MimeType       => $MimeType,
+            Charset        => $Self->{LayoutObject}->{UserCharset},
+            UserID         => $Self->{UserID},
+            HistoryType    => 'AddNote',
+            HistoryComment => '%%Move',
+            NoAgentNotify  => 1,
+        );
+
+        # write attachments
+        for my $Attachment (@AttachmentData) {
+            $Self->{TicketObject}->ArticleWriteAttachment(
+                %{$Attachment},
+                ArticleID => $ArticleID,
+                UserID    => $Self->{UserID},
+            );
+        }
+
+        # remove pre submited attachments
+        $Self->{UploadCachObject}->FormIDRemove( FormID => $Self->{FormID} );
+    }
+
+    # set ticket free text
+    for ( 1 .. 16 ) {
+        if ( defined $GetParam{"TicketFreeKey$_"} ) {
+            $Self->{TicketObject}->TicketFreeTextSet(
+                TicketID => $Self->{TicketID},
+                Key      => $GetParam{"TicketFreeKey$_"},
+                Value    => $GetParam{"TicketFreeText$_"},
+                Counter  => $_,
+                UserID   => $Self->{UserID},
+            );
+        }
+    }
+
+    # set ticket free time
+    for ( 1 .. 6 ) {
+        if (
+            defined $GetParam{ "TicketFreeTime" . $_ . "Year" }
+            && defined $GetParam{ "TicketFreeTime" . $_ . "Month" }
+            && defined $GetParam{ "TicketFreeTime" . $_ . "Day" }
+            && defined $GetParam{ "TicketFreeTime" . $_ . "Hour" }
+            && defined $GetParam{ "TicketFreeTime" . $_ . "Minute" }
+            )
+        {
+            my %Time;
+            $Time{ "TicketFreeTime" . $_ . "Year" }    = 0;
+            $Time{ "TicketFreeTime" . $_ . "Month" }   = 0;
+            $Time{ "TicketFreeTime" . $_ . "Day" }     = 0;
+            $Time{ "TicketFreeTime" . $_ . "Hour" }    = 0;
+            $Time{ "TicketFreeTime" . $_ . "Minute" }  = 0;
+            $Time{ "TicketFreeTime" . $_ . "Secunde" } = 0;
+
+            if ( $GetParam{ "TicketFreeTime" . $_ . "Used" } ) {
+                %Time = $Self->{LayoutObject}->TransfromDateSelection(
+                    %GetParam,
+                    Prefix => "TicketFreeTime" . $_
+                );
+            }
+            $Self->{TicketObject}->TicketFreeTimeSet(
+                %Time,
+                Prefix   => "TicketFreeTime",
+                TicketID => $Self->{TicketID},
+                Counter  => $_,
+                UserID   => $Self->{UserID},
+            );
+        }
+    }
+
+    # time accounting
+    if ( $GetParam{TimeUnits} ) {
+        $Self->{TicketObject}->TicketAccountTime(
+            TicketID  => $Self->{TicketID},
+            ArticleID => $ArticleID || '',
+            TimeUnit  => $GetParam{TimeUnits},
+            UserID    => $Self->{UserID},
+        );
+    }
+
+    # check permission for redirect
+    my $AccessNew = $Self->{TicketObject}->Permission(
+        Type     => 'ro',
+        TicketID => $Self->{TicketID},
+        UserID   => $Self->{UserID}
+    );
+
+    # redirect to last overview if we do not have ro permissions anymore
+    if ( !$AccessNew ) {
+        return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenOverview} );
+    }
+    return $Self->{LayoutObject}->Redirect( OP => $Self->{LastScreenView} );
 }
 
 sub AgentMove {
