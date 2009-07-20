@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.1 2009-07-18 09:13:18 martin Exp $
+# $Id: HTMLUtils.t,v 1.2 2009-07-20 10:36:05 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -32,28 +32,28 @@ my @Tests = (
 
 [1] http://example.com
 ',
-        Name   => 'ToAscii - simple'
+        Name => 'ToAscii - simple'
     },
     {
         Input  => '<b>Some Text</b><br/>More Text',
         Result => 'Some Text
 More Text',
-        Name   => 'ToAscii - simple'
+        Name => 'ToAscii - simple'
     },
     {
         Input  => '<b>Some Text</b><br  type="_moz" />More Text',
         Result => 'Some Text
 More Text',
-        Name   => 'ToAscii - simple'
+        Name => 'ToAscii - simple'
     },
     {
         Input  => '<b>Some Text</b><br />More <i>Text</i>',
         Result => 'Some Text
 More Text',
-        Name   => 'ToAscii - simple'
+        Name => 'ToAscii - simple'
     },
     {
-        Input  => '<div>Martin,</div>
+        Input => '<div>Martin,</div>
 <div>&nbsp;</div>
 <div>I am lost. <b>Martin</b> says that...</div>
 <div>&nbsp;</div>
@@ -66,10 +66,11 @@ More Text',
  --Shawn
  ' . chr(160) . '
 ',
-        Name   => 'ToAscii - simple'
+        Name => 'ToAscii - simple'
     },
     {
-        Input  => '<ul><li>a</li><li>b</li><li>c</li></ul><ol><li>one</li><li>two</li><li>three</li></ol>',
+        Input =>
+            '<ul><li>a</li><li>b</li><li>c</li></ul><ol><li>one</li><li>two</li><li>three</li></ol>',
         Result => '
  - a
  - b
@@ -80,7 +81,7 @@ More Text',
  - three
 
 ',
-        Name   => 'ToAscii - simple'
+        Name => 'ToAscii - simple'
     },
 );
 
@@ -98,9 +99,10 @@ for my $Test (@Tests) {
 # DocumentComplete tests
 @Tests = (
     {
-        Input  => 'Some Text',
-        Result => '<html><head><meta http-equiv="Content-Type content=text/html; charset=iso-8859-1"/></head><body style="font-family:Courier New,monospace,fixed; font-size: 12px;">Some Text</body></html>',
-        Name   => 'DocumentComplete - simple'
+        Input => 'Some Text',
+        Result =>
+            '<html><head><meta http-equiv="Content-Type content=text/html; charset=iso-8859-1"/></head><body style="font-family:Courier New,monospace,fixed; font-size: 12px;">Some Text</body></html>',
+        Name => 'DocumentComplete - simple'
     },
     {
         Input  => '<html><body>Some Text</body></html>',
@@ -124,7 +126,7 @@ for my $Test (@Tests) {
 # DocumentStrip tests
 @Tests = (
     {
-        Input  => '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+        Input => '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML><HEAD>
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
 
@@ -137,10 +139,10 @@ wrong....</SPAN></FONT></SPAN></DIV></BODY></HTML>',
 \n
 <DIV><SPAN class=678193704-17072009><FONT size=3><SPAN class=monospace>hm there is something
 wrong....</SPAN></FONT></SPAN></DIV>",
-        Name   => 'DocumentStrip - MSHTML'
+        Name => 'DocumentStrip - MSHTML'
     },
     {
-        Input  => '<html>
+        Input => '<html>
 
 <head>
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=Windows-1252">
@@ -206,7 +208,7 @@ style='font-size:12.0pt;font-family:\"Courier New\"'>Hello, <br>
 </div>
 \n\n\n
 ",
-        Name   => 'DocumentStrip - Generator - Microsoft Word 10 (filtered)'
+        Name => 'DocumentStrip - Generator - Microsoft Word 10 (filtered)'
     },
 );
 

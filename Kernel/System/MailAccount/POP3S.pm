@@ -2,7 +2,7 @@
 # Kernel/System/MailAccount/POP3S.pm - lib for pop3 accounts
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: POP3S.pm,v 1.8 2009-07-13 07:18:31 martin Exp $
+# $Id: POP3S.pm,v 1.9 2009-07-20 10:36:04 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use IO::Socket::SSL;
 use Kernel::System::PostMaster;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -109,7 +109,7 @@ sub Fetch {
     my $NOM = $PopObject->Count();
 
     # if there is no connection, Mail::POP3Client will return a -1 (see bug 3790)
-    if ( $NOM == -1) {
+    if ( $NOM == -1 ) {
         $Self->{LogObject}->Log(
             Priority => 'error',
             Message  => "$AuthType: Can't connect to $Param{Host}",

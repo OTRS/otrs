@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.154 2009-07-20 08:46:37 martin Exp $
+# $Id: Layout.pm,v 1.155 2009-07-20 10:36:04 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.154 $) [1];
+$VERSION = qw($Revision: 1.155 $) [1];
 
 =head1 NAME
 
@@ -1884,7 +1884,7 @@ sub HTMLLinkQuote {
     }
 
     # add target to already existing url of html string
-    ${ $Text }  =~ s{
+    ${$Text} =~ s{
         (<a\s{1,5})(.+?)>
     }
     {
@@ -1899,9 +1899,9 @@ sub HTMLLinkQuote {
     }egx;
 
     # add <a href="" to not already linked url's in html
-#    ${ $Text } = $Self->LinkQuote(
-#        Text => ${ $Text },
-#    );
+    #    ${ $Text } = $Self->LinkQuote(
+    #        Text => ${ $Text },
+    #    );
 
     # check ref && return result like called
     if ($TextScalar) {
@@ -4135,7 +4135,7 @@ sub Ascii2RichText {
 
     # ascii 2 html
     $Param{String} = $Self->{HTMLUtilsObject}->ToHTML(
-        String  => $Param{String},
+        String => $Param{String},
     );
 
     return $Param{String};
@@ -4164,7 +4164,7 @@ sub RichText2Ascii {
 
     # ascii 2 html
     $Param{String} = $Self->{HTMLUtilsObject}->ToAscii(
-        String  => $Param{String},
+        String => $Param{String},
     );
 
     return $Param{String};
@@ -4199,7 +4199,7 @@ sub RichTextDocumentComplete {
 
     # verify html document
     $Param{String} = $Self->{HTMLUtilsObject}->DocumentComplete(
-        String  => ${ $StringRef },
+        String  => ${$StringRef},
         Charset => $Self->{UserCharset},
     );
 
@@ -4254,6 +4254,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.154 $ $Date: 2009-07-20 08:46:37 $
+$Revision: 1.155 $ $Date: 2009-07-20 10:36:04 $
 
 =cut

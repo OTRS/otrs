@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminAutoResponse.pm - provides AdminAutoResponse HTML
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminAutoResponse.pm,v 1.32 2009-07-20 01:01:59 martin Exp $
+# $Id: AdminAutoResponse.pm,v 1.33 2009-07-20 10:36:04 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.32 $) [1];
+$VERSION = qw($Revision: 1.33 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -38,7 +38,7 @@ sub new {
     $Self->{AutoResponseObject}  = Kernel::System::AutoResponse->new(%Param);
     $Self->{SystemAddressObject} = Kernel::System::SystemAddress->new(%Param);
     $Self->{ValidObject}         = Kernel::System::Valid->new(%Param);
-    $Self->{HTMLUtilsObject}    = Kernel::System::HTMLUtils->new(%Param);
+    $Self->{HTMLUtilsObject}     = Kernel::System::HTMLUtils->new(%Param);
 
     return $Self;
 }

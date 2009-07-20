@@ -3,7 +3,7 @@
 # DBUpdate-to-2.4.pl - update script to migrate OTRS 2.3.x to 2.4.x
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-2.4.pl,v 1.5 2009-07-10 22:08:09 martin Exp $
+# $Id: DBUpdate-to-2.4.pl,v 1.6 2009-07-20 10:36:05 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -200,7 +200,7 @@ sub MigrateCustomerNotification {
             for my $Type ( sort keys %Map ) {
                 next if !$Events{$Type};
                 $CommonObject{DBObject}->Prepare(
-                    SQL  => 'SELECT notification_charset, subject, text, content_type '
+                    SQL => 'SELECT notification_charset, subject, text, content_type '
                         . 'FROM notifications WHERE '
                         . 'notification_type = ? AND notification_language = \'en\'',
                     Bind => [ \$Map{$Type} ],
@@ -215,10 +215,10 @@ sub MigrateCustomerNotification {
                     );
                 }
                 $CommonObject{NotificationEventObject}->NotificationAdd(
-                    Name    => "customer-$Type",
+                    Name => "customer-$Type",
                     %Notification,
                     Data => {
-                        Events  => [ $Type ],
+                        Events  => [$Type],
                         QueueID => $Events{$Type},
                     },
                     ValidID => 1,

@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardUserOnline.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardUserOnline.pm,v 1.4 2009-07-17 23:02:24 martin Exp $
+# $Id: DashboardUserOnline.pm,v 1.5 2009-07-20 10:36:04 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::AuthSession;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -37,7 +37,7 @@ sub new {
     $Self->{SessionObject} = Kernel::System::AuthSession->new(%Param);
 
     # get current filter
-    my $Name           = $Self->{ParamObject}->GetParam( Param => 'Name' ) || '';
+    my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' ) || '';
     my $PreferencesKey = 'UserDashboardUserOnlineFilter' . $Self->{Name};
     if ( $Self->{Name} eq $Name ) {
         $Self->{Filter} = $Self->{ParamObject}->GetParam( Param => 'Filter' ) || '';
@@ -57,8 +57,8 @@ sub new {
         if ( !$Self->{ConfigObject}->Get('DemoSystem') ) {
             $Self->{UserObject}->SetPreferences(
                 UserID => $Self->{UserID},
-                Key       => $PreferencesKey,
-                Value     => $Self->{Filter},
+                Key    => $PreferencesKey,
+                Value  => $Self->{Filter},
             );
         }
     }
@@ -80,8 +80,9 @@ sub Preferences {
             Desc  => 'Shown',
             Name  => $Self->{PrefKey},
             Block => 'Option',
-#            Block => 'Input',
-            Data  => {
+
+            #            Block => 'Input',
+            Data => {
                 5  => ' 5',
                 10 => '10',
                 15 => '15',
@@ -113,7 +114,7 @@ sub Run {
 
     # get config settings
     my $IdleMinutes = $Self->{Config}->{IdleMinutes} || 60;
-    my $SortBy      = $Self->{Config}->{SortBy} || 'UserLastname';
+    my $SortBy      = $Self->{Config}->{SortBy}      || 'UserLastname';
 
     # check cache
     my $Online = $Self->{CacheObject}->Get(
@@ -125,7 +126,7 @@ sub Run {
     my $CacheUsed = 1;
     if ( !$Online ) {
         $CacheUsed = 0;
-        $Online = {
+        $Online    = {
             User => {
                 Agent    => {},
                 Customer => {},
@@ -153,7 +154,9 @@ sub Run {
 
             # check last request time / idle time out
             next if !$Data{UserLastRequest};
-            next if $Data{UserLastRequest} + ( $IdleMinutes * 60 ) < $Self->{TimeObject}->SystemTime();
+            next
+                if $Data{UserLastRequest} + ( $IdleMinutes * 60 )
+                    < $Self->{TimeObject}->SystemTime();
 
             # remember user and data
             $Online->{User}->{ $Data{UserType} }->{ $Data{UserID} } = $Data{$SortBy};

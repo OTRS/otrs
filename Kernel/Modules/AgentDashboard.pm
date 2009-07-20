@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentDashboard.pm - a global dashbard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboard.pm,v 1.13 2009-07-17 23:02:24 martin Exp $
+# $Id: AgentDashboard.pm,v 1.14 2009-07-20 10:36:04 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Cache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -98,7 +98,7 @@ sub Run {
         for my $Param (@PreferencesOnly) {
 
             # get params
-            my $Value = $Self->{ParamObject}->GetParam( Param => $Param->{Name} ) ;
+            my $Value = $Self->{ParamObject}->GetParam( Param => $Param->{Name} );
 
             # update runtime vars
             $Self->{LayoutObject}->{ $Param->{Name} } = $Value;
@@ -290,7 +290,7 @@ sub Run {
                     Name => $Element{Config}->{Block} . 'PreferencesItem' . $Param->{Block},
                     Data => {
                         %{ $Element{Config} },
-                        %{ $Param },
+                        %{$Param},
                         Name     => $Name,
                         NameForm => $NameForm,
                     },
@@ -354,7 +354,7 @@ sub _Element {
     return @Preferences if $Param{PreferencesOnly};
 
     # add backend to settings selection
-    if ( $Backends ) {
+    if ($Backends) {
         my $Checked = '';
         if ( $Backends->{$Name} ) {
             $Checked = 'checked';
@@ -387,7 +387,7 @@ sub _Element {
     my $CacheUsed = 1;
     if ( !defined $Content ) {
         $CacheUsed = 0;
-        $Content = $Object->Run();
+        $Content   = $Object->Run();
     }
 
     # check if content should be shown

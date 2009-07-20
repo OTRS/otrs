@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.405 2009-07-20 08:46:37 martin Exp $
+# $Id: Ticket.pm,v 1.406 2009-07-20 10:36:04 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.405 $) [1];
+$VERSION = qw($Revision: 1.406 $) [1];
 
 =head1 NAME
 
@@ -5238,7 +5238,7 @@ sub OwnerCheck {
 
         # check cache
         if ( defined $Self->{OwnerCheck}->{$CacheKey} ) {
-            return if !$Self->{OwnerCheck}->{$CacheKey};
+            return   if !$Self->{OwnerCheck}->{$CacheKey};
             return 1 if $Self->{OwnerCheck}->{$CacheKey};
         }
 
@@ -5255,7 +5255,7 @@ sub OwnerCheck {
 
         # fill cache
         $Self->{OwnerCheck}->{$CacheKey} = $Access;
-        return if !$Access;
+        return   if !$Access;
         return 1 if $Access;
     }
 
@@ -5357,6 +5357,7 @@ sub OwnerSet {
             && $Param{NewUserID} ne $Self->{ConfigObject}->Get('PostmasterUserID')
             )
         {
+
             # send agent notification
             $Self->SendAgentNotification(
                 Type                  => 'OwnerUpdate',
@@ -5365,8 +5366,8 @@ sub OwnerSet {
                     %Param,
                     Body => $Param{Comment} || '',
                 },
-                TicketID              => $Param{TicketID},
-                UserID                => $Param{UserID},
+                TicketID => $Param{TicketID},
+                UserID   => $Param{UserID},
             );
         }
     }
@@ -7360,6 +7361,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.405 $ $Date: 2009-07-20 08:46:37 $
+$Revision: 1.406 $ $Date: 2009-07-20 10:36:04 $
 
 =cut

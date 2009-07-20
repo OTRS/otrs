@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMove.pm - move tickets to queues
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMove.pm,v 1.34 2009-07-20 08:46:37 martin Exp $
+# $Id: AgentTicketMove.pm,v 1.35 2009-07-20 10:36:04 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -581,15 +581,15 @@ sub Run {
             REMOVEINLINE:
             for my $TmpAttachment (@AttachmentData) {
                 next REMOVEINLINE if $TmpAttachment->{ContentID}
-                    && $TmpAttachment->{ContentID} =~ /^inline/
-                    && $GetParam{Body} !~ /$TmpAttachment->{ContentID}/;
+                        && $TmpAttachment->{ContentID} =~ /^inline/
+                        && $GetParam{Body} !~ /$TmpAttachment->{ContentID}/;
                 push @NewAttachmentData, \%{$TmpAttachment};
             }
             @AttachmentData = @NewAttachmentData;
 
             # verify html document
             $GetParam{Body} = $Self->{LayoutObject}->RichTextDocumentComplete(
-                String  => $GetParam{Body},
+                String => $GetParam{Body},
             );
         }
 

@@ -3,7 +3,7 @@
 # PendingJobs.pl - check pending tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PendingJobs.pl,v 1.42 2009-07-16 06:49:08 shb Exp $
+# $Id: PendingJobs.pl,v 1.43 2009-07-20 10:36:05 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.42 $) [1];
+$VERSION = qw($Revision: 1.43 $) [1];
 
 use Date::Pcalc qw(Day_of_Week Day_of_Week_Abbreviation);
 use Kernel::Config;
@@ -206,7 +206,7 @@ if (@PendingReminderStateIDs) {
         }
 
         # add the responsible agent to the notification list
-        if ( !$CommonObject{ConfigObject}->Get('Ticket::PendingNotificationNotToResponsible' ) ) {
+        if ( !$CommonObject{ConfigObject}->Get('Ticket::PendingNotificationNotToResponsible') ) {
             if ( $CommonObject{ConfigObject}->Get('Ticket::Responsible') ) {
                 if ( $Ticket{ResponsibleID} ne 1 ) {
                     push @UserID, $Ticket{ResponsibleID};
@@ -257,7 +257,7 @@ if (@PendingReminderStateIDs) {
                 Type                  => 'PendingReminder',
                 RecipientID           => $UserID,
                 CustomerMessageParams => {
-                    TicketNumber          => $CommonObject{TicketObject}->TicketNumberLookup(
+                    TicketNumber => $CommonObject{TicketObject}->TicketNumberLookup(
                         TicketID => $Ticket{TicketID}
                     ),
                 },

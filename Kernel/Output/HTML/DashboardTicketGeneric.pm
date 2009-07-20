@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketGeneric.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketGeneric.pm,v 1.15 2009-07-18 00:07:52 martin Exp $
+# $Id: DashboardTicketGeneric.pm,v 1.16 2009-07-20 10:36:04 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -33,7 +33,7 @@ sub new {
     }
 
     # get current filter
-    my $Name           = $Self->{ParamObject}->GetParam( Param => 'Name' ) || '';
+    my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' ) || '';
     my $PreferencesKey = 'UserDashboardTicketGenericFilter' . $Self->{Name};
     if ( $Self->{Name} eq $Name ) {
         $Self->{Filter} = $Self->{ParamObject}->GetParam( Param => 'Filter' ) || '';
@@ -53,8 +53,8 @@ sub new {
         if ( !$Self->{ConfigObject}->Get('DemoSystem') ) {
             $Self->{UserObject}->SetPreferences(
                 UserID => $Self->{UserID},
-                Key       => $PreferencesKey,
-                Value     => $Self->{Filter},
+                Key    => $PreferencesKey,
+                Value  => $Self->{Filter},
             );
         }
     }
@@ -67,7 +67,7 @@ sub new {
 
     $Self->{Limit} = $Self->{LayoutObject}->{ $Self->{PrefKey} } || $Self->{Config}->{Limit};
 
-    $Self->{CacheKey} =  $Self->{Name} . '-' . $Self->{Limit} . '-' . $Self->{UserID};
+    $Self->{CacheKey} = $Self->{Name} . '-' . $Self->{Limit} . '-' . $Self->{UserID};
 
     return $Self;
 }
@@ -80,8 +80,9 @@ sub Preferences {
             Desc  => 'Shown Tickets',
             Name  => $Self->{PrefKey},
             Block => 'Option',
-#            Block => 'Input',
-            Data  => {
+
+            #            Block => 'Input',
+            Data => {
                 5  => ' 5',
                 10 => '10',
                 15 => '15',
@@ -143,7 +144,7 @@ sub Run {
     %TicketSearch = (
         %TicketSearch,
         Permission => $Self->{Config}->{Permission} || 'ro',
-        UserID     => $Self->{UserID},
+        UserID => $Self->{UserID},
     );
 
     # define filter attributes
@@ -192,7 +193,7 @@ sub Run {
         for my $Type ( sort keys %TicketSearchSummary ) {
             next if !$TicketSearchSummary{$Type};
             $Summary->{$Type} = $Self->{TicketObject}->TicketSearch(
-                Result     => 'COUNT',
+                Result => 'COUNT',
                 %TicketSearch,
                 %{ $TicketSearchSummary{$Type} },
             );
@@ -223,10 +224,10 @@ sub Run {
     $Summary->{ $Self->{Filter} . '::Style' } = 'text-decoration:none';
     $Self->{LayoutObject}->Block(
         Name => 'ContentLargeTicketGenericFilter',
-        Data         => {
+        Data => {
             %{ $Self->{Config} },
             Name => $Self->{Name},
-            %{ $Summary },
+            %{$Summary},
         },
     );
 
@@ -234,16 +235,16 @@ sub Run {
     if ( $Self->{ConfigObject}->Get('Ticket::Responsible') ) {
         $Self->{LayoutObject}->Block(
             Name => 'ContentLargeTicketGenericFilterResponsible',
-            Data         => {
+            Data => {
                 %{ $Self->{Config} },
                 Name => $Self->{Name},
-                %{ $Summary },
+                %{$Summary},
             },
         );
     }
 
     # show tickets
-    for my $TicketID ( @{ $TicketIDs } ) {
+    for my $TicketID ( @{$TicketIDs} ) {
         my %Ticket = $Self->{TicketObject}->TicketGet(
             TicketID => $TicketID,
             UserID   => $Self->{UserID},
@@ -270,7 +271,7 @@ sub Run {
     }
 
     # show "none" if no ticket is available
-    if ( !$TicketIDs || !@{ $TicketIDs } ) {
+    if ( !$TicketIDs || !@{$TicketIDs} ) {
         $Self->{LayoutObject}->Block(
             Name => 'ContentLargeTicketGenericNone',
             Data => {},
@@ -282,7 +283,7 @@ sub Run {
         Data         => {
             %{ $Self->{Config} },
             Name => $Self->{Name},
-            %{ $Summary },
+            %{$Summary},
         },
     );
 

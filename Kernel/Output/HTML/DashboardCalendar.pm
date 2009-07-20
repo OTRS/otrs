@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardCalendar.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardCalendar.pm,v 1.9 2009-07-14 10:29:13 martin Exp $
+# $Id: DashboardCalendar.pm,v 1.10 2009-07-20 10:36:04 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -88,7 +88,9 @@ sub Run {
             elsif ( $Type eq 'Pending' ) {
 
                 # only show own pending tickets
-                next if $Ticket{OwnerID} ne $Self->{UserID} && $Ticket{ResponsibleID} ne $Self->{UserID};
+                next
+                    if $Ticket{OwnerID} ne $Self->{UserID}
+                        && $Ticket{ResponsibleID} ne $Self->{UserID};
                 my $DestDate = $Self->{TimeObject}->SystemTime() + $Ticket{UntilTime};
                 $TimeTill  = $Ticket{UntilTime};
                 $TimeStamp = $Self->{TimeObject}->SystemTime2TimeStamp(

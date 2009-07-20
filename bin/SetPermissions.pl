@@ -3,7 +3,7 @@
 # SetPermissions.pl - to set the otrs permissions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: SetPermissions.pl,v 1.7 2009-07-10 22:03:19 martin Exp $
+# $Id: SetPermissions.pl,v 1.8 2009-07-20 10:36:05 mh Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.7 $) [1];
+$VERSION = qw($Revision: 1.8 $) [1];
 
 print "bin/SetPermissions.pl <$VERSION> - set OTRS file permissions\n";
 print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
@@ -155,7 +155,7 @@ find( \&makeExecutable, "$DestDir/bin" );
 
 # set all bin/* as executable
 print "Setting permissions on $DestDir/scripts/*.pl\n";
-my @FileList = glob( "$DestDir/scripts/*.pl" );
+my @FileList = glob("$DestDir/scripts/*.pl");
 for (@FileList) {
     makeExecutable();
 }

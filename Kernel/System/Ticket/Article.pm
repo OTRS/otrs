@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.223 2009-07-18 15:19:33 martin Exp $
+# $Id: Article.pm,v 1.224 2009-07-20 10:36:04 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.223 $) [1];
+$VERSION = qw($Revision: 1.224 $) [1];
 
 =head1 NAME
 
@@ -358,7 +358,7 @@ sub ArticleCreate {
             $Self->SendAgentNotification(
                 Type                  => $Param{HistoryType},
                 RecipientID           => $UserID,
-                CustomerMessageParams => { %Param },
+                CustomerMessageParams => {%Param},
                 TicketID              => $Param{TicketID},
                 Queue                 => $Param{Queue},
                 UserID                => $Param{UserID},
@@ -392,7 +392,7 @@ sub ArticleCreate {
             $Self->SendAgentNotification(
                 Type                  => $Param{HistoryType},
                 RecipientID           => $UserID,
-                CustomerMessageParams => { %Param },
+                CustomerMessageParams => {%Param},
                 TicketID              => $Param{TicketID},
                 Queue                 => $Param{Queue},
                 UserID                => $Param{UserID},
@@ -437,7 +437,7 @@ sub ArticleCreate {
                 $Self->SendAgentNotification(
                     Type                  => $Param{HistoryType},
                     RecipientID           => $UserID,
-                    CustomerMessageParams => { %Param },
+                    CustomerMessageParams => {%Param},
                     TicketID              => $Param{TicketID},
                     Queue                 => $Param{Queue},
                     UserID                => $Param{UserID},
@@ -476,7 +476,7 @@ sub ArticleCreate {
                 $Self->SendAgentNotification(
                     Type                  => $Param{HistoryType},
                     RecipientID           => $UserID,
-                    CustomerMessageParams => { %Param },
+                    CustomerMessageParams => {%Param},
                     TicketID              => $Param{TicketID},
                     Queue                 => $Param{Queue},
                     UserID                => $Param{UserID},
@@ -512,7 +512,7 @@ sub ArticleCreate {
                     $Self->SendAgentNotification(
                         Type                  => $Param{HistoryType},
                         RecipientID           => $UserID,
-                        CustomerMessageParams => { %Param },
+                        CustomerMessageParams => {%Param},
                         TicketID              => $Param{TicketID},
                         Queue                 => $Param{Queue},
                         UserID                => $Param{UserID},
@@ -541,7 +541,7 @@ sub ArticleCreate {
             $Self->SendAgentNotification(
                 Type                  => $Param{HistoryType},
                 RecipientID           => $UserID,
-                CustomerMessageParams => { %Param },
+                CustomerMessageParams => {%Param},
                 TicketID              => $Param{TicketID},
                 UserID                => $Param{UserID},
             );
@@ -2947,6 +2947,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.223 $ $Date: 2009-07-18 15:19:33 $
+$Revision: 1.224 $ $Date: 2009-07-20 10:36:04 $
 
 =cut

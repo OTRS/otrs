@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.pm,v 1.37 2009-07-20 01:01:59 martin Exp $
+# $Id: AgentTicketMerge.pm,v 1.38 2009-07-20 10:36:04 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.37 $) [1];
+$VERSION = qw($Revision: 1.38 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -182,7 +182,11 @@ sub Run {
                 if ( $GetParam{To} ) {
                     for my $Email ( Mail::Address->parse( $GetParam{To} ) ) {
                         my $Address = $Email->address();
-                        if ( $Self->{SystemAddress}->SystemAddressIsLocalAddress( Address => $Address ) ) {
+                        if (
+                            $Self->{SystemAddress}
+                            ->SystemAddressIsLocalAddress( Address => $Address )
+                            )
+                        {
 
                             # error page
                             return $Self->{LayoutObject}->ErrorScreen(
@@ -200,7 +204,7 @@ sub Run {
 
                     # verify html document
                     $GetParam{Body} = $Self->{LayoutObject}->RichTextDocumentComplete(
-                        String  => $GetParam{Body},
+                        String => $GetParam{Body},
                     );
                 }
                 my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
@@ -247,10 +251,10 @@ sub Run {
 
         # prepare salutation
         my $TemplateGenerator = Kernel::System::TemplateGenerator->new( %{$Self} );
-        my $Salutation = $TemplateGenerator->Salutation(
+        my $Salutation        = $TemplateGenerator->Salutation(
             TicketID  => $Self->{TicketID},
             ArticleID => $Article{ArticleID},
-            Data      => { %Article },
+            Data      => {%Article},
             UserID    => $Self->{UserID},
         );
 
@@ -258,14 +262,14 @@ sub Run {
         my $Signature = $TemplateGenerator->Signature(
             TicketID  => $Self->{TicketID},
             ArticleID => $Article{ArticleID},
-            Data      => { %Article },
+            Data      => {%Article},
             UserID    => $Self->{UserID},
         );
 
         # prepare subject ...
         $Article{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
             TicketNumber => $Article{TicketNumber},
-            Subject      => $Article{Subject} || '',
+            Subject => $Article{Subject} || '',
         );
 
         # prepare from ...

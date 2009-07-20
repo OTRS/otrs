@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.pm,v 1.34 2009-07-20 01:01:59 martin Exp $
+# $Id: AgentTicketBounce.pm,v 1.35 2009-07-20 10:36:04 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.34 $) [1];
+$VERSION = qw($Revision: 1.35 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -199,7 +199,7 @@ $Param{Signature}";
 
         # prepare sender of bounce email
         my %Address = $Self->{QueueObject}->GetSystemAddress( QueueID => $Article{QueueID}, );
-        $Article{From}     = "$Address{RealName} <$Address{Email}>";
+        $Article{From} = "$Address{RealName} <$Address{Email}>";
 
         # get next states
         my %NextStates = $Self->{TicketObject}->StateList(
@@ -295,7 +295,7 @@ $Param{Signature}";
 
                 # verify html document
                 $Param{Body} = $Self->{LayoutObject}->RichTextDocumentComplete(
-                    String  => $Param{Body},
+                    String => $Param{Body},
                 );
             }
 
