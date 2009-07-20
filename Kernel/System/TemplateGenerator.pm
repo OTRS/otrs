@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.24 2009-07-20 04:13:50 martin Exp $
+# $Id: TemplateGenerator.pm,v 1.25 2009-07-20 04:27:16 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Notification;
 use Kernel::System::AutoResponse;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.24 $) [1];
+$VERSION = qw($Revision: 1.25 $) [1];
 
 =head1 NAME
 
@@ -997,25 +997,27 @@ sub _Replace {
             $Param{Text} =~ s/$Tag$_$End/$Data{$_}/gi;
         }
 
-        # replace <OTRS_CUSTOMER_BODY> tags
-        $Tag = $Start . 'OTRS_CUSTOMER_BODY';
-        if ( $Param{Text} =~ /$Tag$End(\n|\r|)/g ) {
-            my $Line       = 2000;
-            my @Body       = split( /\n/, $Data{Body} );
-            my $NewOldBody = '';
-            for ( my $i = 0; $i < $Line; $i++ ) {
-                if ( $#Body >= $i ) {
-                    $NewOldBody .= "$End $Body[$i]";
-                    if ( $i < ( $Line - 1 ) ) {
-                        $NewOldBody .= "\n";
+        # replace <OTRS_CUSTOMER_BODY> and <OTRS_COMMENT> tags
+        for my $Key (qw(OTRS_CUSTOMER_BODY OTRS_COMMENT)) {
+            $Tag = $Start . $Key;
+            if ( $Param{Text} =~ /$Tag$End(\n|\r|)/g ) {
+                my $Line       = 2500;
+                my @Body       = split( /\n/, $Data{Body} );
+                my $NewOldBody = '';
+                for ( my $i = 0; $i < $Line; $i++ ) {
+                    if ( $#Body >= $i ) {
+                        $NewOldBody .= "$End $Body[$i]";
+                        if ( $i < ( $Line - 1 ) ) {
+                            $NewOldBody .= "\n";
+                        }
+                    }
+                    else {
+                        last;
                     }
                 }
-                else {
-                    last;
-                }
+                chomp $NewOldBody;
+                $Param{Text} =~ s/$Tag$End/$NewOldBody/g;
             }
-            chomp $NewOldBody;
-            $Param{Text} =~ s/$Tag$End/$NewOldBody/g;
         }
 
         # replace <OTRS_CUSTOMER_EMAIL[]> tags
@@ -1138,6 +1140,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.24 $ $Date: 2009-07-20 04:13:50 $
+$Revision: 1.25 $ $Date: 2009-07-20 04:27:16 $
 
 =cut
