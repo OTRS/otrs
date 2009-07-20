@@ -1,5 +1,5 @@
 -- ----------------------------------------------------------
---  driver: mssql, generated: 2009-07-13 14:51:45
+--  driver: mssql, generated: 2009-07-20 10:10:14
 -- ----------------------------------------------------------
 -- ----------------------------------------------------------
 --  insert into table valid
@@ -756,7 +756,7 @@ INSERT INTO notifications (notification_type, notification_charset, notification
 -- ----------------------------------------------------------
 INSERT INTO notifications (notification_type, notification_charset, notification_language, subject, text, content_type, create_by, create_time, change_by, change_time)
     VALUES
-    ('Agent::OwnerUpdate', 'iso-8859-1', 'en', 'Ticket owner assigned to you! (<OTRS_CUSTOMER_SUBJECT[24]>)', 'Hi <OTRS_UserFirstname>,a ticket [<OTRS_TICKET_TicketNumber>] is assigned to you by "(<OTRS_CURRENT_UserFirstname> <OTRS_CURRENT_UserLastname>".Comment:<OTRS_COMMENT><OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_TicketID>Your OTRS Notification Master', 'text/plain', 1, current_timestamp, 1, current_timestamp);
+    ('Agent::OwnerUpdate', 'iso-8859-1', 'en', 'Ticket owner assigned to you! (<OTRS_CUSTOMER_SUBJECT[24]>)', 'Hi <OTRS_UserFirstname>,a ticket [<OTRS_TICKET_TicketNumber>] is assigned to you by "<OTRS_CURRENT_UserFirstname> <OTRS_CURRENT_UserLastname>".Comment:<OTRS_COMMENT><OTRS_CONFIG_HttpType>://<OTRS_CONFIG_FQDN>/<OTRS_CONFIG_ScriptAlias>index.pl?Action=AgentZoom&TicketID=<OTRS_TICKET_TicketID>Your OTRS Notification Master', 'text/plain', 1, current_timestamp, 1, current_timestamp);
 -- ----------------------------------------------------------
 --  insert into table notifications
 -- ----------------------------------------------------------

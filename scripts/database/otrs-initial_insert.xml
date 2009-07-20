@@ -1405,7 +1405,7 @@ Your OTRS Notification Master</Data>
         <Data Key="subject" Type="Quote">Ticket owner assigned to you! (&lt;OTRS_CUSTOMER_SUBJECT[24]&gt;)</Data>
         <Data Key="text" Type="Quote">Hi &lt;OTRS_UserFirstname&gt;,
 
-a ticket [&lt;OTRS_TICKET_TicketNumber&gt;] is assigned to you by "(&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;".
+a ticket [&lt;OTRS_TICKET_TicketNumber&gt;] is assigned to you by "&lt;OTRS_CURRENT_UserFirstname&gt; &lt;OTRS_CURRENT_UserLastname&gt;".
 
 Comment:
 
