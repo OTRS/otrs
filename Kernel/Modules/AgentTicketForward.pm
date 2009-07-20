@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.49 2009-07-20 01:01:59 martin Exp $
+# $Id: AgentTicketForward.pm,v 1.50 2009-07-20 02:05:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.49 $) [1];
+$VERSION = qw($Revision: 1.50 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -195,101 +195,15 @@ sub Form {
     );
 
     # body preparation for plain text processing
+    $Data{Body} = $Self->{LayoutObject}->ArticleQuote(
+        TicketID           => $Data{TicketID},
+        ArticleID          => $Data{ArticleID},
+        FormID             => $Self->{GetParam}->{FormID},
+        UploadCachObject   => $Self->{UploadCachObject},
+        AttachmentsInclude => 1,
+    );
+
     if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
-
-        # check for html body
-        my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
-            TicketID                   => $Data{TicketID},
-            StripPlainBodyAsAttachment => 1,
-        );
-        ARTICLE:
-        for my $ArticleTmp (@ArticleBox) {
-
-            # select article to forward
-            next ARTICLE if $ArticleTmp->{ArticleID} ne $Data{ArticleID};
-
-            # do not use if there is no html body
-            last ARTICLE if !$ArticleTmp->{AttachmentIDOfHTMLBody};
-
-            # get attachment
-            my %AttachmentHTML = $Self->{TicketObject}->ArticleAttachment(
-                ArticleID => $Data{ArticleID},
-                FileID    => $ArticleTmp->{AttachmentIDOfHTMLBody},
-            );
-
-            # make sure encoding is correct
-            $Self->{EncodeObject}->Encode(
-                \$AttachmentHTML{Content},
-            );
-
-            $Data{BodyHTML}            = $AttachmentHTML{Content}     || '';
-            $Data{BodyHTMLContentType} = $AttachmentHTML{ContentType} || 'text/html';
-
-            # display inline images if exists
-            my %Attachments = %{ $ArticleTmp->{Atms} };
-            my $SessionID   = '';
-            if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
-                $SessionID = "&" . $Self->{SessionName} . "=" . $Self->{SessionID};
-            }
-            my $AttachmentLink = $Self->{LayoutObject}->{Baselink}
-                . 'Action=PictureUpload'
-                . '&FormID='
-                . $GetParam{FormID}
-                . $SessionID
-                . '&ContentID=';
-            $Data{BodyHTML} =~ s{
-                "cid:(.*?)"
-            }
-            {
-                my $ContentID = $1;
-                ATMCOUNT:
-                for my $AtmCount ( keys %Attachments ) {
-                    next ATMCOUNT if $Attachments{$AtmCount}{ContentID} !~ /^<$ContentID>$/;
-
-                    # add to upload cache
-                    my %AttachmentPicture = $Self->{TicketObject}->ArticleAttachment(
-                        ArticleID => $Data{ArticleID},
-                        FileID    => $AtmCount,
-                    );
-                    $Self->{UploadCachObject}->FormIDAddFile(
-                        FormID      => $GetParam{FormID},
-                        Disposition => 'inline',
-                        %{ $Attachments{$AtmCount} },
-                        %AttachmentPicture,
-                    );
-                    my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
-                        FormID => $GetParam{FormID},
-                    );
-                    for my $Attachment ( @Attachments ) {
-                        next if $Attachments{$AtmCount}->{Filename} ne $Attachment->{Filename};
-                        $ContentID = $AttachmentLink . $Attachment->{ContentID};
-                        last;
-                    }
-                    last ATMCOUNT;
-                }
-
-                # return link
-                '"' . $ContentID . '"';
-            }egxi;
-            last ARTICLE;
-        }
-
-        # convert plain body to html if necessary
-        if ( !$Data{BodyHTML} ) {
-
-            # check if original content isn't text/plain or text/html, don't use it
-            if ( !$Data{ContentType} || $Data{ContentType} !~ /text\/(plain|html)/i ) {
-                $Data{Body}        = "-> no quotable message <-";
-                $Data{ContentType} = 'text/plain';
-            }
-            $Data{BodyHTML} = $Self->{LayoutObject}->Ascii2Html(
-                Text => $Data{Body} || '',
-                HTMLResultMode => 1,
-                LinkFeature    => 1,
-            );
-            $Data{BodyHTMLContentType} = $Data{ContentType} || 'text/plain';
-            $Data{BodyHTMLContentType} =~ s/plain/html/i;
-        }
 
         # prepare body, subject, ReplyTo ...
         my $Quote = $Self->{LayoutObject}->Ascii2RichText(
@@ -297,45 +211,34 @@ sub Form {
         );
 
         if ($Quote) {
-            $Data{BodyHTML} =~ s/<br\/?>/<br\/>$Quote&nbsp;/g;
-            $Data{BodyHTML} = "<br/>$Quote&nbsp;" . $Data{BodyHTML};
+            $Data{Body} =~ s/<br\/?>/<br\/>$Quote&nbsp;/g;
+            $Data{Body} = "<br/>$Quote&nbsp;" . $Data{Body};
         }
         else {
-            $Data{BodyHTML} = "<br/>" . $Data{BodyHTML};
+            $Data{Body} = "<br/>" . $Data{Body};
         }
         if ( $Data{Created} ) {
-            $Data{BodyHTML} = "Date: $Data{Created}<br/>" . $Data{BodyHTML};
+            $Data{Body} = "Date: $Data{Created}<br/>" . $Data{Body};
         }
         for my $Key (qw( Subject ReplyTo Reply-To Cc To From )) {
             if ( $Data{$Key} ) {
                 my $Value = $Self->{LayoutObject}->Ascii2RichText(
                     String => $Data{$Key},
                 );
-                $Data{BodyHTML} = "$Key: $Value<br/>" . $Data{BodyHTML};
+                $Data{Body} = "$Key: $Value<br/>" . $Data{Body};
             }
         }
         my $From = $Self->{LayoutObject}->Ascii2RichText(
             String => $Data{From},
         );
-        $Data{BodyHTML} = "<br/>---- Forwarded message from $From ---<br/><br/>"
-            . $Data{BodyHTML};
-        $Data{BodyHTML} .= "<br/>---- End forwarded message ---<br/>";
-        $Data{BodyHTML} = $Data{Signature} . $Data{BodyHTML};
+        $Data{Body} = "<br/>---- Forwarded message from $From ---<br/><br/>"
+            . $Data{Body};
+        $Data{Body} .= "<br/>---- End forwarded message ---<br/>";
+        $Data{Body} = $Data{Signature} . $Data{Body};
 
-        $Data{Body}        = $Data{BodyHTML}            || '';
-        $Data{ContentType} = $Data{BodyHTMLContentType} || 'text/plain';
+        $Data{ContentType} = 'text/html';
     }
     else {
-
-        # check if original content isn't text/plain or text/html, don't use it
-        if ( $Data{ContentType} ) {
-            if ( $Data{ContentType} =~ /text\/html/i ) {
-                $Data{Body} =~ s/\<.+?\>//gs;
-            }
-            elsif ( $Data{ContentType} !~ /text\/plain/i ) {
-                $Data{Body} = "-> no quotable message <-";
-            }
-        }
 
         # prepare body, subject, ReplyTo ...
         $Data{Body} =~ s/\t/ /g;
@@ -358,31 +261,6 @@ sub Form {
         $Data{Body} = "\n---- Forwarded message from $Data{From} ---\n\n" . $Data{Body};
         $Data{Body} .= "\n---- End forwarded message ---\n";
         $Data{Body} = $Data{Signature} . $Data{Body};
-    }
-
-    # add attachments to upload cache
-    my %AttachmentIndex = $Self->{TicketObject}->ArticleAttachmentIndex( %Data, );
-    ARTICLEINDEX:
-    for my $Index ( keys %AttachmentIndex ) {
-        my %Attachment = $Self->{TicketObject}->ArticleAttachment(
-            ArticleID => $Data{ArticleID},
-            FileID    => $Index,
-            UserID    => $Self->{UserID},
-        );
-
-        # don't add html-body attachment and inline images (again)
-        if ( $Data{BodyHTML} ) {
-            next ARTICLEINDEX if
-                $Attachment{ContentID}
-                    && $Attachment{ContentID} =~ /^<?inline/;
-            next ARTICLEINDEX if $Attachment{Filename} eq 'file-2';
-        }
-
-        # add attachment
-        $Self->{UploadCachObject}->FormIDAddFile(
-            FormID => $GetParam{FormID},
-            %Attachment,
-        );
     }
 
     # get all attachments meta data

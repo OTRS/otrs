@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.107 2009-07-20 01:01:59 martin Exp $
+# $Id: AgentTicketPhone.pm,v 1.108 2009-07-20 02:05:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.107 $) [1];
+$VERSION = qw($Revision: 1.108 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -181,144 +181,18 @@ sub Run {
             }
 
             # body preparation for plain text processing
+            $Article{Body} = $Self->{LayoutObject}->ArticleQuote(
+                TicketID           => $Article{TicketID},
+                ArticleID          => $GetParam{ArticleID},
+                FormID             => $Self->{FormID},
+                UploadCachObject   => $Self->{UploadCachObject},
+                AttachmentsInclude => 1,
+            );
             if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
-
-                # check for html body
-                my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
-                    TicketID                   => $Article{TicketID},
-                    StripPlainBodyAsAttachment => 1,
-                );
-                ARTICLE:
-                for my $ArticleTmp (@ArticleBox) {
-
-                    # search for selected article
-                    next ARTICLE if $ArticleTmp->{ArticleID} ne $Article{ArticleID};
-
-                    # check if html body exists
-                    last ARTICLE if !$ArticleTmp->{AttachmentIDOfHTMLBody};
-                    my %AttachmentHTML = $Self->{TicketObject}->ArticleAttachment(
-                        ArticleID => $Article{ArticleID},
-                        FileID    => $ArticleTmp->{AttachmentIDOfHTMLBody},
-                    );
-
-                    # make sure encoding is correct
-                    $Self->{EncodeObject}->Encode(
-                        \$AttachmentHTML{Content},
-                    );
-
-                    $Article{BodyHTML}            = $AttachmentHTML{Content}     || '';
-                    $Article{BodyHTMLContentType} = $AttachmentHTML{ContentType} || 'text/html';
-
-                    # display inline images if exists
-                    my %Attachments = %{ $ArticleTmp->{Atms} };
-                    my $SessionID   = '';
-                    if ( $Self->{SessionID} && !$Self->{SessionIDCookie} ) {
-                        $SessionID = "&" . $Self->{SessionName} . "=" . $Self->{SessionID};
-                    }
-                    my $AttachmentLink = $Self->{LayoutObject}->{Baselink}
-                        . 'Action=PictureUpload'
-                        . '&FormID='
-                        . $Self->{FormID}
-                        . $SessionID
-                        . '&ContentID=';
-                    $Article{BodyHTML} =~ s{
-                        "cid:(.*?)"
-                    }
-                    {
-                        my $ContentID = $1;
-                        ATMCOUNT:
-                        for my $AtmCount ( keys %Attachments ) {
-                            next ATMCOUNT if $Attachments{$AtmCount}{ContentID} !~ /^<$ContentID>$/;
-                            # add to upload cache
-                            my %AttachmentPicture = $Self->{TicketObject}->ArticleAttachment(
-                                ArticleID => $Article{ArticleID},
-                                FileID    => $AtmCount,
-                            );
-                            $Self->{UploadCachObject}->FormIDAddFile(
-                                FormID      => $Self->{FormID},
-                                Disposition => 'inline',
-                                %{ $Attachments{$AtmCount} },
-                                %AttachmentPicture,
-                            );
-                            my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
-                                FormID => $Self->{FormID},
-                            );
-                            CONTENTIDRETURN:
-                            for my $TmpAttachment ( @Attachments ) {
-                                next CONTENTIDRETURN
-                                    if $Attachments{$AtmCount}{Filename} ne $TmpAttachment->{Filename};
-                                $ContentID = $AttachmentLink . $TmpAttachment->{ContentID};
-                                last CONTENTIDRETURN;
-                            }
-                            last ATMCOUNT;
-                        }
-
-                        # return link
-                        '"' . $ContentID . '"';
-                    }egxi;
-                    last ARTICLE;
-                }
-
-                # convert plain body to html if necessary
-                if ( !$Article{BodyHTML} ) {
-
-                    # check if original content isn't text/plain or text/html, don't use it
-                    if ( !$Article{ContentType} || $Article{ContentType} !~ /text\/(plain|html)/i )
-                    {
-                        $Article{Body}        = "-> no quotable message <-";
-                        $Article{ContentType} = 'text/plain';
-                    }
-                    $Article{BodyHTML} = $Self->{LayoutObject}->Ascii2Html(
-                        Text => $Article{Body} || '',
-                        HTMLResultMode => 1,
-                        LinkFeature    => 1,
-                    );
-                    $Article{BodyHTMLContentType} = $Article{ContentType} || 'text/plain';
-                    $Article{BodyHTMLContentType} =~ s/plain/html/i;
-                }
-
-                $Article{Body}        = $Article{BodyHTML}            || '';
-                $Article{ContentType} = $Article{BodyHTMLContentType} || 'text/plain';
+                $Article{ContentType} = 'text/html';
             }
             else {
-
-                # check if original content isn't text/plain or text/html, don't use it
-                if ( $Article{ContentType} ) {
-                    if ( $Article{ContentType} =~ /text\/html/i ) {
-                        $Article{Body} =~ s/\<.+?\>//gs;
-                    }
-                    elsif ( $Article{ContentType} !~ /text\/plain/i ) {
-                        $Article{Body} = "-> no quotable message <-";
-                    }
-                }
-            }
-
-            # get attachments
-            my %ArticleIndex = $Self->{TicketObject}->ArticleAttachmentIndex(
-                ArticleID => $GetParam{ArticleID},
-                UserID    => $Self->{UserID},
-            );
-            ARTICLEINDEX:
-            for my $Index ( keys %ArticleIndex ) {
-                my %Attachment = $Self->{TicketObject}->ArticleAttachment(
-                    ArticleID => $GetParam{ArticleID},
-                    FileID    => $Index,
-                    UserID    => $Self->{UserID},
-                );
-
-                # don't add html-body attachment and inline images (again)
-                if ( $Article{BodyHTML} ) {
-                    next ARTICLEINDEX if
-                        $Attachment{ContentID}
-                            && $Attachment{ContentID} =~ /^<?inline/;
-                    next ARTICLEINDEX if $Attachment{Filename} eq 'file-2';
-                }
-
-                # add attachment
-                $Self->{UploadCachObject}->FormIDAddFile(
-                    FormID => $Self->{FormID},
-                    %Attachment,
-                );
+                $Article{ContentType} = 'text/plain';
             }
 
             # show customer info
@@ -439,8 +313,8 @@ sub Run {
             );
         }
 
-        # make sure body is rich text
-        if ( !$Article{BodyHTML} && $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+        # make sure body is rich text (if body is based on config)
+        if ( !$GetParam{ArticleID} && $Self->{ConfigObject}->Get('Frontend::RichText') ) {
             $Body = $Self->{LayoutObject}->Ascii2RichText(
                 String => $Body,
             );
