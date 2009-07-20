@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.152 2009-07-20 01:01:58 martin Exp $
+# $Id: Layout.pm,v 1.153 2009-07-20 04:28:00 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.152 $) [1];
+$VERSION = qw($Revision: 1.153 $) [1];
 
 =head1 NAME
 
@@ -4127,7 +4127,7 @@ sub Ascii2RichText {
 
     # check needed stuff
     for (qw(String)) {
-        if ( !$Param{$_} ) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
@@ -4157,7 +4157,7 @@ sub RichTextDocumentComplete {
 
     # check needed stuff
     for (qw(String)) {
-        if ( !$Param{$_} ) {
+        if ( !defined $Param{$_} ) {
             $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
             return;
         }
@@ -4225,6 +4225,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.152 $ $Date: 2009-07-20 01:01:58 $
+$Revision: 1.153 $ $Date: 2009-07-20 04:28:00 $
 
 =cut
