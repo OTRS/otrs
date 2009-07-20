@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.106 2009-07-19 23:00:31 martin Exp $
+# $Id: AgentTicketPhone.pm,v 1.107 2009-07-20 01:01:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.106 $) [1];
+$VERSION = qw($Revision: 1.107 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -181,7 +181,7 @@ sub Run {
             }
 
             # body preparation for plain text processing
-            if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+            if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
 
                 # check for html body
                 my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
@@ -421,27 +421,29 @@ sub Run {
         );
 
         # get all attachments meta data
-        my @Attachments
-            = $Self->{UploadCachObject}->FormIDGetAllFilesMeta( FormID => $Self->{FormID} );
+        my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
+            FormID => $Self->{FormID},
+        );
 
         # get and format default subject and body
-        my $Subject = $Article{Subject} ||
-            $Self->{LayoutObject}->Output(
-            Template => $Self->{Config}->{Subject} || '',
+        my $Subject = $Article{Subject};
+        if ( !$Subject ) {
+            $Subject = $Self->{LayoutObject}->Output(
+                Template => $Self->{Config}->{Subject} || '',
             );
-        my $Body = $Article{Body} || '';
-        if ($Body) {
-            my @ArticleBody = $Self->{LayoutObject}->ToFromRichText(
-                Content     => $Body,
-                ContentType => $Article{ContentType},
-            );
-            $Body = $ArticleBody[0];
         }
-        else {
-            my @DefaultBody = $Self->{LayoutObject}->ToFromRichText(
-                Content => $Self->{Config}->{Body} || '',
+        my $Body = $Article{Body} || '';
+        if ( !$Body ) {
+            $Body = $Self->{LayoutObject}->Output(
+                Template => $Self->{Config}->{Body} || '',
             );
-            $Body = $Self->{LayoutObject}->Output( Template => $DefaultBody[0] );
+        }
+
+        # make sure body is rich text
+        if ( !$Article{BodyHTML} && $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+            $Body = $Self->{LayoutObject}->Ascii2RichText(
+                String => $Body,
+            );
         }
 
         # html output
@@ -545,7 +547,7 @@ sub Run {
         }
 
         # rewrap body if exists
-        if ( $Self->{ConfigObject}->{'Frontend::RichText'} && $GetParam{Body} ) {
+        if ( $Self->{ConfigObject}->Get('Frontend::RichText') && $GetParam{Body} ) {
             $GetParam{Body}
                 =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote')})(?:\s|\z)/$1\n/gm;
         }
@@ -920,7 +922,7 @@ sub Run {
         }
 
         my $MimeType = 'text/plain';
-        if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
             $MimeType = 'text/html';
 
             # remove unused inline images
@@ -2086,8 +2088,8 @@ sub _MaskPhoneNew {
         }
     }
 
-    # add YUI editor
-    if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+    # add rich text editor
+    if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
         $Self->{LayoutObject}->Block(
             Name => 'RichText',
             Data => \%Param,

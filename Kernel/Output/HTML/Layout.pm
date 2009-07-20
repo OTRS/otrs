@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.151 2009-07-19 23:00:31 martin Exp $
+# $Id: Layout.pm,v 1.152 2009-07-20 01:01:58 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.151 $) [1];
+$VERSION = qw($Revision: 1.152 $) [1];
 
 =head1 NAME
 
@@ -4112,74 +4112,33 @@ sub _DisableBannerCheck {
     return 1
 }
 
-=item ToFromRichText()
+=item Ascii2RichText()
 
-convert a string from or to rich text depending on string content and rich text status
-an optional supplied content type will be modified accordingly
+converts text to rich text
 
-    my @NewData = $LayoutObject->ToFromRichText(
-        Content     => 'abc123',
-        ContentType => 'text/plain', # optional
+    my $HTMLString = $LayoutObject->Ascii2RichText(
+        String => $TextString,
     );
 
 =cut
 
-sub ToFromRichText {
+sub Ascii2RichText {
     my ( $Self, %Param ) = @_;
-    my $Content     = $Param{Content}     || '';
-    my $ContentType = $Param{ContentType} || '';
 
-    return ( '', $ContentType ) if !$Content;
-
-    # check for otrs and html tags
-    my $HaveOTRSTags = 0;
-    my $HaveHTMLTags = 0;
-    my $NoOTRSTags   = $Content;
-    if ( $NoOTRSTags =~ s/<OTRS_.*?>//sgi ) {
-        $HaveOTRSTags = 1;
-    }
-    if ( $ContentType =~ /html/i || ( $ContentType !~ /plain/i && $NoOTRSTags =~ /<.*?>/s ) ) {
-        $HaveHTMLTags = 1;
-    }
-
-    if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
-        return ( $Content, $ContentType ) if $HaveHTMLTags && !$HaveOTRSTags;
-        if ( !$HaveHTMLTags ) {
-
-            # convert to rich text
-            $ContentType =~ s/plain/html/i;
-            return (
-                $Self->Ascii2Html(
-                    Text           => $Content,
-                    HTMLResultMode => 1,
-                    LinkFeature    => 1,
-                ),
-                $ContentType
-            );
+    # check needed stuff
+    for (qw(String)) {
+        if ( !$Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
         }
-
-        # protect otrs tags
-        $Content =~ s/<(OTRS_.*?)>/&lt;$1&gt;/sgi;
-
-        return ( $Content, $ContentType );
     }
-    else {
-        return ( $Content, $ContentType ) if !$HaveHTMLTags;
 
-        # protect otrs tags
-        $Content =~ s/<(OTRS_.*?)>/&lt;$1&gt;/sgi;
+    # ascii 2 html
+    $Param{String} = $Self->{HTMLUtilsObject}->ToHTML(
+        String  => $Param{String},
+    );
 
-        # convert to ascii
-        $Content = $Self->{HTMLUtilsObject}->ToAscii(
-            String => $Content,
-        );
-
-        # remove otrs tag protection
-        $Content =~ s/&lt;(OTRS_.*?)&gt;/<$1>/sgi;
-
-        $ContentType =~ s/html/plain/i;
-        return ( $Content, $ContentType );
-    }
+    return $Param{String};
 }
 
 =item RichTextDocumentComplete()
@@ -4205,13 +4164,13 @@ sub RichTextDocumentComplete {
     }
 
     # replace image link with content id for uploaded images
-    $Param{String} = $Self->_RichTextReplaceLinkOfInlineContent(
-        String => $Param{String},
+    my $StringRef = $Self->_RichTextReplaceLinkOfInlineContent(
+        String => \$Param{String},
     );
 
     # verify html document
     $Param{String} = $Self->{HTMLUtilsObject}->DocumentComplete(
-        String  => $Param{String},
+        String  => ${ $StringRef },
         Charset => $Self->{UserCharset},
     );
 
@@ -4223,8 +4182,8 @@ sub RichTextDocumentComplete {
 #replace links of inline content e. g. images
 #
 #
-#    $HTMLBody = $LayoutObject->_RichTextReplaceLinkOfInlineContent(
-#        String => $HTMLBody,
+#    $HTMLBodyStringRef = $LayoutObject->_RichTextReplaceLinkOfInlineContent(
+#        String => $HTMLBodyStringRef,
 #    );
 #
 #=cut
@@ -4241,7 +4200,7 @@ sub _RichTextReplaceLinkOfInlineContent {
     }
 
     # replace image link with content id for uploaded images
-    $Param{String} =~ s{
+    ${ $Param{String} } =~ s{
         ((?:<|&lt;)img.*?src=(?:"|&quot;))
         .*?ContentID=(inline[\w\.]+?@[\w\.-]+).*?
         ((?:"|&quot;).*?(?:>|&gt;))
@@ -4266,6 +4225,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.151 $ $Date: 2009-07-19 23:00:31 $
+$Revision: 1.152 $ $Date: 2009-07-20 01:01:58 $
 
 =cut

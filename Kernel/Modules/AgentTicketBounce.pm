@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketBounce.pm - to bounce articles of tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketBounce.pm,v 1.33 2009-07-19 23:00:31 martin Exp $
+# $Id: AgentTicketBounce.pm,v 1.34 2009-07-20 01:01:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.33 $) [1];
+$VERSION = qw($Revision: 1.34 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -166,42 +166,40 @@ sub Run {
             UserID    => $Self->{UserID},
         );
 
-        # prepare information
-        $Param{InformationFormat} = '$QData{"Salutation"}<br/>
-<br/>
-$QData{"BounceText"}<br/>
-<br/>
-$QData{"Signature"}';
-
         # prepare bounce text
         $Param{BounceText} = $Self->{ConfigObject}->Get('Ticket::Frontend::BounceText') || '';
 
-        # reformat information format and bounce text
-        my @NewInformationFormat = $Self->{LayoutObject}->ToFromRichText(
-            Content => $Param{InformationFormat},
-        );
-        $Param{InformationFormat} = $NewInformationFormat[0];
-        my @NewBounceText = $Self->{LayoutObject}->ToFromRichText(
-            Content => $Param{BounceText},
-        );
-        $Param{BounceText} = $NewBounceText[0];
+        # make sure body is rich text
+        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
 
-        # prepare body ...
-        $Article{Body} =~ s/\n/\n> /g;
-        $Article{Body} = "\n> " . $Article{Body};
-        my @Body = split( /\n/, $Article{Body} );
-        $Article{Body} = '';
-        for ( 1 .. 4 ) {
-            $Article{Body} .= $Body[$_] . "\n" if ( $Body[$_] );
+            # prepare bounce tags
+            $Param{BounceText} =~ s/<OTRS_TICKET>/&lt;OTRS_TICKET&gt;/g;
+            $Param{BounceText} =~ s/<OTRS_BOUNCE_TO>/&lt;OTRS_BOUNCE_TO&gt;/g;
+
+            $Param{BounceText} = $Self->{LayoutObject}->Ascii2RichText(
+                String => $Param{BounceText},
+            );
         }
 
-        # put & get attributes like sender address
-        %Article = $TemplateGenerator->Attributes(
-            TicketID  => $Self->{TicketID},
-            ArticleID => $Self->{ArticleID},
-            Data      => \%Article,
-            UserID    => $Self->{UserID},
-        );
+        # build InformationFormat
+        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+            $Param{InformationFormat} = "$Param{Salutation}<br/>
+<br/>
+$Param{BounceText}<br/>
+<br/>
+$Param{Signature}";
+        }
+        else {
+            $Param{InformationFormat} = "$Param{Salutation}
+
+$Param{BounceText}
+
+$Param{Signature}";
+        }
+
+        # prepare sender of bounce email
+        my %Address = $Self->{QueueObject}->GetSystemAddress( QueueID => $Article{QueueID}, );
+        $Article{From}     = "$Address{RealName} <$Address{Email}>";
 
         # get next states
         my %NextStates = $Self->{TicketObject}->StateList(
@@ -214,14 +212,14 @@ $QData{"Signature"}';
         if ( !$Self->{Config}->{StateDefault} ) {
             $NextStates{''} = '-';
         }
-        $Param{'NextStatesStrg'} = $Self->{LayoutObject}->OptionStrgHashRef(
+        $Param{NextStatesStrg} = $Self->{LayoutObject}->OptionStrgHashRef(
             Data     => \%NextStates,
             Name     => 'BounceStateID',
             Selected => $Self->{Config}->{StateDefault},
         );
 
-        # add YUI editor
-        if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+        # add rich text editor
+        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
             $Self->{LayoutObject}->Block(
                 Name => 'RichText',
                 Data => \%Param,
@@ -230,8 +228,6 @@ $QData{"Signature"}';
 
         # print form ...
         my $Output = $Self->{LayoutObject}->Header( Value => $Ticket{TicketNumber} );
-
-        # get output back
         $Output .= $Self->{LayoutObject}->Output(
             TemplateFile => 'AgentTicketBounce',
             Data         => {
@@ -265,8 +261,8 @@ $QData{"Signature"}';
 
                 # error page
                 return $Self->{LayoutObject}->ErrorScreen(
-                    Message =>
-                        "Can't forward ticket to $Address! It's a local address! You need to move it!",
+                    Message => "Can't forward ticket to $Address! It's a local address!"
+                        . " You need to move it!",
                     Comment => 'Please contact the admin.',
                 );
             }
@@ -294,7 +290,7 @@ $QData{"Signature"}';
 
             # set mime type
             my $MimeType = 'text/plain';
-            if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+            if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
                 $MimeType = 'text/html';
 
                 # verify html document

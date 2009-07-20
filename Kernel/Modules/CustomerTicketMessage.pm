@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.43 2009-07-19 23:00:31 martin Exp $
+# $Id: CustomerTicketMessage.pm,v 1.44 2009-07-20 01:01:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.43 $) [1];
+$VERSION = qw($Revision: 1.44 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -216,7 +216,7 @@ sub Run {
         );
 
         # rewrap body if exists
-        if ( $Self->{ConfigObject}->{'Frontend::RichText'} && $GetParam{Body} ) {
+        if ( $Self->{ConfigObject}->Get('Frontend::RichText') && $GetParam{Body} ) {
             $GetParam{Body}
                 =~ s/(^>.+|.{4,$Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote')})(?:\s|\z)/$1\n/gm;
         }
@@ -357,7 +357,7 @@ sub Run {
         }
 
         my $MimeType = 'text/plain';
-        if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
             $MimeType = 'text/html';
 
             # verify html document
@@ -673,8 +673,8 @@ sub _MaskNew {
         }
     }
 
-    # add YUI editor
-    if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+    # add rich text editor
+    if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
         $Self->{LayoutObject}->Block(
             Name => 'RichText',
             Data => \%Param,

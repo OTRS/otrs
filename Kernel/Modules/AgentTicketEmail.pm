@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.92 2009-07-19 23:00:31 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.93 2009-07-20 01:01:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.92 $) [1];
+$VERSION = qw($Revision: 1.93 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -249,10 +249,17 @@ sub Run {
             my $Subject = $Self->{LayoutObject}->Output(
                 Template => $Self->{Config}->{Subject} || '',
             );
-            my @DefaultBody = $Self->{LayoutObject}->ToFromRichText(
-                Content => $Self->{Config}->{Body} || '',
+
+            my $Body = $Self->{LayoutObject}->Output(
+                Template => $Self->{Config}->{Body} || '',
             );
-            my $Body = $Self->{LayoutObject}->Output( Template => $DefaultBody[0] );
+
+            # make sure body is rich text
+            if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+                $Body = $Self->{LayoutObject}->Ascii2RichText(
+                    String => $Body,
+                );
+            }
 
             # html output
             my $Services = $Self->_GetServices(
@@ -776,7 +783,7 @@ sub Run {
         }
 
         my $MimeType = 'text/plain';
-        if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
             $MimeType = 'text/html';
             $GetParam{Body} .= "<br/><br/>" . $Signature;
 
@@ -1923,8 +1930,8 @@ sub _MaskEmailNew {
         }
     }
 
-    # add YUI editor
-    if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+    # add rich text editor
+    if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
         $Self->{LayoutObject}->Block(
             Name => 'RichText',
             Data => \%Param,

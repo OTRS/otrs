@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminResponse.pm - provides admin std response module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminResponse.pm,v 1.30 2009-03-16 23:59:34 sb Exp $
+# $Id: AdminResponse.pm,v 1.31 2009-07-20 01:01:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::StdAttachment;
 use Kernel::System::Valid;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.30 $) [1];
+$VERSION = qw($Revision: 1.31 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -58,7 +58,7 @@ sub Run {
 
     # get composed content type
     my $TextType = 'plain';
-    if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+    if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
         $TextType = 'html';
     }
     $GetParam{ContentType} = 'text/' . $TextType . '; charset=' . $GetParam{Charset};
@@ -216,8 +216,8 @@ sub _Mask {
     }
     $Param{AttachmentOption} .= "</SELECT>\n";
 
-    # add YUI editor
-    if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+    # add rich text editor
+    if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
         $Self->{LayoutObject}->Block(
             Name => 'RichText',
             Data => \%Param,

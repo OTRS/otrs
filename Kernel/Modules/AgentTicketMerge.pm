@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketMerge.pm - to merge tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketMerge.pm,v 1.36 2009-07-19 23:00:31 martin Exp $
+# $Id: AgentTicketMerge.pm,v 1.37 2009-07-20 01:01:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::SystemAddress;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.36 $) [1];
+$VERSION = qw($Revision: 1.37 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -195,7 +195,7 @@ sub Run {
                 }
 
                 my $MimeType = 'text/plain';
-                if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+                if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
                     $MimeType = 'text/html';
 
                     # verify html document
@@ -273,30 +273,27 @@ sub Run {
         my %Address = $Self->{QueueObject}->GetSystemAddress( QueueID => $Ticket{QueueID} );
         $Article{From} = "$Address{RealName} <$Address{Email}>";
 
-        # get and format default body
-        my @DefaultBody = $Self->{LayoutObject}->ToFromRichText(
-            Content => $Self->{ConfigObject}->{'Ticket::Frontend::MergeText'} || '',
-        );
-        $Article{Body} = $DefaultBody[0];
-
         # add salutation and signature to body
-        if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+            my $Body = $Self->{LayoutObject}->Ascii2RichText(
+                String => $Self->{ConfigObject}->Get('Ticket::Frontend::MergeText'),
+            );
             $Article{Body} = $Salutation
                 . '<br/><br/>'
-                . $Article{Body}
+                . $Body
                 . '<br/><br/>'
                 . $Signature;
         }
         else {
             $Article{Body} = $Salutation
                 . "\n\n"
-                . $Article{Body}
+                . $Self->{ConfigObject}->Get('Ticket::Frontend::MergeText')
                 . "\n\n"
                 . $Signature;
         }
 
-        # add YUI editor
-        if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+        # add rich text editor
+        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
             $Self->{LayoutObject}->Block(
                 Name => 'RichText',
                 Data => \%Param,

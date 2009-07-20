@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketResponsible.pm - set ticket responsible
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketResponsible.pm,v 1.52 2009-07-19 23:00:31 martin Exp $
+# $Id: AgentTicketResponsible.pm,v 1.53 2009-07-20 01:01:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::State;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -235,7 +235,7 @@ sub Run {
     }
 
     # rewrap body if exists
-    if ( $GetParam{Body} && !$Self->{ConfigObject}->{'Frontend::RichText'} ) {
+    if ( $GetParam{Body} && !$Self->{ConfigObject}->Get('Frontend::RichText') ) {
         my $Size = $Self->{ConfigObject}->Get('Ticket::Frontend::TextAreaNote') || 70;
         $GetParam{Body} =~ s/(^>.+|.{4,$Size})(?:\s|\z)/$1\n/gm;
     }
@@ -486,7 +486,7 @@ sub Run {
         my $ArticleID = '';
         if ( $Self->{Config}->{Note} ) {
             my $MimeType = 'text/plain';
-            if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+            if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
                 $MimeType = 'text/html';
 
                 # verify html document
@@ -668,20 +668,23 @@ sub Run {
     }
     else {
 
-        # fillup vars
-        if ( !defined( $GetParam{Body} ) && $Self->{Config}->{Body} ) {
-            $GetParam{Body} = $Self->{LayoutObject}->Output( Template => $Self->{Config}->{Body} )
-                || '';
-
-            # make sure body has correct format (plain or html)
-            my @NewBody = $Self->{LayoutObject}->ToFromRichText(
-                Content => $GetParam{Body},
+        # fillup configured default vars
+        if ( !defined $GetParam{Body} && $Self->{Config}->{Body} ) {
+            $GetParam{Body} = $Self->{LayoutObject}->Output(
+                Template => $Self->{Config}->{Body},
             );
-            $GetParam{Body} = $NewBody[0];
+
+            # make sure body is rich text
+            if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+                $GetParam{Body} = $Self->{LayoutObject}->Ascii2RichText(
+                    String => $GetParam{Body},
+                );
+            }
         }
-        if ( !defined( $GetParam{Subject} ) && $Self->{Config}->{Subject} ) {
-            $GetParam{Subject}
-                = $Self->{LayoutObject}->Output( Template => $Self->{Config}->{Subject} );
+        if ( !defined $GetParam{Subject} && $Self->{Config}->{Subject} ) {
+            $GetParam{Subject} = $Self->{LayoutObject}->Output(
+                Template => $Self->{Config}->{Subject},
+            );
         }
 
         # get free text config options
@@ -1034,8 +1037,8 @@ sub _Mask {
             Data => {%Param},
         );
 
-        # add YUI editor
-        if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+        # add rich text editor
+        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
             $Self->{LayoutObject}->Block(
                 Name => 'RichText',
                 Data => \%Param,

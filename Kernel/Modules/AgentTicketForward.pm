@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.48 2009-07-19 23:00:31 martin Exp $
+# $Id: AgentTicketForward.pm,v 1.49 2009-07-20 01:01:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.48 $) [1];
+$VERSION = qw($Revision: 1.49 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -195,7 +195,7 @@ sub Form {
     );
 
     # body preparation for plain text processing
-    if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+    if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
 
         # check for html body
         my @ArticleBox = $Self->{TicketObject}->ArticleContentIndex(
@@ -245,6 +245,7 @@ sub Form {
                 ATMCOUNT:
                 for my $AtmCount ( keys %Attachments ) {
                     next ATMCOUNT if $Attachments{$AtmCount}{ContentID} !~ /^<$ContentID>$/;
+
                     # add to upload cache
                     my %AttachmentPicture = $Self->{TicketObject}->ArticleAttachment(
                         ArticleID => $Data{ArticleID},
@@ -259,12 +260,10 @@ sub Form {
                     my @Attachments = $Self->{UploadCachObject}->FormIDGetAllFilesMeta(
                         FormID => $GetParam{FormID},
                     );
-                    CONTENTIDRETURN:
-                    for my $TmpAttachment ( @Attachments ) {
-                        next CONTENTIDRETURN
-                            if $Attachments{$AtmCount}{Filename} ne $TmpAttachment->{Filename};
-                        $ContentID = $AttachmentLink . $TmpAttachment->{ContentID};
-                        last CONTENTIDRETURN;
+                    for my $Attachment ( @Attachments ) {
+                        next if $Attachments{$AtmCount}->{Filename} ne $Attachment->{Filename};
+                        $ContentID = $AttachmentLink . $Attachment->{ContentID};
+                        last;
                     }
                     last ATMCOUNT;
                 }
@@ -293,10 +292,10 @@ sub Form {
         }
 
         # prepare body, subject, ReplyTo ...
-        my @DefaultQuote = $Self->{LayoutObject}->ToFromRichText(
-            Content => $Self->{ConfigObject}->Get('Ticket::Frontend::Quote') || '',
+        my $Quote = $Self->{LayoutObject}->Ascii2RichText(
+            String => $Self->{ConfigObject}->Get('Ticket::Frontend::Quote') || '',
         );
-        my $Quote = $DefaultQuote[0];
+
         if ($Quote) {
             $Data{BodyHTML} =~ s/<br\/?>/<br\/>$Quote&nbsp;/g;
             $Data{BodyHTML} = "<br/>$Quote&nbsp;" . $Data{BodyHTML};
@@ -307,12 +306,18 @@ sub Form {
         if ( $Data{Created} ) {
             $Data{BodyHTML} = "Date: $Data{Created}<br/>" . $Data{BodyHTML};
         }
-        for my $TmpParam (qw( Subject ReplyTo Reply-To Cc To From )) {
-            if ( $Data{$TmpParam} ) {
-                $Data{BodyHTML} = "$TmpParam: $Data{$TmpParam}<br/>" . $Data{BodyHTML};
+        for my $Key (qw( Subject ReplyTo Reply-To Cc To From )) {
+            if ( $Data{$Key} ) {
+                my $Value = $Self->{LayoutObject}->Ascii2RichText(
+                    String => $Data{$Key},
+                );
+                $Data{BodyHTML} = "$Key: $Value<br/>" . $Data{BodyHTML};
             }
         }
-        $Data{BodyHTML} = "<br/>---- Forwarded message from $Data{From} ---<br/><br/>"
+        my $From = $Self->{LayoutObject}->Ascii2RichText(
+            String => $Data{From},
+        );
+        $Data{BodyHTML} = "<br/>---- Forwarded message from $From ---<br/><br/>"
             . $Data{BodyHTML};
         $Data{BodyHTML} .= "<br/>---- End forwarded message ---<br/>";
         $Data{BodyHTML} = $Data{Signature} . $Data{BodyHTML};
@@ -701,7 +706,7 @@ sub SendEmail {
     }
 
     my $MimeType = 'text/plain';
-    if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+    if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
         $MimeType = 'text/html';
 
         # remove unused inline images
@@ -1014,8 +1019,8 @@ sub _Mask {
         }
     }
 
-    # add YUI editor
-    if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+    # add rich text editor
+    if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
         $Self->{LayoutObject}->Block(
             Name => 'RichText',
             Data => \%Param,

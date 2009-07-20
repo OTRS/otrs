@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.72 2009-07-19 23:00:31 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.73 2009-07-20 01:01:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.72 $) [1];
+$VERSION = qw($Revision: 1.73 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -630,7 +630,7 @@ sub Run {
             UploadCachObject => $Self->{UploadCachObject},
         );
 
-        if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
 
             # prepare body, subject, ReplyTo ...
             # rewrap body if exists
@@ -800,22 +800,23 @@ sub Run {
         );
 
         my $ResponseFormat = $Self->{ConfigObject}->Get('Ticket::Frontend::ResponseFormat')
-            || '$QData{"Salutation"}<br/>
-$QData{"OrigFrom"} $Text{"wrote"}:<br/>
-$QData{"Body"}<br/>
-<br/>
-$QData{"StdResponse"}<br/>
-<br/>
-$QData{"Signature"}<br/>
+            || '$QData{"Salutation"}
+$QData{"OrigFrom"} $Text{"wrote"}:
+$QData{"Body"}
+
+$QData{"StdResponse"}
+
+$QData{"Signature"}
 ';
 
-        # reformat response format
-        my @NewResponseFormat = $Self->{LayoutObject}->ToFromRichText(
-            Content => $ResponseFormat,
-        );
-        $ResponseFormat = $NewResponseFormat[0];
+        # make sure body is rich text
+        if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+            $ResponseFormat = $Self->{LayoutObject}->Ascii2RichText(
+                String => $ResponseFormat,
+            );
+        }
 
-        # restore qdata formatting
+        # restore qdata formatting for Output replacement
         $ResponseFormat =~ s/&quot;/"/gi;
 
         $Data{ResponseFormat} = $Self->{LayoutObject}->Output(
@@ -1128,8 +1129,8 @@ sub _Mask {
         }
     }
 
-    # add YUI editor
-    if ( $Self->{ConfigObject}->{'Frontend::RichText'} ) {
+    # add rich text editor
+    if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
         $Self->{LayoutObject}->Block(
             Name => 'RichText',
             Data => \%Param,
