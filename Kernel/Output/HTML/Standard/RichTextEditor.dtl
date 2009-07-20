@@ -2,7 +2,7 @@
 # RichTextEditor.dtl - provides the YUI Rich Text Editor
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: RichTextEditor.dtl,v 1.11 2009-07-19 22:14:29 martin Exp $
+# $Id: RichTextEditor.dtl,v 1.12 2009-07-20 02:51:30 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@
 <script type="text/javascript">
 window.onload = function() {
     var oFCKeditor = new FCKeditor( 'RichText' ) ;
-    oFCKeditor.Height = 280;
+    oFCKeditor.Height = 320;
     oFCKeditor.Width  = 620;
     oFCKeditor.BasePath = "$Config{"Frontend::JavaScriptPath"}/fckeditor-2.6.4.1/" ;
     oFCKeditor.Config["ForcePasteAsPlainText"] = false;
@@ -34,5 +34,14 @@ window.onload = function() {
     }
 
     oFCKeditor.ReplaceTextarea() ;
+}
+
+# workaround for http://dev.fckeditor.net/ticket/3053
+# see also http://www.fckeditor.net/forums/viewtopic.php?f=6&t=13222
+function FCKeditor_OnComplete( editorInstance ) {
+      var fck_iframe = document.getElementById('RichText___Frame');
+      var fck_editing_area = fck_iframe.contentDocument.getElementById('xEditingArea');
+      fck_editing_area.style.height = '100.1%';
+      setTimeout(function() {fck_editing_area.style.height = '100%'}, 100);
 }
 </script>
