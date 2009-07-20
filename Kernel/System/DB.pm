@@ -2,7 +2,7 @@
 # Kernel/System/DB.pm - the global database wrapper to support different databases
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DB.pm,v 1.104 2009-07-18 17:41:52 martin Exp $
+# $Id: DB.pm,v 1.105 2009-07-20 04:05:18 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use DBI;
 use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.104 $) [1];
+$VERSION = qw($Revision: 1.105 $) [1];
 
 =head1 NAME
 
@@ -945,19 +945,39 @@ sub QueryCondition {
     my $SearchPrefix = $Param{SearchPrefix} || '';
     my $SearchSuffix = $Param{SearchSuffix} || '';
 
-    # clean up query
+    # remove leading/tailing spaces
     $Param{Value} =~ s/^\s+//g;
     $Param{Value} =~ s/\s+$//g;
+
+    # add base brackets
     if ( $Param{Value} !~ /^\(/ || $Param{Value} !~ /\)$/ ) {
         $Param{Value} = '(' . $Param{Value} . ')';
     }
+
+    # remove double spaces
     $Param{Value} =~ s/\s\s/ /g;
+
+    # replace + by &&
     $Param{Value} =~ s/\+/&&/g;
+
+    # replace AND by &&
     $Param{Value} =~ s/(\s|\)|\()AND(\s|\(|\))/&&/g;
+
+    # replace OR by ||
     $Param{Value} =~ s/(\s|\)|\()OR(\s|\(|\))/||/g;
+
+    # remove any spaces
     $Param{Value} =~ s/\s//g;
+
+    # replace * with % (for SQL)
     $Param{Value} =~ s/\*/%/g;
+
+    # remove double %%
     $Param{Value} =~ s/%%/%/g;
+
+    # remove leading/tailing conditions
+    $Param{Value} =~ s/(&&|\|\|)\)$/)/g;
+    $Param{Value} =~ s/^\((&&|\|\|)/(/g;
 
     # get col.
     my @Keys;
@@ -1144,6 +1164,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.104 $ $Date: 2009-07-18 17:41:52 $
+$Revision: 1.105 $ $Date: 2009-07-20 04:05:18 $
 
 =cut
