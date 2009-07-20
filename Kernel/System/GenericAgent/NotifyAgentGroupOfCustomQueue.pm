@@ -2,7 +2,7 @@
 # Kernel/System/GenericAgent/NotifyAgentGroupOfCustomQueue.pm - generic agent notifications
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: NotifyAgentGroupOfCustomQueue.pm,v 1.21 2009-07-09 04:09:35 martin Exp $
+# $Id: NotifyAgentGroupOfCustomQueue.pm,v 1.22 2009-07-20 12:28:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Email;
 use Kernel::System::Queue;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.21 $) [1];
+$VERSION = qw($Revision: 1.22 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -51,7 +51,7 @@ sub Run {
 
     # check if bussines hours is, then send escalation info
     my $CountedTime = $Self->{TimeObject}->WorkingTime(
-        StartTime => $Self->{TimeObject}->SystemTime() - ( 30 * 60 ),
+        StartTime => $Self->{TimeObject}->SystemTime() - ( 10 * 60 ),
         StopTime => $Self->{TimeObject}->SystemTime(),
     );
     if ( !$CountedTime ) {
@@ -73,7 +73,7 @@ sub Run {
         FirstResponseTimeNotification UpdateTimeNotification SolutionTimeNotification)
         )
     {
-        if ( defined( $Ticket{$Type} ) ) {
+        if ( defined $Ticket{$Type} ) {
             if ( $Type =~ /TimeEscalation$/ ) {
                 $EscalationType = 'Escalation';
                 last;
@@ -126,9 +126,7 @@ sub Run {
                     $Sent = 1;
                 }
             }
-            if ($Sent) {
-                next;
-            }
+            next if $Sent;
 
             # send agent notification
             $Self->{TicketObject}->SendAgentNotification(
