@@ -1,8 +1,8 @@
 # --
-# RichTextEditor.dtl - provides the YUI Rich Text Editor
+# RichTextEditor.dtl - provides the FCK Rich Text Editor
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: RichTextEditor.dtl,v 1.13 2009-07-20 08:03:39 martin Exp $
+# $Id: RichTextEditor.dtl,v 1.14 2009-07-21 17:34:21 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
