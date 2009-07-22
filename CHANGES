@@ -2,12 +2,26 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.934 2009-07-20 02:08:10 martin Exp $
+# $Id: CHANGES,v 1.935 2009-07-22 01:49:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
+2.4.1 (2009/07/22)
+ - (2009/07/21) Updated Hungarian translation, thanks to Arnold Matyasi!
+ - (2009/07/21) Updated Turkish translation, thanks to Meric Iktu!
+ - (2009/07/21) Moved to default font "Geneva,Helvetica,Arial" of rich text
+    feature.
+ - (2009/07/21) Fixed bug#4005 - Spellcheck with FCKEditor Plugin for WYSIWYG.
+ - (2009/07/21) Fixed bug#4022 - In AgentTicketZoom I get the following error
+    message in log index.pl: Malformed UTF-8 character (unexpected
+    non-continuation byte 0x74, immediately after start byte 0xe9) in
+    substitution iterator at ../..//Kernel/Modules/AgentTicketAttachment.pm
+    line 192.
+ - (2009/07/21) Added/Updated new Chinese Traditional translation, thanks to
+    Bin Du, Yiye Huang and Qingjiu Jia!
 
 2.4.0 beta6 (2009/07/19)
  - (2009/07/19) Moved to fckeditor (http://www.fckeditor.net/) as rich text
@@ -22,7 +36,7 @@
  - (2009/07/18) Fixed bug#4004 - Can not search for customer strings like
     "St. Peters", I always get the result of "St.+Peters" which is much
      more then I want. Please make it working like in OTRS 2.3.
- - (2009/07/18) Fixed bug#3991 - Link in HTML Articel opens in iframe.
+ - (2009/07/18) Fixed bug#3991 - Link in HTML Article opens in iframe.
  - (2009/07/18) Renamed Kernel/System/HTML2Ascii.pm to
     Kernel/System/HTMLUtils.pm, because of better naming.
  - (2009/07/17) Updated Russian translation, thanks to Andrey Cherepanov!
