@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPhone.pm - to handle phone calls
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPhone.pm,v 1.109 2009-07-20 10:36:04 mh Exp $
+# $Id: AgentTicketPhone.pm,v 1.110 2009-07-22 13:08:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::LinkObject;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.109 $) [1];
+$VERSION = qw($Revision: 1.110 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -821,32 +821,31 @@ sub Run {
         if ( $GetParam{NewUserID} ) {
             $NoAgentNotify = 1;
         }
-        if (
-            my $ArticleID = $Self->{TicketObject}->ArticleCreate(
-                NoAgentNotify    => $NoAgentNotify,
-                TicketID         => $TicketID,
-                ArticleType      => $Self->{Config}->{ArticleType},
-                SenderType       => $Self->{Config}->{SenderType},
-                From             => $GetParam{From},
-                To               => $To,
-                Subject          => $GetParam{Subject},
-                Body             => $GetParam{Body},
-                MimeType         => $MimeType,
-                Charset          => $Self->{LayoutObject}->{UserCharset},
-                UserID           => $Self->{UserID},
-                HistoryType      => $Self->{Config}->{HistoryType},
-                HistoryComment   => $Self->{Config}->{HistoryComment} || '%%',
-                AutoResponseType => 'auto reply',
-                OrigHeader       => {
-                    From    => $GetParam{From},
-                    To      => $GetParam{To},
-                    Subject => $GetParam{Subject},
-                    Body    => $GetParam{Body},
-                },
-                Queue => $Self->{QueueObject}->QueueLookup( QueueID => $NewQueueID ),
-            )
-            )
-        {
+        my $ArticleID = $Self->{TicketObject}->ArticleCreate(
+            NoAgentNotify    => $NoAgentNotify,
+            TicketID         => $TicketID,
+            ArticleType      => $Self->{Config}->{ArticleType},
+            SenderType       => $Self->{Config}->{SenderType},
+            From             => $GetParam{From},
+            To               => $To,
+            Subject          => $GetParam{Subject},
+            Body             => $GetParam{Body},
+            MimeType         => $MimeType,
+            Charset          => $Self->{LayoutObject}->{UserCharset},
+            UserID           => $Self->{UserID},
+            HistoryType      => $Self->{Config}->{HistoryType},
+            HistoryComment   => $Self->{Config}->{HistoryComment} || '%%',
+            AutoResponseType => 'auto reply',
+            OrigHeader       => {
+                From    => $GetParam{From},
+                To      => $GetParam{To},
+                Subject => $GetParam{Subject},
+                Body    => $Self->{LayoutObject}->RichText2Ascii( String => $GetParam{Body} ),
+
+            },
+            Queue => $Self->{QueueObject}->QueueLookup( QueueID => $NewQueueID ),
+        );
+        if ($Article) {
 
             # set article free text
             for ( 1 .. 3 ) {

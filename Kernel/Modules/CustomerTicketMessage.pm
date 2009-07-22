@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketMessage.pm - to handle customer messages
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketMessage.pm,v 1.45 2009-07-20 10:36:04 mh Exp $
+# $Id: CustomerTicketMessage.pm,v 1.46 2009-07-22 13:08:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Queue;
 use Kernel::System::State;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.45 $) [1];
+$VERSION = qw($Revision: 1.46 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -387,7 +387,7 @@ sub Run {
                     From    => $From,
                     To      => $Self->{UserLogin},
                     Subject => $GetParam{Subject},
-                    Body    => $GetParam{Body},
+                    Body    => $Self->{LayoutObject}->RichText2Ascii( String => $GetParam{Body} ),
                 },
                 Queue => $Self->{QueueObject}->QueueLookup( QueueID => $NewQueueID ),
             )
