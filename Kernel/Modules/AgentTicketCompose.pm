@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.74 2009-07-20 10:36:04 mh Exp $
+# $Id: AgentTicketCompose.pm,v 1.75 2009-07-22 01:15:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.74 $) [1];
+$VERSION = qw($Revision: 1.75 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -315,8 +315,10 @@ sub Run {
             );
 
             # ticket free time
-            my %TicketFreeTimeHTML
-                = $Self->{LayoutObject}->AgentFreeDate( %Param, Ticket => \%GetParam, );
+            my %TicketFreeTimeHTML = $Self->{LayoutObject}->AgentFreeDate(
+                %Param,
+                Ticket => \%GetParam,
+            );
 
             # article free text
             my %ArticleFreeText = ();
@@ -429,9 +431,9 @@ sub Run {
             Attachment     => \@AttachmentData,
             %ArticleParam,
         );
-        if ( !$ArticleID ) {
 
-            # error page
+        # error page
+        if ( !$ArticleID ) {
             return $Self->{LayoutObject}->ErrorScreen();
         }
 
@@ -447,7 +449,7 @@ sub Run {
 
         # set ticket free text
         for ( 1 .. 16 ) {
-            if ( defined( $GetParam{"TicketFreeKey$_"} ) ) {
+            if ( defined $GetParam{"TicketFreeKey$_"} ) {
                 $Self->{TicketObject}->TicketFreeTextSet(
                     Key      => $GetParam{"TicketFreeKey$_"},
                     Value    => $GetParam{"TicketFreeText$_"},
@@ -461,11 +463,11 @@ sub Run {
         # set ticket free time
         for ( 1 .. 6 ) {
             if (
-                defined( $GetParam{ "TicketFreeTime" . $_ . "Year" } )
-                && defined( $GetParam{ "TicketFreeTime" . $_ . "Month" } )
-                && defined( $GetParam{ "TicketFreeTime" . $_ . "Day" } )
-                && defined( $GetParam{ "TicketFreeTime" . $_ . "Hour" } )
-                && defined( $GetParam{ "TicketFreeTime" . $_ . "Minute" } )
+                defined $GetParam{ "TicketFreeTime" . $_ . "Year" }
+                && defined $GetParam{ "TicketFreeTime" . $_ . "Month" }
+                && defined $GetParam{ "TicketFreeTime" . $_ . "Day" }
+                && defined $GetParam{ "TicketFreeTime" . $_ . "Hour" }
+                && defined $GetParam{ "TicketFreeTime" . $_ . "Minute" }
                 )
             {
                 my %Time;
@@ -494,7 +496,7 @@ sub Run {
 
         # set article free text
         for ( 1 .. 3 ) {
-            if ( defined( $GetParam{"ArticleFreeKey$_"} ) ) {
+            if ( defined $GetParam{"ArticleFreeKey$_"} ) {
                 $Self->{TicketObject}->ArticleFreeTextSet(
                     TicketID  => $Self->{TicketID},
                     ArticleID => $ArticleID,
@@ -623,6 +625,7 @@ sub Run {
             );
         }
 
+        # get article to quote
         $Data{Body} = $Self->{LayoutObject}->ArticleQuote(
             TicketID         => $Self->{TicketID},
             ArticleID        => $Data{ArticleID},
@@ -641,8 +644,15 @@ sub Run {
                     HTMLResultMode => 1,
                 );
                 if ($Quote) {
-                    $Data{Body} =~ s/(<(br|p|div).*?>)/$1$Quote /ig;
-                    $Data{Body} = "<br/>$Quote " . $Data{Body};
+
+                    # quote text
+                    $Data{Body} = "<blockquote type=\"cite\">$Data{Body}</blockquote>\n";
+
+                    # cleanup not compat. tags
+                    $Data{Body} = $Self->{LayoutObject}->RichTextDocumentCleanup(
+                        String => $Data{Body},
+                    );
+
                 }
                 else {
                     $Data{Body} = "<br/>" . $Data{Body};

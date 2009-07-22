@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.51 2009-07-20 10:36:04 mh Exp $
+# $Id: AgentTicketForward.pm,v 1.52 2009-07-22 01:15:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.51 $) [1];
+$VERSION = qw($Revision: 1.52 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -206,17 +206,7 @@ sub Form {
     if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
 
         # prepare body, subject, ReplyTo ...
-        my $Quote = $Self->{LayoutObject}->Ascii2RichText(
-            String => $Self->{ConfigObject}->Get('Ticket::Frontend::Quote') || '',
-        );
-
-        if ($Quote) {
-            $Data{Body} =~ s/<br\/?>/<br\/>$Quote&nbsp;/g;
-            $Data{Body} = "<br/>$Quote&nbsp;" . $Data{Body};
-        }
-        else {
-            $Data{Body} = "<br/>" . $Data{Body};
-        }
+        $Data{Body} = '<br/>' . $Data{Body};
         if ( $Data{Created} ) {
             $Data{Body} = "Date: $Data{Created}<br/>" . $Data{Body};
         }
@@ -227,6 +217,23 @@ sub Form {
                 );
                 $Data{Body} = "$Key: $Value<br/>" . $Data{Body};
             }
+        }
+
+        my $Quote = $Self->{LayoutObject}->Ascii2RichText(
+            String => $Self->{ConfigObject}->Get('Ticket::Frontend::Quote') || '',
+        );
+        if ($Quote) {
+
+            # quote text
+            $Data{Body} = "<blockquote type=\"cite\">$Data{Body}</blockquote>\n";
+
+            # cleanup not compat. tags
+            $Data{Body} = $Self->{LayoutObject}->RichTextDocumentCleanup(
+                String => $Data{Body},
+            );
+        }
+        else {
+            $Data{Body} = "<br/>" . $Data{Body};
         }
         my $From = $Self->{LayoutObject}->Ascii2RichText(
             String => $Data{From},
@@ -645,7 +652,7 @@ sub SendEmail {
     for ( 1 .. 16 ) {
         my $FreeKey   = $Self->{ParamObject}->GetParam( Param => "TicketFreeKey$_" );
         my $FreeValue = $Self->{ParamObject}->GetParam( Param => "TicketFreeText$_" );
-        if ( defined($FreeKey) && defined($FreeValue) ) {
+        if ( defined $FreeKey && defined $FreeValue ) {
             $Self->{TicketObject}->TicketFreeTextSet(
                 Key      => $FreeKey,
                 Value    => $FreeValue,
@@ -659,11 +666,11 @@ sub SendEmail {
     # set ticket free time
     for ( 1 .. 6 ) {
         if (
-            defined( $GetParam{ 'TicketFreeTime' . $_ . 'Year' } )
-            && defined( $GetParam{ 'TicketFreeTime' . $_ . 'Month' } )
-            && defined( $GetParam{ 'TicketFreeTime' . $_ . 'Day' } )
-            && defined( $GetParam{ 'TicketFreeTime' . $_ . 'Hour' } )
-            && defined( $GetParam{ 'TicketFreeTime' . $_ . 'Minute' } )
+            defined $GetParam{ 'TicketFreeTime' . $_ . 'Year' }
+            && defined $GetParam{ 'TicketFreeTime' . $_ . 'Month' }
+            && defined $GetParam{ 'TicketFreeTime' . $_ . 'Day' }
+            && defined $GetParam{ 'TicketFreeTime' . $_ . 'Hour' }
+            && defined $GetParam{ 'TicketFreeTime' . $_ . 'Minute' }
             )
         {
             my %Time;
