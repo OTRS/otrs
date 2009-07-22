@@ -2,12 +2,21 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.935 2009-07-22 01:49:09 martin Exp $
+# $Id: CHANGES,v 1.936 2009-07-22 13:38:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
+2.4.1 (2009/07/??)
+ - (2009/07/22) Fixed bug#4027 - RichText: Incoming emails written with MS
+    Word 12 seems to be empty.
+ - (2009/07/22) Fixed bug#4026 - Quote in Auto-Responses of new tickets which
+    are created over the web interface are not plain text. Quote in
+    Auto-Responses based on emails are working fine.
+ - (2009/07/22) Fixed bug#4024 - Use of Sessions per URL (not cookie) breaks
+    Dashboard.
 
 2.4.1 (2009/07/22)
  - (2009/07/21) Updated Hungarian translation, thanks to Arnold Matyasi!
