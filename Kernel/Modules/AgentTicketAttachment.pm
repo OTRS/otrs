@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketAttachment.pm - to get the attachments
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketAttachment.pm,v 1.18 2009-07-22 01:02:51 martin Exp $
+# $Id: AgentTicketAttachment.pm,v 1.19 2009-07-22 01:03:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.18 $) [1];
+$VERSION = qw($Revision: 1.19 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -155,7 +155,7 @@ sub Run {
         # set filename for inline viewing
         $Data{Filename} = "Ticket-$Article{TicketNumber}-ArticleID-$Article{ArticleID}.html";
 
-        # get charset and convert content charset
+        # get charset and convert content to internal charset
         if ( $Self->{EncodeObject}->EncodeInternalUsed() ) {
             my $Charset = $Data{ContentType};
             $Charset =~ s/.+?charset=("|'|)(\w+)/$2/gi;
