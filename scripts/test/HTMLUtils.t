@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.2 2009-07-20 10:36:05 mh Exp $
+# $Id: HTMLUtils.t,v 1.3 2009-07-22 03:04:17 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -101,7 +101,7 @@ for my $Test (@Tests) {
     {
         Input => 'Some Text',
         Result =>
-            '<html><head><meta http-equiv="Content-Type content=text/html; charset=iso-8859-1"/></head><body style="font-family:Courier New,monospace,fixed; font-size: 12px;">Some Text</body></html>',
+            '<html><head><meta http-equiv="Content-Type content=text/html; charset=iso-8859-1"/></head><body style="font-family:Geneva,Helvetica,Arial,sans-serif; font-size: 12px;">Some Text</body></html>',
         Name => 'DocumentComplete - simple'
     },
     {
