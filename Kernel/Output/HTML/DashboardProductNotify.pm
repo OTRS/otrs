@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardProductNotify.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardProductNotify.pm,v 1.8 2009-07-13 23:23:53 martin Exp $
+# $Id: DashboardProductNotify.pm,v 1.9 2009-07-22 21:50:33 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::WebUserAgent;
 use Kernel::System::XML;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -29,7 +29,7 @@ sub new {
 
     # get needed objects
     for (
-        qw(Config Name ConfigObject LogObject DBObject LayoutObject ParamObject TicketObject CacheObject UserID)
+        qw(Config Name ConfigObject LogObject DBObject LayoutObject ParamObject CacheObject UserID)
         )
     {
         die "Got no $_!" if ( !$Self->{$_} );
@@ -63,28 +63,40 @@ sub Run {
         Type => 'DashboardProductNotify',
         Key  => $CacheKey,
     );
+    return $Content if defined $Content;
 
     # get content
-    if ( !$Content ) {
-        my $Product  = $Self->{ConfigObject}->Get('Product');
-        my $Version  = $Self->{ConfigObject}->Get('Version');
-        my %Response = $Self->{WebUserAgentObject}->Request(
-            URL => $Self->{Config}->{URL} . '?Product=' . $Product . '-' . $Version,
-        );
+    my $Product  = $Self->{ConfigObject}->Get('Product');
+    my $Version  = $Self->{ConfigObject}->Get('Version');
+    my %Response = $Self->{WebUserAgentObject}->Request(
+        URL => $Self->{Config}->{URL} . '?Product=' . $Product . '-' . $Version,
+    );
 
-        if ( $Response{Status} !~ /200/ ) {
-            $Content = "Can't connect to: " . $Self->{Config}->{URL} . " ($Response{Status})";
+    # set error message as content if xml file get not downloaded
+    if ( $Response{Status} !~ /200/ ) {
+        $Content = "Can't connect to: " . $Self->{Config}->{URL} . " ($Response{Status})";
+    }
+    else {
+
+        # generate content based on xml file
+        my $XMLObject = Kernel::System::XML->new( %{$Self} );
+        my @Data = $XMLObject->XMLParse2XMLHash( String => ${ $Response{Content} } );
+
+        # set error message if unable to parse xml file
+        if ( !@Data ) {
+            $Content = "Can't parse xml of: " . $Self->{Config}->{URL};
         }
         else {
-            my $XMLObject = Kernel::System::XML->new( %{$Self} );
-            my @Data = $XMLObject->XMLParse2XMLHash( String => ${ $Response{Content} } );
 
-            if ( !@Data ) {
-                $Content = "Can't parse xml of: " . $Self->{Config}->{URL};
-            }
+            # remember if content got shown
+            my $ContentFound = 0;
 
+            # show messages
             for my $Item ( keys %{ $Data[1]->{otrs_product}->[1] } ) {
                 next if $Item ne 'Message';
+
+                # remember if content got shown
+                $ContentFound = 1;
                 $Self->{LayoutObject}->Block(
                     Name => 'ContentProductMessage',
                     Data => {
@@ -92,14 +104,21 @@ sub Run {
                     },
                 );
             }
+
+            # show release updates
             for my $Item ( keys %{ $Data[1]->{otrs_product}->[1] } ) {
                 next if $Item ne 'Release';
                 for my $Record ( @{ $Data[1]->{otrs_product}->[1]->{$Item} } ) {
                     next if !$Record;
+
+                    # check if release is newer then the installed one
                     next if !$Self->_CheckVersion(
                         Version1 => $Version,
                         Version2 => $Record->{Version}->[1]->{Content},
                     );
+
+                    # remember if content got shown
+                    $ContentFound = 1;
                     $Self->{LayoutObject}->Block(
                         Name => 'ContentProductRelease',
                         Data => {
@@ -111,29 +130,36 @@ sub Run {
                     );
                 }
             }
-            $Content = $Self->{LayoutObject}->Output(
-                TemplateFile => 'AgentDashboardProductNotify',
-                Data         => {
-                    %{ $Self->{Config} },
-                },
-            );
 
-            # check if we need to set CacheTTL based on product.xml
+            # check if content got shown, if true, render block
+            if ($ContentFound) {
+                $Content = $Self->{LayoutObject}->Output(
+                    TemplateFile => 'AgentDashboardProductNotify',
+                    Data         => {
+                        %{ $Self->{Config} },
+                    },
+                );
+            }
+
+            # check if we need to set CacheTTL based on xml file
             my $CacheTTL = $Data[1]->{otrs_product}->[1]->{CacheTTL};
             if ( $CacheTTL && $CacheTTL->[1]->{Content} ) {
                 $Self->{Config}->{CacheTTLLocal} = $CacheTTL->[1]->{Content};
             }
         }
+    }
 
-        # cache
+    # cache result
+    if ( $Self->{Config}->{CacheTTLLocal} ) {
         $Self->{CacheObject}->Set(
             Type  => 'DashboardProductNotify',
             Key   => $CacheKey,
-            Value => $Content,
+            Value => $Content || '',
             TTL   => $Self->{Config}->{CacheTTLLocal} * 60,
         );
     }
 
+    # return content
     return $Content;
 }
 
@@ -153,7 +179,12 @@ sub _CheckVersion {
         my @Parts = split /\./, $Param{$Type};
         $Param{$Type} = 0;
         for ( 0 .. 4 ) {
-            $Param{$Type} .= sprintf( "%04d", $Parts[$_] || 0 );
+            if ( defined $Parts[$_] ) {
+                $Param{$Type} .= sprintf( "%04d", $Parts[$_] );
+            }
+            else {
+                $Param{$Type} .= 9999;
+            }
         }
         $Param{$Type} = int( $Param{$Type} );
     }
