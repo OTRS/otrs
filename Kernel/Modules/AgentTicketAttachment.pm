@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketAttachment.pm - to get the attachments
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketAttachment.pm,v 1.17 2009-07-20 10:36:04 mh Exp $
+# $Id: AgentTicketAttachment.pm,v 1.18 2009-07-22 01:02:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -46,8 +46,6 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $Output = '';
-
     # check params
     if ( !$Self->{FileID} || !$Self->{ArticleID} ) {
         $Self->{LogObject}->Log(
@@ -58,8 +56,8 @@ sub Run {
     }
 
     # check permissions
-    my %ArticleData = $Self->{TicketObject}->ArticleGet( ArticleID => $Self->{ArticleID} );
-    if ( !$ArticleData{TicketID} ) {
+    my %Article = $Self->{TicketObject}->ArticleGet( ArticleID => $Self->{ArticleID} );
+    if ( !$Article{TicketID} ) {
         $Self->{LogObject}->Log(
             Message  => "No TicketID for ArticleID ($Self->{ArticleID})!",
             Priority => 'error',
@@ -70,7 +68,7 @@ sub Run {
     # check permissions
     my $Access = $Self->{TicketObject}->Permission(
         Type     => 'ro',
-        TicketID => $ArticleData{TicketID},
+        TicketID => $Article{TicketID},
         UserID   => $Self->{UserID}
     );
     if ( !$Access ) {
@@ -154,16 +152,38 @@ sub Run {
             return $Self->{LayoutObject}->Attachment(%Data);
         }
 
-        # unset filename for inline viewing
-        $Data{Filename} = '';
+        # set filename for inline viewing
+        $Data{Filename} = "Ticket-$Article{TicketNumber}-ArticleID-$Article{ArticleID}.html";
 
-        # make sure encoding is correct (add utf8 flag, because
-        # it was a binary attachment)
-        $Self->{EncodeObject}->Encode( \$Data{Content} );
+        # get charset and convert content charset
+        if ( $Self->{EncodeObject}->EncodeInternalUsed() ) {
+            my $Charset = $Data{ContentType};
+            $Charset =~ s/.+?charset=("|'|)(\w+)/$2/gi;
+            $Charset =~ s/"|'//g;
+            $Charset =~ s/(.+?);.*/$1/g;
+
+            # convert charset
+            if ($Charset) {
+                $Data{Content} = $Self->{EncodeObject}->Convert(
+                    Text => $Data{Content},
+                    From => $Charset,
+                    To   => $Self->{LayoutObject}->{UserCharset},
+                );
+
+                # replace charset in content
+                $Data{Content} =~ s/$Charset/utf8/gi;
+                $Data{ContentType} =~ s/$Charset/utf8/gi;
+            }
+        }
 
         # add html links
         $Data{Content} = $Self->{LayoutObject}->HTMLLinkQuote(
             Text => $Data{Content},
+        );
+
+        # cleanup some html tags to be cross browser compat.
+        $Data{Content} = $Self->{LayoutObject}->RichTextDocumentCleanup(
+            String => $Data{Content},
         );
 
         # replace links to inline images in html content
