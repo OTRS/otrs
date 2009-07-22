@@ -2,7 +2,7 @@
 # RichTextEditor.dtl - provides Rich Text Editor
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: RichTextEditor.dtl,v 1.16 2009-07-21 18:59:41 martin Exp $
+# $Id: RichTextEditor.dtl,v 1.17 2009-07-22 01:58:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ window.onload = function() {
     oFCKeditor.Config["DefaultLanguage"]       = '$Env{"UserLanguage"}';
     oFCKeditor.Config["ImageUploadURL"]        = "$Env{"Baselink"}";
     oFCKeditor.Config["FirefoxSpellChecker"]   = true;
-
+    oFCKeditor.Config["BrowserContextMenu"]    = true;
     if ( document.compose && document.compose.FormID ) {
         oFCKeditor.Config["Action"] = "PictureUpload";
         oFCKeditor.Config["FormID"] = document.compose.FormID.value;
