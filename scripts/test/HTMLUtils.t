@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.3 2009-07-22 03:04:17 martin Exp $
+# $Id: HTMLUtils.t,v 1.4 2009-07-22 13:21:12 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -51,6 +51,18 @@ More Text',
         Result => 'Some Text
 More Text',
         Name => 'ToAscii - simple'
+    },
+    {
+        Input  => '&gt; This is the first test.<br/>
+&gt; <br/>
+&gt; Buenas noches,<br/>
+&gt; <br/>',
+        Result => '> This is the first test.
+ >
+ > Buenas noches,
+ >
+',
+        Name   => 'ToAscii - simple'
     },
     {
         Input => '<div>Martin,</div>
@@ -218,6 +230,91 @@ for my $Test (@Tests) {
     );
     $Self->Is(
         $Ascii,
+        $Test->{Result},
+        $Test->{Name},
+    );
+}
+
+# DocumentStyleCleanup tests
+@Tests = (
+    {
+        Input  => '<p class="MsoNormal">Sehr geehrte Damen und Herren,<o:p></o:p></p>',
+        Result => 'Sehr geehrte Damen und Herren,<o:p></o:p><br/>',
+        Name   => 'DocumentStyleCleanup - MSHTML'
+    },
+    {
+        Input  => "<p\n class=\"MsoNormal\">Sehr geehrte Damen und Herren,<o:p></o:p></p>",
+        Result => 'Sehr geehrte Damen und Herren,<o:p></o:p><br/>',
+        Name   => 'DocumentStyleCleanup - MSHTML'
+    },
+    {
+        Input  => "<p\n class=\"MsoNormal\">Sehr geehrte Damen und Herren,<o:p></o:p></p>\n<p\nclass=\"MsoNormal\"><o:p>&nbsp;</o:p></p>",
+        Result => "Sehr geehrte Damen und Herren,<o:p></o:p><br/>\n<o:p>&nbsp;</o:p><br/>",
+        Name   => 'DocumentStyleCleanup - MSHTML'
+    },
+    {
+        Input  => "<p class='MsoNormal'>Sehr geehrte Damen und Herren,<o:p></o:p></p>",
+        Result => 'Sehr geehrte Damen und Herren,<o:p></o:p><br/>',
+        Name   => 'DocumentStyleCleanup - MSHTML'
+    },
+    {
+        Input  => "<p\n class='MsoNormal'>Sehr geehrte Damen und Herren,<o:p></o:p></p>",
+        Result => 'Sehr geehrte Damen und Herren,<o:p></o:p><br/>',
+        Name   => 'DocumentStyleCleanup - MSHTML'
+    },
+    {
+        Input  => "<p\n class='MsoNormal'>Sehr geehrte Damen und Herren,<o:p></o:p></p>\n<p\nclass='MsoNormal'><o:p>&nbsp;</o:p></p>",
+        Result => "Sehr geehrte Damen und Herren,<o:p></o:p><br/>\n<o:p>&nbsp;</o:p><br/>",
+        Name   => 'DocumentStyleCleanup - MSHTML'
+    },
+    {
+        Input  => "<p class=MsoNormal>Sehr geehrte Damen und Herren,<o:p></o:p></p>Some Other Text... ",
+        Result => 'Sehr geehrte Damen und Herren,<o:p></o:p><br/>Some Other Text... ',
+        Name   => 'DocumentStyleCleanup - MSHTML'
+    },
+    {
+        Input  => "<p\n class=MsoNormal>Sehr geehrte Damen und Herren,<o:p></o:p></p>",
+        Result => 'Sehr geehrte Damen und Herren,<o:p></o:p><br/>',
+        Name   => 'DocumentStyleCleanup - MSHTML'
+    },
+    {
+        Input  => "<p\n class=MsoNormal>Sehr geehrte Damen und Herren,<o:p></o:p></p>\n<p\nclass='MsoNormal'><o:p>&nbsp;</o:p></p>",
+        Result => "Sehr geehrte Damen und Herren,<o:p></o:p><br/>\n<o:p>&nbsp;</o:p><br/>",
+        Name   => 'DocumentStyleCleanup - MSHTML'
+    },
+    {
+        Input  => "<div\n class=MsoNormal>Sehr geehrte Damen und Herren,<o:div></o:div></div>\n<div\nclass='MsoNormal'><o:div>&nbsp;</o:div></div>",
+        Result => "Sehr geehrte Damen und Herren,<o:div></o:div><br/>\n<o:div>&nbsp;</o:div><br/>",
+        Name   => 'DocumentStyleCleanup - MSHTML'
+    },
+    {
+        Input  => "<div\r class=MsoNormal>Sehr geehrte Damen und Herren,<o:div></o:div></div>\n<div class='MsoNormal' type=\"cite\"><o:div>&nbsp;</o:div></div>",
+        Result => "Sehr geehrte Damen und Herren,<o:div></o:div><br/>\n<o:div>&nbsp;</o:div><br/>",
+        Name   => 'DocumentStyleCleanup - MSHTML'
+    },
+    {
+        Input  => 'Some Tex<b>t</b>',
+        Result => 'Some Tex<b>t</b>',
+        Name   => 'DocumentStyleCleanup - blockquote'
+    },
+    {
+        Input  => '<blockquote>Some Tex<b>t</b></blockquote>',
+        Result => '<div  style="border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt">Some Tex<b>t</b></div>',
+        Name   => 'DocumentStyleCleanup - blockquote'
+    },
+    {
+        Input  => '<blockquote>Some Tex<b>t</b><blockquote>test</blockquote> </blockquote>',
+        Result => '<div  style="border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt">Some Tex<b>t</b><div  style="border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt">test</div> </div>',
+        Name   => 'DocumentStyleCleanup - blockquote'
+    },
+);
+
+for my $Test (@Tests) {
+    my $HTML = $Self->{HTMLUtilsObject}->DocumentStyleCleanup(
+        String => $Test->{Input},
+    );
+    $Self->Is(
+        $HTML,
         $Test->{Result},
         $Test->{Name},
     );
