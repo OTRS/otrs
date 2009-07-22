@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.155 2009-07-20 10:36:04 mh Exp $
+# $Id: Layout.pm,v 1.156 2009-07-22 00:56:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.155 $) [1];
+$VERSION = qw($Revision: 1.156 $) [1];
 
 =head1 NAME
 
@@ -4240,6 +4240,62 @@ sub _RichTextReplaceLinkOfInlineContent {
 
     return $Param{String};
 }
+
+=item RichTextDocumentCleanup()
+
+1)  replace MS Word 12 <p|div> with class "MsoNormal" by using <br/> because
+    it's not used as <p><div> (margin:0cm; margin-bottom:.0001pt;)
+
+2)  replace <blockquote> by using
+    "<div style="border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt" type="cite">"
+    because of cross mail client and browser compatability
+
+    $HTMLBody = $LayoutObject->RichTextDocumentCleanup(
+        String => $HTMLBody,
+    );
+
+=cut
+
+sub RichTextDocumentCleanup {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for (qw(String)) {
+        if ( !defined $Param{$_} ) {
+            $Self->{LogObject}->Log( Priority => 'error', Message => "Need $_!" );
+            return;
+        }
+    }
+
+    # replace MS Word 12 <p|div> with class "MsoNormal" by using <br/> because
+    # it's not used as <p><div> (margin:0cm; margin-bottom:.0001pt;)
+    $Param{String} =~ s{
+        <p\sclass=("|'|)MsoNormal("|'|)(.+?|)>(.+?)</p>
+    }
+    {
+        $4 . '<br/>';
+    }segxmi;
+    $Param{String} =~ s{
+        <div\sclass=("|'|)MsoNormal("|'|)(.+?|)>(.+?)</div>
+    }
+    {
+        $4 . '<br/>';
+    }segxmi;
+
+    # replace <blockquote> by using
+    # "<div style="border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt" type="cite">"
+    # because of cross mail client and browser compatability
+    my $Style = "border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt";
+    $Param{String} =~ s{
+        <blockquote(.+?|)>(.+?)</blockquote>
+    }
+    {
+        "<div $1 style=\"$Style\">$2</div>";
+    }segxmi;
+
+    return $Param{String};
+}
+
 1;
 
 =back
@@ -4254,6 +4310,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.155 $ $Date: 2009-07-20 10:36:04 $
+$Revision: 1.156 $ $Date: 2009-07-22 00:56:21 $
 
 =cut
