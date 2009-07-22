@@ -7,7 +7,7 @@
 # Copyright (C) 2005-2007 Richard Hinkamp <richard 'at' besite.nl>
 # Copyright (C) 2009 Michiel Beijen <michiel 'at' beefreeit.nl>
 # --
-# $Id: nl.pm,v 1.98 2009-07-13 09:49:47 martin Exp $
+# $Id: nl.pm,v 1.99 2009-07-22 01:33:43 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -29,7 +29,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.98 $) [1];
+$VERSION = qw($Revision: 1.99 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -730,7 +730,6 @@ sub Data {
         # Template: AdminEmail
         'Message sent to' => 'Bericht verstuurd naar',
         'A message should have a subject!' => 'Een bericht moet een onderwerp hebben!',
-        'Recipents' => 'Ontvangers',
         'Recipients' => 'Ontvangers',
         'Body' => 'Bericht tekst',
         'Send' => 'Verstuur',
@@ -894,10 +893,9 @@ sub Data {
         'Performance Log' => 'Performance Log',
         'This feature is enabled!' => 'Deze feature is ingeschakeld',
         'Just use this feature if you want to log each request.' => 'Activeer de Performance Log alleen als u ieder verzoek wilt loggen.',
-        'Activating this feature might affect your system performance!' => '',
+        'Activating this feature might affect your system performance!' => 'Deze feature gaat zelf ook een beetje ten koste van de performance.',
         'Disable it here!' => 'Uitschakelen',
         'This feature is disabled!' => 'Deze feature is geactiveerd',
-        'Activating this feature might affect your system performance!' => '',
         'Enable it here!' => 'Inschakelen',
         'Logfile too large!' => 'Logbestand te groot',
         'Logfile too large, you need to reset it!' => 'Het logbestand is te groot, leeg deze eerst',
@@ -1242,7 +1240,7 @@ sub Data {
         'Select the element, which will be used at the X-axis' => 'Selecteer het element dat gebruikt zal worden voor de X-as',
         'maximal period' => 'maximale periode',
         'minimal scale' => 'minimale schaal',
-        'Here you can define the x-axis. You can select one element via the radio button. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
+        'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Hier kunt u de waarden voor de X-as definiëren. U kunt een element kiezen via de radiobutton. Daarna kunt u twee of meer attributen van dit element kiezen. Als u géén selectie maakt worden alle attributen van dit element gebruikt in de statistiek.',
 
         # Template: AgentStatsImport
         'Import' => 'Importeer',
@@ -1640,7 +1638,6 @@ sub Data {
         'to get the first 20 character of the subject' => 'voor de eerste 20 tekens van het onderwerp',
         'Select the customeruser:service relations.' => 'Selecteer de klant:service koppelingen',
         'Bulk-Action' => 'Bulk actie',
-        'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => 'Hier kunt u de waarden voor de X-as definiëren. U kunt een element kiezen via de radiobutton. Daarna kunt u twee of meer attributen van dit element kiezen. Als u géén selectie maakt worden alle attributen van dit element gebruikt in de statistiek.',
         'FileManager' => 'Bestandsbeheer',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Opties van de data van de klant (bijvoorbeeld <OTRS_CUSTOMER_DATA_UserFirstname>)',
         'Pending type' => 'In de wacht: type',
