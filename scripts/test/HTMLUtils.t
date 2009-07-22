@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.4 2009-07-22 13:21:12 martin Exp $
+# $Id: HTMLUtils.t,v 1.5 2009-07-22 20:45:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -57,11 +57,8 @@ More Text',
 &gt; <br/>
 &gt; Buenas noches,<br/>
 &gt; <br/>',
-        Result => '> This is the first test.
- >
- > Buenas noches,
- >
-',
+        Result => "> This is the first test.
+ > \n > Buenas noches,\n > \n",
         Name   => 'ToAscii - simple'
     },
     {
