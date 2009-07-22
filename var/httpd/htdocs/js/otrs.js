@@ -2,7 +2,7 @@
 // otrs.js - provides AJAX functions
 // Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
 // --
-// $Id: otrs.js,v 1.4 2009-07-18 00:19:16 martin Exp $
+// $Id: otrs.js,v 1.5 2009-07-22 09:29:21 martin Exp $
 // --
 // This software comes with ABSOLUTELY NO WARRANTY. For details, see
 // the enclosed file COPYING for license information (AGPL). If you
@@ -23,6 +23,11 @@ OTRS.ConfigSet = function (Key, Value) {
 
 // update content element
 function AJAXContentUpdate(Element, url, OnLoad, OnLoaded ) {
+
+    // add sessionid if no cookies are used
+    if ( !OTRS.ConfigGet('SessionIDCookie') ) {
+        url = url + '&' + OTRS.ConfigGet('SessionName') + '=' + OTRS.ConfigGet('SessionID') + '&' + OTRS.ConfigGet('CustomerPanelSessionName') + '=' + OTRS.ConfigGet('SessionID');
+    }
     new Ajax.Request(url,
         {
             method:'get',
