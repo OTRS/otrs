@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.407 2009-07-23 07:26:05 martin Exp $
+# $Id: Ticket.pm,v 1.408 2009-07-23 09:13:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.407 $) [1];
+$VERSION = qw($Revision: 1.408 $) [1];
 
 =head1 NAME
 
@@ -5284,11 +5284,15 @@ sub OwnerCheck {
 
 to set the ticket owner (notification to the new owner will be sent)
 
-    $TicketObject->OwnerSet(
+    my $Success = $TicketObject->OwnerSet(
         TicketID  => 123,
         NewUserID => 555,
         UserID    => 123,
     );
+
+    Return:
+    1 = owner has been set
+    2 = this owner is already set, no update needed
 
     Optional attribute:
     SendNoNotification, disable or enable agent and customer notification for this
@@ -5330,7 +5334,7 @@ sub OwnerSet {
     if ( $OwnerID eq $Param{NewUserID} ) {
 
         # update is "not" needed!
-        return 1;
+        return 2;
     }
 
     # db update
@@ -5450,11 +5454,15 @@ sub OwnerList {
 
 to set the ticket responsible (notification to the new responsible will be sent)
 
-    $TicketObject->ResponsibleSet(
+    my $Success = $TicketObject->ResponsibleSet(
         TicketID  => 123,
         NewUserID => 555,
         UserID    => 213,
     );
+
+    Return:
+    1 = responsible has been set
+    2 = this responsible is already set, no update needed
 
     Optional attribute:
     SendNoNotification, disable or enable agent and customer notification for this
@@ -5483,13 +5491,12 @@ sub ResponsibleSet {
 
     # lookup if no NewUserID is given
     if ( !$Param{NewUserID} ) {
-        $Param{NewUserID} = $Self->{UserObject}->UserLookup( UserLogin => $Param{NewUser} )
-            || return;
+        $Param{NewUserID} = $Self->{UserObject}->UserLookup( UserLogin => $Param{NewUser} );
     }
 
     # lookup if no NewUser is given
     if ( !$Param{NewUser} ) {
-        $Param{NewUser} = $Self->{UserObject}->UserLookup( UserID => $Param{NewUserID} ) || return;
+        $Param{NewUser} = $Self->{UserObject}->UserLookup( UserID => $Param{NewUserID} );
     }
 
     # check if update is needed!
@@ -5497,7 +5504,7 @@ sub ResponsibleSet {
     if ( $Ticket{ResponsibleID} eq $Param{NewUserID} ) {
 
         # update is "not" needed!
-        #        return 1;
+        return 2;
     }
 
     # db update
@@ -7362,6 +7369,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.407 $ $Date: 2009-07-23 07:26:05 $
+$Revision: 1.408 $ $Date: 2009-07-23 09:13:21 $
 
 =cut

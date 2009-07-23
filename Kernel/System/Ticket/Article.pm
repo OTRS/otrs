@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.224 2009-07-20 10:36:04 mh Exp $
+# $Id: Article.pm,v 1.225 2009-07-23 09:13:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.224 $) [1];
+$VERSION = qw($Revision: 1.225 $) [1];
 
 =head1 NAME
 
@@ -54,7 +54,14 @@ create an article
         UserID           => 123,
         NoAgentNotify    => 0,                                      # if you don't want to send agent notifications
         AutoResponseType => 'auto reply'                            # auto reject|auto follow up|auto follow up|auto remove
-        ForceNotificationToUserID => [1,43,56],                     # if you want to force somebody
+
+        ForceNotificationToUserID   => [ 1, 43, 56 ],               # if you want to force somebody
+        ExcludeNotificationToUserID => [ 43,56 ],                   # if you want full exclude somebody from notfications,
+                                                                    # will also be removed in To: line of article,
+                                                                    # higher prio as ForceNotificationToUserID
+        ExcludeMuteNotificationToUserID => [ 43,56 ],               # the same as ExcludeNotificationToUserID but only the
+                                                                    # sending gets muted, agent will still shown in To:
+                                                                    # line of article
     );
 
 example with "Charset & MimeType" and no "ContentType"
@@ -335,8 +342,24 @@ sub ArticleCreate {
 
     my %Ticket = $Self->TicketGet( TicketID => $Param{TicketID} );
 
-    # send agent notification!?
+    # remember already sent agent notifications
     my %AlreadySent = ();
+
+    # remember agent to exclude notifications
+    my %DoNotSend = ();
+    if ( $Param{ExcludeNotificationToUserID} && ref $Param{ExcludeNotificationToUserID} eq 'ARRAY' ) {
+        for my $UserID ( @{ $Param{ExcludeNotificationToUserID} } ) {
+            $DoNotSend{$UserID} = 1;
+        }
+    }
+
+    # remember agent to exclude notifications / already sent
+    my %DoNotSendMute = ();
+    if ( $Param{ExcludeMuteNotificationToUserID} && ref $Param{ExcludeMuteNotificationToUserID} eq 'ARRAY' ) {
+        for my $UserID ( @{ $Param{ExcludeMuteNotificationToUserID} } ) {
+            $DoNotSendMute{$UserID} = 1;
+        }
+    }
 
     # send agent notification on ticket create
     if (
@@ -345,14 +368,26 @@ sub ArticleCreate {
         )
     {
         for my $UserID ( $Self->GetSubscribedUserIDsByQueueID( QueueID => $Ticket{QueueID} ) ) {
+
+            # do not send to this user
+            next if $DoNotSend{$UserID};
+
+            # check if alreay sent
             next if $AlreadySent{$UserID};
-            $AlreadySent{$UserID} = 1;
+
+            # check personal settings
             my %UserData = $Self->{UserObject}->GetUserData(
                 UserID => $UserID,
                 Cached => 1,
                 Valid  => 1,
             );
             next if !$UserData{UserSendNewTicketNotification};
+
+            # remember to have sent
+            $AlreadySent{$UserID} = 1;
+
+            # do not send to this user (mute)
+            next if $DoNotSendMute{$UserID};
 
             # send notification
             $Self->SendAgentNotification(
@@ -384,9 +419,17 @@ sub ArticleCreate {
             next if $UserID == 1;
             next if $UserID eq $Param{UserID};
 
-            # remember already sent info
+            # do not send to this user
+            next if $DoNotSend{$UserID};
+
+            # check if alreay sent
             next if $AlreadySent{$UserID};
+
+            # remember already sent info
             $AlreadySent{$UserID} = 1;
+
+            # do not send to this user (mute)
+            next if $DoNotSendMute{$UserID};
 
             # send notification
             $Self->SendAgentNotification(
@@ -422,16 +465,25 @@ sub ArticleCreate {
                 next if $UserID == 1;
                 next if $UserID eq $Param{UserID};
 
-                # remember already sent info
-                next if $AlreadySent{$UserID};
-                $AlreadySent{$UserID} = 1;
+                # do not send to this user
+                next if $DoNotSend{$UserID};
 
+                # check if alreay sent
+                next if $AlreadySent{$UserID};
+
+                # check personal settings
                 my %UserData = $Self->{UserObject}->GetUserData(
                     UserID => $UserID,
                     Cached => 1,
                     Valid  => 1,
                 );
                 next if !$UserData{UserSendFollowUpNotification};
+
+                # remember already sent info
+                $AlreadySent{$UserID} = 1;
+
+                # do not send to this user (mute)
+                next if $DoNotSendMute{$UserID};
 
                 # send notification
                 $Self->SendAgentNotification(
@@ -461,16 +513,25 @@ sub ArticleCreate {
                 next if $UserID == 1;
                 next if $UserID eq $Param{UserID};
 
-                # remember already sent info
-                next if $AlreadySent{$UserID};
-                $AlreadySent{$UserID} = 1;
+                # do not send to this user
+                next if $DoNotSend{$UserID};
 
+                # check if alreay sent
+                next if $AlreadySent{$UserID};
+
+                # check personal settings
                 my %UserData = $Self->{UserObject}->GetUserData(
                     UserID => $UserID,
                     Cached => 1,
                     Valid  => 1,
                 );
                 next if !$UserData{UserSendFollowUpNotification};
+
+                # remember already sent info
+                $AlreadySent{$UserID} = 1;
+
+                # do not send to this user (mute)
+                next if $DoNotSendMute{$UserID};
 
                 # send notification
                 $Self->SendAgentNotification(
@@ -489,9 +550,13 @@ sub ArticleCreate {
                 next if $UserID == 1;
                 next if $UserID eq $Param{UserID};
 
-                # remember already sent info
+                # do not send to this user
+                next if $DoNotSend{$UserID};
+
+                # check if alreay sent
                 next if $AlreadySent{$UserID};
 
+                # check personal settings
                 my %UserData = $Self->{UserObject}->GetUserData(
                     UserID => $UserID,
                     Cached => 1,
@@ -506,7 +571,11 @@ sub ArticleCreate {
                     )
                 {
 
+                    # remember already sent info
                     $AlreadySent{$UserID} = 1;
+
+                    # do not send to this user (mute)
+                    next if $DoNotSendMute{$UserID};
 
                     # send notification
                     $Self->SendAgentNotification(
@@ -523,19 +592,20 @@ sub ArticleCreate {
     }
 
     # send forced notifications
-    if ( $Param{ForceNotificationToUserID} && ref $Param{ForceNotificationToUserID} eq 'ARRAY' )
-    {
+    if ( $Param{ForceNotificationToUserID} && ref $Param{ForceNotificationToUserID} eq 'ARRAY' ) {
         for my $UserID ( @{ $Param{ForceNotificationToUserID} } ) {
+
+            # do not send to this user
+            next if $DoNotSend{$UserID};
+
+            # check if alreay sent
             next if $AlreadySent{$UserID};
 
             # remember already sent info
             $AlreadySent{$UserID} = 1;
 
-            my %Preferences = $Self->{UserObject}->GetUserData(
-                UserID => $UserID,
-                Cached => 1,
-                Valid  => 1,
-            );
+            # do not send to this user (mute)
+            next if $DoNotSendMute{$UserID};
 
             # send notification
             $Self->SendAgentNotification(
@@ -2947,6 +3017,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.224 $ $Date: 2009-07-20 10:36:04 $
+$Revision: 1.225 $ $Date: 2009-07-23 09:13:21 $
 
 =cut
