@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.936 2009-07-22 13:38:39 martin Exp $
+# $Id: CHANGES,v 1.937 2009-07-23 09:25:54 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,12 @@
 # --
 
 2.4.1 (2009/07/??)
+ - (2009/07/23) Fixed bug#2304 - Two notification when a owner is changed.
+ - (2009/07/23) Fixed bug#2495 - Annoying Responsible Update Notifications.
+ - (2009/07/23) Fixed bug#4036 - Dashboard Plugin Upcoming Events shows also
+    "pending auto close" tickets as "pending reminder reached in".
+ - (2009/07/22) Fixed bug#4035 - Dashboard Product Notify get's shown always,
+    also if no new release info is available.
  - (2009/07/22) Fixed bug#4027 - RichText: Incoming emails written with MS
     Word 12 seems to be empty.
  - (2009/07/22) Fixed bug#4026 - Quote in Auto-Responses of new tickets which
