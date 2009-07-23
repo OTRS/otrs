@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.5 2009-07-22 20:45:37 martin Exp $
+# $Id: HTMLUtils.t,v 1.6 2009-07-23 22:44:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -91,6 +91,16 @@ More Text',
 
 ',
         Name => 'ToAscii - simple'
+    },
+    {
+        Input  => "<pre>Some Text\n\nWith new Lines</pre>",
+        Result => "\nSome Text\n\nWith new Lines\n\n",
+        Name   => 'ToAscii - <pre>'
+    },
+    {
+        Input  => "<code>Some Text\n\nWith new Lines  </code><br />Some Other Text",
+        Result => "\nSome Text\n\nWith new Lines  \n\nSome Other Text",
+        Name   => 'ToAscii - <code>'
     },
 );
 

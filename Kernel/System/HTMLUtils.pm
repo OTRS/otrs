@@ -2,7 +2,7 @@
 # Kernel/System/HTMLUtils.pm - creating and modifying html strings
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.pm,v 1.2 2009-07-22 13:21:12 martin Exp $
+# $Id: HTMLUtils.pm,v 1.3 2009-07-23 22:44:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.2 $) [1];
+$VERSION = qw($Revision: 1.3 $) [1];
 
 =head1 NAME
 
@@ -105,6 +105,20 @@ sub ToAscii {
         "[$Counter]";
     }egxi;
 
+    # remember <pre> and <code> tags
+    my %One2One;
+    $Counter  = 0;
+    $Param{String} =~ s{
+        <(pre|code)(|.+?)>(.+?)</(pre|code)(|.+?)>
+    }
+    {
+        my $Content = $3;
+        $Counter++;
+        my $Key        = "######One2One::$Counter######";
+        $One2One{$Key} = $Content;
+        $Key;
+    }segxmi;
+
     # remove empty lines
     $Param{String} =~ s/^\s*//mg;
 
@@ -127,8 +141,8 @@ sub ToAscii {
     # remove hr tags and replace it with \n
     $Param{String} =~ s/\<(hr|hr.+?)\>/\n\n/gsi;
 
-    # remove pre, p, table, code tags and replace it with \n
-    $Param{String} =~ s/\<(\/|)(pre|pre.+?|p|p.+?|table|table.+?|code|code.+?)\>/\n\n/gsi;
+    # remove p, table tags and replace it with \n
+    $Param{String} =~ s/\<(\/|)(p|p.+?|table|table.+?)\>/\n\n/gsi;
 
     # remove tr, th tags and replace it with \n
     $Param{String} =~ s/\<(tr|tr.+?|th|th.+?)\>/\n\n/gsi;
@@ -147,6 +161,11 @@ sub ToAscii {
 
     # replace "  " with " " space
     $Param{String} =~ s/  / /mg;
+
+    # remember <pre> and <code> tags and replace it
+    for my $Key ( keys %One2One ) {
+        $Param{String} =~ s/$Key/\n\n\n$One2One{$Key}\n\n/g;
+    }
 
     # html encode based from cpan's HTML::Entities v1.35
     my %Entity = (
@@ -649,6 +668,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.2 $ $Date: 2009-07-22 13:21:12 $
+$Revision: 1.3 $ $Date: 2009-07-23 22:44:59 $
 
 =cut
