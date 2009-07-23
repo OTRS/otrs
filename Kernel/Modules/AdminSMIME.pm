@@ -1,8 +1,8 @@
 # --
-# Kernel/Modules/AdminSMIME.pm - to add/update/delete pgp keys
+# Kernel/Modules/AdminSMIME.pm - to add/update/delete smime keys
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminSMIME.pm,v 1.22 2009-02-17 23:37:11 martin Exp $
+# $Id: AdminSMIME.pm,v 1.23 2009-07-23 18:15:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.22 $) [1];
+$VERSION = qw($Revision: 1.23 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -27,7 +27,7 @@ sub new {
     bless( $Self, $Type );
 
     # check all needed objects
-    for (qw(ParamObject DBObject LayoutObject ConfigObject LogObject MainObject)) {
+    for (qw(ParamObject DBObject LayoutObject ConfigObject LogObject MainObject EncodeObject)) {
         if ( !$Self->{$_} ) {
             $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
         }
@@ -42,7 +42,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     $Param{Search} = $Self->{ParamObject}->GetParam( Param => 'Search' );
-    if ( !defined( $Param{Search} ) ) {
+    if ( !defined $Param{Search} ) {
         $Param{Search} = $Self->{SMIMESearch} || '';
     }
     if ( $Self->{Subaction} eq '' ) {
@@ -97,8 +97,10 @@ sub Run {
         if ($Message) {
             $Output .= $Self->{LayoutObject}->Notify( Info => $Message );
         }
-        $Output
-            .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminSMIMEForm', Data => \%Param );
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminSMIMEForm',
+            Data         => \%Param,
+        );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
@@ -144,8 +146,10 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Notify( Info => $Message );
-        $Output
-            .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminSMIMEForm', Data => \%Param );
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminSMIMEForm',
+            Data         => \%Param,
+        );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }
@@ -195,8 +199,10 @@ sub Run {
         my $Output = $Self->{LayoutObject}->Header();
         $Output .= $Self->{LayoutObject}->NavigationBar();
         $Output .= $Self->{LayoutObject}->Notify( Info => $Message );
-        $Output
-            .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminSMIMEForm', Data => \%Param );
+        $Output .= $Self->{LayoutObject}->Output(
+            TemplateFile => 'AdminSMIMEForm',
+            Data         => \%Param,
+        );
         $Output .= $Self->{LayoutObject}->Footer();
         return $Output;
     }

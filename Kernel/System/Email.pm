@@ -2,7 +2,7 @@
 # Kernel/System/Email.pm - the global email send module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Email.pm,v 1.63 2009-07-18 09:19:06 martin Exp $
+# $Id: Email.pm,v 1.64 2009-07-23 18:15:52 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use Kernel::System::Crypt;
 use Kernel::System::HTMLUtils;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.63 $) [1];
+$VERSION = qw($Revision: 1.64 $) [1];
 
 =head1 NAME
 
@@ -191,6 +191,7 @@ sub Send {
             LogObject    => $Self->{LogObject},
             DBObject     => $Self->{DBObject},
             ConfigObject => $Self->{ConfigObject},
+            EncodeObject => $Self->{EncodeObject},
             CryptType    => $Param{Sign}->{Type},
             MainObject   => $Self->{MainObject},
         );
@@ -214,6 +215,7 @@ sub Send {
             LogObject    => $Self->{LogObject},
             DBObject     => $Self->{DBObject},
             ConfigObject => $Self->{ConfigObject},
+            EncodeObject => $Self->{EncodeObject},
             CryptType    => $Param{Crypt}->{Type},
             MainObject   => $Self->{MainObject},
         );
@@ -448,6 +450,7 @@ sub Send {
             LogObject    => $Self->{LogObject},
             DBObject     => $Self->{DBObject},
             ConfigObject => $Self->{ConfigObject},
+            EncodeObject => $Self->{EncodeObject},
             MainObject   => $Self->{MainObject},
             CryptType    => $Param{Sign}->{Type},
         );
@@ -539,6 +542,7 @@ sub Send {
             LogObject    => $Self->{LogObject},
             DBObject     => $Self->{DBObject},
             ConfigObject => $Self->{ConfigObject},
+            EncodeObject => $Self->{EncodeObject},
             MainObject   => $Self->{MainObject},
             CryptType    => $Param{Crypt}->{Type},
         );
@@ -591,6 +595,7 @@ sub Send {
             LogObject    => $Self->{LogObject},
             DBObject     => $Self->{DBObject},
             ConfigObject => $Self->{ConfigObject},
+            EncodeObject => $Self->{EncodeObject},
             MainObject   => $Self->{MainObject},
             CryptType    => $Param{Crypt}->{Type},
         );
@@ -826,6 +831,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.63 $ $Date: 2009-07-18 09:19:06 $
+$Revision: 1.64 $ $Date: 2009-07-23 18:15:52 $
 
 =cut
