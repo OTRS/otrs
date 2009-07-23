@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.406 2009-07-20 10:36:04 mh Exp $
+# $Id: Ticket.pm,v 1.407 2009-07-23 07:26:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.406 $) [1];
+$VERSION = qw($Revision: 1.407 $) [1];
 
 =head1 NAME
 
@@ -3483,7 +3483,7 @@ To find tickets in your system.
         # OrderBy and SortBy (optional)
         OrderBy => 'Down',  # Down|Up
         SortBy  => 'Age',   # Owner|Responsible|CustomerID|State|Ticket|Queue|Priority|Age|Type|Lock
-                            # Title|Service|SLA|EscalationTime
+                            # Title|Service|SLA|PendingTime|EscalationTime
                             # EscalationUpdateTime|EscalationResponseTime|EscalationSolutionTime
                             # TicketFreeTime1-6|TicketFreeKey1-16|TicketFreeText1-16
 
@@ -3526,6 +3526,7 @@ sub TicketSearch {
         Age                    => 'st.create_time_unix',
         Service                => 'st.service_id',
         SLA                    => 'st.sla_id',
+        PendingTime            => 'st.until_time',
         TicketEscalation       => 'st.escalation_time',
         EscalationTime         => 'st.escalation_time',
         EscalationUpdateTime   => 'st.escalation_update_time',
@@ -7361,6 +7362,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.406 $ $Date: 2009-07-20 10:36:04 $
+$Revision: 1.407 $ $Date: 2009-07-23 07:26:05 $
 
 =cut

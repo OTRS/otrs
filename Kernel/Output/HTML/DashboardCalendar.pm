@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardCalendar.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardCalendar.pm,v 1.10 2009-07-20 10:36:04 mh Exp $
+# $Id: DashboardCalendar.pm,v 1.11 2009-07-23 07:26:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.10 $) [1];
+$VERSION = qw($Revision: 1.11 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -52,27 +52,60 @@ sub Config {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # find tickets with reached times in near future
     my %Map = (
-        Escalation => [ 'TicketEscalation', 'Escalation', ],
-        Pending    => [ 'TicketPending',    'Reminder Reached', ],
+        Escalation => [
+
+            # text for content table
+            'Escalation',
+
+            # search attributes
+            {
+
+                # where escalation time reached
+                TicketEscalationTimeNewerMinutes => ( 15 ),
+
+                # sort
+                SortBy  => 'EscalationTime',
+                OrderBy => 'Up',
+            },
+        ],
+        Pending => [
+
+            # text for content table
+            'Reminder Reached',
+
+            # search attributes
+            {
+
+                # only pending reminder tickets
+                StateType                     => [ 'pending reminder' ],
+
+                # where pending time reached in
+                TicketPendingTimeNewerMinutes =>  ( 15 ),
+
+                # sort
+                SortBy  => 'PendingTime',
+                OrderBy => 'Up',
+            },
+        ],
     );
-
     my %Date;
-
     for my $Type ( sort keys %Map ) {
 
+        # search tickets
         my @TicketIDs = $Self->{TicketObject}->TicketSearch(
 
-            # ticket escalations over 60 minutes (optional)
-            #            $Map{ $Type }->[0] . 'TimeOlderMinutes' => -30,
-            # ticket escalations in 120 minutes (optional)
-            $Map{$Type}->[0] . 'TimeNewerMinutes' => ( 60 * 18 ),
+            # add search attributes
+            %{ $Map{$Type}->[1]},
 
             Result     => 'ARRAY',
             Permission => $Self->{Config}->{Permission} || 'ro',
             UserID     => $Self->{UserID},
-            Limit      => 20,
+            Limit      => 25,
         );
+
+        # get ticket attributes
         for my $TicketID (@TicketIDs) {
 
             my %Ticket = $Self->{TicketObject}->TicketGet(
@@ -98,9 +131,10 @@ sub Run {
                 );
             }
 
+            # remember attributes for content table
             $Date{$TimeStamp} = {
                 Type         => $Type,
-                Text         => $Map{$Type}->[1],
+                Text         => $Map{$Type}->[0],
                 Object       => 'Ticket',
                 ObjectID     => $Ticket{TicketID},
                 ObjectNumber => $Ticket{TicketNumber},
@@ -116,6 +150,7 @@ sub Run {
         }
     }
 
+    # show content rows
     my $Count = 0;
     for my $Data ( sort keys %Date ) {
         $Count++;
@@ -126,6 +161,7 @@ sub Run {
         );
     }
 
+    # render content
     my $Content = $Self->{LayoutObject}->Output(
         TemplateFile => 'AgentDashboardCalendarOverview',
         Data         => {
@@ -133,10 +169,12 @@ sub Run {
         },
     );
 
+    # fillup if not content exists
     if ( !%Date ) {
         $Content = '$Text{"none"}';
     }
 
+    # return content
     return $Content;
 }
 
