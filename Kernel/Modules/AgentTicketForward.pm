@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketForward.pm - to forward a message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketForward.pm,v 1.52 2009-07-22 01:15:49 martin Exp $
+# $Id: AgentTicketForward.pm,v 1.53 2009-07-23 21:24:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.52 $) [1];
+$VERSION = qw($Revision: 1.53 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -112,16 +112,14 @@ sub Form {
     my %Ticket = $Self->{TicketObject}->TicketGet( TicketID => $Self->{TicketID} );
 
     # check permissions
-    if (
-        !$Self->{TicketObject}->Permission(
-            Type     => $Self->{Config}->{Permission},
-            TicketID => $Self->{TicketID},
-            UserID   => $Self->{UserID}
-        )
-        )
-    {
+    my $Access = $Self->{TicketObject}->Permission(
+        Type     => $Self->{Config}->{Permission},
+        TicketID => $Self->{TicketID},
+        UserID   => $Self->{UserID}
+    );
 
-        # error screen, don't show ticket
+    # error screen, don't show ticket
+    if ( !$Access ) {
         return $Self->{LayoutObject}->NoPermission( WithHeader => 'yes' );
     }
 
@@ -137,16 +135,14 @@ sub Form {
             );
 
             # set lock
-            if (
-                $Self->{TicketObject}->LockSet(
-                    TicketID => $Self->{TicketID},
-                    Lock     => 'lock',
-                    UserID   => $Self->{UserID}
-                )
-                )
-            {
+            my $Lock = $Self->{TicketObject}->LockSet(
+                TicketID => $Self->{TicketID},
+                Lock     => 'lock',
+                UserID   => $Self->{UserID}
+            );
 
-                # show lock state
+            # show lock state
+            if ($Lock) {
                 $Self->{LayoutObject}->Block(
                     Name => 'PropertiesLock',
                     Data => { %Param, TicketID => $Self->{TicketID}, },
@@ -544,11 +540,16 @@ sub SendEmail {
             $Object->Run( %GetParam, Config => $Jobs{$Job} );
 
             # ticket params
-            %ArticleParam
-                = ( %ArticleParam, $Object->ArticleOption( %GetParam, Config => $Jobs{$Job} ) );
+            %ArticleParam = (
+                %ArticleParam,
+                $Object->ArticleOption( %GetParam, Config => $Jobs{$Job} ),
+            );
 
             # get errors
-            %Error = ( %Error, $Object->Error( %GetParam, Config => $Jobs{$Job} ) );
+            %Error = (
+                %Error,
+                $Object->Error( %GetParam, Config => $Jobs{$Job} ),
+            );
         }
     }
 

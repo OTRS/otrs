@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleComposeSign.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleComposeSign.pm,v 1.16 2009-04-23 13:47:27 mh Exp $
+# $Id: ArticleComposeSign.pm,v 1.17 2009-07-23 21:24:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::Crypt;
 use Kernel::System::Queue;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -42,48 +42,19 @@ sub new {
 sub Option {
     my ( $Self, %Param ) = @_;
 
+    # check if pgp or smime is disabled
+    return if !$Self->{ConfigObject}->Get('PGP') && !$Self->{ConfigObject}->Get('SMIME');
+
     return ('SignKeyID');
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    return if !$Param{From};
+    # check if pgp or smime is disabled
+    return if !$Self->{ConfigObject}->Get('PGP') && !$Self->{ConfigObject}->Get('SMIME');
 
-    my @SearchAddress = Mail::Address->parse( $Param{From} );
-    my %KeyList;
-
-    # check pgp backend
-    my $CryptObjectPGP = Kernel::System::Crypt->new( %{$Self}, CryptType => 'PGP' );
-    if ($CryptObjectPGP) {
-        my @PrivateKeys = $CryptObjectPGP->PrivateKeySearch(
-            Search => $SearchAddress[0]->address(),
-        );
-        for my $DataRef (@PrivateKeys) {
-            $KeyList{"PGP::Inline::$DataRef->{Key}"}
-                = "PGP-Inline: $DataRef->{Key} $DataRef->{Identifier}";
-            $KeyList{"PGP::Detached::$DataRef->{Key}"}
-                = "PGP-Detached: $DataRef->{Key} $DataRef->{Identifier}";
-        }
-    }
-
-    # check smime backend
-    my $CryptObjectSMIME = Kernel::System::Crypt->new( %{$Self}, CryptType => 'SMIME' );
-    if ($CryptObjectSMIME) {
-        my @PrivateKeys = $CryptObjectSMIME->PrivateSearch(
-            Search => $SearchAddress[0]->address(),
-        );
-        for my $DataRef (@PrivateKeys) {
-            $KeyList{"SMIME::Detached::$DataRef->{Hash}"}
-                = "SMIME-Detached: $DataRef->{Hash} $DataRef->{Email}";
-        }
-    }
-
-    # return if no sign keys available
-    return if !%KeyList;
-
-    # add non signing option
-    $KeyList{''} = '-none-';
+    my %KeyList = $Self->Data(%Param);
 
     # add singing options
     if (
@@ -102,7 +73,7 @@ sub Run {
     my $List = $Self->{LayoutObject}->OptionStrgHashRef(
         Data       => \%KeyList,
         Name       => 'SignKeyID',
-        SelectedID => $Param{SignKeyID}
+        SelectedID => $Param{SignKeyID},
     );
     $Self->{LayoutObject}->Block(
         Name => 'Option',
@@ -112,6 +83,52 @@ sub Run {
         },
     );
     return;
+}
+
+sub Data {
+    my ( $Self, %Param ) = @_;
+
+    # check if pgp or smime is disabled
+    return if !$Self->{ConfigObject}->Get('PGP') && !$Self->{ConfigObject}->Get('SMIME');
+
+    # generate key list
+    my %KeyList;
+
+    # add non signing option
+    $KeyList{''} = '-none-';
+
+    if ( $Param{From} ) {
+
+        my @SearchAddress = Mail::Address->parse( $Param{From} );
+
+        # check pgp backend
+        my $CryptObjectPGP = Kernel::System::Crypt->new( %{$Self}, CryptType => 'PGP' );
+        if ($CryptObjectPGP) {
+            my @PrivateKeys = $CryptObjectPGP->PrivateKeySearch(
+                Search => $SearchAddress[0]->address(),
+            );
+            for my $DataRef (@PrivateKeys) {
+                $KeyList{"PGP::Inline::$DataRef->{Key}"}
+                    = "PGP-Inline: $DataRef->{Key} $DataRef->{Identifier}";
+                $KeyList{"PGP::Detached::$DataRef->{Key}"}
+                    = "PGP-Detached: $DataRef->{Key} $DataRef->{Identifier}";
+            }
+        }
+
+        # check smime backend
+        my $CryptObjectSMIME = Kernel::System::Crypt->new( %{$Self}, CryptType => 'SMIME' );
+        if ($CryptObjectSMIME) {
+            my @PrivateKeys = $CryptObjectSMIME->PrivateSearch(
+                Search => $SearchAddress[0]->address(),
+            );
+            for my $DataRef (@PrivateKeys) {
+                $KeyList{"SMIME::Detached::$DataRef->{Hash}"}
+                    = "SMIME-Detached: $DataRef->{Hash} $DataRef->{Email}";
+            }
+        }
+
+    }
+    return %KeyList;
 }
 
 sub ArticleOption {

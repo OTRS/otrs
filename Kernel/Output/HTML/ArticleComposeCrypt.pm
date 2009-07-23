@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/ArticleComposeCrypt.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleComposeCrypt.pm,v 1.14 2009-04-07 09:24:16 martin Exp $
+# $Id: ArticleComposeCrypt.pm,v 1.15 2009-07-23 21:24:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Mail::Address;
 use Kernel::System::Crypt;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.14 $) [1];
+$VERSION = qw($Revision: 1.15 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -41,51 +41,31 @@ sub new {
 sub Option {
     my ( $Self, %Param ) = @_;
 
+    # check if pgp or smime is disabled
+    return if !$Self->{ConfigObject}->Get('PGP') && !$Self->{ConfigObject}->Get('SMIME');
+
     return ('CryptKeyID');
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # check if pgp or smime is disabled
+    return if !$Self->{ConfigObject}->Get('PGP') && !$Self->{ConfigObject}->Get('SMIME');
+
+    my %KeyList = $Self->Data( %Param );
+
+    # find recipient list
     my $Recipient = '';
     for (qw(To Cc Bcc)) {
         if ( $Param{$_} ) {
             $Recipient .= ', ' . $Param{$_};
         }
     }
-    my @SearchAddress = Mail::Address->parse($Recipient);
-    return if !@SearchAddress;
-
-    my %KeyList;
-
-    # check pgp backend
-    my $CryptObjectPGP = Kernel::System::Crypt->new( %{$Self}, CryptType => 'PGP' );
-    if ($CryptObjectPGP) {
-        my @PublicKeys = $CryptObjectPGP->PublicKeySearch(
-            Search => $SearchAddress[0]->address(),
-        );
-        for my $DataRef (@PublicKeys) {
-            $KeyList{"PGP::Detached::$DataRef->{Key}"}
-                = "PGP-Detached: $DataRef->{Key} - $DataRef->{Identifier}";
-            $KeyList{"PGP::Inline::$DataRef->{Key}"}
-                = "PGP-Inline: $DataRef->{Key} - $DataRef->{Identifier}";
-        }
+    my @SearchAddress = ();
+    if ($Recipient) {
+        @SearchAddress = Mail::Address->parse($Recipient);
     }
-
-    # check smime backend
-    my $CryptObjectSMIME = Kernel::System::Crypt->new( %{$Self}, CryptType => 'SMIME' );
-    if ($CryptObjectSMIME) {
-        my @PublicKeys = $CryptObjectSMIME->CertificateSearch(
-            Search => $SearchAddress[0]->address(),
-        );
-        for my $DataRef (@PublicKeys) {
-            $KeyList{"SMIME::Detached::$DataRef->{Hash}"}
-                = "SMIME-Detached: $DataRef->{Hash} - $DataRef->{Email}";
-        }
-    }
-
-    # return if no keys for crypt are available
-    return if !%KeyList;
 
     # backend currently only supports one recipient
     if ( $#SearchAddress > 0 && $Param{CryptKeyID} ) {
@@ -99,9 +79,6 @@ sub Run {
         );
         return;
     }
-
-    # add non crypt option
-    $KeyList{''} = '-none-';
 
     # add crypt options
     my $List = $Self->{LayoutObject}->OptionStrgHashRef(
@@ -117,6 +94,61 @@ sub Run {
         },
     );
     return;
+}
+
+sub Data {
+    my ( $Self, %Param ) = @_;
+
+    # check if pgp or smime is disabled
+    return if !$Self->{ConfigObject}->Get('PGP') && !$Self->{ConfigObject}->Get('SMIME');
+
+    # find recipient list
+    my $Recipient = '';
+    for (qw(To Cc Bcc)) {
+        if ( $Param{$_} ) {
+            $Recipient .= ', ' . $Param{$_};
+        }
+    }
+    my @SearchAddress = ();
+    if ($Recipient) {
+        @SearchAddress = Mail::Address->parse($Recipient);
+    }
+
+    # generate key list
+    my %KeyList;
+
+    # add non crypt option
+    $KeyList{''} = '-none-';
+
+    if (@SearchAddress) {
+        # check pgp backend
+        my $CryptObjectPGP = Kernel::System::Crypt->new( %{$Self}, CryptType => 'PGP' );
+        if ($CryptObjectPGP) {
+            my @PublicKeys = $CryptObjectPGP->PublicKeySearch(
+                Search => $SearchAddress[0]->address(),
+            );
+            for my $DataRef (@PublicKeys) {
+                $KeyList{"PGP::Detached::$DataRef->{Key}"}
+                    = "PGP-Detached: $DataRef->{Key} - $DataRef->{Identifier}";
+                $KeyList{"PGP::Inline::$DataRef->{Key}"}
+                    = "PGP-Inline: $DataRef->{Key} - $DataRef->{Identifier}";
+            }
+        }
+
+        # check smime backend
+        my $CryptObjectSMIME = Kernel::System::Crypt->new( %{$Self}, CryptType => 'SMIME' );
+        if ($CryptObjectSMIME) {
+            my @PublicKeys = $CryptObjectSMIME->CertificateSearch(
+                Search => $SearchAddress[0]->address(),
+            );
+            for my $DataRef (@PublicKeys) {
+                $KeyList{"SMIME::Detached::$DataRef->{Hash}"}
+                    = "SMIME-Detached: $DataRef->{Hash} - $DataRef->{Email}";
+            }
+        }
+
+    }
+    return %KeyList;
 }
 
 sub ArticleOption {

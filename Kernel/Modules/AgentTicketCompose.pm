@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.75 2009-07-22 01:15:49 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.76 2009-07-23 21:24:02 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.75 $) [1];
+$VERSION = qw($Revision: 1.76 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -102,16 +102,14 @@ sub Run {
                 Lock     => 'lock',
                 UserID   => $Self->{UserID}
             );
-            if (
-                $Self->{TicketObject}->OwnerSet(
-                    TicketID  => $Self->{TicketID},
-                    UserID    => $Self->{UserID},
-                    NewUserID => $Self->{UserID},
-                )
-                )
-            {
+            my $Owner = $Self->{TicketObject}->OwnerSet(
+                TicketID  => $Self->{TicketID},
+                UserID    => $Self->{UserID},
+                NewUserID => $Self->{UserID},
+            );
 
-                # show lock state
+            # show lock state
+            if ($Owner) {
                 $Self->{LayoutObject}->Block(
                     Name => 'PropertiesLock',
                     Data => { %Param, TicketID => $Self->{TicketID}, },
@@ -265,28 +263,30 @@ sub Run {
             for my $Job ( sort keys %Jobs ) {
 
                 # load module
-                if ( $Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
-                    my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug} );
-
-                    # get params
-                    for ( $Object->Option( %GetParam, Config => $Jobs{$Job} ) ) {
-                        $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
-                    }
-
-                    # run module
-                    $Object->Run( %GetParam, Config => $Jobs{$Job} );
-
-                    # ticket params
-                    %ArticleParam = (
-                        %ArticleParam, $Object->ArticleOption( %GetParam, Config => $Jobs{$Job} )
-                    );
-
-                    # get errors
-                    %Error = ( %Error, $Object->Error( %GetParam, Config => $Jobs{$Job} ) );
-                }
-                else {
+                if ( !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
                     return $Self->{LayoutObject}->FatalError();
                 }
+                my $Object = $Jobs{$Job}->{Module}->new( %{$Self}, Debug => $Self->{Debug} );
+
+                # get params
+                for ( $Object->Option( %GetParam, Config => $Jobs{$Job} ) ) {
+                    $GetParam{$_} = $Self->{ParamObject}->GetParam( Param => $_ );
+                }
+
+                # run module
+                $Object->Run( %GetParam, Config => $Jobs{$Job} );
+
+                # ticket params
+                %ArticleParam = (
+                    %ArticleParam,
+                    $Object->ArticleOption( %GetParam, Config => $Jobs{$Job} ),
+                );
+
+                # get errors
+                %Error = (
+                    %Error,
+                    $Object->Error( %GetParam, Config => $Jobs{$Job} ),
+                );
             }
         }
 
