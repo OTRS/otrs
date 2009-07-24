@@ -8,7 +8,7 @@
 # Copyright (C) 2004-2008 Yann Richard <ze at nbox.org>
 # Copyright (C) 2009 Olivier Sallou <olivier.sallou at irisa.fr>
 # --
-# $Id: fr.pm,v 1.115 2009-07-24 05:10:20 martin Exp $
+# $Id: fr.pm,v 1.116 2009-07-24 05:12:01 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,13 +21,13 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.115 $) [1];
+$VERSION = qw($Revision: 1.116 $) [1];
 
 sub Data {
     my $Self = shift;
 
     # $$START$$
-    # Last translation file sync: Thu Jul  9 03:06:53 2009
+    # Last translation file sync: Fri Jul 24 07:10:54 2009
 
     # possible charsets
     $Self->{Charset} = ['iso-8859-1', 'iso-8859-15', ];
@@ -122,6 +122,7 @@ sub Data {
         'Hit' => 'Occurence',
         'Hits' => 'Occurences',
         'Text' => 'Texte',
+        'Standard' => '',
         'Lite' => 'allégée',
         'User' => 'Utilisateur',
         'Username' => 'Nom d\'utilisateur',
@@ -267,6 +268,7 @@ sub Data {
         'No Packages for requested Framework in this Online Repository, but Packages for other Frameworks!' => 'Aucun paquet pour le Framework sélectionné dans ce dépot en ligne, mais des paquets pour d\'autres Frameworks !',
         'No Packages or no new Packages in selected Online Repository!' => 'Pas de paquets ou de nouveau paquets dans le dépot en ligne sélectionné !',
         'printed at' => 'imprimé à',
+        'Loading...' => '',
         'Dear Mr. %s,' => 'Cher M. %s',
         'Dear Mrs. %s,' => 'Cher Mme %s',
         'Dear %s,' => 'Cher %s',
@@ -284,8 +286,11 @@ sub Data {
         'For more info see:' => 'Pour plus d\'informations, allez à',
         'Package verification failed!' => 'Vérification du paquet échouée',
         'Collapse' => 'Réduire',
+        'Shown' => '',
         'News' => 'Nouvelles',
         'Product News' => 'Nouvelles du produit',
+        'OTRS News' => '',
+        '7 Day Stats' => '',
         'Bold' => 'Gras',
         'Italic' => 'Italique',
         'Underline' => 'Souligné',
@@ -1013,7 +1018,8 @@ sub Data {
 
         # Template: AdminSelectBoxForm
         'SQL Box' => 'Reqêtes SQL',
-        'Go' => 'Valider',
+        'CSV' => '',
+        'HTML' => '',
         'Select Box Result' => 'Choisissez le résultat',
 
         # Template: AdminService
@@ -1141,9 +1147,11 @@ sub Data {
         # Template: AgentDashboardRSSOverview
         'Posted %s ago.' => 'Envoyé il y a %s',
 
-        # Template: AgentDashboardTicketOverview
+        # Template: AgentDashboardTicketGeneric
 
         # Template: AgentDashboardTicketStats
+
+        # Template: AgentDashboardUserOnline
 
         # Template: AgentInfo
         'Info' => 'Information',
@@ -1559,13 +1567,13 @@ sub Data {
 
         # Template: Redirect
 
+        # Template: RichTextEditor
+
         # Template: Test
         'OTRS Test Page' => 'Page de test d\'OTRS',
         'Counter' => 'Compteur',
 
         # Template: Warning
-
-        # Template: YUI
 
         # Misc
         'Edit Article' => 'Éditer l\'article',
@@ -1574,15 +1582,15 @@ sub Data {
         'Change roles <-> groups settings' => 'Changer les rôles <-> paramètres des groupes',
         'Ticket Number Generator' => 'Générateur de numéro pour les tickets',
         '(Ticket identifier. Some people want toset this to e. g. \'Ticket#\', \'Call#\' or \'MyTicket#\')' => '(Identifiant des tickets. Certaines personnes veulent le configurer avec par ex: \'Ticket#\', \'Appel#\' ou \'MonTicket#\')',
-        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Dans ce cas vous pouvez directement éditer le trousseau de clé dans Kernel/Config.pm',
         'Create new Phone Ticket' => 'Saisie d\'une demande téléphonique',
+        'In this way you can directly edit the keyring configured in Kernel/Config.pm.' => 'Dans ce cas vous pouvez directement éditer le trousseau de clé dans Kernel/Config.pm',
         'Symptom' => 'Symptôme',
         'U' => 'A-Z',
         'Site' => 'Site',
         'Customer history search (e. g. "ID342425").' => 'Recherche dans l\'historique client (ex: "ID342425")',
         'Can not delete link with %s!' => 'Impossible d\'effacer le lien avec %s !',
-        'Close!' => 'Clôture!',
         'for agent firstname' => 'pour le prénom du technicien',
+        'Close!' => 'Clôture!',
         'No means, send agent and customer notifications on changes.' => 'Non signifie : Envoyer un mail au technicien et au client sur changement.',
         'A web calendar' => 'Un calendrier Web',
         'to get the realname of the sender (if given)' => 'pour avoir le nom réel de l\'utilisateur (s\il est donné)',
@@ -1622,6 +1630,7 @@ sub Data {
         'Create new database' => 'Créer une nouvelle base de données',
         'FAQ Language' => 'Langue dans la FAQ',
         'ArticleID' => 'Identifiant de l\'Article',
+        'Go' => 'Valider',
         'Keywords' => 'Mots clés',
         'Ticket Escalation View' => 'Vue des remontées du ticket',
         'Today' => 'Aujourd\'hui',
@@ -1637,8 +1646,8 @@ sub Data {
         'to get the first 20 character of the subject' => 'pour avoir les 20 premiers caractères du sujet ',
         'Select the customeruser:service relations.' => '',
         'DB Admin Password' => 'Mot de passe administrateur base de données',
-        'Drop Database' => 'Effacer la base de données',
         'Advisory' => 'Avertissement',
+        'Drop Database' => 'Effacer la base de données',
         'Here you can define the x-axis. You can select one element via the radio button. Then you you have to select two or more attributes of the element. If you make no selection all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '',
         'FileManager' => 'Gestionnaire de fichiers',
         'Options of the current customer user data (e. g. <OTRS_CUSTOMER_DATA_UserFirstname>)' => 'Options concernant les données du client actuel (ex: <OTRS_CUSTOMER_DATA_UserFirstname>)',
@@ -1660,11 +1669,11 @@ sub Data {
         'Change users <-> roles settings' => 'Changement d\'utilisateur <-> parramèttres des rôles',
         'Parent-Object' => 'Objet Parent',
         'Of couse this feature will take some system performance it self!' => 'Bien évidemment, cette fonction consomme des ressources système',
-        'Detail' => 'Détail',
         'Your own Ticket' => 'Votre propre ticket',
+        'Detail' => 'Détail',
         'TicketZoom' => 'Vue en détails',
-        'Don\'t forget to add a new user to groups!' => 'Ne pas oublier d\'ajouter un nouvel utilisateur aux groupes !',
         'Open Tickets' => 'Tickets ouverts',
+        'Don\'t forget to add a new user to groups!' => 'Ne pas oublier d\'ajouter un nouvel utilisateur aux groupes !',
         'CreateTicket' => 'Créer Ticket',
         'You have to select two or more attributes from the select field!' => 'Vous avez sélectionné deux attributs ou plus !',
         'System Settings' => 'Paramètres Système',
@@ -1673,15 +1682,15 @@ sub Data {
         'Finished' => 'Fini',
         'Account Type' => 'Type de compte',
         'D' => 'Z-A',
-        'All messages' => 'Tous les messages',
         'System Status' => 'État du système',
+        'All messages' => 'Tous les messages',
         'Options of the ticket data (e. g. <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)' => 'Options des données du ticket (ex: <OTRS_TICKET_TicketNumber>, <OTRS_TICKET_ID>, <OTRS_TICKET_Queue>, <OTRS_TICKET_State>)',
         'Object already linked as %s.' => 'Objet déjà lié en tant que %s',
         'A article should have a title!' => 'Un article doit avoir un titre',
-        'FAQ Overview' => 'Vue d\'ensemble de la FAQ',
         'Config options (e. g. &lt;OTRS_CONFIG_HttpType&gt;)' => 'Options de configuration (ex: &lt;OTRS_CONFIG_HttpType&gt;)',
-        'All email addresses get excluded on replaying on composing and email.' => '',
+        'FAQ Overview' => 'Vue d\'ensemble de la FAQ',
         'don\'t accept license' => 'Ne pas accepter la licence',
+        'All email addresses get excluded on replaying on composing and email.' => '',
         'A web mail client' => 'Un logiciel de messagerie via le web',
         'Compose Follow up' => 'Fermer le suivi',
         'FAQ-State' => 'État FAQ',
