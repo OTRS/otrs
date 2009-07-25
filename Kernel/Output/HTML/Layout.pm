@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.157 2009-07-22 13:21:12 martin Exp $
+# $Id: Layout.pm,v 1.158 2009-07-25 19:28:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.157 $) [1];
+$VERSION = qw($Revision: 1.158 $) [1];
 
 =head1 NAME
 
@@ -177,6 +177,9 @@ sub new {
         Action => 'GET',
         Format => 'DateFormatLong',
     );
+
+    # set text direction
+    $Self->{TextDirection} = $Self->{LanguageObject}->{TextDirection};
 
     # check Frontend::Output::FilterElementPre
     $Self->{FilterElementPre} = $Self->{ConfigObject}->Get('Frontend::Output::FilterElementPre');
@@ -758,18 +761,14 @@ sub Output {
     }
 
     # do correct direction
-    if (
-        $Self->{LanguageObject}->{TextDirection}
-        && $Self->{LanguageObject}->{TextDirection} eq 'rtl'
-        )
-    {
+    if ( $Self->{TextDirection} && $Self->{TextDirection} eq 'rtl' ) {
         $Output =~ s{
             <(table.+?)>
         }
         {
             my $Table = $1;
             if ($Table !~ /dir=/) {
-                "<$Table dir=\"".$Self->{LanguageObject}->{TextDirection}."\">";
+                "<$Table dir=\"".$Self->{TextDirection}."\">";
             }
             else {
                 "<$Table>";
@@ -4203,6 +4202,11 @@ sub RichTextDocumentComplete {
         Charset => $Self->{UserCharset},
     );
 
+    # do correct direction
+    if ( $Self->{TextDirection} ) {
+        $Param{String} =~ s/<body/<body dir="$Self->{TextDirection}"/i;
+    }
+
     return $Param{String};
 }
 
@@ -4288,6 +4292,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.157 $ $Date: 2009-07-22 13:21:12 $
+$Revision: 1.158 $ $Date: 2009-07-25 19:28:41 $
 
 =cut
