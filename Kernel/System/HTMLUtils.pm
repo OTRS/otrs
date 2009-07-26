@@ -2,7 +2,7 @@
 # Kernel/System/HTMLUtils.pm - creating and modifying html strings
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.pm,v 1.4 2009-07-26 14:58:48 martin Exp $
+# $Id: HTMLUtils.pm,v 1.5 2009-07-26 15:26:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.4 $) [1];
+$VERSION = qw($Revision: 1.5 $) [1];
 
 =head1 NAME
 
@@ -696,7 +696,7 @@ sub LinkQuote {
 
         # add target to existing "<a href"
         ${$String} =~ s{
-            (<a\s{1,5})(.+?)>
+            (<a\s{1,10})(.+?)>
         }
         {
             my $Start = $1;
@@ -794,6 +794,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.4 $ $Date: 2009-07-26 14:58:48 $
+$Revision: 1.5 $ $Date: 2009-07-26 15:26:48 $
 
 =cut
