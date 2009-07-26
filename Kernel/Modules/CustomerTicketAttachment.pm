@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketAttachment.pm - to get the attachments
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketAttachment.pm,v 1.15 2009-07-22 01:02:51 martin Exp $
+# $Id: CustomerTicketAttachment.pm,v 1.16 2009-07-26 14:58:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.15 $) [1];
+$VERSION = qw($Revision: 1.16 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -138,7 +138,7 @@ sub Run {
 
         # add html links
         $Data{Content} = $Self->{LayoutObject}->HTMLLinkQuote(
-            Text => $Data{Content},
+            String => $Data{Content},
         );
 
         # cleanup some html tags to be cross browser compat.

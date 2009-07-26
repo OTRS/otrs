@@ -2,7 +2,7 @@
 # Kernel/System/HTMLUtils.pm - creating and modifying html strings
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.pm,v 1.3 2009-07-23 22:44:59 martin Exp $
+# $Id: HTMLUtils.pm,v 1.4 2009-07-26 14:58:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 =head1 NAME
 
@@ -654,6 +654,132 @@ sub DocumentStyleCleanup {
 
     return $Param{String};
 }
+
+=item LinkQuote()
+
+URL link detections in HTML code, add "<a href" if missing
+
+    my $HTMLWithLinks = $HTMLUtilsObject->LinkQuote(
+        String    => $HTMLString,
+        Target    => 'TargetName', # content of target="?", e. g. _blank
+        TargetAdd => 1,            # add target="_blank" to all existing "<a href"
+    );
+
+also string ref is possible
+
+    my $HTMLWithLinksRef = $HTMLUtilsObject->LinkQuote(
+        String => \$HTMLStringRef,
+    );
+
+=cut
+
+sub LinkQuote {
+    my ( $Self, %Param ) = @_;
+
+    my $String = $Param{String} || '';
+
+    # check ref
+    my $StringScalar;
+    if ( !ref $String ) {
+        $StringScalar = $String;
+        $String       = \$StringScalar;
+    }
+
+    # add target to already existing url of html string
+    if ( $Param{TargetAdd} ) {
+
+        # find target
+        my $Target = $Param{Target};
+        if ( !$Target ) {
+            $Target = '_blank';
+        }
+
+        # add target to existing "<a href"
+        ${$String} =~ s{
+            (<a\s{1,5})(.+?)>
+        }
+        {
+            my $Start = $1;
+            my $Value = $2;
+            if ( $Value !~ /href=/i || $Value =~ /target=/i ) {
+                "$Start$Value>";
+            }
+            else {
+                "$Start$Value target=\"$Target\">";
+            }
+        }egx;
+    }
+
+    # remove existing "<a href" (to find not linked urls) and remember it
+    my $Counter = 0;
+    my %LinkHash;
+    ${ $String } =~ s{
+        (<a\s.+?>.+?</a>)
+    }
+    {
+        my $Link = $1;
+        $Counter++;
+        my $Key  = "############LinkHash-$Counter############";
+        $LinkHash{$Key} = $Link;
+        $Key;
+    }egxism;
+
+    # replace not "<a href" found urls and link it
+    my $Target = '';
+    if ( $Param{Target} ) {
+        $Target = " target=\"$Param{Target}\"";
+    }
+    ${ $String } =~ s{
+        ( > | < | &gt; | &lt; | )  # $1 greater-than and less-than sign
+
+        (                                              #2
+            (?:                                      # http or only www
+                (?: (?: http s? | ftp ) :\/\/) |        # http://,https:// and ftp://
+                (?: (?: www | ftp ) \.)                 # www. and ftp.
+            )
+            .*?               # this part should be better defined!
+        )
+        (                               # $3
+            [\?,;!\.\)] (?: \s | $ )    # \)\s this construct is because of bug# 2450
+            | \s
+            | \"
+            | &quot;
+            | &nbsp;
+            | ]
+            | '
+            | >                           # greater-than and less-than sign
+            | <                           # "
+            | &gt;                        # "
+            | &lt;                        # "
+            | $                           # bug# 2715
+        )        }
+    {
+        my $Start = $1;
+        my $Link  = $2;
+        my $End   = $3;
+        if ( $Link !~ m{^ ( http | https | ftp ) : \/ \/ }xi ) {
+            if ($Link =~ m{^ ftp }smx ) {
+                $Link = 'ftp://' . $Link;
+            }
+            else {
+                $Link = 'http://' . $Link;
+            }
+        }
+        $Start . "<a href=\"$Link\"$Target title=\"$Link\">$Link<\/a>" . $End;
+    }egxism;
+
+    # add already existing "<a href" again
+    for my $Key ( keys %LinkHash ) {
+        ${ $String } =~ s/$Key/$LinkHash{$Key}/;
+    }
+
+    # check ref && return result like called
+    if ($StringScalar) {
+        return ${$String};
+    }
+    return $String;
+}
+
 1;
 
 =back
@@ -668,6 +794,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.3 $ $Date: 2009-07-23 22:44:59 $
+$Revision: 1.4 $ $Date: 2009-07-26 14:58:48 $
 
 =cut

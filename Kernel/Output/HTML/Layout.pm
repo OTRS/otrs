@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.158 2009-07-25 19:28:41 martin Exp $
+# $Id: Layout.pm,v 1.159 2009-07-26 14:58:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.158 $) [1];
+$VERSION = qw($Revision: 1.159 $) [1];
 
 =head1 NAME
 
@@ -1858,13 +1858,13 @@ sub LinkQuote {
 so some URL link detections in HTML code
 
     my $HTMLWithLinks = $LayoutObject->HTMLLinkQuote(
-        Text => $HTMLWithOutLinks,
+        String => $HTMLString,
     );
 
 also string ref is possible
 
     my $HTMLWithLinksRef = $LayoutObject->HTMLLinkQuote(
-        Text => \$HTMLWithOutLinksRef,
+        String => \$HTMLString,
     );
 
 =cut
@@ -1872,43 +1872,11 @@ also string ref is possible
 sub HTMLLinkQuote {
     my ( $Self, %Param ) = @_;
 
-    my $Text   = $Param{Text}   || '';
-    my $Target = $Param{Target} || 'NewPage' . int( rand(199) );
-
-    # check ref
-    my $TextScalar;
-    if ( !ref $Text ) {
-        $TextScalar = $Text;
-        $Text       = \$TextScalar;
-    }
-
-    # add target to already existing url of html string
-    ${$Text} =~ s{
-        (<a\s{1,5})(.+?)>
-    }
-    {
-        my $Start = $1;
-        my $Value = $2;
-        if ( $Value !~ /href=/i || $Value =~ /target=/i ) {
-            "$Start$Value>";
-        }
-        else {
-            "$Start$Value target=\"$Target\">";
-        }
-    }egx;
-
-    # add <a href="" to not already linked url's in html
-    #    ${ $Text } = $Self->LinkQuote(
-    #        Text => ${ $Text },
-    #    );
-
-    # check ref && return result like called
-    if ($TextScalar) {
-        return ${$Text};
-    }
-    else {
-        return $Text;
-    }
+    return $Self->{HTMLUtilsObject}->LinkQuote(
+        String    => $Param{String},
+        TargetAdd => 1,
+        Target    => '_blank',
+    );
 }
 
 =item LinkEncode()
@@ -4292,6 +4260,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.158 $ $Date: 2009-07-25 19:28:41 $
+$Revision: 1.159 $ $Date: 2009-07-26 14:58:48 $
 
 =cut

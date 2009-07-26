@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.26 2009-07-20 10:36:04 mh Exp $
+# $Id: TemplateGenerator.pm,v 1.27 2009-07-26 14:58:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Notification;
 use Kernel::System::AutoResponse;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.26 $) [1];
+$VERSION = qw($Revision: 1.27 $) [1];
 
 =head1 NAME
 
@@ -556,8 +556,13 @@ sub AutoResponse {
     $AutoResponse{SenderAddress}  = $Address{Email};
     $AutoResponse{SenderRealname} = $Address{RealName};
 
-    # verify to be full html document
+    # add urls and verify to be full html document
     if ( $Self->{RichText} ) {
+
+        $AutoResponse{Text} = $Self->{HTMLUtilsObject}->LinkQuote(
+            String => $AutoResponse{Text},
+        );
+
         $AutoResponse{Text} = $Self->{HTMLUtilsObject}->DocumentComplete(
             Charset => $AutoResponse{Charset},
             String  => $AutoResponse{Text},
@@ -711,8 +716,13 @@ sub NotificationAgent {
         Type         => 'New',
     );
 
-    # verify to be full html document
+    # add urls and verify to be full html document
     if ( $Self->{RichText} ) {
+
+        $Notification{Body} = $Self->{HTMLUtilsObject}->LinkQuote(
+            String => $Notification{Body},
+        );
+
         $Notification{Body} = $Self->{HTMLUtilsObject}->DocumentComplete(
             Charset => $Notification{Charset},
             String  => $Notification{Body},
@@ -1140,6 +1150,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.26 $ $Date: 2009-07-20 10:36:04 $
+$Revision: 1.27 $ $Date: 2009-07-26 14:58:48 $
 
 =cut
