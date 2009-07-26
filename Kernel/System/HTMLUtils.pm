@@ -2,7 +2,7 @@
 # Kernel/System/HTMLUtils.pm - creating and modifying html strings
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.pm,v 1.5 2009-07-26 15:26:48 martin Exp $
+# $Id: HTMLUtils.pm,v 1.6 2009-07-26 22:59:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 =head1 NAME
 
@@ -710,17 +710,17 @@ sub LinkQuote {
         }egx;
     }
 
-    # remove existing "<a href" (to find not linked urls) and remember it
+    # remove existing "<a href" an all other tags (to find not linked urls) and remember it
     my $Counter = 0;
     my %LinkHash;
     ${ $String } =~ s{
-        (<a\s.+?>.+?</a>)
+        (<a\s.+?>.+?</a>|<.+?>)
     }
     {
-        my $Link = $1;
+        my $Content = $1;
         $Counter++;
         my $Key  = "############LinkHash-$Counter############";
-        $LinkHash{$Key} = $Link;
+        $LinkHash{$Key} = $Content;
         $Key;
     }egxism;
 
@@ -751,6 +751,7 @@ sub LinkQuote {
             | <                           # "
             | &gt;                        # "
             | &lt;                        # "
+            | \#\#\#\#\#\#                # ending LinkHash
             | $                           # bug# 2715
         )        }
     {
@@ -770,7 +771,7 @@ sub LinkQuote {
 
     # add already existing "<a href" again
     for my $Key ( keys %LinkHash ) {
-        ${ $String } =~ s/$Key/$LinkHash{$Key}/;
+        ${ $String } =~ s/$Key/$LinkHash{$Key}/g;
     }
 
     # check ref && return result like called
@@ -794,6 +795,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.5 $ $Date: 2009-07-26 15:26:48 $
+$Revision: 1.6 $ $Date: 2009-07-26 22:59:49 $
 
 =cut

@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.7 2009-07-26 15:28:13 martin Exp $
+# $Id: HTMLUtils.t,v 1.8 2009-07-26 22:59:49 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -384,6 +384,24 @@ for my $Test (@Tests) {
         Name   => 'LinkQuote - simple',
         TargetAdd => 1,
         Target => 'new_window',
+    },
+    {
+        Input  => "<html xmlns:Z=\"urn:schemas-com:\" xmlns:st=\"&#1;\" xmlns=\"http://www.w3.org/TR/REC-html40\">Some Text with url <a \nhref=\"http://example.com\">http://example.com</a></html>",
+        Result => "<html xmlns:Z=\"urn:schemas-com:\" xmlns:st=\"&#1;\" xmlns=\"http://www.w3.org/TR/REC-html40\">Some Text with url <a \nhref=\"http://example.com\">http://example.com</a></html>",
+        Name   => 'LinkQuote - simple',
+        Target => '',
+    },
+    {
+        Input  => '<html>Some Text with url http://example.com</html>',
+        Result => '<html>Some Text with url <a href="http://example.com" title="http://example.com">http://example.com</a></html>',
+        Name   => 'LinkQuote - simple',
+        Target => '',
+    },
+    {
+        Input  => '<html>Some Text with url http://example.com </html>',
+        Result => '<html>Some Text with url <a href="http://example.com" title="http://example.com">http://example.com</a> </html>',
+        Name   => 'LinkQuote - simple',
+        Target => '',
     },
 );
 
