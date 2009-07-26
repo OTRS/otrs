@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/OutputFilterTextAutoLink.pm - Auto article links filter
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: OutputFilterTextAutoLink.pm,v 1.3 2009-02-16 11:16:22 tr Exp $
+# $Id: OutputFilterTextAutoLink.pm,v 1.4 2009-07-26 12:45:04 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.3 $) [1];
+$VERSION = qw($Revision: 1.4 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -47,8 +47,11 @@ sub Pre {
 sub Post {
     my ( $Self, %Param ) = @_;
 
-    # check parameters
-    die 'Got no Data!' if !$Param{Data};
+    # check needed stuff
+    if ( !defined $Param{Data} ) {
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need Data!' );
+        $Self->{LayoutObject}->FatalDie();
+    }
 
     # check whether auto article links should be used
     return $Param{Data}
