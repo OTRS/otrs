@@ -2,7 +2,7 @@
 # HTMLUtils.t - HTMLUtils tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.t,v 1.6 2009-07-23 22:44:59 martin Exp $
+# $Id: HTMLUtils.t,v 1.7 2009-07-26 15:28:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -319,6 +319,79 @@ for my $Test (@Tests) {
 for my $Test (@Tests) {
     my $HTML = $Self->{HTMLUtilsObject}->DocumentStyleCleanup(
         String => $Test->{Input},
+    );
+    $Self->Is(
+        $HTML,
+        $Test->{Result},
+        $Test->{Name},
+    );
+}
+
+# LinkQuote tests
+@Tests = (
+    {
+        Input  => 'Some Text',
+        Result => 'Some Text',
+        Name   => 'LinkQuote - simple',
+        Target => '',
+    },
+    {
+        Input  => '<html><body>Some Text</body></html>',
+        Result => '<html><body>Some Text</body></html>',
+        Name   => 'LinkQuote - simple',
+        Target => '',
+    },
+    {
+        Input  => 'Some Text with url http://example.com',
+        Result => 'Some Text with url <a href="http://example.com" title="http://example.com">http://example.com</a>',
+        Name   => 'LinkQuote - simple',
+        Target => '',
+    },
+    {
+        Input  => 'Some Text with url <a href="http://example.com">http://example.com</a>',
+        Result => 'Some Text with url <a href="http://example.com">http://example.com</a>',
+        Name   => 'LinkQuote - simple',
+        Target => '',
+    },
+    {
+        Input  => "Some Text with url <a\nhref=\"http://example.com\">http://example.com</a>",
+        Result => "Some Text with url <a\nhref=\"http://example.com\">http://example.com</a>",
+        Name   => 'LinkQuote - simple',
+        Target => '',
+    },
+    {
+        Input  => "Some Text with url <a \nhref=\"http://example.com\">http://example.com</a>",
+        Result => "Some Text with url <a \nhref=\"http://example.com\">http://example.com</a>",
+        Name   => 'LinkQuote - simple',
+        Target => '',
+    },
+    {
+        Input  => 'Some Text with url <a href="http://example.com">http://example.com</a> and not quoted url http://example.com/?q=123',
+        Result => 'Some Text with url <a href="http://example.com">http://example.com</a> and not quoted url <a href="http://example.com/?q=123" title="http://example.com/?q=123">http://example.com/?q=123</a>',
+        Name   => 'LinkQuote - simple',
+        Target => '',
+    },
+    {
+        Input  => 'Some Text with url <a href="http://example.com">http://example.com</a>',
+        Result => 'Some Text with url <a href="http://example.com" target="_blank">http://example.com</a>',
+        Name   => 'LinkQuote - simple',
+        TargetAdd => 1,
+        Target => '_blank',
+    },
+    {
+        Input  => 'Some Text with url <a href="http://example.com">http://example.com</a> and not quoted url http://example.com/?q=123',
+        Result => 'Some Text with url <a href="http://example.com" target="new_window">http://example.com</a> and not quoted url <a href="http://example.com/?q=123" target="new_window" title="http://example.com/?q=123">http://example.com/?q=123</a>',
+        Name   => 'LinkQuote - simple',
+        TargetAdd => 1,
+        Target => 'new_window',
+    },
+);
+
+for my $Test (@Tests) {
+    my $HTML = $Self->{HTMLUtilsObject}->LinkQuote(
+        String    => $Test->{Input},
+        Target    => $Test->{Target},
+        TargetAdd => $Test->{TargetAdd},
     );
     $Self->Is(
         $HTML,
