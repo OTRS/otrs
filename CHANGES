@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.938 2009-07-26 11:49:47 martin Exp $
+# $Id: CHANGES,v 1.939 2009-07-26 22:44:39 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,19 @@
 # --
 
 2.4.2 (2009/07/??)
+ - (2009/07/27) Fixed bug#3944 - Obligated TicketFreeText in composer breaks
+    WYSIWYG Editor when replying.
+ - (2009/07/26) Fixed bug#4009 - Improved sql statement in GenericAgent (
+    SELECT distinct(job_name) FROM generic_agent_jobs).
+ - (2009/07/26) Fixed bug#3987 - When executing upgrade script (
+    scripts/DBUpdate-to-2.4.pl), get an error "Need Ticket::ViewableStateType
+    in Kernel/Config.pm!".
+ - (2009/07/26) Fixed bug#3984 - HTML Notifications - Links to ticketsystem not
+    "clickable" in email client thunderbird.
+ - (2009/07/25) Fixed bug#4038 - Entering text for RTL languages is impossible
+    in rich text mode!
+ - (2009/07/25) Fixed bug#4046 - Dashboard New/Open do not show anything in
+   "New Tickets" and "Open Tickets" section.
  - (2009/07/24) Fixed bug#4043 - French translation is corrupted.
  - (2009/07/24) Fixed bug#3904 - Signing Mails with PGP or S/MIME not possible
    in AgentTicketEmail.
