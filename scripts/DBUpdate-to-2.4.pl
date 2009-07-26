@@ -3,7 +3,7 @@
 # DBUpdate-to-2.4.pl - update script to migrate OTRS 2.3.x to 2.4.x
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DBUpdate-to-2.4.pl,v 1.6 2009-07-20 10:36:05 mh Exp $
+# $Id: DBUpdate-to-2.4.pl,v 1.7 2009-07-26 17:16:49 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.6 $) [1];
+$VERSION = qw($Revision: 1.7 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -49,7 +49,7 @@ use Kernel::System::NotificationEvent;
 # get options
 my %Opts;
 getopt( 'h', \%Opts );
-if ( $Opts{'h'} ) {
+if ( $Opts{h} ) {
     print STDOUT "DBUpdate-to-2.4.pl <Revision $VERSION> - Database migration script\n";
     print STDOUT "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
     exit 1;
@@ -57,21 +57,20 @@ if ( $Opts{'h'} ) {
 
 print STDOUT "Start migration of the system...\n\n";
 
-# create needed objects
+# instance needed objects (1/2)
 my %CommonObject;
 $CommonObject{ConfigObject} = Kernel::Config->new();
 $CommonObject{LogObject}    = Kernel::System::Log->new(
     LogPrefix => 'OTRS-DBUpdate-to-2.4',
     %CommonObject,
 );
-$CommonObject{EncodeObject}            = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{MainObject}              = Kernel::System::Main->new(%CommonObject);
-$CommonObject{TimeObject}              = Kernel::System::Time->new(%CommonObject);
-$CommonObject{DBObject}                = Kernel::System::DB->new(%CommonObject);
-$CommonObject{SysConfigObject}         = Kernel::System::Config->new(%CommonObject);
-$CommonObject{QueueObject}             = Kernel::System::Queue->new(%CommonObject);
-$CommonObject{TicketObject}            = Kernel::System::Ticket->new(%CommonObject);
-$CommonObject{NotificationEventObject} = Kernel::System::NotificationEvent->new(%CommonObject);
+$CommonObject{EncodeObject}    = Kernel::System::Encode->new(%CommonObject);
+$CommonObject{MainObject}      = Kernel::System::Main->new(%CommonObject);
+$CommonObject{TimeObject}      = Kernel::System::Time->new(%CommonObject);
+$CommonObject{DBObject}        = Kernel::System::DB->new(%CommonObject);
+$CommonObject{SysConfigObject} = Kernel::System::Config->new(%CommonObject);
+
+# initialization if config/xml files
 
 # define config dir
 my $ConfigDir = $CommonObject{ConfigObject}->Get('Home') . '/Kernel/Config/Files/';
@@ -91,8 +90,11 @@ if ( !$Success ) {
     exit 0;
 }
 
-# instance needed objects
-$CommonObject{ConfigObject} = Kernel::Config->new();
+# instance needed objects (2/2)
+$CommonObject{ConfigObject}            = Kernel::Config->new();
+$CommonObject{QueueObject}             = Kernel::System::Queue->new(%CommonObject);
+$CommonObject{TicketObject}            = Kernel::System::Ticket->new(%CommonObject);
+$CommonObject{NotificationEventObject} = Kernel::System::NotificationEvent->new(%CommonObject);
 
 # start migration process
 CleanUpCacheDir();
