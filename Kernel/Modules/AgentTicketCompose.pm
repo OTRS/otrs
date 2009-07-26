@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.76 2009-07-23 21:24:02 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.77 2009-07-26 22:22:09 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.76 $) [1];
+$VERSION = qw($Revision: 1.77 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1104,6 +1104,14 @@ sub _Mask {
         );
     }
 
+    # add rich text editor
+    if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'RichText',
+            Data => \%Param,
+        );
+    }
+
     # show attachments
     for my $DataRef ( @{ $Param{Attachments} } ) {
         $Self->{LayoutObject}->Block(
@@ -1137,14 +1145,6 @@ sub _Mask {
                 },
             );
         }
-    }
-
-    # add rich text editor
-    if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
-        $Self->{LayoutObject}->Block(
-            Name => 'RichText',
-            Data => \%Param,
-        );
     }
 
     # create & return output
