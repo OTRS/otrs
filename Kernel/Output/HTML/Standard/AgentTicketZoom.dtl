@@ -2,7 +2,7 @@
 # AgentTicketZoom.dtl - provides HTML for AgentTicketZoom.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketZoom.dtl,v 1.58 2009-07-18 15:19:33 martin Exp $
+# $Id: AgentTicketZoom.dtl,v 1.59 2009-07-27 21:18:54 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -154,7 +154,7 @@ $Include{"AgentTicketZoomArticleFilterDialog"}
                       <td>$QData{"Filename"}</td>
                       <td>
 <!-- dtl:block:ArticleAttachmentRowLink -->
-                        <a href="$Data{"Link"}" $Data{"Target"} onmouseover="window.status='$JSText{"$QData{"Action"}"}: $QData{"Filename"}';return true;" onmouseout="window.status='';"><img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}"></a>
+                        <a href="$Data{"Link"}" $Data{"Target"} onmouseover="window.status='$JSText{"$QData{"Action"}"}: $JSText{"$QData{"Filename"}"}';return true;" onmouseout="window.status='';"><img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}"></a>
 <!-- dtl:block:ArticleAttachmentRowLink -->
 <!-- dtl:block:ArticleAttachmentRowNoLink -->
                         <img src="$Config{"Frontend::ImagePath"}$QData{"Image"}" border="0" alt="$Text{"$QData{"Action"}"}" title="$Text{"$QData{"Action"}"}">
