@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketEmail.pm - to compose initial email to customer
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketEmail.pm,v 1.95 2009-07-23 21:24:01 martin Exp $
+# $Id: AgentTicketEmail.pm,v 1.96 2009-07-27 14:35:22 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::State;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.95 $) [1];
+$VERSION = qw($Revision: 1.96 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1416,9 +1416,6 @@ sub _MaskEmailNew {
                 "document.compose.ExpandCustomerName.value='3'; document.compose.submit(); return false;",
             Ajax => {
                 Update => [
-                    'To',
-                    'Cc',
-                    'Bcc',
                     'Signature',
                     'NewUserID',
                     'NewResponsibleID',
