@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketSearch.pm - Utilities for tickets
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketSearch.pm,v 1.71 2009-07-07 15:45:19 mh Exp $
+# $Id: AgentTicketSearch.pm,v 1.72 2009-07-28 22:44:21 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::Type;
 use Kernel::System::CSV;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.71 $) [1];
+$VERSION = qw($Revision: 1.72 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -314,7 +314,7 @@ sub Run {
         # store last queue screen
         my $URL
             = "Action=AgentTicketSearch&Subaction=Search&Profile=$Self->{Profile}&SortBy=$Self->{SortBy}"
-            . "&Order=$Self->{Order}&TakeLastSearch=1&StartHit=$Self->{StartHit}";
+            . "&OrderBy=$Self->{OrderBy}&TakeLastSearch=1&StartHit=$Self->{StartHit}";
         $Self->{SessionObject}->UpdateSessionID(
             SessionID => $Self->{SessionID},
             Key       => 'LastScreenOverview',
