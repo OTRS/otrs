@@ -6,7 +6,7 @@
 # Copyright (C) 2009 Yiye Huang <yiyehuang at gmail.com>
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # --
-# $Id: zh_CN.pm,v 1.67 2009-07-19 18:38:28 martin Exp $
+# $Id: zh_CN.pm,v 1.68 2009-07-28 10:38:35 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -120,7 +120,7 @@ sub Data {
         'Hit' => '点击',
         'Hits' => '点击数',
         'Text' => '正文',
-        'Standard' => '',
+        'Standard' => '标准',
         'Lite' => '简洁',
         'User' => '用户',
         'Username' => '用户名称',
@@ -244,7 +244,7 @@ sub Data {
         'Filename' => '文件名',
         'Type' => '类型',
         'Size' => '大小',
-        'Upload' => '上载',
+        'Upload' => '上传',
         'Directory' => '目录',
         'Signed' => '已签名',
         'Sign' => '签署',
@@ -283,12 +283,12 @@ sub Data {
         'more' => '更多',
         'For more info see:' => '更多信息请看',
         'Package verification failed!' => '软件包验证失败',
-        'Collapse' => '收',
-        'Shown' => '',
+        'Collapse' => '收起',
+        'Shown' => '显示',
         'News' => '新闻',
         'Product News' => '产品新闻',
-        'OTRS News' => '',
-        '7 Day Stats' => '',
+        'OTRS News' => 'OTRS 新闻',
+        '7 Day Stats' => '最近 7 天统计',
         'Bold' => '黑体',
         'Italic' => '斜体',
         'Underline' => '底线',
@@ -1227,7 +1227,7 @@ sub Data {
         'Scale' => '尺度',
         'minimal' => '最小化',
         'Please remember, that the scale for value series has to be larger than the scale for the X-axis (e.g. X-Axis => Month, ValueSeries => Year).' => '请记住，这比额表的价值系列要大于X轴的尺度（如X -轴=>本月， ValueSeries =>年） ',
-        'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '在这里，您可以定义一系列的值。你有可能选择一个或两个因素。然后您可以选择元素的属性。每个属性将显示为单一的值。如果您不选择任何属性, 那么当您生成一个统计的时候所有元素的属性将被使用。并且一个新的属性被更新到上次配置中',
+        'Here you can define the value series. You have the possibility to select one or two elements. Then you can select the attributes of elements. Each attribute will be shown as single value series. If you don\'t select any attribute all attributes of the element will be used if you generate a stat. As well a new attribute is added since the last configuration.' => '在这里，您可以定义一系列的值。你有可能选择一个或两个元素。然后您可以选择元素的属性。每个属性将显示为单一的值。如果您不选择任何属性, 那么当您生成一个统计的时候所有元素的属性将被使用。并且一个新的属性被更新到上次配置中',
 
         # Template: AgentStatsEditXaxis
         'Select the element, which will be used at the X-axis' => '选择将用在x轴的元素',
