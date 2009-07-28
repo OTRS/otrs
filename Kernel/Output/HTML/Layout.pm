@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.159 2009-07-26 14:58:48 martin Exp $
+# $Id: Layout.pm,v 1.160 2009-07-28 11:37:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.159 $) [1];
+$VERSION = qw($Revision: 1.160 $) [1];
 
 =head1 NAME
 
@@ -3213,9 +3213,7 @@ sub NavigationBar {
         for my $Job ( sort keys %Jobs ) {
 
             # load module
-            if ( !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
-                $Self->FatalError();
-            }
+            next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
             my $Object = $Jobs{$Job}->{Module}->new(
                 %{$Self},
                 ConfigObject => $Self->{ConfigObject},
@@ -3317,9 +3315,7 @@ sub NavigationBar {
         for my $Job ( sort keys %Jobs ) {
 
             # load module
-            if ( !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} ) ) {
-                $Self->FatalError();
-            }
+            next if !$Self->{MainObject}->Require( $Jobs{$Job}->{Module} );
             my $Object = $Jobs{$Job}->{Module}->new(
                 %{$Self},
                 ConfigObject => $Self->{ConfigObject},
@@ -3356,9 +3352,7 @@ sub NavigationBar {
         my %Jobs = %{ $Self->{ModuleReg}->{NavBarModule} };
 
         # load module
-        if ( !$Self->{MainObject}->Require( $Jobs{Module} ) ) {
-            $Self->FatalError();
-        }
+        next if !$Self->{MainObject}->Require( $Jobs{Module} );
         my $Object = $Jobs{Module}->new(
             %{$Self},
             ConfigObject => $Self->{ConfigObject},
@@ -4260,6 +4254,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.159 $ $Date: 2009-07-26 14:58:48 $
+$Revision: 1.160 $ $Date: 2009-07-28 11:37:37 $
 
 =cut
