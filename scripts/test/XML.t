@@ -2,7 +2,7 @@
 # XML.t - XML tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: XML.t,v 1.24 2009-02-16 12:40:23 tr Exp $
+# $Id: XML.t,v 1.25 2009-07-29 16:43:48 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -153,9 +153,11 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
       <Email type="primary">info@exampe.com<Domain>1234.com</Domain></Email>
       <Email type="secundary">sales@example.com</Email>
       <Telephone country="germany">+49-999-99999</Telephone>
-      <Telephone2></Telephone2>
+      <Telephone2 country="" extention="123"></Telephone2>
+      <Telephone3 country="" extention="123"/>
       <SpecialCharacters>\'</SpecialCharacters>
       <SpecialCharacters1>\\\'</SpecialCharacters1>
+      <SpecialCharacters2>0</SpecialCharacters2>
       <GermanText>German Umlaute öäü ÄÜÖ ß</GermanText>
     </Contact>
 ';
@@ -180,6 +182,35 @@ $Self->Is(
     '',
     '#3 XMLParse2XMLHash() (Contact->Telephone2)',
 );
+my $CountryDefined = $XMLHash[1]->{Contact}->[1]->{Telephone2}->[1]->{country};
+$Self->Is(
+    $CountryDefined,
+    '',
+    '#3 XMLParse2XMLHash() (Contact->Telephone2->country)',
+);
+my $CountryUndefined = $XMLHash[1]->{Contact}->[1]->{Telephone2}->[1]->{country2};
+$Self->Is(
+    $CountryUndefined,
+    undef,
+    '#3 XMLParse2XMLHash() (Contact->Telephone2->country2) - undef',
+);
+$Self->Is(
+    $XMLHash[1]->{Contact}->[1]->{Telephone3}->[1]->{Content},
+    '',
+    '#3 XMLParse2XMLHash() (Contact->Telephone3)',
+);
+$CountryDefined = $XMLHash[1]->{Contact}->[1]->{Telephone3}->[1]->{country};
+$Self->Is(
+    $CountryDefined,
+    '',
+    '#3 XMLParse2XMLHash() (Contact->Telephone3->country)',
+);
+$CountryUndefined = $XMLHash[1]->{Contact}->[1]->{Telephone3}->[1]->{country2};
+$Self->Is(
+    $CountryUndefined,
+    undef,
+    '#3 XMLParse2XMLHash() (Contact->Telephone3->country2) - undef',
+);
 $Self->Is(
     $XMLHash[1]->{Contact}->[1]->{SpecialCharacters}->[1]->{Content} || '',
     '\'',
@@ -189,6 +220,11 @@ $Self->Is(
     $XMLHash[1]->{Contact}->[1]->{SpecialCharacters1}->[1]->{Content} || '',
     '\\\'',
     '#3 XMLParse2XMLHash() (Contact->SpecialCharacters1)',
+);
+$Self->Is(
+    $XMLHash[1]->{Contact}->[1]->{SpecialCharacters2}->[1]->{Content},
+    0,
+    '#3 XMLParse2XMLHash() (Contact->SpecialCharacters2)',
 );
 
 # test charset specific situations
