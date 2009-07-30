@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.944 2009-07-30 14:42:46 martin Exp $
+# $Id: CHANGES,v 1.945 2009-07-30 16:26:56 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,7 +10,12 @@
 # --
 
 2.4.3 (2009/08/??)
- - (2009/07/30) Fixed bug#Fixed bug# 4039 - Use of uninitialized value ->
+ - (2009/07/30) Fixed bug#4082 - Queue customer notification moved to new
+    event based notification feature, but it's still in admin interface and
+    initial insert file.
+ - (2009/07/30) Fixed bug#4081 - In Dashboard ticket overviews it is not
+    possible to go to page 2,3,... and so on.
+ - (2009/07/30) Fixed bug#4039 - Use of uninitialized value ->
     Kernel/Modules/AdminPackageManager.pm line.
  - (2009/07/30) Fixed bug#4052 - Error composing a message in a Ticket with
     "empty answer" if $QData{"OrigFrom"} is used in config option
