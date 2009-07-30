@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketGeneric.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketGeneric.pm,v 1.16 2009-07-20 10:36:04 mh Exp $
+# $Id: DashboardTicketGeneric.pm,v 1.17 2009-07-30 15:37:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -65,9 +65,11 @@ sub new {
 
     $Self->{PrefKey} = 'UserDashboardPref' . $Self->{Name} . '-Shown';
 
-    $Self->{Limit} = $Self->{LayoutObject}->{ $Self->{PrefKey} } || $Self->{Config}->{Limit};
+    $Self->{PageShown} = $Self->{LayoutObject}->{ $Self->{PrefKey} } || $Self->{Config}->{Limit};
 
-    $Self->{CacheKey} = $Self->{Name} . '-' . $Self->{Limit} . '-' . $Self->{UserID};
+    $Self->{StartHit} = $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1;
+
+    $Self->{CacheKey} = $Self->{Name} . '-' . $Self->{PageShown} . '-' . $Self->{StartHit} . '-' . $Self->{UserID};
 
     return $Self;
 }
@@ -89,7 +91,7 @@ sub Preferences {
                 20 => '20',
                 25 => '25',
             },
-            SelectedID => $Self->{Limit},
+            SelectedID => $Self->{PageShown},
         },
     );
 
@@ -177,7 +179,7 @@ sub Run {
             Result => 'ARRAY',
             %TicketSearch,
             %{ $TicketSearchSummary{ $Self->{Filter} } },
-            Limit => $Self->{Limit},
+            Limit => $Self->{PageShown} + $Self->{StartHit} - 1,
         );
         $TicketIDs = \@TicketIDsArray;
     }
@@ -243,8 +245,32 @@ sub Run {
         );
     }
 
+    # add page nav bar
+    my $Total = $Summary->{ $Self->{Filter} } || 0;
+    my $LinkPage = 'Subaction=Element&Name=' . $Self->{Name} . '&Filter=' . $Self->{Filter} . '&';
+    my %PageNav = $Self->{LayoutObject}->PageNavBar(
+        StartHit    => $Self->{StartHit},
+        PageShown   => $Self->{PageShown},
+        AllHits     => $Total || 1,
+        Action      => 'Action=' . $Self->{LayoutObject}->{Action},
+        Link        => $LinkPage,
+        WindowSize  => 10,
+        AJAXReplace => $Self->{Name},
+    );
+    $Self->{LayoutObject}->Block(
+        Name => 'ContentLargeTicketGenericFilterNavBar',
+        Data => {
+            %{ $Self->{Config} },
+            Name => $Self->{Name},
+            %PageNav,
+        },
+    );
+
     # show tickets
+    my $Count = 0;
     for my $TicketID ( @{$TicketIDs} ) {
+        $Count++;
+        next if $Count < $Self->{StartHit};
         my %Ticket = $Self->{TicketObject}->TicketGet(
             TicketID => $TicketID,
             UserID   => $Self->{UserID},

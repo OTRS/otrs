@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardUserOnline.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardUserOnline.pm,v 1.5 2009-07-20 10:36:04 mh Exp $
+# $Id: DashboardUserOnline.pm,v 1.6 2009-07-30 15:37:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::AuthSession;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -69,6 +69,12 @@ sub new {
 
     $Self->{PrefKey} = 'UserDashboardPref' . $Self->{Name} . '-Shown';
 
+    $Self->{PageShown} = $Self->{LayoutObject}->{ $Self->{PrefKey} } || $Self->{Config}->{Limit};
+
+    $Self->{StartHit} = $Self->{ParamObject}->GetParam( Param => 'StartHit' ) || 1;
+
+    $Self->{CacheKey} = $Self->{Name};
+
     return $Self;
 }
 
@@ -89,7 +95,7 @@ sub Preferences {
                 20 => '20',
                 25 => '25',
             },
-            SelectedID => $Self->{LayoutObject}->{ $Self->{PrefKey} } || $Self->{Config}->{Limit},
+            SelectedID => $Self->{PageShown},
         },
     );
 
@@ -119,7 +125,7 @@ sub Run {
     # check cache
     my $Online = $Self->{CacheObject}->Get(
         Type => 'Dashboard',
-        Key  => $Self->{Name},
+        Key  => $Self->{CacheKey},
     );
 
     # get session info
@@ -169,7 +175,7 @@ sub Run {
     if ( !$CacheUsed && $Self->{Config}->{CacheTTLLocal} ) {
         $Self->{CacheObject}->Set(
             Type  => 'Dashboard',
-            Key   => $Self->{Name},
+            Key   => $Self->{CacheKey},
             Value => $Online,
             TTL   => $Self->{Config}->{CacheTTLLocal} * 60,
         );
@@ -193,6 +199,27 @@ sub Run {
         },
     );
 
+    # add page nav bar
+    my $Total = $Online->{UserCount}->{ $Self->{Filter} } || 0;
+    my $LinkPage = 'Subaction=Element&Name=' . $Self->{Name} . '&Filter=' . $Self->{Filter} . '&';
+    my %PageNav = $Self->{LayoutObject}->PageNavBar(
+        StartHit    => $Self->{StartHit},
+        PageShown   => $Self->{PageShown},
+        AllHits     => $Total || 1,
+        Action      => 'Action=' . $Self->{LayoutObject}->{Action},
+        Link        => $LinkPage,
+        WindowSize  => 5,
+        AJAXReplace => $Self->{Name},
+    );
+    $Self->{LayoutObject}->Block(
+        Name => 'ContentSmallTicketGenericFilterNavBar',
+        Data => {
+            %{ $Self->{Config} },
+            Name => $Self->{Name},
+            %PageNav,
+        },
+    );
+
     # show agent/customer
     my %OnlineUser = %{ $Online->{User}->{ $Self->{Filter} } };
     my %OnlineData = %{ $Online->{UserData}->{ $Self->{Filter} } };
@@ -200,15 +227,9 @@ sub Run {
     my $Limit      = $Self->{LayoutObject}->{ $Self->{PrefKey} } || $Self->{Config}->{Limit};
 
     for my $UserID ( sort { $OnlineUser{$a} cmp $OnlineUser{$b} } keys %OnlineUser ) {
-
         $Count++;
-        if ( $Count > $Limit ) {
-            $Self->{LayoutObject}->Block(
-                Name => 'ContentSmallUserOnlineRowMore',
-                Data => $OnlineData{$UserID},
-            );
-            last;
-        }
+        next if $Count < $Self->{StartHit};
+        last if $Count >= ( $Self->{StartHit} + $Self->{PageShown} );
         $Self->{LayoutObject}->Block(
             Name => 'ContentSmallUserOnlineRow',
             Data => $OnlineData{$UserID},
