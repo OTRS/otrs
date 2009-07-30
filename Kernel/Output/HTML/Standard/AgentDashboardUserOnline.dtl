@@ -2,7 +2,7 @@
 # AgentDashboardUserOnline.dtl - provides HTML for global dashboard
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentDashboardUserOnline.dtl,v 1.6 2009-07-30 15:37:22 martin Exp $
+# $Id: AgentDashboardUserOnline.dtl,v 1.7 2009-07-30 15:41:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@
     </td>
     <td class="small" align="right">
 <!-- dtl:block:ContentSmallTicketGenericFilterNavBar -->
-      $Text{"Site"}: $Data{"SiteNavBar"}
+      $Text{"Page"}: $Data{"SiteNavBar"}
 <!-- dtl:block:ContentSmallTicketGenericFilterNavBar -->
     </td>
   </tr>
