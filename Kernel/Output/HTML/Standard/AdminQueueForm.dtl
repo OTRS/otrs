@@ -2,7 +2,7 @@
 # AdminQueueForm.dtl - provides HTML form for AdminQueue
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminQueueForm.dtl,v 1.43 2009-05-15 06:14:45 martin Exp $
+# $Id: AdminQueueForm.dtl,v 1.44 2009-07-30 13:08:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -264,18 +264,6 @@
         <tr valign="top">
           <td>$Text{"Signature"}</td>
           <td>$Text{"The signature for email answers."}</td>
-        </tr>
-        <tr valign="top">
-          <td>$Text{"Customer Move Notify"}</td>
-          <td>$Text{"OTRS sends an notification email to the customer if the ticket is moved."}</td>
-        </tr>
-        <tr valign="top">
-          <td>$Text{"Customer State Notify"}</td>
-          <td>$Text{"OTRS sends an notification email to the customer if the ticket state has changed."}</td>
-        </tr>
-        <tr valign="top">
-          <td>$Text{"Customer Owner Notify"}</td>
-          <td>$Text{"OTRS sends an notification email to the customer if the ticket owner has changed."}</td>
         </tr>
       </table>
     </td>
