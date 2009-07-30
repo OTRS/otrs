@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketCompose.pm - to compose and send a message
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketCompose.pm,v 1.77 2009-07-26 22:22:09 martin Exp $
+# $Id: AgentTicketCompose.pm,v 1.78 2009-07-30 13:04:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -24,7 +24,7 @@ use Kernel::System::TemplateGenerator;
 use Mail::Address;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.77 $) [1];
+$VERSION = qw($Revision: 1.78 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -68,8 +68,6 @@ sub Run {
 
     # check needed stuff
     if ( !$Self->{TicketID} ) {
-
-        # error page
         return $Self->{LayoutObject}->ErrorScreen(
             Message => 'No TicketID is given!',
             Comment => 'Please contact the admin.',
@@ -77,16 +75,14 @@ sub Run {
     }
 
     # check permissions
-    if (
-        !$Self->{TicketObject}->Permission(
-            Type     => $Self->{Config}->{Permission},
-            TicketID => $Self->{TicketID},
-            UserID   => $Self->{UserID}
-        )
-        )
-    {
+    my $Access = $Self->{TicketObject}->Permission(
+        Type     => $Self->{Config}->{Permission},
+        TicketID => $Self->{TicketID},
+        UserID   => $Self->{UserID}
+    );
 
-        # error screen, don't show ticket
+    # error screen, don't show ticket
+    if ( !$Access ) {
         return $Self->{LayoutObject}->NoPermission(
             Message    => "You need $Self->{Config}->{Permission} permissions!",
             WithHeader => 'yes',
@@ -164,16 +160,20 @@ sub Run {
 
     # get ticket free text params
     for ( 1 .. 16 ) {
-        $GetParam{"TicketFreeKey$_"} = $Self->{ParamObject}->GetParam( Param => "TicketFreeKey$_" );
-        $GetParam{"TicketFreeText$_"}
-            = $Self->{ParamObject}->GetParam( Param => "TicketFreeText$_" );
+        $GetParam{"TicketFreeKey$_"}  = $Self->{ParamObject}->GetParam(
+            Param => "TicketFreeKey$_",
+        );
+        $GetParam{"TicketFreeText$_"} = $Self->{ParamObject}->GetParam(
+            Param => "TicketFreeText$_",
+        );
     }
 
     # get ticket free time params
     for ( 1 .. 6 ) {
         for my $Type (qw(Used Year Month Day Hour Minute)) {
-            $GetParam{ "TicketFreeTime" . $_ . $Type }
-                = $Self->{ParamObject}->GetParam( Param => "TicketFreeTime" . $_ . $Type );
+            $GetParam{ "TicketFreeTime" . $_ . $Type } = $Self->{ParamObject}->GetParam(
+                Param => "TicketFreeTime" . $_ . $Type,
+            );
         }
         if ( !$Self->{ConfigObject}->Get( 'TicketFreeTimeOptional' . $_ ) ) {
             $GetParam{ 'TicketFreeTime' . $_ . 'Used' } = 1;
@@ -820,18 +820,40 @@ $QData{"Signature"}
 ';
 
         # make sure body is rich text
+        my %DataHTML = %Data;
         if ( $Self->{ConfigObject}->Get('Frontend::RichText') ) {
             $ResponseFormat = $Self->{LayoutObject}->Ascii2RichText(
                 String => $ResponseFormat,
             );
+
+            # restore qdata formatting for Output replacement
+            $ResponseFormat =~ s/&quot;/"/gi;
+
+            # html quote to have it correct in edit area
+            $ResponseFormat = $Self->{LayoutObject}->Ascii2Html(
+                Text => $ResponseFormat,
+            );
+
+            # restore qdata formatting for Output replacement
+            $ResponseFormat =~ s/&quot;/"/gi;
+
+            # quote all non html content to have it correct in edit area
+            for my $Key ( keys %DataHTML ) {
+                next if !$DataHTML{$Key};
+                next if $Key eq 'Salutation';
+                next if $Key eq 'Body';
+                next if $Key eq 'StdResponse';
+                next if $Key eq 'Signature';
+                $DataHTML{$Key} = $Self->{LayoutObject}->Ascii2RichText(
+                    String => $DataHTML{$Key},
+                );
+            }
         }
 
-        # restore qdata formatting for Output replacement
-        $ResponseFormat =~ s/&quot;/"/gi;
-
+        # build new repsonse format based on template
         $Data{ResponseFormat} = $Self->{LayoutObject}->Output(
             Template => $ResponseFormat,
-            Data => { %Param, %Data },
+            Data => { %Param, %DataHTML },
         );
 
         # check some values
