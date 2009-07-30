@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminPackageManager.pm - manage software packages
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminPackageManager.pm,v 1.80 2009-04-23 13:47:27 mh Exp $
+# $Id: AdminPackageManager.pm,v 1.81 2009-07-30 14:40:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Package;
 use Kernel::System::Web::UploadCache;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.80 $) [1];
+$VERSION = qw($Revision: 1.81 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -1051,8 +1051,8 @@ sub Run {
         );
         if ($Source) {
             my @List = $Self->{PackageObject}->PackageOnlineList(
-                URL => $Source,
-                Lang => $Self->{UserLanguage} || $Self->{ConfigObject}->Get('DefaultLanguage'),
+                URL  => $Source,
+                Lang => $Self->{LayoutObject}->{UserLanguage},
             );
             if ( !@List ) {
                 $OutputNotify .= $Self->{LayoutObject}->Notify( Priority => 'Error', );
@@ -1296,7 +1296,7 @@ sub _DocumentationGet {
         next FILE if !$Filename;
 
         # take user language first
-        if ( $Dir eq $Self->{UserLanguage} ) {
+        if ( $Dir eq $Self->{LayoutObject}->{UserLanguage} ) {
             $DocumentationFileUserLanguage = $File->{Location};
         }
 
@@ -1531,4 +1531,5 @@ sub _UpgradeHandling {
     }
     return $Self->{LayoutObject}->ErrorScreen();
 }
+
 1;
