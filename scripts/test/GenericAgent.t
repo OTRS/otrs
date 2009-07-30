@@ -2,7 +2,7 @@
 # GenericAgent.t - GenericAgent tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: GenericAgent.t,v 1.8 2009-02-16 12:41:12 tr Exp $
+# $Id: GenericAgent.t,v 1.9 2009-07-30 10:13:34 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -54,16 +54,17 @@ my %NewJob = (
         #TicketFreeText2 => [],
         #OwnerIDs => [],
         #StateIDs => [],
-        TimeSearchType              => '',
+        TimeSearchType              => 'TimePoint',
+        TicketCreateTimePoint       => 1,
+        TicketCreateTimePointStart  => 'Last',
+        TicketCreateTimePointFormat => 'year',
+
         TicketCreateTimeStartMonth  => 8,
         TicketCreateTimeStopMonth   => 9,
         TicketCreateTimeStartDay    => 7,
         TicketCreateTimeStopYear    => 2006,
         TicketCreateTimeStartYear   => 2006,
         TicketCreateTimeStopDay     => 6,
-        TicketCreateTimePoint       => 1,
-        TicketCreateTimePointStart  => 'Last',
-        TicketCreateTimePointFormat => 'day',
         NewTitle                    => 'some new title',
         NewStateID                  => 2,
         NewPriorityID               => 3,
@@ -176,6 +177,11 @@ $Self->True(
 $Self->True(
     !$GetParam{ScheduleLastRunUnixTime} || '',
     "JobGet() - ScheduleLastRunUnixTime",
+);
+
+$Self->True(
+    $GetParam{TicketCreateTimeNewerMinutes} || '',
+    "JobGet() - TicketCreateTimeNewerMinutes",
 );
 
 # Try to add the same JobName double
