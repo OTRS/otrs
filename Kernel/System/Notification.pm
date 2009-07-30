@@ -2,7 +2,7 @@
 # Kernel/System/Notification.pm - lib for notifications
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Notification.pm,v 1.31 2009-07-17 09:10:31 martin Exp $
+# $Id: Notification.pm,v 1.32 2009-07-30 16:11:10 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.31 $) [1];
+$VERSION = qw($Revision: 1.32 $) [1];
 
 =head1 NAME
 
@@ -167,11 +167,11 @@ sub NotificationGet {
         );
     }
     if ( !%Data && !$Param{Loop} ) {
-        $Self->{LogObject}->Log(
-            Priority => 'notice',
-            Message  => "Can't find notification for $Type and $Language, try it again with en!",
+        return $Self->NotificationGet(
+            %Param,
+            Name => 'en::' . $Type,
+            Loop => $Language,
         );
-        return $Self->NotificationGet( %Param, Name => 'en::' . $Type, Loop => $Language );
     }
     elsif ( !%Data && $Param{Loop} ) {
         $Self->{LogObject}->Log(
@@ -219,6 +219,10 @@ sub NotificationList {
     # create list
     my %List = ();
     for my $Language ( keys %Languages ) {
+
+        # show only 'en' and not en_*
+        next if $Language =~ /^en_.+?$/;
+
         for my $Type ( keys %Types ) {
             $List{ $Language . '::' . $Type } = $Language . '::' . $Type;
         }
@@ -231,6 +235,14 @@ sub NotificationList {
     );
 
     while ( my @Data = $Self->{DBObject}->FetchrowArray() ) {
+
+        # show only 'en' and not en_*
+        next if $Data[3] =~ /^en_.+?$/;
+
+        # do not use customer notifications this way anymore (done by notification event now)
+        next if $Data[1] =~ /Customer::(Owner|Queue|State)Update/;
+
+        # remember list
         $List{ $Data[3] . '::' . $Data[1] } = $Data[3] . '::' . $Data[1];
     }
     return %List;
@@ -304,6 +316,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.31 $ $Date: 2009-07-17 09:10:31 $
+$Revision: 1.32 $ $Date: 2009-07-30 16:11:10 $
 
 =cut
