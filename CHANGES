@@ -2,12 +2,23 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.943 2009-07-28 23:20:10 martin Exp $
+# $Id: CHANGES,v 1.944 2009-07-30 14:42:46 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
+
+2.4.3 (2009/08/??)
+ - (2009/07/30) Fixed bug#Fixed bug# 4039 - Use of uninitialized value ->
+    Kernel/Modules/AdminPackageManager.pm line.
+ - (2009/07/30) Fixed bug#4052 - Error composing a message in a Ticket with
+    "empty answer" if $QData{"OrigFrom"} is used in config option
+    Ticket::Frontend::ResponseFormat.
+ - (2009/07/30) Fixed bug#4048 - Subject starts with "Re:" when creating new
+    ticket via EmailTicket.
+ - (2009/07/30) Fixed bug#4031 - Generic Agent does not handle ticket create
+    time settings.
 
 2.4.2 (2009/07/29)
  - (2009/07/28) Added "bin/otrs.CacheDelete.pl" to remove all cached items.
