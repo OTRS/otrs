@@ -2,7 +2,7 @@
 # CustomerTicketZoom.dtl - provides HTML TicketZoom for CustomerTicketZoom.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketZoom.dtl,v 1.41 2009-07-18 15:19:33 martin Exp $
+# $Id: CustomerTicketZoom.dtl,v 1.42 2009-07-31 17:43:07 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -136,9 +136,9 @@ $Data{"Article::Text"}
         <script src="$Config{"Frontend::YUIPath"}build/element/element-min.js" type="text/javascript"></script>
         <script language="JavaScript" type="text/javascript">
 <!--
-        function IframeAutoHeight() {
+        function IframeAutoHeight( IframeID ) {
         var Dom = YAHOO.util.Dom;
-        var iframe = new YAHOO.util.Element('iframe');
+        var iframe = new YAHOO.util.Element( IframeID );
         var newHeight = iframe.get('element').contentWindow.document.body.scrollHeight;
         if ( !newHeight || isNaN( newHeight ) ) {
         newHeight = $Config{"Ticket::Frontend::HTMLArticleHeightDefault"};
@@ -150,12 +150,7 @@ $Data{"Article::Text"}
         }
         //-->
         </script>
-        <iframe width="100%" frameborder="0" border="0" marginwidth="0" marginheight="0"
-        leftmargin="0" topmargin="0" style="width: 100%;" id="iframe"
-        onload="IframeAutoHeight();"
-        src="$Env{"Baselink"}Action=CustomerTicketAttachment&Subaction=HTMLView&ArticleID=$QData{"ArticleID"}&FileID=$QData{"AttachmentIDOfHTMLBody"}"
-        >
-        </iframe>
+        <iframe width="100%" frameborder="0" border="0" marginwidth="0" marginheight="0" leftmargin="0" topmargin="0" style="width: 100%;" id="iframe$QData{"ArticleID"}" onload="IframeAutoHeight('iframe$QData{"ArticleID"}');" src="$Env{"Baselink"}Action=CustomerTicketAttachment&Subaction=HTMLView&ArticleID=$QData{"ArticleID"}&FileID=$QData{"AttachmentIDOfHTMLBody"}"></iframe>
         </div>
 <!-- dtl:block:BodyHTML -->
       </p>
