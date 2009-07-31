@@ -2,7 +2,7 @@
 # scripts/test/Layout.t - layout module testscript
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.t,v 1.25 2009-07-18 15:23:54 martin Exp $
+# $Id: Layout.t,v 1.26 2009-07-31 22:41:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -576,8 +576,7 @@ for my $Test (@Tests) {
 
 for my $Test (@Tests) {
     my $HTML = $Self->{LayoutObject}->HTMLLinkQuote(
-        Text   => $Test->{String},
-        Target => '_blank',
+        String => $Test->{String},
     );
     $Self->Is(
         $HTML || '',
