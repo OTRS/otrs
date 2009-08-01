@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.409 2009-08-01 11:56:59 martin Exp $
+# $Id: Ticket.pm,v 1.410 2009-08-01 12:01:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.409 $) [1];
+$VERSION = qw($Revision: 1.410 $) [1];
 
 =head1 NAME
 
@@ -5002,16 +5002,17 @@ sub LockSet {
                 UserID => $Ticket{OwnerID},
                 Valid  => 1,
             );
-            next if !$Preferences{UserSendLockTimeoutNotification};
 
             # send
-            $Self->SendAgentNotification(
-                Type                  => 'LockTimeout',
-                RecipientID           => $Ticket{OwnerID},
-                CustomerMessageParams => {},
-                TicketID              => $Param{TicketID},
-                UserID                => $Param{UserID},
-            );
+            if ( $Preferences{UserSendLockTimeoutNotification} ) {
+                $Self->SendAgentNotification(
+                    Type                  => 'LockTimeout',
+                    RecipientID           => $Ticket{OwnerID},
+                    CustomerMessageParams => {},
+                    TicketID              => $Param{TicketID},
+                    UserID                => $Param{UserID},
+                );
+            }
         }
     }
 
@@ -7381,6 +7382,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.409 $ $Date: 2009-08-01 11:56:59 $
+$Revision: 1.410 $ $Date: 2009-08-01 12:01:41 $
 
 =cut
