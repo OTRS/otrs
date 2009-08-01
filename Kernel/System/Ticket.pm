@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.408 2009-07-23 09:13:21 martin Exp $
+# $Id: Ticket.pm,v 1.409 2009-08-01 11:56:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.408 $) [1];
+$VERSION = qw($Revision: 1.409 $) [1];
 
 =head1 NAME
 
@@ -681,21 +681,24 @@ sub TicketSubjectBuild {
 
     my $Subject = $Param{Subject} || '';
 
+    # cleanup of subject, remove existing ticket numbers and reply indentifier
     $Subject = $Self->TicketSubjectClean(%Param);
 
+    # get config options
     my $TicketHook        = $Self->{ConfigObject}->Get('Ticket::Hook');
     my $TicketHookDivider = $Self->{ConfigObject}->Get('Ticket::HookDivider');
     my $TicketSubjectRe   = $Self->{ConfigObject}->Get('Ticket::SubjectRe');
 
+    # return subject for new tickets
     if ( $Param{Type} && $Param{Type} eq 'New' ) {
-        $Subject = "[$TicketHook$TicketHookDivider$Param{TicketNumber}] " . $Subject;
-    }
-    else {
-        $Subject
-            = "$TicketSubjectRe: [$TicketHook$TicketHookDivider$Param{TicketNumber}] " . $Subject;
+        return "[$TicketHook$TicketHookDivider$Param{TicketNumber}] " . $Subject;
     }
 
-    return $Subject;
+    # return subject for existing tickets
+    if ($TicketSubjectRe) {
+        $TicketSubjectRe .= ': ';
+    }
+    return $TicketSubjectRe . "[$TicketHook$TicketHookDivider$Param{TicketNumber}] " . $Subject;
 }
 
 =item TicketSubjectClean()
@@ -722,30 +725,39 @@ sub TicketSubjectClean {
 
     my $Subject = $Param{Subject} || '';
 
-    # get ticket data
+    # get config options
     my $TicketHook        = $Self->{ConfigObject}->Get('Ticket::Hook');
     my $TicketHookDivider = $Self->{ConfigObject}->Get('Ticket::HookDivider');
     my $TicketSubjectSize = $Self->{ConfigObject}->Get('Ticket::SubjectSize') || 120;
     my $TicketSubjectRe   = $Self->{ConfigObject}->Get('Ticket::SubjectRe');
 
-    $Subject =~ s/\[$TicketHook: $Param{TicketNumber}\] //g;
-    $Subject =~ s/\[$TicketHook:$Param{TicketNumber}\] //g;
-    $Subject =~ s/\[$TicketHook$TicketHookDivider$Param{TicketNumber}\] //g;
+    # remove all possible ticket hook formats with []
+    $Subject =~ s/\[$TicketHook: $Param{TicketNumber}\]\s//g;
+    $Subject =~ s/\[$TicketHook:$Param{TicketNumber}\]\s//g;
+    $Subject =~ s/\[$TicketHook$TicketHookDivider$Param{TicketNumber}\]\s//g;
 
+    # remove all ticket numbers with []
     if ( $Self->{ConfigObject}->Get('Ticket::SubjectCleanAllNumbers') ) {
-        $Subject =~ s/\[$TicketHook$TicketHookDivider\d+?\] //g;
+        $Subject =~ s/\[$TicketHook$TicketHookDivider\d+?\]\s//g;
     }
 
-    $Subject =~ s/$TicketHook: $Param{TicketNumber} //g;
-    $Subject =~ s/$TicketHook:$Param{TicketNumber} //g;
-    $Subject =~ s/$TicketHook$TicketHookDivider$Param{TicketNumber} //g;
+    # remove all possible ticket hook formats without []
+    $Subject =~ s/$TicketHook: $Param{TicketNumber}\s//g;
+    $Subject =~ s/$TicketHook:$Param{TicketNumber}\s//g;
+    $Subject =~ s/$TicketHook$TicketHookDivider$Param{TicketNumber}\s//g;
 
+    # remove all ticket numbers without []
     if ( $Self->{ConfigObject}->Get('Ticket::SubjectCleanAllNumbers') ) {
-        $Subject =~ s/$TicketHook$TicketHookDivider\d+? //g;
+        $Subject =~ s/$TicketHook$TicketHookDivider\d+?\s//g;
     }
 
-    $Subject =~ s/^(..(\[\d+\])?: )+//;
-    $Subject =~ s/^($TicketSubjectRe(\[\d+\])?: )+//;
+    # remove leading "..:\s" and "..[\d+]:\s" e. g. "Re: " or "Re[5]: "
+    $Subject =~ s/^(..(\[\d+\])?:\s)+//;
+
+    # remove leading number with configured "RE:\s" or "RE[\d+]:\s" e. g. "RE: " or "RE[4]: "
+    $Subject =~ s/^($TicketSubjectRe(\[\d+\])?:\s)+//;
+
+    # resize subject based on config
     $Subject =~ s/^(.{$TicketSubjectSize}).*$/$1 [...]/;
 
     return $Subject;
@@ -7369,6 +7381,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.408 $ $Date: 2009-07-23 09:13:21 $
+$Revision: 1.409 $ $Date: 2009-08-01 11:56:59 $
 
 =cut

@@ -2,7 +2,7 @@
 # Ticket.t - ticket module testscript
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.t,v 1.44 2009-02-20 12:05:54 mh Exp $
+# $Id: Ticket.t,v 1.45 2009-08-01 11:56:59 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,6 +21,8 @@ $Self->{ConfigObject}->Set(
 );
 $Self->{TicketObject} = Kernel::System::Ticket->new( %{$Self} );
 $Self->{QueueObject}  = Kernel::System::Queue->new( %{$Self} );
+
+# check GetTNByString
 my $Tn = $Self->{TicketObject}->TicketCreateNumber() || 'NONE!!!';
 my $String = "Re: " . $Self->{TicketObject}->TicketSubjectBuild(
     TicketNumber => $Tn,
@@ -41,7 +43,11 @@ $Self->False(
     $Self->{TicketObject}->GetTNByString("Ticket#: 1234567") || 0,
     "GetTNByString() (DateChecksum: false)",
 );
+
+# remember Ticket::SubjectRe to reset it later
 my $OldTicketSubjectRe = $Self->{ConfigObject}->Get('Ticket::SubjectRe');
+
+# check Ticket::SubjectRe with "RE"
 $Self->{ConfigObject}->Set(
     Key   => 'Ticket::SubjectRe',
     Value => 'RE',
@@ -66,7 +72,7 @@ $NewSubject = $Self->{TicketObject}->TicketSubjectClean(
     TicketNumber => '2004040510440485',
     Subject      => 'Re[5]: [Ticket#: 2004040510440485] Re: RE: WG: Some Subject',
 );
-if ( $NewSubject !~ /^Re:/ ) {
+if ( $NewSubject !~ /^(Re:|\[Ticket)/ ) {
     $Self->True(
         1,
         "TicketSubjectClean() (Re[5]: $NewSubject)",
@@ -78,6 +84,17 @@ else {
         "TicketSubjectClean() (Re[5]: $NewSubject)",
     );
 }
+$NewSubject = $Self->{TicketObject}->TicketSubjectBuild(
+    TicketNumber => '2004040510440485',
+    Subject      => 'Re: [Ticket#: 2004040510440485] Re: RE: WG: Some Subject',
+);
+$Self->Is(
+    $NewSubject,
+    'RE: [Ticket#2004040510440485] Some Subject',
+    "TicketSubjectBuild() ($NewSubject)",
+);
+
+# check Ticket::SubjectRe with "Antwort"
 $Self->{ConfigObject}->Set(
     Key   => 'Ticket::SubjectRe',
     Value => 'Antwort',
@@ -86,7 +103,7 @@ $NewSubject = $Self->{TicketObject}->TicketSubjectClean(
     TicketNumber => '2004040510440485',
     Subject      => 'Antwort: [Ticket#: 2004040510440485] Antwort: Antwort: Some Subject2',
 );
-if ( $NewSubject !~ /^Antwort:/ ) {
+if ( $NewSubject !~ /^(Antwort:|\[Ticket)/ ) {
     $Self->True(
         1,
         "TicketSubjectClean() (Antwort: $NewSubject)",
@@ -98,6 +115,48 @@ else {
         "TicketSubjectClean() (Antwort: $NewSubject)",
     );
 }
+$NewSubject = $Self->{TicketObject}->TicketSubjectBuild(
+    TicketNumber => '2004040510440485',
+    Subject      => '[Ticket#:2004040510440485] Antwort: Re: Antwort: Some Subject2',
+);
+$Self->Is(
+    $NewSubject,
+    'Antwort: [Ticket#2004040510440485] Re: Antwort: Some Subject2',
+    "TicketSubjectBuild() ($NewSubject)",
+);
+
+# check Ticket::SubjectRe with "Antwort"
+$Self->{ConfigObject}->Set(
+    Key   => 'Ticket::SubjectRe',
+    Value => '',
+);
+$NewSubject = $Self->{TicketObject}->TicketSubjectClean(
+    TicketNumber => '2004040510440485',
+    Subject      => 'RE: [Ticket#: 2004040510440485] Antwort: Antwort: Some Subject2',
+);
+if ( $NewSubject !~ /^(\[Ticket:#: 2004040510440485\].+?|RE\s)/ ) {
+    $Self->True(
+        1,
+        "TicketSubjectClean() ($NewSubject)",
+    );
+}
+else {
+    $Self->True(
+        0,
+        "TicketSubjectClean() ($NewSubject)",
+    );
+}
+$NewSubject = $Self->{TicketObject}->TicketSubjectBuild(
+    TicketNumber => '2004040510440485',
+    Subject      => 'Re: [Ticket#: 2004040510440485] Re: Antwort: Some Subject2',
+);
+$Self->Is(
+    $NewSubject,
+    '[Ticket#2004040510440485] Antwort: Some Subject2',
+    "TicketSubjectBuild() ($NewSubject)",
+);
+
+# reset default Ticket::SubjectRe
 $Self->{ConfigObject}->Set(
     Key   => 'Ticket::SubjectRe',
     Value => $OldTicketSubjectRe,
