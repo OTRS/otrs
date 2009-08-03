@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.161 2009-07-30 15:37:23 martin Exp $
+# $Id: Layout.pm,v 1.162 2009-08-03 07:50:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.161 $) [1];
+$VERSION = qw($Revision: 1.162 $) [1];
 
 =head1 NAME
 
@@ -1252,12 +1252,29 @@ sub ChallengeTokenCheck {
 
     # get challenge token and check it
     my $ChallengeToken = $Self->{ParamObject}->GetParam( Param => 'ChallengeToken' ) || '';
-    if ( $ChallengeToken ne $Self->{UserChallengeToken} ) {
-        $Self->FatalError(
-            Message => 'Invalid Challenge Token!',
-        );
+
+    # check regular ChallengeToken
+    return 1 if $ChallengeToken eq $Self->{UserChallengeToken};
+
+    # check ChallengeToken of all own sessions
+    my @Sessions = $Self->{SessionObject}->GetAllSessionIDs();
+    for my $SessionID (@Sessions) {
+        my %Data = $Self->{SessionObject}->GetSessionIDData( SessionID => $SessionID );
+        next if !$Data{UserID};
+        next if $Data{UserID} ne $Self->{UserID};
+        next if !$Data{UserChallengeToken};
+
+        # check ChallengeToken
+        return 1 if $ChallengeToken eq $Data{UserChallengeToken};
     }
-    return 1;
+
+    # no valid token found
+    $Self->FatalError(
+        Message => 'Invalid Challenge Token!',
+    );
+
+    # ChallengeToken ok
+    return;
 }
 
 sub FatalError {
@@ -4297,6 +4314,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.161 $ $Date: 2009-07-30 15:37:23 $
+$Revision: 1.162 $ $Date: 2009-08-03 07:50:47 $
 
 =cut
