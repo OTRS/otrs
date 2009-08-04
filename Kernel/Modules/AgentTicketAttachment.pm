@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketAttachment.pm - to get the attachments
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketAttachment.pm,v 1.20 2009-07-26 14:58:49 martin Exp $
+# $Id: AgentTicketAttachment.pm,v 1.21 2009-08-04 06:51:23 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use warnings;
 use Kernel::System::FileTemp;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.20 $) [1];
+$VERSION = qw($Revision: 1.21 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -27,13 +27,11 @@ sub new {
     bless( $Self, $Type );
 
     # check needed objects
-    for (qw(ParamObject DBObject TicketObject LayoutObject LogObject ConfigObject)) {
+    for (qw(ParamObject DBObject TicketObject LayoutObject LogObject EncodeObject ConfigObject)) {
         if ( !$Self->{$_} ) {
             $Self->{LayoutObject}->FatalError( Message => "Got no $_!" );
         }
     }
-
-    $Self->{FileTempObject} = Kernel::System::FileTemp->new(%Param);
 
     # get ArticleID
     $Self->{ArticleID} = $Self->{ParamObject}->GetParam( Param => 'ArticleID' );
@@ -103,7 +101,8 @@ sub Run {
     if ( $Self->{Viewer} && $Viewer ) {
 
         # write tmp file
-        my ( $FH, $Filename ) = $Self->{FileTempObject}->TempFile();
+        my $FileTempObject = Kernel::System::FileTemp->new( %{$Self} );
+        my ( $FH, $Filename ) = $FileTempObject->TempFile();
         if ( open( DATA, '>', $Filename ) ) {
             print DATA $Data{Content};
             close(DATA);
