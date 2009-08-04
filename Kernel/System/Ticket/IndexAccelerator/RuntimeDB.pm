@@ -3,7 +3,7 @@
 # queue ticket index module
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: RuntimeDB.pm,v 1.68 2009-03-16 08:21:13 martin Exp $
+# $Id: RuntimeDB.pm,v 1.69 2009-08-04 08:49:40 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 sub TicketAcceleratorUpdate {
     my ( $Self, %Param ) = @_;
@@ -75,7 +75,7 @@ sub TicketAcceleratorIndex {
     $Queues{TicketsShown} = 0;
     $Queues{TicketsAvail} = 0;
 
-    # prepar "All tickets: ??" in Queue
+    # prepare "All tickets: ??" in Queue
     my @ViewableLockIDs = $Self->{LockObject}->LockViewableLock(
         Type => 'ID',
     );
@@ -138,7 +138,7 @@ sub TicketAcceleratorIndex {
         }
     }
 
-    # prepar the tickets in Queue bar (all data only with my/your Permission)
+    # prepare the tickets in Queue bar (all data only with my/your Permission)
     $SQL = "SELECT st.queue_id, sq.name, min(st.create_time_unix), count(*) FROM "
         . " ticket st, queue sq WHERE "
         . " st.ticket_state_id IN ( ${\(join ', ', @ViewableStateIDs)} ) AND "
