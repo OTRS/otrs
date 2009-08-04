@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.162 2009-08-03 07:50:47 martin Exp $
+# $Id: Layout.pm,v 1.163 2009-08-04 17:58:43 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,11 +20,11 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.162 $) [1];
+$VERSION = qw($Revision: 1.163 $) [1];
 
 =head1 NAME
 
-Kernel::Output::HTML::Layout - all generic html finctions
+Kernel::Output::HTML::Layout - all generic html functions
 
 =head1 SYNOPSIS
 
@@ -4314,6 +4314,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.162 $ $Date: 2009-08-03 07:50:47 $
+$Revision: 1.163 $ $Date: 2009-08-04 17:58:43 $
 
 =cut
