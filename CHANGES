@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.946 2009-08-01 12:02:39 martin Exp $
+# $Id: CHANGES,v 1.947 2009-08-05 15:24:09 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.4.3 (2009/08/??)
+ - (2009/08/05) Fixed bug#4107 - OpenSearch URL incorrect in Customer
+    Interface.
  - (2009/08/01) Fixed bug#4086 - Kernel/System/Ticket.pm - next not in loop.
  - (2009/08/01) Fixed bug#2795 - Modification on SubjectRe (possible use of
     "" in Ticket::SubjectRe).
@@ -1074,7 +1076,7 @@
     };
 
  - (2007/12/10) Updated MIME::Tools to current CPAN version 5.425.
- - (2007/12/06) Fixed bug# 2568 - Problems with attachement downloads if the
+ - (2007/12/06) Fixed bug# 2568 - Problems with attachment downloads if the
     active element filter is enabled.
  - (2007/12/05) Fixed bug# 1399 - Missing Translation. Added some translation to
     customer interface.
@@ -1292,7 +1294,7 @@
     like# 2612.
  - (2008/01/08) Fixed bug# 2609 - Temp files are not removed after process was
     finished under windows.
- - (2008/01/07) Fixed bug# 1893 - Attachement Storage fails with
+ - (2008/01/07) Fixed bug# 1893 - Attachment Storage fails with
     ArticleStorageFS in win32 with ? in filenames.
  - (2008/01/03) Fixed bug# 2491 - OTRS crash's after initial login on fresh
     installation on fedora 7, fedora 8, altlinux and ActiveState Perl on win32.
@@ -2637,7 +2639,7 @@
  - (2005/06/13) fixed bug 773 - NotificationAgentOnline needs TimeObject
  - (2005/06/12) fixed bug 776 - when adding a new user I got error message
  - (2005/06/11) added XML::Parser support for Kernel::System::XML
- - (2005/06/07) fixed bug 771 - Customer Web Interface - Attachement
+ - (2005/06/07) fixed bug 771 - Customer Web Interface - Attachment
     View Error' Kernel/Modules/CustomerTicketZoom.pm
  - (2005/06/06) added experimental db2 support - thanks to Friedmar Moch!
  - (2005/06/06) removed foreign key for queue_id in pop3_account, fixed
