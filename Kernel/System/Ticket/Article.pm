@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.226 2009-07-30 11:21:04 martin Exp $
+# $Id: Article.pm,v 1.227 2009-08-07 10:22:47 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.226 $) [1];
+$VERSION = qw($Revision: 1.227 $) [1];
 
 =head1 NAME
 
@@ -1515,7 +1515,8 @@ sub ArticleGet {
         . ' st.responsible_user_id, sa.article_type_id, '
         . ' sa.a_freekey1, sa.a_freetext1, sa.a_freekey2, sa.a_freetext2, '
         . ' sa.a_freekey3, sa.a_freetext3, st.ticket_answered, '
-        . ' sa.incoming_time, sa.id, st.freekey1, st.freetext1, st.freekey2, st.freetext2,'
+        . ' sa.incoming_time, sa.id, '
+        . ' st.freekey1, st.freetext1, st.freekey2, st.freetext2,'
         . ' st.freekey3, st.freetext3, st.freekey4, st.freetext4,'
         . ' st.freekey5, st.freetext5, st.freekey6, st.freetext6,'
         . ' st.freekey7, st.freetext7, st.freekey8, st.freetext8, '
@@ -2963,7 +2964,7 @@ get plain message/email
 
 =item ArticleWriteAttachment()
 
-write an article attachemnt to storage
+write an article attachment to storage
 
     $TicketObject->ArticleWriteAttachment(
         Content            => $ContentAsString,
@@ -3010,6 +3011,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.226 $ $Date: 2009-07-30 11:21:04 $
+$Revision: 1.227 $ $Date: 2009-08-07 10:22:47 $
 
 =cut
