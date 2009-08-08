@@ -2,7 +2,7 @@
 # Kernel/Modules/AdminGenericAgent.pm - admin generic agent interface
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AdminGenericAgent.pm,v 1.68 2009-05-28 13:57:57 mh Exp $
+# $Id: AdminGenericAgent.pm,v 1.69 2009-08-08 14:55:10 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use Kernel::System::Type;
 use Kernel::System::GenericAgent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.68 $) [1];
+$VERSION = qw($Revision: 1.69 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -857,7 +857,7 @@ sub Run {
         for my $ID ( 1 .. 16 ) {
             if ( ref( $Self->{ConfigObject}->Get( 'TicketFreeKey' . $ID ) ) eq 'HASH' ) {
 
-                # $Falg to shcw the hole freefield block
+                # $Flag to show the hole freefield block
                 if ($Flag) {
                     $Self->{LayoutObject}->Block( Name => 'NewTicketFreeField', );
                     $Flag = 0;
