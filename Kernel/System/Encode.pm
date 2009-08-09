@@ -2,7 +2,7 @@
 # Kernel/System/Encode.pm - character encodings
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Encode.pm,v 1.40 2009-04-03 13:56:51 mh Exp $
+# $Id: Encode.pm,v 1.41 2009-08-09 23:14:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Encode;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.40 $) [1];
+$VERSION = qw($Revision: 1.41 $) [1];
 
 =head1 NAME
 
@@ -185,8 +185,18 @@ sub Convert {
         Encode::_utf8_off( $Param{Text} );
     }
 
+    # set check for "Handling Malformed Data", for more info see "perldoc Encode -> CHECK"
+
+    # 1 = methods will die on error immediately with an error
+    my $Check = 1;
+
+    # 0 = will put a substitution character in place of a malformed character
+    if ( $Param{Force} ) {
+        $Check = 0;
+    }
+
     # convert string
-    if ( !eval { Encode::from_to( $Param{Text}, $Param{From}, $Param{To}, 1 ) } ) {
+    if ( !eval { Encode::from_to( $Param{Text}, $Param{From}, $Param{To}, $Check ) } ) {
         print STDERR "Charset encode '$Param{From}' -=> '$Param{To}' ($Param{Text})"
             . " not supported!\n";
         return $Param{Text};
@@ -336,6 +346,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.40 $ $Date: 2009-04-03 13:56:51 $
+$Revision: 1.41 $ $Date: 2009-08-09 23:14:27 $
 
 =cut
