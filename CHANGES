@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.947 2009-08-05 15:24:09 ub Exp $
+# $Id: CHANGES,v 1.948 2009-08-10 01:37:08 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,12 @@
 # --
 
 2.4.3 (2009/08/??)
+ - (2009/08/10) Fixed bug#4116 - Error when bouncing welcome ticket.
+ - (2009/08/10) Fixed bug#3870 - OTRS utf-8 to iso-8859-1 conversion error
+    messages on every incoming mail.
+ - (2009/08/05) Fixed bug#4089 - root on OTRS Server gets an e-mail every 10
+    minutes (Can't call method "FETCH" on an undefined value at ...Net/LDAP.pm
+    line 274)
  - (2009/08/05) Fixed bug#4107 - OpenSearch URL incorrect in Customer
     Interface.
  - (2009/08/01) Fixed bug#4086 - Kernel/System/Ticket.pm - next not in loop.
