@@ -2,7 +2,7 @@
 # Kernel/Modules/AgentTicketPrint.pm - print layout for agent interface
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: AgentTicketPrint.pm,v 1.62 2009-04-23 14:11:27 mh Exp $
+# $Id: AgentTicketPrint.pm,v 1.63 2009-08-10 17:56:02 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::LinkObject;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -397,7 +397,7 @@ sub _PDFOutputTicketInfos {
         },
     ];
 
-    # add responible row, if feature is enabled
+    # add responsible row, if feature is enabled
     if ( $Self->{ConfigObject}->Get('Ticket::Responsible') ) {
         my $Responsible = '-';
         if ( $Ticket{Responsible} ) {
@@ -1083,7 +1083,7 @@ sub _PDFOutputArticles {
 sub _HTMLMask {
     my ( $Self, %Param ) = @_;
 
-    # output responible, if feature is enabled
+    # output responsible, if feature is enabled
     if ( $Self->{ConfigObject}->Get('Ticket::Responsible') ) {
         my $Responsible = '-';
         if ( $Param{Responsible} ) {
