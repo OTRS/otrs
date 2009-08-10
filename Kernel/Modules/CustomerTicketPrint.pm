@@ -2,7 +2,7 @@
 # Kernel/Modules/CustomerTicketPrint.pm - print layout for customer interface
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CustomerTicketPrint.pm,v 1.25 2009-04-23 13:47:27 mh Exp $
+# $Id: CustomerTicketPrint.pm,v 1.26 2009-08-10 19:10:51 ub Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -19,7 +19,7 @@ use Kernel::System::User;
 use Kernel::System::PDF;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.25 $) [1];
+$VERSION = qw($Revision: 1.26 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -865,7 +865,7 @@ sub _HTMLMask {
             $Self->{LayoutObject}->Block(
                 Name => 'TicketFreeTime',
                 Data => {
-                    %Param,,
+                    %Param,
                     TicketFreeTimeKey => $Self->{ConfigObject}->Get( 'TicketFreeTimeKey' . $Count ),
                     TicketFreeTime    => $Param{ 'TicketFreeTime' . $Count },
                     Count             => $Count,
