@@ -2,7 +2,7 @@
 # Kernel/System/HTMLUtils.pm - creating and modifying html strings
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: HTMLUtils.pm,v 1.9 2009-08-06 04:09:07 martin Exp $
+# $Id: HTMLUtils.pm,v 1.10 2009-08-10 01:09:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 =head1 NAME
 
@@ -96,7 +96,7 @@ sub ToAscii {
     my $LinkList = '';
     my $Counter  = 0;
     $Param{String} =~ s{
-        <a\Whref=("|')(.+?)("|')(|.+?)>
+        <a\Whref=("|')(.+?)("|')(.*?)>
     }
     {
         my $Link = $2;
@@ -105,11 +105,49 @@ sub ToAscii {
         "[$Counter]";
     }egxi;
 
+    # pre process <blockquote> and <div style=\"cite\"
+    my %Cite;
+    $Counter  = 0;
+    $Param{String} =~ s{
+        <blockquote(.*?)>(.+?)</blockquote>
+    }
+    {
+        my $Ascii = $Self->ToAscii(
+            String => $2,
+        );
+        # force line braking
+        if ( length $Ascii > 78 ) {
+            $Ascii =~ s/(.{4,78})(?:\s|\z)/$1\n/gm;
+        }
+        $Ascii =~ s/^(.*?)$/> $1/gm;
+        $Counter++;
+        my $Key     = "######Cite::$Counter######";
+        $Cite{$Key} = $Ascii;
+        $Key;
+    }segxmi;
+    $Param{String} =~ s{
+        <div\s{1,5}type="cite".+?>(.+?)</div>
+    }
+    {
+        my $Ascii = $Self->ToAscii(
+            String => $1,
+        );
+        # force line braking
+        if ( length $Ascii > 78 ) {
+            $Ascii =~ s/(.{4,78})(?:\s|\z)/$1\n/gm;
+        }
+        $Ascii =~ s/^(.*?)$/> $1/gm;
+        $Counter++;
+        my $Key     = "######Cite::$Counter######";
+        $Cite{$Key} = $Ascii;
+        $Key;
+    }segxmi;
+
     # remember <pre> and <code> tags
     my %One2One;
     $Counter  = 0;
     $Param{String} =~ s{
-        <(pre|code)(|.+?)>(.+?)</(pre|code)(|.+?)>
+        <(pre|code)(.*?)>(.+?)</(pre|code)(.*?)>
     }
     {
         my $Content = $3;
@@ -495,6 +533,11 @@ sub ToAscii {
         $Param{String} =~ s/(.{4,78})(?:\s|\z)/$1\n/gm;
     }
 
+    # remember <blockquote> and <div style=\"cite\"
+    for my $Key ( keys %Cite ) {
+        $Param{String} =~ s/$Key/$Cite{$Key}\n/g;
+    }
+
     # add extracted links
     if ($LinkList) {
         $Param{String} .= "\n\n" . $LinkList;
@@ -591,7 +634,7 @@ sub DocumentStrip {
 
     $Param{String} =~ s/^<\!DOCTYPE\sHTML\sPUBLIC.+?>//gi;
     $Param{String} =~ s/<head>.+?<\/head>//gsi;
-    $Param{String} =~ s/<(html|body)(.+?|)>//gi;
+    $Param{String} =~ s/<(html|body)(.*?)>//gi;
     $Param{String} =~ s/<\/(html|body)>//gi;
 
     return $Param{String};
@@ -626,14 +669,14 @@ sub DocumentStyleCleanup {
     # replace MS Word 12 <p|div> with class "MsoNormal" by using <br/> because
     # it's not used as <p><div> (margin:0cm; margin-bottom:.0001pt;)
     $Param{String} =~ s{
-        <p\s{1,3}class=(|"|')MsoNormal(|"|')(|.+?)>(.+?)</p>
+        <p\s{1,3}class=(|"|')MsoNormal(|"|')(.*?)>(.+?)</p>
     }
     {
         $4 . '<br/>';
     }segxmi;
 
     $Param{String} =~ s{
-        <div\s{1,3}class=(|"|')MsoNormal(|"|')(|.+?)>(.+?)</div>
+        <div\s{1,3}class=(|"|')MsoNormal(|"|')(.*?)>(.+?)</div>
     }
     {
         $4 . '<br/>';
@@ -645,7 +688,7 @@ sub DocumentStyleCleanup {
     my $Style = "border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt";
     for (1..10) {
         $Param{String} =~ s{
-            <blockquote(|.+?)>(.+?)</blockquote>
+            <blockquote(.*?)>(.+?)</blockquote>
         }
         {
             "<div $1 style=\"$Style\">$2</div>";
@@ -795,6 +838,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.9 $ $Date: 2009-08-06 04:09:07 $
+$Revision: 1.10 $ $Date: 2009-08-10 01:09:14 $
 
 =cut

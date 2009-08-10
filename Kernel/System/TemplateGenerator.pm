@@ -2,7 +2,7 @@
 # Kernel/System/TemplateGenerator.pm - generate salutations, signatures and responses
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: TemplateGenerator.pm,v 1.28 2009-07-26 15:08:58 martin Exp $
+# $Id: TemplateGenerator.pm,v 1.29 2009-08-10 01:09:14 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -22,7 +22,7 @@ use Kernel::System::Notification;
 use Kernel::System::AutoResponse;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.28 $) [1];
+$VERSION = qw($Revision: 1.29 $) [1];
 
 =head1 NAME
 
@@ -1030,7 +1030,18 @@ sub _Replace {
                 my $NewOldBody = '';
                 for ( my $i = 0; $i < $Line; $i++ ) {
                     if ( $#Body >= $i ) {
-                        $NewOldBody .= "$End $Body[$i]";
+
+                        # add no quote char, do it later by using DocumentStyleCleanup()
+                        if ( $Param{RichText} ) {
+                            $NewOldBody .= $Body[$i];
+                        }
+
+                        # add "> " as quote char
+                        else {
+                            $NewOldBody .= "> $Body[$i]";
+                        }
+
+                        # add new line
                         if ( $i < ( $Line - 1 ) ) {
                             $NewOldBody .= "\n";
                         }
@@ -1040,6 +1051,23 @@ sub _Replace {
                     }
                 }
                 chomp $NewOldBody;
+
+                # html quoteing of content
+                if ( $Param{RichText} && $NewOldBody ) {
+
+                    # remove tailing new lines
+                    for (1..10) {
+                        $NewOldBody =~ s/(<br\/>)\s{0,20}$//gs;
+                    }
+
+                    # add quote
+                    $NewOldBody = "<blockquote type=\"cite\">$NewOldBody</blockquote>";
+                    $NewOldBody = $Self->{HTMLUtilsObject}->DocumentStyleCleanup(
+                        String => $NewOldBody,
+                    );
+                }
+
+                # replace tag
                 $Param{Text} =~ s/$Tag$End/$NewOldBody/g;
             }
         }
@@ -1055,13 +1083,41 @@ sub _Replace {
                 # 2002-06-14 patch of Pablo Ruiz Garcia
                 # http://lists.otrs.org/pipermail/dev/2002-June/000012.html
                 if ( $#Body >= $i ) {
-                    $NewOldBody .= "$End $Body[$i]";
+
+                    # add no quote char, do it later by using DocumentStyleCleanup()
+                    if ( $Param{RichText} ) {
+                        $NewOldBody .= $Body[$i];
+                    }
+
+                    # add "> " as quote char
+                    else {
+                        $NewOldBody .= "> $Body[$i]";
+                    }
+
+                    # add new line
                     if ( $i < ( $Line - 1 ) ) {
                         $NewOldBody .= "\n";
                     }
                 }
             }
             chomp $NewOldBody;
+
+            # html quoteing of content
+            if ( $Param{RichText} && $NewOldBody ) {
+
+                # remove tailing new lines
+                for (1..10) {
+                    $NewOldBody =~ s/(<br\/>)\s{0,20}$//gs;
+                }
+
+                # add quote
+                $NewOldBody = "<blockquote type=\"cite\">$NewOldBody</blockquote>";
+                $NewOldBody = $Self->{HTMLUtilsObject}->DocumentStyleCleanup(
+                    String => $NewOldBody,
+                );
+            }
+
+            # replace tag
             $Param{Text} =~ s/$Tag\[.+?\]$End/$NewOldBody/g;
         }
 
@@ -1164,6 +1220,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.28 $ $Date: 2009-07-26 15:08:58 $
+$Revision: 1.29 $ $Date: 2009-08-10 01:09:14 $
 
 =cut
