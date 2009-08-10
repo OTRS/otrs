@@ -2,7 +2,7 @@
 # Kernel/System/MailAccount/POP3.pm - lib for pop3 accounts
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: POP3.pm,v 1.5 2009-02-16 11:47:35 tr Exp $
+# $Id: POP3.pm,v 1.6 2009-08-10 04:05:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -17,7 +17,7 @@ use Net::POP3;
 use Kernel::System::PostMaster;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -136,24 +136,32 @@ sub Fetch {
                 }
 
                 # get message (header and body)
-                my $Lines            = $PopObject->get($Messageno);
-                my $PostMasterObject = Kernel::System::PostMaster->new(
-                    %{$Self},
-                    Email   => $Lines,
-                    Trusted => $Param{Trusted} || 0,
-                    Debug   => $Debug,
-                );
-                my @Return = $PostMasterObject->Run( QueueID => $Param{QueueID} || 0 );
-                if ( !$Return[0] ) {
-                    my $Lines = $PopObject->get($Messageno);
-                    my $File = $Self->_ProcessFailed( Email => $Lines );
+                my $Lines = $PopObject->get($Messageno);
+                if ( !$Lines ) {
                     $Self->{LogObject}->Log(
                         Priority => 'error',
-                        Message  => "$AuthType: Can't process mail, see log sub system ("
-                            . "$File, report it on http://bugs.otrs.org/)!",
+                        Message  => "$AuthType: Can't process mail, email no $Messageno is empty!",
                     );
                 }
-                undef $PostMasterObject;
+                else {
+                    my $PostMasterObject = Kernel::System::PostMaster->new(
+                        %{$Self},
+                        Email   => $Lines,
+                        Trusted => $Param{Trusted} || 0,
+                        Debug   => $Debug,
+                    );
+                    my @Return = $PostMasterObject->Run( QueueID => $Param{QueueID} || 0 );
+                    if ( !$Return[0] ) {
+                        my $Lines = $PopObject->get($Messageno);
+                        my $File = $Self->_ProcessFailed( Email => $Lines );
+                        $Self->{LogObject}->Log(
+                            Priority => 'error',
+                            Message  => "$AuthType: Can't process mail, see log sub system ("
+                                . "$File, report it on http://bugs.otrs.org/)!",
+                        );
+                    }
+                    undef $PostMasterObject;
+                }
 
                 # mark email to delete if it got processed
                 $PopObject->delete($Messageno);

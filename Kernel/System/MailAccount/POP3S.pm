@@ -2,7 +2,7 @@
 # Kernel/System/MailAccount/POP3S.pm - lib for pop3 accounts
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: POP3S.pm,v 1.9 2009-07-20 10:36:04 mh Exp $
+# $Id: POP3S.pm,v 1.10 2009-08-10 04:05:22 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -23,7 +23,7 @@ use IO::Socket::SSL;
 use Kernel::System::PostMaster;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -172,34 +172,42 @@ sub Fetch {
     # Net::POP3::SSLWrapper is not working with gmail, so we switched to Mail::POP3Client temporally
     #                my $Lines            = $PopObject->get($Messageno);
                 my $Line = $PopObject->HeadAndBody($Messageno);
-                my @Lines = split( /\n/, $Line );
-                for my $LineItem (@Lines) {
-                    $LineItem .= "\n";
+                if ( !$Line ) {
+                    $Self->{LogObject}->Log(
+                        Priority => 'error',
+                        Message  => "$AuthType: Can't process mail, email no $Messageno is empty!",
+                    );
                 }
-                my $PostMasterObject = Kernel::System::PostMaster->new(
-                    %{$Self},
-                    Email   => \@Lines,
-                    Trusted => $Param{Trusted} || 0,
-                    Debug   => $Debug,
-                );
-                my @Return = $PostMasterObject->Run( QueueID => $Param{QueueID} || 0 );
-                if ( !$Return[0] ) {
-
-    # Net::POP3::SSLWrapper is not working with gmail, so we switched to Mail::POP3Client temporally
-    #                    my $Lines = $PopObject->get($Messageno);
-                    my $Line = $PopObject->HeadAndBody($Messageno);
+                else {
                     my @Lines = split( /\n/, $Line );
                     for my $LineItem (@Lines) {
                         $LineItem .= "\n";
                     }
-                    my $File = $Self->_ProcessFailed( Email => \@Lines );
-                    $Self->{LogObject}->Log(
-                        Priority => 'error',
-                        Message  => "$AuthType: Can't process mail, see log sub system ("
-                            . "$File, report it on http://bugs.otrs.org/)!",
+                    my $PostMasterObject = Kernel::System::PostMaster->new(
+                        %{$Self},
+                        Email   => \@Lines,
+                        Trusted => $Param{Trusted} || 0,
+                        Debug   => $Debug,
                     );
+                    my @Return = $PostMasterObject->Run( QueueID => $Param{QueueID} || 0 );
+                    if ( !$Return[0] ) {
+
+    # Net::POP3::SSLWrapper is not working with gmail, so we switched to Mail::POP3Client temporally
+    #                    my $Lines = $PopObject->get($Messageno);
+                        my $Line = $PopObject->HeadAndBody($Messageno);
+                        my @Lines = split( /\n/, $Line );
+                        for my $LineItem (@Lines) {
+                            $LineItem .= "\n";
+                        }
+                        my $File = $Self->_ProcessFailed( Email => \@Lines );
+                        $Self->{LogObject}->Log(
+                            Priority => 'error',
+                            Message  => "$AuthType: Can't process mail, see log sub system ("
+                                . "$File, report it on http://bugs.otrs.org/)!",
+                        );
+                    }
+                    undef $PostMasterObject;
                 }
-                undef $PostMasterObject;
 
     # mark email to delete if it got processed
     # Net::POP3::SSLWrapper is not working with gmail, so we switched to Mail::POP3Client temporally
