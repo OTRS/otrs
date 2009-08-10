@@ -1261,7 +1261,7 @@ Your OTRS Team
         <Data Key="ticket_priority_id">3</Data>
         <Data Key="ticket_state_id">1</Data>
         <Data Key="title" Type="Quote">Welcome to OTRS!</Data>
-        <Data Key="create_time_unix">1173345999</Data>
+        <Data Key="create_time_unix">1249866945</Data>
         <Data Key="timeout">0</Data>
         <Data Key="until_time">0</Data>
         <Data Key="escalation_time">0</Data>
@@ -1298,9 +1298,36 @@ Your OTRS Team
 Communication with success!
 </Data>
         <Data Key="a_message_id" Type="Quote">&lt;007@localhost&gt;</Data>
-        <Data Key="incoming_time">1173345999</Data>
-        <Data Key="content_path" Type="Quote">2007/03/08</Data>
+        <Data Key="incoming_time">1249866945</Data>
+        <Data Key="content_path" Type="Quote">2009/08/10</Data>
         <Data Key="valid_id">1</Data>
+        <Data Key="create_by">1</Data>
+        <Data Key="create_time">current_timestamp</Data>
+        <Data Key="change_by">1</Data>
+        <Data Key="change_time">current_timestamp</Data>
+    </Insert>
+
+    <Insert Table="article_plain">
+        <Data Key="id" Type="AutoIncrement">1</Data>
+        <Data Key="article_id">1</Data>
+        <Data Key="body" Type="Quote">From: OTRS Feedback &lt;feedback@otrs.org&gt;
+To: Your OTRS System &lt;otrs@localhost&gt;
+Subject: Welcome to OTRS!
+
+Welcome!
+
+thank you for installing OTRS.
+
+You will find updates and patches at http://otrs.org/. Online
+documentation is available at http://doc.otrs.org/. You can also
+take advantage of our mailing lists http://lists.otrs.org/.
+
+ ((enjoy))
+
+Your OTRS Team
+--
+Communication with success!
+</Data>
         <Data Key="create_by">1</Data>
         <Data Key="create_time">current_timestamp</Data>
         <Data Key="change_by">1</Data>
