@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardProductNotify.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardProductNotify.pm,v 1.9 2009-07-22 21:50:33 martin Exp $
+# $Id: DashboardProductNotify.pm,v 1.10 2009-08-10 04:04:57 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::WebUserAgent;
 use Kernel::System::XML;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.9 $) [1];
+$VERSION = qw($Revision: 1.10 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -175,7 +175,7 @@ sub _CheckVersion {
     }
     for my $Type (qw(Version1 Version2)) {
         $Param{$Type} =~ s/\s/\./g;
-        $Param{$Type} =~ s/[A-z]//g;
+        $Param{$Type} =~ s/[A-z]/0/g;
         my @Parts = split /\./, $Param{$Type};
         $Param{$Type} = 0;
         for ( 0 .. 4 ) {
@@ -183,15 +183,14 @@ sub _CheckVersion {
                 $Param{$Type} .= sprintf( "%04d", $Parts[$_] );
             }
             else {
-                $Param{$Type} .= 9999;
+                $Param{$Type} .= '0000';
             }
         }
         $Param{$Type} = int( $Param{$Type} );
     }
 
-    if ( $Param{Version2} > $Param{Version1} ) {
-        return 1;
-    }
+    return 1 if ( $Param{Version2} > $Param{Version1} );
+
     return;
 }
 
