@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.103 2009-06-10 19:20:24 martin Exp $
+# $Id: Package.pm,v 1.104 2009-08-10 04:05:37 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Config;
 use Kernel::System::WebUserAgent;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.103 $) [1];
+$VERSION = qw($Revision: 1.104 $) [1];
 
 =head1 NAME
 
@@ -475,6 +475,16 @@ sub PackageReinstall {
 
     # parse source file
     my %Structure = $Self->PackageParse(%Param);
+
+    # check OS
+    if ( $Structure{OS} && !$Param{Force} ) {
+        return if !$Self->_OSCheck( OS => $Structure{OS} );
+    }
+
+    # check framework
+    if ( $Structure{Framework} && !$Param{Force} ) {
+        return if !$Self->_CheckFramework( Framework => $Structure{Framework} );
+    }
 
     # reinstall code (pre)
     if ( $Structure{CodeReinstall} ) {
@@ -1900,20 +1910,21 @@ sub _CheckVersion {
         my @Parts = split( /\./, $Param{$Type} );
         $Param{$Type} = 0;
         for ( 0 .. 4 ) {
-            $Param{$Type} .= sprintf( "%04d", $Parts[$_] || 0 );
+            if ( defined $Parts[$_] ) {
+                $Param{$Type} .= sprintf( "%04d", $Parts[$_] );
+            }
+            else {
+                $Param{$Type} .= '0000';
+            }
         }
         $Param{$Type} = int( $Param{$Type} );
     }
     if ( $Param{Type} eq 'Min' ) {
-        if ( $Param{Version2} >= $Param{Version1} ) {
-            return 1;
-        }
+        return 1 if ( $Param{Version2} >= $Param{Version1} );
         return;
     }
     elsif ( $Param{Type} eq 'Max' ) {
-        if ( $Param{Version2} < $Param{Version1} ) {
-            return 1;
-        }
+        return 1 if ( $Param{Version2} < $Param{Version1} );
         return;
     }
 
@@ -2393,6 +2404,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.103 $ $Date: 2009-06-10 19:20:24 $
+$Revision: 1.104 $ $Date: 2009-08-10 04:05:37 $
 
 =cut
