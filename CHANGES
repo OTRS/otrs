@@ -2,14 +2,16 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.949 2009-08-12 06:58:26 martin Exp $
+# $Id: CHANGES,v 1.950 2009-08-12 07:00:05 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
 # did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 # --
 
-2.4.3 (2009/08/??)
+2.4.3 (2009/08/12)
+ - (2009/08/10) Fixed bug#4123 - Reinstall of OPM packages with incorrect
+    framework or OS possible.
  - (2009/08/10) Fixed bug#4116 - Error when bouncing welcome ticket.
  - (2009/08/10) Fixed bug#3870 - OTRS utf-8 to iso-8859-1 conversion error
     messages on every incoming mail.
