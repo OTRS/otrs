@@ -3,7 +3,7 @@
 # bin/PostMasterMailbox.pl - the global eMail handle for email2db
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PostMasterMailbox.pl,v 1.8 2009-08-05 14:37:31 martin Exp $
+# $Id: PostMasterMailbox.pl,v 1.9 2009-08-12 08:14:17 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 use Getopt::Std;
 use Kernel::Config;
@@ -79,7 +79,6 @@ $CommonObject{MainObject}  = Kernel::System::Main->new(%CommonObject);
 $CommonObject{TimeObject}  = Kernel::System::Time->new(%CommonObject);
 $CommonObject{DBObject}    = Kernel::System::DB->new(%CommonObject);
 $CommonObject{PIDObject}   = Kernel::System::PID->new(%CommonObject);
-$CommonObject{MailAccount} = Kernel::System::MailAccount->new(%CommonObject);
 
 # create pid lock
 if ( !$Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => 'PostMasterMailbox' ) ) {
@@ -91,24 +90,28 @@ elsif ( $Opts{f} && !$CommonObject{PIDObject}->PIDCreate( Name => 'PostMasterMai
     print "NOTICE: PostMasterMailbox.pl is already running but is starting again!\n";
 }
 
-# while to run several times if -b is used
-while (1) {
-
-    # set new PID
-    $CommonObject{PIDObject}->PIDCreate(
-        Name  => 'PostMasterMailbox',
-        Force => 1,
-    );
-
-    # fetch mails
+# fetch mails -b is not used
+if ( !$Opts{b} ) {
     Fetch( %CommonObject );
+}
 
-    # return if no interval is set
-    last if !$Opts{b};
+# while to run several times if -b is used
+else {
+    while (1) {
 
-    # sleep till next interval
-    print "NOTICE: Waiting for next interval ($Opts{b} min)...\n";
-    sleep 60 * $Opts{b};
+        # set new PID
+        $CommonObject{PIDObject}->PIDCreate(
+            Name  => 'PostMasterMailbox',
+            Force => 1,
+        );
+
+        # fetch mails
+        Fetch( %CommonObject );
+
+        # sleep till next interval
+        print "NOTICE: Waiting for next interval ($Opts{b} min)...\n";
+        sleep 60 * $Opts{b};
+    }
 }
 
 # delete pid lock
@@ -118,6 +121,7 @@ exit(0);
 sub Fetch {
     my %CommonObject = @_;
 
+    my $MailAccount = Kernel::System::MailAccount->new(%CommonObject);
     # debug info
 
     if ( $Opts{d} > 1 ) {
@@ -156,7 +160,7 @@ sub Fetch {
             print STDERR "ERROR: Need -p <PASSWORD>\n";
             exit 1;
         }
-        $CommonObject{MailAccount}->MailAccountFetch(
+        $MailAccount->MailAccountFetch(
             Login         => $Opts{u},
             Password      => $Opts{p},
             Host          => $Opts{s},
@@ -170,10 +174,10 @@ sub Fetch {
         );
     }
     else {
-        my %List = $CommonObject{MailAccount}->MailAccountList( Valid => 1 );
+        my %List = $MailAccount->MailAccountList( Valid => 1 );
         for my $Key ( keys %List ) {
-            my %Data = $CommonObject{MailAccount}->MailAccountGet( ID => $Key );
-            $CommonObject{MailAccount}->MailAccountFetch(
+            my %Data = $MailAccount->MailAccountGet( ID => $Key );
+            $MailAccount->MailAccountFetch(
                 %Data,
                 Debug  => $Opts{d},
                 CMD    => 1,
