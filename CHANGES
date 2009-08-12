@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.948 2009-08-10 01:37:08 martin Exp $
+# $Id: CHANGES,v 1.949 2009-08-12 06:58:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,6 +18,8 @@
     line 274)
  - (2009/08/05) Fixed bug#4107 - OpenSearch URL incorrect in Customer
     Interface.
+ - (2009/08/03) Improved ChallengeTokenCheck to check all token of own
+    sessions (not only of current session).
  - (2009/08/01) Fixed bug#4086 - Kernel/System/Ticket.pm - next not in loop.
  - (2009/08/01) Fixed bug#2795 - Modification on SubjectRe (possible use of
     "" in Ticket::SubjectRe).
