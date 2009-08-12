@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.227 2009-08-07 10:22:47 ub Exp $
+# $Id: Article.pm,v 1.228 2009-08-12 06:52:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.227 $) [1];
+$VERSION = qw($Revision: 1.228 $) [1];
 
 =head1 NAME
 
@@ -1695,17 +1695,21 @@ sub ArticleGet {
 
     # return if content is empty
     if ( !@Content ) {
-        if ( $Param{ArticleID} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "No such article for ArticleID ($Param{ArticleID})!",
-            );
-        }
-        elsif ( $Param{TicketID} ) {
-            $Self->{LogObject}->Log(
-                Priority => 'error',
-                Message  => "No such article for TicketID ($Param{TicketID})!",
-            );
+
+        # log only if there is not article type filter to be sure that there is no article
+        if ( !$ArticleTypeSQL ) {
+            if ( $Param{ArticleID} ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "No such article for ArticleID ($Param{ArticleID})!",
+                );
+            }
+            elsif ( $Param{TicketID} ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'error',
+                    Message  => "No such article for TicketID ($Param{TicketID})!",
+                );
+            }
         }
         return;
     }
@@ -3011,6 +3015,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.227 $ $Date: 2009-08-07 10:22:47 $
+$Revision: 1.228 $ $Date: 2009-08-12 06:52:15 $
 
 =cut
