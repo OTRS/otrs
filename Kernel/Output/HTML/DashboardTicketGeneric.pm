@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/DashboardTicketGeneric.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: DashboardTicketGeneric.pm,v 1.17 2009-07-30 15:37:23 martin Exp $
+# $Id: DashboardTicketGeneric.pm,v 1.18 2009-08-13 14:01:26 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.17 $) [1];
+$VERSION = qw($Revision: 1.18 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -150,14 +150,25 @@ sub Run {
     );
 
     # define filter attributes
+    my @MyQueues = $Self->{QueueObject}->GetAllCustomQueues(
+        UserID => $Self->{UserID},
+    ) || (999_999);
     my %TicketSearchSummary = (
         Locked => {
             OwnerIDs => [ $Self->{UserID}, ],
             Locks    => ['lock'],
         },
+        Watcher => {
+            WatchUserIDs => [ $Self->{UserID}, ],
+            Locks        => undef,
+        },
         Responsible => {
             ResponsibleIDs => [ $Self->{UserID}, ],
             Locks          => undef,
+        },
+        MyQueues => {
+            QueueIDs => \@MyQueues,
+            Locks    => undef,
         },
         All => {
             OwnerIDs => undef,
@@ -232,6 +243,18 @@ sub Run {
             %{$Summary},
         },
     );
+
+    # show also watcher if feature is enabled
+    if ( $Self->{ConfigObject}->Get('Ticket::Watcher') ) {
+        $Self->{LayoutObject}->Block(
+            Name => 'ContentLargeTicketGenericFilterWatcher',
+            Data => {
+                %{ $Self->{Config} },
+                Name => $Self->{Name},
+                %{$Summary},
+            },
+        );
+    }
 
     # show also responsible if feature is enabled
     if ( $Self->{ConfigObject}->Get('Ticket::Responsible') ) {
