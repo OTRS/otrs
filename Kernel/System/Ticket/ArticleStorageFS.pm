@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageFS.pm,v 1.61 2009-04-20 08:16:21 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.62 2009-08-13 07:53:41 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.61 $) [1];
+$VERSION = qw($Revision: 1.62 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -311,6 +311,11 @@ sub ArticleWriteAttachment {
             );
             return;
         }
+    }
+
+    # set content id in angle brackets
+    if ( $Param{ContentID} ) {
+        $Param{ContentID} =~ s/^([^<].*[^>])$/<$1>/;
     }
 
     # write attachment content type to fs
@@ -684,7 +689,7 @@ sub ArticleAttachment {
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         $Data{ContentType} = $Row[0];
 
-        # decode attachemnt if it's e. g. a postgresql backend!!!
+        # decode attachment if it's e. g. a postgresql backend!!!
         if ( !$Self->{DBObject}->GetDatabaseFunction('DirectBlob') ) {
             $Data{Content} = decode_base64( $Row[1] );
         }
