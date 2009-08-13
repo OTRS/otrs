@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/ArticleStorageFS.pm - article storage module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: ArticleStorageFS.pm,v 1.62 2009-08-13 07:53:41 martin Exp $
+# $Id: ArticleStorageFS.pm,v 1.63 2009-08-13 07:56:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -21,7 +21,7 @@ use MIME::Base64;
 umask 002;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.62 $) [1];
+$VERSION = qw($Revision: 1.63 $) [1];
 
 sub ArticleStorageInit {
     my ( $Self, %Param ) = @_;
@@ -313,11 +313,6 @@ sub ArticleWriteAttachment {
         }
     }
 
-    # set content id in angle brackets
-    if ( $Param{ContentID} ) {
-        $Param{ContentID} =~ s/^([^<].*[^>])$/<$1>/;
-    }
-
     # write attachment content type to fs
     my $SuccessContentType = $Self->{MainObject}->FileWrite(
         Directory  => $Param{Path},
@@ -327,6 +322,11 @@ sub ArticleWriteAttachment {
         Permission => '664',
     );
     return if !$SuccessContentType;
+
+    # set content id in angle brackets
+    if ( $Param{ContentID} ) {
+        $Param{ContentID} =~ s/^([^<].*[^>])$/<$1>/;
+    }
 
     # write attachment content id to fs
     if ( $Param{ContentID} ) {
