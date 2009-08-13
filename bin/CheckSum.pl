@@ -3,7 +3,7 @@
 # bin/CheckSum.pl - a tool to compare changes in a installation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CheckSum.pl,v 1.16 2009-02-26 11:01:01 tr Exp $
+# $Id: CheckSum.pl,v 1.17 2009-08-13 14:06:54 martin Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -31,7 +31,7 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . "/Kernel/cpan-lib";
 
 use vars qw($VERSION $RealBin);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 use Getopt::Std;
 use Digest::MD5 qw(md5_hex);
@@ -46,7 +46,7 @@ my %Opts = ();
 getopt( 'habd', \%Opts );
 if ( $Opts{h} ) {
     print "CheckSum.pl <Revision $VERSION> - OTRS check sum\n";
-    print "Copyright (c) 2001-2009 OTRS AG, http://otrs.org/\n";
+    print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
     print "usage: CheckSum.pl -a create|compare [-b /path/to/ARCHIVE] [-d /path/to/framework]\n";
     exit 1;
 }
@@ -82,7 +82,7 @@ my @Dirs = ();
 R($Start);
 for my $File ( sort keys %Compare ) {
 
-    #    print "Notice: Removed $Compare{$File}\n";
+    #print "Notice: Removed $Compare{$File}\n";
     print "Notice: Removed $File\n";
 }
 if ( $Action eq 'create' ) {
@@ -95,46 +95,50 @@ sub R {
 
     my @List = glob("$In/*");
     for my $File (@List) {
-        $File =~ s/\/\//\//g;
-        if ( -d $File && $File !~ /CVS/ && $File !~ /^doc\// && $File !~ /^var\/tmp/ ) {
-            R($File);
-            $File =~ s/$Start//;
 
-            #            print "Directory: $File\n";
+        # clean up directory name
+        $File =~ s/\/\//\//g;
+
+        # ignote cvs directories
+        next if $File =~ /Entries|Repository|Root|CVS|ARCHIVE/;
+
+        # if it's a directory
+        if ( -d $File ) {
+            R($File);
+            next;
+            # print "Directory: $File\n";
+        }
+
+        # if it's a file
+        my $OrigFile = $File;
+        $File =~ s/$Start//;
+        $File =~ s/^\/(.*)$/$1/;
+
+        # ignore var directories
+        next if $File =~ /^doc\//;
+        next if $File =~ /^var\/tmp/;
+        next if $File =~ /^var\/article/;
+
+        # print "File: $File\n";
+        my $Content = '';
+        open( IN, '<', $OrigFile ) || die "ERROR: $!";
+        while (<IN>) {
+            $Content .= $_;
+        }
+        close IN;
+        my $Digest = md5_hex($Content);
+        if ( $Action eq 'create' ) {
+            print OUT $Digest . '::' . $File . "\n";
         }
         else {
-            my $OrigFile = $File;
-            $File =~ s/$Start//;
-            $File =~ s/^\/(.*)$/$1/;
-
-            #            print "File: $File\n";
-            if (
-                $File !~ /Entries|Repository|Root|CVS|ARCHIVE/
-                && $File !~ /^doc\//
-                && $File !~ /^var\/tmp/
-                )
-            {
-                my $Content = '';
-                open( IN, '<', $OrigFile ) || die "ERROR: $!";
-                while (<IN>) {
-                    $Content .= $_;
-                }
-                close IN;
-                my $Digest = md5_hex($Content);
-                if ( $Action eq 'create' ) {
-                    print OUT $Digest . '::' . $File . "\n";
-                }
-                else {
-                    if ( !$Compare{$File} ) {
-                        print "Notice: New $File\n";
-                    }
-                    elsif ( $Compare{$File} ne $Digest ) {
-                        print "Notice: Dif $File\n";
-                    }
-                    if ( defined( $Compare{$File} ) ) {
-                        delete $Compare{$File};
-                    }
-                }
+            if ( !$Compare{$File} ) {
+                print "Notice: New $File\n";
+            }
+            elsif ( $Compare{$File} ne $Digest ) {
+                print "Notice: Dif $File\n";
+            }
+            if ( defined( $Compare{$File} ) ) {
+                delete $Compare{$File};
             }
         }
     }
