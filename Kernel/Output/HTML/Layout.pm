@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/Layout.pm - provides generic HTML output
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Layout.pm,v 1.163 2009-08-04 17:58:43 ub Exp $
+# $Id: Layout.pm,v 1.164 2009-08-15 19:00:47 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::Language;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.163 $) [1];
+$VERSION = qw($Revision: 1.164 $) [1];
 
 =head1 NAME
 
@@ -686,17 +686,15 @@ sub Output {
     if ( $Self->{SessionID} ) {
         my $UserChallengeToken = $Self->Ascii2Html( Text => $Self->{UserChallengeToken} );
         $Output =~ s{
-            (<form.+?action=")(.+?)(".*?>)
+            (<form.+?action=".*?".*?>)
         }
         {
-            my $Start  = $1;
-            my $Target = $2;
-            my $End    = $3;
-            if ( lc $Target =~ m{^http s? :}smx ) {
-                $Start.$Target.$End;
+            my $Form = $1;
+            if ( lc $Form =~ m{^http s? :}smx ) {
+                $Form;
             }
             else {
-                $Start.$Target.$End."<input type=\"hidden\" name=\"ChallengeToken\" value=\"$UserChallengeToken\"/>";
+                $Form . "<input type=\"hidden\" name=\"ChallengeToken\" value=\"$UserChallengeToken\"/>";
             }
         }iegx;
     }
@@ -745,17 +743,15 @@ sub Output {
         # rewrite forms: <form action="index.pl" method="get">
         my $SessionID = $Self->Ascii2Html( Text => $Self->{SessionID} );
         $Output =~ s{
-            (<form.+?action=")(.+?)(".*?>)
+            (<form.+?action=".*?".*?>)
         }
         {
-            my $Start  = $1;
-            my $Target = $2;
-            my $End    = $3;
-            if ( lc $Target =~ m{^http s? :}smx ) {
-                $Start.$Target.$End;
+            my $Form = $1;
+            if ( lc $Form =~ m{^http s? :}smx ) {
+                $Form;
             }
             else {
-                $Start.$Target.$End."<input type=\"hidden\" name=\"$Self->{SessionName}\" value=\"$SessionID\"/>";
+                $Form . "<input type=\"hidden\" name=\"$Self->{SessionName}\" value=\"$SessionID\"/>";
             }
         }iegx;
     }
@@ -4314,6 +4310,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.163 $ $Date: 2009-08-04 17:58:43 $
+$Revision: 1.164 $ $Date: 2009-08-15 19:00:47 $
 
 =cut
