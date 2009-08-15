@@ -2,7 +2,7 @@
 # Kernel/Language.pm - provides multi language support
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Language.pm,v 1.67 2009-05-28 13:57:57 mh Exp $
+# $Id: Language.pm,v 1.68 2009-08-15 10:12:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -18,7 +18,7 @@ use Kernel::System::Time;
 
 use vars qw(@ISA $VERSION);
 
-$VERSION = qw($Revision: 1.67 $) [1];
+$VERSION = qw($Revision: 1.68 $) [1];
 
 =head1 NAME
 
@@ -113,19 +113,7 @@ sub new {
     }
 
     # load text catalog ...
-    if ( $Self->{MainObject}->Require("Kernel::Language::$Self->{UserLanguage}") ) {
-        @ISA = ("Kernel::Language::$Self->{UserLanguage}");
-        $Self->Data();
-        if ( $Self->{Debug} > 0 ) {
-            $Self->{LogObject}->Log(
-                Priority => 'Debug',
-                Message  => "Kernel::Language::$Self->{UserLanguage} load ... done."
-            );
-        }
-    }
-
-    # if there is no translation
-    else {
+    if ( !$Self->{MainObject}->Require("Kernel::Language::$Self->{UserLanguage}") ) {
         $Self->{LogObject}->Log(
             Priority => 'Error',
             Message  => "Sorry, can't locate or load Kernel::Language::$Self->{UserLanguage} "
@@ -133,41 +121,78 @@ sub new {
         );
     }
 
+    # add module to ISA
+    @ISA = ("Kernel::Language::$Self->{UserLanguage}");
+
+    # execute translation map
+    $Self->Data();
+
+    # debug info
+    if ( $Self->{Debug} > 0 ) {
+        $Self->{LogObject}->Log(
+            Priority => 'Debug',
+            Message  => "Kernel::Language::$Self->{UserLanguage} load ... done."
+        );
+    }
+
     # load action text catalog ...
     my $CustomTranslationModule = '';
+
+    # do not include addition translation files, a new translation file gets created
     if ( !$Param{TranslationFile} ) {
+
+        # looking to addition translation files
         my $Home  = $Self->{ConfigObject}->Get('Home') . '/';
         my @Files = glob( $Home . "Kernel/Language/$Self->{UserLanguage}_*.pm" );
         for my $File (@Files) {
+
+            # get module name based on file name
             $File =~ s/^$Home(.*)\.pm$/$1/g;
             $File =~ s/\/\//\//g;
             $File =~ s/\//::/g;
+
+            # ignore language translation files like (en_GB, en_CA, ...)
+            next if $File =~ /.._..$/;
+
+            # remember custom files to load at least
             if ( $File =~ /_Custom$/ ) {
                 $CustomTranslationModule = $File;
                 next;
             }
-            if ( $Self->{MainObject}->Require($File) ) {
-                @ISA = ($File);
-                $Self->Data();
-                if ( $Self->{Debug} > 0 ) {
-                    $Self->{LogObject}->Log(
-                        Priority => 'Debug',
-                        Message  => "$File load ... done."
-                    );
-                }
-            }
-            else {
+
+            # load translation module
+            if ( !$Self->{MainObject}->Require($File) ) {
                 $Self->{LogObject}->Log(
                     Priority => 'Error',
                     Message  => "Sorry, can't load $File! " . "Check the $File (perl -cw)!",
+                );
+            }
+
+            # add module to ISA
+            @ISA = ($File);
+
+            # execute translation map
+            $Self->Data();
+
+            # debug info
+            if ( $Self->{Debug} > 0 ) {
+                $Self->{LogObject}->Log(
+                    Priority => 'Debug',
+                    Message  => "$File load ... done."
                 );
             }
         }
 
         # load custom text catalog ...
         if ( $CustomTranslationModule && $Self->{MainObject}->Require($CustomTranslationModule) ) {
+
+            # add module to ISA
             @ISA = ($CustomTranslationModule);
+
+            # execute translation map
             $Self->Data();
+
+            # debug info
             if ( $Self->{Debug} > 0 ) {
                 $Self->{LogObject}->Log(
                     Priority => 'Debug',
@@ -209,7 +234,7 @@ sub Get {
     return '' if $What eq '';
 
     # check dyn spaces
-    if ( $What && $What =~ /^(.+?)", "(.+?|)$/ ) {
+    if ( $What && $What =~ /^(.+?)", "(.*?)$/ ) {
         $What = $1;
         @Dyn = split( /", "/, $2 );
     }
@@ -524,6 +549,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.67 $ $Date: 2009-05-28 13:57:57 $
+$Revision: 1.68 $ $Date: 2009-08-15 10:12:13 $
 
 =cut
