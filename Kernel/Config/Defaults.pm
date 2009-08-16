@@ -2,7 +2,7 @@
 # Kernel/Config/Defaults.pm - Default Config file for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Defaults.pm,v 1.322 2009-07-19 10:22:46 martin Exp $
+# $Id: Defaults.pm,v 1.323 2009-08-16 11:40:13 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.322 $) [1];
+$VERSION = qw($Revision: 1.323 $) [1];
 
 sub LoadDefaults {
     my $Self = shift;
@@ -2160,7 +2160,7 @@ sub Get {
 
     # debug
     if ( $Self->{Debug} > 1 ) {
-        my $Value = defined $Self->{$What} ? $Self->{$What} : '<undefined>';
+        my $Value = defined $Self->{$What} ? $Self->{$What} : '<undef>';
         print STDERR "Debug: Config.pm ->Get('$What') --> $Value\n";
     }
 
@@ -2170,7 +2170,7 @@ sub Get {
 sub Set {
     my ( $Self, %Param ) = @_;
 
-    for (qw(Key Value)) {
+    for (qw(Key)) {
         if ( !defined $Param{$_} ) {
             $Param{$_} = '';
         }
@@ -2178,10 +2178,27 @@ sub Set {
 
     # debug
     if ( $Self->{Debug} > 1 ) {
-        my $Value = defined $Param{Value} ? $Param{Value} : '<undefined>';
+        my $Value = defined $Param{Value} ? $Param{Value} : '<undef>';
         print STDERR "Debug: Config.pm ->Set(Key => $Param{Key}, Value => $Value)\n";
     }
-    $Self->{ $Param{Key} } = $Param{Value};
+
+    # set runtime config option
+    if ( $Param{Key} =~ /^(.+?)###(.+?)$/ ) {
+        if ( !defined $Param{Value} ) {
+            delete $Self->{$1}->{$2};
+        }
+        else {
+            $Self->{$1}->{$2} = $Param{Value};
+        }
+    }
+    else {
+        if ( !defined $Param{Value} ) {
+            delete $Self->{ $Param{Key} };
+        }
+        else {
+            $Self->{ $Param{Key} } = $Param{Value};
+        }
+    }
     return 1;
 }
 
@@ -2406,6 +2423,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.322 $ $Date: 2009-07-19 10:22:46 $
+$Revision: 1.323 $ $Date: 2009-08-16 11:40:13 $
 
 =cut
