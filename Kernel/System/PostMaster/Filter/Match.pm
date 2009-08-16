@@ -2,7 +2,7 @@
 # Kernel/System/PostMaster/Filter/Match.pm - sub part of PostMaster.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Match.pm,v 1.16 2009-04-08 12:29:40 tr Exp $
+# $Id: Match.pm,v 1.17 2009-08-16 11:44:44 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.16 $) [1];
+$VERSION = qw($Revision: 1.17 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -27,7 +27,7 @@ sub new {
     $Self->{Debug} = $Param{Debug} || 0;
 
     # get needed objects
-    for (qw(ConfigObject LogObject DBObject)) {
+    for (qw(ConfigObject LogObject DBObject ParserObject)) {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
 
@@ -53,11 +53,46 @@ sub Run {
         $StopAfterMatch = $Config{StopAfterMatch} || 0;
     }
 
+    my $Prefix = '';
+    if ( $Config{Name} ) {
+        $Prefix = "Filter: '$Config{Name}' ";
+    }
+
     # match 'Match => ???' stuff
     my $Matched    = '';
     my $MatchedNot = 0;
     for ( sort keys %Match ) {
-        if ( $Param{GetParam}->{$_} && $Param{GetParam}->{$_} =~ /$Match{$_}/i ) {
+
+        # match only email addresses
+        if ( $Param{GetParam}->{$_} && $Match{$_} =~ /^EMAILADDRESS:(.*)$/ ) {
+            my $SearchEmail    = $1;
+            my @EmailAddresses = $Self->{ParserObject}->SplitAddressLine(
+                Line => $Param{GetParam}->{$_},
+            );
+            my $LocalMatched;
+            for my $Recipients (@EmailAddresses) {
+                my $Email = $Self->{ParserObject}->GetEmailAddress( Email => $Recipients );
+                if ( $Email =~ /^$SearchEmail$/i ) {
+                    $LocalMatched = $SearchEmail || 1;
+                    if ( $Self->{Debug} > 1 ) {
+                        $Self->{LogObject}->Log(
+                            Priority => 'debug',
+                            Message  => "$Prefix'$Param{GetParam}->{$_}' =~ /$Match{$_}/i matched!",
+                        );
+                    }
+                    last;
+                }
+            }
+            if ( !$LocalMatched ) {
+                $MatchedNot = 1;
+            }
+            else {
+                $Matched = $LocalMatched;
+            }
+        }
+
+        # match string
+        elsif ( $Param{GetParam}->{$_} && $Param{GetParam}->{$_} =~ /$Match{$_}/i ) {
 
             # don't lose older match values if more than one header is
             # used for matching.
@@ -70,7 +105,7 @@ sub Run {
             if ( $Self->{Debug} > 1 ) {
                 $Self->{LogObject}->Log(
                     Priority => 'debug',
-                    Message  => "'$Param{GetParam}->{$_}' =~ /$Match{$_}/i matched!",
+                    Message  => "$Prefix'$Param{GetParam}->{$_}' =~ /$Match{$_}/i matched!",
                 );
             }
         }
@@ -79,7 +114,7 @@ sub Run {
             if ( $Self->{Debug} > 1 ) {
                 $Self->{LogObject}->Log(
                     Priority => 'debug',
-                    Message  => "'$Param{GetParam}->{$_}' =~ /$Match{$_}/i matched NOT!",
+                    Message  => "$Prefix'$Param{GetParam}->{$_}' =~ /$Match{$_}/i matched NOT!",
                 );
             }
         }
@@ -92,8 +127,8 @@ sub Run {
             $Param{GetParam}->{$_} = $Set{$_};
             $Self->{LogObject}->Log(
                 Priority => 'notice',
-                Message =>
-                    "Set param '$_' to '$Set{$_}' (Message-ID: $Param{GetParam}->{'Message-ID'}) ",
+                Message => $Prefix
+                    . "Set param '$_' to '$Set{$_}' (Message-ID: $Param{GetParam}->{'Message-ID'}) ",
             );
         }
 
