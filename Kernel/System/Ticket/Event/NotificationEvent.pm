@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.8 2009-08-18 19:54:24 martin Exp $
+# $Id: NotificationEvent.pm,v 1.9 2009-08-18 21:32:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Kernel::System::NotificationEvent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -27,13 +27,11 @@ sub new {
 
     # get needed objects
     for (
-        qw(ConfigObject TicketObject LogObject UserObject CustomerUserObject SendmailObject QueueObject GroupObject)
+        qw(DBObject ConfigObject TicketObject LogObject TimeObject UserObject CustomerUserObject SendmailObject QueueObject GroupObject MainObject)
         )
     {
         $Self->{$_} = $Param{$_} || die "Got no $_!";
     }
-
-    $Self->{NotificationEventObject} = Kernel::System::NotificationEvent->new(%Param);
 
     return $Self;
 }
@@ -49,12 +47,21 @@ sub Run {
         }
     }
 
+    # return of no ticket exists (e. g. it got deleted)
+    my $TicketExists = $Self->{TicketObject}->TicketNumberLookup(
+        TicketID => $Param{TicketID},
+        UserID   => $Param{UserID},
+    );
+    return 1 if !$TicketExists;
+
     # check if event is affected
-    my @IDs = $Self->{NotificationEventObject}->NotificationEventCheck(
+    my $NotificationEventObject = Kernel::System::NotificationEvent->new( %{$Self} );
+    my @IDs                     = $NotificationEventObject->NotificationEventCheck(
         Event  => $Param{Event},
-        UserID => 1,
+        UserID => $Param{UserID},
     );
 
+    # return if no notification for event exists
     return 1 if !@IDs;
 
     # get ticket attribute matches
@@ -65,7 +72,7 @@ sub Run {
 
     NOTIFICATION:
     for my $ID (@IDs) {
-        my %Notification = $Self->{NotificationEventObject}->NotificationGet(
+        my %Notification = $NotificationEventObject->NotificationGet(
             ID     => $ID,
             UserID => 1,
         );

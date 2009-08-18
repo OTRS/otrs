@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.411 2009-08-18 19:25:40 martin Exp $
+# $Id: Ticket.pm,v 1.412 2009-08-18 21:32:15 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.411 $) [1];
+$VERSION = qw($Revision: 1.412 $) [1];
 
 =head1 NAME
 
@@ -633,12 +633,19 @@ sub TicketNumberLookup {
         return;
     }
 
-    # get ticket data
-    my %Ticket = $Self->TicketGet(%Param);
+    # db query
+    return if !$Self->{DBObject}->Prepare(
+        SQL   => 'SELECT tn FROM ticket WHERE id = ?',
+        Bind  => [ \$Param{TicketID} ],
+        Limit => 1,
+    );
 
-    return if !%Ticket;
+    my $Number;
+    while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
+        $Number = $Row[0];
+    }
 
-    return $Ticket{TicketNumber};
+    return $Number;
 }
 
 =item TicketSubjectBuild()
@@ -7313,7 +7320,7 @@ sub TicketEventHandlerPost {
     for my $Module ( sort keys %{$Modules} ) {
 
         # execute only if configured
-        if ( !$Modules->{$Module}->{Event} || $Param{Event} eq $Modules->{$Module}->{Event} ) {
+        if ( !$Modules->{$Module}->{Event} || $Param{Event} =~ /$Modules->{$Module}->{Event}/ ) {
 
             # next if we are not in transaction mode, but module is in transaction
             next if !$Param{Transaction} && $Modules->{$Module}->{Transaction};
@@ -7414,6 +7421,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.411 $ $Date: 2009-08-18 19:25:40 $
+$Revision: 1.412 $ $Date: 2009-08-18 21:32:15 $
 
 =cut
