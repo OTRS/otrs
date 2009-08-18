@@ -2,7 +2,7 @@
 # Kernel/System/Ticket.pm - all ticket functions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Ticket.pm,v 1.410 2009-08-01 12:01:41 martin Exp $
+# $Id: Ticket.pm,v 1.411 2009-08-18 19:25:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -36,7 +36,7 @@ use Kernel::System::Valid;
 use Kernel::System::HTMLUtils;
 
 use vars qw(@ISA $VERSION);
-$VERSION = qw($Revision: 1.410 $) [1];
+$VERSION = qw($Revision: 1.411 $) [1];
 
 =head1 NAME
 
@@ -148,21 +148,17 @@ sub new {
         $Self->{QueueObject} = $Param{QueueObject};
     }
 
-    $Self->{SendmailObject}          = Kernel::System::Email->new( %{$Self} );
-    $Self->{LoopProtectionObject}    = Kernel::System::PostMaster::LoopProtection->new( %{$Self} );
-    $Self->{TypeObject}              = Kernel::System::Type->new( %{$Self} );
-    $Self->{PriorityObject}          = Kernel::System::Priority->new( %{$Self} );
-    $Self->{ServiceObject}           = Kernel::System::Service->new( %{$Self} );
-    $Self->{SLAObject}               = Kernel::System::SLA->new( %{$Self} );
-    $Self->{StateObject}             = Kernel::System::State->new( %{$Self} );
-    $Self->{LockObject}              = Kernel::System::Lock->new( %{$Self} );
-    $Self->{ValidObject}             = Kernel::System::Valid->new( %{$Self} );
-    $Self->{LinkObject}              = Kernel::System::LinkObject->new( %{$Self} );
-    $Self->{HTMLUtilsObject}         = Kernel::System::HTMLUtils->new( %{$Self} );
-    $Self->{TemplateGeneratorObject} = Kernel::System::TemplateGenerator->new(
-        %{$Self},
-        TicketObject => $Self,
-    );
+    $Self->{SendmailObject}       = Kernel::System::Email->new( %{$Self} );
+    $Self->{LoopProtectionObject} = Kernel::System::PostMaster::LoopProtection->new( %{$Self} );
+    $Self->{TypeObject}           = Kernel::System::Type->new( %{$Self} );
+    $Self->{PriorityObject}       = Kernel::System::Priority->new( %{$Self} );
+    $Self->{ServiceObject}        = Kernel::System::Service->new( %{$Self} );
+    $Self->{SLAObject}            = Kernel::System::SLA->new( %{$Self} );
+    $Self->{StateObject}          = Kernel::System::State->new( %{$Self} );
+    $Self->{LockObject}           = Kernel::System::Lock->new( %{$Self} );
+    $Self->{ValidObject}          = Kernel::System::Valid->new( %{$Self} );
+    $Self->{LinkObject}           = Kernel::System::LinkObject->new( %{$Self} );
+    $Self->{HTMLUtilsObject}      = Kernel::System::HTMLUtils->new( %{$Self} );
 
     # load ticket number generator
     my $GeneratorModule = $Self->{ConfigObject}->Get('Ticket::NumberGenerator')
@@ -7302,13 +7298,30 @@ sub TicketEventHandlerPost {
         }
     }
 
-    # load ticket event module
+    # get configured modules
     my $Modules = $Self->{ConfigObject}->Get('Ticket::EventModulePost');
 
+    # return if there is no one
     return if !$Modules;
 
+    # remember events only on normal mode
+    if ( !$Self->{DESTROY} ) {
+        push @{ $Self->{EventPipe} }, \%Param;
+    }
+
+    # load modules and execute
     for my $Module ( sort keys %{$Modules} ) {
-        if ( !$Modules->{$Module}->{Event} || $Param{Event} =~ /$Modules->{$Module}->{Event}/i ) {
+
+        # execute only if configured
+        if ( !$Modules->{$Module}->{Event} || $Param{Event} eq $Modules->{$Module}->{Event} ) {
+
+            # next if we are not in transaction mode, but module is in transaction
+            next if !$Param{Transaction} && $Modules->{$Module}->{Transaction};
+
+            # next if we are in transaction mode, but module is not in transaction
+            next if $Param{Transaction} && !$Modules->{$Module}->{Transaction};
+
+            # load event module
             next if !$Self->{MainObject}->Require( $Modules->{$Module}->{Module} );
             my $Generic = $Modules->{$Module}->{Module}->new(
                 %{$Self},
@@ -7319,7 +7332,7 @@ sub TicketEventHandlerPost {
     }
 
     # COMPAT: compat to 2.0
-    if ( 1 && !$Param{CompatOff} ) {
+    if ( !$Param{CompatOff} ) {
         if ( $Param{Event} eq 'TicketStateUpdate' ) {
             $Param{Event} = 'StateSet';
         }
@@ -7368,6 +7381,25 @@ sub TicketEventHandlerPost {
     }
     return 1;
 }
+
+sub DESTROY {
+    my ( $Self, %Param ) = @_;
+
+    # remember, we are on destory mode, do not execute new events
+    $Self->{DESTROY} = 1;
+
+    # execute events on end of transaction
+    if ( $Self->{EventPipe} ) {
+        for my $Params ( @{ $Self->{EventPipe} } ) {
+            $Self->TicketEventHandlerPost(
+                %{$Params},
+                Transaction => 1,
+            );
+        }
+    }
+    return 1;
+}
+
 1;
 
 =back
@@ -7382,6 +7414,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.410 $ $Date: 2009-08-01 12:01:41 $
+$Revision: 1.411 $ $Date: 2009-08-18 19:25:40 $
 
 =cut

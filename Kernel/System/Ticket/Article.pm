@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Article.pm - global article module for OTRS kernel
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Article.pm,v 1.229 2009-08-18 12:52:54 mh Exp $
+# $Id: Article.pm,v 1.230 2009-08-18 19:25:40 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.229 $) [1];
+$VERSION = qw($Revision: 1.230 $) [1];
 
 =head1 NAME
 
@@ -1254,8 +1254,6 @@ returns an array with article id's
 sub ArticleIndex {
     my ( $Self, %Param ) = @_;
 
-    my @Index = ();
-
     # check needed stuff
     if ( !$Param{TicketID} ) {
         $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
@@ -1265,9 +1263,9 @@ sub ArticleIndex {
     # db query
     if ( $Param{SenderType} ) {
         return if !$Self->{DBObject}->Prepare(
-            SQL => "SELECT art.id FROM article art, article_sender_type ast WHERE "
-                . " art.ticket_id = ? AND art.article_sender_type_id = ast.id AND "
-                . " ast.name = ? ORDER BY art.id",
+            SQL => 'SELECT art.id FROM article art, article_sender_type ast WHERE '
+                . 'art.ticket_id = ? AND art.article_sender_type_id = ast.id AND '
+                . 'ast.name = ? ORDER BY art.id',
             Bind => [ \$Param{TicketID}, \$Param{SenderType} ],
         );
     }
@@ -1278,11 +1276,10 @@ sub ArticleIndex {
         );
     }
 
+    my @Index;
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
         push @Index, $Row[0];
     }
-
-    # return data
     return @Index;
 }
 
@@ -1326,7 +1323,7 @@ sub ArticleContentIndex {
 
     # check needed stuff
     if ( !$Param{TicketID} ) {
-        $Self->{LogObject}->Log( Priority => 'error', Message => "Need TicketID!" );
+        $Self->{LogObject}->Log( Priority => 'error', Message => 'Need TicketID!' );
         return;
     }
     my @ArticleBox = $Self->ArticleGet(
@@ -2162,7 +2159,18 @@ sub SendAgentNotification {
     return if !$User{UserEmail};
     return if $User{UserEmail} !~ /@/;
 
-    my %Notification = $Self->{TemplateGeneratorObject}->NotificationAgent(
+    my $TemplateGeneratorObject = Kernel::System::TemplateGenerator->new(
+        DBObject           => $Self->{DBObject},
+        ConfigObject       => $Self->{ConfigObject},
+        EncodeObject       => $Self->{EncodeObject},
+        LogObject          => $Self->{LogObject},
+        CustomerUserObject => $Self->{CustomerUserObject},
+        QueueObject        => $Self->{QueueObject},
+        UserObject         => $Self->{UserObject},
+        TicketObject       => $Self,
+    );
+
+    my %Notification = $TemplateGeneratorObject->NotificationAgent(
         Type                  => $Param{Type},
         TicketID              => $Param{TicketID},
         CustomerMessageParams => $Param{CustomerMessageParams},
@@ -2541,7 +2549,17 @@ sub SendAutoResponse {
     my %Ticket = $Self->TicketGet( TicketID => $Param{TicketID} );
 
     # get auto default responses
-    my %AutoResponse = $Self->{TemplateGeneratorObject}->AutoResponse(
+    my $TemplateGeneratorObject = Kernel::System::TemplateGenerator->new(
+        DBObject           => $Self->{DBObject},
+        EncodeObject       => $Self->{EncodeObject},
+        ConfigObject       => $Self->{ConfigObject},
+        LogObject          => $Self->{LogObject},
+        CustomerUserObject => $Self->{CustomerUserObject},
+        QueueObject        => $Self->{QueueObject},
+        UserObject         => $Self->{UserObject},
+        TicketObject       => $Self,
+    );
+    my %AutoResponse = $TemplateGeneratorObject->AutoResponse(
         TicketID         => $Param{TicketID},
         AutoResponseType => $Param{AutoResponseType},
         OrigHeader       => $Param{OrigHeader},
@@ -3020,6 +3038,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.229 $ $Date: 2009-08-18 12:52:54 $
+$Revision: 1.230 $ $Date: 2009-08-18 19:25:40 $
 
 =cut
