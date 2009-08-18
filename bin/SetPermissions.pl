@@ -3,7 +3,7 @@
 # SetPermissions.pl - to set the otrs permissions
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: SetPermissions.pl,v 1.8 2009-07-20 10:36:05 mh Exp $
+# $Id: SetPermissions.pl,v 1.9 2009-08-18 11:38:08 mb Exp $
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -25,7 +25,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.8 $) [1];
+$VERSION = qw($Revision: 1.9 $) [1];
 
 print "bin/SetPermissions.pl <$VERSION> - set OTRS file permissions\n";
 print "Copyright (C) 2001-2009 OTRS AG, http://otrs.org/\n";
@@ -174,9 +174,11 @@ if ( !$Secure ) {
     "$DestDir/.fetchmailrc",
 );
 for my $Dir (@Dirs) {
+    if (-e $Dir) {
     print "Setting owner rw and group ro permissions on $Dir\n";
     $_ = $Dir;
     makeReadOnly();
+    }
 }
 
 exit(0);
