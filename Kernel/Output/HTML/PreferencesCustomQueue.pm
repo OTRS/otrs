@@ -2,7 +2,7 @@
 # Kernel/Output/HTML/PreferencesCustomQueue.pm
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: PreferencesCustomQueue.pm,v 1.13 2009-02-16 11:16:22 tr Exp $
+# $Id: PreferencesCustomQueue.pm,v 1.14 2009-08-18 20:03:51 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -15,7 +15,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.13 $) [1];
+$VERSION = qw($Revision: 1.14 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -53,9 +53,10 @@ sub Param {
     if ( $Self->{ParamObject}->GetArray( Param => 'QueueID' ) ) {
         @CustomQueueIDs = $Self->{ParamObject}->GetArray( Param => 'QueueID' );
     }
-    elsif ( $Param{UserData}->{UserID} && !defined( $CustomQueueIDs[0] ) ) {
-        @CustomQueueIDs
-            = $Self->{QueueObject}->GetAllCustomQueues( UserID => $Param{UserData}->{UserID} );
+    elsif ( $Param{UserData}->{UserID} && !defined $CustomQueueIDs[0] ) {
+        @CustomQueueIDs = $Self->{QueueObject}->GetAllCustomQueues(
+            UserID => $Param{UserData}->{UserID}
+        );
     }
     push(
         @Params,
