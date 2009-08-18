@@ -2,7 +2,7 @@
 # Kernel/System/Ticket/Event/NotificationEvent.pm - a event module to send notifications
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: NotificationEvent.pm,v 1.5 2009-05-28 13:57:57 mh Exp $
+# $Id: NotificationEvent.pm,v 1.6 2009-08-18 09:19:31 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -16,7 +16,7 @@ use warnings;
 use Kernel::System::NotificationEvent;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.5 $) [1];
+$VERSION = qw($Revision: 1.6 $) [1];
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -49,6 +49,19 @@ sub Run {
         }
     }
 
+    # ignore TicketCreate event, take action on ArticleCreate with first article
+    return 1 if !$Param{Force} && $Param{Event} eq 'TicketCreate';
+    if ( $Param{Event} eq 'ArticleCreate' ) {
+        my @Index = $Self->{TicketObject}->ArticleIndex( TicketID => $Param{TicketID} );
+        if ( $#Index == 0 ) {
+            $Self->Run(
+                %Param,
+                Event => 'TicketCreate',
+                Force => 1,
+            );
+        }
+    }
+
     # check if event is affected
     my @IDs = $Self->{NotificationEventObject}->NotificationEventCheck(
         Event  => $Param{Event},
@@ -62,6 +75,7 @@ sub Run {
         TicketID => $Param{TicketID},
         UserID   => $Param{UserID},
     );
+
     NOTIFICATION:
     for my $ID (@IDs) {
         my %Notification = $Self->{NotificationEventObject}->NotificationGet(
@@ -158,17 +172,9 @@ sub SendCustomerNotification {
     }
 
     # get old article for quoteing
-    my %Article;
-    if ( $Param{Event} ne 'TicketCreate' ) {
-        %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
-            TicketID => $Param{TicketID},
-        );
-    }
-    else {
-        %Article = $Self->{TicketObject}->TicketGet(
-            TicketID => $Param{TicketID},
-        );
-    }
+    my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
+        TicketID => $Param{TicketID},
+    );
 
     # get recipients by Recipients
     my @Recipients;
@@ -330,17 +336,9 @@ sub _SendCustomerNotification {
     my %Recipient    = %{ $Param{Recipient} };
 
     # get old article for quoteing
-    my %Article;
-    if ( $Param{Event} ne 'TicketCreate' ) {
-        %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
-            TicketID => $Param{TicketID},
-        );
-    }
-    else {
-        %Article = $Self->{TicketObject}->TicketGet(
-            TicketID => $Param{TicketID},
-        );
-    }
+    my %Article = $Self->{TicketObject}->ArticleLastCustomerArticle(
+        TicketID => $Param{TicketID},
+    );
 
     # get notify texts
     for (qw(Subject Body)) {
@@ -349,7 +347,7 @@ sub _SendCustomerNotification {
     }
 
     # prepare customer realname
-    if ( $Notification{Body} =~ /<OTRS_CUSTOMER_REALNAME>/ ) {
+    if ( $Notification{Body} =~ /<OTRS_CUSTOMER_REALNAME>/ && $Recipient{Realname} ) {
         $Notification{Body} =~ s/<OTRS_CUSTOMER_REALNAME>/$Recipient{Realname}/g;
     }
 
@@ -442,13 +440,10 @@ sub _SendCustomerNotification {
     $Notification{Subject} =~ s/<OTRS_CUSTOMER_DATA_.+?>/-/gi;
 
     # latest customer and agent article
-    my @ArticleBoxAgent;
-    if ( $Param{Event} ne 'TicketCreate' ) {
-        @ArticleBoxAgent = $Self->{TicketObject}->ArticleGet(
-            TicketID => $Param{TicketID},
-            UserID   => $Param{UserID},
-        );
-    }
+    my @ArticleBoxAgent = $Self->{TicketObject}->ArticleGet(
+        TicketID => $Param{TicketID},
+        UserID   => $Param{UserID},
+    );
     my %ArticleAgent;
     for my $Article ( reverse @ArticleBoxAgent ) {
         next if $Article->{SenderType} ne 'agent';
@@ -463,48 +458,52 @@ sub _SendCustomerNotification {
 
     for my $ArticleItem ( sort keys %ArticleContent ) {
         my %Article = %{ $ArticleContent{$ArticleItem} };
-        next if !%Article;
 
-        if ( $Article{Body} ) {
-            $Article{Body} =~ s/(^>.+|.{4,72})(?:\s|\z)/$1\n/gm;
-        }
-        for ( keys %Article ) {
-            next if !$Article{$_};
-            $Notification{Body}    =~ s/<$ArticleItem$_>/$Article{$_}/gi;
-            $Notification{Subject} =~ s/<$ArticleItem$_>/$Article{$_}/gi;
-        }
+        if (%Article) {
+            if ( $Article{Body} ) {
+                $Article{Body} =~ s/(^>.+|.{4,72})(?:\s|\z)/$1\n/gm;
+            }
+            for ( keys %Article ) {
+                next if !$Article{$_};
+                $Notification{Body}    =~ s/<$ArticleItem$_>/$Article{$_}/gi;
+                $Notification{Subject} =~ s/<$ArticleItem$_>/$Article{$_}/gi;
+            }
 
-        # prepare subject (insert old subject)
-        $Article{Subject} = $Self->{TicketObject}->TicketSubjectClean(
-            TicketNumber => $Article{TicketNumber},
-            Subject => $Article{Subject} || '',
-        );
-        if ( $Notification{Subject} =~ /<$ArticleItem(SUBJECT)\[(.+?)\]>/ ) {
-            my $SubjectChar = $2;
-            $Article{Subject}      =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
-            $Notification{Subject} =~ s/<$ArticleItem(SUBJECT)\[.+?\]>/$Article{Subject}/g;
-        }
-        $Notification{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
-            TicketNumber => $Article{TicketNumber},
-            Subject      => $Notification{Subject} || '',
-            Type         => 'New',
-        );
-
-        # prepare body (insert old email)
-        if ( $Notification{Body} =~ /<$ArticleItem(EMAIL|NOTE|BODY)\[(.+?)\]>/g ) {
-            my $Line       = $2;
-            my @Body       = split( /\n/, $Article{Body} );
-            my $NewOldBody = '';
-            for ( my $i = 0; $i < $Line; $i++ ) {
-
-                # 2002-06-14 patch of Pablo Ruiz Garcia
-                # http://lists.otrs.org/pipermail/dev/2002-June/000012.html
-                if ( $#Body >= $i ) {
-                    $NewOldBody .= "> $Body[$i]\n";
+            # prepare subject (insert old subject)
+            $Article{Subject} = $Self->{TicketObject}->TicketSubjectClean(
+                TicketNumber => $Article{TicketNumber},
+                Subject => $Article{Subject} || '',
+            );
+            for my $Type (qw(Subject Body)) {
+                if ( $Notification{$Type} =~ /<$ArticleItem(SUBJECT)\[(.+?)\]>/ ) {
+                    my $SubjectChar = $2;
+                    my $Subject          = $Article{Subject};
+                    $Subject             =~ s/^(.{$SubjectChar}).*$/$1 [...]/;
+                    $Notification{$Type} =~ s/<$ArticleItem(SUBJECT)\[.+?\]>/$Subject/g;
                 }
             }
-            chomp $NewOldBody;
-            $Notification{Body} =~ s/<$ArticleItem(EMAIL|NOTE|BODY)\[.+?\]>/$NewOldBody/g;
+            $Notification{Subject} = $Self->{TicketObject}->TicketSubjectBuild(
+                TicketNumber => $Article{TicketNumber},
+                Subject      => $Notification{Subject} || '',
+                Type         => 'New',
+            );
+
+            # prepare body (insert old email)
+            if ( $Notification{Body} =~ /<$ArticleItem(EMAIL|NOTE|BODY)\[(.+?)\]>/g ) {
+                my $Line       = $2;
+                my @Body       = split( /\n/, $Article{Body} );
+                my $NewOldBody = '';
+                for ( my $i = 0; $i < $Line; $i++ ) {
+
+                    # 2002-06-14 patch of Pablo Ruiz Garcia
+                    # http://lists.otrs.org/pipermail/dev/2002-June/000012.html
+                    if ( $#Body >= $i ) {
+                        $NewOldBody .= "> $Body[$i]\n";
+                    }
+                }
+                chomp $NewOldBody;
+                $Notification{Body} =~ s/<$ArticleItem(EMAIL|NOTE|BODY)\[.+?\]>/$NewOldBody/g;
+            }
         }
 
         # cleanup all not needed <OTRS_CUSTOMER_ and <OTRS_AGENT_ tags
