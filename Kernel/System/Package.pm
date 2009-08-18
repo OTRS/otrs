@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.104 2009-08-10 04:05:37 martin Exp $
+# $Id: Package.pm,v 1.105 2009-08-18 21:39:42 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Config;
 use Kernel::System::WebUserAgent;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.104 $) [1];
+$VERSION = qw($Revision: 1.105 $) [1];
 
 =head1 NAME
 
@@ -1450,9 +1450,9 @@ sub PackageBuild {
                     Location => $Home . '/' . $File->{Location},
                     Mode     => 'binmode',
                 );
-                if ( !$FileContent ) {
-                    $Self->{MainObject}->Die("Can't open: $File->{Location}: $!");
-                }
+
+                return if !defined $FileContent;
+
                 $XML .= encode_base64( ${$FileContent}, '' );
                 $XML .= "</File>\n";
             }
@@ -2404,6 +2404,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.104 $ $Date: 2009-08-10 04:05:37 $
+$Revision: 1.105 $ $Date: 2009-08-18 21:39:42 $
 
 =cut

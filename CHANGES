@@ -2,7 +2,7 @@
 # CHANGES - change log of OTRS
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: CHANGES,v 1.957 2009-08-18 19:58:05 martin Exp $
+# $Id: CHANGES,v 1.958 2009-08-18 21:39:11 mh Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -10,6 +10,8 @@
 # --
 
 2.4.4 (2009/08/??)
+ - (2009/08/18) Replaced a Die() call in Kernel/System/Package.pm with an normal
+    return for a better error handling.
  - (2009/08/18) Fixed bug#4049 - SetPermissions.sh fails if .fetchmailrc does
     not exist.
  - (2009/08/18) Added attachment support of ArticleCreate event in event based
