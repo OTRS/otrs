@@ -2,7 +2,7 @@
 # Kernel/Language/de.pm - provides de language translation
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: de.pm,v 1.201 2009-07-13 13:03:37 martin Exp $
+# $Id: de.pm,v 1.202 2009-08-18 09:15:18 mb Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -14,7 +14,7 @@ use strict;
 use warnings;
 
 use vars qw($VERSION);
-$VERSION = qw($Revision: 1.201 $) [1];
+$VERSION = qw($Revision: 1.202 $) [1];
 
 sub Data {
     my $Self = shift;
@@ -1081,7 +1081,7 @@ sub Data {
         'Add System Address' => 'System Adresse hinzufügen',
         'Add a new System Address.' => 'Eine neue Systemadresse hinzufügen.',
         'Realname' => 'Tatsächlicher Name',
-        'All email addresses get excluded on replaying on composing an email.' => 'Alle Email-Adressen werden beim erstllen einer Antwort exkludiert.',
+        'All email addresses get excluded on replaying on composing an email.' => 'Alle Email-Adressen werden beim Erstellen einer Antwort exkludiert.',
         'All incoming emails with this "Email" (To:) will be dispatched in the selected queue!' => 'Alle eingehenden E-Mails mit diesem Empfänger (To:) werden in die ausgewählte Queue einsortiert.',
 
         # Template: AdminTypeForm
