@@ -2,7 +2,7 @@
 # Encode.t - Encode tests
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Encode.t,v 1.1 2009-08-09 23:14:27 martin Exp $
+# $Id: Encode.t,v 1.2 2009-08-18 07:50:24 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -108,15 +108,15 @@ for my $Test (@Tests) {
         Force => $Test->{Force},
     );
     my $IsUTF8 = Encode::is_utf8( $Result );
-    $Self->Is(
-        $IsUTF8,
-        $Test->{UTF8},
-        $Test->{Name} . " is_utf8 ($Test->{Input})",
+    $Self->True(
+        $IsUTF8 eq $Test->{UTF8},
+        $Test->{Name} . " is_utf8",
+        #$Test->{Name} . " is_utf8 ($Test->{Input})",
     );
-    $Self->Is(
-        $Result,
-        $Test->{Result},
-        $Test->{Name} . " ($Test->{Input})",
+    $Self->True(
+        $Result eq $Test->{Result},
+        $Test->{Name},
+        #$Test->{Name} . " ($Test->{Input})",
     );
 }
 }
