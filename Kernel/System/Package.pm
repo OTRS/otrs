@@ -2,7 +2,7 @@
 # Kernel/System/Package.pm - lib package manager
 # Copyright (C) 2001-2009 OTRS AG, http://otrs.org/
 # --
-# $Id: Package.pm,v 1.105 2009-08-18 21:39:42 mh Exp $
+# $Id: Package.pm,v 1.106 2009-08-18 23:57:27 martin Exp $
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -20,7 +20,7 @@ use Kernel::System::Config;
 use Kernel::System::WebUserAgent;
 
 use vars qw($VERSION $S);
-$VERSION = qw($Revision: 1.105 $) [1];
+$VERSION = qw($Revision: 1.106 $) [1];
 
 =head1 NAME
 
@@ -1351,7 +1351,7 @@ sub PackageBuild {
     for my $Tag (
         qw(Name Version Vendor URL License ChangeLog Description Framework OS
         IntroInstall IntroUninstall IntroReinstall IntroUpgrade
-        PackageRequired CodeInstall CodeUpgrade CodeUninstall CodeReinstall)
+        PackageRequired ModuleRequired CodeInstall CodeUpgrade CodeUninstall CodeReinstall)
         )
     {
 
@@ -2018,15 +2018,19 @@ sub _CheckModuleRequired {
                 return;
             }
 
-            if (
-                $InstalledVersion
-                && !$Self->_CheckVersion(
-                    Version1 => $Module->{Version},
-                    Version2 => $InstalledVersion,
-                    Type     => 'Min'
-                )
-                )
-            {
+            # return if no version is required
+            return 1 if !$Module->{Version};
+
+            # return if no module version is available
+            return 1 if !$InstalledVersion;
+
+            # check version
+            my $Ok = $Self->_CheckVersion(
+                Version1 => $Module->{Version},
+                Version2 => $InstalledVersion,
+                Type     => 'Min'
+            );
+            if ( !$Ok ) {
                 $Self->{LogObject}->Log(
                     Priority => 'error',
                     Message  => "Sorry, can't install package, because module "
@@ -2404,6 +2408,6 @@ did not receive this file, see http://www.gnu.org/licenses/agpl.txt.
 
 =head1 VERSION
 
-$Revision: 1.105 $ $Date: 2009-08-18 21:39:42 $
+$Revision: 1.106 $ $Date: 2009-08-18 23:57:27 $
 
 =cut
